@@ -19,7 +19,7 @@ namespace Subtext.Web.Controls.Captcha
 		/// </summary>
         public CaptchaControl()
         {
-			this.LayoutStyle = CaptchaControl.Layout.CssBased;
+			this.LayoutStyle = Layout.CssBased;
 			this.ErrorMessage = "Please enter the correct word";
 			this.Display = ValidatorDisplay.Dynamic;
 		}
@@ -91,16 +91,16 @@ namespace Subtext.Web.Controls.Captcha
 
     	void RenderHiddenInputForEncryptedAnswer(HtmlTextWriter writer)
     	{
-    		writer.Write("<input type=\"hidden\" name=\"" + this.HiddenEncryptedAnswerFieldName + "\" value=\"" + EncryptAnswer(CaptchaText) + "\" />");
+    		writer.Write("<input type=\"hidden\" name=\"{0}\" value=\"{1}\" />", this.HiddenEncryptedAnswerFieldName, EncryptAnswer(CaptchaText));
     	}
     	
         protected override void Render(HtmlTextWriter writer)
         {
 			RenderHiddenInputForEncryptedAnswer(writer);
-            writer.Write("<div id=\"" + this.ClientID + "\"");
+            writer.Write("<div id=\"{0}\"", this.ClientID);
             if (!String.IsNullOrEmpty(this.CssClass))
             {
-                writer.Write(" class=\"" + this.CssClass + "\"");
+                writer.Write(" class=\"{0}\"", this.CssClass);
             }
         	else
             {
@@ -113,32 +113,32 @@ namespace Subtext.Web.Controls.Captcha
             writer.Write("<img src=\"" + src);
             if (!IsDesignMode)
             {
-				writer.Write("?spec=" + HttpUtility.UrlEncodeUnicode(captcha.ToEncryptedString()));
+				writer.Write("?spec={0}", HttpUtility.UrlEncodeUnicode(captcha.ToEncryptedString()));
             }
             writer.Write("\" border=\"0\"");
 			
-        	writer.Write(" width=\"" + this.Width.Value + "\" ");
-			writer.Write(" height=\"" + this.Height.Value + "\" ");
+        	writer.Write(" width=\"{0}\" ", this.Width.Value);
+			writer.Write(" height=\"{0}\" ", this.Height.Value);
             if (this.ToolTip.Length > 0)
             {
-                writer.Write(" alt='" + this.ToolTip + "'");
+                writer.Write(" alt='{0}'", this.ToolTip);
             }
             writer.Write(" />");
             
         	if (this.text.Length > 0)
             {
-				writer.Write("<label for=\"" + this.AnswerFormFieldName + "\">");
+				writer.Write("<label for=\"{0}\">", this.AnswerFormFieldName);
                 writer.Write(this.text);
 				writer.Write("</label>");
             	base.Render(writer);
             }
 			
-			writer.Write("<input name=\"" + this.AnswerFormFieldName + "\" type=\"text\" size=\"");
+			writer.Write("<input name=\"{0}\" type=\"text\" size=\"", this.AnswerFormFieldName);
             writer.Write(this.captcha.TextLength.ToString());
             writer.Write("\" maxlength=\"" + this.captcha.TextLength + "\"");
             if (this.AccessKey.Length > 0)
             {
-                writer.Write(" accesskey=\"" + this.AccessKey + "\"");
+                writer.Write(" accesskey=\"{0}\"", this.AccessKey);
             }
             if (!this.Enabled)
             {
@@ -149,7 +149,7 @@ namespace Subtext.Web.Controls.Captcha
                 writer.Write(" tabindex=\"" + this.TabIndex + "\"");
             }
 			if (Page.IsPostBack && this.IsValid)
-				writer.Write(" value=\"" + HttpUtility.HtmlEncode(Page.Request.Form[AnswerFormFieldName]) + "\" />");
+				writer.Write(" value=\"{0}\" />", HttpUtility.HtmlEncode(Page.Request.Form[AnswerFormFieldName]));
         	else
 				writer.Write(" value=\"\" />");
 				
@@ -408,7 +408,7 @@ namespace Subtext.Web.Controls.Captcha
 			                     , this.WarpFactor
 			                     , this.FontFamily
 			                     , this.Text
-								 , this.DateGenerated.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture));
+			                     , this.DateGenerated.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture));
 		}
 		
 		public DateTime DateGenerated;

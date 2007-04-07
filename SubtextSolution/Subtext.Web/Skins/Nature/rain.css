@@ -31,11 +31,14 @@ a
 	
 }
 
-.post h1, .post h2, .post h3 
+.post h2
 {
 	background-image: url("images/rain/bluewetglass.gif");
 }
-
+.post h2 a
+{
+	color:#000077;
+}
 .post h2 a:hover
 {
 	color: #539acc;

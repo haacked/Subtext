@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Framework.Properties;
 
@@ -17,14 +18,20 @@ namespace Subtext.Framework.Web
 		/// <summary>
 		/// Sets the file not found response.
 		/// </summary>
-		/// <param name="fileNotFoundPage">The file not found page.</param>
-		public static void SetFileNotFoundResponse(string fileNotFoundPage)
+		public static void SetFileNotFoundResponse()
 		{
 			if(HttpContext.Current != null && HttpContext.Current.Response != null)
 			{
-				HttpContext.Current.Response.StatusCode = 404;
-				HttpContext.Current.Response.Redirect(fileNotFoundPage, true);
+				SetFileNotFoundResponse(Config.GetFileNotFoundPage());
 			}
+		}
+
+		/// <param name="fileNotFoundPage">The file not found page.</param>
+		private static void SetFileNotFoundResponse(string fileNotFoundPage)
+		{
+			HttpContext.Current.Response.StatusCode = 404;
+			if (fileNotFoundPage != null)
+				HttpContext.Current.Response.Redirect(fileNotFoundPage, true);
 		}
 
 		/// <summary>
@@ -47,7 +54,7 @@ namespace Subtext.Framework.Web
 		private const int defaultTimeout = 60000;
 		private static string referer = @"http://SubtextProject.com/Services/default.htm";
 		private static readonly string userAgent = VersionInfo.UserAgent
-			+ " (" + Environment.OSVersion.ToString() + "; .NET CLR " + Environment.Version.ToString() + ")";
+			+ " (" + Environment.OSVersion + "; .NET CLR " + Environment.Version + ")";
 
 		
 		/// <summary>
@@ -94,7 +101,7 @@ namespace Subtext.Framework.Web
 				string enc = response.ContentEncoding;
 				if (enc == null || enc.Trim().Length == 0)
 					enc = "us-ascii" ;
-				Encoding encode = System.Text.Encoding.GetEncoding(enc);
+				Encoding encode = Encoding.GetEncoding(enc);
 				using ( StreamReader sr = new StreamReader(s, encode))
 				{
 					return sr.ReadToEnd() ;

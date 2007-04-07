@@ -1,4 +1,4 @@
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.MyLinks" %>
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.MyLinks" %>
 <div>
 	<h5>Syndication:</h5>
 	<p><asp:HyperLink Runat="server" Text="RSS" ID="Syndication" CssClass="rounded" /> <asp:HyperLink Runat="server" NavigateUrl="~/Atom.aspx" Text="ATOM" ID="AtomLink" CssClass="rounded" /></p>

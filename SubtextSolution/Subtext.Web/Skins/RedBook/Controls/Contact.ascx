@@ -1,36 +1,48 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Contact" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Contact" %>
+<%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+<%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls.Captcha" Assembly="Subtext.Web.Controls" %>
 
-<P>Please&nbsp;use the form below if you have any comments, questions, or 
-	suggestions.</P>
-<table cellSpacing="1" cellPadding="1" border="0">
-	<tr>
-		<td><strong>Name</strong></td>
-		<td>
-			<asp:TextBox id="tbName" Size = "50" runat="server" Width="300px"></asp:TextBox></td>
-	</tr>
-	<tr>
-		<td><strong>Email:</strong></td>
-		<td>
-			<asp:TextBox id="tbEmail" runat="server" Size = "50" Width="300px"></asp:TextBox>
-			<asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your email address" ControlToValidate="tbEmail" Display="Dynamic">*</asp:RequiredFieldValidator>
-			<asp:RegularExpressionValidator id="RegularExpressionValidator1" runat="server" ErrorMessage="Invalid email address format" ControlToValidate="tbEmail" Display="Dynamic" ValidationExpression="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$">*</asp:RegularExpressionValidator></td>
-	</tr>
-	<tr>
-		<td><strong>Subject:</strong></td>
-		<td>
-			<asp:TextBox id="tbSubject" runat="server" Size = "50" Width="300px"></asp:TextBox></td>
-	</tr>
-	<tr>
-		<td><strong>Message</strong></td>
-		<td>
-			<asp:TextBox id="tbMessage" runat="server" Rows = "10" Columns = "40" Width="300px" TextMode="MultiLine" Height="131px"></asp:TextBox>
-			<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ErrorMessage="Please tell me something" ControlToValidate="tbMessage" Display="Dynamic">*</asp:RequiredFieldValidator></td>
-	</tr>
-	<tr>
-		<td>
-			<asp:Button id="btnSend" runat="server" Text="Send"></asp:Button></td>
-		<td>
-			<asp:Label id="lblMessage" runat="server" ForeColor="Red"></asp:Label>
-			<asp:ValidationSummary id="ValidationSummary1" runat="server" HeaderText="There is an error:"></asp:ValidationSummary></td>
-	</tr>
-</table>
+<p>
+	Please use the form below if you have any comments, questions, or 
+	suggestions.
+</p>
+
+<div id="CommentForm">
+	<fieldset>
+		<legend>Contact Form</legend>
+		<p>
+			<label for="PostComment_ascx_tbName" AccessKey="N">
+				<u>N</u>ame:
+				<asp:RequiredFieldValidator id="vldNameRequired" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName" Display="Dynamic" EnableClientScript="true" />
+			</label> 
+			<asp:TextBox id="tbName" runat="server" Size="40" TabIndex="2" CssClass="textinput" />		
+		</p>
+		<p>
+			<label for="PostComment_ascx_tbEmail" AccessKey="E">
+				<u>E</u>mail:
+				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter your email" ControlToValidate="tbEmail" Display="Dynamic" EnableClientScript="true" />
+				<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$" Display="dynamic" ErrorMessage="The email address you've entered does not appear to be valid." EnableClientScript="true" />
+			</label> 
+			<asp:TextBox id="tbEmail" runat="server" Size="40" TabIndex="2" CssClass="textinput" />			
+		</p>
+		<p>
+			<label for="PostComment_ascx_tbSubject" AccessKey="S"><u>S</u>ubject:</label> 
+			<asp:TextBox id="tbSubject" runat="server" Size = "50" Width="300px" />
+		</p>
+		<p>
+			<label for="PostComment_ascx_tbMessage" AccessKey="M">
+				<u>M</u>essage:
+				<asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please tell me something" ControlToValidate="tbMessage" Display="Dynamic" />
+			</label> 
+			<asp:TextBox id="tbMessage" runat="server" Rows="10" Columns="50"
+					TabIndex="4"
+					CssClass="textarea"
+					TextMode="MultiLine" />
+		</p>
+		<p>
+			<sub:SubtextCaptchaControl id="captcha" runat="server" ErrorMessage="Please enter the correct word" />
+			<asp:Button id="btnSend" CssClass="buttonSubmit" runat="server" Text="Post" TabIndex="6" CausesValidation="true" />
+			<asp:Label id="lblMessage" runat="server" ForeColor="Red" />
+		</p>
+	</fieldset>
+</div>

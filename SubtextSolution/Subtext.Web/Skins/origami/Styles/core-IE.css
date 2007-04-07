@@ -38,3 +38,13 @@ ul, ol, dl, p.important, .sidebar-node{position: relative;}
 
 					cursor:hand;
 }
+
+#main a[href^="http:"],
+#main .alternate-post a[href^="http:"],
+#main .alternate-comment a[href^="http:"],
+#main .alternate-trackback a[href^="http:"]
+{
+    white-space:nowrap;
+}
+
+#main .author .comment-body{ background-image:url(../images/bg_commentAuthorGradient.gif); }

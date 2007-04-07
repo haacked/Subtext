@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext - Upgrade In Progress" MasterPageFile="~/SystemMessages/SystemMessageTemplate.Master" Codebehind="UpgradeInProgress.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.UpgradeInProgress" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext - Upgrade In Progress" MasterPageFile="~/SystemMessages/SystemMessageTemplate.Master" Codebehind="UpgradeInProgress.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.UpgradeInProgress" %>
 <asp:Content id="titleBar" ContentPlaceHolderID="MPTitle" runat="server">This Blog is being upgraded.</asp:Content>
 <asp:Content id="subtitle" ContentPlaceHolderID="MPSubTitle" runat="server">Please be patient.</asp:Content>
 <asp:Content id="mainContent" ContentPlaceHolderID="Content" runat="server">

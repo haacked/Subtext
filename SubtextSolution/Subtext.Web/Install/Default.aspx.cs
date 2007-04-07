@@ -16,9 +16,9 @@
 using System;
 using System.Data.SqlClient;
 using System.Web.UI.WebControls;
+using Subtext.Data;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Installation;
 using Subtext.Scripting.Exceptions;
 using Subtext.Web.Controls;

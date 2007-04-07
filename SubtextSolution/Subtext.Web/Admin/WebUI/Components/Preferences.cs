@@ -154,7 +154,7 @@ namespace Subtext.Web.Admin
 		//}
 		internal static string GetFeedbackItemFilter(FeedbackStatusFlags currentView)
 		{
-			string cookieName = COOKIES_FEEDBACK_FILTER + currentView.ToString();
+			string cookieName = COOKIES_FEEDBACK_FILTER + currentView;
 			if (null != HttpContext.Current.Request.Cookies[cookieName])
 			{
 				return HttpContext.Current.Request.Cookies[cookieName].Value;
@@ -163,7 +163,7 @@ namespace Subtext.Web.Admin
 		}
 		internal static void SetFeedbackItemFilter(string value, FeedbackStatusFlags currentView)
 		{
-			string cookieName = COOKIES_FEEDBACK_FILTER + currentView.ToString();
+			string cookieName = COOKIES_FEEDBACK_FILTER + currentView;
 			
 			if (Enum.IsDefined(typeof(FeedbackType), value))
 			{

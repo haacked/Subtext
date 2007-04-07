@@ -1,4 +1,4 @@
-<%@ Page Title="Subtext Import - Step 2 - Gather Information" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" language="c#" Codebehind="Step02_GatherInfo.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.Step02_GatherInfo" %>
+<%@ Page Title="Subtext Import - Step 2 - Gather Information" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" Language="C#" EnableTheming="false"  Codebehind="Step02_GatherInfo.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.Step02_GatherInfo" %>
 
 <asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Gathering Information</asp:Content>
 <asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server"></asp:Content>

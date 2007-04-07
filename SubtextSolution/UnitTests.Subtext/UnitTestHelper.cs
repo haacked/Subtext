@@ -246,6 +246,7 @@ namespace UnitTests.Subtext
 			TextWriter output = new StringWriter(sb);
 			SimulatedHttpRequest request = SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, page, output, "GET");
 
+			Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
 			Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
 			Config.CurrentBlog.ImagePath = "/image/";
 
@@ -271,7 +272,7 @@ namespace UnitTests.Subtext
 		public static void SetupBlogWithUserAndPassword(string username, string password, string subfolder)
 		{
 			string host = GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", username, password, host, subfolder), "Could Not Create Blog");
+			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", username, GenerateRandomString(), password, host, subfolder), "Could Not Create Blog");
 			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(username), new string[] { "Administrators" });
 			SetHttpContextWithBlogRequest(host, subfolder);
 		}
@@ -369,7 +370,7 @@ namespace UnitTests.Subtext
 			HttpContext.Current.Items["Subtext__CurrentRequest"] = new BlogRequest(host, subfolder);			
 
 			#region Console Debug INfo
-			
+			/*
 			Console.WriteLine("host: " + host);
 			Console.WriteLine("blogName: " + subfolder);
 			Console.WriteLine("virtualDir: " + applicationPath);
@@ -383,7 +384,7 @@ namespace UnitTests.Subtext
             Console.WriteLine("Request.Url.Port: " + HttpContext.Current.Request.Url.Port);
 			Console.WriteLine("Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
 			Console.WriteLine("Request.PhysicalPath: " + HttpContext.Current.Request.PhysicalPath);
-
+			*/
 			#endregion
 
 			return workerRequest;

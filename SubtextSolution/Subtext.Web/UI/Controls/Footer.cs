@@ -21,7 +21,7 @@ namespace Subtext.Web.UI.Controls
 {
 	/// <summary>
 	///	Footer control, displayed at the bottom of most skins. 
-	///	Contains a <see cref="System.Web.UI.WebControls.Literal;"/> 
+	///	Contains a <see cref="System.Web.UI.WebControls.Literal"/> 
 	///	control which displays the author name.
 	/// </summary>
 	public  class Footer : BaseControl

@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Comments" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Comments" %>
 	<a name="feedback" title="feedback anchor"></a>
 	<dl class="Comments">
 		<dt>
@@ -9,7 +9,7 @@
 		<asp:repeater id="CommentList" runat="server" onitemcreated="CommentsCreated" onitemcommand="RemoveComment_ItemCommand">
 			<itemtemplate>
 			<asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />
-				<dl class="Comment">
+				<dl class="Comment<%# AuthorCssClass %>">
 					<dt>
 						<asp:literal runat = "server" id = "Title" />
 					</dt>

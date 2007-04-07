@@ -212,7 +212,7 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		/// <param name="Request">Request.</param>
 		/// <returns></returns>
-		static protected string GetCurrentHost(HttpRequest Request)
+		protected static string GetCurrentHost(HttpRequest Request)
 		{
             if (Request == null)
             {

@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Contact" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Contact" %>
 
 <P>Please&nbsp;use the form below if you have any comments, questions, or 
 	suggestions.</P>
@@ -6,19 +6,22 @@
 	<tr>
 		<td><strong>Name</strong></td>
 		<td>
-			<asp:TextBox id="tbName" Size = "50" runat="server" Width="300px"></asp:TextBox></td>
+			<asp:TextBox id="tbName" Size = "50" runat="server" Width="300px"></asp:TextBox>
+			<asp:RequiredFieldValidator id="RequiredFieldValidator3" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName" Display="Dynamic">*</asp:RequiredFieldValidator>
+		</td>
 	</tr>
 	<tr>
 		<td><strong>Email:</strong></td>
 		<td>
-			<asp:TextBox id="tbEmail" runat="server" Size = "50" Width="300px"></asp:TextBox>
+			<asp:TextBox id="tbEmail" runat="server" Size = "50" Width="300px" />
 			<asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your email address" ControlToValidate="tbEmail" Display="Dynamic">*</asp:RequiredFieldValidator>
 			<asp:RegularExpressionValidator id="RegularExpressionValidator1" runat="server" ErrorMessage="Invalid email address format" ControlToValidate="tbEmail" Display="Dynamic" ValidationExpression="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$">*</asp:RegularExpressionValidator></td>
 	</tr>
 	<tr>
 		<td><strong>Subject:</strong></td>
 		<td>
-			<asp:TextBox id="tbSubject" runat="server" Size = "50" Width="300px"></asp:TextBox></td>
+			<asp:TextBox id="tbSubject" runat="server" Size = "50" Width="300px" />
+		</td>
 	</tr>
 	<tr>
 		<td><strong>Message</strong></td>

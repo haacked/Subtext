@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext Admin - Edit Articles" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="EditArticles.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditArticles" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Edit Articles" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="EditArticles.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditArticles" %>
 <%@ Register TagPrefix="st" TagName="EntryEditor" Src="~/Admin/UserControls/EntryEditor.ascx" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="st" TagName="CategoryLinks" Src="~/Admin/UserControls/CategoryLinkList.ascx" %>

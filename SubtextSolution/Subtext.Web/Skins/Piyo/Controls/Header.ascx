@@ -1,4 +1,4 @@
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.Header" %>
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.Header" %>
 <%@ Register TagPrefix="uc1" TagName="BlogStats" Src="BlogStats.ascx" %>
 <div id="name">
 	<h1><asp:HyperLink id="HeaderTitle" runat="server" /></h1>

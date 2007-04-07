@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Web.Security;
@@ -34,7 +35,7 @@ namespace Subtext.Framework.Providers
 	public abstract class ObjectProvider : ProviderBase
 	{
 		private static ObjectProvider provider;
-		private static GenericProviderCollection<ObjectProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<ObjectProvider>("ObjectProvider", out provider);
+		private static GenericProviderCollection<ObjectProvider> providers = ProviderConfigurationHelper.LoadProviderCollection("ObjectProvider", out provider);
 
 		/// <summary>
 		/// Returns the currently configured ObjectProvider.
@@ -60,7 +61,7 @@ namespace Subtext.Framework.Providers
 		/// Initializes this provider, setting the connection string.
 		/// </summary>
 		/// <param name="name">Friendly Name of the provider.</param>
-		/// <param name="configValue">Config value.</param>
+		/// <param name="config"></param>
 		public override void Initialize(string name, NameValueCollection config)
 		{
 			_connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
@@ -91,6 +92,7 @@ namespace Subtext.Framework.Providers
 		/// <summary>
 		/// Creates an initial Host instance.
 		/// </summary>
+		/// <param name="host"></param>
 		/// <param name="username">The username of the host admin.</param>
 		/// <param name="password">The password of the host admin.</param>
 		/// <param name="passwordSalt">The password salt.</param>
@@ -104,9 +106,11 @@ namespace Subtext.Framework.Providers
 		/// <summary>
 		/// Gets a pageable <see cref="IList"/> of <see cref="BlogInfo"/> instances.
 		/// </summary>
+		/// <param name="host"></param>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <returns></returns>
+		/// <param name="flags"></param>
 		public abstract PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags);
 
 		/// <summary>

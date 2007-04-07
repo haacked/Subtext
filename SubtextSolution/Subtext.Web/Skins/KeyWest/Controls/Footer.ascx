@@ -1,4 +1,4 @@
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.Footer" %>
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.Footer" %>
 <div id="footer">
 	<p id="copyright">©
 		<asp:Literal id="FooterText" runat="server" /></p>

@@ -1,6 +1,7 @@
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.ViewPost" %>
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.ViewPost" %>
 <%@ Register TagPrefix="uc1" TagName="previousNext" Src="PreviousNext.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="PostCategoryList" Src="PostCategoryList.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="shareThisPost" Src="ShareThisPost.ascx" %>
 
 <uc1:previousNext id="previousNext" runat="server" />
 
@@ -10,6 +11,7 @@
 	</div>
 	<div class="body">
 		<asp:literal id="Body" runat="server" />
+		<uc1:shareThisPost id="shareThisPost" runat="server" />
 	</div>
 	<div class="info">
 		posted on

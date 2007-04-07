@@ -103,6 +103,7 @@ namespace Subtext.Web.Admin.Pages
 			txbTitle.Text = kw.Title;
 			txbUrl.Text = kw.Url;
 			txbWord.Text = kw.Word;
+			txbRel.Text = kw.Rel;
 			txbText.Text = kw.Text;
 			
 		
@@ -136,6 +137,7 @@ namespace Subtext.Web.Admin.Pages
 				kw.OpenInNewWindow = chkNewWindow.Checked;
 				kw.ReplaceFirstTimeOnly = chkFirstOnly.Checked;
 				kw.CaseSensitive = chkCaseSensitive.Checked;
+				kw.Rel = txbRel.Text;
 				kw.Word = txbWord.Text;
 				
 				if (KeyWordID > 0)
@@ -181,6 +183,7 @@ namespace Subtext.Web.Admin.Pages
 			txbTitle.Text = string.Empty;
 			txbText.Text = string.Empty;
 			txbUrl.Text = string.Empty;
+			txbRel.Text = string.Empty;
 			txbWord.Text = string.Empty;
 			chkNewWindow.Checked = false;
 			chkFirstOnly.Checked = false;

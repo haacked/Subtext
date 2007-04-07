@@ -25,7 +25,6 @@ using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Components;
-using Subtext.Framework.Properties;
 using Subtext.Framework.Util.TimeZoneUtil;
 
 namespace Subtext.Framework
@@ -60,7 +59,10 @@ namespace Subtext.Framework
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="flags">The flags.</param>
 		/// <returns></returns>
-		public static IPagedCollection<BlogInfo> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
+        /// <param name="pageIndex">Zero based index of the page to retrieve.</param>
+        /// <param name="pageSize">Number of records to display on the page.</param>
+        /// <param name="flags">Configuration flags to filter blogs retrieved.</param>
+        public static IPagedCollection<BlogInfo> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
 		{
 			if (String.IsNullOrEmpty(host))
 				throw new ArgumentNullException("Host must not be null or empty.");
@@ -74,11 +76,11 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="flags"></param>
+		/// <param name="flag"></param>
 		/// <returns></returns>
-		public static IPagedCollection<BlogInfo> GetBlogs(int pageIndex, int pageSize, ConfigurationFlags flags)
+		public static IPagedCollection<BlogInfo> GetBlogs(int pageIndex, int pageSize, ConfigurationFlags flag)
 		{
-			return ObjectProvider.Instance().GetPagedBlogs(null, pageIndex, pageSize, flags);
+			return ObjectProvider.Instance().GetPagedBlogs(null, pageIndex, pageSize, flag);
 		}
 
 		/// <summary>
@@ -737,8 +739,8 @@ namespace Subtext.Framework
 			{
 				if (!String.IsNullOrEmpty(value))
 				{
-					if (value.Contains("/") || value.Contains("\\"))
-						throw new InvalidOperationException(Resources.Format_InvalidFeedburnerName);
+					if (value.Contains("\\"))
+						throw new InvalidOperationException("Backslashes are not allowed in the feedburner name.");
 				}
 				this.feedBurnerName = value;
 			}

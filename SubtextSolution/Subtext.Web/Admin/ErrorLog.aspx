@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext Admin - Error Log" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ErrorLog.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.ErrorLog" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Error Log" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ErrorLog.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.ErrorLog" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 

@@ -1,32 +1,44 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Contact" %>
-<P>Please use the form below if you have any comments, questions, or suggestions.</P>
-<table cellspacing="1" cellpadding="1" border="0">
-	<tr>
-		<td colspan="2">Name<asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your email address"
-				ControlToValidate="tbEmail" Display="Dynamic">*</asp:RequiredFieldValidator><br />
-			<asp:TextBox id="tbName" CssClass="Textbox" size="50" runat="server" Width="400px"></asp:TextBox></td>
-	</tr>
-	<tr>
-		<td colspan="2">Email<asp:RegularExpressionValidator id="RegularExpressionValidator1" runat="server" ErrorMessage="Invalid email address format"
-				ControlToValidate="tbEmail" Display="Dynamic" ValidationExpression="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$">*</asp:RegularExpressionValidator><br />
-			<asp:TextBox id="tbEmail" CssClass="Textbox" runat="server" size="50" Width="400px"></asp:TextBox></td>
-	</tr>
-	<tr>
-		<td colspan="2">Subject<br />
-			<asp:TextBox id="tbSubject" CssClass="Textbox" runat="server" size="50" Width="400px"></asp:TextBox></td>
-	</tr>
-	<tr>
-		<td colspan="2">Message
-			<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ErrorMessage="Please tell me something"
-				ControlToValidate="tbMessage" Display="Dynamic">*</asp:RequiredFieldValidator><br />
-			<asp:TextBox id="tbMessage" CssClass="Textbox" runat="server" Rows="10" Columns="40" Width="400px"
-				TextMode="MultiLine" Height="131px"></asp:TextBox></td>
-	</tr>
-	<tr>
-		<td valign="top">
-			<asp:Button id="btnSend" CssClass="Button" runat="server" Text="Send"></asp:Button></td>
-		<td>
-			<asp:Label id="lblMessage" runat="server" ForeColor="Red"></asp:Label>
-			<asp:ValidationSummary id="ValidationSummary1" runat="server" HeaderText="There is an error:"></asp:ValidationSummary></td>
-	</tr>
-</table>
+	<dl class="Contact form">
+		<dt>
+			<h2>Contact</h2>
+		</dt>
+		<dd class="Info">
+			<asp:label id="Label1" runat="server" />
+		</dd>
+		<dd class="Form">
+			<p>
+				Please use the form below if you have any comments, questions, or suggestions. 
+			</p>
+			<dl class="Inputs">
+				<dt>
+					Name<asp:RequiredFieldValidator id="vldNameRequired" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName" Display="Dynamic"> *Please enter your name or nickname.</asp:RequiredFieldValidator>
+				</dt>
+				<dd>
+					<asp:textbox id="tbName" runat="server" />
+				</dd>
+				<dt>
+					Email<asp:RequiredFieldValidator id="emailRequiredValidator" runat="server" ErrorMessage="Please enter your email address" ControlToValidate="tbEmail" Display="Dynamic"> *Please enter your email.</asp:RequiredFieldValidator>
+					<asp:RegularExpressionValidator id="vldEmailRegex" runat="server" ErrorMessage="Email is optional, but if you enter one at least make sure it is valid." ControlToValidate="tbEmail" Display="Dynamic" ValidationExpression="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"> *Email is optional, but if you enter one at least make sure it is valid.</asp:RegularExpressionValidator>
+				</dt>
+				<dd>
+					<asp:textbox id="tbEmail" runat="server" />
+				</dd>
+				<dt>
+					Subject
+				</dt>
+				<dd>
+					<asp:textbox id="tbSubject" runat="server" />
+				</dd>
+				<dt>
+					Message<asp:RequiredFieldValidator id="vldMessageRequired" runat="server" ErrorMessage="Please tell me something" ControlToValidate="tbMessage" Display="Dynamic"> *Please tell me something</asp:RequiredFieldValidator>
+				</dt>
+				<dd>
+					<asp:textbox id="tbMessage" runat="server" textmode="MultiLine" />
+				</dd>
+			</dl>
+			<div class="Action">
+				<asp:button id="btnSend" cssclass="submit" runat="server" text="Inform Me" />
+			</div>
+		</dd>
+	</dl>

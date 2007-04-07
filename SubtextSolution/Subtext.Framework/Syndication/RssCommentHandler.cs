@@ -19,6 +19,7 @@ using Subtext.Framework.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Syndication
 {
@@ -41,10 +42,16 @@ namespace Subtext.Framework.Syndication
 		{
 			if (ParentEntry == null)
 			{
-				ParentEntry = Cacher.GetEntryFromRequest(CacheDuration.Short);
+				ParentEntry = Cacher.GetEntryFromRequest(CacheDuration.Short, false);
 			}
 
-			if (ParentEntry != null && Comments == null)
+            if (ParentEntry == null)
+            {
+                // bad news... we couldn't find the entry the request is looking for - return 404.
+                HttpHelper.SetFileNotFoundResponse();
+            }
+
+			if(ParentEntry != null && Comments == null)
 			{
 				Comments = Cacher.GetFeedback(ParentEntry, CacheDuration.Short, true);
 			}
@@ -70,7 +77,7 @@ namespace Subtext.Framework.Syndication
 			CommentRssWriter crw = new CommentRssWriter(comments, ParentEntry);
 			if (comments.Count > 0)
 			{
-				feed.LastModified = ConvertLastUpdatedDate(comments[comments.Count - 1].DateCreated);
+				feed.LastModified = ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated);
 			}
 			else
 			{
@@ -89,7 +96,7 @@ namespace Subtext.Framework.Syndication
 
 				if (comments != null && comments.Count > 0)
 				{
-					return DateTime.Compare(DateTime.Parse(dt), ConvertLastUpdatedDate(comments[comments.Count - 1].DateCreated)) == 0;
+					return DateTime.Compare(DateTime.Parse(dt), ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated)) == 0;
 				}
 			}
 			return false;

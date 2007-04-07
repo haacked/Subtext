@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.SubtextSearch" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.SubtextSearch" %>
 <div id="search">
     <label for="txtSearch">Search:</label>
     <asp:TextBox id="txtSearch" runat="server" CssClass="searchterm"></asp:TextBox>

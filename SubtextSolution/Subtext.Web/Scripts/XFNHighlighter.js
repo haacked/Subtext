@@ -69,7 +69,7 @@ var xfnFriendInfo =
 		var div = document.createElement("div");
 		div.className = "xfnFriendInfoBox";
 		div.style.position = 'absolute';
-		div.style.visibility = 'hidden';
+		div.style.display = 'none';
 		return div;
 	},
 	
@@ -127,7 +127,7 @@ var xfnFriendInfo =
 		else
 			infoBox.style.top = scroll.top + 5 + "px";
 			
-		infoBox.style.visibility = "visible";
+		infoBox.style.display = "inline";
 		//alert(infoBox.style.left + ' ' + infoBox.style.top + ' | ' + infoBox.style.width + ' ' + infoBox.style.height);
 	},
 	

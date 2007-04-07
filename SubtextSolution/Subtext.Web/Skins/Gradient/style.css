@@ -1,225 +1,64 @@
-/*
-Original Design: Two Point Oh by Jason Kingery aka Denial http://denial-design.com.
-Found on the Open Source Web Design site: http://www.oswd.org/design/preview/id/2834
-
-Original Design licensed under the GPL (http://www.opensource.org/licenses/gpl-license.php)
-Design adapted and modified by the Subtext team 2006.
-
-
-To make good use of this skin, make sure to use the following CSS Classes in your blog post content.
-
-.dropcap - First letter of your post. Makes a nice bookish effect.
-span.pullout - Creates a green box on the side for setting aside an important detail.
-blockquote.withline" - blockquote with a left green border.
-*/
-	
 body
 {
-	font-size: medium;
-}
-
-/* css document */
-/* links */
-a:link	
-{
-	color:#888888;
-	text-decoration:none;
-}
-
-a:hover	
-{
-	color: #E11284;
-	text-decoration:none;
-}
-
-a:active	
-{
-	color:#888888;
-	text-decoration:none;
-}
-
-a:visited	
-{
-	color:#888888;
-	text-decoration:none;
-}
-	
-/* content */	
-#content
-{
-	text-align: left;
-	width: 700px;
-	margin: 0 auto
-}
-
-#navigation
-{
-	position: relative;
-	left: 175px;
-	top:120px
-}
-
-#flash
-{
-	position: relative;
-	left: 0px;
-	top: 115px
-}
-
-/* left and right conent */
-.container2 
-{
-	position: relative;
-	height: 50px;
-}
-
-.left-element 
-{
-	position: absolute;
-	left: 0;
-	width: 30%;
-	margin: 4;
-	white-space: wrap;
-	padding: 4;
-}
-
-.right-element 
-{
-	position: absolute;
-	right: 0;
-	width: 65%;
-	text-align: left; /* depends on element width */
-	margin: 4;
-	white-space: wrap;
-	padding: 0px;
-	padding-left: 4px;
-}
-
-body 
-{
-	background-image:url(images/bg.gif);
-	background-repeat:repeat-x;
-}
-  
-div.float 
-{
-	float: left;
-}
-  
-h1 
-{ 
-	color: green;
-	font-weight: bold; 
-	font-size: 1.2em;
-	line-height: 1.2em;
-	font-family: arial; 
-	font-variant: normal;
-	font-style: normal;
-}
-
-h1 a.blogTitle
-{
-	font-size: 1.7em;
-	margin-top: 75px;
-	margin-bottom: 20px;
-	float: left;
-}
-
-/* styling post */
-.thinborder
-{
-	float:left;
-	border:solid 1px #9ACD32;
-	padding:5px;
-	margin-right:5px;
-}
-
-.dropcap 
-{
-	float: left;
-	font: 4em georgia, helvetica, verdana, arial, sans-serif;
-	color: #9ACD32;
-	border:solid 1px #AADD42;
-	padding:5px;
-	margin-right:5px;
-}
-
-.pullout
-{
-	background-color: #9ACD32;
-	color:#f5f5f5;
-	border: none;
-}
-
-/* blockquote styling */
-blockquote.withline   
-{
-	font-family: "arial", courier, monospace;
-	text-align: justify; padding:5px;
-	border-left:1px solid #9ACD32;
-}
-  
-/* rounded corners */
-/* set millions of background images */
-.rbroundbox { background: url(images/nt.gif) repeat; }
-.rbtop div { background: url(images/tl.gif) no-repeat top left; }
-.rbtop { background: url(images/tr.gif) no-repeat top right; }
-.rbbot div { background: url(images/bl.gif) no-repeat bottom left; }
-.rbbot { background: url(images/br.gif) no-repeat bottom right; }
-
-/* height and width stuff, width not really nessisary. */
-.rbtop div, .rbtop, .rbbot div, .rbbot 
-{
-	width: 100%;
-	height: 7px;
-	font-size: 1px;
-}
-.rbcontent { margin: 0 7px; }
-.rbroundbox { width: 100%; margin: 1em auto; }
-
-/* navigation listamatic*/
-#navcontainer
-{
-	width: 12em;
-	padding: 0 0 1em 0;
-	margin-bottom: 1em;
-	font-family: Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+	background: #fff url(images/bg-stripe.gif) repeat-x;
 	color: #333;
-}
-
-ul.navlist
-{
-	list-style: none;
+	font: 100%/1.45 Helvetica, Arial, Verdana, sans-serif;
+	min-width: 600px;
 	margin: 0;
 	padding: 0;
-	border: none;
+}
+/*----------{links}--------------------*/
+a {color: #802A2A;}
+a:hover {color: #000;}
+a img {border: none;}
+
+/*----------{structure}----------------*/	
+#main
+{
+	width: 800px;
+	margin: 0 auto;
 }
 
-ul.navlist li
+#header
 {
-	border-bottom: 1px solid #000000;
-	margin: 0;
+	text-align: center;
+	margin:30px 0 30px 0;
+	padding:0;
 }
 
-ul.navlist li a
+#header a
 {
-	display: block;
-	padding: 5px 5px 5px 0.5em;
-	background-color: #ffffff;
-	color: #888888;
+	line-height: 1.2em;
+	font-size: 1.4em;
+	float: left;
 	text-decoration: none;
-	width: 100%;
 }
 
-html>body ul.navlist li a { width: auto; }
-
-ul.navlist li a:hover
+#content
 {
-	background-color: #E11284;
-	color: #fff;
+	width: 580px;
+	float: left;
 }
 
-#sidebar h3, #sidebar ul.navlist li
+div.post-content
+{
+	text-align: justify;
+}
+
+/*---------{sidebar}-----------*/
+#sidebar 
+{
+	float: right;
+	width: 200px;
+}
+
+#sidebar ul
+{
+	margin: 0;
+	padding: 0;
+}
+
+#sidebar h3, #sidebar #nav ul li
 {
 	font-family: Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
 	color: #888888;
@@ -233,91 +72,167 @@ ul.navlist li a:hover
 	padding: 0;
 }
 
-#sidebar ul.navlist, #sidebar ul.navlist li
+/*------------{navigation}-----------*/
+#nav
 {
-	margin: 0;
-	padding: 0;
+	padding: 0 0 1em 0;
+	margin-bottom: 1em;
+	font-family: Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
 }
 
-#sidebar ul.navlist li
+#nav ul
 {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 	border: none;
 }
 
-#sidebar ul.navlist li a
+#nav ul li
 {
-	background-color: #fcfecc;
+	border-bottom: 1px solid #000000;
+	margin: 0;
 }
 
-#sidebar ul.navlist li a:hover
+#nav ul li a
 {
-	background-color: #ffd;
-	color: #E11284;
-}
-
-#star
-{
-	background: url(images/flash.gif);
-	width: 93px;
-	height: 93px;
 	display: block;
-	float: left;
+	padding: 5px 5px 5px 0.5em;
+	background-color: #ffffff;
+	color: #888888;
+	text-decoration: none;
+	width: 100%;
 }
 
-#newsBox
+html>body #nav ul li a { width: auto; }
+
+#nav ul li a:hover
 {
-	clear: both;
+	background-color: #fefefe;
+	color: #000;
 }
 
-/* Zoom Cloud */
 
-#comments h2, #comments h4, #commentform h3
-{
-	color: #333;
-	font: bold 1em arial, helvetica, sans-serif;
-}
+/*---------{commentform}-----------*/
 
-#comments h4
-{
-	color: #676;
-}
-
-div.comment
+#commentform div.label
 {
 	margin-top: 10px;
 }
 
-.commentText
+#commentform div.label label
 {
-	padding: 5px;
+	color: #334;
 }
 
-.commentInfo
+/* --- { comments } ----------------------- */
+#comments
 {
+	clear: both;	
+}
+
+#commentform h3
+{
+	margin: 0;
+	padding: 10px 0 4px 0;
+	clear: both;
+}
+
+#comments h2, #commentform h2
+{
+	font-size: 1.3em;
+	display: block;
+	border-bottom: solid 1px #999;
+	margin: 1.5em 0 1em 0;
+}
+
+div.comment
+{
+	margin: 0 0 1em 0;
+	clear: both;
+}
+
+div.comment .commentInfo
+{
+	color: #333333;
+	margin-bottom: .2em;
+	padding-left: 26px;
+	height: 22px;
+	display: block;
+	background: url(images/CommentIcon.gif) no-repeat 0 .1em;
 	font-size: .8em;
 }
 
-#comments h4
+div.comment h3
 {
+	color: #999;
 	margin: 0;
+	padding-top: 10px;
+	clear: both;
+	font-size:.9em;
+}
+
+div.comment .commentText
+{
+	display: block;
+	padding: 10px 5px 10px 5px;
+	float:left;
+}
+
+div.author .commentText
+{
+	background: #ffffef url(images/CommentAuthorGradient.gif) repeat-x top left;
+	border: solid 1px #967758;
+}
+
+img.avatar
+{
+	width: 50px;
+	border: solid 1px #000;
+}
+
+div.gravatar
+{
+	width: 40px;
+	height: 40px;
+	float: left;
+	margin: 5px;
 	padding: 0;
+}
+
+div.gravatar img
+{
+}
+
+div.comment div.commentBody
+{
+	float: left;
+	width: 420px;
+}
+
+h1, h2.postTitle
+{
+	color: #333;
+	font-family: Helvetica,Arial,Verdana,sans-serif;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: 1.45;
+	margin-top: 45px;
+	margin-bottom: 15px;
+	text-align: left;
+	
 }
 
 h2.postTitle a
 {
-	/*color: #E11284;*/
-	color: #676;
-	font: bold 1.3em arial, helvetica, sans-serif;
-}
-
-h2.postTitle a:visited
-{
-	color: #787;
+	color: #333;
+	text-decoration: none;
 }
 
 h2.postTitle a:hover
 {
-	color: #E11284;
+	color:#c00;
 }
 
 span.postTitleDate
@@ -331,18 +246,98 @@ p.postfooter
 	color: #888;
 }
 
-p.postfooter a:hover
+/*-----------{bottom}-----------*/
+#bottom
 {
-	color: #e11284;
+	width: 100%;
+	margin-top: 20px;
+	border-top: solid 8px #777;
+	float: left;
+	clear: both;
+	background-color: #292929;
+	font-size: 0.9em;
 }
 
-div.previousNext a:hover
+#bottom h2
 {
-	color: #e11284;
+	font-size: 1.4em;
+	margin-bottom: 10px;
+	padding: 0 8px;
+}
+
+#bottom ul, #bottom ol, #bottom p
+{
+	line-height: 150%;
+}
+
+#bottom ul
+{
+	border-top: 1px solid #555;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#bottom ul li
+{
+	border-bottom: 1px solid #555;
+	line-height: 26px;
+}
+
+#bottom ul li a
+{
+	display: block;
+	color: #fff;
+	padding: 0 10px;
+	text-decoration: none;
+	border: none;
+}
+
+#bottom ul li a:hover
+{
+	background-color: #000;
+	color: #999;
+}
+
+#bottom-info
+{
+	color: #fff;
+}
+
+#bottom-info div
+{
+	float: left;
+	width: 30%;
+	padding: 20px 0 20px 20px;
 }
 
 #footer
 {
+	background-color: #191919;
+	color: #fff;
+	font-size : 70%;
 	clear: both;
-	font-size: .8em;
+	padding: 12px 0 12px 0;
+	text-align: center;
+	width: 100%;
+	border-top: solid 1px #000;
+}
+
+#footer a
+{
+	color: #fff;
+}
+
+#footer a:hover
+{
+	color: #777;
+}
+
+/*-----------{misc}------------*/
+blockquote
+{
+	font-family: "arial", courier, monospace;
+	text-align: justify; 
+	padding:5px;
+	border-left: 1px solid #CD9A32;
 }

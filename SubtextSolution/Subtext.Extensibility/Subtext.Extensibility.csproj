@@ -125,6 +125,7 @@
     <Compile Include="Attributes\DescriptionAttribute.cs" />
     <Compile Include="Attributes\IdentifierAttribute.cs" />
     <Compile Include="Collections\CollectionBook.cs" />
+    <Compile Include="Data\SqlErrorMessage.cs" />
     <Compile Include="Interfaces\IIdentifiable.cs" />
     <Compile Include="Interfaces\ICollectionBook.cs" />
     <Compile Include="Interfaces\IPagedCollection.cs" />

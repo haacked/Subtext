@@ -3,15 +3,14 @@
 body{
 	font-family: "Lucia Grande", Verdana, "Times New Roman", Times, serif;
 	font-size: 0.8em;
-	padding-top: 50px;	
-	padding-bottom: 50px;
+	padding: 50px 0;
 	margin:0;
 	background-repeat: repeat-y;
 	background-position:center;
 }
 
 #all {
-	width: 680px; 
+	width: 680px;
 	height:100%;
 	position:relative;
 	background-repeat:repeat-y;
@@ -23,11 +22,10 @@ body{
 
 #container{
 	margin:auto;
-	width: 616px;
+	padding: 10px 30px;
 	padding-top: 10px;
 	min-height: 300px;
 }
-
 
 #hd{
   text-align: center;
@@ -37,10 +35,10 @@ body{
 }
 #header{
     margin: auto;
-	width: 600px;
 	height: 133px;
 	background-color:#333333;
 	background-image:url(Images/header.jpg);
+	width: 600px;
 }
 
 #header h1
@@ -209,16 +207,13 @@ cite {
 }
 
 blockquote{
-font-size:11px;
-margin:0;
-width: 360px;
-height:100%;
-overflow:-moz-scrollbars-horizontal;
-overflow-x:scroll; 
-overflow-y:hide;
-border-left: 5px solid #cccccc;
-padding:5px;
-padding-left: 10px;
+	font-size:11px;
+	margin:0;
+	width: 360px;
+	height:100%;
+	border-left: 5px solid #cccccc;
+	padding:5px;
+	padding-left: 10px;
 }
 
 #content
@@ -226,7 +221,7 @@ padding-left: 10px;
 	padding-left: 8px;
 	padding-right: 8px;
 	padding-top: 4px;
-    width: 400px;
+    width: 415px;
 	float:left;
 	margin-right:-200px;
 	border-right: 1px dotted #cccccc;
@@ -251,13 +246,28 @@ padding-left: 10px;
  text-decoration:none;
 }
 
-.leftbox h2
+#sidebar
 {
-	margin:0;
-	margin-top:10px;
+   float: right;
+   width: 180px;
+   font-size: 90%;
+}
+
+#sidebar ul
+{
+	padding: 0;
+	margin: 0 0 0 15px;
+	list-style-type: square;
+	list-style-image: url(Images/list-arrow.gif);
+}
+
+#sidebar div h2
+{
+	margin: 10px 0 5px 0;
 	font-size: 120%;
 }
-.leftbox p
+
+#sidebar div p
 {
 	font-size: 100%;
 	padding:0;
@@ -301,6 +311,14 @@ hr
 	display:block;
 }
 
+#moreinfo div.author
+{
+	background: #ffffef url(images/CommentAuthorGradient.gif) repeat-x top left;
+	border: solid 1px #967758;
+	padding: 4px;
+	margin-top: 4px;
+}
+
 .comment h4
 {
 	display:block;
@@ -309,7 +327,7 @@ hr
 	margin-bottom: 4px;
 }
 
-.comment span
+.comment span.commentInfo
 {
 	display:block;
 	/*border-top: 1px solid #555555;
@@ -345,7 +363,6 @@ hr
 	color: #999999;
 }
 
-
 .comment blockquote
 {
 	margin-left:8px;
@@ -359,23 +376,6 @@ hr
 	background-color: #cccccc;
 	border: 1px solid #999999;
 	color: #444444;
-}
-
-#rightbar{
-   float: right;
-   width: 180px;
-   font-size: 90%;
-}
-
-#recentComments ul
-{
-	padding-left: 10px;
-}
-
-#recentComments ul li
-{
-	margin: 0;
-	padding: 0;
 }
 
 #footer
@@ -468,4 +468,9 @@ p.subtextlogo
 {
 	text-align: center;
 	padding-top: 8px;
+}
+
+#sidebar .author
+{
+	display: block;
 }

@@ -5,9 +5,9 @@ body
 }
 
 .noprint, #rondo
-, #rightbar, #navigation
+, #side-bar, #navigation
 , #blogstats, #blogstatsback, #moreinfo
-, #CommentForm, #recentComments, #leftbox
+, #CommentForm, #recentComments
 , #footer, #rondobottom, a.printIcon
 , hr
 {

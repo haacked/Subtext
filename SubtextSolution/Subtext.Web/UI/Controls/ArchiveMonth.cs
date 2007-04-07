@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
-using Subtext.Framework.Data;
 using Subtext.Framework;
+using Subtext.Framework.Data;
 using Subtext.Framework.Util;
 using Subtext.Framework.Web;
 
@@ -27,9 +27,9 @@ namespace Subtext.Web.UI.Controls
 	/// <summary>
 	///		Summary description for ArchiveMonth.
 	/// </summary>
-	public  class ArchiveMonth : Subtext.Web.UI.Controls.BaseControl
+	public  class ArchiveMonth : BaseControl
 	{
-		protected Subtext.Web.UI.Controls.EntryList Days;
+		protected EntryList Days;
 
 		protected override void OnLoad(EventArgs e)
 		{
@@ -39,12 +39,12 @@ namespace Subtext.Web.UI.Controls
 			{
 				DateTime dt = WebPathStripper.GetDateFromRequest(Request.Path,"archive");
 				Days.EntryListItems = Cacher.GetMonth(dt, CacheDuration.Short);
-				Days.EntryListTitle = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} Entries", dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture));
-				Subtext.Web.UI.Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1} Entries", CurrentBlog.Title, dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture)),Context);
+				Days.EntryListTitle = string.Format(CultureInfo.InvariantCulture, "{0} Entries", dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture));
+				Globals.SetTitle(string.Format(CultureInfo.InvariantCulture, "{0} - {1} Entries", CurrentBlog.Title, dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture)),Context);
 			}
-			catch(System.FormatException)
+			catch(FormatException)
 			{
-				HttpHelper.SetFileNotFoundResponse("~/SystemMessages/FileNotFound.aspx");
+				HttpHelper.SetFileNotFoundResponse();
 			}
 			
 		}

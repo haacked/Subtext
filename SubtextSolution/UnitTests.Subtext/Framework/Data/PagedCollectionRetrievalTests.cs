@@ -343,6 +343,7 @@ namespace UnitTests.Subtext.Framework.Data
 			keyword.Text = "The Keyword" + index;
 			keyword.Title = "Blah";
 			keyword.Word = "The Word " + index;
+			keyword.Rel = "Rel" + index;
 			keyword.Url = "http://localhost/";
 			KeyWords.CreateKeyWord(keyword);
 		}

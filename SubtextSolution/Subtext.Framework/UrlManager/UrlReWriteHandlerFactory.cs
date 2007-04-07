@@ -32,7 +32,7 @@ namespace Subtext.Framework.UrlManager
 	/// Regex's and Types.
 	/// </summary>
 	public class UrlReWriteHandlerFactory : IHttpHandlerFactory
-	{
+	{	
 		public UrlReWriteHandlerFactory() { } //Nothing to do in the cnstr
 
 		protected virtual HttpHandler[] GetHttpHandlers()

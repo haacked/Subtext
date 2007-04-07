@@ -1,4 +1,4 @@
-<%@ Page Title="Subtext Import - Step 1 - Select an Import Provider" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" language="c#" Codebehind="Step01_SelectImportProvider.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.Step01_SelectImportProvider" %>
+<%@ Page Title="Subtext Import - Step 1 - Select an Import Provider" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" Language="C#" EnableTheming="false"  Codebehind="Step01_SelectImportProvider.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.Step01_SelectImportProvider" %>
 
 <asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext Import - Step 1 - Select an Import Provider</asp:Content>
 <asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server"></asp:Content>

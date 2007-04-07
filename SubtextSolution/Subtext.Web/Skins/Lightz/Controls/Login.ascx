@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Login" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Login" %>
 <h1>Login</h1>
 <div id="LoginForm">
 	Username:<br />

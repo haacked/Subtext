@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="CategoryLinkList.ascx.cs" Inherits="Subtext.Web.Admin.UserControls.CategoryLinkList" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="true" CodeBehind="CategoryLinkList.ascx.cs" Inherits="Subtext.Web.Admin.UserControls.CategoryLinkList" %>
 
 <asp:Repeater ID="rptCategories" runat="server">
     <HeaderTemplate>

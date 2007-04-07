@@ -1,5 +1,6 @@
 using System;
 using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
@@ -52,6 +53,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			this.btnSend.Click += new EventHandler(this.btnSend_Click);
 
+			EnsureEmailRequired();
 			//Captcha should not be given to admin.
 			if (!SecurityHelper.IsAdmin)
 			{
@@ -65,40 +67,38 @@ namespace Subtext.Web.UI.Controls
 			base.OnInit(e);
 		}
 		
+		private void EnsureEmailRequired()
+		{
+			foreach(Control control in this.Controls)
+			{
+				RequiredFieldValidator validator = control as RequiredFieldValidator;
+				if (validator == null)
+					continue;
+
+				if (validator.ControlToValidate == tbEmail.ID)
+					return;
+			}
+			RequiredFieldValidator emailRequiredValidator = new RequiredFieldValidator();
+			emailRequiredValidator.ControlToValidate = tbEmail.ID;
+			emailRequiredValidator.ErrorMessage = "* Please enter your email address";
+			emailRequiredValidator.Display = ValidatorDisplay.Dynamic;
+			Controls.AddAt(Controls.IndexOf(tbEmail) + 1, emailRequiredValidator);
+		}
+
 
 		private void btnSend_Click(object sender, EventArgs e)
 		{
 			if(Page.IsValid)
 			{
-				if(SendContactMessageToFeedback)
-				{
-					FeedbackItem contactMessage = new FeedbackItem(FeedbackType.None);
-					
-					contactMessage.Author = tbName.Text;
-					contactMessage.Email = tbEmail.Text;
-					contactMessage.Body = tbMessage.Text;
-					contactMessage.Title = "CONTACT: " + tbSubject.Text;
-					contactMessage.IpAddress = HttpHelper.GetUserIpAddress(Context);
-					
-					try
-					{
-						FeedbackItem.Create(contactMessage, new CommentFilter(HttpContext.Current.Cache));
-						lblMessage.Text = "Your message was sent.";
-					}
-					catch(BaseCommentException exc)
-					{
-						lblMessage.Text = exc.Message;
-					}
+				BlogInfo info = Config.CurrentBlog;
 
-					tbName.Text = "";
-					tbEmail.Text = "";
-					tbSubject.Text = "";
-					tbMessage.Text = "";
+				if(SendContactMessageToFeedback || String.IsNullOrEmpty(info.Owner.Email))
+				{
+					CreateCommentWithContactMessage();
 					return;
 				}
 
 				EmailProvider email = EmailProvider.Instance();
-				BlogInfo info = Config.CurrentBlog;
 				string toEmail = info.Owner.Email;
 				string fromEmail = tbEmail.Text;
 				
@@ -128,6 +128,32 @@ namespace Subtext.Web.UI.Controls
 					lblMessage.Text = "Your message could not be sent, most likely due to a problem with the mail server.";
 				}
 			}
+		}
+
+		private void CreateCommentWithContactMessage()
+		{
+			FeedbackItem contactMessage = new FeedbackItem(FeedbackType.None);
+
+			contactMessage.Author = tbName.Text;
+			contactMessage.Email = tbEmail.Text;
+			contactMessage.Body = tbMessage.Text;
+			contactMessage.Title = "CONTACT: " + tbSubject.Text;
+			contactMessage.IpAddress = HttpHelper.GetUserIpAddress(Context);
+
+			try
+			{
+				FeedbackItem.Create(contactMessage, new CommentFilter(HttpContext.Current.Cache));
+				lblMessage.Text = "Your message was sent.";
+			}
+			catch (BaseCommentException exc)
+			{
+				lblMessage.Text = exc.Message;
+			}
+
+			tbName.Text = string.Empty;
+			tbEmail.Text = string.Empty;
+			tbSubject.Text = string.Empty;
+			tbMessage.Text = string.Empty;
 		}
 
 		static bool SendContactMessageToFeedback

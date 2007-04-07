@@ -63,6 +63,11 @@ namespace Subtext.Framework.Data
 		CouldNotFindStoredProcedure = 2812,
 
 		/// <summary>
+		/// User does not have permission to perform this operation on procedure.
+		/// </summary>
+		PermissionDeniedOnProcedure = 3704,
+
+		/// <summary>
 		/// Cannot open database requested in login '%.*ls'. Login fails.
 		/// </summary>
 		LoginFailsCannotOpenDatabase = 4060,

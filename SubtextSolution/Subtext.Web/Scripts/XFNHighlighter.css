@@ -33,6 +33,7 @@ a.xfnRelationship
 		padding-right: 13px;
 	background: url(../images/friends.png) no-repeat right;
 	*/
+	white-space: nowrap;
 	padding-right: 26px;
 	background: url(../images/xfn-small.png) no-repeat right;
 }

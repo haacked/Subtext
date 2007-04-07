@@ -18,13 +18,13 @@ namespace UnitTests.Subtext.Extensibility
 			DotNetOpenMailProvider provider = new DotNetOpenMailProvider();
 			NameValueCollection configValue = new NameValueCollection();
 			configValue["smtpServer"] = "127.0.0.1";
-			configValue["port"] = "8081";
+			configValue["port"] = "8189";
 			provider.Initialize("providerTest", configValue);
 
 			TestSmtpServer receivingServer = new TestSmtpServer();
 			try
 			{
-				receivingServer.Start("127.0.0.1", 8081);
+				receivingServer.Start("127.0.0.1", 8189);
 				provider.Send("phil@example.com", 
 							"nobody@example.com", 
 							"Subject to nothing", 

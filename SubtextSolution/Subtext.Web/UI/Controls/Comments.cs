@@ -18,6 +18,7 @@ using System.Configuration;
 using System.Globalization;
 using System.Web.Security;
 using System.Web.UI.WebControls;
+using Docuverse.Identicon;
 using log4net;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -34,16 +35,21 @@ namespace Subtext.Web.UI.Controls
 	/// <summary>
 	///	Codebehind for the control that displays comments/trackbacks/pingbacks.
 	/// </summary>
-	public class Comments : BaseControl
+	public class Comments : BaseControl, ICommentControl
 	{
 		static ILog log = new Log();
 		
 		protected Repeater CommentList;
 		protected Literal NoCommentMessage;
-
+		private FeedbackItem comment;
 		private bool gravatarEnabled;
 		private string gravatarUrlFormatString;
 		private string gravatarEmailFormat;
+
+		public FeedbackItem Comment
+		{
+			get { return comment; }
+		}
 
 		protected override void OnLoad(EventArgs e)
 		{
@@ -73,6 +79,16 @@ namespace Subtext.Web.UI.Controls
 				Visible = false;
 			}
 			
+		}
+
+		/// <summary>
+		/// If the currecnt comment was written by the author, 
+		/// writes the specified css class
+		/// </summary>
+		/// <returns></returns>
+		protected string AuthorCssClass
+		{
+			get { return Comment.IsBlogAuthor ? " author" : ""; }
 		}
 
 		internal void BindFeedback(bool fromCache)
@@ -108,6 +124,7 @@ namespace Subtext.Web.UI.Controls
 			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
 				FeedbackItem feedbackItem = (FeedbackItem)e.Item.DataItem;
+				this.comment = feedbackItem;
 				if(feedbackItem != null)
 				{
 					Literal title = (Literal)(e.Item.FindControl("Title"));
@@ -170,10 +187,28 @@ namespace Subtext.Web.UI.Controls
 						{
 							//This allows per-skin configuration of the default gravatar image.
 							string defaultGravatarImage = gravatarImage.Attributes["PlaceHolderImage"];
-							if (String.IsNullOrEmpty(defaultGravatarImage))
-								defaultGravatarImage = ConfigurationManager.AppSettings["GravatarDefaultImage"];
 
-							//This allows a host-wide setting of the default gravatar image.
+						    string ip;
+                            if(feedbackItem.IpAddress != null)
+                                ip = feedbackItem.IpAddress.ToString();
+                            else
+                                ip = DateTime.Now.Millisecond + " " + DateTime.Now.Second;
+
+                            if (String.IsNullOrEmpty(defaultGravatarImage))
+                            {
+                                string identiconSizeSetting = ConfigurationManager.AppSettings["IdenticonSize"];
+
+                                int identiconSize = 40;
+                                if (!String.IsNullOrEmpty(identiconSizeSetting))
+                                {
+                                    int.TryParse(identiconSizeSetting, out identiconSize);
+                                }
+                                defaultGravatarImage = string.Format("~/images/IdenticonHandler.ashx?size={0}&code={1}"
+                                    , identiconSize
+									, IdenticonUtil.Code(ip));
+                            }
+
+						    //This allows a host-wide setting of the default gravatar image.
 							string gravatarUrl = null;
 							if (!String.IsNullOrEmpty(feedbackItem.Email))
 								gravatarUrl = BuildGravatarUrl(feedbackItem.Email, defaultGravatarImage);
@@ -183,9 +218,14 @@ namespace Subtext.Web.UI.Controls
 								gravatarImage.Attributes.Remove("PlaceHolderImage");
 								if(gravatarUrl.Length != 0)
 								{
-									gravatarImage.ImageUrl = gravatarUrl;
+                                    gravatarImage.ImageUrl = gravatarUrl;
 									gravatarImage.Visible = true;
 								}
+							}
+                            else
+							{
+							    gravatarImage.ImageUrl = defaultGravatarImage;
+							    gravatarImage.Visible = true;
 							}
 						}
 					}
@@ -228,6 +268,12 @@ namespace Subtext.Web.UI.Controls
 
 		private string BuildGravatarUrl(string email, string defaultGravatar) 
 		{
+            if (email == null)
+                throw new ArgumentNullException("email", "Email should not be null.");
+
+            if(defaultGravatar == null)
+                throw new ArgumentNullException("defaultGravatar", "Default gravatar should not be null.");
+
 			string processedEmail = string.Empty;
 
             if (Request.Url.Port != 80)

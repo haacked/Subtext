@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext Admin - Feedback" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Feedback.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Feedback" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Feedback" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Feedback.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Feedback" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
@@ -27,7 +27,7 @@
         <st:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Comments" HeaderCssClass="CollapsibleHeader" DisplayHeader="true">
 		<asp:Repeater id="rprSelectionList" runat="server">
 			<HeaderTemplate>
-				<table id="feedback" class="Listing">
+				<table id="feedback" class="Listing highlightTable" style="<%= CheckHiddenStyle() %>">
 					<tr>
 						<th>Title</th>						
 						<th>Posted By</th>

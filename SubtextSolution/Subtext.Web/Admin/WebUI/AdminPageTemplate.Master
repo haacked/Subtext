@@ -60,6 +60,9 @@
 							<li id="ImportExportTab">
 								<a href="ImportExport.aspx" id="TabImportExport" title="Import/Export">Import/Export</a>
 							</li>
+							<li id="CreditTab">
+								<a href="Credits.aspx" id="TabCredit" title="Credits">Credits</a>
+							</li>									
 						</ul>
 					</div>
 					<div id="SubNav">

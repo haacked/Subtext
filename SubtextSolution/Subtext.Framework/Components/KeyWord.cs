@@ -79,6 +79,16 @@ namespace Subtext.Framework.Components
 			set {this._title = value;}
 		}
 
+		private string _rel;
+		/// <summary>
+		/// Rel entries for a keyword. For instance, you could add "Friend" to a keyword, and XFN would pick it up as a Friend link
+		/// </summary>
+		public string Rel
+		{
+			get { return this._rel; }
+			set { this._rel = value; }
+		}
+
 		private int _blogID;
 		public int BlogId
 		{
@@ -109,7 +119,7 @@ namespace Subtext.Framework.Components
 
 		private void ProcessFormat()
 		{
-			_format = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<a {0} href=\"{1}\" {2}>{3}</a>",this.Title != null ? "title=\"" + Title + "\"" : string.Empty,Url,this.OpenInNewWindow ? "target=\"_blank\"" : string.Empty, Text);
+			_format = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<a {0} href=\"{1}\" {2} {3}>{4}</a>", this.Title != null ? "title=\"" + Title + "\"" : String.Empty, Url, this.Rel != null ? "rel=\"" + Rel + "\"" : string.Empty, this.OpenInNewWindow ? "target=\"_blank\"" : string.Empty, Text);
 		}
 	}
 }

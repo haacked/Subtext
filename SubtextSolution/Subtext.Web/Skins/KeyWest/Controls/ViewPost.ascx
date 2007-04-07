@@ -1,4 +1,4 @@
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.ViewPost" %>
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.ViewPost" %>
 <%@ Register TagPrefix="uc1" TagName="PreviousNext" Src="PreviousNext.ascx" %>
 <div class="entry">
 <uc1:PreviousNext id="PreviousNext" runat="server" />

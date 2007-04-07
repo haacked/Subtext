@@ -79,6 +79,19 @@ a.printIcon span
 	padding-left: 17px;
 }
 
+/********* ShareIcon **********
+Applies a share-icon to an element with the shareIcon class.
+http://shareicons.com/
+
+Sample usage:
+<a class="shareIcon"...></a>
+
+*/
+.shareIcon
+{
+	background: url('../../images/share-icon-16x16.png') no-repeat center left;
+}
+
 /********* Gravatar **********
 This is an avatar thumbnail displayed next to a blog post.
 

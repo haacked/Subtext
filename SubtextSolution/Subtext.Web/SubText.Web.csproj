@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87" />
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Identicon, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
     <Reference Include="MagicAjax, Version=0.3.0.0, Culture=neutral, PublicKeyToken=bf4053b35db106f3, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -258,6 +259,13 @@
     <Compile Include="Admin\WebUI\Controls\LinkList.cs" />
     <Compile Include="Admin\WebUI\Controls\MessagePanel.cs" />
     <Compile Include="Admin\WebUI\Controls\ScriptTag.cs" />
+    <Compile Include="Admin\Credits.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>Credits.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Credits.aspx.designer.cs">
+      <DependentUpon>Credits.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\WebUI\StatsPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -572,6 +580,8 @@
     <Compile Include="UI\Controls\HomePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\Controls\ICommentControl.cs" />
+    <Compile Include="UI\Controls\IEntryControl.cs" />
     <Compile Include="UI\Controls\LinkPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -922,9 +932,10 @@
     <Content Include="Admin\UserControls\CategoryLinkList.ascx" />
     <Content Include="Admin\UserControls\EntryEditor.ascx" />
     <Content Include="Admin\EditPosts.aspx" />
-    <Content Include="AspNetWithoutWebProjects.txt" />
+    <Content Include="Admin\Credits.aspx" />
     <Content Include="ExternalDependencies\FreeTextBox.xml" />
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="ExternalDependencies\Identicon.dll" />
     <Content Include="ExternalDependencies\log4net.dll" />
     <Content Include="ExternalDependencies\log4net.xml" />
     <Content Include="ExternalDependencies\MagicAjax.dll" />
@@ -960,7 +971,9 @@
     <Content Include="Images\administration_icon.gif" />
     <Content Include="Images\atom.gif" />
     <Content Include="Images\atomsmall.gif" />
+    <Content Include="Images\blank.gif" />
     <Content Include="Images\close.gif" />
+    <Content Include="Images\closelabel.gif" />
     <Content Include="Images\contact.gif" />
     <Content Include="Images\default_gravatar.png" />
     <Content Include="Images\edit.gif" />
@@ -994,15 +1007,21 @@
     <Content Include="Images\link.gif" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\ms_help.gif" />
-    <Content Include="Images\overlay.png" />
+    <Content Include="Images\next.gif" />
+    <Content Include="Images\nextlabel.gif" />
     <Content Include="Images\permalink.gif" />
     <Content Include="Images\PoweredByAsp.Net.gif" />
     <Content Include="Images\PoweredBySubtext85x33.png" />
+    <Content Include="Images\prev.gif" />
+    <Content Include="Images\prevlabel.gif" />
     <Content Include="Images\printer.png" />
     <Content Include="Images\rss20icon.gif" />
     <Content Include="Images\Rss2Image.gif" />
     <Content Include="Images\shadow.gif" />
     <Content Include="Images\shadowAlpha.png" />
+    <Content Include="Images\share-icon-10x10.png" />
+    <Content Include="Images\share-icon-12x12.png" />
+    <Content Include="Images\share-icon-16x16.png" />
     <Content Include="Images\sublogo-80x80.png" />
     <Content Include="Images\SubtextLogo.png" />
     <Content Include="Images\SubtextLogo_small.png" />
@@ -1307,13 +1326,15 @@
     <Content Include="Providers\BlogEntryEditor\FTB\ftb.imagegallery.aspx" />
     <Content Include="ReverseDOS.config" />
     <Content Include="Scripts\AmazonTooltips.js" />
-    <Content Include="Scripts\BlogInfo.js" />
+    <Content Include="Scripts\blank.gif" />
     <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\effects.js" />
     <Content Include="Scripts\ExternalLinks.js" />
-    <Content Include="Scripts\FormFocus.js" />
     <Content Include="Scripts\lightbox.css" />
     <Content Include="Scripts\lightbox.js" />
     <Content Include="Scripts\LiveCommentPreview.js" />
+    <Content Include="Scripts\prototype.js" />
+    <Content Include="Scripts\scriptaculous.js" />
     <Content Include="Scripts\tableEffects.js" />
     <Content Include="Scripts\XFNHighlighter.css" />
     <Content Include="Scripts\XFNHighlighter.js" />
@@ -1461,20 +1482,15 @@
     <Content Include="Skins\Gradient\Controls\News.ascx" />
     <Content Include="Skins\Gradient\Controls\PostComment.ascx" />
     <Content Include="Skins\Gradient\Controls\PreviousNext.ascx" />
+    <Content Include="Skins\Gradient\Controls\RecentComments.ascx" />
+    <Content Include="Skins\Gradient\Controls\RecentPosts.ascx" />
     <Content Include="Skins\Gradient\Controls\RelatedLinks.ascx" />
     <Content Include="Skins\Gradient\Controls\SingleColumn.ascx" />
     <Content Include="Skins\Gradient\Controls\SubtextSearch.ascx" />
     <Content Include="Skins\Gradient\Controls\ViewPicture.ascx" />
     <Content Include="Skins\Gradient\Controls\ViewPost.ascx" />
     <Content Include="Skins\Gradient\IEPatches.css" />
-    <Content Include="Skins\Gradient\Images\bg.gif" />
-    <Content Include="Skins\Gradient\Images\bl.gif" />
-    <Content Include="Skins\Gradient\Images\br.gif" />
-    <Content Include="Skins\Gradient\Images\flash.gif" />
-    <Content Include="Skins\Gradient\Images\flash.png" />
-    <Content Include="Skins\Gradient\Images\nt.gif" />
-    <Content Include="Skins\Gradient\Images\tl.gif" />
-    <Content Include="Skins\Gradient\Images\tr.gif" />
+    <Content Include="Skins\Gradient\Images\CommentAuthorGradient.gif" />
     <Content Include="Skins\Gradient\PageTemplate.ascx" />
     <Content Include="Skins\Gradient\print.css" />
     <Content Include="Skins\Gradient\style.css" />
@@ -1607,6 +1623,7 @@
     <Content Include="Skins\Naked\Controls\ViewPost.ascx" />
     <Content Include="Skins\Naked\PageTemplate.ascx" />
     <Content Include="Skins\Naked\ReadMe.txt" />
+    <Content Include="Skins\Naked\Controls\ShareThisPost.ascx" />
     <Content Include="Skins\Naked\style.css" />
     <Content Include="Skins\Nature\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\Nature\Controls\ArchiveDay.ascx" />
@@ -1630,6 +1647,7 @@
     <Content Include="Skins\Nature\Controls\News.ascx" />
     <Content Include="Skins\Nature\Controls\PostComment.ascx" />
     <Content Include="Skins\Nature\Controls\PreviousNext.ascx" />
+    <Content Include="Skins\Nature\Controls\RecentPosts.ascx" />
     <Content Include="Skins\Nature\Controls\RelatedLinks.ascx" />
     <Content Include="Skins\Nature\Controls\SingleColumn.ascx" />
     <Content Include="Skins\Nature\Controls\SubtextSearch.ascx" />
@@ -1637,6 +1655,7 @@
     <Content Include="Skins\Nature\Controls\ViewPicture.ascx" />
     <Content Include="Skins\Nature\Controls\ViewPost.ascx" />
     <Content Include="Skins\Nature\images\article.jpg" />
+    <Content Include="Skins\Nature\images\CommentAuthorGradient.gif" />
     <Content Include="Skins\Nature\images\CommentIcon.gif" />
     <Content Include="Skins\Nature\images\leafy\articlenormal.jpg" />
     <Content Include="Skins\Nature\images\leafy\headers.jpg" />
@@ -1673,6 +1692,7 @@
     <Content Include="Skins\origami\Controls\PostComment.ascx" />
     <Content Include="Skins\origami\Controls\PreviousNext.ascx" />
     <Content Include="Skins\origami\Controls\SingleColumn.ascx" />
+    <Content Include="Skins\origami\Controls\SyndicationLinks.ascx" />
     <Content Include="Skins\origami\Controls\ViewPicture.ascx" />
     <Content Include="Skins\origami\Controls\ViewPost.ascx" />
     <Content Include="Skins\origami\images\bg_85PercentWhite.png" />
@@ -1681,6 +1701,7 @@
     <Content Include="Skins\origami\images\bg_body.jpg" />
     <Content Include="Skins\origami\images\bg_body.png" />
     <Content Include="Skins\origami\images\bg_commentAlternate.png" />
+    <Content Include="Skins\origami\images\bg_commentAuthorGradient.png" />
     <Content Include="Skins\origami\images\bg_commentNormal.png" />
     <Content Include="Skins\origami\images\bg_commentPreview.png" />
     <Content Include="Skins\origami\images\bg_contentLeftNav.png" />
@@ -1744,6 +1765,7 @@
     <Content Include="Skins\origami\images\bullet_sideBar_h.png" />
     <Content Include="Skins\origami\images\bullet_sideBar_v.png" />
     <Content Include="Skins\origami\images\bullet_UL.png" />
+    <Content Include="Skins\origami\images\bg_commentAuthorGradient.gif" />
     <Content Include="Skins\origami\images\div_head.png" />
     <Content Include="Skins\origami\images\header_Personalize.png" />
     <Content Include="Skins\origami\images\icon_download.gif" />
@@ -1772,7 +1794,6 @@
     <Content Include="Skins\origami\Scripts\coreFunctions.js" />
     <Content Include="Skins\origami\Scripts\effects.js" />
     <Content Include="Skins\origami\Scripts\init.js" />
-    <Content Include="Skins\origami\Scripts\prototype.js" />
     <Content Include="Skins\origami\Scripts\searchResults.js" />
     <Content Include="Skins\origami\Scripts\styleSwitcher.js" />
     <Content Include="Skins\origami\Scripts\typo.js" />
@@ -1833,15 +1854,11 @@
     <Content Include="Skins\Piyo\Images\asual-search.jpg" />
     <Content Include="Skins\Piyo\Images\asual-trackbacks.jpg" />
     <Content Include="Skins\Piyo\Images\asual-trackbackslink.jpg" />
-    <Content Include="Skins\Piyo\Images\close.gif" />
-    <Content Include="Skins\Piyo\Images\loading.gif" />
-    <Content Include="Skins\Piyo\Images\overlay.png" />
     <Content Include="Skins\Piyo\PageTemplate.ascx" />
     <Content Include="Skins\Piyo\piyo-elastic.css" />
     <Content Include="Skins\Piyo\piyo-fixed.css" />
     <Content Include="Skins\Piyo\print.css" />
     <Content Include="Skins\Piyo\README.txt" />
-    <Content Include="Skins\Piyo\Scripts\lightbox.js" />
     <Content Include="Skins\Piyo\Scripts\piyo.js" />
     <Content Include="Skins\Piyo\style.css" />
     <Content Include="Skins\RedBook\Blue.css" />
@@ -1860,6 +1877,7 @@
     <Content Include="HostAdmin\HostAdminTemplate.Master" />
     <Content Include="Log4Net.config" />
     <Content Include="Install\InstallTemplate.Master" />
+    <Content Include="Images\IdenticonHandler.ashx" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />
@@ -1889,12 +1907,14 @@
     <Content Include="Skins\RedBook\Images\Blue\rondobottom.jpg" />
     <Content Include="Skins\RedBook\Images\button.gif" />
     <Content Include="Skins\RedBook\Images\checkbox.gif" />
+    <Content Include="Skins\RedBook\Images\CommentAuthorGradient.gif" />
     <Content Include="Skins\RedBook\Images\Green\back.jpg" />
     <Content Include="Skins\RedBook\Images\Green\backback.jpg" />
     <Content Include="Skins\RedBook\Images\Green\rondo.jpg" />
     <Content Include="Skins\RedBook\Images\Green\rondobottom.jpg" />
     <Content Include="Skins\RedBook\Images\header.jpg" />
     <Content Include="Skins\RedBook\Images\input.gif" />
+    <Content Include="Skins\RedBook\Images\list-arrow.gif" />
     <Content Include="Skins\RedBook\Images\mitem.gif" />
     <Content Include="Skins\RedBook\Images\radio.gif" />
     <Content Include="Skins\RedBook\Images\Red\back.jpg" />
@@ -2130,8 +2150,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>2732</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:2732/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
         </WebProjectProperties>
       </FlavorProperties>

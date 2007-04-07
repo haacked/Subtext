@@ -1,4 +1,4 @@
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.Header" %>
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.Header" %>
 	<div class="subtitle">
 		<asp:Literal id="HeaderSubTitle" runat="server" />
 	</div>	

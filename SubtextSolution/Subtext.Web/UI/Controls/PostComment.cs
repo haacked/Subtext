@@ -32,8 +32,22 @@ namespace Subtext.Web.UI.Controls
 	/// <summary>
 	///		Summary description for Comments.
 	/// </summary>
-	public partial class PostComment : BaseControl
+	public partial class PostComment : BaseControl, IEntryControl
 	{
+		private Entry entry;
+
+		public Entry Entry
+		{
+			get
+			{
+				if(this.entry == null)
+				{
+					this.entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
+				}
+				return this.entry;
+			}
+		}
+
 		/// <summary>
 		/// Handles the OnLoad event.  Attempts to prepopulate comment 
 		/// fields based on the user's cookie.
@@ -53,15 +67,14 @@ namespace Subtext.Web.UI.Controls
 		
 			if(!IsPostBack)
 			{
-				Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
-				if(entry == null)
+				if (this.Entry == null)
 				{
 					//Somebody probably is messing with the url.
 					Response.Redirect("~/SystemMessages/FileNotFound.aspx", true);
 					return;
 				}
 				
-				ResetCommentFields(entry);
+				ResetCommentFields();
 
 				if(Config.CurrentBlog.CoCommentsEnabled)
 				{
@@ -82,6 +95,8 @@ namespace Subtext.Web.UI.Controls
 					}
 				}
 			}
+
+			this.DataBind();
 		}
 		
 		void SetValidationGroup()
@@ -186,7 +201,7 @@ namespace Subtext.Web.UI.Controls
 				try
 				{
 					Entry currentEntry =  Cacher.GetEntryFromRequest(CacheDuration.Short);	
-					if(IsCommentAllowed(currentEntry))
+					if(IsCommentAllowed)
 					{
 						FeedbackItem feedbackItem = CreateFeedbackInstanceFromFormInput(currentEntry);
 						FeedbackItem.Create(feedbackItem, new CommentFilter(HttpContext.Current.Cache));
@@ -272,7 +287,7 @@ namespace Subtext.Web.UI.Controls
 			return feedbackItem;
 		}
 
-		private void ResetCommentFields(Entry entry)
+		private void ResetCommentFields()
 		{
 			if (this.tbComment != null)
 				this.tbComment.Text = string.Empty;
@@ -311,7 +326,7 @@ namespace Subtext.Web.UI.Controls
 				}
 			}
 
-			if (IsCommentsRendered(entry))
+			if (IsCommentsRendered)
 			{
 				if (entry.CommentingClosed)
 				{
@@ -329,14 +344,14 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
-		bool IsCommentsRendered(Entry entry)
+		bool IsCommentsRendered
 		{
-			return CurrentBlog.CommentsEnabled && entry != null && entry.AllowComments;
+			get { return CurrentBlog.CommentsEnabled && Entry != null && Entry.AllowComments; }
 		}
 		
-		bool IsCommentAllowed(Entry entry)
+		bool IsCommentAllowed
 		{
-			return CurrentBlog.CommentsEnabled && entry != null && entry.AllowComments && !entry.CommentingClosed;
+			get { return CurrentBlog.CommentsEnabled && Entry != null && Entry.AllowComments && !Entry.CommentingClosed; }
 		}
 	}
 }

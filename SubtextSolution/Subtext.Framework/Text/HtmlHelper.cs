@@ -31,7 +31,7 @@ using Subtext.Framework.Properties;
 namespace Subtext.Framework.Text
 {
 	/// <summary>
-	/// Static class used for parseing, formatting, and validating HTML.
+	/// Static class used for parsing, formatting, and validating HTML.
 	/// </summary>
 	public static class HtmlHelper
 	{
@@ -100,7 +100,6 @@ namespace Subtext.Framework.Text
 			}
 
 			string[] classes = existingClasses.Split(new string[] { " ", "\t", "\r\n", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-			string newClasses = String.Empty;
 			StringBuilder builder = new StringBuilder();
 
 			foreach (string cssClass in classes)
@@ -111,7 +110,7 @@ namespace Subtext.Framework.Text
 				}
 			}
 
-			newClasses = builder.ToString();
+			string newClasses = builder.ToString();
 			if (newClasses.EndsWith(" "))
 			{
 				newClasses = newClasses.Substring(0, newClasses.Length - 1);
@@ -122,6 +121,7 @@ namespace Subtext.Framework.Text
 		/// <summary>
 		/// Appends the attribute value to the control appropriately.
 		/// </summary>
+		/// <param name="control"></param>
 		/// <param name="name"></param>
 		/// <param name="value"></param>
 		public static void AppendAttributeValue(WebControl control, string name, string value)
@@ -192,8 +192,8 @@ namespace Subtext.Framework.Text
 		{
 			if (!String.IsNullOrEmpty(text))
 			{
-				text = HtmlHelper.RemoveHtmlComments(text);
-				text = HtmlHelper.RemoveHtml(text);
+				text = RemoveHtmlComments(text);
+				text = RemoveHtml(text);
 			}
 			return text;
 		}
@@ -204,18 +204,39 @@ namespace Subtext.Framework.Text
 		/// </summary>
 		/// <param name="entry">Entry.</param>
 		/// <returns></returns>
-		public static void ConvertHtmlToXHtml(Entry entry)
+		public static bool ConvertHtmlToXHtml(Entry entry)
 		{
 			if (entry == null)
-			{
 				throw new ArgumentNullException("entry", Resources.ArgumentNull_Obj);
-			}
 
 			SgmlReader reader = new SgmlReader();
 			reader.SetBaseUri(Config.CurrentBlog.RootUrl.ToString());
+			entry.Body = ConvertHtmlToXHtml(reader, entry.Body);
+			return true;
+		}
+
+		/// <summary>
+		/// Converts the specified html into XHTML compliant text. 
+		/// </summary>
+		/// <param name="html">html to convert.</param>
+		/// <returns></returns>
+		private static string ConvertHtmlToXHtml(string html)
+		{
+			SgmlReader reader = new SgmlReader();
+			return ConvertHtmlToXHtml(reader, html);
+		}
+
+		/// <summary>
+		/// Converts the specified html into XHTML compliant text. 
+		/// </summary>
+		/// <param name="reader">sgml reader.</param>
+		/// /// <param name="html">html to convert.</param>
+		/// <returns></returns>
+		private static string ConvertHtmlToXHtml(SgmlReader reader, string html)
+		{
 			reader.DocType = "html";
 			reader.WhitespaceHandling = WhitespaceHandling.All;
-			reader.InputStream = new StringReader("<html>" + entry.Body + "</html>");
+			reader.InputStream = new StringReader("<html>" + html + "</html>");
 			reader.CaseFolding = CaseFolding.ToLower;
 			StringWriter writer = new StringWriter(CultureInfo.InvariantCulture);
 			XmlTextWriter xmlWriter = null;
@@ -237,7 +258,7 @@ namespace Subtext.Framework.Text
 			}
 
 			string xml = writer.ToString();
-			entry.Body = xml.Substring("<html>".Length, xml.Length - "<html></html>".Length);
+			return xml.Substring("<html>".Length, xml.Length - "<html></html>".Length);
 		}
 
 		/// <summary>
@@ -283,7 +304,7 @@ namespace Subtext.Framework.Text
 			MatchCollection matches = Regex.Matches(text, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 			foreach (Match m in matches)
 			{
-				text = text.Replace(m.ToString(), "<a rel=\"nofollow external\" href=\"" + m.ToString() + "\">" + m.ToString() + "</a>");
+				text = text.Replace(m.ToString(), string.Format("<a rel=\"nofollow external\" href=\"{0}\">{1}</a>", m, m));
 			}
 			return text;
 		}
@@ -294,14 +315,12 @@ namespace Subtext.Framework.Text
 		/// We will however, check for line breaks and replace 
 		/// them with <br />
 		/// </summary>
-		/// <param name="stringToTransform"></param>
+		/// <param name="input"></param>
 		/// <returns></returns>
 		public static string SafeFormat(string input)
 		{
 			if (input == null)
-			{
 				throw new ArgumentNullException("input", Resources.ArgumentNull_String);
-			}
 
 			input = HttpContext.Current.Server.HtmlEncode(input);
 			string brTag = "<br />";
@@ -440,7 +459,7 @@ namespace Subtext.Framework.Text
 					sb.Append(HtmlSafe(text.Substring(currentIndex)));
 				}
 
-				return sb.ToString();
+				return ConvertHtmlToXHtml(sb.ToString());
 			}
 		}
 
@@ -580,13 +599,12 @@ namespace Subtext.Framework.Text
 
 			Regex r = new Regex(sPattern, RegexOptions.IgnoreCase);
 			Match m;
-			string link;
 			for (m = r.Match(text); m.Success; m = m.NextMatch())
 			{
 				if (m.Groups.ToString().Length > 0)
 				{
-					link = m.Groups[1].ToString();
-					if (!links.Contains(link))
+					string link = 	m.Groups[1].ToString();	
+					if(!links.Contains(link))
 					{
 						links.Add(link);
 					}

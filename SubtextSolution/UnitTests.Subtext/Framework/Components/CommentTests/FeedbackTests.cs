@@ -351,11 +351,13 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		/// Makes sure that the content checksum hash is being created correctly.
 		/// </summary>
 		[RowTest]
-		[Row("commenter@example.com", "http://haacked.com/", "commenter@example.com", "http://haacked.com/")]
-		[Row("", "http://haacked.com/", "no email given", "http://haacked.com/")]
-		[Row("commenter@example.com", "", "commenter@example.com", "none given")]
+		[Row("commenter@example.com", "http://haacked.com/", "", "/", "commenter@example.com", "http://haacked.com/")]
+		[Row("", "http://haacked.com/", "", "/", "no email given", "http://haacked.com/")]
+		[Row("commenter@example.com", "", "", "/", "commenter@example.com", "none given")]
+		[Row("commenter@example.com", "", "/", "TEST", "commenter@example.com", "none given")]
+		[Row("commenter@example.com", "", "/Subtext.Web", "TEST", "commenter@example.com", "none given")]
 		[RollBack]
-		public void CreateFeedbackSendsCorrectEmail(string commenterEmail, string commenterUrl, string expectedEmail, string expectedUrl)
+		public void CreateFeedbackSendsCorrectEmail(string commenterEmail, string commenterUrl, string applicationPath, string subfolder, string expectedEmail, string expectedUrl)
 		{
 			UnitTestHelper.SetupBlog();
 			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
@@ -366,8 +368,10 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("blah", "blah", "blah");
 			int entryId = Entries.Create(entry);
+			entry = Entries.GetEntry(entryId, PostConfig.None, false);
 
 			FeedbackItem feedbackItem = new FeedbackItem(FeedbackType.Comment);
+			feedbackItem.ParentEntryName = entry.EntryName;
 			feedbackItem.Author = "Billy Bob";
 			feedbackItem.Email = commenterEmail;
 			feedbackItem.DateCreated = DateTime.Now;
@@ -415,7 +419,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			return FeedbackItem.Get(id);
 		}
 
-        Entry SetupBlogForCommentsAndCreateEntry()
+		static Entry SetupBlogForCommentsAndCreateEntry()
         {
             UnitTestHelper.SetupBlog();
             BlogInfo info = Config.CurrentBlog;

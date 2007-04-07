@@ -1,4 +1,4 @@
-<%@ Page language="c#" Inherits="FredCK.FCKeditorV2.Uploader" AutoEventWireup="false" %>
+<%@ Page Language="C#" EnableTheming="false"  Inherits="FredCK.FCKeditorV2.Uploader" AutoEventWireup="false" %>
 <%--
  * FCKeditor - The text editor for internet
  * Copyright (C) 2003-2006 Frederico Caldeira Knabben

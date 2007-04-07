@@ -214,6 +214,11 @@ div.comment {
   padding: 10px;
 }
 
+div.author 
+{
+	background-color: #FFF6DF;
+}
+
 div.comment_author {
   margin: 5px 0px 5px 0px;
 }

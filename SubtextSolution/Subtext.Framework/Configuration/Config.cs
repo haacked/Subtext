@@ -15,11 +15,14 @@
 
 using System;
 using System.Configuration;
+using System.Web.Configuration;
 using System.Web.Security;
+using log4net;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Framework.Properties;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
 
@@ -37,6 +40,7 @@ namespace Subtext.Framework.Configuration
 				"Modules", "Posts", "Properties", "Providers", "Scripts", "Services", "Sitemap", "Skins", 
 				"Stories", "Story", "SystemMessages", "UI"
 		};
+		private readonly static ILog Log = new Log();
 
 		private const string InvalidChars = @"{}[]/\ @!#$%:^&*()?+|""='<>;,";
 
@@ -53,6 +57,24 @@ namespace Subtext.Framework.Configuration
 			{
 				return ((BlogConfigurationSettings)ConfigurationManager.GetSection("BlogConfigurationSettings"));
 			}
+		}
+
+		/// <summary>
+		/// Gets the file not found page from web.config.
+		/// </summary>
+		/// <returns></returns>
+		public static string GetFileNotFoundPage()
+		{
+			CustomErrorsSection errorsSection = WebConfigurationManager.GetWebApplicationSection("system.web/customErrors") as CustomErrorsSection;
+			if (errorsSection != null)
+			{
+				CustomError fileNotFoundError = errorsSection.Errors["404"];
+				if (fileNotFoundError != null)
+				{
+					return fileNotFoundError.Redirect;
+				}
+			}
+			return null;
 		}
 
 		/// <summary>

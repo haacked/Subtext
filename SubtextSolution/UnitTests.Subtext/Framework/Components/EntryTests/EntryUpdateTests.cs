@@ -14,8 +14,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	[TestFixture]
 	public class EntryUpdateTests
 	{
-        string _hostName;
-
 		[Test]
 		[RollBack]
 		public void CanDeleteEntry()
@@ -78,7 +76,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [RollBack]
         public void UpdateEntryCorrectsNumericEntryName()
         {
-            Config.CreateBlog("", "username", "password", _hostName, string.Empty);
+        	UnitTestHelper.SetupBlog();
             BlogInfo info = Config.CurrentBlog;
             Config.UpdateConfigData(info);
 
@@ -100,8 +98,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = UnitTestHelper.GenerateRandomString();
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
 		}
 
 		[TearDown]

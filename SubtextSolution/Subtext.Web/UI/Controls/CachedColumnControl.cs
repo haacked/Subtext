@@ -25,10 +25,6 @@ namespace Subtext.Web.UI.Controls
 	[PartialCaching(30,null,null,"Blogger",true)]
 	public class CachedColumnControl : BaseControl
 	{
-		public CachedColumnControl()
-		{
-		}
-
 		protected override void Render(HtmlTextWriter writer)
 		{
 			base.Render (writer);
@@ -36,7 +32,7 @@ namespace Subtext.Web.UI.Controls
 			   
 				writer.Write(@"<div class=""debug"">");
 				writer.Write("<p>Cached @ " + DateTime.Now.ToString(CultureInfo.CurrentCulture) + "</p> ");
-				writer.Write("<p>Control " + this.GetType().ToString() + "</p>");
+				writer.Write("<p>Control " + this.GetType() + "</p>");
 				writer.Write("</div>");
 			#endif
 		}

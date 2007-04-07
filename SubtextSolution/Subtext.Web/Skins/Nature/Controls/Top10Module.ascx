@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Top10Module" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Top10Module" %>
 <div class="popposts">
 	<div class="poptitle">Popular Posts</div>
 	<asp:Repeater id="Top10Entries" runat="server">

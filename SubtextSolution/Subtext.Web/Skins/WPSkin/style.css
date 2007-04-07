@@ -44,7 +44,14 @@ body
 }
 
 /*The title of the blog*/
-.headermaintitle
+#header h1
+{
+	text-align: center;
+	margin: 0 auto;
+	padding: 60px 0 0 0;
+}
+
+h1 a.headermaintitle
 {
 	font-family : 'Lucida Grande', Verdana, Arial, Sans-Serif;
 }
@@ -260,4 +267,137 @@ div.previousNext
 div.previousNext a
 {
 	font-size: 1.2em;
+}
+
+/* --- { comments } ----------------------- */
+#comments
+{
+	clear: both;	
+}
+
+#commentform h3
+{
+	margin: 0;
+	padding: 10px 0 4px 0;
+	clear: both;
+}
+
+#comments h2, #commentform h2
+{
+	font-size: 1.3em;
+	display: block;
+	border-bottom: solid 1px #999;
+	margin: 1.5em 0 1em 0;
+}
+
+div.comment
+{
+	margin: 0 0 1em 0;
+	clear: both;
+}
+
+div.comment .commentInfo
+{
+	color: #333333;
+	margin-bottom: .2em;
+	padding-left: 26px;
+	height: 22px;
+	display: block;
+	background: url(images/CommentIcon.gif) no-repeat 0 .1em;
+	font-size: .8em;
+}
+
+div.comment h3
+{
+	color: #999;
+	margin: 0;
+	padding-top: 10px;
+	clear: both;
+	font-size:.9em;
+}
+
+div.comment .commentText
+{
+	display: block;
+	padding: 10px 5px 10px 5px;
+	float:left;
+}
+
+div.author .commentText
+{
+	background: #ffffef url(images/CommentAuthorGradient.gif) repeat-x top left;
+	border: solid 1px #967758;
+}
+
+img.avatar
+{
+	width: 50px;
+	border: solid 1px #000;
+}
+
+div.gravatar
+{
+	width: 40px;
+	height: 40px;
+	float: left;
+	margin: 5px;
+	padding: 0;
+}
+
+div.gravatar img
+{
+}
+
+div.comment div.commentBody
+{
+	float: left;
+	width: 420px;
+}
+
+h1, h2.postTitle
+{
+	color: #333;
+	font-family: Helvetica,Arial,Verdana,sans-serif;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: 1.45;
+	margin-top: 45px;
+	margin-bottom: 15px;
+	text-align: left;
+	
+}
+
+h2.postTitle a
+{
+	color: #333;
+	text-decoration: none;
+}
+
+h2.postTitle a:hover
+{
+	color:#c00;
+}
+
+span.postTitleDate
+{
+	color: #aaa;
+	font: bold 1em arial, helvetica, sans-serif;
+}
+
+p.postfooter
+{
+	color: #888;
+}
+
+/*---------{commentform}-----------*/
+
+#commentform div.label
+{
+	margin-top: 10px;
+}
+
+#commentform div.label label
+{
+	color: #334;
 }

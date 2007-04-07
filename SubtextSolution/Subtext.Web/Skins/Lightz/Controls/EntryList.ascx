@@ -1,4 +1,4 @@
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.EntryList" %>
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.EntryList" %>
 <%@ Import Namespace = "Subtext.Framework" %>
 <div class=block>
 <h1 class="block_title"><asp:Literal ID = "EntryCollectionTitle" Runat = "server" /></h1>

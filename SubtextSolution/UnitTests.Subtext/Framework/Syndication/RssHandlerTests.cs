@@ -35,13 +35,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			DateTime dateCreated = DateTime.Now;
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, dateCreated);
-			int id = Entries.Create(entry); //persist to db.
+			Entries.Create(entry); //persist to db.
 
 			XmlNodeList itemNodes = GetRssHandlerItemNodes(context.ResponseStringBuilder);
 			Assert.AreEqual(1, itemNodes.Count, "expected one item nodes.");
 
 			string urlFormat = "http://{0}/archive/{1:yyyy/MM/dd}/{2}.aspx";
-			string expectedUrl = string.Format(urlFormat, hostName, dateCreated, id);
+			string expectedUrl = string.Format(urlFormat, hostName, dateCreated, "testtitle");
 
 			Assert.AreEqual("testtitle", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the title.");
 			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("link").InnerText, "Not what we expected for the link.");

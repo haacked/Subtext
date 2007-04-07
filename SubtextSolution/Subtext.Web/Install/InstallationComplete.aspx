@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext Installation: Installation Complete" MasterPageFile="~/Install/InstallTemplate.Master" Codebehind="InstallationComplete.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Install.InstallationComplete" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Installation: Installation Complete" MasterPageFile="~/Install/InstallTemplate.Master" Codebehind="InstallationComplete.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Install.InstallationComplete" %>
 
 <asp:Content id="subTitleContent" ContentPlaceHolderID="MPSubTitle" runat="server">Installation Is Complete</asp:Content>
 <asp:Content ID="mainContent" ContentPlaceHolderID="Content" runat="server">

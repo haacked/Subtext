@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Contact" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Contact" %>
 <h1 class="block_title">Contact me</h1>
 <div class="block">
 	<div class="post">
@@ -7,7 +7,8 @@
 			<div id="postcomment">
 				<div>
 					Name<br />
-					<asp:TextBox id="tbName" Size = "50" runat="server" Width="400px" CssClass="text"></asp:TextBox>
+					<asp:TextBox id="tbName" Size = "50" runat="server" Width="400px" CssClass="text" />
+					<asp:RequiredFieldValidator id="RequiredFieldValidator3" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName" Display="Dynamic">*</asp:RequiredFieldValidator>
 				</div>
 				<div>
 					Email<br />

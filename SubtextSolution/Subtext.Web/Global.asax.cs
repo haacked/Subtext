@@ -24,9 +24,9 @@ using log4net;
 using log4net.Appender;
 using log4net.Repository.Hierarchy;
 using MagicAjax;
+using Subtext.Data;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Security;
@@ -172,7 +172,7 @@ namespace Subtext
 			#if DEBUG
 				HttpApplication application = (HttpApplication)sender;
 				HttpContext context = application.Context;
-				if (context.Request.Path.EndsWith(".aspx", StringComparison.InvariantCultureIgnoreCase))
+				if (context.Request.Path.EndsWith(".aspx", StringComparison.InvariantCultureIgnoreCase) && context.Request.ContentType == "text/html")
 				{
 					Version v =  VersionInfo.FrameworkVersion; //t.Assembly.GetName().Version;
 					string machineName = Environment.MachineName;
@@ -192,9 +192,22 @@ namespace Subtext
 							}	
 						}
 					}
-					catch(Exception appe)
+					//We don't care about exceptions in this case.
+					//But we don't want to catch OutOfMemoryException etc...
+					catch(FormatException)
 					{
-						Log.Error("DEBUG: Error in Application_EndRequest occurred.", appe);
+					}
+					catch(ArgumentException)
+					{
+					}
+					catch(NullReferenceException)
+					{
+					}
+					catch(ApplicationException)
+					{
+					}
+					catch(SecurityException)
+					{
 					}
 
 					try

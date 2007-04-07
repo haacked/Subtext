@@ -205,3 +205,46 @@ body
 	/* image being displayed */
 	
 }
+
+/* -------- Share Options ------ */
+div.share
+{
+	/* the wrapper for the ShareThisPost control */
+}
+
+div.share span
+{
+	/* wraps the "Share This Post" text */
+}
+
+div.share ul
+{
+	/* container for list of share-links */
+}
+
+div.share ul li
+{
+	/* each individual share-link */
+}
+
+div.share ul li a
+{
+}
+
+div.share ul li:before 
+{
+	/* example:
+	
+	content: "| "; 
+	
+	*/
+}
+
+div.share ul li:first-child:before, #nav li:first-child:before
+{
+	/* example:
+	
+	content: ""; 
+	
+	*/
+}

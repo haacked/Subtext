@@ -136,13 +136,13 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Import\DotText095ImportProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Import\DotText095ImportProvider.cs" />
     <Compile Include="Installer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InstallerProvider.cs" />
+    <Compile Include="InstallerProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -153,6 +153,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SqlInstallerProvider.cs" />
+    <Compile Include="SqlInstaller.cs" />
     <EmbeddedResource Include="Scripts\ImportDotText095.sql" />
     <EmbeddedResource Include="Scripts\Installation.01.00.00.sql" />
     <EmbeddedResource Include="Scripts\Installation.01.05.00.sql" />
@@ -174,6 +175,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\Installation.01.09.03.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\Installation.01.09.05.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Installation.01.09.04.sql" />

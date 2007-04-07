@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext Admin - Referrers" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Referrers.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Referrers" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Referrers" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Referrers.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Referrers" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
@@ -17,7 +17,7 @@
 		HeaderText="Referrers" Collapsible="False" LinkStyle="Image" LinkBeforeHeader="True" LinkText="[toggle]">
 		<ASP:Repeater id="rprSelectionList" runat="server">
 			<HeaderTemplate>
-				<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0">
+				<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
 					<tr>
 						<th>
 							Referred</th>

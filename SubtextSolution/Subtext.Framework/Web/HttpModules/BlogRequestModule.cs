@@ -16,13 +16,6 @@ namespace Subtext.Web.HttpModules
 	public class BlogRequestModule : IHttpModule
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="BlogRequestModule"/> class.
-		/// </summary>
-		public BlogRequestModule()
-		{
-		}
-
-		/// <summary>
 		/// Initializes a module and prepares it to handle
 		/// requests.
 		/// </summary>

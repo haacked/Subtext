@@ -14,8 +14,10 @@
 #endregion
 
 using System;
+using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Installation;
+using Subtext.Scripting.Exceptions;
 
 namespace Subtext.Web.HostAdmin.Upgrade
 {
@@ -26,9 +28,9 @@ namespace Subtext.Web.HostAdmin.Upgrade
 	/// This page will ONLY be displayed if there are no 
 	/// blog configurations within the database.
 	/// </remarks>
-	public partial class Default : System.Web.UI.Page
+	public partial class Default : Page
 	{
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
 			if(InstallationManager.CurrentInstallationState == InstallationState.Complete)
 			{
@@ -59,7 +61,30 @@ namespace Subtext.Web.HostAdmin.Upgrade
 
 		private void btnUpgrade_Click(object sender, EventArgs e)
 		{
-			Installer.Upgrade();
+			plcHolderUpgradeMessage.Visible = false;
+			try
+			{
+				Installer.Upgrade();
+				Response.Redirect("UpgradeComplete.aspx");
+			}
+			catch (SqlScriptExecutionException ex)
+			{
+				plcHolderUpgradeMessage.Visible = true;
+				
+				if (Installer.IsPermissionDeniedException(ex))
+				{
+					messageLiteral.Text = "<p class=\"error\">The database user specified in web.config does not have enough "
+						+ "permission to perform the installation.  Please give the user database owner (dbo) rights and try again. "
+						+ "You may remove them later.</p>";
+					
+					return;
+				}
+
+				messageLiteral.Text = "<p>Uh oh. Something went wrong with the installation.</p><p>" + ex.Message + "</p><p>" + ex.GetType().FullName + "</p>";
+				messageLiteral.Text += "<p>" + ex.StackTrace + "</p>";
+				
+				return;
+			}
 			Response.Redirect("UpgradeComplete.aspx");
 		}
 	}

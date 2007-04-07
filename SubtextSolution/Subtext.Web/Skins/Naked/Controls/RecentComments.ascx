@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.RecentComments" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.RecentComments" %>
 <div class="title">Recent Comments.</div>
 <div id="recentComments">
 	<asp:Repeater id="feedList" Runat="server" OnItemCreated="EntryCreated">

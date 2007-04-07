@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText" default="recreate-db">
+
+	<target name="get-publishing-properties">
+	
+		<if test="${not property::exists('CCNetWorkingDirectory')}"> 
+			<fail message="CCNetWorkingDirectory property not set, so can't create distribution files" />
+		</if>
+	
+		<property name="utilities.dir" value="${CCNetWorkingDirectory}\Utilities\Testing" />
+		<property name="solution.dir" value="${CCNetWorkingDirectory}\SubtextSolution" />
+		
+		<property name="DropDBScript.bat" value="RecreateLocalSubtextDatabase.bat" />
+		<property name="CreateNewDBScript.bat" value="InstallDatabaseLocally.bat" />
+		
+		
+		<property name="DropDBScript.path" value="${utilities.dir}\${DropDBScript.bat}" />
+		<property name="CreateNewDBScript.path" value="${utilities.dir}\${CreateNewDBScript.bat}" />
+		<property name="sqlScripts.dir" value="${CCNetWorkingDirectory}\SubtextSolution\Subtext.Installation\Scripts" />
+		
+		<property name="tmp.dir" value="${CCNetWorkingDirectory}\tmp" />
+	</target>
+	
+	<target name="copy-files" depends="get-publishing-properties">
+		<mkdir dir="${tmp.dir}" />
+		<copy file="${DropDBScript.path}" todir="${tmp.dir}" >
+			<filterchain>
+				<replacestring from="PAUSE" to="" />
+			</filterchain>
+		</copy>
+		<copy file="${CreateNewDBScript.path}" todir="${tmp.dir}" >
+			<filterchain>
+				<replacestring from="..\..\SubTextSolution\Subtext.Installation\Scripts\" to="" />
+				<replacestring from="PAUSE" to="" />
+			</filterchain>
+		</copy>
+		
+		<copy todir="${tmp.dir}" failonerror="false">
+			<fileset basedir="${sqlScripts.dir}">
+				<include name="*.sql" />
+			</fileset>
+			<filterchain>
+				<replacestring from="&lt;dbUser,varchar,dbo&gt;" to="dbo" />
+			</filterchain>
+		</copy>
+		
+		
+	</target>
+
+	<target name="recreate-db" depends="copy-files">
+		<exec program="${tmp.dir}\${DropDBScript.bat}"
+			workingdir="${tmp.dir}"
+			failonerror="true"
+			/>
+		<exec program="${tmp.dir}\${CreateNewDBScript.bat}"
+			workingdir="${tmp.dir}"
+			failonerror="true"
+			/>
+		<call target="cleanup" />
+	</target>
+
+	<target name="cleanup" depends="get-publishing-properties">
+		<delete dir="${tmp.dir}" failonerror="false" />		
+	</target>
+
+</project>

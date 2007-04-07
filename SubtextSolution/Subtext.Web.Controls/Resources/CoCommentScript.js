@@ -1,4 +1,4 @@
- var blogTool = "{0}"
+ var blogTool = "{0}";
  var blogURL = "{1}";
  var blogTitle   = "{2}";
  var postTitle = "{3}";
