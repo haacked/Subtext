@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.RelatedLinks" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.RelatedLinks" %>
 <div class = "relatedlinks">
 	<div class = "relatedlinkstitle">
 		Related Posts

@@ -35,7 +35,7 @@ namespace Subtext.Framework.Data
 {
 	/// <summary>
 	/// Contains helper methods for getting blog entries from the database 
-	/// into objects such as <see cref="List<EntryDay>"/>
+	/// into objects such as List of EntryDay.
 	/// </summary>
 	public static class DataHelper
 	{
@@ -123,6 +123,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="reader">The reader.</param>
 		/// <returns></returns>
+        /// <param name="buildLinks"></param>
         public static ICollection<EntryDay> LoadEntryDayCollection(IDataReader reader, bool buildLinks)
 		{
 			DateTime dt = new DateTime(1900, 1, 1);
@@ -137,7 +138,8 @@ namespace Subtext.Framework.Data
 					day = new EntryDay(dt);
 					edc.Add(day);
 				}
-				day.Add(DataHelper.LoadEntry(reader, buildLinks));
+				if(day != null)
+					day.Add(LoadEntry(reader, buildLinks));
 			}
 			return edc;
 		}
@@ -345,7 +347,7 @@ namespace Subtext.Framework.Data
 			entry.Body = ReadString(reader, "Text");
 			entry.Title = ReadString(reader, "Title");
 			entry.PostConfig = (PostConfig)(ReadInt32(reader, "PostConfig", (int)PostConfig.None));			
-			entry.DateSyndicated = DataHelper.ReadDate(reader, "DateSyndicated");
+			entry.DateSyndicated = ReadDate(reader, "DateSyndicated");
 	
 			if(buildLinks)
 			{
@@ -503,7 +505,7 @@ namespace Subtext.Framework.Data
 		public static BlogInfo LoadBlog(IDataReader reader)
 		{
 			BlogInfo info = new BlogInfo();
-			info.Id = DataHelper.ReadInt32(reader, "BlogId");
+			info.Id = ReadInt32(reader, "BlogId");
 
 			info.ownerId = ReadGuid(reader, "OwnerId");
 			info.ApplicationName = ReadString(reader, "ApplicationName");
@@ -566,13 +568,12 @@ namespace Subtext.Framework.Data
         public static ICollection<ArchiveCount> LoadArchiveCount(IDataReader reader)
 		{
 			const string dateformat = "{0:00}/{1:00}/{2:0000}";
-			string dt; //
-			ArchiveCount ac;// new ArchiveCount();
+			
             ICollection<ArchiveCount> acc = new Collection<ArchiveCount>();
 			while(reader.Read())
 			{
-				ac = new ArchiveCount();
-				dt = string.Format(CultureInfo.InvariantCulture, dateformat, ReadInt32(reader, "Month"),ReadInt32(reader, "Day"),ReadInt32(reader, "Year"));
+				ArchiveCount ac = new ArchiveCount();
+				string dt = string.Format(CultureInfo.InvariantCulture, dateformat, ReadInt32(reader, "Month"),ReadInt32(reader, "Day"),ReadInt32(reader, "Year"));
 				// FIX: BUG SF1423271 Archives Links
 				ac.Date = DateTime.ParseExact(dt,"MM/dd/yyyy",CultureInfo.InvariantCulture);
                 
@@ -629,9 +630,10 @@ namespace Subtext.Framework.Data
 			kw.ReplaceFirstTimeOnly = (bool)reader["ReplaceFirstTimeOnly"];
 			kw.CaseSensitive = (bool)reader["CaseSensitive"];
 			kw.Text = ReadString(reader, "Text");
+			kw.Rel = ReadString(reader, "Rel");
 			if(reader["Title"] != DBNull.Value)
 			{
-				kw.Title = DataHelper.CheckNullString(reader["Title"]);
+				kw.Title = CheckNullString(reader["Title"]);
 			}
 			kw.Url = ReadString(reader, "Url");
 			kw.Word = ReadString(reader, "Word");
@@ -660,6 +662,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="reader">Reader.</param>
 		/// <returns></returns>
+		/// <param name="info"></param>
 		public static void LoadHost(IDataReader reader, HostInfo info)
 		{
 			info.ownerId = ReadGuid(reader, "OwnerId");
@@ -722,6 +725,7 @@ namespace Subtext.Framework.Data
 		/// <param name="reader">The reader.</param>
 		/// <param name="columnName">Name of the column.</param>
 		/// <returns></returns>
+		/// <param name="defaultValue"></param>
 		public static int ReadInt32(IDataReader reader, string columnName, int defaultValue)
 		{
 			try
@@ -838,7 +842,7 @@ namespace Subtext.Framework.Data
 				else
 					return IPAddress.None;
 			}
-			catch(System.FormatException)
+			catch(FormatException)
 			{
 				return IPAddress.None;
 			}
@@ -863,11 +867,11 @@ namespace Subtext.Framework.Data
 				else
 					return null;
 			}
-			catch(System.IndexOutOfRangeException)
+			catch(IndexOutOfRangeException)
 			{
 				return null;
 			}
-			catch(System.FormatException)
+			catch(FormatException)
 			{
 				return null;
 			}
@@ -890,6 +894,7 @@ namespace Subtext.Framework.Data
 		/// <param name="reader">The reader.</param>
 		/// <param name="columnName">Name of the column.</param>
 		/// <returns></returns>
+		/// <param name="defaultValue"></param>
 		public static DateTime ReadDate(IDataReader reader, string columnName, DateTime defaultValue)
 		{
 			try

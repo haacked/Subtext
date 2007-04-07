@@ -15,6 +15,7 @@
 
 using System;
 using System.Web;
+using System.Web.UI;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Installation;
@@ -35,7 +36,7 @@ namespace Subtext.Framework
 		/// </value>
 		public static bool IsInstallationActionRequired(Version assemblyVersion)
 		{
-			if(HttpContext.Current != null && HttpContext.Current.Application["NeedsInstallation"] != null)
+			if (HttpContext.Current != null && HttpContext.Current.Application["NeedsInstallation"] != null)
 			{
 				return (bool)HttpContext.Current.Application["NeedsInstallation"];
 			}
@@ -91,24 +92,16 @@ namespace Subtext.Framework
 		public static bool InstallationActionRequired(Exception unhandledException, Version assemblyVersion)
 		{
 			if (unhandledException is BlogDoesNotExistException)
-			{
 				return true;
-			}
 
 			if (unhandledException is HostDataDoesNotExistException)
-			{
 				return true;
-			}
 
 			if (unhandledException is HostNotConfiguredException)
-			{
 				return true;
-			}
 
 			if (Installer.IsInstallationException(unhandledException))
-			{
 				return true;
-			}
 
 			switch(Installer.InstallationStatus)
 			{
@@ -162,6 +155,20 @@ namespace Subtext.Framework
 			get
 			{
 				return UrlFormats.IsInSpecialDirectory("HostAdmin");
+			}
+		}
+
+		/// <summary>
+		/// Determines whether the requested page is in the Install directory.
+		/// </summary>
+		/// <returns>
+		/// 	<c>true</c> if is in install directory; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInUpgradeDirectory
+		{
+			get
+			{
+				return UrlFormats.IsInSpecialDirectory("HostAdmin/Upgrade");
 			}
 		}
 

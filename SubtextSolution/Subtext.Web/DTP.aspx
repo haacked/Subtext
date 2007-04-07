@@ -1,4 +1,4 @@
-﻿<%@ Page language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Pages.SubtextMasterPage" %>
+﻿<%@ Page Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Pages.SubtextMasterPage" %>
 <%@ Import namespace="Subtext.Framework.Configuration"%>
 <%@ Import namespace="Subtext.Framework"%>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
@@ -19,11 +19,9 @@
 		<link id="Rsd" rel="EditURI" type="application/rsd+xml" title="RSD" runat="server" />
 		<link id="AtomLink" title="RSS" type="application/rss+xml" rel="alternate" runat="Server" />
 		<st:ScriptTag id="commonJs" src="~/Scripts/common.js" runat="server" />
-		<st:ScriptTag id="tableEffectsJs" src="~/Scripts/tableEffects.js" runat="server" />
-		<st:ScriptTag id="blogInfoScript" runat="server" src="~/Scripts/BlogInfo.js" />
 		<script type="text/javascript">
 			<%= AllowedHtmlJavascriptDeclaration %>
-			var subtextBlogInfo = new blogInfo('<%= BlogInfo.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>');
+			var subtextBlogInfo = new blogInfo('<%= Config.CurrentBlog.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>');
 		</script>
 		<asp:Literal ID="scripts" Runat="server" />
 		<asp:PlaceHolder ID="coCommentPlaceholder" Runat="server" />

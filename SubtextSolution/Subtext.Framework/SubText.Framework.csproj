@@ -239,9 +239,10 @@
     <Compile Include="Configuration\Config.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Configuration\ConfigurationFlag.cs">
+    <Compile Include="Configuration\ConfigurationFlags.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Configuration\FriendlyUrlSettings.cs" />
     <Compile Include="Configuration\SkinConfig.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -262,9 +263,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\SortDirection.cs" />
-    <Compile Include="Data\SqlErrorMessage.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Data\Transformer.cs" />
     <Compile Include="DateTimeHelper.cs">
       <SubType>Code</SubType>

@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext Admin - Import Export" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ImportExport.aspx.cs" AutoEventWireup="false" MaintainScrollPositionOnPostback="true" Inherits="Subtext.Web.Admin.Pages.ImportExportPage" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Import Export" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ImportExport.aspx.cs" AutoEventWireup="false" MaintainScrollPositionOnPostback="true" Inherits="Subtext.Web.Admin.Pages.ImportExportPage" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
@@ -16,7 +16,8 @@
 		HeaderText="Import/Export" Collapsible="False">
 			
 		<fieldset>
-			<legend>Persist this blog to BlogML Format.</legend>
+			<legend>Import &amp; Export BlogML files.</legend>
+			<h4>Export to BlogML</h4>
 			<p>
 				This function will generate BlogML for your blog and output it as an xml file. 
 				After the BlogML generation phase you will be presented with a link to the 
@@ -51,6 +52,15 @@
 		
 		<fieldset>
 			<legend>Clear Blog Content.</legend>
+			<p>
+				<asp:FileUpload ID="importBlogMLFile" runat="server" runat="server" />
+				<asp:RequiredFieldValidator ID="fileRequired" runat="server" ControlToValidate="importBlogMLFile" ErrorMessage="Please specify a BlogML File" ValidationGroup="importGroup" />
+			</p>
+			<p>
+				<asp:Button id="btnLoad" runat="server" Text="Load!" CssClass="buttonSubmit" ValidationGroup="importGroup"></asp:Button>
+			</p>
+			<hr />
+			<h4>Clear Blog Content</h4>
 			<p>
 				This will remove all content (Entries, Comments, Track/Ping-backs, Statistices, etc...) from this blog.<br />
 				After doing this, all content will be lost <strong>forever!</strong>

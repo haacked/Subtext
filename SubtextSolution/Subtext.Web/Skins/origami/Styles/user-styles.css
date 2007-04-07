@@ -1,2 +1,6 @@
 /* CSS Document */
 
+#lightbox #lightboxDetails
+{
+	font-size: 1em ! important;
+}

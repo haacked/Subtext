@@ -119,7 +119,7 @@ namespace UnitTests.Subtext.Framework.Import
 				reader = BlogMLReader.Create(new SubtextBlogMLProvider());
                 
                 // Now read it back in.
-                Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "1", ""), "Could not create the blog for this test");
+                Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", UnitTestHelper.GenerateRandomString(), "test", Config.CurrentBlog.Host + "1", ""), "Could not create the blog for this test");
                 UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "1", "");
         		Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("1"), "Looks like we've cached our old blog.");
 				memoryStream.Position = 0;

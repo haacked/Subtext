@@ -16,7 +16,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 		[RollBack]
 		public void NewPostWithCategoryCreatesEntryWithCategory()
 		{
-			UnitTestHelper.SetupBlogWithUserAndPassword("username", "password");
+			string username = UnitTestHelper.GenerateRandomString();
+			UnitTestHelper.SetupBlogWithUserAndPassword(username, "password");
 			Config.CurrentBlog.AllowServiceAccess = true;
 
 			LinkCategory category = new LinkCategory();
@@ -32,7 +33,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 			post.title = "A unit testing title";
 			post.dateCreated = DateTime.Now;
 
-			string result = api.newPost(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), "username", "password", post, true);
+			string result = api.newPost(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), username, "password", post, true);
 			int entryId = int.Parse(result);
 
 			Entry entry = Entries.GetEntry(entryId, PostConfig.None, true);
@@ -44,8 +45,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
     	[Test]
     	[RollBack]
     	public void NewPostAcceptsNullCategories()
-    	{
-			UnitTestHelper.SetupBlogWithUserAndPassword("username", "password");
+		{
+			string username = UnitTestHelper.GenerateRandomString();
+			UnitTestHelper.SetupBlogWithUserAndPassword(username, "password");
 			Config.CurrentBlog.AllowServiceAccess = true;
 
 			MetaWeblog api = new MetaWeblog();
@@ -55,7 +57,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 			post.title = "A unit testing title";
     		post.dateCreated = DateTime.Now;
     		
-    		string result = api.newPost(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), "username", "password", post, true);
+    		string result = api.newPost(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), username, "password", post, true);
 			int.Parse(result);
     	}
 
@@ -63,7 +65,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [RollBack]
         public void DeletePostDeletesPost()
         {
-            UnitTestHelper.SetupBlogWithUserAndPassword("username", "password");
+			string username = UnitTestHelper.GenerateRandomString();
+            UnitTestHelper.SetupBlogWithUserAndPassword(username, "password");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             MetaWeblog api = new MetaWeblog();
@@ -76,7 +79,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Categories.Add("Test");
             Entries.Create(entry);
 
-            api.deletePost(String.Empty, entry.Id.ToString(CultureInfo.InvariantCulture), "username", "password", true);
+            api.deletePost(String.Empty, entry.Id.ToString(CultureInfo.InvariantCulture), username, "password", true);
 
             Assert.IsNull(Entries.GetEntry(entry.Id, PostConfig.None,false));
         }
@@ -85,11 +88,12 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [RollBack]
         public void GetRecentPostsReturnsRecentPosts()
         {
-			UnitTestHelper.SetupBlogWithUserAndPassword("username", "password");
+        	string username = UnitTestHelper.GenerateRandomString();
+			UnitTestHelper.SetupBlogWithUserAndPassword(username, "password");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             MetaWeblog api = new MetaWeblog();
-            Post[] posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
+			Post[] posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), username, "password", 10);
             Assert.AreEqual(0, posts.Length);
 
             string category1Name = UnitTestHelper.GenerateRandomString();

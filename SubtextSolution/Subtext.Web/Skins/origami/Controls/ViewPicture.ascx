@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.ViewPicture" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.ViewPicture" %>
 <div class="singleImage">
 	<div class="title"><asp:Literal id="Title" runat="server" /></div>
 	<div class="image">

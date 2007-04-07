@@ -33,13 +33,12 @@ namespace Subtext.Web.Admin.Pages
 		private readonly static ILog log = new Log();
 		private int pageIndex;
 		private int _entryID = NullValue.NullInt32;
-
-		public Referrers()
-			: base()
-		{
-			this.TabSectionId = "Stats";
-		}
-
+	    
+	    public Referrers()
+	    {
+            this.TabSectionId = "Stats";
+	    }
+	
 		protected void Page_Load(object sender, EventArgs e)
 		{
 

@@ -84,7 +84,7 @@ namespace Subtext.Framework.Syndication
 					{
 						return DateTime.Parse(IfNonMatchHeader);
 					}
-					catch (System.FormatException e)
+					catch(FormatException e)
 					{
 						Log.Info("Format Exception occured Grabbing PublishDateOfLastFeedItemReceived", e);
 					}
@@ -127,10 +127,13 @@ namespace Subtext.Framework.Syndication
 					//We need to allow some margin of error.
 					return Math.Abs(ts.TotalMilliseconds) <= 500;
 				}
-				catch (Exception e)
+				catch(FormatException)
 				{
-					Log.Info("Exception while checking the local cache.", e);
+					//swallow it for now.
+					//Some browsers send a funky last modified header.
+					//We don't want to throw an exception in those cases.
 				}
+
 			}
 			return false;
 		}
@@ -370,7 +373,7 @@ namespace Subtext.Framework.Syndication
 					{
 						current.Response.StatusCode = HTTP_MOVED_PERMANENTLY;
 						current.Response.Status = HTTP_MOVED_PERMANENTLY + " Moved Permanently";
-						current.Response.RedirectLocation = new Uri(new Uri("http://feeds.feedburner.com/"), Config.CurrentBlog.FeedBurnerName).ToString();
+						current.Response.RedirectLocation = Config.CurrentBlog.UrlFormats.FeedBurnerUrl.ToString();
 						return true;
 					}
 				}

@@ -1,4 +1,4 @@
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.MonthList" %>
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.MonthList" %>
 <%@ Register TagPrefix="uc1" TagName="EntryList" Src="EntryList.ascx" %>
 <%@ Import Namespace = "Subtext.Framework" %>
 <div id="entries">

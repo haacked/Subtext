@@ -58,5 +58,18 @@ namespace Subtext.Framework.UI.Skinning
 				_src = value;
 			}
 		}
+
+		/// <summary>
+		/// Whether or not to defer loading the script till page is loaded. 
+		/// Be careful which scripts you use this with.
+		/// </summary>
+		[XmlAttribute]
+		public bool Defer
+		{
+			get { return this.defer; }
+			set { this.defer = value; }
+		}
+
+		private bool defer;
 	}
 }

@@ -760,7 +760,8 @@ body > #top-link {position:fixed;}
 						border-color:#ede5d9;
 						margin-top:1.5em;
 						padding-top:1em;
-						margin-bottom:0
+						margin-bottom:0;
+						clear:both;
 					}
 					.post .meta a {
 						text-transform:capitalize;
@@ -879,19 +880,26 @@ body > #top-link {position:fixed;}
 				background:none;
 				
 			}
-				#main #commentList li a{
+				#main #commentList li a {
 					margin:0;
 					padding:0;
 					background:none;
 				}
 			
-				.comment-body {
-					border-width:1px 1px 0 1px;
+				.comment-body
+				{
+				    border-width:1px 1px 0 1px;
 					border-style:solid;
 					padding:15px;
 					position:relative;
 					min-height:62px;
 				}
+				.author .comment-body cite
+				{
+				    border-bottom-color:#607F26;
+				}
+				.author .comment-body{ background: #fff url(../images/bg_commentAuthorGradient.png) repeat-x top left; }
+				.author .comment-body .comment-text { color:#3B0B00 ! important; }
 							
 				.normal-comment .comment-body {
 					border-color:#628636;
@@ -901,8 +909,10 @@ body > #top-link {position:fixed;}
 					border-color:#D78707;
 				}
 				
-				.preview-comment .comment-body {
-					border-color:#eee;
+				.preview-comment .comment-body
+				{
+				    border-bottom-width:1px;
+					border-color:#628636;
 				}
 				
 				.preview-comment {margin-bottom:20px;}

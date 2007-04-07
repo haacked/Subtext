@@ -1,5 +1,5 @@
 <%@ Import Namespace = "Subtext.Framework" %>
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.SingleColumn" %>
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.SingleColumn" %>
 <%@ Register TagPrefix="uc1" TagName="CategoryList" Src="CategoryList.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Syn" Src="Syndications.ascx" %>
 <div id="links">

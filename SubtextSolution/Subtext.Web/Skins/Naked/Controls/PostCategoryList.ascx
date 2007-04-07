@@ -1,4 +1,4 @@
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.PostCategoryList" %>
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.PostCategoryList" %>
 <%@ Import Namespace = "Subtext.Framework" %>
 <asp:Repeater ID="CatList" Runat="server" OnItemCreated="CategoryCreated">
 	<HeaderTemplate>

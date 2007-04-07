@@ -26,7 +26,7 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public  class CategoryDisplay : CachedColumnControl
 	{
-		protected Subtext.Web.UI.Controls.CategoryList Categories;
+		protected CategoryList Categories;
 
 		protected override void OnLoad(EventArgs e)
 		{

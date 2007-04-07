@@ -81,7 +81,7 @@ namespace Subtext.Web.Controls
 		/// <returns></returns>
 		protected virtual string EncryptAnswer(string answer)
 		{
-			return EncryptString(answer + "|" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+			return EncryptString(answer + "|" + DateTime.Now.ToString("yyyy/MM/dd HH:mm", CultureInfo.InvariantCulture));
 		}
 
 		/// <summary>

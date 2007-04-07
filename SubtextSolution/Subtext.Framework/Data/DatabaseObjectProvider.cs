@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
@@ -1057,23 +1056,18 @@ namespace Subtext.Framework.Data
 
 		public override ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly)
 		{
-			SqlParameter[] p ={DataHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,catType),
-							  DataHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
+			SqlParameter[] p ={DataHelper.MakeInParam("@CategoryType", SqlDbType.TinyInt, 1, catType),
+							  DataHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
 								  BlogIdParam};
 
-			IDataReader reader = GetReader("subtext_GetAllCategories", p);
-			ICollection<LinkCategory> lcc = new List<LinkCategory>();
-			try
+			using (IDataReader reader = GetReader("subtext_GetCategory", p))
 			{
+				ICollection<LinkCategory> lcc = new List<LinkCategory>();
 				while (reader.Read())
 				{
 					lcc.Add(DataHelper.LoadLinkCategory(reader));
 				}
 				return lcc;
-			}
-			finally
-			{
-				reader.Close();
 			}
 		}
 
@@ -1105,44 +1099,7 @@ namespace Subtext.Framework.Data
 
 		public override LinkCategory GetLinkCategory(int categoryId, bool activeOnly)
 		{
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(categoryId)),
-				DataHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,activeOnly),
-				BlogIdParam
-			};
-
-			IDataReader reader = GetReader("subtext_GetCategory", p);
-
-			try
-			{
-				LinkCategory lc = null;
-
-				if (reader.Read())
-				{
-					lc = DataHelper.LoadLinkCategory(reader);
-				}
-
-				return lc;
-			}
-			finally
-			{
-				reader.Close();
-			}
-		}
-
-		public override LinkCategory GetLinkCategory(string categoryName, bool activeOnly)
-		{
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@CategoryName",SqlDbType.NVarChar,150,categoryName),
-				DataHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,activeOnly),
-				BlogIdParam
-			};
-
-			IDataReader reader = GetReader("subtext_GetCategoryByName", p);
-
-			try
+			using (IDataReader reader = GetLinkCategoryGeneric(categoryId, activeOnly))
 			{
 				if (reader.Read())
 				{
@@ -1151,11 +1108,49 @@ namespace Subtext.Framework.Data
 				}
 				return null;
 			}
-			finally
+		}
+
+		public override LinkCategory GetLinkCategory(string categoryName, bool activeOnly)
+		{
+			using (IDataReader reader = GetLinkCategoryGeneric(categoryName, activeOnly))
 			{
-				reader.Close();
+				if (reader.Read())
+				{
+					LinkCategory lc = DataHelper.LoadLinkCategory(reader);
+					return lc;
+				}
+				return null;		
 			}
 		}
+
+		/// <summary>
+		/// Returns a data reader for the specified category. The Category Key should either 
+		/// be an Int (category id) or a string (category name).
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="categoryKey"></param>
+		/// <param name="isActive"></param>
+		/// <returns></returns>
+		private IDataReader GetLinkCategoryGeneric<T>(T categoryKey, bool isActive)
+		{
+			SqlParameter id = DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, null);
+			SqlParameter name = DataHelper.MakeInParam("@CategoryName", SqlDbType.NVarChar, 150, null);
+
+			if (typeof(T) == typeof(int))
+				id.Value = categoryKey;
+			if (typeof(T) == typeof(string))
+				name.Value = categoryKey;
+
+			SqlParameter[] p = 
+			{
+				id,
+				name,
+				DataHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, isActive),
+				BlogIdParam
+			};
+			return GetReader("subtext_GetCategory", p);
+		}
+
 
 		#endregion
 
@@ -1603,15 +1598,16 @@ namespace Subtext.Framework.Data
 			SqlParameter outParam = DataHelper.MakeOutParam("@KeyWordID", SqlDbType.Int, 4);
 			SqlParameter[] p =
 			{
-				DataHelper.MakeInParam("@Word",SqlDbType.NVarChar,100,keyWord.Word),
-				DataHelper.MakeInParam("@Text",SqlDbType.NVarChar,100,keyWord.Text),
-				DataHelper.MakeInParam("@ReplaceFirstTimeOnly",SqlDbType.Bit,1,keyWord.ReplaceFirstTimeOnly),
-				DataHelper.MakeInParam("@OpenInNewWindow",SqlDbType.Bit,1,keyWord.OpenInNewWindow),
-				DataHelper.MakeInParam("@CaseSensitive",SqlDbType.Bit,1,keyWord.CaseSensitive),
-				DataHelper.MakeInParam("@Url",SqlDbType.NVarChar,255,keyWord.Url),
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,100,keyWord.Title),
-				BlogIdParam,
-				outParam
+				DataHelper.MakeInParam("@Word", SqlDbType.NVarChar, 100, keyWord.Word)
+				,DataHelper.MakeInParam("@Rel", SqlDbType.NVarChar, 100, keyWord.Rel)
+				,DataHelper.MakeInParam("@Text", SqlDbType.NVarChar, 100, keyWord.Text)
+				,DataHelper.MakeInParam("@ReplaceFirstTimeOnly", SqlDbType.Bit, 1, keyWord.ReplaceFirstTimeOnly)
+				,DataHelper.MakeInParam("@OpenInNewWindow", SqlDbType.Bit, 1, keyWord.OpenInNewWindow)
+				,DataHelper.MakeInParam("@CaseSensitive", SqlDbType.Bit, 1, keyWord.CaseSensitive)
+				,DataHelper.MakeInParam("@Url", SqlDbType.NVarChar, 255, keyWord.Url)
+				,DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 100, keyWord.Title)
+				,BlogIdParam
+				,outParam
 			};
 			NonQueryInt("subtext_InsertKeyWord", p);
 			return (int)outParam.Value;

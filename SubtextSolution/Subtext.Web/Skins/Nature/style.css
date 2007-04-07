@@ -65,6 +65,7 @@ a:hover
 	margin:0;
 	border-bottom:2px solid #ffffff;
 	background-image:none;
+	line-height: 0.7em;
 }
 
 #menu 
@@ -178,6 +179,35 @@ a:hover
 .post h2 a
 {
 	color: #000;
+}
+
+.post h3 
+{
+	font-size: 1.6em;
+	border-bottom:none;
+}
+
+.post h4 
+{
+	font-size: 1.4em;
+	border-bottom:none;
+}
+
+.post h5 
+{
+	font-size: 1.2em;
+	border-bottom:none;
+}
+
+.postfoot
+{
+	clear:both;
+}
+
+div.author div.commentText
+{
+	background: #ffffef url(images/CommentAuthorGradient.gif) repeat-x top left;
+	border: solid 1px #967758;
 }
 
 div.comment

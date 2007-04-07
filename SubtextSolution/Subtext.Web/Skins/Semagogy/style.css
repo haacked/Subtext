@@ -398,6 +398,11 @@ dd
 				padding-bottom: 15px;
 			}
 			
+			dl.Comments dl.author dd.Content
+			{
+				background: #ffffef;
+			}
+			
 			dl.Comments dd a
 			{
 				color: #393925;

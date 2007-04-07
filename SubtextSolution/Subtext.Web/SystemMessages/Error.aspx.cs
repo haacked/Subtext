@@ -23,6 +23,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using log4net;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 
 namespace Subtext.Web.Pages
@@ -75,6 +76,11 @@ namespace Subtext.Web.Pages
 				{
 					log.Error("Exception handled by the Error page.", exception);
 					exceptionMsgs.Append("<p>Could not send email. Could be an issue with the mail server settings.</p>");
+				}
+				else if(exception is BlogInactiveException)
+				{
+					log.Warn("Blog Inactive Exception", exception);
+					exceptionMsgs.AppendFormat("<p>{0}</p>", exception.Message);
 				}
 				else
 				{

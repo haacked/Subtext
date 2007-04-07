@@ -1,4 +1,4 @@
-<%@ Page Title="Subtext - Host Admin - Import Wizard" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" language="c#" Codebehind="ImportStart.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.ImportStart" %>
+<%@ Page Title="Subtext - Host Admin - Import Wizard" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" Language="C#" EnableTheming="false"  Codebehind="ImportStart.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.ImportStart" %>
 
 <asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext - Host Admin - Import Wizard</asp:Content>
 <asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server">

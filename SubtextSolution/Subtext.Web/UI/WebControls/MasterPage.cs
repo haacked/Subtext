@@ -64,8 +64,6 @@ namespace Subtext.Web.UI.WebControls
 			set { this.templateFile = value; }
 		}
 
-		public MasterPage() {}
-
 		protected override void AddParsedSubObject(object obj) 
 		{
 			if (obj is ContentRegion) {

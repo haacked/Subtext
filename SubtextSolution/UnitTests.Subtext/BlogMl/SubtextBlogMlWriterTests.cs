@@ -189,13 +189,10 @@ namespace UnitTests.Subtext.BlogML
 			Assert.IsNotNull(firstPostTrackbackNode, "Expected a trackback for the first post");
 		}
 
-		private void CreateBlogAndSetupContext()
+		private static void CreateBlogAndSetupContext()
 		{
-			string hostName = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, ""), "Could not create the blog for this test");
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
-			Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
-
+			UnitTestHelper.SetupBlog();
+			Config.CurrentBlog.Title = "BlogML Import Unit Test Blog";
 			Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
 			Config.CurrentBlog.ImagePath = "/image/";
 		}

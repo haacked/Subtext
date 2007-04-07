@@ -54,7 +54,7 @@ function createToolTipDiv()
 	div.style.border = '3px double black';
 	div.style.padding = '2px;';
 	div.style.backgroundcolor = '#fff';
-	div.style.visibility = 'hidden';
+	div.style.display = 'none';
 	div.style.zindex = '100';
 	div.style.filter = 'filter: progid:DXImageTransform.Microsoft.Shadow(color=gray,direction=135)';
 	document.body.appendChild(div);
@@ -124,7 +124,7 @@ function DDRIVE_positiontip(e){
 		else{
 			DDRIVE_tipobj.style.top = curY + DDRIVE_offsetypoint + "px";
 		}
-		DDRIVE_tipobj.style.visibility = "visible";		
+		DDRIVE_tipobj.style.display = "inline";		
 	}
 }
 
@@ -133,7 +133,7 @@ function DDRIVE_positiontip(e){
 function DDRIVE_hidetip(e){
 	if (ToolTipCompatibleBrowser()){
 		DDRIVE_enabletip = false;
-		DDRIVE_tipobj.style.visibility = "hidden";
+		DDRIVE_tipobj.style.display = "none";
 		DDRIVE_tipobj.style.left = "-1000px";
 		DDRIVE_tipobj.style.backgroundColor = '';
 		DDRIVE_tipobj.style.width = '';
@@ -172,7 +172,7 @@ function AmazonImgTooltip(e){
 			img.src = amazonImgSrc;
 			DDRIVE_tipobj.innerHTML = '<img src=\'' + img.src + '\'/>';
 			DDRIVE_tipobj.style.width = img.width + "px";
-			DDRIVE_tipobj.style.visibility = 'visible';
+			DDRIVE_tipobj.style.display = 'inline';
 			DDRIVE_enabletip = true;
 			return false;
 		}

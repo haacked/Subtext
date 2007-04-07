@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Subtext.Framework.Tracking
 {
-
 	/// <summary>
 	/// Event arguments for the SourceVerification event.
 	/// </summary>

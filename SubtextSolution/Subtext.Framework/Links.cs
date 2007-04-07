@@ -50,11 +50,6 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetLinkCollectionByPostID(PostID);
 		}
 
-		public static ICollection<Link> GetLinksByCategoryID(int catID, bool activeOnly)
-		{
-			return ObjectProvider.Instance().GetLinksByCategoryID(catID, activeOnly);
-		}
-
 		#endregion
 
 		#region Single Link
@@ -80,8 +75,8 @@ namespace Subtext.Framework
 
         public static ICollection<LinkCategory> GetLinkCategoriesByPostID(int postId)
         {
-            List<Link> links = new List<Link>(Links.GetLinkCollectionByPostID(postId));
-            ICollection<LinkCategory> postCategories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            List<Link> links = new List<Link>(GetLinkCollectionByPostID(postId));
+            ICollection<LinkCategory> postCategories = GetCategories(CategoryType.PostCollection, ActiveFilter.None);
             LinkCategory[] categories = new LinkCategory[postCategories.Count];
             postCategories.CopyTo(categories, 0);
 
@@ -104,18 +99,18 @@ namespace Subtext.Framework
 
 		#region LinkCategory
 
-		public static LinkCategory GetLinkCategory(int CategoryID, bool IsActive)
+		public static LinkCategory GetLinkCategory(int categoryId, bool isActive)
 		{
 			//TODO: We need to check this for null and throw a custom 
 			//		exception in the case that the category does not exist.
-			return ObjectProvider.Instance().GetLinkCategory(CategoryID,IsActive);
+			return ObjectProvider.Instance().GetLinkCategory(categoryId, isActive);
 		}
 
-		public static LinkCategory GetLinkCategory(string CategoryName, bool IsActive)
+		public static LinkCategory GetLinkCategory(string categoryName, bool isActive)
 		{
 			//TODO: We need to check this for null and throw a custom 
 			//		exception in the case that the category does not exist.
-			return ObjectProvider.Instance().GetLinkCategory(CategoryName,IsActive);
+			return ObjectProvider.Instance().GetLinkCategory(categoryName, isActive);
 		}
 
 		#endregion

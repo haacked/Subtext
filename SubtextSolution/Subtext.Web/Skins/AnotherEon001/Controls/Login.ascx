@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Login" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Login" %>
 <h3 class = "listtitle">Sign In</h3>
 	<ul class = "list">
 		Username<br /><asp:TextBox CssClass="TextBox" id="tbUserName" runat="server" /><br />

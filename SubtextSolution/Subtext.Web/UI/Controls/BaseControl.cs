@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Web;
 using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -26,11 +27,42 @@ namespace Subtext.Web.UI.Controls
 	/// <summary>
 	/// Summary description for BaseControl.
 	/// </summary>
-	public class BaseControl : System.Web.UI.UserControl
+	public class BaseControl : UserControl
 	{
-		public BaseControl()
+		protected static string Format(string format, params object[] arguments)
 		{
-			
+			return String.Format(format, arguments);
+		}
+
+
+		/// <summary>
+		/// Url encodes the string.
+		/// </summary>
+		/// <param name="s">The s.</param>
+		/// <returns></returns>
+		protected static string UrlEncode(string s)
+		{
+			return HttpUtility.UrlEncode(s);
+		}
+
+		/// <summary>
+		/// Url encodes the string.
+		/// </summary>
+		/// <param name="s">The s.</param>
+		/// <returns></returns>
+		protected static string UrlEncode(Uri s)
+		{
+			return HttpUtility.UrlEncode(s.ToString());
+		}
+
+		/// <summary>
+		/// Url encodes the string.
+		/// </summary>
+		/// <param name="s">The s.</param>
+		/// <returns></returns>
+		protected static string UrlEncode(object s)
+		{
+			return HttpUtility.UrlEncode(s.ToString());
 		}
 
 		private BlogInfo _config;

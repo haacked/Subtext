@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Comments" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Comments" %>
 <div class="post">
 <a name="feedback"></a>
 <div class="moreinfo">
@@ -12,7 +12,7 @@
 		</HeaderTemplate>
 		<ItemTemplate>
 		    <asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />
-			<div class="comment">
+			<div id="<%# Comment.Id %>" class="comment<%# AuthorCssClass %>">
 				<div class="comment_title">
 					<asp:Literal Runat = "server" ID = "Title" />
 				</div>

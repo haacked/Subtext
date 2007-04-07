@@ -231,7 +231,7 @@ namespace UnitTests.Subtext.Framework.Data
 			category.Title = title;
 			category.IsActive = true;
 			category.Description = description;
-			int categoryID = provider.CreateLinkCategory(category);
+			provider.CreateLinkCategory(category);
 		}
 
 		private static void DeleteAllActiveCategories()

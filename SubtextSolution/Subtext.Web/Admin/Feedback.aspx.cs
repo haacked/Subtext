@@ -41,7 +41,7 @@ namespace Subtext.Web.Admin.Pages
 		/// <summary>
 		/// Constructs an image of this page. Sets the tab section to "Feedback".
 		/// </summary>
-	    public Feedback() : base()
+	    public Feedback()
 	    {
             this.TabSectionId = "Feedback";
 	    }
@@ -61,7 +61,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
 			this.btnViewApprovedComments = AddFolderLink("Approved", "btnViewActiveComments", "Approved Comments", OnViewApprovedCommentsClick);
 			this.btnViewModerateComments = AddFolderLink("Moderate", "btnModerateComments", "Comments in need of moderation", OnViewCommentsForModerationClick);
@@ -387,7 +387,7 @@ namespace Subtext.Web.Admin.Pages
 		}
 		#endregion
 
-		protected void OnEmptyClick(object sender, System.EventArgs e)
+		protected void OnEmptyClick(object sender, EventArgs e)
 		{
 			FeedbackItem.Destroy(FeedbackStatusFilter);
 			BindList();
@@ -399,7 +399,7 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		protected void OnApproveClick(object sender, System.EventArgs e)
+		protected void OnApproveClick(object sender, EventArgs e)
 		{
 			if (ApplyActionToCheckedFeedback(FeedbackItem.Approve) == 0)
 			{
@@ -416,7 +416,7 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		protected void OnDeleteClick(object sender, System.EventArgs e)
+		protected void OnDeleteClick(object sender, EventArgs e)
 		{
 			if (ApplyActionToCheckedFeedback(FeedbackItem.Delete) == 0)
 			{
@@ -431,7 +431,7 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		/// <param name="sender">The sender.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		protected void OnConfirmSpam(object sender, System.EventArgs e)
+		protected void OnConfirmSpam(object sender, EventArgs e)
 		{
 			if (ApplyActionToCheckedFeedback(FeedbackItem.ConfirmSpam) == 0)
 			{
@@ -447,7 +447,7 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		protected void OnDestroyClick(object sender, System.EventArgs e)
+		protected void OnDestroyClick(object sender, EventArgs e)
 		{
 			if (ApplyActionToCheckedFeedback(FeedbackItem.Destroy) == 0)
 			{
@@ -479,7 +479,7 @@ namespace Subtext.Web.Admin.Pages
 					}
 
 					int id;
-					if(int.TryParse(feedbackId.Value, out id))
+					if (feedbackId != null && int.TryParse(feedbackId.Value, out id))
 					{
 						FeedbackItem feedbackItem = FeedbackItem.Get(id);
 						if (feedbackItem != null)

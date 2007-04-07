@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			SimulatedHttpRequest request = UnitTestHelper.SetHttpContextWithBlogRequest(context.HostName, string.Empty, string.Empty, "/trackback/services/" + id + ".aspx", output, "GET");
 			Config.CurrentBlog.TrackbacksEnabled = false;
 			Config.UpdateConfigData(Config.CurrentBlog);
-			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url);
+			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url, false);
 			Assert.AreEqual(string.Empty, responseText);
 		}
 
@@ -62,7 +62,8 @@ namespace UnitTests.Subtext.Framework.Tracking
 
 			SimulatedHttpRequest request = UnitTestHelper.SetHttpContextWithBlogRequest(context.HostName, string.Empty, string.Empty, "/trackback/services/" + id + ".aspx", context.ResponseTextWriter, "GET");
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, request, context.ResponseStringBuilder, title, url);
-			Assert.IsTrue(responseText.IndexOf(entry.Title) > 0, "Did not find the entry title.");
+			Console.WriteLine("--->" + responseText + "<---");
+			Assert.Greater(responseText.IndexOf(entry.Title), 0, "Did not find the entry title.");
 		}
 
 		/// <summary>
@@ -149,7 +150,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			Assert.AreEqual(0, trackbacks.Count, "We did not expect to see a trackback created.");
 		}
 
-		private string GetTrackBackHandlerResponseText(string blogName, string excerpt, string hostname, string subfolder, int id, string title, string url)
+		private static string GetTrackBackHandlerResponseText(string blogName, string excerpt, string hostname, string subfolder, int id, string title, string url)
 		{
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
@@ -161,7 +162,12 @@ namespace UnitTests.Subtext.Framework.Tracking
 			return GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url);
 		}
 
-		private string GetTrackBackHandlerResponseText(string blogName, string excerpt, SimulatedHttpRequest request, StringBuilder sb, string title, string url)
+		private static string GetTrackBackHandlerResponseText(string blogName, string excerpt, SimulatedHttpRequest request, StringBuilder sb, string title, string url)
+		{
+			return GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url, true);
+		}
+
+		private static string GetTrackBackHandlerResponseText(string blogName, string excerpt, SimulatedHttpRequest request, StringBuilder sb, string title, string url, bool enabled)
 		{
 			request.Form["url"] = url;
 			request.Form["title"] = title;
@@ -170,7 +176,8 @@ namespace UnitTests.Subtext.Framework.Tracking
 
 			TrackBackHandler handler = new TrackBackHandler();
 			handler.SourceVerification += handler_SourceVerification;
-
+			Config.CurrentBlog.TrackbacksEnabled = enabled;
+			
 			HttpContext.Current.Request.ContentType = "application/x-www-form-urlencoded";
 			handler.ProcessRequest(HttpContext.Current);
 			HttpContext.Current.Response.Flush();
@@ -217,7 +224,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			Assert.AreEqual(title, trackback.Title, "Somehow the title of the feedback doesn't match.");
 		}
 
-		private void handler_SourceVerification(object sender, SourceVerificationEventArgs e)
+		private static void handler_SourceVerification(object sender, SourceVerificationEventArgs e)
 		{
 			e.Verified = true;
 		}

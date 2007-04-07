@@ -1,18 +1,24 @@
-<%@ Page language="c#" Title="Subtext - Database Login Failure" MasterPageFile="~/SystemMessages/SystemMessageTemplate.Master" Codebehind="DatabaseLoginFailed.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.DatabaseLoginFailed" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext - Database Login Failure" MasterPageFile="~/SystemMessages/SystemMessageTemplate.Master" Codebehind="DatabaseLoginFailed.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.DatabaseLoginFailed" %>
 <asp:Content id="titleBar" ContentPlaceHolderID="MPTitle" runat="server">Database Login Failure</asp:Content>
 <asp:Content id="subtitle" ContentPlaceHolderID="MPSubTitle" runat="server">But I Can Help You</asp:Content>
 <asp:Content id="mainContent" ContentPlaceHolderID="Content" runat="server">
 	<p>
-		Greetings! Subtext cannot connect to your backend database.  Seems to be 
-		a problem with the login.
+		Greetings! Subtext is having a bit of trouble connecting to your backend database.  
+		It could be a problem with the database login or that the database does not exist.
 	</p>
 	<p>
-		Please check the connection string in your web.config file.  It&#8217;s in the 
-		<code>ConnectionStrings</code> section with the key &#8220;subtextData&#8221;.
+        <span class="pullout">
+		    <em><a href="http://connectionstrings.com/" title="Connection String Reference">connectionstrings.com</a> provides 
+		    a nice reference for connection string formats.</em>
+	    </span>
+		<strong>Please check the connection string in your web.config file.</strong>  
+		It&#8217;s located in the <code>ConnectionStrings</code> section with 
+		the key &#8220;subtextData&#8221;.
 	</p>
+	
 	<p>
-		Also make sure that the user specified in the connection string 
-		has permissions to your database.
+		<strong>Also make sure that the user specified in the connection string 
+		has permissions to your database.</strong>
 	</p>
 	<asp:PlaceHolder id="plcDiagnosticInfo" runat="server" Visible="false">
 		<p>

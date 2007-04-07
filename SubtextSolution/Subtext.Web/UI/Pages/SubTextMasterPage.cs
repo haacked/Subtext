@@ -230,9 +230,10 @@ namespace Subtext.Web.UI.Pages
 
 			public static string RenderScriptElement(string skinPath, Script script)
 			{
-				return "<script" + 
-					RenderScriptAttribute("type", script.Type) + 
-					RenderScriptAttribute("src", GetScriptSourcePath(skinPath, script)) + 
+				return "<script" +
+				       RenderScriptAttribute("type", script.Type) +
+				       RenderScriptAttribute("src", GetScriptSourcePath(skinPath, script)) +
+				       RenderScriptAttribute("defer", script.Defer ? "defer" : null) +
 					"></script>" + Environment.NewLine;
 			}
 

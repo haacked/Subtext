@@ -1,9 +1,9 @@
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.MyLinks" %>
-<div class="leftbox">
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.MyLinks" %>
+<div>
 	<h2>Syndication:</h2>
 	<ul>
-	<li><asp:HyperLink Runat="server" Text="RSS" ID="Syndication" /></li>
-	<li><asp:HyperLink Runat="server" NavigateUrl="~/Atom.aspx" Text="ATOM" ID="AtomLink"  /></li>
+		<li><asp:HyperLink Runat="server" Text="RSS" ID="Syndication" /></li>
+		<li><asp:HyperLink Runat="server" NavigateUrl="~/Atom.aspx" Text="ATOM" ID="AtomLink"  /></li>
 	</ul>
 </div>
 

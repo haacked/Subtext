@@ -1,4 +1,4 @@
-<%@ Page Language="c#" ValidateRequest="false" Trace="false" CodeBehind="ftb.imagegallery.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.ftb_imagegallery" %>
+<%@ Page Language="C#" EnableTheming="false"  ValidateRequest="false" Trace="false" CodeBehind="ftb.imagegallery.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.ftb_imagegallery" %>
 <%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <html>
 <head>

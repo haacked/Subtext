@@ -18,11 +18,11 @@
 				<div id="content">
 						<DT:contentregion id="MPMain" runat="server" />
 				</div>
-				<div id="rightbar">
+				<div id="sidebar">
 					<uc1:News id="News" runat="server"></uc1:News>
 					<uc1:RecentComments id="RecentComments" runat="server"></uc1:RecentComments>
 					<uc1:SingleColumn id="SingleColumn" runat="server" />
-					<div class="leftbox">
+					<div>
 						<h2>Hosted by</h2>
 						<p class="subtextlogo">
 							<a href="http://www.subtextproject.com/" title="Subtext Project Homepage"><img src="~/Images/PoweredBySubtext85x33.png" alt="Subtext Blog" runat="server" /></a>

@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext Admin - Password" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Password.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Password" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Password" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Password.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Password" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">

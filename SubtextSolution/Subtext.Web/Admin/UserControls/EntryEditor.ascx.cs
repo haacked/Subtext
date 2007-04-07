@@ -441,8 +441,6 @@ namespace Subtext.Web.Admin.UserControls
 						//Raise event after creating a post
 						SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Create));
 					}
-
-					UpdateCategories();
 				}
 				catch(Exception ex)
 				{
@@ -511,7 +509,6 @@ namespace Subtext.Web.Admin.UserControls
 
 		private void SetEditorText(string bodyValue)
 		{
-//			txbBody.Text = bodyValue;
 			richTextEditor.Text = bodyValue;
 		}
 

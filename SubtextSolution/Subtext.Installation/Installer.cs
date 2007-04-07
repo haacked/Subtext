@@ -45,7 +45,7 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public static InstallationState InstallationStatus
 		{
-			get { return Installer.Provider.InstallationStatus; }
+			get { return Provider.InstallationStatus; }
 		}
 
 		/// <summary>
@@ -54,7 +54,7 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public static void Upgrade()
 		{
-			Installer.Provider.Upgrade();
+			Provider.Upgrade();
 		}
 
 		/// <summary>
@@ -63,7 +63,7 @@ namespace Subtext.Installation
 		/// <param name="assemblyVersion">The current assembly version being installed.</param>
 		public static void Install(Version assemblyVersion)
 		{
-			Installer.Provider.Install(assemblyVersion);
+			Provider.Install(assemblyVersion);
 		}
 
 		/// <summary>
@@ -76,7 +76,18 @@ namespace Subtext.Installation
 		/// </returns>
 		public static bool IsInstallationException(Exception exception)
 		{
-			return Installer.Provider.IsInstallationException(exception);
+			return Provider.IsInstallationException(exception);
+		}
+
+		/// <summary>
+		/// Determines whether the specified exception is due to a permission 
+		/// denied error.
+		/// </summary>
+		/// <param name="exception"></param>
+		/// <returns></returns>
+		public static bool IsPermissionDeniedException(Exception exception)
+		{
+			return Provider.IsPermissionDeniedException(exception);
 		}
 	}
 }

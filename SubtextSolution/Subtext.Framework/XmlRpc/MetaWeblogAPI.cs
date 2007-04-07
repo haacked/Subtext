@@ -55,7 +55,7 @@ namespace Subtext.Framework.XmlRpc
     [XmlRpcMissingMapping(MappingAction.Error)]
     [XmlRpcMember(Description="Required when posting.")]
     public string title;
-
+	[XmlRpcMember("categories", Description="Contains categories for the post.")]
     public string[] categories;
     public Enclosure enclosure;
     public string link;

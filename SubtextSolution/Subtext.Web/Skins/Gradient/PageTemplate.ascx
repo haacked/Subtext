@@ -1,52 +1,43 @@
 <%@ Control %>
-<%@ Register TagPrefix="sub" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
-<%@ Register TagPrefix="uc1" TagName="Header" Src="Controls/Header.ascx" %>
-<%@ Register TagPrefix="uc1" TagName="Footer" Src="Controls/Footer.ascx" %>
-<%@ Register TagPrefix="uc1" TagName="BlogStats" Src="Controls/BlogStats.ascx" %>
-<%@ Register TagPrefix="uc1" TagName="News" Src="Controls/News.ascx" %>
-<%@ Register TagPrefix="uc1" TagName="SingleColumn" Src="Controls/SingleColumn.ascx" %>
-<%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
-<div id="content">
-    <uc1:Header id="Header1" runat="server"></uc1:Header>
-    <div class="rbroundbox" id="newsBox">
-        <div class="rbtop">
-            <div>
-            </div>
-        </div>
-        <div id="newsFlash" class="rbcontent">
-            <uc1:News ID="news" runat="server" />
-        </div>
-        <!-- /rbcontent -->
-        <div class="rbbot">
-            <div>
-            </div>
-        </div>
-    </div>
-    <!-- /rbroundbox -->
-    <div class="container2">
-        <div class="left-element">
-            <div id="navcontainer">
-                <uc1:MyLinks id="MyLinks1" runat="server" />
-            </div>
-            
-            <uc1:SingleColumn ID="singleColumn" runat="server" />
-               
-        </div>
-        <div class="right-element">
-            
-            <sub:contentregion id="MPMain" runat="server"></sub:contentregion>
-            <div id="footer">
-				<uc1:Footer ID="footer2" runat="server" />
-			</div>
-        </div>
-        
-    </div>
-    
-</div>
-<!--
-Original Design: Two Point Oh by Jason Kingery aka Denial http://denial-design.com.
-Found on the Open Source Web Design site: http://www.oswd.org/design/preview/id/2834
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
+<%@ Register TagPrefix="st" TagName="Header" Src="Controls/Header.ascx" %>
+<%@ Register TagPrefix="st" TagName="Footer" Src="Controls/Footer.ascx" %>
+<%@ Register TagPrefix="st" TagName="BlogStats" Src="Controls/BlogStats.ascx" %>
+<%@ Register TagPrefix="st" TagName="News" Src="Controls/News.ascx" %>
+<%@ Register TagPrefix="st" TagName="SingleColumn" Src="Controls/SingleColumn.ascx" %>
+<%@ Register TagPrefix="st" TagName="RecentComments" Src="Controls/RecentComments.ascx" %>
+<%@ Register TagPrefix="st" TagName="RecentPosts" Src="Controls/RecentPosts.ascx" %>
+<%@ Register TagPrefix="st" TagName="Search" Src="Controls/SubtextSearch.ascx" %>
+<%@ Register TagPrefix="st" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
 
-Original Design licensed under the GPL (http://www.opensource.org/licenses/gpl-license.php)
-Design adapted and modified by the Subtext team 2006.
-//-->
+<div id="main">
+    <st:Header id="Header" runat="server" />
+    
+	<div id="content">
+		<st:contentregion id="MPMain" runat="server" />       
+	</div>
+	<div id="sidebar">
+		<div id="nav">
+			<st:MyLinks id="MyLinks" runat="server" />
+		</div>
+		<st:SingleColumn ID="singleColumn" runat="server" />
+	</div>
+</div>
+<div id="bottom">
+	<div id="bottom-info">
+		<div id="bottom-recent-posts">
+			<h2>Recent Posts</h2>
+			<st:RecentPosts id="recentPosts" runat="server" />
+		</div>
+		<div id="bottom-navigation">
+			<h2>Recent Comments</h2>
+			<st:RecentComments id="recentComments" runat="server" />
+		</div>
+		<div id="bottom-about">
+			<st:News ID="news" runat="server" />
+		</div>
+	</div>
+</div>	
+<div id="footer">
+	<st:Footer id="footer1" runat="server"></st:Footer>
+</div>

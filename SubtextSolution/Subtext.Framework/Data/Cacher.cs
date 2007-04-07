@@ -19,6 +19,7 @@ using System.Globalization;
 using System.IO;
 using System.Web;
 using System.Web.Caching;
+using Subtext.Configuration;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -141,75 +142,115 @@ namespace Subtext.Framework.Data
 
 		#region LinkCategory
 
+		/// <summary>
+		/// Returns a LinkCategory for a single category based on the request url.
+		/// </summary>
+		/// <param name="cacheDuration">The cache duration.</param>
+		/// <returns></returns>
 		public static LinkCategory SingleCategory(CacheDuration cacheDuration)
 		{
+			if (HttpContext.Current == null)
+				throw new InvalidOperationException("This method requires the HttpContext. Argue all you want about whether that is good design. That's just the way it is for now.");
+
 			string path = WebPathStripper.RemoveRssSlash(HttpContext.Current.Request.Path);
 			string categoryName = Path.GetFileNameWithoutExtension(path);
 			if(StringHelper.IsNumeric(categoryName))
 			{
 				int categoryID = Int32.Parse(categoryName, NumberFormatInfo.InvariantInfo);
-				return SingleCategory(cacheDuration, categoryID);
+				return SingleCategory(cacheDuration, categoryID, true);
 			}
 			else
 			{
-				return SingleCategory(cacheDuration, categoryName);
+				return SingleCategory(cacheDuration, categoryName, true);
 			}
 		}
 
 		private static readonly string LCKey="LC{0}BlogId{1}";
 
-        public static LinkCategory SingleCategory(CacheDuration cacheDuration, int categoryId)
+        public static LinkCategory SingleCategory(CacheDuration cacheDuration, int categoryId, bool isActive)
         {
-            return SingleCategory(cacheDuration, categoryId, true);
+			LinkCategoryRetrieval retrieval = delegate { return Links.GetLinkCategory(categoryId, isActive); };
+			return SingleCategory(retrieval, cacheDuration, categoryId);
         }
-
-        public static LinkCategory SingleCategory(CacheDuration cacheDuration, string categoryName)
-        {
-            return SingleCategory(cacheDuration, categoryName, true);
-        }
-        
-        public static LinkCategory SingleCategory(CacheDuration cacheDuration, int categoryID, bool isActive)
-		{
-			ContentCache cache = ContentCache.Instantiate();
-			string key = String.Format(CultureInfo.InvariantCulture, LCKey, categoryID, Config.CurrentBlog.Id);
-			LinkCategory lc = (LinkCategory)cache[key];
-			if(lc == null)
-			{
-				lc = Links.GetLinkCategory(categoryID,isActive);
-				cache.Insert(key, lc, cacheDuration);
-			}
-			return lc;
-		}
 
 		public static LinkCategory SingleCategory(CacheDuration cacheDuration, string categoryName, bool isActive)
+        {
+        	LinkCategoryRetrieval retrieval = delegate { return Links.GetLinkCategory(categoryName, isActive); }; 
+            LinkCategory category = SingleCategory(retrieval, cacheDuration, categoryName);
+			if(category != null)
+				return category;
+			
+			if(Config.CurrentBlog.AutoFriendlyUrlEnabled)
+			{
+				categoryName = categoryName.Replace(FriendlyUrlSettings.Settings.SeparatingCharacter, " ");
+				retrieval = delegate { return Links.GetLinkCategory(categoryName, isActive); };
+				return SingleCategory(retrieval, cacheDuration, categoryName);
+			}
+			
+			return null; //couldn't find category
+        }
+
+		private static LinkCategory SingleCategory<T>(LinkCategoryRetrieval retrievalDelegate, CacheDuration cacheDuration, T categoryKey)
 		{
 			ContentCache cache = ContentCache.Instantiate();
-			string key = String.Format(CultureInfo.InvariantCulture, LCKey, categoryName, Config.CurrentBlog.Id);
+			string key = string.Format(LCKey, categoryKey, Config.CurrentBlog.Id);
 			LinkCategory lc = (LinkCategory)cache[key];
 			if(lc == null)
 			{
-				lc = Links.GetLinkCategory(categoryName,isActive);
-				cache.Insert(key, lc, cacheDuration);
+				lc = retrievalDelegate();
+				if (lc != null)
+					cache.Insert(key, lc, cacheDuration);
 			}
 			return lc;
 		}
 
+		delegate LinkCategory LinkCategoryRetrieval();
 		#endregion
 
 		#region Entry
-
-		public static Entry GetEntryFromRequest(CacheDuration cacheDuration)
+		/// <summary>
+		/// Returns an Entry requested by the current Http Request. 
+		/// The URL must be correctly formatted for requesting an entry.
+		/// </summary>
+		/// <param name="cacheDuration">The cache duration.</param>
+		/// <param name="allowRedirectToEntryName">if set to <c>true</c> [allow redirect to entry name].</param>
+		/// <returns></returns>
+		public static Entry GetEntryFromRequest(CacheDuration cacheDuration, bool allowRedirectToEntryName)
 		{
 			string id = Path.GetFileNameWithoutExtension(HttpContext.Current.Request.Path);
 
-			if(StringHelper.IsNumeric(id))
+			if (StringHelper.IsNumeric(id))
 			{
-				return GetEntry(Int32.Parse(id, NumberFormatInfo.InvariantInfo), cacheDuration);
+				Entry entry = GetEntry(Int32.Parse(id), cacheDuration);
+				if (entry == null)
+					return null;
+
+				//Second condition avoids infinite redirect loop. Should never happen.
+				if (allowRedirectToEntryName && entry.HasEntryName && !StringHelper.IsNumeric(entry.EntryName))
+				{
+					HttpContext.Current.Response.StatusCode = 301;
+					HttpContext.Current.Response.Status = "301 Moved Permanently";
+					HttpContext.Current.Response.RedirectLocation = entry.FullyQualifiedUrl.ToString();
+					HttpContext.Current.Response.End();
+				}
+				return entry;
 			}
 			else
 			{
 				return GetEntry(id, cacheDuration);
 			}
+
+		}
+
+		/// <summary>
+		/// Parses the current request and returns the URL. 
+		/// If the current request is in the cache, it uses that first.
+		/// </summary>
+		/// <param name="cacheDuration"></param>
+		/// <returns></returns>
+		public static Entry GetEntryFromRequest(CacheDuration cacheDuration)
+		{
+			return GetEntryFromRequest(cacheDuration, true);
 		}
 
 		private static readonly string EntryKeyID="Entry{0}BlogId{1}";
@@ -296,6 +337,7 @@ namespace Subtext.Framework.Data
 		/// <param name="parentEntry"></param>
 		/// <param name="cacheDuration"></param>
 		/// <returns></returns>
+        /// <param name="fromCache"></param>
         public static IList<FeedbackItem> GetFeedback(Entry parentEntry, CacheDuration cacheDuration, bool fromCache)
 		{
 			IList<FeedbackItem> comments = null;

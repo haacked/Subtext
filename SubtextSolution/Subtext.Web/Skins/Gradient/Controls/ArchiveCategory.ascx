@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.ArchiveCategory" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.ArchiveCategory" %>
 <%@ Register TagPrefix="uc1" TagName="DayCollection" Src="DayCollection.ascx" %>
 <h2><asp:Literal Runat="server" ID="Title" /></h2>
 <uc1:DayCollection id="Days" runat="server" />

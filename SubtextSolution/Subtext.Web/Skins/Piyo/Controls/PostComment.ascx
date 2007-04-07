@@ -1,7 +1,8 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.PostComment" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.PostComment" %>
 <div id="comments">
 <div id="commentform">
 <h3>Your comment:</h3>
+<div id="comment-fields">
 <div class="label">
 	<label for="PostComment_ascx_tbTitle">Title:</label>
 </div>
@@ -66,5 +67,5 @@
 	<h4>Live Comment Preview:</h4>
 	<div id="commentPreview" class="livepreview">&nbsp;</div>
 </div>
-
+</div>
 </div></div>

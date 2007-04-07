@@ -1,4 +1,4 @@
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.BlogStats" %>
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.BlogStats" %>
 <ul style="display: none;">
 	<li>Posts - <asp:Literal ID="PostCount" Runat = "server" /></li>
 	<li>Stories - <asp:Literal ID="StoryCount" Runat = "server" /></li>

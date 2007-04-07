@@ -20,10 +20,13 @@ using System.Globalization;
 using System.IO;
 using System.Web.Security;
 using CookComputing.XmlRpc;
+using log4net;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
+using Subtext.Framework.Logging;
+using Subtext.Framework.Security;
 
 //Need to find a method that has access to context, so we can terminate the request if AllowServiceAccess == false.
 //Users will be able to access the metablogapi page, but will not be able to make a request, but the page should not be visible
@@ -33,7 +36,7 @@ namespace Subtext.Framework.XmlRpc
 	/// <summary>
 	/// Implements the MetaBlog API.
 	/// </summary>
-	public class MetaWeblog : XmlRpcService, Subtext.Framework.XmlRpc.IMetaWeblog
+	public class MetaWeblog : XmlRpcService, IMetaWeblog
 	{
 		private static void ValidateUser(string username, string password, bool allowServiceAccess)
 		{
@@ -136,7 +139,8 @@ namespace Subtext.Framework.XmlRpc
 			//int i = 0;
 			int count = ec.Count;
 			Post[] posts = new Post[count];
-            int i = 0;
+			
+			int i = 0;
 			foreach(Entry entry in ec)
 			{
 				Post post = new Post();
@@ -264,7 +268,7 @@ namespace Subtext.Framework.XmlRpc
                 bw.Write(mediaobject.bits);	            
 	        }
 	        //Any IO exceptions, we throw a new XmlRpcFault Exception
-	        catch ( System.IO.IOException)
+	        catch (IOException)
 	        {
                 throw new XmlRpcFaultException(0, "Error saving file.");
 	        }
@@ -366,11 +370,10 @@ namespace Subtext.Framework.XmlRpc
 			}
 
 			MtCategory[] categories = new MtCategory[lcc.Count];
-			MtCategory _category;
             int i = 0;
 			foreach(LinkCategory linkCategory in lcc)
 			{
-                _category = new MtCategory(linkCategory.Id.ToString(CultureInfo.InvariantCulture), linkCategory.Title);
+				MtCategory _category = new MtCategory(linkCategory.Id.ToString(CultureInfo.InvariantCulture), linkCategory.Title);
 				categories[i] = _category;
                 i++;
 			}
@@ -459,11 +462,10 @@ namespace Subtext.Framework.XmlRpc
 				foreach (LinkCategory currentCat in cats)
 					catLookup.Add(currentCat.Id, currentCat.Title);
 
-				MtCategory _category;
                 int i = 0;
 				foreach(Link link in postCategories)
-				{						
-					_category = new MtCategory(link.CategoryID.ToString(CultureInfo.InvariantCulture), (string)catLookup[link.CategoryID]);				
+				{
+					MtCategory _category = new MtCategory(link.CategoryID.ToString(CultureInfo.InvariantCulture), (string)catLookup[link.CategoryID]);				
 
 					categories[i] = _category;
                     i++;

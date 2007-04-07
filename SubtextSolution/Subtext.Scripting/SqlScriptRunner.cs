@@ -19,6 +19,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using Subtext.Scripting.Exceptions;
 
 namespace Subtext.Scripting
 {
@@ -28,7 +29,7 @@ namespace Subtext.Scripting
 	/// </summary>
 	public class SqlScriptRunner : IScript, ITemplateScript
 	{
-		ScriptCollection _scripts;
+		ScriptCollection scripts;
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SqlScriptRunner"/> class.  
@@ -102,7 +103,7 @@ namespace Subtext.Scripting
 		/// <param name="scripts">The scripts.</param>
 		public SqlScriptRunner(ScriptCollection scripts)
 		{
-			_scripts = scripts;
+			this.scripts = scripts;
 		}
 
 		/// <summary>
@@ -113,7 +114,7 @@ namespace Subtext.Scripting
 		{
 			get
 			{
-				return _scripts;
+				return scripts;
 			}
 		}
 
@@ -127,17 +128,18 @@ namespace Subtext.Scripting
 		/// <param name="transaction">The current transaction.</param>
 		public int Execute(SqlTransaction transaction)
 		{
+			int recordsAffectedTotal = 0;
+			SetNoCountOff(transaction);
+			int scriptsExecutedCount = 0;
+
 			// the following reg exp will be used to determine if each script is an
 			// INSERT, UPDATE, or DELETE operation. The reg exp is also only looking
 			// for these actions on the SubtextData database. <- do we need this last part?
 			string regextStr = @"(INSERT\sINTO\s[\s\w\d\)\(\,\.\]\[\>\<]+)|(UPDATE\s[\s\w\d\)\(\,\.\]\[\>\<]+SET\s)|(DELETE\s[\s\w\d\)\(\,\.\]\[\>\<]+FROM\s[\s\w\d\)\(\,\.\]\[\>\<]+WHERE\s)";
 			Regex regex = new Regex(regextStr, RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
-	
-			int recordsAffectedTotal = 0;
-			int scriptsExecutedCount = 0;
-			
-			_scripts.ApplyTemplatesToScripts();
-			foreach(Script script in _scripts)
+		
+			scripts.ApplyTemplatesToScripts();
+			foreach(Script script in scripts)
 			{
 				int returnValue = script.Execute(transaction);
 				
@@ -149,11 +151,17 @@ namespace Subtext.Scripting
 					 * number of rows affected by the command. For all other types of statements, 
 					 * the return value is -1. If a rollback occurs, the return value is also -1. 
 					 */
-					if(script.ScriptText.IndexOf("TRIGGER", StringComparison.InvariantCultureIgnoreCase) == -1 && script.ScriptText.IndexOf("PROC", StringComparison.InvariantCultureIgnoreCase) == -1)
-					{
-						if(returnValue >= 0)
-							recordsAffectedTotal += returnValue;
-					}					
+					if (!IsCrudScript(script))
+					    continue;
+
+                    if (returnValue > -1)
+                    {
+                        recordsAffectedTotal += returnValue;
+                    }
+                    else
+                    {
+                        throw new SqlScriptExecutionException("An error occurred while executing the script.", script, returnValue);
+                    }
 				}
 				
 				OnProgressEvent(++scriptsExecutedCount, returnValue, script);
@@ -169,6 +177,23 @@ namespace Subtext.Scripting
 			if(progressEvent != null)
 				progressEvent(this, new ScriptProgressEventArgs(scriptCount, rowsAffected, script));
 		}
+		
+        private static bool IsCrudScript(Script script)
+        {
+            return script.ScriptText.IndexOf("TRIGGER") == -1 && script.ScriptText.IndexOf("PROC") == -1;
+        }
+
+        /// <summary>
+        /// Temporarily set NOCOUNT OFF on the connection. We must do this b/c the SqlScriptRunner 
+        /// depends on all CRUD statements returning the number of effected rows to determine if an 
+        /// error occured. This isn't a perfect solution, but it's what we've got.
+        /// </summary>
+        /// <param name="transaction"></param>
+        private static void SetNoCountOff(SqlTransaction transaction)
+        {
+            Script noCount = new Script("SET NOCOUNT OFF");
+            noCount.Execute(transaction);
+        }
 
 		#region ... Methods for unpacking embedded resources and reading from streams ...
 		static string ReadStream(Stream stream, Encoding encoding)
@@ -204,7 +229,7 @@ namespace Subtext.Scripting
 		{
 			get
 			{
-				return this._scripts.TemplateParameters;
+				return this.scripts.TemplateParameters;
 			}
 		}
 	}

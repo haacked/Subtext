@@ -8,13 +8,6 @@
 <%@ Register TagPrefix="uc1" TagName="SyndicatonLinks" Src="Controls/SyndicationLinks.ascx" %>
 <%@ Import Namespace="Subtext.Framework.Configuration" %>
 <script type="text/javascript">setUserStyles();</script>
-  <!--[if IE]>
-  <link href="skins/origami/Styles/core-IE.css?" media="screen" rel="Stylesheet" type="text/css" />
-  <![endif]-->
-  
-  <!--[if IE 5]>
-  <link href="skins/origami/Styles/ie5_5.css?" media="screen" rel="Stylesheet" type="text/css" />
-  <![endif]-->
 <div class="clearfix" id="container">
     <div id="sizer">
         <div id="expander">

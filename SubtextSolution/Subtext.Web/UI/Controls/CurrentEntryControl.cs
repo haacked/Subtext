@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Web;
 using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
@@ -25,16 +24,10 @@ namespace Subtext.Web.UI.Controls
 	/// data binding syntax to display information about the current 
 	/// entry.
 	/// </summary>
-	public class CurrentEntryControl : BaseControl
+	public class CurrentEntryControl : BaseControl, IEntryControl
 	{
 		bool dataBound;
 		Entry currentEntry;
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CurrentEntryControl"/> class.
-		/// </summary>
-		public CurrentEntryControl()
-		{
-		}
 		
 		/// <summary>
 		/// Gets the current entry.
@@ -63,36 +56,6 @@ namespace Subtext.Web.UI.Controls
 				dataBound = true;
 				base.DataBind();
 			}
-		}
-		
-		/// <summary>
-		/// Url encodes the string.
-		/// </summary>
-		/// <param name="s">The s.</param>
-		/// <returns></returns>
-		static protected string UrlEncode(string s)
-		{
-			return HttpUtility.UrlEncode(s);
-		}
-		
-		/// <summary>
-		/// Url encodes the string.
-		/// </summary>
-		/// <param name="s">The s.</param>
-		/// <returns></returns>
-		static protected string UrlEncode(Uri s)
-		{
-			return HttpUtility.UrlEncode(s.ToString());
-		}
-		
-		/// <summary>
-		/// Url encodes the string.
-		/// </summary>
-		/// <param name="s">The s.</param>
-		/// <returns></returns>
-		static protected string UrlEncode(object s)
-		{
-			return UrlEncode(s.ToString());
 		}
 	}
 }

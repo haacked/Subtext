@@ -48,10 +48,18 @@ namespace Subtext.Framework.Format
 		/// Gets the feed burner URL.
 		/// </summary>
 		/// <value>The feed burner URL.</value>
-		public static Uri FeedBurnerUrl
+		public Uri FeedBurnerUrl
 		{
 			get
 			{
+				//FeedBurnerName could be a fully qualified URL.
+				//For example, for users with the MyBrand service.
+				string feedBurnerName = Config.CurrentBlog.FeedBurnerName;
+				if (feedBurnerName.StartsWith("http://") || feedBurnerName.StartsWith("https://"))
+				{
+					return new Uri(feedBurnerName);
+				}
+
 				string feedburnerUrl = ConfigurationManager.AppSettings["FeedBurnerUrl"];
 				feedburnerUrl = String.IsNullOrEmpty(feedburnerUrl) ? "http://feeds.feedburner.com/" : feedburnerUrl;
 				return new Uri(new Uri(feedburnerUrl), Config.CurrentBlog.FeedBurnerName);
@@ -205,6 +213,7 @@ namespace Subtext.Framework.Format
 		/// <param name="parentId">The id of the parent entry.</param>
 		/// <param name="parentEntryName">If exists.</param>
 		/// <param name="feedback">The feedback.</param>
+		/// <param name="parentCreateDate"></param>
 		/// <param name="feedback">The feedback item.</param>
 		/// <returns></returns>
 		public virtual string FeedbackUrl(int parentId, string parentEntryName, DateTime parentCreateDate, FeedbackItem feedback)
@@ -223,6 +232,7 @@ namespace Subtext.Framework.Format
 		/// </summary>
 		/// <param name="parentId">The id of the parent entry.</param>
 		/// <param name="parentEntryName">If exists.</param>
+		/// <param name="parentCreateDate"></param>
 		/// <param name="feedback">The feedback.</param>
 		/// <returns></returns>
 		public virtual Uri FeedbackFullyQualifiedUrl(int parentId, string parentEntryName, DateTime parentCreateDate, FeedbackItem feedback)

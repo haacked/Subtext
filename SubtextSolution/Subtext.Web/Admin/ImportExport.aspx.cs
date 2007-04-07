@@ -32,7 +32,7 @@ namespace Subtext.Web.Admin.Pages
 	{
 		private readonly static ILog log = new Log();
 	
-	    public ImportExportPage() : base()
+	    public ImportExportPage()
 	    {
             TabSectionId = "ImportExport";
 	    }
@@ -69,14 +69,22 @@ namespace Subtext.Web.Admin.Pages
 
 		protected void btnLoad_Click(object sender, EventArgs e)
 		{
-			if(Page.IsValid)
-				LoadBlogML();
+			if (Page.IsValid)
+			{
+				try
+				{
+					LoadBlogML();
+				}
+				catch(InvalidOperationException)
+				{
+					Messages.ShowError("The file you specified does not appear to be a valid BlogML file.", true);
+				}
+			}
 		}
 
 		private void LoadBlogML()
 		{
 			BlogMLReader bmlReader = BlogMLReader.Create(BlogMLProvider.Instance());
-			bool errOccured = false;
 			
 			try
 			{
@@ -92,8 +100,7 @@ namespace Subtext.Web.Admin.Pages
 			    importBlogMLFile.PostedFile.InputStream.Close();
 			}
 
-			if(!errOccured)
-				Messages.ShowMessage("The BlogML file was successfully imported!");
+			Messages.ShowMessage("The BlogML file was successfully imported!");
 		}
 
         protected void btnClearContent_Click(object sender, EventArgs e)

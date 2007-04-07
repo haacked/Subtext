@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext - File Not Found (404)" MasterPageFile="~/SystemMessages/SystemMessageTemplate.Master" Codebehind="FileNotFound.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.SystemMessages.FileNotFound" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext - File Not Found (404)" MasterPageFile="~/SystemMessages/SystemMessageTemplate.Master" Codebehind="FileNotFound.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.SystemMessages.FileNotFound" %>
 <asp:Content id="titleBar" ContentPlaceHolderID="MPTitle" runat="server">Missing Page Report</asp:Content>
 <asp:Content id="subtitle" ContentPlaceHolderID="MPSubTitle" runat="server">Details.</asp:Content>
 <asp:Content id="mainContent" ContentPlaceHolderID="Content" runat="server">

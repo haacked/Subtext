@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Runtime.Serialization;
 
 namespace Subtext.Framework.Exceptions
 {
@@ -24,9 +23,8 @@ namespace Subtext.Framework.Exceptions
 	[Serializable]
 	public class BlogInactiveException : BaseBlogConfigurationException
 	{
-		public BlogInactiveException() : base()
-		{
-		}
+		public BlogInactiveException() {}
+
 		public BlogInactiveException(Exception innerException) : base(innerException) {}
 	}
 }

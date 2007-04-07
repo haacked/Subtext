@@ -1,4 +1,4 @@
-<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.RecentComments" %>
+<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.RecentComments" %>
 <%@ Import Namespace = "Subtext.Framework" %>
 <h1>Recent Comments</h1>
 

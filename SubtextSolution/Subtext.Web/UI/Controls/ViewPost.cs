@@ -16,16 +16,17 @@
 using System;
 using System.Web;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Format;
+using Subtext.Framework.Security;
 using Subtext.Framework.Tracking;
 using Subtext.Web.Controls;
-using Subtext.Framework.Security;
 using Subtext.Extensibility.Plugins;
 
 namespace Subtext.Web.UI.Controls
@@ -35,15 +36,15 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class ViewPost : BaseControl
 	{
-		protected System.Web.UI.WebControls.HyperLink editLink;
-		protected System.Web.UI.WebControls.HyperLink TitleUrl;
-		protected System.Web.UI.WebControls.Label date;
-		protected System.Web.UI.WebControls.Label commentCount;
-		protected System.Web.UI.WebControls.Literal Body;
-		protected System.Web.UI.WebControls.Literal PostDescription;
+		protected HyperLink editLink;
+		protected HyperLink TitleUrl;
+		protected Label date;
+		protected Label commentCount;
+		protected Literal Body;
+		protected Literal PostDescription;
 		protected PostCategoryList Categories;
-		protected System.Web.UI.WebControls.Literal PingBack;
-		protected System.Web.UI.WebControls.Literal TrackBack;
+		protected Literal PingBack;
+		protected Literal TrackBack;
 
 		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
 
@@ -84,7 +85,7 @@ namespace Subtext.Web.UI.Controls
 				Body.Text = entry.Body;
 				if(PostDescription != null)
 				{
-					PostDescription.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} {1}",entry.DateCreated.ToLongDateString(),entry.DateCreated.ToShortTimeString());
+					PostDescription.Text = string.Format(CultureInfo.InvariantCulture, "{0} {1}",entry.DateCreated.ToLongDateString(),entry.DateCreated.ToShortTimeString());
 				}
                 Trace.Write("loading categories");
 				if(Categories != null)

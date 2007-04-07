@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext - This Blog Is Inactive" MasterPageFile="~/SystemMessages/SystemMessageTemplate.Master" Codebehind="BlogNotActive.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.BlogNotActive" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext - This Blog Is Inactive" MasterPageFile="~/SystemMessages/SystemMessageTemplate.Master" Codebehind="BlogNotActive.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.BlogNotActive" %>
 
 <asp:Content id="titleBar" ContentPlaceHolderID="MPTitle" runat="server">This Blog is Inactive</asp:Content>
 <asp:Content id="subtitle" ContentPlaceHolderID="MPSubTitle" runat="server">What you can do.</asp:Content>

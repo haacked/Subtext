@@ -52,6 +52,7 @@ namespace UnitTests.Subtext
 		/// <param name="query">Query.</param>
 		/// <param name="output">Output.</param>
 		/// <param name="host">Host.</param>
+		/// <param name="verb"></param>
 		public SimulatedHttpRequest(string appVirtualDir, string appPhysicalDir, string page, string query, TextWriter output, string host, string verb) : this(appVirtualDir, appPhysicalDir, page, query, output, host, 80, "GET")
 		{
 			if(host == null || host.Length == 0)

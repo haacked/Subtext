@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -25,7 +26,7 @@ namespace Subtext.Web.Admin.Pages
 	{
 		protected const string VSKEY_IMAGEID = "ImageID";
 		protected int _imageID;
-		protected Subtext.Framework.Components.Image _image;
+		protected Image _image;
 		protected string _galleryTitle;
 
 		#region Accessors
@@ -42,16 +43,16 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		public Subtext.Framework.Components.Image Image
+		public Image Image
 		{
 			get 
 			{
-                if (null == _image)
+                if (_image == null)
                 {
-                    _image = Images.GetSingleImage(this.ImageId, false);
+                    _image = Images.GetSingleImage(ImageId, false);
                 }
 
-			    if(_image == null)
+			    if (_image == null)
                     throw new Exception("Image not defined.");
 			    
 			    return _image;
@@ -65,13 +66,14 @@ namespace Subtext.Web.Admin.Pages
             this.TabSectionId = "Galleries";
 	    }
 
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
 		}
 	    
 	    public override void DataBind()
 	    {
             BindImage();
+            base.DataBind();
 	    }
 	    
 
@@ -105,7 +107,7 @@ namespace Subtext.Web.Admin.Pages
 
 					if(AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
 					{	
-						string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Image \"{0}\"", Image.Title);
+						string title = string.Format(CultureInfo.InvariantCulture, "Editing Image \"{0}\"", Image.Title);
 
 						AdminMasterPage.BreadCrumb.AddLastItem(title);
 						AdminMasterPage.Title = title;
@@ -124,17 +126,17 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		protected void SetGalleryInfo(Subtext.Framework.Components.Image image)
+		protected void SetGalleryInfo(Image image)
 		{
 			_galleryTitle = Links.GetLinkCategory(image.CategoryID,false).Title;
 		}
 
 		protected string EvalImageUrl(object imageObject)
 		{
-			if (imageObject is Subtext.Framework.Components.Image)
+			if (imageObject is Image)
 			{
-				Subtext.Framework.Components.Image image = (Subtext.Framework.Components.Image)imageObject;
-				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
+				Image image = (Image)imageObject;
+				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
 					image.ThumbNailFile);
 			}
 			else
@@ -143,10 +145,10 @@ namespace Subtext.Web.Admin.Pages
 
 		protected static string EvalImageNavigateUrl(object imageObject)
 		{
-			if (imageObject is Subtext.Framework.Components.Image)
+			if (imageObject is Image)
 			{
-				Subtext.Framework.Components.Image image = (Subtext.Framework.Components.Image)imageObject;
-				return Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.ImageUrl(null,image.ImageID);
+				Image image = (Image)imageObject;
+				return Config.CurrentBlog.UrlFormats.ImageUrl(null,image.ImageID);
 			}
 			else
 			{
@@ -156,7 +158,7 @@ namespace Subtext.Web.Admin.Pages
 
 		protected string GetImageGalleryUrl()
 		{
-			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITGALLERIES, 
+			return string.Format(CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITGALLERIES, 
 				Keys.QRYSTR_CATEGORYID, Image.CategoryID);
 		}
 
@@ -233,12 +235,12 @@ namespace Subtext.Web.Admin.Pages
 		}
 		#endregion
 
-		protected void lbkReplaceImage_Click(object sender, System.EventArgs e)
+		protected void lbkReplaceImage_Click(object sender, EventArgs e)
 		{
 			ReplaceImage();
 		}
 
-		protected void lkbUpdateImage_Click(object sender, System.EventArgs e)
+		protected void lkbUpdateImage_Click(object sender, EventArgs e)
 		{
 			UpdateImage();		
 		}

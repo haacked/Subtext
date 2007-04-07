@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Contact" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Contact" %>
 <P>Use this form to contact me.
 	<BR>
 	All correspondence is considered public unless otherwise noted.</P>
@@ -6,7 +6,10 @@
 	<tr>
 		<td><strong>Name</strong></td>
 		<td>
-			<asp:TextBox id="tbName" Size="50" runat="server" Width="300px"></asp:TextBox></td>
+			<asp:TextBox id="tbName" Size="50" runat="server" Width="300px" />
+			<asp:RequiredFieldValidator id="RequiredFieldValidator3" runat="server" ErrorMessage="Please enter your name"
+				ControlToValidate="tbName" Display="Dynamic">*</asp:RequiredFieldValidator>
+		</td>
 	</tr>
 	<tr>
 		<td><strong>Email:</strong></td>

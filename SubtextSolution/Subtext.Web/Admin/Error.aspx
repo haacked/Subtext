@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext Admin - Error" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Error.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Error" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Error" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Error.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Error" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">

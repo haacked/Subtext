@@ -31,14 +31,14 @@ using System.Web.UI.WebControls;
 namespace Subtext.Web.UI.WebControls
 {
 	[ToolboxData("<{0}:ContentRegion runat=server></{0}:ContentRegion>")]
-	public class ContentRegion : System.Web.UI.WebControls.Panel
+	public class ContentRegion : Panel
 	{
 		public ContentRegion() {
 			base.BackColor = Color.WhiteSmoke;
 			base.Width = new Unit("100%", CultureInfo.InvariantCulture);
 		}
 
-		public override void RenderBeginTag(System.Web.UI.HtmlTextWriter writer) {}
-		public override void RenderEndTag(System.Web.UI.HtmlTextWriter writer) {}
+		public override void RenderBeginTag(HtmlTextWriter writer) {}
+		public override void RenderEndTag(HtmlTextWriter writer) {}
 	}
 }

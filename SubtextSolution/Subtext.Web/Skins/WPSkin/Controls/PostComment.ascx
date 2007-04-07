@@ -1,59 +1,43 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.PostComment" %>
+<%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+
 <div id="commentform">
-<table cellSpacing="1" cellPadding="1"  border="0" >
-	<tr>
-		<td width="75">Title</td>
-		<td>
-			<asp:TextBox id="tbTitle" runat="server" Size = "40" Width="300px"></asp:TextBox>
-		</td>
-		<td>
-			<asp:RequiredFieldValidator id="vldTitleRequired" runat="server" ErrorMessage="Please enter a title" ControlToValidate="tbTitle"></asp:RequiredFieldValidator>
-		</td>
-	</tr>
-	<tr>
-		<td width="75">Name</td>
-		<td>
-			<asp:TextBox id="tbName" runat="server" Size = "40" Width="300px"></asp:TextBox>
-		</td>
-		<td>
-			<asp:RequiredFieldValidator id="vldNameRequired" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName"></asp:RequiredFieldValidator>
-		</td>
-	</tr>
-	<tr>
-		<td>Email</td>
-		<td>
-			<asp:TextBox id="tbEmail" runat="server" Size = "40" Width="300px"></asp:TextBox>
-		</td>
-		<td>
-			<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$" Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified." EnableClientScript="true" />
-		</td>
-	</tr>
-	<tr>
-		<td>Url</td>
-		<td>
-			<asp:TextBox id="tbUrl" runat="server" Size = "40" Width="300px"></asp:TextBox>
-		</td>
-		<td>
-			<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
-		</td>
-	</tr>
-	<tr>
-		<td colSpan="3">Comments&nbsp;
-			<asp:RequiredFieldValidator id="vldCommentRequired" runat="server" ErrorMessage="Please enter a comment" ControlToValidate="tbComment"></asp:RequiredFieldValidator><br />
-			<asp:TextBox id="tbComment" runat="server" Rows = "10" Columns = "50" Width="400px" Height="193px" TextMode="MultiLine"></asp:TextBox></td>
-	</tr>
-	<tr>
-		<td colSpan="3">
-			<asp:CheckBox id="chkRemember" runat="server" Text="Remember Me?"></asp:CheckBox>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<asp:Button id="btnSubmit" runat="server" Text="Submit"></asp:Button>
-		</td>
-		<td colspan="2">
-			<asp:Label id="Message" runat="server" ForeColor="Red"></asp:Label>
-		</td>
-	</tr>
-</table>
+	<h2>Your comment:</h2>
+	<div class="label">
+		<label for="PostComment_ascx_tbTitle">Title: <asp:RequiredFieldValidator id="vldTitleRequired" runat="server" ErrorMessage="*So what is this about?" ControlToValidate="tbTitle" Display="Dynamic" /></label>
+	</div>
+	<div class="input">
+		<asp:TextBox id="tbTitle" runat="server" size="40"></asp:TextBox>		
+	</div>
+
+	<div class="label">
+		<label for="PostComment_ascx_tbName">Name: <asp:RequiredFieldValidator id="vldNameRequired" runat="server" ErrorMessage="*And who are you?" ControlToValidate="tbName" Display="Dynamic" /></label>
+	</div>
+	<div class="input">
+		<asp:TextBox id="tbName" runat="server" size="40"></asp:TextBox>
+	</div>
+
+	<div class="label">
+		<label for="PostComment_ascx_tbEmail">Email: (never displayed)<asp:RegularExpressionValidator id="vldEmailRegex" runat="server" ErrorMessage="*Email is optional, but if you enter one at least make sure it is valid." ControlToValidate="tbEmail" Display="Dynamic" ValidationExpression="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$" /></label>
+	</div>
+	<div class="input">
+		<asp:TextBox id="tbEmail" runat="server" CssClass="fixed" size="35"></asp:TextBox>&nbsp;(will show your <a href="http://gravatar.com/" title="gravatar">gravatar</a>)
+	</div>
+
+	<div class="label"><label for="PostComment_ascx_tbUrl">Website:</label></div>
+	<div class="input">
+		<asp:TextBox id="tbUrl" runat="server" size="40"></asp:TextBox>
+	</div>
+
+	<div class="label"><label for="PostComment_ascx_tbComment">Comment: <asp:RequiredFieldValidator id="vldCommentRequired" runat="server" Display="Dynamic" ErrorMessage="*I do want to hear your thoughts. Please enter a comment." ControlToValidate="tbComment" /><em class="smallnote">Allowed tags: blockquote, a, strong, em, p, u, strike, super, sub, code</em></label></div>
+	<div class="input">
+		<asp:TextBox id="tbComment" runat="server" Rows="10" Columns="40" TextMode="MultiLine" Width="400px" class="livepreview"></asp:TextBox>
+	</div>
+	<div class="label">&nbsp;</div>
+
+	<div class="input">
+		<sub:CompliantButton id="btnCompliantSubmit" runat="server" Text="Leave Your Mark" /> 
+		<a name="message"></a>
+		<asp:Label id="Message" runat="server" ForeColor="Red" />
+	</div>
 </div>

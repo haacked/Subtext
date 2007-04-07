@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.LinkPage" TargetSchema="http://schemas.microsoft.com/intellisense/ie5" %>
+<%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.LinkPage" TargetSchema="http://schemas.microsoft.com/intellisense/ie5" %>
 
 <div class="block">
 <h1 class="block_title">Links</h1>

@@ -344,6 +344,7 @@ div.entryDate h3
 	font-weight: bold;
 	color: #26395e;
 	margin-top: -.2em;
+	padding-bottom: 6px;
 }
 div.comment {
 	margin: 0 0 1em 0;
@@ -372,6 +373,12 @@ div.comment .post, div.trackback .post
 	padding: 1.2em 1.2em 1.2em 26px;
 	display: block;
 }
+
+div.author .post
+{
+	background: #f3fafc url(images/CommentAuthorGradient.gif) repeat-x top;
+}
+
 #trackback {
 	margin: 0 18em 3em 0;
 }

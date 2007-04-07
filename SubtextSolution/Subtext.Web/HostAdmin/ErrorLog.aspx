@@ -1,4 +1,4 @@
-<%@ Page Title="Subtext - Host Admin - Error Log" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" language="c#" Codebehind="ErrorLog.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.Pages.ErrorLog" %>
+<%@ Page Title="Subtext - Host Admin - Error Log" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" Language="C#" EnableTheming="false"  Codebehind="ErrorLog.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.Pages.ErrorLog" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 

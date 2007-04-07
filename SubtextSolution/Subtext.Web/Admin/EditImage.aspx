@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext Admin - Edit Image" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="EditImage.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditImage" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Edit Image" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="EditImage.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditImage" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="st" TagName="CategoryLinks" Src="~/Admin/UserControls/CategoryLinkList.ascx" %>
 
@@ -25,7 +25,7 @@
 			<span><%# Image.Width.ToString() %>W x <%# Image.Height.ToString() %>H</span><br />
 			<span><a href='<%# GetImageGalleryUrl() %>'><%# _galleryTitle %></a></span><br />
 		</p>
-		<br class="clear">
+		<br class="clear" />
 		<label class="Block">Title</label>
 		<ASP:TextBox id="txbTitle" runat="server" Text='<%# Image.Title %>' columns="255" width="98%" />
 		<label class="Block">Gallery</label>
@@ -37,8 +37,8 @@
 		</div>			
 		<p class="InlineSubtitle">Replace File</p>
 		<label class="Block">Local File Location</label>
-		<input id="ImageFile" class="FileUpload" type="file" size="82" runat="server" name="ImageFile">
-		<br class="clear">		
+		<input id="ImageFile" class="FileUpload" type="file" size="82" runat="server" name="ImageFile" />
+		<br class="clear" />		
 		<div style="margin-top: 8px">
 			<asp:Button id="lbkAddImage" runat="server" CssClass="buttonSubmit" Text="Replace" onclick="lbkReplaceImage_Click" />
 			<br />&nbsp; 

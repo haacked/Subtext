@@ -15,6 +15,7 @@
 
 using System;
 using MbUnit.Framework;
+using Subtext.Configuration;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -45,10 +46,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 	
 		/// <summary>
-		/// Make sure words are separated and limited correctly
-		/// using 5 word limit and underscore
+		/// Makes sure we are generating nice friendly URLs Using Underscores.
 		/// </summary>
-		
 		[RowTest]
 		[Row("Single", '_', "Single")]
 		[Row("Single ", '.', "Single")]
@@ -59,38 +58,50 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("This is a very long.", '_', "This_is_a_very_long")]
 		[Row("This is a very long.", '-', "This-is-a-very-long")]
 		[Row("This is a very long.", '.', "This.is.a.very.long")]
+		[Row("Title", '_', "Title")]
+		[Row("Title.", '_', "Title")]
+		[Row("A Very Good Book Yo", '_', "A_Very_Good_Book_Yo")]
+		[Row("a very good book yo", '_', "a_very_good_book_yo")]
+		[Row("A Very ::Good Book", '_', "A_Very_Good_Book")]
+		[Row("A Very ;;Good Book", '_', "A_Very_Good_Book")]
+		[Row("A Very Good Book yo.", '_', "A_Very_Good_Book_yo")]
+		[Row("A Very Good Book yo..", '_', "A_Very_Good_Book_yo")]
+		[Row("Å Vêry Good Book yo..", '_', "%c3%85_V%c3%aary_Good_Book_yo")]
+		[Row("Trouble With VS.NET Yo", '_', "Trouble_With_VS.NET_Yo")]
+		[Row("Barça is a nice town", '_', "Bar%c3%a7a_is_a_nice_town")]
+		[Row("Perchè Più felicità può ed é?", '_', "Perch%c3%a8_Pi%c3%b9_felicit%c3%a0_pu%c3%b2_ed_%c3%a9")]
+		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<> Y", '_', "Y")]
+		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<>YY", '_', "YY")]
+		[Row("Title", char.MinValue, "Title")]
+		[Row("Title.", char.MinValue, "Title")]
+		[Row("A Very Good Book", char.MinValue, "AVeryGoodBook")]
+		[Row("a very good book", char.MinValue, "AVeryGoodBook")]
+		[Row("A Very :Good Book", char.MinValue, "AVeryGoodBook")]
+		[Row("A Very ;Good Book", char.MinValue, "AVeryGoodBook")]
+		[Row("A Very Good Book.", char.MinValue, "AVeryGoodBook")]
+		[Row("A Very Good Book..", char.MinValue, "AVeryGoodBook")]
+		[Row("A Very Good..Book", char.MinValue, "AVeryGood.Book")]
+		[Row("A Very Good...Book", char.MinValue, "AVeryGood.Book")]
+		[Row("Å Vêry G®®d B®®k..", char.MinValue, "%c3%85V%c3%aaryGdBk")]
+		[Row("\u0130\u0069Turkish Character Test", char.MinValue, "%c4%b0iTurkishCharacterTest")]
+		[Row("Trouble With VS.NET", char.MinValue, "TroubleWithVS.NET")]
+		[Row("Barça is a nice town", char.MinValue, "Bar%c3%a7aIsANiceTown")]
+		[Row("Perchè Più felicità può ed é?", char.MinValue, "Perch%c3%a8Pi%c3%b9Felicit%c3%a0Pu%c3%b2Ed%c3%89")]
+		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<> X", char.MinValue, "X")]
 		[RollBack]
-		public void FriendlyUrlLimitedDelimited(string title, char wordSeparator, string expected)
+		public void FriendlyUrlGeneratesNiceUrl(string title, char separator, string expected)
 		{
 			UnitTestHelper.SetupBlog();
-            Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, wordSeparator), "The auto generated entry name is not what we expected.");
+			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, separator), "The auto generated entry name is not what we expected.");
 		}
 
-		/// <summary>
-		/// Makes sure we are generating nice friendly URLs.
-		/// </summary>
 		[RowTest]
-		[Row("Title", "Title")]
-		[Row("Title.", "Title")]
-		[Row("A Very Good Book", "AVeryGoodBook")]
-		[Row("a very good book", "AVeryGoodBook")]
-		[Row("A Very :Good Book", "AVeryGoodBook")]
-		[Row("A Very ;Good Book", "AVeryGoodBook")]
-		[Row("A Very Good Book.", "AVeryGoodBook")]
-		[Row("A Very Good Book..", "AVeryGoodBook")]
-		[Row("A Very Good..Book", "AVeryGood.Book")]
-		[Row("A Very Good...Book", "AVeryGood.Book")]
-		[Row("Å Vêry G®®d B®®k..", "%c3%85V%c3%aaryGdBk")]
-		[Row("\u0130\u0069Turkish Character Test", "%c4%b0iTurkishCharacterTest")]
-		[Row("Trouble With VS.NET", "TroubleWithVS.NET")]
-		[Row("Barça is a nice town", "Bar%c3%a7aIsANiceTown")]
-		[Row("Perchè Più felicità può ed é?", "Perch%c3%a8Pi%c3%b9Felicit%c3%a0Pu%c3%b2Ed%c3%89")]
-		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<> X", "X")]
+		[Row("THIS IS A NEW TEST", TextTransform.LowerCase, "this-is-a-new-test")]
 		[RollBack]
-		public void FriendlyUrlGeneratesNiceUrl(string title, string expected)
+		public void FriendlyUrlCanTransformText(string title, TextTransform transform, string expected)
 		{
 			UnitTestHelper.SetupBlog();
-            Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, char.MinValue), "The auto generated entry name is not what we expected.");
+			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, '-', transform), "The auto generated entry name is not what we expected.");
 		}
 
 		/// <summary>
@@ -174,7 +185,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [RollBack]
         public void GenerateFriendlyUrlFixesNumericTitles(string title, char wordSeparator, string expected)
         {
-            Config.CreateBlog("foo-izze", "username", "password", UnitTestHelper.GenerateRandomString(), string.Empty);
+			UnitTestHelper.SetupBlog();
             string friendlyName = Entries.AutoGenerateFriendlyUrl(title, wordSeparator);
             Assert.AreEqual(expected, friendlyName, "Need to prepend an 'n' to the end of numeric EntryNames.");
         }
@@ -191,58 +202,58 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.Now;
-			entry.Title = "Some Title";
+			entry.Title = "Some Entry Title";
 			entry.Body = "Some Body";
 			int id = Entries.Create(entry);
 
             Entry savedEntry = Entries.GetEntry(id, PostConfig.None, false);
-			Assert.AreEqual("Some_Title", savedEntry.EntryName, "The EntryName should have been auto-friendlied.");
+			Assert.AreEqual("Some_Entry_Title", savedEntry.EntryName, "The EntryName should have been auto-friendlied.");
 
 			Entry duplicate = new Entry(PostType.BlogPost);
 			duplicate.DateCreated = DateTime.Now;
-			duplicate.Title = "Some Title";
+			duplicate.Title = "Some Entry Title";
 			duplicate.Body = "Some Body";
 			int dupeId = Entries.Create(duplicate);
             Entry savedDupe = Entries.GetEntry(dupeId, PostConfig.None, false);
 			
-			Assert.AreEqual("Some_TitleAgain", savedDupe.EntryName, "Should have appended 'Again'");
+			Assert.AreEqual("Some_Entry_Title_Again", savedDupe.EntryName, "Should have appended 'Again'");
 			UnitTestHelper.AssertAreNotEqual(savedEntry.EntryName, savedDupe.EntryName, "No duplicate entry names are allowed.");
 
 			Entry yetAnotherDuplicate = new Entry(PostType.BlogPost);
 			yetAnotherDuplicate.DateCreated = DateTime.Now;
-			yetAnotherDuplicate.Title = "Some Title";
+			yetAnotherDuplicate.Title = "Some Entry Title";
 			yetAnotherDuplicate.Body = "Some Body";
 			dupeId = Entries.Create(yetAnotherDuplicate);
             savedDupe = Entries.GetEntry(dupeId, PostConfig.None, false);
 			
-			Assert.AreEqual("Some_TitleYetAgain", savedDupe.EntryName, "Should have appended 'YetAgain'");
+			Assert.AreEqual("Some_Entry_Title_Yet_Again", savedDupe.EntryName, "Should have appended 'Yet_Again'");
 
 			yetAnotherDuplicate = new Entry(PostType.BlogPost);
 			yetAnotherDuplicate.DateCreated = DateTime.Now;
-			yetAnotherDuplicate.Title = "Some Title";
+			yetAnotherDuplicate.Title = "Some Entry Title";
 			yetAnotherDuplicate.Body = "Some Body";
 			dupeId = Entries.Create(yetAnotherDuplicate);
             savedDupe = Entries.GetEntry(dupeId, PostConfig.None, false);
 			
-			Assert.AreEqual("Some_TitleAndAgain", savedDupe.EntryName, "Should have appended 'AndAgain'");
+			Assert.AreEqual("Some_Entry_Title_And_Again", savedDupe.EntryName, "Should have appended 'And_Again'");
 
 			yetAnotherDuplicate = new Entry(PostType.BlogPost);
 			yetAnotherDuplicate.DateCreated = DateTime.Now;
-			yetAnotherDuplicate.Title = "Some Title";
+			yetAnotherDuplicate.Title = "Some Entry Title";
 			yetAnotherDuplicate.Body = "Some Body";
 			dupeId = Entries.Create(yetAnotherDuplicate);
             savedDupe = Entries.GetEntry(dupeId, PostConfig.None, false);
 			
-			Assert.AreEqual("Some_TitleOnceMore", savedDupe.EntryName, "Should have appended 'OnceMore'");
+			Assert.AreEqual("Some_Entry_Title_Once_More", savedDupe.EntryName, "Should have appended 'Once_More'");
 
 			yetAnotherDuplicate = new Entry(PostType.BlogPost);
 			yetAnotherDuplicate.DateCreated = DateTime.Now;
-			yetAnotherDuplicate.Title = "Some Title";
+			yetAnotherDuplicate.Title = "Some Entry Title";
 			yetAnotherDuplicate.Body = "Some Body";
 			dupeId = Entries.Create(yetAnotherDuplicate);
             savedDupe = Entries.GetEntry(dupeId, PostConfig.None, false);
 			
-			Assert.AreEqual("Some_TitleToBeatADeadHorse", savedDupe.EntryName, "Should have appended 'ToBeatADeadHorse'");
+			Assert.AreEqual("Some_Entry_Title_To_Beat_A_Dead_Horse", savedDupe.EntryName, "Should have appended 'To_Beat_A_Dead_Horse'");
 		}
 
 		/// <summary>
@@ -282,27 +293,27 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			Entry entry1 = new Entry(PostType.BlogPost);
 			entry1.DateCreated = DateTime.Now;
-			entry1.Title = "Some Title";
+			entry1.Title = "Some Random Title";
 			entry1.Body = "Some Body";
 			int id1 = Entries.Create(entry1);
 
 			Entry savedEntry1 = Entries.GetEntry(id1, PostConfig.None, false);
-			Assert.AreEqual("Some_Title", savedEntry1.EntryName, "The EntryName should have been auto-friendlied.");
+			Assert.AreEqual("Some_Random_Title", savedEntry1.EntryName, "The EntryName should have been auto-friendlied.");
 
 			Entry entry2 = new Entry(PostType.BlogPost);
 			entry2.DateCreated = DateTime.Now;
-			entry2.Title = "Some Other Title";
+			entry2.Title = "Some Other Random Title";
 			entry2.Body = "Some Body";
 			int id2 = Entries.Create(entry2);
 
 			Entry savedEntry2 = Entries.GetEntry(id2, PostConfig.None, false);
-			Assert.AreEqual("Some_Other_Title", savedEntry2.EntryName, "The EntryName should have been auto-friendlied.");
+			Assert.AreEqual("Some_Other_Random_Title", savedEntry2.EntryName, "The EntryName should have been auto-friendlied.");
 
-			savedEntry2.EntryName = "Some_Title";
+			savedEntry2.EntryName = "Some_New_Changed_Random_Title";
 			Entries.Update(savedEntry2);
 
 			Entry updatedEntry = Entries.GetEntry(id2, PostConfig.None, false);
-			Assert.AreEqual("Some_TitleAgain", updatedEntry.EntryName, "The EntryName should not have been re-auto-friendlied.");
+			Assert.AreEqual("Some_New_Changed_Random_Title", updatedEntry.EntryName, "Able to change the entry and retrieve it.");
 		}
 
 		/// <summary>

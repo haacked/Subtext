@@ -27,13 +27,6 @@ namespace Subtext.Web.Controls
 	public class ScriptTag : HtmlControl
 	{
 		/// <summary>
-		/// Creates a new <see cref="ScriptTag"/> instance.
-		/// </summary>
-		public ScriptTag() : base()
-		{
-		}
-		
-		/// <summary>
 		/// Raises the <see cref="E:System.Web.UI.Control.Init"/>
 		/// event. Sets the <see cref="Control.EnableViewState"/> property to false.
 		/// </summary>

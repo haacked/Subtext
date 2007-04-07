@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.UI.WebControls;
+using Subtext.Configuration;
 using Subtext.Framework.Components;
 
 #region Disclaimer/Info
@@ -22,7 +23,7 @@ using Subtext.Framework.Components;
 namespace Subtext.Web.UI.Controls
 {
     /// <summary>
-	///		Summary description for CategoryDisplayByColumn.
+	///	Code behind for the category list control.
 	/// </summary>
 	public  class CategoryList : BaseControl
 	{
@@ -80,6 +81,9 @@ namespace Subtext.Web.UI.Controls
 				{
 					HyperLink Link = (HyperLink)e.Item.FindControl("Link");
 					Link.NavigateUrl = link.Url;
+					/*if (FriendlyUrlSettings.Settings.Enabled)
+						Link.NavigateUrl = string.Format("/category/{0}.aspx", FriendlyUrlSettings.TransformString(link.Title.Replace(" ", FriendlyUrlSettings.Settings.SeparatingCharacter), FriendlyUrlSettings.Settings.TextTransformation));*/
+
 					if(Link.Attributes["title"] == null || Link.Attributes["title"].Length == 0)
 					{
 						Link.Attributes["title"] = "";

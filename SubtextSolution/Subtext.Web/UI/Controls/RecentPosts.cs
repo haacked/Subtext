@@ -28,7 +28,7 @@ namespace Subtext.Web.UI.Controls
     /// <summary>
     /// Displays the titles of the most recent entries on the skin.
     /// </summary>
-    public class RecentPosts : BaseControl
+	public class RecentPosts : BaseControl, IEntryControl
     {
         private const int DefaultRecentPostCount = 5;
         private IList<Entry> posts;
@@ -69,21 +69,25 @@ namespace Subtext.Web.UI.Controls
 
         }
 
+    	public Entry Entry
+    	{
+    		get { return this.currentEntry; }
+    	}
+
+    	private Entry currentEntry;
+
         protected void PostCreated(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 Entry post = (Entry)e.Item.DataItem;
-
+            	this.currentEntry = post;
                 HyperLink lnkPost = (HyperLink)e.Item.FindControl("Link");
                 if (lnkPost != null)
                 {
                     // display whole title, (up to 255 chars), no truncation
                     lnkPost.Text = HtmlHelper.RemoveHtml(post.Title);
-                    if (post.EntryName != null)
-                        lnkPost.NavigateUrl = post.EntryName + ".aspx";
-                    else
-                        lnkPost.NavigateUrl = post.Url;
+                    lnkPost.NavigateUrl = post.Url;
                     ControlHelper.SetTitleIfNone(lnkPost, "Blog Entry.");
                 }
             }

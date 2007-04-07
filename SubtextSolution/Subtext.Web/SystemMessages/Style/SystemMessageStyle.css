@@ -96,3 +96,23 @@ a:hover
 {
 	float: right;
 }
+
+.pullout
+{
+	display: block;
+	width: 30%;
+	padding: 10px;
+	background-color: #ddd;
+	float: right;
+	font: bold 1em arial, helvetica, sans-serif;
+	text-align: left;
+	letter-spacing: 0.05em;
+	margin: 5px;
+	clear: both;
+	border: solid 1px;
+}
+
+.pullout.alt
+{
+	float: left;
+}

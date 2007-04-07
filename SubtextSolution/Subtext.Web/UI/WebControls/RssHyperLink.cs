@@ -15,9 +15,7 @@
 
 using System;
 using System.Web.UI.WebControls;
-using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
 
 namespace Subtext.Web.UI.WebControls
 {
@@ -28,13 +26,6 @@ namespace Subtext.Web.UI.WebControls
 	public class RssHyperLink : HyperLink
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RssHyperLink"/> class.
-		/// </summary>
-		public RssHyperLink() : base()
-		{
-		}
-
-		/// <summary>
 		/// Overrides the NavigateUrl property to point too the RSS feed 
 		/// and raises the <see cref="E:System.Web.UI.Control.PreRender"/>
 		/// event.
@@ -44,7 +35,7 @@ namespace Subtext.Web.UI.WebControls
 		{
 			if(Config.CurrentBlog.FeedBurnerEnabled)
 			{
-				NavigateUrl = UrlFormats.FeedBurnerUrl.ToString();
+				NavigateUrl = Config.CurrentBlog.UrlFormats.FeedBurnerUrl.ToString();
                 
 			}
 			else 
