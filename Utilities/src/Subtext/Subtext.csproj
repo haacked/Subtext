@@ -84,23 +84,27 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SgmlReaderDll.dll</HintPath>
     </Reference>
-    <Reference Include="Subtext.Extensibility, Version=1.9.5.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Subtext.Akismet, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Subtext.Akismet.dll</HintPath>
+    </Reference>
+    <Reference Include="Subtext.Extensibility, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Subtext.Extensibility.dll</HintPath>
     </Reference>
-    <Reference Include="Subtext.Framework, Version=1.9.5.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Subtext.Framework, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Subtext.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="Subtext.Installation, Version=1.9.5.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Subtext.Installation, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Subtext.Installation.dll</HintPath>
     </Reference>
-    <Reference Include="Subtext.Scripting, Version=1.9.5.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Subtext.Scripting, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Subtext.Scripting.dll</HintPath>
     </Reference>
-    <Reference Include="Subtext.Web.Controls, Version=1.9.5.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Subtext.Web.Controls, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Subtext.Web.Controls.dll</HintPath>
     </Reference>
