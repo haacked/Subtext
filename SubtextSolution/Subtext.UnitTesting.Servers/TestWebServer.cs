@@ -37,7 +37,7 @@ namespace Subtext.UnitTesting.Servers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TestWebServer"/> class on port 8085.
 		/// </summary>
-		public TestWebServer() : this(8085, "/")
+		public TestWebServer() : this(8986, "/")
 		{
 		}
 
