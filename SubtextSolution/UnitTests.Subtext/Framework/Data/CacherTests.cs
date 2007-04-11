@@ -24,9 +24,8 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void GetEntryFromRequestDoesNotThrowNullReferenceException()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("test", UnitTestHelper.GenerateRandomString(), UnitTestHelper.GenerateRandomString(), host, "");
-			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/archive/999999.aspx");
+			UnitTestHelper.SetupBlog();
+			UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host, "", "", "/archive/999999.aspx");
 			Assert.IsNull(Cacher.GetEntryFromRequest(CacheDuration.Short));
 		}
 
@@ -42,9 +41,8 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void SingleCategoryReturnsNullForNonExistentCategory()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("test", UnitTestHelper.GenerateRandomString(), UnitTestHelper.GenerateRandomString(), host, "");
-			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/99.aspx");
+			UnitTestHelper.SetupBlog();
+			UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host, "", "", "/category/99.aspx");
 			Assert.IsNull(Cacher.SingleCategory(CacheDuration.Short));
 		}
 
@@ -52,11 +50,10 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void CanGetCategoryByIdRequest()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("test", UnitTestHelper.GenerateRandomString(), UnitTestHelper.GenerateRandomString(), host, "");
-			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/");
+			UnitTestHelper.SetupBlog();
+			UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host, "", "", "/category/");
 			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "This Is a Test");
-			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/" + categoryId + ".aspx");
+			UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host, "", "", "/category/" + categoryId + ".aspx");
 
 			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short);
 			Assert.AreEqual("This Is a Test", category.Title);
@@ -66,9 +63,8 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void CanGetCategoryByNameRequest()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("test", UnitTestHelper.GenerateRandomString(), UnitTestHelper.GenerateRandomString(), host, "");
-			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/This Is a Test.aspx");
+			UnitTestHelper.SetupBlog();
+			UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host, "", "", "/category/This Is a Test.aspx");
 			UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "This Is a Test");
 
 			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short);
@@ -79,11 +75,10 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void CanGetCategoryByNameWithWordDelimitersRequest()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("test", UnitTestHelper.GenerateRandomString(), UnitTestHelper.GenerateRandomString(), host, "");
-			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/This_Is_a_Test.aspx");
+			UnitTestHelper.SetupBlog();
+			UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host, "", "", "/category/This_Is_a_Test.aspx");
 			UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "This Is a Test");
-
+			Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
 			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short);
 			Assert.AreEqual("This Is a Test", category.Title);
 		}

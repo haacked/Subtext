@@ -345,7 +345,7 @@ namespace UnitTests.Subtext.Framework
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void FeedBurnerNameThrowsInvalidOperationException()
 		{
-			new BlogInfo().FeedBurnerName = "/";
+			new BlogInfo().FeedBurnerName = "\\";
 		}
 	}
 }
