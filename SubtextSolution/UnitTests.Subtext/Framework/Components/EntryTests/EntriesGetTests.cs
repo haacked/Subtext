@@ -15,9 +15,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void CanGetRecentPosts()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", UnitTestHelper.GenerateRandomString(), "password", hostname, ""));
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "", "");
+			UnitTestHelper.SetupBlog();
 
 			int blogId = Config.CurrentBlog.Id;
 			for (int i = 0; i < 10; i++)
