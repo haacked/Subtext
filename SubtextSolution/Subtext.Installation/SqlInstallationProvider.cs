@@ -97,6 +97,9 @@ namespace Subtext.Installation
 		/// </returns>
 		public override bool IsInstallationException(Exception exception)
 		{
+			if (exception == null)
+				throw new ArgumentNullException("exception", "It's not an installation exception if it's null.");
+
 			Regex tableRegex = new Regex("Invalid object name '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 			bool isSqlException = exception is SqlException;
 
