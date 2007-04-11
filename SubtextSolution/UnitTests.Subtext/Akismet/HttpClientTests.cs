@@ -47,7 +47,7 @@ namespace UnitTests.Subtext.Akismet
 				Uri httpClientPage = new Uri(url, "HttpClientTest.aspx");
 				Debug.WriteLine(string.Format("Making a request for {0} at {1}", httpClientPage, DateTime.Now));
 
-				string response = client.PostRequest(httpClientPage, "user-agent", 20000, "test=true", webProxy);
+				string response = client.PostRequest(httpClientPage, "user-agent", 40000, "test=true", webProxy);
 				Assert.AreEqual("test=true&Done", response);
 			}
 		}
