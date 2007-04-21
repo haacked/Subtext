@@ -45,13 +45,14 @@ namespace Subtext.Extensibility.Plugins
 			get { return _entry; }
 		}
 
-		/// <summary>
-		/// All the plugins settings for the current blog
-		/// </summary>
-		public NameValueCollection BlogSettings
-		{
-			get { return Subtext.Framework.Configuration.Config.CurrentBlog.EnabledPlugins[_callingPluginGuid].Settings; }
-		}
+        //TODO: Not needed any more
+        ///// <summary>
+        ///// All the plugins settings for the current blog
+        ///// </summary>
+        //public NameValueCollection BlogSettings
+        //{
+        //    get { return Subtext.Framework.Configuration.Config.CurrentBlog.EnabledPlugins[_callingPluginGuid].Settings; }
+        //}
 
 		private Guid _callingPluginGuid;
 

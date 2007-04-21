@@ -1877,6 +1877,59 @@ namespace Subtext.Framework.Data
 			return NonQueryBool("subtext_UpdatePluginData", p);
 		}
 
+
+        public override NameValueCollection GetPluginEntrySettings(Guid pluginId, int entryId)
+        {
+            SqlParameter[] p =
+			{
+				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
+				DataHelper.MakeInParam("@EntryID",SqlDbType.Int,4,entryId),
+				BlogIdParam
+			};
+
+            IDataReader reader = GetReader("subtext_GetPluginData", p);
+            try
+            {
+                NameValueCollection dict = new NameValueCollection();
+                while (reader.Read())
+                {
+                    dict.Add(DataHelper.LoadPluginSettings(reader));
+                }
+                return dict;
+            }
+            finally
+            {
+                reader.Close();
+            }
+        }
+
+        public override bool InsertPluginEntrySettings(Guid pluginId, int entryId, string key, string value)
+        {
+            SqlParameter[] p =
+			{
+				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
+				DataHelper.MakeInParam("@EntryID",SqlDbType.Int,4,entryId),
+				DataHelper.MakeInParam("@Key",SqlDbType.NVarChar,256,key),
+				DataHelper.MakeInParam("@Value",SqlDbType.NText,0,value),
+				BlogIdParam
+			};
+            return NonQueryBool("subtext_InsertPluginData", p);
+        }
+
+        public override bool UpdatePluginEntrySettings(Guid pluginId, int entryId, string key, string value)
+        {
+            SqlParameter[] p =
+			{
+				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
+				DataHelper.MakeInParam("@EntryID",SqlDbType.Int,4,entryId),
+				DataHelper.MakeInParam("@Key",SqlDbType.NVarChar,256,key),
+				DataHelper.MakeInParam("@Value",SqlDbType.NText,0,value),
+				BlogIdParam
+			};
+            return NonQueryBool("subtext_UpdatePluginData", p);
+        }
+
+
 		#endregion
 
 		#region Admin

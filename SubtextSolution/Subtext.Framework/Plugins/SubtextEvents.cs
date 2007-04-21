@@ -53,5 +53,13 @@ namespace Subtext.Extensibility.Plugins
 		{
 			SubtextApplication.Current.ExecuteEntryRendering(sender, e);
 		}
+		
+		/// <summary>
+		/// Raises all EntrySyndicating Events.
+		/// </summary>
+		public static void OnEntrySyndicating(object sender, SubtextEventArgs e)
+		{
+			SubtextApplication.Current.ExecuteEntrySyndicating(sender, e);
+		}
 	}
 }

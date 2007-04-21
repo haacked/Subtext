@@ -49,7 +49,7 @@ namespace Subtext.Plugins.Examples.TestPlugin
 		{
 			Entry entry = e.Entry;
 			entry.Body += "<br><hr> <b>TestPlugin</b>: Rendered at date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
-			entry.Body += e.BlogSettings["value1"];
+			entry.Body += GetBlogSetting("value1");
 		}
 
 		void sta_EntryUpdated(object sender, SubtextEventArgs e)

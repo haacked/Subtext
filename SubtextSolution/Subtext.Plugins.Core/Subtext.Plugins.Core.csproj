@@ -28,6 +28,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -51,6 +52,17 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="TextLinkAds\Advertisement.cs" />
+    <Compile Include="TextLinkAds\FeedvertisingPlugin.cs" />
+    <Compile Include="TextLinkAds\FeedvertisingService.cs" />
+    <Compile Include="TextLinkAds\IFeedvertisingService.cs" />
+    <Compile Include="TextLinkAds\settings.ascx.cs">
+      <DependentUpon>settings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TextLinkAds\settings.ascx.designer.cs">
+      <DependentUpon>settings.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Web References\com.community-credit.www\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -69,6 +81,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CommunityCredits\settings.ascx">
+    </Content>
+    <Content Include="ExternalDependencies\log4net.dll" />
+    <Content Include="ExternalDependencies\log4net.xml" />
+    <Content Include="TextLinkAds\settings.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
     <None Include="app.config" />

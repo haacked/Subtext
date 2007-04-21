@@ -477,7 +477,7 @@ namespace Subtext.Framework.Providers
 		/// Returns a list of all the blog level settings defined for a plugin
 		/// </summary>
 		/// <param name="pluginId">The Guid of the plugin</param>
-		/// <returns>A strongly type HashTable ettings</returns>
+		/// <returns>A strongly typed HashTable with settings</returns>
 		public abstract NameValueCollection GetPluginGeneralSettings(Guid pluginId);
 
 		/// <summary>
@@ -497,6 +497,36 @@ namespace Subtext.Framework.Providers
 		/// <param name="value">New value of the setting</param>
 		/// <returns>True if the operation completed correctly, false otherwise</returns>
 		public abstract bool UpdatePluginGeneralSettings(Guid pluginId, string key, string value);
+
+        /// <summary>
+        /// Retrieves plugin settings for a specified entry from the storage
+        /// </summary>
+        /// <param name="pluginGuid">GUID of the plugin</param>
+        /// <param name="entryId">Id of the blog entry</param>
+        /// <returns>A NameValueCollection with all the settings</returns>
+        public abstract NameValueCollection GetPluginEntrySettings(Guid pluginId, int entryId);
+
+        /// <summary>
+        /// Inserts a new value in the plugin settings list for a specified entry
+        /// </summary>
+        /// <param name="pluginGuid">GUID of the plugin</param>
+        /// <param name="entryId">Id of the blog entry</param>
+        /// <param name="key">Setting name</param>
+        /// <param name="value">Setting value</param>
+        /// <returns>True if the operation completed correctly, false otherwise</returns>
+        public abstract bool InsertPluginEntrySettings(Guid pluginId, int entryId, string key, string value);
+
+        /// <summary>
+		/// Updates a plugin setting for a specified entry
+		/// </summary>
+		/// <param name="pluginId">The Guid of the plugin</param>
+        /// <param name="entryId">Id of the blog entry</param>
+		/// <param name="key">Key identifying the setting</param>
+		/// <param name="value">New value of the setting</param>
+		/// <returns>True if the operation completed correctly, false otherwise</returns>
+        public abstract bool UpdatePluginEntrySettings(Guid pluginId, int entryId, string key, string value);
+
+
 
 		#endregion
 

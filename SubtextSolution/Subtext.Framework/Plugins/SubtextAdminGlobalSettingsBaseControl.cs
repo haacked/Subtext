@@ -29,65 +29,66 @@ namespace Subtext.Extensibility.Plugins
 	/// </summary>
 	public abstract class SubtextAdminGlobalSettingsBaseControl : System.Web.UI.UserControl
 	{
-		private NameValueCollection _blogSettings;
+        // TODO: moved the logic to PluginBase
+        //private NameValueCollection _blogSettings;
 		
-		//Helper properties used to cache the settings during the lifetime of the module
-		private NameValueCollection BlogSettings
-		{
-			get
-			{
-				if (_blogSettings == null)
-					_blogSettings = GetBlogSettings();
-				return _blogSettings;
-			}
-		}
+        ////Helper properties used to cache the settings during the lifetime of the module
+        //private NameValueCollection BlogSettings
+        //{
+        //    get
+        //    {
+        //        if (_blogSettings == null)
+        //            _blogSettings = GetBlogSettings();
+        //        return _blogSettings;
+        //    }
+        //}
 
-		/// <summary>
-		/// Retrive a single Blog Setting
-		/// </summary>
-		/// <param name="key">Name of the setting</param>
-		/// <returns>Value of the setting, as string. Must be deserialized if it represents something more complex than a string</returns>
-		public string GetSetting(string key)
-		{
-			if (BlogSettings[key] != null)
-				return BlogSettings[key];
-			else
-				return string.Empty;
-		}
+        ///// <summary>
+        ///// Retrive a single Blog Setting
+        ///// </summary>
+        ///// <param name="key">Name of the setting</param>
+        ///// <returns>Value of the setting, as string. Must be deserialized if it represents something more complex than a string</returns>
+        //public string GetSetting(string key)
+        //{
+        //    if (BlogSettings[key] != null)
+        //        return BlogSettings[key];
+        //    else
+        //        return string.Empty;
+        //}
 
-		/// <summary>
-		/// Set a single blog setting, and persists it to the storage<br/>
-		/// If the key already exists the value is updated, otherwise a new setting is created
-		/// </summary>
-		/// <param name="key">Name of the setting</param>
-		/// <param name="value">Value of the setting</param>
-		public void SetSetting(string key, string value)
-		{
+        ///// <summary>
+        ///// Set a single blog setting, and persists it to the storage<br/>
+        ///// If the key already exists the value is updated, otherwise a new setting is created
+        ///// </summary>
+        ///// <param name="key">Name of the setting</param>
+        ///// <param name="value">Value of the setting</param>
+        //public void SetSetting(string key, string value)
+        //{
 
-			if (BlogSettings[key] == null)
-			{
-				BlogSettings.Add(key, value);
-				Plugin.InsertPluginGeneralSettings(_pluginGuid, key, value);
-			}
-			else
-			{
-				BlogSettings[key] = value;
-				Plugin.UpdatePluginGeneralSettings(_pluginGuid, key, value);
-			}
-		}
+        //    if (BlogSettings[key] == null)
+        //    {
+        //        BlogSettings.Add(key, value);
+        //        Plugin.InsertPluginGeneralSettings(_pluginGuid, key, value);
+        //    }
+        //    else
+        //    {
+        //        BlogSettings[key] = value;
+        //        Plugin.UpdatePluginGeneralSettings(_pluginGuid, key, value);
+        //    }
+        //}
 
-		//Retrieve the settings from the storage
-		private NameValueCollection GetBlogSettings()
-		{
-			if (_pluginGuid == Guid.Empty)
-			{
-				throw new InvalidOperationException("BlogSettings cannot be retrieved if no PluginGuid has been specified");
-			}
-			else
-			{
-				return Subtext.Framework.Configuration.Config.CurrentBlog.EnabledPlugins[_pluginGuid].Settings;
-			}
-		}
+        ////Retrieve the settings from the storage
+        //private NameValueCollection GetBlogSettings()
+        //{
+        //    if (_pluginGuid == Guid.Empty)
+        //    {
+        //        throw new InvalidOperationException("BlogSettings cannot be retrieved if no PluginGuid has been specified");
+        //    }
+        //    else
+        //    {
+        //        return Subtext.Framework.Configuration.Config.CurrentBlog.EnabledPlugins[_pluginGuid].Settings;
+        //    }
+        //}
 
 		private Guid _pluginGuid=Guid.Empty;
 		/// <summary>

@@ -16,6 +16,8 @@
 using System;
 using Subtext.Extensibility.Attributes;
 using System.Reflection;
+using System.Collections.Specialized;
+using Subtext.Framework.Components;
 
 namespace Subtext.Extensibility.Plugins
 {
@@ -62,22 +64,103 @@ namespace Subtext.Extensibility.Plugins
 				}
 				return _info;
 			}
-		}
+        }
 
-		private PluginDefaultSettingsCollection _defaultSettings;
+        #region Default Settings
+
+        private PluginDefaultSettingsCollection _defaultSettings;
 
 		/// <summary>
 		/// Sitewide settings for the plugin
 		/// </summary>
-		public PluginDefaultSettingsCollection DefaultSettings
+        internal PluginDefaultSettingsCollection DefaultSettings
 		{
 			get { return _defaultSettings; }
-			internal set { _defaultSettings = value; }
-		}
+			set { _defaultSettings = value; }
+        }
+
+        /// <summary>
+        /// Retrive a single Default Setting
+        /// </summary>
+        /// <param name="key">Name of the setting</param>
+        /// <returns>Value of the setting, as string. Must be deserialized if it represents something more complex than a string</returns>
+        public string GetDefaultSetting(string key)
+        {
+            if (DefaultSettings[key] != null)
+                return DefaultSettings[key];
+            else
+                return string.Empty;
+        }
+
+        #endregion Default Settings
+
+        #region General Blog Settings
+
+        private NameValueCollection _blogSettings;
+
+        //Helper properties used to cache the settings during the lifetime of the module
+        private NameValueCollection BlogSettings
+        {
+            get
+            {
+                if (_blogSettings == null)
+                    _blogSettings = GetBlogSettings();
+                return _blogSettings;
+            }
+        }
+
+        /// <summary>
+        /// Retrive a single Blog Setting
+        /// </summary>
+        /// <param name="key">Name of the setting</param>
+        /// <returns>Value of the setting, as string. Must be deserialized if it represents something more complex than a string</returns>
+        public string GetBlogSetting(string key)
+        {
+            if (BlogSettings[key] != null)
+                return BlogSettings[key];
+            else
+                return string.Empty;
+        }
+
+        /// <summary>
+        /// Set a single blog setting, and persists it to the storage<br/>
+        /// If the key already exists the value is updated, otherwise a new setting is created
+        /// </summary>
+        /// <param name="key">Name of the setting</param>
+        /// <param name="value">Value of the setting</param>
+        public void SetBlogSetting(string key, string value)
+        {
+
+            if (BlogSettings[key] == null)
+            {
+                BlogSettings.Add(key, value);
+                Plugin.InsertPluginGeneralSettings(_guid, key, value);
+            }
+            else
+            {
+                BlogSettings[key] = value;
+                Plugin.UpdatePluginGeneralSettings(_guid, key, value);
+            }
+        }
+
+        //Retrieve the settings from the storage
+        private NameValueCollection GetBlogSettings()
+        {
+            if (_guid == Guid.Empty)
+            {
+                throw new InvalidOperationException("BlogSettings cannot be retrieved if no PluginGuid has been specified");
+            }
+            else
+            {
+                return Subtext.Framework.Configuration.Config.CurrentBlog.EnabledPlugins[_guid].Settings;
+            }
+        }
+
+        #endregion General Blog Settings
 
 
-		#region Attribute Accessor Helpers
-		private static PluginImplementationInfo GetInfoFromAttribute(Type type)
+        #region Attribute Accessor Helpers
+        private static PluginImplementationInfo GetInfoFromAttribute(Type type)
 		{
 			Attribute[] attrs = System.Attribute.GetCustomAttributes(type, typeof(DescriptionAttribute));
 			foreach (Attribute attr in attrs)

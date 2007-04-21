@@ -31,21 +31,21 @@ namespace Subtext.Plugins.Core.CommunityCredits
 				Entry entry = e.Entry; 
 
 				com.community_credit.www.AffiliateServices wsCommunityCredit = new com.community_credit.www.AffiliateServices();
-				wsCommunityCredit.Url = DefaultSettings["WebServiceUrl"];
+				wsCommunityCredit.Url = GetDefaultSetting("WebServiceUrl");
 
 				string url = entry.FullyQualifiedUrl.ToString();
 				string category = String.Empty;
 				if (entry.PostType == PostType.BlogPost)
-					category = DefaultSettings["Post_SubmissionCategoryName"];
+                    category = GetDefaultSetting("Post_SubmissionCategoryName");
 				else if (entry.PostType == PostType.Story)
-					category = DefaultSettings["Story_SubmissionCategoryName"];
+					category = GetDefaultSetting("Story_SubmissionCategoryName");
 				string description = "Blogged about: " + entry.Title;
 				BlogInfo info = Config.CurrentBlog;
 				string firstName = string.Empty;
 				string lastName = info.Author;
 				string email = info.Owner.Email;
-				string affiliateCode = getEffectiveAffiliateCode(e.BlogSettings["AffiliateCode"]);
-				string affiliateKey = getEffectiveAffiliateKey(e.BlogSettings["AffiliateKey"]);
+                string affiliateCode = getEffectiveAffiliateCode(GetBlogSetting("AffiliateCode"));
+                string affiliateKey = getEffectiveAffiliateKey(GetBlogSetting("AffiliateKey"));
 
 				try
 				{
@@ -65,7 +65,7 @@ namespace Subtext.Plugins.Core.CommunityCredits
 		private string getEffectiveAffiliateCode(string overiddenCode)
 		{
 			if (String.IsNullOrEmpty(overiddenCode))
-				return DefaultSettings["AffiliateCode"];
+                return GetDefaultSetting("AffiliateCode");
 			else
 				return overiddenCode;
 		}
@@ -73,7 +73,7 @@ namespace Subtext.Plugins.Core.CommunityCredits
 		private string getEffectiveAffiliateKey(string overiddenKey)
 		{
 			if (String.IsNullOrEmpty(overiddenKey))
-				return DefaultSettings["AffiliateKey"];
+                return GetDefaultSetting("AffiliateKey");
 			else
 				return overiddenKey;
 		}

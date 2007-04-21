@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using Subtext.Framework.Configuration;
+using Subtext.Extensibility.Plugins;
+using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Syndication
 {
@@ -173,5 +175,17 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="dateLastViewedFeedItemPublished">The date last viewed feed item published.</param>
 		protected abstract void Build(DateTime dateLastViewedFeedItemPublished);
+
+
+        protected virtual void WriteEntry(T entry)
+        {
+            Entry theEntry = entry as Entry;
+            if (theEntry != null)
+            {
+                SubtextEvents.OnEntrySyndicating(this, new SubtextEventArgs(theEntry));
+            }
+        }
+
+
 	}
 }

@@ -179,12 +179,52 @@ namespace Subtext.Framework.Components
 			//This way we don't have strange caching issues
 			Plugin.RemovePluginListFromCache();
 		}
-		#endregion General Blog Plugin Settings
+
+        #endregion General Blog Plugin Settings
+
+        #region Entry Plugin Settings
+
+        /// <summary>
+        /// Retrieves plugin settings for a specified entry from the storage
+        /// </summary>
+        /// <param name="pluginGuid">GUID of the plugin</param>
+        /// <param name="entryId">Id of the blog entry</param>
+        /// <returns>A NameValueCollection with all the settings</returns>
+        public static NameValueCollection GetPluginEntrySettings(Guid pluginGuid, int entryId)
+        {
+            return ObjectProvider.Instance().GetPluginEntrySettings(pluginGuid, entryId);
+        }
+
+        /// <summary>
+        /// Inserts a new value in the plugin settings list for a specified entry
+        /// </summary>
+        /// <param name="pluginGuid">GUID of the plugin</param>
+        /// <param name="entryId">Id of the blog entry</param>
+        /// <param name="key">Setting name</param>
+        /// <param name="value">Setting value</param>
+        public static void InsertPluginEntrySetting(Guid pluginGuid, int entryId, string key, string value)
+        {
+            ObjectProvider.Instance().InsertPluginEntrySettings(pluginGuid, entryId, key, value);
+        }
+
+        /// <summary>
+        /// Updates a plugin setting for a specified entry
+        /// </summary>
+        /// <param name="pluginGuid">GUID of the plugin</param>
+        /// <param name="entryId">Id of the blog entry</param>
+        /// <param name="key">Setting name</param>
+        /// <param name="value">Setting value</param>
+        public static void UpdatePluginEntrySetting(Guid pluginGuid, int entryId, string key, string value)
+        {
+            ObjectProvider.Instance().UpdatePluginEntrySettings(pluginGuid, entryId, key, value);
+        }
+
+        #endregion Entry Plugin Settings
 
 
-		#region Cache managing helper classes
+        #region Cache managing helper classes
 
-		private static void StorePluginListToCache(IDictionary<Guid, Plugin> pluginList)
+        private static void StorePluginListToCache(IDictionary<Guid, Plugin> pluginList)
 		{
 			int blogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
 			HttpContext.Current.Cache.Insert(String.Format(CultureInfo.InvariantCulture, PLUGINCACHENAMEFORMAT, blogId), pluginList, null, Cache.NoAbsoluteExpiration, new TimeSpan(1, 0, 0), CacheItemPriority.NotRemovable, null);
