@@ -16,73 +16,56 @@
       </xsl:choose>
    </xsl:template>
 
-   <xsl:template name="scale">
-      <xsl:param name="origLength"/>
-      <xsl:param name="targetLength"/>
-      <xsl:param name="value"/>
-      <xsl:value-of select="($value div $origLength) * $targetLength"/>
-   </xsl:template>
+   <!-- Draw % Green/Red/Yellow Bar -->
+   <xsl:template name="mbunit.detail.percent">
+      <xsl:param name="total" />
+      <xsl:param name="success" />
+      <xsl:param name="failure" />
+      <xsl:param name="ignore" />
+      <xsl:param name="skip" />
+      <xsl:param name="assert" />
+      <xsl:param name="scale" />
+      
+      <xsl:variable name="coverage" select="$success div $total * 100"/>
 
-   <xsl:template name="counter-progressbar">
-      <xsl:param name="width"/>
-      <xsl:param name="height"/>
-      <div>
-         <xsl:attribute name="style">position:relative;background-color:#DDDDDD;border-color:black;width:<xsl:value-of select="$width"/>px;height:<xsl:value-of select="$height"/>px;</xsl:attribute>
-         <!-- success -->
-         <xsl:if test="@success-count > 0">
-         <div>
-            <xsl:attribute name="style">position:absolute;top:0px;left:0px;height:<xsl:value-of select="$height"/>px;background-color:lightgreen;font-size:1px;width:<xsl:call-template name="scale">
-                  <xsl:with-param name="origLength" select="@run-count"/>
-                  <xsl:with-param name="targetLength" select="$width"/>
-                  <xsl:with-param name="value" select="@success-count"/>
-               </xsl:call-template>px;</xsl:attribute>
-         </div>
-         </xsl:if>
-         <!-- failure -->
-         <xsl:if test="@failure-count > 0">
-         <div>
-            <xsl:attribute name="style">position:absolute;top:0px;left:<xsl:call-template name="scale">
-                  <xsl:with-param name="origLength" select="@run-count"/>
-                  <xsl:with-param name="targetLength" select="$width"/>
-                  <xsl:with-param name="value" select="@success-count"/>
-               </xsl:call-template>px;height:<xsl:value-of select="$height"/>px;background-color:red;font-size:1px;width:<xsl:call-template name="scale">
-                  <xsl:with-param name="origLength" select="@run-count"/>
-                  <xsl:with-param name="targetLength" select="$width"/>
-                  <xsl:with-param name="value" select="@failure-count"/>
-               </xsl:call-template>px;</xsl:attribute>
-         </div>
-         </xsl:if>
-         <!-- skip -->
-         <xsl:if test="@skip-count > 0">
-         <div>
-            <xsl:attribute name="style">position:absolute;top:0px;left:<xsl:call-template name="scale">
-                  <xsl:with-param name="origLength" select="@run-count"/>
-                  <xsl:with-param name="targetLength" select="$width"/>
-                  <xsl:with-param name="value" select="@success-count+@failure-count"/>
-               </xsl:call-template>px;height:<xsl:value-of select="$height"/>px;background-color:blueviolet;font-size:1px;width:<xsl:call-template name="scale">
-                  <xsl:with-param name="origLength" select="@run-count"/>
-                  <xsl:with-param name="targetLength" select="$width"/>
-                  <xsl:with-param name="value" select="@skip-count"/>
-               </xsl:call-template>px;</xsl:attribute>
-         </div>
-         </xsl:if>
-         <!-- ignore -->
-         <xsl:if test="@ignore-count > 0">
-         <div>
-            <xsl:attribute name="style">position:absolute;top:0px;left:<xsl:call-template name="scale">
-                  <xsl:with-param name="origLength" select="@run-count"/>
-                  <xsl:with-param name="targetLength" select="$width"/>
-                  <xsl:with-param name="value" select="@success-count+@failure-count+@skip-count"/>
-               </xsl:call-template>px;height:<xsl:value-of select="$height"/>px;background-color:orange;font-size:1px;width:<xsl:call-template name="scale">
-                  <xsl:with-param name="origLength" select="@run-count"/>
-                  <xsl:with-param name="targetLength" select="$width"/>
-                  <xsl:with-param name="value" select="@ignore-count"/>
-               </xsl:call-template>px;</xsl:attribute>
-         </div>
-         </xsl:if>
-         <div>
-            <xsl:attribute name="style">position:absolute;top:0px;left:<xsl:value-of select="$width +2"/>px;height:<xsl:value-of select="$height"/>px;font-size:<xsl:value-of select="$height - 2"/>px;font-family:Verdana;</xsl:attribute><xsl:value-of select="@run-count"/>/<xsl:value-of select="@success-count"/>/<xsl:value-of select="@failure-count"/>/<xsl:value-of select="@skip-count"/>/<xsl:value-of select="@ignore-count"/>/<xsl:value-of select="@assert-count"/></div>
-      </div>
+      <table cellpadding="0" cellspacing="0">
+         <tbody>
+            <tr>
+               <xsl:attribute name="title">
+                  <xsl:value-of select="$total" /> / <xsl:value-of select="$success" /> / <xsl:value-of select="$failure" /> / <xsl:value-of select="$skip" /> / <xsl:value-of select="$ignore" /> / <xsl:value-of select="$assert" />
+               </xsl:attribute>
+
+               <xsl:if test="not ($success=0)">
+                  <td class="graphBarVisited" height="14">
+                     <xsl:attribute name="width">
+                        <xsl:value-of select="format-number($coverage div 100 * $scale, '0')" />
+                     </xsl:attribute>&#160;
+                  </td>
+               </xsl:if>
+               <xsl:if test="not($ignore=0)">
+                  <td height="14" class="graphBarSatisfactory">
+                     <xsl:attribute name="width">
+                        <xsl:value-of select="format-number($ignore div $total * $scale, '0')" />
+                     </xsl:attribute>&#160;
+                  </td>
+               </xsl:if>
+               <xsl:if test="not($skip=0)">
+                  <td height="14" style="background: orange;">
+                     <xsl:attribute name="width">
+                        <xsl:value-of select="format-number($skip div $total * $scale, '0')" />
+                     </xsl:attribute>&#160;
+                  </td>
+               </xsl:if>
+               <xsl:if test="not($failure=0)">
+                  <td height="14" class="graphBarNotVisited">
+                     <xsl:attribute name="width">
+                        <xsl:value-of select="format-number($failure div $total * $scale, '0')" />
+                     </xsl:attribute>&#160;
+                  </td>
+               </xsl:if>
+            </tr>
+         </tbody>
+      </table>
    </xsl:template>
 
    <xsl:template name="counter-literal">
@@ -118,9 +101,8 @@
             <xsl:value-of select="counter/@run-count" /> tests,
             <xsl:value-of select="counter/@success-count" /> success,
             <xsl:value-of select="counter/@failure-count" /> failure,
-            <xsl:value-of select="counter/@ignore-count" /> ignored,
             <xsl:value-of select="counter/@skip-count" /> skipped,                    
-            <xsl:value-of select="format-number(counter/@duration,'##.##')" /> s         
+            <xsl:value-of select="counter/@ignore-count" /> ignored,
          </span>
          <div class="containerContents">
             <xsl:choose>
@@ -129,7 +111,6 @@
                   <p>This project doesn't have any tests.</p>
                </xsl:when>
                <xsl:otherwise>
-                  <!-- <xsl:call-template name="report-summary" /> -->
                   <xsl:if test="count(//warnings)>0">
                      <xsl:call-template name="warnings" />
                   </xsl:if> 
@@ -176,7 +157,7 @@
          <span class="containerSubtitle">
                   <xsl:for-each select="counter">
                      <xsl:call-template name="counter-literal"/>
-                  </xsl:for-each>, <xsl:value-of select="format-number(counter/@duration,'0.00')"/>s
+                  </xsl:for-each>
           </span>
          <div class="containerContents">
             <xsl:if test="set-up|tear-down">
@@ -214,7 +195,7 @@
    </xsl:template>
    
    <xsl:template match="fixtures">
-      <table class="section" rules="groups" border="1" cellpadding="0" cellspacing="0">
+      <table class="section" rules="groups" border="0" cellpadding="0" cellspacing="0">
          <thead>
          <tr class="header2"><th><xsl:value-of select="parent::namespace/@name" /></th></tr>
          </thead>
@@ -225,92 +206,91 @@
    </xsl:template>
    
    <xsl:template match="fixture">
-      <table width="96%" border="0" cellpadding="2" cellspacing="0">
+      <xsl:variable name="count-failure" select="count(runs/descendant::run[@result = 'failure'])"/>
+      <xsl:variable name="count-skip" select="count(runs/descendant::run[@result = 'skip'])"/>
+      <xsl:variable name="count-ignore" select="count(runs/descendant::run[@result = 'ignore'])"/>
+      
+      <table width="100%" border="0" cellpadding="2" cellspacing="0">
          <thead>
             <tr>
+               <xsl:if test="position() mod 2=0">
+                  <xsl:attribute name="class">shaded</xsl:attribute>
+               </xsl:if>
                <xsl:attribute name="id"><xsl:value-of select="@type" />.<xsl:value-of select="@name" /></xsl:attribute>
-               <td><strong><xsl:value-of select="@name"/></strong></td>
-               <td width="60px"><strong><xsl:value-of select="format-number(counter/@duration,'0.00')"/>s</strong></td>
-               <td width="250px"><strong>
+               <td style="white-space:normal" width="375px"><strong><xsl:value-of select="@name"/></strong></td>
+               <td class="percent">
                   <xsl:for-each select="counter">
-                     <xsl:call-template name="counter-progressbar">
-                        <xsl:with-param name="width" select="100" />
-                        <xsl:with-param name="height" select="10" />
+                     <xsl:value-of select="concat(format-number(@success-count div @run-count * 100,'#0.0'), ' %')" />
+                  </xsl:for-each>
+               </td>
+               <td>
+                  <xsl:for-each select="counter">
+                     <xsl:call-template name="mbunit.detail.percent">
+                        <xsl:with-param name="total" select="@run-count" />
+                        <xsl:with-param name="success" select="@success-count" />
+                        <xsl:with-param name="failure" select="@failure-count" />
+                        <xsl:with-param name="ignore" select="@ignore-count" />
+                        <xsl:with-param name="skip" select="@skip-count" />
+                        <xsl:with-param name="assert" select="@assert-count" />
+                        <xsl:with-param name="scale" select="200" />
                      </xsl:call-template>
-                  </xsl:for-each></strong>
+                  </xsl:for-each>
                </td>
             </tr>
          </thead>
 
-         <xsl:if test="set-up|tear-down">
-            <tbody>
-               <tr><th colspan="3">Fixture SetUp and TearDown</th></tr>
-               <xsl:apply-templates select="set-up"/>
-               <xsl:apply-templates select="tear-down"/>
-            </tbody>
-         </xsl:if>
-
+         <xsl:if test="$count-failure &gt; 0 or $count-skip &gt; 0 or $count-ignore &gt; 0">
          <tbody>
             <tr>
+               <xsl:if test="position() mod 2=0">
+                  <xsl:attribute name="class">shaded</xsl:attribute>
+               </xsl:if>
                <td colspan="3">
-                  <xsl:apply-templates select="runs" />
+                     <xsl:if test="$count-failure &gt; 0">
+                        <div style="margin-left:12px; margin-right:6px"><strong>Failed Tests</strong>
+                           <ol style="margin-top:0px;">
+                              <xsl:apply-templates select="runs/descendant::run[@result = 'failure']">
+                              </xsl:apply-templates>
+                           </ol>
+                        </div>
+                     </xsl:if>
+                     <xsl:if test="$count-skip &gt; 0">
+                        <div style="margin-left:12px; margin-right:6px"><strong>Skipped Tests</strong>
+                           <ol style="margin-top:0px;">
+                              <xsl:apply-templates select="runs/descendant::run[@result = 'skip']">
+                              </xsl:apply-templates>
+                           </ol>
+                        </div>
+                     </xsl:if>
+                     <xsl:if test="$count-ignore &gt; 0">
+                        <div style="margin-left:12px; margin-right:6px"><strong>Ignored Tests</strong>
+                           <ol style="margin-top:0px;">
+                              <xsl:apply-templates select="runs/descendant::run[@result = 'ignore']">
+                              </xsl:apply-templates>
+                           </ol>
+                        </div>
+                     </xsl:if>
                </td>
-            </tr>
+            </tr>        
          </tbody>
+         </xsl:if>
       </table>
    </xsl:template>
-   
+      
    <xsl:template match="runs">
-      <table width="96%" rules="groups" border="0" cellpadding="0" cellspacing="0">
-         <xsl:apply-templates select="*" />
-      </table>
+      <xsl:apply-templates select="*" />
    </xsl:template>
 
    <xsl:template match="run">
       <xsl:variable name="p"><xsl:value-of select="parent::fixture/@name"/>.</xsl:variable>
-      
-      <tr>
-         <xsl:if test="position() mod 2=0">
-            <xsl:attribute name="class">shaded</xsl:attribute>
-         </xsl:if>
-         <td colspan="3"><strong><xsl:value-of select="substring-after(@name, $p)"/></strong></td>
-      </tr>
-      <tr>
-         <xsl:if test="position() mod 2=0">
-            <xsl:attribute name="class">shaded</xsl:attribute>
-         </xsl:if>
-         <td><xsl:value-of select="format-number(@duration * 1000,'0.000')"/>ms</td>
-         <td><xsl:value-of select="format-number(@memory * 0.0001,'0.00')"/>Kb</td>
-         <td><xsl:value-of select="@assert-count" /></td>
-      </tr>
-      
-      <xsl:call-template name="console-output">
-         <xsl:with-param name="shaded" select="position() mod 2=0"/>
-      </xsl:call-template>      
-   </xsl:template>
-
-   <xsl:template match="set-up">
-      <xsl:call-template name="set-up-or-tear-down" />
-   </xsl:template>
-
-   <xsl:template match="tear-down">
-      <xsl:call-template name="set-up-or-tear-down" />
-   </xsl:template>
-
-   <xsl:template name="set-up-or-tear-down">
-      <tr>
-         <td> <xsl:value-of select="@name"/> </td>
-         <td> <xsl:value-of select="format-number(@duration * 1000,'0.000')"/>ms </td>
-         <td> <xsl:value-of select="format-number(@memory * 0.0001,'0.00')"/>Kb </td>
-      </tr>
-
-      <!-- Adding execption log -->
-      <xsl:if test="@result = 'failure'">
-         <xsl:call-template name="exception-log"/>
+      <xsl:if test="@result != 'success'">
+         <li>
+            <xsl:value-of select="substring-after(@name, $p)"/>
+            <xsl:call-template name="console-output">
+               <xsl:with-param name="shaded" select="position() mod 2=0"/>
+            </xsl:call-template> 
+         </li>
       </xsl:if>
-
-      <!-- Adding console out, error -->
-      <xsl:call-template name="console-output" />
    </xsl:template>
 
    <xsl:template name="exception-log">
@@ -388,18 +368,14 @@
       <xsl:param name="name" />
       
       <xsl:if test="string-length( text() ) != 0">
-         <tr>
-            <xsl:if test="$shaded">
-               <xsl:attribute name="class">shaded</xsl:attribute>
-            </xsl:if>
-            <td colspan="3">
-               <strong><xsl:value-of select="$name"/>:</strong>
-               <br/>
-               <xsl:call-template name="br-replace">
-                  <xsl:with-param name="word"><xsl:value-of select="text()"/></xsl:with-param>
-               </xsl:call-template>
-            </td>
-         </tr>
+         <br/>
+         <strong><xsl:value-of select="$name"/>:</strong>
+         <br/>
+         <p>
+         <xsl:call-template name="br-replace">
+            <xsl:with-param name="word"><xsl:value-of select="text()"/></xsl:with-param>
+         </xsl:call-template>
+         </p>
       </xsl:if>
    </xsl:template>
 </xsl:stylesheet>
