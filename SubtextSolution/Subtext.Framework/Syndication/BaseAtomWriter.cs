@@ -158,21 +158,28 @@ namespace Subtext.Framework.Syndication
 
 			foreach(Entry entry in this.Items)
 			{
-				// We'll show every entry if RFC3229 is not enabled.
-				//TODO: This is wrong.  What if a post is not published 
-				// and then gets published later. It will not be displayed.
-				if(!useDeltaEncoding || entry.DateSyndicated > this.DateLastViewedFeedItemPublished)
+				WriteEntry(entry, settings);
+			}
+		}
+
+		protected virtual void WriteEntry(Entry entry, BlogConfigurationSettings settings)
+		{
+			base.WriteEntry(entry);
+
+			// We'll show every entry if RFC3229 is not enabled.
+			//TODO: This is wrong.  What if a post is not published 
+			// and then gets published later. It will not be displayed.
+			if (!useDeltaEncoding || entry.DateSyndicated > this.DateLastViewedFeedItemPublished)
+			{
+				this.WriteStartElement("entry");
+				EntryXml(entry, settings, info.UrlFormats, info.TimeZone);
+				this.WriteEndElement();
+				this.clientHasAllFeedItems = false;
+
+				//Update the latest publish date.
+				if (entry.DateSyndicated > latestPublishDate)
 				{
-					this.WriteStartElement("entry");
-					EntryXml(entry, settings, info.UrlFormats, info.TimeZone);
-					this.WriteEndElement();
-					this.clientHasAllFeedItems = false;
-					
-					//Update the latest publish date.
-					if(entry.DateSyndicated > latestPublishDate)
-					{
-						latestPublishDate = entry.DateSyndicated;
-					}
+					latestPublishDate = entry.DateSyndicated;
 				}
 			}
 		}
@@ -240,4 +247,5 @@ namespace Subtext.Framework.Syndication
 		}
 	}
 }
+
 

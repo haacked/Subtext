@@ -187,6 +187,7 @@ namespace Subtext.Web.Admin.Pages
 						pluginSetting.Controls.Remove(settingModule);
 					try
 					{
+                        Control tmp = LoadControl(completeModuleName);
 						settingModule = LoadControl(completeModuleName) as SubtextAdminGlobalSettingsBaseControl;
 					}
 					catch (HttpException ex)
@@ -303,6 +304,7 @@ namespace Subtext.Web.Admin.Pages
 		private void ResetPostEdit(bool showEdit)
 		{
 			PluginID = String.Empty;
+            ViewState[VSKEY_PLUGINNAME] = string.Empty;
 
 			Results.Collapsible = showEdit;
 			Results.Collapsed = showEdit;

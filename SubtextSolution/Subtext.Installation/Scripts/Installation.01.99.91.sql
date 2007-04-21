@@ -108,6 +108,12 @@ BEGIN
 			SET OwnerId = @UserId
 	END
 END
+ELSE
+BEGIN
+	UPDATE  [<dbUser,varchar,dbo>].[subtext_Host]
+	SET OwnerId = CONVERT(uniqueIdentifier , '00000000-0000-0000-0000-000000000000')
+	WHERE 1 = 0
+END
 GO
 
 

@@ -21,7 +21,7 @@
 		<st:ScriptTag id="commonJs" src="~/Scripts/common.js" runat="server" />
 		<script type="text/javascript">
 			<%= AllowedHtmlJavascriptDeclaration %>
-			var subtextBlogInfo = new blogInfo('<%= Config.CurrentBlog.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>');
+			var subtextBlogInfo = new blogInfo('<%= BlogInfo.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>');
 		</script>
 		<asp:Literal ID="scripts" Runat="server" />
 		<asp:PlaceHolder ID="coCommentPlaceholder" Runat="server" />

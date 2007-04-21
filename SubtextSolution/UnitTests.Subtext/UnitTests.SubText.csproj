@@ -161,6 +161,10 @@
       <Project>{745B39B7-DE46-4070-8733-C53308721C58}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\Subtext.Plugins.Core\Subtext.Plugins.Core.csproj">
+      <Project>{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}</Project>
+      <Name>Subtext.Plugins.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj">
       <Project>{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}</Project>
       <Name>Subtext.Providers.BlogEntryEditor.FCKeditor</Name>
@@ -207,6 +211,7 @@
     <Compile Include="Framework\Security\SubtextRoleProviderTests.cs" />
     <Compile Include="Framework\Web\BaseHttpHandlerTests.cs" />
     <Compile Include="Installation\InstallerTests.cs" />
+    <Compile Include="Plugins\Core\FeedvertisingTests.cs" />
     <Compile Include="Scripting\ConnectionStringTests.cs" />
     <Compile Include="Scripting\SqlScriptRunnerTests.cs" />
     <Compile Include="Scripting\TemplateParameterCollectionTests.cs" />

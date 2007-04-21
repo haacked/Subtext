@@ -18,23 +18,23 @@ namespace Subtext.Plugins.Examples.TestPlugin
 
 		public override void LoadSettings()
 		{
-			txbValue1.Text = GetSetting("value1");
-			if (!String.IsNullOrEmpty(GetSetting("check")))
+            txbValue1.Text = CurrentPlugin.GetBlogSetting("value1");
+            if (!String.IsNullOrEmpty(CurrentPlugin.GetBlogSetting("check")))
 			{
-				bool checkOn = Boolean.Parse(GetSetting("check"));
+                bool checkOn = Boolean.Parse(CurrentPlugin.GetBlogSetting("check"));
 				chkOption.Checked = checkOn;
 			}
-			txbValue2.Text = GetSetting("value2");
+            txbValue2.Text = CurrentPlugin.GetBlogSetting("value2");
 		}
 
 		public override void UpdateSettings()
 		{
-			SetSetting("value1",txbValue1.Text);
-			SetSetting("value2", txbValue2.Text);
+            CurrentPlugin.SetBlogSetting("value1", txbValue1.Text);
+            CurrentPlugin.SetBlogSetting("value2", txbValue2.Text);
 			if (chkOption.Checked)
-				SetSetting("check", "true");
+                CurrentPlugin.SetBlogSetting("check", "true");
 			else
-				SetSetting("check", "false");
+                CurrentPlugin.SetBlogSetting("check", "false");
 		}
 
 	}

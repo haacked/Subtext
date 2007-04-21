@@ -203,28 +203,35 @@ namespace Subtext.Framework.Syndication
 			
 			foreach(T entry in this.Items)
 			{
-				if (this.useDeltaEncoding && GetSyndicationDate(entry) <= DateLastViewedFeedItemPublished)
-				{
-					// Since Entries are ordered by DatePublished descending, as soon 
-					// as we encounter one that is smaller than or equal to 
-					// one the client has already seen, we're done as we 
-					// know the client already has the rest of the items in 
-					// the collection.
-					return;
-				}
-
-				// If we're here, we know that entry.EntryId is larger than 
-				// the LastViewedFeedItemId.  Thus we can send it.
-				this.WriteStartElement("item");
-				EntryXml(entry, settings, info.UrlFormats);
-				this.WriteEndElement();
-				if(GetSyndicationDate(entry) > latestPublishDate)
-				{
-					latestPublishDate = GetSyndicationDate(entry);
-				}
-
-				this.clientHasAllFeedItems = false;
+				WriteEntry(entry, settings);
 			}
+		}
+
+		protected virtual void WriteEntry(T entry, BlogConfigurationSettings settings)
+		{
+			base.WriteEntry(entry);
+
+			if (this.useDeltaEncoding && GetSyndicationDate(entry) <= DateLastViewedFeedItemPublished)
+			{
+				// Since Entries are ordered by DatePublished descending, as soon 
+				// as we encounter one that is smaller than or equal to 
+				// one the client has already seen, we're done as we 
+				// know the client already has the rest of the items in 
+				// the collection.
+				return;
+			}
+
+			// If we're here, we know that entry.EntryId is larger than 
+			// the LastViewedFeedItemId.  Thus we can send it.
+			this.WriteStartElement("item");
+			EntryXml(entry, settings, info.UrlFormats);
+			this.WriteEndElement();
+			if (GetSyndicationDate(entry) > latestPublishDate)
+			{
+				latestPublishDate = GetSyndicationDate(entry);
+			}
+
+			this.clientHasAllFeedItems = false;
 		}
 
 		/// <summary>

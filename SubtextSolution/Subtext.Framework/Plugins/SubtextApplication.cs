@@ -51,6 +51,7 @@ namespace Subtext.Extensibility.Plugins
 		private static object EventEntryUpdated = new object();
 		private static object EventEntryRendering = new object();
 		private static object EventSingleEntryRendering = new object();
+		private static object EventEntrySyndicating = new object();
 		#endregion
 
 
@@ -268,6 +269,21 @@ namespace Subtext.Extensibility.Plugins
 				Events.RemoveHandler(EventEntryRendering, value);
 			}
 		}
+		
+		/// <summary>
+		/// Raised when entry is syndicated as RSS or Atom feed
+		/// </summary>
+		public event EventHandler<SubtextEventArgs> EntrySyndicating
+		{
+			add
+			{
+				Events.AddHandler(EventEntrySyndicating, value);
+			}
+			remove
+			{
+				Events.RemoveHandler(EventEntrySyndicating, value);
+			}
+		}
 
 		#endregion
 
@@ -291,6 +307,11 @@ namespace Subtext.Extensibility.Plugins
 		internal void ExecuteSingleEntryRendering(object sender, SubtextEventArgs e)
 		{
 			ExecuteEntryEvent(EventSingleEntryRendering, sender, e);
+		}
+		
+		internal void ExecuteEntrySyndicating(object sender, SubtextEventArgs e)
+		{
+			ExecuteEntryEvent(EventEntrySyndicating, sender, e);
 		}
 
 		//List through the subscribed event handlers, and decide weather call them or not

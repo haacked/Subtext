@@ -19,27 +19,27 @@ namespace Subtext.Plugins.Core.CommunityCredits
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
-			if (Convert.ToBoolean(CurrentPlugin.DefaultSettings["AllowSingleBlogOverride"]))
+            if (Convert.ToBoolean(CurrentPlugin.GetDefaultSetting("AllowSingleBlogOverride")))
 				overridableConfiguration.Visible = true;
 			else
 				notOverridableConfiguration.Visible = true;
 
-			globalAffiliateCode.Text = CurrentPlugin.DefaultSettings["AffiliateCode"];
-			globalAffiliateKey.Text = CurrentPlugin.DefaultSettings["AffiliateKey"];
+            globalAffiliateCode.Text = CurrentPlugin.GetDefaultSetting("AffiliateCode");
+            globalAffiliateKey.Text = CurrentPlugin.GetDefaultSetting("AffiliateKey");
 		}
 
 		public override void LoadSettings()
 		{
-			affiliateCode.Text = GetSetting("AffiliateCode");
-			affiliateKey.Text = GetSetting("AffiliateKey");
+            affiliateCode.Text = CurrentPlugin.GetBlogSetting("AffiliateCode");
+            affiliateKey.Text = CurrentPlugin.GetBlogSetting("AffiliateKey");
 
 			bindEffectiveCodes();
 		}
 
 		public override void UpdateSettings()
 		{
-			SetSetting("AffiliateCode", affiliateCode.Text);
-			SetSetting("AffiliateKey", affiliateKey.Text);
+            CurrentPlugin.SetBlogSetting("AffiliateCode", affiliateCode.Text);
+            CurrentPlugin.SetBlogSetting("AffiliateKey", affiliateKey.Text);
 
 			bindEffectiveCodes();
 		}
@@ -47,12 +47,12 @@ namespace Subtext.Plugins.Core.CommunityCredits
 		private void bindEffectiveCodes()
 		{
 			if (String.IsNullOrEmpty(affiliateCode.Text))
-				effectiveAffiliateCode.Text = CurrentPlugin.DefaultSettings["AffiliateCode"];
+                effectiveAffiliateCode.Text = CurrentPlugin.GetDefaultSetting("AffiliateCode");
 			else
 				effectiveAffiliateCode.Text = affiliateCode.Text;
 
 			if (String.IsNullOrEmpty(affiliateKey.Text))
-				effectiveAffiliateKey.Text = CurrentPlugin.DefaultSettings["AffiliateKey"];
+                effectiveAffiliateKey.Text = CurrentPlugin.GetDefaultSetting("AffiliateKey");
 			else
 				effectiveAffiliateKey.Text = affiliateKey.Text;
 		}
