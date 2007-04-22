@@ -151,8 +151,8 @@ function refresh()
                         <input type="hidden" name="action" value=""/>
                            <table width="100%">
                               <tr>
-                              <td align="left"><i>Project Status:</i> $projectGridRow.Status</td>
-                              <td width="15">&nbsp;</td>
+                              <td align="left" width="200"><i>Project Status:</i> $projectGridRow.Status</td>
+                              <td align="left"><a href="server/$projectGridRow.ServerName/project/$projectGridRow.Name/ViewLatestBuildReport.aspx">View Latest Build</a></td>
                               <td align="right">
                                  <font color="Black">
                                     #if ($projectGridRow.allowForceBuild)
