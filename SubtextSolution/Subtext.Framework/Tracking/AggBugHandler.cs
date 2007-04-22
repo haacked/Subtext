@@ -82,7 +82,7 @@ namespace Subtext.Framework.Tracking
 				{
 					EntryView ev = new EntryView();
 					ev.BlogId = Config.CurrentBlog.Id;
-					ev.EntryID = EntryID;
+					ev.EntryId = EntryID;
 					ev.PageViewType = PageViewType.AggView;
 					EntryTracker.Track(ev);
 				}

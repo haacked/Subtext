@@ -129,15 +129,21 @@ namespace Subtext.Framework
 			}
 			catch(SqlException e)
 			{
-				if(e.Message.IndexOf("Invalid object name 'subtext_Host'") >= 0)
-				{
-					if(suppressException)
-						return null;
-					else
-						throw new HostDataDoesNotExistException();
-				}
-				else
-					throw;
+                if (e.Message.IndexOf("Invalid object name 'subtext_Host'") >= 0)
+                {
+                    if (suppressException)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        throw new HostDataDoesNotExistException();
+                    }
+                }
+                else
+                {
+                    throw;
+                }
 			}
 		}
 

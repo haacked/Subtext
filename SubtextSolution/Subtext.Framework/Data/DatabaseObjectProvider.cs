@@ -1327,7 +1327,7 @@ namespace Subtext.Framework.Data
 			//Note, for the paramater @URL, do NOT convert null values into empty strings.
 			SqlParameter[] p =	
 			{
-						DataHelper.MakeInParam("@EntryID", SqlDbType.Int, 4, DataHelper.CheckNull(view.EntryID)),
+						DataHelper.MakeInParam("@EntryID", SqlDbType.Int, 4, DataHelper.CheckNull(view.EntryId)),
 						DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(view.BlogId)),
 						DataHelper.MakeInParam("@URL", SqlDbType.NVarChar, 255, view.ReferralUrl),
 						DataHelper.MakeInParam("@IsWeb", SqlDbType.Bit,1, view.PageViewType)

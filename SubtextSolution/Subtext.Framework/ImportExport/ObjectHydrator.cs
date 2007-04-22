@@ -79,8 +79,10 @@ namespace Subtext.ImportExport
 			comment.DateModified = feedbackItem.DateModified;
 			comment.UserEMail = feedbackItem.Email;
 			comment.UserName = feedbackItem.Author;
-			if (feedbackItem.SourceUrl != null)
-				comment.UserUrl = feedbackItem.SourceUrl.ToString();
+            if (feedbackItem.SourceUrl != null)
+            {
+                comment.UserUrl = feedbackItem.SourceUrl.ToString();
+            }
 
 			return comment;
 		}
@@ -99,8 +101,11 @@ namespace Subtext.ImportExport
 			blogMLTrackback.Approved = trackback.Approved;
 			blogMLTrackback.DateCreated = trackback.DateCreated;
 			blogMLTrackback.DateModified = trackback.DateModified;
-			if (trackback.SourceUrl != null)
-				blogMLTrackback.Url = trackback.SourceUrl.ToString();
+            if (trackback.SourceUrl != null)
+            {
+                blogMLTrackback.Url = trackback.SourceUrl.ToString();
+            }
+
 			return blogMLTrackback;
 		}
 

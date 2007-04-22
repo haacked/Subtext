@@ -24,7 +24,7 @@ namespace Subtext.Framework.Components
 	public class Referrer
 	{
 		private string _referrerURL;
-		private int _entryID;
+		private int _entryId;
 		private string _postTitle;
 		private DateTime _lastreferDate;
 		private int _count;
@@ -48,8 +48,8 @@ namespace Subtext.Framework.Components
 
 		public int EntryID
 		{
-			get { return _entryID; }
-			set { _entryID = value; }
+			get { return _entryId; }
+			set { _entryId = value; }
 		}
 
 		public string PostTitle
@@ -64,11 +64,11 @@ namespace Subtext.Framework.Components
 			set { _lastreferDate = value; }
 		}
 
-		private int _blogID;
-		public int BlogId
+		private int _blogId;
+		public int BlogID
 		{
-			get {return this._blogID;}
-			set {this._blogID = value;}
+			get {return this._blogId;}
+			set {this._blogId = value;}
 		}
 
 	}

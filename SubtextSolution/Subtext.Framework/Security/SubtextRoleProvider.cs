@@ -34,8 +34,10 @@ namespace Subtext.Framework.Security
 
 			this.connectionString = System.Configuration.ConfigurationManager.ConnectionStrings[csn].ConnectionString;
 
-			if (string.IsNullOrEmpty(this.connectionString))
-				throw new Exception(String.Format(CultureInfo.CurrentUICulture, Resources.Configuration_KeyNotFound, csn));
+            if (string.IsNullOrEmpty(this.connectionString))
+            {
+                throw new Exception(String.Format(CultureInfo.CurrentUICulture, Resources.Configuration_KeyNotFound, csn));
+            }
 
 			config.Remove("connectionStringName");
 		}
@@ -69,6 +71,7 @@ namespace Subtext.Framework.Security
 			{
 				builder.AppendFormat("{0},", s);
 			}
+
 			cdUserNames = builder.ToString().Remove(builder.Length - 1);
 
 			builder = new StringBuilder();
@@ -96,17 +99,25 @@ namespace Subtext.Framework.Security
 
 		public override void CreateRole(string roleName)
 		{
-			if (roleName == null)
-				throw new ArgumentNullException("roleName", "Role is null.");
+            if (roleName == null)
+            {
+                throw new ArgumentNullException("roleName", "Role is null.");
+            }
 
 			if (roleName.Length == 0)
-				throw new ArgumentException("Cannot create an empty role name.", "roleName");
+            {
+                throw new ArgumentException("Cannot create an empty role name.", "roleName");
+            }
 
-			if (roleName.Contains(","))
-				throw new ArgumentException("Role cannot contain a comma.", "roleName");
+            if (roleName.Contains(","))
+            {
+                throw new ArgumentException("Role cannot contain a comma.", "roleName");
+            }
 
-			if (roleName.Length > 512)
-				throw new ArgumentException("Role name is too long.", "roleName");
+            if (roleName.Length > 512)
+            {
+                throw new ArgumentException("Role name is too long.", "roleName");
+            }
 
 			int recordsAffected = SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Roles_CreateRole", ApplicationName, roleName);
 			if (recordsAffected != 1)

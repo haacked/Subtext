@@ -60,8 +60,10 @@ namespace Subtext.Framework.Providers
 			email.Subject = subject;
 			email.BodyText = message;
 
-			if (null != replyTo && replyTo.Length > 0)
-				email.AddCustomHeader("Reply-To", replyTo);
+            if (null != replyTo && replyTo.Length > 0)
+            {
+                email.AddCustomHeader("Reply-To", replyTo);
+            }
 
 			SmtpServer smtpServer = new SmtpServer(SmtpServer, Port);
 
