@@ -246,6 +246,7 @@
                   <xsl:attribute name="class">shaded</xsl:attribute>
                </xsl:if>
                <td colspan="3">
+                  <div style="overflow:scroll;width:600px">
                      <xsl:if test="$count-failure &gt; 0">
                         <div style="margin-left:12px; margin-right:6px"><strong>Failed Tests</strong>
                            <ol style="margin-top:0px;">
@@ -270,6 +271,7 @@
                            </ol>
                         </div>
                      </xsl:if>
+                  </div>
                </td>
             </tr>        
          </tbody>
@@ -286,6 +288,9 @@
       <xsl:if test="@result != 'success'">
          <li>
             <xsl:value-of select="substring-after(@name, $p)"/>
+            <xsl:if test="@result = 'failure'">
+               <xsl:call-template name="exception-log"/>
+            </xsl:if>
             <xsl:call-template name="console-output">
                <xsl:with-param name="shaded" select="position() mod 2=0"/>
             </xsl:call-template> 
@@ -294,42 +299,27 @@
    </xsl:template>
 
    <xsl:template name="exception-log">
-      <tr class="failure-exception">
-         <td colspan="3">
-            <table width="96%" border="0" cellpadding="1" cellspacing="1">
-               <xsl:apply-templates select="exception" />
-            </table>
-         </td>
-      </tr>
+      <xsl:apply-templates select="exception" />
    </xsl:template>
    
    <xsl:template match="exception">
-      <tr class="exceptionType">
-         <td><strong>Type:</strong></td>
-         <td><xsl:value-of select="@type"/></td>
-      </tr>
-      <tr>
-         <td><strong>Message:</strong></td>
-         <td><xsl:value-of select="message"/></td>
-      </tr>
-      <tr>
-         <td><strong>Source:</strong></td>
-         <td><xsl:value-of select="source"/></td>
-      </tr>
+      <p style="margin-top:0px;">
+      <strong>Exception:</strong>&#160;<xsl:value-of select="@type"/>
+      <br/>
+      <strong>Message:</strong>&#160;<xsl:value-of select="message"/>
+      <br/>
+      <strong>Source:</strong>&#160;<xsl:value-of select="source"/>
+      <br/>
       <xsl:for-each select="properties/property">
-         <tr>
-            <td><strong><xsl:value-of select="@name"/>:</strong></td>
-            <td><xsl:value-of select="@value"/></td>
-         </tr>
+         <strong><xsl:value-of select="@name"/>:</strong>&#160;<xsl:value-of select="@value"/>
+         <br/>
       </xsl:for-each>            
-      <tr>
-         <td colspan="2"><strong>StackTrace:</strong>
-            <br/>
-            <xsl:call-template name="br-replace">
-               <xsl:with-param name="word"><xsl:value-of select="stack-trace"/></xsl:with-param>
-            </xsl:call-template>
-         </td>
-      </tr>
+      <strong>Stack Trace:</strong>
+      <br/>
+      <xsl:call-template name="br-replace">
+         <xsl:with-param name="word"><xsl:value-of select="stack-trace"/></xsl:with-param>
+      </xsl:call-template>
+      </p>
       <xsl:apply-templates select="exception" />
    </xsl:template>
    
@@ -371,7 +361,7 @@
          <br/>
          <strong><xsl:value-of select="$name"/>:</strong>
          <br/>
-         <p>
+         <p style="margin-top:0px;">
          <xsl:call-template name="br-replace">
             <xsl:with-param name="word"><xsl:value-of select="text()"/></xsl:with-param>
          </xsl:call-template>
