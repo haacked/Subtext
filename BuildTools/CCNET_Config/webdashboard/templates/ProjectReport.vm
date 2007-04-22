@@ -22,18 +22,28 @@
          #end
       </p>
 
-      <div id="ohloh">
-         <table class="ohloh" cellpadding="0" cellspacing="0">
+      <div class="buildcontainer">
+         <span class="containerTitle">ohloh Project Statistics</span>
+         <div class="containerContents">
+            <table class="ohloh" rules="groups" cellpadding="0" cellspacing="0" border="0">
             <tr>
-               <td class="project_languages"><script type="text/javascript" src="http://www.ohloh.net/projects/3167/widgets/project_languages"></script></td>
-               <td>&nbsp;</td>
+                  <td><script type="text/javascript" src="http://www.ohloh.net/projects/3167/widgets/project_factoids"></script></td>
+               </tr>
+               <tr>
+                  <td><script type="text/javascript" src="http://www.ohloh.net/projects/3167/widgets/project_languages"></script></td>
+               </tr>
+               <tr>
+                  <td><script type="text/javascript" src="http://www.ohloh.net/projects/3167/widgets/project_cocomo"></script></td>
             </tr>
          </table>
       </div>
+      </div>
 
       #if ($externalLinks.Length > 0)
+      <div class="buildcontainer">
+         <span class="containerTitle">External Links</span>
+         <div class="containerContents">
          <table class="ExternalLinks">
-            <tr><td colspan="2"><b>External Links</b></td></tr>
             #foreach ($externalLink in $externalLinks)
                <tr>
                   <td>&nbsp;</td>
@@ -41,6 +51,8 @@
                </tr>
             #end
          </table>
+         </div>
+      </div>
       #end  
    </div>
 </div>
