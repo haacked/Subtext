@@ -441,7 +441,7 @@ namespace Subtext.Framework.Providers
 		public abstract ImageCollection GetImagesByCategoryID(int catID, bool activeOnly);
 		public abstract Image GetImage(int imageID, bool activeOnly);
 		public abstract int InsertImage(Image image);
-		public abstract bool UpdateImage(Image _image);
+		public abstract bool UpdateImage(Image image);
 		public abstract bool DeleteImage(int imageID);
 
 		#endregion

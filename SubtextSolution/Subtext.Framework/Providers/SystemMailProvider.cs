@@ -41,7 +41,7 @@ namespace Subtext.Framework.Providers
 		/// <returns>True if the email has sent, otherwise false</returns>
 		public override bool Send(string to, string from, string subject, string message)
 		{
-			return (Send(to, from, null, subject, message));
+			return ( Send(to, from, null, subject, message) );
 		}
 
 		/// <summary>
@@ -61,8 +61,10 @@ namespace Subtext.Framework.Providers
 				MailAddress toAddress = new MailAddress(to);
 
 				MailMessage em = new MailMessage(fromAddress, toAddress);
-				if (null != replyTo && replyTo.Length > 0 )
-					em.Headers.Add("Reply-To", replyTo);
+                if (null != replyTo && replyTo.Length > 0)
+                {
+                    em.Headers.Add("Reply-To", replyTo);
+                }
 
 				em.BodyEncoding = Encoding.UTF8;
 				em.Subject = subject;

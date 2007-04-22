@@ -31,19 +31,19 @@ namespace Subtext.Framework.Components
 			set {this._blogID = value;}
 		}
 
-		private int _imageID;
+		private int _imageId;
 		[XmlAttribute]
 		public  virtual int ImageID
 		{
-			get{return _imageID;}
-			set{_imageID = value;}
+			get{return _imageId;}
+			set{_imageId = value;}
 		}
 
-		private int _catID;
+		private int _catId;
 		public  virtual int CategoryID
 		{
-			get{return _catID;}
-			set{_catID = value;}
+			get{return _catId;}
+			set{_catId = value;}
 		}
 
 		private bool _isActive;

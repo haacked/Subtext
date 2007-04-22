@@ -34,11 +34,11 @@ namespace Subtext.Framework.Components
 			set {this._blogID = value;}
 		}
 
-		private int _entryID;
-		public int EntryID
+		private int _entryId;
+		public int EntryId
 		{
-			get {return this._entryID;}
-			set {this._entryID = value;}
+			get {return this._entryId;}
+			set {this._entryId = value;}
 		}
 
 		private string _referralUrl;

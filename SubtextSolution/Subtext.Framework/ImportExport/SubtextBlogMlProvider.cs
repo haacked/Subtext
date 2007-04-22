@@ -67,20 +67,30 @@ namespace Subtext.ImportExport
 					bmlPosts.Add(bmlPost);
 				}
 
-				if (reader.NextResult() && reader.Read())
-					bmlPosts.MaxItems = DataHelper.ReadInt32(reader, "TotalRecords");
+                if (reader.NextResult() && reader.Read())
+                {
+                    bmlPosts.MaxItems = DataHelper.ReadInt32(reader, "TotalRecords");
+                }
 
-				if (bmlPosts.Count > 0 && reader.NextResult())
-					PopulateCategories(bmlPosts, reader);
+                if (bmlPosts.Count > 0 && reader.NextResult())
+                {
+                    PopulateCategories(bmlPosts, reader);
+                }
 
-				if (bmlPosts.Count > 0 && reader.NextResult())
-					PopulateComments(bmlPosts, reader);
+                if (bmlPosts.Count > 0 && reader.NextResult())
+                {
+                    PopulateComments(bmlPosts, reader);
+                }
 
-				if (bmlPosts.Count > 0 && reader.NextResult())
-					PopulateTrackbacks(bmlPosts, reader);
+                if (bmlPosts.Count > 0 && reader.NextResult())
+                {
+                    PopulateTrackbacks(bmlPosts, reader);
+                }
 
-				if (bmlPosts.Count > 0 && reader.NextResult())
-					PopulateAuthors(bmlPosts, reader);
+                if (bmlPosts.Count > 0 && reader.NextResult())
+                {
+                    PopulateAuthors(bmlPosts, reader);
+                }
 
 			}
 			return bmlPosts;
@@ -197,11 +207,15 @@ namespace Subtext.ImportExport
 						}
 					}
 
-					if (postId > postIdForeignKey)
-						continue;
+                    if (postId > postIdForeignKey)
+                    {
+                        continue;
+                    }
 
-					if (postId == postIdForeignKey)
-						populatePostChildren(post);
+                    if (postId == postIdForeignKey)
+                    {
+                        populatePostChildren(post);
+                    }
 				}
 			}
 		}
@@ -298,8 +312,10 @@ namespace Subtext.ImportExport
 				bmlCategory.Approved = category.IsActive;
 				bmlCategory.DateCreated = DateTime.Now;
 				bmlCategory.DateModified = DateTime.Now;
-				if (category.HasDescription)
-					bmlCategory.Description = category.Description;
+                if (category.HasDescription)
+                {
+                    bmlCategory.Description = category.Description;
+                }
 
 				bmlCategories.Add(bmlCategory);
 			}
@@ -313,8 +329,10 @@ namespace Subtext.ImportExport
 		public override IBlogMLContext GetBlogMLContext()
 		{
 			bool embedValue = false;
-			if (HttpContext.Current != null && HttpContext.Current.Request != null)
-				embedValue = String.Equals(HttpContext.Current.Request.QueryString["embed"], "true", StringComparison.InvariantCultureIgnoreCase);
+            if (HttpContext.Current != null && HttpContext.Current.Request != null)
+            {
+                embedValue = String.Equals(HttpContext.Current.Request.QueryString["embed"], "true", StringComparison.InvariantCultureIgnoreCase);
+            }
 
 			return new BlogMLContext(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), embedValue);
 		}
@@ -425,22 +443,29 @@ namespace Subtext.ImportExport
 			newEntry.DateModified = post.DateModified;
 			newEntry.DateSyndicated = post.DateModified;  // is this really the best thing to do?
 			newEntry.Body = content;
-			if (post.HasExcerpt)
-				newEntry.Description = post.Excerpt.Text;
+            if (post.HasExcerpt)
+            {
+                newEntry.Description = post.Excerpt.Text;
+            }
+
 			newEntry.IsActive = post.Approved;
 			newEntry.DisplayOnHomePage = post.Approved;
 			newEntry.IncludeInMainSyndication = post.Approved;
 			newEntry.IsAggregated = post.Approved;
 			newEntry.AllowComments = true;
 
-			if (!string.IsNullOrEmpty(post.PostName))
-				newEntry.EntryName = Entries.AutoGenerateFriendlyUrl(post.PostName, newEntry.Id);
+            if (!string.IsNullOrEmpty(post.PostName))
+            {
+                newEntry.EntryName = Entries.AutoGenerateFriendlyUrl(post.PostName, newEntry.Id);
+            }
 
 			foreach (BlogMLCategoryReference categoryRef in post.Categories)
 			{
 				string categoryTitle;
-				if (categoryIdMap.TryGetValue(categoryRef.Ref, out categoryTitle))
-					newEntry.Categories.Add(categoryTitle);
+                if (categoryIdMap.TryGetValue(categoryRef.Ref, out categoryTitle))
+                {
+                    newEntry.Categories.Add(categoryTitle);
+                }
 			}
 
 			return Entries.Create(newEntry).ToString(CultureInfo.InvariantCulture);

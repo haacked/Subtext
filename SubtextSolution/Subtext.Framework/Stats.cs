@@ -50,7 +50,6 @@ namespace Subtext.Framework
 			{
 				queuedStatsList = new List<EntryView>();
 				queuedAllowCount = Config.Settings.Tracking.QueueStatsCount;
-
 			}
 		}
 
@@ -70,7 +69,6 @@ namespace Subtext.Framework
 					queuedStatsList.CopyTo(eva, 0);
 
 					ClearTrackEntryQueue(new List<EntryView>(eva));
-					
 				}
 				queuedStatsList.Clear();	
 			}
@@ -211,8 +209,10 @@ namespace Subtext.Framework
 					{
 						string link = links[i];
 						Uri url = HtmlHelper.ParseUri(link);
-						if(url == null)
-							continue;
+                        if (url == null)
+                        {
+                            continue;
+                        }
 						
 						string pageText = HttpHelper.GetPageText(url);
 						

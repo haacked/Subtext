@@ -39,18 +39,18 @@ namespace Subtext.Framework.Components
 			set{_linkid = value;}
 		}
 
-		private int _postID = NullValue.NullInt32;
+		private int _postId = NullValue.NullInt32;
 		public  virtual int PostID
 		{
-			get{return _postID;}
-			set{_postID = value;}
+			get{return _postId;}
+			set{_postId = value;}
 		}
 
-		private int _catID;
+		private int _catId;
 		public  virtual int CategoryID
 		{
-			get{return _catID;}
-			set{_catID = value;}
+			get{return _catId;}
+			set{_catId = value;}
 		}
 
 		private bool _isActive;
