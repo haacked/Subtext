@@ -327,7 +327,7 @@ a.img, a img
 .ohloh
 {
    width: 98%;
-   margin: 0 0 16px 4px;
+   margin: 0 0 16px 0px;
 }
 
 .project_languages
@@ -336,6 +336,11 @@ a.img, a img
    width: 75px;
 }
 
+.project_facts
+{
+   border: 1px dotted #0F3EAD;
+   width: 70px;
+}
 /*###########################################*/
 /*#  CRUISECONTROL.NET CONTAINERS
 /*###########################################*/
