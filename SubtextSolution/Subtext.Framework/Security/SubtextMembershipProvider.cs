@@ -410,7 +410,7 @@ namespace Subtext.Framework.Security
 					cmd.CommandType = CommandType.StoredProcedure;
 					cmd.Parameters.AddWithValue("@MinutesSinceLastInActive", 20);
 					//cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow.ToLongTimeString());
-               cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow);
+               cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.Now);
 					cmd.Parameters.Add(totalCountParam);
 
 					conn.Open();
