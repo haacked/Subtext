@@ -409,7 +409,8 @@ namespace Subtext.Framework.Security
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
 					cmd.Parameters.AddWithValue("@MinutesSinceLastInActive", 20);
-					cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow.ToLongTimeString());
+					//cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow.ToLongTimeString());
+               cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow);
 					cmd.Parameters.Add(totalCountParam);
 
 					conn.Open();
@@ -733,7 +734,8 @@ namespace Subtext.Framework.Security
 					cmd.CommandType = CommandType.StoredProcedure;
 					cmd.Parameters.AddWithValue("@UserName", username);
 					cmd.Parameters.AddWithValue("@UpdateLastLoginActivityDate", 0);
-					cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.Now.ToShortTimeString());
+					//cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.Now.ToShortTimeString());
+               cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.Now);
 
 					conn.Open();
 					using (IDataReader reader = cmd.ExecuteReader())
