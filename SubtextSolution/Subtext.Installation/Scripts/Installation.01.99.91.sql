@@ -171,6 +171,12 @@ BEGIN
 		, Description = 'Role for all other users'
 	FROM [<dbUser,varchar,dbo>].[subtext_Applications]
 END
+ELSE
+BEGIN
+	UPDATE  [<dbUser,varchar,dbo>].[subtext_Host]
+	SET OwnerId = CONVERT(uniqueIdentifier , '00000000-0000-0000-0000-000000000000')
+	WHERE 1 = 0
+END
 GO
 
 /* Now, take the user in the Config table and add them as new Users
@@ -288,6 +294,13 @@ BEGIN
 		INNER JOIN
 			[<dbUser,varchar,dbo>].[subtext_Config] cf ON c.BlogId = cf.BlogId
 END
+ELSE
+BEGIN
+	UPDATE  [<dbUser,varchar,dbo>].[subtext_Host]
+	SET OwnerId = CONVERT(uniqueIdentifier , '00000000-0000-0000-0000-000000000000')
+	WHERE 1 = 0
+END
+GO
 
 /* Now set the FK so that it always points to Users */
 IF NOT EXISTS(
