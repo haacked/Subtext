@@ -94,7 +94,7 @@ namespace UnitTests.Subtext.Plugins.Core
 		{
 			Advertisement ad = GetValidAdvertisement();
 			IFeedvertisingService service = new FeedvertisingService();
-			Assert.AreEqual("<strong><em>Prefix</em></strong>: Before <a href=\"Url\">Text</a><em> </em>After<br />", service.GetAdvertisementHtml(ad));
+			Assert.AreEqual("<p><strong><em>Prefix</em></strong>: Before <a href=\"Url\">Text</a><em> </em>After<br /></p>", service.GetAdvertisementHtml(ad));
 		}
 
 		[Test]
