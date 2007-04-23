@@ -111,7 +111,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		public void CanGetNumberOfUsersOnline()
 		{
 			UnitTestHelper.SetupBlog();
-			Config.CurrentBlog.Owner.LastActivityDate = DateTime.Now;
+         Config.CurrentBlog.Owner.LastActivityDate = DateTime.UtcNow;
 			Membership.UpdateUser(Config.CurrentBlog.Owner);
 			Assert.GreaterEqualThan(Membership.GetNumberOfUsersOnline(), 1);
 		}
