@@ -4837,7 +4837,7 @@ BEGIN
 		, IsApproved
 		, CreateDate
         , LastLoginDate
-        , @CurrentTimeUtc
+        , LastActivityDate = @CurrentTimeUtc
         , LastPasswordChangedDate
         , UserId
         , IsLockedOut
