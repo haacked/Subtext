@@ -735,7 +735,7 @@ namespace Subtext.Framework.Security
 					cmd.Parameters.AddWithValue("@UserName", username);
 					cmd.Parameters.AddWithValue("@UpdateLastLoginActivityDate", 0);
 					//cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.Now.ToShortTimeString());
-               cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.Now);
+               cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow);
 
 					conn.Open();
 					using (IDataReader reader = cmd.ExecuteReader())
