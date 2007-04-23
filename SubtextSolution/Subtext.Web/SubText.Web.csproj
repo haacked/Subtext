@@ -2088,7 +2088,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="user.config" />
+    <Content Include="user.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Skins\_System\ForgotPassword.Master" />
     <Content Include="Skins\_System\Login.Master" />
     <Content Include="SystemMessages\SystemMessageTemplate.Master" />
