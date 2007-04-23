@@ -133,7 +133,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 			entry.Categories.Add(category2Name);
         	Entries.Create(entry);
 
-            posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
+         posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), username, "password", 10);
             Assert.AreEqual(4, posts.Length, "Expected 4 posts");
             Assert.AreEqual(1, posts[3].categories.Length, "Expected our categories to be there.");
             Assert.AreEqual(2, posts[2].categories.Length, "Expected our categories to be there.");
