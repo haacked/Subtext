@@ -619,9 +619,25 @@ namespace Subtext.Framework.Data
 
 		#endregion
 
-		#region Keywords
+        #region Tags
 
-		public static KeyWord LoadKeyWord(IDataReader reader)
+        public static IDictionary<string, int> LoadTags(IDataReader reader)
+        {
+            SortedDictionary<string, int> tags = new SortedDictionary<string, int>();
+            while (reader.Read())
+            {
+                tags.Add(
+                    ReadString(reader, "Name"),
+                    ReadInt32(reader, "TagCount"));
+            }
+            return tags;
+        }
+
+        #endregion
+
+        #region Keywords
+
+        public static KeyWord LoadKeyWord(IDataReader reader)
 		{
 			KeyWord kw = new KeyWord();
 			kw.Id = ReadInt32(reader, "KeyWordID");

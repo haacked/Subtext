@@ -189,8 +189,6 @@ namespace Subtext.Framework.Data
 		}
 		#endregion
 
-		#region Entries
-
 		#region Paged Posts
 
 		/// <summary>
@@ -527,6 +525,20 @@ namespace Subtext.Framework.Data
 				return DataHelper.LoadEntryCollectionFromDataReader(reader);
 			}
 		}
+
+        public override IList<Entry> GetEntriesByTag(int itemCount, string tagName)
+        {
+			SqlParameter[] p = 
+                {
+                    DataHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, itemCount),
+                    DataHelper.MakeInParam("@Tag", SqlDbType.NVarChar, 256, tagName),
+                    BlogIdParam
+                };
+			using (IDataReader reader = GetReader("subtext_GetPostsByTag", p))
+            {
+                return DataHelper.LoadEntryCollectionFromDataReader(reader);
+            }
+        }
 		#endregion
 
 		#region Single Entry
@@ -871,12 +883,7 @@ namespace Subtext.Framework.Data
 
 		public override bool SetEntryCategoryList(int entryId, int[] categoryIds)
 		{
-			if (categoryIds == null)
-			{
-				return false;
-			}
-
-			if (categoryIds.Length == 0)
+			if (categoryIds == null || categoryIds.Length == 0)
 			{
 				return false;
 			}
@@ -894,13 +901,31 @@ namespace Subtext.Framework.Data
 				BlogIdParam,
 				DataHelper.MakeInParam("@CategoryList", SqlDbType.NVarChar, 4000, catList)
 			};
-
 			return NonQueryBool("subtext_InsertLinkCategoryList", p);
 		}
 
 		#endregion
 
-		#region Format Helper
+        #region SetTagList
+
+        public override bool SetEntryTagList(int entryId, List<string> tags)
+        {
+			if (tags == null)
+				throw new ArgumentNullException("tags", "Tags cannot be null.");
+
+			SqlParameter tagParam = new SqlParameter("@TagList", SqlDbType.NText);
+			tagParam.Value = string.Join(",", tags.ToArray());
+
+			SqlParameter[] p =
+                {
+                    DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(entryId)),
+                    BlogIdParam,
+                    tagParam
+                };
+			return NonQueryBool("subtext_InsertEntryTagList", p);
+        }
+
+        #endregion
 
 		private static void FormatEntry(Entry e, bool UseKeyWords)
 		{
@@ -920,10 +945,6 @@ namespace Subtext.Framework.Data
 			HtmlHelper.CheckForIllegalContent(e.Url);
 			HtmlHelper.ConvertHtmlToXHtml(e);
 		}
-
-		#endregion
-
-		#endregion
 
 		#region Links/Categories
 
@@ -1495,13 +1516,32 @@ namespace Subtext.Framework.Data
 		}
 		#endregion
 
-		#region KeyWords
+        #region Tags
 
-		public override KeyWord GetKeyWord(int keyWordID)
+        public override IDictionary<string, int> GetTopTags(int ItemCount)
+        {
+			SqlParameter[] p = 
+                {
+                    DataHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, ItemCount),
+                    BlogIdParam
+                };
+
+			using (IDataReader reader = GetReader("subtext_GetTopTags", p))
+            {
+                IDictionary<string, int> tags = DataHelper.LoadTags(reader);
+                return tags;
+            }
+        }
+
+        #endregion
+
+        #region KeyWords
+
+        public override KeyWord GetKeyWord(int keyWordId)
 		{
 			SqlParameter[] p =
 			{
-				DataHelper.MakeInParam("@KeyWordID", SqlDbType.Int, 4, keyWordID),
+				DataHelper.MakeInParam("@KeyWordID", SqlDbType.Int, 4, keyWordId),
 				BlogIdParam
 			};
 

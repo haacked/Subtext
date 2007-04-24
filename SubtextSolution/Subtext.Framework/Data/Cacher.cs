@@ -140,9 +140,29 @@ namespace Subtext.Framework.Data
 		}
 		#endregion
 
-		#region LinkCategory
+        #region EntriesByTag
+        private static readonly string ETKey = "ET:Count{0}Tag{1}BlogId{2}";
+        public static IList<Entry> GetEntriesByTag(int count, CacheDuration cacheDuration, string tag)
+        {
+            string key = string.Format(ETKey, count, tag, Config.CurrentBlog.Id);
+            ContentCache cache = ContentCache.Instantiate();
+            IList<Entry> et = (IList<Entry>)cache[key];
+            if (et == null)
+            {
+                et = Entries.GetEntriesByTag(count, tag);
 
-		/// <summary>
+                if (et != null)
+                {
+                    cache.Insert(key, et, cacheDuration);
+                }
+            }
+            return et;
+        }
+        #endregion 
+
+        #region LinkCategory
+
+        /// <summary>
 		/// Returns a LinkCategory for a single category based on the request url.
 		/// </summary>
 		/// <param name="cacheDuration">The cache duration.</param>
@@ -316,9 +336,39 @@ namespace Subtext.Framework.Data
 		}
 		#endregion
 
-		#region Comments/FeedBack
+        #region Tags
 
-		/// <summary>
+        private static readonly string TagsKey = "TagsCount{0}BlogId{1}";
+        /// <summary>
+        /// Retrieves the current tags from the cache based on the ItemCount and
+        /// Blog Id. If it is not in the cache, it gets it from the database and 
+        /// inserts it into the cache.
+        /// </summary>
+        /// <param name="ItemCount">The item count</param>
+        /// <param name="cacheDuration">The cache duration.</param>
+        /// <returns></returns>
+        public static IEnumerable<Tag> GetTopTags(int ItemCount, CacheDuration cacheDuration)
+        {
+            ContentCache cache = ContentCache.Instantiate();
+            string key = string.Format(TagsKey, ItemCount, Config.CurrentBlog.Id);
+
+            IEnumerable<Tag> tags = (IEnumerable<Tag>)cache[key];
+            if (tags == null)
+            {
+                tags = Tags.GetTopTags(ItemCount);
+                if (tags != null)
+                {
+                    cache.Insert(key, tags, cacheDuration);
+                }
+            }
+            return tags;
+        }
+
+        #endregion
+
+        #region Comments/FeedBack
+
+        /// <summary>
 		/// Clears the comment cache.
 		/// </summary>
 		/// <param name="entryID">The entry ID.</param>

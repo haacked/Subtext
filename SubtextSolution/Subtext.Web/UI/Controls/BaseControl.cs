@@ -74,6 +74,21 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
+        /// <summary>
+        /// Url decodes the string.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        protected static string UrlDecode(string s)
+        {
+            return HttpUtility.UrlDecode(s);
+        }
+
+        protected static string UrlDecode(object s)
+        {
+            return HttpUtility.UrlDecode(s.ToString());
+        }
+
 		protected virtual string ControlCacheKey
 		{
 			get
@@ -154,4 +169,5 @@ namespace Subtext.Web.UI.Controls
 		}
 	}
 }
+
 

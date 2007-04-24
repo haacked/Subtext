@@ -6,6 +6,7 @@
 <%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="CategoryDisplay" Src="Controls/CategoryDisplay.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="BlogStats" Src="Controls/BlogStats.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
 <div id="main">
 	<div id="header">
@@ -16,10 +17,11 @@
 	
 	<div id="sidebar">
 		<DT:ContentRegion id="MPRightColumn" runat="server">
-			<uc1:News id="News" runat="server"></uc1:News>
-			<uc1:CategoryDisplay id="CategoryDisplay" runat="server"></uc1:CategoryDisplay>
-			<uc1:ArchiveLinks id="ArchiveLinks" runat="server"></uc1:ArchiveLinks>
-			<uc1:BlogStats id="BlogStats" runat="server"></uc1:BlogStats>
+			<uc1:News id="News" runat="server" />
+			<uc1:TagCloud ID="tagCloud" runat="server" />
+			<uc1:CategoryDisplay id="CategoryDisplay" runat="server" />
+			<uc1:ArchiveLinks id="ArchiveLinks" runat="server" />
+			<uc1:BlogStats id="BlogStats" runat="server" />
 		</DT:ContentRegion>
 	</div>
 	

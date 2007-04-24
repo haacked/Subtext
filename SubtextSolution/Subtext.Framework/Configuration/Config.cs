@@ -364,6 +364,9 @@ namespace Subtext.Framework.Configuration
 			return ObjectProvider.Instance().UpdateBlog(info);
 		}
 
+		//TODO: Is this the right place to put this list?
+        private static string[] _invalidSubfolders = {"Tags", "Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Properties", "Providers", "Scripts", "Skins", "SystemMessages", "UI", "Modules", "Services", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery", "aggbug", "Sitemap" };
+
 		/// <summary>
 		/// Returns true if the specified subfolder name has a 
 		/// valid format. It may not start, nor end with ".".  It 

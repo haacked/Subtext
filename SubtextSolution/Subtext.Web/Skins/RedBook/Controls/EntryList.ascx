@@ -1,6 +1,6 @@
 <%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.EntryList" %>
-<h1><asp:Literal ID = "EntryCollectionTitle" Runat = "server" /></h1>
-<asp:Literal ID = "EntryCollectionDescription" Runat = "server" />
+<h1><asp:Literal ID="EntryCollectionTitle" Runat="server" /></h1>
+<asp:Literal ID="EntryCollectionDescription" Runat="server" />
 <asp:Repeater runat="Server" Runat="server" ID="Entries" OnItemCreated="PostCreated">
 	<ItemTemplate>
 		<div class="journal_eintrag">

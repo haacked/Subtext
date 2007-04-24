@@ -634,6 +634,12 @@
     <Compile Include="UI\Controls\SubtextSearch.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\Controls\TagCloud.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\TagEntryList.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="UI\Controls\Top10Module.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -1370,6 +1376,8 @@
     <Content Include="Skins\AnotherEon001\Controls\RelatedLinks.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\SingleColumn.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\SubtextSearch.ascx" />
+    <Content Include="Skins\AnotherEon001\Controls\TagCloud.ascx" />
+    <Content Include="Skins\AnotherEon001\Controls\TagEntryList.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\ViewPicture.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\ViewPost.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\_Header.ascx" />
@@ -1403,6 +1411,8 @@
     <Content Include="Skins\Colors\Controls\RelatedLinks.ascx" />
     <Content Include="Skins\Colors\Controls\SingleColumn.ascx" />
     <Content Include="Skins\Colors\Controls\SubtextSearch.ascx" />
+    <Content Include="Skins\Colors\Controls\TagCloud.ascx" />
+    <Content Include="Skins\Colors\Controls\TagEntryList.ascx" />
     <Content Include="Skins\Colors\Controls\ViewPicture.ascx" />
     <Content Include="Skins\Colors\Controls\ViewPost.ascx" />
     <Content Include="Skins\Colors\Images\shadow.gif" />
@@ -1493,6 +1503,8 @@
     <Content Include="Skins\Gradient\Controls\RelatedLinks.ascx" />
     <Content Include="Skins\Gradient\Controls\SingleColumn.ascx" />
     <Content Include="Skins\Gradient\Controls\SubtextSearch.ascx" />
+    <Content Include="Skins\Gradient\Controls\TagCloud.ascx" />
+    <Content Include="Skins\Gradient\Controls\TagEntryList.ascx" />
     <Content Include="Skins\Gradient\Controls\ViewPicture.ascx" />
     <Content Include="Skins\Gradient\Controls\ViewPost.ascx" />
     <Content Include="Skins\Gradient\IEPatches.css" />
@@ -1527,6 +1539,8 @@
     <Content Include="Skins\KeyWest\Controls\SubTextBlogCalendar.ascx" />
     <Content Include="Skins\KeyWest\Controls\SubtextSearch.ascx" />
     <Content Include="Skins\KeyWest\Controls\Syndications.ascx" />
+    <Content Include="Skins\KeyWest\Controls\TagCloud.ascx" />
+    <Content Include="Skins\KeyWest\Controls\TagEntryList.ascx" />
     <Content Include="Skins\KeyWest\Controls\ViewPicture.ascx" />
     <Content Include="Skins\KeyWest\Controls\ViewPost.ascx" />
     <Content Include="Skins\KeyWest\Images\comment_bg.jpg" />
@@ -1587,6 +1601,8 @@
     <Content Include="Skins\Lightz\Controls\RelatedLinks.ascx" />
     <Content Include="Skins\Lightz\Controls\SingleColumn.ascx" />
     <Content Include="Skins\Lightz\Controls\SubtextSearch.ascx" />
+    <Content Include="Skins\Lightz\Controls\TagCloud.ascx" />
+    <Content Include="Skins\Lightz\Controls\TagEntryList.ascx" />
     <Content Include="Skins\Lightz\Controls\ViewPicture.ascx" />
     <Content Include="Skins\Lightz\Controls\ViewPost.ascx" />
     <Content Include="Skins\Lightz\Images\day_footer.gif" />
@@ -1625,6 +1641,8 @@
     <Content Include="Skins\Naked\Controls\RecentPosts.ascx" />
     <Content Include="Skins\Naked\Controls\SingleColumn.ascx" />
     <Content Include="Skins\Naked\Controls\SubtextSearch.ascx" />
+    <Content Include="Skins\Naked\Controls\TagCloud.ascx" />
+    <Content Include="Skins\Naked\Controls\TagEntryList.ascx" />
     <Content Include="Skins\Naked\Controls\ViewPicture.ascx" />
     <Content Include="Skins\Naked\Controls\ViewPost.ascx" />
     <Content Include="Skins\Naked\PageTemplate.ascx" />
@@ -1657,6 +1675,8 @@
     <Content Include="Skins\Nature\Controls\RelatedLinks.ascx" />
     <Content Include="Skins\Nature\Controls\SingleColumn.ascx" />
     <Content Include="Skins\Nature\Controls\SubtextSearch.ascx" />
+    <Content Include="Skins\Nature\Controls\TagCloud.ascx" />
+    <Content Include="Skins\Nature\Controls\TagEntryList.ascx" />
     <Content Include="Skins\Nature\Controls\Top10Module.ascx" />
     <Content Include="Skins\Nature\Controls\ViewPicture.ascx" />
     <Content Include="Skins\Nature\Controls\ViewPost.ascx" />
@@ -1699,6 +1719,8 @@
     <Content Include="Skins\origami\Controls\PreviousNext.ascx" />
     <Content Include="Skins\origami\Controls\SingleColumn.ascx" />
     <Content Include="Skins\origami\Controls\SyndicationLinks.ascx" />
+    <Content Include="Skins\origami\Controls\TagCloud.ascx" />
+    <Content Include="Skins\origami\Controls\TagEntryList.ascx" />
     <Content Include="Skins\origami\Controls\ViewPicture.ascx" />
     <Content Include="Skins\origami\Controls\ViewPost.ascx" />
     <Content Include="Skins\origami\images\bg_85PercentWhite.png" />
@@ -1840,6 +1862,8 @@
     <Content Include="Skins\Piyo\Controls\SubTextBlogCalendar.ascx" />
     <Content Include="Skins\Piyo\Controls\SubtextSearch.ascx" />
     <Content Include="Skins\Piyo\Controls\Syndacations.ascx" />
+    <Content Include="Skins\Piyo\Controls\TagCloud.ascx" />
+    <Content Include="Skins\Piyo\Controls\TagEntryList.ascx" />
     <Content Include="Skins\Piyo\Controls\ViewPicture.ascx" />
     <Content Include="Skins\Piyo\Controls\ViewPost.ascx" />
     <Content Include="Skins\Piyo\Images\asual-bg.jpg" />
@@ -1904,6 +1928,8 @@
     <Content Include="Skins\RedBook\Controls\SingleColumn.ascx" />
     <Content Include="Skins\RedBook\Controls\SubtextSearch.ascx" />
     <Content Include="Skins\RedBook\Controls\Syndications.ascx" />
+    <Content Include="Skins\RedBook\Controls\TagCloud.ascx" />
+    <Content Include="Skins\RedBook\Controls\TagEntryList.ascx" />
     <Content Include="Skins\RedBook\Controls\ViewPicture.ascx" />
     <Content Include="Skins\RedBook\Controls\ViewPost.ascx" />
     <Content Include="Skins\RedBook\Green.css" />
@@ -1962,6 +1988,8 @@
     <Content Include="Skins\Semagogy\Controls\PreviousNext.ascx" />
     <Content Include="Skins\Semagogy\Controls\SingleColumn.ascx" />
     <Content Include="Skins\Semagogy\Controls\SubtextSearch.ascx" />
+    <Content Include="Skins\Semagogy\Controls\TagCloud.ascx" />
+    <Content Include="Skins\Semagogy\Controls\TagEntryList.ascx" />
     <Content Include="Skins\Semagogy\Controls\ViewPicture.ascx" />
     <Content Include="Skins\Semagogy\Controls\ViewPost.ascx" />
     <Content Include="Skins\Semagogy\Images\ClusterArchive.gif" />
@@ -2013,6 +2041,8 @@
     <Content Include="Skins\Submarine\Controls\RelatedLinks.ascx" />
     <Content Include="Skins\Submarine\Controls\SingleColumn.ascx" />
     <Content Include="Skins\Submarine\Controls\SubtextSearch.ascx" />
+    <Content Include="Skins\Submarine\Controls\TagCloud.ascx" />
+    <Content Include="Skins\Submarine\Controls\TagEntryList.ascx" />
     <Content Include="Skins\Submarine\Controls\ViewPicture.ascx" />
     <Content Include="Skins\Submarine\Controls\ViewPost.ascx" />
     <Content Include="Skins\Submarine\images\bcg.jpg" />
@@ -2051,6 +2081,8 @@
     <Content Include="Skins\WPSkin\Controls\RelatedLinks.ascx" />
     <Content Include="Skins\WPSkin\Controls\SingleColumn.ascx" />
     <Content Include="Skins\WPSkin\Controls\SubtextSearch.ascx" />
+    <Content Include="Skins\WPSkin\Controls\TagCloud.ascx" />
+    <Content Include="Skins\WPSkin\Controls\TagEntryList.ascx" />
     <Content Include="Skins\WPSkin\Controls\Top10Module.ascx" />
     <Content Include="Skins\WPSkin\Controls\ViewPicture.ascx" />
     <Content Include="Skins\WPSkin\Controls\ViewPost.ascx" />

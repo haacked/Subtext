@@ -150,7 +150,11 @@ namespace Subtext.Framework
 		{
 			return ObjectProvider.Instance().GetEntriesByCategory(itemCount, catID, activeOnly);
 		}
-		#endregion
+        public static IList<Entry> GetEntriesByTag(int itemCount, string tagName)
+        {
+            return ObjectProvider.Instance().GetEntriesByTag(itemCount, tagName);
+        }
+        #endregion
 
 		#region Single Entry
 
@@ -248,6 +252,8 @@ namespace Subtext.Framework
 			}
 			
 			entry.Id = ObjectProvider.Instance().CreateEntry(entry, categoryIds);
+            ObjectProvider.Instance().SetEntryTagList(entry.Id, HtmlHelper.ParseTags(entry.Body));
+
 			log.Debug("Created entry, running notification services.");
 			NotificationServices.Run(entry);
 			return entry.Id;
@@ -527,7 +533,12 @@ namespace Subtext.Framework
             if (!string.IsNullOrEmpty(entry.EntryName))
 				entry.EntryName = AutoGenerateFriendlyUrl(entry.EntryName, entry.Id);
 
-			return ObjectProvider.Instance().Update(entry, categoryIDs);
+            bool updateSuccessful = ObjectProvider.Instance().Update(entry, categoryIDs);
+            if (updateSuccessful == false)
+                return false;
+
+            List<string> tags = HtmlHelper.ParseTags(entry.Body);
+            return ObjectProvider.Instance().SetEntryTagList(entry.Id, tags);
 		}
 
 		#endregion
@@ -540,5 +551,25 @@ namespace Subtext.Framework
 		}
 
 		#endregion
-	}
+
+        #region Tag Utility Functions
+
+        public static bool RebuildAllTags()
+        {
+            foreach (EntryDay day in GetBlogPosts(0, PostConfig.None))
+            {
+                foreach (Entry e in day)
+                {
+                    ObjectProvider.Instance().SetEntryTagList(e.Id, HtmlHelper.ParseTags(e.Body));
+                }
+            }
+            return true;
+        }
+
+        #endregion
+    }
 }
+
+
+
+

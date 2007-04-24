@@ -18,13 +18,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Web.Security;
+using System.Collections.Specialized;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using System.Configuration.Provider;
 using Subtext.Framework.Configuration;
-using System.Collections.Specialized;
 
 namespace Subtext.Framework.Providers
 {
@@ -212,6 +212,7 @@ namespace Subtext.Framework.Providers
 		public abstract IList<Entry> GetPostCollectionByMonth(int month, int year);
 		public abstract IList<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
 		public abstract IList<Entry> GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly);
+        public abstract IList<Entry> GetEntriesByTag(int itemCount, string tagName);
 
 		#endregion
 
@@ -311,11 +312,17 @@ namespace Subtext.Framework.Providers
 
 		#endregion
 
-		#endregion
+        #region Entry Tag List
 
-		#region Links/Categories
+		/// <summary>
+		/// Sets the tags for the entry.
+		/// </summary>
+		/// <param name="entryId"></param>
+		/// <param name="tags"></param>
+		/// <returns></returns>
+		public abstract bool SetEntryTagList(int entryId, List<string> tags);
 
-		#region Paged Links
+        #endregion
 
 		public abstract IPagedCollection<Link> GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending);
 
@@ -361,7 +368,7 @@ namespace Subtext.Framework.Providers
 
 		#endregion
 
-		#region Stats
+        #region Stats
 
 		public abstract IPagedCollection<ViewStat> GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
 		public abstract IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId);
@@ -425,11 +432,25 @@ namespace Subtext.Framework.Providers
 		public abstract BlogInfo GetBlogInfo(string hostname, string subfolder, bool strict);
 		#endregion
 
-		#region KeyWords
+        #region Tags
 
-		public abstract KeyWord GetKeyWord(int keyWordID);
-		public abstract ICollection<KeyWord> GetKeyWords();
-		public abstract IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize);
+        /// <summary>
+        /// Gets the top tags from the database sorted by tag name.
+        /// </summary>
+        /// <param name="ItemCount">The number of tags to return.</param>
+        /// <returns>
+        /// A sorted dictionary with the tag name as key and entry count
+        /// as value.
+        /// </returns>
+        public abstract IDictionary<string, int> GetTopTags(int ItemCount);
+
+        #endregion
+
+        #region KeyWords
+
+        public abstract KeyWord GetKeyWord(int KeyWordID);
+        public abstract ICollection<KeyWord> GetKeyWords();
+        public abstract IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize);
 		public abstract bool UpdateKeyWord(KeyWord keyWord);
 		public abstract int InsertKeyWord(KeyWord keyWord);
 		public abstract bool DeleteKeyWord(int id);
@@ -501,7 +522,7 @@ namespace Subtext.Framework.Providers
         /// <summary>
         /// Retrieves plugin settings for a specified entry from the storage
         /// </summary>
-        /// <param name="pluginGuid">GUID of the plugin</param>
+        /// <param name="pluginId">GUID of the plugin</param>
         /// <param name="entryId">Id of the blog entry</param>
         /// <returns>A NameValueCollection with all the settings</returns>
         public abstract NameValueCollection GetPluginEntrySettings(Guid pluginId, int entryId);
@@ -509,7 +530,7 @@ namespace Subtext.Framework.Providers
         /// <summary>
         /// Inserts a new value in the plugin settings list for a specified entry
         /// </summary>
-        /// <param name="pluginGuid">GUID of the plugin</param>
+        /// <param name="pluginId">GUID of the plugin</param>
         /// <param name="entryId">Id of the blog entry</param>
         /// <param name="key">Setting name</param>
         /// <param name="value">Setting value</param>
@@ -565,9 +586,5 @@ namespace Subtext.Framework.Providers
 		public abstract DataTable GetAggregateRecentPosts(int groupId);
 
 		#endregion
-
-		#endregion
-
-
 	}
 }

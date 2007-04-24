@@ -240,6 +240,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Components\EntryTests\EntriesGetTests.cs" />
+    <Compile Include="Framework\Components\EntryTests\EntryTagTests.cs" />
     <Compile Include="Framework\Components\EntryTests\EntryUpdateTests.cs">
       <SubType>Code</SubType>
     </Compile>

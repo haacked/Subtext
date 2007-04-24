@@ -68,7 +68,7 @@ namespace Subtext
 		/// </returns>
 		public override string GetVaryByCustomString(HttpContext context, string custom)
 		{
-			if(custom == "Blogger" && !SecurityHelper.IsAdmin && !SecurityHelper.IsHostAdmin) // Do not cache admin.
+			if(custom == "Blogger")
 			{
 				return Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture);
 			}
