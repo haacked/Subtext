@@ -2,7 +2,6 @@
 <%@ Import namespace="Subtext.Framework.Configuration"%>
 <%@ Import namespace="Subtext.Framework"%>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -29,6 +28,8 @@
 	</head>
 	<body>
 		<form id="Form1" method="post" runat="server">
+            <asp:ScriptManager ID="SubtextScriptManager" runat="server" EnablePartialRendering="true">
+            </asp:ScriptManager>
 			<DT:MasterPage id="MPContainer" runat="server">
 				<DT:ContentRegion id="MPMain" runat="server">
 					<asp:PlaceHolder id="CenterBodyControl" runat="server"></asp:PlaceHolder>

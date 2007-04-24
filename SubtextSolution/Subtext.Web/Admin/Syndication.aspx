@@ -1,6 +1,4 @@
-<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Syndication" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Syndication.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Syndication" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+<%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Syndication" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Syndication.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Syndication" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
 </asp:Content>

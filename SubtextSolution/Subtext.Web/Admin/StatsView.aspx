@@ -1,6 +1,4 @@
 <%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Stats View" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="StatsView.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.StatsView" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
 </asp:Content>

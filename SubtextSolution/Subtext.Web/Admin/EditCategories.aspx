@@ -1,5 +1,4 @@
-<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Edit Categories" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="EditCategories.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditCategories" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Edit Categories" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="EditCategories.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditCategories" %>
 <%@ Register TagPrefix="st" TagName="CategoryLinks" Src="~/Admin/UserControls/CategoryLinkList.ascx" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">

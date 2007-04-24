@@ -1,7 +1,4 @@
 <%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Configure" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Configure.aspx.cs" Inherits="Subtext.Web.Admin.Pages.Configure" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Register TagPrefix="ajax" Namespace="MagicAjax.UI.Controls" Assembly="MagicAjax" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
     Actions
@@ -15,7 +12,17 @@
     
 <asp:Content ID="configurationOptions" ContentPlaceHolderID="pageContent" runat="server">
 	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
-	<st:AdvancedPanel id="Edit" runat="server" Collapsible="False" HeaderText="Configure" HeaderCssClass="CollapsibleHeader" BodyCssClass="Edit" DisplayHeader="true">
+	<%  /*
+	        Removing the AdvancedPanel b/c it is incompatible with asp.net AJAX UpdatePanels (due 
+	        to the Collapsible control's OnInit method moving its child controls around. In a 
+	        future version of Subtext we will replace all AdvancedPanel controls with an Extender
+	        from the AJAX Control Toolkit.
+        */
+	%>
+	<div class="CollapsibleHeader">
+	    <span>Configure</span>
+	</div>
+	<div class="Edit">
 		<asp:Panel runat="server" GroupingText="Main Settings" CssClass="options" >
 			
 				<label accesskey="t" for="Edit_txbTitle"><u>T</u>itle</label>
@@ -42,7 +49,25 @@
 		
 		</asp:Panel>
 		<asp:Panel runat="server" GroupingText="Location Settings" CssClass="options wide">
-			<ajax:ajaxpanel ID="ajaxTimezone" runat="server">
+			<asp:UpdatePanel ID="ajaxTimezone" runat="server">
+			    <ContentTemplate>
+			        <p>
+				        <label class="Block" accesskey="z" for="Edit_ddlTimezone">
+					        Your Time<u>z</u>one
+					        <st:HelpToolTip id="hlpTimeZone" runat="server" HelpText="Select your timezone, which may differ from the timezone where your blog server is located." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
+				        </label>
+				        <asp:DropDownList id="ddlTimezone" runat="server" OnSelectedIndexChanged="ddlTimezone_SelectedIndexChanged" AutoPostBack="true">
+        					
+				        </asp:DropDownList>
+			        </p>
+			        <p>
+				        <em>Time at selected timezone is: <strong><asp:Label ID="lblCurrentTime" runat="server" /></strong></em><br />
+				        <em>Time at server is: <strong><asp:Label ID="lblServerTime" runat="server" /></strong></em><br />
+				        <em>Server timezone is <asp:Label ID="lblServerTimeZone" runat="server" /></em><br />
+				        <em><acronym title="Coordinated Universal Time">UTC</acronym> time is <asp:Label ID="lblUtcTime" runat="server" /></em>
+			        </p>
+			    </ContentTemplate>
+			</asp:UpdatePanel>
 			
 				<label accesskey="z" for="Edit_ddlTimezone">
 					Your Time<u>z</u>one
@@ -289,48 +314,50 @@
 		
 		<!--Mail to Weblog UI-->
 		<asp:Panel ID="Panel1" runat="server" GroupingText="Mail To Weblog Settings" CssClass="options">
-		    <ajax:AjaxPanel runat="Server">
-			    <div>
-				    <asp:CheckBox id="ckbPop3MailToWeblog" runat="server" CssClass="checkbox" AccessKey="m" 
-				        Text="Enable <u>M</u>ailToWeblog" AutoPostBack="true" />
-			    </div>
-    			
-			    <asp:Panel ID="pnlMailToWeblogConfigWrapper" runat="server" Visible="false" >
-                    <label accesskey="p" for="Edit_txbPop3Server"><u>P</u>op3 Server</label>
-			        <asp:TextBox id="txbPop3Server" runat="server" CssClass="textbox">pop3.yourdomain.com</asp:TextBox>
-        		
-                    <label accesskey="r" for="Edit_txbPop3User">Pop3 Use<u>r</u> Name</label>
-			        <asp:TextBox id="txbPop3User" runat="server" CssClass="textbox"></asp:TextBox>
-        			
-			        <label accesskey="w" for="Edit_txbPop3Password">Pop3 Pass<u>w</u>ord</label>
-			        <asp:TextBox id="txbPop3Password" runat="server" CssClass="textbox" TextMode="Password" />
-        		
-		            <label accesskey="f" for="Edit_txbPop3Subject">Pop3 Subject Pre<u>f</u>ix</label>
-			        <asp:TextBox id="txbPop3Subject" runat="server" CssClass="textbox">BLOGIT</asp:TextBox>
-        		
-		            <label accesskey="g" for="Edit_txbPop3StartTag">Pop3 Start Ta<u>g</u></label>
-			        <asp:TextBox id="txbPop3StartTag" runat="server" CssClass="textbox">startTag</asp:TextBox>&nbsp;
-        			
-			        <label accesskey="x" for="Edit_txbPop3EndTag">Pop3 End Tag<u>X</u></label>
-			        <asp:TextBox id="txbPop3EndTag" runat="server" CssClass="textbox">endTag</asp:TextBox>
-                
-                    <div>
-				        <asp:CheckBox id="ckbPop3InlineAttachedPict" runat="server" CssClass="checkbox" AccessKey="3" Text="Pop<u>3</u> Inline Attached Pictures" />
-                    </div>
-                
-                    <label accesskey="h" for="Edit_txbPop3ThumbHeight">Pop3 Inline Attached Pictures Thumb <u>H</u>eight</label>
-                    <asp:TextBox id="txbPop3ThumbHeight" runat="server" CssClass="textbox number">100</asp:TextBox>
-                
-                    <div>
-				        <asp:CheckBox id="ckbPop3DeleteProcessedEmail" runat="server" CssClass="checkbox" AccessKey="o" Text="Delete Pr<u>o</u>cessed Emails" />
-                    </div>
-                </asp:Panel>
-            </ajax:AjaxPanel>
+		    <asp:UpdatePanel ID="pop3Settings" runat="Server">
+				<ContentTemplate>
+					<div>
+						<asp:CheckBox id="ckbPop3MailToWeblog" runat="server" CssClass="checkbox" AccessKey="m" 
+							Text="Enable <u>M</u>ailToWeblog" AutoPostBack="true" />
+					</div>
+	    			
+					<asp:Panel ID="pnlMailToWeblogConfigWrapper" runat="server" Visible="false" >
+						<label accesskey="p" for="Edit_txbPop3Server"><u>P</u>op3 Server</label>
+						<asp:TextBox id="txbPop3Server" runat="server" CssClass="textbox">pop3.yourdomain.com</asp:TextBox>
+	        		
+						<label accesskey="r" for="Edit_txbPop3User">Pop3 Use<u>r</u> Name</label>
+						<asp:TextBox id="txbPop3User" runat="server" CssClass="textbox"></asp:TextBox>
+	        			
+						<label accesskey="w" for="Edit_txbPop3Password">Pop3 Pass<u>w</u>ord</label>
+						<asp:TextBox id="txbPop3Password" runat="server" CssClass="textbox" TextMode="Password" />
+	        		
+						<label accesskey="f" for="Edit_txbPop3Subject">Pop3 Subject Pre<u>f</u>ix</label>
+						<asp:TextBox id="txbPop3Subject" runat="server" CssClass="textbox">BLOGIT</asp:TextBox>
+	        		
+						<label accesskey="g" for="Edit_txbPop3StartTag">Pop3 Start Ta<u>g</u></label>
+						<asp:TextBox id="txbPop3StartTag" runat="server" CssClass="textbox">startTag</asp:TextBox>&nbsp;
+	        			
+						<label accesskey="x" for="Edit_txbPop3EndTag">Pop3 End Tag<u>X</u></label>
+						<asp:TextBox id="txbPop3EndTag" runat="server" CssClass="textbox">endTag</asp:TextBox>
+	                
+						<div>
+							<asp:CheckBox id="ckbPop3InlineAttachedPict" runat="server" CssClass="checkbox" AccessKey="3" Text="Pop<u>3</u> Inline Attached Pictures" />
+						</div>
+	                
+						<label accesskey="h" for="Edit_txbPop3ThumbHeight">Pop3 Inline Attached Pictures Thumb <u>H</u>eight</label>
+						<asp:TextBox id="txbPop3ThumbHeight" runat="server" CssClass="textbox number">100</asp:TextBox>
+	                
+						<div>
+							<asp:CheckBox id="ckbPop3DeleteProcessedEmail" runat="server" CssClass="checkbox" AccessKey="o" Text="Delete Pr<u>o</u>cessed Emails" />
+						</div>
+					</asp:Panel>
+                </ContentTemplate>
+            </asp:UpdatePanel>
 		</asp:Panel>
 		<!--End of Mail to Weblog UI-->
 		
 		<div class="clear">
 			<asp:Button id="btnPost" runat="server" CssClass="buttonSubmit" Text="Save" />
 		</div>
-	</st:AdvancedPanel>
+	</div>
 </asp:Content>

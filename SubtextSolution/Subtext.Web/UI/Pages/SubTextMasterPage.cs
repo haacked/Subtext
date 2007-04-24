@@ -19,7 +19,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using MagicAjax.UI.Controls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
@@ -75,7 +74,7 @@ namespace Subtext.Web.UI.Pages
 			string[] controls = HandlerConfiguration.GetControls(Context);
             if (controls != null)
             {
-				AjaxPanel apnlCommentsWrapper = new AjaxPanel();
+				UpdatePanel apnlCommentsWrapper = new UpdatePanel();
             	apnlCommentsWrapper.Visible = true;
             	apnlCommentsWrapper.ID = "apnlCommentsWrapper";
                 
@@ -88,13 +87,13 @@ namespace Subtext.Web.UI.Pages
                     {
                     	control.Visible = true;
 						commentsControl = control as Comments;
-                        apnlCommentsWrapper.Controls.Add(control);
+                        apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
                     }
                     else if (controlId.Equals("PostComment.ascx"))
                     {
                     	postCommentControl = (PostComment)control;
 						postCommentControl.CommentApproved += new EventHandler<EventArgs>(postCommentControl_CommentPosted);
-                        apnlCommentsWrapper.Controls.Add(control);
+                        apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
                         CenterBodyControl.Controls.Add(apnlCommentsWrapper);
                     }
                     else

@@ -5,7 +5,8 @@
 	<asp:Literal ID="NoCommentMessage" Runat="server" />
 	<asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated" OnItemCommand="RemoveComment_ItemCommand">
 		<ItemTemplate>
-			<div id="<%# Comment.Id %>" class="comment<%# AuthorCssClass %>">
+			<a name="<%# Comment.Id %>"></a>
+			<div class="comment<%# AuthorCssClass %>">
 				<h3>
 					<a href="<%# Comment.DisplayUrl %>" title="permalink">#</a> <asp:Literal Runat="server" ID="title" Text="<%# Comment.Title %>" />
 				</h3>
