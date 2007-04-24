@@ -1,5 +1,4 @@
-<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Import Export" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ImportExport.aspx.cs" AutoEventWireup="false" MaintainScrollPositionOnPostback="true" Inherits="Subtext.Web.Admin.Pages.ImportExportPage" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Import Export" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ImportExport.aspx.cs" AutoEventWireup="false" MaintainScrollPositionOnPostback="true" Inherits="Subtext.Web.Admin.Pages.ImportExportPage" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
 </asp:Content>

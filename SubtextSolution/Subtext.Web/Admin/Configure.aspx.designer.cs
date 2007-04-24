@@ -99,16 +99,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ckbAllowServiceAccess;
-        
-        /// <summary>
-        /// ajaxTimezone control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::MagicAjax.UI.Controls.AjaxPanel ajaxTimezone;
-        
+       
         /// <summary>
         /// hlpTimeZone control.
         /// </summary>

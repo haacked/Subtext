@@ -23,7 +23,6 @@ using System.Web;
 using log4net;
 using log4net.Appender;
 using log4net.Repository.Hierarchy;
-using MagicAjax;
 using Subtext.Data;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -181,11 +180,11 @@ namespace Subtext
 					string userInfo = "No User";
 					try
 					{
-						if(context.Request.IsAuthenticated)
+						if (context.Request.IsAuthenticated)
 						{
 							userInfo = context.User.Identity.Name;
 							userInfo += "<br />Is Host Admin: " + SecurityHelper.IsHostAdmin.ToString(CultureInfo.InvariantCulture);
-							if(!InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory && !InstallationManager.IsInSystemMessageDirectory)
+							if (!InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory && !InstallationManager.IsInSystemMessageDirectory)
 							{
 								userInfo += "<br />Is Admin: " + SecurityHelper.IsAdmin.ToString(CultureInfo.InvariantCulture);
 								userInfo += "<br />BlogId: " + Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture);
@@ -194,31 +193,23 @@ namespace Subtext
 					}
 					//We don't care about exceptions in this case.
 					//But we don't want to catch OutOfMemoryException etc...
-					catch(FormatException)
+					catch (FormatException)
 					{
 					}
-					catch(ArgumentException)
+					catch (ArgumentException)
 					{
 					}
-					catch(NullReferenceException)
+					catch (NullReferenceException)
 					{
 					}
-					catch(ApplicationException)
+					catch (ApplicationException)
 					{
 					}
-					catch(SecurityException)
+					catch (SecurityException)
 					{
 					}
 
-					try
-					{
-						if (!MagicAjaxContext.Current.IsAjaxCall)
-							context.Response.Write(string.Format(debugMessage, @"<!-- ", lb, v, machineName, framework, userInfo, lb, "//-->"));
-					}
-					catch(MagicAjaxException exc)
-					{
-						Log.Error("magic Ajax Exception in DEBUG build.", exc);
-					}
+				    context.Response.Write(string.Format(debugMessage, @"<!-- ", lb, v, machineName, framework, userInfo, lb, "//-->"));
 				}	
 #endif
 			#endregion

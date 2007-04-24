@@ -32,12 +32,8 @@ namespace Subtext.Web
 	public partial class BlogNotConfiguredError : System.Web.UI.Page
 	{
 		bool _anyBlogsExist;
-		protected System.Web.UI.WebControls.ValidationSummary vldSummary;
-		protected Subtext.Web.Controls.ContentRegion MPTitle;
-		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
-		protected Subtext.Web.Controls.MasterPage MPContainer;
 		
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
 			//We need to make sure that the form is ONLY displayed 
 			//when an actual error has happened AND the user is a 

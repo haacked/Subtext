@@ -1,4 +1,3 @@
-<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Page Title="Subtext Upgrade: Upgrade Complete!" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" Language="C#" EnableTheming="false"  Codebehind="UpgradeComplete.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.Upgrade.UpgradeComplete" %>
 
 <asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext Upgrade: Upgrade Complete!</asp:Content>

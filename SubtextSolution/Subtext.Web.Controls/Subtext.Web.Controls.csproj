@@ -153,17 +153,11 @@
     <Compile Include="ConnectionStringBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ContentRegion.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ControlHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Designers\HelpToolTipDesigner.cs" />
     <Compile Include="HelpToolTip.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MasterPage.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MenuItem.cs">

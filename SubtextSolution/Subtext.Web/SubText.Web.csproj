@@ -45,7 +45,6 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Identicon, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
-    <Reference Include="MagicAjax, Version=0.3.0.0, Culture=neutral, PublicKeyToken=bf4053b35db106f3, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -266,7 +265,6 @@
     <Compile Include="Admin\WebUI\Controls\HeaderLink.cs" />
     <Compile Include="Admin\WebUI\Controls\LinkList.cs" />
     <Compile Include="Admin\WebUI\Controls\MessagePanel.cs" />
-    <Compile Include="Admin\WebUI\Controls\ScriptTag.cs" />
     <Compile Include="Admin\Credits.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>Credits.aspx</DependentUpon>
@@ -662,7 +660,7 @@
   <ItemGroup>
     <Content Include="blue.css" />
     <Content Include="default.aspx" />
-    <Content Include="DTP.aspx">
+    <Content Include="Providers\DTP.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
     <Content Include="emoticons.txt" />
@@ -941,12 +939,12 @@
     <Content Include="Admin\UserControls\EntryEditor.ascx" />
     <Content Include="Admin\EditPosts.aspx" />
     <Content Include="Admin\Credits.aspx" />
+    <Content Include="DTP.aspx" />
     <Content Include="ExternalDependencies\FreeTextBox.xml" />
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
     <Content Include="ExternalDependencies\Identicon.dll" />
     <Content Include="ExternalDependencies\log4net.dll" />
     <Content Include="ExternalDependencies\log4net.xml" />
-    <Content Include="ExternalDependencies\MagicAjax.dll" />
     <Content Include="ForgotPassword.aspx" />
     <Content Include="HostAdmin\ChangePassword.aspx" />
     <Content Include="HostAdmin\Default.aspx" />

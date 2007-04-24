@@ -6,7 +6,8 @@
 	<p><asp:Literal ID = "NoCommentMessage" Runat ="server" /></p>
 	<asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated" OnItemCommand="RemoveComment_ItemCommand">
 		<ItemTemplate>
-			<div id="<%# Comment.Id %>" class="comment<%# AuthorCssClass %>">
+			<a name="<%# Comment.Id %>"></a>
+			<div class="comment<%# AuthorCssClass %>">
 				<h4>
 					<asp:Literal Runat = "server" ID = "Title" />
 				</h4>

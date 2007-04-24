@@ -1,7 +1,4 @@
-<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Feedback" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Feedback.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Feedback" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-
+<%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Feedback" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Feedback.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Feedback" %>
 	
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
 	Folders
@@ -83,7 +80,7 @@
 			</table>
 		</FooterTemplate>
 		</asp:Repeater>
-		<sub:PagingControl id="resultsPager" runat="server" 
+		<st:PagingControl id="resultsPager" runat="server" 
 			PrefixText="<div>Goto page</div>" 
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
 			UrlFormat="Feedback.aspx?pg={0}" 

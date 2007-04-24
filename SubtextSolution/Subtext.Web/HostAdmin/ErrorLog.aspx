@@ -1,6 +1,4 @@
 <%@ Page Title="Subtext - Host Admin - Error Log" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" Language="C#" EnableTheming="false"  Codebehind="ErrorLog.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.Pages.ErrorLog" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 
 <asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext - Host Admin - Error Log</asp:Content>
 <asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server"></asp:Content>

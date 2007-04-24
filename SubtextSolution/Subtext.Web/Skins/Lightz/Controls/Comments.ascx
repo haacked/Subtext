@@ -12,7 +12,8 @@
 		</HeaderTemplate>
 		<ItemTemplate>
 		    <asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />
-			<div id="<%# Comment.Id %>" class="comment<%# AuthorCssClass %>">
+			<a name="<%# Comment.Id %>"></a>
+			<div class="comment<%# AuthorCssClass %>">
 				<div class="comment_title">
 					<asp:Literal Runat = "server" ID = "Title" />
 				</div>

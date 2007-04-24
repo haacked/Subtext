@@ -1,5 +1,4 @@
 <%@ Page Language="C#" EnableTheming="false"  Title="Subtext - Host Admin - Change Password" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" Codebehind="ChangePassword.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.ChangePassword" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
 <asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext - Host Admin - Change HostAdmin Password</asp:Content>
 <asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server"></asp:Content>
