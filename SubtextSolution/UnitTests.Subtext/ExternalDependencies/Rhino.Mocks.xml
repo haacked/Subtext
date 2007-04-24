@@ -3284,6 +3284,11 @@
       <summary>
       </summary>
     </member>
+    <member name="T:Castle.DynamicProxy.Generators.Emitters.CustomAttributeUtil">
+      <summary>
+            Handles replication of custom attributes
+            </summary>
+    </member>
     <member name="M:Castle.DynamicProxy.Generators.Emitters.CustomAttributeUtil.InitializeConstructorArgs(System.Type,System.Attribute,System.Object[],System.Reflection.ParameterInfo[])">
       <summary>
             Here we try to match a constructor argument to its value.

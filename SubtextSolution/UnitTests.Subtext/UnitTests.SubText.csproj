@@ -117,7 +117,7 @@
     <Reference Include="QuickGraph.Algorithms, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
     <Reference Include="QuickGraph.Algorithms.Graphviz, Version=2.21.1.0, Culture=neutral" />
     <Reference Include="Refly, Version=2.21.1.0, Culture=neutral, PublicKeyToken=829676e11975a31c" />
-    <Reference Include="Rhino.Mocks, Version=3.0.518.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL" />
+    <Reference Include="Rhino.Mocks, Version=3.0.1.526, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
