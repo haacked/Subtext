@@ -227,6 +227,7 @@
     <Compile Include="Components\Referrer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\Tag.cs" />
     <Compile Include="Components\Trackback.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -444,6 +445,7 @@
     <Compile Include="Syndication\RssHandler.cs" />
     <Compile Include="Syndication\RssImageElement.cs" />
     <Compile Include="Syndication\RssWriter.cs" />
+    <Compile Include="Tags.cs" />
     <Compile Include="Text\HtmlHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -522,6 +524,7 @@
     <Compile Include="Util\SerializationHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Util\Statistics.cs" />
     <Compile Include="Util\Transform.cs">
       <SubType>Code</SubType>
     </Compile>

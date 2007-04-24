@@ -138,6 +138,13 @@ IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_sub
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_WebPartState_Shared]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertEntryTagList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertEntryTagList]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_VersionAdd]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_VersionAdd]
+
 IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_WebPartState_User' AND table_schema = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_WebPartState_User]
 GO
@@ -628,6 +635,18 @@ GO
 
 IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_AddLogEntry' AND routine_schema = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_AddLogEntry]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByTag]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByTag]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertEntryTagList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertEntryTagList]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetTopTags]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetTopTags]
 GO
 
 IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_LogClear' AND routine_schema = '<dbUser,varchar,dbo>')
@@ -2856,7 +2875,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertKeyWord]
 (
 	@Word nvarchar(100),
-	@Rel nvarchar(100) = NULL,
+	@Rel nvarchar(100),
 	@Text nvarchar(100),
 	@ReplaceFirstTimeOnly bit,
 	@OpenInNewWindow bit,
@@ -4494,6 +4513,114 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]  TO [public]
+GO
+
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByTag]
+(
+	@ItemCount int
+	, @Tag nvarchar(256)
+	, @BlogId int
+)
+AS
+DECLARE @TagId int
+SELECT @TagId = Id FROM subtext_Tag WHERE BlogId = @BlogId AND [Name] = @Tag
+
+SET ROWCOUNT @ItemCount
+SELECT	content.BlogId
+	, content.[ID]
+	, content.Title
+	, content.DateAdded
+	, content.[Text]
+	, content.[Description]
+	, content.PostType
+	, content.Author
+	, content.Email
+	, content.DateUpdated
+	, FeedbackCount = ISNULL(content.FeedbackCount, 0)
+	, content.PostConfig
+	, content.EntryName 
+	, content.DateSyndicated
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
+WHERE  content.BlogId = @BlogId 
+	AND content.ID IN (SELECT EntryId FROM [<dbUser,varchar,dbo>].[subtext_EntryTag] WHERE BlogId = @BlogId AND TagId = @TagId)
+ORDER BY content.DateAdded DESC
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByTag]  TO [public]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertEntryTagList] 
+	(
+	@EntryId int,
+	@BlogId int,
+	@TagList ntext
+	)
+AS
+
+-- When taglist is empty, delete any potentially existing tags.
+IF CONVERT(nvarchar(1),@TagList) = ''
+BEGIN
+	DELETE FROM subtext_EntryTag 
+		WHERE BlogId = @BlogId AND EntryId = @EntryId
+END
+ELSE
+BEGIN
+	DECLARE @Tags TABLE (tagId int,
+						 tag nvarchar(2000))
+	-- Populate the in-memory table with the @TagList string broken out into rows.
+	INSERT INTO @Tags 
+		SELECT t.Id, c.nstr
+		FROM iter_charlist_to_table(@TagList, ',') c
+		LEFT OUTER JOIN subtext_Tag t ON BlogId = @BlogId AND t.[Name] = c.nstr
+
+	-- If a tag doesn't exist, it needs to be created in subtext_Tag.
+	INSERT INTO subtext_Tag (BlogId, [Name])
+		SELECT @BlogId, tag  FROM @Tags 
+		WHERE tag NOT IN (SELECT [Name] FROM subtext_Tag WHERE BlogId = @BlogID)
+	
+	-- If tags were created above, we need to update @Tags with their Ids.
+	UPDATE @Tags SET tagId = s.Id FROM @Tags t, subtext_Tag s 
+		WHERE s.BlogId = @BlogId AND s.[Name] = t.tag AND t.TagId IS NULL
+
+	-- If tags exist for an entry that have been removed, remove the link.
+	DELETE FROM subtext_EntryTag 
+		WHERE BlogId = @BlogId AND EntryId = @EntryId 
+		AND TagId NOT IN (SELECT tagId FROM @Tags)
+
+	-- Now add any tags that aren't already linked.
+	INSERT INTO subtext_EntryTag (BlogId, EntryId, TagId)
+	SELECT @BlogId, @EntryId, tagId FROM @Tags
+		WHERE tagId NOT IN 
+			(SELECT TagId FROM subtext_EntryTag 
+				WHERE BlogId = @BlogId AND EntryId = @EntryId)
+END
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertEntryTagList] TO [public]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetTopTags] 
+	(
+	@ItemCount int
+	, @BlogId int
+	)
+AS
+SET ROWCOUNT @ItemCount
+SELECT t.[Name], COUNT(*) AS TagCount FROM [<dbUser,varchar,dbo>].subtext_Tag t, [<dbUser,varchar,dbo>].subtext_EntryTag e
+WHERE t.BlogId = @BlogId AND t.Id = e.TagId
+GROUP BY t.[Name]
+ORDER BY Count(*) DESC
+GO 
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetTopTags] TO [public]
 GO
 
 

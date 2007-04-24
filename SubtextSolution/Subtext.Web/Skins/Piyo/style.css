@@ -232,24 +232,30 @@ a:hover {
 	padding: 0;
 }
 
-#links {
-	padding: .8em;
-	line-height: 154%;
+.links {
+	padding: 0;
+	margin: 0;
+	line-height: 120%;
 }
-#links h5 {
+
+.links h5 {
 	font-size: 100%;
 	font-weight: bold;
-	margin: 1.8em 2px .4em;
+	margin: 1.2em 0 .5em 0;
+	padding: 0;
 	clear: both;
 }
-#links ul {
+.links ul {
 	list-style: none;
 }
-#links li {
+.links li {
 	margin-bottom: .8em;
+	list-style: none;
+	padding-left: 4px;
 }
 #subtext {
 	display: block;
+	margin-top: 1em;
 }
 
 div.entry {
@@ -665,4 +671,9 @@ This to fix a problem with coComment bar
 */
 .cocomment-minibar {
 clear:both;
+}
+
+#column #tag-cloud li a
+{
+	text-decoration: none;
 }

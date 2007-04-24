@@ -6,6 +6,7 @@
 <%@ Register TagPrefix="uc1" TagName="BlogStats" Src="Controls/BlogStats.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="News" Src="Controls/News.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="SingleColumn" Src="Controls/SingleColumn.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
 <table width="100%" class="Framework" cellspacing="0" cellpadding="0">
 	<tr>
 		<td colspan="2">
@@ -16,22 +17,23 @@
 		<td rowspan="2" class="LeftCell">
 			<div id="leftmenu">
 				<DT:ContentRegion id="MPLeftColumn" runat="server">
-					<uc1:MyLinks id="MyLinks1" runat="server"></uc1:MyLinks>
-					<uc1:News id="News1" runat="server"></uc1:News>
-					<uc1:SingleColumn id="SingleColumn1" runat="server"></uc1:SingleColumn>
+					<uc1:MyLinks id="MyLinks1" runat="server" />
+					<uc1:News id="News1" runat="server" />
+					<uc1:TagCloud id="tagCloud" runat="server" />
+					<uc1:SingleColumn id="SingleColumn1" runat="server" />
 				</DT:ContentRegion>
 				
 			</div>
 		</td>
 		<td class="MainCell">
 			<div id="main">
-				<DT:ContentRegion id="MPMain" runat="server"></DT:ContentRegion>
+				<DT:ContentRegion id="MPMain" runat="server" />
 			</div>
 		</td>
 	</tr>
 	<tr>
 		<td class="FooterCell">
-			<uc1:Footer id="Footer1" runat="server"></uc1:Footer>
+			<uc1:Footer id="Footer1" runat="server" />
 		</td>
 	</tr>
 </table>

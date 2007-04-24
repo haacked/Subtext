@@ -25,7 +25,7 @@ namespace Subtext.Web.UI.Controls
 	[PartialCaching(45, null, null, "Blogger", false)]
 	public class HomePage : BaseControl
 	{
-		protected Subtext.Web.UI.Controls.DayCollection HomePageDays;
+		protected DayCollection HomePageDays;
 
 		protected override void OnLoad(EventArgs e)
 		{

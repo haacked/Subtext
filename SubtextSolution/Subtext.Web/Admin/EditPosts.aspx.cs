@@ -26,11 +26,21 @@ namespace Subtext.Web.Admin.WebUI
             HyperLink lnkEditCategories = Utilities.CreateHyperLink("Edit Categories",
                 string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITCATEGORIES, Keys.QRYSTR_CATEGORYTYPE, categoryLinks.CategoryType));
             AdminMasterPage.AddToActions(lnkEditCategories);
+
+            LinkButton lkbRebuildTags = Utilities.CreateLinkButton("Rebuild All Tags");
+            lkbNewPost.CausesValidation = false;
+            lkbRebuildTags.Click += new EventHandler(lkbRebuildTags_Click);
+            AdminMasterPage.AddToActions(lkbRebuildTags);
         }
 
         private void lkbNewPost_Click(object sender, System.EventArgs e)
         {
             Editor.EditNewEntry();
+        }
+
+        private void lkbRebuildTags_Click(object sender, EventArgs e)
+        {
+            Subtext.Framework.Entries.RebuildAllTags();
         }
     }
 }

@@ -290,3 +290,13 @@ div.news
 {
 	padding: 0 4px 4px 6px;
 }
+
+#leftmenu #tag-cloud 
+{
+	font-size: 1em;
+}
+
+#leftmenu #tag-cloud li, #leftmenu #tag-cloud li a
+{
+	display: inline;
+}

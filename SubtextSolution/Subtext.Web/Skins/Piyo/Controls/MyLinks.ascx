@@ -1,5 +1,5 @@
 <%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.MyLinks" %>
-<div id="links">
+<div class="links">
 <div>
 <h5>About</h5>
 <ul>

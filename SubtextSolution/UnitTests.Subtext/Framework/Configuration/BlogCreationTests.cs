@@ -245,10 +245,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack]
 		public void ReservedSubtextWordsAreNotValidForSubfolders()
 		{
-            string[] badSubfolders = { "Admin", "aggbug", "Archive", "Archives", "Articles", "bin", 
-                "Category", "Comments", "ExternalDependencies", "Gallery", "HostAdmin", "Images", "Install", 
-                "Modules", "Posts", "Properties", "Providers", "Scripts", "Services", "Sitemap", "Skins", 
-                "Stories", "Story", "SystemMessages", "UI" };
+            string[] badSubfolders = { "tags", "Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Properties", "Providers", "Scripts", "Skins", "SystemMessages", "UI", "Modules", "Services", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery", "aggbug", "Sitemap" };
 			foreach (string subfolderCandidate in badSubfolders)
 			{
 				Assert.IsFalse(Config.IsValidSubfolderName(subfolderCandidate), subfolderCandidate + " is not a valid app name.");

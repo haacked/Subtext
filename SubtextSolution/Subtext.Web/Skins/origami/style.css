@@ -2,3 +2,25 @@
 {
 	width: 450px;
 }
+
+/*--------{tags}-------------*/
+div.sidebar-node #tag-cloud
+{
+	font-size: 1em;
+	margin: 0;
+	padding: 0;
+}
+
+div.sidebar-node #tag-cloud li, div.sidebar-node #tag-cloud li a
+{
+	display: inline;
+	background: none;
+	padding: 0;
+	margin: 0;
+}
+
+div.sidebar-node #tag-cloud li a
+{
+	list-style-type: none;
+	line-height: 1.4em;
+}

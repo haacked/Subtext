@@ -6,6 +6,7 @@
 <%@ Register TagPrefix="uc1" TagName="News" Src="Controls/News.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="BlogStats" Src="Controls/BlogStats.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Footer" Src="Controls/Footer.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
 <div id="rondo"><p>&nbsp;</p></div>
 		<div id="all">
@@ -19,8 +20,9 @@
 						<DT:contentregion id="MPMain" runat="server" />
 				</div>
 				<div id="sidebar">
-					<uc1:News id="News" runat="server"></uc1:News>
-					<uc1:RecentComments id="RecentComments" runat="server"></uc1:RecentComments>
+					<uc1:News id="News" runat="server" />
+					<uc1:RecentComments id="RecentComments" runat="server" />
+					<uc1:TagCloud runat="server" />
 					<uc1:SingleColumn id="SingleColumn" runat="server" />
 					<div>
 						<h2>Hosted by</h2>

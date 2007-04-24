@@ -9,6 +9,7 @@
 <%@ Register TagPrefix="st" TagName="RecentPosts" Src="Controls/RecentPosts.ascx" %>
 <%@ Register TagPrefix="st" TagName="Search" Src="Controls/SubtextSearch.ascx" %>
 <%@ Register TagPrefix="st" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
+<%@ Register TagPrefix="st" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
 
 <div id="main">
     <st:Header id="Header" runat="server" />
@@ -20,6 +21,7 @@
 		<div id="nav">
 			<st:MyLinks id="MyLinks" runat="server" />
 		</div>
+		<st:TagCloud ID="tagCloud" runat="server" />
 		<st:SingleColumn ID="singleColumn" runat="server" />
 	</div>
 </div>

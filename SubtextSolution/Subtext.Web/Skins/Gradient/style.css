@@ -52,6 +52,11 @@ div.post-content
 	width: 200px;
 }
 
+#sidebar div
+{
+	margin-bottom: 1em;
+}
+
 #sidebar ul
 {
 	margin: 0;

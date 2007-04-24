@@ -6,6 +6,7 @@
 <%@ Register TagPrefix="uc1" TagName="News" Src="Controls/News.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="SyndicatonLinks" Src="Controls/SyndicationLinks.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
 <%@ Import Namespace="Subtext.Framework.Configuration" %>
 <script type="text/javascript">setUserStyles();</script>
 <div class="clearfix" id="container">
@@ -25,6 +26,9 @@
 							<ul>
                                 <uc1:MyLinks ID="myLinks1" runat="Server" />
                             </ul>
+                        </div>
+                        <div class="sidebar-node">
+							<uc1:TagCloud ID="tagCloud" runat="server" />
                         </div>
                         <origami:SingleColumn id="column" runat="server" />
                         <div class="sidebar-node">

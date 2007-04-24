@@ -16,7 +16,7 @@ and later adapted for the SubText blogging platform by Simone Chiaretta www.piyo
 <%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Header" Src="Controls/Header.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Calendar" Src="Controls/SubTextBlogCalendar.ascx" %>
-
+<%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
 
 <div id="main">
 
@@ -37,8 +37,11 @@ and later adapted for the SubText blogging platform by Simone Chiaretta www.piyo
 						<uc1:Calendar id="cal" runat="server" />
 						<uc1:News id="news" runat="server" />
 						<uc1:MyLinks id="links" runat="server" />
+						<div class="links">
+							<uc1:TagCloud id="tagCloud" runat="server" />
+						</div>
 						<uc1:SingleColumn id="column" runat="server" />
-						<div id="subtext">
+						<div id="subtext" class="links">
 							<p><asp:hyperlink imageurl="~/images/PoweredBySubtext85x33.png" navigateurl="http://sourceforge.net/projects/subtext/" runat="server" id="Hyperlink2" ToolTip="Click here to visit the homepage of the SubText project"/></p>
 						</div>
 					</div>

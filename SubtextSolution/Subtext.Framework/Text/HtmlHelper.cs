@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -236,6 +237,8 @@ namespace Subtext.Framework.Text
 		{
 			reader.DocType = "html";
 			reader.WhitespaceHandling = WhitespaceHandling.All;
+         // Hack to fix SF bug #1678030
+         html = RemoveNewLineBeforeCDATA(html);
 			reader.InputStream = new StringReader("<html>" + html + "</html>");
 			reader.CaseFolding = CaseFolding.ToLower;
 			StringWriter writer = new StringWriter(CultureInfo.InvariantCulture);
@@ -260,6 +263,22 @@ namespace Subtext.Framework.Text
 			string xml = writer.ToString();
 			return xml.Substring("<html>".Length, xml.Length - "<html></html>".Length);
 		}
+
+
+      // Ugly hack to remove any new line that sits between a tag end
+      // and the beginning of a CDATA section.
+      // This to make sure the Xhtml is well formatted before processing it
+      private static string RemoveNewLineBeforeCDATA(string text)
+      {
+         if (!String.IsNullOrEmpty(text))
+         {
+            string regex = @">(\r\n)+<!\[CDATA\[";
+            Regex newLineStripper = new System.Text.RegularExpressions.Regex(regex);
+
+            return newLineStripper.Replace(text, "><![CDATA[");
+         }
+         return text;
+      }
 
 		/// <summary>
 		/// Tests the specified string looking for illegal characters 
@@ -632,5 +651,35 @@ namespace Subtext.Framework.Text
 				return null;
 			}
 		}
+
+		/// <summary>
+		/// Parses some html and returns a string collection of the tag names contained 
+		/// within the HTML.
+		/// </summary>
+		/// <param name="html"></param>
+		/// <returns></returns>
+		public static List<string> ParseTags(string html)
+        {
+            Regex checkAnchor = new Regex("<a(?<element>.*?rel=.*?[\"' ]tag[\"' ].*?)>.*?</a>", RegexOptions.IgnoreCase);
+            Regex checkUrl = new Regex("href=[\"'](?<url>.+?)[\"']", RegexOptions.IgnoreCase);
+			List<string> tags = new List<string>();
+
+            foreach (Match m in checkAnchor.Matches(html))
+            {
+                Match urlMatch = checkUrl.Match(m.Groups["element"].Value);
+                if (urlMatch.Success)
+                {
+                    Uri url;
+                    if (Uri.TryCreate(urlMatch.Groups["url"].Value, UriKind.RelativeOrAbsolute, out url))
+                    {
+                        string[] seg = url.Segments;
+                        string tag = seg[seg.Length - 1].Replace("/", "");
+                        if(!tags.Contains(tag))
+							tags.Add(tag);
+                    }
+                }
+            }
+            return tags;
+        }
 	}
 }
