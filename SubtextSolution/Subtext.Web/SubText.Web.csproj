@@ -1011,12 +1011,18 @@
     <Content Include="Images\friends.png" />
     <Content Include="Images\home.gif" />
     <Content Include="Images\icn_delete.gif" />
+    <Content Include="Images\icons\cc_icon_attribution_small.gif" />
+    <Content Include="Images\icons\cc_icon_noderivs_small.gif" />
+    <Content Include="Images\icons\cc_icon_noncomm_small.gif" />
+    <Content Include="Images\icons\cc_icon_sharealike_small.gif" />
     <Content Include="Images\icons\help-med.png" />
     <Content Include="Images\icons\help-small.png" />
     <Content Include="Images\icons\ico_critical.gif" />
     <Content Include="Images\icons\ico_info.gif" />
     <Content Include="Images\icons\ico_warning.gif" />
     <Content Include="Images\link.gif" />
+    <Content Include="Images\loaders\subtext-bar-loader.gif" />
+    <Content Include="Images\loaders\subtext-loader.gif" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\ms_help.gif" />
     <Content Include="Images\next.gif" />
@@ -1941,6 +1947,7 @@
     <Content Include="Skins\RedBook\Controls\ViewPicture.ascx" />
     <Content Include="Skins\RedBook\Controls\ViewPost.ascx" />
     <Content Include="Skins\RedBook\Green.css" />
+    <Content Include="Skins\RedBook\IE7Patches.css" />
     <Content Include="Skins\RedBook\Images\Blue\back.jpg" />
     <Content Include="Skins\RedBook\Images\Blue\backback.jpg" />
     <Content Include="Skins\RedBook\Images\Blue\rondo.jpg" />

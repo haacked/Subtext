@@ -138,6 +138,10 @@
       <Name>TestFu</Name>
       <HintPath>ExternalDependencies\TestFu.dll</HintPath>
     </Reference>
+    <Reference Include="Velocit.RegularExpressions, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalDependencies\Velocit.RegularExpressions.dll</HintPath>
+    </Reference>
     <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
       <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
       <Name>Subtext.Akismet</Name>
