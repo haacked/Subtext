@@ -14,7 +14,7 @@
 #endregion
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -22,8 +22,6 @@ using System.Web.Caching;
 using log4net;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Configuration;
-using System.Globalization;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Util
 {
@@ -41,31 +39,53 @@ namespace Subtext.Framework.Util
 		/// </summary>
 		/// <param name="formattedPost">The formatted post.</param>
 		/// <returns></returns>
-		public static string EmoticonTransforms(string formattedPost) 
+		public static string EmoticonTransforms(string formattedPost)
 		{
 			try
 			{
-				ArrayList emoticonTxTable = LoadTransformFile("emoticons.txt");
-				return PerformUserTransforms(formattedPost, emoticonTxTable);
+				return EmoticonsTransforms(formattedPost, GetTransformFilePath("emoticons.txt"));
 			}
-			catch(System.IO.IOException e)
+			catch (IOException ioe)
 			{
-				Log.Warn("Missing an emoticons.txt file in the webroot. Please download it from <a href=\"http://haacked.com/images/emoticons.zip\" title=\"Emoticons file\">here</a>.", e);
+				Log.Warn("Problem reading the emoticons.txt file", ioe);
+				return formattedPost;
+			}
+			catch (ArgumentNullException e)
+			{
+				Log.Warn("Problem reading the emoticons.txt file", e);
 				return formattedPost;
 			}
 		}
 
-		static string PerformUserTransforms(string stringToTransform, ArrayList userDefinedTransforms) 
+		public static string EmoticonsTransforms(string formattedPost, string emoticonsFilePath)
 		{
-			if(userDefinedTransforms == null)
+			if (formattedPost == null)
+				throw new ArgumentNullException("formattedPost", "Cannot transform a null post");
+
+			if (emoticonsFilePath == null)
+				throw new ArgumentNullException("emoticonsFilePath", "Must specify a non-null emoticons file path.");
+
+			if (!File.Exists(emoticonsFilePath))
+			{
+				Log.Warn("Missing an emoticons.txt file in the webroot. Please download it from <a href=\"http://haacked.com/images/emoticons.zip\" title=\"Emoticons file\">here</a>.");
+				return formattedPost;
+			}
+
+			List<string> emoticonTxTable = LoadTransformFile(emoticonsFilePath);
+			return PerformUserTransforms(formattedPost, emoticonTxTable);
+		}
+
+		static string PerformUserTransforms(string stringToTransform, List<string> userDefinedTransforms)
+		{
+			if (userDefinedTransforms == null)
 				return stringToTransform;
 
-			int iLoop = 0;	
+			int iLoop = 0;
 			string host = Config.CurrentBlog.RootUrl.ToString();
-			while (iLoop < userDefinedTransforms.Count) 
-			{		
+			while (iLoop < userDefinedTransforms.Count)
+			{
 				// Special work for anchors
-				stringToTransform = Regex.Replace(stringToTransform, userDefinedTransforms[iLoop].ToString(), String.Format(CultureInfo.InvariantCulture, userDefinedTransforms[iLoop+1].ToString(),host), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+				stringToTransform = Regex.Replace(stringToTransform, userDefinedTransforms[iLoop].ToString(), string.Format(userDefinedTransforms[iLoop + 1], host), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
 				iLoop += 2;
 			}
@@ -73,93 +93,87 @@ namespace Subtext.Framework.Util
 			return stringToTransform;
 		}
 
-		private static ArrayList LoadTransformFile(string filename) 
+		private static string GetTransformFilePath(string filename)
 		{
-            if (filename == null)
-            {
-                throw new ArgumentNullException("filename", Resources.ArgumentNull_String);
-            }
+			if (filename == null)
+				throw new ArgumentNullException("filename", "The transform filename is null.");
 
-            if (filename.Length == 0)
-            {
-                throw new ArgumentException(Resources.Argument_StringZeroLength, "filename");
-            }
+			if (filename.Length == 0)
+				throw new ArgumentException("filename", "The transform filename is empty.");
 
-			string cacheKey = "transformTable-" + filename;
-			ArrayList tranforms;
-			string filenameOfTransformFile;
+			if (HttpContext.Current == null)
+				throw new InvalidOperationException("The HttpContext is null. Cannot get the path to the emoticons transform file.");
+
+			return HttpContext.Current.Request.MapPath("~/" + filename);
+		}
+
+		public static List<string> LoadTransformFile(string filePath)
+		{
+			if (filePath == null)
+				throw new ArgumentNullException("filePath", "The transform filePath is null.");
+
+			string cacheKey = "transformTable-" + Path.GetFileName(filePath);
 
 			HttpContext context = HttpContext.Current;
+			if (context == null)
+				return null;
 
 			// read the transformation hashtable from the cache
 			//
-			tranforms = (ArrayList) context.Cache[cacheKey];
+			List<string> tranforms = (List<string>)context.Cache[cacheKey];
 
-			if (tranforms == null) 
+			if (tranforms == null)
 			{
-				tranforms = new ArrayList();
+				tranforms = new List<string>();
 
 				// Grab the transform file
-				if(context == null || context.Request == null)
+				if (context.Request == null)
 					return null;
 
-				try
-				{
-					filenameOfTransformFile = context.Request.MapPath("~/" + filename);
-				}
-				catch(System.ArgumentNullException)
-				{
-					//This exception can be thrown from the bowels of MapPath...
-					return null;
-				}
-
-				if (filenameOfTransformFile.Length > 0) 
+				if (filePath.Length > 0)
 				{
 
-					StreamReader sr = File.OpenText( filenameOfTransformFile );
-
-					// Read through each set of lines in the text file
-					//
-					string line = sr.ReadLine(); 
-					string replaceLine;
-
-					while (line != null) 
+					using (StreamReader sr = File.OpenText(filePath))
 					{
-
-						line = Regex.Escape(line);
-						replaceLine = sr.ReadLine();
-
-						// make sure replaceLine != null
+						// Read through each set of lines in the text file
 						//
-						if (replaceLine == null) 
-							break;
-					
-						line = line.Replace("<CONTENTS>", "((.|\n)*?)");
-						line = line.Replace("<WORDBOUNDARY>", "\\b");
-						line = line.Replace("<", "&lt;");
-						line = line.Replace(">", "&gt;");
-						line = line.Replace("\"", "&quot;");
+						string line = sr.ReadLine();
 
-						replaceLine = replaceLine.Replace("<CONTENTS>", "$1");					
-					
-						tranforms.Add(line);
-						tranforms.Add(replaceLine);
+						while (line != null)
+						{
+							line = Regex.Escape(line);
+							string replaceLine = sr.ReadLine();
 
-						line = sr.ReadLine();
+							// make sure replaceLine != null
+							//
+							if (replaceLine == null)
+								break;
 
+							line = line.Replace("<CONTENTS>", "((.|\n)*?)");
+							line = line.Replace("<WORDBOUNDARY>", "\\b");
+							line = line.Replace("<", "&lt;");
+							line = line.Replace(">", "&gt;");
+							line = line.Replace("\"", "&quot;");
+
+							replaceLine = replaceLine.Replace("<CONTENTS>", "$1");
+
+							tranforms.Add(line);
+							tranforms.Add(replaceLine);
+
+							line = sr.ReadLine();
+						}
+
+						// close the streamreader
+						//
+						sr.Close();
 					}
 
-					// close the streamreader
-					//
-					sr.Close();		
-
 					// slap the ArrayList into the cache and set its dependency to the transform file.
-					//
-					HttpContext.Current.Cache.Insert(cacheKey, tranforms, new CacheDependency(filenameOfTransformFile));
+					HttpContext.Current.Cache.Insert(cacheKey, tranforms, new CacheDependency(filePath));
 				}
 			}
-  
-			return (ArrayList) HttpContext.Current.Cache[cacheKey];
+
+			return (List<string>)HttpContext.Current.Cache[cacheKey];
 		}
 	}
 }

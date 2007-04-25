@@ -58,12 +58,11 @@ namespace Subtext.ImportExport
 			IPagedCollection<BlogMLPost> bmlPosts = new PagedCollection<BlogMLPost>();
 			using (IDataReader reader = GetPostsAndArticlesReader(blogId, pageIndex, pageSize))
 			{
-				BlogMLPost bmlPost;
-				IBlogMLContext bmlContext = this.GetBlogMLContext();
+                IBlogMLContext bmlContext = this.GetBlogMLContext();
 				while (reader.Read())
 				{
-					bmlPost = ObjectHydrator.LoadPostFromDataReader(reader);
-					bmlPost.Attachments.AddRange(GetPostAttachments(bmlPost, bmlContext));
+					BlogMLPost bmlPost = ObjectHydrator.LoadPostFromDataReader(reader);
+                    bmlPost.Attachments.AddRange(GetPostAttachments(bmlPost, bmlContext));
 					bmlPosts.Add(bmlPost);
 				}
 
@@ -474,7 +473,8 @@ namespace Subtext.ImportExport
 		/// <summary>
 		/// Creates a comment in the system.
 		/// </summary>
-		/// <param name="bmlComment"></param>
+		/// <param name="comment"></param>
+		/// <param name="newPostId"></param>
 		public override void CreatePostComment(BlogMLComment comment, string newPostId)
 		{
 			if (comment == null)
@@ -515,6 +515,7 @@ namespace Subtext.ImportExport
 		/// Creates a trackback for the post.
 		/// </summary>
 		/// <param name="trackback"></param>
+		/// <param name="newPostId"></param>
 		public override void CreatePostTrackback(BlogMLTrackback trackback, string newPostId)
 		{
 			if (trackback == null)
@@ -590,7 +591,7 @@ namespace Subtext.ImportExport
 		/// Lets the provider decide how to log errors.
 		/// </summary>
 		/// <param name="message"></param>
-		/// <param name="e"></param>
+		/// <param name="exception"></param>
 		public override void LogError(string message, Exception exception)
 		{
 			//TODO:

@@ -20,7 +20,7 @@
 		<uc1:RecentComments id="RecentComments1" runat="server" />
 		<uc1:RecentPosts id="RecentPosts1" runat="server" />
 		<uc1:singlecolumn id="SingleColumn1" runat="server" />
-		<uc1:TagCloud ID="tagCloud" runat="server" />
+		<uc1:TagCloud ID="tagCloud" runat="server" ItemCount="20" />
 	</div>
 	<div id="content">
 		<dt:contentregion id="MPMain" runat="server" />

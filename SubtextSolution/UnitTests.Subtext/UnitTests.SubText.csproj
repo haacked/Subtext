@@ -316,6 +316,7 @@
     </Compile>
     <Compile Include="Framework\Util\SerializationHelperTests.cs" />
     <Compile Include="Framework\Util\TimeZonesTest.cs" />
+    <Compile Include="Framework\Util\TransformTests.cs" />
     <Compile Include="Framework\Web\HttpHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -380,6 +381,7 @@
     <EmbeddedResource Include="Resources\Scripting\SqlRunnerTestScript.txt" />
     <EmbeddedResource Include="Resources\Web\HttpClientTest.aspx">
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Web\emoticons.txt" />
     <EmbeddedResource Include="Resources\BlogMl\SinglePostWithBadCategoryRef.xml" />
     <EmbeddedResource Include="Resources\BlogMl\SinglePostWithCategory.xml" />
     <EmbeddedResource Include="Resources\BlogMl\TwoCategories.xml" />

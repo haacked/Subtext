@@ -26,6 +26,7 @@ div.sidebar-node #tag-cloud li a
 }
 
 /* ------------- {search color scheme} -------------- */
+.sidebar-node #searchWrapper #searchResults { position:absolute; }
 #searchResults
 {
 	background-color: #fff;

@@ -1,0 +1,48 @@
+[(H)]
+<img src="{0}Images/emotions/smiley-cool.gif" border="0" alt="Cool" />
+[:'(]
+<img src="{0}Images/emotions/smiley-cry.gif" border="0" alt="Cry" /> 
+[:$]
+<img src="{0}Images/emotions/smiley-embarassed.gif" border="0" alt="Embarassed" />
+[}:-)]
+<img src="{0}Images/emotions/smiley-foot-in-mouth.gif" border="0" alt="foot-in-mouth" />
+[:-(]
+<img src="{0}Images/emotions/smiley-frown.gif" border="0" alt="Frown" />
+[:(]
+<img src="{0}Images/emotions/smiley-frown.gif" border="0" alt="Frown" />
+[(a)]
+<img src="{0}Images/emotions/smiley-innocent.gif" border="0" alt="Angel" />
+[(k)]
+<img src="{0}Images/emotions/smiley-kiss.gif" border="0" alt="Kiss" />
+[:D]
+<img src="{0}Images/emotions/smiley-laughing.gif" border="0" alt="Laughing" />
+[$]
+<img src="{0}Images/emotions/smiley-money-mouth.gif" border="0" alt="Money-moth" />
+[:-#]
+<img src="{0}Images/emotions/smiley-sealed.gif" border="0" alt="Sealed" />
+[:-#]
+<img src="{0}Images/emotions/smiley-sealed.gif" border="0" alt="Sealed" />
+[:-#]
+<img src="{0}Images/emotions/smiley-sealed.gif" border="0" alt="Sealed" />
+[:-#]
+<img src="{0}Images/emotions/smiley-sealed.gif" border="0" alt="Sealed" />
+[:-)]
+<img src="{0}Images/emotions/smiley-smile.gif" border="0" alt="Smile" />
+[:)]
+<img src="{0}Images/emotions/smiley-smile.gif" border="0" alt="Smile" />
+[:o]
+<img src="{0}Images/emotions/smiley-surprised.gif" border="0" alt="Surprised" />
+[=o)]
+<img src="{0}Images/emotions/smiley-surprised.gif" border="0" alt="Surprised" />
+[:P]
+<img src="{0}Images/emotions/smiley-tongue-out.gif" border="0" alt="tongue-out" />
+[:-P]
+<img src="{0}Images/emotions/smiley-tongue-out.gif" border="0" alt="tongue-out" />
+[:S]
+<img src="{0}Images/emotions/smiley-undecided.gif" border="0" alt="Undecided" />
+[:-S]
+<img src="{0}Images/emotions/smiley-undecided.gif" border="0" alt="Undecided" />
+[;-)]
+<img src="{0}Images/emotions/smiley-wink.gif" border="0" alt="Wink" />
+[;)]
+<img src="{0}Images/emotions/smiley-wink.gif" border="0" alt="Wink" />

@@ -230,7 +230,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack]
 		public void EnsureInvalidCharactersMayNotBeUsedInSubfolderName()
 		{
-			string[] badNames = {".name", "a{b", "a}b", "a[e", "a]e", "a/e",@"a\e", "a@e", "a!e", "a#e", "a$e", "a'e", "a%", ":e", "a^", "ae&", "*ae", "a(e", "a)e", "a?e", "+a", "e|", "a\"", "e=", "a'", "e<", "a>e", "a;", ",e", "a e"};
+			string[] badNames = {"a{b", "a}b", "a[e", "a]e", "a/e",@"a\e", "a@e", "a!e", "a#e", "a$e", "a'e", "a%", ":e", "a^", "ae&", "*ae", "a(e", "a)e", "a?e", "+a", "e|", "a\"", "e=", "a'", "e<", "a>e", "a;", ",e", "a e"};
 			foreach(string badName in badNames)
 			{
 				Assert.IsFalse(Config.IsValidSubfolderName(badName), badName + " is not a valid app name.");
@@ -245,7 +245,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack]
 		public void ReservedSubtextWordsAreNotValidForSubfolders()
 		{
-            string[] badSubfolders = { "tags", "Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Properties", "Providers", "Scripts", "Skins", "SystemMessages", "UI", "Modules", "Services", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery", "aggbug", "Sitemap" };
+            string[] badSubfolders = { "name.", "tags", "Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Properties", "Providers", "Scripts", "Skins", "SystemMessages", "UI", "Modules", "Services", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery", "aggbug", "Sitemap" };
 			foreach (string subfolderCandidate in badSubfolders)
 			{
 				Assert.IsFalse(Config.IsValidSubfolderName(subfolderCandidate), subfolderCandidate + " is not a valid app name.");
@@ -285,6 +285,28 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void CannotCreateBlogWithReservedOrInvalidSubfolder(string subfolder)
 		{
 			UnitTestHelper.SetupBlog(subfolder);
+		}
+
+		/// <summary>
+		/// Tests that creating a blog that ends with . is not allowed
+		/// </summary>
+		[Test]
+		[RollBack]
+		[ExpectedException(typeof(InvalidSubfolderNameException))]
+		public void CannotCreateBlogWithSubfolderNameEndingWithDot()
+		{
+			Config.CreateBlog("title", "blah", "blah", _hostName, "archive.");
+		}
+
+		/// <summary>
+		/// Tests that creating a blog that contains invalid characters is not allowed.
+		/// </summary>
+		[Test]
+		[RollBack]
+		[ExpectedException(typeof(InvalidSubfolderNameException))]
+		public void CannotCreateBlogWithSubfolderNameWithInvalidCharacters()
+		{
+			Config.CreateBlog("title", "blah", "blah", _hostName, "My!Blog");
 		}
 		#endregion
 

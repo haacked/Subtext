@@ -1,5 +1,5 @@
 <%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.News" %>
-<div class = "listtitle">News</div>
+<h1>News</h1>
 	<ul class = "list">
 		<li class = "listitem">
 			<asp:Literal ID = "NewsItem" Runat = "server" />

@@ -6,6 +6,7 @@
 <%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Header" Src="Controls/Header.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Calendar" Src="Controls/SubTextBlogCalendar.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="Search" Src="Controls/SubtextSearch.ascx" %>
 <div id="main">
 	<div id="contentBodyLeft">
 		<div id="contentBodyRight">
@@ -19,8 +20,10 @@
 						<dt:contentregion id="MPMain" runat="server" />
 					</div>
 					<div id="rightColumn">
-						<div id="rightColumnHeader"></div>
+						<div id="rightColumnHeader">
+						</div>
 						<uc1:News id="news" runat="server" />
+<uc1:Search ID="search" runat="server" />
 						<uc1:MyLinks id="links" runat="server" />
 						<uc1:SingleColumn id="column" runat="server" />
 						<div id="rightColumnFooter"></div>
