@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI.WebControls;
 using MbUnit.Framework;
@@ -126,7 +127,7 @@ namespace UnitTests.Subtext.Framework.Text
 		[Row("<span>This is some text</span>", "<span>This is some text</span>")]
 		[Row("<p><span>This is some text</span> <span>this is more text</span></p>", "<p><span>This is some text</span> <span>this is more text</span></p>")]
 		[Row("<img src=\"blah\" />", "<img src=\"blah\" />")]
-      [Row("<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>", "<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>")]
+		[Row("<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>", "<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>")]
 		public void ConvertHtmlToXHtmlLeavesValidMarkupAlone(string goodMarkup, string expected)
 		{
 			Entry entry = new Entry(PostType.BlogPost);
@@ -141,8 +142,8 @@ namespace UnitTests.Subtext.Framework.Text
 		[RowTest]
 		[Row("This <br /><br />is bad <p> XHTML.", "This <br /><br />is bad <p> XHTML.</p>")]
 		[Row("This <P>is bad </P> XHTML.", "This <p>is bad </p> XHTML.")]
-      [Row("<style type=\"text/css\">\r\n<![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>", "<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>")]
-      [Row("<style type=\"text/css\">\r\n\r\n<![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>", "<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>")]
+		[Row("<style type=\"text/css\">\r\n<![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>", "<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>")]
+		[Row("<style type=\"text/css\">\r\n\r\n<![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>", "<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>")]
 		public void ConvertHtmlToXHtmlCorrectsInvalidMarkup(string badMarkup, string corrected)
 		{
 			Entry entry = new Entry(PostType.BlogPost);
@@ -217,8 +218,65 @@ namespace UnitTests.Subtext.Framework.Text
 		public void ParseTagsDoesNotMatchRelOfAnotherTag()
 		{
 			List<string> tags = HtmlHelper.ParseTags("<a title=\"blah\" href=\"http://blah.com/subdir/mytag1/\" " + Environment.NewLine + " rel=\"lightbox\">mytag1</a>other junk " + Environment.NewLine + "<a href=\"http://blah.com/another-dir/mytag2/\" rel=\"tag\">mytag2</a>");
-			Assert.AreEqual(1, tags.Count, "The same tag exists twice, should only count as one.");
-			Assert.AreEqual("mytag1", tags[0]);
+			Assert.AreEqual(1, tags.Count, "The first anchor is not a tag.");
+			Assert.AreEqual("mytag2", tags[0]);
+		}
+
+        [Test]
+        public void ParseTagsWithWhitespaceAttributes()
+        {
+            List<string> tags = HtmlHelper.ParseTags("<a title=\"blah\" href = " + Environment.NewLine + " \"http://blah.com/subdir/mytag1/\" rel = " + Environment.NewLine + " \"tag\">mytag1</a>");
+            Assert.AreEqual(1, tags.Count, "The attributes contain whitespace but should be recognized as valid");
+            Assert.AreEqual("mytag1", tags[0]);
+        }
+
+		[Test]
+		public void ParseTagsWithWeirdWhiteSpace()
+		{
+			List<string> tags = HtmlHelper.ParseTags("<a title=\"Programmer's Bill of Rights\" href=\"http://www.codinghorror.com/blog/archives/000666.html\">Programmer&rsquo;s Bill of Rights</a> that <a rel=\"friend met\" href=\"http://www.codinghorror.com/blog/\">Jeff Atwood</a>" + Environment.NewLine + "<div class=\"tags\">Technorati tags: <a rel=\"tag\" href=\"http://technorati.com/tag/Programming\">Programming</a>");
+			Assert.AreEqual(1, tags.Count, "The attributes contain whitespace but should be recognized as valid");
+			Assert.AreEqual("Programming", tags[0]);
+		}
+
+		[RowTest]
+		[Row(" rel = \"tag\" ", " rel = \"tag\"", true)]
+		[Row(" xrel = \"tag\" ", null, false)]
+		[Row(" rel = \"friend tag\" ", " rel = \"friend tag\"", true)]
+		[Row(" rel = \"friend tag met\" ", " rel = \"friend tag met\"", true)]
+		[Row(" rel = \"tag met\" ", " rel = \"tag met\"", true)]
+		[Row(" rel=\"friend met\"> rel=\"tag\" ", " rel=\"tag\"", true)]
+		[Row(" rel = \'tag\' ", " rel = \'tag\'", true)]
+		[Row(" xrel = \'tag\' ", null, false)]
+		[Row(" rel = \'friend tag\' ", " rel = \'friend tag\'", true)]
+		[Row(" rel = \'friend tag met\' ", " rel = \'friend tag met\'", true)]
+		[Row(" rel = \'tag met\' ", " rel = \'tag met\'", true)]
+		[Row(" rel=\'friend met\'> rel=\'tag\' ", " rel=\'tag\'", true)]
+		public void CanParseRelTag(string original, string matched, bool expected)
+		{
+			Regex relRegex = new Regex(@"\s+rel\s*=\s*(""[^""]*?\btag\b.*?""|'[^']*?\btag\b.*?')", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+			Match match = relRegex.Match(original);
+			Assert.AreEqual(expected, match.Success);
+			if(match.Success)
+			{
+				Assert.AreEqual(matched, match.Value);
+			}
+		}
+
+		[RowTest]
+		[Row("  <a href=\"foo\">test</a>  ", "<a href=\"foo\">test</a>", true)]
+		[Row("  <a href=\"foo\" title=\"blah\">test</a>  ", "<a href=\"foo\" title=\"blah\">test</a>", true)]
+		[Row("  <a href = \"foo\" >test</a>  ", "<a href = \"foo\" >test</a>", true)]
+		[Row("  <span title=\"test <a href=\"> <a href=\"foo2\">test2</a>", "<a href=\"foo2\">test2</a>", true)]
+		public void CanParseAnchorTags(string original, string expectedMatchValue, bool expectedMatch)
+		{
+			Regex regex = new Regex(@"<a(\s+\w+\s*=\s*(?:""[^""]*?""|'[^']*?')(?!\w))+\s*>.*?</a>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+			Match match = regex.Match(original);
+			Assert.AreEqual(expectedMatch, match.Success);
+			if(match.Success)
+			{
+				string matchValue = match.Value;
+				Assert.AreEqual(expectedMatchValue, matchValue);
+			}
 		}
 
 		[TestFixtureSetUp]
@@ -246,3 +304,5 @@ namespace UnitTests.Subtext.Framework.Text
 		}
 	}
 }
+
+

@@ -660,13 +660,19 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static List<string> ParseTags(string html)
         {
-            Regex checkAnchor = new Regex("<a(?<element>.*?rel=.*?[\"' ]tag[\"' ].*?)>.*?</a>", RegexOptions.IgnoreCase);
-            Regex checkUrl = new Regex("href=[\"'](?<url>.+?)[\"']", RegexOptions.IgnoreCase);
+			Regex relRegex = new Regex(@"\s+rel\s*=\s*(""[^""]*?\btag\b.*?""|'[^']*?\btag\b.*?')", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+			Regex hrefRegex = new Regex(@"\s+href\s*=\s*(""(?<url>[^""]*?)""|'(?<url>[^']*?)')", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+			Regex anchorRegex = new Regex(@"<a(\s+\w+\s*=\s*(?:""[^""]*?""|'[^']*?')(?!\w))+\s*>.*?</a>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
 			List<string> tags = new List<string>();
 
-            foreach (Match m in checkAnchor.Matches(html))
+			foreach (Match m in anchorRegex.Matches(html))
             {
-                Match urlMatch = checkUrl.Match(m.Groups["element"].Value);
+            	string anchorHtml = m.Value;
+				if (!relRegex.IsMatch(anchorHtml))
+					continue;
+
+                Match urlMatch = hrefRegex.Match(anchorHtml);
                 if (urlMatch.Success)
                 {
                     Uri url;
