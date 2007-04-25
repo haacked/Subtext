@@ -237,36 +237,64 @@ ul.horizontal li
 
 .tag-style-1
 {
-	font-size: .6em;
+	font-size: .8em;
 	font-weight: normal;
 }
 .tag-style-2
 {
-	font-size: .8em;
+	font-size: 1em;
 	font-weight: normal;
 }
 .tag-style-3
 {
-	font-size: 1em;
+	font-size: 1.2em;
 	font-weight: bold;
 }
 .tag-style-4
 {
-	font-size: 1.2em;
+	font-size: 1.4em;
 	font-weight: normal;
 }
 .tag-style-5
 {
-	font-size: 1.4em;
+	font-size: 1.6em;
 	font-weight: bold;
 }
 .tag-style-6
 {
-	font-size: 1.6em;
+	font-size: 1.8em;
 	font-weight: bold;
 }
 .tag-style-7
 {
-	font-size: 1.8em;
+	font-size: 2em;
 	font-weight: bold;
+}
+
+/*---------{search}--------------*/
+#search-progress
+{
+	background: url(../../images/loaders/subtext-loader.gif) no-repeat;
+	width: 32px;
+	height: 32px;
+	margin: 4px auto;
+}
+
+#searchResults
+{
+	z-index: 20;
+}
+
+#searchWrapper
+{
+	position: relative;
+	width: 100%;
+}
+
+a.closeSearch
+{
+	position: absolute;
+	top:0;
+	right: 4px;
+	display: block;
 }

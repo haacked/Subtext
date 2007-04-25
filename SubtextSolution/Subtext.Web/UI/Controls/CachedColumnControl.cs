@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Globalization;
 using System.Web.UI;
 
 namespace Subtext.Web.UI.Controls
@@ -22,19 +21,8 @@ namespace Subtext.Web.UI.Controls
 	/// <summary>
 	/// Summary description for CachedColumnControl.
 	/// </summary>
-	[PartialCaching(30,null,null,"Blogger",true)]
+	[PartialCaching(30, null, null, "Blogger", true)]
 	public class CachedColumnControl : BaseControl
 	{
-		protected override void Render(HtmlTextWriter writer)
-		{
-			base.Render (writer);
-			#if DEBUG
-			   
-				writer.Write(@"<div class=""debug"">");
-				writer.Write("<p>Cached @ " + DateTime.Now.ToString(CultureInfo.CurrentCulture) + "</p> ");
-				writer.Write("<p>Control " + this.GetType() + "</p>");
-				writer.Write("</div>");
-			#endif
-		}
 	}
 }

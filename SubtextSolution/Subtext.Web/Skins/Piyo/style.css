@@ -665,6 +665,11 @@ div.previousNext
 	margin-bottom: 10px;
 }
 
+#tag-cloud
+{
+    padding-top:5px;
+    padding-bottom:5px;
+}
 
 /*
 This to fix a problem with coComment bar

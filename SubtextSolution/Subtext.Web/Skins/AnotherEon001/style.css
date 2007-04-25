@@ -300,3 +300,65 @@ div.news
 {
 	display: inline;
 }
+
+/* ------------- {search color scheme} -------------- */
+#searchResults ul li
+{
+	color: #ffba27;
+}
+
+/* very light gray */
+#search input.searchterm, #search #searchResults
+{
+	background-color: #f6f6f6;
+}
+
+/* Border dark gray */
+#search input.searchterm, #search #searchResults
+{
+	border-color: #ddd;
+}
+
+/* ------------- {search layout} -------------- */
+#search
+{
+	padding: 0;
+	margin: 0 0 5px 0;
+	width: 100%;
+	float: none;
+}
+
+#search input
+{
+	margin-left: 5px;
+	padding: 0;
+}
+
+#search input.searchterm
+{
+	width: 100px;
+	border: solid 1px #444;
+}
+
+#searchResults
+{
+	width: 500px;
+	position: absolute;
+	top: 18px;
+	left: 0px;
+	text-align: left;
+}
+
+#searchResults div.innerbox
+{
+	background-color: #f6f6f6;
+	padding: 10px;
+}
+
+a.closeSearch
+{
+	position: absolute;
+	top:0;
+	right: 4px;
+	display: block;
+}

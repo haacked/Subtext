@@ -213,6 +213,14 @@ namespace UnitTests.Subtext.Framework.Text
 			Assert.AreEqual(1, tags.Count, "The same tag exists twice, should only count as one.");
 		}
 
+		[Test]
+		public void ParseTagsDoesNotMatchRelOfAnotherTag()
+		{
+			List<string> tags = HtmlHelper.ParseTags("<a title=\"blah\" href=\"http://blah.com/subdir/mytag1/\" " + Environment.NewLine + " rel=\"lightbox\">mytag1</a>other junk " + Environment.NewLine + "<a href=\"http://blah.com/another-dir/mytag2/\" rel=\"tag\">mytag2</a>");
+			Assert.AreEqual(1, tags.Count, "The same tag exists twice, should only count as one.");
+			Assert.AreEqual("mytag1", tags[0]);
+		}
+
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
