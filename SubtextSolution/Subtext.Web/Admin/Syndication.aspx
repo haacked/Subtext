@@ -10,7 +10,7 @@
 </asp:Content>
 
 <asp:Content ID="syndicationContent" ContentPlaceHolderID="pageContent" runat="server">
-	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
+	<st:MessagePanel id="Messages" runat="server" />
 	
 		<fieldset>
 			<legend>Syndication</legend>

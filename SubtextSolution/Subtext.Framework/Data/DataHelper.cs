@@ -294,6 +294,14 @@ namespace Subtext.Framework.Data
 			return entry;
 		}
 
+		internal static FeedbackItem LoadFeedbackItem(IDataReader reader, Entry entry)
+		{
+			FeedbackItem feedbackItem = new FeedbackItem((FeedbackType)ReadInt32(reader, "FeedbackType"));
+			LoadFeedbackItem(reader, feedbackItem);
+			feedbackItem.Entry = entry;
+			return feedbackItem;
+		}
+
 		internal static FeedbackItem LoadFeedbackItem(IDataReader reader)
 		{
 			FeedbackItem feedbackItem = new FeedbackItem((FeedbackType)ReadInt32(reader, "FeedbackType"));

@@ -21,7 +21,7 @@
 		<div id="nav">
 			<st:MyLinks id="MyLinks" runat="server" />
 		</div>
-		<st:TagCloud ID="tagCloud" runat="server" />
+		<st:TagCloud ID="tagCloud" runat="server" ItemCount="20" />
 		<st:SingleColumn ID="singleColumn" runat="server" />
 	</div>
 </div>

@@ -35,7 +35,7 @@ namespace Subtext.Framework.Configuration
 	public static class Config
 	{
 		private static
-			string[] InvalidSubfolders = { "Admin", "aggbug", "Archive", "Archives", "Articles", "bin", 
+			string[] InvalidSubfolders = { "Tags", "Admin", "aggbug", "Archive", "Archives", "Articles", "bin", 
 				"Category", "Comments", "ExternalDependencies", "Gallery", "HostAdmin", "Images", "Install", 
 				"Modules", "Posts", "Properties", "Providers", "Scripts", "Services", "Sitemap", "Skins", 
 				"Stories", "Story", "SystemMessages", "UI"
@@ -226,9 +226,7 @@ namespace Subtext.Framework.Configuration
 		/// <returns></returns>
 		public static bool CreateBlog(string title, string username, string email, string password, string passwordQuestion, string passwordAnswer, string host, string subfolder, bool passwordAlreadyHashed)
 		{
-			//TODO: add password question and answer to params.
-
-			if (subfolder != null && subfolder.StartsWith("."))
+			if(subfolder != null && subfolder.EndsWith("."))
 				throw new InvalidSubfolderNameException(subfolder);
 
 			host = BlogInfo.NormalizeHostName(host);
@@ -382,10 +380,8 @@ namespace Subtext.Framework.Configuration
 				throw new ArgumentNullException("subfolder", Resources.ArgumentNull_String);
 			}
 
-			if (subfolder.StartsWith(".") || subfolder.EndsWith("."))
-			{
+			if (subfolder.EndsWith("."))
 				return false;
-			}
 
 			foreach (char c in InvalidChars)
 			{

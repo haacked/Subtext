@@ -15,7 +15,6 @@
 
 using System;
 using Subtext.Extensibility.Interfaces;
-using Subtext.Framework.Components;
 using Subtext.Framework.Logging;
 using Subtext.Web.Admin;
 using Subtext.Web.Controls;
@@ -26,11 +25,7 @@ namespace Subtext.Web.HostAdmin.Pages
 	{
 		private int logPageNumber;
 	
-	    public ErrorLog() : base()
-	    {
-	    }
-	    
-		protected override void OnLoad(EventArgs e)
+	    protected override void OnLoad(EventArgs e)
 		{
 			LoadPage();
 			base.OnLoad(e);

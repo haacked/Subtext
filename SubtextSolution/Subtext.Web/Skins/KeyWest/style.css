@@ -62,19 +62,6 @@ a:hover {
 	margin: 26px 43px 0 0;
 	display: inline;
 }
-#searchform {
-	text-align: right;
-}
-#searchlabel {
-	margin-right: 4px;
-}
-#searchfield {
-	width: 12em;
-	border: 1px solid #285090;
-}
-#searchimage {
-	vertical-align: middle;
-}
 #footer {
 	display: block;
 	clear: both;
@@ -652,4 +639,88 @@ img.emoticons {
 	float:left;
 	margin-right:3px;
 	cursor:pointer;
+}
+/* ------------- {search layout} -------------- */
+#search
+{
+	position: relative;
+	padding: 0;
+	margin: 6px 8px 8px 8px;
+}
+
+#search-box
+{
+	margin: 0 0 0 2px;
+	width:195px;
+}
+
+#search input
+{
+	margin: 0;
+	padding: 0;
+}
+
+#search-results
+{
+	width: 300px;
+	min-width: 300px;
+	position: absolute;
+	top: 18px;
+	right: 50px;
+	z-index: 10;
+	text-align: left;
+}
+
+#search-results h5
+{
+	font-size: 1em;
+	color: #444;
+	margin: 0;
+	padding: 0;
+	width: 300px;
+}
+
+#search-results ul
+{
+	padding: 0;
+	margin: 0 0 0 8px;
+	width: 100%;
+}
+
+#search-results ul li
+{
+	padding: 0;
+	margin: 0: 
+}
+
+#search-results div.innerbox
+{
+	background-color: #f6f6f6;
+	padding: 10px;
+}
+
+#search a.close
+{
+	position: absolute;
+	top:0;
+	right: 4px;
+	display: block;
+}
+
+#search-progress
+{
+	position: absolute;
+	top: 18px;
+	left: 80px;
+}
+
+#full-tag-cloud
+{
+	margin-top: 10px;
+}
+
+h1
+{
+	margin-top: 4px 0 6px 4px;
+	padding: 8px 0 8px 0;
 }

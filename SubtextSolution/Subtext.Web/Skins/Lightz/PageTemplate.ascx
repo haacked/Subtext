@@ -6,7 +6,8 @@
 <%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Comments" Src="Controls/RecentComments.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Articles" Src="Controls/ArticleCategories.ascx" %>
-
+<%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="Search" Src="Controls/SubtextSearch.ascx" %>
 
 		<div class="pagelayout">
 		
@@ -14,8 +15,10 @@
 			
 			<div id="menu">
 				<DT:contentregion id="MPLeftColumn" runat="server">
+					<uc1:Search ID="Search" runat="server" />
 					<uc1:MyLinks id="MyLinks1" runat="server"></uc1:MyLinks>
 					<uc1:News id="News1" runat="server"></uc1:News>	
+					<uc1:TagCloud id="TagCloud" runat="server" ItemCount="20" />
 					<uc1:Comments id="Comments" runat="server"></uc1:Comments>		
 					<uc1:Articles id="Articles" runat="server"></uc1:Articles>										
 				</DT:contentregion>

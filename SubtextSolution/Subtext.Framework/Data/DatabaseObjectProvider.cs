@@ -418,7 +418,7 @@ namespace Subtext.Framework.Data
 				while (reader.Read())
 				{
 					//Don't build links.
-					FeedbackItem feedbackItem = DataHelper.LoadFeedbackItem(reader);
+					FeedbackItem feedbackItem = DataHelper.LoadFeedbackItem(reader, parentEntry);
 					ec.Add(feedbackItem);
 				}
 				return ec;

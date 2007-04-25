@@ -282,7 +282,7 @@ ul.horizontal li
 
 #searchResults
 {
-	z-index: 20;
+	z-index: 100;
 }
 
 #searchWrapper

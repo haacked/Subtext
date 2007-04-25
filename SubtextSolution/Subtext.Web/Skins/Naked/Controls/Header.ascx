@@ -7,7 +7,5 @@
 	<div class="subtitle">
 		<asp:Literal id="HeaderSubTitle" runat="server" />
 	</div>
-    <div class="search">
         <uc1:SubtextSearch id="search" runat="server" />
-    </div>
 
