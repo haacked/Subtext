@@ -17,6 +17,7 @@ using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Security;
 using System.Threading;
 using System.Web;
 using log4net;
