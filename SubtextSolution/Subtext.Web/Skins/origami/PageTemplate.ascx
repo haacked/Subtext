@@ -7,6 +7,7 @@
 <%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="SyndicatonLinks" Src="Controls/SyndicationLinks.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="Search" Src="Controls/SubtextSearch.ascx" %>
 <%@ Import Namespace="Subtext.Framework.Configuration" %>
 <script type="text/javascript">setUserStyles();</script>
 <div class="clearfix" id="container">
@@ -22,6 +23,7 @@
                 <div id="sidebar-wrapper">
                     <div id="sidebar">
                         <div class="sidebar-node">
+							<uc1:Search ID="search" runat="server" />
 							<uc1:News ID="news" runat="server" />
 							<ul>
                                 <uc1:MyLinks ID="myLinks1" runat="Server" />

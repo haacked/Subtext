@@ -3908,7 +3908,11 @@ SELECT BlogId
 	, PingTrackCount
 	, LastUpdated
 FROM [<dbUser,varchar,dbo>].[subtext_Config] 
-WHERE PostCount > 0 AND subtext_Config.Flag & 2 = 2 AND Host = @Host AND BlogGroup & @GroupID = @GroupID
+WHERE PostCount > 0 
+	AND subtext_Config.Flag & 2 = 2 
+	AND subtext_Config.Flag & 1 = 1
+	AND Host = @Host 
+	AND BlogGroup & @GroupID = @GroupID
 ORDER BY PostCount DESC
 
 

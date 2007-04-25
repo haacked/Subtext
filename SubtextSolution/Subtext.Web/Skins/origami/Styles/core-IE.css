@@ -48,3 +48,8 @@ ul, ol, dl, p.important, .sidebar-node{position: relative;}
 }
 
 #main .author .comment-body{ background-image:url(../images/bg_commentAuthorGradient.gif); }
+
+#searchWrapper #searchResults ul li
+{
+	margin-left: -15px;
+}

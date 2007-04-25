@@ -48,6 +48,7 @@ namespace Subtext.Web.UI.Controls
 			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
 			//
 			InitializeComponent();
+			AttachCloseButton();
 			base.OnInit(e);
 		}
 
@@ -57,12 +58,34 @@ namespace Subtext.Web.UI.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.Load += new EventHandler(this.Page_Load);
-			this.btnSearch.Click += new EventHandler(this.btnSearch_Click);
-
+			this.Load += this.Page_Load;
+			this.btnSearch.Click += this.btnSearch_Click;
 		}
 
 		#endregion
+
+		private void AttachCloseButton()
+		{
+			LinkButton closeLinkButton = this.FindControl("closeButton") as LinkButton;
+			if (closeLinkButton != null)
+			{
+				closeLinkButton.Click += OnCloseClick;
+				return;
+			}
+
+			Button closeButton = this.FindControl("closeButton") as Button;
+			if (closeButton != null)
+			{
+				closeButton.Click += OnCloseClick;
+				return;
+			}
+		}
+
+		void OnCloseClick(object sender, EventArgs e)
+		{
+			if (SearchResults != null)
+				SearchResults.Visible = false;
+		}
 
 		public void btnSearch_Click(object sender, EventArgs e)
 		{

@@ -17,7 +17,6 @@ using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Security;
 using System.Threading;
 using System.Web;
 using log4net;
@@ -28,7 +27,6 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Security;
 using Subtext.Framework.Services;
 
 namespace Subtext 
@@ -167,52 +165,6 @@ namespace Subtext
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void Application_EndRequest(Object sender, EventArgs e)
 		{
-			#region Debug Information
-			#if DEBUG
-				HttpApplication application = (HttpApplication)sender;
-				HttpContext context = application.Context;
-				if (context.Request.Path.EndsWith(".aspx", StringComparison.InvariantCultureIgnoreCase) && context.Request.ContentType == "text/html")
-				{
-					Version v =  VersionInfo.FrameworkVersion; //t.Assembly.GetName().Version;
-					string machineName = Environment.MachineName;
-					Version framework = Environment.Version;
-
-					string userInfo = "No User";
-					try
-					{
-						if (context.Request.IsAuthenticated)
-						{
-							userInfo = context.User.Identity.Name;
-							userInfo += "<br />Is Host Admin: " + SecurityHelper.IsHostAdmin.ToString(CultureInfo.InvariantCulture);
-							if (!InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory && !InstallationManager.IsInSystemMessageDirectory)
-							{
-								userInfo += "<br />Is Admin: " + SecurityHelper.IsAdmin.ToString(CultureInfo.InvariantCulture);
-								userInfo += "<br />BlogId: " + Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture);
-							}	
-						}
-					}
-					//We don't care about exceptions in this case.
-					//But we don't want to catch OutOfMemoryException etc...
-					catch (FormatException)
-					{
-					}
-					catch (ArgumentException)
-					{
-					}
-					catch (NullReferenceException)
-					{
-					}
-					catch (ApplicationException)
-					{
-					}
-					catch (SecurityException)
-					{
-					}
-
-				    context.Response.Write(string.Format(debugMessage, @"<!-- ", lb, v, machineName, framework, userInfo, lb, "//-->"));
-				}	
-#endif
-			#endregion
 		}
 
 		/// <summary>
@@ -367,11 +319,6 @@ namespace Subtext
 		{
 
 		}
-
-#if DEBUG
-		private static string lb = "============ Debug Build ============";
-		private static string debugMessage = "{0}{1}<br />Subtext Version: {2}<br />Machine Name: {3}<br />.NET Version: {4}<br />{5}<br />{6}{7}";
-#endif
 
 		/// <summary>
 		/// Handles the End event of the Application control.
