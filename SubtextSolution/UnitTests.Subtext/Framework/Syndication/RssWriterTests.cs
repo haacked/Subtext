@@ -315,7 +315,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		    UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, writer.Xml);
 		}
 
-		Entry[] CreateSomeEntries()
+		static Entry[] CreateSomeEntries()
 		{
 			return new Entry[]
 			{
@@ -326,7 +326,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			};
 		}
 
-		Entry[] CreateSomeEntriesDescending()
+		static Entry[] CreateSomeEntriesDescending()
 		{
 			return new Entry[]
 			{
@@ -338,12 +338,12 @@ namespace UnitTests.Subtext.Framework.Syndication
 			};
 		}
 
-		Entry CreateEntry(int id, string title, string body, DateTime dateCreated)
+		static Entry CreateEntry(int id, string title, string body, DateTime dateCreated)
 		{
 			return CreateEntry(id, title, body, null, dateCreated);
 		}
 
-		Entry CreateEntry(int id, string title, string body, string entryName, DateTime dateCreated)
+		static Entry CreateEntry(int id, string title, string body, string entryName, DateTime dateCreated)
 		{
 			Entry entry = new Entry(PostType.BlogPost);
 			if(entryName != null)
