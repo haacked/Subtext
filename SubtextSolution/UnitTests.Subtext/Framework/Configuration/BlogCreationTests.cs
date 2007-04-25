@@ -260,7 +260,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Row("bin", ExpectedException = typeof(InvalidSubfolderNameException))]
 		[Row("archive", ExpectedException = typeof(InvalidSubfolderNameException))]
 		[Row("archive.", ExpectedException = typeof(InvalidSubfolderNameException))]
-		[Row(".archive", ExpectedException = typeof(InvalidSubfolderNameException))]
+		[Row("archive.", ExpectedException = typeof(InvalidSubfolderNameException))]
 		[Row("My!Blog", ExpectedException = typeof(InvalidSubfolderNameException))]
 		[RollBack]
 		public void CannotRenameBlogToHaveSubfolderNameBin(string badSubfolderName)
@@ -279,7 +279,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Row("bin", ExpectedException = typeof(InvalidSubfolderNameException))]
 		[Row("archive", ExpectedException = typeof(InvalidSubfolderNameException))]
 		[Row("archive.", ExpectedException = typeof(InvalidSubfolderNameException))]
-		[Row(".archive", ExpectedException = typeof(InvalidSubfolderNameException))]
+		[Row("archive.", ExpectedException = typeof(InvalidSubfolderNameException))]
 		[Row("My!Blog", ExpectedException = typeof(InvalidSubfolderNameException))]
 		[RollBack]
 		public void CannotCreateBlogWithReservedOrInvalidSubfolder(string subfolder)
@@ -295,7 +295,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[ExpectedException(typeof(InvalidSubfolderNameException))]
 		public void CannotCreateBlogWithSubfolderNameEndingWithDot()
 		{
-			Config.CreateBlog("title", "blah", "blah", _hostName, "archive.");
+			Config.CreateBlog("title", "blah", "blah", UnitTestHelper.GenerateRandomString(), "archive.");
 		}
 
 		/// <summary>
@@ -306,7 +306,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[ExpectedException(typeof(InvalidSubfolderNameException))]
 		public void CannotCreateBlogWithSubfolderNameWithInvalidCharacters()
 		{
-			Config.CreateBlog("title", "blah", "blah", _hostName, "My!Blog");
+			Config.CreateBlog("title", "blah", "blah", UnitTestHelper.GenerateRandomString(), "My!Blog");
 		}
 		#endregion
 

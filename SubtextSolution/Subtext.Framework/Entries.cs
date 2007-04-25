@@ -30,7 +30,6 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
-using System.Globalization;
 using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
@@ -497,19 +496,13 @@ namespace Subtext.Framework
 		public static bool Update(Entry entry)
 		{
             if (entry == null)
-            {
                 throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
-            }
 
 			if (NullValue.IsNull(entry.DateSyndicated) && entry.IsActive && entry.IncludeInMainSyndication)
-			{
 				entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
-			}
 
 			if (!entry.IncludeInMainSyndication)
-			{
 				entry.DateSyndicated = NullValue.NullDateTime;
-			}
 
 			return Update(entry, null);
 		}
@@ -524,9 +517,7 @@ namespace Subtext.Framework
 		public static bool Update(Entry entry, params int[] categoryIDs)
 		{
             if (entry == null)
-            {
                 throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
-            }
 
             entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 

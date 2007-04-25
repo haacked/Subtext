@@ -2875,7 +2875,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertKeyWord]
 (
 	@Word nvarchar(100),
-	@Rel nvarchar(100),
+	@Rel nvarchar(100) = NULL,
 	@Text nvarchar(100),
 	@ReplaceFirstTimeOnly bit,
 	@OpenInNewWindow bit,
@@ -4530,24 +4530,23 @@ DECLARE @TagId int
 SELECT @TagId = Id FROM subtext_Tag WHERE BlogId = @BlogId AND [Name] = @Tag
 
 SET ROWCOUNT @ItemCount
-SELECT	content.BlogId
-	, content.[ID]
-	, content.Title
-	, content.DateAdded
-	, content.[Text]
-	, content.[Description]
-	, content.PostType
-	, content.Author
-	, content.Email
-	, content.DateUpdated
-	, FeedbackCount = ISNULL(content.FeedbackCount, 0)
-	, content.PostConfig
-	, content.EntryName 
-	, content.DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
-WHERE  content.BlogId = @BlogId 
-	AND content.ID IN (SELECT EntryId FROM [<dbUser,varchar,dbo>].[subtext_EntryTag] WHERE BlogId = @BlogId AND TagId = @TagId)
-ORDER BY content.DateAdded DESC
+SELECT BlogId
+	, AuthorId
+	, [Id]
+	, Title
+	, DateAdded
+	, [Text]
+	, [Description]
+	, PostType
+	, DateUpdated
+	, FeedbackCount = ISNULL(FeedbackCount, 0)
+	, PostConfig
+	, EntryName 
+	, DateSyndicated
+FROM [<dbUser,varchar,dbo>].[subtext_Content] WITH (NOLOCK)
+WHERE  BlogId = @BlogId 
+	AND ID IN (SELECT EntryId FROM [<dbUser,varchar,dbo>].[subtext_EntryTag] WHERE BlogId = @BlogId AND TagId = @TagId)
+ORDER BY DateAdded DESC
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByTag]  TO [public]

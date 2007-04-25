@@ -818,7 +818,7 @@ namespace Subtext.Framework.Data
 		{
 			FormatEntry(entry, false);
 
-			if (UpdateEntry(entry))
+			if(!UpdateEntry(entry))
 			{
 				return false;
 			}
@@ -1828,6 +1828,9 @@ namespace Subtext.Framework.Data
 
 		public override ICollection<Guid> GetEnabledPlugins()
 		{
+			if (BlogIdParam.Value == null)
+				return new List<Guid>();
+
 			SqlParameter[] p = { BlogIdParam };
 
 			IDataReader reader = GetReader("subtext_GetPluginBlog", p);

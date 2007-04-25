@@ -169,6 +169,10 @@
       <Project>{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}</Project>
       <Name>Subtext.Plugins.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Subtext.Plugins.Examples\Subtext.Plugins.Examples.csproj">
+      <Project>{E92C1C9B-FB2C-457B-B441-3CAEA3DCFC7A}</Project>
+      <Name>Subtext.Plugins.Examples</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj">
       <Project>{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}</Project>
       <Name>Subtext.Providers.BlogEntryEditor.FCKeditor</Name>

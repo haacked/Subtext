@@ -104,7 +104,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         [Test]
         public void EnsureInvalidCharactersMayNotBeUsedInSubfolderName()
         {
-            string[] badNames = { ".name", "a{b", "a}b", "a[e", "a]e", "a/e", @"a\e", "a@e", "a!e", "a#e", "a$e", "a'e", "a%", ":e", "a^", "ae&", "*ae", "a(e", "a)e", "a?e", "+a", "e|", "a\"", "e=", "a'", "e<", "a>e", "a;", ",e", "a e" };
+            string[] badNames = { "name.", "a{b", "a}b", "a[e", "a]e", "a/e", @"a\e", "a@e", "a!e", "a#e", "a$e", "a'e", "a%", ":e", "a^", "ae&", "*ae", "a(e", "a)e", "a?e", "+a", "e|", "a\"", "e=", "a'", "e<", "a>e", "a;", ",e", "a e" };
             foreach (string badName in badNames)
             {
                 Assert.IsFalse(Config.IsValidSubfolderName(badName), badName + " is not a valid app name.");
@@ -140,12 +140,11 @@ namespace UnitTests.Subtext.Framework.Configuration
         [Row("Providers")]
         [Row("aggbug")]
         [Row(".")]
-        [Row(".start")]
         [Row("end.")]
         [Row("sub:folder")]
         public void ReservedSubtextWordsAreNotValidForSubfolders(string badSubfolderName)
         {
-            Assert.IsFalse(Config.IsValidSubfolderName(badSubfolderName), badSubfolderName + " is not a valid subfolder name.");
+            Assert.IsFalse(Config.IsValidSubfolderName(badSubfolderName), "'" + badSubfolderName + "' was considered a valid subfolder name, but shouldn't have been.");
         }
         
         [Test]
