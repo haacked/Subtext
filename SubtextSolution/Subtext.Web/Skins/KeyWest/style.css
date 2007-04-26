@@ -643,15 +643,15 @@ img.emoticons {
 /* ------------- {search layout} -------------- */
 #search
 {
-	position: relative;
-	padding: 0;
-	margin: 6px 8px 8px 8px;
+	position: absolute;
+	right: 55px;
+	top: 50px;
 }
 
 #search-box
 {
 	margin: 0 0 0 2px;
-	width:195px;
+	text-align: right;
 }
 
 #search input
@@ -666,7 +666,7 @@ img.emoticons {
 	min-width: 300px;
 	position: absolute;
 	top: 18px;
-	right: 50px;
+	right: 20px;
 	z-index: 10;
 	text-align: left;
 }

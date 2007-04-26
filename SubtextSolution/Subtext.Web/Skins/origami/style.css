@@ -26,7 +26,6 @@ div.sidebar-node #tag-cloud li a
 }
 
 /* ------------- {search color scheme} -------------- */
-.sidebar-node #searchWrapper #searchResults { position:absolute; }
 #searchResults
 {
 	background-color: #fff;
@@ -56,6 +55,11 @@ div.sidebar-node #tag-cloud li a
 	width: 100%;
 }
 
+* html #searchWrapper
+{
+	display: none;
+}
+
 #search
 {
 	padding: 0;
@@ -78,7 +82,7 @@ div.sidebar-node #tag-cloud li a
 
 #searchResults
 {
-	position: relative;
+	position: absolute;
 	width: 300px;
 	text-align: left;
 	border: solid 1px #000;

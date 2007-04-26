@@ -18,6 +18,7 @@
 		<st:contentregion id="MPMain" runat="server" />       
 	</div>
 	<div id="sidebar">
+	    <st:Search ID="search" runat="server" />
 		<div id="nav">
 			<st:MyLinks id="MyLinks" runat="server" />
 		</div>
