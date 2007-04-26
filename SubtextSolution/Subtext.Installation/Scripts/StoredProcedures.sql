@@ -7260,7 +7260,6 @@ BEGIN
 		UserId
 		, UserName
 		, LoweredUserName
-		, MobileAlias
 		, IsAnonymous
 		, Password
 		, PasswordSalt
@@ -7286,7 +7285,6 @@ BEGIN
 		@UserId
 		, @UserName
 		, LOWER(@UserName)
-		, LEFT(LOWER(@UserName), 16) -- MobileAlias
 		, 0 -- IsAnonymous
 		, @Password
 		, @PasswordSalt

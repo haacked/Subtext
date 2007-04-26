@@ -727,26 +727,13 @@ namespace Subtext.Framework.Security
 			string storedPassword;
 			string salt;
 
-			using (SqlConnection conn = new SqlConnection(this.connectionString))
+			using(IDataReader reader = SqlHelper.ExecuteReader(this.connectionString, "subtext_Membership_GetPasswordWithFormat", username, false, DateTime.UtcNow))
 			{
-				using (SqlCommand cmd = new SqlCommand("subtext_Membership_GetPasswordWithFormat", conn))
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@UserName", username);
-					cmd.Parameters.AddWithValue("@UpdateLastLoginActivityDate", 0);
-					//cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.Now.ToShortTimeString());
-               cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow);
+				if (!reader.Read()) return false;
 
-					conn.Open();
-					using (IDataReader reader = cmd.ExecuteReader())
-					{
-						if (!reader.Read()) return false;
-
-						passwordFormat = (MembershipPasswordFormat)DataHelper.ReadInt32(reader, "PasswordFormat");
-						storedPassword = DataHelper.ReadString(reader, "Password");
-						salt = DataHelper.ReadString(reader, "PasswordSalt");
-					}
-				}
+				passwordFormat = (MembershipPasswordFormat)DataHelper.ReadInt32(reader, "PasswordFormat");
+				storedPassword = DataHelper.ReadString(reader, "Password");
+				salt = DataHelper.ReadString(reader, "PasswordSalt");
 			}
 
 			string comparePassword = (passwordFormat == MembershipPasswordFormat.Hashed ? SecurityHelper.HashPassword(password, salt) : password);
