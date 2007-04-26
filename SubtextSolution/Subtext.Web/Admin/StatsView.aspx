@@ -10,7 +10,7 @@
 </asp:Content>
 
 <asp:Content ID="statsViewContent" ContentPlaceHolderID="pageContent" runat="server">
-	<st:MessagePanel id=Messages runat="server" ErrorIconUrl="~/images/icons/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/admin/resources/ico_info.gif" MessageCssClass="MessagePanel" />
+	<st:MessagePanel id=Messages runat="server" ErrorIconUrl="~/images/icons/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/images/icons/ico_info.gif" MessageCssClass="MessagePanel" />
 	Coming Soon
 	<st:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="View Stats" HeaderCssClass="CollapsibleHeader" DisplayHeader="true" Visible = "False">
 		<ASP:Repeater id="rprSelectionList" runat="server" >

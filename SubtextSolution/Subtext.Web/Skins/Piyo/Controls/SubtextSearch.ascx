@@ -7,7 +7,7 @@
 		</ProgressTemplate>
 	</asp:UpdateProgress>
 	<div id="search-box">
-	    <asp:Button id="btnSearch" runat="server" class="searchButton" Text="" CausesValidation="False" /> <asp:TextBox id="txtSearch" runat="server" CssClass="searchterm" />
+	    <asp:TextBox id="txtSearch" runat="server" CssClass="searchterm" /> <asp:Button id="btnSearch" runat="server" class="searchButton" Text="" CausesValidation="False" />
 	</div>
 	<asp:UpdatePanel ID="searchUpdate" runat="server" UpdateMode="conditional">
 		<Triggers>

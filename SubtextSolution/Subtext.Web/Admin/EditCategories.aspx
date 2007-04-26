@@ -8,6 +8,7 @@
 </asp:Content>
 
 <asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
+    <st:CategoryLinks ID="categoryLinks" runat="server" CategoryType="PostCollection" />
 </asp:Content>
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">

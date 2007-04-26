@@ -1952,6 +1952,7 @@
     <Content Include="Skins\RedBook\Controls\ViewPicture.ascx" />
     <Content Include="Skins\RedBook\Controls\ViewPost.ascx" />
     <Content Include="Skins\RedBook\Green.css" />
+    <Content Include="Skins\RedBook\IE6Patches.css" />
     <Content Include="Skins\RedBook\IE7Patches.css" />
     <Content Include="Skins\RedBook\Images\Blue\back.jpg" />
     <Content Include="Skins\RedBook\Images\Blue\backback.jpg" />
