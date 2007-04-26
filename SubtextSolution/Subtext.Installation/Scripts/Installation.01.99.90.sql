@@ -304,7 +304,6 @@ CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Users](
 	[UserId] [uniqueidentifier] NOT NULL DEFAULT (newid()),
 	[UserName] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[LoweredUserName] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[MobileAlias] [nvarchar](16) COLLATE SQL_Latin1_General_CP1_CI_AS NULL DEFAULT (null),
 	[IsAnonymous] [bit] NOT NULL DEFAULT (0),
 	/* Columns that used to be in the Membership table */
 	[Password] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
