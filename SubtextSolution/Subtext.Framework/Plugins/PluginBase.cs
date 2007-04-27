@@ -134,30 +134,65 @@ namespace Subtext.Extensibility.Plugins
             if (BlogSettings[key] == null)
             {
                 BlogSettings.Add(key, value);
-                Plugin.InsertPluginGeneralSettings(_guid, key, value);
+				Plugin.InsertPluginGeneralSettings(Id, key, value);
             }
             else
             {
                 BlogSettings[key] = value;
-                Plugin.UpdatePluginGeneralSettings(_guid, key, value);
+				Plugin.UpdatePluginGeneralSettings(Id, key, value);
             }
         }
 
         //Retrieve the settings from the storage
         private NameValueCollection GetBlogSettings()
         {
-            if (_guid == Guid.Empty)
+			if (Id == Guid.Empty)
             {
                 throw new InvalidOperationException("BlogSettings cannot be retrieved if no PluginGuid has been specified");
             }
             else
             {
-                return Subtext.Framework.Configuration.Config.CurrentBlog.EnabledPlugins[_guid].Settings;
+				return Subtext.Framework.Configuration.Config.CurrentBlog.EnabledPlugins[Id].Settings;
             }
         }
 
         #endregion General Blog Settings
 
+
+		//Retrieve the settings from the storage
+		public NameValueCollection GetEntrySettings(Entry entry)
+		{
+			if (Id == Guid.Empty)
+			{
+				throw new InvalidOperationException("EntrySettings cannot be retrieved if no PluginGuid has been specified");
+			}
+			else
+			{
+				return Plugin.GetPluginEntrySettings(Id, entry.Id);
+			}
+		}
+
+
+		public string GetEntrySetting(Entry entry, string key)
+		{
+			string value = GetEntrySettings(entry)[key];
+			if (value != null)
+				return value;
+			else
+				return string.Empty;
+		}
+
+		public void SetEntrySetting(Entry entry, string key, string value)
+		{
+			if (Id == Guid.Empty)
+			{
+				throw new InvalidOperationException("EntrySettings cannot be retrieved if no PluginGuid has been specified");
+			}
+			else
+			{
+				Plugin.InsertPluginEntrySetting(Id, entry.Id, key, value);
+			}
+		}
 
         #region Attribute Accessor Helpers
         private static PluginImplementationInfo GetInfoFromAttribute(Type type)

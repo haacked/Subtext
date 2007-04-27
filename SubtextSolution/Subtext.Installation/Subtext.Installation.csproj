@@ -164,9 +164,7 @@
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.xml" />
     <EmbeddedResource Include="Scripts\Installation.01.09.00.sql" />
     <EmbeddedResource Include="Scripts\Installation.01.09.02.sql" />
-    <EmbeddedResource Include="Scripts\Installation.02.00.00.sql" />
     <EmbeddedResource Include="Scripts\Installation.01.99.90.sql" />
-    <EmbeddedResource Include="Scripts\Installation.01.99.91.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -181,6 +179,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Installation.01.09.04.sql" />
+    <EmbeddedResource Include="Scripts\Installation.01.99.91.sql" />
+    <EmbeddedResource Include="Scripts\Installation.02.00.00.sql" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
