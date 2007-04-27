@@ -4,9 +4,10 @@
 <st:MessagePanel id="messagePanel" runat="server"></st:MessagePanel>
 <st:AdvancedPanel id="pnlResults" runat="server">
 	<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs" Runat="server" oncheckedchanged="chkShowInactive_CheckedChanged"></asp:CheckBox>
+	<asp:Button ID="addNewBlogButton" runat="server" OnClick="OnCreateNewBlogClick" Text="Create New Blog" />
 	<asp:Repeater id="rprBlogsList" Runat="server" OnItemCommand="rprBlogsList_ItemCommand">
 		<HeaderTemplate>
-			<table class="Listing" cellspacing="0" cellpadding="4" border="0">
+			<table cellspacing="0" cellpadding="4" border="0">
 				<tr>
 					<th>Title</th>
 					<th>Host</th>
@@ -41,7 +42,7 @@
 			</tr>
 		</ItemTemplate>
 		<AlternatingItemTemplate>
-			<tr class="Alt">
+			<tr class="alt">
 				<td>
 					<a href="<%# DataBinder.Eval(Container.DataItem, "RootUrl") %>Default.aspx"><%# DataBinder.Eval(Container.DataItem, "Title") %></a>
 				</td>
@@ -77,6 +78,7 @@
 			UrlFormat="Default.aspx?pg={0}" 
 			CssClass="Pager" />
 </st:AdvancedPanel>
+
 <st:AdvancedPanel id="pnlEdit" runat="server">
 	<st:HelpToolTip id="blogEditorHelp" runat="server">
 		<img id="Img3" src="~/images/ms_help.gif" align="right" alt="help" runat="server" />
@@ -153,64 +155,58 @@
 				urlPreview.innerHTML = preview;
 			}
 	</script>
-	<strong>
-		<st:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like.">
-			Url Preview</st:HelpToolTip>:
-	</strong>
+	<st:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like.">
+		Url Preview</st:HelpToolTip>:
 	<div class="MessagePanel" id="urlPreview">http://
 	</div>
-	<table border="0">
-		<tr valign="top">
-			<td><label for="lblTitle">Title:</label></td>
-			<td>
-				<asp:TextBox id="txtTitle" Runat="server" MaxLength="100"></asp:TextBox>
-			</td>
-		</tr>
-		<tr valign="top">
-			<td>
-				<label for="txtHost">
- 			    <st:HelpToolTip id="hostDomainHelpTip" runat="server"><strong>Host Domain</strong></st:HelpToolTip>:</label>
-			</td>
-			<td>
-				<asp:TextBox id="txtHost" Runat="server" MaxLength="100"></asp:TextBox><input id="virtualDirectory" type="hidden" runat="server" />
-			</td>
-		</tr>
-		<tr valign="top">
-			<td>
-				<st:HelpToolTip id="applicationHelpTip" runat="server">
-					<strong>Subfolder</strong></st:HelpToolTip>:
-				</td>
-			<td>
-				<asp:TextBox id="txtApplication" Runat="server" MaxLength="50"></asp:TextBox>
-			</td>
-		</tr>
-		<tr valign="top">
-			<td><label for="txtUsername">
-				<st:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog.">
-				User Name:</st:HelpToolTip></label>
-			</td>
-			<td>
-				<asp:TextBox id="txtUsername" Runat="server" MaxLength="50"></asp:TextBox></td>
-		</tr>
-		<tr id="passwordRow" runat="server" valign="top">
-			<td><label for="txtPassword">
-					<st:HelpToolTip id="helpPassword" runat="server" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password.">Password:</st:HelpToolTip></label>
-			</td>
-			<td>
-				<asp:TextBox id="txtPassword" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox>
-			</td>
-		</tr>
-		<tr id="passwordRowConfirm" runat="server" valign="top">
-			<td><label for="txtPasswordConfirm">Confirm Password:</label></td>
-			<td>
-				<asp:TextBox id="txtPasswordConfirm" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox>
-			</td>
-		</tr>
-		<tr valign="top">
-			<td colspan="2">
-				<asp:Button id="btnCancel" Text="Cancel" Runat="server" CssClass="button" onclick="btnCancel_Click"></asp:Button>
-				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button" onclick="btnSave_Click"></asp:Button>
-			</td>
-		</tr>
-	</table>
+	
+	<div class="form">
+		<div>
+			<label for="lblTitle">Title:</label>
+			<asp:TextBox id="txtTitle" Runat="server" MaxLength="100" />
+		</div>
+				
+		<div>
+			<label for="txtHost">
+ 				Host Domain <st:HelpToolTip id="hostDomainHelpTip" runat="server" ImageUrl="~/images/icons/help-small.png" />:
+ 			</label>
+			<asp:TextBox id="txtHost" Runat="server" MaxLength="100"></asp:TextBox><input id="virtualDirectory" type="hidden" runat="server" />
+		</div>
+		<div>
+			<label for="txtApplication">
+				Subfolder 
+				<st:HelpToolTip id="applicationHelpTip" runat="server" ImageUrl="~/images/icons/help-small.png" />:
+			</label>
+			<asp:TextBox id="txtApplication" Runat="server" MaxLength="50" />
+		</div>
+		<fieldset>
+			<legend>Blog Owner</legend>
+			<div>
+				<label for="txtUsername">
+					User Name:<st:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog." ImageUrl="~/images/icons/help-small.png" />
+				</label>
+				<asp:TextBox id="txtUsername" Runat="server" MaxLength="50" />
+			</div>
+			<div>
+				<label for="emailTextBox">
+					Email
+				</label>
+				<asp:TextBox id="emailTextBox" Runat="server" MaxLength="50" />
+			</div>
+			<div>
+				<label for="txtPassword">
+					Password: <st:HelpToolTip id="helpPassword" runat="server" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password." ImageUrl="~/images/icons/help-small.png" />
+				</label>
+				<asp:TextBox id="txtPassword" Runat="server" MaxLength="50" TextMode="Password" />
+			</div>
+			<div>
+				<label for="txtPasswordConfirm">Confirm Password:</label>
+				<asp:TextBox id="txtPasswordConfirm" Runat="server" MaxLength="50" TextMode="Password" />
+			</div>
+			<div class="button-row">
+				<asp:Button id="btnCancel" Text="Cancel" Runat="server" CssClass="button" onclick="btnCancel_Click" />
+				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button" onclick="btnSave_Click" />
+			</div>
+		</fieldset>
+	</div>
 </st:AdvancedPanel>
