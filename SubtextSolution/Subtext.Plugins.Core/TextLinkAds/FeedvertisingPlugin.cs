@@ -198,13 +198,12 @@ namespace Subtext.Plugins.Core.TextLinkAds
 
 		protected virtual string GetEntryAdvertisement(Entry entry)
 		{
-			NameValueCollection entrySettings = Plugin.GetPluginEntrySettings(this.Id, entry.Id);
-			return entrySettings["Advertisement"];
+			return GetEntrySetting(entry, "Advertisement");
 		}
 
 		protected virtual void SetEntryAdvertisement(Entry entry, string advertisement)
 		{
-			Plugin.InsertPluginEntrySetting(this.Id, entry.Id, "Advertisement", advertisement);
+			SetEntrySetting(entry, "Advertisement", advertisement);
 		}
 
 		#endregion

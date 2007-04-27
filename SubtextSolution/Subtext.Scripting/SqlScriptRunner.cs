@@ -130,7 +130,6 @@ namespace Subtext.Scripting
 		{
 			int recordsAffectedTotal = 0;
 			SetNoCountOff(transaction);
-			int scriptsExecutedCount = 0;
 
 			// the following reg exp will be used to determine if each script is an
 			// INSERT, UPDATE, or DELETE operation. The reg exp is also only looking
@@ -144,7 +143,7 @@ namespace Subtext.Scripting
 				int returnValue = script.Execute(transaction);
 				
 				Match match = regex.Match(script.ScriptText);
-				if(match.Success)
+				if (match.Success)
 				{
 					/* 
 					 * For UPDATE, INSERT, and DELETE statements, the return value is the 
@@ -160,24 +159,13 @@ namespace Subtext.Scripting
                     }
                     else
                     {
-                        throw new SqlScriptExecutionException("An error occurred while executing the script.", script, returnValue);
+						throw new SqlScriptExecutionException("An error occurred while executing the script.", script, returnValue);
                     }
 				}
-				
-				OnProgressEvent(++scriptsExecutedCount, returnValue, script);
 			}
 			return recordsAffectedTotal;
 		}
 
-		public event EventHandler<ScriptProgressEventArgs> ScriptProgress;
-
-		void OnProgressEvent(int scriptCount, int rowsAffected, Script script)
-		{
-			EventHandler<ScriptProgressEventArgs> progressEvent = this.ScriptProgress;
-			if(progressEvent != null)
-				progressEvent(this, new ScriptProgressEventArgs(scriptCount, rowsAffected, script));
-		}
-		
         private static bool IsCrudScript(Script script)
         {
             return script.ScriptText.IndexOf("TRIGGER") == -1 && script.ScriptText.IndexOf("PROC") == -1;

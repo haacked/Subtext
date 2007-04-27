@@ -49,31 +49,6 @@ namespace UnitTests.Subtext.Scripting
 			Assert.AreEqual(0, ExecuteScriptRunner(runner));
 		}
 
-		[Test]
-		public void ScriptProgressEventRaised()
-		{
-			SqlScriptRunner runner = new SqlScriptRunner(Assembly.GetExecutingAssembly(), "UnitTests.Subtext.Resources.Scripting.SqlRunnerTestScript.txt", Encoding.UTF8);
-			Assert.AreEqual(2, runner.ScriptCollection.Count);
-
-			bool eventRaised = false;
-			int index = 0;
-			runner.ScriptProgress += delegate(object sender, ScriptProgressEventArgs args)
-			{
-				Assert.AreEqual(-1, args.RowsAffectedCount);
-				Assert.AreEqual(index + 1, args.ScriptsExecutedCount);
-				if (index == 0)
-					Assert.AreEqual("SELECT TOP 1 * FROM subtext_Content WITH (NOLOCK)", args.Script.ScriptText);
-				if (index == 1)
-					Assert.AreEqual("SELECT TOP 1 * FROM subtext_Feedback WITH (NOLOCK)", args.Script.ScriptText);
-
-				eventRaised = true;
-				index++;
-			};
-
-			ExecuteScriptRunner(runner);
-			Assert.IsTrue(eventRaised, "The event was not raised.");
-		}
-
 		private static int ExecuteScriptRunner(SqlScriptRunner runner)
 		{
 			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString))
