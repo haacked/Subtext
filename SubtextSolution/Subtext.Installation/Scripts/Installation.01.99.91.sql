@@ -75,7 +75,6 @@ BEGIN
 				UserId = @UserId
 				, UserName = HostUserName
 				, LoweredUserName = LOWER(HostUserName)
-				, MobileAlias = LOWER(HostUserName)
 				, 0 --IsAnonymous
 				, Password
 				, PasswordFormat = 1

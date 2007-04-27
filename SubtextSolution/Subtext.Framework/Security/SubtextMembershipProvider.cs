@@ -631,24 +631,16 @@ namespace Subtext.Framework.Security
 		public override string ResetPassword(string username, string answer)
 		{
 			if (username == null)
-			{
 				throw new ArgumentNullException("username", Resources.ArgumentNull_String);
-			}
 
 			if (answer == null)
-			{
 				throw new ArgumentNullException("answer", Resources.ArgumentNull_String);
-			}
 
 			if (username.Length == 0)
-			{
 				throw new ArgumentException(Resources.Argument_StringZeroLength, "username");
-			}
 
 			if (answer.Length == 0)
-			{
 				throw new ArgumentException(Resources.Argument_StringZeroLength, "answer");
-			}
 
 			MembershipUser user = GetUser(username, true);
 			if (user == null)
