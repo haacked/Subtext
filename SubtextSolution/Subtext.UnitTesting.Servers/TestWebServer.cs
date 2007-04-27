@@ -152,6 +152,24 @@ namespace Subtext.UnitTesting.Servers
 			return responseText;
 		}
 
+		public string ExtractResource(Assembly assembly, string resourceName, string destinationFileName)
+		{
+			string filePath;
+			using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+			{
+				filePath = Path.Combine(this.webRoot, destinationFileName);
+				using (StreamWriter outfile = File.CreateText(filePath))
+				{
+					using (StreamReader infile = new StreamReader(stream))
+					{
+						outfile.Write(infile.ReadToEnd());
+					}
+				}
+				Debug.WriteLine(string.Format("Extracted resource to {0}", filePath));
+			}
+			return filePath;
+		}
+
 		/// <summary>
 		/// Extracts a resources such as an html file or aspx page to the webroot directory
 		/// and returns the filepath.
@@ -167,20 +185,7 @@ namespace Subtext.UnitTesting.Servers
 			//NOTE: if you decide to drop this class into your unit test project, 
 			//call Assembly.GetExecutingAssembly() instead.
 			Assembly a = Assembly.GetCallingAssembly();
-			string filePath;
-			using (Stream stream = a.GetManifestResourceStream(resourceName))
-			{
-				filePath = Path.Combine(this.webRoot, destinationFileName);
-				using (StreamWriter outfile = File.CreateText(filePath))
-				{
-					using (StreamReader infile = new StreamReader(stream))
-					{
-						outfile.Write(infile.ReadToEnd());
-					}
-				}
-				Debug.WriteLine(string.Format("Extracted resource to {0}", filePath));
-			}
-			return filePath;
+			return ExtractResource(a, resourceName, destinationFileName);
 		}
 
 		/// <summary>
