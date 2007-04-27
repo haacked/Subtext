@@ -577,6 +577,7 @@
     <Content Include="ExternalDependencies\Velocit.RegularExpressions.dll" />
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
+    <EmbeddedResource Include="Util\WindowsTimeZoneCollection.xml" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
