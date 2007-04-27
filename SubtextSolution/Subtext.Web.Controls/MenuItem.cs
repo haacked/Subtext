@@ -15,7 +15,6 @@
 
 using System;
 using System.Globalization;
-using System.IO;
 using System.Web.UI.HtmlControls;
 
 namespace Subtext.Web.Controls
@@ -50,7 +49,7 @@ namespace Subtext.Web.Controls
 			if(IsAttributeDefined("id"))
 				idText = " id=\"" + Attributes["id"] + "\"";
 
-			writer.Write(string.Format(System.Globalization.CultureInfo.InvariantCulture, format, cssClass, idText, hrefString, Title, Text));
+			writer.Write(string.Format(CultureInfo.InvariantCulture, format, cssClass, idText, hrefString, Title, Text));
 		}
 
 		bool IsAttributeDefined(string name)
@@ -140,7 +139,7 @@ namespace Subtext.Web.Controls
 		{
 			get
 			{
-				return Path.GetDirectoryName(Context.Request.Path);
+				return Context.Request.Url.ToString();
 			}
 		}
 
