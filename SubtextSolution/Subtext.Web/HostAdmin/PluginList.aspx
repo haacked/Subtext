@@ -13,7 +13,7 @@ Subtext - Host Admin - Plugin List
 		<legend>Plugins</legend>
 		<st:RepeaterWithEmptyDataTemplate id="pluginList" runat="server">
 			<HeaderTemplate>
-				<table class="highlightTable" cellSpacing="0" cellPadding="0" border="0">
+				<table class="log highlightTable" cellSpacing="0" cellPadding="0" border="0">
 				<tr class="header">
 					<th>Name</th>
 					<th>Author</th>
@@ -79,7 +79,7 @@ Subtext - Host Admin - Plugin List
 	
 		<st:RepeaterWithEmptyDataTemplate id="loadingErrorList" runat="server">
 			<HeaderTemplate>
-				<table class="highlightTable" cellSpacing="0" cellPadding="0" border="0">
+				<table class="log highlightTable" cellSpacing="0" cellPadding="0" border="0">
 			</HeaderTemplate>
 			<ItemTemplate>
 				<tr>

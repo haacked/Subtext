@@ -2,7 +2,7 @@
 
 <asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext - Host Admin - Change HostAdmin Password</asp:Content>
 <asp:Content id="passwordChangeForm" ContentPlaceHolderID="MPContent" runat="server">
-	<fieldset>
+	<fieldset id="change-password">
 		<legend>Change Your Password</legend>
 	<div class="form">
 		<asp:ChangePassword ID="ChangePassword1" runat="server" ContinueDestinationPageUrl="~/HostAdmin/">
