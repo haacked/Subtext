@@ -5,16 +5,16 @@
 <asp:Content ID="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">
 Subtext - Host Admin - Plugin List
 </asp:Content>
-<asp:Content ID="sidebar" ContentPlaceHolderID="MPSidebar" runat="server">
-</asp:Content>
+
 <asp:Content ID="blogList" ContentPlaceHolderID="MPContent" runat="server">
-	<st:AdvancedPanel id="pluginsPnl" runat="server" Collapsible="False" HeaderText="Plugin List" HeaderCssClass="CollapsibleHeader"
-		DisplayHeader="true">
-		
+	
+<div id="plugins-page">
+	<fieldset>
+		<legend>Plugins</legend>
 		<st:RepeaterWithEmptyDataTemplate id="pluginList" runat="server">
 			<HeaderTemplate>
-				<table class="Listing log highlightTable" cellSpacing="0" cellPadding="0" border="0">
-				<tr>
+				<table class="highlightTable" cellSpacing="0" cellPadding="0" border="0">
+				<tr class="header">
 					<th>Name</th>
 					<th>Author</th>
 					<th>Description</th>
@@ -43,12 +43,12 @@ Subtext - Host Admin - Plugin List
 				</tr>
 			</ItemTemplate>
 			<AlternatingItemTemplate>
-				<tr class="Alt">
+				<tr class="alt">
 					<td colspan="4">
 						<%# DataBinder.Eval(Container.DataItem, "Id") %>
 					</td>
 				</tr>
-				<tr class="Alt">
+				<tr class="alt">
 					<td>
 						<%# DataBinder.Eval(Container.DataItem, "Info.Name") %>
 					</td>				
@@ -72,15 +72,14 @@ Subtext - Host Admin - Plugin List
 				</table>
 			</FooterTemplate>
 		</st:RepeaterWithEmptyDataTemplate>
-	</st:AdvancedPanel>
-	<br />
-	<hr style="position: relative;left:-200px;width: 770px;" />
-	<br />
-	<st:AdvancedPanel id="loadingErrorsPnl" runat="server" Collapsible="False" HeaderText="Plugin Loading Problems" HeaderCssClass="CollapsibleHeader"
-		DisplayHeader="true">
+	</fieldset>
+	
+	<fieldset>
+		<legend>Plugin Loading Errors</legend>
+	
 		<st:RepeaterWithEmptyDataTemplate id="loadingErrorList" runat="server">
 			<HeaderTemplate>
-				<table class="Listing log highlightTable" cellSpacing="0" cellPadding="0" border="0">
+				<table class="highlightTable" cellSpacing="0" cellPadding="0" border="0">
 			</HeaderTemplate>
 			<ItemTemplate>
 				<tr>
@@ -90,7 +89,7 @@ Subtext - Host Admin - Plugin List
 				</tr>
 			</ItemTemplate>
 			<AlternatingItemTemplate>
-				<tr class="Alt">
+				<tr class="alt">
 					<td>
 						<%# Container.DataItem %>
 					</td>
@@ -105,6 +104,6 @@ Subtext - Host Admin - Plugin List
 				</table>
 			</FooterTemplate>
 		</st:RepeaterWithEmptyDataTemplate>
-
-	</st:AdvancedPanel>
+	</fieldset>
+</div>
 </asp:Content>

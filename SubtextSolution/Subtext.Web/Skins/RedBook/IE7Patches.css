@@ -1,0 +1,11 @@
+body form #search
+{
+	margin-left: -115px;
+	margin-right: 20px;
+}
+
+body form #search-progress
+{
+	left: 70px;
+	top: -4px;
+}
