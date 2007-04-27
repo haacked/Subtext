@@ -196,7 +196,6 @@ BEGIN
 			newID()
 			, UserName
 			, LOWER(UserName)
-			, LOWER(UserName) --MobilAlias
 			, 0 -- IsAnonymous
 			, Password
 			, PasswordFormat = 1
