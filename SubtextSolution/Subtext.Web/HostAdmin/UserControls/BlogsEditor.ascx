@@ -3,17 +3,24 @@
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <st:MessagePanel id="messagePanel" runat="server"></st:MessagePanel>
 <st:AdvancedPanel id="pnlResults" runat="server">
-	<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs" Runat="server" oncheckedchanged="chkShowInactive_CheckedChanged"></asp:CheckBox>
-	<asp:Button ID="addNewBlogButton" runat="server" OnClick="OnCreateNewBlogClick" Text="Create New Blog" />
-	<asp:Repeater id="rprBlogsList" Runat="server" OnItemCommand="rprBlogsList_ItemCommand">
+
+<table class="log">
+	<tr>
+		<td colspan="6">
+			<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs" Runat="server" oncheckedchanged="chkShowInactive_CheckedChanged"></asp:CheckBox>
+			<asp:Button ID="addNewBlogButton" runat="server" OnClick="OnCreateNewBlogClick" Text="Create New Blog" />
+		</td>
+	</tr>
+
+	<st:RepeaterWithEmptyDataTemplate id="rprBlogsList" Runat="server" OnItemCommand="rprBlogsList_ItemCommand">
 		<HeaderTemplate>
-			<table cellspacing="0" cellpadding="4" border="0">
-				<tr>
-					<th>Title</th>
-					<th>Host</th>
-					<th>Subfolder</th>
-					<th>Active</th>
-				</tr>
+			<tr class="header">
+				<th>Title</th>
+				<th>Host</th>
+				<th>Subfolder</th>
+				<th>Active</th>
+				<th colspan="2">Action</th>
+			</tr>
 		</HeaderTemplate>
 		<ItemTemplate>
 			<tr>
@@ -67,11 +74,15 @@
 				</td>
 			</tr>
 		</AlternatingItemTemplate>
+		<EmptyDataTemplate>
+			<tr><td colspan="6" align="center">No entries found</td></tr>
+		</EmptyDataTemplate>
 		<FooterTemplate>
-			</table>
+			
 		</FooterTemplate>
-	</asp:Repeater>
-	<p id="lblNoMessages" runat="server" visible="false">No entries found.</p>
+	</st:RepeaterWithEmptyDataTemplate>
+</table>
+
 	<st:PagingControl id="resultsPager" runat="server" 
 			PrefixText="<div>Goto page</div>" 
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
@@ -80,6 +91,7 @@
 </st:AdvancedPanel>
 
 <st:AdvancedPanel id="pnlEdit" runat="server">
+<div id="new-blog">
 	<st:HelpToolTip id="blogEditorHelp" runat="server">
 		<img id="Img3" src="~/images/ms_help.gif" align="right" alt="help" runat="server" />
 	</st:HelpToolTip>
@@ -204,9 +216,10 @@
 				<asp:TextBox id="txtPasswordConfirm" Runat="server" MaxLength="50" TextMode="Password" />
 			</div>
 			<div class="button-row">
+				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button" onclick="btnSave_Click" />&nbsp;&nbsp;
 				<asp:Button id="btnCancel" Text="Cancel" Runat="server" CssClass="button" onclick="btnCancel_Click" />
-				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button" onclick="btnSave_Click" />
 			</div>
 		</fieldset>
 	</div>
+</div>
 </st:AdvancedPanel>

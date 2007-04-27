@@ -15,13 +15,16 @@ form
 
 #header
 {
-	height: 71px;
+	height: 69px;
+	margin: 0;
+	padding: 0;
+	border: solid 1px transparent; /* A hack for Firefox */
 }
 
 #header h1
 {
 	color: #fff;
-	padding: .5em 0 .5em 1em;
+	margin: .5em 0 .5em 1em;
 }
 
 /*--------- {pager}--------------*/
@@ -55,14 +58,6 @@ label
 	color: #111;
 	background: inherit;
 	font-size: .8em;
-}
-
-label.Block
-{
-	margin-top: 8px;
-	display: block;
-	clear: both;
-	border: solid 1px red;
 }
 
 div.form label, fieldset label
@@ -255,7 +250,6 @@ textarea
 .Textbox, textarea
 {
 	border: 1px solid #AAAAAA;
-	width: 100%;
 }
 
 input.submit:active, a.button:active, .button:active
@@ -293,7 +287,6 @@ img
     position: relative;
     margin: 0;
     padding: 0;
-    width: 100%;
     min-height: 700px;
 }
 
@@ -301,7 +294,6 @@ img
 {
 	font-variant: small-caps;
 	height: 20px;
-	width: 100%;
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -388,7 +380,6 @@ img
 table
 {
 	border-collapse: collapse;
-	width: 100%;
 }
 
 table tr.header
@@ -399,9 +390,6 @@ table tr.header
 table.log
 {
 	border: solid 1px #ddd;
-	position: relative;
-	left: -200px;
-	width: 775px;
 }
 
 table.log th.logger
@@ -414,7 +402,7 @@ table.log tr
 	vertical-align: top;
 }
 
-table td, table th
+table.log td, table.log th
 {
 	font-size: .8em;
 	padding: 5px;
@@ -453,8 +441,29 @@ fieldset table
 	border: none;
 }
 
-/*---------- {plugins-page}-----------*/
-#plugins-page fieldset
+#change-password
 {
-	width: 100%;
+	width: 400px;
+	margin: 10px auto;
+}
+
+#blogs-editor table
+{
+	margin: 10px auto;
+}
+
+#blogs-editor #new-blog
+{
+	width: 600px;
+	margin: 10px auto;
+}
+
+#blogs-editor #new-blog fieldset
+{
+	width: 300px;
+}
+
+.button-row input
+{
+	font-size: 1em;
 }

@@ -37,18 +37,8 @@ namespace Subtext.Web.HostAdmin.UserControls
 		const string VSKEY_BLOGID = "VS_BLOGID";
 		int pageIndex;
 
-		#region Declared Controls
-		protected System.Web.UI.WebControls.Button btnAddNewBlog = new System.Web.UI.WebControls.Button();
-		#endregion
-
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
-			this.btnAddNewBlog.Click += new EventHandler(btnAddNewBlog_Click);			
-			
-			btnAddNewBlog.CssClass = "button";
-			btnAddNewBlog.Text = "New Blog";
-			((HostAdminTemplate)this.Page.Master).AddSidebarControl(btnAddNewBlog);
-
             //Paging...
             if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
                 this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]); 
@@ -81,14 +71,12 @@ namespace Subtext.Web.HostAdmin.UserControls
 				this.rprBlogsList.Visible = true;
 				this.rprBlogsList.DataSource = blogs;
 				this.rprBlogsList.DataBind();
-				this.lblNoMessages.Visible = false;
 			}
 			else
 			{
 				this.resultsPager.Visible = false;
 				this.rprBlogsList.Visible = false;
 				this.resultsPager.Visible = false;
-				this.lblNoMessages.Visible = true;	
 			}
 
 			CurrentBlogCount = blogs.MaxItems;
@@ -101,10 +89,10 @@ namespace Subtext.Web.HostAdmin.UserControls
 			
 			BindEditHelp();
 
-			BlogInfo blog;
+			
 			if(!CreatingBlog)
 			{
-				blog = BlogInfo.GetBlogById(BlogId);
+				BlogInfo blog = BlogInfo.GetBlogById(BlogId);
 				this.txtApplication.Text = blog.Subfolder;
 				this.txtHost.Text = blog.Host;
 				this.txtUsername.Text = blog.Owner.UserName;
@@ -112,8 +100,8 @@ namespace Subtext.Web.HostAdmin.UserControls
 			}
 			this.txtTitle.Visible = true;
 
-			string onChangeScript = string.Format(System.Globalization.CultureInfo.InvariantCulture, "onPreviewChanged('{0}', '{1}', '{2}', false);", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
-			string onBlurScript = string.Format(System.Globalization.CultureInfo.InvariantCulture, "onPreviewChanged('{0}', '{1}', '{2}', true);", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
+			string onChangeScript = string.Format(CultureInfo.InvariantCulture, "onPreviewChanged('{0}', '{1}', '{2}', false);", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
+			string onBlurScript = string.Format(CultureInfo.InvariantCulture, "onPreviewChanged('{0}', '{1}', '{2}', true);", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
 
 			if(!Page.ClientScript.IsStartupScriptRegistered("SetUrlPreview"))
 			{
@@ -240,12 +228,12 @@ namespace Subtext.Web.HostAdmin.UserControls
 		}
 		#endregion
 
-		protected void chkShowInactive_CheckedChanged(object sender, System.EventArgs e)
+		protected void chkShowInactive_CheckedChanged(object sender, EventArgs e)
 		{
 			BindList();
 		}
 
-		private void btnAddNewBlog_Click(object sender, EventArgs e)
+		protected void OnCreateNewBlogClick(object sender, EventArgs e)
 		{
 			this.BlogId = NullValue.NullInt32;
 			this.txtTitle.Text = string.Empty;
@@ -255,7 +243,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			BindEdit();
 		}
 
-		protected void rprBlogsList_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
+		protected void rprBlogsList_ItemCommand(object source, RepeaterCommandEventArgs e)
 		{
 			switch (e.CommandName.ToLower(CultureInfo.InvariantCulture)) 
 			{
@@ -274,7 +262,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			}
 		}
 
-		protected void btnSave_Click(object sender, System.EventArgs e)
+		protected void btnSave_Click(object sender, EventArgs e)
 		{
 			SaveConfig();
 		}
@@ -307,7 +295,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		// Saves a new blog.  Any exceptions are propagated up to the caller.
 		void SaveNewBlog()
 		{
-			if(Config.CreateBlog(this.txtTitle.Text, this.txtUsername.Text, this.txtPassword.Text, this.txtHost.Text, this.txtApplication.Text))
+			if(Config.CreateBlog(this.txtTitle.Text, this.txtUsername.Text, this.emailTextBox.Text, this.txtPassword.Text, this.txtHost.Text, this.txtApplication.Text))
 			{
 				this.messagePanel.ShowMessage("Blog Created.");
 			}
@@ -446,7 +434,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			BindList();
 		}
 
-		protected void btnCancel_Click(object sender, System.EventArgs e)
+		protected void btnCancel_Click(object sender, EventArgs e)
 		{
 			this.messagePanel.ShowMessage("Blog Update Cancelled. Nothing to see here.");
 			BindList();
