@@ -112,6 +112,7 @@
       <Name>MbUnit.Framework.1.1</Name>
       <HintPath>ExternalDependencies\MbUnit.Framework.1.1.dll</HintPath>
     </Reference>
+    <Reference Include="QuickGraph, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -130,6 +131,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ExtractResourceAttribute.cs" />
     <Compile Include="ReceivedEmailMessage.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -157,6 +159,7 @@
     <Content Include="ExternalDependencies\QuickGraph.dll" />
     <Content Include="ExternalDependencies\Refly.dll" />
     <Content Include="ExternalDependencies\TestFu.dll" />
+    <EmbeddedResource Include="TestResource.txt" />
   </ItemGroup>
   <ItemGroup>
     <Component Include="ExternalDependencies\WebDev.WebHost.dll" />
