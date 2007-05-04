@@ -21,6 +21,7 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -65,7 +66,7 @@ namespace Subtext.Web.UI.Controls
                 tagRepeater.DataBind();
             }
 
-            HyperLink hlDefault = this.FindControl("DefaultTagLink") as HyperLink;
+			HyperLink hlDefault = ControlHelper.FindControlRecursively(this, "DefaultTagLink") as HyperLink;
             if (hlDefault != null)
             {
                 hlDefault.NavigateUrl = string.Format("{0}Tags/default.aspx", Config.CurrentBlog.RootUrl);

@@ -225,8 +225,10 @@ namespace Subtext.Framework.XmlRpc
 				entry.DateModified = entry.DateCreated;
 			}
 
-			if(post.categories != null)
-				entry.Categories.AddRange(post.categories);
+            if (post.categories != null)
+            {
+                entry.Categories.AddRange(post.categories);
+            }
 			
 			entry.PostType = PostType.BlogPost;
 			
@@ -252,7 +254,7 @@ namespace Subtext.Framework.XmlRpc
 			}
 			return postID.ToString(CultureInfo.InvariantCulture);
 		}
-	    public mediaObjectInfo newMediaObject(string blogid, string username, string password, mediaObject mediaobject)
+	    public mediaObjectInfo newMediaObject(object blogid, string username, string password, mediaObject mediaobject)
 	    {
             Framework.BlogInfo info = Config.CurrentBlog;
             ValidateUser(username, password, info.AllowServiceAccess);

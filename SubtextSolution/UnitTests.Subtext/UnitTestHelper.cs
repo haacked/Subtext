@@ -28,6 +28,7 @@ using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
+using Rhino.Mocks;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -793,6 +794,24 @@ namespace UnitTests.Subtext
 					return input;
 				}
 		}
+
+/// <summary>
+/// Sets all public read/write properties to have a 
+/// property behavior when using Rhino Mocks.
+/// </summary>
+/// <param name="mock"></param>
+public static void SetPropertyBehaviorOnAllProperties(object mock)
+{
+  PropertyInfo[] properties = mock.GetType().GetProperties();
+  foreach (PropertyInfo property in properties)
+  {
+    if (property.CanRead && property.CanWrite)
+    {
+      property.GetValue(mock, null);
+      LastCall.On(mock).PropertyBehavior();
+    }
+  }
+}
 
 		#region ...Assert.AreNotEqual replacements...
 		/// <summary>

@@ -104,14 +104,8 @@
       <Name>LumiSoft.Net</Name>
       <HintPath>ExternalDependencies\LumiSoft.Net.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit.Framework">
-      <Name>MbUnit.Framework</Name>
-      <HintPath>ExternalDependencies\MbUnit.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="MbUnit.Framework.1.1">
-      <Name>MbUnit.Framework.1.1</Name>
-      <HintPath>ExternalDependencies\MbUnit.Framework.1.1.dll</HintPath>
-    </Reference>
+    <Reference Include="MbUnit.Framework, Version=1.0.2642.28107, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
+    <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL" />
     <Reference Include="QuickGraph, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
     <Reference Include="System">
       <Name>System</Name>
@@ -149,7 +143,7 @@
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
     <Content Include="ExternalDependencies\LumiSoft.Net.dll" />
     <Content Include="ExternalDependencies\LumiSoft.Net.xml" />
-    <Content Include="ExternalDependencies\MbUnit.Framework.1.1.dll" />
+    <Content Include="ExternalDependencies\MbUnit.Framework.2.0.dll" />
     <Content Include="ExternalDependencies\MbUnit.Framework.dll" />
     <Content Include="ExternalDependencies\NGraphviz.dll" />
     <Content Include="ExternalDependencies\NGraphviz.Helpers.dll" />

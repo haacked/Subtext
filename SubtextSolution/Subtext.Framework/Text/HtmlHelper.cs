@@ -679,7 +679,7 @@ namespace Subtext.Framework.Text
                     if (Uri.TryCreate(urlMatch.Groups["url"].Value, UriKind.RelativeOrAbsolute, out url))
                     {
                         string[] seg = url.Segments;
-                        string tag = seg[seg.Length - 1].Replace("/", "");
+                        string tag = HttpUtility.UrlDecode(seg[seg.Length - 1].Replace("/", ""));
                         if(!tags.Contains(tag))
 							tags.Add(tag);
                     }

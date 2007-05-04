@@ -8,7 +8,7 @@ IF NOT EXISTS
 (
     SELECT * FROM [information_schema].[columns] 
     WHERE   table_name = 'subtext_KeyWords' 
-    AND table_schema = 'dbo'
+    AND table_schema = '<dbUser,varchar,dbo>'
     AND column_name = 'Rel'
 )
 BEGIN

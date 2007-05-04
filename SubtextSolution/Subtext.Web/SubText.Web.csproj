@@ -370,6 +370,8 @@
     <Compile Include="HostAdmin\PluginList.aspx.designer.cs">
       <DependentUpon>PluginList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="HostAdmin\PresenterAndViews\UserManagerPresenter.cs" />
+    <Compile Include="HostAdmin\PresenterAndViews\IUserManagerView.cs" />
     <Compile Include="HostAdmin\Queue.aspx.cs">
       <DependentUpon>Queue.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -397,6 +399,13 @@
     </Compile>
     <Compile Include="HostAdmin\UserControls\BlogsEditor.ascx.designer.cs">
       <DependentUpon>BlogsEditor.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="HostAdmin\UserManager.aspx.cs">
+      <DependentUpon>UserManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HostAdmin\UserManager.aspx.designer.cs">
+      <DependentUpon>UserManager.aspx</DependentUpon>
     </Compile>
     <Compile Include="Install\BlogNotConfiguredError.aspx.cs">
       <DependentUpon>BlogNotConfiguredError.aspx</DependentUpon>
@@ -652,9 +661,11 @@
     <Compile Include="UI\Globals.cs" />
     <Compile Include="UI\Handlers\BlogSecondaryCssHandler.cs" />
     <Compile Include="UI\Handlers\RedirectHandler.cs" />
+    <Compile Include="UI\IView.cs" />
     <Compile Include="UI\Pages\SubTextMasterPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\PresenterBase.cs" />
     <Compile Include="UI\UIData.cs" />
     <Compile Include="UI\UIText.cs" />
     <Compile Include="UI\WebControls\AtomHyperLink.cs" />
@@ -979,6 +990,7 @@
     <Content Include="HostAdmin\UserControls\BlogsEditor.ascx">
       <SubType>UserControl</SubType>
     </Content>
+    <Content Include="HostAdmin\UserManager.aspx" />
     <Content Include="Images\admin.gif" />
     <Content Include="Images\administration_icon.gif" />
     <Content Include="Images\atom.gif" />
@@ -1394,6 +1406,8 @@
     <Content Include="Skins\AnotherEon001\PageTemplate.ascx" />
     <Content Include="Skins\AnotherEon001\print.css" />
     <Content Include="Skins\AnotherEon001\style.css" />
+    <Content Include="Skins\Lightz\Scripts\cityNight.js" />
+    <Content Include="Skins\Lightz\Scripts\tableEffects.js" />
     <Content Include="Skins\Colors\Blue.css" />
     <Content Include="Skins\Colors\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\Colors\Controls\ArchiveDay.ascx" />

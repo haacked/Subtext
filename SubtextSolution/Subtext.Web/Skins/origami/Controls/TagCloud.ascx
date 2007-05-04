@@ -4,7 +4,7 @@
 	<asp:Repeater Runat="server" ID="Tags" OnItemDataBound="Tags_ItemDataBound">
 		<HeaderTemplate>
 			<h3>Tag Cloud</h3>
-				<ul id="tag-cloud">
+			<ul id="tag-cloud">
 		</HeaderTemplate>
 		<ItemTemplate>
 			<li>
@@ -14,6 +14,7 @@
 		</ItemTemplate>
 		<FooterTemplate>
 			</ul>
+			<asp:HyperLink CssClass="more-link" runat="server" id="DefaultTagLink">more tags...</asp:HyperLink>
 		</FooterTemplate>
 	</asp:Repeater>
 </div>

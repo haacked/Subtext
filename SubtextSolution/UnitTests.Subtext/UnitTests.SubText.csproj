@@ -110,8 +110,8 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL" />
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
-    <Reference Include="MbUnit.Framework, Version=1.0.2531.41788, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
-    <Reference Include="MbUnit.Framework.1.1, Version=1.0.2531.41792, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
+    <Reference Include="MbUnit.Framework, Version=1.0.2642.28107, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
+    <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
     <Reference Include="QuickGraph, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
     <Reference Include="QuickGraph.Algorithms, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
@@ -134,10 +134,7 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="TestFu">
-      <Name>TestFu</Name>
-      <HintPath>ExternalDependencies\TestFu.dll</HintPath>
-    </Reference>
+    <Reference Include="TestFu, Version=1.0.2531.41787, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
     <Reference Include="Velocit.RegularExpressions, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ExternalDependencies\Velocit.RegularExpressions.dll</HintPath>
@@ -220,6 +217,7 @@
     <Compile Include="Framework\Web\BaseHttpHandlerTests.cs" />
     <Compile Include="Installation\InstallerTests.cs" />
     <Compile Include="Plugins\Core\FeedvertisingTests.cs" />
+    <Compile Include="PresenterTestContext.cs" />
     <Compile Include="Scripting\ConnectionStringTests.cs" />
     <Compile Include="Scripting\SqlScriptRunnerTests.cs" />
     <Compile Include="Scripting\TemplateParameterCollectionTests.cs" />
@@ -347,6 +345,7 @@
     <Compile Include="SubtextWeb\Controls\ControlHelperTests.cs" />
     <Compile Include="SubtextWeb\Controls\EntryListTests.cs" />
     <Compile Include="SubtextWeb\Controls\InvisibleCaptchaTests.cs" />
+    <Compile Include="SubtextWeb\HostAdmin\UserManagerTests.cs" />
     <Compile Include="SubtextWeb\Providers\RichTextEditor\BlogEntryEditorProviderTests.cs" />
     <Compile Include="SubtextWeb\Sitemap.cs" />
     <Compile Include="SubtextWeb\SubtextMasterPageTests.cs">
@@ -369,7 +368,7 @@
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
     <Content Include="ExternalDependencies\log4net.dll" />
     <Content Include="ExternalDependencies\log4net.xml" />
-    <Content Include="ExternalDependencies\MbUnit.Framework.1.1.dll" />
+    <Content Include="ExternalDependencies\MbUnit.Framework.2.0.dll" />
     <Content Include="ExternalDependencies\MbUnit.Framework.dll" />
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
     <Content Include="ExternalDependencies\NGraphviz.dll" />
@@ -382,6 +381,7 @@
     <Content Include="ExternalDependencies\Rhino.Mocks.dll" />
     <Content Include="ExternalDependencies\Rhino.Mocks.xml" />
     <Content Include="ExternalDependencies\TestFu.dll" />
+    <Content Include="ExternalDependencies\Velocit.RegularExpressions.dll" />
     <EmbeddedResource Include="Resources\Scripting\SqlRunnerTestScript.txt" />
     <EmbeddedResource Include="Resources\Web\HttpClientTest.aspx">
     </EmbeddedResource>

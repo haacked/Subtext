@@ -94,7 +94,7 @@ namespace Subtext.Web.Controls
 		/// Applies the specified control action recursively.
 		/// </summary>
 		/// <param name="controlAction">The control action.</param>
-		/// <param name="root">The root.</param>
+		/// <param name="root">The root control.</param>
 		public static void ApplyRecursively(ControlAction controlAction, Control root)
 		{
 			if (controlAction == null)
@@ -216,9 +216,10 @@ namespace Subtext.Web.Controls
 			if(link == null)
 				throw new ArgumentNullException("link", "Cannot set the title for a null Hyperlink.");
 
-			if(link.Attributes["title"] == null || link.Attributes["title"].Length == 0)
+			// Use the ToolTip propety since that is rendered as the title attribute.
+			if (link.ToolTip.Length == 0)
 			{
-				link.Attributes["title"] = title;
+				link.ToolTip = title;
 			}
 		}
 

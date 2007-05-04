@@ -30,7 +30,7 @@
                             </ul>
                         </div>
                         <div class="sidebar-node">
-							<uc1:TagCloud ID="tagCloud" runat="server" />
+							<uc1:TagCloud ID="tagCloud" runat="server" ItemCount="20" />
                         </div>
                         <origami:SingleColumn id="column" runat="server" />
                         <div class="sidebar-node">

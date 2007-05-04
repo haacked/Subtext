@@ -28,7 +28,6 @@ namespace Subtext.Extensibility
 		BlogPost = 1,
 		Story = 2,
 	}
-	
 	/// <summary>
 	/// Enumates the various types of comments within the subtext content table.
 	/// </summary>
