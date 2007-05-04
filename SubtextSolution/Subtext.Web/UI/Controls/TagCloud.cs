@@ -59,17 +59,30 @@ namespace Subtext.Web.UI.Controls
             base.OnLoad(e);
 
             tags = Cacher.GetTopTags(ItemCount, CacheDuration.Short);
-            Repeater tagRepeater = this.FindControl("Tags") as Repeater;
-            if (tagRepeater != null)
-            {
-                tagRepeater.DataSource = TagItems;
-                tagRepeater.DataBind();
-            }
+            int tagCount = 0;
+            foreach (Tag t in tags)
+                tagCount++;
 
-			HyperLink hlDefault = ControlHelper.FindControlRecursively(this, "DefaultTagLink") as HyperLink;
-            if (hlDefault != null)
+            if (tagCount == 0)
             {
-                hlDefault.NavigateUrl = string.Format("{0}Tags/default.aspx", Config.CurrentBlog.RootUrl);
+                this.Visible = false;
+            }
+            else
+            {
+
+                Repeater tagRepeater = this.FindControl("Tags") as Repeater;
+                if (tagRepeater != null)
+                {
+                    tagRepeater.DataSource = TagItems;
+                    tagRepeater.DataBind();
+
+                }
+
+                HyperLink hlDefault = ControlHelper.FindControlRecursively(this, "DefaultTagLink") as HyperLink;
+                if (hlDefault != null)
+                {
+                    hlDefault.NavigateUrl = string.Format("{0}Tags/default.aspx", Config.CurrentBlog.RootUrl);
+                }
             }
         }
     }
