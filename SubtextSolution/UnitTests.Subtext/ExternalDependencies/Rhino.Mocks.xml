@@ -1206,6 +1206,11 @@
       <value>
       </value>
     </member>
+    <member name="T:Rhino.Mocks.Interfaces.IPartialMockMarker">
+      <summary>
+            Marker interface used to indicate that this is a partial mock.
+            </summary>
+    </member>
     <member name="T:Rhino.Mocks.Interfaces.OriginalCallOptions">
       <summary>
             Options for CallOriginalMethod
@@ -1219,6 +1224,314 @@
     <member name="F:Rhino.Mocks.Interfaces.OriginalCallOptions.CreateExpectation">
       <summary>
             Normal expectation is created, but when the method is later called, it will also call the original method
+            </summary>
+    </member>
+    <member name="T:Rhino.Mocks.MockRepository">
+      <summary>
+             Adds optional new usage:
+               using(mockRepository.Record()) {
+                  Expect.Call(mock.Method()).Return(retVal);
+               }
+               using(mockRepository.Playback()) {
+                  // Execute code
+               }
+             N.B. mockRepository.ReplayAll() and mockRepository.VerifyAll()
+                  calls are taken care of by Record/Playback
+            </summary>
+      <summary>
+            Creates proxied instances of types.
+            </summary>
+      <summary>
+            Creates proxied instances of types.
+            </summary>
+    </member>
+    <member name="T:Rhino.Mocks.MockRepository.CreateMockState">
+      <summary>
+             Delegate: CreateMockState
+             This is used internally to cleanly handle the creation of different 
+             RecordMockStates.
+            </summary>
+    </member>
+    <member name="F:Rhino.Mocks.MockRepository.lastRepository">
+      <summary>
+            This is used to record the last repository that has a method called on it.
+            </summary>
+    </member>
+    <member name="F:Rhino.Mocks.MockRepository.lastMockedObject">
+      <summary>
+            this is used to get to the last proxy on this repository.
+            </summary>
+    </member>
+    <member name="F:Rhino.Mocks.MockRepository.delegateProxies">
+      <summary>
+            For mock delegates, maps the proxy instance from intercepted invocations
+            back to the delegate that was originally returned to client code, if any.
+            </summary>
+    </member>
+    <member name="F:Rhino.Mocks.MockRepository.proxies">
+      <summary>
+            All the proxies in the mock repositories
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.Record">
+      <summary>
+      </summary>
+      <returns>
+      </returns>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.Playback">
+      <summary>
+      </summary>
+      <returns>
+      </returns>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.#ctor">
+      <summary>
+            Creates a new <see cref="T:Rhino.Mocks.MockRepository" /> instance.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.Ordered">
+      <summary>
+            Move the repository to ordered mode
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.Unordered">
+      <summary>
+            Move the repository to un-ordered mode
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.CreateMock(System.Type,System.Object[])">
+      <summary>
+            Creates a mock for the specified type.
+            </summary>
+      <param name="type">Type.</param>
+      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.CreateMultiMock(System.Type,System.Type[])">
+      <summary>
+            Creates a mock from several types, with strict semantics.
+            Only <paramref name="mainType" /> may be a class.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.CreateMultiMock(System.Type,System.Type[],System.Object[])">
+      <summary>
+            Creates a mock from several types, with strict semantics.
+            Only <paramref name="mainType" /> may be a class.
+            </summary>
+      <param name="mainType">The main type to mock.</param>
+      <param name="extraTypes">Extra interface types to mock.</param>
+      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class.</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.DynamicMultiMock(System.Type,System.Type[])">
+      <summary>
+            Creates a mock from several types, with dynamic semantics.
+            Only <paramref name="mainType" /> may be a class.
+            </summary>
+      <param name="mainType">The main type to mock.</param>
+      <param name="extraTypes">Extra interface types to mock.</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.DynamicMultiMock(System.Type,System.Type[],System.Object[])">
+      <summary>
+            Creates a mock from several types, with dynamic semantics.
+            Only <paramref name="mainType" /> may be a class.
+            </summary>
+      <param name="mainType">The main type to mock.</param>
+      <param name="extraTypes">Extra interface types to mock.</param>
+      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class.</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.DynamicMock(System.Type,System.Object[])">
+      <summary>
+            Creates a dynamic mock for the specified type.
+            </summary>
+      <param name="type">Type.</param>
+      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.PartialMock(System.Type,System.Object[])">
+      <summary>
+            Creates a mock object that defaults to calling the class methods.
+            </summary>
+      <param name="type">Type.</param>
+      <param name="argumentsForConstructor">Arguments for the class' constructor.</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.PartialMultiMock(System.Type,System.Type[])">
+      <summary>
+            Creates a mock object that defaults to calling the class methods.
+            </summary>
+      <param name="type">Type.</param>
+      <param name="extraTypes">Extra interface types to mock.</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.PartialMultiMock(System.Type,System.Type[],System.Object[])">
+      <summary>
+            Creates a mock object that defaults to calling the class methods.
+            </summary>
+      <param name="type">Type.</param>
+      <param name="extraTypes">Extra interface types to mock.</param>
+      <param name="argumentsForConstructor">Arguments for the class' constructor.</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.Replay(System.Object)">
+      <summary>
+            Cause the mock state to change to replay, any further call is compared to the 
+            ones that were called in the record state.
+            </summary>
+      <param name="obj">the object to move to replay state</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.BackToRecord(System.Object)">
+      <summary>
+            Move the mocked object back to record state.
+            Will delete all current expectations!
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.Verify(System.Object)">
+      <summary>
+            Verify that all the expectations for this object were fulfilled.
+            </summary>
+      <param name="obj">the object to verify the expectations for</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.LastMethodCall(System.Object)">
+      <summary>
+            Get the method options for the last call on
+            mockedInstance.
+            </summary>
+      <param name="mockedInstance">The mock object</param>
+      <returns>Method options for the last call</returns>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.GetMockObjectFromInvocationProxy(System.Object)">
+      <summary>
+            Maps an invocation proxy back to the mock object instance that was originally
+            returned to client code which might have been a delegate to this proxy.
+            </summary>
+      <param name="invocationProxy">The mock object proxy from the intercepted invocation</param>
+      <returns>The mock object</returns>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.CreateMockObject(System.Type,Rhino.Mocks.MockRepository.CreateMockState,System.Type[],System.Object[])">
+      <summary>
+            This is provided to allow advance extention functionality, where Rhino Mocks standard
+            functionality is not enough.
+            </summary>
+      <param name="type">The type to mock</param>
+      <param name="factory">Delegate that create the first state of the mocked object (usualy the record state).</param>
+      <param name="extras">Additional types to be implemented, this can be only interfaces </param>
+      <param name="argumentsForConstructor">optional arguments for the constructor</param>
+      <returns>
+      </returns>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.GetMockedObject(System.Object)">
+      <summary>
+             Method: GetMockedObject
+             Get an IProxy from a mocked object instance, or throws if the 
+             object is not a mock object.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.GetMockedObjectOrNull(System.Object)">
+      <summary>
+            Method: GetMockedObjectOrNull
+            Get an IProxy from a mocked object instance, or null if the
+            object is not a mock object.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.PopRecorder">
+      <summary>
+            Pops the recorder.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.PushRecorder(Rhino.Mocks.Interfaces.IMethodRecorder)">
+      <summary>
+            Pushes the recorder.
+            </summary>
+      <param name="newRecorder">New recorder.</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.BackToRecordAll">
+      <summary>
+            All the mock objects in this repository will be moved
+            to record state.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.ReplayAll">
+      <summary>
+            Replay all the mocks from this repository
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.VerifyAll">
+      <summary>
+            Verify all the mocks from this repository
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.SetExceptionToBeThrownOnVerify(System.Object,Rhino.Mocks.Exceptions.ExpectationViolationException)">
+      <summary>
+            Set the exception to be thrown when verified is called.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.CreateMock``1(System.Object[])">
+      <summary>
+            Creates a mock for the spesified type.
+            </summary>
+      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.DynamicMock``1(System.Object[])">
+      <summary>
+            Creates a dynamic mock for the specified type.
+            </summary>
+      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.CreateMultiMock``1(System.Type[])">
+      <summary>
+            Creates a mock object from several types.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.DynamicMultiMock``1(System.Type[])">
+      <summary>
+            Create a mock object from several types with dynamic semantics.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.PartialMultiMock``1(System.Type[])">
+      <summary>
+            Create a mock object from several types with partial semantics.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.CreateMultiMock``1(System.Type[],System.Object[])">
+      <summary>
+            Create a mock object from several types with strict semantics.
+            </summary>
+      <param name="extraTypes">Extra interface types to mock.</param>
+      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.DynamicMultiMock``1(System.Type[],System.Object[])">
+      <summary>
+            Create a mock object from several types with dynamic semantics.
+            </summary>
+      <param name="extraTypes">Extra interface types to mock.</param>
+      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.PartialMultiMock``1(System.Type[],System.Object[])">
+      <summary>
+            Create a mock object from several types with partial semantics.
+            </summary>
+      <param name="extraTypes">Extra interface types to mock.</param>
+      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.PartialMock``1(System.Object[])">
+      <summary>
+            Create a mock object with from a class that defaults to calling the class methods
+            </summary>
+      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
+    </member>
+    <member name="P:Rhino.Mocks.MockRepository.Recorder">
+      <summary>
+            Gets the recorder.
+            </summary>
+      <value>
+      </value>
+    </member>
+    <member name="P:Rhino.Mocks.MockRepository.Replayer">
+      <summary>
+            Gets the replayer for this repository.
+            </summary>
+      <value>
+      </value>
+    </member>
+    <member name="P:Rhino.Mocks.MockRepository.LastMockedObject">
+      <summary>
+            Gets the last proxy which had a method call.
             </summary>
     </member>
     <member name="T:Rhino.Mocks.Utilities.GenericsUtil">
@@ -2878,299 +3191,20 @@
             The current mocker
             </summary>
     </member>
-    <member name="T:Rhino.Mocks.MockRepository">
-      <summary>
-            Creates proxied instances of types.
-            </summary>
-      <summary>
-            Creates proxied instances of types.
-            </summary>
-    </member>
-    <member name="T:Rhino.Mocks.MockRepository.CreateMockState">
-      <summary>
-             Delegate: CreateMockState
-             This is used internally to cleanly handle the creation of different 
-             RecordMockStates.
-            </summary>
-    </member>
-    <member name="F:Rhino.Mocks.MockRepository.lastRepository">
-      <summary>
-            This is used to record the last repository that has a method called on it.
-            </summary>
-    </member>
-    <member name="F:Rhino.Mocks.MockRepository.lastMockedObject">
-      <summary>
-            this is used to get to the last proxy on this repository.
-            </summary>
-    </member>
-    <member name="F:Rhino.Mocks.MockRepository.delegateProxies">
-      <summary>
-            For mock delegates, maps the proxy instance from intercepted invocations
-            back to the delegate that was originally returned to client code, if any.
-            </summary>
-    </member>
-    <member name="F:Rhino.Mocks.MockRepository.proxies">
-      <summary>
-            All the proxies in the mock repositories
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.#ctor">
-      <summary>
-            Creates a new <see cref="T:Rhino.Mocks.MockRepository" /> instance.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.Ordered">
-      <summary>
-            Move the repository to ordered mode
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.Unordered">
-      <summary>
-            Move the repository to un-ordered mode
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.CreateMock(System.Type,System.Object[])">
-      <summary>
-            Creates a mock for the specified type.
-            </summary>
-      <param name="type">Type.</param>
-      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.CreateMultiMock(System.Type,System.Type[])">
-      <summary>
-            Creates a mock from several types, with strict semantics.
-            Only <paramref name="mainType" /> may be a class.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.CreateMultiMock(System.Type,System.Type[],System.Object[])">
-      <summary>
-            Creates a mock from several types, with strict semantics.
-            Only <paramref name="mainType" /> may be a class.
-            </summary>
-      <param name="mainType">The main type to mock.</param>
-      <param name="extraTypes">Extra interface types to mock.</param>
-      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class.</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.DynamicMultiMock(System.Type,System.Type[])">
-      <summary>
-            Creates a mock from several types, with dynamic semantics.
-            Only <paramref name="mainType" /> may be a class.
-            </summary>
-      <param name="mainType">The main type to mock.</param>
-      <param name="extraTypes">Extra interface types to mock.</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.DynamicMultiMock(System.Type,System.Type[],System.Object[])">
-      <summary>
-            Creates a mock from several types, with dynamic semantics.
-            Only <paramref name="mainType" /> may be a class.
-            </summary>
-      <param name="mainType">The main type to mock.</param>
-      <param name="extraTypes">Extra interface types to mock.</param>
-      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class.</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.DynamicMock(System.Type,System.Object[])">
-      <summary>
-            Creates a dynamic mock for the specified type.
-            </summary>
-      <param name="type">Type.</param>
-      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.PartialMock(System.Type,System.Object[])">
-      <summary>
-            Creates a mock object that defaults to calling the class methods.
-            </summary>
-      <param name="type">Type.</param>
-      <param name="argumentsForConstructor">Arguments for the class' constructor.</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.PartialMultiMock(System.Type,System.Type[])">
-      <summary>
-            Creates a mock object that defaults to calling the class methods.
-            </summary>
-      <param name="type">Type.</param>
-      <param name="extraTypes">Extra interface types to mock.</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.PartialMultiMock(System.Type,System.Type[],System.Object[])">
-      <summary>
-            Creates a mock object that defaults to calling the class methods.
-            </summary>
-      <param name="type">Type.</param>
-      <param name="extraTypes">Extra interface types to mock.</param>
-      <param name="argumentsForConstructor">Arguments for the class' constructor.</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.Replay(System.Object)">
-      <summary>
-            Cause the mock state to change to replay, any further call is compared to the 
-            ones that were called in the record state.
-            </summary>
-      <param name="obj">the object to move to replay state</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.BackToRecord(System.Object)">
-      <summary>
-            Move the mocked object back to record state.
-            Will delete all current expectations!
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.Verify(System.Object)">
-      <summary>
-            Verify that all the expectations for this object were fulfilled.
-            </summary>
-      <param name="obj">the object to verify the expectations for</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.LastMethodCall(System.Object)">
-      <summary>
-            Get the method options for the last call on
-            mockedInstance.
-            </summary>
-      <param name="mockedInstance">The mock object</param>
-      <returns>Method options for the last call</returns>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.GetMockObjectFromInvocationProxy(System.Object)">
-      <summary>
-            Maps an invocation proxy back to the mock object instance that was originally
-            returned to client code which might have been a delegate to this proxy.
-            </summary>
-      <param name="invocationProxy">The mock object proxy from the intercepted invocation</param>
-      <returns>The mock object</returns>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.CreateMockObject(System.Type,Rhino.Mocks.MockRepository.CreateMockState,System.Type[],System.Object[])">
-      <summary>
-            This is provided to allow advance extention functionality, where Rhino Mocks standard
-            functionality is not enough.
-            </summary>
-      <param name="type">The type to mock</param>
-      <param name="factory">Delegate that create the first state of the mocked object (usualy the record state).</param>
-      <param name="extras">Additional types to be implemented, this can be only interfaces </param>
-      <param name="argumentsForConstructor">optional arguments for the constructor</param>
-      <returns>
-      </returns>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.GetMockedObject(System.Object)">
-      <summary>
-             Method: GetMockedObject
-             Get an IProxy from a mocked object instance, or throws if the 
-             object is not a mock object.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.GetMockedObjectOrNull(System.Object)">
-      <summary>
-            Method: GetMockedObjectOrNull
-            Get an IProxy from a mocked object instance, or null if the
-            object is not a mock object.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.PopRecorder">
-      <summary>
-            Pops the recorder.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.PushRecorder(Rhino.Mocks.Interfaces.IMethodRecorder)">
-      <summary>
-            Pushes the recorder.
-            </summary>
-      <param name="newRecorder">New recorder.</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.BackToRecordAll">
-      <summary>
-            All the mock objects in this repository will be moved
-            to record state.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.ReplayAll">
-      <summary>
-            Replay all the mocks from this repository
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.VerifyAll">
-      <summary>
-            Verify all the mocks from this repository
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.SetExceptionToBeThrownOnVerify(System.Object,Rhino.Mocks.Exceptions.ExpectationViolationException)">
-      <summary>
-            Set the exception to be thrown when verified is called.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.CreateMock``1(System.Object[])">
-      <summary>
-            Creates a mock for the spesified type.
-            </summary>
-      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.DynamicMock``1(System.Object[])">
-      <summary>
-            Creates a dynamic mock for the specified type.
-            </summary>
-      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.CreateMultiMock``1(System.Type[])">
-      <summary>
-            Creates a mock object from several types.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.DynamicMultiMock``1(System.Type[])">
-      <summary>
-            Create a mock object from several types with dynamic semantics.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.PartialMultiMock``1(System.Type[])">
-      <summary>
-            Create a mock object from several types with partial semantics.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.CreateMultiMock``1(System.Type[],System.Object[])">
-      <summary>
-            Create a mock object from several types with strict semantics.
-            </summary>
-      <param name="extraTypes">Extra interface types to mock.</param>
-      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.DynamicMultiMock``1(System.Type[],System.Object[])">
-      <summary>
-            Create a mock object from several types with dynamic semantics.
-            </summary>
-      <param name="extraTypes">Extra interface types to mock.</param>
-      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.PartialMultiMock``1(System.Type[],System.Object[])">
-      <summary>
-            Create a mock object from several types with partial semantics.
-            </summary>
-      <param name="extraTypes">Extra interface types to mock.</param>
-      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
-    </member>
-    <member name="M:Rhino.Mocks.MockRepository.PartialMock``1(System.Object[])">
-      <summary>
-            Create a mock object with from a class that defaults to calling the class methods
-            </summary>
-      <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
-    </member>
-    <member name="P:Rhino.Mocks.MockRepository.Recorder">
-      <summary>
-            Gets the recorder.
-            </summary>
-      <value>
-      </value>
-    </member>
-    <member name="P:Rhino.Mocks.MockRepository.Replayer">
-      <summary>
-            Gets the replayer for this repository.
-            </summary>
-      <value>
-      </value>
-    </member>
-    <member name="P:Rhino.Mocks.MockRepository.LastMockedObject">
-      <summary>
-            Gets the last proxy which had a method call.
-            </summary>
-    </member>
     <member name="T:Rhino.Mocks.RhinoMocks">
       <summary>
             Used for [assembly: InternalsVisibleTo(RhinoMocks.StrongName)]
+            Used for [assembly: InternalsVisibleTo(RhinoMocks.NormalName)]
             </summary>
     </member>
     <member name="F:Rhino.Mocks.RhinoMocks.StrongName">
       <summary>
             Strong name for the Dynamic Proxy assemblies. Used for InternalsVisibleTo specification.
+            </summary>
+    </member>
+    <member name="F:Rhino.Mocks.RhinoMocks.NormalName">
+      <summary>
+            Normal name for dynamic proxy assemblies. Used for InternalsVisibleTo specification.
             </summary>
     </member>
     <member name="T:Rhino.Mocks.SetupResult">
@@ -3516,12 +3550,13 @@
       <summary>
       </summary>
     </member>
-    <member name="M:Castle.DynamicProxy.Generators.InterfaceProxyWithTargetGenerator.FindMethodOnTargetType(System.Reflection.MethodInfo,System.Type)">
+    <member name="M:Castle.DynamicProxy.Generators.InterfaceProxyWithTargetGenerator.FindMethodOnTargetType(System.Reflection.MethodInfo,System.Type,System.Boolean)">
       <summary>
             Finds the type of the method on target.
             </summary>
       <param name="methodOnInterface">The method on interface.</param>
       <param name="proxyTargetType">Type of the proxy target.</param>
+      <param name="checkMixins">if set to <c>true</c> will check implementation on mixins.</param>
       <returns>
       </returns>
     </member>
@@ -3546,11 +3581,23 @@
     <member name="T:Castle.DynamicProxy.Serialization.ProxyObjectReference">
       <summary>
             Handles the deserialization of proxies.
+            See here for more details:
+            http://groups.google.com/group/castle-project-devel/msg/fb5ef9656d050ba5
             </summary>
     </member>
     <member name="M:Castle.DynamicProxy.Serialization.ProxyObjectReference.ResetScope">
       <summary>
             Usefull for test cases
+            </summary>
+    </member>
+    <member name="T:Castle.DynamicProxy.Serialization.ProxySerializer">
+      <summary>
+            Assists in serializing instances of the generated proxy types so that they can be deserialized via <see cref="T:Castle.DynamicProxy.Serialization.ProxyObjectReference" />.
+            </summary>
+    </member>
+    <member name="T:Castle.DynamicProxy.Serialization.ProxySerializer.Indirection">
+      <summary>
+            Used to circumvent a serialization bug, where direct self references and directly held delegates are not deserialized correctly.
             </summary>
     </member>
     <member name="T:Castle.DynamicProxy.IProxyGenerationHook">
@@ -3595,14 +3642,11 @@
     </member>
     <member name="M:Castle.DynamicProxy.IProxyBuilder.CreateClassProxy(System.Type,Castle.DynamicProxy.ProxyGenerationOptions)">
       <summary>
-            Implementors should return a proxy for the specified type
+            Implementors should return a proxy for the specified type.
             </summary>
-      <param name="theClass">
-      </param>
-      <param name="options">
-      </param>
-      <returns>
-      </returns>
+      <param name="theClass">The proxy base class.</param>
+      <param name="options">The proxy generation options.</param>
+      <returns>The generated proxy type.</returns>
     </member>
     <member name="M:Castle.DynamicProxy.IProxyBuilder.CreateClassProxy(System.Type,System.Type[],Castle.DynamicProxy.ProxyGenerationOptions)">
       <summary>
@@ -3622,7 +3666,7 @@
       <summary>
             Implementors should return a proxy for the specified
             interface that 'proceeds' executions to the 
-            specified target
+            specified target.
             </summary>
       <param name="theInterface">
       </param>
@@ -3639,7 +3683,7 @@
       <summary>
             Implementors should return a proxy for the specified
             interface that delegate all executions to the 
-            specified interceptor(s)
+            specified interceptor(s).
             </summary>
       <param name="theInterface">
       </param>
@@ -3700,6 +3744,46 @@
             Used to lock the module builder creation
             </summary>
     </member>
+    <member name="M:Castle.DynamicProxy.ModuleScope.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:Castle.DynamicProxy.ModuleScope" /> class.
+            </summary>
+    </member>
+    <member name="M:Castle.DynamicProxy.ModuleScope.#ctor(System.Boolean)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Castle.DynamicProxy.ModuleScope" /> class.
+            </summary>
+      <param name="savePhysicalAssembly">if set to <c>true</c> saves the generated module.</param>
+    </member>
+    <member name="M:Castle.DynamicProxy.ModuleScope.SaveAssembly">
+      <summary>
+            Saves the generated assembly.
+            </summary>
+    </member>
+    <member name="T:Castle.DynamicProxy.PersistentProxyBuilder">
+      <summary>
+            ProxyBuilder that persists the generated type.
+            </summary>
+      <remarks>
+            The saved assembly contains just the last generated type.
+            </remarks>
+    </member>
+    <member name="M:Castle.DynamicProxy.PersistentProxyBuilder.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:Castle.DynamicProxy.PersistentProxyBuilder" /> class.
+            </summary>
+    </member>
+    <member name="T:Castle.DynamicProxy.ProxyGenerationOptions">
+      <summary>
+            The proxy generation options, note that this is a statefull class with regard to mixin.
+            </summary>
+    </member>
+    <member name="F:Castle.DynamicProxy.ProxyGenerationOptions.Default">
+      <summary>
+            Gets the default options
+            </summary>
+      <value>The default.</value>
+    </member>
     <member name="M:Castle.DynamicProxy.ProxyGenerationOptions.#ctor(Castle.DynamicProxy.IProxyGenerationHook)">
       <summary>
             Initializes a new instance of the <see cref="T:Castle.DynamicProxy.ProxyGenerationOptions" /> class.
@@ -3710,6 +3794,36 @@
       <summary>
             Initializes a new instance of the <see cref="T:Castle.DynamicProxy.ProxyGenerationOptions" /> class.
             </summary>
+    </member>
+    <member name="M:Castle.DynamicProxy.ProxyGenerationOptions.AddMixinInterfaceImplementation(System.Object)">
+      <summary>
+            This is required because a mixin may implement more than a single interface.
+            In order to track that, we register them all here, and when we instansiate the proxy, we pass it the 
+            mixins implementations, where each interface has an object that implements it.
+            Example:
+            FooBar foo implements IFoo and IBar
+            
+            proxy ctor would be:
+            
+            public Proxy(IFoo, IBar, IInterceptor[], object target)
+            
+            And will be invoked with:
+            new Proxy(foo, foo, inteceptors, target);
+            </summary>
+      <param name="mixin">The mixin.</param>
+    </member>
+    <member name="M:Castle.DynamicProxy.ProxyGenerationOptions.InspectAndRegisterMixinInterfaces">
+      <summary>
+            Because we need to cache the types based on the mixed in mixins, we do the following here:
+             - Get all the mixin interfaces
+             - Sort them by full name
+             - Return them by position
+            
+            The idea is to have reproducable behavior for the case that mixins are registered in different orders.
+            This method is here because it is required 
+            </summary>
+      <returns>
+      </returns>
     </member>
     <member name="M:Castle.DynamicProxy.ProxyGenerator.#ctor(Castle.DynamicProxy.IProxyBuilder)">
       <summary>
@@ -3830,6 +3944,23 @@
             Gets the type of the component activator.
             </summary>
       <value>The type of the component activator.</value>
+    </member>
+    <member name="T:Castle.Core.ComponentProxyBehaviorAttribute">
+      <summary>
+            Specifies the proxying behavior for a component.
+            </summary>
+    </member>
+    <member name="M:Castle.Core.ComponentProxyBehaviorAttribute.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:Castle.Core.ComponentProxyBehaviorAttribute" /> class.
+            </summary>
+    </member>
+    <member name="P:Castle.Core.ComponentProxyBehaviorAttribute.UseSingleInterfaceProxy">
+      <summary>
+            Determines if the component requires a single interface proxy.
+            </summary>
+      <value>
+        <c>true</c> if the component requires a single interface proxy.</value>
     </member>
     <member name="T:Castle.Core.DoNotWireAttribute">
       <summary>
@@ -3956,11 +4087,30 @@
             New interface that is going to be used by DynamicProxy 2
             </summary>
     </member>
+    <member name="M:Castle.Core.Interceptor.IInvocation.GetConcreteMethod">
+      <summary>
+            Returns the concrete instantiation of <see cref="P:Castle.Core.Interceptor.IInvocation.Method" />, with any generic parameters bound to real types.
+            </summary>
+      <returns>The concrete instantiation of <see cref="P:Castle.Core.Interceptor.IInvocation.Method" />, or <see cref="P:Castle.Core.Interceptor.IInvocation.Method" /> if not a generic method.</returns>
+      <remarks>Can be slower than calling <see cref="P:Castle.Core.Interceptor.IInvocation.Method" />.</remarks>
+    </member>
+    <member name="M:Castle.Core.Interceptor.IInvocation.GetConcreteMethodInvocationTarget">
+      <summary>
+            Returns the concrete instantiation of <see cref="P:Castle.Core.Interceptor.IInvocation.MethodInvocationTarget" />, with any generic parameters bound to real types.
+            </summary>
+      <returns>The concrete instantiation of <see cref="P:Castle.Core.Interceptor.IInvocation.MethodInvocationTarget" />, or <see cref="P:Castle.Core.Interceptor.IInvocation.MethodInvocationTarget" /> if not a generic method.</returns>
+      <remarks>Can be slower than calling <see cref="P:Castle.Core.Interceptor.IInvocation.MethodInvocationTarget" />.</remarks>
+    </member>
     <member name="M:Castle.Core.Interceptor.IInvocation.Proceed">
       <summary>
       </summary>
       <returns>
       </returns>
+    </member>
+    <member name="P:Castle.Core.Interceptor.IInvocation.GenericArguments">
+      <summary>
+            The generic arguments of the method, or null if not a generic method.
+            </summary>
     </member>
     <member name="P:Castle.Core.Interceptor.IInvocation.Method">
       <summary>
@@ -3985,7 +4135,15 @@
     </member>
     <member name="M:Castle.Core.Interceptor.IProxyTargetAccessor.DynProxyGetTarget">
       <summary>
-      </summary>
+            Get the proxy target (note that null is a valid target!)
+            </summary>
+      <returns>
+      </returns>
+    </member>
+    <member name="M:Castle.Core.Interceptor.IProxyTargetAccessor.GetInterceptors">
+      <summary>
+            Gets the interceptors for the proxy
+            </summary>
       <returns>
       </returns>
     </member>
@@ -5003,6 +5161,28 @@
         <see cref="P:System.Diagnostics.EventLog.Source" />
       </param>
     </member>
+    <member name="T:Castle.Core.Logging.IExtendedLogger">
+      <summary>
+            Provides an interface that supports <see cref="T:Castle.Core.Logging.ILogger" /> and
+            allows the storage and retrieval of Contexts. These are supported in
+            both log4net and NLog.
+            </summary>
+    </member>
+    <member name="P:Castle.Core.Logging.IExtendedLogger.GlobalProperties">
+      <summary>
+            Exposes the Global Context of the extended logger. 
+            </summary>
+    </member>
+    <member name="P:Castle.Core.Logging.IExtendedLogger.ThreadProperties">
+      <summary>
+            Exposes the Thread Context of the extended logger.
+            </summary>
+    </member>
+    <member name="P:Castle.Core.Logging.IExtendedLogger.ThreadStacks">
+      <summary>
+            Exposes the Thread Stack of the extended logger.
+            </summary>
+    </member>
     <member name="T:Castle.Core.Logging.NullLogger">
       <summary>
             The Null Logger class.  This is useful for implementations where you need
@@ -5338,6 +5518,47 @@
             </summary>
       <value>false</value>
     </member>
+    <member name="P:Castle.Core.Logging.NullLogger.GlobalProperties">
+      <summary>
+            Returns empty context properties.
+            </summary>
+    </member>
+    <member name="P:Castle.Core.Logging.NullLogger.ThreadProperties">
+      <summary>
+            Returns empty context properties.
+            </summary>
+    </member>
+    <member name="P:Castle.Core.Logging.NullLogger.ThreadStacks">
+      <summary>
+            Returns empty context stacks.
+            </summary>
+    </member>
+    <member name="T:Castle.Core.Logging.IContextProperties">
+      <summary>
+            Interface for Context Properties implementations
+            </summary>
+      <remarks>
+        <para>
+            This interface defines a basic property get set accessor.
+            </para>
+        <para>
+            Based on the ContextPropertiesBase of log4net, by Nicko Cadell.
+            </para>
+      </remarks>
+    </member>
+    <member name="P:Castle.Core.Logging.IContextProperties.Item(System.String)">
+      <summary>
+            Gets or sets the value of a property
+            </summary>
+      <value>
+            The value for the property with the specified key
+            </value>
+      <remarks>
+        <para>
+            Gets or sets the value of a property
+            </para>
+      </remarks>
+    </member>
     <member name="T:Castle.Core.Logging.StreamLogger">
       <summary>
             The Stream Logger class.  This class can stream log information
@@ -5451,54 +5672,6 @@
             </summary>
       <param name="newName">Ignored</param>
       <returns>This ILogger instance.</returns>
-    </member>
-    <member name="T:Castle.Core.Logging.IContextProperties">
-      <summary>
-            Interface for Context Properties implementations
-            </summary>
-      <remarks>
-        <para>
-            This interface defines a basic property get set accessor.
-            </para>
-        <para>
-            Based on the ContextPropertiesBase of log4net, by Nicko Cadell.
-            </para>
-      </remarks>
-    </member>
-    <member name="P:Castle.Core.Logging.IContextProperties.Item(System.String)">
-      <summary>
-            Gets or sets the value of a property
-            </summary>
-      <value>
-            The value for the property with the specified key
-            </value>
-      <remarks>
-        <para>
-            Gets or sets the value of a property
-            </para>
-      </remarks>
-    </member>
-    <member name="T:Castle.Core.Logging.IExtendedLogger">
-      <summary>
-            Provides an interface that supports <see cref="T:Castle.Core.Logging.ILogger" /> and
-            allows the storage and retrieval of Contexts. These are supported in
-            both log4net and NLog.
-            </summary>
-    </member>
-    <member name="P:Castle.Core.Logging.IExtendedLogger.GlobalProperties">
-      <summary>
-            Exposes the Global Context of the extended logger. 
-            </summary>
-    </member>
-    <member name="P:Castle.Core.Logging.IExtendedLogger.ThreadProperties">
-      <summary>
-            Exposes the Thread Context of the extended logger.
-            </summary>
-    </member>
-    <member name="P:Castle.Core.Logging.IExtendedLogger.ThreadStacks">
-      <summary>
-            Exposes the Thread Stack of the extended logger.
-            </summary>
     </member>
     <member name="T:Castle.Core.Logging.LoggerLevel">
       <summary>
@@ -5725,6 +5898,12 @@
       <summary>
             Summary description for MutableConfiguration.
             </summary>
+    </member>
+    <member name="M:Castle.Core.Configuration.MutableConfiguration.#ctor(System.String)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Castle.Core.Configuration.MutableConfiguration" /> class.
+            </summary>
+      <param name="name">The name.</param>
     </member>
     <member name="T:Castle.Core.LifestyleType">
       <summary>
