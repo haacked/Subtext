@@ -21,6 +21,11 @@
 				Href="~/HostAdmin/Default.aspx" 
 				Title="Manage the blogs installed on this server"
 				runat="server">Installed Blogs</st:MenuItem>
+				
+			<st:MenuItem ID="usersMenuItem" 
+				Href="~/HostAdmin/UserManager.aspx" 
+				Title="Manage the users on this server"
+				runat="server">Users</st:MenuItem>
 			
 			<st:MenuItem ID="mnuImportStart" 
 				Href="~/HostAdmin/Import/ImportStart.aspx" 

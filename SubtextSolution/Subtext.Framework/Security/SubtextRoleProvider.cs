@@ -140,24 +140,25 @@ namespace Subtext.Framework.Security
 
 		public override string[] GetAllRoles()
 		{
-			SqlConnection conn = new SqlConnection(this.connectionString);
-			SqlCommand cmd = new SqlCommand("subtext_Roles_GetAllRoles", conn);
-			cmd.CommandType = CommandType.StoredProcedure;
-			cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-			using (conn)
+			using(SqlConnection conn = new SqlConnection(this.connectionString))
+			using (SqlCommand cmd = new SqlCommand("subtext_Roles_GetAllRoles", conn))
 			{
-				conn.Open(); SqlDataReader reader = cmd.ExecuteReader();
-				StringCollection allRoles = new StringCollection();
-				while (reader.Read())
+				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
+				
+				conn.Open();
+				using (SqlDataReader reader = cmd.ExecuteReader())
 				{
-					allRoles.Add(reader.GetString(0));
+					StringCollection allRoles = new StringCollection();
+					while (reader.Read())
+					{
+						allRoles.Add(reader.GetString(0));
+					}
+					string[] returnAllRoles = new string[allRoles.Count];
+					allRoles.CopyTo(returnAllRoles, 0);
+					return returnAllRoles;	
 				}
-				string[] returnAllRoles = new string[allRoles.Count];
-				allRoles.CopyTo(returnAllRoles, 0);
-
-				return returnAllRoles;
 			}
-
 		}
 
 		/// <summary>

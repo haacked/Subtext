@@ -1,11 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Framework", "Subtext.Framework\Subtext.Framework.csproj", "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Subtext", "UnitTests.Subtext\UnitTests.Subtext.csproj", "{16036AF0-ED24-4605-8919-90B40510BD68}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
@@ -167,6 +161,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests.Subtext", "UITests.
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubText.Framework", "Subtext.Framework\SubText.Framework.csproj", "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -180,21 +180,6 @@ Global
 		Release|Mixed Platforms = Release|Mixed Platforms
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Documentation|.NET.ActiveCfg = Documentation|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Documentation|Mixed Platforms.ActiveCfg = Documentation|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Documentation|Mixed Platforms.Build.0 = Documentation|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release|.NET.ActiveCfg = Release|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{16036AF0-ED24-4605-8919-90B40510BD68}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{16036AF0-ED24-4605-8919-90B40510BD68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{16036AF0-ED24-4605-8919-90B40510BD68}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -403,6 +388,21 @@ Global
 		{9E47EB82-A574-4A24-8522-0B2D6567568C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E47EB82-A574-4A24-8522-0B2D6567568C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9E47EB82-A574-4A24-8522-0B2D6567568C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Documentation|.NET.ActiveCfg = Documentation|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Documentation|Mixed Platforms.ActiveCfg = Documentation|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Documentation|Mixed Platforms.Build.0 = Documentation|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release|.NET.ActiveCfg = Release|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
