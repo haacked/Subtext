@@ -1869,7 +1869,7 @@ namespace Subtext.Framework.Data
 			return NonQueryBool("subtext_DeletePluginBlog", p);
 		}
 
-		public override NameValueCollection GetPluginGeneralSettings(Guid pluginId)
+		public override NameValueCollection GetPluginBlogSettings(Guid pluginId)
 		{
 			SqlParameter[] p =
 			{
@@ -1894,7 +1894,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override bool InsertPluginGeneralSettings(Guid pluginId, string key, string value)
+		public override bool InsertPluginBlogSettings(Guid pluginId, string key, string value)
 		{
 			SqlParameter[] p =
 			{
@@ -1907,7 +1907,7 @@ namespace Subtext.Framework.Data
 			return NonQueryBool("subtext_InsertPluginData", p);
 		}
 
-		public override bool UpdatePluginGeneralSettings(Guid pluginId, string key, string value)
+		public override bool UpdatePluginBlogSettings(Guid pluginId, string key, string value)
 		{
 			SqlParameter[] p =
 			{

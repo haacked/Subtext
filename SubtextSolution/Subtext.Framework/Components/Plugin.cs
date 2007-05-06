@@ -87,7 +87,7 @@ namespace Subtext.Framework.Components
 				foreach (Guid guid in pluginGuids)
 				{
 					PluginBase currPlugin = SubtextApplication.Current.GetPluginByGuid(guid);
-					pluginList.Add(guid, new Plugin(currPlugin, Plugin.GetPluginGeneralSettings(guid)));
+					pluginList.Add(guid, new Plugin(currPlugin, Plugin.GetPluginBlogSettings(guid)));
 				}
 				StorePluginListToCache(pluginList);
 			}
@@ -139,15 +139,15 @@ namespace Subtext.Framework.Components
 		#endregion Enable/Disable Plugins
 
 
-		#region General Blog Plugin Settings
+		#region Blog Plugin Settings
 		/// <summary>
 		/// Retrieves the blog plugin settings from the storage
 		/// </summary>
 		/// <param name="pluginId">GUID of the plugin</param>
 		/// <returns>A NameValueCollection with all the settings</returns>
-		public static NameValueCollection GetPluginGeneralSettings(Guid pluginId)
+		public static NameValueCollection GetPluginBlogSettings(Guid pluginId)
 		{
-			return ObjectProvider.Instance().GetPluginGeneralSettings(pluginId);
+			return ObjectProvider.Instance().GetPluginBlogSettings(pluginId);
 		}
 
 		/// <summary>
@@ -156,9 +156,9 @@ namespace Subtext.Framework.Components
 		/// <param name="pluginGuid">GUID of the plugin</param>
 		/// <param name="key">Setting name</param>
 		/// <param name="value">Setting value</param>
-		public static void InsertPluginGeneralSettings(Guid pluginGuid, string key, string value)
+		public static void InsertPluginBlogSettings(Guid pluginGuid, string key, string value)
 		{
-			ObjectProvider.Instance().InsertPluginGeneralSettings(pluginGuid, key, value);
+			ObjectProvider.Instance().InsertPluginBlogSettings(pluginGuid, key, value);
 
 			//Removes the list of enabled plugins for the current blog from the cache
 			//This way we don't have strange caching issues
@@ -171,16 +171,16 @@ namespace Subtext.Framework.Components
 		/// <param name="pluginGuid">GUID of the plugin</param>
 		/// <param name="key">Setting name</param>
 		/// <param name="value">Setting value</param>
-		public static void UpdatePluginGeneralSettings(Guid pluginGuid, string key, string value)
+		public static void UpdatePluginBlogSettings(Guid pluginGuid, string key, string value)
 		{
-			ObjectProvider.Instance().UpdatePluginGeneralSettings(pluginGuid, key, value);
+			ObjectProvider.Instance().UpdatePluginBlogSettings(pluginGuid, key, value);
 
 			//Removes the list of enabled plugins for the current blog from the cache
 			//This way we don't have strange caching issues
 			Plugin.RemovePluginListFromCache();
 		}
 
-        #endregion General Blog Plugin Settings
+        #endregion Blog Plugin Settings
 
         #region Entry Plugin Settings
 

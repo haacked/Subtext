@@ -96,19 +96,6 @@ namespace Subtext.Extensibility.Plugins
 
         #region General Blog Settings
 
-        private NameValueCollection _blogSettings;
-
-        //Helper properties used to cache the settings during the lifetime of the module
-        private NameValueCollection BlogSettings
-        {
-            get
-            {
-                if (_blogSettings == null)
-                    _blogSettings = GetBlogSettings();
-                return _blogSettings;
-            }
-        }
-
         /// <summary>
         /// Retrive a single Blog Setting
         /// </summary>
@@ -116,8 +103,8 @@ namespace Subtext.Extensibility.Plugins
         /// <returns>Value of the setting, as string. Must be deserialized if it represents something more complex than a string</returns>
         public string GetBlogSetting(string key)
         {
-            if (BlogSettings[key] != null)
-                return BlogSettings[key];
+			if (GetBlogSettings()[key] != null)
+				return GetBlogSettings()[key];
             else
                 return string.Empty;
         }
@@ -131,15 +118,13 @@ namespace Subtext.Extensibility.Plugins
         public void SetBlogSetting(string key, string value)
         {
 
-            if (BlogSettings[key] == null)
+			if (GetBlogSettings[key] == null)
             {
-                BlogSettings.Add(key, value);
-				Plugin.InsertPluginGeneralSettings(Id, key, value);
+				Plugin.InsertPluginBlogSettings(Id, key, value);
             }
             else
             {
-                BlogSettings[key] = value;
-				Plugin.UpdatePluginGeneralSettings(Id, key, value);
+				Plugin.UpdatePluginBlogSettings(Id, key, value);
             }
         }
 
