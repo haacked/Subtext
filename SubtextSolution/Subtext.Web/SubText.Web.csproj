@@ -307,6 +307,13 @@
     <Compile Include="HostAdmin\ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
+    <Compile Include="HostAdmin\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HostAdmin\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="HostAdmin\ErrorLog.aspx.cs">
       <DependentUpon>ErrorLog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -393,12 +400,19 @@
     <Compile Include="HostAdmin\Upgrade\UpgradeComplete.aspx.designer.cs">
       <DependentUpon>UpgradeComplete.aspx</DependentUpon>
     </Compile>
-    <Compile Include="HostAdmin\UserControls\BlogsEditor.ascx.cs">
-      <DependentUpon>BlogsEditor.ascx</DependentUpon>
+    <Compile Include="HostAdmin\UserControls\BlogEditor.ascx.cs">
+      <DependentUpon>BlogEditor.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="HostAdmin\UserControls\BlogsEditor.ascx.designer.cs">
-      <DependentUpon>BlogsEditor.ascx</DependentUpon>
+    <Compile Include="HostAdmin\UserControls\BlogEditor.ascx.designer.cs">
+      <DependentUpon>BlogEditor.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="HostAdmin\UserControls\BlogsList.ascx.cs">
+      <DependentUpon>BlogsList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HostAdmin\UserControls\BlogsList.ascx.designer.cs">
+      <DependentUpon>BlogsList.ascx</DependentUpon>
     </Compile>
     <Compile Include="HostAdmin\UserManager.aspx.cs">
       <DependentUpon>UserManager.aspx</DependentUpon>
@@ -831,8 +845,8 @@
       <DependentUpon>UpgradeComplete.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\UserControls\BlogsEditor.ascx.resx">
-      <DependentUpon>BlogsEditor.ascx.cs</DependentUpon>
+    <EmbeddedResource Include="HostAdmin\UserControls\BlogsList.ascx.resx">
+      <DependentUpon>BlogsList.ascx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Install\BlogNotConfiguredError.aspx.resx">
@@ -987,9 +1001,8 @@
     <Content Include="HostAdmin\Upgrade\UpgradeComplete.aspx">
       <SubType>Form</SubType>
     </Content>
-    <Content Include="HostAdmin\UserControls\BlogsEditor.ascx">
-      <SubType>UserControl</SubType>
-    </Content>
+    <Content Include="HostAdmin\UserControls\BlogEditor.ascx" />
+    <Content Include="HostAdmin\UserControls\BlogsList.ascx" />
     <Content Include="HostAdmin\UserManager.aspx" />
     <Content Include="Images\admin.gif" />
     <Content Include="Images\administration_icon.gif" />
@@ -2180,9 +2193,9 @@
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Name>Subtext.Extensibility</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
+    <ProjectReference Include="..\Subtext.Framework\SubText.Framework.csproj">
       <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
-      <Name>Subtext.Framework</Name>
+      <Name>SubText.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Installation\Subtext.Installation.csproj">
       <Project>{745B39B7-DE46-4070-8733-C53308721C58}</Project>

@@ -87,10 +87,13 @@ div.MessagePanel
 div.ErrorPanel 
 {
 	color: #660033;
-	background: #FFFFCC;
 	border: 1px dashed #DBDB64;
 	padding: 12px;
 	font-weight: bold;
+	background-color: #ffffcc;
+	background-image: url(../../images/icons/ico_critical.gif);
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
 }
 
 div.ErrorPanel img,
@@ -431,6 +434,11 @@ table tr
 	background: #fff;
 }
 
+table tr.selected
+{
+	background-color: #e7f4fe;
+}
+
 div.button-row input
 {
 	width: auto;
@@ -466,4 +474,19 @@ fieldset table
 .button-row input
 {
 	font-size: 1em;
+}
+
+/*----- section -------*/
+div.section
+{
+	float: left;
+}
+
+#user-info
+{
+}
+
+#user-info ul
+{
+	list-style-type: none;
 }
