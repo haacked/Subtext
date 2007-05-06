@@ -27,6 +27,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Security;
+using Subtext.Extensibility.Plugins;
 
 //Need to find a method that has access to context, so we can terminate the request if AllowServiceAccess == false.
 //Users will be able to access the metablogapi page, but will not be able to make a request, but the page should not be visible
@@ -36,7 +37,7 @@ namespace Subtext.Framework.XmlRpc
 	/// <summary>
 	/// Implements the MetaBlog API.
 	/// </summary>
-	public class MetaWeblog : XmlRpcService, IMetaWeblog
+	public class MetaWeblog : XmlRpcService, IMetaWeblog, INotifiableControl
 	{
 		private static void ValidateUser(string username, string password, bool allowServiceAccess)
 		{
@@ -107,7 +108,16 @@ namespace Subtext.Framework.XmlRpc
 				entry.IsActive = publish;
 		
 				entry.DateModified = Config.CurrentBlog.TimeZone.Now;
-				return Entries.Update(entry);
+
+				//Raise event before updating a post
+				SubtextEvents.OnEntryUpdating(this, new SubtextEventArgs(entry, ObjectState.Update));
+
+				bool updateResult = Entries.Update(entry);
+
+				//Raise event after updating a post
+				SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Update));
+
+				return updateResult;
 			}
 			return false;
 		}
@@ -242,7 +252,13 @@ namespace Subtext.Framework.XmlRpc
 			int postID;
 			try
 			{
+				//Raise event before creating a post
+				SubtextEvents.OnEntryUpdating(this, new SubtextEventArgs(entry, ObjectState.Create));
+
 				postID = Entries.Create(entry);
+
+				//Raise event after creating a post
+				SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Create));
 			}
 			catch(Exception e)
 			{
@@ -493,6 +509,20 @@ namespace Subtext.Framework.XmlRpc
 		{
 			return new MtTextFilter[] {new MtTextFilter("test", "test"), };
 		}
+		#endregion
+
+		#region INotifiableControl Members
+
+		public void ShowError(string message)
+		{
+			//Do nothing (evenutually add logging)
+		}
+
+		public void ShowMessage(string message)
+		{
+			//Do nothing (evenutually add logging)
+		}
+
 		#endregion
 	}
 }
