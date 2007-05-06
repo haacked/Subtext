@@ -499,7 +499,7 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="pluginId">The Guid of the plugin</param>
 		/// <returns>A strongly typed HashTable with settings</returns>
-		public abstract NameValueCollection GetPluginGeneralSettings(Guid pluginId);
+		public abstract NameValueCollection GetPluginBlogSettings(Guid pluginId);
 
 		/// <summary>
 		/// Add a new blog level settings for the plugin
@@ -508,7 +508,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="key">Key identifying the setting</param>
 		/// <param name="value">Value of the setting</param>
 		/// <returns>True if the operation completed correctly, false otherwise</returns>
-		public abstract bool InsertPluginGeneralSettings(Guid pluginId, string key, string value);
+		public abstract bool InsertPluginBlogSettings(Guid pluginId, string key, string value);
 
 		/// <summary>
 		/// Update a blog level settings for the plugin
@@ -517,7 +517,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="key">Key identifying the setting</param>
 		/// <param name="value">New value of the setting</param>
 		/// <returns>True if the operation completed correctly, false otherwise</returns>
-		public abstract bool UpdatePluginGeneralSettings(Guid pluginId, string key, string value);
+		public abstract bool UpdatePluginBlogSettings(Guid pluginId, string key, string value);
 
         /// <summary>
         /// Retrieves plugin settings for a specified entry from the storage
