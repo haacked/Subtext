@@ -118,7 +118,7 @@ namespace Subtext.Extensibility.Plugins
         public void SetBlogSetting(string key, string value)
         {
 
-			if (GetBlogSettings[key] == null)
+			if (GetBlogSettings()[key] == null)
             {
 				Plugin.InsertPluginBlogSettings(Id, key, value);
             }
@@ -133,7 +133,7 @@ namespace Subtext.Extensibility.Plugins
         {
 			if (Id == Guid.Empty)
             {
-                throw new InvalidOperationException("BlogSettings cannot be retrieved if no PluginGuid has been specified");
+                throw new InvalidOperationException("BlogSettings cannot be retrieved if a PluginGuid has been specified");
             }
             else
             {
