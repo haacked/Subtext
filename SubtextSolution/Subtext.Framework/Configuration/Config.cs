@@ -17,12 +17,10 @@ using System;
 using System.Configuration;
 using System.Web.Configuration;
 using System.Web.Security;
-using log4net;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Framework.Properties;
-using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
 
@@ -40,7 +38,6 @@ namespace Subtext.Framework.Configuration
 				"Modules", "Posts", "Properties", "Providers", "Scripts", "Services", "Sitemap", "Skins", 
 				"Stories", "Story", "SystemMessages", "UI"
 		};
-		private readonly static ILog Log = new Log();
 
 		private const string InvalidChars = @"{}[]/\ @!#$%:^&*()?+|""='<>;,";
 
@@ -361,9 +358,6 @@ namespace Subtext.Framework.Configuration
 
 			return ObjectProvider.Instance().UpdateBlog(info);
 		}
-
-		//TODO: Is this the right place to put this list?
-        private static string[] _invalidSubfolders = {"Tags", "Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Properties", "Providers", "Scripts", "Skins", "SystemMessages", "UI", "Modules", "Services", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery", "aggbug", "Sitemap" };
 
 		/// <summary>
 		/// Returns true if the specified subfolder name has a 
