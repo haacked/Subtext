@@ -8,195 +8,204 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.HostAdmin {
+namespace Subtext.Web.HostAdmin.UserControls {
     
     
     /// <summary>
-    /// HostAdminTemplate class.
+    /// UserChooser class.
     /// </summary>
     /// <remarks>
     /// Auto-generated class.
     /// </remarks>
-    public partial class HostAdminTemplate {
+    public partial class UserChooser {
         
         /// <summary>
-        /// lnkStyleSheet control.
+        /// currentOwnerUpdatePanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlLink lnkStyleSheet;
+        protected global::System.Web.UI.UpdatePanel currentOwnerUpdatePanel;
         
         /// <summary>
-        /// lnkCsharp control.
+        /// usernameLiteral control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlLink lnkCsharp;
+        protected global::System.Web.UI.WebControls.Literal usernameLiteral;
         
         /// <summary>
-        /// lknCommon control.
+        /// changeOwnerPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlLink lknCommon;
+        protected global::System.Web.UI.UpdatePanel changeOwnerPanel;
         
         /// <summary>
-        /// lnkHelpTipCss control.
+        /// usersGrid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlLink lnkHelpTipCss;
+        protected global::Subtext.Web.Controls.MembershipControls.UserGridView usersGrid;
         
         /// <summary>
-        /// scrHelpTipJavascript control.
+        /// userDataSource control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Controls.ScriptTag scrHelpTipJavascript;
+        protected global::Subtext.Web.Controls.DataSources.MembershipUserDataSource userDataSource;
         
         /// <summary>
-        /// prototypeScript control.
+        /// createUserPlaceholder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Controls.ScriptTag prototypeScript;
+        protected global::System.Web.UI.WebControls.PlaceHolder createUserPlaceholder;
         
         /// <summary>
-        /// scriptaculousScript control.
+        /// usernameLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Controls.ScriptTag scriptaculousScript;
+        protected global::System.Web.UI.WebControls.Label usernameLabel;
         
         /// <summary>
-        /// controlsScript control.
+        /// helpUsername control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Controls.ScriptTag controlsScript;
+        protected global::Subtext.Web.Controls.HelpToolTip helpUsername;
         
         /// <summary>
-        /// effectsScript control.
+        /// usernameTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Controls.ScriptTag effectsScript;
+        protected global::System.Web.UI.WebControls.TextBox usernameTextBox;
         
         /// <summary>
-        /// frmMain control.
+        /// RequiredFieldValidator1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm frmMain;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
         
         /// <summary>
-        /// scriptManager control.
+        /// emailLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager scriptManager;
+        protected global::System.Web.UI.WebControls.Label emailLabel;
         
         /// <summary>
-        /// MPSectionTitle control.
+        /// emailTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MPSectionTitle;
+        protected global::System.Web.UI.WebControls.TextBox emailTextBox;
         
         /// <summary>
-        /// mnuDefault control.
+        /// RequiredFieldValidator2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Controls.MenuItem mnuDefault;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
         
         /// <summary>
-        /// usersMenuItem control.
+        /// passwordLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Controls.MenuItem usersMenuItem;
+        protected global::System.Web.UI.WebControls.Label passwordLabel;
         
         /// <summary>
-        /// mnuImportStart control.
+        /// helpPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Controls.MenuItem mnuImportStart;
+        protected global::Subtext.Web.Controls.HelpToolTip helpPassword;
         
         /// <summary>
-        /// mnuChangePassword control.
+        /// passwordTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Controls.MenuItem mnuChangePassword;
+        protected global::System.Web.UI.WebControls.TextBox passwordTextBox;
         
         /// <summary>
-        /// mnuErrorLog control.
+        /// RequiredFieldValidator3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Controls.MenuItem mnuErrorLog;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
         
         /// <summary>
-        /// mnuPluginList control.
+        /// confirmLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Controls.MenuItem mnuPluginList;
+        protected global::System.Web.UI.WebControls.Label confirmLabel;
         
         /// <summary>
-        /// loginStatus control.
+        /// passwordConfirmTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LoginStatus loginStatus;
+        protected global::System.Web.UI.WebControls.TextBox passwordConfirmTextBox;
         
         /// <summary>
-        /// MPContent control.
+        /// RequiredFieldValidator4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MPContent;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
+        
+        /// <summary>
+        /// passwordCompareValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator passwordCompareValidator;
     }
 }

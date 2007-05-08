@@ -6,9 +6,9 @@
 
 <table class="log">
 	<tr>
-		<td colspan="6">
+		<td colspan="6" class="pre-header">
 			<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs" Runat="server" oncheckedchanged="OnActiveChanged" />
-			<asp:Button ID="addNewBlogButton" runat="server" OnClick="OnCreateNewBlogClick" Text="Create New Blog" />
+			<asp:Button ID="addNewBlogButton" CssClass="button" runat="server" OnClick="OnCreateNewBlogClick" Text="Create New Blog" />
 		</td>
 	</tr>
 

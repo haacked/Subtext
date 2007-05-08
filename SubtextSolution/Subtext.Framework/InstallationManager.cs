@@ -15,7 +15,6 @@
 
 using System;
 using System.Web;
-using System.Web.UI;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Installation;

@@ -1,4 +1,5 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="BlogEditor.ascx.cs" Inherits="Subtext.Web.HostAdmin.UserControls.BlogEditor" %>
+<%@ Register TagPrefix="st" TagName="UserChooser" Src="~/HostAdmin/UserControls/UserChooser.ascx" %>
 <div id="new-blog">
 	<st:MessagePanel id="messagePanel" runat="server" />
 	
@@ -88,88 +89,52 @@
 	<div class="MessagePanel" id="urlPreview">http://</div>
 	
 	<div class="form">
-		<div>
-			<asp:Label AssociatedControlId="titleTextBox" runat="server" ID="titleLabel">Title:</asp:Label>
-			<asp:TextBox id="titleTextBox" Runat="server" MaxLength="100" Text="<%# Blog.Title %>" />
-			<asp:RequiredFieldValidator ID="titleRequired" runat="server" 
-				ControlToValidate="titleTextBox" 
-				ErrorMessage="Everyone will know you by your blog&#8217;s title. Please enter one." 
-				Display="None" />
-		</div>
-		
-		<div>
-			<asp:Label AssociatedControlId="hostTextBox" runat="server" ID="hostLabel">
- 				Host Domain <st:HelpToolTip id="hostDomainHelpTip" runat="server" ImageUrl="~/images/icons/help-small.png" />:
- 			</asp:Label>
-			<asp:TextBox id="hostTextBox" Runat="server" MaxLength="100" Text="<%# Blog.Host %>"  /><input id="virtualDirectory" type="hidden" runat="server" />
-			<asp:RequiredFieldValidator ID="hostRequiredValidator" runat="server" 
-				ControlToValidate="hostTextBox" 
-				ErrorMessage="Specify a host name." 
-				Display="None" />
-		</div>
-		
-		<div>
-			<asp:Label AssociatedControlId="subfolderTextBox" runat="server" ID="subfolderLabel">
-				Subfolder 
-				<st:HelpToolTip id="subfolderHelpTip" runat="server" ImageUrl="~/images/icons/help-small.png" />:
-			</asp:Label>
-			<asp:TextBox id="subfolderTextBox" Runat="server" MaxLength="50" Text="<%# Blog.Subfolder %>"  />
-		</div>
-		
-		<fieldset>
-			<legend>Blog Owner</legend>
+		<fieldset id="blog-info">
+			<legend>Blog Info</legend>
 			<div>
-				<asp:Label AssociatedControlId="usernameTextBox" runat="server" ID="usernameLabel">
-					User Name:<st:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog." ImageUrl="~/images/icons/help-small.png" />
-				</asp:Label>
-				<asp:TextBox id="usernameTextBox" Runat="server" MaxLength="50" Text="<%# Blog.Owner != null ? Blog.Owner.UserName : string.Empty %>" />
-				<asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
-					ControlToValidate="usernameTextBox" 
-					ErrorMessage="Specify a username for the blog owner." 
+				<asp:Label AssociatedControlId="titleTextBox" runat="server" ID="titleLabel">Title:</asp:Label>
+				<asp:TextBox id="titleTextBox" Runat="server" MaxLength="100" Text="<%# Blog.Title %>" />
+				<asp:RequiredFieldValidator ID="titleRequired" runat="server" 
+					ControlToValidate="titleTextBox" 
+					ErrorMessage="Everyone will know you by your blog&#8217;s title. Please enter one." 
 					Display="None" />
 			</div>
 			
 			<div>
-				<asp:Label AssociatedControlId="emailTextBox" runat="server" ID="emailLabel">
-					Email
-				</asp:Label>
-				<asp:TextBox id="emailTextBox" Runat="server" MaxLength="50" Text="<%# Blog.Owner != null ? Blog.Owner.Email : string.Empty %>" />
-				<asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
-					ControlToValidate="emailTextBox" 
-					ErrorMessage="Specify an email address for the blog owner." 
-					Display="None" />
-			</div>
-			
-			<div>
-				<asp:Label AssociatedControlId="passwordTextBox" runat="server" ID="passwordLabel">
-					Password: <st:HelpToolTip id="helpPassword" runat="server" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password." ImageUrl="~/images/icons/help-small.png" />
-				</asp:Label>
-				<asp:TextBox id="passwordTextBox" Runat="server" MaxLength="50" TextMode="Password" />
-				<asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
+				<asp:Label AssociatedControlId="hostTextBox" runat="server" ID="hostLabel">
+ 					Host Domain <st:HelpToolTip id="hostDomainHelpTip" runat="server" ImageUrl="~/images/icons/help-small.png" />:
+ 				</asp:Label>
+				<asp:TextBox id="hostTextBox" Runat="server" MaxLength="100" Text="<%# Blog.Host %>"  /><input id="virtualDirectory" type="hidden" runat="server" />
+				<asp:RequiredFieldValidator ID="hostRequiredValidator" runat="server" 
 					ControlToValidate="hostTextBox" 
-					ErrorMessage="Enter a password for the blog owner." 
+					ErrorMessage="Specify a host name." 
 					Display="None" />
 			</div>
 			
 			<div>
-				<asp:Label AssociatedControlId="passwordConfirmTextBox" runat="server" ID="confirmLabel">Confirm Password:</asp:Label>
-				<asp:TextBox id="passwordConfirmTextBox" Runat="server" MaxLength="50" TextMode="Password" />
-				<asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" 
-					ControlToValidate="hostTextBox" 
-					ErrorMessage="Please confirm the password." 
-					Display="None" />
-				<asp:CompareValidator ID="passwordCompareValidator" runat="server"
-					ControlToValidate="passwordConfirmTextBox"
-					ControlToCompare="passwordTextBox"
-					Type="String"
-					ErrorMessage="The passwords do not match."
-					Display="None" />
-			</div>
-			
-			<div class="button-row">
-				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button" onclick="OnSaveClick" />&nbsp;&nbsp;
-				<asp:Button id="btnCancel" Text="Cancel" Runat="server" CssClass="button" onclick="OnCancelClick" CausesValidation="false" />
+				<asp:Label AssociatedControlId="subfolderTextBox" runat="server" ID="subfolderLabel">
+					Subfolder 
+					<st:HelpToolTip id="subfolderHelpTip" runat="server" ImageUrl="~/images/icons/help-small.png" />:
+				</asp:Label>
+				<asp:TextBox id="subfolderTextBox" Runat="server" MaxLength="50" Text="<%# Blog.Subfolder %>"  />
 			</div>
 		</fieldset>
+		<fieldset>
+			<legend>Blog Owner</legend>
+			<p class="field-instructions">
+				While every blog may contain multiple admins and authors, 
+				there must always be one owner for each blog. This person 
+				is the one who receives emails from the contact page of the blog.
+			</p>
+			<st:UserChooser runat="server" 
+				UserName="<%# Blog.Owner == null && String.IsNullOrEmpty(blogOwnerChooser.UserName) ? Page.User.Identity.Name : Blog.Owner.UserName %>"
+				id="blogOwnerChooser"  />
+		</fieldset>
+			
+		<div class="button-row">
+			<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button" onclick="OnSaveClick" />&nbsp;&nbsp;
+			<asp:Button id="btnCancel" Text="Cancel" Runat="server" CssClass="button" onclick="OnCancelClick" CausesValidation="false" />
+		</div>
+		
 	</div>
 </div>

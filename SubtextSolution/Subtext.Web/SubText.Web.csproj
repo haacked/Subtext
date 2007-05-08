@@ -386,6 +386,13 @@
     <Compile Include="HostAdmin\Queue.aspx.designer.cs">
       <DependentUpon>Queue.aspx</DependentUpon>
     </Compile>
+    <Compile Include="HostAdmin\TestPage.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>TestPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HostAdmin\TestPage.aspx.designer.cs">
+      <DependentUpon>TestPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="HostAdmin\Upgrade\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -413,6 +420,20 @@
     </Compile>
     <Compile Include="HostAdmin\UserControls\BlogsList.ascx.designer.cs">
       <DependentUpon>BlogsList.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="HostAdmin\UserControls\UserChooser.ascx.cs">
+      <DependentUpon>UserChooser.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HostAdmin\UserControls\UserChooser.ascx.designer.cs">
+      <DependentUpon>UserChooser.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="HostAdmin\UserControls\UserGrid.ascx.cs">
+      <DependentUpon>UserGrid.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HostAdmin\UserControls\UserGrid.ascx.designer.cs">
+      <DependentUpon>UserGrid.ascx</DependentUpon>
     </Compile>
     <Compile Include="HostAdmin\UserManager.aspx.cs">
       <DependentUpon>UserManager.aspx</DependentUpon>
@@ -995,6 +1016,7 @@
     <Content Include="HostAdmin\Scripts\helptip.css" />
     <Content Include="HostAdmin\Scripts\helptip.js" />
     <Content Include="HostAdmin\styles\Style.css" />
+    <Content Include="HostAdmin\TestPage.aspx" />
     <Content Include="HostAdmin\Upgrade\Default.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -1003,6 +1025,8 @@
     </Content>
     <Content Include="HostAdmin\UserControls\BlogEditor.ascx" />
     <Content Include="HostAdmin\UserControls\BlogsList.ascx" />
+    <Content Include="HostAdmin\UserControls\UserChooser.ascx" />
+    <Content Include="HostAdmin\UserControls\UserGrid.ascx" />
     <Content Include="HostAdmin\UserManager.aspx" />
     <Content Include="Images\admin.gif" />
     <Content Include="Images\administration_icon.gif" />
