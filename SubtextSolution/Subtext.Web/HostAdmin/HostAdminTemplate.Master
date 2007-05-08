@@ -9,9 +9,14 @@
 		<link rel="stylesheet" type="text/css" href="~/Skins/_System/commonstyle.css" runat="server" ID="lknCommon" />
 		<link rel="stylesheet" type="text/css" href="~/HostAdmin/scripts/helptip.css" runat="server" ID="lnkHelpTipCss" />
 		<st:ScriptTag language="javascript" src="~/HostAdmin/scripts/helptip.js" runat="server" ID="scrHelpTipJavascript" />
+		<st:ScriptTag language="javascript" src="~/scripts/prototype.js" runat="server" ID="prototypeScript" />
+		<st:ScriptTag language="javascript" src="~/scripts/scriptaculous.js" runat="server" ID="scriptaculousScript" />
+		<st:ScriptTag language="javascript" src="~/scripts/controls.js" runat="server" ID="controlsScript" />
+		<st:ScriptTag language="javascript" src="~/scripts/effects.js" runat="server" ID="effectsScript" />
 	</head>
 <body>
 <form id="frmMain" method="post" runat="server">
+	<asp:ScriptManager ID="scriptManager" runat="server" EnablePartialRendering="true" />
 	<div id="header">
 		<h1><asp:ContentPlaceHolder id="MPSectionTitle" runat="server">Subtext Host Admin</asp:ContentPlaceHolder></h1>
 	</div>

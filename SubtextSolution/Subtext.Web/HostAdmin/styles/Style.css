@@ -55,9 +55,38 @@ div.Pager a:visited
 /*----------- {form style}-----------*/
 label 
 {
-	color: #111;
+	color: #000;
 	background: inherit;
-	font-size: .8em;
+}
+
+input.submit:active, a.button:active, .button:active
+{
+	border: 3px double #CCCCCC;
+	border-top-color: #999999;
+	border-left-color: #999999;
+} 
+
+input, textarea
+{
+	font-family: verdana, geneva, arial, sans-serif;
+	font-size: 1.2em;
+}
+
+textarea 
+{
+	width : 300px;
+	height : 200px;	
+}
+
+body fieldset
+{
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+fieldset div
+{
+	margin-top: 4px;
 }
 
 div.form label, fieldset label
@@ -67,13 +96,35 @@ div.form label, fieldset label
 	width: 150px;
 	margin: 0;
 	padding: 0;
-	font-size: .9em;
+	font-size: .8em;
+	margin-bottom: -4px;
+}
+
+div.form label.inline, fieldset label.inline
+{
+	display: inline;
+	width: auto;
+}
+
+fieldset textarea, fieldset input, input.text, textarea
+{
+	background-color: #ffffe3;
 }
 
 div.form textarea, div.form input, fieldset textarea, fieldset input
 {
 	width: 250px;
+	color: #557;
 }
+
+div.button-row input
+{
+	color: #000;
+	width: auto;
+	font-size: 1.2em;
+}
+
+/* -------------{messaging}----------------*/
 
 div.MessagePanel 
 {
@@ -128,162 +179,6 @@ strong.warning
 	font-weight: bold;
 }
 
-/******* Generic Styles ****/
-a.helpLink img
-{
-	padding: 0;
-	margin: 0;
-	border: none;
-}
-
-.clear 
-{
-	clear: both;
-}
-
-a:link
-{	
-	color : #223355;
-	text-decoration: none;
-}
-
-a:visited
-{
-	color: #6699CC;
-	text-decoration: none;
-}
-
-a:hover 
-{	
-	color: #BF5010;
-}
-
-a.img, a.img, a.img
-{
-	border: none;
-}
-
-.maintitle
-{
-	color : #BF5010;
-}
-
-.maintitle:visited
-{
-	color : #BF5010;
-}
-
-#subtitle
-{
-	color: #6699CC;
-	margin-top: -15px;
-	padding-left: 120px;
-}
-
-#subtitle h2
-{
-	font-size: 1em;
-}
-
-h2
-{
-	font-size: 1.25em;
-}
-
-h3
-{
-	font-size: 1.0em;
-}
-
-h4
-{
-	font-size: 0.8em;
-}
-
-h2 a:visited,
-h2 a:active,
-h2 a:link
-{
-	color : #BF5010;
-	/*margin-left : 10px;*/
-	margin-top : 10px;
-	text-decoration : none;
-}
-
-h2 a:hover 
-{
-	color: #6699CC;
-	margin-top : 10px;
-	text-decoration : none;
-}
-
-blockquote 
-{
-	margin-left: 18px;
-	font-family: verdana, helvetica, sans-serif;
-	font-family: verdana, helvetica, sans-serif;
-	font-size: .95em;
-	line-height: 1.3em;
-	padding: 10px;
-	background-color: #F9F9FC;
-}
-
-input.text 
-{
-	width : 300px;
-}
-
-textarea 
-{
-	width : 300px;
-	height : 200px;	
-}
-
-#comments h4 span 
-{
-	color : #999;
-}
-
-#comments h4 
-{
-	margin : 0px;
-	font-size : 0.9em;
-}
-
-.Textbox, textarea
-{
-	border: 1px solid #AAAAAA;
-}
-
-input.submit:active, a.button:active, .button:active
-{
-	border: 3px double #CCCCCC;
-	border-top-color: #999999;
-	border-left-color: #999999;
-} 
-
-input, textarea
-{
-	font-family: verdana, geneva, arial, sans-serif;
-	font-size: 10px;
-}
-
-img
-{
-	border: 0px;
-}
-
-.caption
-{
-	font-family: arial, sans-serif;
-	font-size: 10px;
-	font-weight: bold;
-}
-
-.update
-{
-	color: red;
-}
 /******** LAYOUT *******************/
 #main 
 {
@@ -395,6 +290,16 @@ table.log
 	border: solid 1px #ddd;
 }
 
+table.log .pre-header input, table.log .pre-header label
+{
+	float: left;
+}
+
+table.log .pre-header input.button
+{
+	float: right;
+}
+
 table.log th.logger
 {
 	width: 200px;
@@ -439,11 +344,6 @@ table tr.selected
 	background-color: #e7f4fe;
 }
 
-div.button-row input
-{
-	width: auto;
-}
-
 fieldset table
 {
 	border: none;
@@ -462,18 +362,18 @@ fieldset table
 
 #blogs-editor #new-blog
 {
-	width: 600px;
+	width: 580px;
 	margin: 10px auto;
 }
 
 #blogs-editor #new-blog fieldset
 {
-	width: 300px;
+	width: 570px;
 }
 
-.button-row input
+#new-blog #blog-info input
 {
-	font-size: 1em;
+	width: 400px;
 }
 
 /*----- section -------*/
@@ -489,4 +389,210 @@ div.section
 #user-info ul
 {
 	list-style-type: none;
+}
+
+/* --------- instructions ----------- */
+.field-instructions
+{
+	font-size: .8em;
+}
+
+.clickable
+{
+	cursor: pointer !important;
+	cursor: hand;
+}
+
+.action
+{
+	font-size: .7em;
+	color: #00c;
+}
+
+.action:hover
+{
+	background-color: #fff9dd;
+	color: #c00;
+}
+
+.highlight
+{
+	background-color: #fff9dd;
+}
+
+#ownereditor
+{
+	margin: -2px 0;
+	padding: 4px;
+}
+
+p.field-instructions
+{
+	line-height: 1.1em;
+	margin: 4px 0 4px;
+	color: #333;
+}
+
+/******* Generic Styles ****/
+a.helpLink img
+{
+	padding: 0;
+	margin: 0;
+	border: none;
+}
+
+.clear 
+{
+	clear: both;
+}
+
+.inline, label.inline
+{
+	clear: none;
+	display: inline;
+}
+
+a:link
+{	
+	color : #223355;
+	text-decoration: none;
+}
+
+a:visited
+{
+	color: #6699CC;
+	text-decoration: none;
+}
+
+a:hover 
+{	
+	color: #BF5010;
+}
+
+a.img, a.img, a.img
+{
+	border: none;
+}
+
+.maintitle
+{
+	color : #BF5010;
+}
+
+.maintitle:visited
+{
+	color : #BF5010;
+}
+
+#subtitle
+{
+	color: #6699CC;
+	margin-top: -15px;
+	padding-left: 120px;
+}
+
+#subtitle h2
+{
+	font-size: 1em;
+}
+
+h2
+{
+	font-size: 1.25em;
+}
+
+h3
+{
+	font-size: 1.0em;
+}
+
+h4
+{
+	font-size: 0.8em;
+}
+
+h2 a:visited,
+h2 a:active,
+h2 a:link
+{
+	color : #BF5010;
+	/*margin-left : 10px;*/
+	margin-top : 10px;
+	text-decoration : none;
+}
+
+h2 a:hover 
+{
+	color: #6699CC;
+	margin-top : 10px;
+	text-decoration : none;
+}
+
+blockquote 
+{
+	margin-left: 18px;
+	font-family: verdana, helvetica, sans-serif;
+	font-family: verdana, helvetica, sans-serif;
+	font-size: .95em;
+	line-height: 1.3em;
+	padding: 10px;
+	background-color: #F9F9FC;
+}
+
+img
+{
+	border: 0px;
+}
+
+.caption
+{
+	font-family: arial, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.update
+{
+	color: red;
+}
+
+/*---------------- {user-chooser} -----------*/
+#user-chooser #ownereditor div fieldset
+{
+	width: 300px;
+	float: left;
+}
+
+#user-chooser #ownereditor div #create-user	
+{
+	width: 260px;
+	float: right;
+}
+
+#user-chooser table.users
+{
+	width: 100%;
+}
+
+/*pager*/
+#user-chooser table.users tr.gridPagerStyle table, #user-chooser table.users tr.gridPagerStyle td
+{
+	margin: 0;
+	padding: 0;
+}
+
+#user-chooser table.users tr.gridPagerStyle table
+{
+	float: right;
+}
+
+#user-chooser table.users tr.gridPagerStyle td
+{
+	padding: 0 4px;
+	font-size: 1em;
+}
+
+#user-chooser table.users tr.gridPagerStyle td span
+{
+	font-weight: bold;
 }

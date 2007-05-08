@@ -96,6 +96,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=1.0.10201.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Subtext.Web\bin\AjaxControlToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
@@ -111,6 +115,7 @@
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
+    <Reference Include="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
@@ -156,10 +161,15 @@
     <Compile Include="ControlHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataSources\MembershipDataLayer.cs" />
+    <Compile Include="DataSources\MembershipUserDataSource.cs" />
+    <Compile Include="DataSources\SubtextMembershipUser.cs" />
+    <Compile Include="DataSources\SubtextObjectDataSource.cs" />
     <Compile Include="Designers\HelpToolTipDesigner.cs" />
     <Compile Include="HelpToolTip.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MembershipControls\UserGridView.cs" />
     <Compile Include="MenuItem.cs">
       <SubType>Code</SubType>
     </Compile>

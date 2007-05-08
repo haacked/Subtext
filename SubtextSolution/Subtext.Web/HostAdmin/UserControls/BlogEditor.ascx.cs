@@ -44,6 +44,14 @@ namespace Subtext.Web.HostAdmin.UserControls
 			this.hostTextBox.Attributes["onblur"] = onBlurScript;
 
 			this.virtualDirectory.Value = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
+
+			if(String.IsNullOrEmpty(this.blogOwnerChooser.UserName))
+			{
+				if (this.blog != null && this.blog.Owner != null)
+					this.blogOwnerChooser.UserName = blog.Owner.UserName;
+				else
+					this.blogOwnerChooser.UserName = Page.User.Identity.Name;
+			}
 		}
 
 		public override bool Visible
@@ -149,14 +157,14 @@ namespace Subtext.Web.HostAdmin.UserControls
 		// Saves a new blog.  Any exceptions are propagated up to the caller.
 		void SaveNewBlog()
 		{
-			if (Config.CreateBlog(this.titleTextBox.Text, this.usernameTextBox.Text, this.emailTextBox.Text, this.passwordTextBox.Text, this.hostTextBox.Text, this.subfolderTextBox.Text))
+			/*if (Config.CreateBlog(this.titleTextBox.Text, this.usernameTextBox.Text, this.emailTextBox.Text, this.passwordTextBox.Text, this.hostTextBox.Text, this.subfolderTextBox.Text))
 			{
 				this.messagePanel.ShowMessage("Blog Created.");
 			}
 			else
 			{
 				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
-			}
+			}*/
 		}
 
 		// Saves changes to a blog.  Any exceptions are propagated up to the caller.
@@ -169,11 +177,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 			blog.Host = this.hostTextBox.Text;
 			blog.Subfolder = this.subfolderTextBox.Text;
 
-			if (this.passwordTextBox.Text.Length > 0)
+			/*if (this.passwordTextBox.Text.Length > 0)
 			{
 				throw new NotImplementedException("Password change Needs to be implemented.");
 				//TODO: Membership.Provider.ChangePassword(Page.User.Identity.Name, this.txtApplication. this.txtPassword.Text);
-			}
+			}*/
 
 			if (Config.UpdateConfigData(blog))
 			{
