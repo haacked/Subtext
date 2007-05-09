@@ -118,8 +118,8 @@ GO
 	for all of the imported Subtext records		*/
 
 -- subtext_Feedback
-SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Feedback] ON 
-INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Feedback]
+SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_FeedBack] ON 
+INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_FeedBack]
     ([Id],[Title],[Body],[BlogId],[EntryId],[Author], [IsBlogAuthor], [Email], [Url], [FeedbackType], [StatusFlag],
         [CommentAPI], [Referrer], [IpAddress], [UserAgent], [FeedbackChecksumHash], [DateCreated], [DateModified])
 SELECT [Id] = [ID]
@@ -143,10 +143,10 @@ SELECT [Id] = [ID]
 FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Content]
 WHERE (PostType = 3 OR PostType = 4) -- Comment or PingBack
 	
-SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Feedback] OFF
+SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_FeedBack] OFF
 GO
 
-UPDATE [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Feedback]
+UPDATE [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_FeedBack]
 SET EntryId = NULL WHERE EntryId = -1
 GO
 

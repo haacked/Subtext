@@ -6,7 +6,7 @@
 
 IF NOT EXISTS 
 (
-    SELECT * FROM [information_schema].[columns] 
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
     WHERE   table_name = 'subtext_KeyWords' 
     AND table_schema = '<dbUser,varchar,dbo>'
     AND column_name = 'Rel'
@@ -20,7 +20,7 @@ GO
 /*----------- {subtext_Tag} ------------*/
 IF NOT EXISTS 
 (
-    SELECT      * FROM [information_schema].[tables] 
+    SELECT      * FROM [INFORMATION_SCHEMA].[TABLES] 
     WHERE table_name = 'subtext_Tag' 
     AND         table_schema = '<dbUser,varchar,dbo>'
 )
@@ -67,7 +67,7 @@ GO
 /*----------- {subtext_EntryTag} ------------*/
 IF NOT EXISTS 
 (
-    SELECT      * FROM [information_schema].[tables] 
+    SELECT      * FROM [INFORMATION_SCHEMA].[TABLES] 
     WHERE table_name = 'subtext_EntryTag' 
     AND         table_schema = '<dbUser,varchar,dbo>'
 )
@@ -113,9 +113,9 @@ GO
 
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[referential_constraints] 
-		WHERE	constraint_name = 'FK_subtext_EntryTag_subtext_Content' 
-		AND		unique_constraint_schema = '<dbUser,varchar,dbo>'
+		SELECT	* FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
+		WHERE	CONSTRAINT_NAME = 'FK_subtext_EntryTag_subtext_Content' 
+		AND		UNIQUE_CONSTRAINT_SCHEMA = '<dbUser,varchar,dbo>'
 	)
 BEGIN
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_EntryTag]  
@@ -127,9 +127,9 @@ GO
 
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[referential_constraints] 
-		WHERE	constraint_name = 'FK_subtext_EntryTag_subtext_Tag' 
-		AND		unique_constraint_schema = '<dbUser,varchar,dbo>'
+		SELECT	* FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
+		WHERE	CONSTRAINT_NAME = 'FK_subtext_EntryTag_subtext_Tag' 
+		AND		UNIQUE_CONSTRAINT_SCHEMA = '<dbUser,varchar,dbo>'
 	)
 BEGIN
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_EntryTag]  WITH CHECK ADD  CONSTRAINT [FK_subtext_EntryTag_subtext_Tag] FOREIGN KEY([TagId])

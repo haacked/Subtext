@@ -11,7 +11,7 @@ GO
 /* Add the Url column to the subtext_Log table if it doesn't exist */
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Log' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'Url'
@@ -30,7 +30,7 @@ SET [FeedBackCount] = 0
 WHERE [FeedBackCount] IS NULL
 GO
 
-IF (SELECT COLUMN_DEFAULT FROM [information_schema].[columns] 
+IF (SELECT COLUMN_DEFAULT FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Content'
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'FeedBackCount') IS NULL
@@ -53,7 +53,7 @@ SET [BlogGroup] = 1
 WHERE [BlogGroup] IS NULL
 GO
 
-IF (SELECT COLUMN_DEFAULT FROM [information_schema].[columns] 
+IF (SELECT COLUMN_DEFAULT FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Config'
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'BlogGroup') IS NULL

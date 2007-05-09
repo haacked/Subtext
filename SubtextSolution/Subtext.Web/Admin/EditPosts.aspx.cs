@@ -1,6 +1,7 @@
 using System;
 using System.Web.UI.WebControls;
 using Subtext.Web.Admin.Pages;
+using Subtext.Framework;
 
 namespace Subtext.Web.Admin.WebUI
 {
@@ -28,7 +29,7 @@ namespace Subtext.Web.Admin.WebUI
             AdminMasterPage.AddToActions(lnkEditCategories);
 
             LinkButton lkbRebuildTags = Utilities.CreateLinkButton("Rebuild All Tags");
-            lkbNewPost.CausesValidation = false;
+            lkbRebuildTags.CausesValidation = false;
             lkbRebuildTags.Click += new EventHandler(lkbRebuildTags_Click);
             AdminMasterPage.AddToActions(lkbRebuildTags);
         }
@@ -40,7 +41,7 @@ namespace Subtext.Web.Admin.WebUI
 
         private void lkbRebuildTags_Click(object sender, EventArgs e)
         {
-            Subtext.Framework.Entries.RebuildAllTags();
+            Entries.RebuildAllTags();
         }
     }
 }
