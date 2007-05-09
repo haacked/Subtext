@@ -59,6 +59,10 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Mobile" />
+    <Reference Include="UrlRewritingNet.UrlRewriter, Version=2.1.7429.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalDependencies\UrlRewritingNet.UrlRewriter.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
@@ -314,6 +318,13 @@
     <Compile Include="HostAdmin\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="HostAdmin\EditBlog.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>EditBlog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HostAdmin\EditBlog.aspx.designer.cs">
+      <DependentUpon>EditBlog.aspx</DependentUpon>
+    </Compile>
     <Compile Include="HostAdmin\ErrorLog.aspx.cs">
       <DependentUpon>ErrorLog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -386,13 +397,6 @@
     <Compile Include="HostAdmin\Queue.aspx.designer.cs">
       <DependentUpon>Queue.aspx</DependentUpon>
     </Compile>
-    <Compile Include="HostAdmin\TestPage.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
-      <DependentUpon>TestPage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\TestPage.aspx.designer.cs">
-      <DependentUpon>TestPage.aspx</DependentUpon>
-    </Compile>
     <Compile Include="HostAdmin\Upgrade\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -420,6 +424,13 @@
     </Compile>
     <Compile Include="HostAdmin\UserControls\BlogsList.ascx.designer.cs">
       <DependentUpon>BlogsList.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="HostAdmin\UserControls\CreateUserControl.ascx.cs">
+      <DependentUpon>CreateUserControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HostAdmin\UserControls\CreateUserControl.ascx.designer.cs">
+      <DependentUpon>CreateUserControl.ascx</DependentUpon>
     </Compile>
     <Compile Include="HostAdmin\UserControls\UserChooser.ascx.cs">
       <DependentUpon>UserChooser.ascx</DependentUpon>
@@ -1000,6 +1011,7 @@
     <Content Include="ForgotPassword.aspx" />
     <Content Include="HostAdmin\ChangePassword.aspx" />
     <Content Include="HostAdmin\Default.aspx" />
+    <Content Include="HostAdmin\EditBlog.aspx" />
     <Content Include="HostAdmin\ErrorLog.aspx" />
     <Content Include="HostAdmin\ForgotPassword.aspx" />
     <Content Include="HostAdmin\images\bottom.gif" />
@@ -1016,7 +1028,6 @@
     <Content Include="HostAdmin\Scripts\helptip.css" />
     <Content Include="HostAdmin\Scripts\helptip.js" />
     <Content Include="HostAdmin\styles\Style.css" />
-    <Content Include="HostAdmin\TestPage.aspx" />
     <Content Include="HostAdmin\Upgrade\Default.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -1025,6 +1036,7 @@
     </Content>
     <Content Include="HostAdmin\UserControls\BlogEditor.ascx" />
     <Content Include="HostAdmin\UserControls\BlogsList.ascx" />
+    <Content Include="HostAdmin\UserControls\CreateUserControl.ascx" />
     <Content Include="HostAdmin\UserControls\UserChooser.ascx" />
     <Content Include="HostAdmin\UserControls\UserGrid.ascx" />
     <Content Include="HostAdmin\UserManager.aspx" />

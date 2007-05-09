@@ -49,8 +49,8 @@ namespace UnitTests.Subtext.Framework.Configuration
         {
             string anotherHost = UnitTestHelper.GenerateRandomString();
             string subfolder = UnitTestHelper.GenerateRandomString();
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", hostName, subfolder);
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", anotherHost, string.Empty);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", hostName, subfolder);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", anotherHost, string.Empty);
 
             BlogInfo info = Config.GetBlogInfo(hostName, string.Empty);
             Assert.IsNotNull(info, "Could not find the blog with the unique hostName.");
@@ -68,8 +68,8 @@ namespace UnitTests.Subtext.Framework.Configuration
         {
             string subfolder1 = UnitTestHelper.GenerateRandomString();
             string subfolder2 = UnitTestHelper.GenerateRandomString();
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", hostName, subfolder1);
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", hostName, subfolder2);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", hostName, subfolder1);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", hostName, subfolder2);
 
             BlogInfo info = Config.GetBlogInfo(hostName, subfolder1);
             Assert.IsNotNull(info, "Could not find the blog with the unique hostName & subfolder combination.");
@@ -86,8 +86,8 @@ namespace UnitTests.Subtext.Framework.Configuration
         {
             string subfolder1 = UnitTestHelper.GenerateRandomString();
             string subfolder2 = UnitTestHelper.GenerateRandomString();
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", hostName, subfolder1);
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", hostName, subfolder2);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", hostName, subfolder1);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", hostName, subfolder2);
 
             BlogInfo info = Config.GetBlogInfo(hostName, string.Empty);
             Assert.IsNull(info, "Hmm... Looks like found a blog using too generic of search criteria.");

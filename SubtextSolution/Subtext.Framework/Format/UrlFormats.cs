@@ -531,21 +531,15 @@ namespace Subtext.Framework.Format
 		public static string StripSurroundingSlashes(string target)
 		{
 			if (target == null)
-			{
 				throw new ArgumentNullException("target", Resources.ArgumentNull_String);
-			}
 
 			if (target.Length != 0)
 			{
 				if (target.EndsWith("/"))
-				{
 					target = target.Remove(target.Length - 1, 1);
-				}
 
 				if (target.StartsWith("/"))
-				{
 					target = target.Remove(0, 1);
-				}
 			}
 
 			return target;

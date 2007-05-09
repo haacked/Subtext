@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Web.Security;
 using System.Xml;
 using MbUnit.Framework;
 using Subtext.BlogML;
@@ -119,7 +120,8 @@ namespace UnitTests.Subtext.Framework.Import
 				reader = BlogMLReader.Create(new SubtextBlogMLProvider());
                 
                 // Now read it back in.
-                Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", UnitTestHelper.GenerateRandomString(), "test", Config.CurrentBlog.Host + "1", ""), "Could not create the blog for this test");
+				MembershipUser owner = Membership.CreateUser(UnitTestHelper.MembershipTestUsername, "test", UnitTestHelper.MembershipTestEmail);
+                Config.CreateBlog("BlogML Import Unit Test Blog", Config.CurrentBlog.Host + "1", "", owner);
                 UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "1", "");
         		Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("1"), "Looks like we've cached our old blog.");
 				memoryStream.Position = 0;

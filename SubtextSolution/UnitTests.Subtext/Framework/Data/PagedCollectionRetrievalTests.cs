@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
+using System.Web.Security;
 using MbUnit.Framework;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility;
@@ -365,7 +366,8 @@ namespace UnitTests.Subtext.Framework.Data
 		
 		public void Create(int index)
 		{
-			Config.CreateBlog("title " + index, UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "Subfolder" + index);
+			MembershipUser owner = Membership.CreateUser(UnitTestHelper.MembershipTestUsername, "password", UnitTestHelper.MembershipTestEmail);
+			Config.CreateBlog("title " + index, host, "Subfolder" + index, owner);
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)

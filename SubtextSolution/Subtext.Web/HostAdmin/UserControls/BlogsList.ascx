@@ -41,7 +41,7 @@
 					<%# DataBinder.Eval(Container.DataItem, "IsActive") %>
 				</td>
 				<td>
-					<asp:LinkButton id="lnkEdit" CausesValidation="False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
+					<a href='EditBlog.aspx?blog-id=<%# DataBinder.Eval(Container.DataItem, "Id") %>' title='Edit <%# HttpUtility.HtmlEncode((string)DataBinder.Eval(Container.DataItem, "Title")) %>'>Edit</a>
 				</td>
 				<td>
 					<asp:LinkButton id="lnkDelete" CausesValidation="False" CommandName="ToggleActive" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text='<%# ToggleActiveString((bool)DataBinder.Eval(Container.DataItem, "IsActive")) %>' runat="server" />

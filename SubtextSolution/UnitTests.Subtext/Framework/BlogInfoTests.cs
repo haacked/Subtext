@@ -87,6 +87,7 @@ namespace UnitTests.Subtext.Framework
 		[Test]
 		public void DefaultPortIs80()
 		{
+			HttpContext.Current = null;
 			Assert.IsNull(HttpContext.Current);
 			Assert.AreEqual(80, BlogInfo.Port);
 		}
