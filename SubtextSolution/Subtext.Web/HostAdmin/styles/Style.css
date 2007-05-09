@@ -27,6 +27,129 @@ form
 	margin: .5em 0 .5em 1em;
 }
 
+/******* Generic Styles ****/
+a.helpLink img
+{
+	padding: 0;
+	margin: 0;
+	border: none;
+}
+
+.clear 
+{
+	clear: both;
+}
+
+.inline, label.inline
+{
+	clear: none;
+	display: inline;
+}
+
+a:link
+{	
+	color : #223355;
+	text-decoration: none;
+}
+
+a:visited
+{
+	color: #6699CC;
+	text-decoration: none;
+}
+
+a:hover 
+{	
+	color: #BF5010;
+}
+
+a.img, a.img, a.img
+{
+	border: none;
+}
+
+.maintitle
+{
+	color : #BF5010;
+}
+
+.maintitle:visited
+{
+	color : #BF5010;
+}
+
+#subtitle
+{
+	color: #6699CC;
+	margin-top: -15px;
+	padding-left: 120px;
+}
+
+#subtitle h2
+{
+	font-size: 1em;
+}
+
+h2
+{
+	font-size: 1.25em;
+}
+
+h3
+{
+	font-size: 1.0em;
+}
+
+h4
+{
+	font-size: 0.8em;
+}
+
+h2 a:visited,
+h2 a:active,
+h2 a:link
+{
+	color : #BF5010;
+	/*margin-left : 10px;*/
+	margin-top : 10px;
+	text-decoration : none;
+}
+
+h2 a:hover 
+{
+	color: #6699CC;
+	margin-top : 10px;
+	text-decoration : none;
+}
+
+blockquote 
+{
+	margin-left: 18px;
+	font-family: verdana, helvetica, sans-serif;
+	font-family: verdana, helvetica, sans-serif;
+	font-size: .95em;
+	line-height: 1.3em;
+	padding: 10px;
+	background-color: #F9F9FC;
+}
+
+img
+{
+	border: 0px;
+}
+
+.caption
+{
+	font-family: arial, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.update
+{
+	color: red;
+}
+
 /*--------- {pager}--------------*/
 div.Pager  
 {
@@ -433,130 +556,17 @@ p.field-instructions
 	color: #333;
 }
 
-/******* Generic Styles ****/
-a.helpLink img
-{
-	padding: 0;
-	margin: 0;
-	border: none;
-}
 
-.clear 
-{
-	clear: both;
-}
-
-.inline, label.inline
-{
-	clear: none;
-	display: inline;
-}
-
-a:link
-{	
-	color : #223355;
-	text-decoration: none;
-}
-
-a:visited
-{
-	color: #6699CC;
-	text-decoration: none;
-}
-
-a:hover 
-{	
-	color: #BF5010;
-}
-
-a.img, a.img, a.img
-{
-	border: none;
-}
-
-.maintitle
-{
-	color : #BF5010;
-}
-
-.maintitle:visited
-{
-	color : #BF5010;
-}
-
-#subtitle
-{
-	color: #6699CC;
-	margin-top: -15px;
-	padding-left: 120px;
-}
-
-#subtitle h2
-{
-	font-size: 1em;
-}
-
-h2
-{
-	font-size: 1.25em;
-}
-
-h3
-{
-	font-size: 1.0em;
-}
-
-h4
-{
-	font-size: 0.8em;
-}
-
-h2 a:visited,
-h2 a:active,
-h2 a:link
-{
-	color : #BF5010;
-	/*margin-left : 10px;*/
-	margin-top : 10px;
-	text-decoration : none;
-}
-
-h2 a:hover 
-{
-	color: #6699CC;
-	margin-top : 10px;
-	text-decoration : none;
-}
-
-blockquote 
-{
-	margin-left: 18px;
-	font-family: verdana, helvetica, sans-serif;
-	font-family: verdana, helvetica, sans-serif;
-	font-size: .95em;
-	line-height: 1.3em;
-	padding: 10px;
-	background-color: #F9F9FC;
-}
-
-img
-{
-	border: 0px;
-}
-
-.caption
-{
-	font-family: arial, sans-serif;
-	font-size: 10px;
-	font-weight: bold;
-}
-
-.update
-{
-	color: red;
-}
 
 /*---------------- {user-chooser} -----------*/
+#ownereditor h3
+{
+	margin: 0;
+	font-weight: normal;
+	display: inline;
+	margin-right: 10px;
+}
+
 #user-chooser #ownereditor div fieldset
 {
 	width: 300px;
@@ -595,4 +605,9 @@ img
 #user-chooser table.users tr.gridPagerStyle td span
 {
 	font-weight: bold;
+}
+
+#user-chooser .inline
+{
+	margin-right: 10px;
 }

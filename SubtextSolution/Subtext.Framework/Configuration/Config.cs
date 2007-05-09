@@ -172,75 +172,33 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
-		/// Creates an initial blog.  This is a convenience method for 
-		/// allowing a user with a freshly installed blog to immediately gain access 
-		/// to the admin section to edit the blog.
+		/// Creates the blog with the specified user as the owner.
 		/// </summary>
-		/// <param name="title">Title of the blog</param>
-		/// <param name="username">Username for the blog owner.</param>
-		/// <param name="password">Password.</param>
-		/// <param name="subfolder">subfolder name for the blog. This is accomplished via URL rewriting.</param>
-		/// <param name="host">Hostname for the blog.</param>
-		/// <returns></returns>
-		public static bool CreateBlog(string title, string username, string password, string host, string subfolder)
-		{
-			return CreateBlog(title, username, string.Empty, password, host, subfolder);
-		}
-
-		/// <summary>
-		/// Creates an initial blog.  This is a convenience method for 
-		/// allowing a user with a freshly installed blog to immediately gain access 
-		/// to the admin section to edit the blog.
-		/// </summary>
-		/// <param name="title">Title of the blog</param>
-		/// <param name="username">Username for the blog owner.</param>
-		/// <param name="email">Email Address of the blog owner.</param>
-		/// <param name="password">Password.</param>
-		/// <param name="subfolder">subfolder name for the blog. This is accomplished via URL rewriting.</param>
-		/// <param name="host">Hostname for the blog.</param>
-		/// <returns></returns>
-		public static bool CreateBlog(string title, string username, string email, string password, string host, string subfolder)
-		{
-			string passwordQuestion = "No Question Specified. Please type the word \"subtext\"";
-			string passwordAnswer = "subtext";
-			return CreateBlog(title, username, email, password, passwordQuestion, passwordAnswer, host, subfolder, false);
-		}
-
-		/// <summary>
-		/// Creates an initial blog.  This is a convenience method for
-		/// allowing a user with a freshly installed blog to immediately gain access
-		/// to the admin section to edit the blog.
-		/// </summary>
-		/// <param name="title">The title.</param>
-		/// <param name="username">Name of the user.</param>
-		/// <param name="email">Email Address of the blog owner.</param>
-		/// <param name="password">Password.</param>
-		/// <param name="passwordQuestion">The password retrieval question.</param>
-		/// <param name="passwordAnswer">The password retrieval answer.</param>
+		/// <param name="title">The title of the blog.</param>
 		/// <param name="host">The host.</param>
 		/// <param name="subfolder">The subfolder.</param>
-		/// <param name="passwordAlreadyHashed">If true, the password has already been hashed.</param>
+		/// <param name="owner">The owner.</param>
 		/// <returns></returns>
-		public static bool CreateBlog(string title, string username, string email, string password, string passwordQuestion, string passwordAnswer, string host, string subfolder, bool passwordAlreadyHashed)
+		public static BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner)
 		{
-			if(subfolder != null && subfolder.EndsWith("."))
+			if (String.IsNullOrEmpty(title))
+				throw new ArgumentNullException("Cannot create a blog with a null or empty title");
+
+			if (String.IsNullOrEmpty(host))
+				throw new ArgumentNullException("Cannot create a blog with a null or empty host");
+
+			if (owner == null)
+				throw new ArgumentNullException("Every blog must have an owner.");
+
+			if (subfolder != null && subfolder.EndsWith("."))
 				throw new InvalidSubfolderNameException(subfolder);
 
 			host = BlogInfo.NormalizeHostName(host);
-			subfolder = UrlFormats.StripSurroundingSlashes(subfolder);
+			subfolder = UrlFormats.StripSurroundingSlashes(subfolder ?? string.Empty);
 
 			CheckForDuplicateBlog(host, subfolder);
 			ValidateSubfolderName(host, subfolder);
-
-			//Create the blog owner.
-			MembershipCreateStatus status;
-			MembershipUser owner = Membership.CreateUser(username, password, email, passwordQuestion, passwordAnswer, true, out status);
-
-			if (status != MembershipCreateStatus.Success)
-				throw new MembershipCreateUserException(status); //TODO: Probably wrap this with a blog create exception.
-			if (owner == null)
-				throw new MembershipCreateUserException("Created user successfully according to membership provider, but user is null.");
-
+			
 			//Add blog user to Administrators.
 			BlogInfo blog = ObjectProvider.Instance().CreateBlog(title, host, subfolder, owner);
 			using (MembershipApplicationScope.SetApplicationName(blog.ApplicationName))
@@ -249,7 +207,7 @@ namespace Subtext.Framework.Configuration
 
 				Roles.AddUserToRole(owner.UserName, "Administrators");
 			}
-			return true;
+			return blog;
 		}
 
 		private static void ValidateSubfolderRequired(string host)

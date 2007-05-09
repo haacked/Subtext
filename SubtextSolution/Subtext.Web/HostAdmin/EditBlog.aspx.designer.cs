@@ -12,20 +12,20 @@ namespace Subtext.Web.HostAdmin {
     
     
     /// <summary>
-    /// Default class.
+    /// EditBlog class.
     /// </summary>
     /// <remarks>
     /// Auto-generated class.
     /// </remarks>
-    public partial class Default {
+    public partial class EditBlog {
         
         /// <summary>
-        /// blogsList control.
+        /// blogEditor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.HostAdmin.UserControls.BlogsList blogsList;
+        protected global::Subtext.Web.HostAdmin.UserControls.BlogEditor blogEditor;
     }
 }

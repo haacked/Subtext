@@ -240,8 +240,30 @@ namespace UnitTests.Subtext
 		/// </returns>
 		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page)
 		{
+			return SetupBlog(subfolder, applicationPath, port, page, MembershipTestUsername, MembershipTestPassword);
+		}
+
+		/// <summary>
+		/// Takes all the necessary steps to create a blog and set up the HTTP Context
+		/// with the blog.
+		/// </summary>
+		/// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
+		/// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
+		/// <param name="port">The port for this blog.</param>
+		/// <param name="page">The page to request.</param>
+		/// <param name="userName">Name of the user.</param>
+		/// <param name="password">The password.</param>
+		/// <returns>
+		/// Returns a reference to a string builder.
+		/// The stringbuilder will end up containing the Response of any simulated
+		/// requests.
+		/// </returns>
+		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page, string userName, string password)
+		{
 			string host = GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("Unit Test Blog", MembershipTestUsername, MembershipTestEmail, MembershipTestPassword, host, subfolder), "Could Not Create Blog");
+
+			MembershipUser owner = Membership.CreateUser(userName, password, MembershipTestEmail);
+			Assert.IsNotNull(Config.CreateBlog("Unit Test Blog", host, subfolder, owner), "Could Not Create Blog");
 
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
@@ -251,8 +273,8 @@ namespace UnitTests.Subtext
 			Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
 			Config.CurrentBlog.ImagePath = "/image/";
 
-			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(MembershipTestUsername), new string[] { "Administrators" });
-			
+			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userName), new string[] { "Administrators" });
+
 			return new SimulatedRequestContext(request, sb, output, host);
 		}
 		
@@ -272,10 +294,7 @@ namespace UnitTests.Subtext
 		/// </summary>
 		public static void SetupBlogWithUserAndPassword(string username, string password, string subfolder)
 		{
-			string host = GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", username, GenerateRandomString(), password, host, subfolder), "Could Not Create Blog");
-			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(username), new string[] { "Administrators" });
-			SetHttpContextWithBlogRequest(host, subfolder);
+			SetupBlog(subfolder, string.Empty, 80, string.Empty, username, password);
 		}
 		
 		/// <summary>
@@ -575,8 +594,14 @@ namespace UnitTests.Subtext
 
 			return entry;
 		}
-	    
-	    /// <summary>
+
+		public static void CreateBlog(string title, string username, string email, string password, string hostName, string subfolder)
+		{
+			MembershipUser owner = Membership.CreateUser(username, password, email);
+			Config.CreateBlog("title", hostName, subfolder, owner);
+		}
+
+		/// <summary>
 	    /// Creates a blog post link category.
 	    /// </summary>
 	    /// <param name="blogId"></param>

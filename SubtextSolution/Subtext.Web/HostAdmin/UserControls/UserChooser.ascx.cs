@@ -5,8 +5,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 {
 	public partial class UserChooser : System.Web.UI.UserControl
 	{
-		protected void Page_Load(object sender, EventArgs e)
+		protected override void OnInit(EventArgs e)
 		{
+			this.createUserControl.Cancelled += OnCancelCreateUser;
+			this.createUserControl.SaveComplete += OnSaveUserComplete;
+			base.OnInit(e);
 		}
 
 		public string UserName
@@ -25,6 +28,29 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 			usernameLiteral.Text = this.UserName;
 			currentOwnerUpdatePanel.Update();
+		}
+
+		protected void OnSaveUserComplete(object sender, EventArgs e)
+		{
+			ToggleShowCreateUser(false);
+			usernameLiteral.Text = this.createUserControl.CreatedUserName;
+			currentOwnerUpdatePanel.Update();
+		}
+
+		protected void OnCancelCreateUser(object sender, EventArgs e)
+		{
+			ToggleShowCreateUser(false);
+		}
+
+		protected void ShowCreateUser(object sender, EventArgs e)
+		{
+			ToggleShowCreateUser(true);
+		}
+
+		private void ToggleShowCreateUser(bool showCreateUser)
+		{
+			selectUserPlaceholder.Visible = !showCreateUser;
+			createUserPlaceholder.Visible = showCreateUser;
 		}
 	}
 }

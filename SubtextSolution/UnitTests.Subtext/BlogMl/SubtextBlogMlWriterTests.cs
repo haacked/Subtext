@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Web.Security;
 using System.Xml;
 using BlogML.Xml;
 using MbUnit.Framework;
@@ -65,7 +66,8 @@ namespace UnitTests.Subtext.BlogML
 				writer.Write(xmlWriter);
 
 				// Create a new blog.
-				Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, UnitTestHelper.MembershipTestPassword, Config.CurrentBlog.Host + "2", ""), "Could not create the blog for this test");
+				MembershipUser owner = Membership.CreateUser(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword, UnitTestHelper.MembershipTestEmail);
+				Config.CreateBlog("BlogML Import Unit Test Blog", Config.CurrentBlog.Host + "2", "", owner);
 				UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "2", "");
 				Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("2"), "Looks like we've cached our old blog.");
 

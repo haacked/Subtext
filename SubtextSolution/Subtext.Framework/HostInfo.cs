@@ -167,17 +167,13 @@ namespace Subtext.Framework
             }
 			host = ObjectProvider.Instance().CreateHost(host, hostUserName, hostPassword, passwordSalt, email);
 
-            using (IDisposable scope = MembershipApplicationScope.SetApplicationName("/"))
+            using (MembershipApplicationScope.SetApplicationName("/"))
             {
                 if (!Roles.RoleExists("HostAdmins"))
                 {
                     Roles.CreateRole("HostAdmins");
                 }
                 Roles.AddUserToRole(host.Owner.UserName, "HostAdmins");
-                
-                // Not sure this is needed...when the using block exits it will automatically
-                // call scope.Dispose().
-                //scope.Dispose(); //Just to make sure it stays alive.
             }
 			
 			return true;

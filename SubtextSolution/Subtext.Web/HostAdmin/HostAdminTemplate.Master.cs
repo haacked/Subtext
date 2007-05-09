@@ -9,10 +9,10 @@ namespace Subtext.Web.HostAdmin
 	public partial class HostAdminTemplate : System.Web.UI.MasterPage
 	{
 		protected void Page_Load(object sender, EventArgs e)
-		{
-			if (!IsPostBack)
+		{				
+			if(!IsPostBack)
 				DataBind();
-					
+
 			if (this.mnuImportStart != null)
 			{
 				this.mnuImportStart.Visible = (Config.ActiveBlogCount <= 0);

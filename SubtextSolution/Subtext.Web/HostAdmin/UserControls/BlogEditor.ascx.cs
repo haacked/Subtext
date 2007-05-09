@@ -1,27 +1,25 @@
 using System;
 using System.Globalization;
 using System.Web;
+using System.Web.Security;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.HostAdmin.UserControls
 {
 	public partial class BlogEditor : System.Web.UI.UserControl
 	{
-		protected override void OnLoad(EventArgs e)
+		protected override void OnInit(EventArgs e)
 		{
-			if (this.Visible)
-				Initialize();
-				
+			Initialize();
 			base.OnLoad(e);
 		}
 
 		protected void Initialize()
 		{
-			this.blog = GetBlogById(BlogId);
-
 			BindEditHelp();
 			string onChangeScript = string.Format(CultureInfo.InvariantCulture, "onPreviewChanged('{0}', '{1}', '{2}', false);", this.hostTextBox.ClientID, this.subfolderTextBox.ClientID, this.virtualDirectory.ClientID);
 			string onBlurScript = string.Format(CultureInfo.InvariantCulture, "onPreviewChanged('{0}', '{1}', '{2}', true);", this.hostTextBox.ClientID, this.subfolderTextBox.ClientID, this.virtualDirectory.ClientID);
@@ -54,30 +52,17 @@ namespace Subtext.Web.HostAdmin.UserControls
 			}
 		}
 
-		public override bool Visible
-		{
-			get
-			{
-				return base.Visible;
-			}
-			set
-			{
-				bool wasVisible = base.Visible;
-				base.Visible = value;
-				if (!wasVisible && value)
-				{
-					this.Initialize();
-					this.DataBind();
-				}
-			}
-		}
-
 		/// <summary>
 		/// Returns the blog being edited.
 		/// </summary>
 		public BlogInfo Blog
 		{
-			get { return this.blog; }
+			get
+			{
+				if(this.blog == null)
+					this.blog = GetBlogById(BlogId);
+				return this.blog;
+			}
 		}
 
 		private BlogInfo blog;
@@ -121,7 +106,10 @@ namespace Subtext.Web.HostAdmin.UserControls
 				else
 					return NullValue.NullInt32;
 			}
-			set { ViewState[VSKEY_BLOGID] = value; }
+			set
+			{
+				ViewState[VSKEY_BLOGID] = value;
+			}
 		}
 		const string VSKEY_BLOGID = "VS_BLOGID";
 
@@ -132,13 +120,10 @@ namespace Subtext.Web.HostAdmin.UserControls
 				try
 				{
 					if (BlogId != NullValue.NullInt32)
-					{
 						SaveBlogEdits();
-					}
 					else
-					{
 						SaveNewBlog();
-					}
+
 					OnComplete();
 					return;
 				}
@@ -157,14 +142,17 @@ namespace Subtext.Web.HostAdmin.UserControls
 		// Saves a new blog.  Any exceptions are propagated up to the caller.
 		void SaveNewBlog()
 		{
-			/*if (Config.CreateBlog(this.titleTextBox.Text, this.usernameTextBox.Text, this.emailTextBox.Text, this.passwordTextBox.Text, this.hostTextBox.Text, this.subfolderTextBox.Text))
+			MembershipUser owner = Membership.GetUser(this.blogOwnerChooser.UserName);
+
+			try
 			{
+				Config.CreateBlog(this.titleTextBox.Text, this.hostTextBox.Text, this.subfolderTextBox.Text, owner);
 				this.messagePanel.ShowMessage("Blog Created.");
 			}
-			else
+			catch(Exception e)
 			{
-				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
-			}*/
+				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Message: " + e.Message);
+			}			 
 		}
 
 		// Saves changes to a blog.  Any exceptions are propagated up to the caller.
@@ -176,12 +164,15 @@ namespace Subtext.Web.HostAdmin.UserControls
 			blog.Title = this.titleTextBox.Text;
 			blog.Host = this.hostTextBox.Text;
 			blog.Subfolder = this.subfolderTextBox.Text;
-
-			/*if (this.passwordTextBox.Text.Length > 0)
+			if (blog.Owner.UserName != this.blogOwnerChooser.UserName)
 			{
-				throw new NotImplementedException("Password change Needs to be implemented.");
-				//TODO: Membership.Provider.ChangePassword(Page.User.Identity.Name, this.txtApplication. this.txtPassword.Text);
-			}*/
+				MembershipUser newOwner = Membership.GetUser(this.blogOwnerChooser.UserName);
+				using (MembershipApplicationScope.SetApplicationName(blog.ApplicationName))
+				{
+					Roles.AddUserToRole(newOwner.UserName, "Admins");
+				}
+				blog.Owner = newOwner;
+			} 
 
 			if (Config.UpdateConfigData(blog))
 			{
@@ -248,12 +239,6 @@ namespace Subtext.Web.HostAdmin.UserControls
 		protected void OnCancelClick(object sender, EventArgs e)
 		{
 			OnCancelled();
-		}
-
-		public override void DataBind()
-		{
-			if(this.Visible)
-				base.DataBind();
 		}
 	}
 }

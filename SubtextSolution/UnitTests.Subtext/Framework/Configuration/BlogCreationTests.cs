@@ -13,7 +13,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
 using System.Globalization;
+using System.Web.Security;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -28,7 +30,24 @@ namespace UnitTests.Subtext.Framework.Configuration
 	[TestFixture]
 	public class BlogCreationTests
 	{
-        /// <summary>
+		/// <summary>
+		/// make sure we cannot pass in null for any of the arguments.
+		/// </summary>
+		[RowTest]
+		[Row("Title", "localhost0", null)]
+		[Row("Title", "localhost1", "")]
+		[Row("Title", "localhost2", "subfolder")]
+		[Row("Title", null, null, ExpectedException = typeof(ArgumentNullException))]
+		[Row(null, "Host", null, ExpectedException = typeof(ArgumentNullException))]
+		[RollBack]
+		public void CreateBlogWithOwnerTest(string title, string host, string subfolder)
+		{
+			MembershipUser owner = Membership.CreateUser(UnitTestHelper.MembershipTestUsername, "test", UnitTestHelper.MembershipTestEmail);
+			Assert.IsNotNull(owner, "Test is pointless without a valid user");
+			Config.CreateBlog(title, host, subfolder, owner);
+		}
+
+		/// <summary>
 		/// If a blog already exists with a domain name and subfolder, one 
 		/// cannot create a blog with the same domain name and no subfolder.
 		/// </summary>
@@ -38,8 +57,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void CreatingBlogWithDuplicateHostNameRequiresSubfolderName()
 		{
 			string host = UnitTestHelper.MembershipTestUsername;
-            Config.CreateBlog("", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog1");
-            Config.CreateBlog("", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
+            UnitTestHelper.CreateBlog("", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog1");
+			UnitTestHelper.CreateBlog("", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
 		}
 
 		/// <summary>
@@ -50,12 +69,12 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void AddingDistinctBlogsIsFine()
 		{
 			string host = UnitTestHelper.MembershipTestUsername;
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", UnitTestHelper.MembershipTestUsername, string.Empty);
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", "www0." + UnitTestHelper.MembershipTestUsername, string.Empty);
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", UnitTestHelper.MembershipTestUsername, string.Empty);
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", host, "Blog1");
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", host, "Blog2");
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", host, "Blog3");
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", UnitTestHelper.MembershipTestUsername, string.Empty);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", "www0." + UnitTestHelper.MembershipTestUsername, string.Empty);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", UnitTestHelper.MembershipTestUsername, string.Empty);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", host, "Blog1");
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", host, "Blog2");
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", host, "Blog3");
 		}
 
 		/// <summary>
@@ -68,8 +87,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void CreateBlogCannotCreateOneWithDuplicateHostAndNoSubfolder()
 		{
 			string host = UnitTestHelper.MembershipTestUsername;
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", host, string.Empty);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", host, string.Empty);
 		}
 
 		/// <summary>
@@ -82,8 +101,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void CreateBlogCannotCreateOneWithDuplicateHostAndSubfolder()
 		{
 			string host = UnitTestHelper.MembershipTestUsername;
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog");
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", host, "MyBlog");
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog");
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", host, "MyBlog");
 		}
 
 		/// <summary>
@@ -98,8 +117,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 			string host = UnitTestHelper.MembershipTestUsername;
 			
 			string secondHost = UnitTestHelper.MembershipTestUsername;
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog");
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", secondHost, "MyBlog");
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog");
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", secondHost, "MyBlog");
 			BlogInfo info = Config.GetBlogInfo(secondHost, "MyBlog");
 			info.Host = host;
 			
@@ -118,8 +137,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 			string host = UnitTestHelper.MembershipTestUsername;
 			
 			string anotherHost = UnitTestHelper.MembershipTestUsername;
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", anotherHost, string.Empty);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", anotherHost, string.Empty);
 			BlogInfo info = Config.GetBlogInfo(anotherHost, string.Empty);
 			info.Host = host;
 			
@@ -147,8 +166,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		{
 			string host = UnitTestHelper.MembershipTestUsername;
 
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", "www." + host, string.Empty);
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog");
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", "www." + host, string.Empty);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog");
 		}
 
 		/// <summary>
@@ -175,10 +194,10 @@ namespace UnitTests.Subtext.Framework.Configuration
             string subfolder = UnitTestHelper.MembershipTestUsername;
 
 		    // add the first blog
-		    Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host1, string.Empty);
+		    UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host1, string.Empty);
 		    
 		    // now add a 2nd blog, with different Host name, then get the 2nd blog and change the hostname.
-            Config.CreateBlog("title2", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host2, subfolder);
+			UnitTestHelper.CreateBlog("title2", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host2, subfolder);
 			BlogInfo blog2Info = Config.GetBlogInfo(host2, subfolder);
             blog2Info.Host = host1;
 		    
@@ -197,8 +216,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 			string host = UnitTestHelper.MembershipTestUsername;
 			
 			string anotherHost = UnitTestHelper.MembershipTestUsername;
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog1");
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", anotherHost, string.Empty);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog1");
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", anotherHost, string.Empty);
 
 			BlogInfo info = Config.GetBlogInfo(anotherHost, string.Empty);
 			info.Host = host;
@@ -216,7 +235,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		{
 			string host = UnitTestHelper.MembershipTestUsername;
 
-            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
 			BlogInfo info = Config.GetBlogInfo(host.ToUpper(CultureInfo.InvariantCulture), string.Empty);
 			info.Author = "Phil";
 			Assert.IsTrue(Config.UpdateConfigData(info), "Updating blog config should return true.");
@@ -285,28 +304,6 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void CannotCreateBlogWithReservedOrInvalidSubfolder(string subfolder)
 		{
 			UnitTestHelper.SetupBlog(subfolder);
-		}
-
-		/// <summary>
-		/// Tests that creating a blog that ends with . is not allowed
-		/// </summary>
-		[Test]
-		[RollBack]
-		[ExpectedException(typeof(InvalidSubfolderNameException))]
-		public void CannotCreateBlogWithSubfolderNameEndingWithDot()
-		{
-			Config.CreateBlog("title", "blah", "blah", UnitTestHelper.GenerateRandomString(), "archive.");
-		}
-
-		/// <summary>
-		/// Tests that creating a blog that contains invalid characters is not allowed.
-		/// </summary>
-		[Test]
-		[RollBack]
-		[ExpectedException(typeof(InvalidSubfolderNameException))]
-		public void CannotCreateBlogWithSubfolderNameWithInvalidCharacters()
-		{
-			Config.CreateBlog("title", "blah", "blah", UnitTestHelper.GenerateRandomString(), "My!Blog");
 		}
 		#endregion
 

@@ -8,24 +8,33 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.HostAdmin {
+namespace Subtext.Web.HostAdmin.UserControls {
     
     
     /// <summary>
-    /// Default class.
+    /// CreateUserControl class.
     /// </summary>
     /// <remarks>
     /// Auto-generated class.
     /// </remarks>
-    public partial class Default {
+    public partial class CreateUserControl {
         
         /// <summary>
-        /// blogsList control.
+        /// createUserWizard control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.HostAdmin.UserControls.BlogsList blogsList;
+        protected global::System.Web.UI.WebControls.CreateUserWizard createUserWizard;
+        
+        /// <summary>
+        /// CreateUserWizardStep1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CreateUserWizardStep CreateUserWizardStep1;
     }
 }

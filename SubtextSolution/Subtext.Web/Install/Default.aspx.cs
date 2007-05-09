@@ -191,11 +191,11 @@ namespace Subtext.Web.Install
 						+ "this issue</a> to the Subtext team.";
 					return;
 				}
-				
-				if(SingleBlogSetup && !Config.CreateBlog("TEMPORARY BLOG NAME", AdminUserName, AdminPassword, Request.Url.Host, string.Empty))
+
+				if(SingleBlogSetup && Config.CreateBlog("TEMPORARY BLOG NAME", Request.Url.Host, string.Empty, HostInfo.Instance.Owner) == null)
 				{
 					installationStateMessage.Text = "I'm sorry, but we had a problem creating your blog. "
-					+ "Please <a href=\"http://sourceforge.net/tracker/?group_id=137896&atid=739979\">report "
+					+ "Please <a href=\"http://sourceforge.net/tracker/?group_id=137896&atid=739979\" title=\"Subtext Bug Report\">report "
 					+ "this issue</a> to the Subtext team.";
 					return;
 				}
