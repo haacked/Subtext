@@ -1,8 +1,10 @@
 using System;
+using System.ComponentModel;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using MbUnit.Framework;
+using Rhino.Mocks;
 using Subtext.Web.Controls;
 
 namespace UnitTests.Subtext.SubtextWeb.Controls
@@ -96,35 +98,62 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 		[Test]
 		public void GetPageFormClientIdCanFindFormWhenParentIsForm()
 		{
-			HtmlForm form = new HtmlForm();
-			form.ID = "myForm";
+			MockRepository mocks = new MockRepository();
+			ISite site = mocks.DynamicMock<ISite>();
+			SetupResult.For(site.DesignMode).Return(true);
+			mocks.ReplayAll();
 
-			Assert.AreEqual("myForm", ControlHelper.GetPageFormClientId(form));
+			Page page = new Page();
+			page.ID = "thePage";
+			page.Site = site;
+
+			HtmlForm form = new HtmlForm();
+			form.Page = page;
+			form.ID = "aspnetForm";
+
+			Assert.AreEqual("aspnetForm", ControlHelper.GetPageFormClientId(form));
 		}	
 		
 		[Test]
 		public void GetPageFormClientIdCanFindChildForm()
 		{
+			MockRepository mocks = new MockRepository();
+			ISite site = mocks.DynamicMock<ISite>();
+			SetupResult.For(site.DesignMode).Return(true);
+			mocks.ReplayAll();
+			
+			Page page = new Page();
+			page.ID = "thePage";
+			page.Site = site;
+			
 			PlaceHolder parent = new PlaceHolder();
+			parent.ID = "parentPlaceHolder";
 			HtmlForm form = new HtmlForm();
-			form.ID = "myForm";
-			
+			form.ID = "aspnetForm";
+
 			parent.Controls.Add(form);
-			
-			Assert.AreEqual("myForm", ControlHelper.GetPageFormClientId(parent));
+
+			parent.Page = page;
+			form.Page = page;
+
+			Assert.AreEqual("aspnetForm", ControlHelper.GetPageFormClientId(parent));
 			Assert.IsNull(ControlHelper.GetPageFormClientId(new Panel()));
 		}
 
 		[Test]
 		public void CanSetTitleIfNone()
 		{
+			Page page = new Page();
 			LinkButton button = new LinkButton();
+			button.Page = page;
+
 			ControlHelper.SetTitleIfNone(button, "CoolTitle");
-			Assert.AreEqual("CoolTitle", button.Attributes["title"]);
+			Assert.AreEqual("CoolTitle", button.ToolTip);
 
 			HyperLink link = new HyperLink();
+			link.Page = page;
 			ControlHelper.SetTitleIfNone(link, "AnotherCoolTitle");
-			Assert.AreEqual("AnotherCoolTitle", link.Attributes["title"]);
+			Assert.AreEqual("AnotherCoolTitle", link.ToolTip);
 		}
 
 		#region Argument Validation Tests
