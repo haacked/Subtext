@@ -6,7 +6,7 @@ UPDATE [<dbUser,varchar,dbo>].[subtext_LinkCategories] SET CategoryType = 5 WHER
 
 IF NOT EXISTS 
 (
-    SELECT * FROM [information_schema].[columns] 
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
     WHERE   table_name = 'subtext_Config' 
     AND table_schema = '<dbUser,varchar,dbo>'
     AND column_name = 'AkismetAPIKey'
@@ -19,9 +19,9 @@ GO
 
 IF NOT EXISTS 
 (
-    SELECT * FROM [information_schema].[columns] 
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
     WHERE   table_name = 'subtext_Config' 
-    AND		table_schema = '<dbUser,varchar,dbo>'
+    AND table_schema = '<dbUser,varchar,dbo>'
     AND column_name = 'CategoryListPostCount'
 )
 BEGIN
@@ -33,7 +33,7 @@ GO
 
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[tables] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[TABLES] 
 		WHERE	table_name = 'subtext_Feedback' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 	)
@@ -81,29 +81,29 @@ GO
 -- ADDS The Foreign key to subtext_Content
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[referential_constraints] 
-		WHERE	constraint_name = 'FK_subtext_Feedback_subtext_Content' 
-		AND		unique_constraint_schema = '<dbUser,varchar,dbo>'
+		SELECT	* FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
+		WHERE	CONSTRAINT_NAME = 'FK_subtext_Feedback_subtext_Content' 
+		AND		UNIQUE_CONSTRAINT_SCHEMA = '<dbUser,varchar,dbo>'
 	)
 	BEGIN
-		ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Feedback]  WITH NOCHECK ADD  CONSTRAINT [FK_subtext_Feedback_subtext_Content] FOREIGN KEY([EntryId])
+		ALTER TABLE [<dbUser,varchar,dbo>].[subtext_FeedBack]  WITH NOCHECK ADD  CONSTRAINT [FK_subtext_Feedback_subtext_Content] FOREIGN KEY([EntryId])
 		REFERENCES [<dbUser,varchar,dbo>].[subtext_Content] ([ID])
 	END
-	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Feedback] CHECK CONSTRAINT [FK_subtext_Feedback_subtext_Content]
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_FeedBack] CHECK CONSTRAINT [FK_subtext_Feedback_subtext_Content]
 GO
 
 -- ADDS The Foreign key to subtext_Config
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[referential_constraints] 
-		WHERE	constraint_name = 'FK_subtext_Feedback_subtext_Config' 
-		AND		unique_constraint_schema = '<dbUser,varchar,dbo>'
+		SELECT	* FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
+		WHERE	CONSTRAINT_NAME = 'FK_subtext_Feedback_subtext_Config' 
+		AND		UNIQUE_CONSTRAINT_SCHEMA = '<dbUser,varchar,dbo>'
 	)
 	BEGIN
-		ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Feedback]  WITH NOCHECK ADD  CONSTRAINT [FK_subtext_Feedback_subtext_Config] FOREIGN KEY([BlogId])
+		ALTER TABLE [<dbUser,varchar,dbo>].[subtext_FeedBack]  WITH NOCHECK ADD  CONSTRAINT [FK_subtext_Feedback_subtext_Config] FOREIGN KEY([BlogId])
 		REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] ([BlogID])
 	END
-	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Feedback] CHECK CONSTRAINT [FK_subtext_Feedback_subtext_Config]
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_FeedBack] CHECK CONSTRAINT [FK_subtext_Feedback_subtext_Config]
 GO
 
 -- Now we need to do a little "cleanup" to remove any references to comments/trackback from 
@@ -114,7 +114,7 @@ DELETE FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
 
 IF EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Content' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'ParentId'
@@ -130,7 +130,7 @@ IF EXISTS
 		)
 	
 	/* Transfer comments over to subtext_Feedback */
-		INSERT [<dbUser,varchar,dbo>].[subtext_Feedback]
+		INSERT [<dbUser,varchar,dbo>].[subtext_FeedBack]
 		SELECT Title
 			, Body = [Text]
 			, BlogId
@@ -148,7 +148,7 @@ IF EXISTS
 			, FeedbackChecksumHash = ISNULL(ContentChecksumHash, '')
 			, DateCreated = DateAdded
 			, DateModified = getdate()
-		FROM [dbo].[subtext_Content]
+		FROM [<dbUser,varchar,dbo>].[subtext_Content]
 		WHERE 
 			(PostType = 3 OR PostType = 4) -- Comment or PingBack
 
@@ -165,7 +165,7 @@ GO
 /* Clean up the subtext_Content table by removing columns no longer needed! */
 IF EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Content' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'ContentChecksumHash'
@@ -178,7 +178,7 @@ GO
 /* Drop the TitleUrl column */
 IF EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Content' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'TitleUrl'
@@ -191,7 +191,7 @@ GO
 /* DROP the SourceUrl column */
 IF EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Content' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'SourceUrl'
@@ -203,7 +203,7 @@ GO
 /* DROP the SourceName column */
 IF EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Content' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'SourceName'
@@ -215,7 +215,7 @@ GO
 /* Add REL column to the Keyword table */
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Keywords' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'Rel'
@@ -229,7 +229,7 @@ GO
 /* ADD the FeedBurnerName column to the subtext_Config table */
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Config' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'FeedBurnerName'

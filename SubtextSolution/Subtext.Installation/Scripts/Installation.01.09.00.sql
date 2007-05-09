@@ -60,20 +60,20 @@ GO
 /*
 First we need to cleanup bad referrals.
 */
-DELETE [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE EntryID NOT IN (SELECT [ID] FROM [<dbUser,varchar,dbo>].[subtext_content])
+DELETE [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE EntryID NOT IN (SELECT [ID] FROM [<dbUser,varchar,dbo>].[subtext_Content])
 
 IF NOT EXISTS(
     SELECT * 
-    FROM [information_schema].[referential_constraints] 
-    WHERE constraint_name = 'FK_subtext_Referrals_subtext_Content' 
-      AND constraint_schema = '<dbUser,varchar,dbo>'
+    FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
+    WHERE CONSTRAINT_NAME = 'FK_subtext_Referrals_subtext_Content' 
+      AND CONSTRAINT_SCHEMA = '<dbUser,varchar,dbo>'
 )
 BEGIN
   ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Referrals] WITH NOCHECK 
   ADD CONSTRAINT FK_subtext_Referrals_subtext_Content FOREIGN KEY
   (
     EntryID
-  ) REFERENCES [<dbUser,varchar,dbo>].[subtext_content]
+  ) REFERENCES [<dbUser,varchar,dbo>].[subtext_Content]
   (
     Id
   )

@@ -15,6 +15,8 @@ namespace Subtext.Akismet
 	{
 		[NonSerialized]
 		private HttpClient httpClient;
+
+
 		static readonly string version = typeof(HttpClient).Assembly.GetName().Version.ToString();
 		static readonly Uri verifyUrl = new Uri("http://rest.akismet.com/1.1/verify-key");
 		const string checkUrlFormat = "http://{0}.rest.akismet.com/1.1/comment-check";

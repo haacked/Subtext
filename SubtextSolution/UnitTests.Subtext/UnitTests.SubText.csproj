@@ -113,11 +113,35 @@
     <Reference Include="MbUnit.Framework, Version=1.0.2642.28107, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
     <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
-    <Reference Include="QuickGraph, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
-    <Reference Include="QuickGraph.Algorithms, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
-    <Reference Include="QuickGraph.Algorithms.Graphviz, Version=2.21.1.0, Culture=neutral" />
-    <Reference Include="Refly, Version=2.21.1.0, Culture=neutral, PublicKeyToken=829676e11975a31c" />
-    <Reference Include="Rhino.Mocks, Version=3.0.5.571, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL" />
+    <Reference Include="NGraphviz">
+      <Name>NGraphviz</Name>
+      <HintPath>ExternalDependencies\NGraphviz.dll</HintPath>
+    </Reference>
+    <Reference Include="NGraphviz.Helpers">
+      <Name>NGraphviz.Helpers</Name>
+      <HintPath>ExternalDependencies\NGraphviz.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="NGraphviz.Layout">
+      <Name>NGraphviz.Layout</Name>
+      <HintPath>ExternalDependencies\NGraphviz.Layout.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph">
+      <Name>QuickGraph</Name>
+      <HintPath>ExternalDependencies\QuickGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Algorithms">
+      <Name>QuickGraph.Algorithms</Name>
+      <HintPath>ExternalDependencies\QuickGraph.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Algorithms.Graphviz">
+      <Name>QuickGraph.Algorithms.Graphviz</Name>
+      <HintPath>ExternalDependencies\QuickGraph.Algorithms.Graphviz.dll</HintPath>
+    </Reference>
+    <Reference Include="Refly">
+      <Name>Refly</Name>
+      <HintPath>ExternalDependencies\Refly.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks, Version=3.1.0.584, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>

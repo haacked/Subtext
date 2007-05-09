@@ -522,11 +522,15 @@ namespace Subtext.Framework
             entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 
             if (!string.IsNullOrEmpty(entry.EntryName))
-				entry.EntryName = AutoGenerateFriendlyUrl(entry.EntryName, entry.Id);
+            {
+                entry.EntryName = AutoGenerateFriendlyUrl(entry.EntryName, entry.Id);
+            }
 
             bool updateSuccessful = ObjectProvider.Instance().Update(entry, categoryIDs);
             if (updateSuccessful == false)
+            {
                 return false;
+            }
 
             List<string> tags = HtmlHelper.ParseTags(entry.Body);
             return ObjectProvider.Instance().SetEntryTagList(entry.Id, tags);

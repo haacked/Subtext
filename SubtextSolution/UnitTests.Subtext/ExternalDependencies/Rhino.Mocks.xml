@@ -245,6 +245,51 @@
       <value>
       </value>
     </member>
+    <member name="T:Rhino.Mocks.Constraints.CollectionCount">
+      <summary>
+            Applies another AbstractConstraint to the collection count.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Constraints.CollectionCount.#ctor(Rhino.Mocks.Constraints.AbstractConstraint)">
+      <summary>
+            Creates a new <see cref="T:Rhino.Mocks.Constraints.CollectionCount" /> instance.
+            </summary>
+      <param name="constraint">The constraint that should be applied to the collection count.</param>
+    </member>
+    <member name="M:Rhino.Mocks.Constraints.CollectionCount.Eval(System.Object)">
+      <summary>
+            Determines if the parameter conforms to this constraint.
+            </summary>
+    </member>
+    <member name="P:Rhino.Mocks.Constraints.CollectionCount.Message">
+      <summary>
+            Gets the message for this constraint.
+            </summary>
+    </member>
+    <member name="T:Rhino.Mocks.Constraints.ListElement">
+      <summary>
+            Applies another AbstractConstraint to a specific list element.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Constraints.ListElement.#ctor(System.Int32,Rhino.Mocks.Constraints.AbstractConstraint)">
+      <summary>
+            Creates a new <see cref="T:Rhino.Mocks.Constraints.ListElement" /> instance.
+            </summary>
+      <param name="index">The zero-based index of the list element.</param>
+      <param name="constraint">The constraint that should be applied to the list element.</param>
+    </member>
+    <member name="M:Rhino.Mocks.Constraints.ListElement.Eval(System.Object)">
+      <summary>
+            Determines if the parameter conforms to this constraint.
+            </summary>
+    </member>
+    <member name="P:Rhino.Mocks.Constraints.ListElement.Message">
+      <summary>
+            Gets the message for this constraint
+            </summary>
+      <value>
+      </value>
+    </member>
     <member name="T:Rhino.Mocks.Constraints.Or">
       <summary>
             Combines two constraints, constraint pass if either is fine.
@@ -585,6 +630,19 @@
       <summary>
             Determains that the parameter collection is identical to the specified collection
             </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Constraints.List.Count(Rhino.Mocks.Constraints.AbstractConstraint)">
+      <summary>
+            Determines that the parameter collection has the specified number of elements.
+            </summary>
+      <param name="constraint">The constraint that should be applied to the collection count.</param>
+    </member>
+    <member name="M:Rhino.Mocks.Constraints.List.Element(System.Int32,Rhino.Mocks.Constraints.AbstractConstraint)">
+      <summary>
+            Determines that an element of the parameter collections conforms to another AbstractConstraint.
+            </summary>
+      <param name="index">The zero-based index of the list element.</param>
+      <param name="constraint">The constraint which should be applied to the list element.</param>
     </member>
     <member name="T:Rhino.Mocks.Constraints.Property">
       <summary>
@@ -1206,6 +1264,309 @@
       <value>
       </value>
     </member>
+    <member name="T:Rhino.Mocks.Interfaces.IExpectationLogger">
+      <summary>
+            Log expectations - allows to see what is going on inside Rhino Mocks
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Interfaces.IExpectationLogger.LogRecordedExpectation(Castle.Core.Interceptor.IInvocation,Rhino.Mocks.Interfaces.IExpectation)">
+      <summary>
+            Logs the expectation as is was recorded
+            </summary>
+      <param name="invocation">The invocation.</param>
+      <param name="expectation">The expectation.</param>
+    </member>
+    <member name="M:Rhino.Mocks.Interfaces.IExpectationLogger.LogReplayedExpectation(Castle.Core.Interceptor.IInvocation,Rhino.Mocks.Interfaces.IExpectation)">
+      <summary>
+            Logs the expectation as it was recorded
+            </summary>
+      <param name="invocation">The invocation.</param>
+      <param name="expectation">The expectation.</param>
+    </member>
+    <member name="M:Rhino.Mocks.Interfaces.IExpectationLogger.LogUnexpectedMethodCall(Castle.Core.Interceptor.IInvocation,System.String)">
+      <summary>
+            Logs the unexpected method call.
+            </summary>
+      <param name="invocation">The invocation.</param>
+      <param name="message">The message.</param>
+    </member>
+    <member name="T:Rhino.Mocks.Impl.NullLogger">
+      <summary>
+            Doesn't log anything, just makes happy noises
+            </summary>
+    </member>
+    <member name="T:Rhino.Mocks.Impl.TextWriterExpectationLogger">
+      <summary>
+            Rudimetry implementation that simply logs methods calls as text.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.TextWriterExpectationLogger.#ctor(System.IO.TextWriter)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Rhino.Mocks.Impl.TextWriterExpectationLogger" /> class.
+            </summary>
+      <param name="writer">The writer.</param>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.TextWriterExpectationLogger.LogRecordedExpectation(Castle.Core.Interceptor.IInvocation,Rhino.Mocks.Interfaces.IExpectation)">
+      <summary>
+            Logs the expectation as is was recorded
+            </summary>
+      <param name="invocation">The invocation.</param>
+      <param name="expectation">The expectation.</param>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.TextWriterExpectationLogger.LogReplayedExpectation(Castle.Core.Interceptor.IInvocation,Rhino.Mocks.Interfaces.IExpectation)">
+      <summary>
+            Logs the expectation as it was recorded
+            </summary>
+      <param name="invocation">The invocation.</param>
+      <param name="expectation">The expectation.</param>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.TextWriterExpectationLogger.LogUnexpectedMethodCall(Castle.Core.Interceptor.IInvocation,System.String)">
+      <summary>
+            Logs the unexpected method call.
+            </summary>
+      <param name="invocation">The invocation.</param>
+      <param name="message">The message.</param>
+    </member>
+    <member name="T:Rhino.Mocks.Interfaces.IMockState">
+      <summary>
+            Different actions on this mock
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Interfaces.IMockState.MethodCall(Castle.Core.Interceptor.IInvocation,System.Reflection.MethodInfo,System.Object[])">
+      <summary>
+            Add a method call for this state' mock.
+            </summary>
+      <param name="invocation">The invocation for this method</param>
+      <param name="method">The method that was called</param>
+      <param name="args">The arguments this method was called with</param>
+    </member>
+    <member name="M:Rhino.Mocks.Interfaces.IMockState.Verify">
+      <summary>
+            Verify that this mock expectations have passed.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Interfaces.IMockState.Replay">
+      <summary>
+            Verify that we can move to replay state and move 
+            to the reply state.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Interfaces.IMockState.BackToRecord">
+      <summary>
+            Gets a mock state that match the original mock state of the object.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Interfaces.IMockState.SetExceptionToThrowOnVerify(System.Exception)">
+      <summary>
+            Set the exception to throw when Verify is called.
+            This is used to report exception that may have happened but where caught in the code.
+            This way, they are reported anyway when Verify() is called.
+            </summary>
+    </member>
+    <member name="P:Rhino.Mocks.Interfaces.IMockState.VerifyState">
+      <summary>
+            Gets the matching verify state for this state
+            </summary>
+    </member>
+    <member name="P:Rhino.Mocks.Interfaces.IMockState.LastMethodOptions">
+      <summary>
+            Get the options for the last method call
+            </summary>
+    </member>
+    <member name="T:Rhino.Mocks.Impl.RecordMockState">
+      <summary>
+            Records all the expectations for a mock
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.RecordMockState.SetExceptionToThrowOnVerify(System.Exception)">
+      <summary>
+            Set the exception to throw when Verify is called.
+            This is used to report exception that may have happened but where caught in the code.
+            This way, they are reported anyway when Verify() is called.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.RecordMockState.#ctor(Rhino.Mocks.Interfaces.IMockedObject,Rhino.Mocks.MockRepository)">
+      <summary>
+            Creates a new <see cref="T:Rhino.Mocks.Impl.RecordMockState" /> instance.
+            </summary>
+      <param name="repository">Repository.</param>
+      <param name="mockedObject">The proxy that generates the method calls</param>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.RecordMockState.MethodCall(Castle.Core.Interceptor.IInvocation,System.Reflection.MethodInfo,System.Object[])">
+      <summary>
+            Add a method call for this state' mock.
+            </summary>
+      <param name="invocation">The invocation for this method</param>
+      <param name="method">The method that was called</param>
+      <param name="args">The arguments this method was called with</param>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.RecordMockState.Replay">
+      <summary>
+            Verify that we can move to replay state and move 
+            to the reply state.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.RecordMockState.DoReplay">
+      <summary>
+            Verify that we can move to replay state and move 
+            to the reply state.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.RecordMockState.Verify">
+      <summary>
+            Verify that this mock expectations have passed.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.RecordMockState.BackToRecord">
+      <summary>
+            Gets a mock state that match the original mock state of the object.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.RecordMockState.AssertPreviousMethodIsClose">
+      <summary>
+            Asserts the previous method is closed (had an expectation set on it so we can replay it correctly)
+            </summary>
+    </member>
+    <member name="P:Rhino.Mocks.Impl.RecordMockState.LastExpectation">
+      <summary>
+            Gets the last expectation.
+            </summary>
+    </member>
+    <member name="P:Rhino.Mocks.Impl.RecordMockState.MethodCallsCount">
+      <summary>
+            Gets the total method calls count.
+            </summary>
+    </member>
+    <member name="P:Rhino.Mocks.Impl.RecordMockState.LastMethodOptions">
+      <summary>
+            Get the options for the last method call
+            </summary>
+    </member>
+    <member name="P:Rhino.Mocks.Impl.RecordMockState.VerifyState">
+      <summary>
+            Gets the matching verify state for this state
+            </summary>
+    </member>
+    <member name="T:Rhino.Mocks.Impl.StubRecordMockState">
+      <summary>
+            Behave like a stub, all properties and events acts normally, methods calls
+            return default values by default (but can use expectations to set them up), etc.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.StubRecordMockState.#ctor(Rhino.Mocks.Interfaces.IMockedObject,Rhino.Mocks.MockRepository)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Rhino.Mocks.Impl.StubRecordMockState" /> class.
+            </summary>
+      <param name="mockedObject">The proxy that generates the method calls</param>
+      <param name="repository">Repository.</param>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.StubRecordMockState.AssertPreviousMethodIsClose">
+      <summary>
+            We don't care much about expectations here, so we will remove the exepctation if
+            it is not closed.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.StubRecordMockState.Replay">
+      <summary>
+            Verify that we can move to replay state and move
+            to the reply state.
+            </summary>
+      <returns>
+      </returns>
+    </member>
+    <member name="T:Rhino.Mocks.Impl.ReplayMockState">
+      <summary>
+            Validate all expectations on a mock
+            </summary>
+    </member>
+    <member name="F:Rhino.Mocks.Impl.ReplayMockState.repository">
+      <summary>
+            The repository for this state
+            </summary>
+    </member>
+    <member name="F:Rhino.Mocks.Impl.ReplayMockState.proxy">
+      <summary>
+            The proxy object for this state
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.ReplayMockState.#ctor(Rhino.Mocks.Impl.RecordMockState)">
+      <summary>
+            Creates a new <see cref="T:Rhino.Mocks.Impl.ReplayMockState" /> instance.
+            </summary>
+      <param name="previousState">The previous state for this method</param>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.ReplayMockState.MethodCall(Castle.Core.Interceptor.IInvocation,System.Reflection.MethodInfo,System.Object[])">
+      <summary>
+            Add a method call for this state' mock.
+            </summary>
+      <param name="invocation">The invocation for this method</param>
+      <param name="method">The method that was called</param>
+      <param name="args">The arguments this method was called with</param>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.ReplayMockState.DoMethodCall(Castle.Core.Interceptor.IInvocation,System.Reflection.MethodInfo,System.Object[])">
+      <summary>
+            Add a method call for this state' mock.
+            This allows derived method to cleanly get a the setupresult behavior while adding
+            their own.
+            </summary>
+      <param name="invocation">The invocation for this method</param>
+      <param name="method">The method that was called</param>
+      <param name="args">The arguments this method was called with</param>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.ReplayMockState.SetExceptionToThrowOnVerify(System.Exception)">
+      <summary>
+            Set the exception to throw when Verify is called.
+            This is used to report exception that may have happened but where caught in the code.
+            This way, they are reported anyway when Verify() is called.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.ReplayMockState.Verify">
+      <summary>
+            Verify that this mock expectations have passed.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.ReplayMockState.Replay">
+      <summary>
+            Verify that we can move to replay state and move 
+            to the reply state.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.ReplayMockState.BackToRecord">
+      <summary>
+            Gets a mock state that match the original mock state of the object.
+            </summary>
+    </member>
+    <member name="P:Rhino.Mocks.Impl.ReplayMockState.VerifyState">
+      <summary>
+            Gets the matching verify state for this state
+            </summary>
+    </member>
+    <member name="T:Rhino.Mocks.Impl.StubReplayMockState">
+      <summary>
+            Validate expectations on recorded methods, but in general completely ignoring them.
+            Similar to <seealso cref="T:Rhino.Mocks.Impl.ReplayDynamicMockState" /> except that it would return a 
+            <seealso cref="T:Rhino.Mocks.Impl.StubRecordMockState" /> when BackToRecord is called.
+            </summary>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.StubReplayMockState.#ctor(Rhino.Mocks.Impl.RecordMockState)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Rhino.Mocks.Impl.StubReplayMockState" /> class.
+            </summary>
+      <param name="previousState">The previous state for this method</param>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.StubReplayMockState.DoMethodCall(Castle.Core.Interceptor.IInvocation,System.Reflection.MethodInfo,System.Object[])">
+      <summary>
+            Add a method call for this state' mock.
+            </summary>
+      <param name="invocation">The invocation for this method</param>
+      <param name="method">The method that was called</param>
+      <param name="args">The arguments this method was called with</param>
+    </member>
+    <member name="M:Rhino.Mocks.Impl.StubReplayMockState.BackToRecord">
+      <summary>
+            Gets a mock state that match the original mock state of the object.
+            </summary>
+    </member>
     <member name="T:Rhino.Mocks.Interfaces.IPartialMockMarker">
       <summary>
             Marker interface used to indicate that this is a partial mock.
@@ -1237,9 +1598,6 @@
                }
              N.B. mockRepository.ReplayAll() and mockRepository.VerifyAll()
                   calls are taken care of by Record/Playback
-            </summary>
-      <summary>
-            Creates proxied instances of types.
             </summary>
       <summary>
             Creates proxied instances of types.
@@ -1514,6 +1872,40 @@
             Create a mock object with from a class that defaults to calling the class methods
             </summary>
       <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.Stub``1(System.Object[])">
+      <summary>
+            Create a stub object, one that has properties and events ready for use, and 
+            can have methods called on it. It requires an explicit step in order to create 
+            an expectation for a stub.
+            </summary>
+      <param name="argumentsForConstructor">The arguments for constructor.</param>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.Stub(System.Type,System.Object[])">
+      <summary>
+            Create a stub object, one that has properties and events ready for use, and
+            can have methods called on it. It requires an explicit step in order to create
+            an expectation for a stub.
+            </summary>
+      <param name="type">The type.</param>
+      <param name="argumentsForConstructor">The arguments for constructor.</param>
+      <returns>
+      </returns>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.GenerateStub``1(System.Object[])">
+      <summary>
+            Generates a stub without mock repository
+            </summary>
+      <param name="argumentsForConstructor">The arguments for constructor.</param>
+      <returns>
+      </returns>
+    </member>
+    <member name="M:Rhino.Mocks.MockRepository.GenerateStub(System.Type,System.Object[])">
+      <summary>
+            Generates the stub without mock repository
+            </summary>
+      <param name="type">The type.</param>
+      <param name="argumentsForConstructor">The arguments for constructor.</param>
     </member>
     <member name="P:Rhino.Mocks.MockRepository.Recorder">
       <summary>
@@ -2026,6 +2418,12 @@
             Gets the repository.
             </summary>
     </member>
+    <member name="P:Rhino.Mocks.Interfaces.IMockedObject.ImplementedTypes">
+      <summary>
+            Gets the implemented types by this mocked object
+            </summary>
+      <value>The implemented.</value>
+    </member>
     <member name="T:Rhino.Mocks.Impl.ProxyInstance">
       <summary>
             This is a dummy type that is used merely to give DynamicProxy the proxy instance that
@@ -2095,6 +2493,12 @@
             Gets the repository.
             </summary>
     </member>
+    <member name="P:Rhino.Mocks.Impl.ProxyInstance.ImplementedTypes">
+      <summary>
+            Gets the implemented types by this mocked object
+            </summary>
+      <value>The implemented.</value>
+    </member>
     <member name="T:Rhino.Mocks.Impl.Range">
       <summary>
             Range for expected method calls
@@ -2125,121 +2529,6 @@
             </summary>
       <value>
       </value>
-    </member>
-    <member name="T:Rhino.Mocks.Interfaces.IMockState">
-      <summary>
-            Different actions on this mock
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Interfaces.IMockState.MethodCall(Castle.Core.Interceptor.IInvocation,System.Reflection.MethodInfo,System.Object[])">
-      <summary>
-            Add a method call for this state' mock.
-            </summary>
-      <param name="invocation">The invocation for this method</param>
-      <param name="method">The method that was called</param>
-      <param name="args">The arguments this method was called with</param>
-    </member>
-    <member name="M:Rhino.Mocks.Interfaces.IMockState.Verify">
-      <summary>
-            Verify that this mock expectations have passed.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Interfaces.IMockState.Replay">
-      <summary>
-            Verify that we can move to replay state and move 
-            to the reply state.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Interfaces.IMockState.BackToRecord">
-      <summary>
-            Gets a mock state that match the original mock state of the object.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Interfaces.IMockState.SetExceptionToThrowOnVerify(System.Exception)">
-      <summary>
-            Set the exception to throw when Verify is called.
-            This is used to report exception that may have happened but where caught in the code.
-            This way, they are reported anyway when Verify() is called.
-            </summary>
-    </member>
-    <member name="P:Rhino.Mocks.Interfaces.IMockState.VerifyState">
-      <summary>
-            Gets the matching verify state for this state
-            </summary>
-    </member>
-    <member name="P:Rhino.Mocks.Interfaces.IMockState.LastMethodOptions">
-      <summary>
-            Get the options for the last method call
-            </summary>
-    </member>
-    <member name="T:Rhino.Mocks.Impl.RecordMockState">
-      <summary>
-            Records all the expectations for a mock
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.RecordMockState.SetExceptionToThrowOnVerify(System.Exception)">
-      <summary>
-            Set the exception to throw when Verify is called.
-            This is used to report exception that may have happened but where caught in the code.
-            This way, they are reported anyway when Verify() is called.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.RecordMockState.#ctor(Rhino.Mocks.Interfaces.IMockedObject,Rhino.Mocks.MockRepository)">
-      <summary>
-            Creates a new <see cref="T:Rhino.Mocks.Impl.RecordMockState" /> instance.
-            </summary>
-      <param name="repository">Repository.</param>
-      <param name="mockedObject">The proxy that generates the method calls</param>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.RecordMockState.MethodCall(Castle.Core.Interceptor.IInvocation,System.Reflection.MethodInfo,System.Object[])">
-      <summary>
-            Add a method call for this state' mock.
-            </summary>
-      <param name="invocation">The invocation for this method</param>
-      <param name="method">The method that was called</param>
-      <param name="args">The arguments this method was called with</param>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.RecordMockState.Replay">
-      <summary>
-            Verify that we can move to replay state and move 
-            to the reply state.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.RecordMockState.DoReplay">
-      <summary>
-            Verify that we can move to replay state and move 
-            to the reply state.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.RecordMockState.Verify">
-      <summary>
-            Verify that this mock expectations have passed.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.RecordMockState.BackToRecord">
-      <summary>
-            Gets a mock state that match the original mock state of the object.
-            </summary>
-    </member>
-    <member name="P:Rhino.Mocks.Impl.RecordMockState.LastExpectation">
-      <summary>
-            Gets the last expectation.
-            </summary>
-    </member>
-    <member name="P:Rhino.Mocks.Impl.RecordMockState.MethodCallsCount">
-      <summary>
-            Gets the total method calls count.
-            </summary>
-    </member>
-    <member name="P:Rhino.Mocks.Impl.RecordMockState.LastMethodOptions">
-      <summary>
-            Get the options for the last method call
-            </summary>
-    </member>
-    <member name="P:Rhino.Mocks.Impl.RecordMockState.VerifyState">
-      <summary>
-            Gets the matching verify state for this state
-            </summary>
     </member>
     <member name="T:Rhino.Mocks.Impl.RecordDynamicMockState">
       <summary>
@@ -2324,73 +2613,6 @@
     <member name="F:Rhino.Mocks.Impl.RepeatableOption.PropertyBehavior">
       <summary>
             This method will simulate simple property behavior
-            </summary>
-    </member>
-    <member name="T:Rhino.Mocks.Impl.ReplayMockState">
-      <summary>
-            Validate all expectations on a mock
-            </summary>
-    </member>
-    <member name="F:Rhino.Mocks.Impl.ReplayMockState.repository">
-      <summary>
-            The repository for this state
-            </summary>
-    </member>
-    <member name="F:Rhino.Mocks.Impl.ReplayMockState.proxy">
-      <summary>
-            The proxy object for this state
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.ReplayMockState.#ctor(Rhino.Mocks.Impl.RecordMockState)">
-      <summary>
-            Creates a new <see cref="T:Rhino.Mocks.Impl.ReplayMockState" /> instance.
-            </summary>
-      <param name="previousState">The previous state for this method</param>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.ReplayMockState.MethodCall(Castle.Core.Interceptor.IInvocation,System.Reflection.MethodInfo,System.Object[])">
-      <summary>
-            Add a method call for this state' mock.
-            </summary>
-      <param name="invocation">The invocation for this method</param>
-      <param name="method">The method that was called</param>
-      <param name="args">The arguments this method was called with</param>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.ReplayMockState.DoMethodCall(Castle.Core.Interceptor.IInvocation,System.Reflection.MethodInfo,System.Object[])">
-      <summary>
-            Add a method call for this state' mock.
-            This allows derived method to cleanly get a the setupresult behavior while adding
-            their own.
-            </summary>
-      <param name="invocation">The invocation for this method</param>
-      <param name="method">The method that was called</param>
-      <param name="args">The arguments this method was called with</param>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.ReplayMockState.SetExceptionToThrowOnVerify(System.Exception)">
-      <summary>
-            Set the exception to throw when Verify is called.
-            This is used to report exception that may have happened but where caught in the code.
-            This way, they are reported anyway when Verify() is called.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.ReplayMockState.Verify">
-      <summary>
-            Verify that this mock expectations have passed.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.ReplayMockState.Replay">
-      <summary>
-            Verify that we can move to replay state and move 
-            to the reply state.
-            </summary>
-    </member>
-    <member name="M:Rhino.Mocks.Impl.ReplayMockState.BackToRecord">
-      <summary>
-            Gets a mock state that match the original mock state of the object.
-            </summary>
-    </member>
-    <member name="P:Rhino.Mocks.Impl.ReplayMockState.VerifyState">
-      <summary>
-            Gets the matching verify state for this state
             </summary>
     </member>
     <member name="T:Rhino.Mocks.Impl.ReplayDynamicMockState">
@@ -3205,6 +3427,11 @@
     <member name="F:Rhino.Mocks.RhinoMocks.NormalName">
       <summary>
             Normal name for dynamic proxy assemblies. Used for InternalsVisibleTo specification.
+            </summary>
+    </member>
+    <member name="F:Rhino.Mocks.RhinoMocks.Logger">
+      <summary>
+            Logs all method calls for methods
             </summary>
     </member>
     <member name="T:Rhino.Mocks.SetupResult">
