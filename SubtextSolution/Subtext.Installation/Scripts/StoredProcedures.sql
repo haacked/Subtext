@@ -5514,11 +5514,11 @@ BEGIN
         GOTO Cleanup
     END
 
-    UPDATE [<dbUser,varchar,dbo>].subtext_Users
-    SET    Password = @NewPassword,
-           LastPasswordChangedDate = @CurrentTimeUtc,
-           PasswordFormat = @PasswordFormat,
-           PasswordSalt = @PasswordSalt
+    UPDATE [<dbUser,varchar,dbo>].[subtext_Users]
+    SET    Password = @NewPassword
+		, LastPasswordChangedDate = @CurrentTimeUtc
+		, PasswordFormat = @PasswordFormat
+		, PasswordSalt = @PasswordSalt
     WHERE  UserId = @UserId
 		AND
 		( 

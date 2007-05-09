@@ -148,8 +148,9 @@ namespace UnitTests.Subtext.Framework.SecurityTests
             string username = UnitTestHelper.MembershipTestUsername;
 		    string password = UnitTestHelper.MembershipTestPassword;
             UnitTestHelper.SetupBlogWithUserAndPassword(username, password);
-            Assert.IsTrue(Membership.Provider.ValidateUser(username, password));
-			string newPassword = Membership.Provider.ResetPassword(username, "subtext");
+			Assert.IsTrue(Membership.Provider.ValidateUser(username, password), "Couldn't validate user.");
+			string newPassword = Membership.Provider.ResetPassword(username, "It's Subtext Time!");
+			Assert.IsFalse(Membership.Provider.ValidateUser(username, password), "Shouldn't be able to validate with old password.");
 			Assert.IsNotNull(newPassword, "New password is null, indicating a problem occurred while resetting the password.");
             Assert.IsTrue(Membership.Provider.ValidateUser(username, newPassword), "Could not validate user with new password '" + newPassword + "'.");
 		}

@@ -262,7 +262,8 @@ namespace UnitTests.Subtext
 		{
 			string host = GenerateRandomString();
 
-			MembershipUser owner = Membership.CreateUser(userName, password, MembershipTestEmail);
+			MembershipCreateStatus status;
+			MembershipUser owner = Membership.CreateUser(userName, password, MembershipTestEmail, "What time is it?", "It's Subtext Time!", true, out status);
 			Assert.IsNotNull(Config.CreateBlog("Unit Test Blog", host, subfolder, owner), "Could Not Create Blog");
 
 			StringBuilder sb = new StringBuilder();
