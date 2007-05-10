@@ -169,11 +169,11 @@ namespace Subtext.Framework
 
             using (MembershipApplicationScope.SetApplicationName("/"))
             {
-                if (!Roles.RoleExists("HostAdmins"))
+				if (!Roles.RoleExists(RoleNames.HostAdmins))
                 {
-                    Roles.CreateRole("HostAdmins");
+					Roles.CreateRole(RoleNames.HostAdmins);
                 }
-                Roles.AddUserToRole(host.Owner.UserName, "HostAdmins");
+				Roles.AddUserToRole(host.Owner.UserName, RoleNames.HostAdmins);
             }
 			
 			return true;

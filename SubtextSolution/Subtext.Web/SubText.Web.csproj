@@ -527,6 +527,13 @@
     <Compile Include="Skins\_System\Login.Master.designer.cs">
       <DependentUpon>Login.Master</DependentUpon>
     </Compile>
+    <Compile Include="SystemMessages\AccessDenied.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>AccessDenied.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SystemMessages\AccessDenied.aspx.designer.cs">
+      <DependentUpon>AccessDenied.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SystemMessages\BlogNotActive.aspx.cs">
       <DependentUpon>BlogNotActive.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2190,6 +2197,7 @@
     <Content Include="Skins\_System\forms.css" />
     <Content Include="Skins\_System\login.css" />
     <Content Include="Skins\_System\SystemStyle.css" />
+    <Content Include="SystemMessages\AccessDenied.aspx" />
     <Content Include="SystemMessages\BlogNotActive.aspx">
       <SubType>Form</SubType>
     </Content>

@@ -308,7 +308,7 @@ namespace Subtext.Framework.Security
 		{
 			get
 			{
-				return IsInRole("Administrators");
+				return IsInRole(RoleNames.Administrators);
 			}
 		}
 
@@ -324,7 +324,7 @@ namespace Subtext.Framework.Security
 			get
 			{
 				//TODO: Remove the second check when we have better security model.
-				return IsInRole("HostAdmins");
+				return IsInRole(RoleNames.HostAdmins);
 			}
 		}
 

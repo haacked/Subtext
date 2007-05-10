@@ -19,7 +19,7 @@
 						<st:UserGridView runat="server" id="usersGrid" 
 							AutoGenerateSelectButton="true"
 							EmptyDataText="No Results"
-							PageSize="2" 
+							PageSize="10" 
 							CssClass="log highlightTable users"
 							OnSelectedIndexChanged="OnUserSelected"
 							DataSourceId="userDataSource"

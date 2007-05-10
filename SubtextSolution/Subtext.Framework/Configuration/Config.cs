@@ -205,7 +205,7 @@ namespace Subtext.Framework.Configuration
 			{
 				CreateBlogRoles();
 
-				Roles.AddUserToRole(owner.UserName, "Administrators");
+				Roles.AddUserToRole(owner.UserName, RoleNames.Administrators);
 			}
 			return blog;
 		}
@@ -257,7 +257,7 @@ namespace Subtext.Framework.Configuration
 		private static void CreateBlogRoles()
 		{
 			string[] defaultRoles =
-				{ "Administrators", "PowerUsers", "Authors", "Commenters", "Anonymous" };
+				{ RoleNames.Administrators, RoleNames.PowerUsers, RoleNames.Authors, RoleNames.Commenters, RoleNames.Anonymous };
 
 			foreach (string role in defaultRoles)
 			{

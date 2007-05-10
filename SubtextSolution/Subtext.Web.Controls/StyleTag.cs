@@ -27,18 +27,11 @@ namespace Subtext.Web.Controls
 	public class StyleTag : HtmlControl
 	{
 		/// <summary>
-		/// Creates a new <see cref="StyleTag"/> instance.
-		/// </summary>
-		public StyleTag() : base()
-		{
-		}
-		
-		/// <summary>
 		/// Raises the <see cref="E:System.Web.UI.Control.Init"/>
 		/// event. Sets the <see cref="Control.EnableViewState"/> property to false.
 		/// </summary>
 		/// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
-		protected override void OnInit(System.EventArgs e)
+		protected override void OnInit(EventArgs e)
 		{
 			this.EnableViewState = false;
 			base.OnInit (e);

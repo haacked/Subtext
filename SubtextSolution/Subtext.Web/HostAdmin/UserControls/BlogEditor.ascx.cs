@@ -158,7 +158,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		// Saves changes to a blog.  Any exceptions are propagated up to the caller.
 		void SaveBlogEdits()
 		{
-			if (this.blog == null)
+			if (this.Blog == null)
 				throw new ArgumentNullException("Blog Being Edited", "Ok, somehow the blog you were editing is now null.  This is very odd.");
 
 			blog.Title = this.titleTextBox.Text;
@@ -169,7 +169,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 				MembershipUser newOwner = Membership.GetUser(this.blogOwnerChooser.UserName);
 				using (MembershipApplicationScope.SetApplicationName(blog.ApplicationName))
 				{
-					Roles.AddUserToRole(newOwner.UserName, "Admins");
+					Roles.AddUserToRole(newOwner.UserName, RoleNames.Administrators);
 				}
 				blog.Owner = newOwner;
 			} 

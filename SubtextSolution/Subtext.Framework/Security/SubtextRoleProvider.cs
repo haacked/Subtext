@@ -4,6 +4,7 @@ using System.Data;
 using System.Web;
 using System.Collections.Specialized;
 using System.Data.SqlClient;
+using System.Web.Security;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework.Data;
 using System.Text;
@@ -12,7 +13,7 @@ using System.Globalization;
 
 namespace Subtext.Framework.Security
 {
-	class SubtextRoleProvider : System.Web.Security.RoleProvider
+	public class SubtextRoleProvider : System.Web.Security.RoleProvider
 	{
 		private string applicationName;
 		private string connectionString;
