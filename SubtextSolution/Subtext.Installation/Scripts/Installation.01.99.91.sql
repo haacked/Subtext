@@ -244,24 +244,6 @@ BEGIN
 END
 GO
 
-/* make the OwnerId unique */
-IF NOT EXISTS(
-	SELECT * 
-	FROM [information_schema].[constraint_column_usage]
-	WHERE constraint_name = 'IX_subtext_Config_UniqueOwner'
-	AND constraint_schema = '<dbUser,varchar,dbo>'
-	)
-BEGIN
-	PRINT 'Setting Blog Owner To Be Unique'
-	ALTER TABLE subtext_Config 
-		ADD CONSTRAINT
-		IX_subtext_Config_UniqueOwner UNIQUE NONCLUSTERED 
-		(
-		OwnerId
-		) ON [PRIMARY]
-END
-GO
-	
 /* tie the field to the Users field */
 IF NOT EXISTS(
     SELECT * 
