@@ -462,7 +462,6 @@ namespace Subtext.Framework.Security
 		/// <returns></returns>
 		public static string GetApplicationId()
 		{
-
 			int BlogId;
 			try
 			{

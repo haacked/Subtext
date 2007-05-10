@@ -10,6 +10,39 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 	[TestFixture]
 	public class SubtextRoleProviderTests
 	{
+		/// <summary>
+		/// When making a user the owner of a blog, we want to special case 
+		/// the IsInRole check to return true when checking if the user is 
+		/// an administrator if the user isn't explicitely a member of 
+		/// the Administrators role for that blog.
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void OwnerOfBlogIsSpecialCasedAsBeingInAdministratorsRole()
+		{
+			UnitTestHelper.SetupBlog();
+			MembershipUser oldOwner = Config.CurrentBlog.Owner;
+			MembershipUser newOwner = Membership.CreateUser(UnitTestHelper.MembershipTestUsername, "test", UnitTestHelper.MembershipTestEmail);
+			using(MembershipApplicationScope.SetApplicationName(Config.CurrentBlog.ApplicationName))
+			{
+				string[] roles = Roles.GetRolesForUser(newOwner.UserName);
+				CollectionAssert.DoesNotContain(roles, RoleNames.Administrators, "The user should not have Administrators as one of its asserts");
+				Assert.IsFalse(Roles.IsUserInRole(newOwner.UserName, RoleNames.Administrators), "This user should not yet be an admin of this blog.");
+
+				Config.CurrentBlog.Owner = newOwner;
+				Config.UpdateConfigData(Config.CurrentBlog);
+				Assert.IsTrue(Roles.IsUserInRole(newOwner.UserName, RoleNames.Administrators), "Now that this user is the owner of the blog, we should return true when asked if the user is an admin.");
+				roles = Roles.GetRolesForUser(newOwner.UserName);
+				CollectionAssert.Contains(roles, RoleNames.Administrators, "The user should now be an Administrator");
+				
+				Config.CurrentBlog.Owner = oldOwner;
+				Config.UpdateConfigData(Config.CurrentBlog);
+				Assert.IsFalse(Roles.IsUserInRole(newOwner.UserName, RoleNames.Administrators), "Since we never explicitely added the user to the admin role, this user should no longer be an admin.");
+				roles = Roles.GetRolesForUser(newOwner.UserName);
+				CollectionAssert.DoesNotContain(roles, RoleNames.Administrators, "The user should no longer be an administrator");
+			}
+		}
+
 		[Test]
 		[RollBack]
 		public void IsUserInRoleReturnsCorrectResult()

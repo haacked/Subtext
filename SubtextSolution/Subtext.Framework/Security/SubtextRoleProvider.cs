@@ -4,8 +4,8 @@ using System.Data;
 using System.Web;
 using System.Collections.Specialized;
 using System.Data.SqlClient;
-using System.Web.Security;
 using Microsoft.ApplicationBlocks.Data;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using System.Text;
 using Subtext.Framework.Properties;
@@ -182,6 +182,16 @@ namespace Subtext.Framework.Security
 				}
 			}
 
+			if(ApplicationName != "/" 
+				&& !userRoles.Contains(RoleNames.Administrators)
+				&& String.Equals(username, Config.CurrentBlog.Owner.UserName, StringComparison.InvariantCultureIgnoreCase))
+			{
+				//A blog owner is considered in the "Administrators" role for a 
+				//blog even if the owner isn't explicitly a member of the "Administrators" 
+				//role.
+				userRoles.Add(RoleNames.Administrators);
+			}
+
 			string[] returnUserRoles = new string[userRoles.Count];
 			userRoles.CopyTo(returnUserRoles, 0);
 			return returnUserRoles;
@@ -223,7 +233,20 @@ namespace Subtext.Framework.Security
 									  , new SqlParameter("@UserName", username)
 									  , new SqlParameter("@RoleName", roleName)
 									  , returnValue);
-			return 1 == (int)returnValue.Value;
+			
+			bool success = (1 == (int)returnValue.Value);
+			if(!success)
+			{
+				//A blog owner is considered in the "Administrators" role for a 
+				//blog even if the owner isn't explicitly a member of the "Administrators" 
+				//role.
+				if(String.Equals(roleName, RoleNames.Administrators, StringComparison.InvariantCultureIgnoreCase) && ApplicationName != "/")
+				{
+					//Since users are unique to an installation, this is a safe check.
+					success = String.Equals(Config.CurrentBlog.Owner.UserName, username, StringComparison.InvariantCultureIgnoreCase);
+				}
+			}
+			return success;
 		}
 
 		public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
