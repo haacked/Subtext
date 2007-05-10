@@ -18,8 +18,8 @@ namespace UnitTests.Subtext.Framework.SecurityTests
             UnitTestHelper.SetupBlogWithUserAndPassword(username, "password");
             using (MembershipApplicationScope.SetApplicationName(Config.CurrentBlog.ApplicationName))
             {
-                Assert.IsTrue(Roles.IsUserInRole(username, "Administrators"), "our fake user should be a member of administrators");
-                Assert.IsFalse(Roles.IsUserInRole(username, "Commenters"), "our fake user should not be a member of commenters");
+				Assert.IsTrue(Roles.IsUserInRole(username, RoleNames.Administrators), "our fake user should be a member of administrators");
+                Assert.IsFalse(Roles.IsUserInRole(username, RoleNames.Commenters), "our fake user should not be a member of commenters");
             }
 		}
 

@@ -4,6 +4,7 @@
     AutoGenerateColumns="False"
     DataKeyNames="UserName" 
     DataSourceID="userDataSource" 
+    PageSize="10"
     AllowSorting="True">
     <Columns>
         <asp:CommandField ShowSelectButton="True" />

@@ -398,6 +398,7 @@
     <Compile Include="Providers\SystemMailProvider.cs" />
     <Compile Include="Search\SearchEngine.cs" />
     <Compile Include="Security\MembershipApplicationScope.cs" />
+    <Compile Include="Security\RoleNames.cs" />
     <Compile Include="Security\SecurityHelper.cs" />
     <Compile Include="Security\SubtextMembershipProvider.cs" />
     <Compile Include="Security\SubtextRoleProvider.cs" />

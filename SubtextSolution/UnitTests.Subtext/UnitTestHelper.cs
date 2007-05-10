@@ -274,7 +274,7 @@ namespace UnitTests.Subtext
 			Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
 			Config.CurrentBlog.ImagePath = "/image/";
 
-			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userName), new string[] { "Administrators" });
+			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userName), new string[] { RoleNames.Administrators });
 
 			return new SimulatedRequestContext(request, sb, output, host);
 		}
