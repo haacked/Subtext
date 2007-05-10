@@ -153,7 +153,7 @@ namespace Subtext.Extensibility.Plugins
 			}
 			else
 			{
-				return Plugin.GetPluginEntrySettings(Id, entry.Id);
+				return entry.EnabledPlugins[Id].Settings;
 			}
 		}
 
@@ -169,13 +169,13 @@ namespace Subtext.Extensibility.Plugins
 
 		public void SetEntrySetting(Entry entry, string key, string value)
 		{
-			if (Id == Guid.Empty)
+			if (GetEntrySettings(entry)[key] == null)
 			{
-				throw new InvalidOperationException("EntrySettings cannot be retrieved if no PluginGuid has been specified");
+				Plugin.InsertPluginEntrySettings(Id, entry.Id, key, value);
 			}
 			else
 			{
-				Plugin.InsertPluginEntrySetting(Id, entry.Id, key, value);
+				Plugin.UpdatePluginEntrySettings(Id, entry.Id, key, value);
 			}
 		}
 

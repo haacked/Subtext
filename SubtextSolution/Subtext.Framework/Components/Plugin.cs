@@ -31,7 +31,8 @@ namespace Subtext.Framework.Components
 	/// </summary>
 	public class Plugin
 	{
-		private const string PLUGINCACHENAMEFORMAT = "{0}_PLUGINLIST"; //{0} is the blog id
+		private const string PLUGINPERBLOGCACHENAMEFORMAT = "{0}_PLUGINLISTWITHBLOGSETTINGS"; //{0} is the blog id
+		private const string PLUGINPERENTYCACHENAMEFORMAT = "{0}_PLUGINLISTWITHENTRYETTINGS"; //{0} is the entry id
 
 
 		private PluginBase _initializedPlugin;
@@ -60,13 +61,13 @@ namespace Subtext.Framework.Components
 		}
 
 
-		#region Enable/Disable Plugins
+		
 
 		/// <summary>
-		/// Get all enabled plugins for the current blog from the ASP.NET Cache
+		/// Get all enabled plugins for the current blog with its own settings from the ASP.NET Cache
 		/// </summary>
 		/// <returns>A collection with the GUIDs of all enabled plugins</returns>
-		public static IDictionary<Guid, Plugin> GetEnabledPluginsFromCache()
+		public static IDictionary<Guid, Plugin> GetEnabledPluginsFromCacheWithBlogSettings()
 		{
 			int blogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
 			IDictionary<Guid, Plugin> pluginList = null;
@@ -75,7 +76,7 @@ namespace Subtext.Framework.Components
 			if (HttpContext.Current.Cache != null)
 			{
 				//try to get the object from the cache
-				object cachedPluginList = HttpContext.Current.Cache[String.Format(CultureInfo.InvariantCulture, PLUGINCACHENAMEFORMAT, blogId)];
+				object cachedPluginList = HttpContext.Current.Cache[String.Format(CultureInfo.InvariantCulture, PLUGINPERBLOGCACHENAMEFORMAT, blogId)];
 				pluginList = (IDictionary<Guid, Plugin>)cachedPluginList;
 			}
 			//if the pluginlist is still null (not found inside the cache) go and hit the DB
@@ -89,12 +90,45 @@ namespace Subtext.Framework.Components
 					PluginBase currPlugin = SubtextApplication.Current.GetPluginByGuid(guid);
 					pluginList.Add(guid, new Plugin(currPlugin, Plugin.GetPluginBlogSettings(guid)));
 				}
-				StorePluginListToCache(pluginList);
+				StorePluginListWithBlogSettingsToCache(pluginList);
 			}
 
 			return pluginList;
 		}
 
+		/// <summary>
+		/// Get all enabled plugins for the current blog with its own settings from the ASP.NET Cache
+		/// </summary>
+		/// <returns>A collection with the GUIDs of all enabled plugins</returns>
+		public static IDictionary<Guid, Plugin> GetEnabledPluginsFromCacheWithEntrySettings(int entryid)
+		{
+			IDictionary<Guid, Plugin> pluginList = null;
+
+			//check to see if cache is not null (we are not running a unit test)
+			if (HttpContext.Current.Cache != null)
+			{
+				//try to get the object from the cache
+				object cachedPluginList = HttpContext.Current.Cache[String.Format(CultureInfo.InvariantCulture, PLUGINPERENTYCACHENAMEFORMAT, entryid)];
+				pluginList = (IDictionary<Guid, Plugin>)cachedPluginList;
+			}
+			//if the pluginlist is still null (not found inside the cache) go and hit the DB
+			//and then store the findings inside the cache
+			if (pluginList == null)
+			{
+				ICollection<Guid> pluginGuids = Plugin.GetEnabledPlugins();
+				pluginList = new Dictionary<Guid, Plugin>(pluginGuids.Count);
+				foreach (Guid guid in pluginGuids)
+				{
+					PluginBase currPlugin = SubtextApplication.Current.GetPluginByGuid(guid);
+					pluginList.Add(guid, new Plugin(currPlugin, Plugin.GetPluginEntrySettings(guid, entryid)));
+				}
+				StorePluginListWithEntrySettingsToCache(pluginList, entryid);
+			}
+
+			return pluginList;
+		}
+
+		#region Enable/Disable Plugins
 
 		/// <summary>
 		/// Get all enabled plugins for the current blog
@@ -116,7 +150,7 @@ namespace Subtext.Framework.Components
 
 			//Removes the list of enabled plugins for the current blog from the cache
 			//This way we don't have strange caching issues
-			Plugin.RemovePluginListFromCache();
+			Plugin.RemovePluginListWithBlogSettingsFromCache();
 
 			return results;
 		}
@@ -132,7 +166,7 @@ namespace Subtext.Framework.Components
 
 			//Removes the list of enabled plugins for the current blog from the cache
 			//This way we don't have strange caching issues
-			Plugin.RemovePluginListFromCache();
+			Plugin.RemovePluginListWithBlogSettingsFromCache();
 
 			return results;
 		}
@@ -162,7 +196,7 @@ namespace Subtext.Framework.Components
 
 			//Removes the list of enabled plugins for the current blog from the cache
 			//This way we don't have strange caching issues
-			Plugin.RemovePluginListFromCache();
+			Plugin.RemovePluginListWithBlogSettingsFromCache();
 		}
 
 		/// <summary>
@@ -177,7 +211,7 @@ namespace Subtext.Framework.Components
 
 			//Removes the list of enabled plugins for the current blog from the cache
 			//This way we don't have strange caching issues
-			Plugin.RemovePluginListFromCache();
+			Plugin.RemovePluginListWithBlogSettingsFromCache();
 		}
 
         #endregion Blog Plugin Settings
@@ -202,9 +236,13 @@ namespace Subtext.Framework.Components
         /// <param name="entryId">Id of the blog entry</param>
         /// <param name="key">Setting name</param>
         /// <param name="value">Setting value</param>
-        public static void InsertPluginEntrySetting(Guid pluginGuid, int entryId, string key, string value)
+        public static void InsertPluginEntrySettings(Guid pluginGuid, int entryId, string key, string value)
         {
             ObjectProvider.Instance().InsertPluginEntrySettings(pluginGuid, entryId, key, value);
+
+			//Removes the list of enabled plugins for the current entry from the cache
+			//This way we don't have strange caching issues
+			Plugin.RemovePluginListWithEntrySettingsFromCache(entryId);
         }
 
         /// <summary>
@@ -214,9 +252,13 @@ namespace Subtext.Framework.Components
         /// <param name="entryId">Id of the blog entry</param>
         /// <param name="key">Setting name</param>
         /// <param name="value">Setting value</param>
-        public static void UpdatePluginEntrySetting(Guid pluginGuid, int entryId, string key, string value)
+        public static void UpdatePluginEntrySettings(Guid pluginGuid, int entryId, string key, string value)
         {
             ObjectProvider.Instance().UpdatePluginEntrySettings(pluginGuid, entryId, key, value);
+
+			//Removes the list of enabled plugins for the current entry from the cache
+			//This way we don't have strange caching issues
+			Plugin.RemovePluginListWithEntrySettingsFromCache(entryId);
         }
 
         #endregion Entry Plugin Settings
@@ -224,16 +266,26 @@ namespace Subtext.Framework.Components
 
         #region Cache managing helper classes
 
-        private static void StorePluginListToCache(IDictionary<Guid, Plugin> pluginList)
+		private static void StorePluginListWithBlogSettingsToCache(IDictionary<Guid, Plugin> pluginList)
 		{
 			int blogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
-			HttpContext.Current.Cache.Insert(String.Format(CultureInfo.InvariantCulture, PLUGINCACHENAMEFORMAT, blogId), pluginList, null, Cache.NoAbsoluteExpiration, new TimeSpan(1, 0, 0), CacheItemPriority.NotRemovable, null);
+			HttpContext.Current.Cache.Insert(String.Format(CultureInfo.InvariantCulture, PLUGINPERBLOGCACHENAMEFORMAT, blogId), pluginList, null, Cache.NoAbsoluteExpiration, new TimeSpan(1, 0, 0), CacheItemPriority.NotRemovable, null);
 		}
 
-		private static void RemovePluginListFromCache()
+		private static void RemovePluginListWithBlogSettingsFromCache()
 		{
 			int blogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
-			HttpContext.Current.Cache.Remove(String.Format(CultureInfo.InvariantCulture, PLUGINCACHENAMEFORMAT, blogId));
+			HttpContext.Current.Cache.Remove(String.Format(CultureInfo.InvariantCulture, PLUGINPERBLOGCACHENAMEFORMAT, blogId));
+		}
+
+		private static void StorePluginListWithEntrySettingsToCache(IDictionary<Guid, Plugin> pluginList, int entryId)
+		{
+			HttpContext.Current.Cache.Insert(String.Format(CultureInfo.InvariantCulture, PLUGINPERENTYCACHENAMEFORMAT, entryId), pluginList, null, Cache.NoAbsoluteExpiration, new TimeSpan(1, 0, 0), CacheItemPriority.NotRemovable, null);
+		}
+
+		private static void RemovePluginListWithEntrySettingsFromCache(int entryId)
+		{
+			HttpContext.Current.Cache.Remove(String.Format(CultureInfo.InvariantCulture, PLUGINPERENTYCACHENAMEFORMAT, entryId));
 		}
 
 		#endregion Cache managing helper classes
