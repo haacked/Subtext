@@ -15,8 +15,7 @@
 		HeaderText="Import/Export" Collapsible="False">
 			
 		<fieldset>
-			<legend>Import &amp; Export BlogML files.</legend>
-			<h4>Export to BlogML</h4>
+			<legend>Export to BlogML</legend>
 			<p>
 				This function will generate BlogML for your blog and output it as an xml file. 
 				After the BlogML generation phase you will be presented with a link to the 
@@ -35,15 +34,12 @@
 		<fieldset>
 			<legend>Import from BlogML.</legend>
 			<p>
-				Allows you to import an existing blog by loading BlogML content.<br />
-				<label>BlogML file:&nbsp; 
-					<asp:RequiredFieldValidator id="blogMLFileRequired" runat="server" ForeColor="#990066" Display="Dynamic" ControlToValidate="importBlogMLFile"
-						ErrorMessage="You must select a valid BlogML file to import." />
-				</label>
+				Import content from another blog that was exported as BlogML into this blog.
 			</p>
-			
-			<input id="importBlogMLFile" type="file" name="filImportBlogML" runat="server" ValidationGroup="importGroup" />
-			
+			<p>
+				<asp:FileUpload ID="importBlogMLFile" runat="server" runat="server" />
+				<asp:RequiredFieldValidator ID="fileRequired" runat="server" ControlToValidate="importBlogMLFile" ErrorMessage="Please specify a BlogML File" ValidationGroup="importGroup" />
+			</p>			
 			<div class="buttons">
 				<asp:Button id="btnLoad" runat="server" Text="Load!" CssClass="button" ValidationGroup="importGroup" />
 			</div>
@@ -51,15 +47,6 @@
 		
 		<fieldset>
 			<legend>Clear Blog Content.</legend>
-			<p>
-				<asp:FileUpload ID="importBlogMLFile" runat="server" runat="server" />
-				<asp:RequiredFieldValidator ID="fileRequired" runat="server" ControlToValidate="importBlogMLFile" ErrorMessage="Please specify a BlogML File" ValidationGroup="importGroup" />
-			</p>
-			<p>
-				<asp:Button id="btnLoad" runat="server" Text="Load!" CssClass="buttonSubmit" ValidationGroup="importGroup"></asp:Button>
-			</p>
-			<hr />
-			<h4>Clear Blog Content</h4>
 			<p>
 				This will remove all content (Entries, Comments, Track/Ping-backs, Statistices, etc...) from this blog.<br />
 				After doing this, all content will be lost <strong>forever!</strong>
