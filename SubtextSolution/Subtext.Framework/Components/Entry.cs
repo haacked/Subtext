@@ -21,6 +21,7 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
+using System.Collections.Generic;
 
 namespace Subtext.Framework.Components
 {
@@ -458,5 +459,30 @@ namespace Subtext.Framework.Components
 		}
 
 		private StringCollection categories = new StringCollection();
+
+
+
+		#region Plugin Specific Properties
+
+		private IDictionary<Guid, Plugin> _enabledPlugins;
+
+		public IDictionary<Guid, Plugin> EnabledPlugins
+		{
+			get
+			{
+				//if the list of plugins has not been retrived for this BlogInfo
+				//I need to retrieve it from the cache (or, if I'm not lucky, from the storage)
+				if (_enabledPlugins == null)
+				{
+					_enabledPlugins = Plugin.GetEnabledPluginsFromCacheWithEntrySettings(_entryid);
+				}
+				return _enabledPlugins;
+			}
+		}
+
+		#endregion Plugin Specific Properties
+
+
+
 	}
 }
