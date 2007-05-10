@@ -265,14 +265,10 @@ namespace Subtext.Framework.Security
 		public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
 		{
 			if (emailToMatch == null)
-			{
 				throw new ArgumentNullException("emailToMatch", Resources.ArgumentNull_String);
-			}
 
 			if (emailToMatch.Length == 0)
-			{
 				throw new ArgumentException(Resources.Argument_StringZeroLength, "emailToMatch");
-			}
 
 			MembershipUserCollection foundUsers = new MembershipUserCollection();
 
@@ -508,6 +504,13 @@ namespace Subtext.Framework.Security
 		/// </returns>
 		public override string GetUserNameByEmail(string email)
 		{
+			if (email == null)
+				throw new ArgumentNullException("emailToMatch", Resources.ArgumentNull_String);
+
+			if (email.Length == 0)
+				throw new ArgumentException(Resources.Argument_StringZeroLength, "emailToMatch");
+
+
 			return (string)SqlHelper.ExecuteScalar(this.connectionString, "subtext_Membership_GetUserByEmail", email);
 		}
 

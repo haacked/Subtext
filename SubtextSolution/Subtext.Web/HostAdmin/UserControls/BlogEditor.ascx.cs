@@ -6,7 +6,6 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
-using Subtext.Framework.Security;
 
 namespace Subtext.Web.HostAdmin.UserControls
 {
@@ -167,10 +166,6 @@ namespace Subtext.Web.HostAdmin.UserControls
 			if (blog.Owner.UserName != this.blogOwnerChooser.UserName)
 			{
 				MembershipUser newOwner = Membership.GetUser(this.blogOwnerChooser.UserName);
-				using (MembershipApplicationScope.SetApplicationName(blog.ApplicationName))
-				{
-					Roles.AddUserToRole(newOwner.UserName, RoleNames.Administrators);
-				}
 				blog.Owner = newOwner;
 			} 
 

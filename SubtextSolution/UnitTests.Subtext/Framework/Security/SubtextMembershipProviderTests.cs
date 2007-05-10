@@ -157,20 +157,31 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		
 
 		#region ... Exception Cases ...
-		[Test]
+		[RowTest]
+		[Row(null, ExpectedException = typeof(ArgumentNullException))]
+		[Row("", ExpectedException = typeof(ArgumentException))]
 		[RollBack]
-		[ExpectedArgumentNullException]
-		public void FindUsersByEmailThrowsArgumentNullException()
+		public void GetUserNameByEmailThrowsArgumentNullException(string email)
 		{
-			Membership.FindUsersByEmail(null);
+			Membership.GetUserNameByEmail(email);
 		}
 
-		[Test]
+		[RowTest]
+		[Row(null, ExpectedException = typeof(ArgumentNullException))]
+		[Row("", ExpectedException = typeof(ArgumentException))]
 		[RollBack]
-		[ExpectedArgumentNullException]
-		public void FindUsersByNameThrowsArgumentNullException()
+		public void FindUsersByEmailThrowsArgumentNullException(string email)
 		{
-			Membership.FindUsersByName(null);
+			Membership.FindUsersByEmail(email);
+		}
+
+		[RowTest]
+		[Row(null, ExpectedException = typeof(ArgumentNullException))]
+		[Row("", ExpectedException = typeof(ArgumentException))]
+		[RollBack]
+		public void FindUsersByNameThrowsArgumentNullException(string username)
+		{
+			Membership.FindUsersByName(username);
 		}
 		#endregion
 
