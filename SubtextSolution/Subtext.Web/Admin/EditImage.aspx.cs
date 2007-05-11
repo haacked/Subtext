@@ -61,7 +61,7 @@ namespace Subtext.Web.Admin.Pages
 
 		#endregion
 	    
-	    public EditImage() : base()
+	    public EditImage()
 	    {
             this.TabSectionId = "Galleries";
 	    }

@@ -36,19 +36,13 @@ namespace Subtext.Web.Admin.Pages
 	/// <summary>
 	/// Base Page class for all pages in the admin tool.
 	/// </summary>
-	public class AdminPage : System.Web.UI.Page
+	public class AdminPage : Page
 	{
         private HtmlGenericControl body;
 		private ConfirmCommand _command;
 		
 		protected override void OnLoad(EventArgs e)
 		{
-			if(!SecurityHelper.IsAdmin)
-			{
-				Response.Redirect(Config.CurrentBlog.VirtualUrl + "Login.aspx?ReturnUrl=" + Request.Path, false);
-			    return;
-			}		
-
             if (this.Page.Master != null)
             {
                 this.body = this.Page.Master.FindControl("AdminSection") as HtmlGenericControl;
@@ -78,7 +72,7 @@ namespace Subtext.Web.Admin.Pages
 	        }
 	    }
 
-		void SetTextBoxStyle(Control control)
+		static void SetTextBoxStyle(Control control)
 		{
 			TextBox textBox = control as TextBox;
 			if(textBox != null)

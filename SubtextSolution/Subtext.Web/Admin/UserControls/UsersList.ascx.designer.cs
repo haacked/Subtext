@@ -8,16 +8,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.HostAdmin.UserControls {
+namespace Subtext.Web.Admin.UserControls {
     
     
     /// <summary>
-    /// UserGrid class.
+    /// UsersList class.
     /// </summary>
     /// <remarks>
     /// Auto-generated class.
     /// </remarks>
-    public partial class UserGrid {
+    public partial class UsersList {
         
         /// <summary>
         /// usersGrid control.

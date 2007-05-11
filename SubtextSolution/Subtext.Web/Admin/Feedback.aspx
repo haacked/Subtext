@@ -15,7 +15,7 @@
 	<st:MessagePanel id="Messages" runat="server" />
 	
 	<span class="FeedbackTypeControl">
-	    <asp:CheckBox ID="cbShowOnlyComments" visible="false" runat="server" Text="Show Only Comments" ToolTip="Hide feedback that is not of type 'Comment'" AutoPostBack="true" OnCheckedChanged="cbShowOnlyComments_CheckedChanged"/>
+	    <asp:CheckBox ID="cbShowOnlyComments" visible="false" runat="server" Text="Show Only Comments" ToolTip="Hide feedback that is not of type 'Comment'" AutoPostBack="true" OnCheckedChanged="rbFeedbackFilter_SelectedIndexChanged"/>
         <asp:RadioButtonList ID="rbFeedbackFilter" runat="server" AutoPostBack="True" RepeatDirection="Horizontal" OnSelectedIndexChanged="rbFeedbackFilter_SelectedIndexChanged">
             <asp:ListItem Selected="True" Value="None">Show All</asp:ListItem>
             <asp:ListItem Value="Comment">Show Only Comments</asp:ListItem>
@@ -24,7 +24,7 @@
         <st:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Comments" HeaderCssClass="CollapsibleHeader" DisplayHeader="true">
 		<asp:Repeater id="rprSelectionList" runat="server">
 			<HeaderTemplate>
-				<table id="feedback" class="Listing highlightTable" style="<%= CheckHiddenStyle() %>">
+				<table id="feedback" class="Listing highlightTable">
 					<tr>
 						<th>Title</th>						
 						<th>Posted By</th>

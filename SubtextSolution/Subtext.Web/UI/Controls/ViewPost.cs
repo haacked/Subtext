@@ -15,13 +15,11 @@
 
 using System;
 using System.Web;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Format;
 using Subtext.Framework.Security;
@@ -60,7 +58,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			
 			//Get the entry
-			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);			
+			this.entry = Cacher.GetEntryFromRequest(CacheDuration.Short);			
 			
 			//if found
 			if(entry != null)
@@ -70,7 +68,7 @@ namespace Subtext.Web.UI.Controls
 
 				BindCurrentEntryControls(entry, this);
 				
-				DisplayEditLink(entry);
+				DisplayEditLink();
 
 				//Track this entry
 				EntryTracker.Track(Context, entry.Id, CurrentBlog.Id);
@@ -83,6 +81,7 @@ namespace Subtext.Web.UI.Controls
 				ControlHelper.SetTitleIfNone(TitleUrl, "Title of this entry.");
 				TitleUrl.NavigateUrl = entry.Url;
 				Body.Text = entry.Body;
+
 				if(PostDescription != null)
 				{
 					PostDescription.Text = string.Format(CultureInfo.InvariantCulture, "{0} {1}",entry.DateCreated.ToLongDateString(),entry.DateCreated.ToShortTimeString());
@@ -148,16 +147,24 @@ namespace Subtext.Web.UI.Controls
 				this.Controls.Clear();
 				this.Controls.Add(new LiteralControl("<p><strong>The entry could not be found or has been removed</strong></p>"));
 			}
+			this.DataBind();
 		}
+
+		public Entry Entry
+		{
+			get { return this.entry; }
+		}
+
+		private Entry entry;
 
 		// If the user is an admin AND the the skin 
 		// contains an edit Hyperlink control, this 
 		// will display the edit control.
-		private void DisplayEditLink(Entry entry)
+		private void DisplayEditLink()
 		{
 			if(editLink != null)
 			{
-				if(SecurityHelper.IsAdmin)
+				if (SecurityHelper.IsInRole(RoleNames.Authors) || SecurityHelper.IsInRole(RoleNames.Administrators))
 				{
 					editLink.Visible = true;
 					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)

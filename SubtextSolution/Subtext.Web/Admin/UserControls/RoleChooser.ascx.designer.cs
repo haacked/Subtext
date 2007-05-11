@@ -8,33 +8,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.HostAdmin.UserControls {
+namespace Subtext.Web.Admin.UserControls {
     
     
     /// <summary>
-    /// UserGrid class.
+    /// RoleChooser class.
     /// </summary>
     /// <remarks>
     /// Auto-generated class.
     /// </remarks>
-    public partial class UserGrid {
+    public partial class RoleChooser {
         
         /// <summary>
-        /// usersGrid control.
+        /// rolesRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView usersGrid;
-        
-        /// <summary>
-        /// userDataSource control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Subtext.Web.Controls.DataSources.MembershipUserDataSource userDataSource;
+        protected global::Subtext.Web.Controls.RepeaterWithEmptyDataTemplate rolesRepeater;
     }
 }

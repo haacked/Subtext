@@ -2,6 +2,7 @@ using System;
 using System.Web.Security;
 using MbUnit.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.SecurityTests
 {
@@ -85,6 +86,29 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 
 		[Test]
 		[RollBack]
+		public void CanFindUsersSpecifcToBlog()
+		{
+			string name = UnitTestHelper.GenerateRandomString();
+			UnitTestHelper.SetupBlogWithUserAndPassword("aaa" + name, "test");
+			Membership.CreateUser("z0000" + name, "whatever-password", "z0000" + UnitTestHelper.MembershipTestEmail);
+			
+			using (MembershipApplicationScope.SetApplicationName(Config.CurrentBlog.ApplicationName))
+			{
+				MembershipUserCollection users = Membership.FindUsersByName("z0000");
+				CollectionAssert.AreCountEqual(0, users);
+				users = Membership.FindUsersByEmail("z0000");
+				CollectionAssert.AreCountEqual(0, users);
+
+				Roles.AddUserToRole("z0000" + name, RoleNames.Authors);
+				users = Membership.FindUsersByEmail("z0000");
+				CollectionAssert.AreCountEqual(1, users);
+				users = Membership.FindUsersByName("z0000");
+				CollectionAssert.AreCountEqual(1, users);
+			}
+		}
+
+		[Test]
+		[RollBack]
 		public void CanGetAllUsers()
 		{
 			UnitTestHelper.SetupBlog();
@@ -105,13 +129,32 @@ namespace UnitTests.Subtext.Framework.SecurityTests
             }
 		    Assert.IsTrue(foundFirst && foundSecond, "Did not find both users we created.");
 		}
+
+		[Test]
+		[RollBack]
+		public void CanGetAllUsersForABlog()
+		{
+			UnitTestHelper.SetupBlog();
+			string name = UnitTestHelper.GenerateRandomString();
+			MembershipUser user = Membership.CreateUser(name, "whatever-password", UnitTestHelper.MembershipTestEmail);
+			Membership.CreateUser(name + "blah", "secret-password", UnitTestHelper.MembershipTestEmail);
+
+			using (MembershipApplicationScope.SetApplicationName(Config.CurrentBlog.ApplicationName))
+			{
+				MembershipUserCollection allUsers = Membership.GetAllUsers();
+				Assert.AreEqual(allUsers.Count, 1, "Expected to only find the owner of the blog");
+				Roles.AddUserToRoles(user.UserName, new string[]{RoleNames.Anonymous});
+				allUsers = Membership.GetAllUsers();
+				Assert.AreEqual(allUsers.Count, 2, "Expected to find two users");
+			}
+		}
 		
 		[Test]
-      [RollBack]
+		[RollBack]
 		public void CanGetNumberOfUsersOnline()
 		{
 			UnitTestHelper.SetupBlog();
-         Config.CurrentBlog.Owner.LastActivityDate = DateTime.Now;
+			Config.CurrentBlog.Owner.LastActivityDate = DateTime.Now;
 			Membership.UpdateUser(Config.CurrentBlog.Owner);
 			Assert.GreaterEqualThan(Membership.GetNumberOfUsersOnline(), 1);
 		}

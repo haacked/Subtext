@@ -73,6 +73,11 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
+		protected Entry Entry(object dataItem)
+		{
+			return (Entry)dataItem;
+		}
+
 		private static void BindAuthor(RepeaterItemEventArgs e, Entry entry)
 		{
 			Label author = e.Item.FindControl("author") as Label;

@@ -208,11 +208,8 @@ GO
 IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_GetNumberOfUsersOnline' AND routine_schema = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_GetNumberOfUsersOnline]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_FindUsersByName' AND routine_schema = '<dbUser,varchar,dbo>')
-DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_FindUsersByName]
-GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_FindUsersByEmail' AND routine_schema = '<dbUser,varchar,dbo>')
-DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_FindUsersByEmail]
+IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_FindUsersByNameOrEmail' AND routine_schema = '<dbUser,varchar,dbo>')
+DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_FindUsersByNameOrEmail]
 GO
 IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Profile_GetProperties' AND routine_schema = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Profile_GetProperties]
@@ -6162,9 +6159,9 @@ SET QUOTED_IDENTIFIER OFF
 GO
 
 CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_UsersInRoles_RemoveUsersFromRoles]
-	@ApplicationName  nvarchar(256),
-	@UserNames		  nvarchar(4000),
-	@RoleNames		  nvarchar(4000)
+	@ApplicationName  nvarchar(256)
+	, @UserNames		  nvarchar(4000)
+	, @RoleNames		  nvarchar(4000)
 AS
 BEGIN
 	DECLARE @AppId uniqueidentifier
@@ -6533,11 +6530,13 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER OFF
 GO
-CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_FindUsersByName]
-    @UserNameToMatch       nvarchar(256),
-    @PageIndex             int,
-    @PageSize              int,
-    @TotalCount			   int output
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_FindUsersByNameOrEmail]
+    @ApplicationName	nvarchar(256) = NULL
+    , @UserNameToMatch  nvarchar(256) = NULL
+    , @EmailToMatch	    nvarchar(256) = NULL
+    , @PageIndex		int
+    , @PageSize         int
+    , @TotalCount		int output
 AS
 BEGIN
     DECLARE @FirstUserName nvarchar(256)
@@ -6547,9 +6546,31 @@ BEGIN
 	SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 	SET ROWCOUNT @StartRowIndex
+	
+
 	SELECT	@FirstUserName = UserName
 		FROM [<dbUser,varchar,dbo>].[subtext_Users]
-		WHERE UserName LIKE '%' + @UserNameToMatch + '%'
+		WHERE
+		( 
+			(@UserNameToMatch IS NOT NULL AND UserName LIKE '%' + @UserNameToMatch + '%')
+			OR
+			(@EmailToMatch IS NOT NULL AND Email LIKE '%' + @EmailToMatch + '%')
+		)
+		AND
+		(
+			@ApplicationName IS NULL 
+			OR
+			UserId IN 
+			(
+				SELECT UserId 
+				FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur
+					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r
+						ON r.RoleId = ur.RoleId
+					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
+						ON r.ApplicationId = a.ApplicationId
+				WHERE a.ApplicationName = @ApplicationName
+			)
+		)
 	ORDER BY UserName ASC
 
 	SET ROWCOUNT @PageSize
@@ -6559,69 +6580,59 @@ BEGIN
 		, PasswordQuestion
 		, Comment
 		, IsApproved
-        , CreateDate
-        , LastLoginDate
-        , LastActivityDate
-        , LastPasswordChangedDate
-        , UserId
-        , IsLockedOut
-        , LastLockoutDate
-    FROM   [<dbUser,varchar,dbo>].[subtext_Users]
-    WHERE  UserName >= @FirstUserName
-		AND UserName LIKE '%' + @UserNameToMatch + '%'
-    ORDER BY UserName ASC
-
-	SELECT @TotalCount = COUNT(UserName)
-	FROM [<dbUser,varchar,dbo>].[subtext_Users]
-	WHERE UserName LIKE '%' + @UserNameToMatch + '%'
-END
-
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER OFF
-GO
-CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_FindUsersByEmail]
-    @EmailToMatch          nvarchar(256),
-    @PageIndex             int,
-    @PageSize              int,
-    @TotalCount			   int output
-AS
-BEGIN
-	DECLARE @FirstUserName nvarchar(256)
-	DECLARE @StartRow int
-	DECLARE @StartRowIndex int
-
-	SET @StartRowIndex = @PageIndex * @PageSize + 1
-
-	SET ROWCOUNT @StartRowIndex
-	SELECT	@FirstUserName = UserName
-	FROM [<dbUser,varchar,dbo>].[subtext_Users]
-	WHERE Email LIKE '%' + @EmailToMatch + '%'
+		, CreateDate
+		, LastLoginDate
+		, LastActivityDate
+		, LastPasswordChangedDate
+		, UserId
+		, IsLockedOut
+		, LastLockoutDate
+	FROM   [<dbUser,varchar,dbo>].[subtext_Users]
+	WHERE  UserName >= @FirstUserName
+		AND
+		(
+			(@UserNameToMatch IS NOT NULL AND UserName LIKE '%' + @UserNameToMatch + '%')
+		OR
+			(@EmailToMatch IS NOT NULL AND Email LIKE '%' + @EmailToMatch + '%')
+		)	
+		AND 
+		(
+			@ApplicationName IS NULL 
+			OR
+			UserId IN 
+			(
+				SELECT UserId 
+				FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur
+					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r
+						ON r.RoleId = ur.RoleId
+					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
+						ON r.ApplicationId = a.ApplicationId
+				WHERE a.ApplicationName = @ApplicationName
+			)
+		)
 	ORDER BY UserName ASC
 
-	SET ROWCOUNT @PageSize
 
-	SELECT  UserName
-		, Email
-		, PasswordQuestion
-		, Comment
-		, IsApproved
-        , CreateDate
-        , LastLoginDate
-        , LastActivityDate
-        , LastPasswordChangedDate
-        , UserId
-        , IsLockedOut
-        , LastLockoutDate
-    FROM   [<dbUser,varchar,dbo>].[subtext_Users]
-    WHERE   UserName >= @FirstUserName
-		AND Email LIKE '%' + @EmailToMatch + '%'
-    ORDER BY UserName ASC
-
-	SELECT @TotalCount = COUNT(UserName)
+	SELECT @TotalCount = COUNT(1)
 	FROM [<dbUser,varchar,dbo>].[subtext_Users]
-	WHERE Email LIKE '%' + @EmailToMatch + '%'
+	WHERE 	(@UserNameToMatch IS NOT NULL AND UserName LIKE '%' + @UserNameToMatch + '%')
+		OR
+			(@EmailToMatch IS NOT NULL AND Email LIKE '%' + @EmailToMatch + '%')
+		AND
+		(
+			@ApplicationName IS NULL 
+			OR
+			UserId IN 
+			(
+				SELECT UserId 
+				FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur
+					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r
+						ON r.RoleId = ur.RoleId
+					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
+						ON r.ApplicationId = a.ApplicationId
+				WHERE a.ApplicationName = @ApplicationName
+			)
+		)
 END
 
 GO
@@ -6629,10 +6640,12 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER OFF
 GO
+
 CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_GetAllUsers]
-    @PageIndex             int,
-    @PageSize              int,
-    @TotalCount			   int output
+    @ApplicationName  nvarchar(256) = NULL
+    , @PageIndex		int
+    , @PageSize		int
+    , @TotalCount	int output
 AS
 BEGIN
 	DECLARE @FirstUserName nvarchar(256)
@@ -6642,30 +6655,73 @@ BEGIN
 	SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 	SET ROWCOUNT @StartRowIndex
+	
 	SELECT	@FirstUserName = UserName
 	FROM [<dbUser,varchar,dbo>].[subtext_Users]
+	WHERE
+		@ApplicationName IS NULL 
+		OR
+		UserId IN 
+		(
+			SELECT UserId 
+			FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur
+				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r
+					ON r.RoleId = ur.RoleId
+				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
+					ON r.ApplicationId = a.ApplicationId
+			WHERE a.ApplicationName = @ApplicationName
+		)
 	ORDER BY UserName ASC
-
+	
 	SET ROWCOUNT @PageSize
 
+	
 	SELECT  UserName
 		, Email
 		, PasswordQuestion
 		, Comment
 		, IsApproved
-        , CreateDate
-        , LastLoginDate
-        , LastActivityDate
-        , LastPasswordChangedDate
-        , UserId
-        , IsLockedOut
-        , LastLockoutDate
-    FROM   [<dbUser,varchar,dbo>].[subtext_Users]
-    WHERE   UserName >= @FirstUserName
-    ORDER BY UserName ASC
+		, CreateDate
+		, LastLoginDate
+		, LastActivityDate
+		, LastPasswordChangedDate
+		, UserId
+		, IsLockedOut
+		, LastLockoutDate
+	FROM   [<dbUser,varchar,dbo>].[subtext_Users]
+	WHERE   UserName >= @FirstUserName
+		AND 
+		(
+			@ApplicationName IS NULL 
+			OR
+			UserId IN 
+			(
+				SELECT UserId 
+				FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur
+					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r
+						ON r.RoleId = ur.RoleId
+					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
+						ON r.ApplicationId = a.ApplicationId
+				WHERE a.ApplicationName = @ApplicationName
+			)
+		)
+	ORDER BY UserName ASC
 
-	SELECT @TotalCount = COUNT(UserName)
-	FROM [<dbUser,varchar,dbo>].[subtext_Users]
+	SELECT @TotalCount = COUNT(1)
+	FROM   [<dbUser,varchar,dbo>].[subtext_Users]
+	WHERE
+		@ApplicationName IS NULL 
+		OR
+		UserId IN 
+		(
+			SELECT UserId 
+			FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur
+				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r
+					ON r.RoleId = ur.RoleId
+				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
+					ON r.ApplicationId = a.ApplicationId
+			WHERE a.ApplicationName = @ApplicationName
+		)
 END
 
 GO
@@ -6673,6 +6729,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER OFF
 GO
+
 CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Users_DeleteUser]
     @UserName         nvarchar(256),
     @TablesToDeleteFrom int,
