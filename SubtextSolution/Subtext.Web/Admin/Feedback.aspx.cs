@@ -166,16 +166,6 @@ namespace Subtext.Web.Admin.Pages
 			BindList();
 		}
 
-		//I implemented version 2 before I let you guys see version 1.
-		//Therefore, I kept the version 1 code in case you wished to use it instead.
-		//Version 1 was "show only comments". Version 2 is a filter that can show all, show only comments, or show only pingtracks.
-		[Obsolete("Use rbFeedbackFilter", false)]
-		protected void cbShowOnlyComments_CheckedChanged(object sender, EventArgs e)
-		{
-			Preferences.FeedbackShowOnlyComments = this.cbShowOnlyComments.Checked;
-			BindList();
-		}
-		
 		protected void rbFeedbackFilter_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Preferences.SetFeedbackItemFilter(this.rbFeedbackFilter.SelectedValue, FeedbackStatusFilter);

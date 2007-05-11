@@ -38,13 +38,13 @@ namespace Subtext.Web.Admin.WebUI {
         protected global::Subtext.Web.Controls.ScriptTag tableEffectsJS;
         
         /// <summary>
-        /// NiceForms control.
+        /// FormsStyle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Controls.ScriptTag NiceForms;
+        protected global::Subtext.Web.Controls.StyleTag FormsStyle;
         
         /// <summary>
         /// HelptipJs control.
@@ -101,15 +101,6 @@ namespace Subtext.Web.Admin.WebUI {
         protected global::Subtext.Web.Admin.WebUI.HeaderLink adminCss;
         
         /// <summary>
-        /// NiceFormsStyle control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Subtext.Web.Admin.WebUI.HeaderLink NiceFormsStyle;
-        
-        /// <summary>
         /// AdminSection control.
         /// </summary>
         /// <remarks>
@@ -137,13 +128,13 @@ namespace Subtext.Web.Admin.WebUI {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
-        /// LoggedInUser control.
+        /// loginName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal LoggedInUser;
+        protected global::System.Web.UI.WebControls.LoginName loginName;
         
         /// <summary>
         /// LogoutLink control.

@@ -48,6 +48,7 @@
 							<li id="PostsTab"><a href="EditPosts.aspx" id="TabPosts" title="Posts">Posts</a></li>
 							<li id="ArticlesTab"><a href="EditArticles.aspx" id="TabArticles" title="Articles">Articles</a></li>
 							<li id="FeedbackTab"><a href="Feedback.aspx" id="TabFeedback" title="Feedback">Feedback</a></li>
+							<li id="UsersTab"><a href="Users.aspx" id="TabUsers" title="Users">Users</a></li>
 							<li id="LinksTab"><a href="EditLinks.aspx" id="TabLinks" title="Links">Links</a></li>
 							<li runat="server" id="galleryTab" class="galleryTab" visible="<%# Config.Settings.AllowImages %>">
 								<a href="EditGalleries.aspx" id="TabGalleries" title="Galleries">Galleries</a>

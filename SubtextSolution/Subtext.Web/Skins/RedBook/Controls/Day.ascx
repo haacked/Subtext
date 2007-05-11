@@ -15,6 +15,7 @@
 			<asp:Literal  runat="server" ID="PostText" />
 			
 			<p class="postfooter">
+				Author: <asp:Literal ID="Literal1" runat="server" Text="<%# Entry(Container.DataItem).Author.UserName  %>" /> 
 				<asp:Literal id="PostDesc"  runat="server" />
 			</p>
 	</ItemTemplate>

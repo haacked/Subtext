@@ -7,7 +7,6 @@ using System.Data.SqlClient;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
-using System.Text;
 using Subtext.Framework.Properties;
 using System.Globalization;
 
@@ -62,63 +61,29 @@ namespace Subtext.Framework.Security
 			}
 		}
 
+		/// <summary>
+		/// Adds the specified user names to the specified roles for the configured applicationName.
+		/// </summary>
+		/// <param name="usernames">A string array of user names to be added to the specified roles.</param>
+		/// <param name="roleNames">A string array of the role names to add the specified user names to.</param>
 		public override void AddUsersToRoles(string[] usernames, string[] roleNames)
 		{
-			string cdUserNames;
-			string cdRoleNames;
-
-			StringBuilder builder = new StringBuilder();
-			foreach (string s in usernames)
-			{
-				builder.AppendFormat("{0},", s);
-			}
-
-			cdUserNames = builder.ToString().Remove(builder.Length - 1);
-
-			builder = new StringBuilder();
-
-			foreach (string s in roleNames)
-			{
-				builder.AppendFormat("{0},", s);
-			}
-			cdRoleNames = builder.ToString().Remove(builder.Length - 1);
-
-			SqlConnection conn = new SqlConnection(this.connectionString);
-			SqlCommand cmd = new SqlCommand("subtext_UsersInRoles_AddUsersToRoles", conn);
-			cmd.CommandType = CommandType.StoredProcedure;
-			cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-			cmd.Parameters.AddWithValue("@UserNames", cdUserNames);
-			cmd.Parameters.AddWithValue("@RoleNames", cdRoleNames);
-			cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow.ToUniversalTime());
-			using (conn)
-			{
-				conn.Open();
-				cmd.ExecuteNonQuery();
-			}
-
+			SetUsersRoles("subtext_UsersInRoles_AddUsersToRoles", usernames, roleNames, true);
 		}
 
 		public override void CreateRole(string roleName)
 		{
             if (roleName == null)
-            {
                 throw new ArgumentNullException("roleName", "Role is null.");
-            }
 
 			if (roleName.Length == 0)
-            {
                 throw new ArgumentException("Cannot create an empty role name.", "roleName");
-            }
 
             if (roleName.Contains(","))
-            {
                 throw new ArgumentException("Role cannot contain a comma.", "roleName");
-            }
 
             if (roleName.Length > 512)
-            {
                 throw new ArgumentException("Role name is too long.", "roleName");
-            }
 
 			int recordsAffected = SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Roles_CreateRole", ApplicationName, roleName);
 			if (recordsAffected != 1)
@@ -139,6 +104,12 @@ namespace Subtext.Framework.Security
 			throw new NotImplementedException(Resources.NotImplementedException_Generic);
 		}
 
+		/// <summary>
+		/// Gets a list of all the roles for the configured applicationName.
+		/// </summary>
+		/// <returns>
+		/// A string array containing the names of all the roles stored in the data source for the configured applicationName.
+		/// </returns>
 		public override string[] GetAllRoles()
 		{
 			using(SqlConnection conn = new SqlConnection(this.connectionString))
@@ -251,7 +222,27 @@ namespace Subtext.Framework.Security
 
 		public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
 		{
-			throw new NotImplementedException(Resources.NotImplementedException_Generic);
+			SetUsersRoles("subtext_UsersInRoles_RemoveUsersFromRoles", usernames, roleNames, false);
+		}
+
+		private void SetUsersRoles(string storedProcName, string[] usernames, string[] roleNames, bool includeTime)
+		{
+			string delimitedUserNames = String.Join(",", usernames);
+			string delimitedRoles = String.Join(",", roleNames);
+
+			using (SqlConnection conn = new SqlConnection(this.connectionString))
+			using (SqlCommand cmd = new SqlCommand(storedProcName, conn))
+			{
+				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
+				cmd.Parameters.AddWithValue("@UserNames", delimitedUserNames);
+				cmd.Parameters.AddWithValue("@RoleNames", delimitedRoles);
+				if (includeTime)
+					cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow.ToUniversalTime());
+
+				conn.Open();
+				cmd.ExecuteNonQuery();
+			}
 		}
 
 		/// <summary>

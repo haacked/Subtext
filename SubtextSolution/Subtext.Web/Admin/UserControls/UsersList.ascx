@@ -1,4 +1,5 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="UserGrid.ascx.cs" Inherits="Subtext.Web.HostAdmin.UserControls.UserGrid" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="UsersList.ascx.cs" Inherits="Subtext.Web.Admin.UserControls.UsersList" %>
+
 <asp:GridView ID="usersGrid" runat="server" 
     AllowPaging="True" 
     AutoGenerateColumns="False"

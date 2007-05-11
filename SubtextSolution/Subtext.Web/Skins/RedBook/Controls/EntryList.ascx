@@ -7,7 +7,8 @@
 			<h2><asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink  Runat="server" ID="TitleUrl" /></h2>
 			<asp:Literal ID="PostText" Runat = "server" />
 			<p class="postfooter">
-				<asp:Literal id="PostDesc" runat="server" />
+				Author: <asp:Literal ID="authorLiteral" runat="server" Text="<%# Entry(Container.DataItem).Author.UserName  %>" /> 
+				<asp:Literal id="PostDesc" runat="server" /> 
 			</p>
 		</div>
 	</ItemTemplate>

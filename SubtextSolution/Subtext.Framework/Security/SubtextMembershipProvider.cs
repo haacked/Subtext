@@ -270,34 +270,7 @@ namespace Subtext.Framework.Security
 			if (emailToMatch.Length == 0)
 				throw new ArgumentException(Resources.Argument_StringZeroLength, "emailToMatch");
 
-			MembershipUserCollection foundUsers = new MembershipUserCollection();
-
-			using (SqlConnection conn = new SqlConnection(this.connectionString))
-			{
-				conn.Open();
-				SqlParameter totalCountParam = DataHelper.MakeOutParam("@TotalCount", SqlDbType.Int, 4);
-
-				using (SqlCommand command = new SqlCommand("subtext_Membership_FindUsersByEmail", conn))
-				{
-					command.CommandType = CommandType.StoredProcedure;
-					command.Parameters.Add(new SqlParameter("@EmailToMatch", emailToMatch));
-					command.Parameters.Add(new SqlParameter("@PageIndex", pageIndex));
-					command.Parameters.Add(new SqlParameter("@PageSize", pageSize));
-					command.Parameters.Add(totalCountParam);
-
-					using (IDataReader reader = command.ExecuteReader())
-					{
-						while (reader.Read())
-						{
-							foundUsers.Add(LoadUserFromReader(reader));
-						}
-						reader.Close();
-						totalRecords = (int)command.Parameters["@TotalCount"].Value;
-					}
-				}
-			}
-
-			return foundUsers;
+			return FindUsersByNameOrEmail(null, emailToMatch, pageIndex, pageSize, out totalRecords);
 		}
 
 		/// <summary>
@@ -313,25 +286,36 @@ namespace Subtext.Framework.Security
 		public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
 		{
 			if (usernameToMatch == null)
-			{
 				throw new ArgumentNullException("usernameToMatch", Resources.ArgumentNull_String);
-			}
 
 			if (usernameToMatch.Length == 0)
-			{
 				throw new ArgumentException(Resources.Argument_StringZeroLength, "usernameToMatch");
-			}
+
+			return FindUsersByNameOrEmail(usernameToMatch, null, pageIndex, pageSize, out totalRecords);
+		}
+
+		private MembershipUserCollection FindUsersByNameOrEmail(string userName, string email, int pageIndex, int pageSize, out int totalRecords)
+		{
+			if (email == null && userName == null)
+				throw new ArgumentNullException("email and userName", Resources.ArgumentNull_String);
+
+			if (email != null && userName != null)
+				throw new ArgumentException("Can only search on email or username. Not both at the same time.");
 
 			MembershipUserCollection foundUsers = new MembershipUserCollection();
+
 			using (SqlConnection conn = new SqlConnection(this.connectionString))
 			{
 				conn.Open();
 				SqlParameter totalCountParam = DataHelper.MakeOutParam("@TotalCount", SqlDbType.Int, 4);
 
-				using (SqlCommand command = new SqlCommand("subtext_Membership_FindUsersByName", conn))
+				using (SqlCommand command = new SqlCommand("subtext_Membership_FindUsersByNameOrEmail", conn))
 				{
 					command.CommandType = CommandType.StoredProcedure;
-					command.Parameters.Add(new SqlParameter("@UserNameToMatch", usernameToMatch));
+					string application = String.IsNullOrEmpty(ApplicationName) || ApplicationName == "/" ? null : ApplicationName;
+					command.Parameters.Add(new SqlParameter("@ApplicationName", application));
+					command.Parameters.Add(new SqlParameter("@EmailToMatch", email));
+					command.Parameters.Add(new SqlParameter("@UserNameToMatch", userName));
 					command.Parameters.Add(new SqlParameter("@PageIndex", pageIndex));
 					command.Parameters.Add(new SqlParameter("@PageSize", pageSize));
 					command.Parameters.Add(totalCountParam);
@@ -347,6 +331,7 @@ namespace Subtext.Framework.Security
 					}
 				}
 			}
+
 			return foundUsers;
 		}
 
@@ -366,10 +351,14 @@ namespace Subtext.Framework.Security
 			{
 				conn.Open();
 				SqlParameter totalCountParam = DataHelper.MakeOutParam("@TotalCount", SqlDbType.Int, 4);
+				string application = String.IsNullOrEmpty(ApplicationName) || ApplicationName == "/" ? null : ApplicationName;
 
+				//TODO: If the Application is not "/", we should only list users 
+				//		who are a member of any role within the current blog application.
 				using (SqlCommand command = new SqlCommand("subtext_Membership_GetAllUsers", conn))
 				{
 					command.CommandType = CommandType.StoredProcedure;
+					command.Parameters.Add(new SqlParameter("@ApplicationName", application));
 					command.Parameters.Add(new SqlParameter("@PageIndex", pageIndex));
 					command.Parameters.Add(new SqlParameter("@PageSize", pageSize));
 					command.Parameters.Add(totalCountParam);

@@ -9,7 +9,7 @@
 
 		<p class="postfooter">
 			<a href="javascript:window.print();" class="printIcon"><span>Print</span></a>
-			posted @ <asp:Literal id="PostDescription"  runat="server" />
+			posted @ <asp:Literal id="PostDescription"  runat="server" /> by <asp:Literal ID="authorLiteral" runat="server" Text="<%# Entry.Author.UserName %>" />
 		</p>
 		</div>
 	<asp:Literal ID = "TrackBack" Runat="server" />

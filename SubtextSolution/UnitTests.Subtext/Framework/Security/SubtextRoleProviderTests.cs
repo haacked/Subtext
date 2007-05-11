@@ -71,7 +71,29 @@ namespace UnitTests.Subtext.Framework.SecurityTests
             }
         }
 
-        [Test]
+		[Test]
+		[RollBack]
+		public void CanRemoveUserFromRole()
+		{
+			string username = UnitTestHelper.MembershipTestUsername;
+			MembershipUser user = Membership.CreateUser(username, "abc123@#$#$!", UnitTestHelper.MembershipTestEmail);
+			using (MembershipApplicationScope.SetApplicationName("/"))
+			{
+				Assert.IsNotNull(user);
+				Roles.CreateRole("ATestRole");
+				Roles.AddUsersToRoles(new string[] { username }, new string[] { "ATestRole" });
+				Assert.IsTrue(Roles.IsUserInRole(username, "ATestRole"));
+				Roles.RemoveUserFromRole(username, "ATestRole");
+				Assert.IsFalse(Roles.IsUserInRole(username, "ATestRole"));
+
+				Roles.AddUsersToRole(new string[] { username }, "ATestRole");
+				Assert.IsTrue(Roles.IsUserInRole(username, "ATestRole"));
+				Roles.RemoveUsersFromRole(new string[] { username }, "ATestRole");
+				Assert.IsFalse(Roles.IsUserInRole(username, "ATestRole"));
+			}
+		}
+
+		[Test]
         [RollBack]
         public void CanCreateRoles()
         {

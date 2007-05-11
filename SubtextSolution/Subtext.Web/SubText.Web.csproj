@@ -241,6 +241,34 @@
     <Compile Include="Admin\UserControls\EntryEditor.ascx.designer.cs">
       <DependentUpon>EntryEditor.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\UserControls\RoleChooser.ascx.cs">
+      <DependentUpon>RoleChooser.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\UserControls\RoleChooser.ascx.designer.cs">
+      <DependentUpon>RoleChooser.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\UserControls\UserManager.ascx.cs">
+      <DependentUpon>UserManager.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\UserControls\UserManager.ascx.designer.cs">
+      <DependentUpon>UserManager.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\UserControls\UsersList.ascx.cs">
+      <DependentUpon>UsersList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\UserControls\UsersList.ascx.designer.cs">
+      <DependentUpon>UsersList.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Users.aspx.cs">
+      <DependentUpon>Users.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Users.aspx.designer.cs">
+      <DependentUpon>Users.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\WebUI\AdminPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -1010,6 +1038,10 @@
     <Content Include="Admin\UserControls\EntryEditor.ascx" />
     <Content Include="Admin\EditPosts.aspx" />
     <Content Include="Admin\Credits.aspx" />
+    <Content Include="Admin\UserControls\RoleChooser.ascx" />
+    <Content Include="Admin\UserControls\UserManager.ascx" />
+    <Content Include="Admin\UserControls\UsersList.ascx" />
+    <Content Include="Admin\Users.aspx" />
     <Content Include="DTP.aspx" />
     <Content Include="ExternalDependencies\FreeTextBox.xml" />
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />

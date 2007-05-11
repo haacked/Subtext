@@ -716,6 +716,7 @@ body.Posts li#PostsTab,
 body.Articles li#ArticlesTab,
 body.Feedback li#FeedbackTab,
 body.Links li#LinksTab,
+body.Users li#UsersTab,
 body.Galleries .NavHeaderRow #TopNav li.galleryTab,
 body.Stats li#StatsTab,
 body.Options li#OptionsTab,
@@ -727,6 +728,7 @@ body.ImportExport li#ImportExportTab
 body.Posts a#TabPosts,
 body.Articles a#TabArticles,
 body.Feedback a#TabFeedback,
+body.Users a#TabUsers,
 body.Links a#TabLinks,
 body.Galleries a#TabGalleries,
 body.Stats a#TabStats,
@@ -878,3 +880,109 @@ fieldset select.timezonelist
 .right { float: right; }
 .block { display: block; }
 .inline { display: inline; }
+
+
+div.role-chooser ul li
+{
+	display: inline;
+	float: left;
+}
+
+div.role-chooser ul
+{
+	padding: 0;
+	margin: 0;
+}
+
+div.role-chooser ul li
+{
+	margin-left: 0;
+	margin-right: 10px;
+}
+
+div.role-chooser ul li input, 
+div.role-chooser ul li label
+{
+	display: inline-block;
+	margin: 0;
+}
+
+div.button-row
+{
+	clear: both;
+}
+
+/*-------------{table styles}--------------*/
+table
+{
+	border-collapse: collapse;
+}
+
+table tr.header
+{
+	background-color: #ffc;
+}
+
+table.log
+{
+	border: solid 1px #ddd;
+}
+
+table.log .pre-header input, table.log .pre-header label
+{
+	float: left;
+}
+
+table.log .pre-header input.button
+{
+	float: right;
+}
+
+table.log th.logger
+{
+	width: 200px;
+}
+
+table.log tr
+{
+	vertical-align: top;
+}
+
+table.log td, table.log th
+{
+	font-size: .8em;
+	padding: 5px;
+	text-align: left;
+}
+
+table.log td, table.log th
+{
+	border: solid 1px #eee;
+}
+
+table.log td.date
+{
+	font-size: smaller;
+}
+
+table tr.alt
+{
+	color: inherit;
+	background: #ffffef;
+}
+
+table tr
+{
+	color: inherit;
+	background: #fff;
+}
+
+table tr.selected
+{
+	background-color: #e7f4fe;
+}
+
+table.users-table td, table.users-table th
+{
+	font-size: 1.1em;
+}
