@@ -48,7 +48,11 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 			Membership.CreateUser("anothertestuser1", "another-password", email);
 			Membership.UpdateUser(Config.CurrentBlog.Owner);
 
-			MembershipUserCollection foundUsers = Membership.FindUsersByEmail(email);
+			MembershipUserCollection foundUsers;
+			using (MembershipApplicationScope.SetApplicationName("/"))
+			{
+				foundUsers = Membership.FindUsersByEmail(email);
+			}
 			Assert.AreEqual(1, foundUsers.Count, "Expected to find two users");
 			
             foreach(MembershipUser user in foundUsers)
@@ -66,7 +70,11 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 			Membership.CreateUser(name, "whatever-password",  UnitTestHelper.GenerateRandomString() + "@example.com");
 			Membership.CreateUser(name + "blah", "secret-password",  UnitTestHelper.GenerateRandomString() + "@example.com");
 
-			MembershipUserCollection foundUsers = Membership.FindUsersByName(name);
+			MembershipUserCollection foundUsers;
+			using (MembershipApplicationScope.SetApplicationName("/"))
+			{
+				foundUsers = Membership.FindUsersByName(name);
+			}
 			Assert.AreEqual(2, foundUsers.Count, "Expected to find two users");
 
 			foreach (MembershipUser user in foundUsers)
@@ -116,7 +124,11 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 			Membership.CreateUser(name, "whatever-password", UnitTestHelper.GenerateRandomString() + "@example.com");
 			Membership.CreateUser(name + "blah", "secret-password", UnitTestHelper.GenerateRandomString() + "@example.com");
 
-			MembershipUserCollection allUsers = Membership.GetAllUsers();
+			MembershipUserCollection allUsers;
+			using(MembershipApplicationScope.SetApplicationName("/"))
+			{
+				allUsers = Membership.GetAllUsers();
+			}
 			Assert.GreaterEqualThan(allUsers.Count, 3, "Expected to find at least three users");
 		    bool foundFirst = false;
 		    bool foundSecond = false;
