@@ -34,17 +34,24 @@
   <ItemGroup>
     <Reference Include="AjaxControlToolkit, Version=1.0.10201.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExternalDependencies\AjaxControlToolkit.dll</HintPath>
+      <HintPath>..\Dependencies\AjaxControlToolkit.dll</HintPath>
     </Reference>
-    <Reference Include="AngryPets.Web.Frameworks.ReverseDOS, Version=2.9.0.39780, Culture=neutral" />
-    <Reference Include="BlogML, Version=1.0.2229.38505, Culture=neutral">
+    <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Subtext.Framework\ExternalDependencies\BlogML.dll</HintPath>
+      <HintPath>..\Dependencies\freetextbox.dll</HintPath>
     </Reference>
-    <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87" />
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="Identicon, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Identicon, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Identicon.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -62,7 +69,7 @@
     <Reference Include="System.Web.Mobile" />
     <Reference Include="UrlRewritingNet.UrlRewriter, Version=2.1.7429.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExternalDependencies\UrlRewritingNet.UrlRewriter.dll</HintPath>
+      <HintPath>..\Dependencies\UrlRewritingNet.UrlRewriter.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -763,8 +770,6 @@
       <SubType>ASPXCodeBehind</SubType>
     </Content>
     <Content Include="emoticons.txt" />
-    <Content Include="ExternalDependencies\AngryPets.Web.Frameworks.ReverseDOS.dll" />
-    <Content Include="ExternalDependencies\freetextbox.dll" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="logout.aspx" />
@@ -1043,11 +1048,6 @@
     <Content Include="Admin\UserControls\UsersList.ascx" />
     <Content Include="Admin\Users.aspx" />
     <Content Include="DTP.aspx" />
-    <Content Include="ExternalDependencies\FreeTextBox.xml" />
-    <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="ExternalDependencies\Identicon.dll" />
-    <Content Include="ExternalDependencies\log4net.dll" />
-    <Content Include="ExternalDependencies\log4net.xml" />
     <Content Include="ForgotPassword.aspx" />
     <Content Include="HostAdmin\ChangePassword.aspx" />
     <Content Include="HostAdmin\Default.aspx" />

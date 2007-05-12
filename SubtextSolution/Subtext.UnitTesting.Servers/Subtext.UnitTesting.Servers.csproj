@@ -96,17 +96,30 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetOpenMail">
-      <Name>DotNetOpenMail</Name>
-      <HintPath>ExternalDependencies\DotNetOpenMail.dll</HintPath>
+    <Reference Include="DotNetOpenMail, Version=1.0.2177.21428, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\DotNetOpenMail.dll</HintPath>
     </Reference>
-    <Reference Include="LumiSoft.Net">
-      <Name>LumiSoft.Net</Name>
-      <HintPath>ExternalDependencies\LumiSoft.Net.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit.Framework, Version=1.0.2642.28107, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
-    <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL" />
-    <Reference Include="QuickGraph, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
+    <Reference Include="LumiSoft.Net, Version=1.1.1495.26190, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\LumiSoft.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit.Framework, Version=1.0.2642.28107, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\MbUnit.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\MbUnit.Framework.2.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -139,24 +152,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TestWebServer.cs" />
-    <Content Include="ExternalDependencies\DotNetOpenMail.dll" />
-    <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="ExternalDependencies\LumiSoft.Net.dll" />
-    <Content Include="ExternalDependencies\LumiSoft.Net.xml" />
-    <Content Include="ExternalDependencies\MbUnit.Framework.2.0.dll" />
-    <Content Include="ExternalDependencies\MbUnit.Framework.dll" />
-    <Content Include="ExternalDependencies\NGraphviz.dll" />
-    <Content Include="ExternalDependencies\NGraphviz.Helpers.dll" />
-    <Content Include="ExternalDependencies\NGraphviz.Layout.dll" />
-    <Content Include="ExternalDependencies\QuickGraph.Algorithms.dll" />
-    <Content Include="ExternalDependencies\QuickGraph.Algorithms.Graphviz.dll" />
-    <Content Include="ExternalDependencies\QuickGraph.dll" />
-    <Content Include="ExternalDependencies\Refly.dll" />
-    <Content Include="ExternalDependencies\TestFu.dll" />
     <EmbeddedResource Include="TestResource.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Component Include="ExternalDependencies\WebDev.WebHost.dll" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />

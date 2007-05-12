@@ -98,9 +98,16 @@
   <ItemGroup>
     <Reference Include="AjaxControlToolkit, Version=1.0.10201.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExternalDependencies\AjaxControlToolkit.dll</HintPath>
+      <HintPath>..\Dependencies\AjaxControlToolkit.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
+    <Reference Include="Interop.SQLDMO, Version=8.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Interop.SQLDMO.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -123,13 +130,6 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <COMReference Include="SQLDMO">
-      <Guid>{10010001-E260-11CF-AE68-00AA004A34D5}</Guid>
-      <VersionMajor>8</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
@@ -200,10 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\InvisibleCaptcha.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ExternalDependencies\log4net.dll" />
-    <Content Include="ExternalDependencies\log4net.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">

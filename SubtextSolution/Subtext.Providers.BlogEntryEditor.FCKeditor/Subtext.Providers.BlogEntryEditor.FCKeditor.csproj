@@ -96,9 +96,9 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FredCK.FCKeditorV2">
-      <Name>FredCK.FCKeditorV2</Name>
-      <HintPath>ExternalDependencies\FredCK.FCKeditorV2.dll</HintPath>
+    <Reference Include="FredCK.FCKeditorV2, Version=2.2.2106.29420, Culture=neutral, PublicKeyToken=4f86767c9b519a06">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\FredCK.FCKeditorV2.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -158,7 +158,6 @@
     <Compile Include="XmlUtil.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Content Include="ExternalDependencies\FredCK.FCKeditorV2.dll" />
     <Content Include="license.txt" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
