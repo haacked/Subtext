@@ -28,32 +28,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Interop.SHDocVw, Version=1.1.0.0, Culture=neutral">
+    <Reference Include="MbUnit.Framework, Version=1.0.2642.28107, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\Interop.SHDocVw.dll</HintPath>
+      <HintPath>..\Dependencies\MbUnit.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit.Framework, Version=1.0.2531.41788, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+    <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\MbUnit.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\Microsoft.mshtml.dll</HintPath>
-    </Reference>
-    <Reference Include="Rhino.Mocks, Version=2.9.6.40350, Culture=neutral, PublicKeyToken=0b3305902db7183f">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\Rhino.Mocks.dll</HintPath>
+      <HintPath>..\Dependencies\MbUnit.Framework.2.0.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WatiN.Core, Version=1.0.0.4000, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\WatiN.Core.dll</HintPath>
+      <HintPath>..\Dependencies\WatiN.Core.dll</HintPath>
     </Reference>
     <Reference Include="WatiN.Core.UnitTests, Version=1.0.0.4000, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\WatiN.Core.UnitTests.dll</HintPath>
+      <HintPath>..\Dependencies\WatiN.Core.UnitTests.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

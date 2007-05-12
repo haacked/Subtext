@@ -98,50 +98,42 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlogML, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="FredCK.FCKeditorV2">
-      <Name>FredCK.FCKeditorV2</Name>
-      <HintPath>ExternalDependencies\FredCK.FCKeditorV2.dll</HintPath>
+    <Reference Include="BlogML, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\BlogML.dll</HintPath>
     </Reference>
-    <Reference Include="FreeTextBox">
-      <Name>freetextbox</Name>
-      <HintPath>ExternalDependencies\freetextbox.dll</HintPath>
+    <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\CookComputing.XmlRpcV2.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL" />
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
-    <Reference Include="MbUnit.Framework, Version=1.0.2642.28107, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
-    <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
-    <Reference Include="NGraphviz">
-      <Name>NGraphviz</Name>
-      <HintPath>ExternalDependencies\NGraphviz.dll</HintPath>
+    <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\freetextbox.dll</HintPath>
     </Reference>
-    <Reference Include="NGraphviz.Helpers">
-      <Name>NGraphviz.Helpers</Name>
-      <HintPath>ExternalDependencies\NGraphviz.Helpers.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="NGraphviz.Layout">
-      <Name>NGraphviz.Layout</Name>
-      <HintPath>ExternalDependencies\NGraphviz.Layout.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="QuickGraph">
-      <Name>QuickGraph</Name>
-      <HintPath>ExternalDependencies\QuickGraph.dll</HintPath>
+    <Reference Include="MbUnit.Framework, Version=1.0.2642.28107, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\MbUnit.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="QuickGraph.Algorithms">
-      <Name>QuickGraph.Algorithms</Name>
-      <HintPath>ExternalDependencies\QuickGraph.Algorithms.dll</HintPath>
+    <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\MbUnit.Framework.2.0.dll</HintPath>
     </Reference>
-    <Reference Include="QuickGraph.Algorithms.Graphviz">
-      <Name>QuickGraph.Algorithms.Graphviz</Name>
-      <HintPath>ExternalDependencies\QuickGraph.Algorithms.Graphviz.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Refly">
-      <Name>Refly</Name>
-      <HintPath>ExternalDependencies\Refly.dll</HintPath>
+    <Reference Include="Rhino.Mocks, Version=3.1.0.584, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Rhino.Mocks.dll</HintPath>
     </Reference>
-    <Reference Include="Rhino.Mocks, Version=3.1.0.584, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -158,10 +150,9 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="TestFu, Version=1.0.2531.41787, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
-    <Reference Include="Velocit.RegularExpressions, Version=1.0.0.0, Culture=neutral">
+    <Reference Include="TestFu, Version=1.0.2531.41787, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExternalDependencies\Velocit.RegularExpressions.dll</HintPath>
+      <HintPath>..\Dependencies\TestFu.dll</HintPath>
     </Reference>
     <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
       <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
