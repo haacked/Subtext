@@ -14,7 +14,6 @@ namespace Subtext.Framework.Security
 {
 	public class SubtextRoleProvider : System.Web.Security.RoleProvider
 	{
-		private string applicationName;
 		private string connectionString;
 
 		public override void Initialize(string name, NameValueCollection config)
@@ -46,6 +45,11 @@ namespace Subtext.Framework.Security
 		/// Gets or sets the name of the application to store 
 		/// and retrieve role information for.
 		/// </summary>
+		/// <remarks>
+		/// Since we support multiple "Applications" within a single Subtext 
+		/// IIS application, we need to store the application name within 
+		/// the HttpContext, so that one request does not interfere with another.
+		/// </remarks>
 		/// <value></value>
 		/// <returns>The name of the application to store and 
 		/// retrieve role information for.</returns>
@@ -53,13 +57,20 @@ namespace Subtext.Framework.Security
 		{
 			get
 			{
-				return this.applicationName ?? "/";
+				if (HttpContext.Current == null)
+					return applicationName ?? "/";
+
+				return (string)HttpContext.Current.Items["ApplicationName"] ?? "/";
 			}
 			set
 			{
-				this.applicationName = value;
+				if (HttpContext.Current != null)
+					HttpContext.Current.Items["ApplicationName"] = value;
+				applicationName = value;
 			}
 		}
+
+		private string applicationName;
 
 		/// <summary>
 		/// Adds the specified user names to the specified roles for the configured applicationName.
