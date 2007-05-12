@@ -51,7 +51,7 @@ namespace Subtext.Framework
 		/// <exception type="CommentDuplicateException">Thrown if the blog does not allow duplicate comments and too many are received in a short period of time.</exception>
 		public void FilterBeforePersist(FeedbackItem feedback)
 		{
-			if (!SecurityHelper.IsAdmin)
+			if (Rights.CanPostComment())
 			{
 				if (!SourceFrequencyIsValid(feedback))
 					throw new CommentFrequencyException();
