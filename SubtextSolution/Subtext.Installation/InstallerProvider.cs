@@ -62,13 +62,6 @@ namespace Subtext.Installation
 		public abstract Version CurrentInstallationVersion { get; }
 
 		/// <summary>
-		/// Updates the current installed version.
-		/// </summary>
-		/// <param name="newVersion">The new version that is now current.</param>
-		/// <param name="transaction">The transaction.</param>
-		public abstract void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction);
-
-		/// <summary>
 		/// Determines whether the specified exception is due to a permission 
 		/// denied error.
 		/// </summary>

@@ -200,16 +200,5 @@ namespace Subtext.Installation
 				|| sqlexc.Number == (int)SqlErrorMessage.PermissionDeniedInOnObject
 				);
 		}
-
-		/// <summary>
-		/// Updates the current installed version.
-		/// </summary>
-		/// <param name="newVersion">The new version that is now current.</param>
-		/// <param name="transaction">The transaction to perform this upgrade within.</param>
-		/// <returns></returns>
-		public override void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
-		{
-			this.installer.UpdateInstallationVersionNumber(newVersion, transaction);
-		}
 	}
 }
