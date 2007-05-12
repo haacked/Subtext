@@ -124,10 +124,10 @@ namespace UnitTests.Subtext.SubtextWeb.HostAdmin
 
 			// Setup Users.
 			MembershipUserCollection results = new MembershipUserCollection();
-			
-			MembershipProvider providerMock = (MembershipProvider)mocks.CreateMock(typeof(MembershipProvider));
-			
-			MembershipUser userMock = (MembershipUser)mocks.DynamicMock(typeof(MembershipUser));
+
+			MembershipProvider providerMock = mocks.CreateMock<MembershipProvider>();
+		
+			MembershipUser userMock = mocks.DynamicMock<MembershipUser>();
 			SetupResult.For(userMock.ProviderUserKey).Return(Guid.NewGuid());
 			SetupResult.For(userMock.UserName).Return("Haacked");
 			
@@ -137,7 +137,7 @@ namespace UnitTests.Subtext.SubtextWeb.HostAdmin
 						//Make sure provider returns user collection to view.
 				  		int totalRecords;
 				  		SetupResult.For(providerMock.GetAllUsers(0, 10, out totalRecords)).Return(results);
-				  	});
+					}, providerMock);
 
 			//Ok, expectations have been set. we're ready to start testing.
 			results.Add(userMock);
@@ -212,6 +212,7 @@ namespace UnitTests.Subtext.SubtextWeb.HostAdmin
 			{
 				this.provider = membershipProvider;
 				UnitTestHelper.SetPropertyBehaviorOnAllProperties(View);
+				View.SelectedIndex = 0;
 
 				if (expectations != null)
 				{
