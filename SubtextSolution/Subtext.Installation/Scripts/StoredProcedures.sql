@@ -138,10 +138,6 @@ IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_sub
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_WebPartState_Shared]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertEntryTagList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_InsertEntryTagList]
-GO
-
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_VersionAdd]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_VersionAdd]
 
