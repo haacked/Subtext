@@ -57,20 +57,31 @@ namespace Subtext.Framework.Security
 		/// <summary>
 		/// The name of the application using the custom membership provider.
 		/// </summary>
+		/// <remarks>
+		/// Since we support multiple "Applications" within a single Subtext 
+		/// IIS application, we need to store the application name within 
+		/// the HttpContext, so that one request does not interfere with another.
+		/// </remarks>
 		/// <value></value>
 		/// <returns>The name of the application using the custom membership provider.</returns>
 		public override string ApplicationName
 		{
 			get
 			{
-				return this.applicationName ?? "/";
+				if (HttpContext.Current == null)
+					return applicationName ?? "/";
+				
+				return (string)HttpContext.Current.Items["ApplicationName"] ?? "/";
 			}
 			set
 			{
-				this.applicationName = value;
+				if (HttpContext.Current != null)
+					HttpContext.Current.Items["ApplicationName"] = value;
+				applicationName = value;
 			}
 		}
-		string applicationName;
+
+		private string applicationName = "/";
 
 		/// <summary>
 		/// Processes a request to update the password for a membership user.
