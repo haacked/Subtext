@@ -17,6 +17,8 @@ namespace UnitTests.Subtext
 				using (SqlTransaction transaction = connection.BeginTransaction())
 				{
 					ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
+					SqlInstaller installer = new SqlInstaller(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString);
+					installer.UpdateInstallationVersionNumber(installer.SubtextAssemblyVersion, transaction);
 					transaction.Commit();
 				}
 			}
