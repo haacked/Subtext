@@ -84,30 +84,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SgmlReaderDll.dll</HintPath>
     </Reference>
-    <Reference Include="Subtext.Akismet, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Subtext.Akismet.dll</HintPath>
-    </Reference>
-    <Reference Include="Subtext.Extensibility, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Subtext.Extensibility.dll</HintPath>
-    </Reference>
-    <Reference Include="Subtext.Framework, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Subtext.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Subtext.Installation, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Subtext.Installation.dll</HintPath>
-    </Reference>
-    <Reference Include="Subtext.Scripting, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Subtext.Scripting.dll</HintPath>
-    </Reference>
-    <Reference Include="Subtext.Web.Controls, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Subtext.Web.Controls.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -123,6 +99,32 @@
     <Compile Include="InstallCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
+      <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
+      <Name>Subtext.Akismet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
+      <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
+      <Name>Subtext.BlogML</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
+      <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
+      <Name>Subtext.Extensibility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Framework\SubText.Framework.csproj">
+      <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
+      <Name>SubText.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Installation\Subtext.Installation.csproj">
+      <Project>{745B39B7-DE46-4070-8733-C53308721C58}</Project>
+      <Name>Subtext.Installation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
+      <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
+      <Name>Subtext.Scripting</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -207,6 +207,10 @@
       <Project>{8C11B428-9C4A-46C3-B7F0-48215276BFA5}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\Subtext\Subtext.csproj">
+      <Project>{1BEA026A-5D3E-4153-9733-3C5A8EEE1524}</Project>
+      <Name>Subtext</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
