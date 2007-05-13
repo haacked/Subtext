@@ -167,8 +167,8 @@
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
-      <Name>Subtext.Framework</Name>
+    <ProjectReference Include="..\Subtext.Framework\SubText.Framework.csproj">
+      <Name>SubText.Framework</Name>
       <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>

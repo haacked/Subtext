@@ -71,9 +71,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
+    <ProjectReference Include="..\Subtext.Framework\SubText.Framework.csproj">
       <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
-      <Name>Subtext.Framework</Name>
+      <Name>SubText.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
