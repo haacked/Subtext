@@ -75,8 +75,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{DD225739
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
-		..\BuildTools\CCNET_Config\ccnet.config = ..\BuildTools\CCNET_Config\ccnet.config
-		..\BuildTools\CCNET_Config\dashboard.config = ..\BuildTools\CCNET_Config\dashboard.config
+		recreateDB.build = recreateDB.build
 		SubText-CCNET.build = SubText-CCNET.build
 		SubText-Reporting.build = SubText-Reporting.build
 		..\BuildTools\CCNET_Config\Update-CCNET.build = ..\BuildTools\CCNET_Config\Update-CCNET.build
@@ -103,10 +102,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
-	ProjectSection(SolutionItems) = preProject
-		..\BuildTools\CCNET_Config\templates\ProjectSideBar.vm = ..\BuildTools\CCNET_Config\templates\ProjectSideBar.vm
-		..\BuildTools\CCNET_Config\templates\SiteTemplate.vm = ..\BuildTools\CCNET_Config\templates\SiteTemplate.vm
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Plugins.Examples", "Subtext.Plugins.Examples\Subtext.Plugins.Examples.csproj", "{E92C1C9B-FB2C-457B-B441-3CAEA3DCFC7A}"
 	ProjectSection(WebsiteProperties) = preProject
@@ -130,8 +125,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCNet", "CCNet", "{9B47FF23
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
-		..\BuildTools\CCNET_Config\ccnet.config = ..\BuildTools\CCNET_Config\ccnet.config
-		..\BuildTools\CCNET_Config\dashboard.config = ..\BuildTools\CCNET_Config\dashboard.config
+		..\BuildTools\CCNET_Config\server\ccnet.config = ..\BuildTools\CCNET_Config\server\ccnet.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NDepend", "NDepend", "{26436286-3176-4493-9763-DD2CEE11366A}"
