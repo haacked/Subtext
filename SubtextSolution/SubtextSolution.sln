@@ -161,7 +161,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubText.Framework", "Subtex
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Commander", "Subtext\Subtext.Commander.csproj", "{1BEA026A-5D3E-4153-9733-3C5A8EEE1524}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext", "Subtext\Subtext.csproj", "{1BEA026A-5D3E-4153-9733-3C5A8EEE1524}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"

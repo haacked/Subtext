@@ -1,7 +1,7 @@
 using System;
+using Microsoft.SqlServer.Management.Smo;
 using Subtext.Framework;
 using Subtext.Installation;
-using Microsoft.SqlServer.Management.Smo;
 using Subtext.Scripting;
 
 namespace Subtext
