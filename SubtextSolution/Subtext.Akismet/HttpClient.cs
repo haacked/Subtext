@@ -46,7 +46,7 @@ namespace Subtext.Akismet
 			if (formParameters == null)
 				throw new ArgumentNullException("formParameters", Resources.ArgumentNull_String);
 			
-			System.Net.ServicePointManager.Expect100Continue = false;
+			ServicePointManager.Expect100Continue = false;
 			HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
 
 			Debug.Assert(request != null, "HttpWebRequest should not be null", string.Format("Calling WebRequest.Create(url) produced a null HttpWebRequest instance for the URL '{0}'", url));

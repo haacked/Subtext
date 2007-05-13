@@ -1,4 +1,7 @@
+
+
 using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -35,9 +38,9 @@ namespace Subtext.UnitTesting.Servers
 		private string webServerUrl; //built in Start
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TestWebServer"/> class on port 8085.
+		/// Initializes a new instance of the <see cref="TestWebServer"/> class on the port defined in AppSettings.
 		/// </summary>
-		public TestWebServer() : this(8986, "/")
+		public TestWebServer() : this(WebServerPort, "/")
 		{
 		}
 
@@ -51,6 +54,17 @@ namespace Subtext.UnitTesting.Servers
 		{
 			this.webServerPort = port;
 			this.webServerVDir = virtualDir;
+		}
+
+		public static int WebServerPort
+		{
+			get
+			{
+				int port;
+				if (!int.TryParse(ConfigurationManager.AppSettings["UnitTestWebServerPort"], out port))
+					return 8986;
+				return port;
+			}
 		}
 
 		/// <summary>
@@ -185,7 +199,10 @@ namespace Subtext.UnitTesting.Servers
 			//NOTE: if you decide to drop this class into your unit test project, 
 			//call Assembly.GetExecutingAssembly() instead.
 			Assembly a = Assembly.GetCallingAssembly();
-			return ExtractResource(a, resourceName, destinationFileName);
+			Console.WriteLine("Extracting '{0}' to '{1}'", resourceName, destinationFileName);
+			string extracted = ExtractResource(a, resourceName, destinationFileName);
+			Console.WriteLine("'{0}' exists? {1}", destinationFileName, File.Exists(destinationFileName));
+			return extracted;
 		}
 
 		/// <summary>
