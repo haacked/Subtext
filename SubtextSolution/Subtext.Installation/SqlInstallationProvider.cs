@@ -80,11 +80,11 @@ namespace Subtext.Installation
 		/// </summary>
 		/// <param name="name">Friendly Name of the provider.</param>
 		/// <param name="configValue">Config value.</param>
-		public override void Initialize(string name, NameValueCollection configValue)
+		public override void Initialize(string name, NameValueCollection config)
 		{
-			_connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue);
+            _connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
 			this.installer = new SqlInstaller(_connectionString);
-			base.Initialize(name, configValue);
+            base.Initialize(name, config);
 		}
 
 		/// <summary>

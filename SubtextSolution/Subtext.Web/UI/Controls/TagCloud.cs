@@ -61,7 +61,9 @@ namespace Subtext.Web.UI.Controls
             tags = Cacher.GetTopTags(ItemCount, CacheDuration.Short);
             int tagCount = 0;
             foreach (Tag t in tags)
+            {
                 tagCount++;
+            }
 
             if (tagCount == 0)
             {
