@@ -179,7 +179,8 @@ namespace Subtext.UnitTesting.Servers
 						outfile.Write(infile.ReadToEnd());
 					}
 				}
-				Debug.WriteLine(string.Format("Extracted resource to {0}", filePath));
+				Debug.WriteLine(string.Format("Extracted resource to '{0}'", filePath));
+				Debug.WriteLine(string.Format("'{0}' exists? {1}", filePath, File.Exists(filePath)));
 			}
 			return filePath;
 		}
@@ -201,7 +202,6 @@ namespace Subtext.UnitTesting.Servers
 			Assembly a = Assembly.GetCallingAssembly();
 			Console.WriteLine("Extracting '{0}' to '{1}'", resourceName, destinationFileName);
 			string extracted = ExtractResource(a, resourceName, destinationFileName);
-			Console.WriteLine("'{0}' exists? {1}", destinationFileName, File.Exists(destinationFileName));
 			return extracted;
 		}
 
