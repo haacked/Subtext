@@ -57,9 +57,9 @@
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Name>Subtext.Extensibility</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
+    <ProjectReference Include="..\Subtext.Framework\SubText.Framework.csproj">
       <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
-      <Name>Subtext.Framework</Name>
+      <Name>SubText.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

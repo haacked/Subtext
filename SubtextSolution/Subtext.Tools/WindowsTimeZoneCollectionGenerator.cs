@@ -5,7 +5,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using Microsoft.Win32;
-using Subtext.Framework.Util;
 using Subtext.Framework.Util.TimeZoneUtil;
 
 namespace Subtext.Tools
