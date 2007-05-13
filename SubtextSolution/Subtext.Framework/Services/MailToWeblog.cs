@@ -649,8 +649,10 @@ namespace Subtext.Framework.Services
 								}
 
 								//everything is good, create the entry
-								if (entry.Body != "")
-									entry.Id = DatabaseObjectProvider.Instance().InsertEntry(entry); //If blogid is null, we should not create an entry.
+                                if (!String.IsNullOrEmpty(entry.Body))
+                                {
+                                    entry.Id = DatabaseObjectProvider.Instance().InsertEntry(entry); //If blogid is null, we should not create an entry.
+                                }
 
 								//Raise event before creating a post
 								//SubtextEvents.OnEntryUpdating(entry, new SubtextEventArgs(ObjectState.Create));
