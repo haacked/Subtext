@@ -130,6 +130,30 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.SqlServer.BatchParser, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.SqlServer.BatchParser.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Replication, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.SqlServer.Replication.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.SqlServer.Smo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlEnum, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.SqlServer.SqlEnum.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Rhino.Mocks, Version=3.1.0.584, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Rhino.Mocks.dll</HintPath>
@@ -380,27 +404,6 @@
     <Compile Include="UnitTestImportProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Content Include="ExternalDependencies\BlogML.dll" />
-    <Content Include="ExternalDependencies\CookComputing.XmlRpcV2.dll" />
-    <Content Include="ExternalDependencies\FredCK.FCKeditorV2.dll" />
-    <Content Include="ExternalDependencies\freetextbox.dll" />
-    <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="ExternalDependencies\log4net.dll" />
-    <Content Include="ExternalDependencies\log4net.xml" />
-    <Content Include="ExternalDependencies\MbUnit.Framework.2.0.dll" />
-    <Content Include="ExternalDependencies\MbUnit.Framework.dll" />
-    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
-    <Content Include="ExternalDependencies\NGraphviz.dll" />
-    <Content Include="ExternalDependencies\NGraphviz.Helpers.dll" />
-    <Content Include="ExternalDependencies\NGraphviz.Layout.dll" />
-    <Content Include="ExternalDependencies\QuickGraph.Algorithms.dll" />
-    <Content Include="ExternalDependencies\QuickGraph.Algorithms.Graphviz.dll" />
-    <Content Include="ExternalDependencies\QuickGraph.dll" />
-    <Content Include="ExternalDependencies\Refly.dll" />
-    <Content Include="ExternalDependencies\Rhino.Mocks.dll" />
-    <Content Include="ExternalDependencies\Rhino.Mocks.xml" />
-    <Content Include="ExternalDependencies\TestFu.dll" />
-    <Content Include="ExternalDependencies\Velocit.RegularExpressions.dll" />
     <EmbeddedResource Include="Resources\Scripting\SqlRunnerTestScript.txt" />
     <EmbeddedResource Include="Resources\Web\HttpClientTest.aspx">
     </EmbeddedResource>
