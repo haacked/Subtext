@@ -8030,9 +8030,7 @@ GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_Personalization_GetApplicationI
 GO
 GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_Profile_GetProfiles] TO [public]
 GO
-GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_Membership_FindUsersByName] TO [public]
-GO
-GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_Membership_FindUsersByEmail] TO [public]
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_Membership_FindUsersByNameOrEmail] TO [public]
 GO
 GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_Membership_GetAllUsers] TO [public]
 GO
