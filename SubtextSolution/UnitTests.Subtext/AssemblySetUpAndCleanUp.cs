@@ -1,7 +1,5 @@
 using System;
-using System.Configuration;
 using MbUnit.Framework;
-using Subtext;
 using UnitTests.Subtext;
 
 [assembly: AssemblyCleanup(typeof(AssemblySetUpAndCleanUp))]
@@ -12,12 +10,14 @@ namespace UnitTests.Subtext
 		[SetUp]
 		public static void SetUp()
 		{
+			/*
 			Console.WriteLine("Rebuilding Database for unit tests...");
 			string connectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
-			Arguments arguments = new Arguments("install /recreate-db /connect \"" + connectionString + "\"");
+			Arguments arguments = new Arguments("install /connect \"" + connectionString + "\"");
 			InstallCommand installer = new InstallCommand();
 			installer.Execute(arguments);
 			Console.WriteLine("Rebuild complete!");
+			 */
 		}
 		
 		[TearDown]
