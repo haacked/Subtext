@@ -285,7 +285,8 @@
     <Compile Include="Admin\WebUI\AdminPageTemplate.Master.designer.cs">
       <DependentUpon>AdminPageTemplate.Master</DependentUpon>
     </Compile>
-    <Compile Include="Admin\WebUI\Components\Collections\IOpmlItemCollection.cs" />
+    <Compile Include="Admin\WebUI\Components\Collections\IOpmlItemEnumerator.cs" />
+    <Compile Include="Admin\WebUI\Components\Collections\IOpmlItemList.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\IPageLocationCollection.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\OpmlItemCollection.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\PageLocationCollection.cs" />
@@ -773,7 +774,7 @@
     <Content Include="Global.asax" />
     <Content Include="logout.aspx" />
     <Content Include="MainFeed.aspx" />
-    <Content Include="Admin\Navigation.config" />
+    <Content Include="HostAdmin\Scripts\Navigation.config" />
     <Content Include="Admin\Skins.config" />
     <Content Include="Admin\Web.config" />
     <Content Include="HostAdmin\Import\Web.config" />
