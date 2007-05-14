@@ -474,7 +474,7 @@ namespace Subtext.Framework.Components
 				//I need to retrieve it from the cache (or, if I'm not lucky, from the storage)
 				if (_enabledPlugins == null)
 				{
-					_enabledPlugins = Plugin.GetEnabledPluginsFromCacheWithEntrySettings(_entryid);
+					_enabledPlugins = Plugin.GetEnabledPluginsWithEntrySettingsFromCache(_entryid);
 				}
 				return _enabledPlugins;
 			}

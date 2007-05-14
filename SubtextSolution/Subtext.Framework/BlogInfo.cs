@@ -1130,7 +1130,7 @@ namespace Subtext.Framework
 				//I need to retrieve it from the cache (or, if I'm not lucky, from the storage)
 				if (_enabledPlugins == null)
 				{
-					_enabledPlugins = Plugin.GetEnabledPluginsFromCacheWithBlogSettings();
+					_enabledPlugins = Plugin.GetEnabledPluginsWithBlogSettingsFromCache();
 				}
 				return _enabledPlugins;
 			}
