@@ -4,5 +4,5 @@
 <asp:Content ID="titleContent" ContentPlaceHolderID="MPSectionTitle" runat="server">Host Admin - Edit Blog</asp:Content>
 
 <asp:Content ID="mainContent" ContentPlaceHolderID="MPContent" runat="server">
-	<st:BlogEditor id="blogEditor" runat="server" />
+	<st:BlogEditor id="blogEditor" runat="server" OnSaveComplete="Redirect" />
 </asp:Content>

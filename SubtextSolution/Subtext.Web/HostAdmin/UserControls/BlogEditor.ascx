@@ -127,7 +127,7 @@
 				is the one who receives emails from the contact page of the blog.
 			</p>
 			<st:UserChooser runat="server" 
-				UserName="<%# Blog.Owner == null && String.IsNullOrEmpty(blogOwnerChooser.UserName) ? Page.User.Identity.Name : Blog.Owner.UserName %>"
+				UserName="<%# CurrentUserName %>"
 				id="blogOwnerChooser"  />
 		</fieldset>
 			

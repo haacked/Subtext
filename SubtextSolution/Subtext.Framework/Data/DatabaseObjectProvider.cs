@@ -62,42 +62,32 @@ namespace Subtext.Framework.Data
 		/// Returns the <see cref="HostInfo"/> for the Subtext installation.
 		/// </summary>
 		/// <returns>A <see cref="HostInfo"/> instance.</returns>
-		public override HostInfo LoadHostInfo(HostInfo info)
+		public override void LoadHostInfo(HostInfo info)
 		{
 			using (IDataReader reader = GetReader("subtext_GetHost"))
 			{
 				if (reader.Read())
 				{
 					DataHelper.LoadHost(reader, info);
-					reader.Close();
-					return info;
 				}
-				reader.Close();
 			}
-			return null;
 		}
 
 		/// <summary>
 		/// Updates the <see cref="HostInfo"/> instance.  If the host record is not in the
 		/// database, one is created. There should only be one host record.
 		/// </summary>
-		/// <param name="host">The HostInfo object.</param>
-		/// <param name="username">The username of the host admin.</param>
-		/// <param name="password">The password of the host admin.</param>
-		/// <param name="passwordSalt">The password salt.</param>
-		/// <param name="email">The email.</param>
-		/// <returns></returns>
-		public override HostInfo CreateHost(HostInfo host, string username, string password, string passwordSalt, string email)
+		/// <param name="owner">The username of the host admin.</param>
+		/// <param name="info">The info.</param>
+		public override void CreateHost(MembershipUser owner, HostInfo info)
 		{
-			using (IDataReader reader = GetReader("subtext_CreateHost", username, password, passwordSalt, email, DateTime.UtcNow))
+			using (IDataReader reader = GetReader("subtext_CreateHost", owner.ProviderUserKey))
 			{
 				if (reader.Read())
 				{
-					DataHelper.LoadHost(reader, host);
-					return host;
+					DataHelper.LoadHost(reader, info);
 				}
 			}
-			return null;
 		}
 
 		#endregion Host
