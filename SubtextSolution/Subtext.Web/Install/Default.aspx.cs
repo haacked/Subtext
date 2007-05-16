@@ -15,6 +15,7 @@
 
 using System;
 using System.Data.SqlClient;
+using System.Web.Security;
 using System.Web.UI.WebControls;
 using Subtext.Data;
 using Subtext.Framework;
@@ -184,14 +185,9 @@ namespace Subtext.Web.Install
 			try
 			{
 				Installer.Install(VersionInfo.FrameworkVersion);
-				if (!HostInfo.CreateHost(AdminUserName, AdminPassword, AdminEmail))
-				{
-					installationStateMessage.Text = "I'm sorry, but we had a problem creating your initial "
-						+ "configuration. Please <a href=\"http://sourceforge.net/tracker/?group_id=137896&atid=739979\">report "
-						+ "this issue</a> to the Subtext team.";
-					return;
-				}
-
+				MembershipUser user = Membership.CreateUser(AdminUserName, AdminPassword, AdminEmail);
+				HostInfo.CreateHost(user);
+				
 				if(SingleBlogSetup && Config.CreateBlog("TEMPORARY BLOG NAME", Request.Url.Host, string.Empty, HostInfo.Instance.Owner) == null)
 				{
 					installationStateMessage.Text = "I'm sorry, but we had a problem creating your blog. "
@@ -216,8 +212,12 @@ namespace Subtext.Web.Install
 					return;
 				}
 
-				installationStateMessage.Text = "<p>Uh oh. Something went wrong with the installation.</p><p>" + ex.Message + "</p><p>" + ex.GetType().FullName + "</p>";
-				installationStateMessage.Text += "<p>" + ex.StackTrace + "</p>";
+				installationStateMessage.Text = "<p>I&#8217;m sorry, but we had a problem creating your blog. "
+					+ "Please <a href=\"http://sourceforge.net/tracker/?group_id=137896&atid=739979\" title=\"Subtext Bug Report\">report "
+					+ "this issue</a> to the Subtext team.</p>" 
+					+ "<hr /><p>Message: " + ex.Message + "</p>" 
+					+ "<p>" + ex.GetType().FullName + "</p>" 
+					+ "<p>" + ex.StackTrace + "</p>";
 				return;
 			}
 		}

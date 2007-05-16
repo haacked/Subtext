@@ -8327,13 +8327,8 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_CreateHost]
 (
-	@UserName nvarchar(256),
-	@Password nvarchar(128),
-	@PasswordSalt nvarchar(128),
-	@Email nvarchar(256) = NULL,
-	@CurrentTimeUtc DateTime
+	@OwnerId uniqueidentifier
 )
-
 AS
 
 IF NOT EXISTS(SELECT * FROM [<dbUser,varchar,dbo>].[subtext_Host])
@@ -8347,26 +8342,10 @@ BEGIN
 		EXEC subtext_Applications_CreateApplication '/', @ApplicationId OUTPUT
 	END
 	
-	DECLARE @UserId UNIQUEIDENTIFIER
 	DECLARE @CreateDate DateTime
 	SELECT @CreateDate = getdate()
 
-	/* Create the Host Admin Owner */
-	EXEC [<dbUser,varchar,dbo>].[subtext_Membership_CreateUser]
-		@UserName
-		, @Password
-		, @PasswordSalt
-		, @Email
-		, NULL	-- PasswordQuestion
-		, NULL	-- PasswordAnswer
-		, 1		-- IsApproved
-		, @CurrentTimeUtc
-		, @CreateDate
-		, 0		-- UniqueEmail
-		, 1		-- PasswordFormat
-		, @UserId OUTPUT
-
-	/* Create the host */
+	/* Create the host record */
 	INSERT [<dbUser,varchar,dbo>].[subtext_Host]
 	(
 		ApplicationId
@@ -8376,7 +8355,7 @@ BEGIN
 	Values             
 	(
 		@ApplicationId
-		, @UserId
+		, @OwnerId
 		, @CreateDate
 	)
 	

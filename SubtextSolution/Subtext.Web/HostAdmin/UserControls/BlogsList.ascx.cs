@@ -54,7 +54,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 		protected void OnCreateNewBlogClick(object sender, EventArgs e)
 		{
-			OnBlogEdit(NullValue.NullInt32);
+			Response.Redirect("EditBlog.aspx");
 		}
 
 		protected virtual void OnBlogEdit(int blogId)

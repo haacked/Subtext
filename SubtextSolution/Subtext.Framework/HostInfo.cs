@@ -29,9 +29,14 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class HostInfo
 	{
-		static HostInfo _instance = LoadHost(true);
+		private static HostInfo _instance = new HostInfo();
 		
-	    private HostInfo()
+		static HostInfo()
+		{
+			LoadHost(true);
+		}
+
+		private HostInfo()
 	    {
 	    }
 	    
@@ -121,11 +126,11 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="suppressException">If true, won't throw an exception.</param>
 		/// <returns></returns>
-		public static HostInfo LoadHost(bool suppressException)
+		public static void LoadHost(bool suppressException)
 		{
 			try
 			{
-				return ObjectProvider.Instance().LoadHostInfo(new HostInfo());
+				ObjectProvider.Instance().LoadHostInfo(_instance);
 			}
 			catch(SqlException e)
 			{
@@ -133,7 +138,7 @@ namespace Subtext.Framework
                 {
                     if (suppressException)
                     {
-                        return null;
+                    	return;
                     }
                     else
                     {
@@ -151,32 +156,21 @@ namespace Subtext.Framework
 		/// Creates the host in the persistent store.
 		/// </summary>
 		/// <returns></returns>
-		public static bool CreateHost(string hostUserName, string hostPassword, string email)
+		public static void CreateHost(MembershipUser owner)
 		{
             if (!InstallationManager.HostInfoRecordNeeded)
-            {
                 throw new InvalidOperationException(Resources.InvalidOperation_HostRecordExists);
-            }
-			HostInfo host = new HostInfo();
-			
-			string passwordSalt = SecurityHelper.CreateRandomSalt();
 
-            if (Membership.Provider.PasswordFormat == MembershipPasswordFormat.Hashed)
-            {
-                hostPassword = SecurityHelper.HashPassword(hostPassword, passwordSalt);
-            }
-			host = ObjectProvider.Instance().CreateHost(host, hostUserName, hostPassword, passwordSalt, email);
+			ObjectProvider.Instance().CreateHost(owner, _instance);
 
-            using (MembershipApplicationScope.SetApplicationName("/"))
-            {
+			using (MembershipApplicationScope.SetApplicationName("/"))
+			{
 				if (!Roles.RoleExists(RoleNames.HostAdmins))
-                {
+				{
 					Roles.CreateRole(RoleNames.HostAdmins);
-                }
-				Roles.AddUserToRole(host.Owner.UserName, RoleNames.HostAdmins);
-            }
-			
-			return true;
+				}
+				Roles.AddUserToRole(owner.UserName, RoleNames.HostAdmins);
+			}
 		}
 
 		/// <summary>
@@ -240,6 +234,6 @@ namespace Subtext.Framework
 			set { _dateCreated = value; }
 		}
 
-		DateTime _dateCreated;
+		DateTime _dateCreated = NullValue.NullDateTime;
 	}
 }

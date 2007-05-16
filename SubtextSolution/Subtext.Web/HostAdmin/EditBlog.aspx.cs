@@ -1,13 +1,4 @@
 using System;
-using System.Data;
-using System.Configuration;
-using System.Collections;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
 using Subtext.Framework;
 
 namespace Subtext.Web.HostAdmin
@@ -23,6 +14,11 @@ namespace Subtext.Web.HostAdmin
 				this.blogEditor.BlogId = NullValue.NullInt32;
 
 			base.OnInit(e);
+		}
+
+		protected virtual void Redirect(object sender, EventArgs e)
+		{
+			Response.Redirect("Default.aspx");
 		}
 	}
 }

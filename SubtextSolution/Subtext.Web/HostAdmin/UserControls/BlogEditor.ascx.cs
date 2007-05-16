@@ -66,6 +66,20 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 		private BlogInfo blog;
 
+		public string CurrentUserName
+		{
+			get
+			{
+				if (Blog.Owner != null)
+					return Blog.Owner.UserName;
+
+				if (String.IsNullOrEmpty(this.blogOwnerChooser.UserName))
+					return Page.User.Identity.Name;
+
+				return this.blogOwnerChooser.UserName;
+			}
+		}
+
 		private static BlogInfo GetBlogById(int id)
 		{
 			if (id == NullValue.NullInt32)

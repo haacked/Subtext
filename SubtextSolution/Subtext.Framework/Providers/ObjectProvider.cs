@@ -86,19 +86,16 @@ namespace Subtext.Framework.Providers
 		/// <summary>
 		/// Returns the <see cref="HostInfo"/> for the Subtext installation.
 		/// </summary>
-		/// <returns>A <see cref="HostInfo"/> instance.</returns>
-		public abstract HostInfo LoadHostInfo(HostInfo info);
+		/// <param name="info">The host info object to load.</param>
+		public abstract void LoadHostInfo(HostInfo info);
 
 		/// <summary>
 		/// Creates an initial Host instance.
 		/// </summary>
-		/// <param name="host"></param>
-		/// <param name="username">The username of the host admin.</param>
-		/// <param name="password">The password of the host admin.</param>
-		/// <param name="passwordSalt">The password salt.</param>
-		/// <param name="email">The email.</param>
+		/// <param name="owner">The owner of this host installation</param>
+		/// <param name="info">The info.</param>
 		/// <returns></returns>
-		public abstract HostInfo CreateHost(HostInfo host, string username, string password, string passwordSalt, string email);
+		public abstract void CreateHost(MembershipUser owner, HostInfo info);
 
 		#endregion Host
 
