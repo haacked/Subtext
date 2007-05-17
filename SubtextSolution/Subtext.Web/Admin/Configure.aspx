@@ -68,20 +68,7 @@
 			        </p>
 			    </ContentTemplate>
 			</asp:UpdatePanel>
-			
-				<label accesskey="z" for="Edit_ddlTimezone">
-					Your Time<u>z</u>one
-					<st:HelpToolTip id="hlpTimeZone" runat="server" HelpText="Select your timezone, which may differ from the timezone where your blog server is located." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
-				</label>
-				<asp:DropDownList id="ddlTimezone" runat="server" OnSelectedIndexChanged="ddlTimezone_SelectedIndexChanged" AutoPostBack="true" CssClass="timezonelist" />
-			
-				<p>
-					<em>Time at selected timezone is: <strong><asp:Label ID="lblCurrentTime" runat="server" /></strong></em><br />
-					<em>Time at server is: <strong><asp:Label ID="lblServerTime" runat="server" /></strong></em><br />
-					<em>Server timezone is <asp:Label ID="lblServerTimeZone" runat="server" /></em><br />
-					<em><acronym title="Coordinated Universal Time">UTC</acronym> time is <asp:Label ID="lblUtcTime" runat="server" /></em>
-				</p>
-			</ajax:ajaxpanel>
+
 			
 			<label accesskey="l" for="Edit_ddlLangLocale"><u>L</u>anguage/Locale</label>
 			
