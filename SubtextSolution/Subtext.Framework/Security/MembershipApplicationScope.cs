@@ -1,4 +1,5 @@
 using System;
+using System.Web;
 using System.Web.Security;
 
 namespace Subtext.Framework.Security
@@ -23,7 +24,14 @@ namespace Subtext.Framework.Security
 		{
 			MembershipApplicationScope scope = new MembershipApplicationScope();
 			scope.currentApplicationName = Membership.ApplicationName;
-			Membership.ApplicationName = Roles.ApplicationName = applicationName;
+            if (HttpContext.Current != null)
+            {
+                HttpContext.Current.Items[SecurityHelper.CONTEXT_IDX] = applicationName;
+            }
+            else
+            {
+                Membership.ApplicationName = Roles.ApplicationName = applicationName;
+            }
 			return scope;
 		}
 
@@ -35,7 +43,14 @@ namespace Subtext.Framework.Security
 		///<filterpriority>2</filterpriority>
 		public void Dispose()
 		{
-			Membership.ApplicationName = Roles.ApplicationName = currentApplicationName;
+            if (HttpContext.Current != null)
+            {
+                HttpContext.Current.Items[SecurityHelper.CONTEXT_IDX] = currentApplicationName;
+            }
+            else
+            {
+                Membership.ApplicationName = Roles.ApplicationName = currentApplicationName;
+            }
 		}
 	}
 }

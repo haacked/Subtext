@@ -5864,11 +5864,18 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_UsersInRoles_GetRolesForUser]
     @UserName         nvarchar(256)
 AS
 BEGIN
+	DECLARE @DefaultAppId uniqueidentifier
     DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
+
     SELECT  @ApplicationId = ApplicationId 
-	FROM subtext_Applications 
+	FROM [<dbUser,varchar,dbo>].[subtext_Applications ]
 	WHERE LOWER(@ApplicationName) = LoweredApplicationName
+
+	SELECT @DefaultAppId = ApplicationId
+	FROM [<dbUser,varchar,dbo>].[subtext_Applications]
+	WHERE LoweredApplicationName = "/"
+
     IF (@ApplicationId IS NULL)
         RETURN(1)
     DECLARE @UserId uniqueidentifier
@@ -5882,9 +5889,10 @@ BEGIN
         RETURN(1)
 
     SELECT r.RoleName
-    FROM   [<dbUser,varchar,dbo>].subtext_Roles r
-		INNER JOIN [<dbUser,varchar,dbo>].subtext_UsersInRoles ur ON r.RoleId = ur.RoleId
-    WHERE  r.ApplicationId = @ApplicationId AND ur.UserId = @UserId
+    FROM   [<dbUser,varchar,dbo>].[subtext_Roles] r
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur ON r.RoleId = ur.RoleId
+    WHERE  (r.ApplicationId = @ApplicationId AND ur.UserId = @UserId) OR
+		(r.ApplicationId = @DefaultAppId AND ur.UserId = @UserID AND r.RoleName = "HostAdmins")
     ORDER BY r.RoleName
     RETURN (0)
 END

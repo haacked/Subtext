@@ -84,10 +84,6 @@ namespace Subtext.Framework.Configuration
 			get
 			{
 				BlogInfo currentBlog = ConfigurationProvider.GetBlogInfo();
-				if (currentBlog == null)
-					Roles.ApplicationName = Membership.ApplicationName = "/";
-				else
-					Roles.ApplicationName = Membership.ApplicationName = currentBlog.ApplicationName;
 				return currentBlog;
 			}
 		}

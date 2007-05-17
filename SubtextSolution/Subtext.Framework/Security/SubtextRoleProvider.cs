@@ -47,8 +47,10 @@ namespace Subtext.Framework.Security
 		/// </summary>
 		/// <remarks>
 		/// Since we support multiple "Applications" within a single Subtext 
-		/// IIS application, we need to store the application name within 
-		/// the HttpContext, so that one request does not interfere with another.
+		/// IIS application, we need to handle the presidence correctly.
+        /// First, we check the HttpContext (in order to keep changes here
+        /// local to the request). Second, we check a private member variable.
+        /// Our final fallback is the current blog application name.
 		/// </remarks>
 		/// <value></value>
 		/// <returns>The name of the application to store and 
@@ -57,20 +59,29 @@ namespace Subtext.Framework.Security
 		{
 			get
 			{
-				if (HttpContext.Current == null)
-					return applicationName ?? "/";
-
-				return (string)HttpContext.Current.Items["ApplicationName"] ?? "/";
+                if (HttpContext.Current != null)
+                {
+                    if (HttpContext.Current.Items.Contains(SecurityHelper.CONTEXT_IDX))
+                    {
+                        return (string)HttpContext.Current.Items[SecurityHelper.CONTEXT_IDX];
+                    }
+                    else
+                    {
+                        return Config.CurrentBlog.ApplicationName;
+                    }
+                }
+                else
+                {
+                    return applicationName;
+                }
 			}
-			set
-			{
-				if (HttpContext.Current != null)
-					HttpContext.Current.Items["ApplicationName"] = value;
-				applicationName = value;
-			}
+            set
+            {
+                applicationName = value;
+            } 
 		}
 
-		private string applicationName;
+        private string applicationName = null;
 
 		/// <summary>
 		/// Adds the specified user names to the specified roles for the configured applicationName.

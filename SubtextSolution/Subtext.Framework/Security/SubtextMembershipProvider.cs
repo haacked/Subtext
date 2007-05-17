@@ -8,6 +8,7 @@ using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework.Data;
 using System.Globalization;
 using Subtext.Framework.Properties;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Security
 {
@@ -58,30 +59,41 @@ namespace Subtext.Framework.Security
 		/// The name of the application using the custom membership provider.
 		/// </summary>
 		/// <remarks>
-		/// Since we support multiple "Applications" within a single Subtext 
-		/// IIS application, we need to store the application name within 
-		/// the HttpContext, so that one request does not interfere with another.
-		/// </remarks>
+        /// Since we support multiple "Applications" within a single Subtext 
+        /// IIS application, we need to handle the presidence correctly.
+        /// First, we check the HttpContext (in order to keep changes here
+        /// local to the request). Second, we check a private member variable.
+        /// Our final fallback is the current blog application name.
+        /// </remarks>
 		/// <value></value>
 		/// <returns>The name of the application using the custom membership provider.</returns>
 		public override string ApplicationName
 		{
-			get
-			{
-				if (HttpContext.Current == null)
-					return applicationName ?? "/";
-				
-				return (string)HttpContext.Current.Items["ApplicationName"] ?? "/";
-			}
-			set
-			{
-				if (HttpContext.Current != null)
-					HttpContext.Current.Items["ApplicationName"] = value;
-				applicationName = value;
-			}
+            get
+            {
+                if (HttpContext.Current != null)
+                {
+                    if (HttpContext.Current.Items.Contains(SecurityHelper.CONTEXT_IDX))
+                    {
+                        return (string)HttpContext.Current.Items[SecurityHelper.CONTEXT_IDX];
+                    }
+                    else
+                    {
+                        return Config.CurrentBlog.ApplicationName;
+                    }
+                }
+                else
+                {
+                    return applicationName;
+                }
+            }
+            set
+            {
+                applicationName = value;
+            } 
 		}
 
-		private string applicationName = "/";
+        private string applicationName = null;
 
 		/// <summary>
 		/// Processes a request to update the password for a membership user.

@@ -62,16 +62,20 @@ namespace Subtext.Framework.Data
 		/// Returns the <see cref="HostInfo"/> for the Subtext installation.
 		/// </summary>
 		/// <returns>A <see cref="HostInfo"/> instance.</returns>
-		public override void LoadHostInfo(HostInfo info)
-		{
-			using (IDataReader reader = GetReader("subtext_GetHost"))
-			{
-				if (reader.Read())
-				{
-					DataHelper.LoadHost(reader, info);
-				}
-			}
-		}
+        public override HostInfo LoadHostInfo(HostInfo info)
+        {
+            using (IDataReader reader = GetReader("subtext_GetHost"))
+            {
+                if (reader.Read())
+                {
+                    DataHelper.LoadHost(reader, info);
+                    reader.Close();
+                    return info;
+                }
+                reader.Close();
+            }
+            return null;
+        }
 
 		/// <summary>
 		/// Updates the <see cref="HostInfo"/> instance.  If the host record is not in the
