@@ -1136,6 +1136,11 @@ namespace Subtext.Framework
 			}
 		}
 
+		internal void ClearEnablePluginsCache()
+		{
+			_enabledPlugins = null;
+		}
+
 		#endregion Plugin Specific Properties
 	}
 }

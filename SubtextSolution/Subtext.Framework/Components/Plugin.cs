@@ -276,6 +276,7 @@ namespace Subtext.Framework.Components
 		{
 			int blogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
 			HttpContext.Current.Cache.Remove(String.Format(CultureInfo.InvariantCulture, PLUGINPERBLOGCACHENAMEFORMAT, blogId));
+			Subtext.Framework.Configuration.Config.CurrentBlog.ClearEnablePluginsCache();
 		}
 
 		private static void StoreEnabledPluginsWithEntrySettingsToCache(IDictionary<Guid, Plugin> pluginList, int entryId)
