@@ -145,7 +145,7 @@ namespace Subtext.Extensibility.Plugins
 
 
 		//Retrieve the settings from the storage
-		public NameValueCollection GetEntrySettings(Entry entry)
+		private NameValueCollection GetEntrySettings(Entry entry)
 		{
 			if (Id == Guid.Empty)
 			{
@@ -157,7 +157,7 @@ namespace Subtext.Extensibility.Plugins
 			}
 		}
 
-
+		//TODO: check if the entry is part of the current blog
 		public string GetEntrySetting(Entry entry, string key)
 		{
 			string value = GetEntrySettings(entry)[key];
@@ -167,6 +167,7 @@ namespace Subtext.Extensibility.Plugins
 				return string.Empty;
 		}
 
+		//TODO: check if the entry is part of the current blog
 		public void SetEntrySetting(Entry entry, string key, string value)
 		{
 			if (GetEntrySettings(entry)[key] == null)
