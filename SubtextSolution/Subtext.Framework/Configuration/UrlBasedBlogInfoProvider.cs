@@ -179,7 +179,7 @@ namespace Subtext.Framework.Configuration
 					}
 					else
 					{
-						Membership.ApplicationName = Roles.ApplicationName = "/";
+						HttpContext.Current.Items[Security.SecurityHelper.CONTEXT_IDX] = "/";
 						Log.ResetBlogIdContext();
 					}
 				}

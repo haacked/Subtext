@@ -15,8 +15,6 @@ namespace Subtext.Web
 				Response.Redirect("~/HostAdmin/Login.aspx");
 				return;
 			}
-
-			Master.DestinationUrl = "~/Admin/";
 			base.OnInit(e);
 		}
 	}
