@@ -113,10 +113,9 @@ namespace Subtext.Web.Admin.Pages
 
 		public static string GetTitle(object dataContainer)
 		{
-			if (dataContainer is Referrer)
+            Referrer referrer = dataContainer as Referrer;
+            if (referrer != null)
 			{
-				Referrer referrer = (Referrer)dataContainer;
-
 				if (referrer.PostTitle != null)
 				{
 
@@ -149,10 +148,14 @@ namespace Subtext.Web.Admin.Pages
 				string htmlEncodedReferrerUrl;
 
 				// Chop it here because otherwise we could end up with a badly HTML encoded string if the chop appears after the encoding
-				if (referrer.ReferrerURL.Length > 50)
-					htmlEncodedReferrerUrl = referrer.ReferrerURL.Substring(0, 50);
-				else
-					htmlEncodedReferrerUrl = referrer.ReferrerURL;
+                if (referrer.ReferrerURL.Length > 50)
+                {
+                    htmlEncodedReferrerUrl = referrer.ReferrerURL.Substring(0, 50);
+                }
+                else
+                {
+                    htmlEncodedReferrerUrl = referrer.ReferrerURL;
+                }
 
 				return "<a href=\"" + urlEncodedReferrerUrl + "\" target=\"_new\">" +
 					HttpUtility.HtmlEncode(htmlEncodedReferrerUrl) + "</a>";

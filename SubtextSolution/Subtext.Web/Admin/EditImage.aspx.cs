@@ -66,9 +66,7 @@ namespace Subtext.Web.Admin.Pages
             this.TabSectionId = "Galleries";
 	    }
 
-		protected void Page_Load(object sender, EventArgs e)
-		{
-		}
+		protected void Page_Load(object sender, EventArgs e) {}
 	    
 	    public override void DataBind()
 	    {
@@ -133,9 +131,9 @@ namespace Subtext.Web.Admin.Pages
 
 		protected string EvalImageUrl(object imageObject)
 		{
-			if (imageObject is Image)
+            Image image = imageObject as Image;
+			if (image != null)
 			{
-				Image image = (Image)imageObject;
 				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
 					image.ThumbNailFile);
 			}
@@ -145,9 +143,9 @@ namespace Subtext.Web.Admin.Pages
 
 		protected static string EvalImageNavigateUrl(object imageObject)
 		{
-			if (imageObject is Image)
+            Image image = imageObject as Image;
+            if (image != null)
 			{
-				Image image = (Image)imageObject;
 				return Config.CurrentBlog.UrlFormats.ImageUrl(null,image.ImageID);
 			}
 			else

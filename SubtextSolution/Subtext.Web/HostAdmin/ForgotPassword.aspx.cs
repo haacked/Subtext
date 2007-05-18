@@ -8,7 +8,7 @@ namespace Subtext.Web.HostAdmin
 {
 	public partial class ForgotPassword : System.Web.UI.Page
 	{
-        MembershipApplicationScope scope = null;
+        MembershipApplicationScope scope;
 
 		///<summary>
 		///Raises the <see cref="E:System.Web.UI.Control.Init"></see> event to initialize the page.

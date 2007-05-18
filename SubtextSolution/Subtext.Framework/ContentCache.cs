@@ -26,8 +26,10 @@ namespace Subtext.Framework
 		{
 			//Check per-request cache.
 			ContentCache cache = HttpContext.Current.Items["ContentCache"] as ContentCache;
-			if(cache != null)
-				return cache;
+            if (cache != null)
+            {
+                return cache;
+            }
 
 			cache = new ContentCache(HttpContext.Current.Cache);
 			//Per-Request Cache.
@@ -76,8 +78,10 @@ namespace Subtext.Framework
 		/// <param name="value">The value.</param>
 		public void Insert(string key, object value)
 		{
-			if(value == null)
-				throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
+            if (value == null)
+            {
+                throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
+            }
 			this.cache.Insert(GetCacheKey(key), value);
 		}
 
@@ -95,8 +99,10 @@ namespace Subtext.Framework
 		/// <param name="cacheDuration">The cache duration.</param>
 		public void Insert(string key, object value, CacheDuration cacheDuration)
 		{
-			if(value == null)
-				throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
+            if (value == null)
+            {
+                throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
+            }
 			
 			this.cache.Insert(GetCacheKey(key), value, null, DateTime.Now.AddSeconds((int)cacheDuration), TimeSpan.Zero, CacheItemPriority.Normal, null);
 		}
@@ -115,8 +121,10 @@ namespace Subtext.Framework
 		/// <param name="cacheDependency">The cache dependency.</param>
 		public void Insert(string key, object value, CacheDependency cacheDependency)
 		{
-			if(value == null)
-				throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
+            if (value == null)
+            {
+                throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
+            }
 			
 			this.cache.Insert(GetCacheKey(key), value, cacheDependency);
 		}

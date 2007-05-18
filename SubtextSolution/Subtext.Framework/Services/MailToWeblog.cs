@@ -184,6 +184,7 @@ namespace Subtext.Framework.Services
 				//this declarion had to be moved here
 				Regex bodyExtractor;
 
+                //This needs refactoring
 				#region Main POP3 Check Loop
 
 				try
@@ -205,11 +206,7 @@ namespace Subtext.Framework.Services
 						{
 							pop3.Connect(activeblog.pop3Server);
 
-							//if (pop3.HasTimeStamp == true)
-							//    pop3.APOPLogin();
-							//else
 							pop3.Login();
-
 							pop3.GetAccountStat();
 
 							//Go thourhg each message on pop3 server
@@ -683,15 +680,16 @@ namespace Subtext.Framework.Services
 						}
 					}
 
-								#endregion for loop for mails
+
 
 					//either active blog is not setup for mail to weblog functionality or 
 					//all the emails are processed for this blog; in both cases
 					//continue with the next blog
 					continue;
-				}
+                }
+                #endregion for loop for mails
 
-				catch
+                catch
 				{
 					throw;
 				}
@@ -716,8 +714,10 @@ namespace Subtext.Framework.Services
 			{
 				for (int l = 0; l < len; l++)
 				{
-					if (buf1[l] != buf2[l])
-						return false;
+                    if (buf1[l] != buf2[l])
+                    {
+                        return false;
+                    }
 				}
 				return true;
 			}

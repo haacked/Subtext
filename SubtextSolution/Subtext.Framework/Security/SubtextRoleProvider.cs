@@ -81,7 +81,7 @@ namespace Subtext.Framework.Security
             } 
 		}
 
-        private string applicationName = null;
+        private string applicationName;
 
 		/// <summary>
 		/// Adds the specified user names to the specified roles for the configured applicationName.
@@ -96,16 +96,24 @@ namespace Subtext.Framework.Security
 		public override void CreateRole(string roleName)
 		{
             if (roleName == null)
+            {
                 throw new ArgumentNullException("roleName", "Role is null.");
+            }
 
-			if (roleName.Length == 0)
+            if (roleName.Length == 0)
+            {
                 throw new ArgumentException("Cannot create an empty role name.", "roleName");
+            }
 
             if (roleName.Contains(","))
+            {
                 throw new ArgumentException("Role cannot contain a comma.", "roleName");
+            }
 
             if (roleName.Length > 512)
+            {
                 throw new ArgumentException("Role name is too long.", "roleName");
+            }
 
 			int recordsAffected = SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Roles_CreateRole", ApplicationName, roleName);
 			if (recordsAffected != 1)

@@ -385,8 +385,10 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static string AutoGenerateFriendlyUrl(string title, char wordSeparator, int entryId, TextTransform textTransform)
 		{
-			if(title == null)
-				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
+            if (title == null)
+            {
+                throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
+            }
 			
 			string entryName = RemoveNonWordCharacters(title);
 			entryName = ReplaceSpacesWithSeparator(entryName, wordSeparator);
@@ -407,9 +409,12 @@ namespace Subtext.Framework
 
 			while (currentEntry != null)
 			{
-				if (currentEntry.Id == entryId) //This means that we are updating the same entry, so should allow same entryname
-					break; 
-				switch(tryCount)
+                if (currentEntry.Id == entryId) //This means that we are updating the same entry, so should allow same entryname
+                {
+                    break;
+                }
+
+                switch(tryCount)
 				{
 					case 0:
 						newEntryName = entryName + wordSeparator + "Again";
@@ -428,8 +433,10 @@ namespace Subtext.Framework
 							               "Dead" + wordSeparator + "Horse";
 						break;
 				}
-				if (tryCount++ > 5)
-					break; //Allow an exception to get thrown later.
+                if (tryCount++ > 5)
+                {
+                    break; //Allow an exception to get thrown later
+                }
 
 				newEntryName = FriendlyUrlSettings.TransformString(newEntryName, textTransform);
 				currentEntry = ObjectProvider.Instance().GetEntry(newEntryName, false, false);

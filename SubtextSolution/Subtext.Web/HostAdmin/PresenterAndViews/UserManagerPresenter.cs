@@ -19,29 +19,31 @@ namespace Subtext.Web.HostAdmin.Presenters
 		/// base class should subscribe to their view specific 
 		/// events, if any, when overriding this method.
 		/// </summary>
-		protected override void SubscribeToViewEvents()
-		{
-		}
+		protected override void SubscribeToViewEvents()	{}
 
 		public void SetFilter(string filter)
 		{
-			if (filter == string.Empty || String.Equals(filter, "all", StringComparison.InvariantCultureIgnoreCase))
-				View.CurrentFilter = null;
-			else
-				View.CurrentFilter = filter;
+            if (filter == string.Empty || String.Equals(filter, "all", StringComparison.InvariantCultureIgnoreCase))
+            {
+                View.CurrentFilter = null;
+            }
+            else
+            {
+                View.CurrentFilter = filter;
+            }
+
 			View.SelectedIndex = -1;
 		}
 
 		protected override void OnPreRender(object sender, EventArgs e)
 		{
+            int totalRecords;
 			if(!String.IsNullOrEmpty(View.CurrentFilter))
 			{
-				int totalRecords;
 				View.Users = provider.FindUsersByName(View.CurrentFilter + "%", 0, View.PageSize, out totalRecords);
 			}
 			else
 			{
-				int totalRecords;
 				View.Users = provider.GetAllUsers(0, View.PageSize, out totalRecords);
 			}
 
@@ -60,10 +62,14 @@ namespace Subtext.Web.HostAdmin.Presenters
 		/// <param name="isMemberOf"></param>
 		public void ChangeRole(string role, bool isMemberOf)
 		{
-			if (isMemberOf)
-				Roles.AddUserToRole(this.View.SelectedUserName, role);
-			else
-				Roles.RemoveUserFromRole(this.View.SelectedUserName, role);
+            if (isMemberOf)
+            {
+                Roles.AddUserToRole(this.View.SelectedUserName, role);
+            }
+            else
+            {
+                Roles.RemoveUserFromRole(this.View.SelectedUserName, role);
+            }
 		}
 	}
 }

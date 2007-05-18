@@ -93,7 +93,7 @@ namespace Subtext.Framework.Security
             } 
 		}
 
-        private string applicationName = null;
+        private string applicationName;
 
 		/// <summary>
 		/// Processes a request to update the password for a membership user.
@@ -106,8 +106,10 @@ namespace Subtext.Framework.Security
 		/// </returns>
 		public override bool ChangePassword(string username, string oldPassword, string newPassword)
 		{
-			if (!ValidateUser(username, oldPassword))
-				return false;
+            if (!ValidateUser(username, oldPassword))
+            {
+                return false;
+            }
 
 			string passwordSalt = SecurityHelper.CreateRandomSalt();
 			if (PasswordFormat == MembershipPasswordFormat.Hashed)

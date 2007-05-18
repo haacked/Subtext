@@ -106,9 +106,8 @@ namespace Subtext.Web.UI.Controls
 		private string skinFilePath;
 		public string SkinFilePath
 		{
-			get
-			{return skinFilePath;}
-			set{skinFilePath = value;}
+			get {return skinFilePath;}
+			set {skinFilePath = value;}
 		}
 		
 		protected static void BindCurrentEntryControls(Entry entry, Control root)

@@ -29,6 +29,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Services;
+using System.Text;
 
 namespace Subtext 
 {
@@ -125,10 +126,12 @@ namespace Subtext
 				{
 					adoAppender.ActivateOptions();
 					//Normalize appender connection string, since Log4Net seems to truncate that last semicolon.
-					if (!String.IsNullOrEmpty(adoAppender.ConnectionString) && !adoAppender.ConnectionString.EndsWith(";"))
-						adoAppender.ConnectionString += ";";
+                    if (!String.IsNullOrEmpty(adoAppender.ConnectionString) && !adoAppender.ConnectionString.EndsWith(";"))
+                    {
+                        adoAppender.ConnectionString += ";";
+                    }
 					
-					if(adoAppender.ConnectionString != ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString)
+					if( String.Compare(adoAppender.ConnectionString,ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString, false) != 0 )
 					{
 						throw new InvalidOperationException("Log4Net is not picking up our connection string.");
 					}					
@@ -199,12 +202,12 @@ namespace Subtext
 			BaseCommentException commentException = exception as BaseCommentException;
 			if (commentException != null)
 			{
-				string message = "Comment exception thrown and handled in Global.asax.";
+                StringBuilder message = new StringBuilder("Comment exception thrown and handled in Global.asax.");
 				if(HttpContext.Current != null && HttpContext.Current.Request != null)
 				{
-					message += "-- User Agent: " + HttpContext.Current.Request.UserAgent;
+					message.Append("-- User Agent: " + HttpContext.Current.Request.UserAgent);
 				}
-				Log.Info(message, commentException);
+				Log.Info(message.ToString(), commentException);
 			}
 			
 			//Sql Exception and request is for "localhost"
