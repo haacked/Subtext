@@ -200,8 +200,6 @@ namespace Subtext.Framework.Configuration
 			using (MembershipApplicationScope.SetApplicationName(blog.ApplicationName))
 			{
 				CreateBlogRoles();
-
-				Roles.AddUserToRole(owner.UserName, RoleNames.Administrators);
 			}
 			return blog;
 		}
