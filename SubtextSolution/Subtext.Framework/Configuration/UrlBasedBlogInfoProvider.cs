@@ -19,7 +19,6 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
-using System.Web.Security;
 using log4net;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
