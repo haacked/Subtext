@@ -79,6 +79,8 @@ namespace Subtext.Framework.Security
                     }
                     else
                     {
+						//TODO: When creating a blog, the CurrentBlog won't be set (for example in the HostAdmin).
+						//		This causes a problem.
                         return Config.CurrentBlog.ApplicationName;
                     }
                 }
@@ -89,6 +91,8 @@ namespace Subtext.Framework.Security
             }
             set
             {
+				//TODO: Shouldn't this set HttpContext.Current.Items.Contains(SecurityHelper.CONTEXT_IDX)?
+				//When does that context variable get set?
                 applicationName = value;
             } 
 		}
