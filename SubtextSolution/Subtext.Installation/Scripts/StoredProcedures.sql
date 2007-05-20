@@ -6674,6 +6674,12 @@ BEGIN
 				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
 					ON r.ApplicationId = a.ApplicationId
 			WHERE a.ApplicationName = @ApplicationName
+			UNION
+			SELECT c.OwnerId 
+			FROM [<dbUser,varchar,dbo>].[subtext_Config] c
+				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
+					ON a.ApplicationId = c.ApplicationId
+			WHERE a.ApplicationName = @ApplicationName
 		)
 	ORDER BY UserName ASC
 	
@@ -6707,6 +6713,12 @@ BEGIN
 					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
 						ON r.ApplicationId = a.ApplicationId
 				WHERE a.ApplicationName = @ApplicationName
+				UNION
+				SELECT c.OwnerId 
+				FROM [<dbUser,varchar,dbo>].[subtext_Config] c
+					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
+						ON a.ApplicationId = c.ApplicationId
+				WHERE a.ApplicationName = @ApplicationName
 			)
 		)
 	ORDER BY UserName ASC
@@ -6724,6 +6736,12 @@ BEGIN
 					ON r.RoleId = ur.RoleId
 				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
 					ON r.ApplicationId = a.ApplicationId
+			WHERE a.ApplicationName = @ApplicationName
+			UNION
+			SELECT c.OwnerId 
+			FROM [<dbUser,varchar,dbo>].[subtext_Config] c
+				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
+					ON a.ApplicationId = c.ApplicationId
 			WHERE a.ApplicationName = @ApplicationName
 		)
 END
