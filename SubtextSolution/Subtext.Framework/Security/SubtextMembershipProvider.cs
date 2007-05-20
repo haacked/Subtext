@@ -73,27 +73,26 @@ namespace Subtext.Framework.Security
             {
                 if (HttpContext.Current != null)
                 {
-                    if (HttpContext.Current.Items.Contains(SecurityHelper.CONTEXT_IDX))
+                    if (HttpContext.Current.Items.Contains(SecurityHelper.ApplicationNameContextId))
                     {
-                        return (string)HttpContext.Current.Items[SecurityHelper.CONTEXT_IDX];
+                        return (string)HttpContext.Current.Items[SecurityHelper.ApplicationNameContextId];
                     }
                     else
                     {
-						//TODO: When creating a blog, the CurrentBlog won't be set (for example in the HostAdmin).
-						//		This causes a problem.
-                        return Config.CurrentBlog.ApplicationName;
+						if (Config.CurrentBlog != null)
+							return Config.CurrentBlog.ApplicationName;
                     }
                 }
-                else
-                {
-                    return applicationName;
-                }
+                //Last option if no other condition is satisfied.
+				return applicationName;
             }
             set
             {
-				//TODO: Shouldn't this set HttpContext.Current.Items.Contains(SecurityHelper.CONTEXT_IDX)?
-				//When does that context variable get set?
-                applicationName = value;
+				//TODO: Please review
+				if (HttpContext.Current != null)
+					HttpContext.Current.Items[SecurityHelper.ApplicationNameContextId] = value;
+				else
+					applicationName = value;
             } 
 		}
 

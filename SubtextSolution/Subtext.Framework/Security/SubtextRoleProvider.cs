@@ -61,9 +61,9 @@ namespace Subtext.Framework.Security
 			{
                 if (HttpContext.Current != null)
                 {
-                    if (HttpContext.Current.Items.Contains(SecurityHelper.CONTEXT_IDX))
+                    if (HttpContext.Current.Items.Contains(SecurityHelper.ApplicationNameContextId))
                     {
-                        return (string)HttpContext.Current.Items[SecurityHelper.CONTEXT_IDX];
+                        return (string)HttpContext.Current.Items[SecurityHelper.ApplicationNameContextId];
                     }
                     else
                     {
