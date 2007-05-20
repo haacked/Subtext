@@ -13,6 +13,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System.Collections.Generic;
+using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -29,7 +31,15 @@ namespace UnitTests.Subtext.Framework.Configuration
 
         #region GetBlogInfo tests
 
-        /// <summary>
+		[Test]
+		[RollBack]
+		public void CurrentBlogReturnsNullWhenContextIsNull()
+		{
+			HttpContext.Current = null;
+			Assert.IsNull(Config.CurrentBlog);
+		}
+
+    	/// <summary>
         /// If we have two or more blogs in the system we want to be sure that 
         /// we can find a blog if it has a unique HostName in the system, despite 
         /// what it's subfolder is.

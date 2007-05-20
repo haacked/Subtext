@@ -26,7 +26,7 @@ namespace Subtext.Framework.Security
 			scope.currentApplicationName = Membership.ApplicationName;
             if (HttpContext.Current != null)
             {
-                HttpContext.Current.Items[SecurityHelper.CONTEXT_IDX] = applicationName;
+                HttpContext.Current.Items[SecurityHelper.ApplicationNameContextId] = applicationName;
             }
             else
             {
@@ -45,7 +45,7 @@ namespace Subtext.Framework.Security
 		{
             if (HttpContext.Current != null)
             {
-                HttpContext.Current.Items[SecurityHelper.CONTEXT_IDX] = currentApplicationName;
+                HttpContext.Current.Items[SecurityHelper.ApplicationNameContextId] = currentApplicationName;
             }
             else
             {

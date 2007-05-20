@@ -78,7 +78,16 @@ namespace Subtext.Framework.Configuration
 		/// Returns a <see cref="BlogInfo"/> instance containing 
 		/// the configuration settings for the current blog.
 		/// </summary>
-		/// <returns></returns>
+		/// <remarks>
+		///	<para>This property may throw an exception in a couple of cases. The reason for 
+		/// this is that there are a couple different reasons why the Current Blog might 
+		/// not exist and we handle those situations differently in the UI. Returning 
+		/// NULL does not give us enough information.
+		/// </para>
+		/// </remarks>
+		/// <exception type="BlogDoesNotExistException">Thrown if the blog does not exist</exception>
+		/// <exception type="BlogInactiveException">Thrown if the blog is no longer active</exception>
+		/// <returns>The current blog</returns>
 		public static BlogInfo CurrentBlog
 		{
 			get

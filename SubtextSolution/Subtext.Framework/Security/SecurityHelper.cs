@@ -39,7 +39,7 @@ namespace Subtext.Framework.Security
 	public static class SecurityHelper
 	{
 		private readonly static ILog log = new Log();
-        internal const string CONTEXT_IDX = "ApplicationName";
+        internal const string ApplicationNameContextId = "ApplicationName";
 
 		/// <summary>
 		/// Used to remove a cookie from the client.
