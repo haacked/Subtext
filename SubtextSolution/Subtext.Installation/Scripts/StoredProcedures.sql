@@ -6655,11 +6655,15 @@ BEGIN
 	DECLARE @FirstUserName nvarchar(256)
 	DECLARE @StartRow int
 	DECLARE @StartRowIndex int
+	DECLARE @ApplicationId UniqueIdentifier
 
 	SET @StartRowIndex = @PageIndex * @PageSize + 1
-
+	SET @ApplicationId = NULL
 	SET ROWCOUNT @StartRowIndex
 	
+	IF (NOT @ApplicationName IS NULL)
+		SELECT @ApplicationId = ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Applications] WHERE ApplicationName = @ApplicationName
+
 	SELECT	@FirstUserName = UserName
 	FROM [<dbUser,varchar,dbo>].[subtext_Users]
 	WHERE
@@ -6668,18 +6672,15 @@ BEGIN
 		UserId IN 
 		(
 			SELECT UserId 
-			FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur
-				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r
-					ON r.RoleId = ur.RoleId
-				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
-					ON r.ApplicationId = a.ApplicationId
-			WHERE a.ApplicationName = @ApplicationName
-			UNION
-			SELECT c.OwnerId 
-			FROM [<dbUser,varchar,dbo>].[subtext_Config] c
-				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
-					ON a.ApplicationId = c.ApplicationId
-			WHERE a.ApplicationName = @ApplicationName
+			FROM [<dbUser,varchar,dbo>].[subtext_Users] us
+			WHERE UserId IN (
+				SELECT UserId
+				FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur
+					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r
+						ON r.RoleId = ur.RoleId
+				WHERE r.ApplicationId = @ApplicationId)
+			OR UserId IN (
+				SELECT OwnerId FROM [<dbUser,varchar,dbo>].[subtext_Config] WHERE ApplicationId = @ApplicationId)
 		)
 	ORDER BY UserName ASC
 	
@@ -6707,18 +6708,15 @@ BEGIN
 			UserId IN 
 			(
 				SELECT UserId 
-				FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur
-					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r
-						ON r.RoleId = ur.RoleId
-					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
-						ON r.ApplicationId = a.ApplicationId
-				WHERE a.ApplicationName = @ApplicationName
-				UNION
-				SELECT c.OwnerId 
-				FROM [<dbUser,varchar,dbo>].[subtext_Config] c
-					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
-						ON a.ApplicationId = c.ApplicationId
-				WHERE a.ApplicationName = @ApplicationName
+				FROM [<dbUser,varchar,dbo>].[subtext_Users] us
+				WHERE UserId IN (
+					SELECT UserId
+					FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur
+						INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r
+							ON r.RoleId = ur.RoleId
+					WHERE r.ApplicationId = @ApplicationId)
+				OR UserId IN (
+					SELECT OwnerId FROM [<dbUser,varchar,dbo>].[subtext_Config] WHERE ApplicationId = @ApplicationId)
 			)
 		)
 	ORDER BY UserName ASC
@@ -6731,18 +6729,15 @@ BEGIN
 		UserId IN 
 		(
 			SELECT UserId 
-			FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur
-				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r
-					ON r.RoleId = ur.RoleId
-				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
-					ON r.ApplicationId = a.ApplicationId
-			WHERE a.ApplicationName = @ApplicationName
-			UNION
-			SELECT c.OwnerId 
-			FROM [<dbUser,varchar,dbo>].[subtext_Config] c
-				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a
-					ON a.ApplicationId = c.ApplicationId
-			WHERE a.ApplicationName = @ApplicationName
+			FROM [<dbUser,varchar,dbo>].[subtext_Users] us
+			WHERE UserId IN (
+				SELECT UserId
+				FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur
+					INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r
+						ON r.RoleId = ur.RoleId
+				WHERE r.ApplicationId = @ApplicationId)
+			OR UserId IN (
+				SELECT OwnerId FROM [<dbUser,varchar,dbo>].[subtext_Config] WHERE ApplicationId = @ApplicationId)
 		)
 END
 

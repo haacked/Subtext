@@ -154,10 +154,10 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 			    Membership.CreateUser(name + "blah", "secret-password", UnitTestHelper.MembershipTestEmail);
 
 				MembershipUserCollection allUsers = Membership.GetAllUsers();
-				Assert.AreEqual(allUsers.Count, 0, "Expected to only find the owner of the blog");
+				Assert.AreEqual(allUsers.Count, 1, "Expected to only find the owner of the blog");
 				Roles.AddUserToRole(user.UserName, RoleNames.Anonymous);
 				allUsers = Membership.GetAllUsers();
-				Assert.AreEqual(allUsers.Count, 1, "Expected to find two users");
+				Assert.AreEqual(allUsers.Count, 2, "Expected to find two users");
 			}
 		}
 		
