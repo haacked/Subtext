@@ -67,7 +67,14 @@ namespace Subtext.Framework.Security
                     }
                     else
                     {
-                        return Config.CurrentBlog.ApplicationName;
+                        if (Config.CurrentBlog != null)
+                        {
+                            return Config.CurrentBlog.ApplicationName;
+                        }
+                        else
+                        {
+                            return applicationName;
+                        }
                     }
                 }
                 else
@@ -77,11 +84,15 @@ namespace Subtext.Framework.Security
 			}
             set
             {
-                applicationName = value;
+				//TODO: Please review
+				if (HttpContext.Current != null)
+					HttpContext.Current.Items[SecurityHelper.ApplicationNameContextId] = value;
+				else
+					applicationName = value;
             } 
 		}
 
-        private string applicationName;
+        private string applicationName = @"\";
 
 		/// <summary>
 		/// Adds the specified user names to the specified roles for the configured applicationName.
