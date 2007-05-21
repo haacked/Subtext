@@ -67,8 +67,8 @@ namespace Subtext.Framework.Security
         /// </remarks>
 		/// <value></value>
 		/// <returns>The name of the application using the custom membership provider.</returns>
-		public override string ApplicationName
-		{
+        public override string ApplicationName
+        {
             get
             {
                 if (HttpContext.Current != null)
@@ -79,12 +79,20 @@ namespace Subtext.Framework.Security
                     }
                     else
                     {
-						if (Config.CurrentBlog != null)
-							return Config.CurrentBlog.ApplicationName;
+                        if (Config.CurrentBlog != null)
+                        {
+                            return Config.CurrentBlog.ApplicationName;
+                        }
+                        else
+                        {
+                            return applicationName;
+                        }
                     }
                 }
-                //Last option if no other condition is satisfied.
-				return applicationName;
+                else
+                {
+                    return applicationName;
+                }
             }
             set
             {
@@ -96,7 +104,7 @@ namespace Subtext.Framework.Security
             } 
 		}
 
-        private string applicationName;
+        private string applicationName = @"\";
 
 		/// <summary>
 		/// Processes a request to update the password for a membership user.
