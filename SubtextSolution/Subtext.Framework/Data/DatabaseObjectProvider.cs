@@ -23,6 +23,7 @@ using System.Globalization;
 using System.Web.Security;
 using log4net;
 using Microsoft.ApplicationBlocks.Data;
+using Subtext.Data;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
@@ -47,14 +48,17 @@ namespace Subtext.Framework.Data
 		{
 			get
 			{
-				int blogId;
-				if (InstallationManager.IsInHostAdminDirectory)
-					blogId = NullValue.NullInt32;
-				else
-					blogId = Config.CurrentBlog.Id;
-
+				int blogId = GetCurrentBlogId();
 				return DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(blogId));
 			}
+		}
+
+		private static int GetCurrentBlogId()
+		{
+			if(InstallationManager.IsInHostAdminDirectory || Config.CurrentBlog == null)
+				return NullValue.NullInt32;
+			else
+				return Config.CurrentBlog.Id;
 		}
 
 		#region Host
@@ -64,7 +68,7 @@ namespace Subtext.Framework.Data
 		/// <returns>A <see cref="HostInfo"/> instance.</returns>
 		public override void LoadHostInfo(HostInfo info)
 		{
-			using (IDataReader reader = GetReader("subtext_GetHost"))
+			using (IDataReader reader = StoredProcedures.GetHost().GetReader())
 			{
 				if (reader.Read())
 				{
@@ -81,7 +85,7 @@ namespace Subtext.Framework.Data
 		/// <param name="info">The info.</param>
 		public override void CreateHost(MembershipUser owner, HostInfo info)
 		{
-			using (IDataReader reader = GetReader("subtext_CreateHost", owner.ProviderUserKey))
+			using (IDataReader reader = StoredProcedures.CreateHost((Guid)owner.ProviderUserKey).GetReader())
 			{
 				if (reader.Read())
 				{
@@ -246,25 +250,18 @@ namespace Subtext.Framework.Data
 			if (type == FeedbackType.None)
 				feedbackType = null;
 
-			SqlParameter[] p =
+			using (IDataReader reader = StoredProcedures.GetPageableFeedback(GetCurrentBlogId(), pageIndex, pageSize, (int)status, (int)excludeStatusMask, feedbackType).GetReader())
 			{
-				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
-				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize),
-				DataHelper.MakeInParam("@StatusFlag", SqlDbType.Int, 4, status),
-				DataHelper.MakeInParam("@FeedbackType", SqlDbType.Int, 4, feedbackType),
-				DataHelper.MakeInParam("@ExcludeFeedbackStatusMask", SqlDbType.Int, 4, excludeStatusMask),
-				BlogIdParam
-			};
+				IPagedCollection<FeedbackItem> pec = new PagedCollection<FeedbackItem>();
+				while (reader.Read())
+				{
+					pec.Add(DataHelper.LoadFeedbackItem(reader));
+				}
+				reader.NextResult();
+				pec.MaxItems = DataHelper.GetMaxItems(reader);
 
-			IDataReader reader = GetReader("subtext_GetPageableFeedback", p);
-			IPagedCollection<FeedbackItem> pec = new PagedCollection<FeedbackItem>();
-			while (reader.Read())
-			{
-				pec.Add(DataHelper.LoadFeedbackItem(reader));
+				return pec;
 			}
-			reader.NextResult();
-			pec.MaxItems = DataHelper.GetMaxItems(reader);
-			return pec;
 		}
 
 		#endregion
@@ -2093,12 +2090,6 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region Helpers
-
-		private IDataReader GetReader(string sql)
-		{
-			LogSql(sql, (object[])null);
-			return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql);
-		}
 
 		private IDataReader GetReader(string sql, SqlParameter[] parameters)
 		{

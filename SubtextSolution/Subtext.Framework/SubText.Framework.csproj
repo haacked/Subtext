@@ -132,6 +132,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SgmlReaderDll.dll</HintPath>
     </Reference>
+    <Reference Include="SubSonic, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\SubSonic.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -282,6 +286,7 @@
     <Compile Include="Data\DataHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\Generated\StoredProcedures.cs" />
     <Compile Include="Data\SortDirection.cs" />
     <Compile Include="Data\Transformer.cs" />
     <Compile Include="DateTimeHelper.cs">
