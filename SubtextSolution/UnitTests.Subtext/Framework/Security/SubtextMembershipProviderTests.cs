@@ -147,17 +147,17 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		public void CanGetAllUsersForABlog()
 		{
 			UnitTestHelper.SetupBlog();
-			string name = UnitTestHelper.GenerateRandomString();
-			MembershipUser user = Membership.CreateUser(name, "whatever-password", UnitTestHelper.MembershipTestEmail);
-			Membership.CreateUser(name + "blah", "secret-password", UnitTestHelper.MembershipTestEmail);
+            using (MembershipApplicationScope.SetApplicationName(Config.CurrentBlog.ApplicationName))
+            {
+                string name = UnitTestHelper.GenerateRandomString();
+			    MembershipUser user = Membership.CreateUser(name, "whatever-password", UnitTestHelper.MembershipTestEmail);
+			    Membership.CreateUser(name + "blah", "secret-password", UnitTestHelper.MembershipTestEmail);
 
-			using (MembershipApplicationScope.SetApplicationName(Config.CurrentBlog.ApplicationName))
-			{
 				MembershipUserCollection allUsers = Membership.GetAllUsers();
-				Assert.AreEqual(allUsers.Count, 1, "Expected to only find the owner of the blog");
-				Roles.AddUserToRoles(user.UserName, new string[]{RoleNames.Anonymous});
+				Assert.AreEqual(allUsers.Count, 0, "Expected to only find the owner of the blog");
+				Roles.AddUserToRole(user.UserName, RoleNames.Anonymous);
 				allUsers = Membership.GetAllUsers();
-				Assert.AreEqual(allUsers.Count, 2, "Expected to find two users");
+				Assert.AreEqual(allUsers.Count, 1, "Expected to find two users");
 			}
 		}
 		
