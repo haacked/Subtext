@@ -71,16 +71,9 @@ namespace Subtext.Framework.Security
                         {
                             return Config.CurrentBlog.ApplicationName;
                         }
-                        else
-                        {
-                            return applicationName;
-                        }
                     }
                 }
-                else
-                {
-                    return applicationName;
-                }
+                return applicationName;
 			}
             set
             {
@@ -92,7 +85,7 @@ namespace Subtext.Framework.Security
             } 
 		}
 
-        private string applicationName = @"\";
+        private string applicationName = "/";
 
 		/// <summary>
 		/// Adds the specified user names to the specified roles for the configured applicationName.
