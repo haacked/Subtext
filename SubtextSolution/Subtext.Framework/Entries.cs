@@ -202,9 +202,9 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="entryId"></param>
 		/// <returns></returns>
-		public static bool Delete(int entryId)
+		public static void Delete(int entryId)
 		{
-			return ObjectProvider.Instance().Delete(entryId);
+			ObjectProvider.Instance().Delete(entryId);
 		}
 		#endregion
 

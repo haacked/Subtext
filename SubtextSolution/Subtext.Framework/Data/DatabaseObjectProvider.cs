@@ -23,6 +23,7 @@ using System.Globalization;
 using System.Web.Security;
 using log4net;
 using Microsoft.ApplicationBlocks.Data;
+using SubSonic;
 using Subtext.Data;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
@@ -48,17 +49,19 @@ namespace Subtext.Framework.Data
 		{
 			get
 			{
-				int blogId = GetCurrentBlogId();
-				return DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(blogId));
+				return DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(BlogId));
 			}
 		}
 
-		private static int GetCurrentBlogId()
+		private static int BlogId
 		{
-			if(InstallationManager.IsInHostAdminDirectory || Config.CurrentBlog == null)
-				return NullValue.NullInt32;
-			else
-				return Config.CurrentBlog.Id;
+			get
+			{
+				if (InstallationManager.IsInHostAdminDirectory || Config.CurrentBlog == null)
+					return NullValue.NullInt32;
+				else
+					return Config.CurrentBlog.Id;
+			}
 		}
 
 		#region Host
@@ -250,7 +253,7 @@ namespace Subtext.Framework.Data
 			if (type == FeedbackType.None)
 				feedbackType = null;
 
-			using (IDataReader reader = StoredProcedures.GetPageableFeedback(GetCurrentBlogId(), pageIndex, pageSize, (int)status, (int)excludeStatusMask, feedbackType).GetReader())
+			using (IDataReader reader = StoredProcedures.GetPageableFeedback(BlogId, pageIndex, pageSize, (int)status, (int)excludeStatusMask, feedbackType).GetReader())
 			{
 				IPagedCollection<FeedbackItem> pec = new PagedCollection<FeedbackItem>();
 				while (reader.Read())
@@ -268,27 +271,21 @@ namespace Subtext.Framework.Data
 
 		#region EntryDays
 
-		public override EntryDay GetEntryDay(DateTime dt)
+		/// <summary>
+		/// Gets the entries for the day.
+		/// </summary>
+		/// <param name="date">The date.</param>
+		/// <returns></returns>
+		public override EntryDay GetEntryDay(DateTime date)
 		{
-			SqlParameter[] p =
+			using(IDataReader reader = StoredProcedures.GetSingleDay(date, BlogId).GetReader())
 			{
-				DataHelper.MakeInParam("@Date",SqlDbType.DateTime,8,dt),
-				BlogIdParam
-			};
-
-			IDataReader reader = GetReader("subtext_GetSingleDay", p);
-			try
-			{
-				EntryDay ed = new EntryDay(dt);
+				EntryDay ed = new EntryDay(date);
 				while (reader.Read())
 				{
 					ed.Add(DataHelper.LoadEntry(reader));
 				}
 				return ed;
-			}
-			finally
-			{
-				reader.Close();
 			}
 		}
 
@@ -392,13 +389,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override IList<FeedbackItem> GetFeedbackForEntry(Entry parentEntry)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(parentEntry.Id))
-			};
-
-			IDataReader reader = GetReader("subtext_GetFeedbackCollection", p);
-			try
+			using(IDataReader reader = StoredProcedures.GetFeedbackCollection(parentEntry.Id).GetReader())
 			{
 				List<FeedbackItem> ec = new List<FeedbackItem>();
 
@@ -410,10 +401,6 @@ namespace Subtext.Framework.Data
 				}
 				return ec;
 			}
-			finally
-			{
-				reader.Close();
-			}
 		}
 
 		/// <summary>
@@ -423,12 +410,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override FeedbackItem GetFeedback(int id)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@Id", SqlDbType.Int, 4, id),
-			};
-
-			using (IDataReader reader = GetReader("subtext_GetFeedBack", p))
+			using (IDataReader reader = StoredProcedures.GetFeedback(id).GetReader())
 			{
 				if (reader.Read())
 				{
@@ -447,20 +429,14 @@ namespace Subtext.Framework.Data
 		/// <param name="deleted">The deleted.</param>
 		public override void GetFeedbackCounts(out int approved, out int needsModeration, out int flaggedAsSpam, out int deleted)
 		{
-			SqlParameter[] p =
-			{
-				BlogIdParam,
-				DataHelper.MakeOutParam("@ApprovedCount", SqlDbType.Int, 4),
-				DataHelper.MakeOutParam("@NeedsModerationCount", SqlDbType.Int, 4),
-				DataHelper.MakeOutParam("@FlaggedSpam", SqlDbType.Int, 4),
-				DataHelper.MakeOutParam("@Deleted", SqlDbType.Int, 4)
-			};
-			NonQueryBool("subtext_GetFeedbackCountsByStatus", p);
+			StoredProcedure proc = StoredProcedures.GetFeedbackCountsByStatus(BlogId, 0, 0, 0, 0);
+			proc.Execute();
+			List<object> outputs = proc.OutputValues;
 
-			approved = (int)p[1].Value;
-			needsModeration = (int)p[2].Value;
-			flaggedAsSpam = (int)p[3].Value;
-			deleted = (int)p[4].Value;
+			approved = (int)outputs[0];
+			needsModeration = (int)outputs[1];
+			flaggedAsSpam = (int)outputs[2];
+			deleted = (int)outputs[3];
 		}
 
 		public override IList<Entry> GetPostCollectionByMonth(int month, int year)
@@ -482,46 +458,36 @@ namespace Subtext.Framework.Data
 				max = start;
 			}
 
-			SqlParameter[] p =	
-			{
-				DataHelper.MakeInParam("@StartDate",SqlDbType.DateTime, 8, min),
-				DataHelper.MakeInParam("@StopDate",SqlDbType.DateTime, 8, max),
-				DataHelper.MakeInParam("@PostType",SqlDbType.Int, 4, postType),
-				DataHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
-				BlogIdParam
-			};
-
-			using (IDataReader reader = GetReader("subtext_GetEntriesByDayRange", p))
+			using (IDataReader reader = StoredProcedures.GetEntriesByDayRange(min, max, (int)postType, activeOnly, BlogId).GetReader())
 			{
 				return DataHelper.LoadEntryCollectionFromDataReader(reader);
 			}
 		}
 
-		public override IList<Entry> GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly)
+		/// <summary>
+		/// Gets the entries by category.
+		/// </summary>
+		/// <param name="itemCount">The item count.</param>
+		/// <param name="categoryId">The category id.</param>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
+		public override IList<Entry> GetEntriesByCategory(int itemCount, int categoryId, bool activeOnly)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, ItemCount),
-				DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, DataHelper.CheckNull(catID)),
-				DataHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, ActiveOnly),
-				BlogIdParam
-			};
-
-			using (IDataReader reader = GetReader("subtext_GetPostsByCategoryID", p))
+			using (IDataReader reader = StoredProcedures.GetPostsByCategoryID(itemCount, categoryId, activeOnly, BlogId).GetReader())
 			{
 				return DataHelper.LoadEntryCollectionFromDataReader(reader);
 			}
 		}
 
+		/// <summary>
+		/// Gets the entries by tag.
+		/// </summary>
+		/// <param name="itemCount">The item count.</param>
+		/// <param name="tagName">Name of the tag.</param>
+		/// <returns></returns>
         public override IList<Entry> GetEntriesByTag(int itemCount, string tagName)
         {
-			SqlParameter[] p = 
-                {
-                    DataHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, itemCount),
-                    DataHelper.MakeInParam("@Tag", SqlDbType.NVarChar, 256, tagName),
-                    BlogIdParam
-                };
-			using (IDataReader reader = GetReader("subtext_GetPostsByTag", p))
+			using (IDataReader reader = StoredProcedures.GetPostsByTag(itemCount, tagName, BlogId).GetReader())
             {
                 return DataHelper.LoadEntryCollectionFromDataReader(reader);
             }
@@ -537,13 +503,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override Entry GetCommentByChecksumHash(string checksumHash)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@FeedbackChecksumHash", SqlDbType.VarChar, 32, checksumHash),
-				BlogIdParam
-			};
-
-			using (IDataReader reader = GetReader("subtext_GetCommentByChecksumHash", p))
+			using (IDataReader reader = StoredProcedures.GetCommentByChecksumHash(checksumHash, BlogId).GetReader())
 			{
 				if (reader.Read())
 				{
@@ -562,15 +522,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override Entry GetEntry(int id, bool activeOnly, bool includeCategories)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@ID", SqlDbType.Int, 4, id),
-				DataHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
-				DataHelper.MakeInParam("@IncludeCategories", SqlDbType.Bit, 1, includeCategories),
-				BlogIdParam
-			};
-
-			using (IDataReader reader = GetReader("subtext_GetSingleEntry", p))
+			using (IDataReader reader = StoredProcedures.GetSingleEntry(id, null, activeOnly, BlogId, includeCategories).GetReader())
 			{
 				if (reader.Read())
 				{
@@ -589,15 +541,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override Entry GetEntry(string entryName, bool activeOnly, bool includeCategories)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@EntryName",SqlDbType.NVarChar,150,entryName),
-				DataHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
-				DataHelper.MakeInParam("@IncludeCategories", SqlDbType.Bit, 1, includeCategories),
-				BlogIdParam
-			};
-
-			using (IDataReader reader = GetReader("subtext_GetSingleEntry", p))
+			using (IDataReader reader = StoredProcedures.GetSingleEntry(null, entryName, activeOnly, BlogId, includeCategories).GetReader())
 			{
 				if (reader.Read())
 				{
@@ -615,13 +559,9 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="entryId">The entry id.</param>
 		/// <returns></returns>
-		public override bool Delete(int entryId)
+		public override void Delete(int entryId)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@ID",SqlDbType.Int,4,entryId)
-			};
-			return NonQueryBool("subtext_DeletePost", p);
+			StoredProcedures.DeletePost(entryId).Execute();
 		}
 
 		#endregion
@@ -631,11 +571,7 @@ namespace Subtext.Framework.Data
 		/// <param name="id">The id.</param>
 		public override void DestroyFeedback(int id)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@Id", SqlDbType.Int, 4, id),
-			};
-			NonQueryBool("subtext_DeleteFeedback", p);
+			StoredProcedures.DeleteFeedback(id).Execute();
 		}
 
 		/// <summary>
@@ -644,12 +580,7 @@ namespace Subtext.Framework.Data
 		/// <param name="status">The status.</param>
 		public override void DestroyFeedback(FeedbackStatusFlags status)
 		{
-			SqlParameter[] p =
-			{
-				BlogIdParam
-				, DataHelper.MakeInParam("@StatusFlag", SqlDbType.Int, 4, status),
-			};
-			NonQueryBool("subtext_DeleteFeedbackByStatus", p);
+			StoredProcedures.DeleteFeedbackByStatus(BlogId, (int)status).Execute();
 		}
 
 		/// <summary>

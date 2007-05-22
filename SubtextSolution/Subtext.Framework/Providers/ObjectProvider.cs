@@ -148,7 +148,7 @@ namespace Subtext.Framework.Providers
 
 		#region EntryDays
 
-		public abstract EntryDay GetEntryDay(DateTime dt);
+		public abstract EntryDay GetEntryDay(DateTime date);
 		public abstract ICollection<EntryDay> GetPostsByMonth(int month, int year);
 		public abstract ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
 
@@ -208,7 +208,7 @@ namespace Subtext.Framework.Providers
 
 		public abstract IList<Entry> GetPostCollectionByMonth(int month, int year);
 		public abstract IList<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
-		public abstract IList<Entry> GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly);
+		public abstract IList<Entry> GetEntriesByCategory(int itemCount, int categoryId, bool activeOnly);
         public abstract IList<Entry> GetEntriesByTag(int itemCount, string tagName);
 
 		#endregion
@@ -250,7 +250,7 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="entryId">The entry id.</param>
 		/// <returns></returns>
-		public abstract bool Delete(int entryId);
+		public abstract void Delete(int entryId);
 
 		/// <summary>
 		/// Completely deletes the specified feedback as 

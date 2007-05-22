@@ -20,13 +20,10 @@ using System.Globalization;
 using System.IO;
 using System.Web.Security;
 using CookComputing.XmlRpc;
-using log4net;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
-using Subtext.Framework.Logging;
-using Subtext.Framework.Security;
 using Subtext.Extensibility.Plugins;
 
 //Need to find a method that has access to context, so we can terminate the request if AllowServiceAccess == false.
@@ -398,10 +395,8 @@ namespace Subtext.Framework.XmlRpc
 			return categories;
 		}
 
-		[XmlRpcMethod("mt.setPostCategories",
-			Description="Sets the categories for a given post.")]
-		public bool SetPostCategories(string postid, string username, string password,
-			MtCategory[] categories)
+		[XmlRpcMethod("mt.setPostCategories", Description="Sets the categories for a given post.")]
+		public bool SetPostCategories(string postid, string username, string password, MtCategory[] categories)
 		{
             if (postid == null)
             {
@@ -440,7 +435,7 @@ namespace Subtext.Framework.XmlRpc
 
             ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess);
 						
-			if (categories != null && categories.Length > 0)
+			if (categories.Length > 0)
 			{
 				int postID = Int32.Parse(postid, NumberFormatInfo.InvariantInfo);
 
