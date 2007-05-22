@@ -104,7 +104,7 @@ namespace Subtext.Framework.Security
             } 
 		}
 
-        private string applicationName = @"\";
+        private string applicationName = "/";
 
 		/// <summary>
 		/// Processes a request to update the password for a membership user.
