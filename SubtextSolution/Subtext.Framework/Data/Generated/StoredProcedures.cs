@@ -1271,7 +1271,7 @@ public class StoredProcedures{
         /// <summary>
         /// Creates an object wrapper for the subtext_GetSingleEntry Procedure
         /// </summary>
-        public static StoredProcedure GetSingleEntry(int ID, string EntryName, bool IsActive, int BlogId, bool IncludeCategories){
+        public static StoredProcedure GetSingleEntry(int? ID, string EntryName, bool IsActive, int BlogId, bool IncludeCategories){
             SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetSingleEntry" , provider);
             sp.Command.AddParameter("@ID", ID,DbType.Int32);
             sp.Command.AddParameter("@EntryName", EntryName,DbType.String);
