@@ -79,7 +79,7 @@ namespace Subtext.Installation
 		/// Initializes the specified provider.
 		/// </summary>
 		/// <param name="name">Friendly Name of the provider.</param>
-		/// <param name="configValue">Config value.</param>
+		/// <param name="config">Config value.</param>
 		public override void Initialize(string name, NameValueCollection config)
 		{
             _connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
