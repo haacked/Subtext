@@ -1163,6 +1163,7 @@
     <Content Include="Install\Default.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="Install\InstallationComplete.aspx" />
     <Content Include="Install\Style\InstallationStyle.css" />
     <Content Include="Login.aspx" />
     <Content Include="Modules\placeholder.txt" />
@@ -2028,6 +2029,7 @@
     <Content Include="Log4Net.config" />
     <Content Include="Install\InstallTemplate.Master" />
     <Content Include="Images\IdenticonHandler.ashx" />
+    <Content Include="Admin\Navigation.config" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />
