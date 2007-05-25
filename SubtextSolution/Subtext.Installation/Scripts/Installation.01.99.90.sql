@@ -15,25 +15,24 @@ Search and Replace Regexes:
 
 Table creation:
 	SEARCH: IF NOT EXISTS \(SELECT \* FROM dbo\.sysobjects WHERE id = OBJECT_ID\(N'\[dbo\]\.\[{[^\]]+}\]'\) AND OBJECTPROPERTY\(id, N'IsUserTable'\) = 1\)
-	REPLACE: IF NOT EXISTS\n(\n\tSELECT * FROM [information_schema].[tables]\n\tWHERE table_name = '\1'\n\tAND table_schema = '<dbUser,varchar,dbo>'\n)
+	REPLACE: IF NOT EXISTS\n(\n\tSELECT * FROM [INFORMATION_SCHEMA].[TABLES]\n\tWHERE [TABLE_NAME] = '\1'\n\tAND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'\n)
 	
 Foreign Keys:
 	SEARCH: IF NOT EXISTS \(SELECT \* FROM dbo\.sysobjects WHERE id = OBJECT_ID\(N'\[dbo\]\.\[{[^\]]+}\]'\) AND type = 'F'\)
-	REPLACE:IF NOT EXISTS\n(\n\tSELECT * FROM [information_schema].[referential_constraints]\n\tWHERE constraint_name = '\1'\n\tAND unique_constraint_schema = '<dbUser,varchar,dbo>'\n)
+	REPLACE:IF NOT EXISTS\n(\n\tSELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]\n\tWHERE constraint_name = '\1'\n\tAND unique_constraint_schema = '<dbUser,varchar,dbo>'\n)
 */
 
 /* Add an ApplicationId to the subtext_Config table so we can 
 	map a blog to its application */
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
-		WHERE	table_name = 'subtext_Config' 
-		AND table_schema = '<dbUser,varchar,dbo>'
-		AND	column_name = 'ApplicationId'
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
+		WHERE	[TABLE_NAME] = 'subtext_Config' 
+		AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
+		AND	[COLUMN_NAME] = 'ApplicationId'
 	)
-	/* Add an OwnerId column to subtext_Config */
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] ADD
-	[ApplicationId] UNIQUEIDENTIFIER NULL 
+	[ApplicationId] uniqueidentifier NULL 
 	CONSTRAINT DF_subtext_Config_ApplicationId DEFAULT NEWID()
 GO
 
@@ -42,25 +41,24 @@ GO
 */
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
-		WHERE	table_name = 'subtext_Config' 
-		AND table_schema = '<dbUser,varchar,dbo>'
-		AND	column_name = 'Subfolder'
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
+		WHERE	[TABLE_NAME] = 'subtext_Config' 
+		AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
+		AND	[COLUMN_NAME] = 'Subfolder'
 	)
-	/* Add an OwnerId column to subtext_Config */
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] ADD
 	[Subfolder] nvarchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL 
 	CONSTRAINT DF_subtext_Config_Subfolder DEFAULT ''
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[columns] 
-		WHERE	table_name = 'subtext_Config' 
-		AND		table_schema = '<dbUser,varchar,dbo>'
-		AND		column_name = 'Application')
-AND EXISTS (SELECT * FROM [information_schema].[columns] 
-		WHERE	table_name = 'subtext_Config' 
-		AND		table_schema = '<dbUser,varchar,dbo>'
-		AND		column_name = 'Subfolder')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+		WHERE	[TABLE_NAME] = 'subtext_Config' 
+		AND		[TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
+		AND		[COLUMN_NAME] = 'Application')
+AND EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+		WHERE	[TABLE_NAME] = 'subtext_Config' 
+		AND		[TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
+		AND		[COLUMN_NAME] = 'Subfolder')
 BEGIN
 	UPDATE [<dbUser,varchar,dbo>].[subtext_Config] 
 	SET Subfolder = Application
@@ -71,14 +69,13 @@ GO
 	map the Subtext host installation to its application */
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
-		WHERE	table_name = 'subtext_Host' 
-		AND table_schema = '<dbUser,varchar,dbo>'
-		AND	column_name = 'ApplicationId'
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
+		WHERE	[TABLE_NAME] = 'subtext_Host' 
+		AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
+		AND	[COLUMN_NAME] = 'ApplicationId'
 	)
-	/* Add an OwnerId column to subtext_Config */
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Host] ADD
-	[ApplicationId] UNIQUEIDENTIFIER NOT NULL
+	[ApplicationId] uniqueidentifier NOT NULL
 	CONSTRAINT DF_subtext_Host_ApplicationId DEFAULT NEWID()
 GO
 
@@ -86,30 +83,29 @@ GO
 /* add the AuthorId field to Content table */
 IF NOT EXISTS 
 	(
-		SELECT	column_name 
-		FROM [information_schema].[columns] 
-		WHERE	table_name = 'subtext_Content' 
-		AND table_schema = '<dbUser,varchar,dbo>'
-		AND column_name = 'AuthorId'
+		SELECT	[COLUMN_NAME] 
+		FROM [INFORMATION_SCHEMA].[COLUMNS] 
+		WHERE	[TABLE_NAME] = 'subtext_Content' 
+		AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
+		AND [COLUMN_NAME] = 'AuthorId'
 	)
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content] ADD
 	[AuthorId]  uniqueidentifier NOT NULL 
-	CONSTRAINT DF_subtext_Content_AuthorId DEFAULT CONVERT(uniqueIdentifier , '00000000-0000-0000-0000-000000000000')
+	CONSTRAINT DF_subtext_Content_AuthorId DEFAULT CONVERT(uniqueidentifier , '00000000-0000-0000-0000-000000000000')
 GO
 
 /*	Adds OwnerId to the subtext_Host table. This is the overall owner 
 	of the subtext installation. The default HostAdmin. */
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
-		WHERE	table_name = 'subtext_Host' 
-		AND table_schema = '<dbUser,varchar,dbo>'
-		AND	column_name = 'OwnerId'
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
+		WHERE	[TABLE_NAME] = 'subtext_Host' 
+		AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
+		AND	[COLUMN_NAME] = 'OwnerId'
 	)
-	/* Add an OwnerId column to subtext_Config */
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Host] ADD
-	[OwnerId] UNIQUEIDENTIFIER NOT NULL 
-	CONSTRAINT DF_subtext_Host_OwnerId DEFAULT CONVERT(uniqueIdentifier , '00000000-0000-0000-0000-000000000000')
+	[OwnerId] uniqueidentifier NOT NULL 
+	CONSTRAINT DF_subtext_Host_OwnerId DEFAULT CONVERT(uniqueidentifier , '00000000-0000-0000-0000-000000000000')
 GO
 
 
@@ -117,24 +113,23 @@ GO
    the UserId of the main Administrator (to be created next) */
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
-		WHERE	table_name = 'subtext_Config' 
-		AND table_schema = '<dbUser,varchar,dbo>'
-		AND	column_name = 'OwnerId'
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
+		WHERE	[TABLE_NAME] = 'subtext_Config' 
+		AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
+		AND	[COLUMN_NAME] = 'OwnerId'
 	)
-	/* Add an OwnerId column to subtext_Config */
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] ADD
-	[OwnerId] UNIQUEIDENTIFIER NOT NULL 
-	CONSTRAINT DF_subtext_Config_OwnerId DEFAULT CONVERT(uniqueIdentifier , '00000000-0000-0000-0000-000000000000')
+	[OwnerId] uniqueidentifier NOT NULL 
+	CONSTRAINT DF_subtext_Config_OwnerId DEFAULT CONVERT(uniqueidentifier , '00000000-0000-0000-0000-000000000000')
 GO
 
 /* THE FOLLOWING SCRIPTS ADD ALL THE MEMBERSHIP TABLES */
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[tables]
-	WHERE table_name = 'subtext_SchemaVersions'
-	AND table_schema = '<dbUser,varchar,dbo>'
+	SELECT * FROM [INFORMATION_SCHEMA].[TABLES]
+	WHERE [TABLE_NAME] = 'subtext_SchemaVersions'
+	AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_SchemaVersions](
@@ -157,9 +152,9 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[tables]
-	WHERE table_name = 'subtext_WebEvent_Events'
-	AND table_schema = '<dbUser,varchar,dbo>'
+	SELECT * FROM [INFORMATION_SCHEMA].[TABLES]
+	WHERE [TABLE_NAME] = 'subtext_WebEvent_Events'
+	AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_WebEvent_Events](
@@ -192,9 +187,9 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[tables]
-	WHERE table_name = 'subtext_Applications'
-	AND table_schema = '<dbUser,varchar,dbo>'
+	SELECT * FROM [INFORMATION_SCHEMA].[TABLES]
+	WHERE [TABLE_NAME] = 'subtext_Applications'
+	AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Applications](
@@ -224,9 +219,9 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[tables]
-	WHERE table_name = 'subtext_UsersInRoles'
-	AND table_schema = '<dbUser,varchar,dbo>'
+	SELECT * FROM [INFORMATION_SCHEMA].[TABLES]
+	WHERE [TABLE_NAME] = 'subtext_UsersInRoles'
+	AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_UsersInRoles](
@@ -247,9 +242,9 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[tables]
-	WHERE table_name = 'subtext_PersonalizationAllUsers'
-	AND table_schema = '<dbUser,varchar,dbo>'
+	SELECT * FROM [INFORMATION_SCHEMA].[TABLES]
+	WHERE [TABLE_NAME] = 'subtext_PersonalizationAllUsers'
+	AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_PersonalizationAllUsers](
@@ -270,9 +265,9 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[tables]
-	WHERE table_name = 'subtext_PersonalizationPerUser'
-	AND table_schema = '<dbUser,varchar,dbo>'
+	SELECT * FROM [INFORMATION_SCHEMA].[TABLES]
+	WHERE [TABLE_NAME] = 'subtext_PersonalizationPerUser'
+	AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_PersonalizationPerUser](
@@ -295,9 +290,9 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[tables]
-	WHERE table_name = 'subtext_Users'
-	AND table_schema = '<dbUser,varchar,dbo>'
+	SELECT * FROM [INFORMATION_SCHEMA].[TABLES]
+	WHERE [TABLE_NAME] = 'subtext_Users'
+	AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Users](
@@ -341,9 +336,9 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[tables]
-	WHERE table_name = 'subtext_Roles'
-	AND table_schema = '<dbUser,varchar,dbo>'
+	SELECT * FROM [INFORMATION_SCHEMA].[TABLES]
+	WHERE [TABLE_NAME] = 'subtext_Roles'
+	AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Roles](
@@ -366,9 +361,9 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[tables]
-	WHERE table_name = 'subtext_Paths'
-	AND table_schema = '<dbUser,varchar,dbo>'
+	SELECT * FROM [INFORMATION_SCHEMA].[TABLES]
+	WHERE [TABLE_NAME] = 'subtext_Paths'
+	AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Paths](
@@ -390,9 +385,9 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[tables]
-	WHERE table_name = 'subtext_Profile'
-	AND table_schema = '<dbUser,varchar,dbo>'
+	SELECT * FROM [INFORMATION_SCHEMA].[TABLES]
+	WHERE [TABLE_NAME] = 'subtext_Profile'
+	AND [TABLE_SCHEMA] = '<dbUser,varchar,dbo>'
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Profile](
@@ -411,7 +406,7 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[referential_constraints]
+	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
 	WHERE constraint_name = 'FK__subtext_U__RoleI__31EC6D26'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
@@ -421,7 +416,7 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[referential_constraints]
+	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
 	WHERE constraint_name = 'FK__subtext_U__UserI__30F848ED'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
@@ -431,7 +426,7 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[referential_constraints]
+	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
 	WHERE constraint_name = 'FK__subtext_P__PathI__45F365D3'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
@@ -441,7 +436,7 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[referential_constraints]
+	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
 	WHERE constraint_name = 'FK__subtext_P__PathI__49C3F6B7'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
@@ -451,7 +446,7 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[referential_constraints]
+	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
 	WHERE constraint_name = 'FK__subtext_P__UserI__4AB81AF0'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
@@ -461,7 +456,7 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[referential_constraints]
+	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
 	WHERE constraint_name = 'FK__subtext_R__Appli__2D27B809'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
@@ -471,7 +466,7 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[referential_constraints]
+	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
 	WHERE constraint_name = 'FK__subtext_P__Appli__403A8C7D'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
@@ -481,9 +476,10 @@ GO
 
 IF NOT EXISTS
 (
-	SELECT * FROM [information_schema].[referential_constraints]
+	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
 	WHERE constraint_name = 'FK__subtext_P__UserI__239E4DCF'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Profile]  WITH CHECK ADD FOREIGN KEY([UserId])
 REFERENCES [<dbUser,varchar,dbo>].[subtext_Users] ([UserId])
+GO
