@@ -8,7 +8,7 @@ ACTION: This script removes columns that are no longer needed.
 
 */
 /* Remove unneeded columns from subtext_Config */
-IF EXISTS (SELECT * FROM [information_schema].[columns] 
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Config' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'UserName')
@@ -29,7 +29,7 @@ GO
 /* Remove the subtext_Config constraint */
 IF EXISTS(
 	SELECT * 
-	FROM [information_schema].[constraint_column_usage]
+	FROM [INFORMATION_SCHEMA].[CONSTRAINT_COLUMN_USAGE]
 	WHERE constraint_name = 'IX_subtext_Config'
 	AND constraint_schema = '<dbUser,varchar,dbo>'
 	)
@@ -43,11 +43,11 @@ GO
 /* Remove the Application Folder. Earlier, we created a 
 	Subfolder column to hold this info.
 */
-IF EXISTS (SELECT * FROM [information_schema].[columns] 
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Config' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'Application')
-AND EXISTS (SELECT * FROM [information_schema].[columns] 
+AND EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Config' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'Subfolder')
@@ -60,7 +60,7 @@ GO
 /* Add unique constraint on Host + Subfolder */
 IF NOT EXISTS(
 	SELECT * 
-	FROM [information_schema].[constraint_column_usage]
+	FROM [INFORMATION_SCHEMA].[CONSTRAINT_COLUMN_USAGE]
 	WHERE constraint_name = 'IX_subtext_Config__Host_Subfolder'
 	AND constraint_schema = '<dbUser,varchar,dbo>'
 	)
@@ -74,7 +74,7 @@ BEGIN
 END
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[columns] 
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Config' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'Password')
@@ -84,7 +84,7 @@ BEGIN
 END
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[columns] 
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Config' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'Email')
@@ -94,7 +94,7 @@ BEGIN
 END
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[columns] 
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Config'
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'Author')
@@ -104,7 +104,7 @@ BEGIN
 END
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[columns] 
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Content' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'Author')
@@ -114,7 +114,7 @@ BEGIN
 END
 GO
 
-IF EXISTS (SELECT	* FROM [information_schema].[columns] 
+IF EXISTS (SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Content' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'Email')
@@ -126,7 +126,7 @@ GO
 
 
 /* Drop unnecessary columns from subtext_Host */
-IF EXISTS (SELECT * FROM [information_schema].[columns] 
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Host' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'HostUserName')
@@ -136,7 +136,7 @@ BEGIN
 END
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[columns] 
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Host' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'Password')
@@ -146,7 +146,7 @@ BEGIN
 END
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[columns] 
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Host' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'Salt')
@@ -159,7 +159,7 @@ GO
 /*Add the Mail to weblog parameters to subtext_config - GY*/
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[columns] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
 		WHERE	table_name = 'subtext_Config' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'pop3User' 
@@ -194,7 +194,7 @@ GO
 
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[tables] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[TABLES] 
 		WHERE	table_name = 'subtext_PluginBlog' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 	)
@@ -218,7 +218,7 @@ GO
 
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[referential_constraints] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
 		WHERE	constraint_name = 'FK_subtext_PluginBlog_subtext_Config' 
 		AND		unique_constraint_schema = '<dbUser,varchar,dbo>'
 	)
@@ -241,7 +241,7 @@ GO
 
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[tables] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[TABLES] 
 		WHERE	table_name = 'subtext_PluginData' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 	)
@@ -268,7 +268,7 @@ GO
 
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[referential_constraints] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
 		WHERE	constraint_name = 'FK_subtext_PluginData_subtext_PluginBlog' 
 		AND		unique_constraint_schema = '<dbUser,varchar,dbo>'
 	)
@@ -287,7 +287,7 @@ GO
 
 IF NOT EXISTS 
 	(
-		SELECT	* FROM [information_schema].[referential_constraints] 
+		SELECT	* FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
 		WHERE	constraint_name = 'FK_subtext_PluginData_subtext_Content' 
 		AND		unique_constraint_schema = '<dbUser,varchar,dbo>'
 	)

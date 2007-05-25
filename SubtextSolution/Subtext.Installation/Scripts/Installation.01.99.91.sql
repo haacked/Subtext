@@ -14,8 +14,8 @@ IF(0 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Applications] WHERE
 BEGIN
 	PRINT 'Creating Host Application'
 	
-	DECLARE @ApplicationID uniqueidentifier
-	SET @ApplicationID = NEWID()
+	DECLARE @ApplicationId uniqueidentifier
+	SET @ApplicationId = NEWID()
 	
 	INSERT [<dbUser,varchar,dbo>].[subtext_Applications]
 	SELECT Application_Name = '/'
@@ -49,8 +49,8 @@ IF(0 != (
 BEGIN
 	-- Get Application Id
 	
-	DECLARE @HostAdminApplicationID uniqueidentifier
-	SELECT @HostAdminApplicationID = ApplicationID 
+	DECLARE @HostAdminApplicationId uniqueidentifier
+	SELECT @HostAdminApplicationId = ApplicationId 
 		FROM [<dbUser,varchar,dbo>].[subtext_Applications]
 		WHERE ApplicationName = '/'
 		
@@ -59,7 +59,7 @@ BEGIN
 	SELECT @HostAdminRoleId = RoleID 
 	FROM [<dbUser,varchar,dbo>].[subtext_Roles]
 	WHERE 
-			ApplicationID = @HostAdminApplicationID
+			ApplicationId = @HostAdminApplicationId
 		AND LoweredRoleName = 'hostadmins'
 	
 	-- Check to see if we already have host admin.
@@ -67,7 +67,7 @@ BEGIN
 	BEGIN
 		PRINT 'Creating HostAdmin User'
 
-		DECLARE @UserId UNIQUEIDENTIFIER
+		DECLARE @UserId uniqueidentifier
 		SET @UserId = NEWID()
 
 		INSERT [<dbUser,varchar,dbo>].[subtext_Users]
@@ -116,7 +116,7 @@ END
 GO
 
 
-IF(0 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Applications] WHERE ApplicationID IN (SELECT ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Config])))
+IF(0 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Applications] WHERE ApplicationId IN (SELECT ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Config])))
 BEGIN
 	PRINT 'Creating an Application for every entry in subtext_Config'
 
@@ -216,7 +216,7 @@ BEGIN
 			, FailedPasswordAttemptWindowStart = CONVERT( datetime, '17540101', 112 )  
 			, FailedPasswordAnswerAttemptCount = 0
 			, FailedPasswordAnswerAttemptWindowStart = CONVERT( datetime, '17540101', 112 )  
-			, Comment = CAST(ApplicationID AS VARCHAR(64))
+			, Comment = CAST(ApplicationId AS VARCHAR(64))
 		FROM [<dbUser,varchar,dbo>].[subtext_Config]
 	
 	PRINT 'Adding Blog Users To Admin Role'
@@ -247,7 +247,7 @@ GO
 /* tie the field to the Users field */
 IF NOT EXISTS(
     SELECT * 
-    FROM [information_schema].[referential_constraints] 
+    FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
     WHERE constraint_name = 'FK_subtext_Users_subtext_Config' 
       AND constraint_schema = '<dbUser,varchar,dbo>'
 )
@@ -285,7 +285,7 @@ GO
 /* Now set the FK so that it always points to Users */
 IF NOT EXISTS(
     SELECT * 
-    FROM [information_schema].[referential_constraints] 
+    FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
     WHERE constraint_name = 'FK_subtext_Users_subtext_Content' 
       AND constraint_schema = '<dbUser,varchar,dbo>'
 )
