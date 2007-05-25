@@ -232,15 +232,10 @@ BEGIN
 
 	PRINT 'Setting Blog Owner'
 	UPDATE cf
-	SET OwnerId = 
-		(
-			SELECT u.UserId
-			FROM [<dbUser,varchar,dbo>].[subtext_Applications] a 
-				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Users] u ON CAST(a.ApplicationId as VARCHAR(64)) = CAST(u.Comment as VARCHAR(64))
-			WHERE u.UserName = UserName
-				AND a.ApplicationName != '/'
-		)
+	SET OwnerId = u.UserId
 	FROM [<dbUser,varchar,dbo>].[subtext_Config] cf
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Users] u 
+			ON CAST(cf.ApplicationId as VARCHAR(64)) = CAST(u.Comment as VARCHAR(64))
 END
 GO
 
