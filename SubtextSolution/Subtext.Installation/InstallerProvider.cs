@@ -15,7 +15,6 @@
 
 using System;
 using System.Configuration.Provider;
-using System.Data.SqlClient;
 
 namespace Subtext.Installation
 {

@@ -47,7 +47,7 @@ namespace Subtext.Web.HttpModules
 			if ((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded))
 			{
 				InstallationState state = InstallationManager.CurrentInstallationState;
-				if (state == InstallationState.NeedsInstallation && !InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory)
+				if (state == InstallationState.NeedsInstallation && !(InstallationManager.IsInHostAdminDirectory ||InstallationManager.IsInInstallDirectory))
 				{
 					HttpContext.Current.Response.Redirect("~/Install/", true);
 					return;
@@ -55,7 +55,7 @@ namespace Subtext.Web.HttpModules
 
 				if (state == InstallationState.NeedsUpgrade || state == InstallationState.NeedsRepair)
 				{
-					if (!InstallationManager.IsInUpgradeDirectory && !InstallationManager.IsOnLoginPage && !InstallationManager.IsInSystemMessageDirectory)
+					if (!(InstallationManager.IsInUpgradeDirectory || InstallationManager.IsOnLoginPage || InstallationManager.IsInSystemMessageDirectory))
 					{
 						HttpContext.Current.Response.Redirect("~/SystemMessages/UpgradeInProgress.aspx", true);
 						return;
