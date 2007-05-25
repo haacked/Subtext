@@ -36,6 +36,10 @@ IF NOT EXISTS
 	CONSTRAINT DF_subtext_Config_ApplicationId DEFAULT NEWID()
 GO
 
+/* Create a new ApplicationId for each entry, to be used later when populating the Membership tables. */
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET [ApplicationId] = NEWID() WHERE [ApplicationId] IS NULL
+GO
+
 /* Add a Subfolder column to the subtext_Config table. We'll move the data in 
 	the misnamed 'Application' column here.
 */
