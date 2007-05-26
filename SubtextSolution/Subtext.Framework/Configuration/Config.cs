@@ -275,7 +275,7 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		public static bool UpdateConfigData(BlogInfo info)
+		public static void UpdateConfigData(BlogInfo info)
 		{
 			//Check for duplicate
 			BlogInfo potentialDuplicate = GetBlogInfo(info.Host, info.Subfolder, true);
@@ -317,7 +317,7 @@ namespace Subtext.Framework.Configuration
 			}
 			info.AllowServiceAccess = Settings.AllowServiceAccess;
 
-			return ObjectProvider.Instance().UpdateBlog(info);
+			ObjectProvider.Instance().UpdateBlog(info);
 		}
 
 		/// <summary>

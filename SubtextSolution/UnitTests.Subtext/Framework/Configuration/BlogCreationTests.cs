@@ -237,8 +237,10 @@ namespace UnitTests.Subtext.Framework.Configuration
 
             UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
 			BlogInfo info = Config.GetBlogInfo(host.ToUpper(CultureInfo.InvariantCulture), string.Empty);
-			info.Author = "Phil";
-			Assert.IsTrue(Config.UpdateConfigData(info), "Updating blog config should return true.");
+			info.News = "This just in";
+			Config.UpdateConfigData(info);
+			info = Config.GetBlogInfo(host.ToUpper(CultureInfo.InvariantCulture), string.Empty);
+			Assert.AreEqual("This just in", info.News);
 		}
 
 		/// <summary>

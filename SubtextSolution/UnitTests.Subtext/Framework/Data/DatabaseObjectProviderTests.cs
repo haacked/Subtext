@@ -139,15 +139,15 @@ namespace UnitTests.Subtext.Framework.Data
 			word.CaseSensitive = false;
 			word.Url = "http://www.wordtoyomama.com";
 			word.Title = "Howdy Y'all";
-			int keywordID = provider.InsertKeyWord(word);
+			int keywordID = provider.InsertKeyword(word);
 
 			// Retrieve the keyword from the database
-			word = provider.GetKeyWord(keywordID);
+			word = provider.GetKeyword(keywordID);
 			Assert.AreEqual(keywordID, word.Id);
 
 			// Delete the keyword and make sure it's gone
-			provider.DeleteKeyWord(keywordID);
-			word = provider.GetKeyWord(keywordID);
+			provider.DeleteKeyword(keywordID);
+			word = provider.GetKeyword(keywordID);
 			Assert.IsNull(word);
 		}
 
@@ -264,7 +264,7 @@ namespace UnitTests.Subtext.Framework.Data
 		public void InsertKeyWordThrowsArgumentNullException()
 		{
             DatabaseObjectProvider provider = new DatabaseObjectProvider();
-			provider.InsertKeyWord(null);
+			provider.InsertKeyword(null);
 		}
 
 		[Test]

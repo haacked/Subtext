@@ -33,14 +33,12 @@ namespace Subtext.Framework.Tracking
 
 		static EntryTracker()
 		{
-			Subtext.Framework.Configuration.Tracking tracking = Config.Settings.Tracking;
+			Configuration.Tracking tracking = Config.Settings.Tracking;
 			WebTrack = tracking.EnableWebStats;
-			AggTrack = tracking.EnableAggBugs;
 			QueueStats = tracking.QueueStats;
 		}
 		
 		private static bool WebTrack = false;
-		private static bool AggTrack = false;
 		private static bool QueueStats = false;
 		
 		/// <summary>
@@ -48,15 +46,15 @@ namespace Subtext.Framework.Tracking
 		/// </summary>
 		/// <param name="ev">The ev.</param>
 		/// <returns></returns>
-		public static bool Track(EntryView ev)
+		public static void Track(EntryView ev)
 		{
 			if(QueueStats)
 			{
-				return Stats.AddQuedStats(ev);
+				Stats.AddQuedStats(ev);
 			}
 			else
 			{
-				return Stats.TrackEntry(ev);
+				Stats.TrackEntry(ev);
 			}
 		}
 
@@ -67,30 +65,23 @@ namespace Subtext.Framework.Tracking
 		/// <param name="EntryID">The entry ID.</param>
 		/// <param name="BlogId">The blog ID.</param>
 		/// <returns></returns>
-        public static bool Track(HttpContext context, int EntryID, int BlogId)
+        public static void Track(HttpContext context, int EntryID, int BlogId)
         {
             if (context == null)
             {
                 throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
             }
 
-            if (WebTrack)
-            {
-                if (FilterUserAgent(context.Request.UserAgent))
-                {
-                    if (context.Request.HttpMethod != "POST")
-                    {
-                        string refUrl = GetReferral(context.Request);
-                        EntryView ev = new EntryView();
-                        ev.EntryId = EntryID;
-                        ev.BlogId = BlogId;
-                        ev.ReferralUrl = refUrl;
-                        ev.PageViewType = PageViewType.WebView;
-                        return Track(ev);
-                    }
-                }
-            }
-            return false;
+			if (!WebTrack || !FilterUserAgent(context.Request.UserAgent) || context.Request.HttpMethod == "POST")
+				return;
+            
+            string refUrl = GetReferral(context.Request);
+            EntryView ev = new EntryView();
+            ev.EntryId = EntryID;
+            ev.BlogId = BlogId;
+            ev.ReferralUrl = refUrl;
+            ev.PageViewType = PageViewType.WebView;
+            Track(ev);
         }
 
 		//TODO: Unit test this method. Also clean it up and make it more self-descriptive.

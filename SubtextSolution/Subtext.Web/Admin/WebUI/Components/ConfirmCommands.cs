@@ -540,7 +540,7 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				KeyWords.DeleteKeyWord(_targetID);
+				Keywords.DeleteKeyword(_targetID);
 				return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
 			}
 			catch (Exception ex)

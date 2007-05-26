@@ -29,8 +29,6 @@ namespace UnitTests.Subtext.Framework
 	[TestFixture]
 	public class LinksTests
 	{
-		public LinksTests() {}
-
 		/// <summary>
 		/// Ensures CreateLinkCategory assigns unique CatIDs
 		/// </summary>
@@ -97,7 +95,7 @@ namespace UnitTests.Subtext.Framework
             LinkCategory originalCategory = linkCat;
 			originalCategory.Description = "New Description";
 			originalCategory.IsActive = false;
-			bool updated = Links.UpdateLinkCategory(originalCategory);
+			Links.UpdateLinkCategory(originalCategory);
 
 			// Retrieve the categories and find the one we updated
             ICollection<LinkCategory> updatedCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
@@ -107,7 +105,6 @@ namespace UnitTests.Subtext.Framework
 					updatedCategory = lc;
 
 			// Ensure the update was successful
-			Assert.IsTrue(updated);
 			Assert.IsNotNull(updatedCategory);
 			Assert.AreEqual("New Description", updatedCategory.Description);
 			Assert.AreEqual(false, updatedCategory.IsActive);

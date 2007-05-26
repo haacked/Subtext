@@ -1007,7 +1007,7 @@ namespace Subtext.Framework.Data
 	    /// </summary>
 	    /// <param name="obj">The obj.</param>
 	    /// <returns></returns>
-	    public static object CheckNull(int obj)
+	    public static int? CheckNull(int obj)
 	    {
 	        if(NullValue.IsNull(obj))
 	            return null;
@@ -1046,7 +1046,7 @@ namespace Subtext.Framework.Data
 	    /// </summary>
 	    /// <param name="dateTime">Date time.</param>
 	    /// <returns></returns>
-	    public static object CheckNull(DateTime dateTime)
+	    public static DateTime? CheckNull(DateTime dateTime)
 	    {
 	        if(NullValue.IsNull(dateTime))
 	            return null;
