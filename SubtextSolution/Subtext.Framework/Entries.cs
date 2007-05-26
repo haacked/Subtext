@@ -500,7 +500,7 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="entry">Entry.</param>
 		/// <returns></returns>
-		public static bool Update(Entry entry)
+		public static void Update(Entry entry)
 		{
             if (entry == null)
                 throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
@@ -511,7 +511,7 @@ namespace Subtext.Framework
 			if (!entry.IncludeInMainSyndication)
 				entry.DateSyndicated = NullValue.NullDateTime;
 
-			return Update(entry, null);
+			Update(entry, null);
 		}
 
 		/// <summary>
@@ -521,7 +521,7 @@ namespace Subtext.Framework
 		/// <param name="entry">Entry.</param>
 		/// <param name="categoryIDs">Category Ids this entry belongs to.</param>
 		/// <returns></returns>
-		public static bool Update(Entry entry, params int[] categoryIDs)
+		public static void Update(Entry entry, params int[] categoryIDs)
 		{
             if (entry == null)
                 throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
@@ -533,23 +533,19 @@ namespace Subtext.Framework
                 entry.EntryName = AutoGenerateFriendlyUrl(entry.EntryName, entry.Id);
             }
 
-            bool updateSuccessful = ObjectProvider.Instance().Update(entry, categoryIDs);
-            if (updateSuccessful == false)
-            {
-                return false;
-            }
+            ObjectProvider.Instance().Update(entry, categoryIDs);
 
             List<string> tags = HtmlHelper.ParseTags(entry.Body);
-            return ObjectProvider.Instance().SetEntryTagList(entry.Id, tags);
+            ObjectProvider.Instance().SetEntryTagList(entry.Id, tags);
 		}
 
 		#endregion
 
 		#region Entry Category List
 
-		public static bool SetEntryCategoryList(int EntryID, int[] Categories)
+		public static void SetEntryCategoryList(int entryId, int[] categories)
 		{
-			return ObjectProvider.Instance().SetEntryCategoryList(EntryID, Categories);
+			ObjectProvider.Instance().SetEntryCategoryList(entryId, categories);
 		}
 
 		#endregion

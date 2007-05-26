@@ -95,7 +95,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 										+ indent(2) + @"<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
 										+ indent(2) + @"<description />" + Environment.NewLine
 										+ indent(2) + @"<language>en-US</language>" + Environment.NewLine
-										+ indent(2) + @"<copyright>Subtext Weblog</copyright>" + Environment.NewLine
+										+ indent(2) + @"<copyright>Phil Haack</copyright>" + Environment.NewLine
 										+ indent(2) + @"<managingEditor>Subtext@example.com</managingEditor>" + Environment.NewLine
 										+ indent(2) + @"<generator>{0}</generator>" + Environment.NewLine
 										+ indent(2) + @"<image>" + Environment.NewLine
@@ -190,7 +190,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 									+ indent(2) + "<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
 									+ indent(2) + "<description />" + Environment.NewLine
 									+ indent(2) + "<language>en-US</language>" + Environment.NewLine
-									+ indent(2) + "<copyright>Subtext Weblog</copyright>" + Environment.NewLine
+									+ indent(2) + "<copyright>Phil Haack</copyright>" + Environment.NewLine
 									+ indent(2) + "<managingEditor>Subtext@example.com</managingEditor>" + Environment.NewLine
 									+ indent(2) + "<generator>{0}</generator>" + Environment.NewLine
 									+ indent(2) + "<image>" + Environment.NewLine
@@ -259,7 +259,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 									+ indent(2) + "<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
 									+ indent(2) + "<description />" + Environment.NewLine
 									+ indent(2) + "<language>en-US</language>" + Environment.NewLine
-									+ indent(2) + "<copyright>Subtext Weblog</copyright>" + Environment.NewLine
+									+ indent(2) + "<copyright>Phil Haack</copyright>" + Environment.NewLine
 									+ indent(2) + "<managingEditor>Subtext@example.com</managingEditor>" + Environment.NewLine
 									+ indent(2) + "<generator>{0}</generator>" + Environment.NewLine
 									+ indent(2) + "<image>" + Environment.NewLine

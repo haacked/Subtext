@@ -11,7 +11,7 @@ namespace Subtext.Akismet
 	/// <see href="http://akismet.com/">Akismet</see> service.
 	/// </summary>
 	[Serializable]
-	public class AkismetClient : Subtext.Akismet.IAkismetClient
+	public class AkismetClient : IAkismetClient
 	{
 		[NonSerialized]
 		private HttpClient httpClient;

@@ -294,18 +294,18 @@ namespace Subtext.Framework.Providers
 		/// <param name="entry">Entry.</param>
 		/// <param name="categoryIds">Category Ids.</param>
 		/// <returns></returns>
-		public abstract bool Update(Entry entry, int[] categoryIds);
+		public abstract void Update(Entry entry, int[] categoryIds);
 
 		/// <summary>
 		/// Saves changes to the specified feedback.
 		/// </summary>
 		/// <param name="feedbackItem">The feedback item.</param>
 		/// <returns></returns>
-		public abstract bool Update(FeedbackItem feedbackItem);
+		public abstract void Update(FeedbackItem feedbackItem);
 
 		#region Entry Category List
 
-		public abstract bool SetEntryCategoryList(int entryId, int[] categoryIds);
+		public abstract void SetEntryCategoryList(int entryId, int[] categoryIds);
 
 		#endregion
 
@@ -317,24 +317,36 @@ namespace Subtext.Framework.Providers
 		/// <param name="entryId"></param>
 		/// <param name="tags"></param>
 		/// <returns></returns>
-		public abstract bool SetEntryTagList(int entryId, List<string> tags);
+		public abstract void SetEntryTagList(int entryId, List<string> tags);
 
         #endregion
 
-		public abstract IPagedCollection<Link> GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending);
+		/// <summary>
+		/// Gets the paged links.
+		/// </summary>
+		/// <param name="categoryTypeId">The category type id.</param>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDescending">if set to <c>true</c> [sort descending].</param>
+		/// <returns></returns>
+		public abstract IPagedCollection<Link> GetPagedLinks(int categoryTypeId, int pageIndex, int pageSize, bool sortDescending);
 
 		#endregion
 
 		#region LinkCollection
 
-		public abstract ICollection<Link> GetLinkCollectionByPostID(int postID);
-		public abstract ICollection<Link> GetLinksByCategoryID(int catID, bool activeOnly);
+		/// <summary>
+		/// Gets the link collection by post ID.
+		/// </summary>
+		/// <param name="postId">The post id.</param>
+		/// <returns></returns>
+		public abstract ICollection<Link> GetLinkCollectionByPostID(int postId);
 
 		#endregion
 
 		#region Single Link
 
-		public abstract Link GetLink(int linkID);
+		public abstract Link GetLink(int linkId);
 
 		#endregion
 
@@ -354,12 +366,40 @@ namespace Subtext.Framework.Providers
 
 		#region Edit Links/Categories
 
-		public abstract bool UpdateLink(Link link);
+		/// <summary>
+		/// Updates the link.
+		/// </summary>
+		/// <param name="link">The link.</param>
+		public abstract void UpdateLink(Link link);
+		/// <summary>
+		/// Creates the link.
+		/// </summary>
+		/// <param name="link">The link.</param>
+		/// <returns></returns>
 		public abstract int CreateLink(Link link);
-		public abstract bool UpdateLinkCategory(LinkCategory category);
+		/// <summary>
+		/// Updates the link category.
+		/// </summary>
+		/// <param name="category">The category.</param>
+		public abstract void UpdateLinkCategory(LinkCategory category);
+		/// <summary>
+		/// Creates the link category.
+		/// </summary>
+		/// <param name="category">The category.</param>
+		/// <returns></returns>
 		public abstract int CreateLinkCategory(LinkCategory category);
-		public abstract bool DeleteLinkCategory(int categoryID);
-		public abstract bool DeleteLink(int linkID);
+		/// <summary>
+		/// Deletes the link category.
+		/// </summary>
+		/// <param name="categoryId">The category ID.</param>
+		/// <returns></returns>
+		public abstract void DeleteLinkCategory(int categoryId);
+		/// <summary>
+		/// Deletes the link.
+		/// </summary>
+		/// <param name="linkId">The link ID.</param>
+		/// <returns></returns>
+		public abstract void DeleteLink(int linkId);
 
 		#endregion
 
@@ -367,10 +407,35 @@ namespace Subtext.Framework.Providers
 
         #region Stats
 
+		/// <summary>
+		/// Gets the paged view stats.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="beginDate">The begin date.</param>
+		/// <param name="endDate">The end date.</param>
+		/// <returns></returns>
 		public abstract IPagedCollection<ViewStat> GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
+		/// <summary>
+		/// Gets the paged referrers.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="entryId">The entry id.</param>
+		/// <returns></returns>
 		public abstract IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId);
 
-		public abstract bool TrackEntry(EntryView view);
+		/// <summary>
+		/// Writes a tracking record for the specified <see cref="EntryView" />.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		public abstract void TrackEntry(EntryView view);
+		
+		/// <summary>
+		/// Writes a tracking record for each <see cref="EntryView" />.
+		/// </summary>
+		/// <param name="views"></param>
+		/// <returns></returns>
 		public abstract bool TrackEntry(IEnumerable<EntryView> views);
 
 		#endregion
@@ -394,7 +459,7 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		public abstract bool UpdateBlog(BlogInfo info);
+		public abstract void UpdateBlog(BlogInfo info);
 
 		/// <summary>
 		/// Returns a <see cref="BlogInfo"/> instance containing 
@@ -434,23 +499,53 @@ namespace Subtext.Framework.Providers
         /// <summary>
         /// Gets the top tags from the database sorted by tag name.
         /// </summary>
-        /// <param name="ItemCount">The number of tags to return.</param>
+        /// <param name="itemCount">The number of tags to return.</param>
         /// <returns>
         /// A sorted dictionary with the tag name as key and entry count
         /// as value.
         /// </returns>
-        public abstract IDictionary<string, int> GetTopTags(int ItemCount);
+        public abstract IDictionary<string, int> GetTopTags(int itemCount);
 
         #endregion
 
         #region KeyWords
 
-        public abstract KeyWord GetKeyWord(int KeyWordID);
-        public abstract ICollection<KeyWord> GetKeyWords();
-        public abstract IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize);
-		public abstract bool UpdateKeyWord(KeyWord keyWord);
-		public abstract int InsertKeyWord(KeyWord keyWord);
-		public abstract bool DeleteKeyWord(int id);
+		/// <summary>
+		/// Gets the keyword by its id.
+		/// </summary>
+		/// <param name="keyWordID">The key word ID.</param>
+		/// <returns></returns>
+        public abstract KeyWord GetKeyword(int keyWordID);
+		
+		/// <summary>
+		/// Gets the keywords for the current blog.
+		/// </summary>
+		/// <returns></returns>
+        public abstract ICollection<KeyWord> GetKeywords();
+		/// <summary>
+		/// Gets the keywords by page.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <returns></returns>
+        public abstract IPagedCollection<KeyWord> GetKeywordsByPage(int pageIndex, int pageSize);
+		/// <summary>
+		/// Updates the keyword.
+		/// </summary>
+		/// <param name="keyword">The keyword.</param>
+		public abstract void UpdateKeyword(KeyWord keyword);
+		/// <summary>
+		/// Inserts the keyword.
+		/// </summary>
+		/// <param name="keyWord">The key word.</param>
+		/// <returns></returns>
+		public abstract int InsertKeyword(KeyWord keyWord);
+		/// <summary>
+		/// Deletes the keyword.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <returns></returns>
+		public abstract void DeleteKeyword(int id);
 
 		#endregion
 

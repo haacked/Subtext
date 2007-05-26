@@ -109,14 +109,12 @@ namespace Subtext.Framework.XmlRpc
 				//Raise event before updating a post
 				SubtextEvents.OnEntryUpdating(this, new SubtextEventArgs(entry, ObjectState.Update));
 
-				bool updateResult = Entries.Update(entry);
+				Entries.Update(entry);
 
 				//Raise event after updating a post
 				SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Update));
-
-				return updateResult;
 			}
-			return false;
+			return true;
 		}
 
 		public Post getPost(string postid,string username,string password)

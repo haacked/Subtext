@@ -346,12 +346,12 @@ namespace UnitTests.Subtext.Framework.Data
 			keyword.Word = "The Word " + index;
 			keyword.Rel = "Rel" + index;
 			keyword.Url = "http://localhost/";
-			KeyWords.CreateKeyWord(keyword);
+			Keywords.CreateKeyword(keyword);
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
 		{
-			return KeyWords.GetPagedKeyWords(pageIndex, pageSize);
+			return Keywords.GetPagedKeywords(pageIndex, pageSize);
 		}
 
 		public int GetCount(IPagedCollection collection)

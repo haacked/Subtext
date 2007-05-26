@@ -78,7 +78,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			Edit.Visible = false;
 
-            IPagedCollection<KeyWord> selectionList = KeyWords.GetPagedKeyWords(_resultsPageNumber, this.resultsPager.PageSize);
+            IPagedCollection<KeyWord> selectionList = Keywords.GetPagedKeywords(_resultsPageNumber, this.resultsPager.PageSize);
 			
 			if (selectionList.Count > 0)
 			{
@@ -94,7 +94,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindLinkEdit()
 		{
-			KeyWord kw = KeyWords.GetKeyWord(KeyWordID);
+			KeyWord kw = Keywords.GetKeyword(KeyWordID);
 		
 			Results.Collapsed = true;
 			Results.Collapsible = true;
@@ -144,11 +144,11 @@ namespace Subtext.Web.Admin.Pages
 				{
 					successMessage = Constants.RES_SUCCESSEDIT;
 					kw.Id = KeyWordID;
-					KeyWords.UpdateKeyWord(kw);
+					Keywords.UpdateKeyword(kw);
 				}
 				else
 				{
-					KeyWordID = KeyWords.CreateKeyWord(kw);
+					KeyWordID = Keywords.CreateKeyword(kw);
 				}
 
 				if (KeyWordID > 0)
@@ -230,7 +230,7 @@ namespace Subtext.Web.Admin.Pages
 					break;
 				case "delete" :
 					int id = Convert.ToInt32(e.CommandArgument);
-					KeyWord kw = KeyWords.GetKeyWord(id);
+					KeyWord kw = Keywords.GetKeyword(id);
 					ConfirmDelete(id, kw.Word);
 					break;
 				default:

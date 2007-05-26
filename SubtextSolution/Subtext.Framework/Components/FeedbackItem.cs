@@ -168,13 +168,13 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		/// <param name="feedbackItem">Entry.</param>
 		/// <returns></returns>
-		public static bool Update(FeedbackItem feedbackItem)
+		public static void Update(FeedbackItem feedbackItem)
 		{
 			if (feedbackItem == null)
 				throw new ArgumentNullException("feedbackItem", Resources.ArgumentNull_Generic);
 
 			feedbackItem.DateModified = Config.CurrentBlog.TimeZone.Now;
-			return ObjectProvider.Instance().Update(feedbackItem);
+			ObjectProvider.Instance().Update(feedbackItem);
 		}
 
 		private static void EmailCommentToAdmin(FeedbackItem comment, BlogInfo currentBlog)

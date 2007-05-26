@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
@@ -127,7 +126,7 @@ namespace Subtext.Framework
 
 			private void Process(object state)
 			{
-				Stats.TrackEntry(this._evc);
+				TrackEntry(this._evc);
 			}
 		}
 
@@ -157,14 +156,14 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="ev">Ev.</param>
 		/// <returns></returns>
-		public static bool TrackEntry(EntryView ev)
+		public static void TrackEntry(EntryView ev)
 		{
-			return ObjectProvider.Instance().TrackEntry(ev);
+			ObjectProvider.Instance().TrackEntry(ev);
 		}
 
 		/// <summary>
 		/// Calls out to the data provider to track the specified 
-		/// <see cref="Collection"/> instance.
+		/// <see cref="IEnumerable{EntryView}"/> instance.
 		/// </summary>
 		/// <param name="evc">Evc.</param>
 		/// <returns></returns>

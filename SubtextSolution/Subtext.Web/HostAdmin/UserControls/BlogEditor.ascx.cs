@@ -181,16 +181,10 @@ namespace Subtext.Web.HostAdmin.UserControls
 			{
 				MembershipUser newOwner = Membership.GetUser(this.blogOwnerChooser.UserName);
 				blog.Owner = newOwner;
-			} 
+			}
 
-			if (Config.UpdateConfigData(blog))
-			{
-				this.messagePanel.ShowMessage("Blog Saved.");
-			}
-			else
-			{
-				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
-			}
+			Config.UpdateConfigData(blog);
+			this.messagePanel.ShowMessage("Blog Saved.");
 		}
 
 		// Contains the various help strings

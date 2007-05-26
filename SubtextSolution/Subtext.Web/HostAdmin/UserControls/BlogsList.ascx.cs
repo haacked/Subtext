@@ -173,21 +173,16 @@ namespace Subtext.Web.HostAdmin.UserControls
 			blog.IsActive = !blog.IsActive;
 			try
 			{
-				if(Config.UpdateConfigData(blog))
+				Config.UpdateConfigData(blog);
+				
+				if(blog.IsActive)
 				{
-					if(blog.IsActive)
-					{
-						ShowMessage("Blog Activated and ready to go.");
-					}
-					else
-					{
-						ShowMessage("Blog Inactivated and sent to a retirement community.");
-					}
+					ShowMessage("Blog Activated and ready to go.");
 				}
 				else
 				{
-					ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
-				}
+					ShowMessage("Blog Inactivated and sent to a retirement community.");
+				}				
 			}
 			catch(BaseBlogConfigurationException e)
 			{

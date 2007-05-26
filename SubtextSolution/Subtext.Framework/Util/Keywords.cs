@@ -22,7 +22,7 @@ using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Util
 {
-	public static class KeyWords
+	public static class Keywords
 	{
 		#region Readers/Writers
 
@@ -203,7 +203,7 @@ namespace Subtext.Framework.Util
 
 		public static void Format(Entry entry)
 		{
-			ICollection<KeyWord> kwc = GetKeyWords();
+			ICollection<KeyWord> kwc = GetKeywords();
 			if (kwc != null && kwc.Count > 0)
 			{
 				foreach (KeyWord keyword in kwc)
@@ -213,34 +213,47 @@ namespace Subtext.Framework.Util
 			}
 		}
 
-		public static KeyWord GetKeyWord(int KeyWordID)
+		public static KeyWord GetKeyword(int id)
 		{
-			return ObjectProvider.Instance().GetKeyWord(KeyWordID);
+			return ObjectProvider.Instance().GetKeyword(id);
 		}
 
-		public static ICollection<KeyWord> GetKeyWords()
+		public static ICollection<KeyWord> GetKeywords()
 		{
-			return ObjectProvider.Instance().GetKeyWords();
+			return ObjectProvider.Instance().GetKeywords();
 		}
 
-		public static IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize)
+		public static IPagedCollection<KeyWord> GetPagedKeywords(int pageIndex, int pageSize)
 		{
-			return ObjectProvider.Instance().GetPagedKeyWords(pageIndex, pageSize);
+			return ObjectProvider.Instance().GetKeywordsByPage(pageIndex, pageSize);
 		}
 
-		public static void UpdateKeyWord(KeyWord kw)
+		/// <summary>
+		/// Updates the keyword.
+		/// </summary>
+		/// <param name="kw">The kw.</param>
+		public static void UpdateKeyword(KeyWord kw)
 		{
-			ObjectProvider.Instance().UpdateKeyWord(kw);
+			ObjectProvider.Instance().UpdateKeyword(kw);
 		}
 
-		public static int CreateKeyWord(KeyWord kw)
+		/// <summary>
+		/// Creates the keyword.
+		/// </summary>
+		/// <param name="kw">The kw.</param>
+		/// <returns></returns>
+		public static int CreateKeyword(KeyWord kw)
 		{
-			return ObjectProvider.Instance().InsertKeyWord(kw);
+			return ObjectProvider.Instance().InsertKeyword(kw);
 		}
 
-		public static bool DeleteKeyWord(int KeyWordID)
+		/// <summary>
+		/// Deletes the key word.
+		/// </summary>
+		/// <param name="KeyWordID">The key word ID.</param>
+		public static void DeleteKeyword(int KeyWordID)
 		{
-			return ObjectProvider.Instance().DeleteKeyWord(KeyWordID);
+			ObjectProvider.Instance().DeleteKeyword(KeyWordID);
 		}
 
 		#endregion

@@ -117,34 +117,58 @@ namespace Subtext.Framework
 
 		#region Edit Links/Categories
 
-		public static bool UpdateLink(Link link)
+		/// <summary>
+		/// Updates the specified link in the database.
+		/// </summary>
+		/// <param name="link"></param>
+		public static void UpdateLink(Link link)
 		{
-			return ObjectProvider.Instance().UpdateLink(link);
+			ObjectProvider.Instance().UpdateLink(link);
 		}
 
+		/// <summary>
+		/// Creates the link.
+		/// </summary>
+		/// <param name="link">The link.</param>
+		/// <returns></returns>
 		public static int CreateLink(Link link)
 		{
 			return ObjectProvider.Instance().CreateLink(link);
 		}
 
-		public static bool UpdateLinkCategory(LinkCategory lc)
+		/// <summary>
+		/// Updates the link category.
+		/// </summary>
+		/// <param name="lc">The lc.</param>
+		/// <returns></returns>
+		public static void UpdateLinkCategory(LinkCategory lc)
 		{
-			return ObjectProvider.Instance().UpdateLinkCategory(lc);
+			ObjectProvider.Instance().UpdateLinkCategory(lc);
 		}
-		
+
+		/// <summary>
+		/// Creates the link category.
+		/// </summary>
+		/// <param name="lc">The lc.</param>
+		/// <returns></returns>
 		public static int CreateLinkCategory(LinkCategory lc)
 		{
 			return ObjectProvider.Instance().CreateLinkCategory(lc);
 		}
 
-		public static bool DeleteLinkCategory(int CategoryID)
+		/// <summary>
+		/// Deletes the link category.
+		/// </summary>
+		/// <param name="CategoryID">The category ID.</param>
+		/// <returns></returns>
+		public static void DeleteLinkCategory(int CategoryID)
 		{
-			return ObjectProvider.Instance().DeleteLinkCategory(CategoryID);
+			ObjectProvider.Instance().DeleteLinkCategory(CategoryID);
 		}
 
-		public static bool DeleteLink(int LinkID)
+		public static void DeleteLink(int LinkID)
 		{
-			return ObjectProvider.Instance().DeleteLink(LinkID);
+			ObjectProvider.Instance().DeleteLink(LinkID);
 		}
 
 		#endregion	

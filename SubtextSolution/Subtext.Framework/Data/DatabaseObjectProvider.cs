@@ -705,25 +705,21 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="feedbackItem">The feedback item.</param>
 		/// <returns></returns>
-		public override bool Update(FeedbackItem feedbackItem)
+		public override void Update(FeedbackItem feedbackItem)
 		{
 			string sourceUrl = null;
 			if (feedbackItem.SourceUrl != null)
 				sourceUrl = feedbackItem.SourceUrl.ToString();
 
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@Id",  SqlDbType.Int, 4, feedbackItem.Id), 
-				DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 256, feedbackItem.Title), 
-				DataHelper.MakeInParam("@Body", DataHelper.CheckNull(feedbackItem.Body)), 
-				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 64, DataHelper.CheckNull(feedbackItem.Author)), 
-				DataHelper.MakeInParam("@Email", SqlDbType.VarChar, 128, DataHelper.CheckNull(feedbackItem.Email)), 
-				DataHelper.MakeInParam("@Url", SqlDbType.VarChar, 256, sourceUrl), 
-				DataHelper.MakeInParam("@StatusFlag", SqlDbType.Int, 4, (int)feedbackItem.Status),
-				DataHelper.MakeInParam("@FeedbackChecksumHash", SqlDbType.VarChar, 32, feedbackItem.ChecksumHash), 
-				DataHelper.MakeInParam("@DateModified", SqlDbType.DateTime, 8, Config.CurrentBlog.TimeZone.Now),
-			};
-			return NonQueryBool("subtext_UpdateFeedback", p);
+			StoredProcedures.UpdateFeedback(feedbackItem.Id
+			                                , feedbackItem.Title
+			                                , DataHelper.CheckNull(feedbackItem.Body)
+			                                , DataHelper.CheckNull(feedbackItem.Author)
+			                                , DataHelper.CheckNull(feedbackItem.Email)
+			                                , sourceUrl
+			                                , (int) feedbackItem.Status
+			                                , feedbackItem.ChecksumHash
+			                                , Config.CurrentBlog.TimeZone.Now).Execute();
 		}
 
 		/// <summary>
@@ -732,14 +728,11 @@ namespace Subtext.Framework.Data
 		/// <param name="entry">Entry.</param>
 		/// <param name="categoryIds">Category Ids.</param>
 		/// <returns></returns>
-		public override bool Update(Entry entry, params int[] categoryIds)
+		public override void Update(Entry entry, params int[] categoryIds)
 		{
 			FormatEntry(entry, false);
 
-			if(!UpdateEntry(entry))
-			{
-				return false;
-			}
+			UpdateEntry(entry);
 
 			if (categoryIds != null && categoryIds.Length > 0)
 			{
@@ -762,7 +755,6 @@ namespace Subtext.Framework.Data
 					Config.CurrentBlog.LastUpdated = entry.DateModified;
 				}
 			}
-			return true;
 		}
 
 		/// <summary>
@@ -773,38 +765,31 @@ namespace Subtext.Framework.Data
 		/// </remarks>
 		/// <param name="entry">Entry.</param>
 		/// <returns></returns>
-		private bool UpdateEntry(Entry entry)
+		private static void UpdateEntry(Entry entry)
 		{
 			MembershipUser author = Membership.GetUser();
 			Guid authorId = (Guid)(author ?? Config.CurrentBlog.Owner).ProviderUserKey;
 
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@ID", SqlDbType.Int, 4, entry.Id), 
-				DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
-				DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
-				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
-				DataHelper.MakeInParam("@AuthorId", SqlDbType.UniqueIdentifier, 16, authorId), 
-				DataHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
-				DataHelper.MakeInParam("@DateUpdated", SqlDbType.DateTime, 4, entry.DateModified), 
-				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
-				DataHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
-				DataHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, DataHelper.CheckNull(entry.DateSyndicated)), 
-				BlogIdParam
-			};
-			return NonQueryBool("subtext_UpdateEntry", p);
+			StoredProcedures.UpdateEntry(entry.Id
+			                             , entry.Title
+			                             , entry.Body
+			                             , (int) entry.PostType
+			                             , authorId
+			                             , DataHelper.CheckNull(entry.Description)
+			                             , entry.DateModified
+			                             , (int) entry.PostConfig
+			                             , DataHelper.CheckNull(entry.EntryName)
+			                             , DataHelper.CheckNull(entry.DateSyndicated), BlogId).Execute();
 		}
 
 		#endregion
 
 		#region SetCategoriesList
 
-		public override bool SetEntryCategoryList(int entryId, int[] categoryIds)
+		public override void SetEntryCategoryList(int entryId, int[] categoryIds)
 		{
 			if (categoryIds == null || categoryIds.Length == 0)
-			{
-				return false;
-			}
+				return;
 
 			string[] cats = new string[categoryIds.Length];
 			for (int i = 0; i < categoryIds.Length; i++)
@@ -813,34 +798,21 @@ namespace Subtext.Framework.Data
 			}
 			string catList = string.Join(",", cats);
 
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@PostID", SqlDbType.Int, 4, DataHelper.CheckNull(entryId)),
-				BlogIdParam,
-				DataHelper.MakeInParam("@CategoryList", SqlDbType.NVarChar, 4000, catList)
-			};
-			return NonQueryBool("subtext_InsertLinkCategoryList", p);
+			StoredProcedures.InsertLinkCategoryList(catList, DataHelper.CheckNull(entryId), BlogId).Execute();
 		}
 
 		#endregion
 
         #region SetTagList
 
-        public override bool SetEntryTagList(int entryId, List<string> tags)
+        public override void SetEntryTagList(int entryId, List<string> tags)
         {
 			if (tags == null)
 				throw new ArgumentNullException("tags", "Tags cannot be null.");
 
-			SqlParameter tagParam = new SqlParameter("@TagList", SqlDbType.NText);
-			tagParam.Value = string.Join(",", tags.ToArray());
+			string tagList = string.Join(",", tags.ToArray());
 
-			SqlParameter[] p =
-                {
-                    DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(entryId)),
-                    BlogIdParam,
-                    tagParam
-                };
-			return NonQueryBool("subtext_InsertEntryTagList", p);
+			StoredProcedures.InsertEntryTagList(DataHelper.CheckNull(entryId), BlogId, tagList).Execute();
         }
 
         #endregion
@@ -850,7 +822,7 @@ namespace Subtext.Framework.Data
 			//Do this before we validate the text
 			if (UseKeyWords)
 			{
-				KeyWords.Format(e);
+				Keywords.Format(e);
 			}
 
 			//TODO: Make this a configuration option.
@@ -868,9 +840,9 @@ namespace Subtext.Framework.Data
 
 		#region Paged Links
 
-		public override IPagedCollection<Link> GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending)
+		public override IPagedCollection<Link> GetPagedLinks(int categoryTypeId, int pageIndex, int pageSize, bool sortDescending)
 		{
-			bool useCategory = categoryTypeID > -1;
+			bool useCategory = categoryTypeId > -1;
 			string sql = "subtext_GetPageableLinks";
 
 			SqlConnection conn = new SqlConnection(ConnectionString);
@@ -883,7 +855,7 @@ namespace Subtext.Framework.Data
 
 			if (useCategory)
 			{
-				command.Parameters.Add(DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, DataHelper.CheckNull(categoryTypeID)));
+				command.Parameters.Add(DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, DataHelper.CheckNull(categoryTypeId)));
 			}
 
 			conn.Open();
@@ -911,69 +883,30 @@ namespace Subtext.Framework.Data
 
 		#region LinkCollection
 
-		public override ICollection<Link> GetLinkCollectionByPostID(int postID)
+		public override ICollection<Link> GetLinkCollectionByPostID(int postId)
 		{
-			SqlParameter[] p =
+			using(IDataReader reader = StoredProcedures.GetLinkCollectionByPostID(DataHelper.CheckNull(postId), BlogId).GetReader())
 			{
-				DataHelper.MakeInParam("@PostID", SqlDbType.Int, 4, DataHelper.CheckNull(postID)),
-				BlogIdParam
-			};
-
-			IDataReader reader = GetReader("subtext_GetLinkCollectionByPostID", p);
-			try
-			{
-				ICollection<Link> lc = new List<Link>();
+				ICollection<Link> links = new List<Link>();
 				while (reader.Read())
 				{
-					lc.Add(DataHelper.LoadLink(reader));
+					links.Add(DataHelper.LoadLink(reader));
 				}
-				return lc;
-			}
-			finally
-			{
-				reader.Close();
+				return links;
 			}
 		}
-
-		public override ICollection<Link> GetLinksByCategoryID(int catID, bool activeOnly)
-		{
-			string sql = activeOnly ? "subtext_GetLinksByActiveCategoryID" : "subtext_GetLinksByCategoryID";
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4 ,DataHelper.CheckNull(catID)),
-				BlogIdParam
-			};
-
-			IDataReader reader = GetReader(sql, p);
-			List<Link> lc = new List<Link>();
-			try
-			{
-				while (reader.Read())
-				{
-					lc.Add(DataHelper.LoadLink(reader));
-				}
-				return lc;
-			}
-			finally
-			{
-				reader.Close();
-			}
-		}
-
 		#endregion
 
 		#region Single Link
 
-		public override Link GetLink(int linkID)
+		/// <summary>
+		/// Gets the link.
+		/// </summary>
+		/// <param name="linkId">The link ID.</param>
+		/// <returns></returns>
+		public override Link GetLink(int linkId)
 		{
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@LinkID",SqlDbType.Int,4,linkID),
-				BlogIdParam
-			};
-
-			IDataReader reader = GetReader("subtext_GetSingleLink", p);
-			try
+			using(IDataReader reader = StoredProcedures.GetSingleLink(linkId, BlogId).GetReader())
 			{
 				Link link = null;
 				while (reader.Read())
@@ -983,23 +916,21 @@ namespace Subtext.Framework.Data
 				}
 				return link;
 			}
-			finally
-			{
-				reader.Close();
-			}
 		}
 
 		#endregion
 
 		#region ICollection<LinkCategory>
 
+		/// <summary>
+		/// Gets the categories.
+		/// </summary>
+		/// <param name="catType">Type of the cat.</param>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
 		public override ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly)
 		{
-			SqlParameter[] p ={DataHelper.MakeInParam("@CategoryType", SqlDbType.TinyInt, 1, catType),
-							  DataHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
-								  BlogIdParam};
-
-			using (IDataReader reader = GetReader("subtext_GetCategory", p))
+			using (IDataReader reader = StoredProcedures.GetCategory(null, null, activeOnly, BlogId, (short)catType).GetReader())
 			{
 				ICollection<LinkCategory> lcc = new List<LinkCategory>();
 				while (reader.Read())
@@ -1010,10 +941,13 @@ namespace Subtext.Framework.Data
 			}
 		}
 
+		/// <summary>
+		/// Gets the active categories.
+		/// </summary>
+		/// <returns></returns>
 		public override ICollection<LinkCategory> GetActiveCategories()
 		{
-			SqlParameter[] p ={ BlogIdParam };
-			DataSet ds = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "subtext_GetActiveCategoriesWithLinkCollection", p);
+			DataSet ds = StoredProcedures.GetActiveCategoriesWithLinkCollection(BlogId).GetDataSet();
 
 			DataRelation dl = new DataRelation("CategoryID", ds.Tables[0].Columns["CategoryID"], ds.Tables[1].Columns["CategoryID"], false);
 			ds.Relations.Add(dl);
@@ -1036,9 +970,15 @@ namespace Subtext.Framework.Data
 
 		#region LinkCategory
 
+		/// <summary>
+		/// Gets the link category.
+		/// </summary>
+		/// <param name="categoryId">The category id.</param>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
 		public override LinkCategory GetLinkCategory(int categoryId, bool activeOnly)
 		{
-			using (IDataReader reader = GetLinkCategoryGeneric(categoryId, activeOnly))
+			using (IDataReader reader = StoredProcedures.GetCategory(null, categoryId, activeOnly, BlogId, null).GetReader())
 			{
 				if (reader.Read())
 				{
@@ -1049,9 +989,15 @@ namespace Subtext.Framework.Data
 			}
 		}
 
+		/// <summary>
+		/// Gets the link category.
+		/// </summary>
+		/// <param name="categoryName">Name of the category.</param>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
 		public override LinkCategory GetLinkCategory(string categoryName, bool activeOnly)
 		{
-			using (IDataReader reader = GetLinkCategoryGeneric(categoryName, activeOnly))
+			using (IDataReader reader = StoredProcedures.GetCategory(categoryName, null, activeOnly, BlogId, null).GetReader())
 			{
 				if (reader.Read())
 				{
@@ -1062,135 +1008,106 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		/// <summary>
-		/// Returns a data reader for the specified category. The Category Key should either 
-		/// be an Int (category id) or a string (category name).
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="categoryKey"></param>
-		/// <param name="isActive"></param>
-		/// <returns></returns>
-		private IDataReader GetLinkCategoryGeneric<T>(T categoryKey, bool isActive)
-		{
-			SqlParameter id = DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, null);
-			SqlParameter name = DataHelper.MakeInParam("@CategoryName", SqlDbType.NVarChar, 150, null);
-
-			if (typeof(T) == typeof(int))
-				id.Value = categoryKey;
-			if (typeof(T) == typeof(string))
-				name.Value = categoryKey;
-
-			SqlParameter[] p = 
-			{
-				id,
-				name,
-				DataHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, isActive),
-				BlogIdParam
-			};
-			return GetReader("subtext_GetCategory", p);
-		}
-
-
 		#endregion
 
 		#region Edit Links/Categories
 
-		public override bool UpdateLink(Link link)
+		/// <summary>
+		/// Updates the link.
+		/// </summary>
+		/// <param name="link">The link.</param>
+		public override void UpdateLink(Link link)
 		{
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,link.Title),
-				DataHelper.MakeInParam("@Url",SqlDbType.NVarChar,255,link.Url),
-				DataHelper.MakeInParam("@Rss",SqlDbType.NVarChar,255,DataHelper.CheckNull(link.Rss)),
-				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,link.IsActive),
-				DataHelper.MakeInParam("@NewWindow",SqlDbType.Bit,1,link.NewWindow),
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(link.CategoryID)),
-				DataHelper.MakeInParam("@LinkID",SqlDbType.Int,4,link.Id),
-				BlogIdParam
-			};
-			return NonQueryBool("subtext_UpdateLink", p);
+			StoredProcedures.UpdateLink(DataHelper.CheckNull(link.Id)
+				, link.Title
+				, link.Url
+				, DataHelper.CheckNull(link.Rss)
+				, link.IsActive
+				, link.NewWindow
+				, DataHelper.CheckNull(link.CategoryID)
+				, BlogId).Execute();
 		}
 
+		/// <summary>
+		/// Creates the link.
+		/// </summary>
+		/// <param name="link">The link.</param>
+		/// <returns></returns>
 		public override int CreateLink(Link link)
 		{
 			if (link == null)
 				throw new ArgumentNullException("link", Resources.ArgumentNull_Generic);
 
-			SqlParameter outParam = DataHelper.MakeOutParam("@LinkID", SqlDbType.Int, 4);
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,link.Title),
-				DataHelper.MakeInParam("@Url",SqlDbType.NVarChar,255,link.Url),
-				DataHelper.MakeInParam("@Rss",SqlDbType.NVarChar,255,DataHelper.CheckNull(link.Rss)),
-				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,link.IsActive),
-				DataHelper.MakeInParam("@NewWindow",SqlDbType.Bit,1,link.NewWindow),
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(link.CategoryID)),
-				DataHelper.MakeInParam("@PostID", SqlDbType.Int, 4, DataHelper.CheckNull(link.PostID)),
-				BlogIdParam,
-				outParam
-			};
-			NonQueryInt("subtext_InsertLink", p);
-			return (int)outParam.Value;
+			StoredProcedure proc = StoredProcedures.InsertLink(link.Title
+			                            , link.Url
+			                            , DataHelper.CheckNull(link.Rss)
+			                            , link.IsActive
+			                            , link.NewWindow
+			                            , DataHelper.CheckNull(link.CategoryID)
+			                            , DataHelper.CheckNull(link.PostID)
+										, BlogId
+										, 0);
+			proc.Execute();			
+			return (int)proc.OutputValues[0];
 		}
 
-		public override bool UpdateLinkCategory(LinkCategory category)
+		/// <summary>
+		/// Updates the link category.
+		/// </summary>
+		/// <param name="category">The category.</param>
+		/// <returns></returns>
+		public override void UpdateLinkCategory(LinkCategory category)
 		{
 			if (category == null)
-			{
 				throw new ArgumentNullException("category", Resources.ArgumentNull_Generic);
-			}
 
-			SqlParameter[] p =
-			{
-
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,category.Title),
-				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,category.IsActive),
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(category.Id)),
-				DataHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,category.CategoryType),
-				DataHelper.MakeInParam("@Description",SqlDbType.NVarChar,1000,DataHelper.CheckNull(category.Description)),
-				BlogIdParam
-			};
-			return NonQueryBool("subtext_UpdateCategory", p);
+			StoredProcedures.UpdateCategory(DataHelper.CheckNull(category.Id)
+				, category.Title
+				, category.IsActive
+				, (short)category.CategoryType
+				, DataHelper.CheckNull(category.Description)
+				, BlogId).Execute();
 		}
 
+		/// <summary>
+		/// Creates the link category.
+		/// </summary>
+		/// <param name="category">The category.</param>
+		/// <returns></returns>
 		public override int CreateLinkCategory(LinkCategory category)
 		{
 			if (category == null)
 				throw new ArgumentNullException("category", Resources.ArgumentNull_Generic);
 
-			SqlParameter outParam = DataHelper.MakeOutParam("@CategoryID", SqlDbType.Int, 4);
-			SqlParameter[] p =
-			{
+			StoredProcedure proc = StoredProcedures.InsertCategory(category.Title
+			                                                       , category.IsActive
+			                                                       , BlogId
+																   , (short) category.CategoryType
+			                                                       , DataHelper.CheckNull(category.Description)
+																   , 0);
 
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,category.Title),
-				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,category.IsActive),
-				DataHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,category.CategoryType),
-				DataHelper.MakeInParam("@Description",SqlDbType.NVarChar,1000,DataHelper.CheckNull(category.Description)),
-				BlogIdParam,
-				outParam
-			};
-			NonQueryInt("subtext_InsertCategory", p);
-			return (int)outParam.Value;
+			proc.Execute();
+			return (int)proc.OutputValues[0];
 		}
 
-		public override bool DeleteLinkCategory(int categoryID)
+		/// <summary>
+		/// Deletes the link category.
+		/// </summary>
+		/// <param name="categoryId">The category ID.</param>
+		/// <returns></returns>
+		public override void DeleteLinkCategory(int categoryId)
 		{
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(categoryID)),
-				BlogIdParam
-			};
-			return NonQueryBool("subtext_DeleteCategory", p);
+			StoredProcedures.DeleteCategory(DataHelper.CheckNull(categoryId), BlogId).Execute();
 		}
 
-		public override bool DeleteLink(int linkID)
+		/// <summary>
+		/// Deletes the link.
+		/// </summary>
+		/// <param name="linkId">The link ID.</param>
+		/// <returns></returns>
+		public override void DeleteLink(int linkId)
 		{
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@LinkID", SqlDbType.Int, 4, linkID),
-				BlogIdParam
-			};
-			return NonQueryBool("subtext_DeleteLink", p);
+			StoredProcedures.DeleteLink(linkId, BlogId).Execute();
 		}
 
 		#endregion
@@ -1199,87 +1116,58 @@ namespace Subtext.Framework.Data
 
 		#region Stats
 
+		/// <summary>
+		/// Gets the paged view stats.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="beginDate">The begin date.</param>
+		/// <param name="endDate">The end date.</param>
+		/// <returns></returns>
 		public override IPagedCollection<ViewStat> GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate)
 		{
-			SqlParameter[] p =
-			{
-				BlogIdParam,
-				DataHelper.MakeInParam("@BeginDate", SqlDbType.DateTime, 4, beginDate),
-				DataHelper.MakeInParam("@EndDate", SqlDbType.DateTime, 4, endDate),
-				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
-				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize)
-			};
-
-			IDataReader reader = GetReader("subtext_GetPageableViewStats", p);
-			try
-			{
-				IPagedCollection<ViewStat> vs = new PagedCollection<ViewStat>();
-				while (reader.Read())
-				{
-					vs.Add(DataHelper.LoadViewStat(reader));
-				}
-				reader.NextResult();
-				vs.MaxItems = DataHelper.GetMaxItems(reader);
-				return vs;
-			}
-			finally
-			{
-				reader.Close();
-			}
+			//TODO: Implement this.
+			throw new NotImplementedException("Not yet implemented");
 		}
 
+		/// <summary>
+		/// Gets the paged referrers.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="entryId">The entry id.</param>
+		/// <returns></returns>
 		public override IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId)
 		{
-			SqlParameter[] p =
+			using (IDataReader reader = StoredProcedures.GetPageableReferrers(BlogId, DataHelper.CheckNull(entryId), pageIndex, pageSize).GetReader())
 			{
-				BlogIdParam,
-				DataHelper.MakeInParam("@EntryID", SqlDbType.Int, 4, DataHelper.CheckNull(entryId)),
-				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
-				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize)
-			};
-
-			IDataReader reader = GetReader("subtext_GetPageableReferrers", p);
-			return LoadPagedReferrersCollection(reader);
+				return LoadPagedReferrersCollection(reader);
+			}
 		}
 
 		private static IPagedCollection<Referrer> LoadPagedReferrersCollection(IDataReader reader)
 		{
-			try
+			IPagedCollection<Referrer> prc = new PagedCollection<Referrer>();
+			while (reader.Read())
 			{
-				IPagedCollection<Referrer> prc = new PagedCollection<Referrer>();
-				while (reader.Read())
-				{
-					prc.Add(DataHelper.LoadReferrer(reader));
-				}
-				reader.NextResult();
-				prc.MaxItems = DataHelper.GetMaxItems(reader);
-				return prc;
+				prc.Add(DataHelper.LoadReferrer(reader));
 			}
-			finally
-			{
-				reader.Close();
-			}
+			reader.NextResult();
+			prc.MaxItems = DataHelper.GetMaxItems(reader);
+			return prc;
 		}
 
-		public override bool TrackEntry(EntryView view)
+		/// <summary>
+		/// Tracks the entry.
+		/// </summary>
+		/// <param name="view">The view.</param>
+		/// <returns></returns>
+		public override void TrackEntry(EntryView view)
 		{
-			//Note, for the paramater @URL, do NOT convert null values into empty strings.
-			SqlParameter[] p =	
-			{
-						DataHelper.MakeInParam("@EntryID", SqlDbType.Int, 4, DataHelper.CheckNull(view.EntryId)),
-						DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(view.BlogId)),
-						DataHelper.MakeInParam("@URL", SqlDbType.NVarChar, 255, view.ReferralUrl),
-						DataHelper.MakeInParam("@IsWeb", SqlDbType.Bit,1, view.PageViewType)
-			};
-			try
-			{
-				return NonQueryBool("subtext_TrackEntry", p);
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e.Message + e.StackTrace);
-			}
-			return false;
+			StoredProcedures.TrackEntry(DataHelper.CheckNull(view.EntryId)
+				, DataHelper.CheckNull(view.BlogId)
+				, view.ReferralUrl
+				, view.PageViewType == PageViewType.WebView).Execute();
 		}
 
 		public override bool TrackEntry(IEnumerable<EntryView> views)
@@ -1312,7 +1200,11 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner)
 		{
-			using (IDataReader reader = GetReader("subtext_UTILITY_AddBlog", title, host, subfolder, owner.ProviderUserKey, DateTime.UtcNow))
+			using (IDataReader reader = StoredProcedures.UTILITYAddBlog(title
+				, host
+				, subfolder
+				, (Guid)owner.ProviderUserKey
+				, DateTime.UtcNow).GetReader())
 			{
 				if (reader.Read())
 					return DataHelper.LoadBlog(reader);
@@ -1325,72 +1217,67 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		public override bool UpdateBlog(BlogInfo info)
+		public override void UpdateBlog(BlogInfo info)
 		{
-			object daysTillCommentsClose = null;
+			int? daysTillCommentsClose = null;
 			if (info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
 			{
 				daysTillCommentsClose = info.DaysTillCommentsClose;
 			}
 
-			object commentDelayInMinutes = null;
+			int? commentDelayInMinutes = null;
 			if (info.CommentDelayInMinutes > 0 && info.CommentDelayInMinutes < int.MaxValue)
 			{
 				commentDelayInMinutes = info.CommentDelayInMinutes;
 			}
 
-			object numberOfRecentComments = null;
+			int? numberOfRecentComments = null;
 			if (info.NumberOfRecentComments > 0 && info.NumberOfRecentComments < int.MaxValue)
 			{
 				numberOfRecentComments = info.NumberOfRecentComments;
 			}
 
-			object recentCommentsLength = null;
+			int? recentCommentsLength = null;
 			if (info.RecentCommentsLength > 0 && info.RecentCommentsLength < int.MaxValue)
 			{
 				recentCommentsLength = info.RecentCommentsLength;
 			}
 
-			object ownerId = info.Owner == null ? null : info.Owner.ProviderUserKey;
+			Guid? ownerId = info.Owner == null ? null : (Guid?)info.Owner.ProviderUserKey;
 
-			SqlParameter[] p = 
-				{
-					DataHelper.MakeInParam("@BlogId", SqlDbType.Int,  4, DataHelper.CheckNull(info.Id))
-					,DataHelper.MakeInParam("@OwnerId", ownerId) 
-					,DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 100, info.Title) 
-					,DataHelper.MakeInParam("@SubTitle", SqlDbType.NVarChar, 250, info.SubTitle) 
-					,DataHelper.MakeInParam("@Skin", SqlDbType.NVarChar, 50, info.Skin.TemplateFolder) 
-					,DataHelper.MakeInParam("@Subfolder", SqlDbType.NVarChar, 50, info.CleanSubfolder) 
-					,DataHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, info.Host) 
-					,DataHelper.MakeInParam("@TimeZone", SqlDbType.Int, 4, info.TimeZoneId) 
-					,DataHelper.MakeInParam("@Language", SqlDbType.NVarChar, 10, info.Language) 
-					,DataHelper.MakeInParam("@News", SqlDbType.NText, 0, DataHelper.CheckNull(info.News)) 
-					,DataHelper.MakeInParam("@ItemCount", SqlDbType.Int,  4, info.ItemCount) 
-					,DataHelper.MakeInParam("@CategoryListPostCount", SqlDbType.Int,  4, info.CategoryListPostCount) 
-					,DataHelper.MakeInParam("@Flag", SqlDbType.Int,  4, (int)info.Flag) 
-					,DataHelper.MakeInParam("@LastUpdated", SqlDbType.DateTime,  8, info.LastUpdated) 
-					,DataHelper.MakeInParam("@SecondaryCss", SqlDbType.Text, 0, DataHelper.CheckNull(info.Skin.CustomCssText)) 
-					,DataHelper.MakeInParam("@SkinCssFile", SqlDbType.VarChar, 100, DataHelper.CheckNull(info.Skin.SkinStyleSheet)) 
-					,DataHelper.MakeInParam("@LicenseUrl", SqlDbType.NVarChar, 64, info.LicenseUrl)
-					,DataHelper.MakeInParam("@DaysTillCommentsClose", SqlDbType.Int, 4, daysTillCommentsClose)
-					,DataHelper.MakeInParam("@CommentDelayInMinutes", SqlDbType.Int, 4, commentDelayInMinutes)
-					,DataHelper.MakeInParam("@NumberOfRecentComments", SqlDbType.Int, 4, numberOfRecentComments)
-					,DataHelper.MakeInParam("@RecentCommentsLength", SqlDbType.Int, 4, recentCommentsLength)
-					,DataHelper.MakeInParam("@AkismetAPIKey", SqlDbType.VarChar, 16, DataHelper.ReturnNullIfEmpty(info.FeedbackSpamServiceKey))
-					,DataHelper.MakeInParam("@FeedBurnerName", SqlDbType.NVarChar, 64, DataHelper.ReturnNullIfEmpty(info.FeedBurnerName))
-					,DataHelper.MakeInParam("@pop3User", SqlDbType.VarChar, 32, info.pop3User)
-					,DataHelper.MakeInParam("@pop3Pass", SqlDbType.VarChar, 32, info.pop3Pass)
-					,DataHelper.MakeInParam("@pop3Server", SqlDbType.VarChar, 56, info.pop3Server)
-					,DataHelper.MakeInParam("@pop3StartTag", SqlDbType.NVarChar, 10, info.pop3StartTag)
-					,DataHelper.MakeInParam("@pop3EndTag", SqlDbType.NVarChar, 10, info.pop3EndTag)
-					,DataHelper.MakeInParam("@pop3SubjectPrefix", SqlDbType.NVarChar, 10, info.pop3SubjectPrefix)
-					,DataHelper.MakeInParam("@pop3MTBEnable", SqlDbType.Bit, 1, info.pop3MTBEnable)
-					,DataHelper.MakeInParam("@pop3DeleteOnlyProcessed", SqlDbType.Bit, 1, info.pop3DeleteOnlyProcessed)
-					,DataHelper.MakeInParam("@pop3InlineAttachedPictures", SqlDbType.Bit, 1, info.pop3InlineAttachedPictures)
-					,DataHelper.MakeInParam("@pop3HeightForThumbs", SqlDbType.Int, 4, info.pop3HeightForThumbs)
-				};
-
-			return NonQueryBool("subtext_UpdateConfig", p);
+			StoredProcedures.UpdateConfig(ownerId
+			                              , info.Title
+			                              , info.SubTitle
+			                              , info.Skin.TemplateFolder
+			                              , info.Subfolder
+			                              , info.Host
+			                              , info.Language
+			                              , info.TimeZoneId
+			                              , info.ItemCount
+			                              , info.CategoryListPostCount
+			                              , info.News
+			                              , info.LastUpdated
+			                              , DataHelper.CheckNull(info.Skin.CustomCssText)
+			                              , DataHelper.CheckNull(info.Skin.SkinStyleSheet)
+			                              , (int)info.Flag
+			                              , DataHelper.CheckNull(info.Id)
+			                              , info.LicenseUrl
+										  , daysTillCommentsClose
+										  , commentDelayInMinutes
+										  , numberOfRecentComments
+										  , recentCommentsLength
+			                              , DataHelper.ReturnNullIfEmpty(info.FeedbackSpamServiceKey)
+			                              , DataHelper.ReturnNullIfEmpty(info.FeedBurnerName)
+			                              , info.pop3User
+			                              , info.pop3Pass
+			                              , info.pop3Server
+			                              , info.pop3StartTag
+			                              , info.pop3EndTag
+			                              , info.pop3SubjectPrefix
+			                              , info.pop3MTBEnable
+			                              , info.pop3DeleteOnlyProcessed
+			                              , info.pop3InlineAttachedPictures
+			                              , info.pop3HeightForThumbs).Execute();
 		}
 
 		/// <summary>
@@ -1409,15 +1296,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override BlogInfo GetBlogInfo(string hostname, string subfolder, bool strict)
 		{
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, hostname)
-				,DataHelper.MakeInParam("@Subfolder", SqlDbType.NVarChar, 50, subfolder)
-				,DataHelper.MakeInParam("@Strict", SqlDbType.Bit, 1, strict)
-			};
-
-			IDataReader reader = GetReader("subtext_GetBlog", p);
-			try
+			using(IDataReader reader = StoredProcedures.GetBlog(hostname, subfolder, strict).GetReader())
 			{
 				BlogInfo info = null;
 				while (reader.Read())
@@ -1427,24 +1306,22 @@ namespace Subtext.Framework.Data
 				}
 				return info;
 			}
-			finally
-			{
-				reader.Close();
-			}
 		}
 		#endregion
 
         #region Tags
 
-        public override IDictionary<string, int> GetTopTags(int ItemCount)
+		/// <summary>
+		/// Gets the top tags from the database sorted by tag name.
+		/// </summary>
+		/// <param name="itemCount">The number of tags to return.</param>
+		/// <returns>
+		/// A sorted dictionary with the tag name as key and entry count
+		/// as value.
+		/// </returns>
+        public override IDictionary<string, int> GetTopTags(int itemCount)
         {
-			SqlParameter[] p = 
-                {
-                    DataHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, ItemCount),
-                    BlogIdParam
-                };
-
-			using (IDataReader reader = GetReader("subtext_GetTopTags", p))
+			using (IDataReader reader = StoredProcedures.GetTopTags(itemCount, BlogId).GetReader())
             {
                 IDictionary<string, int> tags = DataHelper.LoadTags(reader);
                 return tags;
@@ -1455,16 +1332,14 @@ namespace Subtext.Framework.Data
 
         #region KeyWords
 
-        public override KeyWord GetKeyWord(int keyWordId)
+		/// <summary>
+		/// Gets the key word by its id.
+		/// </summary>
+		/// <param name="keyWordId">The key word id.</param>
+		/// <returns></returns>
+        public override KeyWord GetKeyword(int keyWordId)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@KeyWordID", SqlDbType.Int, 4, keyWordId),
-				BlogIdParam
-			};
-
-			IDataReader reader = GetReader("subtext_GetKeyWord", p);
-			try
+			using(IDataReader reader = StoredProcedures.GetKeyWord(keyWordId, BlogId).GetReader())
 			{
 				KeyWord kw = null;
 				while (reader.Read())
@@ -1474,21 +1349,15 @@ namespace Subtext.Framework.Data
 				}
 				return kw;
 			}
-			finally
-			{
-				reader.Close();
-			}
 		}
 
-		public override ICollection<KeyWord> GetKeyWords()
+		/// <summary>
+		/// Gets the key words.
+		/// </summary>
+		/// <returns></returns>
+		public override ICollection<KeyWord> GetKeywords()
 		{
-			SqlParameter[] p =
-			{
-				BlogIdParam
-			};
-
-			IDataReader reader = GetReader("subtext_GetBlogKeyWords", p);
-			try
+			using(IDataReader reader = StoredProcedures.GetBlogKeyWords(BlogId).GetReader())
 			{
 				List<KeyWord> kwc = new List<KeyWord>();
 				while (reader.Read())
@@ -1497,23 +1366,17 @@ namespace Subtext.Framework.Data
 				}
 				return kwc;
 			}
-			finally
-			{
-				reader.Close();
-			}
 		}
 
-		public override IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize)
+		/// <summary>
+		/// Gets the key words by page.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <returns></returns>
+		public override IPagedCollection<KeyWord> GetKeywordsByPage(int pageIndex, int pageSize)
 		{
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
-				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize),
-				BlogIdParam
-			};
-
-			IDataReader reader = GetReader("subtext_GetPageableKeyWords", p);
-			try
+			using(IDataReader reader = StoredProcedures.GetPageableKeyWords(BlogId, pageIndex, pageSize).GetReader())
 			{
 				IPagedCollection<KeyWord> pkwc = new PagedCollection<KeyWord>();
 				while (reader.Read())
@@ -1525,30 +1388,29 @@ namespace Subtext.Framework.Data
 
 				return pkwc;
 			}
-			finally
-			{
-				reader.Close();
-			}
 		}
 
-		public override bool UpdateKeyWord(KeyWord keyWord)
+		/// <summary>
+		/// Updates the keyword.
+		/// </summary>
+		/// <param name="keyword">The keyword.</param>
+		/// <returns></returns>
+		public override void UpdateKeyword(KeyWord keyword)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@KeyWordID",SqlDbType.Int,4,keyWord.Id),
-				DataHelper.MakeInParam("@Word",SqlDbType.NVarChar,100,keyWord.Word),
-				DataHelper.MakeInParam("@Text",SqlDbType.NVarChar,100,keyWord.Text),
-				DataHelper.MakeInParam("@ReplaceFirstTimeOnly",SqlDbType.Bit,1,keyWord.ReplaceFirstTimeOnly),
-				DataHelper.MakeInParam("@OpenInNewWindow",SqlDbType.Bit,1,keyWord.OpenInNewWindow),
-				DataHelper.MakeInParam("@CaseSensitive",SqlDbType.Bit,1,keyWord.CaseSensitive),
-				DataHelper.MakeInParam("@Url",SqlDbType.NVarChar,255,keyWord.Url),
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,100,keyWord.Title),
-				BlogIdParam
-			};
-			return NonQueryBool("subtext_UpdateKeyWord", p);
+			StoredProcedures.UpdateKeyWord(keyword.Id
+			                               , keyword.Word
+			                               , keyword.Rel
+			                               , keyword.Text
+			                               , keyword.ReplaceFirstTimeOnly
+			                               , keyword.OpenInNewWindow
+			                               , keyword.CaseSensitive
+			                               , keyword.Url
+			                               , keyword.Title
+			                               , BlogId).Execute();
+
 		}
 
-		public override int InsertKeyWord(KeyWord keyWord)
+		public override int InsertKeyword(KeyWord keyWord)
 		{
 			if (keyWord == null)
 				throw new ArgumentNullException("keyword", Resources.ArgumentNull_Generic);
@@ -1571,14 +1433,13 @@ namespace Subtext.Framework.Data
 			return (int)outParam.Value;
 		}
 
-		public override bool DeleteKeyWord(int id)
+		/// <summary>
+		/// Deletes the keyword.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		public override void DeleteKeyword(int id)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@KeyWordID", SqlDbType.Int, 4, id),
-				BlogIdParam
-			};
-			return NonQueryBool("subtext_DeleteKeyWord", p);
+			StoredProcedures.DeleteKeyWord(id, BlogId).Execute();
 		}
 
 		#endregion
@@ -2028,12 +1889,6 @@ namespace Subtext.Framework.Data
 			return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql, parameters);
 		}
 
-		private IDataReader GetReader(string sql, params object[] parameterValues)
-		{
-			LogSql(sql, parameterValues);
-			return SqlHelper.ExecuteReader(ConnectionString, sql, parameterValues);
-		}
-
 		private int NonQueryInt(string sql, SqlParameter[] parameters)
 		{
 			LogSql(sql, parameters);
@@ -2044,27 +1899,6 @@ namespace Subtext.Framework.Data
 		{
 			LogSql(sql, parameters);
 			return NonQueryInt(sql, parameters) > 0;
-		}
-
-		static void LogSql(string sql, object[] parameterValues)
-		{
-#if DEBUG
-			if (parameterValues == null)
-			{
-				log.Debug("SQL: " + sql);
-				return;
-			}
-
-			string query = sql + StringHelper.Join(", ", parameterValues, delegate(object item)
-			{
-				if (item != null)
-					return item.ToString();
-				return "{NULL}";
-			});
-
-			log.Debug("SQL: " + query);
-
-#endif
 		}
 
 		static void LogSql(string sql, SqlParameter[] parameters)
