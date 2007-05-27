@@ -1342,7 +1342,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_InsertImage Procedure
         /// </summary>
-        public static StoredProcedure InsertImage(string Title, int CategoryID, int Width, int Height, string File, bool Active, int BlogId, int ImageID){
+        public static StoredProcedure InsertImage(string Title, int? CategoryID, int Width, int Height, string File, bool Active, int BlogId, int ImageID){
             StoredProcedure sp = new StoredProcedure("subtext_InsertImage" , provider);
             sp.Command.AddParameter("@Title", Title,DbType.String);
             sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
@@ -1533,7 +1533,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_UpdateImage Procedure
         /// </summary>
-        public static StoredProcedure UpdateImage(string Title, int CategoryID, int Width, int Height, string File, bool Active, int BlogId, int ImageID){
+        public static StoredProcedure UpdateImage(string Title, int? CategoryID, int Width, int Height, string File, bool Active, int BlogId, int ImageID){
             StoredProcedure sp = new StoredProcedure("subtext_UpdateImage" , provider);
             sp.Command.AddParameter("@Title", Title,DbType.String);
             sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);

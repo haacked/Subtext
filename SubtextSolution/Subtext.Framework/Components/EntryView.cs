@@ -23,10 +23,6 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class EntryView
 	{
-		public EntryView()
-		{
-		}
-
 		private int _blogID;
 		public int BlogId
 		{

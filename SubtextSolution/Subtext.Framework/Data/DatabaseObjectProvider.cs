@@ -1502,51 +1502,52 @@ namespace Subtext.Framework.Data
 			}
 		}
 
+		/// <summary>
+		/// Inserts the image and returns the id.
+		/// </summary>
+		/// <param name="image">The image.</param>
+		/// <returns></returns>
 		public override int InsertImage(Image image)
 		{
 			if (image == null)
 				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
 
-			SqlParameter outParam = DataHelper.MakeOutParam("@ImageID", SqlDbType.Int, 4);
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,250,image.Title),
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(image.CategoryID)),
-				DataHelper.MakeInParam("@Width",SqlDbType.Int,4,image.Width),
-				DataHelper.MakeInParam("@Height",SqlDbType.Int,4,image.Height),
-				DataHelper.MakeInParam("@File",SqlDbType.NVarChar,50,image.File),
-				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,image.IsActive),
-				BlogIdParam,
-				outParam
-			};
-			NonQueryInt("subtext_InsertImage", p);
-			return (int)outParam.Value;
+			StoredProcedure proc = StoredProcedures.InsertImage(image.Title
+				, DataHelper.CheckNull(image.CategoryID)
+				, image.Width
+				, image.Height
+				, image.File
+				, image.IsActive
+				, BlogId
+				, 0);
+			proc.Execute();
+			return (int) proc.OutputValues[0];
 		}
 
-		public override bool UpdateImage(Image image)
+		/// <summary>
+		/// Updates the image.
+		/// </summary>
+		/// <param name="image">The image.</param>
+		/// <returns></returns>
+		public override void UpdateImage(Image image)
 		{
-			SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,250,image.Title),
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(image.CategoryID)),
-				DataHelper.MakeInParam("@Width",SqlDbType.Int,4,image.Width),
-				DataHelper.MakeInParam("@Height",SqlDbType.Int,4,image.Height),
-				DataHelper.MakeInParam("@File",SqlDbType.NVarChar,50,image.File),
-				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,image.IsActive),
-				BlogIdParam,
-				DataHelper.MakeInParam("@ImageID",SqlDbType.Int,4,image.ImageID)
-			};
-			return NonQueryBool("subtext_UpdateImage", p);
+			StoredProcedures.UpdateImage(image.Title
+			                             , DataHelper.CheckNull(image.CategoryID)
+			                             , image.Width
+			                             , image.Height
+			                             , image.File
+			                             , image.IsActive
+			                             , BlogId
+			                             , image.ImageID).Execute();
 		}
 
-		public override bool DeleteImage(int imageID)
+		/// <summary>
+		/// Deletes the image.
+		/// </summary>
+		/// <param name="imageId">The image id.</param>
+		public override void DeleteImage(int imageId)
 		{
-			SqlParameter[] p = 
-			{
-				BlogIdParam,
-				DataHelper.MakeInParam("@ImageID",SqlDbType.Int,4,imageID)
-			};
-			return NonQueryBool("subtext_DeleteImage", p);
+			StoredProcedures.DeleteImage(BlogId, imageId).Execute();
 		}
 
 		#endregion

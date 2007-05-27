@@ -147,7 +147,7 @@ namespace Subtext.Framework
 		/// Saves two images. A normal image for the web site and then a thumbnail.
 		/// </summary>
 		/// <param name="image">Original image to process.</param>
-		public static void MakeAlbumImages(Subtext.Framework.Components.Image image)
+		public static void MakeAlbumImages(Image image)
 		{
 			if (image == null)
 			{
@@ -274,6 +274,12 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetImage(imageID, activeOnly);
 		}
 
+		/// <summary>
+		/// Inserts the image.
+		/// </summary>
+		/// <param name="image">The image.</param>
+		/// <param name="Buffer">The buffer.</param>
+		/// <returns></returns>
 		public static int InsertImage(Image image, byte[] Buffer)
 		{
 			if (image == null)
@@ -286,12 +292,16 @@ namespace Subtext.Framework
 				MakeAlbumImages(image);
 				return ObjectProvider.Instance().InsertImage(image);
 			}
-			return -1;
+			return NullValue.NullInt32;
 		}
 
-		public static bool UpdateImage(Image image)
+		/// <summary>
+		/// Updates the image.
+		/// </summary>
+		/// <param name="image">The image.</param>
+		public static void UpdateImage(Image image)
 		{
-			return ObjectProvider.Instance().UpdateImage(image);
+			ObjectProvider.Instance().UpdateImage(image);
 		}
 
 		// added
