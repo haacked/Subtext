@@ -551,11 +551,37 @@ namespace Subtext.Framework.Providers
 
 		#region Images
 
+		/// <summary>
+		/// Gets the images by category ID.
+		/// </summary>
+		/// <param name="catID">The cat ID.</param>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
 		public abstract ImageCollection GetImagesByCategoryID(int catID, bool activeOnly);
+		/// <summary>
+		/// Gets the image.
+		/// </summary>
+		/// <param name="imageID">The image ID.</param>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
 		public abstract Image GetImage(int imageID, bool activeOnly);
+		/// <summary>
+		/// Inserts the image.
+		/// </summary>
+		/// <param name="image">The image.</param>
+		/// <returns></returns>
 		public abstract int InsertImage(Image image);
-		public abstract bool UpdateImage(Image image);
-		public abstract bool DeleteImage(int imageID);
+		/// <summary>
+		/// Updates the image.
+		/// </summary>
+		/// <param name="image">The image.</param>
+		public abstract void UpdateImage(Image image);
+		/// <summary>
+		/// Deletes the image.
+		/// </summary>
+		/// <param name="imageId">The image ID.</param>
+		/// <returns></returns>
+		public abstract void DeleteImage(int imageId);
 
 		#endregion
 

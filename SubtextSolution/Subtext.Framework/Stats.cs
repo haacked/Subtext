@@ -179,9 +179,7 @@ namespace Subtext.Framework
 		public static void Notify(Entry entry)
 		{
             if (entry == null)
-            {
                 throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
-            }
 
 			StringCollection links = HtmlHelper.GetLinks(entry.Body);
 

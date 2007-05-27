@@ -29,8 +29,6 @@ namespace Subtext.Web.Admin.Pages
 {
 	public partial class EditGalleries : AdminPage
 	{
-		// jsbright added to support prompting for new file name
-
 		#region Accessors
 		private int CategoryID
 		{
@@ -45,7 +43,7 @@ namespace Subtext.Web.Admin.Pages
 		}
 		#endregion
 
-	    protected EditGalleries() : base()
+	    protected EditGalleries()
 	    {
             this.TabSectionId = "Galleries";
 	    }
@@ -254,10 +252,9 @@ namespace Subtext.Web.Admin.Pages
                 badFiles = new List<string>(),
                 updatedFiles = new List<string>();
 
-            Image image;
 
-            byte[] archiveData = Images.GetFileStream(ImageFile.PostedFile),
-                fileData;
+        	byte[] archiveData = Images.GetFileStream(ImageFile.PostedFile);
+
             MemoryStream ms = new MemoryStream(archiveData);
 
             using (ZipInputStream zip = new ZipInputStream(ms))
@@ -270,7 +267,9 @@ namespace Subtext.Web.Admin.Pages
                     // TODO: Filter for image types?
                     if (!String.IsNullOrEmpty(fileName))
                     {
-                        image = new Image();
+                    	byte[] fileData;
+
+						Image image = new Image();
                         image.CategoryID = CategoryID;
                         image.Title = fileName;
                         image.IsActive = ckbIsActiveImage.Checked;
