@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Web.Security;
 using SubSonic;
@@ -40,8 +39,6 @@ namespace Subtext.Framework.Data
 	/// </summary>
 	public class DatabaseObjectProvider : ObjectProvider
 	{
-		
-
 		private static int BlogId
 		{
 			get
@@ -53,6 +50,46 @@ namespace Subtext.Framework.Data
 			}
 		}
 
+		/// <summary>
+		/// Returns the related links for the entry
+		/// </summary>
+		/// <param name="entryId"></param>
+		/// <returns></returns>
+		public override IList<RelatedLink> GetRelatedLinks(int entryId)
+		{
+			List<RelatedLink> links = new List<RelatedLink>();
+			using(IDataReader reader = StoredProcedures.GetRelatedLinks(BlogId, entryId).GetReader())
+			{
+				int id = DataHelper.ReadInt32(reader, "EntryID");
+				string title = DataHelper.ReadString(reader, "Title");
+				DateTime dateAdded = DataHelper.ReadDate(reader, "DateAdded");
+				string myURL = Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(dateAdded, id.ToString(CultureInfo.InvariantCulture));
+
+				links.Add(new RelatedLink(title, myURL));
+			}
+			return links;
+		}
+
+		/// <summary>
+		/// Gets the top links for the current blog.
+		/// </summary>
+		/// <param name="count">The count.</param>
+		/// <returns></returns>
+		public override IList<RelatedLink> GetTopLinks(int count)
+		{
+			List<RelatedLink> links = new List<RelatedLink>();
+			using (IDataReader reader = StoredProcedures.GetTop10byBlogId(BlogId).GetReader())
+			{
+				int id = DataHelper.ReadInt32(reader, "EntryID");
+				string title = DataHelper.ReadString(reader, "Title");
+				DateTime dateAdded = DataHelper.ReadDate(reader, "DateAdded");
+				string myURL = Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(dateAdded, id.ToString(CultureInfo.InvariantCulture));
+
+				links.Add(new RelatedLink(title, myURL));
+			}
+			return links;
+		}
+		
 		#region Host
 		/// <summary>
 		/// Returns the <see cref="HostInfo"/> for the Subtext installation.
@@ -100,38 +137,7 @@ namespace Subtext.Framework.Data
 		/// <param name="flags"></param>
 		public override PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
 		{
-			string sql = "subtext_GetPageableBlogs";
-
-			SqlConnection conn = new SqlConnection(ConnectionString);
-
-			SqlCommand command = new SqlCommand(sql, conn);
-
-			command.CommandType = CommandType.StoredProcedure;
-			command.Parameters.Add(DataHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, host));
-			command.Parameters.Add(DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex));
-			command.Parameters.Add(DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize));
-			command.Parameters.Add(DataHelper.MakeInParam("@ConfigurationFlags", SqlDbType.Int, 4, flags));
-
-			IDataReader reader;
-
-			try
-			{
-				conn.Open();
-				reader = command.ExecuteReader(CommandBehavior.CloseConnection);
-			}
-			catch (SqlException)
-			{
-				conn.Open();
-				//If we were upgrading, we need to call the old version of the stored proc.
-				pageIndex++;
-				command.Parameters.Clear();
-				command.Parameters.Add(DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex));
-				command.Parameters.Add(DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize));
-				command.Parameters.Add(DataHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, 0));
-				reader = command.ExecuteReader(CommandBehavior.CloseConnection);
-			}
-
-			using (reader)
+			using (IDataReader reader = StoredProcedures.GetPageableBlogs(pageIndex, pageSize, host, (int) flags).GetReader())
 			{
 				PagedCollection<BlogInfo> pec = new PagedCollection<BlogInfo>();
 				while (reader.Read())
@@ -151,25 +157,13 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override BlogInfo GetBlogById(int blogId)
 		{
-			string sql = "subtext_GetBlogById";
-
-			SqlConnection conn = new SqlConnection(ConnectionString);
-			SqlCommand command = new SqlCommand(sql, conn);
-
-			command.CommandType = CommandType.StoredProcedure;
-			command.Parameters.Add(DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(blogId)));
-
-			conn.Open();
-
-			using (IDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection))
+			using (IDataReader reader = StoredProcedures.GetBlogById(DataHelper.CheckNull(blogId)).GetReader())
 			{
 				if (reader.Read())
 				{
 					BlogInfo info = DataHelper.LoadBlog(reader);
-					reader.Close();
 					return info;
 				}
-				reader.Close();
 			}
 			return null;
 		}

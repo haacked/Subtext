@@ -16,10 +16,9 @@
 using System;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Xml;
-using Subtext.Framework.Data;
+using Subtext.Data;
 
 namespace Subtext.Web
 {
@@ -28,31 +27,21 @@ namespace Subtext.Web
 	/// </summary>
 	public class OPML : System.Web.UI.Page
 	{
-		private void Page_Load(object sender, System.EventArgs e)
+		private void Page_Load(object sender, EventArgs e)
 		{
-			string sql = "DNW_Stats";
-			string conn = DatabaseObjectProvider.Instance().ConnectionString;
+			int groupId = 1;
 
-			int GroupID = 1;
-
-			if(Request.QueryString["GroupID"] !=null)
+			if(Request.QueryString["GroupID"] != null)
 			{
-				try
-				{
-					GroupID = Int32.Parse(Request.QueryString["GroupID"]);
-				}
-				catch{}
-
+				Int32.TryParse(Request.QueryString["GroupID"], out groupId);
 			}
 
-			SqlParameter[] p = 
-				{
-					DataHelper.MakeInParam("@Host",SqlDbType.NVarChar,100,ConfigurationManager.AppSettings["AggregateHost"]),
-					DataHelper.MakeInParam("@GroupID",SqlDbType.Int,4,GroupID)
-				};
+			//TODO: put ConfigurationManager.AppSettings["AggregateHost"] in some property.
+			DataSet ds = StoredProcedures.DNWStats(ConfigurationManager.AppSettings["AggregateHost"], groupId).GetDataSet();
+			if (ds == null || ds.Tables.Count == 0)
+				return;
 
-
-			DataTable dt = DataHelper.ExecuteDataTable(conn, CommandType.StoredProcedure, sql, p);
+			DataTable dt = ds.Tables[0];
 			Response.ContentType = "text/xml";
 			//Response.ContentEncoding = System.Text.Encoding.UTF8;
 			Response.Write(Write(dt,Request.ApplicationPath));

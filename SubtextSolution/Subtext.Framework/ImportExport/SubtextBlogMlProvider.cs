@@ -28,6 +28,7 @@ using Microsoft.ApplicationBlocks.Data;
 using Subtext.BlogML;
 using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
+using Subtext.Data;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
@@ -221,12 +222,7 @@ namespace Subtext.ImportExport
 
 		private delegate void PostChildrenPopulator(BlogMLPost post);
 
-		private IDataReader GetReader(string sql, SqlParameter[] p)
-		{
-			return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql, p);
-		}
-
-		private IDataReader GetPostsAndArticlesReader(string blogId, int pageIndex, int pageSize)
+		private static IDataReader GetPostsAndArticlesReader(string blogId, int pageIndex, int pageSize)
 		{
 			int blogIdValue;
 			if (!Int32.TryParse(blogId, out blogIdValue))
@@ -234,13 +230,7 @@ namespace Subtext.ImportExport
 				throw new ArgumentException(String.Format(CultureInfo.CurrentUICulture, Resources.Format_InvalidBlogId, blogId), "blogId");
 			}
 
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, blogIdValue),
-				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
-				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize),
-			};
-			return GetReader("subtext_GetEntriesForBlogMl", p);
+			return StoredProcedures.GetEntriesForBlogMl(blogIdValue, pageIndex, pageSize).GetReader();
 		}
 
 		/// <summary>

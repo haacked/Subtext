@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI.WebControls;
@@ -19,46 +19,11 @@ namespace Subtext.Web.UI.Controls
 
 		private void Page_Load(object sender, EventArgs e)
 		{
-			string sql = "subtext_GetRelatedLinks";
-            string conn = DatabaseObjectProvider.Instance().ConnectionString;
-
-			ArrayList myRelLinks = new ArrayList();
-			int BlogId;
-
-			//fix for the blogs where only one installed
-			if (CurrentBlog.Id >= 1)
-				BlogId = CurrentBlog.Id;
-			else
-				BlogId = 0;
-
 			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
 
-			int entryid = entry.Id;
+			IList<RelatedLink> links = ObjectProvider.Instance().GetRelatedLinks(entry.Id);
 
-			SqlParameter[] p =
-				{
-					DataHelper.MakeInParam("@EntryID", SqlDbType.Int, 4, entryid),
-					DataHelper.MakeInParam("@BlogID", SqlDbType.Int, 4, BlogId)
-				};
-
-			DataTable dt = DataHelper.ExecuteDataTable(conn, CommandType.StoredProcedure, sql, p);
-
-			int count = dt.Rows.Count;
-
-			for (int i = 0; i < count; i++)
-			{
-				DataRow dr = dt.Rows[i];
-
-				string id = dr["EntryID"].ToString();
-				string title = (string) dr["Title"];
-				DateTime dateAdded = (DateTime) dr["DateAdded"];
-
-				string myURL = CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(dateAdded, id);
-
-				myRelLinks.Add(new PositionItems(title, myURL));
-			}
-
-			urlRelatedLinks.DataSource = myRelLinks;
+			urlRelatedLinks.DataSource = links;
 			urlRelatedLinks.DataBind();
 
 		}
@@ -86,27 +51,5 @@ namespace Subtext.Web.UI.Controls
 		#endregion
 
 	}
-	
-	public class PositionItems
-		{
-			private string title;
-			private string URL;
-
-			public PositionItems(string title, string URL)
-			{
-				this.title = title;
-				this.URL = URL;
-			}
-
-			public string Title
-			{
-				get { return title; }
-			}
-
-			public string url
-			{
-				get { return URL; }
-			}
-		}
 
 }

@@ -247,6 +247,7 @@
     <Compile Include="Components\Referrer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\RelatedLink.cs" />
     <Compile Include="Components\Tag.cs" />
     <Compile Include="Components\Trackback.cs">
       <SubType>Code</SubType>
