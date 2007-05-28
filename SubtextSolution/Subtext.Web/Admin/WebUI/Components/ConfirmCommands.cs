@@ -140,7 +140,7 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				return string.Format(System.Globalization.CultureInfo.InvariantCulture, format, args); 
+				return string.Format(CultureInfo.InvariantCulture, format, args); 
 			}
 			catch (ArgumentNullException)
 			{
@@ -506,7 +506,7 @@ namespace Subtext.Web.Admin
 				if (imageList.Count > 0)
 				{
 					// delete from data provider
-					foreach (Subtext.Framework.Components.Image currentImage in imageList)
+					foreach (Image currentImage in imageList)
 					{
 						Images.DeleteImage(currentImage);
 					}					
@@ -600,7 +600,7 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				Subtext.Framework.Components.Image currentImage = Images.GetSingleImage(_targetID, false);
+				Image currentImage = Images.GetSingleImage(_targetID, false);
 
 				// The following line should be fully encapsulated and handle files + data
 				// For now, I commented out the file trys in the the object so it can do just
@@ -768,22 +768,18 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				bool operationExecuted = false;
 				if (_enablePlugin)
 				{
-					operationExecuted=Plugin.EnablePlugin(_pluginId);
+					Plugin.EnablePlugin(_pluginId);
 				}
 				else
 				{
-					operationExecuted = Plugin.DisablePlugin(_pluginId);
+					Plugin.DisablePlugin(_pluginId);
 				}
 
-				if(operationExecuted)
-					return FormatMessage(ExecuteSuccessMessage, _actionPast, _pluginName);
-				else
-					return FormatMessage(ExecuteFailureMessage, _actionPast, _pluginName, "");
+				return FormatMessage(ExecuteSuccessMessage, _actionPast, _pluginName);
 			}
-			catch (Exception ex)
+			catch (Exception ex) //TODO: Catch specific exception
 			{
 				return FormatMessage(ExecuteFailureMessage, _actionPast, _pluginName, ex.Message);
 			}
