@@ -1629,37 +1629,27 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override bool EnablePlugin(Guid pluginId)
+		/// <summary>
+		/// Enable a plugin for the current blog
+		/// </summary>
+		/// <param name="pluginId">The Guid of the plugin to enable</param>
+		public override void EnablePlugin(Guid pluginId)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
-				BlogIdParam
-			};
-			return NonQueryBool("subtext_InsertPluginBlog", p);
+			StoredProcedures.InsertPluginBlog(pluginId, BlogId).Execute();
 		}
 
-		public override bool DisablePlugin(Guid pluginId)
+		/// <summary>
+		/// Disable a plugin for the current blog
+		/// </summary>
+		/// <param name="pluginId">The Guid of the plugin to disable</param>
+		public override void DisablePlugin(Guid pluginId)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
-				BlogIdParam
-			};
-			return NonQueryBool("subtext_DeletePluginBlog", p);
+			StoredProcedures.DeletePluginBlog(pluginId, BlogId).Execute();
 		}
 
 		public override NameValueCollection GetPluginBlogSettings(Guid pluginId)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
-				DataHelper.MakeInParam("@EntryID",SqlDbType.Int,4,DBNull.Value),
-				BlogIdParam
-			};
-
-			IDataReader reader = GetReader("subtext_GetPluginData", p);
-			try
+			using(IDataReader reader = StoredProcedures.GetPluginData(pluginId, BlogId, null).GetReader())
 			{
 				NameValueCollection dict = new NameValueCollection();
 				while (reader.Read())
@@ -1667,10 +1657,6 @@ namespace Subtext.Framework.Data
 					dict.Add(DataHelper.LoadPluginSettings(reader));
 				}
 				return dict;
-			}
-			finally
-			{
-				reader.Close();
 			}
 		}
 

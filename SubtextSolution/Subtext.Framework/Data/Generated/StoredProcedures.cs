@@ -214,7 +214,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_GetPluginData Procedure
         /// </summary>
-        public static StoredProcedure GetPluginData(Guid PluginID, int BlogId, int EntryId){
+        public static StoredProcedure GetPluginData(Guid PluginID, int BlogId, int? EntryId){
             StoredProcedure sp = new StoredProcedure("subtext_GetPluginData" , provider);
             sp.Command.AddParameter("@PluginID", PluginID,DbType.Guid);
             sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);

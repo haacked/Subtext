@@ -603,14 +603,14 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="pluginId">The Guid of the plugin to enable</param>
 		/// <returns>True if the operation completed correctly, false otherwise</returns>
-		public abstract bool EnablePlugin(Guid pluginId);
+		public abstract void EnablePlugin(Guid pluginId);
 
 		/// <summary>
 		/// Disable a plugin for the current blog
 		/// </summary>
 		/// <param name="pluginId">The Guid of the plugin to disable</param>
 		/// <returns>True if the operation completed correctly, false otherwise</returns>
-		public abstract bool DisablePlugin(Guid pluginId);
+		public abstract void DisablePlugin(Guid pluginId);
 
 		/// <summary>
 		/// Returns a list of all the blog level settings defined for a plugin
