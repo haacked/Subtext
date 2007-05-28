@@ -171,66 +171,6 @@ namespace Subtext.Framework
 		{
 			return ObjectProvider.Instance().TrackEntry(evc);
 		}
-
-		/// <summary>
-		/// Performs the notification, wether it be a pingback or trackback.
-		/// </summary>
-		/// <param name="entry">Entry.</param>
-		public static void Notify(Entry entry)
-		{
-            if (entry == null)
-                throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
-
-			StringCollection links = HtmlHelper.GetLinks(entry.Body);
-
-			if(links != null && links.Count > 0)
-			{
-				int count = links.Count;
-
-				string description;
-				string blogname = Config.CurrentBlog.Title;
-				if(entry.HasDescription)
-				{
-					description = entry.Description;
-				}
-				else
-				{
-					description = entry.Title;	
-				}
-
-				PingBackNotificatinProxy pbnp = new PingBackNotificatinProxy();
-				
-				for(int i = 0; i < count; i++)
-				{
-					try
-					{
-						string link = links[i];
-						Uri url = HtmlHelper.ParseUri(link);
-                        if (url == null)
-                        {
-                            continue;
-                        }
-						
-						string pageText = HttpHelper.GetPageText(url);
-						
-						if(pageText != null)
-						{
-							pbnp.Ping(pageText, entry.FullyQualifiedUrl, url);
-                            TrackBackNotificationProxy.TrackBackPing(pageText, url, entry.Title, entry.FullyQualifiedUrl, blogname, description);
-						}
-					}
-					catch(Exception e)
-					{
-						//TODO: We should only catch exceptions we expect...
-						//		for the rest, let them propagate...
-						//		This one occurs on a separate thread, so it may make sense
-						//		to completely eat it.
-						Log.Warn("Error occurred while performing a pingback or trackback.", e);
-						//Do nothing, just eat it :(
-					}
-				}
-			}
-		}
 	}
 }
 
