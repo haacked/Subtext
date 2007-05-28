@@ -32,7 +32,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static ICollection<ArchiveCount> GetPostsByMonthArchive()
 		{
-			return ObjectProvider.Instance().GetPostsByMonthArchive();
+			return ObjectProvider.Instance().GetPostsGroupedByMonth();
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static ICollection<ArchiveCount> GetPostsByYearArchive()
 		{
-			return ObjectProvider.Instance().GetPostsByYearArchive();
+			return ObjectProvider.Instance().GetPostsGroupedByYear();
 		}
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static ICollection<ArchiveCount> GetPostsByCategoryArchive()
 		{
-			return ObjectProvider.Instance().GetPostsByCategoryArchive();
+			return ObjectProvider.Instance().GetPostsGroupedByCategory();
 		}
 	}
 }

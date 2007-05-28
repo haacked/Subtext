@@ -21,15 +21,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Web.Security;
-using log4net;
-using Microsoft.ApplicationBlocks.Data;
 using SubSonic;
 using Subtext.Data;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
@@ -38,20 +35,12 @@ using Subtext.Framework.Properties;
 namespace Subtext.Framework.Data
 {
 	/// <summary>
-	/// Concrete implementation of <see cref="ObjectProvider"/>. This 
+	/// Concrete implementation of <see cref="ObjectProvider"/>. This
 	/// provides objects persisted to a SQL Server database.
 	/// </summary>
 	public class DatabaseObjectProvider : ObjectProvider
 	{
-		private readonly static ILog log = new Log();
-
-		private static SqlParameter BlogIdParam
-		{
-			get
-			{
-				return DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(BlogId));
-			}
-		}
+		
 
 		private static int BlogId
 		{
@@ -193,34 +182,24 @@ namespace Subtext.Framework.Data
 		/// This is used in the admin section.
 		/// </summary>
 		/// <param name="postType">Type of the post.</param>
-		/// <param name="categoryID">The category ID.</param>
+		/// <param name="categoryId">The category ID.</param>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <returns></returns>
-		public override IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize)
+		public override IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryId, int pageIndex, int pageSize)
+		{	
+			StoredProcedure proc;
+			if (categoryId > 0)
+				proc = StoredProcedures.GetPageableEntriesByCategoryID(BlogId, categoryId, pageIndex, pageSize, (int)postType);
+			else
+				proc = StoredProcedures.GetPageableEntries(BlogId, pageIndex, pageSize, (int) postType);
+
+			return GetPagedEntries(proc);
+		}
+
+		private static IPagedCollection<Entry> GetPagedEntries(StoredProcedure proc)
 		{
-			// default setup is for unfiltered pageable results
-			bool useCategoryID = categoryID > 0;
-
-			string sql = useCategoryID ? "subtext_GetPageableEntriesByCategoryID" : "subtext_GetPageableEntries";
-
-			SqlConnection conn = new SqlConnection(ConnectionString);
-			SqlCommand command = new SqlCommand(sql, conn);
-			command.CommandType = CommandType.StoredProcedure;
-
-			command.Parameters.Add(DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex));
-			command.Parameters.Add(DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize));
-			command.Parameters.Add(DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, postType));
-			command.Parameters.Add(BlogIdParam);
-
-			if (useCategoryID)
-			{
-				command.Parameters.Add(DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, DataHelper.CheckNull(categoryID)));
-			}
-			conn.Open();
-
-			IDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
-			try
+			using(IDataReader reader = proc.GetReader())
 			{
 				PagedCollection<Entry> pec = new PagedCollection<Entry>();
 				while (reader.Read())
@@ -230,11 +209,6 @@ namespace Subtext.Framework.Data
 				reader.NextResult();
 				pec.MaxItems = DataHelper.GetMaxItems(reader);
 				return pec;
-
-			}
-			finally
-			{
-				reader.Close();
 			}
 		}
 
@@ -293,47 +267,29 @@ namespace Subtext.Framework.Data
 		/// Returns blog posts that meet the criteria specified in the <see cref="PostConfig"/> flags.
 		/// </summary>
 		/// <param name="itemCount">Item count.</param>
-		/// <param name="pc">Pc.</param>
+		/// <param name="postConfiguration">Pc.</param>
 		/// <returns></returns>
-		public override ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc)
+		public override ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig postConfiguration)
 		{
-			IDataReader reader = GetConditionalEntriesData(itemCount, PostType.BlogPost, pc, false);
-			try
+			using(IDataReader reader = StoredProcedures.GetConditionalEntries(itemCount, (int)PostType.BlogPost, (int)postConfiguration, BlogId, false).GetReader())
 			{
 				ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader, true);
 				return edc;
-			}
-			finally
-			{
-				reader.Close();
 			}
 		}
 
-		public override ICollection<EntryDay> GetPostsByMonth(int month, int year)
+		/// <summary>
+		/// Gets the posts by category ID.
+		/// </summary>
+		/// <param name="itemCount">The item count.</param>
+		/// <param name="categoryId">The cat ID.</param>
+		/// <returns></returns>
+		public override ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int categoryId)
 		{
-			IDataReader reader = GetPostDataByMonth(month, year);
-			try
+			using (IDataReader reader = StoredProcedures.GetPostsByCategoryID(itemCount, DataHelper.CheckNull(categoryId), true, BlogId).GetReader())
 			{
 				ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader, true);
 				return edc;
-			}
-			finally
-			{
-				reader.Close();
-			}
-		}
-
-		public override ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID)
-		{
-			IDataReader reader = GetEntriesDataByCategory(itemCount, catID, true);
-			try
-			{
-				ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader, true);
-				return edc;
-			}
-			finally
-			{
-				reader.Close();
 			}
 		}
 
@@ -349,14 +305,7 @@ namespace Subtext.Framework.Data
 		/// <param name="postType"></param>
 		public override IList<Entry> GetPreviousAndNextEntries(int entryId, PostType postType)
 		{
-			SqlParameter[] p =
-					{
-						DataHelper.MakeInParam("@ID", SqlDbType.Int, 4, entryId),
-						BlogIdParam
-					};
-
-			using (IDataReader reader =
-				SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, "Subtext_GetEntry_PreviousNext", p))
+			using (IDataReader reader = StoredProcedures.GetEntryPreviousNext(entryId, (int)postType, BlogId).GetReader())
 			{
 				return DataHelper.LoadEntryCollectionFromDataReader(reader);
 			}
@@ -371,12 +320,12 @@ namespace Subtext.Framework.Data
 		/// </remarks>
 		/// <param name="itemCount">Item count.</param>
 		/// <param name="postType">The type of post to retrieve.</param>
-		/// <param name="postConfig">Post configuration options.</param>
+		/// <param name="postConfiguration">Post configuration options.</param>
 		/// <param name="includeCategories">Whether or not to include categories</param>
 		/// <returns></returns>
-		public override IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories)
+		public override IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfiguration, bool includeCategories)
 		{
-			using (IDataReader reader = GetConditionalEntriesData(itemCount, postType, postConfig, includeCategories))
+			using (IDataReader reader = StoredProcedures.GetConditionalEntries(itemCount, (int)postType, (int)postConfiguration, BlogId, includeCategories).GetReader())
 			{
 				return DataHelper.LoadEntryCollectionFromDataReader(reader);
 			}
@@ -441,7 +390,7 @@ namespace Subtext.Framework.Data
 
 		public override IList<Entry> GetPostCollectionByMonth(int month, int year)
 		{
-			using (IDataReader reader = GetPostDataByMonth(month, year))
+			using (IDataReader reader = StoredProcedures.GetPostsByMonth(month, year, BlogId).GetReader())
 			{
 				return DataHelper.LoadEntryCollectionFromDataReader(reader);
 			}
@@ -601,30 +550,28 @@ namespace Subtext.Framework.Data
 			if (feedbackItem.SourceUrl != null)
 				sourceUrl = feedbackItem.SourceUrl.ToString();
 
-			SqlParameter outParam = DataHelper.MakeOutParam("@Id", SqlDbType.Int, 4);
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 256, feedbackItem.Title), 
-				DataHelper.MakeInParam("@Body", DataHelper.CheckNull(feedbackItem.Body)), 
-				DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(feedbackItem.EntryId)),
-				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 64, DataHelper.CheckNull(feedbackItem.Author)), 
-				DataHelper.MakeInParam("@IsBlogAuthor", SqlDbType.Bit, 1, feedbackItem.IsBlogAuthor),
-				DataHelper.MakeInParam("@Email", SqlDbType.VarChar, 128, DataHelper.CheckNull(feedbackItem.Email)), 
-				DataHelper.MakeInParam("@Url", SqlDbType.VarChar, 256, sourceUrl), 
-				DataHelper.MakeInParam("@FeedbackType", SqlDbType.Int, 4, (int)feedbackItem.FeedbackType),
-				DataHelper.MakeInParam("@StatusFlag", SqlDbType.Int, 4, (int)feedbackItem.Status),
-				DataHelper.MakeInParam("@CommentAPI", SqlDbType.Bit, 1, feedbackItem.CreatedViaCommentAPI),
-				DataHelper.MakeInParam("@Referrer", SqlDbType.NVarChar, 256, feedbackItem.Referrer), 
-				DataHelper.MakeInParam("@IpAddress", SqlDbType.VarChar, 16, ipAddress),
-				DataHelper.MakeInParam("@UserAgent", SqlDbType.NVarChar, 128, feedbackItem.UserAgent), 
-				DataHelper.MakeInParam("@FeedbackChecksumHash", SqlDbType.VarChar, 32, feedbackItem.ChecksumHash), 
-				DataHelper.MakeInParam("@DateCreated", SqlDbType.DateTime, 8, Config.CurrentBlog.TimeZone.Now),
-				BlogIdParam,
-				outParam
-			};
+			StoredProcedure proc = StoredProcedures.InsertFeedback(feedbackItem.Title
+											, DataHelper.CheckNull(feedbackItem.Body)
+			                                , BlogId
+											, DataHelper.CheckNull(feedbackItem.EntryId)
+											, DataHelper.CheckNull(feedbackItem.Author)
+			                                , feedbackItem.IsBlogAuthor
+											, DataHelper.CheckNull(feedbackItem.Email)
+			                                , sourceUrl
+			                                , (int) feedbackItem.FeedbackType
+			                                , (int) feedbackItem.Status
+			                                , feedbackItem.CreatedViaCommentAPI
+			                                , feedbackItem.Referrer
+											, ipAddress
+			                                , feedbackItem.UserAgent
+			                                , feedbackItem.ChecksumHash
+			                                , feedbackItem.DateCreated
+			                                , feedbackItem.DateModified
+			                                , 0);
 
-			NonQueryInt("subtext_InsertFeedback", p);
-			return (int)outParam.Value;
+			proc.Execute();
+			return (int) proc.OutputValues[0];
+
 		}
 
 		#region Create Entry
@@ -672,29 +619,22 @@ namespace Subtext.Framework.Data
 			if (entry == null)
 				throw new ArgumentNullException("link", Resources.ArgumentNull_Generic);
 
-			SqlParameter outIdParam = DataHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
-
 			MembershipUser author = Membership.GetUser();
 			Guid authorId = (Guid)(author ?? Config.CurrentBlog.Owner).ProviderUserKey;
 
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
-				//TODO: Maybe the author should be set as a property of Entry.
-				DataHelper.MakeInParam("@AuthorId", SqlDbType.UniqueIdentifier, 16, authorId),
-				DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
-				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
-				DataHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
-				DataHelper.MakeInParam("@DateAdded", SqlDbType.DateTime, 8, entry.DateCreated), 
-				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
-				DataHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, StringHelper.ReturnNullForEmpty(entry.EntryName)), 
-				DataHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, DataHelper.CheckNull(entry.DateSyndicated)), 
-				BlogIdParam,
-				outIdParam
-			};
-
-			NonQueryInt("subtext_InsertEntry", p);
-			return (int)outIdParam.Value;
+			StoredProcedure proc = StoredProcedures.InsertEntry(entry.Title
+			                             , authorId
+			                             , entry.Body
+			                             , (int)entry.PostType
+			                             , DataHelper.CheckNull(entry.Description)
+			                             , BlogId
+			                             , entry.DateCreated
+			                             , (int) entry.PostConfig
+			                             , StringHelper.ReturnNullForEmpty(entry.EntryName)
+										 , DataHelper.CheckNull(entry.DateSyndicated)
+			                             , 0);
+			proc.Execute();
+			return (int) proc.OutputValues[0];
 		}
 		#endregion
 
@@ -840,28 +780,24 @@ namespace Subtext.Framework.Data
 
 		#region Paged Links
 
-		public override IPagedCollection<Link> GetPagedLinks(int categoryTypeId, int pageIndex, int pageSize, bool sortDescending)
+		/// <summary>
+		/// Gets the paged links.
+		/// </summary>
+		/// <param name="categoryId">The category type id.</param>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDescending">if set to <c>true</c> [sort descending].</param>
+		/// <returns></returns>
+		public override IPagedCollection<Link> GetPagedLinks(int categoryId, int pageIndex, int pageSize, bool sortDescending)
 		{
-			bool useCategory = categoryTypeId > -1;
-			string sql = "subtext_GetPageableLinks";
+			int? categoryFilter = categoryId;
 
-			SqlConnection conn = new SqlConnection(ConnectionString);
-			SqlCommand command = new SqlCommand(sql, conn);
-			command.CommandType = CommandType.StoredProcedure;
-
-			command.Parameters.Add(DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex));
-			command.Parameters.Add(DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize));
-			command.Parameters.Add(BlogIdParam);
-
-			if (useCategory)
+			if (categoryId > -1)
 			{
-				command.Parameters.Add(DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, DataHelper.CheckNull(categoryTypeId)));
+				categoryFilter = null;
 			}
 
-			conn.Open();
-
-			IDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
-			try
+			using(IDataReader reader = StoredProcedures.GetPageableLinks(BlogId, categoryFilter, pageIndex, pageSize).GetReader())
 			{
 				IPagedCollection<Link> plc = new PagedCollection<Link>();
 				while (reader.Read())
@@ -872,11 +808,6 @@ namespace Subtext.Framework.Data
 				plc.MaxItems = DataHelper.GetMaxItems(reader);
 				return plc;
 			}
-			finally
-			{
-				reader.Close();
-			}
-
 		}
 
 		#endregion
@@ -1410,27 +1341,28 @@ namespace Subtext.Framework.Data
 
 		}
 
+		/// <summary>
+		/// Inserts the keyword.
+		/// </summary>
+		/// <param name="keyWord">The key word.</param>
+		/// <returns></returns>
 		public override int InsertKeyword(KeyWord keyWord)
 		{
 			if (keyWord == null)
 				throw new ArgumentNullException("keyword", Resources.ArgumentNull_Generic);
 
-			SqlParameter outParam = DataHelper.MakeOutParam("@KeyWordID", SqlDbType.Int, 4);
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@Word", SqlDbType.NVarChar, 100, keyWord.Word)
-				,DataHelper.MakeInParam("@Rel", SqlDbType.NVarChar, 100, keyWord.Rel)
-				,DataHelper.MakeInParam("@Text", SqlDbType.NVarChar, 100, keyWord.Text)
-				,DataHelper.MakeInParam("@ReplaceFirstTimeOnly", SqlDbType.Bit, 1, keyWord.ReplaceFirstTimeOnly)
-				,DataHelper.MakeInParam("@OpenInNewWindow", SqlDbType.Bit, 1, keyWord.OpenInNewWindow)
-				,DataHelper.MakeInParam("@CaseSensitive", SqlDbType.Bit, 1, keyWord.CaseSensitive)
-				,DataHelper.MakeInParam("@Url", SqlDbType.NVarChar, 255, keyWord.Url)
-				,DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 100, keyWord.Title)
-				,BlogIdParam
-				,outParam
-			};
-			NonQueryInt("subtext_InsertKeyWord", p);
-			return (int)outParam.Value;
+			StoredProcedure proc = StoredProcedures.InsertKeyWord(keyWord.Word
+			                               , keyWord.Rel
+			                               , keyWord.Text
+			                               , keyWord.ReplaceFirstTimeOnly
+			                               , keyWord.OpenInNewWindow
+			                               , keyWord.CaseSensitive
+			                               , keyWord.Url
+			                               , keyWord.Title
+			                               , BlogId
+			                               , 0);
+			proc.Execute();
+			return (int) proc.OutputValues[0];
 		}
 
 		/// <summary>
@@ -1446,17 +1378,15 @@ namespace Subtext.Framework.Data
 
 		#region Images
 
-		public override ImageCollection GetImagesByCategoryID(int catID, bool activeOnly)
+		/// <summary>
+		/// Gets the images by category ID.
+		/// </summary>
+		/// <param name="categoryId">The cat ID.</param>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
+		public override ImageCollection GetImagesByCategoryID(int categoryId, bool activeOnly)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int, 4, DataHelper.CheckNull(catID)),
-				DataHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
-				BlogIdParam
-			};
-
-			IDataReader reader = GetReader("subtext_GetImageCategory", p);
-			try
+			using (IDataReader reader = StoredProcedures.GetImageCategory(DataHelper.CheckNull(categoryId), activeOnly, BlogId).GetReader())
 			{
 				ImageCollection ic = new ImageCollection();
 				while (reader.Read())
@@ -1471,23 +1401,17 @@ namespace Subtext.Framework.Data
 				}
 				return ic;
 			}
-			finally
-			{
-				reader.Close();
-			}
 		}
 
-		public override Image GetImage(int imageID, bool activeOnly)
+		/// <summary>
+		/// Gets the image.
+		/// </summary>
+		/// <param name="imageId">The image ID.</param>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
+		public override Image GetImage(int imageId, bool activeOnly)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@ImageID",SqlDbType.Int,4,imageID),
-				DataHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
-				BlogIdParam
-			};
-
-			IDataReader reader = GetReader("subtext_GetSingleImage", p);
-			try
+			using(IDataReader reader = StoredProcedures.GetSingleImage(imageId, activeOnly, BlogId).GetReader())
 			{
 				Image image = null;
 				while (reader.Read())
@@ -1495,10 +1419,6 @@ namespace Subtext.Framework.Data
 					image = DataHelper.LoadImage(reader);
 				}
 				return image;
-			}
-			finally
-			{
-				reader.Close();
 			}
 		}
 
@@ -1552,69 +1472,18 @@ namespace Subtext.Framework.Data
 
 		#endregion
 
-		#region Archives
-
-		public override ICollection<ArchiveCount> GetPostsByMonthArchive()
-		{
-			SqlParameter[] p = { BlogIdParam };
-
-			IDataReader reader = GetReader("subtext_GetPostsByMonthArchive", p);
-			try
-			{
-				ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
-				return acc;
-			}
-			finally
-			{
-				reader.Close();
-			}
-		}
-
-		public override ICollection<ArchiveCount> GetPostsByYearArchive()
-		{
-			SqlParameter[] p = { BlogIdParam };
-
-			IDataReader reader = GetReader("subtext_GetPostsByYearArchive", p);
-			try
-			{
-				ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
-				return acc;
-			}
-			finally
-			{
-				reader.Close();
-			}
-		}
-
-		public override ICollection<ArchiveCount> GetPostsByCategoryArchive()
-		{
-			SqlParameter[] p = { BlogIdParam };
-
-			IDataReader reader = GetReader("subtext_GetPostsByCategoriesArchive", p);
-			try
-			{
-				ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
-				return acc;
-			}
-			finally
-			{
-				reader.Close();
-			}
-		}
-
-		#endregion
-
 		#region Plugins
 
+		/// <summary>
+		/// Returns the Guids of all plugins enabled for the current blog
+		/// </summary>
+		/// <returns>A list of Guids</returns>
 		public override ICollection<Guid> GetEnabledPlugins()
 		{
-			if (BlogIdParam.Value == null)
+			if (BlogId == NullValue.NullInt32)
 				return new List<Guid>();
 
-			SqlParameter[] p = { BlogIdParam };
-
-			IDataReader reader = GetReader("subtext_GetPluginBlog", p);
-			try
+			using(IDataReader reader = StoredProcedures.GetPluginBlog(BlogId).GetReader())
 			{
 				List<Guid> plc = new List<Guid>();
 				while (reader.Read())
@@ -1622,10 +1491,6 @@ namespace Subtext.Framework.Data
 					plc.Add(reader.GetGuid(reader.GetOrdinal("PluginId")));
 				}
 				return plc;
-			}
-			finally
-			{
-				reader.Close();
 			}
 		}
 
@@ -1647,9 +1512,19 @@ namespace Subtext.Framework.Data
 			StoredProcedures.DeletePluginBlog(pluginId, BlogId).Execute();
 		}
 
+		/// <summary>
+		/// Returns a list of all the blog level settings defined for a plugin
+		/// </summary>
+		/// <param name="pluginId">The Guid of the plugin</param>
+		/// <returns>A strongly typed HashTable with settings</returns>
 		public override NameValueCollection GetPluginBlogSettings(Guid pluginId)
 		{
-			using(IDataReader reader = StoredProcedures.GetPluginData(pluginId, BlogId, null).GetReader())
+			return GetPluginSettings(pluginId, null);
+		}
+
+		private static NameValueCollection GetPluginSettings(Guid pluginId, int? entryId)
+		{
+			using (IDataReader reader = StoredProcedures.GetPluginData(pluginId, BlogId, entryId).GetReader())
 			{
 				NameValueCollection dict = new NameValueCollection();
 				while (reader.Read())
@@ -1660,82 +1535,66 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override bool InsertPluginBlogSettings(Guid pluginId, string key, string value)
+		/// <summary>
+		/// Add a new blog level settings for the plugin
+		/// </summary>
+		/// <param name="pluginId">The Guid of the plugin</param>
+		/// <param name="key">Key identifying the setting</param>
+		/// <param name="value">Value of the setting</param>
+		/// <returns>
+		/// True if the operation completed correctly, false otherwise
+		/// </returns>
+		public override void InsertPluginBlogSettings(Guid pluginId, string key, string value)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
-				DataHelper.MakeInParam("@EntryID",SqlDbType.Int,4,DBNull.Value),
-				DataHelper.MakeInParam("@Key",SqlDbType.NVarChar,256,key),
-				DataHelper.MakeInParam("@Value",SqlDbType.NText,0,value),
-				BlogIdParam
-			};
-			return NonQueryBool("subtext_InsertPluginData", p);
+			StoredProcedures.InsertPluginData(pluginId, BlogId, null, key, value).Execute();
 		}
 
-		public override bool UpdatePluginBlogSettings(Guid pluginId, string key, string value)
+		/// <summary>
+		/// Update a blog level settings for the plugin
+		/// </summary>
+		/// <param name="pluginId">The Guid of the plugin</param>
+		/// <param name="key">Key identifying the setting</param>
+		/// <param name="value">New value of the setting</param>
+		public override void UpdatePluginBlogSettings(Guid pluginId, string key, string value)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
-				DataHelper.MakeInParam("@EntryID",SqlDbType.Int,4,DBNull.Value),
-				DataHelper.MakeInParam("@Key",SqlDbType.NVarChar,256,key),
-				DataHelper.MakeInParam("@Value",SqlDbType.NText,0,value),
-				BlogIdParam
-			};
-			return NonQueryBool("subtext_UpdatePluginData", p);
+			StoredProcedures.UpdatePluginData(pluginId, BlogId, null, key, value).Execute();
 		}
 
-
+		/// <summary>
+		/// Retrieves plugin settings for a specified entry from the storage
+		/// </summary>
+		/// <param name="pluginId">GUID of the plugin</param>
+		/// <param name="entryId">Id of the blog entry</param>
+		/// <returns>
+		/// A NameValueCollection with all the settings
+		/// </returns>
         public override NameValueCollection GetPluginEntrySettings(Guid pluginId, int entryId)
         {
-            SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
-				DataHelper.MakeInParam("@EntryID",SqlDbType.Int,4,entryId),
-				BlogIdParam
-			};
-
-            IDataReader reader = GetReader("subtext_GetPluginData", p);
-            try
-            {
-                NameValueCollection dict = new NameValueCollection();
-                while (reader.Read())
-                {
-                    dict.Add(DataHelper.LoadPluginSettings(reader));
-                }
-                return dict;
-            }
-            finally
-            {
-                reader.Close();
-            }
+            return GetPluginSettings(pluginId, entryId);
         }
 
-        public override bool InsertPluginEntrySettings(Guid pluginId, int entryId, string key, string value)
+		/// <summary>
+		/// Inserts a new value in the plugin settings list for a specified entry
+		/// </summary>
+		/// <param name="pluginId">GUID of the plugin</param>
+		/// <param name="entryId">Id of the blog entry</param>
+		/// <param name="key">Setting name</param>
+		/// <param name="value">Setting value</param>
+        public override void InsertPluginEntrySettings(Guid pluginId, int entryId, string key, string value)
         {
-            SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
-				DataHelper.MakeInParam("@EntryID",SqlDbType.Int,4,entryId),
-				DataHelper.MakeInParam("@Key",SqlDbType.NVarChar,256,key),
-				DataHelper.MakeInParam("@Value",SqlDbType.NText,0,value),
-				BlogIdParam
-			};
-            return NonQueryBool("subtext_InsertPluginData", p);
+			StoredProcedures.InsertPluginData(pluginId, BlogId, entryId, key, value).Execute();
         }
 
-        public override bool UpdatePluginEntrySettings(Guid pluginId, int entryId, string key, string value)
+		/// <summary>
+		/// Updates a plugin setting for a specified entry
+		/// </summary>
+		/// <param name="pluginId">The Guid of the plugin</param>
+		/// <param name="entryId">Id of the blog entry</param>
+		/// <param name="key">Key identifying the setting</param>
+		/// <param name="value">New value of the setting</param>
+        public override void UpdatePluginEntrySettings(Guid pluginId, int entryId, string key, string value)
         {
-            SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
-				DataHelper.MakeInParam("@EntryID",SqlDbType.Int,4,entryId),
-				DataHelper.MakeInParam("@Key",SqlDbType.NVarChar,256,key),
-				DataHelper.MakeInParam("@Value",SqlDbType.NText,0,value),
-				BlogIdParam
-			};
-            return NonQueryBool("subtext_UpdatePluginData", p);
+			StoredProcedures.UpdatePluginData(pluginId, BlogId, entryId, key, value).Execute();
         }
 
 
@@ -1751,13 +1610,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override IDataReader GetPagedLogEntries(int pageIndex, int pageSize)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
-				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize),
-				BlogIdParam
-			};
-			return GetReader("subtext_GetPageableLogEntries", p);
+			return StoredProcedures.GetPageableLogEntries(BlogId, pageIndex, pageSize).GetReader();
 		}
 
 		/// <summary>
@@ -1765,11 +1618,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		public override void ClearLog()
 		{
-			SqlParameter[] p =
-			{
-				BlogIdParam
-			};
-			NonQueryInt("subtext_LogClear", p);
+			StoredProcedures.LogClear(BlogId).Execute();
 		}
 
 		/// <summary>
@@ -1780,130 +1629,80 @@ namespace Subtext.Framework.Data
 		/// TRUE - At least one unit of content was cleared.
 		/// FALSE - No content was cleared.
 		/// </returns>
-		public override bool ClearBlogContent()
+		public override void ClearBlogContent()
 		{
-			SqlParameter[] p = { BlogIdParam };
-			return NonQueryBool("subtext_ClearBlogContent", p);
+			StoredProcedures.ClearBlogContent(BlogId).Execute();
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Gets the posts by month archive.
+		/// </summary>
+		/// <returns></returns>
+		public override ICollection<ArchiveCount> GetPostsGroupedByMonth()
+		{
+			//TODO: We ought to be able to do this with a single proc and a clever parameter.
+			//		Either a bitmask or a date param that is the prototype for  the records to return.
+			using (IDataReader reader = StoredProcedures.GetPostsByMonthArchive(BlogId).GetReader())
+			{
+				ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
+				return acc;
+			}
+		}
+
+		/// <summary>
+		/// Gets the posts by year archive.
+		/// </summary>
+		/// <returns></returns>
+		public override ICollection<ArchiveCount> GetPostsGroupedByYear()
+		{
+			using (IDataReader reader = StoredProcedures.GetPostsByYearArchive(BlogId).GetReader())
+			{
+				ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
+				return acc;
+			}
+		}
+
+		/// <summary>
+		/// Gets the posts by category archive.
+		/// </summary>
+		/// <returns></returns>
+		public override ICollection<ArchiveCount> GetPostsGroupedByCategory()
+		{
+			using (IDataReader reader = StoredProcedures.GetPostsByCategoriesArchive(BlogId).GetReader())
+			{
+				ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
+				return acc;
+			}
+		}
 
 		#region Aggregate Data
 
+		/// <summary>
+		/// Returns data displayed on an aggregate blog's home page.
+		/// </summary>
+		/// <param name="groupId"></param>
+		/// <returns></returns>
 		public override DataSet GetAggregateHomePageData(int groupId)
 		{
-			string sql = "DNW_HomePageData";
-			SqlParameter[] p = 
-				{
-					DataHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, ConfigurationManager.AppSettings["AggregateHost"]),
-					DataHelper.MakeInParam("@GroupID", SqlDbType.Int, 4, groupId)
-				};
-
-			return SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, sql, p);
+			//TODO: Do not pull the aggregate host setting directly from appsettings. This should come from some other class. Maybe a HostSettings or HostInfo.Current.
+			return StoredProcedures.DNWHomePageData(ConfigurationManager.AppSettings["AggregateHost"], groupId).GetDataSet();
 		}
-
-		public override DataTable GetAggregateRecentPosts(int groupId)
-		{
-			string sql = "DNW_GetRecentPosts";
-			string conn = ConnectionString;
-
-			SqlParameter[] p = 
-				{
-					DataHelper.MakeInParam("@Host", SqlDbType.NVarChar,100, ConfigurationManager.AppSettings["AggregateHost"]),
-					DataHelper.MakeInParam("@GroupID", SqlDbType.Int, 4, groupId)
-				};
-
-			return DataHelper.ExecuteDataTable(conn, CommandType.StoredProcedure, sql, p);
-		}
-
-		#endregion
-
-		#region Get Blog Data
 
 		/// <summary>
-		/// Returns the specified number of blog entries
+		/// Gets the aggregate recent posts.
 		/// </summary>
-		/// <param name="itemCount"></param>
-		/// <param name="postType"></param>
-		/// <param name="postConfiguration"></param>
-		/// <param name="includeCategories">Whether or not to include categories</param>
+		/// <param name="groupId">The group id.</param>
 		/// <returns></returns>
-		private IDataReader GetConditionalEntriesData(int itemCount, PostType postType, PostConfig postConfiguration, bool includeCategories)
+		public override DataTable GetAggregateRecentPosts(int groupId)
 		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4,itemCount),
-				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, postType),
-				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, postConfiguration),
-				DataHelper.MakeInParam("@IncludeCategories", SqlDbType.Bit, 0, includeCategories),
-				BlogIdParam				
-			};
-
-			return GetReader("subtext_GetConditionalEntries", p);
-		}
-
-		//Should power both EntryCollection and EntryDayCollection
-		private IDataReader GetPostDataByMonth(int month, int year)
-		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@Month",SqlDbType.Int,4,month),
-				DataHelper.MakeInParam("@Year",SqlDbType.Int,4,year),
-				BlogIdParam};
-			return GetReader("subtext_GetPostsByMonth", p);
-		}
-
-		private IDataReader GetEntriesDataByCategory(int itemCount, int catID, bool activeOnly)
-		{
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, itemCount),
-				DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, DataHelper.CheckNull(catID)),
-				DataHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
-				BlogIdParam
-			};
-			return GetReader("subtext_GetPostsByCategoryID", p);
-
-		}
-
-		#endregion
-
-		#region Helpers
-
-		private IDataReader GetReader(string sql, SqlParameter[] parameters)
-		{
-			LogSql(sql, parameters);
-			return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql, parameters);
-		}
-
-		private int NonQueryInt(string sql, SqlParameter[] parameters)
-		{
-			LogSql(sql, parameters);
-			return SqlHelper.ExecuteNonQuery(ConnectionString, CommandType.StoredProcedure, sql, parameters);
-		}
-
-		private bool NonQueryBool(string sql, SqlParameter[] parameters)
-		{
-			LogSql(sql, parameters);
-			return NonQueryInt(sql, parameters) > 0;
-		}
-
-		static void LogSql(string sql, SqlParameter[] parameters)
-		{
-#if DEBUG
-			if (parameters == null)
-			{
-				log.Debug("SQL: " + sql);
-				return;
-			}
-
-			string query = sql + StringHelper.Join(", ", parameters, delegate(SqlParameter item)
-			{
-				return item.ParameterName + "=" + item.Value;
-			});
-
-			log.Debug("SQL: " + query);
-#endif
+			//TODO: Do not pull the aggregate host setting directly from appsettings. This should come from some other class. Maybe a HostSettings or HostInfo.Current.
+			DataSet ds = StoredProcedures.DNWGetRecentPosts(ConfigurationManager.AppSettings["AggregateHost"], groupId).GetDataSet();
+			if (ds != null && ds.Tables.Count > 0)
+				return ds.Tables[0];
+			
+			return null;
 		}
 
 		#endregion

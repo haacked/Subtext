@@ -127,11 +127,11 @@ namespace Subtext.Framework.Providers
 		/// This is used in the admin section.
 		/// </summary>
 		/// <param name="postType">Type of the post.</param>
-		/// <param name="categoryID">The category ID.</param>
+		/// <param name="categoryId">The category ID.</param>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <returns></returns>
-		public abstract IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize);
+		public abstract IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryId, int pageIndex, int pageSize);
 
 		/// <summary>
 		/// Gets the paged feedback.
@@ -148,18 +148,28 @@ namespace Subtext.Framework.Providers
 
 		#region EntryDays
 
+		/// <summary>
+		/// Gets the entry day.
+		/// </summary>
+		/// <param name="date">The date.</param>
+		/// <returns></returns>
 		public abstract EntryDay GetEntryDay(DateTime date);
-		public abstract ICollection<EntryDay> GetPostsByMonth(int month, int year);
-		public abstract ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
+		/// <summary>
+		/// Gets the posts by category ID.
+		/// </summary>
+		/// <param name="itemCount">The item count.</param>
+		/// <param name="categoryId">The cat ID.</param>
+		/// <returns></returns>
+		public abstract ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int categoryId);
 
 		/// <summary>
 		/// Gets entries within the system that meet the 
 		/// <see cref="PostConfig"/> flags.
 		/// </summary>
 		/// <param name="itemCount">Item count.</param>
-		/// <param name="pc">Pc.</param>
+		/// <param name="postConfiguration">Pc.</param>
 		/// <returns></returns>
-		public abstract ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc);
+		public abstract ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig postConfiguration);
 
 		#endregion
 
@@ -178,10 +188,10 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="itemCount">Item count.</param>
 		/// <param name="postType">The type of entry to return.</param>
-		/// <param name="postConfig">Post Configuration options.</param>
+		/// <param name="postConfiguration">Post Configuration options.</param>
 		/// <param name="includeCategories">Whether or not to include categories</param>
 		/// <returns></returns>
-		public abstract IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories);
+		public abstract IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfiguration, bool includeCategories);
 
 		/// <summary>
 		/// Gets the <see cref="FeedbackItem" /> items for the specified entry.
@@ -324,12 +334,12 @@ namespace Subtext.Framework.Providers
 		/// <summary>
 		/// Gets the paged links.
 		/// </summary>
-		/// <param name="categoryTypeId">The category type id.</param>
+		/// <param name="categoryId">The category type id.</param>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="sortDescending">if set to <c>true</c> [sort descending].</param>
 		/// <returns></returns>
-		public abstract IPagedCollection<Link> GetPagedLinks(int categoryTypeId, int pageIndex, int pageSize, bool sortDescending);
+		public abstract IPagedCollection<Link> GetPagedLinks(int categoryId, int pageIndex, int pageSize, bool sortDescending);
 
 		#endregion
 
@@ -586,9 +596,23 @@ namespace Subtext.Framework.Providers
 		#endregion
 
 		#region Archives
-		public abstract ICollection<ArchiveCount> GetPostsByYearArchive();
-		public abstract ICollection<ArchiveCount> GetPostsByMonthArchive();
-		public abstract ICollection<ArchiveCount> GetPostsByCategoryArchive();
+		//TODO: Document these methods better.
+
+		/// <summary>
+		/// Gets the posts grouped by year.
+		/// </summary>
+		/// <returns></returns>
+		public abstract ICollection<ArchiveCount> GetPostsGroupedByYear();
+		/// <summary>
+		/// Gets the posts grouped by month.
+		/// </summary>
+		/// <returns></returns>
+		public abstract ICollection<ArchiveCount> GetPostsGroupedByMonth();
+		/// <summary>
+		/// Gets the posts grouped by category.
+		/// </summary>
+		/// <returns></returns>
+		public abstract ICollection<ArchiveCount> GetPostsGroupedByCategory();
 		#endregion
 
 		#region Plugins
@@ -626,7 +650,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="key">Key identifying the setting</param>
 		/// <param name="value">Value of the setting</param>
 		/// <returns>True if the operation completed correctly, false otherwise</returns>
-		public abstract bool InsertPluginBlogSettings(Guid pluginId, string key, string value);
+		public abstract void InsertPluginBlogSettings(Guid pluginId, string key, string value);
 
 		/// <summary>
 		/// Update a blog level settings for the plugin
@@ -635,7 +659,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="key">Key identifying the setting</param>
 		/// <param name="value">New value of the setting</param>
 		/// <returns>True if the operation completed correctly, false otherwise</returns>
-		public abstract bool UpdatePluginBlogSettings(Guid pluginId, string key, string value);
+		public abstract void UpdatePluginBlogSettings(Guid pluginId, string key, string value);
 
         /// <summary>
         /// Retrieves plugin settings for a specified entry from the storage
@@ -653,7 +677,7 @@ namespace Subtext.Framework.Providers
         /// <param name="key">Setting name</param>
         /// <param name="value">Setting value</param>
         /// <returns>True if the operation completed correctly, false otherwise</returns>
-        public abstract bool InsertPluginEntrySettings(Guid pluginId, int entryId, string key, string value);
+        public abstract void InsertPluginEntrySettings(Guid pluginId, int entryId, string key, string value);
 
         /// <summary>
 		/// Updates a plugin setting for a specified entry
@@ -663,7 +687,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="key">Key identifying the setting</param>
 		/// <param name="value">New value of the setting</param>
 		/// <returns>True if the operation completed correctly, false otherwise</returns>
-        public abstract bool UpdatePluginEntrySettings(Guid pluginId, int entryId, string key, string value);
+        public abstract void UpdatePluginEntrySettings(Guid pluginId, int entryId, string key, string value);
 
 
 
@@ -689,7 +713,7 @@ namespace Subtext.Framework.Providers
 		///     TRUE - At least one unit of content was cleared.
 		///     FALSE - No content was cleared.
 		/// </returns>
-		public abstract bool ClearBlogContent();
+		public abstract void ClearBlogContent();
 
 		#endregion
 

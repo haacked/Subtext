@@ -14,12 +14,12 @@
 #endregion
 
 using System;
+using System.Data.SqlClient;
 using log4net;
 using Subtext.BlogML;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Providers;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -105,23 +105,25 @@ namespace Subtext.Web.Admin.Pages
 
         protected void btnClearContent_Click(object sender, EventArgs e)
         {
-            if (chkClearContent.Checked)
+            if (!chkClearContent.Checked)
             {
-                chkClearContent.Checked = false;
-                chkClearContent.Visible = false;
-                btnClearContent.Visible = false;
-                
-                if (DatabaseObjectProvider.Instance().ClearBlogContent())
-                {
-                    msgpnlClearContent.ShowMessage("Success! The content has been obliterated!");
-                }
-                else
-                {
-                    msgpnlClearContent.ShowMessage("There was nothing to be cleared, or the attempt to clear failed.");
-                }
+            	msgpnlClearContent.ShowError(@"You need to check the ""Clear Content"" checkbox to continue.");
+            	return;
             }
-            else
-                msgpnlClearContent.ShowError(@"You need to check the ""Clear Content"" checkbox to continue.");
+        	chkClearContent.Checked = false;
+            chkClearContent.Visible = false;
+            btnClearContent.Visible = false;
+
+			try
+			{
+				DatabaseObjectProvider.Instance().ClearBlogContent();
+				msgpnlClearContent.ShowMessage("Success! The content has been obliterated!");
+			}
+			catch(SqlException)
+			{
+				msgpnlClearContent.ShowMessage("There was nothing to be cleared, or the attempt to clear failed.");
+				return;
+			}               
         }
 	}
 }
