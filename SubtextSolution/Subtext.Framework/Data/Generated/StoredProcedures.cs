@@ -159,7 +159,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_UpdatePluginData Procedure
         /// </summary>
-        public static StoredProcedure UpdatePluginData(Guid PluginID, int BlogID, int EntryID, string Key, string ValueX){
+        public static StoredProcedure UpdatePluginData(Guid PluginID, int BlogID, int? EntryID, string Key, string ValueX){
             StoredProcedure sp = new StoredProcedure("subtext_UpdatePluginData" , provider);
             sp.Command.AddParameter("@PluginID", PluginID,DbType.Guid);
             sp.Command.AddParameter("@BlogID", BlogID,DbType.Int32);
@@ -172,7 +172,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_InsertPluginData Procedure
         /// </summary>
-        public static StoredProcedure InsertPluginData(Guid PluginID, int BlogID, int EntryID, string Key, string ValueX){
+        public static StoredProcedure InsertPluginData(Guid PluginID, int BlogID, int? EntryID, string Key, string ValueX){
             StoredProcedure sp = new StoredProcedure("subtext_InsertPluginData" , provider);
             sp.Command.AddParameter("@PluginID", PluginID,DbType.Guid);
             sp.Command.AddParameter("@BlogID", BlogID,DbType.Int32);
@@ -1072,7 +1072,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_GetImageCategory Procedure
         /// </summary>
-        public static StoredProcedure GetImageCategory(int CategoryID, bool IsActive, int BlogId){
+        public static StoredProcedure GetImageCategory(int? CategoryID, bool IsActive, int BlogId){
             StoredProcedure sp = new StoredProcedure("subtext_GetImageCategory" , provider);
             sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
             sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
@@ -1113,7 +1113,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_GetPageableEntries Procedure
         /// </summary>
-        public static StoredProcedure GetPageableEntries(int BlogId, int PageIndex, int PageSize, int PostType){
+        public static StoredProcedure GetPageableEntries(int BlogId, int PageIndex, int PageSize, int? PostType){
             StoredProcedure sp = new StoredProcedure("subtext_GetPageableEntries" , provider);
             sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
             sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
@@ -1125,7 +1125,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_GetPageableEntriesByCategoryID Procedure
         /// </summary>
-        public static StoredProcedure GetPageableEntriesByCategoryID(int BlogId, int CategoryID, int PageIndex, int PageSize, int PostType){
+        public static StoredProcedure GetPageableEntriesByCategoryID(int BlogId, int CategoryID, int PageIndex, int PageSize, int? PostType){
             StoredProcedure sp = new StoredProcedure("subtext_GetPageableEntriesByCategoryID" , provider);
             sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
             sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
@@ -1174,7 +1174,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_GetPageableLinks Procedure
         /// </summary>
-        public static StoredProcedure GetPageableLinks(int BlogId, int CategoryId, int PageIndex, int PageSize){
+        public static StoredProcedure GetPageableLinks(int BlogId, int? CategoryId, int PageIndex, int PageSize){
             StoredProcedure sp = new StoredProcedure("subtext_GetPageableLinks" , provider);
             sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
             sp.Command.AddParameter("@CategoryId", CategoryId,DbType.Int32);
@@ -1211,7 +1211,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_GetPostsByCategoryID Procedure
         /// </summary>
-        public static StoredProcedure GetPostsByCategoryID(int ItemCount, int CategoryID, bool IsActive, int BlogId){
+        public static StoredProcedure GetPostsByCategoryID(int ItemCount, int? CategoryID, bool IsActive, int BlogId){
             StoredProcedure sp = new StoredProcedure("subtext_GetPostsByCategoryID" , provider);
             sp.Command.AddParameter("@ItemCount", ItemCount,DbType.Int32);
             sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
@@ -1595,7 +1595,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_InsertFeedback Procedure
         /// </summary>
-        public static StoredProcedure InsertFeedback(string Title, string Body, int BlogId, int EntryId, string Author, bool IsBlogAuthor, string Email, string Url, int FeedbackType, int StatusFlag, bool CommentAPI, string Referrer, string IpAddress, string UserAgent, string FeedbackChecksumHash, DateTime DateCreated, DateTime DateModified, int Id){
+        public static StoredProcedure InsertFeedback(string Title, string Body, int BlogId, int? EntryId, string Author, bool IsBlogAuthor, string Email, string Url, int FeedbackType, int StatusFlag, bool CommentAPI, string Referrer, string IpAddress, string UserAgent, string FeedbackChecksumHash, DateTime DateCreated, DateTime DateModified, int Id){
             StoredProcedure sp = new StoredProcedure("subtext_InsertFeedback" , provider);
             sp.Command.AddParameter("@Title", Title,DbType.String);
             sp.Command.AddParameter("@Body", Body,DbType.String);
@@ -1638,7 +1638,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_InsertEntry Procedure
         /// </summary>
-        public static StoredProcedure InsertEntry(string Title, Guid AuthorId, string TextX, int PostType, string Description, int BlogId, DateTime DateAdded, int PostConfig, string EntryName, DateTime DateSyndicated, int ID){
+        public static StoredProcedure InsertEntry(string Title, Guid AuthorId, string TextX, int PostType, string Description, int BlogId, DateTime DateAdded, int PostConfig, string EntryName, DateTime? DateSyndicated, int ID){
             StoredProcedure sp = new StoredProcedure("subtext_InsertEntry" , provider);
             sp.Command.AddParameter("@Title", Title,DbType.String);
             sp.Command.AddParameter("@AuthorId", AuthorId,DbType.Guid);

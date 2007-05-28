@@ -88,11 +88,6 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetBlogPosts(itemCount, pc);
 		}
 
-		public static ICollection<EntryDay> GetPostsByMonth(int month, int year)
-		{
-			return ObjectProvider.Instance().GetPostsByMonth(month, year);
-		}
-
 		public static ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID)
 		{
 			return ObjectProvider.Instance().GetPostsByCategoryID(itemCount, catID);
@@ -135,6 +130,12 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetConditionalEntries(itemCount, postType, postConfig, includeCategories);
 		}
 
+		/// <summary>
+		/// Gets the post collection by month.
+		/// </summary>
+		/// <param name="month">The month.</param>
+		/// <param name="year">The year.</param>
+		/// <returns></returns>
 		public static IList<Entry> GetPostCollectionByMonth(int month, int year)
 		{
 			return ObjectProvider.Instance().GetPostCollectionByMonth(month, year);
