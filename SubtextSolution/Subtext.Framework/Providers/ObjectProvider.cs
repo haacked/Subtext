@@ -80,6 +80,20 @@ namespace Subtext.Framework.Providers
 			set { _connectionString = value; }
 		}
 
+		/// <summary>
+		/// Gets the related links for the entry.
+		/// </summary>
+		/// <param name="entryId">The entry id.</param>
+		/// <returns></returns>
+		public abstract IList<RelatedLink> GetRelatedLinks(int entryId);
+
+		/// <summary>
+		/// Gets the top links for the current blog.
+		/// </summary>
+		/// <param name="count">The count.</param>
+		/// <returns></returns>
+		public abstract IList<RelatedLink> GetTopLinks(int count);
+
 		#region ObjectProvider Specific methods
 		#region Host
 

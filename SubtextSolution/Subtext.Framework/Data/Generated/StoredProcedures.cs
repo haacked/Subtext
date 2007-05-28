@@ -740,7 +740,7 @@ namespace Subtext.Data
         /// <summary>
         /// Creates an object wrapper for the subtext_GetBlogById Procedure
         /// </summary>
-        public static StoredProcedure GetBlogById(int BlogId){
+        public static StoredProcedure GetBlogById(int? BlogId){
             StoredProcedure sp = new StoredProcedure("subtext_GetBlogById" , provider);
             sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
             return sp;
