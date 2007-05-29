@@ -1,11 +1,8 @@
 using System;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
 using System.Threading;
 using System.Web.Security;
 using MbUnit.Framework;
-using Microsoft.ApplicationBlocks.Data;
+using Subtext.Data;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
@@ -271,19 +268,15 @@ namespace UnitTests.Subtext.Framework.Data
 	{
 		public void Create(int index)
 		{
-			SqlParameter[] parameters = {
-			                            	new SqlParameter("@BlogId", Config.CurrentBlog.Id)
-											, new SqlParameter("@Date", DateTime.Now)
-											, new SqlParameter("@Thread", "SomeThread")
-											, new SqlParameter("@Context", "SomeContext")
-											, new SqlParameter("@Level", "unit test")
-											, new SqlParameter("@Logger", "UnitTestLogger")
-											, new SqlParameter("@Message", "This test was brought to you by the letter 'Q'.")
-											, new SqlParameter("@Exception", "")
-											, new SqlParameter("@Url", "http://localhost/")
-			                            };
-			SqlHelper.ExecuteNonQuery(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString, CommandType.StoredProcedure, "subtext_AddLogEntry", parameters);
-			
+			StoredProcedures.AddLogEntry(DateTime.Now
+			                             , Config.CurrentBlog.Id
+			                             , "SomeThread"
+			                             , "SomeContext"
+			                             , "unit test"
+			                             , "UnitTestLogger"
+			                             , "This test was brought to you by the letter 'Q'."
+			                             , ""
+			                             , "http://localhost/").Execute();		
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)

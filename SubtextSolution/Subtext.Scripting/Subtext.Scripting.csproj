@@ -96,9 +96,9 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral">
+    <Reference Include="SubSonic, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <HintPath>..\Dependencies\SubSonic.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
