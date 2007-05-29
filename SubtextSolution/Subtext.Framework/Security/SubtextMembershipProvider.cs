@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Data;
 using System.Web;
 using System.Web.Security;
@@ -29,29 +30,26 @@ namespace Subtext.Framework.Security
 		/// <exception cref="T:System.ArgumentNullException">The name of the provider is null.</exception>
 		/// <exception cref="T:System.InvalidOperationException">An attempt is made to call <see cref="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)"></see> on a provider after the provider has already been initialized.</exception>
 		/// <exception cref="T:System.ArgumentException">The name of the provider has a length of zero.</exception>
+		/// <exception cref="ConfigurationErrorsException">The 'connectionStringName' attribute is missing or the connection string is not found.</exception>
 		public override void Initialize(string name, NameValueCollection config)
 		{
 			if (config == null)
-			{
 				throw new ArgumentNullException("config", Resources.ArgumentNull_Collection);
-			}
 
 			_config = config;
 			if (String.IsNullOrEmpty(name))
-			{
 				name = "SubtextMembershipProvider";
-			}
 
 			base.Initialize(name, config);
 
 			string connectionStringName = config["connectionStringName"];
 			if (string.IsNullOrEmpty(connectionStringName))
-				throw new HttpException("Missing attribute 'connectionStringName'");
+				throw new ConfigurationErrorsException("Missing attribute 'connectionStringName'");
 
-			this.connectionString = System.Configuration.ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+			this.connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
 
 			if (string.IsNullOrEmpty(this.connectionString))
-				throw new InvalidOperationException("The connection string '" + connectionStringName + "' was not found");
+				throw new ConfigurationErrorsException("The connection string '" + connectionStringName + "' was not found");
 
 			config.Remove("connectionStringName");
 		}
