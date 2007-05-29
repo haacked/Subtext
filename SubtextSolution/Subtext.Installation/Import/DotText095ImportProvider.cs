@@ -161,6 +161,8 @@ namespace Subtext.Installation.Import
 		private static void GetConnectionStringsFromControl(Control populatedControl, out string dotTextConnectionString)
 		{
 			ConnectionStringBuilder control = populatedControl.FindControl("ctlConnectionStringBuilder") as ConnectionStringBuilder;
+			if (control == null)
+				throw new InvalidOperationException("Could not find the control 'ctlConnectionStringBuilder'");
 			dotTextConnectionString = control.ConnectionString;
 		}
 

@@ -422,10 +422,11 @@ namespace Subtext.Framework.Security
 		/// <returns></returns>
 		public static string EncryptString(string clearText, Encoding encoding, byte[] key, byte[] initializationVendor)
 		{
+			if (clearText == null)
+				throw new ArgumentNullException("clearText", Resources.ArgumentNull_Obj);
+
             if (encoding == null)
-            {
                 throw new ArgumentNullException("encoding", Resources.ArgumentNull_Obj);
-            }
 
 			SymmetricAlgorithm rijaendel = RijndaelManaged.Create();
 			ICryptoTransform encryptor = rijaendel.CreateEncryptor(key, initializationVendor);
@@ -445,10 +446,12 @@ namespace Subtext.Framework.Security
 		/// <returns></returns>
 		public static string DecryptString(string encryptedData, Encoding encoding, byte[] key, byte[] initializationVendor)
 		{
-            if (encoding == null)
-            {
-                throw new ArgumentNullException("encoding", Resources.ArgumentNull_Obj);
-            }
+			if (encryptedData == null)
+				throw new ArgumentNullException("clearText", Resources.ArgumentNull_Obj);
+
+			if (encoding == null)
+				throw new ArgumentNullException("encoding", Resources.ArgumentNull_Obj);
+
             SymmetricAlgorithm rijaendel = RijndaelManaged.Create();
 			ICryptoTransform decryptor = rijaendel.CreateDecryptor(key, initializationVendor);
 			

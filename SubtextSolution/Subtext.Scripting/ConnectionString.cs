@@ -58,7 +58,7 @@ namespace Subtext.Scripting
 
             if (connectionString.Length == 0)
             {
-                return ConnectionString.Empty;
+                return Empty;
             }
 
 			return new ConnectionString(connectionString);

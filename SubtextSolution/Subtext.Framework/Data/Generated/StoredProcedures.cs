@@ -2070,7 +2070,7 @@ namespace Subtext.Data{
         /// <summary>
         /// Creates an object wrapper for the subtext_Membership_CreateUser Procedure
         /// </summary>
-        public static StoredProcedure MembershipCreateUser(string UserName, string Password, string PasswordSalt, string Email, string PasswordQuestion, string PasswordAnswer, bool? IsApproved, DateTime? CurrentTimeUtc, DateTime? CreateDate, bool UniqueEmail, int? PasswordFormat, Guid? UserId)
+        public static StoredProcedure MembershipCreateUser(string UserName, string Password, string PasswordSalt, string Email, string PasswordQuestion, string PasswordAnswer, bool? IsApproved, DateTime? CurrentTimeUtc, DateTime? CreateDate, bool? UniqueEmail, int? PasswordFormat, Guid? UserId)
         {
             SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_CreateUser" , DataService.GetInstance("Subtext"));
         	
@@ -2092,7 +2092,7 @@ namespace Subtext.Data{
         	    
             sp.Command.AddParameter("@CreateDate", CreateDate,DbType.DateTime);
         	    
-            sp.Command.AddParameter("@UniqueEmail", UniqueEmail,DbType.Int32);
+            sp.Command.AddParameter("@UniqueEmail", UniqueEmail,DbType.Boolean);
         	    
             sp.Command.AddParameter("@PasswordFormat", PasswordFormat,DbType.Int32);
         	    

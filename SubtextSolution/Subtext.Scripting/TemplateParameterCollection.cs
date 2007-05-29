@@ -14,13 +14,6 @@ namespace Subtext.Scripting
 	{
 	    List<TemplateParameter> list = new List<TemplateParameter>();
 
-	    /// <summary>
-		/// Initializes a new instance of the <see cref="TemplateParameterCollection"/> class.
-		/// </summary>
-		public TemplateParameterCollection()
-		{
-		}
-	    
 	    private List<TemplateParameter> List
 	    {
 	        get

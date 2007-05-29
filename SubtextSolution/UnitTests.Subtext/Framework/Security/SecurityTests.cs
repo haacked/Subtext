@@ -15,8 +15,12 @@
 
 using System;
 using System.Globalization;
+using System.Security.Principal;
 using System.Text;
+using System.Threading;
+using System.Web.Security;
 using MbUnit.Framework;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.SecurityHandling
@@ -27,6 +31,23 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 	[TestFixture]
 	public class SecurityTests
 	{
+		[Test]
+		[RollBack]
+		public void IsHostAdminReturnsCorrectAnswer()
+		{
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "test");
+			Assert.IsFalse(SecurityHelper.IsHostAdmin);
+			UnitTestHelper.SetupBlog();
+			MembershipUser user = Config.CurrentBlog.Owner;
+			using (MembershipApplicationScope.SetApplicationName("/"))
+			{
+				IPrincipal principal =
+					new GenericPrincipal(new GenericIdentity(user.UserName), new string[] { "HostAdmins" });
+				Thread.CurrentPrincipal = principal;
+				Assert.IsTrue(SecurityHelper.IsHostAdmin);
+			}
+		}
+
 		/// <summary>
 		/// Ensures HashesPassword is case sensitive.
 		/// </summary>
@@ -48,7 +69,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		}
 
 		[Test]
-		public void CanSymmetcricallyEncryptAndDecryptText()
+		public void CanSymmetricallyEncryptAndDecryptText()
 		{
 			string clearText = "Hello world!";
 			byte[] key = SecurityHelper.GenerateSymmetricKey();
@@ -58,6 +79,26 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 			Assert.IsTrue(encrypted != clearText, "Encrypted text should not equal the clear text.");
 			string unencrypted = SecurityHelper.DecryptString(encrypted, Encoding.UTF8, key, iv);
 			Assert.AreEqual(clearText, unencrypted, "Round trip encrypt/decrypt failed to produce original string.");
+		}
+
+		[RowTest]
+		[Row(null, true, ExpectedException = typeof(ArgumentNullException))]
+		[Row("Test", false, ExpectedException = typeof(ArgumentNullException))]
+		public void EncryptThrowsArgumentNullException(string clearText, bool includeEncoding)
+		{
+			byte[] key = SecurityHelper.GenerateSymmetricKey();
+			byte[] iv = SecurityHelper.GenerateInitializationVector();
+			SecurityHelper.EncryptString(clearText, includeEncoding ? Encoding.UTF8 : null, key, iv);
+		}
+
+		[RowTest]
+		[Row(null, true, ExpectedException = typeof(ArgumentNullException))]
+		[Row("Test", false, ExpectedException = typeof(ArgumentNullException))]
+		public void DecryptThrowsArgumentNullException(string encryptedText, bool includeEncoding)
+		{
+			byte[] key = SecurityHelper.GenerateSymmetricKey();
+			byte[] iv = SecurityHelper.GenerateInitializationVector();
+			SecurityHelper.DecryptString(encryptedText, includeEncoding ? Encoding.UTF8 : null, key, iv);
 		}
 
 		/// <summary>
