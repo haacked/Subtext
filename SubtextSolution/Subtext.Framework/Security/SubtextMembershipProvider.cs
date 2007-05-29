@@ -4,7 +4,6 @@ using System.Web;
 using System.Web.Security;
 using System.Collections.Specialized;
 using System.Data.SqlClient;
-using Microsoft.ApplicationBlocks.Data;
 using SubSonic;
 using Subtext.Data;
 using Subtext.Framework.Data;
@@ -433,10 +432,7 @@ namespace Subtext.Framework.Security
 		/// </returns>
 		public override MembershipUser GetUser(string username, bool userIsOnline)
 		{
-			using (IDataReader reader = SqlHelper.ExecuteReader(this.connectionString
-															   , "subtext_Membership_GetUserByName"
-															   , username
-															   , DateTime.UtcNow, userIsOnline))
+			using (IDataReader reader = StoredProcedures.MembershipGetUserByName(username, DateTime.UtcNow, null).GetReader())
 			{
 				if (!reader.Read())
 					return null;
@@ -478,7 +474,7 @@ namespace Subtext.Framework.Security
 		/// </returns>
 		public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
 		{
-			using (IDataReader reader = SqlHelper.ExecuteReader(this.connectionString, "subtext_Membership_GetUserByUserId", providerUserKey, DateTime.UtcNow, userIsOnline))
+			using (IDataReader reader = StoredProcedures.MembershipGetUserByUserId((Guid)providerUserKey, DateTime.UtcNow, userIsOnline).GetReader())
 			{
 				if (!reader.Read())
 					return null;
@@ -502,8 +498,7 @@ namespace Subtext.Framework.Security
 			if (email.Length == 0)
 				throw new ArgumentException(Resources.Argument_StringZeroLength, "emailToMatch");
 
-
-			return (string)SqlHelper.ExecuteScalar(this.connectionString, "subtext_Membership_GetUserByEmail", email);
+			return (string)StoredProcedures.MembershipGetUserByEmail(email).ExecuteScalar();
 		}
 
 		/// <summary>
@@ -648,16 +643,14 @@ namespace Subtext.Framework.Security
 			if (PasswordFormat == MembershipPasswordFormat.Hashed)
 				newPassword = SecurityHelper.HashPassword(newClearPassword, passwordSalt);
 
-			int recordsAffected = SqlHelper.ExecuteNonQuery(this.connectionString
-													  , "subtext_Membership_ResetPassword"
-													  , username
-													  , newPassword
-													  , MaxInvalidPasswordAttempts
-													  , PasswordAttemptWindow
-													  , passwordSalt
-													  , DateTime.UtcNow
-													  , PasswordFormat
-													  , answer);
+			int recordsAffected = StoredProcedures.MembershipResetPassword(username
+			                                                               , newPassword
+			                                                               , MaxInvalidPasswordAttempts
+			                                                               , PasswordAttemptWindow
+			                                                               , passwordSalt
+			                                                               , DateTime.UtcNow
+			                                                               , (int) PasswordFormat
+			                                                               , answer).Execute();
 
 			//TODO: How do we report more information properly?
 			if (recordsAffected == 0)
@@ -689,15 +682,14 @@ namespace Subtext.Framework.Security
 				throw new ArgumentNullException("user", Resources.ArgumentNull_Obj);
 			}
 
-			SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Membership_UpdateUser"
-									  , user.UserName
-									  , user.Email
-									  , user.Comment
-									  , user.IsApproved
-									  , user.LastLoginDate
-									  , user.LastActivityDate
-									  , 0
-									  , DateTime.UtcNow);
+			StoredProcedures.MembershipUpdateUser(user.UserName
+			                                      , user.Email
+			                                      , user.Comment
+			                                      , user.IsApproved
+			                                      , user.LastLoginDate
+			                                      , user.LastActivityDate
+			                                      , 0
+			                                      , DateTime.UtcNow).Execute();
 		}
 
 		/// <summary>
@@ -714,7 +706,7 @@ namespace Subtext.Framework.Security
 			string storedPassword;
 			string salt;
 
-			using(IDataReader reader = SqlHelper.ExecuteReader(this.connectionString, "subtext_Membership_GetPasswordWithFormat", username, false, DateTime.UtcNow))
+			using (IDataReader reader = StoredProcedures.MembershipGetPasswordWithFormat(username, false, DateTime.UtcNow).GetReader())
 			{
 				if (!reader.Read()) return false;
 
