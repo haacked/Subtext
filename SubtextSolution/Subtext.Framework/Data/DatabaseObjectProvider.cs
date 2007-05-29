@@ -157,7 +157,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override BlogInfo GetBlogById(int blogId)
 		{
-			using (IDataReader reader = StoredProcedures.GetBlogById(DataHelper.CheckNull(blogId)).GetReader())
+			using (IDataReader reader = StoredProcedures.GetBlogById(blogId).GetReader())
 			{
 				if (reader.Read())
 				{
@@ -217,7 +217,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlags status, FeedbackStatusFlags excludeStatusMask, FeedbackType type)
 		{
-			object feedbackType = type;
+			int? feedbackType = (int?)type;
 			if (type == FeedbackType.None)
 				feedbackType = null;
 

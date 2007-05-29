@@ -5,6 +5,8 @@ using System.Web.Security;
 using System.Collections.Specialized;
 using System.Data.SqlClient;
 using Microsoft.ApplicationBlocks.Data;
+using SubSonic;
+using Subtext.Data;
 using Subtext.Framework.Data;
 using System.Globalization;
 using Subtext.Framework.Properties;
@@ -128,7 +130,7 @@ namespace Subtext.Framework.Security
 				newPassword = SecurityHelper.HashPassword(newPassword);
 			}
 
-			int recordsAffected = SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Membership_SetPassword", username, newPassword, passwordSalt, DateTime.UtcNow, Membership.Provider.PasswordFormat);
+			int recordsAffected = StoredProcedures.MembershipSetPassword(username, newPassword, passwordSalt, DateTime.UtcNow, (int)Membership.Provider.PasswordFormat).Execute();
 			return recordsAffected > 0;
 		}
 
@@ -145,6 +147,7 @@ namespace Subtext.Framework.Security
 		public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
 		{
 			throw new NotImplementedException(Resources.NotImplementedException_Generic);
+			//TODO: return 0 < StoredProcedures.MembershipChangePasswordQuestionAndAnswer(username, newPasswordQuestion, newPasswordAnswer).Execute();
 		}
 
 		/// <summary>
@@ -201,38 +204,29 @@ namespace Subtext.Framework.Security
 			if (PasswordFormat == MembershipPasswordFormat.Hashed)
 				password = SecurityHelper.HashPassword(password, salt);
 
+			int recordsAffected = StoredProcedures.MembershipCreateUser(username
+				, password
+				, salt
+				, email
+				, passwordQuestion
+				, passwordAnswer
+				, true
+				, DateTime.UtcNow
+				, DateTime.UtcNow
+				, RequiresUniqueEmail
+				, (int)PasswordFormat
+				, (Guid)providerUserKey).Execute();
 
-			using (SqlConnection conn = new SqlConnection(this.connectionString))
-			using (SqlCommand cmd = new SqlCommand("subtext_Membership_CreateUser", conn))
+			if (recordsAffected >= 1) //Records affected.
 			{
-				cmd.CommandType = CommandType.StoredProcedure;
-				cmd.Parameters.AddWithValue("@UserName", username);
-				cmd.Parameters.AddWithValue("@Password", password);
-				cmd.Parameters.AddWithValue("@PasswordSalt", salt);
-				cmd.Parameters.AddWithValue("@Email", email);
-				cmd.Parameters.AddWithValue("@PasswordQuestion", passwordQuestion);
-				cmd.Parameters.AddWithValue("@PasswordAnswer", passwordAnswer);
-				cmd.Parameters.AddWithValue("@IsApproved", true);
-				cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow);
-				cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now);
-				cmd.Parameters.AddWithValue("@UniqueEmail", RequiresUniqueEmail);
-				cmd.Parameters.AddWithValue("@PasswordFormat", PasswordFormat);
-				cmd.Parameters.AddWithValue("@UserId", providerUserKey);
-
-				conn.Open();
-				int recordsAffected = cmd.ExecuteNonQuery();
-				if (recordsAffected >= 1) //Records affected.
-				{
-					status = MembershipCreateStatus.Success;
-					return GetUser(username, true);
-				}
-				else
-				{
-					status = MembershipCreateStatus.ProviderError;
-					return null;
-				}
+				status = MembershipCreateStatus.Success;
+				return GetUser(username, true);
 			}
-
+			else
+			{
+				status = MembershipCreateStatus.ProviderError;
+				return null;
+			}
 		}
 
 		/// <summary>
@@ -245,20 +239,9 @@ namespace Subtext.Framework.Security
 		/// </returns>
 		public override bool DeleteUser(string username, bool deleteAllRelatedData)
 		{
-			using (SqlConnection conn = new SqlConnection(this.connectionString))
-			{
-				using (SqlCommand cmd = new SqlCommand("subtext_Users_DeleteUser", conn))
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@UserName", username);
-					cmd.Parameters.AddWithValue("@TablesToDeleteFrom", deleteAllRelatedData ? 15 : 1);
-					cmd.Parameters.Add(DataHelper.MakeOutParam("@NumTablesDeletedFrom", SqlDbType.Int, 4));
-
-					conn.Open();
-					cmd.ExecuteNonQuery();
-					return (int)cmd.Parameters["@NumTablesDeletedFrom"].Value >= 1;
-				}
-			}
+			StoredProcedure proc = StoredProcedures.UsersDeleteUser(username, deleteAllRelatedData ? 15 : 1, 0);
+			proc.Execute();
+			return (int) proc.OutputValues[0] >= 1;
 		}
 
 		/// <summary>
@@ -340,32 +323,16 @@ namespace Subtext.Framework.Security
 
 			MembershipUserCollection foundUsers = new MembershipUserCollection();
 
-			using (SqlConnection conn = new SqlConnection(this.connectionString))
+			string application = String.IsNullOrEmpty(ApplicationName) || ApplicationName == "/" ? null : ApplicationName;
+			StoredProcedure proc = StoredProcedures.MembershipFindUsersByNameOrEmail(application, userName, email, pageIndex, pageSize, 0);
+			using (IDataReader reader = proc.GetReader())
 			{
-				conn.Open();
-				SqlParameter totalCountParam = DataHelper.MakeOutParam("@TotalCount", SqlDbType.Int, 4);
-
-				using (SqlCommand command = new SqlCommand("subtext_Membership_FindUsersByNameOrEmail", conn))
+				while (reader.Read())
 				{
-					command.CommandType = CommandType.StoredProcedure;
-					string application = String.IsNullOrEmpty(ApplicationName) || ApplicationName == "/" ? null : ApplicationName;
-					command.Parameters.Add(new SqlParameter("@ApplicationName", application));
-					command.Parameters.Add(new SqlParameter("@EmailToMatch", email));
-					command.Parameters.Add(new SqlParameter("@UserNameToMatch", userName));
-					command.Parameters.Add(new SqlParameter("@PageIndex", pageIndex));
-					command.Parameters.Add(new SqlParameter("@PageSize", pageSize));
-					command.Parameters.Add(totalCountParam);
-
-					using (IDataReader reader = command.ExecuteReader())
-					{
-						while (reader.Read())
-						{
-							foundUsers.Add(LoadUserFromReader(reader));
-						}
-						reader.Close();
-						totalRecords = (int)command.Parameters["@TotalCount"].Value;
-					}
+					foundUsers.Add(LoadUserFromReader(reader));
 				}
+				reader.Close();
+				totalRecords = (int)(proc.OutputValues[0] ?? 0);
 			}
 
 			return foundUsers;

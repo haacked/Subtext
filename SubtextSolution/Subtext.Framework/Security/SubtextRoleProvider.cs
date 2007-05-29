@@ -3,10 +3,9 @@ using System.Configuration.Provider;
 using System.Data;
 using System.Web;
 using System.Collections.Specialized;
-using System.Data.SqlClient;
-using Microsoft.ApplicationBlocks.Data;
+using SubSonic;
+using Subtext.Data;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Framework.Properties;
 using System.Globalization;
 
@@ -94,7 +93,10 @@ namespace Subtext.Framework.Security
 		/// <param name="roleNames">A string array of the role names to add the specified user names to.</param>
 		public override void AddUsersToRoles(string[] usernames, string[] roleNames)
 		{
-			SetUsersRoles("subtext_UsersInRoles_AddUsersToRoles", usernames, roleNames, true);
+			string delimitedUserNames = String.Join(",", usernames);
+			string delimitedRoles = String.Join(",", roleNames);
+
+			StoredProcedures.UsersInRolesAddUsersToRoles(ApplicationName, delimitedUserNames, delimitedRoles, DateTime.UtcNow.ToUniversalTime()).Execute();
 		}
 
 		public override void CreateRole(string roleName)
@@ -119,7 +121,7 @@ namespace Subtext.Framework.Security
                 throw new ArgumentException("Role name is too long.", "roleName");
             }
 
-			int recordsAffected = SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Roles_CreateRole", ApplicationName, roleName);
+			int recordsAffected = StoredProcedures.RolesCreateRole(ApplicationName, roleName).Execute();
 			if (recordsAffected != 1)
 			{
 				throw new ProviderException(Resources.SecurityException_RoleExists);
@@ -146,25 +148,17 @@ namespace Subtext.Framework.Security
 		/// </returns>
 		public override string[] GetAllRoles()
 		{
-			using(SqlConnection conn = new SqlConnection(this.connectionString))
-			using (SqlCommand cmd = new SqlCommand("subtext_Roles_GetAllRoles", conn))
+			using (IDataReader reader = StoredProcedures.RolesGetAllRoles(ApplicationName).GetReader())
 			{
-				cmd.CommandType = CommandType.StoredProcedure;
-				cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-				
-				conn.Open();
-				using (SqlDataReader reader = cmd.ExecuteReader())
+				StringCollection allRoles = new StringCollection();
+				while (reader.Read())
 				{
-					StringCollection allRoles = new StringCollection();
-					while (reader.Read())
-					{
-						allRoles.Add(reader.GetString(0));
-					}
-					string[] returnAllRoles = new string[allRoles.Count];
-					allRoles.CopyTo(returnAllRoles, 0);
-					return returnAllRoles;	
+					allRoles.Add(reader.GetString(0));
 				}
-			}
+				string[] returnAllRoles = new string[allRoles.Count];
+				allRoles.CopyTo(returnAllRoles, 0);
+				return returnAllRoles;	
+			}	
 		}
 
 		/// <summary>
@@ -179,7 +173,7 @@ namespace Subtext.Framework.Security
 		{
 			StringCollection userRoles = new StringCollection();
 
-			using (IDataReader reader = SqlHelper.ExecuteReader(this.connectionString, "subtext_UsersInRoles_GetRolesForUser", ApplicationName, username))
+			using (IDataReader reader = StoredProcedures.UsersInRolesGetRolesForUser(ApplicationName, username).GetReader())
 			{
 				while (reader.Read())
 				{
@@ -205,7 +199,8 @@ namespace Subtext.Framework.Security
 		public override string[] GetUsersInRole(string roleName)
 		{
 			StringCollection usersInRole = new StringCollection();
-			using (IDataReader reader = SqlHelper.ExecuteReader(this.connectionString, "subtext_UsersInRoles_GetUsersInRoles", ApplicationName, roleName))
+
+			using (IDataReader reader = StoredProcedures.UsersInRolesGetUsersInRoles(ApplicationName, roleName).GetReader())
 			{
 				while (reader.Read())
 				{
@@ -229,23 +224,18 @@ namespace Subtext.Framework.Security
 		/// </returns>
 		public override bool IsUserInRole(string username, string roleName)
 		{
-			SqlParameter returnValue = DataHelper.MakeReturnValueParam();
+			StoredProcedure proc = StoredProcedures.UsersInRolesIsUserInRole(ApplicationName, username, roleName);
+			proc.Command.AddReturnParameter();
+			proc.Execute();
+			int returnValue = (int)proc.OutputValues[proc.OutputValues.Count - 1];
 
-			SqlHelper.ExecuteNonQuery(this.connectionString
-									  , CommandType.StoredProcedure
-									  , "subtext_UsersInRoles_IsUserInRole"
-									  , new SqlParameter("ApplicationName", ApplicationName)
-									  , new SqlParameter("@UserName", username)
-									  , new SqlParameter("@RoleName", roleName)
-									  , returnValue);
-			
-			bool success = (1 == (int)returnValue.Value);
-			if(!success)
+			bool success = (1 == returnValue);
+			if (!success)
 			{
 				//A blog owner is considered in the "Administrators" role for a 
 				//blog even if the owner isn't explicitly a member of the "Administrators" 
 				//role.
-				if(String.Equals(roleName, RoleNames.Administrators, StringComparison.InvariantCultureIgnoreCase) && ApplicationName != "/")
+				if (String.Equals(roleName, RoleNames.Administrators, StringComparison.InvariantCultureIgnoreCase) && ApplicationName != "/")
 				{
 					//Since users are unique to an installation, this is a safe check.
 					success = String.Equals(Config.CurrentBlog.Owner.UserName, username, StringComparison.InvariantCultureIgnoreCase);
@@ -256,27 +246,10 @@ namespace Subtext.Framework.Security
 
 		public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
 		{
-			SetUsersRoles("subtext_UsersInRoles_RemoveUsersFromRoles", usernames, roleNames, false);
-		}
-
-		private void SetUsersRoles(string storedProcName, string[] usernames, string[] roleNames, bool includeTime)
-		{
 			string delimitedUserNames = String.Join(",", usernames);
 			string delimitedRoles = String.Join(",", roleNames);
 
-			using (SqlConnection conn = new SqlConnection(this.connectionString))
-			using (SqlCommand cmd = new SqlCommand(storedProcName, conn))
-			{
-				cmd.CommandType = CommandType.StoredProcedure;
-				cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-				cmd.Parameters.AddWithValue("@UserNames", delimitedUserNames);
-				cmd.Parameters.AddWithValue("@RoleNames", delimitedRoles);
-				if (includeTime)
-					cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow.ToUniversalTime());
-
-				conn.Open();
-				cmd.ExecuteNonQuery();
-			}
+			StoredProcedures.UsersInRolesRemoveUsersFromRoles(ApplicationName, delimitedUserNames, delimitedRoles).Execute();
 		}
 
 		/// <summary>
@@ -289,16 +262,12 @@ namespace Subtext.Framework.Security
 		/// </returns>
 		public override bool RoleExists(string roleName)
 		{
-			SqlParameter returnValue = DataHelper.MakeReturnValueParam();
+			StoredProcedure proc = StoredProcedures.RolesRoleExists(ApplicationName, roleName);
+			proc.Command.AddReturnParameter();
+			proc.Execute();
+			int returnValue = (int)proc.OutputValues[proc.OutputValues.Count - 1];
 
-			SqlHelper.ExecuteNonQuery(this.connectionString
-									  , CommandType.StoredProcedure
-									  , "subtext_Roles_RoleExists"
-									  , new SqlParameter("ApplicationName", ApplicationName)
-									  , new SqlParameter("@RoleName", roleName)
-									  , returnValue);
-
-			return 1 == (int)returnValue.Value;
+			return 1 == returnValue;
 		}
 	}
 }
