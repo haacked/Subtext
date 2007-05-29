@@ -18,6 +18,7 @@ using System.Globalization;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
+using System.Web;
 using System.Web.Security;
 using MbUnit.Framework;
 using Subtext.Framework.Configuration;
@@ -31,6 +32,36 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 	[TestFixture]
 	public class SecurityTests
 	{
+		[Test]
+		[RollBack]
+		public void CanGetExpiredCookie()
+		{
+			UnitTestHelper.SetupBlog();
+			HttpCookie cookie = SecurityHelper.GetExpiredCookie();
+			Assert.Greater(DateTime.Now.AddYears(-29), cookie.Expires);
+		}
+
+		[Test]
+		[RollBack]
+		public void CanGetApplicationId()
+		{
+			HttpContext.Current = null;
+			Assert.AreEqual("/", SecurityHelper.GetApplicationId());
+			UnitTestHelper.SetupBlog();
+			StringAssert.AreEqualIgnoreCase("Blog_" + Config.CurrentBlog.Id, SecurityHelper.GetApplicationId());
+		}
+
+		[Test]
+		public void IsInRoleReturnsFalseForNullHttpContext()
+		{
+			HttpContext.Current = null;
+			Thread.CurrentPrincipal = null;
+			Assert.IsFalse(SecurityHelper.IsInRole(RoleNames.Administrators));
+
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", string.Empty);
+			Assert.IsFalse(SecurityHelper.IsInRole(RoleNames.Administrators));
+		}
+
 		[Test]
 		[RollBack]
 		public void IsHostAdminReturnsCorrectAnswer()

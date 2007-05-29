@@ -162,45 +162,7 @@ namespace Subtext.Framework.Security
 			log.Debug("GetFullCookieName selected cookie named " + name);
 			return name.ToString();
 		}
-
-
-		/// <summary>
-		/// Used by methods in this class plus Install.Step02_ConfigureHost
-		/// </summary>
-		/// <param name="username">Username for the ticket</param>
-		/// <param name="persist">Should this ticket be persisted</param>
-		/// <param name="roles">The roles to add to the authentication ticket.</param>
-		public static void SetAuthenticationTicket(string username, bool persist, params string[] roles)
-		{
-			//Getting a cookie this way and using a temp auth ticket 
-			//allows us to access the timeout value from web.config in partial trust.
-			HttpCookie authCookie = FormsAuthentication.GetAuthCookie(username, persist);
-			FormsAuthenticationTicket tempTicket = FormsAuthentication.Decrypt(authCookie.Value);
-			string userData = string.Join("|", roles);
-
-			FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
-				tempTicket.Version,
-				tempTicket.Name,
-				tempTicket.IssueDate,
-				tempTicket.Expiration,//this is how we access the configured timeout value
-				persist,//the configured persistence value in web.config is not used. We use the checkbox value on the login page.
-				userData,//roles
-				tempTicket.CookiePath);
-			authCookie.Value = FormsAuthentication.Encrypt(authTicket);
-			authCookie.Name = GetFullCookieName();//prevents login problems with some multiblog setups
-
-			HttpContext.Current.Response.Cookies.Add(authCookie);
-			#region Logging
-			if (log.IsDebugEnabled)
-			{
-				log.Debug("the code must call a redirect after this");
-				log.DebugFormat("cookie '{3}' added to response for '{0}'; expires {1} and contains roles: {2}",
-					username, authCookie.Expires, authTicket.UserData, authCookie.Name);
-			}
-			#endregion
-		}
-
-
+		
 		/// <summary>
 		/// Logs the user off the system.
 		/// </summary>
@@ -281,15 +243,6 @@ namespace Subtext.Framework.Security
 		}
 
 		/// <summary>
-		/// Updates the host admin password.
-		/// </summary>
-		/// <param name="answer">The answer.</param>
-		public static void ResetHostAdminPassword(string answer)
-		{
-			Membership.Provider.ResetPassword(HostInfo.Instance.Owner.UserName, answer);
-		}
-
-		/// <summary>
 		/// Generates a "Random Enough" password. :)
 		/// </summary>
 		/// <returns></returns>
@@ -324,31 +277,7 @@ namespace Subtext.Framework.Security
 		{
 			get
 			{
-				//TODO: Remove the second check when we have better security model.
 				return IsInRole(RoleNames.HostAdmins);
-			}
-		}
-
-		/// <summary>
-		/// Gets the name of the current user.
-		/// </summary>
-		/// <value></value>
-		public static string CurrentUserName
-		{
-			get
-			{
-				if (HttpContext.Current.Request.IsAuthenticated)
-				{
-					try
-					{
-						return HttpContext.Current.User.Identity.Name;
-					}
-					catch(Exception e)
-					{
-					    log.Error("Unexpected exception while grabbing the user name", e);
-					}
-				}
-				return null;
 			}
 		}
 
@@ -361,7 +290,12 @@ namespace Subtext.Framework.Security
 		/// <returns></returns>
 		public static bool IsInRole(string role)
 		{
-			IPrincipal currentPrincipal = HttpContext.Current.User ?? Thread.CurrentPrincipal;
+			IPrincipal currentPrincipal = null;
+			if (HttpContext.Current != null)
+				currentPrincipal = HttpContext.Current.User;
+
+			currentPrincipal = currentPrincipal ?? Thread.CurrentPrincipal;
+
 			if (currentPrincipal == null)
 			{
 				log.Debug("The Current User is (checked both HttpContext and Thread.CurrentPrincipal) null");
@@ -466,23 +400,10 @@ namespace Subtext.Framework.Security
 		/// <returns></returns>
 		public static string GetApplicationId()
 		{
-			int BlogId;
-			try
-			{
-				BlogId = Config.CurrentBlog.Id;
-			}
-			catch (NullReferenceException)
-			{
-				BlogId = -1;
-			}
-			if (BlogId <= 0)
-			{
+			if (Config.CurrentBlog == null)
 				return "/";
-			}
-			else
-			{
-				return String.Format(CultureInfo.InvariantCulture, "Blog_{0}", BlogId);
-			}
+
+			return String.Format(CultureInfo.InvariantCulture, "Blog_{0}", Config.CurrentBlog.Id);
 		}
 	}
 }
