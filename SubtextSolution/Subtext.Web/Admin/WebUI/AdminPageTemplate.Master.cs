@@ -1,7 +1,6 @@
 using System;
 using System.Web;
 using System.Web.UI.WebControls;
-using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
 
