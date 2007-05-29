@@ -19,7 +19,6 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.ApplicationBlocks.Data;
 using Subtext.Scripting.Exceptions;
 using Subtext.Scripting.Properties;
 
@@ -113,8 +112,11 @@ namespace Subtext.Scripting
 			int returnValue = 0;
 			try
 			{
-				returnValue = SqlHelper.ExecuteNonQuery(transaction, CommandType.Text, this.ScriptText);
-				return returnValue;
+				using(SqlCommand command = new SqlCommand(this.ScriptText, transaction.Connection, transaction))
+				{
+					command.CommandType = CommandType.Text;
+					return command.ExecuteNonQuery();
+				}
 			}
 			catch(SqlException e)
 			{

@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
-using Microsoft.ApplicationBlocks.Data;
+using SubSonic;
 using Subtext.Data;
 
 namespace Subtext.Installation
@@ -141,21 +141,11 @@ namespace Subtext.Installation
 		/// <param name="transaction">The transaction to perform this action within.</param>
 		public void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
 		{
-			string sql = "subtext_VersionAdd";
-			SqlParameter[] p =
-			{
-				CreateParameter("@Major", SqlDbType.Int, 4, newVersion.Major), 
-				CreateParameter("@Minor", SqlDbType.Int, 4, newVersion.Minor), 
-				CreateParameter("@Build", SqlDbType.Int, 4, newVersion.Build)
-			};
-			SqlHelper.ExecuteNonQuery(transaction, CommandType.StoredProcedure, sql, p);
-		}
-
-		static SqlParameter CreateParameter(string name, SqlDbType dbType, int size, object value)
-		{
-			SqlParameter param = new SqlParameter(name, dbType, size);
-			param.Value = value;
-			return param;
+			StoredProcedure proc = new StoredProcedure("subtext_VersionAdd");
+			proc.Command.AddParameter("@Major", newVersion.Major);
+			proc.Command.AddParameter("@Minor", newVersion.Minor);
+			proc.Command.AddParameter("@Build", newVersion.Build);
+			proc.Execute();
 		}
 
 		/// <summary>
@@ -168,11 +158,11 @@ namespace Subtext.Installation
 		{
 			get
 			{
-				string sql = "subtext_VersionGetCurrent";
+				StoredProcedure proc = new StoredProcedure("subtext_VersionGetCurrent");
 
 				try
 				{
-					using (IDataReader reader = SqlHelper.ExecuteReader(this.connectionString, CommandType.StoredProcedure, sql))
+					using (IDataReader reader = proc.GetReader())
 					{
 						if (reader.Read())
 						{

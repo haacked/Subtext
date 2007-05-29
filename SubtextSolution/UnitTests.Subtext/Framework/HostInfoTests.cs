@@ -1,9 +1,7 @@
 using System;
-using System.Configuration;
-using System.Data;
 using System.Web.Security;
 using MbUnit.Framework;
-using Microsoft.ApplicationBlocks.Data;
+using SubSonic;
 using Subtext.Framework;
 
 namespace UnitTests.Subtext.Framework
@@ -15,7 +13,8 @@ namespace UnitTests.Subtext.Framework
 		[RollBack]
 		public void CanLoadHost()
 		{
-			SqlHelper.ExecuteNonQuery(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString, CommandType.Text, "DELETE subtext_Host");
+			QueryCommand command = new QueryCommand("DELETE subtext_Host");
+			DataService.ExecuteQuery(command);
 
 			if (HostInfo.Instance == null)
 			{

@@ -15,14 +15,12 @@
 
 using System;
 using System.Configuration;
-using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
 using Subtext.Installation.Properties;
 using Subtext.Scripting;
@@ -179,8 +177,16 @@ namespace Subtext.Installation.Import
 		static int GetTableCount(string tableName, ConnectionString connectionString)
 		{
             const string TableExistsSql = "SELECT COUNT(1) FROM [INFORMATION_SCHEMA].[TABLES] WHERE [TABLE_TYPE]='BASE TABLE' AND [TABLE_NAME]='{0}'";
-			string blogContentTableSql = String.Format(CultureInfo.InvariantCulture, TableExistsSql, tableName);			
-			return (int)SqlHelper.ExecuteScalar(connectionString.ToString(), CommandType.Text, blogContentTableSql);
+			string blogContentTableSql = String.Format(CultureInfo.InvariantCulture, TableExistsSql, tableName);
+
+			using (SqlConnection conn = new SqlConnection(connectionString.ToString()))
+			{
+				conn.Open();
+				using(SqlCommand command = new SqlCommand(blogContentTableSql, conn))
+				{
+					return (int)command.ExecuteScalar();
+				}
+			}
 		}
 	}
 }
