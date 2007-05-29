@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Web.Security;
 using MbUnit.Framework;
 using Subtext.Framework.Configuration;
@@ -9,6 +11,27 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 	[TestFixture]
 	public class SubtextMembershipProviderTests
 	{
+		[Test]
+		[ExpectedException(typeof(NotImplementedException))]
+		public void GetPasswordNotImplementedOnPurpose()
+		{
+			Membership.Provider.GetPassword("test", "test");
+		}
+
+		[Test]
+		public void InitializeSetsNameIfNull()
+		{
+			SubtextMembershipProvider provider = new SubtextMembershipProvider();
+			try
+			{
+				provider.Initialize(null, new NameValueCollection());
+			}
+			catch(ConfigurationException)
+			{
+			}
+			Assert.AreEqual("SubtextMembershipProvider", provider.Name);
+		}
+
 		[Test]
 		[RollBack]
 		public void CanUpdateUser()
@@ -21,23 +44,15 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 		
 		[Test]
-		public void RequiresQuestionAndAnswerIsTrue()
+		public void CanGetMembershipProviderPropertyValues()
 		{
+			Assert.AreEqual(null, Membership.Provider.PasswordStrengthRegularExpression);
+			Assert.AreEqual(4, Membership.Provider.MinRequiredPasswordLength);
+			Assert.AreEqual(0, Membership.Provider.MinRequiredNonAlphanumericCharacters);
 			Assert.IsTrue(Membership.Provider.RequiresQuestionAndAnswer, "Expected RequiresQuestionAndAnswer to be true.");
-		}
-		
-		[Test]
-		public void EnablePasswordResetIsTrue()
-		{
 			Assert.IsTrue(Membership.Provider.EnablePasswordReset, "Expect enablePasswordReset to be true");
-		}
-		
-		[Test]
-		public void EnablePasswordRetrievalIsFalse()
-		{
 			Assert.IsFalse(Membership.Provider.EnablePasswordRetrieval, "Expect enablePasswordRetrieval to be false");
 		}
-		
 
 		[Test]
 		[RollBack]
@@ -113,6 +128,12 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 				users = Membership.FindUsersByName("z0000");
 				CollectionAssert.AreCountEqual(1, users);
 			}
+		}
+
+		[Test]
+		public void CanGetUserReturnsNull()
+		{
+			Assert.IsNull(Membership.GetUser(Guid.NewGuid(), false));
 		}
 
 		[Test]
@@ -212,6 +233,71 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		
 
 		#region ... Exception Cases ...
+		[Test]
+		[ExpectedArgumentNullException]
+		public void InitializeThrowsArgumentNullException()
+		{
+			SubtextMembershipProvider provider = new SubtextMembershipProvider();
+			provider.Initialize("test", null);
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void FindUsersByEmailThrowsArgumentNullException()
+		{
+			int total;
+			Membership.Provider.FindUsersByEmail(null, 0, 10, out total);
+		}
+
+		[Test]
+		[ExpectedArgumentException]
+		public void FindUsersByEmailThrowsArgumentException()
+		{
+			int total;
+			Membership.Provider.FindUsersByEmail(string.Empty, 0, 10, out total);
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void FindUsersByNameThrowsArgumentNullException()
+		{
+			int total;
+			Membership.Provider.FindUsersByName(null, 0, 10, out total);
+		}
+
+		[Test]
+		[ExpectedArgumentException]
+		public void FindUsersByNameThrowsArgumentException()
+		{
+			int total;
+			Membership.Provider.FindUsersByName(string.Empty, 0, 10, out total);
+		}
+
+		[Test]
+		[ExpectedException(typeof(ConfigurationErrorsException))]
+		public void InitializeThrowsConfigurationException()
+		{
+			SubtextMembershipProvider provider = new SubtextMembershipProvider();
+			provider.Initialize("test", new NameValueCollection());
+		}
+
+		[Test]
+		[ExpectedException(typeof(ConfigurationErrorsException))]
+		public void InitializeThrowsConfigurationExceptionForMissingConnectionString()
+		{
+			SubtextMembershipProvider provider = new SubtextMembershipProvider();
+			NameValueCollection config = new NameValueCollection();
+			config.Add("connectionStringName", String.Empty);
+			provider.Initialize("test", config);
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void UpdateUserThrowsArgumentNullException()
+		{
+			Membership.UpdateUser(null);
+		}
+
 		[RowTest]
 		[Row(null, ExpectedException = typeof(ArgumentNullException))]
 		[Row("", ExpectedException = typeof(ArgumentException))]

@@ -15,17 +15,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
-using Subtext.Framework.Text;
 using Subtext.Framework.Threading;
-using Subtext.Framework.Tracking;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Web;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -35,8 +30,6 @@ namespace Subtext.Framework
 	/// </summary>
 	public static class Stats
 	{
-		static Log Log = new Log();
-
 		static List<EntryView> queuedStatsList = null;
 		static int queuedAllowCount;
 
