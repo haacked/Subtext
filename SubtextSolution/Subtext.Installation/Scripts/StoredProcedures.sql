@@ -7236,7 +7236,7 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_CreateUser]
     @IsApproved                             bit,
     @CurrentTimeUtc                         datetime,
     @CreateDate                             datetime = NULL,
-    @UniqueEmail                            int      = 0,
+    @UniqueEmail                            bit      = 0,
     @PasswordFormat                         int      = 0,
     @UserId                                 uniqueidentifier OUTPUT
 AS
