@@ -289,9 +289,6 @@
     <Compile Include="Entries.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Exceptions.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Exceptions\BaseBlogConfigurationException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -337,6 +334,7 @@
     <Compile Include="Exceptions\HostNotConfiguredException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Exceptions\IllegalPostCharactersException.cs" />
     <Compile Include="Exceptions\InvalidSubfolderNameException.cs">
       <SubType>Code</SubType>
     </Compile>

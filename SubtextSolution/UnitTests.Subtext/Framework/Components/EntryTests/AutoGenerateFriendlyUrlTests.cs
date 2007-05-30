@@ -28,7 +28,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	/// of an entry. This serves as a friendly url.
 	/// </summary>
 	[TestFixture]
-	[Author("Robb Allen", "robb.allen@gmail.com", "http://blog.robballen.com")]
 	public class AutoGenerateFriendlyUrlTests
 	{
 		[Test]

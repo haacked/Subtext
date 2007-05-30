@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Web;
 using MbUnit.Framework;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -19,8 +20,15 @@ namespace UnitTests.Subtext.Framework
 		public void PropertyGetSetTests()
 		{
 			BlogInfo blog = new BlogInfo();
+
+			blog.TrackbackNoficationEnabled = true;
+			Assert.IsTrue(blog.TrackbackNoficationEnabled);
+			blog.TrackbackNoficationEnabled = false;
+			Assert.IsFalse(blog.TrackbackNoficationEnabled);
+
 			blog.CaptchaEnabled = true;
 			Assert.IsTrue((blog.Flag & ConfigurationFlags.CaptchaEnabled) == ConfigurationFlags.CaptchaEnabled);
+			Assert.IsTrue(blog.CaptchaEnabled);
 			blog.CaptchaEnabled = false;
 			Assert.IsTrue((blog.Flag & ConfigurationFlags.CaptchaEnabled) != ConfigurationFlags.CaptchaEnabled);
 
@@ -59,8 +67,34 @@ namespace UnitTests.Subtext.Framework
 
 			blog.StoryCount = 1975;
 			Assert.AreEqual(1975, blog.StoryCount);
+		}
 
+		[Test]
+		[RollBack]
+		public void CanGetBlogs()
+		{
+			UnitTestHelper.SetupBlog();
+			IPagedCollection<BlogInfo> blogs = BlogInfo.GetBlogs(0, int.MaxValue, ConfigurationFlags.None);
+			Assert.GreaterEqualThan(blogs.Count, 1);
+			foreach(BlogInfo blog in blogs)
+			{
+				if (blog.Id == Config.CurrentBlog.Id)
+					return;
+			}
+			Assert.Fail("Did not find the blog we created");
+		}
+
+		[Test]
+		public void CanTestForEquality()
+		{
+			BlogInfo blog = new BlogInfo();
+			blog.Id = 12;
 			Assert.IsFalse(blog.Equals(null), "Blog should not equal null");
+			Assert.IsFalse(blog.Equals("Something Not A Blog"), "Blog should not equal a string");
+
+			BlogInfo blog2 = new BlogInfo();
+			blog2.Id = 12;
+			Assert.IsTrue(blog.Equals(blog2));
 		}
 
 		[Test]

@@ -21,36 +21,35 @@ using Subtext.Framework.Providers;
 namespace Subtext.Framework
 {
 	/// <summary>
-	/// Static class used to get collections of archived posts 
-	/// (by month and year and category) from the data provider.
+	/// Static class used to get post counts based on different groupings.
 	/// </summary>
 	public static class Archives
 	{
 		/// <summary>
-		/// Gets archived posts by month.
+		/// Gets the post counts by month.
 		/// </summary>
 		/// <returns></returns>
-		public static ICollection<ArchiveCount> GetPostsByMonthArchive()
+		public static ICollection<ArchiveCount> GetPostCountByMonth()
 		{
-			return ObjectProvider.Instance().GetPostsGroupedByMonth();
+			return ObjectProvider.Instance().GetPostCountByMonth();
 		}
 
 		/// <summary>
-		/// Gets archived posts by year.
+		/// Gets the post counts by year.
 		/// </summary>
 		/// <returns></returns>
-		public static ICollection<ArchiveCount> GetPostsByYearArchive()
+		public static ICollection<ArchiveCount> GetPostCountByYear()
 		{
-			return ObjectProvider.Instance().GetPostsGroupedByYear();
+			return ObjectProvider.Instance().GetPostCountByYear();
 		}
 
 		/// <summary>
-		/// Gets archived posts by category.
+		/// Gets the post counts by category.
 		/// </summary>
 		/// <returns></returns>
-		public static ICollection<ArchiveCount> GetPostsByCategoryArchive()
+		public static ICollection<ArchiveCount> GetPostCountByCategory()
 		{
-			return ObjectProvider.Instance().GetPostsGroupedByCategory();
+			return ObjectProvider.Instance().GetPostCountByCategory();
 		}
 	}
 }

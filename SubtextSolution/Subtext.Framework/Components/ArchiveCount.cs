@@ -23,14 +23,7 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class ArchiveCount
 	{
-		public ArchiveCount()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
-        private String _title;
+		private String _title;
         public String Title
         {
             get { return _title; }

@@ -616,17 +616,17 @@ namespace Subtext.Framework.Providers
 		/// Gets the posts grouped by year.
 		/// </summary>
 		/// <returns></returns>
-		public abstract ICollection<ArchiveCount> GetPostsGroupedByYear();
+		public abstract ICollection<ArchiveCount> GetPostCountByYear();
 		/// <summary>
 		/// Gets the posts grouped by month.
 		/// </summary>
 		/// <returns></returns>
-		public abstract ICollection<ArchiveCount> GetPostsGroupedByMonth();
+		public abstract ICollection<ArchiveCount> GetPostCountByMonth();
 		/// <summary>
 		/// Gets the posts grouped by category.
 		/// </summary>
 		/// <returns></returns>
-		public abstract ICollection<ArchiveCount> GetPostsGroupedByCategory();
+		public abstract ICollection<ArchiveCount> GetPostCountByCategory();
 		#endregion
 
 		#region Plugins

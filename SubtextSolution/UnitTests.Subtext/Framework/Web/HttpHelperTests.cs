@@ -2,7 +2,6 @@ using System;
 using System.Net;
 using MbUnit.Framework;
 using Subtext.Framework;
-using Subtext.Framework.Util;
 using Subtext.Framework.Web;
 using Subtext.Framework.Util.TimeZoneUtil;
 
@@ -33,6 +32,7 @@ namespace UnitTests.Subtext.Framework.Web
 		/// </summary>
 		[RowTest]
 		[Row("4/12/2006", "04/11/2006 5:00 PM")]
+		[Row("20070123T120102", "1/23/2007 4:01:02 AM")]
 		[Row("12 Apr 2006 06:59:33 GMT", "4/11/2006 11:59:33 PM")]
 		[Row("Wed, 12 Apr 2006 06:59:33 GMT", "04-11-2006 23:59:33")]
 		public void TestIfModifiedSinceExtraction(string received, string expected)
@@ -50,6 +50,23 @@ namespace UnitTests.Subtext.Framework.Web
 			result = timeZone.ToLocalTime(result);
 
 			Assert.AreEqual(expectedDate, result);
+		}
+
+		[Test]
+		public void ParseUnknownFormatUTCReturnsNullDateForUnparesableDate()
+		{
+			Assert.AreEqual(NullValue.NullDateTime, DateTimeHelper.ParseUnknownFormatUTC("poop"));
+		}
+
+		[RowTest]
+		[Row("4/12/2006", "04/12/2006 00:00:00 AM")]
+		[Row("20070123T120102", "01/23/2007 12:01:02 PM")]
+		[Row("12 Apr 2006 06:59:33 GMT", "04/12/2006 06:59:33 AM")]
+		[Row("Wed, 12 Apr 2006 06:59:33 GMT", "04/12/2006 06:59:33 AM")]
+		public void CanParseUnknownFormatUTC(string received, string expected)
+		{
+			DateTime expectedDate = DateTimeHelper.ParseUnknownFormatUTC(received);
+			Assert.AreEqual(expected, expectedDate.ToString("MM/dd/yyyy HH:mm:ss tt"));
 		}
 
 		[RowTest]
