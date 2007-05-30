@@ -387,9 +387,7 @@ namespace Subtext.Framework
 		public static string AutoGenerateFriendlyUrl(string title, char wordSeparator, int entryId, TextTransform textTransform)
 		{
             if (title == null)
-            {
                 throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
-            }
 			
 			string entryName = RemoveNonWordCharacters(title);
 			entryName = ReplaceSpacesWithSeparator(entryName, wordSeparator);
