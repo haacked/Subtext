@@ -13,6 +13,38 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	{
 		[Test]
 		[RollBack]
+		public void CanGetHomePageEntries()
+		{
+			UnitTestHelper.SetupBlog();
+			ICollection<EntryDay> entries = Entries.GetHomePageEntries(10);
+			Assert.AreEqual(0, entries.Count);
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test", "Body Rockin");
+			Entries.Create(entry);
+
+			entries = Entries.GetHomePageEntries(10);
+			Assert.AreEqual(1, entries.Count);
+		}
+
+		[Test]
+		[RollBack]
+		public void CanGetEntriesByCategory()
+		{
+			UnitTestHelper.SetupBlog();
+			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "Category42");
+
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test", "Body Rockin");
+			int entryId = Entries.Create(entry);
+			ICollection<Entry> entries = Entries.GetEntriesByCategory(int.MaxValue, categoryId, false);
+			Assert.AreEqual(0, entries.Count);
+			
+			Entries.SetEntryCategoryList(entryId, new int[] {categoryId});
+
+			entries = Entries.GetEntriesByCategory(10, categoryId, false);
+			Assert.AreEqual(1, entries.Count);
+		}
+
+		[Test]
+		[RollBack]
 		public void CanGetRecentPosts()
 		{
 			UnitTestHelper.SetupBlog();
