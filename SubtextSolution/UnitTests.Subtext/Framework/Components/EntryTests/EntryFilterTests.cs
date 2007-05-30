@@ -126,7 +126,14 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
 	    }
 
-	    /// <summary>
+		[Test]
+		[ExpectedArgumentNullException]
+		public void FilterAfterPersistThrowsArgumentNullException()
+		{
+			CommentFilter.FilterAfterPersist(null);
+		}
+
+		/// <summary>
 		/// Sets the up test fixture.  This is called once for 
 		/// this test fixture before all the tests run.
 		/// </summary>

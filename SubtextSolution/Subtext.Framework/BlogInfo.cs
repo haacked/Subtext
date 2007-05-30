@@ -913,16 +913,6 @@ namespace Subtext.Framework
 			set { _flag = value; }
 		}
 
-		/// <summary>
-		/// Returns the Subfolder name without any dashes.
-		/// </summary>
-		/// <value></value>
-		public string CleanSubfolder
-		{
-			get { return this.Subfolder.Replace("/", string.Empty).Trim(); }
-
-		}
-
 		#region Counts
 
 		//TODO: These might need to go somewhere else.

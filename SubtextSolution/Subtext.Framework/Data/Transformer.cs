@@ -81,7 +81,7 @@ namespace Subtext.Framework.Data
 		/// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
 		public static LinkCategory BuildMonthLinks(string title, UrlFormats formats)
 		{
-			ICollection<ArchiveCount> acc = Archives.GetPostsByMonthArchive();
+			ICollection<ArchiveCount> acc = Archives.GetPostCountByMonth();
 
 			LinkCategory lc = new LinkCategory();
 			lc.Title = title;
@@ -109,7 +109,7 @@ namespace Subtext.Framework.Data
 		/// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
 		public static LinkCategory BuildCategoriesArchiveLinks(string title, UrlFormats formats)
 		{
-			ICollection<ArchiveCount> acc = Archives.GetPostsByCategoryArchive();
+			ICollection<ArchiveCount> acc = Archives.GetPostCountByCategory();
 
 			LinkCategory lc = new LinkCategory();
 			lc.Title = title;

@@ -26,6 +26,7 @@ using System.Xml;
 using Sgml;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Velocit.RegularExpressions;
 using Subtext.Framework.Properties;
 
@@ -273,7 +274,7 @@ namespace Subtext.Framework.Text
          if (!String.IsNullOrEmpty(text))
          {
             string regex = @">(\r\n)+<!\[CDATA\[";
-            Regex newLineStripper = new System.Text.RegularExpressions.Regex(regex);
+            Regex newLineStripper = new Regex(regex);
 
             return newLineStripper.Replace(text, "><![CDATA[");
          }

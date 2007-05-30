@@ -1634,7 +1634,7 @@ namespace Subtext.Framework.Data
 		/// Gets the posts by month archive.
 		/// </summary>
 		/// <returns></returns>
-		public override ICollection<ArchiveCount> GetPostsGroupedByMonth()
+		public override ICollection<ArchiveCount> GetPostCountByMonth()
 		{
 			//TODO: We ought to be able to do this with a single proc and a clever parameter.
 			//		Either a bitmask or a date param that is the prototype for  the records to return.
@@ -1649,7 +1649,7 @@ namespace Subtext.Framework.Data
 		/// Gets the posts by year archive.
 		/// </summary>
 		/// <returns></returns>
-		public override ICollection<ArchiveCount> GetPostsGroupedByYear()
+		public override ICollection<ArchiveCount> GetPostCountByYear()
 		{
 			using (IDataReader reader = StoredProcedures.GetPostsByYearArchive(BlogId).GetReader())
 			{
@@ -1662,7 +1662,7 @@ namespace Subtext.Framework.Data
 		/// Gets the posts by category archive.
 		/// </summary>
 		/// <returns></returns>
-		public override ICollection<ArchiveCount> GetPostsGroupedByCategory()
+		public override ICollection<ArchiveCount> GetPostCountByCategory()
 		{
 			using (IDataReader reader = StoredProcedures.GetPostsByCategoriesArchive(BlogId).GetReader())
 			{

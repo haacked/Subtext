@@ -22,6 +22,7 @@ using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Text;
 
 namespace UnitTests.Subtext.Framework.Text

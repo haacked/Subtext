@@ -9,10 +9,8 @@ namespace UnitTests.Subtext.Framework.Text
 	/// just that method.
 	/// </summary>
 	[TestFixture]
-	[Author("Simone Chiaretta", "simone@piyosailing.com", "http://www.codeclimber.net.nz")]
 	public class RemoveCommentsTests
 	{
-
 		/// <summary>
 		/// Passes in each row to the test. Calls <see cref="HtmlHelper.RemoveHtmlComments"/> on 
 		/// the input and compares against the expected value.
