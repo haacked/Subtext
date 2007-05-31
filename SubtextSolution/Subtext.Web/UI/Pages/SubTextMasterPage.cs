@@ -56,6 +56,8 @@ namespace Subtext.Web.UI.Pages
 		protected Literal styles;
 		protected Literal virtualRoot;
 		protected Literal virtualBlogRoot;
+		protected Literal customTrackingCode;
+		protected Literal additionalMetaTags;
 		#endregion
 		
 		protected BlogInfo CurrentBlog;
@@ -172,11 +174,22 @@ namespace Subtext.Web.UI.Pages
 			//Is this for extra security?
 			EnableViewState = false;
 			pageTitle.Text = Globals.CurrentTitle(Context);
-            if (Config.CurrentBlog.Author != null && Config.CurrentBlog.Author.Length > 0)
+			if (!String.IsNullOrEmpty(Config.CurrentBlog.Author))
             {
-				authorMetaTag.Text = String.Format("\r\n<meta name=\"author\" content=\"{0}\" />", Config.CurrentBlog.Author);
+				authorMetaTag.Text = String.Format(Environment.NewLine + "<meta name=\"author\" content=\"{0}\" />", Config.CurrentBlog.Author);
             }
-			versionMetaTag.Text = String.Format("\r\n<meta name=\"Generator\" content=\"{0}\" />\r\n", Subtext.Framework.VersionInfo.VersionDisplayText);
+			versionMetaTag.Text = String.Format(Environment.NewLine + "<meta name=\"Generator\" content=\"{0}\" />", VersionInfo.VersionDisplayText);
+
+			if (!String.IsNullOrEmpty(Config.CurrentBlog.CustomMetaTags))
+			{
+				additionalMetaTags.Text = Environment.NewLine + Config.CurrentBlog.CustomMetaTags + Environment.NewLine;
+			}
+
+			if (!String.IsNullOrEmpty(Config.CurrentBlog.TrackingCode))
+			{
+				customTrackingCode.Text = Config.CurrentBlog.TrackingCode;
+			}
+
             base.OnPreRender (e);
 
 		}
@@ -376,7 +389,7 @@ namespace Subtext.Web.UI.Pages
 						result.Append(RenderStyleElement(skinPath, style));
 					}
 				}
-				return result.ToString();
+				return Environment.NewLine + result.ToString() + Environment.NewLine;
 			}
 		}
 

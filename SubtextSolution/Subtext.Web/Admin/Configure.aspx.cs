@@ -52,6 +52,8 @@ namespace Subtext.Web.Admin.Pages
 		        txbAuthorEmail.Text = info.Owner.Email;
 		        txbUser.Text = info.Owner.UserName;
 		        txbNews.Text = info.News;
+			txbMetaTags.Text = info.CustomMetaTags;
+			txbGenericTrackingCode.Text = info.TrackingCode;
 		        ckbAllowServiceAccess.Checked = info.AllowServiceAccess;
 		        ddlTimezone.DataSource = WindowsTimeZone.TimeZones;
 		        ddlTimezone.DataTextField = "DisplayName";
@@ -159,8 +161,10 @@ namespace Subtext.Web.Admin.Pages
 
 				info.Skin.CustomCssText = txbSecondaryCss.Text.Trim();
 
-				string news = txbNews.Text.Trim();
-				info.News = news.Length == 0 ? null : news;
+				info.News = NormalizeString(txbNews.Text);
+				info.CustomMetaTags = NormalizeString(txbMetaTags.Text);
+				info.TrackingCode = NormalizeString(txbGenericTrackingCode.Text);
+
 
 				SkinTemplate skinTemplate = SkinTemplates.Instance().GetTemplate(ddlSkin.SelectedItem.Value);
 				info.Skin.TemplateFolder = skinTemplate.TemplateFolder;
@@ -229,6 +233,12 @@ namespace Subtext.Web.Admin.Pages
             }
         }
 		#endregion
+
+		private string NormalizeString(string text)
+		{
+			string tmp = text.Trim();
+			return tmp.Length == 0 ? null : tmp;
+		}
 
 		protected void btnPost_Click(object sender, EventArgs e)
 		{

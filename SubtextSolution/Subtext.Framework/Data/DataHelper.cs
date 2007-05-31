@@ -529,7 +529,9 @@ namespace Subtext.Framework.Data
 			info.CommentCount = ReadInt32(reader, "CommentCount");
 			info.StoryCount = ReadInt32(reader, "StoryCount");
 			info.PingTrackCount = ReadInt32(reader, "PingTrackCount");
-			info.News = ReadString(reader, "News");			
+			info.News = ReadString(reader, "News");
+			info.CustomMetaTags = ReadString(reader, "CustomMetaTags");
+			info.TrackingCode = ReadString(reader, "TrackingCode");	
 			
 			info.LastUpdated = ReadDate(reader, "LastUpdated", new DateTime(2003, 1 , 1));
 			info.Host = ReadString(reader, "Host");

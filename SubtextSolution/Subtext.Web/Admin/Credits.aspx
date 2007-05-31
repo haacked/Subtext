@@ -1,6 +1,6 @@
 <%@ Page Language="C#" EnableTheming="false" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master"
     AutoEventWireup="true" Codebehind="Credits.aspx.cs" Inherits="Subtext.Web.Admin.WebUI.Credits"
-    Title="Untitled Page" %>
+    Title="3rd Party Credits" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">Credits</asp:Content>
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server"></asp:Content>
