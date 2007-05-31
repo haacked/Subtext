@@ -344,6 +344,20 @@
 		<!--End of Mail to Weblog UI-->
 		
 		<div class="clear">
+			<div class="options">
+				<p>
+					<label class="Block" accesskey="m" for="Edit_txtMetaTags">Additional <u>M</u>eta Tags</label>
+					<asp:TextBox id="txbMetaTags" runat="server" CssClass="textarea" TextMode="MultiLine"></asp:TextBox>
+				</p>
+			</div>
+			<div class="options">
+				<p>
+					<label class="Block" accesskey="t" for="Edit_txtGenericTrackingCode">Sitewide <u>T</u>racking code</label>
+					<asp:TextBox id="txbGenericTrackingCode" runat="server" CssClass="textarea" TextMode="MultiLine"></asp:TextBox>
+				</p>
+			</div>
+		</div>
+		<div class="clear">
 			<asp:Button id="btnPost" runat="server" CssClass="buttonSubmit" Text="Save" />
 		</div>
 	</div>

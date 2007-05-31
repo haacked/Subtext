@@ -654,6 +654,32 @@ namespace Subtext.Framework
 			}
 		}
 
+
+		private string _customMetaTags;
+		/// <summary>
+		/// Gets or sets custom meta tags.
+		/// </summary>
+		/// <value></value>
+		public string CustomMetaTags
+		{
+			get { return _customMetaTags; }
+			set { _customMetaTags = value; }
+		}
+
+		private string _trackingCode;
+
+		/// <summary>
+		/// Gets or sets blog tracking code.
+		/// </summary>
+		/// <value></value>
+		public string TrackingCode
+		{
+			get { return _trackingCode; }
+			set { _trackingCode = value; }
+		}
+
+
+
 		/// <summary>
 		/// Gets or sets the license URL.  This is used to 
 		/// Used to specify a license within a syndicated feed. 

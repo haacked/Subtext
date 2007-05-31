@@ -5,6 +5,7 @@
     <uc1:PreviousNext id="PreviousNext" runat="server" />
     <h1 class="post-title"><asp:HyperLink  Runat="server" ID="TitleUrl" /></h1>
     <div class="post-content"><br/><asp:Literal  runat="server" ID="Body" /></div>
-    <p class="meta"><asp:Literal runat="server" ID="PostDescription" /></p>
-    <!--<p class="meta">Tags: <a href="#" rel="tag">Tag1</a></p>-->
+    <p class="meta"><asp:Literal runat="server" ID="PostDescription" /></p>    
 </div>
+<asp:Literal ID="PingBack" Runat="server" />
+<asp:Literal ID="TrackBack" Runat="server" />

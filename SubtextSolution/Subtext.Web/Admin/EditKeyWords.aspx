@@ -10,10 +10,10 @@
 </asp:Content>
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
-    <ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
-	<ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
+    <st:MessagePanel id="Messages" runat="server" />
+	<st:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
 		HeaderCssClass="CollapsibleHeader" HeaderText="KeyWords" LinkText="[toggle]" Collapsible="True">
-		<ASP:Repeater id="rprSelectionList" runat="server" OnItemCommand="rprSelectionList_ItemCommand">
+		<asp:Repeater id="rprSelectionList" runat="server" OnItemCommand="rprSelectionList_ItemCommand">
 			<HeaderTemplate>
 				<table id="Listing" class="Listing highlightTable" cellspacing="0" cellpadding="0" border="0">
 					<tr>
@@ -72,16 +72,16 @@
 			<FooterTemplate>
 				</table>
 			</FooterTemplate>
-		</ASP:Repeater>
+		</asp:Repeater>
 		<st:PagingControl id="resultsPager" runat="server" 
 			PrefixText="<div>Goto page</div>" 
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
 			UrlFormat="EditKeyWords.aspx?pg={0}" 
 			CssClass="Pager" />
 		<br class="clear" />
-	</ANW:AdvancedPanel>
+	</st:AdvancedPanel>
 	<asp:Button id="btnCreate" runat="server" CssClass="buttonSubmit" Text="Create New" OnClick="btnCreate_Click" />
-	<ANW:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
+	<st:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
 		HeaderText="Edit KeyWord" Collapsible="False">
 		<div class="Edit"><!-- DEBUG -->
 			<p class="Label">Word
@@ -116,5 +116,5 @@
 				<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" CausesValidation="false" OnClick="lkbCancel_Click" />&nbsp;
 			</div>
 		</div>
-	</ANW:AdvancedPanel>
+	</st:AdvancedPanel>
 </asp:Content>
