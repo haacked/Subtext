@@ -19,7 +19,7 @@ Table creation:
 	
 Foreign Keys:
 	SEARCH: IF NOT EXISTS \(SELECT \* FROM dbo\.sysobjects WHERE id = OBJECT_ID\(N'\[dbo\]\.\[{[^\]]+}\]'\) AND type = 'F'\)
-	REPLACE:IF NOT EXISTS\n(\n\tSELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]\n\tWHERE constraint_name = '\1'\n\tAND unique_constraint_schema = '<dbUser,varchar,dbo>'\n)
+	REPLACE:IF NOT EXISTS\n(\n\tSELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]\n\tWHERE CONSTRAINT_NAME = '\1'\n\tAND unique_constraint_schema = '<dbUser,varchar,dbo>'\n)
 */
 
 /* Add an ApplicationId to the subtext_Config table so we can 
@@ -411,7 +411,7 @@ GO
 IF NOT EXISTS
 (
 	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
-	WHERE constraint_name = 'FK__subtext_U__RoleI__31EC6D26'
+	WHERE CONSTRAINT_NAME = 'FK__subtext_U__RoleI__31EC6D26'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_UsersInRoles]  WITH CHECK ADD FOREIGN KEY([RoleId])
@@ -421,7 +421,7 @@ GO
 IF NOT EXISTS
 (
 	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
-	WHERE constraint_name = 'FK__subtext_U__UserI__30F848ED'
+	WHERE CONSTRAINT_NAME = 'FK__subtext_U__UserI__30F848ED'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_UsersInRoles]  WITH CHECK ADD FOREIGN KEY([UserId])
@@ -431,7 +431,7 @@ GO
 IF NOT EXISTS
 (
 	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
-	WHERE constraint_name = 'FK__subtext_P__PathI__45F365D3'
+	WHERE CONSTRAINT_NAME = 'FK__subtext_P__PathI__45F365D3'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PersonalizationAllUsers]  WITH CHECK ADD FOREIGN KEY([PathId])
@@ -441,7 +441,7 @@ GO
 IF NOT EXISTS
 (
 	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
-	WHERE constraint_name = 'FK__subtext_P__PathI__49C3F6B7'
+	WHERE CONSTRAINT_NAME = 'FK__subtext_P__PathI__49C3F6B7'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PersonalizationPerUser]  WITH CHECK ADD FOREIGN KEY([PathId])
@@ -451,7 +451,7 @@ GO
 IF NOT EXISTS
 (
 	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
-	WHERE constraint_name = 'FK__subtext_P__UserI__4AB81AF0'
+	WHERE CONSTRAINT_NAME = 'FK__subtext_P__UserI__4AB81AF0'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PersonalizationPerUser]  WITH CHECK ADD FOREIGN KEY([UserId])
@@ -461,7 +461,7 @@ GO
 IF NOT EXISTS
 (
 	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
-	WHERE constraint_name = 'FK__subtext_R__Appli__2D27B809'
+	WHERE CONSTRAINT_NAME = 'FK__subtext_R__Appli__2D27B809'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Roles]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
@@ -471,7 +471,7 @@ GO
 IF NOT EXISTS
 (
 	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
-	WHERE constraint_name = 'FK__subtext_P__Appli__403A8C7D'
+	WHERE CONSTRAINT_NAME = 'FK__subtext_P__Appli__403A8C7D'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Paths]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
@@ -481,7 +481,7 @@ GO
 IF NOT EXISTS
 (
 	SELECT * FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS]
-	WHERE constraint_name = 'FK__subtext_P__UserI__239E4DCF'
+	WHERE CONSTRAINT_NAME = 'FK__subtext_P__UserI__239E4DCF'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Profile]  WITH CHECK ADD FOREIGN KEY([UserId])

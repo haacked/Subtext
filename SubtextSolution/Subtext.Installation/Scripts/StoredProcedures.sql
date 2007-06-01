@@ -5,10 +5,10 @@ Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
 
 When generating drop and create from SQL Query Analyzer, you can 
 use the following search and replace expressions to convert the 
-script to use information_schema.
+script to use INFORMATION_SCHEMA.
 
 SEARCH:  IF:b* EXISTS \(SELECT \* FROM dbo\.sysobjects WHERE id = OBJECT_ID\(N'\[[^\]]+\]\.\[{[^\]]+}\]'\) AND OBJECTPROPERTY\(id,:b*N'IsProcedure'\) = 1\)
-REPLACE: IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = '\1' AND routine_schema = '<dbUser,varchar,dbo>')
+REPLACE: IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = '\1' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 
 */
 
@@ -16,11 +16,11 @@ REPLACE: IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_
 	These are stored procs that used to be in the system but are no longer needed.
 	The statements will only drop the procs if they exist as a form of cleanup.
 */
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UTILITY_AddBlog' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UTILITY_AddBlog' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UTILITY_AddBlog]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UpdateHost' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UpdateHost' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateHost]
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetLinksByActiveCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -39,494 +39,494 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetConfig' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetConfig' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetConfig] -- RENAMED subtext_GetConfig to subtext_GetBlog. So we're making sure to drop the old one.
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetHost' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetHost' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetHost]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Utility_GetUnHashedPasswords' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Utility_GetUnHashedPasswords' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Utility_GetUnHashedPasswords]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Utility_UpdateToHashedPassword' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Utility_UpdateToHashedPassword' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Utility_UpdateToHashedPassword]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPageableReferrersByEntryID' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPageableReferrersByEntryID' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetBlogsByHost' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetBlogsByHost' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetConditionalEntriesByDateUpdated' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetConditionalEntriesByDateUpdated' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetConditionalEntriesByDateUpdated]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetEntryCollectionByDateUpdated' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetEntryCollectionByDateUpdated' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetEntryCollectionByDateUpdated]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPostsByCategoryNameByDateUpdated' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPostsByCategoryNameByDateUpdated' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryNameByDateUpdated]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPostsByCategoryIDByDateUpdated' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPostsByCategoryIDByDateUpdated' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryIDByDateUpdated]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetEntryWithCategoryTitlesByEntryName' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetEntryWithCategoryTitlesByEntryName' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitlesByEntryName]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPostsByCategoryName' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPostsByCategoryName' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryName]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetRecentEntriesByDateUpdated' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetRecentEntriesByDateUpdated' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetRecentEntriesWithCategoryTitles' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetRecentEntriesWithCategoryTitles' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetRecentEntries' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetRecentEntries' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetRecentEntries]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetSingleEntryByName' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetSingleEntryByName' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetSingleEntryByName]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetEntryWithCategoryTitles' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetEntryWithCategoryTitles' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertPostCategoryByName' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertPostCategoryByName' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPageableLinksByCategoryID' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPageableLinksByCategoryID' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]
 GO
 
 /* The Rest of the script */
 
 -- Views
-IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_Profiles' AND table_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[VIEWS] WHERE TABLE_NAME = 'vw_subtext_Profiles' AND TABLE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_Profiles]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_Roles' AND table_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[VIEWS] WHERE TABLE_NAME = 'vw_subtext_Roles' AND TABLE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_Roles]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_UsersInRoles' AND table_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[VIEWS] WHERE TABLE_NAME = 'vw_subtext_UsersInRoles' AND TABLE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_UsersInRoles]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_WebPartState_Paths' AND table_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[VIEWS] WHERE TABLE_NAME = 'vw_subtext_WebPartState_Paths' AND TABLE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_WebPartState_Paths]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_WebPartState_Shared' AND table_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[VIEWS] WHERE TABLE_NAME = 'vw_subtext_WebPartState_Shared' AND TABLE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_WebPartState_Shared]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_VersionAdd]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_VersionAdd]
 
-IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_WebPartState_User' AND table_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[VIEWS] WHERE TABLE_NAME = 'vw_subtext_WebPartState_User' AND TABLE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_WebPartState_User]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_Applications' AND table_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[VIEWS] WHERE TABLE_NAME = 'vw_subtext_Applications' AND TABLE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_Applications]
 GO
 
 -- Membership Provider Stored Procs
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_RegisterSchemaVersion' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_RegisterSchemaVersion' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_RegisterSchemaVersion]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_CheckSchemaVersion' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_CheckSchemaVersion' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_CheckSchemaVersion]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UnRegisterSchemaVersion' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UnRegisterSchemaVersion' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UnRegisterSchemaVersion]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_AnyDataInTables' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_AnyDataInTables' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_AnyDataInTables]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_CreateUser' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_CreateUser' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_CreateUser]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_GetUserByName' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_GetUserByName' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_GetUserByName]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_GetUserByUserId' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_GetUserByUserId' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_GetUserByUserId]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_GetUserByEmail' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_GetUserByEmail' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_GetUserByEmail]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_GetPasswordWithFormat' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_GetPasswordWithFormat' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_GetPasswordWithFormat]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_UpdateUserInfo' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_UpdateUserInfo' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_UpdateUserInfo]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_GetPassword' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_GetPassword' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_GetPassword]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_SetPassword' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_SetPassword' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_SetPassword]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_ResetPassword' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_ResetPassword' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_ResetPassword]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_UnlockUser' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_UnlockUser' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_UnlockUser]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_UpdateUser' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_UpdateUser' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_UpdateUser]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_ChangePasswordQuestionAndAnswer' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_ChangePasswordQuestionAndAnswer' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_ChangePasswordQuestionAndAnswer]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_GetAllUsers' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_GetAllUsers' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_GetAllUsers]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_GetNumberOfUsersOnline' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_GetNumberOfUsersOnline' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_GetNumberOfUsersOnline]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Membership_FindUsersByNameOrEmail' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Membership_FindUsersByNameOrEmail' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_FindUsersByNameOrEmail]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Profile_GetProperties' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Profile_GetProperties' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Profile_GetProperties]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Profile_SetProperties' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Profile_SetProperties' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Profile_SetProperties]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Profile_DeleteProfiles' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Profile_DeleteProfiles' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Profile_DeleteProfiles]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Profile_DeleteInactiveProfiles' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Profile_DeleteInactiveProfiles' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Profile_DeleteInactiveProfiles]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Profile_GetNumberOfInactiveProfiles' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Profile_GetNumberOfInactiveProfiles' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Profile_GetNumberOfInactiveProfiles]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Profile_GetProfiles' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Profile_GetProfiles' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Profile_GetProfiles]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UsersInRoles_IsUserInRole' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UsersInRoles_IsUserInRole' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UsersInRoles_IsUserInRole]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UsersInRoles_GetRolesForUser' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UsersInRoles_GetRolesForUser' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UsersInRoles_GetRolesForUser]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Roles_CreateRole' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Roles_CreateRole' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Roles_CreateRole]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Roles_DeleteRole' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Roles_DeleteRole' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Roles_DeleteRole]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Roles_RoleExists' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Roles_RoleExists' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Roles_RoleExists]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UsersInRoles_AddUsersToRoles' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UsersInRoles_AddUsersToRoles' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UsersInRoles_AddUsersToRoles]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UsersInRoles_RemoveUsersFromRoles' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UsersInRoles_RemoveUsersFromRoles' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UsersInRoles_RemoveUsersFromRoles]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UsersInRoles_GetUsersInRoles' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UsersInRoles_GetUsersInRoles' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UsersInRoles_GetUsersInRoles]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UsersInRoles_FindUsersInRole' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UsersInRoles_FindUsersInRole' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UsersInRoles_FindUsersInRole]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Roles_GetAllRoles' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Roles_GetAllRoles' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Roles_GetAllRoles]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_PersonalizationAllUsers_GetPageSettings' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_PersonalizationAllUsers_GetPageSettings' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_PersonalizationAllUsers_GetPageSettings]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_PersonalizationAllUsers_ResetPageSettings' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_PersonalizationAllUsers_ResetPageSettings' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_PersonalizationAllUsers_ResetPageSettings]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_PersonalizationAllUsers_SetPageSettings' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_PersonalizationAllUsers_SetPageSettings' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_PersonalizationAllUsers_SetPageSettings]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_PersonalizationPerUser_GetPageSettings' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_PersonalizationPerUser_GetPageSettings' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_PersonalizationPerUser_GetPageSettings]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_PersonalizationPerUser_ResetPageSettings' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_PersonalizationPerUser_ResetPageSettings' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_PersonalizationPerUser_ResetPageSettings]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_PersonalizationPerUser_SetPageSettings' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_PersonalizationPerUser_SetPageSettings' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_PersonalizationPerUser_SetPageSettings]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_PersonalizationAdministration_DeleteAllState' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_PersonalizationAdministration_DeleteAllState' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_PersonalizationAdministration_DeleteAllState]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_PersonalizationAdministration_ResetSharedState' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_PersonalizationAdministration_ResetSharedState' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_PersonalizationAdministration_ResetSharedState]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_PersonalizationAdministration_ResetUserState' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_PersonalizationAdministration_ResetUserState' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_PersonalizationAdministration_ResetUserState]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_PersonalizationAdministration_FindState' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_PersonalizationAdministration_FindState' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_PersonalizationAdministration_FindState]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_PersonalizationAdministration_GetCountOfState' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_PersonalizationAdministration_GetCountOfState' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_PersonalizationAdministration_GetCountOfState]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_WebEvent_LogEvent' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_WebEvent_LogEvent' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_WebEvent_LogEvent]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Setup_RestorePermissions' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Setup_RestorePermissions' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Setup_RestorePermissions]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Setup_RemoveAllRoleMembers' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Setup_RemoveAllRoleMembers' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Setup_RemoveAllRoleMembers]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Applications_CreateApplication' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Applications_CreateApplication' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Applications_CreateApplication]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Users_DeleteUser' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Users_DeleteUser' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Users_DeleteUser]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Personalization_GetApplicationId' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Personalization_GetApplicationId' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Personalization_GetApplicationId]
 GO
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_Paths_CreatePath' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_Paths_CreatePath' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_Paths_CreatePath]
 
 /* Note: DNW_* are the aggregate blog procs */
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'DNW_GetRecentPosts' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'DNW_GetRecentPosts' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[DNW_GetRecentPosts]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'DNW_HomePageData' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'DNW_HomePageData' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[DNW_HomePageData]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'DNW_Stats' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'DNW_Stats' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[DNW_Stats]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'DNW_Total_Stats' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'DNW_Total_Stats' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[DNW_Total_Stats]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'iter_charlist_to_table' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'iter_charlist_to_table' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP FUNCTION [<dbUser,varchar,dbo>].[iter_charlist_to_table]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_CreateHost' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_CreateHost' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_CreateHost]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_VersionAdd' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_VersionAdd' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_VersionAdd]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_VersionGetCurrent' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_VersionGetCurrent' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_VersionGetCurrent]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetCommentByChecksumHash' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetCommentByChecksumHash' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetCommentByChecksumHash]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPageableBlogs' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPageableBlogs' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPageableBlogs]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetBlogById' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetBlogById' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetBlogById]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_DeleteCategory' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_DeleteCategory' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeleteCategory]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_DeleteImage' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_DeleteImage' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeleteImage]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_DeleteImageCategory' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_DeleteImageCategory' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeleteImageCategory]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_DeleteKeyWord' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_DeleteKeyWord' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeleteKeyWord]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_DeleteLink' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_DeleteLink' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeleteLink]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_DeleteLinksByPostID' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_DeleteLinksByPostID' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeleteLinksByPostID]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_DeletePost' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_DeletePost' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeletePost]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_DeleteFeedbackByStatus' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_DeleteFeedbackByStatus' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeleteFeedbackByStatus]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_DeleteFeedback' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_DeleteFeedback' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeleteFeedback]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetActiveCategoriesWithLinkCollection' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetActiveCategoriesWithLinkCollection' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetActiveCategoriesWithLinkCollection]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetAllCategories' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetAllCategories' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetAllCategories]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetBlogKeyWords' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetBlogKeyWords' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetCategory' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetCategory' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetCategory]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetCategoryByName' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetCategoryByName' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetCategoryByName]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetConditionalEntries' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetConditionalEntries' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetConditionalEntries]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetBlog' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetBlog' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetBlog]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetEntriesByDayRange' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetEntriesByDayRange' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetFeedbackCollection' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetFeedbackCollection' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetFeedbackCollection]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetFeedbackCountsByStatus' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetFeedbackCountsByStatus' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetFeedbackCountsByStatus]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetFeedback' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetFeedback' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetFeedback]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetImageCategory' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetImageCategory' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetImageCategory]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetKeyWord' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetKeyWord' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetKeyWord]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetLinkCollectionByPostID' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetLinkCollectionByPostID' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetLinkCollectionByPostID]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetLinksByActiveCategoryID' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetLinksByActiveCategoryID' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetLinksByActiveCategoryID]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetLinksByCategoryID' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetLinksByCategoryID' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetLinksByCategoryID]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPageableEntries' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPageableEntries' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetEntriesForBlogMl' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetEntriesForBlogMl' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetEntriesForBlogMl]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPageableEntriesByCategoryID' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPageableEntriesByCategoryID' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPageableFeedback' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPageableFeedback' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPageableLogEntries' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPageableLogEntries' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPageableLogEntries]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPageableKeyWords' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPageableKeyWords' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPageableKeyWords]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPageableLinks' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPageableLinks' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPageableLinks]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPageableReferrers' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPageableReferrers' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPostsByCategoryID' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPostsByCategoryID' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryID]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPostsByDayRange' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPostsByDayRange' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPostsByDayRange]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPostsByMonth' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPostsByMonth' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPostsByMonth]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPostsByMonthArchive' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPostsByMonthArchive' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPostsByMonthArchive]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPostsByYearArchive' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPostsByYearArchive' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPostsByYearArchive]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetSingleDay' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetSingleDay' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetSingleDay]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetSingleEntry' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetSingleEntry' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetSingleEntry]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetSingleImage' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetSingleImage' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetSingleImage]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetSingleLink' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetSingleLink' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetSingleLink]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetUrlID' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetUrlID' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetUrlID]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertCategory' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertCategory' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertCategory]
 GO
 
@@ -534,11 +534,11 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackStats]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertEntry' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertEntry' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertEntry]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertEntryViewCount' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertEntryViewCount' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertEntryViewCount]
 GO
 
@@ -550,27 +550,27 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateFeedback]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertImage' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertImage' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertImage]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertKeyWord' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertKeyWord' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertKeyWord]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertLink' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertLink' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertLink]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertLinkCategoryList' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertLinkCategoryList' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertLinkCategoryList]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertFeedback' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertFeedback' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertFeedback]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UpdateFeedbackCount' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UpdateFeedbackCount' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount]
 GO
 
@@ -578,55 +578,55 @@ if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TY
 drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UpdateFeedback' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UpdateFeedback' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateFeedback]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertReferral' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertReferral' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertReferral]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertViewStats' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertViewStats' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertViewStats]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_StatsSummary' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_StatsSummary' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_StatsSummary]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_TrackEntry' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_TrackEntry' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_TrackEntry]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UpdateCategory' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UpdateCategory' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateCategory]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UpdateConfig' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UpdateConfig' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UpdateConfigUpdateTime' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UpdateConfigUpdateTime' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UpdateEntry' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UpdateEntry' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateEntry]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UpdateImage' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UpdateImage' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateImage]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UpdateKeyWord' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UpdateKeyWord' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateKeyWord]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UpdateLink' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UpdateLink' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateLink]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_AddLogEntry' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_AddLogEntry' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_AddLogEntry]
 GO
 
@@ -642,23 +642,23 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetTopTags]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_LogClear' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_LogClear' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_LogClear]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_SearchEntries' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_SearchEntries' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_SearchEntries]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetRelatedLinks' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetRelatedLinks' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetRelatedLinks]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetTop10byBlogId' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetTop10byBlogId' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetTop10byBlogId]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPostsByCategoriesArchive' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPostsByCategoriesArchive' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].subtext_GetPostsByCategoriesArchive
 GO
 
@@ -666,27 +666,27 @@ if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TY
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertPluginData' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertPluginData' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertPluginData]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_UpdatePluginData' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UpdatePluginData' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdatePluginData]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_DeletePluginBlog' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_DeletePluginBlog' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeletePluginBlog]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPluginBlog' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPluginBlog' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPluginBlog]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertPluginBlog' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertPluginBlog' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertPluginBlog]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetPluginData' AND routine_schema = '<dbUser,varchar,dbo>')
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPluginData' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPluginData]
 GO
 
@@ -8169,7 +8169,7 @@ GO
 SET QUOTED_IDENTIFIER OFF
 GO
 
-/* permission grants for views */
+/* permission grants for VIEWS */
 GRANT SELECT ON [<dbUser,varchar,dbo>].[vw_subtext_Profiles] TO [public]
 GO
 GRANT SELECT ON [<dbUser,varchar,dbo>].[vw_subtext_Profiles] ([UserId]) TO [public]
