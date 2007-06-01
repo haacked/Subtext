@@ -31,11 +31,8 @@
 				<label accesskey="s" for="Edit_txbSubtitle"><u>S</u>ubtitle</label>
 				<asp:TextBox id="txbSubtitle" runat="server" CssClass="textbox"></asp:TextBox>
 			
-				<label accesskey="u" for="Edit_txbUser"><u>U</u>sername</label>
+				<label accesskey="u" for="Edit_txbUser"><u>O</u>wner</label>
 				<asp:TextBox id="txbUser" runat="server" CssClass="textbox" Enabled="false" />
-			
-				<label accesskey="n" for="Edit_txbAuthor">Owner's Display <u>N</u>ame</label>
-				<asp:TextBox id="txbAuthor" runat="server" CssClass="textbox" ReadOnly="true"></asp:TextBox>
 			
 				<label accesskey="e" for="Edit_txbAuthorEmail">Owner's <u>E</u>mail</label>
 				<asp:TextBox id="txbAuthorEmail" runat="server" CssClass="textbox" ReadOnly="true"></asp:TextBox>

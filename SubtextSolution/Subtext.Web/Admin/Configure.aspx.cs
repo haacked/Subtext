@@ -21,7 +21,6 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.UI.Skinning;
-using Subtext.Framework.Util;
 using Subtext.Framework.Util.TimeZoneUtil;
 
 namespace Subtext.Web.Admin.Pages
@@ -31,108 +30,107 @@ namespace Subtext.Web.Admin.Pages
 		// abstract out at a future point for i18n
 		private const string RES_SUCCESS = "Your configuration was successfully updated.";
 		private const string RES_FAILURE = "Configuration update failed.";
-	
+
 		#region Accessors
 		public CategoryType CategoryType
 		{
-			get { return (CategoryType)ViewState["CategoryType"]; }
+			get { return (CategoryType) ViewState["CategoryType"]; }
 			set { ViewState["CategoryType"] = value; }
 		}
-		
+
 		#endregion
 
 		protected override void BindLocalUI()
 		{
-		    if (!IsPostBack)
-		    {
-		        BlogInfo info = Config.CurrentBlog;
-		        txbTitle.Text = info.Title;
-		        txbSubtitle.Text = info.SubTitle;
-		        txbAuthor.Text = info.Author;
-		        txbAuthorEmail.Text = info.Owner.Email;
-		        txbUser.Text = info.Owner.UserName;
-		        txbNews.Text = info.News;
-			txbMetaTags.Text = info.CustomMetaTags;
-			txbGenericTrackingCode.Text = info.TrackingCode;
-		        ckbAllowServiceAccess.Checked = info.AllowServiceAccess;
-		        ddlTimezone.DataSource = WindowsTimeZone.TimeZones;
-		        ddlTimezone.DataTextField = "DisplayName";
-		        ddlTimezone.DataValueField = "Id";
-		        ddlTimezone.DataBind();
-		        ListItem selectedItem = ddlTimezone.Items.FindByValue(info.TimeZoneId.ToString(CultureInfo.InvariantCulture));
-		        if (selectedItem != null)
-		            selectedItem.Selected = true;
+			if (!IsPostBack)
+			{
+				BlogInfo info = Config.CurrentBlog;
+				txbTitle.Text = info.Title;
+				txbSubtitle.Text = info.SubTitle;
+				txbAuthorEmail.Text = info.Owner.Email;
+				txbUser.Text = info.Owner.UserName;
+				txbNews.Text = info.News;
+				txbMetaTags.Text = info.CustomMetaTags;
+				txbGenericTrackingCode.Text = info.TrackingCode;
+				ckbAllowServiceAccess.Checked = info.AllowServiceAccess;
+				ddlTimezone.DataSource = WindowsTimeZone.TimeZones;
+				ddlTimezone.DataTextField = "DisplayName";
+				ddlTimezone.DataValueField = "Id";
+				ddlTimezone.DataBind();
+				ListItem selectedItem = ddlTimezone.Items.FindByValue(info.TimeZoneId.ToString(CultureInfo.InvariantCulture));
+				if (selectedItem != null)
+					selectedItem.Selected = true;
 
-		        ListItem languageItem = ddlLangLocale.Items.FindByValue(info.Language);
-		        if(languageItem != null)
-		        {
-		            languageItem.Selected = true;
-		        }		
-			
-		        if(info.Skin.HasCustomCssText)
-		        {
-		            txbSecondaryCss.Text = info.Skin.CustomCssText;
-		        }
+				ListItem languageItem = ddlLangLocale.Items.FindByValue(info.Language);
+				if (languageItem != null)
+				{
+					languageItem.Selected = true;
+				}
 
-		        IList<SkinTemplate> templates = SkinTemplates.Instance().Templates;
-		        foreach(SkinTemplate template in templates)
-		        {
-		            ddlSkin.Items.Add(new ListItem(template.Name, template.SkinKey));
-		        }
+				if (info.Skin.HasCustomCssText)
+				{
+					txbSecondaryCss.Text = info.Skin.CustomCssText;
+				}
 
-		        ListItem skinItem = ddlSkin.Items.FindByValue(info.Skin.SkinKey.ToUpper(CultureInfo.InvariantCulture));
-		        if(skinItem != null)
-		        {
-		            skinItem.Selected = true;
-		        }
-			
-		        int count = Config.Settings.ItemCount;
-		        int increment = 1;
-		        for (int i = 1; i <= count; i = i + increment)//starting with 25, the list items increment by 5. Example: 1,2,3,...24,25,30,35,...,45,50.
-		        {
-		            ddlItemCount.Items.Add(new ListItem(i.ToString(CultureInfo.InvariantCulture), i.ToString(CultureInfo.InvariantCulture)));
-		            if (i == 25) { increment = 5; }
-		        }
+				IList<SkinTemplate> templates = SkinTemplates.Instance().Templates;
+				foreach (SkinTemplate template in templates)
+				{
+					ddlSkin.Items.Add(new ListItem(template.Name, template.SkinKey));
+				}
 
-		        if (info.ItemCount <= count)
-		        {
-		            ddlItemCount.Items.FindByValue(info.ItemCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
-		        }
+				ListItem skinItem = ddlSkin.Items.FindByValue(info.Skin.SkinKey.ToUpper(CultureInfo.InvariantCulture));
+				if (skinItem != null)
+				{
+					skinItem.Selected = true;
+				}
 
-		        //CHANGE: Mail To Weblog changes - Gurkan Yeniceri
-                pnlMailToWeblogConfigWrapper.Visible = info.pop3MTBEnable;
-		        ckbPop3MailToWeblog.Checked = info.pop3MTBEnable;
-		        txbPop3Server.Text = info.pop3Server;
-		        txbPop3User.Text = info.pop3User;
-		        txbPop3Password.Text = info.pop3Pass;
-		        txbPop3Subject.Text = info.pop3SubjectPrefix;
-		        txbPop3StartTag.Text = info.pop3StartTag;
-		        txbPop3EndTag.Text = info.pop3EndTag;
-		        ckbPop3DeleteProcessedEmail.Checked = info.pop3DeleteOnlyProcessed;
-		        ckbPop3InlineAttachedPict.Checked = info.pop3InlineAttachedPictures;
+				int count = Config.Settings.ItemCount;
+				int increment = 1;
+				for (int i = 1; i <= count; i = i + increment)//starting with 25, the list items increment by 5. Example: 1,2,3,...24,25,30,35,...,45,50.
+				{
+					ddlItemCount.Items.Add(new ListItem(i.ToString(CultureInfo.InvariantCulture), i.ToString(CultureInfo.InvariantCulture)));
+					if (i == 25) { increment = 5; }
+				}
+
+				if (info.ItemCount <= count)
+				{
+					ddlItemCount.Items.FindByValue(info.ItemCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
+				}
+
+				//CHANGE: Mail To Weblog changes - Gurkan Yeniceri
+				pnlMailToWeblogConfigWrapper.Visible = info.pop3MTBEnable;
+				ckbPop3MailToWeblog.Checked = info.pop3MTBEnable;
+				txbPop3Server.Text = info.pop3Server;
+				txbPop3User.Text = info.pop3User;
+				txbPop3Password.Text = info.pop3Pass;
+				txbPop3Subject.Text = info.pop3SubjectPrefix;
+				txbPop3StartTag.Text = info.pop3StartTag;
+				txbPop3EndTag.Text = info.pop3EndTag;
+				ckbPop3DeleteProcessedEmail.Checked = info.pop3DeleteOnlyProcessed;
+				ckbPop3InlineAttachedPict.Checked = info.pop3InlineAttachedPictures;
 				txbPop3ThumbHeight.Text = info.pop3HeightForThumbs == NullValue.NullInt32 ? string.Empty : info.pop3HeightForThumbs.ToString(CultureInfo.InvariantCulture);
-		        //End of changes
+				//End of changes
 
-		        //int 0 = "All" items
-		        int categoryListPostCount = Config.Settings.CategoryListPostCount;
-		        int maxDropDownItems = categoryListPostCount;
-		        if (maxDropDownItems <= 0)
-		        {
-		            maxDropDownItems = 50;//since 0 represents "All", this provides some other options in the ddl.
-		        }			
-		        ddlCategoryListPostCount.Items.Add(new ListItem("All".ToString(CultureInfo.InvariantCulture), 0.ToString(CultureInfo.InvariantCulture)));
-		        increment = 1;
-		        for (int j = 1; j <= maxDropDownItems; j = j + increment)//starting with 25, the list items increment by 5. Example: 1,2,3,...24,25,30,35,...,45,50.
-		        {
-		            ddlCategoryListPostCount.Items.Add(new ListItem(j.ToString(CultureInfo.InvariantCulture), j.ToString(CultureInfo.InvariantCulture)));
-		            if (j == 25) { increment = 5; }
-		        }
+				//int 0 = "All" items
+				int categoryListPostCount = Config.Settings.CategoryListPostCount;
+				int maxDropDownItems = categoryListPostCount;
+				if (maxDropDownItems <= 0)
+				{
+					maxDropDownItems = 50;//since 0 represents "All", this provides some other options in the ddl.
+				}
+				ddlCategoryListPostCount.Items.Add(new ListItem("All".ToString(CultureInfo.InvariantCulture), 0.ToString(CultureInfo.InvariantCulture)));
+				increment = 1;
+				for (int j = 1; j <= maxDropDownItems; j = j + increment)//starting with 25, the list items increment by 5. Example: 1,2,3,...24,25,30,35,...,45,50.
+				{
+					ddlCategoryListPostCount.Items.Add(new ListItem(j.ToString(CultureInfo.InvariantCulture), j.ToString(CultureInfo.InvariantCulture)));
+					if (j == 25) { increment = 5; }
+				}
 
-		        if (info.CategoryListPostCount <= maxDropDownItems)
-		        {
-		            ddlCategoryListPostCount.Items.FindByValue(info.CategoryListPostCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
-		        }
-		    }
+				if (info.CategoryListPostCount <= maxDropDownItems)
+				{
+					ddlCategoryListPostCount.Items.FindByValue(info.CategoryListPostCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
+				}
+			}
 
 			UpdateTime();
 			base.BindLocalUI();
@@ -154,9 +152,9 @@ namespace Subtext.Web.Admin.Pages
 				info.Id = Config.CurrentBlog.Id;
 
 				info.ItemCount = Int32.Parse(ddlItemCount.SelectedItem.Value);
-				info.CategoryListPostCount = Int32.Parse(ddlCategoryListPostCount.SelectedItem.Value);				
+				info.CategoryListPostCount = Int32.Parse(ddlCategoryListPostCount.SelectedItem.Value);
 				info.Language = ddlLangLocale.SelectedItem.Value;
-				
+
 				info.AllowServiceAccess = ckbAllowServiceAccess.Checked;
 
 				info.Skin.CustomCssText = txbSecondaryCss.Text.Trim();
@@ -169,28 +167,28 @@ namespace Subtext.Web.Admin.Pages
 				SkinTemplate skinTemplate = SkinTemplates.Instance().GetTemplate(ddlSkin.SelectedItem.Value);
 				info.Skin.TemplateFolder = skinTemplate.TemplateFolder;
 				info.Skin.SkinStyleSheet = skinTemplate.StyleSheet;
-                
-                //CHANGE: Mail To Weblog changes - Gurkan Yeniceri
-                info.pop3MTBEnable = ckbPop3MailToWeblog.Checked;
-                info.pop3Server = txbPop3Server.Text;
-                info.pop3User = txbPop3User.Text;
-                info.pop3Pass = txbPop3Password.Text; //Password written to db as clear text. A two way hash would be good
-                info.pop3SubjectPrefix = txbPop3Subject.Text;
-                info.pop3StartTag = txbPop3StartTag.Text;
-                info.pop3EndTag = txbPop3EndTag.Text;
-                info.pop3DeleteOnlyProcessed = ckbPop3DeleteProcessedEmail.Checked;
-                info.pop3InlineAttachedPictures = ckbPop3InlineAttachedPict.Checked;
-                if (!String.IsNullOrEmpty(txbPop3ThumbHeight.Text))
-                {
-                    info.pop3HeightForThumbs = int.Parse(txbPop3ThumbHeight.Text);
-                }
-                //End of Changes
-				
-			    Config.UpdateConfigData(info);
+
+				//CHANGE: Mail To Weblog changes - Gurkan Yeniceri
+				info.pop3MTBEnable = ckbPop3MailToWeblog.Checked;
+				info.pop3Server = txbPop3Server.Text;
+				info.pop3User = txbPop3User.Text;
+				info.pop3Pass = txbPop3Password.Text; //Password written to db as clear text. A two way hash would be good
+				info.pop3SubjectPrefix = txbPop3Subject.Text;
+				info.pop3StartTag = txbPop3StartTag.Text;
+				info.pop3EndTag = txbPop3EndTag.Text;
+				info.pop3DeleteOnlyProcessed = ckbPop3DeleteProcessedEmail.Checked;
+				info.pop3InlineAttachedPictures = ckbPop3InlineAttachedPict.Checked;
+				if (!String.IsNullOrEmpty(txbPop3ThumbHeight.Text))
+				{
+					info.pop3HeightForThumbs = int.Parse(txbPop3ThumbHeight.Text);
+				}
+				//End of Changes
+
+				Config.UpdateConfigData(info);
 
 				this.Messages.ShowMessage(RES_SUCCESS);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, RES_FAILURE, ex.Message));
 			}
@@ -207,31 +205,31 @@ namespace Subtext.Web.Admin.Pages
 			ViewState["CategoryID"] = NullValue.NullInt32;
 			ViewState["CategoryType"] = Constants.DEFAULT_CATEGORYTYPE;
 		}
-		
+
 		/// <summary>
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent()
-		{    
+		{
 			this.ddlTimezone.SelectedIndexChanged += new EventHandler(ddlTimezone_SelectedIndexChanged);
 			this.btnPost.Click += new EventHandler(btnPost_Click);
-            this.ckbPop3MailToWeblog.CheckedChanged += new EventHandler(ckbPop3MailToWeblog_CheckedChanged);
+			this.ckbPop3MailToWeblog.CheckedChanged += new EventHandler(ckbPop3MailToWeblog_CheckedChanged);
 		}
 
-        void ckbPop3MailToWeblog_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox mailToWeblogCheck = (CheckBox)sender;
+		void ckbPop3MailToWeblog_CheckedChanged(object sender, EventArgs e)
+		{
+			CheckBox mailToWeblogCheck = (CheckBox) sender;
 
-            if (mailToWeblogCheck.Checked)
-            {
-                this.pnlMailToWeblogConfigWrapper.Visible = true;
-            }
-            else
-            {
-                this.pnlMailToWeblogConfigWrapper.Visible = false;
-            }
-        }
+			if (mailToWeblogCheck.Checked)
+			{
+				this.pnlMailToWeblogConfigWrapper.Visible = true;
+			}
+			else
+			{
+				this.pnlMailToWeblogConfigWrapper.Visible = false;
+			}
+		}
 		#endregion
 
 		private string NormalizeString(string text)
@@ -249,7 +247,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			UpdateTime();
 		}
-		
+
 		void UpdateTime()
 		{
 			lblServerTimeZone.Text = string.Format("{0} ({1})", TimeZone.CurrentTimeZone.StandardName, TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now));
