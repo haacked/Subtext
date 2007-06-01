@@ -51,8 +51,11 @@ namespace Subtext.Installation
 						}
 
 						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
-						UpdateInstallationVersionNumber(assemblyVersion, transaction);
 						transaction.Commit();
+
+						// putting this update inside the transaction causes a timeout during a clean install 
+						// b/c the SP hasn't been added yet.
+						UpdateInstallationVersionNumber(assemblyVersion);
 					}
 					catch (Exception)
 					{
@@ -91,7 +94,7 @@ namespace Subtext.Installation
 						}
 						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
 
-						UpdateInstallationVersionNumber(SubtextAssemblyVersion, transaction);
+						UpdateInstallationVersionNumber(SubtextAssemblyVersion);
 						transaction.Commit();
 					}
 					catch (Exception)
@@ -138,8 +141,7 @@ namespace Subtext.Installation
 		/// Updates the value of the current installed version within the subtext_Version table.
 		/// </summary>
 		/// <param name="newVersion">New version.</param>
-		/// <param name="transaction">The transaction to perform this action within.</param>
-		public void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
+		public void UpdateInstallationVersionNumber(Version newVersion)
 		{
 			StoredProcedure proc = new StoredProcedure("subtext_VersionAdd");
 			proc.Command.AddParameter("@Major", newVersion.Major);
