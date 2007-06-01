@@ -62,8 +62,8 @@ BEGIN
 			ApplicationId = @HostAdminApplicationId
 		AND LoweredRoleName = 'hostadmins'
 	
-	-- Check to see if we already have host admin.
-	IF(0 != (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] WHERE RoleId = @HostAdminRoleId))
+	-- If we don't already have a host admin, add one.
+	IF(0 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] WHERE RoleId = @HostAdminRoleId))
 	BEGIN
 		PRINT 'Creating HostAdmin User'
 
