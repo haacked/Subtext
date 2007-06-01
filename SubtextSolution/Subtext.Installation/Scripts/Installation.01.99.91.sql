@@ -243,8 +243,8 @@ GO
 IF NOT EXISTS(
     SELECT * 
     FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
-    WHERE constraint_name = 'FK_subtext_Users_subtext_Config' 
-      AND constraint_schema = '<dbUser,varchar,dbo>'
+    WHERE CONSTRAINT_NAME = 'FK_subtext_Users_subtext_Config' 
+      AND CONSTRAINT_SCHEMA = '<dbUser,varchar,dbo>'
 )
 BEGIN
 	PRINT 'Setting Blog Owner To Be A Foreign Key to subtext_Users.UserId'
@@ -281,8 +281,8 @@ GO
 IF NOT EXISTS(
     SELECT * 
     FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
-    WHERE constraint_name = 'FK_subtext_Users_subtext_Content' 
-      AND constraint_schema = '<dbUser,varchar,dbo>'
+    WHERE CONSTRAINT_NAME = 'FK_subtext_Users_subtext_Content' 
+      AND CONSTRAINT_SCHEMA = '<dbUser,varchar,dbo>'
 )
 BEGIN
 	PRINT 'Updating subtext_Content.AuthorId to be a Foreign Key to subtext_Users.UserId'

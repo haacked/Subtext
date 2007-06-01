@@ -7,9 +7,9 @@
 IF NOT EXISTS 
 (
     SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
-    WHERE   table_name = 'subtext_KeyWords' 
-    AND table_schema = '<dbUser,varchar,dbo>'
-    AND column_name = 'Rel'
+    WHERE   TABLE_NAME = 'subtext_KeyWords' 
+    AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+    AND COLUMN_NAME = 'Rel'
 )
 BEGIN
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_KeyWords]
@@ -21,8 +21,8 @@ GO
 IF NOT EXISTS 
 (
     SELECT      * FROM [INFORMATION_SCHEMA].[TABLES] 
-    WHERE table_name = 'subtext_Tag' 
-    AND         table_schema = '<dbUser,varchar,dbo>'
+    WHERE TABLE_NAME = 'subtext_Tag' 
+    AND         TABLE_SCHEMA = '<dbUser,varchar,dbo>'
 )
 BEGIN
 	CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Tag]
@@ -41,8 +41,8 @@ END
 GO
 
 /*
-We cannot use the information_schema views because 
-indexes are not represented by those views.
+We cannot use the INFORMATION_SCHEMA VIEWS because 
+indexes are not represented by those VIEWS.
 */
 CREATE TABLE #Indexes
 (
@@ -68,8 +68,8 @@ GO
 IF NOT EXISTS 
 (
     SELECT      * FROM [INFORMATION_SCHEMA].[TABLES] 
-    WHERE table_name = 'subtext_EntryTag' 
-    AND         table_schema = '<dbUser,varchar,dbo>'
+    WHERE TABLE_NAME = 'subtext_EntryTag' 
+    AND         TABLE_SCHEMA = '<dbUser,varchar,dbo>'
 )
 BEGIN
 	CREATE TABLE [<dbUser,varchar,dbo>].[subtext_EntryTag](
@@ -87,8 +87,8 @@ END
 GO
 
 /*
-We cannot use the information_schema views because 
-indexes are not represented by those views.
+We cannot use the INFORMATION_SCHEMA VIEWS because 
+indexes are not represented by those VIEWS.
 */
 CREATE TABLE #Indexes2
 (

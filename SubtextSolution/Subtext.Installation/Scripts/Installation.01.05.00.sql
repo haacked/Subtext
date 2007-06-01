@@ -12,9 +12,9 @@ GO
 IF NOT EXISTS 
 	(
 		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
-		WHERE	table_name = 'subtext_Log' 
-		AND		table_schema = '<dbUser,varchar,dbo>'
-		AND		column_name = 'Url'
+		WHERE	TABLE_NAME = 'subtext_Log' 
+		AND		TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+		AND		COLUMN_NAME = 'Url'
 	)
 	/* Add an URL column so we can see which URL caused the problem */
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Log] 
@@ -31,9 +31,9 @@ WHERE [FeedBackCount] IS NULL
 GO
 
 IF (SELECT COLUMN_DEFAULT FROM [INFORMATION_SCHEMA].[COLUMNS] 
-		WHERE	table_name = 'subtext_Content'
-		AND		table_schema = '<dbUser,varchar,dbo>'
-		AND		column_name = 'FeedBackCount') IS NULL
+		WHERE	TABLE_NAME = 'subtext_Content'
+		AND		TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+		AND		COLUMN_NAME = 'FeedBackCount') IS NULL
 BEGIN
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]  ADD CONSTRAINT
 		DF_subtext_Content_FeedBackCount DEFAULT 0 FOR FeedBackCount
@@ -54,9 +54,9 @@ WHERE [BlogGroup] IS NULL
 GO
 
 IF (SELECT COLUMN_DEFAULT FROM [INFORMATION_SCHEMA].[COLUMNS] 
-		WHERE	table_name = 'subtext_Config'
-		AND		table_schema = '<dbUser,varchar,dbo>'
-		AND		column_name = 'BlogGroup') IS NULL
+		WHERE	TABLE_NAME = 'subtext_Config'
+		AND		TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+		AND		COLUMN_NAME = 'BlogGroup') IS NULL
 BEGIN
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]  ADD CONSTRAINT
 		DF_subtext_Config_BlogGroup DEFAULT 1 FOR BlogGroup
