@@ -648,8 +648,8 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if(this.owner != null)
-					return this.owner.UserName;
+				if(Owner != null)
+					return Owner.UserName;
 				return "Subtext Weblog";
 			}
 		}
