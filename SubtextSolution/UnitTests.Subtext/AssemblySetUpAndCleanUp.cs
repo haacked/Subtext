@@ -20,7 +20,7 @@ namespace UnitTests.Subtext
 				conn.Open();
 				using (SqlTransaction transaction = conn.BeginTransaction())
 				{
-					installer.UpdateInstallationVersionNumber(installer.SubtextAssemblyVersion, transaction);
+					installer.UpdateInstallationVersionNumber(installer.SubtextAssemblyVersion);
 					transaction.Commit();
 				}
 			}
