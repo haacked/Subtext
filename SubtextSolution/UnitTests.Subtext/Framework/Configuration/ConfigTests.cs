@@ -48,6 +48,15 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Assert.IsNull(Config.CurrentBlog, "Should not have been able to find a BlogInfo object when in the Install directory");
 		}
 
+		[Ignore] // ignore for now b/c having exactly one blog in the system will always return a BlogInfo.
+		[Test]
+		public void CurrentBlogReturnNsullWhenInHostAdminDirectory()
+		{
+			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "HostAdmin", "", "Default.aspx");
+
+			Assert.IsNull(Config.CurrentBlog, "Should not have been able to find a BlogInfo object for a request to the HostAdmin directory.");
+		}
+
     	/// <summary>
         /// If we have two or more blogs in the system we want to be sure that 
         /// we can find a blog if it has a unique HostName in the system, despite 
