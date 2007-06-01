@@ -38,17 +38,32 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Assert.IsNull(Config.CurrentBlog);
 		}
 
+		/// <summary>
+		/// When making a request for the Install directory w/zero (0) blogs in the system, 
+		/// Config.CurrentBlog SHOULD always return NULL.
+		/// </summary>
+		/// <remarks>
+		/// Do we really need to ensure that there are no blogs in the system? If so, is there a 
+		/// way to remove all blogs from the system (using the Rollback2 attribute to revert chagnes 
+		/// after the test is done)?
+		/// </remarks>
 		[Test]
-		[RollBack2]
 		public void CurrentBlogReturnsNullWhenNoBlogsExistAndInInstallDirectory()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "", "", "Install/Default.aspx");
+			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "Install", "", "Default.aspx");
 
 			Assert.AreEqual(Config.BlogCount, 0, "This test requires that there be no blogs in the system.");
 			Assert.IsNull(Config.CurrentBlog, "Should not have been able to find a BlogInfo object when in the Install directory");
 		}
 
-		[Ignore] // ignore for now b/c having exactly one blog in the system will always return a BlogInfo.
+		/// <summary>
+		/// When making a request for the HostAdmin directory, Config.CurrentBlog SHOULD always return NULL
+		/// </summary>
+		/// <remarks>
+		/// Ignoring this test for now b/c there is a quirk with the subtext_GetBlog SP where it will ALWAYS return
+		/// a record if the system has EXACTLY ONE (1) blog in the system. Anyone have a good idea how to fix this?
+		/// </remarks>
+		[Ignore]
 		[Test]
 		public void CurrentBlogReturnNsullWhenInHostAdminDirectory()
 		{
