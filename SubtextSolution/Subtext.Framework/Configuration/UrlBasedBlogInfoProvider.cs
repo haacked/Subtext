@@ -129,7 +129,10 @@ namespace Subtext.Framework.Configuration
 
 						// When going thru the install for MultiBlogs there will be no blogs in the system,
 						// so just return null... there must be a better way.
-						if(InstallationManager.IsOnLoginPage || (!anyBlogsExist && InstallationManager.IsInInstallDirectory))
+						// The same is true for requests to the HostAdmin directory.
+						if(InstallationManager.IsOnLoginPage 
+							|| (!anyBlogsExist && InstallationManager.IsInInstallDirectory) // may not need the anyBlogsExist check
+							|| InstallationManager.IsInHostAdminDirectory)
 						{
 							return null;
 						}
