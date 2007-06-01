@@ -13,7 +13,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System.Collections.Generic;
 using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework;
@@ -37,6 +36,16 @@ namespace UnitTests.Subtext.Framework.Configuration
 		{
 			HttpContext.Current = null;
 			Assert.IsNull(Config.CurrentBlog);
+		}
+
+		[Test]
+		[RollBack2]
+		public void CurrentBlogReturnsNullWhenNoBlogsExistAndInInstallDirectory()
+		{
+			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "", "", "Install/Default.aspx");
+
+			Assert.AreEqual(Config.BlogCount, 0, "This test requires that there be no blogs in the system.");
+			Assert.IsNull(Config.CurrentBlog, "Should not have been able to find a BlogInfo object when in the Install directory");
 		}
 
     	/// <summary>

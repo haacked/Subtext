@@ -127,7 +127,9 @@ namespace Subtext.Framework.Configuration
 							return GetAggregateBlog();
 						}
 
-						if(InstallationManager.IsOnLoginPage)
+						// When going thru the install for MultiBlogs there will be no blogs in the system,
+						// so just return null... there must be a better way.
+						if(InstallationManager.IsOnLoginPage || (!anyBlogsExist && InstallationManager.IsInInstallDirectory))
 						{
 							return null;
 						}
