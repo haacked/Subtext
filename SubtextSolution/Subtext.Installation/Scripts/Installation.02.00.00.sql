@@ -220,7 +220,7 @@ IF NOT EXISTS
 	(
 		SELECT	* FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
 		WHERE	CONSTRAINT_NAME = 'FK_subtext_PluginBlog_subtext_Config' 
-		AND		unique_constraint_schema = '<dbUser,varchar,dbo>'
+		AND		UNIQUE_CONSTRAINT_SCHEMA = '<dbUser,varchar,dbo>'
 	)
 	BEGIN
 		ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginBlog] WITH NOCHECK ADD 
@@ -270,7 +270,7 @@ IF NOT EXISTS
 	(
 		SELECT	* FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
 		WHERE	CONSTRAINT_NAME = 'FK_subtext_PluginData_subtext_PluginBlog' 
-		AND		unique_constraint_schema = '<dbUser,varchar,dbo>'
+		AND		UNIQUE_CONSTRAINT_SCHEMA = '<dbUser,varchar,dbo>'
 	)
 	BEGIN
 		ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginData] WITH NOCHECK ADD   
@@ -289,7 +289,7 @@ IF NOT EXISTS
 	(
 		SELECT	* FROM [INFORMATION_SCHEMA].[REFERENTIAL_CONSTRAINTS] 
 		WHERE	CONSTRAINT_NAME = 'FK_subtext_PluginData_subtext_Content' 
-		AND		unique_constraint_schema = '<dbUser,varchar,dbo>'
+		AND		UNIQUE_CONSTRAINT_SCHEMA = '<dbUser,varchar,dbo>'
 	)
 	BEGIN
 		ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginData] WITH NOCHECK ADD   
@@ -301,4 +301,13 @@ IF NOT EXISTS
 			)
 	END
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginData] CHECK CONSTRAINT [FK_subtext_PluginData_subtext_Content]
+GO
+
+
+/* Drop the old and unused spamPostCount table */
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+		WHERE TABLE_NAME = 'spamPostCount' 
+		AND TABLE_SCHEMA = '<dbUser,varchar,dbo>')
+	
+	DROP TABLE [<dbUser,varchar,dbo>].[spamPostCount]	
 GO
