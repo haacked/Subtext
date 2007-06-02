@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Search
 {
@@ -43,6 +44,9 @@ namespace Subtext.Framework.Search
 		/// <returns></returns>
 		public static IList<SearchResult> Search(int blogId, string searchTerm)
 		{
+			if (String.IsNullOrEmpty(searchTerm))
+				throw new ArgumentNullException("searchTerm", Resources.ArgumentNull_Collection);
+
 			return Provider.Search(blogId, searchTerm);
 		}
 	}

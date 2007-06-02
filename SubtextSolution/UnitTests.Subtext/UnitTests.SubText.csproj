@@ -260,6 +260,7 @@
     <Compile Include="Framework\ArchiveTests.cs" />
     <Compile Include="Framework\NullValueTests.cs" />
     <Compile Include="Framework\Providers\GenericProviderCollectionTests.cs" />
+    <Compile Include="Framework\Search\SearchTests.cs" />
     <Compile Include="Framework\Security\SecurityTests.cs" />
     <Compile Include="Framework\Security\SubtextMembershipProviderTests.cs" />
     <Compile Include="Framework\Security\SubtextRoleProviderTests.cs" />
