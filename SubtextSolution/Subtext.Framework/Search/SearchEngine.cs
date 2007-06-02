@@ -45,7 +45,7 @@ namespace Subtext.Framework.Search
 		public static IList<SearchResult> Search(int blogId, string searchTerm)
 		{
 			if (String.IsNullOrEmpty(searchTerm))
-				throw new ArgumentNullException("searchTerm", Resources.ArgumentNull_Collection);
+				throw new ArgumentNullException("searchTerm", Resources.ArgumentNull_String);
 
 			return Provider.Search(blogId, searchTerm);
 		}
