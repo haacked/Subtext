@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using Subtext.Data;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
