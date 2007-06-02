@@ -15,6 +15,7 @@
 
 using System.Web;
 using MbUnit.Framework;
+using SubSonic;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
@@ -48,10 +49,12 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// after the test is done)?
 		/// </remarks>
 		[Test]
+		[RollBack]
 		public void CurrentBlogReturnsNullWhenNoBlogsExistAndInInstallDirectory()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "Install", "", "Default.aspx");
-
+			QueryCommand command = new QueryCommand("DELETE subtext_Config");
+			DataService.ExecuteQuery(command);
 			Assert.AreEqual(Config.BlogCount, 0, "This test requires that there be no blogs in the system.");
 			Assert.IsNull(Config.CurrentBlog, "Should not have been able to find a BlogInfo object when in the Install directory");
 		}
@@ -60,13 +63,17 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// When making a request for the HostAdmin directory, Config.CurrentBlog SHOULD always return NULL
 		/// </summary>
 		/// <remarks>
-		/// Ignoring this test for now b/c there is a quirk with the subtext_GetBlog SP where it will ALWAYS return
-		/// a record if the system has EXACTLY ONE (1) blog in the system. Anyone have a good idea how to fix this?
+		/// Because there is a quirk with the subtext_GetBlog SP where it will ALWAYS return
+		/// a record if the system has EXACTLY ONE (1) blog in the system. Let's make sure 
+		/// we still return null when in the context of the HostAdmin request.
 		/// </remarks>
-		[Ignore]
 		[Test]
+		[RollBack]
 		public void CurrentBlogReturnNsullWhenInHostAdminDirectory()
 		{
+			QueryCommand command = new QueryCommand("DELETE subtext_Config");
+			DataService.ExecuteQuery(command);
+			UnitTestHelper.SetupBlog(); //Create one blog.
 			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "HostAdmin", "", "Default.aspx");
 
 			Assert.IsNull(Config.CurrentBlog, "Should not have been able to find a BlogInfo object for a request to the HostAdmin directory.");
