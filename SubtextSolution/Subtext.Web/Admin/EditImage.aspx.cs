@@ -134,7 +134,7 @@ namespace Subtext.Web.Admin.Pages
             Image image = imageObject as Image;
 			if (image != null)
 			{
-				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
+				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(image.CategoryID), 
 					image.ThumbNailFile);
 			}
 			else
@@ -198,7 +198,7 @@ namespace Subtext.Web.Admin.Pages
 				try
 				{
 					_image.File = Images.GetFileName(ImageFile.PostedFile.FileName);
-					_image.LocalFilePath = Images.LocalGalleryFilePath(Context, _image.CategoryID);
+					_image.LocalFilePath = Images.LocalGalleryFilePath(_image.CategoryID);
 					Images.Update(_image, Images.GetFileStream(ImageFile.PostedFile));				
 
 					this.Messages.ShowMessage("The image was successfully updated.");

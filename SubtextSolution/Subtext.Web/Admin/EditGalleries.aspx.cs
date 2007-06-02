@@ -149,7 +149,7 @@ namespace Subtext.Web.Admin.Pages
 			Image image = potentialImage as Image;
 			if (image != null)
 			{
-				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
+				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(image.CategoryID), 
 					image.ThumbNailFile);
 			}
 			else
@@ -274,7 +274,7 @@ namespace Subtext.Web.Admin.Pages
                         image.Title = fileName;
                         image.IsActive = ckbIsActiveImage.Checked;
                         image.File = Images.GetFileName(fileName);
-                        image.LocalFilePath = Images.LocalGalleryFilePath(Context, CategoryID);
+                        image.LocalFilePath = Images.LocalGalleryFilePath(CategoryID);
 
                         // Read the next file from the Zip stream
                         using (MemoryStream currentFileData = new MemoryStream((int)theEntry.Size))
@@ -381,7 +381,7 @@ namespace Subtext.Web.Admin.Pages
 				try
 				{
 					image.File = Images.GetFileName(targetFileName);
-					image.LocalFilePath = Images.LocalGalleryFilePath(Context, CategoryID);
+					image.LocalFilePath = Images.LocalGalleryFilePath(CategoryID);
 					if (File.Exists(image.OriginalFilePath))
 					{
 						// tell the user we can't accept this file.

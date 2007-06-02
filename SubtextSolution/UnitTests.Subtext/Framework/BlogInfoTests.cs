@@ -21,6 +21,14 @@ namespace UnitTests.Subtext.Framework
 		{
 			BlogInfo blog = new BlogInfo();
 
+			Assert.AreEqual("Subtext Weblog", blog.Author, "Expected the default author name.");
+
+			blog.CustomMetaTags = "Test";
+			Assert.AreEqual("Test", blog.CustomMetaTags);
+
+			blog.TrackingCode = "Test";
+			Assert.AreEqual("Test", blog.TrackingCode);
+
 			blog.TrackbackNoficationEnabled = true;
 			Assert.IsTrue(blog.TrackbackNoficationEnabled);
 			blog.TrackbackNoficationEnabled = false;

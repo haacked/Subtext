@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -26,6 +27,7 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
@@ -250,9 +252,20 @@ namespace Subtext.Framework
 			{
 				categoryIds = GetCategoryIdsFromCategoryTitles(entry);
 			}
-			
-			entry.Id = ObjectProvider.Instance().CreateEntry(entry, categoryIds);
-            ObjectProvider.Instance().SetEntryTagList(entry.Id, HtmlHelper.ParseTags(entry.Body));
+
+			try
+			{
+				entry.Id = ObjectProvider.Instance().CreateEntry(entry, categoryIds);
+			}
+			catch(SqlException e)
+			{
+				if(e.Message.Contains("pick a unique EntryName"))
+				{
+					throw new DuplicateEntryException("An entry with that EntryName already exists.", e);
+				}
+				throw;
+			}
+			ObjectProvider.Instance().SetEntryTagList(entry.Id, HtmlHelper.ParseTags(entry.Body));
 
 			log.Debug("Created entry, running notification services.");
 			NotificationServices.Run(entry);

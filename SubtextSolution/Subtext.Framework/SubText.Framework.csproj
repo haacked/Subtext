@@ -328,6 +328,7 @@
     <Compile Include="Exceptions\CommentSpamException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Exceptions\DuplicateEntryException.cs" />
     <Compile Include="Exceptions\HostDataDoesNotExistException.cs">
       <SubType>Code</SubType>
     </Compile>

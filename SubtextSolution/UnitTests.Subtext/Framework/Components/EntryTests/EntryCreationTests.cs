@@ -46,6 +46,20 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Assert.AreEqual("http://" + Config.CurrentBlog.Host + "/archive/2005/01/23/Some_Really_Random_Title.aspx", entry.FullyQualifiedUrl.ToString());
 		}
 
+		[Test]
+		[RollBack]
+		public void NullDateCreatedGetsSetToCurrentTimeZone()
+		{
+			UnitTestHelper.SetupBlog();
+			DateTime now = Config.CurrentBlog.TimeZone.Now;
+			Entry entry = new Entry(PostType.BlogPost);
+			entry.DateCreated = NullValue.NullDateTime;
+			entry.Title = "Some Really Random Title";
+			entry.Body = "Some Body";
+			Entries.Create(entry);
+			Assert.GreaterEqualThan(entry.DateCreated, now);
+		}
+
 		/// <summary>
 		/// Tests that the fully qualified url is correct.
 		/// </summary>
@@ -130,6 +144,24 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
             Assert.AreEqual("n_9876", savedEntry.EntryName, "Expected entryName = 'n_9876'");
         }
+
+		[ExpectedArgumentNullException]
+		public void CreateThrowsArgumentNullException()
+		{
+			Entries.Create(null);
+		}
+
+		[ExpectedArgumentNullException]
+		public void UpdateThrowsArgumentNullException()
+		{
+			Entries.Update(null);
+		}
+
+		[ExpectedArgumentNullException]
+		public void UpdateWithCategoriesThrowsArgumentNullException()
+		{
+			Entries.Update(null, 1, 2);
+		}
 
 		/// <summary>
 		/// Sets the up test fixture.  This is called once for 
