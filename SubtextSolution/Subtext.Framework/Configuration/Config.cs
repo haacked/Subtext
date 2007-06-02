@@ -15,6 +15,7 @@
 
 using System;
 using System.Configuration;
+using System.Web;
 using System.Web.Configuration;
 using System.Web.Security;
 using Subtext.Extensibility.Interfaces;
@@ -92,8 +93,12 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
+				if (HttpContext.Current == null)
+					return null;
+
 				if (InstallationManager.IsInHostAdminDirectory)
 					return null;
+				
 				BlogInfo currentBlog = ConfigurationProvider.GetBlogInfo();
 				return currentBlog;
 			}

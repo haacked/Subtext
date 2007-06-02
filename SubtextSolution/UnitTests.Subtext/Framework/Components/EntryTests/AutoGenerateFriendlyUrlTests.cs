@@ -20,6 +20,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -253,6 +254,20 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             savedDupe = Entries.GetEntry(dupeId, PostConfig.None, false);
 			
 			Assert.AreEqual("Some_Entry_Title_To_Beat_A_Dead_Horse", savedDupe.EntryName, "Should have appended 'To_Beat_A_Dead_Horse'");
+
+			yetAnotherDuplicate = new Entry(PostType.BlogPost);
+			yetAnotherDuplicate.DateCreated = DateTime.Now;
+			yetAnotherDuplicate.Title = "Some Entry Title";
+			yetAnotherDuplicate.Body = "Some Body";
+
+			try
+			{
+				Entries.Create(yetAnotherDuplicate);
+				Assert.Fail("Expected a duplicate entry exception");
+			}
+			catch(DuplicateEntryException)
+			{
+			}
 		}
 
 		/// <summary>

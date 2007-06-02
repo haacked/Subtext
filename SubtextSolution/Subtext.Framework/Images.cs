@@ -31,26 +31,31 @@ namespace Subtext.Framework
 {
 	public static class Images
 	{
-		public static string LocalFilePath(HttpContext context)
-		{
-			return Config.CurrentBlog.ImageDirectory;
-		}
-
-		public static string LocalGalleryFilePath(HttpContext context, int categoryid)
+		/// <summary>
+		/// Returns the physical gallery path for the specified category.
+		/// </summary>
+		/// <param name="categoryid">The categoryid.</param>
+		/// <returns></returns>
+		public static string LocalGalleryFilePath(int categoryid)
 		{
 			return string.Format(CultureInfo.InvariantCulture, "{0}{1}\\", Config.CurrentBlog.ImageDirectory, categoryid);
 		}
 
-		public static string HttpGalleryFilePath(HttpContext context, int categoryid)
+		/// <summary>
+		/// Returns the url path to the gallery for the specified category.
+		/// </summary>
+		/// <param name="categoryid">The categoryid.</param>
+		/// <returns></returns>
+		public static string HttpGalleryFilePath(int categoryid)
 		{
 			return string.Format(CultureInfo.InvariantCulture, "{0}{1}/", Config.CurrentBlog.ImagePath, categoryid);
 		}
 
-		public static string HttpFilePath(HttpContext context)
-		{
-			return Config.CurrentBlog.ImagePath;
-		}
-
+		/// <summary>
+		/// gets the bytes for the posted file
+		/// </summary>
+		/// <param name="objFile">The obj file.</param>
+		/// <returns></returns>
 		public static byte[] GetFileStream(HttpPostedFile objFile)
 		{
 			if (objFile != null)
@@ -64,6 +69,11 @@ namespace Subtext.Framework
 			return null;
 		}
 
+		/// <summary>
+		/// Validates that the file is allowed.
+		/// </summary>
+		/// <param name="filepath">The filepath.</param>
+		/// <returns></returns>
 		public static bool ValidateFile(string filepath)
 		{
 			if (File.Exists(filepath))
@@ -115,28 +125,30 @@ namespace Subtext.Framework
 
 		}
 
-		public static bool SaveImage(byte[] Buffer, string FileName)
+		/// <summary>
+		/// Saves the image.
+		/// </summary>
+		/// <param name="buffer">The buffer.</param>
+		/// <param name="fileName">Name of the file.</param>
+		/// <returns></returns>
+		public static bool SaveImage(byte[] buffer, string fileName)
 		{
-			if (Buffer == null)
-			{
+			if (buffer == null)
 				throw new ArgumentNullException("Buffer", Resources.ArgumentNull_Array);
-			}
 
-			if (FileName == null)
-			{
+			if (fileName == null)
 				throw new ArgumentNullException("FileName", Resources.ArgumentNull_Generic);
-			}
 
-			if (FileName.Length == 0)
+			if (fileName.Length == 0)
 			{
 				throw new ArgumentException(Resources.Argument_StringZeroLength, "FileName");
 			}
 
-			if (ValidateFile(FileName))
+			if (ValidateFile(fileName))
 			{
-				CheckDirectory(FileName);
-				FileStream fs = new FileStream(FileName, FileMode.Create);
-				fs.Write(Buffer, 0, Buffer.Length);
+				CheckDirectory(fileName);
+				FileStream fs = new FileStream(fileName, FileMode.Create);
+				fs.Write(buffer, 0, buffer.Length);
 				fs.Close();
 				return true;
 			}
@@ -150,9 +162,7 @@ namespace Subtext.Framework
 		public static void MakeAlbumImages(Image image)
 		{
 			if (image == null)
-			{
 				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
-			}
 
 			System.Drawing.Image originalImage = System.Drawing.Image.FromFile(image.OriginalFilePath);
 
@@ -246,14 +256,10 @@ namespace Subtext.Framework
 		public static void CheckDirectory(string filepath)
 		{
 			if (filepath == null)
-			{
 				throw new ArgumentNullException("filepath", Resources.ArgumentNull_String);
-			}
 
 			if (filepath.Length == 0)
-			{
 				throw new ArgumentException(Resources.Argument_StringZeroLength, "filepath");
-			}
 
 			string dir = filepath.Substring(0, filepath.LastIndexOf("\\"));
 			if (!Directory.Exists(dir))
@@ -283,9 +289,7 @@ namespace Subtext.Framework
 		public static int InsertImage(Image image, byte[] Buffer)
 		{
 			if (image == null)
-			{
 				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
-			}
 
 			if (SaveImage(Buffer, image.OriginalFilePath))
 			{
@@ -301,18 +305,22 @@ namespace Subtext.Framework
 		/// <param name="image">The image.</param>
 		public static void UpdateImage(Image image)
 		{
+			if (image == null)
+				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
 			ObjectProvider.Instance().UpdateImage(image);
 		}
 
 		// added
-		public static void Update(Image image, byte[] Buffer)
+		public static void Update(Image image, byte[] buffer)
 		{
 			if (image == null)
-			{
 				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
-			}
+			
+			if (buffer == null)
+				throw new ArgumentNullException("Buffer", Resources.ArgumentNull_Generic);
 
-			if (SaveImage(Buffer, image.OriginalFilePath))
+
+			if (SaveImage(buffer, image.OriginalFilePath))
 			{
 				MakeAlbumImages(image);
 				UpdateImage(image);
@@ -332,14 +340,10 @@ namespace Subtext.Framework
 		public static void TryDeleteFile(string file)
 		{
 			if (file == null)
-			{
 				throw new ArgumentNullException("file", Resources.ArgumentNull_String);
-			}
 
 			if (file.Length == 0)
-			{
 				throw new ArgumentException(Resources.Argument_StringZeroLength, "file");
-			}
 
 			if (File.Exists(file))
 			{

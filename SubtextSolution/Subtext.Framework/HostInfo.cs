@@ -54,16 +54,6 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Changes the password for the Host Owner.
-		/// </summary>
-		/// <param name="oldPassword">The old password.</param>
-		/// <param name="newPassword">The new password.</param>
-		public void SetPassword(string oldPassword, string newPassword)
-		{
-			Membership.Provider.ChangePassword(Owner.UserName, oldPassword, newPassword);
-		}
-
-		/// <summary>
 		/// Gets the owner of the subtext installation. 
 		/// This person is known as THE HostAdmin.
 		/// </summary>
@@ -170,46 +160,6 @@ namespace Subtext.Framework
 					Roles.CreateRole(RoleNames.HostAdmins);
 				}
 				Roles.AddUserToRole(owner.UserName, RoleNames.HostAdmins);
-			}
-		}
-
-		/// <summary>
-		/// Changes the Host Owner password.
-		/// </summary>
-		/// <param name="host">The host.</param>
-		/// <param name="oldPassword">The old password.</param>
-		/// <param name="newPassword">The new password.</param>
-		public static void ChangePassword(HostInfo host, string oldPassword, string newPassword)
-		{
-            if (host == null)
-            {
-                throw new ArgumentNullException("host", Resources.ArgumentNull_Generic);
-            }
-
-            if (oldPassword == null)
-            {
-                throw new ArgumentNullException("oldPassword", Resources.ArgumentNull_String);
-            }
-
-            if (newPassword == null)
-            {
-                throw new ArgumentNullException("newPassword", Resources.ArgumentNull_String);
-            }
-
-            if (oldPassword.Length == 0)
-            {
-                throw new ArgumentException(Resources.Argument_StringZeroLength, "oldPassword");
-            }
-
-            if (newPassword.Length == 0)
-            {
-                throw new ArgumentException(Resources.Argument_StringZeroLength, "newPassword");
-            }
-
-            //Make sure we can grab the host admin.
-			using (MembershipApplicationScope.SetApplicationName("/"))
-			{
-				Membership.Provider.ChangePassword(host.Owner.UserName, oldPassword, newPassword);
 			}
 		}
 

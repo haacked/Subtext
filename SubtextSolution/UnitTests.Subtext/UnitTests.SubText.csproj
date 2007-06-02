@@ -258,6 +258,7 @@
     <Compile Include="BlogMl\BlogMlWriterTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMlWriterTests.cs" />
     <Compile Include="Framework\ArchiveTests.cs" />
+    <Compile Include="Framework\ImageTests.cs" />
     <Compile Include="Framework\NullValueTests.cs" />
     <Compile Include="Framework\Providers\GenericProviderCollectionTests.cs" />
     <Compile Include="Framework\Search\SearchTests.cs" />

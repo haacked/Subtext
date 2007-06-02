@@ -271,10 +271,12 @@ namespace UnitTests.Subtext
 			TextWriter output = new StringWriter(sb);
 			SimulatedHttpRequest request = SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, page, output, "GET");
 
-			Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
-			Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
-			Config.CurrentBlog.ImagePath = "/image/";
-
+			if (Config.CurrentBlog != null)
+			{
+				Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
+				Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
+				Config.CurrentBlog.ImagePath = "/image/";
+			}
 			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userName), new string[] { RoleNames.Administrators });
 
 			return new SimulatedRequestContext(request, sb, output, host);

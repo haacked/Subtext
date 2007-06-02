@@ -499,7 +499,7 @@ namespace Subtext.Web.Admin
 				ICollection<Image> imageList = Images.GetImagesByCategoryID(_targetID, false);
 				
 				// delete the folder
-				string galleryFolder = Images.LocalGalleryFilePath(HttpContext.Current, _targetID);
+				string galleryFolder = Images.LocalGalleryFilePath(_targetID);
 				if (Directory.Exists(galleryFolder))
 					Directory.Delete(galleryFolder, true);
 
@@ -610,7 +610,7 @@ namespace Subtext.Web.Admin
 				Images.DeleteImage(currentImage);
 
 				// now delete the associated files if they exist
-				string galleryFolder = Images.LocalGalleryFilePath(HttpContext.Current, currentImage.CategoryID);
+				string galleryFolder = Images.LocalGalleryFilePath(currentImage.CategoryID);
 				if (Directory.Exists(galleryFolder))
 				{
 					DeleteFile(galleryFolder, currentImage.OriginalFile);

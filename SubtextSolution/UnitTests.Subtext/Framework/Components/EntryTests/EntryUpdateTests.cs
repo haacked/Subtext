@@ -81,13 +81,16 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Config.UpdateConfigData(info);
 
             Entry entry = new Entry(PostType.BlogPost);
-            entry.DateCreated = DateTime.Now;
+        	entry.DateCreated = DateTime.Now;
             entry.Title = "My Title";
             entry.Body = "My Post Body";
 
             Entries.Create(entry);
             entry = Entries.GetEntry(entry.Id, PostConfig.None, false);
 
+			entry.DateSyndicated = NullValue.NullDateTime;
+			entry.IsActive = true;
+			entry.IncludeInMainSyndication = true;
             entry.EntryName = "4321";
             Entries.Update(entry);
             Entry updatedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
