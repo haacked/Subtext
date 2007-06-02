@@ -38,17 +38,11 @@ namespace UnitTests.Subtext.Framework.Search
 
 		[Test]
 		[RollBack]
+		[ExpectedArgumentNullException]
 		public void SearchThrowsNullReferenceException()
 		{
 			UnitTestHelper.SetupBlog();
 			SearchEngine.Search(Config.CurrentBlog.Id, null);
-		}
-
-		[Test]
-		[RollBack]
-		public void SearchThrowsArgumentException()
-		{
-			SearchEngine.Search(-10, null);
 		}
 	}
 }
