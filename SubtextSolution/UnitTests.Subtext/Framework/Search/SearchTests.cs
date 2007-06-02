@@ -16,6 +16,7 @@ namespace UnitTests.Subtext.Framework.Search
 		public void CanGetSearchProvider()
 		{
 			Assert.IsNotNull(SearchEngine.Provider);
+			Assert.Greater(SearchEngine.Providers.Count, 0);
 		}
 
 		[Test]
