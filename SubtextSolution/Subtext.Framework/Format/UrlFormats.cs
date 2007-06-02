@@ -506,7 +506,7 @@ namespace Subtext.Framework.Format
 			String appPath = String.Empty;
 
 			// Check for current Request just in case we are in a unit test
-			if (HttpContext.Current.Request != null)
+			if (HttpContext.Current != null && HttpContext.Current.Request != null)
 			{
 				// Either "" or "Subtext.Web" for ex...
 				appPath = StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);

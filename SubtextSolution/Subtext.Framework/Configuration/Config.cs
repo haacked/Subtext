@@ -92,6 +92,8 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
+				if (InstallationManager.IsInHostAdminDirectory)
+					return null;
 				BlogInfo currentBlog = ConfigurationProvider.GetBlogInfo();
 				return currentBlog;
 			}
