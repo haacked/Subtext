@@ -13,11 +13,9 @@ namespace UnitTests.Subtext.Framework
 		static Byte[] singlePixelBytes = Convert.FromBase64String("R0lGODlhAQABAIAAANvf7wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
 
 		[Test]
-		[Ignore]
 		[RollBack]
 		public void CanGetImagesByCategoryId()
 		{
-			//TODO: FIX!
 			UnitTestHelper.SetupBlog();
 			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "Test", CategoryType.ImageCollection);
 
@@ -26,11 +24,19 @@ namespace UnitTests.Subtext.Framework
 			Image image = CreateImageInstance();
 			image.IsActive = true;
 			image.CategoryID = categoryId;
-			int imageId = Images.InsertImage(image, singlePixelBytes);
+			try
+			{
+				int imageId = Images.InsertImage(image, singlePixelBytes);
 
-			ImageCollection images = Images.GetImagesByCategoryID(categoryId, true);
-			Assert.AreEqual(1, images.Count);
-			Assert.AreEqual(imageId, images[0].ImageID);
+				ImageCollection images = Images.GetImagesByCategoryID(categoryId, true);
+				Assert.AreEqual(1, images.Count);
+				Assert.AreEqual(imageId, images[0].ImageID);
+			}
+			finally
+			{
+				if (Directory.Exists(image.LocalDirectoryPath))
+					Directory.Delete(image.LocalDirectoryPath, true);
+			}
 		}
 
 		[RowTest]
