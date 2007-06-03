@@ -566,7 +566,7 @@ namespace Subtext.Framework
 
         public static bool RebuildAllTags()
         {
-            foreach (EntryDay day in GetBlogPosts(0, PostConfig.None))
+			foreach (EntryDay day in GetBlogPosts(0, PostConfig.None))
             {
                 foreach (Entry e in day)
                 {

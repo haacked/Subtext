@@ -145,18 +145,21 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual("n_9876", savedEntry.EntryName, "Expected entryName = 'n_9876'");
         }
 
+		[Test]
 		[ExpectedArgumentNullException]
 		public void CreateThrowsArgumentNullException()
 		{
 			Entries.Create(null);
 		}
 
+		[Test]
 		[ExpectedArgumentNullException]
 		public void UpdateThrowsArgumentNullException()
 		{
 			Entries.Update(null);
 		}
 
+		[Test]
 		[ExpectedArgumentNullException]
 		public void UpdateWithCategoriesThrowsArgumentNullException()
 		{
