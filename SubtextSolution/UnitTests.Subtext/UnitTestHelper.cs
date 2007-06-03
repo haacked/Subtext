@@ -613,13 +613,24 @@ namespace UnitTests.Subtext
 	    /// <returns></returns>
 	    public static int CreateCategory(int blogId, string title)
 	    {
-            LinkCategory category = new LinkCategory();
-            category.BlogId = Config.CurrentBlog.Id;
-            category.Title = title;
-            category.CategoryType = CategoryType.PostCollection;
-	        category.IsActive = true;
-            return Links.CreateLinkCategory(category);
+			return CreateCategory(blogId, title, CategoryType.PostCollection);
 	    }
+
+		/// <summary>
+		/// Creates a blog post link category.
+		/// </summary>
+		/// <param name="blogId"></param>
+		/// <param name="title"></param>
+		/// <returns></returns>
+		public static int CreateCategory(int blogId, string title, CategoryType categoryType)
+		{
+			LinkCategory category = new LinkCategory();
+			category.BlogId = Config.CurrentBlog.Id;
+			category.Title = title;
+			category.CategoryType = categoryType;
+			category.IsActive = true;
+			return Links.CreateLinkCategory(category);
+		}
 
 		public static string ExtractArchiveToString(Stream compressedArchive)
 		{

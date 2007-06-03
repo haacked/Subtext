@@ -109,7 +109,7 @@ namespace UnitTests.Subtext.Framework.Data
 			image.CategoryID = categoryID;
 			image.Height = 100;
 			image.Width = 100;
-			image.File = "/images/cute_bunny.jpg";
+			image.FileName = "/images/cute_bunny.jpg";
 			image.IsActive = true;
 			int imageID = provider.InsertImage(image);
 

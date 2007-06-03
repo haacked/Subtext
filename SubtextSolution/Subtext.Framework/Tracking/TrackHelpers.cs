@@ -48,7 +48,7 @@ namespace Subtext.Framework.Tracking
 		{
 			get
 			{
-				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "<link rel=\"pingback\" href=\"{0}Services/Pingback.aspx\"></link>", Config.CurrentBlog.RootUrl);
+				return string.Format(CultureInfo.InvariantCulture, "<link rel=\"pingback\" href=\"{0}Services/Pingback.aspx\"></link>", Config.CurrentBlog.RootUrl);
 			}
 		}
 

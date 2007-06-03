@@ -261,7 +261,7 @@ namespace Subtext.Framework
 			if (filepath.Length == 0)
 				throw new ArgumentException(Resources.Argument_StringZeroLength, "filepath");
 
-			string dir = filepath.Substring(0, filepath.LastIndexOf("\\"));
+			string dir = Path.GetDirectoryName(filepath);
 			if (!Directory.Exists(dir))
 			{
 				Directory.CreateDirectory(dir);
@@ -275,9 +275,9 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetImagesByCategoryID(catID, activeOnly);
 		}
 
-		public static Image GetSingleImage(int imageID, bool activeOnly)
+		public static Image GetSingleImage(int imageId, bool activeOnly)
 		{
-			return ObjectProvider.Instance().GetImage(imageID, activeOnly);
+			return ObjectProvider.Instance().GetImage(imageId, activeOnly);
 		}
 
 		/// <summary>
@@ -330,26 +330,11 @@ namespace Subtext.Framework
 		public static void DeleteImage(Image image)
 		{
 			if (image == null)
-			{
 				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
-			}
 
 			ObjectProvider.Instance().DeleteImage(image.ImageID);
 		}
 
-		public static void TryDeleteFile(string file)
-		{
-			if (file == null)
-				throw new ArgumentNullException("file", Resources.ArgumentNull_String);
-
-			if (file.Length == 0)
-				throw new ArgumentException(Resources.Argument_StringZeroLength, "file");
-
-			if (File.Exists(file))
-			{
-				File.Delete(file);
-			}
-		}
 		#endregion
 	}
 }

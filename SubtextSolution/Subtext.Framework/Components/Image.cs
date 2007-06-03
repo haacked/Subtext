@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.IO;
 using System.Xml.Serialization;
 
 namespace Subtext.Framework.Components
@@ -53,41 +54,42 @@ namespace Subtext.Framework.Components
 			set{_isActive = value;}
 		}
 
-		private string _file;
-		public  virtual string File
+		public  virtual string FileName
 		{
 			get{return _file;}
 			set{_file= value;}
 		}
+		private string _file;
 
-		
-		public  virtual string Path
+		/// <summary>
+		/// Gets the filepath on the local server.
+		/// </summary>
+		public virtual string FilePath
 		{
-			get{return LocalFilePath + File;}
-		
+			get
+			{
+				return Path.Combine(LocalDirectoryPath, FileName);
+			}
 		}
 
-		private string _localfile;
-        public virtual string LocalFilePath
+		private string localDirectoryPath;
+		/// <summary>
+		/// The directory on the local server where the image will be saved.
+		/// </summary>
+        public virtual string LocalDirectoryPath
         {
             get
             {
-                if (_localfile == null)
-                {
-                    throw new Exception("Image.LocalFilePath has not been set yet.");
-                }
-                return _localfile;
+                if (this.localDirectoryPath == null)
+                    throw new InvalidOperationException("Image.LocalFilePath has not been set yet.");
+
+                return this.localDirectoryPath;
             }
             set
             {
-                if (value == null)
-                {
-                    _localfile = null;
-                }
-                else
-                {
-                    _localfile = value.Replace("/", "\\");
-                }
+				if (value != null)
+					value = Path.GetFullPath(value);
+				this.localDirectoryPath = value;
             }
         }
 
@@ -116,7 +118,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return "o_" + File;
+				return "o_" + FileName;
 			}
 		}
 
@@ -124,7 +126,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return "t_" + File;
+				return "t_" + FileName;
 			}
 		}
 
@@ -132,7 +134,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return "r_" + File;
+				return "r_" + FileName;
 			}
 		}
 
@@ -140,7 +142,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return LocalFilePath + OriginalFile;
+				return Path.Combine(LocalDirectoryPath, OriginalFile);
 			}
 		}
 
@@ -148,7 +150,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return LocalFilePath + ThumbNailFile;
+				return Path.Combine(LocalDirectoryPath, ThumbNailFile);
 			}
 		}
 
@@ -156,9 +158,8 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return LocalFilePath + ResizedFile;
+				return Path.Combine(LocalDirectoryPath, ResizedFile);
 			}
 		}
-
 	}
 }

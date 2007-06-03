@@ -30,14 +30,8 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public class AggBugHandler : IHttpHandler
 	{
-		ILog Log = new Subtext.Framework.Logging.Log();
-		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AggBugHandler"/> class.
-		/// </summary>
-		public AggBugHandler()
-		{
-		}
+		ILog Log = new Logging.Log();
+
 
 		static AggBugHandler()
 		{

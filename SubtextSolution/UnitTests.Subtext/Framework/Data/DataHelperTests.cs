@@ -26,7 +26,7 @@ namespace UnitTests.Subtext.Framework.Data
 			reader.Read();
 			Image image = DataHelper.LoadImage(reader);
 			Assert.AreEqual(987, image.CategoryID);
-			Assert.AreEqual("MyImage.png", image.File);
+			Assert.AreEqual("MyImage.png", image.FileName);
 			Assert.AreEqual(150, image.Height);
 			Assert.AreEqual(200, image.Width);
 			Assert.AreEqual(123, image.ImageID);

@@ -46,10 +46,10 @@
 	
 	<st:AdvancedPanel id="Advanced" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleTitle" LinkText="[toggle]" Collapsible="True" HeaderText="Advanced Options" BodyCssClass="Edit" Collapsed="true" HeaderTextCssClass="CollapsibleTitle">	
 		<label class="Block">Original Image</label>
-		<%# Image.OriginalFile %>
+		<%# Image.OriginalFileName %>
 		<label class="Block">Thumbnail Image</label>
-		<%# Image.ThumbNailFile %>
+		<%# Image.ThumbNailFileName %>
 		<label class="Block">Resized Image</label>
-		<%# Image.ResizedFile %>
+		<%# Image.ResizedFileName %>
 	</st:AdvancedPanel>
 </asp:Content>
