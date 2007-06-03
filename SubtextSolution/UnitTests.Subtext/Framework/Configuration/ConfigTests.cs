@@ -53,7 +53,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void CurrentBlogReturnsNullWhenNoBlogsExistAndInInstallDirectory()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "Install", "", "Default.aspx");
-			QueryCommand command = new QueryCommand("DELETE subtext_Config");
+			QueryCommand command = new QueryCommand("DELETE subtext_LinkCategories");
+			DataService.ExecuteQuery(command);
+			command = new QueryCommand("DELETE subtext_Config");
 			DataService.ExecuteQuery(command);
 			Assert.AreEqual(Config.BlogCount, 0, "This test requires that there be no blogs in the system.");
 			Assert.IsNull(Config.CurrentBlog, "Should not have been able to find a BlogInfo object when in the Install directory");
@@ -71,7 +73,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack]
 		public void CurrentBlogReturnNsullWhenInHostAdminDirectory()
 		{
-			QueryCommand command = new QueryCommand("DELETE subtext_Config");
+			QueryCommand command = new QueryCommand("DELETE subtext_LinkCategories");
+			DataService.ExecuteQuery(command);
+			command = new QueryCommand("DELETE subtext_Config");
 			DataService.ExecuteQuery(command);
 			UnitTestHelper.SetupBlog(); //Create one blog.
 			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "HostAdmin", "", "Default.aspx");
