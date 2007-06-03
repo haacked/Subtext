@@ -618,7 +618,7 @@ namespace Subtext.Framework.Data
 		{
 			Image _image = new Image();
 			_image.CategoryID = ReadInt32(reader, "CategoryID");
-			_image.File = ReadString(reader, "File");
+			_image.FileName = ReadString(reader, "File");
 			_image.Height = ReadInt32(reader, "Height");
 			_image.Width = ReadInt32(reader, "Width");
 			_image.ImageID = ReadInt32(reader, "ImageID");

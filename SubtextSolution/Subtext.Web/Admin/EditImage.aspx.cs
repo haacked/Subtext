@@ -197,8 +197,8 @@ namespace Subtext.Web.Admin.Pages
 				
 				try
 				{
-					_image.File = Images.GetFileName(ImageFile.PostedFile.FileName);
-					_image.LocalFilePath = Images.LocalGalleryFilePath(_image.CategoryID);
+					_image.FileName = Images.GetFileName(ImageFile.PostedFile.FileName);
+					_image.LocalDirectoryPath = Images.LocalGalleryFilePath(_image.CategoryID);
 					Images.Update(_image, Images.GetFileStream(ImageFile.PostedFile));				
 
 					this.Messages.ShowMessage("The image was successfully updated.");

@@ -273,8 +273,8 @@ namespace Subtext.Web.Admin.Pages
                         image.CategoryID = CategoryID;
                         image.Title = fileName;
                         image.IsActive = ckbIsActiveImage.Checked;
-                        image.File = Images.GetFileName(fileName);
-                        image.LocalFilePath = Images.LocalGalleryFilePath(CategoryID);
+                        image.FileName = Images.GetFileName(fileName);
+                        image.LocalDirectoryPath = Images.LocalGalleryFilePath(CategoryID);
 
                         // Read the next file from the Zip stream
                         using (MemoryStream currentFileData = new MemoryStream((int)theEntry.Size))
@@ -380,8 +380,8 @@ namespace Subtext.Web.Admin.Pages
 				
 				try
 				{
-					image.File = Images.GetFileName(targetFileName);
-					image.LocalFilePath = Images.LocalGalleryFilePath(CategoryID);
+					image.FileName = Images.GetFileName(targetFileName);
+					image.LocalDirectoryPath = Images.LocalGalleryFilePath(CategoryID);
 					if (File.Exists(image.OriginalFilePath))
 					{
 						// tell the user we can't accept this file.
@@ -394,7 +394,7 @@ namespace Subtext.Web.Admin.Pages
 						AddImages.Collapsed = false;
 						// Unfortunately you can't set ImageFile.PostedFile.FileName. At least suggest
 						// a name for the new file.
-						TextBoxImageFileName.Text = image.File;
+						TextBoxImageFileName.Text = image.FileName;
 						return;
 					}
 
@@ -497,7 +497,8 @@ namespace Subtext.Web.Admin.Pages
 				LinkCategory existingCategory = Links.GetLinkCategory(id,false);
 				existingCategory.Title = title.Text;
 				existingCategory.IsActive = isActive.Checked;
-				existingCategory.Description = desc.Text;
+				if(desc != null)
+					existingCategory.Description = desc.Text;
 		
 				if (id != 0) 
 					PersistCategory(existingCategory);

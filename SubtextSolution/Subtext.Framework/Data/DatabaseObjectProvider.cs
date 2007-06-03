@@ -1430,7 +1430,7 @@ namespace Subtext.Framework.Data
 				, DataHelper.CheckNull(image.CategoryID)
 				, image.Width
 				, image.Height
-				, image.File
+				, image.FileName
 				, image.IsActive
 				, BlogId
 				, 0);
@@ -1449,7 +1449,7 @@ namespace Subtext.Framework.Data
 			                             , DataHelper.CheckNull(image.CategoryID)
 			                             , image.Width
 			                             , image.Height
-			                             , image.File
+			                             , image.FileName
 			                             , image.IsActive
 			                             , BlogId
 			                             , image.ImageID).Execute();
