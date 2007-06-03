@@ -13,6 +13,98 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	{
 		[Test]
 		[RollBack]
+		public void CanGetPostCollectionByMonth()
+		{
+			UnitTestHelper.SetupBlog();
+			IList<Entry> entries = Entries.GetPostCollectionByMonth(DateTime.Now.Month, DateTime.Now.Year);
+			Assert.AreEqual(0, entries.Count);
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test", "Body Rockin");
+			entry.DateCreated = DateTime.Now;
+			Entries.Create(entry);
+			
+			//Create one a couple months ago.
+			entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test", "Body Rockin");
+			entry.DateCreated = DateTime.Now.AddMonths(-2);
+			Entries.Create(entry);
+
+			entries = Entries.GetPostCollectionByMonth(DateTime.Now.Month, DateTime.Now.Year);
+			Assert.AreEqual(1, entries.Count);
+		}
+
+		[Test]
+		[RollBack]
+		public void CanGetPostByCategoryId()
+		{
+			UnitTestHelper.SetupBlog();
+			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "Test");
+			ICollection<EntryDay> entries = Entries.GetPostsByCategoryID(10, categoryId);
+			Assert.AreEqual(0, entries.Count);
+
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test", "Body Rockin");
+			int entryId = Entries.Create(entry);
+			Entries.SetEntryCategoryList(entryId, new int[] {categoryId});
+
+			//Create one without a category
+			entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test", "Body Rockin");
+			Entries.Create(entry);
+
+			entries = Entries.GetPostsByCategoryID(10, categoryId);
+			Assert.AreEqual(1, entries.Count);
+		}
+
+		[Test]
+		[RollBack]
+		public void CanGetPostByDayRange()
+		{
+			UnitTestHelper.SetupBlog();
+			bool activeOnly = true;
+			IList<Entry> entries = Entries.GetPostsByDayRange(DateTime.Now.Date, DateTime.Now.Date.AddDays(1), PostType.BlogPost, activeOnly);
+			Assert.AreEqual(0, entries.Count);
+
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test", "Body Rockin");
+			entry.IsActive = true;
+			entry.DateCreated = DateTime.Now;
+			Entries.Create(entry);
+
+			//Create an inactive one for today.
+			entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test", "Body Rockin");
+			entry.IsActive = false;
+			entry.DateCreated = DateTime.Now;
+			Entries.Create(entry);
+
+			//Create an active one, but for yesterday.
+			entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test2", "Body Rockin2");
+			entry.IsActive = true;
+			entry.DateCreated = DateTime.Now.AddDays(-1);
+			Entries.Create(entry);
+
+			entries = Entries.GetPostsByDayRange(DateTime.Now.Date, DateTime.Now.Date.AddDays(1), PostType.BlogPost, activeOnly);
+			Assert.AreEqual(1, entries.Count);
+		}
+
+		[Test]
+		[RollBack]
+		public void CanGetSingleDay()
+		{
+			UnitTestHelper.SetupBlog();
+			
+			EntryDay entries = Entries.GetSingleDay(DateTime.Now);
+			Assert.AreEqual(0, entries.Count);
+
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test", "Body Rockin");
+			Entries.Create(entry);
+
+			//Create one for yesterday.
+			entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test 2", "Body Rockin Twice in another day!");
+			entry.DateCreated = DateTime.Now.AddDays(-1);
+			Entries.Create(entry);
+
+			entries = Entries.GetSingleDay(DateTime.Now);
+			Assert.AreEqual(1, entries.Count);
+		}
+
+		[Test]
+		[RollBack]
 		public void CanGetHomePageEntries()
 		{
 			UnitTestHelper.SetupBlog();

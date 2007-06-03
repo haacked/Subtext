@@ -98,6 +98,52 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual("n_4321", updatedEntry.EntryName, "Expected entryName = 'n_4321'");
         }
 
+		[Test]
+        [RollBack]
+        public void UpdateEntryWithNullDateSetsDate()
+		{
+			UnitTestHelper.SetupBlog();
+			DateTime now = Config.CurrentBlog.TimeZone.Now;
+			TestEntry entry = new TestEntry();
+			entry.Title = "My Title";
+			entry.Body = "My Post Body";
+			Entries.Create(entry);
+			
+			entry.IsActive = true;
+			entry.DateSyndicated = NullValue.NullDateTime;
+			entry.SetIncludeInMainSyndicationWithoutChangingDateSyndicated();
+
+			Assert.LowerThan(entry.DateSyndicated, now);
+			Entries.Update(entry);
+			Assert.GreaterEqualThan(entry.DateSyndicated, now);
+		}
+
+		internal class TestEntry : Entry
+		{
+			public TestEntry() : base(PostType.BlogPost)
+			{
+			}
+
+			public void SetIncludeInMainSyndicationWithoutChangingDateSyndicated()
+			{
+				PostConfigSetter(PostConfig.IncludeInMainSyndication, true);
+			}
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void UpdateThrowsArgumentNullException()
+		{
+			Entries.Update(null);
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void UpdateWithCategoriesThrowsArgumentNullException()
+		{
+			Entries.Update(null, 1, 2);
+		}
+
 		[SetUp]
 		public void SetUp()
 		{
