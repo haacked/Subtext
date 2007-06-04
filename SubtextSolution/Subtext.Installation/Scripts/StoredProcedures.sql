@@ -3374,8 +3374,7 @@ Set
 	Width = @Width,
 	Height = @Height,
 	[File] = @File,
-	Active = @Active
-	
+	Active = @Active,
 WHERE
 	ImageID = @ImageID AND BlogId = @BlogId
 
