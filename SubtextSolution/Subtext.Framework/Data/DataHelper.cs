@@ -616,7 +616,11 @@ namespace Subtext.Framework.Data
 
 		public static Image LoadImage(IDataReader reader)
 		{
+			if (reader == null)
+				return null;
+
 			Image _image = new Image();
+			_image.BlogId = Config.CurrentBlog.Id;
 			_image.CategoryID = ReadInt32(reader, "CategoryID");
 			_image.FileName = ReadString(reader, "File");
 			_image.Height = ReadInt32(reader, "Height");

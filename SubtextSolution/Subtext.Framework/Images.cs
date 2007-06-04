@@ -38,7 +38,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static string LocalGalleryFilePath(int categoryid)
 		{
-			return string.Format(CultureInfo.InvariantCulture, "{0}{1}\\", Config.CurrentBlog.ImageDirectory, categoryid);
+			return Path.Combine(Config.CurrentBlog.ImageDirectory, categoryid.ToString(CultureInfo.InvariantCulture)) + Path.DirectorySeparatorChar;
 		}
 
 		/// <summary>
@@ -46,7 +46,7 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="categoryid">The categoryid.</param>
 		/// <returns></returns>
-		public static string HttpGalleryFilePath(int categoryid)
+		public static string GalleryVirtualUrl(int categoryid)
 		{
 			return string.Format(CultureInfo.InvariantCulture, "{0}{1}/", Config.CurrentBlog.ImagePath, categoryid);
 		}
@@ -76,11 +76,6 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool ValidateFile(string filepath)
 		{
-			if (File.Exists(filepath))
-			{
-				return false;
-			}
-
 			return Regex.IsMatch(filepath,
 				"(?:[^\\/\\*\\?\\\"\\<\\>\\|\\n\\r\\t]+)\\.(?:jpg|jpeg|gif|png|bmp)",
 				RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
@@ -89,28 +84,27 @@ namespace Subtext.Framework
 
 		public static Size ResizeImage(int width, int height, int maxWidth, int maxHeight)
 		{
-			decimal MAX_WIDTH = maxWidth;
-			decimal MAX_HEIGHT = maxHeight;
-			decimal ASPECT_RATIO = MAX_WIDTH / MAX_HEIGHT;
+			decimal aspectRatio = maxWidth / maxHeight;
 
-			int newWidth, newHeight;
+			int newWidth;
+			int newHeight;
 
 			decimal originalWidth = width;
 			decimal originalHeight = height;
 
-			if (originalWidth > MAX_WIDTH || originalHeight > MAX_HEIGHT)
+			if (originalWidth > maxWidth || originalHeight > maxHeight)
 			{
 				decimal factor;
 				// determine the largest factor 
-				if (originalWidth / originalHeight > ASPECT_RATIO)
+				if (originalWidth / originalHeight > aspectRatio)
 				{
-					factor = originalWidth / MAX_WIDTH;
+					factor = originalWidth / maxWidth;
 					newWidth = Convert.ToInt32(originalWidth / factor);
 					newHeight = Convert.ToInt32(originalHeight / factor);
 				}
 				else
 				{
-					factor = originalHeight / MAX_HEIGHT;
+					factor = originalHeight / maxWidth;
 					newWidth = Convert.ToInt32(originalWidth / factor);
 					newHeight = Convert.ToInt32(originalHeight / factor);
 				}
@@ -147,9 +141,10 @@ namespace Subtext.Framework
 			if (ValidateFile(fileName))
 			{
 				EnsureDirectory(Path.GetDirectoryName(fileName));
-				FileStream fs = new FileStream(fileName, FileMode.Create);
-				fs.Write(buffer, 0, buffer.Length);
-				fs.Close();
+				using(FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
+				{
+					fs.Write(buffer, 0, buffer.Length);
+				}
 				return true;
 			}
 			return false;
@@ -260,7 +255,7 @@ namespace Subtext.Framework
 			if (image == null)
 				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
 
-			if (SaveImage(Buffer, image.OriginalFilePath))
+			if (!File.Exists(image.OriginalFilePath) && SaveImage(Buffer, image.OriginalFilePath))
 			{
 				MakeAlbumImages(image);
 				return ObjectProvider.Instance().InsertImage(image);

@@ -17,8 +17,11 @@ namespace UnitTests.Subtext.Framework.Data
 	public class DataHelperTests
 	{
 		[Test]
+		[RollBack]
 		public void CanLoadImageFromReader()
 		{
+			UnitTestHelper.SetupBlog();
+
 			StubResultSet resultSet = new StubResultSet("CategoryID", "File", "Height", "Width", "ImageID", "Active", "Title");
 			resultSet.AddRow(987, "MyImage.png", 150, 200, 123, true, "My Image");
 			StubDataReader reader = new StubDataReader(resultSet);
@@ -124,9 +127,6 @@ namespace UnitTests.Subtext.Framework.Data
 			int _currentIndex = -1;
 			ArrayList _records = new ArrayList();
 			
-			internal TestDataReader()
-			{}
-
 			public void AddRecord(int month, int day, int year, int count)
 			{
 				_records.Add(new DataReaderRecord(month, day, year, count));

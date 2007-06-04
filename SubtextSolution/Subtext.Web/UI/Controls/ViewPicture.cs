@@ -44,7 +44,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				int imageID = UrlFormats.GetPostIDFromUrl(Request.Path);
 				Subtext.Framework.Components.Image _image = Images.GetSingleImage(imageID,true);
-				_baseImagePath = Images.HttpGalleryFilePath(_image.CategoryID);
+				_baseImagePath = Images.GalleryVirtualUrl(_image.CategoryID);
 
 				Title.Text = _image.Title;
 				GalleryImage.ImageUrl = _baseImagePath +  _image.ResizedFile;

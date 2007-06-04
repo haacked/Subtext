@@ -149,7 +149,7 @@ namespace Subtext.Web.Admin.Pages
 			Image image = potentialImage as Image;
 			if (image != null)
 			{
-				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(image.CategoryID), 
+				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.GalleryVirtualUrl(image.CategoryID), 
 					image.ThumbNailFile);
 			}
 			else

@@ -1,9 +1,11 @@
 using System;
+using System.Drawing;
 using System.IO;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Image=Subtext.Framework.Components.Image;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -21,6 +23,59 @@ namespace UnitTests.Subtext.Framework
 		static Byte[] singlePixelBytes = Convert.FromBase64String("R0lGODlhAQABAIAAANvf7wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
 
 		[Test]
+		public void CanResizeImage()
+		{
+			CreateStandaloneImageInstance();
+			Size newSize = Images.ResizeImage(7, 5, 2, 3);
+			Assert.AreEqual(2, newSize.Width);
+			Assert.AreEqual(1, newSize.Height);
+
+			newSize = Images.ResizeImage(6, 7, 3, 2);
+			Assert.AreEqual(3, newSize.Width);
+			Assert.AreEqual(3, newSize.Height);
+		}
+
+		[Test]
+		[RollBack]
+		public void CanUpdate()
+		{
+			Image image = CreateImageInstance();
+			Assert.Greater(Config.CurrentBlog.Id, 0);
+			Assert.AreEqual(Config.CurrentBlog.Id, image.BlogId);
+			int imageId = Images.InsertImage(image, singlePixelBytes);
+
+			Image saved = Images.GetSingleImage(imageId, true);
+			Assert.AreEqual(Config.CurrentBlog.Id, saved.BlogId, "The blog id for the image does not match!");
+			saved.LocalDirectoryPath = Path.GetFullPath(TestDirectory);
+			Assert.AreEqual("Test Image", saved.Title);
+
+			saved.Title = "A Better Title";
+			Images.Update(saved, singlePixelBytes);
+
+			Image loaded = Images.GetSingleImage(imageId, true);
+			Assert.AreEqual(Config.CurrentBlog.Id, loaded.BlogId, "The blog id for the image does not match!");
+			loaded.LocalDirectoryPath = Path.GetFullPath(TestDirectory);
+
+			Assert.AreEqual("A Better Title", loaded.Title, "The title was not updated");
+		}
+
+		[Test]
+		[RollBack]
+		public void CanGetLocalGalleryFilePath()
+		{
+			UnitTestHelper.SetupBlog();
+			Assert.AreEqual(Path.Combine(Environment.CurrentDirectory, @"image\42\"), Images.LocalGalleryFilePath(42));
+		}
+
+		[Test]
+		[RollBack]
+		public void CanGetGalleryVirtualUrl()
+		{
+			UnitTestHelper.SetupBlog();
+			Assert.AreEqual("/image/1/", Images.GalleryVirtualUrl(1));
+		}
+
+		[Test]
 		public void GetFileStreamReturnsNullForNullPostedFile()
 		{
 			Assert.IsNull(Images.GetFileStream(null), "Should return null and not throw exception");
@@ -35,9 +90,8 @@ namespace UnitTests.Subtext.Framework
 
 			Assert.AreEqual(0, Images.GetImagesByCategoryID(categoryId, true).Count);
 
-			Image image = CreateImageInstance();
+			Image image = CreateImageInstance(Config.CurrentBlog, categoryId);
 			image.IsActive = true;
-			image.CategoryID = categoryId;
 
 			int imageId = Images.InsertImage(image, singlePixelBytes);
 
@@ -76,13 +130,21 @@ namespace UnitTests.Subtext.Framework
 			image.FileName = "test.gif";
 			
 			//Write original image.
-			
 			Images.SaveImage(singlePixelBytes, image.OriginalFilePath);
 			FileAssert.Exists(image.OriginalFilePath);
 
 			Images.MakeAlbumImages(image);
 			FileAssert.Exists(image.ResizedFilePath);
 			FileAssert.Exists(image.ThumbNailFilePath);
+		}
+
+		[Test]
+		public void InsertImageReturnsFalseForExistingImage()
+		{
+			Image image = CreateStandaloneImageInstance();
+			Images.SaveImage(singlePixelBytes, image.OriginalFilePath);
+
+			Assert.AreEqual(NullValue.NullInt32, Images.InsertImage(image, singlePixelBytes));
 		}
 
 		[Test]
@@ -107,20 +169,31 @@ namespace UnitTests.Subtext.Framework
 				Assert.IsNull(Images.GetSingleImage(imageId, false));
 			}
 		}
-
-		private static Image CreateImageInstance()
+		
+		private static Image CreateStandaloneImageInstance()
 		{
-			UnitTestHelper.SetupBlog();
-			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, TestDirectory);
 			Image image = new Image();
 			image.Title = "Test Image";
-			image.BlogId = Config.CurrentBlog.Id;
-			image.CategoryID = categoryId;
 			image.Height = 1;
 			image.Width = 1;
 			image.IsActive = true;
 			image.LocalDirectoryPath = Path.GetFullPath(TestDirectory);
 			image.FileName = "test.gif";
+			return image;
+		}
+
+		private static Image CreateImageInstance()
+		{
+			UnitTestHelper.SetupBlog();
+			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, TestDirectory);
+			return CreateImageInstance(Config.CurrentBlog, categoryId);
+		}
+
+		private static Image CreateImageInstance(BlogInfo currentBlog, int categoryId)
+		{
+			Image image = CreateStandaloneImageInstance();
+			image.BlogId = currentBlog.Id;
+			image.CategoryID = categoryId;
 			return image;
 		}
 
@@ -130,17 +203,6 @@ namespace UnitTests.Subtext.Framework
 			string dir = Path.GetFullPath(TestDirectory);
 			Images.EnsureDirectory(dir);
 			Assert.IsTrue(Directory.Exists(dir));
-		}
-
-		[Test]
-		public void ValidateFileReturnsFalseForExistingFile()
-		{
-			Directory.CreateDirectory(TestDirectory);
-			using (StreamWriter writer = File.CreateText(Path.Combine(TestDirectory, "test.gif")))
-			{
-				writer.Write("Ignored data");
-			}
-			Assert.IsFalse(Images.ValidateFile(Path.Combine(TestDirectory, "test.gif")));
 		}
 
 		#region ExceptionTests
@@ -227,6 +289,8 @@ namespace UnitTests.Subtext.Framework
 		{
 			if (Directory.Exists(TestDirectory))
 				Directory.Delete(TestDirectory, true);
+			if (Directory.Exists("image"))
+				Directory.Delete("image", true);
 		}
 
 		[TearDown]
@@ -234,6 +298,8 @@ namespace UnitTests.Subtext.Framework
 		{
 			if (Directory.Exists(TestDirectory))
 				Directory.Delete(TestDirectory, true);
+			if (Directory.Exists("image"))
+				Directory.Delete("image", true);
 		}
 	}
 }
