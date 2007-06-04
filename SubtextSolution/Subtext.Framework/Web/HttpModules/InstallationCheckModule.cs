@@ -44,7 +44,7 @@ namespace Subtext.Web.HttpModules
 
 			// Want to redirect to install if installation is required, 
 			// or if we're missing a HostInfo record.
-			if ((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded))
+			if ((InstallationManager.IsInstallationActionRequired() || InstallationManager.HostInfoRecordNeeded))
 			{
 				InstallationState state = InstallationManager.CurrentInstallationState;
 				if (state == InstallationState.NeedsInstallation && !(InstallationManager.IsInHostAdminDirectory ||InstallationManager.IsInInstallDirectory))

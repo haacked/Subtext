@@ -29,11 +29,10 @@ namespace Subtext.Framework
 		/// <summary>
 		/// Gets a value indicating whether this instance is installation action required.
 		/// </summary>
-		/// <param name="assemblyVersion">The version of the currently installed assembly.</param>
 		/// <value>
 		/// 	<c>true</c> if this instance is installation action required; otherwise, <c>false</c>.
 		/// </value>
-		public static bool IsInstallationActionRequired(Version assemblyVersion)
+		public static bool IsInstallationActionRequired()
 		{
 			if (HttpContext.Current != null && HttpContext.Current.Application["NeedsInstallation"] != null)
 			{
