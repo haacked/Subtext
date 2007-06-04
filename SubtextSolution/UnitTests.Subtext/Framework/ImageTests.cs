@@ -205,6 +205,12 @@ namespace UnitTests.Subtext.Framework
 			Assert.IsTrue(Directory.Exists(dir));
 		}
 
+		[Test]
+		public void SaveImageReturnsFalseForInvalidImageName()
+		{
+			Assert.IsFalse(Images.SaveImage(singlePixelBytes, "!"));
+		}
+
 		#region ExceptionTests
 		[Test]
 		[ExpectedArgumentNullException]
