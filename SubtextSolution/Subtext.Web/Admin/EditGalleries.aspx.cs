@@ -273,7 +273,7 @@ namespace Subtext.Web.Admin.Pages
                         image.CategoryID = CategoryID;
                         image.Title = fileName;
                         image.IsActive = ckbIsActiveImage.Checked;
-                        image.FileName = Images.GetFileName(fileName);
+                        image.FileName = Path.GetFileName(fileName);
                         image.LocalDirectoryPath = Images.LocalGalleryFilePath(CategoryID);
 
                         // Read the next file from the Zip stream
@@ -380,7 +380,7 @@ namespace Subtext.Web.Admin.Pages
 				
 				try
 				{
-					image.FileName = Images.GetFileName(targetFileName);
+					image.FileName = Path.GetFileName(targetFileName);
 					image.LocalDirectoryPath = Images.LocalGalleryFilePath(CategoryID);
 					if (File.Exists(image.OriginalFilePath))
 					{

@@ -76,6 +76,9 @@ namespace Subtext.Framework.Components
 		/// <summary>
 		/// The directory on the local server where the image will be saved.
 		/// </summary>
+		/// <remarks>
+		/// Assumes the specified path is a directory path!
+		/// </remarks>
         public virtual string LocalDirectoryPath
         {
             get

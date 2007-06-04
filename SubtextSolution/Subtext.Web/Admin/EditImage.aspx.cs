@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -129,7 +130,7 @@ namespace Subtext.Web.Admin.Pages
 			_galleryTitle = Links.GetLinkCategory(image.CategoryID,false).Title;
 		}
 
-		protected string EvalImageUrl(object imageObject)
+		protected static string EvalImageUrl(object imageObject)
 		{
             Image image = imageObject as Image;
 			if (image != null)
@@ -197,7 +198,7 @@ namespace Subtext.Web.Admin.Pages
 				
 				try
 				{
-					_image.FileName = Images.GetFileName(ImageFile.PostedFile.FileName);
+					_image.FileName = Path.GetFileName(ImageFile.PostedFile.FileName);
 					_image.LocalDirectoryPath = Images.LocalGalleryFilePath(_image.CategoryID);
 					Images.Update(_image, Images.GetFileStream(ImageFile.PostedFile));				
 

@@ -7,36 +7,43 @@ using Subtext.Framework.Configuration;
 
 namespace UnitTests.Subtext.Framework
 {
+	/// <summary>
+	/// Tests of the Images class.
+	/// </summary>
+	/// <remarks>
+	/// All tests should use the TestDirectory directory. For example, to create that 
+	/// directory, just do this: Directory.Create(TestDirectory);
+	/// </remarks>
 	[TestFixture]
 	public class ImageTests
 	{
+		private const string TestDirectory = "unit-test-dir";
 		static Byte[] singlePixelBytes = Convert.FromBase64String("R0lGODlhAQABAIAAANvf7wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
+
+		[Test]
+		public void GetFileStreamReturnsNullForNullPostedFile()
+		{
+			Assert.IsNull(Images.GetFileStream(null), "Should return null and not throw exception");
+		}
 
 		[Test]
 		[RollBack]
 		public void CanGetImagesByCategoryId()
 		{
 			UnitTestHelper.SetupBlog();
-			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "Test", CategoryType.ImageCollection);
+			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "UnitTestImages", CategoryType.ImageCollection);
 
 			Assert.AreEqual(0, Images.GetImagesByCategoryID(categoryId, true).Count);
 
 			Image image = CreateImageInstance();
 			image.IsActive = true;
 			image.CategoryID = categoryId;
-			try
-			{
-				int imageId = Images.InsertImage(image, singlePixelBytes);
 
-				ImageCollection images = Images.GetImagesByCategoryID(categoryId, true);
-				Assert.AreEqual(1, images.Count);
-				Assert.AreEqual(imageId, images[0].ImageID);
-			}
-			finally
-			{
-				if (Directory.Exists(image.LocalDirectoryPath))
-					Directory.Delete(image.LocalDirectoryPath, true);
-			}
+			int imageId = Images.InsertImage(image, singlePixelBytes);
+
+			ImageCollection images = Images.GetImagesByCategoryID(categoryId, true);
+			Assert.AreEqual(1, images.Count, "Expected to get our one image.");
+			Assert.AreEqual(imageId, images[0].ImageID);
 		}
 
 		[RowTest]
@@ -51,20 +58,10 @@ namespace UnitTests.Subtext.Framework
 		[RollBack]
 		public void CanSaveImage()
 		{
-			string filePath = Path.GetFullPath(@"test\test.gif");
-			try
-			{
-				Assert.IsTrue(Images.SaveImage(singlePixelBytes, filePath));
-				FileAssert.Exists(filePath);
-			}
-			finally
-			{
-				if(File.Exists(filePath))
-					File.Delete(filePath);
-
-				if(Directory.Exists(Path.GetDirectoryName(filePath)))
-					Directory.Delete(Path.GetDirectoryName(filePath), true);
-			}
+			string filePath = Path.GetFullPath(@TestDirectory + Path.DirectorySeparatorChar + "test.gif");
+			
+			Assert.IsTrue(Images.SaveImage(singlePixelBytes, filePath));
+			FileAssert.Exists(filePath);
 		}
 
 		[Test]
@@ -75,23 +72,17 @@ namespace UnitTests.Subtext.Framework
 			image.Height = 1;
 			image.Width = 1;
 			image.IsActive = true;
-			image.LocalDirectoryPath = Path.GetFullPath(@"test") + @"\";
+			image.LocalDirectoryPath = Path.GetFullPath(TestDirectory);
 			image.FileName = "test.gif";
 			
 			//Write original image.
-			try
-			{
-				Images.SaveImage(singlePixelBytes, image.OriginalFilePath);
-				FileAssert.Exists(image.OriginalFilePath);
+			
+			Images.SaveImage(singlePixelBytes, image.OriginalFilePath);
+			FileAssert.Exists(image.OriginalFilePath);
 
-				Images.MakeAlbumImages(image);
-				FileAssert.Exists(image.ResizedFilePath);
-				FileAssert.Exists(image.ThumbNailFilePath);
-			}
-			finally
-			{
-				Directory.Delete(image.LocalDirectoryPath, true);
-			}
+			Images.MakeAlbumImages(image);
+			FileAssert.Exists(image.ResizedFilePath);
+			FileAssert.Exists(image.ThumbNailFilePath);
 		}
 
 		[Test]
@@ -111,17 +102,16 @@ namespace UnitTests.Subtext.Framework
 			}
 			finally
 			{
-				Images.DeleteImage(loadedImage);
+				if(loadedImage != null)
+					Images.DeleteImage(loadedImage);
 				Assert.IsNull(Images.GetSingleImage(imageId, false));
-				if(File.Exists(image.LocalDirectoryPath))
-					File.Delete(image.LocalDirectoryPath);
 			}
 		}
 
 		private static Image CreateImageInstance()
 		{
 			UnitTestHelper.SetupBlog();
-			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "Test");
+			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, TestDirectory);
 			Image image = new Image();
 			image.Title = "Test Image";
 			image.BlogId = Config.CurrentBlog.Id;
@@ -129,7 +119,7 @@ namespace UnitTests.Subtext.Framework
 			image.Height = 1;
 			image.Width = 1;
 			image.IsActive = true;
-			image.LocalDirectoryPath = Path.GetFullPath(@"test") + @"\";
+			image.LocalDirectoryPath = Path.GetFullPath(TestDirectory);
 			image.FileName = "test.gif";
 			return image;
 		}
@@ -137,34 +127,20 @@ namespace UnitTests.Subtext.Framework
 		[Test]
 		public void CanCheckDirectory()
 		{
-			string dir = Path.GetFullPath("test-dir") + @"\";
-			try
-			{
-				Images.CheckDirectory(dir);
-				Assert.IsTrue(Directory.Exists(dir));
-			}
-			finally
-			{
-				Directory.Delete(dir);
-			}
+			string dir = Path.GetFullPath(TestDirectory);
+			Images.EnsureDirectory(dir);
+			Assert.IsTrue(Directory.Exists(dir));
 		}
 
 		[Test]
 		public void ValidateFileReturnsFalseForExistingFile()
 		{
-			try
+			Directory.CreateDirectory(TestDirectory);
+			using (StreamWriter writer = File.CreateText(Path.Combine(TestDirectory, "test.gif")))
 			{
-				using (StreamWriter writer = File.CreateText("test.gif"))
-				{
-					writer.Write("Test");
-				}
-				Assert.IsFalse(Images.ValidateFile("test.gif"));
+				writer.Write("Ignored data");
 			}
-			finally
-			{
-				if(File.Exists("test.gif"))
-					File.Delete("test.gif");
-			}
+			Assert.IsFalse(Images.ValidateFile(Path.Combine(TestDirectory, "test.gif")));
 		}
 
 		#region ExceptionTests
@@ -172,14 +148,14 @@ namespace UnitTests.Subtext.Framework
 		[ExpectedArgumentNullException]
 		public void CheckDirectoryThrowsArgumentNullException()
 		{
-			Images.CheckDirectory(null);
+			Images.EnsureDirectory(null);
 		}
 
 		[Test]
 		[ExpectedArgumentException]
 		public void CheckDirectoryThrowsArgumentException()
 		{
-			Images.CheckDirectory("");
+			Images.EnsureDirectory("");
 		}
 
 		[Test]
@@ -187,13 +163,6 @@ namespace UnitTests.Subtext.Framework
 		public void DeleteImageThrowsArgumentNullException()
 		{
 			Images.DeleteImage(null);
-		}
-
-		[Test]
-		[ExpectedArgumentNullException]
-		public void GetFileNameThrowsArgumentNullException()
-		{
-			Images.GetFileName(null);
 		}
 
 		[Test]
@@ -252,6 +221,20 @@ namespace UnitTests.Subtext.Framework
 			Images.UpdateImage(null);
 		}
 		#endregion
+
+		[SetUp]
+		public void SetUp()
+		{
+			if (Directory.Exists(TestDirectory))
+				Directory.Delete(TestDirectory, true);
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			if (Directory.Exists(TestDirectory))
+				Directory.Delete(TestDirectory, true);
+		}
 	}
 }
 
