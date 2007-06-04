@@ -146,7 +146,7 @@ namespace Subtext.Framework
 
 			if (ValidateFile(fileName))
 			{
-				CheckDirectory(fileName);
+				EnsureDirectory(Path.GetDirectoryName(fileName));
 				FileStream fs = new FileStream(fileName, FileMode.Create);
 				fs.Write(buffer, 0, buffer.Length);
 				fs.Close();
@@ -222,46 +222,15 @@ namespace Subtext.Framework
 			}
 		}
 
-		public static string GetFileName(string filepath)
+		public static void EnsureDirectory(string directoryPath)
 		{
-			if (filepath == null)
+			if (directoryPath == null)
 				throw new ArgumentNullException("filepath", Resources.ArgumentNull_String);
 
-			if (filepath.Length == 0)
+			if (directoryPath.Length == 0)
 				throw new ArgumentException(Resources.Argument_StringZeroLength, "filepath");
 
-
-			if (filepath.IndexOf("\\") == -1)
-			{
-				return StripUrlCharsFromFileName(filepath);
-			}
-			else
-			{
-				int lastindex = filepath.LastIndexOf("\\");
-				return StripUrlCharsFromFileName(filepath.Substring(lastindex + 1));
-			}
-		}
-
-		private static string StripUrlCharsFromFileName(string filename)
-		{
-			const string replacement = "_";
-
-			filename = filename.Replace("#", replacement);
-			filename = filename.Replace("&", replacement);
-			filename = filename.Replace("%", replacement);
-
-			return filename;
-		}
-
-		public static void CheckDirectory(string filepath)
-		{
-			if (filepath == null)
-				throw new ArgumentNullException("filepath", Resources.ArgumentNull_String);
-
-			if (filepath.Length == 0)
-				throw new ArgumentException(Resources.Argument_StringZeroLength, "filepath");
-
-			string dir = Path.GetDirectoryName(filepath);
+			string dir = Path.GetFullPath(directoryPath);
 			if (!Directory.Exists(dir))
 			{
 				Directory.CreateDirectory(dir);

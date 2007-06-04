@@ -265,7 +265,8 @@ namespace Subtext.Framework.XmlRpc
 			}
 			return postID.ToString(CultureInfo.InvariantCulture);
 		}
-	    public mediaObjectInfo newMediaObject(object blogid, string username, string password, mediaObject mediaobject)
+	    
+		public mediaObjectInfo newMediaObject(object blogid, string username, string password, mediaObject mediaobject)
 	    {
             Framework.BlogInfo info = Config.CurrentBlog;
             ValidateUser(username, password, info.AllowServiceAccess);
@@ -276,7 +277,9 @@ namespace Subtext.Framework.XmlRpc
 	            //But we do check the directory and create if necessary
 	            //The media object's name can have extra folders appended (WLW especially does this) 
                 //so we check for this here too.
-                Images.CheckDirectory(Config.CurrentBlog.ImageDirectory + mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1 ).Replace("/", "\\"));
+
+				//TODO: We shouldn't do this type of path parsing. That's what the System.IO.Path object is for.
+                Images.EnsureDirectory(Path.Combine(Config.CurrentBlog.ImageDirectory, mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1 ).Replace("/", "\\")));
                 BinaryWriter bw = new BinaryWriter(new FileStream(Config.CurrentBlog.ImageDirectory + mediaobject.name, FileMode.Create));
                 bw.Write(mediaobject.bits);	            
 	        }
