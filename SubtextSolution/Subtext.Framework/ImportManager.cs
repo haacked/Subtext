@@ -17,9 +17,7 @@ using System;
 using System.Web.UI;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
-using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
 using Subtext.Framework.UI.Skinning;
 using SkinConfig = Subtext.Framework.Configuration.SkinConfig;
 using Subtext.Framework.Properties;
@@ -39,9 +37,7 @@ namespace Subtext.Framework
 		public static Control GetImportInformationControl(ImportProvider provider)
 		{
             if (provider == null)
-            {
                 throw new ArgumentNullException("provider", Resources.ArgumentNull_Generic);
-            }
 
             return provider.GatherImportInformation();
 		}
@@ -57,14 +53,10 @@ namespace Subtext.Framework
         public static string ValidateImportAnswers(Control populatedControl, ImportProvider provider)
 		{
             if (populatedControl == null)
-            {
                 throw new ArgumentNullException("populatedControl", Resources.ArgumentNull_Generic);
-            }
 
             if (provider == null)
-            {
-                throw new ArgumentNullException("provider", Resources.ArgumentNull_Generic);
-            }
+				throw new ArgumentNullException("provider", Resources.ArgumentNull_Generic);
 
             return provider.ValidateImportInformation(populatedControl);
 		}
@@ -73,13 +65,12 @@ namespace Subtext.Framework
 		/// Begins the import using the information within the populated Control.
 		/// </summary>
 		/// <param name="populatedControl">Control containing the user's answers.</param>
+		/// <param name="provider">The provider.</param>
         public static void Import(Control populatedControl, ImportProvider provider)
 		{
             provider.Import(populatedControl);
 
-            IPagedCollection<BlogInfo> blogs;
-			
-			int totalBlogCount = Config.BlogCount;
+            int totalBlogCount = Config.BlogCount;
 			const int pageSize = 100;
 			int pages = totalBlogCount/pageSize;
 			int currentPage = 1;
@@ -92,7 +83,7 @@ namespace Subtext.Framework
 			
 			while (currentPage <= pages)
 			{
-				blogs = BlogInfo.GetBlogs(currentPage, pageSize, ConfigurationFlags.IsActive);
+				IPagedCollection<BlogInfo> blogs = BlogInfo.GetBlogs(currentPage, pageSize, ConfigurationFlags.IsActive);
 
 				foreach(BlogInfo currentBlogInfo in blogs)
 				{

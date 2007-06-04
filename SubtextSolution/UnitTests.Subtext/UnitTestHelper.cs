@@ -36,6 +36,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Security;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Reflection;
 
 namespace UnitTests.Subtext
 {
@@ -390,8 +391,13 @@ namespace UnitTests.Subtext
 			HttpContext.Current.Items.Clear();
 			HttpContext.Current.Cache.Remove("BlogInfo-");
 			HttpContext.Current.Cache.Remove("BlogInfo-" + subfolder);
+
+			Type appFactoryType = Type.GetType("System.Web.HttpApplicationFactory, System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
+			Assert.IsNotNull(appFactoryType, "The HttpApplicationFactory type is null");
+			object appFactory = ReflectionHelper.GetStaticFieldValue<object>("_theApplicationFactory", appFactoryType);
+			ReflectionHelper.SetPrivateInstanceFieldValue("_state", appFactory, HttpContext.Current.Application);
 			
-			HttpContext.Current.Items["Subtext__CurrentRequest"] = new BlogRequest(host, subfolder);			
+			HttpContext.Current.Items["Subtext__CurrentRequest"] = new BlogRequest(host, subfolder);
 
 			#region Console Debug INfo
 			/*
@@ -619,8 +625,9 @@ namespace UnitTests.Subtext
 		/// <summary>
 		/// Creates a blog post link category.
 		/// </summary>
-		/// <param name="blogId"></param>
-		/// <param name="title"></param>
+		/// <param name="blogId">The blog id.</param>
+		/// <param name="title">The title.</param>
+		/// <param name="categoryType">Type of the category.</param>
 		/// <returns></returns>
 		public static int CreateCategory(int blogId, string title, CategoryType categoryType)
 		{

@@ -46,26 +46,26 @@ namespace Subtext.Framework
             {
                 Tag t = new Tag(tag);
                 t.Factor = (t.Count - mean) / stdDev;
-                t.Weight = computeWeight(t.Factor, stdDev);
+                t.Weight = ComputeWeight(t.Factor, stdDev);
                 tags.Add(t);
             }
 
             return tags;
         }
 
-        private static int computeWeight(double factor, double stdDev)
+        public static int ComputeWeight(double factor, double standardDeviation)
         {
-            if (factor <= -0.25 * stdDev)
+            if (factor <= -0.25 * standardDeviation)
                 return 1;
-            if (factor <= 0 * stdDev)
+            if (factor <= 0 * standardDeviation)
                 return 2;
-            if (factor <= 0.25 * stdDev)
+            if (factor <= 0.25 * standardDeviation)
                 return 3;
-            if (factor < 0.5 * stdDev)
+            if (factor < 0.5 * standardDeviation)
                 return 4;
-            if (factor < 1 * stdDev)
+            if (factor < 1 * standardDeviation)
                 return 5;
-            if (factor < 2 * stdDev)
+            if (factor < 2 * standardDeviation)
                 return 6;
             return 7;
         }

@@ -260,12 +260,14 @@
     <Compile Include="BlogMl\SubtextBlogMlWriterTests.cs" />
     <Compile Include="Framework\ArchiveTests.cs" />
     <Compile Include="Framework\ImageTests.cs" />
+    <Compile Include="Framework\ImportManagerTests.cs" />
     <Compile Include="Framework\NullValueTests.cs" />
     <Compile Include="Framework\Providers\GenericProviderCollectionTests.cs" />
     <Compile Include="Framework\Search\SearchTests.cs" />
     <Compile Include="Framework\Security\SecurityTests.cs" />
     <Compile Include="Framework\Security\SubtextMembershipProviderTests.cs" />
     <Compile Include="Framework\Security\SubtextRoleProviderTests.cs" />
+    <Compile Include="Framework\TagsTests.cs" />
     <Compile Include="Framework\Web\BaseHttpHandlerTests.cs" />
     <Compile Include="Installation\InstallerTests.cs" />
     <Compile Include="Plugins\Core\FeedvertisingTests.cs" />

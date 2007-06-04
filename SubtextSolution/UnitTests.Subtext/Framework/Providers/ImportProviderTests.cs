@@ -28,7 +28,7 @@ namespace UnitTests.Subtext.Framework.Providers
 		[Test]
 		public void CanInstantiateProvider()
 		{
-			Assert.IsNotNull(ImportProvider.Instance());
+			Assert.IsNotNull(ImportProvider.Provider);
 		}
 
 		/// <summary>

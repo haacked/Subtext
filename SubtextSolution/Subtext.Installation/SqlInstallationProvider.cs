@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using Subtext.Data;
@@ -101,13 +102,13 @@ namespace Subtext.Installation
 				throw new ArgumentNullException("exception", "It's not an installation exception if it's null.");
 
 			Regex tableRegex = new Regex("Invalid object name '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-			bool isSqlException = exception is SqlException;
+			bool isDbException = exception is DbException;
 
-			if (isSqlException && tableRegex.IsMatch(exception.Message))
+			if (isDbException && tableRegex.IsMatch(exception.Message))
 				return true;
 
 			Regex spRegex = new Regex("'Could not find stored procedure '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-			if (isSqlException && spRegex.IsMatch(exception.Message))
+			if (isDbException && spRegex.IsMatch(exception.Message))
 				return true;
 
 			return false;

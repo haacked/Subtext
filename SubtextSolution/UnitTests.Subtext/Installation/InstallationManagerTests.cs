@@ -13,9 +13,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
+using System.Data.Common;
+using System.Web;
 using MbUnit.Framework;
+using Rhino.Mocks;
+using SubSonic;
 using Subtext.Framework;
 using Subtext.Framework.Exceptions;
+using Subtext.Installation;
 
 namespace UnitTests.Subtext.Installation
 {
@@ -25,6 +31,15 @@ namespace UnitTests.Subtext.Installation
 	[TestFixture]
 	public class InstallationManagerTests
 	{
+		[Test]
+		[RollBack]
+		public void CanGetCurrentInstallationState()
+		{
+			QueryCommand command = new QueryCommand("Delete subtext_Version");
+			DataService.ExecuteQuery(command);
+			Assert.AreEqual(InstallationState.NeedsInstallation, InstallationManager.CurrentInstallationState);
+		}
+
 		/// <summary>
 		/// Determines whether [is in host admin directory returns true result].
 		/// </summary>
@@ -37,14 +52,89 @@ namespace UnitTests.Subtext.Installation
 		}
 
 		/// <summary>
+		/// Determines whether [is in host admin directory returns true result].
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void IsInUpgradeDirectoryReturnsTrueResult()
+		{
+			UnitTestHelper.SetupBlog(string.Empty, "Subtext.Web", "HostAdmin/Upgrade/BlahBlah.aspx");
+			Assert.IsTrue(InstallationManager.IsInUpgradeDirectory, "This request should be within the hostadmin/upgrade directory.");
+		}
+
+		/// <summary>
+		/// Determines whether [is in host admin directory returns true result].
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void IsInSystemMessageDirectoryReturnsTrueResult()
+		{
+			UnitTestHelper.SetupBlog(string.Empty, "Subtext.Web", "SystemMessages/BlahBlah.aspx");
+			Assert.IsTrue(InstallationManager.IsInSystemMessageDirectory, "This request should be within the SystemMessages directory.");
+		}
+
+		[Test]
+		public void IsIntstallationActionRequiredReturnsContextVariable()
+		{
+			UnitTestHelper.SetupHttpContextWithRequest("");
+			HttpContext.Current.Application["NeedsInstallation"] = false;
+			Assert.IsFalse(InstallationManager.IsInstallationActionRequired());
+		}
+
+		[Test]
+		public void CanResetInstallationStatusCache()
+		{
+			UnitTestHelper.SetupHttpContextWithRequest("");
+			HttpContext.Current.Application["NeedsInstallation"] = true;
+			
+			Assert.IsTrue((bool)HttpContext.Current.Application["NeedsInstallation"]);
+			InstallationManager.ResetInstallationStatusCache();
+			Assert.IsNull(HttpContext.Current.Application["NeedsInstallation"]);
+		}
+
+		[Test]
+		[RollBack]
+		public void IsIntstallationActionRequiredReturnsTrue()
+		{
+			UnitTestHelper.SetupHttpContextWithRequest("");
+			Assert.IsNull(HttpContext.Current.Application["NeedsInstallation"]);
+			QueryCommand command = new QueryCommand("Delete subtext_Version");
+			DataService.ExecuteQuery(command);
+			Assert.IsTrue(InstallationManager.IsInstallationActionRequired());
+			Assert.IsNotNull(HttpContext.Current.Application["NeedsInstallation"]);
+		}
+
+		/// <summary>
 		/// Makes sure that a <see cref="BlogDoesNotExistException"/> indicates that 
 		/// an installation action is required.
 		/// </summary>
 		[Test]
 		[RollBack]
-		public void IsInstallationActionRequiredReturnsTrueForBlogDoesNotExistException()
+		public void IsInstallationActionRequiredReturnsCorrectAnswerForExceptions()
 		{
+			Assert.IsFalse(InstallationManager.InstallationActionRequired(new Exception("host"), VersionInfo.FrameworkVersion));
 			Assert.IsTrue(InstallationManager.InstallationActionRequired(new BlogDoesNotExistException("host", "app", false), VersionInfo.FrameworkVersion));
+			Assert.IsTrue(InstallationManager.InstallationActionRequired(new HostDataDoesNotExistException("message"), VersionInfo.FrameworkVersion));
+			Assert.IsTrue(InstallationManager.InstallationActionRequired(new HostNotConfiguredException("message"), VersionInfo.FrameworkVersion));
+
+			MockRepository mocks = new MockRepository();
+			DbException invalidObjectException = mocks.DynamicMock<DbException>();
+			DbException storedProcException = mocks.DynamicMock<DbException>();
+			
+			using (mocks.Record())
+			{
+				SetupResult.For(invalidObjectException.Message).Return("Invalid object name 'blah'");
+				SetupResult.For(storedProcException.Message).Return("'Could not find stored procedure 'blah'");
+			}
+			using (mocks.Playback())
+			{
+				Assert.IsTrue(InstallationManager.InstallationActionRequired(invalidObjectException, VersionInfo.FrameworkVersion));
+				Assert.IsTrue(InstallationManager.InstallationActionRequired(storedProcException, VersionInfo.FrameworkVersion));
+			}
+
+			QueryCommand command = new QueryCommand("Delete subtext_Version");
+			DataService.ExecuteQuery(command);
+			Assert.IsTrue(InstallationManager.InstallationActionRequired(new Exception("host"), VersionInfo.FrameworkVersion));
 		}
 
 		/// <summary>
