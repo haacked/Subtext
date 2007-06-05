@@ -10,6 +10,3 @@
 	</ul>
 	</div>
 </div>
-<div id="blogstatsback">
-<p>&nbsp;</p>
-</div>
