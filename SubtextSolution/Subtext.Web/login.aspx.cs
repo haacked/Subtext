@@ -1,8 +1,11 @@
 using System;
+using System.Web.UI;
+using Subtext.Framework.Configuration;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web
 {
-	public partial class Login : System.Web.UI.Page
+	public partial class Login : Page
 	{
 		///<summary>
 		///Raises the <see cref="E:System.Web.UI.Control.Init"></see> event to initialize the page.
@@ -15,6 +18,10 @@ namespace Subtext.Web
 				Response.Redirect("~/HostAdmin/Login.aspx");
 				return;
 			}
+
+			System.Web.UI.WebControls.Login lc = (System.Web.UI.WebControls.Login) ControlHelper.FindControlRecursively(this.Master, "loginControl");
+			lc.DestinationPageUrl = Config.CurrentBlog.AdminDirectoryVirtualUrl;
+
 			base.OnInit(e);
 		}
 	}

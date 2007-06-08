@@ -1,6 +1,6 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="InstallTemplate.master.cs" Inherits="Subtext.Web.Install.InstallTemplate" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head runat="server">
 		<title>Subtext Installation</title>
 		<st:ScriptTag id="HelptipJs" src="~/admin/resources/Scripts/helptip.js" runat="server" />
