@@ -37,7 +37,7 @@ namespace Subtext.Framework.Exceptions
 			}
 		}
 
-		public HostDataDoesNotExistException() : base() {}
+		public HostDataDoesNotExistException() {}
 		public HostDataDoesNotExistException(string message) : base(message) {}
 		public HostDataDoesNotExistException(string message, Exception innerException) : base(message, innerException) {}
 		protected HostDataDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context) { }

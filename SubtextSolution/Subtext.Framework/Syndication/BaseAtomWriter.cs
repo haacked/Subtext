@@ -46,6 +46,7 @@ namespace Subtext.Framework.Syndication
 		/// Bases the syndication writer.
 		/// </summary>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
+		/// <param name="useDeltaEncoding">if set to <c>true</c> [use delta encoding].</param>
 		protected BaseAtomWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
 		}

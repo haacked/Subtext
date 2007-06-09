@@ -34,7 +34,7 @@ namespace Subtext.Framework.Configuration
 	{
 		private readonly static ILog log = new Log();
 
-		static UrlBasedBlogInfoProvider _singletonInstance = new UrlBasedBlogInfoProvider();
+		static readonly UrlBasedBlogInfoProvider _singletonInstance = new UrlBasedBlogInfoProvider();
 		
 		/// <summary>
 		/// Returns a singleton instance of the UrlConfigProvider.
@@ -214,32 +214,6 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
-		/// Gets the current host, stripping off the initial "www." if 
-		/// found.
-		/// </summary>
-		/// <param name="Request">Request.</param>
-		/// <returns></returns>
-		protected static string GetCurrentHost(HttpRequest Request)
-		{
-            if (Request == null)
-            {
-                throw new ArgumentNullException("Request", Resources.ArgumentNull_Generic);
-            }
-
-			string host = Request.Url.Host;
-			if(!Request.Url.IsDefaultPort)
-			{
-				host  += ":" + Request.Url.Port.ToString(CultureInfo.InvariantCulture);
-			}
-
-			if (host.StartsWith("www.", StringComparison.InvariantCultureIgnoreCase))
-			{
-				host = host.Substring(4);
-			}
-			return host;
-		}
-
-		/// <summary>
 		/// Stores the blog configuration in the cache using the specified cache key.
 		/// </summary>
 		/// <remarks>
@@ -252,24 +226,16 @@ namespace Subtext.Framework.Configuration
 		protected void CacheConfig(Cache cache, BlogInfo info, string cacheKEY)
 		{
             if (cache == null)
-            {
                 throw new ArgumentNullException("cache", Resources.ArgumentNull_Generic);
-            }
 
             if (info == null)
-            {
                 throw new ArgumentNullException("info", Resources.ArgumentNull_Generic);
-            }
 
             if (cacheKEY == null)
-            {
                 throw new ArgumentNullException("cacheKEY", Resources.ArgumentNull_Generic);
-            }
 
             if (cacheKEY.Length == 0)
-            {
                 throw new ArgumentException(Resources.Argument_StringZeroLength, "cacheKEY");
-            }
 
 			cache.Insert(cacheKEY, info, null, DateTime.Now.AddSeconds(CacheTime), TimeSpan.Zero, CacheItemPriority.High, null);
 		}

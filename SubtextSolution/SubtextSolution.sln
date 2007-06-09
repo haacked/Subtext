@@ -133,9 +133,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NDepend", "NDepend", "{2643
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
-	ProjectSection(SolutionItems) = preProject
-		..\BuildTools\NDepend\NDependProject.xml = ..\BuildTools\NDepend\NDependProject.xml
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Plugins.Core", "Subtext.Plugins.Core\Subtext.Plugins.Core.csproj", "{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}"
 	ProjectSection(WebsiteProperties) = preProject

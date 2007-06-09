@@ -29,6 +29,40 @@ namespace UnitTests.Subtext.Framework
 	[TestFixture]
 	public class LinksTests
 	{
+		[Test]
+		[RollBack]
+		public void CanCreateAndDeleteLink()
+		{
+			UnitTestHelper.SetupBlog();
+			// Create the categories
+			CreateSomeLinkCategories();
+
+			// Retrieve the categories, grab the first one and update it
+			ICollection<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
+			LinkCategory linkCat = null;
+			foreach (LinkCategory linkCategory in originalCategories)
+			{
+				linkCat = linkCategory;
+				break;
+			}
+			
+			Link link = new Link();
+			link.CategoryID = linkCat.Id;
+			link.BlogId = Config.CurrentBlog.Id;
+			link.IsActive = true;
+			link.Title = "Title";
+			int linkId = Links.CreateLink(link);
+
+			Link loaded = Links.GetSingleLink(linkId);
+			Assert.AreEqual("Title", loaded.Title);
+			Assert.AreEqual(Config.CurrentBlog.Id, loaded.BlogId);
+			Assert.AreEqual(NullValue.NullInt32, loaded.PostID);
+			
+			Links.DeleteLink(linkId);
+
+			Assert.IsNull(Links.GetSingleLink(linkId));
+		}
+
 		/// <summary>
 		/// Ensures CreateLinkCategory assigns unique CatIDs
 		/// </summary>

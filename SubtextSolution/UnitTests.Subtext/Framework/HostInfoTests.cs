@@ -19,7 +19,7 @@ namespace UnitTests.Subtext.Framework
 			Assert.IsNotNull(HostInfo.Instance.Owner);
 			Assert.Greater(HostInfo.Instance.DateCreated, NullValue.NullDateTime);
 			StringAssert.IsNonEmpty(HostInfo.Instance.HostUserName);
-		}	
+		}
 
 		[Test]
 		[RollBack]
