@@ -33,7 +33,7 @@ namespace Subtext.Framework.Configuration
 	/// </summary>
 	public static class Config
 	{
-		private static
+		private static readonly 
 			string[] InvalidSubfolders = { "Tags", "Admin", "aggbug", "Archive", "Archives", "Articles", "bin", 
 				"Category", "Comments", "ExternalDependencies", "Gallery", "HostAdmin", "Images", "Install", 
 				"Modules", "Posts", "Properties", "Providers", "Scripts", "Services", "Sitemap", "Skins", 

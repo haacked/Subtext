@@ -61,14 +61,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				try
-				{
-					return HostInfo.Instance.DateCreated == NullValue.NullDateTime;
-				}
-				catch(HostNotConfiguredException)
-				{
-					return true;
-				}
+				return HostInfo.Instance.DateCreated == NullValue.NullDateTime;
 			}
 		}
 

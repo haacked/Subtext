@@ -15,6 +15,7 @@
 
 using System;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Web.Security;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
@@ -29,7 +30,7 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class HostInfo
 	{
-		private static HostInfo _instance = new HostInfo();
+		private static readonly HostInfo _instance = new HostInfo();
 		
 		static HostInfo()
 		{
@@ -49,6 +50,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
+				Debug.Assert(_instance != null, "An assertion failed. The HostInfo singleton should never be null.");
 				return _instance;
 			}
 		}

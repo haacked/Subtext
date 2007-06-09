@@ -2671,16 +2671,16 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleLink]
 	, @BlogId int
 )
 AS
-SELECT	subtext_Links.LinkID
-		, subtext_Links.Title
-		, subtext_Links.Url
-		, subtext_Links.Rss
-		, subtext_Links.Active
-		, subtext_Links.NewWindow
-		, subtext_Links.CategoryID
-		, PostId = ISNULL(subtext_Links.PostID, -1)
+SELECT	LinkID
+		, Title
+		, Url
+		, Rss
+		, Active
+		, NewWindow
+		, CategoryID
+		, PostId
 FROM [<dbUser,varchar,dbo>].[subtext_Links]
-WHERE subtext_Links.LinkID = @LinkID AND subtext_Links.BlogId = @BlogId
+WHERE LinkID = @LinkID AND BlogId = @BlogId
 
 
 GO

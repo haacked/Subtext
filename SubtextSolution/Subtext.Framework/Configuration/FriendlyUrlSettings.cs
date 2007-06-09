@@ -14,7 +14,7 @@ namespace Subtext.Configuration
 	{
 		private readonly static ILog log = new Log();		
 
-		static FriendlyUrlSettings settings = new FriendlyUrlSettings((NameValueCollection) ConfigurationManager.GetSection("FriendlyUrlSettings"));
+		static readonly FriendlyUrlSettings settings = new FriendlyUrlSettings((NameValueCollection) ConfigurationManager.GetSection("FriendlyUrlSettings"));
 
 		public static FriendlyUrlSettings Settings
 		{

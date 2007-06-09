@@ -166,9 +166,9 @@ namespace Subtext.Framework
 			ObjectProvider.Instance().DeleteLinkCategory(CategoryID);
 		}
 
-		public static void DeleteLink(int LinkID)
+		public static void DeleteLink(int linkId)
 		{
-			ObjectProvider.Instance().DeleteLink(LinkID);
+			ObjectProvider.Instance().DeleteLink(linkId);
 		}
 
 		#endregion	

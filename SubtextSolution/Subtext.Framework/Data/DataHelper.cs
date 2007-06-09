@@ -431,37 +431,31 @@ namespace Subtext.Framework.Data
 			link.IsActive = (bool)reader["Active"];
 
 			if(reader["NewWindow"] != DBNull.Value)
-			{
 				link.NewWindow = (bool)reader["NewWindow"];
-			}
 
 			// LinkID cannot be null
 			link.Id = ReadInt32(reader, "LinkID");
 			
 			if(reader["Rss"] != DBNull.Value)
-			{
 				link.Rss = ReadString(reader, "Rss");
-			}
 			
 			if(reader["Url"] != DBNull.Value)
-			{
 				link.Url = ReadString(reader, "Url");
-			}
 			
 			if(reader["Title"] != DBNull.Value)
-			{
 				link.Title = ReadString(reader, "Title");
-			}
 
 			if(reader["CategoryID"] != DBNull.Value)
-			{
 				link.CategoryID = ReadInt32(reader, "CategoryID");
-			}
 			
 			if(reader["PostID"] != DBNull.Value)
-			{
 				link.PostID = ReadInt32(reader, "PostID");
-			}
+			if (link.PostID < 0)
+				link.PostID = NullValue.NullInt32;
+
+			if (Config.CurrentBlog != null)
+				link.BlogId = Config.CurrentBlog.Id;
+
 			return link;
 		}
 
@@ -472,37 +466,26 @@ namespace Subtext.Framework.Data
 			link.IsActive = (bool)dr["Active"];
 			
 			if(dr["NewWindow"] != DBNull.Value)
-			{
 				link.NewWindow = (bool)dr["NewWindow"];
-			}
 
 			//LinkID cannot be null.
 			link.Id = (int)dr["LinkID"];
 			
 			if(dr["Rss"] != DBNull.Value)
-			{
 				link.Rss = (string)dr["Rss"];
-			}
 			
 			if(dr["Url"] != DBNull.Value)
-			{
 				link.Url = (string)dr["Url"];
-			}
 			
 			if(dr["Title"] != DBNull.Value)
-			{
 				link.Title = (string)dr["Title"];
-			}
 			
 			if(dr["CategoryID"] != DBNull.Value)
-			{
 				link.CategoryID = (int)dr["CategoryID"];
-			}
 			
 			if(dr["PostID"] != DBNull.Value)
-			{
 				link.PostID = (int)dr["PostID"];
-			}
+
 			return link;
 		}
 

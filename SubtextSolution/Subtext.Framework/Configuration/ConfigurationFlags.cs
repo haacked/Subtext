@@ -22,7 +22,7 @@ namespace Subtext.Framework.Configuration
 	/// value within the database.</p>
 	/// </list>
 	/// </summary>
-	[Flags()]
+	[Flags]
 	public enum ConfigurationFlags
 	{
 		/// <summary>Nothing is set</summary>
