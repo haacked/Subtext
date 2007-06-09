@@ -376,8 +376,20 @@ namespace Subtext.Framework.Providers
 
 		#region LinkCategoryCollection
 
-		public abstract ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly);
-		public abstract ICollection<LinkCategory> GetActiveCategories();
+		/// <summary>
+		/// Returns a collection of categories for the given category type.
+		/// </summary>
+		/// <param name="categoryType">The category type: PostCollection, StoryCollection, ImageCollection, ArchiveMonthCollection, LinkCollection</param>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
+		public abstract IList<LinkCategory> GetCategories(CategoryType categoryType, bool activeOnly);
+		
+		/// <summary>
+		/// Returns a collection of LinkCategories of type LinkCollection populated 
+		/// with their corresponding links.
+		/// </summary>
+		/// <returns></returns>
+		public abstract IList<LinkCategory> GetActiveLinkCollections();
 
 		#endregion
 

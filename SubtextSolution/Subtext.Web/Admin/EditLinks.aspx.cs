@@ -50,10 +50,9 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 		private int resultsPageNumber;
-		protected System.Web.UI.WebControls.CheckBoxList cklCategories;
 	
 		#region Accessors
-		public int LinkID
+		public int LinkId
 		{
 			get
 			{
@@ -72,7 +71,7 @@ namespace Subtext.Web.Admin.Pages
             this.TabSectionId = "Links";
 	    }
 
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
 			BindLocalUI();
 
@@ -89,7 +88,7 @@ namespace Subtext.Web.Admin.Pages
 				Results.Collapsible = false;
 
 				if (NullValue.NullInt32 != this.filterCategoryID)
-					this.resultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, 
+					this.resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, 
 						this.filterCategoryID);
 				
 				BindList();
@@ -99,11 +98,11 @@ namespace Subtext.Web.Admin.Pages
 		private void BindLocalUI()
 		{
 			LinkButton lkbNewLink = Utilities.CreateLinkButton("New Link");
-			lkbNewLink.Click += new System.EventHandler(lkbNewLink_Click);
+			lkbNewLink.Click += new EventHandler(lkbNewLink_Click);
 			lkbNewLink.CausesValidation =false;
 			AdminMasterPage.AddToActions(lkbNewLink);
             HyperLink lnkEditCategories = Utilities.CreateHyperLink("Edit Categories",
-                string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITCATEGORIES, Keys.QRYSTR_CATEGORYTYPE, CategoryType.LinkCollection));
+                string.Format(CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITCATEGORIES, Keys.QRYSTR_CATEGORYTYPE, CategoryType.LinkCollection));
             AdminMasterPage.AddToActions(lnkEditCategories);
 		}
 
@@ -111,8 +110,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			Edit.Visible = false;
 
-            IPagedCollection<Link> selectionList = Links.GetPagedLinks(this.filterCategoryID, this.resultsPageNumber,
-				this.resultsPager.PageSize,true);
+            IPagedCollection<Link> selectionList = Links.GetPagedLinks(this.filterCategoryID, this.resultsPageNumber, this.resultsPager.PageSize, true);
 			
 			if (selectionList.Count > 0)
 			{
@@ -128,7 +126,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindLinkEdit()
 		{
-			Link currentLink = Links.GetSingleLink(LinkID);
+			Link currentLink = Links.GetSingleLink(LinkId);
 		
 			Results.Collapsed = true;
 			Results.Collapsible = true;
@@ -149,7 +147,7 @@ namespace Subtext.Web.Admin.Pages
 
 			if(AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
 			{	
-				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Link \"{0}\"", currentLink.Title);
+				string title = string.Format(CultureInfo.InvariantCulture, "Editing Link \"{0}\"", currentLink.Title);
 
 				AdminMasterPage.BreadCrumb.AddLastItem(title);
                 AdminMasterPage.Title = title;
@@ -165,6 +163,9 @@ namespace Subtext.Web.Admin.Pages
 				ddlCategories.DataValueField = "Id";
 				ddlCategories.DataTextField = "Title";
 				ddlCategories.DataBind();
+
+				if (!NullValue.IsNull(filterCategoryID))
+					ddlCategories.SelectedValue = filterCategoryID.ToString(CultureInfo.InvariantCulture);
 			}
 			else
 			{
@@ -190,18 +191,18 @@ namespace Subtext.Web.Admin.Pages
 				link.NewWindow = chkNewWindow.Checked;
 				link.Id = Config.CurrentBlog.Id;
 				
-				if (LinkID > 0)
+				if (LinkId > 0)
 				{
 					successMessage = Constants.RES_SUCCESSEDIT;
-					link.Id = LinkID;
+					link.Id = LinkId;
 					Links.UpdateLink(link);
 				}
 				else
 				{
-					LinkID = Links.CreateLink(link);
+					LinkId = Links.CreateLink(link);
 				}
 
-				if (LinkID > 0)
+				if (LinkId > 0)
 				{			
 					BindList();
 					this.Messages.ShowMessage(successMessage);
@@ -223,7 +224,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void ResetPostEdit(bool showEdit)
 		{
-			LinkID = NullValue.NullInt32;
+			LinkId = NullValue.NullInt32;
 
 			Results.Collapsible = showEdit;
 			Results.Collapsed = showEdit;
@@ -239,10 +240,10 @@ namespace Subtext.Web.Admin.Pages
 
 			ckbIsActive.Checked = Preferences.AlwaysCreateIsActive;
 
+			ddlCategories.SelectedIndex = -1;
+
 			if (showEdit)
 				BindLinkCategories();
-	
-			ddlCategories.SelectedIndex = -1;
 		}
 
 		private void ConfirmDelete(int linkID, string linkTitle)
@@ -290,17 +291,17 @@ namespace Subtext.Web.Admin.Pages
 		}
 		#endregion 
 
-		protected void lkbImportOpml_Click(object sender, System.EventArgs e)
+		protected void lkbImportOpml_Click(object sender, EventArgs e)
 		{
 			if (Page.IsValid) ImportOpml();
 		}
 
-		private void rprSelectionList_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
+		private void rprSelectionList_ItemCommand(object source, RepeaterCommandEventArgs e)
 		{
-			switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture)) 
+			switch (e.CommandName.ToLower(CultureInfo.InvariantCulture)) 
 			{
 				case "edit" :
-					LinkID = Convert.ToInt32(e.CommandArgument);
+					LinkId = Convert.ToInt32(e.CommandArgument);
 					BindLinkEdit();
 					break;
 				case "delete" :
@@ -313,17 +314,17 @@ namespace Subtext.Web.Admin.Pages
 			}			
 		}
 
-		protected void lkbCancel_Click(object sender, System.EventArgs e)
+		protected void lkbCancel_Click(object sender, EventArgs e)
 		{
 			ResetPostEdit(false);
 		}
 
-		protected void lkbPost_Click(object sender, System.EventArgs e)
+		protected void lkbPost_Click(object sender, EventArgs e)
 		{
 			UpdateLink();
 		}
 
-		private void lkbNewLink_Click(object sender, System.EventArgs e)
+		private void lkbNewLink_Click(object sender, EventArgs e)
 		{
 			ResetPostEdit(true);
 		}

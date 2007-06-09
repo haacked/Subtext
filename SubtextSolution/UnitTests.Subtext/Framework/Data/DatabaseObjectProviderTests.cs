@@ -218,7 +218,7 @@ namespace UnitTests.Subtext.Framework.Data
 			CreateLinkCategory("New Category 3", "Brand New Category 3");
 
 			ObjectProvider provider = DatabaseObjectProvider.Instance();
-			ICollection<LinkCategory> activeCategories = provider.GetActiveCategories();
+			IList<LinkCategory> activeCategories = provider.GetActiveLinkCollections();
 			Assert.AreEqual(3, activeCategories.Count);
 		}
 
@@ -239,14 +239,14 @@ namespace UnitTests.Subtext.Framework.Data
 			ObjectProvider provider = DatabaseObjectProvider.Instance();
 
 			// Clear out any existing categories
-			ICollection<LinkCategory> activeCategories = provider.GetActiveCategories();
+			ICollection<LinkCategory> activeCategories = provider.GetActiveLinkCollections();
 			
 			foreach (LinkCategory category in activeCategories)
 			{
 				provider.DeleteLinkCategory(category.Id);
 			}
 			
-			activeCategories = provider.GetActiveCategories();
+			activeCategories = provider.GetActiveLinkCollections();
 			
 			Assert.AreEqual(0, activeCategories.Count);
 		}
