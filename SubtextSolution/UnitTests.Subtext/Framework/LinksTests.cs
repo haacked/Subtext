@@ -31,20 +31,36 @@ namespace UnitTests.Subtext.Framework
 	{
 		[Test]
 		[RollBack]
+		public void CanGetActiveCategories()
+		{
+			UnitTestHelper.SetupBlog();
+
+			int[] categoryIds = CreateSomeLinkCategories();
+			Links.CreateLink(CreateLink("Link one", categoryIds[0], null));
+			Links.CreateLink(CreateLink("Link two", categoryIds[0], null));
+			Links.CreateLink(CreateLink("Link one-two", categoryIds[1], null));
+
+			IList<LinkCategory> linkCollections = Links.GetActiveLinkCollections();
+			
+			//Test ordering by title
+			Assert.AreEqual("Google Blogs", linkCollections[0].Title);
+			Assert.AreEqual("My Favorite Feeds", linkCollections[1].Title);
+
+			//Check link counts
+			Assert.AreEqual(1, linkCollections[0].Links.Count);
+			Assert.AreEqual(2, linkCollections[1].Links.Count);
+		}
+
+		[Test]
+		[RollBack]
 		public void CanCreateAndDeleteLink()
 		{
 			UnitTestHelper.SetupBlog();
 			// Create the categories
 			CreateSomeLinkCategories();
 
-			// Retrieve the categories, grab the first one and update it
-			ICollection<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
-			LinkCategory linkCat = null;
-			foreach (LinkCategory linkCategory in originalCategories)
-			{
-				linkCat = linkCategory;
-				break;
-			}
+			IList<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
+			LinkCategory linkCat = originalCategories[0];
 			
 			Link link = new Link();
 			link.CategoryID = linkCat.Id;
@@ -63,6 +79,31 @@ namespace UnitTests.Subtext.Framework
 			Assert.IsNull(Links.GetSingleLink(linkId));
 		}
 
+		
+		[Test]
+		[RollBack]
+		public void CanCreateAndDeleteLinkCategory()
+		{
+			UnitTestHelper.SetupBlog();
+
+			// Create some categories
+			int categoryId = Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds", CategoryType.LinkCollection, true));
+
+			LinkCategory category = Links.GetLinkCategory(categoryId, true);
+			Assert.AreEqual(Config.CurrentBlog.Id, category.BlogId);
+			Assert.AreEqual("My Favorite Feeds", category.Title);
+			Assert.AreEqual("Some of my favorite RSS feeds", category.Description);
+			Assert.IsTrue(category.HasDescription);
+			Assert.IsFalse(category.HasLinks);
+			Assert.IsFalse(category.HasImages);
+			Assert.IsTrue(category.IsActive);
+			Assert.AreEqual(CategoryType.LinkCollection, category.CategoryType);
+			Assert.IsNotNull(category);
+
+			Links.DeleteLinkCategory(categoryId);
+			Assert.IsNull(Links.GetLinkCategory(categoryId, true));
+		}
+
 		/// <summary>
 		/// Ensures CreateLinkCategory assigns unique CatIDs
 		/// </summary>
@@ -74,31 +115,11 @@ namespace UnitTests.Subtext.Framework
 
 			// Create some categories
 			CreateSomeLinkCategories();
-            ICollection<LinkCategory> linkCategoryCollection = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
+            IList<LinkCategory> linkCategoryCollection = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
 
-            LinkCategory first = null;
-            LinkCategory second = null;
-            LinkCategory third = null;
-		    foreach(LinkCategory linkCategory in linkCategoryCollection)
-		    {
-                if (first == null)
-                {
-                    first = linkCategory;
-                    continue;
-                }
-
-		        if(second == null)
-		        {
-                    second = linkCategory;
-                    continue;
-		        }
-
-                if (third == null)
-                {
-                    third = linkCategory;
-                    continue;
-                }
-		    }
+			LinkCategory first = linkCategoryCollection[0];
+			LinkCategory second = linkCategoryCollection[1];
+			LinkCategory third = linkCategoryCollection[2];
 		    
 			// Ensure the CategoryIDs are unique
 			UnitTestHelper.AssertAreNotEqual(first.Id, second.Id);
@@ -119,13 +140,9 @@ namespace UnitTests.Subtext.Framework
 			CreateSomeLinkCategories();
 
 			// Retrieve the categories, grab the first one and update it
-            ICollection<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
-		    LinkCategory linkCat = null;
-            foreach (LinkCategory linkCategory in originalCategories)
-		    {
-                linkCat = linkCategory;
-		        break;
-		    }
+            IList<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
+			LinkCategory linkCat = originalCategories[0];
+            
             LinkCategory originalCategory = linkCat;
 			originalCategory.Description = "New Description";
 			originalCategory.IsActive = false;
@@ -144,11 +161,13 @@ namespace UnitTests.Subtext.Framework
 			Assert.AreEqual(false, updatedCategory.IsActive);
 		}
 
-		static void CreateSomeLinkCategories()
+		static int[] CreateSomeLinkCategories()
 		{
-			Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds", CategoryType.LinkCollection, true));
-			Links.CreateLinkCategory(CreateCategory("Google Blogs", "My favorite Google blogs", CategoryType.LinkCollection, true));
-			Links.CreateLinkCategory(CreateCategory("Microsoft Blogs", "My favorite Microsoft blogs", CategoryType.LinkCollection, false));
+			int[] categoryIds = new int[3];
+			categoryIds[0] = Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds", CategoryType.LinkCollection, true));
+			categoryIds[1] = Links.CreateLinkCategory(CreateCategory("Google Blogs", "My favorite Google blogs", CategoryType.LinkCollection, true));
+			categoryIds[2] = Links.CreateLinkCategory(CreateCategory("Microsoft Blogs", "My favorite Microsoft blogs", CategoryType.LinkCollection, false));
+			return categoryIds;
 		}
 
 		static LinkCategory CreateCategory(string title, string description, CategoryType categoryType, bool isActive)
@@ -160,6 +179,20 @@ namespace UnitTests.Subtext.Framework
 			linkCategory.CategoryType = categoryType;
 			linkCategory.IsActive = isActive;
 			return linkCategory;
+		}
+
+		static Link CreateLink(string title, int? categoryId, int? postId)
+		{
+			Link link = new Link();
+			link.BlogId = Config.CurrentBlog.Id;
+			if (categoryId != null)
+				link.CategoryID = (int)categoryId;
+			link.Title = title;
+			if (postId != null)
+				link.PostID = (int)postId;
+			int linkId = Links.CreateLink(link);
+			Assert.AreEqual(linkId, link.Id);
+			return link;
 		}
 
 		/// <summary>

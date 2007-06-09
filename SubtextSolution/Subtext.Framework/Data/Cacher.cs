@@ -53,7 +53,7 @@ namespace Subtext.Framework.Data
             ICollection<LinkCategory> categories = (ICollection<LinkCategory>)cache[key];
 			if(categories == null)
 			{
-				categories = Links.GetActiveCategories();
+				categories = Links.GetActiveLinkCollections();
 				if(categories != null)
 				{
 					cache.Insert(key, categories, cacheDuration);

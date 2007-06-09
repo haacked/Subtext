@@ -1237,37 +1237,37 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetActiveCategoriesWithLinkCollectio
 	@BlogId int = NULL
 )
 AS
-SELECT subtext_LinkCategories.CategoryID
-	, subtext_LinkCategories.Title
-	, subtext_LinkCategories.Active
-	, subtext_LinkCategories.CategoryType
-	, subtext_LinkCategories.[Description]
+SELECT CategoryID
+	, Title
+	, Active
+	, CategoryType
+	, [Description]
 FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 WHERE	
-			subtext_LinkCategories.Active= 1 
-	AND		(subtext_LinkCategories.BlogId = @BlogId OR @BlogId IS NULL)
-	AND		subtext_LinkCategories.CategoryType = 5
+		Active= 1 
+	AND	(BlogId = @BlogId OR @BlogId IS NULL)
+	AND	CategoryType = 5
 ORDER BY 
-	subtext_LinkCategories.Title;
+	Title;
 
-SELECT links.LinkID
-	, links.Title
-	, links.Url
-	, links.Rss
-	, links.Active
-	, links.NewWindow
-	, links.CategoryID
-	, PostID = ISNULL(links.PostID, -1)
-FROM [<dbUser,varchar,dbo>].[subtext_Links] links
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories ON links.CategoryID = categories.CategoryID
+SELECT l.LinkID
+	, l.Title
+	, l.Url
+	, l.Rss
+	, l.Active
+	, l.NewWindow
+	, l.CategoryID
+	, l.PostID
+FROM [<dbUser,varchar,dbo>].[subtext_Links] l
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] c ON l.CategoryID = c.CategoryID
 WHERE 
-		links.Active = 1 
-	AND categories.Active = 1
-	AND (categories.BlogId = @BlogId OR @BlogId IS NULL)
-	AND links.BlogId = @BlogId 
-	AND categories.CategoryType = 5
+		l.Active = 1 
+	AND c.Active = 1
+	AND (c.BlogId = @BlogId OR @BlogId IS NULL)
+	AND l.BlogId = @BlogId 
+	AND c.CategoryType = 5
 ORDER BY 
-	links.Title;
+	l.Title
 
 
 

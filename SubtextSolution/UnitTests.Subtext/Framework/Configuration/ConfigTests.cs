@@ -62,6 +62,18 @@ namespace UnitTests.Subtext.Framework.Configuration
     	{
     		QueryCommand command = new QueryCommand("DELETE subtext_Images");
     		DataService.ExecuteQuery(command);
+			command = new QueryCommand("DELETE subtext_Links");
+			DataService.ExecuteQuery(command);
+			command = new QueryCommand("DELETE subtext_Log");
+			DataService.ExecuteQuery(command);
+			command = new QueryCommand("DELETE subtext_Feedback");
+			DataService.ExecuteQuery(command);
+			command = new QueryCommand("DELETE subtext_EntryTag");
+			DataService.ExecuteQuery(command);
+			command = new QueryCommand("DELETE subtext_Tag");
+			DataService.ExecuteQuery(command);
+			command = new QueryCommand("DELETE subtext_Content");
+			DataService.ExecuteQuery(command);
     		command = new QueryCommand("DELETE subtext_LinkCategories");
     		DataService.ExecuteQuery(command);
     		command = new QueryCommand("DELETE subtext_Config");

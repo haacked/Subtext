@@ -786,10 +786,8 @@ namespace Subtext.Framework.Data
 		{
 			int? categoryFilter = categoryId;
 
-			if (categoryId > -1)
-			{
+			if (categoryId < 0)
 				categoryFilter = null;
-			}
 
 			using(IDataReader reader = StoredProcedures.GetPageableLinks(BlogId, categoryFilter, pageIndex, pageSize).GetReader())
 			{
@@ -850,14 +848,14 @@ namespace Subtext.Framework.Data
 		/// <summary>
 		/// Gets the categories.
 		/// </summary>
-		/// <param name="catType">Type of the cat.</param>
+		/// <param name="categoryType">Type of the cat.</param>
 		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
 		/// <returns></returns>
-		public override ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly)
+		public override IList<LinkCategory> GetCategories(CategoryType categoryType, bool activeOnly)
 		{
-			using (IDataReader reader = StoredProcedures.GetCategory(null, null, activeOnly, BlogId, (short)catType).GetReader())
+			using (IDataReader reader = StoredProcedures.GetCategory(null, null, activeOnly, BlogId, (short)categoryType).GetReader())
 			{
-				ICollection<LinkCategory> lcc = new List<LinkCategory>();
+				IList<LinkCategory> lcc = new List<LinkCategory>();
 				while (reader.Read())
 				{
 					lcc.Add(DataHelper.LoadLinkCategory(reader));
@@ -870,25 +868,25 @@ namespace Subtext.Framework.Data
 		/// Gets the active categories.
 		/// </summary>
 		/// <returns></returns>
-		public override ICollection<LinkCategory> GetActiveCategories()
+		public override IList<LinkCategory> GetActiveLinkCollections()
 		{
 			DataSet ds = StoredProcedures.GetActiveCategoriesWithLinkCollection(BlogId).GetDataSet();
 
-			DataRelation dl = new DataRelation("CategoryID", ds.Tables[0].Columns["CategoryID"], ds.Tables[1].Columns["CategoryID"], false);
-			ds.Relations.Add(dl);
+			DataRelation dataRelation = new DataRelation("CategoryID", ds.Tables[0].Columns["CategoryID"], ds.Tables[1].Columns["CategoryID"], false);
+			ds.Relations.Add(dataRelation);
 
-			ICollection<LinkCategory> lcc = new List<LinkCategory>();
+			IList<LinkCategory> linkCategories = new List<LinkCategory>();
 			foreach (DataRow dr in ds.Tables[0].Rows)
 			{
-				LinkCategory lc = DataHelper.LoadLinkCategory(dr);
-				lc.Links = new List<Link>();
-				foreach (DataRow drLink in dr.GetChildRows("CategoryID"))
+				LinkCategory category = DataHelper.LoadLinkCategory(dr);
+				category.Links = new List<Link>();
+				foreach (DataRow linkDataRow in dr.GetChildRows("CategoryID"))
 				{
-					lc.Links.Add(DataHelper.LoadLink(drLink));
+					category.Links.Add(DataHelper.LoadLink(linkDataRow));
 				}
-				lcc.Add(lc);
+				linkCategories.Add(category);
 			}
-			return lcc;
+			return linkCategories;
 		}
 
 		#endregion
@@ -907,8 +905,8 @@ namespace Subtext.Framework.Data
 			{
 				if (reader.Read())
 				{
-					LinkCategory lc = DataHelper.LoadLinkCategory(reader);
-					return lc;
+					LinkCategory category = DataHelper.LoadLinkCategory(reader);
+					return category;
 				}
 				return null;
 			}

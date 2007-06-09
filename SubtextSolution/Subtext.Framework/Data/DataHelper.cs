@@ -34,7 +34,7 @@ using Subtext.Framework.Logging;
 namespace Subtext.Framework.Data
 {
 	/// <summary>
-	/// Contains helper methods for getting blog entries from the database 
+	/// Contains helper methods for getting blog entries from the database
 	/// into objects such as List of EntryDay.
 	/// </summary>
 	public static class DataHelper
@@ -387,37 +387,43 @@ namespace Subtext.Framework.Data
 
 		#region Categories
 
+		/// <summary>
+		/// Loads the link category.
+		/// </summary>
+		/// <param name="reader">The reader.</param>
+		/// <returns></returns>
 		public static LinkCategory LoadLinkCategory(IDataReader reader)
 		{
-			LinkCategory lc = new LinkCategory(ReadInt32(reader, "CategoryID"), ReadString(reader, "Title"));
-			lc.IsActive = (bool)reader["Active"];
+			LinkCategory linkCategory = new LinkCategory(ReadInt32(reader, "CategoryID"), ReadString(reader, "Title"));
+			linkCategory.IsActive = (bool)reader["Active"];
 			if(reader["CategoryType"] != DBNull.Value)
-			{
-				lc.CategoryType = (CategoryType)((byte)reader["CategoryType"]);
-			}
+				linkCategory.CategoryType = (CategoryType)((byte)reader["CategoryType"]);
+
 			if(reader["Description"] != DBNull.Value)
-			{
-				lc.Description = ReadString(reader, "Description");
-			}
-			return lc;
+				linkCategory.Description = ReadString(reader, "Description");
+
+			if (Config.CurrentBlog != null)
+				linkCategory.BlogId = Config.CurrentBlog.Id;
+			return linkCategory;
 		}
 
 		public static LinkCategory LoadLinkCategory(DataRow dr)
 		{
-			LinkCategory lc = new LinkCategory((int)dr["CategoryID"], (string)dr["Title"]);
+			LinkCategory linkCategory = new LinkCategory((int)dr["CategoryID"], (string)dr["Title"]);
 			
 			// Active cannot be null.
-			lc.IsActive = (bool)dr["Active"];
+			linkCategory.IsActive = (bool)dr["Active"];
 
 			if(dr["CategoryType"] != DBNull.Value)
-			{
-				lc.CategoryType = (CategoryType)((byte)dr["CategoryType"]);
-			}
+				linkCategory.CategoryType = (CategoryType)((byte)dr["CategoryType"]);
+			
 			if(dr["Description"] != DBNull.Value)
-			{
-				lc.Description = (string)dr["Description"];
-			}
-			return lc;
+				linkCategory.Description = (string)dr["Description"];
+
+			if (Config.CurrentBlog != null)
+				linkCategory.BlogId = Config.CurrentBlog.Id;
+
+			return linkCategory;
 		}
 
 		#endregion

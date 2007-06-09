@@ -63,14 +63,18 @@ namespace Subtext.Framework
 
         #region ICollection<LinkCategory>
 
-        public static ICollection<LinkCategory> GetCategories(CategoryType catType, ActiveFilter status)
+        public static IList<LinkCategory> GetCategories(CategoryType catType, ActiveFilter status)
 		{
             return ObjectProvider.Instance().GetCategories(catType, status == ActiveFilter.ActiveOnly);
 		}
 
-        public static ICollection<LinkCategory> GetActiveCategories()
+		/// <summary>
+		/// Gets the active link collections along with their links.
+		/// </summary>
+		/// <returns></returns>
+        public static IList<LinkCategory> GetActiveLinkCollections()
 		{
-			return ObjectProvider.Instance().GetActiveCategories();
+			return ObjectProvider.Instance().GetActiveLinkCollections();
 		}
 
         public static ICollection<LinkCategory> GetLinkCategoriesByPostID(int postId)
@@ -133,7 +137,9 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static int CreateLink(Link link)
 		{
-			return ObjectProvider.Instance().CreateLink(link);
+			int linkId = ObjectProvider.Instance().CreateLink(link);
+			link.Id = linkId;
+			return linkId;
 		}
 
 		/// <summary>
