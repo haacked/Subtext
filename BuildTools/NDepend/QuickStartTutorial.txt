@@ -1,46 +1,28 @@
-More information available at http://www.NDepend.com
+More information available at:
+http://www.NDepend.com
+http://www.ndepend.com/GettingStarted.aspx
+
+Instead of reading this tutorial, you might prefer seeing
+the 2mn Getting Started online demo available at:
+http://s3.amazonaws.com/NDependOnlineDemos/GettingStarted_viewlet_swf.html
 
 
 How do I analyse my .NET applications using NDepend?
 ---------------------------------------------------------
 
+1) Run VisualNDepend.exe
 
-1) Launch NDepend.Project.exe.
+2) Select the option: Select assemblies to analyse
 
+3) Populate the data grid with your assemblies by using the browse button or by using drag&drop.
 
-2) Select Create New project and Click OK.
+4) Click OK. 
+   It will trigger the analysis of your assemblies and code source by NDepend.Console.exe.
+   This analysis will take a few seconds to a few minutes depending on the size of the assemblies.
+   Once done, the result is displayed in the VisualNDepend.exe UI.
 
-
-3) Change the application name from 'New Project' to the name of your
-   application.
-
-
-4) Add the folders which contains the assemblies of your application in 
-   'List of folders which contains assemblies'.
-   CAUTION: don't include both the Debug AND Release directories, only
-   specify Debug OR Release.
-
-
-5)For each of the folders added: 
-  --> Select the folder
-  --> Move application assemblies contained in the current folder from 
-      'Assemblies in selected folders' to 'Application assemblies'.
-  --> You can also move assemblies to 'Framework assemblies' 
-      (framework assemblies are library assemblies used by your application 
-      that are not Microsoft standard assemblies and that you are not
-      maintaining).
-
-
-6) Save your NDepend project file by clicking the 'Save project' icon.
-
-
-7) Click the 'Run NDepend on project' icon. Your first report will popup
-   automatically after a few seconds or minutes depending on the size of 
-   your application (typically NDepend takes 1 minute to analyse 400.000 
-   IL instructions).
-
-8) You can now run VisualNDepend on your project by clicking the
-   'Launch Visual NDepend on this project' icon.
+5) In order to make the most of the VisualNDepend UI, see online demos on page 
+   http://www.ndepend.com/GettingStarted.aspx
 
 
 
@@ -111,6 +93,9 @@ Type Metrics:
 
 I want to go further to have a better control over my code:
 -----------------------------------------------------------
+
+
+See online demos quoted on http://NDepend.com home page.
 
 
 Understand metrics yielded by NDepend. Documentation is available here:

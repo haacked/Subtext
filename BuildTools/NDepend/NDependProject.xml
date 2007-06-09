@@ -1,41 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<NDepend AppName="Subtext">
-  <OutputDir KeepHistoric="True" KeepXmlFiles="True">C:\Projects\SubtextSystem\trunk\SubtextSolution</OutputDir>
+<NDepend AppName="SubtextSolution">
+  <OutputDir KeepHistoric="True" KeepXmlFiles="True">D:\Projects\Subtext\trunk\BuildTools\NDepend\NDependOut</OutputDir>
   <Dirs>
-    <Dir>C:\Projects\SubtextSystem\trunk\SubtextSolution\Subtext.Web\bin</Dir>
+    <Dir>D:\Projects\Subtext\trunk\SubtextSolution\Subtext.Web\bin</Dir>
+    <Dir>D:\Projects\Subtext\trunk\SubtextSolution\Subtext.Extensibility\bin\Debug</Dir>
+    <Dir>D:\Projects\Subtext\trunk\SubtextSolution\Subtext.Web.Controls\bin\Debug</Dir>
+    <Dir>D:\Projects\Subtext\trunk\SubtextSolution\Subtext.Installation\bin\Debug</Dir>
+    <Dir>D:\Projects\Subtext\trunk\SubtextSolution\Subtext.Scripting\bin\Debug</Dir>
+    <Dir>D:\Projects\Subtext\trunk\SubtextSolution\Subtext.BlogMl\bin\Debug</Dir>
+    <Dir>D:\Projects\Subtext\trunk\SubtextSolution\Subtext.Akismet\bin\Debug</Dir>
+    <Dir>D:\Projects\Subtext\trunk\SubtextSolution\Subtext.Plugins.Core\bin\Debug</Dir>
+    <Dir>D:\Projects\Subtext\trunk\SubtextSolution\Subtext.Tools\bin\Debug</Dir>
+    <Dir>D:\Projects\Subtext\trunk\SubtextSolution\Subtext.Framework\bin\Debug</Dir>
+    <Dir>D:\Projects\Subtext\trunk\SubtextSolution\Subtext\bin\Debug</Dir>
+    <Dir>C:\Windows\Microsoft.NET\Framework\v2.0.50727</Dir>
   </Dirs>
   <Assemblies>
-    <Name Warn="True">Subtext.Web.Controls</Name>
+    <Name Warn="False">UnitTests.Subtext</Name>
     <Name Warn="True">Subtext.Web</Name>
-    <Name Warn="True">Subtext.Scripting</Name>
-    <Name Warn="True">Subtext.Providers.BlogEntryEditor.FCKeditor</Name>
-    <Name Warn="True">Subtext.Installation</Name>
-    <Name Warn="True">Subtext.Framework</Name>
     <Name Warn="True">Subtext.Extensibility</Name>
-    <Name Warn="True">Subtext.BlogMl</Name>
+    <Name Warn="True">Subtext.Web.Controls</Name>
+    <Name Warn="True">Subtext.Installation</Name>
+    <Name Warn="True">Subtext.Scripting</Name>
+    <Name Warn="False">Subtext.UnitTesting.Servers</Name>
+    <Name Warn="False">Subtext.Providers.BlogEntryEditor.FCKeditor</Name>
+    <Name Warn="True">Subtext.BlogML</Name>
     <Name Warn="True">Subtext.Akismet</Name>
+    <Name Warn="False">Subtext.Plugins.Examples</Name>
+    <Name Warn="True">Subtext.Plugins.Core</Name>
+    <Name Warn="True">Subtext.Tools</Name>
+    <Name Warn="False">UITests.Subtext</Name>
+    <Name Warn="True">Subtext.Framework</Name>
+    <Name Warn="True">Subtext</Name>
   </Assemblies>
   <FrameworkAssemblies>
-    <Name>Velocit.RegularExpressions</Name>
-    <Name>SgmlReaderDll</Name>
-    <Name>Microsoft.ApplicationBlocks.Data</Name>
-    <Name>log4net</Name>
-    <Name>Interop.SQLDMO</Name>
+    <Name>System.Web</Name>
+    <Name>mscorlib</Name>
+    <Name>System.Configuration</Name>
+    <Name>System.Data</Name>
+    <Name>System</Name>
+    <Name>Rhino.Mocks</Name>
+    <Name>System.Xml</Name>
     <Name>ICSharpCode.SharpZipLib</Name>
-    <Name>freetextbox</Name>
-    <Name>FredCK.FCKeditorV2</Name>
-    <Name>DotNetOpenMail</Name>
-    <Name>CookComputing.XmlRpcV2</Name>
-    <Name>blowery.Web.HttpCompress</Name>
+    <Name>MbUnit.Framework</Name>
+    <Name>SubSonic</Name>
     <Name>BlogML</Name>
-    <Name>AngryPets.Web.Frameworks.ReverseDOS</Name>
-    <Name>MagicAjax</Name>
+    <Name>System.Drawing</Name>
+    <Name>System.Web.Extensions</Name>
+    <Name>log4net</Name>
+    <Name>FreeTextBox</Name>
+    <Name>Identicon</Name>
+    <Name>LumiSoft.Net</Name>
+    <Name>WebDev.WebHost</Name>
+    <Name>DotNetOpenMail</Name>
+    <Name>FredCK.FCKeditorV2</Name>
+    <Name>System.Web.Services</Name>
+    <Name>System.Windows.Forms</Name>
+    <Name>WatiN.Core</Name>
+    <Name>CookComputing.XmlRpcV2</Name>
+    <Name>Mail</Name>
+    <Name>blowery.Web.HttpCompress</Name>
+    <Name>SgmlReaderDll</Name>
+    <Name>Velocit.RegularExpressions</Name>
+    <Name>Microsoft.SqlServer.Smo</Name>
   </FrameworkAssemblies>
   <Report>
     <Section Enabled="True">Application Metrics</Section>
     <Section Enabled="True">Assemblies Metrics</Section>
     <Section Enabled="True">VisualNDepend View</Section>
-    <Section Enabled="True">Assemblies Abstracness vs. Instability</Section>
+    <Section Enabled="True">Assemblies Abstractness vs. Instability</Section>
     <Section Enabled="True">Assemblies Dependencies</Section>
     <Section Enabled="True">Assemblies Dependencies Diagram</Section>
     <Section Enabled="True">Assemblies build order</Section>
@@ -44,7 +77,8 @@
     <Section Enabled="True">Types Metrics</Section>
     <Section Enabled="False">Types Dependencies</Section>
   </Report>
-  <WarnFilter WarnNotUsedType="True" WarnNotUsedMember="True" WarnTypeVisibility="True" WarnPropertiesVisibility="True" WarnMethodsVisibility="True" WarnConstructorsVisibility="True" WarnFieldsVisibility="True" WarnEventsVisibility="True" /><CQLQueries>
+  <BuildComparisonSetting ProjectMode="DontCompare" BuildMode="MostRecentBuildAvailable" ProjectFileToCompareWith="" BuildFileToCompareWith="" NDaysAgo="0" />
+  <WarnFilter WarnNotUsedType="True" WarnNotUsedMember="True" WarnTypeVisibility="False" WarnPropertiesVisibility="False" WarnMethodsVisibility="False" WarnConstructorsVisibility="False" WarnFieldsVisibility="False" WarnEventsVisibility="False" WarnAssemblyVersioningIssues="True" WarnPDBIssues="True" /><CQLQueries>
     <CQLGroup Name="Naming constraints" Active="True">
       <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT FIELDS WHERE NameLike "^m_" AND IsStatic\r\n// A static field should not be named 'm_XXX'</CQLQuery>
       <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT FIELDS WHERE NameLike "^s_" AND !IsStatic\r\n// A non-static field should not be named 's_XXX'</CQLQuery>
@@ -76,4 +110,4 @@
       <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT TYPES WHERE SizeOfInst ==0 AND !IsStatic AND !IsGeneric \r\n// It indicate stateless types that might eventually be turned into static classes.</CQLQuery>
       <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT TYPES WHERE DepthOfInheritance >= 6 ORDER BY DepthOfInheritance DESC \r\n // Branches too long in the derivation should be avoided.</CQLQuery>
     </CQLGroup>
-  </CQLQueries></NDepend>
+  </CQLQueries><FormSettings MainWindowState="2" LocationX="-8" LocationY="-8" SizeWidth="1696" SizeHeight="1036" SplitterDistance1="274" SplitterDistance2="553" SplitterDistance3="317" /></NDepend>
