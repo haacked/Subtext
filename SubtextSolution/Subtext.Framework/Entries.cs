@@ -555,7 +555,12 @@ namespace Subtext.Framework
 
 		#region Entry Category List
 
-		public static void SetEntryCategoryList(int entryId, int[] categories)
+		/// <summary>
+		/// Sets the categories for this entry.
+		/// </summary>
+		/// <param name="entryId">The entry id.</param>
+		/// <param name="categories">The categories.</param>
+		public static void SetEntryCategoryList(int entryId, params int[] categories)
 		{
 			ObjectProvider.Instance().SetEntryCategoryList(entryId, categories);
 		}
