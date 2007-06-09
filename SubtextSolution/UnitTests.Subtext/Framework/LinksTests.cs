@@ -76,21 +76,42 @@ namespace UnitTests.Subtext.Framework
 
 		[Test]
 		[RollBack]
-		public void CanCreateAndDeleteLink()
+		public void CanUpdateLink()
 		{
 			UnitTestHelper.SetupBlog();
 			// Create the categories
 			CreateSomeLinkCategories();
 
-			IList<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
-			LinkCategory linkCat = originalCategories[0];
+			int categoryId = Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds", CategoryType.LinkCollection, true));
+			Link link = CreateLink("Test", categoryId, null);
+			int linkId = link.Id;
 			
-			Link link = new Link();
-			link.CategoryID = linkCat.Id;
-			link.BlogId = Config.CurrentBlog.Id;
-			link.IsActive = true;
-			link.Title = "Title";
-			int linkId = Links.CreateLink(link);
+			Link loaded = Links.GetSingleLink(linkId);
+			Assert.AreEqual("Test", loaded.Title);
+
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "test");
+			
+			//Make changes then update.
+			link.PostID = entry.Id;
+			link.Title = "Another title";
+			link.NewWindow = true;
+			Links.UpdateLink(link);
+			loaded = Links.GetSingleLink(linkId);
+			Assert.AreEqual("Another title", loaded.Title);
+			Assert.IsTrue(loaded.NewWindow);
+			Assert.AreEqual(entry.Id, loaded.PostID);
+		}
+
+		[Test]
+		[RollBack]
+		public void CanCreateAndDeleteLink()
+		{
+			UnitTestHelper.SetupBlog();
+			
+			int categoryId = Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds", CategoryType.LinkCollection, true));
+
+			Link link = CreateLink("Title", categoryId, null);
+			int linkId = link.Id;
 
 			Link loaded = Links.GetSingleLink(linkId);
 			Assert.AreEqual("Title", loaded.Title);
@@ -101,7 +122,6 @@ namespace UnitTests.Subtext.Framework
 
 			Assert.IsNull(Links.GetSingleLink(linkId));
 		}
-
 		
 		[Test]
 		[RollBack]
