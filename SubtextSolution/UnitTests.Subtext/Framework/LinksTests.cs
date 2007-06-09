@@ -31,14 +31,37 @@ namespace UnitTests.Subtext.Framework
 	{
 		[Test]
 		[RollBack]
+		public void CanGetCategoriesByPostId()
+		{
+			UnitTestHelper.SetupBlog();
+
+			int category1Id = Links.CreateLinkCategory(CreateCategory("Post Category 1", "Cody roolz!", CategoryType.PostCollection, true));
+			int category2Id = Links.CreateLinkCategory(CreateCategory("Post Category 2", "Cody roolz again!", CategoryType.PostCollection, true));
+			Links.CreateLinkCategory(CreateCategory("Post Category 3", "Cody roolz and again!", CategoryType.PostCollection, true));
+
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
+			int entryId = Entries.Create(entry);
+			Entries.SetEntryCategoryList(entryId, category1Id, category2Id);
+
+			IList<LinkCategory> categories = Links.GetLinkCategoriesByPostId(entryId);
+			Assert.AreEqual(2, categories.Count, "Expected two of the three categories");
+
+			Assert.AreEqual(category1Id, categories[0].Id);
+			Assert.AreEqual(category2Id, categories[1].Id);
+
+			Assert.AreEqual(Config.CurrentBlog.Id, categories[0].BlogId);
+		}
+
+		[Test]
+		[RollBack]
 		public void CanGetActiveCategories()
 		{
 			UnitTestHelper.SetupBlog();
 
 			int[] categoryIds = CreateSomeLinkCategories();
-			Links.CreateLink(CreateLink("Link one", categoryIds[0], null));
-			Links.CreateLink(CreateLink("Link two", categoryIds[0], null));
-			Links.CreateLink(CreateLink("Link one-two", categoryIds[1], null));
+			CreateLink("Link one", categoryIds[0], null);
+			CreateLink("Link two", categoryIds[0], null);
+			CreateLink("Link one-two", categoryIds[1], null);
 
 			IList<LinkCategory> linkCollections = Links.GetActiveLinkCollections();
 			
@@ -184,6 +207,7 @@ namespace UnitTests.Subtext.Framework
 		static Link CreateLink(string title, int? categoryId, int? postId)
 		{
 			Link link = new Link();
+			link.IsActive = true;
 			link.BlogId = Config.CurrentBlog.Id;
 			if (categoryId != null)
 				link.CategoryID = (int)categoryId;

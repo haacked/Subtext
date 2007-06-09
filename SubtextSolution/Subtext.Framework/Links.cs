@@ -77,10 +77,10 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetActiveLinkCollections();
 		}
 
-        public static ICollection<LinkCategory> GetLinkCategoriesByPostID(int postId)
+        public static IList<LinkCategory> GetLinkCategoriesByPostId(int postId)
         {
             List<Link> links = new List<Link>(GetLinkCollectionByPostID(postId));
-            ICollection<LinkCategory> postCategories = GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            IList<LinkCategory> postCategories = GetCategories(CategoryType.PostCollection, ActiveFilter.None);
             LinkCategory[] categories = new LinkCategory[postCategories.Count];
             postCategories.CopyTo(categories, 0);
 
