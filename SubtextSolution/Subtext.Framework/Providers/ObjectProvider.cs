@@ -141,9 +141,9 @@ namespace Subtext.Framework.Providers
 		/// This is used in the admin section.
 		/// </summary>
 		/// <param name="postType">Type of the post.</param>
-		/// <param name="categoryId">The category ID.</param>
+		/// <param name="categoryId">The category id filter. Pass in NullValue.NullInt32 to not filter by a category ID</param>
 		/// <param name="pageIndex">Index of the page.</param>
-		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="pageSize">Number of records to return per page.</param>
 		/// <returns></returns>
 		public abstract IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryId, int pageIndex, int pageSize);
 
@@ -442,16 +442,6 @@ namespace Subtext.Framework.Providers
 		#endregion
 
         #region Stats
-
-		/// <summary>
-		/// Gets the paged view stats.
-		/// </summary>
-		/// <param name="pageIndex">Index of the page.</param>
-		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="beginDate">The begin date.</param>
-		/// <param name="endDate">The end date.</param>
-		/// <returns></returns>
-		public abstract IPagedCollection<ViewStat> GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
 		/// <summary>
 		/// Gets the paged referrers.
 		/// </summary>

@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Threading;
 using Subtext.Framework.Logging;
@@ -203,6 +204,10 @@ namespace Subtext.Framework.Threading
 					Interlocked.Increment(ref _inUseThreads);
 					callback.Callback(callback.State);
 				} 
+				catch(SqlException)
+				{
+					throw;
+				}
 				catch(Exception exc)
 				{
 					// Make sure we don't throw here.
