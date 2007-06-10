@@ -1770,7 +1770,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 )
 AS
 
-DECLARE @FirstId int
+DECLARE @FirstDate datetime
 DECLARE @StartRow int
 DECLARE @StartRowIndex int
 
@@ -1778,10 +1778,10 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT	@FirstId = [ID] FROM [<dbUser,varchar,dbo>].[subtext_Content]
+SELECT	@FirstId = DateAdded FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	BlogId = @BlogId 
 	AND PostType = @PostType 
-ORDER BY [ID] DESC
+ORDER BY DateAdded DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
@@ -1808,9 +1808,9 @@ SELECT	content.BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
 WHERE 	content.BlogId = @BlogId 
-	AND content.[ID] <= @FirstId
+	AND content.DateAdded <= @FirstDate
 	AND PostType = @PostType
-ORDER BY content.[ID] DESC
+ORDER BY content.DateAdded DESC
  
 SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
@@ -1847,7 +1847,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
 )
 AS
 
-DECLARE @FirstId int
+DECLARE @FirstDate datetime
 DECLARE @StartRow int
 DECLARE @StartRowIndex int
 
@@ -1855,14 +1855,14 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT	@FirstId = content.[ID] 
+SELECT	@FirstDate = DateAdded 
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = ISNULL(links.PostID, -1)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
 WHERE	content.BlogId = @BlogId 
 	AND content.PostType = @PostType 
 	AND cats.CategoryID = @CategoryID
-ORDER BY content.[ID] DESC
+ORDER BY content.DateAdded DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
@@ -1891,10 +1891,10 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (l.CategoryID = cats.CategoryID)
 	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
 WHERE 	content.BlogId = @BlogId 
-	AND content.[ID] <= @FirstId
+	AND content.DateAdded <= @FirstDate
 	AND content.PostType = @PostType
 	AND cats.CategoryID = @CategoryID
-ORDER BY content.[ID] DESC
+ORDER BY content.DateAdded DESC
  
 SELECT COUNT(content.[ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
@@ -1935,7 +1935,7 @@ AS
 IF @ExcludeFeedbackStatusMask IS NULL
 	SET @ExcludeFeedbackStatusMask = ~0
 
-DECLARE @FirstId int
+DECLARE @FirstDate datetime
 DECLARE @StartRow int
 DECLARE @StartRowIndex int
 
@@ -1943,13 +1943,13 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT @FirstId = f.[Id] 
+SELECT @FirstDate = DateCreated 
 FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
 WHERE 	f.BlogId = @BlogId 
 	AND (f.StatusFlag & @StatusFlag = @StatusFlag)
 	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
 	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
-ORDER BY f.[ID] DESC
+ORDER BY DateCreated DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
@@ -1979,11 +1979,11 @@ FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c 
 		ON c.Id = f.EntryId
 WHERE 	f.BlogId = @BlogId 
-	AND f.[Id] <= @FirstId
+	AND f.DateCreated <= @FirstDate
 	AND f.StatusFlag & @StatusFlag = @StatusFlag
 	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
 	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
-ORDER BY f.[Id] DESC
+ORDER BY DateCreated DESC
  
 SELECT COUNT(f.[Id]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
