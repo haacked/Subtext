@@ -1778,7 +1778,7 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT	@FirstId = DateAdded FROM [<dbUser,varchar,dbo>].[subtext_Content]
+SELECT	@FirstDate = DateAdded FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	BlogId = @BlogId 
 	AND PostType = @PostType 
 ORDER BY DateAdded DESC
