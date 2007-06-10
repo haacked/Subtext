@@ -527,27 +527,6 @@ namespace Subtext.Data{
 
         
         /// <summary>
-        /// Creates an object wrapper for the subtext_InsertViewStats Procedure
-        /// </summary>
-        public static StoredProcedure InsertViewStats(int? BlogId, short? PageType, int? PostID, DateTime? Day, string Url)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_InsertViewStats" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageType", PageType,DbType.Int16);
-        	    
-            sp.Command.AddParameter("@PostID", PostID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@Day", Day,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@Url", Url,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
         /// Creates an object wrapper for the subtext_StatsSummary Procedure
         /// </summary>
         public static StoredProcedure StatsSummary(int? BlogId)
@@ -567,14 +546,14 @@ namespace Subtext.Data{
         {
             SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_TrackEntry" , DataService.GetInstance("Subtext"));
         	
-            sp.Command.AddParameter("@EntryID", EntryID,DbType.Int32);
+            sp.Command.AddParameter("@EntryID", EntryID, DbType.Int32);
         	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+            sp.Command.AddParameter("@BlogId", BlogId, DbType.Int32);
         	    
-            sp.Command.AddParameter("@Url", Url,DbType.String);
+            sp.Command.AddParameter("@Url", Url, DbType.String);
         	    
-            sp.Command.AddParameter("@IsWeb", IsWeb,DbType.Boolean);
-        	    
+            sp.Command.AddParameter("@IsWeb", IsWeb, DbType.Boolean);
+
             return sp;
         }
 

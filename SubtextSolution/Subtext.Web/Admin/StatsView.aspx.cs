@@ -15,7 +15,6 @@
 
 using System;
 using Subtext.Extensibility.Interfaces;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Web.Admin.WebUI;
 
@@ -76,7 +75,7 @@ namespace Subtext.Web.Admin.Pages
 
 		public void BindList()
 		{
-            IPagedCollection<ViewStat> stats = Stats.GetPagedViewStats(_resultsPageNumber, this.resultsPager.PageSize, DateTime.Now.AddMonths(-1), DateTime.Now);
+            IPagedCollection<ViewStat> stats = new PagedCollection<ViewStat>(); //TODO: What should go here?
 
 			if (stats.Count > 0)
 			{

@@ -49,14 +49,14 @@ namespace Subtext.Framework
 		/// <summary>
 		/// Returns a collection of Posts for a give page and index size.
 		/// </summary>
-		/// <param name="postType"></param>
-		/// <param name="categoryID">-1 means not to filter by a categoryID</param>
-		/// <param name="pageIndex"></param>
-		/// <param name="pageSize"></param>
+		/// <param name="postType">Type of the post.</param>
+		/// <param name="categoryId">The category id filter. Pass in NullValue.NullInt32 to not filter by a category ID</param>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Number of records to return per page.</param>
 		/// <returns></returns>
-		public static IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize)
+		public static IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryId, int pageIndex, int pageSize)
 		{
-			return ObjectProvider.Instance().GetPagedEntries(postType, categoryID, pageIndex, pageSize);
+			return ObjectProvider.Instance().GetPagedEntries(postType, categoryId, pageIndex, pageSize);
 		}
 		#endregion
 

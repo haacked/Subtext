@@ -176,9 +176,9 @@ namespace Subtext.Framework.Data
 		/// This is used in the admin section.
 		/// </summary>
 		/// <param name="postType">Type of the post.</param>
-		/// <param name="categoryId">The category ID.</param>
+		/// <param name="categoryId">The category id filter. Pass in NullValue.NullInt32 to not filter by a category ID</param>
 		/// <param name="pageIndex">Index of the page.</param>
-		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="pageSize">Number of records to return per page.</param>
 		/// <returns></returns>
 		public override IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryId, int pageIndex, int pageSize)
 		{	
@@ -186,7 +186,7 @@ namespace Subtext.Framework.Data
 			if (categoryId > 0)
 				proc = StoredProcedures.GetPageableEntriesByCategoryID(BlogId, categoryId, pageIndex, pageSize, (int)postType);
 			else
-				proc = StoredProcedures.GetPageableEntries(BlogId, pageIndex, pageSize, (int) postType);
+				proc = StoredProcedures.GetPageableEntries(BlogId, pageIndex, pageSize, (int)postType);
 
 			return GetPagedEntries(proc);
 		}
@@ -1038,21 +1038,6 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region Stats
-
-		/// <summary>
-		/// Gets the paged view stats.
-		/// </summary>
-		/// <param name="pageIndex">Index of the page.</param>
-		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="beginDate">The begin date.</param>
-		/// <param name="endDate">The end date.</param>
-		/// <returns></returns>
-		public override IPagedCollection<ViewStat> GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate)
-		{
-			//TODO: Implement this.
-			throw new NotImplementedException("Not yet implemented");
-		}
-
 		/// <summary>
 		/// Gets the paged referrers.
 		/// </summary>

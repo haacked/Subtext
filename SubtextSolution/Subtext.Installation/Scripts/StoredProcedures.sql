@@ -16,6 +16,10 @@ REPLACE: IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_
 	These are stored procs that used to be in the system but are no longer needed.
 	The statements will only drop the procs if they exist as a form of cleanup.
 */
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertViewStats' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
+DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertViewStats]
+GO
+
 IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_UTILITY_AddBlog' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UTILITY_AddBlog]
 GO
@@ -584,10 +588,6 @@ GO
 
 IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertReferral' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertReferral]
-GO
-
-IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_InsertViewStats' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
-DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertViewStats]
 GO
 
 IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_StatsSummary' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
@@ -2345,6 +2345,8 @@ GO
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]  TO [public]
 GO
 
+-- GO HERE
+
 SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS ON 
@@ -2789,22 +2791,26 @@ BEGIN
 		if(@IsWeb = 1) -- Is this a web view?
 		BEGIN
 			UPDATE [<dbUser,varchar,dbo>].[subtext_EntryViewCount]
-			Set [WebCount] = [WebCount] + 1, WebLastUpdated = getdate()
-			WHERE EntryID = @EntryID AND BlogId = @BlogId
+			Set [WebCount] = [WebCount] + 1
+				, WebLastUpdated = getdate()
+			WHERE EntryID = @EntryID 
+				AND BlogId = @BlogId
 		END
-		else
+		ELSE
 		BEGIN
 			UPDATE [<dbUser,varchar,dbo>].[subtext_EntryViewCount]
-			Set [AggCount] = [AggCount] + 1, AggLastUpdated = getdate()
-			WHERE EntryID = @EntryID AND BlogId = @BlogId
+			Set [AggCount] = [AggCount] + 1
+				, AggLastUpdated = getdate()
+			WHERE EntryID = @EntryID 
+				AND BlogId = @BlogId
 		END
 	END
 	else
 	BEGIN
 		if(@IsWeb = 1) -- Is this a web view
 		BEGIN
-			Insert subtext_EntryViewCount (EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
-		       values (@EntryID, @BlogId, 1, 0, getdate(), NULL)
+			INSERT subtext_EntryViewCount (EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
+			VALUES(@EntryID, @BlogId, 1, 0, getdate(), NULL)
 		END
 		else
 		BEGIN
@@ -3026,48 +3032,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertViewStats]
-(
-	@BlogId int,
-	@PageType tinyint,
-	@PostID int,
-	@Day datetime,
-	@Url nvarchar(255)
-)
-AS
-
-DECLARE @UrlID int
-
-if(@Url is not NULL)
-BEGIN
-	EXEC [<dbUser,varchar,dbo>].[subtext_GetUrlID] @Url, @UrlID = @UrlID output
-END
-if(@UrlID is NULL)
-	set @UrlID = NULL
-
-
-IF EXISTS (SELECT BlogId FROM [<dbUser,varchar,dbo>].[subtext_ViewStats] WHERE BlogId = @BlogId AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID AND NOT @UrlID IS NULL)
-BEGIN
-	UPDATE [<dbUser,varchar,dbo>].[subtext_ViewStats]
-	Set [Count] = [Count] + 1
-	WHERE BlogId = @BlogId AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID
-END
-Else
-BEGIN
-	Insert subtext_ViewStats (BlogId, PageType, PostID, [Day], UrlID, [Count])
-	Values (@BlogId, @PageType, @PostID, @Day, @UrlID, 1)
-END
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertViewStats]  TO [public]
-GO
 
 SET QUOTED_IDENTIFIER ON 
 GO
