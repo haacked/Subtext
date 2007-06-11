@@ -14,7 +14,63 @@ namespace UnitTests.Subtext.Framework
 	public class StatsTests
 	{
 		[Test]
-		public void StatsQueuingWorksProperly()
+		public void EntryViewInitializesIdsToNullValue()
+		{
+			EntryView view = new EntryView();
+			Assert.AreEqual(NullValue.NullInt32, view.EntryId);
+			Assert.AreEqual(NullValue.NullInt32, view.BlogId);
+		}
+
+		[Test]
+		[RollBack]
+		public void CanGetPagedReferrersForNonEntryReferrer()
+		{
+			UnitTestHelper.SetupBlog();	
+			
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "the title for this post", "test");
+			int entryId = Entries.Create(entry);
+
+			TrackReferral(entryId);
+			TrackReferral(entryId);
+			TrackReferral(entryId);
+
+			IPagedCollection<Referrer> referrers = Stats.GetPagedReferrers(0, 10);
+			Assert.AreEqual(1, referrers.Count, "Expected one referrer");
+			Referrer referrer = referrers[0];
+			Assert.AreEqual(Config.CurrentBlog.Id, referrer.BlogID);
+			Assert.AreEqual(3, referrer.Count);
+		}
+
+		private static void TrackReferral(int entryId)
+		{
+			EntryView referral = new EntryView();
+			referral.EntryId = entryId;
+			referral.BlogId = Config.CurrentBlog.Id;
+			referral.PageViewType = PageViewType.WebView;
+			referral.ReferralUrl = "http://haacked.com/";
+
+			Stats.TrackEntry(referral);
+		}
+
+		[Test] //NO ROLLBACK Due to asynch threading!
+		public void AddingEntryViewBeyondQueueThresholdCausesThemToBeSaved()
+		{
+			TestQueueing(delegate(EntryView[] views)
+			{
+				Stats.AddQuedStats(views[0]);
+			});
+		}
+
+		[Test]
+		public void ClearWillCauseQueuedEntriesToBeSaved()
+		{
+			TestQueueing(delegate
+			{
+				Stats.ClearQueue(true);
+			});
+		}
+
+		private static void TestQueueing(TrackEntries track)
 		{
 			try
 			{
@@ -41,7 +97,7 @@ namespace UnitTests.Subtext.Framework
 				EntryStatsView entryStatsView = (EntryStatsView) entries[0];
 				Assert.AreEqual(0, entryStatsView.WebCount);
 
-				Stats.AddQuedStats(entryView);
+				track(entryView); //Stats.AddQuedStats(entryView);
 				Thread.Sleep(2000); //Wait a moment for the asynch tracking to kick in.
 
 				entries = Entries.GetPagedEntries(PostType.BlogPost, NullValue.NullInt32, 0, 10);

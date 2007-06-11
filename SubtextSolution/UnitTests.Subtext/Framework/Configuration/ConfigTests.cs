@@ -15,7 +15,6 @@
 
 using System.Web;
 using MbUnit.Framework;
-using SubSonic;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
@@ -53,32 +52,10 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void CurrentBlogReturnsNullWhenNoBlogsExistAndInInstallDirectory()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "Install", "", "Default.aspx");
-			ClearAllBlogData();
+			UnitTestHelper.ClearAllBlogData();
 			Assert.AreEqual(Config.BlogCount, 0, "This test requires that there be no blogs in the system.");
 			Assert.IsNull(Config.CurrentBlog, "Should not have been able to find a BlogInfo object when in the Install directory");
 		}
-
-    	private static void ClearAllBlogData()
-    	{
-    		QueryCommand command = new QueryCommand("DELETE subtext_Images");
-    		DataService.ExecuteQuery(command);
-			command = new QueryCommand("DELETE subtext_Links");
-			DataService.ExecuteQuery(command);
-			command = new QueryCommand("DELETE subtext_Log");
-			DataService.ExecuteQuery(command);
-			command = new QueryCommand("DELETE subtext_Feedback");
-			DataService.ExecuteQuery(command);
-			command = new QueryCommand("DELETE subtext_EntryTag");
-			DataService.ExecuteQuery(command);
-			command = new QueryCommand("DELETE subtext_Tag");
-			DataService.ExecuteQuery(command);
-			command = new QueryCommand("DELETE subtext_Content");
-			DataService.ExecuteQuery(command);
-    		command = new QueryCommand("DELETE subtext_LinkCategories");
-    		DataService.ExecuteQuery(command);
-    		command = new QueryCommand("DELETE subtext_Config");
-    		DataService.ExecuteQuery(command);
-    	}
 
     	/// <summary>
 		/// When making a request for the HostAdmin directory, Config.CurrentBlog SHOULD always return NULL
@@ -92,7 +69,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack]
 		public void CurrentBlogReturnNsullWhenInHostAdminDirectory()
 		{
-			ClearAllBlogData();
+			UnitTestHelper.ClearAllBlogData();
 			UnitTestHelper.SetupBlog(); //Create one blog.
 			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "HostAdmin", "", "Default.aspx");
 
