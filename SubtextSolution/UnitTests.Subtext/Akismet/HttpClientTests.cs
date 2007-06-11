@@ -4,7 +4,7 @@ using System.Net;
 using MbUnit.Framework;
 using Rhino.Mocks;
 using Subtext.Akismet;
-using Subtext.UnitTesting.Servers;
+using Subtext.TestLibrary.Servers;
 
 namespace UnitTests.Subtext.Akismet
 {

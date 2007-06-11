@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using LumiSoft.Net.SMTP.Server;
 
-namespace Subtext.UnitTesting.Servers
+namespace Subtext.TestLibrary.Servers
 {
 	/// <summary>
 	/// Summary description for UnitTestSmtpServer.

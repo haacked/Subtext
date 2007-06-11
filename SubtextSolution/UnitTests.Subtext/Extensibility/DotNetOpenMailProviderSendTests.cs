@@ -2,7 +2,7 @@ using System;
 using System.Collections.Specialized;
 using MbUnit.Framework;
 using Subtext.Framework.Providers;
-using Subtext.UnitTesting.Servers;
+using Subtext.TestLibrary.Servers;
 
 namespace UnitTests.Subtext.Extensibility
 {

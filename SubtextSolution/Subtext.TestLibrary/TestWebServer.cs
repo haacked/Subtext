@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.VisualStudio.WebHost;
 
-namespace Subtext.UnitTesting.Servers
+namespace Subtext.TestLibrary.Servers
 {
 	/// <summary>
 	/// <para>A Web Server useful for unit tests.  Uses the same code used by the 

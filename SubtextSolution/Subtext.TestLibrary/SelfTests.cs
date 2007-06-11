@@ -2,7 +2,7 @@ using System;
 using DotNetOpenMail;
 using MbUnit.Framework;
 
-namespace Subtext.UnitTesting.Servers
+namespace Subtext.TestLibrary.Servers
 {
 	/// <summary>
 	/// Summary description for SelfTests.
