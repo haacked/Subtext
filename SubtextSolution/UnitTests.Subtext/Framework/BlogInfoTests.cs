@@ -78,7 +78,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetBlogs()
 		{
 			UnitTestHelper.SetupBlog();
@@ -227,7 +227,7 @@ namespace UnitTests.Subtext.Framework
 		[Row("", "Subtext.Web", 8080, ":8080/Subtext.Web/")]
 		[Row("blog", "Subtext.Web", 8080, ":8080/Subtext.Web/")]
 		[Row("blog", "", 8080, ":8080/")]
-		[RollBack]
+		[RollBack2]
 		public void HostFullyQualifiedUrlPropertySetCorrectly(string subfolder, string virtualDir, int port, string expected)
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDir, port);
@@ -249,7 +249,7 @@ namespace UnitTests.Subtext.Framework
         [Row("", "Subtext.Web", 8080, ":8080/Subtext.Web/archive/1975/01/23/987123.aspx")]
         [Row("blog", "Subtext.Web", 8080, ":8080/Subtext.Web/blog/archive/1975/01/23/987123.aspx")]
         [Row("blog", "", 8080, ":8080/blog/archive/1975/01/23/987123.aspx")]
-        [RollBack]
+        [RollBack2]
         public void FullyQualifiedUrlPropertySetCorrectly(string subfolder, string virtualDir, int port, string expected)
         {
 			UnitTestHelper.SetupBlog(subfolder, virtualDir, port);
@@ -270,7 +270,7 @@ namespace UnitTests.Subtext.Framework
 		[Row("", "Subtext.Web/", "/Subtext.Web/")]
 		[Row("", "/Subtext.Web/", "/Subtext.Web/")]
 		[Row("", "Subtext.Web", "/Subtext.Web/")]
-		[RollBack]
+		[RollBack2]
 		public void TestVirtualUrlPropertySetCorrectly(string subfolder, string virtualDir, string expected)
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDir);
@@ -291,7 +291,7 @@ namespace UnitTests.Subtext.Framework
 		[Row("", "Subtext.Web/", "/Subtext.Web/Admin/")]
 		[Row("", "/Subtext.Web/", "/Subtext.Web/Admin/")]
 		[Row("", "Subtext.Web", "/Subtext.Web/Admin/")]
-		[RollBack]
+		[RollBack2]
 		public void TestAdminDirectoryVirtualUrlPropertySetCorrectly(string subfolder, string virtualDir, string expected)
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDir);
@@ -309,7 +309,7 @@ namespace UnitTests.Subtext.Framework
 		[Row("", "Subtext.Web/", "/Subtext.Web/Admin/Default.aspx")]
 		[Row("", "/Subtext.Web/", "/Subtext.Web/Admin/Default.aspx")]
 		[Row("", "Subtext.Web", "/Subtext.Web/Admin/Default.aspx")]
-		[RollBack]
+		[RollBack2]
 		public void TestAdminVirtualUrlPropertySetCorrectly(string subfolder, string virtualDir, string expected)
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDir);
@@ -322,7 +322,7 @@ namespace UnitTests.Subtext.Framework
 		[Row("", "", "")]
 		[Row("Blog", "", "Blog/")]
 		[Row("Blog", "Subtext.Web", "Subtext.Web/Blog/")]
-		[RollBack]
+		[RollBack2]
 		public void RootUrlPropertyReturnsCorrectValue(string subfolder, string virtualDir, string expected)
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDir);
@@ -336,7 +336,7 @@ namespace UnitTests.Subtext.Framework
 		[Row("Blog", "", "Blog/Default.aspx")]
 		[Row("Blog", "Subtext.Web", "Subtext.Web/Blog/Default.aspx")]
 		[Row("", "Subtext.Web", "Subtext.Web/Default.aspx")]
-		[RollBack]
+		[RollBack2]
 		public void TestBlogHomeFullyQualifiedUrlPropertySetCorrectly(string subfolder, string virtualDir, string expected)
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDir);
@@ -350,7 +350,7 @@ namespace UnitTests.Subtext.Framework
 		[Row("Blog", "", "/Blog/Default.aspx")]
 		[Row("Blog", "Subtext.Web", "/Subtext.Web/Blog/Default.aspx")]
 		[Row("", "Subtext.Web", "/Subtext.Web/Default.aspx")]
-		[RollBack]
+		[RollBack2]
 		public void TestBlogHomeVirtualUrlPropertySetCorrectly(string subfolder, string virtualDir, string expected)
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDir);
@@ -369,7 +369,7 @@ namespace UnitTests.Subtext.Framework
 		[Row("Blog", "", "/")]
 		[Row("Blog", "Subtext.Web", "/Subtext.Web/")]
 		[Row("", "Subtext.Web", "/Subtext.Web/")]
-		[RollBack]
+		[RollBack2]
 		public void TestVirtualDirectoryRootPropertySetCorrectly(string subfolder, string virtualDir, string expected)
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDir);

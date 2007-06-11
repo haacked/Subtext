@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// create too many within the interval.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedException(typeof(CommentFrequencyException))]
 		public void CannotCreateMoreThanOneCommentWithinDelay()
 		{
@@ -74,7 +74,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Make sure that duplicate comments are blocked.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedException(typeof(CommentDuplicateException))]
 		public void CannotCreateDuplicateComments()
 		{
@@ -101,7 +101,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	    /// filtered.
 	    /// </summary>
 	    [Test]
-	    [RollBack]
+	    [RollBack2]
 	    public void CommentsFromAdminNotFiltered()
 	    {
 			UnitTestHelper.SetupBlog();

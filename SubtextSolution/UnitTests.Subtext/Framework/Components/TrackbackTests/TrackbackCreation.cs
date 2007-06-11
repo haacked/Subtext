@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 		/// select out the trackbacks.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CreateTrackbackSetsFeedbackTypeCorrectly()
 		{
 			UnitTestHelper.SetupBlog();
@@ -40,7 +40,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 		/// Make sure that trackbacks show up when displaying feedback for an entry.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void TrackbackShowsUpInFeedbackList()
 		{
 			UnitTestHelper.SetupBlog("blog");

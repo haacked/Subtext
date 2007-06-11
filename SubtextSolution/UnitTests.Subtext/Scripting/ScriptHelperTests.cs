@@ -64,7 +64,7 @@ namespace UnitTests.Subtext.Scripting
 		/// Makes sure that ParseScript parses correctly.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void ParseScriptParsesCorrectly()
 		{
 			string script =  @"SET QUOTED_IDENTIFIER OFF " + Environment.NewLine +

@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanUpdateUser()
 		{
 			UnitTestHelper.SetupBlog();
@@ -55,7 +55,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanFindUsersByEmail()
 		{
 			UnitTestHelper.SetupBlog();
@@ -77,7 +77,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanFindUsersByName()
 		{
 			UnitTestHelper.SetupBlog();
@@ -99,7 +99,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 		
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetUserNameByEmail()
 		{
 			UnitTestHelper.SetupBlog();
@@ -108,7 +108,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanFindUsersSpecifcToBlog()
 		{
 			string name = UnitTestHelper.GenerateRandomString();
@@ -137,7 +137,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetAllUsers()
 		{
 			UnitTestHelper.SetupBlog();
@@ -164,7 +164,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetAllUsersForABlog()
 		{
 			UnitTestHelper.SetupBlog();
@@ -183,7 +183,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 		
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetNumberOfUsersOnline()
 		{
 			UnitTestHelper.SetupBlog();
@@ -193,7 +193,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 
 		[Test, Ignore("Need to get this to work later.")]
-		[RollBack]
+		[RollBack2]
 		public void CanGetDeleteUser()
 		{
 			UnitTestHelper.SetupBlog();
@@ -206,7 +206,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanChangePassword()
 		{
 		    string username = UnitTestHelper.MembershipTestUsername;
@@ -218,7 +218,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanResetPassword()
 		{
             string username = UnitTestHelper.MembershipTestUsername;
@@ -301,7 +301,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		[RowTest]
 		[Row(null, ExpectedException = typeof(ArgumentNullException))]
 		[Row("", ExpectedException = typeof(ArgumentException))]
-		[RollBack]
+		[RollBack2]
 		public void GetUserNameByEmailThrowsArgumentNullException(string email)
 		{
 			Membership.GetUserNameByEmail(email);
@@ -310,7 +310,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		[RowTest]
 		[Row(null, ExpectedException = typeof(ArgumentNullException))]
 		[Row("", ExpectedException = typeof(ArgumentException))]
-		[RollBack]
+		[RollBack2]
 		public void FindUsersByEmailThrowsArgumentNullException(string email)
 		{
 			Membership.FindUsersByEmail(email);
@@ -319,7 +319,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		[RowTest]
 		[Row(null, ExpectedException = typeof(ArgumentNullException))]
 		[Row("", ExpectedException = typeof(ArgumentException))]
-		[RollBack]
+		[RollBack2]
 		public void FindUsersByNameThrowsArgumentNullException(string username)
 		{
 			Membership.FindUsersByName(username);

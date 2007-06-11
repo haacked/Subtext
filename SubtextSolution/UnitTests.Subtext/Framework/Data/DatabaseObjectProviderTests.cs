@@ -17,7 +17,7 @@ namespace UnitTests.Subtext.Framework.Data
 	public class DatabaseObjectProviderTests
 	{
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanClearBlogContent()
 		{
 			UnitTestHelper.SetupBlog();
@@ -39,7 +39,7 @@ namespace UnitTests.Subtext.Framework.Data
 		}
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CanClearLog()
         {
 			UnitTestHelper.SetupBlog();
@@ -90,7 +90,7 @@ namespace UnitTests.Subtext.Framework.Data
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanInsertAndDeleteImage()
 		{
 			UnitTestHelper.SetupBlog();
@@ -124,7 +124,7 @@ namespace UnitTests.Subtext.Framework.Data
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanInsertAndDeleteKeyword()
 		{
 			UnitTestHelper.SetupBlog();
@@ -152,7 +152,7 @@ namespace UnitTests.Subtext.Framework.Data
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanInsertAndDeleteLink()
 		{
 			UnitTestHelper.SetupBlog();
@@ -183,7 +183,7 @@ namespace UnitTests.Subtext.Framework.Data
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanInsertAndDeleteLinkCategory()
 		{
 			UnitTestHelper.SetupBlog();
@@ -207,7 +207,7 @@ namespace UnitTests.Subtext.Framework.Data
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetActiveCategories()
 		{
 			UnitTestHelper.SetupBlog();

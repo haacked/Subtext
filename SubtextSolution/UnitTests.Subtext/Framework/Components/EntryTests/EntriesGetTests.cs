@@ -12,7 +12,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	public class EntriesGetTests
 	{
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetPostCollectionByMonth()
 		{
 			UnitTestHelper.SetupBlog();
@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetPostByCategoryId()
 		{
 			UnitTestHelper.SetupBlog();
@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetPostByDayRange()
 		{
 			UnitTestHelper.SetupBlog();
@@ -83,7 +83,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetSingleDay()
 		{
 			UnitTestHelper.SetupBlog();
@@ -104,7 +104,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetHomePageEntries()
 		{
 			UnitTestHelper.SetupBlog();
@@ -118,7 +118,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetEntriesByCategory()
 		{
 			UnitTestHelper.SetupBlog();
@@ -136,7 +136,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetRecentPosts()
 		{
 			UnitTestHelper.SetupBlog();

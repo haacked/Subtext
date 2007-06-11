@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[Row(FeedbackStatusFlags.FlaggedAsSpam, false, false, false, true)]
 		[Row(FeedbackStatusFlags.NeedsModeration, false, true, false, false)]
 		[Row(FeedbackStatusFlags.Deleted, false, false, true, false)]
-		[RollBack]
+		[RollBack2]
 		public void CanCreateCommentWithStatus(FeedbackStatusFlags status, bool expectedApproved, bool expectedNeedsModeratorApproval, bool expectedDeleted, bool expectedFlaggedAsSpam)
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 		
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void ConfirmSpamRemovesApprovedBitAndSetsDeletedBit()
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void DeleteCommentSetsDeletedBit()
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -68,7 +68,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void DestroyCommentByStatusDestroysOnlyThatStatus()
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -129,7 +129,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CreateFeedbackSetsBlogStatsCorrectly()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -158,7 +158,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CreateEntryDoesNotResetBlogStats()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -176,7 +176,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void DeleteEntrySetsBlogStats()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -197,7 +197,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
 	    [Test]
-		[RollBack]
+		[RollBack2]
 		public void DestroyCommentReallyGetsRidOfIt()
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -213,7 +213,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void DestroyCommentCannotDestroyActiveComment()
 		{
@@ -226,7 +226,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void ApproveCommentRemovesDeletedAndConfirmedSpamBits()
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -248,7 +248,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		/// approved as not spam.  Make sure we get all of them when we get comments.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetAllApprovedComments()
 		{
 			Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -270,7 +270,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 		
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void OnlyApprovedItemsContributeToEntryFeedbackCount()
 		{
 			Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -307,7 +307,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		/// (FlaggedAsSpam | Approved).
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetItemsFlaggedAsSpam()
 		{
 		    Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -331,7 +331,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		/// Makes sure that the content checksum hash is being created correctly.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CreateFeedbackHasContentHash()
 		{
 			UnitTestHelper.SetupBlog();
@@ -356,7 +356,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[Row("commenter@example.com", "", "", "/", "commenter@example.com", "none given")]
 		[Row("commenter@example.com", "", "/", "TEST", "commenter@example.com", "none given")]
 		[Row("commenter@example.com", "", "/Subtext.Web", "TEST", "commenter@example.com", "none given")]
-		[RollBack]
+		[RollBack2]
 		public void CreateFeedbackSendsCorrectEmail(string commenterEmail, string commenterUrl, string applicationPath, string subfolder, string expectedEmail, string expectedUrl)
 		{
 			UnitTestHelper.SetupBlog();

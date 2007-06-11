@@ -12,7 +12,7 @@ namespace UnitTests.Subtext.Framework.Util
 	{
 		[Test]
 		[ExtractResource("UnitTests.Subtext.Resources.Web.emoticons.txt", typeof(TransformTests))]
-		[RollBack]
+		[RollBack2]
 		public void CanLoadEmoticonsFile()
 		{
 			//Due to a bug in ExtractResource...
@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.Framework.Util
 
 		[Test]
 		[ExtractResource("UnitTests.Subtext.Resources.Web.emoticons.txt", typeof(TransformTests))]
-		[RollBack]
+		[RollBack2]
 		public void CanPerformEmoticonTransform()
 		{
 			//Due to a bug in ExtractResource...

@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 	public class SecurityTests
 	{
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetExpiredCookie()
 		{
 			UnitTestHelper.SetupBlog();
@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetApplicationId()
 		{
 			HttpContext.Current = null;
@@ -63,7 +63,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void IsHostAdminReturnsCorrectAnswer()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "test");
@@ -83,7 +83,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		/// Ensures HashesPassword is case sensitive.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void HashPasswordIsCaseSensitive()
 		{
 			string lowercase = "password";

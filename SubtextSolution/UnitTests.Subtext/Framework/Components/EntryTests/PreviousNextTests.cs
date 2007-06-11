@@ -34,7 +34,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Test the case where we have a previous, but no next entry.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void GetPreviousAndNextEntriesReturnsPreviousWhenNoNextExists()
 		{
 			UnitTestHelper.SetupBlog();
@@ -54,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Test the case where we have a next, but no previous entry.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void GetPreviousAndNextEntriesReturnsNextWhenNoPreviousExists()
 		{
 			UnitTestHelper.SetupBlog();
@@ -74,7 +74,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Test the case where we have both a previous and next.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void GetPreviousAndNextEntriesReturnsBoth()
 		{
 			UnitTestHelper.SetupBlog();
@@ -101,7 +101,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Test the case where we have more than three entries.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void GetPreviousAndNextEntriesReturnsCorrectEntries()
 		{
 			UnitTestHelper.SetupBlog();
@@ -139,7 +139,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Make sure that previous and next are based on syndication date and not entry id.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void GetPreviousAndNextBasedOnSyndicationDateNotEntryId()
 		{
 			UnitTestHelper.SetupBlog();

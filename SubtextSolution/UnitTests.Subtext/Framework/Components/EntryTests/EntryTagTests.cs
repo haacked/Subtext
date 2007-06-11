@@ -19,7 +19,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// ugly stuff to simulate that.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanRebuildAllTags()
 		{
 			string tag = Guid.NewGuid().ToString();
@@ -47,7 +47,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanTagEntry()
 		{
 			UnitTestHelper.SetupBlog();
@@ -63,7 +63,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanParseMultilineTag()
 		{
 			UnitTestHelper.SetupBlog();
@@ -85,7 +85,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [Row("http://blah.com/decode+test", "decode test")]
         [Row("http://blah.com/decode%20test2", "decode test2")]
         [Row("http://blah.com/another+decode%20test", "another decode test")]
-		[RollBack]
+		[RollBack2]
 		public void CanParseEntryTags(string url, string expectedTag)
 		{
 			UnitTestHelper.SetupBlog();
@@ -100,7 +100,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanParseMultiRelTag()
 		{
 			UnitTestHelper.SetupBlog();
@@ -115,7 +115,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanParseAnchorWithWhiteSpace()
 		{
 			UnitTestHelper.SetupBlog();
@@ -130,7 +130,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void DuplicateTagsDoNotThrowException()
 		{
 			UnitTestHelper.SetupBlog();

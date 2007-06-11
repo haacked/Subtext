@@ -17,7 +17,7 @@ namespace UnitTests.Subtext.Framework.Data
 	public class DataHelperTests
 	{
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanLoadImageFromReader()
 		{
 			UnitTestHelper.SetupBlog();

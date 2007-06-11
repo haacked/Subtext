@@ -24,7 +24,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanSetText(BlogEntryEditorProvider provider)
 		{
 			UnitTestHelper.SetupBlog();
@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void SetWidth(BlogEntryEditorProvider provider)
 		{
 			UnitTestHelper.SetupBlog();
@@ -49,7 +49,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void SetHeight(BlogEntryEditorProvider provider)
 		{
 			UnitTestHelper.SetupBlog();

@@ -11,7 +11,7 @@ namespace UnitTests.Subtext.Framework
 	public class ArchiveTests
 	{
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetPostsByMonthArchive()
 		{
 			UnitTestHelper.SetupBlog();
@@ -34,7 +34,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetPostsByYearArchive()
 		{
 			UnitTestHelper.SetupBlog();
@@ -57,7 +57,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetPostsByCategoryArchive()
 		{
 			UnitTestHelper.SetupBlog();

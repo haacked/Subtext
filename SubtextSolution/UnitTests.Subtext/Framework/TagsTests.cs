@@ -30,7 +30,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void GetGetTopTags()
 		{
 			UnitTestHelper.SetupBlog();

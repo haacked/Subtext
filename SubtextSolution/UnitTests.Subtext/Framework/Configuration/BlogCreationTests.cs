@@ -39,7 +39,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Row("Title", "localhost2", "subfolder")]
 		[Row("Title", null, null, ExpectedException = typeof(ArgumentNullException))]
 		[Row(null, "Host", null, ExpectedException = typeof(ArgumentNullException))]
-		[RollBack]
+		[RollBack2]
 		public void CreateBlogWithOwnerTest(string title, string host, string subfolder)
 		{
 			MembershipUser owner = Membership.CreateUser(UnitTestHelper.MembershipTestUsername, "test", UnitTestHelper.MembershipTestEmail);
@@ -52,7 +52,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// cannot create a blog with the same domain name and no subfolder.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedException(typeof(BlogRequiresSubfolderException))]
 		public void CreatingBlogWithDuplicateHostNameRequiresSubfolderName()
 		{
@@ -65,7 +65,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// Make sure adding two distinct blogs doesn't raise an exception.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void AddingDistinctBlogsIsFine()
 		{
 			string host = UnitTestHelper.MembershipTestUsername;
@@ -82,7 +82,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// as another blog when both have no subfolder specified.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotCreateOneWithDuplicateHostAndNoSubfolder()
 		{
@@ -96,7 +96,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// as another blog.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotCreateOneWithDuplicateHostAndSubfolder()
 		{
@@ -110,7 +110,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// as another blog.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedException(typeof(BlogDuplicationException))]
 		public void UpdateBlogCannotConflictWithDuplicateHostAndSubfolder()
 		{
@@ -130,7 +130,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// as another blog when both have no subfolder specified.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedException(typeof(BlogDuplicationException))]
 		public void UpdateBlogCannotConflictWithDuplicateHost()
 		{
@@ -160,7 +160,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </p>
 		/// </remarks>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedException(typeof(BlogHiddenException))]
 		public void CreateBlogCannotHideAnotherBlog()
 		{
@@ -185,7 +185,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </p>
 		/// </remarks>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedException(typeof(BlogHiddenException))]
 		public void UpdatingBlogCannotHideAnotherBlog()
 		{
@@ -209,7 +209,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// cannot modify another blog to have the same domain name, but with no subfolder.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedException(typeof(BlogRequiresSubfolderException))]
 		public void UpdatingBlogWithDuplicateHostNameRequiresSubfolderName()
 		{
@@ -230,7 +230,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// include the blog being edited.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void UpdatingBlogIsFine()
 		{
 			string host = UnitTestHelper.MembershipTestUsername;
@@ -248,7 +248,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// within the subfolder name.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void EnsureInvalidCharactersMayNotBeUsedInSubfolderName()
 		{
 			string[] badNames = {"a{b", "a}b", "a[e", "a]e", "a/e",@"a\e", "a@e", "a!e", "a#e", "a$e", "a'e", "a%", ":e", "a^", "ae&", "*ae", "a(e", "a)e", "a?e", "+a", "e|", "a\"", "e=", "a'", "e<", "a>e", "a;", ",e", "a e"};
@@ -263,7 +263,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// within the subfolder name.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void ReservedSubtextWordsAreNotValidForSubfolders()
 		{
             string[] badSubfolders = { "name.", "tags", "Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Properties", "Providers", "Scripts", "Skins", "SystemMessages", "UI", "Modules", "Services", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery", "aggbug", "Sitemap" };
@@ -283,7 +283,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Row("archive.", ExpectedException = typeof(InvalidSubfolderNameException))]
 		[Row("archive.", ExpectedException = typeof(InvalidSubfolderNameException))]
 		[Row("My!Blog", ExpectedException = typeof(InvalidSubfolderNameException))]
-		[RollBack]
+		[RollBack2]
 		public void CannotRenameBlogToHaveSubfolderNameBin(string badSubfolderName)
 		{
 			UnitTestHelper.SetupBlog("OkSubfolder");
@@ -302,7 +302,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Row("archive.", ExpectedException = typeof(InvalidSubfolderNameException))]
 		[Row("archive.", ExpectedException = typeof(InvalidSubfolderNameException))]
 		[Row("My!Blog", ExpectedException = typeof(InvalidSubfolderNameException))]
-		[RollBack]
+		[RollBack2]
 		public void CannotCreateBlogWithReservedOrInvalidSubfolder(string subfolder)
 		{
 			UnitTestHelper.SetupBlog(subfolder);

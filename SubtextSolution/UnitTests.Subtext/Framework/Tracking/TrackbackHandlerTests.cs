@@ -19,7 +19,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 	public class TrackbackHandlerTests
 	{
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanDisableTrackbacks()
 		{
 			string url = "http://haacked.com/";
@@ -46,7 +46,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 		/// Sends an RSS Snippet for requests made using the "GET" http verb.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void TrackBackHandlerSendsRssResponseForGetRequests()
 		{
 			string url = "http://haacked.com/";
@@ -70,7 +70,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 		/// Sends an error message if the id in the url does not match an existing entry.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void TrackBackHandlerSendsErrorIfEntryIdInUrlDoesNotMatchEntry()
 		{
 			string url = "http://haacked.com/blah/";
@@ -98,7 +98,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 		/// Checks the error message returned when the trackback URL does not have an entry id.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void TrackBackHandlerSendsErrorResponseForUrlWithoutEntryId()
 		{
 			string url = "http://haacked.com/blog/";
@@ -125,7 +125,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 		/// response with an error message when a badly formatted trackback is sent.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void TrackBackHandlerSendsErrorResponseForInvalidTrackbackUrl()
 		{
 			string url = "NOT_A_VALID_URL";
@@ -189,7 +189,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 		/// by creating a trackback record in the local system.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void TrackBackPostCreatesProperTrackback()
 		{
 			string url = "http://haacked.com/";

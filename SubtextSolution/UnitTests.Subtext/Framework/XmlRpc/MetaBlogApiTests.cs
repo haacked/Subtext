@@ -13,7 +13,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
     public class MetaBlogApiTests
     {
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void NewPostWithCategoryCreatesEntryWithCategory()
 		{
 			string username = UnitTestHelper.GenerateRandomString();
@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 		}
     	
     	[Test]
-    	[RollBack]
+    	[RollBack2]
     	public void NewPostAcceptsNullCategories()
 		{
 			string username = UnitTestHelper.GenerateRandomString();
@@ -62,7 +62,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
     	}
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void DeletePostDeletesPost()
         {
 			string username = UnitTestHelper.GenerateRandomString();
@@ -85,7 +85,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetRecentPostsReturnsRecentPosts()
         {
         	string username = UnitTestHelper.GenerateRandomString();

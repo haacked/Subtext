@@ -17,7 +17,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		/// the Administrators role for that blog.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void OwnerOfBlogIsSpecialCasedAsBeingInAdministratorsRole()
 		{
 			UnitTestHelper.SetupBlog();
@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void IsUserInRoleReturnsCorrectResult()
 		{
 		    string username = UnitTestHelper.MembershipTestUsername;
@@ -57,7 +57,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CanAddUserToRole()
         {
             string username = UnitTestHelper.MembershipTestUsername;
@@ -72,7 +72,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
         }
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanRemoveUserFromRole()
 		{
 			string username = UnitTestHelper.MembershipTestUsername;
@@ -94,7 +94,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		}
 
 		[Test]
-        [RollBack]
+        [RollBack2]
         public void CanCreateRoles()
         {
             using (MembershipApplicationScope.SetApplicationName("/"))
@@ -108,7 +108,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         [ExpectedException(typeof(NotImplementedException))]
         public void CanDeleteRole()
         {
@@ -125,7 +125,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         [ExpectedException(typeof(NotImplementedException))]
         public void CanFindUsersInRole()
         {
@@ -145,7 +145,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CanGetUsersInRole()
         {
             string username1 = UnitTestHelper.MembershipTestUsername;
@@ -167,7 +167,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
         }
 
 	    [Test]
-        [RollBack]
+        [RollBack2]
         public void CanGetRolesForUser()
         {
             string username = UnitTestHelper.MembershipTestUsername;
@@ -193,7 +193,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
         #region Exception Tests
         [Test]
         [ExpectedArgumentNullException]
-        [RollBack]
+        [RollBack2]
         public void CreateRoleThrowsArgumentNullException()
         {
             using (MembershipApplicationScope.SetApplicationName("/"))
@@ -204,7 +204,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 
         [Test]
         [ExpectedException(typeof(ProviderException))]
-        [RollBack]
+        [RollBack2]
         public void CreateRoleThrowsProviderExceptionForExistingRole()
         {
             using (MembershipApplicationScope.SetApplicationName("/"))
@@ -217,7 +217,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
         [RowTest]
         [Row("", ExpectedException = typeof(ArgumentException))]
         [Row("HasA,Comma", ExpectedException = typeof(ArgumentException))]
-        [RollBack]
+        [RollBack2]
         public void CreateRoleThrowsArgumentException(string rolename)
         {
             using (MembershipApplicationScope.SetApplicationName("/"))
@@ -228,7 +228,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        [RollBack]
+        [RollBack2]
         public void CreateRoleThrowsArgumentExceptionForTooLongRoleName()
         {
             string rolename = new string('a', 513);

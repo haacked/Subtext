@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.Akismet
 		}
 
 		[Test]
-        [RollBack]
+        [RollBack2]
 		public void IsSpamReturnsTrueForSpam()
 		{
 		    UnitTestHelper.SetupBlog();
@@ -72,7 +72,7 @@ namespace UnitTests.Subtext.Akismet
 		}
 
 		[Test]
-        [RollBack]
+        [RollBack2]
 		public void IsSpamReturnsFalseIfAkismetClientDoesSo()
 		{
             UnitTestHelper.SetupBlog();
@@ -89,7 +89,7 @@ namespace UnitTests.Subtext.Akismet
 		}
 
 		[Test]
-        [RollBack]
+        [RollBack2]
 		public void IsSpamReturnsFalseIfAkismetClientThrowsInvalidResponseException()
 		{
             UnitTestHelper.SetupBlog();
@@ -106,7 +106,7 @@ namespace UnitTests.Subtext.Akismet
 		}
 
 		[Test]
-        [RollBack]
+        [RollBack2]
 		public void CanSubmitSpam()
 		{
             UnitTestHelper.SetupBlog();
@@ -125,7 +125,7 @@ namespace UnitTests.Subtext.Akismet
 		}
 
 		[Test]
-        [RollBack]
+        [RollBack2]
 		public void CanSubmitGoodFeedback()
 		{
             UnitTestHelper.SetupBlog();
