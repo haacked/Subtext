@@ -202,7 +202,7 @@ namespace UnitTests.Subtext.Framework.Text
 		[Test]
 		public void CanParseTag()
 		{
-			List<string> tags = HtmlHelper.ParseTags("blah blah <a href=\"http://blah.com/subdir/mytag/\" rel=\"tag\">test1</a> goo goo");
+			IList<string> tags = HtmlHelper.ParseTags("blah blah <a href=\"http://blah.com/subdir/mytag/\" rel=\"tag\">test1</a> goo goo");
 			Assert.AreEqual(1, tags.Count, "Should have found one tag.");
 			Assert.AreEqual("mytag", tags[0], "Should have found one tag.");
 
@@ -211,14 +211,14 @@ namespace UnitTests.Subtext.Framework.Text
 		[Test]
 		public void ParseTagsDoesNotParseDuplicates()
 		{
-			List<string> tags = HtmlHelper.ParseTags("<a href=\"http://blah.com/subdir/mytag/\" rel=\"tag\">test1</a><a href=\"http://blah.com/another-dir/mytag/\" rel=\"tag\">test2</a>");
+			IList<string> tags = HtmlHelper.ParseTags("<a href=\"http://blah.com/subdir/mytag/\" rel=\"tag\">test1</a><a href=\"http://blah.com/another-dir/mytag/\" rel=\"tag\">test2</a>");
 			Assert.AreEqual(1, tags.Count, "The same tag exists twice, should only count as one.");
 		}
 
 		[Test]
 		public void ParseTagsDoesNotMatchRelOfAnotherTag()
 		{
-			List<string> tags = HtmlHelper.ParseTags("<a title=\"blah\" href=\"http://blah.com/subdir/mytag1/\" " + Environment.NewLine + " rel=\"lightbox\">mytag1</a>other junk " + Environment.NewLine + "<a href=\"http://blah.com/another-dir/mytag2/\" rel=\"tag\">mytag2</a>");
+			IList<string> tags = HtmlHelper.ParseTags("<a title=\"blah\" href=\"http://blah.com/subdir/mytag1/\" " + Environment.NewLine + " rel=\"lightbox\">mytag1</a>other junk " + Environment.NewLine + "<a href=\"http://blah.com/another-dir/mytag2/\" rel=\"tag\">mytag2</a>");
 			Assert.AreEqual(1, tags.Count, "The first anchor is not a tag.");
 			Assert.AreEqual("mytag2", tags[0]);
 		}
@@ -226,7 +226,7 @@ namespace UnitTests.Subtext.Framework.Text
         [Test]
         public void ParseTagsWithWhitespaceAttributes()
         {
-            List<string> tags = HtmlHelper.ParseTags("<a title=\"blah\" href = " + Environment.NewLine + " \"http://blah.com/subdir/mytag1/\" rel = " + Environment.NewLine + " \"tag\">mytag1</a>");
+            IList<string> tags = HtmlHelper.ParseTags("<a title=\"blah\" href = " + Environment.NewLine + " \"http://blah.com/subdir/mytag1/\" rel = " + Environment.NewLine + " \"tag\">mytag1</a>");
             Assert.AreEqual(1, tags.Count, "The attributes contain whitespace but should be recognized as valid");
             Assert.AreEqual("mytag1", tags[0]);
         }
@@ -234,7 +234,7 @@ namespace UnitTests.Subtext.Framework.Text
 		[Test]
 		public void ParseTagsWithWeirdWhiteSpace()
 		{
-			List<string> tags = HtmlHelper.ParseTags("<a title=\"Programmer's Bill of Rights\" href=\"http://www.codinghorror.com/blog/archives/000666.html\">Programmer&rsquo;s Bill of Rights</a> that <a rel=\"friend met\" href=\"http://www.codinghorror.com/blog/\">Jeff Atwood</a>" + Environment.NewLine + "<div class=\"tags\">Technorati tags: <a rel=\"tag\" href=\"http://technorati.com/tag/Programming\">Programming</a>");
+			IList<string> tags = HtmlHelper.ParseTags("<a title=\"Programmer's Bill of Rights\" href=\"http://www.codinghorror.com/blog/archives/000666.html\">Programmer&rsquo;s Bill of Rights</a> that <a rel=\"friend met\" href=\"http://www.codinghorror.com/blog/\">Jeff Atwood</a>" + Environment.NewLine + "<div class=\"tags\">Technorati tags: <a rel=\"tag\" href=\"http://technorati.com/tag/Programming\">Programming</a>");
 			Assert.AreEqual(1, tags.Count, "The attributes contain whitespace but should be recognized as valid");
 			Assert.AreEqual("Programming", tags[0]);
 		}

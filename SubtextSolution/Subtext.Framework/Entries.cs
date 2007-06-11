@@ -265,7 +265,7 @@ namespace Subtext.Framework
 				}
 				throw;
 			}
-			ObjectProvider.Instance().SetEntryTagList(entry.Id, HtmlHelper.ParseTags(entry.Body));
+			Tags.SetTagsOnEntry(entry);
 
 			log.Debug("Created entry, running notification services.");
 			NotificationServices.Run(entry);
@@ -547,7 +547,7 @@ namespace Subtext.Framework
 
             ObjectProvider.Instance().Update(entry, categoryIDs);
 
-            List<string> tags = HtmlHelper.ParseTags(entry.Body);
+            IList<string> tags = HtmlHelper.ParseTags(entry.Body);
             ObjectProvider.Instance().SetEntryTagList(entry.Id, tags);
 		}
 

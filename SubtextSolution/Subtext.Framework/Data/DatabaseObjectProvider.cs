@@ -739,12 +739,19 @@ namespace Subtext.Framework.Data
 
         #region SetTagList
 
-        public override void SetEntryTagList(int entryId, List<string> tags)
+		/// <summary>
+		/// Sets the tags for the entry.
+		/// </summary>
+		/// <param name="entryId"></param>
+		/// <param name="tags"></param>
+        public override void SetEntryTagList(int entryId, IList<string> tags)
         {
 			if (tags == null)
 				throw new ArgumentNullException("tags", "Tags cannot be null.");
 
-			string tagList = string.Join(",", tags.ToArray());
+        	string[] tagNames = new string[tags.Count];
+        	tags.CopyTo(tagNames, 0);
+			string tagList = string.Join(",", tagNames);
 
 			StoredProcedures.InsertEntryTagList(DataHelper.CheckNull(entryId), BlogId, tagList).Execute();
         }
