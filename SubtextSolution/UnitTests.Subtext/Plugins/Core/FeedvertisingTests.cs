@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Xml;
-
 using MbUnit.Framework;
-using Subtext.Framework;
-using Subtext.Framework.Exceptions;
 using Subtext.Plugins.Core.TextLinkAds;
 
 namespace UnitTests.Subtext.Plugins.Core

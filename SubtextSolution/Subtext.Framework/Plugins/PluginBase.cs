@@ -15,12 +15,15 @@
 
 using System;
 using Subtext.Extensibility.Attributes;
-using System.Reflection;
 using System.Collections.Specialized;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Extensibility.Plugins
 {
+	/// <summary>
+	/// Base class for all Subtext Plugins.
+	/// </summary>
 	public abstract class PluginBase
 	{
 		/// <summary>
@@ -117,7 +120,6 @@ namespace Subtext.Extensibility.Plugins
         /// <param name="value">Value of the setting</param>
         public void SetBlogSetting(string key, string value)
         {
-
 			if (GetBlogSettings()[key] == null)
             {
 				Plugin.InsertPluginBlogSettings(Id, key, value);
@@ -133,11 +135,11 @@ namespace Subtext.Extensibility.Plugins
         {
 			if (Id == Guid.Empty)
             {
-                throw new InvalidOperationException("BlogSettings cannot be retrieved if a PluginGuid has been specified");
+                throw new InvalidOperationException("BlogSettings cannot be retrieved if a Plugin Id has not been specified");
             }
             else
             {
-				return Subtext.Framework.Configuration.Config.CurrentBlog.EnabledPlugins[Id].Settings;
+				return Config.CurrentBlog.EnabledPlugins[Id].Settings;
             }
         }
 
@@ -183,7 +185,7 @@ namespace Subtext.Extensibility.Plugins
         #region Attribute Accessor Helpers
         private static PluginImplementationInfo GetInfoFromAttribute(Type type)
 		{
-			Attribute[] attrs = System.Attribute.GetCustomAttributes(type, typeof(DescriptionAttribute));
+			Attribute[] attrs = Attribute.GetCustomAttributes(type, typeof(DescriptionAttribute));
 			foreach (Attribute attr in attrs)
 			{
                 DescriptionAttribute descAttr = attr as DescriptionAttribute;
@@ -206,11 +208,11 @@ namespace Subtext.Extensibility.Plugins
 
 		private static Guid GetGuidFromAttribute(Type type)
 		{
-			Attribute[] attrs = System.Attribute.GetCustomAttributes(type, typeof(IdentifierAttribute));
+			Attribute[] attrs = Attribute.GetCustomAttributes(type, typeof(IdentifierAttribute));
 			foreach (Attribute attr in attrs)
 			{
-                IdentifierAttribute idAttr = attr as IdentifierAttribute;
-                if (idAttr != null)
+				IdentifierAttribute idAttr = attr as IdentifierAttribute;
+				if (idAttr != null)
 				{
 					return idAttr.Guid;
 				}

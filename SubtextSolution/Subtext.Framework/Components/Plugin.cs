@@ -56,10 +56,7 @@ namespace Subtext.Framework.Components
 		{
 			_initializedPlugin = plugin;
 			_settings = settings;
-		}
-
-
-		
+		}	
 
 		/// <summary>
 		/// Get all enabled plugins for the current blog with its own settings from the ASP.NET Cache
