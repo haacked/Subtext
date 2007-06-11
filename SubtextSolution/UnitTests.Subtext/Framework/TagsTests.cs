@@ -1,42 +1,14 @@
 using System;
-using System.Globalization;
+using System.Collections.Generic;
 using MbUnit.Framework;
 using Subtext.Framework;
+using Subtext.Framework.Components;
 
 namespace UnitTests.Subtext.Framework
 {
 	[TestFixture]
 	public class TagsTests
 	{
-[RowTest]
-[Row("BASIC", "GFXNH")]
-[Row("ZEBRAHORSE", @"dOL\KRY\]O")]
-public void Test(string input, string expectedOutput)
-{
-	Assert.AreEqual(expectedOutput, prcEncryptPassword(input));
-}
-
-static string prcEncryptPassword(string clearTextPassword)
-{
-	if (clearTextPassword == null)
-		throw new ArgumentNullException("clearTextPassword", "Must specify a clear text password to encrypt.");
-
-	//This is a conversion of the password encryption from BOSS
-	clearTextPassword = clearTextPassword.Trim();
-
-	int index = 0;
-	string[] encrypted = new string[clearTextPassword.Length];
-		 
-	foreach (char character in clearTextPassword)
-	{
-		// Change to new encrypted char 
-		char encryptedCharacter = (char)(character + clearTextPassword.Length);
-		encrypted[index++] = encryptedCharacter.ToString(CultureInfo.InvariantCulture);
-	}
-	return String.Join(string.Empty, encrypted);
-}
-
-
 		[RowTest]
 		[Row(-1, 1, 1)]
 		[Row(0, 1, 2)]
@@ -44,9 +16,34 @@ static string prcEncryptPassword(string clearTextPassword)
 		[Row(.49, 1, 4)]
 		[Row(.9, 1, 5)]
 		[Row(1.9, 1, 6)]
+		[Row(2, 1, 7)]
 		public void CanComputeWeight(double factor, double stdDev, int expected)
 		{
 			Assert.AreEqual(expected, Tags.ComputeWeight(factor, stdDev));
+		}
+
+		[Test]
+		[ExpectedArgumentException]
+		public void GetTopTagsThrowsArgumentExceptionForNegativeValues()
+		{
+			Tags.GetTopTags(-1);
+		}
+
+		[Test]
+		[RollBack]
+		public void GetGetTopTags()
+		{
+			UnitTestHelper.SetupBlog();
+
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "the title for this post", "test");
+			Entries.Create(entry);
+			Tags.SetTagsOnEntry(entry.Id, new List<string>(new string[] {"tag1", "tag2", "tag3"}));
+
+			entry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "the title for this post", @"<a href=""http://blah/tag3/"" rel=""tag"">test</a>");
+			Entries.Create(entry);
+
+			IList<Tag> topTags = Tags.GetTopTags(1);
+			Assert.AreEqual("tag3", topTags[0].TagName);
 		}
 	}
 }

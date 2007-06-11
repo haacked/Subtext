@@ -34,14 +34,13 @@ namespace Subtext.Web.UI.Controls
             set { tags = value; }
         }
 
-        private int itemCount;
-        
-		[DefaultValue(20)]
+        [DefaultValue(20)]
         public int ItemCount
         {
             get { return itemCount; }
             set { itemCount = value; }
         }
+		private int itemCount = 20;
 
         protected virtual void Tags_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {

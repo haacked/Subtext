@@ -659,7 +659,7 @@ namespace Subtext.Framework.Text
 		/// </summary>
 		/// <param name="html"></param>
 		/// <returns></returns>
-		public static List<string> ParseTags(string html)
+		public static IList<string> ParseTags(string html)
         {
 			Regex relRegex = new Regex(@"\s+rel\s*=\s*(""[^""]*?\btag\b.*?""|'[^']*?\btag\b.*?')", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 			Regex hrefRegex = new Regex(@"\s+href\s*=\s*(""(?<url>[^""]*?)""|'(?<url>[^']*?)')", RegexOptions.IgnoreCase | RegexOptions.Singleline);
