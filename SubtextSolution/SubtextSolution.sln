@@ -47,6 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Subtext.Web\ReleaseNotes.txt = Subtext.Web\ReleaseNotes.txt
 		SolutionInfo.cs = SolutionInfo.cs
 		SourceGuidelines.txt = SourceGuidelines.txt
+		Subtext.TestLibrary\Subtext.TestLibrary.csproj = Subtext.TestLibrary\Subtext.TestLibrary.csproj
 		SubtextDocs.ndoc = SubtextDocs.ndoc
 		VersionInfo.Designer.cs = VersionInfo.Designer.cs
 	EndProjectSection
@@ -153,6 +154,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubText.Framework", "Subtex
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext", "Subtext\Subtext.csproj", "{1BEA026A-5D3E-4153-9733-3C5A8EEE1524}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.TestLibrary", "Subtext.TestLibrary\Subtext.TestLibrary.csproj", "{062D373E-FAC0-4451-BF57-8A2352AAC1BB}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -395,6 +402,21 @@ Global
 		{1BEA026A-5D3E-4153-9733-3C5A8EEE1524}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1BEA026A-5D3E-4153-9733-3C5A8EEE1524}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1BEA026A-5D3E-4153-9733-3C5A8EEE1524}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|.NET.ActiveCfg = Documentation|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|Mixed Platforms.ActiveCfg = Documentation|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|Mixed Platforms.Build.0 = Documentation|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Release|.NET.ActiveCfg = Release|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

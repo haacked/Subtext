@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace Subtext.UnitTesting.Servers
+namespace Subtext.TestLibrary.Servers
 {
 	/// <summary>
 	/// Summary description for SimulatedEmailMessage.

@@ -1,6 +1,6 @@
 using System;
 
-namespace Subtext.UnitTesting.Servers
+namespace Subtext.TestLibrary.Servers
 {
 	/// <summary>
 	/// Summary description for SimulatedEmailAddress.
