@@ -41,64 +41,34 @@ namespace Subtext.Framework.Data
 	{
 		#region Statisitics
 
-		public static ViewStat LoadViewStat(IDataReader reader)
-		{
-			ViewStat vStat = new ViewStat();
-
-			if (reader["Title"] != DBNull.Value)
-			{
-				vStat.PageTitle = (string) reader["Title"];
-			}
-
-			if (reader["Count"] != DBNull.Value)
-			{
-				vStat.ViewCount = (int) reader["Count"];
-			}
-
-			if (reader["Day"] != DBNull.Value)
-			{
-				vStat.ViewDate = (DateTime) reader["Day"];
-			}
-
-			if (reader["PageType"] != DBNull.Value)
-			{
-				vStat.PageType = (PageType)((byte)reader["PageType"]);
-			}
-
-            return vStat;
-		}
-
+		/// <summary>
+		/// Loads the referrer from the data reader.
+		/// </summary>
+		/// <param name="reader">The reader.</param>
+		/// <returns></returns>
 		public static Referrer LoadReferrer(IDataReader reader)
 		{
-			Referrer refer = new Referrer();
-
+			Referrer referrer = new Referrer();
 
 			if (reader["URL"] != DBNull.Value)
-			{
-				refer.ReferrerURL = (string) reader["URL"];
-			}
+				referrer.ReferrerURL = (string) reader["URL"];
 
 			if (reader["Title"] != DBNull.Value)
-			{
-				refer.PostTitle = (string) reader["Title"];
-			}
+				referrer.PostTitle = (string) reader["Title"];
 
 			if (reader["EntryID"] != DBNull.Value)
-			{
-				refer.EntryID = (int) reader["EntryID"];
-			}
+				referrer.EntryID = (int) reader["EntryID"];
 
 			if (reader["LastUpdated"] != DBNull.Value)
-			{
-				refer.LastReferDate = (DateTime) reader["LastUpdated"];
-			}
+				referrer.LastReferDate = (DateTime) reader["LastUpdated"];
 
 			if (reader["Count"] != DBNull.Value)
-			{
-				refer.Count = (int) reader["Count"];
-			}
+				referrer.Count = (int) reader["Count"];
 
-			return refer;
+			if (Config.CurrentBlog != null)
+				referrer.BlogID = Config.CurrentBlog.Id;
+
+			return referrer;
 		}
 
 		#endregion

@@ -223,13 +223,6 @@
     <Compile Include="Admin\Statistics.aspx.designer.cs">
       <DependentUpon>Statistics.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\StatsView.aspx.cs">
-      <DependentUpon>StatsView.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\StatsView.aspx.designer.cs">
-      <DependentUpon>StatsView.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Admin\Syndication.aspx.cs">
       <DependentUpon>Syndication.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -866,10 +859,6 @@
       <DependentUpon>Statistics.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Admin\StatsView.aspx.resx">
-      <DependentUpon>StatsView.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Admin\Syndication.aspx.resx">
       <DependentUpon>Syndication.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1039,7 +1028,6 @@
     <Content Include="Admin\Resources\toggle_gray_down.gif" />
     <Content Include="Admin\Resources\toggle_gray_up.gif" />
     <Content Include="Admin\Statistics.aspx" />
-    <Content Include="Admin\StatsView.aspx" />
     <Content Include="Admin\Syndication.aspx">
       <SubType>Form</SubType>
     </Content>
