@@ -16,8 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Xml;
-using System.Configuration;
 using System.Web.Configuration;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Components;
@@ -40,11 +38,8 @@ namespace Subtext.Extensibility.Plugins
 	/// </summary>
 	public sealed class SubtextApplication
 	{
-
 		private EventHandlerList Events = new EventHandlerList();
-		private static readonly object sync = new object();
-
-
+		
 		#region Event Keys (static)
 		//Using objects so that no cast is performed when accessing the eventhandler list
 		private static object EventEntryUpdating = new object();
@@ -332,7 +327,7 @@ namespace Subtext.Extensibility.Plugins
 							e.CallingPluginGuid = currentPlugin.Id;
 							del.DynamicInvoke(sender, e);
 						}
-						catch {}
+						catch(Exception) {} //TODO: What exceptions are we expecting here?
 					}
 				}
 			}

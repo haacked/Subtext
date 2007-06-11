@@ -470,7 +470,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				//if the list of plugins has not been retrived for this BlogInfo
+				//if the list of plugins has not been retrieved for this BlogInfo
 				//I need to retrieve it from the cache (or, if I'm not lucky, from the storage)
 				if (_enabledPlugins == null)
 				{
