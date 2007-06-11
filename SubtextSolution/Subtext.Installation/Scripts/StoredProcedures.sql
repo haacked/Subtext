@@ -1936,6 +1936,7 @@ IF @ExcludeFeedbackStatusMask IS NULL
 	SET @ExcludeFeedbackStatusMask = ~0
 
 DECLARE @FirstDate datetime
+DECLARE @FirstId int
 DECLARE @StartRow int
 DECLARE @StartRowIndex int
 
@@ -1943,13 +1944,14 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT @FirstDate = DateCreated 
+SELECT @FirstDate = DateCreated,
+	@FirstId = f.Id
 FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
 WHERE 	f.BlogId = @BlogId 
 	AND (f.StatusFlag & @StatusFlag = @StatusFlag)
 	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
 	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
-ORDER BY DateCreated DESC
+ORDER BY DateCreated DESC, f.Id DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
@@ -1980,6 +1982,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
 		ON c.Id = f.EntryId
 WHERE 	f.BlogId = @BlogId 
 	AND f.DateCreated <= @FirstDate
+	AND f.Id <= @FirstId
 	AND f.StatusFlag & @StatusFlag = @StatusFlag
 	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
 	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
