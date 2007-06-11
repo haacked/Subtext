@@ -180,6 +180,7 @@ namespace UnitTests.Subtext.Scripting
 		[Test]
 		public void TestScriptCollectionsExpansionWithChanges()
 		{
+
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("Scripting.TestTemplateSqlScript.txt");
 			SqlScriptRunner scriptRunner = new SqlScriptRunner(stream, Encoding.UTF8);
 			Assert.AreEqual(5, scriptRunner.TemplateParameters.Count, "Not the expected number of template parameters. Make sure it merges correctly.");

@@ -88,27 +88,6 @@ namespace UnitTests.Subtext
 			}
 		}
 
-        /// <summary>
-		/// Unpacks an embedded resource into the specified directory. The resource name should 
-		/// be everything after 'UnitTests.Subtext.Resources.'.
-		/// </summary>
-		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
-		/// resource name.</remarks>
-		/// <param name="resourceName"></param>
-		/// <param name="outputPath">The path to write the file as.</param>
-		public static void UnpackEmbeddedResource(string resourceName, string outputPath)
-		{
-			Stream stream = UnpackEmbeddedResource(resourceName);
-			using(StreamReader reader = new StreamReader(stream))
-			{
-				using(StreamWriter writer = File.CreateText(outputPath))
-				{
-					writer.Write(reader.ReadToEnd());
-					writer.Flush();
-				}
-			}
-		}
-
 		/// <summary>
 		/// Unpacks an embedded resource as a string. The resource name should 
 		/// be everything after 'UnitTests.Subtext.Resources.'.
@@ -123,27 +102,6 @@ namespace UnitTests.Subtext
 			using(StreamReader reader = new StreamReader(stream))
 			{
 				return reader.ReadToEnd();
-			}
-		}
-
-		/// <summary>
-		/// Unpacks an embedded binary resource into the specified directory. The resource name should 
-		/// be everything after 'UnitTests.Subtext.Resources.'.
-		/// </summary>
-		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
-		/// resource name.</remarks>
-		/// <param name="resourceName"></param>
-		/// <param name="outputPath">The path to write the file as.</param>
-		public static void UnpackEmbeddedBinaryResource(string resourceName, string outputPath)
-		{
-			using(Stream stream = UnpackEmbeddedResource(resourceName))
-			{
-				byte[] buffer = new byte[stream.Length];
-				stream.Read(buffer, 0, buffer.Length);
-				using(FileStream outStream = File.Create(outputPath))
-				{
-					outStream.Write(buffer, 0, buffer.Length);
-				}
 			}
 		}
 

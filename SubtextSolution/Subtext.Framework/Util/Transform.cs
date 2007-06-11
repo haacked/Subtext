@@ -22,6 +22,7 @@ using System.Web.Caching;
 using log4net;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Util
 {
@@ -110,7 +111,10 @@ namespace Subtext.Framework.Util
 		public static List<string> LoadTransformFile(string filePath)
 		{
 			if (filePath == null)
-				throw new ArgumentNullException("filePath", "The transform filePath is null.");
+				throw new ArgumentNullException("filePath", Resources.ArgumentNull_FileName);
+			
+			if (filePath.Length == 0)
+				throw new ArgumentException(Resources.Argument_StringZeroLength, "filePath");
 
 			string cacheKey = "transformTable-" + Path.GetFileName(filePath);
 
@@ -132,7 +136,8 @@ namespace Subtext.Framework.Util
 
 				if (filePath.Length > 0)
 				{
-
+					if (!Path.IsPathRooted(filePath))
+						filePath = Path.GetFullPath(filePath);
 					using (StreamReader sr = File.OpenText(filePath))
 					{
 						// Read through each set of lines in the text file
