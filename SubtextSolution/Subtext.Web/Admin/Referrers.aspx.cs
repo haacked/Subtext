@@ -32,7 +32,7 @@ namespace Subtext.Web.Admin.Pages
 	{
 		private readonly static ILog log = new Log();
 		private int pageIndex;
-		private int _entryID = NullValue.NullInt32;
+		private int entryId = NullValue.NullInt32;
 	    
 	    public Referrers()
 	    {
@@ -49,9 +49,9 @@ namespace Subtext.Web.Admin.Pages
 					this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 				}
 
-				if (null != Request.QueryString["EntryID"])
+				if (!String.IsNullOrEmpty(Request.QueryString["EntryID"]))
 				{
-					_entryID = Convert.ToInt32(Request.QueryString["EntryID"]);
+					this.entryId = Convert.ToInt32(Request.QueryString["EntryID"]);
 				}
 
 				this.resultsPager.PageSize = Preferences.ListingItemCount;
@@ -64,14 +64,13 @@ namespace Subtext.Web.Admin.Pages
 
 		protected override void BindLocalUI()
 		{
-			if (_entryID == NullValue.NullInt32)
+			if (this.entryId == NullValue.NullInt32)
 			{
-
 				//SetReferalDesc("Referrals");
 			}
 			else
 			{
-				SetReferalDesc("Entry", _entryID.ToString(CultureInfo.InvariantCulture));
+				SetReferalDesc("Entry", entryId.ToString(CultureInfo.InvariantCulture));
 			}
 			base.BindLocalUI();
 		}
@@ -80,15 +79,15 @@ namespace Subtext.Web.Admin.Pages
 		{
 			IPagedCollection<Referrer> referrers;
 
-			if (_entryID == NullValue.NullInt32)
+			if (entryId == NullValue.NullInt32)
 			{
 				referrers = Stats.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize);
 			}
 			else
 			{
 				this.resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", "EntryID",
-					_entryID);
-				referrers = Stats.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize, _entryID);
+					entryId);
+				referrers = Stats.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize, entryId);
 			}
 
 			if (referrers != null && referrers.Count > 0)

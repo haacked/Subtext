@@ -6,7 +6,7 @@ namespace Subtext.Web.Admin.WebUI
 {
     public class StatsPage : AdminPage
     {
-        public StatsPage() : base()
+        public StatsPage()
         {
             this.TabSectionId = "Stats";
         }
@@ -14,12 +14,10 @@ namespace Subtext.Web.Admin.WebUI
         protected virtual void BindLocalUI()
         {
             HyperLink lnkReferrals = Utilities.CreateHyperLink("Referrals", "Referrers.aspx");
-            HyperLink lnkViews = Utilities.CreateHyperLink("Views", "StatsView.aspx");
             HyperLink lnkErrorLog = Utilities.CreateHyperLink("Error Log", "ErrorLog.aspx");
 
             // Add the buttons to the PageContainer.
             AdminMasterPage.AddToActions(lnkReferrals);
-            AdminMasterPage.AddToActions(lnkViews);
             AdminMasterPage.AddToActions(lnkErrorLog);
         }
 
