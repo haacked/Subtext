@@ -18,37 +18,38 @@ using System;
 namespace Subtext.Framework.Components
 {
 	/// <summary>
-	/// Summary description for EntryView.
+	/// Represents the stats for one view of an entry.
 	/// </summary>
 	[Serializable]
 	public class EntryView
 	{
-		private int _blogID;
 		public int BlogId
 		{
-			get {return this._blogID;}
-			set {this._blogID = value;}
+			get {return this.blogId;}
+			set {this.blogId = value;}
 		}
+		private int blogId = NullValue.NullInt32;
 
-		private int _entryId;
 		public int EntryId
 		{
-			get {return this._entryId;}
-			set {this._entryId = value;}
+			get {return this.entryId;}
+			set {this.entryId = value;}
 		}
+		private int entryId = NullValue.NullInt32;
 
-		private string _referralUrl;
+		
 		public string ReferralUrl
 		{
-			get {return this._referralUrl;}
-			set {this._referralUrl = value;}
+			get {return this.referralUrl;}
+			set {this.referralUrl = value;}
 		}
+		private string referralUrl;
 
-		private PageViewType _pageViewType;
 		public PageViewType PageViewType
 		{
-			get {return this._pageViewType;}
-			set {this._pageViewType = value;}
+			get {return this.pageViewType;}
+			set {this.pageViewType = value;}
 		}
+		private PageViewType pageViewType;
 	}
 }

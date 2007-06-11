@@ -134,7 +134,6 @@ namespace UnitTests.Subtext.Framework.Data
 		[Row(10, 5, 2, 5)]
 		[Row(10, 20, 1, 10)]
 		[RollBack]
-		[Ignore("This test fails when run within a Transaction via the RollBack attribute, but succeeds without it.")]
 		public void GetPagedReferralsHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
 		{
 			UnitTestHelper.SetupBlog("blog");
@@ -390,8 +389,7 @@ namespace UnitTests.Subtext.Framework.Data
 			view.BlogId = Config.CurrentBlog.Id;
 			view.PageViewType = PageViewType.WebView;
 			view.ReferralUrl = string.Format("http://localhost:{0}/{1}/", index, UnitTestHelper.GenerateRandomString());
-			Stats.AddQuedStats(view);
-			Stats.ClearQueue(true);
+			Stats.TrackEntry(view);
 			Thread.Sleep(100); //There's no way to fully wait for the worker processes.
 		}
 

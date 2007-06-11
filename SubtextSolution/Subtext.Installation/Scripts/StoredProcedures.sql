@@ -1771,6 +1771,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 AS
 
 DECLARE @FirstDate datetime
+DECLARE @FirstId int
 DECLARE @StartRow int
 DECLARE @StartRowIndex int
 
@@ -1778,39 +1779,42 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT	@FirstDate = DateAdded FROM [<dbUser,varchar,dbo>].[subtext_Content]
+SELECT	@FirstDate = DateAdded 
+	, @FirstId = ID
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	BlogId = @BlogId 
 	AND PostType = @PostType 
-ORDER BY DateAdded DESC
+ORDER BY DateAdded DESC, ID DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
 SET ROWCOUNT @PageSize
 
-SELECT	content.BlogId 
-		, content.[ID] 
-		, content.AuthorId 
-		, content.Title 
-		, content.DateAdded 
-		, content.[Text] 
-		, content.[Description]
-		, content.PostType 
-		, content.DateUpdated 
-		, FeedbackCount = ISNULL(content.FeedbackCount, 0)
-		, content.PostConfig
-		, content.EntryName
-		, content.DateSyndicated
+SELECT	c.BlogId 
+		, c.[ID] 
+		, c.AuthorId 
+		, c.Title 
+		, c.DateAdded 
+		, c.[Text] 
+		, c.[Description]
+		, c.PostType 
+		, c.DateUpdated 
+		, FeedbackCount = ISNULL(c.FeedbackCount, 0)
+		, c.PostConfig
+		, c.EntryName
+		, c.DateSyndicated
 		, vc.WebCount
 		, vc.AggCount
 		, vc.WebLastUpdated
 		, vc.AggLastUpdated
 		
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
-WHERE 	content.BlogId = @BlogId 
-	AND content.DateAdded <= @FirstDate
+FROM [<dbUser,varchar,dbo>].[subtext_Content] c
+	LEFT JOIN  [<dbUser,varchar,dbo>].subtext_EntryViewCount vc ON (c.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
+WHERE 	c.BlogId = @BlogId 
+	AND c.DateAdded <= @FirstDate
+	AND c.ID <= @FirstId
 	AND PostType = @PostType
-ORDER BY content.DateAdded DESC
+ORDER BY c.DateAdded DESC
  
 SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
@@ -1848,6 +1852,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
 AS
 
 DECLARE @FirstDate datetime
+DECLARE @FirstId int
 DECLARE @StartRow int
 DECLARE @StartRowIndex int
 
@@ -1855,53 +1860,55 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT	@FirstDate = DateAdded 
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = ISNULL(links.PostID, -1)
+SELECT	@FirstDate = c.DateAdded 
+	, @FirstId = ID
+FROM [<dbUser,varchar,dbo>].[subtext_Content] c
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON c.[ID] = ISNULL(links.PostID, -1)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
-WHERE	content.BlogId = @BlogId 
-	AND content.PostType = @PostType 
+WHERE	c.BlogId = @BlogId 
+	AND c.PostType = @PostType 
 	AND cats.CategoryID = @CategoryID
-ORDER BY content.DateAdded DESC
+ORDER BY c.DateAdded DESC, c.ID DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
 SET ROWCOUNT @PageSize
 
-SELECT	content.BlogId 
-		, content.[ID] 
-		, content.AuthorId
-		, content.Title 
-		, content.DateAdded 
-		, content.[Text] 
-		, content.[Description]
-		, content.PostType 
-		, content.DateUpdated 
-		, FeedbackCount = ISNULL(content.FeedbackCount, 0)
-		, content.PostConfig
-		, content.EntryName
-		, content.DateSyndicated
+SELECT	c.BlogId 
+		, c.[ID] 
+		, c.AuthorId
+		, c.Title 
+		, c.DateAdded 
+		, c.[Text] 
+		, c.[Description]
+		, c.PostType 
+		, c.DateUpdated 
+		, FeedbackCount = ISNULL(c.FeedbackCount, 0)
+		, c.PostConfig
+		, c.EntryName
+		, c.DateSyndicated
 		, vc.WebCount
 		, vc.AggCount
 		, vc.WebLastUpdated
 		, vc.AggLastUpdated
 		
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] l ON content.[ID] = ISNULL(l.PostID, -1)
+FROM [<dbUser,varchar,dbo>].[subtext_Content] c
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] l ON c.[ID] = ISNULL(l.PostID, -1)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (l.CategoryID = cats.CategoryID)
-	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
-WHERE 	content.BlogId = @BlogId 
-	AND content.DateAdded <= @FirstDate
-	AND content.PostType = @PostType
+	Left JOIN  subtext_EntryViewCount vc ON (c.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
+WHERE 	c.BlogId = @BlogId 
+	AND c.DateAdded <= @FirstDate
+	AND c.ID <= @FirstId
+	AND c.PostType = @PostType
 	AND cats.CategoryID = @CategoryID
-ORDER BY content.DateAdded DESC
+ORDER BY c.DateAdded DESC, c.ID DESC
  
-SELECT COUNT(content.[ID]) AS TotalRecords
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = ISNULL(links.PostID, -1)
+SELECT COUNT(c.[ID]) AS TotalRecords
+FROM [<dbUser,varchar,dbo>].[subtext_Content] c
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON c.[ID] = ISNULL(links.PostID, -1)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
-WHERE 	content.BlogId = @BlogId 
-	AND content.PostType = @PostType 
+WHERE 	c.BlogId = @BlogId 
+	AND c.PostType = @PostType 
 	AND cats.CategoryID = @CategoryID
 
 GO
@@ -2305,16 +2312,21 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]
 AS
 
 DECLARE @FirstDate DateTime
+DECLARE @FirstEntryId int
+DECLARE @FirstUrlId int
 DECLARE @StartRow int
 DECLARE @StartRowIndex int
 
 SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
-SELECT	@FirstDate = [LastUpdated] FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
+SELECT	@FirstDate = [LastUpdated] 
+	, @FirstEntryId = [EntryID]
+	, @FirstUrlId = [UrlID]
+FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
 WHERE	BlogId = @BlogId 
 	AND (EntryID = @EntryID OR @EntryID IS NULL)
-ORDER BY [LastUpdated] DESC
+ORDER BY [LastUpdated] DESC, [EntryID] DESC, UrlID DESC
 
 SET ROWCOUNT @PageSize
 
@@ -2329,7 +2341,9 @@ FROM [<dbUser,varchar,dbo>].[subtext_Referrals] r
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_URLs] u ON u.UrlID = r.UrlID
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c ON c.ID = r.EntryID
 WHERE 
-	r.LastUpdated <= @FirstDate
+		r.LastUpdated <= @FirstDate
+	AND r.EntryID <= @FirstEntryId
+	AND r.UrlID <= @FirstUrlId
 	AND (r.EntryID = @EntryID OR @EntryID IS NULL)
 	AND r.BlogId = @BlogId
 ORDER BY r.[LastUpdated] DESC
@@ -2364,25 +2378,25 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryID]
 )
 AS
 SET ROWCOUNT @ItemCount
-SELECT	content.BlogId
-	, content.[ID]
-	, content.AuthorId
-	, content.Title
-	, content.DateAdded
-	, content.[Text]
-	, content.[Description]
-	, content.PostType
-	, content.DateUpdated
-	, FeedbackCount = ISNULL(content.FeedbackCount, 0)
-	, content.PostConfig
-	, content.EntryName 
-	, content.DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links WITH (NOLOCK) ON content.ID = ISNULL(links.PostID, -1)
+SELECT	c.BlogId
+	, c.[ID]
+	, c.AuthorId
+	, c.Title
+	, c.DateAdded
+	, c.[Text]
+	, c.[Description]
+	, c.PostType
+	, c.DateUpdated
+	, FeedbackCount = ISNULL(c.FeedbackCount, 0)
+	, c.PostConfig
+	, c.EntryName 
+	, c.DateSyndicated
+FROM [<dbUser,varchar,dbo>].[subtext_Content] c WITH (NOLOCK)
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links WITH (NOLOCK) ON c.ID = ISNULL(links.PostID, -1)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories WITH (NOLOCK) ON links.CategoryID = categories.CategoryID
-WHERE  content.BlogId = @BlogId 
-	AND content.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END AND categories.CategoryID = @CategoryID
-ORDER BY content.DateAdded DESC
+WHERE  c.BlogId = @BlogId 
+	AND c.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END AND categories.CategoryID = @CategoryID
+ORDER BY c.DateAdded DESC
 
 
 GO

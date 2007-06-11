@@ -27,6 +27,9 @@ namespace Subtext.Framework
 	/// Class used for managing stats. Provides facilities for queing stats. 
 	/// This is used for trackbacks and pingbacks.
 	/// </summary>
+	/// <remarks>
+	/// Currently, we only track referrers to specific entries.
+	/// </remarks>
 	public static class Stats
 	{
 		static List<EntryView> queuedStatsList = null;
@@ -48,20 +51,19 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="save">Save.</param>
 		/// <returns></returns>
-		public static bool ClearQueue(bool save)
+		public static void ClearQueue(bool save)
 		{
 			using(TimedLock.Lock(queuedStatsList))
 			{
 				if(save)
 				{
-					EntryView[] eva = new EntryView[queuedStatsList.Count];
-					queuedStatsList.CopyTo(eva, 0);
+					EntryView[] entryViews = new EntryView[queuedStatsList.Count];
+					queuedStatsList.CopyTo(entryViews, 0);
 
-					ClearTrackEntryQueue(new List<EntryView>(eva));
+					ClearTrackEntryQueue(new List<EntryView>(entryViews));
 				}
 				queuedStatsList.Clear();	
 			}
-			return true;
 		}
 
 		/// <summary>

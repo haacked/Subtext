@@ -29,6 +29,7 @@ using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
 using Rhino.Mocks;
+using SubSonic;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -60,7 +61,33 @@ namespace UnitTests.Subtext
 	        }
 	    }
 		internal static readonly string MembershipTestPassword = GenerateRandomString();
-		
+
+		public static void ClearAllBlogData()
+		{
+			string[] tables = new string[]
+				{
+					"subtext_KeyWords"	
+					,"subtext_Images"	
+					,"subtext_Links"
+					,"subtext_EntryViewCount"
+					,"subtext_Log"
+					,"subtext_Feedback"
+					,"subtext_EntryTag"
+					,"subtext_Tag"
+					,"subtext_Content"
+					,"subtext_LinkCategories"
+					,"subtext_Config"
+					,"subtext_Referrals"
+					,"subtext_URLs"
+				};
+
+			foreach(string tableName in tables)
+			{
+				QueryCommand command = new QueryCommand(string.Format("DELETE [{0}]", tableName));
+				DataService.ExecuteQuery(command);
+			}
+		}
+
         /// <summary>
 		/// Unpacks an embedded resource into the specified directory. The resource name should 
 		/// be everything after 'UnitTests.Subtext.Resources.'.
