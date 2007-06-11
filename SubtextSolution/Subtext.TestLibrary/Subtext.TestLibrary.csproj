@@ -108,13 +108,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\LumiSoft.Net.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit.Framework, Version=1.0.2642.28107, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+    <Reference Include="MbUnit.Framework, Version=1.0.2700.29885, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\MbUnit.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\MbUnit.Framework.2.0.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -135,20 +131,13 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ReceivedEmailMessage.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="SelfTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestEmailAddress.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestSmtpServer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestWebServer.cs" />
-    <EmbeddedResource Include="TestResource.txt" />
+    <Compile Include="Servers\ReceivedEmailMessage.cs" />
+    <Compile Include="Servers\TestEmailAddress.cs" />
+    <Compile Include="Servers\TestSmtpServer.cs" />
+    <Compile Include="Servers\TestWebServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
