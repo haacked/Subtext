@@ -30,6 +30,7 @@ namespace UnitTests.Subtext.BlogML
 		/// the mapping between the post and category.
 		/// </summary>
 		[Test]
+		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SinglePostWithCategory.xml", typeof(SubtextBlogMlWriterTests))]
 		[RollBack]
 		public void CanWritePostWithCategoryAndImportTheOutput()
 		{
@@ -39,7 +40,7 @@ namespace UnitTests.Subtext.BlogML
 			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
 			provider.ConnectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
 			BlogMLReader reader = BlogMLReader.Create(provider);
-			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithCategory.xml");
+			Stream stream = ExtractResourceAttribute.Stream;
 			reader.ReadBlog(stream);
 
 			// Make sure we created a post with a category.

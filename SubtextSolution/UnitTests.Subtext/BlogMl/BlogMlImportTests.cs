@@ -20,17 +20,32 @@ namespace UnitTests.Subtext.Framework.Import
 	/// </summary>
     [TestFixture]
     public class BlogMLImportTests
-    {		
-        [Test]
-        [RollBack]
-        public void ReadBlogCreatesEntriesAndAttachments()
-        {
+    {
+		[Test]
+		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.TwoCategories.xml", typeof(BlogMLImportTests))]
+		[RollBack]
+		public void CanReadAndCreateCategories()
+		{
+			UnitTestHelper.SetupBlog();
+
+			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
+			reader.ReadBlog(ExtractResourceAttribute.Stream);
+
+			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+			Assert.AreEqual(2, categories.Count, "Expected two categories to be created");
+		}
+
+		[Test]
+		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SimpleBlogMl.xml", typeof(BlogMLImportTests))]
+		[RollBack]
+		public void ReadBlogCreatesEntriesAndAttachments()
+		{
             //Create blog.
 			UnitTestHelper.SetupBlog();
         	
             //Test BlogML reader.
             BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
-            Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml");
+            Stream stream = ExtractResourceAttribute.Stream;
             reader.ReadBlog(stream);
 
             IList<Entry> entries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);
@@ -38,30 +53,17 @@ namespace UnitTests.Subtext.Framework.Import
 
             string[] attachments = Directory.GetFiles(Config.CurrentBlog.ImageDirectory, "*.png");
             Assert.AreEqual(3, attachments.Length, "There should be two file attachments created.");
-        }
-
-		[Test]
-		[RollBack]
-		public void CanReadAndCreateCategories()
-		{
-			UnitTestHelper.SetupBlog();
-
-			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
-			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.TwoCategories.xml");
-			reader.ReadBlog(stream);
-
-			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
-			Assert.AreEqual(2, categories.Count, "Expected two categories to be created");
 		}
 
 		[Test]
+		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SinglePostWithCategory.xml", typeof(BlogMLImportTests))]
 		[RollBack]
 		public void CanPostAndReferenceCategoryAppropriately()
 		{
 			UnitTestHelper.SetupBlog();
 
 			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
-			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithCategory.xml");
+			Stream stream = ExtractResourceAttribute.Stream;
 			reader.ReadBlog(stream);
 
 			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
@@ -77,13 +79,14 @@ namespace UnitTests.Subtext.Framework.Import
 		/// doesn't exist, then we just don't add that category.
 		/// </summary>
 		[Test]
+		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SinglePostWithBadCategoryRef.xml", typeof(BlogMLImportTests))]
 		[RollBack]
 		public void ImportOfPostWithBadCategoryRefHandlesGracefully()
 		{
 			UnitTestHelper.SetupBlog();
 
 			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
-			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithBadCategoryRef.xml");
+			Stream stream = ExtractResourceAttribute.Stream;
 			reader.ReadBlog(stream);
 
 			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
@@ -95,6 +98,7 @@ namespace UnitTests.Subtext.Framework.Import
 		}
 
         [Test]
+		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SimpleBlogMl.xml", typeof(BlogMLImportTests))]
         [RollBack]
         public void RoundTripBlogMlTest()
         {
@@ -102,7 +106,7 @@ namespace UnitTests.Subtext.Framework.Import
 
             // Import /Resources/BlogMl/SimpleBlogMl.xml into the current blog
 			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
-            Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml");
+			Stream stream = ExtractResourceAttribute.Stream;
             reader.ReadBlog(stream);
 
         	// Confirm the entries

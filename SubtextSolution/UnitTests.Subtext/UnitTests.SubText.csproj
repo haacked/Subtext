@@ -118,7 +118,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit.Framework, Version=1.0.2642.28107, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+    <Reference Include="MbUnit.Framework, Version=1.0.2700.29885, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\MbUnit.Framework.dll</HintPath>
     </Reference>
@@ -225,9 +225,9 @@
       <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.UnitTesting.Servers\Subtext.UnitTesting.Servers.csproj">
+    <ProjectReference Include="..\Subtext.UnitTesting.Servers\Subtext.Test.Library.csproj">
       <Project>{062D373E-FAC0-4451-BF57-8A2352AAC1BB}</Project>
-      <Name>Subtext.UnitTesting.Servers</Name>
+      <Name>Subtext.Test.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
       <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
@@ -425,7 +425,6 @@
     <EmbeddedResource Include="Resources\BlogMl\SinglePostWithBadCategoryRef.xml" />
     <EmbeddedResource Include="Resources\BlogMl\SinglePostWithCategory.xml" />
     <EmbeddedResource Include="Resources\BlogMl\TwoCategories.xml" />
-    <EmbeddedResource Include="Resources\BlogMl\SimpleBlogMl.xml" />
     <None Include="App.config" />
     <EmbeddedResource Include="Resources\Skins\Skins.User.config" />
     <EmbeddedResource Include="Resources\Skins\Skins.config" />
@@ -435,6 +434,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\BlogMl\SimpleBlogMl.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

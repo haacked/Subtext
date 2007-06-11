@@ -41,6 +41,7 @@ namespace UnitTests.Subtext.BlogML
 		}
 
 		[Test]
+		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SimpleBlogMl.xml", typeof(BlogMLReaderTests))]
 		public void ImportCallsPreAndCompleteMethods()
 		{
 			MockRepository mocks = new MockRepository();
@@ -53,7 +54,7 @@ namespace UnitTests.Subtext.BlogML
 			
 			mocks.ReplayAll();
 			BlogMLReader reader = BlogMLReader.Create(provider);
-			using (Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml"))
+			using (Stream stream = ExtractResourceAttribute.Stream)
 			{
 				reader.ReadBlog(stream);
 			}
