@@ -254,8 +254,11 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			Entry entry = SetupBlogForCommentsAndCreateEntry();
 
 			FeedbackItem commentOne = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
+			Thread.Sleep(10);
 			FeedbackItem commentTwo = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.ApprovedByModerator);
+			Thread.Sleep(10);
 			FeedbackItem commentThree = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.ConfirmedSpam);
+			Thread.Sleep(10);
 			FeedbackItem.ConfirmSpam(commentThree);
 			FeedbackItem commentFour = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.FalsePositive);
 			
