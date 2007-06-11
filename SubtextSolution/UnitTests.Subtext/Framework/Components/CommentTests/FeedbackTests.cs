@@ -265,8 +265,8 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			
 			//Expect reverse order
 			Assert.AreEqual(commentOne.Id, feedback[2].Id, "The first does not match");
-			Assert.AreEqual(commentTwo.Id, feedback[1].Id, "The first does not match");
-			Assert.AreEqual(commentFour.Id, feedback[0].Id, "The first does not match");
+			Assert.AreEqual(commentTwo.Id, feedback[1].Id, "The second does not match");
+			Assert.AreEqual(commentFour.Id, feedback[0].Id, "The third does not match");
 		}
 		
 		[Test]
@@ -316,7 +316,9 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
 			CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.ConfirmedSpam);
 			FeedbackItem included = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.FlaggedAsSpam);
+			Thread.Sleep(10);
 			FeedbackItem includedToo = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.FlaggedAsSpam | FeedbackStatusFlags.NeedsModeration);
+			Assert.Greater(includedToo.DateCreated, included.DateCreated);
 
 			//We expect 2 of the four.
 			IPagedCollection<FeedbackItem> feedback = FeedbackItem.GetPagedFeedback(0, 10, FeedbackStatusFlags.FlaggedAsSpam, FeedbackStatusFlags.Approved | FeedbackStatusFlags.Deleted, FeedbackType.Comment);
