@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.Installation
 	public class InstallationManagerTests
 	{
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetCurrentInstallationState()
 		{
 			QueryCommand command = new QueryCommand("Delete subtext_Version");
@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.Installation
 		/// Determines whether [is in host admin directory returns true result].
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void IsInHostAdminDirectoryReturnsTrueResult()
 		{
 			UnitTestHelper.SetupBlog(string.Empty, "Subtext.Web", "HostAdmin/Import/BlahBlah.aspx");
@@ -55,7 +55,7 @@ namespace UnitTests.Subtext.Installation
 		/// Determines whether [is in host admin directory returns true result].
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void IsInUpgradeDirectoryReturnsTrueResult()
 		{
 			UnitTestHelper.SetupBlog(string.Empty, "Subtext.Web", "HostAdmin/Upgrade/BlahBlah.aspx");
@@ -66,7 +66,7 @@ namespace UnitTests.Subtext.Installation
 		/// Determines whether [is in host admin directory returns true result].
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void IsInSystemMessageDirectoryReturnsTrueResult()
 		{
 			UnitTestHelper.SetupBlog(string.Empty, "Subtext.Web", "SystemMessages/BlahBlah.aspx");
@@ -93,7 +93,7 @@ namespace UnitTests.Subtext.Installation
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void IsIntstallationActionRequiredReturnsTrue()
 		{
 			UnitTestHelper.SetupHttpContextWithRequest("");
@@ -109,7 +109,7 @@ namespace UnitTests.Subtext.Installation
 		/// an installation action is required.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void IsInstallationActionRequiredReturnsCorrectAnswerForExceptions()
 		{
 			Assert.IsFalse(InstallationManager.InstallationActionRequired(new Exception("host"), VersionInfo.FrameworkVersion));
@@ -141,7 +141,7 @@ namespace UnitTests.Subtext.Installation
 		/// Determines whether [is in install directory reports correct result].
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void IsInInstallDirectoryReportsTrueCorrectly()
 		{
 			AssertIsInInstallDirectory("VirtDir", UnitTestHelper.GenerateRandomString());
@@ -153,7 +153,7 @@ namespace UnitTests.Subtext.Installation
 		/// Determines whether [is in install directory reports correct result].
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void IsInInstallDirectoryReportsFalseCorrectly()
 		{
 			AssertNotInInstallDirectory(UnitTestHelper.GenerateRandomString(), "");

@@ -108,7 +108,7 @@ namespace UnitTests.Subtext.Framework.Format
 		/// Makes sure that url formatting is culture invariant.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void FormattingEntryUrlIsCultureInvariant()
 		{
 			Entry entry = new Entry(PostType.BlogPost);
@@ -130,7 +130,7 @@ namespace UnitTests.Subtext.Framework.Format
 		/// Makes sure the method GetEditLink distringuishes between a post and article.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void GetEditLinkDistringuishesBetweenPostAndArticle()
 		{
 			UnitTestHelper.SetupBlog();
@@ -148,7 +148,7 @@ namespace UnitTests.Subtext.Framework.Format
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void GetBlogNameReturnsBlogNameForEmptyVirtualDir()
 		{
 			UnitTestHelper.SetupBlog("MyBlog");
@@ -159,7 +159,7 @@ namespace UnitTests.Subtext.Framework.Format
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void GetBlogNameReturnsBlogNameForNonEmptyVirtualDir()
 		{
 			UnitTestHelper.SetupBlog("MyBlog2", "Subtext.Web");

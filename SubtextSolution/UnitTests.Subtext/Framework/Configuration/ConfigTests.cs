@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         #region GetBlogInfo tests
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CurrentBlogReturnsNullWhenContextIsNull()
 		{
 			HttpContext.Current = null;
@@ -48,7 +48,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// after the test is done)?
 		/// </remarks>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CurrentBlogReturnsNullWhenNoBlogsExistAndInInstallDirectory()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "Install", "", "Default.aspx");
@@ -66,7 +66,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// we still return null when in the context of the HostAdmin request.
 		/// </remarks>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CurrentBlogReturnNsullWhenInHostAdminDirectory()
 		{
 			UnitTestHelper.ClearAllBlogData();
@@ -91,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// hostName "mydomain.com".
         /// </remarks>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetBlogInfoFindsBlogWithUniqueHostName()
         {
             string anotherHost = UnitTestHelper.GenerateRandomString();
@@ -110,7 +110,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// subfolder when the system has multiple blogs with the same Host.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetBlogInfoFindsBlogWithUniqueHostAndSubfolder()
         {
             string subfolder1 = UnitTestHelper.GenerateRandomString();
@@ -128,7 +128,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         }
         
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetBlogInfoDoesNotFindBlogWithWrongSubfolderInMultiBlogSystem()
         {
             string subfolder1 = UnitTestHelper.GenerateRandomString();

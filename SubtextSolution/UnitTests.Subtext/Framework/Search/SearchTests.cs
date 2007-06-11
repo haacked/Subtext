@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Search
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanSearch()
 		{
 			UnitTestHelper.SetupBlog();
@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Search
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedArgumentNullException]
 		public void SearchThrowsNullReferenceException()
 		{

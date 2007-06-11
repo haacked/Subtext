@@ -30,7 +30,7 @@ namespace UnitTests.Subtext.Installation
 		/// properly gathers the information.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void InstallationInformationGatheringProcessGathersCorrectInfo()
 		{
 			InstallerProvider provider = Installer.Provider;

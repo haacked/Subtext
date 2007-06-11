@@ -21,7 +21,7 @@ namespace UnitTests.Subtext.Framework.Data
 		/// This test is to make sure a bug I introduced never happens again.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void GetEntryFromRequestDoesNotThrowNullReferenceException()
 		{
 			UnitTestHelper.SetupBlog();
@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Data
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void SingleCategoryReturnsNullForNonExistentCategory()
 		{
 			UnitTestHelper.SetupBlog();
@@ -47,7 +47,7 @@ namespace UnitTests.Subtext.Framework.Data
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetCategoryByIdRequest()
 		{
 			UnitTestHelper.SetupBlog();
@@ -60,7 +60,7 @@ namespace UnitTests.Subtext.Framework.Data
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetCategoryByNameRequest()
 		{
 			UnitTestHelper.SetupBlog();
@@ -72,7 +72,7 @@ namespace UnitTests.Subtext.Framework.Data
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetCategoryByNameWithWordDelimitersRequest()
 		{
 			UnitTestHelper.SetupBlog();
@@ -88,7 +88,7 @@ namespace UnitTests.Subtext.Framework.Data
 		/// Locale correctly.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void GetActiveCategoriesHandlesLocale()
 		{
 			UnitTestHelper.SetupBlog();

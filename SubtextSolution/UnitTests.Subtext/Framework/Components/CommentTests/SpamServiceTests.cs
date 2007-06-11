@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RowTest]
 		[Row(true, false)]
 		[Row(false, false)]
-		[RollBack]
+		[RollBack2]
 		public void FeedbackCreateCallsCommentService(bool isSpam, bool isAdmin)
 		{
 			UnitTestHelper.SetupBlog();

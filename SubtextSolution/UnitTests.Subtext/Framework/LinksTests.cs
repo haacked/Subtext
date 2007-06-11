@@ -30,7 +30,7 @@ namespace UnitTests.Subtext.Framework
 	public class LinksTests
 	{
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetCategoriesByPostId()
 		{
 			UnitTestHelper.SetupBlog();
@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetActiveCategories()
 		{
 			UnitTestHelper.SetupBlog();
@@ -75,7 +75,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanUpdateLink()
 		{
 			UnitTestHelper.SetupBlog();
@@ -103,7 +103,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanCreateAndDeleteLink()
 		{
 			UnitTestHelper.SetupBlog();
@@ -124,7 +124,7 @@ namespace UnitTests.Subtext.Framework
 		}
 		
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanCreateAndDeleteLinkCategory()
 		{
 			UnitTestHelper.SetupBlog();
@@ -151,7 +151,7 @@ namespace UnitTests.Subtext.Framework
 		/// Ensures CreateLinkCategory assigns unique CatIDs
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CreateLinkCategoryAssignsUniqueCatIDs()
 		{
 			UnitTestHelper.SetupBlog();
@@ -174,7 +174,7 @@ namespace UnitTests.Subtext.Framework
 		/// Ensure UpdateLInkCategory updates the correct link category
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void UpdateLinkCategoryIsFine()
 		{
 			UnitTestHelper.SetupBlog();

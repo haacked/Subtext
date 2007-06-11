@@ -13,7 +13,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 	public class CommentSettingsTests
 	{
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CommentModerationDisabledCausesNewCommentsToBeActive()
 		{
 			UnitTestHelper.SetupBlog("MyBlog1");
@@ -35,7 +35,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 		
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CommentModerationEnabledCausesNewCommentsToBeInactive()
 		{
 			UnitTestHelper.SetupBlog("MyBlog1");
@@ -64,7 +64,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 		
 		[Test]
-		[RollBack]
+		[RollBack2]
 		[ExpectedArgumentNullException]
 		public void ApproveThrowsArgumentNullException()
 		{

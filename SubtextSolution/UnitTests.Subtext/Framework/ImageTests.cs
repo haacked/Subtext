@@ -36,7 +36,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanUpdate()
 		{
 			Image image = CreateImageInstance();
@@ -60,7 +60,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetLocalGalleryFilePath()
 		{
 			UnitTestHelper.SetupBlog();
@@ -68,7 +68,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetGalleryVirtualUrl()
 		{
 			UnitTestHelper.SetupBlog();
@@ -82,7 +82,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetImagesByCategoryId()
 		{
 			UnitTestHelper.SetupBlog();
@@ -109,7 +109,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanSaveImage()
 		{
 			string filePath = Path.GetFullPath(@TestDirectory + Path.DirectorySeparatorChar + "test.gif");
@@ -148,7 +148,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanInsertAndDeleteImage()
 		{
 			int imageId = 0;

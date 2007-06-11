@@ -22,7 +22,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanGetPagedReferrersForNonEntryReferrer()
 		{
 			UnitTestHelper.SetupBlog();	
@@ -112,7 +112,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanTrackAggregateView()
 		{
 			TestTrackingEntryViews(delegate(EntryView[] entryViews)
@@ -127,7 +127,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanTrackWebView()
 		{
 			TestTrackingEntryViews(delegate(EntryView[] entryViews)
@@ -139,7 +139,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanTrackWebViews()
 		{
 			TestTrackingEntryViews(delegate(EntryView[] entryViews)

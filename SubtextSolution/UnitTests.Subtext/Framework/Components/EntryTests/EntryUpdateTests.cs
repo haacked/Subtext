@@ -15,7 +15,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	public class EntryUpdateTests
 	{
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanDeleteEntry()
 		{
 			UnitTestHelper.SetupBlog();
@@ -36,7 +36,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Tests that setting the date syndicated to null removes the item from syndication.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void SettingDateSyndicatedToNullRemovesItemFromSyndication()
 		{
 			UnitTestHelper.SetupBlog();
@@ -73,7 +73,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void UpdateEntryCorrectsNumericEntryName()
         {
         	UnitTestHelper.SetupBlog();
@@ -99,7 +99,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         }
 
 		[Test]
-        [RollBack]
+        [RollBack2]
         public void UpdateEntryWithNullDateSetsDate()
 		{
 			UnitTestHelper.SetupBlog();

@@ -10,7 +10,7 @@ namespace UnitTests.Subtext.Framework
 	public class HostInfoTests
 	{
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanLoadHost()
 		{
 			SetupHostInfo();
@@ -22,7 +22,7 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CanSetApplicationId()
 		{
 			SetupHostInfo();

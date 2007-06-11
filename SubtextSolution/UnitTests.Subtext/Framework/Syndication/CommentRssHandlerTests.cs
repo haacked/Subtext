@@ -26,7 +26,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		/// </para>
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CommentRssHandlerProducesValidEmptyFeed()
 		{
 			SimulatedRequestContext context = UnitTestHelper.SetupBlog();

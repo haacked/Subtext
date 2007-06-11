@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		/// Tests that a valid feed is produced even if a post has no comments.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CommentRssWriterProducesValidEmptyFeed()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog");
@@ -83,7 +83,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		/// Tests that a valid feed is produced even if a post has no comments.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void CommentRssWriterProducesValidFeed()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");

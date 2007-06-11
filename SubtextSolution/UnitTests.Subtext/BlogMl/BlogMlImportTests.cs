@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Import
     {
 		[Test]
 		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.TwoCategories.xml", typeof(BlogMLImportTests))]
-		[RollBack]
+		[RollBack2]
 		public void CanReadAndCreateCategories()
 		{
 			UnitTestHelper.SetupBlog();
@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Import
 
 		[Test]
 		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SimpleBlogMl.xml", typeof(BlogMLImportTests))]
-		[RollBack]
+		[RollBack2]
 		public void ReadBlogCreatesEntriesAndAttachments()
 		{
             //Create blog.
@@ -57,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Import
 
 		[Test]
 		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SinglePostWithCategory.xml", typeof(BlogMLImportTests))]
-		[RollBack]
+		[RollBack2]
 		public void CanPostAndReferenceCategoryAppropriately()
 		{
 			UnitTestHelper.SetupBlog();
@@ -80,7 +80,7 @@ namespace UnitTests.Subtext.Framework.Import
 		/// </summary>
 		[Test]
 		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SinglePostWithBadCategoryRef.xml", typeof(BlogMLImportTests))]
-		[RollBack]
+		[RollBack2]
 		public void ImportOfPostWithBadCategoryRefHandlesGracefully()
 		{
 			UnitTestHelper.SetupBlog();
@@ -99,7 +99,7 @@ namespace UnitTests.Subtext.Framework.Import
 
         [Test]
 		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SimpleBlogMl.xml", typeof(BlogMLImportTests))]
-        [RollBack]
+        [RollBack2]
         public void RoundTripBlogMlTest()
         {
 			UnitTestHelper.SetupBlog();

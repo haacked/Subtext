@@ -88,7 +88,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("Barça is a nice town", char.MinValue, "Bar%c3%a7aIsANiceTown")]
 		[Row("Perchè Più felicità può ed é?", char.MinValue, "Perch%c3%a8Pi%c3%b9Felicit%c3%a0Pu%c3%b2Ed%c3%89")]
 		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<> X", char.MinValue, "X")]
-		[RollBack]
+		[RollBack2]
 		public void FriendlyUrlGeneratesNiceUrl(string title, char separator, string expected)
 		{
 			UnitTestHelper.SetupBlog();
@@ -97,7 +97,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 		[RowTest]
 		[Row("THIS IS A NEW TEST", TextTransform.LowerCase, "this-is-a-new-test")]
-		[RollBack]
+		[RollBack2]
 		public void FriendlyUrlCanTransformText(string title, TextTransform transform, string expected)
 		{
 			UnitTestHelper.SetupBlog();
@@ -122,7 +122,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("Perchè Più felicità può ed é?", "Perch%c3%a8_Pi%c3%b9_felicit%c3%a0_pu%c3%b2_ed_%c3%a9")]
 		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<> Y", "Y")]
 		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<>YY", "YY")]
-		[RollBack]
+		[RollBack2]
 		public void FriendlyUrlGeneratesNiceUrlWithUnderscores(string title, string expected)
 		{
 			UnitTestHelper.SetupBlog();
@@ -136,7 +136,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("Title.", "Title")]
 		[Row("Contains.PeriodAlready", "Contains.PeriodAlready")]
 		[Row("A Very Good Book yo..", "A.Very.Good.Book.yo")]
-		[RollBack]
+		[RollBack2]
 		public void FriendlyUrlGeneratesNiceUrlWithPeriods(string title, string expected)
 		{
 			UnitTestHelper.SetupBlog();
@@ -148,7 +148,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row(char.MinValue, "OneTwo")]
 		[Row('.', "One.Two")]
 		[Row('-', "One-Two")]
-		[RollBack]
+		[RollBack2]
 		public void FriendlyUrlHandlesBadSeparators(char wordSeparator, string expected)
 		{
 			UnitTestHelper.SetupBlog();
@@ -162,7 +162,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Entryname should take precedence.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void FriendlyUrlDoesNotOverrideEntryName()
 		{
 			UnitTestHelper.SetupBlog();
@@ -182,7 +182,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [RowTest]
         [Row("12345", '_', "n_12345")]
         [Row("12345f", '_', "12345f")]
-        [RollBack]
+        [RollBack2]
         public void GenerateFriendlyUrlFixesNumericTitles(string title, char wordSeparator, string expected)
         {
 			UnitTestHelper.SetupBlog();
@@ -194,7 +194,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Make sure that generated friendly urls are unique.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void FriendlyUrlIsUnique()
 		{
 			UnitTestHelper.SetupBlog();
@@ -274,7 +274,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Make sure that generated friendly urls are not changed when updating entry.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void FriendlyUrlIsNotChangedInUpdates() 
 		{
 		    UnitTestHelper.SetupBlog();
@@ -299,7 +299,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Make sure that generated friendly urls are not changed when updating entry.
 		/// </summary>
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void FriendlyUrlIsUniqueInUpdates()
 		{
 		    UnitTestHelper.SetupBlog();

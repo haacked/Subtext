@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.BlogML
 		/// </summary>
 		[Test]
 		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SinglePostWithCategory.xml", typeof(SubtextBlogMlWriterTests))]
-		[RollBack]
+		[RollBack2]
 		public void CanWritePostWithCategoryAndImportTheOutput()
 		{
 			CreateBlogAndSetupContext();
@@ -90,7 +90,7 @@ namespace UnitTests.Subtext.BlogML
 		}
 		
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void WritingBlogMLWithEntriesContainingNoCategoriesWorks()
 		{
 			CreateBlogAndSetupContext();
@@ -127,7 +127,7 @@ namespace UnitTests.Subtext.BlogML
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void WritingBlogMLWithEverythingWorks()
 		{
 			CreateBlogAndSetupContext();
