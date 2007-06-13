@@ -428,7 +428,10 @@ namespace Subtext.ImportExport
 			newEntry.Title = post.Title;
 			newEntry.DateCreated = post.DateCreated;
 			newEntry.DateModified = post.DateModified;
-			newEntry.DateSyndicated = post.DateModified;  // is this really the best thing to do?
+            if (post.Approved)
+            {
+                newEntry.DateSyndicated = post.DateCreated;
+            }
 			newEntry.Body = content;
             if (post.HasExcerpt)
             {

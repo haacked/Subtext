@@ -148,23 +148,19 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");
 			Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");
 
-			previousEntry.IncludeInMainSyndication = false;
-			currentEntry.IncludeInMainSyndication = false;
-			nextEntry.IncludeInMainSyndication = false;
-
 			//Create out of order.
 			int currentId = Entries.Create(currentEntry);
 			int nextId = Entries.Create(nextEntry);
 			int previousId = Entries.Create(previousEntry);
 			
 			//Now syndicate.
-			previousEntry.IncludeInMainSyndication = true;
+            previousEntry.DateSyndicated = DateTime.Now;
 			Entries.Update(previousEntry);
 			Thread.Sleep(100);
-			currentEntry.IncludeInMainSyndication = true;
+            currentEntry.DateSyndicated = DateTime.Now;
 			Entries.Update(currentEntry);
 			Thread.Sleep(100);
-			nextEntry.IncludeInMainSyndication = true;
+            nextEntry.DateSyndicated = DateTime.Now;
 			Entries.Update(nextEntry);
 			
 			Assert.IsTrue(previousId > currentId, "Ids are out of order.");

@@ -108,7 +108,7 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected override DateTime GetPublishedDateUtc(Entry item)
 		{
-			return Config.CurrentBlog.TimeZone.ToUniversalTime(item.DateCreated);
+			return Config.CurrentBlog.TimeZone.ToUniversalTime(item.DateSyndicated);
 		}
 
 		/// <summary>

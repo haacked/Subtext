@@ -38,7 +38,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			UnitTestHelper.SetupBlog();
 
 			Entry entry = new Entry(PostType.BlogPost);
-			entry.DateCreated = DateTime.ParseExact("2005/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			entry.DateCreated = DateTime.ParseExact("2004/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateSyndicated = DateTime.ParseExact("2005/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Title = "Some Really Random Title";
 			entry.Body = "Some Body";
 			Entries.Create(entry);
@@ -74,7 +75,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			UnitTestHelper.SetupBlog(subfolder, applicationPath);
 
 			Entry entry = new Entry(PostType.BlogPost);
-			entry.DateCreated = DateTime.ParseExact("2005/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			entry.DateCreated = DateTime.ParseExact("2004/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateSyndicated = DateTime.ParseExact("2005/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Title = "Some Title";
 			entry.Body = "Some Body";
 			int id = Entries.Create(entry);

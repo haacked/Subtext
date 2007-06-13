@@ -109,7 +109,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			comment.DateCreated = comment.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			comment.Title = "re: titleofthepost";
 			comment.ParentEntryName = entry.EntryName;
-			comment.ParentDateCreated = entry.DateCreated;
+			comment.ParentDateCreated = entry.DateSyndicated;
 			comment.Body = "<strong>I rule!</strong>";
 			comment.Author = "Jane Schmane";
 			comment.Email = "jane@example.com";

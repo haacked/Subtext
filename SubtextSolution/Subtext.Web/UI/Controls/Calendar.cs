@@ -171,7 +171,7 @@ namespace Subtext.Web.UI.Controls
 			if (_currentDateIndex >= _dateCount || _currentDateIndex < 0)
 				return;
 	
-			DateTime entryDate = _monthEntries[_currentDateIndex].DateCreated;
+			DateTime entryDate = _monthEntries[_currentDateIndex].DateSyndicated;
 			DateTime calDate = e.Day.Date;
 	
 			if (IsSameDay(calDate,entryDate))
@@ -182,7 +182,7 @@ namespace Subtext.Web.UI.Controls
 				do
 				{
 					_currentDateIndex--;
-				} while (_currentDateIndex > -1 && IsSameDay(e.Day.Date, _monthEntries[_currentDateIndex].DateCreated));
+				} while (_currentDateIndex > -1 && IsSameDay(e.Day.Date, _monthEntries[_currentDateIndex].DateSyndicated));
 			}		   
 		}
 

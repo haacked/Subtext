@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -146,9 +147,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 				UnitTestHelper.CreateCategory(blogId, "cat" + i);
 
 			//Create some entries.
-			Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
+            Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
+            Thread.Sleep(100);
 			Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one");
-			Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
+            Thread.Sleep(100);
+            Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
 			
 			//Associate categories.
 			for (int i = 0; i < 5; i++)
@@ -164,7 +167,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entries.Create(entryTwo);
 
 			IList<Entry> entries = Entries.GetRecentPosts(3, PostType.BlogPost, PostConfig.IsActive, true);
-			Assert.AreEqual(3, entries.Count, "Expected to find two entries.");
+			Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
 			
 			Assert.AreEqual(entries[0].Id, entryTwo.Id, "Ordering is off.");
 			Assert.AreEqual(entries[1].Id, entryOne.Id, "Ordering is off.");

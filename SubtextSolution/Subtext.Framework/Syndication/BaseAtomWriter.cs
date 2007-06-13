@@ -201,7 +201,7 @@ namespace Subtext.Framework.Syndication
 				//(Duncanma 11/13/2005, hiding created, change issued to
 			    //published and modified to updated for 1.0 feed)
 				//this.WriteElementString("created",W3UTCZ(entry.DateCreated));
-				this.WriteElementString("published", W3UTC(entry.DateCreated, info.TimeZone));
+				this.WriteElementString("published", W3UTC(entry.DateSyndicated, info.TimeZone));
 				this.WriteElementString("updated", W3UTCZ(entry.DateModified));
 
 				if(entry.HasDescription)
