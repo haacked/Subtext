@@ -256,6 +256,7 @@ namespace Subtext.Web.Admin.UserControls
 			// Advanced Options
 			this.txbEntryName.Text = currentPost.EntryName;
 			this.txbExcerpt.Text = currentPost.Description;
+            this.txtPostDate.Text = currentPost.DateSyndicated.ToString();
 			
 			SetEditorText(currentPost.Body);
 
@@ -363,8 +364,18 @@ namespace Subtext.Web.Admin.UserControls
 		}
 	
 		private void UpdatePost()
-		{	
-			if(Page.IsValid)
+		{
+            DateTime postDate = NullValue.NullDateTime;
+
+            if (string.IsNullOrEmpty(txtPostDate.Text))
+            {
+                vCustomPostDate.IsValid = true;
+            }
+            else
+            {
+                vCustomPostDate.IsValid = DateTime.TryParse(txtPostDate.Text, out postDate);
+            }
+            if(Page.IsValid)
 			{
 				string successMessage = Constants.RES_SUCCESSNEW;
 
@@ -403,6 +414,11 @@ namespace Subtext.Web.Admin.UserControls
 					entry.IsAggregated = chkIsAggregated.Checked;
 					entry.EntryName = StringHelper.ReturnNullForEmpty(txbEntryName.Text);
 					entry.Description = StringHelper.ReturnNullForEmpty(txbExcerpt.Text);
+
+                    if (!NullValue.IsNull(postDate))
+                    {
+                        entry.DateSyndicated = postDate;
+                    }
 
 					if (PostID != NullValue.NullInt32)
 					{
@@ -612,4 +628,5 @@ namespace Subtext.Web.Admin.UserControls
 		#endregion
 	}
 }
+
 

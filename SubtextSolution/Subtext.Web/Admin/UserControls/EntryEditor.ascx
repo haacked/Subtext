@@ -88,7 +88,6 @@
 			CssClass="Pager" />
 	<br class="clear" />
 </ANW:AdvancedPanel>
-
 <asp:PlaceHolder id="Edit" runat="server">
 	<fieldset id="editPost">
 		<legend>Edit</legend>
@@ -130,6 +129,13 @@
 			</tr>
 		</table>
 		<p style="margin-top: 10px;">
+		    <label for="Editor_Edit_txtPostDate" accesskey="d">Post <u>D</u>ate</label> 
+            <asp:CustomValidator ID="vCustomPostDate" runat="server" Text="Invalid PostDate format. Must be a valid date/time expression" ControlToValidate="txtPostDate"></asp:CustomValidator>
+		</p>
+		<p>
+            <asp:TextBox ID="txtPostDate" runat="server" CssClass="textinput" MaxLength="25"></asp:TextBox>
+		</p>
+		<p>
 			<label for="Editor_Edit_txbEntryName" accesskey="n">Entry <u>N</u>ame (page name)</label> <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate="txbEntryName" ValidationExpression="^([a-zA-Z0-9-]*([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9-_]+)$" Text = "Invalid EntryName Format. Must only contain characters allowable in an URL." runat="server"/>
 		</p>
 		<p>

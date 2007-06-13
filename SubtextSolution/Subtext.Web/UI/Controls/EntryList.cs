@@ -120,12 +120,12 @@ namespace Subtext.Web.UI.Controls
 			{
 				if(postDate.Attributes["Format"] != null)
 				{
-					postDate.Text = entry.DateCreated.ToString(postDate.Attributes["Format"]);
+					postDate.Text = entry.DateSyndicated.ToString(postDate.Attributes["Format"]);
 					postDate.Attributes.Remove("Format");
 				}
 				else
 				{
-					postDate.Text = entry.DateCreated.ToString("f");
+					postDate.Text = entry.DateSyndicated.ToString("f");
 				}
 			}
 		}
@@ -137,12 +137,12 @@ namespace Subtext.Web.UI.Controls
 			{
 				if(permalink.Attributes["Format"] != null)
 				{
-					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Url, entry.DateCreated.ToString(permalink.Attributes["Format"]));
+					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Url, entry.DateSyndicated.ToString(permalink.Attributes["Format"]));
 					permalink.Attributes.Remove("Format");
 				}
 				else
 				{
-					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Url, entry.DateCreated.ToString("f"));
+					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Url, entry.DateSyndicated.ToString("f"));
 				}
 			}
 		}
@@ -154,11 +154,11 @@ namespace Subtext.Web.UI.Controls
 			{
 				if(entry.AllowComments)
 				{
-					PostDesc.Text = string.Format(postdescWithComments, entry.Url, entry.DateCreated.ToString("f"), entry.Url, entry.FeedBackCount);
+					PostDesc.Text = string.Format(postdescWithComments, entry.Url, entry.DateSyndicated.ToString("f"), entry.Url, entry.FeedBackCount);
 				}
 				else
 				{
-					PostDesc.Text = string.Format(postdescWithNoComments, entry.Url, entry.DateCreated.ToString("f"));
+					PostDesc.Text = string.Format(postdescWithNoComments, entry.Url, entry.DateSyndicated.ToString("f"));
 				}
 			}
 		}

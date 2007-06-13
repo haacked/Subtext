@@ -116,7 +116,7 @@ namespace Subtext.Framework.Format
 				throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
 			}
 
-			return EntryUrl(entry.Id, entry.EntryName, entry.DateCreated);
+			return EntryUrl(entry.Id, entry.EntryName, entry.DateSyndicated);
 		}
 
 		private string EntryUrl(int entryId, string entryName, DateTime entryDate)
@@ -140,7 +140,7 @@ namespace Subtext.Framework.Format
 				throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
 			}
 
-			return EntryFullyQualifiedUrl(entry.DateCreated, entry.EntryName, entry.Id);
+			return EntryFullyQualifiedUrl(entry.DateSyndicated, entry.EntryName, entry.Id);
 		}
 
 		public virtual string EntryFullyQualifiedUrl(DateTime entryDate, string entryName, int entryId)

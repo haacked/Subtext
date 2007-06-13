@@ -353,7 +353,7 @@ namespace Subtext.Framework.Components
 				if (Config.CurrentBlog.DaysTillCommentsClose == int.MaxValue)
 					return false;
 
-				return Config.CurrentBlog.TimeZone.Now > this.DateCreated.AddDays(Config.CurrentBlog.DaysTillCommentsClose);
+				return Config.CurrentBlog.TimeZone.Now > this.DateSyndicated.AddDays(Config.CurrentBlog.DaysTillCommentsClose);
 			}
 		}
 

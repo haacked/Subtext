@@ -126,7 +126,7 @@ namespace Subtext.Framework.XmlRpc
 			Post post = new Post();
 			post.link = entry.Url;
 			post.description = entry.Body;
-			post.dateCreated = entry.DateCreated;
+			post.dateCreated = entry.DateSyndicated;
 			post.postid = entry.Id;
 			post.title = entry.Title;
 			post.permalink = entry.FullyQualifiedUrl.ToString();
@@ -149,7 +149,7 @@ namespace Subtext.Framework.XmlRpc
 			foreach(Entry entry in ec)
 			{
 				Post post = new Post();
-				post.dateCreated = entry.DateCreated;
+				post.dateCreated = entry.DateSyndicated;
 				post.description = entry.Body;
 				post.link = entry.Url;
 				post.permalink = entry.FullyQualifiedUrl.ToString();
@@ -229,6 +229,11 @@ namespace Subtext.Framework.XmlRpc
 				entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
 				entry.DateModified = entry.DateCreated;
 			}
+
+            if (publish)
+            {
+                entry.DateSyndicated = entry.DateCreated;
+            }
 
             if (post.categories != null)
             {

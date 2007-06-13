@@ -1492,13 +1492,13 @@ SELECT	BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
 	(
-		DateAdded > @StartDate 
-		AND DateAdded < DateAdd(day, 1, @StopDate)
+		DateSyndicated > @StartDate 
+		AND DateSyndicated < DateAdd(day, 1, @StopDate)
 	)
 	AND PostType=@PostType 
 	AND BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY DateAdded DESC;
+ORDER BY DateSyndicated DESC;
 
 
 GO
@@ -2378,25 +2378,25 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryID]
 )
 AS
 SET ROWCOUNT @ItemCount
-SELECT	c.BlogId
-	, c.[ID]
-	, c.AuthorId
-	, c.Title
-	, c.DateAdded
-	, c.[Text]
-	, c.[Description]
-	, c.PostType
-	, c.DateUpdated
-	, FeedbackCount = ISNULL(c.FeedbackCount, 0)
-	, c.PostConfig
-	, c.EntryName 
-	, c.DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content] c WITH (NOLOCK)
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links WITH (NOLOCK) ON c.ID = ISNULL(links.PostID, -1)
+SELECT	content.BlogId
+	, content.[ID]
+	, content.AuthorId
+	, content.Title
+	, content.DateAdded
+	, content.[Text]
+	, content.[Description]
+	, content.PostType
+	, content.DateUpdated
+	, FeedbackCount = ISNULL(content.FeedbackCount, 0)
+	, content.PostConfig
+	, content.EntryName 
+	, content.DateSyndicated
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links WITH (NOLOCK) ON content.ID = ISNULL(links.PostID, -1)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories WITH (NOLOCK) ON links.CategoryID = categories.CategoryID
-WHERE  c.BlogId = @BlogId 
-	AND c.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END AND categories.CategoryID = @CategoryID
-ORDER BY c.DateAdded DESC
+WHERE  content.BlogId = @BlogId 
+	AND content.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END AND categories.CategoryID = @CategoryID
+ORDER BY content.DateSyndicated DESC
 
 
 GO
@@ -2436,12 +2436,12 @@ SELECT	BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
 	(
-			DateAdded > @StartDate 
-		AND DateAdded < DateAdd(day,1,@StopDate)
+			DateSyndicated > @StartDate 
+		AND DateSyndicated < DateAdd(day,1,@StopDate)
 	)
 	AND PostType=1 
 	AND BlogId = @BlogId
-ORDER BY DateAdded DESC;
+ORDER BY DateSyndicated DESC;
 
 
 GO
@@ -2482,9 +2482,9 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=1 
 	AND (BlogId = @BlogId OR @BlogId IS NULL)
 	AND PostConfig & 1 = 1 
-	AND Month(DateAdded) = @Month 
-	AND Year(DateAdded)  = @Year
-ORDER BY DateAdded DESC
+	AND Month(DateSyndicated) = @Month 
+	AND Year(DateSyndicated)  = @Year
+ORDER BY DateSyndicated DESC
 
 
 GO
@@ -2507,12 +2507,12 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonthArchive]
 	@BlogId int = NULL
 )
 AS
-SELECT Month(DateAdded) AS [Month]
-	, Year(DateAdded) AS [Year]
+SELECT Month(DateSyndicated) AS [Month]
+	, Year(DateSyndicated) AS [Year]
 	, 1 AS Day, Count(*) AS [Count] 
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE PostType = 1 AND PostConfig & 1 = 1 AND (BlogId = @BlogId OR @BlogId IS NULL)
-GROUP BY Year(DateAdded), Month(DateAdded) ORDER BY [Year] DESC, [Month] DESC
+GROUP BY Year(DateSyndicated), Month(DateSyndicated) ORDER BY [Year] DESC, [Month] DESC
 
 
 
@@ -2535,9 +2535,9 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByYearArchive]
 	@BlogId int
 )
 AS
-SELECT 1 AS [Month], Year(DateAdded) AS [Year], 1 AS Day, Count(*) AS [Count] FROM [<dbUser,varchar,dbo>].[subtext_Content] 
+SELECT 1 AS [Month], Year(DateSyndicated) AS [Year], 1 AS Day, Count(*) AS [Count] FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE PostType = 1 AND PostConfig & 1 = 1 AND BlogId = @BlogId 
-GROUP BY Year(DateAdded) ORDER BY [Year] DESC
+GROUP BY Year(DateSyndicated) ORDER BY [Year] DESC
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -2573,13 +2573,13 @@ SELECT	BlogId
 	, EntryName 
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE Year(DateAdded) = Year(@Date) 
-	AND Month(DateAdded) = Month(@Date)
-    AND Day(DateAdded) = Day(@Date) 
+WHERE Year(DateSyndicated) = Year(@Date) 
+	AND Month(DateSyndicated) = Month(@Date)
+    AND Day(DateSyndicated) = Day(@Date) 
     And PostType=1
     AND BlogId = @BlogId 
     AND PostConfig & 1 = 1 
-ORDER BY DateAdded DESC;
+ORDER BY DateSyndicated DESC;
 
 
 GO
@@ -4133,10 +4133,11 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntry_PreviousNext]
 AS
 
 DECLARE @DateSyndicated DateTime
-SELECT @DateSyndicated = ISNULL(DateSyndicated, DateAdded) 
+SELECT @DateSyndicated = DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE ID = @ID
 
+-- If DateSyndicated is NULL, then this entry hasn't been published yet.
 SELECT * FROM
 (
 	SELECT Top 1 BlogId
@@ -4147,14 +4148,13 @@ SELECT * FROM
 		, PostConfig
 		, EntryName 
 		, DateSyndicated
-		, CardinalityDate = ISNULL(DateSyndicated, DateAdded) -- Must be here to order by
-	FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	WHERE ISNULL([DateSyndicated], [DateAdded]) >= @DateSyndicated
+		, CardinalityDate = DateSyndicated 	FROM [<dbUser,varchar,dbo>].[subtext_Content]
+	WHERE DateSyndicated >= @DateSyndicated
 		AND subtext_Content.BlogId = @BlogId 
 		AND subtext_Content.PostConfig & 1 = 1 
 		AND PostType = @PostType
 		AND [ID] != @ID
-	ORDER BY ISNULL(DateSyndicated, DateAdded) ASC
+	ORDER BY DateSyndicated ASC
 ) [Previous]
 UNION
 SELECT * FROM
@@ -4167,14 +4167,14 @@ SELECT * FROM
 		, PostConfig
 		, EntryName 
 		, DateSyndicated
-		, CardinalityDate = ISNULL(DateSyndicated, DateAdded)
+		, CardinalityDate = DateSyndicated
 	FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	WHERE ISNULL([DateSyndicated], [DateAdded]) <= @DateSyndicated
+	WHERE DateSyndicated <= @DateSyndicated
 		AND subtext_Content.BlogId = @BlogId 
 		AND subtext_Content.PostConfig & 1 = 1 
 		AND PostType = @PostType
 		AND [ID] != @ID
-	ORDER BY ISNULL(DateSyndicated, DateAdded) DESC
+	ORDER BY DateSyndicated DESC
 ) [Next]
 
 ORDER BY CardinalityDate DESC
@@ -4524,7 +4524,7 @@ SELECT BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Content] WITH (NOLOCK)
 WHERE  BlogId = @BlogId 
 	AND ID IN (SELECT EntryId FROM [<dbUser,varchar,dbo>].[subtext_EntryTag] WHERE BlogId = @BlogId AND TagId = @TagId)
-ORDER BY DateAdded DESC
+ORDER BY DateSyndicated DESC
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByTag]  TO [public]

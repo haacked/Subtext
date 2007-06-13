@@ -255,7 +255,7 @@ namespace UnitTests.Subtext.Framework
 			UnitTestHelper.SetupBlog(subfolder, virtualDir, port);
             
             Entry entry = new Entry(PostType.BlogPost);
-            entry.DateCreated = DateTime.ParseExact("1/23/1975", "M/d/yyyy", CultureInfo.InvariantCulture);
+            entry.DateCreated = entry.DateSyndicated = DateTime.ParseExact("1/23/1975", "M/d/yyyy", CultureInfo.InvariantCulture);
             entry.Id = 987123;
             Assert.AreEqual("http://" + Config.CurrentBlog.Host + expected, Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(entry), "Did not set the entry url correctly.");
         }

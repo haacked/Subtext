@@ -350,14 +350,12 @@ namespace UnitTests.Subtext.Framework.Syndication
 			{
 				entry.EntryName = entryName;
 			}
-			entry.DateCreated = dateCreated;
-			entry.DateModified = entry.DateCreated;
+			entry.DateCreated = entry.DateSyndicated = entry.DateModified = dateCreated;
 			entry.Title = title;
 			entry.Author = UnitTestHelper.CreateUserInstanceForTest();
 			entry.Body = body;
 			entry.Id = id;
 			entry.Url = string.Format(CultureInfo.InvariantCulture, "http://localhost/Subtext.Web/archive/{0:yyyy/MM/dd}/{1}", dateCreated, id);
-			entry.DateSyndicated = entry.DateCreated;
 			
 			return entry;
 		}

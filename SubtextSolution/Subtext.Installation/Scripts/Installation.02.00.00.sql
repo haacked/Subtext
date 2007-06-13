@@ -180,8 +180,29 @@ IF NOT EXISTS
 		,[pop3HeightForThumbs] [int] NULL 
 GO
 
+/*Add CustomMetaTags to subtext_Config */
+IF NOT EXISTS 
+	(
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
+		WHERE	TABLE_NAME = 'subtext_Config' 
+		AND		TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+		AND		COLUMN_NAME = 'CustomMetaTags' 
+	)
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] WITH NOCHECK
+	ADD [CustomMetaTags] [nText] NULL
+GO
 
-
+/*Add TrackingCode to subtext_Config */
+IF NOT EXISTS 
+	(
+		SELECT	* FROM [INFORMATION_SCHEMA].[COLUMNS] 
+		WHERE	TABLE_NAME = 'subtext_Config' 
+		AND		TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+		AND		COLUMN_NAME = 'TrackingCode' 
+	)
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] WITH NOCHECK
+	ADD [TrackingCode] [nText] NULL
+GO
 
 /* Add tables to manage plugin configuration */
 

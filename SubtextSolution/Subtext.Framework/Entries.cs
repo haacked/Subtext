@@ -242,10 +242,13 @@ namespace Subtext.Framework
 				entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
 			}
 
-			if (entry.IsActive && entry.IncludeInMainSyndication)
-				entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
-			else
-				entry.DateSyndicated = NullValue.NullDateTime;
+            if (NullValue.IsNull(entry.DateSyndicated))
+            {
+			    if (entry.IsActive && entry.IncludeInMainSyndication)
+				    entry.DateSyndicated = entry.DateCreated;
+			    else
+				    entry.DateSyndicated = NullValue.NullDateTime;
+            }
 
 			int[] categoryIds = { };
 			if (entry.Categories.Count > 0)

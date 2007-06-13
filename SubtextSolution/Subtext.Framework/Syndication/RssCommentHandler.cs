@@ -81,7 +81,7 @@ namespace Subtext.Framework.Syndication
 			}
 			else
 			{
-				feed.LastModified = this.ParentEntry.DateCreated;
+				feed.LastModified = this.ParentEntry.DateSyndicated;
 			}
 			feed.Xml = crw.Xml;
 			return feed;

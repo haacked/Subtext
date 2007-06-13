@@ -536,9 +536,7 @@ namespace UnitTests.Subtext
 				entry.EntryName = entryName;
 			}
 			entry.BlogId = Config.CurrentBlog.Id;
-			entry.DateCreated = dateCreated;
-			entry.DateModified = entry.DateCreated;
-			entry.DateSyndicated = entry.DateCreated;
+			entry.DateCreated = entry.DateModified = entry.DateSyndicated = dateCreated;
 			entry.Title = title;
 			entry.Author = CreateUserInstanceForTest();
 			entry.Body = body;
