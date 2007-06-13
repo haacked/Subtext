@@ -16,13 +16,6 @@ namespace Subtext.TestLibrary.Servers
         IList<ReceivedEmailMessage> inbox = new List<ReceivedEmailMessage>();
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TestSmtpServer"/> class.
-		/// </summary>
-		public TestSmtpServer()
-		{
-		}
-		
-		/// <summary>
 		/// Gets the inbox.
 		/// </summary>
 		/// <value>The inbox.</value>

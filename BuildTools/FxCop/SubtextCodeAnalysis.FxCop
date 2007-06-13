@@ -24,58 +24,6 @@
   <AssemblyReferenceDirectories>
    <Directory>$(ProjectDir)/Subtext.Web/bin/</Directory>
   </AssemblyReferenceDirectories>
-  <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Akismet.dll" Analyze="True" AnalyzeAllChildren="False">
-   <Modules AnalyzeAllChildren="False">
-    <Module Name="subtext.akismet.dll" Analyze="True" AnalyzeAllChildren="False">
-     <Namespaces AnalyzeAllChildren="False">
-      <Namespace Name="" Analyze="True" AnalyzeAllChildren="True" />
-      <Namespace Name="Subtext.Akismet" Analyze="True" AnalyzeAllChildren="False">
-       <Types AnalyzeAllChildren="False">
-        <Type Name="AkismetClient" Analyze="True" AnalyzeAllChildren="True" />
-        <Type Name="Comment" Analyze="True" AnalyzeAllChildren="False">
-         <Members AnalyzeAllChildren="False">
-          <Member Name=".ctor(System.Net.IPAddress,System.String)" Analyze="True" />
-          <Member Name="author" Analyze="True" />
-          <Member Name="Author" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="authorEmail" Analyze="True" />
-          <Member Name="AuthorEmail" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="authorUrl" Analyze="True" />
-          <Member Name="AuthorUrl" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="commentType" Analyze="True" />
-          <Member Name="CommentType" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="content" Analyze="True" />
-          <Member Name="Content" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="ipAddress" Analyze="True" />
-          <Member Name="permalink" Analyze="True" />
-          <Member Name="Permalink" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="referrer" Analyze="True" />
-          <Member Name="serverEnvironmentVariables" Analyze="True" />
-          <Member Name="ServerEnvironmentVariables" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="userAgent" Analyze="True" />
-          <Member Name="UserAgent" Analyze="True" AnalyzeAllChildren="True" />
-         </Members>
-        </Type>
-        <Type Name="HttpClient" Analyze="True" AnalyzeAllChildren="True" />
-        <Type Name="IComment" Analyze="True" AnalyzeAllChildren="False">
-         <Members AnalyzeAllChildren="False">
-          <Member Name="Author" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="AuthorEmail" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="AuthorUrl" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="CommentType" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="Content" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="Permalink" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="ServerEnvironmentVariables" Analyze="True" AnalyzeAllChildren="True" />
-          <Member Name="UserAgent" Analyze="True" AnalyzeAllChildren="True" />
-         </Members>
-        </Type>
-        <Type Name="InvalidResponseException" Analyze="True" AnalyzeAllChildren="True" />
-       </Types>
-      </Namespace>
-     </Namespaces>
-     <Resources AnalyzeAllChildren="True" />
-    </Module>
-   </Modules>
-  </Target>
   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.BlogML.dll" Analyze="True" AnalyzeAllChildren="True" />
   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Extensibility.dll" Analyze="True" AnalyzeAllChildren="True" />
   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Framework.dll" Analyze="True" AnalyzeAllChildren="True" />
@@ -276,33 +224,6 @@
    </Namespace>
   </Namespaces>
   <Targets>
-   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Akismet.dll">
-    <Modules>
-     <Module Name="subtext.akismet.dll">
-      <Namespaces>
-       <Namespace Name="Subtext.Akismet">
-        <Types>
-         <Type Name="HttpClient">
-          <Members>
-           <Member Name="PostRequest(System.Uri,System.String,System.Int32,System.String,System.Net.IWebProxy):System.String">
-            <Messages>
-             <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2007-04-22 19:20:18Z">
-              <Issue>
-               <Item>HttpClient.PostRequest(Uri, String, Int32, String, IWebProxy):String</Item>
-               <Item>System.String.Format(System.String,System.Object)</Item>
-               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-        </Types>
-       </Namespace>
-      </Namespaces>
-     </Module>
-    </Modules>
-   </Target>
    <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.BlogML.dll">
     <Modules>
      <Module Name="subtext.blogml.dll">
