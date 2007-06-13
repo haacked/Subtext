@@ -420,6 +420,7 @@
     </Compile>
     <EmbeddedResource Include="Resources\Scripting\SqlRunnerTestScript.txt" />
     <EmbeddedResource Include="Resources\Web\HttpClientTest.aspx">
+      <SubType>ASPXCodeBehind</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Web\emoticons.txt" />
     <EmbeddedResource Include="Resources\BlogMl\SinglePostWithBadCategoryRef.xml" />
