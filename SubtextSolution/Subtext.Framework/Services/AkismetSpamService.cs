@@ -1,27 +1,23 @@
 using System;
 using System.Globalization;
 using System.Net;
-using Subtext.Akismet;
+using Subkismet;
 using log4net;
 using Subtext.Framework.Components;
-using Subtext.Framework.Web;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Services
 {
 	[Serializable]
-	public class AkismetSpamService : IFeedbackSpamService
+	public class AkismetSpamService : Akismet<FeedbackItem>, IFeedbackSpamService
 	{
-		private readonly static ILog log = new Subtext.Framework.Logging.Log();
-		IAkismetClient akismet;
+		private readonly static ILog log = new Logging.Log();
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AkismetSpamService"/> class.
 		/// </summary>
 		/// <param name="apiKey">The API key.</param>
 		/// <param name="blog">The blog.</param>
-		public AkismetSpamService(string apiKey, IBlogInfo blog)
-			: this(new AkismetClient(apiKey, blog.RootUrl))
+		public AkismetSpamService(string apiKey, IBlogInfo blog) : this(new AkismetClient(apiKey, blog.RootUrl))
 		{
 		}
 
@@ -30,34 +26,23 @@ namespace Subtext.Framework.Services
 		/// </summary>
 		/// <param name="akismetClient">The akismet client.</param>
 		public AkismetSpamService(IAkismetClient akismetClient)
+			: base(akismetClient, delegate(FeedbackItem item) { return ConvertToAkismetItem(item); })
 		{
-			if (akismetClient == null)
-			{
-				throw new ArgumentNullException("akismetClient", Resources.ArgumentNull_Generic);
-			}
-
-			this.akismet = akismetClient;
-
-			IWebProxy proxy = HttpHelper.GetProxy();
-			if (proxy != null)
-			{
-				this.akismet.Proxy = proxy;
-			}
 		}
 
 		/// <summary>
 		/// Verifies the api key.
 		/// </summary>
 		/// <returns></returns>
-		public bool VerifyApiKey()
+		public override bool VerifyApiKey()
 		{
 			try
 			{
-				return this.akismet.VerifyApiKey();
+				return base.VerifyApiKey();
 			}
 			catch (WebException e)
 			{
-				log.Error("Error occured while verifying Akismet.", e);
+				log.Error("Unexpected error occured while verifying Akismet.", e);
 				return false;
 			}
 		}
@@ -67,46 +52,17 @@ namespace Subtext.Framework.Services
 		/// </summary>
 		/// <param name="feedback"></param>
 		/// <returns></returns>
-		public bool IsSpam(FeedbackItem feedback)
+		public override bool IsSpam(FeedbackItem feedback)
 		{
-			Comment comment = ConvertToAkismetItem(feedback);
-
 			try
 			{
-
-				if (this.akismet.CheckCommentForSpam(comment))
-				{
-					this.akismet.SubmitSpam(comment);
-					return true;
-				}
+				return base.IsSpam(feedback);
 			}
 			catch (InvalidResponseException e)
 			{
 				log.Error(e.Message, e);
 			}
 			return false;
-		}
-
-		/// <summary>
-		/// Submits the item to the service as a false positive. 
-		/// Something that should not have been marked as spam.
-		/// </summary>
-		/// <param name="feedback"></param>
-		public void SubmitGoodFeedback(FeedbackItem feedback)
-		{
-			Comment comment = ConvertToAkismetItem(feedback);
-			this.akismet.SubmitHam(comment);
-		}
-
-		/// <summary>
-		/// Submits the item to the service as a piece of SPAM that got through 
-		/// the filter. Something that should've been marked as SPAM.
-		/// </summary>
-		/// <param name="feedback"></param>
-		public void SubmitSpam(FeedbackItem feedback)
-		{
-			Comment comment = ConvertToAkismetItem(feedback);
-			this.akismet.SubmitSpam(comment);
 		}
 
 		private static Comment ConvertToAkismetItem(FeedbackItem feedback)

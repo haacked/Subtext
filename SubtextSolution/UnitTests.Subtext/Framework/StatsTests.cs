@@ -102,7 +102,8 @@ namespace UnitTests.Subtext.Framework
 
 				entries = Entries.GetPagedEntries(PostType.BlogPost, NullValue.NullInt32, 0, 10);
 				entryStatsView = (EntryStatsView) entries[0];
-				Assert.AreEqual(2, entryStatsView.WebCount);	
+				Console.WriteLine("Number of entries in the queue: {0}", Stats.QueueCount);
+				Assert.AreEqual(2, entryStatsView.WebCount, "Expected to see 2 entry stats");	
 			}
 			finally
 			{

@@ -94,16 +94,22 @@ namespace Subtext.Framework.Data
 		#region EntryDay
 
 		private static readonly string EntryDayKey = "EntryDay:Date{0:yyyyMMdd}Blog{1}";
-		public static EntryDay GetDay(DateTime dt, CacheDuration cacheDuration)
+		/// <summary>
+		/// Gets the entries for the specified day.
+		/// </summary>
+		/// <param name="date">The date.</param>
+		/// <param name="cacheDuration">The cache duration.</param>
+		/// <returns></returns>
+		public static EntryDay GetDay(DateTime date, CacheDuration cacheDuration)
 		{
-			string key = string.Format(CultureInfo.InvariantCulture, EntryDayKey, dt, Config.CurrentBlog.Id);
+			string key = string.Format(CultureInfo.InvariantCulture, EntryDayKey, date, Config.CurrentBlog.Id);
 			
 			ContentCache cache = ContentCache.Instantiate();
 			
 			EntryDay day = (EntryDay)cache[key];
 			if(day == null)
 			{
-				day = Entries.GetSingleDay(dt);
+				day = Entries.GetSingleDay(date);
 				if(day != null)
 				{
 					cache.Insert(key, day, cacheDuration);

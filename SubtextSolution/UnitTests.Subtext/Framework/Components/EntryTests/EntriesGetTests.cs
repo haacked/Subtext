@@ -20,12 +20,12 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			IList<Entry> entries = Entries.GetPostCollectionByMonth(DateTime.Now.Month, DateTime.Now.Year);
 			Assert.AreEqual(0, entries.Count);
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test", "Body Rockin");
-			entry.DateCreated = DateTime.Now;
+			entry.DateSyndicated = DateTime.Now;
 			Entries.Create(entry);
 			
 			//Create one a couple months ago.
 			entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test", "Body Rockin");
-			entry.DateCreated = DateTime.Now.AddMonths(-2);
+			entry.DateSyndicated = DateTime.Now.AddMonths(-2);
 			Entries.Create(entry);
 
 			entries = Entries.GetPostCollectionByMonth(DateTime.Now.Month, DateTime.Now.Year);
@@ -76,7 +76,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			//Create an active one, but for yesterday.
 			entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test2", "Body Rockin2");
 			entry.IsActive = true;
-			entry.DateCreated = DateTime.Now.AddDays(-1);
+			entry.DateSyndicated = DateTime.Now.AddDays(-1);
 			Entries.Create(entry);
 
 			entries = Entries.GetPostsByDayRange(DateTime.Now.Date, DateTime.Now.Date.AddDays(1), PostType.BlogPost, activeOnly);
@@ -97,7 +97,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			//Create one for yesterday.
 			entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test 2", "Body Rockin Twice in another day!");
-			entry.DateCreated = DateTime.Now.AddDays(-1);
+			entry.DateSyndicated = DateTime.Now.AddDays(-1);
 			Entries.Create(entry);
 
 			entries = Entries.GetSingleDay(DateTime.Now);

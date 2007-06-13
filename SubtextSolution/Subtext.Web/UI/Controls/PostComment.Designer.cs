@@ -1,5 +1,5 @@
 using System;
-using Subtext.Web.Controls.Captcha;
+using Subkismet.Captcha;
 
 namespace Subtext.Web.UI.Controls
 {

@@ -46,6 +46,17 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
+		/// Returns the number of stats in the queue in a thread unsafe manner.
+		/// </summary>
+		public static int QueueCount
+		{
+			get
+			{
+				return queuedStatsList.Count;
+			}
+		}
+
+		/// <summary>
 		/// Clears the queue of statistics.  If save is specified, then 
 		/// stats are saved to an <see cref="EntryView"/>
 		/// </summary>

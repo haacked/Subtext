@@ -1,4 +1,5 @@
 using System;
+using Subkismet.Captcha;
 
 namespace Subtext.Web.Controls.Captcha
 {
@@ -10,7 +11,7 @@ namespace Subtext.Web.Controls.Captcha
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SubtextCaptchaControl"/> class.
 		/// </summary>
-		public SubtextCaptchaControl() : base()
+		public SubtextCaptchaControl()
 		{
 			this.CaptchaLength = 4;
 		}

@@ -108,6 +108,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Subkismet, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Subkismet.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -142,12 +146,6 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Captcha\CaptchaControl.cs" />
-    <Compile Include="Captcha\CaptchaBase.cs" />
-    <Compile Include="Captcha\CaptchaExpiredException.cs" />
-    <Compile Include="Captcha\CaptchaImage.cs" />
-    <Compile Include="Captcha\CaptchaImageHandler.cs" />
-    <Compile Include="Captcha\InvisibleCaptcha.cs" />
     <Compile Include="Captcha\SubtextCaptchaControl.cs" />
     <Compile Include="CoComment.cs">
       <SubType>Code</SubType>
@@ -196,9 +194,6 @@
     <EmbeddedResource Include="Resources\CoCommentScript.js" />
     <EmbeddedResource Include="Resources\CollapsiblePanel.js" />
     <EmbeddedResource Include="Resources\ScrollPositionSaver.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\InvisibleCaptcha.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
