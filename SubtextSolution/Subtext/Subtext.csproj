@@ -101,10 +101,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
-      <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
-      <Name>Subtext.Akismet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
       <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
       <Name>Subtext.BlogML</Name>

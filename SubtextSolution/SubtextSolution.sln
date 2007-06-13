@@ -42,6 +42,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
+		Cleanup.bat = Cleanup.bat
 		License.txt = License.txt
 		ReleaseChecklist.txt = ReleaseChecklist.txt
 		Subtext.Web\ReleaseNotes.txt = Subtext.Web\ReleaseNotes.txt
@@ -74,12 +75,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{DD225739
 		SubText-CCNET.build = SubText-CCNET.build
 		SubText-Reporting.build = SubText-Reporting.build
 		..\BuildTools\CCNET_Config\Update-CCNET.build = ..\BuildTools\CCNET_Config\Update-CCNET.build
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Akismet", "Subtext.Akismet\Subtext.Akismet.csproj", "{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xsl", "Xsl", "{62296603-AF71-481F-9BE0-9B2E49AE5ABB}"
@@ -297,21 +292,6 @@ Global
 		{830310DB-5D6A-453C-908A-058776D9C993}.Release|Any CPU.Build.0 = Release|Any CPU
 		{830310DB-5D6A-453C-908A-058776D9C993}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{830310DB-5D6A-453C-908A-058776D9C993}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Documentation|.NET.ActiveCfg = Debug|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Documentation|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Documentation|Mixed Platforms.Build.0 = Debug|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Release|.NET.ActiveCfg = Release|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E92C1C9B-FB2C-457B-B441-3CAEA3DCFC7A}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{E92C1C9B-FB2C-457B-B441-3CAEA3DCFC7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E92C1C9B-FB2C-457B-B441-3CAEA3DCFC7A}.Debug|Any CPU.Build.0 = Debug|Any CPU

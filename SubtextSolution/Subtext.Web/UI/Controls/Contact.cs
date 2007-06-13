@@ -2,6 +2,7 @@ using System;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Subkismet.Captcha;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
@@ -9,7 +10,6 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Web;
-using Subtext.Web.Controls.Captcha;
 using Subtext.Framework.Security;
 
 #region Disclaimer/Info

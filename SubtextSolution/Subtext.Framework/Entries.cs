@@ -60,9 +60,9 @@ namespace Subtext.Framework
 		}
 		#endregion
 
-		public static EntryDay GetSingleDay(DateTime dt)
+		public static EntryDay GetSingleDay(DateTime date)
 		{
-			return ObjectProvider.Instance().GetEntryDay(dt);
+			return ObjectProvider.Instance().GetEntryDay(date);
 		}
 
 		/// <summary>
@@ -220,9 +220,7 @@ namespace Subtext.Framework
 		public static int Create(Entry entry)
 		{
             if (entry == null)
-            {
                 throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
-            }
 
             Debug.Assert(entry.PostType != PostType.None, "Posttype should never be null.");
 

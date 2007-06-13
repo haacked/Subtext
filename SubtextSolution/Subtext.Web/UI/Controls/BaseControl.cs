@@ -16,11 +16,11 @@
 using System;
 using System.Web;
 using System.Web.UI;
+using Subkismet.Captcha;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Web.Controls;
-using Subtext.Web.Controls.Captcha;
 
 namespace Subtext.Web.UI.Controls
 {

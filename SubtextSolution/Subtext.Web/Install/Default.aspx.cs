@@ -17,6 +17,7 @@ using System;
 using System.Data.SqlClient;
 using System.Web.Security;
 using System.Web.UI.WebControls;
+using Subkismet.Captcha;
 using Subtext.Data;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
