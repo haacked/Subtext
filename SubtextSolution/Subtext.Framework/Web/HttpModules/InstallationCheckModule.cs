@@ -41,6 +41,8 @@ namespace Subtext.Web.HttpModules
 			//Bypass for static files.
 			if (HttpHelper.IsStaticFileRequest())
 				return;
+         if (HttpHelper.IsWebResource())
+            return;
 
 			// Want to redirect to install if installation is required, 
 			// or if we're missing a HostInfo record.
