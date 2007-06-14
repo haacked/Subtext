@@ -72,12 +72,14 @@ namespace Subtext.TestLibrary.Servers
 		/// </summary>
 		public Uri Start()
 		{
+			if (Directory.Exists(webRoot))
+				Directory.Delete(webRoot, true);
+			
 			//NOTE: WebServer.WebHost is going to load itself AGAIN into another AppDomain,
 			// and will be getting it's Assemblies from the BIN, including another copy of itself!
-			// Therefore we need to do this step FIRST because I've removed WebServer.WebHost from the GAC
-			if (!Directory.Exists(webRoot))
-				Directory.CreateDirectory(webRoot);
-
+			// Therefore we need to do this step FIRST because I've removed WebServer.WebHost from the GAC	
+			Directory.CreateDirectory(webRoot);
+			
 			if (!Directory.Exists(webBinDir))
 				Directory.CreateDirectory(webBinDir);
 
@@ -142,7 +144,7 @@ namespace Subtext.TestLibrary.Servers
 				return null; //can't imagine this happening.
 
 			request.UserAgent = "Sutext UnitTest Webserver";
-			request.Timeout = 50000; //10 secs is reasonable, no?
+			request.Timeout = 10000; //10 secs is reasonable, no?
 			request.Method = "POST";
 			request.ContentLength = formParameters.Length;
 			request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
