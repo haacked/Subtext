@@ -142,7 +142,7 @@ namespace Subtext.TestLibrary.Servers
 				return null; //can't imagine this happening.
 
 			request.UserAgent = "Sutext UnitTest Webserver";
-			request.Timeout = 10000; //10 secs is reasonable, no?
+			request.Timeout = 50000; //10 secs is reasonable, no?
 			request.Method = "POST";
 			request.ContentLength = formParameters.Length;
 			request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
