@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns="http://schemas.microsoft.com/wlw/manifest/weblog">
+  <options>
+      <supportsEmbeds>Yes</supportsEmbeds>
+      <supportsEmptyTitles>No</supportsEmptyTitles>      
+  </options>
+  <weblog>
+    <homepageLinkText>View your blog</homepageLinkText>
+    <adminLinkText>Administer your blog</adminLinkText>
+    <adminUrl><![CDATA[
+        {blog-homepage-url}admin
+    ]]></adminUrl>
+    <postEditingUrl><![CDATA[
+        {blog-homepage-url}admin/EditPosts.aspx
+    ]]></postEditingUrl>
+    <watermarkImageUrl>images/subtextWatermark.png</watermarkImageUrl>
+    <imageUrl>images/subtextLogo32-23.png</imageUrl>
+  </weblog>
+</manifest>
