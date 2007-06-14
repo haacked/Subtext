@@ -2362,7 +2362,7 @@ GO
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]  TO [public]
 GO
 
--- GO HERE
+
 
 SET QUOTED_IDENTIFIER OFF 
 GO
