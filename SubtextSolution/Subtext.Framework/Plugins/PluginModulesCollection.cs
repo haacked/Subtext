@@ -53,7 +53,7 @@ namespace Subtext.Extensibility.Plugins
 
 		public PluginModule this[int index]
 		{
-			get { return (PluginModule)this[index]; }
+			get { return this[index]; }
 		}
 	}
 }

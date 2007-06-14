@@ -14,9 +14,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections.Specialized;
 using Subtext.Framework.Components;
 
 namespace Subtext.Extensibility.Plugins

@@ -14,12 +14,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using System.Collections.Specialized;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Components;
 
 namespace Subtext.Extensibility.Plugins
 {

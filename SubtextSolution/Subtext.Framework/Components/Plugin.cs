@@ -52,7 +52,8 @@ namespace Subtext.Framework.Components
 			set { _settings = value; }
 		}
 
-		internal Plugin(PluginBase plugin, NameValueCollection settings)
+		//TODO: Make this back to internal once I get the strong name going.
+		public Plugin(PluginBase plugin, NameValueCollection settings)
 		{
 			_initializedPlugin = plugin;
 			_settings = settings;
