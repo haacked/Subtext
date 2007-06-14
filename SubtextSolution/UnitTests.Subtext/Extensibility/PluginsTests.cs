@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Specialized;
 using MbUnit.Framework;
 using Rhino.Mocks;
 using Subtext.Extensibility.Attributes;
 using Subtext.Extensibility.Plugins;
+using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 
 namespace UnitTests.Subtext.Extensibility
 {
@@ -11,14 +15,58 @@ namespace UnitTests.Subtext.Extensibility
 	{
 		[Test]
 		[RollBack2]
-		[Ignore("Need to improve this")]
-		public void CanGetAndSetSettings()
+		public void CanEnableDisablePluginForBlog()
+		{
+			UnitTestHelper.SetupBlog();
+			Config.CurrentBlog.EnabledPlugins.Clear();
+			PluginBase plugin = new PluginFake();
+			Plugin.EnablePlugin(plugin.Id);
+
+			Assert.IsTrue(Config.CurrentBlog.EnabledPlugins.ContainsKey(plugin.Id), "The plugin we expect to find is not enabled");
+
+			Plugin.DisablePlugin(plugin.Id);
+
+			Assert.IsFalse(Config.CurrentBlog.EnabledPlugins.ContainsKey(plugin.Id), "The plugin we expect to be disabled is still enabled");
+		}
+
+		[Test]
+		[RollBack2]
+		public void CanGetAndSetBlogSettings()
 		{
 			UnitTestHelper.SetupBlog();
 
 			PluginBase plugin = new PluginFake();
+			Plugin.EnablePlugin(plugin.Id);
+
+			NameValueCollection settings = new NameValueCollection();
+			Plugin pluginInfo = new Plugin(plugin, settings);
+			Config.CurrentBlog.EnabledPlugins.Clear();
+			Config.CurrentBlog.EnabledPlugins.Add(plugin.Id, pluginInfo);
 			plugin.SetBlogSetting("unit-test-setting-key", "foo-bar");
 			Assert.AreEqual("foo-bar", plugin.GetBlogSetting("unit-test-setting-key"));
+		}
+
+		[Test]
+		[RollBack2]
+		public void CanGetAndSetEntrySettings()
+		{
+			UnitTestHelper.SetupBlog();
+
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "yet another dull blog post",
+			                                                 "yawn. nothing to report today. Fed a cat.");
+			Entries.Create(entry);
+
+			PluginBase plugin = new PluginFake();
+			Plugin.EnablePlugin(plugin.Id);
+			
+			NameValueCollection settings = new NameValueCollection();
+			Plugin pluginInfo = new Plugin(plugin, settings);
+			entry.EnabledPlugins.Clear();
+			entry.EnabledPlugins.Add(plugin.Id, pluginInfo);
+			Config.CurrentBlog.EnabledPlugins.Clear();
+			Config.CurrentBlog.EnabledPlugins.Add(plugin.Id, pluginInfo);
+			plugin.SetEntrySetting(entry, "unit-test-setting-key", "foo-bar");
+			Assert.AreEqual("foo-bar", plugin.GetEntrySetting(entry, "unit-test-setting-key"));
 		}
 
 		[Test]
