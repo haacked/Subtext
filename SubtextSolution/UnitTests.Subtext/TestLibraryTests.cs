@@ -81,6 +81,7 @@ namespace UnitTests.Subtext
 		}
 
 		[Test]
+		[ExpectedException(typeof(InvalidOperationException))]
 		public void CanStartStopWebServer()
 		{
 			using(TestWebServer server = new TestWebServer())
