@@ -216,5 +216,15 @@ namespace Subtext.Framework.Web
 			}
 			return proxy;
 		}
-	}
+
+      internal static bool IsWebResource()
+      {
+         if (HttpContext.Current == null)
+            return true;
+
+         string filePath = HttpContext.Current.Request.Url.AbsolutePath;
+
+         return filePath.EndsWith("WebResource.axd", StringComparison.InvariantCultureIgnoreCase);
+      }
+   }
 }
