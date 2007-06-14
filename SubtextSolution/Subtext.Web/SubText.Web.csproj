@@ -1141,7 +1141,9 @@
     <Content Include="Images\share-icon-16x16.png" />
     <Content Include="Images\sublogo-80x80.png" />
     <Content Include="Images\SubtextLogo.png" />
+    <Content Include="Images\subtextLogo32-23.png" />
     <Content Include="Images\SubtextLogo_small.png" />
+    <Content Include="Images\subtextWatermark.png" />
     <Content Include="Images\xfn-child.png" />
     <Content Include="Images\xfn-colleague-met.png" />
     <Content Include="Images\xfn-colleague.png" />
@@ -2258,6 +2260,7 @@
     <Content Include="Skins\_System\ForgotPassword.Master" />
     <Content Include="Skins\_System\Login.Master" />
     <Content Include="SystemMessages\SystemMessageTemplate.Master" />
+    <Content Include="wlwmanifest.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
