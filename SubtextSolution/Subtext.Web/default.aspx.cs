@@ -21,7 +21,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
 
 namespace Subtext.Web
 {
