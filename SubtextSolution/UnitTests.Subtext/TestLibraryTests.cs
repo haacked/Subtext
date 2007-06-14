@@ -67,7 +67,6 @@ namespace UnitTests.Subtext
 
 				// So Did It Work
 				ReceivedEmailMessage received = receivingServer.Inbox[0];
-				Assert.AreEqual(received.ContentType, "text/plain");
 				Console.Write("--->" + received.RawSmtpMessage + "<---");
 				Assert.AreEqual("test@example.com", received.ToAddress.Email,
 				                "I don't know who you were sending the email to, and neither did the mail server.");
@@ -81,7 +80,6 @@ namespace UnitTests.Subtext
 		}
 
 		[Test]
-		[ExpectedException(typeof(InvalidOperationException))]
 		public void CanStartStopWebServer()
 		{
 			using(TestWebServer server = new TestWebServer())
@@ -105,6 +103,7 @@ namespace UnitTests.Subtext
 		}
 
 		[Test]
+		[ExpectedException(typeof(InvalidOperationException))]
 		public void ExtractResourceBeforeServerStartThrowsInvalidOperationException()
 		{
 			using(TestWebServer server = new TestWebServer())

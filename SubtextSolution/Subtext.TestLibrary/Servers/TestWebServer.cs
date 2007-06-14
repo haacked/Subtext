@@ -264,6 +264,10 @@ namespace Subtext.TestLibrary.Servers
 				if(Directory.Exists(this.webRoot))
 					Directory.Delete(this.webRoot, true);
 			}
+			catch(DirectoryNotFoundException)
+			{
+				Debug.Print("DirectoryNotFoundException occurred while deleting '{0}'", this.webRoot);
+			}
 			catch (UnauthorizedAccessException)
 			{
 				Debug.Print("UnauthorizedAccessException occurred while deleting '{0}'", this.webRoot);
