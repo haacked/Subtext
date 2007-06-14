@@ -18,6 +18,13 @@ namespace Subtext.Installation
 			this.connectionString = connectionString;
 		}
 
+		private string _dbUser = string.Empty;
+
+		public string DbUser
+		{
+			get { return _dbUser; }
+			set { _dbUser = value; }
+		}
 		/// <summary>
 		/// Gets the framework version.
 		/// </summary>
@@ -47,10 +54,10 @@ namespace Subtext.Installation
 						string[] scripts = ListInstallationScripts(this.CurrentInstallationVersion, SubtextAssemblyVersion);
 						foreach (string scriptName in scripts)
 						{
-							ScriptHelper.ExecuteScript(scriptName, transaction);
+							ScriptHelper.ExecuteScript(scriptName, transaction, _dbUser);
 						}
 
-						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
+						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, _dbUser);
 						transaction.Commit();
 
 						// putting this update inside the transaction causes a timeout during a clean install 
@@ -90,9 +97,9 @@ namespace Subtext.Installation
 						string[] scripts = ListInstallationScripts(installationVersion, SubtextAssemblyVersion);
 						foreach (string scriptName in scripts)
 						{
-							ScriptHelper.ExecuteScript(scriptName, transaction);
+							ScriptHelper.ExecuteScript(scriptName, transaction, _dbUser);
 						}
-						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
+						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, _dbUser);
 
 						UpdateInstallationVersionNumber(SubtextAssemblyVersion);
 						transaction.Commit();

@@ -84,7 +84,9 @@ namespace Subtext.Installation
 		public override void Initialize(string name, NameValueCollection config)
 		{
             _connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
-			this.installer = new SqlInstaller(_connectionString);
+            this.installer = new SqlInstaller(_connectionString);
+			if (!String.IsNullOrEmpty(config["dbUser"]))
+				this.installer.DbUser = config["dbUser"];
             base.Initialize(name, config);
 		}
 
