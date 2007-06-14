@@ -13,21 +13,21 @@ namespace UnitTests.Subtext.Scripting
 	public class SqlScriptRunnerTests
 	{
 		[Test]
-		public void CanCreateSriptWitScriptText()
+		public void CanCreateScriptWitScriptText()
 		{
 			SqlScriptRunner runner = new SqlScriptRunner("Select * from subtext_Content" + Environment.NewLine + "GO" + Environment.NewLine + "SELECT * FROM subtext_Feedback");
 			Assert.AreEqual(2, runner.ScriptCollection.Count);
 		}
 
 		[Test]
-		public void CanCreateSriptWithAssemblyAndScopingType()
+		public void CanCreateScriptWithAssemblyAndScopingType()
 		{
 			SqlScriptRunner runner = new SqlScriptRunner(Assembly.GetExecutingAssembly(), typeof(UnitTestHelper), "Resources.Scripting.SqlRunnerTestScript.txt", Encoding.UTF8);
 			Assert.AreEqual(2, runner.ScriptCollection.Count);
 		}
 
 		[Test]
-		public void CanCreateSriptWithScopingType()
+		public void CanCreateScriptWithScopingType()
 		{
 			SqlScriptRunner runner = new SqlScriptRunner(typeof(UnitTestHelper), "Resources.Scripting.SqlRunnerTestScript.txt", Encoding.UTF8);
 			Assert.AreEqual(2, runner.ScriptCollection.Count);
