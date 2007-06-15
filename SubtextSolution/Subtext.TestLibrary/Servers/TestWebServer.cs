@@ -125,6 +125,11 @@ namespace Subtext.TestLibrary.Servers
 			}
 		}
 
+		public string RequestPage(string page, string formParameters)
+		{
+			return RequestPage(page, formParameters, 5000);  //5 secs is a reasonable default, no?
+		}
+
 		/// <summary>
 		/// Makes a  simple POST request to the web server and returns
 		/// the result as a string.
@@ -136,7 +141,7 @@ namespace Subtext.TestLibrary.Servers
 		/// string because it's possible you may want to post flat text.
 		/// </param>
 		/// <returns></returns>
-		public string RequestPage(string page, string formParameters)
+		public string RequestPage(string page, string formParameters, int timeout)
 		{
 			HttpWebRequest request = WebRequest.Create(new Uri(new Uri(this.webServerUrl), page)) as HttpWebRequest;
 
@@ -144,7 +149,7 @@ namespace Subtext.TestLibrary.Servers
 				return null; //can't imagine this happening.
 
 			request.UserAgent = "Sutext UnitTest Webserver";
-			request.Timeout = 10000; //10 secs is reasonable, no?
+			request.Timeout = timeout;
 			request.Method = "POST";
 			request.ContentLength = formParameters.Length;
 			request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
