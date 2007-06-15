@@ -83,6 +83,12 @@ namespace UnitTests.Subtext
 		[Test]
 		public void CanStartStopWebServer()
 		{
+			// This test fails every now and then when running *ALL* tests.
+			// Let's try something crazy here to see if we can rule out memory 
+			// pressure as a cause.
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			
 			using(TestWebServer server = new TestWebServer())
 			{
 				server.Start();

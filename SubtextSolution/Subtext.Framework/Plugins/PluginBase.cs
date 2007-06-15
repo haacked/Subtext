@@ -180,6 +180,8 @@ namespace Subtext.Extensibility.Plugins
 			{
 				Plugin.UpdatePluginEntrySettings(Id, entry.Id, key, value);
 			}
+			if (entry.EnabledPlugins[Id] != null)
+				entry.EnabledPlugins[Id].Settings[key] = value;
 		}
 
         #region Attribute Accessor Helpers
