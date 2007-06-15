@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using DotNetOpenMail;
 using MbUnit.Framework;
 using Subtext.TestLibrary.Servers;
@@ -92,7 +91,9 @@ namespace UnitTests.Subtext
 			using(TestWebServer server = new TestWebServer())
 			{
 				server.Start();
-				Thread.Sleep(1000);
+
+				GC.Collect();
+				GC.WaitForPendingFinalizers();
 
 				server.ExtractResource("UnitTests.Subtext.Resources.Web.HttpClientTest.aspx", "HttpClientTest.aspx");
 				string response = server.RequestPage("HttpClientTest.aspx", "my-key=my-value");
