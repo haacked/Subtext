@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Threading;
 using DotNetOpenMail;
 using MbUnit.Framework;
 using Subtext.TestLibrary.Servers;
@@ -83,14 +84,13 @@ namespace UnitTests.Subtext
 		[Test]
 		public void CanStartStopWebServer()
 		{
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+
 			using(TestWebServer server = new TestWebServer())
 			{
 				server.Start();
-				server.Stop();
-				GC.Collect();
-				GC.WaitForPendingFinalizers();
-				server.Start();
-
+			
 				server.ExtractResource("UnitTests.Subtext.Resources.Web.HttpClientTest.aspx", "HttpClientTest.aspx");
 				string response; 
 				try
@@ -100,6 +100,7 @@ namespace UnitTests.Subtext
 				catch(WebException)
 				{
 					//try again
+					Thread.Sleep(1000);
 					response = server.RequestPage("HttpClientTest.aspx", "my-key=my-value", 10000); // up to 10 secs.
 				}
 				Assert.AreEqual("my-key=my-value&Done", response, "Did not get our expected response with form vars.");
