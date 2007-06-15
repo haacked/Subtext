@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using DotNetOpenMail;
 using MbUnit.Framework;
 using Subtext.TestLibrary.Servers;
@@ -82,21 +83,25 @@ namespace UnitTests.Subtext
 		[Test]
 		public void CanStartStopWebServer()
 		{
-			// This test fails every now and then when running *ALL* tests.
-			// Let's try something crazy here to see if we can rule out memory 
-			// pressure as a cause.
-			GC.Collect();
-			GC.WaitForPendingFinalizers();
-			
 			using(TestWebServer server = new TestWebServer())
 			{
 				server.Start();
-
+				server.Stop();
 				GC.Collect();
 				GC.WaitForPendingFinalizers();
+				server.Start();
 
 				server.ExtractResource("UnitTests.Subtext.Resources.Web.HttpClientTest.aspx", "HttpClientTest.aspx");
-				string response = server.RequestPage("HttpClientTest.aspx", "my-key=my-value");
+				string response 
+				try
+				{
+					response = server.RequestPage("HttpClientTest.aspx", "my-key=my-value", 1000);
+				}
+				catch(WebException)
+				{
+					//try again
+					response = server.RequestPage("HttpClientTest.aspx", "my-key=my-value", 10000); // up to 10 secs.
+				}
 				Assert.AreEqual("my-key=my-value&Done", response, "Did not get our expected response with form vars.");
 				
 				response = server.RequestPage("HttpClientTest.aspx");
