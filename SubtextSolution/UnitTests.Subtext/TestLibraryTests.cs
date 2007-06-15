@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using DotNetOpenMail;
 using MbUnit.Framework;
 using Subtext.TestLibrary.Servers;
@@ -85,6 +86,8 @@ namespace UnitTests.Subtext
 			using(TestWebServer server = new TestWebServer())
 			{
 				server.Start();
+				Thread.Sleep(1000);
+
 				server.ExtractResource("UnitTests.Subtext.Resources.Web.HttpClientTest.aspx", "HttpClientTest.aspx");
 				string response = server.RequestPage("HttpClientTest.aspx", "my-key=my-value");
 				Assert.AreEqual("my-key=my-value&Done", response, "Did not get our expected response with form vars.");

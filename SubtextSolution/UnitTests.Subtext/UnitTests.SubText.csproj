@@ -189,7 +189,7 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="TestFu, Version=1.0.2642.28102, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+    <Reference Include="TestFu, Version=1.0.2700.29883, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\TestFu.dll</HintPath>
     </Reference>
