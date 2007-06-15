@@ -92,7 +92,7 @@ namespace UnitTests.Subtext
 				server.Start();
 
 				server.ExtractResource("UnitTests.Subtext.Resources.Web.HttpClientTest.aspx", "HttpClientTest.aspx");
-				string response 
+				string response; 
 				try
 				{
 					response = server.RequestPage("HttpClientTest.aspx", "my-key=my-value", 1000);
