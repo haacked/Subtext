@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Net;
 using MbUnit.Framework;
 using Subtext.Framework;
@@ -63,10 +64,11 @@ namespace UnitTests.Subtext.Framework.Web
 		[Row("20070123T120102", "01/23/2007 12:01:02 PM")]
 		[Row("12 Apr 2006 06:59:33 GMT", "04/12/2006 06:59:33 AM")]
 		[Row("Wed, 12 Apr 2006 06:59:33 GMT", "04/12/2006 06:59:33 AM")]
+		[MultipleCultureAttribute("en-us,en-nz")]
 		public void CanParseUnknownFormatUTC(string received, string expected)
 		{
 			DateTime expectedDate = DateTimeHelper.ParseUnknownFormatUTC(received);
-			Assert.AreEqual(expected, expectedDate.ToString("MM/dd/yyyy HH:mm:ss tt"));
+			Assert.AreEqual(DateTime.ParseExact(expected, "MM/dd/yyyy HH:mm:ss tt", new CultureInfo("en-US")), expectedDate);
 		}
 
 		[RowTest]
