@@ -66,7 +66,9 @@ namespace UnitTests.Subtext
 		{
 			string[] tables = new string[]
 				{
-					"subtext_KeyWords"	
+					"subtext_PluginData"
+					, "subtext_PluginBlog"
+					, "subtext_KeyWords"	
 					,"subtext_Images"	
 					,"subtext_Links"
 					,"subtext_EntryViewCount"
