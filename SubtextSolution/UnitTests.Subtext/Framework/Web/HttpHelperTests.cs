@@ -64,30 +64,30 @@ namespace UnitTests.Subtext.Framework.Web
 		[Row("20070123T120102", "01/23/2007 12:01:02 PM")]
 		[Row("12 Apr 2006 06:59:33 GMT", "04/12/2006 06:59:33 AM")]
 		[Row("Wed, 12 Apr 2006 06:59:33 GMT", "04/12/2006 06:59:33 AM")]
-		[MultipleCultureAttribute("en-us,en-nz")]
+		[MultipleCulture("en-US,en-NZ,it-IT")]
 		public void CanParseUnknownFormatUTC(string received, string expected)
 		{
 			DateTime expectedDate = DateTimeHelper.ParseUnknownFormatUTC(received);
 			Assert.AreEqual(DateTime.ParseExact(expected, "MM/dd/yyyy HH:mm:ss tt", new CultureInfo("en-US")), expectedDate);
 		}
 
-		[RowTest]
-		[Row("test.css", true)]
-		[Row("test.js", true)]
-		[Row("test.png", true)]
-		[Row("test.gif", true)]
-		[Row("test.jpg", true)]
-		[Row("test.html", true)]
-		[Row("test.xml", true)]
-		[Row("test.htm", true)]
-		[Row("test.txt", true)]
-		[Row("test.aspx", false)]
-		[Row("test.asmx", false)]
-		[Row("test.ashx", false)]
-		public void CanDeterimineIsStaticFileRequest(string filename, bool expected)
-		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "", filename);
-			Assert.AreEqual(expected, HttpHelper.IsStaticFileRequest());
+				[RowTest]
+				[Row("test.css", true)]
+				[Row("test.js", true)]
+				[Row("test.png", true)]
+				[Row("test.gif", true)]
+				[Row("test.jpg", true)]
+				[Row("test.html", true)]
+				[Row("test.xml", true)]
+				[Row("test.htm", true)]
+				[Row("test.txt", true)]
+				[Row("test.aspx", false)]
+				[Row("test.asmx", false)]
+				[Row("test.ashx", false)]
+				public void CanDeterimineIsStaticFileRequest(string filename, bool expected)
+				{
+					UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "", filename);
+					Assert.AreEqual(expected, HttpHelper.IsStaticFileRequest());
+				}
+			}
 		}
-	}
-}
