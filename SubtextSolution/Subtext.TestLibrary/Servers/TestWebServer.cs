@@ -87,7 +87,7 @@ namespace Subtext.TestLibrary.Servers
 
 			//Start the internal Web Server pointing to our test webroot
 			webServer = new Server(webServerPort, webServerVDir, this.webRoot);
-			webServerUrl = String.Format("http://localhost:{0}{1}", webServerPort, webServerVDir);
+			webServerUrl = String.Format("http://127.0.0.1:{0}{1}", webServerPort, webServerVDir);
 			
 			webServer.Start();
 			started = true;
@@ -143,7 +143,9 @@ namespace Subtext.TestLibrary.Servers
 		/// <returns></returns>
 		public string RequestPage(string page, string formParameters, int timeout)
 		{
-			HttpWebRequest request = WebRequest.Create(new Uri(new Uri(this.webServerUrl), page)) as HttpWebRequest;
+			Uri requestedUri = new Uri(new Uri(this.webServerUrl), page);
+			Console.WriteLine("Requested Uri: " + requestedUri);
+			HttpWebRequest request = WebRequest.Create(requestedUri) as HttpWebRequest;
 
 			if (request == null)
 				return null; //can't imagine this happening.
