@@ -41,15 +41,21 @@ namespace Subtext.Scripting
 		/// <param name="fullScriptText">Full script text.</param>
 		public static ScriptCollection ParseScripts(string fullScriptText)
 		{
+			string cleanScriptText = StripComments(fullScriptText);
+	
 			Regex regex = new Regex(@"(^\s*|\s+)GO(\s+|\s*$)",  RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-			string[] scriptTexts = regex.Split(fullScriptText);
+			string[] scriptTexts = regex.Split(cleanScriptText);
 			ScriptCollection scripts = new ScriptCollection(fullScriptText);
 			foreach(string scriptText in scriptTexts)
 			{
-				string cleanScriptText = StripComments(scriptText);
-				if (cleanScriptText != null && cleanScriptText.Trim().Length > 0)
+				if (scriptText == null)
+					continue;
+
+				string trimmedScriptText = scriptText.Trim();
+
+				if (trimmedScriptText.Length > 0)
 				{
-					scripts.Add(new Script(cleanScriptText.Trim()));
+					scripts.Add(new Script(trimmedScriptText));
 				}
 
 			}

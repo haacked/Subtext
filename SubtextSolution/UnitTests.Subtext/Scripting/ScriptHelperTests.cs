@@ -29,6 +29,19 @@ namespace UnitTests.Subtext.Scripting
 	[TestFixture]
 	public class ScriptHelperTests
 	{
+		[Test]
+		public void ScriptIgnoresGOWithinComments()
+		{
+			string script = "SELECT * FROM Foo" + Environment.NewLine
+							+ "GO" + Environment.NewLine
+							+ "SELECT * FROM Bar -- GO HERE" + Environment.NewLine
+							+ "/* GO Here */"
+							+ "WHERE Id = 1";
+
+			ScriptCollection scripts = Script.ParseScripts(script);
+			Assert.AreEqual(2, scripts.Count);
+		}
+
 		[RowTest]
 		[Row(1, "/* Comment */SELECT * FROM subtext_Content\r\nGO", "SELECT * FROM subtext_Content")]
 		[Row(1, "/* Comment */  SELECT * FROM subtext_Content\r\nGO", "SELECT * FROM subtext_Content")]

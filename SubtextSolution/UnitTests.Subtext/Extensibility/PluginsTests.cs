@@ -47,6 +47,7 @@ namespace UnitTests.Subtext.Extensibility
 		}
 
 		[Test]
+		[Ignore]
 		[RollBack2]
 		public void CanGetAndSetEntrySettings()
 		{
