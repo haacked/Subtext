@@ -44,7 +44,7 @@ namespace Subtext.Web.UI.Controls
 		protected Literal PingBack;
 		protected Literal TrackBack;
 
-		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
+		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\" class=\"comments\">{1}{2}</a>";
 
 		/// <summary>
 		/// Loads the entry specified by the URL.  If the user is an 

@@ -25,25 +25,53 @@ namespace Subtext.Web.UI.Controls
 	{
 		protected System.Web.UI.WebControls.HyperLink HeaderTitle;
 		protected System.Web.UI.WebControls.Literal HeaderSubTitle;
+	
+		protected string Title
+		{
+			get { return this.title; }
+			set { this.title = value; }
+		}
+		private string title;
 
-		public Header(){}
+		public string Subtitle
+		{
+			get { return this.subtitle; }
+			set { this.subtitle = value; }
+		}
+		private string subtitle;
 
-		
+		protected string HomeUrl
+		{
+			get { return this.homeUrl; }
+			set { this.homeUrl = value; }
+		}
+		private string homeUrl;
+
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
-		
+
+			this.title = CurrentBlog.Title;
+			this.homeUrl = CurrentBlog.HomeVirtualUrl;
+			this.subtitle = CurrentBlog.SubTitle;
+
 			if (null != this.FindControl("HeaderTitle"))
 			{
-				HeaderTitle.NavigateUrl = CurrentBlog.HomeVirtualUrl;
-				HeaderTitle.Text = CurrentBlog.Title;
+				HeaderTitle.NavigateUrl = HomeUrl;
+				HeaderTitle.Text = Title;
 				ControlHelper.SetTitleIfNone(HeaderTitle, "The Title Of This Blog.");
 			}
 			
 			if (null != this.FindControl("HeaderSubTitle"))
 			{
-				HeaderSubTitle.Text = CurrentBlog.SubTitle;
+				HeaderSubTitle.Text = Subtitle;
 			}
+		}
+
+		protected override void OnPreRender(EventArgs e)
+		{
+			base.OnPreRender(e);
+			this.DataBind();
 		}
 	}
 }
