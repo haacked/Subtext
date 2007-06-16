@@ -397,8 +397,10 @@ namespace Subtext.Framework.Format
 
 			//Remove any / from App.
 			string cleanApp = "/" + StripSurroundingSlashes(applicationPath);
-			if (cleanApp == "/")
-				cleanApp = string.Empty;
+            if (cleanApp == "/")
+            {
+                cleanApp = string.Empty;
+            }
 			string appRegex = Regex.Escape(cleanApp);
 
 			string urlRegexPattern = string.Format(CultureInfo.InvariantCulture, urlPatternFormat, appRegex);
@@ -461,12 +463,19 @@ namespace Subtext.Framework.Format
 			String app = Config.CurrentBlog.Subfolder;
 
 			string url = (String.IsNullOrEmpty(app)) ? "~" : "~/" + app;
-			if (entry.PostType == PostType.BlogPost)
-				url += "/Admin/EditPosts.aspx?PostID=" + entry.Id;
-			else if (entry.PostType == PostType.Story)
-				url += "/Admin/EditArticles.aspx?PostID=" + entry.Id;
-			else
-				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Post type {0} not expected to have an edit link.", entry.PostType));
+            if (entry.PostType == PostType.BlogPost)
+            {
+                url += "/Admin/EditPosts.aspx?PostID=" + entry.Id;
+            }
+            else if (entry.PostType == PostType.Story)
+            {
+                url += "/Admin/EditArticles.aspx?PostID=" + entry.Id;
+            }
+            else
+            {
+                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Post type {0} not expected to have an edit link.", entry.PostType));
+            }
+
 			return url;
 		}
 
@@ -482,12 +491,16 @@ namespace Subtext.Framework.Format
 			String appPath = StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
 
 			String installPath = appPath;							// ex... "Subtext.Web" or ""
-			if (installPath.Length > 0)
-				installPath = "/" + installPath;
+            if (installPath.Length > 0)
+            {
+                installPath = "/" + installPath;
+            }
 			String blogAppName = Config.CurrentBlog.Subfolder;
 
-			if (blogAppName.Length > 0)
-				installPath = installPath + "/" + blogAppName;		// ex... "/Subtext.Web/MyBlog" or "/MyBlog"
+            if (blogAppName.Length > 0)
+            {
+                installPath = installPath + "/" + blogAppName;		// ex... "/Subtext.Web/MyBlog" or "/MyBlog"
+            }
 
 			installPath += "/" + StripSurroundingSlashes(rootFolderName) + "/";		// ex...  "Subtext.Web/MyBlog/Install/" or "/MyBlog/Install/" or "/Install/"
 
