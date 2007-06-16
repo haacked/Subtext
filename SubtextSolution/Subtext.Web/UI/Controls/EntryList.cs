@@ -36,8 +36,8 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class EntryList : BaseControl
 	{	
-		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
-		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\">Feedback ({3})</a>";
+		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\" class=\"comments\">{1}{2}</a>";
+		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\" class=\"comments\">Feedback ({3})</a>";
 		const string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>";
 
         private string category;
