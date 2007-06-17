@@ -6,7 +6,7 @@
 		<asp:hyperlink runat="server" title="Day Archive" borderwidth="0" id="ImageLink" ><asp:literal id = "DateTitle" runat = "server" /></asp:hyperlink>
 	</div>
 	
-	<asp:Repeater runat="Server" Runat="server" ID="DayList" OnItemCreated="PostCreated">
+	<asp:Repeater runat="Server" ID="DayList" OnItemCreated="PostCreated">
 		<ItemTemplate>
 		
 			<h1><asp:HyperLink  Runat="server" ID="editLink" /><asp:hyperlink runat="server" id="TitleUrl" /></h1>
