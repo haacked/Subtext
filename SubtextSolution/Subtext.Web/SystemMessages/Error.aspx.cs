@@ -79,7 +79,7 @@ namespace Subtext.Web.Pages
 				}
 				else if(exception is BlogInactiveException)
 				{
-					log.Warn("Blog Inactive Exception", exception);
+					log.Info("Blog Inactive Exception", exception);
 					exceptionMsgs.AppendFormat("<p>{0}</p>", exception.Message);
 				}
 				else
