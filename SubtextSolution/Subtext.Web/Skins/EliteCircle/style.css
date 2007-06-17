@@ -130,21 +130,28 @@ blockquote {
 
 /* form elements */
 .form {
-	margin: 15px;
-	padding: 0;
+	margin: 0;
+	padding: 5px;
 	border: 1px solid #EFEFEF; 
 	background: #F8F8F8;	
 }
+
+.form dl.Inputs
+{
+	margin-left: 5px;
+}
+
 label {
 	display:block;
 	font-weight:bold;
 	margin:5px 0;
 }
-input {
+input.textbox {
 	padding: 2px;
 	border: 1px solid #EFEFEF;
 	font: normal 1em Verdana, 'Trebuchet MS', Tahoma, sans-serif;	
 	color: #666666;
+	width: 150px;
 }
 textarea {
 	width: 280px;
@@ -155,36 +162,26 @@ textarea {
 	display:block;		
 	color: #666666;
 }
-input.button { 
-	margin: 0; 
-	font: bold 1em Arial, Sans-serif; 
-	border: 1px solid #EFEFEF;
-	padding: 2px 3px; 	
-	background: #F1F0E4;
-}
 
 /* search form */
-.searchform {
+#search {
 	background-color: transparent;
 	border: none;	
 	margin: 0; padding: 5px 0 15px 0;	
 	width: 190px;	
 }
-.searchform p { margin: 0; padding: 0; }
-.searchform input.textbox { 
+#search p { margin: 0; padding: 0; }
+
+body #search #search-box input.searchterm { 
 	width: 120px;
 	color: #333; 
 	height: 18px;
 	padding: 2px;	
 	vertical-align: top;
 }
-.searchform input.button { 
-	font: bold 12px Arial, Sans-serif; 
-	color: #333;	
+#search input.button { 
 	width: 60px;
 	height: 26px;
-	border: none;
-	padding: 3px 5px;	
 	vertical-align: top;
 }
 
@@ -298,6 +295,31 @@ input.button {
 }
 
 /* sidebar */
+#main ul.sidemenu
+{
+	margin: -10px 15px 10px 0;
+	padding: 0;
+}
+
+#main ul.sidemenu li
+{
+	list-style: none;
+	border-bottom: 1px dashed #E1E1E1;
+}
+
+#main ul.sidemenu li a
+{
+	display: block;
+	text-decoration: none;
+	padding:.3em 0 .3em 10px;
+	font-size: 1.1em;
+}
+
+#main ul.sidemenu li a:hover
+{
+	background-color: #FAFBF6;
+}
+
 #sidebar {
 	float: left;
 	width: 190px;
@@ -309,6 +331,7 @@ input.button {
 	padding: 0;	
 	border-top: 1px dashed #E1E1E1;	
 }
+
 #sidebar ul.sidemenu li {
 	list-style: none;
 	border-bottom: 1px dashed #E1E1E1;
@@ -323,7 +346,7 @@ input.button {
 #sidebar ul.sidemenu a:hover {
 	padding: .3em 0 .3em 10px;
 	color: #CB4721;
-	background: #FFF;	
+	background: #fff;	
 }
 
 /* main */
@@ -343,7 +366,8 @@ input.button {
 /* footer */
 #footer {
 	clear: both;
-	margin: 0; padding: 25px 0;
+	margin: 0; 
+	padding: 25px 0;
 	font: normal .95em 'Trebuchet MS', Tahoma, sans-serif;
 	text-align: left;	
 	background: url(images/footerbg.jpg) repeat-x 0% 0%;
@@ -360,7 +384,7 @@ input.button {
 	margin-left: 5px;
 }
 #footer-content {	
-	margin: 0 auto;		
+	margin: 0 auto;	
 }
 #footer-content a{
 	color: #C8935D;
@@ -516,4 +540,147 @@ a.printIcon span
 {
 	font-size: 2em;
 	font-weight: bold;
+}
+
+/********* Search **********
+A standard layout for the search box
+Assumes the following structure:
+
+#search
+	label
+		input.searchterm
+			.searchButton
+	#searchResults {visible only when search button is clicked}
+
+----------------------------*/
+#search
+{
+	float: right;
+	width: 280px;
+}
+
+#search #search-results
+{
+	z-index: 100;
+	position: relative;
+	padding: 5px;
+	margin: 0;
+	border: solid 1px #190801;
+	background-color: #FAFBF6;
+}
+
+#search #search-results ul
+{
+	padding: 0;
+	margin: 5px 5px 5px 0;
+	border-top: 1px dashed #E1E1E1;	
+	list-style-type: none;
+}
+
+#search #search-results ul li
+{
+	border-bottom: 1px dashed #E1E1E1;
+	margin: 0;
+	padding: 0;
+}
+
+#search #search-results ul li a {
+	display: block;
+	color: #666666; 
+	text-decoration: none;
+	padding:.3em 0 .3em 0;		
+	margin: 0;
+	width: 94%;
+}
+
+#search #search-results ul li a:hover {
+	color: #CB4721;
+	background: #fff;	
+}
+
+#search #search-results a.close 
+{
+	display: block;
+	float: right;
+}
+
+/* --- { comments } ----------------------- */
+div.comment
+{
+	margin: 0 0 1em 0;
+}
+
+div.comment .commentInfo
+{
+	color: #333333;
+	margin-bottom: .2em;
+	padding-left: 26px;
+	height: 22px;
+	display: block;
+	background: url(images/CommentIcon.gif) no-repeat 0 .1em;
+}
+
+div.comment h2
+{
+	margin: 0;
+	padding-top: 10px;
+	clear: both;
+}
+
+div.comment .commentText
+{
+	display: block;
+	border: solid 1px #587796;
+	background: #FCFCF9;
+	padding: 10px 5px 10px 5px;
+	float:left;
+}
+
+div.author .commentText
+{
+	border: solid 1px #967758;
+}
+
+#commentPreview
+{
+	width: 500px;	
+}
+
+img.avatar
+{
+	width: 50px;
+	border: solid 1px #000;
+}
+
+div.gravatar
+{
+	width: 80px;
+	height: 80px;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+div.gravatar img
+{
+	margin: 0;
+	padding: 0;
+	border: solid 1px #000;
+}
+
+div.comment div.commentBody
+{
+	float: left;
+	width: 420px;
+	padding-left: 7px;
+}
+
+p.commentText, div.commentText
+{
+	/*overflow: auto;*/
+}
+
+.admin-only
+{
+	clear: both;
 }

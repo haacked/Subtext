@@ -1,24 +1,26 @@
 <%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Comments" %>
 <a name="feedback" title="feedback anchor"></a>
-<div class="comments">
-	<h2>Comments</h2>
-	<asp:literal id="NoCommentMessage" runat="server" />
-	<asp:repeater id="CommentList" runat="server" onitemcreated="CommentsCreated" onitemcommand="RemoveComment_ItemCommand">
-		<itemtemplate>
-		<div class="comment">
-		    <asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />
-			<div class="title">
-				<asp:literal runat="server" id="Title" />
+<h1>What others have said</h1>
+<asp:Literal ID="NoCommentMessage" Runat="server" />
+<asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated" OnItemCommand="RemoveComment_ItemCommand">
+	<ItemTemplate>
+		<a name="<%# Comment.Id %>"></a>
+		<div class="comment<%# AuthorCssClass %>">
+			<h2><a href="<%# Comment.DisplayUrl %>" title="permalink"><asp:Literal Runat="server" ID="title" Text="<%# Comment.Title %>" /></a></h2>
+			<div class="commentInfo">
+				Left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> 
+				on 
+				<asp:Literal id="commentDate" Runat="server" Text='<%# Comment.DateCreated.ToString("MMM dd, yyyy h:mm tt") %>' />
 			</div>
-			<div class="author">Posted by
-				<asp:hyperlink runat="server" id="NameLink" /></div>
-			<div class="postedDate">on
-				<asp:literal id="PostDate" runat="server" /></div>
-			<asp:linkbutton runat="server" id="EditLink" causesvalidation="False" />
-			<div class="content">
-				<asp:literal id="PostText" runat="server" />
+			<div class="commentText">
+				<div class="gravatar">
+					<asp:Image runat="server" id="GravatarImg" visible="False" CssClass="gravatar" Width="80" Height="80" AlternateText="Requesting Gravatar..." />
+				</div>
+				<div class="commentBody">
+					<asp:Literal id="PostText" Runat="server" />
+				</div>
 			</div>
+			<span class="admin-only"><asp:LinkButton Runat="server" ID="EditLink" CausesValidation="False" ToolTip="Remove comment" /></span>
 		</div>
-		</itemtemplate>
-	</asp:repeater>
-</div>
+	</ItemTemplate>
+</asp:Repeater>
