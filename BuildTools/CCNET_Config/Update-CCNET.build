@@ -83,6 +83,7 @@
       <copy todir="${server.root}" overwrite="true">
          <fileset basedir="server">
             <include name="ccnet.config" />
+            <include name="ccnet.TwitterPublisher.plugin.dll" />	
          </fileset>
       </copy>
    </target>
