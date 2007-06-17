@@ -11,13 +11,13 @@
 		<asp:Literal id="authorMetaTag" runat="server" />
 		<asp:Literal id="versionMetaTag" runat="server" />
 		<asp:Literal ID="additionalMetaTags" Runat="server" />
-		<link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" runat="Server" />
+		<link id="RSSLink" title="RSS Feed" type="application/rss+xml" rel="alternate" runat="Server" />
+		<link id="AtomLink" title="Atom Feed" type="application/rss+xml" rel="alternate" runat="Server" />
 		<asp:Literal ID="styles" Runat="server" />
 		<link id="MainStyle" type="text/css" rel="stylesheet" runat="Server" />
 		<link id="SecondaryCss" type="text/css" rel="stylesheet" runat="Server" />
 		<link id="CustomCss" type="text/css" rel="stylesheet" runat="Server" />
 		<link id="Rsd" rel="EditURI" type="application/rsd+xml" title="RSD" runat="server" />
-		<link id="AtomLink" title="RSS" type="application/rss+xml" rel="alternate" runat="Server" />
 		<st:ScriptTag id="commonJs" src="~/Scripts/common.js" runat="server" />
 		<script type="text/javascript">
 			<%= AllowedHtmlJavascriptDeclaration %>
