@@ -1532,6 +1532,7 @@
     <Content Include="Skins\EliteCircle\images\bk_dotted.gif" />
     <Content Include="Skins\EliteCircle\images\clock.gif" />
     <Content Include="Skins\EliteCircle\images\comment.gif" />
+    <Content Include="Skins\EliteCircle\images\CommentIcon.gif" />
     <Content Include="Skins\EliteCircle\images\contentbg.jpg" />
     <Content Include="Skins\EliteCircle\images\feed-icon16x16.png" />
     <Content Include="Skins\EliteCircle\images\firefox-gray.jpg" />

@@ -273,6 +273,7 @@
     <Compile Include="Framework\StatsTests.cs" />
     <Compile Include="Framework\TagsTests.cs" />
     <Compile Include="Framework\Web\BaseHttpHandlerTests.cs" />
+    <Compile Include="HttpSimulatorTests.cs" />
     <Compile Include="Installation\InstallerTests.cs" />
     <Compile Include="Plugins\Core\FeedvertisingTests.cs" />
     <Compile Include="PresenterTestContext.cs" />
@@ -386,9 +387,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Installation\SqlInstallationProviderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ReflectionHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Scripting\ExceptionTests.cs" />
