@@ -9,6 +9,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Tracking;
+using Subtext.TestLibrary;
 
 namespace UnitTests.Subtext.Framework.Tracking
 {
@@ -221,6 +222,11 @@ namespace UnitTests.Subtext.Framework.Tracking
 				break;
 			}
 
+			if (trackback == null)
+			{
+				Assert.Fail("Trackback is null");
+				return;
+			}
 			Assert.AreEqual(title, trackback.Title, "Somehow the title of the feedback doesn't match.");
 		}
 

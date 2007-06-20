@@ -141,8 +141,7 @@ namespace Subtext.TestLibrary
 
             if (headers != null)
                 _headers.Add(headers);
-
-
+			
             this.workerRequest = new SimulatedHttpRequest(ApplicationPath, PhysicalApplicationPath, PhysicalPath, Page, query, this.responseWriter, host, port, httpVerb.ToString());
 
             this.workerRequest.Form.Add(_formVars);
