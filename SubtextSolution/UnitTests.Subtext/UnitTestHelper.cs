@@ -37,7 +37,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Security;
 using Subtext.Framework.Web.HttpModules;
-using Subtext.Reflection;
+using Subtext.TestLibrary;
 
 namespace UnitTests.Subtext
 {

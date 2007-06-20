@@ -456,6 +456,7 @@ namespace Subtext.Framework.Components
 		public StringCollection Categories
 		{
 			get { return this.categories; }
+            set { this.categories = value; }
 		}
 
 		private StringCollection categories = new StringCollection();

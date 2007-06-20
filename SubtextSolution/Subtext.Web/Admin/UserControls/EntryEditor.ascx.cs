@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.UI;
@@ -414,6 +415,7 @@ namespace Subtext.Web.Admin.UserControls
 					entry.IsAggregated = chkIsAggregated.Checked;
 					entry.EntryName = StringHelper.ReturnNullForEmpty(txbEntryName.Text);
 					entry.Description = StringHelper.ReturnNullForEmpty(txbExcerpt.Text);
+                    entry.Categories = GetSelectedCategoryNames();
 
                     if (!NullValue.IsNull(postDate))
                     {
@@ -470,6 +472,22 @@ namespace Subtext.Web.Admin.UserControls
 				this.Messages.ShowMessage(successMessage, false);
 			}
 		}
+
+
+        private StringCollection GetSelectedCategoryNames()
+        {
+            StringCollection sc = new StringCollection();
+
+            foreach (ListItem item in cklCategories.Items)
+            {
+                if (item.Selected)
+                {
+                    sc.Add(item.Text);
+                }
+            }
+
+            return sc;
+        }
 
 		private void UpdateCategories()
 		{ 
