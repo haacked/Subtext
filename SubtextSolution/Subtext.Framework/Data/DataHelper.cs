@@ -102,14 +102,18 @@ namespace Subtext.Framework.Data
 
 			while(reader.Read())
 			{
-				if(IsNewDay(dt, (DateTime)reader["DateAdded"]))
-				{
-					dt = (DateTime)reader["DateAdded"];
-					day = new EntryDay(dt);
-					edc.Add(day);
-				}
-				if(day != null)
-					day.Add(LoadEntry(reader, buildLinks));
+                DateTime syndicatedDate = ReadDate(reader, "DateSyndicated");
+                if (syndicatedDate == NullValue.NullDateTime || syndicatedDate <= DateTime.Now)
+                {
+                    if (IsNewDay(dt, syndicatedDate))
+                    {
+                        dt = syndicatedDate;
+                        day = new EntryDay(dt);
+                        edc.Add(day);
+                    }
+                    if (day != null)
+                        day.Add(LoadEntry(reader, buildLinks));
+                }
 			}
 			return edc;
 		}
@@ -121,7 +125,11 @@ namespace Subtext.Framework.Data
             List<Entry> entries = new List<Entry>();
             while(reader.Read())
             {
-                entries.Add(LoadEntry(reader));
+                DateTime syndicatedDate = ReadDate(reader, "DateSyndicated");
+                if (NullValue.IsNull(syndicatedDate) || syndicatedDate <= DateTime.Now)
+                {
+                    entries.Add(LoadEntry(reader));
+                }
             }
 
             if(entries.Count > 0 && reader.NextResult())

@@ -172,5 +172,37 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Assert.AreEqual(previousId, entries[1].Id, "The previous entry does not match expectations.");
 		}
 
+        /// <summary>
+        /// Make sure that Next recognizes that a post is set in the future based on DateSyndicated
+        /// </summary>
+        [Test]
+        [RollBack2]
+        public void GetPreviousAndNextBasedOnFutureSyndicationDate()
+        {
+            UnitTestHelper.SetupBlog();
+
+            Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");
+            Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");
+            Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");
+
+            //Create three posts
+            int previousId = Entries.Create(previousEntry);
+            int currentId = Entries.Create(currentEntry);
+            int nextId = Entries.Create(nextEntry);
+
+            //Now syndicate.
+            previousEntry.DateSyndicated = DateTime.Now;
+            Entries.Update(previousEntry);
+            Thread.Sleep(100);
+            currentEntry.DateSyndicated = DateTime.Now;
+            Entries.Update(currentEntry);
+            Thread.Sleep(100);
+            nextEntry.DateSyndicated = DateTime.Now.AddHours(1);
+            Entries.Update(nextEntry);
+
+            IList<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
+            Assert.AreEqual(1, entries.Count, "Expected only a previous entry.");
+            Assert.AreEqual(previousId, entries[0].Id, "The previous entry does not match expectations.");
+        }
 	}
 }
