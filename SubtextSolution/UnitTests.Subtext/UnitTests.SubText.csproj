@@ -391,9 +391,6 @@
     </Compile>
     <Compile Include="Scripting\ExceptionTests.cs" />
     <Compile Include="Scripting\ScriptHelperTests.cs" />
-    <Compile Include="SimulatedHttpRequest.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="StubDataReader.cs">
       <SubType>Code</SubType>
     </Compile>
