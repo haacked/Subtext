@@ -7,6 +7,7 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.TestLibrary;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -137,17 +138,18 @@ namespace UnitTests.Subtext.Framework
 		[Test]
 		public void CanSetupFeedbackSpamService()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
+			using (new HttpSimulator().SimulateRequest())
+			{
+				BlogInfo blog = new BlogInfo();
+				blog.Host = "http://subtextproject.com/";
+				blog.FeedbackSpamServiceKey = null;
+				Assert.IsNull(blog.FeedbackSpamService);
+				Assert.IsFalse(blog.FeedbackSpamServiceEnabled);
 
-			BlogInfo blog = new BlogInfo();
-			blog.Host = "http://subtextproject.com/";
-			blog.FeedbackSpamServiceKey = null;
-			Assert.IsNull(blog.FeedbackSpamService);
-			Assert.IsFalse(blog.FeedbackSpamServiceEnabled);
-
-			blog.FeedbackSpamServiceKey = "abc123";
-			Assert.IsNotNull(blog.FeedbackSpamService);
-			Assert.IsTrue(blog.FeedbackSpamServiceEnabled);
+				blog.FeedbackSpamServiceKey = "abc123";
+				Assert.IsNotNull(blog.FeedbackSpamService);
+				Assert.IsTrue(blog.FeedbackSpamServiceEnabled);
+			}
 		}
 
 		[Test]
@@ -191,28 +193,6 @@ namespace UnitTests.Subtext.Framework
 	        Assert.AreEqual(host, BlogInfo.NormalizeHostName("www."+host+":2734"), "Need to strip both the prefix and port number");
 	    }
 	    
-		/// <summary>
-	    /// Makes sure we can setup the fake HttpContext.
-	    /// </summary>
-	    [Test]
-	    public void SetHttpContextWithBlogRequestDoesADecentSimulation()
-	    {
-            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "");
-            Assert.AreEqual(HttpContext.Current.Request.Url.Host, "localhost");
-            Assert.AreEqual(HttpContext.Current.Request.ApplicationPath, "/");
-
-            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", "Subtext.Web");           
-	        
-	        Assert.AreEqual(HttpContext.Current.Request.Url.Host, "localhost");
-            Assert.AreEqual(HttpContext.Current.Request.ApplicationPath, "/Subtext.Web");
-
-            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
-
-            Assert.AreEqual(HttpContext.Current.Request.Url.Host, "localhost");
-            Assert.AreEqual(HttpContext.Current.Request.ApplicationPath, "/Subtext.Web");
-
-	    }
-
 		/// <summary>
 		/// Test makes sure that the port number is included in fully qualified 
 		/// urls.

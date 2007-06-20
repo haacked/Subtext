@@ -39,19 +39,19 @@ namespace UnitTests.Subtext.Framework.Web
 		[Row("Wed, 12 Apr 2006 06:59:33 GMT", "04-11-2006 23:59:33")]
 		public void TestIfModifiedSinceExtraction(string received, string expected)
 		{
-			SimulatedHttpRequest workerRequest = UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "");
-			workerRequest.Headers.Add("If-Modified-Since", received);
+			using (new HttpSimulator().SetHeader("If-Modified-Since", received).SimulateRequest())
+			{
+				DateTime expectedDate = DateTimeHelper.ParseUnknownFormatUTC(expected);
+				Console.WriteLine("{0}\t{1}\t{2}", received, expected, expectedDate.ToUniversalTime());
 
-			DateTime expectedDate = DateTimeHelper.ParseUnknownFormatUTC(expected);
-			Console.WriteLine("{0}\t{1}\t{2}", received, expected, expectedDate.ToUniversalTime());
+				DateTime result = HttpHelper.GetIfModifiedSinceDateUTC();
+				//Convert to PST:
+				const int PacificTimeZoneId = -2037797565;
+				WindowsTimeZone timeZone = WindowsTimeZone.GetById(PacificTimeZoneId);
+				result = timeZone.ToLocalTime(result);
 
-			DateTime result = HttpHelper.GetIfModifiedSinceDateUTC();
-			//Convert to PST:
-			const int PacificTimeZoneId = -2037797565;
-			WindowsTimeZone timeZone = WindowsTimeZone.GetById(PacificTimeZoneId);
-			result = timeZone.ToLocalTime(result);
-
-			Assert.AreEqual(expectedDate, result);
+				Assert.AreEqual(expectedDate, result);
+			}
 		}
 
 		[Test]
@@ -87,8 +87,10 @@ namespace UnitTests.Subtext.Framework.Web
 				[Row("test.ashx", false)]
 				public void CanDeterimineIsStaticFileRequest(string filename, bool expected)
 				{
-					UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "", filename);
-					Assert.AreEqual(expected, HttpHelper.IsStaticFileRequest());
+					using (new HttpSimulator().SimulateRequest(new Uri("http://localhost/" + filename)))
+					{
+						Assert.AreEqual(expected, HttpHelper.IsStaticFileRequest());
+					}
 				}
 			}
 		}

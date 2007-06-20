@@ -3,6 +3,7 @@ using System.Net;
 using System.Web;
 using MbUnit.Framework;
 using Subtext.Extensibility.Web;
+using Subtext.TestLibrary;
 
 namespace UnitTests.Subtext.Framework.Web
 {
@@ -20,26 +21,32 @@ namespace UnitTests.Subtext.Framework.Web
 		public void ProcessRequestRespondsWithInternalErrorIfParametersInvalid()
 		{
 			TestHttpHandler handler = new TestHttpHandler(false, false);
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-			handler.ProcessRequest(HttpContext.Current);
-			Assert.AreEqual((int)HttpStatusCode.InternalServerError, HttpContext.Current.Response.StatusCode);
+			using (new HttpSimulator().SimulateRequest())
+			{
+				handler.ProcessRequest(HttpContext.Current);
+				Assert.AreEqual((int) HttpStatusCode.InternalServerError, HttpContext.Current.Response.StatusCode);
+			}
 		}
 
 		[Test]
 		public void ProcessRequestRespondsWithForbiddenIfRequiresAuthenticationButUserNotAuthenticated()
 		{
 			TestHttpHandler handler = new TestHttpHandler(true, true);
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-			handler.ProcessRequest(HttpContext.Current);
-			Assert.AreEqual((int)HttpStatusCode.Forbidden, HttpContext.Current.Response.StatusCode);
+			using (new HttpSimulator().SimulateRequest())
+			{
+				handler.ProcessRequest(HttpContext.Current);
+				Assert.AreEqual((int) HttpStatusCode.Forbidden, HttpContext.Current.Response.StatusCode);
+			}
 		}
 
 		[Test]
 		public void CanRespondWithFileNotFound()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-			TestHttpHandler.Respond404(HttpContext.Current);
-			Assert.AreEqual((int)HttpStatusCode.NotFound, HttpContext.Current.Response.StatusCode);
+			using (new HttpSimulator().SimulateRequest())
+			{
+				TestHttpHandler.Respond404(HttpContext.Current);
+				Assert.AreEqual((int) HttpStatusCode.NotFound, HttpContext.Current.Response.StatusCode);
+			}
 		}
 
 		#region Exception Tests

@@ -4,6 +4,7 @@ using System.IO;
 using MbUnit.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Util;
+using Subtext.TestLibrary;
 
 namespace UnitTests.Subtext.Framework.Util
 {
@@ -22,12 +23,14 @@ namespace UnitTests.Subtext.Framework.Util
 				writer.Write(reader.ReadToEnd());
 			}
 
-			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "");
-			List<string> transforms = Transform.LoadTransformFile("emoticons.txt");
-			Assert.AreEqual(48, transforms.Count, "Expected 48 transformations");
-			Assert.AreEqual(@"\[\(H\)]", transforms[0], "The first line does not match");
-			Assert.AreEqual(@"<img src=""{0}Images/emotions/smiley-cool.gif"" border=""0"" alt=""Cool"" />", transforms[1],
-			                "The second line does not match");
+			using (new HttpSimulator().SimulateRequest(new Uri("http://" + UnitTestHelper.GenerateRandomString() + "/")))
+			{
+				List<string> transforms = Transform.LoadTransformFile("emoticons.txt");
+				Assert.AreEqual(48, transforms.Count, "Expected 48 transformations");
+				Assert.AreEqual(@"\[\(H\)]", transforms[0], "The first line does not match");
+				Assert.AreEqual(@"<img src=""{0}Images/emotions/smiley-cool.gif"" border=""0"" alt=""Cool"" />", transforms[1],
+				                "The second line does not match");
+			}
 		}
 
 		[Test]

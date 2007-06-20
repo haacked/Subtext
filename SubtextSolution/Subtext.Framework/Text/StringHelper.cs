@@ -182,7 +182,7 @@ namespace Subtext.Framework.Text
 		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
 		public static string RightAfter(string original, string search)
 		{
-			return RightAfter(original, search, StringComparison.InvariantCulture);
+			return RightAfter(original, search, StringComparison.InvariantCultureIgnoreCase);
 		}
 
 		/// <summary>

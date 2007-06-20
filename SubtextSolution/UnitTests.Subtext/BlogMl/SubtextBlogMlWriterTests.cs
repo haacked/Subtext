@@ -62,14 +62,15 @@ namespace UnitTests.Subtext.BlogML
 //			writer.EmbedAttachments = false;
             MemoryStream memoryStream = new MemoryStream();
 
+			IDisposable request;
 			using (XmlTextWriter xmlWriter = new XmlTextWriter(memoryStream, Encoding.UTF8))
 			{
 				writer.Write(xmlWriter);
 
 				// Create a new blog.
 				MembershipUser owner = Membership.CreateUser(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword, UnitTestHelper.MembershipTestEmail);
-				Config.CreateBlog("BlogML Import Unit Test Blog", Config.CurrentBlog.Host + "2", "", owner);
-				UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "2", "");
+				BlogInfo blog = Config.CreateBlog("BlogML Import Unit Test Blog", Config.CurrentBlog.Host + "2", "", owner);
+				request = BlogRequestSimulator.SimulateRequest(blog, blog.Host, "", "");
 				Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("2"), "Looks like we've cached our old blog.");
 
 				// Now read it back in to a new blog.
@@ -87,6 +88,8 @@ namespace UnitTests.Subtext.BlogML
 			Assert.AreEqual(1, newEntries.Count, "Round trip failed to create the same number of entries.");
 			Assert.AreEqual(1, newEntries[0].Categories.Count, "Expected one category for this entry.");
 			Assert.AreEqual("Category002", newEntries[0].Categories[0], "Expected the catgory to be 'Category002'");
+			if(request != null)
+				request.Dispose();
 		}
 		
 		[Test]

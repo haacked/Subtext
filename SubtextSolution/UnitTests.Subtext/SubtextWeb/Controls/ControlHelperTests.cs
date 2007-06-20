@@ -5,6 +5,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using MbUnit.Framework;
 using Rhino.Mocks;
+using Subtext.TestLibrary;
 using Subtext.Web.Controls;
 
 namespace UnitTests.Subtext.SubtextWeb.Controls
@@ -50,9 +51,11 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 		[Row("Subtext.Web", "/Something/", "/Something/")]
 		public void CanExpandTildePath(string applicationPath, string path, string expected)
 		{
-			UnitTestHelper.SetupHttpContextWithRequest(applicationPath);
-			string result = ControlHelper.ExpandTildePath(path);
-			Assert.AreEqual(expected, result, "Did not expand tilde correctly.");
+			using (new HttpSimulator(applicationPath).SimulateRequest())
+			{
+				string result = ControlHelper.ExpandTildePath(path);
+				Assert.AreEqual(expected, result, "Did not expand tilde correctly.");
+			}
 		}
 		
 		[Test]
@@ -210,9 +213,10 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 			label.Page = new Page();
 			label.Text = "Ha ha";
 
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-
-			ControlHelper.ExportToExcel(label, "MyFile.xls");
+			using (new HttpSimulator("/").SimulateRequest())
+			{
+				ControlHelper.ExportToExcel(label, "MyFile.xls");
+			}
 		}
 
 		[Test]

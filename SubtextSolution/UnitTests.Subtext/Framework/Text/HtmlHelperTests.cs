@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.UI.WebControls;
 using MbUnit.Framework;
 using Subtext.Extensibility;
@@ -287,21 +286,23 @@ namespace UnitTests.Subtext.Framework.Text
             UnitTestHelper.AssertAppSettings();
 		}
 
+		private IDisposable blogRequest;
+
 		[SetUp]
 		public void SetUp()
-		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "MyBlog");
+		{			
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "MyBlog";
 
-			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
+			blogRequest = BlogRequestSimulator.SimulateRequest(blogInfo, "localhost", "", "MyBlog");
 		}
 
 		[TearDown]
 		public void TearDown()
 		{
-			HttpContext.Current = null;
+			if(blogRequest != null)
+				blogRequest.Dispose();
 		}
 	}
 }
