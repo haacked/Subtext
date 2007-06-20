@@ -252,6 +252,8 @@ namespace UnitTests.Subtext
 
 			MembershipCreateStatus status;
 			MembershipUser owner = Membership.CreateUser(userName, password, MembershipTestEmail, "What time is it?", "It's Subtext Time!", true, out status);
+            Assert.AreEqual(status, MembershipCreateStatus.Success, "User was unable not created");
+
 			HttpContext.Current = null;
 			Assert.IsNotNull(Config.CreateBlog("Unit Test Blog", host, subfolder, owner), "Could Not Create Blog");
 
@@ -265,7 +267,7 @@ namespace UnitTests.Subtext
 				Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "image") + Path.DirectorySeparatorChar;
 				Config.CurrentBlog.ImagePath = "/image/";
 			}
-			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userName), new string[] { RoleNames.Administrators });
+            HttpContext.Current.User = new GenericPrincipal(new GenericIdentity(userName), new string[] { RoleNames.Administrators });
 
 			return new SimulatedRequestContext(request, sb, output, host);
 		}
