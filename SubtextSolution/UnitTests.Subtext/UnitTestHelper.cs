@@ -288,45 +288,8 @@ namespace UnitTests.Subtext
 		{
 			SetupBlog(subfolder, string.Empty, 80, string.Empty, username, password);
 		}
-		
-		/// <summary>
-		/// Sets the HTTP context with a valid request for the blog specified 
-		/// by the host and application.
-		/// </summary>
-		/// <param name="host">Host.</param>
-		/// <param name="subfolder">Subfolder Name.</param>
-		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder)
-		{
-			return SetHttpContextWithBlogRequest(host, subfolder, string.Empty);
-		}
-		
-		/// <summary>
-		/// Sets up the HttpContext with a request.
-		/// </summary>
-		/// <param name="applicationPath"></param>
-		internal static SimulatedHttpRequest SetupHttpContextWithRequest(string applicationPath)
-		{
-			return SetHttpContextWithBlogRequest(GenerateRandomString(), string.Empty, applicationPath);
-		}
-
-		/// <summary>
-		/// Sets the HTTP context with a valid request for the blog specified 
-		/// by the host and subfolder hosted in a virtual directory.
-		/// </summary>
-		/// <param name="host">Host.</param>
-		/// <param name="subfolder">Subfolder Name.</param>
-		/// <param name="applicationPath"></param>
-		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath)
-		{
-			return SetHttpContextWithBlogRequest(host, subfolder, applicationPath, "default.aspx");
-		}
-	    
-	    public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, int port, string subfolder, string applicationPath)
-	    {
-            return SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, "default.aspx");
-	    }
-		
-	    public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page)
+				
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page)
 	    {
 	        return SetHttpContextWithBlogRequest(host, 80, subfolder, applicationPath, page);
 	    }

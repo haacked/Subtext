@@ -142,7 +142,7 @@ namespace Subtext.TestLibrary
         public override string GetKnownRequestHeader(int index)
         {
             if (index == 0x24)
-                return _referer.ToString();
+				return _referer == null ? string.Empty : _referer.ToString();
 
             if (index == 12 && this._verb == "POST")
                 return "application/x-www-form-urlencoded";

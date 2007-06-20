@@ -6,6 +6,7 @@ using System.Web.Caching;
 using MbUnit.Framework;
 using Rhino.Mocks;
 using Subtext.Framework;
+using Subtext.TestLibrary;
 
 namespace UnitTests.Subtext.Framework.Data
 {
@@ -19,46 +20,59 @@ namespace UnitTests.Subtext.Framework.Data
 		[Test]
 		public void CanInsertIntoCache()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-			ContentCache cache = ContentCache.Instantiate();
-			Assert.IsNull(cache.Get("NotThere"));
-			cache.Insert("IsThereNow", new object());
-			Assert.IsNotNull(cache.Get("IsThereNow"));
+			using (new HttpSimulator().SimulateRequest())
+			{
+				ContentCache cache = ContentCache.Instantiate();
+				Assert.IsNull(cache.Get("NotThere"));
+				cache.Insert("IsThereNow", new object());
+				Assert.IsNotNull(cache.Get("IsThereNow"));
+			}
 		}
 
 		[Test]
 		public void CanInsertIntoCacheWithCacheDependency()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-			ContentCache cache = ContentCache.Instantiate();
-			Assert.IsNull(cache.Get("NotThere"));
-			MockRepository mocks = new MockRepository();
-			CacheDependency cacheDependency = mocks.CreateMock<CacheDependency>();
-			mocks.ReplayAll();
-			cache.Insert("IsThereWithDependency", new object(), cacheDependency);
-			Assert.IsNotNull(cache.Get("IsThereWithDependency"));
-			mocks.VerifyAll();
+			using (new HttpSimulator().SimulateRequest())
+			{
+				ContentCache cache = ContentCache.Instantiate();
+				Assert.IsNull(cache.Get("NotThere"));
+				MockRepository mocks = new MockRepository();
+				CacheDependency cacheDependency;
+				using(mocks.Record())
+				{
+					cacheDependency = mocks.CreateMock<CacheDependency>();
+				}
+				using(mocks.Playback())
+				{
+					cache.Insert("IsThereWithDependency", new object(), cacheDependency);
+					Assert.IsNotNull(cache.Get("IsThereWithDependency"));
+				}
+			}
 		}
 
 		[Test]
 		public void CanRemoveFromCache()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-			ContentCache cache = ContentCache.Instantiate();
-			cache["IsThereForRemove"] = new object();
-			Assert.IsNotNull(cache.Get("IsThereForRemove"));
-			cache.Remove("IsThereForRemove");
-			Assert.IsNull(cache.Get("IsThereForRemove"));
+			using (new HttpSimulator().SimulateRequest())
+			{
+				ContentCache cache = ContentCache.Instantiate();
+				cache["IsThereForRemove"] = new object();
+				Assert.IsNotNull(cache.Get("IsThereForRemove"));
+				cache.Remove("IsThereForRemove");
+				Assert.IsNull(cache.Get("IsThereForRemove"));
+			}
 		}
 
 		[Test]
 		public void CanGetItemFromCache()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-			ContentCache cache = ContentCache.Instantiate();
-			Assert.IsNull(cache.Get("NotThere"));
-			cache["IsThereGetIt"] = new object();
-			Assert.IsNotNull(cache.Get("IsThereGetIt"));
+			using (new HttpSimulator().SimulateRequest())
+			{
+				ContentCache cache = ContentCache.Instantiate();
+				Assert.IsNull(cache.Get("NotThere"));
+				cache["IsThereGetIt"] = new object();
+				Assert.IsNotNull(cache.Get("IsThereGetIt"));
+			}
 		}
 
 		/// <summary>
@@ -68,17 +82,18 @@ namespace UnitTests.Subtext.Framework.Data
 		[Test]
 		public void InstantiationOfContentCacheUsesRequestCaching()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-			Assert.IsNotNull(HttpContext.Current, "We did not set up the http context correctly.");
-			Assert.AreEqual(1, HttpContext.Current.Items.Count, "Did not expect the request cache to have any items.");
-			
-			ContentCache cache = ContentCache.Instantiate();
+			using (new HttpSimulator().SimulateRequest())
+			{
+				Assert.IsNotNull(HttpContext.Current, "We did not set up the http context correctly.");
+				Assert.AreEqual(1, HttpContext.Current.Items.Count, "Did not expect the request cache to have any items.");
 
-			Assert.AreEqual(2, HttpContext.Current.Items.Count, "Expected two item in the request cache.");
+				ContentCache cache = ContentCache.Instantiate();
 
-			Assert.AreSame(cache, ContentCache.Instantiate(), "Expected second call to instantiate to return cached ContentCache.");
+				Assert.AreEqual(2, HttpContext.Current.Items.Count, "Expected two item in the request cache.");
 
-			HttpContext.Current = null;
+				Assert.AreSame(cache, ContentCache.Instantiate(),
+				               "Expected second call to instantiate to return cached ContentCache.");
+			}
 		}
 
 		/// <summary>
@@ -88,34 +103,33 @@ namespace UnitTests.Subtext.Framework.Data
 		[Test]
 		public void ContentCacheCachesByLanguage()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-
-			//Start with en-US
-			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-			ContentCache cache = ContentCache.Instantiate();
-			cache["test"] = "English";
-			Assert.AreEqual("English", cache["test"], "Did not store the value in the cache properly.");
-
-			//CHange to spanish
-			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("es");
-			cache["test"] = "Espanol";
-			Assert.AreEqual("Espanol", cache["test"], "Did not store the value in the cache properly.");
-
-			//Change back to English.
-			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-			Assert.AreEqual("English", cache["test"], "Should have changed the value based on language code.");
-
-			int stringCount = 0;
-			foreach(DictionaryEntry item in cache)
+			using (new HttpSimulator().SimulateRequest())
 			{
-				if(item.Value.ToString() == "English" || item.Value.ToString() == "Espanol")
-				{
-					stringCount++;
-				}
-			}
-			Assert.AreEqual(2, stringCount, "Expected two items in the cache.");
+				//Start with en-US
+				Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
+				ContentCache cache = ContentCache.Instantiate();
+				cache["test"] = "English";
+				Assert.AreEqual("English", cache["test"], "Did not store the value in the cache properly.");
 
-			HttpContext.Current = null;
+				//CHange to spanish
+				Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("es");
+				cache["test"] = "Espanol";
+				Assert.AreEqual("Espanol", cache["test"], "Did not store the value in the cache properly.");
+
+				//Change back to English.
+				Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
+				Assert.AreEqual("English", cache["test"], "Should have changed the value based on language code.");
+
+				int stringCount = 0;
+				foreach (DictionaryEntry item in cache)
+				{
+					if (item.Value.ToString() == "English" || item.Value.ToString() == "Espanol")
+					{
+						stringCount++;
+					}
+				}
+				Assert.AreEqual(2, stringCount, "Expected two items in the cache.");
+			}
 		}
 
 		/// <summary>
@@ -125,9 +139,11 @@ namespace UnitTests.Subtext.Framework.Data
 		[ExpectedArgumentNullException]
 		public void InsertThrowsArgumentNullExceptionForNullValue()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-			ContentCache cache = ContentCache.Instantiate();
-			cache.Insert("test", null);
+			using (new HttpSimulator().SimulateRequest())
+			{
+				ContentCache cache = ContentCache.Instantiate();
+				cache.Insert("test", null);
+			}
 		}
 
 		/// <summary>
@@ -137,9 +153,11 @@ namespace UnitTests.Subtext.Framework.Data
 		[ExpectedArgumentNullException]
 		public void InsertThrowsArgumentNullExceptionForNullValueWithCacheDurationOverload()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-			ContentCache cache = ContentCache.Instantiate();
-			cache.Insert("test", null, CacheDuration.Short);
+			using (new HttpSimulator().SimulateRequest())
+			{
+				ContentCache cache = ContentCache.Instantiate();
+				cache.Insert("test", null, CacheDuration.Short);
+			}
 		}
 
 		/// <summary>
@@ -149,13 +167,15 @@ namespace UnitTests.Subtext.Framework.Data
 		[ExpectedArgumentNullException]
 		public void InsertThrowsArgumentNullExceptionForNullValueWithCacheDependencyOverload()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
-			ContentCache cache = ContentCache.Instantiate();
+			using (new HttpSimulator().SimulateRequest())
+			{
+				ContentCache cache = ContentCache.Instantiate();
 
-			MockRepository mocks = new MockRepository();
-			CacheDependency cacheDependency = mocks.CreateMock<CacheDependency>();
-			mocks.ReplayAll();
-			cache.Insert("test", null, cacheDependency);
+				MockRepository mocks = new MockRepository();
+				CacheDependency cacheDependency = mocks.CreateMock<CacheDependency>();
+				mocks.ReplayAll();
+				cache.Insert("test", null, cacheDependency);
+			}
 		}
 	}
 }

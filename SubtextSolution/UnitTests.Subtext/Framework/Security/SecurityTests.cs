@@ -23,6 +23,7 @@ using System.Web.Security;
 using MbUnit.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
+using Subtext.TestLibrary;
 
 namespace UnitTests.Subtext.Framework.SecurityHandling
 {
@@ -58,24 +59,28 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 			Thread.CurrentPrincipal = null;
 			Assert.IsFalse(SecurityHelper.IsInRole(RoleNames.Administrators));
 
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", string.Empty);
-			Assert.IsFalse(SecurityHelper.IsInRole(RoleNames.Administrators));
+			using (new HttpSimulator().SimulateRequest())
+			{
+				Assert.IsFalse(SecurityHelper.IsInRole(RoleNames.Administrators));
+			}
 		}
 
 		[Test]
 		[RollBack2]
 		public void IsHostAdminReturnsCorrectAnswer()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "test");
-			Assert.IsFalse(SecurityHelper.IsHostAdmin);
-			UnitTestHelper.SetupBlog();
-			MembershipUser user = Config.CurrentBlog.Owner;
-			using (MembershipApplicationScope.SetApplicationName("/"))
+			using (new HttpSimulator().SimulateRequest())
 			{
-				IPrincipal principal =
-					new GenericPrincipal(new GenericIdentity(user.UserName), new string[] { "HostAdmins" });
-				Thread.CurrentPrincipal = principal;
-				Assert.IsTrue(SecurityHelper.IsHostAdmin);
+				Assert.IsFalse(SecurityHelper.IsHostAdmin);
+				UnitTestHelper.SetupBlog();
+				MembershipUser user = Config.CurrentBlog.Owner;
+				using (MembershipApplicationScope.SetApplicationName("/"))
+				{
+					IPrincipal principal =
+						new GenericPrincipal(new GenericIdentity(user.UserName), new string[] {"HostAdmins"});
+					Thread.CurrentPrincipal = principal;
+					Assert.IsTrue(SecurityHelper.IsHostAdmin);
+				}
 			}
 		}
 

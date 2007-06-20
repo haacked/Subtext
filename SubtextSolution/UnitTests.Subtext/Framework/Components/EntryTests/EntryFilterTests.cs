@@ -143,12 +143,13 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			//Confirm app settings
             UnitTestHelper.AssertAppSettings();
 		}
-
+		
+		private IDisposable blogRequest;
 		[SetUp]
 		public void SetUp()
 		{
 			_hostName = UnitTestHelper.GenerateRandomString();
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
+			blogRequest = BlogRequestSimulator.SimulateRequest(_hostName, "", "MyBlog");
 			new CommentFilter(HttpContext.Current.Cache).ClearCommentCache();
 		}
 
@@ -156,6 +157,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void TearDown()
 		{
 			Config.ConfigurationProvider = null;
+			if (blogRequest != null)
+				blogRequest.Dispose();
 		}
 	}
 }

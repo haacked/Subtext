@@ -527,9 +527,17 @@ namespace Subtext.TestLibrary
             this.physicalPath = Path.Combine(this.physicalApplicationPath, this._page.Replace("/", @"\"));
         }
 
-		static string RightAfter(string text, string search)
+		static string RightAfter(string original, string search)
 		{
-			return text.Substring(text.IndexOf(search) + search.Length);
+			if (search.Length > original.Length || search.Length == 0)
+				return original;
+
+			int searchIndex = original.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase);
+
+			if (searchIndex < 0)
+				return original;
+
+			return original.Substring(original.IndexOf(search) + search.Length);
 		}
 
     	public string Host

@@ -1,5 +1,6 @@
 using System;
 using Subtext.Framework.UI.Skinning;
+using Subtext.TestLibrary;
 using Subtext.Web.UI.Pages;
 using MbUnit.Framework;
 
@@ -19,14 +20,15 @@ namespace UnitTests.Subtext.SubtextWeb
 		[Row("javascript", "/scripts/test.js", "Subtext.Web", "/Anything/", @"<script type=""javascript"" src=""/scripts/test.js""></script>")]
 		public void RenderScriptElementRendersAppropriatePath(string type, string src, string virtualDir, string skinPath, string expected)
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "Anything", virtualDir);
+			using (new HttpSimulator(virtualDir).SimulateRequest(new Uri("http://localhost/" + virtualDir + "/Anything")))
+			{
+				Script script = new Script();
+				script.Type = type;
+				script.Src = src;
 
-			Script script = new Script();
-			script.Type = type;
-			script.Src = src;
-
-			string scriptTag = SubtextMasterPage.ScriptElementCollectionRenderer.RenderScriptElement(skinPath, script);
-			Assert.AreEqual(scriptTag, expected + Environment.NewLine, "The rendered script tag was not what we expected.");
+				string scriptTag = SubtextMasterPage.ScriptElementCollectionRenderer.RenderScriptElement(skinPath, script);
+				Assert.AreEqual(scriptTag, expected + Environment.NewLine, "The rendered script tag was not what we expected.");
+			}
 		}
 
 		[RowTest]
@@ -38,13 +40,14 @@ namespace UnitTests.Subtext.SubtextWeb
 		[Row("http://haacked.com/style/test.css", "Subtext.Web", "/Anything/", "http://haacked.com/style/test.css")]
 		public void GetStylesheetHrefPathRendersAppropriatePath(string src, string virtualDir, string skinPath, string expected)
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "Anything", virtualDir);
+			using(new HttpSimulator(virtualDir).SimulateRequest(new Uri("http://localhost/" + virtualDir + "/Anything")))
+			{
+				Style style = new Style();
+				style.Href = src;
 
-			Style style = new Style();
-			style.Href = src;
-
-			string stylePath = SubtextMasterPage.StyleSheetElementCollectionRenderer.GetStylesheetHrefPath(skinPath, style);
-			Assert.AreEqual(stylePath, expected, "The rendered style path was not what we expected.");
+				string stylePath = SubtextMasterPage.StyleSheetElementCollectionRenderer.GetStylesheetHrefPath(skinPath, style);
+				Assert.AreEqual(stylePath, expected, "The rendered style path was not what we expected.");
+			}
 		}
 	}
 }

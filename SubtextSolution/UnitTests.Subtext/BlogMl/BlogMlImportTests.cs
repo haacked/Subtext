@@ -11,6 +11,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Security;
 using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.Framework.Import
@@ -117,7 +118,8 @@ namespace UnitTests.Subtext.Framework.Import
 			IBlogMLProvider provider = BlogMLProvider.Instance();
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
             MemoryStream memoryStream = new MemoryStream();
-			
+
+        	IDisposable blogRequest;
         	using (XmlTextWriter xmlWriter = new XmlTextWriter(memoryStream, Encoding.UTF8))
         	{
         		writer.Write(xmlWriter);
@@ -125,15 +127,17 @@ namespace UnitTests.Subtext.Framework.Import
                 
                 // Now read it back in.
 				MembershipUser owner = Membership.CreateUser(UnitTestHelper.MembershipTestUsername, "test", UnitTestHelper.MembershipTestEmail);
-                Config.CreateBlog("BlogML Import Unit Test Blog", Config.CurrentBlog.Host + "1", "", owner);
-                UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "1", "");
-        		Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("1"), "Looks like we've cached our old blog.");
+                BlogInfo blog = Config.CreateBlog("BlogML Import Unit Test Blog", Config.CurrentBlog.Host + "1", "", owner);
+				blogRequest = BlogRequestSimulator.SimulateRequest(blog, blog.Host, "", "");
+				Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("1"), "Looks like we've cached our old blog.");
 				memoryStream.Position = 0;
-            	reader.ReadBlog(memoryStream);
-            }
+				reader.ReadBlog(memoryStream);
+        	}
 
             IList<Entry> newEntries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(newEntries.Count, entries.Count, "Round trip failed to create the same number of entries.");
+			if (blogRequest != null)
+				blogRequest.Dispose();
         }
 
         [SetUp]

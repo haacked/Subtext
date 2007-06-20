@@ -78,43 +78,51 @@ namespace UnitTests.Subtext.Framework.Skinning
 		[Row("", "", "/Skins/RedBook/print.css")]
 		[Row("blog", "", "/Skins/RedBook/print.css")]
 		[Row("blog", "Subtext.Web", "/Subtext.Web/Skins/RedBook/print.css")]
-		public void StyleSheetElementCollectionRendererRendersCssLinkElements(string subFolder, string applicationPath, string expectedPrintCssPath)
+		public void StyleSheetElementCollectionRendererRendersCssLinkElements(string subfolder, string applicationPath, string expectedPrintCssPath)
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subFolder, applicationPath);
-			MockRepository mocks = new MockRepository();
+			using (BlogRequestSimulator.SimulateRequest("localhost", applicationPath, subfolder))
+			{
+				MockRepository mocks = new MockRepository();
 
-			VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
-			mocks.ReplayAll();
+				VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
+				mocks.ReplayAll();
 
-			SkinTemplates templates = SkinTemplates.Instance(pathProvider);
-			SubtextMasterPage.StyleSheetElementCollectionRenderer renderer = new SubtextMasterPage.StyleSheetElementCollectionRenderer(templates);
-			string styleElements = renderer.RenderStyleElementCollection("RedBook-Blue.css");
+				SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+				SubtextMasterPage.StyleSheetElementCollectionRenderer renderer =
+					new SubtextMasterPage.StyleSheetElementCollectionRenderer(templates);
+				string styleElements = renderer.RenderStyleElementCollection("RedBook-Blue.css");
 
-			Console.WriteLine(styleElements);
-			
-			string printCss = string.Format(@"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""{0}""></link>", expectedPrintCssPath);
-			Assert.IsTrue(styleElements.IndexOf(printCss) > -1, "Expected the printcss to be there.");
+				Console.WriteLine(styleElements);
+
+				string printCss =
+					string.Format(@"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""{0}""></link>",
+					              expectedPrintCssPath);
+				Assert.IsTrue(styleElements.IndexOf(printCss) > -1, "Expected the printcss to be there.");
+			}
 		}
 
 		[Test]
 		public void ScriptElementCollectionRendererRendersScriptElements()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
-			MockRepository mocks = new MockRepository();
+			using (BlogRequestSimulator.SimulateRequest("localhost", "", "blog"))
+			{
+				MockRepository mocks = new MockRepository();
 
-			VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
-			mocks.ReplayAll();
+				VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
+				mocks.ReplayAll();
 
-			SkinTemplates templates = SkinTemplates.Instance(pathProvider);
-			SubtextMasterPage.ScriptElementCollectionRenderer renderer = new SubtextMasterPage.ScriptElementCollectionRenderer(templates);
-			string scriptElements = renderer.RenderScriptElementCollection("RedBook-Green.css");
-			
-			string script = @"<script type=""text/javascript"" src=""/Skins/RedBook/blah.js""></script>";
-			Assert.IsTrue(scriptElements.IndexOf(script) > -1, "Rendered the script improperly.");
+				SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+				SubtextMasterPage.ScriptElementCollectionRenderer renderer =
+					new SubtextMasterPage.ScriptElementCollectionRenderer(templates);
+				string scriptElements = renderer.RenderScriptElementCollection("RedBook-Green.css");
 
-			scriptElements = renderer.RenderScriptElementCollection("Nature-Leafy.css");
-			script = @"<script type=""text/javascript"" src=""/scripts/XFNHighlighter.js""></script>";
-			Assert.IsTrue(scriptElements.IndexOf(script) > -1, "Rendered the script improperly. We got: " + scriptElements);
+				string script = @"<script type=""text/javascript"" src=""/Skins/RedBook/blah.js""></script>";
+				Assert.IsTrue(scriptElements.IndexOf(script) > -1, "Rendered the script improperly.");
+
+				scriptElements = renderer.RenderScriptElementCollection("Nature-Leafy.css");
+				script = @"<script type=""text/javascript"" src=""/scripts/XFNHighlighter.js""></script>";
+				Assert.IsTrue(scriptElements.IndexOf(script) > -1, "Rendered the script improperly. We got: " + scriptElements);
+			}
 		}
 		
 		private static VirtualPathProvider GetTemplatesPathProviderMock(MockRepository mocks)

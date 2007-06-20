@@ -54,18 +54,19 @@ namespace UnitTests.Subtext.Framework.Format
 		[Test]
 		public void EntryArchiveUrlWithNoApplication()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", string.Empty);
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = string.Empty;
 
-			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
-			UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
-			Entry entry = new Entry(PostType.BlogPost);
-			entry.DateCreated = DateTime.Parse("January 23, 1974");
-            entry.DateSyndicated = DateTime.Parse("January 23, 1975");
-			entry.Id = 123;
-			Assert.AreEqual("/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+			using (BlogRequestSimulator.SimulateRequest(blogInfo, "localhost", string.Empty, string.Empty))
+			{
+				UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
+				Entry entry = new Entry(PostType.BlogPost);
+				entry.DateCreated = DateTime.Parse("January 23, 1974");
+				entry.DateSyndicated = DateTime.Parse("January 23, 1975");
+				entry.Id = 123;
+				Assert.AreEqual("/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+			}
 		}
 
 		/// <summary>
@@ -74,18 +75,19 @@ namespace UnitTests.Subtext.Framework.Format
 		[Test]
 		public void EntryArchiveUrlWithApplication()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "MyBlog");
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "MyBlog";
 
-			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
-			UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
-			Entry entry = new Entry(PostType.BlogPost);
-			entry.DateCreated = DateTime.Parse("January 23, 1974");
-            entry.DateSyndicated = DateTime.Parse("January 23, 1975");
-			entry.Id = 123;
-			Assert.AreEqual("/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+			using (BlogRequestSimulator.SimulateRequest(blogInfo, "localhost", string.Empty, "MyBlog"))
+			{
+				UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
+				Entry entry = new Entry(PostType.BlogPost);
+				entry.DateCreated = DateTime.Parse("January 23, 1974");
+				entry.DateSyndicated = DateTime.Parse("January 23, 1975");
+				entry.Id = 123;
+				Assert.AreEqual("/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+			}
 		}
 
 		/// <summary>
@@ -94,18 +96,19 @@ namespace UnitTests.Subtext.Framework.Format
 		[Test]
 		public void EntryArchiveUrlWithApplicationAndVirtualDir()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "MyBlog", "Subtext.Web");
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "MyBlog";
 
-			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
-			UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
-			Entry entry = new Entry(PostType.BlogPost);
-            entry.DateCreated = DateTime.Parse("January 23, 1974");
-            entry.DateSyndicated = DateTime.Parse("January 23, 1975");
-			entry.Id = 123;
-			Assert.AreEqual("/Subtext.Web/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+			using (BlogRequestSimulator.SimulateRequest(blogInfo, "localhost", "Subtext.Web", "MyBlog"))
+			{
+				UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
+				Entry entry = new Entry(PostType.BlogPost);
+				entry.DateCreated = DateTime.Parse("January 23, 1974");
+				entry.DateSyndicated = DateTime.Parse("January 23, 1975");
+				entry.Id = 123;
+				Assert.AreEqual("/Subtext.Web/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+			}
 		}
 		/// <summary>
 		/// Makes sure that url formatting is culture invariant.

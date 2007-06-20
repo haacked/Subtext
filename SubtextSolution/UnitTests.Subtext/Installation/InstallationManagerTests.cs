@@ -22,6 +22,7 @@ using SubSonic;
 using Subtext.Framework;
 using Subtext.Framework.Exceptions;
 using Subtext.Installation;
+using Subtext.TestLibrary;
 
 namespace UnitTests.Subtext.Installation
 {
@@ -76,32 +77,38 @@ namespace UnitTests.Subtext.Installation
 		[Test]
 		public void IsIntstallationActionRequiredReturnsContextVariable()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("");
-			HttpContext.Current.Application["NeedsInstallation"] = false;
-			Assert.IsFalse(InstallationManager.IsInstallationActionRequired());
+			using (new HttpSimulator().SimulateRequest())
+			{
+				HttpContext.Current.Application["NeedsInstallation"] = false;
+				Assert.IsFalse(InstallationManager.IsInstallationActionRequired());
+			}
 		}
 
 		[Test]
 		public void CanResetInstallationStatusCache()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("");
-			HttpContext.Current.Application["NeedsInstallation"] = true;
-			
-			Assert.IsTrue((bool)HttpContext.Current.Application["NeedsInstallation"]);
-			InstallationManager.ResetInstallationStatusCache();
-			Assert.IsNull(HttpContext.Current.Application["NeedsInstallation"]);
+			using (new HttpSimulator().SimulateRequest())
+			{
+				HttpContext.Current.Application["NeedsInstallation"] = true;
+
+				Assert.IsTrue((bool) HttpContext.Current.Application["NeedsInstallation"]);
+				InstallationManager.ResetInstallationStatusCache();
+				Assert.IsNull(HttpContext.Current.Application["NeedsInstallation"]);
+			}
 		}
 
 		[Test]
 		[RollBack2]
 		public void IsIntstallationActionRequiredReturnsTrue()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("");
-			Assert.IsNull(HttpContext.Current.Application["NeedsInstallation"]);
-			QueryCommand command = new QueryCommand("Delete subtext_Version");
-			DataService.ExecuteQuery(command);
-			Assert.IsTrue(InstallationManager.IsInstallationActionRequired());
-			Assert.IsNotNull(HttpContext.Current.Application["NeedsInstallation"]);
+			using (new HttpSimulator().SimulateRequest())
+			{
+				Assert.IsNull(HttpContext.Current.Application["NeedsInstallation"]);
+				QueryCommand command = new QueryCommand("Delete subtext_Version");
+				DataService.ExecuteQuery(command);
+				Assert.IsTrue(InstallationManager.IsInstallationActionRequired());
+				Assert.IsNotNull(HttpContext.Current.Application["NeedsInstallation"]);
+			}
 		}
 
 		/// <summary>

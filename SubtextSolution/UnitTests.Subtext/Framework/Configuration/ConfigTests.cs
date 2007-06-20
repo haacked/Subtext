@@ -13,6 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
 using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework;
@@ -214,11 +215,19 @@ namespace UnitTests.Subtext.Framework.Configuration
             UnitTestHelper.AssertAppSettings();
         }
 
+    	private IDisposable blogRequest;
         [SetUp]
         public void SetUp()
         {
             hostName = UnitTestHelper.GenerateRandomString();
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "MyBlog");
+        	blogRequest = BlogRequestSimulator.SimulateRequest(hostName, "", "MyBlog");
         }
+
+		[TearDown]
+		public void TearDown()
+		{
+			if(blogRequest != null)
+				blogRequest.Dispose();
+		}
     }
 }
