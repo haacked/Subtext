@@ -251,7 +251,11 @@ namespace Subtext.Framework.Data
 				EntryDay ed = new EntryDay(date);
 				while (reader.Read())
 				{
-					ed.Add(DataHelper.LoadEntry(reader));
+                    DateTime syndicatedDate = DataHelper.ReadDate(reader, "DateSyndicated");
+                    if (syndicatedDate == NullValue.NullDateTime || syndicatedDate <= DateTime.Now)
+                    {
+                        ed.Add(DataHelper.LoadEntry(reader));
+                    }
 				}
 				return ed;
 			}

@@ -98,6 +98,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			
 			//Include the second entry back in the syndication.
 			entry.IncludeInMainSyndication = true;
+            entry.DateSyndicated = DateTime.Now;
 			Entries.Update(entry);
 			
 			StringBuilder sb = new StringBuilder();
