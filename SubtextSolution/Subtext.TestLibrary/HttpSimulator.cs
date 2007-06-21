@@ -719,7 +719,7 @@ namespace Subtext.TestLibrary
         }
         #endregion
 
-        internal class ConfigMapPath : IConfigMapPath
+        public class ConfigMapPath : IConfigMapPath
         {
             private HttpSimulator _requestSimulation;
             public ConfigMapPath(HttpSimulator simulation)
