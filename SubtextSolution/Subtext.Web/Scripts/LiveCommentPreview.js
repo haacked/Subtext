@@ -15,6 +15,10 @@ ex... Make this edit in PostComment.ascx
 <div class="comment livepreview"></div>
 
 */
+var allowedTagsRegExp;
+var fullTagRegex;
+var paraRegExp = new RegExp("(.*)\n\n([^#\*\n\n].*)", "g");
+var lineBreakRegExp = new RegExp("(.*)\n([^#\*\n].*)", "g");
 
 function initLiveCommentPreview()
 {
@@ -26,6 +30,17 @@ function initLiveCommentPreview()
 	if(!previewElement) {return;}	
 	var textareas = document.getElementsByTagName('textarea');
 
+	var tagNamesRegex = '';
+	for(var i = 0; i < subtextAllowedHtmlTags.length; i++)
+	{
+		tagNamesRegex += subtextAllowedHtmlTags[i] + '|'
+	}
+	if(tagNamesRegex.length > 0)
+		tagNamesRegex = tagNamesRegex.substring(0, tagNamesRegex.length - 2);
+		
+	allowedTagsRegExp = new RegExp('&lt;(/?(' + tagNamesRegex + ')(\\s+.*?)?)&gt;', "g");
+	fullTagRegex = new RegExp('&lt;((' + tagNamesRegex + ')(\\s+.*?)?)&gt;.*?&lt;/' + tagNamesRegex + '&gt;', "g");
+
 	// loop through all input tags
 	for (var i = 0; i < textareas.length; i++)
 	{
@@ -35,6 +50,8 @@ function initLiveCommentPreview()
 			textarea.onkeyup = function () {reloadPreview(this, previewElement); return false;}
 		}
 	}
+	
+	
 }
 
 // Returns the html element responsible for previewing 
@@ -72,14 +89,14 @@ function reloadPreview(textarea, previewDisplay)
 	if (previewString.length > 0)
 	{
 		previewString = htmlUnencode(previewString);
-		previewString = previewString.replace(new RegExp("(.*)\n\n([^#\*\n\n].*)","g"), "<p>$1</p><p>$2</p>");
-		previewString = previewString.replace(new RegExp("(.*)\n([^#\*\n].*)","g"), "$1<br />$2");
+		if(previewString.match(paraRegExp))
+			previewString = previewString.replace(paraRegExp, "<p>$1</p><p>$2</p>");
+			
+		if(previewString.match(lineBreakRegExp))
+			previewString = previewString.replace(lineBreakRegExp, "$1<br />$2");
 		
-		for(var i = 0; i < subtextAllowedHtmlTags.length; i++)
-		{
-			var allowedTag = subtextAllowedHtmlTags[i];
-			previewString = previewString.replace(new RegExp("&lt;(" + allowedTag + ".*?)&gt;(.+?)&lt;/(" + allowedTag + ")&gt;","g"), "<$1>$2</$3>");
-		}
+		if(previewString.match(allowedTagsRegExp))
+			previewString = previewString.replace(allowedTagsRegExp, "<$1>");
 	}
 	try
 	{
