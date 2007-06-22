@@ -16,7 +16,6 @@ ex... Make this edit in PostComment.ascx
 
 */
 var allowedTagsRegExp;
-var fullTagRegex;
 var paraRegExp = new RegExp("(.*)\n\n([^#\*\n\n].*)", "g");
 var lineBreakRegExp = new RegExp("(.*)\n([^#\*\n].*)", "g");
 
@@ -39,7 +38,6 @@ function initLiveCommentPreview()
 		tagNamesRegex = tagNamesRegex.substring(0, tagNamesRegex.length - 2);
 		
 	allowedTagsRegExp = new RegExp('&lt;(/?(' + tagNamesRegex + ')(\\s+.*?)?)&gt;', "g");
-	fullTagRegex = new RegExp('&lt;((' + tagNamesRegex + ')(\\s+.*?)?)&gt;.*?&lt;/' + tagNamesRegex + '&gt;', "g");
 
 	// loop through all input tags
 	for (var i = 0; i < textareas.length; i++)
@@ -49,9 +47,7 @@ function initLiveCommentPreview()
 		{
 			textarea.onkeyup = function () {reloadPreview(this, previewElement); return false;}
 		}
-	}
-	
-	
+	}	
 }
 
 // Returns the html element responsible for previewing 
@@ -89,14 +85,9 @@ function reloadPreview(textarea, previewDisplay)
 	if (previewString.length > 0)
 	{
 		previewString = htmlUnencode(previewString);
-		if(previewString.match(paraRegExp))
-			previewString = previewString.replace(paraRegExp, "<p>$1</p><p>$2</p>");
-			
-		if(previewString.match(lineBreakRegExp))
-			previewString = previewString.replace(lineBreakRegExp, "$1<br />$2");
-		
-		if(previewString.match(allowedTagsRegExp))
-			previewString = previewString.replace(allowedTagsRegExp, "<$1>");
+		previewString = previewString.replace(paraRegExp, "<p>$1</p><p>$2</p>");
+		previewString = previewString.replace(lineBreakRegExp, "$1<br />$2");
+		previewString = previewString.replace(allowedTagsRegExp, "<$1>");
 	}
 	try
 	{
