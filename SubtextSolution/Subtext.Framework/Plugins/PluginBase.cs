@@ -18,6 +18,7 @@ using Subtext.Extensibility.Attributes;
 using System.Collections.Specialized;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using System.Diagnostics;
 
 namespace Subtext.Extensibility.Plugins
 {
@@ -139,7 +140,9 @@ namespace Subtext.Extensibility.Plugins
             }
             else
             {
-				return Config.CurrentBlog.EnabledPlugins[Id].Settings;
+				Plugin plugin = Config.CurrentBlog.EnabledPlugins[Id];
+				Debug.Assert(plugin != null, "Plugin is null, something must be wrong");
+				return plugin.Settings;
             }
         }
 
@@ -155,7 +158,9 @@ namespace Subtext.Extensibility.Plugins
 			}
 			else
 			{
-				return entry.EnabledPlugins[Id].Settings;
+				Plugin plugin = entry.EnabledPlugins[Id];
+				Debug.Assert(plugin != null, "Plugin is null, something must be wrong");
+				return plugin.Settings;
 			}
 		}
 
