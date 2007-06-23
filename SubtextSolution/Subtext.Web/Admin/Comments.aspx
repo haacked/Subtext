@@ -55,7 +55,7 @@
 					Akismet API Key
 					<st:HelpToolTip id="hlpAkismet" runat="server" HelpText="Specify your Akismet API Key to use <a href='http://akismet.com/' title='Akismet Comment Spam Filter Service'>Akismet</a> for spam filtering. Leave blank otherwise." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
 				</label>
-				<asp:TextBox id="txtAkismetAPIKey" runat="server" Columns="2" /> <em>(if you use <a href="http://akismet.com/" title="Akismet">Akismet</a>, consider disabling ReverseDOS)</em>
+				<asp:TextBox id="txtAkismetAPIKey" runat="server" Columns="2" />
 			</p>
 
 			<p class="Valuelabel block">
