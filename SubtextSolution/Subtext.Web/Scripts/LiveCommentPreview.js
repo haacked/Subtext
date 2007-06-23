@@ -16,15 +16,17 @@ ex... Make this edit in PostComment.ascx
 
 */
 var allowedTagsRegExp;
+var previewElement;
 var paraRegExp = new RegExp("(.*)\n\n([^#\*\n\n].*)", "g");
 var lineBreakRegExp = new RegExp("(.*)\n([^#\*\n].*)", "g");
+var updatingPreview = false;
 
 function initLiveCommentPreview()
 {
 	if (!document.getElementsByTagName) { return; }
 
 	var divs = document.getElementsByTagName('div');
-	var previewElement = getPreviewDisplayElement(divs);
+	previewElement = getPreviewDisplayElement(divs);
 
 	if(!previewElement) {return;}	
 	var textareas = document.getElementsByTagName('textarea');
@@ -45,7 +47,18 @@ function initLiveCommentPreview()
 		var textarea = textareas[i];
 		if (getClassName(textarea).indexOf('livepreview') >= 0)
 		{
-			textarea.onkeyup = function () {reloadPreview(this, previewElement); return false;}
+			textarea.onkeyup = function () 
+			{
+				 //Subject to race condition. But it's not a big deal. The next keypress 
+				 //will solve it. Worst case is the preview is off by the last char in rare 
+				 //situations.
+				if(!updatingPreview)
+				{
+					updatingPreview = true;
+					window.setTimeout("reloadPreview('" + this.id + "')", 20);
+				}
+				return false;
+			}
 		}
 	}	
 }
@@ -79,9 +92,11 @@ function getClassName(element)
 	return "";
 }
 
-function reloadPreview(textarea, previewDisplay) 
+function reloadPreview(textareaId) 
 {
+	var textarea = document.getElementById(textareaId);
 	var previewString = textarea.value;
+		
 	if (previewString.length > 0)
 	{
 		previewString = htmlUnencode(previewString);
@@ -91,12 +106,13 @@ function reloadPreview(textarea, previewDisplay)
 	}
 	try
 	{
-		previewDisplay.innerHTML = previewString;
+		previewElement.innerHTML = previewString;
 	}
 	catch(e)
 	{
 		alert('Sorry, but inserting a block element within is not allowed here.');
 	}
+	updatingPreview = false;
 }
 
 function htmlUnencode(s)
