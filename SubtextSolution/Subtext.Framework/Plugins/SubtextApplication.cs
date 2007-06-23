@@ -327,7 +327,11 @@ namespace Subtext.Extensibility.Plugins
 							e.CallingPluginGuid = currentPlugin.Id;
 							del.DynamicInvoke(sender, e);
 						}
-						catch(Exception) {} //TODO: What exceptions are we expecting here?
+						catch(Exception ex)
+						{
+							if (IsCritical(ex)) throw;
+							__log.Error(String.Format("Plugin: {0}<br />\r\nEvent: {1}<br />\r\nError message:<br />\r\n{2}", currentPlugin.Info.Name, del.Method.Name, ex.Message), ex);
+						}
 					}
 				}
 			}
@@ -412,6 +416,26 @@ namespace Subtext.Extensibility.Plugins
 				}
 			}
 
+			return false;
+		}
+
+		/// <summary>
+		/// Check if the exception is critical or not.
+		/// Inspired by:
+		/// http://www.codeproject.com/csharp/csmverrorhandling.asp
+		/// </summary>
+		/// <param name="ex">exception to check</param>
+		/// <returns>true if the ex is critical, false if not</returns>
+		private static bool IsCritical(Exception ex)
+		{
+			if (ex is OutOfMemoryException) return true;
+			if (ex is AppDomainUnloadedException) return true;
+			if (ex is BadImageFormatException) return true;
+			if (ex is CannotUnloadAppDomainException) return true;
+			if (ex is ExecutionEngineException) return true;
+			if (ex is InvalidProgramException) return true;
+			if (ex is System.Threading.ThreadAbortException)
+				return true;
 			return false;
 		}
 
