@@ -150,13 +150,13 @@ namespace Subtext.Extensibility.Plugins
 
 						if (plugin.Id == Guid.Empty)
 						{
-							notifyPluginLoadingProblem("Cannot load plugin with name " + setting.Name + ": doesn't provide a Guid", false, app._pluginLoadingErrors);
+							notifyPluginLoadingProblem("Cannot load plugin with name " + setting.Name + ":<br>\r\nthe plugin doesn't provide a Guid", false, app._pluginLoadingErrors);
 							continue;
 						}
 
 						if (plugin.Info == null)
 						{
-							notifyPluginLoadingProblem("Cannot load plugin with name " + setting.Name + ": doesn't provide at least one descriptive metadata", false, app._pluginLoadingErrors);
+							notifyPluginLoadingProblem("Cannot load plugin with name " + setting.Name + ":<br>\r\nthe plugin doesn't provide at least one descriptive metadata", false, app._pluginLoadingErrors);
 							continue;
 						}
 
@@ -165,7 +165,7 @@ namespace Subtext.Extensibility.Plugins
 
 							if (app._plugins.ContainsKey(plugin.Id))
 							{
-								notifyPluginLoadingProblem("Cannot load plugin with name " + setting.Name + ": a plugin with the same Guid has already been added to the system", false, app._pluginLoadingErrors);
+								notifyPluginLoadingProblem("Cannot load plugin with name " + setting.Name + ":<br>\r\na plugin with the same Guid has already been added to the system", false, app._pluginLoadingErrors);
 								continue;
 							}
 							else
@@ -177,7 +177,7 @@ namespace Subtext.Extensibility.Plugins
 						}
 						catch (Exception ex)
 						{
-							notifyPluginLoadingProblem("Error initializing plugin with name " + setting.Name + " from type " + setting.Type + "<br>\r\nThe Init method threw the following exception:\r\n" + ex.Message, true, app._pluginLoadingErrors);
+							notifyPluginLoadingProblem("Error initializing plugin with name " + setting.Name + " from type " + setting.Type + "<br>\r\nThe Init method threw the following exception:<br>\r\n" + ex.Message, true, app._pluginLoadingErrors);
 							continue;
 						}
 						
