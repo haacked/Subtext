@@ -171,10 +171,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SubSonic.dll</HintPath>
     </Reference>
-    <Reference Include="Subtext.TestLibrary, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Subtext.TestLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -232,6 +228,10 @@
       <Name>Subtext.Scripting</Name>
       <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.TestLibrary\Subtext.TestLibrary.csproj">
+      <Project>{062D373E-FAC0-4451-BF57-8A2352AAC1BB}</Project>
+      <Name>Subtext.TestLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
       <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
