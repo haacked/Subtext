@@ -119,34 +119,32 @@ namespace UnitTests.Subtext.Framework.Syndication
 			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
 
 			//Create two entries.
-			int firstId = Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
-			Thread.Sleep(1000);
-			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
+			int firstEntryId = Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 0", "Body Rocking"));
+			Thread.Sleep(100);
+			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 1", "Body Rocking Pt 2"));
 
 			XmlNodeList itemNodes = GetRssHandlerItemNodes(context.ResponseStringBuilder);
 			
-			//Expect the first item to be the second entry.
-			Assert.AreEqual("Title Test 2", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");			
-			Assert.AreEqual("Title Test", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");			
+			//Expect the second item to be the first entry because sort by date desc.
+			Assert.AreEqual("Title Test 1", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");			
+			Assert.AreEqual("Title Test 0", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");			
 			
-			//Remove first entry from syndication.
-			Entry firstEntry = Entries.GetEntry(firstId, PostConfig.None, false);
-			firstEntry.IncludeInMainSyndication = false;
-			Entries.Update(firstEntry);
 			
-		    Thread.Sleep(10);
-			//Now add it back in.
+			//Change the date syndicated on the second item.
+			Thread.Sleep(50);
+			Entry firstEntry = Entries.GetEntry(firstEntryId, PostConfig.None, false);
 			firstEntry.IncludeInMainSyndication = true;
+			firstEntry.DateSyndicated = DateTime.Now;
 			Entries.Update(firstEntry);
-			
+					
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
 			UnitTestHelper.SetHttpContextWithBlogRequest(context.HostName, "", "", "", output);
 			itemNodes = GetRssHandlerItemNodes(sb);
 			
 			//Expect the second item to be the second entry.
-			Assert.AreEqual("Title Test", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");
-			Assert.AreEqual("Title Test 2", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");
+			Assert.AreEqual("Title Test 0", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");
+			Assert.AreEqual("Title Test 1", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");
 		}
 
 		private static XmlNodeList GetRssHandlerItemNodes(StringBuilder sb)
