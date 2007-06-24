@@ -1444,7 +1444,6 @@
     <Content Include="Providers\BlogEntryEditor\FCKeditor\fckstyles.xml" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\fcktemplates.xml" />
     <Content Include="Providers\BlogEntryEditor\FTB\ftb.imagegallery.aspx" />
-    <Content Include="ReverseDOS.config" />
     <Content Include="Scripts\AmazonTooltips.js" />
     <Content Include="Scripts\blank.gif" />
     <Content Include="Scripts\common.js" />
