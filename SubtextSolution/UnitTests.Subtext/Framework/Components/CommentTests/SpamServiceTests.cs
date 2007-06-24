@@ -1,6 +1,7 @@
 using System;
 using System.Security.Principal;
 using System.Threading;
+using System.Web;
 using System.Web.Caching;
 using MbUnit.Framework;
 using Rhino.Mocks;
@@ -30,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		{
 			UnitTestHelper.SetupBlog();
 			//Need to set our user to a non-admin
-			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
+			HttpContext.Current.User = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
 			
 			MockRepository mocks = new MockRepository();
 			IFeedbackSpamService service = (IFeedbackSpamService)mocks.CreateMock(typeof(IFeedbackSpamService));

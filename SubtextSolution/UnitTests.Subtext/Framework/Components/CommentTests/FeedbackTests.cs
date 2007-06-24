@@ -1,6 +1,7 @@
 using System;
 using System.Security.Principal;
 using System.Threading;
+using System.Web;
 using System.Web.Security;
 using MbUnit.Framework;
 using Subtext.Extensibility;
@@ -365,7 +366,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		public void CreateFeedbackSendsCorrectEmail(string commenterEmail, string commenterUrl, string applicationPath, string subfolder, string expectedEmail, string expectedUrl)
 		{
 			UnitTestHelper.SetupBlog();
-			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
+			HttpContext.Current.User = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
 			Config.CurrentBlog.Owner.Email = "test@example.com";
 			Membership.UpdateUser(Config.CurrentBlog.Owner);
 			Config.CurrentBlog.Title = "You've been haacked";

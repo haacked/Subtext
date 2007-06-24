@@ -48,7 +48,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		{
 			UnitTestHelper.SetupBlog();
 			//Need to set our user to a non-admin
-			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
+			HttpContext.Current.User = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
 			
 			BlogInfo blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 1;
@@ -81,7 +81,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			UnitTestHelper.SetupBlog();
 			
 			//Need to set our user to a non-admin
-			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
+			HttpContext.Current.User = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
 			
 			BlogInfo blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 0;
