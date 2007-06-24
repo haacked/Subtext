@@ -45,8 +45,11 @@ namespace Subtext.Extensibility.Plugins
 		private static object EventEntryUpdating = new object();
 		private static object EventEntryUpdated = new object();
 		private static object EventEntryRendering = new object();
+		private static object EventEntryRendered = new object();
 		private static object EventSingleEntryRendering = new object();
+		private static object EventSingleEntryRendered = new object();
 		private static object EventEntrySyndicating = new object();
+		private static object EventEntrySyndicated = new object();
 		#endregion
 
 
@@ -299,14 +302,29 @@ namespace Subtext.Extensibility.Plugins
 			ExecuteEntryEvent(EventEntryRendering, sender, e);
 		}
 
+		internal void ExecuteEntryRendered(object sender, SubtextEventArgs e)
+		{
+			ExecuteEntryEvent(EventEntryRendered, sender, e);
+		}
+
 		internal void ExecuteSingleEntryRendering(object sender, SubtextEventArgs e)
 		{
 			ExecuteEntryEvent(EventSingleEntryRendering, sender, e);
+		}
+
+		internal void ExecuteSingleEntryRendered(object sender, SubtextEventArgs e)
+		{
+			ExecuteEntryEvent(EventSingleEntryRendered, sender, e);
 		}
 		
 		internal void ExecuteEntrySyndicating(object sender, SubtextEventArgs e)
 		{
 			ExecuteEntryEvent(EventEntrySyndicating, sender, e);
+		}
+
+		internal void ExecuteEntrySyndicated(object sender, SubtextEventArgs e)
+		{
+			ExecuteEntryEvent(EventEntrySyndicated, sender, e);
 		}
 
 		//List through the subscribed event handlers, and decide weather call them or not

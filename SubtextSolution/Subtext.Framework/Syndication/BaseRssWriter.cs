@@ -209,8 +209,7 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual void WriteEntry(T entry, BlogConfigurationSettings settings)
 		{
-			base.WriteEntry(entry);
-
+			
 			if (this.useDeltaEncoding && GetSyndicationDate(entry) <= DateLastViewedFeedItemPublished)
 			{
 				// Since Entries are ordered by DatePublished descending, as soon 
@@ -220,6 +219,8 @@ namespace Subtext.Framework.Syndication
 				// the collection.
 				return;
 			}
+
+			base.WriteEntry(entry);
 
 			// If we're here, we know that entry.EntryId is larger than 
 			// the LastViewedFeedItemId.  Thus we can send it.
@@ -232,6 +233,7 @@ namespace Subtext.Framework.Syndication
 			}
 
 			this.clientHasAllFeedItems = false;
+			base.RaisePostSyndicateEvent(entry);
 		}
 
 		/// <summary>

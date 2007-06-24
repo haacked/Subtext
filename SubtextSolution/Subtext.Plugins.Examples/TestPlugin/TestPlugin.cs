@@ -73,6 +73,8 @@ namespace Subtext.Plugins.Examples.TestPlugin
 				default:
 					break;
 			}
+
+			((INotifiableControl)sender).ShowMessage("Updated by the plugin");
 		}
 
 		#endregion

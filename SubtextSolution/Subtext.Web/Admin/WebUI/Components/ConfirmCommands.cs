@@ -359,7 +359,7 @@ namespace Subtext.Web.Admin
 
 				Entries.Delete(_targetID);
 
-				//Code to be called after updating a post
+				//Code to be called after deleting a post
 				SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Delete));
 
 				return FormatMessage(ExecuteSuccessMessage, _targetName, _targetID);

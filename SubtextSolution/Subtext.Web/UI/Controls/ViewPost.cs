@@ -140,6 +140,9 @@ namespace Subtext.Web.UI.Controls
 				{
 					TrackBack.Text = TrackHelpers.TrackBackTag(entry);
 				}
+
+				SubtextEvents.OnSingleEntryRendered(this, new SubtextEventArgs(entry));
+
 			}
 			else 
 			{
