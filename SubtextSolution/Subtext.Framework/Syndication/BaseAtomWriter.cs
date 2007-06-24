@@ -165,13 +165,14 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual void WriteEntry(Entry entry, BlogConfigurationSettings settings)
 		{
-			base.WriteEntry(entry);
-
+			
 			// We'll show every entry if RFC3229 is not enabled.
 			//TODO: This is wrong.  What if a post is not published 
 			// and then gets published later. It will not be displayed.
 			if (!useDeltaEncoding || entry.DateSyndicated > this.DateLastViewedFeedItemPublished)
 			{
+				base.WriteEntry(entry);
+
 				this.WriteStartElement("entry");
 				EntryXml(entry, settings, info.UrlFormats, info.TimeZone);
 				this.WriteEndElement();
@@ -182,6 +183,8 @@ namespace Subtext.Framework.Syndication
 				{
 					latestPublishDate = entry.DateSyndicated;
 				}
+
+				base.RaisePostSyndicateEvent(entry);
 			}
 		}
 

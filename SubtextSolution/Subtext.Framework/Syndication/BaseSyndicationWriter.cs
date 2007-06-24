@@ -186,6 +186,14 @@ namespace Subtext.Framework.Syndication
             }
         }
 
+		protected virtual void RaisePostSyndicateEvent(T entry)
+		{
+			Entry theEntry = entry as Entry;
+			if (theEntry != null)
+			{
+				SubtextEvents.OnEntrySyndicated(this, new SubtextEventArgs(theEntry));
+			}
+		}
 
 	}
 }

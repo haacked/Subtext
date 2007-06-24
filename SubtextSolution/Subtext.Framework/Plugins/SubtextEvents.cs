@@ -45,11 +45,27 @@ namespace Subtext.Extensibility.Plugins
 		}
 
 		/// <summary>
+		/// Raises all SingleEntryRendered Events.
+		/// </summary>
+		public static void OnSingleEntryRendered(object sender, SubtextEventArgs e)
+		{
+			SubtextApplication.Current.ExecuteSingleEntryRendered(sender, e);
+		}
+
+		/// <summary>
 		/// Raises all EntryRendering Events.
 		/// </summary>
 		public static void OnEntryRendering(object sender, SubtextEventArgs e)
 		{
 			SubtextApplication.Current.ExecuteEntryRendering(sender, e);
+		}
+
+		/// <summary>
+		/// Raises all EntryRendered Events.
+		/// </summary>
+		public static void OnEntryRendered(object sender, SubtextEventArgs e)
+		{
+			SubtextApplication.Current.ExecuteEntryRendered(sender, e);
 		}
 		
 		/// <summary>
@@ -58,6 +74,14 @@ namespace Subtext.Extensibility.Plugins
 		public static void OnEntrySyndicating(object sender, SubtextEventArgs e)
 		{
 			SubtextApplication.Current.ExecuteEntrySyndicating(sender, e);
+		}
+
+		/// <summary>
+		/// Raises all EntrySyndicated Events.
+		/// </summary>
+		public static void OnEntrySyndicated(object sender, SubtextEventArgs e)
+		{
+			SubtextApplication.Current.ExecuteEntrySyndicated(sender, e);
 		}
 	}
 }

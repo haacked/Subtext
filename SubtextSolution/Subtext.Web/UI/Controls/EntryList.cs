@@ -69,6 +69,8 @@ namespace Subtext.Web.UI.Controls
 					BindCommentCount(e, entry);
 					BindAuthor(e, entry);
 					BindCurrentEntryControls(entry, e.Item);
+
+					SubtextEvents.OnEntryRendered(this, new SubtextEventArgs(entry));
 				}
 			}
 		}

@@ -72,7 +72,16 @@ namespace Subtext.Framework.XmlRpc
 			
 			try
 			{
-				Entries.Delete(Int32.Parse(postid, NumberFormatInfo.InvariantInfo));
+				int postIdNum = Int32.Parse(postid, NumberFormatInfo.InvariantInfo);
+				Entry entry = Entries.GetEntry(postIdNum, PostConfig.None, false);
+				if (entry != null)
+				{
+					SubtextEvents.OnEntryUpdating(this, new SubtextEventArgs(entry, ObjectState.Delete));
+
+					Entries.Delete(postIdNum);
+
+					SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Delete));
+				}
 				return true;
 			}
 			catch
