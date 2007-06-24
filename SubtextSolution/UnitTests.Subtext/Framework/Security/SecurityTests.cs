@@ -78,7 +78,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 				{
 					IPrincipal principal =
 						new GenericPrincipal(new GenericIdentity(user.UserName), new string[] {"HostAdmins"});
-					Thread.CurrentPrincipal = principal;
+					HttpContext.Current.User = principal;
 					Assert.IsTrue(SecurityHelper.IsHostAdmin);
 				}
 			}
