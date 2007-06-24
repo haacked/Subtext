@@ -94,9 +94,10 @@ namespace Subtext.Framework.Tracking
 
 			string url = uri.ToString();
 
-			url = url.ToLower(System.Globalization.CultureInfo.InvariantCulture).Replace("www.",string.Empty);
-			string fqu = Config.CurrentBlog.RootUrl.ToString().ToLower(System.Globalization.CultureInfo.InvariantCulture).Replace("www.",string.Empty);
-			if(Regex.IsMatch(url, fqu,RegexOptions.IgnoreCase))
+			url = BlogInfo.StripWwwPrefixFromHost(url.ToString());
+			string fqu = BlogInfo.StripWwwPrefixFromHost(Config.CurrentBlog.RootUrl.ToString());
+			
+			if(Regex.IsMatch(url, fqu, RegexOptions.IgnoreCase))
 			{
 				return null;
 			}

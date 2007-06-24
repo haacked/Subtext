@@ -179,8 +179,11 @@ namespace Subtext.Framework.Configuration
 		/// <returns></returns>
 		public static BlogInfo GetBlogInfo(string hostName, string subfolder, bool strict)
 		{
-			hostName = BlogInfo.NormalizeHostName(hostName);
-			return ObjectProvider.Instance().GetBlogInfo(hostName, subfolder, strict);
+			hostName = BlogInfo.StripPortFromHost(hostName);
+			BlogInfo blog = ObjectProvider.Instance().GetBlogInfo(hostName, subfolder, strict);
+			if (blog == null)
+				blog = ObjectProvider.Instance().GetBlogInfo(BlogInfo.GetAlternateHostAlias(hostName), subfolder, strict);
+			return blog;
 		}
 
 		/// <summary>
@@ -205,7 +208,7 @@ namespace Subtext.Framework.Configuration
 			if (subfolder != null && subfolder.EndsWith("."))
 				throw new InvalidSubfolderNameException(subfolder);
 
-			host = BlogInfo.NormalizeHostName(host);
+			host = BlogInfo.StripPortFromHost(host);
 			subfolder = UrlFormats.StripSurroundingSlashes(subfolder ?? string.Empty);
 
 			CheckForDuplicateBlog(host, subfolder);
