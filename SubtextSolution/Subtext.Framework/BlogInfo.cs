@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Security;
 using Subtext.Extensibility.Interfaces;
@@ -41,16 +42,48 @@ namespace Subtext.Framework
 		private UrlFormats _urlFormats;
 
 		/// <summary>
-		/// Removes the preceding "www." on a host name.
+		/// Strips the port number from the host name.
 		/// </summary>
 		/// <param name="host">Host.</param>
 		/// <returns></returns>
-		public static string NormalizeHostName(string host)
+		public static string StripPortFromHost(string host)
 		{
-			return StringHelper.LeftBefore(
-				StringHelper.RightAfter(host, "www.", StringComparison.InvariantCultureIgnoreCase), ":");
+			if (String.IsNullOrEmpty(host))
+				throw new ArgumentException("Cannot strip the port from a null host", "host");
+
+			return Regex.Replace(host, @":.*$", string.Empty);
 		}
 
+		/// <summary>
+		/// Strips www prefix from host name.
+		/// </summary>
+		/// <param name="host">Host.</param>
+		/// <returns></returns>
+		public static string StripWwwPrefixFromHost(string host)
+		{
+			if (String.IsNullOrEmpty(host))
+				throw new ArgumentException("Cannot strip the www prefix from a null host", "host");
+
+			return Regex.Replace(host, @"^www.", string.Empty, RegexOptions.IgnoreCase);
+		}
+
+		/// <summary>
+		/// If the host starts with www., gets the host without the www. If it 
+		/// doesn't start with www., returns the host with wwww..
+		/// </summary>
+		/// <param name="host">Host.</param>
+		/// <returns></returns>
+		public static string GetAlternateHostAlias(string host)
+		{
+			if (String.IsNullOrEmpty(host))
+				throw new ArgumentException("Cannot get an alternative alias to a null host", "host");
+
+			if (host.StartsWith("www.", StringComparison.CurrentCultureIgnoreCase))
+				return StripWwwPrefixFromHost(host);
+			else
+				return "www." + host;
+		}
+		
 		/// <summary>
 		/// Gets the active blog count by host.
 		/// </summary>
@@ -298,7 +331,7 @@ namespace Subtext.Framework
 			}
 			set
 			{
-				_host = NormalizeHostName(value);
+				_host = StripPortFromHost(value);
 			}
 		}
 		private string _host;
