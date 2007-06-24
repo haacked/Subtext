@@ -1,6 +1,7 @@
 using System;
 using System.Security.Principal;
 using System.Threading;
+using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -19,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			UnitTestHelper.SetupBlog("MyBlog1");
 
 			//Need to set our user to a non-admin
-			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] {"Anonymous"});
+			HttpContext.Current.User = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] {"Anonymous"});
 			
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
@@ -40,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		{
 			UnitTestHelper.SetupBlog("MyBlog1");
 			//Need to set our user to a non-admin
-			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
+			HttpContext.Current.User = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
 			
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = true;
