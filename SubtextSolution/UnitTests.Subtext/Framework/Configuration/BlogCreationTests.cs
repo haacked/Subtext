@@ -166,7 +166,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		{
 			string host = UnitTestHelper.MembershipTestUsername;
 
-            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", "www." + host, string.Empty);
+            UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
             UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog");
 		}
 
