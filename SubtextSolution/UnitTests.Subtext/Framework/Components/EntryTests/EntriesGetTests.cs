@@ -150,7 +150,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
             // Make sure future entries aren't included.
             entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Test 2", "Body Rockin part 2");
-            entry.DateSyndicated = DateTime.Now.AddMinutes(5);
+            entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now.AddMinutes(5);
             entryId = Entries.Create(entry);
             Entries.SetEntryCategoryList(entryId, new int[] { categoryId });
 
@@ -200,7 +200,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Assert.AreEqual(5, entries[2].Categories.Count);
 
             //Future entries shouldn't be included
-            entryTwo.DateSyndicated = DateTime.Now.AddMinutes(5);
+            entryTwo.DateSyndicated = Config.CurrentBlog.TimeZone.Now.AddMinutes(5);
             Entries.Update(entryTwo);
             entries = Entries.GetRecentPosts(3, PostType.BlogPost, PostConfig.IsActive, true);
             Assert.AreEqual(2, entries.Count, "Most recent entry has a future date and should not be included.");
