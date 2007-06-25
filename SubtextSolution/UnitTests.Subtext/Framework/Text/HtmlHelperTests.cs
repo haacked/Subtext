@@ -32,6 +32,22 @@ namespace UnitTests.Subtext.Framework.Text
 	[TestFixture]
 	public class HtmlHelperTests
 	{
+		[RowTest]
+		[Row("http://example.com", "www.example.com", "http://www.example.com")]
+		[Row("http://example.com", "example.com", "http://example.com")]
+		[Row("http://example.com/", "example.com", "http://example.com/")]
+		[Row("http://example.com/example.com/", "example.com", "http://example.com/example.com/")]
+		[Row("http://www.example.com", "example.com", "http://example.com")]
+		[Row("http://example.com/", "www.example.com", "http://www.example.com/")]
+		[Row("http://example.com:8080/", "www.example.com", "http://www.example.com:8080/")]
+		[Row("http://example.com:8080/example.com/blah.html", "www.example.com", "http://www.example.com:8080/example.com/blah.html")]
+		[Row("http://example.com/example.com/blah.html", "www.example.com", "http://www.example.com/example.com/blah.html")]
+		[Row("http://example.com/example.com/", "www.example.com", "http://www.example.com/example.com/")]
+		public void CanReplaceHostInUrl(string url, string host, string expected)
+		{
+			Assert.AreEqual(expected, HtmlHelper.ReplaceHost(url, host));
+		}
+
 		[Test]
 		[ExpectedArgumentNullException]
 		public void AppendNullClassThrowsArgumentNullException()

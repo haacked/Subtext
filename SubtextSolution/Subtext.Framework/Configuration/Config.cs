@@ -24,6 +24,8 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
+using Subtext.Framework.Text;
+using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework.Configuration
 {
@@ -182,7 +184,18 @@ namespace Subtext.Framework.Configuration
 			hostName = BlogInfo.StripPortFromHost(hostName);
 			BlogInfo blog = ObjectProvider.Instance().GetBlogInfo(hostName, subfolder, strict);
 			if (blog == null)
+			{
 				blog = ObjectProvider.Instance().GetBlogInfo(BlogInfo.GetAlternateHostAlias(hostName), subfolder, strict);
+				if(blog != null)
+				{
+					string url = BlogRequest.Current.RawUrl.ToString();
+					string newUrl = HtmlHelper.ReplaceHost(url, blog.Host);
+					HttpContext.Current.Response.StatusCode = 301;
+					HttpContext.Current.Response.Status = "301 Moved Permanently";
+					HttpContext.Current.Response.RedirectLocation = newUrl;
+					HttpContext.Current.Response.End();
+				}
+			}
 			return blog;
 		}
 
