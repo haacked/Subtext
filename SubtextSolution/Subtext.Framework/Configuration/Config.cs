@@ -182,21 +182,7 @@ namespace Subtext.Framework.Configuration
 		public static BlogInfo GetBlogInfo(string hostName, string subfolder, bool strict)
 		{
 			hostName = BlogInfo.StripPortFromHost(hostName);
-			BlogInfo blog = ObjectProvider.Instance().GetBlogInfo(hostName, subfolder, strict);
-			if (blog == null)
-			{
-				blog = ObjectProvider.Instance().GetBlogInfo(BlogInfo.GetAlternateHostAlias(hostName), subfolder, strict);
-				if(blog != null)
-				{
-					string url = BlogRequest.Current.RawUrl.ToString();
-					string newUrl = HtmlHelper.ReplaceHost(url, blog.Host);
-					HttpContext.Current.Response.StatusCode = 301;
-					HttpContext.Current.Response.Status = "301 Moved Permanently";
-					HttpContext.Current.Response.RedirectLocation = newUrl;
-					HttpContext.Current.Response.End();
-				}
-			}
-			return blog;
+			return ObjectProvider.Instance().GetBlogInfo(hostName, subfolder, strict);
 		}
 
 		/// <summary>

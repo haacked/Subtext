@@ -22,6 +22,7 @@ using System.Web.Caching;
 using log4net;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Properties;
 
@@ -117,6 +118,20 @@ namespace Subtext.Framework.Configuration
 					log.DebugFormat("Attempting to get blog info. Host: {0}, Subfolder: {1}", blogRequest.Host, blogRequest.Subfolder);
 					
                     info = Config.GetBlogInfo(blogRequest.Host, blogRequest.Subfolder, false);
+					if (info == null)
+					{
+						info = Config.GetBlogInfo(BlogInfo.GetAlternateHostAlias(blogRequest.Host), blogRequest.Subfolder, false);
+						if (info != null)
+						{
+							string url = BlogRequest.Current.RawUrl.ToString();
+							string newUrl = HtmlHelper.ReplaceHost(url, info.Host);
+							HttpContext.Current.Response.StatusCode = 301;
+							HttpContext.Current.Response.Status = "301 Moved Permanently";
+							HttpContext.Current.Response.RedirectLocation = newUrl;
+							HttpContext.Current.Response.End();
+						}
+					}
+					
 					if(info == null)
 					{
 						log.InfoFormat("No active blog found for Host: {0}, Subfolder: {1}", blogRequest.Host, blogRequest.Subfolder);
