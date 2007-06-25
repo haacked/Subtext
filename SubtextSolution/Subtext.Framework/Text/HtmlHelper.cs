@@ -38,6 +38,17 @@ namespace Subtext.Framework.Text
 	public static class HtmlHelper
 	{
 		/// <summary>
+		/// Replaces the host in the given url with the new host.
+		/// </summary>
+		/// <param name="originalUrl"></param>
+		/// <param name="newHost"></param>
+		/// <returns></returns>
+		public static string ReplaceHost(string originalUrl, string newHost)
+		{
+			return Regex.Replace(originalUrl, @"(https?://).*?((:\d+)?/.*)?$", "$1" + newHost + "$2", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		}
+
+		/// <summary>
 		/// Appends a CSS class to a control.
 		/// </summary>
 		/// <param name="control">The control.</param>

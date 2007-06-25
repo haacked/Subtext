@@ -349,7 +349,7 @@ namespace UnitTests.Subtext
 			object appFactory = ReflectionHelper.GetStaticFieldValue<object>("_theApplicationFactory", appFactoryType);
 			ReflectionHelper.SetPrivateInstanceFieldValue("_state", appFactory, HttpContext.Current.Application);
 			
-			HttpContext.Current.Items["Subtext__CurrentRequest"] = new BlogRequest(host, subfolder);
+			BlogRequest.Current = new BlogRequest(host, subfolder, HttpContext.Current.Request.Url);
 
 			#region Console Debug INfo
 			/*

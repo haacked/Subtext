@@ -44,13 +44,13 @@ namespace Subtext.Web.HttpModules
 		/// </summary>
 		/// <param name="sender">The sender.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		private void MapUrlToBlogStatus(object sender, EventArgs e)
+		private static void MapUrlToBlogStatus(object sender, EventArgs e)
 		{
 			string subfolder = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
 			if(!Config.IsValidSubfolderName(subfolder))
 				subfolder = string.Empty;
-			
-			HttpContext.Current.Items["Subtext__CurrentRequest"] = new BlogRequest(Host, subfolder);
+
+			BlogRequest.Current = new BlogRequest(Host, subfolder, HttpContext.Current.Request.Url);
 		}
 		
 		/// <summary>
