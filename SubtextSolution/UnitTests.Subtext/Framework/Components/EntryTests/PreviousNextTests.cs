@@ -21,6 +21,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
+using Subtext.Framework.Configuration;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -191,13 +192,13 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             int nextId = Entries.Create(nextEntry);
 
             //Now syndicate.
-            previousEntry.DateSyndicated = DateTime.Now;
+            previousEntry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
             Entries.Update(previousEntry);
             Thread.Sleep(100);
-            currentEntry.DateSyndicated = DateTime.Now;
+            currentEntry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
             Entries.Update(currentEntry);
             Thread.Sleep(100);
-            nextEntry.DateSyndicated = DateTime.Now.AddHours(1);
+            nextEntry.DateSyndicated = Config.CurrentBlog.TimeZone.Now.AddHours(1);
             Entries.Update(nextEntry);
 
             IList<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);

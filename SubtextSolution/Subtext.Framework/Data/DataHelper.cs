@@ -103,7 +103,7 @@ namespace Subtext.Framework.Data
 			while(reader.Read())
 			{
                 DateTime syndicatedDate = ReadDate(reader, "DateSyndicated");
-                if (syndicatedDate == NullValue.NullDateTime || syndicatedDate <= DateTime.Now)
+                if (syndicatedDate == NullValue.NullDateTime || syndicatedDate <= Config.CurrentBlog.TimeZone.Now)
                 {
                     if (IsNewDay(dt, syndicatedDate))
                     {
@@ -126,7 +126,7 @@ namespace Subtext.Framework.Data
             while(reader.Read())
             {
                 DateTime syndicatedDate = ReadDate(reader, "DateSyndicated");
-                if (NullValue.IsNull(syndicatedDate) || syndicatedDate <= DateTime.Now)
+                if (NullValue.IsNull(syndicatedDate) || syndicatedDate <= Config.CurrentBlog.TimeZone.Now)
                 {
                     entries.Add(LoadEntry(reader));
                 }
