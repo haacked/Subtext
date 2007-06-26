@@ -383,6 +383,7 @@
     <Compile Include="NullValue.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Plugins\CancellableSubtextEventArgs.cs" />
     <Compile Include="Plugins\INotifiableControl.cs" />
     <Compile Include="Plugins\PluginBase.cs" />
     <Compile Include="Plugins\PluginDefaultSetting.cs" />

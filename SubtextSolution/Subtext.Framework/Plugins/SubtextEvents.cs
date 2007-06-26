@@ -23,7 +23,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raises all EntryUpdating Events.
 		/// </summary>
-		public static void OnEntryUpdating(object sender, SubtextEventArgs e)
+		public static void OnEntryUpdating(object sender, CancellableSubtextEventArgs e)
 		{
 			SubtextApplication.Current.ExecuteEntryUpdating(sender, e);
 		}

@@ -59,7 +59,7 @@ namespace Subtext.Plugins.Examples.TestPlugin
 			return;
 		}
 
-		void sta_EntryUpdating(object sender, SubtextEventArgs e)
+		void sta_EntryUpdating(object sender, CancellableSubtextEventArgs e)
 		{
 			Entry entry = e.Entry;
 			switch (e.State)
@@ -74,7 +74,8 @@ namespace Subtext.Plugins.Examples.TestPlugin
 					break;
 			}
 
-			((INotifiableControl)sender).ShowMessage("Updated by the plugin");
+			e.Cancel = true;
+			//((INotifiableControl)sender).ShowMessage("Updated by the plugin");
 		}
 
 		#endregion

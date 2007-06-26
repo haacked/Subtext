@@ -76,7 +76,14 @@ namespace Subtext.Framework.XmlRpc
 				Entry entry = Entries.GetEntry(postIdNum, PostConfig.None, false);
 				if (entry != null)
 				{
-					SubtextEvents.OnEntryUpdating(this, new SubtextEventArgs(entry, ObjectState.Delete));
+					CancellableSubtextEventArgs e = new CancellableSubtextEventArgs(entry, ObjectState.Create);
+					SubtextEvents.OnEntryUpdating(this, e);
+
+					if (e.Cancel)
+					{
+						ShowMessage("Post deleting cancelled by plugin " + e.CallingPluginGuid);
+						throw new XmlRpcFaultException(1, "Could not delete post because the plugin cancelled it: " + postid);
+					}
 
 					Entries.Delete(postIdNum);
 
@@ -116,7 +123,14 @@ namespace Subtext.Framework.XmlRpc
 				entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 
 				//Raise event before updating a post
-				SubtextEvents.OnEntryUpdating(this, new SubtextEventArgs(entry, ObjectState.Update));
+				CancellableSubtextEventArgs e = new CancellableSubtextEventArgs(entry, ObjectState.Update);
+				SubtextEvents.OnEntryUpdating(this, e);
+
+				if (e.Cancel)
+				{
+					ShowMessage("Post update cancelled by plugin " + e.CallingPluginGuid);
+					return false;
+				}
 
 				Entries.Update(entry);
 
@@ -262,7 +276,14 @@ namespace Subtext.Framework.XmlRpc
 			try
 			{
 				//Raise event before creating a post
-				SubtextEvents.OnEntryUpdating(this, new SubtextEventArgs(entry, ObjectState.Create));
+				CancellableSubtextEventArgs e = new CancellableSubtextEventArgs(entry, ObjectState.Create);
+				SubtextEvents.OnEntryUpdating(this, e);
+
+				if (e.Cancel)
+				{
+					ShowMessage("Post creation cancelled by plugin " + e.CallingPluginGuid);
+					throw new XmlRpcFaultException(0, "Could not add post because the plugin cancelled the creation");
+				}
 
 				postID = Entries.Create(entry);
 
