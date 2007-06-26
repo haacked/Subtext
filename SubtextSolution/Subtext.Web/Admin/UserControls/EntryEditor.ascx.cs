@@ -429,12 +429,18 @@ namespace Subtext.Web.Admin.UserControls
 						entry.Id = PostID;
 						
 						//Raise event before updating a post
-						SubtextEvents.OnEntryUpdating(this, new SubtextEventArgs(entry, ObjectState.Update));
-						
-						Entries.Update(entry);
+						CancellableSubtextEventArgs e = new CancellableSubtextEventArgs(entry, ObjectState.Update);
+						SubtextEvents.OnEntryUpdating(this, e);
 
-						//Raise event after updating a post
-						SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Update));
+						if (!e.Cancel)
+						{
+							Entries.Update(entry);
+
+							//Raise event after updating a post
+							SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Update));
+						}
+						else
+							ShowMessage("Update cancelled by plugin");
 
 						if(ReturnToOriginalPost)
 						{
@@ -452,12 +458,20 @@ namespace Subtext.Web.Admin.UserControls
 						entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
 
 						//Raise event before creating a post
-						SubtextEvents.OnEntryUpdating(this, new SubtextEventArgs(entry, ObjectState.Create));
-						
-						PostID = Entries.Create(entry);
+						CancellableSubtextEventArgs e = new CancellableSubtextEventArgs(entry, ObjectState.Create);
+						SubtextEvents.OnEntryUpdating(this, e);
 
-						//Raise event after creating a post
-						SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Create));
+						if (!e.Cancel)
+						{
+							PostID = Entries.Create(entry);
+
+							//Raise event after creating a post
+							SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Create));
+						}
+						else
+						{
+							ShowMessage("Post creation cancelled by plugin");
+						}
 					}
 				}
 				catch(Exception ex)

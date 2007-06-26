@@ -355,14 +355,21 @@ namespace Subtext.Web.Admin
 			{
 				Entry entry = Entries.GetEntry(_targetID, PostConfig.None, false);
 				//Code to be called before delete a post
-				SubtextEvents.OnEntryUpdating(this, new SubtextEventArgs(entry, ObjectState.Delete));
+				CancellableSubtextEventArgs e = new CancellableSubtextEventArgs(entry, ObjectState.Delete);
+				SubtextEvents.OnEntryUpdating(this, e);
 
-				Entries.Delete(_targetID);
+				if (!e.Cancel)
+				{
+					Entries.Delete(_targetID);
 
-				//Code to be called after deleting a post
-				SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Delete));
-
-				return FormatMessage(ExecuteSuccessMessage, _targetName, _targetID);
+					//Code to be called after deleting a post
+					SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Delete));
+					return FormatMessage(ExecuteSuccessMessage, _targetName, _targetID);
+				}
+				else
+				{
+					return FormatMessage(ExecuteFailureMessage, _targetName, _targetID, "Delete cancelled by plugin");
+				}
 			}
 			catch (Exception ex)
 			{
