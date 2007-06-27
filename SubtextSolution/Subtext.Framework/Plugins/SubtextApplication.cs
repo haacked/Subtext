@@ -211,7 +211,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raised before changes to the Entry are committed to the datastore
 		/// </summary>
-		public event EventHandler<SubtextEventArgs> EntryUpdating
+		public event EventHandler<CancellableSubtextEventArgs> EntryUpdating
 		{
 			add
 			{
