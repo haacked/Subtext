@@ -33,7 +33,7 @@ namespace Subtext.Plugins.Examples.TestPlugin
 
 		public override void Init(SubtextApplication application)
 		{
-			application.EntryUpdating += new EventHandler<SubtextEventArgs>(sta_EntryUpdating);
+			application.EntryUpdating += new EventHandler<CancellableSubtextEventArgs>(sta_EntryUpdating);
 			application.EntryUpdated += new EventHandler<SubtextEventArgs>(sta_EntryUpdated);
 			application.EntryRendering += new EventHandler<SubtextEventArgs>(sta_EntryRendering);
 			application.SingleEntryRendering += new EventHandler<SubtextEventArgs>(sta_SingleEntryRendering);

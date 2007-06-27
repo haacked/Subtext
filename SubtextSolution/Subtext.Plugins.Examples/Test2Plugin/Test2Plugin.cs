@@ -34,7 +34,7 @@ namespace Subtext.Plugins.Examples.Test2Plugin
 
 		public override void Init(SubtextApplication application)
 		{
-			application.EntryUpdating += new EventHandler<SubtextEventArgs>(sta_EntryUpdating);
+         application.EntryUpdating += new EventHandler<CancellableSubtextEventArgs>(sta_EntryUpdating);
 			application.EntryUpdated += new EventHandler<SubtextEventArgs>(sta_EntryUpdated);
 			application.EntryRendering += new EventHandler<SubtextEventArgs>(sta_EntryRendering);
 			application.SingleEntryRendering += new EventHandler<SubtextEventArgs>(sta_SingleEntryRendering);
@@ -59,7 +59,7 @@ namespace Subtext.Plugins.Examples.Test2Plugin
 			return;
 		}
 
-		void sta_EntryUpdating(object sender, SubtextEventArgs e)
+      void sta_EntryUpdating(object sender, CancellableSubtextEventArgs e)
 		{
 			Entry entry = e.Entry;
 			switch (e.State)
