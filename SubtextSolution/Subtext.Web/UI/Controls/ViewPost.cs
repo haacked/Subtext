@@ -64,7 +64,7 @@ namespace Subtext.Web.UI.Controls
 			if(entry != null)
 			{
 				//Raise event before any processing takes place
-				SubtextEvents.OnSingleEntryRendering(this, new SubtextEventArgs(entry));
+				SubtextEvents.OnSingleEntryRendering(this, new EntryEventArgs(entry));
 
 				BindCurrentEntryControls(entry, this);
 				
@@ -141,7 +141,7 @@ namespace Subtext.Web.UI.Controls
 					TrackBack.Text = TrackHelpers.TrackBackTag(entry);
 				}
 
-				SubtextEvents.OnSingleEntryRendered(this, new SubtextEventArgs(entry));
+				SubtextEvents.OnSingleEntryRendered(this, new EntryEventArgs(entry));
 
 			}
 			else 

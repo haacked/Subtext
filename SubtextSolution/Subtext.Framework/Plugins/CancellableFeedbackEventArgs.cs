@@ -18,8 +18,9 @@ using Subtext.Framework.Components;
 
 namespace Subtext.Extensibility.Plugins
 {
-	public class CancellableSubtextEventArgs: SubtextEventArgs
+	public class CancellableFeedbackEventArgs: FeedbackEventArgs
 	{
+
 		private bool _cancel;
 
 		public bool Cancel
@@ -28,10 +29,9 @@ namespace Subtext.Extensibility.Plugins
 			set { _cancel = value; }
 		}
 
+		public CancellableFeedbackEventArgs(FeedbackItem feedback, ObjectState state) : base(feedback, state) { }
 
-		public CancellableSubtextEventArgs(Entry entry, ObjectState state): base(entry, state) { }
-
-		public CancellableSubtextEventArgs(Entry entry) : this(entry, ObjectState.None) { }
+		public CancellableFeedbackEventArgs(FeedbackItem feedback) : this(feedback, ObjectState.None) { }
 
 	}
 }

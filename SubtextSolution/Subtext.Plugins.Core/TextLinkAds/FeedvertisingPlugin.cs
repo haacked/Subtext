@@ -44,12 +44,12 @@ namespace Subtext.Plugins.Core.TextLinkAds
 
 		public override void Init(SubtextApplication application)
 		{
-			application.EntryUpdated += new EventHandler<SubtextEventArgs>(EntryUpdated);
-			application.EntrySyndicating += new EventHandler<SubtextEventArgs>(EntryRendering);
+			application.EntryUpdated += new EventHandler<EntryEventArgs>(EntryUpdated);
+			application.EntrySyndicating += new EventHandler<EntryEventArgs>(EntryRendering);
 			//application.SingleEntryRendering += new EventHandler<SubtextEventArgs>(EntryRendering);
 		}
 
-		protected virtual void EntryUpdated(object sender, SubtextEventArgs e)
+		protected virtual void EntryUpdated(object sender, EntryEventArgs e)
 		{
 			if (e.State != ObjectState.Create) return;
 
@@ -60,7 +60,7 @@ namespace Subtext.Plugins.Core.TextLinkAds
 			SetEntryAdvertisement(entry, GetAdvertisementHtml());
 		}
 
-		protected virtual void EntryRendering(object sender, SubtextEventArgs e)
+		protected virtual void EntryRendering(object sender, EntryEventArgs e)
 		{
     		Entry entry = e.Entry;
 

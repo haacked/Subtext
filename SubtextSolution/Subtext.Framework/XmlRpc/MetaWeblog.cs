@@ -76,7 +76,7 @@ namespace Subtext.Framework.XmlRpc
 				Entry entry = Entries.GetEntry(postIdNum, PostConfig.None, false);
 				if (entry != null)
 				{
-					CancellableSubtextEventArgs e = new CancellableSubtextEventArgs(entry, ObjectState.Create);
+					CancellableEntryEventArgs e = new CancellableEntryEventArgs(entry, ObjectState.Create);
 					SubtextEvents.OnEntryUpdating(this, e);
 
 					if (e.Cancel)
@@ -87,7 +87,7 @@ namespace Subtext.Framework.XmlRpc
 
 					Entries.Delete(postIdNum);
 
-					SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Delete));
+					SubtextEvents.OnEntryUpdated(this, new EntryEventArgs(entry, ObjectState.Delete));
 				}
 				return true;
 			}
@@ -123,7 +123,7 @@ namespace Subtext.Framework.XmlRpc
 				entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 
 				//Raise event before updating a post
-				CancellableSubtextEventArgs e = new CancellableSubtextEventArgs(entry, ObjectState.Update);
+				CancellableEntryEventArgs e = new CancellableEntryEventArgs(entry, ObjectState.Update);
 				SubtextEvents.OnEntryUpdating(this, e);
 
 				if (e.Cancel)
@@ -135,7 +135,7 @@ namespace Subtext.Framework.XmlRpc
 				Entries.Update(entry);
 
 				//Raise event after updating a post
-				SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Update));
+				SubtextEvents.OnEntryUpdated(this, new EntryEventArgs(entry, ObjectState.Update));
 			}
 			return true;
 		}
@@ -276,7 +276,7 @@ namespace Subtext.Framework.XmlRpc
 			try
 			{
 				//Raise event before creating a post
-				CancellableSubtextEventArgs e = new CancellableSubtextEventArgs(entry, ObjectState.Create);
+				CancellableEntryEventArgs e = new CancellableEntryEventArgs(entry, ObjectState.Create);
 				SubtextEvents.OnEntryUpdating(this, e);
 
 				if (e.Cancel)
@@ -288,7 +288,7 @@ namespace Subtext.Framework.XmlRpc
 				postID = Entries.Create(entry);
 
 				//Raise event after creating a post
-				SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Create));
+				SubtextEvents.OnEntryUpdated(this, new EntryEventArgs(entry, ObjectState.Create));
 			}
 			catch(Exception e)
 			{

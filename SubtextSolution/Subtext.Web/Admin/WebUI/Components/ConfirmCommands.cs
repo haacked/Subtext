@@ -355,7 +355,7 @@ namespace Subtext.Web.Admin
 			{
 				Entry entry = Entries.GetEntry(_targetID, PostConfig.None, false);
 				//Code to be called before delete a post
-				CancellableSubtextEventArgs e = new CancellableSubtextEventArgs(entry, ObjectState.Delete);
+				CancellableEntryEventArgs e = new CancellableEntryEventArgs(entry, ObjectState.Delete);
 				SubtextEvents.OnEntryUpdating(this, e);
 
 				if (!e.Cancel)
@@ -363,7 +363,7 @@ namespace Subtext.Web.Admin
 					Entries.Delete(_targetID);
 
 					//Code to be called after deleting a post
-					SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Delete));
+					SubtextEvents.OnEntryUpdated(this, new EntryEventArgs(entry, ObjectState.Delete));
 					return FormatMessage(ExecuteSuccessMessage, _targetName, _targetID);
 				}
 				else

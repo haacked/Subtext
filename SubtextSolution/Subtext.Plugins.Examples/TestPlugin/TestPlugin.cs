@@ -33,33 +33,33 @@ namespace Subtext.Plugins.Examples.TestPlugin
 
 		public override void Init(SubtextApplication application)
 		{
-			application.EntryUpdating += new EventHandler<CancellableSubtextEventArgs>(sta_EntryUpdating);
-			application.EntryUpdated += new EventHandler<SubtextEventArgs>(sta_EntryUpdated);
-			application.EntryRendering += new EventHandler<SubtextEventArgs>(sta_EntryRendering);
-			application.SingleEntryRendering += new EventHandler<SubtextEventArgs>(sta_SingleEntryRendering);
+			application.EntryUpdating += new EventHandler<CancellableEntryEventArgs>(sta_EntryUpdating);
+			application.EntryUpdated += new EventHandler<EntryEventArgs>(sta_EntryUpdated);
+			application.EntryRendering += new EventHandler<EntryEventArgs>(sta_EntryRendering);
+			application.SingleEntryRendering += new EventHandler<EntryEventArgs>(sta_SingleEntryRendering);
 		}
 
-		void sta_SingleEntryRendering(object sender, SubtextEventArgs e)
+		void sta_SingleEntryRendering(object sender, EntryEventArgs e)
 		{
 			Entry entry = e.Entry;
 			entry.Body += "<br><hr> <b>TestPlugin</b>: Rendered at date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
 		}
 
-		void sta_EntryRendering(object sender, SubtextEventArgs e)
+		void sta_EntryRendering(object sender, EntryEventArgs e)
 		{
 			Entry entry = e.Entry;
 			entry.Body += "<br><hr> <b>TestPlugin</b>: Rendered at date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
 			entry.Body += GetBlogSetting("value1");
 		}
 
-		void sta_EntryUpdated(object sender, SubtextEventArgs e)
+		void sta_EntryUpdated(object sender, EntryEventArgs e)
 		{
 			Entry entry = e.Entry;
 			Console.WriteLine(entry.FullyQualifiedUrl.ToString());
 			return;
 		}
 
-		void sta_EntryUpdating(object sender, CancellableSubtextEventArgs e)
+		void sta_EntryUpdating(object sender, CancellableEntryEventArgs e)
 		{
 			Entry entry = e.Entry;
 			switch (e.State)
