@@ -23,7 +23,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raises all EntryUpdating Events.
 		/// </summary>
-		public static void OnEntryUpdating(object sender, CancellableSubtextEventArgs e)
+		public static void OnEntryUpdating(object sender, CancellableEntryEventArgs e)
 		{
 			SubtextApplication.Current.ExecuteEntryUpdating(sender, e);
 		}
@@ -31,7 +31,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raises all EntryUpdated Events.
 		/// </summary>
-		public static void OnEntryUpdated(object sender, SubtextEventArgs e)
+		public static void OnEntryUpdated(object sender, EntryEventArgs e)
 		{
 			SubtextApplication.Current.ExecuteEntryUpdated(sender, e);
 		}
@@ -39,7 +39,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raises all SingleEntryRendering Events.
 		/// </summary>
-		public static void OnSingleEntryRendering(object sender, SubtextEventArgs e)
+		public static void OnSingleEntryRendering(object sender, EntryEventArgs e)
 		{
 			SubtextApplication.Current.ExecuteSingleEntryRendering(sender, e);
 		}
@@ -47,7 +47,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raises all SingleEntryRendered Events.
 		/// </summary>
-		public static void OnSingleEntryRendered(object sender, SubtextEventArgs e)
+		public static void OnSingleEntryRendered(object sender, EntryEventArgs e)
 		{
 			SubtextApplication.Current.ExecuteSingleEntryRendered(sender, e);
 		}
@@ -55,7 +55,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raises all EntryRendering Events.
 		/// </summary>
-		public static void OnEntryRendering(object sender, SubtextEventArgs e)
+		public static void OnEntryRendering(object sender, EntryEventArgs e)
 		{
 			SubtextApplication.Current.ExecuteEntryRendering(sender, e);
 		}
@@ -63,7 +63,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raises all EntryRendered Events.
 		/// </summary>
-		public static void OnEntryRendered(object sender, SubtextEventArgs e)
+		public static void OnEntryRendered(object sender, EntryEventArgs e)
 		{
 			SubtextApplication.Current.ExecuteEntryRendered(sender, e);
 		}
@@ -71,7 +71,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raises all EntrySyndicating Events.
 		/// </summary>
-		public static void OnEntrySyndicating(object sender, SubtextEventArgs e)
+		public static void OnEntrySyndicating(object sender, EntryEventArgs e)
 		{
 			SubtextApplication.Current.ExecuteEntrySyndicating(sender, e);
 		}
@@ -79,7 +79,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raises all EntrySyndicated Events.
 		/// </summary>
-		public static void OnEntrySyndicated(object sender, SubtextEventArgs e)
+		public static void OnEntrySyndicated(object sender, EntryEventArgs e)
 		{
 			SubtextApplication.Current.ExecuteEntrySyndicated(sender, e);
 		}

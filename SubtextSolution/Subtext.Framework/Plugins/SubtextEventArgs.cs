@@ -18,28 +18,16 @@ using Subtext.Framework.Components;
 
 namespace Subtext.Extensibility.Plugins
 {
-	/// <summary>
-	/// Base class for SubText specific events
-	/// </summary>
-	public class SubtextEventArgs: EventArgs
+	public abstract class SubtextEventArgs : EventArgs
 	{
 		private ObjectState _state;
-		private Entry _entry;
 
 		/// <summary>
 		/// The current state of the Object being processed
 		/// </summary>
 		public ObjectState State
 		{
-			get{ return _state; }
-		}
-
-		/// <summary>
-		/// The Entry being manipulated
-		/// </summary>
-		public Entry Entry
-		{
-			get { return _entry; }
+			get { return _state; }
 		}
 
 		private Guid _callingPluginGuid;
@@ -50,17 +38,15 @@ namespace Subtext.Extensibility.Plugins
 			set { _callingPluginGuid = value; }
 		}
 
-
-
-		public SubtextEventArgs(Entry entry, ObjectState state)
+		public SubtextEventArgs(ObjectState state)
 		{
-			_entry = entry;
 			_state = state;
 		}
 
-		public SubtextEventArgs(Entry entry) : this(entry, ObjectState.None) { }
+		public SubtextEventArgs() : this(ObjectState.None) { }
 
 	}
+
 
 	/// <summary>
 	/// All possible states for an object (entry, photo, comment)

@@ -383,7 +383,11 @@
     <Compile Include="NullValue.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Plugins\CancellableSubtextEventArgs.cs" />
+    <Compile Include="Plugins\CancellableEntryEventArgs.cs" />
+    <Compile Include="Plugins\CancellableFeedbackEventArgs.cs" />
+    <Compile Include="Plugins\CancellableImageEventArgs.cs" />
+    <Compile Include="Plugins\FeedbackEventArgs.cs" />
+    <Compile Include="Plugins\ImageEventArgs.cs" />
     <Compile Include="Plugins\INotifiableControl.cs" />
     <Compile Include="Plugins\PluginBase.cs" />
     <Compile Include="Plugins\PluginDefaultSetting.cs" />
@@ -397,6 +401,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Plugins\SubtextApplication.cs" />
+    <Compile Include="Plugins\EntryEventArgs.cs" />
     <Compile Include="Plugins\SubtextEventArgs.cs" />
     <Compile Include="Plugins\SubtextEvents.cs" />
     <Compile Include="Properties\GlobalSuppressions.cs" />
@@ -587,6 +592,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Util\TimeZone\WindowsTimeZoneCollection.xml" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="MailLicense.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

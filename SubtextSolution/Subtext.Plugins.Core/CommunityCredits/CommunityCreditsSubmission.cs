@@ -20,10 +20,10 @@ namespace Subtext.Plugins.Core.CommunityCredits
 	{
 		public override void Init(SubtextApplication application)
 		{
-			application.EntryUpdated += new EventHandler<SubtextEventArgs>(application_EntryUpdated);
+			application.EntryUpdated += new EventHandler<EntryEventArgs>(application_EntryUpdated);
 		}
 
-		void application_EntryUpdated(object sender, SubtextEventArgs e)
+		void application_EntryUpdated(object sender, EntryEventArgs e)
 		{
 			string result;
 			if (e.State == ObjectState.Create)

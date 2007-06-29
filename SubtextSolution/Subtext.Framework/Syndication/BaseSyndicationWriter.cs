@@ -182,7 +182,7 @@ namespace Subtext.Framework.Syndication
             Entry theEntry = entry as Entry;
             if (theEntry != null)
             {
-                SubtextEvents.OnEntrySyndicating(this, new SubtextEventArgs(theEntry));
+                SubtextEvents.OnEntrySyndicating(this, new EntryEventArgs(theEntry));
             }
         }
 
@@ -191,7 +191,7 @@ namespace Subtext.Framework.Syndication
 			Entry theEntry = entry as Entry;
 			if (theEntry != null)
 			{
-				SubtextEvents.OnEntrySyndicated(this, new SubtextEventArgs(theEntry));
+				SubtextEvents.OnEntrySyndicated(this, new EntryEventArgs(theEntry));
 			}
 		}
 

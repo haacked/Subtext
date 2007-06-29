@@ -41,15 +41,29 @@ namespace Subtext.Extensibility.Plugins
 		private EventHandlerList Events = new EventHandlerList();
 		
 		#region Event Keys (static)
-		//Using objects so that no cast is performed when accessing the eventhandler list
 		private static object EventEntryUpdating = new object();
 		private static object EventEntryUpdated = new object();
+
 		private static object EventEntryRendering = new object();
 		private static object EventEntryRendered = new object();
+
 		private static object EventSingleEntryRendering = new object();
 		private static object EventSingleEntryRendered = new object();
+
 		private static object EventEntrySyndicating = new object();
 		private static object EventEntrySyndicated = new object();
+
+		private static object EventCommentUpdating = new object();
+		private static object EventCommentUpdated = new object();
+
+		private static object EventImageUpdating = new object();
+		private static object EventImageUpdated = new object();
+
+		private static object EventCommentRendering = new object();
+		private static object EventCommentRendered = new object();
+
+		private static object EventImageRendering = new object();
+		private static object EventImageRendered = new object();
 		#endregion
 
 
@@ -211,7 +225,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raised before changes to the Entry are committed to the datastore
 		/// </summary>
-		public event EventHandler<CancellableSubtextEventArgs> EntryUpdating
+		public event EventHandler<CancellableEntryEventArgs> EntryUpdating
 		{
 			add
 			{
@@ -226,7 +240,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raised after the changes has been committed to the datastore
 		/// </summary>
-		public event EventHandler<SubtextEventArgs> EntryUpdated
+		public event EventHandler<EntryEventArgs> EntryUpdated
 		{
 			add
 			{
@@ -241,7 +255,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raised an individual entry is rendered
 		/// </summary>
-		public event EventHandler<SubtextEventArgs> SingleEntryRendering
+		public event EventHandler<EntryEventArgs> SingleEntryRendering
 		{
 			add
 			{
@@ -256,7 +270,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raised when entry is rendered in the homepage
 		/// </summary>
-		public event EventHandler<SubtextEventArgs> EntryRendering
+		public event EventHandler<EntryEventArgs> EntryRendering
 		{
 			add
 			{
@@ -271,7 +285,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raised when entry is syndicated as RSS or Atom feed
 		/// </summary>
-		public event EventHandler<SubtextEventArgs> EntrySyndicating
+		public event EventHandler<EntryEventArgs> EntrySyndicating
 		{
 			add
 			{
@@ -287,49 +301,49 @@ namespace Subtext.Extensibility.Plugins
 
 		#region Event Execution
 
-		internal void ExecuteEntryUpdating(object sender, SubtextEventArgs e)
+		internal void ExecuteEntryUpdating(object sender, CancellableEntryEventArgs e)
 		{
-			ExecuteEntryEvent(EventEntryUpdating, sender, e);
+			ExecuteEvent(EventEntryUpdating, sender, e);
 		}
 
-		internal void ExecuteEntryUpdated(object sender, SubtextEventArgs e)
+		internal void ExecuteEntryUpdated(object sender, EntryEventArgs e)
 		{
-			ExecuteEntryEvent(EventEntryUpdated, sender, e);
+			ExecuteEvent(EventEntryUpdated, sender, e);
 		}
 
-		internal void ExecuteEntryRendering(object sender, SubtextEventArgs e)
+		internal void ExecuteEntryRendering(object sender, EntryEventArgs e)
 		{
-			ExecuteEntryEvent(EventEntryRendering, sender, e);
+			ExecuteEvent(EventEntryRendering, sender, e);
 		}
 
-		internal void ExecuteEntryRendered(object sender, SubtextEventArgs e)
+		internal void ExecuteEntryRendered(object sender, EntryEventArgs e)
 		{
-			ExecuteEntryEvent(EventEntryRendered, sender, e);
+			ExecuteEvent(EventEntryRendered, sender, e);
 		}
 
-		internal void ExecuteSingleEntryRendering(object sender, SubtextEventArgs e)
+		internal void ExecuteSingleEntryRendering(object sender, EntryEventArgs e)
 		{
-			ExecuteEntryEvent(EventSingleEntryRendering, sender, e);
+			ExecuteEvent(EventSingleEntryRendering, sender, e);
 		}
 
-		internal void ExecuteSingleEntryRendered(object sender, SubtextEventArgs e)
+		internal void ExecuteSingleEntryRendered(object sender, EntryEventArgs e)
 		{
-			ExecuteEntryEvent(EventSingleEntryRendered, sender, e);
+			ExecuteEvent(EventSingleEntryRendered, sender, e);
 		}
 		
-		internal void ExecuteEntrySyndicating(object sender, SubtextEventArgs e)
+		internal void ExecuteEntrySyndicating(object sender, EntryEventArgs e)
 		{
-			ExecuteEntryEvent(EventEntrySyndicating, sender, e);
+			ExecuteEvent(EventEntrySyndicating, sender, e);
 		}
 
-		internal void ExecuteEntrySyndicated(object sender, SubtextEventArgs e)
+		internal void ExecuteEntrySyndicated(object sender, EntryEventArgs e)
 		{
-			ExecuteEntryEvent(EventEntrySyndicated, sender, e);
+			ExecuteEvent(EventEntrySyndicated, sender, e);
 		}
 
 		//List through the subscribed event handlers, and decide weather call them or not
 		//based on the current blog enabled plugins
-		private void ExecuteEntryEvent(object eventKey, object sender, SubtextEventArgs e)
+		private void ExecuteEvent(object eventKey, object sender, SubtextEventArgs e)
 		{
 			EventHandler<SubtextEventArgs> handler = Events[eventKey] as EventHandler<SubtextEventArgs>;
 			if (handler != null)
