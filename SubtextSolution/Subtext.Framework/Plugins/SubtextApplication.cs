@@ -341,6 +341,46 @@ namespace Subtext.Extensibility.Plugins
 			ExecuteEvent(EventEntrySyndicated, sender, e);
 		}
 
+		internal void ExecuteCommentUpdating(object sender, FeedbackEventArgs e)
+		{
+			ExecuteEvent(EventCommentUpdating, sender, e);
+		}
+
+		internal void ExecuteCommentUpdated(object sender, FeedbackEventArgs e)
+		{
+			ExecuteEvent(EventCommentUpdated, sender, e);
+		}
+
+		internal void ExecuteCommentRendering(object sender, FeedbackEventArgs e)
+		{
+			ExecuteEvent(EventCommentRendering, sender, e);
+		}
+
+		internal void ExecuteCommentRendered(object sender, FeedbackEventArgs e)
+		{
+			ExecuteEvent(EventCommentRendered, sender, e);
+		}
+
+		internal void ExecuteImageUpdating(object sender, ImageEventArgs e)
+		{
+			ExecuteEvent(EventImageUpdating, sender, e);
+		}
+
+		internal void ExecuteImageUpdated(object sender, ImageEventArgs e)
+		{
+			ExecuteEvent(EventImageUpdated, sender, e);
+		}
+
+		internal void ExecuteImageRendering(object sender, ImageEventArgs e)
+		{
+			ExecuteEvent(EventImageRendering, sender, e);
+		}
+
+		internal void ExecuteImageRendered(object sender, ImageEventArgs e)
+		{
+			ExecuteEvent(EventImageRendered, sender, e);
+		}
+
 		//List through the subscribed event handlers, and decide weather call them or not
 		//based on the current blog enabled plugins
 		private void ExecuteEvent(object eventKey, object sender, SubtextEventArgs e)
@@ -472,6 +512,8 @@ namespace Subtext.Extensibility.Plugins
 		}
 
 		#endregion
+
+
 	}
 
 

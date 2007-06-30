@@ -83,5 +83,71 @@ namespace Subtext.Extensibility.Plugins
 		{
 			SubtextApplication.Current.ExecuteEntrySyndicated(sender, e);
 		}
+
+
+		/// <summary>
+		/// Raises all CommentUpdating Events.
+		/// </summary>
+		public static void OnCommentUpdating(object sender, FeedbackEventArgs e)
+		{
+			SubtextApplication.Current.ExecuteCommentUpdating(sender, e);
+		}
+
+		/// <summary>
+		/// Raises all CommentUpdated Events.
+		/// </summary>
+		public static void OnCommentUpdated(object sender, FeedbackEventArgs e)
+		{
+			SubtextApplication.Current.ExecuteCommentUpdated(sender, e);
+		}
+
+		/// <summary>
+		/// Raises all CommentRendering Events.
+		/// </summary>
+		public static void OnCommentRendering(object sender, FeedbackEventArgs e)
+		{
+			SubtextApplication.Current.ExecuteCommentRendering(sender, e);
+		}
+
+		/// <summary>
+		/// Raises all CommentRendered Events.
+		/// </summary>
+		public static void OnCommentRendered(object sender, FeedbackEventArgs e)
+		{
+			SubtextApplication.Current.ExecuteCommentRendered(sender, e);
+		}
+
+		/// <summary>
+		/// Raises all ImageUpdating Events.
+		/// </summary>
+		public static void OnImageUpdating(object sender, ImageEventArgs e)
+		{
+			SubtextApplication.Current.ExecuteImageUpdating(sender, e);
+		}
+
+		/// <summary>
+		/// Raises all ImageUpdated Events.
+		/// </summary>
+		public static void OnImageUpdated(object sender, ImageEventArgs e)
+		{
+			SubtextApplication.Current.ExecuteImageUpdated(sender, e);
+		}
+
+		/// <summary>
+		/// Raises all ImageRendering Events.
+		/// </summary>
+		public static void OnImageRendering(object sender, ImageEventArgs e)
+		{
+			SubtextApplication.Current.ExecuteImageRendering(sender, e);
+		}
+
+		/// <summary>
+		/// Raises all ImageRendered Events.
+		/// </summary>
+		public static void OnImageRendered(object sender, ImageEventArgs e)
+		{
+			SubtextApplication.Current.ExecuteImageRendered(sender, e);
+		}
+
 	}
 }
