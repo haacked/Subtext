@@ -514,6 +514,7 @@ body > #top-link {position:fixed;}
 			padding-left:2em;
 			background:url(../images/bullet_UL.png) no-repeat 0 0;
 		}
+		#main #tag-cloud li { background-image:none; }
 		#main ul ol li
 		{
 			padding:0;
