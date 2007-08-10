@@ -154,7 +154,7 @@ namespace Subtext.Web.UI.Controls
 						else if (feedbackItem.FeedbackType == FeedbackType.PingTrack)
 						{
 							namelink.Text =  feedbackItem.Author != null ? feedbackItem.Author : "Pingback/TrackBack";
-							namelink.Attributes.Add("title", "PingBack/TrackBack");
+							ControlHelper.SetTitleIfNone(namelink, "PingBack/TrackBack");
 						}
 					
 						if(feedbackItem.IsBlogAuthor)
