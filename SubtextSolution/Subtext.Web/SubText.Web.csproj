@@ -775,7 +775,6 @@
     <Content Include="Global.asax" />
     <Content Include="logout.aspx" />
     <Content Include="MainFeed.aspx" />
-    <Content Include="HostAdmin\Scripts\Navigation.config" />
     <Content Include="Admin\Skins.config" />
     <Content Include="Admin\Web.config" />
     <Content Include="HostAdmin\Import\Web.config" />
@@ -1545,8 +1544,6 @@
     <Content Include="Skins\EliteCircle\PageTemplate.ascx" />
     <Content Include="Skins\EliteCircle\print.css" />
     <Content Include="Skins\EliteCircle\style.css" />
-    <Content Include="Skins\Lightz\Scripts\cityNight.js" />
-    <Content Include="Skins\Lightz\Scripts\tableEffects.js" />
     <Content Include="Skins\Colors\Blue.css" />
     <Content Include="Skins\Colors\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\Colors\Controls\ArchiveDay.ascx" />
