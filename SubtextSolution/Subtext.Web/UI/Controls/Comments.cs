@@ -153,7 +153,7 @@ namespace Subtext.Web.UI.Controls
 						}
 						else if (feedbackItem.FeedbackType == FeedbackType.PingTrack)
 						{
-							namelink.Text =  feedbackItem.Author != null ? feedbackItem.Author : "Pingback/TrackBack";
+							namelink.Text =  !String.IsNullOrEmpty(feedbackItem.Author) ? feedbackItem.Author : "Pingback/TrackBack";
 							ControlHelper.SetTitleIfNone(namelink, "PingBack/TrackBack");
 						}
 					
@@ -333,4 +333,6 @@ namespace Subtext.Web.UI.Controls
 		}
 	}
 }
+
+
 
