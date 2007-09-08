@@ -6,7 +6,7 @@
 		<asp:literal id="EntryCollectionDescription" runat="server" />
 		<br />
 	</div>
-	<asp:Repeater runat="Server" ID="DayList" onitemcreated="PostCreated">
+	<asp:Repeater runat="Server" ID="Entries" onitemcreated="PostCreated">
 		<itemtemplate>
 			<div class="post">
 				<div class="title">
