@@ -36,7 +36,7 @@ namespace Subtext.Framework.Syndication
 		protected bool clientHasAllFeedItems = false;
 
 		/// <summary>
-		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
+        /// Creates a new <see cref="BaseSyndicationWriter"/> instance.
 		/// </summary>
 		/// <param name="sw">Sw.</param>
 		protected BaseSyndicationWriter(StringWriter sw)
@@ -48,6 +48,7 @@ namespace Subtext.Framework.Syndication
 		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
 		/// </summary>
 		/// <param name="dateLastViewedFeedItemPublished"></param>
+		/// <param name="useDeltaEncoding"></param>
 		protected BaseSyndicationWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
 			: this(new StringWriter(), dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
@@ -58,6 +59,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="sw">Sw.</param>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
+		/// <param name="useDeltaEncoding"></param>
 		protected BaseSyndicationWriter(StringWriter sw, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
 			: base(sw)
 		{
@@ -65,8 +67,8 @@ namespace Subtext.Framework.Syndication
 			writer = sw;
 			info = Config.CurrentBlog;
 			this.useDeltaEncoding = useDeltaEncoding;
-			this.Formatting = System.Xml.Formatting.Indented;
-			this.Indentation = 4;
+			Formatting = System.Xml.Formatting.Indented;
+			Indentation = 4;
 		}
 
 		/// <summary>
@@ -90,7 +92,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				return this.StringWriter.ToString();
+				return StringWriter.ToString();
 			}
 		}
 
@@ -104,10 +106,10 @@ namespace Subtext.Framework.Syndication
 		}
 
 		/// <summary>
-		/// Gets a value indicating whether the feed client has all the feed items.
+		/// Gets a value indicating whether the feed client has all the feed _items.
 		/// </summary>
 		/// <value>
-		/// 	<c>true</c> if the client has all feed items; otherwise, <c>false</c>.
+		/// 	<c>true</c> if the client has all feed _items; otherwise, <c>false</c>.
 		/// </value>
 		public bool ClientHasAllFeedItems
 		{
@@ -137,33 +139,34 @@ namespace Subtext.Framework.Syndication
 		/// <value></value>
 		public DateTime DateLastViewedFeedItemPublished
 		{
-			get { return this.dateLastViewedFeedItemPublished; }
+			get { return dateLastViewedFeedItemPublished; }
 		}
 
 		private bool _useAggBugs = false;
 		public bool UseAggBugs
 		{
-			get { return this._useAggBugs; }
-			set { this._useAggBugs = value; }
+			get { return _useAggBugs; }
+			set { _useAggBugs = value; }
 		}
 
 		private bool _allowComments = true;
 		public bool AllowComments
 		{
-			get { return this._allowComments; }
-			set { this._allowComments = value; }
+			get { return _allowComments; }
+			set { _allowComments = value; }
 		}
 
+        private IList<T> _items;
 		/// <summary>
 		/// Gets or sets the entries to be rendered in the feed.
 		/// </summary>
 		/// <value>The entries.</value>
 		public IList<T> Items
 		{
-			get { return this.items; }
-			set { this.items = value; }
+			get { return _items; }
+			set { _items = value; }
 		}
-		private IList<T> items;
+		
 
 		/// <summary>
 		/// Builds the feed.

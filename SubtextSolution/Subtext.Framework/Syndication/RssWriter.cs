@@ -35,8 +35,8 @@ namespace Subtext.Framework.Syndication
 		public RssWriter(IList<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
 			: base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
-			this.Items = entries;
-			this.UseAggBugs = true;
+			Items = entries;
+			UseAggBugs = true;
 		}
 
 		/// <summary>

@@ -24,7 +24,7 @@ namespace Subtext.Framework.Syndication
 	/// <summary>
 	/// Class used to handle requests for an RSS feed.
 	/// </summary>
-	public class RssHandler : Subtext.Framework.Syndication.BaseSyndicationHandler<Entry>
+	public class RssHandler : BaseSyndicationHandler<Entry>
 	{
 		BaseSyndicationWriter<Entry> writer;
 
@@ -45,7 +45,7 @@ namespace Subtext.Framework.Syndication
 		/// <param name="feed">Feed.</param>
 		protected override void Cache(CachedFeed feed)
 		{
-			Context.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, null, DateTime.Now.AddSeconds((double)CacheDuration.Medium), TimeSpan.Zero);
+			Context.Cache.Insert(CacheKey(SyndicationWriter.DateLastViewedFeedItemPublished), feed, null, DateTime.Now.AddSeconds((double)CacheDuration.Medium), TimeSpan.Zero);
 		}
 
 		/// <summary>
@@ -58,7 +58,7 @@ namespace Subtext.Framework.Syndication
 			{
 				if (writer == null)
 				{
-					writer = new RssWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding);
+					writer = new RssWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), PublishDateOfLastFeedItemReceived, UseDeltaEncoding);
 				}
 				return writer;
 			}

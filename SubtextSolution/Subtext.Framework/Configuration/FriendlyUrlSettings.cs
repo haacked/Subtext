@@ -34,17 +34,16 @@ namespace Subtext.Configuration
 			string wordCountLimitText = config["limitWordCount"];
 			if(!String.IsNullOrEmpty(wordCountLimitText) )
 			{
-				int.TryParse(wordCountLimitText, out this.wordCountLimit);
+				int.TryParse(wordCountLimitText, out wordCountLimit);
 			}
 			enabled = true;
 		}
 
-		public bool Enabled
+        private bool enabled = false;
+        public bool Enabled
 		{
-			get { return this.enabled; }
+			get { return enabled; }
 		}
-
-		private bool enabled = false;
 
 		/// <summary>
 		/// The type of transformation to apply on the URL such 
@@ -55,6 +54,7 @@ namespace Subtext.Configuration
 			get { return this.textTransformation; }
 		}
 
+        private string separatingCharacter;
 		/// <summary>
 		/// The character used to separate words in the URL.
 		/// </summary>
@@ -63,17 +63,13 @@ namespace Subtext.Configuration
 			get { return this.separatingCharacter; }
 		}
 
-		public int WordCountLimit
+        private int wordCountLimit = 0;
+        public int WordCountLimit
 		{
 			get { return this.wordCountLimit; }
 		}
 
-		private int wordCountLimit = 0;
-
-		private string separatingCharacter;
-
 		private TextTransform textTransformation;
-
 		static TextTransform ParseTextTransform(string enumValue)
 		{
 			if (String.IsNullOrEmpty(enumValue))

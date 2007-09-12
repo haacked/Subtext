@@ -69,11 +69,13 @@ namespace Subtext.Framework.Syndication
 			CachedFeed feed;
 
 			comments = GetFeedEntries();
-			if (comments == null)
-				comments = new List<FeedbackItem>();
+            if (comments == null)
+            {
+                comments = new List<FeedbackItem>();
+            }
 
 
-			feed = new CachedFeed();
+		    feed = new CachedFeed();
 			CommentRssWriter crw = new CommentRssWriter(comments, ParentEntry);
 			if (comments.Count > 0)
 			{
@@ -81,7 +83,7 @@ namespace Subtext.Framework.Syndication
 			}
 			else
 			{
-				feed.LastModified = this.ParentEntry.DateSyndicated;
+				feed.LastModified = ParentEntry.DateSyndicated;
 			}
 			feed.Xml = crw.Xml;
 			return feed;

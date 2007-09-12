@@ -1,3 +1,18 @@
+#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at SourceForge at http://sourceforge.net/projects/subtext
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
 using System;
 using System.Configuration.Provider;
 using System.Data;
@@ -30,9 +45,9 @@ namespace Subtext.Framework.Security
 				throw new HttpException(String.Format(CultureInfo.CurrentUICulture, Resources.HttpException_MissingAttribute, "connectionStringName"));
 			}
 
-			this.connectionString = System.Configuration.ConfigurationManager.ConnectionStrings[csn].ConnectionString;
+			connectionString = System.Configuration.ConfigurationManager.ConnectionStrings[csn].ConnectionString;
 
-            if (string.IsNullOrEmpty(this.connectionString))
+            if (string.IsNullOrEmpty(connectionString))
             {
                 throw new Exception(String.Format(CultureInfo.CurrentUICulture, Resources.Configuration_KeyNotFound, csn));
             }
