@@ -24,8 +24,6 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
-using Subtext.Framework.Text;
-using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework.Configuration
 {
@@ -196,13 +194,13 @@ namespace Subtext.Framework.Configuration
 		public static BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner)
 		{
 			if (String.IsNullOrEmpty(title))
-				throw new ArgumentNullException("Cannot create a blog with a null or empty title");
+				throw new ArgumentNullException("title", "Cannot create a blog with a null or empty title");
 
 			if (String.IsNullOrEmpty(host))
-				throw new ArgumentNullException("Cannot create a blog with a null or empty host");
+				throw new ArgumentNullException("host", "Cannot create a blog with a null or empty host");
 
 			if (owner == null)
-				throw new ArgumentNullException("Every blog must have an owner.");
+				throw new ArgumentNullException("owner", "Every blog must have an owner.");
 
 			if (subfolder != null && subfolder.EndsWith("."))
 				throw new InvalidSubfolderNameException(subfolder);

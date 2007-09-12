@@ -97,7 +97,7 @@ namespace Subtext.Framework.Syndication
 				{
 					// if we did not set the etag, just use the 
 					// LastModified Date
-					etag = this.LastModified.ToString(CultureInfo.InvariantCulture);
+					etag = LastModified.ToString(CultureInfo.InvariantCulture);
 				}
 				return etag;
 			}

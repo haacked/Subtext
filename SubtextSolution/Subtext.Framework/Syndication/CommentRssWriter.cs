@@ -50,10 +50,10 @@ namespace Subtext.Framework.Syndication
 				throw new ArgumentNullException("entry", "Comment RSS feed must be associated to an entry.");
 			}
 
-			this.Items = commentEntries;
-			this.CommentEntry = entry;
-			this.UseAggBugs = false;
-			this.AllowComments = false;
+			Items = commentEntries;
+			CommentEntry = entry;
+			UseAggBugs = false;
+			AllowComments = false;
 		}
 
 		/// <summary>
@@ -62,7 +62,7 @@ namespace Subtext.Framework.Syndication
 		protected override void WriteChannel()
 		{
 			RssImageElement image = new RssImageElement(GetRssImage(), CommentEntry.Title, CommentEntry.FullyQualifiedUrl, 77, 60, null);
-			this.BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl.ToString(), CommentEntry.Author.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
+			BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl.ToString(), CommentEntry.Author.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
 		}
 
 		/// <summary>

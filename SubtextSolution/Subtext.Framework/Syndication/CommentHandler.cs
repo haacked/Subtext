@@ -25,7 +25,7 @@ using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Syndication
 {
-	// To Do: Should we validate the supplied XML? 
+	// TODO: Should we validate the supplied XML? 
 	// Not much that can be done if it is not correct.
 
 	/// <summary>

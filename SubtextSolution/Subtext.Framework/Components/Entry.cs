@@ -37,7 +37,7 @@ namespace Subtext.Framework.Components
 		/// <param name="ptype">Ptype.</param>
 		public Entry(PostType ptype)
 		{
-			this._postType = ptype;
+			_postType = ptype;
 		}
 
 		private int _blogID;
@@ -47,8 +47,8 @@ namespace Subtext.Framework.Components
 		/// <value>The blog ID.</value>
 		public int BlogId
 		{
-			get { return this._blogID; }
-			set { this._blogID = value; }
+			get { return _blogID; }
+			set { _blogID = value; }
 		}
 
 		private int _entryid = NullValue.NullInt32;
@@ -72,7 +72,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return DateCreated != this.DateModified;
+				return DateCreated != DateModified;
 			}
 		}
 
@@ -147,7 +147,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return this.EntryName != null && this.EntryName.Trim().Length > 0;
+				return EntryName != null && EntryName.Trim().Length > 0;
 			}
 		}
 
@@ -189,16 +189,16 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				if (this.author == null)
+				if (author == null)
 				{
 					if (authorId != Guid.Empty)
 					{
-						this.author = Membership.GetUser(authorId);
+						author = Membership.GetUser(authorId);
 					}
 				}
-				return this.author;
+				return author;
 			}
-			set { this.author = value; }
+			set { author = value; }
 		}
 		private MembershipUser author;
 

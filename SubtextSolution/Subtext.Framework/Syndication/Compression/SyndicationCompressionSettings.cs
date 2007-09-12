@@ -75,7 +75,7 @@ namespace Subtext.Framework.Syndication.Compression
 		/*-- Methods --*/
 
 		#region -- RetrieveEnumFromAttribute(XmlAttribute, Type) Method --
-        protected static Enum RetrieveEnumFromAttribute(XmlAttribute attribute, System.Type type)
+        protected static Enum RetrieveEnumFromAttribute(XmlAttribute attribute, Type type)
         {
             if (attribute == null)
             {
@@ -102,7 +102,7 @@ namespace Subtext.Framework.Syndication.Compression
 
 			if(settings == null)
 			{
-				settings = SyndicationCompressionSettings.DefaultSettings;
+				settings = DefaultSettings;
 			}
 			
 			return settings;

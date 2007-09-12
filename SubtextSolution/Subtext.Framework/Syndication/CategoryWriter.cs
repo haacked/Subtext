@@ -13,7 +13,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -28,15 +27,15 @@ namespace Subtext.Framework.Syndication
 		private LinkCategory _lc;
 		public LinkCategory Category
 		{
-			get {return this._lc;}
-			set {this._lc = value;}
+			get {return _lc;}
+			set {_lc = value;}
 		}
 
 		private string _url;
 		public string Url
 		{
-			get {return this._url;}
-			set {this._url = value;}
+			get {return _url;}
+			set {_url = value;}
 		}
 
 		//TODO: implement dateLastViewedFeedItemPublished
@@ -49,19 +48,19 @@ namespace Subtext.Framework.Syndication
 		/// <param name="url">URL.</param>
 		public CategoryWriter(IList<Entry> ec, LinkCategory lc, string url) : base(ec, NullValue.NullDateTime, false)
 		{
-			this.Category = lc;
-			this.Url = url;
+			Category = lc;
+			Url = url;
 		}
 
 		protected override void WriteChannel()
 		{
-			if(this.Category == null)
+			if(Category == null)
 			{
 				base.WriteChannel();
 			}
 			else
 			{
-				this.BuildChannel(Category.Title,  Url,  info.Owner.Email,  Category.HasDescription ? Category.Description : Category.Title, info.Language, info.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
+				BuildChannel(Category.Title,  Url,  info.Owner.Email,  Category.HasDescription ? Category.Description : Category.Title, info.Language, info.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
 			}
 		}
 	}
