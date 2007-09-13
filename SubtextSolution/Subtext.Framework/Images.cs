@@ -128,14 +128,14 @@ namespace Subtext.Framework
 		public static bool SaveImage(byte[] buffer, string fileName)
 		{
 			if (buffer == null)
-				throw new ArgumentNullException("Buffer", Resources.ArgumentNull_Array);
+				throw new ArgumentNullException("buffer", Resources.ArgumentNull_Array);
 
 			if (fileName == null)
-				throw new ArgumentNullException("FileName", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("fileName", Resources.ArgumentNull_Generic);
 
 			if (fileName.Length == 0)
 			{
-				throw new ArgumentException(Resources.Argument_StringZeroLength, "FileName");
+				throw new ArgumentException(Resources.Argument_StringZeroLength, "fileName");
 			}
 
 			if (ValidateFile(fileName))
@@ -220,10 +220,10 @@ namespace Subtext.Framework
 		public static void EnsureDirectory(string directoryPath)
 		{
 			if (directoryPath == null)
-				throw new ArgumentNullException("filepath", Resources.ArgumentNull_String);
+                throw new ArgumentNullException("directoryPath", Resources.ArgumentNull_String);
 
 			if (directoryPath.Length == 0)
-				throw new ArgumentException(Resources.Argument_StringZeroLength, "filepath");
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "directoryPath");
 
 			string dir = Path.GetFullPath(directoryPath);
 			if (!Directory.Exists(dir))
@@ -281,7 +281,7 @@ namespace Subtext.Framework
 				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
 			
 			if (buffer == null)
-				throw new ArgumentNullException("Buffer", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("buffer", Resources.ArgumentNull_Generic);
 
 
 			if (SaveImage(buffer, image.OriginalFilePath))

@@ -55,7 +55,9 @@ namespace Subtext.Framework
 			}
 		}
 
-		/// <summary>
+        MembershipUser owner;
+        internal Guid _ownerId = Guid.Empty;
+        /// <summary>
 		/// Gets the owner of the subtext installation. 
 		/// This person is known as THE HostAdmin.
 		/// </summary>
@@ -64,20 +66,16 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if(this.owner == null && ownerId != Guid.Empty)
+				if(owner == null && _ownerId != Guid.Empty)
 				{
 					using(MembershipApplicationScope.SetApplicationName("/"))
 					{
-						this.owner = Membership.GetUser(ownerId);
+						owner = Membership.GetUser(_ownerId);
 					}
 				}
-				return this.owner;
+				return owner;
 			}
 		}
-
-		MembershipUser owner;
-
-		internal Guid ownerId = Guid.Empty;
 
 		/// <summary>
 		/// Gets a value indicating whether the HostInfo table exists.
@@ -101,16 +99,15 @@ namespace Subtext.Framework
 			}
 		}
 
+        Guid _applicationId;
 		/// <summary>
 		/// The Membership Application ID for the Host.
 		/// </summary>
 		public Guid ApplicationId
 		{
-			get { return this.applicationId; }
-			set { this.applicationId = value; }
+			get { return _applicationId; }
+			set { _applicationId = value; }
 		}
-
-		Guid applicationId;
 
 		/// <summary>
 		/// Loads the host from the Object Provider.  This is provided 
@@ -171,10 +168,12 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string HostUserName
 		{
-			get { return this.Owner.UserName; }
+			get { return Owner.UserName; }
 		}
 
-		/// <summary>
+
+        DateTime _dateCreated = NullValue.NullDateTime;
+        /// <summary>
 		/// Gets or sets the date this record was created. 
 		/// This is essentially the date that Subtext was 
 		/// installed.
@@ -185,7 +184,5 @@ namespace Subtext.Framework
 			get { return _dateCreated; }
 			set { _dateCreated = value; }
 		}
-
-		DateTime _dateCreated = NullValue.NullDateTime;
 	}
 }

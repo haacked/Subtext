@@ -1,3 +1,18 @@
+#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at SourceForge at http://sourceforge.net/projects/subtext
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
 using System;
 using System.Collections;
 using System.Globalization;
@@ -61,11 +76,11 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return this.cache[GetCacheKey(key)];
+				return cache[GetCacheKey(key)];
 			}
 			set
 			{
-				this.cache.Insert(GetCacheKey(key), value);
+				cache.Insert(GetCacheKey(key), value);
 			}
 		}
 
@@ -82,7 +97,7 @@ namespace Subtext.Framework
             {
                 throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
             }
-			this.cache.Insert(GetCacheKey(key), value);
+			cache.Insert(GetCacheKey(key), value);
 		}
 
 		/// <summary>
@@ -104,7 +119,7 @@ namespace Subtext.Framework
                 throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
             }
 			
-			this.cache.Insert(GetCacheKey(key), value, null, DateTime.Now.AddSeconds((int)cacheDuration), TimeSpan.Zero, CacheItemPriority.Normal, null);
+			cache.Insert(GetCacheKey(key), value, null, DateTime.Now.AddSeconds((int)cacheDuration), TimeSpan.Zero, CacheItemPriority.Normal, null);
 		}
 
 		/// <summary>
@@ -126,7 +141,7 @@ namespace Subtext.Framework
                 throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
             }
 			
-			this.cache.Insert(GetCacheKey(key), value, cacheDependency);
+			cache.Insert(GetCacheKey(key), value, cacheDependency);
 		}
 
 		/// <summary>
@@ -136,7 +151,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public object Get(string key)
 		{
-			return this.cache.Get(GetCacheKey(key));
+			return cache.Get(GetCacheKey(key));
 		}
 
 		/// <summary>
@@ -146,7 +161,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public object Remove(string key)
 		{
-			return this.cache.Remove(GetCacheKey(key));
+			return cache.Remove(GetCacheKey(key));
 		}
 
 		/// <summary>
@@ -158,7 +173,7 @@ namespace Subtext.Framework
 		/// </returns>
 		public IEnumerator GetEnumerator()
 		{
-			return this.cache.GetEnumerator();
+			return cache.GetEnumerator();
 		}
 	}
 

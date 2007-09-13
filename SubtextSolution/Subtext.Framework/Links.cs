@@ -13,7 +13,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;

@@ -98,7 +98,7 @@ namespace Subtext.Framework
         public static IPagedCollection<BlogInfo> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
 		{
 			if (String.IsNullOrEmpty(host))
-				throw new ArgumentNullException("Host must not be null or empty.");
+				throw new ArgumentNullException("host", "Host must not be null or empty.");
 
 			return ObjectProvider.Instance().GetPagedBlogs(host, pageIndex, pageSize, flags);
 		}
@@ -137,7 +137,7 @@ namespace Subtext.Framework
 			{
 				if (_urlFormats == null)
 				{
-					_urlFormats = new UrlFormats(this.RootUrl);
+					_urlFormats = new UrlFormats(RootUrl);
 				}
 				return _urlFormats;
 			}
@@ -154,29 +154,26 @@ namespace Subtext.Framework
 			set { _imageDirectory = value; }
 		}
 
-		private string _imagePath;
-
-		/// <summary>
-		/// Gets or sets the owner of the blog.
+        MembershipUser _owner;
+        internal Guid _ownerId;
+        /// <summary>
+		/// Gets or sets the _owner of the blog.
 		/// </summary>
-		/// <value>The owner.</value>
+		/// <value>The _owner.</value>
 		public MembershipUser Owner
 		{
 			get
 			{
-				if (this.owner == null && this.ownerId != Guid.Empty)
+				if (_owner == null && _ownerId != Guid.Empty)
 				{
-					this.owner = Membership.GetUser(this.ownerId);
+					_owner = Membership.GetUser(_ownerId);
 				}
-				return this.owner;
+				return _owner;
 			}
-			set { this.owner = value; }
+			set { _owner = value; }
 		}
 
-		MembershipUser owner;
-
-		internal Guid ownerId;
-
+        private string _imagePath;
 		/// <summary>
 		/// Gets or sets the path (url) to the image directory.
 		/// </summary>
@@ -239,8 +236,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int TimeZoneId
 		{
-			get { return this._timeZoneId; }
-			set { this._timeZoneId = value; }
+			get { return _timeZoneId; }
+			set { _timeZoneId = value; }
 		}
 		private int _timeZoneId;
 
@@ -281,8 +278,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int StoryCount
 		{
-			get { return this._storyCount; }
-			set { this._storyCount = value; }
+			get { return _storyCount; }
+			set { _storyCount = value; }
 		}
 
 		private string _language = "en-US";
@@ -580,23 +577,23 @@ namespace Subtext.Framework
 			set { FlagSetter(ConfigurationFlags.CaptchaEnabled, value); }
 		}
 
-		private string subfolder;
+		private string _subfolder;
 		/// <summary>
-		/// Gets or sets the subfolder the blog lives in.
+		/// Gets or sets the _subfolder the blog lives in.
 		/// </summary>
 		/// <value></value>
 		public string Subfolder
 		{
 			get
 			{
-				return this.subfolder;
+				return _subfolder;
 			}
 			set
 			{
 				if (value != null)
 					value = UrlFormats.StripSurroundingSlashes(value);
 
-				this.subfolder = value;
+				_subfolder = value;
 			}
 		}
 
@@ -609,9 +606,9 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return this.applicationName ?? this.Host + "/" + this.Subfolder;
+				return applicationName ?? Host + "/" + Subfolder;
 			}
-			set { this.applicationName = value; }
+			set { applicationName = value; }
 		}
 
 		string applicationName;
@@ -651,26 +648,26 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Gets a value indicating whether the blog has news. 
+		/// Gets a value indicating whether the blog has _news. 
 		/// News can be entered in the Admin section.
 		/// </summary>
 		/// <value>
-		/// 	<c>true</c> if the blog has news; otherwise, <c>false</c>.
+		/// 	<c>true</c> if the blog has _news; otherwise, <c>false</c>.
 		/// </value>
 		public bool HasNews
 		{
 			get { return News != null && News.Trim().Length > 0; }
 		}
 
-		private string news;
+		private string _news;
 		/// <summary>
-		/// Gets or sets the news.
+		/// Gets or sets the _news.
 		/// </summary>
 		/// <value></value>
 		public string News
 		{
-			get { return news; }
-			set { news = value; }
+			get { return _news; }
+			set { _news = value; }
 		}
 
 		/// <summary>
@@ -712,7 +709,7 @@ namespace Subtext.Framework
 		}
 
 
-
+        string _licenseUrl;
 		/// <summary>
 		/// Gets or sets the license URL.  This is used to 
 		/// Used to specify a license within a syndicated feed. 
@@ -726,8 +723,8 @@ namespace Subtext.Framework
 			set { _licenseUrl = value; }
 		}
 
-		string _licenseUrl;
 
+        string _feedbackSpamServiceKey;
 		/// <summary>
 		/// Gets or sets the Comment Service API key. This is for a comment spam filtering 
 		/// service such as http://akismet.com/
@@ -735,11 +732,10 @@ namespace Subtext.Framework
 		/// <value>The akismet API key.</value>
 		public string FeedbackSpamServiceKey
 		{
-			get { return this.feedbackSpamServiceKey ?? String.Empty; }
-			set { this.feedbackSpamServiceKey = (value ?? string.Empty); }
+			get { return _feedbackSpamServiceKey ?? String.Empty; }
+			set { _feedbackSpamServiceKey = (value ?? string.Empty); }
 		}
 
-		string feedbackSpamServiceKey;
 
 		/// <summary>
 		/// Gets a value indicating whether [akismet enabled].
@@ -749,10 +745,11 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return !String.IsNullOrEmpty(feedbackSpamServiceKey);
+				return !String.IsNullOrEmpty(_feedbackSpamServiceKey);
 			}
 		}
 
+        IFeedbackSpamService _feedbackService;
 		/// <summary>
 		/// Gets the comment spam service.
 		/// </summary>
@@ -761,19 +758,19 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if (this.feedbackService == null && FeedbackSpamServiceEnabled)
+				if (_feedbackService == null && FeedbackSpamServiceEnabled)
 				{
-					this.feedbackService = new AkismetSpamService(this.feedbackSpamServiceKey, this);
+					_feedbackService = new AkismetSpamService(_feedbackSpamServiceKey, this);
 				}
-				return this.feedbackService;
+				return _feedbackService;
 			}
 			set
 			{
-				this.feedbackService = value;
+				_feedbackService = value;
 			}
 		}
 
-		IFeedbackSpamService feedbackService;
+		
 
 		/// <summary>
 		/// Gets a value indicating whether [feed burner enabled].
@@ -783,10 +780,11 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return !String.IsNullOrEmpty(this.feedBurnerName);
+				return !String.IsNullOrEmpty(_feedBurnerName);
 			}
 		}
 
+        string _feedBurnerName;
 		/// <summary>
 		/// Gets or sets the name of the feedburner account. 
 		/// This is the portion of the feedburner URL after:
@@ -795,7 +793,7 @@ namespace Subtext.Framework
 		/// <value>The name of the feed burner.</value>
 		public string FeedBurnerName
 		{
-			get { return this.feedBurnerName; }
+			get { return _feedBurnerName; }
 			set
 			{
 				if (!String.IsNullOrEmpty(value))
@@ -803,12 +801,12 @@ namespace Subtext.Framework
 					if (value.Contains("\\"))
 						throw new InvalidOperationException("Backslashes are not allowed in the feedburner name.");
 				}
-				this.feedBurnerName = value;
+				_feedBurnerName = value;
 			}
 		}
 
-		string feedBurnerName;
 
+        Uri _rootUrl;
 		/// <summary>
 		/// Gets the root URL for this blog.  For example, "http://example.com/" or "http://example.com/blog/".
 		/// </summary>
@@ -817,19 +815,20 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if (this.rootUrl == null)
+				if (_rootUrl == null)
 				{
-					this.rootUrl = HostFullyQualifiedUrl;
-					if (this.Subfolder != null && this.Subfolder.Length > 0)
+					_rootUrl = HostFullyQualifiedUrl;
+					if (Subfolder != null && Subfolder.Length > 0)
 					{
-						this.rootUrl = new Uri(this.rootUrl, this.Subfolder + "/");
+						_rootUrl = new Uri(_rootUrl, Subfolder + "/");
 					}
 				}
-				return this.rootUrl;
+				return _rootUrl;
 			}
 		}
-		Uri rootUrl;
 
+
+        string _virtualUrl;
 		/// <summary>
 		/// Gets the virtual URL for the site with preceding and trailing slash.  For example, "/" or "/Subtext.Web/" or "/Blog/".
 		/// </summary>
@@ -838,24 +837,24 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if (this.virtualUrl == null)
+				if (_virtualUrl == null)
 				{
-					this.virtualUrl = "/";
+					_virtualUrl = "/";
 					string appPath = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
 					if (appPath.Length > 0)
 					{
-						this.virtualUrl += appPath + "/";
+						_virtualUrl += appPath + "/";
 					}
 
-					if (this.Subfolder != null && this.Subfolder.Length > 0)
+					if (Subfolder != null && Subfolder.Length > 0)
 					{
-						this.virtualUrl += this.Subfolder + "/";
+						_virtualUrl += Subfolder + "/";
 					}
 				}
-				return this.virtualUrl;
+				return _virtualUrl;
 			}
 		}
-		string virtualUrl;
+		
 
 		/// <summary>
 		/// Gets the virtual directory/application root for the site.  
@@ -923,9 +922,10 @@ namespace Subtext.Framework
 			}
 		}
 
+        Uri _hostFullyQualifiedUrl;
 		/// <summary>
 		/// Gets the fully qualified url to the blog engine host.  This is the 
-		/// blog URL without the subfolder, but with the virtual directory 
+		/// blog URL without the _subfolder, but with the virtual directory 
 		/// path, if any.
 		/// </summary>
 		/// <value></value>
@@ -933,20 +933,20 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if (this.hostFullyQualifiedUrl == null)
+				if (_hostFullyQualifiedUrl == null)
 				{
-					string host = HttpContext.Current.Request.Url.Scheme + "://" + this._host;
+					string host = HttpContext.Current.Request.Url.Scheme + "://" + _host;
 					if (Port != BlogRequest.DefaultPort)
 					{
 						host += ":" + Port;
 					}
 					host += VirtualDirectoryRoot;
-					hostFullyQualifiedUrl = new Uri(host);
+					_hostFullyQualifiedUrl = new Uri(host);
 				}
-				return hostFullyQualifiedUrl;
+				return _hostFullyQualifiedUrl;
 			}
 		}
-		Uri hostFullyQualifiedUrl;
+		
 
 		/// <summary>
 		/// Gets the blog home virtual URL.  For example, "/default.aspx" or "/Blog/Default.aspx".
@@ -982,8 +982,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int PostCount
 		{
-			get { return this._postCount; }
-			set { this._postCount = value; }
+			get { return _postCount; }
+			set { _postCount = value; }
 		}
 
 		private int _commentCount;
@@ -993,8 +993,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int CommentCount
 		{
-			get { return this._commentCount; }
-			set { this._commentCount = value; }
+			get { return _commentCount; }
+			set { _commentCount = value; }
 		}
 
 		private int _pingTrackCount;
@@ -1004,8 +1004,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int PingTrackCount
 		{
-			get { return this._pingTrackCount; }
-			set { this._pingTrackCount = value; }
+			get { return _pingTrackCount; }
+			set { _pingTrackCount = value; }
 		}
 
 		#endregion
@@ -1020,11 +1020,11 @@ namespace Subtext.Framework
 		{
 			if (select)
 			{
-				this.Flag = Flag | cf;
+				Flag = Flag | cf;
 			}
 			else
 			{
-				this.Flag = Flag & ~cf;
+				Flag = Flag & ~cf;
 			}
 		}
 
@@ -1036,7 +1036,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		bool FlagPropertyCheck(ConfigurationFlags cf)
 		{
-			return (this.Flag & cf) == cf;
+			return (Flag & cf) == cf;
 		}
 
 		/// <summary>
@@ -1052,7 +1052,7 @@ namespace Subtext.Framework
 			if (GetType() != obj.GetType())
 				return false;
 
-			return ((BlogInfo)obj).Id == this.Id;
+			return ((BlogInfo)obj).Id == Id;
 		}
 
 		/// <summary>
@@ -1062,7 +1062,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public override int GetHashCode()
 		{
-			return this.Host.GetHashCode() ^ this.Subfolder.GetHashCode();
+			return Host.GetHashCode() ^ Subfolder.GetHashCode();
 		}
 
 		//CHANGE: Gurkan Yeniceri

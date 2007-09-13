@@ -19,7 +19,6 @@ using System.Globalization;
 using System.IO;
 using System.Web;
 using System.Web.Caching;
-using Subtext.Configuration;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;

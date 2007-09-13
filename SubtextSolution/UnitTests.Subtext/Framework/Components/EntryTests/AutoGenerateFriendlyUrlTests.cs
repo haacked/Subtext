@@ -15,7 +15,6 @@
 
 using System;
 using MbUnit.Framework;
-using Subtext.Configuration;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;

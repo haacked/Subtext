@@ -482,7 +482,7 @@ namespace Subtext.Framework.Data
 			BlogInfo info = new BlogInfo();
 			info.Id = ReadInt32(reader, "BlogId");
 
-			info.ownerId = ReadGuid(reader, "OwnerId");
+			info._ownerId = ReadGuid(reader, "OwnerId");
 			info.ApplicationName = ReadString(reader, "ApplicationName");
 			info.SubTitle = ReadString(reader, "SubTitle");
 			info.Title = ReadString(reader, "Title");
@@ -662,7 +662,7 @@ namespace Subtext.Framework.Data
 		/// <param name="info"></param>
 		public static void LoadHost(IDataReader reader, HostInfo info)
 		{
-			info.ownerId = ReadGuid(reader, "OwnerId");
+			info._ownerId = ReadGuid(reader, "OwnerId");
 			info.ApplicationId = ReadGuid(reader, "ApplicationId");
 			info.DateCreated = ReadDate(reader, "DateCreated");
 		}
