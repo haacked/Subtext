@@ -13,7 +13,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
@@ -105,12 +104,10 @@ namespace Subtext.Framework
 			queuedStatsList.Add(entryView);
 		}
 
-		private static bool ClearTrackEntryQueue(IEnumerable<EntryView> evc)
+		private static void ClearTrackEntryQueue(IEnumerable<EntryView> evc)
 		{
 			ProcessStats ps = new ProcessStats(evc);
 			ps.Enqueue();
-			
-			return true;
 		}
 
 		//Class to encapsulate asynch processing of stats.
@@ -129,7 +126,7 @@ namespace Subtext.Framework
 
 			private void Process(object state)
 			{
-				TrackEntry(this.entryViews);
+				TrackEntry(entryViews);
 			}
 		}
 

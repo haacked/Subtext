@@ -5,7 +5,7 @@ using System.Globalization;
 using log4net;
 using Subtext.Framework.Logging;
 
-namespace Subtext.Configuration
+namespace Subtext.Framework.Configuration
 {
 	/// <summary>
 	/// Encapsulates settings for friendly URL generation.

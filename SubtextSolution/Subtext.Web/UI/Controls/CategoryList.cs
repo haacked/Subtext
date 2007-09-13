@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.UI.WebControls;
-using Subtext.Configuration;
 using Subtext.Framework.Components;
 
 #region Disclaimer/Info
