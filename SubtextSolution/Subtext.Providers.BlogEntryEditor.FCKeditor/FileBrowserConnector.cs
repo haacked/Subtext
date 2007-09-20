@@ -47,6 +47,7 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using FredCK.FCKeditorV2;
 using System.Diagnostics.CodeAnalysis;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 {
@@ -55,6 +56,19 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 	/// </summary>
 	public class FileBrowserConnector: System.Web.UI.Page
 	{
+		protected override void OnInit(EventArgs e)
+		{
+			if (!Subtext.Framework.Security.SecurityHelper.IsAdmin)
+			{
+				Response.Clear();
+				Response.Redirect(Config.CurrentBlog.VirtualUrl + "Login.aspx?ReturnUrl=" + HttpUtility.UrlEncode(Request.Url.ToString()));
+				Response.End();
+				return;
+			}
+
+			base.OnInit(e);
+		}
+
 		protected override void OnLoad(EventArgs e)
 		{
 			// Get the main request informaiton.
