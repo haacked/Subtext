@@ -68,4 +68,3 @@ function switchLayout() {
 	document.getElementById("switchlink").firstChild.firstChild.nodeValue = (getActiveStyleSheet() == "elastic") ? "Switch to Fixed Layout" : "Switch to Elastic Layout";
 	createCookie("style", title, 365);
 }
-ao
