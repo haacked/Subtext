@@ -792,23 +792,23 @@ namespace UnitTests.Subtext
 				}
 		}
 
-/// <summary>
-/// Sets all public read/write properties to have a 
-/// property behavior when using Rhino Mocks.
-/// </summary>
-/// <param name="mock"></param>
-public static void SetPropertyBehaviorOnAllProperties(object mock)
-{
-  PropertyInfo[] properties = mock.GetType().GetProperties();
-  foreach (PropertyInfo property in properties)
-  {
-    if (property.CanRead && property.CanWrite)
-    {
-      property.GetValue(mock, null);
-      LastCall.On(mock).PropertyBehavior();
-    }
-  }
-}
+		/// <summary>
+		/// Sets all public read/write properties to have a 
+		/// property behavior when using Rhino Mocks.
+		/// </summary>
+		/// <param name="mock"></param>
+		public static void SetPropertyBehaviorOnAllProperties(object mock)
+		{
+		  PropertyInfo[] properties = mock.GetType().GetProperties();
+		  foreach (PropertyInfo property in properties)
+		  {
+			if (property.CanRead && property.CanWrite)
+			{
+			  property.GetValue(mock, null);
+			  LastCall.On(mock).PropertyBehavior();
+			}
+		  }
+		}
 
 		#region ...Assert.AreNotEqual replacements...
 		/// <summary>
@@ -861,5 +861,19 @@ public static void SetPropertyBehaviorOnAllProperties(object mock)
 			Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);
 		}
 		#endregion
+
+	    public static BlogInfo CreateBlogAndSetupContext()
+	    {
+	        string hostName = GenerateRandomString();
+	    	Config.CreateBlog("Just A Test Blog", hostName, "test", null);
+	        SetHttpContextWithBlogRequest(hostName, string.Empty, string.Empty, string.Empty);
+	        Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
+
+	        Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
+	        Config.CurrentBlog.ImagePath = "/image/";
+
+            // NOTE- is this OK?
+	        return Config.CurrentBlog;
+	    }
 	}
 }

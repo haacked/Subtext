@@ -333,6 +333,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Components\EntryTests\PreviousNextTests.cs" />
+    <Compile Include="Framework\Components\MetaTagTests\MetaTagGetTests.cs" />
+    <Compile Include="Framework\Components\MetaTagTests\MetaTagIsValidTests.cs" />
     <Compile Include="Framework\Components\TrackbackTests\TrackbackCreation.cs">
       <SubType>Code</SubType>
     </Compile>

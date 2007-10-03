@@ -234,6 +234,7 @@
     <Compile Include="Components\LinkCategory.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\MetaTag.cs" />
     <Compile Include="Components\PagedCollection.cs" />
     <Compile Include="Components\PageType.cs">
       <SubType>Code</SubType>
@@ -376,6 +377,7 @@
     <Compile Include="Logging\LoggingProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MetaTags.cs" />
     <Compile Include="NamespaceDocumentation.cs">
       <SubType>Code</SubType>
     </Compile>

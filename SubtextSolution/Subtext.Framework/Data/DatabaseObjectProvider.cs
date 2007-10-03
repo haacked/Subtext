@@ -615,7 +615,7 @@ namespace Subtext.Framework.Data
 		public override int InsertEntry(Entry entry)
 		{
 			if (entry == null)
-				throw new ArgumentNullException("link", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
 
 			MembershipUser author = Membership.GetUser();
 			Guid authorId = (Guid)(author ?? Config.CurrentBlog.Owner).ProviderUserKey;
@@ -1175,6 +1175,8 @@ namespace Subtext.Framework.Data
 			                              , info.ItemCount
 			                              , info.CategoryListPostCount
 			                              , info.News
+										  , info.CustomMetaTags
+										  , info.TrackingCode
 			                              , info.LastUpdated
 			                              , DataHelper.CheckNull(info.Skin.CustomCssText)
 			                              , DataHelper.CheckNull(info.Skin.SkinStyleSheet)
@@ -1248,6 +1250,40 @@ namespace Subtext.Framework.Data
         }
 
         #endregion
+
+		#region MetaTags	    
+		public override IList<MetaTag> GetMetaTagsForBlog(BlogInfo blog)
+		{
+			using (IDataReader reader = StoredProcedures.GetMetaTagsForBlog(blog.Id).GetReader())
+			{
+				List<MetaTag> tags = new List<MetaTag>();
+
+				while(reader.Read())
+				{
+					tags.Add(DataHelper.LoadMetaTag(reader));
+				}
+
+				return tags;
+			}
+		}
+
+
+	    public override IList<MetaTag> GetMetaTagsForEntry(Entry entry)
+	    {
+	        using (IDataReader reader = StoredProcedures.GetMetaTagsForEntry(Config.CurrentBlog.Id, entry.Id).GetReader())
+	        {
+	            List<MetaTag> tags = new List<MetaTag>();
+
+                while (reader.Read())
+                {
+                    tags.Add(DataHelper.LoadMetaTag(reader));
+                }
+
+	            return tags;
+	        }
+	    }
+	    #endregion
+
 
         #region KeyWords
 
@@ -1337,7 +1373,7 @@ namespace Subtext.Framework.Data
 		public override int InsertKeyword(KeyWord keyWord)
 		{
 			if (keyWord == null)
-				throw new ArgumentNullException("keyword", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("keyWord", Resources.ArgumentNull_Generic);
 
 			StoredProcedure proc = StoredProcedures.InsertKeyWord(keyWord.Word
 			                               , keyWord.Rel
@@ -1664,7 +1700,7 @@ namespace Subtext.Framework.Data
 				return acc;
 			}
 		}
-
+		
 		#region Aggregate Data
 
 		/// <summary>

@@ -11,7 +11,6 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Security;
 using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.Framework.Import
@@ -54,7 +53,7 @@ namespace UnitTests.Subtext.Framework.Import
 
             string[] attachments = Directory.GetFiles(Config.CurrentBlog.ImageDirectory, "*.png");
             Assert.AreEqual(3, attachments.Length, "There should be two file attachments created.");
-		}
+        }
 
 		[Test]
 		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SinglePostWithCategory.xml", typeof(BlogMLImportTests))]
@@ -103,7 +102,7 @@ namespace UnitTests.Subtext.Framework.Import
         [RollBack2]
         public void RoundTripBlogMlTest()
         {
-			UnitTestHelper.SetupBlog();
+			UnitTestHelper.CreateBlogAndSetupContext();
 
             // Import /Resources/BlogMl/SimpleBlogMl.xml into the current blog
 			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
