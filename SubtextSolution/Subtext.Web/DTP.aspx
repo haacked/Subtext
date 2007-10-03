@@ -16,7 +16,6 @@
 		<link id="RSSLink" title="RSS Feed" type="application/rss+xml" rel="alternate" runat="Server" />
 		<link id="AtomLink" title="Atom Feed" type="application/rss+xml" rel="alternate" runat="Server" />
         <asp:literal id="styles" runat="server"></asp:literal>
-        <link id="MainStyle" runat="server" type="text/css" rel="stylesheet" />
         <link id="CustomCss" runat="server" type="text/css" rel="stylesheet" />
 		<link id="Rsd" rel="EditURI" type="application/rsd+xml" title="RSD" runat="server" />
 		<st:ScriptTag id="commonJs" src="~/Scripts/common.js" runat="server" />

@@ -41,7 +41,6 @@ namespace Subtext.Web.UI.Pages
 		private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(SkinTemplates.Instance());
 		protected Literal pageTitle;
 		protected Literal docTypeDeclaration;
-		protected HtmlLink MainStyle;
 		protected HtmlLink CustomCss;
 		protected HtmlLink RSSLink;
 		protected HtmlLink Rsd;
@@ -102,15 +101,13 @@ namespace Subtext.Web.UI.Pages
 				}
 			}
 
-			MainStyle.Attributes.Add("href", StyleSheetElementCollectionRenderer.CreateStylePath(skinFolder) + "css.axd?name=" + CurrentBlog.Skin.SkinKey);
-
-			if (CurrentBlog.Skin.HasCustomCssText)
+			if(CurrentBlog.Skin.HasCustomCssText)
 			{
 				CustomCss.Attributes.Add("href", CurrentBlog.RootUrl + "customcss.aspx");
 			}
 			else
 			{
-				//MAC IE does not like the empy CSS file..plus its a waste :)
+				//MAC IE does not like the empy CSS file, plus its a waste :)
 				CustomCss.Visible = false;
 			}
 
@@ -137,7 +134,7 @@ namespace Subtext.Web.UI.Pages
 
 			if (styles != null)
 			{
-				styles.Text = styleRenderer.RenderStyleElementCollection(CurrentBlog.Skin.SkinKey, false);
+                styles.Text = styleRenderer.RenderStyleElementCollection(CurrentBlog.Skin.SkinKey);
 			}
 
 			// Add the per-blog MetaTags to the page Head section.

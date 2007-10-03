@@ -77,7 +77,7 @@ html, body, body * {margin:0; padding:0;}
 html {margin-bottom:1px;}
 body {
 	font-family: Helvetica, Arial, Geneva, sans-serif;
-	background:url(../images/bg_body.png) repeat-x left top;
+	background:url(images/bg_body.png) repeat-x left top;
 	border-bottom:1px solid #fff;
 	position:relative;
 }
@@ -126,7 +126,7 @@ em {font-style:italic;}
 blockquote {
 	margin:1.5em;
 	padding:1.5em 1.5em 0em 1.5em;
-	background:#fcfaf0 url(../images/bg_blockquote.png) no-repeat bottom left;
+	background:#fcfaf0 url(images/bg_blockquote.png) no-repeat bottom left;
 	border:1px solid #efeeb5;
 	font-style:normal
 }
@@ -137,7 +137,7 @@ small {font-size:90%;}
 .important {
 	border:1px solid #ddd;
 	padding:5px 5px 5px 25px;
-	background:#f2f2f2 url(../images/bullet_important.png) no-repeat 5px 5px;
+	background:#f2f2f2 url(images/bullet_important.png) no-repeat 5px 5px;
 }
 
 #top-link {
@@ -153,7 +153,7 @@ body > #top-link {position:fixed;}
 	padding-top:14px;
 	overflow:hidden;
 	display:block;
-	background:url(../images/btn_top.png) no-repeat 0 0;
+	background:url(images/btn_top.png) no-repeat 0 0;
 }
 #top-link a:hover{
 	background-position: 0 -14px
@@ -165,7 +165,7 @@ body > #top-link {position:fixed;}
 		padding:28px 0 0 20px;
 		height:99px;
 		z-index:50;
-		background:url(../images/bg_header.png) no-repeat right top;
+		background:url(images/bg_header.png) no-repeat right top;
 	}
 		
 	/* =JUMPMENU */
@@ -180,7 +180,7 @@ body > #top-link {position:fixed;}
 			left:20px;
 			height:28px;
 			padding-right:70px;
-			background:url(../images/header_Personalize.png) no-repeat right center;
+			background:url(images/header_Personalize.png) no-repeat right center;
 			z-index:80;
 		}
 		
@@ -190,14 +190,14 @@ body > #top-link {position:fixed;}
 			padding-right:10px;
 			margin-right:6px;
 			width:26px;
-			background:url(../images/div_head.png) no-repeat top right;
+			background:url(images/div_head.png) no-repeat top right;
 			height:28px;
 		}
 			#personalization-help h2 a{
 				padding-top:28px;
 				height:0;
 				overflow:hidden;
-				background:url(../images/btn_help.png) no-repeat 0 0;
+				background:url(images/btn_help.png) no-repeat 0 0;
 				width:26px;
 				display:block;
 			}
@@ -245,7 +245,7 @@ body > #top-link {position:fixed;}
 			#personalize div#personalization-instructions ol li{
 					margin:0 0 2px 0;
 					padding:3px 5px 3px 40px;
-					background:#fcfaf0 url(../images/bullet_important.png) no-repeat 2px 2px;
+					background:#fcfaf0 url(images/bullet_important.png) no-repeat 2px 2px;
 					display:block;
 					float:none;
 					height:1%;
@@ -273,7 +273,7 @@ body > #top-link {position:fixed;}
 					margin:0;
 					right:5px;
 					z-index:60;
-					background:url(../images/btn_searchClose.png) no-repeat 0 0;
+					background:url(images/btn_searchClose.png) no-repeat 0 0;
 					cursor:pointer;
 				}
 				#personalization-instructions-close:hover {
@@ -287,7 +287,7 @@ body > #top-link {position:fixed;}
 		#personalize ul {
 			float:left;
 			display:inline;
-			background:url(../images/div_head.png) no-repeat top right;
+			background:url(images/div_head.png) no-repeat top right;
 			height:28px;
 			padding-right:6px;
 			margin-right:6px;
@@ -309,14 +309,14 @@ body > #top-link {position:fixed;}
 		
 		#personalize li a:hover {background-color:transparent}
 		
-		#personalize li a#fixedLayout {background-image:url(../images/btn_fixed.png); width:15px}
-		#personalize li a#fluidLayout {background-image:url(../images/btn_fluid.png); width:15px}
-		#personalize li a#jelloLayout {background-image:url(../images/btn_jello.png); width:15px}
-		#personalize li a#leftNav {background-image:url(../images/btn_leftSideBar.png); width:15px}
-		#personalize li a#rightNav {background-image:url(../images/btn_rightSideBar.png); width:15px}
-		#personalize li a#mediumText {background-image:url(../images/btn_mediumText.png); width:8px}
-		#personalize li a#largeText {background-image:url(../images/btn_largeText.png); width:10px}
-		#personalize li a#xLargeText {background-image:url(../images/btn_xLargeText.png); width:12px}
+		#personalize li a#fixedLayout {background-image:url(images/btn_fixed.png); width:15px}
+		#personalize li a#fluidLayout {background-image:url(images/btn_fluid.png); width:15px}
+		#personalize li a#jelloLayout {background-image:url(images/btn_jello.png); width:15px}
+		#personalize li a#leftNav {background-image:url(images/btn_leftSideBar.png); width:15px}
+		#personalize li a#rightNav {background-image:url(images/btn_rightSideBar.png); width:15px}
+		#personalize li a#mediumText {background-image:url(images/btn_mediumText.png); width:8px}
+		#personalize li a#largeText {background-image:url(images/btn_largeText.png); width:10px}
+		#personalize li a#xLargeText {background-image:url(images/btn_xLargeText.png); width:12px}
 		
 		#personalize li a#fixedLayout:hover,
 		#personalize li a#fluidLayout:hover,
@@ -397,10 +397,10 @@ body > #top-link {position:fixed;}
 	.xLargeText {font-size:120%}
 	
 	.leftNav #content {
-		background:url(../images/bg_contentLeftNav.png) repeat-y left top;
+		background:url(images/bg_contentLeftNav.png) repeat-y left top;
 	}
 	.rightNav #content {
-		background:url(../images/bg_contentRightNav.png) repeat-y right top;
+		background:url(images/bg_contentRightNav.png) repeat-y right top;
 	}
 	#content {
 		padding:0;
@@ -409,13 +409,13 @@ body > #top-link {position:fixed;}
 		position:relative;
 	}
 	#main a[href^="http:"] {
-		background:url(../images/icon_externalSite.png) no-repeat right center;
+		background:url(images/icon_externalSite.png) no-repeat right center;
 		padding-right:17px;
 	}
 	#main .alternate-post a[href^="http:"],
 	#main .alternate-comment a[href^="http:"],
 	#main .alternate-trackback a[href^="http:"]{
-		background:url(../images/icon_externalSite_alt.png) no-repeat right center;
+		background:url(images/icon_externalSite_alt.png) no-repeat right center;
 		padding-right:17px;
 	}
 	#content .post h1 {
@@ -512,7 +512,7 @@ body > #top-link {position:fixed;}
 		#main ul li{
 			margin:0 0 .3em 0;
 			padding-left:2em;
-			background:url(../images/bullet_UL.png) no-repeat 0 0;
+			background:url(images/bullet_UL.png) no-repeat 0 0;
 		}
 		#main #tag-cloud li { background-image:none; }
 		#main ul ol li
@@ -595,7 +595,7 @@ body > #top-link {position:fixed;}
 				border-style:solid;
 				border-color:#ede5d9;
 				position:relative;
-				background:#fff url(../images/icon_post.png) no-repeat top right;
+				background:#fff url(images/icon_post.png) no-repeat top right;
 				overflow:hidden;
 				margin-bottom:20px;
 			}
@@ -630,7 +630,7 @@ body > #top-link {position:fixed;}
 					padding-top:24px;
 					overflow:hidden;
 					width:151px;
-					background: url(../images/btn_continueReading.png) no-repeat 0 0;
+					background: url(images/btn_continueReading.png) no-repeat 0 0;
 					margin:1.5em 0
 				}
 				.continueReading:hover, .post-content + a:hover {
@@ -654,7 +654,7 @@ body > #top-link {position:fixed;}
 				#main .post > #admin-tools {background-color:transparent}
 					
 					#main #admin-tools a {
-						background-image: url(../images/btn_editPost.png);
+						background-image: url(images/btn_editPost.png);
 						background-repeat:no-repeat;
 						background-position:0 0;
 						height: 0px;
@@ -703,7 +703,7 @@ body > #top-link {position:fixed;}
 		
 		/* browsers with css2 selector styles get better styling */
 		#main #commentList li div.admin-tools-for-comment div > a {
-			background: url(../images/btn_nukeComment.png) no-repeat 0 0;
+			background: url(images/btn_nukeComment.png) no-repeat 0 0;
 			height:0px;
 			padding:24px 0 0 0;
 			width:131px;
@@ -718,7 +718,7 @@ body > #top-link {position:fixed;}
 		}
 		/* browsers with css2 selector styles get better styling */
 		#main #commentList li div.admin-tools-for-comment div > a + a {
-			background-image: url(../images/btn_editComment.png);
+			background-image: url(images/btn_editComment.png);
 			width:125px;
 		}
 		/* browsers with css2 selector styles get better styling */
@@ -755,7 +755,7 @@ body > #top-link {position:fixed;}
 				{
 				    border-bottom-color:#607F26;
 				}
-				.author .comment-body{ background: #fff url(../images/bg_commentAuthorGradient.png) repeat-x top left; }
+				.author .comment-body{ background: #fff url(images/bg_commentAuthorGradient.png) repeat-x top left; }
 				.author .comment-body .comment-text { color:#3B0B00 ! important; }
 							
 				.normal-comment .comment-body {
@@ -832,20 +832,20 @@ body > #top-link {position:fixed;}
 				}
 					.normal-comment .comment-date {
 						background-position:left top;
-						background-image:url(../images/bg_commentNormal.png);
+						background-image:url(images/bg_commentNormal.png);
 						padding-left:60px;
 						text-align:left;
 					}
 					.alternate-comment .comment-date {
 						background-position:right top;
-						background-image:url(../images/bg_commentAlternate.png);
+						background-image:url(images/bg_commentAlternate.png);
 						padding-right:60px;
 						text-align:right;
 					}
 					
 					.preview-comment .comment-date {
 						background-position:left top;
-						background-image:url(../images/bg_commentPreview.png);
+						background-image:url(images/bg_commentPreview.png);
 						padding-right:60px;
 						text-align:left;
 					}
@@ -1035,7 +1035,7 @@ body > #top-link {position:fixed;}
 		
 		/* browsers with css2 selector styles get better styling */
 		#main #trackbackList li div#admin-tools-for-trackback div > a {
-			background: url(../images/btn_nukeTrackback.png) no-repeat 0 0;
+			background: url(images/btn_nukeTrackback.png) no-repeat 0 0;
 			height:0px;
 			padding:24px 0 0 0;
 			width:143px;
@@ -1049,7 +1049,7 @@ body > #top-link {position:fixed;}
 		}
 		/* browsers with css2 selector styles get better styling */
 		#main #trackbackList li div#admin-tools-for-trackback div > a + a {
-			background-image: url(../images/btn_editTrackback.png);
+			background-image: url(images/btn_editTrackback.png);
 			width:135px;
 		}
 		#main #trackbackList li div#admin-tools-for-trackback div > a + a:hover {
@@ -1081,15 +1081,15 @@ body > #top-link {position:fixed;}
 				}
 				#typo-powered a{
 					padding-top:79px;
-					background-image:url(../images/btn_typoPowered.png);
+					background-image:url(images/btn_typoPowered.png);
 				}	
 				#validate-CSS a{
 					padding-top:76px;
-					background-image:url(../images/btn_validateCSS.png);
+					background-image:url(images/btn_validateCSS.png);
 				}
 				#validate-XHTML a{
 					padding-top:83px;
-					background-image:url(../images/btn_validateXHTML.png);
+					background-image:url(images/btn_validateXHTML.png);
 				}
 				#typo-powered a:hover,
 				#validate-CSS a:hover,
@@ -1160,20 +1160,20 @@ body > #top-link {position:fixed;}
 							color:#3b0b00;
 							border-bottom:1px solid #fff;
 							padding:3px 10px 3px 23px;
-							background:#fcfaf0 url(../images/bullet_sideBar.png) no-repeat 5px 5px;
+							background:#fcfaf0 url(images/bullet_sideBar.png) no-repeat 5px 5px;
 							
 						}
 						#sidebar ul a:hover {
 							color:#607F25;
 							background-color:#f8f5e0;
-							background-image: url(../images/bullet_sideBar_h.png)
+							background-image: url(images/bullet_sideBar_h.png)
 						}
 						#sidebar ul a:visited {
-							background-image: url(../images/bullet_sideBar_v.png)
+							background-image: url(images/bullet_sideBar_v.png)
 						}
 						
 						#sidebar ul li a.download {
-							background-image: url(../images/icon_download.gif)
+							background-image: url(images/icon_download.gif)
 						}
 					
 					#sidebar .sidebar-node > ul#flickr-list {overflow:hidden;}
@@ -1206,7 +1206,7 @@ body > #top-link {position:fixed;}
 						width:16px;
 						overflow:hidden;
 						display:none;
-						background: url(../images/icon_enlarge.png) no-repeat top left;
+						background: url(images/icon_enlarge.png) no-repeat top left;
 					}
 					#sidebar ul#flickr-list li a:hover small {
 						display:block;
@@ -1224,7 +1224,7 @@ body > #top-link {position:fixed;}
 		padding-right:31px;
 		padding-top:34px;
 		padding-bottom:12px;
-		background: url(../images/bg_footer.png) repeat-x bottom left;
+		background: url(images/bg_footer.png) repeat-x bottom left;
 	}
 	#footer p{margin:0;}
 	#footer a, #footer strong {

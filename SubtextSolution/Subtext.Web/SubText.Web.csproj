@@ -1993,15 +1993,15 @@
     <Content Include="Skins\origami\Scripts\styleSwitcher.js" />
     <Content Include="Skins\origami\Scripts\typo.js" />
     <Content Include="Skins\origami\style.css" />
-    <Content Include="Skins\origami\Styles\alternateStyles.css" />
-    <Content Include="Skins\origami\Styles\core-IE.css" />
-    <Content Include="Skins\origami\Styles\core.css" />
-    <Content Include="Skins\origami\Styles\ie5_5.css" />
-    <Content Include="Skins\origami\Styles\print.css" />
-    <Content Include="Skins\origami\Styles\sIFR-print.css" />
-    <Content Include="Skins\origami\Styles\sIFR-screen.css" />
-    <Content Include="Skins\origami\Styles\tables.css" />
-    <Content Include="Skins\origami\Styles\user-styles.css" />
+    <Content Include="Skins\origami\alternateStyles.css" />
+    <Content Include="Skins\origami\core-IE.css" />
+    <Content Include="Skins\origami\core.css" />
+    <Content Include="Skins\origami\ie5_5.css" />
+    <Content Include="Skins\origami\print.css" />
+    <Content Include="Skins\origami\sIFR-print.css" />
+    <Content Include="Skins\origami\sIFR-screen.css" />
+    <Content Include="Skins\origami\tables.css" />
+    <Content Include="Skins\origami\user-styles.css" />
     <Content Include="Skins\Piyo\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\Piyo\Controls\ArchiveDay.ascx" />
     <Content Include="Skins\Piyo\Controls\ArchiveLinks.ascx" />
@@ -2347,6 +2347,7 @@
   <ItemGroup>
     <Folder Include="Skins\Naked\Images\" />
     <Folder Include="Skins\Naked\Scripts\" />
+    <Folder Include="Skins\origami\Styles\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v8.0\WebApplications\Microsoft.WebApplication.targets" />
