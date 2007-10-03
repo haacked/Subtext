@@ -3,6 +3,7 @@ using System.Web.Security;
 using MbUnit.Framework;
 using SubSonic;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 
 namespace UnitTests.Subtext.Framework
 {

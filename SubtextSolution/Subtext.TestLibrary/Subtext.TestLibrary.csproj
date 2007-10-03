@@ -116,10 +116,12 @@
       <HintPath>..\Dependencies\System.configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\System.Web.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
     <Reference Include="WebDev.WebHost, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ExternalDependencies\WebDev.WebHost.dll</HintPath>
@@ -130,6 +132,10 @@
       <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="HttpSimulator.cs" />
+    <Compile Include="IHttpContext.cs" />
+    <Compile Include="IHttpRequest.cs" />
+    <Compile Include="IHttpResponse.cs" />
+    <Compile Include="IHttpServerUtility.cs" />
     <Compile Include="ReflectionHelper.cs" />
     <Compile Include="Servers\ReceivedEmailMessage.cs" />
     <Compile Include="Servers\TestEmailAddress.cs" />

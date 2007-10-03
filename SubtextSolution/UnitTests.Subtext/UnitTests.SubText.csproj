@@ -26,6 +26,19 @@
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <PublishUrl>http://localhost/UnitTests.Subtext/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -105,6 +118,10 @@
     <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\CookComputing.XmlRpcV2.dll</HintPath>
+    </Reference>
+    <Reference Include="DeftTech.DuckTyping, Version=0.9.27.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\DeftTech.DuckTyping.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenMail, Version=1.0.2177.21428, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -278,6 +295,11 @@
     <Compile Include="Installation\InstallerTests.cs" />
     <Compile Include="Plugins\Core\FeedvertisingTests.cs" />
     <Compile Include="PresenterTestContext.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Scripting\ConnectionStringTests.cs" />
     <Compile Include="Scripting\SqlScriptRunnerTests.cs" />
     <Compile Include="Scripting\TemplateParameterCollectionTests.cs" />
@@ -423,6 +445,10 @@
     <EmbeddedResource Include="Resources\BlogMl\SinglePostWithCategory.xml" />
     <EmbeddedResource Include="Resources\BlogMl\TwoCategories.xml" />
     <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <EmbeddedResource Include="Resources\Skins\Skins.User.config" />
     <EmbeddedResource Include="Resources\Skins\Skins.config" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScript.txt" />
@@ -434,6 +460,23 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\BlogMl\SimpleBlogMl.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Sql.Server.Express.1.0">
+      <Visible>False</Visible>
+      <ProductName>SQL Server 2005 Express Edition</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

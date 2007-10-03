@@ -13,31 +13,11 @@ namespace UnitTests.Subtext
 		[SetUp]
 		public static void SetUp()
 		{
-			string connectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
-			SqlInstaller installer = new SqlInstaller(connectionString);
-			using (SqlConnection conn = new SqlConnection(connectionString))
-			{
-				conn.Open();
-				using (SqlTransaction transaction = conn.BeginTransaction())
-				{
-					installer.UpdateInstallationVersionNumber(installer.SubtextAssemblyVersion);
-					transaction.Commit();
-				}
-			}
-/*
-Console.WriteLine("Rebuilding Database for unit tests...");
-
-Arguments arguments = new Arguments("install /connect \"" + connectionString + "\"");
-InstallCommand installer = new InstallCommand();
-installer.Execute(arguments);
-Console.WriteLine("Rebuild complete!");
-*/			
 		}
 		
 		[TearDown]
 		public static void TearDown()
 		{
-			//Not sure we need anything here yet.
 		}
 	}
 }

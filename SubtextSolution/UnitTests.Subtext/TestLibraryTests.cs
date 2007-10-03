@@ -1,15 +1,59 @@
 using System;
 using System.Net;
 using System.Threading;
+using System.Web;
+using DeftTech.DuckTyping;
 using DotNetOpenMail;
 using MbUnit.Framework;
+using Rhino.Mocks;
+using Subtext.TestLibrary;
 using Subtext.TestLibrary.Servers;
 
 namespace UnitTests.Subtext
 {
+	public interface IHttpContext
+	{
+		IHttpRequest Request { get;}
+	}
+
+	public interface IHttpRequest
+	{
+		Uri Url { get;}
+	}
+
 	[TestFixture]
 	public class TestLibraryTests
 	{
+		[Test]
+		public void DuckTypeTest()
+		{
+			using (HttpSimulator simulator = new HttpSimulator())
+			{
+				simulator.SimulateRequest(new Uri("http://haacked.com/url/"));
+				IHttpContext context = DuckTyping.Cast<IHttpContext>(HttpContext.Current);
+				MyMethod(context);
+			}
+
+			MockRepository mocks = new MockRepository();
+			IHttpContext mockContext;
+			using (mocks.Record())
+			{
+				mockContext = mocks.DynamicMock<IHttpContext>();
+				IHttpRequest request = mocks.DynamicMock<IHttpRequest>();
+				SetupResult.For(mockContext.Request).Return(request);
+				SetupResult.For(request.Url).Return(new Uri("http://mock.haacked.com/url/"));
+			}
+			using (mocks.Playback())
+			{
+				MyMethod(mockContext);
+			}
+		}
+
+		public void MyMethod(IHttpContext context)
+		{
+			Console.WriteLine(context.Request.Url);
+		}
+
 		[Test]
 		public void CanParseRawSmtp()
 		{

@@ -105,7 +105,7 @@ namespace Subtext
             {
                 mailToWeblog = new MailToWeblog();
 
-                mailToWeblogThread = new Thread(new ThreadStart(mailToWeblog.Run));
+                mailToWeblogThread = new Thread(mailToWeblog.Run);
                 mailToWeblogThread.Name = "MailToWeblog";
                 mailToWeblogThread.IsBackground = true;
                 mailToWeblogThread.Start();
@@ -131,7 +131,7 @@ namespace Subtext
                         adoAppender.ConnectionString += ";";
                     }
 					
-					if( String.Compare(adoAppender.ConnectionString,ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString, false) != 0 )
+					if( String.Compare(adoAppender.ConnectionString, ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString, false) != 0 )
 					{
 						throw new InvalidOperationException("Log4Net is not picking up our connection string.");
 					}					

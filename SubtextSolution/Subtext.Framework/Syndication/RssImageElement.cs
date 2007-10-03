@@ -29,8 +29,8 @@ namespace Subtext.Framework.Syndication
 		/// Initializes a new instance of the <see cref="RssImageElement"/> class.
 		/// </summary>
 		/// <param name="url">The URL.</param>
-		/// <param name="title">The _title.</param>
-		/// <param name="link">The _link.</param>
+		/// <param name="title">The title.</param>
+		/// <param name="link">The link.</param>
 		public RssImageElement(Uri url, string title, Uri link)
 			: this(url, title, link, null, null, null)
 		{
@@ -54,8 +54,8 @@ namespace Subtext.Framework.Syndication
 			_height = height;
 			_description = description;
 		}
+        readonly Uri _url;
 
-        Uri _url;
 		/// <summary>
 		/// The URL of a GIF, JPEG or PNG image that represents the channel. 
 		/// </summary>
@@ -64,8 +64,8 @@ namespace Subtext.Framework.Syndication
 		{
 			get { return _url; }
 		}
+        readonly string _title;
 
-        string _title;
         /// <summary>
 		/// Describes the image, it's used in the ALT attribute of the HTML &lt;img&gt; tag when the channel is rendered in HTML.
 		/// </summary>
@@ -74,8 +74,8 @@ namespace Subtext.Framework.Syndication
 		{
 			get { return _title; }
 		}
+        readonly Uri _link;
 
-        Uri _link;
         /// <summary>
 		/// The URL of the site, when the channel is rendered, the image is a _link to the site. 
 		/// (Note, in practice the image &lt;_title&gt; and &lt;_link&gt; should have the same value as the channel's &lt;_title&gt; and &lt;_link&gt;.
@@ -85,8 +85,8 @@ namespace Subtext.Framework.Syndication
 		{
 			get { return _link; }
 		}
-
         int? _width;
+
 		/// <summary>
 		/// Gets the _width.
 		/// </summary>
@@ -95,7 +95,6 @@ namespace Subtext.Framework.Syndication
 		{
 			get { return _width; }
 		}
-
 
         int? _height;
 		/// <summary>
@@ -107,7 +106,7 @@ namespace Subtext.Framework.Syndication
 			get { return _height; }
 		}
 
-        string _description;
+        readonly string _description;
 		/// <summary>
 		/// Gets the _description.
 		/// </summary>
@@ -117,8 +116,6 @@ namespace Subtext.Framework.Syndication
 			get { return _description; }
 		}
 
-		
-
 		/// <summary>
 		/// Writes this RssImage element to the specified XmlWriter.
 		/// </summary>
@@ -126,18 +123,18 @@ namespace Subtext.Framework.Syndication
 		public void WriteToXmlWriter(XmlWriter writer)
 		{
 			writer.WriteStartElement("image");
-			writer.WriteElementString("_title", _title);
-			writer.WriteElementString("_url", _url.ToString());
-			writer.WriteElementString("_link", _link.ToString());
+			writer.WriteElementString("title", _title);
+			writer.WriteElementString("url", _url.ToString());
+			writer.WriteElementString("link", _link.ToString());
 
 			if (_width != null)
-				writer.WriteElementString("_width", _width.Value.ToString(CultureInfo.InvariantCulture));
+				writer.WriteElementString("width", _width.Value.ToString(CultureInfo.InvariantCulture));
 
 			if (_height != null)
-				writer.WriteElementString("_height", _height.Value.ToString(CultureInfo.InvariantCulture));
+				writer.WriteElementString("height", _height.Value.ToString(CultureInfo.InvariantCulture));
 
 			if (_description != null)
-				writer.WriteElementString("_description", _description); //Used in the alt tag.
+				writer.WriteElementString("description", _description); //Used in the alt tag.
 			writer.WriteEndElement();
 		}
 	}

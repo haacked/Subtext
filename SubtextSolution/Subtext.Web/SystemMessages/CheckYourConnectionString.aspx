@@ -13,7 +13,7 @@
 		    a nice reference for connection string formats.</em>
 	    </span>
 		Please check the connection string in your web.config file.  It&#8217;s in the 
-		<code>ConnectionStrings</code> section with the key &#8220;subtextData&#8221;. 
+		<code>ConnectionStrings</code> section with the key &#8220;subtextData&#8221; or &#8220;subtextExpress&#8221;. 
 	</p>
 	<p>
 		Also check to make sure that you have correctly set up the SQL Server user 
