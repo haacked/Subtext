@@ -626,6 +626,8 @@ namespace Subtext.Framework.Data
 			tag.Content = ReadString(reader, "Content");
 			tag.Name = ReadString(reader, "Name");
 			tag.HttpEquiv = ReadString(reader, "HttpEquiv");
+		    tag.BlogId = ReadInt32(reader, "BlogId");
+		    tag.EntryId = ReadNullableInt(reader, "EntryId");
             tag.DateCreated = ReadDate(reader, "DateCreated");
 
 			return tag;

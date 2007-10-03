@@ -1251,8 +1251,24 @@ namespace Subtext.Framework.Data
 
         #endregion
 
-		#region MetaTags	    
-		public override IList<MetaTag> GetMetaTagsForBlog(BlogInfo blog)
+		#region MetaTags
+
+	    public override int Create(MetaTag metaTag)
+	    {
+			StoredProcedure proc = StoredProcedures.InsertMetaTag(metaTag.Content, metaTag.Name, metaTag.HttpEquiv, metaTag.BlogId, metaTag.EntryId, metaTag.DateCreated, null);
+	    	proc.Execute();
+	    	return (int)proc.OutputValues[0];
+	    }
+
+
+	    public override bool Update(MetaTag metaTag)
+	    {
+	    	StoredProcedures.UpdateMetaTag(metaTag.Id, metaTag.Content, metaTag.Name, metaTag.HttpEquiv, metaTag.BlogId,
+	    	                               metaTag.EntryId).Execute();
+	    	return true;
+	    }
+
+	    public override IList<MetaTag> GetMetaTagsForBlog(BlogInfo blog)
 		{
 			using (IDataReader reader = StoredProcedures.GetMetaTagsForBlog(blog.Id).GetReader())
 			{
