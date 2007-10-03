@@ -353,6 +353,30 @@ namespace Subtext.Web.UI.Controls
 		{
 			get { return CurrentBlog.CommentsEnabled && Entry != null && Entry.AllowComments && !Entry.CommentingClosed; }
 		}
+
+		protected override void OnPreRender(EventArgs e)
+		{
+			base.OnPreRender(e);
+
+			WebControl submitButton = this.btnSubmit ?? this.btnCompliantSubmit;
+
+			string script = @"<script type=""text/javascript"">" + Environment.NewLine
+							+ "function SubmitComment(button) {" + Environment.NewLine
+							+ "  if (typeof(Page_ClientValidate) == 'function') { " + Environment.NewLine
+							+ "    if (Page_ClientValidate() == false) { return false; }" + Environment.NewLine
+							+ "  }" + Environment.NewLine
+							+ "  button.disabled = true;" + Environment.NewLine
+							+ "  button.value = 'Submitting...';"
+							+ "  " + Page.ClientScript.GetPostBackEventReference(new PostBackOptions(submitButton)) + ";" + Environment.NewLine
+							+ "  return true;" + Environment.NewLine
+							+ "}" + Environment.NewLine
+							+ "</script>";
+
+			if (!Page.ClientScript.IsClientScriptBlockRegistered("SubmitCommentScript"))
+				Page.ClientScript.RegisterClientScriptBlock(typeof(PostComment), "SubmitCommentScript", script);
+
+			submitButton.Attributes.Add("onclick", "SubmitComment(this);");
+		}
 	}
 }
 

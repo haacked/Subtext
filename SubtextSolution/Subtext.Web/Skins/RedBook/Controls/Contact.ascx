@@ -21,7 +21,7 @@
 			<label for="PostComment_ascx_tbEmail" AccessKey="E">
 				<u>E</u>mail:
 				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter your email" ControlToValidate="tbEmail" Display="Dynamic" EnableClientScript="true" />
-				<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$" Display="dynamic" ErrorMessage="The email address you've entered does not appear to be valid." EnableClientScript="true" />
+				<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^.*?@.+\..+$" Display="dynamic" ErrorMessage="The email address you've entered does not appear to be valid." EnableClientScript="true" />
 			</label> 
 			<asp:TextBox id="tbEmail" runat="server" Size="40" TabIndex="2" CssClass="textinput" />			
 		</p>

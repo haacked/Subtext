@@ -16,6 +16,7 @@
 using System;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Web;
 using Subtext.Web.Controls;
 using System.Collections.Specialized;
 using Subtext.Providers.BlogEntryEditor.FCKeditor.Properties;
@@ -105,7 +106,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 		{
 			_fckCtl = new FredCK.FCKeditorV2.FCKeditor();
 			_fckCtl.ID = this.ControlId;
-			_fckCtl.BasePath = ControlHelper.ExpandTildePath(_webFormFolder);
+			_fckCtl.BasePath = HttpHelper.ExpandTildePath(_webFormFolder);
 
 			if(this.Width != Unit.Empty)
 				_fckCtl.Width = this.Width;

@@ -217,6 +217,28 @@ namespace Subtext.Framework.Web
 			return proxy;
 		}
 
+	    /// <summary>
+	    /// If the URL is is the format ~/SomePath, this 
+	    /// method expands the tilde using the app path.
+	    /// </summary>
+	    /// <param name="path"></param>
+	    public static string ExpandTildePath(string path)
+	    {
+	        string reference = path;
+	        if(reference.Substring(0, 2) == "~/")
+	        {
+	            string appPath = HttpContext.Current.Request.ApplicationPath;
+	            if(appPath == null)
+	                appPath = string.Empty;
+	            if(appPath.EndsWith("/"))
+	            {
+	                appPath = StringHelper.Left(appPath, appPath.Length - 1);
+	            }
+	            return appPath + reference.Substring(1);
+	        }
+	        return path;
+	    }
+
       internal static bool IsWebResource()
       {
          if (HttpContext.Current == null)

@@ -26,6 +26,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
+using Subtext.Framework.Web;
 using Subtext.Web.Controls;
 using Image = System.Web.UI.WebControls.Image;
 using Subtext.Framework.Security;
@@ -276,14 +277,10 @@ namespace Subtext.Web.UI.Controls
 
 			string processedEmail = string.Empty;
 
-            if (Request.Url.Port != 80)
-            {
-                defaultGravatar = string.Format("{0}://{1}:{2}{3}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, ControlHelper.ExpandTildePath(defaultGravatar));
-            }
-            else
-            {
-                defaultGravatar = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, ControlHelper.ExpandTildePath(defaultGravatar));
-            }
+			if (Request.Url.Port != 80)
+				defaultGravatar = string.Format("{0}://{1}:{2}{3}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, HttpHelper.ExpandTildePath(defaultGravatar));
+			else
+				defaultGravatar = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, HttpHelper.ExpandTildePath(defaultGravatar));
 
 			defaultGravatar = Server.UrlEncode(defaultGravatar);
 

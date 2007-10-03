@@ -29,16 +29,17 @@ namespace Subtext.Framework.Syndication
 	public abstract class BaseAtomWriter : BaseSyndicationWriter<Entry>
 	{
 		#region TimeHelpers
+		
 		private static string W3UTC(DateTime dt, TimeZone tz)
 		{
-      TimeSpan timeZone = tz.GetUtcOffset(dt);
-      if (timeZone.TotalHours >= 0) {
-        return dt.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + "+" + tz.GetUtcOffset(dt);
-      }
-      return dt.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + tz.GetUtcOffset(dt);
+			TimeSpan timeZone = tz.GetUtcOffset(dt);
+			if (timeZone.TotalHours >= 0) {
+			return dt.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + "+" + tz.GetUtcOffset(dt);
+			}
+			return dt.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + tz.GetUtcOffset(dt);
 		}
 
-		private static string W3UTCZ(DateTime dt)
+		private static string W3UTCZ(IFormattable dt)
 		{
 			return dt.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
 		}

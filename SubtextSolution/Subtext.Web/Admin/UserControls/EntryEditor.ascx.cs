@@ -478,6 +478,7 @@ namespace Subtext.Web.Admin.UserControls
 				{
 					this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, 
 						Constants.RES_FAILUREEDIT, ex.Message), false);
+                    successMessage = string.Empty;
 				}
 				finally
 				{

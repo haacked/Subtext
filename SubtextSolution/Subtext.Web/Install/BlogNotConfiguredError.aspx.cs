@@ -18,6 +18,7 @@ using System.Security;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Web;
 using Subtext.Web.Controls;
 
 namespace Subtext.Web
@@ -70,7 +71,7 @@ namespace Subtext.Web
 					+ "or the requesting URL does not match an existing blog." 
 					+ "</p>" 
 					+ "<p>"
-					+ "If you are the Host Admin, visit the <a href=\"" + ControlHelper.ExpandTildePath("~/HostAdmin/") + "\">Host Admin</a> " 
+					+ "If you are the Host Admin, visit the <a href=\"" + HttpHelper.ExpandTildePath("~/HostAdmin/") + "\">Host Admin</a> " 
 					+ "Tool to view existing blogs and if necessary, correct settings."
 					+ "</p>"
 					+ "<p>If you are trying to set up an aggregate blog, make sure aggregate blogs are enabled via "
@@ -84,7 +85,7 @@ namespace Subtext.Web
 					+ "but there are currently no blogs created on this system."
 					+ "</p>"
 					+ "<p>"
-					+ "If you are the Host Admin, visit the <a href=\"" + ControlHelper.ExpandTildePath("~/HostAdmin/") + "\">Host Admin</a> " 
+					+ "If you are the Host Admin, visit the <a href=\"" + HttpHelper.ExpandTildePath("~/HostAdmin/") + "\">Host Admin</a> " 
 					+ "Tool to view existing blogs and if necessary, correct settings."
 					+ "</p>";
 			}
