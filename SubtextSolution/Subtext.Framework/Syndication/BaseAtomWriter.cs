@@ -31,7 +31,11 @@ namespace Subtext.Framework.Syndication
 		#region TimeHelpers
 		private static string W3UTC(DateTime dt, TimeZone tz)
 		{
-			return dt.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + tz.GetUtcOffset(dt);
+      TimeSpan timeZone = tz.GetUtcOffset(dt);
+      if (timeZone.TotalHours >= 0) {
+        return dt.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + "+" + tz.GetUtcOffset(dt);
+      }
+      return dt.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + tz.GetUtcOffset(dt);
 		}
 
 		private static string W3UTCZ(DateTime dt)
