@@ -2999,19 +2999,29 @@ AS
 IF @PostID = -1
 	SET @PostID = NULL
 
---DELETE categories that have been removed
-DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links]
-WHERE 
-	CategoryID not in (SELECT str FROM iter_charlist_to_table(@CategoryList,','))
-And 
-	BlogId = @BlogId AND (PostID = @PostID)
+IF @CategoryList = ''
+BEGIN
+	DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links]
+	WHERE 
+		BlogId = @BlogId AND (PostID = @PostID)
+END
+ELSE
+BEGIN
 
---Add updated/new categories
-INSERT INTO subtext_Links ( Title, Url, Rss, Active, NewWindow, PostID, CategoryID, BlogId )
-SELECT NULL, NULL, NULL, 1, 0, @PostID, Convert(int, [str]), @BlogId
-FROM iter_charlist_to_table(@CategoryList,',')
-WHERE 
-	Convert(int, [str]) not in (SELECT CategoryID FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE PostID = @PostID AND BlogId = @BlogId)
+	--DELETE categories that have been removed
+	DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links]
+	WHERE 
+		CategoryID not in (SELECT str FROM iter_charlist_to_table(@CategoryList,','))
+	And 
+		BlogId = @BlogId AND (PostID = @PostID)
+
+	--Add updated/new categories
+	INSERT INTO subtext_Links ( Title, Url, Rss, Active, NewWindow, PostID, CategoryID, BlogId )
+	SELECT NULL, NULL, NULL, 1, 0, @PostID, Convert(int, [str]), @BlogId
+	FROM iter_charlist_to_table(@CategoryList,',')
+	WHERE 
+		Convert(int, [str]) not in (SELECT CategoryID FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE PostID = @PostID AND BlogId = @BlogId)
+END
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -4573,23 +4583,31 @@ DECLARE @TagId int
 SELECT @TagId = Id FROM subtext_Tag WHERE BlogId = @BlogId AND [Name] = @Tag
 
 SET ROWCOUNT @ItemCount
-SELECT BlogId
-	, AuthorId
-	, [Id]
-	, Title
-	, DateAdded
-	, [Text]
-	, [Description]
-	, PostType
-	, DateUpdated
-	, FeedbackCount = ISNULL(FeedbackCount, 0)
-	, PostConfig
-	, EntryName 
-	, DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content] WITH (NOLOCK)
-WHERE  BlogId = @BlogId 
-	AND ID IN (SELECT EntryId FROM [<dbUser,varchar,dbo>].[subtext_EntryTag] WHERE BlogId = @BlogId AND TagId = @TagId)
-ORDER BY DateSyndicated DESC
+SELECT	content.BlogId
+	, content.[ID]
+	, content.Title
+	, content.DateAdded
+	, content.[Text]
+	, content.[Description]
+	, content.PostType
+	, content.AuthorId
+	, content.Email
+	, content.DateUpdated
+	, FeedbackCount = ISNULL(content.FeedbackCount, 0)
+	, content.PostConfig
+	, content.EntryName 
+	, content.DateSyndicated
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
+WHERE  content.BlogId = @BlogId 
+	AND content.PostConfig & 1 = 1
+	AND content.ID IN 
+	(
+		SELECT EntryId 
+		FROM [<dbUser,varchar,dbo>].[subtext_EntryTag] 
+		WHERE BlogId = @BlogId 
+			AND TagId = @TagId
+	)
+ORDER BY content.DateAdded DESC
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByTag]  TO [public]

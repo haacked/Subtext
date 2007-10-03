@@ -30,6 +30,7 @@ using Subtext.Framework.Web;
 using Subtext.Web.Controls;
 using Image = System.Web.UI.WebControls.Image;
 using Subtext.Framework.Security;
+using Subtext.Framework.Format;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -38,7 +39,7 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class Comments : BaseControl, ICommentControl
 	{
-		static ILog log = new Log();
+		static readonly ILog log = new Log();
 		
 		protected Repeater CommentList;
 		protected Literal NoCommentMessage;
@@ -233,6 +234,26 @@ namespace Subtext.Web.UI.Controls
 
 					if(Request.IsAuthenticated && SecurityHelper.IsAdmin)
 					{
+						HyperLink editCommentTextLink = (HyperLink)(e.Item.FindControl("EditCommentTextLink"));
+						if (editCommentTextLink != null)
+						{
+							editCommentTextLink.NavigateUrl = UrlFormats.GetFeedbackEditLink(feedbackItem);
+							if (String.IsNullOrEmpty(editCommentTextLink.Text))
+							{
+								editCommentTextLink.Text = "Edit Comment " + feedbackItem.Id.ToString(CultureInfo.InstalledUICulture);
+							}
+							ControlHelper.SetTitleIfNone(editCommentTextLink, "Click to edit this entry.");
+						}
+						HyperLink editCommentImgLink = (HyperLink)(e.Item.FindControl("EditCommentImgLink"));
+						if (editCommentImgLink != null)
+						{
+							editCommentImgLink.NavigateUrl = UrlFormats.GetFeedbackEditLink(feedbackItem);
+							if (String.IsNullOrEmpty(editCommentImgLink.ImageUrl))
+							{
+								editCommentImgLink.ImageUrl = BlogInfo.VirtualDirectoryRoot + "Images/edit.gif";
+							}
+							ControlHelper.SetTitleIfNone(editCommentImgLink,"Click to edit comment " + feedbackItem.Id.ToString(CultureInfo.InstalledUICulture));
+						}
 						LinkButton editlink = (LinkButton)(e.Item.FindControl("EditLink"));
 						if(editlink != null)
 						{
@@ -330,6 +351,5 @@ namespace Subtext.Web.UI.Controls
 		}
 	}
 }
-
 
 

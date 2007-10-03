@@ -23,7 +23,9 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
-using Subtext.Web.Controls;
+using System.Globalization;
+using Subtext.Framework;
+using Subtext.Web.UI.WebControls;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -31,9 +33,11 @@ namespace Subtext.Web.Admin.Pages
 	/// Displays comments posted to the blog and allows the 
 	/// admin to delete comments.
 	/// </summary>
-	public partial class Feedback : AdminPage
+	public partial class Feedback : ConfirmationPage
 	{
-		private int pageIndex;
+				private const string VSKEY_FEEDBACKID = "PostID";
+		private int pageIndex = 0;
+		private bool _isListHidden = false;
 		LinkButton btnViewApprovedComments;
 		LinkButton btnViewModerateComments;
 		LinkButton btnViewSpam;
@@ -77,6 +81,27 @@ namespace Subtext.Web.Admin.Pages
 				//this.cbShowOnlyComments.Checked = Preferences.FeedbackShowOnlyComments;
 				this.rbFeedbackFilter.SelectedValue = Preferences.GetFeedbackItemFilter(FeedbackStatusFilter);
 				BindList();
+
+				string feedbackIDText = Request.QueryString["FeedbackID"];
+				int feedbackID = NullValue.NullInt32;
+				if (feedbackIDText != null && feedbackIDText.Length > 0)
+				{
+					try
+					{
+						feedbackID = int.Parse(feedbackIDText);
+						//Ok, we came from outside the admin tool.
+						ReturnToOriginalPost = true;
+					}
+					catch (FormatException)
+					{
+						//Swallow it. Gulp!
+					}
+				}
+				if (feedbackID > NullValue.NullInt32)
+				{
+					this.FeedbackID = feedbackID;
+					BindFeedbackEdit();
+				}
 			}
 		}
 		
@@ -277,6 +302,8 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
+			Edit.Visible = false;
+			Results.Visible = true;
 			if (Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
 				this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 
@@ -512,6 +539,163 @@ namespace Subtext.Web.Admin.Pages
 		}
 
 		delegate void FeedbackAction(FeedbackItem feedback);
+
+		protected void rprSelectionList_ItemCommand(object source, RepeaterCommandEventArgs e)
+		{
+			switch (e.CommandName.ToLower(CultureInfo.InvariantCulture))
+			{
+				case "edit":
+					FeedbackID = Convert.ToInt32(e.CommandArgument);
+					BindFeedbackEdit();
+					break;
+
+				default:
+					break;
+			}
+		}
+
+		public int FeedbackID
+		{
+			get
+			{
+				if (ViewState[VSKEY_FEEDBACKID] != null)
+					return (int)ViewState[VSKEY_FEEDBACKID];
+				else
+					return NullValue.NullInt32;
+			}
+			set { ViewState[VSKEY_FEEDBACKID] = value; }
+		}
+		protected void richTextEditor_Error(object sender, RichTextEditorErrorEventArgs e)
+		{
+			this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", e.Exception.Message), false);
+		}
+
+		private void SetConfirmation()
+		{
+			ConfirmationPage confirmPage = (ConfirmationPage)this.Page;
+			confirmPage.IsInEdit = true;
+			confirmPage.Message = "You will lose any unsaved content";
+
+			this.lkbPost.Attributes.Add("OnClick", ConfirmationPage.BypassFunctionName);
+			this.lkbCancel.Attributes.Add("OnClick", ConfirmationPage.BypassFunctionName);
+		}
+		
+		private void BindFeedbackEdit()
+		{
+			FeedbackItem currentFeedback = FeedbackItem.Get(FeedbackID);
+			if(currentFeedback==null)
+			{
+				Response.Redirect("Feedback.aspx");
+				return;
+			}
+			SetConfirmation();
+			Results.Visible = false;
+			Edit.Visible = true;
+			rbFeedbackFilter.SelectedIndex = -1;
+			lblName.Text = currentFeedback.Author;
+			lblEmail.Text = currentFeedback.Email;
+			if (currentFeedback.Email.Length > 0)
+				hlAuthorEmail.NavigateUrl = "mailto:" + currentFeedback.Email;
+
+			hlEntryLink.NavigateUrl = currentFeedback.DisplayUrl.ToString();
+			hlEntryLink.Text = currentFeedback.DisplayUrl.ToString();
+			if(currentFeedback.SourceUrl!=null)
+				txbWebsite.Text = currentFeedback.SourceUrl.ToString();
+
+
+			txbTitle.Text = currentFeedback.Title;
+
+			richTextEditor.Text = currentFeedback.Body;
+		}
+		protected void lkbPost_Click(object sender, EventArgs e)
+		{
+			UpdateFeedback();
+		}
+	
+					  
+		private void UpdateFeedback()
+		{
+			Uri feedbackWebsite = null;
+			if (txbWebsite.Text.Length > 0)
+			{
+				valtxbWebsite.IsValid = Uri.TryCreate(txbWebsite.Text, UriKind.RelativeOrAbsolute, out feedbackWebsite);
+			}
+			else
+			{
+				valtxbWebsite.IsValid = true;
+			}
+
+			if (Page.IsValid)
+			{
+				try
+				{
+					FeedbackItem updatedFeedback = FeedbackItem.Get(FeedbackID);
+					updatedFeedback.Title = txbTitle.Text;
+					updatedFeedback.Body = richTextEditor.Text;
+					if (feedbackWebsite!=null)
+						updatedFeedback.SourceUrl = feedbackWebsite;
+					//Plugins are not supported in this version
+					//FeedbackEventArgs e = new FeedbackEventArgs(updatedFeedback, ObjectState.Update);
+					//SubtextEvents.OnCommentUpdating(this, e);
+					FeedbackItem.Update(updatedFeedback);
+					//Plugins are not supported in this version
+					//SubtextEvents.OnCommentUpdated(this, new FeedbackEventArgs(updatedFeedback, ObjectState.Update));
+
+				 	if(ReturnToOriginalPost)
+					{
+						if (updatedFeedback != null)
+						{
+							Response.Redirect(updatedFeedback.DisplayUrl.ToString());
+							return;
+						}
+					}
+
+					this.Messages.ShowMessage(Constants.RES_SUCCESSEDIT, false);
+				}
+				finally
+				{
+				}
+			}
+		}
+
+		protected void lkbCancel_Click(object sender, EventArgs e)
+		{
+			if (FeedbackID > -1 && ReturnToOriginalPost)
+			{
+				// We came from outside the post, let's go there.
+				FeedbackItem updatedFeedback = FeedbackItem.Get(FeedbackID);
+				if (updatedFeedback != null)
+				{
+					Response.Redirect(updatedFeedback.DisplayUrl.ToString());
+					return;
+				}
+			}
+
+			ResetFeedbackEdit(false);
+		}
+
+		private bool ReturnToOriginalPost
+		{
+			get
+			{
+				if (ViewState["ReturnToOriginalPost"] != null)
+					return (bool)ViewState["ReturnToOriginalPost"];
+				return false;
+			}
+			set
+			{
+				ViewState["ReturnToOriginalPost"] = value;
+			}
+		}
+		public void ResetFeedbackEdit(bool showEdit)
+		{
+			FeedbackID = NullValue.NullInt32;
+			Edit.Visible = showEdit;
+			Results.Visible = !showEdit;
+
+		}
 	}
 }
+
+
 

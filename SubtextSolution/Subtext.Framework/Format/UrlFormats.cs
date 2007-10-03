@@ -479,6 +479,31 @@ namespace Subtext.Framework.Format
 			return url;
 		}
 
+		public static string GetFeedbackEditLink(FeedbackItem feedback)
+		{
+			if (feedback == null)
+			{
+				throw new ArgumentNullException("feedback");
+			}
+
+			//This is too small a concatenation to create a  
+			//the overhead of a StringBuilder. If perf is really a hit here, 
+			//we can pass in a string builder.
+			String app = Config.CurrentBlog.Subfolder;
+
+			string url = (String.IsNullOrEmpty(app)) ? "~" : "~/" + app;
+			if (feedback.FeedbackType == FeedbackType.Comment||feedback.FeedbackType==FeedbackType.PingTrack)
+			{
+				url += "/Admin/Feedback.aspx?FeedbackID=" + feedback.Id;
+			}
+			else
+			{
+				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Feedback {0} not expected to have an edit link.", feedback.FeedbackType));
+			}
+
+			return url;
+		}
+
 		/// <summary>
 		/// Determines whether the current request is in the specified directory.
 		/// </summary>

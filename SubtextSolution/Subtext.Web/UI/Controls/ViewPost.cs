@@ -170,12 +170,13 @@ namespace Subtext.Web.UI.Controls
 				if (SecurityHelper.IsInRole(RoleNames.Authors) || SecurityHelper.IsInRole(RoleNames.Administrators))
 				{
 					editLink.Visible = true;
-					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
+					editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
+					ControlHelper.SetTitleIfNone(editLink, "Edit this entry.");
+
+					if(String.IsNullOrEmpty(editLink.Text) && String.IsNullOrEmpty(editLink.ImageUrl))
 					{
 						//We'll slap on our little pencil icon.
 						editLink.ImageUrl = BlogInfo.VirtualDirectoryRoot + "Images/edit.gif";
-						ControlHelper.SetTitleIfNone(editLink, "Edit this entry.");
-						editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
 					}
 				}
 				else

@@ -9,7 +9,7 @@
 			<a name="<%# Comment.Id %>"></a>
 			<div class="comment<%# AuthorCssClass %>">
 				<h4>
-					<asp:Literal Runat = "server" ID = "Title" />
+					<asp:HyperLink Runat="server" ID="EditCommentImgLink" /><asp:Literal Runat = "server" ID = "Title" />
 				</h4>
 				<div class="info">Left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id = "PostDate" Runat = "server" /></div>
 				<div class="gravatar"><asp:Image runat="server" id="GravatarImg" visible="False" width="50px" AlternateText="Gravatar" /></div>
@@ -23,4 +23,5 @@
 		</ItemTemplate>
 	</asp:Repeater>
 </div>
+
 

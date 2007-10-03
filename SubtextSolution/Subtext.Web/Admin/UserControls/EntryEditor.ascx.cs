@@ -191,15 +191,16 @@ namespace Subtext.Web.Admin.UserControls
             IPagedCollection<Entry> selectionList = Entries.GetPagedEntries(this.EntryType, this.categoryId, this.pageIndex, this.resultsPager.PageSize);		
 
 			if (selectionList.Count > 0)
-			{				
-				this.resultsPager.ItemCount = selectionList.MaxItems;
+			{
+				resultsPager.ItemCount = selectionList.MaxItems;
 				rprSelectionList.DataSource = selectionList;
 				rprSelectionList.DataBind();
 				NoMessagesLabel.Visible = false;
 			}
 
 			NoMessagesLabel.Visible = selectionList.Count <= 0;
-			this.resultsPager.Visible = selectionList.Count > 0;
+			resultsPager.Visible = rprSelectionList.Visible  = selectionList.Count > 0;
+			
 			
 		}
 
