@@ -1,4 +1,6 @@
-﻿<%@ Page Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Pages.SubtextMasterPage" %>
+﻿<%@ Page Language="C#" EnableTheming="false" AutoEventWireup="false" Inherits="Subtext.Web.UI.Pages.SubtextMasterPage" %>
+<%@ Import namespace="Subtext.Framework.Components"%>
+<%@ Import namespace="Subtext.Framework.Configuration"%>
 <%@ Import namespace="Subtext.Framework.Configuration"%>
 <%@ Import namespace="Subtext.Framework"%>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
@@ -10,7 +12,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 		<asp:Literal id="authorMetaTag" runat="server" />
 		<asp:Literal id="versionMetaTag" runat="server" />
-		<asp:Literal ID="additionalMetaTags" Runat="server" />
+		<asp:Literal id="additionalMetaTags" runat="server" />
 		<link id="RSSLink" title="RSS Feed" type="application/rss+xml" rel="alternate" runat="Server" />
 		<link id="AtomLink" title="Atom Feed" type="application/rss+xml" rel="alternate" runat="Server" />
 		<asp:Literal ID="styles" Runat="server" />
