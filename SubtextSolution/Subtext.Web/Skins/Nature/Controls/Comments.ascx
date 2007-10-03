@@ -7,7 +7,7 @@
 		<ItemTemplate>
 			<a name="<%# Comment.Id %>"></a>
 			<div class="comment<%# AuthorCssClass %>">
-				<h3><asp:Literal Runat="server" ID="Title" /> <span class="adminLink"><asp:LinkButton Runat="server" ID="EditLink" CausesValidation="False" title="edit comment" /></span></h3>
+				<h3><asp:HyperLink Runat="server" ID="EditCommentImgLink" /><asp:Literal Runat="server" ID="Title" /> <span class="adminLink"><asp:LinkButton Runat="server" ID="EditLink" CausesValidation="False" title="edit comment" /></span></h3>
 				<div class="commentInfo">Left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id="PostDate" Runat="server" /></div>
 				<div class="commentText">
 					<asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />

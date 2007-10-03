@@ -17,9 +17,10 @@
 					<div class="post">
 						<asp:Literal id = "PostText" Runat = "server" />
 					</div>
-					<asp:LinkButton Runat="server" ID="EditLink" CausesValidation="False" />
+					<asp:HyperLink Runat="server" ID="EditCommentTextLink" /> &nbsp;&nbsp; <asp:LinkButton Runat="server" ID="EditLink" CausesValidation="False" />
 			</div>
 		</ItemTemplate>
 	</asp:Repeater>
 </div>
+
 

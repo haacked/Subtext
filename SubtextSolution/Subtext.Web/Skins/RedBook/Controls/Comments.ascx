@@ -10,7 +10,7 @@
 		    <a name="<%# Comment.Id %>"></a>
 		    <div class="comment<%# AuthorCssClass %>">
 			    <h4>
-				    <asp:Literal Runat = "server" ID = "Title" />
+				    <asp:HyperLink Runat="server" ID="EditCommentImgLink" /><asp:Literal Runat = "server" ID = "Title" />
 			    </h4>
 			    <asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />
 			    <asp:Literal id="PostText" Runat="server" />

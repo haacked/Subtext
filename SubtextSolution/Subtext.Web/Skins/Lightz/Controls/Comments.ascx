@@ -15,7 +15,7 @@
 			<a name="<%# Comment.Id %>"></a>
 			<div class="comment<%# AuthorCssClass %>">
 				<div class="comment_title">
-					<asp:Literal Runat = "server" ID = "Title" />
+					<asp:HyperLink Runat="server" ID="EditCommentImgLink" /><asp:Literal Runat = "server" ID = "Title" />
 				</div>
 				<div class="comment_author"><asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /></div>
 				<div class="comment_content"><asp:Literal id = "PostText" Runat = "server" /></div>

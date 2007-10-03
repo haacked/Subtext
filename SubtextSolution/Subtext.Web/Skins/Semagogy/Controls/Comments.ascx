@@ -20,7 +20,7 @@
 						<asp:literal id = "PostDate" runat = "server" />
 					</dd>
 					<dd class="Admin">
-						<asp:linkbutton runat="server" id="EditLink" causesvalidation="False" />
+						<asp:HyperLink Runat="server" ID="EditCommentTextLink" /> &nbsp;&nbsp; <asp:linkbutton runat="server" id="EditLink" causesvalidation="False" />
 					</dd>
 					<dd class="Content">
 						<asp:literal id = "PostText" runat = "server" />

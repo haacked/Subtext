@@ -8,7 +8,7 @@
 		<div class="comment">
 		    <asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />
 			<div class="title">
-				<asp:literal runat="server" id="Title" />
+				<asp:HyperLink Runat="server" ID="EditCommentImgLink" /><asp:literal runat="server" id="Title" />
 			</div>
 			<div class="author">
 				Posted by <asp:hyperlink runat="server" id="NameLink" /> on <asp:literal id="PostDate" runat="server" />

@@ -48,6 +48,22 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 		[Test]
 		[RollBack2]
+		public void TagDoesNotRetrieveDraftEntry()
+		{
+			string hostname = UnitTestHelper.GenerateRandomString();
+			Config.CreateBlog("", hostname, string.Empty, null);
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty, string.Empty);
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
+			entry.IsActive = false;
+			Entries.Create(entry);
+			List<string> tags = new List<string>(new string[] { "Tag1", "Tag2" });
+			new DatabaseObjectProvider().SetEntryTagList(entry.Id, tags);
+			IList<Entry> entries = Entries.GetEntriesByTag(1, "Tag1");
+			Assert.AreEqual(0, entries.Count, "Should not retrieve draft entry.");
+		}
+
+		[Test]
+		[RollBack]
 		public void CanTagEntry()
 		{
 			UnitTestHelper.SetupBlog();

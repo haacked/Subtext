@@ -10,7 +10,7 @@
 	            <div class="comment-body">
 		            <cite>
 			            <strong>
-				            <asp:Literal ID="Title" Runat="server" />
+				            <asp:HyperLink Runat="server" ID="EditCommentImgLink" /><asp:Literal ID="Title" Runat="server" />
 			            </strong>
 		            </cite>
 		            <p><asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" /><asp:Literal ID="PostText" Runat="server" /></p>
@@ -24,7 +24,7 @@
 	            <div class="comment-body">
 		            <cite>
 			            <strong>
-				            <asp:Literal ID="Title" Runat="server" />
+				            <asp:HyperLink Runat="server" ID="EditCommentImgLink" /><asp:Literal ID="Title" Runat="server" />
 			            </strong>
 		            </cite>
  		            <p class="comment-text"><asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" /><asp:Literal ID="PostText" Runat="server" /></p>
