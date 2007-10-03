@@ -37,7 +37,6 @@ namespace Subtext.Web.Admin.Pages
 	{
 				private const string VSKEY_FEEDBACKID = "PostID";
 		private int pageIndex = 0;
-		private bool _isListHidden = false;
 		LinkButton btnViewApprovedComments;
 		LinkButton btnViewModerateComments;
 		LinkButton btnViewSpam;
@@ -231,7 +230,7 @@ namespace Subtext.Web.Admin.Pages
 			{
 				return feedbackItem.Body;
 			}
-			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}<br /><a target=\"_blank\" title=\"view: {1}\"  href=\"{2}\">Pingback/TrackBack</a>", feedbackItem.Body, feedbackItem.Title, feedbackItem.SourceUrl);
+			return string.Format(CultureInfo.InvariantCulture, "{0}<br /><a target=\"_blank\" title=\"view: {1}\"  href=\"{2}\">Pingback/TrackBack</a>", feedbackItem.Body, feedbackItem.Title, feedbackItem.SourceUrl);
 		}
 
 		/// <summary>
@@ -576,8 +575,8 @@ namespace Subtext.Web.Admin.Pages
 			confirmPage.IsInEdit = true;
 			confirmPage.Message = "You will lose any unsaved content";
 
-			this.lkbPost.Attributes.Add("OnClick", ConfirmationPage.BypassFunctionName);
-			this.lkbCancel.Attributes.Add("OnClick", ConfirmationPage.BypassFunctionName);
+			this.lkbPost.Attributes.Add("OnClick", BypassFunctionName);
+			this.lkbCancel.Attributes.Add("OnClick", BypassFunctionName);
 		}
 		
 		private void BindFeedbackEdit()
@@ -627,34 +626,28 @@ namespace Subtext.Web.Admin.Pages
 
 			if (Page.IsValid)
 			{
-				try
-				{
-					FeedbackItem updatedFeedback = FeedbackItem.Get(FeedbackID);
-					updatedFeedback.Title = txbTitle.Text;
-					updatedFeedback.Body = richTextEditor.Text;
-					if (feedbackWebsite!=null)
-						updatedFeedback.SourceUrl = feedbackWebsite;
-					//Plugins are not supported in this version
-					//FeedbackEventArgs e = new FeedbackEventArgs(updatedFeedback, ObjectState.Update);
-					//SubtextEvents.OnCommentUpdating(this, e);
-					FeedbackItem.Update(updatedFeedback);
-					//Plugins are not supported in this version
-					//SubtextEvents.OnCommentUpdated(this, new FeedbackEventArgs(updatedFeedback, ObjectState.Update));
+				FeedbackItem updatedFeedback = FeedbackItem.Get(FeedbackID);
+				updatedFeedback.Title = txbTitle.Text;
+				updatedFeedback.Body = richTextEditor.Text;
+				if (feedbackWebsite!=null)
+					updatedFeedback.SourceUrl = feedbackWebsite;
+				//Plugins are not supported in this version
+				//FeedbackEventArgs e = new FeedbackEventArgs(updatedFeedback, ObjectState.Update);
+				//SubtextEvents.OnCommentUpdating(this, e);
+				FeedbackItem.Update(updatedFeedback);
+				//Plugins are not supported in this version
+				//SubtextEvents.OnCommentUpdated(this, new FeedbackEventArgs(updatedFeedback, ObjectState.Update));
 
-				 	if(ReturnToOriginalPost)
+			 	if(ReturnToOriginalPost)
+				{
+					if (updatedFeedback != null)
 					{
-						if (updatedFeedback != null)
-						{
-							Response.Redirect(updatedFeedback.DisplayUrl.ToString());
-							return;
-						}
+						Response.Redirect(updatedFeedback.DisplayUrl.ToString());
+						return;
 					}
+				}
 
-					this.Messages.ShowMessage(Constants.RES_SUCCESSEDIT, false);
-				}
-				finally
-				{
-				}
+				this.Messages.ShowMessage(Constants.RES_SUCCESSEDIT, false);
 			}
 		}
 

@@ -41,7 +41,7 @@ namespace Subtext.Framework.UI.Skinning
 		/// <summary>
 		/// Gets or sets the stylesheet for this Skin.  Remember, 
 		/// every skin template folder should include a "style.css" 
-		/// file that is rendered by default.
+        /// file that is rendered by default, unless ExcludeDefaultStyle is set to true.
 		/// </summary>
 		/// <remarks>
 		/// This property makes it possible to have multiple skins 
@@ -57,7 +57,51 @@ namespace Subtext.Framework.UI.Skinning
 
 		private string styleSheet;
 
-		/// <summary>
+        /// <summary>
+        /// Exclude the the default style.css from being rendered in the skin.
+        /// </summary>
+        /// <value>Whether to exclude the default style.css or not.</value>
+        [XmlAttribute]
+	    public bool ExcludeDefaultStyle
+	    {
+	        get { return excludeDefaultStyle; }
+	        set { excludeDefaultStyle = value; }
+	    }
+
+        private bool excludeDefaultStyle;
+
+        /// <summary>
+        /// Specifies the order in which the styles are rendered inside the skin.
+        /// </summary>
+        /// <value>The merge mode.</value>
+        [XmlAttribute]
+	    public StyleMergeMode StyleMergeMode
+	    {
+	        get { return styleMergeMode; }
+	        set { styleMergeMode = value; }
+	    }
+        
+        private StyleMergeMode styleMergeMode;
+
+
+        /// <summary>
+        /// Whether or not to merge all scripts into one.
+        /// </summary>
+        /// <remarks>
+        /// Even if set to true, if the list of scripts is unsafe (remote scripts or scripts with parameters)
+        /// the scripts are not merged.
+        /// </remarks>
+        /// <value>Whether to merge all scripts into one.</value>
+        [XmlAttribute]
+	    public bool MergeScripts
+	    {
+	        get { return mergeScripts; }
+	        set { mergeScripts = value; }
+	    }
+
+	    private bool mergeScripts;
+
+	    /// <summary>
 		/// Whether or not this skin template has a secondary skin css file.
 		/// </summary>
 		[XmlIgnore]
@@ -126,6 +170,42 @@ namespace Subtext.Framework.UI.Skinning
 				_styles = value;
 			}
 		}
-
+		
 	}
+
+    public enum StyleMergeMode
+    {
+        /// <summary>
+        /// No merging of CSS files
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// The merged css will be rendered after the ones that cannot be merged
+        /// </summary>
+        /// <remarks>
+        /// The order will be:
+        /// <list type="ordered">
+        /// <item>All not mergeable files (with title, media and condition)</item>
+        /// <item>All mergeable styles inside the skin definition</item>
+        /// <item>style.css (which is the main css file for the skin)</item>
+        /// <item>secondary css for the skin</item>
+        /// <item>custom css (the one defined in the admin)</item>
+        /// </list>
+        /// </remarks>
+        MergedAfter = 1,
+        /// <summary>
+        /// The merged css will be rendered before the ones that cannot be merged
+        /// </summary>
+        /// <remarks>
+        /// The order will be:
+        /// <list type="ordered">
+        /// <item>All mergeable styles inside the skin definition</item>
+        /// <item>style.css (which is the main css file for the skin)</item>
+        /// <item>secondary css for the skin</item>
+        /// <item>All not mergeable files (with title, media and condition)</item>
+        /// <item>custom css (the one defined in the admin)</item>
+        /// </list>
+        /// </remarks>
+        MergedFirst = 2
+    }
 }
