@@ -18,341 +18,6 @@ namespace Subtext.Data{
     public partial class StoredProcedures{
         
         /// <summary>
-        /// Creates an object wrapper for the subtext_GetLinksByCategoryID Procedure
-        /// </summary>
-        public static StoredProcedure GetLinksByCategoryID(int? CategoryID, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetLinksByCategoryID" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPageableEntries Procedure
-        /// </summary>
-        public static StoredProcedure GetPageableEntries(int? BlogId, int? PageIndex, int? PageSize, int? PostType)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableEntries" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PostType", PostType,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Membership_GetPassword Procedure
-        /// </summary>
-        public static StoredProcedure MembershipGetPassword(string UserName, int? MaxInvalidPasswordAttempts, int? PasswordAttemptWindow, DateTime? CurrentTimeUtc, string PasswordAnswer)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_GetPassword" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@MaxInvalidPasswordAttempts", MaxInvalidPasswordAttempts,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PasswordAttemptWindow", PasswordAttemptWindow,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@PasswordAnswer", PasswordAnswer,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Membership_GetNumberOfUsersOnline Procedure
-        /// </summary>
-        public static StoredProcedure MembershipGetNumberOfUsersOnline(int? MinutesSinceLastInActive, DateTime? CurrentTimeUtc, int? OnlineUserCount)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_GetNumberOfUsersOnline" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@MinutesSinceLastInActive", MinutesSinceLastInActive,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            sp.Command.AddOutputParameter("@OnlineUserCount",DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Membership_SetPassword Procedure
-        /// </summary>
-        public static StoredProcedure MembershipSetPassword(string UserName, string NewPassword, string PasswordSalt, DateTime? CurrentTimeUtc, int? PasswordFormat)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_SetPassword" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@NewPassword", NewPassword,DbType.String);
-        	    
-            sp.Command.AddParameter("@PasswordSalt", PasswordSalt,DbType.String);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@PasswordFormat", PasswordFormat,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Membership_ResetPassword Procedure
-        /// </summary>
-        public static StoredProcedure MembershipResetPassword(string UserName, string NewPassword, int? MaxInvalidPasswordAttempts, int? PasswordAttemptWindow, string PasswordSalt, DateTime? CurrentTimeUtc, int? PasswordFormat, string PasswordAnswer)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_ResetPassword" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@NewPassword", NewPassword,DbType.String);
-        	    
-            sp.Command.AddParameter("@MaxInvalidPasswordAttempts", MaxInvalidPasswordAttempts,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PasswordAttemptWindow", PasswordAttemptWindow,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PasswordSalt", PasswordSalt,DbType.String);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@PasswordFormat", PasswordFormat,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PasswordAnswer", PasswordAnswer,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Membership_UnlockUser Procedure
-        /// </summary>
-        public static StoredProcedure MembershipUnlockUser(string UserName)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_UnlockUser" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Membership_UpdateUser Procedure
-        /// </summary>
-        public static StoredProcedure MembershipUpdateUser(string UserName, string Email, string Comment, bool? IsApproved, DateTime? LastLoginDate, DateTime? LastActivityDate, int? UniqueEmail, DateTime? CurrentTimeUtc)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_UpdateUser" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@Email", Email,DbType.String);
-        	    
-            sp.Command.AddParameter("@Comment", Comment,DbType.String);
-        	    
-            sp.Command.AddParameter("@IsApproved", IsApproved,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@LastLoginDate", LastLoginDate,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@LastActivityDate", LastActivityDate,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@UniqueEmail", UniqueEmail,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Membership_ChangePasswordQuestionAndAnswer Procedure
-        /// </summary>
-        public static StoredProcedure MembershipChangePasswordQuestionAndAnswer(string UserName, string NewPasswordQuestion, string NewPasswordAnswer)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_ChangePasswordQuestionAndAnswer" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@NewPasswordQuestion", NewPasswordQuestion,DbType.String);
-        	    
-            sp.Command.AddParameter("@NewPasswordAnswer", NewPasswordAnswer,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Profile_GetProperties Procedure
-        /// </summary>
-        public static StoredProcedure ProfileGetProperties(string UserName, DateTime? CurrentTimeUtc)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Profile_GetProperties" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Profile_DeleteInactiveProfiles Procedure
-        /// </summary>
-        public static StoredProcedure ProfileDeleteInactiveProfiles(int? ProfileAuthOptions, DateTime? InactiveSinceDate)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Profile_DeleteInactiveProfiles" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ProfileAuthOptions", ProfileAuthOptions,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@InactiveSinceDate", InactiveSinceDate,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Profile_GetNumberOfInactiveProfiles Procedure
-        /// </summary>
-        public static StoredProcedure ProfileGetNumberOfInactiveProfiles(int? ProfileAuthOptions, DateTime? InactiveSinceDate)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Profile_GetNumberOfInactiveProfiles" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ProfileAuthOptions", ProfileAuthOptions,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@InactiveSinceDate", InactiveSinceDate,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_UsersInRoles_IsUserInRole Procedure
-        /// </summary>
-        public static StoredProcedure UsersInRolesIsUserInRole(string ApplicationName, string UserName, string RoleName)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UsersInRoles_IsUserInRole" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@RoleName", RoleName,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_UsersInRoles_GetRolesForUser Procedure
-        /// </summary>
-        public static StoredProcedure UsersInRolesGetRolesForUser(string ApplicationName, string UserName)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UsersInRoles_GetRolesForUser" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Roles_DeleteRole Procedure
-        /// </summary>
-        public static StoredProcedure RolesDeleteRole(string ApplicationName, string RoleName, bool? DeleteOnlyIfRoleIsEmpty)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Roles_DeleteRole" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@RoleName", RoleName,DbType.String);
-        	    
-            sp.Command.AddParameter("@DeleteOnlyIfRoleIsEmpty", DeleteOnlyIfRoleIsEmpty,DbType.Boolean);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Roles_RoleExists Procedure
-        /// </summary>
-        public static StoredProcedure RolesRoleExists(string ApplicationName, string RoleName)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Roles_RoleExists" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@RoleName", RoleName,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_UsersInRoles_AddUsersToRoles Procedure
-        /// </summary>
-        public static StoredProcedure UsersInRolesAddUsersToRoles(string ApplicationName, string UserNames, string RoleNames, DateTime? CurrentTimeUtc)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UsersInRoles_AddUsersToRoles" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@UserNames", UserNames,DbType.String);
-        	    
-            sp.Command.AddParameter("@RoleNames", RoleNames,DbType.String);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_UsersInRoles_RemoveUsersFromRoles Procedure
-        /// </summary>
-        public static StoredProcedure UsersInRolesRemoveUsersFromRoles(string ApplicationName, string UserNames, string RoleNames)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UsersInRoles_RemoveUsersFromRoles" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@UserNames", UserNames,DbType.String);
-        	    
-            sp.Command.AddParameter("@RoleNames", RoleNames,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Roles_GetAllRoles Procedure
-        /// </summary>
-        public static StoredProcedure RolesGetAllRoles(string ApplicationName)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Roles_GetAllRoles" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
         /// Creates an object wrapper for the subtext_UsersInRoles_GetUsersInRoles Procedure
         /// </summary>
         public static StoredProcedure UsersInRolesGetUsersInRoles(string ApplicationName, string RoleName)
@@ -379,1202 +44,6 @@ namespace Subtext.Data{
             sp.Command.AddParameter("@RoleName", RoleName,DbType.String);
         	    
             sp.Command.AddParameter("@UserNameToMatch", UserNameToMatch,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Paths_CreatePath Procedure
-        /// </summary>
-        public static StoredProcedure PathsCreatePath(Guid? ApplicationId, string Path, Guid? PathId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Paths_CreatePath" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationId", ApplicationId,DbType.Guid);
-        	    
-            sp.Command.AddParameter("@Path", Path,DbType.String);
-        	    
-            sp.Command.AddOutputParameter("@PathId",DbType.Guid);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_WebEvent_LogEvent Procedure
-        /// </summary>
-        public static StoredProcedure WebEventLogEvent(string EventId, DateTime? EventTimeUtc, DateTime? EventTime, string EventType, decimal? EventSequence, decimal? EventOccurrence, int? EventCode, int? EventDetailCode, string Message, string ApplicationPath, string ApplicationVirtualPath, string MachineName, string RequestUrl, string ExceptionType, string Details)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_WebEvent_LogEvent" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@EventId", EventId,DbType.AnsiStringFixedLength);
-        	    
-            sp.Command.AddParameter("@EventTimeUtc", EventTimeUtc,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@EventTime", EventTime,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@EventType", EventType,DbType.String);
-        	    
-            sp.Command.AddParameter("@EventSequence", EventSequence,DbType.Decimal);
-        	    
-            sp.Command.AddParameter("@EventOccurrence", EventOccurrence,DbType.Decimal);
-        	    
-            sp.Command.AddParameter("@EventCode", EventCode,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@EventDetailCode", EventDetailCode,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@Message", Message,DbType.String);
-        	    
-            sp.Command.AddParameter("@ApplicationPath", ApplicationPath,DbType.String);
-        	    
-            sp.Command.AddParameter("@ApplicationVirtualPath", ApplicationVirtualPath,DbType.String);
-        	    
-            sp.Command.AddParameter("@MachineName", MachineName,DbType.String);
-        	    
-            sp.Command.AddParameter("@RequestUrl", RequestUrl,DbType.String);
-        	    
-            sp.Command.AddParameter("@ExceptionType", ExceptionType,DbType.String);
-        	    
-            sp.Command.AddParameter("@Details", Details,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Personalization_GetApplicationId Procedure
-        /// </summary>
-        public static StoredProcedure PersonalizationGetApplicationId(string ApplicationName, Guid? ApplicationId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Personalization_GetApplicationId" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddOutputParameter("@ApplicationId",DbType.Guid);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Profile_GetProfiles Procedure
-        /// </summary>
-        public static StoredProcedure ProfileGetProfiles(string ApplicationName, int? ProfileAuthOptions, int? PageIndex, int? PageSize, string UserNameToMatch, DateTime? InactiveSinceDate)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Profile_GetProfiles" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@ProfileAuthOptions", ProfileAuthOptions,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@UserNameToMatch", UserNameToMatch,DbType.String);
-        	    
-            sp.Command.AddParameter("@InactiveSinceDate", InactiveSinceDate,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Membership_FindUsersByNameOrEmail Procedure
-        /// </summary>
-        public static StoredProcedure MembershipFindUsersByNameOrEmail(string ApplicationName, string UserNameToMatch, string EmailToMatch, int? PageIndex, int? PageSize, int? TotalCount)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_FindUsersByNameOrEmail" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@UserNameToMatch", UserNameToMatch,DbType.String);
-        	    
-            sp.Command.AddParameter("@EmailToMatch", EmailToMatch,DbType.String);
-        	    
-            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
-        	    
-            sp.Command.AddOutputParameter("@TotalCount",DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Membership_GetAllUsers Procedure
-        /// </summary>
-        public static StoredProcedure MembershipGetAllUsers(string ApplicationName, int? PageIndex, int? PageSize, int? TotalCount)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_GetAllUsers" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
-        	    
-            sp.Command.AddOutputParameter("@TotalCount",DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Users_DeleteUser Procedure
-        /// </summary>
-        public static StoredProcedure UsersDeleteUser(string UserName, int? TablesToDeleteFrom, int? NumTablesDeletedFrom)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Users_DeleteUser" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@TablesToDeleteFrom", TablesToDeleteFrom,DbType.Int32);
-        	    
-            sp.Command.AddOutputParameter("@NumTablesDeletedFrom",DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Applications_CreateApplication Procedure
-        /// </summary>
-        public static StoredProcedure ApplicationsCreateApplication(string ApplicationName, Guid? ApplicationId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Applications_CreateApplication" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddOutputParameter("@ApplicationId",DbType.Guid);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_AnyDataInTables Procedure
-        /// </summary>
-        public static StoredProcedure AnyDataInTables(int? TablesToCheck)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_AnyDataInTables" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@TablesToCheck", TablesToCheck,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_PersonalizationAllUsers_SetPageSettings Procedure
-        /// </summary>
-        public static StoredProcedure PersonalizationAllUsersSetPageSettings(string ApplicationName, string Path, byte[] PageSettings, DateTime? CurrentTimeUtc)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAllUsers_SetPageSettings" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@Path", Path,DbType.String);
-        	    
-            sp.Command.AddParameter("@PageSettings", PageSettings,DbType.Binary);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Roles_CreateRole Procedure
-        /// </summary>
-        public static StoredProcedure RolesCreateRole(string ApplicationName, string RoleName)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Roles_CreateRole" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@RoleName", RoleName,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Profile_SetProperties Procedure
-        /// </summary>
-        public static StoredProcedure ProfileSetProperties(string ApplicationName, string PropertyNames, string PropertyValuesString, byte[] PropertyValuesBinary, string UserName, bool? IsUserAnonymous, DateTime? CurrentTimeUtc)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Profile_SetProperties" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@PropertyNames", PropertyNames,DbType.String);
-        	    
-            sp.Command.AddParameter("@PropertyValuesString", PropertyValuesString,DbType.String);
-        	    
-            sp.Command.AddParameter("@PropertyValuesBinary", PropertyValuesBinary,DbType.Binary);
-        	    
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@IsUserAnonymous", IsUserAnonymous,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Membership_CreateUser Procedure
-        /// </summary>
-        public static StoredProcedure MembershipCreateUser(string UserName, string Password, string PasswordSalt, string Email, string PasswordQuestion, string PasswordAnswer, bool? IsApproved, DateTime? CurrentTimeUtc, DateTime? CreateDate, bool? UniqueEmail, int? PasswordFormat, Guid? UserId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_CreateUser" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@Password", Password,DbType.String);
-        	    
-            sp.Command.AddParameter("@PasswordSalt", PasswordSalt,DbType.String);
-        	    
-            sp.Command.AddParameter("@Email", Email,DbType.String);
-        	    
-            sp.Command.AddParameter("@PasswordQuestion", PasswordQuestion,DbType.String);
-        	    
-            sp.Command.AddParameter("@PasswordAnswer", PasswordAnswer,DbType.String);
-        	    
-            sp.Command.AddParameter("@IsApproved", IsApproved,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@CreateDate", CreateDate,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@UniqueEmail", UniqueEmail,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@PasswordFormat", PasswordFormat,DbType.Int32);
-        	    
-            sp.Command.AddOutputParameter("@UserId",DbType.Guid);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_PersonalizationPerUser_SetPageSettings Procedure
-        /// </summary>
-        public static StoredProcedure PersonalizationPerUserSetPageSettings(string ApplicationName, string UserName, string Path, byte[] PageSettings, DateTime? CurrentTimeUtc)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationPerUser_SetPageSettings" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@Path", Path,DbType.String);
-        	    
-            sp.Command.AddParameter("@PageSettings", PageSettings,DbType.Binary);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_Profile_DeleteProfiles Procedure
-        /// </summary>
-        public static StoredProcedure ProfileDeleteProfiles(string UserNames)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Profile_DeleteProfiles" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@UserNames", UserNames,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_PersonalizationAllUsers_GetPageSettings Procedure
-        /// </summary>
-        public static StoredProcedure PersonalizationAllUsersGetPageSettings(string ApplicationName, string Path)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAllUsers_GetPageSettings" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@Path", Path,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetBlogById Procedure
-        /// </summary>
-        public static StoredProcedure GetBlogById(int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetBlogById" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_PersonalizationAllUsers_ResetPageSettings Procedure
-        /// </summary>
-        public static StoredProcedure PersonalizationAllUsersResetPageSettings(string ApplicationName, string Path)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAllUsers_ResetPageSettings" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@Path", Path,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_UpdateFeedbackStats Procedure
-        /// </summary>
-        public static StoredProcedure UpdateFeedbackStats(int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UpdateFeedbackStats" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_PersonalizationPerUser_GetPageSettings Procedure
-        /// </summary>
-        public static StoredProcedure PersonalizationPerUserGetPageSettings(string ApplicationName, string UserName, string Path, DateTime? CurrentTimeUtc)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationPerUser_GetPageSettings" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@Path", Path,DbType.String);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_UpdateBlogStats Procedure
-        /// </summary>
-        public static StoredProcedure UpdateBlogStats(int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UpdateBlogStats" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_PersonalizationPerUser_ResetPageSettings Procedure
-        /// </summary>
-        public static StoredProcedure PersonalizationPerUserResetPageSettings(string ApplicationName, string UserName, string Path, DateTime? CurrentTimeUtc)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationPerUser_ResetPageSettings" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@Path", Path,DbType.String);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_UpdateFeedbackCount Procedure
-        /// </summary>
-        public static StoredProcedure UpdateFeedbackCount(int? BlogId, int? EntryId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UpdateFeedbackCount" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@EntryId", EntryId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_PersonalizationAdministration_DeleteAllState Procedure
-        /// </summary>
-        public static StoredProcedure PersonalizationAdministrationDeleteAllState(bool? AllUsersScope, string ApplicationName, int? Count)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAdministration_DeleteAllState" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@AllUsersScope", AllUsersScope,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddOutputParameter("@Count",DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_DeleteCategory Procedure
-        /// </summary>
-        public static StoredProcedure DeleteCategory(int? CategoryID, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteCategory" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_PersonalizationAdministration_ResetSharedState Procedure
-        /// </summary>
-        public static StoredProcedure PersonalizationAdministrationResetSharedState(int? Count, string ApplicationName, string Path)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAdministration_ResetSharedState" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddOutputParameter("@Count",DbType.Int32);
-        	    
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@Path", Path,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_DeleteImage Procedure
-        /// </summary>
-        public static StoredProcedure DeleteImage(int? BlogId, int? ImageID)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteImage" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@ImageID", ImageID,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_PersonalizationAdministration_ResetUserState Procedure
-        /// </summary>
-        public static StoredProcedure PersonalizationAdministrationResetUserState(int? Count, string ApplicationName, DateTime? InactiveSinceDate, string UserName, string Path)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAdministration_ResetUserState" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddOutputParameter("@Count",DbType.Int32);
-        	    
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@InactiveSinceDate", InactiveSinceDate,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@Path", Path,DbType.String);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_DeleteImageCategory Procedure
-        /// </summary>
-        public static StoredProcedure DeleteImageCategory(int? CategoryID, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteImageCategory" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_PersonalizationAdministration_GetCountOfState Procedure
-        /// </summary>
-        public static StoredProcedure PersonalizationAdministrationGetCountOfState(int? Count, bool? AllUsersScope, string ApplicationName, string Path, string UserName, DateTime? InactiveSinceDate)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAdministration_GetCountOfState" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddOutputParameter("@Count",DbType.Int32);
-        	    
-            sp.Command.AddParameter("@AllUsersScope", AllUsersScope,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@Path", Path,DbType.String);
-        	    
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@InactiveSinceDate", InactiveSinceDate,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_DeleteKeyWord Procedure
-        /// </summary>
-        public static StoredProcedure DeleteKeyWord(int? KeyWordID, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteKeyWord" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@KeyWordID", KeyWordID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_PersonalizationAdministration_FindState Procedure
-        /// </summary>
-        public static StoredProcedure PersonalizationAdministrationFindState(bool? AllUsersScope, string ApplicationName, int? PageIndex, int? PageSize, string Path, string UserName, DateTime? InactiveSinceDate)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAdministration_FindState" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@AllUsersScope", AllUsersScope,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
-        	    
-            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@Path", Path,DbType.String);
-        	    
-            sp.Command.AddParameter("@UserName", UserName,DbType.String);
-        	    
-            sp.Command.AddParameter("@InactiveSinceDate", InactiveSinceDate,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_DeleteLink Procedure
-        /// </summary>
-        public static StoredProcedure DeleteLink(int? LinkID, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteLink" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@LinkID", LinkID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_DeleteLinksByPostID Procedure
-        /// </summary>
-        public static StoredProcedure DeleteLinksByPostID(int? PostID, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteLinksByPostID" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@PostID", PostID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetFeedbackCountsByStatus Procedure
-        /// </summary>
-        public static StoredProcedure GetFeedbackCountsByStatus(int? BlogId, int? ApprovedCount, int? NeedsModerationCount, int? FlaggedSpam, int? Deleted)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetFeedbackCountsByStatus" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddOutputParameter("@ApprovedCount",DbType.Int32);
-        	    
-            sp.Command.AddOutputParameter("@NeedsModerationCount",DbType.Int32);
-        	    
-            sp.Command.AddOutputParameter("@FlaggedSpam",DbType.Int32);
-        	    
-            sp.Command.AddOutputParameter("@Deleted",DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_DeleteFeedback Procedure
-        /// </summary>
-        public static StoredProcedure DeleteFeedback(int? Id)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteFeedback" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@Id", Id,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetHost Procedure
-        /// </summary>
-        public static StoredProcedure GetHost()
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetHost" , DataService.GetInstance("Subtext"));
-        	
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_DeleteFeedbackByStatus Procedure
-        /// </summary>
-        public static StoredProcedure DeleteFeedbackByStatus(int? BlogId, int? StatusFlag)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteFeedbackByStatus" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@StatusFlag", StatusFlag,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_DeletePost Procedure
-        /// </summary>
-        public static StoredProcedure DeletePost(int? ID)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeletePost" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ID", ID,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetActiveCategoriesWithLinkCollection Procedure
-        /// </summary>
-        public static StoredProcedure GetActiveCategoriesWithLinkCollection(int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetActiveCategoriesWithLinkCollection" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_UTILITY_AddBlog Procedure
-        /// </summary>
-        public static StoredProcedure UTILITYAddBlog(string Title, string Host, string Subfolder, Guid? OwnerID, DateTime? CurrentTimeUtc)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UTILITY_AddBlog" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@Title", Title,DbType.String);
-        	    
-            sp.Command.AddParameter("@Host", Host,DbType.String);
-        	    
-            sp.Command.AddParameter("@Subfolder", Subfolder,DbType.String);
-        	    
-            sp.Command.AddParameter("@OwnerID", OwnerID,DbType.Guid);
-        	    
-            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetCategory Procedure
-        /// </summary>
-        public static StoredProcedure GetCategory(string CategoryName, int? CategoryID, bool? IsActive, int? BlogId, short? CategoryType)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetCategory" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@CategoryName", CategoryName,DbType.String);
-        	    
-            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@CategoryType", CategoryType,DbType.Int16);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_CreateHost Procedure
-        /// </summary>
-        public static StoredProcedure CreateHost(Guid? OwnerId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_CreateHost" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@OwnerId", OwnerId,DbType.Guid);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetConditionalEntries Procedure
-        /// </summary>
-        public static StoredProcedure GetConditionalEntries(int? ItemCount, int? PostType, int? PostConfig, int? BlogId, bool? IncludeCategories)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetConditionalEntries" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ItemCount", ItemCount,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PostType", PostType,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PostConfig", PostConfig,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@IncludeCategories", IncludeCategories,DbType.Boolean);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetMetaTagsForBlog Procedure
-        /// </summary>
-        public static StoredProcedure GetMetaTagsForBlog(int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetMetaTagsForBlog" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetBlog Procedure
-        /// </summary>
-        public static StoredProcedure GetBlog(string Host, string Subfolder, bool? Strict)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetBlog" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@Host", Host,DbType.String);
-        	    
-            sp.Command.AddParameter("@Subfolder", Subfolder,DbType.String);
-        	    
-            sp.Command.AddParameter("@Strict", Strict,DbType.Boolean);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetMetaTagsForEntry Procedure
-        /// </summary>
-        public static StoredProcedure GetMetaTagsForEntry(int? BlogId, int? EntryId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetMetaTagsForEntry" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@EntryId", EntryId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetEntriesByDayRange Procedure
-        /// </summary>
-        public static StoredProcedure GetEntriesByDayRange(DateTime? StartDate, DateTime? StopDate, int? PostType, bool? IsActive, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetEntriesByDayRange" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@StartDate", StartDate,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@StopDate", StopDate,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@PostType", PostType,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetFeedbackCollection Procedure
-        /// </summary>
-        public static StoredProcedure GetFeedbackCollection(int? EntryId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetFeedbackCollection" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@EntryId", EntryId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetFeedback Procedure
-        /// </summary>
-        public static StoredProcedure GetFeedback(int? Id)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetFeedback" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@Id", Id,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetImageCategory Procedure
-        /// </summary>
-        public static StoredProcedure GetImageCategory(int? CategoryID, bool? IsActive, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetImageCategory" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetKeyWord Procedure
-        /// </summary>
-        public static StoredProcedure GetKeyWord(int? KeyWordID, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetKeyWord" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@KeyWordID", KeyWordID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetLinkCollectionByPostID Procedure
-        /// </summary>
-        public static StoredProcedure GetLinkCollectionByPostID(int? PostID, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetLinkCollectionByPostID" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@PostID", PostID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPageableEntriesByCategoryID Procedure
-        /// </summary>
-        public static StoredProcedure GetPageableEntriesByCategoryID(int? BlogId, int? CategoryID, int? PageIndex, int? PageSize, int? PostType)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableEntriesByCategoryID" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PostType", PostType,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPageableFeedback Procedure
-        /// </summary>
-        public static StoredProcedure GetPageableFeedback(int? BlogId, int? PageIndex, int? PageSize, int? StatusFlag, int? ExcludeFeedbackStatusMask, int? FeedbackType)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableFeedback" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@StatusFlag", StatusFlag,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@ExcludeFeedbackStatusMask", ExcludeFeedbackStatusMask,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@FeedbackType", FeedbackType,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPageableLogEntries Procedure
-        /// </summary>
-        public static StoredProcedure GetPageableLogEntries(int? BlogId, int? PageIndex, int? PageSize)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableLogEntries" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPageableKeyWords Procedure
-        /// </summary>
-        public static StoredProcedure GetPageableKeyWords(int? BlogId, int? PageIndex, int? PageSize)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableKeyWords" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPageableLinks Procedure
-        /// </summary>
-        public static StoredProcedure GetPageableLinks(int? BlogId, int? CategoryId, int? PageIndex, int? PageSize)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableLinks" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@CategoryId", CategoryId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPageableLinksByCategoryID Procedure
-        /// </summary>
-        public static StoredProcedure GetPageableLinksByCategoryID(int? BlogId, int? CategoryID, int? PageIndex, int? PageSize, bool? SortDesc)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableLinksByCategoryID" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@SortDesc", SortDesc,DbType.Boolean);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPageableReferrers Procedure
-        /// </summary>
-        public static StoredProcedure GetPageableReferrers(int? BlogId, int? EntryID, int? PageIndex, int? PageSize)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableReferrers" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@EntryID", EntryID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPostsByCategoryID Procedure
-        /// </summary>
-        public static StoredProcedure GetPostsByCategoryID(int? ItemCount, int? CategoryID, bool? IsActive, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPostsByCategoryID" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ItemCount", ItemCount,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPostsByDayRange Procedure
-        /// </summary>
-        public static StoredProcedure GetPostsByDayRange(DateTime? StartDate, DateTime? StopDate, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPostsByDayRange" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@StartDate", StartDate,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@StopDate", StopDate,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPostsByMonth Procedure
-        /// </summary>
-        public static StoredProcedure GetPostsByMonth(int? Month, int? Year, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPostsByMonth" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@Month", Month,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@Year", Year,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPostsByMonthArchive Procedure
-        /// </summary>
-        public static StoredProcedure GetPostsByMonthArchive(int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPostsByMonthArchive" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetPostsByYearArchive Procedure
-        /// </summary>
-        public static StoredProcedure GetPostsByYearArchive(int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPostsByYearArchive" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetSingleDay Procedure
-        /// </summary>
-        public static StoredProcedure GetSingleDay(DateTime? Date, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetSingleDay" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@Date", Date,DbType.DateTime);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetSingleEntry Procedure
-        /// </summary>
-        public static StoredProcedure GetSingleEntry(int? ID, string EntryName, bool? IsActive, int? BlogId, bool? IncludeCategories)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetSingleEntry" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ID", ID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@EntryName", EntryName,DbType.String);
-        	    
-            sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@IncludeCategories", IncludeCategories,DbType.Boolean);
-        	    
-            return sp;
-        }
-
-        
-        /// <summary>
-        /// Creates an object wrapper for the subtext_GetSingleImage Procedure
-        /// </summary>
-        public static StoredProcedure GetSingleImage(int? ImageID, bool? IsActive, int? BlogId)
-        {
-            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetSingleImage" , DataService.GetInstance("Subtext"));
-        	
-            sp.Command.AddParameter("@ImageID", ImageID,DbType.Int32);
-        	    
-            sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
-        	    
-            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
         	    
             return sp;
         }
@@ -1764,6 +233,27 @@ namespace Subtext.Data{
             sp.Command.AddParameter("@EntryID", EntryID,DbType.Int32);
         	    
             sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@Url", Url,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_InsertViewStats Procedure
+        /// </summary>
+        public static StoredProcedure InsertViewStats(int? BlogId, short? PageType, int? PostID, DateTime? Day, string Url)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_InsertViewStats" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageType", PageType,DbType.Int16);
+        	    
+            sp.Command.AddParameter("@PostID", PostID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@Day", Day,DbType.DateTime);
         	    
             sp.Command.AddParameter("@Url", Url,DbType.String);
         	    
@@ -2745,6 +1235,1585 @@ namespace Subtext.Data{
             sp.Command.AddParameter("@LastLoginDate", LastLoginDate,DbType.DateTime);
         	    
             sp.Command.AddParameter("@LastActivityDate", LastActivityDate,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Membership_GetPassword Procedure
+        /// </summary>
+        public static StoredProcedure MembershipGetPassword(string UserName, int? MaxInvalidPasswordAttempts, int? PasswordAttemptWindow, DateTime? CurrentTimeUtc, string PasswordAnswer)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_GetPassword" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@MaxInvalidPasswordAttempts", MaxInvalidPasswordAttempts,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PasswordAttemptWindow", PasswordAttemptWindow,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@PasswordAnswer", PasswordAnswer,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Membership_GetNumberOfUsersOnline Procedure
+        /// </summary>
+        public static StoredProcedure MembershipGetNumberOfUsersOnline(int? MinutesSinceLastInActive, DateTime? CurrentTimeUtc, int? OnlineUserCount)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_GetNumberOfUsersOnline" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@MinutesSinceLastInActive", MinutesSinceLastInActive,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            sp.Command.AddOutputParameter("@OnlineUserCount",DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Membership_SetPassword Procedure
+        /// </summary>
+        public static StoredProcedure MembershipSetPassword(string UserName, string NewPassword, string PasswordSalt, DateTime? CurrentTimeUtc, int? PasswordFormat)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_SetPassword" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@NewPassword", NewPassword,DbType.String);
+        	    
+            sp.Command.AddParameter("@PasswordSalt", PasswordSalt,DbType.String);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@PasswordFormat", PasswordFormat,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Membership_ResetPassword Procedure
+        /// </summary>
+        public static StoredProcedure MembershipResetPassword(string UserName, string NewPassword, int? MaxInvalidPasswordAttempts, int? PasswordAttemptWindow, string PasswordSalt, DateTime? CurrentTimeUtc, int? PasswordFormat, string PasswordAnswer)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_ResetPassword" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@NewPassword", NewPassword,DbType.String);
+        	    
+            sp.Command.AddParameter("@MaxInvalidPasswordAttempts", MaxInvalidPasswordAttempts,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PasswordAttemptWindow", PasswordAttemptWindow,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PasswordSalt", PasswordSalt,DbType.String);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@PasswordFormat", PasswordFormat,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PasswordAnswer", PasswordAnswer,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Membership_UnlockUser Procedure
+        /// </summary>
+        public static StoredProcedure MembershipUnlockUser(string UserName)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_UnlockUser" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Membership_UpdateUser Procedure
+        /// </summary>
+        public static StoredProcedure MembershipUpdateUser(string UserName, string Email, string Comment, bool? IsApproved, DateTime? LastLoginDate, DateTime? LastActivityDate, int? UniqueEmail, DateTime? CurrentTimeUtc)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_UpdateUser" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@Email", Email,DbType.String);
+        	    
+            sp.Command.AddParameter("@Comment", Comment,DbType.String);
+        	    
+            sp.Command.AddParameter("@IsApproved", IsApproved,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@LastLoginDate", LastLoginDate,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@LastActivityDate", LastActivityDate,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@UniqueEmail", UniqueEmail,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Membership_ChangePasswordQuestionAndAnswer Procedure
+        /// </summary>
+        public static StoredProcedure MembershipChangePasswordQuestionAndAnswer(string UserName, string NewPasswordQuestion, string NewPasswordAnswer)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_ChangePasswordQuestionAndAnswer" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@NewPasswordQuestion", NewPasswordQuestion,DbType.String);
+        	    
+            sp.Command.AddParameter("@NewPasswordAnswer", NewPasswordAnswer,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Profile_GetProperties Procedure
+        /// </summary>
+        public static StoredProcedure ProfileGetProperties(string UserName, DateTime? CurrentTimeUtc)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Profile_GetProperties" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Profile_DeleteInactiveProfiles Procedure
+        /// </summary>
+        public static StoredProcedure ProfileDeleteInactiveProfiles(int? ProfileAuthOptions, DateTime? InactiveSinceDate)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Profile_DeleteInactiveProfiles" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ProfileAuthOptions", ProfileAuthOptions,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@InactiveSinceDate", InactiveSinceDate,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Profile_GetNumberOfInactiveProfiles Procedure
+        /// </summary>
+        public static StoredProcedure ProfileGetNumberOfInactiveProfiles(int? ProfileAuthOptions, DateTime? InactiveSinceDate)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Profile_GetNumberOfInactiveProfiles" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ProfileAuthOptions", ProfileAuthOptions,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@InactiveSinceDate", InactiveSinceDate,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_UsersInRoles_IsUserInRole Procedure
+        /// </summary>
+        public static StoredProcedure UsersInRolesIsUserInRole(string ApplicationName, string UserName, string RoleName)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UsersInRoles_IsUserInRole" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@RoleName", RoleName,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_UsersInRoles_GetRolesForUser Procedure
+        /// </summary>
+        public static StoredProcedure UsersInRolesGetRolesForUser(string ApplicationName, string UserName)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UsersInRoles_GetRolesForUser" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Roles_DeleteRole Procedure
+        /// </summary>
+        public static StoredProcedure RolesDeleteRole(string ApplicationName, string RoleName, bool? DeleteOnlyIfRoleIsEmpty)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Roles_DeleteRole" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@RoleName", RoleName,DbType.String);
+        	    
+            sp.Command.AddParameter("@DeleteOnlyIfRoleIsEmpty", DeleteOnlyIfRoleIsEmpty,DbType.Boolean);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Roles_RoleExists Procedure
+        /// </summary>
+        public static StoredProcedure RolesRoleExists(string ApplicationName, string RoleName)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Roles_RoleExists" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@RoleName", RoleName,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_UsersInRoles_AddUsersToRoles Procedure
+        /// </summary>
+        public static StoredProcedure UsersInRolesAddUsersToRoles(string ApplicationName, string UserNames, string RoleNames, DateTime? CurrentTimeUtc)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UsersInRoles_AddUsersToRoles" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@UserNames", UserNames,DbType.String);
+        	    
+            sp.Command.AddParameter("@RoleNames", RoleNames,DbType.String);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_UsersInRoles_RemoveUsersFromRoles Procedure
+        /// </summary>
+        public static StoredProcedure UsersInRolesRemoveUsersFromRoles(string ApplicationName, string UserNames, string RoleNames)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UsersInRoles_RemoveUsersFromRoles" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@UserNames", UserNames,DbType.String);
+        	    
+            sp.Command.AddParameter("@RoleNames", RoleNames,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Roles_GetAllRoles Procedure
+        /// </summary>
+        public static StoredProcedure RolesGetAllRoles(string ApplicationName)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Roles_GetAllRoles" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Paths_CreatePath Procedure
+        /// </summary>
+        public static StoredProcedure PathsCreatePath(Guid? ApplicationId, string Path, Guid? PathId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Paths_CreatePath" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationId", ApplicationId,DbType.Guid);
+        	    
+            sp.Command.AddParameter("@Path", Path,DbType.String);
+        	    
+            sp.Command.AddOutputParameter("@PathId",DbType.Guid);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_WebEvent_LogEvent Procedure
+        /// </summary>
+        public static StoredProcedure WebEventLogEvent(string EventId, DateTime? EventTimeUtc, DateTime? EventTime, string EventType, decimal? EventSequence, decimal? EventOccurrence, int? EventCode, int? EventDetailCode, string Message, string ApplicationPath, string ApplicationVirtualPath, string MachineName, string RequestUrl, string ExceptionType, string Details)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_WebEvent_LogEvent" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@EventId", EventId,DbType.AnsiStringFixedLength);
+        	    
+            sp.Command.AddParameter("@EventTimeUtc", EventTimeUtc,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@EventTime", EventTime,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@EventType", EventType,DbType.String);
+        	    
+            sp.Command.AddParameter("@EventSequence", EventSequence,DbType.Decimal);
+        	    
+            sp.Command.AddParameter("@EventOccurrence", EventOccurrence,DbType.Decimal);
+        	    
+            sp.Command.AddParameter("@EventCode", EventCode,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@EventDetailCode", EventDetailCode,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@Message", Message,DbType.String);
+        	    
+            sp.Command.AddParameter("@ApplicationPath", ApplicationPath,DbType.String);
+        	    
+            sp.Command.AddParameter("@ApplicationVirtualPath", ApplicationVirtualPath,DbType.String);
+        	    
+            sp.Command.AddParameter("@MachineName", MachineName,DbType.String);
+        	    
+            sp.Command.AddParameter("@RequestUrl", RequestUrl,DbType.String);
+        	    
+            sp.Command.AddParameter("@ExceptionType", ExceptionType,DbType.String);
+        	    
+            sp.Command.AddParameter("@Details", Details,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Personalization_GetApplicationId Procedure
+        /// </summary>
+        public static StoredProcedure PersonalizationGetApplicationId(string ApplicationName, Guid? ApplicationId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Personalization_GetApplicationId" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddOutputParameter("@ApplicationId",DbType.Guid);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Profile_GetProfiles Procedure
+        /// </summary>
+        public static StoredProcedure ProfileGetProfiles(string ApplicationName, int? ProfileAuthOptions, int? PageIndex, int? PageSize, string UserNameToMatch, DateTime? InactiveSinceDate)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Profile_GetProfiles" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@ProfileAuthOptions", ProfileAuthOptions,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@UserNameToMatch", UserNameToMatch,DbType.String);
+        	    
+            sp.Command.AddParameter("@InactiveSinceDate", InactiveSinceDate,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Membership_FindUsersByNameOrEmail Procedure
+        /// </summary>
+        public static StoredProcedure MembershipFindUsersByNameOrEmail(string ApplicationName, string UserNameToMatch, string EmailToMatch, int? PageIndex, int? PageSize, int? TotalCount)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_FindUsersByNameOrEmail" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@UserNameToMatch", UserNameToMatch,DbType.String);
+        	    
+            sp.Command.AddParameter("@EmailToMatch", EmailToMatch,DbType.String);
+        	    
+            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
+        	    
+            sp.Command.AddOutputParameter("@TotalCount",DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Membership_GetAllUsers Procedure
+        /// </summary>
+        public static StoredProcedure MembershipGetAllUsers(string ApplicationName, int? PageIndex, int? PageSize, int? TotalCount)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_GetAllUsers" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
+        	    
+            sp.Command.AddOutputParameter("@TotalCount",DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Users_DeleteUser Procedure
+        /// </summary>
+        public static StoredProcedure UsersDeleteUser(string UserName, int? TablesToDeleteFrom, int? NumTablesDeletedFrom)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Users_DeleteUser" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@TablesToDeleteFrom", TablesToDeleteFrom,DbType.Int32);
+        	    
+            sp.Command.AddOutputParameter("@NumTablesDeletedFrom",DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Applications_CreateApplication Procedure
+        /// </summary>
+        public static StoredProcedure ApplicationsCreateApplication(string ApplicationName, Guid? ApplicationId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Applications_CreateApplication" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddOutputParameter("@ApplicationId",DbType.Guid);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_AnyDataInTables Procedure
+        /// </summary>
+        public static StoredProcedure AnyDataInTables(int? TablesToCheck)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_AnyDataInTables" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@TablesToCheck", TablesToCheck,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_PersonalizationAllUsers_SetPageSettings Procedure
+        /// </summary>
+        public static StoredProcedure PersonalizationAllUsersSetPageSettings(string ApplicationName, string Path, byte[] PageSettings, DateTime? CurrentTimeUtc)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAllUsers_SetPageSettings" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@Path", Path,DbType.String);
+        	    
+            sp.Command.AddParameter("@PageSettings", PageSettings,DbType.Binary);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Roles_CreateRole Procedure
+        /// </summary>
+        public static StoredProcedure RolesCreateRole(string ApplicationName, string RoleName)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Roles_CreateRole" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@RoleName", RoleName,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Profile_SetProperties Procedure
+        /// </summary>
+        public static StoredProcedure ProfileSetProperties(string ApplicationName, string PropertyNames, string PropertyValuesString, byte[] PropertyValuesBinary, string UserName, bool? IsUserAnonymous, DateTime? CurrentTimeUtc)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Profile_SetProperties" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@PropertyNames", PropertyNames,DbType.String);
+        	    
+            sp.Command.AddParameter("@PropertyValuesString", PropertyValuesString,DbType.String);
+        	    
+            sp.Command.AddParameter("@PropertyValuesBinary", PropertyValuesBinary,DbType.Binary);
+        	    
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@IsUserAnonymous", IsUserAnonymous,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Membership_CreateUser Procedure
+        /// </summary>
+        public static StoredProcedure MembershipCreateUser(string UserName, string Password, string PasswordSalt, string Email, string PasswordQuestion, string PasswordAnswer, bool? IsApproved, DateTime? CurrentTimeUtc, DateTime? CreateDate, bool? UniqueEmail, int? PasswordFormat, Guid? UserId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Membership_CreateUser" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@Password", Password,DbType.String);
+        	    
+            sp.Command.AddParameter("@PasswordSalt", PasswordSalt,DbType.String);
+        	    
+            sp.Command.AddParameter("@Email", Email,DbType.String);
+        	    
+            sp.Command.AddParameter("@PasswordQuestion", PasswordQuestion,DbType.String);
+        	    
+            sp.Command.AddParameter("@PasswordAnswer", PasswordAnswer,DbType.String);
+        	    
+            sp.Command.AddParameter("@IsApproved", IsApproved,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@CreateDate", CreateDate,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@UniqueEmail", UniqueEmail,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@PasswordFormat", PasswordFormat,DbType.Int32);
+        	    
+            sp.Command.AddOutputParameter("@UserId",DbType.Guid);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_PersonalizationPerUser_SetPageSettings Procedure
+        /// </summary>
+        public static StoredProcedure PersonalizationPerUserSetPageSettings(string ApplicationName, string UserName, string Path, byte[] PageSettings, DateTime? CurrentTimeUtc)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationPerUser_SetPageSettings" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@Path", Path,DbType.String);
+        	    
+            sp.Command.AddParameter("@PageSettings", PageSettings,DbType.Binary);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_Profile_DeleteProfiles Procedure
+        /// </summary>
+        public static StoredProcedure ProfileDeleteProfiles(string UserNames)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_Profile_DeleteProfiles" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@UserNames", UserNames,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetBlogById Procedure
+        /// </summary>
+        public static StoredProcedure GetBlogById(int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetBlogById" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_PersonalizationAllUsers_GetPageSettings Procedure
+        /// </summary>
+        public static StoredProcedure PersonalizationAllUsersGetPageSettings(string ApplicationName, string Path)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAllUsers_GetPageSettings" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@Path", Path,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_UpdateFeedbackStats Procedure
+        /// </summary>
+        public static StoredProcedure UpdateFeedbackStats(int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UpdateFeedbackStats" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_PersonalizationAllUsers_ResetPageSettings Procedure
+        /// </summary>
+        public static StoredProcedure PersonalizationAllUsersResetPageSettings(string ApplicationName, string Path)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAllUsers_ResetPageSettings" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@Path", Path,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_UpdateBlogStats Procedure
+        /// </summary>
+        public static StoredProcedure UpdateBlogStats(int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UpdateBlogStats" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_PersonalizationPerUser_GetPageSettings Procedure
+        /// </summary>
+        public static StoredProcedure PersonalizationPerUserGetPageSettings(string ApplicationName, string UserName, string Path, DateTime? CurrentTimeUtc)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationPerUser_GetPageSettings" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@Path", Path,DbType.String);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_UpdateFeedbackCount Procedure
+        /// </summary>
+        public static StoredProcedure UpdateFeedbackCount(int? BlogId, int? EntryId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UpdateFeedbackCount" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@EntryId", EntryId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_PersonalizationPerUser_ResetPageSettings Procedure
+        /// </summary>
+        public static StoredProcedure PersonalizationPerUserResetPageSettings(string ApplicationName, string UserName, string Path, DateTime? CurrentTimeUtc)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationPerUser_ResetPageSettings" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@Path", Path,DbType.String);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_DeleteCategory Procedure
+        /// </summary>
+        public static StoredProcedure DeleteCategory(int? CategoryID, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteCategory" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_PersonalizationAdministration_DeleteAllState Procedure
+        /// </summary>
+        public static StoredProcedure PersonalizationAdministrationDeleteAllState(bool? AllUsersScope, string ApplicationName, int? Count)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAdministration_DeleteAllState" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@AllUsersScope", AllUsersScope,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddOutputParameter("@Count",DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_DeleteImage Procedure
+        /// </summary>
+        public static StoredProcedure DeleteImage(int? BlogId, int? ImageID)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteImage" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@ImageID", ImageID,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_PersonalizationAdministration_ResetSharedState Procedure
+        /// </summary>
+        public static StoredProcedure PersonalizationAdministrationResetSharedState(int? Count, string ApplicationName, string Path)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAdministration_ResetSharedState" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddOutputParameter("@Count",DbType.Int32);
+        	    
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@Path", Path,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_DeleteImageCategory Procedure
+        /// </summary>
+        public static StoredProcedure DeleteImageCategory(int? CategoryID, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteImageCategory" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_PersonalizationAdministration_ResetUserState Procedure
+        /// </summary>
+        public static StoredProcedure PersonalizationAdministrationResetUserState(int? Count, string ApplicationName, DateTime? InactiveSinceDate, string UserName, string Path)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAdministration_ResetUserState" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddOutputParameter("@Count",DbType.Int32);
+        	    
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@InactiveSinceDate", InactiveSinceDate,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@Path", Path,DbType.String);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_DeleteKeyWord Procedure
+        /// </summary>
+        public static StoredProcedure DeleteKeyWord(int? KeyWordID, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteKeyWord" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@KeyWordID", KeyWordID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_PersonalizationAdministration_GetCountOfState Procedure
+        /// </summary>
+        public static StoredProcedure PersonalizationAdministrationGetCountOfState(int? Count, bool? AllUsersScope, string ApplicationName, string Path, string UserName, DateTime? InactiveSinceDate)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAdministration_GetCountOfState" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddOutputParameter("@Count",DbType.Int32);
+        	    
+            sp.Command.AddParameter("@AllUsersScope", AllUsersScope,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@Path", Path,DbType.String);
+        	    
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@InactiveSinceDate", InactiveSinceDate,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_DeleteLink Procedure
+        /// </summary>
+        public static StoredProcedure DeleteLink(int? LinkID, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteLink" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@LinkID", LinkID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_PersonalizationAdministration_FindState Procedure
+        /// </summary>
+        public static StoredProcedure PersonalizationAdministrationFindState(bool? AllUsersScope, string ApplicationName, int? PageIndex, int? PageSize, string Path, string UserName, DateTime? InactiveSinceDate)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_PersonalizationAdministration_FindState" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@AllUsersScope", AllUsersScope,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@ApplicationName", ApplicationName,DbType.String);
+        	    
+            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@Path", Path,DbType.String);
+        	    
+            sp.Command.AddParameter("@UserName", UserName,DbType.String);
+        	    
+            sp.Command.AddParameter("@InactiveSinceDate", InactiveSinceDate,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_DeleteLinksByPostID Procedure
+        /// </summary>
+        public static StoredProcedure DeleteLinksByPostID(int? PostID, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteLinksByPostID" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@PostID", PostID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetFeedbackCountsByStatus Procedure
+        /// </summary>
+        public static StoredProcedure GetFeedbackCountsByStatus(int? BlogId, int? ApprovedCount, int? NeedsModerationCount, int? FlaggedSpam, int? Deleted)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetFeedbackCountsByStatus" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddOutputParameter("@ApprovedCount",DbType.Int32);
+        	    
+            sp.Command.AddOutputParameter("@NeedsModerationCount",DbType.Int32);
+        	    
+            sp.Command.AddOutputParameter("@FlaggedSpam",DbType.Int32);
+        	    
+            sp.Command.AddOutputParameter("@Deleted",DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_DeleteFeedback Procedure
+        /// </summary>
+        public static StoredProcedure DeleteFeedback(int? Id)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteFeedback" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@Id", Id,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetHost Procedure
+        /// </summary>
+        public static StoredProcedure GetHost()
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetHost" , DataService.GetInstance("Subtext"));
+        	
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_DeleteFeedbackByStatus Procedure
+        /// </summary>
+        public static StoredProcedure DeleteFeedbackByStatus(int? BlogId, int? StatusFlag)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeleteFeedbackByStatus" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@StatusFlag", StatusFlag,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_DeletePost Procedure
+        /// </summary>
+        public static StoredProcedure DeletePost(int? ID)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_DeletePost" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ID", ID,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetActiveCategoriesWithLinkCollection Procedure
+        /// </summary>
+        public static StoredProcedure GetActiveCategoriesWithLinkCollection(int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetActiveCategoriesWithLinkCollection" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetCategory Procedure
+        /// </summary>
+        public static StoredProcedure GetCategory(string CategoryName, int? CategoryID, bool? IsActive, int? BlogId, short? CategoryType)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetCategory" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@CategoryName", CategoryName,DbType.String);
+        	    
+            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@CategoryType", CategoryType,DbType.Int16);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_UTILITY_AddBlog Procedure
+        /// </summary>
+        public static StoredProcedure UTILITYAddBlog(string Title, string Host, string Subfolder, Guid? OwnerID, DateTime? CurrentTimeUtc)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UTILITY_AddBlog" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@Title", Title,DbType.String);
+        	    
+            sp.Command.AddParameter("@Host", Host,DbType.String);
+        	    
+            sp.Command.AddParameter("@Subfolder", Subfolder,DbType.String);
+        	    
+            sp.Command.AddParameter("@OwnerID", OwnerID,DbType.Guid);
+        	    
+            sp.Command.AddParameter("@CurrentTimeUtc", CurrentTimeUtc,DbType.DateTime);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetConditionalEntries Procedure
+        /// </summary>
+        public static StoredProcedure GetConditionalEntries(int? ItemCount, int? PostType, int? PostConfig, int? BlogId, bool? IncludeCategories)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetConditionalEntries" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ItemCount", ItemCount,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PostType", PostType,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PostConfig", PostConfig,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@IncludeCategories", IncludeCategories,DbType.Boolean);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_CreateHost Procedure
+        /// </summary>
+        public static StoredProcedure CreateHost(Guid? OwnerId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_CreateHost" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@OwnerId", OwnerId,DbType.Guid);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetBlog Procedure
+        /// </summary>
+        public static StoredProcedure GetBlog(string Host, string Subfolder, bool? Strict)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetBlog" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@Host", Host,DbType.String);
+        	    
+            sp.Command.AddParameter("@Subfolder", Subfolder,DbType.String);
+        	    
+            sp.Command.AddParameter("@Strict", Strict,DbType.Boolean);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_InsertMetaTag Procedure
+        /// </summary>
+        public static StoredProcedure InsertMetaTag(string Content, string Name, string HttpEquiv, int? BlogId, int? EntryId, DateTime? DateCreated, int? Id)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_InsertMetaTag" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@Content", Content,DbType.String);
+        	    
+            sp.Command.AddParameter("@Name", Name,DbType.String);
+        	    
+            sp.Command.AddParameter("@HttpEquiv", HttpEquiv,DbType.String);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@EntryId", EntryId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@DateCreated", DateCreated,DbType.DateTime);
+        	    
+            sp.Command.AddOutputParameter("@Id",DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetEntriesByDayRange Procedure
+        /// </summary>
+        public static StoredProcedure GetEntriesByDayRange(DateTime? StartDate, DateTime? StopDate, int? PostType, bool? IsActive, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetEntriesByDayRange" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@StartDate", StartDate,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@StopDate", StopDate,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@PostType", PostType,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_UpdateMetaTag Procedure
+        /// </summary>
+        public static StoredProcedure UpdateMetaTag(int? Id, string Content, string Name, string HttpEquiv, int? BlogId, int? EntryId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_UpdateMetaTag" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@Id", Id,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@Content", Content,DbType.String);
+        	    
+            sp.Command.AddParameter("@Name", Name,DbType.String);
+        	    
+            sp.Command.AddParameter("@HttpEquiv", HttpEquiv,DbType.String);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@EntryId", EntryId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetFeedbackCollection Procedure
+        /// </summary>
+        public static StoredProcedure GetFeedbackCollection(int? EntryId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetFeedbackCollection" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@EntryId", EntryId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetMetaTagsForBlog Procedure
+        /// </summary>
+        public static StoredProcedure GetMetaTagsForBlog(int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetMetaTagsForBlog" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetFeedback Procedure
+        /// </summary>
+        public static StoredProcedure GetFeedback(int? Id)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetFeedback" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@Id", Id,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetMetaTagsForEntry Procedure
+        /// </summary>
+        public static StoredProcedure GetMetaTagsForEntry(int? BlogId, int? EntryId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetMetaTagsForEntry" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@EntryId", EntryId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetImageCategory Procedure
+        /// </summary>
+        public static StoredProcedure GetImageCategory(int? CategoryID, bool? IsActive, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetImageCategory" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetKeyWord Procedure
+        /// </summary>
+        public static StoredProcedure GetKeyWord(int? KeyWordID, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetKeyWord" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@KeyWordID", KeyWordID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetLinkCollectionByPostID Procedure
+        /// </summary>
+        public static StoredProcedure GetLinkCollectionByPostID(int? PostID, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetLinkCollectionByPostID" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@PostID", PostID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetLinksByCategoryID Procedure
+        /// </summary>
+        public static StoredProcedure GetLinksByCategoryID(int? CategoryID, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetLinksByCategoryID" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPageableEntries Procedure
+        /// </summary>
+        public static StoredProcedure GetPageableEntries(int? BlogId, int? PageIndex, int? PageSize, int? PostType)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableEntries" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PostType", PostType,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPageableEntriesByCategoryID Procedure
+        /// </summary>
+        public static StoredProcedure GetPageableEntriesByCategoryID(int? BlogId, int? CategoryID, int? PageIndex, int? PageSize, int? PostType)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableEntriesByCategoryID" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PostType", PostType,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPageableFeedback Procedure
+        /// </summary>
+        public static StoredProcedure GetPageableFeedback(int? BlogId, int? PageIndex, int? PageSize, int? StatusFlag, int? ExcludeFeedbackStatusMask, int? FeedbackType)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableFeedback" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@StatusFlag", StatusFlag,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@ExcludeFeedbackStatusMask", ExcludeFeedbackStatusMask,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@FeedbackType", FeedbackType,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPageableLogEntries Procedure
+        /// </summary>
+        public static StoredProcedure GetPageableLogEntries(int? BlogId, int? PageIndex, int? PageSize)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableLogEntries" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPageableKeyWords Procedure
+        /// </summary>
+        public static StoredProcedure GetPageableKeyWords(int? BlogId, int? PageIndex, int? PageSize)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableKeyWords" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPageableLinks Procedure
+        /// </summary>
+        public static StoredProcedure GetPageableLinks(int? BlogId, int? CategoryId, int? PageIndex, int? PageSize)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableLinks" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@CategoryId", CategoryId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPageableLinksByCategoryID Procedure
+        /// </summary>
+        public static StoredProcedure GetPageableLinksByCategoryID(int? BlogId, int? CategoryID, int? PageIndex, int? PageSize, bool? SortDesc)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableLinksByCategoryID" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@SortDesc", SortDesc,DbType.Boolean);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPageableReferrers Procedure
+        /// </summary>
+        public static StoredProcedure GetPageableReferrers(int? BlogId, int? EntryID, int? PageIndex, int? PageSize)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPageableReferrers" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@EntryID", EntryID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageIndex", PageIndex,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@PageSize", PageSize,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPostsByCategoryID Procedure
+        /// </summary>
+        public static StoredProcedure GetPostsByCategoryID(int? ItemCount, int? CategoryID, bool? IsActive, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPostsByCategoryID" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ItemCount", ItemCount,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@CategoryID", CategoryID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPostsByDayRange Procedure
+        /// </summary>
+        public static StoredProcedure GetPostsByDayRange(DateTime? StartDate, DateTime? StopDate, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPostsByDayRange" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@StartDate", StartDate,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@StopDate", StopDate,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPostsByMonth Procedure
+        /// </summary>
+        public static StoredProcedure GetPostsByMonth(int? Month, int? Year, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPostsByMonth" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@Month", Month,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@Year", Year,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPostsByMonthArchive Procedure
+        /// </summary>
+        public static StoredProcedure GetPostsByMonthArchive(int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPostsByMonthArchive" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetPostsByYearArchive Procedure
+        /// </summary>
+        public static StoredProcedure GetPostsByYearArchive(int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetPostsByYearArchive" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetSingleDay Procedure
+        /// </summary>
+        public static StoredProcedure GetSingleDay(DateTime? Date, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetSingleDay" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@Date", Date,DbType.DateTime);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetSingleEntry Procedure
+        /// </summary>
+        public static StoredProcedure GetSingleEntry(int? ID, string EntryName, bool? IsActive, int? BlogId, bool? IncludeCategories)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetSingleEntry" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ID", ID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@EntryName", EntryName,DbType.String);
+        	    
+            sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@IncludeCategories", IncludeCategories,DbType.Boolean);
+        	    
+            return sp;
+        }
+
+        
+        /// <summary>
+        /// Creates an object wrapper for the subtext_GetSingleImage Procedure
+        /// </summary>
+        public static StoredProcedure GetSingleImage(int? ImageID, bool? IsActive, int? BlogId)
+        {
+            SubSonic.StoredProcedure sp = new SubSonic.StoredProcedure("subtext_GetSingleImage" , DataService.GetInstance("Subtext"));
+        	
+            sp.Command.AddParameter("@ImageID", ImageID,DbType.Int32);
+        	    
+            sp.Command.AddParameter("@IsActive", IsActive,DbType.Boolean);
+        	    
+            sp.Command.AddParameter("@BlogId", BlogId,DbType.Int32);
         	    
             return sp;
         }

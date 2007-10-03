@@ -14,12 +14,14 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
+using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Framework.UI.Skinning;
@@ -94,7 +96,7 @@ namespace Subtext.Web.UI.Pages
                     else if (controlId.Equals("PostComment.ascx"))
                     {
                     	postCommentControl = (PostComment)control;
-						postCommentControl.CommentApproved += new EventHandler<EventArgs>(postCommentControl_CommentPosted);
+						postCommentControl.CommentApproved += postCommentControl_CommentPosted;
                         apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
                         CenterBodyControl.Controls.Add(apnlCommentsWrapper);
                     }
@@ -153,6 +155,21 @@ namespace Subtext.Web.UI.Pages
 			{
 				styles.Text = styleRenderer.RenderStyleElementCollection(Config.CurrentBlog.Skin.SkinKey);
 			}
+
+            // Add the per-blog MetaTags to the page Head section.
+            ICollection<MetaTag> blogMetaTags = MetaTags.GetMetaTagsForBlog(Config.CurrentBlog);
+            foreach (MetaTag tag in blogMetaTags)
+            {
+                HtmlMeta mt = new HtmlMeta();
+                mt.Content = tag.Content;
+
+                if (!string.IsNullOrEmpty(tag.Name))
+                    mt.Name = tag.Name;
+                else
+                    mt.HttpEquiv = tag.HttpEquiv;
+
+                Page.Header.Controls.Add(mt);
+            }
 		}
 
 		void postCommentControl_CommentPosted(object sender, EventArgs e)
@@ -389,7 +406,7 @@ namespace Subtext.Web.UI.Pages
 						result.Append(RenderStyleElement(skinPath, style));
 					}
 				}
-				return Environment.NewLine + result.ToString() + Environment.NewLine;
+				return Environment.NewLine + result + Environment.NewLine;
 			}
 		}
 
@@ -418,5 +435,3 @@ namespace Subtext.Web.UI.Pages
 		}
 	}
 }
-
-

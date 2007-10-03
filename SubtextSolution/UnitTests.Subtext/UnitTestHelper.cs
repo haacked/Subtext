@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
@@ -36,6 +37,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Security;
+using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.TestLibrary;
 
@@ -875,5 +877,46 @@ namespace UnitTests.Subtext
             // NOTE- is this OK?
 	        return Config.CurrentBlog;
 	    }
+
+	    public static MetaTag BuildMetaTag(string content, string name, string httpEquiv, int blogId, int? entryId, DateTime created)
+	    {
+	        MetaTag mt = new MetaTag();
+	        mt.Name = name;
+	        mt.HttpEquiv = httpEquiv;
+	        mt.Content = content;
+	        mt.BlogId = blogId;
+
+	        if (entryId.HasValue)
+	            mt.EntryId = entryId.Value;
+
+	        mt.DateCreated = created;
+
+	        return mt;
+	    }
+
+        public static IList<MetaTag> BuildMetaTagsFor(BlogInfo blog, Entry entry, int numberOfTags)
+        {
+            List<MetaTag> tags = new List<MetaTag>(numberOfTags);
+
+            int? entryId = null;
+            if (entry != null)
+                entryId = entry.Id;
+            
+            for (int i = 0; i < numberOfTags; i++)
+            {
+                MetaTag aTag = BuildMetaTag(
+                    StringHelper.Left(GenerateRandomString(), 50),
+                    // if even, make a name attribute, else http-equiv
+                    (i%2 == 0) ? StringHelper.Left(GenerateRandomString(), 25) : null,
+                    (i%2 == 1) ? StringHelper.Left(GenerateRandomString(), 25) : null,
+                    blog.Id,
+                    entryId,
+                    DateTime.Now);
+
+                tags.Add(aTag);
+            }
+
+            return tags;
+        }
 	}
 }

@@ -642,6 +642,16 @@ drop procedure [<dbUser,varchar,dbo>].[subtext_GetTopTags]
 GO
 
 if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
+	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_InsertMetaTag')
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertMetaTag]
+GO
+
+if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
+	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_UpdateMetaTag')
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateMetaTag]
+GO
+
+if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
 	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_GetMetaTagsForBlog')
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetMetaTagsForBlog]
 GO
@@ -2733,7 +2743,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetUrlID]
 (
 	@Url nvarchar(255)
-	, @UrlID int output
+	, @UrlID int OUTPUT
 )
 AS
 IF EXISTS(SELECT UrlID FROM [<dbUser,varchar,dbo>].[subtext_Urls] WHERE Url = @Url AND Url != '')
@@ -2769,7 +2779,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertCategory]
 	, @BlogId int
 	, @CategoryType tinyint
 	, @Description nvarchar(1000)
-	, @CategoryID int output
+	, @CategoryID int OUTPUT
 )
 AS
 Set NoCount ON
@@ -2875,7 +2885,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertImage]
 	@File nvarchar(50),
 	@Active bit,
 	@BlogId int,
-	@ImageID int output
+	@ImageID int OUTPUT
 )
 AS
 Insert subtext_Images
@@ -2913,12 +2923,12 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertKeyWord]
 	@Url nvarchar(255),
 	@Title nvarchar(100),
 	@BlogId int,
-	@KeyWordID int output
+	@KeyWordID int OUTPUT
 )
 
 AS
 
-Insert subtext_keywords 
+Insert [<dbUser,varchar,dbo>].[subtext_KeyWords]
 	(Word,Rel,[Text],ReplaceFirstTimeOnly,OpenInNewWindow, CaseSensitive,Url,Title,BlogId)
 Values
 	(@Word,@Rel,@Text,@ReplaceFirstTimeOnly,@OpenInNewWindow, @CaseSensitive,@Url,@Title,@BlogId)
@@ -2950,7 +2960,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertLink]
 	@CategoryID int,
 	@PostID int = NULL,
 	@BlogId int,
-	@LinkID int output
+	@LinkID int OUTPUT
 )
 AS
 
@@ -3029,7 +3039,7 @@ DECLARE @UrlID int
 
 if(@Url is not NULL)
 BEGIN
-	EXEC [<dbUser,varchar,dbo>].[subtext_GetUrlID] @Url, @UrlID = @UrlID output
+	EXEC [<dbUser,varchar,dbo>].[subtext_GetUrlID] @Url, @UrlID = @UrlID OUTPUT
 END
 
 if(@UrlID is not NULL)
@@ -3062,6 +3072,48 @@ GO
 SET ANSI_NULLS ON 
 GO
 
+
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertViewStats]
+(
+	@BlogId int,
+	@PageType tinyint,
+	@PostID int,
+	@Day datetime,
+	@Url nvarchar(255)
+)
+AS
+
+DECLARE @UrlID int
+
+if(@Url is not NULL)
+BEGIN
+	EXEC [<dbUser,varchar,dbo>].[subtext_GetUrlID] @Url, @UrlID = @UrlID OUTPUT
+END
+if(@UrlID is NULL)
+	set @UrlID = NULL
+
+
+IF EXISTS (SELECT BlogId FROM [<dbUser,varchar,dbo>].[subtext_ViewStats] WHERE BlogId = @BlogId AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID AND NOT @UrlID IS NULL)
+BEGIN
+	UPDATE [<dbUser,varchar,dbo>].[subtext_ViewStats]
+	Set [Count] = [Count] + 1
+	WHERE BlogId = @BlogId AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID
+END
+Else
+BEGIN
+	Insert subtext_ViewStats (BlogId, PageType, PostID, [Day], UrlID, [Count])
+	Values (@BlogId, @PageType, @PostID, @Day, @UrlID, 1)
+END
+
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertViewStats]  TO [public]
+GO
 
 SET QUOTED_IDENTIFIER ON 
 GO
@@ -3584,7 +3636,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertFeedback]
 	, @FeedbackChecksumHash varchar(32)
 	, @DateCreated datetime
 	, @DateModified datetime = NULL
-	, @Id int output	
+	, @Id int OUTPUT	
 )
 AS
 
@@ -3708,7 +3760,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertEntry]
 	, @PostConfig int
 	, @EntryName nvarchar(150) = NULL
 	, @DateSyndicated DateTime = NULL
-	, @ID int output
+	, @ID int OUTPUT
 )
 AS
 
@@ -8394,12 +8446,84 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertMetaTag] 
+	(
+		@Content nvarchar(512),
+		@Name nvarchar(100) = NULL,
+		@HttpEquiv nvarchar(100) = NULL,
+		@BlogId int,
+		@EntryId int = NULL,
+		@DateCreated datetime = NULL,
+		@Id int OUTPUT
+	)
+AS
+	IF @DateCreated IS NULL 
+		SET @DateCreated = getdate()
+		
+	IF LEN(@Name) = 0
+		SET @Name = NULL
+	IF LEN(@HttpEquiv) = 0
+		SET @HttpEquiv = NULL
+
+	INSERT INTO [<dbUser,varchar,dbo>].subtext_MetaTag
+		([Content], [Name], HttpEquiv, BlogId, EntryId, DateCreated)
+	VALUES
+		(@Content, @Name, @HttpEquiv, @BlogId, @EntryId, @DateCreated)
+
+	SELECT @Id = SCOPE_IDENTITY()
+
+GO 
+
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_InsertMetaTag] TO [public]
+GO
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateMetaTag] 
+	(
+		@Id int,
+		@Content nvarchar(512),
+		@Name nvarchar(100) = NULL,
+		@HttpEquiv nvarchar(100) = NULL,
+		@BlogId int,
+		@EntryId int = NULL
+	)
+AS
+		
+	IF LEN(RTRIM(LTRIM(@Name))) = 0
+		SET @Name = NULL
+	IF LEN(RTRIM(LTRIM(@HttpEquiv))) = 0
+		SET @HttpEquiv = NULL
+
+	UPDATE [<dbUser,varchar,dbo>].subtext_MetaTag
+	SET
+		[Content] = @Content,
+		[Name] = @Name,
+		HttpEquiv = @HttpEquiv,
+		BlogId = @BlogId,
+		EntryId = @EntryId
+	WHERE
+		[Id] = @Id
+
+GO
+
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_UpdateMetaTag] TO [public]
+GO
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetMetaTagsForBlog] 
 	(
 		@BlogId int
 	)
 AS
-	SELECT Id, Content, [Name], HttpEquiv, DateCreated FROM [<dbUser,varchar,dbo>].subtext_MetaTag
+	SELECT Id, [Content], [Name], HttpEquiv, BlogId, EntryId, DateCreated FROM [<dbUser,varchar,dbo>].subtext_MetaTag
 	WHERE BlogId = @BlogId
 	ORDER BY DateCreated DESC
 GO 
@@ -8418,7 +8542,7 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetMetaTagsForEntry]
 		@EntryId int
 	)
 AS
-	SELECT Id, Content, [Name], HttpEquiv, DateCreated FROM [<dbUser,varchar,dbo>].subtext_MetaTag
+	SELECT Id, [Content], [Name], HttpEquiv, BlogId, EntryId, DateCreated FROM [<dbUser,varchar,dbo>].subtext_MetaTag
 	WHERE BlogId = @BlogId
 		AND EntryId = @EntryId
 	ORDER BY DateCreated DESC

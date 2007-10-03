@@ -32,6 +32,8 @@
 		<property name="ndepend.dir" value="${buildtools.dir}\NDepend" />
 		<property name="ndepend.exe" value="${ndepend.dir}\NDepend.Console.exe" />
 		<property name="ndepend.config" value="${ndepend.dir}\NDependProject.xml" />
+		<property name="YUICompressor.dir" value="${buildtools.dir}\YUICompressor" />
+		<property name="YUICompressor.jar" value="yuicompressor.jar" />
 		<property name="subtext.web.bin" value="${solution.dir}\Subtext.Web\bin" />
 		<property name="codemetrics.output.dir" value="${CCNetWorkingDirectory}\NDependTemp" />
 
@@ -198,8 +200,32 @@
 				<include name="**/*" />
 			</fileset>
 		</attrib>
+		
+		<call target="javascript.minify" />
 	</target>
 
+	<target name="javascript.minify" depends="get-publishing-properties">
+		<foreach item="File" property="filename">
+			<in>
+				<items basedir="${publish.dir.latest}">
+					<include name="Skins/**/*.js" />
+					<include name="Scripts/**/*.js" />
+				</items>
+			</in>
+			<do>
+				<echo message="${filename}" />
+				<exec program="java" workingdir="${YUICompressor.dir}">
+					<arg value="-jar" />
+					<arg value="${YUICompressor.jar}" />
+					<arg value="-o" />
+					<arg value="${filename}.min" />
+					<arg value="${filename}" />
+				</exec>
+				<move file="${filename}.min" tofile="${filename}" overwrite="true" />
+			</do>
+		</foreach>
+	</target>
+	
 	<target name="dist.archive" depends="dist.publish.latest">
 		<mkdir dir="${publish.dir.archive}" />
 		<zip zipfile="${publish.dir.archive}\${fileLabel}.zip">
