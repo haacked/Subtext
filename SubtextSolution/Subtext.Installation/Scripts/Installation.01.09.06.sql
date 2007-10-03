@@ -3,6 +3,23 @@
 	Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
 */
 
+
+/* Drop an unused column */
+IF EXISTS 
+(
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+    WHERE   TABLE_NAME = 'subtext_Config' 
+    AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+    AND COLUMN_NAME = 'IsAggregated'
+)
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+	DROP CONSTRAINT [DF__subtext_Conf__IsAgg__61316BF4]
+	
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+		DROP COLUMN [IsAggregated]
+END
+
 /* add some missing Foreign Keys */
 
 IF NOT EXISTS

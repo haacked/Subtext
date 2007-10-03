@@ -783,7 +783,6 @@ SELECT	BlogId
 		, StoryCount
 		, PingTrackCount
 		, CommentCount
-		, IsAggregated
 		, Flag
 		, SkinCssFile 
 		, BlogGroup

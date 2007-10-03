@@ -47,7 +47,6 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 	, StoryCount
 	, PingTrackCount
 	, CommentCount
-	, IsAggregated
 	, Flag
 	, SkinCssFile
 	, BlogGroup
@@ -77,7 +76,6 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 		, StoryCount
 		, PingTrackCount
 		, CommentCount
-		, IsAggregated
 		, Flag
 		, SkinCssFile
 		, ISNULL(BlogGroup, 1)
