@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText">
 
 	<property name="nant.settings.currentframework" value="net-2.0"/>
@@ -118,14 +118,16 @@
 		Compiles Subtext and runs the MbUnit tests and NCover reports.
 	-->
 	<target name="testAndCover" depends="get-publishing-properties,compile-debug">
+		<mkdir dir="${log.dir}" />
+		
 		<ncover
-			commandLineExe="${mbunit.exe}"
+			commandLineExe="${MbUnit.exe}"
 			commandLineArgs="/rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll"
 			program="${ncover.exe}"
 			workingDirectory="UnitTests.Subtext\bin\${configuration}"
 			coverageFile="${log.dir}\ncover-temp.xml"
 		/>
-		
+
 		<call target="util.ncoverexplorer.nant" />
 	</target>
 
