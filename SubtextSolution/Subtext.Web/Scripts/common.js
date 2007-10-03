@@ -16,7 +16,7 @@ function addLoadEvent(func)
 		{
 			oldonload();
 			func();
-		}
+		};
 	}
 }
 
@@ -30,12 +30,13 @@ function addLoadEvent(func)
 String.prototype.trim = function()
 {
     return this.replace(/^\s+|\s+$/, "");
-}
+};
 
 // Define methods for the Array data structure.
 Array.prototype.indexOf = function(item, start) 
 { 
-	for (var i = (start || 0); i < this.length; i++) 
+  var i;
+	for (i = (start || 0); i < this.length; i++) 
 	{ 
 		if (this[i] == item) 
 		{ 
@@ -43,11 +44,12 @@ Array.prototype.indexOf = function(item, start)
 		} 
 	} 
 	return -1; 
-}
+};
 
 Array.prototype.remove = function(obj)
 { 
-	x = []; 
+	var x = [];
+	var i; 
 	for (i=0; i<this.length; i++)
 	{ 
 		if (this[i] != obj)
@@ -56,12 +58,13 @@ Array.prototype.remove = function(obj)
 		} 
 	} 
 	return x; 
-}
+};
 
 Array.prototype.replace = function(obj1, obj2)
 { 
 	var x = [];
 	var len = this.length;
+	var i;
 	for (i=0; i<len; i++)
 	{ 
 		if (this[i] == obj1)
@@ -74,7 +77,7 @@ Array.prototype.replace = function(obj1, obj2)
 		} 
 	} 
 	return x; 
-}
+};
 
 
 /* ===============================================
@@ -95,15 +98,20 @@ Array.prototype.replace = function(obj1, obj2)
  */ 
 function getElementsByClass(searchClass, node, tagName)
 {
-	var	classElements =	new	Array();
-	if (node == null)
-		node = document;
-	if (tagName ==	null)
-		tagName	= '*';
+	var	classElements =	[];
+	if (node === null)
+	{
+    node = document;
+  }
+	if (tagName ===	null) 
+	{
+    tagName	= '*';
+  }
 	
 	var	els	= node.getElementsByTagName(tagName);
 	var	elsLen = els.length;
 	
+	var i,j;
 	for	(i = 0,	j =	0; i < elsLen; i++)
 	{
 		if (hasClass(els[i], searchClass))
@@ -127,9 +135,13 @@ function getElementsByClass(searchClass, node, tagName)
 function getElement(e)
 {
 	if (typeof e ==	'string')
+	{
 		return document.getElementById(e);
+	}
 	else
+	{
 		return e;
+  }
 }
 
 /* ===============================================
@@ -199,14 +211,7 @@ function hideElement(element)
 */
 function blogInfo(virtualRoot, virtualBlogRoot)
 {
-	this.virtualRoot = virtualRoot;
-	this.virtualBlogRoot = virtualBlogRoot;
-	
-	this.getVirtualRoot = getVirtualRoot;
-	this.getVirtualBlogRoot = getVirtualBlogRoot;
-	this.getScriptsVirtualRoot = getScriptsVirtualRoot;
-	this.getImagesVirtualRoot = getImagesVirtualRoot;
-	
+
 	/*
 	Returns the virtual root for the entire website.
 	*/
@@ -238,4 +243,13 @@ function blogInfo(virtualRoot, virtualBlogRoot)
 	{
 		return this.virtualRoot + "Images/";
 	}
+
+	this.virtualRoot = virtualRoot;
+	this.virtualBlogRoot = virtualBlogRoot;
+	
+	this.getVirtualRoot = getVirtualRoot;
+	this.getVirtualBlogRoot = getVirtualBlogRoot;
+	this.getScriptsVirtualRoot = getScriptsVirtualRoot;
+	this.getImagesVirtualRoot = getImagesVirtualRoot;
+	
 }

@@ -75,7 +75,7 @@ var borderSize = 10;	//if you adjust the padding in the CSS, you will need to up
 //
 //	Global Variables
 //
-var imageArray = new Array;
+var imageArray = [];
 var activeImage;
 
 if(resizeSpeed > 10){ resizeSpeed = 10;}
@@ -132,7 +132,7 @@ Array.prototype.removeDuplicates = function () {
 			this.splice(i,1);
 		}
 	}
-}
+};
 
 // -----------------------------------------------------------------------------------
 
@@ -140,7 +140,7 @@ Array.prototype.empty = function () {
 	for(i = 0; i <= this.length; i++){
 		this.shift();
 	}
-}
+};
 
 // -----------------------------------------------------------------------------------
 
@@ -174,16 +174,19 @@ Lightbox.prototype = {
 	initialize: function() {	
 		if (!document.getElementsByTagName){ return; }
 		var anchors = document.getElementsByTagName('a');
-
+		
+		var anchor;
+		var relAttribute;
+		
 		// loop through all anchor tags
 		for (var i=0; i<anchors.length; i++){
-			var anchor = anchors[i];
+			anchor = anchors[i];
 			
-			var relAttribute = String(anchor.getAttribute('rel'));
+			relAttribute = String(anchor.getAttribute('rel'));
 			
 			// use the string.match() method to catch 'lightbox' references in the rel attribute
 			if (anchor.getAttribute('href') && (relAttribute.toLowerCase().match('lightbox'))){
-				anchor.onclick = function () {myLightbox.start(this); return false;}
+				anchor.onclick = function () {myLightbox.start(this); return false;};
 			}
 		}
 
@@ -226,7 +229,7 @@ Lightbox.prototype = {
 		var objOverlay = document.createElement("div");
 		objOverlay.setAttribute('id','overlay');
 		objOverlay.style.display = 'none';
-		objOverlay.onclick = function() { myLightbox.end(); return false; }
+		objOverlay.onclick = function() { myLightbox.end(); return false; };
 		objBody.appendChild(objOverlay);
 		
 		var objLightbox = document.createElement("div");
@@ -267,7 +270,7 @@ Lightbox.prototype = {
 		var objLoadingLink = document.createElement("a");
 		objLoadingLink.setAttribute('id','loadingLink');
 		objLoadingLink.setAttribute('href','#');
-		objLoadingLink.onclick = function() { myLightbox.end(); return false; }
+		objLoadingLink.onclick = function() { myLightbox.end(); return false; };
 		objLoading.appendChild(objLoadingLink);
 	
 		var objLoadingImage = document.createElement("img");
@@ -302,7 +305,7 @@ Lightbox.prototype = {
 		var objBottomNavCloseLink = document.createElement("a");
 		objBottomNavCloseLink.setAttribute('id','bottomNavClose');
 		objBottomNavCloseLink.setAttribute('href','#');
-		objBottomNavCloseLink.onclick = function() { myLightbox.end(); return false; }
+		objBottomNavCloseLink.onclick = function() { myLightbox.end(); return false; };
 		objBottomNav.appendChild(objBottomNavCloseLink);
 	
 		var objBottomNavCloseImage = document.createElement("img");
@@ -321,7 +324,7 @@ Lightbox.prototype = {
 		// stretch overlay to fill page and fade in
 		var arrayPageSize = getPageSize();
 		Element.setHeight('overlay', arrayPageSize[1]);
-		new Effect.Appear('overlay', { duration: 0.2, from: 0.0, to: 0.8 });
+		var foo = new Effect.Appear('overlay', { duration: 0.2, from: 0.0, to: 0.8 });
 
 		imageArray = [];
 		imageNum = 0;		
@@ -381,7 +384,7 @@ Lightbox.prototype = {
 		imgPreloader.onload=function(){
 			Element.setSrc('lightboxImage', imageArray[activeImage][0]);
 			myLightbox.resizeImageContainer(imgPreloader.width, imgPreloader.height);
-		}
+		};
 		imgPreloader.src = imageArray[activeImage][0];
 	},
 
@@ -402,12 +405,12 @@ Lightbox.prototype = {
 		wDiff = (this.wCur - borderSize * 2) - imgWidth;
 		hDiff = (this.hCur - borderSize * 2) - imgHeight;
 
-		if(!( hDiff == 0)){ new Effect.Scale('outerImageContainer', this.yScale, {scaleX: false, duration: resizeDuration, queue: 'front'}); }
-		if(!( wDiff == 0)){ new Effect.Scale('outerImageContainer', this.xScale, {scaleY: false, delay: resizeDuration, duration: resizeDuration}); }
+		if(!( hDiff === 0)){ var foo = new Effect.Scale('outerImageContainer', this.yScale, {scaleX: false, duration: resizeDuration, queue: 'front'}); }
+		if(!( wDiff === 0)){ var bar = new Effect.Scale('outerImageContainer', this.xScale, {scaleY: false, delay: resizeDuration, duration: resizeDuration}); }
 
 		// if new and old image are same size and no scaling transition is necessary, 
 		// do a quick pause to prevent image flicker.
-		if((hDiff == 0) && (wDiff == 0)){
+		if((hDiff === 0) && (wDiff === 0)){
 			if (navigator.appVersion.indexOf("MSIE")!=-1){ pause(250); } else { pause(100);} 
 		}
 
@@ -424,7 +427,7 @@ Lightbox.prototype = {
 	//
 	showImage: function(){
 		Element.hide('loading');
-		new Effect.Appear('lightboxImage', { duration: 0.5, queue: 'end', afterFinish: function(){	myLightbox.updateDetails(); } });
+		var foo = new Effect.Appear('lightboxImage', { duration: 0.5, queue: 'end', afterFinish: function(){	myLightbox.updateDetails(); } });
 		this.preloadNeighborImages();
 	},
 
@@ -443,7 +446,7 @@ Lightbox.prototype = {
 			Element.setInnerHTML( 'numberDisplay', "Image " + eval(activeImage + 1) + " of " + imageArray.length);
 		}
 
-		new Effect.Parallel(
+		var b = new Effect.Parallel(
 			[ new Effect.SlideDown( 'imageDataContainer', { sync: true, duration: resizeDuration + 0.25, from: 0.0, to: 1.0 }), 
 			  new Effect.Appear('imageDataContainer', { sync: true, duration: 1.0 }) ], 
 			{ duration: 0.65, afterFinish: function() { myLightbox.updateNav();} } 
@@ -459,11 +462,11 @@ Lightbox.prototype = {
 		Element.show('hoverNav');				
 
 		// if not first image in set, display prev image button
-		if(activeImage != 0){
+		if(activeImage !== 0){
 			Element.show('prevLink');
 			document.getElementById('prevLink').onclick = function() {
 				myLightbox.changeImage(activeImage - 1); return false;
-			}
+			};
 		}
 
 		// if not last image in set, display next image button
@@ -471,7 +474,7 @@ Lightbox.prototype = {
 			Element.show('nextLink');
 			document.getElementById('nextLink').onclick = function() {
 				myLightbox.changeImage(activeImage + 1); return false;
-			}
+			};
 		}
 		
 		this.enableKeyboardNav();
@@ -495,7 +498,7 @@ Lightbox.prototype = {
 	//	keyboardAction()
 	//
 	keyboardAction: function(e) {
-		if (e == null) { // ie
+		if (e === null) { // ie
 			keycode = event.keyCode;
 		} else { // mozilla
 			keycode = e.which;
@@ -506,7 +509,7 @@ Lightbox.prototype = {
 		if((key == 'x') || (key == 'o') || (key == 'c')){	// close lightbox
 			myLightbox.end();
 		} else if(key == 'p'){	// display previous image
-			if(activeImage != 0){
+			if(activeImage !== 0){
 				myLightbox.disableKeyboardNav();
 				myLightbox.changeImage(activeImage - 1);
 			}
@@ -543,10 +546,10 @@ Lightbox.prototype = {
 	end: function() {
 		this.disableKeyboardNav();
 		Element.hide('lightbox');
-		new Effect.Fade('overlay', { duration: 0.2});
+		var foo = new Effect.Fade('overlay', { duration: 0.2});
 		showSelectBoxes();
 	}
-}
+};
 
 // -----------------------------------------------------------------------------------
 
@@ -567,7 +570,7 @@ function getPageScroll(){
 		yScroll = document.body.scrollTop;
 	}
 
-	arrayPageScroll = new Array('',yScroll) 
+	arrayPageScroll = ['',yScroll];
 	return arrayPageScroll;
 }
 
@@ -621,7 +624,7 @@ function getPageSize(){
 	}
 
 
-	arrayPageSize = new Array(pageWidth,pageHeight,windowWidth,windowHeight) 
+	arrayPageSize = [pageWidth,pageHeight,windowWidth,windowHeight];
 	return arrayPageSize;
 }
 
@@ -632,7 +635,7 @@ function getPageSize(){
 // Gets keycode. If 'x' is pressed then it hides the lightbox.
 //
 function getKey(e){
-	if (e == null) { // ie
+	if (e === null) { // ie
 		keycode = event.keyCode;
 	} else { // mozilla
 		keycode = e.which;
@@ -680,8 +683,8 @@ function pause(numberMillis) {
 	var exitTime = now.getTime() + numberMillis;
 	while (true) {
 		now = new Date();
-		if (now.getTime() > exitTime)
-			return;
+		if (now.getTime() > exitTime){
+			return;}
 	}
 }
 

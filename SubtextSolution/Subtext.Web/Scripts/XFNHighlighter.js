@@ -2,52 +2,7 @@
 Method for applying a specific target and style to XFN links.
 */
 
-var xfnRelationships = ['friend', 'acquaintance', 'contact', 'met'
-						, 'co-worker', 'colleague', 'co-resident'
-						, 'neighbor', 'child', 'parent', 'sibling'
-						, 'spouse', 'kin', 'muse', 'crush', 'date'
-						, 'sweetheart', 'me']
-
-function highlightXFNLinks() 
-{
-    if (!document.getElementsByTagName) return;
-    
-    var anchors = document.getElementsByTagName("a");
-    
-    for (var i = 0; i < anchors.length; i++) 
-    {
-        var anchor = anchors[i];
-        if (anchor.getAttribute("href") && anchor.getAttribute("rel")) 
-        {
-			//Let's look at all the various potential relationships.
-			var relationships = '';
-			var rel = anchor.getAttribute("rel");
-			
-			for(var j = 0; j < xfnRelationships.length; j++)
-			{
-				var regex = new RegExp('\\b' + xfnRelationships[j] + '\\b', "i");
-				if(rel.match(regex))
-				{
-					if(relationships.length == 0)
-					{
-						relationships = "<h3>XFN Relationships</h3><ul>";
-					}
-					relationships += "<li>" + xfnRelationships[j] + "</li>";
-				}
-			}
-			
-			if(relationships.length > 0)
-			{
-				relationships += "</ul>";
-				xfnFriendInfo.createFriendInfoBox(anchor, relationships);
-				if(anchor.className.length > 0)
-					anchor.className += ' xfnRelationship';
-				else
-					anchor.className = 'xfnRelationship';
-			}
-        }
-    }
-}
+var xfnRelationships = ['friend', 'acquaintance', 'contact', 'met', 'co-worker', 'colleague', 'co-resident', 'neighbor', 'child', 'parent', 'sibling', 'spouse', 'kin', 'muse', 'crush', 'date','sweetheart', 'me'];
 
 var xfnFriendInfo = 
 {
@@ -75,7 +30,7 @@ var xfnFriendInfo =
 	
 	showFriendInfoBox: function(e)
 	{
-		if (!e) e = event;
+		if (!e) {e = event;}
 		var anchor = e.target || e.srcElement;
 		if(!anchor)
 		{
@@ -90,7 +45,7 @@ var xfnFriendInfo =
 	
 	hideFriendInfoBox: function(e)
 	{
-		if (!e) e = event;
+		if (!e) {e = event;}
 		var anchor = e.target || e.srcElement;
 		if(!anchor)
 		{
@@ -109,23 +64,35 @@ var xfnFriendInfo =
 		
 		// width
 		if (infoBox.offsetWidth >= scroll.width)
+		{
 			infoBox.style.width = scroll.width - 10 + "px";
+		}
 		else
+		{
 			infoBox.style.width = "";
-		
+		}
 		// left
 		if (e.clientX > scroll.width - infoBox.offsetWidth)
+		{
 			infoBox.style.left = scroll.width - infoBox.offsetWidth + scroll.left + "px";
+		}
 		else
+		{
 			infoBox.style.left = e.clientX - 2 + scroll.left + "px";
-		
+		}
 		// top
 		if (e.clientY + infoBox.offsetHeight + 18 < scroll.height)
+		{
 			infoBox.style.top = e.clientY + 18 + scroll.top + "px";
+		}
 		else if (e.clientY - infoBox.offsetHeight > 0)
+		{
 			infoBox.style.top = e.clientY + scroll.top - infoBox.offsetHeight + "px";
+		}
 		else
+		{
 			infoBox.style.top = scroll.top + 5 + "px";
+    }
 			
 		infoBox.style.display = "inline";
 		//alert(infoBox.style.left + ' ' + infoBox.style.top + ' | ' + infoBox.style.width + ' ' + infoBox.style.height);
@@ -154,7 +121,54 @@ var xfnFriendInfo =
 			};
 		}
 	}
+};
+
+
+function highlightXFNLinks() 
+{
+    if (!document.getElementsByTagName) {return;}
+    
+    var anchors = document.getElementsByTagName("a");
+    
+    for (var i = 0; i < anchors.length; i++) 
+    {
+        var anchor = anchors[i];
+        if (anchor.getAttribute("href") && anchor.getAttribute("rel")) 
+        {
+			//Let's look at all the various potential relationships.
+			var relationships = '';
+			var rel = anchor.getAttribute("rel");
+			
+			for(var j = 0; j < xfnRelationships.length; j++)
+			{
+				var regex = new RegExp('\\b' + xfnRelationships[j] + '\\b', "i");
+				if(rel.match(regex))
+				{
+					if(relationships.length === 0)
+					{
+						relationships = "<h3>XFN Relationships</h3><ul>";
+					}
+					relationships += "<li>" + xfnRelationships[j] + "</li>";
+				}
+			}
+			
+			if(relationships.length > 0)
+			{
+				relationships += "</ul>";
+				xfnFriendInfo.createFriendInfoBox(anchor, relationships);
+				if(anchor.className.length > 0)
+				{
+					anchor.className += ' xfnRelationship';
+				}
+				else
+				{
+					anchor.className = 'xfnRelationship';
+        }
+			}
+        }
+    }
 }
+
 
 // addLoadEvent is defined in Subtext.Web/Scripts/common.js
 addLoadEvent(highlightXFNLinks);
