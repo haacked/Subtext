@@ -24,7 +24,7 @@ namespace Subtext.Web.Admin.WebUI
         {
             LinkButton lkbNewPost = Utilities.CreateLinkButton("New Post");
             lkbNewPost.CausesValidation = false;
-            lkbNewPost.Click += new System.EventHandler(lkbNewPost_Click);
+            lkbNewPost.Click += OnNewPostClick;
             AdminMasterPage.AddToActions(lkbNewPost);
 
             HyperLink lnkEditCategories = Utilities.CreateHyperLink("Edit Categories",
@@ -33,16 +33,16 @@ namespace Subtext.Web.Admin.WebUI
 
             LinkButton lkbRebuildTags = Utilities.CreateLinkButton("Rebuild All Tags");
             lkbRebuildTags.CausesValidation = false;
-            lkbRebuildTags.Click += new EventHandler(lkbRebuildTags_Click);
+            lkbRebuildTags.Click += OnRebuildTagsClick;
             AdminMasterPage.AddToActions(lkbRebuildTags);
         }
 
-        private void lkbNewPost_Click(object sender, System.EventArgs e)
+        private void OnNewPostClick(object sender, EventArgs e)
         {
             Editor.EditNewEntry();
         }
 
-        private void lkbRebuildTags_Click(object sender, EventArgs e)
+        private void OnRebuildTagsClick(object sender, EventArgs e)
         {
             try
             {

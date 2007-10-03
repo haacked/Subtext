@@ -31,7 +31,7 @@ namespace Subtext.Web.Controls
 		/// event. Sets the <see cref="Control.EnableViewState"/> property to false.
 		/// </summary>
 		/// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
-		protected override void OnInit(System.EventArgs e)
+		protected override void OnInit(EventArgs e)
 		{
 			this.EnableViewState = false;
 			base.OnInit (e);

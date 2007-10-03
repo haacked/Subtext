@@ -36,7 +36,7 @@
                     <label for="PostComment.ascx_tbEmail">Your email:</label>
                     <asp:TextBox ID="tbEmail" runat="server" CssClass="fixed" />&nbsp;(will not be displayed)
                     <asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail"
-                        ValidationExpression="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$"
+                        ValidationExpression="^.*?@.+\..+$"
                         Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified."
                         EnableClientScript="true" />
                 </div>

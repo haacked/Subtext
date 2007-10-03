@@ -22,6 +22,7 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
+using Subtext.Framework.Web;
 using Subtext.Web.Controls;
 
 namespace Subtext.Web.Admin.Pages
@@ -249,12 +250,12 @@ namespace Subtext.Web.Admin.Pages
 
 			if (feedback.Email != null && feedback.Email.Length > 0 && feedback.Email.IndexOf("@") > 0)
 			{
-				authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" class=""email"" /></a>", feedback.Email, ControlHelper.ExpandTildePath("~/images/email.gif"));
+				authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" class=""email"" /></a>", feedback.Email, HttpHelper.ExpandTildePath("~/images/email.gif"));
 			}
 
 			if (feedback.SourceUrl != null)
 			{
-				authorInfo += string.Format(@"<a href=""{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" /></a>", feedback.SourceUrl, ControlHelper.ExpandTildePath("~/images/permalink.gif"));
+				authorInfo += string.Format(@"<a href=""{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" /></a>", feedback.SourceUrl, HttpHelper.ExpandTildePath("~/images/permalink.gif"));
 			}
 
 			return authorInfo;

@@ -175,6 +175,10 @@
       <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
+      <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
+      <Name>Subtext.Web.Controls</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
@@ -527,6 +531,7 @@
     <Compile Include="UI\Skinning\Script.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\Skinning\ScriptElementCollectionRenderer.cs" />
     <Compile Include="UI\Skinning\SkinTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -536,6 +541,7 @@
     <Compile Include="UI\Skinning\Style.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\Skinning\StyleSheetElementCollectionRenderer.cs" />
     <Compile Include="UrlManager\HandlerConfiguration.cs" />
     <Compile Include="UrlManager\HandlerType.cs" />
     <Compile Include="UrlManager\HttpHandler.cs" />
@@ -567,6 +573,7 @@
     <Compile Include="VersionInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Web\Handlers\CssHandler.cs" />
     <Compile Include="Web\Handlers\RsdHandler.cs" />
     <Compile Include="Web\HttpHelper.cs">
       <SubType>Code</SubType>
@@ -578,6 +585,7 @@
     <Compile Include="Web\HttpModules\BlogRequestModule.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Web\HttpModules\CompressionModule.cs" />
     <Compile Include="Web\HttpModules\InstallationCheckModule.cs">
       <SubType>Code</SubType>
     </Compile>
