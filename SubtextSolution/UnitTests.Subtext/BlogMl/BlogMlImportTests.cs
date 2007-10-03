@@ -116,6 +116,7 @@ namespace UnitTests.Subtext.Framework.Import
 
         	// Export this blog.
 			IBlogMLProvider provider = BlogMLProvider.Instance();
+        	provider.ConnectionString = Config.ConnectionString;
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
             MemoryStream memoryStream = new MemoryStream();
 

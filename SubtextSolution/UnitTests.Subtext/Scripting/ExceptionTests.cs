@@ -2,6 +2,7 @@ using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using MbUnit.Framework;
+using Subtext.Framework.Configuration;
 using Subtext.Scripting;
 using Subtext.Scripting.Exceptions;
 
@@ -26,7 +27,7 @@ namespace UnitTests.Subtext.Scripting
         public void ExecuteThrowsScriptExceptionForBadSql()
         {
             Script script = new Script("SELECT * FROM BLAHBLAH");
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString))
+			using (SqlConnection connection = new SqlConnection(Config.ConnectionString))
             {
                 connection.Open();
                 script.Execute(connection.BeginTransaction());
@@ -38,7 +39,7 @@ namespace UnitTests.Subtext.Scripting
         public void ExecuteThrowsProperScriptExceptionForBadSql()
         {
             Script script = new Script("SELECT * FROM BLAHBLAH");
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString))
+			using (SqlConnection connection = new SqlConnection(Config.ConnectionString))
             {
                 connection.Open();
                 try

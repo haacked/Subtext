@@ -22,9 +22,7 @@ namespace UnitTests.Subtext.BlogML
 	/// </summary>
 	[TestFixture]
 	public class SubtextBlogMlWriterTests
-	{
-		string connectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
-		
+	{	
 		/// <summary>
 		/// Make sure that when we export a post with a category, that we retain 
 		/// the mapping between the post and category.
@@ -38,7 +36,7 @@ namespace UnitTests.Subtext.BlogML
 
 			// Shortcut to creating a blog post with a category.
 			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
-			provider.ConnectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
+			provider.ConnectionString = Config.ConnectionString;
 			BlogMLReader reader = BlogMLReader.Create(provider);
 			Stream stream = ExtractResourceAttribute.Stream;
 			reader.ReadBlog(stream);
@@ -52,7 +50,7 @@ namespace UnitTests.Subtext.BlogML
 			
 			// Now export.
 			provider = new SubtextBlogMLProvider();
-			provider.ConnectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
+			provider.ConnectionString = Config.ConnectionString;
 			
 			ICollection<BlogMLCategory> blogMLCategories = provider.GetAllCategories(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
 			Assert.AreEqual(2, blogMLCategories.Count, "Expected to find two categories via the provider.");
@@ -104,7 +102,7 @@ namespace UnitTests.Subtext.BlogML
 
 			// Not using BlogMlProvider.Instance() because we need to reset the state.
 			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
-			provider.ConnectionString = connectionString;
+			provider.ConnectionString = Config.ConnectionString;
 			
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
             // TODO- BlogML 2.0
@@ -161,7 +159,7 @@ namespace UnitTests.Subtext.BlogML
 			//setup provider
 			// Not using BlogMlProvider.Instance() because we need to reset the state.
 			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
-			provider.ConnectionString = connectionString;
+			provider.ConnectionString = Config.ConnectionString;
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
             // TODO- BlogML 2.0
 //			writer.EmbedAttachments = false;

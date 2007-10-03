@@ -58,6 +58,30 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
+		/// Returns the Subtext connection string.
+		/// </summary>
+		/// <remarks>
+		/// The connectionStrings section may contain multiple connection strings. 
+		/// The AppSetting "connectionStringName" points to which of those strings 
+		/// is the one in use.
+		/// </remarks>
+		public static string ConnectionString
+		{
+			get
+			{
+				if(String.IsNullOrEmpty(connectionString))
+				{
+					string connectionStringName = ConfigurationManager.AppSettings["connectionStringName"];
+					if (ConfigurationManager.ConnectionStrings[connectionStringName] == null)
+						throw new ConfigurationErrorsException("There is no connectionString entry associated with the connectionStringName '{0}'.");
+					connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+				}
+				return connectionString;
+			}
+		}
+		static string connectionString;
+
+		/// <summary>
 		/// Gets the file not found page from web.config.
 		/// </summary>
 		/// <returns></returns>
