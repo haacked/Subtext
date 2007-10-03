@@ -1,6 +1,6 @@
 <%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Comments" %>
 <div id="comments" class="section">
-	<a name="feedback" />
+	<a name="feedback"></a>
 	<h2 class="section-title">Your Comments.</h2>
 	<p><asp:Literal ID = "NoCommentMessage" Runat ="server" /></p>
 	<asp:Repeater ID="CommentList" runat="server" OnItemCreated="CommentsCreated" OnItemCommand="RemoveComment_ItemCommand">
