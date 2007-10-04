@@ -25,9 +25,9 @@ namespace Subtext.Framework.Syndication
 	/// </summary>
 	public abstract class BaseSyndicationWriter : XmlTextWriter
 	{
-		private StringWriter writer = null;
+		private readonly StringWriter writer = null;
 		protected BlogInfo info;
-		DateTime dateLastViewedFeedItemPublished = NullValue.NullDateTime;
+		readonly DateTime dateLastViewedFeedItemPublished = NullValue.NullDateTime;
 		protected DateTime latestPublishDate = NullValue.NullDateTime;
 		protected bool useDeltaEncoding = false;
 		protected bool clientHasAllFeedItems = false;
@@ -44,7 +44,8 @@ namespace Subtext.Framework.Syndication
 		/// <summary>
 		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
 		/// </summary>
-		/// <param name="dateLastViewedFeedItemPublished"></param>
+		/// <param name="dateLastViewedFeedItemPublished">The date last viewed feed item published.</param>
+		/// <param name="useDeltaEncoding">if set to <c>true</c> [use delta encoding].</param>
 		protected BaseSyndicationWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
 			: this(new StringWriter(), dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
@@ -55,6 +56,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="sw">Sw.</param>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
+		/// <param name="useDeltaEncoding">if set to <c>true</c> [use delta encoding].</param>
 		protected BaseSyndicationWriter(StringWriter sw, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
 			: base(sw)
 		{

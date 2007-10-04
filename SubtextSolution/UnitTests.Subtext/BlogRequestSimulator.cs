@@ -22,7 +22,7 @@ namespace UnitTests.Subtext
 		public static BlogRequestSimulator SimulateRequest(BlogInfo blog, string host, string application, string subfolder)
 		{
 			BlogRequestSimulator blogRequest = SimulateRequest(host, application, subfolder);
-			HttpContext.Current.Cache["BlogInfo-" + subfolder] = blog;
+			HttpContext.Current.Items["BlogInfo-"] = blog;
 			blogRequest.membershipScope = MembershipApplicationScope.SetApplicationName(blog.ApplicationName);
 			if (blog.Owner != null)
 			{

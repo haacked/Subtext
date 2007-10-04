@@ -103,14 +103,14 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotCreateBlogWithHostThatIsDuplicateOfAnotherBlogAlias()
 		{
-			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
+			UnitTestHelper.SetupBlog();
 			BlogAlias alias = new BlogAlias();
 			alias.Host = "example.com";
 			alias.IsActive = true;
 			alias.BlogId = Config.GetBlogInfo(_hostName, string.Empty).Id;
 			Config.AddBlogAlias(alias);
 
-			Config.CreateBlog("title", "username2", "password2", "example.com", string.Empty);
+			Config.CreateBlog("title", "example.com", string.Empty, Config.CurrentBlog.Owner);
 		}
 
 		/// <summary>
@@ -123,8 +123,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotAddAliasThatIsDuplicateOfAnotherBlog()
 		{
-			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
-			Config.CreateBlog("title", "username2", "password2", "example.com", string.Empty);
+			UnitTestHelper.SetupBlog();
+			Config.CreateBlog("title", _hostName, string.Empty, Config.CurrentBlog.Owner);
+			Config.CreateBlog("title", "example.com", string.Empty, Config.CurrentBlog.Owner);
 			
 			BlogAlias alias = new BlogAlias();
 			alias.Host = "example.com";

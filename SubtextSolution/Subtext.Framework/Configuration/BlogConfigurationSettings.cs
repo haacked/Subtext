@@ -17,7 +17,6 @@ using System;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Xml.Serialization;
-using Subtext.Scripting;
 
 namespace Subtext.Framework.Configuration
 {
@@ -151,23 +150,6 @@ namespace Subtext.Framework.Configuration
                     return enabled;
                 }
                 return true;
-            }
-        }
-
-        ConnectionString _connectionString;
-        /// <summary>
-        /// Gets the connection string for the application.
-        /// </summary>
-        /// <value></value>
-        [XmlIgnore]
-        public ConnectionString ConnectionString
-        {
-            get
-            {
-                if (_connectionString == null && ConfigurationManager.ConnectionStrings["subtextData"] != null)
-                    _connectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
-
-                return _connectionString;
             }
         }
 

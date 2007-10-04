@@ -37,9 +37,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[ExpectedException(typeof(IllegalPostCharactersException))]
 		public void EntryDoesNotAllowScriptTags()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "", "", string.Empty);
+			UnitTestHelper.SetupBlog();
 
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.ParseExact("2005/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
@@ -48,16 +46,14 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Config.Settings.AllowScriptsInPosts = false;
 			Entries.Create(entry);
 
-			Assert.AreEqual("http://" + hostname + "/archive/2005/01/23/Some_Really_Random_Title.aspx", entry.FullyQualifiedUrl.ToString());
+			Assert.AreEqual("http://" + Config.CurrentBlog.Host + "/archive/2005/01/23/Some_Really_Random_Title.aspx", entry.FullyQualifiedUrl.ToString());
 		}
 
 		[Test]
 		[RollBack2]
 		public void EntryAllowsScriptTagsIfAllowScriptsInPostsIsTrue()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "", "", string.Empty);
+			UnitTestHelper.SetupBlog();
 
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.ParseExact("2005/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
@@ -66,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Config.Settings.AllowScriptsInPosts = true;
 			Entries.Create(entry);
 
-			Assert.AreEqual("http://" + hostname + "/archive/2005/01/23/Some_Really_Random_Title.aspx", entry.FullyQualifiedUrl.ToString());
+			Assert.AreEqual("http://" + Config.CurrentBlog.Host + "/archive/2005/01/23/Some_Really_Random_Title.aspx", entry.FullyQualifiedUrl.ToString());
 		}
 
 		[Test]
@@ -110,7 +106,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack2]
 		public void CreatedEntryHasCorrectFullyQualifiedLink(string subfolder, string virtualDir, string expectedUrlPrefix)
 		{
-			UnitTestHelper.SetupBlog(subfolder, subfolder, string.Empty);
+			UnitTestHelper.SetupBlog(subfolder, virtualDir);
 
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.ParseExact("2004/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);

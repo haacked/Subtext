@@ -65,7 +65,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		[RollBack]
 		public void SetText()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+			UnitTestHelper.SetupBlog();
 			string test = "Lorem Ipsum";
 			frtep.InitializeControl();
 			frtep.Text = test;

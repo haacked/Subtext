@@ -15,7 +15,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void CanAddAndRemoveAllCategories()
 		{
 			string hostname = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("", hostname, string.Empty, null);
+			Config.CreateBlog("title", hostname, string.Empty, null);
 
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, "/", string.Empty);
 

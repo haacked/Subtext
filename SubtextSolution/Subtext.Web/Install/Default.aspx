@@ -132,7 +132,7 @@
 					<dl>
 						<dt><label>UserName:</label></dt><dd><span><asp:Literal ID="ltlUsername" runat="server" Text="<%# AdminUserName %>" /></span></dd>
 						<dt><label>Email:</label></dt><dd><span><asp:Literal ID="ltlEmail" runat="server" Text="<%# AdminEmail %>" /></span></dd>
-						<dt><label>Database:</label></dt><dd><asp:Literal id="ltlDbName" Runat="server" Text="<%# Config.Settings.ConnectionString.Database %>" /> <strong>*</strong></dd>
+						<dt><label>Database:</label></dt><dd><asp:Literal id="ltlDbName" Runat="server" Text="<%# Config.ConnectionString.Database %>" /> <strong>*</strong></dd>
 					</dl>
 				</div>
 				<p class="clear">

@@ -1,9 +1,9 @@
 using System;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
 using MbUnit.Framework;
+using Subtext.Framework.Configuration;
 using Subtext.Scripting;
 using Subtext.Scripting.Exceptions;
 
@@ -51,7 +51,7 @@ namespace UnitTests.Subtext.Scripting
 
 		private static int ExecuteScriptRunner(SqlScriptRunner runner)
 		{
-			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString))
+			using (SqlConnection conn = new SqlConnection(Config.ConnectionString))
 			{
 				conn.Open();
 				using (SqlTransaction transaction = conn.BeginTransaction())
