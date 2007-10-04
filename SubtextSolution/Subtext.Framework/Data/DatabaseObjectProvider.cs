@@ -1231,16 +1231,20 @@ namespace Subtext.Framework.Data
 
 		public override bool CreateBlogAlias(BlogAlias alias)
 		{
-			throw new NotImplementedException();
+			StoredProcedures.CreateDomainAlias(alias.BlogId, alias.Host, alias.Subfolder, alias.IsActive, null).Execute();
+			return true;
 		}
 
 		public override bool UpdateBlogAlias(BlogAlias alias)
 		{
-			throw new NotImplementedException();
+			StoredProcedures.UpdateDomainAlias(alias.Id, alias.BlogId, alias.Host, alias.Subfolder, alias.IsActive).Execute();
+			return true;
 		}
+
 		public override bool DeleteBlogAlias(BlogAlias alias)
 		{
-			throw new NotImplementedException();
+			StoredProcedures.DeleteDomainAlias(alias.Id).Execute();
+			return true;
 		}
 
 		public override void UpdateBlog(BlogInfo info)

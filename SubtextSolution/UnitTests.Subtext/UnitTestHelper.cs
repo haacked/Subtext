@@ -30,6 +30,7 @@ using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
+using Microsoft.SqlServer.Management.Smo;
 using Rhino.Mocks;
 using SubSonic;
 using Subtext.Extensibility;
@@ -878,16 +879,8 @@ namespace UnitTests.Subtext
 
 	    public static BlogInfo CreateBlogAndSetupContext()
 	    {
-	        string hostName = GenerateRandomString();
-	    	Config.CreateBlog("Just A Test Blog", hostName, "test", null);
-	        SetHttpContextWithBlogRequest(hostName, string.Empty, string.Empty, string.Empty);
-	        Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
-
-	        Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
-	        Config.CurrentBlog.ImagePath = "/image/";
-
-            // NOTE- is this OK?
-	        return Config.CurrentBlog;
+	    	SetupBlog();
+	    	return Config.CurrentBlog;
 	    }
 
 		public static BlogAlias CreateBlogAlias(BlogInfo info, string host, string subfolder)

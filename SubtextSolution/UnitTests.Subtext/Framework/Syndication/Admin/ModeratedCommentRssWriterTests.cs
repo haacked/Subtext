@@ -28,6 +28,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "blog";
+			blogInfo.Owner = UnitTestHelper.CreateUserInstanceForTest();
 			blogInfo.Owner.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 			blogInfo.Title = "My Blog Rulz";
@@ -73,55 +74,56 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
 			Console.WriteLine("ACTUAL  : " + writer.Xml);
 			Assert.AreEqual(expected, writer.Xml);
 		}
-/// <summary>
-/// Tests that a valid feed is produced even if a post has no comments.
-/// </summary>
-[Test]
-[RollBack]
-public void CommentRssWriterProducesValidFeed()
-{
-UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web", String.Empty);
+					/// <summary>
+					/// Tests that a valid feed is produced even if a post has no comments.
+					/// </summary>
+					[Test]
+					[RollBack]
+					public void CommentRssWriterProducesValidFeed()
+					{
+					UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web", String.Empty);
 
-BlogInfo blogInfo = new BlogInfo();
-blogInfo.Host = "localhost";
-blogInfo.Owner.Email = "Subtext@example.com";
-blogInfo.RFC3229DeltaEncodingEnabled = true;
-blogInfo.Title = "My Blog Rulz";
-blogInfo.TimeZoneId = PacificTimeZoneId;
+					BlogInfo blogInfo = new BlogInfo();
+					blogInfo.Host = "localhost";
+						blogInfo.Owner = UnitTestHelper.CreateUserInstanceForTest();
+					blogInfo.Owner.Email = "Subtext@example.com";
+					blogInfo.RFC3229DeltaEncodingEnabled = true;
+					blogInfo.Title = "My Blog Rulz";
+					blogInfo.TimeZoneId = PacificTimeZoneId;
 
-HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
+					HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
-Entry rootEntry = new Entry(PostType.None);
-rootEntry.AllowComments = true;
-rootEntry.Title = "Comments requiring your approval.";
-rootEntry.Url = "/Admin/Feedback.aspx?status=2";
-rootEntry.Body = "The following items are waiting approval.";
-rootEntry.PostType = PostType.None;
+					Entry rootEntry = new Entry(PostType.None);
+					rootEntry.AllowComments = true;
+					rootEntry.Title = "Comments requiring your approval.";
+					rootEntry.Url = "/Admin/Feedback.aspx?status=2";
+					rootEntry.Body = "The following items are waiting approval.";
+					rootEntry.PostType = PostType.None;
 
-Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("haacked", "title of the post", "Body of the post.");
-entry.EntryName = "titleofthepost";
-entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-entry.Url = "/archive/2006/02/01/titleofthepost.aspx";
-entry.Id = 1001;
+					Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("haacked", "title of the post", "Body of the post.");
+					entry.EntryName = "titleofthepost";
+					entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+					entry.Url = "/archive/2006/02/01/titleofthepost.aspx";
+					entry.Id = 1001;
 
-FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
-comment.Id = 1002;
-comment.DateCreated = comment.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-comment.Title = "re: titleofthepost";
-comment.ParentEntryName = entry.EntryName;
-comment.ParentDateCreated = entry.DateCreated;
-comment.Body = "<strong>I rule!</strong>";
-comment.Author = "Jane Schmane";
-comment.Email = "jane@example.com";
-comment.EntryId = entry.Id;
-comment.Status = FeedbackStatusFlags.NeedsModeration;
+					FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
+					comment.Id = 1002;
+					comment.DateCreated = comment.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+					comment.Title = "re: titleofthepost";
+					comment.ParentEntryName = entry.EntryName;
+					comment.ParentDateCreated = entry.DateCreated;
+					comment.Body = "<strong>I rule!</strong>";
+					comment.Author = "Jane Schmane";
+					comment.Email = "jane@example.com";
+					comment.EntryId = entry.Id;
+					comment.Status = FeedbackStatusFlags.NeedsModeration;
 
-List <FeedbackItem> comments = new List<FeedbackItem>();
-comments.Add(comment);
+					List <FeedbackItem> comments = new List<FeedbackItem>();
+					comments.Add(comment);
 
-ModeratedCommentRssWriter writer = new ModeratedCommentRssWriter(comments, rootEntry);
+					ModeratedCommentRssWriter writer = new ModeratedCommentRssWriter(comments, rootEntry);
 
-string expected = @"<rss version=""2.0"" "
+					string expected = @"<rss version=""2.0"" "
 						+ @"xmlns:dc=""http://purl.org/dc/elements/1.1/"" "
 						+ @"xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" "
 						+ @"xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" "
