@@ -435,6 +435,10 @@
     <Compile Include="Stats.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Syndication\Admin\LogRssWriter.cs" />
+    <Compile Include="Syndication\Admin\RssAdminHandler.cs" />
+    <Compile Include="Syndication\Admin\ReferrerRssWriter.cs" />
+    <Compile Include="Syndication\Admin\ModeratedCommentRssWriter.cs" />
     <Compile Include="Syndication\AtomHandler.cs" />
     <Compile Include="Syndication\AtomWriter.cs" />
     <Compile Include="Syndication\BaseAtomWriter.cs">
@@ -449,6 +453,7 @@
     <Compile Include="Syndication\BaseSyndicationWriter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Syndication\BaseSyndicationWriterGeneric.cs" />
     <Compile Include="Syndication\CachedFeed.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -467,6 +472,7 @@
     <Compile Include="Syndication\Compression\SyndicationCompressionSettings.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Syndication\GenericRssWriter.cs" />
     <Compile Include="Syndication\EntryCollectionHandler.cs" />
     <Compile Include="Syndication\RssCategoryHandler.cs" />
     <Compile Include="Syndication\RssCommentHandler.cs" />
@@ -573,12 +579,15 @@
     <Compile Include="VersionInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BlogAlias.cs" />
     <Compile Include="Web\Handlers\CssHandler.cs" />
+    <Compile Include="Web\Handlers\JsHandler.cs" />
     <Compile Include="Web\Handlers\RsdHandler.cs" />
     <Compile Include="Web\HttpHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Web\HttpModules\AuthenticationModule.cs" />
+    <Compile Include="Web\HttpModules\FormToBasicAuthenticationModule.cs" />
     <Compile Include="Web\HttpModules\BlogRequest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -602,7 +611,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Util\TimeZone\WindowsTimeZoneCollection.xml" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="MailLicense.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

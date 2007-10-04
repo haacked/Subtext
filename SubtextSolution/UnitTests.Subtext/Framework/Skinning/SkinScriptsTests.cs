@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Web.Hosting;
 using MbUnit.Framework;
@@ -27,7 +26,7 @@ namespace UnitTests.Subtext.Framework.Skinning
     public class SkinScriptsTests
     {
         [Test]
-        public void CanGetMergeScriptsAttribute()
+        public void CanGetScriptMergeModeAttribute()
         {
             MockRepository mocks = new MockRepository();
 
@@ -36,14 +35,17 @@ namespace UnitTests.Subtext.Framework.Skinning
 
             SkinTemplates templates = SkinTemplates.Instance(pathProvider);
 
-            SkinTemplate templateWithTrueMergeScripts = templates.GetTemplate("Piyo");
-            Assert.IsTrue(templateWithTrueMergeScripts.MergeScripts, "MergeScripts should be true.");
+            SkinTemplate templateWithMergeOnTopScriptMergeMode = templates.GetTemplate("Piyo");
+            Assert.IsTrue(templateWithMergeOnTopScriptMergeMode.MergeScripts, "ScriptMergeMode should be MergeOnTop.");
 
-            SkinTemplate templateWithFalseMergeScripts = templates.GetTemplate("Semagogy");
-            Assert.IsFalse(templateWithFalseMergeScripts.MergeScripts, "MergeScripts should be false.");
+            SkinTemplate templateWithMergeOnBottomScriptMergeMode = templates.GetTemplate("Submarine");
+            Assert.IsTrue(templateWithMergeOnBottomScriptMergeMode.MergeScripts, "ScriptMergeMode should be MergeOnBottom.");
 
-            SkinTemplate templateWithoutMergeScripts = templates.GetTemplate("RedBook-Green.css");
-            Assert.IsFalse(templateWithoutMergeScripts.MergeScripts, "MergeScripts should be false.");
+            SkinTemplate templateWithNoneScriptMergeMode = templates.GetTemplate("Semagogy");
+            Assert.IsFalse(templateWithNoneScriptMergeMode.MergeScripts, "ScriptMergeMode should be None.");
+
+            SkinTemplate templateWithoutScriptMergeMode = templates.GetTemplate("RedBook-Green.css");
+            Assert.IsFalse(templateWithoutScriptMergeMode.MergeScripts, "ScriptMergeMode should be None.");
         }
 
         [Test]
@@ -59,12 +61,35 @@ namespace UnitTests.Subtext.Framework.Skinning
             ScriptElementCollectionRenderer renderer = new ScriptElementCollectionRenderer(templates);
             string scriptElements = renderer.RenderScriptElementCollection("RedBook-Green.css");
 
+            Console.WriteLine(scriptElements);
+
             string script = @"<script type=""text/javascript"" src=""/Skins/RedBook/blah.js""></script>";
             Assert.IsTrue(scriptElements.IndexOf(script) > -1, "Rendered the script improperly.");
+
+            Console.WriteLine(scriptElements);
 
             scriptElements = renderer.RenderScriptElementCollection("Nature-Leafy.css");
             script = @"<script type=""text/javascript"" src=""/scripts/XFNHighlighter.js""></script>";
             Assert.IsTrue(scriptElements.IndexOf(script) > -1, "Rendered the script improperly. We got: " + scriptElements);
+        }
+
+        [Test]
+        public void ScriptElementCollectionRendererRendersJSHandlerScript()
+        {
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            MockRepository mocks = new MockRepository();
+
+            VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
+            mocks.ReplayAll();
+
+            SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+            ScriptElementCollectionRenderer renderer = new ScriptElementCollectionRenderer(templates);
+            string scriptElements = renderer.RenderScriptElementCollection("RedBook-Blue.css");
+
+            Console.WriteLine(scriptElements);
+
+            string script = @"<script type=""text/javascript"" src=""/Skins/RedBook/js.axd?name=RedBook-Blue.css""></script>";
+            Assert.IsTrue(scriptElements.IndexOf(script) > -1, "Rendered the script improperly.");
         }
 
         [Test]
@@ -98,7 +123,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         }
 
         [Test]
-        public void ScriptsWithFalseMergeScriptsAreNotMerged()
+        public void ScriptsWithNoneScriptMergeModeAreNotMerged()
         {
             MockRepository mocks = new MockRepository();
 
@@ -109,7 +134,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             SkinTemplate template = templates.GetTemplate("Semagogy");
             bool canBeMerged = ScriptElementCollectionRenderer.CanScriptsBeMerged(template);
 
-            Assert.IsFalse(canBeMerged, "Skins with MergeScripts=\"false\" should not be mergeable.");
+            Assert.IsFalse(canBeMerged, "Skins with ScriptMergeMode=\"None\" should not be mergeable.");
         }
 
         [Test]

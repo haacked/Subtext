@@ -878,6 +878,22 @@ namespace UnitTests.Subtext
 	        return Config.CurrentBlog;
 	    }
 
+		public static BlogAlias CreateBlogAlias(BlogInfo info, string host, string subfolder)
+		{
+			return CreateBlogAlias(info, host, subfolder, true);
+		}
+		public static BlogAlias CreateBlogAlias(BlogInfo info, string host, string subfolder, bool active)
+		{
+			BlogAlias alias = new BlogAlias();
+			alias.BlogId = info.Id;
+			alias.Host = host;
+			alias.Subfolder = subfolder;
+			alias.IsActive = active;
+
+			Config.AddBlogAlias(alias);
+			return alias;
+		}
+
 	    public static MetaTag BuildMetaTag(string content, string name, string httpEquiv, int blogId, int? entryId, DateTime created)
 	    {
 	        MetaTag mt = new MetaTag();

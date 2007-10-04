@@ -662,6 +662,11 @@ drop procedure [<dbUser,varchar,dbo>].[subtext_GetMetaTagsForEntry]
 GO
 
 if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
+	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_DeleteMetaTag')
+drop procedure [<dbUser,varchar,dbo>].[subtext_DeleteMetaTag]
+GO
+
+if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
 	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_ClearBlogContent')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]
 GO
@@ -713,6 +718,30 @@ GO
 IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = 'subtext_GetPluginData' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPluginData]
 GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetBlogByDomainAlias]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetBlogByDomainAlias]
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableDomainAliases]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableDomainAliases]
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_CreateDomainAlias]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_CreateDomainAlias]
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_DeleteDomainAlias]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_DeleteDomainAlias]
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateDomainAlias]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateDomainAlias]
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetDomainAliasById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetDomainAliasById]
+GO
+
+
 
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -4591,7 +4620,6 @@ SELECT	content.BlogId
 	, content.[Description]
 	, content.PostType
 	, content.AuthorId
-	, content.Email
 	, content.DateUpdated
 	, FeedbackCount = ISNULL(content.FeedbackCount, 0)
 	, content.PostConfig
@@ -8567,4 +8595,161 @@ AS
 GO 
 
 GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_GetMetaTagsForEntry] TO [public]
+GO
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeleteMetaTag] 
+	(
+		@Id int
+	)
+AS
+	DELETE FROM [<dbUser,varchar,dbo>].[subtext_MetaTag] WHERE [Id] = @Id
+
+GO
+
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetBlogByDomainAlias]
+	(
+		  @Host	VARCHAR(100)
+		, @Application nvarchar(50)
+		, @Strict bit = 1 
+	)
+AS
+DECLARE
+	@BlogId int
+
+	IF @Strict = 0 
+		AND NOT EXISTS(SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].subtext_Config WHERE Host = @Host)
+		AND (1 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].subtext_DomainAliases WHERE Host = @Host))
+	BEGIN
+		SELECT @BlogId = BlogId FROM [<dbUser,varchar,dbo>].subtext_DomainAliases WHERE (Host = @Host OR Host = 'www.' + @Host) AND IsActive = 1
+	END
+	ELSE
+	BEGIN
+		SELECT @BlogId = BlogId FROM [<dbUser,varchar,dbo>].subtext_DomainAliases WHERE (Host = @Host OR Host = 'www.' + @Host) AND Application = @Application AND IsActive = 1
+	END
+	EXEC [<dbUser,varchar,dbo>].[subtext_GetBlogById]  @BlogId = @BlogId
+GO
+
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_GetBlogByDomainAlias] TO [public]
+GO
+
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableDomainAliases]
+(
+	  @PageIndex int
+	, @PageSize int
+	, @BlogId int
+)
+AS
+
+DECLARE @FirstId int
+DECLARE @StartRow int
+DECLARE @StartRowIndex int
+
+SET @StartRowIndex = @PageIndex * @PageSize + 1
+
+SET ROWCOUNT @StartRowIndex
+-- Get the first entry id for the current page.
+SELECT	@FirstId = AliasId FROM [<dbUser,varchar,dbo>].[subtext_DomainAliases]
+WHERE BlogId = @BlogId
+ORDER BY [BlogId] ASC
+
+-- Now, set the row count to MaximumRows and get
+-- all records >= @first_id
+SET ROWCOUNT @PageSize
+
+SELECT	
+		  AliasId
+		, BlogId
+		, Host
+		, Application
+		, IsActive
+FROM [<dbUser,varchar,dbo>].[subtext_DomainAliases] 
+WHERE AliasId >= @FirstId
+	AND BlogId = @BlogId
+ORDER BY AliasId ASC
+
+SELECT COUNT([BlogId]) AS TotalRecords
+FROM [<dbUser,varchar,dbo>].[subtext_DomainAliases]
+WHERE BlogId = @BlogId
+GO
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_GetPageableDomainAliases] TO [public]
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_CreateDomainAlias]
+	(
+		  @BlogId int
+		, @Host	nvarchar(100)
+		, @Application nvarchar(50)
+		, @Active bit = 1
+		, @AliasId int = NULL OUTPUT
+	)
+AS
+IF NOT EXISTS(SELECT * FROM [<dbUser,varchar,dbo>].[subtext_DomainAliases] WHERE Host = @Host AND Application = @Application)
+BEGIN
+	INSERT INTO [<dbUser,varchar,dbo>].[subtext_DomainAliases]		
+	(
+		 BlogId
+		,Host
+		,Application
+		,IsActive
+	)
+	VALUES
+	(
+		 @BlogId
+		,@Host
+		,@Application
+		,@Active
+	)
+
+	SELECT @AliasId = SCOPE_IDENTITY()
+END
+GO
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_CreateDomainAlias] TO [public]
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeleteDomainAlias]
+	(
+		  @AliasId	INT
+	)
+AS
+	DELETE 
+	FROM [<dbUser,varchar,dbo>].[subtext_DomainAliases] 
+	WHERE AliasId = @AliasId
+GO
+
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_DeleteDomainAlias] TO [public]
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateDomainAlias]
+	(
+		  @AliasId int
+		, @BlogId int
+		, @Host	nvarchar(100)
+		, @Application nvarchar(50)
+		, @Active bit = 1
+	)
+AS
+	UPDATE [<dbUser,varchar,dbo>].[subtext_DomainAliases]		
+	SET  BlogId			=@BlogId
+		,Host			=@Host
+		,Application	=@Application
+		,IsActive		=@Active
+	WHERE AliasId = @AliasId	
+GO
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_UpdateDomainAlias] TO [public]
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetDomainAliasById]
+	(
+		  @AliasId	INT
+	)
+AS
+	SELECT AliasId, BlogId, Host, Application, IsActive
+	FROM [<dbUser,varchar,dbo>].[subtext_DomainAliases] 
+	WHERE AliasId = @AliasId
+GO
+
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_GetDomainAliasById] TO [public]
 GO

@@ -121,13 +121,28 @@ namespace Subtext.Framework.Configuration
 					if (info == null)
 					{
 						info = Config.GetBlogInfo(BlogInfo.GetAlternateHostAlias(blogRequest.Host), blogRequest.Subfolder, false);
+						if (info == null)
+						{
+							log.DebugFormat("Attempting to get blog by domain alias. Host: {0}, Subfolder: {1}", blogRequest.Host, blogRequest.Subfolder);
+							info = Config.GetBlogInfoFromDomainAlias(blogRequest.Host, blogRequest.Subfolder,false);							
+						}
 						if (info != null)
 						{
 							string url = BlogRequest.Current.RawUrl.ToString();
-							string newUrl = HtmlHelper.ReplaceHost(url, info.Host);
+							UriBuilder uriBuilder = new UriBuilder(url);
+							uriBuilder.Host = info.Host;
+							if (blogRequest.Subfolder != info.Subfolder)
+							{
+								if (blogRequest.Subfolder.Length > 0)
+									uriBuilder.Path = uriBuilder.Path.Remove(0, blogRequest.Subfolder.Length+1);
+								if (info.Subfolder.Length > 0)
+									uriBuilder.Path = "/" + info.Subfolder + uriBuilder.Path;
+
+							}
+							//string newUrl = HtmlHelper.ReplaceHost(url, info.Host);
 							HttpContext.Current.Response.StatusCode = 301;
 							HttpContext.Current.Response.Status = "301 Moved Permanently";
-							HttpContext.Current.Response.RedirectLocation = newUrl;
+							HttpContext.Current.Response.RedirectLocation = uriBuilder.ToString();
 							HttpContext.Current.Response.End();
 						}
 					}
@@ -139,7 +154,7 @@ namespace Subtext.Framework.Configuration
 
                         if (anyBlogsExist && ConfigurationManager.AppSettings["AggregateEnabled"] == "true")
 						{
-							return GetAggregateBlog();
+							return Config.AggregateBlog;
 						}
 
 						// When going thru the install for MultiBlogs there will be no blogs in the system,

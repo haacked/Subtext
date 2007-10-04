@@ -48,12 +48,15 @@ namespace Subtext.Web.UI.Pages
 		protected PlaceHolder CenterBodyControl;
 		protected Literal versionMetaTag;
 		protected Literal authorMetaTag;
-		protected Literal scripts;
+		protected Literal scriptsOnTop;
+        protected Literal scriptsOnBottom;
 		protected Literal styles;
 		protected Literal virtualRoot;
 		protected Literal virtualBlogRoot;
 		protected Literal customTrackingCode;
 		protected Literal additionalMetaTags;
+        protected PlaceHolder scriptsOnTopCont;
+        protected PlaceHolder scriptsOnBottomCont;
 		#endregion
 
 		protected BlogInfo CurrentBlog;
@@ -126,7 +129,23 @@ namespace Subtext.Web.UI.Pages
 				AtomLink.Attributes.Add("href", CurrentBlog.UrlFormats.RssUrl.ToString());
 			}
 
-			// if specified, add script elements
+            Literal scripts = scriptsOnTop;
+		    ScriptMergeMode mode = scriptRenderer.GetScriptMergeMode(CurrentBlog.Skin.SkinKey);
+
+            if(mode == ScriptMergeMode.None || mode == ScriptMergeMode.MergeOnTop)
+            {
+                scripts = scriptsOnTop;
+                scriptsOnTopCont.Visible = true;
+                scriptsOnBottomCont.Visible = false;
+            }
+            else if (mode == ScriptMergeMode.MergeOnBottom)
+            {
+                scripts = scriptsOnBottom;
+                scriptsOnTopCont.Visible = false;
+                scriptsOnBottomCont.Visible = true;
+            }
+
+		    // if specified, add script elements
 			if (scripts != null)
 			{
 				scripts.Text = scriptRenderer.RenderScriptElementCollection(CurrentBlog.Skin.SkinKey);

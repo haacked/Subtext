@@ -14,8 +14,8 @@
 #endregion
 
 using System;
-using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -26,9 +26,7 @@ using System.Xml;
 using Sgml;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Exceptions;
 using Velocit.RegularExpressions;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Text
 {
@@ -56,14 +54,10 @@ namespace Subtext.Framework.Text
 		public static void AppendCssClass(WebControl control, string newClass)
 		{
 			if (control == null)
-			{
-				throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
-			}
+				throw new ArgumentNullException("control", "Cannot add a css class to a null control");
 
 			if (newClass == null)
-			{
-				throw new ArgumentNullException("newClass", Resources.ArgumentNull_String);
-			}
+				throw new ArgumentNullException("newClass", "Cannot add a null css class to a control");
 
 			string existingClasses = control.CssClass;
 			if (String.IsNullOrEmpty(existingClasses))
@@ -92,42 +86,27 @@ namespace Subtext.Framework.Text
 		public static void RemoveCssClass(WebControl control, string classToRemove)
 		{
 			if (control == null)
-			{
-				throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
-			}
+				throw new ArgumentNullException("control", "Cannot remove a css class from a null control");
 
 			if (classToRemove == null)
-			{
-				throw new ArgumentNullException("classToRemove", Resources.ArgumentNull_String);
-			}
-
-			if (classToRemove.Length == 0)
-			{
-				throw new ArgumentException(Resources.Argument_StringZeroLength, "classToRemove");
-			}
+				throw new ArgumentNullException("classToRemove", "Cannot remove a null css class from a control");
 
 			string existingClasses = control.CssClass;
 			if (String.IsNullOrEmpty(existingClasses))
-			{
 				return; //nothing to remove
-			}
 
 			string[] classes = existingClasses.Split(new string[] { " ", "\t", "\r\n", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-			StringBuilder builder = new StringBuilder();
-
+			string newClasses = string.Empty;
 			foreach (string cssClass in classes)
 			{
 				if (!String.Equals(cssClass, classToRemove, StringComparison.Ordinal))
 				{
-					builder.AppendFormat("{0} ", cssClass);
+					newClasses += cssClass + " ";
 				}
 			}
 
-			string newClasses = builder.ToString();
 			if (newClasses.EndsWith(" "))
-			{
 				newClasses = newClasses.Substring(0, newClasses.Length - 1);
-			}
 			control.CssClass = newClasses;
 		}
 
@@ -139,11 +118,6 @@ namespace Subtext.Framework.Text
 		/// <param name="value"></param>
 		public static void AppendAttributeValue(WebControl control, string name, string value)
 		{
-			if (control == null)
-			{
-				throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
-			}
-
 			string existingValue = control.Attributes[name];
 			if (String.IsNullOrEmpty(existingValue))
 			{
@@ -219,49 +193,98 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static bool ConvertHtmlToXHtml(Entry entry)
 		{
-			if (entry == null)
-				throw new ArgumentNullException("entry", Resources.ArgumentNull_Obj);
-
 			SgmlReader reader = new SgmlReader();
 			reader.SetBaseUri(Config.CurrentBlog.RootUrl.ToString());
-			entry.Body = ConvertHtmlToXHtml(reader, entry.Body);
+			entry.Body = ConvertHtmlToXHtml(reader, entry.Body, null);
 			return true;
 		}
 
 		/// <summary>
-		/// Converts the specified html into XHTML compliant text. 
+		/// Converts the specified html into XHTML compliant text.
 		/// </summary>
 		/// <param name="html">html to convert.</param>
+		/// <param name="converter">The converter.</param>
 		/// <returns></returns>
-		private static string ConvertHtmlToXHtml(string html)
+		public static string ConvertHtmlToXHtml(string html, Converter<string, string> converter)
 		{
 			SgmlReader reader = new SgmlReader();
-			return ConvertHtmlToXHtml(reader, html);
+			return ConvertHtmlToXHtml(reader, html, converter);
 		}
 
 		/// <summary>
-		/// Converts the specified html into XHTML compliant text. 
+		/// Converts the specified html into XHTML compliant text.
 		/// </summary>
 		/// <param name="reader">sgml reader.</param>
-		/// /// <param name="html">html to convert.</param>
+		/// <param name="html">html to convert.</param>
+		/// <param name="converter">The converter.</param>
 		/// <returns></returns>
-		private static string ConvertHtmlToXHtml(SgmlReader reader, string html)
+		/// ///
+		private static string ConvertHtmlToXHtml(SgmlReader reader, string html, Converter<string, string> converter)
 		{
 			reader.DocType = "html";
 			reader.WhitespaceHandling = WhitespaceHandling.All;
-         // Hack to fix SF bug #1678030
-         html = RemoveNewLineBeforeCDATA(html);
+			// Hack to fix SF bug #1678030
+			html = RemoveNewLineBeforeCDATA(html);
 			reader.InputStream = new StringReader("<html>" + html + "</html>");
 			reader.CaseFolding = CaseFolding.ToLower;
-			StringWriter writer = new StringWriter(CultureInfo.InvariantCulture);
-			XmlTextWriter xmlWriter = null;
+			StringWriter writer = new StringWriter();
+			XmlWriter xmlWriter = null;
 			try
 			{
 				xmlWriter = new XmlTextWriter(writer);
 
-				while (reader.Read())
+				bool insideAnchor = false;
+				bool skipRead = false;
+				while ((skipRead || reader.Read()) && !reader.EOF)
 				{
-					xmlWriter.WriteNode(reader, true);
+					skipRead = false;
+					switch (reader.NodeType)
+					{
+						case XmlNodeType.Element:
+							//Special case for anchor tags for the time being. 
+							//We need some way to communicate which elements the current node is nested within 
+							if (reader.IsEmptyElement)
+							{
+								xmlWriter.WriteStartElement(reader.LocalName);
+								xmlWriter.WriteAttributes(reader, true);
+								if (reader.LocalName == "a" || reader.LocalName == "script")
+									xmlWriter.WriteFullEndElement();
+								else
+									xmlWriter.WriteEndElement();
+							}
+							else
+							{
+								if (reader.LocalName == "a")
+									insideAnchor = true;
+								xmlWriter.WriteStartElement(reader.LocalName);
+								xmlWriter.WriteAttributes(reader, true);
+							}
+							break;
+
+						case XmlNodeType.Text:
+							string text = reader.Value;
+
+							if (converter != null && !insideAnchor)
+								xmlWriter.WriteRaw(converter(text));
+							else
+								xmlWriter.WriteString(text);
+							break;
+
+						case XmlNodeType.EndElement:
+							if (reader.LocalName == "a")
+								insideAnchor = false;
+
+							if (reader.LocalName == "a" || reader.LocalName == "script")
+								xmlWriter.WriteFullEndElement();
+							else
+								xmlWriter.WriteEndElement();
+							break;
+
+						default:
+							xmlWriter.WriteNode(reader, true);
+							skipRead = true;
+							break;
+					}
 				}
 			}
 			finally
@@ -277,20 +300,20 @@ namespace Subtext.Framework.Text
 		}
 
 
-      // Ugly hack to remove any new line that sits between a tag end
-      // and the beginning of a CDATA section.
-      // This to make sure the Xhtml is well formatted before processing it
-      private static string RemoveNewLineBeforeCDATA(string text)
-      {
-         if (!String.IsNullOrEmpty(text))
-         {
-            string regex = @">(\r\n)+<!\[CDATA\[";
-            Regex newLineStripper = new Regex(regex);
+		// Ugly hack to remove any new line that sits between a tag end
+		// and the beginning of a CDATA section.
+		// This to make sure the Xhtml is well formatted before processing it
+		private static string RemoveNewLineBeforeCDATA(string text)
+		{
+			if (!String.IsNullOrEmpty(text))
+			{
+				string regex = @">(\r\n)+<!\[CDATA\[";
+				Regex newLineStripper = new Regex(regex);
 
-            return newLineStripper.Replace(text, "><![CDATA[");
-         }
-         return text;
-      }
+				return newLineStripper.Replace(text, "><![CDATA[");
+			}
+			return text;
+		}
 
 		/// <summary>
 		/// Tests the specified string looking for illegal characters 
@@ -298,64 +321,152 @@ namespace Subtext.Framework.Text
 		/// </summary>
 		/// <param name="s">S.</param>
 		/// <returns></returns>
-		public static void CheckForIllegalContent(string s)
+		public static bool HasIllegalContent(string s)
 		{
-			if (s == null)
+			if (String.IsNullOrEmpty(s))
 			{
-				return;
+				return false;
 			}
-
-			if (s.Trim().Length == 0)
+			if (s.IndexOf("<script", StringComparison.InvariantCultureIgnoreCase) > -1
+				|| s.IndexOf("&#60script", StringComparison.InvariantCultureIgnoreCase) > -1
+				|| s.IndexOf("&60script", StringComparison.InvariantCultureIgnoreCase) > -1
+				|| s.IndexOf("%60script", StringComparison.InvariantCultureIgnoreCase) > -1)
 			{
-				return;
+				return true;
 			}
-
-			if (s.IndexOf("<script") > -1
-				|| s.IndexOf("&#60script") > -1
-				|| s.IndexOf("&60script") > -1
-				|| s.IndexOf("%60script") > -1)
-			{
-				throw new IllegalPostCharactersException("Illegal Characters Found");
-			}
+			return false;
 		}
 
 		/// <summary>
-		/// Wraps an anchor tag around urls.
+		/// Wraps an anchor tag around all urls. Makes sure not to wrap already 
+		/// wrapped urls.
 		/// </summary>
-		/// <param name="text">Text.</param>
+		/// <param name="html">Html containing urls to convert.</param>
 		/// <returns></returns>
-		public static string EnableUrls(string text)
+		public static string ConvertUrlsToHyperLinks(string html)
 		{
-			if (text == null)
-			{
-				throw new ArgumentNullException("text", Resources.ArgumentNull_String);
-			}
+			if (html == null)
+				throw new ArgumentNullException("html");
 
-			string pattern = @"(http|ftp|https):\/\/[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
-			MatchCollection matches = Regex.Matches(text, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-			foreach (Match m in matches)
+			if (html.Length == 0)
+				return string.Empty;
+
+			return ConvertHtmlToXHtml(html, delegate(string text)
 			{
-				text = text.Replace(m.ToString(), string.Format("<a rel=\"nofollow external\" href=\"{0}\">{1}</a>", m, m));
-			}
-			return text;
+				string pattern =
+					@"((https?|ftp)://|www\.)[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
+				MatchCollection matches =
+					Regex.Matches(text, pattern,
+								  RegexOptions.
+									IgnoreCase |
+								  RegexOptions.Compiled);
+				foreach (Match m in matches)
+				{
+					string httpPortion = string.Empty;
+					if (!m.Value.Contains("://"))
+					{
+						httpPortion = "http://";
+					}
+
+					text =
+						text.Replace(m.Value,
+							string.Format("<a rel=\"nofollow external\" href=\"{0}{1}\" title=\"{1}\">{2}</a>", httpPortion, m.Value, ShortenUrl(m.Value, 50))
+						);
+				}
+				return text;
+			});
 		}
 
+		/// <summary>
+		/// Shortens a url for display.
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <param name="max">Maximum size for the url. Anything longer gets shortened.</param>
+		/// <returns></returns>
+		public static string ShortenUrl(string url, int max)
+		{
+			if (url == null)
+				throw new ArgumentNullException("url");
+
+			if (max < 5)
+				throw new ArgumentException("We will not shorten a URL to less than 5 characters. Come on now!", "max");
+
+			if (url.Length <= max)
+				return url;
+
+			// Remove the protocal
+			url = StringHelper.RightAfter(url, "://");
+
+			if (url.Length <= max)
+				return url;
+
+			// Remove the folder structure, except for the last folder.
+			int firstIndex = url.IndexOf("/") + 1;
+			int startIndexForLastSlash = url.Length - 1;
+			if (url.EndsWith("/"))
+				startIndexForLastSlash--;
+
+			int lastIndex = url.LastIndexOf("/", startIndexForLastSlash);
+
+			if (firstIndex < lastIndex)
+				url = StringHelper.LeftBefore(url, "/") + "/.../" + url.Substring(url.LastIndexOf(@"\", startIndexForLastSlash));
+
+			if (url.Length <= max)
+				return url;
+
+			// Remove URL parameters
+			url = StringHelper.LeftBefore(url, "?");
+
+			if (url.Length <= max)
+				return url;
+
+			// Remove URL fragment
+			url = StringHelper.LeftBefore(url, "#");
+
+			if (url.Length <= max)
+				return url;
+
+			// Shorten page
+			firstIndex = url.LastIndexOf("/") + 1;
+			lastIndex = url.LastIndexOf(".");
+			if (lastIndex - firstIndex > 10)
+			{
+				string page = url.Substring(firstIndex, lastIndex - firstIndex);
+				int length = url.Length - max + 3;
+				url = url.Replace(page, "..." + page.Substring(length));
+			}
+
+			if (url.Length <= max)
+				return url;
+
+			//Trim of trailing slash if any.
+			if (url.Length > max && url.EndsWith("/"))
+				url = url.Substring(0, url.Length - 1);
+
+			if (url.Length <= max)
+				return url;
+
+			if (url.Length > max)
+				url = url.Substring(0, max - 3) + "...";
+
+			return url;
+		}
 
 		/// <summary>
 		/// The only HTML we will allow is hyperlinks. 
 		/// We will however, check for line breaks and replace 
 		/// them with <br />
 		/// </summary>
-		/// <param name="input"></param>
+		/// <param name="stringToTransform"></param>
 		/// <returns></returns>
-		public static string SafeFormat(string input)
+		public static string SafeFormat(string stringToTransform)
 		{
-			if (input == null)
-				throw new ArgumentNullException("input", Resources.ArgumentNull_String);
+			if (stringToTransform == null)
+				throw new ArgumentNullException("stringToTransform", "Cannot transform a null string.");
 
-			input = HttpContext.Current.Server.HtmlEncode(input);
+			stringToTransform = HttpContext.Current.Server.HtmlEncode(stringToTransform);
 			string brTag = "<br />";
-			return input.Replace(Environment.NewLine, brTag);
+			return stringToTransform.Replace(Environment.NewLine, brTag);
 		}
 
 		/// <summary>
@@ -401,14 +512,7 @@ namespace Subtext.Framework.Text
 		public static string ConvertToAllowedHtml(string text)
 		{
 			if (text == null)
-			{
-				throw new ArgumentNullException("text", Resources.ArgumentNull_String);
-			}
-
-			if (text.Length == 0)
-			{
-				throw new ArgumentException(Resources.Argument_StringZeroLength, "text");
-			}
+				throw new ArgumentNullException("text", "Cannot convert null to allowed html.");
 
 			NameValueCollection allowedHtmlTags = Config.Settings.AllowedHtmlTags;
 
@@ -425,16 +529,11 @@ namespace Subtext.Framework.Text
 		/// <summary>
 		/// Filters text to only allow defined HTML.
 		/// </summary>
-		/// <param name="text">Text.</param>
 		/// <param name="allowedHtmlTags">The allowed html tags.</param>
+		/// <param name="text">Text.</param>
 		/// <returns></returns>
 		public static string ConvertToAllowedHtml(NameValueCollection allowedHtmlTags, string text)
 		{
-			if (text == null)
-			{
-				throw new ArgumentNullException("text", Resources.ArgumentNull_String);
-			}
-
 			if (allowedHtmlTags == null || allowedHtmlTags.Count == 0)
 			{
 				//This indicates that the AllowableCommentHtml configuration is either missing or
@@ -490,7 +589,7 @@ namespace Subtext.Framework.Text
 					sb.Append(HtmlSafe(text.Substring(currentIndex)));
 				}
 
-				return ConvertHtmlToXHtml(sb.ToString());
+				return ConvertHtmlToXHtml(sb.ToString(), null);
 			}
 		}
 
@@ -634,8 +733,8 @@ namespace Subtext.Framework.Text
 			{
 				if (m.Groups.ToString().Length > 0)
 				{
-					string link = 	m.Groups[1].ToString();	
-					if(!links.Contains(link))
+					string link = m.Groups[1].ToString();
+					if (!links.Contains(link))
 					{
 						links.Add(link);
 					}
@@ -670,8 +769,8 @@ namespace Subtext.Framework.Text
 		/// </summary>
 		/// <param name="html"></param>
 		/// <returns></returns>
-		public static IList<string> ParseTags(string html)
-        {
+		public static List<string> ParseTags(string html)
+		{
 			Regex relRegex = new Regex(@"\s+rel\s*=\s*(""[^""]*?\btag\b.*?""|'[^']*?\btag\b.*?')", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 			Regex hrefRegex = new Regex(@"\s+href\s*=\s*(""(?<url>[^""]*?)""|'(?<url>[^']*?)')", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 			Regex anchorRegex = new Regex(@"<a(\s+\w+\s*=\s*(?:""[^""]*?""|'[^']*?')(?!\w))+\s*>.*?</a>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -679,25 +778,28 @@ namespace Subtext.Framework.Text
 			List<string> tags = new List<string>();
 
 			foreach (Match m in anchorRegex.Matches(html))
-            {
-            	string anchorHtml = m.Value;
+			{
+				string anchorHtml = m.Value;
 				if (!relRegex.IsMatch(anchorHtml))
 					continue;
 
-                Match urlMatch = hrefRegex.Match(anchorHtml);
-                if (urlMatch.Success)
-                {
-                    Uri url;
-                    if (Uri.TryCreate(urlMatch.Groups["url"].Value, UriKind.RelativeOrAbsolute, out url))
-                    {
-                        string[] seg = url.Segments;
-                        string tag = HttpUtility.UrlDecode(seg[seg.Length - 1].Replace("/", ""));
-                        if(!tags.Contains(tag))
+				Match urlMatch = hrefRegex.Match(anchorHtml);
+				if (urlMatch.Success)
+				{
+					string urlStr = urlMatch.Groups["url"].Value;
+					if (urlStr.EndsWith("/default.aspx", StringComparison.InvariantCultureIgnoreCase))
+						urlStr = urlStr.Substring(0, urlStr.Length - 13);
+					Uri url;
+					if (Uri.TryCreate(urlStr, UriKind.RelativeOrAbsolute, out url))
+					{
+						string[] seg = url.Segments;
+						string tag = HttpUtility.UrlDecode(seg[seg.Length - 1].Replace("/", ""));
+						if (!tags.Contains(tag))
 							tags.Add(tag);
-                    }
-                }
-            }
-            return tags;
-        }
+					}
+				}
+			}
+			return tags;
+		}
 	}
 }

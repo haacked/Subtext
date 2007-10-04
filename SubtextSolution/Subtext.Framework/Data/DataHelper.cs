@@ -162,7 +162,19 @@ namespace Subtext.Framework.Data
             return entries;
         }
 		#endregion
+		#region BlogAlias
+		public static BlogAlias LoadBlogAlias(IDataReader reader)
+		{
+			BlogAlias alias = new BlogAlias();
 
+			alias.Id = ReadInt32(reader, "AliasId");
+			alias.BlogId = ReadInt32(reader, "BlogId");
+			alias.Host = ReadString(reader, "Host");
+			alias.Subfolder = ReadString(reader, "Application");
+			alias.IsActive = ReadBoolean(reader, "IsActive");
+			return alias;
+		}
+		#endregion
 		#region Single Entry
 		//Crappy. Need to clean up all of the entry references
 		public static EntryStatsView LoadEntryStatsView(IDataReader reader)

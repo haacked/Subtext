@@ -16,6 +16,7 @@
 using System;
 using System.Configuration;
 using System.Globalization;
+using System.Web;
 using System.Web.Security;
 using System.Web.UI.WebControls;
 using Docuverse.Identicon;
@@ -40,7 +41,7 @@ namespace Subtext.Web.UI.Controls
 	public class Comments : BaseControl, ICommentControl
 	{
 		static readonly ILog log = new Log();
-		
+
 		protected Repeater CommentList;
 		protected Literal NoCommentMessage;
 		private FeedbackItem comment;
@@ -53,26 +54,39 @@ namespace Subtext.Web.UI.Controls
 			get { return comment; }
 		}
 
+		public bool IsEditEnabled
+		{
+			get { return Request.IsAuthenticated && SecurityHelper.IsAdmin; }
+		}
+
+		public string EditUrl(FeedbackItem feedback)
+		{
+			//TODO - Hs GOT to be a better way to do this. Perhaps change UrlFormats to return absolute?
+			string url = UrlFormats.GetFeedbackEditLink(feedback);
+
+			return VirtualPathUtility.ToAbsolute(StringHelper.LeftBefore(url, "?")) + "?" + StringHelper.RightAfter(url, "?");
+		}
+
 		protected override void OnLoad(EventArgs e)
 		{
-			base.OnLoad (e);
+			base.OnLoad(e);
 
 			try
 			{
-                gravatarEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings["GravatarEnabled"]);
+				gravatarEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings["GravatarEnabled"]);
 			}
-			catch(Exception) 
+			catch (Exception)
 			{
 				gravatarEnabled = false;
 			}
-			
-			if(gravatarEnabled) 
+
+			if (gravatarEnabled)
 			{
-                gravatarUrlFormatString = ConfigurationManager.AppSettings["GravatarUrlFormatString"];
-                gravatarEmailFormat = ConfigurationManager.AppSettings["GravatarEmailFormat"];
+				gravatarUrlFormatString = ConfigurationManager.AppSettings["GravatarUrlFormatString"];
+				gravatarEmailFormat = ConfigurationManager.AppSettings["GravatarEmailFormat"];
 			}
 
-			if(CurrentBlog.CommentsEnabled)
+			if (CurrentBlog.CommentsEnabled)
 			{
 				BindFeedback(true);
 			}
@@ -80,7 +94,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				Visible = false;
 			}
-			
+
 		}
 
 		/// <summary>
@@ -95,9 +109,9 @@ namespace Subtext.Web.UI.Controls
 
 		internal void BindFeedback(bool fromCache)
 		{
-			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);	
+			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
 
-			if(entry != null && entry.AllowComments)
+			if (entry != null && entry.AllowComments)
 			{
 				BindFeedback(entry, fromCache);
 			}
@@ -106,8 +120,8 @@ namespace Subtext.Web.UI.Controls
 				Visible = false;
 			}
 		}
-		
-		protected void RemoveComment_ItemCommand(Object Sender, RepeaterCommandEventArgs e) 
+
+		protected void RemoveComment_ItemCommand(Object Sender, RepeaterCommandEventArgs e)
 		{
 			int feedbackId = Int32.Parse(e.CommandName);
 			FeedbackItem feedback = FeedbackItem.Get(feedbackId);
@@ -121,33 +135,33 @@ namespace Subtext.Web.UI.Controls
 		}
 
 		// Customizes the display row for each comment.
-		protected void CommentsCreated(object sender,  RepeaterItemEventArgs e)
+		protected void CommentsCreated(object sender, RepeaterItemEventArgs e)
 		{
-			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+			if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
 				FeedbackItem feedbackItem = (FeedbackItem)e.Item.DataItem;
 				this.comment = feedbackItem;
-				if(feedbackItem != null)
+				if (feedbackItem != null)
 				{
 					Literal title = (Literal)(e.Item.FindControl("Title"));
-					if(title != null)
+					if (title != null)
 					{
 						// we should probably change skin format to dynamically wire up to 
 						// skin located title and permalinks at some point
-						title.Text = string.Format(CultureInfo.InvariantCulture, "{2}&nbsp;{0}{1}", Anchor(feedbackItem.Id), 
+						title.Text = string.Format(CultureInfo.InvariantCulture, "{2}&nbsp;{0}{1}", Anchor(feedbackItem.Id),
 							feedbackItem.Title, Link(feedbackItem.Title, feedbackItem.DisplayUrl));
 					}
 
 					//Shows the name of the commenter with a link if provided.
 					HyperLink namelink = (HyperLink)e.Item.FindControl("NameLink");
-					if(namelink != null)
+					if (namelink != null)
 					{
-						if(feedbackItem.SourceUrl != null)
+						if (feedbackItem.SourceUrl != null)
 						{
 							namelink.NavigateUrl = feedbackItem.SourceUrl.ToString();
 							ControlHelper.SetTitleIfNone(namelink, feedbackItem.SourceUrl.ToString());
-						}				
-						
+						}
+
 						if (feedbackItem.FeedbackType == FeedbackType.Comment)
 						{
 							namelink.Text = feedbackItem.Author;
@@ -155,24 +169,24 @@ namespace Subtext.Web.UI.Controls
 						}
 						else if (feedbackItem.FeedbackType == FeedbackType.PingTrack)
 						{
-							namelink.Text =  !String.IsNullOrEmpty(feedbackItem.Author) ? feedbackItem.Author : "Pingback/TrackBack";
+							namelink.Text = !String.IsNullOrEmpty(feedbackItem.Author) ? feedbackItem.Author : "Pingback/TrackBack";
 							ControlHelper.SetTitleIfNone(namelink, "PingBack/TrackBack");
 						}
-					
-						if(feedbackItem.IsBlogAuthor)
+
+						if (feedbackItem.IsBlogAuthor)
 							HtmlHelper.AppendCssClass(namelink, "author");
 					}
 
 					Literal PostDate = (Literal)(e.Item.FindControl("PostDate"));
-					if(PostDate != null)
+					if (PostDate != null)
 					{
 						PostDate.Text = feedbackItem.DateCreated.ToShortDateString() + " " + feedbackItem.DateCreated.ToShortTimeString();
 					}
 
 					Literal Post = e.Item.FindControl("PostText") as Literal;
-					if(Post != null)
+					if (Post != null)
 					{
-						if(feedbackItem.Body.Length > 0)
+						if (feedbackItem.Body.Length > 0)
 						{
 							Post.Text = feedbackItem.Body;
 							if (feedbackItem.Body.Length == 0 && feedbackItem.FeedbackType == FeedbackType.PingTrack)
@@ -181,58 +195,58 @@ namespace Subtext.Web.UI.Controls
 							}
 						}
 					}
-					
-					if(gravatarEnabled)
+
+					if (gravatarEnabled)
 					{
 						Image gravatarImage = e.Item.FindControl("GravatarImg") as Image;
-						if(gravatarImage != null) 
+						if (gravatarImage != null)
 						{
 							//This allows per-skin configuration of the default gravatar image.
 							string defaultGravatarImage = gravatarImage.Attributes["PlaceHolderImage"];
 
-						    string ip;
-                            if(feedbackItem.IpAddress != null)
-                                ip = feedbackItem.IpAddress.ToString();
-                            else
-                                ip = DateTime.Now.Millisecond + " " + DateTime.Now.Second;
+							string ip;
+							if (feedbackItem.IpAddress != null)
+								ip = feedbackItem.IpAddress.ToString();
+							else
+								ip = DateTime.Now.Millisecond + " " + DateTime.Now.Second;
 
-                            if (String.IsNullOrEmpty(defaultGravatarImage))
-                            {
-                                string identiconSizeSetting = ConfigurationManager.AppSettings["IdenticonSize"];
+							if (String.IsNullOrEmpty(defaultGravatarImage))
+							{
+								string identiconSizeSetting = ConfigurationManager.AppSettings["IdenticonSize"];
 
-                                int identiconSize = 40;
-                                if (!String.IsNullOrEmpty(identiconSizeSetting))
-                                {
-                                    int.TryParse(identiconSizeSetting, out identiconSize);
-                                }
-                                defaultGravatarImage = string.Format("~/images/IdenticonHandler.ashx?size={0}&code={1}"
-                                    , identiconSize
+								int identiconSize = 40;
+								if (!String.IsNullOrEmpty(identiconSizeSetting))
+								{
+									int.TryParse(identiconSizeSetting, out identiconSize);
+								}
+								defaultGravatarImage = string.Format("~/images/IdenticonHandler.ashx?size={0}&code={1}"
+									, identiconSize
 									, IdenticonUtil.Code(ip));
-                            }
+							}
 
-						    //This allows a host-wide setting of the default gravatar image.
+							//This allows a host-wide setting of the default gravatar image.
 							string gravatarUrl = null;
 							if (!String.IsNullOrEmpty(feedbackItem.Email))
 								gravatarUrl = BuildGravatarUrl(feedbackItem.Email, defaultGravatarImage);
-							
-							if(!String.IsNullOrEmpty(gravatarUrl))
+
+							if (!String.IsNullOrEmpty(gravatarUrl))
 							{
 								gravatarImage.Attributes.Remove("PlaceHolderImage");
-								if(gravatarUrl.Length != 0)
+								if (gravatarUrl.Length != 0)
 								{
-                                    gravatarImage.ImageUrl = gravatarUrl;
+									gravatarImage.ImageUrl = gravatarUrl;
 									gravatarImage.Visible = true;
 								}
 							}
-                            else
+							else
 							{
-							    gravatarImage.ImageUrl = defaultGravatarImage;
-							    gravatarImage.Visible = true;
+								gravatarImage.ImageUrl = defaultGravatarImage;
+								gravatarImage.Visible = true;
 							}
 						}
 					}
 
-					if(Request.IsAuthenticated && SecurityHelper.IsAdmin)
+					if (Request.IsAuthenticated && SecurityHelper.IsAdmin)
 					{
 						HyperLink editCommentTextLink = (HyperLink)(e.Item.FindControl("EditCommentTextLink"));
 						if (editCommentTextLink != null)
@@ -252,15 +266,15 @@ namespace Subtext.Web.UI.Controls
 							{
 								editCommentImgLink.ImageUrl = BlogInfo.VirtualDirectoryRoot + "Images/edit.gif";
 							}
-							ControlHelper.SetTitleIfNone(editCommentImgLink,"Click to edit comment " + feedbackItem.Id.ToString(CultureInfo.InstalledUICulture));
+							ControlHelper.SetTitleIfNone(editCommentImgLink, "Click to edit comment " + feedbackItem.Id.ToString(CultureInfo.InstalledUICulture));
 						}
 						LinkButton editlink = (LinkButton)(e.Item.FindControl("EditLink"));
-						if(editlink != null)
+						if (editlink != null)
 						{
 							//editlink.CommandName = "Remove";
 							editlink.Text = "Remove Comment " + feedbackItem.Id.ToString(CultureInfo.InvariantCulture);
 							editlink.CommandName = feedbackItem.Id.ToString(CultureInfo.InvariantCulture);
-							editlink.Attributes.Add("onclick","return confirm(\"Are you sure you want to delete comment " + feedbackItem.Id.ToString(CultureInfo.InvariantCulture) + "?\");");
+							editlink.Attributes.Add("onclick", "return confirm(\"Are you sure you want to delete comment " + feedbackItem.Id.ToString(CultureInfo.InvariantCulture) + "?\");");
 							editlink.Visible = true;
 							editlink.CommandArgument = feedbackItem.Id.ToString(CultureInfo.InvariantCulture);
 
@@ -275,9 +289,8 @@ namespace Subtext.Web.UI.Controls
 		private static string Link(string title, Uri link)
 		{
 			if (link == null)
-			{
 				return string.Empty;
-			}			
+
 			return string.Format(linktag, title, link);
 		}
 
@@ -288,13 +301,13 @@ namespace Subtext.Web.UI.Controls
 			return string.Format(anchortag, id);
 		}
 
-		private string BuildGravatarUrl(string email, string defaultGravatar) 
+		private string BuildGravatarUrl(string email, string defaultGravatar)
 		{
-            if (email == null)
-                throw new ArgumentNullException("email", "Email should not be null.");
+			if (email == null)
+				throw new ArgumentNullException("email", "Email should not be null.");
 
-            if(defaultGravatar == null)
-                throw new ArgumentNullException("defaultGravatar", "Default gravatar should not be null.");
+			if (defaultGravatar == null)
+				throw new ArgumentNullException("defaultGravatar", "Default gravatar should not be null.");
 
 			string processedEmail = string.Empty;
 
@@ -305,22 +318,18 @@ namespace Subtext.Web.UI.Controls
 
 			defaultGravatar = Server.UrlEncode(defaultGravatar);
 
-			if(gravatarEmailFormat.Equals("plain"))
+			if (gravatarEmailFormat.Equals("plain"))
 			{
 				processedEmail = email;
 			}
-			else if(gravatarEmailFormat.Equals("MD5")) 
+			else if (gravatarEmailFormat.Equals("MD5"))
 			{
 				processedEmail = FormsAuthentication.HashPasswordForStoringInConfigFile(email, "md5").ToLower();
 			}
-            if (processedEmail.Length != 0)
-            {
-                return String.Format(gravatarUrlFormatString, processedEmail, defaultGravatar);
-            }
-            else
-            {
-                return string.Empty;
-            }
+			if (processedEmail.Length != 0)
+				return String.Format(gravatarUrlFormatString, processedEmail, defaultGravatar);
+			else
+				return string.Empty;
 		}
 
 		internal void BindFeedback(Entry entry, bool fromCache)
@@ -330,7 +339,7 @@ namespace Subtext.Web.UI.Controls
 				CommentList.DataSource = Cacher.GetFeedback(entry, CacheDuration.Short, fromCache);
 				CommentList.DataBind();
 
-				if(CommentList.Items.Count == 0)
+				if (CommentList.Items.Count == 0)
 				{
 					if (entry.CommentingClosed)
 					{
@@ -343,7 +352,7 @@ namespace Subtext.Web.UI.Controls
 					}
 				}
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				log.Error(e.Message, e);
 				Visible = false;

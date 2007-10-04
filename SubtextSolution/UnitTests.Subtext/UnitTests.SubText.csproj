@@ -334,13 +334,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Components\EntryTests\PreviousNextTests.cs" />
-    <Compile Include="Framework\Components\MetaTagTests\MetatTagUpdateTests.cs" />
+    <Compile Include="Framework\Components\MetaTagTests\MetaTagDeleteTests.cs" />
     <Compile Include="Framework\Components\MetaTagTests\MetaTagGetTests.cs" />
     <Compile Include="Framework\Components\MetaTagTests\MetaTagInsertTests.cs" />
     <Compile Include="Framework\Components\MetaTagTests\MetaTagIsValidTests.cs" />
+    <Compile Include="Framework\Components\MetaTagTests\MetaTagUpdateTests.cs" />
     <Compile Include="Framework\Components\TrackbackTests\TrackbackCreation.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Configuration\BlogAliasTests.cs" />
     <Compile Include="Framework\Configuration\BlogCreationTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -370,6 +372,7 @@
     <Compile Include="Framework\Skinning\SkinScriptsTests.cs" />
     <Compile Include="Framework\Skinning\SkinStylesTests.cs" />
     <Compile Include="Framework\Skinning\SkinTests.cs" />
+    <Compile Include="Framework\Syndication\Admin\ModeratedCommentRssWriterTests.cs" />
     <Compile Include="Framework\Syndication\AtomHandlerTests.cs">
       <SubType>Code</SubType>
     </Compile>

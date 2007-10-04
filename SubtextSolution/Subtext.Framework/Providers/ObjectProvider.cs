@@ -130,7 +130,22 @@ namespace Subtext.Framework.Providers
 		/// <param name="blogId">Blog id.</param>
 		/// <returns></returns>
 		public abstract BlogInfo GetBlogById(int blogId);
+
+		public abstract BlogInfo GetBlogByDomainAlias(string host, string subfolder, bool strict);
+
+		public abstract PagedCollection<BlogAlias> GetPagedBlogDomainAlias(BlogInfo blog, int pageIndex, int pageSize);
+
 		#endregion Blogs
+
+		#region BlogAlias
+
+		public abstract bool CreateBlogAlias(BlogAlias alias);
+
+		public abstract bool UpdateBlogAlias(BlogAlias alias);
+
+		public abstract bool DeleteBlogAlias(BlogAlias alias);
+
+		#endregion
 
 		#region Entries
 
@@ -562,7 +577,14 @@ namespace Subtext.Framework.Providers
         /// <returns></returns>
 	    public abstract IList<MetaTag> GetMetaTagsForEntry(Entry entry);
 
-        #endregion
+        /// <summary>
+        /// Deletes the MetaTag with the given metaTagId.
+        /// </summary>
+        /// <param name="metaTagId"></param>
+        /// <returns></returns>
+        public abstract bool DeleteMetaTag(int metaTagId);
+
+		#endregion
 
         #region KeyWords
 
@@ -774,5 +796,8 @@ namespace Subtext.Framework.Providers
 		public abstract DataTable GetAggregateRecentPosts(int groupId);
 
 		#endregion
+
+		public abstract BlogAlias GetBlogAliasById(int aliasId);
 	}
+
 }

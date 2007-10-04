@@ -123,6 +123,35 @@ namespace UnitTests.Subtext.Framework.Skinning
         }
 
         [RowTest]
+        [Row("", "", "/Skins/Nature/print.css", "/Skins/Nature/style.css", "/Skins/Nature/rain.css")]
+        [Row("blog", "", "/Skins/Nature/print.css", "/Skins/Nature/style.css", "/Skins/Nature/rain.css")]
+        [Row("blog", "Subtext.Web", "/Subtext.Web/Skins/Nature/print.css", "/Subtext.Web/Skins/Nature/style.css", "/Subtext.Web/Skins/Nature/rain.css")]
+        public void StyleSheetElementCollectionRendererRendersPlainCssLinkElementsWithNoneMergeModeAndSecondaryStyle(string subFolder, string applicationPath, string expectedPrintCssPath, string expectedDefaultCssPath, string expectedSecondaryCssPath)
+        {
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subFolder, applicationPath, string.Empty);
+            MockRepository mocks = new MockRepository();
+
+            VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
+            mocks.ReplayAll();
+
+            SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+            StyleSheetElementCollectionRenderer renderer = new StyleSheetElementCollectionRenderer(templates);
+            string styleElements = renderer.RenderStyleElementCollection("Nature-rain.css");
+
+            Console.WriteLine(styleElements);
+
+            string printCss = string.Format(@"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""{0}"" />", expectedPrintCssPath);
+            Assert.IsTrue(styleElements.IndexOf(printCss) > -1, "Expected the printcss to be there.");
+
+            string defaultCss = string.Format(@"<link type=""text/css"" rel=""stylesheet"" href=""{0}"" />", expectedDefaultCssPath);
+            Assert.IsTrue(styleElements.IndexOf(defaultCss) > -1, "Expected the default css to be there.");
+
+            string secondaryCss = string.Format(@"<link type=""text/css"" rel=""stylesheet"" href=""{0}"" />", expectedSecondaryCssPath);
+            Assert.IsTrue(styleElements.IndexOf(secondaryCss) > -1, "Expected the secondary css to be there.");
+        }
+
+
+        [RowTest]
         [Row("KeyWest", true)]
         [Row("Gradient", false)]
         public void StyleSheetElementCollectionRendererRendersLinkElementsInRightOrder(string skinKey, bool expectedFirst)

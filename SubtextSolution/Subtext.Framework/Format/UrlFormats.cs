@@ -260,6 +260,10 @@ namespace Subtext.Framework.Format
 		{
 			return GetFullyQualifiedUrl("aggbug/{0}.aspx", EntryID);
 		}
+		public virtual string AdminUrl(string Page)
+		{
+			return GetFullyQualifiedUrl("Admin/{0}", Page);
+		}
 
 		/// <summary>
 		/// Returns a fully qualified Url using the specified format string.
@@ -684,5 +688,86 @@ namespace Subtext.Framework.Format
 
 			return (hostEnd < 0) ? url.Substring(hostStart) : url.Substring(hostStart, hostEnd - hostStart);
 		}
+
+
+		#region Url Shortener
+		//Original code from: Mads Kristensen
+		//http://blog.madskristensen.dk/post/Resolve-and-shorten-URLs-in-Csharp.aspx
+		private static readonly Regex regex = new Regex("((http://|www\\.)([A-Z0-9.-:]{1,})\\.[0-9A-Z?;~&#=\\-_\\./]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+		private static readonly string link = "<a href=\"{0}{1}\">{2}</a>";
+
+		public static string ResolveLinks(string body)
+		{
+			if (string.IsNullOrEmpty(body))
+				return body;
+
+			foreach (Match match in regex.Matches(body))
+			{
+				if (!match.Value.Contains("://"))
+				{
+					body = body.Replace(match.Value, string.Format(link, "http://", match.Value, ShortenUrl(match.Value, 50)));
+				}
+				else
+				{
+					body = body.Replace(match.Value, string.Format(link, string.Empty, match.Value, ShortenUrl(match.Value, 50)));
+				}
+			}
+
+			return body;
+		}
+
+		public static string ShortenUrl(string url, int max)
+		{
+			if (url.Length <= max)
+				return url;
+
+			// Remove the protocal
+			int startIndex = url.IndexOf("://");
+			if (startIndex > -1)
+				url = url.Substring(startIndex + 3);
+
+			if (url.Length <= max)
+				return url;
+
+			// Remove the folder structure
+			int firstIndex = url.IndexOf("/") + 1;
+			int lastIndex = url.LastIndexOf("/");
+			if (firstIndex < lastIndex)
+				url = url.Replace(url.Substring(firstIndex, lastIndex - firstIndex), "...");
+
+			if (url.Length <= max)
+				return url;
+
+			// Remove URL parameters
+			int queryIndex = url.IndexOf("?");
+			if (queryIndex > -1)
+				url = url.Substring(0, queryIndex);
+
+			if (url.Length <= max)
+				return url;
+
+			// Remove URL fragment
+			int fragmentIndex = url.IndexOf("#");
+			if (fragmentIndex > -1)
+				url = url.Substring(0, fragmentIndex);
+
+			if (url.Length <= max)
+				return url;
+
+			// Shorten page
+			firstIndex = url.LastIndexOf("/") + 1;
+			lastIndex = url.LastIndexOf(".");
+			if (lastIndex - firstIndex > 10)
+			{
+				string page = url.Substring(firstIndex, lastIndex - firstIndex);
+				int length = url.Length - max + 3;
+				if(length<page.Length)//If page length is longer then max length, can not shorten it
+					url = url.Replace(page, "..." + page.Substring(length));
+			}
+
+			return url;
+		}
+		#endregion
+
 	}
 }
