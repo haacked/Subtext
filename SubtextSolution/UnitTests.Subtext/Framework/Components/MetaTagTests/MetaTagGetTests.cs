@@ -15,14 +15,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using MbUnit.Framework;
-using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 {
@@ -90,23 +85,15 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 
         #region Some helper code to populate the db w/metatags
 
-        private static readonly string insertSql = @"INSERT INTO subtext_MetaTag ([Content], [Name], HttpEquiv, DateCreated, BlogId, EntryId) VALUES (@Content, @Name, @HttpEquiv, @DateCreated, @BlogId, @EntryId)";
-
-
-        private void InsertNewMetaTag(string content, string nameValue, string httpEquivValue, DateTime created, int blogId, int? entryId)
+        private static void InsertNewMetaTag(string content, string nameValue, string httpEquivValue, DateTime created, int blogId, int? entryId)
         {
-            object entryIdValue = entryId.HasValue ? DataHelper.CheckNull(entryId.Value) : DBNull.Value;
-
-            SqlParameter[] p = 
-                {
-                    DataHelper.MakeInParam("@Content", content),
-                    DataHelper.MakeInParam("@Name", DataHelper.CheckNull(nameValue)),
-                    DataHelper.MakeInParam("@HttpEquiv", DataHelper.CheckNull(httpEquivValue)),
-                    DataHelper.MakeInParam("@DateCreated", created),
-                    DataHelper.MakeInParam("@BlogId", blogId),
-                    DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, entryIdValue)
-                };
-            SqlHelper.ExecuteNonQuery(Config.ConnectionString, CommandType.Text, insertSql, p);
+        	MetaTag tag = new MetaTag();
+        	tag.Content = content;
+        	tag.Name = nameValue;
+        	tag.HttpEquiv = httpEquivValue;
+        	tag.DateCreated = created;
+        	tag.EntryId = entryId;
+        	MetaTags.Create(tag);
         }
 
         #endregion
