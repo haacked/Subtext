@@ -123,7 +123,7 @@
 		<mkdir dir="${log.dir}" />
 		
 		<ncover
-			commandLineExe="${MbUnit.exe}"
+			commandLineExe="${mbunit.exe}"
 			commandLineArgs="/rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll"
 			program="${ncover.exe}"
 			workingDirectory="UnitTests.Subtext\bin\${configuration}"
