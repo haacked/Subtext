@@ -148,10 +148,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Microsoft.SqlServer.SqlEnum.dll</HintPath>
     </Reference>
-    <Reference Include="NGraphviz">
-      <Name>NGraphviz</Name>
-      <HintPath>ExternalDependencies\NGraphviz.dll</HintPath>
-    </Reference>
     <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\freetextbox.dll</HintPath>
@@ -168,6 +164,10 @@
     <Reference Include="Microsoft.SqlServer.Replication, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Microsoft.SqlServer.Replication.dll</HintPath>
+    </Reference>
+    <Reference Include="NGraphviz, Version=1.5.1609.21361, Culture=neutral, PublicKeyToken=05e526eb3b1f8001">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\NGraphviz.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Mocks, Version=3.1.0.584, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
