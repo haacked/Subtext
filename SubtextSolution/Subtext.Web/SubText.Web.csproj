@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,6 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Subtext.Web</RootNamespace>
     <AssemblyName>Subtext.Web</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -384,6 +389,9 @@
     <Compile Include="HostAdmin\ForgotPassword.aspx.designer.cs">
       <DependentUpon>ForgotPassword.aspx</DependentUpon>
     </Compile>
+    <Compile Include="HostAdmin\HostAdminPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="HostAdmin\HostAdminTemplate.Master.cs">
       <DependentUpon>HostAdminTemplate.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -466,6 +474,13 @@
     <Compile Include="HostAdmin\UserControls\BlogsList.ascx.cs">
       <DependentUpon>BlogsList.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HostAdmin\UserControls\GroupsEditor.ascx.cs">
+      <DependentUpon>GroupsEditor.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HostAdmin\UserControls\GroupsEditor.ascx.designer.cs">
+      <DependentUpon>GroupsEditor.ascx</DependentUpon>
     </Compile>
     <Compile Include="HostAdmin\UserControls\BlogsList.ascx.designer.cs">
       <DependentUpon>BlogsList.ascx</DependentUpon>
@@ -626,6 +641,24 @@
     </Compile>
     <Compile Include="SystemMessages\UpgradeInProgress.aspx.designer.cs">
       <DependentUpon>UpgradeInProgress.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\Aggregate\AggBloggers.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\Aggregate\AggBlogStats.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\Aggregate\AggPinnedPost.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\Aggregate\AggRecentImages.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\Aggregate\AggRecentPosts.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\Aggregate\AggSyndication.cs">
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UI\Controls\ArchiveCategory.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -923,6 +956,10 @@
       <DependentUpon>BlogsList.ascx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="HostAdmin\UserControls\GroupsEditor.ascx.resx">
+      <DependentUpon>GroupsEditor.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Install\BlogNotConfiguredError.aspx.resx">
       <DependentUpon>BlogNotConfiguredError.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1051,6 +1088,7 @@
     <Content Include="DTP.aspx" />
     <Content Include="ForgotPassword.aspx" />
     <Content Include="HostAdmin\ChangePassword.aspx" />
+    <Content Include="HostAdmin\ManageGroups.aspx" />
     <Content Include="HostAdmin\Default.aspx" />
     <Content Include="HostAdmin\EditBlog.aspx" />
     <Content Include="HostAdmin\ErrorLog.aspx" />
@@ -1081,6 +1119,9 @@
     <Content Include="HostAdmin\UserControls\UserChooser.ascx" />
     <Content Include="HostAdmin\UserControls\UserGrid.ascx" />
     <Content Include="HostAdmin\UserManager.aspx" />
+    <Content Include="HostAdmin\UserControls\GroupsEditor.ascx">
+      <SubType>UserControl</SubType>
+    </Content>
     <Content Include="Images\admin.gif" />
     <Content Include="Images\administration_icon.gif" />
     <Content Include="Images\atom.gif" />
@@ -1412,6 +1453,9 @@
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\plugins\placeholder\placeholder.gif" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\plugins\simplecommands\fckplugin.js" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\plugins\tablecommands\fckplugin.js" />
+    <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\plugins\taglinks\fckplugin.js" />
+    <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\plugins\taglinks\images\taglinks.gif" />
+    <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\plugins\taglinks\lang\en.js" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\skins\default\fck_dialog.css" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\skins\default\fck_editor.css" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\skins\default\fck_strip.gif" />
@@ -1463,6 +1507,15 @@
     <Content Include="Scripts\tableEffects.js" />
     <Content Include="Scripts\XFNHighlighter.css" />
     <Content Include="Scripts\XFNHighlighter.js" />
+    <Content Include="Skins\Aggregate\Simple\blue.css" />
+    <Content Include="Skins\Aggregate\Simple\Controls\AggBloggers.ascx" />
+    <Content Include="Skins\Aggregate\Simple\Controls\AggBlogStats.ascx" />
+    <Content Include="Skins\Aggregate\Simple\Controls\AggPinnedPost.ascx" />
+    <Content Include="Skins\Aggregate\Simple\Controls\AggRecentImages.ascx" />
+    <Content Include="Skins\Aggregate\Simple\Controls\AggRecentPosts.ascx" />
+    <Content Include="Skins\Aggregate\Simple\Controls\AggSyndication.ascx" />
+    <Content Include="Skins\Aggregate\Simple\PageTemplate.ascx" />
+    <Content Include="Skins\Aggregate\Simple\style.css" />
     <Content Include="Skins\AnotherEon001\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\ArchiveDay.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\ArchiveLinks.ascx" />
@@ -2089,6 +2142,7 @@
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\filemanager\browser\default\connectors\aspx\Web.config" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\filemanager\browser\default\images\icons\32\Thumbs.db" />
     <Content Include="SiteMap\SiteMapHttpHandler.ashx" />
+    <Content Include="Providers\Web.config" />
     <None Include="Skins\RedBook\Controls\EntryList.ascx" />
     <Content Include="Skins\RedBook\Controls\Footer.ascx" />
     <Content Include="Skins\Naked\Controls\FullTagCloud.ascx" />
@@ -2357,7 +2411,8 @@
     <Folder Include="Skins\origami\Styles\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v8.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v8.0\WebApplications\Microsoft.WebApplication.targets" Condition="'$(Solutions.VSVersion)' == '8.0'" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" Condition="'$(Solutions.VSVersion)' == '9.0'" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

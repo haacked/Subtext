@@ -20,7 +20,7 @@ namespace Subtext.Web.HostAdmin
 	/// <summary>
 	/// Allows the user to change the host admin password.
 	/// </summary>
-	public partial class ChangePassword : System.Web.UI.Page
+	public partial class ChangePassword : HostAdminPage
 	{
 	}
 }

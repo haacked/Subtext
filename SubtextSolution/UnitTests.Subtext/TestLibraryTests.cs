@@ -1,9 +1,10 @@
 using System;
 using System.Net;
+using System.Net.Mail;
+using System.Text;
 using System.Threading;
 using System.Web;
 using DeftTech.DuckTyping;
-using DotNetOpenMail;
 using MbUnit.Framework;
 using Rhino.Mocks;
 using Subtext.TestLibrary;
@@ -85,14 +86,16 @@ namespace UnitTests.Subtext
 		public void SendSingleEmailAndConfirmInbox()
 		{
 			// Outgoing Message
-			EmailMessage message = new EmailMessage();
-			message.ContentType = "text/plain";
-			message.ToAddresses.Add(new EmailAddress("test@example.com"));
-			message.FromAddress = new EmailAddress("phil@example.com", "phil");
-			message.Subject = "This is a test email";
-			message.BodyText = "Just some text. ";
 
-			SmtpServer smtpServer = new SmtpServer("127.0.0.1", 8081);
+			MailMessage message = new MailMessage();
+			message.BodyEncoding = Encoding.ASCII;
+			message.To.Add("test@example.com");
+			message.From = new MailAddress("phil@example.com", "phil");
+			message.Subject = "This is a test email";
+			message.Body = "Just some text. ";
+
+
+			SmtpClient smtpServer = new SmtpClient("127.0.0.1", 8081);
 
 			// Receiving Mail Server
 			using (TestSmtpServer receivingServer = new TestSmtpServer())
@@ -102,7 +105,7 @@ namespace UnitTests.Subtext
 				{
 					receivingServer.Start("127.0.0.1", 8081);
 					receivingServer.Start("127.0.0.1", 8081); //should not cause problem...
-					message.Send(smtpServer);
+					smtpServer.Send(message);
 				}
 				finally
 				{
@@ -121,7 +124,7 @@ namespace UnitTests.Subtext
 				Assert.AreEqual("phil@example.com", received.FromAddress.Email,
 				                "Mail Server did not parse the from email address correctly.");
 				Assert.AreEqual(message.Subject, received.Subject, "Apparently, the subject was not that important.");
-				Assert.AreEqual(message.BodyText, received.Body, "The email had a nice body, which was not transferred correctly.");
+				Assert.AreEqual(message.Body, received.Body, "The email had a nice body, which was not transferred correctly.");
 			}
 		}
 

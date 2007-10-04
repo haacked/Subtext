@@ -46,7 +46,7 @@ namespace Subtext.Framework
 		static Uri _homePageUrl = new Uri("http://SubtextProject.com/");
 
 		/// <summary>
-		/// Gets the framework version.
+		/// Gets the version of the Subtext.Framework assembly.
 		/// </summary>
 		/// <value></value>
 		public static Version FrameworkVersion

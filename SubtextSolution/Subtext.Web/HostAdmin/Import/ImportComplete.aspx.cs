@@ -20,7 +20,7 @@ namespace Subtext.Web.HostAdmin
 	/// <summary>
 	/// Summary description for ImportComplete.
 	/// </summary>
-	public partial class ImportComplete : System.Web.UI.Page
+	public partial class ImportComplete : HostAdminPage
 	{	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{

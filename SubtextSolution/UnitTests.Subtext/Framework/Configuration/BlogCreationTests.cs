@@ -30,6 +30,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 	[TestFixture]
 	public class BlogCreationTests
 	{
+		private string _hostName;
+
 		/// <summary>
 		/// make sure we cannot pass in null for any of the arguments.
 		/// </summary>
@@ -89,6 +91,46 @@ namespace UnitTests.Subtext.Framework.Configuration
 			string host = UnitTestHelper.MembershipTestUsername;
             UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
             UnitTestHelper.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", host, string.Empty);
+		}
+
+		/// <summary>
+		/// Ensures that one cannot create a blog with a duplicate host 
+		/// as another blog when both have no subfolder specified.
+		/// </summary>
+		[Test]
+		[RollBack2]
+		[Ignore("Need to fix the blog alias conflict detection code")]
+		[ExpectedException(typeof(BlogDuplicationException))]
+		public void CreateBlogCannotCreateBlogWithHostThatIsDuplicateOfAnotherBlogAlias()
+		{
+			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
+			BlogAlias alias = new BlogAlias();
+			alias.Host = "example.com";
+			alias.IsActive = true;
+			alias.BlogId = Config.GetBlogInfo(_hostName, string.Empty).Id;
+			Config.AddBlogAlias(alias);
+
+			Config.CreateBlog("title", "username2", "password2", "example.com", string.Empty);
+		}
+
+		/// <summary>
+		/// Ensures that one cannot create a blog with a duplicate host 
+		/// as another blog when both have no subfolder specified.
+		/// </summary>
+		[Test]
+		[RollBack]
+		[Ignore("Need to fix the blog alias conflict detection code")]
+		[ExpectedException(typeof(BlogDuplicationException))]
+		public void CreateBlogCannotAddAliasThatIsDuplicateOfAnotherBlog()
+		{
+			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
+			Config.CreateBlog("title", "username2", "password2", "example.com", string.Empty);
+			
+			BlogAlias alias = new BlogAlias();
+			alias.Host = "example.com";
+			alias.IsActive = true;
+			alias.BlogId = Config.GetBlogInfo(_hostName, string.Empty).Id;
+			Config.AddBlogAlias(alias);
 		}
 
 		/// <summary>
@@ -312,6 +354,12 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[TearDown]
 		public void TearDown()
 		{
+		}
+
+		[SetUp]
+		public void SetUp()
+		{
+			_hostName = UnitTestHelper.GenerateRandomString();
 		}
 	}
 }

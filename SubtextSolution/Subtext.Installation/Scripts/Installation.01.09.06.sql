@@ -93,13 +93,12 @@ GO
 
 /* Change the subtext_Content.EntryName column to have nVarChar data type */
 
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]
 			WHERE TABLE_NAME = 'subtext_Content' 
 				AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
 				AND COLUMN_NAME = 'EntryName' 
 				AND DATA_TYPE = 'varchar')
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content] ALTER COLUMN EntryName NVARCHAR(100)
-
 GO
 
 
@@ -120,17 +119,17 @@ BEGIN
 		[HttpEquiv] nvarchar(100) NULL,
 		[BlogId] int NOT NULL,
 		[EntryId] int NULL,
-		[DateCreated] datetime NULL CONSTRAINT [DF_subtext_MetaTag_DateCreated] DEFAULT (getdate()),
-		CONSTRAINT [PK_subtext_MetaTag] PRIMARY KEY CLUSTERED
+		[DateCreated] datetime NULL CONSTRAINT [DF_subtext_MetaTag_DateCreated] DEFAULT (getdate())
+		,CONSTRAINT [PK_subtext_MetaTag] PRIMARY KEY CLUSTERED
 		(
 			[Id] ASC
-		) ON [PRIMARY],
-		CONSTRAINT [FK_subtext_MetaTag_subtext_Config] FOREIGN KEY
+		) ON [PRIMARY]
+		,CONSTRAINT [FK_subtext_MetaTag_subtext_Config] FOREIGN KEY
 		( [BlogId] ) REFERENCES <dbUser,varchar,dbo>.[subtext_Config]
-		( [BlogId] ),
-		CONSTRAINT [FK_subtext_MetaTag_subtext_Content] FOREIGN KEY
-		( [EntryId] ) REFERENCES <dbUser,varchar,dbo>.[subtext_Content]
-		( [ID] )
+			( [BlogId] )
+		,CONSTRAINT [FK_subtext_MetaTag_subtext_Content] FOREIGN KEY
+			( [EntryId] ) REFERENCES <dbUser,varchar,dbo>.[subtext_Content]
+			( [ID] )
 	)
 END
 GO
@@ -138,24 +137,91 @@ GO
 IF NOT EXISTS
 (
 	SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]
-	WHERE TABLE_NAME = 'subtext_DomainAliases'
+	WHERE TABLE_NAME = 'subtext_DomainAlias'
 	AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
 )
 BEGIN
-	CREATE TABLE [<dbUser,varchar,dbo>].[subtext_DomainAliases]
+	CREATE TABLE [<dbUser,varchar,dbo>].[subtext_DomainAlias]
 	(
-		[AliasId] int IDENTITY(0,1) NOT NULL,
+		[Id] int IDENTITY(0,1) NOT NULL,
 		[BlogId] int NOT NULL ,
 		[Host] nvarchar(100) NOT NULL ,
 		[Application] nvarchar(50) NOT NULL, 
-		[IsActive] [bit] NULL ,
-		CONSTRAINT [PK_subtext_DomainAliases] PRIMARY KEY CLUSTERED
+		[IsActive] [bit] NULL 
+		,CONSTRAINT [PK_subtext_DomainAlias] PRIMARY KEY CLUSTERED
 		(
-			[AliasId] ASC
-		) ON [PRIMARY],
-		CONSTRAINT [FK_subtext_DomainAliases_subtext_Config] FOREIGN KEY
+			[Id] ASC
+		) ON [PRIMARY]
+		,CONSTRAINT [FK_subtext_DomainAlias_subtext_Config] FOREIGN KEY
 		( [BlogId] ) REFERENCES <dbUser,varchar,dbo>.[subtext_Config]
 		( [BlogId] )
+	)
+END
+GO
+
+IF NOT EXISTS
+(
+	SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]
+	WHERE TABLE_NAME = 'subtext_BlogGroup'
+	AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+)
+BEGIN
+	CREATE TABLE [<dbUser,varchar,dbo>].[subtext_BlogGroup] 
+	(
+		[Id] [int] IDENTITY (1, 1) NOT NULL,
+		[Title] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+		[Active] [bit] NOT NULL ,
+		[DisplayOrder] [int] NULL ,
+		[Description] [nvarchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
+		,CONSTRAINT [PK_subtext_BlogGroup] PRIMARY KEY CLUSTERED
+		(
+			[Id] ASC
+		) ON [PRIMARY]
+	)
+	
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_BlogGroup] ADD 
+	CONSTRAINT [DF_subtext_BlogGroup_Active] DEFAULT (1) FOR [Active]
+END
+GO
+
+IF NOT EXISTS
+(
+	SELECT * FROM [<dbUser,varchar,dbo>].[subtext_BlogGroup] WHERE 
+	Title = 'Default Group'
+)
+BEGIN
+	INSERT INTO [<dbUser,varchar,dbo>].[subtext_BlogGroup]
+	VALUES ('Default Group', 1, NULL, NULL)
+END
+GO
+
+-- Rename the BlogGroup column in subtext_Config...
+IF EXISTS 
+(
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+    WHERE   TABLE_NAME = 'subtext_Config' 
+    AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+    AND COLUMN_NAME = 'BlogGroup'
+)
+BEGIN
+	EXEC sp_rename '<dbUser,varchar,dbo>.subtext_config.BlogGroup', 'BlogGroupId'
+END
+
+GO
+IF NOT  EXISTS
+(
+	SELECT * FROM [<dbUser,varchar,dbo>].sysobjects
+	WHERE id = OBJECT_ID(N'[<dbUser,varchar,dbo>].[FK_subtext_Config_subtext_BlogGroup]')
+	AND type = 'F'
+)
+BEGIN
+ALTER TABLE [<dbUser,varchar,dbo>].subtext_Config WITH NOCHECK ADD CONSTRAINT
+	FK_subtext_Config_subtext_BlogGroup FOREIGN KEY
+	(
+	BlogGroupId
+	) REFERENCES [<dbUser,varchar,dbo>].subtext_BlogGroup
+	(
+	Id
 	)
 END
 GO

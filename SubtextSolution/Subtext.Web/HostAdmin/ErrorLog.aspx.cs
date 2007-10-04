@@ -21,7 +21,7 @@ using Subtext.Web.Controls;
 
 namespace Subtext.Web.HostAdmin.Pages
 {
-	public partial class ErrorLog : System.Web.UI.Page
+	public partial class ErrorLog : HostAdminPage
 	{
 		private int logPageNumber;
 	

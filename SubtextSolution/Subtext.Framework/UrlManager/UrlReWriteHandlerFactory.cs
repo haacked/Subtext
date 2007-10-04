@@ -16,11 +16,12 @@ using System;
 using System.Configuration;
 using System.Web;
 using System.Web.Compilation;
-using System.Web.UI;
+using System.Web.Security;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Framework.Properties;
+using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework.UrlManager
 {
@@ -99,7 +100,7 @@ namespace Subtext.Framework.UrlManager
 					handlerUrl += "/";
 
 				handlerUrl += "Default.aspx";
-				return BuildManager.CreateInstanceFromVirtualPath(handlerUrl, typeof(Page)) as IHttpHandler;
+				return GetHandlerForUrl(handlerUrl);
 			}
 
 			//Get the Handlers to process. By default, we grab them from the blog.config
@@ -164,27 +165,61 @@ namespace Subtext.Framework.UrlManager
 			}
 			url += pagepath;
 
-			return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
+			return GetHandlerForUrl(url);
+        }
+
+		private static IHttpHandler GetHandlerForUrl(string url)
+		{
+			if(!UrlAuthorizationModule.CheckUrlAccessForPrincipal(url, HttpContext.Current.User, HttpContext.Current.Request.HttpMethod))
+			{
+				BlogRequest request = BlogRequest.Current;
+				if (String.IsNullOrEmpty(request.Subfolder))
+				{
+					FormsAuthentication.RedirectToLoginPage();
+				}
+				else
+				{
+					string query = HttpContext.Current.Request.QueryString.ToString();
+					if(!String.IsNullOrEmpty(query))
+					{
+						query = "?" + query;
+					}
+					HttpContext.Current.Response.Redirect(Config.CurrentBlog.VirtualUrl
+														  + "Login.aspx?ReturnUrl="
+														  +
+														  HttpUtility.UrlEncode(HttpContext.Current.Request.Path + query,
+																				HttpContext.Current.Request.ContentEncoding));
+				}
+				return null;
+			}
+
+			string path = HttpContext.Current.Request.Path;
+			if (path.EndsWith("/"))
+			{
+				HttpContext.Current.RewritePath(path + "default.aspx");
+			}
+			Type t = BuildManager.GetCompiledType(url);
+			return (IHttpHandler)Activator.CreateInstance(t);
 		}
 
 		private static IHttpHandler ProcessHandlerTypeDirectory(HttpContext context, string url)
 		{
-			//Need to strip the blog subfolder part of url.
-			if (Config.CurrentBlog != null && Config.CurrentBlog.Subfolder != null && Config.CurrentBlog.Subfolder.Length > 0)
-			{
-				url = StringHelper.RightAfter(url, "/" + Config.CurrentBlog.Subfolder, StringComparison.InvariantCultureIgnoreCase);
-				if (context.Request.ApplicationPath.Length > 0 && context.Request.ApplicationPath != "/")
-				{
-					//A bit ugly, but easily fixed later.
-					url = ("/" + context.Request.ApplicationPath + "/" + url).Replace("//", "/");
-				}
-				if (url.EndsWith("/"))
-				{
-					url += "default.aspx";
-				}
-			}
+		    //Need to strip the blog subfolder part of url.
+		    if(Config.CurrentBlog != null && Config.CurrentBlog.Subfolder != null && Config.CurrentBlog.Subfolder.Length > 0)
+		    {
+                url = StringHelper.RightAfter(url, "/" + Config.CurrentBlog.Subfolder, StringComparison.InvariantCultureIgnoreCase);
+                if (context.Request.ApplicationPath.Length > 0 && context.Request.ApplicationPath != "/")
+		        {
+		            //A bit ugly, but easily fixed later.
+                    url = ("/" + context.Request.ApplicationPath + "/" + url).Replace("//", "/");
+		        }
+		        if(url.EndsWith("/"))
+		        {
+                    url += "default.aspx";
+		        }
+		    }
 
-			return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
+			return GetHandlerForUrl(url);
 		}
 
 

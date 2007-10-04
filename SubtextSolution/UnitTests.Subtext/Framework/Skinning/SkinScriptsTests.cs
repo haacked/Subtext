@@ -35,14 +35,11 @@ namespace UnitTests.Subtext.Framework.Skinning
 
             SkinTemplates templates = SkinTemplates.Instance(pathProvider);
 
-            SkinTemplate templateWithMergeOnTopScriptMergeMode = templates.GetTemplate("Piyo");
-            Assert.IsTrue(templateWithMergeOnTopScriptMergeMode.MergeScripts, "ScriptMergeMode should be MergeOnTop.");
+            SkinTemplate templateWithMergeScriptMergeMode = templates.GetTemplate("Piyo");
+            Assert.IsTrue(templateWithMergeScriptMergeMode.MergeScripts, "ScriptMergeMode should be Merge.");
 
-            SkinTemplate templateWithMergeOnBottomScriptMergeMode = templates.GetTemplate("Submarine");
-            Assert.IsTrue(templateWithMergeOnBottomScriptMergeMode.MergeScripts, "ScriptMergeMode should be MergeOnBottom.");
-
-            SkinTemplate templateWithNoneScriptMergeMode = templates.GetTemplate("Semagogy");
-            Assert.IsFalse(templateWithNoneScriptMergeMode.MergeScripts, "ScriptMergeMode should be None.");
+            SkinTemplate templateWithDontMergeScriptMergeMode = templates.GetTemplate("Semagogy");
+            Assert.IsFalse(templateWithDontMergeScriptMergeMode.MergeScripts, "ScriptMergeMode should be DontMerge.");
 
             SkinTemplate templateWithoutScriptMergeMode = templates.GetTemplate("RedBook-Green.css");
             Assert.IsFalse(templateWithoutScriptMergeMode.MergeScripts, "ScriptMergeMode should be None.");
@@ -134,7 +131,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             SkinTemplate template = templates.GetTemplate("Semagogy");
             bool canBeMerged = ScriptElementCollectionRenderer.CanScriptsBeMerged(template);
 
-            Assert.IsFalse(canBeMerged, "Skins with ScriptMergeMode=\"None\" should not be mergeable.");
+            Assert.IsFalse(canBeMerged, "Skins with ScriptMergeMode=\"DontMerge\" should not be mergeable.");
         }
 
         [Test]

@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.Web;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
@@ -50,7 +49,7 @@ namespace Subtext.Web.HttpModules
 			if(!Config.IsValidSubfolderName(subfolder))
 				subfolder = string.Empty;
 
-			BlogRequest.Current = new BlogRequest(Host, subfolder, HttpContext.Current.Request.Url);
+			BlogRequest.Current = new BlogRequest(Host, subfolder, HttpContext.Current.Request.Url, HttpContext.Current.Request.IsLocal);
 		}
 		
 		/// <summary>
@@ -63,12 +62,7 @@ namespace Subtext.Web.HttpModules
 			{
 				string host = HttpContext.Current.Request.Params["HTTP_HOST"];
 				if (String.IsNullOrEmpty(host))
-					host = HttpContext.Current.Request.Url.Host;
-
-				if(!HttpContext.Current.Request.Url.IsDefaultPort)
-				{
-					host  += ":" + HttpContext.Current.Request.Url.Port.ToString(CultureInfo.InvariantCulture);
-				}
+					host = HttpContext.Current.Request.Url.Authority;
 
 				return host;
 			}

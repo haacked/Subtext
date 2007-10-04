@@ -52,8 +52,11 @@ namespace Subtext.Web.UI.Controls
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
+
 			if(bpd != null)
 			{
+				DayList.ItemDataBound += DayList_ItemDataBound;
+
 				ImageLink.NavigateUrl = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.DayUrl(bpd.BlogDay);
 				ControlHelper.SetTitleIfNone(ImageLink, "Click to see entries for this day.");
 				DateTitle.Text = bpd.BlogDay.ToLongDateString();
@@ -65,6 +68,19 @@ namespace Subtext.Web.UI.Controls
 				this.Visible = false;
 			}
 		}
+
+		private Entry entry;
+
+		protected Entry Entry
+		{
+			get { return this.entry; }
+		}
+
+		void DayList_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
+		{
+			entry = e.Item.DataItem as Entry;
+		}
+
 	}
 }
 

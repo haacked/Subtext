@@ -30,6 +30,38 @@ namespace Subtext.Framework.Text
 	public static class StringHelper
 	{
 		/// <summary>
+		/// Removes any double instances of the specified character. 
+		/// So "--" becomes "-" if the character is '-'.
+		/// </summary>
+		/// <param name="text">The text.</param>
+		/// <param name="character">The character.</param>
+		/// <returns></returns>
+		public static string RemoveDoubleCharacter(string text, char character)
+		{
+			if (text == null)
+				throw new ArgumentNullException("text");
+
+			if (character == char.MinValue)
+				return text;
+
+			char[] newString = new char[text.Length];
+			int i = 0;
+
+			bool lastCharIsOurChar = false;
+			foreach(char c in text)
+			{
+				if(c != character || !lastCharIsOurChar)
+				{
+					newString[i] = c;
+					i++;
+				}
+				lastCharIsOurChar = (c == character);
+			}
+
+			return new string(newString, 0, i);
+		}
+
+		/// <summary>
 		/// Parses a camel cased or pascal cased string and returns an array 
 		/// of the words within the string.
 		/// </summary>
@@ -209,6 +241,52 @@ namespace Subtext.Framework.Text
 				return original;
 
 			int searchIndex = original.IndexOf(search, 0, comparisonType);
+
+			if (searchIndex < 0)
+				return original;
+
+			return Right(original, original.Length - (searchIndex + search.Length));
+		}
+
+		/// <summary>
+		/// Returns a string containing every character within a string after the 
+		/// last occurrence of another string.
+		/// </summary>
+		/// <param name="original">Required. String expression from which the rightmost characters are returned.</param>
+		/// <param name="search">The string where the end of it marks the 
+		/// characters to return.  If the string is not found, the whole string is 
+		/// returned.</param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
+		public static string RightAfterLast(string original, string search)
+		{
+			return RightAfterLast(original, search, original.Length - 1, StringComparison.InvariantCulture);
+		}
+
+		/// <summary>
+		/// Returns a string containing every character within a string after the
+		/// last occurrence of another string.
+		/// </summary>
+		/// <param name="original">Required. String expression from which the rightmost characters are returned.</param>
+		/// <param name="search">The string where the end of it marks the
+		/// characters to return.  If the string is not found, the whole string is
+		/// returned.</param>
+		/// <param name="startIndex">The start index.</param>
+		/// <param name="comparisonType">Determines whether or not to use case sensitive search.</param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
+		public static string RightAfterLast(string original, string search, int startIndex, StringComparison comparisonType)
+		{
+			if (original == null)
+				throw new ArgumentNullException("original", "The original string may not be null.");
+			if (search == null)
+				throw new ArgumentNullException("search", "The searchString string may not be null.");
+
+			//Shortcut.
+			if (search.Length > original.Length || search.Length == 0)
+				return original;
+
+			int searchIndex = original.LastIndexOf(search, startIndex, comparisonType);
 
 			if (searchIndex < 0)
 				return original;

@@ -205,6 +205,7 @@
     <Compile Include="Components\ArchiveCount.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\BlogGroup.cs" />
     <Compile Include="Components\CategoryType.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -297,6 +298,7 @@
     <Compile Include="Exceptions\BaseCommentException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Exceptions\BaseSubtextException.cs" />
     <Compile Include="Exceptions\BlogApplicationDirectoryCreateException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -431,7 +433,6 @@
     <Compile Include="Security\SubtextRoleProvider.cs" />
     <Compile Include="Services\AkismetSpamService.cs" />
     <Compile Include="Services\IFeedbackSpamService.cs" />
-    <Compile Include="Services\MailToWeblog.cs" />
     <Compile Include="Stats.cs">
       <SubType>Code</SubType>
     </Compile>

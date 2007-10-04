@@ -48,7 +48,7 @@ h1 a:hover {
 	margin : 10px 0px;
 }
 
-#authors {
+#authors, #extra {
 	top : 10px;
 	position : absolute;
 	width : 190px;
@@ -60,25 +60,25 @@ h1 a:hover {
 	padding-bottom : 10px;
 }
 
-#authors ul {
+#authors ul, #extra ul {
 	list-style : none;
 	padding : 0px;
 	margin : 0px 5px;
 }
 
-#authors h2 {
+#authors h2, #extra h2 {
 	font-family : Georgia;
 	font-size : 1.2em;
 	margin : 15px 5px;
 }
 
-#authors p {
+#authors p, #extra p {
 	margin : 10px 5px;
 }
 
 #main {
 	margin-left : 220px;
-	margin-right : 20px;
+	margin-right : 160px;
 }	
 
 #main h2 {		
@@ -97,3 +97,16 @@ h1 a:hover {
 #main .postfoot {
 	font-size : 0.8em;
 }
+
+#extra 
+{
+	width : 130px;
+	right : 20px;
+	left : auto;
+}
+
+#aggrecentimages div
+{
+	padding : 5px;
+}
+

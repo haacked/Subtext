@@ -30,13 +30,13 @@ h1 {
 	margin : 0px 10px;
 }
 
-#authors {
+#authors, #extra {
 	border : 1px solid #666;	
 	border-top : none;	
 	font-size : 0.85em;
 }
 
-#authors h2 {
+#authors h2, #extra h2 {
 	color : #FFF;
 	margin : 0px;
 	margin-bottom :10px;
@@ -50,7 +50,7 @@ h1 {
 	text-transform: uppercase;
 }
 
-#authors ul {
+#authors ul, #extra ul {
 	margin : 10px 5px;
 }
 
@@ -74,4 +74,14 @@ h1 a:visited {
 #main h3 a {
 	color : #333;
 	text-decoration : none;
+}
+
+#aggbloggers h3
+{
+	margin : 0px;
+	background-color : #B6C9E7;
+	padding : 3px;
+	border-bottom : 1px solid #666;
+	font-family : Verdana;
+	font-size : 1em;
 }

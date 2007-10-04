@@ -10,8 +10,7 @@ namespace Subtext.Installation
 {
 	public class SqlInstaller
 	{
-		private Version subtextAssemblyVersion;
-		private string connectionString;
+		private readonly string connectionString;
 		
 		public SqlInstaller(string connectionString)
 		{
@@ -41,6 +40,7 @@ namespace Subtext.Installation
 				return subtextAssemblyVersion;
 			}
 		}
+		private Version subtextAssemblyVersion;
 
 		public void Install(Version assemblyVersion)
 		{

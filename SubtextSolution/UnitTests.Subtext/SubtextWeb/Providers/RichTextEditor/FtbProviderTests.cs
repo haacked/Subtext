@@ -27,11 +27,10 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 	/// Summary description for FtbProviderTests.
 	/// </summary>
 	[TestFixture]
-	[Author("Simone Chiaretta", "simone@piyosailing.com", "http://www.codeclimber.net.nz")]
 	public class FtbProviderTests
 	{
-		string _hostName = System.Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
-		string _testToolbarLayout = "Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery";
+		readonly string _hostName = Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
+		readonly string _testToolbarLayout = "Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery";
 		FtbBlogEntryEditorProvider provider;
 
 		[SetUp]

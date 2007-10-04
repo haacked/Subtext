@@ -36,39 +36,32 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization ;
-using System.Xml ;
+using System.Globalization;
 using System.IO;
-using System.Web ;
+using System.Security;
+using System.Security.Permissions;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.UI;
+using System.Xml;
+using FredCK.FCKeditorV2;
+using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
-using Subtext.Extensibility;
 using Subtext.Framework.Components;
-using FredCK.FCKeditorV2;
 using System.Diagnostics.CodeAnalysis;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
 
 namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 {
 	/// <summary>
-	/// Summary description for FileBrowserConnector.
+	/// Used to provide file management functionality for FCKEditor.
 	/// </summary>
-	public class FileBrowserConnector: System.Web.UI.Page
+	[PrincipalPermission(SecurityAction.Demand, Role = "Admins")]
+	public class FileBrowserConnector: Page
 	{
-		protected override void OnInit(EventArgs e)
-		{
-			if (!Subtext.Framework.Security.SecurityHelper.IsAdmin)
-			{
-				Response.Clear();
-				Response.Redirect(Config.CurrentBlog.VirtualUrl + "Login.aspx?ReturnUrl=" + HttpUtility.UrlEncode(Request.Url.ToString()));
-				Response.End();
-				return;
-			}
-
-			base.OnInit(e);
-		}
-
 		protected override void OnLoad(EventArgs e)
 		{
 			// Get the main request informaiton.
@@ -102,7 +95,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			Response.CacheControl = "no-cache" ;
 
 			// Set the response format.
-			Response.ContentEncoding	= System.Text.UTF8Encoding.UTF8 ;
+			Response.ContentEncoding	= UTF8Encoding.UTF8 ;
 			Response.ContentType		= "text/xml" ;
 
 			XmlDocument oXML = new XmlDocument() ;
@@ -181,8 +174,8 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			// Create the "Folders" node.
 			XmlNode oFoldersNode = XmlUtil.AppendElement( connectorNode, "Folders" ) ;
 
-			System.IO.DirectoryInfo oDir = new System.IO.DirectoryInfo( sServerDir ) ;
-			System.IO.DirectoryInfo[] aSubDirs = oDir.GetDirectories() ;
+			DirectoryInfo oDir = new DirectoryInfo( sServerDir ) ;
+			DirectoryInfo[] aSubDirs = oDir.GetDirectories() ;
 
 			for ( int i = 0 ; i < aSubDirs.Length ; i++ )
 			{
@@ -200,8 +193,8 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			// Create the "Files" node.
 			XmlNode oFilesNode = XmlUtil.AppendElement( connectorNode, "Files" ) ;
 
-			System.IO.DirectoryInfo oDir = new System.IO.DirectoryInfo( sServerDir ) ;
-			System.IO.FileInfo[] aFiles = oDir.GetFiles();
+			DirectoryInfo oDir = new DirectoryInfo( sServerDir ) ;
+			FileInfo[] aFiles = oDir.GetFiles();
 
 			for ( int i = 0 ; i < aFiles.Length ; i++ )
 			{
@@ -241,21 +234,21 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 
 					try
 					{
-						Util.CreateDirectory( System.IO.Path.Combine( sServerDir, sNewFolderName )) ;
+						Util.CreateDirectory( Path.Combine( sServerDir, sNewFolderName )) ;
 					}
 					catch ( ArgumentException )
 					{
 						sErrorNumber = "102" ;
 					}
-					catch ( System.IO.PathTooLongException )
+					catch ( PathTooLongException )
 					{
 						sErrorNumber = "102" ;
 					}
-					catch ( System.IO.IOException )
+					catch ( IOException )
 					{
 						sErrorNumber = "101" ;
 					}
-					catch ( System.Security.SecurityException )
+					catch ( SecurityException )
 					{
 						sErrorNumber = "103" ;
 					}
@@ -271,7 +264,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			XmlUtil.SetAttribute( oErrorNode, "number", sErrorNumber ) ;
 		}
 
-		private void FileUpload( string resourceType, string currentFolder )
+		private void FileUpload(string resourceType, string currentFolder )
 		{
 			string sErrorNumber = "0" ;
 			string sFileName = "" ;
@@ -286,21 +279,21 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 					string sServerDir = this.ServerMapFolder( currentFolder ) ;
 
 					// Get the uploaded file name.
-					sFileName = System.IO.Path.GetFileName( oFile.FileName ) ;
+					sFileName = Path.GetFileName( oFile.FileName ) ;
 
 					int iCounter = 0 ;
 
 					while ( true )
 					{
-						string sFilePath = System.IO.Path.Combine( sServerDir, sFileName ) ;
+						string sFilePath = Path.Combine( sServerDir, sFileName ) ;
 
-						if ( System.IO.File.Exists( sFilePath ) )
+						if ( File.Exists( sFilePath ) )
 						{
 							iCounter++ ;
 							sFileName = 
-								System.IO.Path.GetFileNameWithoutExtension( oFile.FileName ) +
-								"(" + iCounter + ")" +
-								System.IO.Path.GetExtension( oFile.FileName ) ;
+								Path.GetFileNameWithoutExtension( oFile.FileName ) 
+									+ "(" + iCounter + ")" 
+									+ Path.GetExtension( oFile.FileName ) ;
 
 							sErrorNumber = "201" ;
 						}
@@ -320,7 +313,6 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			}
 
 			Response.Clear() ;
-
 			Response.Write( "<script type=\"text/javascript\">" ) ;
 			Response.Write( "window.parent.frames['frmUpload'].OnUploadCompleted(" + sErrorNumber + ",'" + sFileName.Replace( "'", "\\'" ) + "') ;" ) ;
 			Response.Write( "</script>" ) ;
@@ -419,7 +411,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			string sResourceTypePath = Server.MapPath(GetImageRootPath());
 
 			// Return the resource type directory combined with the required path.
-			return System.IO.Path.Combine( sResourceTypePath, folderPath.TrimStart('/') ) ;
+			return Path.Combine( sResourceTypePath, folderPath.TrimStart('/') ) ;
 		}
 
 		private static string GetUrlFromPath( string folderPath )
@@ -429,7 +421,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 
 		private static string GetImageRootPath() 
 		{
-			return Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
+			return UrlFormats.StripHostFromUrl(Config.CurrentBlog.ImagePath);
 		}
 		#endregion
 
@@ -455,7 +447,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             string blogImageRootPath=null;
             try
             {
-                blogImageRootPath = Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
+                blogImageRootPath = UrlFormats.StripHostFromUrl(Config.CurrentBlog.ImagePath);
                 if (!Directory.Exists(HttpContext.Current.Server.MapPath(blogImageRootPath)))
                     Directory.CreateDirectory(HttpContext.Current.Server.MapPath(blogImageRootPath));
                 retval = true;

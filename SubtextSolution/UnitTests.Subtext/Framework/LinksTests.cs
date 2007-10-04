@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using MbUnit.Framework;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;

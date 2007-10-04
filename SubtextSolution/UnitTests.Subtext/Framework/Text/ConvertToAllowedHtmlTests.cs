@@ -6,8 +6,8 @@ using Subtext.Framework.Text;
 namespace UnitTests.Subtext.Framework.Text
 {
 	/// <summary>
-	/// Unit tests of the <see cref="HtmlHelper.ConvertToAllowedHtml"/> method and 
-	/// just that method.
+	/// Unit tests of the ConvertToAllowedHtml method and 
+	/// just that method (plus its overrides).
 	/// </summary>
 	[TestFixture]
 	public class ConvertToAllowedHtmlTests

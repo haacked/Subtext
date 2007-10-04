@@ -180,9 +180,9 @@ namespace UnitTests.Subtext.Framework.Skinning
 
 
         [RowTest]
-        [Row("", "", "/Skins/RedBook/css.axd?name=RedBook-Green.css&media=print")]
-        [Row("blog", "", "/Skins/RedBook/css.axd?name=RedBook-Green.css&media=print")]
-        [Row("blog", "Subtext.Web", "/Subtext.Web/Skins/RedBook/css.axd?name=RedBook-Green.css&media=print")]
+        [Row("", "", "/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed")]
+        [Row("blog", "", "/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed")]
+        [Row("blog", "Subtext.Web", "/Subtext.Web/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed")]
         public void StyleSheetElementCollectionRendererRendersMergedCssLinkElements(string subFolder, string applicationPath, string expectedPrintCssPath)
         {
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
@@ -193,31 +193,31 @@ namespace UnitTests.Subtext.Framework.Skinning
 
             SkinTemplates templates = SkinTemplates.Instance(pathProvider);
             StyleSheetElementCollectionRenderer renderer = new StyleSheetElementCollectionRenderer(templates);
-            string styleElements = renderer.RenderStyleElementCollection("RedBook-Green.css");
+            string styleElements = renderer.RenderStyleElementCollection("Piyo");
 
             Console.WriteLine(styleElements);
 
-            string printCss = string.Format(@"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""{0}"" />", expectedPrintCssPath);
-            Assert.IsTrue(styleElements.IndexOf(printCss) > -1, "Expected the printcss to be there.");
+            string printCss = string.Format(@"<link media=""screen"" type=""text/css"" rel=""stylesheet"" title=""fixed"" href=""{0}"" />", expectedPrintCssPath);
+            Assert.IsTrue(styleElements.IndexOf(printCss) > -1, "Expected the fixed screen css to be there.");
         }
 
         [RowTest]
-        [Row("AnotherEon001", @"<link type=""text/css"" rel=""stylesheet"" href=""http://haacked.com/skins/_System/commonstyle.css"" />" + "\r\n" + @"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""/Skins/AnotherEon001/css.axd?name=AnotherEon001&media=print"" />")]
-        [Row("Colors-Blue.css", @"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""/Skins/Colors/css.axd?name=Colors-Blue.css&media=print"" />")]
+        [Row("AnotherEon001", @"<link type=""text/css"" rel=""stylesheet"" href=""http://haacked.com/skins/_System/commonstyle.css"" />")]
+        [Row("Colors-Blue.css", "")]
         //[Row("RedBook-Blue.css", 6)]
-        [Row("Gradient", "<!--[if IE]>\r\n" + @"<link media=""screen"" type=""text/css"" rel=""stylesheet"" href=""/Skins/Gradient/css.axd?name=Gradient&media=screen&conditional=if+IE"" />" + "\r\n<![endif]-->\r\n" + @"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""/Skins/Gradient/css.axd?name=Gradient&media=print"" />")]
-        [Row("RedBook-Green.css", "<!--[if IE]>\r\n" + @"<link type=""text/css"" rel=""stylesheet"" href=""/Skins/RedBook/css.axd?name=RedBook-Green.css&conditional=if+IE"" />" + "\r\n<![endif]-->\r\n" + @"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""/Skins/RedBook/css.axd?name=RedBook-Green.css&media=print"" />")]
+        [Row("Gradient", "<!--[if IE]>\r\n" + @"<link media=""screen"" type=""text/css"" rel=""stylesheet"" href=""/Skins/Gradient/css.axd?name=Gradient&media=screen&conditional=if+IE"" />" + "\r\n<![endif]-->")]
+        [Row("RedBook-Green.css", "<!--[if IE]>\r\n" + @"<link type=""text/css"" rel=""stylesheet"" href=""/Skins/RedBook/css.axd?name=RedBook-Green.css&conditional=if+IE"" />" + "\r\n<![endif]-->")]
         //[Row("KeyWest", 4)]
-        [Row("Nature-Leafy.css", @"<link media=""screen"" type=""text/css"" rel=""stylesheet"" href=""/Skins/Nature/css.axd?name=Nature-Leafy.css&media=screen"" />" + "\r\n" + @"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""/Skins/Nature/css.axd?name=Nature-Leafy.css&media=print"" />")]
+        [Row("Nature-Leafy.css", "")]
         //[Row("Lightz", 4)]
         //[Row("Naked", 1)]
         //[Row("Colors", 5)]
-        [Row("Origami", @"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""/Skins/Origami/css.axd?name=Origami&media=print"" />" + "\r\n" + @"<link media=""screen"" type=""text/css"" rel=""stylesheet"" href=""/Skins/Origami/css.axd?name=Origami&media=screen"" />")]
-        [Row("Piyo", @"<link media=""screen"" type=""text/css"" rel=""stylesheet"" href=""/Skins/Piyo/css.axd?name=Piyo&media=screen"" />" + "\r\n" + @"<link media=""screen"" type=""text/css"" rel=""stylesheet"" title=""fixed"" href=""/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed"" />" + "\r\n" + @"<link media=""screen"" type=""text/css"" rel=""stylesheet"" title=""elastic"" href=""/Skins/Piyo/css.axd?name=Piyo&media=screen&title=elastic"" />" + "\r\n" + @"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""/Skins/Piyo/css.axd?name=Piyo&media=print"" />")]
+        [Row("Origami", "")]
+        [Row("Piyo", @"<link media=""screen"" type=""text/css"" rel=""stylesheet"" title=""fixed"" href=""/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed"" />" + "\r\n" + @"<link media=""screen"" type=""text/css"" rel=""stylesheet"" title=""elastic"" href=""/Skins/Piyo/css.axd?name=Piyo&media=screen&title=elastic"" />")]
         //[Row("Nature-rain.css", 7)]
         //[Row("RedBook-Red.css", 6)]
         //[Row("Semagogy", 4)]
-        [Row("Submarine", "<!--[if IE]>\r\n" + @"<link type=""text/css"" rel=""stylesheet"" href=""/Skins/Submarine/css.axd?name=Submarine&conditional=if+IE"" />" + "\r\n<![endif]-->\r\n" + @"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""/Skins/Submarine/css.axd?name=Submarine&media=print"" />")]
+        [Row("Submarine", "<!--[if IE]>\r\n" + @"<link type=""text/css"" rel=""stylesheet"" href=""/Skins/Submarine/css.axd?name=Submarine&conditional=if+IE"" />" + "\r\n<![endif]-->")]
         //[Row("WPSkin", 4)]
         public void CallsToCssHandlerAreNotRepeated(string skinKey, string exptectedElements)
         {
@@ -240,10 +240,11 @@ namespace UnitTests.Subtext.Framework.Skinning
 
 
         [RowTest]
-        [Row("", "print", "", "print.css", false)]
+        [Row("", "print", "", "print.css", true)]
+        [Row("", "print", "fixed", "print.css", false)]
         [Row("", "", "", "~/skins/_System/csharp.css", true)]
         [Row("if gte IE 7", "", "", "IE7Patches.css", false)]
-        [Row("", "screen", "", "~/scripts/lightbox.css", false)]
+        [Row("", "screen", "", "~/scripts/lightbox.css", true)]
         [Row("", "all", "", "Styles/user-styles.css", true)]
         [Row("", "", "fixed", "print.css", false)]
         [Row("", "all", "fixed", "Styles/user-styles.css", false)]
@@ -275,9 +276,9 @@ namespace UnitTests.Subtext.Framework.Skinning
 
             SkinTemplates templates = SkinTemplates.Instance(pathProvider);
             StyleSheetElementCollectionRenderer renderer = new StyleSheetElementCollectionRenderer(templates);
-            List<string> mergedStyles = (List<string>)renderer.GetStylesToBeMerged("WPSkin");
+            List<StyleDefinition> mergedStyles = (List<StyleDefinition>)renderer.GetStylesToBeMerged("WPSkin");
 
-            Assert.IsFalse(mergedStyles.Contains("/Skins/WPSkin/style.css"), "Skin WPSkin should not have the default style.css");
+            Assert.IsFalse(mergedStyles.Contains(new StyleDefinition("/Skins/WPSkin/style.css")), "Skin WPSkin should not have the default style.css");
         }
 
         [Test]
@@ -291,29 +292,62 @@ namespace UnitTests.Subtext.Framework.Skinning
 
             SkinTemplates templates = SkinTemplates.Instance(pathProvider);
             StyleSheetElementCollectionRenderer renderer = new StyleSheetElementCollectionRenderer(templates);
-            List<string> mergedStyles = (List<string>)renderer.GetStylesToBeMerged("Submarine");
+            List<StyleDefinition> mergedStyles = (List<StyleDefinition>)renderer.GetStylesToBeMerged("Submarine");
 
-            Assert.IsTrue(mergedStyles.Contains("/Skins/Submarine/style.css"), "Skin Submarine should have the default style.css");
+            Assert.IsTrue(mergedStyles.Contains(new StyleDefinition("/Skins/Submarine/style.css")), "Skin Submarine should have the default style.css");
+        }
+
+
+        [Test]
+        public void MergedCssContainsStyleWithMedia()
+        {
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
+            MockRepository mocks = new MockRepository();
+
+            VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
+            mocks.ReplayAll();
+
+            SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+            StyleSheetElementCollectionRenderer renderer = new StyleSheetElementCollectionRenderer(templates);
+            List<StyleDefinition> mergedStyles = (List<StyleDefinition>)renderer.GetStylesToBeMerged("Piyo");
+
+            Assert.IsTrue(mergedStyles.Contains(new StyleDefinition("/Skins/Piyo/print.css", "print")), "Skin Piyo should have the print css in the merged css");
+        }
+
+        [Test]
+        public void MergedCssDoesntContainStyleWithMediaAndTitle()
+        {
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
+            MockRepository mocks = new MockRepository();
+
+            VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
+            mocks.ReplayAll();
+
+            SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+            StyleSheetElementCollectionRenderer renderer = new StyleSheetElementCollectionRenderer(templates);
+            List<StyleDefinition> mergedStyles = (List<StyleDefinition>)renderer.GetStylesToBeMerged("Piyo");
+
+            Assert.IsFalse(mergedStyles.Contains(new StyleDefinition("/Skins/Piyo/piyo-fixed.css", "screen")), "Skin Piyo should not have the fixed screen css in the merged CSS");
         }
 
         [RowTest]
-        [Row("AnotherEon001", 3)]
-        [Row("Colors-Blue.css", 6)]
-        [Row("RedBook-Blue.css", 5)]
-        [Row("Gradient", 4)]
-        [Row("RedBook-Green.css", 6)]
-        [Row("KeyWest", 4)]
-        [Row("Nature-Leafy.css", 6)]
-        [Row("Lightz", 4)]
+        [Row("AnotherEon001", 4)]
+        [Row("Colors-Blue.css", 7)]
+        [Row("RedBook-Blue.css", 6)]
+        [Row("Gradient", 5)]
+        [Row("RedBook-Green.css", 7)]
+        [Row("KeyWest", 5)]
+        [Row("Nature-Leafy.css", 8)]
+        [Row("Lightz", 5)]
         [Row("Naked", 1)]
-        [Row("Colors", 5)]
-        [Row("Origami", 5)]
-        [Row("Piyo", 4)]
-        [Row("Nature-rain.css", 7)]
-        [Row("RedBook-Red.css", 6)]
-        [Row("Semagogy", 4)]
-        [Row("Submarine", 6)]
-        [Row("WPSkin", 3)]
+        [Row("Colors", 6)]
+        [Row("Origami", 8)]
+        [Row("Piyo", 6)]
+        [Row("Nature-rain.css", 8)]
+        [Row("RedBook-Red.css", 7)]
+        [Row("Semagogy", 5)]
+        [Row("Submarine", 7)]
+        [Row("WPSkin", 4)]
         [Row("Haacked", 0)]
         public void MergedCssIsCorrect(string skinKey, int expectedStyles)
         {

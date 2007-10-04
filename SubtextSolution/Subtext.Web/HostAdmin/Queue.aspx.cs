@@ -21,9 +21,9 @@ namespace Subtext.Web.HostAdmin
 	/// <summary>
 	/// Shows some diagnostic information.
 	/// </summary>
-	public partial class Queue : System.Web.UI.Page
+	public partial class Queue : HostAdminPage
 	{	
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
 			this.ltlActiveThreads.Text = Subtext.Framework.Threading.ManagedThreadPool.ActiveThreads.ToString(CultureInfo.InvariantCulture);
             this.ltlWaitingCallbacks.Text = Subtext.Framework.Threading.ManagedThreadPool.WaitingCallbacks.ToString(CultureInfo.InvariantCulture);

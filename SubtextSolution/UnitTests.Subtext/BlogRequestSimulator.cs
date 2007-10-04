@@ -38,7 +38,7 @@ namespace UnitTests.Subtext
 			BlogRequestSimulator blogRequest = new BlogRequestSimulator(application);
 			Uri requestedUrl = new Uri("http://" + host + "/" + application + "/" + subfolder + "/default.aspx");
 			blogRequest.simulator.SimulateRequest(requestedUrl);
-			BlogRequest.Current = new BlogRequest(host, subfolder, requestedUrl);
+			BlogRequest.Current = new BlogRequest(host, subfolder, requestedUrl, false);
 			return blogRequest;
 		}
 

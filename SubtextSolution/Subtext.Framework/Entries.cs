@@ -171,7 +171,20 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Gets the entry from the data store by id.
+		/// Returns an active entry by the id regardless of which blog it is 
+		/// located in.
+		/// </summary>
+		/// <param name="entryId">The ID of the entry.</param>
+		/// <param name="includeCategories">Whether the returned entry should have its categories collection populated.</param>
+		/// <returns></returns>
+		public static Entry GetEntry(int entryId, bool includeCategories)
+		{
+			return ObjectProvider.Instance().GetEntry(entryId, true, includeCategories);
+		}
+
+		/// <summary>
+		/// Gets the entry from the data store by id. Only returns an entry if it is 
+		/// within the current blog (Config.CurrentBlog).
 		/// </summary>
 		/// <param name="entryId">The ID of the entry.</param>
 		/// <param name="postConfig">The entry option used to constrain the search.</param>
@@ -184,7 +197,8 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Gets the entry from the data store by entry name.
+		/// Gets the entry from the data store by entry name. Only returns an entry if it is 
+		/// within the current blog (Config.CurrentBlog).
 		/// </summary>
 		/// <param name="EntryName">Name of the entry.</param>
 		/// <param name="postConfig">The entry option used to constrain the search.</param>
@@ -389,6 +403,14 @@ namespace Subtext.Framework
 			return AutoGenerateFriendlyUrl(title, wordSeparator, 0, textTransform);
 		}
 
+		static string ReplaceUnicodeCharacters(string text)
+		{
+			string normalized = text.Normalize(NormalizationForm.FormKD);
+			Encoding removal = Encoding.GetEncoding(Encoding.ASCII.CodePage, new EncoderReplacementFallback(string.Empty), new DecoderReplacementFallback(string.Empty));
+			byte[] bytes = removal.GetBytes(normalized);
+			return Encoding.ASCII.GetString(bytes);
+		} 
+
 		/// <summary>
 		/// Converts a title of a blog post into a friendly, but URL safe string.
 		/// </summary>
@@ -404,10 +426,13 @@ namespace Subtext.Framework
 			
 			string entryName = RemoveNonWordCharacters(title);
 			entryName = ReplaceSpacesWithSeparator(entryName, wordSeparator);
+			entryName = ReplaceUnicodeCharacters(entryName);
 			entryName = HttpUtility.UrlEncode(entryName);
 			entryName = RemoveTrailingPeriods(entryName);
 			entryName = entryName.Trim(new char[] { wordSeparator });
-			entryName = RemoveDoublePeriods(entryName);
+			entryName = StringHelper.RemoveDoubleCharacter(entryName, '.');
+			if (wordSeparator != char.MinValue && wordSeparator != '.')
+				entryName = StringHelper.RemoveDoubleCharacter(entryName, wordSeparator);
 		    
 		    if (StringHelper.IsNumeric(entryName))
 		    {
@@ -488,15 +513,6 @@ namespace Subtext.Framework
 				}
 			}
 			return cleansedText.ToString();
-		}
-
-		static string RemoveDoublePeriods(string text)
-		{
-			while (text.IndexOf("..") > -1)
-			{
-				text = text.Replace("..", ".");
-			}
-			return text;
 		}
 
 		static string RemoveTrailingPeriods(string text)

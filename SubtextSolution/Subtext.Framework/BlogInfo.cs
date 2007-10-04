@@ -15,12 +15,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Security;
+using log4net;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
@@ -38,6 +41,7 @@ namespace Subtext.Framework
 	[Serializable]
 	public class BlogInfo : IBlogInfo
 	{
+		private readonly static ILog Log = new Log();
 		const int DefaultRecentCommentsLength = 50;
 		private UrlFormats _urlFormats;
 
@@ -713,6 +717,27 @@ namespace Subtext.Framework
 			set { _trackingCode = value; }
 		}
 
+        private int _blogGroup;
+        /// <summary>
+        /// Gets or sets the Blog Group ID
+        /// </summary>
+        /// <value></value>
+        public int BlogGroupId
+        {
+            get { return _blogGroup; }
+            set { _blogGroup = value; }
+        }
+
+        private string _blogGroupTitle;
+        /// <summary>
+        /// Gets or sets the Blog Group Title
+        /// </summary>
+        /// <value></value>
+        public string BlogGroupTitle
+        {
+            get { return _blogGroupTitle; }
+            set { _blogGroupTitle = value; }
+        }
 
         string _licenseUrl;
 		/// <summary>
@@ -1070,88 +1095,44 @@ namespace Subtext.Framework
 			return Host.GetHashCode() ^ Subfolder.GetHashCode();
 		}
 
-		//CHANGE: Gurkan Yeniceri
-		/*Mail To Weblog properties*/
+		private static readonly BlogInfo aggregateBlog = InitAggregateBlog();
 
-		#region Mail To Weblog properties
-		string _pop3Server;
-		public string pop3Server
+		private static BlogInfo InitAggregateBlog()
 		{
-			get { return _pop3Server; }
-			set { _pop3Server = value; }
+			HostInfo hostInfo = HostInfo.Instance;
+			string aggregateHost = ConfigurationManager.AppSettings["AggregateUrl"];
+			if (aggregateHost == null)
+				return null;
+
+			Regex regex = new Regex(@"^(https?://)?(?<host>.+?)(/.*)?$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+			Match match = regex.Match(aggregateHost);
+
+			if (match.Success)
+				aggregateHost = match.Groups["host"].Value;
+
+			BlogInfo blog = new BlogInfo();
+			blog.Title = ConfigurationManager.AppSettings["AggregateTitle"];
+			blog.Skin = SkinConfig.GetDefaultSkin();
+			blog.Host = aggregateHost;
+			blog.Subfolder = string.Empty;
+
+			// When running on the build server there are no Host records in the system
+			// so HostInfo.Instance returns NULL, meaning a NullRefernce on the server.
+			if (hostInfo == null)
+				Log.Warn("There is no Host record in for this installation.");
+			else
+				blog.Owner = hostInfo.Owner;
+
+			return blog;
 		}
 
-		string _pop3User;
-		public string pop3User
+		public static BlogInfo AggregateBlog
 		{
-			get { return _pop3User; }
-			set { _pop3User = value; }
+			get
+			{
+				return aggregateBlog;
+			}
 		}
-
-		string _pop3Pass;
-		public string pop3Pass
-		{
-			get { return _pop3Pass; }
-			set { _pop3Pass = value; }
-		}
-
-		//		int _pop3Interval;
-		//		public int pop3Interval
-		//		{
-		//			get{return _pop3Interval;}
-		//			set{_pop3Interval = value;}
-		//		}
-
-		string _pop3StartTag;
-		public string pop3StartTag
-		{
-			get { return _pop3StartTag; }
-			set { _pop3StartTag = value; }
-		}
-
-		string _pop3EndTag;
-		public string pop3EndTag
-		{
-			get { return _pop3EndTag; }
-			set { _pop3EndTag = value; }
-		}
-
-		string _pop3SubjectPrefix;
-		public string pop3SubjectPrefix
-		{
-			get { return _pop3SubjectPrefix; }
-			set { _pop3SubjectPrefix = value; }
-		}
-
-		bool _pop3MTBEnable;
-		public bool pop3MTBEnable
-		{
-			get { return _pop3MTBEnable; }
-			set { _pop3MTBEnable = value; }
-		}
-
-		bool _pop3DeleteOnlyProcessed;
-		public bool pop3DeleteOnlyProcessed
-		{
-			get { return _pop3DeleteOnlyProcessed; }
-			set { _pop3DeleteOnlyProcessed = value; }
-		}
-
-		bool _pop3InlineAttachedPictures;
-		public bool pop3InlineAttachedPictures
-		{
-			get { return _pop3InlineAttachedPictures; }
-			set { _pop3InlineAttachedPictures = value; }
-		}
-
-		int _pop3HeightForThumbs;
-		public int pop3HeightForThumbs
-		{
-			get { return _pop3HeightForThumbs; }
-			set { _pop3HeightForThumbs = value; }
-		}
-		#endregion
-		//End of Mail To Weblog properties
 
 		#region Notification Properties
 		/// <summary>
@@ -1200,5 +1181,6 @@ namespace Subtext.Framework
 		#endregion Plugin Specific Properties
 	}
 }
+
 
 

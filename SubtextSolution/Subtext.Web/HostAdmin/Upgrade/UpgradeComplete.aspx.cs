@@ -20,9 +20,9 @@ namespace Subtext.Web.HostAdmin.Upgrade
 	/// <summary>
 	/// Summary description for InstallationComplete.
 	/// </summary>
-	public partial class UpgradeComplete : System.Web.UI.Page
+	public partial class UpgradeComplete : HostAdminPage
 	{
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
 		}
 

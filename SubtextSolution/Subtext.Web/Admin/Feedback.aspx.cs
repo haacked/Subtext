@@ -68,14 +68,14 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		protected void Page_Load(object sender, EventArgs e)
-		{
-			this.btnViewApprovedComments = AddFolderLink("Approved", "btnViewActiveComments", "Approved Comments", OnViewApprovedCommentsClick);
-			this.btnViewModerateComments = AddFolderLink("Moderate", "btnModerateComments", "Comments in need of moderation", OnViewCommentsForModerationClick
-				, CreateAdminRssUrl("ModeratedCommentRss.axd"));
-			this.btnViewModerateComments.Enabled = Config.CurrentBlog.ModerationEnabled;
-			this.btnViewSpam = AddFolderLink("Flagged Spam", "btnViewSpam", "Comments Flagged As Spam By Filters", OnViewSpamClick);
-			this.btnViewTrash = AddFolderLink("Trash", "btnViewTrash", "Comments In The Trash Bin (Confirmed Spam or Deleted Items)", OnViewTrashClick);
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            this.btnViewApprovedComments = AddFolderLink("Approved", "btnViewActiveComments", "Approved Comments", OnViewApprovedCommentsClick);
+            this.btnViewModerateComments = AddFolderLink("Moderate", "btnModerateComments", "Comments in need of moderation", OnViewCommentsForModerationClick
+                , CreateAdminRssUrl("ModeratedCommentRss.axd"));
+            this.btnViewModerateComments.Enabled = Config.CurrentBlog.ModerationEnabled;
+            this.btnViewSpam = AddFolderLink("Flagged Spam", "btnViewSpam", "Comments Flagged As Spam By Filters", OnViewSpamClick);
+            this.btnViewTrash = AddFolderLink("Trash", "btnViewTrash", "Comments In The Trash Bin (Confirmed Spam or Deleted Items)", OnViewTrashClick);
 
 			if (!IsPostBack)
 			{

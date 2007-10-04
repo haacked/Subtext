@@ -19,8 +19,8 @@ namespace Subtext.Web.Admin.WebUI
 			HyperLink lnkRssFeed = Utilities.CreateHyperLink("Custom Feed", "RssFeeds.aspx");
 
             // Add the buttons to the PageContainer.
-            AdminMasterPage.AddToActions(lnkReferrals, CreateAdminRssUrl("ReferrersRss.aspx"));
-			AdminMasterPage.AddToActions(lnkErrorLog, CreateAdminRssUrl("ErrorsRss.aspx"));
+            AdminMasterPage.AddToActions(lnkReferrals, CreateAdminRssUrl("ReferrersRss.axd"));
+			AdminMasterPage.AddToActions(lnkErrorLog, CreateAdminRssUrl("ErrorsRss.axd"));
 			AdminMasterPage.AddToActions(lnkRssFeed);
         }
 

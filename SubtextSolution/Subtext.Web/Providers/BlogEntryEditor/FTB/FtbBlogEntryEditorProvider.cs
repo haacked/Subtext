@@ -18,7 +18,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Web;
-using Subtext.Web.Controls;
 using FreeTextBoxControls;
 
 namespace Subtext.Web.Providers.BlogEntryEditor.FTB
@@ -35,7 +34,6 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 		bool _removeServerNamefromUrls;
 
         private static System.Resources.ResourceManager rm = new System.Resources.ResourceManager("Subtext.Web.Providers.BlogEntryEditor.FTB.resources.ErrorMessages", System.Reflection.Assembly.GetExecutingAssembly());
-
 
 		public override Control RichTextEditorControl
 		{

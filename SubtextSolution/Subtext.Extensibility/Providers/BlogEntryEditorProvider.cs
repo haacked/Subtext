@@ -29,7 +29,27 @@ namespace Subtext.Extensibility.Providers
 	/// </summary>
 	public abstract class BlogEntryEditorProvider : ProviderBase
 	{
-		public override void Initialize(string name, NameValueCollection config)
+		private static BlogEntryEditorProvider provider;
+		private static readonly GenericProviderCollection<BlogEntryEditorProvider> providers = ProviderConfigurationHelper.LoadProviderCollection("BlogEntryEditor", out provider);
+		
+		/// <summary>
+		/// Returns the default instance of this provider.
+		/// </summary>
+		/// <returns></returns>
+        public static BlogEntryEditorProvider Instance()
+        {
+            return provider;
+        }
+
+		/// <summary>
+		/// Returns all the configured Email Providers.
+		/// </summary>
+		public static GenericProviderCollection<BlogEntryEditorProvider> Providers
+		{
+			get { return providers; }
+		}
+
+		public override void  Initialize(string name, NameValueCollection config)
 		{
 			if (name == null)
 				throw new ArgumentNullException("name", Resources.ArgumentNull_String);

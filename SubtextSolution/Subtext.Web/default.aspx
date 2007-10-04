@@ -1,24 +1,41 @@
-<%@ Page CodeBehind="Default.aspx.cs" EnableViewState="false" Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web._default" %>
+<%@ Page CodeBehind="default.aspx.cs" EnableViewState="false" Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web._default" %>
 <%@ OutputCache Duration="120" VaryByParam="GroupID" VaryByHeader="Accept-Language" %>
+<%@ Import namespace="Subtext.Framework.Configuration"%>
+<%@ Register TagPrefix="uc1" TagName="AggSyndication" Src="~/Skins/Aggregate/Simple/Controls/AggSyndication.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="AggBlogStats" Src="~/Skins/Aggregate/Simple/Controls/AggBlogStats.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="AggBloggers" Src="~/Skins/Aggregate/Simple/Controls/AggBloggers.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="AggRecentPosts" Src="~/Skins/Aggregate/Simple/Controls/AggRecentPosts.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="AggRecentImages" Src="~/Skins/Aggregate/Simple/Controls/AggRecentImages.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="AggPinnedPost" Src="~/Skins/Aggregate/Simple/Controls/AggPinnedPost.ascx" %>
 
-<html>
-  <head>
-		<title><asp:Literal id = "TitleTag" runat = "Server" /></title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title><asp:Literal id="title" runat="server" Text="<%$ AppSettings:AggregateTitle %>" /></title>
 		<asp:Literal id="Style" runat="Server" />
+		<st:ScriptTag id="commonJs" src="~/Scripts/common.js" runat="server" />
+        <script type="text/javascript">
+			var subtextBlogInfo = new blogInfo('<%= Config.CurrentBlog.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>');
+		</script>
+		<st:ScriptTag id="prototypeJs" src="~/Scripts/prototype.js" runat="server" />
+		<st:ScriptTag id="scriptaculousJs" src="~/Scripts/scriptaculous.js" runat="server" />
+		<st:ScriptTag id="effectsJs" src="~/Scripts/effects.js" runat="server" />
+        <st:ScriptTag id="lightboxJs" runat="server" src="~/Scripts/lightbox.js" />
 	</head>
 	<body>
 		<form id="Form1" method="post" runat="server">
 			<div id="header">
-				<h1><asp:HyperLink ID = "TitleLink" Runat="server" /></h1>
+				<h1><asp:HyperLink ID="TitleLink" Text="<%$ AppSettings:AggregateTitle %>" NavigateUrl="<%# AggregateUrl %>" Runat="server" /></h1>
 			</div>
 			<div id="authors">
 				<h2>Welcome</h2>
 				<p>
-					Please contact me (Phil Haack) at <a href="http://haacked.com/contact.aspx" title="Contact Page" rel="external">
-						here</a> with any errors, problems, and/or questions.
+					This is the generic homepage (aka Aggregate Blog) for a Subtext community website. It aggregates 
+					posts from every blog installed in this server. To modify this page, edit the default.aspx page 
+					in your Subtext installation.
 				</p>
 				<p>
-					To learn more about the application, check out <a href="http://subtextproject.com/" title="Haacked Blog" rel="external">
+					To learn more about the application, check out <a href="http://subtextproject.com/" title="Subtext Project Website" rel="external">
 					the Subtext Project Website</a>.
 				</p>
 				<p>
@@ -26,69 +43,18 @@
 					<asp:HyperLink NavigateUrl="http://subtextproject.com/" ImageUrl="~/images/PoweredBySubtext85x33.png" ToolTip="Powered By Subtext"
 						Runat="server" BorderWidth="0" id="HyperLink1" />
 				</p>
-				<h2>Syndication</h2>
-				<ul>
-					<li><asp:HyperLink ID="OpmlLink" Text="OPML (list of bloggers)" runat="server" NavigateUrl = "~/Opml.aspx" />
-					<li><asp:HyperLink ID="RssLink" Text="RSS (list of recent posts)" runat="server" NavigateUrl = "~/MainFeed.aspx" />
-					<li><asp:HyperLink ID="Hyperlink4" Text="RSS (Microsoft Bloggers)" runat="server" NavigateUrl = "~/MainFeed.aspx?GroupID=2" />
-					<li><asp:HyperLink ID="Hyperlink5" Text="RSS (Non-Microsoft Bloggers)" runat="server" NavigateUrl = "~/MainFeed.aspx?GroupID=4" /></li>
-
-				</ul>
-				<h2>Blog Stats</h2>
-				<ul>
-					<li>
-						Blogs -
-						<asp:Literal ID="BlogCount" Runat="server" />
-					<li>
-						Posts -
-						<asp:Literal ID="PostCount" Runat="server" />
-					<li>
-						Articles -
-						<asp:Literal ID="StoryCount" Runat="server" />
-					<li>
-						Comments -
-						<asp:Literal ID="CommentCount" Runat="server" />
-					<li>
-						Trackbacks -
-						<asp:Literal ID="PingtrackCount" Runat="server" /></li>
-				</ul>
-				<h2>Bloggers (posts, last update)</h2>
-				<asp:repeater id="Bloggers" runat="server">
-					<HeaderTemplate>
-						<ul>
-					</HeaderTemplate>
-					<ItemTemplate>
-						<li>
-							<asp:HyperLink Runat = "server" NavigateUrl = '<%# GetFullUrl(DataBinder.Eval(Container.DataItem,"host").ToString(),DataBinder.Eval(Container.DataItem, "Application").ToString()) %>' Text = '<%# DataBinder.Eval(Container.DataItem,"Author") %>' title = '<%# DataBinder.Eval(Container.DataItem,"Title") %>' ID="Hyperlink1" NAME="Hyperlink1"/>
-							<br />
-							<small>(
-								<asp:Literal runat = "server" Text = '<%# DataBinder.Eval(Container.DataItem,"PostCount") %>' ID="Label2"/>,
-								<asp:Literal runat = "server" Text = '<%# (DateTime.Parse(DataBinder.Eval(Container.DataItem,"LastUpdated").ToString())).ToShortDateString() + " " + (DateTime.Parse(DataBinder.Eval(Container.DataItem,"LastUpdated").ToString())).ToShortTimeString() %>' ID="Label1"/>)</small>
-						</li>
-					</ItemTemplate>
-					<FooterTemplate>
-						</ul>
-					</FooterTemplate>
-				</asp:repeater>
+                <uc1:AggSyndication ID="AggSyndication1" runat="server" />				
+                <uc1:AggBlogStats ID="AggBlogStats1" runat="server" />				
+				<uc1:AggBloggers ID="AggBloggers1" runat="server" ShowGroups="true" />
 			</div>
 			<div id="main">
-				<h2>Latest Posts</h2>
-				<asp:repeater id="RecentPosts" runat="server">
-					<ItemTemplate>
-						<div class="post">
-							<h3>
-								<asp:HyperLink Runat = "server" NavigateUrl = '<%# GetEntryUrl(DataBinder.Eval(Container.DataItem,"host").ToString(),DataBinder.Eval(Container.DataItem,"Application").ToString(), DataBinder.Eval(Container.DataItem,"EntryName").ToString(), (DateTime)DataBinder.Eval(Container.DataItem,"DateAdded")) %>' Text = '<%# DataBinder.Eval(Container.DataItem,"Title") %>' ID="Hyperlink2"/></h3>
-							<asp:Literal runat = "server" Text = '<%# DataBinder.Eval(Container.DataItem,"Description") %>' ID="Label4"/>
-							<p class="postfoot">
-								posted @
-								<asp:Literal runat = "server" Text = '<%# (DateTime.Parse(DataBinder.Eval(Container.DataItem,"DateAdded").ToString())).ToShortDateString() + " " + (DateTime.Parse(DataBinder.Eval(Container.DataItem,"DateAdded").ToString())).ToShortTimeString() %>' ID="Label5" />
-								by
-								<asp:HyperLink Runat = "server" CssClass = "clsSubtext" NavigateUrl = '<%# GetFullUrl(DataBinder.Eval(Container.DataItem,"host").ToString(),DataBinder.Eval(Container.DataItem,"Application").ToString())  %>' Text = '<%# DataBinder.Eval(Container.DataItem,"Author") %>' ID="Hyperlink3"/>
-							</p>
-						</div>
-					</ItemTemplate>
-				</asp:repeater>
+			    <!-- Update EntryID in the next line to the ID of a post you want pinned here-->
+			    <uc1:AggPinnedPost ID="AggPinnedPost1" runat="server" ContentID="3" EntryTitle="Welcome All" />
+				<uc1:AggRecentPosts ID="AggRecentPosts1" runat="server" Count="20" />
 			</div>
+			<div id="extra">
+                <uc1:AggRecentImages ID="AggRecentImages1" runat="server" Count="20" />
+            </div>
 		</form>
 	</body>
 </html>

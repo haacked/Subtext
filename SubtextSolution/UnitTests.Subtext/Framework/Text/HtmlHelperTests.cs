@@ -33,6 +33,21 @@ namespace UnitTests.Subtext.Framework.Text
 	public class HtmlHelperTests
 	{
 		[RowTest]
+		[Row(null, 10, null, ExpectedException = typeof(ArgumentNullException))]
+		[Row("", 10, "")]
+		[Row("http://example.com/", 50, "http://example.com/")]
+		[Row("http://example.com/test/testagain/", 26, "example.com/.../testagain/")]
+		[Row("http://example.com/test/test.aspx", 25, "example.com/.../test.aspx")]
+		[Row("http://example.com/", 10, "example...")]
+		[Row("http://example.com/", 11, "example.com")]
+		[Row("http://example.com", 11, "example.com")]
+		[Row("http://example.com", 5, "ex...")]
+		public void CanShortenUrl(string url, int max, string expected)
+		{
+			Assert.AreEqual(expected, HtmlHelper.ShortenUrl(url, max));
+		}
+
+		[RowTest]
 		[Row("http://example.com", "www.example.com", "http://www.example.com")]
 		[Row("http://example.com", "example.com", "http://example.com")]
 		[Row("http://example.com/", "example.com", "http://example.com/")]
@@ -121,18 +136,48 @@ namespace UnitTests.Subtext.Framework.Text
 		/// <summary>
 		/// Tests that EnableUrls formats urls with anchor tags.
 		/// </summary>
-		[Test]
-		public void EnableUrlsFormatsUrlsWithAnchorTags()
+		[RowTest]
+		[Row("", "")]
+		[Row(null, null, ExpectedException=typeof(ArgumentNullException))]
+		[Row("http://haacked.com/one/two/three/four/five/six/seven/eight/nine/ten.aspx", "<a rel=\"nofollow external\" href=\"http://haacked.com/one/two/three/four/five/six/seven/eight/nine/ten.aspx\" title=\"http://haacked.com/one/two/three/four/five/six/seven/eight/nine/ten.aspx\">haacked.com/.../ten.aspx</a>")]
+		[Row("begin http://haacked.com/ end.", "begin <a rel=\"nofollow external\" href=\"http://haacked.com/\" title=\"http://haacked.com/\">http://haacked.com/</a> end.")]
+		[Row("begin http://haacked.com/ two http://localhost/someplace/some.page.aspx end.", "begin <a rel=\"nofollow external\" href=\"http://haacked.com/\" title=\"http://haacked.com/\">http://haacked.com/</a> two <a rel=\"nofollow external\" href=\"http://localhost/someplace/some.page.aspx\" title=\"http://localhost/someplace/some.page.aspx\">http://localhost/someplace/some.page.aspx</a> end.")]
+		[Row("this www.haacked.com", "this <a rel=\"nofollow external\" href=\"http://www.haacked.com\" title=\"www.haacked.com\">www.haacked.com</a>")]
+		[Row("<p>www.haacked.com</p>", "<p><a rel=\"nofollow external\" href=\"http://www.haacked.com\" title=\"www.haacked.com\">www.haacked.com</a></p>")]
+		[Row("<b>www.haacked.com</b>", "<b><a rel=\"nofollow external\" href=\"http://www.haacked.com\" title=\"www.haacked.com\">www.haacked.com</a></b>")]
+		[Row("subtextproject.com", "subtextproject.com")]
+		[Row("www.subtextproject.com?test=test&blah=blah", "<a rel=\"nofollow external\" href=\"http://www.subtextproject.com?test=test&blah=blah\" title=\"www.subtextproject.com?test=test&blah=blah\">www.subtextproject.com?test=test&blah=blah</a>")]
+		[Row("<a href=\"http://example.com/\">Test</a>", "<a href=\"http://example.com/\">Test</a>")]
+		[Row("<img src=\"http://example.com/\" />", "<img src=\"http://example.com/\" />")]
+		[Row("<a href='http://example.com/'>Test</a>", "<a href=\"http://example.com/\">Test</a>")]
+		[Row("<a href=http://example.com/>Test</a>", "<a href=\"http://example.com/\">Test</a>")]
+		[Row("<b title=\"blah http://example.com/ blah\" />", "<b title=\"blah http://example.com/ blah\" />")]
+		[Row("a < b blah http://example.com/", "a < b blah <a rel=\"nofollow external\" href=\"http://example.com/\" title=\"http://example.com/\">http://example.com/</a>")]
+		[Row("www.haacked.com<a href=\"test\">test</a>", "<a rel=\"nofollow external\" href=\"http://www.haacked.com\" title=\"www.haacked.com\">www.haacked.com</a><a href=\"test\">test</a>")]
+		public void ConvertUrlsToHyperLinksConvertsUrlsToAnchorTags(string html, string expected)
 		{
-			string html = "this is text with http://haacked.com/ one url.";
-			string expected = "this is text with <a rel=\"nofollow external\" href=\"http://haacked.com/\">http://haacked.com/</a> one url.";
+			Assert.AreEqual(expected, HtmlHelper.ConvertUrlsToHyperLinks(html), "Did not pare url correctly.");
+		}
 
-			Assert.AreEqual(expected, HtmlHelper.ConvertUrlsToHyperLinks(html));
+		[Test]
+		public void ConvertUrlToHyperlinksIgnoreAnchorContents()
+		{
+			string html = "<a href=\"/\"><b>http://example.com/</b></a>";
+			Assert.AreEqual(html, HtmlHelper.ConvertUrlsToHyperLinks(html), "Did not pare url correctly.");
+		}
 
-			html = "this is text with http://haacked.com/ two http://localhost/someplace/some.page.aspx urls.";
-			expected = "this is text with <a rel=\"nofollow external\" href=\"http://haacked.com/\">http://haacked.com/</a> two <a rel=\"nofollow external\" href=\"http://localhost/someplace/some.page.aspx\">http://localhost/someplace/some.page.aspx</a> urls.";
+		[Test]
+		public void CanApplyConverterWhileConvertingHtmlToXhtml()
+		{
+			string html = "<p title=\"blah blah\"> blah blah </p>";
+			string expected = "<p title=\"blah blah\"> yadda yadda </p>";
+			Converter<string, string> converter = delegate(string input)
+			                                      	{
+			                                      		return input.Replace("blah", "yadda");
+			                                      	};
 
-			Assert.AreEqual(expected, HtmlHelper.ConvertUrlsToHyperLinks(html));
+			
+			Assert.AreEqual(expected, HtmlHelper.ConvertHtmlToXHtml(html, converter));
 		}
 
 		/// <summary>
@@ -141,7 +186,7 @@ namespace UnitTests.Subtext.Framework.Text
 		[RowTest]
 		[Row("This is some text", "This is some text")]
 		[Row("<span>This is some text</span>", "<span>This is some text</span>")]
-		[Row("<p><span>This is some text</span> <span>this is more text</span></p>", "<p><span>This is some text</span> <span>this is more text</span></p>")]
+		[Row("<p><span>This is some text</span><span>this is more text</span></p>", "<p><span>This is some text</span><span>this is more text</span></p>")]
 		[Row("<img src=\"blah\" />", "<img src=\"blah\" />")]
 		[Row("<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>", "<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>")]
 		public void ConvertHtmlToXHtmlLeavesValidMarkupAlone(string goodMarkup, string expected)
@@ -152,66 +197,64 @@ namespace UnitTests.Subtext.Framework.Text
 			Assert.AreEqual(expected, entry.Body);
 		}
 
+		[Test]
+		public void ConvertHtmlToXHtmlLeavesNestedMarkupAlone()
+		{
+			string expected = "<p><span>This is some text</span> <span>this is more text</span></p>";
+			Assert.AreEqual(expected, HtmlHelper.ConvertHtmlToXHtml(expected, null), "markup should not have changed");
+		}
+
 		/// <summary>
 		/// Makes sure that IsValidXHTML recognizes invalid markup.
 		/// </summary>
 		[RowTest]
+		[Row("<a href=\"xyz\">test<b>Test</b>", "<a href=\"xyz\">test<b>Test</b></a>")]
 		[Row("This <br /><br />is bad <p> XHTML.", "This <br /><br />is bad <p> XHTML.</p>")]
+		[Row("This <br /><br style=\"blah\" />is bad <p> XHTML.", "This <br /><br style=\"blah\" />is bad <p> XHTML.</p>")]
 		[Row("This <P>is bad </P> XHTML.", "This <p>is bad </p> XHTML.")]
 		[Row("<style type=\"text/css\">\r\n<![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>", "<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>")]
 		[Row("<style type=\"text/css\">\r\n\r\n<![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>", "<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>")]
 		public void ConvertHtmlToXHtmlCorrectsInvalidMarkup(string badMarkup, string corrected)
 		{
-			Entry entry = new Entry(PostType.BlogPost);
-			entry.Body = badMarkup;
-			HtmlHelper.ConvertHtmlToXHtml(entry);
-			Assert.AreEqual(corrected, entry.Body);
+			Assert.AreEqual(corrected, HtmlHelper.ConvertHtmlToXHtml(badMarkup, null));
 		}
 
-		/// <summary>
-		/// HasIllegalContent throws exception when encountering script tag.
-		/// </summary>
-		[Test, ExpectedException(typeof(IllegalPostCharactersException))]
-		public void HasIllegalContentThrowsExceptionWithScriptTag()
+		[RowTest]
+		[Row("<a name=\"test\"></a>", "<a name=\"test\"></a>", "Anchor tags should not be self-closed.")]
+		[Row("<a name=\"test\" />", "<a name=\"test\"></a>", "Anchor tags should not be self-closed.")]
+		[Row("<script src=\"test\" />", "<script src=\"test\"></script>", "Script tags should not be self-closed.")]
+		[Row("<script src=\"test\"></script>", "<script src=\"test\"></script>", "Script tags should not be self-closed.")]
+		public void ConvertHtmlToXhtmlEnsuresSomeTagsMustNotBeSelfClosed(string html, string expected, string message)
 		{
-			HtmlHelper.HasIllegalContent("blah <script ");
+			Assert.AreEqual(expected, HtmlHelper.ConvertHtmlToXHtml(html, null), message);
+		}
+
+		[RowTest]
+		[Row("br")]
+		[Row("hr")]
+		[Row("meta")]
+		[Row("link")]
+		[Row("input")]
+		[Row("img")]
+		public void ConvertHtmlToXhtmlEnsuresSomeTagsMustBeSelfClosed(string tag)
+		{
+			string html = string.Format("<{0} src=\"blah-blah\"></{0}>", tag);
+			string expected = string.Format("<{0} src=\"blah-blah\" />", tag);
+
+			Assert.AreEqual(expected, HtmlHelper.ConvertHtmlToXHtml(html, null), tag + " tags must be self-closed");
+			Assert.AreEqual(expected, HtmlHelper.ConvertHtmlToXHtml(expected, null), tag + " tags must be self-closed. We shouldn't change already closed.");
 		}
 
 		/// <summary>
 		/// HasIllegalContent throws exception when encountering encoded tag.
 		/// </summary>
-		[Test, ExpectedException(typeof(IllegalPostCharactersException))]
-		public void HasIllegalContentThrowsExceptionWithEncodedScriptTag()
+		[RowTest]
+		[Row("blah &#60script ", true)]
+		[Row("blah <script ", true)]
+		[Row("blah script ", false)]
+		public void HasIllegalContentReturnsExpectedAnswer(string html, bool expected)
 		{
-			try
-			{
-				HtmlHelper.HasIllegalContent("blah &#60script ");
-				Assert.Fail("Method should have thrown an exception");
-			}
-			catch(IllegalPostCharactersException)
-			{
-				
-			}
-			catch(Exception)
-			{
-				Assert.Fail("Method should have thrown an IllegalPostCharactersException exception");
-			}
-
-			try
-			{
-				HtmlHelper.HasIllegalContent("blah &60script ");
-				Assert.Fail("Method should have thrown an exception");
-			}
-			catch(IllegalPostCharactersException)
-			{
-				
-			}
-			catch(Exception)
-			{
-				Assert.Fail("Method should have thrown an IllegalPostCharactersException exception");
-			}
-
-			HtmlHelper.HasIllegalContent("blah %60script ");
+			Assert.AreEqual(expected, HtmlHelper.HasIllegalContent(html));
 		}
 
 		[Test]

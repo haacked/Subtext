@@ -14,18 +14,18 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Web;
-using System.Text.RegularExpressions;
 using System.Web.Configuration;
 using System.Web.Security;
 using Subtext.Extensibility.Interfaces;
+using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
-using Subtext.Framework.Logging;
-using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
+using Subtext.Scripting;
 
 namespace Subtext.Framework.Configuration
 {
@@ -59,35 +59,6 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
-		private static readonly BlogInfo aggregateBlog = InitAggregateBlog();
-		
-		private static BlogInfo InitAggregateBlog()
-		{
-            HostInfo hostInfo = HostInfo.Instance;
-			string aggregateHost = ConfigurationManager.AppSettings["AggregateUrl"];
-			if (aggregateHost == null)
-				return null;
-
-			Regex regex = new Regex(@"^(https?://)?(?<host>.+?)(/.*)?$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-			Match match = regex.Match(aggregateHost);
-
-			if (match.Success)
-				aggregateHost = match.Groups["host"].Value;
-
-			BlogInfo blog = new BlogInfo();
-            blog.Title = ConfigurationManager.AppSettings["AggregateTitle"];
-			blog.Skin = SkinConfig.GetDefaultSkin();
-            blog.Host = aggregateHost;
-			blog.Subfolder = string.Empty;
-
-			return blog;
-		}
-		
-		public static BlogInfo AggregateBlog
-		{
-			get { return aggregateBlog; }
-		}
-
 		/// <summary>
 		/// Returns the Subtext connection string.
 		/// </summary>
@@ -96,21 +67,22 @@ namespace Subtext.Framework.Configuration
 		/// The AppSetting "connectionStringName" points to which of those strings 
 		/// is the one in use.
 		/// </remarks>
-		public static string ConnectionString
+		public static ConnectionString ConnectionString
 		{
 			get
 			{
-				if(String.IsNullOrEmpty(connectionString))
+				if(connectionString == null)
 				{
 					string connectionStringName = ConfigurationManager.AppSettings["connectionStringName"];
 					if (ConfigurationManager.ConnectionStrings[connectionStringName] == null)
 						throw new ConfigurationErrorsException(String.Format("There is no connectionString entry associated with the connectionStringName '{0}'.", connectionStringName));
-					connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+					string connectionStringText = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+					connectionString = ConnectionString.Parse(connectionStringText);
 				}
 				return connectionString;
 			}
 		}
-		static string connectionString;
+		static ConnectionString connectionString;
 
 		/// <summary>
 		/// Gets the file not found page from web.config.
@@ -250,20 +222,42 @@ namespace Subtext.Framework.Configuration
 		public static BlogInfo GetBlogInfoFromDomainAlias(string domainAlias, string subfolder, bool strict)
 		{
 			domainAlias = BlogInfo.StripPortFromHost(domainAlias);
-			return ObjectProvider.Instance().GetBlogByDomainAlias(domainAlias,subfolder,strict);
+			return ObjectProvider.Instance().GetBlogByDomainAlias(domainAlias, subfolder, strict);
+		}
+
+        /// <summary>
+        /// Creates an initial blog.  This is a convenience method for 
+        /// allowing a user with a freshly installed blog to immediately gain access 
+        /// to the admin section to edit the blog.
+        /// </summary>
+        /// <param name="title">Title of the blog</param>
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="password">Password.</param>
+        /// <param name="subfolder"></param>
+        /// <param name="host"></param>
+        /// <returns></returns>
+        public static bool CreateBlog(string title, string userName, string password, string host, string subfolder)
+        {
+        	throw new NotImplementedException();
+        }
+
+		public static BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner)
+		{
+			return CreateBlog(title, host, subfolder, owner, 1);
 		}
 
 		/// <summary>
-		/// Creates an initial blog.  This is a convenience method for 
-		/// allowing a user with a freshly installed blog to immediately gain access 
+		/// Creates an initial blog.  This is a convenience method for
+		/// allowing a user with a freshly installed blog to immediately gain access
 		/// to the admin section to edit the blog.
 		/// </summary>
 		/// <param name="title">The title of the blog.</param>
 		/// <param name="host">The host.</param>
 		/// <param name="subfolder">The subfolder.</param>
 		/// <param name="owner">The owner.</param>
+		/// <param name="blogGroupId">The blog group id.</param>
 		/// <returns></returns>
-		public static BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner)
+		public static BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner, int blogGroupId)
 		{
 			if (String.IsNullOrEmpty(title))
 				throw new ArgumentNullException("title", "Cannot create a blog with a null or empty title");
@@ -284,7 +278,7 @@ namespace Subtext.Framework.Configuration
 			ValidateSubfolderName(host, subfolder);
 			
 			//Add blog user to Administrators.
-			BlogInfo blog = ObjectProvider.Instance().CreateBlog(title, host, subfolder, owner);
+			BlogInfo blog = ObjectProvider.Instance().CreateBlog(title, host, subfolder, owner, blogGroupId);
 			using (MembershipApplicationScope.SetApplicationName(blog.ApplicationName))
 			{
 				CreateBlogRoles();
@@ -399,9 +393,6 @@ namespace Subtext.Framework.Configuration
 			ObjectProvider.Instance().UpdateBlog(info);
 		}
 
-        //TODO: Is this the right place to put this list?
-        private static readonly string[] _invalidSubfolders = { "Tags", "Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Properties", "Providers", "Scripts", "Skins", "SystemMessages", "UI", "Modules", "Services", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery", "aggbug", "Sitemap" };
-
 		/// <summary>
 		/// Returns true if the specified subfolder name has a 
 		/// valid format. It may not start, nor end with ".".  It 
@@ -432,24 +423,66 @@ namespace Subtext.Framework.Configuration
 			return true;
 		}
 
+		/// <summary>
+		/// Adds the blog alias to the system.
+		/// </summary>
+		/// <param name="alias">The alias.</param>
+		/// <returns></returns>
 		public static bool AddBlogAlias(BlogAlias alias)
 		{
 			return ObjectProvider.Instance().CreateBlogAlias(alias);
 		}
+
+		/// <summary>
+		/// Updates the blog alias.
+		/// </summary>
+		/// <param name="alias">The alias.</param>
+		/// <returns></returns>
 		public static bool UpdateBlogAlias(BlogAlias alias)
 		{
 
 			return ObjectProvider.Instance().UpdateBlogAlias(alias);
 		}
 
+		/// <summary>
+		/// Deletes the blog alias.
+		/// </summary>
+		/// <param name="alias">The alias.</param>
+		/// <returns></returns>
 		public static bool DeleteBlogAlias(BlogAlias alias)
 		{
 			return ObjectProvider.Instance().DeleteBlogAlias(alias);
 		}
 
-		public static BlogAlias GetBlogAlias(int aliasId)
+		/// <summary>
+		/// Gets the blog alias.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <returns></returns>
+		public static BlogAlias GetBlogAlias(int id)
 		{
-			return ObjectProvider.Instance().GetBlogAliasById(aliasId);			
+			return ObjectProvider.Instance().GetBlogAliasById(id);			
+		}
+
+		/// <summary>
+		/// Gets the blog group by id.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
+		public static BlogGroup GetBlogGroup(int id, bool activeOnly)
+		{
+			return ObjectProvider.Instance().GetBlogGroup(id, activeOnly);
+		}
+
+		/// <summary>
+		/// Lists the blog groups in this installation.
+		/// </summary>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
+		public static IList<BlogGroup> ListBlogGroups(bool activeOnly)
+		{
+			return ObjectProvider.Instance().ListBlogGroups(activeOnly);
 		}
 	}
 }

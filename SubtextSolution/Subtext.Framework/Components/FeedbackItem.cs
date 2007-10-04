@@ -94,26 +94,21 @@ namespace Subtext.Framework.Components
 		/// <param name="feedback">The feedback.</param>
 		/// <param name="filter">Spam filter.</param>
 		/// <returns></returns>
-        public static int Create(FeedbackItem feedback, CommentFilter filter)
-        {
-            if (feedback == null)
-            {
-                throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
-            }
-
-            if (HttpContext.Current != null && HttpContext.Current.Request != null)
-            {
-                feedback.UserAgent = HttpContext.Current.Request.UserAgent;
-                feedback.IpAddress = HttpHelper.GetUserIpAddress(HttpContext.Current);
-            }
-
-            feedback.FlaggedAsSpam = true; //We're going to start with this assumption.
-            feedback.Author = HtmlHelper.SafeFormat(feedback.Author);
-            feedback.Body = HtmlHelper.ConvertToAllowedHtml(feedback.Body);
-            feedback.Title = HtmlHelper.SafeFormat(feedback.Title);
-
-            // If we are creating this feedback item as part of an import, we want to 
-            // be sure to use the item's datetime, and not set it to the current time.
+		public static int Create(FeedbackItem feedback, CommentFilter filter)
+		{
+			if (HttpContext.Current != null && HttpContext.Current.Request != null)
+			{
+				feedback.UserAgent = HttpContext.Current.Request.UserAgent;
+				feedback.IpAddress = HttpHelper.GetUserIpAddress(HttpContext.Current);
+			}
+			
+			feedback.FlaggedAsSpam = true; //We're going to start with this assumption.
+			feedback.Author = HtmlHelper.SafeFormat(feedback.Author);
+			feedback.Body = HtmlHelper.ConvertUrlsToHyperLinks(HtmlHelper.ConvertToAllowedHtml(feedback.Body));
+			feedback.Title = HtmlHelper.SafeFormat(feedback.Title);
+		    
+		    // If we are creating this feedback item as part of an import, we want to 
+		    // be sure to use the item's datetime, and not set it to the current time.
             if (NullValue.NullDateTime.Equals(feedback.DateCreated))
             {
                 feedback.DateCreated = Config.CurrentBlog.TimeZone.Now;
@@ -224,7 +219,7 @@ namespace Subtext.Framework.Components
 
 			try
 			{
-				SendEmailDelegate sendEmail = new SendEmailDelegate(im.Send);
+				SendEmailDelegate sendEmail = im.Send;
 				AsyncHelper.FireAndForget(sendEmail, to, from, fromEmail, subject, body);
 			}
 			catch(Exception e)

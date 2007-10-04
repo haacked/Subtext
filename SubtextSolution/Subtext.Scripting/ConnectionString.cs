@@ -27,10 +27,10 @@ namespace Subtext.Scripting
 	[Serializable]
 	public class ConnectionString
 	{
-		private static ConnectionString _emptyConnectionString = new ConnectionString();
+		private static readonly ConnectionString _emptyConnectionString = new ConnectionString();
 
-		string _connectionFormatString = "{0}={1};{2}={3};User ID={4};Password={5};{6}";
-		string _trustedConnectionFormatString = "{0}={1};{2}={3};{4}";
+		readonly string _connectionFormatString = "{0}={1};{2}={3};User ID={4};Password={5};{6}";
+		readonly string _trustedConnectionFormatString = "{0}={1};{2}={3};{4}";
 		string _databaseFieldName="Database";
 		string _serverFieldName="Server";
 		string _securityType;
@@ -62,6 +62,11 @@ namespace Subtext.Scripting
             }
 
 			return new ConnectionString(connectionString);
+		}
+
+		public static implicit operator string(ConnectionString connectionString)
+		{
+			return connectionString.ToString();
 		}
 
 		/// <summary>
