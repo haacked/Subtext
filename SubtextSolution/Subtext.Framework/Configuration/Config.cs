@@ -225,31 +225,21 @@ namespace Subtext.Framework.Configuration
 			return ObjectProvider.Instance().GetBlogByDomainAlias(domainAlias, subfolder, strict);
 		}
 
-        /// <summary>
-        /// Creates an initial blog.  This is a convenience method for 
-        /// allowing a user with a freshly installed blog to immediately gain access 
-        /// to the admin section to edit the blog.
-        /// </summary>
-        /// <param name="title">Title of the blog</param>
-        /// <param name="userName">Name of the user.</param>
-        /// <param name="password">Password.</param>
-        /// <param name="subfolder"></param>
-        /// <param name="host"></param>
-        /// <returns></returns>
-        public static bool CreateBlog(string title, string userName, string password, string host, string subfolder)
-        {
-        	throw new NotImplementedException();
-        }
-
+		/// <summary>
+		/// Creates a blog.
+		/// </summary>
+		/// <param name="title">The title.</param>
+		/// <param name="host">The host.</param>
+		/// <param name="subfolder">The subfolder.</param>
+		/// <param name="owner">The owner.</param>
+		/// <returns></returns>
 		public static BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner)
 		{
 			return CreateBlog(title, host, subfolder, owner, 1);
 		}
 
 		/// <summary>
-		/// Creates an initial blog.  This is a convenience method for
-		/// allowing a user with a freshly installed blog to immediately gain access
-		/// to the admin section to edit the blog.
+		/// Creates a blog.
 		/// </summary>
 		/// <param name="title">The title of the blog.</param>
 		/// <param name="host">The host.</param>

@@ -1,5 +1,6 @@
 using System;
 using System.Web;
+using System.Web.Security;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -19,8 +20,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack2]
 		public void AlternateHostNameRequestRedirectsToPrimaryHost()
 		{
-			Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
-			Config.CreateBlog("title", "username", "password", "www.example.com", string.Empty);
+			MembershipUser owner = UnitTestHelper.CreateMembershipUser();
+			Config.CreateBlog("title", "subtextproject.com", string.Empty, owner);
+			Config.CreateBlog("title", "www.example.com", string.Empty, owner);
 			UnitTestHelper.SetHttpContextWithBlogRequest("example.com", string.Empty);
 			BlogRequest.Current = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/2007/01/23/some-post.aspx"), false);
 			Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(), "Should return null");
@@ -35,8 +37,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack2]
 		public void RequestForAliasRedirectsToPrimaryHost()
 		{
-			Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
-			Config.CreateBlog("title", "username", "password", "example.com", string.Empty);
+			MembershipUser owner = UnitTestHelper.CreateMembershipUser();
+			Config.CreateBlog("title", "subtextproject.com", string.Empty, owner);
+			Config.CreateBlog("title", "example.com", string.Empty, owner);
 			BlogAlias alias = new BlogAlias();
 			alias.BlogId = Config.GetBlogInfo("example.com", string.Empty).Id;
 			alias.Host = "alias.example.com";
@@ -56,8 +59,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack2]
 		public void AliasRedirectHandlesSubfolder()
 		{
-			Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
-			Config.CreateBlog("title", "username", "password", "example.com", string.Empty);
+			MembershipUser owner = UnitTestHelper.CreateMembershipUser();
+			Config.CreateBlog("title", "subtextproject.com", string.Empty, owner);
+			Config.CreateBlog("title", "example.com", string.Empty, owner);
 			BlogAlias alias = new BlogAlias();
 			alias.BlogId = Config.GetBlogInfo("example.com", string.Empty).Id;
 			alias.Host = "alias.example.com";
@@ -75,8 +79,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack2]
 		public void CanGetAggregateBlog()
 		{
-			Config.CreateBlog("title", "username", "password", "blog1.example.com", string.Empty);
-			Config.CreateBlog("title", "username", "password", "blog2.example.com", string.Empty);
+			MembershipUser owner = UnitTestHelper.CreateMembershipUser();
+			Config.CreateBlog("title", "blog1.example.com", string.Empty, owner);
+			Config.CreateBlog("title", "blog2.example.com", string.Empty, owner);
 			UnitTestHelper.SetHttpContextWithBlogRequest("example.com", string.Empty);
 			BlogRequest.Current = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/"), false);
 			BlogInfo info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo();
@@ -93,8 +98,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack2]
 		public void GetBlogInfoChangesHostForOnlyLocalHostBlog()
 		{
+			MembershipUser owner = UnitTestHelper.CreateMembershipUser();
 			string subfolder = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("title", "username", "password", "localhost", subfolder);
+			Config.CreateBlog("title", "localhost", subfolder, owner);
 			Assert.AreEqual(1, BlogInfo.GetBlogs(0, 10, ConfigurationFlags.None).Count, "Need to make sure there's only one blog in the system.");
 
 			UnitTestHelper.SetHttpContextWithBlogRequest("example.com", subfolder);
@@ -111,7 +117,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		{
 			string hostName = UnitTestHelper.GenerateRandomString();
 			string subfolder = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("title", "username", "password", hostName, subfolder);
+
+			UnitTestHelper.CreateBlog("title", "username", UnitTestHelper.GenerateRandomString() + "@example.com", "password", hostName, subfolder);
 			Assert.AreEqual(1, BlogInfo.GetBlogs(0, 10, ConfigurationFlags.None).Count, "Need to make sure there's only one blog in the system.");
 			
 			UnitTestHelper.SetHttpContextWithBlogRequest("example.com", subfolder);

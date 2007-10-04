@@ -59,12 +59,12 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		[RollBack]
+		[RollBack2]
 		public void SetText() 
 		{
 			UnitTestHelper.SetupBlog();
 
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+			UnitTestHelper.SetupBlog();
 			string test="Lorem Ipsum";
 			this.provider.InitializeControl();
 			this.provider.Text=test;

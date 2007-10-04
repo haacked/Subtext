@@ -55,6 +55,9 @@ namespace Subtext.Web.Controls
 		/// <param name="path"></param>
 		public static string ExpandTildePath(string path)
 		{
+			if (path == null)
+				throw new ArgumentNullException("path");
+
 			string reference = path;
 			if (reference.Substring(0, 2) == "~/")
 			{

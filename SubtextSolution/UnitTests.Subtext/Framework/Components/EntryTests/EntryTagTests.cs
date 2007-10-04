@@ -50,9 +50,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack2]
 		public void TagDoesNotRetrieveDraftEntry()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("", hostname, string.Empty, null);
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty, string.Empty);
+			UnitTestHelper.SetupBlog();
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
 			entry.IsActive = false;
 			Entries.Create(entry);

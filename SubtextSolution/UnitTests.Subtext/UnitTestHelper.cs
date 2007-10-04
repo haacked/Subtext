@@ -30,7 +30,6 @@ using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
-using Microsoft.SqlServer.Management.Smo;
 using Rhino.Mocks;
 using SubSonic;
 using Subtext.Extensibility;
@@ -254,9 +253,7 @@ namespace UnitTests.Subtext
 		{
 			string host = GenerateRandomString();
 
-			MembershipCreateStatus status;
-			MembershipUser owner = Membership.CreateUser(userName, password, MembershipTestEmail, "What time is it?", "It's Subtext Time!", true, out status);
-            Assert.AreEqual(status, MembershipCreateStatus.Success, "User was unable not created");
+			MembershipUser owner = CreateMembershipUser(userName, password);
 
 			HttpContext.Current = null;
 			Assert.IsNotNull(Config.CreateBlog("Unit Test Blog", host, subfolder, owner), "Could Not Create Blog");
@@ -275,7 +272,21 @@ namespace UnitTests.Subtext
 
 			return new SimulatedRequestContext(request, sb, output, host);
 		}
-		
+
+		public static MembershipUser CreateMembershipUser()
+		{
+			return CreateMembershipUser(GenerateRandomString(), GenerateRandomString());
+		}
+
+		public static MembershipUser CreateMembershipUser(string userName, string password)
+		{
+			MembershipCreateStatus status;
+			MembershipUser owner = Membership.CreateUser(userName, password, MembershipTestEmail, "What time is it?", "It's Subtext Time!", true, out status);
+			Assert.AreEqual(status, MembershipCreateStatus.Success, "User was unable not created");
+			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(owner.UserName), new string[] { RoleNames.Administrators });
+			return owner;
+		}
+
 		/// <summary>
 		/// Takes all the necessary steps to create a blog and set up the HTTP Context
 		/// with the blog.  The blog will have an admin with the specified 
@@ -572,7 +583,7 @@ namespace UnitTests.Subtext
 
 		public static void CreateBlog(string title, string username, string email, string password, string hostName, string subfolder)
 		{
-			MembershipUser owner = Membership.CreateUser(username, password, email);
+			MembershipUser owner = CreateMembershipUser();
 			Config.CreateBlog("title", hostName, subfolder, owner);
 		}
 

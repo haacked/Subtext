@@ -116,8 +116,8 @@ namespace Subtext
                     {
                         adoAppender.ConnectionString += ";";
                     }
-					
-					if( String.Compare(adoAppender.ConnectionString, ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString, false) != 0 )
+
+					if (String.Compare(adoAppender.ConnectionString, Config.ConnectionString, false) != 0)
 					{
 						throw new InvalidOperationException("Log4Net is not picking up our connection string.");
 					}					

@@ -2,6 +2,7 @@ using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using MbUnit.Framework;
+using Subtext.Framework.Configuration;
 using Subtext.Installation;
 
 namespace UnitTests.Subtext.Installation
@@ -25,10 +26,10 @@ namespace UnitTests.Subtext.Installation
 		[Test]
 		public void CanGetInstallationStatus()
 		{
-			using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString))
+			using (SqlConnection connection = new SqlConnection(Config.ConnectionString))
 			{
 				connection.Open();
-				SqlInstaller installer = new SqlInstaller(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString);
+				SqlInstaller installer = new SqlInstaller(Config.ConnectionString);
 				Console.WriteLine("UPDATING INSTALLATION VERSION TO '{0}'!", installer.SubtextAssemblyVersion);
 				installer.UpdateInstallationVersionNumber(installer.SubtextAssemblyVersion);
 			}
