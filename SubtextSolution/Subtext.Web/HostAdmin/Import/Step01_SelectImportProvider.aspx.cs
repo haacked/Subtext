@@ -21,9 +21,9 @@ namespace Subtext.Web.HostAdmin
 	/// <summary>
 	/// Summary description for Step01_SelectImportProvider.
 	/// </summary>
-	public partial class Step01_SelectImportProvider : System.Web.UI.Page
+	public partial class Step01_SelectImportProvider : HostAdminPage
 	{
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
 			if(!IsPostBack)
 			{

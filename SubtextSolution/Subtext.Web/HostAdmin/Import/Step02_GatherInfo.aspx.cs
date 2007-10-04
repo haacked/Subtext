@@ -25,12 +25,12 @@ namespace Subtext.Web.HostAdmin
 	/// <summary>
 	/// Page used to gather information for the specified import provider.
 	/// </summary>
-	public partial class Step02_GatherInfo : System.Web.UI.Page
+	public partial class Step02_GatherInfo : HostAdminPage
 	{
 		ImportProvider _providerInfo;
 		Control importInformationControl;
 
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
 			paraBeginImportText.Visible = false;
 			btnNext.Visible = true;

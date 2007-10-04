@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
@@ -39,6 +39,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -123,9 +124,33 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\DeftTech.DuckTyping.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetOpenMail, Version=1.0.2177.21428, Culture=neutral">
+    <Reference Include="MbUnit.Framework, Version=1.0.2700.29885, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DotNetOpenMail.dll</HintPath>
+      <HintPath>..\Dependencies\MbUnit.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\MbUnit.Framework.2.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.SqlServer.Smo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SmoEnum, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.SqlServer.SmoEnum.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlEnum, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.SqlServer.SqlEnum.dll</HintPath>
+    </Reference>
+    <Reference Include="NGraphviz">
+      <Name>NGraphviz</Name>
+      <HintPath>ExternalDependencies\NGraphviz.dll</HintPath>
     </Reference>
     <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87">
       <SpecificVersion>False</SpecificVersion>
@@ -135,46 +160,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="MbUnit.Framework, Version=1.0.2700.29885, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\MbUnit.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\MbUnit.Framework.2.0.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.SqlServer.BatchParser, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Microsoft.SqlServer.BatchParser.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.SqlServer.Replication, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Microsoft.SqlServer.Replication.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Smo, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Microsoft.SqlServer.Smo.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.SmoEnum, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Microsoft.SqlServer.SmoEnum.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.SqlEnum, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Microsoft.SqlServer.SqlEnum.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Rhino.Mocks, Version=3.1.0.584, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -273,6 +266,7 @@
     </Compile>
     <Compile Include="Akismet\AkismetSpamServiceTests.cs" />
     <Compile Include="AssemblySetUpAndCleanUp.cs" />
+    <Compile Include="BlogEntryProvider\FileBrowserConnectorTests.cs" />
     <Compile Include="BlogMl\BlogMlImportTests.cs" />
     <Compile Include="BlogMl\BlogMLReaderTests.cs" />
     <Compile Include="BlogMl\BlogMlWriterTests.cs" />
@@ -346,7 +340,9 @@
     <Compile Include="Framework\Configuration\BlogCreationTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Configuration\BlogGroupTests.cs" />
     <Compile Include="Framework\Configuration\ConfigTests.cs" />
+    <Compile Include="Framework\Configuration\UrlBasedBlogInfoProviderTests.cs" />
     <Compile Include="Framework\Data\CacherTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -427,10 +423,21 @@
     <Compile Include="StubDataReader.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SubtextWeb\Admin\AdminPageTests.cs" />
     <Compile Include="SubtextWeb\Controls\ControlHelperTests.cs" />
     <Compile Include="SubtextWeb\Controls\EntryListTests.cs" />
     <Compile Include="SubtextWeb\HostAdmin\UserManagerTests.cs" />
     <Compile Include="SubtextWeb\Providers\RichTextEditor\BlogEntryEditorProviderTests.cs" />
+    <Compile Include="SubtextWeb\HostAdmin\HostAdminPageTests.cs" />
+    <Compile Include="SubtextWeb\Providers\RichTextEditor\FCKeditorProviderTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SubtextWeb\Providers\RichTextEditor\FtbProviderTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SubtextWeb\Providers\RichTextEditor\PlainTextProviderTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SubtextWeb\Sitemap.cs" />
     <Compile Include="SubtextWeb\SubtextMasterPageTests.cs">
       <SubType>Code</SubType>

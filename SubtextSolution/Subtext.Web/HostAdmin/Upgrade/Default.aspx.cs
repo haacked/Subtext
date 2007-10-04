@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Installation;
 using Subtext.Scripting.Exceptions;
@@ -28,7 +27,7 @@ namespace Subtext.Web.HostAdmin.Upgrade
 	/// This page will ONLY be displayed if there are no 
 	/// blog configurations within the database.
 	/// </remarks>
-	public partial class Default : Page
+	public partial class Default : HostAdminPage
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{

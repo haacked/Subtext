@@ -15,13 +15,13 @@
 
 using System;
 using System.ComponentModel;
+using System.Security.Permissions;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Configuration;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
-using Subtext.Framework.Security;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -36,6 +36,7 @@ namespace Subtext.Web.Admin.Pages
 	/// <summary>
 	/// Base Page class for all pages in the admin tool.
 	/// </summary>
+	[PrincipalPermission(SecurityAction.Demand, Role = "Admins")]
 	public class AdminPage : Page
 	{
         private HtmlGenericControl body;
@@ -50,7 +51,7 @@ namespace Subtext.Web.Admin.Pages
             
 			if(!IsPostBack)
 		    {
-                ControlHelper.ApplyRecursively(new ControlAction(SetTextBoxStyle), this);
+                ControlHelper.ApplyRecursively(SetTextBoxStyle, this);
 		        DataBind();
 		    }
 			base.OnLoad(e);
@@ -86,11 +87,12 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		protected string CreateAdminRssUrl(string pageName)
+		protected static string CreateAdminRssUrl(string pageName)
 		{
 			return String.Format("{0}Admin/{1}", Config.CurrentBlog.RootUrl, pageName);
 		}
-	    private static  void AddCssClass(WebControl control, string cssClass)
+	    
+		private static void AddCssClass(WebControl control, string cssClass)
 	    {
 			if (control.CssClass != null && control.CssClass.Length > 0 && !String.Equals(cssClass, control.CssClass, StringComparison.InvariantCultureIgnoreCase))
             {

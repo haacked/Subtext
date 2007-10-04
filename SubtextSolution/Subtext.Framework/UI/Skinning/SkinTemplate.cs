@@ -107,7 +107,7 @@ namespace Subtext.Framework.UI.Skinning
         [XmlIgnore]
 	    public bool MergeScripts
 	    {
-            get { return ScriptMergeMode != ScriptMergeMode.None; }
+            get { return ScriptMergeMode != ScriptMergeMode.DontMerge; }
 	    }
 
 
@@ -188,15 +188,11 @@ namespace Subtext.Framework.UI.Skinning
         /// <summary>
         /// No merging of JS files
         /// </summary>
-        None = 0,
+        DontMerge = 0,
         /// <summary>
-        /// The merged JS file will be added in the head section of the page
+        /// Merge the js scripts
         /// </summary>
-        MergeOnTop = 1,
-        /// <summary>
-        /// The merged JS file will be added at the bottom of the page
-        /// </summary>
-        MergeOnBottom = 2
+        Merge = 1
     }
 
     public enum StyleMergeMode

@@ -19,6 +19,7 @@ using System.Configuration;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
@@ -283,6 +284,7 @@ namespace UnitTests.Subtext
 		{
 			SetupBlogWithUserAndPassword(username, password, string.Empty);
 		}
+
 		/// <summary>
 		/// Takes all the necessary steps to create a blog and set up the HTTP Context
 		/// with the blog.  The blog will have an admin with the specified 
@@ -292,7 +294,17 @@ namespace UnitTests.Subtext
 		{
 			SetupBlog(subfolder, string.Empty, 80, string.Empty, username, password);
 		}
-				
+
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder)
+		{
+			return SetHttpContextWithBlogRequest(host, subfolder, string.Empty, string.Empty);
+		}
+
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath)
+		{
+			return SetHttpContextWithBlogRequest(host, subfolder, applicationPath, string.Empty);
+		}
+
 		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page)
 	    {
 	        return SetHttpContextWithBlogRequest(host, 80, subfolder, applicationPath, page);
@@ -351,7 +363,7 @@ namespace UnitTests.Subtext
 			object appFactory = ReflectionHelper.GetStaticFieldValue<object>("_theApplicationFactory", appFactoryType);
 			ReflectionHelper.SetPrivateInstanceFieldValue("_state", appFactory, HttpContext.Current.Application);
 			
-			BlogRequest.Current = new BlogRequest(host, subfolder, HttpContext.Current.Request.Url);
+			BlogRequest.Current = new BlogRequest(host, subfolder, HttpContext.Current.Request.Url, host == "localhost");
 
 			#region Console Debug INfo
 			/*
@@ -934,5 +946,60 @@ namespace UnitTests.Subtext
 
             return tags;
         }
+
+		/// <summary>
+		/// Helper method. Makes sure you can create
+		/// </summary>
+		/// <param name="allowedRoles">The allowed roles.</param>
+		/// <param name="constructorArguments">The constructor arguments.</param>
+		public static void AssertSecureCreation<T>(string[] allowedRoles, params object[] constructorArguments)
+		{
+			try
+			{
+				Activator.CreateInstance(typeof(T), constructorArguments);
+				Assert.Fail("Was able to create the instance with no security.");
+			}
+			catch(TargetInvocationException e)
+			{
+				Assert.IsInstanceOfType(typeof(SecurityException), e.InnerException, "Expected a security exception, got something else.");
+			}
+
+			MockRepository mocks = new MockRepository();
+
+			IPrincipal principal;
+			SetCurrentPrincipalRoles(mocks, out principal, allowedRoles);
+
+			using (mocks.Playback())
+			{
+				IPrincipal oldPrincipal = Thread.CurrentPrincipal;
+				try
+				{
+					Thread.CurrentPrincipal = principal;
+					Activator.CreateInstance(typeof(T), constructorArguments);
+					//Test passes if no exception is thrown.
+				}
+				finally
+				{
+					Thread.CurrentPrincipal = oldPrincipal;
+				}
+			}
+		}
+
+		public static void SetCurrentPrincipalRoles(MockRepository mocks, out IPrincipal principal, params string[] roles)
+		{
+			using (mocks.Record())
+			{
+				
+				IIdentity identity = mocks.CreateMock<IIdentity>();
+				SetupResult.For(identity.IsAuthenticated).Return(true);
+				IPrincipal user = mocks.CreateMock<IPrincipal>();
+				SetupResult.For(user.Identity).Return(identity);
+				Array.ForEach(roles, delegate(string role)
+             	{
+					SetupResult.For(user.IsInRole(role)).Return(true);		
+             	});
+				principal = user;
+			}
+		}
 	}
 }

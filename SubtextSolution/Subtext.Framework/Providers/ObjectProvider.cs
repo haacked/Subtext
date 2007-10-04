@@ -137,6 +137,23 @@ namespace Subtext.Framework.Providers
 
 		#endregion Blogs
 
+		#region Blog Groups
+		/// <summary>
+		/// Gets the blog group by id.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
+		public abstract BlogGroup GetBlogGroup(int id, bool activeOnly);
+
+		/// <summary>
+		/// Lists the blog groups.
+		/// </summary>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
+		public abstract IList<BlogGroup> ListBlogGroups(bool activeOnly);
+		#endregion
+
 		#region BlogAlias
 
 		public abstract bool CreateBlogAlias(BlogAlias alias);
@@ -261,15 +278,25 @@ namespace Subtext.Framework.Providers
 		/// <param name="checksumHash">Checksum hash.</param>
 		/// <returns></returns>
 		public abstract Entry GetCommentByChecksumHash(string checksumHash);
+        
+	    /// <summary>
+	    /// Returns an <see cref="Entry" /> with the specified id as long as it is 
+	    /// within the current blog (Config.CurrentBlog).
+	    /// </summary>
+	    /// <param name="id">Id of the entry</param>
+        /// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
+        /// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
+	    /// <returns></returns>
+	    public abstract Entry GetEntry(int id, bool activeOnly, bool includeCategories);
 
 		/// <summary>
-		/// Returns an <see cref="Entry" /> with the specified id.
+		/// Returns an active <see cref="Entry" /> by the id regardless of which blog it is 
+		/// located in.
 		/// </summary>
 		/// <param name="id">Id of the entry</param>
-		/// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
 		/// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
 		/// <returns></returns>
-		public abstract Entry GetEntry(int id, bool activeOnly, bool includeCategories);
+		public abstract Entry GetEntry(int id, bool includeCategories);
 
 		/// <summary>
 		/// Returns an <see cref="Entry" /> with the specified entry name.
@@ -483,6 +510,19 @@ namespace Subtext.Framework.Providers
 
 		#region  Configuration
 
+        /// <summary>
+        /// Adds the initial blog configuration.  This is a convenience method for 
+        /// allowing a user with a freshly installed blog to immediately gain access 
+        /// to the admin section to edit the blog.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="password">Password.</param>
+        /// <param name="host"></param>
+        /// <param name="subfolder"></param>
+        /// <returns></returns>
+        public abstract bool CreateBlog(string title, string userName, string password, string host, string subfolder);
+
 		/// <summary>
 		/// Adds the initial blog configuration.  This is a convenience method for
 		/// allowing a user with a freshly installed blog to immediately gain access
@@ -492,8 +532,9 @@ namespace Subtext.Framework.Providers
 		/// <param name="host">The host.</param>
 		/// <param name="subfolder">The subfolder.</param>
 		/// <param name="owner">The blog owner.</param>
+        /// <param name="blogGroupId"></param>
 		/// <returns></returns>
-		public abstract BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner);
+		public abstract BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner, int blogGroupId);
 
 		/// <summary>
 		/// Updates the specified blog configuration.

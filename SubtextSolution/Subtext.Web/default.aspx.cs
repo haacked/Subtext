@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Globalization;
@@ -21,6 +22,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Data;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web
 {
@@ -34,17 +38,30 @@ namespace Subtext.Web
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
-            TitleTag.Text = TitleLink.Text = ConfigurationManager.AppSettings["AggregateTitle"];
-            TitleLink.NavigateUrl = ConfigurationManager.AppSettings["AggregateUrl"];
-
-			//No postbacks on this page. It is output cached.
-			BindData();
+            //No postbacks on this page. It is output cached.
 			SetStyle();
 		}
 
-		protected string GetEntryUrl(string host, string app, string entryName, DateTime dt)
-		{			
-			return string.Format(CultureInfo.InvariantCulture, "{0}archive/{1:yyyy/MM/dd}/{2}.aspx", GetFullUrl(host,app), dt, entryName);
+		private string aggregateUrl = null;
+		/// <summary>
+		/// Url to the aggregate page.
+		/// </summary>
+		protected string AggregateUrl
+		{
+			get
+			{
+				if (this.aggregateUrl == null)
+				{
+					this.aggregateUrl = ConfigurationManager.AppSettings["AggregateUrl"];
+					if (Request.Url.Port != 80)
+					{
+						UriBuilder url = new UriBuilder(aggregateUrl);
+						url.Port = Request.Url.Port;
+						this.aggregateUrl = url.ToString();
+					}
+				}
+				return aggregateUrl;
+			}
 		}
 
 		private void SetStyle()
@@ -53,68 +70,6 @@ namespace Subtext.Web
 			string apppath = HttpContext.Current.Request.ApplicationPath.EndsWith("/") ? HttpContext.Current.Request.ApplicationPath : HttpContext.Current.Request.ApplicationPath + "/";
 			Style.Text = string.Format(style,apppath,"Style.css") + "\n" + string.Format(style,apppath,"blue.css");
 		}
-
-		private string appPath;
-		string fullUrl = HttpContext.Current.Request.Url.Scheme + "://{0}{1}{2}/";
-		protected string GetFullUrl(string host, string app)
-		{
-			if(appPath == null)
-			{
-				appPath = HttpContext.Current.Request.ApplicationPath;
-				if(!appPath.ToLower(CultureInfo.InvariantCulture).EndsWith("/"))
-				{
-					appPath += "/";
-				}
-			}
-			return string.Format(fullUrl,host,appPath,app);
-
-		}
-
-		private void BindData()
-		{
-			int GroupID = 1;
-
-			if(Request.QueryString["GroupID"] !=null)
-			{
-				try
-				{
-					GroupID = Int32.Parse(Request.QueryString["GroupID"]);
-				}
-				catch{}
-
-			}
-
-            DataSet ds = DatabaseObjectProvider.Instance().GetAggregateHomePageData(GroupID);
-
-			Bloggers.DataSource = ds.Tables[0];
-			RecentPosts.DataSource = ds.Tables[1];
-
-			DataTable dtCounts = ds.Tables[2];
-			if(dtCounts != null)
-			{
-				DataRow dr = dtCounts.Rows[0];
-				BlogCount.Text = dr["BlogCount"].ToString();
-				PostCount.Text = dr["PostCount"].ToString();
-				StoryCount.Text = dr["StoryCount"].ToString();
-				CommentCount.Text = dr["CommentCount"].ToString();
-				PingtrackCount.Text = dr["PingtrackCount"].ToString();
-
-			}
-
-			Bloggers.DataBind();
-			RecentPosts.DataBind();
-
-			ds.Clear();
-			ds.Dispose();
-
-		}
-
-		protected static string FormatDate(string date)
-		{
-			DateTime dt = DateTime.Parse(date);
-			return dt.ToString("MMddyyyy", CultureInfo.InvariantCulture);
-		}
-
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -138,4 +93,5 @@ namespace Subtext.Web
 		#endregion
 	}
 }
+
 

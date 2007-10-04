@@ -97,20 +97,6 @@ namespace Subtext.Web.Admin.Pages
 					ddlItemCount.Items.FindByValue(info.ItemCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
 				}
 
-				//CHANGE: Mail To Weblog changes - Gurkan Yeniceri
-				pnlMailToWeblogConfigWrapper.Visible = info.pop3MTBEnable;
-				ckbPop3MailToWeblog.Checked = info.pop3MTBEnable;
-				txbPop3Server.Text = info.pop3Server;
-				txbPop3User.Text = info.pop3User;
-				txbPop3Password.Text = info.pop3Pass;
-				txbPop3Subject.Text = info.pop3SubjectPrefix;
-				txbPop3StartTag.Text = info.pop3StartTag;
-				txbPop3EndTag.Text = info.pop3EndTag;
-				ckbPop3DeleteProcessedEmail.Checked = info.pop3DeleteOnlyProcessed;
-				ckbPop3InlineAttachedPict.Checked = info.pop3InlineAttachedPictures;
-				txbPop3ThumbHeight.Text = info.pop3HeightForThumbs == NullValue.NullInt32 ? string.Empty : info.pop3HeightForThumbs.ToString(CultureInfo.InvariantCulture);
-				//End of changes
-
 				//int 0 = "All" items
 				int categoryListPostCount = Config.Settings.CategoryListPostCount;
 				int maxDropDownItems = categoryListPostCount;
@@ -163,26 +149,9 @@ namespace Subtext.Web.Admin.Pages
 				info.CustomMetaTags = NormalizeString(txbMetaTags.Text);
 				info.TrackingCode = NormalizeString(txbGenericTrackingCode.Text);
 
-
 				SkinTemplate skinTemplate = SkinTemplates.Instance().GetTemplate(ddlSkin.SelectedItem.Value);
 				info.Skin.TemplateFolder = skinTemplate.TemplateFolder;
 				info.Skin.SkinStyleSheet = skinTemplate.StyleSheet;
-
-				//CHANGE: Mail To Weblog changes - Gurkan Yeniceri
-				info.pop3MTBEnable = ckbPop3MailToWeblog.Checked;
-				info.pop3Server = txbPop3Server.Text;
-				info.pop3User = txbPop3User.Text;
-				info.pop3Pass = txbPop3Password.Text; //Password written to db as clear text. A two way hash would be good
-				info.pop3SubjectPrefix = txbPop3Subject.Text;
-				info.pop3StartTag = txbPop3StartTag.Text;
-				info.pop3EndTag = txbPop3EndTag.Text;
-				info.pop3DeleteOnlyProcessed = ckbPop3DeleteProcessedEmail.Checked;
-				info.pop3InlineAttachedPictures = ckbPop3InlineAttachedPict.Checked;
-				if (!String.IsNullOrEmpty(txbPop3ThumbHeight.Text))
-				{
-					info.pop3HeightForThumbs = int.Parse(txbPop3ThumbHeight.Text);
-				}
-				//End of Changes
 
 				Config.UpdateConfigData(info);
 

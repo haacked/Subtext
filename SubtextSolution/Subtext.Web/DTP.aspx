@@ -18,14 +18,12 @@
         <asp:literal id="styles" runat="server"></asp:literal>
         <link id="CustomCss" runat="server" type="text/css" rel="stylesheet" />
 		<link id="Rsd" rel="EditURI" type="application/rsd+xml" title="RSD" runat="server" />
-		<asp:PlaceHolder runat="server" id="scriptsOnTopCont" visible="false">
-		<st:ScriptTag id="commonJsOnTop" src="~/Scripts/common.js" runat="server" />
+		<st:ScriptTag id="commonJs" src="~/Scripts/common.js" runat="server" />
 		<script type="text/javascript">
 			<%= AllowedHtmlJavascriptDeclaration %>
 			var subtextBlogInfo = new blogInfo('<%= BlogInfo.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>');
 		</script>
-		<asp:Literal ID="scriptsOnTop" Runat="server" />
-		</asp:PlaceHolder>
+		<asp:Literal ID="scripts" Runat="server" />
 		<asp:PlaceHolder ID="coCommentPlaceholder" Runat="server" />
 		<asp:Literal ID="pinbackLinkTag" runat="server" />
 	</head>
@@ -39,14 +37,6 @@
 				</DT:ContentRegion>
 			</DT:MasterPage>
 		</form>
-		<asp:PlaceHolder runat="server" id="scriptsOnBottomCont" visible="false">
-		<st:ScriptTag id="commonJsOnBottom" src="~/Scripts/common.js" runat="server" />
-		<script type="text/javascript">
-			<%= AllowedHtmlJavascriptDeclaration %>
-			var subtextBlogInfo = new blogInfo('<%= Config.CurrentBlog.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>');
-		</script>
-		<asp:Literal ID="scriptsOnBottom" Runat="server" />
-		</asp:PlaceHolder>
 	<asp:Literal ID="customTrackingCode" Runat="server" />
 	</body>
 </html>

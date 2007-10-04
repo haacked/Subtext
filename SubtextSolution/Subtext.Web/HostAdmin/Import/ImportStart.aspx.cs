@@ -20,9 +20,9 @@ namespace Subtext.Web.HostAdmin
 	/// <summary>
 	/// First page in the .TEXT Import wizard.
 	/// </summary>
-	public partial class ImportStart : System.Web.UI.Page
+	public partial class ImportStart : HostAdminPage
 	{
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
 		}
 
@@ -52,7 +52,7 @@ namespace Subtext.Web.HostAdmin
 			Response.Redirect("Step02_GatherInfo.aspx?Provider=DotText095ImportProvider");
 		}
 
-		private void btnRestartWizard_Click(object sender, System.EventArgs e)
+		private void btnRestartWizard_Click(object sender, EventArgs e)
 		{
 			Response.Redirect("ImportStart.aspx");
 		}

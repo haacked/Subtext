@@ -10,6 +10,18 @@ namespace UnitTests.Subtext.Framework.Text
 	[TestFixture]
 	public class StringHelperTests
 	{
+		[RowTest]
+		[Row(null, char.MinValue, null, ExpectedException = typeof(ArgumentNullException))]
+		[Row("Blah..Blah", '.', "Blah.Blah")]
+		[Row("Blah...Blah", '.', "Blah.Blah")]
+		[Row("Blah....Blah", '.', "Blah.Blah")]
+		[Row("Blah- -Blah", '-', "Blah- -Blah")]
+		[Row("Blah--Blah", '.', "Blah--Blah")]
+		public void CanRemoveDoubleCharacter(string text, char character, string expected)
+		{
+			Assert.AreEqual(expected, StringHelper.RemoveDoubleCharacter(text, character));
+		}
+
 		/// <summary>
 		/// Tests that we can properly pascal case text.
 		/// </summary>

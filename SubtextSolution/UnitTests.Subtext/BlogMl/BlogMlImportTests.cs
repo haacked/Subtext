@@ -56,7 +56,6 @@ namespace UnitTests.Subtext.Framework.Import
         }
 
 		[Test]
-		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SinglePostWithCategory.xml", typeof(BlogMLImportTests))]
 		[RollBack2]
 		public void CanPostAndReferenceCategoryAppropriately()
 		{

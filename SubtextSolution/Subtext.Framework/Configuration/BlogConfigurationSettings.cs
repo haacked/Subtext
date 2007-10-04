@@ -87,6 +87,19 @@ namespace Subtext.Framework.Configuration
             get { return feedItemCount; }
             set { feedItemCount = value; }
         }
+		public bool AllowScriptsInPosts
+		{
+			get { return this.allowScriptsInPosts; }
+			set{ this.allowScriptsInPosts = value; }
+		}
+		bool allowScriptsInPosts;
+
+		private bool _useHashedPasswords;
+		public bool UseHashedPasswords
+		{
+			get {return this._useHashedPasswords;}
+			set {this._useHashedPasswords = value;}
+		}
 
 
         private int categoryListPostCount = 10;

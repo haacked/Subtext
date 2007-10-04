@@ -26,12 +26,21 @@ namespace Subtext.Framework.Web.HttpModules
 		/// <param name="host">The host.</param>
 		/// <param name="subfolder">The subfolder.</param>
 		/// <param name="url">The raw requested URL</param>
-		public BlogRequest(string host, string subfolder, Uri url)
+		/// <param name="isLocal">True if this requset is a local machine request.</param>
+		public BlogRequest(string host, string subfolder, Uri url, bool isLocal)
 		{
 			this.host = host;
 			this.subfolder = subfolder;
 			this.rawUrl = url;
+			this.isLocal = isLocal;
 		}
+
+		public bool IsLocal
+		{
+			get { return isLocal; }
+		}
+
+		private readonly bool isLocal;
 		
 		/// <summary>
 		/// Gets the host.
@@ -44,7 +53,7 @@ namespace Subtext.Framework.Web.HttpModules
 				return host;
 			}
 		}
-		string host;
+		readonly string host;
 
 	    /// <summary>
 		/// Gets the host.

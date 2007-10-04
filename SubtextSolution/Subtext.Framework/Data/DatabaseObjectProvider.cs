@@ -50,6 +50,15 @@ namespace Subtext.Framework.Data
 			}
 		}
 
+		public override Entry GetEntry(string entryName, bool activeOnly, bool includeCategories)
+		{
+			using(IDataReader reader = StoredProcedures.GetSingleEntry(null, entryName, activeOnly, null, includeCategories).GetReader())
+			{
+				if (reader.Read())
+					return DataHelper.LoadEntry(reader);
+				return null;
+			}
+		}
 		/// <summary>
 		/// Returns the related links for the entry
 		/// </summary>
@@ -203,6 +212,58 @@ namespace Subtext.Framework.Data
 			}
 		}
 
+		#endregion
+
+		#region Blog Groups
+		/// <summary>
+		/// Gets the blog group.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
+		public override BlogGroup GetBlogGroup(int id, bool activeOnly)
+		{
+			BlogGroup group;
+			using (IDataReader reader = StoredProcedures.GetBlogGroup(id, activeOnly).GetReader())
+			{
+				if (!reader.Read())
+					return null;
+
+				group = DataHelper.LoadBlogGroup(reader);
+			}
+
+			if (group != null)
+			{
+				//TODO: Make this more efficient.
+				IPagedCollection<BlogInfo> blogs =
+					BlogInfo.GetBlogs(0, int.MaxValue, activeOnly ? ConfigurationFlags.IsActive : ConfigurationFlags.None);
+				group.Blogs = new List<BlogInfo>();
+				foreach (BlogInfo blog in blogs)
+				{
+					if (blog.BlogGroupId == group.Id)
+						group.Blogs.Add(blog);
+				}
+			}
+			return group;
+		}
+
+		/// <summary>
+		/// Lists the blog groups.
+		/// </summary>
+		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
+		/// <returns></returns>
+		public override IList<BlogGroup> ListBlogGroups(bool activeOnly)
+		{
+			using(IDataReader reader = StoredProcedures.ListBlogGroups(activeOnly).GetReader())
+			{
+				List<BlogGroup> groups = new List<BlogGroup>();
+				while(reader.Read())
+				{
+					groups.Add(DataHelper.LoadBlogGroup(reader));
+				}
+				return groups;
+			}
+		}
 		#endregion
 
 		#region Paged Posts
@@ -479,6 +540,25 @@ namespace Subtext.Framework.Data
 
 		#region Single Entry
 		/// <summary>
+		/// Returns an active <see cref="Entry" /> by the id regardless of which blog it is 
+		/// located in.
+		/// </summary>
+		/// <param name="id">Id of the entry</param>
+		/// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
+		/// <returns></returns>
+		public override Entry GetEntry(int id, bool includeCategories)
+		{
+			using (IDataReader reader = StoredProcedures.GetSingleEntry(id, null, true, null, includeCategories).GetReader())
+			{
+				if (reader.Read())
+				{
+					return DataHelper.LoadEntry(reader);
+				}
+				return null;
+			}
+		}
+		
+		/// <summary>
 		/// Searches the data store for the first comment with a 
 		/// matching checksum hash.
 		/// </summary>
@@ -506,25 +586,6 @@ namespace Subtext.Framework.Data
 		public override Entry GetEntry(int id, bool activeOnly, bool includeCategories)
 		{
 			using (IDataReader reader = StoredProcedures.GetSingleEntry(id, null, activeOnly, BlogId, includeCategories).GetReader())
-			{
-				if (reader.Read())
-				{
-					return DataHelper.LoadEntryWithCategories(reader);
-				}
-				return null;
-			}
-		}
-
-		/// <summary>
-		/// Returns an <see cref="Entry" /> with the specified entry name.
-		/// </summary>
-		/// <param name="entryName">Url friendly entry name.</param>
-		/// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
-		/// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
-		/// <returns></returns>
-		public override Entry GetEntry(string entryName, bool activeOnly, bool includeCategories)
-		{
-			using (IDataReader reader = StoredProcedures.GetSingleEntry(null, entryName, activeOnly, BlogId, includeCategories).GetReader())
 			{
 				if (reader.Read())
 				{
@@ -1152,8 +1213,9 @@ namespace Subtext.Framework.Data
 		/// <param name="host">The host.</param>
 		/// <param name="subfolder">The subfolder.</param>
 		/// <param name="owner">The blog owner</param>
+		/// <param name="blogGroupId"></param>
 		/// <returns></returns>
-		public override BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner)
+		public override BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner, int blogGroupId)
 		{
 			using (IDataReader reader = StoredProcedures.UTILITYAddBlog(title
 				, host
@@ -1234,16 +1296,7 @@ namespace Subtext.Framework.Data
 										  , recentCommentsLength
 			                              , DataHelper.ReturnNullIfEmpty(info.FeedbackSpamServiceKey)
 			                              , DataHelper.ReturnNullIfEmpty(info.FeedBurnerName)
-			                              , info.pop3User
-			                              , info.pop3Pass
-			                              , info.pop3Server
-			                              , info.pop3StartTag
-			                              , info.pop3EndTag
-			                              , info.pop3SubjectPrefix
-			                              , info.pop3MTBEnable
-			                              , info.pop3DeleteOnlyProcessed
-			                              , info.pop3InlineAttachedPictures
-			                              , info.pop3HeightForThumbs).Execute();
+										  , info.BlogGroupId).Execute();
 		}
 
 		/// <summary>
@@ -1351,7 +1404,6 @@ namespace Subtext.Framework.Data
 	    }
 
 	    #endregion
-
 
         #region KeyWords
 
@@ -1807,6 +1859,23 @@ namespace Subtext.Framework.Data
 					return DataHelper.LoadBlogAlias(reader);
 				return null;
 			}
+		}
+
+		/// <summary>
+		/// Adds the initial blog configuration.  This is a convenience method for 
+		/// allowing a user with a freshly installed blog to immediately gain access 
+		/// to the admin section to edit the blog.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="userName">Name of the user.</param>
+		/// <param name="password">Password.</param>
+		/// <param name="host"></param>
+		/// <param name="subfolder"></param>
+		/// <returns></returns>
+		public override bool CreateBlog(string title, string userName, string password, string host, string subfolder)
+		{
+			StoredProcedures.UTILITYAddBlog(title, host, subfolder, null, DateTime.UtcNow).Execute();
+			return true;
 		}
 	}
 }
