@@ -16,11 +16,13 @@
 using System;
 using System.Configuration;
 using System.Web;
+using System.Text.RegularExpressions;
 using System.Web.Configuration;
 using System.Web.Security;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
@@ -57,6 +59,35 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
+		private static readonly BlogInfo aggregateBlog = InitAggregateBlog();
+		
+		private static BlogInfo InitAggregateBlog()
+		{
+            HostInfo hostInfo = HostInfo.Instance;
+			string aggregateHost = ConfigurationManager.AppSettings["AggregateUrl"];
+			if (aggregateHost == null)
+				return null;
+
+			Regex regex = new Regex(@"^(https?://)?(?<host>.+?)(/.*)?$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+			Match match = regex.Match(aggregateHost);
+
+			if (match.Success)
+				aggregateHost = match.Groups["host"].Value;
+
+			BlogInfo blog = new BlogInfo();
+            blog.Title = ConfigurationManager.AppSettings["AggregateTitle"];
+			blog.Skin = SkinConfig.GetDefaultSkin();
+            blog.Host = aggregateHost;
+			blog.Subfolder = string.Empty;
+
+			return blog;
+		}
+		
+		public static BlogInfo AggregateBlog
+		{
+			get { return aggregateBlog; }
+		}
+
 		/// <summary>
 		/// Returns the Subtext connection string.
 		/// </summary>
@@ -73,7 +104,7 @@ namespace Subtext.Framework.Configuration
 				{
 					string connectionStringName = ConfigurationManager.AppSettings["connectionStringName"];
 					if (ConfigurationManager.ConnectionStrings[connectionStringName] == null)
-						throw new ConfigurationErrorsException("There is no connectionString entry associated with the connectionStringName '{0}'.");
+						throw new ConfigurationErrorsException(String.Format("There is no connectionString entry associated with the connectionStringName '{0}'.", connectionStringName));
 					connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
 				}
 				return connectionString;
@@ -208,7 +239,24 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
-		/// Creates the blog with the specified user as the owner.
+		/// Returns a <see cref="BlogInfo"/> instance containing 
+		/// the configuration settings for the blog specified by the 
+		/// Domain Alias.
+		/// </summary>
+		/// <param name="domainAlias">Domain alias</param>
+		/// <param name="subfolder">Sub Folder</param>
+		/// <param name="strict">Strict</param>
+		/// <returns></returns>
+		public static BlogInfo GetBlogInfoFromDomainAlias(string domainAlias, string subfolder, bool strict)
+		{
+			domainAlias = BlogInfo.StripPortFromHost(domainAlias);
+			return ObjectProvider.Instance().GetBlogByDomainAlias(domainAlias,subfolder,strict);
+		}
+
+		/// <summary>
+		/// Creates an initial blog.  This is a convenience method for 
+		/// allowing a user with a freshly installed blog to immediately gain access 
+		/// to the admin section to edit the blog.
 		/// </summary>
 		/// <param name="title">The title of the blog.</param>
 		/// <param name="host">The host.</param>
@@ -351,6 +399,9 @@ namespace Subtext.Framework.Configuration
 			ObjectProvider.Instance().UpdateBlog(info);
 		}
 
+        //TODO: Is this the right place to put this list?
+        private static readonly string[] _invalidSubfolders = { "Tags", "Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Properties", "Providers", "Scripts", "Skins", "SystemMessages", "UI", "Modules", "Services", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery", "aggbug", "Sitemap" };
+
 		/// <summary>
 		/// Returns true if the specified subfolder name has a 
 		/// valid format. It may not start, nor end with ".".  It 
@@ -361,15 +412,13 @@ namespace Subtext.Framework.Configuration
 		/// <returns></returns>
 		public static bool IsValidSubfolderName(string subfolder)
 		{
-			if (subfolder == null)
-			{
-				throw new ArgumentNullException("subfolder", Resources.ArgumentNull_String);
-			}
+			if(subfolder == null)
+				throw new ArgumentNullException("subfolder", "Subfolder cannot be null.");
 
 			if (subfolder.EndsWith("."))
 				return false;
 
-			foreach (char c in InvalidChars)
+			foreach (char c in InvalidChars.ToCharArray())
 			{
 				if (subfolder.IndexOf(c) > -1)
 					return false;
@@ -381,6 +430,26 @@ namespace Subtext.Framework.Configuration
 					return false;
 			}
 			return true;
+		}
+
+		public static bool AddBlogAlias(BlogAlias alias)
+		{
+			return ObjectProvider.Instance().CreateBlogAlias(alias);
+		}
+		public static bool UpdateBlogAlias(BlogAlias alias)
+		{
+
+			return ObjectProvider.Instance().UpdateBlogAlias(alias);
+		}
+
+		public static bool DeleteBlogAlias(BlogAlias alias)
+		{
+			return ObjectProvider.Instance().DeleteBlogAlias(alias);
+		}
+
+		public static BlogAlias GetBlogAlias(int aliasId)
+		{
+			return ObjectProvider.Instance().GetBlogAliasById(aliasId);			
 		}
 	}
 }

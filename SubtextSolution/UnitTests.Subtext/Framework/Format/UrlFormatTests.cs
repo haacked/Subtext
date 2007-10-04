@@ -48,6 +48,21 @@ namespace UnitTests.Subtext.Framework.Format
 			Assert.AreEqual(expected, UrlFormats.GetBlogSubfolderFromRequest(rawUrl, subfolder));
 		}
 
+		[RowTest]		
+		[Row("Feedback.aspx","test", "http://localhost/test/Admin/Feedback.aspx")]
+		[Row("Referrers.aspx", "test", "http://localhost/test/Admin/Referrers.aspx")]
+		[Row("Referrers.aspx", "", "http://localhost/Admin/Referrers.aspx")]
+		public void FormatAdminUrl(string url, string subfolder, string expected)
+		{
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subfolder, string.Empty, string.Empty);
+			BlogInfo info = new BlogInfo();
+			info.Host = "localhost";
+			info.Subfolder = subfolder; 
+
+
+			Assert.AreEqual(info.UrlFormats.AdminUrl(url), expected);
+
+		}
 		/// <summary>
 		/// Makes sure an entry url with no application is formatted correctly.
 		/// </summary>
@@ -154,6 +169,26 @@ namespace UnitTests.Subtext.Framework.Format
 			articleEntry.Id = 456;
 			string editArticleUrl = UrlFormats.GetEditLink(articleEntry);
 			Assert.AreEqual("~/Admin/EditArticles.aspx?PostID=456", editArticleUrl, "Expected blog post to go to EditPosts.aspx");
+		}
+
+		[RowTest]
+		[Row("http://localhost/Subtext.Web/MyBlog/archive/2006/01.aspx", 50, "localhost/Subtext.Web/MyBlog/archive/2006/01.aspx")]
+		[Row("http://localhost/Subtext.Web/MyBlog/archive/2006/01.aspx", 20, "localhost/.../01.aspx")]
+		public void CheckUrlShortener(string source, int maxLength, string expected)
+		{
+			string actual = UrlFormats.ShortenUrl(source, maxLength);
+			Assert.AreEqual(expected,actual,"Shortened Url is not correct.");
+		}
+
+		[RowTest]
+		[Row("Test url to shorten http://localhost/Subtext.Web/MyBlog/archive/2006/01.aspx with shortener", "Test url to shorten <a href=\"http://localhost/Subtext.Web/MyBlog/archive/2006/01.aspx\">localhost/Subtext.Web/MyBlog/archive/2006/01.aspx</a> with shortener")]
+		public void CheckUrlShortenerInText(string source, string expected)
+		{
+			string actual = UrlFormats.ResolveLinks(source);
+			Console.WriteLine("Source: " + source);
+			Console.WriteLine("Expected: " + expected);
+			Console.WriteLine("Actual: " + actual);
+			Assert.AreEqual(expected, actual, "Did not properly shorten url");
 		}
 
 		[Test]

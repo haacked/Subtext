@@ -103,6 +103,11 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetPagedBlogs(host, pageIndex, pageSize, flags);
 		}
 
+		public IPagedCollection<BlogAlias> GetBlogAliases(int pageIndex, int pageSize)
+		{
+			return ObjectProvider.Instance().GetPagedBlogDomainAlias(this, pageIndex, pageSize);
+		}
+
 		/// <summary>
 		/// Returns a <see cref="IList{T}"/> containing ACTIVE the <see cref="BlogInfo"/> 
 		/// instances within the specified range.
@@ -1195,4 +1200,5 @@ namespace Subtext.Framework
 		#endregion Plugin Specific Properties
 	}
 }
+
 

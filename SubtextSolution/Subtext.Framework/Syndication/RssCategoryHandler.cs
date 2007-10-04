@@ -69,7 +69,7 @@ namespace Subtext.Framework.Syndication
 			return feed;
 		}
 
-		protected override BaseSyndicationWriter<Entry> SyndicationWriter
+		protected override BaseSyndicationWriter SyndicationWriter
 		{
 			get
 			{

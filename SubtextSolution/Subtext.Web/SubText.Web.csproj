@@ -221,6 +221,13 @@
     <Compile Include="Admin\Referrers.aspx.designer.cs">
       <DependentUpon>Referrers.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\RssFeeds.aspx.cs">
+      <DependentUpon>RssFeeds.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\RssFeeds.aspx.designer.cs">
+      <DependentUpon>RssFeeds.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Statistics.aspx.cs">
       <DependentUpon>Statistics.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -768,9 +775,6 @@
   <ItemGroup>
     <Content Include="blue.css" />
     <Content Include="default.aspx" />
-    <Content Include="Providers\DTP.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
     <Content Include="emoticons.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -1031,6 +1035,7 @@
     <Content Include="Admin\Resources\Scripts\niceForms.js" />
     <Content Include="Admin\Resources\toggle_gray_down.gif" />
     <Content Include="Admin\Resources\toggle_gray_up.gif" />
+    <Content Include="Admin\RssFeeds.aspx" />
     <Content Include="Admin\Statistics.aspx" />
     <Content Include="Admin\Syndication.aspx">
       <SubType>Form</SubType>
@@ -1126,6 +1131,7 @@
     <Content Include="Images\ms_help.gif" />
     <Content Include="Images\next.gif" />
     <Content Include="Images\nextlabel.gif" />
+    <Content Include="Images\pencil.png" />
     <Content Include="Images\permalink.gif" />
     <Content Include="Images\PoweredByAsp.Net.gif" />
     <Content Include="Images\PoweredBySubtext85x33.png" />
@@ -2080,6 +2086,7 @@
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />
+    <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\filemanager\browser\default\connectors\aspx\Web.config" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\filemanager\browser\default\images\icons\32\Thumbs.db" />
     <Content Include="SiteMap\SiteMapHttpHandler.ashx" />
     <None Include="Skins\RedBook\Controls\EntryList.ascx" />

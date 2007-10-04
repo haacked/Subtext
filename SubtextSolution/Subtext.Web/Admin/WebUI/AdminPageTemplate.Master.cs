@@ -21,20 +21,46 @@ namespace Subtext.Web.Admin.WebUI
 		/// <param name="button"></param>
 		public void AddToActions(LinkButton button)
 		{
+			AddToActions(button,"");
+		}
+		public void AddToActions(LinkButton button,string rssFeed)
+		{
 			// HACK: one without the other doesn't seem to work. If I don't add this
 			// to Items it doesn't render, if I don't add to controls it doesn't get
 			// wired up. 
 			LinksActions.Items.Add(button);
 			LinksActions.Controls.Add(button);
+			if (!String.IsNullOrEmpty(rssFeed))
+			{
+				HyperLink rssLink = CreateAdminRssHyperlink(rssFeed);
+				LinksActions.Items.Add(rssLink);
+				LinksActions.Controls.Add(rssLink);
+			}
+
 		}
 
+		private HyperLink CreateAdminRssHyperlink(string rssFeed)
+		{
+				HyperLink rssLink = new HyperLink();
+				rssLink.NavigateUrl = rssFeed;
+				rssLink.Text = "(rss)";
+				return rssLink;
+		}
 		/// <summary>
 		/// Adds a hyperlink to the list of possible actions.
 		/// </summary>
 		/// <param name="link"></param>
 		public void AddToActions(HyperLink link)
 		{
+			AddToActions(link,"");
+		}
+		public void AddToActions(HyperLink link, string rssFeed)
+		{
 			LinksActions.Items.Add(link);
+			if(!String.IsNullOrEmpty(rssFeed))
+			{
+				LinksActions.Items.Add(CreateAdminRssHyperlink(rssFeed));
+			}
 		}
 
 		/// <summary>

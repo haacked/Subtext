@@ -210,6 +210,8 @@
 				<items basedir="${publish.dir.latest}">
 					<include name="Skins/**/*.js" />
 					<include name="Scripts/**/*.js" />
+					<include name="Skins/**/*.css" />
+					<include name="Scripts/**/*.css" />
 				</items>
 			</in>
 			<do>

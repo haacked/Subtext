@@ -59,6 +59,10 @@ namespace Subtext.Framework.Syndication
 			return Comments;
 		}
 
+		protected virtual CommentRssWriter GetCommentWriter(IList<FeedbackItem> comments, Entry entry)
+		{
+			return new CommentRssWriter(comments, entry);
+		}
 
 		/// <summary>
 		/// Builds the feed using delta encoding if it's true.
@@ -74,10 +78,10 @@ namespace Subtext.Framework.Syndication
                 comments = new List<FeedbackItem>();
             }
 
-
-		    feed = new CachedFeed();
-			CommentRssWriter crw = new CommentRssWriter(comments, ParentEntry);
-			if (comments.Count > 0)
+		
+			feed = new CachedFeed();
+			CommentRssWriter crw = GetCommentWriter(comments, ParentEntry);
+			if(comments.Count > 0)
 			{
 				feed.LastModified = ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated);
 			}
@@ -104,7 +108,7 @@ namespace Subtext.Framework.Syndication
 			return false;
 		}
 
-		protected override BaseSyndicationWriter<FeedbackItem> SyndicationWriter
+		protected override BaseSyndicationWriter SyndicationWriter
 		{
 			get
 			{

@@ -22,6 +22,7 @@ using Subtext.Extensibility.Web;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Syndication.Compression;
+using Subtext.Framework.Security;
 
 namespace Subtext.Framework.Syndication
 {
@@ -38,6 +39,16 @@ namespace Subtext.Framework.Syndication
 		protected BlogInfo CurrentBlog;
 		protected HttpContext Context = null;
 		protected CachedFeed Feed = null;
+
+		protected virtual bool RequiresAdminRole
+		{
+			get { return false; }
+		}
+
+		protected virtual bool RequiresHostAdminRole
+		{
+			get { return false; }
+		}
 
 		/// <summary>
 		/// Returns the "If-Modified-Since" HTTP header.  This indicates 
@@ -217,13 +228,13 @@ namespace Subtext.Framework.Syndication
 		/// Gets the syndication writer.
 		/// </summary>
 		/// <returns></returns>
-		protected abstract BaseSyndicationWriter<T> SyndicationWriter { get; }
+		protected abstract BaseSyndicationWriter SyndicationWriter{ get; }
 
 		protected virtual CachedFeed BuildFeed()
 		{
 			CachedFeed feed = new CachedFeed();
 			feed.LastModified = ConvertLastUpdatedDate(CurrentBlog.LastUpdated);
-			BaseSyndicationWriter<T> writer = SyndicationWriter;
+			BaseSyndicationWriter writer = SyndicationWriter;
 			feed.Xml = writer.Xml;
 			feed.ClientHasAllFeedItems = writer.ClientHasAllFeedItems;
 			feed.Etag = writer.DateLastViewedFeedItemPublished.ToString(CultureInfo.InvariantCulture);
@@ -285,6 +296,12 @@ namespace Subtext.Framework.Syndication
 		/// <param name="context">Context.</param>
 		public override void HandleRequest(HttpContext context)
 		{
+			if ((RequiresAdminRole && !SecurityHelper.IsAdmin) || (RequiresHostAdminRole && !SecurityHelper.IsHostAdmin))
+			{
+				System.Web.Security.FormsAuthentication.RedirectToLoginPage();
+				return;
+			}
+
 			CurrentBlog = Config.CurrentBlog;
 			Context = context;
 

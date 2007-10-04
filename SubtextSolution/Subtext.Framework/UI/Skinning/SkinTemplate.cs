@@ -73,7 +73,7 @@ namespace Subtext.Framework.UI.Skinning
         /// <summary>
         /// Specifies the order in which the styles are rendered inside the skin.
         /// </summary>
-        /// <value>The merge mode.</value>
+        /// <value>The styles merge mode.</value>
         [XmlAttribute]
 	    public StyleMergeMode StyleMergeMode
 	    {
@@ -85,21 +85,31 @@ namespace Subtext.Framework.UI.Skinning
 
 
         /// <summary>
-        /// Whether or not to merge all scripts into one.
+        /// How to merge all scripts into one.
         /// </summary>
         /// <remarks>
-        /// Even if set to true, if the list of scripts is unsafe (remote scripts or scripts with parameters)
+        /// Even if set to None, if the list of scripts is unsafe (remote scripts or scripts with parameters)
         /// the scripts are not merged.
         /// </remarks>
-        /// <value>Whether to merge all scripts into one.</value>
+        /// <value>The script merge mode.</value>
         [XmlAttribute]
+        public ScriptMergeMode ScriptMergeMode
+        {
+            get { return scriptMergeMode; }
+            set { scriptMergeMode = value; }
+        }
+
+        private ScriptMergeMode scriptMergeMode;
+
+        /// <summary>
+        /// Whether or not to merge all scripts into one.
+        /// </summary>
+        [XmlIgnore]
 	    public bool MergeScripts
 	    {
-	        get { return mergeScripts; }
-	        set { mergeScripts = value; }
+            get { return ScriptMergeMode != ScriptMergeMode.None; }
 	    }
 
-	    private bool mergeScripts;
 
 	    /// <summary>
 		/// Whether or not this skin template has a secondary skin css file.
@@ -172,6 +182,22 @@ namespace Subtext.Framework.UI.Skinning
 		}
 		
 	}
+
+    public enum ScriptMergeMode
+    {
+        /// <summary>
+        /// No merging of JS files
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// The merged JS file will be added in the head section of the page
+        /// </summary>
+        MergeOnTop = 1,
+        /// <summary>
+        /// The merged JS file will be added at the bottom of the page
+        /// </summary>
+        MergeOnBottom = 2
+    }
 
     public enum StyleMergeMode
     {

@@ -28,15 +28,18 @@
 			<HeaderTemplate>
 				<table id="feedback" class="Listing highlightTable">
 					<tr>
+						<th width="16"></th>
 						<th>Title</th>						
 						<th>Posted By</th>
 						<th width="100">Date</th>
-						<th width="100"></th>
 						<th width="50"><input id="cbCheckAll" class="inline" type="checkbox" onclick="ToggleCheckAll(this);" title="Check/Uncheck All" /><label for="cbCheckAll" title="Check/Uncheck All">All</label></th>
 					</tr>
 			</HeaderTemplate>
 			<ItemTemplate>
 				<tr>
+					<td>	
+						<asp:ImageButton id="lnkEdit" CausesValidation="False" ImageUrl="~/Images/edit.gif" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" ToolTip="Edit this comment" />
+					</td>
 					<td>
 						<strong><%# GetTitle(Container.DataItem) %></strong>
 					</td>
@@ -46,16 +49,14 @@
 					<td nowrap="nowrap">
 						<%# DataBinder.Eval(Container.DataItem, "DateCreated", "{0:M/d/yy h:mmt}") %>
 					</td>
-					<td>	
-						<asp:LinkButton id="lnkEdit" CausesValidation="False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
-					
-					</td>
 					<td>
 						<asp:CheckBox id="chkDelete" Runat="Server"></asp:CheckBox>
 						<input type="hidden" id="FeedbackId" name="FeedbackId" value='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" />
 					</td>
 				</tr>
 				<tr class="body">
+					<td>
+					</td>
 					<td colspan="5">
 						<%# GetBody(Container.DataItem) %>
 					</td>
@@ -63,6 +64,9 @@
 			</ItemTemplate>
 			<AlternatingItemTemplate>
 				<tr class="Alt">
+					<td>	
+						<asp:ImageButton id="ImageButton1" CausesValidation="False" ImageUrl="~/Images/edit.gif" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" ToolTip="Edit this comment" />
+					</td>
 					<td>
 						<strong><%# GetTitle(Container.DataItem) %></strong>
 					</td>
@@ -72,15 +76,14 @@
 					<td nowrap="nowrap">
 						<%# DataBinder.Eval(Container.DataItem, "DateCreated", "{0:M/d/yy h:mmt}") %>
 					</td>   
-					<td>	
-						<asp:LinkButton id="lnkEdit" CausesValidation="False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />					
-					</td>
 					<td>
 						<asp:CheckBox id="chkDeleteAlt" Runat="Server"></asp:CheckBox>
 						<input type="hidden" id="FeedbackIdAlt" name="FeedbackIdAlt" value='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" />
 					</td>
 				</tr>
 				<tr class="body Alt">
+					<td>
+					</td>
 					<td colspan="4">
 						<%# GetBody(Container.DataItem) %>
 					</td>
@@ -109,15 +112,19 @@
 			<p class="Label"><asp:HyperLink id="hlEntryLink" Runat="server" /></p>
 			
 			<p class="Label">
-				<label for="Editor_Edit_txbTitle" accesskey="t">Comment <u>T</u>itle
+				<label for="Editor_Edit_txbTitle" accesskey="t">Comment <u>T</u>itle		
 			&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" CssClass="error" ErrorMessage="* Your post must have a title" />
 			</label>
-			<asp:TextBox id="txbTitle" runat="server" CssClass="textbox" />
+			</p>
+			<p>
+				<asp:TextBox id="txbTitle" runat="server" CssClass="textbox" />
  			</p>
 			<p class="Label">
 				<label for="Editor_Edit_txbWebsite" accesskey="w">Comment <u>W</u>ebsite
-            <asp:CustomValidator ID="valtxbWebsite" runat="server" Text="Invalid website format. Must be a URI" ControlToValidate="txbWebsite"></asp:CustomValidator>
-			</label>
+				<asp:CustomValidator ID="valtxbWebsite" runat="server" Text="Invalid website format. Must be a URI" ControlToValidate="txbWebsite"></asp:CustomValidator>
+				</label>
+			</p>
+			<p>
 			<asp:TextBox id="txbWebsite" runat="server" CssClass="textbox" />
 			</p>
 				

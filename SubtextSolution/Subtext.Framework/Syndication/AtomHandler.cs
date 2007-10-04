@@ -44,7 +44,7 @@ namespace Subtext.Framework.Syndication
 		/// Gets the syndication writer.
 		/// </summary>
 		/// <returns></returns>
-		protected override BaseSyndicationWriter<Entry> SyndicationWriter
+		protected override BaseSyndicationWriter SyndicationWriter
 		{
 			get
 			{

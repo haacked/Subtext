@@ -91,6 +91,18 @@ BEGIN
 END
 GO
 
+/* Change the subtext_Content.EntryName column to have nVarChar data type */
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+			WHERE TABLE_NAME = 'subtext_Content' 
+				AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+				AND COLUMN_NAME = 'EntryName' 
+				AND DATA_TYPE = 'varchar')
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content] ALTER COLUMN EntryName NVARCHAR(100)
+
+GO
+
+
 /* Create the new MetaTag table */
 
 IF NOT EXISTS
@@ -119,6 +131,31 @@ BEGIN
 		CONSTRAINT [FK_subtext_MetaTag_subtext_Content] FOREIGN KEY
 		( [EntryId] ) REFERENCES <dbUser,varchar,dbo>.[subtext_Content]
 		( [ID] )
+	)
+END
+GO
+
+IF NOT EXISTS
+(
+	SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS]
+	WHERE TABLE_NAME = 'subtext_DomainAliases'
+	AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+)
+BEGIN
+	CREATE TABLE [<dbUser,varchar,dbo>].[subtext_DomainAliases]
+	(
+		[AliasId] int IDENTITY(0,1) NOT NULL,
+		[BlogId] int NOT NULL ,
+		[Host] nvarchar(100) NOT NULL ,
+		[Application] nvarchar(50) NOT NULL, 
+		[IsActive] [bit] NULL ,
+		CONSTRAINT [PK_subtext_DomainAliases] PRIMARY KEY CLUSTERED
+		(
+			[AliasId] ASC
+		) ON [PRIMARY],
+		CONSTRAINT [FK_subtext_DomainAliases_subtext_Config] FOREIGN KEY
+		( [BlogId] ) REFERENCES <dbUser,varchar,dbo>.[subtext_Config]
+		( [BlogId] )
 	)
 END
 GO

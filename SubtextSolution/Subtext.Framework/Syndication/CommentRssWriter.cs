@@ -30,7 +30,7 @@ namespace Subtext.Framework.Syndication
 	/// </summary>
 	public class CommentRssWriter : BaseRssWriter<FeedbackItem>
 	{
-		private Entry CommentEntry = null;
+		protected Entry CommentEntry = null;
 
 		/// <summary>
 		/// Creates a new <see cref="CommentRssWriter"/> instance.

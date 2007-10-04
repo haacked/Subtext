@@ -167,6 +167,42 @@ namespace Subtext.Framework.Data
 			}
 			return null;
 		}
+
+		public override BlogInfo GetBlogByDomainAlias(string host, string subfolder, bool strict)
+		{
+			BlogInfo info = null;
+			using (IDataReader reader = StoredProcedures.GetBlogByDomainAlias(host, subfolder, strict).GetReader())
+			{	
+				if (reader.Read())
+				{
+					info = DataHelper.LoadBlog(reader);
+				}
+				reader.Close();
+			}
+			return info;
+		}
+
+		public override PagedCollection<BlogAlias> GetPagedBlogDomainAlias(BlogInfo blog, int pageIndex, int pageSize)
+		{
+			IDataReader reader = StoredProcedures.GetPageableDomainAliases(pageIndex, pageSize, blog.Id).GetReader();
+			try
+			{
+				PagedCollection<BlogAlias> pec = new PagedCollection<BlogAlias>();
+				while (reader.Read())
+				{
+					pec.Add(DataHelper.LoadBlogAlias(reader));
+				}
+				reader.NextResult();
+				pec.MaxItems = DataHelper.GetMaxItems(reader);
+				return pec;
+
+			}
+			finally
+			{
+				reader.Close();
+			}
+		}
+
 		#endregion
 
 		#region Paged Posts
@@ -774,10 +810,10 @@ namespace Subtext.Framework.Data
 			e.Body = Transform.EmoticonTransforms(e.Body);
 
 			// Exceptions are thrown if illegal content is found
-			HtmlHelper.CheckForIllegalContent(e.Body);
-			HtmlHelper.CheckForIllegalContent(e.Title);
-			HtmlHelper.CheckForIllegalContent(e.Description);
-			HtmlHelper.CheckForIllegalContent(e.Url);
+			HtmlHelper.HasIllegalContent(e.Body);
+			HtmlHelper.HasIllegalContent(e.Title);
+			HtmlHelper.HasIllegalContent(e.Description);
+			HtmlHelper.HasIllegalContent(e.Url);
 			HtmlHelper.ConvertHtmlToXHtml(e);
 		}
 
@@ -1131,11 +1167,20 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		/// <summary>
-		/// Updates the specified blog configuration.
-		/// </summary>
-		/// <param name="info">Config.</param>
-		/// <returns></returns>
+		public override bool CreateBlogAlias(BlogAlias alias)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool UpdateBlogAlias(BlogAlias alias)
+		{
+			throw new NotImplementedException();
+		}
+		public override bool DeleteBlogAlias(BlogAlias alias)
+		{
+			throw new NotImplementedException();
+		}
+
 		public override void UpdateBlog(BlogInfo info)
 		{
 			int? daysTillCommentsClose = null;
@@ -1298,6 +1343,13 @@ namespace Subtext.Framework.Data
 	            return tags;
 	        }
 	    }
+
+	    public override bool DeleteMetaTag(int metaTagId)
+	    {
+	    	StoredProcedures.DeleteMetaTag(metaTagId).Execute();
+	    	return true;
+	    }
+
 	    #endregion
 
 
@@ -1746,5 +1798,15 @@ namespace Subtext.Framework.Data
 		}
 
 		#endregion
+
+		public override BlogAlias GetBlogAliasById(int aliasId)
+		{
+			using(IDataReader reader = StoredProcedures.GetDomainAliasById(aliasId).GetReader())
+			{
+				if(reader.Read())
+					return DataHelper.LoadBlogAlias(reader);
+				return null;
+			}
+		}
 	}
 }

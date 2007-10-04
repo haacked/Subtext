@@ -127,12 +127,12 @@ namespace UnitTests.Subtext.Framework.Text
 			string html = "this is text with http://haacked.com/ one url.";
 			string expected = "this is text with <a rel=\"nofollow external\" href=\"http://haacked.com/\">http://haacked.com/</a> one url.";
 
-			Assert.AreEqual(expected, HtmlHelper.EnableUrls(html));
+			Assert.AreEqual(expected, HtmlHelper.ConvertUrlsToHyperLinks(html));
 
 			html = "this is text with http://haacked.com/ two http://localhost/someplace/some.page.aspx urls.";
 			expected = "this is text with <a rel=\"nofollow external\" href=\"http://haacked.com/\">http://haacked.com/</a> two <a rel=\"nofollow external\" href=\"http://localhost/someplace/some.page.aspx\">http://localhost/someplace/some.page.aspx</a> urls.";
 
-			Assert.AreEqual(expected, HtmlHelper.EnableUrls(html));
+			Assert.AreEqual(expected, HtmlHelper.ConvertUrlsToHyperLinks(html));
 		}
 
 		/// <summary>
@@ -174,7 +174,7 @@ namespace UnitTests.Subtext.Framework.Text
 		[Test, ExpectedException(typeof(IllegalPostCharactersException))]
 		public void HasIllegalContentThrowsExceptionWithScriptTag()
 		{
-			HtmlHelper.CheckForIllegalContent("blah <script ");
+			HtmlHelper.HasIllegalContent("blah <script ");
 		}
 
 		/// <summary>
@@ -185,7 +185,7 @@ namespace UnitTests.Subtext.Framework.Text
 		{
 			try
 			{
-				HtmlHelper.CheckForIllegalContent("blah &#60script ");
+				HtmlHelper.HasIllegalContent("blah &#60script ");
 				Assert.Fail("Method should have thrown an exception");
 			}
 			catch(IllegalPostCharactersException)
@@ -199,7 +199,7 @@ namespace UnitTests.Subtext.Framework.Text
 
 			try
 			{
-				HtmlHelper.CheckForIllegalContent("blah &60script ");
+				HtmlHelper.HasIllegalContent("blah &60script ");
 				Assert.Fail("Method should have thrown an exception");
 			}
 			catch(IllegalPostCharactersException)
@@ -211,7 +211,7 @@ namespace UnitTests.Subtext.Framework.Text
 				Assert.Fail("Method should have thrown an IllegalPostCharactersException exception");
 			}
 
-			HtmlHelper.CheckForIllegalContent("blah %60script ");
+			HtmlHelper.HasIllegalContent("blah %60script ");
 		}
 
 		[Test]
