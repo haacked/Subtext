@@ -89,9 +89,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [Row("Diseñadora de interfaces", char.MinValue, "DisenadoraDeInterfaces")]
 		[Row("Perchè Più felicità può ed é?", char.MinValue, "PerchePiuFelicitaPuoEdE")]
 		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<> X", char.MinValue, "X")]
-		[RollBack2]
 		[Row(@"This  is cool", '_', "This_is_cool")]
 		[Row(@"This - is cool", '-', "This-is-cool")]
+		[RollBack2]
 		public void FriendlyUrlGeneratesNiceUrl(string title, char separator, string expected)
 		{
 			UnitTestHelper.SetupBlog();
@@ -119,10 +119,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("A Very ;;Good Book", "A_Very_Good_Book")]
 		[Row("A Very Good Book yo.", "A_Very_Good_Book_yo")]
 		[Row("A Very Good Book yo..", "A_Very_Good_Book_yo")]
-		[Row("Å Vêry Good Book yo..", "%c3%85_V%c3%aary_Good_Book_yo")]
+		[Row("Å Vêry Good Book yo..", "A_Very_Good_Book_yo")]
 		[Row("Trouble With VS.NET Yo", "Trouble_With_VS.NET_Yo")]
-		[Row("Barça is a nice town", "Bar%c3%a7a_is_a_nice_town")]
-		[Row("Perchè Più felicità può ed é?", "Perch%c3%a8_Pi%c3%b9_felicit%c3%a0_pu%c3%b2_ed_%c3%a9")]
+		[Row("Barça is a nice town", "Barca_is_a_nice_town")]
+		[Row("Perchè Più felicità può ed é?", "Perche_Piu_felicita_puo_ed_e")]
 		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<> Y", "Y")]
 		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<>YY", "YY")]
 		[RollBack2]
