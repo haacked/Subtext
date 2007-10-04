@@ -62,14 +62,10 @@ namespace UnitTests.Subtext
 			ConnectionString connectionString = Config.ConnectionString;
 
 			DeleteDatabase(connectionString.Server, "Subtext_Tests");
+			Console.Write("Creating Database 'Subtext_Tests'");
 			CreateDatabase(connectionString.Server, "Subtext_Tests");
 
-			//Test connection.
-			using (SqlConnection connection = new SqlConnection(connectionString))
-			{
-				connection.Open();
-				connection.Close();
-			}
+			Console.Write("Installing Subtext onto Subtext_Tests");
 
 			SqlInstaller installer = new SqlInstaller(connectionString);
 			installer.Install(VersionInfo.FrameworkVersion);
