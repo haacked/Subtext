@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Rules FriendlyName="Multitargetting Rules">
+  <Rule TypeName="CallOnly20APIs" Category="Multitargetting" CheckId="MT20">
+    <Name>Avoid using types or members that do not exist in the .NET Framework 2.0.</Name>
+    <Description>The project is targeting the .NET Framework 2.0 release but is using types or members that exist only in later releases of the Framework. If you want to continue targeting the .NET Framework 2.0 release, you should remove these types or members; otherwise you should change the project target to the appropriate version of the Framework.</Description>
+    <Url>http://blogs.msdn.com/kcwalina/</Url>
+    <Resolution>{0} uses {1}, which is not avaliable in the .NET Framework 2.0 release.</Resolution>
+    <Email>kcwalina@microsoft.com</Email>
+    <MessageLevel Certainty="99">Error</MessageLevel>
+    <FixCategories>NonBreaking</FixCategories>
+    <Owner>Krzysztof Cwalina</Owner>
+    <GroupOwner>UIFx</GroupOwner>
+    <DevOwner>Krzysztof Cwalina</DevOwner>
+  </Rule>
+</Rules>
