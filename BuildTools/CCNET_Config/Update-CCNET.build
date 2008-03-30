@@ -1,43 +1,96 @@
 <?xml version="1.0"?>
 <project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText">
-	
-	<property name="nant.settings.currentframework" value="net-1.1"/>
+   <!--
+   ****************************************************************************************************
+   *  Public Global Properties
+   *
+   *  These property settings are global to the build process and are required.
+   *
+   *  The cvs.repository property may be overriden in the snsi.build.config.include file.
+   **************************************************************************************************** 
+   -->
+   <property name="nant.settings.currentframework" value="net-1.1"/>
+   <property name="build.verbose" value="true" />
 
-	<target name="get-publishing-properties">
-		<if test="${not property::exists('ccnet.root')}">
-			<fail message="CruiseControl.NET root directory not specified." />
-		</if>
+   <if test="${not property::exists('ccnet.root')}">
+      <fail message="CruiseControl.NET root directory not specified." />
+   </if>
 
-		<property name="dashboard.root" value="${ccnet.root}\webdashboard"/>
-		<property name="ccnet.config" value="${ccnet.root}\server\ccnet.config" />
-		<property name="server.xsl.dir" value="${ccnet.root}\server\xsl" />
-		<property name="dashboard.xsl.dir" value="${dashboard.root}\xsl" />
-		<property name="dashboard.config" value="${dashboard.root}\dashboard.config" />
-		
-	</target>
+   <property name="dashboard.root" value="${ccnet.root}\webdashboard" readonly="true"/>
+   <property name="dashboard.folder.templates" value="${dashboard.root}\templates"  readonly="true"/>
+   <property name="dashboard.folder.images" value="${dashboard.root}\images"  readonly="true"/>
+   <property name="dashboard.folder.xsl" value="${dashboard.root}\xsl\subtext"  readonly="true"/>
 
-	<target name="copyfiles" depends="get-publishing-properties">
-		<copy file="dashboard.config" tofile="${dashboard.config}" />
-		<copy file="ccnet.config" tofile="${ccnet.config}" />
+   <property name="server.root" value="${ccnet.root}\server" readonly="true"/>
+   <property name="server.folder.xsl" value="${server.root}\xsl"  readonly="true"/>
+   
+   <!--
+   ****************************************************************************************************
+   *  copy-dashboard-files
+   *
+   *  Copies the dashboard configuration and supporting files from SVN to their corresponding
+   *  locations in the webdashboard directory.
+   **************************************************************************************************** 
+   -->
+   <target name="copy-dashboard-files">
+      <echo message="Retrieving dashboard configuration to ${dashboard.root}" />
+      <copy todir="${dashboard.root}" overwrite="true">
+         <fileset basedir="webdashboard">
+            <include name="dashboard.config" />
+         </fileset>
+      </copy>
 
-		<copy todir="${dashboard.xsl.dir}" failonerror="false" verbose="true">
-			<fileset basedir="xsl">
-				<include name="*.xsl" />
-			</fileset>
-		</copy>
+      <echo message="Retrieving dashboard stylesheets to ${dashboard.root}" />
+      <copy todir="${dashboard.root}" overwrite="true">
+         <fileset basedir="webdashboard">
+            <include name="*.css" />
+         </fileset>
+      </copy>
+   
+      <echo message="Retrieving dashboard templates to ${dashboard.folder.templates}" />
+      <copy todir="${dashboard.folder.templates}" overwrite="true">
+         <fileset basedir="webdashboard\templates">
+            <include name="*.vm" />
+         </fileset>
+      </copy>
+   
+      <echo message="Retrieving dashboard images to ${dashboard.folder.images}" />
+      <copy todir="${dashboard.folder.images}" overwrite="true">
+         <fileset basedir="webdashboard\images">
+            <include name="*.*" />
+            <exclude name="Thumbs.dll" />
+         </fileset>
+      </copy>
 
-		<copy todir="${dashboard.xsl.dir}\templates" failonerror="false" verbose="true">
-			<fileset basedir="templates">
-				<include name="*.vm" />
-			</fileset>
-		</copy>
+      <echo message="Retrieving dashboard XML Stylesheets to ${dashboard.folder.xsl}" />
+      <copy todir="${dashboard.folder.xsl}" overwrite="true">
+         <fileset basedir="webdashboard\xsl\subtext">
+            <include name="*.xsl" />
+         </fileset>
+      </copy>
+   </target>
 
-		<!-- need to figure out if this is necessary -->
-		<copy todir="${server.xsl.dir}" failonerror="false" verbose="true">
-			<fileset basedir="xsl">
-				<include name="*.xsl" />
-			</fileset>
-		</copy>
-	</target>
-	
+   <!--
+   ****************************************************************************************************
+   *  copy-server-files
+   *
+   *  Copies the server configuration and supporting files from SVN to their corresponding
+   *  locations in the server directory.
+   **************************************************************************************************** 
+   -->
+   <target name="copy-server-files">
+      <echo message="Retrieving server configuration to ${ccnet.root}" />
+      <copy todir="${server.root}" overwrite="true">
+         <fileset basedir="server">
+            <include name="ccnet.config" />
+            <!-- <include name="ccnet.TwitterPublisher.plugin.dll" /> -->
+         </fileset>
+      </copy>
+   </target>
+   
+   <target name="copyfiles">
+      <call target="copy-server-files" />
+      <call target="copy-dashboard-files" />
+   </target>
+   
 </project>
