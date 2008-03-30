@@ -1,0 +1,58 @@
+<div class="container">
+   <span class="containerTitle">Project Report for $projectName</span>
+   <div class="containerContents">
+     <form method="post">
+           <input type="hidden" name="forcebuild" value="true" />
+           <input type="hidden" name="forceBuildProject" value="$projectLink.Text" />
+           <input type="hidden" name="forceBuildServer" value="$serverLink.Text" />
+           <input type="submit" name="_action_ViewFarmReport" value="Force a build"/>
+      </form>
+      <p>
+         #if ($noLogsAvailable)
+            There are currently no build logs available for this project - make sure your Build Server configuration is correct and that this Project's build is not throwing any exceptions
+         #else
+            #if ($pluginInfo)
+               <h3>Most Recent Build Results</h3>
+               $pluginInfo
+
+               Click <a href="$mostRecentBuildUrl">here</a> for the full build report.
+            #else
+               Click <a href="$mostRecentBuildUrl">here</a> for the most recent build report.
+            #end
+         #end
+      </p>
+
+      <div class="buildcontainer">
+         <span class="containerTitle">ohloh Project Statistics</span>
+         <div class="containerContents">
+            <table class="ohloh" rules="groups" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                  <td><script type="text/javascript" src="http://www.ohloh.net/projects/3167/widgets/project_factoids"></script></td>
+               </tr>
+               <tr>
+                  <td><script type="text/javascript" src="http://www.ohloh.net/projects/3167/widgets/project_languages"></script></td>
+               </tr>
+               <tr>
+                  <td><script type="text/javascript" src="http://www.ohloh.net/projects/3167/widgets/project_cocomo"></script></td>
+            </tr>
+         </table>
+      </div>
+      </div>
+
+      #if ($externalLinks.Length > 0)
+      <div class="buildcontainer">
+         <span class="containerTitle">External Links</span>
+         <div class="containerContents">
+         <table class="ExternalLinks">
+            #foreach ($externalLink in $externalLinks)
+               <tr>
+                  <td>&nbsp;</td>
+                  <td align="Left"><a href="$externalLink.Url" target="_new">$externalLink.Name</a></td>
+               </tr>
+            #end
+         </table>
+         </div>
+      </div>
+      #end  
+   </div>
+</div>
