@@ -15,6 +15,5 @@
 </asp:Content>
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
-	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
     <st:EntryEditor id="Editor" CategoryType="PostCollection" EntryType="BlogPost" ResultsTitle="Posts" runat="server" />
 </asp:Content>

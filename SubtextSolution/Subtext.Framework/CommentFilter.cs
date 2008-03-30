@@ -20,176 +20,166 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
-    /// <summary>
-    /// Class used to filter incoming comments.  This will get replaced 
-    /// with a plugin once the plugin architecture is complete, but the 
-    /// logic will probably get ported.
-    /// </summary>
-    public class CommentFilter
-    {
-        private const string FILTER_CACHE_KEY = "COMMENT FILTER:";
+	/// <summary>
+	/// Class used to filter incoming comments.  This will get replaced 
+	/// with a plugin once the plugin architecture is complete, but the 
+	/// logic will probably get ported.
+	/// </summary>
+	public class CommentFilter
+	{
+		private const string FILTER_CACHE_KEY = "COMMENT FILTER:";
 
-        Cache cache;
+		Cache cache;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CommentFilter"/> class.
-        /// </summary>
-        public CommentFilter(Cache cache)
-        {
-            this.cache = cache;
-        }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CommentFilter"/> class.
+		/// </summary>
+		public CommentFilter(Cache cache)
+		{
+			this.cache = cache;
+		}
+		
+		/// <summary>
+		/// Validates the feedback before it has been persisted.
+		/// </summary>
+		/// <param name="feedback"></param>
+		/// <exception type="CommentFrequencyException">Thrown if too many comments are received from the same source in a short period.</exception>
+		/// <exception type="CommentDuplicateException">Thrown if the blog does not allow duplicate comments and too many are received in a short period of time.</exception>
+		public void FilterBeforePersist(FeedbackItem feedback)
+		{
+			if (!SecurityHelper.IsAdmin)
+			{
+				if (!SourceFrequencyIsValid(feedback))
+					throw new CommentFrequencyException();
 
-        /// <summary>
-        /// Validates the feedback before it has been persisted.
-        /// </summary>
-        /// <param name="feedback"></param>
-        /// <exception type="CommentFrequencyException">Thrown if too many comments are received from the same source in a short period.</exception>
-        /// <exception type="CommentDuplicateException">Thrown if the blog does not allow duplicate comments and too many are received in a short period of time.</exception>
-        public void FilterBeforePersist(FeedbackItem feedback)
-        {
-            if (!Rights.CanPostComment())
-            {
-                if (!SourceFrequencyIsValid(feedback))
-                    throw new CommentFrequencyException();
+				if (!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(feedback))
+					throw new CommentDuplicateException();
+			}
+		}
 
-                if (!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(feedback))
-                    throw new CommentDuplicateException();
-            }
-        }
+		/// <summary>
+		/// Filters the comment. Throws an exception should the comment not be allowed. 
+		/// Otherwise returns true.  This interface may be changed.
+		/// </summary>
+		/// <remarks>
+		/// <p>
+		/// The first filter examines whether comments are coming in too quickly 
+		/// from the same SourceUrl.  Looks at the <see cref="BlogInfo.CommentDelayInMinutes"/>.
+		/// </p>
+		/// <p>
+		/// The second filter checks for duplicate comments. It only looks at the body 
+		/// of the comment.
+		/// </p>
+		/// </remarks>
+		/// <param name="feedbackItem">Entry.</param>
+		public void FilterAfterPersist(FeedbackItem feedbackItem)
+		{
+			if (!SecurityHelper.IsAdmin)
+			{
+				if (!Config.CurrentBlog.ModerationEnabled)
+				{
+					//Akismet Check...
+					if (Config.CurrentBlog.FeedbackSpamServiceEnabled)
+					{
+						if (Config.CurrentBlog.FeedbackSpamService.IsSpam(feedbackItem))
+						{
+							FlagAsSpam(feedbackItem);
+							return;
+						}
+					}
+					//Note, we need to explicitely set the status flag here.
+					//Just setting Approved = true would not reset any other bits in the flag that may be set.
+					feedbackItem.Status = FeedbackStatusFlag.Approved;
+				}
+				else //Moderated!
+				{
+					//Note, we need to explicitely set the status flag here.
+					//Just setting NeedsModeration = true would not reset any other bits in the flag that may be set.
+					feedbackItem.Status = FeedbackStatusFlag.NeedsModeration;
+				}
+			}
+			else
+			{
+				//Note, we need to explicitely set the status flag here.
+				//Just setting Approved = true would not reset any other bits in the flag that may be set.
+				feedbackItem.Status = FeedbackStatusFlag.Approved;
+			}
+			FeedbackItem.Update(feedbackItem);
+		}
 
-        /// <summary>
-        /// Filters the comment. Throws an exception should the comment not be allowed. 
-        /// Otherwise returns true.  This interface may be changed.
-        /// </summary>
-        /// <remarks>
-        /// <p>
-        /// The first filter examines whether comments are coming in too quickly 
-        /// from the same SourceUrl.  Looks at the <see cref="BlogInfo.CommentDelayInMinutes"/>.
-        /// </p>
-        /// <p>
-        /// The second filter checks for duplicate comments. It only looks at the body 
-        /// of the comment.
-        /// </p>
-        /// </remarks>
-        /// <param name="feedbackItem">Entry.</param>
-        public static void FilterAfterPersist(FeedbackItem feedbackItem)
-        {
-            if (feedbackItem == null)
-            {
-                throw new ArgumentNullException("feedbackItem", Resources.ArgumentNull_Generic);
-            }
+		private static void FlagAsSpam(FeedbackItem feedbackItem)
+		{
+			feedbackItem.FlaggedAsSpam = true;
+			feedbackItem.Approved = false;
+			FeedbackItem.Update(feedbackItem);
+		}
 
-            if (!SecurityHelper.IsAdmin)
-            {
-                if (!Config.CurrentBlog.ModerationEnabled)
-                {
-                    //Akismet Check...
-                    if (Config.CurrentBlog.FeedbackSpamServiceEnabled)
-                    {
-                        if (Config.CurrentBlog.FeedbackSpamService.IsSpam(feedbackItem))
-                        {
-                            FlagAsSpam(feedbackItem);
-                            return;
-                        }
-                    }
-                    //Note, we need to explicitely set the status flag here.
-                    //Just setting Approved = true would not reset any other bits in the flag that may be set.
-                    feedbackItem.Status = FeedbackStatusFlags.Approved;
-                }
-                else //Moderated!
-                {
-                    //Note, we need to explicitely set the status flag here.
-                    //Just setting NeedsModeration = true would not reset any other bits in the flag that may be set.
-                    feedbackItem.Status = FeedbackStatusFlags.NeedsModeration;
-                }
-            }
-            else
-            {
-                //Note, we need to explicitely set the status flag here.
-                //Just setting Approved = true would not reset any other bits in the flag that may be set.
-                feedbackItem.Status = FeedbackStatusFlags.Approved;
-            }
-            FeedbackItem.Update(feedbackItem);
-        }
+		// Returns true if the source of the entry is not 
+		// posting too many.
+		bool SourceFrequencyIsValid(FeedbackItem feedbackItem)
+		{
+			if(Config.CurrentBlog.CommentDelayInMinutes <= 0)
+				return true;
 
-        private static void FlagAsSpam(FeedbackItem feedbackItem)
-        {
-            feedbackItem.FlaggedAsSpam = true;
-            feedbackItem.Approved = false;
-            FeedbackItem.Update(feedbackItem);
-        }
+			object lastComment = cache.Get(FILTER_CACHE_KEY + feedbackItem.IpAddress);
+			
+			if(lastComment != null)
+			{
+				//Comment was made too frequently.
+				return false;
+			}
 
-        // Returns true if the source of the entry is not 
-        // posting too many.
-        bool SourceFrequencyIsValid(FeedbackItem feedbackItem)
-        {
-            if (Config.CurrentBlog.CommentDelayInMinutes <= 0)
-                return true;
+			//Add to cache.
+            this.cache.Insert(FILTER_CACHE_KEY + feedbackItem.IpAddress, string.Empty, null, DateTime.Now.AddMinutes(Config.CurrentBlog.CommentDelayInMinutes), TimeSpan.Zero);
+			return true;
+		}
 
-            object lastComment = cache.Get(FILTER_CACHE_KEY + feedbackItem.IpAddress);
+		// Returns true if this entry is a duplicate.
+		bool IsDuplicateComment(FeedbackItem feedbackItem)
+		{
+			const int RECENT_ENTRY_CAPACITY = 10;
 
-            if (lastComment != null)
-            {
-                //Comment was made too frequently.
-                return false;
-            }
+			if(cache == null)
+				return false;
+			
+			// Check the cache for the last 10 comments
+			// Chances are, if a spam attack is occurring, then 
+			// this entry will be a duplicate of a recent entry.
+			// This checks in memory before going to the database (or other persistent store).
+			Queue<string> recentComments = this.cache.Get(FILTER_CACHE_KEY + ".RECENT_COMMENTS") as Queue<string>;
+			if(recentComments != null)
+			{
+				if (recentComments.Contains(feedbackItem.ChecksumHash))
+					return true;
+			}
+			else
+			{
+				recentComments = new Queue<string>(RECENT_ENTRY_CAPACITY);	
+				this.cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] = recentComments;
+			}
 
-            //Add to cache.
-            cache.Insert(FILTER_CACHE_KEY + feedbackItem.IpAddress, string.Empty, null, DateTime.Now.AddMinutes(Config.CurrentBlog.CommentDelayInMinutes), TimeSpan.Zero);
-            return true;
-        }
+			// Check the database
+			Entry duplicate = Entries.GetCommentByChecksumHash(feedbackItem.ChecksumHash);
+			if(duplicate != null)
+				return true;
 
-        // Returns true if this entry is a duplicate.
-        bool IsDuplicateComment(FeedbackItem feedbackItem)
-        {
-            const int RECENT_ENTRY_CAPACITY = 10;
+			//Ok, this is not a duplicate... Update recent comments.
+            if(recentComments.Count == RECENT_ENTRY_CAPACITY)
+				recentComments.Dequeue();
 
-            if (cache == null)
-                return false;
+			recentComments.Enqueue(feedbackItem.ChecksumHash);
+			return false;
+		}
 
-            // Check the cache for the last 10 comments
-            // Chances are, if a spam attack is occurring, then 
-            // this entry will be a duplicate of a recent entry.
-            // This checks in memory before going to the database (or other persistent store).
-            Queue<string> recentComments = cache.Get(FILTER_CACHE_KEY + ".RECENT_COMMENTS") as Queue<string>;
-            if (recentComments != null)
-            {
-                if (recentComments.Contains(feedbackItem.ChecksumHash))
-                    return true;
-            }
-            else
-            {
-                recentComments = new Queue<string>(RECENT_ENTRY_CAPACITY);
-                cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] = recentComments;
-            }
-
-            // Check the database
-            Entry duplicate = Entries.GetCommentByChecksumHash(feedbackItem.ChecksumHash);
-            if (duplicate != null)
-            {
-                return true;
-            }
-
-            //Ok, this is not a duplicate... Update recent comments.
-            if (recentComments.Count == RECENT_ENTRY_CAPACITY)
-            {
-                recentComments.Dequeue();
-            }
-
-            recentComments.Enqueue(feedbackItem.ChecksumHash);
-            return false;
-        }
-
-        /// <summary>
-        /// Clears the comment cache.
-        /// </summary>
-        public void ClearCommentCache()
-        {
-            cache.Remove(FILTER_CACHE_KEY + ".RECENT_COMMENTS");
-        }
-    }
+		/// <summary>
+		/// Clears the comment cache.
+		/// </summary>
+		public void ClearCommentCache()
+		{
+			this.cache.Remove(FILTER_CACHE_KEY + ".RECENT_COMMENTS");
+		}
+	}
 }

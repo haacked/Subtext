@@ -15,7 +15,6 @@
 
 using System;
 using Subtext.Framework.Configuration;
-using System.Runtime.Serialization;
 
 namespace Subtext.Framework.Exceptions
 {
@@ -36,11 +35,6 @@ namespace Subtext.Framework.Exceptions
 				return "Sorry, but there is a delay between allowing comments originating from the same source. Please wait for " + Config.CurrentBlog.CommentDelayInMinutes  + " minutes and try again.";
 			}
 		}
-
-		public CommentFrequencyException() : base() {}
-		public CommentFrequencyException(string message) : base(message) {}
-		public CommentFrequencyException(string message, Exception innerException) : base(message, innerException) {}
-		protected CommentFrequencyException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
 	}
 }

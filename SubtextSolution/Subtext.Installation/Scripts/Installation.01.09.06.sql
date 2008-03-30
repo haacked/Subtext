@@ -64,7 +64,8 @@ BEGIN
 END
 GO 
 
-IF NOT EXISTS 
+/* This column is no longer needed and was a temporary column used during 1.9.6 development, but is in use in some production systems */
+IF EXISTS 
 (
     SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
     WHERE   TABLE_NAME = 'subtext_Config' 
@@ -73,7 +74,7 @@ IF NOT EXISTS
 )
 BEGIN
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
-		ADD [CustomMetaTags] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+		DROP COLUMN [CustomMetaTags]
 END
 GO
 

@@ -15,7 +15,7 @@
 		HeaderCssClass="CollapsibleHeader" HeaderText="KeyWords" LinkText="[toggle]" Collapsible="True">
 		<asp:Repeater id="rprSelectionList" runat="server" OnItemCommand="rprSelectionList_ItemCommand">
 			<HeaderTemplate>
-				<table id="Listing" class="Listing highlightTable" cellspacing="0" cellpadding="0" border="0">
+				<table id="Listing" class="listing highlightTable" cellspacing="0" cellpadding="0" border="0" style="<%= CheckHiddenStyle() %>">
 					<tr>
 						<th width="50">Word</th>
 						<th width="150">Text</th>
@@ -48,7 +48,7 @@
 				</tr>
 			</ItemTemplate>
 			<AlternatingItemTemplate>
-				<tr class="Alt">
+				<tr class="alt">
 					<td>
 						<%# DataBinder.Eval(Container.DataItem, "Word") %>
 					</td>

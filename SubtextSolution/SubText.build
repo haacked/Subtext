@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText" default="compile-release">
+	
+	<property name="nant.settings.currentframework" value="net-2.0"/>
+	
+	<property name="msbuild" value="C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\MSBuild.exe" />
+
+	<!-- Set this propery if you want to specify a custom destination
+		<property name="publish.root" value="D:\Simone\SubtextProject\SubtextSolution\buildArchive"/>
+		<property name="source.root" value="D:\Simone\SubtextProject\SubtextSolution\Subtext.DotTextUpgrader"/>
+	-->
+	<target name="get-publishing-properties">
+		
+		<tstamp property="build.date" pattern="yyyyMMddTHHmmss" />
+	
+		<ifnot test="${property::exists('publish.root')}"> 
+			<property name="publish.root" value="..\Builds\${configuration}"/>
+		</ifnot>
+		
+		<ifnot test="${property::exists('publish.source.root')}"> 
+			<property name="publish.source.root" value="..\Builds\source\${configuration}"/>
+		</ifnot>
+		
+		<ifnot test="${property::exists('source.root')}"> 
+			<property name="source.root" value="."/>
+		</ifnot>
+	
+		<ifnot test="${property::exists('publish.dir.ndoc')}"> 
+			<property name="publish.dir.ndoc" value="..\Docs"/>
+			<property name="publish.workingdir.ndoc" value="..\Docs\workingdir" />
+		</ifnot>
+	
+		<property name="publish.source.dir.latest" value="${publish.source.root}\latest" />
+		<property name="publish.source.dir.archive" value="${publish.source.root}\archive" />
+		<property name="publish.dir.latest" value="${publish.root}\latest" />
+		<property name="publish.dir.archive" value="${publish.root}\archive" />
+	</target>
+
+	<target name="compile-debug" depends="clean">
+		<property name="configuration" value="debug"/>
+		<call target="compile" />
+	</target>
+
+	<!--
+		Compiles Subtext using the "documentation" configuration. 
+		This configuration is the same as DEBUG but it outputs 
+		documentation XML files.
+	-->
+	<target name="compile-docs" depends="clean">
+		<property name="configuration" value="documentation"/>
+		<call target="compile" />
+	</target>
+
+
+	<target name="compile-release" depends="clean">
+		<property name="configuration" value="release"/>
+		<call target="compile" />
+	</target>
+
+	
+	<target name="compile" depends="get-publishing-properties">
+		<exec program="${msbuild}">
+			<arg value="SubtextSolution.sln"/>
+			<arg value="/t:Build"/>
+			<arg value="/p:Configuration=${configuration}"/>
+		</exec>
+	</target>
+
+	<target name="clean">
+		<call target="clean-vs" />
+	</target>
+
+
+	<target name="clean-vs">
+		<foreach item="Folder" property="foldername">
+			<in>
+				<items basedir=".">
+					<include name="*\bin" />
+					<include name="*\obj" />
+				</items>
+			</in>
+			<do>
+				<delete dir="${foldername}" />
+			</do>
+		</foreach>
+		<mkdir dir="Subtext.Web\bin" />
+	</target>
+	
+	<target name="dist.publish.latest" depends="compile-release,get-publishing-properties">
+		<delete dir="${publish.dir.latest}" failonerror="false" />
+		<mkdir dir="${publish.dir.latest}" />
+		
+		<echo message="deploying binaries to latest" />
+		
+		<copy todir="${publish.dir.latest}" includeemptydirs="false">
+			<fileset basedir="Subtext.Web">
+				<include name="**/*" />
+				<exclude name="**/*.bmp" />
+				<exclude name="ExternalDependencies/*" />
+				<exclude name="**/*.cs"/>
+				<exclude name="**/*.txt"/>
+				<exclude name="**/*.resx"/>
+				<exclude name="bin/*.xml"/>
+				<exclude name="**/*.csproj"/>
+				<exclude name="**/*.csproj.user"/>
+				<exclude name="**/.cvsignore"/>
+				<exclude name="obj/**"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${publish.dir.latest}" includeemptydirs="false">
+			<fileset basedir="Subtext.Web">
+				<include name="emoticons.txt" />
+			</fileset>
+		</copy>
+		
+		<delete dir="${publish.source.dir.latest}" failonerror="false" />
+		<mkdir dir="${publish.source.dir.latest}" />
+		<echo message="deploying source code" />
+		
+		<copy todir="${publish.source.dir.latest}" includeemptydirs="false">
+			<fileset basedir="${source.root}">
+				<include name="**/*" />
+				<include name="emoticons.txt" />
+				<exclude name="**/*.csproj.user"/>
+				<exclude name="**/*.resharperoptions"/>
+				<exclude name="**/*.suo"/>
+				<exclude name="**/*.cvsignore"/>
+				<exclude name="_ReSharper.*/**"/>
+				<exclude name="**/bin/**"/>
+				<exclude name="**/obj/**"/>
+			</fileset>
+		</copy>
+			
+		<if test="${configuration == 'documentation'}">
+			<echo message="Deploying XML files" /> 
+			<copy todir="${publish.dir.latest}" includeemptydirs="false">
+				<fileset basedir="Subtext.Web">
+					<include name="**/*.xml" />
+				</fileset>
+			</copy>
+		</if>
+
+		<attrib readonly="false" >
+			<fileset basedir="${publish.dir.latest}">
+				<include name="**/*" />
+			</fileset>
+		</attrib>
+	</target>
+
+	<target name="dist.publish.ndoc" depends="compile-docs">
+		<mkdir dir="${publish.workingdir.ndoc}" />
+
+		<echo message="deploying binaries to ndoc working folder" />
+
+		<copy todir="${publish.workingdir.ndoc}" includeemptydirs="false">
+			<fileset basedir="Subtext.Web">
+				<include name="bin/*.xml" />
+				<include name="bin/*.dll" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!--
+		Generates the NDoc documentation.
+	-->
+	<target name="document" depends="dist.publish.ndoc">
+		<property name="ndoc.file.name" value="CodeDocumentation" />
+
+		<echo message="Building xml comment files in ${publish.dir.latest}" />
+
+		<ndoc>
+			<assemblies basedir="${publish.workingdir.ndoc}">
+				<include name="Subtext.BlogMl.dll" />
+				<include name="Subtext.Framework.dll" />
+				<include name="Subtext.Web.dll" />
+				<include name="Subtext.Extensibility.dll" />
+				<include name="Subtext.Installation.dll" />
+				<include name="Subtext.Web.Controls.dll" />
+			</assemblies>
+			<documenters>
+				<documenter name="MSDN">
+					<property name="OutputDirectory" value="${publish.workingdir.ndoc}" />
+					<property name="HtmlHelpName" value="${ndoc.file.name}" />
+					<property name="HtmlHelpCompilerFilename" value="hhc.exe" />
+					<property name="Title" value="Subtext Code Documentation" />
+					<property name="CopyrightText" value="Copyright 2005-2006 Phil Haack" />
+					<property name="CopyrightHref" value="" />
+					<property name="UseNamespaceDocSummaries" value="True" />
+				</documenter>
+			</documenters>
+		</ndoc>
+
+		<copy file="${publish.workingdir.ndoc}\${ndoc.file.name}.chm" todir="${publish.dir.ndoc}" />
+		<delete dir="${publish.workingdir.ndoc}" />
+	</target>
+</project>

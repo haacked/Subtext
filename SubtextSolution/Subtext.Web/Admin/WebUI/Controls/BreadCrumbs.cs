@@ -35,7 +35,7 @@ namespace Subtext.Web.Admin.WebUI
 		protected Control container;
 		protected PageLocation _lastItem;
 		protected string _lastItemText;
-		protected bool _lastItemOverride;
+		protected bool _lastItemOverride = false;
 
 		protected string _pageID = String.Empty;		
 		protected bool _isPanel = true;
@@ -43,7 +43,7 @@ namespace Subtext.Web.Admin.WebUI
 		protected bool _includeSelf = true;
 		protected bool _lastItemStatic;
 		
-		protected bool _usePrefixText;
+		protected bool _usePrefixText = false;
 		protected string _prefixText = PREFIXTEXT_DEFAULT;
 		protected bool _useSpacers = true;
 		protected string _spacer = SPACER_DEFAULT;
@@ -64,15 +64,11 @@ namespace Subtext.Web.Admin.WebUI
 		public string PageID
 		{
 			get 
-			{
-                if (_pageID.Length > 0)
-                {
-                    return _pageID;
-                }
-                else
-                {
-                    return this.Page.GetType().BaseType.FullName;
-                }
+			{ 
+				if (_pageID.Length > 0)
+					return _pageID;
+				else
+					return this.Page.GetType().BaseType.FullName;
 			}
 			set { _pageID = value; }
 		}
@@ -230,21 +226,15 @@ namespace Subtext.Web.Admin.WebUI
 
 		protected WebControl ApplyStyles(WebControl control, bool isLastItem)
 		{
-            if (isLastItem && _lastStyle.Count > 0)
-            {
-                return Utilities.CopyStyles(control, _lastStyle);
-            }
-            else if (_linkStyle.Count > 0)
-            {
-                return Utilities.CopyStyles(control, _linkStyle);
-            }
-            else
-            {
-                return control;
-            }
+			if (isLastItem && _lastStyle.Count > 0)
+				return Utilities.CopyStyles(control, _lastStyle);
+			else if (_linkStyle.Count > 0)
+				return Utilities.CopyStyles(control, _linkStyle);
+			else		
+				return control;
 		}
 
-		protected static PageLocation[] GetSampleAncestors()
+		protected PageLocation[] GetSampleAncestors()
 		{
 			PageLocation[] results = new PageLocation[3];
 			results[0] = new PageLocation("", "Level 3", "#");
@@ -258,14 +248,10 @@ namespace Subtext.Web.Admin.WebUI
 			container.Controls.Clear();
 
 			PageLocation[] lineage;
-            if (null != HttpContext.Current)
-            {
-                lineage = SiteMap.Instance.GetAncestors(this.PageID, _includeSelf);
-            }
-            else
-            {
-                lineage = GetSampleAncestors();
-            }
+			if (null != HttpContext.Current)
+				lineage = SiteMap.Instance.GetAncestors(this.PageID, _includeSelf);
+			else
+				lineage = GetSampleAncestors();
 
 			if (null != lineage && lineage.Length > 0)
 			{
@@ -296,26 +282,18 @@ namespace Subtext.Web.Admin.WebUI
 				{
 					if (null != _lastItem)
 					{
-                        if (!_lastItemStatic)
-                        {
-                            container.Controls.Add(CreateHyperLinkFromLocation(_lastItem, true));
-                        }
-                        else
-                        {
-                            container.Controls.Add(new LiteralControl(_lastItem.Title));
-                        }
+						if (!_lastItemStatic)
+							container.Controls.Add(CreateHyperLinkFromLocation(_lastItem, true));
+						else
+							container.Controls.Add(new LiteralControl(_lastItem.Title));
 					}
-                    else if (_lastItemText.Length > 0)
-                    {
-                        container.Controls.Add(new LiteralControl(_lastItemText));
-                    }
+					else if (_lastItemText.Length > 0)
+						container.Controls.Add(new LiteralControl(_lastItemText));
 				}
 			}
 
-            if (_isPanel && _cssClass.Length > 0)
-            {
-                (container as Panel).CssClass = _cssClass;
-            }
+			if (_isPanel && _cssClass.Length > 0)
+				(container as Panel).CssClass = _cssClass;
 
 			base.Render(writer);
 		}

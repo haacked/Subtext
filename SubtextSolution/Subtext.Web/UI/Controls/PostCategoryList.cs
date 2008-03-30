@@ -20,32 +20,32 @@ using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
 {
-	/// <summary>
+    /// <summary>
 	///		Summary description for PostCategoryList.
 	/// </summary>
 	public class PostCategoryList : BaseControl
 	{
 		protected Repeater CatList;
 
-		private ICollection<LinkCategory> lcc;
-		public ICollection<LinkCategory> LinkCategories
+        private ICollection<LinkCategory> lcc;
+        public ICollection<LinkCategory> LinkCategories
 		{
-			get { return lcc; }
-			set { lcc = value; }
+			get{return lcc;}
+			set{lcc = value;}
 		}
 
-		private bool _showEmpty;
-		public bool ShowEmpty
-		{
-			get { return _showEmpty; }
-			set { _showEmpty = value; }
-		}
+        private bool _showEmpty = false;
+        public bool ShowEmpty
+        {
+            get { return _showEmpty; }
+            set { _showEmpty = value; }
+        }
 
 		protected override void OnLoad(EventArgs e)
 		{
-			base.OnLoad(e);
+			base.OnLoad (e);
 
-			if (LinkCategories != null)
+			if(LinkCategories != null)
 			{
 				CatList.DataSource = LinkCategories;
 				CatList.DataBind();
@@ -57,23 +57,23 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
-		protected override void OnPreRender(EventArgs e)
-		{
-			if (CatList.Items.Count == 0)
-				Visible = _showEmpty;
-			base.OnPreRender(e);
-		}
+        protected override void OnPreRender(EventArgs e)
+        {
+            if (CatList.Items.Count == 0)
+                Visible = _showEmpty;
+            base.OnPreRender(e);
+        }
 
 		protected void CategoryCreated(object sender, RepeaterItemEventArgs e)
 		{
-			if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
 				LinkCategory linkcat = (LinkCategory)e.Item.DataItem;
-				if (linkcat != null)
+				if(linkcat != null)
 				{
 					HyperLink Link = (HyperLink)e.Item.FindControl("Link");
-					Link.NavigateUrl = CurrentBlog.UrlFormats.PostCategoryUrl(linkcat.Title, linkcat.Id);
-					if (Link.Attributes["title"] == null || Link.Attributes["title"].Length == 0)
+                    Link.NavigateUrl = CurrentBlog.UrlFormats.PostCategoryUrl(linkcat.Title, linkcat.Id);
+					if(Link.Attributes["title"] == null || Link.Attributes["title"].Length == 0)
 					{
 						Link.Attributes["title"] = "";
 					}

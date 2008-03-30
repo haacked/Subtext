@@ -35,7 +35,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -123,14 +123,41 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Attributes\DescriptionAttribute.cs" />
-    <Compile Include="Attributes\IdentifierAttribute.cs" />
     <Compile Include="Collections\CollectionBook.cs" />
-    <Compile Include="Data\SqlErrorMessage.cs" />
     <Compile Include="Interfaces\IIdentifiable.cs" />
     <Compile Include="Interfaces\ICollectionBook.cs" />
     <Compile Include="Interfaces\IPagedCollection.cs" />
     <Compile Include="NamespaceDocumentation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Plugins\IImplementationInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Plugins\IModuleIdentifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Plugins\IPlugin.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Plugins\IPluginContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Plugins\IPluginFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Plugins\IPluginIdentifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Plugins\IPluginIdentifierCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Plugins\ITarget.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Plugins\ITargetIdentifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Plugins\ITargetIdentifierCollection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PostConfig.cs">
@@ -138,12 +165,6 @@
     </Compile>
     <Compile Include="PostType.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\GlobalSuppressions.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Providers\BlogEntryEditorProvider.cs" />
     <Compile Include="Providers\EmailProvider.cs">
@@ -153,22 +174,15 @@
     <Compile Include="Providers\ImportProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Providers\InstallationProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Providers\ProviderConfigurationHelper.cs" />
     <Compile Include="Providers\ProviderSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\SearchProvider.cs" />
     <Compile Include="Web\BaseHttpHandler.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

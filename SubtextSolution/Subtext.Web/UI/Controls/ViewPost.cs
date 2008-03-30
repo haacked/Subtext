@@ -14,18 +14,17 @@
 #endregion
 
 using System;
-using System.Web;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Format;
 using Subtext.Framework.Security;
 using Subtext.Framework.Tracking;
 using Subtext.Web.Controls;
-using Subtext.Extensibility.Plugins;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -44,7 +43,7 @@ namespace Subtext.Web.UI.Controls
 		protected Literal PingBack;
 		protected Literal TrackBack;
 
-		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\" class=\"comments\">{1}{2}</a>";
+		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
 
 		/// <summary>
 		/// Loads the entry specified by the URL.  If the user is an 
@@ -58,38 +57,34 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			
 			//Get the entry
-			this.entry = Cacher.GetEntryFromRequest(CacheDuration.Short);			
+			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);			
 			
 			//if found
 			if(entry != null)
 			{
-				//Raise event before any processing takes place
-				SubtextEvents.OnSingleEntryRendering(this, new EntryEventArgs(entry));
-
 				BindCurrentEntryControls(entry, this);
 				
-				DisplayEditLink();
+				DisplayEditLink(entry);
 
 				//Track this entry
 				EntryTracker.Track(Context, entry.Id, CurrentBlog.Id);
 
 				//Set the page title
-                Globals.SetTitle(HttpUtility.HtmlEncode(entry.Title), Context);
+				Globals.SetTitle(entry.Title, Context);
 
 				//Sent entry properties
-                TitleUrl.Text = HttpUtility.HtmlEncode(entry.Title);
+				TitleUrl.Text = entry.Title;
 				ControlHelper.SetTitleIfNone(TitleUrl, "Title of this entry.");
 				TitleUrl.NavigateUrl = entry.Url;
 				Body.Text = entry.Body;
-
 				if(PostDescription != null)
 				{
-					PostDescription.Text = string.Format(CultureInfo.InvariantCulture, "{0} {1}",entry.DateSyndicated.ToLongDateString(),entry.DateSyndicated.ToShortTimeString());
+					PostDescription.Text = string.Format(CultureInfo.InvariantCulture, "{0} {1}",entry.DateCreated.ToLongDateString(),entry.DateCreated.ToShortTimeString());
 				}
                 Trace.Write("loading categories");
 				if(Categories != null)
 				{
-                    Categories.LinkCategories = Links.GetLinkCategoriesByPostId(entry.Id);
+                    Categories.LinkCategories = Links.GetLinkCategoriesByPostID(entry.Id);
                     Categories.DataBind();
 				}
 
@@ -97,12 +92,12 @@ namespace Subtext.Web.UI.Controls
 				{
 					if(date.Attributes["Format"] != null)
 					{
-						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Url, entry.DateSyndicated.ToString(date.Attributes["Format"]));
+						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Url, entry.DateCreated.ToString(date.Attributes["Format"]));
 						date.Attributes.Remove("Format");
 					}
 					else
 					{
-						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Url, entry.DateSyndicated.ToString("f"));
+						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Url, entry.DateCreated.ToString("f"));
 					}
 				}
 
@@ -140,9 +135,6 @@ namespace Subtext.Web.UI.Controls
 				{
 					TrackBack.Text = TrackHelpers.TrackBackTag(entry);
 				}
-
-				SubtextEvents.OnSingleEntryRendered(this, new EntryEventArgs(entry));
-
 			}
 			else 
 			{
@@ -150,24 +142,16 @@ namespace Subtext.Web.UI.Controls
 				this.Controls.Clear();
 				this.Controls.Add(new LiteralControl("<p><strong>The entry could not be found or has been removed</strong></p>"));
 			}
-			this.DataBind();
 		}
-
-		public Entry Entry
-		{
-			get { return this.entry; }
-		}
-
-		private Entry entry;
 
 		// If the user is an admin AND the the skin 
 		// contains an edit Hyperlink control, this 
 		// will display the edit control.
-		private void DisplayEditLink()
+		private void DisplayEditLink(Entry entry)
 		{
 			if(editLink != null)
 			{
-				if (SecurityHelper.IsInRole(RoleNames.Authors) || SecurityHelper.IsInRole(RoleNames.Administrators))
+				if(SecurityHelper.IsAdmin)
 				{
 					editLink.Visible = true;
 					editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
@@ -176,7 +160,7 @@ namespace Subtext.Web.UI.Controls
 					if(String.IsNullOrEmpty(editLink.Text) && String.IsNullOrEmpty(editLink.ImageUrl))
 					{
 						//We'll slap on our little pencil icon.
-						editLink.ImageUrl = BlogInfo.VirtualDirectoryRoot + "Images/edit.gif";
+						editLink.ImageUrl = Config.CurrentBlog.VirtualDirectoryRoot + "Images/edit.gif";
 					}
 				}
 				else

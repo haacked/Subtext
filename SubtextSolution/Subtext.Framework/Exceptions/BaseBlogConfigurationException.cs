@@ -20,22 +20,20 @@ namespace Subtext.Framework.Exceptions
 	/// <summary>
 	/// Base exception class for blog configuration errors.
 	/// </summary>
-	[Serializable]
+    [Serializable]
 	public abstract class BaseBlogConfigurationException : Exception
-	{
+	{	
 		/// <summary>
 		/// Creates a new <see cref="BaseBlogConfigurationException"/> instance.
 		/// </summary>
-		protected BaseBlogConfigurationException()
-			: base()
-		{ }
+		protected BaseBlogConfigurationException() : base()
+		{}
 
 		/// <summary>
 		/// Creates a new <see cref="BaseBlogConfigurationException"/> instance.
 		/// </summary>
 		/// <param name="innerException">Inner exception.</param>
-		protected BaseBlogConfigurationException(Exception innerException)
-			: base(null, innerException)
-		{ }
+		protected BaseBlogConfigurationException(Exception innerException) : base(null, innerException)
+		{}
 	}
 }

@@ -71,7 +71,7 @@ namespace Subtext.Web.Admin.UserControls {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder Edit;
+        protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
         
         /// <summary>
         /// hlEntryLink control.
@@ -116,7 +116,7 @@ namespace Subtext.Web.Admin.UserControls {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.UI.WebControls.RichTextEditor richTextEditor;
+        protected global::Subtext.Web.Controls.RichTextEditor richTextEditor;
         
         /// <summary>
         /// cklCategories control.
@@ -225,24 +225,6 @@ namespace Subtext.Web.Admin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkIsAggregated;
-        
-        /// <summary>
-        /// vCustomPostDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator vCustomPostDate;
-        
-        /// <summary>
-        /// txtPostDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPostDate;
         
         /// <summary>
         /// vRegexEntryName control.

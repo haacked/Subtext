@@ -53,63 +53,63 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		public void SetControlID()
+		public void SetControlID() 
 		{
-			string test = "MyTestControlID";
-			frtep.ControlId = test;
-			Assert.AreEqual(test, frtep.ControlId);
+			string test="MyTestControlID";
+			frtep.ControlId=test;
+			Assert.AreEqual(test,frtep.ControlId);
 		}
 
 		[Test]
 		[Ignore("Have to setup dummy blog config first")]
 		[RollBack]
-		public void SetText()
+		public void SetText() 
 		{
-			UnitTestHelper.SetupBlog();
-			string test = "Lorem Ipsum";
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+			string test="Lorem Ipsum";
 			frtep.InitializeControl();
-			frtep.Text = test;
-			Assert.AreEqual(test, frtep.Text);
-			Assert.AreEqual(test, frtep.Xhtml);
+			frtep.Text=test;
+			Assert.AreEqual(test,frtep.Text);
+			Assert.AreEqual(test,frtep.Xhtml);
 		}
 
 		[Test]
 		[Ignore("Have to setup dummy blog config first")]
-		public void SetWidth()
+		public void SetWidth() 
 		{
-			Unit test = 200;
+			Unit test=200;
 			frtep.InitializeControl();
-			frtep.Width = test;
-			Assert.AreEqual(test, frtep.Width);
+			frtep.Width=test;
+			Assert.AreEqual(test,frtep.Width);
 		}
 
 		[Test]
 		[Ignore("Have to setup dummy blog config first")]
-		public void SetHeight()
+		public void SetHeight() 
 		{
-			Unit test = 100;
+			Unit test=100;
 			frtep.InitializeControl();
-			frtep.Height = test;
-			Assert.AreEqual(test, frtep.Height);
+			frtep.Height=test;
+			Assert.AreEqual(test,frtep.Height);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
-		public void TestInitializationWithNullName()
+		public void TestInitializationWithNullName() 
 		{
 			frtep.Initialize(null, null);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
-		public void TestInitializationWithNullConfigValue()
+		public void TestInitializationWithNullConfigValue() 
 		{
 			frtep.Initialize("FCKProvider", null);
 		}
 
 		[Test]
 		[ExpectedException(typeof(InvalidOperationException))]
-		public void TestInitializationWithEmptyWebFolder()
+		public void TestInitializationWithEmptyWebFolder() 
 		{
 			frtep.Initialize("FCKProvider", new System.Collections.Specialized.NameValueCollection());
 		}

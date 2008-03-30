@@ -41,7 +41,7 @@ namespace Subtext.Web.UI.Controls
 			
 		    comments = FeedbackItem.GetRecentComments(commentCount);
 
-			for(int i = 0; i < comments.Count; i++)
+			for(int i = comments.Count - 1; i >= 0; i--)
 			{
 				if(comments[i].EntryId <= 0)
 				{

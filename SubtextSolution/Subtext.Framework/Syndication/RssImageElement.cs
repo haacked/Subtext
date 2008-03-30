@@ -1,18 +1,3 @@
-#region Disclaimer/Info
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Subtext WebLog
-// 
-// Subtext is an open source weblog system that is a fork of the .TEXT
-// weblog system.
-//
-// For updated news and information please visit http://subtextproject.com/
-// Subtext is hosted at SourceForge at http://sourceforge.net/projects/subtext
-// The development mailing list is at subtext-devs@lists.sourceforge.net 
-//
-// This project is licensed under the BSD license.  See the License.txt file for more information.
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#endregion
-
 using System;
 using System.Globalization;
 using System.Xml;
@@ -31,8 +16,7 @@ namespace Subtext.Framework.Syndication
 		/// <param name="url">The URL.</param>
 		/// <param name="title">The title.</param>
 		/// <param name="link">The link.</param>
-		public RssImageElement(Uri url, string title, Uri link)
-			: this(url, title, link, null, null, null)
+		public RssImageElement(Uri url, string title, Uri link) : this(url, title, link, null, null, null)
 		{
 		}
 
@@ -40,21 +24,20 @@ namespace Subtext.Framework.Syndication
 		/// Initializes a new instance of the <see cref="RssImageElement"/> class.
 		/// </summary>
 		/// <param name="url">The URL.</param>
-		/// <param name="title">The _title.</param>
-		/// <param name="link">The _link.</param>
-		/// <param name="width">The _width.</param>
-		/// <param name="height">The _height.</param>
-		/// <param name="description">The _description.</param>
+		/// <param name="title">The title.</param>
+		/// <param name="link">The link.</param>
+		/// <param name="width">The width.</param>
+		/// <param name="height">The height.</param>
+		/// <param name="description">The description.</param>
 		public RssImageElement(Uri url, string title, Uri link, int? width, int? height, string description)
 		{
-			_url = url;
-			_title = HtmlHelper.RemoveHtml(title);
-			_link = link;
-			_width = width;
-			_height = height;
-			_description = description;
+			this.url = url;
+			this.title = HtmlHelper.RemoveHtml(title);
+			this.link = link;
+			this.width = width;
+			this.height = height;
+			this.description = description;
 		}
-        readonly Uri _url;
 
 		/// <summary>
 		/// The URL of a GIF, JPEG or PNG image that represents the channel. 
@@ -62,60 +45,67 @@ namespace Subtext.Framework.Syndication
 		/// <value>The URL.</value>
 		public Uri Url
 		{
-			get { return _url; }
+			get { return this.url; }
 		}
-        readonly string _title;
 
-        /// <summary>
+		Uri url;
+
+		/// <summary>
 		/// Describes the image, it's used in the ALT attribute of the HTML &lt;img&gt; tag when the channel is rendered in HTML.
 		/// </summary>
-		/// <value>The _title.</value>
+		/// <value>The title.</value>
 		public string Title
 		{
-			get { return _title; }
+			get { return this.title; }
 		}
-        readonly Uri _link;
 
-        /// <summary>
-		/// The URL of the site, when the channel is rendered, the image is a _link to the site. 
-		/// (Note, in practice the image &lt;_title&gt; and &lt;_link&gt; should have the same value as the channel's &lt;_title&gt; and &lt;_link&gt;.
+		string title;
+
+		/// <summary>
+		/// The URL of the site, when the channel is rendered, the image is a link to the site. 
+		/// (Note, in practice the image &lt;title&gt; and &lt;link&gt; should have the same value as the channel's &lt;title&gt; and &lt;link&gt;.
 		/// </summary>
-		/// <value>The _link.</value>
+		/// <value>The link.</value>
 		public Uri Link
 		{
-			get { return _link; }
+			get { return this.link; }
 		}
-        int? _width;
+
+		Uri link;
 
 		/// <summary>
-		/// Gets the _width.
+		/// Gets the width.
 		/// </summary>
-		/// <value>The _width.</value>
+		/// <value>The width.</value>
 		public int? Width
 		{
-			get { return _width; }
+			get { return this.width; }
 		}
 
-        int? _height;
+		int? width;
+
 		/// <summary>
-		/// Gets the _height.
+		/// Gets the height.
 		/// </summary>
-		/// <value>The _height.</value>
+		/// <value>The height.</value>
 		public int? Height
 		{
-			get { return _height; }
+			get { return this.Height; }
 		}
 
-        readonly string _description;
+		int? height;
+
 		/// <summary>
-		/// Gets the _description.
+		/// Gets the description.
 		/// </summary>
-		/// <value>The _description.</value>
+		/// <value>The description.</value>
 		public string Description
 		{
-			get { return _description; }
+			get { return this.description; }
 		}
 
+		string description;
+		
 		/// <summary>
 		/// Writes this RssImage element to the specified XmlWriter.
 		/// </summary>
@@ -123,18 +113,18 @@ namespace Subtext.Framework.Syndication
 		public void WriteToXmlWriter(XmlWriter writer)
 		{
 			writer.WriteStartElement("image");
-			writer.WriteElementString("title", _title);
-			writer.WriteElementString("url", _url.ToString());
-			writer.WriteElementString("link", _link.ToString());
-
-			if (_width != null)
-				writer.WriteElementString("width", _width.Value.ToString(CultureInfo.InvariantCulture));
-
-			if (_height != null)
-				writer.WriteElementString("height", _height.Value.ToString(CultureInfo.InvariantCulture));
-
-			if (_description != null)
-				writer.WriteElementString("description", _description); //Used in the alt tag.
+			writer.WriteElementString("title", title);
+			writer.WriteElementString("url", this.url.ToString());
+			writer.WriteElementString("link", this.link.ToString());
+			
+			if (this.width != null)
+				writer.WriteElementString("width", this.width.Value.ToString(CultureInfo.InvariantCulture));
+			
+			if(this.height != null)
+				writer.WriteElementString("height", this.height.Value.ToString(CultureInfo.InvariantCulture));
+			
+			if(description != null)
+				writer.WriteElementString("description", description); //Used in the alt tag.
 			writer.WriteEndElement();
 		}
 	}

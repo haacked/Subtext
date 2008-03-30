@@ -7,9 +7,6 @@ namespace Subtext.Web.Admin.WebUI
 {
     public partial class EditPosts : ConfirmationPage
     {
-        private const string RES_SUCCESS = "Your tags were successfully updated.";
-        private const string RES_FAILURE = "Tag update failed.";
-
         public EditPosts()
         {
             TabSectionId = "Posts";
@@ -42,17 +39,9 @@ namespace Subtext.Web.Admin.WebUI
             Editor.EditNewEntry();
         }
 
-        private void OnRebuildTagsClick(object sender, EventArgs e)
+        private static void OnRebuildTagsClick(object sender, EventArgs e)
         {
-            try
-            {
-                Entries.RebuildAllTags();
-                this.Messages.ShowMessage(RES_SUCCESS);
-            }
-            catch (Exception ex)
-            {
-                this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, RES_FAILURE, ex.Message));
-            }
+            Entries.RebuildAllTags();
         }
     }
 }

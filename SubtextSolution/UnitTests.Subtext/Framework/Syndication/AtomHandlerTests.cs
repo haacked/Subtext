@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 using System.Web;
 using System.Xml;
 using MbUnit.Framework;
@@ -19,23 +21,28 @@ namespace UnitTests.Subtext.Framework.Syndication
 		/// Tests writing a simple RSS feed from some database entries.
 		/// </summary>
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void AtomWriterProducesValidFeedFromDatabase()
 		{
-			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
+			string hostName = UnitTestHelper.GenerateRandomString();
+			Assert.IsTrue(Config.CreateBlog("Test", "username", "password", hostName, string.Empty));
 
-			Config.CurrentBlog.Owner.Email = "Subtext@example.com";
+			StringBuilder sb = new StringBuilder();
+			TextWriter output = new StringWriter(sb);
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
+
+			Config.CurrentBlog.Email = "Subtext@example.com";
 			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 
 			DateTime dateCreated = DateTime.Now;
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, dateCreated);
-			Entries.Create(entry); //persist to db.
+			int id = Entries.Create(entry); //persist to db.
 
 			AtomHandler handler = new AtomHandler();
 			handler.ProcessRequest(HttpContext.Current);
 			HttpContext.Current.Response.Flush();
 
-			string rssOutput = context.ResponseStringBuilder.ToString();
+			string rssOutput = sb.ToString();
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(rssOutput);
 			XmlNamespaceManager nsmanager = new XmlNamespaceManager(doc.NameTable);
@@ -49,7 +56,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Assert.AreEqual("testtitle", itemNodes[0].SelectSingleNode("atom:title", nsmanager).InnerText, "Not what we expected for the title.");
 			string urlFormat = "http://{0}/archive/{1:yyyy/MM/dd}/{2}.aspx";
 
-			string expectedUrl = string.Format(urlFormat, Config.CurrentBlog.Host, dateCreated, "testtitle");
+			string expectedUrl = string.Format(urlFormat, hostName, dateCreated, "testtitle");
 
 			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("atom:id", nsmanager).InnerText, "Not what we expected for the link.");
 			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("atom:link/@href", nsmanager).InnerText, "Not what we expected for the link.");

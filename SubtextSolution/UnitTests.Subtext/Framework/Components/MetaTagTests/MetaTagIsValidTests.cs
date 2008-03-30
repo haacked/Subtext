@@ -19,7 +19,7 @@ using Subtext.Framework.Components;
 namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 {
     [TestFixture]
-    class MetaTagIsValidTests
+    public class MetaTagIsValidTests
     {
         [RowTest]
         [Row(null, null, false, "Must supply either a Name or HttpEquiv")]

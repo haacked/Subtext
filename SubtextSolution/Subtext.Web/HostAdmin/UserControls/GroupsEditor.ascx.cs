@@ -15,15 +15,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subtext.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Providers;
+using System.Data.SqlClient;
 using Subtext.Framework.Data;
 
 namespace Subtext.Web.HostAdmin.UserControls
@@ -85,16 +85,14 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             if(!CreatingGroup)
 			{
-				using (IDataReader reader = StoredProcedures.GetBlogGroup(GroupId, false).GetReader())
-				{
-					if (reader.Read())
-					{
-						this.txtTitle.Text = DataHelper.ReadString(reader, "Title");
-						this.txtDescription.Text = DataHelper.ReadString(reader, "Description");
-						this.txtDisplayOrder.Text = DataHelper.ReadString(reader, "DisplayOrder");
-						hfActive.Value = DataHelper.ReadBoolean(reader, "Active").ToString();
-					}
-				}
+                SqlDataReader reader = (SqlDataReader) DbProvider.Instance().GetBlogGroup(GroupId, false);
+                if (reader.Read())
+                {
+                    this.txtTitle.Text = reader.GetString(reader.GetOrdinal("Title"));
+                    this.txtDescription.Text = reader.IsDBNull(reader.GetOrdinal("Description")) ? string.Empty : reader.GetString(reader.GetOrdinal("Description"));
+                    this.txtDisplayOrder.Text = reader.IsDBNull(reader.GetOrdinal("DisplayOrder")) ? string.Empty : reader.GetInt32(reader.GetOrdinal("DisplayOrder")).ToString();
+                    hfActive.Value = Convert.ToString(reader.GetBoolean(reader.GetOrdinal("Active")));
+                }
 			}					
 		}
 
@@ -204,10 +202,9 @@ namespace Subtext.Web.HostAdmin.UserControls
 			}
 		}
 
-        private void DeleteGroup()
-		{
-        	StoredProcedures.DeleteBlogGroup(GroupId).Execute();
-            BindList();
+        private void DeleteGroup(){
+            if (DbProvider.Instance().DeleteBlogGroup(GroupId))
+                BindList();
         }
 
 		protected void btnSave_Click(object sender, EventArgs e)
@@ -243,8 +240,14 @@ namespace Subtext.Web.HostAdmin.UserControls
             int d;
             if (!Int32.TryParse(this.txtDisplayOrder.Text, out d))
                 d = NullValue.NullInt32;
-        	StoredProcedures.InsertBlogGroup(this.txtTitle.Text, true, d, this.txtDescription.Text, null).Execute();
-			this.messagePanel.ShowMessage("Blog Group Created.");
+            if (DbProvider.Instance().InsertBlogGroup(this.txtTitle.Text, true, d, this.txtDescription.Text) > 0)
+			{
+				this.messagePanel.ShowMessage("Blog Group Created.");
+			}
+			else
+			{
+				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
+			}		
 		}
 
 		// Saves changes to a blog group.  Any exceptions are propagated up to the caller.
@@ -253,9 +256,14 @@ namespace Subtext.Web.HostAdmin.UserControls
             int d;
             if (!Int32.TryParse(this.txtDisplayOrder.Text, out d))
                 d = NullValue.NullInt32;
-			StoredProcedures.UpdateBlogGroup(GroupId, this.txtTitle.Text, Convert.ToBoolean(hfActive.Value), this.txtDescription.Text, d).Execute();
-			
-			this.messagePanel.ShowMessage("Blog Group Saved.");
+            if (DbProvider.Instance().UpdateBlogGroup(GroupId, this.txtTitle.Text, Convert.ToBoolean(hfActive.Value), d, this.txtDescription.Text))
+			{
+				this.messagePanel.ShowMessage("Blog Group Saved.");
+			}
+			else
+			{
+				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
+			}
 		}
         
 		protected static string ToggleActiveString(bool active)
@@ -271,7 +279,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             try
 			{
                 BlogGroup group = Config.GetBlogGroup(GroupId, false);
-                StoredProcedures.UpdateBlogGroup(GroupId, group.Title, !IsActive, group.Description, DataHelper.CheckNull(group.DisplayOrder)).Execute(); 
+                DbProvider.Instance().UpdateBlogGroup(GroupId, group.Title, !IsActive, (int) DataHelper.CheckNull(group.DisplayOrder), group.Description); 
 			}
 			catch(BaseBlogConfigurationException e)
 			{

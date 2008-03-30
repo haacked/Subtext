@@ -37,10 +37,10 @@ namespace Subtext.Framework.UI.Skinning
 		public static SkinTemplates Instance()
 		{
 			SkinTemplates skinTemplates = (SkinTemplates)HttpContext.Current.Cache["SkinTemplates"];
-			if (skinTemplates == null)
+			if(skinTemplates == null)
 			{
 				skinTemplates = Instance(HostingEnvironment.VirtualPathProvider);
-
+				
 				if (skinTemplates != null)
 				{
 					HttpContext.Current.Cache.Insert("SkinTemplates", skinTemplates, HostingEnvironment.VirtualPathProvider.GetCacheDependency("~/Admin/Skins.config", null, DateTime.Now.ToUniversalTime()));
@@ -76,7 +76,7 @@ namespace Subtext.Framework.UI.Skinning
 		private static SkinTemplates GetSkinTemplates(VirtualPathProvider virtualPathProvider, string path)
 		{
 			VirtualFile virtualConfigFile = virtualPathProvider.GetFile(path);
-
+				
 			using (Stream configStream = virtualConfigFile.Open())
 			{
 				return SerializationHelper.Load<SkinTemplates>(configStream);
@@ -96,16 +96,16 @@ namespace Subtext.Framework.UI.Skinning
 		/// <returns></returns>
 		public SkinTemplate GetTemplate(string skinKey)
 		{
-			if (_ht == null)
+			if(_ht == null)
 			{
 				_ht = new Dictionary<string, SkinTemplate>();
-				for (int i = 0; i < Templates.Count; i++)
+				for(int i = 0; i < Templates.Count; i++)
 				{
 					_ht.Add(Templates[i].SkinKey, Templates[i]);
 				}
 			}
 
-			if (_ht.ContainsKey(skinKey.ToUpper(System.Globalization.CultureInfo.InvariantCulture)))
+			if(_ht.ContainsKey(skinKey.ToUpper(System.Globalization.CultureInfo.InvariantCulture)))
 			{
 				return _ht[skinKey.ToUpper(System.Globalization.CultureInfo.InvariantCulture)];
 			}
@@ -116,8 +116,8 @@ namespace Subtext.Framework.UI.Skinning
 		[XmlArray("Skins")]
 		public List<SkinTemplate> Templates
 		{
-			get { return this._skinTemplates; }
-			set { this._skinTemplates = value; }
+			get {return this._skinTemplates;}
+			set {this._skinTemplates = value;}
 		}
 
 		private List<SkinTemplate> _skinTemplates;

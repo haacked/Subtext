@@ -2,7 +2,7 @@
 <%@ Import Namespace = "Subtext.Framework" %>
 
 <div>
-	<h2>Tag Cloud</h2>
+	<h3>Tag Cloud</h3>
 	<asp:Repeater Runat="server" ID="Tags" OnItemDataBound="Tags_ItemDataBound">
 		<HeaderTemplate>
 				<ul id="tag-cloud">

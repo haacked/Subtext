@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using MbUnit.Framework;
-using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 
@@ -16,61 +15,6 @@ namespace UnitTests.Subtext.Framework.Data
 	[TestFixture]
 	public class DataHelperTests
 	{
-		[Test]
-		[RollBack2]
-		public void CanLoadImageFromReader()
-		{
-			UnitTestHelper.SetupBlog();
-
-			StubResultSet resultSet = new StubResultSet("CategoryID", "File", "Height", "Width", "ImageID", "Active", "Title");
-			resultSet.AddRow(987, "MyImage.png", 150, 200, 123, true, "My Image");
-			StubDataReader reader = new StubDataReader(resultSet);
-
-			reader.Read();
-			Image image = DataHelper.LoadImage(reader);
-			Assert.AreEqual(987, image.CategoryID);
-			Assert.AreEqual("MyImage.png", image.FileName);
-			Assert.AreEqual(150, image.Height);
-			Assert.AreEqual(200, image.Width);
-			Assert.AreEqual(123, image.ImageID);
-			Assert.AreEqual(true, image.IsActive);
-			Assert.AreEqual("My Image", image.Title);
-		}
-		
-		[Test]
-		public void CanLoadEntryDayCollectionFromReader()
-		{
-            DateTime dateAdded = DateTime.ParseExact("1/23/2006 4:00 PM", "M/d/yyyy h:mm tt", CultureInfo.InvariantCulture);
-
-			StubResultSet resultSet = new StubResultSet("DateAdded", "PostType");
-			resultSet.AddRow(dateAdded, PostType.BlogPost);
-			resultSet.AddRow(dateAdded.AddHours(1), PostType.BlogPost);
-
-			StubDataReader reader = new StubDataReader(resultSet);
-			ICollection<EntryDay> entryCollection = DataHelper.LoadEntryDayCollection(reader, false);
-			Assert.AreEqual(1, entryCollection.Count);
-			
-		}
-		
-		[Test]
-		public void ReturnNullIfEmptyReturnsStringForNonEmpty()
-		{
-			Assert.AreEqual("test", DataHelper.ReturnNullIfEmpty("test"));
-		}
-		
-		[Test]
-		public void CheckNullStringReturnsStringForNonNullString()
-		{
-			Assert.AreEqual(string.Empty, DataHelper.CheckNullString(string.Empty), "Should return same string");
-			Assert.AreEqual("test", DataHelper.CheckNullString("test"), "Should return same string");
-		}
-		
-		[Test]
-		public void CheckNullStringReturnsNullForDBNull()
-		{
-			Assert.IsNull(DataHelper.CheckNullString(DBNull.Value), "Should return null");
-		}
-		
 		/// <summary>
 		/// Makes sure that we parse the date correctly.
 		/// </summary>
@@ -127,6 +71,9 @@ namespace UnitTests.Subtext.Framework.Data
 			int _currentIndex = -1;
 			ArrayList _records = new ArrayList();
 			
+			internal TestDataReader()
+			{}
+
 			public void AddRecord(int month, int day, int year, int count)
 			{
 				_records.Add(new DataReaderRecord(month, day, year, count));

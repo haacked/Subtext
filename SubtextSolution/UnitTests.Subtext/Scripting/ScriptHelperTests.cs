@@ -14,12 +14,11 @@
 #endregion
 
 using System;
-using System.Globalization;
 using System.IO;
-using System.Threading;
 using MbUnit.Framework;
 using Subtext.Installation;
 using Subtext.Scripting;
+using Subtext.Scripting.Exceptions;
 
 namespace UnitTests.Subtext.Scripting
 {
@@ -30,78 +29,199 @@ namespace UnitTests.Subtext.Scripting
 	public class ScriptHelperTests
 	{
 		[Test]
-		public void ScriptIgnoresGOWithinComments()
+		public void CanParseGoWithDashDashCommentAfter()
 		{
-			string script = "SELECT * FROM Foo" + Environment.NewLine
-							+ "GO" + Environment.NewLine
-							+ "SELECT * FROM Bar -- GO HERE" + Environment.NewLine
-							+ "/* GO Here */"
-							+ "WHERE Id = 1";
-
+			string script =
+@"SELECT * FROM foo;
+ GO --  Hello Phil
+CREATE PROCEDURE dbo.Test AS SELECT * FROM foo";
 			ScriptCollection scripts = Script.ParseScripts(script);
 			Assert.AreEqual(2, scripts.Count);
 		}
 
-		[RowTest]
-		[Row(1, "/* Comment */SELECT * FROM subtext_Content\r\nGO", "SELECT * FROM subtext_Content")]
-		[Row(1, "/* Comment */  SELECT * FROM subtext_Content\r\nGO", "SELECT * FROM subtext_Content")]
-		[Row(1, "/*\r\n Comment\r\n */\r\n  SELECT * FROM subtext_Content\r\nGO", "SELECT * FROM subtext_Content")]
-		[Row(0, "-- EVERYTHING GETS STRIPPED TILL END OF LINE", "")]
-		[Row(1, "-- EVERYTHING GETS STRIPPED TILL END OF LINE\r\nSELECT * FROM MyFoot\r\nGO", "SELECT * FROM MyFoot")]
-		[Row(1, "SELECT * FROM -- MY FOOT EVERYTHING GETS STRIPPED TILL END OF LINE\r\nMy Foot", "SELECT * FROM My Foot")]
-		public void StripsComments(int expectedScriptCount, string scriptText, string expected)
-		{
-			ScriptCollection scripts = Script.ParseScripts(scriptText);
-			Assert.AreEqual(expectedScriptCount, scripts.Count, "This should parse to " + expectedScriptCount + " script.");
-			if (expectedScriptCount > 0)
-				Assert.AreEqual(expected, scripts[0].ScriptText, "Expected the multi-line comment to be stripped.");
-		}
-		
+        [Test]
+        public void CanParseNestedComments()
+        {
+            string script =
+@"/*
+select 1
+/* nested comment */
+go
+delete from users
+-- */";
+            ScriptCollection scripts = Script.ParseScripts(script);
+            Assert.AreEqual(1, scripts.Count, "This contains a comment and no scripts.");
+        }
+
 		[Test]
-		public void ScriptToStringIncludesParameters()
+		[ExpectedException(typeof(SqlParseException))]
+		public void SlashStarCommentAfterGoThrowsException()
 		{
-			ScriptCollection scripts = Script.ParseScripts("SELECT TOP <name, int, 0> * FROM Somewhere");
-			Assert.AreEqual(1, scripts.Count, "Did not parse the script.");
-			Assert.AreEqual(1, scripts.TemplateParameters.Count, "did not merge or parse the template params.");
-			
-			string expected = @"<ScriptToken length=""0"">" + Environment.NewLine 
-				+ @"<ScriptToken length=""11"">" + Environment.NewLine 
-				+ @"<TemplateParameter name=""name"" value=""0"" type=""int"" />" + Environment.NewLine
-				+ @"<ScriptToken length=""17"">" + Environment.NewLine;
-
-
-			Assert.AreEqual(expected, scripts[0].ToString());
+			string script = @"PRINT 'blah'
+GO /* blah */";
+			Script.ParseScripts(script);
 		}
 
+		[Test]
+		public void CanParseSuccessiveGO()
+		{
+			string script = @"GO
+GO";
+			ScriptCollection scripts = Script.ParseScripts(script);
+			Assert.AreEqual(0, scripts.Count, "Expected no scripts since they would be empty.");
+		}
+
+		[Test]
+		public void SemiColonDoesNotSplitScript()
+		{
+			string script = "CREATE PROC Blah AS SELECT FOO; SELECT Bar;";
+			ScriptCollection scripts = Script.ParseScripts(script);
+			Assert.AreEqual(1, scripts.Count, "Expected no scripts since they would be empty.");
+		}
+
+		[Test]
+		public void CanParseQuotedCorrectly()
+		{
+			string script = @"INSERT INTO #Indexes
+	EXEC sp_helpindex 'dbo.subtext_URLs'";
+
+			ScriptCollection scripts = Script.ParseScripts(script);
+			Assert.AreEqual(script, scripts[0].ScriptText, "Script text should not be modified");
+		}
+
+		[Test]
+		public void CanParseSimpleScript()
+		{
+			string script = "Test" + Environment.NewLine + "go";
+			ScriptCollection scripts = Script.ParseScripts(script);
+			Assert.AreEqual(1, scripts.Count);
+			Assert.AreEqual("Test", scripts[0].ScriptText);
+		}
+
+		[Test]
+		public void CanParseCommentBeforeGO()
+		{
+			string script = @"SELECT FOO
+/*TEST*/ GO
+BAR";
+			ScriptCollection scripts = Script.ParseScripts(script);
+			Assert.AreEqual(2, scripts.Count);
+		}
+
+		[Test]
+		public void CanParseCommentWithQuoteChar()
+		{
+			string script = 
+@"/* Add the Url column to the subtext_Log table if it doesn't exist */
+	ADD [Url] VARCHAR(255) NULL
+GO
+		AND		COLUMN_NAME = 'BlogGroup') IS NULL";
+			ScriptCollection scripts = Script.ParseScripts(script);
+			Assert.AreEqual(2, scripts.Count);
+		}
+
+		[Test]
+		public void CanParseDashDashCommentWithQuoteChar()
+		{
+			string script =
+@"-- Add the Url column to the subtext_Log table if it doesn't exist
+SELECT * FROM BLAH
+GO
+PRINT 'FOO'";
+			ScriptCollection scripts = Script.ParseScripts(script);
+			Assert.AreEqual(2, scripts.Count);
+		}
+
+		[Test]
+		public void CanParseLineEndingInDashDashComment()
+		{
+			string script =
+@"SELECT * FROM BLAH -- Comment
+GO
+FOOBAR
+GO";
+			ScriptCollection scripts = Script.ParseScripts(script);
+			Assert.AreEqual(2, scripts.Count);
+		}
+
+		[Test]
+		public void CanParseSimpleScriptEndingInNewLine()
+		{
+			string script = "Test" + Environment.NewLine + "GO" + Environment.NewLine;
+			ScriptCollection scripts = Script.ParseScripts(script);
+			Assert.AreEqual(1, scripts.Count);
+			Assert.AreEqual("Test", scripts[0].ScriptText);
+		}
+
+		[Test]
+		public void MultiLineQuoteShouldNotIgnoreDoubleQuote()
+		{
+			string script = "PRINT '" + Environment.NewLine
+							+ "''" + Environment.NewLine
+							+ "GO" + Environment.NewLine
+							+ "/*" + Environment.NewLine
+							+ "GO"
+							+ "'";
+
+			ScriptCollection scripts = Script.ParseScripts(script);
+			Assert.AreEqual(1, scripts.Count);
+			UnitTestHelper.AssertStringsEqualCharacterByCharacter(script, scripts[0].ScriptText);
+		}
+
+		[Test]
+		public void MultiLineQuoteShouldNotBeSplitByGoKeyword()
+		{
+			string script = "PRINT '" + Environment.NewLine
+			                + "GO" + Environment.NewLine
+			                + "SELECT * FROM BLAH" + Environment.NewLine
+			                + "GO" + Environment.NewLine
+			                + "'";
+
+			ScriptCollection scripts = Script.ParseScripts(script);
+
+			UnitTestHelper.AssertStringsEqualCharacterByCharacter(script, scripts[0].ScriptText);
+			Assert.AreEqual(1, scripts.Count, "expected only one script");
+		}
+	
 		/// <summary>
 		/// Makes sure that ParseScript parses correctly.
 		/// </summary>
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void ParseScriptParsesCorrectly()
 		{
-			string script =  @"SET QUOTED_IDENTIFIER OFF " + Environment.NewLine +
-				@"Go" + Environment.NewLine + "\t\t" +
-				@"SET ANSI_NULLS ON " + Environment.NewLine + Environment.NewLine +
-				@"GO" + Environment.NewLine + Environment.NewLine +
-				@"GO" + Environment.NewLine + 
-				@"SET ANSI_NULLS ON " + Environment.NewLine +
-				Environment.NewLine +
-				Environment.NewLine +
-				@"CREATE TABLE [<username,varchar,dbo>].[blog_Gost] (" + Environment.NewLine +
-				"\t" + @"[HostUserName] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ," + Environment.NewLine +
-				"\t" + @"[Password] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ," + Environment.NewLine +
-				"\t" + @"[Salt] [nvarchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ," + Environment.NewLine +
-				"\t" + @"[DateCreated] [datetime] NOT NULL" + Environment.NewLine +
-				@") ON [PRIMARY]" + Environment.NewLine +
-				@"gO" + Environment.NewLine +
-				Environment.NewLine;
+			string script =  
+@"SET QUOTED_IDENTIFIER OFF 
+-- Comment
+Go
+		
+SET ANSI_NULLS ON 
 
+
+GO
+
+GO
+
+SET ANSI_NULLS ON 
+
+
+CREATE TABLE [<username,varchar,dbo>].[blog_Gost] (
+	[HostUserName] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[Password] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[Salt] [nvarchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[DateCreated] [datetime] NOT NULL
+) ON [PRIMARY]
+gO
+
+";
 			ScriptCollection scripts = Script.ParseScripts(script);
 			Assert.AreEqual(3, scripts.Count, "This should parse to three scripts.");
-			foreach(Script sqlScript in scripts)
+			for(int i = 0; i < scripts.Count; i++)
 			{
-				Assert.IsFalse(sqlScript.ScriptText.StartsWith("GO"));
+				Script sqlScript = scripts[i];
+				Console.WriteLine("------------------------------");
+				Console.WriteLine(sqlScript.ScriptText);
+				Assert.IsFalse(sqlScript.ScriptText.StartsWith("GO"), "Script '" + i + "' failed had a GO statement");
 			}
 
 			string expectedThirdScriptBeginning = "SET ANSI_NULLS ON " 
@@ -121,62 +241,6 @@ namespace UnitTests.Subtext.Scripting
 			Assert.AreEqual(expectedThirdScriptBeginning, scripts[2].ScriptText.Substring(0, expectedThirdScriptBeginning.Length), "Script not parsed correctly");
 		}
 
-		[Test]
-		public void ScriptWithEmptyTextStaysEmptyText()
-		{
-			Script script = new Script(string.Empty);
-			Assert.AreEqual(string.Empty, script.ScriptText);
-		}
-
-		[Test]
-		public void CanAddRangeToScriptCollection()
-		{
-			ScriptCollection scripts = Script.ParseScripts("Select * from MyTable");
-			ScriptCollection scriptsToAdd = Script.ParseScripts(string.Format("Select * from SomeTable{0}GO{1}SELECT TOP 1 FROM Pork", Environment.NewLine, Environment.NewLine));
-			scripts.AddRange(scriptsToAdd);
-			Assert.AreEqual(3, scripts.Count);
-		}
-
-		[Test]
-		[ExpectedArgumentNullException]
-		public void AddRangeToScriptCollectionThrowsArgumentNullException()
-		{
-			ScriptCollection scripts = Script.ParseScripts("Select * from MyTable");
-			scripts.AddRange(null);
-		}
-
-		[Test]
-		[ExpectedException(typeof(InvalidOperationException))]
-		public void SetScriptTextThrowsInvalidOperationException()
-		{
-			Script script = new Script(null);
-			Console.WriteLine(script.ScriptText);
-		}
-
-		[Test]
-		public void ToStringReturnsNoTokensFoundMessage()
-		{
-			Script script = new Script(null);
-			//make sure en-us
-			Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-			Assert.AreEqual("Script has no tokens.", script.ToString());
-		}
-
-		[Test]
-		[ExpectedArgumentNullException]
-		public void ExecuteThrowsArgumentNullException()
-		{
-			Script script = new Script(null);
-			script.Execute(null);
-		}
-
-		[Test]
-		public void CanGetFullScriptText()
-		{
-			ScriptCollection scripts = Script.ParseScripts("Select * from MyTable");
-			Assert.AreEqual("Select * from MyTable", scripts.FullScriptText);
-		}
-
 		/// <summary>
 		/// Unpacks the installation script and makes sure it returns a script.
 		/// </summary>
@@ -186,5 +250,15 @@ namespace UnitTests.Subtext.Scripting
 			Stream stream = ScriptHelper.UnpackEmbeddedScript("Installation.01.00.00.sql");
 			Assert.IsNotNull(stream);
 		}
+
+        /// <summary>
+        /// Unpacks the installation script and makes sure it returns a script.
+        /// </summary>
+        [Test]
+        public void UnpackScriptAsStringReturnsScript()
+        {
+            string script = ScriptHelper.UnpackEmbeddedScriptAsString("Installation.01.00.00.sql");
+            StringAssert.IsNonEmpty(script);
+        }
 	}
 }

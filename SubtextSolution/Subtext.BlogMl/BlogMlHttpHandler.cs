@@ -5,7 +5,6 @@ using System.Web;
 using System.Xml;
 using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility.Web;
-using Subtext.BlogML.Properties;
 
 namespace Subtext.BlogML
 {
@@ -40,9 +39,6 @@ namespace Subtext.BlogML
 		/// <param name="context">Context.</param>
 		public override void HandleRequest(HttpContext context)
 		{
-			if (context == null)
-				throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
-			
 			context.Response.AddHeader("content-disposition", "attachment; filename=BlogMLExport.xml");
 
 			context.Response.Clear();
@@ -50,15 +46,12 @@ namespace Subtext.BlogML
 			context.Response.End();
 		}
 
-		private static void WriteBlogML(Stream outStream)
+		private void WriteBlogML(Stream outStream)
 		{
-			if (outStream == null)
-				throw new ArgumentNullException("outStream", Resources.ArgumentNull_Stream);
-			
 			IBlogMLProvider provider = BlogMLProvider.Instance();
 			
-			if(provider.GetBlogMLContext() == null)
-				throw new InvalidOperationException(Resources.InvalidOperation_BlogMLNullContext);
+			if(provider.GetBlogMlContext() == null)
+				throw new InvalidOperationException("The BlogMl provider did not set the context.");
 
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
 

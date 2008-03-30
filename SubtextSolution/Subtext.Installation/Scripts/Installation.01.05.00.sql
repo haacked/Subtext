@@ -1,3 +1,4 @@
+
 /* Shrink the Message Column to make room for the Exception Column */
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Log] 
 ALTER COLUMN [Message] NVARCHAR(255)

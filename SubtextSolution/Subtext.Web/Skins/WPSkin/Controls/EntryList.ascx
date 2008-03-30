@@ -2,7 +2,7 @@
 <%@ Import Namespace = "Subtext.Framework" %>
 <h2><asp:Literal ID = "EntryCollectionTitle" Runat = "server" /></h2>
 <asp:Literal ID = "EntryCollectionDescription" Runat = "server" />
-<asp:Repeater runat="Server" ID="Entries" OnItemCreated="PostCreated">
+<asp:Repeater runat="Server" Runat="server" ID="Entries" OnItemCreated="PostCreated">
 	<ItemTemplate>
 			<div class="post">
 				<h5><asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink Runat="server" ID="TitleUrl" /></h5>

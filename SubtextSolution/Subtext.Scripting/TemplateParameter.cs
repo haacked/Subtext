@@ -20,7 +20,6 @@ namespace Subtext.Scripting
 	/// <summary>
 	/// Summary description for TemplateParameter.
 	/// </summary>
-	[Serializable]
 	public class TemplateParameter
 	{
 		string _name;
@@ -94,7 +93,6 @@ namespace Subtext.Scripting
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ParameterValueChangedEventArgs"/> class.
 		/// </summary>
-		/// <param name="parameterName">Name of the parameter.</param>
 		/// <param name="oldValue">The old value.</param>
 		/// <param name="newValue">The new value.</param>
 		public ParameterValueChangedEventArgs(string parameterName, string oldValue, string newValue)

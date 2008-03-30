@@ -44,7 +44,8 @@ namespace Subtext.Extensibility.Providers
 				throw new ArgumentNullException("provider");
 
 			if (!(provider is T))
-				throw new ArgumentException("Invalid provider type", "provider");
+				throw new ArgumentException
+					("Invalid provider type", "provider");
 
 			base.Add(provider);
 		}

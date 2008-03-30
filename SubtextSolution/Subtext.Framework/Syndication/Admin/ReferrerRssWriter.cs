@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using Subtext.Framework.Components;
 using System.Collections.Specialized;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Extensibility;
 
 namespace Subtext.Framework.Syndication.Admin
 {
@@ -17,7 +19,7 @@ namespace Subtext.Framework.Syndication.Admin
 			currentBlog = Config.CurrentBlog;
 		}
 
-		protected override StringCollection GetCategoriesFromItem(Referrer item)
+		protected override System.Collections.Specialized.StringCollection GetCategoriesFromItem(Referrer item)
 		{
 			StringCollection strings = new StringCollection();
 			strings.Add(item.PostTitle);
@@ -26,7 +28,7 @@ namespace Subtext.Framework.Syndication.Admin
 		}
 		protected override string GetGuid(Referrer item)
 		{
-			return item.BlogID.ToString() + item.EntryID + item.ReferrerURL;
+			return item.BlogId.ToString() + item.EntryID.ToString() + item.ReferrerURL;
 		}
 
 		protected override string GetTitleFromItem(Referrer item)

@@ -13,6 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
 using System.IO;
 
 namespace Subtext.Framework.Syndication.Compression
@@ -28,6 +29,7 @@ namespace Subtext.Framework.Syndication.Compression
 		public SyndicationCompressionFilter(Stream stream)
 		{
 			_stream = stream;
+			_encoding = null;
 		}
 		#endregion
 

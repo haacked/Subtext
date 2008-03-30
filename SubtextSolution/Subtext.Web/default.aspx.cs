@@ -21,7 +21,6 @@ using System.Globalization;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Data;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
@@ -40,6 +39,7 @@ namespace Subtext.Web
 		{
             //No postbacks on this page. It is output cached.
 			SetStyle();
+            DataBind();
 		}
 
 		private string aggregateUrl = null;
@@ -68,7 +68,7 @@ namespace Subtext.Web
 		{
 			const string style = "<link href=\"{0}{1}\" type=\"text/css\" rel=\"stylesheet\">";
 			string apppath = HttpContext.Current.Request.ApplicationPath.EndsWith("/") ? HttpContext.Current.Request.ApplicationPath : HttpContext.Current.Request.ApplicationPath + "/";
-			Style.Text = string.Format(style,apppath,"Style.css") + "\n" + string.Format(style,apppath,"blue.css");
+            Style.Text = string.Format(style, apppath, "Style.css") + "\n" + string.Format(style, apppath, "blue.css") + "\n" + string.Format(style, apppath, "Scripts/Lightbox.css");
 		}
 
 		#region Web Form Designer generated code
@@ -93,5 +93,6 @@ namespace Subtext.Web
 		#endregion
 	}
 }
+
 
 

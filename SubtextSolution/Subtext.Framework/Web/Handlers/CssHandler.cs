@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Web;
 using Subtext.Extensibility.Web;
@@ -35,32 +36,51 @@ namespace Subtext.Framework.Web.Handlers
             string skinTitle = context.Request.Params["title"];
             string skinConditional = context.Request.Params["conditional"];
 
-            List<string> styles = (List<string>)styleRenderer.GetStylesToBeMerged(skinName, skinMedia, skinTitle, skinConditional);
+            List<StyleDefinition> styles = (List<StyleDefinition>)styleRenderer.GetStylesToBeMerged(skinName, skinMedia, skinTitle, skinConditional);
           
             //Append all styles into one file
 
-            foreach (string style in styles)
+            context.Response.Write("/*" + Environment.NewLine);
+            foreach (StyleDefinition style in styles)
             {
-                context.Response.Write("/* -- " + style + " -- */\r\n");
+                context.Response.Write(style + Environment.NewLine);
             }
-            
-            context.Response.Write("\r\n");
+            context.Response.Write("*/" + Environment.NewLine);
 
-		    foreach (string style in styles)
+            foreach (StyleDefinition style in styles)
 		    {
-                context.Response.Write("/* -- " + style + " -- */\r\n");
-                context.Response.WriteFile(context.Server.MapPath(style));
+                context.Response.Write(Environment.NewLine + "/* " + style + " */" + Environment.NewLine);
+		        string path = context.Server.MapPath(style.Href);
+                if(File.Exists(path))
+                {
+                    
+                    string cssFile = File.ReadAllText(path);
+
+                    if (!String.IsNullOrEmpty(style.Media) && styles.Count>1)
+                    {
+                        context.Response.Write("@media " + style.Media + "{\r\n");
+                        context.Response.Write(cssFile);
+                        context.Response.Write("\r\n}");
+                    }
+                    else
+                        context.Response.Write(cssFile);
+                        
+                }
+                else
+                {
+                    context.Response.Write(Environment.NewLine + "/* CSS file at " + path + " doesn't exist so cannot be included in the merged CSS file. */" + Environment.NewLine);
+                }
 		    }
 
             SetHeaders(styles, context);
 		}
 
 
-        private static void SetHeaders(List<string> styles, HttpContext context)
+        private static void SetHeaders(List<StyleDefinition> styles, HttpContext context)
         {
-            foreach (string style in styles)
+            foreach (StyleDefinition style in styles)
             {
-                context.Response.AddFileDependency(context.Server.MapPath(style));
+                context.Response.AddFileDependency(context.Server.MapPath(style.Href));
             }
             
             context.Response.Cache.VaryByParams["name"] = true;

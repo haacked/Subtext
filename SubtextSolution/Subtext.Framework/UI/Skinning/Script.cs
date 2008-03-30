@@ -56,7 +56,7 @@ namespace Subtext.Framework.UI.Skinning
 			set
 			{
 				_src = value;
-			}
+			}	
 		}
 
 		/// <summary>

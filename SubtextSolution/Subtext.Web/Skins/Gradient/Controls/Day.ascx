@@ -3,7 +3,7 @@
 		<div class="dayPosts">
 			<asp:HyperLink Runat="server" title="Day Archive" BorderWidth="0" ID="ImageLink" Visible="false"><asp:Literal ID="DateTitle" Runat="server" /></asp:HyperLink>
 
-			<asp:Repeater runat="Server" ID="DayList" OnItemCreated="PostCreated">
+			<asp:Repeater runat="Server" Runat="server" ID="DayList" OnItemCreated="PostCreated">
 				<ItemTemplate>
 					<div class="blogpost">
 						<h2 class="postTitle"><asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink Runat="server" ID="TitleUrl" /> <asp:Label ID="postDate" CssClass="postTitleDate" runat="server" Format="MMM dd" /> </h2>

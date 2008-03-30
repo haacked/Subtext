@@ -5,7 +5,7 @@
 	<asp:Literal ID = "DateTitle" Runat = "server" />		  
 </h1>
 
-<asp:Repeater runat="Server" ID="DayList" OnItemCreated="PostCreated">
+<asp:Repeater runat="Server" Runat="server" ID="DayList" OnItemCreated="PostCreated">
 	<HeaderTemplate>
 		<div class = "block">
 	</HeaderTemplate>

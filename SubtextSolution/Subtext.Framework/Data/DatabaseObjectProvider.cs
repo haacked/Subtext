@@ -14,14 +14,9 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
 using System.Data;
-using System.Globalization;
-using System.Web.Security;
-using SubSonic;
-using Subtext.Data;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
@@ -29,129 +24,65 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Data
 {
 	/// <summary>
-	/// Concrete implementation of <see cref="ObjectProvider"/>. This
-	/// provides objects persisted to a SQL Server database.
+	/// Concrete implementation of <see cref="ObjectProvider"/>. This 
+	/// provides objects persisted to a database.  The specific database 
+	/// is configured via a <see cref="DbProvider"/>.
 	/// </summary>
 	public class DatabaseObjectProvider : ObjectProvider
-	{
-		private static int BlogId
-		{
-			get
-			{
-				if (InstallationManager.IsInHostAdminDirectory || Config.CurrentBlog == null)
-					return NullValue.NullInt32;
-				else
-					return Config.CurrentBlog.Id;
-			}
-		}
-
-		public override Entry GetEntry(string entryName, bool activeOnly, bool includeCategories)
-		{
-			using(IDataReader reader = StoredProcedures.GetSingleEntry(null, entryName, activeOnly, null, includeCategories).GetReader())
-			{
-				if (reader.Read())
-					return DataHelper.LoadEntry(reader);
-				return null;
-			}
-		}
-		/// <summary>
-		/// Returns the related links for the entry
-		/// </summary>
-		/// <param name="entryId"></param>
-		/// <returns></returns>
-		public override IList<RelatedLink> GetRelatedLinks(int entryId)
-		{
-			List<RelatedLink> links = new List<RelatedLink>();
-			using(IDataReader reader = StoredProcedures.GetRelatedLinks(BlogId, entryId).GetReader())
-			{
-				int id = DataHelper.ReadInt32(reader, "EntryID");
-				string title = DataHelper.ReadString(reader, "Title");
-				DateTime dateAdded = DataHelper.ReadDate(reader, "DateAdded");
-				string myURL = Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(dateAdded, id.ToString(CultureInfo.InvariantCulture));
-
-				links.Add(new RelatedLink(title, myURL));
-			}
-			return links;
-		}
-
-		/// <summary>
-		/// Gets the top links for the current blog.
-		/// </summary>
-		/// <param name="count">The count.</param>
-		/// <returns></returns>
-		public override IList<RelatedLink> GetTopLinks(int count)
-		{
-			List<RelatedLink> links = new List<RelatedLink>();
-			using (IDataReader reader = StoredProcedures.GetTop10byBlogId(BlogId).GetReader())
-			{
-				int id = DataHelper.ReadInt32(reader, "EntryID");
-				string title = DataHelper.ReadString(reader, "Title");
-				DateTime dateAdded = DataHelper.ReadDate(reader, "DateAdded");
-				string myURL = Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(dateAdded, id.ToString(CultureInfo.InvariantCulture));
-
-				links.Add(new RelatedLink(title, myURL));
-			}
-			return links;
-		}
-		
+	{	
 		#region Host
 		/// <summary>
 		/// Returns the <see cref="HostInfo"/> for the Subtext installation.
 		/// </summary>
 		/// <returns>A <see cref="HostInfo"/> instance.</returns>
-		public override void LoadHostInfo(HostInfo info)
+		public override HostInfo LoadHostInfo(HostInfo hostInfo)
 		{
-			using (IDataReader reader = StoredProcedures.GetHost().GetReader())
+			using(IDataReader reader = DbProvider.Instance().GetHost())
 			{
-				if (reader.Read())
+				if(reader.Read())
 				{
-					DataHelper.LoadHost(reader, info);
+					DataHelper.LoadHost(reader, hostInfo);
+					reader.Close();
+					return hostInfo;
 				}
+				reader.Close();
 			}
+			return null;
 		}
 
 		/// <summary>
-		/// Updates the <see cref="HostInfo"/> instance.  If the host record is not in the
+		/// Updates the <see cref="HostInfo"/> instance.  If the host record is not in the 
 		/// database, one is created. There should only be one host record.
 		/// </summary>
-		/// <param name="owner">The username of the host admin.</param>
-		/// <param name="info">The info.</param>
-		public override void CreateHost(MembershipUser owner, HostInfo info)
+		/// <param name="host">The host information.</param>
+		public override bool UpdateHost(HostInfo host)
 		{
-			using (IDataReader reader = StoredProcedures.CreateHost((Guid)owner.ProviderUserKey).GetReader())
-			{
-				if (reader.Read())
-				{
-					DataHelper.LoadHost(reader, info);
-				}
-			}
+			return DbProvider.Instance().UpdateHost(host);
 		}
 
 		#endregion Host
 
 		#region Blogs
 		/// <summary>
-		/// Gets a pageable <see cref="IList{T}"/> of <see cref="BlogInfo"/> instances.
+		/// Gets a pageable <see cref="IList"/> of <see cref="BlogInfo"/> instances.
 		/// </summary>
 		/// <param name="host">The host filter. Set to null to return all blogs.</param>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="flags"></param>
 		/// <returns></returns>
-		/// <param name="flags"></param>
-		public override PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
+        /// <param name="flags"></param>
+        public override PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags)
 		{
-			using (IDataReader reader = StoredProcedures.GetPageableBlogs(pageIndex, pageSize, host, (int) flags).GetReader())
+			using(IDataReader reader = DbProvider.Instance().GetPagedBlogs(host, pageIndex, pageSize, flags))
 			{
-				PagedCollection<BlogInfo> pec = new PagedCollection<BlogInfo>();
-				while (reader.Read())
+                PagedCollection<BlogInfo> pec = new PagedCollection<BlogInfo>();
+				while(reader.Read())
 				{
-					pec.Add(DataHelper.LoadBlog(reader));
+					pec.Add(DataHelper.LoadConfigData(reader));
 				}
 				reader.NextResult();
 				pec.MaxItems = DataHelper.GetMaxItems(reader);
@@ -166,25 +97,38 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override BlogInfo GetBlogById(int blogId)
 		{
-			using (IDataReader reader = StoredProcedures.GetBlogById(blogId).GetReader())
+			using(IDataReader reader = DbProvider.Instance().GetBlogById(blogId))
 			{
-				if (reader.Read())
+				if(reader.Read())
 				{
-					BlogInfo info = DataHelper.LoadBlog(reader);
+					BlogInfo info = DataHelper.LoadConfigData(reader);
 					return info;
 				}
 			}
 			return null;
 		}
 
+		public override BlogAlias GetBlogAliasById(int aliasId)
+		{
+			BlogAlias alias = null;
+			using (IDataReader reader = DbProvider.Instance().GetBlogAliasById(aliasId))
+			{
+				if (reader.Read())
+				{
+					alias = DataHelper.LoadBlogAlias(reader);
+				}
+				reader.Close();
+			}
+			return alias;
+		}
 		public override BlogInfo GetBlogByDomainAlias(string host, string subfolder, bool strict)
 		{
 			BlogInfo info = null;
-			using (IDataReader reader = StoredProcedures.GetBlogByDomainAlias(host, subfolder, strict).GetReader())
+			using (IDataReader reader = DbProvider.Instance().GetBlogByDomainAlias(host, subfolder, strict))
 			{	
 				if (reader.Read())
 				{
-					info = DataHelper.LoadBlog(reader);
+					info = DataHelper.LoadConfigData(reader);
 				}
 				reader.Close();
 			}
@@ -193,7 +137,7 @@ namespace Subtext.Framework.Data
 
 		public override PagedCollection<BlogAlias> GetPagedBlogDomainAlias(BlogInfo blog, int pageIndex, int pageSize)
 		{
-			IDataReader reader = StoredProcedures.GetPageableDomainAliases(pageIndex, pageSize, blog.Id).GetReader();
+			IDataReader reader = DbProvider.Instance().GetPagedBlogDomainAliases(blog.Id, pageIndex, pageSize);
 			try
 			{
 				PagedCollection<BlogAlias> pec = new PagedCollection<BlogAlias>();
@@ -224,7 +168,7 @@ namespace Subtext.Framework.Data
 		public override BlogGroup GetBlogGroup(int id, bool activeOnly)
 		{
 			BlogGroup group;
-			using (IDataReader reader = StoredProcedures.GetBlogGroup(id, activeOnly).GetReader())
+			using (IDataReader reader = DbProvider.Instance().GetBlogGroup(id, activeOnly))
 			{
 				if (!reader.Read())
 					return null;
@@ -236,7 +180,7 @@ namespace Subtext.Framework.Data
 			{
 				//TODO: Make this more efficient.
 				IPagedCollection<BlogInfo> blogs =
-					BlogInfo.GetBlogs(0, int.MaxValue, activeOnly ? ConfigurationFlags.IsActive : ConfigurationFlags.None);
+					BlogInfo.GetBlogs(0, int.MaxValue, activeOnly ? ConfigurationFlag.IsActive : ConfigurationFlag.None);
 				group.Blogs = new List<BlogInfo>();
 				foreach (BlogInfo blog in blogs)
 				{
@@ -254,7 +198,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override IList<BlogGroup> ListBlogGroups(bool activeOnly)
 		{
-			using(IDataReader reader = StoredProcedures.ListBlogGroups(activeOnly).GetReader())
+			using(IDataReader reader = DbProvider.Instance().ListBlogGroups(activeOnly))
 			{
 				List<BlogGroup> groups = new List<BlogGroup>();
 				while(reader.Read())
@@ -266,6 +210,8 @@ namespace Subtext.Framework.Data
 		}
 		#endregion
 
+		#region Entries
+
 		#region Paged Posts
 
 		/// <summary>
@@ -273,33 +219,28 @@ namespace Subtext.Framework.Data
 		/// This is used in the admin section.
 		/// </summary>
 		/// <param name="postType">Type of the post.</param>
-		/// <param name="categoryId">The category id filter. Pass in NullValue.NullInt32 to not filter by a category ID</param>
+		/// <param name="categoryID">The category ID.</param>
 		/// <param name="pageIndex">Index of the page.</param>
-		/// <param name="pageSize">Number of records to return per page.</param>
+		/// <param name="pageSize">Size of the page.</param>
 		/// <returns></returns>
-		public override IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryId, int pageIndex, int pageSize)
-		{	
-			StoredProcedure proc;
-			if (categoryId > 0)
-				proc = StoredProcedures.GetPageableEntriesByCategoryID(BlogId, categoryId, pageIndex, pageSize, (int)postType);
-			else
-				proc = StoredProcedures.GetPageableEntries(BlogId, pageIndex, pageSize, (int)postType);
-
-			return GetPagedEntries(proc);
-		}
-
-		private static IPagedCollection<Entry> GetPagedEntries(StoredProcedure proc)
+        public override IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize)
 		{
-			using(IDataReader reader = proc.GetReader())
+			IDataReader reader = DbProvider.Instance().GetPagedEntries(postType, categoryID, pageIndex, pageSize);
+			try
 			{
-				PagedCollection<Entry> pec = new PagedCollection<Entry>();
-				while (reader.Read())
+                PagedCollection<Entry> pec = new PagedCollection<Entry>();
+				while(reader.Read())
 				{
 					pec.Add(DataHelper.LoadEntryStatsView(reader));
 				}
 				reader.NextResult();
 				pec.MaxItems = DataHelper.GetMaxItems(reader);
 				return pec;
+				
+			}
+			finally
+			{
+				reader.Close();
 			}
 		}
 
@@ -312,49 +253,38 @@ namespace Subtext.Framework.Data
 		/// <param name="excludeStatusMask">A flag for the statuses to exclude.</param>
 		/// <param name="type">The type of feedback to return.</param>
 		/// <returns></returns>
-		public override IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlags status, FeedbackStatusFlags excludeStatusMask, FeedbackType type)
+        public override IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackStatusFlag excludeStatusMask, FeedbackType type)
 		{
-			int? feedbackType = (int?)type;
-			if (type == FeedbackType.None)
-				feedbackType = null;
-
-			using (IDataReader reader = StoredProcedures.GetPageableFeedback(BlogId, pageIndex, pageSize, (int)status, (int)excludeStatusMask, feedbackType).GetReader())
+			IDataReader reader = DbProvider.Instance().GetPagedFeedback(pageIndex, pageSize, status, excludeStatusMask, type);
+			IPagedCollection<FeedbackItem> pec = new PagedCollection<FeedbackItem>();
+			while(reader.Read())
 			{
-				IPagedCollection<FeedbackItem> pec = new PagedCollection<FeedbackItem>();
-				while (reader.Read())
-				{
-					pec.Add(DataHelper.LoadFeedbackItem(reader));
-				}
-				reader.NextResult();
-				pec.MaxItems = DataHelper.GetMaxItems(reader);
-
-				return pec;
+				pec.Add(DataHelper.LoadFeedbackItem(reader));
 			}
+			reader.NextResult();
+			pec.MaxItems = DataHelper.GetMaxItems(reader);
+			return pec;
 		}
 
 		#endregion
 
 		#region EntryDays
 
-		/// <summary>
-		/// Gets the entries for the day.
-		/// </summary>
-		/// <param name="date">The date.</param>
-		/// <returns></returns>
-		public override EntryDay GetEntryDay(DateTime date)
+		public override EntryDay GetEntryDay(DateTime dt)
 		{
-			using(IDataReader reader = StoredProcedures.GetSingleDay(date, BlogId).GetReader())
+			IDataReader reader = DbProvider.Instance().GetEntryDayReader(dt);
+			try
 			{
-				EntryDay ed = new EntryDay(date);
-				while (reader.Read())
+				EntryDay ed = new EntryDay(dt);
+				while(reader.Read())
 				{
-                    DateTime syndicatedDate = DataHelper.ReadDate(reader, "DateSyndicated");
-                    if (syndicatedDate == NullValue.NullDateTime || syndicatedDate <= DateTime.Now)
-                    {
-                        ed.Add(DataHelper.LoadEntry(reader));
-                    }
+					ed.Add(DataHelper.LoadEntry(reader));
 				}
 				return ed;
+			}
+			finally
+			{
+				reader.Close();
 			}
 		}
 
@@ -362,29 +292,47 @@ namespace Subtext.Framework.Data
 		/// Returns blog posts that meet the criteria specified in the <see cref="PostConfig"/> flags.
 		/// </summary>
 		/// <param name="itemCount">Item count.</param>
-		/// <param name="postConfiguration">Pc.</param>
+		/// <param name="pc">Pc.</param>
 		/// <returns></returns>
-		public override ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig postConfiguration)
+        public override ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc)
 		{
-			using(IDataReader reader = StoredProcedures.GetConditionalEntries(itemCount, (int)PostType.BlogPost, (int)postConfiguration, BlogId, false).GetReader())
+			IDataReader reader = DbProvider.Instance().GetConditionalEntries(itemCount, PostType.BlogPost, pc, false);
+			try
 			{
-				ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader, true);
+                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
 				return edc;
+			}
+			finally
+			{
+				reader.Close();
 			}
 		}
 
-		/// <summary>
-		/// Gets the posts by category ID.
-		/// </summary>
-		/// <param name="itemCount">The item count.</param>
-		/// <param name="categoryId">The cat ID.</param>
-		/// <returns></returns>
-		public override ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int categoryId)
+        public override ICollection<EntryDay> GetPostsByMonth(int month, int year)
 		{
-			using (IDataReader reader = StoredProcedures.GetPostsByCategoryID(itemCount, DataHelper.CheckNull(categoryId), true, BlogId).GetReader())
+			IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month,year);
+			try
 			{
-				ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader, true);
+                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
 				return edc;
+			}
+			finally
+			{
+				reader.Close();
+			}
+		}
+
+        public override ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID)
+		{
+			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(itemCount, catID, true);
+			try
+			{
+                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
+				return edc;
+			}
+			finally
+			{
+				reader.Close();
 			}
 		}
 
@@ -395,17 +343,16 @@ namespace Subtext.Framework.Data
 		/// Returns the previous and next entry to the specified entry.
 		/// </summary>
 		/// <param name="entryId"></param>
-		/// <param name="postType"></param>
 		/// <returns></returns>
 		/// <param name="postType"></param>
 		public override IList<Entry> GetPreviousAndNextEntries(int entryId, PostType postType)
 		{
-			using (IDataReader reader = StoredProcedures.GetEntryPreviousNext(entryId, (int)postType, BlogId).GetReader())
+			using(IDataReader reader = DbProvider.Instance().GetPreviousNext(entryId))
 			{
 				return DataHelper.LoadEntryCollectionFromDataReader(reader);
 			}
 		}
-
+		
 		/// <summary>
 		/// Gets the entries that meet the specific <see cref="PostType"/> 
 		/// and the <see cref="PostConfig"/> flags.
@@ -415,15 +362,15 @@ namespace Subtext.Framework.Data
 		/// </remarks>
 		/// <param name="itemCount">Item count.</param>
 		/// <param name="postType">The type of post to retrieve.</param>
-		/// <param name="postConfiguration">Post configuration options.</param>
+		/// <param name="postConfig">Post configuration options.</param>
 		/// <param name="includeCategories">Whether or not to include categories</param>
 		/// <returns></returns>
-		public override IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfiguration, bool includeCategories)
+		public override IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories)
 		{
-			using (IDataReader reader = StoredProcedures.GetConditionalEntries(itemCount, (int)postType, (int)postConfiguration, BlogId, includeCategories).GetReader())
-			{
-				return DataHelper.LoadEntryCollectionFromDataReader(reader);
-			}
+            using(IDataReader reader = DbProvider.Instance().GetConditionalEntries(itemCount, postType, postConfig, includeCategories))
+            {
+                return DataHelper.LoadEntryCollectionFromDataReader(reader);
+            }
 		}
 
 		/// <summary>
@@ -433,10 +380,9 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override IList<FeedbackItem> GetFeedbackForEntry(Entry parentEntry)
 		{
-			using(IDataReader reader = StoredProcedures.GetFeedbackCollection(parentEntry.Id).GetReader())
+			using (IDataReader reader = DbProvider.Instance().GetFeedBackItems(parentEntry.Id))
 			{
 				List<FeedbackItem> ec = new List<FeedbackItem>();
-
 				while (reader.Read())
 				{
 					//Don't build links.
@@ -454,9 +400,9 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override FeedbackItem GetFeedback(int id)
 		{
-			using (IDataReader reader = StoredProcedures.GetFeedback(id).GetReader())
+			using(IDataReader reader = DbProvider.Instance().GetFeedBackItem(id))
 			{
-				if (reader.Read())
+				if(reader.Read())
 				{
 					return DataHelper.LoadFeedbackItem(reader);
 				}
@@ -473,65 +419,45 @@ namespace Subtext.Framework.Data
 		/// <param name="deleted">The deleted.</param>
 		public override void GetFeedbackCounts(out int approved, out int needsModeration, out int flaggedAsSpam, out int deleted)
 		{
-			StoredProcedure proc = StoredProcedures.GetFeedbackCountsByStatus(BlogId, 0, 0, 0, 0);
-			proc.Execute();
-			List<object> outputs = proc.OutputValues;
-
-			approved = (int)outputs[0];
-			needsModeration = (int)outputs[1];
-			flaggedAsSpam = (int)outputs[2];
-			deleted = (int)outputs[3];
+			DbProvider.Instance().GetFeedbackCounts(out approved, out needsModeration, out flaggedAsSpam, out deleted);
 		}
 
-		public override IList<Entry> GetPostCollectionByMonth(int month, int year)
+        public override IList<Entry> GetPostCollectionByMonth(int month, int year)
 		{
-			using (IDataReader reader = StoredProcedures.GetPostsByMonth(month, year, BlogId).GetReader())
-			{
-				return DataHelper.LoadEntryCollectionFromDataReader(reader);
-			}
+            using(IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month, year))
+            {
+                return DataHelper.LoadEntryCollectionFromDataReader(reader);
+            }
 		}
 
 		public override IList<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly)
 		{
-			DateTime min = start;
-			DateTime max = stop;
+            DateTime min = start;
+            DateTime max = stop;
+		    
+		    if(stop < start)
+		    {
+		        min = stop;
+		        max = start;
+		    }
 
-			if (stop < start)
-			{
-				min = stop;
-				max = start;
-			}
-
-			using (IDataReader reader = StoredProcedures.GetEntriesByDayRange(min, max, (int)postType, activeOnly, BlogId).GetReader())
-			{
-				return DataHelper.LoadEntryCollectionFromDataReader(reader);
-			}
+            using(IDataReader reader = DbProvider.Instance().GetEntriesByDateRange(min, max, postType, activeOnly))
+            {
+                return DataHelper.LoadEntryCollectionFromDataReader(reader);
+            }
 		}
 
-		/// <summary>
-		/// Gets the entries by category.
-		/// </summary>
-		/// <param name="itemCount">The item count.</param>
-		/// <param name="categoryId">The category id.</param>
-		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
-		/// <returns></returns>
-		public override IList<Entry> GetEntriesByCategory(int itemCount, int categoryId, bool activeOnly)
+		public override IList<Entry> GetEntriesByCategory(int itemCount, int catID, bool activeOnly)
 		{
-			using (IDataReader reader = StoredProcedures.GetPostsByCategoryID(itemCount, categoryId, activeOnly, BlogId).GetReader())
-			{
-				return DataHelper.LoadEntryCollectionFromDataReader(reader);
-			}
+            using(IDataReader reader = DbProvider.Instance().GetEntriesByCategory(itemCount, catID, activeOnly))
+            {
+                return DataHelper.LoadEntryCollectionFromDataReader(reader);
+            }
 		}
 
-		/// <summary>
-		/// Gets the entries by tag.
-		/// </summary>
-		/// <param name="itemCount">The item count.</param>
-		/// <param name="tagName">Name of the tag.</param>
-		/// <returns></returns>
         public override IList<Entry> GetEntriesByTag(int itemCount, string tagName)
         {
-			using (IDataReader reader = StoredProcedures.GetPostsByTag(itemCount, tagName, BlogId).GetReader())
+            using (IDataReader reader = DbProvider.Instance().GetEntriesByTag(itemCount, tagName))
             {
                 return DataHelper.LoadEntryCollectionFromDataReader(reader);
             }
@@ -548,7 +474,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override Entry GetEntry(int id, bool includeCategories)
 		{
-			using (IDataReader reader = StoredProcedures.GetSingleEntry(id, null, true, null, includeCategories).GetReader())
+			using (IDataReader reader = DbProvider.Instance().GetEntryReader(id, includeCategories))
 			{
 				if (reader.Read())
 				{
@@ -566,34 +492,53 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override Entry GetCommentByChecksumHash(string checksumHash)
 		{
-			using (IDataReader reader = StoredProcedures.GetCommentByChecksumHash(checksumHash, BlogId).GetReader())
-			{
-				if (reader.Read())
-				{
-					return DataHelper.LoadEntry(reader);
-				}
-				return null;
-			}
+            using (IDataReader reader = DbProvider.Instance().GetCommentByChecksumHash(checksumHash))
+            {
+                if (reader.Read())
+                {
+                    return DataHelper.LoadEntry(reader);
+                }
+                return null;
+            }
 		}
 
-		/// <summary>
-		/// Returns an <see cref="Entry" /> with the specified id.
-		/// </summary>
-		/// <param name="id">Id of the entry</param>
-		/// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
-		/// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
-		/// <returns></returns>
-		public override Entry GetEntry(int id, bool activeOnly, bool includeCategories)
+        /// <summary>
+        /// Returns an <see cref="Entry" /> with the specified id.
+        /// </summary>
+        /// <param name="id">Id of the entry</param>
+        /// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
+        /// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
+        /// <returns></returns>
+        public override Entry GetEntry(int id, bool activeOnly, bool includeCategories)
 		{
-			using (IDataReader reader = StoredProcedures.GetSingleEntry(id, null, activeOnly, BlogId, includeCategories).GetReader())
-			{
-				if (reader.Read())
-				{
-					return DataHelper.LoadEntryWithCategories(reader);
-				}
-				return null;
-			}
+            using (IDataReader reader = DbProvider.Instance().GetEntryReader(id, activeOnly, includeCategories))
+            {
+                if (reader.Read())
+                {
+                    return DataHelper.LoadEntryWithCategories(reader);
+                }
+                return null;
+            }
 		}
+
+        /// <summary>
+        /// Returns an <see cref="Entry" /> with the specified entry name.
+        /// </summary>
+        /// <param name="entryName">Url friendly entry name.</param>
+        /// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
+        /// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
+        /// <returns></returns>
+        public override Entry GetEntry(string entryName, bool activeOnly, bool includeCategories)
+		{
+            using (IDataReader reader = DbProvider.Instance().GetEntryReader(entryName, activeOnly, includeCategories))
+            {
+                if (reader.Read())
+                {
+                    return DataHelper.LoadEntryWithCategories(reader);
+                }
+                return null;
+            }
+		}		
 		#endregion
 
 		#region Delete
@@ -603,9 +548,9 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="entryId">The entry id.</param>
 		/// <returns></returns>
-		public override void Delete(int entryId)
+		public override bool Delete(int entryId)
 		{
-			StoredProcedures.DeletePost(entryId).Execute();
+			return DbProvider.Instance().DeleteEntry(entryId);
 		}
 
 		#endregion
@@ -615,58 +560,17 @@ namespace Subtext.Framework.Data
 		/// <param name="id">The id.</param>
 		public override void DestroyFeedback(int id)
 		{
-			StoredProcedures.DeleteFeedback(id).Execute();
+			DbProvider.Instance().DestroyFeedback(id);
 		}
 
-		/// <summary>
-		/// Destroys the feedback with the given status.
-		/// </summary>
-		/// <param name="status">The status.</param>
-		public override void DestroyFeedback(FeedbackStatusFlags status)
+		public override void DestroyFeedback(FeedbackStatusFlag status)
 		{
-			StoredProcedures.DeleteFeedbackByStatus(BlogId, (int)status).Execute();
+			DbProvider.Instance().DestroyFeedback(status);
 		}
-
-		/// <summary>
-		/// Creates a feedback record and returs the id of the newly created item.
-		/// </summary>
-		/// <param name="feedbackItem"></param>
-		/// <returns></returns>
-		public override int CreateFeedback(FeedbackItem feedbackItem)
+		
+		public override int Create(FeedbackItem feedbackItem)
 		{
-			if (feedbackItem == null)
-				throw new ArgumentNullException("feedbackItem", Resources.ArgumentNull_Generic);
-
-			string ipAddress = null;
-			if (feedbackItem.IpAddress != null)
-				ipAddress = feedbackItem.IpAddress.ToString();
-
-			string sourceUrl = null;
-			if (feedbackItem.SourceUrl != null)
-				sourceUrl = feedbackItem.SourceUrl.ToString();
-
-			StoredProcedure proc = StoredProcedures.InsertFeedback(feedbackItem.Title
-											, DataHelper.CheckNull(feedbackItem.Body)
-			                                , BlogId
-											, DataHelper.CheckNull(feedbackItem.EntryId)
-											, DataHelper.CheckNull(feedbackItem.Author)
-			                                , feedbackItem.IsBlogAuthor
-											, DataHelper.CheckNull(feedbackItem.Email)
-			                                , sourceUrl
-			                                , (int) feedbackItem.FeedbackType
-			                                , (int) feedbackItem.Status
-			                                , feedbackItem.CreatedViaCommentAPI
-			                                , feedbackItem.Referrer
-											, ipAddress
-			                                , feedbackItem.UserAgent
-			                                , feedbackItem.ChecksumHash
-			                                , feedbackItem.DateCreated
-			                                , feedbackItem.DateModified
-			                                , 0);
-
-			proc.Execute();
-			return (int) proc.OutputValues[0];
-
+			return DbProvider.Instance().InsertFeedback(feedbackItem);
 		}
 
 		#region Create Entry
@@ -677,23 +581,26 @@ namespace Subtext.Framework.Data
 		/// <param name="entry">Entry.</param>
 		/// <param name="categoryIds">Category I ds.</param>
 		/// <returns></returns>
-		public override int CreateEntry(Entry entry, int[] categoryIds)
+		public override int Create(Entry entry, int[] categoryIds)
 		{
-			FormatEntry(entry, true);
-
-			entry.Id = InsertEntry(entry);
-
-			if (categoryIds != null)
+			if(!FormatEntry(entry,true))
 			{
-				SetEntryCategoryList(entry.Id, categoryIds);
+				throw new BlogFailedPostException("Failed post exception");
+			}		
+
+		    entry.Id = DbProvider.Instance().InsertEntry(entry);	
+	
+			if(categoryIds != null)
+			{
+				DbProvider.Instance().SetEntryCategoryList(entry.Id, categoryIds);
 			}
 
-			if (entry.Id > -1 && Config.Settings.Tracking.UseTrackingServices)
+			if(entry.Id > -1 && Config.Settings.Tracking.UseTrackingServices)
 			{
 				entry.Url = Config.CurrentBlog.UrlFormats.EntryUrl(entry);
 			}
 
-			if (entry.Id > -1)
+			if(entry.Id > -1)
 			{
 				Config.CurrentBlog.LastUpdated = entry.DateCreated;
 			}
@@ -701,36 +608,6 @@ namespace Subtext.Framework.Data
 			return entry.Id;
 		}
 
-		/// <summary>
-		/// Adds a new entry to the blog.  Whether the entry be a blog post, article,
-		/// </summary>
-		/// <remarks>
-		/// The method <see cref="SetEntryCategoryList" /> is used to save the entry's categories.
-		/// </remarks>
-		/// <param name="entry">Entry.</param>
-		/// <returns></returns>
-		public override int InsertEntry(Entry entry)
-		{
-			if (entry == null)
-				throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
-
-			MembershipUser author = Membership.GetUser();
-			Guid authorId = (Guid)(author ?? Config.CurrentBlog.Owner).ProviderUserKey;
-
-			StoredProcedure proc = StoredProcedures.InsertEntry(entry.Title
-			                             , authorId
-			                             , entry.Body
-			                             , (int)entry.PostType
-			                             , DataHelper.CheckNull(entry.Description)
-			                             , BlogId
-			                             , entry.DateCreated
-			                             , (int) entry.PostConfig
-			                             , StringHelper.ReturnNullForEmpty(entry.EntryName)
-										 , DataHelper.CheckNull(entry.DateSyndicated)
-			                             , 0);
-			proc.Execute();
-			return (int) proc.OutputValues[0];
-		}
 		#endregion
 
 		#region Update
@@ -740,43 +617,37 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="feedbackItem">The feedback item.</param>
 		/// <returns></returns>
-		public override void Update(FeedbackItem feedbackItem)
+		public override bool Update(FeedbackItem feedbackItem)
 		{
-			string sourceUrl = null;
-			if (feedbackItem.SourceUrl != null)
-				sourceUrl = feedbackItem.SourceUrl.ToString();
-
-			StoredProcedures.UpdateFeedback(feedbackItem.Id
-			                                , feedbackItem.Title
-			                                , DataHelper.CheckNull(feedbackItem.Body)
-			                                , DataHelper.CheckNull(feedbackItem.Author)
-			                                , DataHelper.CheckNull(feedbackItem.Email)
-			                                , sourceUrl
-			                                , (int) feedbackItem.Status
-			                                , feedbackItem.ChecksumHash
-			                                , Config.CurrentBlog.TimeZone.Now).Execute();
+			return DbProvider.Instance().UpdateFeedback(feedbackItem);
 		}
-
-		/// <summary>
-		/// Saves changes to the specified entry attaching the specified categories.
-		/// </summary>
-		/// <param name="entry">Entry.</param>
-		/// <param name="categoryIds">Category Ids.</param>
-		/// <returns></returns>
-		public override void Update(Entry entry, params int[] categoryIds)
+		
+	    /// <summary>
+        /// Saves changes to the specified entry attaching the specified categories.
+        /// </summary>
+        /// <param name="entry">Entry.</param>
+        /// <param name="categoryIds">Category Ids.</param>
+        /// <returns></returns>
+	    public override bool Update(Entry entry, params int[] categoryIds)
 		{
-			FormatEntry(entry, false);
-
-			UpdateEntry(entry);
-
-			if (categoryIds != null && categoryIds.Length > 0)
+			if(!FormatEntry(entry, false))
 			{
-				SetEntryCategoryList(entry.Id, categoryIds);
+				throw new BlogFailedPostException("Failed post exception");
 			}
 
-			if (Config.Settings.Tracking.UseTrackingServices)
+			if(!DbProvider.Instance().UpdateEntry(entry))
 			{
-				if (entry.PostType == PostType.BlogPost)
+				return false;
+			}
+	
+			if(categoryIds != null && categoryIds.Length > 0)
+			{
+				DbProvider.Instance().SetEntryCategoryList(entry.Id,categoryIds);
+			}
+		
+			if(Config.Settings.Tracking.UseTrackingServices)
+			{
+				if(entry.PostType == PostType.BlogPost)
 				{
 					entry.Url = Config.CurrentBlog.UrlFormats.EntryUrl(entry);
 				}
@@ -785,122 +656,92 @@ namespace Subtext.Framework.Data
 					entry.Url = Config.CurrentBlog.UrlFormats.ArticleUrl(entry);
 				}
 
-				if (entry.Id > -1)
+				if(entry.Id > -1)
 				{
 					Config.CurrentBlog.LastUpdated = entry.DateModified;
 				}
 			}
-		}
-
-		/// <summary>
-		/// Updates the specified entry in the database.
-		/// </summary>
-		/// <remarks>
-		/// The method <see cref="SetEntryCategoryList" /> is used to save the entry's categories.
-		/// </remarks>
-		/// <param name="entry">Entry.</param>
-		/// <returns></returns>
-		private static void UpdateEntry(Entry entry)
-		{
-			MembershipUser author = Membership.GetUser();
-			Guid authorId = (Guid)(author ?? Config.CurrentBlog.Owner).ProviderUserKey;
-
-			StoredProcedures.UpdateEntry(entry.Id
-			                             , entry.Title
-			                             , entry.Body
-			                             , (int) entry.PostType
-			                             , authorId
-			                             , DataHelper.CheckNull(entry.Description)
-			                             , entry.DateModified
-			                             , (int) entry.PostConfig
-			                             , DataHelper.CheckNull(entry.EntryName)
-			                             , DataHelper.CheckNull(entry.DateSyndicated), BlogId).Execute();
+			return true;
 		}
 
 		#endregion
 
 		#region SetCategoriesList
 
-		public override void SetEntryCategoryList(int entryId, int[] categoryIds)
+		public override bool SetEntryCategoryList(int entryId, int[] categoryIds)
 		{
-			if (categoryIds == null || categoryIds.Length == 0)
-				return;
-
-			string[] cats = new string[categoryIds.Length];
-			for (int i = 0; i < categoryIds.Length; i++)
-			{
-				cats[i] = categoryIds[i].ToString(CultureInfo.InvariantCulture);
-			}
-			string catList = string.Join(",", cats);
-
-			StoredProcedures.InsertLinkCategoryList(catList, DataHelper.CheckNull(entryId), BlogId).Execute();
+			return DbProvider.Instance().SetEntryCategoryList(entryId, categoryIds);
 		}
 
 		#endregion
 
         #region SetTagList
 
-		/// <summary>
-		/// Sets the tags for the entry.
-		/// </summary>
-		/// <param name="entryId"></param>
-		/// <param name="tags"></param>
-        public override void SetEntryTagList(int entryId, IList<string> tags)
+        public override bool SetEntryTagList(int entryId, List<string> tags)
         {
-			if (tags == null)
-				throw new ArgumentNullException("tags", "Tags cannot be null.");
-
-        	string[] tagNames = new string[tags.Count];
-        	tags.CopyTo(tagNames, 0);
-			string tagList = string.Join(",", tagNames);
-
-			StoredProcedures.InsertEntryTagList(DataHelper.CheckNull(entryId), BlogId, tagList).Execute();
+            return DbProvider.Instance().SetEntryTagList(entryId, tags);
         }
 
         #endregion
 
-		private static void FormatEntry(Entry e, bool UseKeyWords)
+        #region Format Helper
+
+        private static bool FormatEntry(Entry e, bool UseKeyWords)
 		{
 			//Do this before we validate the text
-			if (UseKeyWords)
+			if(UseKeyWords)
 			{
-				Keywords.Format(e);
+				KeyWords.Format(e);
 			}
 
 			//TODO: Make this a configuration option.
 			e.Body = Transform.EmoticonTransforms(e.Body);
 
-			// Exceptions are thrown if illegal content is found
-			HtmlHelper.HasIllegalContent(e.Body);
-			HtmlHelper.HasIllegalContent(e.Title);
-			HtmlHelper.HasIllegalContent(e.Description);
-			HtmlHelper.HasIllegalContent(e.Url);
-			HtmlHelper.ConvertHtmlToXHtml(e);
+			if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body))
+			{
+				throw new IllegalPostCharactersException("Illegal Characters Found");
+			}
+
+			//Never allow scripts in the title.
+			if(HtmlHelper.HasIllegalContent(e.Title))
+			{
+				throw new IllegalPostCharactersException("Illegal Characters Found");
+			}
+
+			if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Description))
+			{
+				throw new IllegalPostCharactersException("Illegal Characters Found");
+			}
+
+			//never allow scripts in the url.
+			if(HtmlHelper.HasIllegalContent(e.Url))
+			{
+				throw new IllegalPostCharactersException("Illegal Characters Found");
+			}
+
+			if(!HtmlHelper.ConvertHtmlToXHtml(e))
+			{
+				return false;
+			}
+
+			return true;
 		}
+
+		#endregion
+
+		#endregion
 
 		#region Links/Categories
 
 		#region Paged Links
 
-		/// <summary>
-		/// Gets the paged links.
-		/// </summary>
-		/// <param name="categoryId">The category type id.</param>
-		/// <param name="pageIndex">Index of the page.</param>
-		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDescending">if set to <c>true</c> [sort descending].</param>
-		/// <returns></returns>
-		public override IPagedCollection<Link> GetPagedLinks(int categoryId, int pageIndex, int pageSize, bool sortDescending)
+        public override IPagedCollection<Link> GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending)
 		{
-			int? categoryFilter = categoryId;
-
-			if (categoryId < 0)
-				categoryFilter = null;
-
-			using(IDataReader reader = StoredProcedures.GetPageableLinks(BlogId, categoryFilter, pageIndex, pageSize).GetReader())
+			IDataReader reader = DbProvider.Instance().GetPagedLinks(categoryTypeID, pageIndex, pageSize, sortDescending);
+			try
 			{
-				IPagedCollection<Link> plc = new PagedCollection<Link>();
-				while (reader.Read())
+                IPagedCollection<Link> plc = new PagedCollection<Link>();
+				while(reader.Read())
 				{
 					plc.Add(DataHelper.LoadLink(reader));
 				}
@@ -908,93 +749,100 @@ namespace Subtext.Framework.Data
 				plc.MaxItems = DataHelper.GetMaxItems(reader);
 				return plc;
 			}
+			finally
+			{
+				reader.Close();
+			}
+
 		}
 
 		#endregion
 
 		#region LinkCollection
 
-		public override ICollection<Link> GetLinkCollectionByPostID(int postId)
+		public override ICollection<Link> GetLinkCollectionByPostID(int PostID)
 		{
-			using(IDataReader reader = StoredProcedures.GetLinkCollectionByPostID(DataHelper.CheckNull(postId), BlogId).GetReader())
+			IDataReader reader = DbProvider.Instance().GetLinkCollectionByPostID(PostID);
+			try
 			{
-				ICollection<Link> links = new List<Link>();
-				while (reader.Read())
+				ICollection<Link> lc = new List<Link>();
+				while(reader.Read())
 				{
-					links.Add(DataHelper.LoadLink(reader));
+					lc.Add(DataHelper.LoadLink(reader));
 				}
-				return links;
+				return lc;
+			}
+			finally
+			{
+				reader.Close();
 			}
 		}
 		#endregion
 
 		#region Single Link
 
-		/// <summary>
-		/// Gets the link.
-		/// </summary>
-		/// <param name="linkId">The link ID.</param>
-		/// <returns></returns>
-		public override Link GetLink(int linkId)
+		public override Link GetLink(int linkID)
 		{
-			using(IDataReader reader = StoredProcedures.GetSingleLink(linkId, BlogId).GetReader())
+			IDataReader reader = DbProvider.Instance().GetLinkReader(linkID);
+			try
 			{
 				Link link = null;
-				while (reader.Read())
+				while(reader.Read())
 				{
 					link = DataHelper.LoadLink(reader);
 					break;
 				}
 				return link;
 			}
+			finally
+			{
+				reader.Close();
+			}			
 		}
 
 		#endregion
 
-		#region ICollection<LinkCategory>
+        #region ICollection<LinkCategory>
 
 		/// <summary>
-		/// Gets the categories.
+		/// Gets the categories for the specified category type.
 		/// </summary>
-		/// <param name="categoryType">Type of the cat.</param>
+		/// <param name="catType">Type of the cat.</param>
 		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
 		/// <returns></returns>
-		public override IList<LinkCategory> GetCategories(CategoryType categoryType, bool activeOnly)
+        public override ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly)
 		{
-			using (IDataReader reader = StoredProcedures.GetCategory(null, null, activeOnly, BlogId, (short)categoryType).GetReader())
+			IDataReader reader = DbProvider.Instance().GetCategories(catType, activeOnly);
+            ICollection<LinkCategory> lcc = new List<LinkCategory>();
+			try
 			{
-				IList<LinkCategory> lcc = new List<LinkCategory>();
-				while (reader.Read())
+				while(reader.Read())
 				{
 					lcc.Add(DataHelper.LoadLinkCategory(reader));
 				}
 				return lcc;
 			}
+			finally
+			{
+				reader.Close();
+			}
 		}
 
-		/// <summary>
-		/// Gets the active categories.
-		/// </summary>
-		/// <returns></returns>
-		public override IList<LinkCategory> GetActiveLinkCollections()
+        public override ICollection<LinkCategory> GetActiveCategories()
 		{
-			DataSet ds = StoredProcedures.GetActiveCategoriesWithLinkCollection(BlogId).GetDataSet();
-
-			DataRelation dataRelation = new DataRelation("CategoryID", ds.Tables[0].Columns["CategoryID"], ds.Tables[1].Columns["CategoryID"], false);
-			ds.Relations.Add(dataRelation);
-
-			IList<LinkCategory> linkCategories = new List<LinkCategory>();
-			foreach (DataRow dr in ds.Tables[0].Rows)
+			DataSet ds = DbProvider.Instance().GetActiveCategories();
+            ICollection<LinkCategory> lcc = new List<LinkCategory>();
+			foreach(DataRow dr in ds.Tables[0].Rows)
 			{
-				LinkCategory category = DataHelper.LoadLinkCategory(dr);
-				category.Links = new List<Link>();
-				foreach (DataRow linkDataRow in dr.GetChildRows("CategoryID"))
+				LinkCategory lc = DataHelper.LoadLinkCategory(dr);
+				lc.Links = new List<Link>();
+				foreach(DataRow drLink in dr.GetChildRows("CategoryID"))
 				{
-					category.Links.Add(DataHelper.LoadLink(linkDataRow));
+					lc.Links.Add(DataHelper.LoadLink(drLink));
 				}
-				linkCategories.Add(category);
+				lcc.Add(lc);				
 			}
-			return linkCategories;
+			return lcc;
 		}
 
 		#endregion
@@ -1002,143 +850,75 @@ namespace Subtext.Framework.Data
 		#region LinkCategory
 
 		/// <summary>
-		/// Gets the link category.
+		/// Gets the link category for the specified category id.
 		/// </summary>
 		/// <param name="categoryId">The category id.</param>
 		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
 		/// <returns></returns>
 		public override LinkCategory GetLinkCategory(int categoryId, bool activeOnly)
 		{
-			using (IDataReader reader = StoredProcedures.GetCategory(null, categoryId, activeOnly, BlogId, null).GetReader())
+			using(IDataReader reader = DbProvider.Instance().GetLinkCategory(categoryId, activeOnly))
 			{
-				if (reader.Read())
-				{
-					LinkCategory category = DataHelper.LoadLinkCategory(reader);
-					return category;
-				}
-				return null;
+				return LoadLinkCategoryFromReader(reader);
 			}
 		}
 
 		/// <summary>
-		/// Gets the link category.
+		/// Gets the link category for the specified category name.
 		/// </summary>
-		/// <param name="categoryName">Name of the category.</param>
+		/// <param name="categoryName">The category name.</param>
 		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
 		/// <returns></returns>
 		public override LinkCategory GetLinkCategory(string categoryName, bool activeOnly)
 		{
-			using (IDataReader reader = StoredProcedures.GetCategory(categoryName, null, activeOnly, BlogId, null).GetReader())
+			using(IDataReader reader = DbProvider.Instance().GetLinkCategory(categoryName, activeOnly))
 			{
-				if (reader.Read())
-				{
-					LinkCategory lc = DataHelper.LoadLinkCategory(reader);
-					return lc;
-				}
-				return null;		
+				return LoadLinkCategoryFromReader(reader);
 			}
 		}
 
+		// Expects that the caller will dispose of the reader.
+		private static LinkCategory LoadLinkCategoryFromReader(IDataReader reader)
+		{
+			if (reader.Read())
+			{
+				LinkCategory lc = DataHelper.LoadLinkCategory(reader);
+				return lc;
+			}
+			return null;
+		}
 		#endregion
 
 		#region Edit Links/Categories
 
-		/// <summary>
-		/// Updates the link.
-		/// </summary>
-		/// <param name="link">The link.</param>
-		public override void UpdateLink(Link link)
+		public override bool UpdateLink(Link link)
 		{
-			StoredProcedures.UpdateLink(DataHelper.CheckNull(link.Id)
-				, link.Title
-				, link.Url
-				, DataHelper.CheckNull(link.Rss)
-				, link.IsActive
-				, link.NewWindow
-				, DataHelper.CheckNull(link.CategoryID)
-				, BlogId).Execute();
+			return DbProvider.Instance().UpdateLink(link);
 		}
 
-		/// <summary>
-		/// Creates the link.
-		/// </summary>
-		/// <param name="link">The link.</param>
-		/// <returns></returns>
 		public override int CreateLink(Link link)
 		{
-			if (link == null)
-				throw new ArgumentNullException("link", Resources.ArgumentNull_Generic);
-
-			StoredProcedure proc = StoredProcedures.InsertLink(link.Title
-			                            , link.Url
-			                            , DataHelper.CheckNull(link.Rss)
-			                            , link.IsActive
-			                            , link.NewWindow
-			                            , DataHelper.CheckNull(link.CategoryID)
-			                            , DataHelper.CheckNull(link.PostID)
-										, BlogId
-										, 0);
-			proc.Execute();			
-			return (int)proc.OutputValues[0];
+			return DbProvider.Instance().InsertLink(link);
 		}
 
-		/// <summary>
-		/// Updates the link category.
-		/// </summary>
-		/// <param name="category">The category.</param>
-		/// <returns></returns>
-		public override void UpdateLinkCategory(LinkCategory category)
+		public override bool UpdateLinkCategory(LinkCategory lc)
 		{
-			if (category == null)
-				throw new ArgumentNullException("category", Resources.ArgumentNull_Generic);
-
-			StoredProcedures.UpdateCategory(DataHelper.CheckNull(category.Id)
-				, category.Title
-				, category.IsActive
-				, (short)category.CategoryType
-				, DataHelper.CheckNull(category.Description)
-				, BlogId).Execute();
+			return DbProvider.Instance().UpdateCategory(lc);
+		}
+		
+		public override int CreateLinkCategory(LinkCategory lc)
+		{
+			return DbProvider.Instance().InsertCategory(lc);
 		}
 
-		/// <summary>
-		/// Creates the link category.
-		/// </summary>
-		/// <param name="category">The category.</param>
-		/// <returns></returns>
-		public override int CreateLinkCategory(LinkCategory category)
+		public override bool DeleteLinkCategory(int CategoryID)
 		{
-			if (category == null)
-				throw new ArgumentNullException("category", Resources.ArgumentNull_Generic);
-
-			StoredProcedure proc = StoredProcedures.InsertCategory(category.Title
-			                                                       , category.IsActive
-			                                                       , BlogId
-																   , (short) category.CategoryType
-			                                                       , DataHelper.CheckNull(category.Description)
-																   , 0);
-
-			proc.Execute();
-			return (int)proc.OutputValues[0];
+			return DbProvider.Instance().DeleteCategory(CategoryID);
 		}
 
-		/// <summary>
-		/// Deletes the link category.
-		/// </summary>
-		/// <param name="categoryId">The category ID.</param>
-		/// <returns></returns>
-		public override void DeleteLinkCategory(int categoryId)
+		public override bool DeleteLink(int LinkID)
 		{
-			StoredProcedures.DeleteCategory(DataHelper.CheckNull(categoryId), BlogId).Execute();
-		}
-
-		/// <summary>
-		/// Deletes the link.
-		/// </summary>
-		/// <param name="linkId">The link ID.</param>
-		/// <returns></returns>
-		public override void DeleteLink(int linkId)
-		{
-			StoredProcedures.DeleteLink(linkId, BlogId).Execute();
+			return DbProvider.Instance().DeleteLink(LinkID);
 		}
 
 		#endregion
@@ -1146,58 +926,60 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region Stats
-		/// <summary>
-		/// Gets the paged referrers.
-		/// </summary>
-		/// <param name="pageIndex">Index of the page.</param>
-		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="entryId">The entry id.</param>
-		/// <returns></returns>
-		public override IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId)
-		{
-			using (IDataReader reader = StoredProcedures.GetPageableReferrers(BlogId, DataHelper.CheckNull(entryId), pageIndex, pageSize).GetReader())
-			{
-				return LoadPagedReferrersCollection(reader);
-			}
-		}
 
-		private static IPagedCollection<Referrer> LoadPagedReferrersCollection(IDataReader reader)
+        public override IPagedCollection<ViewStat> GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate)
 		{
-			IPagedCollection<Referrer> prc = new PagedCollection<Referrer>();
-			while (reader.Read())
+			IDataReader reader = DbProvider.Instance().GetPagedViewStats(pageIndex,pageSize,beginDate,endDate);
+			try
 			{
-				prc.Add(DataHelper.LoadReferrer(reader));
-			}
-			reader.NextResult();
-			prc.MaxItems = DataHelper.GetMaxItems(reader);
-			return prc;
-		}
-
-		/// <summary>
-		/// Tracks the entry.
-		/// </summary>
-		/// <param name="view">The view.</param>
-		/// <returns></returns>
-		public override void TrackEntry(EntryView view)
-		{
-			StoredProcedures.TrackEntry(DataHelper.CheckNull(view.EntryId)
-				, DataHelper.CheckNull(view.BlogId)
-				, view.ReferralUrl
-				, view.PageViewType == PageViewType.WebView).Execute();
-		}
-
-		public override bool TrackEntry(IEnumerable<EntryView> views)
-		{
-			if (views != null)
-			{
-				foreach (EntryView view in views)
+                IPagedCollection<ViewStat> vs = new PagedCollection<ViewStat>();
+				while(reader.Read())
 				{
-					TrackEntry(view);
+					vs.Add(DataHelper.LoadViewStat(reader));
 				}
-				return true;
+				reader.NextResult();
+				vs.MaxItems = DataHelper.GetMaxItems(reader);
+				return vs;
 			}
+			finally
+			{
+				reader.Close();
+			}	
+		}
 
-			return false;
+        public override IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId)
+		{
+			IDataReader reader = DbProvider.Instance().GetPagedReferrers(pageIndex, pageSize, entryId);
+            return LoadPagedReferrersCollection(reader);
+		}
+	    
+	    private static IPagedCollection<Referrer> LoadPagedReferrersCollection(IDataReader reader)
+	    {
+            try
+            {
+                IPagedCollection<Referrer> prc = new PagedCollection<Referrer>();
+                while (reader.Read())
+                {
+                    prc.Add(DataHelper.LoadReferrer(reader));
+                }
+                reader.NextResult();
+                prc.MaxItems = DataHelper.GetMaxItems(reader);
+                return prc;
+            }
+            finally
+            {
+                reader.Close();
+            }
+	    }
+
+		public override bool TrackEntry(EntryView ev)
+		{
+			return DbProvider.Instance().TrackEntry(ev);
+		}
+
+		public override bool TrackEntry(IEnumerable<EntryView> evc)
+		{
+			return DbProvider.Instance().TrackEntry(evc);
 		}
 
 		#endregion
@@ -1205,102 +987,55 @@ namespace Subtext.Framework.Data
 		#region  Configuration
 
 		/// <summary>
+		/// Adds the initial blog configuration.  This is a convenience method for 
+		/// allowing a user with a freshly installed blog to immediately gain access 
+		/// to the admin section to edit the blog.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="host"></param>
+		/// <param name="subfolder"></param>
+		/// <param name="userName">Name of the user.</param>
+		/// <param name="password">Password.</param>
+		/// <returns></returns>
+        public override bool CreateBlog(string title, string userName, string password, string host, string subfolder)
+		{
+			return DbProvider.Instance().AddBlogConfiguration(title, userName, password, host, subfolder, 1);
+		}
+
+		/// <summary>
 		/// Adds the initial blog configuration.  This is a convenience method for
 		/// allowing a user with a freshly installed blog to immediately gain access
 		/// to the admin section to edit the blog.
 		/// </summary>
-		/// <param name="title">The title.</param>
-		/// <param name="host">The host.</param>
-		/// <param name="subfolder">The subfolder.</param>
-		/// <param name="owner">The blog owner</param>
+		/// <param name="title"></param>
+		/// <param name="userName">Name of the user.</param>
+		/// <param name="password">Password.</param>
+		/// <param name="host"></param>
+		/// <param name="subfolder"></param>
 		/// <param name="blogGroupId"></param>
 		/// <returns></returns>
-		public override BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner, int blogGroupId)
-		{
-			using (IDataReader reader = StoredProcedures.UTILITYAddBlog(title
-				, host
-				, subfolder
-				, (Guid)owner.ProviderUserKey
-				, DateTime.UtcNow).GetReader())
-			{
-				if (reader.Read())
-					return DataHelper.LoadBlog(reader);
-				return null;
-			}
-		}
+        public override bool CreateBlog(string title, string userName, string password, string host, string subfolder, int blogGroupId)
+        {
+            return DbProvider.Instance().AddBlogConfiguration(title, userName, password, host, subfolder, blogGroupId);
+        }
 
 		public override bool CreateBlogAlias(BlogAlias alias)
 		{
-			StoredProcedures.CreateDomainAlias(alias.BlogId, alias.Host, alias.Subfolder, alias.IsActive, null).Execute();
-			return true;
+			return DbProvider.Instance().AddBlogAlias(alias);
 		}
 
 		public override bool UpdateBlogAlias(BlogAlias alias)
 		{
-			StoredProcedures.UpdateDomainAlias(alias.Id, alias.BlogId, alias.Host, alias.Subfolder, alias.IsActive).Execute();
-			return true;
+			return DbProvider.Instance().UpdateBlogAlias(alias);
 		}
-
 		public override bool DeleteBlogAlias(BlogAlias alias)
 		{
-			StoredProcedures.DeleteDomainAlias(alias.Id).Execute();
-			return true;
+			return DbProvider.Instance().DeleteBlogAlias(alias);
 		}
 
-		public override void UpdateBlog(BlogInfo info)
+		public override bool UpdateBlog(BlogInfo info)
 		{
-			int? daysTillCommentsClose = null;
-			if (info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
-			{
-				daysTillCommentsClose = info.DaysTillCommentsClose;
-			}
-
-			int? commentDelayInMinutes = null;
-			if (info.CommentDelayInMinutes > 0 && info.CommentDelayInMinutes < int.MaxValue)
-			{
-				commentDelayInMinutes = info.CommentDelayInMinutes;
-			}
-
-			int? numberOfRecentComments = null;
-			if (info.NumberOfRecentComments > 0 && info.NumberOfRecentComments < int.MaxValue)
-			{
-				numberOfRecentComments = info.NumberOfRecentComments;
-			}
-
-			int? recentCommentsLength = null;
-			if (info.RecentCommentsLength > 0 && info.RecentCommentsLength < int.MaxValue)
-			{
-				recentCommentsLength = info.RecentCommentsLength;
-			}
-
-			Guid? ownerId = info.Owner == null ? null : (Guid?)info.Owner.ProviderUserKey;
-
-			StoredProcedures.UpdateConfig(ownerId
-			                              , info.Title
-			                              , info.SubTitle
-			                              , info.Skin.TemplateFolder
-			                              , info.Subfolder
-			                              , info.Host
-			                              , info.Language
-			                              , info.TimeZoneId
-			                              , info.ItemCount
-			                              , info.CategoryListPostCount
-			                              , info.News
-										  , info.CustomMetaTags
-										  , info.TrackingCode
-			                              , info.LastUpdated
-			                              , DataHelper.CheckNull(info.Skin.CustomCssText)
-			                              , DataHelper.CheckNull(info.Skin.SkinStyleSheet)
-			                              , (int)info.Flag
-			                              , DataHelper.CheckNull(info.Id)
-			                              , info.LicenseUrl
-										  , daysTillCommentsClose
-										  , commentDelayInMinutes
-										  , numberOfRecentComments
-										  , recentCommentsLength
-			                              , DataHelper.ReturnNullIfEmpty(info.FeedbackSpamServiceKey)
-			                              , DataHelper.ReturnNullIfEmpty(info.FeedBurnerName)
-										  , info.BlogGroupId).Execute();
+			return DbProvider.Instance().UpdateBlog(info);
 		}
 
 		/// <summary>
@@ -1319,32 +1054,29 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override BlogInfo GetBlogInfo(string hostname, string subfolder, bool strict)
 		{
-			using(IDataReader reader = StoredProcedures.GetBlog(hostname, subfolder, strict).GetReader())
+			IDataReader reader = DbProvider.Instance().GetBlogInfo(hostname, subfolder, strict);
+			try
 			{
 				BlogInfo info = null;
-				while (reader.Read())
+				while(reader.Read())
 				{
-					info = DataHelper.LoadBlog(reader);
+					info = DataHelper.LoadConfigData(reader);
 					break;
 				}
 				return info;
+			}
+			finally
+			{
+				reader.Close();
 			}
 		}
 		#endregion
 
         #region Tags
 
-		/// <summary>
-		/// Gets the top tags from the database sorted by tag name.
-		/// </summary>
-		/// <param name="itemCount">The number of tags to return.</param>
-		/// <returns>
-		/// A sorted dictionary with the tag name as key and entry count
-		/// as value.
-		/// </returns>
-        public override IDictionary<string, int> GetTopTags(int itemCount)
+        public override IDictionary<string, int> GetTopTags(int ItemCount)
         {
-			using (IDataReader reader = StoredProcedures.GetTopTags(itemCount, BlogId).GetReader())
+            using (IDataReader reader = DbProvider.Instance().GetTopTags(ItemCount))
             {
                 IDictionary<string, int> tags = DataHelper.LoadTags(reader);
                 return tags;
@@ -1357,22 +1089,18 @@ namespace Subtext.Framework.Data
 
 	    public override int Create(MetaTag metaTag)
 	    {
-			StoredProcedure proc = StoredProcedures.InsertMetaTag(metaTag.Content, metaTag.Name, metaTag.HttpEquiv, metaTag.BlogId, metaTag.EntryId, metaTag.DateCreated, null);
-	    	proc.Execute();
-	    	return (int)proc.OutputValues[0];
+	        return DbProvider.Instance().InsertMetaTag(metaTag);
 	    }
 
 
 	    public override bool Update(MetaTag metaTag)
 	    {
-	    	StoredProcedures.UpdateMetaTag(metaTag.Id, metaTag.Content, metaTag.Name, metaTag.HttpEquiv, metaTag.BlogId,
-	    	                               metaTag.EntryId).Execute();
-	    	return true;
+	        return DbProvider.Instance().UpdateMetaTag(metaTag);
 	    }
 
 	    public override IList<MetaTag> GetMetaTagsForBlog(BlogInfo blog)
 		{
-			using (IDataReader reader = StoredProcedures.GetMetaTagsForBlog(blog.Id).GetReader())
+			using (IDataReader reader = DbProvider.Instance().GetMetaTagsForBlog(blog))
 			{
 				List<MetaTag> tags = new List<MetaTag>();
 
@@ -1388,7 +1116,7 @@ namespace Subtext.Framework.Data
 
 	    public override IList<MetaTag> GetMetaTagsForEntry(Entry entry)
 	    {
-	        using (IDataReader reader = StoredProcedures.GetMetaTagsForEntry(Config.CurrentBlog.Id, entry.Id).GetReader())
+	        using (IDataReader reader = DbProvider.Instance().GetMetaTagsForEntry(entry))
 	        {
 	            List<MetaTag> tags = new List<MetaTag>();
 
@@ -1401,64 +1129,60 @@ namespace Subtext.Framework.Data
 	        }
 	    }
 
+
 	    public override bool DeleteMetaTag(int metaTagId)
 	    {
-	    	StoredProcedures.DeleteMetaTag(metaTagId).Execute();
-	    	return true;
+	        return DbProvider.Instance().DeleteMetaTag(metaTagId);
 	    }
 
 	    #endregion
 
-        #region KeyWords
+		#region KeyWords
 
-		/// <summary>
-		/// Gets the key word by its id.
-		/// </summary>
-		/// <param name="keyWordId">The key word id.</param>
-		/// <returns></returns>
-        public override KeyWord GetKeyword(int keyWordId)
+		public override KeyWord GetKeyWord(int KeyWordID)
 		{
-			using(IDataReader reader = StoredProcedures.GetKeyWord(keyWordId, BlogId).GetReader())
+			IDataReader reader = DbProvider.Instance().GetKeyWord(KeyWordID);
+			try
 			{
 				KeyWord kw = null;
-				while (reader.Read())
+				while(reader.Read())
 				{
 					kw = DataHelper.LoadKeyWord(reader);
 					break;
 				}
 				return kw;
 			}
+			finally
+			{
+				reader.Close();
+			}
 		}
-
-		/// <summary>
-		/// Gets the key words.
-		/// </summary>
-		/// <returns></returns>
-		public override ICollection<KeyWord> GetKeywords()
+		
+		public override ICollection<KeyWord> GetKeyWords()
 		{
-			using(IDataReader reader = StoredProcedures.GetBlogKeyWords(BlogId).GetReader())
+			IDataReader reader = DbProvider.Instance().GetKeyWords();
+			try
 			{
 				List<KeyWord> kwc = new List<KeyWord>();
-				while (reader.Read())
+				while(reader.Read())
 				{
 					kwc.Add(DataHelper.LoadKeyWord(reader));
 				}
 				return kwc;
 			}
+			finally
+			{
+				reader.Close();
+			}
 		}
 
-		/// <summary>
-		/// Gets the key words by page.
-		/// </summary>
-		/// <param name="pageIndex">Index of the page.</param>
-		/// <param name="pageSize">Size of the page.</param>
-		/// <returns></returns>
-		public override IPagedCollection<KeyWord> GetKeywordsByPage(int pageIndex, int pageSize)
+		public override IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize)
 		{
-			using(IDataReader reader = StoredProcedures.GetPageableKeyWords(BlogId, pageIndex, pageSize).GetReader())
+			IDataReader reader = DbProvider.Instance().GetPagedKeyWords(pageIndex, pageSize);
+			try
 			{
 				IPagedCollection<KeyWord> pkwc = new PagedCollection<KeyWord>();
-				while (reader.Read())
+				while(reader.Read())
 				{
 					pkwc.Add(DataHelper.LoadKeyWord(reader));
 				}
@@ -1467,419 +1191,134 @@ namespace Subtext.Framework.Data
 
 				return pkwc;
 			}
+			finally
+			{
+				reader.Close();
+			}
+		}
+		
+		public override bool UpdateKeyWord(KeyWord keyWord)
+		{
+			return DbProvider.Instance().UpdateKeyWord(keyWord);
 		}
 
-		/// <summary>
-		/// Updates the keyword.
-		/// </summary>
-		/// <param name="keyword">The keyword.</param>
-		/// <returns></returns>
-		public override void UpdateKeyword(KeyWord keyword)
+		public override int InsertKeyWord(KeyWord keyWord)
 		{
-			StoredProcedures.UpdateKeyWord(keyword.Id
-			                               , keyword.Word
-			                               , keyword.Rel
-			                               , keyword.Text
-			                               , keyword.ReplaceFirstTimeOnly
-			                               , keyword.OpenInNewWindow
-			                               , keyword.CaseSensitive
-			                               , keyword.Url
-			                               , keyword.Title
-			                               , BlogId).Execute();
-
+			return DbProvider.Instance().InsertKeyWord(keyWord);
 		}
 
-		/// <summary>
-		/// Inserts the keyword.
-		/// </summary>
-		/// <param name="keyWord">The key word.</param>
-		/// <returns></returns>
-		public override int InsertKeyword(KeyWord keyWord)
+		public override bool DeleteKeyWord(int id)
 		{
-			if (keyWord == null)
-				throw new ArgumentNullException("keyWord", Resources.ArgumentNull_Generic);
-
-			StoredProcedure proc = StoredProcedures.InsertKeyWord(keyWord.Word
-			                               , keyWord.Rel
-			                               , keyWord.Text
-			                               , keyWord.ReplaceFirstTimeOnly
-			                               , keyWord.OpenInNewWindow
-			                               , keyWord.CaseSensitive
-			                               , keyWord.Url
-			                               , keyWord.Title
-			                               , BlogId
-			                               , 0);
-			proc.Execute();
-			return (int) proc.OutputValues[0];
-		}
-
-		/// <summary>
-		/// Deletes the keyword.
-		/// </summary>
-		/// <param name="id">The id.</param>
-		public override void DeleteKeyword(int id)
-		{
-			StoredProcedures.DeleteKeyWord(id, BlogId).Execute();
+			return DbProvider.Instance().DeleteKeyWord(id);
 		}
 
 		#endregion
 
 		#region Images
 
-		/// <summary>
-		/// Gets the images by category ID.
-		/// </summary>
-		/// <param name="categoryId">The cat ID.</param>
-		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
-		/// <returns></returns>
-		public override ImageCollection GetImagesByCategoryID(int categoryId, bool activeOnly)
+		public override ImageCollection GetImagesByCategoryID(int catID, bool activeOnly)
 		{
-			using (IDataReader reader = StoredProcedures.GetImageCategory(DataHelper.CheckNull(categoryId), activeOnly, BlogId).GetReader())
+			IDataReader reader = DbProvider.Instance().GetImagesByCategoryID(catID, activeOnly);
+			try
 			{
 				ImageCollection ic = new ImageCollection();
-				while (reader.Read())
+				while(reader.Read())
 				{
 					ic.Category = DataHelper.LoadLinkCategory(reader);
 					break;
 				}
 				reader.NextResult();
-				while (reader.Read())
+				while(reader.Read())
 				{
 					ic.Add(DataHelper.LoadImage(reader));
 				}
 				return ic;
 			}
+			finally
+			{
+				reader.Close();
+			}
 		}
 
-		/// <summary>
-		/// Gets the image.
-		/// </summary>
-		/// <param name="imageId">The image ID.</param>
-		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
-		/// <returns></returns>
-		public override Image GetImage(int imageId, bool activeOnly)
+		public override Image GetImage(int imageID, bool activeOnly)
 		{
-			using(IDataReader reader = StoredProcedures.GetSingleImage(imageId, activeOnly, BlogId).GetReader())
+			IDataReader reader = DbProvider.Instance().GetImage(imageID, activeOnly);
+			try
 			{
 				Image image = null;
-				while (reader.Read())
+				while(reader.Read())
 				{
 					image = DataHelper.LoadImage(reader);
 				}
 				return image;
 			}
-		}
-
-		/// <summary>
-		/// Inserts the image and returns the id.
-		/// </summary>
-		/// <param name="image">The image.</param>
-		/// <returns></returns>
-		public override int InsertImage(Image image)
-		{
-			if (image == null)
-				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
-
-			StoredProcedure proc = StoredProcedures.InsertImage(image.Title
-				, DataHelper.CheckNull(image.CategoryID)
-				, image.Width
-				, image.Height
-				, image.FileName
-				, image.IsActive
-				, BlogId
-				, 0);
-			proc.Execute();
-			return (int) proc.OutputValues[0];
-		}
-
-		/// <summary>
-		/// Updates the image.
-		/// </summary>
-		/// <param name="image">The image.</param>
-		/// <returns></returns>
-		public override void UpdateImage(Image image)
-		{
-			StoredProcedures.UpdateImage(image.Title
-			                             , DataHelper.CheckNull(image.CategoryID)
-			                             , image.Width
-			                             , image.Height
-			                             , image.FileName
-			                             , image.IsActive
-			                             , BlogId
-			                             , image.ImageID).Execute();
-		}
-
-		/// <summary>
-		/// Deletes the image.
-		/// </summary>
-		/// <param name="imageId">The image id.</param>
-		public override void DeleteImage(int imageId)
-		{
-			StoredProcedures.DeleteImage(BlogId, imageId).Execute();
-		}
-
-		#endregion
-
-		#region Plugins
-
-		/// <summary>
-		/// Returns the Guids of all plugins enabled for the current blog
-		/// </summary>
-		/// <returns>A list of Guids</returns>
-		public override ICollection<Guid> GetEnabledPlugins()
-		{
-			if (BlogId == NullValue.NullInt32)
-				return new List<Guid>();
-
-			using(IDataReader reader = StoredProcedures.GetPluginBlog(BlogId).GetReader())
+			finally
 			{
-				List<Guid> plc = new List<Guid>();
-				while (reader.Read())
-				{
-					plc.Add(reader.GetGuid(reader.GetOrdinal("PluginId")));
-				}
-				return plc;
+				reader.Close();
 			}
 		}
 
-		/// <summary>
-		/// Enable a plugin for the current blog
-		/// </summary>
-		/// <param name="pluginId">The Guid of the plugin to enable</param>
-		public override void EnablePlugin(Guid pluginId)
+		public override int InsertImage(Image _image)
 		{
-			StoredProcedures.InsertPluginBlog(pluginId, BlogId).Execute();
+			return DbProvider.Instance().InsertImage(_image);
 		}
 
-		/// <summary>
-		/// Disable a plugin for the current blog
-		/// </summary>
-		/// <param name="pluginId">The Guid of the plugin to disable</param>
-		public override void DisablePlugin(Guid pluginId)
+		public override bool UpdateImage(Image image)
 		{
-			StoredProcedures.DeletePluginBlog(pluginId, BlogId).Execute();
+			return DbProvider.Instance().UpdateImage(image);
 		}
 
-		/// <summary>
-		/// Returns a list of all the blog level settings defined for a plugin
-		/// </summary>
-		/// <param name="pluginId">The Guid of the plugin</param>
-		/// <returns>A strongly typed HashTable with settings</returns>
-		public override NameValueCollection GetPluginBlogSettings(Guid pluginId)
+		public override bool DeleteImage(int ImageID)
 		{
-			return GetPluginSettings(pluginId, null);
-		}
-
-		private static NameValueCollection GetPluginSettings(Guid pluginId, int? entryId)
-		{
-			using (IDataReader reader = StoredProcedures.GetPluginData(pluginId, BlogId, entryId).GetReader())
-			{
-				NameValueCollection dict = new NameValueCollection();
-				while (reader.Read())
-				{
-					dict.Add(DataHelper.LoadPluginSettings(reader));
-				}
-				return dict;
-			}
-		}
-
-		/// <summary>
-		/// Add a new blog level settings for the plugin
-		/// </summary>
-		/// <param name="pluginId">The Guid of the plugin</param>
-		/// <param name="key">Key identifying the setting</param>
-		/// <param name="value">Value of the setting</param>
-		/// <returns>
-		/// True if the operation completed correctly, false otherwise
-		/// </returns>
-		public override void InsertPluginBlogSettings(Guid pluginId, string key, string value)
-		{
-			StoredProcedures.InsertPluginData(pluginId, BlogId, null, key, value).Execute();
-		}
-
-		/// <summary>
-		/// Update a blog level settings for the plugin
-		/// </summary>
-		/// <param name="pluginId">The Guid of the plugin</param>
-		/// <param name="key">Key identifying the setting</param>
-		/// <param name="value">New value of the setting</param>
-		public override void UpdatePluginBlogSettings(Guid pluginId, string key, string value)
-		{
-			StoredProcedures.UpdatePluginData(pluginId, BlogId, null, key, value).Execute();
-		}
-
-		/// <summary>
-		/// Retrieves plugin settings for a specified entry from the storage
-		/// </summary>
-		/// <param name="pluginId">GUID of the plugin</param>
-		/// <param name="entryId">Id of the blog entry</param>
-		/// <returns>
-		/// A NameValueCollection with all the settings
-		/// </returns>
-        public override NameValueCollection GetPluginEntrySettings(Guid pluginId, int entryId)
-        {
-            return GetPluginSettings(pluginId, entryId);
-        }
-
-		/// <summary>
-		/// Inserts a new value in the plugin settings list for a specified entry
-		/// </summary>
-		/// <param name="pluginId">GUID of the plugin</param>
-		/// <param name="entryId">Id of the blog entry</param>
-		/// <param name="key">Setting name</param>
-		/// <param name="value">Setting value</param>
-        public override void InsertPluginEntrySettings(Guid pluginId, int entryId, string key, string value)
-        {
-			StoredProcedures.InsertPluginData(pluginId, BlogId, entryId, key, value).Execute();
-        }
-
-		/// <summary>
-		/// Updates a plugin setting for a specified entry
-		/// </summary>
-		/// <param name="pluginId">The Guid of the plugin</param>
-		/// <param name="entryId">Id of the blog entry</param>
-		/// <param name="key">Key identifying the setting</param>
-		/// <param name="value">New value of the setting</param>
-        public override void UpdatePluginEntrySettings(Guid pluginId, int entryId, string key, string value)
-        {
-			StoredProcedures.UpdatePluginData(pluginId, BlogId, entryId, key, value).Execute();
-        }
-
-
-		#endregion
-
-		#region Admin
-
-		/// <summary>
-		/// Gets the specified page of log entries.
-		/// </summary>
-		/// <param name="pageIndex">Index of the page.</param>
-		/// <param name="pageSize">Size of the page.</param>
-		/// <returns></returns>
-		public override IDataReader GetPagedLogEntries(int pageIndex, int pageSize)
-		{
-			return StoredProcedures.GetPageableLogEntries(BlogId, pageIndex, pageSize).GetReader();
-		}
-
-		/// <summary>
-		/// Clears the log.
-		/// </summary>
-		public override void ClearLog()
-		{
-			StoredProcedures.LogClear(BlogId).Execute();
-		}
-
-		/// <summary>
-		/// Clears all content (Entries, Comments, Track/Ping-backs, Statistices, etc...)
-		/// for a the current blog (sans the Image Galleries).
-		/// </summary>
-		/// <returns>
-		/// TRUE - At least one unit of content was cleared.
-		/// FALSE - No content was cleared.
-		/// </returns>
-		public override void ClearBlogContent()
-		{
-			StoredProcedures.ClearBlogContent(BlogId).Execute();
+			return DbProvider.Instance().DeleteImage(ImageID);
 		}
 
 		#endregion
 
-		/// <summary>
-		/// Gets the posts by month archive.
-		/// </summary>
-		/// <returns></returns>
-		public override ICollection<ArchiveCount> GetPostCountByMonth()
+		#region Archives
+
+		public override ICollection<ArchiveCount> GetPostsByMonthArchive()
 		{
-			//TODO: We ought to be able to do this with a single proc and a clever parameter.
-			//		Either a bitmask or a date param that is the prototype for  the records to return.
-			using (IDataReader reader = StoredProcedures.GetPostsByMonthArchive(BlogId).GetReader())
+			IDataReader reader = DbProvider.Instance().GetPostsByMonthArchive();
+			try
 			{
 				ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
 				return acc;
 			}
+			finally
+			{
+				reader.Close();
+			}
 		}
 
-		/// <summary>
-		/// Gets the posts by year archive.
-		/// </summary>
-		/// <returns></returns>
-		public override ICollection<ArchiveCount> GetPostCountByYear()
+		public override ICollection<ArchiveCount> GetPostsByYearArchive()
 		{
-			using (IDataReader reader = StoredProcedures.GetPostsByYearArchive(BlogId).GetReader())
+			IDataReader reader = DbProvider.Instance().GetPostsByYearArchive();
+			try
 			{
 				ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
 				return acc;
 			}
+			finally
+			{
+				reader.Close();
+			}
 		}
 
-		/// <summary>
-		/// Gets the posts by category archive.
-		/// </summary>
-		/// <returns></returns>
-		public override ICollection<ArchiveCount> GetPostCountByCategory()
+		public override ICollection<ArchiveCount> GetPostsByCategoryArchive()
 		{
-			using (IDataReader reader = StoredProcedures.GetPostsByCategoriesArchive(BlogId).GetReader())
+			IDataReader reader = DbProvider.Instance().GetPostsByCategoryArchive();
+			try
 			{
 				ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
 				return acc;
 			}
-		}
-		
-		#region Aggregate Data
-
-		/// <summary>
-		/// Returns data displayed on an aggregate blog's home page.
-		/// </summary>
-		/// <param name="groupId"></param>
-		/// <returns></returns>
-		public override DataSet GetAggregateHomePageData(int groupId)
-		{
-			//TODO: Do not pull the aggregate host setting directly from appsettings. This should come from some other class. Maybe a HostSettings or HostInfo.Current.
-			return StoredProcedures.DNWHomePageData(ConfigurationManager.AppSettings["AggregateHost"], groupId).GetDataSet();
-		}
-
-		/// <summary>
-		/// Gets the aggregate recent posts.
-		/// </summary>
-		/// <param name="groupId">The group id.</param>
-		/// <returns></returns>
-		public override DataTable GetAggregateRecentPosts(int groupId)
-		{
-			//TODO: Do not pull the aggregate host setting directly from appsettings. This should come from some other class. Maybe a HostSettings or HostInfo.Current.
-			DataSet ds = StoredProcedures.DNWGetRecentPosts(ConfigurationManager.AppSettings["AggregateHost"], groupId).GetDataSet();
-			if (ds != null && ds.Tables.Count > 0)
-				return ds.Tables[0];
-			
-			return null;
+			finally
+			{
+				reader.Close();
+			}
 		}
 
 		#endregion
-
-		public override BlogAlias GetBlogAliasById(int aliasId)
-		{
-			using(IDataReader reader = StoredProcedures.GetDomainAliasById(aliasId).GetReader())
-			{
-				if(reader.Read())
-					return DataHelper.LoadBlogAlias(reader);
-				return null;
-			}
-		}
-
-		/// <summary>
-		/// Adds the initial blog configuration.  This is a convenience method for 
-		/// allowing a user with a freshly installed blog to immediately gain access 
-		/// to the admin section to edit the blog.
-		/// </summary>
-		/// <param name="title"></param>
-		/// <param name="userName">Name of the user.</param>
-		/// <param name="password">Password.</param>
-		/// <param name="host"></param>
-		/// <param name="subfolder"></param>
-		/// <returns></returns>
-		public override bool CreateBlog(string title, string userName, string password, string host, string subfolder)
-		{
-			StoredProcedures.UTILITYAddBlog(title, host, subfolder, null, DateTime.UtcNow).Execute();
-			return true;
-		}
 	}
 }

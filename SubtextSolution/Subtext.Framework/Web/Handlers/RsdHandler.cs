@@ -13,14 +13,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Globalization;
 using System.Text;
 using System.Web;
 using System.Xml;
 using Subtext.Extensibility.Web;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Web.Handlers
 {
@@ -62,11 +60,6 @@ namespace Subtext.Framework.Web.Handlers
 		/// <param name="context">Context.</param>
 		public override void HandleRequest(HttpContext context)
 		{
-            if (context == null)
-            {
-                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
-            }
-
 			if(Config.CurrentBlog == null)
 				return;
 
@@ -85,19 +78,9 @@ namespace Subtext.Framework.Web.Handlers
 		/// </summary>
 		/// <param name="writer"></param>
 		/// <param name="blog"></param>
-		public static void WriteRsd(XmlWriter writer, BlogInfo blog)
+		public void WriteRsd(XmlWriter writer, BlogInfo blog)
 		{
-            if (writer == null)
-            {
-                throw new ArgumentNullException("writer", Resources.ArgumentNull_Generic);
-            }
-
-            if (blog == null)
-            {
-                throw new ArgumentNullException("blog", Resources.ArgumentNull_Generic);
-            }
-
-            writer.WriteStartDocument();
+			writer.WriteStartDocument();
 			writer.WriteStartElement("rsd", "http://archipelago.phrasewise.com/rsd");
 			writer.WriteAttributeString("version", "1.0");
 			writer.WriteStartElement("service");

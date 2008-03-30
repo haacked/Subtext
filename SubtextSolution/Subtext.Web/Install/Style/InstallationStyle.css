@@ -1,11 +1,15 @@
 body 
 { 
-	padding: 32px; 
-	font-size: small; 
+	padding-right: 32px; 
+	padding-left: 32px; 
+	font-SIZE: 13px; 
 	background: #eee; 
-	margin: 0 auto; 
+	padding-bottom: 32px; 
+	margin-left: auto; 
 	width: 80%; 
 	color: #000; 
+	margin-right: auto; 
+	padding-top: 32px; 
 	font-family: verdana, arial, sans-serif 
 }
 
@@ -41,14 +45,32 @@ body
 	background: none;
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../../../images/SubtextLogo.png", sizingMethod="crop");
 }
-		
+
+h1
+{ 
+	padding-right: 0px; 
+	padding-left: 0px; 
+	font-WEIGHT: bold; 
+	font-SIZE: 150%; 
+	padding-bottom: 36px; 
+	margin: 0px; 
+	color: #000999; 
+	padding-top: 0px; 
+	font-family: "trebuchet ms", ""lucida grande"", verdana, arial, sans-serif 
+}
+			
 h2
 { 
-	font-weight: bold; 
-	font-size: 1.05em; 
-	margin: 0px 0px 8px 0; 
+	padding-right: 0px; 
+	padding-left: 0px; 
+	font-WEIGHT: bold; 
+	font-SIZE: 105%; 
+	padding-bottom: 0px; 
+	margin: 0px 0px 8px; 
 	text-transform: uppercase; 
-	color: #555; 
+	color: #999; 
+	padding-top: 0px; 
+	border-bottom: #ddd 1px solid; 
 	font-family: "trebuchet ms", ""lucida grande"", verdana, arial, sans-serif 
 }
 
@@ -83,7 +105,6 @@ a:hover
 .footnote
 {
 	font-size: .8em;
-	clear: both;
 }
 
 #installationQuestionTable
@@ -101,96 +122,4 @@ a:hover
 .error
 {
 	color: Red;
-}
-
-img
-{
-	border: none;
-}
-
-span.majorchoice
-{
-	display: block;
-	width: 400px;
-	height: 40px;
-	clear: both;
-	float: left;
-	margin-bottom: 30px;
-}
-
-span.majorchoice input
-{
-	float: left;
-	margin-top: 20px;
-}
-
-span.majorchoice label
-{
-	display: inline-block;
-	margin: 0;
-	border: solid 1px #ddd;
-	float: left;
-	width: 250px;
-	height: 100%;
-	padding: 20px 0 0 100px;
-	margin-left: 5px;
-	font-size: 1.2em;
-	background-color: #fffadb;
-}
-
-span.majorchoice label:hover
-{
-	background-color: #ffefab;
-}
-
-div.summary
-{
-	padding: 4px;
-	margin-bottom: 8px;
-	float: left;
-}
-
-div.summary dl
-{
-	float: left;
-	width: 100%;
-}
-
-div.summary dt
-{
-	display: block;
-	width: 100px;
-	float: left;
-	text-align: right;
-	clear: left;
-	margin: 0;
-}
-
-div.summary dt label
-{
-	display: block;
-	float: right;
-	margin: 0;
-	padding: 4px 0;
-	width: 100%;
-}
-
-div.summary dd
-{
-	display: block;
-	width: 260px;
-	margin-left: 0;
-	padding-left: 8px;
-	float: left;
-	padding: 4px 0 4px 8px;
-}
-
-.hidden
-{
-	display:none;
-}
-
-.clear
-{
-	clear: both;
 }

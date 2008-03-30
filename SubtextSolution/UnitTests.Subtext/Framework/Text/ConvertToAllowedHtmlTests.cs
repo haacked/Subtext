@@ -66,5 +66,14 @@ namespace UnitTests.Subtext.Framework.Text
 			allowedTags.Add("em", "");
 			UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, HtmlHelper.ConvertToAllowedHtml(allowedTags, text));
 		}
+
+        [Test]
+        public void ClosesOpenTags()
+        {
+            NameValueCollection allowedTags = new NameValueCollection(StringComparer.InvariantCultureIgnoreCase);
+            allowedTags.Add("u", "");
+            string result = HtmlHelper.ConvertToAllowedHtml(allowedTags, "This is <u>Underlined. But I forgot to close it.");
+            Assert.AreEqual("This is <u>Underlined. But I forgot to close it.</u>", result, "Expected that the tag would get closed");
+        }
 	}
 }

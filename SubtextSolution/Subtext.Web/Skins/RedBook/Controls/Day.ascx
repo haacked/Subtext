@@ -4,7 +4,7 @@
 	<asp:HyperLink Runat="server" height="15" Width="250" BorderWidth="0" ID="ImageLink"> <asp:Literal ID = "DateTitle" Runat = "server" /></asp:HyperLink>		  
 </h4>
 
-<asp:Repeater runat="Server" ID="DayList" OnItemCreated="PostCreated">
+<asp:Repeater runat="Server" Runat="server" ID="DayList" OnItemCreated="PostCreated">
 	<HeaderTemplate>
 		<div class="journal_eintrag">
 	</HeaderTemplate>
@@ -15,7 +15,6 @@
 			<asp:Literal  runat="server" ID="PostText" />
 			
 			<p class="postfooter">
-				Author: <asp:Literal ID="Literal1" runat="server" Text="<%# Entry(Container.DataItem).Author.UserName  %>" /> 
 				<asp:Literal id="PostDesc"  runat="server" />
 			</p>
 	</ItemTemplate>

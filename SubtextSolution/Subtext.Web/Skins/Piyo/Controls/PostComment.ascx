@@ -43,7 +43,7 @@
 	<label for="PostComment_ascx_tbComment">Comment:</label>
 </div>
 <div class="input">
-	<asp:TextBox id="tbComment" runat="server" rows="7" cols="55" CssClass="fixed livepreview" TextMode="MultiLine" />
+	<asp:TextBox id="tbComment" runat="server" rows="7" cols="55" CssClass="fixed" TextMode="MultiLine" onkeyup="reloadPreviewDiv();" />
 	<br/>
 	<asp:RequiredFieldValidator id="vldContentBody" runat="server" ErrorMessage="Please enter a comment" ControlToValidate="tbComment" />
 </div>
@@ -65,7 +65,7 @@
 <div class="label">&nbsp;</div>
 <div class="input">
 	<h4>Live Comment Preview:</h4>
-	<div id="commentPreview" class="livepreview">&nbsp;</div>
+	<div id="commentPreview">&nbsp;</div>
 </div>
 </div>
 </div></div>

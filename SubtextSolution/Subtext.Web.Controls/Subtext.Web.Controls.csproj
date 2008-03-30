@@ -97,22 +97,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxControlToolkit, Version=1.0.10201.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\AjaxControlToolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="Interop.SQLDMO, Version=8.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Interop.SQLDMO.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Subkismet, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Subkismet.dll</HintPath>
-    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -127,13 +112,30 @@
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
-    <Reference Include="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\System.Web.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
+      <Name>Subtext.Extensibility</Name>
+      <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
+      <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
+      <Name>Subtext.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
+      <Name>Subtext.Scripting</Name>
+      <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <COMReference Include="SQLDMO">
+      <Guid>{10010001-E260-11CF-AE68-00AA004A34D5}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
@@ -147,6 +149,12 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Captcha\CaptchaControl.cs" />
+    <Compile Include="Captcha\CaptchaBase.cs" />
+    <Compile Include="Captcha\CaptchaExpiredException.cs" />
+    <Compile Include="Captcha\CaptchaImage.cs" />
+    <Compile Include="Captcha\CaptchaImageHandler.cs" />
+    <Compile Include="Captcha\InvisibleCaptcha.cs" />
     <Compile Include="Captcha\SubtextCaptchaControl.cs" />
     <Compile Include="CoComment.cs">
       <SubType>Code</SubType>
@@ -163,15 +171,10 @@
     <Compile Include="ControlHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataSources\MembershipDataLayer.cs" />
-    <Compile Include="DataSources\MembershipUserDataSource.cs" />
-    <Compile Include="DataSources\SubtextMembershipUser.cs" />
-    <Compile Include="DataSources\SubtextObjectDataSource.cs" />
     <Compile Include="Designers\HelpToolTipDesigner.cs" />
     <Compile Include="HelpToolTip.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MembershipControls\UserGridView.cs" />
     <Compile Include="MenuItem.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -180,10 +183,10 @@
     <Compile Include="RepeaterWithEmptyDataTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ScriptHelper.cs">
+    <Compile Include="RichTextEditor.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ScriptTag.cs">
+    <Compile Include="ScriptHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ScrollPositionSaver.cs">
@@ -197,13 +200,11 @@
     <EmbeddedResource Include="Resources\ScrollPositionSaver.js" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
-      <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
-      <Name>Subtext.Scripting</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="Resources\InvisibleCaptcha.js" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+    <Content Include="ExternalDependencies\log4net.dll" />
+    <Content Include="ExternalDependencies\log4net.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

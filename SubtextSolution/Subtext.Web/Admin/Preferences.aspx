@@ -10,31 +10,28 @@
 </asp:Content>
 
 <asp:Content ID="preferencesContent" ContentPlaceHolderID="pageContent" runat="server">
-	<fieldset>
-		<legend>Preferences</legend>
-		
-		<label for="Edit_ddlPublished">Always create new items as Published</label>&nbsp;
-		<asp:DropDownList id="ddlPublished" runat="server" AutoPostBack="false">
-			<asp:ListItem Value="true">Yes</asp:ListItem>
-			<asp:ListItem Value="false">No</asp:ListItem>
-		</asp:DropDownList>
-	
-		<label for="Edit_ddlExpandAdvanced">Always expand advanced options</label>&nbsp;
-		<asp:DropDownList id="ddlExpandAdvanced" runat="server" AutoPostBack="false">
-			<asp:ListItem Value="true">Yes</asp:ListItem>
-			<asp:ListItem Value="false">No</asp:ListItem>
-		</asp:DropDownList>
-	
-		<div>
-			<asp:CheckBox id="chkAutoGenerate" runat="server" CssClass="checkbox" Text="Auto-Generate Friendly URL" />
+	<st:AdvancedPanel id="Edit" runat="server" BodyCssClass="Edit" HeaderCssClass="CollapsibleHeader"
+		HeaderText="Preferences" DisplayHeader="True">
+		<p>
+			<label for="Edit_ddlPublished">Always create new items as Published</label> &nbsp;
+			<asp:DropDownList id="ddlPublished" runat="server" AutoPostBack="false">
+				<asp:ListItem Value="true">Yes</asp:ListItem>
+				<asp:ListItem Value="false">No</asp:ListItem>
+			</asp:DropDownList></p>
+		<p>
+			<label for="Edit_ddlExpandAdvanced">Always expand advanced options</label> &nbsp;
+			<asp:DropDownList id="ddlExpandAdvanced" runat="server" AutoPostBack="false">
+				<asp:ListItem Value="true">Yes</asp:ListItem>
+				<asp:ListItem Value="false">No</asp:ListItem>
+			</asp:DropDownList></p>
+		<p style="MARGIN-TOP: 8px">
+		    <asp:CheckBox id="chkAutoGenerate" runat="server" Text="Auto-Generate Friendly Url" />
 			<st:HelpToolTip id="Helptooltip4" runat="server" HelpText="If checked, blog posts and articles will have friendly Urls auto-generated based on the title. For example, the title 'My Blog Post' will become 'MyBlogPost.aspx'.">
-				<img id="Img2" src="~/Admin/Resources/Scripts/Images/ms_information_small.gif" runat="Server" />
-			</st:HelpToolTip> 
+				    <img id="Img2" src="~/Admin/Resources/Scripts/Images/ms_information_small.gif" runat="Server" alt="Information" />
+			</st:HelpToolTip>
+		</p>
+		<div style="MARGIN-TOP: 12px">
+			<asp:Button id="lkbUpdate" runat="server" Text="Save" CssClass="buttonSubmit" onclick="lkbUpdate_Click" />
 		</div>
-
-		<div class="buttons">
-			<ASP:Button id="lkbUpdate" runat="server" Text="Save" CssClass="button" onclick="lkbUpdate_Click" />
-		</div>
-	</fieldset>
-	
+	</st:AdvancedPanel>
 </asp:Content>

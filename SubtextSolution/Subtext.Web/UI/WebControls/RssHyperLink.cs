@@ -36,7 +36,6 @@ namespace Subtext.Web.UI.WebControls
 			if(Config.CurrentBlog.FeedBurnerEnabled)
 			{
 				NavigateUrl = Config.CurrentBlog.UrlFormats.FeedBurnerUrl.ToString();
-                
 			}
 			else 
 			{

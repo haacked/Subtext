@@ -15,8 +15,6 @@
 
 using System;
 using System.IO;
-using System.Net.Mail;
-using System.Net.Sockets;
 using System.Text;
 using System.Web;
 using System.Web.UI;
@@ -32,11 +30,9 @@ namespace Subtext.Web.Pages
 	{
 		private readonly static ILog log = new Log();
 
-		///<summary>
-		///Raises the <see cref="E:System.Web.UI.Control.Init"></see> event to initialize the page.
-		///</summary>
-		///<param name="e">An <see cref="T:System.EventArgs"></see> that contains the event data.</param>
-		protected override void OnInit(EventArgs e)
+		protected Label ErrorTitle;
+	
+		protected void Page_Load(object sender, EventArgs e)
 		{
 			Response.Clear();
 			if (!IsPostBack)
@@ -72,14 +68,9 @@ namespace Subtext.Web.Pages
 				{
 					exceptionMsgs.Append("<p>The resource you requested could not be found.</p>");
 				}
-				else if(exception is SmtpException)
-				{
-					log.Error("Exception handled by the Error page.", exception);
-					exceptionMsgs.Append("<p>Could not send email. Could be an issue with the mail server settings.</p>");
-				}
 				else if(exception is BlogInactiveException)
 				{
-					log.Info("Blog Inactive Exception", exception);
+					log.Warn("Blog Inactive Exception", exception);
 					exceptionMsgs.AppendFormat("<p>{0}</p>", exception.Message);
 				}
 				else
@@ -90,10 +81,28 @@ namespace Subtext.Web.Pages
 
 				Server.ClearError();
 				this.ErrorMessageLabel.Text = exceptionMsgs.ToString();
-
-				base.OnInit(e);
 			}
 		}
+
+		#region Web Form Designer generated code
+		override protected void OnInit(EventArgs e)
+		{
+			//
+			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
+			//
+			InitializeComponent();
+			base.OnInit(e);
+		}
+		
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{    
+
+		}
+		#endregion
 	}
 }
 

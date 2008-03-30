@@ -15,19 +15,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Web;
 using System.Web.UI.WebControls;
-using Subtext.Extensibility.Plugins;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Framework.Format;
+using Subtext.Web.Controls;
 using Subtext.Framework.Security;
 using Subtext.Framework.Text;
-using Subtext.Web.Controls;
+using Subtext.Framework.Data;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -36,8 +32,8 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class EntryList : BaseControl
 	{	
-		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\" class=\"comments\">{1}{2}</a>";
-		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\" class=\"comments\">Feedback ({3})</a>";
+		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
+		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\">Feedback ({3})</a>";
 		const string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>";
 
         private string category;
@@ -54,9 +50,6 @@ namespace Subtext.Web.UI.Controls
 				Entry entry = (Entry)e.Item.DataItem;
 				if(entry != null)
 				{
-					//Raise event before any processing takes place
-					SubtextEvents.OnEntryRendering(this, new EntryEventArgs(entry));
-
 					// Each of these methods make sure to check that the 
 					// control to bind actually exists on the skin.
 					BindTitle(e, entry);
@@ -69,8 +62,6 @@ namespace Subtext.Web.UI.Controls
 					BindCommentCount(e, entry);
 					BindAuthor(e, entry);
 					BindCurrentEntryControls(entry, e.Item);
-
-					SubtextEvents.OnEntryRendered(this, new EntryEventArgs(entry));
 				}
 			}
 		}
@@ -80,9 +71,9 @@ namespace Subtext.Web.UI.Controls
 			Label author = e.Item.FindControl("author") as Label;
 			if(author != null)
 			{
-				if(entry.Author != null)
+				if(entry.Author != null && entry.Author.Length > 0)
 				{
-					author.Text = entry.Author.UserName;
+					author.Text = entry.Author;
 				}
 			}
 		}
@@ -117,12 +108,12 @@ namespace Subtext.Web.UI.Controls
 			{
 				if(postDate.Attributes["Format"] != null)
 				{
-					postDate.Text = entry.DateSyndicated.ToString(postDate.Attributes["Format"]);
+					postDate.Text = entry.DateCreated.ToString(postDate.Attributes["Format"]);
 					postDate.Attributes.Remove("Format");
 				}
 				else
 				{
-					postDate.Text = entry.DateSyndicated.ToString("f");
+					postDate.Text = entry.DateCreated.ToString("f");
 				}
 			}
 		}
@@ -134,12 +125,12 @@ namespace Subtext.Web.UI.Controls
 			{
 				if(permalink.Attributes["Format"] != null)
 				{
-					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Url, entry.DateSyndicated.ToString(permalink.Attributes["Format"]));
+					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Url, entry.DateCreated.ToString(permalink.Attributes["Format"]));
 					permalink.Attributes.Remove("Format");
 				}
 				else
 				{
-					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Url, entry.DateSyndicated.ToString("f"));
+					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Url, entry.DateCreated.ToString("f"));
 				}
 			}
 		}
@@ -151,11 +142,11 @@ namespace Subtext.Web.UI.Controls
 			{
 				if(entry.AllowComments)
 				{
-					PostDesc.Text = string.Format(postdescWithComments, entry.Url, entry.DateSyndicated.ToString("f"), entry.Url, entry.FeedBackCount);
+					PostDesc.Text = string.Format(postdescWithComments, entry.Url, entry.DateCreated.ToString("f"), entry.Url, entry.FeedBackCount);
 				}
 				else
 				{
-					PostDesc.Text = string.Format(postdescWithNoComments, entry.Url, entry.DateSyndicated.ToString("f"));
+					PostDesc.Text = string.Format(postdescWithNoComments, entry.Url, entry.DateCreated.ToString("f"));
 				}
 			}
 		}
@@ -165,80 +156,22 @@ namespace Subtext.Web.UI.Controls
 			PostCategoryList postCategories = (PostCategoryList)e.Item.FindControl("Categories");
 			if (postCategories != null)
 			{
-				postCategories.LinkCategories = Links.GetLinkCategoriesByPostId(entry.Id);
+				postCategories.LinkCategories = Links.GetLinkCategoriesByPostID(entry.Id);
 				postCategories.DataBind();
 			}
 		}
-
-        public static string ShowTruncatedBody(Entry entry,int definedwordlimit)
-        {
-            StringBuilder returnstring = new StringBuilder("<p>");
-            if (entry.Body == null)
-            {
-                returnstring.Append("");
-            }
-            else if (entry.Body.Length == 0)
-            {
-                returnstring.Append(entry.Body);
-            }
-            else
-            {
-                //We're counting words so HTML will get in the way
-                //unless somebody has a better idea....
-                entry.Body = HtmlHelper.RemoveHtml(entry.Body);
-
-                string[] words = entry.Body.Split(new Char[] { ' ' });
-                if (words.GetUpperBound(0) <= 0) //Body has one or fewer words
-                {
-                    returnstring.Append(entry.Body);
-                    // NO need for appended ... because
-                    //the entire post length is only one word
-                }
-                else
-                {
-                    int wordlimit;
-                    int actualnumberofwords = words.GetUpperBound(0) + 1;
-                    //First 100 words or however many there actually are, whichever is less
-                    if (actualnumberofwords < definedwordlimit)
-                    {
-                        wordlimit = actualnumberofwords;
-                    }
-                    else
-                    {
-                        wordlimit = definedwordlimit; //TODO: Make this configurable
-                    }
-                    for (int i = 0; i < wordlimit; i++)
-                    {
-                        returnstring.Append(words[i] + " ");
-                    }
-                    //truncate trailing space
-                    returnstring.Remove(returnstring.Length -1, 1);
-                    if (actualnumberofwords > definedwordlimit) // add ... if there is more to the body
-                    {
-                        returnstring.Append("...");
-                    }
-
-                }
-            }
-            returnstring.Append("</p>");
-            return string.Format(CultureInfo.InvariantCulture, "{0}", returnstring);
-        }   
 
 		private void BindPostText(RepeaterItemEventArgs e, Entry entry)
 		{
 			Literal PostText = (Literal)e.Item.FindControl("PostText");
 	
-			if(DescriptionOnly) // like on the monthly archive page
+			if(DescriptionOnly)
 			{
-                if (entry.HasDescription)
-                {
-                    PostText.Text = string.Format(CultureInfo.InvariantCulture, "<p>{0}</p>", entry.Description);
-                }
-                //DF:  Description=Excerpt, if none, show first 100 words of post
-                else
-                {
-                    PostText.Text = ShowTruncatedBody(entry,100);
-                }
+				if(entry.HasDescription)
+				{
+						
+					PostText.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<p>{0}</p>",entry.Description);
+				}
 			}
 			else
 			{
@@ -258,7 +191,7 @@ namespace Subtext.Web.UI.Controls
 			HyperLink title = e.Item.FindControl("TitleUrl") as HyperLink;
 			if(title != null)
 			{
-                title.Text = HttpUtility.HtmlEncode(entry.Title);
+				title.Text = entry.Title;
 				ControlHelper.SetTitleIfNone(title, "Click To View Entry.");
 				title.NavigateUrl = entry.Url;
 			}
@@ -278,7 +211,7 @@ namespace Subtext.Web.UI.Controls
 					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
 					{
 						//We'll slap on our little pencil icon.
-						editLink.ImageUrl = BlogInfo.VirtualDirectoryRoot + "Images/edit.gif";
+						editLink.ImageUrl = Config.CurrentBlog.VirtualDirectoryRoot + "Images/edit.gif";
 						ControlHelper.SetTitleIfNone(editLink, "Click to edit this entry.");
 						editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
 					}
@@ -298,18 +231,6 @@ namespace Subtext.Web.UI.Controls
 		}
 
 		private bool descriptionOnly = true;
-		/// <summary>
-		/// <para>
-		/// If true, then the EntryList will only show the description 
-		/// for an entry, if a description exists.
-        /// If a description does NOT exist, then show the first 100 words of the post 
-        /// followed by ...  TODO: make the number of words configurable.
-		/// </para>
-		/// <para>
-		/// If false, then the description is show. But if the description 
-		/// does not exist, the full text will be shown.
-		/// </para>
-		/// </summary>
 		public bool DescriptionOnly
 		{
 			get{return descriptionOnly;}

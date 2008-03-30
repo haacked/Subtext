@@ -13,9 +13,9 @@
 	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
 	<st:AdvancedPanel id="Results" runat="server" DisplayHeader="true" HeaderCssClass="CollapsibleHeader"
 		HeaderText="Referrers" Collapsible="False" LinkStyle="Image" LinkBeforeHeader="True" LinkText="[toggle]">
-		<ASP:Repeater id="rprSelectionList" runat="server">
+		<asp:Repeater id="rprSelectionList" runat="server">
 			<HeaderTemplate>
-				<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0">
+				<table id="Listing" class="listing highlightTable" cellspacing="0" cellpadding="0" border="0">
 					<tr>
 						<th>
 							Referred</th>
@@ -49,7 +49,7 @@
 				</tr>
 			</ItemTemplate>
 			<AlternatingItemTemplate>
-				<tr class="Alt">
+				<tr class="alt">
 					<td nowrap>
 						<%# GetTitle(Container.DataItem) %>
 					</td>
@@ -70,10 +70,10 @@
 			<FooterTemplate>
 			</table>
 		</FooterTemplate>
-		</ASP:Repeater>
+		</asp:Repeater>
 		<st:PagingControl id="resultsPager" runat="server" CssClass="Pager" UrlFormat="Referrers.aspx?pg={0}"
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>" />
-		<br class="clear">
+		<br class="clear" />
 	</st:AdvancedPanel>
 	<st:AdvancedPanel id="Edit" runat="server" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
 		HeaderText="Create TrackBack" Collapsible="False" LinkStyle="Image" Visible="False">

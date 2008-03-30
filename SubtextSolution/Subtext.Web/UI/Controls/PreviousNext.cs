@@ -113,7 +113,7 @@ namespace Subtext.Web.UI.Controls
 			}
 			navLink.Attributes.Remove("TextSizeLimit");
 
-            navLink.Text = string.Format(format, HttpUtility.HtmlEncode(entryTitle));
+            navLink.Text = HttpUtility.HtmlEncode(string.Format(format, entryTitle));
 			navLink.NavigateUrl = entry.FullyQualifiedUrl.ToString();
 		}
 	}

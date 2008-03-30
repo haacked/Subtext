@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 using System.Web;
 using System.Xml;
 using MbUnit.Framework;
@@ -26,25 +28,30 @@ namespace UnitTests.Subtext.Framework.Syndication
 		/// </para>
 		/// </summary>
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void CommentRssHandlerProducesValidEmptyFeed()
 		{
-			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
+			string hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
+			Assert.IsTrue(Config.CreateBlog("Test", "username", "password", hostName, string.Empty));
 
+			StringBuilder sb = new StringBuilder();
+			TextWriter output = new StringWriter(sb);
+			
 			DateTime dateCreated = DateTime.Now;
 			
-			Config.CurrentBlog.Owner.Email = "Subtext@example.com";
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
+			Config.CurrentBlog.Email = "Subtext@example.com";
 			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "Best post EVER", "testbody", null, dateCreated);
 			int id = Entries.Create(entry); //persist to db.
-			UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host, "", "", string.Format("/2006/04/01/{0}.aspx", id), context.ResponseTextWriter);
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", string.Format("/2006/04/01/{0}.aspx", id), output);
 
 			RssCommentHandler handler = new RssCommentHandler();
 			handler.ProcessRequest(HttpContext.Current);
 			HttpContext.Current.Response.Flush();
 
-			string rssOutput = context.ResponseStringBuilder.ToString();
+			string rssOutput = sb.ToString();
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(rssOutput);
 			Console.Write(rssOutput);

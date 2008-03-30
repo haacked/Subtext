@@ -10,49 +10,38 @@
 </asp:Content>
 
 <asp:Content ID="passwordContent" ContentPlaceHolderID="pageContent" runat="server">
+	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
 	<st:AdvancedPanel id="Results" runat="server" HeaderText="Password" LinkStyle="Image"
 		DisplayHeader="True" HeaderCssClass="CollapsibleHeader" Collapsible="False">
-		<asp:ChangePassword ID="passwordChanger" runat="server">
-			<ChangePasswordTemplate>
-				<fieldset>
-					<legend>Change Your Password</legend>
-					
-					<span class="error"><asp:Literal ID="FailureText" runat="server" EnableViewState="False" /></span>
-					
-					<asp:Label ID="CurrentPasswordLabel" runat="server" AssociatedControlID="CurrentPassword">Password:</asp:Label>				
-					<asp:TextBox ID="CurrentPassword" runat="server" TextMode="Password" CssClass="textbox" />
-					<asp:RequiredFieldValidator ID="CurrentPasswordRequired" runat="server" ControlToValidate="CurrentPassword"
-												ErrorMessage="Password is required." ToolTip="Password is required." ValidationGroup="Results$passwordChanger">*</asp:RequiredFieldValidator>
-										
-					<asp:Label ID="NewPasswordLabel" runat="server" AssociatedControlID="NewPassword">New Password:</asp:Label>
-					<asp:TextBox ID="NewPassword" runat="server" TextMode="Password" CssClass="textbox" />
-					<asp:RequiredFieldValidator ID="NewPasswordRequired" runat="server" ControlToValidate="NewPassword"
-												ErrorMessage="New Password is required." ToolTip="New Password is required."
-												ValidationGroup="Results$passwordChanger">*</asp:RequiredFieldValidator>
-										
-					<asp:Label ID="ConfirmNewPasswordLabel" runat="server" AssociatedControlID="ConfirmNewPassword">Confirm New Password:</asp:Label>
-					<asp:TextBox ID="ConfirmNewPassword" runat="server" TextMode="Password" CssClass="textbox" />
-					<asp:RequiredFieldValidator ID="ConfirmNewPasswordRequired" runat="server" ControlToValidate="ConfirmNewPassword"
-												ErrorMessage="Confirm New Password is required." ToolTip="Confirm New Password is required."
-												ValidationGroup="Results$passwordChanger">*</asp:RequiredFieldValidator>
-										
-					<asp:CompareValidator ID="NewPasswordCompare" runat="server" ControlToCompare="NewPassword"
-												ControlToValidate="ConfirmNewPassword" Display="Dynamic" ErrorMessage="The Confirm New Password must match the New Password entry."
-												ValidationGroup="Results$passwordChanger" />
-					
-					<p class="buttons">
-						<asp:Button ID="ChangePasswordPushButton" runat="server" CommandName="ChangePassword" CssClass="button"
-													Text="Change Password" ValidationGroup="Results$passwordChanger" />											
-					</p>						
-				</fieldset>
-			</ChangePasswordTemplate>
+		<div class="Edit">
+			<p>
+				<label>Current Password</label>
+				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" Display="Dynamic" ControlToValidate="tbCurrent"
+						ErrorMessage="Please enter your current passowrd" ForeColor="#990066"/>
+			</p>
+			<p>
+					<asp:TextBox id="tbCurrent" runat="server" CssClass="textinput" TextMode="Password"></asp:TextBox>
+			</p>		
 			
-			<SuccessTemplate>
-				<p class="success">
-					Your password was changed successfully!
-				</p>
-			</SuccessTemplate>
-			
-		</asp:ChangePassword>
+			<p>
+				<label>New Password</label>
+					<asp:RequiredFieldValidator id="RequiredFieldValidator5" runat="server" Display="Dynamic" ControlToValidate="tbPassword"
+						ErrorMessage="Please enter a password" ForeColor="#990066" />
+					<asp:CompareValidator id="CompareValidator1" runat="server" Display="Dynamic" ControlToValidate="tbPasswordConfirm"
+						ErrorMessage="Your passwords do not match" ControlToCompare="tbPassword" ForeColor="#990066" /></p>
+			<p>
+					<asp:TextBox id="tbPassword" runat="server" CssClass="textinput" TextMode="Password"></asp:TextBox>
+			</p>		
+			<p>
+				<label for="Edit_tbPasswordConfirm">Confirm Password</label>
+				<asp:RequiredFieldValidator id="RequiredFieldValidator6" runat="server" Display="Dynamic" ControlToValidate="tbPasswordConfirm"
+						ErrorMessage="Please confirm your password" ForeColor="#990066" /></p>
+			<p>
+					<asp:TextBox id="tbPasswordConfirm" runat="server" CssClass="textinput" TextMode="Password"></asp:TextBox>
+			</p>
+			<div>
+					<asp:Button id="btnSave" runat="server" CssClass="buttonSubmit" Text="Save" onclick="btnSave_Click"></asp:Button><br /><br />
+			</div>
+		</div>
 	</st:AdvancedPanel>
 </asp:Content>

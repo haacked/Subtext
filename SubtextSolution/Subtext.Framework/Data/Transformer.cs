@@ -36,39 +36,39 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public static LinkCategory BuildLinks(string title, CategoryType catType, UrlFormats formats)
 		{
-			ICollection<LinkCategory> lcc = Links.GetCategories(catType, ActiveFilter.ActiveOnly);
+            ICollection<LinkCategory> lcc = Links.GetCategories(catType, ActiveFilter.ActiveOnly);
 			LinkCategory lc = null;
-			if (lcc != null && lcc.Count > 0)
+			if(lcc != null && lcc.Count > 0)
 			{
 				lc = new LinkCategory();
 				lc.Title = title;
 				lc.Links = new List<Link>();
 				Link link;
-				foreach (LinkCategory linkCategory in lcc)
+				foreach(LinkCategory linkCategory in lcc)
 				{
 					link = new Link();
 
-					link.Title = linkCategory.Title;
-					switch (catType)
+                    link.Title = linkCategory.Title;
+					switch(catType)
 					{
 						case CategoryType.StoryCollection:
-							link.Url = formats.ArticleCategoryUrl(link.Title, linkCategory.Id);
+                            link.Url = formats.ArticleCategoryUrl(link.Title, linkCategory.Id);
 							break;
-
+						
 						case CategoryType.PostCollection:
-							link.Url = formats.PostCategoryUrl(link.Title, linkCategory.Id);
+                            link.Url = formats.PostCategoryUrl(link.Title, linkCategory.Id);
 							link.Rss = link.Url + "/rss";
 							break;
-
+						
 						case CategoryType.ImageCollection:
-							link.Url = formats.GalleryUrl(link.Title, linkCategory.Id);
+                            link.Url = formats.GalleryUrl(link.Title, linkCategory.Id);
 							break;
 
 					}
 					link.NewWindow = false;
 					lc.Links.Add(link);
 				}
-			}
+			}				
 			return lc;
 		}
 
@@ -81,12 +81,12 @@ namespace Subtext.Framework.Data
 		/// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
 		public static LinkCategory BuildMonthLinks(string title, UrlFormats formats)
 		{
-			ICollection<ArchiveCount> acc = Archives.GetPostCountByMonth();
+            ICollection<ArchiveCount> acc = Archives.GetPostsByMonthArchive();
 
 			LinkCategory lc = new LinkCategory();
 			lc.Title = title;
 			lc.Links = new List<Link>();
-			foreach (ArchiveCount ac in acc)
+			foreach(ArchiveCount ac in acc)
 			{
 				Link link = new Link();
 				link.NewWindow = false;
@@ -100,32 +100,32 @@ namespace Subtext.Framework.Data
 			return lc;
 		}
 
-		/// <summary>
-		/// Will convert ArchiveCountCollection method from Archives.GetPostsByCategoryArchive()
-		/// into a <see cref="LinkCategory"/>. LinkCategory is a common item to databind to a web control.
-		/// </summary>
-		/// <param name="title">title for the Category</param>
-		/// <param name="formats">Determines how the Urls are formated</param>
-		/// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
-		public static LinkCategory BuildCategoriesArchiveLinks(string title, UrlFormats formats)
-		{
-			ICollection<ArchiveCount> acc = Archives.GetPostCountByCategory();
+        /// <summary>
+        /// Will convert ArchiveCountCollection method from Archives.GetPostsByCategoryArchive()
+        /// into a <see cref="LinkCategory"/>. LinkCategory is a common item to databind to a web control.
+        /// </summary>
+        /// <param name="title">title for the Category</param>
+        /// <param name="formats">Determines how the Urls are formated</param>
+        /// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
+        public static LinkCategory BuildCategoriesArchiveLinks(string title, UrlFormats formats)
+        {
+            ICollection<ArchiveCount> acc = Archives.GetPostsByCategoryArchive();
 
-			LinkCategory lc = new LinkCategory();
-			lc.Title = title;
-			lc.Links = new List<Link>();
-			foreach (ArchiveCount ac in acc)
-			{
-				Link link = new Link();
-				link.NewWindow = false;
-				link.Title = ac.Title + " (" + ac.Count.ToString(CultureInfo.InvariantCulture) + ")";
-				link.Url = formats.PostCategoryUrl(ac.Title, ac.Id);
-				link.NewWindow = false;
-				link.IsActive = true;
+            LinkCategory lc = new LinkCategory();
+            lc.Title = title;
+            lc.Links = new List<Link>();
+            foreach (ArchiveCount ac in acc)
+            {
+                Link link = new Link();
+                link.NewWindow = false;
+                link.Title = ac.Title + " (" + ac.Count.ToString(CultureInfo.InvariantCulture) + ")";
+                link.Url = formats.PostCategoryUrl(ac.Title, ac.Id);
+                link.NewWindow = false;
+                link.IsActive = true;
 
-				lc.Links.Add(link);
-			}
-			return lc;
-		}
+                lc.Links.Add(link);
+            }
+            return lc;
+        }
 	}
 }

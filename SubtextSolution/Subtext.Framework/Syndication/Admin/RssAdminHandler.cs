@@ -113,13 +113,13 @@ namespace Subtext.Framework.Syndication.Admin
 			switch(rssType)
 			{
 				case "Comment":
-					FeedbackStatusFlags flags = FeedbackStatusFlags.None;
+					FeedbackStatusFlag flags = FeedbackStatusFlag.None;
 
 					foreach (string filter in filters)
 					{
-						if (Enum.IsDefined(typeof(FeedbackStatusFlags), filter))
+						if (Enum.IsDefined(typeof(FeedbackStatusFlag), filter))
 						{
-							flags |= (FeedbackStatusFlags)Enum.Parse(typeof(FeedbackStatusFlags), filter, true);
+							flags |= (FeedbackStatusFlag)Enum.Parse(typeof(FeedbackStatusFlag), filter, true);
 						}
 					}
 
@@ -161,7 +161,7 @@ namespace Subtext.Framework.Syndication.Admin
 					Entry entry = new Entry(PostType.None);
 					entry.Title = title;
 
-					if (((FeedbackStatusFlags)filterFlags) == FeedbackStatusFlags.NeedsModeration)
+					if (((FeedbackStatusFlag)filterFlags) == FeedbackStatusFlag.NeedsModeration)
 					{
 						entry.Url = CurrentBlog.UrlFormats.AdminUrl("Feedback.aspx?status=2");
 					}

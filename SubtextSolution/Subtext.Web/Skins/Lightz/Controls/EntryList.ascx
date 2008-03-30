@@ -5,7 +5,7 @@
 <div class="post">
 <asp:Literal ID = "EntryCollectionDescription" Runat = "server" />
 </div>
-<asp:Repeater runat="Server" ID="Entries" OnItemCreated="PostCreated">
+<asp:Repeater runat="Server" Runat="server" ID="Entries" OnItemCreated="PostCreated">
 	<HeaderTemplate>
 		<br/>
 	</HeaderTemplate>

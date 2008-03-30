@@ -7,8 +7,6 @@ body
 	padding: 0;
 }
 
-.hide { display: none; }
-
 #logo
 {
 	background: url(../../images/SubtextLogo_small.png);
@@ -114,21 +112,24 @@ div.Pager a.Current:visited  {
 	margin: 0px 2px 0px 2px;
 }
 
-a:link, a:visited {
+a:link, a:visited,
+#messagePanel .btn 
+{
 	color: #002C99;
 	font-weight: bold;
 	text-decoration: none;
 	background: inherit;
 }
 
-a:hover 
+a:hover,
+.btn:hover
 {
 	color: #CC0066;
 	text-decoration: underline;
 }
 
 a.Button:link,
-a.Button:visited 
+a.Button:visited
 {
 	display: block;
 	float: left;
@@ -273,6 +274,15 @@ div.Action
 	margin-bottom: 8px;
 	padding: 8px 12px 0px 12px;
 	background: #EEEEEE;
+}
+
+div#Main div.Edit  
+{
+	color: #333333;
+	border-bottom: 1px solid #AAAAAA;
+	margin-bottom: 8px;
+	padding: 4px 12px;
+	background: #F5F5F5;
 }
 
 div.Dialog {
@@ -448,9 +458,10 @@ table#Footer td {
 	padding: 4px 8px;
 }
 
-table.Listing 
+table.listing 
 {
 	border-bottom: 3px solid #6B86B3;
+	border-collapse:collapse;
 	margin: 0px 0px 8px 0px;
 	width: 100%;
 }
@@ -511,34 +522,34 @@ div.CollapsibleTitle a:hover {
 	background: inherit;
 }
 
-table.Listing td
+table.listing td
 {
 	border-bottom: 1px solid #E6E6E6;
 }
 
-table.Listing td, 
-table.Listing th,
-table.Listing caption, 
+table.listing td, 
+table.listing th,
+table.listing caption, 
 h2 {
 	padding: 4px 12px 4px 12px;
 	text-align: left;
 }
 
-table.Listing tr {
+table.listing tr {
 	color: inherit;
 	background: #F5F5F5;
 }
 
-table.Listing th,
-table.Listing td.Header,
-table.Listing tr.Header td {
+table.listing th,
+table.listing td.Header,
+table.listing tr.Header td {
 	font-weight: bold;
 	color: inherit;
 	border-bottom: 1px solid #6B86B3;
 	background: #FFFFFF;
 }
 
-table.Listing tr.Alt 
+table.listing tr.alt 
 {
 	color: inherit;
 	background: #FFFFFF;
@@ -716,7 +727,6 @@ body.Posts li#PostsTab,
 body.Articles li#ArticlesTab,
 body.Feedback li#FeedbackTab,
 body.Links li#LinksTab,
-body.Users li#UsersTab,
 body.Galleries .NavHeaderRow #TopNav li.galleryTab,
 body.Stats li#StatsTab,
 body.Options li#OptionsTab,
@@ -728,7 +738,6 @@ body.ImportExport li#ImportExportTab
 body.Posts a#TabPosts,
 body.Articles a#TabArticles,
 body.Feedback a#TabFeedback,
-body.Users a#TabUsers,
 body.Links a#TabLinks,
 body.Galleries a#TabGalleries,
 body.Stats a#TabStats,
@@ -738,12 +747,7 @@ body.ImportExport a#TabImportExport  {
   color:#333;
   padding-bottom:5px;
   }
-
-.error
-{
-	color: #c00;
-}
-
+  
 div.errorPage
 {
 	padding: 4px; 
@@ -865,124 +869,100 @@ div.wide, fieldset.wide
 	width: 430px;
 }
 
-#editPost .textbox
-{
-	width: 697px;
-}
-
-fieldset select.timezonelist
-{
-	font-size: .8em;	
-}
-
 .clear { clear: both; }
 .left { float:left; }
 .right { float: right; }
 .block { display: block; }
 .inline { display: inline; }
 
+.fluid { width:100% ! important; }
+.auto { width:auto ! important; }
 
-div.role-chooser ul li
+
+#metatag-table tr.new,
+#metatag-table tr.updated
 {
-	display: inline;
-	float: left;
+	font-weight:bold;
+	background-color: #FFFF66;
 }
 
-div.role-chooser ul
+#metatag-table th,
+#metatag-table td
 {
-	padding: 0;
-	margin: 0;
+	width:24%;
 }
 
-div.role-chooser ul li
+#metatag-content .btn
 {
-	margin-left: 0;
-	margin-right: 10px;
+	margin-right:.5em;
+	padding-right:20px;
+}
+#metatag-content .metatag-add
+{
+	background: transparent url(../../Images/tag_blue_add.png) no-repeat scroll right center;
+}
+#metatag-content .metatag-edit
+{
+	background: transparent url(../../Images/tag_blue_edit.png) no-repeat scroll right center;
+}
+#metatag-content .metatag-delete
+{
+	background: transparent url(../../Images/tag_blue_delete.png) no-repeat scroll right center;
+}
+#metatag-content .metatag-save
+{
+	background: transparent url(../../Images/accept.png) no-repeat scroll right center;
+}
+#metatag-content .metatag-cancel
+{
+	background: transparent url(../../Images/cross.png) no-repeat scroll right center;
 }
 
-div.role-chooser ul li input, 
-div.role-chooser ul li label
+
+#messagePanelContainer { min-height:1.5em; }
+
+#messagePanelWrapper
 {
-	display: inline-block;
-	margin: 0;
+	padding: .25em 1em;
+	border:1px solid #FFF;
+}
+#messagePanelWrapper p
+{
+	font-size:.9em;
+	margin:0;
+	padding:0;
 }
 
-div.button-row
+#messagePanel { padding-left: 20px; }
+
+#messagePanelWrapper.error
 {
-	clear: both;
+	background-color:#FFADAD;
+	border:1px solid #FF5757;
+}
+#messagePanelWrapper.error #messagePanel
+{
+	background: transparent url(../../Images/exclamation.png) no-repeat scroll left center;
 }
 
-/*-------------{table styles}--------------*/
-table
+#messagePanelWrapper.warn,
+#messagePanelWrapper.info
 {
-	border-collapse: collapse;
+	background-color:#FFFF66;
+	border:1px solid #B2B347;
+}
+#messagePanelWrapper.warn #messagePanel,
+#messagePanelWrapper.info #messagePanel
+{
+	background: transparent url(../../Images/error.png) no-repeat scroll left center;
 }
 
-table tr.header
+#messagePanelWrapper.success
 {
-	background-color: #ffc;
+	background-color:#F8FFF0;
+	border:1px solid #A0DC11;
 }
-
-table.log
+#messagePanelWrapper.success #messagePanel
 {
-	border: solid 1px #ddd;
-}
-
-table.log .pre-header input, table.log .pre-header label
-{
-	float: left;
-}
-
-table.log .pre-header input.button
-{
-	float: right;
-}
-
-table.log th.logger
-{
-	width: 200px;
-}
-
-table.log tr
-{
-	vertical-align: top;
-}
-
-table.log td, table.log th
-{
-	font-size: .8em;
-	padding: 5px;
-	text-align: left;
-}
-
-table.log td, table.log th
-{
-	border: solid 1px #eee;
-}
-
-table.log td.date
-{
-	font-size: smaller;
-}
-
-table tr.alt
-{
-	color: inherit;
-	background: #ffffef;
-}
-
-table tr
-{
-	color: inherit;
-	background: #fff;
-}
-
-table tr.selected
-{
-	background-color: #e7f4fe;
-}
-
-table.users-table td, table.users-table th
-{
-	font-size: 1.1em;
+	background: transparent url(../../Images/accept.png) no-repeat scroll left center;
 }

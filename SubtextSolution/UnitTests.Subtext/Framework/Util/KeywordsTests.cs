@@ -5,7 +5,7 @@ using Subtext.Framework.Util;
 namespace UnitTests.Subtext.Framework.Util
 {
 	/// <summary>
-	/// Unit tests for the <see cref="Keywords"/> class.
+	/// Unit tests for the <see cref="KeyWords"/> class.
 	/// </summary>
 	[TestFixture]
 	public class KeywordsTests
@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Util
 			//TODO:??? [Row("This is'nt a test.", "is", "farce", "This is'nt a test.")]
 			//TODO:??? [Row("This is&#8217;nt a test.", "is", "farce", "This is&#8217;nt a test.")]
 			//Note keyword replace are case sensitive.
-			Assert.AreEqual(expected, Keywords.Replace(source, oldValue, newValue));
+			Assert.AreEqual(KeyWords.Replace(source, oldValue, newValue), expected);
 		}
 	}
 }

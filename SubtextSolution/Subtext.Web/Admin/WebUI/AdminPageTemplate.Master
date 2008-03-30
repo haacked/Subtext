@@ -1,22 +1,29 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminPageTemplate.master.cs" Inherits="Subtext.Web.Admin.WebUI.AdminPageTemplate" %>
-<%@ Import namespace="Subtext.Framework.Configuration"%>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<%@ Register TagPrefix="st1" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Import Namespace = "Subtext.Web.Admin" %>
+<%@ Import Namespace="Subtext.Framework.Configuration"%>
+<%@ Import Namespace="Subtext.Web.Admin" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
     <title>Subtext - Admin</title>
-    <st1:ScriptTag id="commonJs" src="~/Scripts/common.js" runat="server" />
-    <st1:ScriptTag id="tableEffectsJS" src="~/Scripts/tableEffects.js" runat="server" />
-    <st:StyleTag id="FormsStyle" href="~/Skins/_System/forms.css" runat="server" />
-	<st1:ScriptTag id="HelptipJs" src="~/admin/resources/Scripts/helptip.js" runat="server" />
-	<st1:ScriptTag id="AdminJs" src="~/admin/resources/Scripts/admin.js" runat="server" />
-	<link id="commonLayoutCss" type="text/css" rel="stylesheet" runat="Server" href="~/Skins/_System/commonlayout.css" />
-	<link id="commonStyleCss" type="text/css" rel="stylesheet" runat="Server" href="~/Skins/_System/commonstyle.css" />
-	<st:HeaderLink id="HelptipCss" rel="stylesheet" href="resources/scripts/helptip.css" linkType="text/css" runat="server" />
-	<st:HeaderLink id="adminCss" rel="stylesheet" href="resources/admin.css" linkType="text/css" runat="server" />
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery-1.2.1.min.js") %>" ></script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery.color.min.js") %>" ></script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery.hotkeys.min.js") %>" ></script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>" ></script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/json.js") %>" ></script>
+    <script type="text/javascript" src="<%= Config.CurrentBlog.RootUrl + "Admin/Services/Ajax/AjaxServices.ashx?proxy" %>" ></script>
+    <script type="text/javascript">
+        var ajaxServices = new AjaxServices();
+    </script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/tableEffects.js") %>" ></script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Admin/Resources/Scripts/niceForms.js") %>"></script>
+	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Admin/Resources/Scripts/helptip.js") %>" ></script>
+	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Admin/Resources/Scripts/admin.js") %>" ></script>
+	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/commonlayout.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/commonstyle.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/Admin/Resources/Scripts/helptip.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/Admin/Resources/admin.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/Admin/Resources/Scripts/niceforms-default.css" />
 </head>
 <body id="AdminSection" runat="server">
     <form id="frmMain" runat="server">
@@ -28,7 +35,8 @@
 				</td>
 				<td id="header">
 					<div id="SiteNav">
-						Logged in as <strong><asp:LoginName ID="loginName" runat="server" /></strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>) 
+						Logged in as <strong>
+							<asp:Literal Runat="server" ID="LoggedInUser" Text="<%# Config.CurrentBlog.Author %>" /></strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>) 
 						| <a href="http://www.subtextproject.com/" title="Subtext Project Site">Subtext Project Site</a>
 						<br />
 						
@@ -40,7 +48,10 @@
 			</tr>
 			<tr>
 				<td style="vertical-align:bottom;">
-					<div id="LeftNavHeader"><asp:ContentPlaceHolder ID="actionsHeading" runat="server" /></div>
+                    <div id="LeftNavHeader">
+                        <asp:ContentPlaceHolder ID="actionsHeading" runat="server">
+                            Actions</asp:ContentPlaceHolder>
+                    </div>
 				</td>
 				<td class="NavHeaderRow">
 					<div id="headerSS">
@@ -48,7 +59,6 @@
 							<li id="PostsTab"><a href="EditPosts.aspx" id="TabPosts" title="Posts">Posts</a></li>
 							<li id="ArticlesTab"><a href="EditArticles.aspx" id="TabArticles" title="Articles">Articles</a></li>
 							<li id="FeedbackTab"><a href="Feedback.aspx" id="TabFeedback" title="Feedback">Feedback</a></li>
-							<li id="UsersTab"><a href="Users.aspx" id="TabUsers" title="Users">Users</a></li>
 							<li id="LinksTab"><a href="EditLinks.aspx" id="TabLinks" title="Links">Links</a></li>
 							<li runat="server" id="galleryTab" class="galleryTab" visible="<%# Config.Settings.AllowImages %>">
 								<a href="EditGalleries.aspx" id="TabGalleries" title="Galleries">Galleries</a>
@@ -99,7 +109,7 @@
 					</div>
 					<div>
 						<a href="http://www.asp.net"><img id="PoweredBy" src='<%= Utilities.ResourcePath + "resources/poweredbydotnet.gif" %>' height="33" width="99" alt="Powerd By Subtext" /></a>
-						Subtext Copyright &copy; <a href="http://haacked.com/" title="Founder of Subtext">Phil Haack</a>, 2005-2007. All rights 
+						Subtext Copyright &copy; <a href="http://haacked.com/" title="Founder of Subtext">Phil Haack</a>, 2005-2006. All rights 
 						reserved.<br />
 						.TEXT Copyright &copy; <a href="http://scottwater.com/blog" title="Creator of .TEXT">Scott Watermasysk</a>, 2003. 
 						All rights reserved.

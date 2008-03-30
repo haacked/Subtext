@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Threading;
 using Subtext.Framework.Logging;
@@ -86,6 +85,7 @@ namespace Subtext.Framework.Threading
 			// needed for any core functionality.
 			_waitingCallbacks = new Queue();
 			_workerThreads = new ArrayList();
+			_inUseThreads = 0;
 
 			// Create our "thread needed" event
 			_workerThreadNeeded = new Semaphore(0);
@@ -204,10 +204,6 @@ namespace Subtext.Framework.Threading
 					Interlocked.Increment(ref _inUseThreads);
 					callback.Callback(callback.State);
 				} 
-				catch(SqlException)
-				{
-					throw;
-				}
 				catch(Exception exc)
 				{
 					// Make sure we don't throw here.

@@ -35,7 +35,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -97,14 +97,8 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="SubSonic, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\SubSonic.dll</HintPath>
-    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -112,14 +106,21 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
-    <Reference Include="System.Design" />
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
-    <Reference Include="System.XML" />
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
     <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
-      <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Name>Subtext.Extensibility</Name>
+      <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
+      <Name>Subtext.Framework</Name>
+      <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
       <Name>Subtext.Scripting</Name>
@@ -127,8 +128,9 @@
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
-      <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
       <Name>Subtext.Web.Controls</Name>
+      <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -144,37 +146,26 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Import\DotText095ImportProvider.cs" />
-    <Compile Include="Installer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="InstallerProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\GlobalSuppressions.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="ScriptHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SqlInstallationProvider.cs" />
+    <Compile Include="SqlInstallationProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SqlInstaller.cs" />
     <EmbeddedResource Include="Scripts\ImportDotText095.sql" />
     <EmbeddedResource Include="Scripts\Installation.01.00.00.sql" />
     <EmbeddedResource Include="Scripts\Installation.01.05.00.sql" />
     <EmbeddedResource Include="Scripts\StoredProcedures.sql" />
+    <Content Include="ExternalDependencies\log4net.dll" />
+    <Content Include="ExternalDependencies\log4net.xml" />
+    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
+    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.xml" />
     <EmbeddedResource Include="Scripts\Installation.01.09.00.sql" />
     <EmbeddedResource Include="Scripts\Installation.01.09.02.sql" />
-    <EmbeddedResource Include="Scripts\Installation.01.99.90.sql" />
+    <Content Include="Scripts\Migration_Notes.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Scripts\Installation.01.09.03.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -182,14 +173,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Installation.01.09.04.sql" />
-    <EmbeddedResource Include="Scripts\Installation.01.99.91.sql" />
-    <EmbeddedResource Include="Scripts\Installation.02.00.00.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Installation.01.09.06.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

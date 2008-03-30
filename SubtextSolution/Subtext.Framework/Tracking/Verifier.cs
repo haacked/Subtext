@@ -14,23 +14,23 @@
 #endregion
 
 #region Notes
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// The code in this file is freely distributable.
-// 
-// ASPNetWeblog isnot responsible for, shall have no liability for 
-// and disclaims all warranties whatsoever, expressed or implied, related to this code,
-// including without limitation any warranties related to performance, security, stability,
-// or non-infringement of title of the control.
-// 
-// If you have any questions, comments or concerns, please contact
-// Scott Watermasysk, Scott@TripleASP.Net.
-// 
-// For more information on this control, updates, and other tools to integrate blogging 
-// into your existing applications, please visit, http://aspnetweblog.com
-// 
-// Originally based off of code by Simon Fell http://www.pocketsoap.com/weblog/ 
-// 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+ ///////////////////////////////////////////////////////////////////////////////////////////////////
+ // The code in this file is freely distributable.
+ // 
+ // ASPNetWeblog isnot responsible for, shall have no liability for 
+ // and disclaims all warranties whatsoever, expressed or implied, related to this code,
+ // including without limitation any warranties related to performance, security, stability,
+ // or non-infringement of title of the control.
+ // 
+ // If you have any questions, comments or concerns, please contact
+ // Scott Watermasysk, Scott@TripleASP.Net.
+ // 
+ // For more information on this control, updates, and other tools to integrate blogging 
+ // into your existing applications, please visit, http://aspnetweblog.com
+ // 
+ // Originally based off of code by Simon Fell http://www.pocketsoap.com/weblog/ 
+ // 
+ ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 using System;
 using System.Net;
@@ -47,7 +47,7 @@ namespace Subtext.Framework.Tracking
 	public static class Verifier
 	{
 		private readonly static ILog Log = new Log();
-
+		
 		/// <summary>
 		/// Checks that the contents of the source url contains the target URL.
 		/// </summary>
@@ -63,24 +63,24 @@ namespace Subtext.Framework.Tracking
 			{
 				page = HttpHelper.GetPageText(sourceUrl);
 			}
-			catch (WebException e)
+			catch(WebException e)
 			{
 				Log.Warn("Could not verify the source of a ping/trackback", e);
 			}
 			if (page == null || targetUrl == null)
 				return false;
-
-			string pat = @"<head.*?>.*<title.*?>(.*)</title.*?>.*</head.*?>";
-			Regex reg = new Regex(pat, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-			Match m = reg.Match(page);
-			if (m.Success)
+					
+			string pat = @"<head.*?>.*<title.*?>(.*)</title.*?>.*</head.*?>" ;
+			Regex reg = new Regex(pat, RegexOptions.IgnoreCase | RegexOptions.Singleline) ;
+			Match m = reg.Match(page) ;
+			if(m.Success)
 			{
-				pageTitle = m.Result("$1");
+				pageTitle = m.Result("$1") ;
 				return true;
 			}
 			return false;
 		}
-
+		
 		/// <summary>
 		/// Checks that the contents of the source url contains the target URL.
 		/// </summary>
@@ -94,3 +94,4 @@ namespace Subtext.Framework.Tracking
 		}
 	}
 }
+

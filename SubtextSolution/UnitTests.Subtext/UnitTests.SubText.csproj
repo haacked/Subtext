@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{16036AF0-ED24-4605-8919-90B40510BD68}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -112,75 +112,57 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlogML, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\BlogML.dll</HintPath>
+    <Reference Include="BlogML, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="FredCK.FCKeditorV2">
+      <Name>FredCK.FCKeditorV2</Name>
+      <HintPath>ExternalDependencies\FredCK.FCKeditorV2.dll</HintPath>
     </Reference>
-    <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\CookComputing.XmlRpcV2.dll</HintPath>
+    <Reference Include="FreeTextBox">
+      <Name>freetextbox</Name>
+      <HintPath>ExternalDependencies\freetextbox.dll</HintPath>
     </Reference>
-    <Reference Include="DeftTech.DuckTyping, Version=0.9.27.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DeftTech.DuckTyping.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <Name>ICSharpCode.SharpZipLib</Name>
+      <HintPath>ExternalDependencies\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit.Framework, Version=1.0.2700.29885, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\MbUnit.Framework.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
+    <Reference Include="MbUnit.Framework, Version=1.0.2700.29885, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
+    <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.Smo, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.SmoEnum, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.SqlEnum, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="NGraphviz">
+      <Name>NGraphviz</Name>
+      <HintPath>ExternalDependencies\NGraphviz.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit.Framework.2.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\MbUnit.Framework.2.0.dll</HintPath>
+    <Reference Include="NGraphviz.Helpers">
+      <Name>NGraphviz.Helpers</Name>
+      <HintPath>ExternalDependencies\NGraphviz.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
+    <Reference Include="NGraphviz.Layout">
+      <Name>NGraphviz.Layout</Name>
+      <HintPath>ExternalDependencies\NGraphviz.Layout.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Smo, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Microsoft.SqlServer.Smo.dll</HintPath>
+    <Reference Include="QuickGraph">
+      <Name>QuickGraph</Name>
+      <HintPath>ExternalDependencies\QuickGraph.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.SmoEnum, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Microsoft.SqlServer.SmoEnum.dll</HintPath>
+    <Reference Include="QuickGraph.Algorithms">
+      <Name>QuickGraph.Algorithms</Name>
+      <HintPath>ExternalDependencies\QuickGraph.Algorithms.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.SqlEnum, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Microsoft.SqlServer.SqlEnum.dll</HintPath>
+    <Reference Include="QuickGraph.Algorithms.Graphviz">
+      <Name>QuickGraph.Algorithms.Graphviz</Name>
+      <HintPath>ExternalDependencies\QuickGraph.Algorithms.Graphviz.dll</HintPath>
     </Reference>
-    <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\freetextbox.dll</HintPath>
+    <Reference Include="Refly">
+      <Name>Refly</Name>
+      <HintPath>ExternalDependencies\Refly.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.BatchParser, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Microsoft.SqlServer.BatchParser.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Replication, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Microsoft.SqlServer.Replication.dll</HintPath>
-    </Reference>
-    <Reference Include="NGraphviz, Version=1.5.1609.21361, Culture=neutral, PublicKeyToken=05e526eb3b1f8001">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\NGraphviz.dll</HintPath>
-    </Reference>
-    <Reference Include="Rhino.Mocks, Version=3.1.0.584, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Rhino.Mocks.dll</HintPath>
-    </Reference>
-    <Reference Include="Subkismet, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Subkismet.dll</HintPath>
-    </Reference>
-    <Reference Include="SubSonic, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\SubSonic.dll</HintPath>
-    </Reference>
+    <Reference Include="Rhino.Mocks, Version=3.1.0.584, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -188,21 +170,24 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
-    <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices">
       <Name>System.EnterpriseServices</Name>
     </Reference>
-    <Reference Include="System.Transactions" />
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="TestFu, Version=1.0.2700.29883, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+    <Reference Include="TestFu, Version=1.0.2700.29883, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
+    <Reference Include="Velocit.RegularExpressions, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\TestFu.dll</HintPath>
+      <HintPath>ExternalDependencies\Velocit.RegularExpressions.dll</HintPath>
     </Reference>
+    <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
+      <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
+      <Name>Subtext.Akismet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
       <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
       <Name>Subtext.BlogML</Name>
@@ -212,8 +197,8 @@
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.Framework\SubText.Framework.csproj">
-      <Name>SubText.Framework</Name>
+    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
+      <Name>Subtext.Framework</Name>
       <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
@@ -221,14 +206,6 @@
       <Name>Subtext.Installation</Name>
       <Project>{745B39B7-DE46-4070-8733-C53308721C58}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\Subtext.Plugins.Core\Subtext.Plugins.Core.csproj">
-      <Project>{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}</Project>
-      <Name>Subtext.Plugins.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Subtext.Plugins.Examples\Subtext.Plugins.Examples.csproj">
-      <Project>{E92C1C9B-FB2C-457B-B441-3CAEA3DCFC7A}</Project>
-      <Name>Subtext.Plugins.Examples</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj">
       <Project>{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}</Project>
@@ -239,9 +216,9 @@
       <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.TestLibrary\Subtext.TestLibrary.csproj">
+    <ProjectReference Include="..\Subtext.UnitTesting.Servers\Subtext.UnitTesting.Servers.csproj">
       <Project>{062D373E-FAC0-4451-BF57-8A2352AAC1BB}</Project>
-      <Name>Subtext.TestLibrary</Name>
+      <Name>Subtext.UnitTesting.Servers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
       <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
@@ -252,10 +229,6 @@
       <Project>{8C11B428-9C4A-46C3-B7F0-48215276BFA5}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext\Subtext.csproj">
-      <Project>{1BEA026A-5D3E-4153-9733-3C5A8EEE1524}</Project>
-      <Name>Subtext</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
@@ -264,41 +237,15 @@
     <Compile Include="..\VersionInfo.Designer.cs">
       <Link>VersionInfo.Designer.cs</Link>
     </Compile>
-    <Compile Include="Akismet\AkismetSpamServiceTests.cs" />
+    <Compile Include="Akismet\AkismetApiTests.cs" />
     <Compile Include="AssemblySetUpAndCleanUp.cs" />
     <Compile Include="BlogEntryProvider\FileBrowserConnectorTests.cs" />
+    <Compile Include="BlogMl\BlogMlHandlerTests.cs" />
     <Compile Include="BlogMl\BlogMlImportTests.cs" />
     <Compile Include="BlogMl\BlogMLReaderTests.cs" />
     <Compile Include="BlogMl\BlogMlWriterTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMlWriterTests.cs" />
-    <Compile Include="BlogRequestSimulator.cs" />
-    <Compile Include="Extensibility\PluginsTests.cs" />
-    <Compile Include="Framework\ArchiveTests.cs" />
-    <Compile Include="Framework\ImageTests.cs" />
-    <Compile Include="Framework\ImportManagerTests.cs" />
-    <Compile Include="Framework\NullValueTests.cs" />
-    <Compile Include="Framework\Providers\GenericProviderCollectionTests.cs" />
-    <Compile Include="Framework\Search\SearchTests.cs" />
-    <Compile Include="Framework\Security\SecurityTests.cs" />
-    <Compile Include="Framework\Security\SubtextMembershipProviderTests.cs" />
-    <Compile Include="Framework\Security\SubtextRoleProviderTests.cs" />
-    <Compile Include="Framework\StatsTests.cs" />
-    <Compile Include="Framework\TagsTests.cs" />
-    <Compile Include="Framework\Web\BaseHttpHandlerTests.cs" />
-    <Compile Include="HttpSimulatorTests.cs" />
-    <Compile Include="Installation\InstallerTests.cs" />
-    <Compile Include="Plugins\Core\FeedvertisingTests.cs" />
-    <Compile Include="PresenterTestContext.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Scripting\ConnectionStringTests.cs" />
-    <Compile Include="Scripting\SqlScriptRunnerTests.cs" />
-    <Compile Include="Scripting\TemplateParameterCollectionTests.cs" />
-    <Compile Include="Scripting\TemplateParameterTests.cs" />
-    <Compile Include="SimulatedRequestContext.cs" />
+    <Compile Include="DatabaseHelper.cs" />
     <Compile Include="Extensibility\DotNetOpenMailProviderSendTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -308,6 +255,8 @@
     <Compile Include="Framework\BlogInfoTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Components\ArchiveCountTests.cs" />
+    <Compile Include="Framework\Components\BlogGroupTests.cs" />
     <Compile Include="Framework\Components\CollectionBookTests.cs" />
     <Compile Include="Framework\Components\CommentTests\CommentSettingsTests.cs" />
     <Compile Include="Framework\Components\CommentTests\FeedbackTests.cs" />
@@ -328,14 +277,21 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Components\EntryTests\PreviousNextTests.cs" />
+    <Compile Include="Framework\Components\EntryViewTests.cs" />
+    <Compile Include="Framework\Components\ImageTests.cs" />
+    <Compile Include="Framework\Components\KeywordTests.cs" />
+    <Compile Include="Framework\Components\LinkTests.cs" />
     <Compile Include="Framework\Components\MetaTagTests\MetaTagDeleteTests.cs" />
     <Compile Include="Framework\Components\MetaTagTests\MetaTagGetTests.cs" />
     <Compile Include="Framework\Components\MetaTagTests\MetaTagInsertTests.cs" />
     <Compile Include="Framework\Components\MetaTagTests\MetaTagIsValidTests.cs" />
     <Compile Include="Framework\Components\MetaTagTests\MetaTagUpdateTests.cs" />
+    <Compile Include="Framework\Components\ReferrerTests.cs" />
+    <Compile Include="Framework\Components\TagTests.cs" />
     <Compile Include="Framework\Components\TrackbackTests\TrackbackCreation.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Components\ViewStatTests.cs" />
     <Compile Include="Framework\Configuration\BlogAliasTests.cs" />
     <Compile Include="Framework\Configuration\BlogCreationTests.cs">
       <SubType>Code</SubType>
@@ -349,11 +305,11 @@
     <Compile Include="Framework\Data\ContentCacheTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Framework\Data\DatabaseObjectProviderTests.cs" />
     <Compile Include="Framework\Data\DataHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Data\PagedCollectionRetrievalTests.cs" />
+    <Compile Include="Framework\Data\SqlDataProviderTests.cs" />
     <Compile Include="Framework\Format\UrlFormatTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -365,6 +321,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Providers\ProviderConfigurationHelperTests.cs" />
+    <Compile Include="Framework\SecurityHandling\SecurityTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Framework\Skinning\SkinScriptsTests.cs" />
     <Compile Include="Framework\Skinning\SkinStylesTests.cs" />
     <Compile Include="Framework\Skinning\SkinTests.cs" />
@@ -418,16 +377,32 @@
     <Compile Include="Installation\SqlInstallationProviderTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ReflectionHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Scripting\ConnectionStringParseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Scripting\ExceptionTests.cs" />
     <Compile Include="Scripting\ScriptHelperTests.cs" />
+    <Compile Include="Scripting\TemplateParameterParseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimulatedHttpRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="StubDataReader.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SubtextWeb\Admin\AdminPageTests.cs" />
+    <Compile Include="SubtextWeb\Controls\CaptchaTests.cs" />
     <Compile Include="SubtextWeb\Controls\ControlHelperTests.cs" />
-    <Compile Include="SubtextWeb\Controls\EntryListTests.cs" />
-    <Compile Include="SubtextWeb\HostAdmin\UserManagerTests.cs" />
-    <Compile Include="SubtextWeb\Providers\RichTextEditor\BlogEntryEditorProviderTests.cs" />
+    <Compile Include="SubtextWeb\Controls\InvisibleCaptchaTests.cs" />
     <Compile Include="SubtextWeb\HostAdmin\HostAdminPageTests.cs" />
     <Compile Include="SubtextWeb\Providers\RichTextEditor\FCKeditorProviderTests.cs">
       <SubType>Code</SubType>
@@ -442,7 +417,6 @@
     <Compile Include="SubtextWeb\SubtextMasterPageTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestLibraryTests.cs" />
     <Compile Include="UnitTestConfigProvider.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -453,14 +427,35 @@
     <Compile Include="UnitTestImportProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="Resources\Scripting\SqlRunnerTestScript.txt" />
-    <EmbeddedResource Include="Resources\Web\HttpClientTest.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </EmbeddedResource>
+    <Compile Include="XmlHelper.cs" />
+    <Content Include="ExternalDependencies\BlogML.dll" />
+    <Content Include="ExternalDependencies\CookComputing.XmlRpcV2.dll" />
+    <Content Include="ExternalDependencies\FredCK.FCKeditorV2.dll" />
+    <Content Include="ExternalDependencies\freetextbox.dll" />
+    <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="ExternalDependencies\log4net.dll" />
+    <Content Include="ExternalDependencies\log4net.xml" />
+    <Content Include="ExternalDependencies\MbUnit.Framework.2.0.dll" />
+    <Content Include="ExternalDependencies\MbUnit.Framework.dll" />
+    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
+    <Content Include="ExternalDependencies\NGraphviz.dll" />
+    <Content Include="ExternalDependencies\NGraphviz.Helpers.dll" />
+    <Content Include="ExternalDependencies\NGraphviz.Layout.dll" />
+    <Content Include="ExternalDependencies\QuickGraph.Algorithms.dll" />
+    <Content Include="ExternalDependencies\QuickGraph.Algorithms.Graphviz.dll" />
+    <Content Include="ExternalDependencies\QuickGraph.dll" />
+    <Content Include="ExternalDependencies\Refly.dll" />
+    <Content Include="ExternalDependencies\Rhino.Mocks.dll" />
+    <Content Include="ExternalDependencies\Rhino.Mocks.xml" />
+    <Content Include="ExternalDependencies\TestFu.dll" />
+    <Content Include="ExternalDependencies\Velocit.RegularExpressions.dll" />
+    <EmbeddedResource Include="Resources\BlogMl\PostWithAuthor.xml" />
+    <EmbeddedResource Include="Resources\BlogMl\FieldsTooLong.xml" />
     <EmbeddedResource Include="Resources\Web\emoticons.txt" />
     <EmbeddedResource Include="Resources\BlogMl\SinglePostWithBadCategoryRef.xml" />
     <EmbeddedResource Include="Resources\BlogMl\SinglePostWithCategory.xml" />
     <EmbeddedResource Include="Resources\BlogMl\TwoCategories.xml" />
+    <EmbeddedResource Include="Resources\BlogMl\SimpleBlogMl.xml" />
     <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -471,12 +466,6 @@
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScript.txt" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScriptExpectedChanges.txt" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScriptExpectedDefault.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\BlogMl\SimpleBlogMl.xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

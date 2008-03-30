@@ -1,7 +1,7 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -26,6 +26,7 @@
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -34,7 +35,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -96,46 +97,16 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlogML, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\BlogML.dll</HintPath>
+    <Reference Include="BlogML, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="blowery.Web.HttpCompress, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="DotNetOpenMail">
+      <Name>DotNetOpenMail</Name>
+      <HintPath>ExternalDependencies\DotNetOpenMail.dll</HintPath>
     </Reference>
-    <Reference Include="blowery.Web.HttpCompress, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\blowery.Web.HttpCompress.dll</HintPath>
-    </Reference>
-    <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\CookComputing.XmlRpcV2.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenMail, Version=1.0.2177.21428, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DotNetOpenMail.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Mail, Version=2.5.2501.34150, Culture=neutral, PublicKeyToken=6dc438ab78a525b3, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Mail.dll</HintPath>
-    </Reference>
-    <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\SgmlReaderDll.dll</HintPath>
-    </Reference>
-    <Reference Include="Subkismet, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Subkismet.dll</HintPath>
-    </Reference>
-    <Reference Include="SubSonic, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\SubSonic.dll</HintPath>
-    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
+    <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -146,17 +117,24 @@
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
-    <Reference Include="System.Web" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
     <Reference Include="System.Web.Services">
       <Name>System.Web.Services</Name>
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="Velocit.RegularExpressions, Version=1.0.0.0, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Velocit.RegularExpressions.dll</HintPath>
+    <Reference Include="Velocit.RegularExpressions">
+      <Name>Velocit.RegularExpressions</Name>
+      <HintPath>ExternalDependencies\Velocit.RegularExpressions.dll</HintPath>
     </Reference>
+    <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
+      <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
+      <Name>Subtext.Akismet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
       <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
       <Name>Subtext.BlogML</Name>
@@ -166,18 +144,10 @@
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.Installation\Subtext.Installation.csproj">
-      <Project>{745B39B7-DE46-4070-8733-C53308721C58}</Project>
-      <Name>Subtext.Installation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
       <Name>Subtext.Scripting</Name>
       <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
-      <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
-      <Name>Subtext.Web.Controls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -198,17 +168,16 @@
     <Compile Include="BlogInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CacheDuration.cs" />
     <Compile Include="CommentFilter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Components\ArchiveCount.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\BlogGroup.cs" />
     <Compile Include="Components\CategoryType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\BlogGroup.cs" />
     <Compile Include="Components\Entry.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -221,8 +190,6 @@
     <Compile Include="Components\EntryView.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\FeedbackStatusFlags.cs" />
-    <Compile Include="Components\FeedbackCounts.cs" />
     <Compile Include="Components\FeedbackItem.cs" />
     <Compile Include="Components\Image.cs">
       <SubType>Code</SubType>
@@ -244,14 +211,14 @@
     <Compile Include="Components\PageType.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\PageViewType.cs" />
-    <Compile Include="Components\Plugin.cs" />
     <Compile Include="Components\Referrer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\RelatedLink.cs" />
     <Compile Include="Components\Tag.cs" />
     <Compile Include="Components\Trackback.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Components\ViewStat.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Configuration\BlogConfigurationSettings.cs">
@@ -260,7 +227,7 @@
     <Compile Include="Configuration\Config.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Configuration\ConfigurationFlags.cs">
+    <Compile Include="Configuration\ConfigurationFlag.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Configuration\FriendlyUrlSettings.cs" />
@@ -283,13 +250,26 @@
     <Compile Include="Data\DataHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data\Generated\StoredProcedures.cs" />
-    <Compile Include="Data\SortDirection.cs" />
+    <Compile Include="Data\SqlDataProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\SqlErrorMessage.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Data\Transformer.cs" />
     <Compile Include="DateTimeHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Email\DotNetOpenMailProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Email\SystemMailProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Entries.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exceptions.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Exceptions\BaseBlogConfigurationException.cs">
@@ -298,7 +278,6 @@
     <Compile Include="Exceptions\BaseCommentException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Exceptions\BaseSubtextException.cs" />
     <Compile Include="Exceptions\BlogApplicationDirectoryCreateException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -332,14 +311,12 @@
     <Compile Include="Exceptions\CommentSpamException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Exceptions\DuplicateEntryException.cs" />
     <Compile Include="Exceptions\HostDataDoesNotExistException.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Exceptions\HostNotConfiguredException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Exceptions\IllegalPostCharactersException.cs" />
     <Compile Include="Exceptions\InvalidSubfolderNameException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -349,7 +326,6 @@
     <Compile Include="HostInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IBlogInfo.cs" />
     <Compile Include="Images.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -387,50 +363,24 @@
     <Compile Include="NamespaceDocumentation.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Net\Email.cs" />
     <Compile Include="NullValue.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Plugins\CancellableEntryEventArgs.cs" />
-    <Compile Include="Plugins\CancellableFeedbackEventArgs.cs" />
-    <Compile Include="Plugins\CancellableImageEventArgs.cs" />
-    <Compile Include="Plugins\FeedbackEventArgs.cs" />
-    <Compile Include="Plugins\ImageEventArgs.cs" />
-    <Compile Include="Plugins\INotifiableControl.cs" />
-    <Compile Include="Plugins\PluginBase.cs" />
-    <Compile Include="Plugins\PluginDefaultSetting.cs" />
-    <Compile Include="Plugins\PluginDefaultSettingsCollection.cs" />
-    <Compile Include="Plugins\PluginModule.cs" />
-    <Compile Include="Plugins\PluginModulesCollection.cs" />
-    <Compile Include="Plugins\PluginSectionHandler.cs" />
-    <Compile Include="Plugins\PluginSettings.cs" />
-    <Compile Include="Plugins\PluginSettingsCollection.cs" />
-    <Compile Include="Plugins\SubtextAdminGlobalSettingsBaseControl.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Plugins\SubtextApplication.cs" />
-    <Compile Include="Plugins\EntryEventArgs.cs" />
-    <Compile Include="Plugins\SubtextEventArgs.cs" />
-    <Compile Include="Plugins\SubtextEvents.cs" />
-    <Compile Include="Properties\GlobalSuppressions.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Providers\DotNetOpenMailProvider.cs" />
+    <Compile Include="Providers\DbProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Providers\ObjectProvider.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\EntrySearchProvider.cs" />
-    <Compile Include="Providers\SystemMailProvider.cs" />
-    <Compile Include="Search\SearchEngine.cs" />
-    <Compile Include="Security\MembershipApplicationScope.cs" />
-    <Compile Include="Security\Rights.cs" />
-    <Compile Include="Security\RoleNames.cs" />
-    <Compile Include="Security\SecurityHelper.cs" />
-    <Compile Include="Security\SubtextMembershipProvider.cs" />
-    <Compile Include="Security\SubtextRoleProvider.cs" />
+    <Compile Include="Security\SecurityHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Services\AkismetSpamService.cs" />
     <Compile Include="Services\IFeedbackSpamService.cs" />
     <Compile Include="Stats.cs">
@@ -488,37 +438,34 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Threading\AsyncHelper.cs" />
-    <Compile Include="Threading\LockTimeoutException.cs" />
     <Compile Include="Threading\ManagedThreadPool.cs" />
     <Compile Include="Threading\Semaphore.cs" />
     <Compile Include="Threading\TimedLock.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Threading\UndisposedLockException.cs" />
     <Compile Include="Tracking\AggBugHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tracking\CommunityCreditNotification.cs" />
+    <Compile Include="Tracking\CommunityCreditNotificationException.cs" />
     <Compile Include="Tracking\EntryTracker.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tracking\Notification.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tracking\Notifier.cs" />
     <Compile Include="Tracking\PingBackNotificatinProxy.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Tracking\PingBackService.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tracking\SourceVerificationEventArgs.cs" />
     <Compile Include="Tracking\TrackBackHandler.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tracking\TrackBackNotificationProxy.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tracking\TrackbackResponseCode.cs" />
     <Compile Include="Tracking\TrackHelpers.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -531,7 +478,6 @@
     <Compile Include="Tracking\WeblogsNotificatinProxy.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\BlogEntryEditor.cs" />
     <Compile Include="UI\Skinning\CacheKey.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -550,11 +496,9 @@
     </Compile>
     <Compile Include="UI\Skinning\StyleSheetElementCollectionRenderer.cs" />
     <Compile Include="UrlManager\HandlerConfiguration.cs" />
-    <Compile Include="UrlManager\HandlerType.cs" />
     <Compile Include="UrlManager\HttpHandler.cs" />
     <Compile Include="UrlManager\PageHandlerFactory.cs" />
     <Compile Include="UrlManager\UrlReWriteHandlerFactory.cs" />
-    <Compile Include="Util\CharQueue.cs" />
     <Compile Include="Util\Keywords.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -562,23 +506,23 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Util\Statistics.cs" />
+    <Compile Include="Util\TimeZones.cs" />
     <Compile Include="Util\Transform.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Util\TimeZone\UTCTimeZone.cs" />
     <Compile Include="Util\WebPathStripper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Util\TimeZone\WindowsSystemTime.cs" />
-    <Compile Include="Util\TimeZone\WindowsTimeZone.cs" />
-    <Compile Include="Util\TimeZone\WindowsTimeZoneBiasSorter.cs" />
-    <Compile Include="Util\TimeZone\WindowsTimeZoneCollection.cs" />
-    <Compile Include="Util\TimeZone\WindowsTZI.cs" />
     <Compile Include="Util\XmlSerializerSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="VersionInfo.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web References\com.community-credit.www\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="BlogAlias.cs" />
     <Compile Include="Web\Handlers\CssHandler.cs" />
@@ -599,31 +543,61 @@
     <Compile Include="Web\HttpModules\InstallationCheckModule.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XmlRpc\IMetaWeblogAPI.cs" />
     <Compile Include="XmlRpc\MetaWeblog.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="XmlRpc\MetaWeblogAPI.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Content Include="ExternalDependencies\BlogML.dll" />
+    <Content Include="ExternalDependencies\blowery.Web.HttpCompress.dll" />
+    <Content Include="ExternalDependencies\CookComputing.XmlRpcV2.dll" />
+    <Content Include="ExternalDependencies\DotNetOpenMail.dll" />
+    <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="ExternalDependencies\log4net.dll" />
+    <Content Include="ExternalDependencies\log4net.xml" />
+    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
+    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.xml" />
+    <Content Include="ExternalDependencies\SgmlReaderDll.dll" />
+    <Content Include="ExternalDependencies\Velocit.RegularExpressions.dll" />
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
-    <EmbeddedResource Include="Util\WindowsTimeZoneCollection.xml" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Util\TimeZone\WindowsTimeZoneCollection.xml" />
-    <None Include="MailLicense.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Web References\com.community-credit.www\affiliateservices.disco" />
+    <None Include="Web References\com.community-credit.www\affiliateservices.wsdl" />
+    <None Include="Web References\com.community-credit.www\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <EmbeddedResource Include="Util\WindowsTimeZoneCollection.xml" />
     <EmbeddedResource Include="Tracking\PingBackNotificatinProxy.resx">
       <DependentUpon>PingBackNotificatinProxy.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Tracking\WeblogsNotificatinProxy.resx">
       <DependentUpon>WeblogsNotificatinProxy.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://www.community-credit.com/services/affiliateservices.asmx%3fop=AddCommunityCredit">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\com.community-credit.www\</RelPath>
+      <UpdateFromURL>http://www.community-credit.com/services/affiliateservices.asmx%3fop=AddCommunityCredit</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Subtext_Framework_com_community_credit_www_AffiliateServices</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

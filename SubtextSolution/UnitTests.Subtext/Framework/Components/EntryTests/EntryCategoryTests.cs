@@ -15,9 +15,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void CanAddAndRemoveAllCategories()
 		{
 			string hostname = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("title", hostname, string.Empty, null);
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
 
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, "/", string.Empty);
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, "/");
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Unit Test Entry", "Body");
 			int id = Entries.Create(entry);

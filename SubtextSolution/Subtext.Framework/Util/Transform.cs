@@ -22,7 +22,6 @@ using System.Web.Caching;
 using log4net;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Util
 {
@@ -40,18 +39,18 @@ namespace Subtext.Framework.Util
 		/// </summary>
 		/// <param name="formattedPost">The formatted post.</param>
 		/// <returns></returns>
-		public static string EmoticonTransforms(string formattedPost)
+		public static string EmoticonTransforms(string formattedPost) 
 		{
 			try
 			{
 				return EmoticonsTransforms(formattedPost, GetTransformFilePath("emoticons.txt"));
 			}
-			catch (IOException ioe)
+			catch(IOException ioe)
 			{
 				Log.Warn("Problem reading the emoticons.txt file", ioe);
 				return formattedPost;
 			}
-			catch (ArgumentNullException e)
+			catch(ArgumentNullException e)
 			{
 				Log.Warn("Problem reading the emoticons.txt file", e);
 				return formattedPost;
@@ -76,17 +75,17 @@ namespace Subtext.Framework.Util
 			return PerformUserTransforms(formattedPost, emoticonTxTable);
 		}
 
-		static string PerformUserTransforms(string stringToTransform, List<string> userDefinedTransforms)
+		static string PerformUserTransforms(string stringToTransform, List<string> userDefinedTransforms) 
 		{
-			if (userDefinedTransforms == null)
+			if(userDefinedTransforms == null)
 				return stringToTransform;
 
-			int iLoop = 0;
+			int iLoop = 0;	
 			string host = Config.CurrentBlog.RootUrl.ToString();
-			while (iLoop < userDefinedTransforms.Count)
-			{
+			while (iLoop < userDefinedTransforms.Count) 
+			{		
 				// Special work for anchors
-				stringToTransform = Regex.Replace(stringToTransform, userDefinedTransforms[iLoop].ToString(), string.Format(userDefinedTransforms[iLoop + 1], host), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+				stringToTransform = Regex.Replace(stringToTransform, userDefinedTransforms[iLoop].ToString(), string.Format(userDefinedTransforms[iLoop+1], host), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
 				iLoop += 2;
 			}
@@ -108,36 +107,32 @@ namespace Subtext.Framework.Util
 			return HttpContext.Current.Request.MapPath("~/" + filename);
 		}
 
-		public static List<string> LoadTransformFile(string filePath)
+		public static List<string> LoadTransformFile(string filePath) 
 		{
-			if (filePath == null)
-				throw new ArgumentNullException("filePath", Resources.ArgumentNull_FileName);
+            if (filePath == null)
+                throw new ArgumentNullException("filePath", "The transform filePath is null.");
 			
-			if (filePath.Length == 0)
-				throw new ArgumentException(Resources.Argument_StringZeroLength, "filePath");
-
 			string cacheKey = "transformTable-" + Path.GetFileName(filePath);
 
 			HttpContext context = HttpContext.Current;
-			if (context == null)
+			if(context == null)
 				return null;
 
 			// read the transformation hashtable from the cache
 			//
 			List<string> tranforms = (List<string>)context.Cache[cacheKey];
 
-			if (tranforms == null)
+			if (tranforms == null) 
 			{
 				tranforms = new List<string>();
 
 				// Grab the transform file
-				if (context.Request == null)
+				if(context.Request == null)
 					return null;
 
-				if (filePath.Length > 0)
+				if (filePath.Length > 0) 
 				{
-					if (!Path.IsPathRooted(filePath))
-						filePath = Path.GetFullPath(filePath);
+
 					using (StreamReader sr = File.OpenText(filePath))
 					{
 						// Read through each set of lines in the text file
@@ -177,7 +172,7 @@ namespace Subtext.Framework.Util
 					HttpContext.Current.Cache.Insert(cacheKey, tranforms, new CacheDependency(filePath));
 				}
 			}
-
+  
 			return (List<string>)HttpContext.Current.Cache[cacheKey];
 		}
 	}

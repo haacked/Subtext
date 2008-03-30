@@ -1,8 +1,6 @@
 using System;
-using System.Security.Principal;
+using System.Globalization;
 using System.Threading;
-using System.Web;
-using System.Web.Security;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
@@ -16,16 +14,18 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 	[TestFixture]
 	public class FeedbackTests
 	{
+		string _hostName = string.Empty;
+
 		[RowTest]
-		[Row(FeedbackStatusFlags.Approved, true, false, false, false)]
-		[Row(FeedbackStatusFlags.ApprovedByModerator, true, false, false, false)]
-		[Row(FeedbackStatusFlags.FalsePositive, true, false, false, true)]
-		[Row(FeedbackStatusFlags.ConfirmedSpam, false, false, true, true)]
-		[Row(FeedbackStatusFlags.FlaggedAsSpam, false, false, false, true)]
-		[Row(FeedbackStatusFlags.NeedsModeration, false, true, false, false)]
-		[Row(FeedbackStatusFlags.Deleted, false, false, true, false)]
-		[RollBack2]
-		public void CanCreateCommentWithStatus(FeedbackStatusFlags status, bool expectedApproved, bool expectedNeedsModeratorApproval, bool expectedDeleted, bool expectedFlaggedAsSpam)
+		[Row(FeedbackStatusFlag.Approved, true, false, false, false)]
+		[Row(FeedbackStatusFlag.ApprovedByModerator, true, false, false, false)]
+		[Row(FeedbackStatusFlag.FalsePositive, true, false, false, true)]
+		[Row(FeedbackStatusFlag.ConfirmedSpam, false, false, true, true)]
+		[Row(FeedbackStatusFlag.FlaggedAsSpam, false, false, false, true)]
+		[Row(FeedbackStatusFlag.NeedsModeration, false, true, false, false)]
+		[Row(FeedbackStatusFlag.Deleted, false, false, true, false)]
+		[RollBack]
+		public void CanCreateCommentWithStatus(FeedbackStatusFlag status, bool expectedApproved, bool expectedNeedsModeratorApproval, bool expectedDeleted, bool expectedFlaggedAsSpam)
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
 
@@ -35,16 +35,16 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			Assert.AreEqual(expectedApproved, comment.Approved, "We expected 'Approved' to be " + expectedApproved);
 			Assert.AreEqual(expectedNeedsModeratorApproval, comment.NeedsModeratorApproval, "Expected 'NeedsModeratorApproval' to be " + expectedNeedsModeratorApproval);
 			Assert.AreEqual(expectedDeleted, comment.Deleted, "Expected 'Deleted' to be " + expectedDeleted);
-			Assert.AreEqual(expectedFlaggedAsSpam, ((comment.Status & FeedbackStatusFlags.FlaggedAsSpam) == FeedbackStatusFlags.FlaggedAsSpam), "Expected that this item was ever flagged as spam to be " + expectedFlaggedAsSpam);
+			Assert.AreEqual(expectedFlaggedAsSpam, ((comment.Status & FeedbackStatusFlag.FlaggedAsSpam) == FeedbackStatusFlag.FlaggedAsSpam), "Expected that this item was ever flagged as spam to be " + expectedFlaggedAsSpam);
 		}
 		
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void ConfirmSpamRemovesApprovedBitAndSetsDeletedBit()
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
 
-			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
+			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
 			Assert.IsTrue(comment.Approved, "should be approved");
 
 			FeedbackItem.ConfirmSpam(comment);
@@ -54,12 +54,12 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void DeleteCommentSetsDeletedBit()
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
 
-			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
+			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
 			Assert.IsTrue(comment.Approved, "should be approved");
 
 			FeedbackItem.Delete(comment);
@@ -69,7 +69,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void DestroyCommentByStatusDestroysOnlyThatStatus()
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -78,9 +78,9 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			CreateFlaggedSpam(2, entry);
 			CreateDeletedComments(3, entry);
 
-			FeedbackItem newComment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
+			FeedbackItem newComment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
 			FeedbackItem.ConfirmSpam(newComment);
-			newComment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.FlaggedAsSpam);
+			newComment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FlaggedAsSpam);
 			Assert.IsFalse(newComment.Approved, "should not be approved");
 			FeedbackItem.Delete(newComment); //Move it to trash.
 
@@ -89,7 +89,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			Assert.AreEqual(2, counts.FlaggedAsSpamCount, "Expected two items flagged as spam.");
 			Assert.AreEqual(5, counts.DeletedCount, "Expected five in the trash");
 
-		    FeedbackItem.Destroy(FeedbackStatusFlags.FlaggedAsSpam);
+		    FeedbackItem.Destroy(FeedbackStatusFlag.FlaggedAsSpam);
 			counts = FeedbackItem.GetFeedbackCounts();
 			Assert.AreEqual(3, counts.ApprovedCount, "Expected three approved still");
 			Assert.AreEqual(0, counts.FlaggedAsSpamCount, "Expected the items flagged as spam to be gone.");
@@ -99,14 +99,14 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			counts = FeedbackItem.GetFeedbackCounts();
 			Assert.AreEqual(3, counts.FlaggedAsSpamCount, "Expected three items flagged as spam.");
 
-			FeedbackItem.Destroy(FeedbackStatusFlags.Deleted);
+			FeedbackItem.Destroy(FeedbackStatusFlag.Deleted);
 			counts = FeedbackItem.GetFeedbackCounts();
 			Assert.AreEqual(3, counts.ApprovedCount, "Expected three approved still");
 			Assert.AreEqual(3, counts.FlaggedAsSpamCount, "Expected three approved still");
 			Assert.AreEqual(0, counts.DeletedCount, "Destroying all deleted items should not touch the flagged items.");
 		}
 
-		private static void CreateComments(int count, Entry entry, FeedbackStatusFlags status)
+		private static void CreateComments(int count, Entry entry, FeedbackStatusFlag status)
 		{
 			for (int i = 0; i < count; i++)
 			{
@@ -116,21 +116,21 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		
 		private static void CreateFlaggedSpam(int count, Entry entry)
 		{
-			CreateComments(count, entry, FeedbackStatusFlags.FlaggedAsSpam);
+			CreateComments(count, entry, FeedbackStatusFlag.FlaggedAsSpam);
 		}
 
 		private static void CreateApprovedComments(int count, Entry entry)
 		{
-			CreateComments(count, entry, FeedbackStatusFlags.Approved);
+			CreateComments(count, entry, FeedbackStatusFlag.Approved);
 		}
 		
 		private static void CreateDeletedComments(int count, Entry entry)
 		{
-			CreateComments(count, entry, FeedbackStatusFlags.Deleted);
+			CreateComments(count, entry, FeedbackStatusFlag.Deleted);
 		}
 
         [Test]
-        [RollBack2]
+        [RollBack]
         public void CreateFeedbackSetsBlogStatsCorrectly()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -143,15 +143,15 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.AreEqual(0, info.CommentCount);
             Assert.AreEqual(0, info.PingTrackCount);
 
-            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
-            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlags.Approved);
+            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
+            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
             info = Config.GetBlogInfo(info.Host, info.Subfolder);
             Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
             Assert.AreEqual(1, info.PingTrackCount, "Blog Ping/Trackback count should be 1");
 
-            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
-            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlags.Approved);
+            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
+            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
             info = Config.GetBlogInfo(info.Host, info.Subfolder);
             Assert.AreEqual(2, info.CommentCount, "Blog CommentCount should be 2");
@@ -159,14 +159,14 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack2]
+        [RollBack]
         public void CreateEntryDoesNotResetBlogStats()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
             BlogInfo info = Config.CurrentBlog;
 
-            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
-            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlags.Approved);
+            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
+            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
             Entry entry2 = UnitTestHelper.CreateEntryInstanceForSyndication("johnny b goode", "foo-bar", "zaa zaa zoo.");
             Entries.Create(entry2);
@@ -177,14 +177,14 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack2]
+        [RollBack]
         public void DeleteEntrySetsBlogStats()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
             BlogInfo info = Config.CurrentBlog;
 
-            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
-            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlags.Approved);
+            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
+            CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
             info = Config.GetBlogInfo(info.Host, info.Subfolder);
             Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
@@ -198,12 +198,12 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
 	    [Test]
-		[RollBack2]
+		[RollBack]
 		public void DestroyCommentReallyGetsRidOfIt()
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
 
-			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
+			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
 			Assert.IsTrue(comment.Approved, "should be approved");
 			comment.Approved = false;
 			FeedbackItem.Update(comment);
@@ -214,25 +214,25 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 
 		[Test]
-		[RollBack2]
+		[RollBack]
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void DestroyCommentCannotDestroyActiveComment()
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
 
-			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
+			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
 			Assert.IsTrue(comment.Approved, "should be approved");
 
 			FeedbackItem.Destroy(comment);
 		}
 
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void ApproveCommentRemovesDeletedAndConfirmedSpamBits()
 		{
             Entry entry = SetupBlogForCommentsAndCreateEntry();
 
-			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.ConfirmedSpam | FeedbackStatusFlags.Deleted);
+			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.ConfirmedSpam | FeedbackStatusFlag.Deleted);
 			Assert.IsFalse(comment.Approved, "should not be approved");
 			Assert.IsTrue(comment.Deleted, "should be deleted");
 			Assert.IsTrue(comment.ConfirmedSpam, "should be confirmed spam");
@@ -249,42 +249,39 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		/// approved as not spam.  Make sure we get all of them when we get comments.
 		/// </summary>
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void CanGetAllApprovedComments()
 		{
 			Entry entry = SetupBlogForCommentsAndCreateEntry();
 
-			FeedbackItem commentOne = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
-			Thread.Sleep(10);
-			FeedbackItem commentTwo = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.ApprovedByModerator);
-			Thread.Sleep(10);
-			FeedbackItem commentThree = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.ConfirmedSpam);
-			Thread.Sleep(10);
+			FeedbackItem commentOne = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
+			FeedbackItem commentTwo = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.ApprovedByModerator);
+			FeedbackItem commentThree = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.ConfirmedSpam);
 			FeedbackItem.ConfirmSpam(commentThree);
-			FeedbackItem commentFour = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.FalsePositive);
+			FeedbackItem commentFour = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FalsePositive);
 			
 			//We expect three of the four.
-			IPagedCollection<FeedbackItem> feedback = FeedbackItem.GetPagedFeedback(0, 10, FeedbackStatusFlags.Approved, FeedbackType.Comment);
+			IPagedCollection<FeedbackItem> feedback = FeedbackItem.GetPagedFeedback(0, 10, FeedbackStatusFlag.Approved, FeedbackType.Comment);
 			Assert.AreEqual(3, feedback.Count, "We expected three to match.");
 			
 			//Expect reverse order
 			Assert.AreEqual(commentOne.Id, feedback[2].Id, "The first does not match");
-			Assert.AreEqual(commentTwo.Id, feedback[1].Id, "The second does not match");
-			Assert.AreEqual(commentFour.Id, feedback[0].Id, "The third does not match");
+			Assert.AreEqual(commentTwo.Id, feedback[1].Id, "The first does not match");
+			Assert.AreEqual(commentFour.Id, feedback[0].Id, "The first does not match");
 		}
 		
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void OnlyApprovedItemsContributeToEntryFeedbackCount()
 		{
 			Entry entry = SetupBlogForCommentsAndCreateEntry();
 			int entryId = entry.Id;
 
-			CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
+			CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
 			entry = Entries.GetEntry(entryId, PostConfig.None, false);
 			Assert.AreEqual(1, entry.FeedBackCount, "Expected one approved feedback entry.");
 
-			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.FlaggedAsSpam);
+			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FlaggedAsSpam);
 			entry = Entries.GetEntry(entryId, PostConfig.None, false);
 			Assert.AreEqual(1, entry.FeedBackCount, "Expected one approved feedback entry.");
 
@@ -311,21 +308,19 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		/// (FlaggedAsSpam | Approved).
 		/// </summary>
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void CanGetItemsFlaggedAsSpam()
 		{
 		    Entry entry = SetupBlogForCommentsAndCreateEntry();
 
-			CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.FalsePositive);
-			CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.Approved);
-			CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.ConfirmedSpam);
-			FeedbackItem included = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.FlaggedAsSpam);
-			Thread.Sleep(10);
-			FeedbackItem includedToo = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlags.FlaggedAsSpam | FeedbackStatusFlags.NeedsModeration);
-			Assert.Greater(includedToo.DateCreated, included.DateCreated);
+			CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FalsePositive);
+			CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
+			CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.ConfirmedSpam);
+			FeedbackItem included = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FlaggedAsSpam);
+			FeedbackItem includedToo = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FlaggedAsSpam | FeedbackStatusFlag.NeedsModeration);
 
 			//We expect 2 of the four.
-			IPagedCollection<FeedbackItem> feedback = FeedbackItem.GetPagedFeedback(0, 10, FeedbackStatusFlags.FlaggedAsSpam, FeedbackStatusFlags.Approved | FeedbackStatusFlags.Deleted, FeedbackType.Comment);
+			IPagedCollection<FeedbackItem> feedback = FeedbackItem.GetPagedFeedback(0, 10, FeedbackStatusFlag.FlaggedAsSpam, FeedbackStatusFlag.Approved | FeedbackStatusFlag.Deleted, FeedbackType.Comment);
 			Assert.AreEqual(2, feedback.Count, "We expected two to match.");
 
 			//Expect reverse order
@@ -337,10 +332,10 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		/// Makes sure that the content checksum hash is being created correctly.
 		/// </summary>
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void CreateFeedbackHasContentHash()
 		{
-			UnitTestHelper.SetupBlog();
+			Assert.IsTrue(Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty));
 
 			FeedbackItem trackback = new FeedbackItem(FeedbackType.PingTrack);
 			trackback.DateCreated = DateTime.Now;
@@ -353,6 +348,37 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			Assert.IsTrue(savedEntry.ChecksumHash.Length > 0, "The Content Checksum should be larger than 0.");
 		}
 
+	    /// <summary>
+	    /// Make sure that we can create Feedback items with specific dates, needed for Import functionality.
+	    /// </summary>
+	    [Test]
+	    [RollBack]
+	    public void CreateFeedbackWithSpecifiedDateCreated()
+	    {
+	        Assert.IsTrue(Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty));
+            DateTime dateCreated = DateTime.ParseExact("2005/01/23 05:05:05", "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+	        
+            FeedbackItem savedComment = CreateFeedbackWithSpecifiedDates(dateCreated, NullValue.NullDateTime);
+            Assert.IsTrue(dateCreated.CompareTo(savedComment.DateCreated) == 0, "The Comment's Date Created was not saved correctly.");
+            Assert.IsTrue(dateCreated.CompareTo(savedComment.DateModified) == 0, "The Comment's Date Modified was not saved correctly.");
+	    }
+
+        /// <summary>
+        /// Make sure that we can create Feedback items with specific dates, needed for Import functionality.
+        /// </summary>
+        [Test]
+        [RollBack]
+        public void CreateFeedbackWithSpecifiedDateModified()
+        {
+            Assert.IsTrue(Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty));
+            DateTime dateCreated = DateTime.ParseExact("2005/01/23 05:05:05", "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+            DateTime dateModified = dateCreated.AddDays(5);
+
+            FeedbackItem savedComment = CreateFeedbackWithSpecifiedDates(dateCreated, dateModified);
+            Assert.IsTrue(dateCreated.CompareTo(savedComment.DateCreated) == 0, "The Comment's Date Created was not saved correctly.");
+            Assert.IsTrue(dateModified.CompareTo(savedComment.DateModified) == 0, "The Comment's Date Modified was not saved correctly.");
+        }
+	    
 		/// <summary>
 		/// Makes sure that the content checksum hash is being created correctly.
 		/// </summary>
@@ -362,15 +388,13 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[Row("commenter@example.com", "", "", "/", "commenter@example.com", "none given")]
 		[Row("commenter@example.com", "", "/", "TEST", "commenter@example.com", "none given")]
 		[Row("commenter@example.com", "", "/Subtext.Web", "TEST", "commenter@example.com", "none given")]
-		[RollBack2]
+		[RollBack]
 		public void CreateFeedbackSendsCorrectEmail(string commenterEmail, string commenterUrl, string applicationPath, string subfolder, string expectedEmail, string expectedUrl)
 		{
-			UnitTestHelper.SetupBlog();
-			HttpContext.Current.User = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
-			Config.CurrentBlog.Owner.Email = "test@example.com";
-			Membership.UpdateUser(Config.CurrentBlog.Owner);
+			Assert.IsTrue(Config.CreateBlog(string.Empty, "username", "password", _hostName, subfolder));
+			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, subfolder, applicationPath);
+			Config.CurrentBlog.Email = "test@example.com";
 			Config.CurrentBlog.Title = "You've been haacked";
-            Config.CurrentBlog.CommentNoficationEnabled = true;
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("blah", "blah", "blah");
 			int entryId = Entries.Create(entry);
@@ -402,12 +426,10 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 
 			UnitTestEmailProvider emailProvider = (UnitTestEmailProvider)EmailProvider.Instance();
 
-            Assert.AreEqual(Config.CurrentBlog.Owner.Email, emailProvider.To, "Email should've been sent to the blog email addr.");
+			Assert.AreEqual("test@example.com", emailProvider.To, "Email should've been sent to the blog email addr.");
 			if (String.IsNullOrEmpty(commenterEmail))
 				expectedEmail = "admin@YOURBLOG.com";
-			Assert.AreEqual("admin@YOURBLOG.com", emailProvider.From, "Email should have been sent from the value in App.config.");
-            if (commenterEmail != "")
-              Assert.AreEqual(expectedEmail, emailProvider.ReplyTo, "Email should have had Reply-To set to the comment from address");
+			Assert.AreEqual(expectedEmail, emailProvider.From, "Email should have been sent from the value in App.config.");
 			if (feedbackItem.FlaggedAsSpam)
 			{
 				Assert.AreEqual("[SPAM Flagged] Comment: Some Title (via You've been haacked)", emailProvider.Subject, "Comment subject line wrong.");
@@ -420,7 +442,20 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			}
 		}
 
-		static FeedbackItem CreateAndUpdateFeedbackWithExactStatus(Entry entry, FeedbackType type, FeedbackStatusFlags status)
+        static FeedbackItem CreateFeedbackWithSpecifiedDates(DateTime created, DateTime modified)
+        {
+            FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
+            comment.SourceUrl = new Uri("http://" + UnitTestHelper.GenerateRandomString() + "/ThisUrl/");
+            comment.Title = UnitTestHelper.GenerateRandomString();
+            comment.Body = UnitTestHelper.GenerateRandomString();
+            comment.DateCreated = created;
+            comment.DateModified = modified;
+
+            int feedbackId = FeedbackItem.Create(comment, null);
+            return FeedbackItem.Get(feedbackId);
+        }
+	    
+		static FeedbackItem CreateAndUpdateFeedbackWithExactStatus(Entry entry, FeedbackType type, FeedbackStatusFlag status)
 		{
 			FeedbackItem feedback = new FeedbackItem(type);
 			feedback.Title = UnitTestHelper.GenerateRandomString();
@@ -435,10 +470,11 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			return FeedbackItem.Get(id);
 		}
 
-		static Entry SetupBlogForCommentsAndCreateEntry()
+        Entry SetupBlogForCommentsAndCreateEntry()
         {
-            UnitTestHelper.SetupBlog();
+            Assert.IsTrue(Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty));
             BlogInfo info = Config.CurrentBlog;
+            info.Email = "test@example.com";
             info.Title = "You've been haacked";
             info.CommentsEnabled = true;
             info.ModerationEnabled = false;
@@ -486,6 +522,13 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			FeedbackItem.Destroy(null);
 		}
 		#endregion
+
+		[SetUp]
+		public void SetUp()
+		{
+			_hostName = UnitTestHelper.GenerateRandomString();
+			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
+		}
 
 		[TearDown]
 		public void TearDown()

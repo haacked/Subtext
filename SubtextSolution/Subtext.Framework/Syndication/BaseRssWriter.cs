@@ -33,26 +33,25 @@ namespace Subtext.Framework.Syndication
 		/// Creates a new <see cref="BaseRssWriter"/> instance.
 		/// </summary>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-		protected BaseRssWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
-			: base(dateLastViewedFeedItemPublished, useDeltaEncoding)
+		protected BaseRssWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
 		}
 
-		protected override string GetAggBugUrl(T item, UrlFormats urlFormats)
+		protected override string  GetAggBugUrl(T item,UrlFormats urlFormats)
 		{
-			return urlFormats.AggBugkUrl(item.Id);
+ 			return urlFormats.AggBugkUrl(item.Id);
 		}
 
-		protected override string GetCommentApiUrl(T item, UrlFormats urlFormats)
+		protected override string  GetCommentApiUrl(T item,UrlFormats urlFormats)
 		{
-			return urlFormats.CommentApiUrl(item.Id);
+ 			return urlFormats.CommentApiUrl(item.Id);
 		}
 
-		protected override string GetCommentRssUrl(T item, UrlFormats urlFormats)
-		{
+		protected override string GetCommentRssUrl(T item,UrlFormats urlFormats)
+		{												 
 			return urlFormats.CommentRssUrl(item.Id);
 		}
-		protected override string GetTrackBackUrl(T item, UrlFormats urlFormats)
+		protected override string GetTrackBackUrl(T item,UrlFormats urlFormats)
 		{
 			return urlFormats.TrackBackUrl(item.Id);
 		}

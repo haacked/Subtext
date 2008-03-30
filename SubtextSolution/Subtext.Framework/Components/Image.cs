@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.IO;
 using System.Xml.Serialization;
 
 namespace Subtext.Framework.Components
@@ -32,19 +31,19 @@ namespace Subtext.Framework.Components
 			set {this._blogID = value;}
 		}
 
-		private int _imageId;
+		private int _imageID;
 		[XmlAttribute]
 		public  virtual int ImageID
 		{
-			get{return _imageId;}
-			set{_imageId = value;}
+			get{return _imageID;}
+			set{_imageID = value;}
 		}
 
-		private int _catId;
+		private int _catID;
 		public  virtual int CategoryID
 		{
-			get{return _catId;}
-			set{_catId = value;}
+			get{return _catID;}
+			set{_catID = value;}
 		}
 
 		private bool _isActive;
@@ -54,47 +53,39 @@ namespace Subtext.Framework.Components
 			set{_isActive = value;}
 		}
 
-		public  virtual string FileName
+		private string _file;
+		public  virtual string File
 		{
 			get{return _file;}
 			set{_file= value;}
 		}
-		private string _file;
 
-		/// <summary>
-		/// Gets the filepath on the local server.
-		/// </summary>
-		public virtual string FilePath
+		
+		public  virtual string Path
+		{
+			get{return LocalFilePath + File;}
+		
+		}
+
+		private string _localfile;
+		public  virtual string LocalFilePath
 		{
 			get
 			{
-				return Path.Combine(LocalDirectoryPath, FileName);
+				if(_localfile == null)
+				{
+					throw new Exception("Image.LocalFilePath has not been set yet.");
+				}
+				return _localfile;
 			}
+			set
+			{
+				if(value == null)
+				{
+					_localfile = null;
+				}
+					_localfile= value.Replace("/","\\");}
 		}
-
-		private string localDirectoryPath;
-		/// <summary>
-		/// The directory on the local server where the image will be saved.
-		/// </summary>
-		/// <remarks>
-		/// Assumes the specified path is a directory path!
-		/// </remarks>
-        public virtual string LocalDirectoryPath
-        {
-            get
-            {
-                if (this.localDirectoryPath == null)
-                    throw new InvalidOperationException("Image.LocalFilePath has not been set yet.");
-
-                return this.localDirectoryPath;
-            }
-            set
-            {
-				if (value != null)
-					value = Path.GetFullPath(value);
-				this.localDirectoryPath = value;
-            }
-        }
 
 		private string _title;
 		public  virtual string Title
@@ -121,7 +112,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return "o_" + FileName;
+				return "o_" + File;
 			}
 		}
 
@@ -129,7 +120,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return "t_" + FileName;
+				return "t_" + File;
 			}
 		}
 
@@ -137,7 +128,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return "r_" + FileName;
+				return "r_" + File;
 			}
 		}
 
@@ -145,7 +136,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return Path.Combine(LocalDirectoryPath, OriginalFile);
+				return LocalFilePath + OriginalFile;
 			}
 		}
 
@@ -153,7 +144,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return Path.Combine(LocalDirectoryPath, ThumbNailFile);
+				return LocalFilePath + ThumbNailFile;
 			}
 		}
 
@@ -161,8 +152,10 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return Path.Combine(LocalDirectoryPath, ResizedFile);
+				return LocalFilePath + ResizedFile;
 			}
 		}
+
 	}
 }
+

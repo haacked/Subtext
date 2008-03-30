@@ -17,12 +17,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Web;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
-using Subtext.Extensibility.Plugins;
-using Subtext.Extensibility;
 
 namespace Subtext.Web.Admin
 {
@@ -46,7 +45,7 @@ namespace Subtext.Web.Admin
 		protected string _cancelSuccessMessage; 
 		protected string _cancelFailureMessage;
 
-		protected bool _autoRedirect;
+		protected bool _autoRedirect = false;
 		protected string _redirectUrl;
 
 		#region Accessors
@@ -139,7 +138,7 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				return string.Format(CultureInfo.InvariantCulture, format, args); 
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, format, args); 
 			}
 			catch (ArgumentNullException)
 			{
@@ -153,7 +152,7 @@ namespace Subtext.Web.Admin
 		/// </summary>
 		/// <param name="integers">Integers.</param>
 		/// <returns></returns>
-		protected static string GetDisplayTextFromIntArray(IList<int> integers)
+		protected string GetDisplayTextFromIntArray(IList<int> integers)
 		{
 			if (integers == null || integers.Count == 0)
 				return string.Empty;
@@ -353,23 +352,8 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				Entry entry = Entries.GetEntry(_targetID, PostConfig.None, false);
-				//Code to be called before delete a post
-				CancellableEntryEventArgs e = new CancellableEntryEventArgs(entry, ObjectState.Delete);
-				SubtextEvents.OnEntryUpdating(this, e);
-
-				if (!e.Cancel)
-				{
-					Entries.Delete(_targetID);
-
-					//Code to be called after deleting a post
-					SubtextEvents.OnEntryUpdated(this, new EntryEventArgs(entry, ObjectState.Delete));
-					return FormatMessage(ExecuteSuccessMessage, _targetName, _targetID);
-				}
-				else
-				{
-					return FormatMessage(ExecuteFailureMessage, _targetName, _targetID, "Delete cancelled by plugin");
-				}
+				Entries.Delete(_targetID);
+				return FormatMessage(ExecuteSuccessMessage, _targetName, _targetID);
 			}
 			catch (Exception ex)
 			{
@@ -505,14 +489,14 @@ namespace Subtext.Web.Admin
 				ICollection<Image> imageList = Images.GetImagesByCategoryID(_targetID, false);
 				
 				// delete the folder
-				string galleryFolder = Images.LocalGalleryFilePath(_targetID);
+				string galleryFolder = Images.LocalGalleryFilePath(HttpContext.Current, _targetID);
 				if (Directory.Exists(galleryFolder))
 					Directory.Delete(galleryFolder, true);
 
 				if (imageList.Count > 0)
 				{
 					// delete from data provider
-					foreach (Image currentImage in imageList)
+					foreach (Subtext.Framework.Components.Image currentImage in imageList)
 					{
 						Images.DeleteImage(currentImage);
 					}					
@@ -546,7 +530,7 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				Keywords.DeleteKeyword(_targetID);
+				KeyWords.DeleteKeyWord(_targetID);
 				return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
 			}
 			catch (Exception ex)
@@ -606,7 +590,7 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				Image currentImage = Images.GetSingleImage(_targetID, false);
+				Subtext.Framework.Components.Image currentImage = Images.GetSingleImage(_targetID, false);
 
 				// The following line should be fully encapsulated and handle files + data
 				// For now, I commented out the file trys in the the object so it can do just
@@ -616,7 +600,7 @@ namespace Subtext.Web.Admin
 				Images.DeleteImage(currentImage);
 
 				// now delete the associated files if they exist
-				string galleryFolder = Images.LocalGalleryFilePath(currentImage.CategoryID);
+				string galleryFolder = Images.LocalGalleryFilePath(HttpContext.Current, currentImage.CategoryID);
 				if (Directory.Exists(galleryFolder))
 				{
 					DeleteFile(galleryFolder, currentImage.OriginalFile);
@@ -632,13 +616,11 @@ namespace Subtext.Web.Admin
 			}
 		}
 
-		private static void DeleteFile(string path, string filename)
+		private void DeleteFile(string path, string filename)
 		{
 			string localPath = Path.Combine(path, filename);
 			if (File.Exists(localPath))
-			{
 				File.Delete(localPath);
-			}
 		}
 	}
 	#endregion
@@ -724,90 +706,6 @@ namespace Subtext.Web.Admin
 			// this isn't a valid collision test really
 			if (!_allLinks.Contains(newLink))
 				Links.CreateLink(newLink);
-		}
-	}
-	#endregion
-
-	#region TogglePluginCommand
-	/// <summary>
-	/// Defines the actions to be taken when enabling/disabling a plugin for the blog
-	/// </summary>
-	[Serializable]
-	public class TogglePluginCommand : ConfirmCommand
-	{
-		private bool _enablePlugin;
-		private string _actionVerb = "disable";
-		private string _actionPast = "disabled";
-
-		protected Guid _pluginId;
-		protected string _pluginName;
-
-		protected TogglePluginCommand() 
-		{
-			_promptMessage = "Are you sure you want to {0} Plugin {1}?";
-			_executeSuccessMessage = "Plugin {1} was {0}.";
-			_executeFailureMessage = "Plugin {1} could not be {0}. Details: {2}";
-			_cancelSuccessMessage = "Plugin {1} will not be {0}.";
-			_cancelFailureMessage = "Could not cancel {0} of Plugin {1}. Details: {2}";		
-		}
-
-		public TogglePluginCommand(Guid pluginId, string pluginName, bool enable)
-			: this()
-		{
-			_autoRedirect = false;
-			_pluginId = pluginId;
-			_pluginName = "<b>" + pluginName + "</b>";
-			_enablePlugin = enable;
-			if (enable)
-			{
-				_actionVerb = "enable";
-				_actionPast = "enabled";
-			}
-			else
-			{
-				_actionVerb = "disable";
-				_actionPast = "disabled";
-			}
-		}
-
-		public override string Execute()
-		{
-			try
-			{
-				if (_enablePlugin)
-				{
-					Plugin.EnablePlugin(_pluginId);
-				}
-				else
-				{
-					Plugin.DisablePlugin(_pluginId);
-				}
-
-				return FormatMessage(ExecuteSuccessMessage, _actionPast, _pluginName);
-			}
-			catch (Exception ex) //TODO: Catch specific exception
-			{
-				return FormatMessage(ExecuteFailureMessage, _actionPast, _pluginName, ex.Message);
-			}
-		}
-
-		public override string PromptMessage
-		{
-			get
-			{
-				if (!Utilities.IsNullorEmpty(_promptMessage))
-					return FormatMessage(_promptMessage, _actionVerb, _pluginName);
-				else
-					return base.PromptMessage;
-			}
-			set { _promptMessage = value; }
-		}
-
-
-		public override string Cancel()
-		{
-			_autoRedirect = false;
-			return FormatMessage(CancelSuccessMessage, _actionPast, _pluginName);
 		}
 	}
 	#endregion

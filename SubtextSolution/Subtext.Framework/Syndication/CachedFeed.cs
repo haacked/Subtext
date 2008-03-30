@@ -29,8 +29,8 @@ namespace Subtext.Framework.Syndication
 	public class CachedFeed
 	{
 		private DateTime lastModified;
-
-
+		
+		
 		/// <summary>
 		/// Gets or sets the date this feed was last modified.
 		/// </summary>
@@ -40,11 +40,11 @@ namespace Subtext.Framework.Syndication
 			//TODO: Need to figure out what happens to the date when we set LastModified date. 
 			// Returned data usually does not match 
 			// what we sent!
-			get { return lastModified; }
+			get{return lastModified;}
 			set
 			{
 				//Just incase the user changes timezones after a post
-				if (value > DateTime.Now)
+				if(value > DateTime.Now)
 				{
 					value = DateTime.Now;
 				}
@@ -93,11 +93,11 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				if (etag == null)
+				if(etag == null)
 				{
 					// if we did not set the etag, just use the 
 					// LastModified Date
-					etag = LastModified.ToString(CultureInfo.InvariantCulture);
+					etag = this.LastModified.ToString(CultureInfo.InvariantCulture);
 				}
 				return etag;
 			}

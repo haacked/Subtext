@@ -14,14 +14,13 @@
 #endregion
 
 using System;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
-using Subkismet.Captcha;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Web.Controls;
+using Subtext.Web.Controls.Captcha;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -34,6 +33,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			return String.Format(format, arguments);
 		}
+
 
 		/// <summary>
 		/// Url encodes the string.
@@ -106,8 +106,9 @@ namespace Subtext.Web.UI.Controls
 		private string skinFilePath;
 		public string SkinFilePath
 		{
-			get {return skinFilePath;}
-			set {skinFilePath = value;}
+			get
+			{return skinFilePath;}
+			set{skinFilePath = value;}
 		}
 		
 		protected static void BindCurrentEntryControls(Entry entry, Control root)
@@ -146,7 +147,7 @@ namespace Subtext.Web.UI.Controls
 				RemoveCaptcha();
 			}
 
-            if (BlogConfigurationSettings.InvisibleCaptchaEnabled)
+			if (Config.Settings.InvisibleCaptchaEnabled)
 			{
 				invisibleCaptchaValidator = new InvisibleCaptcha();
 				invisibleCaptchaValidator.ErrorMessage = "Please enter the answer to the supplied question.";
@@ -165,38 +166,6 @@ namespace Subtext.Web.UI.Controls
 			{
 				Controls.Remove(preExisting);
 			}
-		}
-
-		/// <summary>
-		/// Returns all words starting at the word start index.
-		/// </summary>
-		/// <param name="text">The text.</param>
-		/// <param name="startIndex">The start index.</param>
-		/// <returns></returns>
-		protected static string Words(string text, int startIndex)
-		{
-			return Words(text, startIndex, int.MaxValue);
-		}
-
-		/// <summary>
-		/// Returns the first specified number of words in the string.
-		/// </summary>
-		/// <param name="text">The text.</param>
-		/// <param name="startIndex">Index of the sart.</param>
-		/// <param name="wordCount">The word count.</param>
-		/// <returns></returns>
-		protected static string Words(string text, int startIndex, int wordCount)
-		{
-			string[] words = Regex.Split(text, @"\s+");
-
-			if (words.Length <= startIndex)
-				return string.Empty;
-
-			int wordsToReturnCount = Math.Min(words.Length - startIndex, wordCount);
-
-			string[] wordsToReturn = new string[wordsToReturnCount];
-			Array.Copy(words, startIndex, wordsToReturn, 0, wordsToReturnCount);
-			return String.Join(" ", wordsToReturn);
 		}
 	}
 }

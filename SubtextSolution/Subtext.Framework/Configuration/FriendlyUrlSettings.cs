@@ -5,7 +5,7 @@ using System.Globalization;
 using log4net;
 using Subtext.Framework.Logging;
 
-namespace Subtext.Framework.Configuration
+namespace Subtext.Configuration
 {
 	/// <summary>
 	/// Encapsulates settings for friendly URL generation.
@@ -14,7 +14,7 @@ namespace Subtext.Framework.Configuration
 	{
 		private readonly static ILog log = new Log();		
 
-		static readonly FriendlyUrlSettings settings = new FriendlyUrlSettings((NameValueCollection) ConfigurationManager.GetSection("FriendlyUrlSettings"));
+		static FriendlyUrlSettings settings = new FriendlyUrlSettings((NameValueCollection) ConfigurationManager.GetSection("FriendlyUrlSettings"));
 
 		public static FriendlyUrlSettings Settings
 		{
@@ -34,16 +34,17 @@ namespace Subtext.Framework.Configuration
 			string wordCountLimitText = config["limitWordCount"];
 			if(!String.IsNullOrEmpty(wordCountLimitText) )
 			{
-				int.TryParse(wordCountLimitText, out wordCountLimit);
+				int.TryParse(wordCountLimitText, out this.wordCountLimit);
 			}
 			enabled = true;
 		}
 
-        private bool enabled = false;
-        public bool Enabled
+		public bool Enabled
 		{
-			get { return enabled; }
+			get { return this.enabled; }
 		}
+
+		private bool enabled = false;
 
 		/// <summary>
 		/// The type of transformation to apply on the URL such 
@@ -54,7 +55,6 @@ namespace Subtext.Framework.Configuration
 			get { return this.textTransformation; }
 		}
 
-        private string separatingCharacter;
 		/// <summary>
 		/// The character used to separate words in the URL.
 		/// </summary>
@@ -63,13 +63,17 @@ namespace Subtext.Framework.Configuration
 			get { return this.separatingCharacter; }
 		}
 
-        private int wordCountLimit = 0;
-        public int WordCountLimit
+		public int WordCountLimit
 		{
 			get { return this.wordCountLimit; }
 		}
 
+		private int wordCountLimit = 0;
+
+		private string separatingCharacter;
+
 		private TextTransform textTransformation;
+
 		static TextTransform ParseTextTransform(string enumValue)
 		{
 			if (String.IsNullOrEmpty(enumValue))

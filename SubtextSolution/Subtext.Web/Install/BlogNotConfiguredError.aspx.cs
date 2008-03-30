@@ -32,7 +32,7 @@ namespace Subtext.Web
 	/// </remarks>
 	public partial class BlogNotConfiguredError : System.Web.UI.Page
 	{
-		bool _anyBlogsExist;
+		bool _anyBlogsExist = false;
 		
 		protected void Page_Load(object sender, EventArgs e)
 		{

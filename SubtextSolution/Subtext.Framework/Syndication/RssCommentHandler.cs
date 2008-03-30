@@ -31,16 +31,16 @@ namespace Subtext.Framework.Syndication
 	public class RssCommentHandler : EntryCollectionHandler<FeedbackItem>
 	{
 		protected Entry ParentEntry;
-		protected IList<FeedbackItem> Comments;
-		IList<FeedbackItem> comments;
+        protected IList<FeedbackItem> Comments;
+        IList<FeedbackItem> comments;
 
 		/// <summary>
 		/// Gets the feed entries.
 		/// </summary>
 		/// <returns></returns>
-		protected override IList<FeedbackItem> GetFeedEntries()
+        protected override IList<FeedbackItem> GetFeedEntries()
 		{
-			if (ParentEntry == null)
+			if(ParentEntry == null)
 			{
 				ParentEntry = Cacher.GetEntryFromRequest(CacheDuration.Short, false);
 			}
@@ -73,10 +73,8 @@ namespace Subtext.Framework.Syndication
 			CachedFeed feed;
 
 			comments = GetFeedEntries();
-            if (comments == null)
-            {
-                comments = new List<FeedbackItem>();
-            }
+			if(comments == null)
+				comments = new List<FeedbackItem>();
 
 		
 			feed = new CachedFeed();
@@ -87,7 +85,7 @@ namespace Subtext.Framework.Syndication
 			}
 			else
 			{
-				feed.LastModified = ParentEntry.DateSyndicated;
+				feed.LastModified = this.ParentEntry.DateCreated;
 			}
 			feed.Xml = crw.Xml;
 			return feed;
@@ -96,16 +94,16 @@ namespace Subtext.Framework.Syndication
 		protected override bool IsLocalCacheOK()
 		{
 			string dt = LastModifiedHeader;
-			if (dt != null)
+			if(dt != null)
 			{
 				comments = GetFeedEntries();
 
-				if (comments != null && comments.Count > 0)
+				if(comments != null && comments.Count > 0)
 				{
 					return DateTime.Compare(DateTime.Parse(dt), ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated)) == 0;
 				}
 			}
-			return false;
+			return false;			
 		}
 
 		protected override BaseSyndicationWriter SyndicationWriter

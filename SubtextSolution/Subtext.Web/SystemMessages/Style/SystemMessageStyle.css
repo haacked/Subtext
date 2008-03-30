@@ -21,6 +21,13 @@ body
 {
 	width: 261px;
 	height: 85px;
+	background: url(../../../images/SubtextLogo.png) no-repeat;
+}
+
+* html #logo
+{
+	background: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../../../images/SubtextLogo.png", sizingMethod="crop");
 }
 
 h1
@@ -33,7 +40,7 @@ h1
 	font-family: "trebuchet ms", ""lucida grande"", verdana, arial, sans-serif 
 }
 			
-h2 
+H2 
 { 
 	padding: 0px; 
 	font-weight: bold; 

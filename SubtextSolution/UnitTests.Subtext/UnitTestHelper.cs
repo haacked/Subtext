@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Security;
 using System.Security.Principal;
 using System.Text;
@@ -31,7 +30,6 @@ using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
 using Rhino.Mocks;
-using SubSonic;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -40,7 +38,9 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Security;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
-using Subtext.TestLibrary;
+using System.Collections;
+using System.Collections.Specialized;
+using System.Net;
 
 namespace UnitTests.Subtext
 {
@@ -49,47 +49,24 @@ namespace UnitTests.Subtext
 	/// </summary>
 	public static class UnitTestHelper
 	{
-		internal static string MembershipTestUsername
-        {
-            get
-            {
-                return GenerateRandomString();
-            }
-        }
-	    internal static string MembershipTestEmail
-	    {
-	        get
-	        {
-                return MembershipTestUsername + "@example.com";
-	        }
-	    }
-		internal static readonly string MembershipTestPassword = GenerateRandomString();
-
-		public static void ClearAllBlogData()
+        /// <summary>
+		/// Unpacks an embedded resource into the specified directory. The resource name should 
+		/// be everything after 'UnitTests.Subtext.Resources.'.
+		/// </summary>
+		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
+		/// resource name.</remarks>
+		/// <param name="resourceName"></param>
+		/// <param name="outputPath">The path to write the file as.</param>
+		public static void UnpackEmbeddedResource(string resourceName, string outputPath)
 		{
-			string[] tables = new string[]
-				{
-					"subtext_PluginData"
-					, "subtext_PluginBlog"
-					, "subtext_KeyWords"	
-					,"subtext_Images"	
-					,"subtext_Links"
-					,"subtext_EntryViewCount"
-					,"subtext_Log"
-					,"subtext_Feedback"
-					,"subtext_EntryTag"
-					,"subtext_Tag"
-					,"subtext_Content"
-					,"subtext_LinkCategories"
-					,"subtext_Config"
-					,"subtext_Referrals"
-					,"subtext_URLs"
-				};
-
-			foreach(string tableName in tables)
+			Stream stream = UnpackEmbeddedResource(resourceName);
+			using(StreamReader reader = new StreamReader(stream))
 			{
-				QueryCommand command = new QueryCommand(string.Format("DELETE [{0}]", tableName));
-				DataService.ExecuteQuery(command);
+				using(StreamWriter writer = File.CreateText(outputPath))
+				{
+					writer.Write(reader.ReadToEnd());
+					writer.Flush();
+				}
 			}
 		}
 
@@ -111,6 +88,27 @@ namespace UnitTests.Subtext
 		}
 
 		/// <summary>
+		/// Unpacks an embedded binary resource into the specified directory. The resource name should 
+		/// be everything after 'UnitTests.Subtext.Resources.'.
+		/// </summary>
+		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
+		/// resource name.</remarks>
+		/// <param name="resourceName"></param>
+		/// <param name="outputPath">The path to write the file as.</param>
+		public static void UnpackEmbeddedBinaryResource(string resourceName, string outputPath)
+		{
+			using(Stream stream = UnpackEmbeddedResource(resourceName))
+			{
+				byte[] buffer = new byte[stream.Length];
+				stream.Read(buffer, 0, buffer.Length);
+				using(FileStream outStream = File.Create(outputPath))
+				{
+					outStream.Write(buffer, 0, buffer.Length);
+				}
+			}
+		}
+
+		/// <summary>
 		/// Unpacks an embedded resource into a Stream.  The resource name should 
 		/// be everything after 'UnitTests.Subtext.Resources.'.
 		/// </summary>
@@ -127,197 +125,41 @@ namespace UnitTests.Subtext
 		/// Generates a random hostname.
 		/// </summary>
 		/// <returns></returns>
-		internal static string GenerateRandomString()
+		public static string GenerateRandomString()
 		{
 			return Guid.NewGuid().ToString().Replace("-", "") + ".com";
 		}
 
-		/// <summary>
-		/// Takes all the necessary steps to create a blog and set up the HTTP Context 
-		/// with the blog.
-		/// </summary>
-		/// <returns>
-		/// Returns a reference to a string builder.
-		/// The stringbuilder will end up containing the Response of any simulated 
-		/// requests.
-		/// </returns>
-		internal static SimulatedRequestContext SetupBlog()
-		{
-			return SetupBlog(string.Empty);
-		}
-		
-		internal static MembershipUser CreateUserInstanceForTest()
-		{
-			return new MembershipUser("SubtextMembershipProvider", "Phil Haack", Guid.Empty, "test@example.com", "comment", "comment", true, false, DateTime.Now, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
-		}
 
 		/// <summary>
-		/// Takes all the necessary steps to create a blog and set up the HTTP Context
-		/// with the blog.
+		/// Sets the HTTP context with a valid request for the blog specified 
+		/// by the host and application.
 		/// </summary>
-		/// <returns>
-		/// Returns a reference to a string builder.
-		/// The stringbuilder will end up containing the Response of any simulated 
-		/// requests.
-		/// </returns>
-		/// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
-		internal static SimulatedRequestContext SetupBlog(string subfolder)
-		{
-			return SetupBlog(subfolder, string.Empty);
-		}
-
-		/// <summary>
-		/// Takes all the necessary steps to create a blog and set up the HTTP Context
-		/// with the blog.
-		/// </summary>
-		/// <returns>
-		/// Returns a reference to a string builder.
-		/// The stringbuilder will end up containing the Response of any simulated 
-		/// requests.
-		/// </returns>
-		/// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
-		/// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
-		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath)
-		{
-			return SetupBlog(subfolder, applicationPath, 80);
-		}
-		
-		/// <summary>
-		/// Takes all the necessary steps to create a blog and set up the HTTP Context
-		/// with the blog.
-		/// </summary>
-		/// <returns>
-		/// Returns a reference to a string builder.
-		/// The stringbuilder will end up containing the Response of any simulated 
-		/// requests.
-		/// </returns>
-		/// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
-		/// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
-		/// <param name="port">The port for this blog.</param>
-		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port)
-		{
-			return SetupBlog(subfolder, applicationPath, port, string.Empty);
-		}
-
-		/// <summary>
-		/// Takes all the necessary steps to create a blog and set up the HTTP Context
-		/// with the blog.
-		/// </summary>
-		/// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
-		/// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
-		/// <param name="page">The page to request.</param>
-		/// <returns>
-		/// Returns a reference to a string builder.
-		/// The stringbuilder will end up containing the Response of any simulated
-		/// requests.
-		/// </returns>
-		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, string page)
-		{
-			return SetupBlog(subfolder, applicationPath, 80, page);
-		}
-
-		/// <summary>
-		/// Takes all the necessary steps to create a blog and set up the HTTP Context
-		/// with the blog.
-		/// </summary>
-		/// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
-		/// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
-		/// <param name="port">The port for this blog.</param>
-		/// <param name="page">The page to request.</param>
-		/// <returns>
-		/// Returns a reference to a string builder.
-		/// The stringbuilder will end up containing the Response of any simulated
-		/// requests.
-		/// </returns>
-		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page)
-		{
-			return SetupBlog(subfolder, applicationPath, port, page, MembershipTestUsername, MembershipTestPassword);
-		}
-
-		/// <summary>
-		/// Takes all the necessary steps to create a blog and set up the HTTP Context
-		/// with the blog.
-		/// </summary>
-		/// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
-		/// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
-		/// <param name="port">The port for this blog.</param>
-		/// <param name="page">The page to request.</param>
-		/// <param name="userName">Name of the user.</param>
-		/// <param name="password">The password.</param>
-		/// <returns>
-		/// Returns a reference to a string builder.
-		/// The stringbuilder will end up containing the Response of any simulated
-		/// requests.
-		/// </returns>
-		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page, string userName, string password)
-		{
-			string host = GenerateRandomString();
-
-			MembershipUser owner = CreateMembershipUser(userName, password);
-
-			HttpContext.Current = null;
-			Assert.IsNotNull(Config.CreateBlog("Unit Test Blog", host, subfolder, owner), "Could Not Create Blog");
-
-			StringBuilder sb = new StringBuilder();
-			TextWriter output = new StringWriter(sb);
-			SimulatedHttpRequest request = SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, page, output, "GET");
-
-			if (Config.CurrentBlog != null)
-			{
-				Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
-				Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "image") + Path.DirectorySeparatorChar;
-				Config.CurrentBlog.ImagePath = "/image/";
-			}
-            HttpContext.Current.User = new GenericPrincipal(new GenericIdentity(userName), new string[] { RoleNames.Administrators });
-
-			return new SimulatedRequestContext(request, sb, output, host);
-		}
-
-		public static MembershipUser CreateMembershipUser()
-		{
-			return CreateMembershipUser(GenerateRandomString(), GenerateRandomString());
-		}
-
-		public static MembershipUser CreateMembershipUser(string userName, string password)
-		{
-			MembershipCreateStatus status;
-			MembershipUser owner = Membership.CreateUser(userName, password, MembershipTestEmail, "What time is it?", "It's Subtext Time!", true, out status);
-			Assert.AreEqual(status, MembershipCreateStatus.Success, "User was unable not created");
-			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(owner.UserName), new string[] { RoleNames.Administrators });
-			return owner;
-		}
-
-		/// <summary>
-		/// Takes all the necessary steps to create a blog and set up the HTTP Context
-		/// with the blog.  The blog will have an admin with the specified 
-		/// username and password.
-		/// </summary>
-		public static void SetupBlogWithUserAndPassword(string username, string password)
-		{
-			SetupBlogWithUserAndPassword(username, password, string.Empty);
-		}
-
-		/// <summary>
-		/// Takes all the necessary steps to create a blog and set up the HTTP Context
-		/// with the blog.  The blog will have an admin with the specified 
-		/// username and password.
-		/// </summary>
-		public static void SetupBlogWithUserAndPassword(string username, string password, string subfolder)
-		{
-			SetupBlog(subfolder, string.Empty, 80, string.Empty, username, password);
-		}
-
+		/// <param name="host">Host.</param>
+		/// <param name="subfolder">Subfolder Name.</param>
 		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder)
 		{
-			return SetHttpContextWithBlogRequest(host, subfolder, string.Empty, string.Empty);
+			return SetHttpContextWithBlogRequest(host, subfolder, string.Empty);
 		}
 
+		/// <summary>
+		/// Sets the HTTP context with a valid request for the blog specified 
+		/// by the host and subfolder hosted in a virtual directory.
+		/// </summary>
+		/// <param name="host">Host.</param>
+		/// <param name="subfolder">Subfolder Name.</param>
+		/// <param name="applicationPath"></param>
 		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath)
 		{
-			return SetHttpContextWithBlogRequest(host, subfolder, applicationPath, string.Empty);
+			return SetHttpContextWithBlogRequest(host, subfolder, applicationPath, "default.aspx");
 		}
-
-		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page)
+	    
+	    public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, int port, string subfolder, string applicationPath)
+	    {
+            return SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, "default.aspx");
+	    }
+		
+	    public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page)
 	    {
 	        return SetHttpContextWithBlogRequest(host, 80, subfolder, applicationPath, page);
 	    }
@@ -364,16 +206,11 @@ namespace UnitTests.Subtext
 
 			string query = string.Empty;
 
-            SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(applicationPath, appPhysicalDir, Path.Combine(appPhysicalDir, page), page, query, output, host, port, httpVerb);
+            SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(applicationPath, appPhysicalDir, page, query, output, host, port, httpVerb);
 			HttpContext.Current = new HttpContext(workerRequest);
 			HttpContext.Current.Items.Clear();
 			HttpContext.Current.Cache.Remove("BlogInfo-");
 			HttpContext.Current.Cache.Remove("BlogInfo-" + subfolder);
-
-			Type appFactoryType = Type.GetType("System.Web.HttpApplicationFactory, System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
-			Assert.IsNotNull(appFactoryType, "The HttpApplicationFactory type is null");
-			object appFactory = ReflectionHelper.GetStaticFieldValue<object>("_theApplicationFactory", appFactoryType);
-			ReflectionHelper.SetPrivateInstanceFieldValue("_state", appFactory, HttpContext.Current.Application);
 			
 			BlogRequest.Current = new BlogRequest(host, subfolder, HttpContext.Current.Request.Url, host == "localhost");
 
@@ -459,20 +296,20 @@ namespace UnitTests.Subtext
 		/// <summary>
 		/// This is useful when two strings appear to be but Assert.AreEqual says they are not.
 		/// </summary>
-		/// <param name="original"></param>
+		/// <param name="result"></param>
 		/// <param name="expected"></param>
-		public static void AssertStringsEqualCharacterByCharacter(string original, string expected)
+		public static void AssertStringsEqualCharacterByCharacter(string expected, string result)
 		{
-			if(original != expected)
+			if(result != expected)
 			{
                 int unequalPos = 0;
-				for(int i = 0; i < Math.Max(original.Length, expected.Length); i++)
+				for(int i = 0; i < Math.Max(result.Length, expected.Length); i++)
 				{
 					char originalChar = (char)0;
 					char expectedChar = (char)0;
-					if(i < original.Length)
+					if(i < result.Length)
 					{
-						originalChar = original[i];
+						originalChar = result[i];
 					}
 
 					if(i < expected.Length)
@@ -483,10 +320,10 @@ namespace UnitTests.Subtext
                     if (unequalPos == 0 && originalChar != expectedChar)
 				        unequalPos = i;
 
-					string originalCharDisplay = "" + originalChar;
+					string expectedCharText = "" + originalChar;
 					if(char.IsWhiteSpace(originalChar))
 					{
-						originalCharDisplay = "{" + (int)originalChar  + "}";
+						expectedCharText = "{" + (int)originalChar  + "}";
 					}
 
 					string expectedCharDisplay = "" + expectedChar;
@@ -495,9 +332,9 @@ namespace UnitTests.Subtext
 						expectedCharDisplay = "{" + (int)expectedChar + "}";
 					}
 
-					Console.WriteLine("{0}:\t{1} ({2})\t{3} ({4})", i, originalCharDisplay, (int)originalChar, expectedCharDisplay, (int)expectedChar);
+					Console.WriteLine("{0}:\t{1} ({2})\t{3} ({4})", i, expectedCharDisplay, (int)expectedChar, expectedCharText, (int)originalChar);
 				}
-				Assert.AreEqual(original, expected, "Strings are not equal starting at character {0}", unequalPos);
+				Assert.AreEqual(expected, expected, "Strings are not equal starting at character {0}", unequalPos);
 			}
 		}
 
@@ -529,9 +366,11 @@ namespace UnitTests.Subtext
 				entry.EntryName = entryName;
 			}
 			entry.BlogId = Config.CurrentBlog.Id;
-			entry.DateCreated = entry.DateModified = entry.DateSyndicated = dateCreated;
+			entry.DateCreated = dateCreated;
+			entry.DateModified = entry.DateCreated;
+			entry.DateSyndicated = entry.DateCreated;
 			entry.Title = title;
-			entry.Author = CreateUserInstanceForTest();
+			entry.Author = author;
 			entry.Body = body;
 			entry.DisplayOnHomePage = true;
 			entry.IsAggregated = true;
@@ -580,14 +419,8 @@ namespace UnitTests.Subtext
 
 			return entry;
 		}
-
-		public static void CreateBlog(string title, string username, string email, string password, string hostName, string subfolder)
-		{
-			MembershipUser owner = CreateMembershipUser();
-			Config.CreateBlog("title", hostName, subfolder, owner);
-		}
-
-		/// <summary>
+	    
+	    /// <summary>
 	    /// Creates a blog post link category.
 	    /// </summary>
 	    /// <param name="blogId"></param>
@@ -595,25 +428,13 @@ namespace UnitTests.Subtext
 	    /// <returns></returns>
 	    public static int CreateCategory(int blogId, string title)
 	    {
-			return CreateCategory(blogId, title, CategoryType.PostCollection);
+            LinkCategory category = new LinkCategory();
+            category.BlogId = Config.CurrentBlog.Id;
+            category.Title = title;
+            category.CategoryType = CategoryType.PostCollection;
+	        category.IsActive = true;
+            return Links.CreateLinkCategory(category);
 	    }
-
-		/// <summary>
-		/// Creates a blog post link category.
-		/// </summary>
-		/// <param name="blogId">The blog id.</param>
-		/// <param name="title">The title.</param>
-		/// <param name="categoryType">Type of the category.</param>
-		/// <returns></returns>
-		public static int CreateCategory(int blogId, string title, CategoryType categoryType)
-		{
-			LinkCategory category = new LinkCategory();
-			category.BlogId = Config.CurrentBlog.Id;
-			category.Title = title;
-			category.CategoryType = categoryType;
-			category.IsActive = true;
-			return Links.CreateLinkCategory(category);
-		}
 
 		public static string ExtractArchiveToString(Stream compressedArchive)
 		{
@@ -704,9 +525,6 @@ namespace UnitTests.Subtext
 			string cookieName = SecurityHelper.GetFullCookieName();
             HttpCookie authCookie = HttpContext.Current.Request.Cookies[cookieName];
 
-	    	if(authCookie == null)
-	    		return;
-	    	
             FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
 
             // When the ticket was created, the UserData property was assigned a
@@ -720,28 +538,7 @@ namespace UnitTests.Subtext
             // Attach the new principal object to the current HttpContext object
             HttpContext.Current.User = principal;
         }
-
-		/// <summary>
-		/// Useful for unit testing that classes implement serialization.  This simply takes in a class, 
-		/// serializes it into a byte array, deserializes the byte array, and returns the result. 
-		/// The unit test should check that all the properties are set correctly.
-		/// </summary>
-		/// <param name="serializableObject">The serializable object.</param>
-		/// <returns></returns>
-		public static T SerializeRoundTrip<T>(T serializableObject)
-		{
-			MemoryStream stream = new MemoryStream();
-			BinaryFormatter formatter = new BinaryFormatter();
-			formatter.Serialize(stream, serializableObject);
-			byte[] serialized = stream.ToArray();
-			
-			stream = new MemoryStream(serialized);
-			stream.Position = 0;
-			formatter = new BinaryFormatter();
-			object o = formatter.Deserialize(stream);
-			return (T)o;
-		}
-
+	    
 		/// <summary>
 		/// Returns a deflated version of the response sent by the web server. If the 
 		/// web server did not send a compressed stream then the original stream is returned. 
@@ -818,24 +615,6 @@ namespace UnitTests.Subtext
 				}
 		}
 
-		/// <summary>
-		/// Sets all public read/write properties to have a 
-		/// property behavior when using Rhino Mocks.
-		/// </summary>
-		/// <param name="mock"></param>
-		public static void SetPropertyBehaviorOnAllProperties(object mock)
-		{
-		  PropertyInfo[] properties = mock.GetType().GetProperties();
-		  foreach (PropertyInfo property in properties)
-		  {
-			if (property.CanRead && property.CanWrite)
-			{
-			  property.GetValue(mock, null);
-			  LastCall.On(mock).PropertyBehavior();
-			}
-		  }
-		}
-
 		#region ...Assert.AreNotEqual replacements...
 		/// <summary>
 		/// Asserts that the two values are not equal.
@@ -860,7 +639,7 @@ namespace UnitTests.Subtext
 		/// </summary>
 		/// <param name="first">The first.</param>
 		/// <param name="compare">The compare.</param>
-		/// <param name="message">The message.</param>
+		/// <param name="message"></param>
 		public static void AssertAreNotEqual(int first, int compare, string message)
 		{
 			Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);
@@ -881,7 +660,7 @@ namespace UnitTests.Subtext
 		/// </summary>
 		/// <param name="first">The first.</param>
 		/// <param name="compare">The compare.</param>
-		/// <param name="message">The message.</param>
+		/// <param name="message"></param>
 		public static void AssertAreNotEqual(string first, string compare, string message)
 		{
 			Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);
@@ -890,8 +669,16 @@ namespace UnitTests.Subtext
 
 	    public static BlogInfo CreateBlogAndSetupContext()
 	    {
-	    	SetupBlog();
-	    	return Config.CurrentBlog;
+	        string hostName = GenerateRandomString();
+	        Assert.IsTrue(Config.CreateBlog("Just A Test Blog", "test", "test", hostName, ""), "Could not create the blog for this test");
+	        SetHttpContextWithBlogRequest(hostName, "");
+	        Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
+
+	        Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
+	        Config.CurrentBlog.ImagePath = "/image/";
+
+            // NOTE- is this OK?
+	        return Config.CurrentBlog;
 	    }
 
 		public static BlogAlias CreateBlogAlias(BlogInfo info, string host, string subfolder)
@@ -988,6 +775,77 @@ namespace UnitTests.Subtext
 				}
 			}
 		}
+
+        public static void AssertSimpleProperties(object o, params string[] excludedProperties)
+        {
+            StringDictionary excludes = new StringDictionary();
+            foreach (string exclude in excludedProperties)
+            {
+                excludes.Add(exclude, "");
+            }
+
+            Type t = o.GetType();
+            PropertyInfo[] props = t.GetProperties();
+            foreach (PropertyInfo property in props)
+            {
+                if (excludes.ContainsKey(property.Name))
+                    continue;
+
+                if (property.CanRead && property.CanWrite)
+                {
+                    object valueToSet = null;
+                    if (property.PropertyType == typeof(int)
+                        || property.PropertyType == typeof(short)
+                        || property.PropertyType == typeof(decimal)
+                        || property.PropertyType == typeof(double)
+                        || property.PropertyType == typeof(long))
+                    {
+                        valueToSet = 42;
+                    }
+                    else if (property.PropertyType == typeof(string))
+                    {
+                        valueToSet = "This Is a String";
+                    }
+                    else if (property.PropertyType == typeof(DateTime))
+                    {
+                        valueToSet = DateTime.Now;
+                    }
+                    else if (property.PropertyType == typeof(Uri))
+                    {
+                        valueToSet = new Uri("http://subtextproject.com/");
+                    }
+                    else if (property.PropertyType == typeof(IPAddress))
+                    {
+                        valueToSet = IPAddress.Parse("127.0.0.1");
+                    }
+                    else if (property.PropertyType == typeof(bool))
+                    {
+                        valueToSet = true;
+                    }
+                    else if (property.PropertyType == typeof(PageType))
+                    {
+                        valueToSet = PageType.HomePage;
+                    }
+                    else if (property.PropertyType == typeof(ICollection<Link>))
+                    {
+                        valueToSet = new List<Link>();
+                    }
+                    else if (property.PropertyType == typeof(ICollection<Image>))
+                    {
+                        valueToSet = new List<Image>();
+                    }
+                    else
+                    {
+                        //Don't know what to do.
+                        continue;
+                    }
+
+                    property.SetValue(o, valueToSet, null);
+                    object retrievedValue = property.GetValue(o, null);
+                    Assert.AreEqual(valueToSet, retrievedValue, string.Format("Could not set and get this property '{0}'", property.Name));
+                }
+            }
+        }
 
 		public static void SetCurrentPrincipalRoles(MockRepository mocks, out IPrincipal principal, params string[] roles)
 		{

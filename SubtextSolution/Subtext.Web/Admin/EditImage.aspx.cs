@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -62,12 +61,14 @@ namespace Subtext.Web.Admin.Pages
 
 		#endregion
 	    
-	    public EditImage()
+	    public EditImage() : base()
 	    {
             this.TabSectionId = "Galleries";
 	    }
 
-		protected void Page_Load(object sender, EventArgs e) {}
+		protected void Page_Load(object sender, EventArgs e)
+		{
+		}
 	    
 	    public override void DataBind()
 	    {
@@ -130,29 +131,27 @@ namespace Subtext.Web.Admin.Pages
 			_galleryTitle = Links.GetLinkCategory(image.CategoryID,false).Title;
 		}
 
-		protected static string EvalImageUrl(object imageObject)
+		protected string EvalImageUrl(object imageObject)
 		{
-            Image image = imageObject as Image;
-			if (image != null)
+			if (imageObject is Image)
 			{
-				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.GalleryVirtualUrl(image.CategoryID), 
+				Image image = (Image)imageObject;
+				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
 					image.ThumbNailFile);
 			}
 			else
 				return String.Empty;
 		}
 
-		protected static string EvalImageNavigateUrl(object imageObject)
+		protected string EvalImageNavigateUrl(object imageObject)
 		{
-            Image image = imageObject as Image;
-            if (image != null)
+			if (imageObject is Image)
 			{
+				Image image = (Image)imageObject;
 				return Config.CurrentBlog.UrlFormats.ImageUrl(null,image.ImageID);
 			}
 			else
-			{
 				return String.Empty;
-			}
 		}
 
 		protected string GetImageGalleryUrl()
@@ -198,8 +197,8 @@ namespace Subtext.Web.Admin.Pages
 				
 				try
 				{
-					_image.FileName = Path.GetFileName(ImageFile.PostedFile.FileName);
-					_image.LocalDirectoryPath = Images.LocalGalleryFilePath(_image.CategoryID);
+					_image.File = Images.GetFileName(ImageFile.PostedFile.FileName);
+					_image.LocalFilePath = Images.LocalGalleryFilePath(Context, _image.CategoryID);
 					Images.Update(_image, Images.GetFileStream(ImageFile.PostedFile));				
 
 					this.Messages.ShowMessage("The image was successfully updated.");

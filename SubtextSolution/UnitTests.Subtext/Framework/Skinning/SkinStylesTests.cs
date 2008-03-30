@@ -77,7 +77,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Row("blog", "Subtext.Web", "/Subtext.Web/Skins/Lightz/print.css", "/Subtext.Web/Skins/Lightz/style.css")]
         public void StyleSheetElementCollectionRendererRendersPlainCssLinkElementsWithNoneMergeMode(string subFolder, string applicationPath, string expectedPrintCssPath, string expectedDefaultCssPath)
         {
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subFolder, applicationPath);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
@@ -103,7 +103,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Row("blog", "Subtext.Web", "/Subtext.Web/Skins/WPSkin/print.css", "/Subtext.Web/Skins/WPSkin/style.css")]
         public void StyleSheetElementCollectionRendererRendersPlainCssLinkElementsWithNoneMergeModeAndExcludeDefault(string subFolder, string applicationPath, string expectedPrintCssPath, string expectedDefaultCssPath)
         {
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subFolder, applicationPath);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
@@ -128,7 +128,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Row("blog", "Subtext.Web", "/Subtext.Web/Skins/Nature/print.css", "/Subtext.Web/Skins/Nature/style.css", "/Subtext.Web/Skins/Nature/rain.css")]
         public void StyleSheetElementCollectionRendererRendersPlainCssLinkElementsWithNoneMergeModeAndSecondaryStyle(string subFolder, string applicationPath, string expectedPrintCssPath, string expectedDefaultCssPath, string expectedSecondaryCssPath)
         {
-            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subFolder, applicationPath, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subFolder, applicationPath);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
@@ -156,7 +156,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Row("Gradient", false)]
         public void StyleSheetElementCollectionRendererRendersLinkElementsInRightOrder(string skinKey, bool expectedFirst)
         {
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
@@ -185,7 +185,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Row("blog", "Subtext.Web", "/Subtext.Web/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed")]
         public void StyleSheetElementCollectionRendererRendersMergedCssLinkElements(string subFolder, string applicationPath, string expectedPrintCssPath)
         {
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subFolder, applicationPath);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
@@ -221,7 +221,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         //[Row("WPSkin", 4)]
         public void CallsToCssHandlerAreNotRepeated(string skinKey, string exptectedElements)
         {
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
@@ -268,7 +268,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Test]
         public void MergedCssDoesntContainDefaultIfExcluded()
         {
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
@@ -284,7 +284,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Test]
         public void MergedCssContainsDefaultStyle()
         {
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
@@ -351,7 +351,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Row("Haacked", 0)]
         public void MergedCssIsCorrect(string skinKey, int expectedStyles)
         {
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
@@ -394,7 +394,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Row("WPSkin", 1, "print", null, null)]
         public void MergeCssWithAttributes(string skinKey, int expectedStyles, string media, string title, string conditional)
         {
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);

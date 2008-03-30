@@ -14,10 +14,8 @@
 #endregion
 
 using System;
-using System.Security.Principal;
 using System.Threading;
 using System.Web;
-using System.Web.Security;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -42,14 +40,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// create too many within the interval.
 		/// </summary>
 		[Test]
-		[RollBack2]
+		[RollBack]
 		[ExpectedException(typeof(CommentFrequencyException))]
 		public void CannotCreateMoreThanOneCommentWithinDelay()
 		{
-			UnitTestHelper.SetupBlog();
-			//Need to set our user to a non-admin
-			HttpContext.Current.User = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
-			
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
 			BlogInfo blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 1;
 
@@ -74,15 +69,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Make sure that duplicate comments are blocked.
 		/// </summary>
 		[Test]
-		[RollBack2]
+		[RollBack]
 		[ExpectedException(typeof(CommentDuplicateException))]
 		public void CannotCreateDuplicateComments()
 		{
-			UnitTestHelper.SetupBlog();
-			
-			//Need to set our user to a non-admin
-			HttpContext.Current.User = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
-			
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
 			BlogInfo blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 0;
 
@@ -101,19 +92,18 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	    /// filtered.
 	    /// </summary>
 	    [Test]
-	    [RollBack2]
+	    [RollBack]
 	    public void CommentsFromAdminNotFiltered()
 	    {
-			UnitTestHelper.SetupBlog();
+            Assert.IsTrue(Config.CreateBlog("", "username", "some-password", _hostName, string.Empty));
             BlogInfo blog = Config.CurrentBlog;
-			Config.UpdateConfigData(blog);
-
             blog.CommentDelayInMinutes = 0;
+	        
 	        /*
              * Need to add the authentication ticket to the context (cookie), and then 
              * read that ticket to set the HttpContext.Current.User's Principle.
              */
-			Membership.ValidateUser(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword);
+	        SecurityHelper.Authenticate("username", "some-password", true);
 	        UnitTestHelper.AuthenticateFormsAuthenticationCookie();
 	        Assert.IsTrue(SecurityHelper.IsAdmin, "Not able to login to the current blog.");
 
@@ -126,14 +116,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
 	    }
 
-		[Test]
-		[ExpectedArgumentNullException]
-		public void FilterAfterPersistThrowsArgumentNullException()
-		{
-			CommentFilter.FilterAfterPersist(null);
-		}
-
-		/// <summary>
+	    /// <summary>
 		/// Sets the up test fixture.  This is called once for 
 		/// this test fixture before all the tests run.
 		/// </summary>
@@ -143,13 +126,12 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			//Confirm app settings
             UnitTestHelper.AssertAppSettings();
 		}
-		
-		private IDisposable blogRequest;
+
 		[SetUp]
 		public void SetUp()
 		{
 			_hostName = UnitTestHelper.GenerateRandomString();
-			blogRequest = BlogRequestSimulator.SimulateRequest(_hostName, "", "MyBlog");
+			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
 			new CommentFilter(HttpContext.Current.Cache).ClearCommentCache();
 		}
 
@@ -157,8 +139,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void TearDown()
 		{
 			Config.ConfigurationProvider = null;
-			if (blogRequest != null)
-				blogRequest.Dispose();
 		}
 	}
 }

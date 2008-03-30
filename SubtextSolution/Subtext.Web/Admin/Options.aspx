@@ -1,7 +1,8 @@
 <%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Blog Options" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Options.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.AdminOptionsPage" %>
 
+
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
-</asp:Content>
+    Actions</asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
 </asp:Content>
@@ -17,6 +18,12 @@
 		    <a href="Configure.aspx">Configure</a>: Manage your blog.
 	    </p>
 	    <p>
+		    <a href="Customize.aspx">Customize</a>: Customize your blog.
+	    </p>
+	    <p>
+		    <a href="Preferences.aspx">Preferences</a>: Set common preferences.
+	    </p>
+	    <p>
 		    <a href="Syndication.aspx">Syndication</a>: Manage your RSS (or ATOM) Feed.
 	    </p>
 	    <p>
@@ -28,12 +35,6 @@
 	    <p>
 		    <a href="Password.aspx">Password</a>: Update your password.
 	    </p>		
-	    <p>
-		    <a href="Preferences.aspx">Preferences</a>: Set common preferences.
-	    </p>
-	    <p>
-		    <a href="PluginList.aspx">Plugin List</a>: Manage Plugin Settings.
-	    </p>
 	    <br class="clear" />
     </st:AdvancedPanel>
 </asp:Content>

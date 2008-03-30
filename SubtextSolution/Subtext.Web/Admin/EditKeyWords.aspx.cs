@@ -28,7 +28,9 @@ namespace Subtext.Web.Admin.Pages
 	{
 		private const string VSKEY_KEYWORDID = "LinkID";
 
-		private int _resultsPageNumber;
+		private int _resultsPageNumber = 0;
+		private bool _isListHidden = false;
+	
 		#region Accessors
 
 		public int KeyWordID
@@ -78,7 +80,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			Edit.Visible = false;
 
-            IPagedCollection<KeyWord> selectionList = Keywords.GetPagedKeywords(_resultsPageNumber, this.resultsPager.PageSize);
+            IPagedCollection<KeyWord> selectionList = KeyWords.GetPagedKeyWords(_resultsPageNumber, this.resultsPager.PageSize);
 			
 			if (selectionList.Count > 0)
 			{
@@ -94,7 +96,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindLinkEdit()
 		{
-			KeyWord kw = Keywords.GetKeyword(KeyWordID);
+			KeyWord kw = KeyWords.GetKeyWord(KeyWordID);
 		
 			Results.Collapsed = true;
 			Results.Collapsible = true;
@@ -144,11 +146,11 @@ namespace Subtext.Web.Admin.Pages
 				{
 					successMessage = Constants.RES_SUCCESSEDIT;
 					kw.Id = KeyWordID;
-					Keywords.UpdateKeyword(kw);
+					KeyWords.UpdateKeyWord(kw);
 				}
 				else
 				{
-					KeyWordID = Keywords.CreateKeyword(kw);
+					KeyWordID = KeyWords.CreateKeyWord(kw);
 				}
 
 				if (KeyWordID > 0)
@@ -198,6 +200,15 @@ namespace Subtext.Web.Admin.Pages
 			Server.Transfer(Constants.URL_CONFIRM);
 		}
 
+		// REFACTOR
+		public string CheckHiddenStyle()
+		{
+			if (_isListHidden)
+				return Constants.CSSSTYLE_HIDDEN;
+			else
+				return String.Empty;
+		}
+
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{
@@ -230,7 +241,7 @@ namespace Subtext.Web.Admin.Pages
 					break;
 				case "delete" :
 					int id = Convert.ToInt32(e.CommandArgument);
-					KeyWord kw = Keywords.GetKeyword(id);
+					KeyWord kw = KeyWords.GetKeyWord(id);
 					ConfirmDelete(id, kw.Word);
 					break;
 				default:

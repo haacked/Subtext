@@ -24,11 +24,11 @@ namespace Subtext.ImportExport.Conversion
 			if (scope == IdScopes.Comments || scope == IdScopes.TrackBacks)
 				scope = IdScopes.Posts;
 
-			if (scope == IdScopes.CategoryParents)
+			if(scope == IdScopes.CategoryParents)
 			{
 				//Out.
 				int categoryTypeId;
-				if (int.TryParse(originalId, out categoryTypeId))
+				if(int.TryParse(originalId, out categoryTypeId))
 					return Enum.GetName(typeof(CategoryType), categoryTypeId);
 
 				try
@@ -38,12 +38,12 @@ namespace Subtext.ImportExport.Conversion
 					Enum.Parse(typeof(CategoryType), originalId);
 					return originalId;
 				}
-				catch (Exception)
+				catch(Exception)
 				{
 				}
-
+				
 			}
-
+			
 			return base.Generate(scope, originalId);
 		}
 	}

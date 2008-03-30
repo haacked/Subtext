@@ -1,1 +1,1 @@
-subtext install /recreate-db /connect "Server=localhost;Database=SubtextData;Trusted_Connection=True"
+subtext install /recreate-db /connect "Server=localhost;Database=SubtextData_1.9;Trusted_Connection=True"

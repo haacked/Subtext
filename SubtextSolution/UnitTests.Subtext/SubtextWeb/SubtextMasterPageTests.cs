@@ -19,7 +19,7 @@ namespace UnitTests.Subtext.SubtextWeb
 		[Row("javascript", "/scripts/test.js", "Subtext.Web", "/Anything/", @"<script type=""javascript"" src=""/scripts/test.js""></script>")]
 		public void RenderScriptElementRendersAppropriatePath(string type, string src, string virtualDir, string skinPath, string expected)
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "Anything", virtualDir, string.Empty);
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "Anything", virtualDir);
 
 			Script script = new Script();
 			script.Type = type;
@@ -29,22 +29,22 @@ namespace UnitTests.Subtext.SubtextWeb
 			Assert.AreEqual(scriptTag, expected + Environment.NewLine, "The rendered script tag was not what we expected.");
 		}
 
-		[RowTest]
-		[Row("style/test.css", "", "", @"style/test.css")]
-		[Row("style/test.css", "", "/Subtext.Web/MyBlog/", @"/Subtext.Web/MyBlog/style/test.css")]
-		[Row("~/style/test.css", "Subtext.Web", "/Anything/", @"/Subtext.Web/style/test.css")]
-		[Row("~/style/test.css", "", "/Anything/", "/style/test.css")]
-		[Row("/style/test.css", "Subtext.Web", "/Anything/", "/style/test.css")]
-		[Row("http://haacked.com/style/test.css", "Subtext.Web", "/Anything/", "http://haacked.com/style/test.css")]
-		public void GetStylesheetHrefPathRendersAppropriatePath(string src, string virtualDir, string skinPath, string expected)
-		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "Anything", virtualDir, string.Empty);
+        [RowTest]
+        [Row("style/test.css", "", "", @"style/test.css")]
+        [Row("style/test.css", "", "/Subtext.Web/MyBlog/", @"/Subtext.Web/MyBlog/style/test.css")]
+        [Row("~/style/test.css", "Subtext.Web", "/Anything/", @"/Subtext.Web/style/test.css")]
+        [Row("~/style/test.css", "", "/Anything/", "/style/test.css")]
+        [Row("/style/test.css", "Subtext.Web", "/Anything/", "/style/test.css")]
+        [Row("http://haacked.com/style/test.css", "Subtext.Web", "/Anything/", "http://haacked.com/style/test.css")]
+        public void GetStylesheetHrefPathRendersAppropriatePath(string src, string virtualDir, string skinPath, string expected)
+        {
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "Anything", virtualDir);
 
-			Style style = new Style();
-			style.Href = src;
+            Style style = new Style();
+            style.Href = src;
 
-			string stylePath = StyleSheetElementCollectionRenderer.GetStylesheetHrefPath(skinPath, style);
-			Assert.AreEqual(stylePath, expected, "The rendered style path was not what we expected.");
-		}
+            string stylePath = StyleSheetElementCollectionRenderer.GetStylesheetHrefPath(skinPath, style);
+            Assert.AreEqual(stylePath, expected, "The rendered style path was not what we expected.");
+        }
 	}
 }

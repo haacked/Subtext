@@ -15,7 +15,6 @@ namespace Subtext.Web.SystemMessages {
         protected System.Web.UI.HtmlControls.HtmlLink installStyle;
         protected System.Web.UI.HtmlControls.HtmlLink installFavicon;
         protected System.Web.UI.HtmlControls.HtmlForm frmMain;
-        protected System.Web.UI.WebControls.Image logoImage;
         protected System.Web.UI.WebControls.ContentPlaceHolder MPTitle;
         protected System.Web.UI.WebControls.ContentPlaceHolder MPSubTitle;
         protected System.Web.UI.WebControls.ContentPlaceHolder Content;

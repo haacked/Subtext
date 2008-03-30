@@ -37,7 +37,7 @@ namespace Subtext.Framework.Exceptions
 		/// </summary>
 		/// <param name="duplicate">Duplicate.</param>
 		/// <param name="blogId">Blog id of the blog we were updating.  If this is .</param>
-		public BlogDuplicationException(BlogInfo duplicate, int blogId)
+		public BlogDuplicationException(BlogInfo duplicate, int blogId) : base()
 		{
 			_duplicateBlog = duplicate;
 			_blogId = blogId;

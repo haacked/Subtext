@@ -2,18 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Subtext.Scripting.Properties;
 
 namespace Subtext.Scripting
 {
 	/// <summary>
 	/// A collection of <see cref="TemplateParameter"/> instances.
 	/// </summary>
-	[Serializable]
 	public class TemplateParameterCollection : IEnumerable<TemplateParameter>, ICollection<TemplateParameter>
 	{
 	    List<TemplateParameter> list = new List<TemplateParameter>();
 
+	    /// <summary>
+		/// Initializes a new instance of the <see cref="TemplateParameterCollection"/> class.
+		/// </summary>
+		public TemplateParameterCollection()
+		{
+		}
+	    
 	    private List<TemplateParameter> List
 	    {
 	        get
@@ -42,13 +47,13 @@ namespace Subtext.Scripting
 		{
 			get
 			{
-                foreach (TemplateParameter parameter in this.List)
-                {
-                    if (String.Compare(parameter.Name, name, StringComparison.InvariantCultureIgnoreCase) == 0)
-                    {
-                        return parameter;
-                    }
-                }
+				foreach(TemplateParameter parameter in this.List)
+				{
+					if(String.Compare(parameter.Name, name, true) == 0)
+					{
+						return parameter;
+					}
+				}
 				return null;
 			}
 		}
@@ -62,11 +67,6 @@ namespace Subtext.Scripting
 		/// </returns>
 		public bool Contains(string name)
 		{
-            if (name == null)
-            {
-                throw new ArgumentNullException("name", Resources.ArgumentNull_String);
-            }
-
 			return this[name] != null;
 		}
 
@@ -77,15 +77,11 @@ namespace Subtext.Scripting
 		/// <returns></returns>
 		public TemplateParameter Add(Match match)
 		{
-            if (match == null)
-            {
-                throw new ArgumentNullException("match", Resources.ArgumentNull_Generic);
-            }
-
-            if (this[match.Groups["name"].Value] != null)
-            {
-                return this[match.Groups["name"].Value];
-            }
+			if(match == null)
+				throw new ArgumentNullException("match", "Cannot create a template parameter from a null match.");
+			
+			if(this[match.Groups["name"].Value] != null)
+				return this[match.Groups["name"].Value];
 
 			TemplateParameter parameter = new TemplateParameter(match.Groups["name"].Value, match.Groups["type"].Value, match.Groups["default"].Value);
 			this.Add(parameter);
@@ -100,16 +96,11 @@ namespace Subtext.Scripting
 		/// <returns></returns>
 		public TemplateParameter Add(TemplateParameter value) 
 		{
-            if (value == null)
-            {
-                throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
-            }
-
-            if (Contains(value))
-            {
-                return this[value.Name];
-            }
-
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a null template parameter.");
+			
+			if(Contains(value))
+				return this[value.Name];
 			List.Add(value);
             value.ValueChanged += value_ValueChanged;
 			return value;
@@ -142,16 +133,14 @@ namespace Subtext.Scripting
 		/// Gets a value indicating whether the collection contains the specified 
 		/// <see cref="TemplateParameter">Script</see>.
 		/// </summary>
-		/// <param name="item">The <see cref="TemplateParameter">Script</see> to search for in the collection.</param>
+		/// <param name="value">The <see cref="TemplateParameter">Script</see> to search for in the collection.</param>
 		/// <returns><b>true</b> if the collection contains the specified object; otherwise, <b>false</b>.</returns>
-		public bool Contains(TemplateParameter item) 
+		public bool Contains(TemplateParameter value) 
 		{
-            if (item == null)
-            {
-                throw new ArgumentNullException("item", Resources.ArgumentNull_Generic);
-            }
-
-			return Contains(item.Name);
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot test whether or not it contains null.");
+			
+			return Contains(value.Name);
 		}
 
 	    public void CopyTo(TemplateParameter[] array, int arrayIndex)
@@ -173,21 +162,21 @@ namespace Subtext.Scripting
 		/// Gets the index in the collection of the specified 
 		/// <see cref="TemplateParameter">Script</see>, if it exists in the collection.
 		/// </summary>
-		/// <param name="item">The <see cref="TemplateParameter">Script</see> 
+		/// <param name="value">The <see cref="TemplateParameter">Script</see> 
 		/// to locate in the collection.</param>
 		/// <returns>The index in the collection of the specified object, if found; otherwise, -1.</returns>
-		public int IndexOf(TemplateParameter item) 
+		public int IndexOf(TemplateParameter value) 
 		{
-			return this.List.IndexOf(item);
+			return this.List.IndexOf(value);
 		}
 		
 		/// <summary>
 		/// Removes the specified value.
 		/// </summary>
-		/// <param name="item">Value.</param>
-		public bool Remove(TemplateParameter item) 
+		/// <param name="value">Value.</param>
+		public bool Remove(TemplateParameter value) 
 		{
-			return List.Remove(item);
+			return List.Remove(value);
 		}
 
 		/// <summary>

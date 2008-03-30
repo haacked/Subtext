@@ -29,7 +29,6 @@ using Subtext.Framework.Text;
 using Subtext.Framework.Threading;
 using Subtext.Framework.Web;
 using Subtext.Framework.Security;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Components
 {
@@ -69,9 +68,9 @@ namespace Subtext.Framework.Components
 		/// <param name="status">A flag for the status types to return.</param>
 		/// <param name="type">The type of feedback to return.</param>
 		/// <returns></returns>
-		public static IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlags status, FeedbackType type)
+		public static IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackType type)
 		{
-			return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize, status, FeedbackStatusFlags.None, type);
+			return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize, status, FeedbackStatusFlag.None, type);
 		}
 
 		/// <summary>
@@ -83,7 +82,7 @@ namespace Subtext.Framework.Components
 		/// <param name="excludeStatusMask">A flag for the statuses to exclude.</param>
 		/// <param name="type">The type of feedback to return.</param>
 		/// <returns></returns>
-		public static IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlags status, FeedbackStatusFlags excludeStatusMask, FeedbackType type)
+		public static IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackStatusFlag excludeStatusMask, FeedbackType type)
 		{
 			return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize, status, excludeStatusMask, type);
 		}
@@ -118,35 +117,26 @@ namespace Subtext.Framework.Components
             {
                 feedback.DateModified = feedback.DateCreated;
             }
-            
-            if (filter != null)
-                filter.FilterBeforePersist(feedback);
 
-            feedback.Id = ObjectProvider.Instance().CreateFeedback(feedback);
+			
+			if(filter != null)
+				filter.FilterBeforePersist(feedback);
+			
+			feedback.Id = ObjectProvider.Instance().Create(feedback);
+			
+			if(filter != null)
+				filter.FilterAfterPersist(feedback);
 
-            if (filter != null)
-                CommentFilter.FilterAfterPersist(feedback);
-
-            // if it's not the administrator commenting and it's not a trackback and notification is enabled.
-            if (!SecurityHelper.IsAdmin && !String.IsNullOrEmpty(Config.CurrentBlog.Owner.Email) && 
-                feedback.FeedbackType != Extensibility.FeedbackType.PingTrack && Config.CurrentBlog.CommentNoficationEnabled)
-            {
-                //In order to make this async, we need to pass the HttpContext.Current 
-                //several layers deep. Instead, we should create our own context.
-                EmailCommentToAdmin(feedback, Config.CurrentBlog);
-            }
-
-            // if it's a trackback and notification is enabled.
-            if (!String.IsNullOrEmpty(Config.CurrentBlog.Owner.Email) &&
-                feedback.FeedbackType == Extensibility.FeedbackType.PingTrack && Config.CurrentBlog.TrackbackNoficationEnabled)
-            {
-                //In order to make this async, we need to pass the HttpContext.Current 
-                //several layers deep. Instead, we should create our own context.
-                EmailCommentToAdmin(feedback, Config.CurrentBlog);
-            }
-            
-            return feedback.Id;
-        }
+			// if it's not the administrator commenting and it's not a trackback.
+			if (!SecurityHelper.IsAdmin && !String.IsNullOrEmpty(Config.CurrentBlog.Email) && feedback.FeedbackType != Extensibility.FeedbackType.PingTrack)
+			{
+				//In order to make this async, we need to pass the HttpContext.Current 
+				//several layers deep. Instead, we should create our own context.
+				EmailCommentToAdmin(feedback, Config.CurrentBlog);
+			}
+			
+			return feedback.Id;
+		}
 
 		/// <summary>
 		/// Returns the itemCount most recent active comments.
@@ -155,7 +145,7 @@ namespace Subtext.Framework.Components
 		/// <returns></returns>
 		public static IList<FeedbackItem> GetRecentComments(int itemCount)
 		{
-			return ObjectProvider.Instance().GetPagedFeedback(0, itemCount, FeedbackStatusFlags.Approved, FeedbackStatusFlags.None, FeedbackType.Comment);
+			return ObjectProvider.Instance().GetPagedFeedback(0, itemCount, FeedbackStatusFlag.Approved, FeedbackStatusFlag.None, FeedbackType.Comment);
 		}
 
 		/// <summary>
@@ -163,13 +153,13 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		/// <param name="feedbackItem">Entry.</param>
 		/// <returns></returns>
-		public static void Update(FeedbackItem feedbackItem)
+		public static bool Update(FeedbackItem feedbackItem)
 		{
 			if (feedbackItem == null)
-				throw new ArgumentNullException("feedbackItem", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("feedbackItem", "Cannot update a null feedback");
 
 			feedbackItem.DateModified = Config.CurrentBlog.TimeZone.Now;
-			ObjectProvider.Instance().Update(feedbackItem);
+			return ObjectProvider.Instance().Update(feedbackItem);
 		}
 
 		private static void EmailCommentToAdmin(FeedbackItem comment, BlogInfo currentBlog)
@@ -183,19 +173,18 @@ namespace Subtext.Framework.Components
 			if (String.IsNullOrEmpty(fromEmail))
 				fromEmail = null;
 
-			string to = currentBlog.Owner.Email;
-			string from = im.AdminEmail;
-            		string subject = String.Format(CultureInfo.InvariantCulture, "{2}: {0} (via {1})", comment.Title, blogTitle, comment.FeedbackType == FeedbackType.Comment ? "Comment" : "Trackback/Pingback");
-            		if (comment.FlaggedAsSpam)
-                		subject = "[SPAM Flagged] " + subject;
+			string to = currentBlog.Email;
+			string from = fromEmail ?? im.AdminEmail;
+			
+            string subject = String.Format(CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
+            if (comment.FlaggedAsSpam)
+                subject = "[SPAM Flagged] " + subject;
 
-           		string commenterUrl = "none given";
+            string commenterUrl = "none given";
 			if(comment.SourceUrl != null)
 				commenterUrl = comment.SourceUrl.ToString();
 			
-
-			string bodyFormat = "{8}{7} from {0}" + Environment.NewLine
-
+			string bodyFormat = "{7}Comment from {0}" + Environment.NewLine
 								+ "----------------------------------------------------" + Environment.NewLine
 								+ "From:\t{1} <{2}>" + Environment.NewLine
 								+ "Url:\t{3}" + Environment.NewLine
@@ -212,15 +201,13 @@ namespace Subtext.Framework.Components
 										comment.IpAddress,
 				// we're sending plain text email by default, but body includes <br />s for crlf
 										comment.Body.Replace("<br />", Environment.NewLine).Replace("&lt;br /&gt;", Environment.NewLine),
-
 										currentBlog.UrlFormats.FeedbackFullyQualifiedUrl(comment.EntryId, comment.parentEntryName, comment.ParentDateCreated, comment),
-                                        comment.FeedbackType == FeedbackType.Comment ? "Comment" : "Trackback/Pingback",
-					comment.FlaggedAsSpam ? "Spam Flagged " : string.Empty);
+                                        comment.FlaggedAsSpam ? "Spam Flagged " : string.Empty);
 
 			try
 			{
 				SendEmailDelegate sendEmail = im.Send;
-				AsyncHelper.FireAndForget(sendEmail, to, from, fromEmail, subject, body);
+				AsyncHelper.FireAndForget(sendEmail, to, from, subject, body);
 			}
 			catch(Exception e)
 			{
@@ -228,7 +215,7 @@ namespace Subtext.Framework.Components
 			}
 		}
 
-		delegate bool SendEmailDelegate(string toAddress, string fromAddress, string replyTo, string subject, string body);
+		delegate bool SendEmailDelegate(string to, string from, string subject, string body);
 	
 		/// <summary>
 		/// Approves the comment, and removes it from the SPAM folder or from the 
@@ -239,10 +226,10 @@ namespace Subtext.Framework.Components
 		public static void Approve(FeedbackItem feedback)
 		{
 			if (feedback == null)
-				throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("feedback", "Cannot approve a null comment.");
 
-			feedback.SetStatus(FeedbackStatusFlags.Approved, true);
-			feedback.SetStatus(FeedbackStatusFlags.Deleted, false);
+			feedback.SetStatus(FeedbackStatusFlag.Approved, true);
+			feedback.SetStatus(FeedbackStatusFlag.Deleted, false);
 			if(Config.CurrentBlog.FeedbackSpamService != null)
 			{
 				Config.CurrentBlog.FeedbackSpamService.SubmitGoodFeedback(feedback);
@@ -258,10 +245,10 @@ namespace Subtext.Framework.Components
 		public static void ConfirmSpam(FeedbackItem feedback)
 		{
 			if (feedback == null)
-				throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("feedback", "Cannot approve a null comment.");
 
-			feedback.SetStatus(FeedbackStatusFlags.Approved, false);
-			feedback.SetStatus(FeedbackStatusFlags.ConfirmedSpam, true);
+			feedback.SetStatus(FeedbackStatusFlag.Approved, false);
+			feedback.SetStatus(FeedbackStatusFlag.ConfirmedSpam, true);
 
 			if (Config.CurrentBlog.FeedbackSpamService != null)
 			{
@@ -278,10 +265,10 @@ namespace Subtext.Framework.Components
 		public static void Delete(FeedbackItem feedback)
 		{
 			if (feedback == null)
-				throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("feedback", "Cannot delete a null comment.");
 
-			feedback.SetStatus(FeedbackStatusFlags.Approved, false);
-			feedback.SetStatus(FeedbackStatusFlags.Deleted, true);
+			feedback.SetStatus(FeedbackStatusFlag.Approved, false);
+			feedback.SetStatus(FeedbackStatusFlag.Deleted, true);
 
 			Update(feedback);
 		}
@@ -293,10 +280,10 @@ namespace Subtext.Framework.Components
 		public static void Destroy(FeedbackItem feedback)
 		{
 			if (feedback == null)
-				throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("feedback", "Cannot destroy a null comment.");
 
 			if (feedback.Approved)
-				throw new InvalidOperationException(Resources.InvalidOperation_DestroyApprovedComment);
+				throw new InvalidOperationException("Cannot destroy an approved comment. Please flag it as spam or trash it first.");
 			
 			ObjectProvider.Instance().DestroyFeedback(feedback.Id);
 		}
@@ -305,10 +292,10 @@ namespace Subtext.Framework.Components
 		/// Destroys all non-active emails that meet the status.
 		/// </summary>
 		/// <param name="feedbackStatus">The feedback.</param>
-		public static void Destroy(FeedbackStatusFlags feedbackStatus)
+		public static void Destroy(FeedbackStatusFlag feedbackStatus)
 		{
-			if ((feedbackStatus & FeedbackStatusFlags.Approved) == FeedbackStatusFlags.Approved)
-				throw new InvalidOperationException(Resources.InvalidOperation_DestroyActiveComment);
+			if ((feedbackStatus & FeedbackStatusFlag.Approved) == FeedbackStatusFlag.Approved)
+				throw new InvalidOperationException("Cannot destroy an active comment.");
 
 			ObjectProvider.Instance().DestroyFeedback(feedbackStatus);
 		}
@@ -402,7 +389,7 @@ namespace Subtext.Framework.Components
 		/// Gets or sets the status of this feedback item.
 		/// </summary>
 		/// <value>The type of the post.</value>
-		public FeedbackStatusFlags Status
+		public FeedbackStatusFlag Status
 		{
 			get
 			{
@@ -413,7 +400,7 @@ namespace Subtext.Framework.Components
 				this.statusFlag = value;
 			}
 		}
-		private FeedbackStatusFlags statusFlag = FeedbackStatusFlags.None;
+		private FeedbackStatusFlag statusFlag = FeedbackStatusFlag.None;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this feedback was created via the CommentAPI.
@@ -578,8 +565,8 @@ namespace Subtext.Framework.Components
 		/// </value>
 		public bool Approved
 		{
-			get { return IsStatusSet(FeedbackStatusFlags.Approved); }
-			set { SetStatus(FeedbackStatusFlags.Approved, value); }
+			get { return IsStatusSet(FeedbackStatusFlag.Approved); }
+			set { SetStatus(FeedbackStatusFlag.Approved, value); }
 		}
 
 		/// <summary>
@@ -590,8 +577,8 @@ namespace Subtext.Framework.Components
 		/// </value>
 		public bool FlaggedAsSpam
 		{
-			get { return IsStatusSet(FeedbackStatusFlags.FlaggedAsSpam); }
-			set { SetStatus(FeedbackStatusFlags.FlaggedAsSpam, value); }
+			get { return IsStatusSet(FeedbackStatusFlag.FlaggedAsSpam); }
+			set { SetStatus(FeedbackStatusFlag.FlaggedAsSpam, value); }
 		}
 
 		/// <summary>
@@ -602,8 +589,8 @@ namespace Subtext.Framework.Components
 		/// </value>
 		public bool ConfirmedSpam
 		{
-			get { return IsStatusSet(FeedbackStatusFlags.ConfirmedSpam); }
-			set { SetStatus(FeedbackStatusFlags.ConfirmedSpam, value); }
+			get { return IsStatusSet(FeedbackStatusFlag.ConfirmedSpam); }
+			set { SetStatus(FeedbackStatusFlag.ConfirmedSpam, value); }
 		}
 
 		/// <summary>
@@ -611,8 +598,8 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		public bool NeedsModeratorApproval
 		{
-			get { return FeedbackStatusFlags.NeedsModeration == statusFlag; }
-			set { SetStatus(FeedbackStatusFlags.NeedsModeration, value); }
+			get { return FeedbackStatusFlag.NeedsModeration == statusFlag; }
+			set { SetStatus(FeedbackStatusFlag.NeedsModeration, value); }
 		}
 
 		/// <summary>
@@ -620,8 +607,8 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		public bool Deleted
 		{
-			get { return IsStatusSet(FeedbackStatusFlags.Deleted); }
-			set { SetStatus(FeedbackStatusFlags.Deleted, value); }
+			get { return IsStatusSet(FeedbackStatusFlag.Deleted); }
+			set { SetStatus(FeedbackStatusFlag.Deleted, value); }
 		}
 
 		/// <summary>
@@ -633,7 +620,7 @@ namespace Subtext.Framework.Components
 		/// <value><c>true</c> if [approved by moderator]; otherwise, <c>false</c>.</value>
 		public bool ApprovedByModerator
 		{
-			get { return IsStatusSet(FeedbackStatusFlags.ApprovedByModerator); }
+			get { return IsStatusSet(FeedbackStatusFlag.ApprovedByModerator); }
 		}
 
 		/// <summary>
@@ -661,7 +648,7 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		/// <param name="status">The status.</param>
 		/// <returns></returns>
-		protected bool IsStatusSet(FeedbackStatusFlags status)
+		protected bool IsStatusSet(FeedbackStatusFlag status)
 		{
 			return (this.Status & status) == status;
 		}
@@ -671,7 +658,7 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		/// <param name="status"></param>
 		/// <param name="setOn"></param>
-		protected void SetStatus(FeedbackStatusFlags status, bool setOn)
+		protected void SetStatus(FeedbackStatusFlag status, bool setOn)
 		{
 			if (setOn)
 			{
@@ -693,7 +680,7 @@ namespace Subtext.Framework.Components
 		public static int CalculateChecksum(string text)
 		{
 			if (text == null)
-				throw new ArgumentNullException("text", Resources.ArgumentNull_String);
+				throw new ArgumentNullException("text", "Cannot calculate checksum for null string.");
 			int checksum = 0;
 			foreach (char c in text)
 			{
@@ -736,4 +723,29 @@ namespace Subtext.Framework.Components
 
 		DateTime parentDateCreated = NullValue.NullDateTime;
 	}
+	
+	public struct FeedbackCounts
+	{
+		public int ApprovedCount;
+		public int NeedsModerationCount;
+		public int FlaggedAsSpamCount;
+		public int DeletedCount;
+	}
+	
+	/// <summary>
+	/// Specifies the current status of a piece of feedback.
+	/// </summary>
+	[Flags]
+	public enum FeedbackStatusFlag
+	{
+		None = 0,
+		Approved = 1,
+		NeedsModeration = 2,
+		ApprovedByModerator = Approved | NeedsModeration,
+		FlaggedAsSpam = 4,
+		FalsePositive = FlaggedAsSpam | Approved,
+		Deleted = 8,
+		ConfirmedSpam = FlaggedAsSpam | Deleted,
+	}
 }
+

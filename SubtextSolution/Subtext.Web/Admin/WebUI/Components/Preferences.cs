@@ -152,18 +152,18 @@ namespace Subtext.Web.Admin
 		//        }
 		//    }
 		//}
-		internal static string GetFeedbackItemFilter(FeedbackStatusFlags currentView)
+		internal static string GetFeedbackItemFilter(FeedbackStatusFlag currentView)
 		{
-			string cookieName = COOKIES_FEEDBACK_FILTER + currentView;
+			string cookieName = COOKIES_FEEDBACK_FILTER + currentView.ToString();
 			if (null != HttpContext.Current.Request.Cookies[cookieName])
 			{
 				return HttpContext.Current.Request.Cookies[cookieName].Value;
 			}
 			return FeedbackType.None.ToString();
 		}
-		internal static void SetFeedbackItemFilter(string value, FeedbackStatusFlags currentView)
+		internal static void SetFeedbackItemFilter(string value, FeedbackStatusFlag currentView)
 		{
-			string cookieName = COOKIES_FEEDBACK_FILTER + currentView;
+			string cookieName = COOKIES_FEEDBACK_FILTER + currentView.ToString();
 			
 			if (Enum.IsDefined(typeof(FeedbackType), value))
 			{

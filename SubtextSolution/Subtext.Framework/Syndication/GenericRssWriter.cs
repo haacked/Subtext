@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Globalization;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
@@ -31,10 +32,9 @@ namespace Subtext.Framework.Syndication
 		private bool isBuilt = false;
 
 		/// <summary>
-		/// Creates a new GenericRssWriter instance.
+		/// Creates a new <see cref="BaseRssWriter"/> instance.
 		/// </summary>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-		/// <param name="useDeltaEncoding">if set to <c>true</c> [use delta encoding].</param>
 		protected GenericRssWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
 			: base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
@@ -121,7 +121,7 @@ namespace Subtext.Framework.Syndication
 		protected virtual void WriteChannel()
 		{
 			RssImageElement image = new RssImageElement(GetRssImage(), info.Title, info.HomeFullyQualifiedUrl, 77, 60, null);
-			BuildChannel(info.Title, info.HomeFullyQualifiedUrl.ToString(), info.Owner.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
+			BuildChannel(info.Title, info.HomeFullyQualifiedUrl.ToString(), info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
 		}
 		
 		/// <summary>

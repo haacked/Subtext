@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Runtime.Serialization;
 
 namespace Subtext.Framework.Exceptions
 {
@@ -35,11 +34,6 @@ namespace Subtext.Framework.Exceptions
 				return "Sorry, but this comment is a duplicate of another comment.  Duplicate comments are not allowed.";
 			}
 		}
-
-		public CommentDuplicateException() : base() {}
-		public CommentDuplicateException(string message) : base(message) {}
-		public CommentDuplicateException(string message, Exception innerException) : base(message, innerException) {}
-		protected CommentDuplicateException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
 	}
 }

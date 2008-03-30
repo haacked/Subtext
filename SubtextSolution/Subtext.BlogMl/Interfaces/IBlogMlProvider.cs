@@ -49,7 +49,7 @@ namespace Subtext.BlogML.Interfaces
 		/// happens to be running in.
 		/// </summary>
 		/// <returns></returns>
-		IBlogMLContext GetBlogMLContext();
+		IBlogMLContext GetBlogMlContext();
 
 		/// <summary>
 		/// Returns a strategy object responsible for handling Id conversions 
@@ -101,18 +101,19 @@ namespace Subtext.BlogML.Interfaces
 		/// Creates a blog post and returns the id. Should handle 
 		/// dealing with categories.
 		/// </summary>
-		/// <param name="post"></param>
+        /// <param name="blog">The imported blog</param>
+		/// <param name="post">The imported post</param>
 		/// <param name="content">The rewritten content of the post.</param>
 		/// <param name="categoryIdMap">A dictionary used to map the blogml category id to the internal category id.</param>
 		/// <returns></returns>
-		string CreateBlogPost(BlogMLPost post, string content, IDictionary<string, string> categoryIdMap);
+		string CreateBlogPost(BlogMLBlog blog, BlogMLPost post, string content, IDictionary<string, string> categoryIdMap);
 
 		/// <summary>
 		/// Creates a comment for the specified post.
 		/// </summary>
-		/// <param name="comment"></param>
+		/// <param name="bmlComment"></param>
 		/// <param name="newPostId"></param>
-		void CreatePostComment(BlogMLComment comment, string newPostId);
+		void CreatePostComment(BlogMLComment bmlComment, string newPostId);
 
 		/// <summary>
 		/// Creates a trackback for the post.
@@ -130,7 +131,7 @@ namespace Subtext.BlogML.Interfaces
 		/// Lets the provider decide how to log errors.
 		/// </summary>
 		/// <param name="message"></param>
-        /// <param name="exception"></param>
-		void LogError(string message, Exception exception);
+		/// <param name="e"></param>
+		void LogError(string message, Exception e);
 	}
 }

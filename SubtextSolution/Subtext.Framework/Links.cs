@@ -13,6 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
 using System.Collections.Generic;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
@@ -62,24 +63,20 @@ namespace Subtext.Framework
 
         #region ICollection<LinkCategory>
 
-        public static IList<LinkCategory> GetCategories(CategoryType catType, ActiveFilter status)
+        public static ICollection<LinkCategory> GetCategories(CategoryType catType, ActiveFilter status)
 		{
             return ObjectProvider.Instance().GetCategories(catType, status == ActiveFilter.ActiveOnly);
 		}
 
-		/// <summary>
-		/// Gets the active link collections along with their links.
-		/// </summary>
-		/// <returns></returns>
-        public static IList<LinkCategory> GetActiveLinkCollections()
+        public static ICollection<LinkCategory> GetActiveCategories()
 		{
-			return ObjectProvider.Instance().GetActiveLinkCollections();
+			return ObjectProvider.Instance().GetActiveCategories();
 		}
 
-        public static IList<LinkCategory> GetLinkCategoriesByPostId(int postId)
+        public static ICollection<LinkCategory> GetLinkCategoriesByPostID(int postId)
         {
             List<Link> links = new List<Link>(GetLinkCollectionByPostID(postId));
-            IList<LinkCategory> postCategories = GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            ICollection<LinkCategory> postCategories = GetCategories(CategoryType.PostCollection, ActiveFilter.None);
             LinkCategory[] categories = new LinkCategory[postCategories.Count];
             postCategories.CopyTo(categories, 0);
 
@@ -120,60 +117,34 @@ namespace Subtext.Framework
 
 		#region Edit Links/Categories
 
-		/// <summary>
-		/// Updates the specified link in the database.
-		/// </summary>
-		/// <param name="link"></param>
-		public static void UpdateLink(Link link)
+		public static bool UpdateLink(Link link)
 		{
-			ObjectProvider.Instance().UpdateLink(link);
+			return ObjectProvider.Instance().UpdateLink(link);
 		}
 
-		/// <summary>
-		/// Creates the link.
-		/// </summary>
-		/// <param name="link">The link.</param>
-		/// <returns></returns>
 		public static int CreateLink(Link link)
 		{
-			int linkId = ObjectProvider.Instance().CreateLink(link);
-			link.Id = linkId;
-			return linkId;
+			return ObjectProvider.Instance().CreateLink(link);
 		}
 
-		/// <summary>
-		/// Updates the link category.
-		/// </summary>
-		/// <param name="lc">The lc.</param>
-		/// <returns></returns>
-		public static void UpdateLinkCategory(LinkCategory lc)
+		public static bool UpdateLinkCategory(LinkCategory lc)
 		{
-			ObjectProvider.Instance().UpdateLinkCategory(lc);
+			return ObjectProvider.Instance().UpdateLinkCategory(lc);
 		}
-
-		/// <summary>
-		/// Creates the link category.
-		/// </summary>
-		/// <param name="lc">The lc.</param>
-		/// <returns></returns>
+		
 		public static int CreateLinkCategory(LinkCategory lc)
 		{
 			return ObjectProvider.Instance().CreateLinkCategory(lc);
 		}
 
-		/// <summary>
-		/// Deletes the link category.
-		/// </summary>
-		/// <param name="CategoryID">The category ID.</param>
-		/// <returns></returns>
-		public static void DeleteLinkCategory(int CategoryID)
+		public static bool DeleteLinkCategory(int CategoryID)
 		{
-			ObjectProvider.Instance().DeleteLinkCategory(CategoryID);
+			return ObjectProvider.Instance().DeleteLinkCategory(CategoryID);
 		}
 
-		public static void DeleteLink(int linkId)
+		public static bool DeleteLink(int LinkID)
 		{
-			ObjectProvider.Instance().DeleteLink(linkId);
+			return ObjectProvider.Instance().DeleteLink(LinkID);
 		}
 
 		#endregion	

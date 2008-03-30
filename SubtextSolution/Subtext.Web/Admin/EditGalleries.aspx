@@ -17,8 +17,8 @@
 	<st:MessagePanel id="Messages" runat="server" ErrorIconUrl="~/images/icons/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/images/icons/ico_info.gif" MessageCssClass="MessagePanel"></st:MessagePanel>
 	<st:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" HeaderText="Galleries" Collapsible="False" Collapsed="false">
 	
-		<asp:DataGrid id="dgrSelectionList" runat="server" CssClass="Listing highlightTable" GridLines="None" AutoGenerateColumns="False">
-			<AlternatingItemStyle CssClass="Alt"></AlternatingItemStyle>
+		<asp:DataGrid id="dgrSelectionList" runat="server" CssClass="listing highlightTable" GridLines="None" AutoGenerateColumns="False">
+			<AlternatingItemStyle CssClass="alt"></AlternatingItemStyle>
 				<HeaderStyle CssClass="Header"></HeaderStyle>
 
 				<Columns>
@@ -30,13 +30,10 @@
 						</ItemTemplate>
 
 						<EditItemTemplate>
-							<fieldset>
-								<legend>Edit Gallery</legend>
-								<label for="txbTitle">Title</label>
-								<asp:TextBox CssClass="textbox" id="txbTitle" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Title") %>' />
-								<label for="txbDescription">Description</label>
-								<asp:TextBox rows="5" textmode="MultiLine" id="txbDescription" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Description") %>' />
-							</fieldset>
+							Title<br />
+							<asp:TextBox CssClass="textinput" id="txbTitle" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Title") %>'></asp:TextBox>
+							<br />Description<br />
+							<asp:TextBox CssClass="textarea" rows="5" textmode="MultiLine" id="txbDescription" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Description") %>'></asp:TextBox>
 						</EditItemTemplate>
 					</asp:TemplateColumn>
 
@@ -57,21 +54,17 @@
 			</asp:DataGrid>
 		
 			<!-- add new item panel -->
-			<asp:PlaceHolder id="Add" runat="server">
-				<fieldset>
-					<legend>Add New Gallery</legend>
-					<label for="txbNewTitle">Title</label> 
-					<asp:TextBox id="txbNewTitle" runat="server" CssClass="textbox" />&nbsp;
-					<asp:CheckBox id="ckbNewIsActive" runat="server" Checked="true" Text="Visible" CssClass="checkbox" />
-					
-					<label for="txbNewDescription">Description (1000 characters including HTML)</label>
-					<asp:TextBox id="txbNewDescription" MaxLength="1000" runat="server" textmode="MultiLine" />
-					
-					<div class="buttons">
-						<asp:Button id="lkbPost" runat="server" CssClass="button" Text="Add" onclick="lkbPost_Click" />
-					</div>
-				</fieldset>
-			</asp:PlaceHolder>
+			<st:AdvancedPanel id="Add" runat="server" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Gallery" Collapsible="False" Collapsed="false" BodyCssClass="Edit">
+				<label class="Block">Title</label> 
+					<asp:TextBox id="txbNewTitle" runat="server" CssClass="textinput" />&nbsp; 
+					Visible <asp:CheckBox id="ckbNewIsActive" runat="server" Checked="true" />
+					<br />
+				<label class="Block">Description (1000 characters including HTML)</label><br />
+				<asp:TextBox id="txbNewDescription" MaxLength="1000"  runat="server" CssClass="textarea" rows="5" textmode="MultiLine"></asp:TextBox>
+				<div style="MARGIN-TOP: 8px">
+					<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Add" onclick="lkbPost_Click"></asp:Button><br />&nbsp; 
+				</div>
+			</st:AdvancedPanel>
 		
 		</st:AdvancedPanel>
 		

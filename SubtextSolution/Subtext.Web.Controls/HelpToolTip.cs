@@ -18,6 +18,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
+using Subtext.Framework.Web;
 using Subtext.Web.Controls.Designers;
 
 namespace Subtext.Web.Controls
@@ -53,7 +54,7 @@ namespace Subtext.Web.Controls
 			RenderChildren(writer);
 			if(ImageUrl.Length > 0)
 			{
-				string imageUrl = ControlHelper.ExpandTildePath(ImageUrl);
+				string imageUrl = HttpHelper.ExpandTildePath(ImageUrl);
 				writer.Write(String.Format("<img src=\"{0}\" ", imageUrl));
 				if(ImageWidth > 0)
 					writer.Write(string.Format("width=\"{0}\" ", ImageWidth));

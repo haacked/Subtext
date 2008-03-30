@@ -15,12 +15,10 @@
 
 using System;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Web.Security;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -30,14 +28,9 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class HostInfo
 	{
-		private static readonly HostInfo _instance = new HostInfo();
+		static HostInfo _instance = LoadHost(true);
 		
-		static HostInfo()
-		{
-			LoadHost(true);
-		}
-
-		private HostInfo()
+	    private HostInfo()
 	    {
 	    }
 	    
@@ -50,30 +43,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				Debug.Assert(_instance != null, "An assertion failed. The HostInfo singleton should never be null.");
 				return _instance;
-			}
-		}
-
-        MembershipUser owner;
-        internal Guid _ownerId = Guid.Empty;
-        /// <summary>
-		/// Gets the owner of the subtext installation. 
-		/// This person is known as THE HostAdmin.
-		/// </summary>
-		/// <value>The owner.</value>
-		public MembershipUser Owner
-		{
-			get
-			{
-				if(owner == null && _ownerId != Guid.Empty)
-				{
-					using(MembershipApplicationScope.SetApplicationName("/"))
-					{
-						owner = Membership.GetUser(_ownerId);
-					}
-				}
-				return owner;
 			}
 		}
 
@@ -99,67 +69,77 @@ namespace Subtext.Framework
 			}
 		}
 
-        Guid _applicationId;
 		/// <summary>
-		/// The Membership Application ID for the Host.
-		/// </summary>
-		public Guid ApplicationId
-		{
-			get { return _applicationId; }
-			set { _applicationId = value; }
-		}
-
-		/// <summary>
-		/// Loads the host from the Object Provider.  This is provided 
-		/// for those cases when we really need to hit the db.
+		/// Loads the host from the Object Provider. This is provided for 
+		/// those cases when we really need to hit the data strore. Calling this
+		/// method will also reload the HostInfo.Instance from the data store.
 		/// </summary>
 		/// <param name="suppressException">If true, won't throw an exception.</param>
 		/// <returns></returns>
-		public static void LoadHost(bool suppressException)
+		public static HostInfo LoadHost(bool suppressException)
 		{
 			try
 			{
-				ObjectProvider.Instance().LoadHostInfo(_instance);
+                _instance = ObjectProvider.Instance().LoadHostInfo(new HostInfo());
+			    return _instance;
 			}
 			catch(SqlException e)
 			{
-                if (e.Message.IndexOf("Invalid object name 'subtext_Host'") >= 0)
-                {
-                    if (suppressException)
-                    {
-                    	return;
-                    }
-                    else
-                    {
-                        throw new HostDataDoesNotExistException();
-                    }
-                }
-                else
-                {
-                    throw;
-                }
+				// LoadHostInfo now executes the stored proc subtext_GetHost, instead of checking the table subtext_Host 
+				if (e.Message.IndexOf("Invalid object name 'subtext_Host'") >= 0 || e.Message.IndexOf("Could not find stored procedure 'subtext_GetHost'") >= 0)
+				{
+					if(suppressException)
+						return null;
+					else
+						throw new HostDataDoesNotExistException();
+				}
+				else
+					throw;
 			}
+		}
+
+		/// <summary>
+		/// Updates the host in the persistent store.
+		/// </summary>
+		/// <param name="host">Host.</param>
+		/// <returns></returns>
+		public static bool UpdateHost(HostInfo host)
+		{
+			if(ObjectProvider.Instance().UpdateHost(host))
+			{
+				_instance = host;
+				return true;
+			}
+			return false;
 		}
 
 		/// <summary>
 		/// Creates the host in the persistent store.
 		/// </summary>
 		/// <returns></returns>
-		public static void CreateHost(MembershipUser owner)
+		public static bool CreateHost(string hostUserName, string hostPassword)
 		{
-            if (!InstallationManager.HostInfoRecordNeeded)
-                throw new InvalidOperationException(Resources.InvalidOperation_HostRecordExists);
+			if(!InstallationManager.HostInfoRecordNeeded)
+				throw new InvalidOperationException("Cannot create a Host record.  One already exists.");
 
-			ObjectProvider.Instance().CreateHost(owner, _instance);
+			HostInfo host = new HostInfo();
+			host.HostUserName = hostUserName;
 
-			using (MembershipApplicationScope.SetApplicationName("/"))
+			SetHostPassword(host, hostPassword);
+
+		    return UpdateHost(host);
+		}
+
+		public static void SetHostPassword(HostInfo host, string newPassword)
+		{
+			host.Salt = SecurityHelper.CreateRandomSalt();
+			if(Config.Settings.UseHashedPasswords)
 			{
-				if (!Roles.RoleExists(RoleNames.HostAdmins))
-				{
-					Roles.CreateRole(RoleNames.HostAdmins);
-				}
-				Roles.AddUserToRole(owner.UserName, RoleNames.HostAdmins);
+				string hashedPassword = SecurityHelper.HashPassword(newPassword, host.Salt);
+				host.Password = hashedPassword;
 			}
+			else
+				host.Password = newPassword;
 		}
 
 		/// <summary>
@@ -168,12 +148,37 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string HostUserName
 		{
-			get { return Owner.UserName; }
+			get { return _hostUserName; }
+			set { _hostUserName = value; }
 		}
 
+		string _hostUserName;
 
-        DateTime _dateCreated = NullValue.NullDateTime;
-        /// <summary>
+		/// <summary>
+		/// Gets or sets the host password.
+		/// </summary>
+		/// <value></value>
+		public string Password
+		{
+			get { return _hostPassword; }
+			set { _hostPassword = value; }
+		}
+
+		string _hostPassword;
+
+		/// <summary>
+		/// Gets or sets the salt.
+		/// </summary>
+		/// <value></value>
+		public string Salt
+		{
+			get { return _salt; }
+			set { _salt = value; }
+		}
+
+		string _salt;
+
+		/// <summary>
 		/// Gets or sets the date this record was created. 
 		/// This is essentially the date that Subtext was 
 		/// installed.
@@ -184,5 +189,7 @@ namespace Subtext.Framework
 			get { return _dateCreated; }
 			set { _dateCreated = value; }
 		}
+
+		DateTime _dateCreated;
 	}
 }

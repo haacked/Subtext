@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.TagCloud" %>
 <%@ Import Namespace = "Subtext.Framework" %>
-<div>
+<div class="post">
 	<h2>Tag Cloud</h2>
 	<asp:Repeater Runat="server" ID="Tags" OnItemDataBound="Tags_ItemDataBound">
 		<HeaderTemplate>

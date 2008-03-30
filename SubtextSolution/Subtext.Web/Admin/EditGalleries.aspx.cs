@@ -29,6 +29,9 @@ namespace Subtext.Web.Admin.Pages
 {
 	public partial class EditGalleries : AdminPage
 	{
+		protected bool _isListHidden;
+		// jsbright added to support prompting for new file name
+
 		#region Accessors
 		private int CategoryID
 		{
@@ -43,7 +46,7 @@ namespace Subtext.Web.Admin.Pages
 		}
 		#endregion
 
-	    protected EditGalleries()
+	    protected EditGalleries() : base()
 	    {
             this.TabSectionId = "Galleries";
 	    }
@@ -149,14 +152,14 @@ namespace Subtext.Web.Admin.Pages
 			Image image = potentialImage as Image;
 			if (image != null)
 			{
-				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.GalleryVirtualUrl(image.CategoryID), 
+				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
 					image.ThumbNailFile);
 			}
 			else
 				return String.Empty;
 		}
 
-		protected static string EvalImageNavigateUrl(object potentialImage)
+		protected string EvalImageNavigateUrl(object potentialImage)
 		{
 			Image image = potentialImage as Image;
 			if (image != null)
@@ -164,12 +167,10 @@ namespace Subtext.Web.Admin.Pages
 				return Config.CurrentBlog.UrlFormats.ImageUrl(null, image.ImageID);
 			}
 			else
-			{
 				return String.Empty;
-			}
 		}
 
-		protected static string EvalImageTitle(object potentialImage)
+		protected string EvalImageTitle(object potentialImage)
 		{
 			const int TARGET_HEIGHT = 138;
 			const int MAX_IMAGE_HEIGHT = 120;
@@ -183,18 +184,14 @@ namespace Subtext.Web.Admin.Pages
 				// we have to back into an estimated thumbnail height right now with aspect * max
 				double aspectRatio = (double)image.Height / image.Width;
 				if (aspectRatio > 1 || aspectRatio <= 0)
-				{
 					aspectRatio = 1;
-				}
 				int allowedChars = (int)((TARGET_HEIGHT - MAX_IMAGE_HEIGHT * aspectRatio) 
 					/ LINE_HEIGHT_PIXELS * CHAR_PER_LINE);
 
 				return Utilities.Truncate(image.Title, allowedChars);
 			}
 			else
-			{
 				return String.Empty;
-			}
 		}
 
 		// REFACTOR: duplicate from category editor; generalize a la EntryEditor
@@ -252,9 +249,10 @@ namespace Subtext.Web.Admin.Pages
                 badFiles = new List<string>(),
                 updatedFiles = new List<string>();
 
+            Image image;
 
-        	byte[] archiveData = Images.GetFileStream(ImageFile.PostedFile);
-
+            byte[] archiveData = Images.GetFileStream(ImageFile.PostedFile),
+                fileData;
             MemoryStream ms = new MemoryStream(archiveData);
 
             using (ZipInputStream zip = new ZipInputStream(ms))
@@ -267,14 +265,12 @@ namespace Subtext.Web.Admin.Pages
                     // TODO: Filter for image types?
                     if (!String.IsNullOrEmpty(fileName))
                     {
-                    	byte[] fileData;
-
-						Image image = new Image();
+                        image = new Image();
                         image.CategoryID = CategoryID;
                         image.Title = fileName;
                         image.IsActive = ckbIsActiveImage.Checked;
-                        image.FileName = Path.GetFileName(fileName);
-                        image.LocalDirectoryPath = Images.LocalGalleryFilePath(CategoryID);
+                        image.File = Images.GetFileName(fileName);
+                        image.LocalFilePath = Images.LocalGalleryFilePath(Context, CategoryID);
 
                         // Read the next file from the Zip stream
                         using (MemoryStream currentFileData = new MemoryStream((int)theEntry.Size))
@@ -380,8 +376,8 @@ namespace Subtext.Web.Admin.Pages
 				
 				try
 				{
-					image.FileName = Path.GetFileName(targetFileName);
-					image.LocalDirectoryPath = Images.LocalGalleryFilePath(CategoryID);
+					image.File = Images.GetFileName(targetFileName);
+					image.LocalFilePath = Images.LocalGalleryFilePath(Context, CategoryID);
 					if (File.Exists(image.OriginalFilePath))
 					{
 						// tell the user we can't accept this file.
@@ -394,7 +390,7 @@ namespace Subtext.Web.Admin.Pages
 						AddImages.Collapsed = false;
 						// Unfortunately you can't set ImageFile.PostedFile.FileName. At least suggest
 						// a name for the new file.
-						TextBoxImageFileName.Text = image.FileName;
+						TextBoxImageFileName.Text = image.File;
 						return;
 					}
 
@@ -419,6 +415,15 @@ namespace Subtext.Web.Admin.Pages
 
 			// re-bind the gallery; note we'll skip this step if a correctable error occurs.
 			BindGallery();
+		}
+
+		// REFACTOR: can the flag go in AdminPage along with this meth?
+		public string CheckHiddenStyle()
+		{
+			if (_isListHidden)
+				return Constants.CSSSTYLE_HIDDEN;
+			else
+				return String.Empty;
 		}
 
 		private void ConfirmDeleteGallery(int categoryID, string categoryTitle)
@@ -497,8 +502,7 @@ namespace Subtext.Web.Admin.Pages
 				LinkCategory existingCategory = Links.GetLinkCategory(id,false);
 				existingCategory.Title = title.Text;
 				existingCategory.IsActive = isActive.Checked;
-				if(desc != null)
-					existingCategory.Description = desc.Text;
+				existingCategory.Description = desc.Text;
 		
 				if (id != 0) 
 					PersistCategory(existingCategory);

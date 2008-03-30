@@ -41,8 +41,8 @@ END
 GO
 
 /*
-We cannot use the INFORMATION_SCHEMA VIEWS because 
-indexes are not represented by those VIEWS.
+We cannot use the information_schema views because 
+indexes are not represented by those views.
 */
 CREATE TABLE #Indexes
 (
@@ -87,8 +87,8 @@ END
 GO
 
 /*
-We cannot use the INFORMATION_SCHEMA VIEWS because 
-indexes are not represented by those VIEWS.
+We cannot use the information_schema views because 
+indexes are not represented by those views.
 */
 CREATE TABLE #Indexes2
 (

@@ -13,10 +13,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
@@ -30,9 +28,7 @@ using System.Security.Permissions;
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
-[assembly: CLSCompliant(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("30c80ab4-346d-4211-85b8-91bd903e35b2")]
 
-[assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution = true)]

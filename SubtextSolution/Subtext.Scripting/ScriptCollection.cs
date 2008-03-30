@@ -17,14 +17,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
-using Subtext.Scripting.Properties;
 
 namespace Subtext.Scripting
 {
 	/// <summary>
 	/// A collection of <see cref="Script"/>s.
 	/// </summary>
-	[Serializable]
 	public class ScriptCollection : Collection<Script>, ITemplateScript
 	{
 		string _fullScriptText; //Original unexpanded script.
@@ -47,7 +45,7 @@ namespace Subtext.Scripting
 		public void AddRange(IEnumerable<Script> value) 
 		{
 			if(value == null)
-				throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
 			
 			foreach(Script script in value)
 			{

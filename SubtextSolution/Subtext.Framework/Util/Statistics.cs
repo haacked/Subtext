@@ -41,7 +41,7 @@ namespace Subtext.Framework.Util
 		
 		public static double StdDev(IEnumerable<double> values, out double mean)
 		{
-			mean = Mean(values);
+			mean = Statistics.Mean(values);
 			double sumOfDiffSquares = 0;
 			int count = 0;
 

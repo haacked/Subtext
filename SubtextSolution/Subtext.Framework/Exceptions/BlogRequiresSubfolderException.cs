@@ -14,8 +14,6 @@
 #endregion
 
 using System;
-using Subtext.Framework.Properties;
-using System.Globalization;
 
 namespace Subtext.Framework.Exceptions
 {
@@ -84,11 +82,11 @@ namespace Subtext.Framework.Exceptions
 		{
 			get
 			{
-				string blogCountClause = Resources.IsAnotherBlog;
+				string blogCountClause = "is another blog";
 				if(_blogsWithSameHostCount >= 1)
-					blogCountClause = String.Format(CultureInfo.CurrentUICulture, Resources.AreBlogs, _blogsWithSameHostCount);
+					blogCountClause = "are " + _blogsWithSameHostCount + " blogs";
 
-				return String.Format(CultureInfo.CurrentUICulture, Resources.BlogRequiresSubfolder_Generic, blogCountClause, _host);
+				return String.Format("Sorry, but there {0} with the specified hostname '{1}'.  To set up another blog with the same hostname, you must provide an subfolder name.  Please click on 'Host Domain' below for more information.", blogCountClause, _host);
 			}
 		}
 

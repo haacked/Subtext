@@ -35,7 +35,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -97,9 +97,9 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FredCK.FCKeditorV2, Version=2.2.2106.29420, Culture=neutral, PublicKeyToken=4f86767c9b519a06">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\FredCK.FCKeditorV2.dll</HintPath>
+    <Reference Include="FredCK.FCKeditorV2">
+      <Name>FredCK.FCKeditorV2</Name>
+      <HintPath>ExternalDependencies\FredCK.FCKeditorV2.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -123,8 +123,8 @@
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.Framework\SubText.Framework.csproj">
-      <Name>SubText.Framework</Name>
+    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
+      <Name>Subtext.Framework</Name>
       <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
@@ -150,24 +150,14 @@
     <Compile Include="FileBrowserConnector.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Properties\GlobalSuppressions.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="XmlUtil.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Content Include="ExternalDependencies\FredCK.FCKeditorV2.dll" />
     <Content Include="license.txt" />
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="resources\ErrorMessages.resx">
       <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

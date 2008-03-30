@@ -35,6 +35,12 @@ namespace Subtext.Web.Admin.WebUI
 		string _messageIconUrl;
 		string _errorIconUrl;
 
+		public MessagePanel()
+		{
+			ViewState[VSKEY_MESSAGE] = String.Empty;
+			ViewState[VSKEY_ERROR] = String.Empty;
+		}
+
 		#region Accessors
 		public string Message
 		{
@@ -144,7 +150,7 @@ namespace Subtext.Web.Admin.WebUI
 	
 			if (null != imageUrl && imageUrl.Length > 0) 
 			{
-				Image image = new Image();
+				System.Web.UI.WebControls.Image image = new System.Web.UI.WebControls.Image();
 				image.Attributes.Add("src", imageUrl);
 				result.Controls.Add(image);
 			}
@@ -166,7 +172,7 @@ namespace Subtext.Web.Admin.WebUI
 			if (clearExistingMessages) 
 				this.Message = message;
 			else
-				this.Message += "\r\n<br/>" + message;
+				this.Message += " " + message;
 
 			this.ShowMessagePanel = true;
 			this.Visible = true;
@@ -182,7 +188,7 @@ namespace Subtext.Web.Admin.WebUI
 			if (clearExistingMessages) 
 				this.Error = message;
 			else
-				this.Error += "\r\n<br/>" + message;
+				this.Error += " " + message;
 
 			this.ShowErrorPanel = true;
 			this.Visible = true;
@@ -191,12 +197,6 @@ namespace Subtext.Web.Admin.WebUI
 		public void Clear()
 		{
 			this.Visible = false;
-		}
-
-		public void ResetMessages()
-		{
-			this.Message = string.Empty;
-			this.Error = string.Empty;
 		}
 	}
 }

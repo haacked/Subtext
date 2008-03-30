@@ -1,51 +1,51 @@
 <%@ Page Language="C#" EnableTheming="false"  Title="Subtext - Host Admin - Change Password" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" Codebehind="ChangePassword.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.ChangePassword" %>
 
 <asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext - Host Admin - Change HostAdmin Password</asp:Content>
+<asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server"></asp:Content>
 <asp:Content id="passwordChangeForm" ContentPlaceHolderID="MPContent" runat="server">
-	<fieldset id="change-password">
-		<legend>Change Your Password</legend>
+	<p>Use this page to change the HostAdmin password..</p>
+	
 	<div class="form">
-		<asp:ChangePassword ID="ChangePassword1" runat="server" ContinueDestinationPageUrl="~/HostAdmin/">
-			<ChangePasswordTemplate>
-				<div>
-					<asp:Label ID="CurrentPasswordLabel" runat="server" AssociatedControlID="CurrentPassword">Password:</asp:Label>
-					<asp:TextBox ID="CurrentPassword" runat="server" TextMode="Password" />
-					<asp:RequiredFieldValidator ID="CurrentPasswordRequired" runat="server" ControlToValidate="CurrentPassword"
-							ErrorMessage="Password is required." ToolTip="Password is required." ValidationGroup="ChangePassword1">*</asp:RequiredFieldValidator>
-				</div>
-				
-				<div>
-					<asp:Label ID="NewPasswordLabel" runat="server" AssociatedControlID="NewPassword">New Password:</asp:Label>
-					<asp:TextBox ID="NewPassword" runat="server" TextMode="Password" />
-					<asp:RequiredFieldValidator ID="NewPasswordRequired" runat="server" ControlToValidate="NewPassword"
-						ErrorMessage="New Password is required." ToolTip="New Password is required."
-						ValidationGroup="ChangePassword1">*</asp:RequiredFieldValidator>
-				</div>	
-				
-				<div>
-					<asp:Label ID="ConfirmNewPasswordLabel" runat="server" AssociatedControlID="ConfirmNewPassword">Confirm New Password:</asp:Label>					
-					<asp:TextBox ID="ConfirmNewPassword" runat="server" TextMode="Password" />
-					<asp:RequiredFieldValidator ID="ConfirmNewPasswordRequired" runat="server" ControlToValidate="ConfirmNewPassword"
-						ErrorMessage="Confirm New Password is required." ToolTip="Confirm New Password is required."
-						ValidationGroup="ChangePassword1">*</asp:RequiredFieldValidator>
-					<asp:CompareValidator ID="NewPasswordCompare" runat="server" ControlToCompare="NewPassword"
-						ControlToValidate="ConfirmNewPassword" Display="Dynamic" ErrorMessage="The Confirm New Password must match the New Password entry."
-						ValidationGroup="ChangePassword1" />
-				</div>
-			
-				<div>
-					<asp:Literal ID="FailureText" runat="server" EnableViewState="False" />
-				</div>
-
-				<div class="button-row">
-					<asp:Button ID="ChangePasswordPushButton" runat="server" CommandName="ChangePassword"
-						Text="Change Password" ValidationGroup="ChangePassword1" />
-				
-					<asp:Button ID="CancelPushButton" runat="server" CausesValidation="False" CommandName="Cancel"
-						Text="Cancel" />
-				</div>
-			</ChangePasswordTemplate>
-		</asp:ChangePassword>
+		<p>
+			<asp:Label id="lblSuccess" runat="server" CssClass="success" Visible="False" Text="Password Changed!" />
+			<asp:ValidationSummary id="validationSummary" runat="server"></asp:ValidationSummary>
+		</p>
+		<p>
+			<label for="txtCurrentPassword">
+				<asp:RequiredFieldValidator id="vldCurrentPassword" runat="server" 
+					Text="*" 
+					ControlToValidate="txtCurrentPassword"></asp:RequiredFieldValidator> 
+				<asp:CustomValidator id="vldCurrent" runat="server" ControlToValidate="txtCurrentPassword" Display="None"
+					ErrorMessage="The Current Password is not correct.">*</asp:CustomValidator>
+				Current Password:
+			</label> 
+			<asp:TextBox id="txtCurrentPassword" runat="server" TextMode="Password"  />
+		</p>
+		<p>
+			<label for="txtNewPassword">
+				<asp:RequiredFieldValidator id="vldNewPassword" runat="server" 
+					Text="*" 
+					ControlToValidate="txtNewPassword"></asp:RequiredFieldValidator> 
+				New Password:
+			</label>
+			<asp:TextBox id="txtNewPassword" TextMode="Password" runat="server" />
+		</p>
+		<p>
+			<label for="txtConfirmPassword">
+				<asp:RequiredFieldValidator id="vldConfirmPassword" runat="server" 
+					Text="*" 
+					ControlToValidate="txtConfirmPassword"></asp:RequiredFieldValidator> 
+				<asp:CompareValidator id="vldComparePasswords" runat="server" 
+					ErrorMessage="The Passwords do not match."
+					ControlToValidate="txtConfirmPassword" 
+					ControlToCompare="txtNewPassword" 
+					Display="None">*</asp:CompareValidator>
+				Confirm Password:
+			</label>
+			<asp:TextBox id="txtConfirmPassword" TextMode="Password" runat="server" />
+		</p>
+		<p class="clear">
+			<asp:Button id="btnSave" runat="server" Text="Save" onclick="btnSave_Click"></asp:Button>
+		</p>
 	</div>
-	</fieldset>
 </asp:Content>
