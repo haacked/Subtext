@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
             mocks.ReplayAll();
 
-            SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+            SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
 
             SkinTemplate templateWithMergeScriptMergeMode = templates.GetTemplate("Piyo");
             Assert.IsTrue(templateWithMergeScriptMergeMode.MergeScripts, "ScriptMergeMode should be Merge.");
@@ -54,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
             mocks.ReplayAll();
 
-            SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+            SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
             ScriptElementCollectionRenderer renderer = new ScriptElementCollectionRenderer(templates);
             string scriptElements = renderer.RenderScriptElementCollection("RedBook-Green.css");
 
@@ -79,7 +79,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
             mocks.ReplayAll();
 
-            SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+            SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
             ScriptElementCollectionRenderer renderer = new ScriptElementCollectionRenderer(templates);
             string scriptElements = renderer.RenderScriptElementCollection("RedBook-Blue.css");
 
@@ -97,7 +97,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
             mocks.ReplayAll();
 
-            SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+            SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
             SkinTemplate template = templates.GetTemplate("Gradient");
             bool canBeMerged = ScriptElementCollectionRenderer.CanScriptsBeMerged(template);
 
@@ -112,7 +112,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
             mocks.ReplayAll();
 
-            SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+            SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
             SkinTemplate template = templates.GetTemplate("RedBook-Red.css");
             bool canBeMerged = ScriptElementCollectionRenderer.CanScriptsBeMerged(template);
 
@@ -127,7 +127,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
             mocks.ReplayAll();
 
-            SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+            SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
             SkinTemplate template = templates.GetTemplate("Semagogy");
             bool canBeMerged = ScriptElementCollectionRenderer.CanScriptsBeMerged(template);
 
@@ -142,7 +142,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
             mocks.ReplayAll();
 
-            SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+            SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
             SkinTemplate template = templates.GetTemplate("Piyo");
             bool canBeMerged = ScriptElementCollectionRenderer.CanScriptsBeMerged(template);
 
@@ -176,7 +176,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
             mocks.ReplayAll();
 
-            SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+            SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
             ScriptElementCollectionRenderer renderer = new ScriptElementCollectionRenderer(templates);
             int mergedStyles = renderer.GetScriptsToBeMerged(skinKey).Count;
 
@@ -190,6 +190,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             VirtualFile vfile = (VirtualFile)mocks.CreateMock(typeof(VirtualFile), "~/Admin/Skins.config");
             Expect.Call(pathProvider.GetFile("~/Admin/Skins.config")).Return(vfile);
             Expect.Call(pathProvider.FileExists("~/Admin/Skins.User.config")).Return(false);
+            SetupResult.For(pathProvider.GetCacheDependency(null, null, DateTime.Now)).IgnoreArguments().Return(null);
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("Skins.Skins.config");
             Expect.Call(vfile.Open()).Return(stream);
             return pathProvider;

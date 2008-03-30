@@ -26,9 +26,9 @@ namespace Subtext.Framework.UI.Skinning
     /// </summary>
     public class ScriptElementCollectionRenderer
     {
-        SkinTemplates templates;
+        SkinTemplateCollection templates;
 			
-        public ScriptElementCollectionRenderer(SkinTemplates templates)
+        public ScriptElementCollectionRenderer(SkinTemplateCollection templates)
         {
             this.templates = templates;
         }

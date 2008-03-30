@@ -38,8 +38,8 @@ namespace Subtext.Web.UI.Pages
     public class SubtextMasterPage : Page
     {
         #region Declared Controls in DTP.aspx
-        private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(SkinTemplates.Instance());
-        private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(SkinTemplates.Instance());
+        private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinTemplateCollection());
+        private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(new SkinTemplateCollection());
         protected Literal pageTitle;
         protected Literal docTypeDeclaration;
         protected HtmlLink CustomCss;

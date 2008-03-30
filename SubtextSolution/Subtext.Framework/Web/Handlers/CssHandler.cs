@@ -25,7 +25,7 @@ namespace Subtext.Framework.Web.Handlers
 {
 	public class CssHandler : BaseHttpHandler
 	{
-        private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(SkinTemplates.Instance());
+        private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(new SkinTemplateCollection());
 
 		public override void HandleRequest(HttpContext context)
 		{

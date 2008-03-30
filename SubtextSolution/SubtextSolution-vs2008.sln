@@ -16,11 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCNET", "CCNET", "{DD225739-6817-4A4F-9386-765ABA27C754}"
 	ProjectSection(SolutionItems) = preProject
-		..\BuildTools\CCNET_Config\ccnet.config = ..\BuildTools\CCNET_Config\ccnet.config
-		..\BuildTools\CCNET_Config\dashboard.config = ..\BuildTools\CCNET_Config\dashboard.config
-		NDependProject.xml = NDependProject.xml
-		..\BuildTools\CCNET_Config\xsl\ndependreport-ccnet.xsl = ..\BuildTools\CCNET_Config\xsl\ndependreport-ccnet.xsl
-		..\BuildTools\CCNET_Config\xsl\ndependsummary-ccnet.xsl = ..\BuildTools\CCNET_Config\xsl\ndependsummary-ccnet.xsl
+		..\BuildTools\CCNET_Config\server\ccnet.config = ..\BuildTools\CCNET_Config\server\ccnet.config
+		SubText-CCNET.build = SubText-CCNET.build
 		..\BuildTools\CCNET_Config\Update-CCNET.build = ..\BuildTools\CCNET_Config\Update-CCNET.build
 	EndProjectSection
 EndProject

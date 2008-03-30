@@ -35,12 +35,12 @@ namespace UnitTests.Subtext.Framework.Skinning
 			VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
 			mocks.ReplayAll();
 
-			SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+			SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
 			Assert.IsNotNull(templates, "Could not instantiate template.");
-			Assert.AreEqual(17, templates.Templates.Count, "Expected 17 templates.");
+			Assert.AreEqual(17, templates.Count, "Expected 17 templates.");
 		}
 
-		/// <summary>
+        /// <summary>
 		/// Here we load an instance of SkinTemplates from an embedded Skins.config file and 
 		/// Skins.User.config file.
 		/// </summary>
@@ -62,9 +62,9 @@ namespace UnitTests.Subtext.Framework.Skinning
 				Expect.Call(pathProvider.GetFile("~/Admin/Skins.User.config")).Return(vUserFile);
 
 				mocks.ReplayAll();
-				SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+				SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
 				Assert.IsNotNull(templates, "Could not instantiate template.");
-				Assert.AreEqual(18, templates.Templates.Count, "Expected 18 templates.");
+				Assert.AreEqual(18, templates.Count, "Expected 18 templates.");
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace UnitTests.Subtext.Framework.Skinning
 			VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
 			mocks.ReplayAll();
 
-			SkinTemplates templates = SkinTemplates.Instance(pathProvider);
+			SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
 			SkinTemplate template = templates.GetTemplate("RedBook-Blue.css");
 			Assert.IsNotNull(template, "Could not get the template for the skin key 'RedBook-Blue.css'");
 

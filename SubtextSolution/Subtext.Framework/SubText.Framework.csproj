@@ -488,9 +488,7 @@
     <Compile Include="UI\Skinning\SkinTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\Skinning\SkinTemplates.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="UI\Skinning\SkinTemplateCollection.cs" />
     <Compile Include="UI\Skinning\Style.cs">
       <SubType>Code</SubType>
     </Compile>
