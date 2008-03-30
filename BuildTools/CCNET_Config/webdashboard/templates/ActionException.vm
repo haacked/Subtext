@@ -1,0 +1,9 @@
+<div class="container">
+   <span class="containerTitle">Exception</span>
+   <span class="containerSubtitle">$exception.Message</span>
+   <div class="containerContents">
+      <div id="RecentBuildsPanel"> 
+      <pre class="log">$exception.ToString()</pre>
+      </div>
+   </div>
+</div>

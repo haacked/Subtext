@@ -1,0 +1,23 @@
+<div class="container">
+   <span class="containerTitle">Server Information</span>
+   <div class="containerContents">
+      <table id="ServerInfoGrid" rules="groups" cellspacing="0" cellpadding="0">
+         <thead>
+            <tr class="ProjectGridHeader">
+               <td width="6px"></td>
+               <td><b>Server Name</b></td>
+               <td nowrap><b>CruiseControl.NET Version</b></td>
+               <td width="6px"></td>
+            </tr>
+         </thead>
+         <tbody>
+            <tr height="25">
+               <td>&nbsp;</td>
+               <td>$servername</td>
+               <td>$serverversion</td>
+               <td>&nbsp;</td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+</div>

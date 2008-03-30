@@ -1,0 +1,24 @@
+<div class="container">
+   <span class="containerTitle">Report Sections</span>
+   <div class="containerContents">
+      <ul>
+         #foreach ($link in $links)
+            <li><a href="$link.Url" class="$link.LinkClass">$link.Text</a></li>
+         #end
+      </ul>
+   </div>
+</div>
+
+<div class="container">
+   <span class="containerTitle">Navigation</span>
+   <div class="containerContents">
+      <ul>
+         <li><a href="$latestLink.Url">Latest</a>
+         <li><a href="$nextLink.Url">Next</a>
+         <li><a href="$previousLink.Url">Previous</a>
+      </ul>
+   </div>
+</div>
+
+$recentBuildsTable
+

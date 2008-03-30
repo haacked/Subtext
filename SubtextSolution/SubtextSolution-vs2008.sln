@@ -21,7 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCNET", "CCNET", "{DD225739
 		NDependProject.xml = NDependProject.xml
 		..\BuildTools\CCNET_Config\xsl\ndependreport-ccnet.xsl = ..\BuildTools\CCNET_Config\xsl\ndependreport-ccnet.xsl
 		..\BuildTools\CCNET_Config\xsl\ndependsummary-ccnet.xsl = ..\BuildTools\CCNET_Config\xsl\ndependsummary-ccnet.xsl
-		SubText-CCNET.build = SubText-CCNET.build
 		..\BuildTools\CCNET_Config\Update-CCNET.build = ..\BuildTools\CCNET_Config\Update-CCNET.build
 	EndProjectSection
 EndProject

@@ -1,0 +1,11 @@
+<div class="container">
+   <span class="containerTitle">Resources</span>
+   <div class="containerContents">
+      <ul>
+         <li><a href="/ccnet/ViewFarmReport.aspx" class="">Farm Report</a>
+         #foreach ($link in $links)
+            <li><a href="$link.Url" class="$link.LinkClass">$link.Text</a></li>
+         #end
+      </ul>
+   </div>
+</div>
