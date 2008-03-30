@@ -16,6 +16,8 @@
 using System;
 using System.Globalization;
 using System.Web.UI.HtmlControls;
+using Subtext.Framework.Text;
+using Subtext.Framework.Web;
 
 namespace Subtext.Web.Controls
 {
@@ -49,7 +51,7 @@ namespace Subtext.Web.Controls
 			if(IsAttributeDefined("id"))
 				idText = " id=\"" + Attributes["id"] + "\"";
 
-			writer.Write(string.Format(CultureInfo.InvariantCulture, format, cssClass, idText, hrefString, Title, Text));
+			writer.Write(string.Format(System.Globalization.CultureInfo.InvariantCulture, format, cssClass, idText, hrefString, Title, Text));
 		}
 
 		bool IsAttributeDefined(string name)
@@ -139,7 +141,7 @@ namespace Subtext.Web.Controls
 		{
 			get
 			{
-				return Context.Request.Url.ToString();
+				return StringHelper.LeftBefore(Context.Request.Path, "Default.aspx", StringComparison.InvariantCultureIgnoreCase);
 			}
 		}
 
@@ -164,7 +166,7 @@ namespace Subtext.Web.Controls
 
 		static string ConvertToAppPath(string path)
 		{
-			return ControlHelper.ExpandTildePath(path);
+			return HttpHelper.ExpandTildePath(path);
 		}
 
 		/// <summary>

@@ -18,7 +18,7 @@
 		HeaderCssClass="CollapsibleHeader" HeaderText="Links" LinkText="[toggle]" Collapsible="True">
 		<asp:Repeater id="rprSelectionList" runat="server">
 			<HeaderTemplate>
-				<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0">
+				<table id="Listing" class="listing highlightTable" cellspacing="0" cellpadding="0" border="0" style="<%= CheckHiddenStyle() %>">
 					<tr>
 						<th>Link Title</th>
 						<th width="50">Url</th>
@@ -41,7 +41,7 @@
 				</tr>
 			</ItemTemplate>
 			<AlternatingItemTemplate>
-				<tr class="Alt">
+				<tr class="alt">
 					<td>
 						<%# DataBinder.Eval(Container.DataItem, "Title") %>
 					</td>
@@ -73,7 +73,7 @@
 		<div style="HEIGHT: 0px"><!-- IE bug hides label in following div without this -->
 			<div>
 				<div>
-					<p class="Block"><LABEL class="Block">Local File Location (*.opml)</LABEL></p>
+					<p class="Block"><label class="Block">Local File Location (*.opml)</label></p>
 					<input class="FileUpload" id="OpmlImportFile" type="file" size="62" name="ImageFile" runat="server" />
 					<p>Categories</p>
 					<p>
@@ -81,49 +81,46 @@
 				</div>
 				<div style="MARGIN-TOP: 8px">
 					<asp:Button id="lkbImportOpml" runat="server" CssClass="Button" Text="Import" onclick="lkbImportOpml_Click"></asp:Button><A class="Button" href="Export.aspx?command=opml">Export</A>
-					<BR class="clear">
+					<br class="clear" />
 					&nbsp;
 				</div>
 			</div>
 		</div>
 	</st:AdvancedPanel>
-	
-	<asp:PlaceHolder id="Edit" runat="server">
-		<fieldset>
-			
-				<label><asp:Literal ID="lblLinkId" runat="server">Link ID </asp:Literal></label>
-				<asp:Label id="lblEntryID" runat="server" />
-			
-				<label for="Edit_txbTitle" AccessKey="t">Link <u>T</u>itle 
-					<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="txbTitle" CssClass="error"
-						ErrorMessage="Your link must have a title" />
-				</label>
-				
-				<asp:TextBox id="txbTitle" runat="server" CssClass="textbox" />
-			
-				<label for="Edit_txbUrl" AccessKey="w"><u>W</u>eb Url 
-					<asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ControlToValidate="txbUrl" CssClass="error"
-						ErrorMessage="Your link must have a url" />
-				</label>
-				
-				<asp:TextBox id="txbUrl" runat="server" CssClass="textbox" />
-				<label for="Edit_txbRss" AccessKey="r"><u>R</u>ss Url</label>
-			
-				<asp:TextBox id="txbRss" runat="server" CssClass="textbox" />
-				<label for="Edit_ddlCategories" AccessKey="c"><u>C</u>ategories</label>
-			
-				<asp:DropDownList id="ddlCategories" runat="server" />
-			
-				<div>
-					<asp:CheckBox id="ckbIsActive" runat="server" textalign="Left" Text="Visible" CssClass="checkbox" /> 
-					<asp:CheckBox id="chkNewWindow" runat="server" textalign="Left" Text="New Window" CssClass="checkbox" />
-				</div>
-				
-				<div class="buttons">
-					<asp:Button id="lkbPost" runat="server" CssClass="button" Text="Post" onclick="lkbPost_Click" />
-					<asp:Button id="lkbCancel" runat="server" CssClass="button" Text="Cancel" onclick="lkbCancel_Click" />
-					&nbsp;
-				</div>
-		</fieldset>
-	</asp:PlaceHolder>
+	<st:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
+		HeaderText="Edit Link" Collapsible="False">
+		<div class="Edit"><!-- DEBUG -->
+			<p>
+				<label>Link ID</label>
+				<asp:Label id="lblEntryID" runat="server"></asp:Label>
+			</p>
+			<p>
+				<label for="Edit_txbTitle" AccessKey="t">Link <u>T</u>itle</label>
+				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="txbTitle" ForeColor="#990066"
+					ErrorMessage="Your link must have a title"></asp:RequiredFieldValidator></p>
+			<p>
+				<asp:TextBox id="txbTitle" runat="server" CssClass="textinput"></asp:TextBox></p>
+			<p>
+				<label for="Edit_txbUrl" AccessKey="w"><u>W</u>eb Url</label>
+				<asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ControlToValidate="txbUrl" ForeColor="#990066"
+					ErrorMessage="Your link must have a url"></asp:RequiredFieldValidator></p>
+			<p>
+				<asp:TextBox id="txbUrl" runat="server" CssClass="textinput"></asp:TextBox></p>
+			<p><label for="Edit_txbRss" AccessKey="r"><u>R</u>ss Url</label></p>
+			<p>
+				<asp:TextBox id="txbRss" runat="server" CssClass="textinput"></asp:TextBox></p>
+			<p><label for="Edit_ddlCategories" AccessKey="c"><u>C</u>ategories</label></p>
+			<p>
+				<asp:DropDownList id="ddlCategories" runat="server"></ASP:DropDownList></p>
+			<p>
+				<asp:CheckBox id="ckbIsActive" runat="server" textalign="Left" Text="Visible"></asp:CheckBox>&nbsp; 
+					<asp:CheckBox id="chkNewWindow" runat="server" textalign="Left" Text="New Window"></asp:CheckBox>
+				</p>
+			<div>
+				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post" onclick="lkbPost_Click" />
+				<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" onclick="lkbCancel_Click" />
+				&nbsp;
+			</div>
+		</div>
+	</st:AdvancedPanel>
 </asp:Content>

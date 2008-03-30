@@ -1,5 +1,0 @@
-SELECT TOP 1 * FROM subtext_Content WITH (NOLOCK)
-GO
-SELECT TOP 1 * FROM subtext_Feedback WITH (NOLOCK)
-GO
--- GO HERE

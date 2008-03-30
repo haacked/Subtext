@@ -5,7 +5,7 @@ namespace Subtext.BlogML.Conversion
 {
 	public abstract class IdConversionStrategy
 	{
-		public static readonly IdConversionStrategy Empty = new NullConversionStrategy();
+		public static IdConversionStrategy Empty = new NullConversionStrategy();
 		Dictionary<ScopedId, string> idMap = new Dictionary<ScopedId, string>();
 
 		/// <summary>

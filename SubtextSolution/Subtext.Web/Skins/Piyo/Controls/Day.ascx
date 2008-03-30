@@ -6,7 +6,7 @@
 <h3><asp:Literal ID = "DateTitle" Runat = "server" /> <asp:HyperLink Runat="server" height="15" Width="12" BorderWidth="0" ID="ImageLink">#</asp:HyperLink></h3>
 </div>
 
-<asp:Repeater runat="Server" ID="DayList" OnItemCreated="PostCreated">
+<asp:Repeater runat="Server" Runat="server" ID="DayList" OnItemCreated="PostCreated">
 	<ItemTemplate>
 		<div class="entry">
 

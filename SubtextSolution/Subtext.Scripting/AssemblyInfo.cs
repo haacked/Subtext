@@ -23,7 +23,7 @@ using System.Security.Permissions;
 // associated with an assembly.
 //
 [assembly: AssemblyTitle("Subtext.Scripting")]
-[assembly: AssemblyDescription("Standalone class library for executing SQL Scripts ala Query Analyzer. Supports template parameter replacement.")]
+[assembly: AssemblyDescription("Standalone class library for executing SQL Scripts ala Query Analyzer. Supports template parameters.")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]	

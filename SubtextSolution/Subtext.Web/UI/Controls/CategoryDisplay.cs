@@ -32,7 +32,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 			
-			Categories.LinkCategories = Links.GetActiveLinkCollections(); //Cacher.GetActiveCategories(CacheTime.Medium,Context);
+			Categories.LinkCategories = Links.GetActiveCategories(); //Cacher.GetActiveCategories(CacheTime.Medium,Context);
 		}
 
 

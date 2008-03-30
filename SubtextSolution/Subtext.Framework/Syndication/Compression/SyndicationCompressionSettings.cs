@@ -17,7 +17,6 @@ using System;
 using System.Configuration;
 using System.Xml;
 using blowery.Web.HttpCompress;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Syndication.Compression
 {
@@ -37,8 +36,8 @@ namespace Subtext.Framework.Syndication.Compression
 				return;
 			}
 
-			_type = (Algorithms)RetrieveEnumFromAttribute(node.Attributes["type"], typeof(Algorithms));
-			_level = (CompressionLevels)RetrieveEnumFromAttribute(node.Attributes["level"], typeof(CompressionLevels));
+			_type = (Algorithms)this.RetrieveEnumFromAttribute(node.Attributes["type"], typeof(Algorithms));
+			_level = (CompressionLevels)this.RetrieveEnumFromAttribute(node.Attributes["level"], typeof(CompressionLevels));
 		}
 		#endregion
 
@@ -75,20 +74,10 @@ namespace Subtext.Framework.Syndication.Compression
 		/*-- Methods --*/
 
 		#region -- RetrieveEnumFromAttribute(XmlAttribute, Type) Method --
-        protected static Enum RetrieveEnumFromAttribute(XmlAttribute attribute, Type type)
-        {
-            if (attribute == null)
-            {
-                throw new ArgumentNullException("attribute", Resources.ArgumentNull_Generic);
-            }
-
-            if (type == null)
-            {
-                throw new ArgumentNullException("type", Resources.ArgumentNull_Type);
-            }
-
-            return (Enum)Enum.Parse(type, attribute.Value, true);
-        }
+		protected Enum RetrieveEnumFromAttribute(XmlAttribute attribute, System.Type type)
+		{
+			return (Enum)Enum.Parse(type, attribute.Value, true);
+		}
 		#endregion
 
 		/*-- Static Methods --*/
@@ -102,7 +91,7 @@ namespace Subtext.Framework.Syndication.Compression
 
 			if(settings == null)
 			{
-				settings = DefaultSettings;
+				settings = SyndicationCompressionSettings.DefaultSettings;
 			}
 			
 			return settings;

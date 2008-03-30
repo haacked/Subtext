@@ -22,7 +22,6 @@ using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility.Collections;
 using Subtext.Extensibility.Interfaces;
-using Subtext.BlogML.Properties;
 
 namespace Subtext.BlogML
 {
@@ -40,27 +39,27 @@ namespace Subtext.BlogML
 		public static BlogMLWriter Create(IBlogMLProvider provider)
 		{
 			if (provider == null)
-				throw new ArgumentNullException("provider", Resources.ArgumentNull_Provider);
+				throw new ArgumentNullException("provider", "provider cannot be null");
 
-			IBlogMLContext context = provider.GetBlogMLContext();
+			IBlogMLContext context = provider.GetBlogMlContext();
 			if (context == null)
-				throw new InvalidOperationException(Resources.InvalidOperation_BlogMLNullContext);
+				throw new InvalidOperationException("The BlogMl provider did not set the context.");
 
 			return new BlogMLWriter(provider, context);
 		}
-
+		
 		/// <summary>
 		/// Constructs an instance of the BlogMlWriter for the specified blogId.
 		/// </summary>
 		private BlogMLWriter(IBlogMLProvider provider, IBlogMLContext context)
-		{
+		{			
 			this.provider = provider;
 			this.blogId = context.BlogId;
 			this.conversionStrategy = provider.IdConversion;
-
+			
 			if (this.conversionStrategy == null)
 				this.conversionStrategy = IdConversionStrategy.Empty;
-		}
+		}		
 
 		/// <summary>
 		/// Writes the blog.
@@ -68,10 +67,10 @@ namespace Subtext.BlogML
 		protected override void InternalWriteBlog()
 		{
 			bmlBlog = this.provider.GetBlog(this.blogId);
-
-			WriteStartBlog(bmlBlog.Title, ContentTypes.Text, bmlBlog.SubTitle, ContentTypes.Text, bmlBlog.RootUrl, bmlBlog.DateCreated);
-			WriteAuthors();
-			WriteExtendedProperties();
+		    
+            WriteStartBlog(bmlBlog.Title, ContentTypes.Text, bmlBlog.SubTitle, ContentTypes.Text, bmlBlog.RootUrl, bmlBlog.DateCreated);
+            WriteAuthors();
+            WriteExtendedProperties();
 
 			ICollection<BlogMLCategory> categories = provider.GetAllCategories(this.blogId);
 			WriteCategories(categories);
@@ -92,41 +91,41 @@ namespace Subtext.BlogML
 		private void WritePosts(ICollectionBook<BlogMLPost> allPosts)
 		{
 			WriteStartPosts();
-
-			foreach (IPagedCollection<BlogMLPost> pageOfPosts in allPosts)
+			
+			foreach(IPagedCollection<BlogMLPost> pageOfPosts in allPosts)
 				WritePostsPage(pageOfPosts);
 
 			WriteEndElement(); // </posts>
 		}
 
-		private void WriteAuthors()
-		{
-			WriteStartAuthors();
-			foreach (BlogMLAuthor bmlAuthor in bmlBlog.Authors)
-			{
-				WriteAuthor(
-					conversionStrategy.GetConvertedId(IdScopes.Authors, bmlAuthor.ID),
-					bmlAuthor.Title,
-					bmlAuthor.Email,
-					bmlAuthor.DateCreated,
-					bmlAuthor.DateModified,
-					bmlAuthor.Approved);
-			}
-			WriteEndElement(); // </authors>
-		}
-
-		private void WriteExtendedProperties()
-		{
-			if (bmlBlog.ExtendedProperties.Count > 0)
-			{
-				WriteStartExtendedProperties();
-				foreach (Pair<string, string> extProp in bmlBlog.ExtendedProperties)
-				{
-					WriteExtendedProperty(extProp.Key, extProp.Value);
-				}
-				WriteEndElement(); // </extended-properties>
-			}
-		}
+	    private void WriteAuthors()
+	    {
+            WriteStartAuthors();
+            foreach (BlogMLAuthor bmlAuthor in bmlBlog.Authors)
+            {
+                WriteAuthor(
+                    conversionStrategy.GetConvertedId(IdScopes.Authors, bmlAuthor.ID),
+                    bmlAuthor.Title,
+                    bmlAuthor.Email,
+                    bmlAuthor.DateCreated,
+                    bmlAuthor.DateModified,
+                    bmlAuthor.Approved);
+            }
+            WriteEndElement(); // </authors>
+	    }
+	    
+	    private void WriteExtendedProperties()
+	    {
+	        if (bmlBlog.ExtendedProperties.Count > 0)
+	        {
+	            WriteStartExtendedProperties();
+	            foreach (Pair<string, string> extProp in bmlBlog.ExtendedProperties)
+	            {
+	                WriteExtendedProperty(extProp.Key, extProp.Value);
+	            }
+	            WriteEndElement(); // </extended-properties>
+	        }
+	    }
 
 		protected void WritePostsPage(IPagedCollection<BlogMLPost> posts)
 		{
@@ -136,54 +135,54 @@ namespace Subtext.BlogML
 			}
 			Writer.Flush(); //Flushes this page of posts.
 		}
-
+		
 		private void WritePost(BlogMLPost bmlPost)
 		{
 			string postId = this.conversionStrategy.GetConvertedId(IdScopes.Posts, bmlPost.ID);
-			WriteStartPost(postId, bmlPost.Title, bmlPost.DateCreated, bmlPost.DateModified, bmlPost.Approved, bmlPost.Content.Text,
-						   bmlPost.PostUrl, bmlPost.Views, bmlPost.PostType, bmlPost.PostName);
+		    WriteStartPost(postId, bmlPost.Title, bmlPost.DateCreated, bmlPost.DateModified, bmlPost.Approved, bmlPost.Content.Text,
+		                   bmlPost.PostUrl, bmlPost.Views, bmlPost.PostType, bmlPost.PostName);
 
 			WritePostCategories(bmlPost.Categories);
 			WritePostComments(bmlPost.Comments);
-			WritePostTrackbacks(bmlPost.Trackbacks);
-			WritePostAttachments(bmlPost);
-			WritePostAuthors(bmlPost.Authors);
+            WritePostTrackbacks(bmlPost.Trackbacks);
+            WritePostAttachments(bmlPost);
+		    WritePostAuthors(bmlPost.Authors);
 
 			WriteEndElement();	// </post>
 		}
-
-		private void WritePostAuthors(BlogMLPost.AuthorReferenceCollection authorsRefs)
-		{
-			if (authorsRefs.Count > 0)
-			{
-				WriteStartAuthors();
-				foreach (BlogMLAuthorReference authorRef in authorsRefs)
-				{
-					WritePostAuthor(authorRef.Ref);
-				}
-				WriteEndElement();
-			}
-		}
-
-		private void WritePostAuthor(string authorId)
-		{
-			string authorRef = this.conversionStrategy.GetConvertedId(IdScopes.Authors, authorId);
-			WriteAuthorReference(authorRef);
-		}
-
+	    
+	    private void WritePostAuthors(BlogMLPost.AuthorReferenceCollection authorsRefs)
+	    {
+	        if (authorsRefs.Count > 0)
+	        {
+	            WriteStartAuthors();
+	            foreach (BlogMLAuthorReference authorRef in authorsRefs)
+	            {
+	                WritePostAuthor(authorRef.Ref);
+	            }
+	            WriteEndElement();
+	        }
+	    }
+	    
+	    private void WritePostAuthor(string authorId)
+	    {
+            string authorRef = this.conversionStrategy.GetConvertedId(IdScopes.Authors, authorId);
+	        WriteAuthorReference(authorRef);
+	    }
+		
 		protected void WritePostCategories(BlogMLPost.CategoryReferenceCollection categoryRefs)
 		{
-			if (categoryRefs.Count > 0)
-			{
-				WriteStartCategories();
-				foreach (BlogMLCategoryReference categoryRef in categoryRefs)
-				{
-					WritePostCategory(categoryRef.Ref);
-				}
-				WriteEndElement();
-			}
+		    if (categoryRefs.Count > 0)
+		    {
+		        WriteStartCategories();
+		        foreach (BlogMLCategoryReference categoryRef in categoryRefs)
+		        {
+		            WritePostCategory(categoryRef.Ref);
+		        }
+		        WriteEndElement();
+		    }
 		}
-
+		
 		private void WritePostCategory(string categoryId)
 		{
 			string categoryRef = this.conversionStrategy.GetConvertedId(IdScopes.Categories, categoryId);
@@ -192,28 +191,28 @@ namespace Subtext.BlogML
 
 		private void WritePostComments(BlogMLPost.CommentCollection comments)
 		{
-			if (comments.Count > 0)
-			{
-				WriteStartComments();
-				foreach (BlogMLComment bmlComment in comments)
-				{
-					WritePostComment(bmlComment);
-				}
-				WriteEndElement();
-			}
+		    if (comments.Count > 0)
+		    {
+		        WriteStartComments();
+		        foreach (BlogMLComment bmlComment in comments)
+		        {
+		            WritePostComment(bmlComment);
+		        }
+		        WriteEndElement();
+		    }
 		}
 
 		private void WritePostComment(BlogMLComment bmlComment)
 		{
 			string commentId = this.conversionStrategy.GetConvertedId(IdScopes.Comments, bmlComment.ID);
-			string userName = string.IsNullOrEmpty(bmlComment.UserName) ? "Anonymous" : bmlComment.UserName;
+            string userName = string.IsNullOrEmpty(bmlComment.UserName) ? "Anonymous" : bmlComment.UserName;
 			WriteComment(commentId, bmlComment.Title, ContentTypes.Text, bmlComment.DateCreated, bmlComment.DateModified, bmlComment.Approved, userName, bmlComment.UserEMail, bmlComment.UserUrl, bmlComment.Content.Text, ContentTypes.Text);
 		}
-
+		
 		private void WriteCategories(ICollection<BlogMLCategory> bmlCategories)
 		{
 			WriteStartCategories();
-			foreach (BlogMLCategory bmlCategory in bmlCategories)
+			foreach(BlogMLCategory bmlCategory in bmlCategories)
 			{
 				string categoryId = this.conversionStrategy.GetConvertedId(IdScopes.Categories, bmlCategory.ID);
 				string parentId = this.conversionStrategy.GetConvertedId(IdScopes.CategoryParents, bmlCategory.ParentRef);
@@ -221,19 +220,19 @@ namespace Subtext.BlogML
 			}
 			WriteEndElement();
 		}
-
+		
 		private void WritePostTrackbacks(BlogMLPost.TrackbackCollection trackbacks)
 		{
-			if (trackbacks.Count > 0)
-			{
-				WriteStartTrackbacks();
-				foreach (BlogMLTrackback bmlTrackback in trackbacks)
-				{
-					string trackBackId = this.conversionStrategy.GetConvertedId(IdScopes.TrackBacks, bmlTrackback.ID);
-					WriteTrackback(trackBackId, bmlTrackback.Title, ContentTypes.Text, bmlTrackback.DateCreated, bmlTrackback.DateModified, bmlTrackback.Approved, (bmlTrackback.Url ?? string.Empty));
-				}
-				WriteEndElement();
-			}
+		    if (trackbacks.Count > 0)
+		    {
+		        WriteStartTrackbacks();
+		        foreach(BlogMLTrackback bmlTrackback in trackbacks)
+		        {
+		            string trackBackId = this.conversionStrategy.GetConvertedId(IdScopes.TrackBacks, bmlTrackback.ID);
+		            WriteTrackback(trackBackId, bmlTrackback.Title, ContentTypes.Text, bmlTrackback.DateCreated, bmlTrackback.DateModified, bmlTrackback.Approved, (bmlTrackback.Url ?? string.Empty));
+		        }
+		        WriteEndElement();
+		    }
 		}
 
 		private void WritePostAttachments(BlogMLPost bmlPost)
@@ -241,26 +240,26 @@ namespace Subtext.BlogML
 			if (bmlPost.Attachments.Count > 0)
 			{
 				WriteStartAttachments();
-				foreach (BlogMLAttachment attachment in bmlPost.Attachments)
+				foreach(BlogMLAttachment attachment in bmlPost.Attachments)
 				{
-					if (attachment.Embedded)
-					{
-						WriteAttachment(attachment.Url, attachment.Data.Length, attachment.MimeType, attachment.Path, attachment.Embedded, attachment.Data);
-					}
-					else
-					{
-						WriteAttachment(attachment.Path, attachment.MimeType, attachment.Url);
-					}
-					//Writer.Flush();
+				    if (attachment.Embedded)
+				    {
+				        WriteAttachment(attachment.Url, attachment.Data.Length, attachment.MimeType, attachment.Path, attachment.Embedded, attachment.Data);
+				    }
+				    else
+				    {
+				        WriteAttachment(attachment.Path, attachment.MimeType, attachment.Url);
+				    }
+				    //Writer.Flush();
 				}
 				WriteEndElement(); // End Attachments Element
 				Writer.Flush();
 			}
 		}
-
-		public static string GetMimeType(string fullUrl)
+	    
+	    public static string GetMimeType(string fullUrl)
 		{
-			string extension = Path.GetExtension(fullUrl).ToLowerInvariant();
+			string extension = Path.GetExtension(fullUrl);
 			string retVal;
 
 			if (extension == null || extension.Length == 0)
@@ -268,21 +267,23 @@ namespace Subtext.BlogML
 				return string.Empty;
 			}
 
-			switch (extension.TrimStart(new char[] { '.' }))
+			extension = extension.TrimStart(new char[] { '.' });
+
+			switch (extension.ToLower())
 			{
 				case "png":
-					retVal = "image/png";
+                    retVal = "image/png";
 					break;
 				case "jpg":
 				case "jpeg":
-					retVal = "image/jpeg";
+                    retVal = "image/jpeg";
 					break;
 				case "bmp":
-					retVal = "image/bmp";
+                    retVal = "image/bmp";
 					break;
-				case "gif":
-					retVal = "image/gif";
-					break;
+			    case "gif":
+			        retVal = "image/gif";
+			        break;
 				default:
 					retVal = "none";
 					break;

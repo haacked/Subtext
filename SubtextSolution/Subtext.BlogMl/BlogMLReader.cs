@@ -20,7 +20,6 @@ using System.Web;
 using BlogML;
 using BlogML.Xml;
 using Subtext.BlogML.Interfaces;
-using Subtext.BlogML.Properties;
 
 namespace Subtext.BlogML
 {
@@ -31,7 +30,7 @@ namespace Subtext.BlogML
 		public static BlogMLReader Create(IBlogMLProvider provider)
 		{
 			if (provider == null)
-				throw new ArgumentNullException("provider", Resources.ArgumentNull_Provider);
+				throw new ArgumentNullException("provider", "provider cannot be null");
 
 			return new BlogMLReader(provider);
 		}
@@ -43,7 +42,7 @@ namespace Subtext.BlogML
 			this.provider = provider;
 		}
 
-		private static BlogMLBlog DeserializeBlogMlStream(Stream stream)
+		BlogMLBlog DeserializeBlogMlStream(Stream stream)
 		{
 			return BlogMLSerializer.Deserialize(stream);
 		}
@@ -51,13 +50,13 @@ namespace Subtext.BlogML
 	    /// <summary>
 	    /// Reads in a BlogML Stream and creates the appropriate blog posts, 
 	    /// </summary>
-	    /// <param name="blogMLStream"></param>
-        public void ReadBlog(Stream blogMLStream)
+	    /// <param name="blogMlStream"></param>
+        public void ReadBlog(Stream blogMlStream)
 	    {
-			if (blogMLStream == null)
-				throw new ArgumentNullException("blogMlStream", Resources.ArgumentNull_Stream);
+			if (blogMlStream == null)
+				throw new ArgumentNullException("blogMlStream", "Cannot read a null stream");
 
-            BlogMLBlog blog = DeserializeBlogMlStream(blogMLStream);
+            BlogMLBlog blog = DeserializeBlogMlStream(blogMlStream);
 
             this.provider.PreImport();
 
@@ -75,7 +74,7 @@ namespace Subtext.BlogML
                     postContent = CreateFilesFromAttachments(bmlPost, postContent);
                 }
 
-				string newEntryID = provider.CreateBlogPost(bmlPost, postContent, categoryIdMap);
+				string newEntryID = provider.CreateBlogPost(blog, bmlPost, postContent, categoryIdMap);
 				
                 if (bmlPost.Comments.Count > 0)
                 {

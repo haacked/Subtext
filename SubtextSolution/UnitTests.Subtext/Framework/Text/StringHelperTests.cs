@@ -64,43 +64,5 @@ namespace UnitTests.Subtext.Framework.Text
 		{
 			Assert.AreEqual(expected, StringHelper.LeftBefore(source, search, comparison), "Truncating did not return the correct result.");
 		}
-		
-		[Test]
-		[ExpectedArgumentNullException]
-		public void JoinThrowsArgumentNullExceptionForNullDelimiter()
-		{
-			StringHelper.Join<Object>(null, new string[] {""}, delegate(Object item)
-			{
-				return item.ToString();
-			});
-		}
-
-		[Test]
-		[ExpectedArgumentNullException]
-		public void JoinThrowsArgumentNullExceptionForNullCollection()
-		{
-			StringHelper.Join<Object>("|", null, delegate(Object item)
-			{
-				return item.ToString();
-			});
-		}
-
-		[Test]
-		[ExpectedArgumentNullException]
-		public void JoinThrowsArgumentNullExceptionForNullDelegate()
-		{
-			StringHelper.Join<Object>("|", new string[] {""}, null);
-		}
-
-		[Test]
-		public void JoinTCanJoinCorrectly()
-		{
-			string joined = StringHelper.Join<string>("|-", new string[] { "a", "b", "c" }, delegate(string item)
-			{
-				return item;
-			});
-			
-			Assert.AreEqual("a|-b|-c", joined, "Join did not delimit correctly.");
-		}
 	}
 }

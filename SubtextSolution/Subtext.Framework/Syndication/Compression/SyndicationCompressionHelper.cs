@@ -16,7 +16,6 @@
 using System;
 using System.IO;
 using blowery.Web.HttpCompress;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Syndication.Compression
 {
@@ -25,15 +24,6 @@ namespace Subtext.Framework.Syndication.Compression
 		#region -- GetFilterForScheme(schemes, Stream) Method --
 		public static SyndicationCompressionFilter GetFilterForScheme(string schemes, Stream contextFilter) 
 		{
-            if (schemes == null)
-                throw new ArgumentNullException("schemes", Resources.ArgumentNull_String);
-
-            if (schemes.Length == 0)
-                throw new ArgumentException(Resources.Argument_StringZeroLength, "schemes");
-
-            if (contextFilter == null)
-                throw new ArgumentNullException("contextFilter", Resources.ArgumentNull_Stream);
-
 			SyndicationCompressionSettings settings;
 			SyndicationCompressionFilter filter = null;
 			bool foundDeflate = false;

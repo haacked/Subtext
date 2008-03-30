@@ -37,23 +37,18 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="commentEntries">Ec.</param>
 		/// <param name="entry">Ce.</param>
-		public CommentRssWriter(IList<FeedbackItem> commentEntries, Entry entry)
-			: base(NullValue.NullDateTime, false)
+		public CommentRssWriter(IList<FeedbackItem> commentEntries, Entry entry) : base(NullValue.NullDateTime, false)
 		{
-			if (commentEntries == null)
-			{
+			if(commentEntries == null)
 				throw new ArgumentNullException("commentEntries", "Cannot generate a comment rss feed for a null collection of entries.");
-			}
-
-			if (entry == null)
-			{
+			
+			if(entry == null)
 				throw new ArgumentNullException("entry", "Comment RSS feed must be associated to an entry.");
-			}
-
-			Items = commentEntries;
-			CommentEntry = entry;
-			UseAggBugs = false;
-			AllowComments = false;
+			
+			this.Items = commentEntries;
+			this.CommentEntry = entry;
+			this.UseAggBugs = false;
+			this.AllowComments = false;
 		}
 
 		/// <summary>
@@ -62,7 +57,7 @@ namespace Subtext.Framework.Syndication
 		protected override void WriteChannel()
 		{
 			RssImageElement image = new RssImageElement(GetRssImage(), CommentEntry.Title, CommentEntry.FullyQualifiedUrl, 77, 60, null);
-			BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl.ToString(), CommentEntry.Author.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
+			this.BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl.ToString(), CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
 		}
 
 		/// <summary>
@@ -178,3 +173,4 @@ namespace Subtext.Framework.Syndication
 		}
 	}
 }
+

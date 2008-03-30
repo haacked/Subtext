@@ -7,7 +7,7 @@
 	<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs Groups" Runat="server" oncheckedchanged="chkShowInactive_CheckedChanged"></asp:CheckBox>
 	<asp:Repeater id="rprGroupsList" Runat="server" OnItemCommand="rprGroupsList_ItemCommand">
 		<HeaderTemplate>
-			<table class="Listing" cellspacing="0" cellpadding="4" border="0">
+			<table class="listing" cellspacing="0" cellpadding="4" border="0">
 				<tr>
 					<th>Title</th>
 					<th>Display Order</th>

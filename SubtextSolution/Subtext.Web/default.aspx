@@ -13,14 +13,14 @@
 	<head>
 		<title><asp:Literal id="title" runat="server" Text="<%$ AppSettings:AggregateTitle %>" /></title>
 		<asp:Literal id="Style" runat="Server" />
-		<st:ScriptTag id="commonJs" src="~/Scripts/common.js" runat="server" />
+		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>" ></script>
         <script type="text/javascript">
 			var subtextBlogInfo = new blogInfo('<%= Config.CurrentBlog.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>');
 		</script>
-		<st:ScriptTag id="prototypeJs" src="~/Scripts/prototype.js" runat="server" />
-		<st:ScriptTag id="scriptaculousJs" src="~/Scripts/scriptaculous.js" runat="server" />
-		<st:ScriptTag id="effectsJs" src="~/Scripts/effects.js" runat="server" />
-        <st:ScriptTag id="lightboxJs" runat="server" src="~/Scripts/lightbox.js" />
+		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/prototype.js") %>" ></script>
+		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/scriptaculous.js") %>" ></script>
+		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/effects.js") %>" ></script>
+        <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/lightbox.js") %>" ></script>
 	</head>
 	<body>
 		<form id="Form1" method="post" runat="server">

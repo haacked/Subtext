@@ -5,7 +5,7 @@
 	<asp:HyperLink Runat="server" Title="Day Archive" Text="#" height="15" Width="12" BorderWidth="0" ID="ImageLink" />
 </p>
 
-<asp:Repeater runat="Server" ID="DayList" OnItemCreated="PostCreated">
+<asp:Repeater runat="Server" Runat="server" ID="DayList" OnItemCreated="PostCreated">
 
 	<ItemTemplate>
 		<div class="post">

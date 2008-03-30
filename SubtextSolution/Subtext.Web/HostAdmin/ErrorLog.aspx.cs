@@ -91,7 +91,7 @@ namespace Subtext.Web.HostAdmin.Pages
 			ControlHelper.ExportToExcel(this.LogPage, "SubtextErrorLog.xls");
 		}
 		
-		static protected string FormatLogger(object logger)
+		protected string FormatLogger(object logger)
 		{
 			string loggerText = (string)logger;
 			return loggerText.Replace("Subtext.Framework.", string.Empty).Replace("Subtext.Framework.", string.Empty).Replace("Subtext.", string.Empty);

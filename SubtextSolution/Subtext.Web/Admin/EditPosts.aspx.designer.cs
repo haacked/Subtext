@@ -29,15 +29,6 @@ namespace Subtext.Web.Admin.WebUI {
         protected global::Subtext.Web.Admin.UserControls.CategoryLinkList categoryLinks;
         
         /// <summary>
-        /// Messages control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        
-        /// <summary>
         /// Editor control.
         /// </summary>
         /// <remarks>

@@ -68,15 +68,31 @@ body{
 
 #blogstats
 {
-	background-color:#7A7A7A;
-	color:#FFFFFF;
-	cursor:default;
-	display:inline;
-	height:22px;
-	padding-left:2px;
 	position:absolute;
-	right:40px;
-	top:25px;
+	top:26px;
+	left: 270px;
+	height: 22px;
+	display:inline;
+	color:#fff;
+	cursor:default;
+}
+
+#blogstatsback
+{
+	background-color:#fff;
+	filter: alpha(opacity=100);
+ filter: alpha(opacity=20);
+ -moz-opacity: 0.20; 
+ opacity:0.2;
+ -khtml-opacity:0.2;
+	position:absolute;
+	top:24px;
+	left: 265px;
+	width: 375px;
+	height: 22px;
+	display:inline;
+	color:#fff;
+	cursor:default;
 }
 
 #blogstats span

@@ -16,7 +16,7 @@
 		
 		<st:RepeaterWithEmptyDataTemplate id="LogPage" runat="server">
 			<HeaderTemplate>
-				<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0">
+				<table id="Listing" class="listing highlightTable" cellSpacing="0" cellPadding="0" border="0">
 				<tr>
 					<th>Date</th>
 					<th>Logger</th>
@@ -49,7 +49,7 @@
 				</tr>
 			</ItemTemplate>
 			<AlternatingItemTemplate>
-				<tr class="Alt">
+				<tr class="alt">
 					<td>
 						<%# DataBinder.Eval(Container.DataItem, "Date") %>
 					</td>

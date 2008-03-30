@@ -14,8 +14,8 @@
 #endregion
 
 using System;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework;
-using Subtext.Installation;
 using Subtext.Scripting.Exceptions;
 
 namespace Subtext.Web.HostAdmin.Upgrade
@@ -31,7 +31,7 @@ namespace Subtext.Web.HostAdmin.Upgrade
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			if(InstallationManager.CurrentInstallationState == InstallationState.Complete)
+			if(InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion) == InstallationState.Complete)
 			{
 				Response.Redirect("UpgradeComplete.aspx");
 			}
@@ -63,14 +63,14 @@ namespace Subtext.Web.HostAdmin.Upgrade
 			plcHolderUpgradeMessage.Visible = false;
 			try
 			{
-				Installer.Upgrade();
+				Extensibility.Providers.Installation.Provider.Upgrade();
 				Response.Redirect("UpgradeComplete.aspx");
 			}
 			catch (SqlScriptExecutionException ex)
 			{
 				plcHolderUpgradeMessage.Visible = true;
 				
-				if (Installer.IsPermissionDeniedException(ex))
+				if (Extensibility.Providers.Installation.Provider.IsPermissionDeniedException(ex))
 				{
 					messageLiteral.Text = "<p class=\"error\">The database user specified in web.config does not have enough "
 						+ "permission to perform the installation.  Please give the user database owner (dbo) rights and try again. "
@@ -84,7 +84,6 @@ namespace Subtext.Web.HostAdmin.Upgrade
 				
 				return;
 			}
-			Response.Redirect("UpgradeComplete.aspx");
 		}
 	}
 }

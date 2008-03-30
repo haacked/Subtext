@@ -11,7 +11,7 @@ namespace Subtext.Extensibility.Collections
 		int pageSize;
 
 		/// <summary>
-		/// Initializes a new instance of the CollectionBook class.
+		/// Initializes a new instance of the <see cref="CollectionBook<T>"/> class.
 		/// </summary>
 		/// <param name="pageSource">The page source.</param>
 		public CollectionBook(PagedCollectionSource<T> pageSource, int pageSize)

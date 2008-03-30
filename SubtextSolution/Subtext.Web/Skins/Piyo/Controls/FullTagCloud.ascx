@@ -4,7 +4,7 @@
 	<h2>Tag Cloud</h2>
 	<asp:Repeater Runat="server" ID="Tags" OnItemDataBound="Tags_ItemDataBound">
 		<HeaderTemplate>
-				<ul id="tag-cloud">
+				<ul id="full-tag-cloud">
 		</HeaderTemplate>
 		<ItemTemplate>
 			<li>

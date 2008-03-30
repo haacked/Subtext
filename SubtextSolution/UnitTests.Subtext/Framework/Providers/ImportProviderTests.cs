@@ -25,12 +25,6 @@ namespace UnitTests.Subtext.Framework.Providers
 	[TestFixture]
 	public class ImportProviderTests
 	{
-		[Test]
-		public void CanInstantiateProvider()
-		{
-			Assert.IsNotNull(ImportProvider.Provider);
-		}
-
 		/// <summary>
 		/// Makes sure that the static <see cref="ImportProvider.Providers"/> property 
 		/// returns all the configured providers.

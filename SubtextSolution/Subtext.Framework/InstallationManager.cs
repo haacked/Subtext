@@ -15,9 +15,10 @@
 
 using System;
 using System.Web;
+using System.Web.UI;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
-using Subtext.Installation;
 
 namespace Subtext.Framework
 {
@@ -29,17 +30,18 @@ namespace Subtext.Framework
 		/// <summary>
 		/// Gets a value indicating whether this instance is installation action required.
 		/// </summary>
+		/// <param name="assemblyVersion">The version of the currently installed assembly.</param>
 		/// <value>
 		/// 	<c>true</c> if this instance is installation action required; otherwise, <c>false</c>.
 		/// </value>
-		public static bool IsInstallationActionRequired()
+		public static bool IsInstallationActionRequired(Version assemblyVersion)
 		{
-			if (HttpContext.Current != null && HttpContext.Current.Application["NeedsInstallation"] != null)
+			if(HttpContext.Current != null && HttpContext.Current.Application["NeedsInstallation"] != null)
 			{
 				return (bool)HttpContext.Current.Application["NeedsInstallation"];
 			}
-
-			InstallationState currentState = Installer.InstallationStatus;
+			
+			InstallationState currentState = Installation.Provider.GetInstallationStatus(assemblyVersion);
 			bool needsUpgrade = currentState  == InstallationState.NeedsInstallation 
 				|| currentState  == InstallationState.NeedsUpgrade
 				|| currentState  == InstallationState.NeedsRepair;
@@ -61,7 +63,14 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return HostInfo.Instance.DateCreated == NullValue.NullDateTime;
+				try
+				{
+					return null == HostInfo.Instance;
+				}
+				catch(HostNotConfiguredException)
+				{
+					return true;
+				}
 			}
 		}
 
@@ -82,19 +91,20 @@ namespace Subtext.Framework
 		/// </returns>
 		public static bool InstallationActionRequired(Exception unhandledException, Version assemblyVersion)
 		{
-			if (unhandledException is BlogDoesNotExistException)
+			if(unhandledException is BlogDoesNotExistException)
 				return true;
 
-			if (unhandledException is HostDataDoesNotExistException)
+			if(unhandledException is HostDataDoesNotExistException)
 				return true;
 
-			if (unhandledException is HostNotConfiguredException)
+			if(unhandledException is HostNotConfiguredException)
 				return true;
 
-			if (Installer.IsInstallationException(unhandledException))
+			if(Installation.Provider.IsInstallationException(unhandledException))
 				return true;
 
-			switch(Installer.InstallationStatus)
+			InstallationState status = Installation.Provider.GetInstallationStatus(assemblyVersion);
+			switch(status)
 			{
 				case InstallationState.NeedsInstallation:
 				case InstallationState.NeedsRepair:
@@ -180,10 +190,41 @@ namespace Subtext.Framework
 		/// <summary>
 		/// Gets the installation status.
 		/// </summary>
+		/// <param name="assemblyVersion">Gets the version of the currently installed assembly.</param>
 		/// <returns></returns>
-		public static InstallationState CurrentInstallationState
+		public static InstallationState GetCurrentInstallationState(Version assemblyVersion)
 		{
-			get { return Installer.InstallationStatus; }
+			return Installation.Provider.GetInstallationStatus(assemblyVersion);
+		}
+
+		/// <summary>
+		/// Gets the installation information control.
+		/// </summary>
+		/// <returns></returns>
+		public static Control GetInstallationInformationControl()
+		{
+			return Installation.Provider.GatherInstallationInformation();	
+		}
+
+		/// <summary>
+		/// Validates the installation information provided by the user.  
+		/// Returns a string with error information.  The string is 
+		/// empty if there are no errors.
+		/// </summary>
+		/// <param name="populatedControl">Information.</param>
+		/// <returns></returns>
+		public static string ValidateInstallationAnswers(Control populatedControl)
+		{
+			return Installation.Provider.ValidateInstallationInformation(populatedControl);
+		}
+
+		/// <summary>
+		/// Sets the installation question answers.
+		/// </summary>
+		/// <param name="control">Control containing the user's answers.</param>
+		public static void SetInstallationQuestionAnswers(Control control)
+		{
+			Installation.Provider.ProvideInstallationInformation(control);
 		}
 	}
 }

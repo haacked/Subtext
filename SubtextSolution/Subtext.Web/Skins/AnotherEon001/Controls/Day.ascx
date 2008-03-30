@@ -7,7 +7,7 @@
 	</span>
 </p>
 
-<asp:Repeater runat="Server" ID="DayList" OnItemCreated="PostCreated">
+<asp:Repeater runat="Server" Runat="server" ID="DayList" OnItemCreated="PostCreated">
 
 	<ItemTemplate>
 		<div class="post">

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8C11B428-9C4A-46C3-B7F0-48215276BFA5}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -24,9 +24,6 @@
     <DefineConstants>TRACE;DEBUG;DOCUMENTATION</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRules>
-    </CodeAnalysisRules>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,31 +36,27 @@
   <ItemGroup>
     <Reference Include="AjaxControlToolkit, Version=1.0.10201.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\AjaxControlToolkit.dll</HintPath>
+      <HintPath>ExternalDependencies\AjaxControlToolkit.dll</HintPath>
     </Reference>
-    <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87">
+    <Reference Include="BlogML, Version=1.0.2229.38505, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\freetextbox.dll</HintPath>
+      <HintPath>..\Subtext.Framework\ExternalDependencies\BlogML.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+    <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87" />
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Identicon, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Jayrock, Version=0.9.8316.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>ExternalDependencies\Jayrock.dll</HintPath>
     </Reference>
-    <Reference Include="Identicon, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Jayrock.Json, Version=0.9.8316.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Identicon.dll</HintPath>
+      <HintPath>ExternalDependencies\Jayrock.Json.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL">
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
+    <Reference Include="PostBackRitalin, Version=0.9.2952.29277, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Subkismet, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Subkismet.dll</HintPath>
-    </Reference>
-    <Reference Include="SubSonic, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\SubSonic.dll</HintPath>
+      <HintPath>ExternalDependencies\PostBackRitalin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -73,17 +66,13 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\System.Web.Extensions.dll</HintPath>
+      <HintPath>ExternalDependencies\System.Web.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Mobile" />
-    <Reference Include="UrlRewritingNet.UrlRewriter, Version=2.1.7429.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\UrlRewritingNet.UrlRewriter.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
@@ -112,6 +101,13 @@
     </Compile>
     <Compile Include="Admin\Confirm.aspx.designer.cs">
       <DependentUpon>Confirm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Customize.aspx.cs">
+      <DependentUpon>Customize.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Customize.aspx.designer.cs">
+      <DependentUpon>Customize.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
@@ -205,13 +201,6 @@
     <Compile Include="Admin\Password.aspx.designer.cs">
       <DependentUpon>Password.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\PluginList.aspx.cs">
-      <DependentUpon>PluginList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\PluginList.aspx.designer.cs">
-      <DependentUpon>PluginList.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Admin\Preferences.aspx.cs">
       <DependentUpon>Preferences.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -240,6 +229,13 @@
     <Compile Include="Admin\Statistics.aspx.designer.cs">
       <DependentUpon>Statistics.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\StatsView.aspx.cs">
+      <DependentUpon>StatsView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\StatsView.aspx.designer.cs">
+      <DependentUpon>StatsView.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Syndication.aspx.cs">
       <DependentUpon>Syndication.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -261,34 +257,6 @@
     <Compile Include="Admin\UserControls\EntryEditor.ascx.designer.cs">
       <DependentUpon>EntryEditor.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\UserControls\RoleChooser.ascx.cs">
-      <DependentUpon>RoleChooser.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\UserControls\RoleChooser.ascx.designer.cs">
-      <DependentUpon>RoleChooser.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\UserControls\UserManager.ascx.cs">
-      <DependentUpon>UserManager.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\UserControls\UserManager.ascx.designer.cs">
-      <DependentUpon>UserManager.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\UserControls\UsersList.ascx.cs">
-      <DependentUpon>UsersList.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\UserControls\UsersList.ascx.designer.cs">
-      <DependentUpon>UsersList.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Users.aspx.cs">
-      <DependentUpon>Users.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Users.aspx.designer.cs">
-      <DependentUpon>Users.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Admin\WebUI\AdminPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -299,8 +267,7 @@
     <Compile Include="Admin\WebUI\AdminPageTemplate.Master.designer.cs">
       <DependentUpon>AdminPageTemplate.Master</DependentUpon>
     </Compile>
-    <Compile Include="Admin\WebUI\Components\Collections\IOpmlItemEnumerator.cs" />
-    <Compile Include="Admin\WebUI\Components\Collections\IOpmlItemList.cs" />
+    <Compile Include="Admin\WebUI\Components\Collections\IOpmlItemCollection.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\IPageLocationCollection.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\OpmlItemCollection.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\PageLocationCollection.cs" />
@@ -344,13 +311,6 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ForgotPassword.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
-      <DependentUpon>ForgotPassword.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ForgotPassword.aspx.designer.cs">
-      <DependentUpon>ForgotPassword.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -361,33 +321,12 @@
     <Compile Include="HostAdmin\ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
-    <Compile Include="HostAdmin\Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\EditBlog.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
-      <DependentUpon>EditBlog.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\EditBlog.aspx.designer.cs">
-      <DependentUpon>EditBlog.aspx</DependentUpon>
-    </Compile>
     <Compile Include="HostAdmin\ErrorLog.aspx.cs">
       <DependentUpon>ErrorLog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="HostAdmin\ErrorLog.aspx.designer.cs">
       <DependentUpon>ErrorLog.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\ForgotPassword.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
-      <DependentUpon>ForgotPassword.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\ForgotPassword.aspx.designer.cs">
-      <DependentUpon>ForgotPassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="HostAdmin\HostAdminPage.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -427,22 +366,6 @@
     <Compile Include="HostAdmin\Import\Step02_GatherInfo.aspx.designer.cs">
       <DependentUpon>Step02_GatherInfo.aspx</DependentUpon>
     </Compile>
-    <Compile Include="HostAdmin\Login.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
-      <DependentUpon>Login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\PluginList.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
-      <DependentUpon>PluginList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\PluginList.aspx.designer.cs">
-      <DependentUpon>PluginList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\PresenterAndViews\UserManagerPresenter.cs" />
-    <Compile Include="HostAdmin\PresenterAndViews\IUserManagerView.cs" />
     <Compile Include="HostAdmin\Queue.aspx.cs">
       <DependentUpon>Queue.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -464,16 +387,12 @@
     <Compile Include="HostAdmin\Upgrade\UpgradeComplete.aspx.designer.cs">
       <DependentUpon>UpgradeComplete.aspx</DependentUpon>
     </Compile>
-    <Compile Include="HostAdmin\UserControls\BlogEditor.ascx.cs">
-      <DependentUpon>BlogEditor.ascx</DependentUpon>
+    <Compile Include="HostAdmin\UserControls\BlogsEditor.ascx.cs">
+      <DependentUpon>BlogsEditor.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="HostAdmin\UserControls\BlogEditor.ascx.designer.cs">
-      <DependentUpon>BlogEditor.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\UserControls\BlogsList.ascx.cs">
-      <DependentUpon>BlogsList.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
+    <Compile Include="HostAdmin\UserControls\BlogsEditor.ascx.designer.cs">
+      <DependentUpon>BlogsEditor.ascx</DependentUpon>
     </Compile>
     <Compile Include="HostAdmin\UserControls\GroupsEditor.ascx.cs">
       <DependentUpon>GroupsEditor.ascx</DependentUpon>
@@ -481,37 +400,6 @@
     </Compile>
     <Compile Include="HostAdmin\UserControls\GroupsEditor.ascx.designer.cs">
       <DependentUpon>GroupsEditor.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\UserControls\BlogsList.ascx.designer.cs">
-      <DependentUpon>BlogsList.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\UserControls\CreateUserControl.ascx.cs">
-      <DependentUpon>CreateUserControl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\UserControls\CreateUserControl.ascx.designer.cs">
-      <DependentUpon>CreateUserControl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\UserControls\UserChooser.ascx.cs">
-      <DependentUpon>UserChooser.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\UserControls\UserChooser.ascx.designer.cs">
-      <DependentUpon>UserChooser.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\UserControls\UserGrid.ascx.cs">
-      <DependentUpon>UserGrid.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\UserControls\UserGrid.ascx.designer.cs">
-      <DependentUpon>UserGrid.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\UserManager.aspx.cs">
-      <DependentUpon>UserManager.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\UserManager.aspx.designer.cs">
-      <DependentUpon>UserManager.aspx</DependentUpon>
     </Compile>
     <Compile Include="Install\BlogNotConfiguredError.aspx.cs">
       <DependentUpon>BlogNotConfiguredError.aspx</DependentUpon>
@@ -527,6 +415,16 @@
     <Compile Include="Install\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Install\InstallationBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\InstallationComplete.aspx.cs">
+      <DependentUpon>InstallationComplete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\InstallationComplete.aspx.designer.cs">
+      <DependentUpon>InstallationComplete.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Install\InstallTemplate.Master.cs">
       <DependentUpon>InstallTemplate.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -534,12 +432,33 @@
     <Compile Include="Install\InstallTemplate.Master.designer.cs">
       <DependentUpon>InstallTemplate.Master</DependentUpon>
     </Compile>
-    <Compile Include="Login.aspx.cs">
+    <Compile Include="Install\Step01_InstallData.aspx.cs">
+      <DependentUpon>Step01_InstallData.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
+    <Compile Include="Install\Step01_InstallData.aspx.designer.cs">
+      <DependentUpon>Step01_InstallData.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Install\Step02_ConfigureHost.aspx.cs">
+      <DependentUpon>Step02_ConfigureHost.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\Step02_ConfigureHost.aspx.designer.cs">
+      <DependentUpon>Step02_ConfigureHost.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Install\Step03_CreateBlog.aspx.cs">
+      <DependentUpon>Step03_CreateBlog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\Step03_CreateBlog.aspx.designer.cs">
+      <DependentUpon>Step03_CreateBlog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
     </Compile>
     <Compile Include="logout.aspx.cs">
       <DependentUpon>logout.aspx</DependentUpon>
@@ -566,33 +485,16 @@
     </Compile>
     <Compile Include="Providers\BlogEntryEditor\FTB\FtbBlogEntryEditorProvider.cs" />
     <Compile Include="Providers\BlogEntryEditor\PlainText\PlainTextBlogEntryEditorProvider.cs" />
+    <Compile Include="Admin\Services\Ajax\AjaxServices.ashx.cs">
+      <DependentUpon>AjaxServices.ashx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SiteMap\ChangeFrequency.cs" />
     <Compile Include="SiteMap\SiteMapHttpHandler.ashx.cs">
       <DependentUpon>SiteMapHttpHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="SiteMap\Url.cs" />
     <Compile Include="SiteMap\UrlCollection.cs" />
-    <Compile Include="Skins\_System\ForgotPassword.Master.cs">
-      <DependentUpon>ForgotPassword.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Skins\_System\ForgotPassword.Master.designer.cs">
-      <DependentUpon>ForgotPassword.Master</DependentUpon>
-    </Compile>
-    <Compile Include="Skins\_System\Login.Master.cs">
-      <DependentUpon>Login.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Skins\_System\Login.Master.designer.cs">
-      <DependentUpon>Login.Master</DependentUpon>
-    </Compile>
-    <Compile Include="SystemMessages\AccessDenied.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
-      <DependentUpon>AccessDenied.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SystemMessages\AccessDenied.aspx.designer.cs">
-      <DependentUpon>AccessDenied.aspx</DependentUpon>
-    </Compile>
     <Compile Include="SystemMessages\BlogNotActive.aspx.cs">
       <DependentUpon>BlogNotActive.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -731,6 +633,9 @@
     <Compile Include="UI\Controls\LinkPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\Controls\Login.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="UI\Controls\MonthList.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -792,27 +697,28 @@
     <Compile Include="UI\Globals.cs" />
     <Compile Include="UI\Handlers\BlogSecondaryCssHandler.cs" />
     <Compile Include="UI\Handlers\RedirectHandler.cs" />
-    <Compile Include="UI\IView.cs" />
     <Compile Include="UI\Pages\SubTextMasterPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UI\PresenterBase.cs" />
     <Compile Include="UI\UIData.cs" />
     <Compile Include="UI\UIText.cs" />
     <Compile Include="UI\WebControls\AtomHyperLink.cs" />
     <Compile Include="UI\WebControls\ContentRegion.cs" />
     <Compile Include="UI\WebControls\MasterPage.cs" />
-    <Compile Include="UI\WebControls\RichTextEditor.cs" />
     <Compile Include="UI\WebControls\RssHyperLink.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="blue.css" />
     <Content Include="default.aspx" />
     <Content Include="emoticons.txt" />
+    <Content Include="ExternalDependencies\AngryPets.Web.Frameworks.ReverseDOS.dll" />
+    <Content Include="ExternalDependencies\freetextbox.dll" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="login.aspx" />
     <Content Include="logout.aspx" />
     <Content Include="MainFeed.aspx" />
+    <Content Include="Admin\Navigation.config" />
     <Content Include="Admin\Skins.config" />
     <Content Include="Admin\Web.config" />
     <Content Include="HostAdmin\Import\Web.config" />
@@ -900,6 +806,10 @@
       <DependentUpon>Statistics.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Admin\StatsView.aspx.resx">
+      <DependentUpon>StatsView.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Admin\Syndication.aspx.resx">
       <DependentUpon>Syndication.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -952,8 +862,8 @@
       <DependentUpon>UpgradeComplete.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\UserControls\BlogsList.ascx.resx">
-      <DependentUpon>BlogsList.ascx.cs</DependentUpon>
+    <EmbeddedResource Include="HostAdmin\UserControls\BlogsEditor.ascx.resx">
+      <DependentUpon>BlogsEditor.ascx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HostAdmin\UserControls\GroupsEditor.ascx.resx">
@@ -966,6 +876,26 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Install\Default.aspx.resx">
       <DependentUpon>Default.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Install\InstallationComplete.aspx.resx">
+      <DependentUpon>InstallationComplete.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Install\Step01_InstallData.aspx.resx">
+      <DependentUpon>Step01_InstallData.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Install\Step02_ConfigureHost.aspx.resx">
+      <DependentUpon>Step02_ConfigureHost.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Install\Step03_CreateBlog.aspx.resx">
+      <DependentUpon>Step03_CreateBlog.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="login.aspx.resx">
+      <DependentUpon>login.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="logout.aspx.resx">
@@ -1023,6 +953,7 @@
     </Content>
     <Content Include="Admin\Configure.aspx" />
     <Content Include="Admin\Confirm.aspx" />
+    <Content Include="Admin\Customize.aspx" />
     <Content Include="Admin\default.aspx" />
     <Content Include="Admin\EditArticles.aspx" />
     <Content Include="Admin\EditCategories.aspx" />
@@ -1038,7 +969,6 @@
     <Content Include="Admin\license.txt" />
     <Content Include="Admin\Options.aspx" />
     <Content Include="Admin\Password.aspx" />
-    <Content Include="Admin\PluginList.aspx" />
     <Content Include="Admin\Preferences.aspx" />
     <Content Include="Admin\Referrers.aspx" />
     <Content Include="Admin\Resources\admin.css" />
@@ -1074,6 +1004,7 @@
     <Content Include="Admin\Resources\toggle_gray_up.gif" />
     <Content Include="Admin\RssFeeds.aspx" />
     <Content Include="Admin\Statistics.aspx" />
+    <Content Include="Admin\StatsView.aspx" />
     <Content Include="Admin\Syndication.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -1081,18 +1012,16 @@
     <Content Include="Admin\UserControls\EntryEditor.ascx" />
     <Content Include="Admin\EditPosts.aspx" />
     <Content Include="Admin\Credits.aspx" />
-    <Content Include="Admin\UserControls\RoleChooser.ascx" />
-    <Content Include="Admin\UserControls\UserManager.ascx" />
-    <Content Include="Admin\UserControls\UsersList.ascx" />
-    <Content Include="Admin\Users.aspx" />
     <Content Include="DTP.aspx" />
-    <Content Include="ForgotPassword.aspx" />
+    <Content Include="ExternalDependencies\FreeTextBox.xml" />
+    <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="ExternalDependencies\Identicon.dll" />
+    <Content Include="ExternalDependencies\log4net.dll" />
+    <Content Include="ExternalDependencies\log4net.xml" />
     <Content Include="HostAdmin\ChangePassword.aspx" />
     <Content Include="HostAdmin\ManageGroups.aspx" />
     <Content Include="HostAdmin\Default.aspx" />
-    <Content Include="HostAdmin\EditBlog.aspx" />
     <Content Include="HostAdmin\ErrorLog.aspx" />
-    <Content Include="HostAdmin\ForgotPassword.aspx" />
     <Content Include="HostAdmin\images\bottom.gif" />
     <Content Include="HostAdmin\images\shadow.gif" />
     <Content Include="HostAdmin\images\shadowAlpha.png" />
@@ -1101,8 +1030,6 @@
     <Content Include="HostAdmin\Import\ImportStart.aspx" />
     <Content Include="HostAdmin\Import\Step01_SelectImportProvider.aspx" />
     <Content Include="HostAdmin\Import\Step02_GatherInfo.aspx" />
-    <Content Include="HostAdmin\Login.aspx" />
-    <Content Include="HostAdmin\PluginList.aspx" />
     <Content Include="HostAdmin\Queue.aspx" />
     <Content Include="HostAdmin\Scripts\helptip.css" />
     <Content Include="HostAdmin\Scripts\helptip.js" />
@@ -1113,23 +1040,24 @@
     <Content Include="HostAdmin\Upgrade\UpgradeComplete.aspx">
       <SubType>Form</SubType>
     </Content>
-    <Content Include="HostAdmin\UserControls\BlogEditor.ascx" />
-    <Content Include="HostAdmin\UserControls\BlogsList.ascx" />
-    <Content Include="HostAdmin\UserControls\CreateUserControl.ascx" />
-    <Content Include="HostAdmin\UserControls\UserChooser.ascx" />
-    <Content Include="HostAdmin\UserControls\UserGrid.ascx" />
-    <Content Include="HostAdmin\UserManager.aspx" />
+    <Content Include="HostAdmin\UserControls\BlogsEditor.ascx">
+      <SubType>UserControl</SubType>
+    </Content>
     <Content Include="HostAdmin\UserControls\GroupsEditor.ascx">
       <SubType>UserControl</SubType>
     </Content>
+    <Content Include="Images\accept.png" />
     <Content Include="Images\admin.gif" />
     <Content Include="Images\administration_icon.gif" />
+    <Content Include="Images\arrow_undo.png" />
     <Content Include="Images\atom.gif" />
     <Content Include="Images\atomsmall.gif" />
     <Content Include="Images\blank.gif" />
+    <Content Include="Images\cancel.png" />
     <Content Include="Images\close.gif" />
     <Content Include="Images\closelabel.gif" />
     <Content Include="Images\contact.gif" />
+    <Content Include="Images\cross.png" />
     <Content Include="Images\default_gravatar.png" />
     <Content Include="Images\edit.gif" />
     <Content Include="Images\email.gif" />
@@ -1151,6 +1079,8 @@
     <Content Include="Images\emotions\smiley-undecided.gif" />
     <Content Include="Images\emotions\smiley-wink.gif" />
     <Content Include="Images\emotions\smiley-yell.gif" />
+    <Content Include="Images\error.png" />
+    <Content Include="Images\exclamation.png" />
     <Content Include="Images\friends.png" />
     <Content Include="Images\home.gif" />
     <Content Include="Images\icn_delete.gif" />
@@ -1191,6 +1121,10 @@
     <Content Include="Images\subtextLogo32-23.png" />
     <Content Include="Images\SubtextLogo_small.png" />
     <Content Include="Images\subtextWatermark.png" />
+    <Content Include="Images\tag_blue.png" />
+    <Content Include="Images\tag_blue_add.png" />
+    <Content Include="Images\tag_blue_delete.png" />
+    <Content Include="Images\tag_blue_edit.png" />
     <Content Include="Images\xfn-child.png" />
     <Content Include="Images\xfn-colleague-met.png" />
     <Content Include="Images\xfn-colleague.png" />
@@ -1208,10 +1142,13 @@
     <Content Include="Install\Default.aspx">
       <SubType>Form</SubType>
     </Content>
-    <Content Include="Install\InstallationComplete.aspx" />
+    <Content Include="Install\InstallationComplete.aspx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="Install\Step01_InstallData.aspx" />
+    <Content Include="Install\Step02_ConfigureHost.aspx" />
+    <Content Include="Install\Step03_CreateBlog.aspx" />
     <Content Include="Install\Style\InstallationStyle.css" />
-    <Content Include="Login.aspx" />
-    <Content Include="Modules\placeholder.txt" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\customConfiguration\subtextconfig.js" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\css\behaviors\disablehandles.htc" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\css\behaviors\hiddenfield.gif" />
@@ -1499,6 +1436,10 @@
     <Content Include="Scripts\common.js" />
     <Content Include="Scripts\effects.js" />
     <Content Include="Scripts\ExternalLinks.js" />
+    <Content Include="Scripts\jquery-1.2.1.min.js" />
+    <Content Include="Scripts\jquery.color.min.js" />
+    <Content Include="Scripts\jquery.hotkeys.min.js" />
+    <Content Include="Scripts\json.js" />
     <Content Include="Scripts\lightbox.css" />
     <Content Include="Scripts\lightbox.js" />
     <Content Include="Scripts\LiveCommentPreview.js" />
@@ -1533,6 +1474,7 @@
     <Content Include="Skins\AnotherEon001\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\Header.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\HomePage.ascx" />
+    <Content Include="Skins\AnotherEon001\Controls\Login.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\MonthListings.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\MyLinks.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\News.ascx" />
@@ -1552,58 +1494,65 @@
     <Content Include="Skins\AnotherEon001\PageTemplate.ascx" />
     <Content Include="Skins\AnotherEon001\print.css" />
     <Content Include="Skins\AnotherEon001\style.css" />
-    <Content Include="Skins\EliteCircle\Controls\ArchiveCategory.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\ArchiveDay.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\ArchiveLinks.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\ArchiveMonth.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\BlogStats.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\CategoryDisplay.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\CategoryEntryList.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\CategoryList.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\Comments.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\Contact.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\Day.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\DayCollection.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\EntryList.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\Footer.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\FullTagCloud.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\GalleryThumbNailViewer.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\Header.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\HomePage.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\Login.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\MonthListings.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\MyLinks.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\News.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\PostCategoryList.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\PostComment.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\PreviousNext.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\RecentComments.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\RecentPosts.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\ShareThisPost.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\SingleColumn.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\SubtextSearch.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\TagCloud.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\TagEntryList.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\ViewPicture.ascx" />
-    <Content Include="Skins\EliteCircle\Controls\ViewPost.ascx" />
-    <Content Include="Skins\EliteCircle\IEPatches.css" />
-    <Content Include="Skins\EliteCircle\images\bk_dotted.gif" />
-    <Content Include="Skins\EliteCircle\images\clock.gif" />
-    <Content Include="Skins\EliteCircle\images\comment.gif" />
-    <Content Include="Skins\EliteCircle\images\CommentIcon.gif" />
-    <Content Include="Skins\EliteCircle\images\contentbg.jpg" />
-    <Content Include="Skins\EliteCircle\images\feed-icon16x16.png" />
-    <Content Include="Skins\EliteCircle\images\firefox-gray.jpg" />
-    <Content Include="Skins\EliteCircle\images\footerbg.jpg" />
-    <Content Include="Skins\EliteCircle\images\headerbg.jpg" />
-    <Content Include="Skins\EliteCircle\images\logobg.jpg" />
-    <Content Include="Skins\EliteCircle\images\page.gif" />
-    <Content Include="Skins\EliteCircle\images\print.png" />
-    <Content Include="Skins\EliteCircle\images\quote.gif" />
-    <Content Include="Skins\EliteCircle\images\sample-image.jpg" />
-    <Content Include="Skins\EliteCircle\PageTemplate.ascx" />
-    <Content Include="Skins\EliteCircle\print.css" />
-    <Content Include="Skins\EliteCircle\style.css" />
+    <Content Include="Skins\GlossyBlue\Controls\ArchiveCategory.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\ArchiveDay.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\ArchiveLinks.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\ArchiveMonth.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\BlogStats.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\CategoryDisplay.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\CategoryEntryList.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\CategoryList.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\Comments.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\Contact.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\Day.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\DayCollection.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\EntryList.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\Footer.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\GalleryThumbNailViewer.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\Header.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\HomePage.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\Login.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\MonthListings.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\MyLinks.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\News.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\PostComment.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\PreviousNext.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\RecentComments.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\RelatedLinks.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\SingleColumn.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\SubtextSearch.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\Syndications.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\ViewPicture.ascx" />
+    <Content Include="Skins\GlossyBlue\Controls\ViewPost.ascx" />
+    <Content Include="Skins\GlossyBlue\images\btn-bg.gif" />
+    <Content Include="Skins\GlossyBlue\images\content-bg.gif" />
+    <Content Include="Skins\GlossyBlue\images\date-bg.gif" />
+    <Content Include="Skins\GlossyBlue\images\footer-bg.gif" />
+    <Content Include="Skins\GlossyBlue\images\footer-right-bg.gif" />
+    <Content Include="Skins\GlossyBlue\images\header-bg.jpg" />
+    <Content Include="Skins\GlossyBlue\images\header-icon.gif" />
+    <Content Include="Skins\GlossyBlue\images\main-bg.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-blogroll.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-calendar.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-category.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-comments.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-footer-comments.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-footer-post.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-loginout.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-monthly-archive.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-nav-left.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-nav-right.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-page-arrow.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-page.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-recent-comments.gif" />
+    <Content Include="Skins\GlossyBlue\images\mini-rss.gif" />
+    <Content Include="Skins\GlossyBlue\images\nav-button-bg.gif" />
+    <Content Include="Skins\GlossyBlue\images\search-btn-bg.gif" />
+    <Content Include="Skins\GlossyBlue\PageTemplate.ascx" />
+    <Content Include="Skins\GlossyBlue\Styles\glossyblue-main.css" />
+    <Content Include="Skins\GlossyBlue\Styles\glossyblue-print.css" />
+    <Content Include="Skins\Lightz\Scripts\cityNight.js" />
+    <Content Include="Skins\Lightz\Scripts\tableEffects.js" />
     <Content Include="Skins\Colors\Blue.css" />
     <Content Include="Skins\Colors\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\Colors\Controls\ArchiveDay.ascx" />
@@ -1623,6 +1572,7 @@
     <Content Include="Skins\Colors\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Colors\Controls\Header.ascx" />
     <Content Include="Skins\Colors\Controls\HomePage.ascx" />
+    <Content Include="Skins\Colors\Controls\Login.ascx" />
     <Content Include="Skins\Colors\Controls\MonthListings.ascx" />
     <Content Include="Skins\Colors\Controls\MyLinks.ascx" />
     <Content Include="Skins\Colors\Controls\News.ascx" />
@@ -1643,59 +1593,6 @@
     <Content Include="Skins\Colors\ScarletAndGrey.css" />
     <Content Include="Skins\Colors\search.css" />
     <Content Include="Skins\Colors\Style.css" />
-    <Content Include="Skins\Curvy\Controls\ArchiveCategory.ascx" />
-    <Content Include="Skins\Curvy\Controls\ArchiveDay.ascx" />
-    <Content Include="Skins\Curvy\Controls\ArchiveLinks.ascx" />
-    <Content Include="Skins\Curvy\Controls\ArchiveMonth.ascx" />
-    <Content Include="Skins\Curvy\Controls\BlogStats.ascx" />
-    <Content Include="Skins\Curvy\Controls\CategoryDisplay.ascx" />
-    <Content Include="Skins\Curvy\Controls\CategoryEntryList.ascx" />
-    <Content Include="Skins\Curvy\Controls\CategoryList.ascx" />
-    <Content Include="Skins\Curvy\Controls\Comments.ascx" />
-    <Content Include="Skins\Curvy\Controls\Contact.ascx" />
-    <Content Include="Skins\Curvy\Controls\Day.ascx" />
-    <Content Include="Skins\Curvy\Controls\DayCollection.ascx" />
-    <Content Include="Skins\Curvy\Controls\EntryList.ascx" />
-    <Content Include="Skins\Curvy\Controls\Footer.ascx" />
-    <Content Include="Skins\Curvy\Controls\GalleryThumbNailViewer.ascx" />
-    <Content Include="Skins\Curvy\Controls\Header.ascx" />
-    <Content Include="Skins\Curvy\Controls\HomePage.ascx" />
-    <Content Include="Skins\Curvy\Controls\LinkPage.ascx" />
-    <Content Include="Skins\Curvy\Controls\MonthListings.ascx" />
-    <Content Include="Skins\Curvy\Controls\MyLinks.ascx" />
-    <Content Include="Skins\Curvy\Controls\News.ascx" />
-    <Content Include="Skins\Curvy\Controls\PostComment.ascx" />
-    <Content Include="Skins\Curvy\Controls\PreviousNext.ascx" />
-    <Content Include="Skins\Curvy\Controls\RecentComments.ascx" />
-    <Content Include="Skins\Curvy\Controls\RelatedLinks.ascx" />
-    <Content Include="Skins\Curvy\Controls\ShareThisPost.ascx" />
-    <Content Include="Skins\Curvy\Controls\SingleColumn.ascx" />
-    <Content Include="Skins\Curvy\Controls\SubtextSearch.ascx" />
-    <Content Include="Skins\Curvy\Controls\ViewPicture.ascx" />
-    <Content Include="Skins\Curvy\Controls\ViewPost.ascx" />
-    <Content Include="Skins\Curvy\Images\action_back.gif" />
-    <Content Include="Skins\Curvy\Images\action_forward.gif" />
-    <Content Include="Skins\Curvy\Images\book_add.gif" />
-    <Content Include="Skins\Curvy\Images\button_bg.gif" />
-    <Content Include="Skins\Curvy\Images\comment_add.gif" />
-    <Content Include="Skins\Curvy\Images\comment_delete.gif" />
-    <Content Include="Skins\Curvy\Images\email.gif" />
-    <Content Include="Skins\Curvy\Images\email_go.gif" />
-    <Content Include="Skins\Curvy\Images\eye.gif" />
-    <Content Include="Skins\Curvy\Images\feed.gif" />
-    <Content Include="Skins\Curvy\Images\house.gif" />
-    <Content Include="Skins\Curvy\Images\icon_world_dynamic.gif" />
-    <Content Include="Skins\Curvy\Images\key_go.gif" />
-    <Content Include="Skins\Curvy\Images\page_bookmark.gif" />
-    <Content Include="Skins\Curvy\Images\perma.gif" />
-    <Content Include="Skins\Curvy\Images\report_edit.gif" />
-    <Content Include="Skins\Curvy\Images\transmit_blue.gif" />
-    <Content Include="Skins\Curvy\Install.txt" />
-    <Content Include="Skins\Curvy\niftyLayout.js" />
-    <Content Include="Skins\Curvy\PageTemplate.ascx" />
-    <Content Include="Skins\Curvy\print.css" />
-    <Content Include="Skins\Curvy\scshot.png" />
-    <Content Include="Skins\Curvy\style.css" />
     <Content Include="Skins\Gradient\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\Gradient\Controls\ArchiveDay.ascx" />
     <Content Include="Skins\Gradient\Controls\ArchiveLinks.ascx" />
@@ -1714,6 +1611,7 @@
     <Content Include="Skins\Gradient\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Gradient\Controls\Header.ascx" />
     <Content Include="Skins\Gradient\Controls\HomePage.ascx" />
+    <Content Include="Skins\Gradient\Controls\Login.ascx" />
     <Content Include="Skins\Gradient\Controls\MonthListings.ascx" />
     <Content Include="Skins\Gradient\Controls\MyLinks.ascx" />
     <Content Include="Skins\Gradient\Controls\News.ascx" />
@@ -1751,6 +1649,7 @@
     <Content Include="Skins\KeyWest\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\KeyWest\Controls\Header.ascx" />
     <Content Include="Skins\KeyWest\Controls\HomePage.ascx" />
+    <Content Include="Skins\KeyWest\Controls\Login.ascx" />
     <Content Include="Skins\KeyWest\Controls\MonthListings.ascx" />
     <Content Include="Skins\KeyWest\Controls\MyLinks.ascx" />
     <Content Include="Skins\KeyWest\Controls\News.ascx" />
@@ -1815,6 +1714,7 @@
     <Content Include="Skins\Lightz\Controls\Header.ascx" />
     <Content Include="Skins\Lightz\Controls\HomePage.ascx" />
     <Content Include="Skins\Lightz\Controls\LinkPage.ascx" />
+    <Content Include="Skins\Lightz\Controls\Login.ascx" />
     <Content Include="Skins\Lightz\Controls\MonthListings.ascx" />
     <Content Include="Skins\Lightz\Controls\MyLinks.ascx" />
     <Content Include="Skins\Lightz\Controls\News.ascx" />
@@ -1854,6 +1754,7 @@
     <Content Include="Skins\Naked\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Naked\Controls\Header.ascx" />
     <Content Include="Skins\Naked\Controls\HomePage.ascx" />
+    <Content Include="Skins\Naked\Controls\Login.ascx" />
     <Content Include="Skins\Naked\Controls\MonthListings.ascx" />
     <Content Include="Skins\Naked\Controls\MyLinks.ascx" />
     <Content Include="Skins\Naked\Controls\News.ascx" />
@@ -1890,6 +1791,7 @@
     <Content Include="Skins\Nature\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Nature\Controls\Header.ascx" />
     <Content Include="Skins\Nature\Controls\HomePage.ascx" />
+    <Content Include="Skins\Nature\Controls\Login.ascx" />
     <Content Include="Skins\Nature\Controls\MonthListings.ascx" />
     <Content Include="Skins\Nature\Controls\MyLinks.ascx" />
     <Content Include="Skins\Nature\Controls\News.ascx" />
@@ -2079,6 +1981,7 @@
     <Content Include="Skins\Piyo\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Piyo\Controls\Header.ascx" />
     <Content Include="Skins\Piyo\Controls\HomePage.ascx" />
+    <Content Include="Skins\Piyo\Controls\Login.ascx" />
     <Content Include="Skins\Piyo\Controls\MonthListings.ascx" />
     <Content Include="Skins\Piyo\Controls\MyLinks.ascx" />
     <Content Include="Skins\Piyo\Controls\News.ascx" />
@@ -2135,7 +2038,6 @@
     <Content Include="Log4Net.config" />
     <Content Include="Install\InstallTemplate.Master" />
     <Content Include="Images\IdenticonHandler.ashx" />
-    <Content Include="Admin\Navigation.config" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />
@@ -2143,6 +2045,7 @@
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\filemanager\browser\default\images\icons\32\Thumbs.db" />
     <Content Include="SiteMap\SiteMapHttpHandler.ashx" />
     <Content Include="Providers\Web.config" />
+    <Content Include="Admin\Services\Ajax\AjaxServices.ashx" />
     <None Include="Skins\RedBook\Controls\EntryList.ascx" />
     <Content Include="Skins\RedBook\Controls\Footer.ascx" />
     <Content Include="Skins\Naked\Controls\FullTagCloud.ascx" />
@@ -2150,6 +2053,7 @@
     <Content Include="Skins\RedBook\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\RedBook\Controls\Header.ascx" />
     <Content Include="Skins\RedBook\Controls\HomePage.ascx" />
+    <Content Include="Skins\RedBook\Controls\Login.ascx" />
     <Content Include="Skins\RedBook\Controls\MonthListings.ascx" />
     <Content Include="Skins\RedBook\Controls\MyLinks.ascx" />
     <Content Include="Skins\RedBook\Controls\News.ascx" />
@@ -2215,6 +2119,7 @@
     <Content Include="Skins\Semagogy\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Semagogy\Controls\Header.ascx" />
     <Content Include="Skins\Semagogy\Controls\HomePage.ascx" />
+    <Content Include="Skins\Semagogy\Controls\Login.ascx" />
     <Content Include="Skins\Semagogy\Controls\MonthListings.ascx" />
     <Content Include="Skins\Semagogy\Controls\MyLinks.ascx" />
     <Content Include="Skins\Semagogy\Controls\News.ascx" />
@@ -2265,6 +2170,7 @@
     <Content Include="Skins\Submarine\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Submarine\Controls\Header.ascx" />
     <Content Include="Skins\Submarine\Controls\HomePage.ascx" />
+    <Content Include="Skins\Submarine\Controls\Login.ascx" />
     <Content Include="Skins\Submarine\Controls\MonthListings.ascx" />
     <Content Include="Skins\Submarine\Controls\MyLinks.ascx" />
     <Content Include="Skins\Submarine\Controls\mylinksAdmin.ascx" />
@@ -2309,6 +2215,7 @@
     <Content Include="Skins\WPSkin\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\WPSkin\Controls\Header.ascx" />
     <Content Include="Skins\WPSkin\Controls\HomePage.ascx" />
+    <Content Include="Skins\WPSkin\Controls\Login.ascx" />
     <Content Include="Skins\WPSkin\Controls\MonthListings.ascx" />
     <Content Include="Skins\WPSkin\Controls\MyLinks.ascx" />
     <Content Include="Skins\WPSkin\Controls\News.ascx" />
@@ -2335,11 +2242,7 @@
     <Content Include="Skins\_System\commonlayout.css" />
     <Content Include="Skins\_System\commonstyle.css" />
     <Content Include="Skins\_System\csharp.css" />
-    <Content Include="Skins\_System\forgotpassword.css" />
-    <Content Include="Skins\_System\forms.css" />
-    <Content Include="Skins\_System\login.css" />
     <Content Include="Skins\_System\SystemStyle.css" />
-    <Content Include="SystemMessages\AccessDenied.aspx" />
     <Content Include="SystemMessages\BlogNotActive.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -2364,11 +2267,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="user.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Skins\_System\ForgotPassword.Master" />
-    <Content Include="Skins\_System\Login.Master" />
     <Content Include="SystemMessages\SystemMessageTemplate.Master" />
     <Content Include="wlwmanifest.xml" />
   </ItemGroup>
@@ -2381,9 +2279,9 @@
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Name>Subtext.Extensibility</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.Framework\SubText.Framework.csproj">
+    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
       <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
-      <Name>SubText.Framework</Name>
+      <Name>Subtext.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Installation\Subtext.Installation.csproj">
       <Project>{745B39B7-DE46-4070-8733-C53308721C58}</Project>
@@ -2403,9 +2301,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+    <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Skins\Naked\Images\" />
     <Folder Include="Skins\Naked\Scripts\" />
     <Folder Include="Skins\origami\Styles\" />
@@ -2430,6 +2329,7 @@
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:2732/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

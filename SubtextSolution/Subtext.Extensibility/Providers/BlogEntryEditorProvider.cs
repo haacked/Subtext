@@ -17,9 +17,6 @@ using System;
 using System.Web.UI;
 using System.Configuration.Provider;
 using System.Web.UI.WebControls;
-using System.Globalization;
-using Subtext.Extensibility.Properties;
-using System.Collections.Specialized;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -46,42 +43,39 @@ namespace Subtext.Extensibility.Providers
 		/// </summary>
 		public static GenericProviderCollection<BlogEntryEditorProvider> Providers
 		{
-			get { return providers; }
+			get
+			{
+				return providers;
+			}
 		}
-
-		public override void  Initialize(string name, NameValueCollection config)
+		
+		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
-			if (name == null)
-				throw new ArgumentNullException("name", Resources.ArgumentNull_String);
+			if (configValue["Width"] != null)
+				this.Width = ParseUnit(configValue["Width"]);
 
-			if (config == null)
-				throw new ArgumentNullException("config", Resources.ArgumentNull_Collection);
+			if (configValue["Height"] != null)
+				this.Height = ParseUnit(configValue["Height"]);
 
-			if (config["Width"] != null)
-				this.Width = ParseUnit(config["Width"]);
-
-			if (config["Height"] != null)
-				this.Height = ParseUnit(config["Height"]);
-
-			base.Initialize(name, config);
+			base.Initialize(name, configValue);
 		}
-
-		protected static Unit ParseUnit(string s)
+		
+		protected Unit ParseUnit(string s)
 		{
 			try
 			{
-				return Unit.Parse(s, CultureInfo.InvariantCulture);
+				return Unit.Parse(s);
 			}
-			catch (Exception)
+			catch(Exception)
 			{
 			}
 			return Unit.Empty;
 		}
-
-
+		
+       
 		/// <summary>
-		/// Id of the control
-		/// </summary>
+        /// Id of the control
+        /// </summary>
 		public virtual string ControlId
 		{
 			get
@@ -93,9 +87,9 @@ namespace Subtext.Extensibility.Providers
 				this.controlId = value;
 			}
 		}
-
+		
 		string controlId;
-
+        
 		/// <summary>
 		/// Width of the editor
 		/// </summary>
@@ -112,7 +106,7 @@ namespace Subtext.Extensibility.Providers
 		}
 
 		Unit width = Unit.Empty;
-
+        
 		/// <summary>
 		/// Height of the editor
 		/// </summary>
@@ -139,15 +133,15 @@ namespace Subtext.Extensibility.Providers
 		/// The content of the area, but XHTML converted
 		/// </summary>
 		public abstract String Xhtml { get;}
-
+		
 		/// <summary>
 		/// Return the RichTextEditorControl to be displayed inside the page
 		/// </summary>
 		public abstract Control RichTextEditorControl { get;}
 
-		/// <summary>
-		/// Initializes the Control to be displayed
-		/// </summary>
+        /// <summary>
+        /// Initializes the Control to be displayed
+        /// </summary>
 		public abstract void InitializeControl();
 
 	}

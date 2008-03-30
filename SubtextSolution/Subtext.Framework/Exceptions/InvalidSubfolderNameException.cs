@@ -29,7 +29,7 @@ namespace Subtext.Framework.Exceptions
 		/// Creates a new <see cref="InvalidSubfolderNameException"/> instance.
 		/// </summary>
 		/// <param name="subfolder">Subfolder.</param>
-		public InvalidSubfolderNameException(string subfolder)
+		public InvalidSubfolderNameException(string subfolder) : base()
 		{
 			this.subfolder = subfolder;
 		}

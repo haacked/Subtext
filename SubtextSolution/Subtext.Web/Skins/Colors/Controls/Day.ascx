@@ -4,7 +4,7 @@
 <asp:Literal ID="DateTitle" Runat="server" Visible="false" />		  
 
 
-<asp:Repeater runat="Server" ID="DayList" OnItemCreated="PostCreated">
+<asp:Repeater runat="Server" Runat="server" ID="DayList" OnItemCreated="PostCreated">
 	<ItemTemplate>
 		<div class="dropshadow">
 			<div class="contentbox">

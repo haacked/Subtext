@@ -10,12 +10,76 @@
 
 namespace Subtext.Web.Admin.Pages {
     
+    
+    /// <summary>
+    /// EditPreferences class.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated class.
+    /// </remarks>
     public partial class EditPreferences {
-        protected System.Web.UI.WebControls.DropDownList ddlPublished;
-        protected System.Web.UI.WebControls.DropDownList ddlExpandAdvanced;
-        protected System.Web.UI.WebControls.CheckBox chkAutoGenerate;
-        protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
-        protected System.Web.UI.HtmlControls.HtmlImage Img2;
-        protected System.Web.UI.WebControls.Button lkbUpdate;
+        
+        /// <summary>
+        /// Edit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
+        
+        /// <summary>
+        /// ddlPublished control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlPublished;
+        
+        /// <summary>
+        /// ddlExpandAdvanced control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlExpandAdvanced;
+        
+        /// <summary>
+        /// chkAutoGenerate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkAutoGenerate;
+        
+        /// <summary>
+        /// Helptooltip4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip Helptooltip4;
+        
+        /// <summary>
+        /// Img2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlImage Img2;
+        
+        /// <summary>
+        /// lkbUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button lkbUpdate;
     }
 }

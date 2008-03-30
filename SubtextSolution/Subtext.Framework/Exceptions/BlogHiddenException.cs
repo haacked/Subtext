@@ -40,7 +40,7 @@ namespace Subtext.Framework.Exceptions
 		/// </summary>
 		/// <param name="hidden">Hidden.</param>
 		/// <param name="blogId"></param>
-		public BlogHiddenException(BlogInfo hidden, int blogId)
+		public BlogHiddenException(BlogInfo hidden, int blogId) : base()
 		{
 			_hiddenBlog = hidden;
 			_blogId = blogId;
@@ -90,7 +90,7 @@ namespace Subtext.Framework.Exceptions
 			{
 				//TODO: We need to move the message out of the exception class.
 
-				string message;
+				string message = string.Empty;
 				if(_blogId == NullValue.NullInt32)
 				{
 					message = "<p>Creating/Activating this blog ";

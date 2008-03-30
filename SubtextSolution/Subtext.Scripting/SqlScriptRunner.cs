@@ -128,15 +128,15 @@ namespace Subtext.Scripting
 		/// <param name="transaction">The current transaction.</param>
 		public int Execute(SqlTransaction transaction)
 		{
-			int recordsAffectedTotal = 0;
-			SetNoCountOff(transaction);
+            int recordsAffectedTotal = 0;
+            SetNoCountOff(transaction);
 
 			// the following reg exp will be used to determine if each script is an
 			// INSERT, UPDATE, or DELETE operation. The reg exp is also only looking
 			// for these actions on the SubtextData database. <- do we need this last part?
 			string regextStr = @"(INSERT\sINTO\s[\s\w\d\)\(\,\.\]\[\>\<]+)|(UPDATE\s[\s\w\d\)\(\,\.\]\[\>\<]+SET\s)|(DELETE\s[\s\w\d\)\(\,\.\]\[\>\<]+FROM\s[\s\w\d\)\(\,\.\]\[\>\<]+WHERE\s)";
 			Regex regex = new Regex(regextStr, RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
-		
+	
 			scripts.ApplyTemplatesToScripts();
 			foreach(Script script in scripts)
 			{
@@ -159,7 +159,7 @@ namespace Subtext.Scripting
                     }
                     else
                     {
-						throw new SqlScriptExecutionException("An error occurred while executing the script.", script, returnValue);
+                        throw new SqlScriptExecutionException("An error occurred while executing the script.", script, returnValue);
                     }
 				}
 			}
@@ -221,62 +221,4 @@ namespace Subtext.Scripting
 			}
 		}
 	}
-
-	#region ...ScriptProgressEvent Declarations...
-	/// <summary>
-	/// Provides information about the progress of a running script.
-	/// </summary>
-	public class ScriptProgressEventArgs : EventArgs
-	{
-		int _scriptsExecutedCount;
-		int _rowsAffected;
-		Script _script;
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ScriptProgressEventArgs"/> class.
-		/// </summary>
-		/// <param name="scriptsExecutedCount">The scripts processed.</param>
-		/// <param name="rowsAffected">The rows affected.</param>
-		/// <param name="script">The script.</param>
-		public ScriptProgressEventArgs(int scriptsExecutedCount, int rowsAffected, Script script)
-		{
-			_scriptsExecutedCount = scriptsExecutedCount;
-			_rowsAffected = rowsAffected;
-			_script = script;
-		}
-
-		/// <summary>
-		/// Gets the scripts executed count.
-		/// </summary>
-		/// <value>The scripts executed count.</value>
-		public int ScriptsExecutedCount
-		{
-			get { return _scriptsExecutedCount; }
-		}
-
-		/// <summary>
-		/// Gets the number of rows affected by the last script.
-		/// </summary>
-		/// <value>The rows affected.</value>
-		public int RowsAffectedCount
-		{
-			get
-			{
-				return _rowsAffected;
-			}
-		}
-
-		/// <summary>
-		/// Gets the script.
-		/// </summary>
-		/// <value>The script.</value>
-		public Script Script
-		{
-			get
-			{
-				return _script;
-			}
-		}
-	}
-	#endregion
 }

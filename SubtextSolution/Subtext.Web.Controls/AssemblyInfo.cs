@@ -17,6 +17,7 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
+using System.Web.UI;
 
 //
 // General Information about an assembly is controlled through the following 
@@ -30,3 +31,5 @@ using System.Security.Permissions;
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution = true)]
+
+[assembly: WebResource("Subtext.Web.Controls.Resources.InvisibleCaptcha.js", "text/javascript")]

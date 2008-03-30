@@ -22,6 +22,15 @@ using Subtext.Framework.Threading;
 
 namespace Subtext.Framework.UrlManager
 {
+
+	public enum HandlerType
+	{
+		Direct,
+		Factory,
+		Page,
+		Directory,
+	};
+
 	/// <summary>
 	/// Class used to match URLS to the controls that render the URL.
 	/// </summary>
@@ -33,16 +42,16 @@ namespace Subtext.Framework.UrlManager
 		[XmlAttribute("pattern")]
 		public string Pattern
 		{
-			get { return this._pattern; }
-			set { this._pattern = value; }
+			get {return this._pattern;}
+			set {this._pattern = value;}
 		}
 
 		private string _type;
 		[XmlAttribute("type")]
 		public string Type
 		{
-			get { return this._type; }
-			set { this._type = value; }
+			get {return this._type;}
+			set {this._type = value;}
 		}
 
 		private string _PageLocation;
@@ -64,8 +73,8 @@ namespace Subtext.Framework.UrlManager
 		[XmlAttribute("pageLocation")]
 		public string PageLocation
 		{
-			get { return this._PageLocation; }
-			set { this._PageLocation = value; }
+			get {return this._PageLocation;}
+			set {this._PageLocation = value;}
 		}
 
 		/// <summary>
@@ -92,8 +101,8 @@ namespace Subtext.Framework.UrlManager
 		[XmlAttribute("directoryLocation")]
 		public string DirectoryLocation
 		{
-			get { return this._directoryLocation; }
-			set { this._directoryLocation = value; }
+			get {return this._directoryLocation;}
+			set {this._directoryLocation = value;}
 		}
 		string _directoryLocation = string.Empty;
 
@@ -106,9 +115,9 @@ namespace Subtext.Framework.UrlManager
 		/// <value></value>
 		public string FullPageLocation
 		{
-			get
+			get 
 			{
-				if (this._fullPageLocation == null && PageLocation != null)
+				if(this._fullPageLocation == null && PageLocation != null)
 				{
 					this._fullPageLocation = HttpContext.Current.Request.MapPath("~/" + PageLocation);
 				}
@@ -120,15 +129,15 @@ namespace Subtext.Framework.UrlManager
 		[XmlAttribute("controls")]
 		public string Controls
 		{
-			get { return this._controls; }
-			set { this._controls = value; }
+			get {return this._controls;}
+			set {this._controls = value;}
 		}
 
 		public string[] BlogControls
 		{
 			get
 			{
-				if (this.Controls != null)
+				if(this.Controls != null)
 				{
 					return this.Controls.Split(',');
 				}
@@ -139,30 +148,30 @@ namespace Subtext.Framework.UrlManager
 		private Type _httpHanlderType;
 		public Type HttpHanlderType
 		{
-			get
+			get 
 			{
-				if (this._httpHanlderType == null)
+				if(this._httpHanlderType == null)
 				{
-					using (TimedLock.Lock(handlerLock))
+					using(TimedLock.Lock(handlerLock))
 					{
-						if (this._httpHanlderType == null)
+						if(this._httpHanlderType == null)
 						{
 							this._httpHanlderType = System.Type.GetType(Type);
 						}
 					}
 				}
 				return this._httpHanlderType;
-			}
+			}		
 		}
 
-		private ConstructorInfo constructor;
+		private ConstructorInfo constructor = null;
 		public object Instance()
 		{
-			if (constructor == null)
+			if(constructor == null)
 			{
-				using (TimedLock.Lock(handlerLock))
+				using(TimedLock.Lock(handlerLock))
 				{
-					if (constructor == null)
+					if(constructor == null)
 					{
 						Type t = System.Type.GetType(this.Type);
 						constructor = t.GetConstructor(new Type[0]);
@@ -183,7 +192,7 @@ namespace Subtext.Framework.UrlManager
 			//do about it either
 			get
 			{
-				if (_urlRegex == null)
+				if(_urlRegex == null)
 				{
 					_urlRegex = new Regex(this.Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 				}
@@ -206,8 +215,8 @@ namespace Subtext.Framework.UrlManager
 		[XmlAttribute("handlerType")]
 		public HandlerType HandlerType
 		{
-			get { return this._handlerType; }
-			set { this._handlerType = value; }
+			get {return this._handlerType;}
+			set {this._handlerType = value;}
 		}
 	}
 }

@@ -1,3 +1,4 @@
+
 /*
 WARNING: This SCRIPT USES SQL TEMPLATE PARAMETERS.
 Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
@@ -153,7 +154,7 @@ CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Config] (
 	[DaysTillCommentsClose] [int] NULL ,
 	[CommentDelayInMinutes] [int] NULL ,
 	[NumberOfRecentComments] [int] NULL,
-	[RecentCommentsLength] [int] NULL,
+	[RecentCommentsLength] [int] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 

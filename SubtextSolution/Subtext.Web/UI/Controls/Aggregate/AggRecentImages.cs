@@ -2,14 +2,14 @@ using System;
 using System.Data;
 using System.Web;
 using System.Web.UI.WebControls;
-using Subtext.Data;
+using Subtext.Framework.Providers;
 using System.Globalization;
 using Subtext.Framework;
 using System.Text.RegularExpressions;
 
 namespace Subtext.Web.UI.Controls
 {
-    public class AggRecentImages : BaseControl
+    public partial class AggRecentImages : BaseControl
     {
         protected Repeater RecentImages;
 
@@ -28,22 +28,23 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            int groupID = 0;
+            int GroupID = 0;
 
             if (Request.QueryString["GroupID"] != null)
             {
-                Int32.TryParse(Request.QueryString["GroupID"], out groupID);
+                try
+                {
+                    GroupID = Int32.Parse(Request.QueryString["GroupID"]);
+                }
+                catch { }
+
             }
 
-        	DataSet ds = StoredProcedures.DNWGetRecentImages(BlogInfo.AggregateBlog.Host, groupID).GetDataSet();
-			if (ds.Tables.Count > 0)
-			{
-				DataTable dt = ds.Tables[0];
-				while (dt.Rows.Count > _Count)
-					dt.Rows.RemoveAt(dt.Rows.Count - 1);
-				RecentImages.DataSource = dt;
-				RecentImages.DataBind();
-			}
+            DataTable dt = DbProvider.Instance().GetAggregateRecentImages(GroupID);
+            while (dt.Rows.Count > _Count)
+                dt.Rows.RemoveAt(dt.Rows.Count - 1);
+            RecentImages.DataSource = dt;
+            RecentImages.DataBind();
         }
 
         protected string GetEntryUrl(string host, string app, string entryName, DateTime dt)
@@ -53,7 +54,7 @@ namespace Subtext.Web.UI.Controls
          
 
         private string appPath;
-    	readonly string fullUrl = HttpContext.Current.Request.Url.Scheme + "://{0}{1}{2}/";
+        string fullUrl = HttpContext.Current.Request.Url.Scheme + "://{0}{1}{2}/";
         protected string GetFullUrl(string host, string app)
         {
             if (appPath == null)
@@ -79,7 +80,7 @@ namespace Subtext.Web.UI.Controls
         {
             if (app != string.Empty)
                 app = "/" + app;
-			string baseImagePath = Images.GalleryVirtualUrl(Int32.Parse(catID));
+            string baseImagePath = Images.HttpGalleryFilePath(Context, Int32.Parse(catID));
             string virtualPath = "http://" + host + string.Format(CultureInfo.InvariantCulture, "/images/{0}{1}/", Regex.Replace(host, @"\:|\.", "_"), app);
             return virtualPath + baseImagePath + "t_" + imageFile;
         }
@@ -88,7 +89,7 @@ namespace Subtext.Web.UI.Controls
         {
             if (app != string.Empty)
                 app = "/" + app;
-			string baseImagePath = Images.GalleryVirtualUrl(Int32.Parse(catID)).Replace("/", "");
+            string baseImagePath = Images.HttpGalleryFilePath(Context, Int32.Parse(catID)).Replace("/", "");
             return "http://" + host + app + "/Gallery/" + baseImagePath + ".aspx";
         }
 
@@ -96,7 +97,7 @@ namespace Subtext.Web.UI.Controls
         {
             if (app != string.Empty)
                 app = "/" + app;
-			string baseImagePath = Images.GalleryVirtualUrl(Int32.Parse(catID));
+            string baseImagePath = Images.HttpGalleryFilePath(Context, Int32.Parse(catID));
             string virtualPath = "http://" + host + string.Format(CultureInfo.InvariantCulture, "/images/{0}{1}/", Regex.Replace(host, @"\:|\.", "_"), app);
             return virtualPath + baseImagePath + "r_" + imageFile;
         }

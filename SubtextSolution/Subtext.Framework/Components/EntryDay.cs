@@ -31,9 +31,9 @@ namespace Subtext.Framework.Components
 		{
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="EntryDay">EntryDay</see> class.
-		/// </summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntryDay">EntryDay</see> class.
+        /// </summary>
 		public EntryDay(DateTime dt)
 		{
 			BlogDay = dt;
@@ -42,16 +42,16 @@ namespace Subtext.Framework.Components
 		private DateTime _blogday;
 		public DateTime BlogDay
 		{
-			get { return _blogday; }
-			set { _blogday = value; }
+			get{return _blogday;}
+			set{_blogday = value;}
 		}
 
 
 		private string _link;
 		public string Link
 		{
-			get { return _link; }
-			set { _link = value; }
+			get{return _link;}
+			set{_link = value;}
 		}
 	}
 }

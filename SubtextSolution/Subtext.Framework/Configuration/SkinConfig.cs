@@ -53,8 +53,8 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		public string TemplateFolder
 		{
-			get{return templateFolder;}
-			set{templateFolder = value;}
+			get{return this.templateFolder;}
+			set{this.templateFolder = value;}
 		}
 
 		private string templateFolder;
@@ -68,8 +68,8 @@ namespace Subtext.Framework.Configuration
 		/// <value>The skin CSS file.</value>
 		public string SkinStyleSheet
 		{
-			get{return skinStyleSheet;}
-			set{skinStyleSheet = value;}
+			get{return this.skinStyleSheet;}
+			set{this.skinStyleSheet = value;}
 		}
 
 		private string skinStyleSheet;
@@ -79,8 +79,8 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		public string CustomCssText
 		{
-			get{return customCssText;}
-			set{customCssText = value;}
+			get{return this.customCssText;}
+			set{this.customCssText = value;}
 		}
 		
 		private string customCssText;
@@ -94,7 +94,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				return SkinStyleSheet != null && SkinStyleSheet.Trim().Length > 0;
+				return this.SkinStyleSheet != null && this.SkinStyleSheet.Trim().Length > 0;
 			}
 		}
 
@@ -105,7 +105,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				return CustomCssText != null && CustomCssText.Trim().Length > 0;
+				return this.CustomCssText != null && this.CustomCssText.Trim().Length > 0;
 			}
 		}
 
@@ -116,11 +116,11 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				if(HasStyleSheet)
+				if(this.HasStyleSheet)
 				{
-					return TemplateFolder + "-" + SkinStyleSheet;
+					return this.TemplateFolder + "-" + this.SkinStyleSheet;
 				}
-				return TemplateFolder;
+				return this.TemplateFolder;
 			}
 		}
 	}

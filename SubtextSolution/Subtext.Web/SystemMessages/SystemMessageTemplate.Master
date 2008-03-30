@@ -9,7 +9,7 @@
 	<body>
 		<form id="frmMain" method="post" runat="server">
 			<div id="main">
-				<div id="logo"><asp:Image id="logoImage" runat="server" ImageUrl="~/images/SubtextLogo.png" /></div>
+				<div id="logo"></div>
 				<h1><asp:ContentPlaceHolder id="MPTitle" runat="server" /></h1>
 				<h2><asp:ContentPlaceHolder id="MPSubTitle" runat="server" /></h2>
 				<asp:ContentPlaceHolder id="Content" runat="server" />		

@@ -34,67 +34,83 @@ using Subtext.Framework.Logging;
 namespace Subtext.Framework.Data
 {
 	/// <summary>
-	/// Contains helper methods for getting blog entries from the database
-	/// into objects such as List of EntryDay.
+	/// Contains helper methods for getting blog entries from the database 
+	/// into objects such as <see cref="Entry" />
 	/// </summary>
 	public static class DataHelper
 	{
 		#region Statisitics
 
-		/// <summary>
-		/// Loads the referrer from the data reader.
-		/// </summary>
-		/// <param name="reader">The reader.</param>
-		/// <returns></returns>
-		public static Referrer LoadReferrer(IDataReader reader)
+		public static ViewStat LoadViewStat(IDataReader reader)
 		{
-			Referrer referrer = new Referrer();
-
-			if (reader["URL"] != DBNull.Value)
-				referrer.ReferrerURL = (string) reader["URL"];
+			ViewStat vStat = new ViewStat();
 
 			if (reader["Title"] != DBNull.Value)
-				referrer.PostTitle = (string) reader["Title"];
-
-			if (reader["EntryID"] != DBNull.Value)
-				referrer.EntryID = (int) reader["EntryID"];
-
-			if (reader["LastUpdated"] != DBNull.Value)
-				referrer.LastReferDate = (DateTime) reader["LastUpdated"];
+			{
+				vStat.PageTitle = (string) reader["Title"];
+			}
 
 			if (reader["Count"] != DBNull.Value)
-				referrer.Count = (int) reader["Count"];
+			{
+				vStat.ViewCount = (int) reader["Count"];
+			}
 
-			if (Config.CurrentBlog != null)
-				referrer.BlogID = Config.CurrentBlog.Id;
+			if (reader["Day"] != DBNull.Value)
+			{
+				vStat.ViewDate = (DateTime) reader["Day"];
+			}
 
-			return referrer;
+			if (reader["PageType"] != DBNull.Value)
+			{
+				vStat.PageType = (PageType)((byte)reader["PageType"]);
+			}
+
+            return vStat;
+		}
+
+		public static Referrer LoadReferrer(IDataReader reader)
+		{
+			Referrer refer = new Referrer();
+
+
+			if (reader["URL"] != DBNull.Value)
+			{
+				refer.ReferrerURL = (string) reader["URL"];
+			}
+
+			if (reader["Title"] != DBNull.Value)
+			{
+				refer.PostTitle = (string) reader["Title"];
+			}
+
+			if (reader["EntryID"] != DBNull.Value)
+			{
+				refer.EntryID = (int) reader["EntryID"];
+			}
+
+			if (reader["LastUpdated"] != DBNull.Value)
+			{
+				refer.LastReferDate = (DateTime) reader["LastUpdated"];
+			}
+
+			if (reader["Count"] != DBNull.Value)
+			{
+				refer.Count = (int) reader["Count"];
+			}
+
+			return refer;
 		}
 
 		#endregion
 
 		#region EntryDayCollection
 
-		/// <summary>
-		/// Determines whether the new date is a new day as compared to the current date.
-		/// </summary>
-		/// <param name="currentDate">The current date.</param>
-		/// <param name="newDate">The new date.</param>
-		/// <returns>
-		/// 	<c>true</c> if [is new day] [the specified dt current]; otherwise, <c>false</c>.
-		/// </returns>
-		private static bool IsNewDay(DateTime currentDate, DateTime newDate)
+		private static bool IsNewDay(DateTime dtCurrent, DateTime dtDay)
 		{
-			return !(currentDate.DayOfYear == newDate.DayOfYear && currentDate.Year == newDate.Year);
+			return !(dtCurrent.DayOfYear == dtDay.DayOfYear && dtCurrent.Year == dtDay.Year);
 		}
 
-		/// <summary>
-		/// Loads the entry day collection from the data reader.
-		/// </summary>
-		/// <param name="reader">The reader.</param>
-		/// <returns></returns>
-        /// <param name="buildLinks"></param>
-        public static ICollection<EntryDay> LoadEntryDayCollection(IDataReader reader, bool buildLinks)
+        public static ICollection<EntryDay> LoadEntryDayCollection(IDataReader reader)
 		{
 			DateTime dt = new DateTime(1900, 1, 1);
 			List<EntryDay> edc = new List<EntryDay>();
@@ -102,21 +118,18 @@ namespace Subtext.Framework.Data
 
 			while(reader.Read())
 			{
-                DateTime syndicatedDate = ReadDate(reader, "DateSyndicated");
-                if (syndicatedDate == NullValue.NullDateTime || syndicatedDate <= Config.CurrentBlog.TimeZone.Now)
-                {
-                    if (IsNewDay(dt, syndicatedDate))
-                    {
-                        dt = syndicatedDate;
-                        day = new EntryDay(dt);
-                        edc.Add(day);
-                    }
-                    if (day != null)
-                        day.Add(LoadEntry(reader, buildLinks));
-                }
+				if(IsNewDay(dt, (DateTime)reader["DateAdded"]))
+				{
+					dt = (DateTime)reader["DateAdded"];
+					day = new EntryDay(dt);
+					edc.Add(day);
+				}
+				day.Add(LoadEntry(reader));
 			}
 			return edc;
 		}
+
+
 		#endregion
 
 		#region EntryCollection
@@ -125,11 +138,7 @@ namespace Subtext.Framework.Data
             List<Entry> entries = new List<Entry>();
             while(reader.Read())
             {
-                DateTime syndicatedDate = ReadDate(reader, "DateSyndicated");
-                if (NullValue.IsNull(syndicatedDate) || syndicatedDate <= Config.CurrentBlog.TimeZone.Now)
-                {
-                    entries.Add(LoadEntry(reader));
-                }
+                entries.Add(LoadEntry(reader));
             }
 
             if(entries.Count > 0 && reader.NextResult())
@@ -223,11 +232,14 @@ namespace Subtext.Framework.Data
 				entry.AggLastUpdated = (DateTime)reader["AggLastUpdated"];	
 			}
 
-			if(reader["AuthorId"] != DBNull.Value)
+			if(reader["Author"] != DBNull.Value)
 			{
-				entry.authorId = ReadGuid(reader, "AuthorId");
+				entry.Author = ReadString(reader, "Author");
 			}
-			
+			if(reader["Email"] != DBNull.Value)
+			{
+				entry.Email = ReadString(reader, "Email");
+			}
 			entry.DateCreated = (DateTime)reader["DateAdded"];
 			
 			if(reader["DateUpdated"] != DBNull.Value)
@@ -330,7 +342,7 @@ namespace Subtext.Framework.Data
 			feedbackItem.Email = ReadString(reader, "Email");
 			feedbackItem.SourceUrl = ReadUri(reader, "Url");
 			feedbackItem.FeedbackType = (FeedbackType)ReadInt32(reader, "FeedbackType");
-			feedbackItem.Status = (FeedbackStatusFlags)ReadInt32(reader, "StatusFlag");
+			feedbackItem.Status = (FeedbackStatusFlag)ReadInt32(reader, "StatusFlag");
 			feedbackItem.CreatedViaCommentAPI = ReadBoolean(reader, "CommentAPI");
 			feedbackItem.Referrer = ReadString(reader, "Referrer");
 			feedbackItem.IpAddress = ReadIpAddress(reader, "IpAddress");
@@ -352,12 +364,12 @@ namespace Subtext.Framework.Data
 
 		private static void LoadEntry(IDataReader reader, Entry entry, bool buildLinks)
 		{
-			entry.authorId = ReadGuid(reader, "AuthorId");
+			entry.Author = ReadString(reader, "Author");
+			entry.Email = ReadString(reader, "Email");
 			entry.DateCreated = ReadDate(reader, "DateAdded");
 			entry.DateModified = ReadDate(reader, "DateUpdated");
 			
 			entry.Id = ReadInt32(reader, "ID");
-			entry.BlogId = ReadInt32(reader, "BlogId");
 			entry.Description = ReadString(reader, "Description");
 			entry.EntryName = ReadString(reader, "EntryName");
 	
@@ -397,43 +409,37 @@ namespace Subtext.Framework.Data
 
 		#region Categories
 
-		/// <summary>
-		/// Loads the link category.
-		/// </summary>
-		/// <param name="reader">The reader.</param>
-		/// <returns></returns>
 		public static LinkCategory LoadLinkCategory(IDataReader reader)
 		{
-			LinkCategory linkCategory = new LinkCategory(ReadInt32(reader, "CategoryID"), ReadString(reader, "Title"));
-			linkCategory.IsActive = (bool)reader["Active"];
+			LinkCategory lc = new LinkCategory(ReadInt32(reader, "CategoryID"), ReadString(reader, "Title"));
+			lc.IsActive = (bool)reader["Active"];
 			if(reader["CategoryType"] != DBNull.Value)
-				linkCategory.CategoryType = (CategoryType)((byte)reader["CategoryType"]);
-
+			{
+				lc.CategoryType = (CategoryType)((byte)reader["CategoryType"]);
+			}
 			if(reader["Description"] != DBNull.Value)
-				linkCategory.Description = ReadString(reader, "Description");
-
-			if (Config.CurrentBlog != null)
-				linkCategory.BlogId = Config.CurrentBlog.Id;
-			return linkCategory;
+			{
+				lc.Description = ReadString(reader, "Description");
+			}
+			return lc;
 		}
 
 		public static LinkCategory LoadLinkCategory(DataRow dr)
 		{
-			LinkCategory linkCategory = new LinkCategory((int)dr["CategoryID"], (string)dr["Title"]);
+			LinkCategory lc = new LinkCategory((int)dr["CategoryID"], (string)dr["Title"]);
 			
 			// Active cannot be null.
-			linkCategory.IsActive = (bool)dr["Active"];
+			lc.IsActive = (bool)dr["Active"];
 
 			if(dr["CategoryType"] != DBNull.Value)
-				linkCategory.CategoryType = (CategoryType)((byte)dr["CategoryType"]);
-			
+			{
+				lc.CategoryType = (CategoryType)((byte)dr["CategoryType"]);
+			}
 			if(dr["Description"] != DBNull.Value)
-				linkCategory.Description = (string)dr["Description"];
-
-			if (Config.CurrentBlog != null)
-				linkCategory.BlogId = Config.CurrentBlog.Id;
-
-			return linkCategory;
+			{
+				lc.Description = (string)dr["Description"];
+			}
+			return lc;
 		}
 
 		#endregion
@@ -447,31 +453,37 @@ namespace Subtext.Framework.Data
 			link.IsActive = (bool)reader["Active"];
 
 			if(reader["NewWindow"] != DBNull.Value)
+			{
 				link.NewWindow = (bool)reader["NewWindow"];
+			}
 
 			// LinkID cannot be null
 			link.Id = ReadInt32(reader, "LinkID");
 			
 			if(reader["Rss"] != DBNull.Value)
+			{
 				link.Rss = ReadString(reader, "Rss");
+			}
 			
 			if(reader["Url"] != DBNull.Value)
+			{
 				link.Url = ReadString(reader, "Url");
+			}
 			
 			if(reader["Title"] != DBNull.Value)
+			{
 				link.Title = ReadString(reader, "Title");
+			}
 
 			if(reader["CategoryID"] != DBNull.Value)
+			{
 				link.CategoryID = ReadInt32(reader, "CategoryID");
+			}
 			
 			if(reader["PostID"] != DBNull.Value)
+			{
 				link.PostID = ReadInt32(reader, "PostID");
-			if (link.PostID < 0)
-				link.PostID = NullValue.NullInt32;
-
-			if (Config.CurrentBlog != null)
-				link.BlogId = Config.CurrentBlog.Id;
-
+			}
 			return link;
 		}
 
@@ -482,26 +494,37 @@ namespace Subtext.Framework.Data
 			link.IsActive = (bool)dr["Active"];
 			
 			if(dr["NewWindow"] != DBNull.Value)
+			{
 				link.NewWindow = (bool)dr["NewWindow"];
+			}
 
 			//LinkID cannot be null.
 			link.Id = (int)dr["LinkID"];
 			
 			if(dr["Rss"] != DBNull.Value)
+			{
 				link.Rss = (string)dr["Rss"];
+			}
 			
 			if(dr["Url"] != DBNull.Value)
+			{
 				link.Url = (string)dr["Url"];
+			}
 			
 			if(dr["Title"] != DBNull.Value)
+			{
 				link.Title = (string)dr["Title"];
+			}
 			
 			if(dr["CategoryID"] != DBNull.Value)
+			{
 				link.CategoryID = (int)dr["CategoryID"];
+			}
 			
 			if(dr["PostID"] != DBNull.Value)
+			{
 				link.PostID = (int)dr["PostID"];
-
+			}
 			return link;
 		}
 
@@ -509,15 +532,17 @@ namespace Subtext.Framework.Data
 
 		#region Config
 
-		public static BlogInfo LoadBlog(IDataReader reader)
+		public static BlogInfo LoadConfigData(IDataReader reader)
 		{
 			BlogInfo info = new BlogInfo();
+			info.Author = ReadString(reader, "Author");
 			info.Id = ReadInt32(reader, "BlogId");
+			info.Email = ReadString(reader, "Email");
+			info.Password = ReadString(reader, "Password");
 
-			info._ownerId = ReadGuid(reader, "OwnerId");
-			info.ApplicationName = ReadString(reader, "ApplicationName");
 			info.SubTitle = ReadString(reader, "SubTitle");
 			info.Title = ReadString(reader, "Title");
+			info.UserName = ReadString(reader, "UserName");
 			info.TimeZoneId = ReadInt32(reader, "TimeZone");
 			info.ItemCount = ReadInt32(reader, "ItemCount");
 			info.CategoryListPostCount = ReadInt32(reader, "CategoryListPostCount");
@@ -529,16 +554,15 @@ namespace Subtext.Framework.Data
 			info.StoryCount = ReadInt32(reader, "StoryCount");
 			info.PingTrackCount = ReadInt32(reader, "PingTrackCount");
 			info.News = ReadString(reader, "News");
-			info.CustomMetaTags = ReadString(reader, "CustomMetaTags");
 			info.TrackingCode = ReadString(reader, "TrackingCode");	
 			
 			info.LastUpdated = ReadDate(reader, "LastUpdated", new DateTime(2003, 1 , 1));
 			info.Host = ReadString(reader, "Host");
 			// The Subfolder property is stored in the Application column. 
 			// This is a result of the legacy schema.
-			info.Subfolder = ReadString(reader, "Subfolder");
+			info.Subfolder = ReadString(reader, "Application");
 
-			info.Flag = (ConfigurationFlags)(ReadInt32(reader, "Flag"));
+			info.Flag = (ConfigurationFlag)(ReadInt32(reader, "Flag"));
 
 			info.Skin = new SkinConfig();
 			info.Skin.TemplateFolder = ReadString(reader, "Skin");
@@ -565,12 +589,13 @@ namespace Subtext.Framework.Data
         public static ICollection<ArchiveCount> LoadArchiveCount(IDataReader reader)
 		{
 			const string dateformat = "{0:00}/{1:00}/{2:0000}";
-			
+			string dt; //
+			ArchiveCount ac;// new ArchiveCount();
             ICollection<ArchiveCount> acc = new Collection<ArchiveCount>();
 			while(reader.Read())
 			{
-				ArchiveCount ac = new ArchiveCount();
-				string dt = string.Format(CultureInfo.InvariantCulture, dateformat, ReadInt32(reader, "Month"),ReadInt32(reader, "Day"),ReadInt32(reader, "Year"));
+				ac = new ArchiveCount();
+				dt = string.Format(CultureInfo.InvariantCulture, dateformat, ReadInt32(reader, "Month"),ReadInt32(reader, "Day"),ReadInt32(reader, "Year"));
 				// FIX: BUG SF1423271 Archives Links
 				ac.Date = DateTime.ParseExact(dt,"MM/dd/yyyy",CultureInfo.InvariantCulture);
                 
@@ -603,13 +628,9 @@ namespace Subtext.Framework.Data
 
 		public static Image LoadImage(IDataReader reader)
 		{
-			if (reader == null)
-				return null;
-
 			Image _image = new Image();
-			_image.BlogId = Config.CurrentBlog.Id;
 			_image.CategoryID = ReadInt32(reader, "CategoryID");
-			_image.FileName = ReadString(reader, "File");
+			_image.File = ReadString(reader, "File");
 			_image.Height = ReadInt32(reader, "Height");
 			_image.Width = ReadInt32(reader, "Width");
 			_image.ImageID = ReadInt32(reader, "ImageID");
@@ -687,7 +708,7 @@ namespace Subtext.Framework.Data
 		{
 			if (String.IsNullOrEmpty(text))
 			{
-				return System.DBNull.Value;
+				return DBNull.Value;
 			}
 			else
 			{
@@ -716,13 +737,14 @@ namespace Subtext.Framework.Data
 		/// Loads the host from the data reader.
 		/// </summary>
 		/// <param name="reader">Reader.</param>
+		/// <param name="info">HostInfo</param>
 		/// <returns></returns>
-		/// <param name="info"></param>
 		public static void LoadHost(IDataReader reader, HostInfo info)
 		{
-			info._ownerId = ReadGuid(reader, "OwnerId");
-			info.ApplicationId = ReadGuid(reader, "ApplicationId");
-			info.DateCreated = ReadDate(reader, "DateCreated");
+			info.HostUserName = ReadString(reader, "HostUserName");
+			info.Password = ReadString(reader, "Password");
+			info.Salt = ReadString(reader, "Salt");
+			info.DateCreated = (DateTime)reader["DateCreated"];
 		}
 		#endregion
 
@@ -749,19 +771,6 @@ namespace Subtext.Framework.Data
 		}
 		#endregion
 
-		#region Plugins
-
-		public static NameValueCollection LoadPluginSettings(IDataReader reader)
-		{
-			NameValueCollection nvc = new NameValueCollection(1);
-			string key = ReadString(reader, "Key");
-			string value = ReadString(reader, "Value");
-			nvc.Add(key, value);
-			return nvc;
-		}
-
-		#endregion
-
 		/// <summary>
 		/// Reads the int from the data reader.
 		/// </summary>
@@ -779,8 +788,8 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="reader">The reader.</param>
 		/// <param name="columnName">Name of the column.</param>
+		/// <param name="defaultValue">devault value for the field</param>
 		/// <returns></returns>
-		/// <param name="defaultValue"></param>
 		public static int ReadInt32(IDataReader reader, string columnName, int defaultValue)
 		{
 			try
@@ -815,28 +824,6 @@ namespace Subtext.Framework.Data
 			catch (IndexOutOfRangeException)
 			{
 				return false;
-			}
-		}
-
-		/// <summary>
-		/// Reads a guid from the data reader. If the value is null, 
-		/// returns false.
-		/// </summary>
-		/// <param name="reader">The reader.</param>
-		/// <param name="columnName">Name of the column.</param>
-		/// <returns></returns>
-		public static Guid ReadGuid(IDataReader reader, string columnName)
-		{
-			try
-			{
-				if (reader[columnName] != DBNull.Value)
-					return (Guid)reader[columnName];
-				else
-					return Guid.Empty;
-			}
-			catch (IndexOutOfRangeException)
-			{
-				return Guid.Empty;
 			}
 		}
 
@@ -950,7 +937,6 @@ namespace Subtext.Framework.Data
 		/// <param name="columnName">Name of the column.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns></returns>
-		/// <param name="defaultValue"></param>
 		public static DateTime ReadDate(IDataReader reader, string columnName, DateTime defaultValue)
 		{
 			try
@@ -996,30 +982,18 @@ namespace Subtext.Framework.Data
 			return MakeParam(ParamName, DbType, Size, ParameterDirection.Output, null);
 		}
 
-
 		/// <summary>
-		/// Creates a SqlParameter to store the return value of a stored proc.
+		/// Make stored procedure param.
 		/// </summary>
-		/// <returns></returns>
-		public static SqlParameter MakeReturnValueParam()
+		/// <param name="ParamName">Name of param.</param>
+		/// <param name="DbType">Param type.</param>
+		/// <param name="Size">Param size.</param>
+		/// <param name="Direction">Parm direction.</param>
+		/// <param name="Value">Param value.</param>
+		/// <returns>New parameter.</returns>
+		public static SqlParameter MakeParam(string ParamName, SqlDbType DbType, Int32 Size, ParameterDirection Direction, object Value)
 		{
-			SqlParameter returnValue = new SqlParameter("@RETURN_VALUE", SqlDbType.Int);
-			returnValue.Direction = ParameterDirection.ReturnValue;
-			return returnValue;
-		}
-
-        /// <summary>
-        /// Make stored procedure param.
-        /// </summary>
-        /// <param name="ParamName">Name of param.</param>
-        /// <param name="DbType">Param type.</param>
-        /// <param name="Size">Param size.</param>
-        /// <param name="Direction">Parm direction.</param>
-        /// <param name="Value">Param value.</param>
-        /// <returns>New parameter.</returns>
-        public static SqlParameter MakeParam(string ParamName, SqlDbType DbType, Int32 Size, ParameterDirection Direction, object Value)
-        {
-            SqlParameter param;
+			SqlParameter param;
 
 			if (Size > 0)
 				param = new SqlParameter(ParamName, DbType, Size);
@@ -1033,18 +1007,18 @@ namespace Subtext.Framework.Data
 			return param;
 		}
 
-	    /// <summary>
-	    /// Checks the value type and returns null if the 
-	    /// value is "null-equivalent".
-	    /// </summary>
-	    /// <param name="obj">The obj.</param>
-	    /// <returns></returns>
-	    public static int? CheckNull(int obj)
-	    {
-	        if(NullValue.IsNull(obj))
-	            return null;
-	        return obj;
-	    }
+		/// <summary>
+		/// Checks the value type and returns null if the 
+		/// value is "null-equivalent".
+		/// </summary>
+		/// <param name="obj">The obj.</param>
+		/// <returns></returns>
+		public static object CheckNull(int obj)
+		{
+			if(NullValue.IsNull(obj))
+				return null;
+			return obj;
+		}
 
 		/// <summary>
 		/// Returns an empty string if the value is null.
@@ -1088,25 +1062,13 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="dateTime">Date time.</param>
 		/// <returns></returns>
-		public static DateTime? CheckNull(DateTime dateTime)
+		public static object CheckNull(DateTime dateTime)
 		{
 			if(NullValue.IsNull(dateTime))
 				return null;
 			return dateTime;
 		}
 
-		/// <summary>
-		/// Checks the value of the specified value type for a null value.  
-		/// Returns null if the value represents a null value
-		/// </summary>
-		/// <param name="guid">Date time.</param>
-		/// <returns></returns>
-		public static object CheckNull(Guid guid)
-		{
-			if (NullValue.IsNull(guid))
-				return null;
-			return guid;
-		}
 		internal static void DebugPrintCommand(SqlCommand command)
 		{
 			Console.Write(command.CommandText);
@@ -1333,5 +1295,17 @@ namespace Subtext.Framework.Data
 			}
 		}
 		#endregion ExecuteDataTable
+	}
+
+	/// <summary>
+	/// Sort direction.
+	/// </summary>
+	public enum SortDirection
+	{
+		None = 0,
+		/// <summary>Sort ascending</summary>
+		Ascending,
+		/// <summary>Sort descending</summary>
+		Descending
 	}
 }

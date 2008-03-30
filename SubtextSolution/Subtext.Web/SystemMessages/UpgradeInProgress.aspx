@@ -4,13 +4,13 @@
 <asp:Content id="mainContent" ContentPlaceHolderID="Content" runat="server">
 	<asp:PlaceHolder id="plcUpgradeInProgressMessage" runat="server" Visible="false">
 		<p>
-			<strong>This blog is in the middle of an upgrade. Please be patient and it will 
-			be back shortly.</strong>
+			This blog is in the middle of an upgrade. Please be patient and it will 
+			be back shortly. 
 		</p>
 		<p>
-			If you are the host administrator of this installation, and the upgrade 
-			does not complete within five minutes, check the contents of the <code>subtext_Log</code> 
-			table for error messages regarding the upgrade.
+			If you are the Host Admin, please 
+			<a href="~/HostAdmin/Upgrade/" id="hostAdminLink" runat="server">click here</a> 
+			to complete the upgrade.
 		</p>
 	</asp:PlaceHolder>
 	

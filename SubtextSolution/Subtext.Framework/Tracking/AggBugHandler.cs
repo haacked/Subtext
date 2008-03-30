@@ -21,7 +21,6 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Web;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Tracking
 {
@@ -30,8 +29,14 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public class AggBugHandler : IHttpHandler
 	{
-		ILog Log = new Logging.Log();
-
+		ILog Log = new Subtext.Framework.Logging.Log();
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AggBugHandler"/> class.
+		/// </summary>
+		public AggBugHandler()
+		{
+		}
 
 		static AggBugHandler()
 		{
@@ -53,11 +58,6 @@ namespace Subtext.Framework.Tracking
 		/// <see langword=""/> used to service HTTP requests.</param>
 		public void ProcessRequest(HttpContext context)
 		{
-            if (context == null)
-            {
-                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
-            }
-
 			Log.Debug("Entering AggBug Request...");
 			//Check to see if we have sent the 1x1 image in the last 12 hours (requires If-Modified-Since header)
 			if(CachedVersionIsOkay())
@@ -76,7 +76,7 @@ namespace Subtext.Framework.Tracking
 				{
 					EntryView ev = new EntryView();
 					ev.BlogId = Config.CurrentBlog.Id;
-					ev.EntryId = EntryID;
+					ev.EntryID = EntryID;
 					ev.PageViewType = PageViewType.AggView;
 					EntryTracker.Track(ev);
 				}
@@ -94,7 +94,7 @@ namespace Subtext.Framework.Tracking
 			Log.Debug("Leaving AggBug Request...");			
 		}
 
-		private static bool CachedVersionIsOkay()
+		private bool CachedVersionIsOkay()
 		{
 			//Get header value
 			DateTime dt = HttpHelper.GetIfModifiedSinceDateUTC();

@@ -17,13 +17,11 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Configuration.Provider;
-using System.Globalization;
 using BlogML.Xml;
 using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
-using Subtext.BlogML.Properties;
 
 namespace Subtext.BlogML
 {
@@ -70,34 +68,28 @@ namespace Subtext.BlogML
 		/// </para>
 		/// </remarks>
 		/// <param name="name">The name.</param>
-		/// <param name="config">The config value.</param>
-		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
+		/// <param name="configValue">The config value.</param>
+		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
-			if (name == null)
-				throw new ArgumentNullException("name", Resources.ArgumentNull_String);
-			
-			if (config == null)
-				throw new ArgumentNullException("config", Resources.ArgumentNull_Collection);
-			
-			if (!String.IsNullOrEmpty(config["connectionStringName"]))
+			if (!String.IsNullOrEmpty(configValue["connectionStringName"]))
 			{
-				ConnectionStringSettings connection = ConfigurationManager.ConnectionStrings[config["connectionStringName"]];
+				ConnectionStringSettings connection = ConfigurationManager.ConnectionStrings[configValue["connectionStringName"]];
 				if (connection == null)
-					throw new ProviderException(string.Format(CultureInfo.InvariantCulture, Resources.Configuration_KeyNotFound, config["connectionStringName"]));
+					throw new ProviderException(string.Format("No connection string matches the key '{0}'.", configValue["connectionStringName"]));
 				this.connectionString = connection.ConnectionString;
 			}
 
-			if (!String.IsNullOrEmpty(config["connectionString"]))
-				this.connectionString = config["connectionString"];
+			if (!String.IsNullOrEmpty(configValue["connectionString"]))
+				this.connectionString = configValue["connectionString"];
 			
-			if(!String.IsNullOrEmpty(config["pageSize"]))
+			if(!String.IsNullOrEmpty(configValue["pageSize"]))
 			{
 				int postPageSize;
-				if (int.TryParse(config["pageSize"], out postPageSize))
+				if (int.TryParse(configValue["pageSize"], out postPageSize))
 					this.pageSize = postPageSize;
 			}
 
-			base.Initialize(name, config);
+			base.Initialize(name, configValue);
 		}
 
 		/// <summary>
@@ -153,7 +145,7 @@ namespace Subtext.BlogML
 		/// happens to be running in.
 		/// </summary>
 		/// <returns></returns>
-		public abstract IBlogMLContext GetBlogMLContext();
+		public abstract IBlogMLContext GetBlogMlContext();
 
 		/// <summary>
 		/// Returns a strategy object responsible for handling Id conversions 
@@ -202,17 +194,18 @@ namespace Subtext.BlogML
 		/// <summary>
 		/// Creates a blog post and returns the id.
 		/// </summary>
+        /// <param name="blog"></param>
 		/// <param name="post"></param>
 		/// <param name="content">The rewritten content of the post.</param>
 		/// <param name="categoryIdMap">A dictionary used to map the blogml category id to the internal category id.</param>
 		/// <returns></returns>
-		public abstract string CreateBlogPost(BlogMLPost post, string content, IDictionary<string, string> categoryIdMap);
+		public abstract string CreateBlogPost(BlogMLBlog blog, BlogMLPost post, string content, IDictionary<string, string> categoryIdMap);
 
 		/// <summary>
 		/// Creates a comment in the system.
 		/// </summary>
-		/// <param name="comment"></param>
-		public abstract void CreatePostComment(BlogMLComment comment, string newPostId);
+		/// <param name="bmlComment"></param>
+		public abstract void CreatePostComment(BlogMLComment bmlComment, string newPostId);
 
 		/// <summary>
 		/// Creates a trackback for the post.
@@ -230,7 +223,7 @@ namespace Subtext.BlogML
 		/// Lets the provider decide how to log errors.
 		/// </summary>
 		/// <param name="message"></param>
-        /// <param name="exception"></param>
-        public abstract void LogError(string message, Exception exception);
+		/// <param name="e"></param>
+		public abstract void LogError(string message, Exception e);
 	}
 }

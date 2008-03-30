@@ -20,7 +20,6 @@ using System.Web.Security;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
-using Subtext.Framework.Properties;
 using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework.UrlManager
@@ -32,10 +31,8 @@ namespace Subtext.Framework.UrlManager
 	/// to match the current request to. It also allows caching of the 
 	/// Regex's and Types.
 	/// </summary>
-	public class UrlReWriteHandlerFactory : IHttpHandlerFactory
+	public class UrlReWriteHandlerFactory :  IHttpHandlerFactory
 	{	
-		public UrlReWriteHandlerFactory() { } //Nothing to do in the cnstr
-
 		protected virtual HttpHandler[] GetHttpHandlers()
 		{
 			return HandlerConfiguration.Instance().HttpHandlers;
@@ -56,43 +53,8 @@ namespace Subtext.Framework.UrlManager
 		/// or by returning another IHttpHandlerFactory.GetHandler(HttpContext context, string requestType, string url, string path) 
 		/// method
 		/// </returns>
-		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string pathTranslated)
+		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
-			if (context == null)
-			{
-				throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
-			}
-
-			if (requestType == null)
-			{
-				throw new ArgumentNullException("requestType", Resources.ArgumentNull_String);
-			}
-
-			if (url == null)
-			{
-				throw new ArgumentNullException("url", Resources.ArgumentNull_String);
-			}
-
-			if (pathTranslated == null)
-			{
-				throw new ArgumentNullException("path", Resources.ArgumentNull_String);
-			}
-
-			if (requestType.Length == 0)
-			{
-				throw new ArgumentException(Resources.Argument_StringZeroLength, "requestType");
-			}
-
-			if (url.Length == 0)
-			{
-				throw new ArgumentException(Resources.Argument_StringZeroLength, "url");
-			}
-
-			if (pathTranslated.Length == 0)
-			{
-				throw new ArgumentException(Resources.Argument_StringZeroLength, "path");
-			}
-
 			if (IsRequestForAggregateBlog && !InstallationManager.IsOnLoginPage) //This line calls the db.
 			{
 				string handlerUrl = context.Request.ApplicationPath;
@@ -102,46 +64,46 @@ namespace Subtext.Framework.UrlManager
 				handlerUrl += "Default.aspx";
 				return GetHandlerForUrl(handlerUrl);
 			}
-
+			
 			//Get the Handlers to process. By default, we grab them from the blog.config
 			HttpHandler[] items = GetHttpHandlers();
-
+			
 			//Do we have any?
-			if (items != null)
+			if(items != null)
 			{
-				foreach (HttpHandler handler in items)
+				foreach(HttpHandler handler in items)
 				{
 					//We should use our own cached Regex. This should limit the number of Regex's created
 					//and allows us to take advantage of RegexOptons.Compiled 
-					if (handler.IsMatch(context.Request.Path))
+					if(handler.IsMatch(context.Request.Path))
 					{
-						switch (handler.HandlerType)
+						switch(handler.HandlerType)
 						{
 							case HandlerType.Page:
 								return ProcessHandlerTypePage(handler, context);
-
+						
 							case HandlerType.Direct:
 								HandlerConfiguration.SetControls(context, handler.BlogControls);
 								return (IHttpHandler)handler.Instance();
-
+						
 							case HandlerType.Factory:
 								//Pass a long the request to a custom IHttpHandlerFactory
-								return ((IHttpHandlerFactory)handler.Instance()).GetHandler(context, requestType, url, pathTranslated);
-
+								return ((IHttpHandlerFactory)handler.Instance()).GetHandler(context, requestType, url, path);
+						
 							case HandlerType.Directory:
 								return ProcessHandlerTypeDirectory(context, url);
 
 							default:
-								throw new Exception(Resources.ApplicationException_UnknownHandlerType);
+								throw new Exception("Invalid HandlerType: Unknown");
 						}
 					}
 				}
 			}
-
+			
 			//If we do not find the page, just let ASP.NET take over
-			return PageHandlerFactory.GetHandler(context, requestType, url, pathTranslated);
+			return PageHandlerFactory.GetHandler(context, requestType, url, path);
 		}
-
+		
 		private static bool IsRequestForAggregateBlog
 		{
 			get
@@ -153,16 +115,14 @@ namespace Subtext.Framework.UrlManager
 		private static IHttpHandler ProcessHandlerTypePage(HttpHandler item, HttpContext context)
 		{
 			string pagepath = item.PageLocation;
-			if (pagepath == null)
+			if(pagepath == null)
 			{
 				pagepath = HandlerConfiguration.Instance().DefaultPageLocation;
 			}
 			HandlerConfiguration.SetControls(context, item.BlogControls);
 			string url = context.Request.ApplicationPath;
 			if (!url.EndsWith("/"))
-			{
 				url += "/";
-			}
 			url += pagepath;
 
 			return GetHandlerForUrl(url);
@@ -227,7 +187,7 @@ namespace Subtext.Framework.UrlManager
 		/// Releases the handler.
 		/// </summary>
 		/// <param name="handler">Handler.</param>
-		public virtual void ReleaseHandler(IHttpHandler handler)
+		public virtual void ReleaseHandler(IHttpHandler handler) 
 		{
 
 		}

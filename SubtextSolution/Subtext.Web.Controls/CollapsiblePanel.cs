@@ -18,6 +18,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Subtext.Framework.Web;
 
 //Adapted from AdvancedPanel
 namespace Subtext.Web.Controls
@@ -71,7 +72,7 @@ namespace Subtext.Web.Controls
 		protected string _linkImage;
 		protected string _linkImageCollapsed;
 		Label headerLabel;
-		private Image _image;
+		private System.Web.UI.WebControls.Image _image;
 
 		#endregion
 
@@ -371,9 +372,9 @@ public bool WillSucceed
 			if (_displayHeader && Collapsible)
 			{
 				_collapseLink.Attributes.Add("onclick", 
-					String.Format(CultureInfo.InvariantCulture, "ToggleVisible('{0}','{1}','{2}','{3}'); return false;", _contents.ClientID,
-					_image != null ? _image.ClientID : String.Empty, ControlHelper.ExpandTildePath(LinkImage), 
-					ControlHelper.ExpandTildePath(LinkImageCollapsed)));
+					String.Format(CultureInfo.InvariantCulture, "ToggleVisible('{0}','{1}','{2}','{3}'); return false;", _contents.ClientID, 
+					_image != null ? _image.ClientID : String.Empty, HttpHelper.ExpandTildePath(LinkImage), 
+					HttpHelper.ExpandTildePath(LinkImageCollapsed)));
 
 				if (Collapsed)
 				{
@@ -423,12 +424,12 @@ public bool WillSucceed
 			return createdLink;
 		}
 
-		protected virtual Image CreateCollapseImage()
+		protected virtual System.Web.UI.WebControls.Image CreateCollapseImage()
 		{
-			Image img = new Image();
+			System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
 			// HACK: img.ImageUrl was tinkering with the actual location, so it would vary from what
 			// was also being used for the js flip parameters. This is suboptimal, but consistent.
-			img.Attributes.Add("src", ControlHelper.ExpandTildePath(LinkImageCollapsed));
+			img.Attributes.Add("src", HttpHelper.ExpandTildePath(LinkImageCollapsed));
 			img.ID = CTLID_LINK_IMAGE;
 
 			return img;

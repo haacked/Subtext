@@ -23,7 +23,14 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class ArchiveCount
 	{
-		private String _title;
+		public ArchiveCount()
+		{
+			//
+			// TODO: Add constructor logic here
+			//
+		}
+
+        private String _title;
         public String Title
         {
             get { return _title; }
@@ -41,15 +48,15 @@ namespace Subtext.Framework.Components
 		private DateTime _date;
 		public DateTime Date
 		{
-			get {return _date;}
-			set {_date = value;}
+			get {return this._date;}
+			set {this._date = value;}
 		}
 
 		private int _count;
 		public int Count
 		{
-			get {return _count;}
-			set {_count = value;}
+			get {return this._count;}
+			set {this._count = value;}
 		}
 	}
 }

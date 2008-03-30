@@ -32,9 +32,9 @@ namespace Subtext.Extensibility.Providers
 		/// Returns the currently configured ImportProvider.
 		/// </summary>
 		/// <returns></returns>
-		public static ImportProvider Provider
+		public static ImportProvider Instance()
 		{
-			get { return provider; }
+			return provider;
 		}
 
 		/// <summary>

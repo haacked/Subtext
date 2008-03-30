@@ -14,78 +14,73 @@
 #endregion
 
 using System;
-using log4net;
-using Subtext.Framework.Logging;
 
 namespace Subtext.Framework.Components
 {
-	[Serializable]
-	public class MetaTag
-	{
-		private readonly static ILog log = new Log();
+    [Serializable]
+    public class MetaTag
+    {
+        public MetaTag()
+        {
+        }
 
+        public MetaTag(string content)
+        {
+            this.content = content;
+        }
 
-		public MetaTag()
-		{
-		}
+        #region Getters and Setters
 
-		public MetaTag(string content)
-		{
-			this.content = content;
-		}
+        private int id;
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
-		#region Getters and Setters
+        private string content;
+        public string Content
+        {
+            get { return content; }
+            set { content = value; }
+        }
 
-		private int id;
-		public int Id
-		{
-			get { return id; }
-			set { id = value; }
-		}
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
 
-		private string content;
-		public string Content
-		{
-			get { return content; }
-			set { content = value; }
-		}
+        private string httpEquiv;
+        public string HttpEquiv
+        {
+            get { return httpEquiv; }
+            set { httpEquiv = value; }
+        }
 
-		private string name;
-		public string Name
-		{
-			get { return name; }
-			set { name = value; }
-		}
-
-		private string httpEquiv;
-		public string HttpEquiv
-		{
-			get { return httpEquiv; }
-			set { httpEquiv = value; }
-		}
-
-	    private int blogId;
+        private int blogId;
         public int BlogId
-	    {
-	        get { return blogId; }
-	        set { blogId = value; }
-	    }
+        {
+            get { return blogId; }
+            set { blogId = value; }
+        }
 
-	    private int? entryId;
+        private int? entryId;
         public int? EntryId
-	    {
-	        get { return entryId; }
-	        set { entryId = value; }
-	    }
+        {
+            get { return entryId; }
+            set { entryId = value; }
+        }
 
-	    private DateTime dateCreated;
-		public DateTime DateCreated
-		{
-			get { return dateCreated; }
-			set { dateCreated = value; }
-		}
+        private DateTime dateCreated;
+        public DateTime DateCreated
+        {
+            get { return dateCreated; }
+            set { dateCreated = value; }
+        }
 
-	    #endregion
+        #endregion
 
         /// <summary>
         /// Validates that this MetaTag is Valid:
@@ -97,17 +92,36 @@ namespace Subtext.Framework.Components
             get
             {
                 if (string.IsNullOrEmpty(this.Content))
+                {
+                    _validationMessage = "Meta Tag requires Content.";
                     return false;
+                }
 
                 // to be valid, a MetaTag requires etiher the Name or HttpEquiv attribute, but never both.
                 if (string.IsNullOrEmpty(this.Name) && string.IsNullOrEmpty(this.HttpEquiv))
+                {
+                    _validationMessage = "Meta Tag requires either a Name or Http-Equiv value.";
                     return false;
+                }
 
                 if (!string.IsNullOrEmpty(this.Name) && !string.IsNullOrEmpty(this.HttpEquiv))
+                {
+                    _validationMessage = "Meta Tag can not have both a Name and Http-Equiv value.";
                     return false;
-                
+                }
+
+                _validationMessage = null;
                 return true;
             }
         }
-	}
-}
+
+            private string _validationMessage;
+            public string ValidationMessage
+            {
+                get
+                {
+                    return _validationMessage;
+                }
+            }
+        }
+    }

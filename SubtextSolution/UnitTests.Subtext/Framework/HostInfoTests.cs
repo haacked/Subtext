@@ -1,7 +1,22 @@
+#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at SourceForge at http://sourceforge.net/projects/subtext
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
 using System;
-using System.Web.Security;
+using System.Data;
 using MbUnit.Framework;
-using SubSonic;
+using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
@@ -14,36 +29,46 @@ namespace UnitTests.Subtext.Framework
 		[RollBack2]
 		public void CanLoadHost()
 		{
-			SetupHostInfo();
-			Assert.IsTrue(HostInfo.HostInfoTableExists);
+			SqlHelper.ExecuteNonQuery(Config.ConnectionString, CommandType.Text, "DELETE subtext_Host");
+
+		    HostInfo.LoadHost(false);
+
+			Assert.IsNull(HostInfo.Instance, "HostInfo should be Null");
+			
+			HostInfo.CreateHost("test", "test");
+			
 			Assert.IsNotNull(HostInfo.Instance, "Host should not be null.");
-			Assert.IsNotNull(HostInfo.Instance.Owner);
-			Assert.Greater(HostInfo.Instance.DateCreated, NullValue.NullDateTime);
-			StringAssert.IsNonEmpty(HostInfo.Instance.HostUserName);
 		}
 
 		[Test]
 		[RollBack2]
-		public void CanSetApplicationId()
+		public void CanUpdateHost()
 		{
-			SetupHostInfo();
-			Guid guid = Guid.NewGuid();
-			HostInfo.Instance.ApplicationId = guid;
-			Assert.AreEqual(guid, HostInfo.Instance.ApplicationId);
+			EnsureHost();
+			HostInfo host = HostInfo.Instance;
+			Assert.IsNotNull(host, "Host should not be null.");
+
+			host.HostUserName = "test2";
+			host.Password = "password2";
+			host.Salt = "salt2";
+
+			HostInfo.UpdateHost(host);
+
+			host = HostInfo.LoadHost(false);
+			Assert.AreEqual("test2", host.HostUserName, "Username wasn't changed.");			
 		}
-
-		private static void SetupHostInfo()
+		
+		void EnsureHost()
 		{
-			QueryCommand command = new QueryCommand("DELETE subtext_Host");
-			DataService.ExecuteQuery(command);
-
-			if (HostInfo.Instance == null || HostInfo.Instance.ApplicationId == Guid.Empty)
+			try
 			{
-				string username = UnitTestHelper.GenerateRandomString();
-				MembershipUser user =
-					Membership.CreateUser(username, "test", UnitTestHelper.GenerateRandomString() + "@example.com");
-				HostInfo.CreateHost(user);
-				Assert.AreEqual(username, HostInfo.Instance.Owner.UserName, "The owner was not set.");
+				HostInfo host = HostInfo.LoadHost(true);
+				if (host == null)
+					HostInfo.CreateHost("test", "test");
+			}
+			catch(InvalidOperationException)
+			{
+				//Ignore.
 			}
 		}
 	}

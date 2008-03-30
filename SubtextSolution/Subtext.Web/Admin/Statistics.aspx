@@ -16,8 +16,11 @@
 			<a href = "Referrers.aspx">Referrers</a>: See who is linking to you.
 		</p>
 		<p>
+			<a href = "StatsView.aspx">Check Page Views</a>: Get an overview of page views.
+		</p>
+		<p>
 			<a href = "ErrorLog.aspx">Error Log</a>: Configure and view error log
 		</p>
-		<br class="clear">
+		<br class="clear" />
 	</st:AdvancedPanel>
 </asp:Content>

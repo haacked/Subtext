@@ -1,11 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Web.UI.WebControls;
-using Subtext.Framework.Components;
-using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
 {
+	using System.Collections;
+	using System.Configuration;
+	using System.Data;
+	using System.Data.SqlClient;
+	using System.Web.UI.WebControls;
+	using Subtext.Framework.Data;
+	using Subtext.Framework.Providers;
+
 	/// <summary>
 	/// Summary description for Top10Module.
 	/// </summary>
@@ -17,11 +21,46 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad(e);
 
-			IList<RelatedLink> topEntries = ObjectProvider.Instance().GetTopLinks(10);
+			string sql = "subtext_GetTop10byBlogId";
+			string conn = DbProvider.Instance().ConnectionString;
+			int BlogId;
 
-			Top10Entries.DataSource = topEntries;
+			ArrayList myLastItems = new ArrayList();
+
+			//fix for the blogs where only one installed
+			if (CurrentBlog.Id >= 1)
+				BlogId = CurrentBlog.Id;
+			else
+				BlogId = 0;
+
+			SqlParameter[] p =
+				{
+					DataHelper.MakeInParam("@BlogID", SqlDbType.Int, 4, BlogId)
+				};
+
+			DataTable dt = DataHelper.ExecuteDataTable(conn, CommandType.StoredProcedure, sql, p);
+
+			int count = dt.Rows.Count;
+
+			for (int i = 0; i < count; i++)
+			{
+				DataRow dr = dt.Rows[i];
+
+				string title = (string) dr["title"];
+
+				DateTime dateAdded = (DateTime) dr["DateAdded"];
+				string id = dr["EntryId"].ToString();
+
+				string myURL = CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(dateAdded, id);
+
+				myLastItems.Add(new PositionItems(title, myURL));
+
+			}
+
+			Top10Entries.DataSource = myLastItems;
 			Top10Entries.DataBind();
 		}
+
 	}
 
 	public class PositionTopItems

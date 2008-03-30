@@ -1,7 +1,4 @@
 using System;
-using System.Security.Principal;
-using System.Threading;
-using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -13,14 +10,13 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 	[TestFixture]
 	public class CommentSettingsTests
 	{
+		string hostName;
+
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void CommentModerationDisabledCausesNewCommentsToBeActive()
 		{
-			UnitTestHelper.SetupBlog("MyBlog1");
-
-			//Need to set our user to a non-admin
-			HttpContext.Current.User = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] {"Anonymous"});
+			Config.CreateBlog("", "username", "thePassword", this.hostName, "MyBlog1");
 			
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
@@ -36,13 +32,10 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 		
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void CommentModerationEnabledCausesNewCommentsToBeInactive()
 		{
-			UnitTestHelper.SetupBlog("MyBlog1");
-			//Need to set our user to a non-admin
-			HttpContext.Current.User = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
-			
+			Config.CreateBlog("", "username", "thePassword", this.hostName, "MyBlog1");
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = true;
 			
@@ -65,13 +58,24 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		}
 		
 		[Test]
-		[RollBack2]
+		[RollBack]
 		[ExpectedArgumentNullException]
 		public void ApproveThrowsArgumentNullException()
 		{
-			UnitTestHelper.SetupBlog("MyBlog1");
-			
+			Config.CreateBlog("", "username", "thePassword", this.hostName, "MyBlog1");
 			FeedbackItem.Approve(null);
+		}
+
+		[SetUp]
+		public void SetUp()
+		{
+			this.hostName = UnitTestHelper.GenerateRandomString();
+			UnitTestHelper.SetHttpContextWithBlogRequest(this.hostName, "MyBlog1");
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
 		}
 	}
 }

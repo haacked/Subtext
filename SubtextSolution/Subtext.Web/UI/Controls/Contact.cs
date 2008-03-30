@@ -2,7 +2,6 @@ using System;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subkismet.Captcha;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
@@ -10,6 +9,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Web;
+using Subtext.Web.Controls.Captcha;
 using Subtext.Framework.Security;
 
 #region Disclaimer/Info
@@ -92,14 +92,14 @@ namespace Subtext.Web.UI.Controls
 			{
 				BlogInfo info = Config.CurrentBlog;
 
-				if(SendContactMessageToFeedback || String.IsNullOrEmpty(info.Owner.Email))
+				if(SendContactMessageToFeedback || String.IsNullOrEmpty(info.Email))
 				{
 					CreateCommentWithContactMessage();
 					return;
 				}
 
 				EmailProvider email = EmailProvider.Instance();
-				string toEmail = info.Owner.Email;
+				string toEmail = info.Email;
 				string fromEmail = tbEmail.Text;
 				
 				string subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} (via {1})", tbSubject.Text, 

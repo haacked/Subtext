@@ -1,3 +1,9 @@
+/*
+Test Script used to test that modifying the value of a template 
+parameter in a collection of scripts propagates the change to 
+the individual scripts.
+*/
+
 SET IDENTITY_INSERT [SubtextData].[dbo].[subtext_Config] ON
 
 INSERT INTO [SubtextData].[dbo].[subtext_Config] 
@@ -9,9 +15,11 @@ GO
 
 UPDATE [SubtextData].[dbo].[subtext_Content] 
 SET DateSyndicated = DateUpdated
+-- Post is syndicated and active
 WHERE PostConfig & 16 = 16 AND PostConfig & 1 = 1
 GO
 
+-- subtext_EntryViewCount
 INSERT INTO [SubtextData].[dbo].[subtext_EntryViewCount] 
 ( EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated )
     SELECT 

@@ -13,6 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
 using System.Collections.Generic;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
@@ -20,35 +21,36 @@ using Subtext.Framework.Providers;
 namespace Subtext.Framework
 {
 	/// <summary>
-	/// Static class used to get post counts based on different groupings.
+	/// Static class used to get collections of archived posts 
+	/// (by month and year and category) from the data provider.
 	/// </summary>
 	public static class Archives
 	{
 		/// <summary>
-		/// Gets the post counts by month.
+		/// Gets archived posts by month.
 		/// </summary>
 		/// <returns></returns>
-		public static ICollection<ArchiveCount> GetPostCountByMonth()
+		public static ICollection<ArchiveCount> GetPostsByMonthArchive()
 		{
-			return ObjectProvider.Instance().GetPostCountByMonth();
+			return ObjectProvider.Instance().GetPostsByMonthArchive();
 		}
 
 		/// <summary>
-		/// Gets the post counts by year.
+		/// Gets archived posts by year.
 		/// </summary>
 		/// <returns></returns>
-		public static ICollection<ArchiveCount> GetPostCountByYear()
+        public static ICollection<ArchiveCount> GetPostsByYearArchive()
 		{
-			return ObjectProvider.Instance().GetPostCountByYear();
+			return ObjectProvider.Instance().GetPostsByYearArchive();
 		}
 
-		/// <summary>
-		/// Gets the post counts by category.
-		/// </summary>
-		/// <returns></returns>
-		public static ICollection<ArchiveCount> GetPostCountByCategory()
-		{
-			return ObjectProvider.Instance().GetPostCountByCategory();
-		}
+        /// <summary>
+        /// Gets archived posts by category.
+        /// </summary>
+        /// <returns></returns>
+        public static ICollection<ArchiveCount> GetPostsByCategoryArchive()
+        {
+            return ObjectProvider.Instance().GetPostsByCategoryArchive();
+        }
 	}
 }

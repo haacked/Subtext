@@ -160,7 +160,7 @@ namespace Subtext.Web.Controls
 			base.CreateChildControls();
 		}
 
-		private static bool CheckSQLDMO() 
+		private bool CheckSQLDMO() 
 		{
 			try 
 			{
@@ -220,6 +220,7 @@ namespace Subtext.Web.Controls
 			machineName.EnableViewState=true;
 			otherMachineName.ID=OtherMachineNameControlId;
 			otherMachineName.TextMode=TextBoxMode.SingleLine;
+			Page.Trace.Write("machineName");
 			row.Cells.Add(cell);
 
 			return row;
@@ -598,6 +599,7 @@ namespace Subtext.Web.Controls
 
 		protected void LoadData()
 		{
+			Page.Trace.Write("onLoad");
 			connResult.Text="";
 			if (!Page.IsPostBack) 
 			{

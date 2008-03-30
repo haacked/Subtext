@@ -3,8 +3,9 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
-using SubSonic;
-using Subtext.Data;
+using Microsoft.ApplicationBlocks.Data;
+using Subtext.Framework;
+using Subtext.Framework.Data;
 
 namespace Subtext.Installation
 {
@@ -24,23 +25,7 @@ namespace Subtext.Installation
 			get { return _dbUser; }
 			set { _dbUser = value; }
 		}
-		/// <summary>
-		/// Gets the framework version.
-		/// </summary>
-		/// <value></value>
-		public Version SubtextAssemblyVersion
-		{
-			get
-			{
-				if (subtextAssemblyVersion == null)
-				{
-					subtextAssemblyVersion = this.GetType().Assembly.GetName().Version;
-				}
 
-				return subtextAssemblyVersion;
-			}
-		}
-		private Version subtextAssemblyVersion;
 
 		public void Install(Version assemblyVersion)
 		{
@@ -51,18 +36,15 @@ namespace Subtext.Installation
 				{
 					try
 					{
-						string[] scripts = ListInstallationScripts(this.CurrentInstallationVersion, SubtextAssemblyVersion);
+						string[] scripts = ListInstallationScripts(this.GetCurrentInstallationVersion(), VersionInfo.FrameworkVersion);
 						foreach (string scriptName in scripts)
 						{
 							ScriptHelper.ExecuteScript(scriptName, transaction, _dbUser);
 						}
 
 						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, _dbUser);
+						UpdateInstallationVersionNumber(assemblyVersion, transaction);
 						transaction.Commit();
-
-						// putting this update inside the transaction causes a timeout during a clean install 
-						// b/c the SP hasn't been added yet.
-						UpdateInstallationVersionNumber(assemblyVersion);
 					}
 					catch (Exception)
 					{
@@ -86,7 +68,7 @@ namespace Subtext.Installation
 				{
 					try
 					{
-						Version installationVersion = this.CurrentInstallationVersion;
+						Version installationVersion = this.GetCurrentInstallationVersion();
 						if (installationVersion == null)
 						{
 							//This is the base version.  We need to hardcode this 
@@ -94,14 +76,14 @@ namespace Subtext.Installation
 							//into the database.
 							installationVersion = new Version(1, 0, 0, 0);
 						}
-						string[] scripts = ListInstallationScripts(installationVersion, SubtextAssemblyVersion);
+						string[] scripts = ListInstallationScripts(installationVersion, VersionInfo.FrameworkVersion);
 						foreach (string scriptName in scripts)
 						{
 							ScriptHelper.ExecuteScript(scriptName, transaction, _dbUser);
 						}
 						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, _dbUser);
 
-						UpdateInstallationVersionNumber(SubtextAssemblyVersion);
+						UpdateInstallationVersionNumber(VersionInfo.FrameworkVersion, transaction);
 						transaction.Commit();
 					}
 					catch (Exception)
@@ -148,13 +130,24 @@ namespace Subtext.Installation
 		/// Updates the value of the current installed version within the subtext_Version table.
 		/// </summary>
 		/// <param name="newVersion">New version.</param>
-		public void UpdateInstallationVersionNumber(Version newVersion)
+		/// <param name="transaction">The transaction to perform this action within.</param>
+		public void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
 		{
-			StoredProcedure proc = new StoredProcedure("subtext_VersionAdd");
-			proc.Command.AddParameter("@Major", newVersion.Major);
-			proc.Command.AddParameter("@Minor", newVersion.Minor);
-			proc.Command.AddParameter("@Build", newVersion.Build);
-			proc.Execute();
+			string sql = "subtext_VersionAdd";
+			SqlParameter[] p =
+			{
+				CreateParameter("@Major", SqlDbType.Int, 4, newVersion.Major), 
+				CreateParameter("@Minor", SqlDbType.Int, 4, newVersion.Minor), 
+				CreateParameter("@Build", SqlDbType.Int, 4, newVersion.Build)
+			};
+			SqlHelper.ExecuteNonQuery(transaction, CommandType.StoredProcedure, sql, p);
+		}
+
+		static SqlParameter CreateParameter(string name, SqlDbType dbType, int size, object value)
+		{
+			SqlParameter param = new SqlParameter(name, dbType, size);
+			param.Value = value;
+			return param;
 		}
 
 		/// <summary>
@@ -163,36 +156,29 @@ namespace Subtext.Installation
 		/// assembly version, we may need to run an upgrade.
 		/// </summary>
 		/// <returns></returns>
-		public Version CurrentInstallationVersion
+		public Version GetCurrentInstallationVersion()
 		{
-			get
+			string sql = "subtext_VersionGetCurrent";
+
+			try
 			{
-				StoredProcedure proc = new StoredProcedure("subtext_VersionGetCurrent");
-
-				try
+				using (IDataReader reader = SqlHelper.ExecuteReader(this.connectionString, CommandType.StoredProcedure, sql))
 				{
-					using (IDataReader reader = proc.GetReader())
+					if (reader.Read())
 					{
-						if (reader.Read())
-						{
-							Version version = new Version((int) reader["Major"], (int) reader["Minor"], (int) reader["Build"]);
-							reader.Close();
-							return version;
-						}
+						Version version = new Version((int)reader["Major"], (int)reader["Minor"], (int)reader["Build"]);
 						reader.Close();
+						return version;
 					}
+					reader.Close();
 				}
-				catch (SqlException exception)
-				{
-					const int CouldNotFindStoredProcedure = 2812;
-					if (exception.Number != CouldNotFindStoredProcedure)
-						throw;
-
-					if (exception.Number != (int)SqlErrorMessage.CouldNotFindStoredProcedure)
-						throw;
-				}
-				return null;
 			}
+			catch (SqlException exception)
+			{
+				if (exception.Number != (int)SqlErrorMessage.CouldNotFindStoredProcedure)
+					throw;
+			}
+			return null;
 		}
 
 		/// <summary>
@@ -204,7 +190,7 @@ namespace Subtext.Installation
 		/// </value>
 		public bool NeedsUpgrade(Version installationVersion)
 		{
-			if (installationVersion >= SubtextAssemblyVersion)
+			if (installationVersion >= VersionInfo.FrameworkVersion)
 			{
 				return false;
 			}
@@ -216,7 +202,7 @@ namespace Subtext.Installation
 				//into the database.
 				installationVersion = new Version(1, 0, 0, 0);
 			}
-			string[] scripts = ListInstallationScripts(installationVersion, SubtextAssemblyVersion);
+			string[] scripts = ListInstallationScripts(installationVersion, VersionInfo.FrameworkVersion);
 			return scripts.Length > 0;
 		}
 	}

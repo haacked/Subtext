@@ -3,25 +3,8 @@
 <ul>
 	<li><asp:HyperLink Runat="server" NavigateUrl="~/Default.aspx" Text="Home" ID="HomeLink" /></li>
 	<li><asp:HyperLink Runat="server" NavigateUrl="~/Archives.aspx" Text="Archives" ID="Archives" /></li>
-	<li><asp:HyperLink AccessKey="9" Runat="server" NavigateUrl="~/Contact.aspx" Text="Contact" ID="ContactLink" />
-</li>
-    <li>
-        <asp:LoginView ID="UserLoginView" runat="server">
-            <RoleGroups>
-                <asp:RoleGroup Roles="Administrators">
-                    <ContentTemplate>
-                        <asp:HyperLink Runat="server" Text="Admin" ID="AdminLogin" NavigateUrl="~/Admin/Default.aspx" />
-                    </ContentTemplate>
-                </asp:RoleGroup>
-            </RoleGroups>
-            <LoggedInTemplate>
-                <asp:LoginStatus ID="LoginStatus1" runat="server" />
-            </LoggedInTemplate>
-            <AnonymousTemplate>
-                <asp:LoginStatus ID="LoginStatus2" runat="server" />
-            </AnonymousTemplate>
-        </asp:LoginView>
-    </li>
+	<li><asp:HyperLink AccessKey="9" Runat="server" NavigateUrl="~/Contact.aspx" Text="Contact" ID="ContactLink" /></li>
+	<li><asp:HyperLink Runat="server" Text="Admin" ID="Admin" /></li>
 </ul>
 
 <!-- Not Visible -->

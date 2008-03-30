@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Subtext.Data;
+using System.Data.SqlClient;
+using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
@@ -18,15 +19,23 @@ namespace Subtext.Framework.Providers
 		/// <returns></returns>
 		public override IList<SearchResult> Search(int blogId, string searchTerm)
 		{
-			IList<SearchResult> results = new List<SearchResult>();
-			using (IDataReader reader = StoredProcedures.SearchEntries(blogId, searchTerm).GetReader())
+			string storedProc = "subtext_SearchEntries";
+
+			SqlParameter[] p =
 			{
-				while (reader.Read())
-				{
-					Entry foundEntry = DataHelper.LoadEntry(reader, true);
-					results.Add(new SearchResult(foundEntry.Title, foundEntry.FullyQualifiedUrl));
-				}
+				DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, blogId),
+				DataHelper.MakeInParam("@SearchStr", searchTerm)
+			};
+
+			IDataReader reader = SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, storedProc, p);
+
+			IList<SearchResult> results = new List<SearchResult>();
+			while(reader.Read())
+			{
+				Entry foundEntry = DataHelper.LoadEntry(reader, true);
+				results.Add(new SearchResult(foundEntry.Title, foundEntry.FullyQualifiedUrl));
 			}
+
 			return results;
 		}
 	}

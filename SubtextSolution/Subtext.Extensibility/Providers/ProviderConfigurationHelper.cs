@@ -18,12 +18,10 @@ using System.Collections.Specialized;
 using System.Configuration.Provider;
 using System.Configuration;
 using System.Web.Configuration;
-using Subtext.Extensibility.Properties;
-using System.Globalization;
 
 namespace Subtext.Extensibility.Providers
 {
-    public static class ProviderConfigurationHelper
+    public class ProviderConfigurationHelper
     {
 		/// <summary>
 		/// Helper method for populating a provider collection 
@@ -43,7 +41,7 @@ namespace Subtext.Extensibility.Providers
 
 			provider = providers[section.DefaultProvider];
 			if (provider == null)
-				throw new ProviderException(String.Format(CultureInfo.CurrentUICulture, Resources.Configuration_ProviderNotFound, sectionName));
+				throw new ProviderException(string.Format("Unable to load default '{0}' provider", sectionName));
 
 			return providers;
 		}
@@ -57,10 +55,10 @@ namespace Subtext.Extensibility.Providers
         public static string GetConnectionStringSettingValue(string settingKey, NameValueCollection configValue)
         {
             if (settingKey == null)
-                throw new ArgumentNullException("settingKey", Resources.ArgumentNull_Key);
+                throw new ArgumentNullException("settingKey", "The setting key is null. The provider may not be configured correctly.");
 
             if (configValue == null)
-                throw new ArgumentNullException("configValue", Resources.ArgumentNull_Collection + settingKey + "' may not be configured correctly.");
+                throw new ArgumentNullException("configValue", "The config values collection is null. The provider for the setting '" + settingKey + "' may not be configured correctly.");
 
             string settingValue = configValue[settingKey];
 
@@ -70,7 +68,7 @@ namespace Subtext.Extensibility.Providers
 					settingValue = ConfigurationManager.AppSettings["connectionStringName"];
                 ConnectionStringSettings setting = ConfigurationManager.ConnectionStrings[settingValue];
                 if (setting == null)
-                    throw new ArgumentException(Resources.Configuration_KeyNotFound, "settingKey");
+                    throw new ArgumentException("The Connection String '" + settingValue + "' was not found in the ConnectionStrings section.", "settingKey");
 
                 return setting.ConnectionString;
             }

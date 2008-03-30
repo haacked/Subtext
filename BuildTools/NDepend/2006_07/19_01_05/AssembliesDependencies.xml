@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<AssemblyDependencies>
+  <Dependencies_For Assembly="Subtext.Common">
+    <DependsOn>
+      <DependsOn_Name>Subtext.Framework</DependsOn_Name>
+      <DependsOn_Name>Subtext.Extensibility</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Subtext.Web</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Subtext.Extensibility">
+    <ReferencedBy>
+      <ReferencedBy_Name>Subtext.Common</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Framework</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Installation</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Providers.BlogEntryEditor.FCKeditor</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Web</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Web.Controls</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Subtext.Framework">
+    <DependsOn>
+      <DependsOn_Name>Subtext.Extensibility</DependsOn_Name>
+      <DependsOn_Name>CookComputing.XmlRpc</DependsOn_Name>
+      <DependsOn_Name>BlogML</DependsOn_Name>
+      <DependsOn_Name>log4net</DependsOn_Name>
+      <DependsOn_Name>blowery.Web.HttpCompress</DependsOn_Name>
+      <DependsOn_Name>Subtext.Scripting</DependsOn_Name>
+      <DependsOn_Name>DotNetOpenMail</DependsOn_Name>
+      <DependsOn_Name>Velocit.RegularExpressions</DependsOn_Name>
+      <DependsOn_Name>SgmlReaderDll</DependsOn_Name>
+      <DependsOn_Name>Microsoft.ApplicationBlocks.Data</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Subtext.Common</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Installation</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Providers.BlogEntryEditor.FCKeditor</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Web</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Subtext.Installation">
+    <DependsOn>
+      <DependsOn_Name>Subtext.Extensibility</DependsOn_Name>
+      <DependsOn_Name>Subtext.Scripting</DependsOn_Name>
+      <DependsOn_Name>Subtext.Web.Controls</DependsOn_Name>
+      <DependsOn_Name>Microsoft.ApplicationBlocks.Data</DependsOn_Name>
+      <DependsOn_Name>Subtext.Framework</DependsOn_Name>
+    </DependsOn>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Subtext.Providers.BlogEntryEditor.FCKeditor">
+    <DependsOn>
+      <DependsOn_Name>Subtext.Extensibility</DependsOn_Name>
+      <DependsOn_Name>FredCK.FCKeditorV2</DependsOn_Name>
+      <DependsOn_Name>Subtext.Web.Controls</DependsOn_Name>
+      <DependsOn_Name>Subtext.Framework</DependsOn_Name>
+    </DependsOn>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Subtext.Scripting">
+    <DependsOn>
+      <DependsOn_Name>Microsoft.ApplicationBlocks.Data</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Subtext.Framework</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Installation</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Web</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Web.Controls</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Subtext.UnitTesting.Servers">
+    <DependsOn>
+      <DependsOn_Name>LumiSoft.Net</DependsOn_Name>
+      <DependsOn_Name>MbUnit.Framework</DependsOn_Name>
+      <DependsOn_Name>DotNetOpenMail</DependsOn_Name>
+    </DependsOn>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Subtext.Web">
+    <DependsOn>
+      <DependsOn_Name>Subtext.Web.Controls</DependsOn_Name>
+      <DependsOn_Name>Subtext.Extensibility</DependsOn_Name>
+      <DependsOn_Name>Subtext.Framework</DependsOn_Name>
+      <DependsOn_Name>log4net</DependsOn_Name>
+      <DependsOn_Name>Subtext.Scripting</DependsOn_Name>
+      <DependsOn_Name>freetextbox</DependsOn_Name>
+      <DependsOn_Name>Subtext.Common</DependsOn_Name>
+      <DependsOn_Name>BlogML</DependsOn_Name>
+    </DependsOn>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Subtext.Web.Controls">
+    <DependsOn>
+      <DependsOn_Name>Subtext.Scripting</DependsOn_Name>
+      <DependsOn_Name>Subtext.Extensibility</DependsOn_Name>
+      <DependsOn_Name>Interop.SQLDMO</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Subtext.Installation</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Providers.BlogEntryEditor.FCKeditor</ReferencedBy_Name>
+      <ReferencedBy_Name>Subtext.Web</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+</AssemblyDependencies>

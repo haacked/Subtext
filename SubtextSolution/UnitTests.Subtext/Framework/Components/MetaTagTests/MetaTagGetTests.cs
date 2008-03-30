@@ -15,14 +15,19 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using MbUnit.Framework;
+using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 {
     [TestFixture]
-    class MetaTagGetTests
+    public class MetaTagGetTests
     {
         private BlogInfo blog;
 
@@ -30,6 +35,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [RollBack2]
         public void GetReturnsZeroWhenNoMetaTagsExistForBlog()
         {
+            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
             Assert.AreEqual(0, MetaTags.GetMetaTagsForBlog(blog).Count, "Shouldn't have found any MetaTags for this blog.");
         }
 
@@ -37,6 +43,8 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [RollBack2]
         public void GetReturnsZeroWhenNoMetaTagsExistForEntry()
         {
+            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
+
             Entry e =
                 UnitTestHelper.CreateEntryInstanceForSyndication("Steve Harman", "Loves Subtexting!", "Roses are red...");
             Entries.Create(e);
@@ -48,6 +56,8 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [RollBack2]
         public void CanGetMetaTagsForBlog()
         {
+            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
+
             InsertNewMetaTag("Adding description meta tag", "description", null, DateTime.Now, blog.Id, null);
             InsertNewMetaTag("no-cache", null, "cache-control", DateTime.Now, blog.Id, null);
 
@@ -60,6 +70,8 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [RollBack2]
         public void CanGetMetaTagsForEntry()
         {
+            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
+
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Steve-o", "Bar", "Steve is still rockin it... or is he?");
             Entries.Create(e);
 
@@ -77,23 +89,25 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             Assert.AreEqual(4, tags.Count, "Should have found 4 MetaTags for this entry.");
         }
 
-        [SetUp]
-        public void Setup()
-        {
-            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
-        }
-
         #region Some helper code to populate the db w/metatags
+
+        private static readonly string insertSql = @"INSERT INTO subtext_MetaTag ([Content], [Name], HttpEquiv, DateCreated, BlogId, EntryId) VALUES (@Content, @Name, @HttpEquiv, @DateCreated, @BlogId, @EntryId)";
+
 
         private static void InsertNewMetaTag(string content, string nameValue, string httpEquivValue, DateTime created, int blogId, int? entryId)
         {
-        	MetaTag tag = new MetaTag();
-        	tag.Content = content;
-        	tag.Name = nameValue;
-        	tag.HttpEquiv = httpEquivValue;
-        	tag.DateCreated = created;
-        	tag.EntryId = entryId;
-        	MetaTags.Create(tag);
+            object entryIdValue = entryId.HasValue ? DataHelper.CheckNull(entryId.Value) : DBNull.Value;
+
+            SqlParameter[] p = 
+                {
+                    DataHelper.MakeInParam("@Content", content),
+                    DataHelper.MakeInParam("@Name", DataHelper.CheckNull(nameValue)),
+                    DataHelper.MakeInParam("@HttpEquiv", DataHelper.CheckNull(httpEquivValue)),
+                    DataHelper.MakeInParam("@DateCreated", created),
+                    DataHelper.MakeInParam("@BlogId", blogId),
+                    DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, entryIdValue)
+                };
+            SqlHelper.ExecuteNonQuery(Config.ConnectionString, CommandType.Text, insertSql, p);
         }
 
         #endregion

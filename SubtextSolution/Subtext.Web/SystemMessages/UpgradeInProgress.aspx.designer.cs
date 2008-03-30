@@ -12,6 +12,7 @@ namespace Subtext.Web {
     
     public partial class UpgradeInProgress {
         protected System.Web.UI.WebControls.PlaceHolder plcUpgradeInProgressMessage;
+        protected System.Web.UI.HtmlControls.HtmlAnchor hostAdminLink;
         protected System.Web.UI.WebControls.PlaceHolder plcNothingToSeeHere;
         protected System.Web.UI.HtmlControls.HtmlAnchor lnkBlog;
     }

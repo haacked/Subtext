@@ -23,8 +23,5 @@ namespace Subtext.Framework.Exceptions
 	[Serializable]
 	public class BlogInactiveException : BaseBlogConfigurationException
 	{
-		public BlogInactiveException() {}
-
-		public BlogInactiveException(Exception innerException) : base(innerException) {}
 	}
 }

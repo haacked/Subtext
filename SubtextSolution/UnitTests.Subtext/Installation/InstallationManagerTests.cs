@@ -14,15 +14,10 @@
 #endregion
 
 using System;
-using System.Data.Common;
-using System.Web;
 using MbUnit.Framework;
-using Rhino.Mocks;
-using SubSonic;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
-using Subtext.Installation;
-using Subtext.TestLibrary;
 
 namespace UnitTests.Subtext.Installation
 {
@@ -32,83 +27,16 @@ namespace UnitTests.Subtext.Installation
 	[TestFixture]
 	public class InstallationManagerTests
 	{
-		[Test]
-		[RollBack2]
-		public void CanGetCurrentInstallationState()
-		{
-			QueryCommand command = new QueryCommand("Delete subtext_Version");
-			DataService.ExecuteQuery(command);
-			Assert.AreEqual(InstallationState.NeedsInstallation, InstallationManager.CurrentInstallationState);
-		}
-
 		/// <summary>
 		/// Determines whether [is in host admin directory returns true result].
 		/// </summary>
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void IsInHostAdminDirectoryReturnsTrueResult()
 		{
-			UnitTestHelper.SetupBlog(string.Empty, "Subtext.Web", "HostAdmin/Import/BlahBlah.aspx");
+			string host = System.Guid.NewGuid().ToString().Replace("-", "");
+			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "Subtext.Web", "HostAdmin/Import/BlahBlah.aspx");
 			Assert.IsTrue(InstallationManager.IsInHostAdminDirectory, "This request should be within the hostadmin/import directory.");	
-		}
-
-		/// <summary>
-		/// Determines whether [is in host admin directory returns true result].
-		/// </summary>
-		[Test]
-		[RollBack2]
-		public void IsInUpgradeDirectoryReturnsTrueResult()
-		{
-			UnitTestHelper.SetupBlog(string.Empty, "Subtext.Web", "HostAdmin/Upgrade/BlahBlah.aspx");
-			Assert.IsTrue(InstallationManager.IsInUpgradeDirectory, "This request should be within the hostadmin/upgrade directory.");
-		}
-
-		/// <summary>
-		/// Determines whether [is in host admin directory returns true result].
-		/// </summary>
-		[Test]
-		[RollBack2]
-		public void IsInSystemMessageDirectoryReturnsTrueResult()
-		{
-			UnitTestHelper.SetupBlog(string.Empty, "Subtext.Web", "SystemMessages/BlahBlah.aspx");
-			Assert.IsTrue(InstallationManager.IsInSystemMessageDirectory, "This request should be within the SystemMessages directory.");
-		}
-
-		[Test]
-		public void IsIntstallationActionRequiredReturnsContextVariable()
-		{
-			using (new HttpSimulator().SimulateRequest())
-			{
-				HttpContext.Current.Application["NeedsInstallation"] = false;
-				Assert.IsFalse(InstallationManager.IsInstallationActionRequired());
-			}
-		}
-
-		[Test]
-		public void CanResetInstallationStatusCache()
-		{
-			using (new HttpSimulator().SimulateRequest())
-			{
-				HttpContext.Current.Application["NeedsInstallation"] = true;
-
-				Assert.IsTrue((bool) HttpContext.Current.Application["NeedsInstallation"]);
-				InstallationManager.ResetInstallationStatusCache();
-				Assert.IsNull(HttpContext.Current.Application["NeedsInstallation"]);
-			}
-		}
-
-		[Test]
-		[RollBack2]
-		public void IsIntstallationActionRequiredReturnsTrue()
-		{
-			using (new HttpSimulator().SimulateRequest())
-			{
-				Assert.IsNull(HttpContext.Current.Application["NeedsInstallation"]);
-				QueryCommand command = new QueryCommand("Delete subtext_Version");
-				DataService.ExecuteQuery(command);
-				Assert.IsTrue(InstallationManager.IsInstallationActionRequired());
-				Assert.IsNotNull(HttpContext.Current.Application["NeedsInstallation"]);
-			}
 		}
 
 		/// <summary>
@@ -116,43 +44,21 @@ namespace UnitTests.Subtext.Installation
 		/// an installation action is required.
 		/// </summary>
 		[Test]
-		[RollBack2]
-		public void IsInstallationActionRequiredReturnsCorrectAnswerForExceptions()
+		[RollBack]
+		public void IsInstallationActionRequiredReturnsTrueForBlogDoesNotExistException()
 		{
-			Assert.IsFalse(InstallationManager.InstallationActionRequired(new Exception("host"), VersionInfo.FrameworkVersion));
 			Assert.IsTrue(InstallationManager.InstallationActionRequired(new BlogDoesNotExistException("host", "app", false), VersionInfo.FrameworkVersion));
-			Assert.IsTrue(InstallationManager.InstallationActionRequired(new HostDataDoesNotExistException("message"), VersionInfo.FrameworkVersion));
-			Assert.IsTrue(InstallationManager.InstallationActionRequired(new HostNotConfiguredException("message"), VersionInfo.FrameworkVersion));
-
-			MockRepository mocks = new MockRepository();
-			DbException invalidObjectException = mocks.DynamicMock<DbException>();
-			DbException storedProcException = mocks.DynamicMock<DbException>();
-			
-			using (mocks.Record())
-			{
-				SetupResult.For(invalidObjectException.Message).Return("Invalid object name 'blah'");
-				SetupResult.For(storedProcException.Message).Return("'Could not find stored procedure 'blah'");
-			}
-			using (mocks.Playback())
-			{
-				Assert.IsTrue(InstallationManager.InstallationActionRequired(invalidObjectException, VersionInfo.FrameworkVersion));
-				Assert.IsTrue(InstallationManager.InstallationActionRequired(storedProcException, VersionInfo.FrameworkVersion));
-			}
-
-			QueryCommand command = new QueryCommand("Delete subtext_Version");
-			DataService.ExecuteQuery(command);
-			Assert.IsTrue(InstallationManager.InstallationActionRequired(new Exception("host"), VersionInfo.FrameworkVersion));
 		}
 
 		/// <summary>
 		/// Determines whether [is in install directory reports correct result].
 		/// </summary>
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void IsInInstallDirectoryReportsTrueCorrectly()
 		{
-			AssertIsInInstallDirectory("VirtDir", UnitTestHelper.GenerateRandomString());
-			AssertIsInInstallDirectory("", UnitTestHelper.GenerateRandomString());
+			AssertIsInInstallDirectory("VirtDir", System.Guid.NewGuid().ToString().Replace("-", ""));
+			AssertIsInInstallDirectory("", System.Guid.NewGuid().ToString().Replace("-", ""));
 			AssertIsInInstallDirectory("", "");
 		}
 
@@ -160,23 +66,28 @@ namespace UnitTests.Subtext.Installation
 		/// Determines whether [is in install directory reports correct result].
 		/// </summary>
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void IsInInstallDirectoryReportsFalseCorrectly()
 		{
-			AssertNotInInstallDirectory(UnitTestHelper.GenerateRandomString(), "");
-			AssertNotInInstallDirectory(UnitTestHelper.GenerateRandomString(), "VirtDir");
+			AssertNotInInstallDirectory(System.Guid.NewGuid().ToString().Replace("-", ""), "");
+			AssertNotInInstallDirectory(System.Guid.NewGuid().ToString().Replace("-", ""), "VirtDir");
 			AssertNotInInstallDirectory("", "");
 		}
 
-		static void AssertIsInInstallDirectory(string virtualDirectory, string subfolder)
+		void AssertIsInInstallDirectory(string virtualDirectory, string blogName)
 		{
-			UnitTestHelper.SetupBlog(subfolder, virtualDirectory, "Install/Default.aspx");
+			string host = System.Guid.NewGuid().ToString().Replace("-", "");
+			Config.CreateBlog("AssertIsInInstallDirectory", "username", "thePassword", host, blogName);
+			UnitTestHelper.SetHttpContextWithBlogRequest(host, blogName, virtualDirectory, "Install/InstallationComplete.aspx");
 			Assert.IsTrue(InstallationManager.IsInInstallDirectory, "This request should be within the installation directory.");	
 		}
 
-		static void AssertNotInInstallDirectory(string virtualDirectory, string subfolder)
+		void AssertNotInInstallDirectory(string virtualDirectory, string blogName)
 		{
-			UnitTestHelper.SetupBlog(subfolder, virtualDirectory, "Admin/Default.aspx");
+			string host = System.Guid.NewGuid().ToString().Replace("-", "");
+			Config.CreateBlog("Title", "username", "thePassword", host, blogName);
+
+			UnitTestHelper.SetHttpContextWithBlogRequest(host, blogName, virtualDirectory, "Admin/InstallationComplete.aspx");
 			Assert.IsFalse(InstallationManager.IsInInstallDirectory, "This request is indeed within the installation directory.");	
 		}
 	

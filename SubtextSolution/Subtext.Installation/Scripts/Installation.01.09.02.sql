@@ -1,6 +1,7 @@
 /*  Looks like we made a mistake in Subtext 1.09.01 with links 
 	This query fixes it.
 */
+
 UPDATE [<dbUser,varchar,dbo>].[subtext_LinkCategories] SET CategoryType = 5 WHERE CategoryType = 0
 
 

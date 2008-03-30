@@ -4,56 +4,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head runat="server">
 		<title>Subtext - HostAdmin</title>
-		<link rel="stylesheet" type="text/css" href="~/HostAdmin/styles/Style.css" runat="server" ID="lnkStyleSheet" />
-		<link rel="stylesheet" type="text/css" href="~/Skins/_System/csharp.css" runat="server" ID="lnkCsharp" />
-		<link rel="stylesheet" type="text/css" href="~/Skins/_System/commonstyle.css" runat="server" ID="lknCommon" />
-		<link rel="stylesheet" type="text/css" href="~/HostAdmin/scripts/helptip.css" runat="server" ID="lnkHelpTipCss" />
-		<st:ScriptTag language="javascript" src="~/HostAdmin/scripts/helptip.js" runat="server" ID="scrHelpTipJavascript" />
-		<st:ScriptTag language="javascript" src="~/scripts/prototype.js" runat="server" ID="prototypeScript" />
-		<st:ScriptTag language="javascript" src="~/scripts/scriptaculous.js" runat="server" ID="scriptaculousScript" />
-		<st:ScriptTag language="javascript" src="~/scripts/controls.js" runat="server" ID="controlsScript" />
-		<st:ScriptTag language="javascript" src="~/scripts/effects.js" runat="server" ID="effectsScript" />
+		<link rel="stylesheet" type="text/css" href="~/HostAdmin/styles/Style.css" runat="server" id="lnkStyleSheet" />
+		<link rel="stylesheet" type="text/css" href="~/Skins/_System/csharp.css" runat="server" id="lnkCsharp" />
+		<link rel="stylesheet" type="text/css" href="~/Skins/_System/commonstyle.css" runat="server" id="lknCommon" />
+		<link rel="stylesheet" type="text/css" href="~/HostAdmin/scripts/helptip.css" runat="server" id="lnkHelpTipCss" />
+		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/HostAdmin/scripts/helptip.js") %>" ></script>
 	</head>
 <body>
 <form id="frmMain" method="post" runat="server">
-	<asp:ScriptManager ID="scriptManager" runat="server" EnablePartialRendering="true" />
-	<div id="header">
-		<h1><asp:ContentPlaceHolder id="MPSectionTitle" runat="server">Subtext Host Admin</asp:ContentPlaceHolder></h1>
-	</div>
 	<div id="main">
+		<div id="logo">
+			<div id="loginStatus">Logged in As
+				<span id="hostAdminNameText">
+					<asp:Literal ID="hostAdminName" Runat="server" Text="" />
+				</span> 
+				<span id="logoutLinkText">[<a href="~/Logout.aspx?user=HostAdmin" id="logoutLink" runat="server">Logout</a>]</span></div>
+			<h1><asp:ContentPlaceHolder id="MPSectionTitle" runat="server">Subtext Host Admin</asp:ContentPlaceHolder></h1>
+		</div>
 		<ul id="menu">
-			<st:MenuItem ID="mnuDefault" 
-				Href="~/HostAdmin/Default.aspx" 
-				Title="Manage the blogs installed on this server"
+			<st:MenuItem ID="mnuDefault" href="~/HostAdmin/Default.aspx" title="Manage the blogs installed on this server"
 				runat="server">Installed Blogs</st:MenuItem>
-				
-			<st:MenuItem ID="usersMenuItem" 
-				Href="~/HostAdmin/UserManager.aspx" 
-				Title="Manage the users on this server"
-				runat="server">Users</st:MenuItem>
-			
-			<st:MenuItem ID="mnuImportStart" 
-				Href="~/HostAdmin/Import/ImportStart.aspx" 
-				Title="Import .TEXT Data"
+			<st:MenuItem ID="mnuManageGroups" href="~/HostAdmin/ManageGroups.aspx" title="Manage the blog groups"
+				runat="server">Blog Groups</st:MenuItem>
+			<st:MenuItem ID="mnuImportStart" href="~/HostAdmin/Import/ImportStart.aspx" title="Import .TEXT Data"
 				runat="server">Import .TEXT</st:MenuItem>
-			
-			<st:MenuItem ID="mnuChangePassword" 
-				Href="~/HostAdmin/ChangePassword.aspx" 
-				Title="Change HostAdmin Password."
+			<st:MenuItem ID="mnuChangePassword" href="~/HostAdmin/ChangePassword.aspx" title="Change HostAdmin Password."
 				runat="server">Change Password</st:MenuItem>
-				
-			<st:MenuItem ID="mnuErrorLog" 
-				Href="~/HostAdmin/ErrorLog.aspx" 
-				Title="Error Log."
+			<st:MenuItem ID="mnuErrorLog" href="~/HostAdmin/ErrorLog.aspx" title="Error Log."
 				runat="server">Error Log</st:MenuItem>
-				
-			<st:MenuItem ID="mnuPluginList" 
-				Href="~/HostAdmin/PluginList.aspx" 
-				Title="Plugin List."
-				runat="server">Plugin List</st:MenuItem>
-			
-			<li><asp:LoginStatus ID="loginStatus" runat="server" /></li>
 		</ul> <!-- /#menu -->
+		<div id="sidebar">
+			<asp:ContentPlaceHolder ID="MPSidebar" runat="server">
+				MAIN CONTENT
+			</asp:ContentPlaceHolder>
+		</div> <!-- /#sidebar -->
 		<div id="content">
 			<asp:ContentPlaceHolder ID="MPContent" runat="server">
 				MAIN CONTENT
@@ -61,6 +45,7 @@
 		</div> <!-- /#content -->
 		<div id="footer">&nbsp;</div>
 	</div> <!-- /#main -->
+	<div id="bottom"></div> <!-- /#bottom -->
 </form>
 </body>
 </html>

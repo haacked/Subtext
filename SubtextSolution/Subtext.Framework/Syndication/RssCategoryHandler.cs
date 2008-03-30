@@ -31,16 +31,16 @@ namespace Subtext.Framework.Syndication
 	public class RssCategoryHandler : EntryCollectionHandler<Entry>
 	{
 		protected LinkCategory Category;
-		IList<Entry> posts;
+        IList<Entry> posts;
 
-		protected override IList<Entry> GetFeedEntries()
+        protected override IList<Entry> GetFeedEntries()
 		{
-			if (Category == null)
+			if(Category == null)
 			{
 				Category = Cacher.SingleCategory(CacheDuration.Short);
 			}
 
-			if (Category != null && posts == null)
+			if(Category != null && posts == null)
 			{
 				posts = Cacher.GetEntriesByCategory(10, CacheDuration.Short, Category.Id);
 			}
@@ -55,15 +55,15 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected override CachedFeed BuildFeed()
 		{
-			CachedFeed feed = null;
+			CachedFeed feed =null;
 
 			posts = GetFeedEntries();
 
-			if (posts != null && posts.Count > 0)
+			if(posts != null && posts.Count > 0)
 			{
 				feed = new CachedFeed();
-				CategoryWriter cw = new CategoryWriter(posts, Category, WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
-				feed.LastModified = ConvertLastUpdatedDate(posts[0].DateSyndicated);
+				CategoryWriter cw = new CategoryWriter(posts, Category,WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
+				feed.LastModified = ConvertLastUpdatedDate(posts[0].DateCreated);
 				feed.Xml = cw.Xml;
 			}
 			return feed;
@@ -73,7 +73,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				return new CategoryWriter(posts, Category, WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
+				return new CategoryWriter(posts, Category,WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
 			}
 		}
 

@@ -92,42 +92,6 @@ namespace Subtext.Web.Admin.Pages {
         protected global::Subtext.Web.Controls.HelpToolTip Helptooltip6;
         
         /// <summary>
-        /// chkEnableCommentEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkEnableCommentEmail;
-        
-        /// <summary>
-        /// toolTipEnableCommentEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Subtext.Web.Controls.HelpToolTip toolTipEnableCommentEmail;
-        
-        /// <summary>
-        /// chkEnableTrackbackEmails control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkEnableTrackbackEmails;
-        
-        /// <summary>
-        /// toolTipEnableTrackbackEmails control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Subtext.Web.Controls.HelpToolTip toolTipEnableTrackbackEmails;
-        
-        /// <summary>
         /// hlpAkismet control.
         /// </summary>
         /// <remarks>

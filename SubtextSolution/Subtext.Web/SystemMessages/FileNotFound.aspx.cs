@@ -26,54 +26,54 @@ namespace Subtext.Web.SystemMessages
 	/// </summary>
 	public partial class FileNotFound : System.Web.UI.Page
 	{
-
+	
 		protected override void OnLoad(EventArgs e)
 		{
 			//TODO: Refactor this into a method and unit test it.
 			//Multiple blog handling.
-
-			//Since we were redirected here, 
-			// we want to make sure we send back a 404 and not a 200   -DF
-			Response.StatusCode = 404;
-			Response.Status = "404 Not Found";
-
-			string queryString;
-			if (Request.QueryString.Count == 0)
+            
+            //Since we were redirected here, 
+            // we want to make sure we send back a 404 and not a 200   -DF
+            Response.StatusCode = 404;
+            Response.Status = "404 Not Found";
+            
+            string queryString;
+			if(Request.QueryString.Count == 0)
 			{
 				return;
 			}
-
+			
 			queryString = Request.QueryString[0];
-
-			if (queryString != null && queryString.Length > 0)
+			
+			if(queryString != null && queryString.Length > 0)
 			{
 				string urlText = StringHelper.RightAfter(queryString, ";");
-				if (urlText != null && urlText.Length > 0)
+				if(urlText != null && urlText.Length > 0)
 				{
 					Uri uri = HtmlHelper.ParseUri(urlText);
-					if (uri == null)
+					if(uri == null)
 						return;
 
 					string extension = Path.GetExtension(uri.AbsolutePath);
-					if (extension == null || extension.Length == 0)
+					if(extension == null || extension.Length == 0)
 					{
 						string uriAbsolutePath = uri.AbsolutePath;
-						if (!uriAbsolutePath.EndsWith("/"))
+						if(!uriAbsolutePath.EndsWith("/"))
 						{
 							uriAbsolutePath += "/";
 						}
 						string subfolder = UrlFormats.GetBlogSubfolderFromRequest(uriAbsolutePath, Request.ApplicationPath);
 						BlogInfo info = Subtext.Framework.Configuration.Config.GetBlogInfo(uri.Host, subfolder);
-						if (info != null)
+						if(info != null)
 						{
 							Response.Redirect(uriAbsolutePath + "Default.aspx");
 							return;
 						}
-					}
+					}					
 				}
 			}
 
-			base.OnLoad(e);
+			base.OnLoad (e);
 		}
 
 
@@ -86,13 +86,13 @@ namespace Subtext.Web.SystemMessages
 			InitializeComponent();
 			base.OnInit(e);
 		}
-
+		
 		/// <summary>
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent()
-		{
+		{    
 
 		}
 		#endregion

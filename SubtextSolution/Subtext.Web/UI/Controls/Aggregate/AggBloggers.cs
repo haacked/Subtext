@@ -4,8 +4,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using Subtext.Data;
-using Subtext.Framework;
+using Subtext.Framework.Providers;
 using System.Globalization;
 
 namespace Subtext.Web.UI.Controls
@@ -66,7 +65,7 @@ namespace Subtext.Web.UI.Controls
         protected string GetListHtml()
         {
             HtmlGenericControl ul = new HtmlGenericControl("ul");
-            DataSet ds = StoredProcedures.DNWStats(BlogInfo.AggregateBlog.Host, BlogGroup).GetDataSet();
+            DataSet ds = DbProvider.Instance().GetAggregateStats(BlogGroup);
             DataTable dt = ds.Tables[0];
             if (dt != null && dt.Rows.Count > 0)
             {

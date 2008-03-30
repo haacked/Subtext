@@ -34,13 +34,14 @@ namespace Subtext.Web.UI.Controls
             set { tags = value; }
         }
 
-        [DefaultValue(20)]
+        private int itemCount;
+        
+		[DefaultValue(20)]
         public int ItemCount
         {
             get { return itemCount; }
             set { itemCount = value; }
         }
-		private int itemCount = 20;
 
         protected virtual void Tags_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
@@ -60,9 +61,7 @@ namespace Subtext.Web.UI.Controls
             tags = Cacher.GetTopTags(ItemCount, CacheDuration.Short);
             int tagCount = 0;
             foreach (Tag t in tags)
-            {
                 tagCount++;
-            }
 
             if (tagCount == 0)
             {

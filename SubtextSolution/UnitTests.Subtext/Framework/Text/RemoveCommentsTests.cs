@@ -11,6 +11,7 @@ namespace UnitTests.Subtext.Framework.Text
 	[TestFixture]
 	public class RemoveCommentsTests
 	{
+
 		/// <summary>
 		/// Passes in each row to the test. Calls <see cref="HtmlHelper.RemoveHtmlComments"/> on 
 		/// the input and compares against the expected value.

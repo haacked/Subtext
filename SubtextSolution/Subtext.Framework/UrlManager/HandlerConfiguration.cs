@@ -17,7 +17,6 @@ using System;
 using System.Configuration;
 using System.Web;
 using System.Xml.Serialization;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.UrlManager
 {
@@ -34,12 +33,7 @@ namespace Subtext.Framework.UrlManager
 		/// <param name="controls">Controls.</param>
 		public static void SetControls(HttpContext context, string[] controls)
 		{
-			if (context == null)
-			{
-				throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
-			}
-
-			if (controls != null)
+			if(controls != null)
 			{
 				context.Items.Add("Subtext.Framework.UrlManager.ControlContext", controls);
 			}
@@ -51,11 +45,6 @@ namespace Subtext.Framework.UrlManager
 		/// <param name="context">Context.</param>
 		public static string[] GetControls(HttpContext context)
 		{
-			if (context == null)
-			{
-				throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
-			}
-
 			return (string[])context.Items["Subtext.Framework.UrlManager.ControlContext"];
 		}
 
@@ -67,8 +56,8 @@ namespace Subtext.Framework.UrlManager
 		[XmlArray("HttpHandlers")]
 		public HttpHandler[] HttpHandlers
 		{
-			get { return this._httpHandlers; }
-			set { this._httpHandlers = value; }
+			get {return this._httpHandlers;}
+			set {this._httpHandlers = value;}
 		}
 
 		private string _defaultPageLocation;
@@ -79,8 +68,8 @@ namespace Subtext.Framework.UrlManager
 		[XmlAttribute("defaultPageLocation")]
 		public string DefaultPageLocation
 		{
-			get { return this._defaultPageLocation; }
-			set { this._defaultPageLocation = value; }
+			get {return this._defaultPageLocation;}
+			set {this._defaultPageLocation = value;}
 		}
 
 		private string _fullPageLocation;
@@ -90,9 +79,8 @@ namespace Subtext.Framework.UrlManager
 		/// <value></value>
 		public string FullPageLocation
 		{
-			get
-			{
-				if (this._fullPageLocation == null)
+			get {
+				if(this._fullPageLocation == null)
 				{
 					this._fullPageLocation = HttpContext.Current.Request.MapPath("~/" + DefaultPageLocation);
 				}

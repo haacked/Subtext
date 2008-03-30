@@ -19,7 +19,6 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Xml;
 using Subtext.Framework;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 
 namespace Subtext.Web
@@ -32,7 +31,7 @@ namespace Subtext.Web
 		private void Page_Load(object sender, EventArgs e)
 		{
 			string sql = "DNW_Stats";
-			string conn = Config.ConnectionString;
+			string conn = Subtext.Framework.Providers.DbProvider.Instance().ConnectionString;
 
 			int groupID = 0;
 

@@ -1,1 +1,1 @@
-<%@ Application Codebehind="Global.asax.cs" Inherits="Subtext.Global" %>
+<%@ Application CodeBehind="Global.asax.cs" Inherits="Subtext.Web.Global" %>

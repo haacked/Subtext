@@ -1,0 +1,191 @@
+/*  
+Theme Name: GlossyBlue - Basic
+Theme URI: http://www.ndesign-studio.com/
+Description: WP glossy theme designed by <a href="http://www.ndesign-studio.com/">N.Design Studio</a>.
+Version: 1.0
+Author: Nick
+Author URI: http://www.ndesign-studio.com/
+
+	This theme was designed and built by Nick La.
+
+	The CSS, XHTML and design is released under GPL:
+	http://www.opensource.org/licenses/gpl-license.php
+
+*/
+body {
+	font: 75%/150% "Trebuchet MS", Tahoma, Arial;
+	color: #000;
+	margin: 0px 20px;
+	padding: 0px;
+}
+a, a:visited {
+	color: #CC6600;
+	text-decoration: none;
+}
+p {
+	padding: 0px 0px 15px;
+	margin: 0px;
+}
+h1 {
+	margin:0px;
+	font: bold 36px/100% "Trebuchet MS", Tahoma, Arial;
+	text-align: right;
+	padding-bottom: 3px;
+}
+h1 a, h1 a:visited{
+	color: #000;
+	text-decoration: none;
+}
+h2 {
+	color: #59770e;
+	margin: 0px;
+	letter-spacing: -1px;
+	font: normal 190%/100% "Trebuchet MS", Tahoma, Arial;
+}
+h2 a, h2 a:visited {
+	color: #59770e;
+	text-decoration: none;
+}
+h3 {
+	font: normal 140%/100% "Trebuchet MS", Tahoma, Arial;
+	color: #758d38;
+	margin: 10px 0px 5px;
+}
+h4 {
+	font: normal 130%/100% "Trebuchet MS", Tahoma, Arial;
+	color: #758d38;
+	margin: 10px 0px 5px;
+}
+form {
+	margin:0px;
+	padding:0px;
+}
+#header {
+	border-bottom: 3px solid #59780a;
+}
+#headerimg {
+	width: auto;
+}
+#headerimg .description{
+	color: #666666;
+	font-size: 14px;
+	text-align: right;
+	padding-bottom: 3px;
+}
+#nav {
+	display: none;
+}
+#content {
+	padding: 10px 0px 30px 0px;
+	width: 100%;
+}
+.post {
+	clear:both;
+	padding-top: 10px;
+}
+.post-date {
+	font-size: 11px;
+	text-transform: uppercase;
+	color: #666666;
+}
+.post-cat {
+	float:left;
+	font-size: 95%;
+}
+.post-comments {
+	float: right;
+	font-size: 95%;
+}
+.post-calendar {
+	float: right;
+	font-size: 95%;
+}
+.post-content {
+	clear: both;
+	padding-top: 10px;
+}
+.navigation {
+	clear: both;
+	border-top: 1px solid #999999;
+	margin-top: 10px;
+}
+.navigation a, .navigation a:visited {
+	color: #59770e;
+}
+.previous-entries {
+	float: left;
+}
+.next-entries {
+	float: right;
+}
+#comments, #respond {
+	display: none;
+}
+.commentlist {
+	margin: 10px 0px;
+	padding-left: 20px;
+	line-height: 130%;
+}
+.commentlist li{
+	padding: 5px 10px;
+}
+.commentlist .alt {
+	background: #f1fedb;
+}
+.commentlist cite, .commentlist cite a, .commentlist cite a:visited {
+	font-weight: bold;
+	font-style: normal;
+	font-size: 120%;
+	color: #CC6600;
+}
+.commentlist small {
+	margin-bottom: 5px;
+	display: block;
+	font-size: 87%;
+}
+#commentform {
+	display: none;
+}
+#sidebar {
+	display: none;
+}
+#searchform {
+	display: none;
+}
+#footer {
+	display: none;
+}
+#credits {
+	display: none;
+}
+.center {
+	text-align: center;
+}
+img.center, a img.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.alignleft {
+	float: left;
+}
+img.alignleft, a img.alignleft {
+	float:left;
+	margin: 4px 10px 5px 0px;
+}
+.alignright {
+	float: right;
+}
+img.alignright, a img.alignright {
+	float:right;
+	margin: 4px 10px 5px 0px;
+}
+.clear {
+	clear:both;
+}
+hr.clear {
+	clear:both;
+	visibility: hidden;
+	margin: 0px;
+	padding: 0px;
+}

@@ -13,11 +13,12 @@ namespace UnitTests.Subtext.Framework.XmlRpc
     public class MetaBlogApiTests
     {
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void NewPostWithCategoryCreatesEntryWithCategory()
 		{
-			string username = UnitTestHelper.GenerateRandomString();
-			UnitTestHelper.SetupBlogWithUserAndPassword(username, "password");
+			string hostname = UnitTestHelper.GenerateRandomString();
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
 			Config.CurrentBlog.AllowServiceAccess = true;
 
 			LinkCategory category = new LinkCategory();
@@ -33,7 +34,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 			post.title = "A unit testing title";
 			post.dateCreated = DateTime.Now;
 
-			string result = api.newPost(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), username, "password", post, true);
+			string result = api.newPost(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), "username", "password", post, true);
 			int entryId = int.Parse(result);
 
 			Entry entry = Entries.GetEntry(entryId, PostConfig.None, true);
@@ -43,11 +44,12 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 		}
     	
     	[Test]
-    	[RollBack2]
+    	[RollBack]
     	public void NewPostAcceptsNullCategories()
-		{
-			string username = UnitTestHelper.GenerateRandomString();
-			UnitTestHelper.SetupBlogWithUserAndPassword(username, "password");
+    	{
+			string hostname = UnitTestHelper.GenerateRandomString();
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
 			Config.CurrentBlog.AllowServiceAccess = true;
 
 			MetaWeblog api = new MetaWeblog();
@@ -57,43 +59,21 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 			post.title = "A unit testing title";
     		post.dateCreated = DateTime.Now;
     		
-    		string result = api.newPost(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), username, "password", post, true);
+    		string result = api.newPost(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), "username", "password", post, true);
 			int.Parse(result);
     	}
-
+    	
         [Test]
-        [RollBack2]
-        public void DeletePostDeletesPost()
-        {
-			string username = UnitTestHelper.GenerateRandomString();
-            UnitTestHelper.SetupBlogWithUserAndPassword(username, "password");
-            Config.CurrentBlog.AllowServiceAccess = true;
-
-            MetaWeblog api = new MetaWeblog();
-
-            Entry entry = new Entry(PostType.BlogPost);
-            entry.Title = "Title 1";
-            entry.Body = "Blah";
-            entry.IsActive = true;
-            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            entry.Categories.Add("Test");
-            Entries.Create(entry);
-
-            api.deletePost(String.Empty, entry.Id.ToString(CultureInfo.InvariantCulture), username, "password", true);
-
-            Assert.IsNull(Entries.GetEntry(entry.Id, PostConfig.None,false));
-        }
-
-        [Test]
-        [RollBack2]
+        [RollBack]
         public void GetRecentPostsReturnsRecentPosts()
         {
-        	string username = UnitTestHelper.GenerateRandomString();
-			UnitTestHelper.SetupBlogWithUserAndPassword(username, "password");
+            string hostname = UnitTestHelper.GenerateRandomString();
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             MetaWeblog api = new MetaWeblog();
-			Post[] posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), username, "password", 10);
+            Post[] posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
             Assert.AreEqual(0, posts.Length);
 
             string category1Name = UnitTestHelper.GenerateRandomString();
@@ -133,7 +113,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 			entry.Categories.Add(category2Name);
         	Entries.Create(entry);
 
-         posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), username, "password", 10);
+            posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
             Assert.AreEqual(4, posts.Length, "Expected 4 posts");
             Assert.AreEqual(1, posts[3].categories.Length, "Expected our categories to be there.");
             Assert.AreEqual(2, posts[2].categories.Length, "Expected our categories to be there.");

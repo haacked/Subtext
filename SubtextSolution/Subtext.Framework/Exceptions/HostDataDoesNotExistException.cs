@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Runtime.Serialization;
 
 namespace Subtext.Framework.Exceptions
 {
@@ -36,10 +35,5 @@ namespace Subtext.Framework.Exceptions
 				return "The HostInfo table does not exist.";
 			}
 		}
-
-		public HostDataDoesNotExistException() {}
-		public HostDataDoesNotExistException(string message) : base(message) {}
-		public HostDataDoesNotExistException(string message, Exception innerException) : base(message, innerException) {}
-		protected HostDataDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 	}
 }

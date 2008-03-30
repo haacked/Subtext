@@ -1,17 +1,15 @@
 <%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="True" Codebehind="EntryEditor.ascx.cs" Inherits="Subtext.Web.Admin.UserControls.EntryEditor"%>
 <%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-
 <%@ Import Namespace = "Subtext.Web.Admin" %>
 
-<ANW:MessagePanel id="Messages" runat="server" />
+<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
 
 <ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True">
 	<asp:Repeater id="rprSelectionList" runat="server">
 		<HeaderTemplate>
-			<table id="Listing" class="Listing highlightTable" cellspacing="0" cellpadding="0" border="0">
+			<table id="Listing" class="listing highlightTable" cellspacing="0" cellpadding="0" border="0" style="<%= CheckHiddenStyle() %>">
 				<tr>
 					<th>Description</th>
 					<th width="50">Active</th>
@@ -49,7 +47,7 @@
 			</tr>
 		</ItemTemplate>
 		<AlternatingItemTemplate>
-			<tr class="Alt">
+			<tr class="alt">
 				<td>
 					<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "FullyQualifiedUrl") %>' ToolTip="View Entry" >
 				        <%# DataBinder.Eval(Container.DataItem, "Title") %></asp:HyperLink>
@@ -88,30 +86,31 @@
 			CssClass="Pager" />
 	<br class="clear" />
 </ANW:AdvancedPanel>
-<asp:PlaceHolder id="Edit" runat="server">
-	<fieldset id="editPost">
-		<legend>Edit</legend>
-		<p class="Label"><asp:HyperLink id="hlEntryLink" Runat="server" /></p>
-		
-		<label for="Editor_Edit_txbTitle" accesskey="t">Post <u>T</u>itle
-		&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" CssClass="error" ErrorMessage="* Your post must have a title" />
-		</label>
-		<asp:TextBox id="txbTitle" runat="server" CssClass="textbox" />
-			
-		<label for="Editor_Edit_richTextEditor" accesskey="b">Post <u>B</u>ody
-		&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="richTextEditor" CssClass="error" ErrorMessage="Your post must have a body" />
-		</label>
-		<st:RichTextEditor id="richTextEditor" runat="server" onerror="richTextEditor_Error"></st:RichTextEditor>
 
-		<label>Categories</label>
-		<asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal" CssClass="checkbox" />
-		
+<ANW:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle" Collapsible="False" HeaderText="Edit Post">
+	<div class="Edit">
+		<!-- DEBUG -->
+		<p class="Label"><asp:HyperLink id="hlEntryLink" Runat="server"></asp:HyperLink></p>
+		<p>
+			<label for="Editor_Edit_txbTitle" accesskey="t">Post <u>T</u>itle</label>&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title"></asp:RequiredFieldValidator>
+		</p>
+		<p>
+			<asp:TextBox id="txbTitle" runat="server" CssClass="textinput" MaxLength="250"></asp:TextBox>
+		</p>
+		<p>
+			<label for="Editor_Edit_richTextEditor" accesskey="b">Post <u>B</u>ody</label>&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="richTextEditor" ForeColor="#990066" ErrorMessage="Your post must have a body"></asp:RequiredFieldValidator></p>
+		<p>
+			<st:RichTextEditor id="richTextEditor" runat="server" onerror="richTextEditor_Error"></st:RichTextEditor>
+		</p>
+		<p><label>Categories</label></p>
+		<p><asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal"></asp:CheckBoxList></p>
 		<div>
-			<asp:Button id="lkbPost" runat="server" Text="Post" CssClass="button" />
-			<asp:Button id="lkUpdateCategories" runat="server" CausesValidation="false" Text="Categories" CssClass="button" />
-			<asp:Button id="lkbCancel" runat="server" CausesValidation="false" Text="Cancel" CssClass="button" />
+			<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post"  />
+			<asp:Button id="lkUpdateCategories" runat="server" CssClass="buttonSubmit" CausesValidation="false" Text="Categories" />
+			<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" CausesValidation="false" Text="Cancel" />
+			&nbsp;
 		</div>
-	</fieldset>
+	</div>
 	
 	<ANW:AdvancedPanel id="Advanced" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True" Collapsed="False" HeaderText="Advanced Options" BodyCssClass="Edit">
 		<!-- todo, make this more css based than table driven -->
@@ -129,14 +128,7 @@
 			</tr>
 		</table>
 		<p style="margin-top: 10px;">
-		    <label for="Editor_Edit_txtPostDate" accesskey="d">Post <u>D</u>ate</label> 
-            <asp:CustomValidator ID="vCustomPostDate" runat="server" Text="Invalid PostDate format. Must be a valid date/time expression" ControlToValidate="txtPostDate"></asp:CustomValidator>
-		</p>
-		<p>
-            <asp:TextBox ID="txtPostDate" runat="server" CssClass="textinput" MaxLength="25"></asp:TextBox>
-		</p>
-		<p>
-			<label for="Editor_Edit_txbEntryName" accesskey="n">Entry <u>N</u>ame (page name)</label> <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate="txbEntryName" ValidationExpression="^([a-zA-Z0-9-]*([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9-_]+)$" Text = "Invalid EntryName Format. Must only contain characters allowable in an URL." runat="server"/>
+			<label for="Editor_Edit_txbEntryName" accesskey="n">Entry <u>N</u>ame (page name)</label> <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate="txbEntryName" ValidationExpression="^([a-zA-Z0-9-\.]*([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9-_]+)$" Text = "Invalid EntryName Format. Must only contain characters allowable in an URL." runat="server"/>
 		</p>
 		<p>
 			<asp:TextBox id="txbEntryName" runat="server" CssClass="textinput" MaxLength="150"></asp:TextBox>
@@ -148,4 +140,4 @@
 		</p>
 	</ANW:AdvancedPanel>
 	
-</asp:PlaceHolder>
+</ANW:AdvancedPanel>

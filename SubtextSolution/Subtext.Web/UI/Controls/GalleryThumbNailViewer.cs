@@ -46,11 +46,11 @@ namespace Subtext.Web.UI.Controls
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
-
+			// Put user code to initialize the page here
 			if(Context != null)
 			{
 				int catID = UrlFormats.GetPostIDFromUrl(Request.Path);
-				baseImagePath = Images.GalleryVirtualUrl(catID);
+				this.baseImagePath = Images.HttpGalleryFilePath(Context,catID);
 
 				ImageCollection ic = Images.GetImagesByCategoryID(catID, true);
 				if(ic != null)

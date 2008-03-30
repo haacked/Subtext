@@ -17,15 +17,17 @@ using System;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Encosia;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Security;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
-using Subtext.Framework.Security;
+using Subtext.Web.UI.Pages;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -293,10 +295,10 @@ namespace Subtext.Web.UI.Controls
 				this.tbComment.Text = string.Empty;
 
 			if (this.tbEmail != null)
-				this.tbEmail.Text = SecurityHelper.IsAdmin ? Config.CurrentBlog.Owner.Email : string.Empty;
+				this.tbEmail.Text = SecurityHelper.IsAdmin ? Config.CurrentBlog.Email : string.Empty;
 
 			if (this.tbName != null)
-				this.tbName.Text = SecurityHelper.IsAdmin ? Config.CurrentBlog.Owner.UserName : string.Empty;
+				this.tbName.Text = SecurityHelper.IsAdmin ? Config.CurrentBlog.UserName : string.Empty;
 			
 			if(entry == null)
 				entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
@@ -358,24 +360,14 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnPreRender(e);
 
-			WebControl submitButton = this.btnSubmit ?? this.btnCompliantSubmit;
+            MonitoredUpdatePanel commentsPanel = new MonitoredUpdatePanel();
+		    commentsPanel.UpdatePanelID = SubtextMasterPage.CommentsPanelId;
 
-			string script = @"<script type=""text/javascript"">" + Environment.NewLine
-							+ "function SubmitComment(button) {" + Environment.NewLine
-							+ "  if (typeof(Page_ClientValidate) == 'function') { " + Environment.NewLine
-							+ "    if (Page_ClientValidate() == false) { return false; }" + Environment.NewLine
-							+ "  }" + Environment.NewLine
-							+ "  button.disabled = true;" + Environment.NewLine
-							+ "  button.value = 'Submitting...';"
-							+ "  " + Page.ClientScript.GetPostBackEventReference(new PostBackOptions(submitButton)) + ";" + Environment.NewLine
-							+ "  return true;" + Environment.NewLine
-							+ "}" + Environment.NewLine
-							+ "</script>";
+            PostBackRitalin pbr = new PostBackRitalin();
+            pbr.WaitText = "Submitting...";
+            pbr.MonitoredUpdatePanels.Add(commentsPanel);
 
-			if (!Page.ClientScript.IsClientScriptBlockRegistered("SubmitCommentScript"))
-				Page.ClientScript.RegisterClientScriptBlock(typeof(PostComment), "SubmitCommentScript", script);
-
-			submitButton.Attributes.Add("onclick", "SubmitComment(this);");
+            this.Controls.Add(pbr);
 		}
 	}
 }

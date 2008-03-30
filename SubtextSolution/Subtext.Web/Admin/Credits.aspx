@@ -618,19 +618,4 @@
     <p>
         Subtext uses <a href="http://freetextbox.com/default.aspx">FreeTextBox</a> as an
         alternative for FCKeditor.</p>
-    <h2>
-        ReverseDOS</h2>
-    <p>
-        Subtext optionally uses AngryPet's <a href="http://www.angrypets.com/tools/rdos/">ReverseDOS</a>
-        to stall potential spamming connections.</p>
-    <blockquote>
-        <p>
-            You are free to use these bits however you see fit, provided:</p>
-        <ol>
-            <li>You don't redistribute them. (You can use them commercially, without charge, just
-                don't distribute the files/binaries independant of a solution/application).</li>
-            <li>You don't try to take credit for them.</li>
-            <li>You don't attempt to hold me liable for any problems you have with them. </li>
-        </ol>
-    </blockquote>
 </asp:Content>

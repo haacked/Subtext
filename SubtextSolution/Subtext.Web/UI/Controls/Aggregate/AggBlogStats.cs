@@ -1,12 +1,18 @@
 using System;
 using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subtext.Data;
-using Subtext.Framework;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
 {
-    public class AggBlogStats : BaseControl
+    public partial class AggBlogStats : BaseControl
     {
         protected Literal BlogCount;
         protected Literal PostCount;
@@ -30,8 +36,7 @@ namespace Subtext.Web.UI.Controls
 
 			}
 
-
-			DataSet ds = StoredProcedures.DNWTotalStats(BlogInfo.AggregateBlog.Host, GroupID).GetDataSet();
+            DataSet ds = DbProvider.Instance().GetAggregateTotalStats(GroupID);
             if(ds.Tables[0] != null)
 			{
 				DataRow dr = ds.Tables[0].Rows[0];

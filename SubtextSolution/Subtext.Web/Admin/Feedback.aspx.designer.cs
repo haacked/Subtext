@@ -215,7 +215,7 @@ namespace Subtext.Web.Admin.Pages {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-		protected global::Subtext.Web.UI.WebControls.RichTextEditor richTextEditor;
+		protected global::Subtext.Web.Controls.RichTextEditor richTextEditor;
         
         /// <summary>
         /// lkbPost control.

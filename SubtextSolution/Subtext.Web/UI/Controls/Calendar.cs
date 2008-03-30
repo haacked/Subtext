@@ -127,7 +127,7 @@ namespace Subtext.Web.UI.Controls
 		/// <param name="dateString">The string to parse.</param>
 		/// <param name="parsedDate">The date if the string was parsed succesfully.</param>
 		/// <returns>True if the string was parsed succesfully.</returns>
-		private static bool TryParseDateTime(string dateString, out DateTime parsedDate)
+		private bool TryParseDateTime(string dateString, out DateTime parsedDate)
 		{ 
 			try
 			{
@@ -171,7 +171,7 @@ namespace Subtext.Web.UI.Controls
 			if (_currentDateIndex >= _dateCount || _currentDateIndex < 0)
 				return;
 	
-			DateTime entryDate = _monthEntries[_currentDateIndex].DateSyndicated;
+			DateTime entryDate = _monthEntries[_currentDateIndex].DateCreated;
 			DateTime calDate = e.Day.Date;
 	
 			if (IsSameDay(calDate,entryDate))
@@ -182,7 +182,7 @@ namespace Subtext.Web.UI.Controls
 				do
 				{
 					_currentDateIndex--;
-				} while (_currentDateIndex > -1 && IsSameDay(e.Day.Date, _monthEntries[_currentDateIndex].DateSyndicated));
+				} while (_currentDateIndex > -1 && IsSameDay(e.Day.Date, _monthEntries[_currentDateIndex].DateCreated));
 			}		   
 		}
 

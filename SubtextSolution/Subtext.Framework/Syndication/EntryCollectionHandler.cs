@@ -29,12 +29,12 @@ namespace Subtext.Framework.Syndication
 		protected override bool IsLocalCacheOK()
 		{
 			string dt = LastModifiedHeader;
-
-			if (dt != null)
+		
+			if(dt != null)
 			{
-				IList<T> ec = GetFeedEntries();
+                IList<T> ec = GetFeedEntries();
 
-				if (ec != null && ec.Count > 0)
+				if(ec != null && ec.Count > 0)
 				{
 				    //Get the first entry.
 				    T entry = default(T);
@@ -47,7 +47,7 @@ namespace Subtext.Framework.Syndication
 					return DateTime.Compare(DateTime.Parse(dt), ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
 				}
 			}
-			return false;
+			return false;			
 		}
 
 		/// <summary>

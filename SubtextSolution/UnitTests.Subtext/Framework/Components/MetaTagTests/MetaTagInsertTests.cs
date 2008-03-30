@@ -39,6 +39,8 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [RollBack2]
         public void CanInsertNewMetaTag(string content, string name, string httpEquiv, bool withEntry, string errMsg)
         {
+            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
+
             int? entryId = null;
             if (withEntry)
             {
@@ -82,6 +84,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [RollBack2]
         public void CanNotInsertInvalidMetaTag(string content, string name, string httpEquiv, string errMsg)
         {
+            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
             MetaTag mt = UnitTestHelper.BuildMetaTag(content, name, httpEquiv, blog.Id, null, DateTime.Now);
 
             MetaTags.Create(mt);
@@ -92,12 +95,6 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         public void CanNotInsertNullMetaTag()
         {
             MetaTags.Create(null);
-        }
-
-        [SetUp]
-        public void Setup()
-        {
-            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
         }
     }
 }

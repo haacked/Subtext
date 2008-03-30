@@ -14,10 +14,10 @@
 #endregion
 
 using System;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
-using Subtext.Installation;
 
 namespace Subtext.Web
 {
@@ -27,11 +27,11 @@ namespace Subtext.Web
 	public partial class UpgradeInProgress : System.Web.UI.Page
 	{
 
-		protected void Page_Load(object sender, EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			try
 			{
-				InstallationState state = InstallationManager.CurrentInstallationState;
+				InstallationState state = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
 				if(state == InstallationState.NeedsUpgrade || state == InstallationState.NeedsRepair)
 				{
 					plcUpgradeInProgressMessage.Visible = true;

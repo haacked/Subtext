@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Configuration.Provider;
 
 namespace Subtext.Extensibility.Providers
@@ -26,14 +27,34 @@ namespace Subtext.Extensibility.Providers
 		private static GenericProviderCollection<SearchProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<SearchProvider>("Search", out provider);
 
 		/// <summary>
+		/// Returns the currently configured SearchProvider.
+		/// </summary>
+		/// <returns></returns>
+		public static SearchProvider Instance()
+		{
+			return provider;
+		}
+
+		/// <summary>
+		/// Returns all the configured SearchProviders.
+		/// </summary>
+		public static GenericProviderCollection<SearchProvider> Providers
+		{
+			get
+			{
+				return providers;
+			}
+		}
+
+		/// <summary>
 		/// Initializes this provider, setting the connection string.
 		/// </summary>
 		/// <param name="name">Friendly Name of the provider.</param>
-		/// <param name="config">Config value.</param>
-		public override void Initialize(string name, NameValueCollection config)
+		/// <param name="configValue">Config value.</param>
+		public override void Initialize(string name, NameValueCollection configValue)
 		{
-			this.connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
-			base.Initialize(name, config);
+			this.connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue);
+			base.Initialize(name, configValue);
 		}
 
 		/// <summary>
@@ -59,10 +80,7 @@ namespace Subtext.Extensibility.Providers
 	
 	public struct SearchResult
 	{
-        string title;
-        Uri url;
-        
-        public SearchResult(string title, Uri url)
+		public SearchResult(string title, Uri url)
 		{
 			this.title = title;
 			this.url = url;
@@ -73,38 +91,13 @@ namespace Subtext.Extensibility.Providers
 			get { return this.title; }
 		}
 
+		string title;
+
 		public Uri Url
 		{
 			get { return this.url; }
 		}
 
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-            {
-                return false;
-            }
-
-            if (obj.GetType() != typeof(SearchResult))
-                return false;
-
-            SearchResult s = (SearchResult)obj;
-            return ((this.title == s.title) && (this.url == s.url));
-        }
-
-        public override int GetHashCode()
-        {
-            return (this.title.GetHashCode() ^ this.url.GetHashCode());
-        }
-
-        public static bool operator ==(SearchResult s1, SearchResult s2)
-        {
-            return ((s1.title == s2.title) && (s1.url == s2.url));
-        }
-
-        public static bool operator !=(SearchResult s1, SearchResult s2)
-        {
-            return !(s1 == s2);
-        }
+		Uri url;
 	}
 }

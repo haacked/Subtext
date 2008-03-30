@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Runtime.Serialization;
 
 namespace Subtext.Framework.Exceptions
 {
@@ -22,11 +21,7 @@ namespace Subtext.Framework.Exceptions
 	/// Summary description for HostNotConfiguredException.
 	/// </summary>
 	[Serializable]
-	public class HostNotConfiguredException : Exception 
+	public class HostNotConfiguredException : Exception
 	{
-		public HostNotConfiguredException() : base() {}
-		public HostNotConfiguredException(string message) : base(message) {}
-		public HostNotConfiguredException(string message, Exception innerException) : base(message, innerException) {}
-		protected HostNotConfiguredException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 	}
 }

@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.IO;
 
 namespace Subtext.Framework.Syndication
 {
-	public abstract class BaseSyndicationWriter<T> : BaseSyndicationWriter
+	public abstract class BaseSyndicationWriter<T>:BaseSyndicationWriter
 	{
 
 				/// <summary>

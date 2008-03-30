@@ -2,8 +2,7 @@ using System;
 using System.Data;
 using System.Web;
 using System.Web.UI.WebControls;
-using Subtext.Data;
-using Subtext.Framework;
+using Subtext.Framework.Providers;
 using System.Globalization;
 
 namespace Subtext.Web.UI.Controls
@@ -33,15 +32,12 @@ namespace Subtext.Web.UI.Controls
             {
                 Int32.TryParse(Request.QueryString["GroupID"], out groupId);
             }
-        	DataSet ds = StoredProcedures.DNWGetRecentPosts(BlogInfo.AggregateBlog.Host, groupId).GetDataSet();
-			if (ds.Tables.Count > 0)
-			{
-				DataTable dt = ds.Tables[0];
-				while (dt.Rows.Count > _Count)
-					dt.Rows.RemoveAt(dt.Rows.Count - 1);
-				RecentPosts.DataSource = dt;
-				RecentPosts.DataBind();
-			}
+
+            DataTable dt = DbProvider.Instance().GetAggregateRecentPosts(groupId);
+            while (dt.Rows.Count > _Count)
+                dt.Rows.RemoveAt(dt.Rows.Count - 1);
+            RecentPosts.DataSource = dt;
+            RecentPosts.DataBind();
         }
 
         protected string GetEntryUrl(string host, string app, string entryName, DateTime dt)

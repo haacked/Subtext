@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.UI.WebControls;
 
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Components;
 using Subtext.Web.Controls;
 
@@ -23,7 +24,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
             List<LinkCategory> lcc = new List<LinkCategory>();
-			lcc.AddRange(Links.GetActiveLinkCollections());
+			lcc.AddRange(Links.GetActiveCategories());
 			CatList.DataSource = lcc;
 			CatList.DataBind();
 		}

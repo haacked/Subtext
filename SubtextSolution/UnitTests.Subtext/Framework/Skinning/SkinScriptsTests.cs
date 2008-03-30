@@ -48,7 +48,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Test]
         public void ScriptElementCollectionRendererRendersScriptElements()
         {
-            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
@@ -73,7 +73,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Test]
         public void ScriptElementCollectionRendererRendersJSHandlerScript()
         {
-            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
@@ -170,7 +170,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Row("Haacked", 0)]
         public void MergedScriptIsCorrect(string skinKey, int expectedStyles)
         {
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
             MockRepository mocks = new MockRepository();
 
             VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);

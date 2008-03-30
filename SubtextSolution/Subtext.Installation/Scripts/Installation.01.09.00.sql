@@ -1,4 +1,3 @@
-
 /*
 The CategoryType column is defined in an enum and 
 not in the database. Unfortunately it defined "LinkCollection" 
@@ -9,8 +8,8 @@ UPDATE [<dbUser,varchar,dbo>].[subtext_LinkCategories] SET CategoryType = 5 WHER
 GO
 /*
 This was a unique constraint missing on the subtext_URLs table that 
-should be there.  We could not use the INFORMATION_SCHEMA VIEWS because 
-indexes are not represented by those VIEWS.
+should be there.  We could not use the information_schema views because 
+indexes are not represented by those views.
 */
 CREATE TABLE #Indexes
 (
@@ -33,8 +32,8 @@ GO
 
 /*
 This was a unique constraint missing on the subtext_Referrals table that 
-should be there.  We could not use the INFORMATION_SCHEMA VIEWS because 
-indexes are not represented by those VIEWS.
+should be there.  We could not use the information_schema views because 
+indexes are not represented by those views.
 */
 CREATE TABLE #Indexes
 (

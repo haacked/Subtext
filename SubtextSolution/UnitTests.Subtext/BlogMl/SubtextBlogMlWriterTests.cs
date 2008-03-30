@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
-using System.Web.Security;
 using System.Xml;
 using BlogML.Xml;
 using MbUnit.Framework;
@@ -28,8 +27,7 @@ namespace UnitTests.Subtext.BlogML
 		/// the mapping between the post and category.
 		/// </summary>
 		[Test]
-		[ExtractResource("UnitTests.Subtext.Resources.BlogMl.SinglePostWithCategory.xml", typeof(SubtextBlogMlWriterTests))]
-		[RollBack2]
+		[RollBack]
 		public void CanWritePostWithCategoryAndImportTheOutput()
 		{
 			CreateBlogAndSetupContext();
@@ -38,7 +36,7 @@ namespace UnitTests.Subtext.BlogML
 			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
 			provider.ConnectionString = Config.ConnectionString;
 			BlogMLReader reader = BlogMLReader.Create(provider);
-			Stream stream = ExtractResourceAttribute.Stream;
+			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithCategory.xml");
 			reader.ReadBlog(stream);
 
 			// Make sure we created a post with a category.
@@ -60,15 +58,13 @@ namespace UnitTests.Subtext.BlogML
 //			writer.EmbedAttachments = false;
             MemoryStream memoryStream = new MemoryStream();
 
-			IDisposable request;
 			using (XmlTextWriter xmlWriter = new XmlTextWriter(memoryStream, Encoding.UTF8))
 			{
 				writer.Write(xmlWriter);
 
 				// Create a new blog.
-				MembershipUser owner = Membership.CreateUser(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword, UnitTestHelper.MembershipTestEmail);
-				BlogInfo blog = Config.CreateBlog("BlogML Import Unit Test Blog", Config.CurrentBlog.Host + "2", "", owner);
-				request = BlogRequestSimulator.SimulateRequest(blog, blog.Host, "", "");
+				Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "2", ""), "Could not create the blog for this test");
+				UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "2", "");
 				Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("2"), "Looks like we've cached our old blog.");
 
 				// Now read it back in to a new blog.
@@ -86,12 +82,10 @@ namespace UnitTests.Subtext.BlogML
 			Assert.AreEqual(1, newEntries.Count, "Round trip failed to create the same number of entries.");
 			Assert.AreEqual(1, newEntries[0].Categories.Count, "Expected one category for this entry.");
 			Assert.AreEqual("Category002", newEntries[0].Categories[0], "Expected the catgory to be 'Category002'");
-			if(request != null)
-				request.Dispose();
 		}
 		
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void WritingBlogMLWithEntriesContainingNoCategoriesWorks()
 		{
 			CreateBlogAndSetupContext();
@@ -128,7 +122,7 @@ namespace UnitTests.Subtext.BlogML
 		}
 
 		[Test]
-		[RollBack2]
+		[RollBack]
 		public void WritingBlogMLWithEverythingWorks()
 		{
 			CreateBlogAndSetupContext();
@@ -195,8 +189,12 @@ namespace UnitTests.Subtext.BlogML
 
 		private static void CreateBlogAndSetupContext()
 		{
-			UnitTestHelper.SetupBlog();
-			Config.CurrentBlog.Title = "BlogML Import Unit Test Blog";
+			string hostName = UnitTestHelper.GenerateRandomString();
+			Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, ""), "Could not create the blog for this test");
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
+			BlogRequest.Current = new BlogRequest(hostName, string.Empty, new Uri(string.Format("http://{0}/", hostName)), false);
+			Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
+
 			Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
 			Config.CurrentBlog.ImagePath = "/image/";
 		}

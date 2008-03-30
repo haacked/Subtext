@@ -25,7 +25,7 @@ namespace Subtext.Web.Admin.Pages
 	/// </summary>
 	public class ConfirmationPage : AdminPage
 	{
-		private bool _IsInEdit;
+		private bool _IsInEdit = false;
 		public bool IsInEdit
 		{
 			get {return this._IsInEdit;}

@@ -3,7 +3,7 @@ REM To run this script you have to replace all templated parameter inside the sq
 
 ::SET VARIABLES
 SET DBNAME=%1%
-IF "%DBNAME%" == "" SET DBNAME=SubtextData
+IF "%DBNAME%" == "" SET DBNAME=SubtextData_1.9
 
 OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\Installation.01.00.00.sql
 OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\Installation.01.05.00.sql
@@ -13,9 +13,6 @@ OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\Instal
 OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\Installation.01.09.04.sql
 OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\Installation.01.09.05.sql
 OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\Installation.01.09.06.sql
-OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\Installation.01.99.90.sql
-OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\Installation.01.99.91.sql
-OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\Installation.02.00.00.sql
 OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\StoredProcedures.sql
 
 

@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Configuration.Provider;
 using System.Data.SqlClient;
 using System.Web.UI;
 
@@ -25,7 +24,7 @@ namespace Subtext.Extensibility.Providers
 	/// This allows new data providers to implement their own installation 
 	/// code.
 	/// </summary>
-    public abstract class Installation : ProviderBase
+    public abstract class Installation : System.Configuration.Provider.ProviderBase
 	{
 		private static Installation provider;
 		private static GenericProviderCollection<Installation> providers = ProviderConfigurationHelper.LoadProviderCollection("Installation", out provider);

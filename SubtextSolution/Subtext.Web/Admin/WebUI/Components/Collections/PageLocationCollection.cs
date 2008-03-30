@@ -35,10 +35,10 @@ namespace Subtext.Web.Admin
 		private const int _defaultCapacity = 16;
 
 		private PageLocation[] _array;
-		private int _count;
+		private int _count = 0;
 
 		[NonSerialized]
-		private int _version;
+		private int _version = 0;
         
 		#endregion
 		#region Private Constructors

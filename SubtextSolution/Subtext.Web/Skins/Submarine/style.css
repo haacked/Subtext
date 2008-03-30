@@ -157,15 +157,15 @@ body
 	font-weight: bold;
 	font-size: .9em;
 }
-#search
+#searchBox
 {
-	/* container for the search box */
+	/* container for the searchbox */
 }
-#search .searchterm
+#searchBox .searchInput
 {
 	/* the text box that search terms are typed into */
 }
-#search .searchButton
+#searchBox .seachButton
 {
 	/* the button pressed to initiate the search */
 }

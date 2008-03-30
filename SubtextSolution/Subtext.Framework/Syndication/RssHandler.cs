@@ -17,14 +17,13 @@ using System;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
-using System.Globalization;
 
 namespace Subtext.Framework.Syndication
 {
 	/// <summary>
 	/// Class used to handle requests for an RSS feed.
 	/// </summary>
-	public class RssHandler : BaseSyndicationHandler<Entry>
+	public class RssHandler : Subtext.Framework.Syndication.BaseSyndicationHandler<Entry>
 	{
 		BaseSyndicationWriter<Entry> writer;
 
@@ -36,7 +35,7 @@ namespace Subtext.Framework.Syndication
 		protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
 		{
 			const string key = "RSS;IndividualMainFeed;BlogId:{0};LastViewed:{1}";
-			return string.Format(CultureInfo.InvariantCulture, key, CurrentBlog.Id, dateLastViewedFeedItemPublished);
+			return string.Format(key, CurrentBlog.Id, dateLastViewedFeedItemPublished);
 		}
 
 		/// <summary>
@@ -45,7 +44,7 @@ namespace Subtext.Framework.Syndication
 		/// <param name="feed">Feed.</param>
 		protected override void Cache(CachedFeed feed)
 		{
-			Context.Cache.Insert(CacheKey(SyndicationWriter.DateLastViewedFeedItemPublished), feed, null, DateTime.Now.AddSeconds((double)CacheDuration.Medium), TimeSpan.Zero);
+			Context.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, null, DateTime.Now.AddSeconds((double)CacheDuration.Medium), TimeSpan.Zero);
 		}
 
 		/// <summary>
@@ -56,9 +55,9 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				if (writer == null)
+				if(writer == null)
 				{
-					writer = new RssWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), PublishDateOfLastFeedItemReceived, UseDeltaEncoding);
+					writer = new RssWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding);
 				}
 				return writer;
 			}

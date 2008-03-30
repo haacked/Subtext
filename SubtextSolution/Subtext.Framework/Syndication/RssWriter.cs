@@ -32,11 +32,10 @@ namespace Subtext.Framework.Syndication
 		/// <param name="entries">Entries.</param>
 		/// <param name="dateLastViewedFeedItemPublished"></param>
 		/// <param name="useDeltaEncoding"></param>
-		public RssWriter(IList<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
-			: base(dateLastViewedFeedItemPublished, useDeltaEncoding)
+		public RssWriter(IList<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
-			Items = entries;
-			UseAggBugs = true;
+			this.Items = entries;
+			this.UseAggBugs = true;
 		}
 
 		/// <summary>
@@ -98,7 +97,7 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected override string GetAuthorFromItem(Entry item)
 		{
-			return item.Author.UserName;
+			return item.Author;
 		}
 
 		/// <summary>
@@ -108,7 +107,7 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected override DateTime GetPublishedDateUtc(Entry item)
 		{
-			return Config.CurrentBlog.TimeZone.ToUniversalTime(item.DateSyndicated);
+			return Config.CurrentBlog.TimeZone.ToUniversalTime(item.DateCreated);
 		}
 
 		/// <summary>
@@ -152,3 +151,4 @@ namespace Subtext.Framework.Syndication
 		}
 	}
 }
+

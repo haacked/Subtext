@@ -1,25 +1,9 @@
-#region Disclaimer/Info
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Subtext WebLog
-// 
-// Subtext is an open source weblog system that is a fork of the .TEXT
-// weblog system.
-//
-// For updated news and information please visit http://subtextproject.com/
-// Subtext is hosted at SourceForge at http://sourceforge.net/projects/subtext
-// The development mailing list is at subtext-devs@lists.sourceforge.net 
-//
-// This project is licensed under the BSD license.  See the License.txt file for more information.
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#endregion
-
 using System;
 using System.Collections;
 using System.Globalization;
 using System.Threading;
 using System.Web;
 using System.Web.Caching;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -41,16 +25,16 @@ namespace Subtext.Framework
 		{
 			//Check per-request cache.
 			ContentCache cache = HttpContext.Current.Items["ContentCache"] as ContentCache;
-            if (cache != null)
-            {
-                return cache;
-            }
+			if(cache != null)
+				return cache;
 
 			cache = new ContentCache(HttpContext.Current.Cache);
 			//Per-Request Cache.
 			HttpContext.Current.Items["ContentCache"] = cache;
 			return cache;
 		}
+
+		private ContentCache() {}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ContentCache"/> class. 
@@ -63,7 +47,7 @@ namespace Subtext.Framework
 		}
 
 		//Returns a language aware cache key.
-		private static string GetCacheKey(string key)
+		private string GetCacheKey(string key)
 		{
 			return key + ":" + Thread.CurrentThread.CurrentCulture.LCID.ToString(CultureInfo.InvariantCulture);
 		}
@@ -76,11 +60,11 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return cache[GetCacheKey(key)];
+				return this.cache[GetCacheKey(key)];
 			}
 			set
 			{
-				cache.Insert(GetCacheKey(key), value);
+				this.cache.Insert(GetCacheKey(key), value);
 			}
 		}
 
@@ -93,11 +77,9 @@ namespace Subtext.Framework
 		/// <param name="value">The value.</param>
 		public void Insert(string key, object value)
 		{
-            if (value == null)
-            {
-                throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
-            }
-			cache.Insert(GetCacheKey(key), value);
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot cache a null object.");
+			this.cache.Insert(GetCacheKey(key), value);
 		}
 
 		/// <summary>
@@ -114,12 +96,10 @@ namespace Subtext.Framework
 		/// <param name="cacheDuration">The cache duration.</param>
 		public void Insert(string key, object value, CacheDuration cacheDuration)
 		{
-            if (value == null)
-            {
-                throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
-            }
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot cache a null object.");
 			
-			cache.Insert(GetCacheKey(key), value, null, DateTime.Now.AddSeconds((int)cacheDuration), TimeSpan.Zero, CacheItemPriority.Normal, null);
+			this.cache.Insert(GetCacheKey(key), value, null, DateTime.Now.AddSeconds((int)cacheDuration), TimeSpan.Zero, CacheItemPriority.Normal, null);
 		}
 
 		/// <summary>
@@ -136,12 +116,10 @@ namespace Subtext.Framework
 		/// <param name="cacheDependency">The cache dependency.</param>
 		public void Insert(string key, object value, CacheDependency cacheDependency)
 		{
-            if (value == null)
-            {
-                throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
-            }
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot cache a null object.");
 			
-			cache.Insert(GetCacheKey(key), value, cacheDependency);
+			this.cache.Insert(GetCacheKey(key), value, cacheDependency);
 		}
 
 		/// <summary>
@@ -151,7 +129,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public object Get(string key)
 		{
-			return cache.Get(GetCacheKey(key));
+			return this.cache.Get(GetCacheKey(key));
 		}
 
 		/// <summary>
@@ -161,7 +139,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public object Remove(string key)
 		{
-			return cache.Remove(GetCacheKey(key));
+			return this.cache.Remove(GetCacheKey(key));
 		}
 
 		/// <summary>
@@ -173,9 +151,18 @@ namespace Subtext.Framework
 		/// </returns>
 		public IEnumerator GetEnumerator()
 		{
-			return cache.GetEnumerator();
+			return this.cache.GetEnumerator();
 		}
 	}
 
-
+	/// <summary>
+	/// Low granularity Cache Duration.
+	/// </summary>
+	public enum CacheDuration
+	{
+		None = 0,
+		Short = 10,
+		Medium = 20,
+		Long = 30
+	};
 }

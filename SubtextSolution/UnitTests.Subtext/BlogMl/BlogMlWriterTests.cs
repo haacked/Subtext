@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.BlogML
 			
 			MockRepository mocks = new MockRepository();
 			IBlogMLProvider provider = (IBlogMLProvider)mocks.CreateMock(typeof(IBlogMLProvider));
-			Expect.Call(provider.GetBlogMLContext()).Return(context);
+			Expect.Call(provider.GetBlogMlContext()).Return(context);
 			Expect.Call(provider.IdConversion).Return(IdConversionStrategy.Empty);
 			mocks.ReplayAll();
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
@@ -93,7 +93,7 @@ namespace UnitTests.Subtext.BlogML
 			//Now setup expectations.
 			MockRepository mocks = new MockRepository();
 			IBlogMLProvider provider = (IBlogMLProvider)mocks.CreateMock(typeof(IBlogMLProvider));
-			Expect.Call(provider.GetBlogMLContext()).Return(context);
+			Expect.Call(provider.GetBlogMlContext()).Return(context);
 			Expect.Call(provider.IdConversion).Return(IdConversionStrategy.Empty);
 			Expect.Call(provider.GetBlog(blogId)).Return(blog);
 			Expect.Call(provider.GetAllCategories(blogId)).Return(categories);
@@ -193,7 +193,7 @@ namespace UnitTests.Subtext.BlogML
 			//Now setup expectations.
 			MockRepository mocks = new MockRepository();
 			IBlogMLProvider provider = (IBlogMLProvider)mocks.CreateMock(typeof(IBlogMLProvider));
-			Expect.Call(provider.GetBlogMLContext()).Return(context);
+			Expect.Call(provider.GetBlogMlContext()).Return(context);
 			Expect.Call(provider.IdConversion).Return(conversion);
 			Expect.Call(provider.GetBlog(blogId)).Return(blog);
 			Expect.Call(provider.GetAllCategories(blogId)).Return(categories);

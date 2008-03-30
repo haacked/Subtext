@@ -14,7 +14,6 @@ namespace UnitTests.Subtext.Framework.Configuration
         public void CreateBlogAlias()
         {
             BlogInfo blog = UnitTestHelper.CreateBlogAndSetupContext();
-        	
             BlogAlias alias = new BlogAlias();
             alias.BlogId = blog.Id;
             alias.Host = UnitTestHelper.GenerateRandomString();

@@ -27,16 +27,16 @@ namespace Subtext.Framework.Util
 	public static class SerializationHelper
 	{
 		/// <summary>
-		/// Loads the specified type based on the specified stream.
-		/// </summary>
-		/// <param name="stream">stream containing the type.</param>
-		/// <returns></returns>
-		public static T Load<T>(Stream stream)
-		{
-			XmlSerializer serializer = new XmlSerializer(typeof(T));
-			return (T)serializer.Deserialize(stream);
-		}
-
+        /// Loads the specified type based on the specified stream.
+        /// </summary>
+        /// <param name="stream">stream containing the type.</param>
+        /// <returns></returns>
+        public static T Load<T>(Stream stream)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            return (T)serializer.Deserialize(stream);
+        }
+		
 		/// <summary>
 		/// Serializes an object to a base64 encoded string.
 		/// </summary>

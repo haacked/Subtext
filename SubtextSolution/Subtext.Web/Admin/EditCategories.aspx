@@ -15,8 +15,8 @@
 	<st:MessagePanel id="Messages" runat="server" />
 
 	<st:AdvancedPanel id="Edit" runat="server" Collapsible="False" HeaderText="Edit Categories" HeaderCssClass="CollapsibleHeader" DisplayHeader="true">
-		<asp:DataGrid id="dgrItems" AutoGenerateColumns="False" GridLines="None" CssClass="Listing" runat="server">
-			<AlternatingItemStyle CssClass="Alt"></AlternatingItemStyle>
+		<asp:DataGrid id="dgrItems" AutoGenerateColumns="False" GridLines="None" CssClass="listing" runat="server">
+			<AlternatingItemStyle CssClass="alt"></AlternatingItemStyle>
 			<HeaderStyle CssClass="Header"></HeaderStyle>
 
 			<Columns>
@@ -54,23 +54,17 @@
 		</asp:DataGrid>
 	</st:AdvancedPanel>
 
-	<asp:PlaceHolder id="Add" runat="server">
-		<fieldset>
-			<legend>Add New Category</legend>
-		
-			<label class="Block">
-				Title
-				&nbsp;<asp:RequiredFieldValidator id="valtxbNewTitleRequired" runat="server" ControlToValidate="txbNewTitle" ForeColor="#990066" ErrorMessage="Your category must have a description" />
-			</label>
-			<asp:TextBox id="txbNewTitle" runat="server" CssClass="textbox" />
-			&nbsp; 
-			<p><asp:CheckBox id="ckbNewIsActive" runat="server" Checked="true" CssClass="checkbox" Text="Visible" /></p>
-			
-			<label>Description (1000 characters including HTML)</label>
-			<asp:TextBox id="txbNewDescription" max="1000" runat="server" textmode="MultiLine" />
-			<div class="buttons">
-				<asp:Button id="lkbPost" runat="server" CssClass="button" Text="Add" onclick="lkbPost_Click" />
-			</div>
-		</fieldset>
-	</asp:PlaceHolder>
+	<st:AdvancedPanel id="Add" runat="server" Collapsible="False" HeaderText="Add New Category" HeaderCssClass="CollapsibleTitle" DisplayHeader="true" BodyCssClass="Edit">
+		<label class="Block">Title&nbsp;<asp:RequiredFieldValidator id="valtxbNewTitleRequired" runat="server" ControlToValidate="txbNewTitle" ForeColor="#990066" ErrorMessage="Your category must have a description" /></label>
+		<asp:TextBox id="txbNewTitle" runat="server" CssClass="textinput"></asp:TextBox>
+		&nbsp; 
+		Visible <asp:CheckBox id="ckbNewIsActive" runat="server" Checked="true"></asp:CheckBox>
+		<br />
+		<label class="Block">Description (1000 characters including HTML)</label><br />
+		<asp:TextBox id="txbNewDescription" max="1000"  runat="server" rows="5" CssClass="textarea" textmode="MultiLine"></asp:TextBox>
+		<div style="margin-top: 8px">
+			<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Add" onclick="lkbPost_Click" />
+			<br />&nbsp; 
+		</div>
+	</st:AdvancedPanel>
 </asp:Content>

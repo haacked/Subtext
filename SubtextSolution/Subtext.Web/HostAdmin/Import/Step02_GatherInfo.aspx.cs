@@ -27,8 +27,8 @@ namespace Subtext.Web.HostAdmin
 	/// </summary>
 	public partial class Step02_GatherInfo : HostAdminPage
 	{
-		ImportProvider _providerInfo;
-		Control importInformationControl;
+		ImportProvider _providerInfo = null;
+		Control importInformationControl = null;
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
