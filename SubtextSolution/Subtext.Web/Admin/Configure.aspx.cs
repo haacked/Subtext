@@ -70,7 +70,7 @@ namespace Subtext.Web.Admin.Pages
 				txbSecondaryCss.Text = info.Skin.CustomCssText;
 			}
 
-			IList<SkinTemplate> templates = SkinTemplates.Instance().Templates;
+            SkinTemplateCollection templates = new SkinTemplateCollection();
 			foreach(SkinTemplate template in templates)
 			{
 				ddlSkin.Items.Add(new ListItem(template.Name, template.SkinKey));
@@ -146,7 +146,7 @@ namespace Subtext.Web.Admin.Pages
 				info.News = NormalizeString(txbNews.Text);
 				info.TrackingCode = NormalizeString(txbGenericTrackingCode.Text);
 
-				SkinTemplate skinTemplate = SkinTemplates.Instance().GetTemplate(ddlSkin.SelectedItem.Value);
+				SkinTemplate skinTemplate = new SkinTemplateCollection().GetTemplate(ddlSkin.SelectedItem.Value);
 				info.Skin.TemplateFolder = skinTemplate.TemplateFolder;
 				info.Skin.SkinStyleSheet = skinTemplate.StyleSheet;
 				Config.UpdateConfigData(info);

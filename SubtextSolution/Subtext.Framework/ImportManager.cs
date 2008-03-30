@@ -66,7 +66,7 @@ namespace Subtext.Framework
 			const int pageSize = 100;
 			int pages = totalBlogCount/pageSize;
 			int currentPage = 1;
-			SkinTemplates skins = SkinTemplates.Instance();
+            SkinTemplateCollection skins = new SkinTemplateCollection();
 
 			if (totalBlogCount % pageSize > 0)
 			{

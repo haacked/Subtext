@@ -26,9 +26,9 @@ namespace Subtext.Framework.UI.Skinning
     /// </summary>
     public class StyleSheetElementCollectionRenderer
     {
-        readonly SkinTemplates templates;
+        readonly SkinTemplateCollection templates;
 		
-        public StyleSheetElementCollectionRenderer(SkinTemplates templates)
+        public StyleSheetElementCollectionRenderer(SkinTemplateCollection templates)
         {
             this.templates = templates;
         }

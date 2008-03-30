@@ -27,7 +27,7 @@ namespace Subtext.Framework.Web.Handlers
     public class JsHandler : BaseHttpHandler
     {
 
-        private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(SkinTemplates.Instance());
+        private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinTemplateCollection());
 
         public override void HandleRequest(HttpContext context)
         {

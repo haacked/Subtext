@@ -38,6 +38,15 @@ namespace Subtext.Framework.UI.Skinning
 
 		private string templateFolder;
 
+        [XmlAttribute]
+        public bool IsMobile
+        {
+            get { return this.isMobile; }
+            set { this.isMobile = value; }
+        }
+
+        private bool isMobile;
+
 		/// <summary>
 		/// Gets or sets the stylesheet for this Skin.  Remember, 
 		/// every skin template folder should include a "style.css" 
