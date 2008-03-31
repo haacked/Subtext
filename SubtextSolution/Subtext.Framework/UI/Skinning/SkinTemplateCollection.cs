@@ -40,7 +40,7 @@ namespace Subtext.Framework.UI.Skinning
             }
             foreach (SkinTemplate template in skinTemplates.Templates)
             {
-                if (template.IsMobile && mobile || !template.IsMobile && !mobile)
+                if (template.MobileSupport > MobileSupport.None && mobile || template.MobileSupport == MobileSupport.None && !mobile)
                 {
                     this.Add(template);
                 }
