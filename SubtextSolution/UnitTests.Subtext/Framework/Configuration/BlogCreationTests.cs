@@ -282,6 +282,21 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Assert.IsTrue(Config.UpdateConfigData(info), "Updating blog config should return true.");
 		}
 
+        [Test]
+        [RollBack]
+        public void CanUpdateMobileSkin()
+        {
+            Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
+            BlogInfo info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
+            info.MobileSkin = new SkinConfig();
+            info.MobileSkin.TemplateFolder = "Mobile";
+            info.MobileSkin.SkinStyleSheet = "Mobile.css";
+            Assert.IsTrue(Config.UpdateConfigData(info), "Updating blog config should return true.");
+            BlogInfo blog = BlogInfo.GetBlogById(info.Id);
+            Assert.AreEqual("Mobile", blog.MobileSkin.TemplateFolder);
+            Assert.AreEqual("Mobile.css", blog.MobileSkin.SkinStyleSheet);
+        }
+
 		/// <summary>
 		/// Makes sure that every invalid character is checked 
 		/// within the subfolder name.

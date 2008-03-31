@@ -298,9 +298,9 @@ namespace Subtext.Framework.Configuration
 		/// <param name="cache">Cache.</param>
 		/// <param name="info">Config.</param>
 		/// <param name="cacheKEY">Cache KEY.</param>
-		protected void CacheConfig(Cache cache, BlogInfo info, string cacheKEY)
+		protected void CacheConfig(Cache cache, BlogInfo info, string cacheKey)
 		{
-			cache.Insert(cacheKEY, info, null, DateTime.Now.AddSeconds(CacheTime), TimeSpan.Zero, CacheItemPriority.High, null);
+			cache.Insert(cacheKey, info, null, DateTime.Now.AddSeconds(CacheTime), TimeSpan.Zero, CacheItemPriority.High, null);
 		}
 	}
 }

@@ -1012,10 +1012,7 @@
     <Content Include="Admin\UserControls\EntryEditor.ascx" />
     <Content Include="Admin\EditPosts.aspx" />
     <Content Include="Admin\Credits.aspx" />
-    <Content Include="App_Data\Subtext.mdf">
-    </Content>
-    <Content Include="App_Data\Subtext_log.ldf">
-      <DependentUpon>Subtext.mdf</DependentUpon>
+    <Content Include="App_Data\Subtext2.0.mdf">
     </Content>
     <Content Include="DTP.aspx" />
     <Content Include="ExternalDependencies\FreeTextBox.xml" />
@@ -1499,6 +1496,43 @@
     <Content Include="Skins\AnotherEon001\PageTemplate.ascx" />
     <Content Include="Skins\AnotherEon001\print.css" />
     <Content Include="Skins\AnotherEon001\style.css" />
+    <Content Include="Skins\Mobile\Controls\ArchiveCategory.ascx" />
+    <Content Include="Skins\Mobile\Controls\ArchiveDay.ascx" />
+    <Content Include="Skins\Mobile\Controls\ArchiveLinks.ascx" />
+    <Content Include="Skins\Mobile\Controls\ArchiveMonth.ascx" />
+    <Content Include="Skins\Mobile\Controls\BlogStats.ascx" />
+    <Content Include="Skins\Mobile\Controls\CategoryDisplay.ascx" />
+    <Content Include="Skins\Mobile\Controls\CategoryEntryList.ascx" />
+    <Content Include="Skins\Mobile\Controls\CategoryList.ascx" />
+    <Content Include="Skins\Mobile\Controls\Comments.ascx" />
+    <Content Include="Skins\Mobile\Controls\Contact.ascx" />
+    <Content Include="Skins\Mobile\Controls\Day.ascx" />
+    <Content Include="Skins\Mobile\Controls\DayCollection.ascx" />
+    <Content Include="Skins\Mobile\Controls\EntryList.ascx" />
+    <Content Include="Skins\Mobile\Controls\Footer.ascx" />
+    <Content Include="Skins\Mobile\Controls\FullTagCloud.ascx" />
+    <Content Include="Skins\Mobile\Controls\GalleryThumbNailViewer.ascx" />
+    <Content Include="Skins\Mobile\Controls\Header.ascx" />
+    <Content Include="Skins\Mobile\Controls\HomePage.ascx" />
+    <Content Include="Skins\Mobile\Controls\Login.ascx" />
+    <Content Include="Skins\Mobile\Controls\MonthListings.ascx" />
+    <Content Include="Skins\Mobile\Controls\MyLinks.ascx" />
+    <Content Include="Skins\Mobile\Controls\News.ascx" />
+    <Content Include="Skins\Mobile\Controls\PostCategoryList.ascx" />
+    <Content Include="Skins\Mobile\Controls\PostComment.ascx" />
+    <Content Include="Skins\Mobile\Controls\PreviousNext.ascx" />
+    <Content Include="Skins\Mobile\Controls\RecentComments.ascx" />
+    <Content Include="Skins\Mobile\Controls\RecentPosts.ascx" />
+    <Content Include="Skins\Mobile\Controls\ShareThisPost.ascx" />
+    <Content Include="Skins\Mobile\Controls\SingleColumn.ascx" />
+    <Content Include="Skins\Mobile\Controls\SubtextSearch.ascx" />
+    <Content Include="Skins\Mobile\Controls\TagCloud.ascx" />
+    <Content Include="Skins\Mobile\Controls\TagEntryList.ascx" />
+    <Content Include="Skins\Mobile\Controls\ViewPicture.ascx" />
+    <Content Include="Skins\Mobile\Controls\ViewPost.ascx" />
+    <Content Include="Skins\Mobile\PageTemplate.ascx" />
+    <Content Include="Skins\Mobile\ReadMe.txt" />
+    <Content Include="Skins\Mobile\style.css" />
     <Content Include="Skins\GlossyBlue\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\GlossyBlue\Controls\ArchiveDay.ascx" />
     <Content Include="Skins\GlossyBlue\Controls\ArchiveLinks.ascx" />
@@ -2309,6 +2343,8 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Skins\Mobile\Images\" />
+    <Folder Include="Skins\Mobile\Scripts\" />
     <Folder Include="Skins\Naked\Images\" />
     <Folder Include="Skins\Naked\Scripts\" />
     <Folder Include="Skins\origami\Styles\" />

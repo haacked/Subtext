@@ -64,6 +64,8 @@ namespace Subtext.Web.UI.Pages
         protected const string TemplateLocation = "~/Skins/{0}/{1}";
         protected const string ControlLocation = "~/Skins/{0}/Controls/{1}";
 
+        protected SkinConfig CurrentSkin = Globals.CurrentSkin;
+
         public static readonly string CommentsPanelId = "commentsUpdatePanelWrapper";
 
         private void InitializeBlogPage()
@@ -71,7 +73,7 @@ namespace Subtext.Web.UI.Pages
             MaintainScrollPositionOnPostBack = true;
             CurrentBlog = Config.CurrentBlog;
 
-            string skinFolder = CurrentBlog.Skin.TemplateFolder;
+            string skinFolder = CurrentSkin.TemplateFolder;
 
             string[] controls = HandlerConfiguration.GetControls(Context);
             if (controls != null)
@@ -105,7 +107,7 @@ namespace Subtext.Web.UI.Pages
                 }
             }
 
-            if (CurrentBlog.Skin.HasCustomCssText)
+            if (CurrentSkin.HasCustomCssText)
             {
                 CustomCss.Attributes.Add("href", CurrentBlog.RootUrl + "customcss.aspx");
             }
@@ -133,12 +135,12 @@ namespace Subtext.Web.UI.Pages
             // if specified, add script elements
             if (scripts != null)
             {
-                scripts.Text = scriptRenderer.RenderScriptElementCollection(CurrentBlog.Skin.SkinKey);
+                scripts.Text = scriptRenderer.RenderScriptElementCollection(CurrentSkin.SkinKey);
             }
 
             if (styles != null)
             {
-                styles.Text = styleRenderer.RenderStyleElementCollection(CurrentBlog.Skin.SkinKey);
+                styles.Text = styleRenderer.RenderStyleElementCollection(CurrentSkin.SkinKey);
             }
 
             // Add the per-blog MetaTags to the page Head section.

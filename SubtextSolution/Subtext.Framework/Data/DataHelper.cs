@@ -567,7 +567,11 @@ namespace Subtext.Framework.Data
 			info.Skin = new SkinConfig();
 			info.Skin.TemplateFolder = ReadString(reader, "Skin");
 			info.Skin.SkinStyleSheet = ReadString(reader, "SkinCssFile");
-			info.Skin.CustomCssText = ReadString(reader, "SecondaryCss");
+            info.Skin.CustomCssText = ReadString(reader, "SecondaryCss");
+            info.MobileSkin = new SkinConfig();
+            info.MobileSkin.TemplateFolder = ReadString(reader, "MobileSkin");
+            info.MobileSkin.SkinStyleSheet = ReadString(reader, "MobileSkinCssFile");
+			
 			info.LicenseUrl = ReadString(reader, "LicenseUrl");
 			
 			info.DaysTillCommentsClose = ReadInt32(reader, "DaysTillCommentsClose", int.MaxValue);

@@ -1,0 +1,291 @@
+body
+{
+	/*the entire page*/
+}
+#blogStats
+{
+	/* the container for statistics for your blog */
+}
+#container
+{
+	/* this is the outermost container for Subtext
+	all elements reside within here */
+}
+#header
+{
+	/* container for the header */
+}
+#header .title
+{
+	/* page header title */
+}
+#header .subtitle
+{
+	/* header subtitle */
+}
+#navigation
+{
+	/*the section that holds all the links to various parts of the site
+	such as archives, categories, and blogroll */
+	float:right;
+}
+
+#content
+{
+	/* this region is where the main page content will be loaded
+	it can have posts, archives, category listings, etc. */	
+}
+#news
+{
+	/*container for the news announcement */
+}
+#news .title
+{
+	/*title of the news announcement*/
+}
+#news .body
+{
+	/* the body of the news announcement */
+}
+#footer
+{
+	/* bottom of all pages */
+}
+#footer .copyright
+{
+	/* copyright information in the footer */
+}
+#gallery
+{
+	/* container for galleries */
+}
+#gallery .title
+{
+	/* the title of the gallery */
+}
+#gallery .description
+{
+	/* the description of the gallery */
+}
+#gallery .thumbnails
+{
+	/* contains all the thumbnails for the gallery */
+}
+#gallery  .thumbnail
+{
+	/* specific formatting for each individual thumbnail */
+}
+#postComment
+{
+	/* the container for the form where people can input comments */
+}
+#postComment .title
+{
+	/* the title of the comment form */
+}
+#searchBox
+{
+	/* container for the searchbox */
+}
+#searchBox .searchInput
+{
+	/* the text box that search terms are typed into */
+}
+#searchBox .seachButton
+{
+	/* the button pressed to initiate the search */
+}
+.links
+{
+	/* The primary container for each navigation section
+	(such as Archives, Categories, etc) */
+}
+.links .title
+{
+	/* The title of each navigation section */
+}
+.links ul
+{
+	/* the styling for unorderd lists inside the links container */
+}
+.links ul li
+{
+	/* listed items in unordered lists in links */
+}
+#recentComments
+{
+	/* container for recent comments control */
+}
+.comments
+{
+	/* container for all comments */
+}
+.comment
+{
+	/* container for individual comment */
+}
+.comment .title
+{
+	/* title of comment */
+}
+.comment .author
+{
+	/* author of comment */
+}
+.comment .postedDate
+{
+	/* comment date posted */
+}
+.comment .content
+{
+	/* main body of comment */
+}
+.day
+{
+	/* container for the view of posts by day */
+}
+.day .date
+{
+	/* the date being viewed */
+}
+#myLinks
+{
+	/* container for the MyLinks */
+}
+#myLinks .title
+{
+	/* the title of the MyLinks section */
+}
+#myLinks .links
+{
+	/* the links contained in the MyLinks section */
+}
+.posts
+{
+	/* container for a list of posts - not used on main page*/
+}
+.post
+{
+	/* the container for a single post */
+}
+.post .title
+{
+	/* the title of a post */
+}
+.post .body
+{
+	/* the body of a post */
+}
+.post .info
+{
+	/* the footer information of each post */
+}
+.post .trackback
+{	
+	/* the trackback / ping area of a post */
+}
+.previousNext
+{
+	/* the links that lead to the next and previous story */
+}
+.required
+{
+	/*information that should be marked as required */
+}
+.singleImage
+{
+	/* container for viewing a single image in the gallery */
+}
+.singleImage .title
+{
+	/* title of single image */
+}
+.singleImage .image
+{
+	/* image being displayed */
+	
+}
+
+/* -------- Share Options ------ */
+div.share
+{
+	/* the wrapper for the ShareThisPost control */
+}
+
+div.share span
+{
+	/* wraps the "Share This Post" text */
+}
+
+div.share ul
+{
+	/* container for list of share-links */
+}
+
+div.share ul li
+{
+	/* each individual share-link */
+}
+
+div.share ul li a
+{
+}
+
+div.share ul li:before 
+{
+	/* example:
+	
+	content: "| "; 
+	
+	*/
+}
+
+div.share ul li:first-child:before, #nav li:first-child:before
+{
+	/* example:
+	
+	content: ""; 
+	
+	*/
+}
+
+/* ------------- {search layout} -------------- */
+#search
+{
+}
+
+#search-box
+{
+}
+
+#search input
+{
+}
+
+#search-results
+{
+}
+
+#search-results h5
+{
+}
+
+#search-results ul
+{
+}
+
+#search-results ul li
+{
+}
+
+#search-results div.innerbox
+{
+}
+
+#search a.close
+{
+}
+
+#search-progress
+{
+}

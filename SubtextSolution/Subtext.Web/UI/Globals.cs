@@ -16,6 +16,8 @@
 using System;
 using System.Web;
 using Subtext.Framework.Configuration;
+using Subtext.Framework;
+using Subtext.Framework.Services;
 
 namespace Subtext.Web.UI
 {
@@ -28,14 +30,34 @@ namespace Subtext.Web.UI
 		/// Returns the current skin for the current context.
 		/// </summary>
 		/// <returns></returns>
-		public static string Skin()
+		public static SkinConfig CurrentSkin
 		{
-            if (Config.CurrentBlog.Skin.TemplateFolder == null)
+            get
             {
-                Config.CurrentBlog.Skin = SkinConfig.GetDefaultSkin();
+                BlogInfo blog = Config.CurrentBlog;
+                BrowserDetectionService service = new BrowserDetectionService(HttpContext.Current, blog.Id);
+                BrowserInfo capabilities = service.DetectBrowserCapabilities();
+
+                bool isMobile = capabilities.Mobile;
+                
+                SkinConfig skin = null;
+                if (isMobile)
+                {
+                    skin = blog.MobileSkin;
+                    if (skin.TemplateFolder != null)
+                        return skin;
+                }
+
+                skin = blog.Skin;
+
+                if (skin.TemplateFolder == null)
+                {
+                    skin = SkinConfig.GetDefaultSkin();
+                }
+                return skin;
             }
-            return Config.CurrentBlog.Skin.TemplateFolder;
 		}
+
 
 		private static readonly string BlogPageTitle = "BlogPageTitle";
 

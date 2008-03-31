@@ -1203,6 +1203,8 @@ BEGIN
 		, FeedBurnerName
 		, BlogGroupId
 		, Title AS BlogGroupTitle
+		, MobileSkin
+		, MobileSkinCssFile
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 END
 ELSE IF (@Strict = 0) AND (1 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Config] WHERE Host = @Host))
@@ -1241,6 +1243,8 @@ BEGIN
 		, FeedBurnerName
 		, BlogGroupId
 		, bgroup.Title AS BlogGroupTitle
+		, MobileSkin
+		, MobileSkinCssFile
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 		LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON bgroup.Id = [subtext_Config].BlogGroupId
 	WHERE	Host = @Host
@@ -1281,6 +1285,8 @@ BEGIN
 		, FeedBurnerName
 		, BlogGroupId
 		, bgroup.Title AS BlogGroupTitle
+		, MobileSkin
+		, MobileSkinCssFile
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 		LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
 bgroup.Id = [subtext_Config].BlogGroupId
@@ -3030,6 +3036,8 @@ INSERT subtext_Config
 	, ItemCount
 	, Flag
 	, BlogGroupId
+	, MobileSkin
+	, MobileSkinCssFile
 )
 Values             
 (
@@ -3048,7 +3056,9 @@ Values
 	,'en-US'
 	, 10
 	, @Flag
-	,@BlogGroupId
+	, @BlogGroupId
+	, 'Naked'
+	, ''
 )
 END
 
@@ -3131,6 +3141,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 	, @AkismetAPIKey varchar(16) = NULL
 	, @FeedBurnerName nvarchar(64) = NULL
 	, @BlogGroupId int
+	, @MobileSkin nvarchar(50) = NULL
+	, @MobileSkinCssFile nvarchar(100) = NULL
 )
 AS
 UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
@@ -3162,6 +3174,8 @@ Set
 	, AkismetAPIKey = @AkismetAPIKey
 	, FeedBurnerName = @FeedBurnerName
 	, BlogGroupId =  @BlogGroupId
+	, MobileSkin = @MobileSkin
+	, MobileSkinCssFile = @MobileSkinCssFile
 WHERE BlogId = @BlogId
 
 GO
@@ -3497,6 +3511,8 @@ SELECT	blog.BlogId
 		, blog.AkismetAPIKey
 		, blog.FeedBurnerName
 		, bgroup.Title AS BlogGroupTitle
+		, blog.MobileSkin
+		, blog.MobileSkinCssFile
 		
 FROM [<dbUser,varchar,dbo>].[subtext_Config] blog
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
@@ -3561,6 +3577,8 @@ SELECT	blog.BlogId
 		, blog.AkismetAPIKey
 		, blog.FeedBurnerName
 		, bgroup.Title AS BlogGroupTitle
+		, blog.MobileSkin
+		, blog.MobileSkinCssFile
 FROM [<dbUser,varchar,dbo>].[subtext_Config] blog
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
 bgroup.Id = blog.BlogGroupId

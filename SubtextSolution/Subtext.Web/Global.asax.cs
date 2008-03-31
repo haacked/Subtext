@@ -185,16 +185,16 @@ namespace Subtext.Web
 
             if (!InstallationManager.IsInInstallDirectory && !InstallationManager.IsInUpgradeDirectory)
             {
+                if (InstallationManager.InstallationActionRequired(exception, VersionInfo.FrameworkVersion))
+                {
+                    Response.Redirect("~/Install/", true);
+                    return;
+                }
+
                 // User could be logging into the HostAdmin.
                 if(exception.GetType() == typeof(BlogDoesNotExistException))
                 {
                     Response.Redirect("~/Install/BlogNotConfiguredError.aspx", true);
-                    return;
-                }
-
-                if(InstallationManager.InstallationActionRequired(exception, VersionInfo.FrameworkVersion))
-                {
-                    Response.Redirect("~/Install/", true);
                     return;
                 }
             }
