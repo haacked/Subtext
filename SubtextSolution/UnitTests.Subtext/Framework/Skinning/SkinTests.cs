@@ -50,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Skinning
 
             SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider, true);
             Assert.IsNotNull(templates, "Could not instantiate template.");
-            Assert.AreEqual(1, templates.Count, "Expected 1 templates.");
+            Assert.AreEqual(2, templates.Count);
         }
 
         /// <summary>
