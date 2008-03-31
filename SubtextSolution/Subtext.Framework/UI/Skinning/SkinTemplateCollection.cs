@@ -14,7 +14,15 @@ namespace Subtext.Framework.UI.Skinning
         public SkinTemplateCollection() : this(HostingEnvironment.VirtualPathProvider)
         { }
 
-        public SkinTemplateCollection(VirtualPathProvider vpp) : base()
+        public SkinTemplateCollection(bool mobile) : this(HostingEnvironment.VirtualPathProvider, mobile)
+        { }
+
+
+        public SkinTemplateCollection(VirtualPathProvider vpp) : this(vpp, false)
+        { }
+
+        //for now it's either mobile, or not mobile.
+        public SkinTemplateCollection(VirtualPathProvider vpp, bool mobile) : base()
         {
             SkinTemplates skinTemplates = null;
             if (HttpContext.Current != null && HttpContext.Current.Cache != null)
@@ -32,7 +40,10 @@ namespace Subtext.Framework.UI.Skinning
             }
             foreach (SkinTemplate template in skinTemplates.Templates)
             {
-                this.Add(template);
+                if (template.IsMobile && mobile || !template.IsMobile && !mobile)
+                {
+                    this.Add(template);
+                }
             }
         }
 
@@ -67,11 +78,6 @@ namespace Subtext.Framework.UI.Skinning
             using (Stream configStream = virtualConfigFile.Open())
             {
                 SkinTemplates templates = SerializationHelper.Load<SkinTemplates>(configStream);
-                for (int i = templates.Templates.Count - 1; i >= 0; i--)
-                {
-                    if (templates.Templates[i].IsMobile)
-                        templates.Templates.RemoveAt(i);
-                }
                 return templates;
             }
         }

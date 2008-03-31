@@ -57,7 +57,7 @@ namespace Subtext.Web.UI.WebControls
 			{ 
 				if(this.templateFile == null)
 				{
-					this.templateFile = string.Format(skinPath, Globals.Skin());
+					this.templateFile = string.Format(skinPath, Globals.CurrentSkin.TemplateFolder);
 				}
 				return this.templateFile;
 			}
@@ -90,7 +90,7 @@ namespace Subtext.Web.UI.WebControls
 			}
 			catch(HttpException e)
 			{
-				log.Warn("The configured skin '" + Config.CurrentBlog.Skin.TemplateFolder + "' does not exist.  Reverting to a default skin.", e);
+				log.Warn("The configured skin '" + Globals.CurrentSkin.TemplateFolder + "' does not exist.  Reverting to a default skin.", e);
 				Config.CurrentBlog.Skin = SkinConfig.GetDefaultSkin();
 				this.templateFile = null;
 				this.template = this.Page.LoadControl(this.TemplateFile);

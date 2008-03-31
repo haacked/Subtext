@@ -1366,6 +1366,8 @@ namespace Subtext.Framework.Data
 					,DataHelper.MakeInParam("@AkismetAPIKey", SqlDbType.VarChar, 16, DataHelper.ReturnNullIfEmpty(info.FeedbackSpamServiceKey))
 					,DataHelper.MakeInParam("@FeedBurnerName", SqlDbType.NVarChar, 64, DataHelper.ReturnNullIfEmpty(info.FeedBurnerName))
 					,DataHelper.MakeInParam("@BlogGroupId", SqlDbType.Int, 4, info.BlogGroupId)
+                    ,DataHelper.MakeInParam("@MobileSkin", SqlDbType.NVarChar, 50, DataHelper.CheckNull(info.MobileSkin.TemplateFolder)) 
+                    ,DataHelper.MakeInParam("@MobileSkinCssFile", SqlDbType.NVarChar, 50, DataHelper.CheckNull(info.MobileSkin.SkinStyleSheet)) 
 				};
 
 			return NonQueryBool("subtext_UpdateConfig", p);

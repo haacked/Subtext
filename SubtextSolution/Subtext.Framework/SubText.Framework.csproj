@@ -121,6 +121,7 @@
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
+    <Reference Include="System.Web.Mobile" />
     <Reference Include="System.Web.Services">
       <Name>System.Web.Services</Name>
     </Reference>
@@ -382,6 +383,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\AkismetSpamService.cs" />
+    <Compile Include="Services\BrowserDetectionService.cs" />
+    <Compile Include="Services\BrowserInfo.cs" />
     <Compile Include="Services\IFeedbackSpamService.cs" />
     <Compile Include="Stats.cs">
       <SubType>Code</SubType>

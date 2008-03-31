@@ -34,7 +34,7 @@ namespace Subtext.Web.UI.Handlers
 		{
 			context.Response.ContentEncoding = System.Text.Encoding.UTF8;
 			context.Response.ContentType = "text/css";
-			context.Response.Write(Config.CurrentBlog.Skin.CustomCssText);
+			context.Response.Write(Globals.CurrentSkin.CustomCssText);
 		}
 
 		/// <summary>

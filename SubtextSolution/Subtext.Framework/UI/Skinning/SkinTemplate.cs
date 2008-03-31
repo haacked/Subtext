@@ -25,6 +25,15 @@ namespace Subtext.Framework.UI.Skinning
 	[Serializable]
 	public class SkinTemplate
 	{
+        public static SkinTemplate Empty
+        {
+            get
+            {
+                return empty;
+            }
+        }
+        static SkinTemplate empty = new SkinTemplate();
+
 		/// <summary>
 		/// This is the folder that contains the template files (*.ascx) 
 		/// for the current skin.

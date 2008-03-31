@@ -31,14 +31,35 @@ namespace Subtext.Web.Admin.Pages
 		private const string RES_SUCCESS = "Your configuration was successfully updated.";
 		private const string RES_FAILURE = "Configuration update failed.";
 	
-		#region Accessors
 		public CategoryType CategoryType
 		{
 			get { return (CategoryType)ViewState["CategoryType"]; }
 			set { ViewState["CategoryType"] = value; }
 		}
-		
-		#endregion
+
+        protected IList<SkinTemplate> Skins
+        {
+            get
+            {
+                return this.skins;
+            }
+        }
+
+        IList<SkinTemplate> skins = new SkinTemplateCollection();
+
+        protected IList<SkinTemplate> MobileSkins
+        {
+            get
+            {
+                if (this.mobileSkins == null)
+                {
+                    this.mobileSkins = new List<SkinTemplate>(new SkinTemplateCollection(true));
+                    this.mobileSkins.Insert(0, SkinTemplate.Empty);
+                }
+                return this.mobileSkins;
+            }
+        }
+        IList<SkinTemplate> mobileSkins = null;
 
 		protected override void BindLocalUI()
 		{
@@ -70,17 +91,12 @@ namespace Subtext.Web.Admin.Pages
 				txbSecondaryCss.Text = info.Skin.CustomCssText;
 			}
 
-            SkinTemplateCollection templates = new SkinTemplateCollection();
-			foreach(SkinTemplate template in templates)
-			{
-				ddlSkin.Items.Add(new ListItem(template.Name, template.SkinKey));
-			}
+            //TODO: Move to a general DataBind() call.
+            ddlSkin.DataBind();
+            mobileSkinDropDown.DataBind();
 
-			ListItem skinItem = ddlSkin.Items.FindByValue(info.Skin.SkinKey.ToUpper(CultureInfo.InvariantCulture));
-			if(skinItem != null)
-			{
-				skinItem.Selected = true;
-			}
+            SetSelectedSkin(ddlSkin, info.Skin.SkinKey);
+            SetSelectedSkin(mobileSkinDropDown, info.MobileSkin.SkinKey);
 			
 			int count = Config.Settings.ItemCount;
 			int increment = 1;
@@ -119,6 +135,15 @@ namespace Subtext.Web.Admin.Pages
 			base.BindLocalUI();
 		}
 
+        private void SetSelectedSkin(DropDownList skinDropDown, string skinKey)
+        {
+            ListItem skinItem = skinDropDown.Items.FindByValue(skinKey.ToUpper(CultureInfo.InvariantCulture));
+            if (skinItem != null)
+            {
+                skinItem.Selected = true;
+            }
+        }
+
 		private void BindPost()
 		{
 			try
@@ -149,6 +174,10 @@ namespace Subtext.Web.Admin.Pages
 				SkinTemplate skinTemplate = new SkinTemplateCollection().GetTemplate(ddlSkin.SelectedItem.Value);
 				info.Skin.TemplateFolder = skinTemplate.TemplateFolder;
 				info.Skin.SkinStyleSheet = skinTemplate.StyleSheet;
+
+                SkinTemplate mobileSkinTemplate = new SkinTemplateCollection(true).GetTemplate(mobileSkinDropDown.SelectedItem.Value) ?? SkinTemplate.Empty;
+                info.MobileSkin.TemplateFolder = mobileSkinTemplate.TemplateFolder;
+                info.MobileSkin.SkinStyleSheet = mobileSkinTemplate.StyleSheet;
 				Config.UpdateConfigData(info);
 
 				Messages.ShowMessage(RES_SUCCESS);

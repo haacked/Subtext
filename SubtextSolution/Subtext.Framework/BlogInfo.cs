@@ -679,6 +679,18 @@ namespace Subtext.Framework
             set { _skin = value; }
         }
 
+        private SkinConfig mobileSkin;
+        /// <summary>
+        /// Gets or sets the <see cref="SkinConfig"/> instance 
+        /// which contains information about the specified skin.
+        /// </summary>
+        /// <value></value>
+        public SkinConfig MobileSkin
+        {
+            get { return this.mobileSkin; }
+            set { this.mobileSkin = value; }
+        }
+
         /// <summary>
         /// Gets a value indicating whether the blog has news. 
         /// News can be entered in the Admin section.
@@ -1123,6 +1135,7 @@ namespace Subtext.Framework
             BlogInfo blog = new BlogInfo();
             blog.Title = ConfigurationManager.AppSettings["AggregateTitle"];
             blog.Skin = SkinConfig.GetDefaultSkin();
+            //TODO: blog.MobileSkin = ...
             blog.Host = aggregateHost;
             blog.Subfolder = string.Empty;
 

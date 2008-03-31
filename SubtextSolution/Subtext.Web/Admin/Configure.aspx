@@ -13,13 +13,6 @@
     
 <asp:Content ID="configurationOptions" ContentPlaceHolderID="pageContent" runat="server">
 	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
-	<%  /*
-	        Removing the AdvancedPanel b/c it is incompatible with asp.net AJAX UpdatePanels (due 
-	        to the Collapsible control's OnInit method moving its child controls around. In a 
-	        future version of Subtext we will replace all AdvancedPanel controls with an Extender
-	        from the AJAX Control Toolkit.
-        */
-	%>
 	<div class="CollapsibleHeader">
 	    <span>Configure</span>
 	</div>
@@ -47,7 +40,17 @@
 			</p>
 			<p>
 				<label class="Block" accesskey="s" for="Edit_ddlSkin">Display <u>S</u>kin</label>
-				<asp:DropDownList id="ddlSkin" runat="server"></asp:DropDownList>
+				<asp:DropDownList id="ddlSkin" runat="server" 
+				    DataSource="<%# Skins %>"
+				    DataTextField="Name" 
+				    DataValueField="SkinKey" />
+			</p>
+			<p>
+				<label class="Block" accesskey="s" for="Edit_mobileSkinDropDown">Mobile <u>S</u>kin</label>
+				<asp:DropDownList id="mobileSkinDropDown" runat="server" 
+				    DataSource="<%# MobileSkins %>"
+				    DataTextField="Name" 
+				    DataValueField="SkinKey" />
 			</p>
 			<p>
 				<label accesskey="w" for="Edit_ckbAllowServiceAccess">Allow <u>W</u>eb Service Access</label>

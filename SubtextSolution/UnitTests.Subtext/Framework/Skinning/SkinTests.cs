@@ -40,6 +40,19 @@ namespace UnitTests.Subtext.Framework.Skinning
 			Assert.AreEqual(17, templates.Count, "Expected 17 templates.");
 		}
 
+        [Test]
+        public void CanLoadMobileSkinsFromFile()
+        {
+            MockRepository mocks = new MockRepository();
+
+            VirtualPathProvider pathProvider = GetTemplatesPathProviderMock(mocks);
+            mocks.ReplayAll();
+
+            SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider, true);
+            Assert.IsNotNull(templates, "Could not instantiate template.");
+            Assert.AreEqual(1, templates.Count, "Expected 1 templates.");
+        }
+
         /// <summary>
 		/// Here we load an instance of SkinTemplates from an embedded Skins.config file and 
 		/// Skins.User.config file.

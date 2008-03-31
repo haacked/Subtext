@@ -121,7 +121,7 @@ namespace Subtext.Web.Install
 				}
 
 				installationStateMessage.Text = "<p>Uh oh. Something went wrong with the installation.</p><p>" + ex.Message + "</p><p>" + ex.GetType().FullName + "</p>";
-				installationStateMessage.Text += "<p>" + ex.StackTrace + "</p>";
+				installationStateMessage.Text += "<p>" + ex.ToString() + "</p>";
 				return;
 			}
 

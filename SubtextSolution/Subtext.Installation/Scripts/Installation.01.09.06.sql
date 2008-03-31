@@ -226,3 +226,29 @@ ALTER TABLE [<dbUser,varchar,dbo>].subtext_Config WITH NOCHECK ADD CONSTRAINT
 	)
 END
 GO
+
+/* Add the MobileSkin and MobilSkinCssFile columns */
+IF NOT EXISTS 
+(
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+    WHERE   TABLE_NAME = 'subtext_Config' 
+    AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+    AND COLUMN_NAME = 'MobileSkin'
+)
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+		ADD [MobileSkin] [nvarchar] (50) NULL
+END
+GO
+
+IF NOT EXISTS 
+(
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+    WHERE   TABLE_NAME = 'subtext_Config' 
+    AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+    AND COLUMN_NAME = 'MobileSkinCssFile'
+)
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+		ADD [MobileSkinCssFile] [nvarchar] (100) NULL
+END
