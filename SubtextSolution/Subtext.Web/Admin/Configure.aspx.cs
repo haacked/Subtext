@@ -41,11 +41,20 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
+                if (this.skins == null)
+                {
+                    skins = new SkinTemplateCollection();
+                    foreach (SkinTemplate template in skins)
+                    {
+                        if (template.MobileSupport == MobileSupport.Supported)
+                            template.Name += " (mobile ready)";
+                    }
+                }
                 return this.skins;
             }
         }
 
-        IList<SkinTemplate> skins = new SkinTemplateCollection();
+        IList<SkinTemplate> skins = null;
 
         protected IList<SkinTemplate> MobileSkins
         {

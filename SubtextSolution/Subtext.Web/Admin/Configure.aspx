@@ -12,7 +12,7 @@
 </asp:Content>
     
 <asp:Content ID="configurationOptions" ContentPlaceHolderID="pageContent" runat="server">
-	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
+	<st:MessagePanel id="Messages" runat="server" />
 	<div class="CollapsibleHeader">
 	    <span>Configure</span>
 	</div>
@@ -42,7 +42,7 @@
 				<label class="Block" accesskey="s" for="Edit_ddlSkin">Display <u>S</u>kin</label>
 				<asp:DropDownList id="ddlSkin" runat="server" 
 				    DataSource="<%# Skins %>"
-				    DataTextField="Name" 
+				    DataTextField="Name"
 				    DataValueField="SkinKey" />
 			</p>
 			<p>

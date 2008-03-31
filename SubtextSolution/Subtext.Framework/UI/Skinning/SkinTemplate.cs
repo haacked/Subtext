@@ -204,11 +204,11 @@ namespace Subtext.Framework.UI.Skinning
     public enum MobileSupport
     { 
         /// <summary>This skin does not work on mobile devices</summary>
-        None,
+        None = 0,
         /// <summary>This skin works for both browsers and mobile devices</summary>
-        Supported,
+        Supported = 1,
         /// <summary>This skin is only suitable for mobile devices</summary>
-        MobileOnly,
+        MobileOnly = 2,
     }
 
     public enum ScriptMergeMode
