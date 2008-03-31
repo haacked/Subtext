@@ -48,13 +48,13 @@ namespace Subtext.Framework.UI.Skinning
 		private string templateFolder;
 
         [XmlAttribute]
-        public bool IsMobile
+        public MobileSupport MobileSupport
         {
-            get { return this.isMobile; }
-            set { this.isMobile = value; }
+            get { return this.mobileSupport; }
+            set { this.mobileSupport = value; }
         }
 
-        private bool isMobile;
+        private MobileSupport mobileSupport = MobileSupport.None;
 
 		/// <summary>
 		/// Gets or sets the stylesheet for this Skin.  Remember, 
@@ -200,6 +200,16 @@ namespace Subtext.Framework.UI.Skinning
 		}
 		
 	}
+
+    public enum MobileSupport
+    { 
+        /// <summary>This skin does not work on mobile devices</summary>
+        None,
+        /// <summary>This skin works for both browsers and mobile devices</summary>
+        Supported,
+        /// <summary>This skin is only suitable for mobile devices</summary>
+        MobileOnly,
+    }
 
     public enum ScriptMergeMode
     {
