@@ -116,15 +116,23 @@
 	</target>
 
 
+    <target name="update-db-schema">
+        <nant buildfile="recreateDB.build">
+            <properties>
+                <property name="CCNetWorkingDirectory" value="${CCNetWorkingDirectory}" />
+            </properties>
+        </nant>
+    </target>
+    
 	<!-- 
 		Compiles Subtext and runs the MbUnit tests and NCover reports.
 	-->
-	<target name="testAndCover" depends="get-publishing-properties,compile-debug">
+	<target name="testAndCover" depends="get-publishing-properties,compile-debug,update-db-schema">
 		<mkdir dir="${log.dir}" />
 		
 		<ncover
 			commandLineExe="${mbunit.exe}"
-			commandLineArgs="/rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll"
+			commandLineArgs='/rnf:unittest /rt:xml /rf:"${log.dir}" UnitTests.Subtext.dll'
 			program="${ncover.exe}"
 			workingDirectory="UnitTests.Subtext\bin\${configuration}"
 			coverageFile="${log.dir}\ncover-temp.xml"

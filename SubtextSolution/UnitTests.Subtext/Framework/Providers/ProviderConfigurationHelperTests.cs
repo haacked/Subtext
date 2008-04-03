@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.Framework.Providers
 		{
 			NameValueCollection configValue = new NameValueCollection();
 			configValue.Add("connectionStringName", "subtextData");	
-            Assert.AreEqual("Server=localhost;Database=SubtextData_1.9;Trusted_Connection=True;", ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue));
+            Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True;", ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue));
 		}
 	}
 }
