@@ -6,7 +6,7 @@
 		<if test="${not property::exists('CCNetWorkingDirectory')}"> 
 			<fail message="CCNetWorkingDirectory property not set, so can't create distribution files" />
 		</if>
-	
+
 		<property name="utilities.dir" value="${CCNetWorkingDirectory}\Utilities\Testing" />
 		<property name="solution.dir" value="${CCNetWorkingDirectory}\SubtextSolution" />
 		
