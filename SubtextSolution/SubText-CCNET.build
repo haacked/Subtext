@@ -116,7 +116,13 @@
 	</target>
 
 
-    <target name="update-db-schema">
+    <target name="prepare-for-testing">
+
+        <xmlpoke
+            file="UnitTests.Subtext\bin\${configuration}\UnitTests.Subtext.dll.config"
+            xpath="/configuration/appSettings/add[@key = 'connectionStringName']/@value"
+            value="subtextData" /> 
+        
         <nant buildfile="recreateDB.build">
             <properties>
                 <property name="CCNetWorkingDirectory" value="${CCNetWorkingDirectory}" />
@@ -127,7 +133,7 @@
 	<!-- 
 		Compiles Subtext and runs the MbUnit tests and NCover reports.
 	-->
-	<target name="testAndCover" depends="get-publishing-properties,compile-debug,update-db-schema">
+	<target name="testAndCover" depends="get-publishing-properties,compile-debug,prepare-for-testing">
 		<mkdir dir="${log.dir}" />
 		
 		<ncover
