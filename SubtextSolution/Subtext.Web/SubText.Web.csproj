@@ -1016,8 +1016,6 @@
     <Content Include="Admin\Credits.aspx" />
     <Content Include="App_Data\Subtext2.0.mdf">
     </Content>
-    <Content Include="App_Data\Subtext3.0.mdf">
-    </Content>
     <Content Include="DTP.aspx" />
     <Content Include="ExternalDependencies\FreeTextBox.xml" />
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
