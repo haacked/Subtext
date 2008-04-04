@@ -183,8 +183,21 @@ namespace Subtext.Scripting
 			{
 				_database = match.Groups["database"].Value;
 				_databaseFieldName = match.Groups["databaseField"].Value;
-				return true;
+                if(!String.IsNullOrEmpty(_database))
+                    return true;
 			}
+
+            if (String.IsNullOrEmpty(_database))
+            {
+                regex = new Regex(@"AttachDbFilename\s*=\s*\|DataDirectory\|\\(?<database>.*?)(;|$|\s)", RegexOptions.IgnoreCase);
+                match = regex.Match(connectionString);
+                if (match.Success)
+                {
+                    _database = match.Groups["database"].Value;
+                    if (!String.IsNullOrEmpty(_database))
+                        return true;
+                }
+            }
 
 			return false;
 		}

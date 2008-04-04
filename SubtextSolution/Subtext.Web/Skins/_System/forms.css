@@ -1,0 +1,107 @@
+﻿label
+{
+	font-size: .9em;
+	font-weight: bold;
+	color: #7b6b44;
+}
+
+fieldset label
+{
+	display: block;
+	margin: 6px 0px 2px;
+}
+
+fieldset span.checkbox
+{
+    display: block;
+}
+
+fieldset span.checkbox label
+{
+    display: inline;
+}
+
+fieldset div
+{
+	padding: 4px 0;
+}
+
+fieldset
+{
+	border: 1px solid #ddd;
+	margin: 1em 0;
+	padding: 15px;
+}
+
+fieldset legend
+{
+	font-size: 1.2em;
+	color: #364ab0;
+	font-weight: bold;
+	padding: 10px 0.5em;
+}
+
+select, input.textbox
+{
+	background-color: #fffadb;
+	padding: 2px;
+	font-family: verdana, arial, sans-serif;
+	color: #c0b040;
+	border: solid 1px #cbb930;
+	font-size: 1.4em;
+}
+
+input.textbox
+{
+	width: 260px;
+}
+
+input.textbox.number
+{
+	width: 40px;
+}
+
+input.textbox.disabled
+{
+	background-color: #ddd;
+}
+
+input.button
+{
+	padding: 3px 10px;
+	font-size: 1.4em;
+}
+
+input.big-button
+{
+    display: block;
+	width: 400px;
+	height: 80px;
+	clear: both;
+	font-size: 2em;
+}
+
+p.buttons
+{
+	float: right;
+}
+
+div.buttons
+{
+	margin-top: 10px;
+}
+
+span.checkbox
+{
+	padding-right: 6px;
+}
+
+span.checkbox label
+{
+	display: inline;
+}
+
+input.date
+{
+    width: 250px;
+}

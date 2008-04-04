@@ -128,15 +128,15 @@ namespace Subtext.Scripting
 		/// <param name="transaction">The current transaction.</param>
 		public int Execute(SqlTransaction transaction)
 		{
-            int recordsAffectedTotal = 0;
-            SetNoCountOff(transaction);
+			int recordsAffectedTotal = 0;
+			SetNoCountOff(transaction);
 
 			// the following reg exp will be used to determine if each script is an
 			// INSERT, UPDATE, or DELETE operation. The reg exp is also only looking
 			// for these actions on the SubtextData database. <- do we need this last part?
 			string regextStr = @"(INSERT\sINTO\s[\s\w\d\)\(\,\.\]\[\>\<]+)|(UPDATE\s[\s\w\d\)\(\,\.\]\[\>\<]+SET\s)|(DELETE\s[\s\w\d\)\(\,\.\]\[\>\<]+FROM\s[\s\w\d\)\(\,\.\]\[\>\<]+WHERE\s)";
 			Regex regex = new Regex(regextStr, RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
-	
+		
 			scripts.ApplyTemplatesToScripts();
 			foreach(Script script in scripts)
 			{
@@ -159,7 +159,7 @@ namespace Subtext.Scripting
                     }
                     else
                     {
-                        throw new SqlScriptExecutionException("An error occurred while executing the script.", script, returnValue);
+						throw new SqlScriptExecutionException("An error occurred while executing the script.", script, returnValue);
                     }
 				}
 			}

@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Install {
+namespace Subtext.Web.HostAdmin {
     
-    public partial class Step01_InstallData {
-        protected System.Web.UI.WebControls.Literal installationStateMessage;
-        protected System.Web.UI.WebControls.CheckBox chkFullInstallation;
-        protected System.Web.UI.WebControls.Button btnInstall;
+    public partial class ForgotPassword {
+        public new Subtext.Web.Skins._System.ForgotPassword Master {
+            get {
+                return ((Subtext.Web.Skins._System.ForgotPassword)(base.Master));
+            }
+        }
     }
 }

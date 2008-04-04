@@ -2,6 +2,14 @@
 /*
 WARNING: This SCRIPT USES SQL TEMPLATE PARAMETERS.
 Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
+
+When generating drop and create from SQL Query Analyzer, you can 
+use the following search and replace expressions to convert the 
+script to use INFORMATION_SCHEMA.
+
+SEARCH:  IF:b* EXISTS \(SELECT \* FROM dbo\.sysobjects WHERE id = OBJECT_ID\(N'\[[^\]]+\]\.\[{[^\]]+}\]'\) AND OBJECTPROPERTY\(id,:b*N'IsProcedure'\) = 1\)
+REPLACE: IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_NAME = '\1' AND ROUTINE_SCHEMA = '<dbUser,varchar,dbo>')
+
 */
 
 /* DROPPED STORED PROCS.  

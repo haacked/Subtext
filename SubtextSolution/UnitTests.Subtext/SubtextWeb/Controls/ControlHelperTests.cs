@@ -36,5 +36,30 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 			Assert.AreEqual(expectedTitle, link.ToolTip, "Didn't set the tooltip correctly.");
 			Assert.IsNull(link.Attributes["title"], "Oops, looks like we set the title attribute too!");
 		}
+
+        [Test]
+        public void OnlyAddCssClassWhenNotAlreadyThere()
+        {
+            Label label = new Label();
+            label.CssClass = "foo bar baz quux";
+
+            ControlHelper.AddCssClass(label, "baz");
+            Assert.AreEqual("foo bar baz quux", label.CssClass);
+
+            ControlHelper.AddCssClass(label, "click");
+            Assert.AreEqual("foo bar baz quux click", label.CssClass);
+
+            label.CssClass = "click";
+            ControlHelper.AddCssClass(label, "click");
+            Assert.AreEqual("click", label.CssClass);
+
+            label.CssClass = "";
+            ControlHelper.AddCssClass(label, "click");
+            Assert.AreEqual("click", label.CssClass);
+
+            label.CssClass = "click";
+            ControlHelper.AddCssClass(label, "cluck");
+            Assert.AreEqual("click cluck", label.CssClass);
+        }
 	}
 }

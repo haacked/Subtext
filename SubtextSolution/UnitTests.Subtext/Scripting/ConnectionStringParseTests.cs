@@ -48,6 +48,16 @@ namespace UnitTests.Subtext.Scripting
 			Assert.AreEqual(password, connectionInfo2.Password, "Did not parse the password correctly.");
 		}
 
+        [Test]
+        public void CanParseSqlExpressConnectionString()
+        {
+            string connectionString = @"Data Source=.\SQLExpress;Integrated Security=true;AttachDbFilename=|DataDirectory|\Subtext3.0.mdf;User Instance=true;";
+            ConnectionString connectionInfo = ConnectionString.Parse(connectionString);
+
+            Assert.AreEqual(@"Subtext3.0.mdf", connectionInfo.Database);
+            Assert.AreEqual(@".\SQLExpress", connectionInfo.Server);
+        }
+
 		[Test]
 		public void CanImplicitlyConvertConnectionStringToString()
 		{

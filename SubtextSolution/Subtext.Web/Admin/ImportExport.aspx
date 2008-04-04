@@ -21,9 +21,7 @@
 				After the BlogML generation phase you will be presented with a link to the 
 				file.
 			</p>
-			<p>
-				<asp:CheckBox id="chkEmbedAttach" runat="server" Text="Embed Attachments?" Checked="True"></asp:CheckBox>
-			</p>
+			<asp:CheckBox id="chkEmbedAttach" runat="server" Text="Embed Attachments?" Checked="True" CssClass="checkbox" />
 			<p>
 				<asp:Button id="btnSave" runat="server" Text="Save" CssClass="buttonSubmit" CausesValidation="false"></asp:Button>&nbsp;&nbsp;
 				<asp:HyperLink id="hypBlogMLFile" runat="server" Visible="False">Download BlogML File</asp:HyperLink>
@@ -33,7 +31,7 @@
 			<h4>Import from BlogML</h4>
 			<p>
 				Allows you to import an existing blog by loading BlogML content.<br />
-				<label class="block">BlogML file:&nbsp; 
+				<label>BlogML file:&nbsp; 
 					<asp:RequiredFieldValidator id="blogMLFileRequired" runat="server" ForeColor="#990066" Display="Dynamic" ControlToValidate="importBlogMLFile"
 						ErrorMessage="You must select a valid BlogML file to import."></asp:RequiredFieldValidator></label>
 			</p>
@@ -52,9 +50,7 @@
 			</p>
 			<asp:Panel id="uppnlClearContent" runat="server">
 			    <st:MessagePanel id="msgpnlClearContent" runat="server"></st:MessagePanel>
-				<p>
-					<asp:CheckBox id="chkClearContent" runat="server" Text="Clear Content." Checked="false" />
-				</p>
+				<asp:CheckBox id="chkClearContent" runat="server" Text="Clear Content." Checked="false" CssClass="checkbox" />
 				<p>
 					<asp:Button id="btnClearContent" runat="server" Text="Clear It!" CssClass="buttonSubmit" CausesValidation="false" OnClick="btnClearContent_Click"/>
 				</p>

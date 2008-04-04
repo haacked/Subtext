@@ -327,7 +327,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="entryId"></param>
 		/// <param name="tags"></param>
 		/// <returns></returns>
-		public abstract bool SetEntryTagList(int entryId, List<string> tags);
+		public abstract bool SetEntryTagList(int entryId, IList<string> tags);
 
         #endregion
 

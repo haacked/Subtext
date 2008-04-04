@@ -312,6 +312,7 @@
     <Compile Include="Exceptions\CommentSpamException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Exceptions\DuplicateEntryException.cs" />
     <Compile Include="Exceptions\HostDataDoesNotExistException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -367,6 +368,7 @@
     <Compile Include="NullValue.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -564,6 +566,7 @@
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -574,6 +577,9 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Util\WindowsTimeZoneCollection.xml" />
     <EmbeddedResource Include="Tracking\PingBackNotificatinProxy.resx">
       <DependentUpon>PingBackNotificatinProxy.cs</DependentUpon>

@@ -15,7 +15,7 @@
 				<u>N</u>ame:
 				<asp:RequiredFieldValidator id="vldNameRequired" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName" Display="Dynamic" EnableClientScript="true" />
 			</label> 
-			<asp:TextBox id="tbName" runat="server" Size="40" TabIndex="2" CssClass="textinput" />		
+			<asp:TextBox id="tbName" runat="server" Size="40" TabIndex="2" CssClass="textbox" />		
 		</p>
 		<p>
 			<label for="PostComment_ascx_tbEmail" AccessKey="E">
@@ -23,7 +23,7 @@
 				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter your email" ControlToValidate="tbEmail" Display="Dynamic" EnableClientScript="true" />
 				<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^.*?@.+\..+$" Display="dynamic" ErrorMessage="The email address you've entered does not appear to be valid." EnableClientScript="true" />
 			</label> 
-			<asp:TextBox id="tbEmail" runat="server" Size="40" TabIndex="2" CssClass="textinput" />			
+			<asp:TextBox id="tbEmail" runat="server" Size="40" TabIndex="2" CssClass="textbox" />			
 		</p>
 		<p>
 			<label for="PostComment_ascx_tbSubject" AccessKey="S"><u>S</u>ubject:</label> 

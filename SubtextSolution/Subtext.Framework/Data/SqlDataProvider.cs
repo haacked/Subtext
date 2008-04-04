@@ -153,7 +153,7 @@ namespace Subtext.Framework.Data
 			//Note, for the paramater @URL, do NOT convert null values into empty strings.
 			SqlParameter[] p =	
 			{
-						DataHelper.MakeInParam("@EntryID", SqlDbType.Int, 4, DataHelper.CheckNull(ev.EntryID)),
+						DataHelper.MakeInParam("@EntryID", SqlDbType.Int, 4, DataHelper.CheckNull(ev.EntryId)),
 						DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(ev.BlogId)),
 						DataHelper.MakeInParam("@URL", SqlDbType.NVarChar, 255, ev.ReferralUrl),
 						DataHelper.MakeInParam("@IsWeb", SqlDbType.Bit,1, ev.PageViewType)
@@ -719,13 +719,22 @@ namespace Subtext.Framework.Data
         /// if present.
         /// </param>
         /// <returns></returns>
-        public override bool SetEntryTagList(int postId, List<string> tags)
+        public override bool SetEntryTagList(int postId, IEnumerable<string> tags)
         {
 			if (tags == null)
 				throw new ArgumentNullException("tags", "Tags cannot be null.");
 
             SqlParameter tagParam = new SqlParameter("@TagList", SqlDbType.NText);
-            tagParam.Value = string.Join(",", tags.ToArray());
+
+            string tagList = "";
+            foreach (string tag in tags)
+            {
+                tagList += tag + ",";
+            }
+            if (tagList.Length > 0)
+                tagList = tagList.Substring(0, tagList.Length - 1);
+
+            tagParam.Value = tagList;
 
             SqlParameter[] p =
                 {

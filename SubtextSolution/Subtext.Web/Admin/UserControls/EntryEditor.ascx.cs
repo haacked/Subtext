@@ -30,6 +30,7 @@ using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
 using StringHelper = Subtext.Framework.Text.StringHelper;
 using Subtext.Framework.Tracking;
+using System.Collections.Specialized;
 
 namespace Subtext.Web.Admin.UserControls
 {
@@ -371,8 +372,18 @@ namespace Subtext.Web.Admin.UserControls
 		}
 	
 		private void UpdatePost()
-		{	
-			if(Page.IsValid)
+		{
+            DateTime postDate = NullValue.NullDateTime;
+
+            if (string.IsNullOrEmpty(txtPostDate.Text))
+            {
+                vCustomPostDate.IsValid = true;
+            }
+            else
+            {
+                vCustomPostDate.IsValid = DateTime.TryParse(txtPostDate.Text, out postDate);
+            }
+            if(Page.IsValid)
 			{
 				string successMessage = Constants.RES_SUCCESSNEW;
 
@@ -412,6 +423,13 @@ namespace Subtext.Web.Admin.UserControls
 					entry.IsAggregated = chkIsAggregated.Checked;
 					entry.EntryName = StringHelper.ReturnNullForEmpty(txbEntryName.Text);
 					entry.Description = StringHelper.ReturnNullForEmpty(txbExcerpt.Text);
+                    entry.Categories.Clear();
+                    ReplaceSelectedCategoryNames(entry.Categories);
+
+                    if (!NullValue.IsNull(postDate))
+                    {
+                        entry.DateSyndicated = postDate;
+                    }
 
 					if (PostID != NullValue.NullInt32)
 					{
@@ -459,6 +477,18 @@ namespace Subtext.Web.Admin.UserControls
                 }
 			}
 		}
+
+        private void ReplaceSelectedCategoryNames(StringCollection sc)
+        {
+            sc.Clear();
+            foreach (ListItem item in cklCategories.Items)
+            {
+                if (item.Selected)
+                {
+                    sc.Add(item.Text);
+                }
+            }
+        }
 
 		private void UpdateCategories()
 		{ 

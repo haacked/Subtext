@@ -279,7 +279,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
 			BlogInfo info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
 			info.Author = "Phil";
-			Assert.IsTrue(Config.UpdateConfigData(info), "Updating blog config should return true.");
+            Config.UpdateConfigData(info); //Make sure no exception is thrown.
 		}
 
         [Test]
@@ -291,7 +291,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             info.MobileSkin = new SkinConfig();
             info.MobileSkin.TemplateFolder = "Mobile";
             info.MobileSkin.SkinStyleSheet = "Mobile.css";
-            Assert.IsTrue(Config.UpdateConfigData(info), "Updating blog config should return true.");
+            Config.UpdateConfigData(info);
             BlogInfo blog = BlogInfo.GetBlogById(info.Id);
             Assert.AreEqual("Mobile", blog.MobileSkin.TemplateFolder);
             Assert.AreEqual("Mobile.css", blog.MobileSkin.SkinStyleSheet);

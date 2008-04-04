@@ -35,12 +35,6 @@ namespace Subtext.Web.Admin.WebUI
 		string _messageIconUrl;
 		string _errorIconUrl;
 
-		public MessagePanel()
-		{
-			ViewState[VSKEY_MESSAGE] = String.Empty;
-			ViewState[VSKEY_ERROR] = String.Empty;
-		}
-
 		#region Accessors
 		public string Message
 		{
@@ -150,7 +144,7 @@ namespace Subtext.Web.Admin.WebUI
 	
 			if (null != imageUrl && imageUrl.Length > 0) 
 			{
-				System.Web.UI.WebControls.Image image = new System.Web.UI.WebControls.Image();
+				Image image = new Image();
 				image.Attributes.Add("src", imageUrl);
 				result.Controls.Add(image);
 			}
@@ -197,6 +191,12 @@ namespace Subtext.Web.Admin.WebUI
 		public void Clear()
 		{
 			this.Visible = false;
+		}
+
+		public void ResetMessages()
+		{
+			this.Message = string.Empty;
+			this.Error = string.Empty;
 		}
 	}
 }

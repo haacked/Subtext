@@ -27,9 +27,9 @@ namespace Subtext.Web.Install
 	/// This page will ONLY be displayed if there are no 
 	/// blog configurations within the database.
 	/// </remarks>
-	public partial class Default : System.Web.UI.Page
+	public partial class Default : InstallationBase
 	{		
-		protected void Page_Load(object sender, EventArgs e)
+		protected override void OnLoad(EventArgs e)
 		{
 			if(InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion) == InstallationState.Complete)
 			{
@@ -39,30 +39,10 @@ namespace Subtext.Web.Install
 			litDatabaseName.Text = Config.Settings.ConnectionString.Database;
 		}
 
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
+		protected virtual void OnInstallClick(object sender, EventArgs e)
 		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
+			Extensibility.Providers.Installation.Provider.Install(VersionInfo.FrameworkVersion);
+			Response.Redirect(NextStepUrl);
 		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-			btnNext.Click += new EventHandler(btnNext_Click);
-
-		}
-		#endregion
-
-		private void btnNext_Click(object sender, EventArgs e)
-		{
-			Response.Redirect(InstallationBase.NextStepUrl);
-		}
-	}
+    }
 }

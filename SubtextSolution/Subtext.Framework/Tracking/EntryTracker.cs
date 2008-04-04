@@ -76,7 +76,7 @@ namespace Subtext.Framework.Tracking
 					{
 						string refUrl = GetReferral(context.Request);
 						EntryView ev = new EntryView();
-						ev.EntryID = EntryID;
+						ev.EntryId = EntryID;
 						ev.BlogId = BlogId;
 						ev.ReferralUrl = refUrl;
 						ev.PageViewType = PageViewType.WebView;

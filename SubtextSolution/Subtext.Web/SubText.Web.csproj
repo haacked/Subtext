@@ -311,6 +311,13 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ForgotPassword.aspx.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForgotPassword.aspx.designer.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -432,13 +439,6 @@
     <Compile Include="Install\InstallTemplate.Master.designer.cs">
       <DependentUpon>InstallTemplate.Master</DependentUpon>
     </Compile>
-    <Compile Include="Install\Step01_InstallData.aspx.cs">
-      <DependentUpon>Step01_InstallData.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Install\Step01_InstallData.aspx.designer.cs">
-      <DependentUpon>Step01_InstallData.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Install\Step02_ConfigureHost.aspx.cs">
       <DependentUpon>Step02_ConfigureHost.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -495,6 +495,13 @@
     </Compile>
     <Compile Include="SiteMap\Url.cs" />
     <Compile Include="SiteMap\UrlCollection.cs" />
+    <Compile Include="Skins\_System\ForgotPassword.Master.cs">
+      <DependentUpon>ForgotPassword.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Skins\_System\ForgotPassword.Master.designer.cs">
+      <DependentUpon>ForgotPassword.Master</DependentUpon>
+    </Compile>
     <Compile Include="SystemMessages\BlogNotActive.aspx.cs">
       <DependentUpon>BlogNotActive.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -882,10 +889,6 @@
       <DependentUpon>InstallationComplete.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Install\Step01_InstallData.aspx.resx">
-      <DependentUpon>Step01_InstallData.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Install\Step02_ConfigureHost.aspx.resx">
       <DependentUpon>Step02_ConfigureHost.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -998,7 +1001,6 @@
     <Content Include="Admin\Resources\Scripts\Images\sidesbg.jpg" />
     <Content Include="Admin\Resources\Scripts\Images\textarea.gif" />
     <Content Include="Admin\Resources\Scripts\labelFocus.js" />
-    <Content Include="Admin\Resources\Scripts\niceforms-default.css" />
     <Content Include="Admin\Resources\Scripts\niceForms.js" />
     <Content Include="Admin\Resources\toggle_gray_down.gif" />
     <Content Include="Admin\Resources\toggle_gray_up.gif" />
@@ -1014,12 +1016,15 @@
     <Content Include="Admin\Credits.aspx" />
     <Content Include="App_Data\Subtext2.0.mdf">
     </Content>
+    <Content Include="App_Data\Subtext3.0.mdf">
+    </Content>
     <Content Include="DTP.aspx" />
     <Content Include="ExternalDependencies\FreeTextBox.xml" />
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
     <Content Include="ExternalDependencies\Identicon.dll" />
     <Content Include="ExternalDependencies\log4net.dll" />
     <Content Include="ExternalDependencies\log4net.xml" />
+    <Content Include="ForgotPassword.aspx" />
     <Content Include="HostAdmin\ChangePassword.aspx" />
     <Content Include="HostAdmin\ManageGroups.aspx" />
     <Content Include="HostAdmin\Default.aspx" />
@@ -1147,7 +1152,6 @@
     <Content Include="Install\InstallationComplete.aspx">
       <SubType>Form</SubType>
     </Content>
-    <Content Include="Install\Step01_InstallData.aspx" />
     <Content Include="Install\Step02_ConfigureHost.aspx" />
     <Content Include="Install\Step03_CreateBlog.aspx" />
     <Content Include="Install\Style\InstallationStyle.css" />
@@ -1435,9 +1439,13 @@
     <Content Include="Providers\BlogEntryEditor\FTB\ftb.imagegallery.aspx" />
     <Content Include="Scripts\AmazonTooltips.js" />
     <Content Include="Scripts\blank.gif" />
+    <Content Include="Scripts\builder.js" />
     <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\controls.js" />
+    <Content Include="Scripts\dragdrop.js" />
     <Content Include="Scripts\effects.js" />
     <Content Include="Scripts\ExternalLinks.js" />
+    <Content Include="Scripts\InPlaceEdit.js" />
     <Content Include="Scripts\jquery-1.2.1.min.js" />
     <Content Include="Scripts\jquery.color.min.js" />
     <Content Include="Scripts\jquery.hotkeys.min.js" />
@@ -2281,6 +2289,9 @@
     <Content Include="Skins\_System\commonlayout.css" />
     <Content Include="Skins\_System\commonstyle.css" />
     <Content Include="Skins\_System\csharp.css" />
+    <Content Include="Skins\_System\forgotpassword.css" />
+    <Content Include="Skins\_System\forms.css" />
+    <Content Include="Skins\_System\login.css" />
     <Content Include="Skins\_System\SystemStyle.css" />
     <Content Include="SystemMessages\BlogNotActive.aspx">
       <SubType>Form</SubType>
@@ -2306,6 +2317,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Skins\_System\ForgotPassword.Master" />
     <Content Include="SystemMessages\SystemMessageTemplate.Master" />
     <Content Include="wlwmanifest.xml" />
   </ItemGroup>

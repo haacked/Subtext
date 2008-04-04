@@ -39,7 +39,7 @@ namespace Subtext.Web.Install
 				case InstallationState.NeedsInstallation:
 				case InstallationState.NeedsUpgrade:
 				case InstallationState.NeedsRepair:
-					EnsureInstallStep("Default.aspx", "Step01_InstallData.aspx");
+					EnsureInstallStep("Default.aspx", "Step02_ConfigureHost.aspx");
 					break;
 				
 				default:
@@ -104,7 +104,6 @@ namespace Subtext.Web.Install
 		static string[] _wizardPages =
 			{
 				"Default.aspx"
-				, "Step01_InstallData.aspx"
 				, "Step02_ConfigureHost.aspx"
 				, "Step03_CreateBlog.aspx"
 			};

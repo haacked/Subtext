@@ -16,16 +16,15 @@
         var ajaxServices = new AjaxServices();
     </script>
     <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/tableEffects.js") %>" ></script>
-    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Admin/Resources/Scripts/niceForms.js") %>"></script>
 	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Admin/Resources/Scripts/helptip.js") %>" ></script>
 	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Admin/Resources/Scripts/admin.js") %>" ></script>
 	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/commonlayout.css" />
 	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/commonstyle.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/forms.css" />
 	<link type="text/css" rel="stylesheet" runat="server" href="~/Admin/Resources/Scripts/helptip.css" />
 	<link type="text/css" rel="stylesheet" runat="server" href="~/Admin/Resources/admin.css" />
-	<link type="text/css" rel="stylesheet" runat="server" href="~/Admin/Resources/Scripts/niceforms-default.css" />
 </head>
-<body id="AdminSection" runat="server">
+<body id="AdminSection" runat="server" class="admin">
     <form id="frmMain" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true"></asp:ScriptManager>
 		<table id="BodyTable" cellpadding="0" cellspacing="0" width="100%">
@@ -109,7 +108,7 @@
 					</div>
 					<div>
 						<a href="http://www.asp.net"><img id="PoweredBy" src='<%= Utilities.ResourcePath + "resources/poweredbydotnet.gif" %>' height="33" width="99" alt="Powerd By Subtext" /></a>
-						Subtext Copyright &copy; <a href="http://haacked.com/" title="Founder of Subtext">Phil Haack</a>, 2005-2006. All rights 
+						Subtext Copyright &copy; <a href="http://haacked.com/" title="Founder of Subtext">Phil Haack</a>, 2005-<%= DateTime.Now.Year %>. All rights 
 						reserved.<br />
 						.TEXT Copyright &copy; <a href="http://scottwater.com/blog" title="Creator of .TEXT">Scott Watermasysk</a>, 2003. 
 						All rights reserved.

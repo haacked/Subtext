@@ -17,13 +17,15 @@
 			<asp:DropDownList id="ddlPublished" runat="server" AutoPostBack="false">
 				<asp:ListItem Value="true">Yes</asp:ListItem>
 				<asp:ListItem Value="false">No</asp:ListItem>
-			</asp:DropDownList></p>
+			</asp:DropDownList>
+		</p>
 		<p>
 			<label for="Edit_ddlExpandAdvanced">Always expand advanced options</label> &nbsp;
 			<asp:DropDownList id="ddlExpandAdvanced" runat="server" AutoPostBack="false">
 				<asp:ListItem Value="true">Yes</asp:ListItem>
 				<asp:ListItem Value="false">No</asp:ListItem>
-			</asp:DropDownList></p>
+			</asp:DropDownList>
+		</p>
 		<p style="MARGIN-TOP: 8px">
 		    <asp:CheckBox id="chkAutoGenerate" runat="server" Text="Auto-Generate Friendly Url" />
 			<st:HelpToolTip id="Helptooltip4" runat="server" HelpText="If checked, blog posts and articles will have friendly Urls auto-generated based on the title. For example, the title 'My Blog Post' will become 'MyBlogPost.aspx'.">

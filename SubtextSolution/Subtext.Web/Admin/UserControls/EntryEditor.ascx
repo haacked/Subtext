@@ -4,7 +4,7 @@
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Import Namespace = "Subtext.Web.Admin" %>
 
-<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
+<ANW:MessagePanel id="Messages" runat="server" />
 
 <ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True">
 	<asp:Repeater id="rprSelectionList" runat="server">
@@ -88,21 +88,15 @@
 </ANW:AdvancedPanel>
 
 <ANW:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle" Collapsible="False" HeaderText="Edit Post">
-	<div class="Edit">
+	<div id="entry-editor" class="Edit">
 		<!-- DEBUG -->
-		<p class="Label"><asp:HyperLink id="hlEntryLink" Runat="server"></asp:HyperLink></p>
-		<p>
-			<label for="Editor_Edit_txbTitle" accesskey="t">Post <u>T</u>itle</label>&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title"></asp:RequiredFieldValidator>
-		</p>
-		<p>
-			<asp:TextBox id="txbTitle" runat="server" CssClass="textinput" MaxLength="250"></asp:TextBox>
-		</p>
-		<p>
-			<label for="Editor_Edit_richTextEditor" accesskey="b">Post <u>B</u>ody</label>&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="richTextEditor" ForeColor="#990066" ErrorMessage="Your post must have a body"></asp:RequiredFieldValidator></p>
-		<p>
-			<st:RichTextEditor id="richTextEditor" runat="server" onerror="richTextEditor_Error"></st:RichTextEditor>
-		</p>
-		<p><label>Categories</label></p>
+		<p class="Label"><asp:HyperLink id="hlEntryLink" Runat="server" /></p>
+		
+		<label for="Editor_Edit_txbTitle" accesskey="t">Post <u>T</u>itle&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title" /></label>
+		<asp:TextBox id="txbTitle" runat="server" MaxLength="250" />
+		<label for="Editor_Edit_richTextEditor" accesskey="b">Post <u>B</u>ody&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="richTextEditor" ForeColor="#990066" ErrorMessage="Your post must have a body" /></label>
+		<st:RichTextEditor id="richTextEditor" runat="server" onerror="richTextEditor_Error"></st:RichTextEditor>
+		<label>Categories</label>
 		<p><asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal"></asp:CheckBoxList></p>
 		<div>
 			<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post"  />
@@ -122,22 +116,19 @@
 				<td width="200"><asp:CheckBox id="chkDisplayHomePage" runat="server" Text="Display on HomePage" textalign="Right" />&nbsp;</td>
 			</tr>
 			<tr>
-				<td><asp:CheckBox id="chkMainSyndication" runat="server" Text = "Syndicate on Main Feed" textalign="Right" />&nbsp;</td>
-				<td><asp:CheckBox id="chkSyndicateDescriptionOnly" runat="server" Text = "Syndicate Description Only" textalign="Right" />&nbsp;</td>
-				<td><asp:CheckBox id="chkIsAggregated" runat="server" Text = "Include in Aggregated Site" textalign="Right" />&nbsp;</td>
+				<td><asp:CheckBox id="chkMainSyndication" runat="server" Text="Syndicate on Main Feed" textalign="Right" />&nbsp;</td>
+				<td><asp:CheckBox id="chkSyndicateDescriptionOnly" runat="server" Text="Syndicate Description Only" textalign="Right" />&nbsp;</td>
+				<td><asp:CheckBox id="chkIsAggregated" runat="server" Text="Include in Aggregated Site" textalign="Right" />&nbsp;</td>
 			</tr>
 		</table>
-		<p style="margin-top: 10px;">
-			<label for="Editor_Edit_txbEntryName" accesskey="n">Entry <u>N</u>ame (page name)</label> <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate="txbEntryName" ValidationExpression="^([a-zA-Z0-9-\.]*([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9-_]+)$" Text = "Invalid EntryName Format. Must only contain characters allowable in an URL." runat="server"/>
-		</p>
-		<p>
-			<asp:TextBox id="txbEntryName" runat="server" CssClass="textinput" MaxLength="150"></asp:TextBox>
-		</p>
-		<p>
-			<label for="Editor_Edit_txbExcerpt" accesskey="e"><u>E</u>xcerpt</label></p>
-		<p>
-			<asp:TextBox id="txbExcerpt" runat="server" CssClass="textarea" rows="5" textmode="MultiLine" MaxLength="500"></asp:TextBox>
-		</p>
+		<div id="advanced-options">
+		    <label for="Editor_Edit_txtPostDate" accesskey="d">Post <u>D</u>ate <asp:CustomValidator ID="vCustomPostDate" runat="server" Text="Invalid PostDate format. Must be a valid date/time expression" ControlToValidate="txtPostDate" /></label> 
+		    <asp:TextBox ID="txtPostDate" runat="server" CssClass="date" MaxLength="25" />
+		    <label for="Editor_Edit_txbEntryName" accesskey="n">Entry <u>N</u>ame (page name) <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate="txbEntryName" ValidationExpression="^([a-zA-Z0-9-\.]*([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9-_]+)$" Text = "Invalid EntryName Format. Must only contain characters allowable in an URL." runat="server"/></label>
+		    <asp:TextBox id="txbEntryName" runat="server" MaxLength="150" />
+		    <label for="Editor_Edit_txbExcerpt" accesskey="e"><u>E</u>xcerpt</label>
+		    <asp:TextBox id="txbExcerpt" runat="server" rows="5" textmode="MultiLine" MaxLength="500" />
+		</div>
 	</ANW:AdvancedPanel>
 	
 </ANW:AdvancedPanel>

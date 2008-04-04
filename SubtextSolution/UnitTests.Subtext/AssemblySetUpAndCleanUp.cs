@@ -34,7 +34,7 @@ namespace UnitTests.Subtext
 			}
 		}
 
-		[TearDown]
+        [TearDown]
 		public static void TearDown()
 		{
 			if (ConfigurationManager.AppSettings["connectionStringName"] == "subtextExpress")

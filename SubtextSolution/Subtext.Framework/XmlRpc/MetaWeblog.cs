@@ -107,7 +107,7 @@ namespace Subtext.Framework.XmlRpc
 				entry.IsActive = publish;
 		
 				entry.DateModified = Config.CurrentBlog.TimeZone.Now;
-				return Entries.Update(entry);
+				Entries.Update(entry);
 			}
 			return false;
 		}

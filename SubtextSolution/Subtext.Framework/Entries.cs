@@ -30,6 +30,8 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
+using System.Data.SqlClient;
+using Subtext.Framework.Exceptions;
 
 namespace Subtext.Framework
 {
@@ -229,9 +231,12 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static int Create(Entry entry)
 		{
-			Debug.Assert(entry.PostType != PostType.None, "Posttype should never be null.");
-			
-			if(Config.CurrentBlog.AutoFriendlyUrlEnabled
+            if (entry == null)
+                throw new ArgumentNullException("entry");//Resources.ArgumentNull_Generic);
+
+            Debug.Assert(entry.PostType != PostType.None, "Posttype should never be null.");
+
+			if (Config.CurrentBlog.AutoFriendlyUrlEnabled
 				&& String.IsNullOrEmpty(entry.EntryName)
 				&& !String.IsNullOrEmpty(entry.Title))
 			{
@@ -257,9 +262,20 @@ namespace Subtext.Framework
 			{
 				categoryIds = GetCategoryIdsFromCategoryTitles(entry);
 			}
-			
-			entry.Id = ObjectProvider.Instance().Create(entry, categoryIds);
-            ObjectProvider.Instance().SetEntryTagList(entry.Id, HtmlHelper.ParseTags(entry.Body));
+
+			try
+			{
+				entry.Id = ObjectProvider.Instance().Create(entry, categoryIds);
+			}
+			catch(SqlException e)
+			{
+				if(e.Message.Contains("pick a unique EntryName"))
+				{
+					throw new DuplicateEntryException("An entry with that EntryName already exists.", e);
+				}
+				throw;
+			}
+			Tags.SetTagsOnEntry(entry);
 
 			log.Debug("Created entry, running notification services.");
 			NotificationServices.Run(entry);
@@ -503,19 +519,18 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="entry">Entry.</param>
 		/// <returns></returns>
-		public static bool Update(Entry entry)
+		public static void Update(Entry entry)
 		{
-			if(NullValue.IsNull(entry.DateSyndicated) && entry.IsActive && entry.IncludeInMainSyndication)
-			{
-				entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
-			}
-			
-			if(!entry.IncludeInMainSyndication)
-			{
-				entry.DateSyndicated = NullValue.NullDateTime;
-			}
+            if (entry == null)
+                throw new ArgumentNullException("entry", "Entry cannot be null.");//Resources.ArgumentNull_Generic);
 
-			return Update(entry, null);
+			if (NullValue.IsNull(entry.DateSyndicated) && entry.IsActive && entry.IncludeInMainSyndication)
+				entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
+
+			if (!entry.IncludeInMainSyndication)
+				entry.DateSyndicated = NullValue.NullDateTime;
+
+			Update(entry, null);
 		}
 
 		/// <summary>
@@ -525,32 +540,36 @@ namespace Subtext.Framework
 		/// <param name="entry">Entry.</param>
 		/// <param name="categoryIDs">Category Ids this entry belongs to.</param>
 		/// <returns></returns>
-		public static bool Update(Entry entry, params int[] categoryIDs)
+		public static void Update(Entry entry, params int[] categoryIDs)
 		{
-			entry.DateModified = Config.CurrentBlog.TimeZone.Now;
+            if (entry == null)
+                throw new ArgumentNullException("entry", "entry cannot be null");//Resources.ArgumentNull_Generic);
+
+            entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 
             if (!string.IsNullOrEmpty(entry.EntryName))
             {
                 entry.EntryName = AutoGenerateFriendlyUrl(entry.EntryName, entry.Id);
             }
 
-            bool updateSuccessful = ObjectProvider.Instance().Update(entry, categoryIDs);
-            if (updateSuccessful == false)
-            {
-                return false;
-            }
+            ObjectProvider.Instance().Update(entry, categoryIDs);
 
-            List<string> tags = HtmlHelper.ParseTags(entry.Body);
-            return ObjectProvider.Instance().SetEntryTagList(entry.Id, tags);
+            IList<string> tags = HtmlHelper.ParseTags(entry.Body);
+            ObjectProvider.Instance().SetEntryTagList(entry.Id, tags);
 		}
 
 		#endregion
 
 		#region Entry Category List
 
-		public static bool SetEntryCategoryList(int EntryID, int[] Categories)
+		/// <summary>
+		/// Sets the categories for this entry.
+		/// </summary>
+		/// <param name="entryId">The entry id.</param>
+		/// <param name="categories">The categories.</param>
+		public static void SetEntryCategoryList(int entryId, params int[] categories)
 		{
-			return ObjectProvider.Instance().SetEntryCategoryList(EntryID,Categories);
+			ObjectProvider.Instance().SetEntryCategoryList(entryId, categories);
 		}
 
 		#endregion

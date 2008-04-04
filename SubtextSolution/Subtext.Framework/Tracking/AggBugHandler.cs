@@ -58,6 +58,11 @@ namespace Subtext.Framework.Tracking
 		/// <see langword=""/> used to service HTTP requests.</param>
 		public void ProcessRequest(HttpContext context)
 		{
+            if (context == null)
+            {
+                throw new ArgumentNullException("context", "context cannot be null");//Resources.ArgumentNull_Generic);
+            }
+
 			Log.Debug("Entering AggBug Request...");
 			//Check to see if we have sent the 1x1 image in the last 12 hours (requires If-Modified-Since header)
 			if(CachedVersionIsOkay())
@@ -76,7 +81,7 @@ namespace Subtext.Framework.Tracking
 				{
 					EntryView ev = new EntryView();
 					ev.BlogId = Config.CurrentBlog.Id;
-					ev.EntryID = EntryID;
+					ev.EntryId = EntryID;
 					ev.PageViewType = PageViewType.AggView;
 					EntryTracker.Track(ev);
 				}
@@ -94,7 +99,7 @@ namespace Subtext.Framework.Tracking
 			Log.Debug("Leaving AggBug Request...");			
 		}
 
-		private bool CachedVersionIsOkay()
+		private static bool CachedVersionIsOkay()
 		{
 			//Get header value
 			DateTime dt = HttpHelper.GetIfModifiedSinceDateUTC();

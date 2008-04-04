@@ -375,12 +375,13 @@ namespace Subtext.Web.HostAdmin.UserControls
 				blog.Password = SecurityHelper.HashPassword(this.txtPassword.Text);
 			}
 			
-			if(Config.UpdateConfigData(blog))
-			{
-				this.messagePanel.ShowMessage("Blog Saved.");
+            try
+            {
+			    Config.UpdateConfigData(blog);
+		        this.messagePanel.ShowMessage("Blog Saved.");
 			}
-			else
-			{
+            catch(Exception)
+            {
 				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
 			}
 		}
@@ -458,20 +459,14 @@ namespace Subtext.Web.HostAdmin.UserControls
 			blog.IsActive = !blog.IsActive;
 			try
 			{
-				if(Config.UpdateConfigData(blog))
+				Config.UpdateConfigData(blog);
+				if(blog.IsActive)
 				{
-					if(blog.IsActive)
-					{
-						this.messagePanel.ShowMessage("Blog Activated and ready to go.");
-					}
-					else
-					{
-						this.messagePanel.ShowMessage("Blog Inactivated and sent to a retirement community.");
-					}
+					this.messagePanel.ShowMessage("Blog Activated and ready to go.");
 				}
 				else
 				{
-					this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
+					this.messagePanel.ShowMessage("Blog Inactivated and sent to a retirement community.");
 				}
 			}
 			catch(BaseBlogConfigurationException e)

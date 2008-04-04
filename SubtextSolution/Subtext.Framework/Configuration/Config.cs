@@ -26,6 +26,7 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
 using Subtext.Scripting;
+using System.Web;
 
 namespace Subtext.Framework.Configuration
 {
@@ -99,15 +100,31 @@ namespace Subtext.Framework.Configuration
 		/// Returns a <see cref="BlogInfo"/> instance containing 
 		/// the configuration settings for the current blog.
 		/// </summary>
-		/// <returns></returns>
+		/// <remarks>
+		///	<para>This property may throw an exception in a couple of cases. The reason for 
+		/// this is that there are a couple different reasons why the Current Blog might 
+		/// not exist and we handle those situations differently in the UI. Returning 
+		/// NULL does not give us enough information.
+		/// </para>
+		/// </remarks>
+		/// <exception type="BlogDoesNotExistException">Thrown if the blog does not exist</exception>
+		/// <exception type="BlogInactiveException">Thrown if the blog is no longer active</exception>
+		/// <returns>The current blog</returns>
 		public static BlogInfo CurrentBlog
 		{
 			get
 			{
-				return ConfigurationProvider.GetBlogInfo();
+				if (HttpContext.Current == null)
+					return null;
+
+				if (InstallationManager.IsInHostAdminDirectory)
+					return null;
+				
+				BlogInfo currentBlog = ConfigurationProvider.GetBlogInfo();
+				return currentBlog;
 			}
 		}
-		
+
 		/// <summary>
 		/// Gets the count of active blogs.
 		/// </summary>
@@ -142,7 +159,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				if(_configProvider == null)
+				if (_configProvider == null)
 				{
 					_configProvider = UrlBasedBlogInfoProvider.Instance;
 				}
@@ -154,18 +171,18 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
-        /// <summary>
-        /// Returns a <see cref="BlogInfo"/> instance containing 
-        /// the configuration settings for the blog specified by the 
-        /// Hostname and Application.
-        /// </summary>
-        /// <param name="hostName">Hostname.</param>
-        /// <param name="subfolder">Subfolder Name.</param>
-        /// <returns></returns>
-	    public static BlogInfo GetBlogInfo(string hostName, string subfolder)
-	    {
-            return GetBlogInfo(hostName, subfolder, false);
-	    }
+		/// <summary>
+		/// Returns a <see cref="BlogInfo"/> instance containing 
+		/// the configuration settings for the blog specified by the 
+		/// Hostname and Application.
+		/// </summary>
+		/// <param name="hostName">Hostname.</param>
+		/// <param name="subfolder">Subfolder Name.</param>
+		/// <returns></returns>
+		public static BlogInfo GetBlogInfo(string hostName, string subfolder)
+		{
+			return GetBlogInfo(hostName, subfolder, false);
+		}
 
 		/// <summary>
 		/// Returns a <see cref="BlogInfo"/> instance containing 
@@ -327,11 +344,11 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		public static bool UpdateConfigData(BlogInfo info)
+		public static void UpdateConfigData(BlogInfo info)
 		{
 			//Check for duplicate
 			BlogInfo potentialDuplicate = GetBlogInfo(info.Host, info.Subfolder, true);
-			if(potentialDuplicate != null && !potentialDuplicate.Equals(info))
+			if (potentialDuplicate != null && !potentialDuplicate.Equals(info))
 			{
 				//we found a duplicate!
 				throw new BlogDuplicationException(potentialDuplicate);
@@ -339,7 +356,7 @@ namespace Subtext.Framework.Configuration
 
 			//Check to see if we're going to end up hiding another blog.
 			BlogInfo potentialHidden = GetBlogInfo(info.Host, string.Empty, true);
-			if(potentialHidden != null && !potentialHidden.Equals(info) && potentialHidden.IsActive)
+			if (potentialHidden != null && !potentialHidden.Equals(info) && potentialHidden.IsActive)
 			{
 				//We found a blog that would be hidden by this one.
 				throw new BlogHiddenException(potentialHidden);
@@ -347,14 +364,14 @@ namespace Subtext.Framework.Configuration
 
 			string subfolderName = info.Subfolder == null ? string.Empty : UrlFormats.StripSurroundingSlashes(info.Subfolder);
 
-			if(subfolderName.Length == 0)
+			if (subfolderName.Length == 0)
 			{
 				//Check to see if this blog requires a Subfolder value
 				//This would occur if another blog has the same host already.
                 IPagedCollection<BlogInfo> blogsWithHost = BlogInfo.GetBlogsByHost(info.Host, 0, 1, ConfigurationFlag.IsActive);
 				if(blogsWithHost.Count > 0)
 				{
-					if(blogsWithHost.Count > 1 || !blogsWithHost[0].Equals(info))
+					if (blogsWithHost.Count > 1 || !blogsWithHost[0].Equals(info))
 					{
 						throw new BlogRequiresSubfolderException(info.Host, blogsWithHost.Count);
 					}
@@ -362,7 +379,7 @@ namespace Subtext.Framework.Configuration
 			}
 			else
 			{
-				if(!IsValidSubfolderName(subfolderName))
+				if (!IsValidSubfolderName(subfolderName))
 				{
 					throw new InvalidSubfolderNameException(subfolderName);
 				}
@@ -371,7 +388,7 @@ namespace Subtext.Framework.Configuration
 			info.IsPasswordHashed = Settings.UseHashedPasswords;
 			info.AllowServiceAccess = Settings.AllowServiceAccess;
 
-			return ObjectProvider.Instance().UpdateBlog(info);
+			ObjectProvider.Instance().UpdateBlog(info);
 		}
 
         //TODO: Is this the right place to put this list?

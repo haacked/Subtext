@@ -78,7 +78,7 @@ namespace Subtext.Web.Pages
 			}
 			else
 			{
-				if(SecurityHelper.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
+                if (SecurityHelper.Authenticate(tbUserName.Text, tbPassword.Text, chkRememberMe.Checked))
 				{
 					ReturnToUrl(currentBlog.AdminHomeVirtualUrl);
 					return;
@@ -180,7 +180,7 @@ namespace Subtext.Web.Pages
 
 		private bool AuthenticateHostAdmin()
 		{
-			return SecurityHelper.AuthenticateHostAdmin(tbUserName.Text, tbPassword.Text, chkRemember.Checked);
+            return SecurityHelper.AuthenticateHostAdmin(tbUserName.Text, tbPassword.Text, chkRememberMe.Checked);
 		}
 	}
 }
