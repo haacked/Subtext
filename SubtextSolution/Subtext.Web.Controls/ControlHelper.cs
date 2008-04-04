@@ -20,6 +20,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Text;
+using System.Text.RegularExpressions;
 
 namespace Subtext.Web.Controls
 {
@@ -29,6 +30,42 @@ namespace Subtext.Web.Controls
 	/// </summary>
 	public static class ControlHelper
 	{
+        public static void AddCssClass(HtmlControl control, string cssClass)
+        {
+            string classes = control.Attributes["class"] ?? string.Empty;
+
+            Regex regex = new Regex(@"(^|\s)" + Regex.Escape(cssClass) + @"($|\s)", RegexOptions.IgnoreCase);
+            if (regex.IsMatch(classes))
+                return;
+
+            if (classes.Length > 0)
+            {
+                control.Attributes["class"] += " " + cssClass;
+            }
+            else
+            {
+                control.Attributes["class"] = cssClass;
+            }
+        }
+
+        public static void AddCssClass(WebControl control, string cssClass)
+        {
+            string classes = control.CssClass ?? string.Empty;
+
+            Regex regex = new Regex(@"(^|\s)" + Regex.Escape(cssClass) + @"($|\s)", RegexOptions.IgnoreCase);
+            if (regex.IsMatch(classes))
+                return;
+
+            if (control.CssClass.Length > 0)
+            {
+                control.CssClass += " " + cssClass;
+            }
+            else
+            {
+                control.CssClass = cssClass;
+            }
+        }
+
 	    /// <summary>
 		/// Returns true if the specified attribute is defined 
 		/// on the control.

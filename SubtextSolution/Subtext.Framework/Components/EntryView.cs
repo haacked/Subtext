@@ -23,10 +23,6 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class EntryView
 	{
-		public EntryView()
-		{
-		}
-
 		private int _blogID;
 		public int BlogId
 		{
@@ -35,7 +31,7 @@ namespace Subtext.Framework.Components
 		}
 
 		private int _entryID;
-		public int EntryID
+		public int EntryId
 		{
 			get {return this._entryID;}
 			set {this._entryID = value;}

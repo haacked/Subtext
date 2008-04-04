@@ -52,6 +52,7 @@ namespace Subtext.Web.Admin.Pages
 			if(!IsPostBack)
 		    {
                 ControlHelper.ApplyRecursively(SetTextBoxStyle, this);
+                ControlHelper.ApplyRecursively(SetButtonStyle, this);
 		        DataBind();
 		    }
 			base.OnLoad(e);
@@ -61,7 +62,7 @@ namespace Subtext.Web.Admin.Pages
 	    {
 	        if(this.body != null)
             {
-                this.body.Attributes["class"] = this.TabSectionId;
+                ControlHelper.AddCssClass(this.body, this.TabSectionId);
             }
 	    }
 	    
@@ -79,31 +80,28 @@ namespace Subtext.Web.Admin.Pages
 			if(textBox != null)
 			{
 				if(textBox.TextMode == TextBoxMode.SingleLine || textBox.TextMode == TextBoxMode.Password)
-                    AddCssClass(textBox, "textinput");
+                    ControlHelper.AddCssClass(textBox, "textbox");
                 if (textBox.TextMode == TextBoxMode.MultiLine)
                 {
-                    AddCssClass(textBox, "textarea");
+                    ControlHelper.AddCssClass(textBox, "textarea");
                 }
 			}
 		}
+
+        static void SetButtonStyle(Control control)
+        {
+            Button button = control as Button;
+            if (button != null)
+            {
+                ControlHelper.AddCssClass(button, "button");
+            }
+        }
 
 		protected static string CreateAdminRssUrl(string pageName)
 		{
 			return String.Format("{0}Admin/{1}", Config.CurrentBlog.RootUrl, pageName);
 		}
 	    
-		private static void AddCssClass(WebControl control, string cssClass)
-	    {
-			if (control.CssClass != null && control.CssClass.Length > 0 && !String.Equals(cssClass, control.CssClass, StringComparison.InvariantCultureIgnoreCase))
-            {
-                control.CssClass += " " + cssClass;
-            }
-            else
-            {
-                control.CssClass = cssClass;
-            }
-	    }
-
 		public ConfirmCommand Command
 		{
 			get { return _command; }

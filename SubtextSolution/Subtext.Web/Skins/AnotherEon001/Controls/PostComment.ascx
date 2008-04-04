@@ -5,7 +5,7 @@
 		<tr>
 			<td>Title</td>
 			<td>
-				<asp:TextBox id="tbTitle" runat="server" Size="40" Width="300px" CssClass="Textbox"></asp:TextBox></td>
+				<asp:TextBox id="tbTitle" runat="server" Size="40" Width="300px" CssClass="textbox"></asp:TextBox></td>
 			<td>
 				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a title"
 					ControlToValidate="tbTitle"></asp:RequiredFieldValidator></td>
@@ -13,7 +13,7 @@
 		<tr>
 			<td>Name</td>
 			<td>
-				<asp:TextBox id="tbName" runat="server" Size="40" Width="300px" CssClass="Textbox"></asp:TextBox></td>
+				<asp:TextBox id="tbName" runat="server" Size="40" Width="300px" CssClass="textbox"></asp:TextBox></td>
 			<td>
 				<asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your name"
 					ControlToValidate="tbName"></asp:RequiredFieldValidator></td>
@@ -21,7 +21,7 @@
 		<tr>
 			<td>Email</td>
 			<td>
-				<asp:TextBox id="tbEmail" runat="server" Size="40" Width="300px" CssClass="Textbox"></asp:TextBox>
+				<asp:TextBox id="tbEmail" runat="server" Size="40" Width="300px" CssClass="textbox"></asp:TextBox>
 			</td>
 			<td>
 				<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^.*?@.+\..+$" Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified." EnableClientScript="true" />
@@ -30,7 +30,7 @@
 		<tr>
 			<td>Url</td>
 			<td>
-				<asp:TextBox id="tbUrl" runat="server" Size="40" Width="300px" CssClass="Textbox"></asp:TextBox>
+				<asp:TextBox id="tbUrl" runat="server" Size="40" Width="300px" CssClass="textbox"></asp:TextBox>
 			</td>
 			<td>
 				<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />

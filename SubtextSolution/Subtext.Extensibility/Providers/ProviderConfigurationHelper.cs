@@ -18,10 +18,11 @@ using System.Collections.Specialized;
 using System.Configuration.Provider;
 using System.Configuration;
 using System.Web.Configuration;
+using System.Globalization;
 
 namespace Subtext.Extensibility.Providers
 {
-    public class ProviderConfigurationHelper
+    public static class ProviderConfigurationHelper
     {
 		/// <summary>
 		/// Helper method for populating a provider collection 

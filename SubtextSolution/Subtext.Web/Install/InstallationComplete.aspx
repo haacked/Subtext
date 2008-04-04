@@ -10,7 +10,7 @@
 		<a id="lnkBlogAdmin" href="" runat="server" title="Blog Admin">Visit</a> your blog&#8217;s admin.
 	</p>
 	<p>
-		<a id="lnkHostAdmin" href="~/HostAdmin/" runat="server" title="Host Admin Tool">Visit</a> the Host Admin tool.
+		<a id="lnkHostAdmin" href="~/HostAdmin/Default.aspx" runat="server" title="Host Admin Tool">Visit</a> the Host Admin tool.
 	</p>
 	<p>
 		If you need to import data from a .TEXT database, try 

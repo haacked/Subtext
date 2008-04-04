@@ -6,22 +6,22 @@
     <fieldset>
 	    <legend>Post a comment</legend>
 	    <p>
-			<label for="PostComment_ascx_tbTitle" AccessKey="T"><u>T</u>itle:</label> <asp:TextBox id="tbTitle" runat="server" Size="40" TabIndex="1" CssClass="textinput" />
+			<label for="PostComment_ascx_tbTitle" AccessKey="T"><u>T</u>itle:</label> <asp:TextBox id="tbTitle" runat="server" Size="40" TabIndex="1" CssClass="textbox" />
 			<br/>
 			<asp:RequiredFieldValidator id="vldTitleRequired" runat="server" ErrorMessage="Please enter a title" ControlToValidate="tbTitle" Display="Dynamic" EnableClientScript="true" />
 		</p>
 	    <p>
-			<label for="PostComment_ascx_tbName" AccessKey="N"><u>N</u>ame:</label> <asp:TextBox id="tbName" runat="server" Size="40" TabIndex="2" CssClass="textinput" />
+			<label for="PostComment_ascx_tbName" AccessKey="N"><u>N</u>ame:</label> <asp:TextBox id="tbName" runat="server" Size="40" TabIndex="2" CssClass="textbox" />
 			<br/>
 			<asp:RequiredFieldValidator id="vldNameRequired" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName" Display="Dynamic" EnableClientScript="true" />
 		</p>
 	    <p>
-			<label for="PostComment_ascx_tbEmail" AccessKey="E"><u>E</u>mail: <em>Not Displayed</em></label> <asp:TextBox id="tbEmail" runat="server" Size="40" TabIndex="2" CssClass="textinput" />
+			<label for="PostComment_ascx_tbEmail" AccessKey="E"><u>E</u>mail: <em>Not Displayed</em></label> <asp:TextBox id="tbEmail" runat="server" Size="40" TabIndex="2" CssClass="textbox" />
 			<br/>
 			<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$" Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified." EnableClientScript="true" />
 	    </p>
 	    <p>
-			<label for="PostComment_ascx_tbUrl" AccessKey="W"><u>W</u>ebsite:</label> <asp:TextBox id="tbUrl" runat="server" Size="40" TabIndex="3" CssClass="textinput" />
+			<label for="PostComment_ascx_tbUrl" AccessKey="W"><u>W</u>ebsite:</label> <asp:TextBox id="tbUrl" runat="server" Size="40" TabIndex="3" CssClass="textbox" />
 			<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
 	    </p>
 	    <p>

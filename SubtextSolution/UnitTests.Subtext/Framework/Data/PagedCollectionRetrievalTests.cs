@@ -408,7 +408,7 @@ namespace UnitTests.Subtext.Framework.Data
 		public void Create(int index)
 		{
 			EntryView view = new EntryView();
-			view.EntryID = entryId;
+			view.EntryId = entryId;
 			view.BlogId = Config.CurrentBlog.Id;
 			view.PageViewType = PageViewType.WebView;
 			view.ReferralUrl = string.Format("http://localhost:{0}/{1}/", index, UnitTestHelper.GenerateRandomString());

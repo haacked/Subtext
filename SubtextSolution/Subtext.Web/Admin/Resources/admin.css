@@ -7,6 +7,8 @@ body
 	padding: 0;
 }
 
+.hide { display: none; }
+
 #logo
 {
 	background: url(../../images/SubtextLogo_small.png);
@@ -112,24 +114,21 @@ div.Pager a.Current:visited  {
 	margin: 0px 2px 0px 2px;
 }
 
-a:link, a:visited,
-#messagePanel .btn 
-{
+a:link, a:visited {
 	color: #002C99;
 	font-weight: bold;
 	text-decoration: none;
 	background: inherit;
 }
 
-a:hover,
-.btn:hover
+a:hover 
 {
 	color: #CC0066;
 	text-decoration: underline;
 }
 
 a.Button:link,
-a.Button:visited
+a.Button:visited 
 {
 	display: block;
 	float: left;
@@ -276,15 +275,6 @@ div.Action
 	background: #EEEEEE;
 }
 
-div#Main div.Edit  
-{
-	color: #333333;
-	border-bottom: 1px solid #AAAAAA;
-	margin-bottom: 8px;
-	padding: 4px 12px;
-	background: #F5F5F5;
-}
-
 div.Dialog {
 	margin-left: auto;
 	margin-right: auto;
@@ -311,6 +301,27 @@ div.DialogBody {
 
 div#Main div.Edit p  {
 	margin: 0px 0px 10px 0px;
+}
+
+div#Main #advanced-options input.date
+{
+    width: 250px;
+}
+
+body.admin input.textbox
+{
+    width: 695px;
+}
+
+body.admin textarea
+{
+    width: 695px;
+    height: 200px;
+}
+
+#entry-editor label, #advanced-options label {
+    display: block;
+    margin: 6px 0 2px 0;
 }
 
 div.Edit a.Toggle {
@@ -747,7 +758,12 @@ body.ImportExport a#TabImportExport  {
   color:#333;
   padding-bottom:5px;
   }
-  
+
+.error
+{
+	color: #c00;
+}
+
 div.errorPage
 {
 	padding: 4px; 
@@ -866,7 +882,17 @@ div.options, fieldset.options
 
 div.wide, fieldset.wide
 {
-	width: 430px;
+	width: 460px;
+}
+
+#editPost .textbox
+{
+	width: 697px;
+}
+
+fieldset select.timezonelist
+{
+	font-size: .8em;	
 }
 
 .clear { clear: both; }
@@ -965,4 +991,94 @@ div.wide, fieldset.wide
 #messagePanelWrapper.success #messagePanel
 {
 	background: transparent url(../../Images/accept.png) no-repeat scroll left center;
+}
+
+div.button-row
+{
+	clear: both;
+}
+
+/*-------------{table styles}--------------*/
+table
+{
+	border-collapse: collapse;
+}
+
+table tr.header
+{
+	background-color: #ffc;
+}
+
+table.log
+{
+	border: solid 1px #ddd;
+}
+
+table.log .pre-header input, table.log .pre-header label
+{
+	float: left;
+}
+
+table.log .pre-header input.button
+{
+	float: right;
+}
+
+table.log th.logger
+{
+	width: 200px;
+}
+
+table.log tr
+{
+	vertical-align: top;
+}
+
+table.log td, table.log th
+{
+	font-size: .8em;
+	padding: 5px;
+	text-align: left;
+}
+
+table.log td, table.log th
+{
+	border: solid 1px #eee;
+}
+
+table.log td.date
+{
+	font-size: smaller;
+}
+
+table tr.alt
+{
+	color: inherit;
+	background: #ffffef;
+}
+
+table tr
+{
+	color: inherit;
+	background: #fff;
+}
+
+table tr.selected
+{
+	background-color: #e7f4fe;
+}
+
+table.users-table td, table.users-table th
+{
+	font-size: 1.1em;
+}
+
+select.wide-dropdown
+{
+    font-size: .9em;
+}
+
+#configure-form input.textbox, #configure-form textarea.textarea
+{
+    width: 315px;
 }

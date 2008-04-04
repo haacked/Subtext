@@ -33,7 +33,7 @@ namespace Subtext.Web.Install
 		{
 			//We need to make sure that the form is ONLY displayed 
 			//if there really is no Host record.
-			tblConfigForm.Visible = true;
+            hostForm.Visible = true;
 			if(Config.BlogCount == 0)
 			{
 				ltlMessage.Text = 
@@ -90,6 +90,8 @@ namespace Subtext.Web.Install
 				string userName = txtUserName.Text;
 				string password = txtPassword.Text;
 				
+                //TODO: Set Email...
+
 				// Create the HostInfo record.
 				if(HostInfo.CreateHost(userName, password))
 				{

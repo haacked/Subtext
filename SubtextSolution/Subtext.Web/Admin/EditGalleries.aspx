@@ -24,16 +24,18 @@
 				<Columns>
 					<asp:TemplateColumn HeaderText="Gallery">
 						<ItemTemplate>
-							<asp:label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Title") %>' ID="label1" NAME="label1"></asp:label>
-							<br />
-							<asp:label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Description") %>' ID="label3" NAME="label1"></asp:label>
+							<asp:label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Title") %>' ID="label1" NAME="label1" />
+							<asp:label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Description") %>' ID="label3" NAME="label1" />
 						</ItemTemplate>
 
 						<EditItemTemplate>
-							Title<br />
-							<asp:TextBox CssClass="textinput" id="txbTitle" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Title") %>'></asp:TextBox>
-							<br />Description<br />
-							<asp:TextBox CssClass="textarea" rows="5" textmode="MultiLine" id="txbDescription" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Description") %>'></asp:TextBox>
+						    <fieldset>
+						        <legend>Edit Gallery</legend>
+							    <asp:Label runat="server" AssociatedControlID="txbTitle" Text="Title" />
+							    <asp:TextBox CssClass="textbox" id="txbTitle" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Title") %>' />
+							    <asp:Label runat="server" AssociatedControlID="txbDescription" Text="Description" />
+							    <asp:TextBox CssClass="textarea" rows="5" textmode="MultiLine" id="txbDescription" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Description") %>'></asp:TextBox>
+							</fieldset>
 						</EditItemTemplate>
 					</asp:TemplateColumn>
 
@@ -54,44 +56,48 @@
 			</asp:DataGrid>
 		
 			<!-- add new item panel -->
-			<st:AdvancedPanel id="Add" runat="server" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Gallery" Collapsible="False" Collapsed="false" BodyCssClass="Edit">
-				<label class="Block">Title</label> 
-					<asp:TextBox id="txbNewTitle" runat="server" CssClass="textinput" />&nbsp; 
-					Visible <asp:CheckBox id="ckbNewIsActive" runat="server" Checked="true" />
-					<br />
-				<label class="Block">Description (1000 characters including HTML)</label><br />
-				<asp:TextBox id="txbNewDescription" MaxLength="1000"  runat="server" CssClass="textarea" rows="5" textmode="MultiLine"></asp:TextBox>
-				<div style="MARGIN-TOP: 8px">
-					<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Add" onclick="lkbPost_Click"></asp:Button><br />&nbsp; 
-				</div>
+			<st:AdvancedPanel id="Add" runat="server" DisplayHeader="false" HeaderCssClass="CollapsibleTitle" Collapsible="False" Collapsed="false" BodyCssClass="Edit">
+				<fieldset>
+				    <legend>Add New Gallery</legend>
+				    <label>Title</label>
+				    <asp:TextBox id="txbNewTitle" runat="server" />&nbsp; 
+				    <asp:CheckBox id="ckbNewIsActive" runat="server" Checked="true" CssClass="checkbox" Text="Visible" TextAlign="Left" />
+				    <label>Description (1000 characters including HTML)</label>
+				    <asp:TextBox id="txbNewDescription" MaxLength="1000"  runat="server" CssClass="textarea" rows="5" textmode="MultiLine" />
+				    <div style="MARGIN-TOP: 8px">
+					    <asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Add" onclick="lkbPost_Click"></asp:Button><br />&nbsp; 
+				    </div>
+				</fieldset>
 			</st:AdvancedPanel>
 		
 		</st:AdvancedPanel>
 		
 		<!-- add/upload a new file -->
 		<ASP:Panel id="ImagesDiv" runat="server">
-			<st:AdvancedPanel id="AddImages" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image (Single file or ZIP archive)" Collapsible="False" Collapsed="false" BodyCssClass="Edit">		
-				<label class="Block">Local File Location</label> 
-				<input class="FileUpload" id="ImageFile" type="file" size="82" name="ImageFile" runat="server" /> 
-				<br class="clear" />
-				<label class="Block">Image Description (ignored for ZIP archives)</label> 
-				<asp:TextBox id="txbImageTitle" runat="server" MaxLength="82" />&nbsp; 
-				Visible <asp:CheckBox id="ckbIsActiveImage" runat="server" Checked="true"/>
-				
-				<asp:Panel ID="PanelDefaultName" runat="server">
-				<div style="margin-top: 8px">
-					<asp:Button id="lbkAddImage" runat="server" OnClick="OnAddImage" CssClass="buttonSubmit" Text="Add" /><br /> 
-				</div>
-				</asp:Panel>
-				
-				<asp:Panel ID="PanelSuggestNewName" runat="server" visible="false">
-					<label class="Block">Uploaded Image File Name</label> 
-					<asp:TextBox id="TextBoxImageFileName" runat="server" MaxLength="82"/> 
-					<div style="MARGIN-TOP: 8px">
-						<asp:Button id="lbkNewFile" runat="server" OnClick="OnAddImageUserProvidedName" CssClass="buttonSubmit" Text="Add"/><br />
-					</div>
-				</asp:Panel>
-								
+			<st:AdvancedPanel id="AddImages" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="false" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image (Single file or ZIP archive)" Collapsible="False" Collapsed="false" BodyCssClass="Edit">
+                <fieldset>
+                    <legend>Add New Image (Single file or ZIP archive)</legend>    
+                
+				    <label>Local File Location</label> 
+				    <input class="FileUpload" id="ImageFile" type="file" size="82" name="ImageFile" runat="server" /> 
+				    <label>Image Description (ignored for ZIP archives)</label> 
+				    <asp:TextBox id="txbImageTitle" runat="server" MaxLength="82" />&nbsp; 
+				    <asp:CheckBox id="ckbIsActiveImage" runat="server" CssClass="checkbox" Checked="true" Text="Visible" />
+    				
+				    <asp:Panel ID="PanelDefaultName" runat="server">
+				    <div style="margin-top: 8px">
+					    <asp:Button id="lbkAddImage" runat="server" OnClick="OnAddImage" CssClass="buttonSubmit" Text="Add" /><br /> 
+				    </div>
+				    </asp:Panel>
+    				
+				    <asp:Panel ID="PanelSuggestNewName" runat="server" visible="false">
+					    <label>Uploaded Image File Name</label> 
+					    <asp:TextBox id="TextBoxImageFileName" runat="server" MaxLength="82"/> 
+					    <div style="MARGIN-TOP: 8px">
+						    <asp:Button id="lbkNewFile" runat="server" OnClick="OnAddImageUserProvidedName" CssClass="buttonSubmit" Text="Add"/><br />
+					    </div>
+				    </asp:Panel>
+				</fieldset>			
 			</st:AdvancedPanel>
 		
 		
@@ -101,18 +107,18 @@
 					<div class="ImageList">
 				</HeaderTemplate>
 				<ItemTemplate>
-						<div class="ImageThumbnail">
-							<div class="ImageThumbnailImage">
-								<asp:HyperLink id="lnkThumbnail" runat="server" ImageUrl='<%# EvalImageUrl(Container.DataItem) %>' NavigateUrl='<%# EvalImageNavigateUrl(Container.DataItem) %>'/>
-							</div>
-							<div class="ImageThumbnailTitle">
-								<%# EvalImageTitle(Container.DataItem) %>
-								<br />
-								<a href='EditImage.aspx?imgid=<%# DataBinder.Eval(Container.DataItem, "ImageID") %>'>Edit</a>
-								&nbsp;&bull;&nbsp;
-								<asp:Button id="lnkDeleteImage" CssClass="buttonSubmit" CommandName="DeleteImage" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ImageID") %>' Text="Delete" runat="server" />
-							</div>
-						</div>				
+					<div class="ImageThumbnail">
+						<div class="ImageThumbnailImage">
+							<asp:HyperLink id="lnkThumbnail" runat="server" ImageUrl='<%# EvalImageUrl(Container.DataItem) %>' NavigateUrl='<%# EvalImageNavigateUrl(Container.DataItem) %>'/>
+						</div>
+						<div class="ImageThumbnailTitle">
+							<%# EvalImageTitle(Container.DataItem) %>
+							<br />
+							<a href='EditImage.aspx?imgid=<%# DataBinder.Eval(Container.DataItem, "ImageID") %>'>Edit</a>
+							&nbsp;&bull;&nbsp;
+							<asp:Button id="lnkDeleteImage" CssClass="buttonSubmit" CommandName="DeleteImage" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ImageID") %>' Text="Delete" runat="server" />
+						</div>
+					</div>
 				</ItemTemplate>
 				<FooterTemplate>
 					</div>

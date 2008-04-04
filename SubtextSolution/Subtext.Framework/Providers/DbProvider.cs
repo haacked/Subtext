@@ -253,7 +253,7 @@ namespace Subtext.Framework.Providers
 
 		public abstract bool SetEntryCategoryList(int postId, int[] categoryIds);
 
-        public abstract bool SetEntryTagList(int postId, List<string> tags);
+        public abstract bool SetEntryTagList(int postId, IEnumerable<string> tags);
 
 		public abstract bool DeleteLink(int linkId);
 

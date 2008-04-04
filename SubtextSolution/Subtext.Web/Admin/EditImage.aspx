@@ -25,9 +25,9 @@
 			<span><a href='<%# GetImageGalleryUrl() %>'><%# _galleryTitle %></a></span><br />
 		</p>
 		<br class="clear" />
-		<label class="Block">Title</label>
+		<label>Title</label>
 		<ASP:TextBox id="txbTitle" runat="server" Text='<%# Image.Title %>' columns="255" width="98%" />
-		<label class="Block">Gallery</label>
+		<label>Gallery</label>
 		<ASP:DropDownList id="ddlGalleries" runat="server" />
 		<p style="margin-top: 8px;"><label>Visible</label><ASP:checkbox id="ckbPublished" runat="server" /></p>
 		<div style="margin-top: 8px">
@@ -35,7 +35,7 @@
 			<br />&nbsp; 
 		</div>			
 		<p class="InlineSubtitle">Replace File</p>
-		<label class="Block">Local File Location</label>
+		<label>Local File Location</label>
 		<input id="ImageFile" class="FileUpload" type="file" size="82" runat="server" name="ImageFile" />
 		<br class="clear" />		
 		<div style="margin-top: 8px">
@@ -45,11 +45,11 @@
 	</st:AdvancedPanel>	
 	
 	<st:AdvancedPanel id="Advanced" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleTitle" LinkText="[toggle]" Collapsible="True" HeaderText="Advanced Options" BodyCssClass="Edit" Collapsed="true" HeaderTextCssClass="CollapsibleTitle">	
-		<label class="Block">Original Image</label>
+		<label>Original Image</label>
 		<%# Image.OriginalFile %>
-		<label class="Block">Thumbnail Image</label>
+		<label>Thumbnail Image</label>
 		<%# Image.ThumbNailFile %>
-		<label class="Block">Resized Image</label>
+		<label>Resized Image</label>
 		<%# Image.ResizedFile %>
 	</st:AdvancedPanel>
 </asp:Content>

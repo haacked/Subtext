@@ -81,40 +81,40 @@
 		<br class="clear" />
 	</st:AdvancedPanel>
 	<asp:Button id="btnCreate" runat="server" CssClass="buttonSubmit" Text="Create New" OnClick="btnCreate_Click" />
-	<st:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
+	<st:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="false" HeaderCssClass="CollapsibleTitle"
 		HeaderText="Edit KeyWord" Collapsible="False">
-		<div class="Edit"><!-- DEBUG -->
-			<p class="Label">Word
+		<fieldset>
+		    <legend>Edit Keyword</legend>
+			<label>Word
 				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="txbWord" ForeColor="#990066"
-					ErrorMessage="You must enter a word (Text to replace)"></asp:RequiredFieldValidator></p>
-			<p>
-				<asp:TextBox id="txbWord" runat="server" max="100" columns="255" width="98%"></asp:TextBox></p>
-			<p class="Label">Text
+					ErrorMessage="You must enter a word (Text to replace)"></asp:RequiredFieldValidator>
+		    </label>
+			<asp:TextBox id="txbWord" runat="server" max="100" columns="255" width="98%" />
+			<label>Text
 				<asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ControlToValidate="txbText" ForeColor="#990066"
-					ErrorMessage="You must enter the Text to be displayed"></asp:RequiredFieldValidator></p>
-			<p>
-				<asp:TextBox id="txbText" runat="server" columns="255" width="98%"></asp:TextBox></p>
-			<p class="Label">Url
+					ErrorMessage="You must enter the Text to be displayed" />
+			</label>
+			<asp:TextBox id="txbText" runat="server" columns="255" width="98%" />
+			<label>Url
 				<asp:RequiredFieldValidator id="Requiredfieldvalidator3" runat="server" ControlToValidate="txbUrl" ForeColor="#990066"
-					ErrorMessage="You must enter a Url"></asp:RequiredFieldValidator></p>
-			<p>
-				<asp:TextBox id="txbUrl" runat="server" columns="255" width="98%"></asp:TextBox></p>
-			<p class="Label">Title</p>
-			<p>
-				<asp:TextBox id="txbTitle" runat="server" columns="255" width="98%"></asp:TextBox></p>
-			<p class="Label">Rel data</p>
-			<p>
-				<asp:TextBox id="txbRel" runat="server" columns="255" width="98%"></asp:TextBox></p>
-			<p class="ValueLabel">New Window
-				<asp:CheckBox id="chkNewWindow" runat="server" textalign="Left"></asp:CheckBox>&nbsp; 
-				Replace First Occurrence Only
-				<asp:CheckBox id="chkFirstOnly" runat="server" textalign="Left"></asp:CheckBox>&nbsp; 
-				Is CaseSensitive
-				<asp:CheckBox id="chkCaseSensitive" runat="server" textalign="Left"></asp:CheckBox></p>
+					ErrorMessage="You must enter a Url" />
+			</label>
+			<asp:TextBox id="txbUrl" runat="server" columns="255" width="98%" />
+			
+			<label>Title</label>
+			<asp:TextBox id="txbTitle" runat="server" columns="255" width="98%" />
+			
+			<label>Rel data</label>
+			<asp:TextBox id="txbRel" runat="server" columns="255" width="98%" />
+			<span class="checkbox">
+				<asp:CheckBox id="chkNewWindow" runat="server" Text="New Window" /> 
+				<asp:CheckBox id="chkFirstOnly" runat="server" Text="Replace First Occurrence Only" />
+				<asp:CheckBox id="chkCaseSensitive" runat="server" Text="Is Case Sensitive" />
+			</span>
 			<div>
-				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post" OnClick="lkbPost_Click"></asp:Button>
-				<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" CausesValidation="false" OnClick="lkbCancel_Click" />&nbsp;
+				<asp:Button id="lkbPost" runat="server" Text="Post" OnClick="lkbPost_Click"></asp:Button>
+				<asp:Button id="lkbCancel" runat="server" Text="Cancel" CausesValidation="false" OnClick="lkbCancel_Click" />&nbsp;
 			</div>
-		</div>
+		</fieldset>
 	</st:AdvancedPanel>
 </asp:Content>
