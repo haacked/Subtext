@@ -1,4 +1,4 @@
-﻿// InPlaceEdit.js
+// InPlaceEdit.js
 // Copyright (c) Nikhil Kothari, 2005
 // http://www.nikhilk.net
 //
