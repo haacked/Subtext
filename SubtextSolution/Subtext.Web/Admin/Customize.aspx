@@ -129,6 +129,14 @@
         var undoOperation = null;
         
         /* ---- { page and event setup } ---- */
+        function onAddClick()
+        {
+            itemsWrapDiv.show();
+            noItemsMessage.hide();
+            
+            var theRow = $("#dynamic-add-row");
+            theRow.fadeIn("slow", function() { $(":input", theRow)[0].focus(); });
+        }       
         
         // first let's hook up some events
         $(document).ready(function()
@@ -136,11 +144,7 @@
             // wire up the Add Button handler
             $(".dynamic-add").click(function() 
             {
-                itemsWrapDiv.show();
-                noItemsMessage.hide();
-                
-                var theRow = $("#dynamic-add-row");
-                theRow.fadeIn("slow", function() { $(":input", theRow)[0].focus(); });
+                onAddClick();
             });
             
             // next is the Edit Button handlers
@@ -251,6 +255,7 @@
             
             newRow.show();
             newRow.animate( { backgroundColor: 'transparent' }, 5000);
+            onAddClick();
         }
         
         function setupEditUI(itemRow)
