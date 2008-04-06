@@ -45,6 +45,9 @@ namespace Subtext.Web.Install
 				_anyBlogsExist = exception.AnyBlogsExist;
 			}
 
+            this.btnQuickCreate.Attributes["onclick"] = "this.disabled=true;"
+                + GetPostBackEventReference(this.btnQuickCreate).ToString();
+
 			if(!_anyBlogsExist)
 			{
 				//TODO:
