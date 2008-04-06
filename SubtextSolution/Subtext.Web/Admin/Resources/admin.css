@@ -904,25 +904,25 @@ fieldset select.timezonelist
 .fluid { width:100% ! important; }
 .auto { width:auto ! important; }
 
-#metatag-table .textbox
+#dynamic-table .textbox
 {
   width: 225px;
 }
 
-#metatag-table tr.new,
-#metatag-table tr.updated
+#dynamic-table tr.new,
+#dynamic-table tr.updated
 {
 	font-weight:bold;
 	background-color: #FFFF66;
 }
 
-#metatag-table th,
-#metatag-table td
+#dynamic-table th,
+#dynamic-table td
 {
 	width:24%;
 }
 
-#metatag-content button
+#dynamic-content button
 {
     border: none;
 	margin-right:.5em;
@@ -931,29 +931,29 @@ fieldset select.timezonelist
 	cursor: pointer;
 }
 
-#metatag-content button:hover
+#dynamic-content button:hover
 {
   background-color: #ffd;
   color: #a50;
 }
 
-#metatag-content .metatag-add
+#dynamic-content .dynamic-add
 {
 	background: transparent url(../../Images/tag_blue_add.png) no-repeat scroll right center;
 }
-#metatag-content .metatag-edit
+#dynamic-content .dynamic-edit
 {
 	background: transparent url(../../Images/tag_blue_edit.png) no-repeat scroll right center;
 }
-#metatag-content .metatag-delete
+#dynamic-content .dynamic-delete
 {
 	background: transparent url(../../Images/tag_blue_delete.png) no-repeat scroll right center;
 }
-#metatag-content .metatag-save
+#dynamic-content .dynamic-save
 {
     background: transparent url(../../Images/accept.png) no-repeat scroll right center;
 }
-#metatag-content .metatag-cancel
+#dynamic-content .dynamic-cancel
 {
 	background: transparent url(../../Images/cross.png) no-repeat scroll right center;
 }

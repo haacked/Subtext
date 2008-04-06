@@ -22,19 +22,21 @@ namespace Subtext.Web.Admin.Pages
 {
     public partial class Customize : AdminOptionsPage
     {
+        protected bool ContainsTags
+        {
+            get
+            {
+                return this.containsTags;
+            }
+        }
+        bool containsTags;
+
         protected override void BindLocalUI()
         {
             BlogInfo blog = Config.CurrentBlog;
             IList<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog);
 
-            if (tags.Count == 0)
-            {
-                MetatagListWrapper.Attributes.Add("style", "display:none;");
-            }
-            else
-            {
-                NoMetatagsMessage.Attributes.Add("style", "display:none;");
-            }
+            this.containsTags = tags.Count > 0;
 
             // we want to databind either way so we can alter the DOM via JavaScript and AJAX requests.
             MetatagRepeater.DataSource = tags;
