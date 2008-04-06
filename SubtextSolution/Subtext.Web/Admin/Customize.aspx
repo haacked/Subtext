@@ -5,8 +5,10 @@
     Actions</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="categoryListHeading" runat="server">
 </asp:Content>
+
 <asp:Content ID="Content3" ContentPlaceHolderID="categoryListLinks" runat="server">
 </asp:Content>
+
 <asp:Content ID="Content4" ContentPlaceHolderID="pageContent" runat="server">
     <div id="messagePanelContainer">
         <div id="messagePanelWrapper">
@@ -17,17 +19,19 @@
     <div class="CollapsibleHeader">
         <span>Customize</span>
     </div>
-    <div id="metatag-content">
-        <asp:Panel GroupingText="Meta Tags" CssClass="options fluid" runat="server">
+    <div id="dynamic-content">
+        <fieldset class="options fluid">
+            <legend>Meta Tags</legend>
             <div class="right">
-                <button class="metatag-add" title="Add a New Meta Tag">Add Meta Tag</button>
+                <button type="button" class="dynamic-add" title="Add a New Meta Tag">Add Meta Tag</button>
             </div>
-            <asp:Panel ID="NoMetatagsMessage" runat="server" CssClass="clear">
-                There are no Meta Tags created for this blog. Add some now!</asp:Panel>
-            <asp:Panel ID="MetatagListWrapper" runat="server" CssClass="clear">
+            <div id="no-items-message" class="clear" <% if(ContainsTags) { %>style="display:none;" <% } %>>
+                There are no Meta Tags created for this blog. Add some now!
+             </div>
+             <div id="items-wrapper" class="clear" <% if(!ContainsTags) { %>style="display:none;" <% } %>>
                 <asp:Repeater ID="MetatagRepeater" runat="server">
                     <HeaderTemplate>
-                        <table id="metatag-table" class="listing highlightTable">
+                        <table id="dynamic-table" class="listing highlightTable">
                             <tbody>
                                 <tr>
                                     <th>Name</th>
@@ -37,7 +41,7 @@
                                 </tr>
                     </HeaderTemplate>
                     <ItemTemplate>
-                        <tr id="metatag-<%# EvalTag(Container.DataItem).Id %>">
+                        <tr id="dynamic-<%# EvalTag(Container.DataItem).Id %>">
                             <td>
                                 <%# EvalName(Container.DataItem) %>
                             </td>
@@ -48,13 +52,13 @@
                                 <%# EvalHttpEquiv(Container.DataItem) %>
                             </td>
                             <td>
-                                <button class='metatag-edit' title='Edit Meta Tag'>Edit</button> 
-                                <button class='metatag-delete' title='Delete Meta Tag'>Delete</button>
+                                <button type="button" class='dynamic-edit' title='Edit Meta Tag'>Edit</button> 
+                                <button type="button" class='dynamic-delete' title='Delete Meta Tag'>Delete</button>
                             </td>
                         </tr>
                     </ItemTemplate>
                     <AlternatingItemTemplate>
-                        <tr class="alt" id="metatag-<%# EvalTag(Container.DataItem).Id %>">
+                        <tr class="alt" id="dynamic-<%# EvalTag(Container.DataItem).Id %>">
                             <td>
                                 <%# EvalName(Container.DataItem) %>
                             </td>
@@ -65,13 +69,13 @@
                                 <%# EvalHttpEquiv(Container.DataItem) %>
                             </td>
                             <td>
-                                <button class="metatag-edit" title="Edit Meta Tag">Edit</button> 
-                                <button class='metatag-delete' title='Delete Meta Tag'>Delete</button>
+                                <button type="button" class="dynamic-edit" title="Edit Meta Tag">Edit</button> 
+                                <button type="button" class='dynamic-delete' title='Delete Meta Tag'>Delete</button>
                             </td>
                         </tr>
                     </AlternatingItemTemplate>
                     <FooterTemplate>
-                        <tr id="metatag-add-row" style="display: none;">
+                        <tr id="dynamic-add-row" style="display: none;">
                             <td>
                                 <input type="text" class="textbox" />
                             </td>
@@ -82,15 +86,15 @@
                                 <input type="text" class="textbox" />
                             </td>
                             <td>
-                                <button class="metatag-save" title="Save the Meta Tag">Save</button> 
-                                <button class="metatag-cancel" title="Cancel Changes">Cancel</button>
+                                <button type="button" class="dynamic-save" title="Save the Meta Tag">Save</button> 
+                                <button type="button" class="dynamic-cancel" title="Cancel Changes">Cancel</button>
                             </td>
                         </tr>
                         </tbody> </table>
                     </FooterTemplate>
                 </asp:Repeater>
-            </asp:Panel>
-        </asp:Panel>
+            </div>
+        </fieldset>
     </div>
 
     <script type="text/javascript">
@@ -116,13 +120,13 @@
         /* ---- { a few global variables } ---- */
         var msgPanel = $('#messagePanel');
         var msgPanelWrap = msgPanel.parent();
-        var noTagsMsg = $('#<%= NoMetatagsMessage.ClientID %>');
-        var tagListWrap = $('#<%= MetatagListWrapper.ClientID %>');
-        var BTNS_METATAG_DELETE_TEMPLATE = "<button class='metatag-edit' title='Edit Meta Tag'>Edit</button> <button class='metatag-delete' title='Delete Meta Tag'>Delete</button>"
-        var BTNS_METATAG_SAVE_TEMPLATE = "<button class='metatag-save' title='Save the Meta Tag'>Save</button> <button class='metatag-cancel' title='Cancel Changes'>Cancel</button>";
+        var noItemsMessage = $('#no-items-message');
+        var itemsWrapDiv = $('#items-wrapper');
+        var DELETE_BUTTONS_TEMPLATE = "<button type='button' class='dynamic-edit' title='Edit Meta Tag'>Edit</button> <button type='button' class='dynamic-delete' title='Delete Meta Tag'>Delete</button>"
+        var SAVE_BUTTONS_TEMPLATE = "<button type='button' class='dynamic-save' title='Save the Meta Tag'>Save</button> <button type='button' class='dynamic-cancel' title='Cancel Changes'>Cancel</button>";
         
         // a global variable for un-doing an operation
-        var undoMetaTag = null;
+        var undoOperation = null;
         
         /* ---- { page and event setup } ---- */
         
@@ -130,39 +134,39 @@
         $(document).ready(function()
         {
             // wire up the Add Button handler
-            $(".metatag-add").click(function() 
+            $(".dynamic-add").click(function() 
             {
-                tagListWrap.show();
-                noTagsMsg.hide();
+                itemsWrapDiv.show();
+                noItemsMessage.hide();
                 
-                var theRow = $("#metatag-add-row");
+                var theRow = $("#dynamic-add-row");
                 theRow.fadeIn("slow", function() { $(":input", theRow)[0].focus(); });
             });
             
             // next is the Edit Button handlers
-            $("tr[id^='metatag-'] .metatag-edit").click(function()
+            $("tr[id^='dynamic-'] .dynamic-edit").click(function()
             {
                 // grab the table row that holds this meta tag
-                var editRow = $(this).parents("tr[id^='metatag-']");
+                var editRow = $(this).parents("tr[id^='dynamic-']");
                 setupEditUI(editRow);
             });
             
             // wire up the Delete Button handlers
-            $("tr[id^='metatag-'] .metatag-delete").click(function()
+            $("tr[id^='dynamic-'] .dynamic-delete").click(function()
             {
-                var tagRow = $(this).parents("tr[id^='metatag-']");
-                deleteMetaTag(tagRow);
+                var deleteRow = $(this).parents("tr[id^='dynamic-']");
+                deleteItem(deleteRow);
             });
             
             // now wire up the save and cancel buttons
-            $(".metatag-save").click(saveMetaTag);
-            $(".metatag-cancel").click(clearAndHideAddMetaTagUI);
+            $(".dynamic-save").click(saveMetaTag);
+            $(".dynamic-cancel").click(clearAndHideAddMetaTagUI);
             
             // setup some hotkeys
             $.hotkeys.add(
             	"return",
-                { target:jQuery("#metatag-add-row")[0] },
-                function(){ $(".metatag-save").click(); });
+                { target:jQuery("#dynamic-add-row")[0] },
+                function(){ $(".dynamic-save").click(); });
         });
         
         
@@ -170,18 +174,19 @@
         
         function clearAndHideAddMetaTagUI()
         {
-            var theRow = $("#metatag-add-row");
+            var theRow = $("#dynamic-add-row");
             
             theRow.fadeOut("fast");
-            $(":input", theRow).each(function() 
+            
+            $(":input[type='text']", theRow).each(function() 
                 {
                     $(this).val("");
                 });
-                
-            if (getActiveMetaTagRows().length == 0)
+            
+            if (getActiveitemRows().length == 0)
             {
-                tagListWrap.hide();
-                noTagsMsg.fadeIn();
+                itemsWrapDiv.hide();
+                noItemsMessage.fadeIn();
             }
         }
         
@@ -189,36 +194,36 @@
         {
             hideMessagePanel();
             
-            var addRow = $(this).parents("tr[id^='metatag-']");
+            var addRow = $(this).parents("tr[id^='dynamic-']");
             createMetaTag(getMetaTagForAction(MetaTagAction.add, addRow));
         }
         
         function createMetaTag(metaTag)
         {
             // unbind the click event so a user can't click it until the current action is done.
-            var addBtn = $(".metatag-save");
+            var addBtn = $(".dynamic-save");
             addBtn.unbind("click").fadeTo("fast", .5);
             
             metaTag = ajaxServices.addMetaTagForBlog(metaTag.content, metaTag.name, metaTag.httpEquiv, function(response)
                 {
                     // wire the click events back up.
-                    $(".metatag-save").bind("click", saveMetaTag).fadeTo("normal", 1);
+                    $(".dynamic-save").bind("click", saveMetaTag).fadeTo("normal", 1);
                     
                     if (response.error)
                         handleError(response.error);
                     else
                     {
                         clearAndHideAddMetaTagUI();
-                        onTagCreated(response.result);
+                        onItemCreated(response.result);
                     }
                 });
         }
         
-        function onTagCreated(metaTag)
+        function onItemCreated(metaTag)
         {
             hideMessagePanel();
-            noTagsMsg.hide();
-            tagListWrap.fadeIn("normal");
+            noItemsMessage.hide();
+            itemsWrapDiv.fadeIn("normal");
             
             msgPanelWrap.addClass("success");
             showMessagePanel("Meta Tag successfully added. Tag id = " + metaTag.id + ".");
@@ -227,35 +232,35 @@
             var tableRow = "<tr class='new' style='display:none'><td>" + checkForNull(metaTag.name) + "</td>";
             tableRow += "<td>" + checkForNull(metaTag.content) + "</td>";
             tableRow += "<td>" + checkForNull(metaTag.httpEquiv) + "</td>";
-            tableRow += "<td>" + BTNS_METATAG_DELETE_TEMPLATE + "</td></tr>";
+            tableRow += "<td>" + DELETE_BUTTONS_TEMPLATE + "</td></tr>";
             
-            $("#metatag-add-row").before(tableRow);
-            var newRow = $("#metatag-table tr.new:last");
+            $("#dynamic-add-row").before(tableRow);
+            var newRow = $("#dynamic-table tr.new:last");
             
-            newRow.attr('id', 'metatag-' + metaTag.id);
+            newRow.attr('id', 'dynamic-' + metaTag.id);
             
             // now wire up the events for the row's buttons
-            $('.metatag-edit', newRow).click(function()
+            $('.dynamic-edit', newRow).click(function()
             {
                 setupEditUI(newRow);
             });
-            $('.metatag-delete', newRow).click(function()
+            $('.dynamic-delete', newRow).click(function()
             {
-                deleteMetaTag(newRow);
+                deleteItem(newRow);
             });
             
             newRow.show();
             newRow.animate( { backgroundColor: 'transparent' }, 5000);
         }
         
-        function setupEditUI(metaTagRow)
+        function setupEditUI(itemRow)
         {
-            var cells = $("td", metaTagRow);
-            var currTag = getMetaTagForAction(MetaTagAction.readonly, metaTagRow);
+            var cells = $("td", itemRow);
+            var currTag = getMetaTagForAction(MetaTagAction.readonly, itemRow);
             
             // replace the edit/delete buttons w/ save/cancel buttons
             var cell = $(cells[3]);
-            cell.html(BTNS_METATAG_SAVE_TEMPLATE);
+            cell.html(SAVE_BUTTONS_TEMPLATE);
             cell.append("<input type='hidden' value='" + JSON.stringify(currTag) + "' /");
             
             // could use the currTag, but wanted to save a little typing so a simple loop works
@@ -267,9 +272,9 @@
                 $(":input", cell).val(currValue);
             }
             
-            $(".metatag-save", metaTagRow).click(function()
+            $(".dynamic-save", itemRow).click(function()
             {
-                var editRow = $(this).parents("tr[id^='metatag-']");
+                var editRow = $(this).parents("tr[id^='dynamic-']");
                 var tag = getMetaTagForAction(MetaTagAction.edit, editRow);
                 
                 var updatedTag = ajaxServices.updateMetaTag(tag, function(response)
@@ -292,21 +297,21 @@
                     });
             });
             
-            $(".metatag-cancel", metaTagRow).click(function()
+            $(".dynamic-cancel", itemRow).click(function()
             {
-                var editRow = $(this).parents("tr[id^='metatag-']");
-                var origTag = JSON.parse($("td input:hidden", metaTagRow).val());
+                var editRow = $(this).parents("tr[id^='dynamic-']");
+                var origTag = JSON.parse($("td input:hidden", itemRow).val());
                 
                 setupReadOnlyEditRow(editRow, origTag);
             });
         }
         
-        function setupReadOnlyEditRow(metaTagRow, readOnlyMetaTag)
+        function setupReadOnlyEditRow(itemRow, readOnlyMetaTag)
         {
-            var cells = $("td", metaTagRow);
+            var cells = $("td", itemRow);
             
             // replace the edit/delete buttons w/ save/cancel buttons
-            $(cells[3]).html(BTNS_METATAG_DELETE_TEMPLATE);
+            $(cells[3]).html(DELETE_BUTTONS_TEMPLATE);
             
             var cell = $(cells[0]);
             cell.html(checkForNull(readOnlyMetaTag.name));
@@ -317,37 +322,37 @@
             cell = $(cells[2]);
             cell.html(checkForNull(readOnlyMetaTag.httpEquiv));
             
-            $(".metatag-edit", metaTagRow).click(function()
+            $(".dynamic-edit", itemRow).click(function()
             {
-                setupEditUI(metaTagRow);
+                setupEditUI(itemRow);
             });
             
             // wire up the Delete Button handlers
-            $(".metatag-delete", metaTagRow).click(function()
+            $(".dynamic-delete", itemRow).click(function()
             {
-                deleteMetaTag(metaTagRow);
+                deleteItem(itemRow);
             });
         }
         
-        function deleteMetaTag(metaTagRow)
+        function deleteItem(itemRow)
         {
             // partially fade the row and then unbind the click event so the buttons can't be clicked again.
-            metaTagRow.fadeTo("fast", .6);
-            $("button", metaTagRow).unbind("click").disabled=true;
+            itemRow.fadeTo("fast", .6);
+            $("button", itemRow).unbind("click").disabled=true;
             hideMessagePanel();
             
-            undoMetaTag = getMetaTagForAction(MetaTagAction.remove, metaTagRow);
+            undoOperation = getMetaTagForAction(MetaTagAction.remove, itemRow);
             
-            ajaxServices.deleteMetaTag(undoMetaTag.id, function(response)
+            ajaxServices.deleteMetaTag(undoOperation.id, function(response)
                 {
                     if (response.error)
                         handleError(response.error);
                     else
-                        onTagDeleted(response.result, metaTagRow);
+                        onItemDeleted(response.result, itemRow);
                 });
         }
         
-        function onTagDeleted(isDeleted, metaTagRow)
+        function onItemDeleted(isDeleted, itemRow)
         {
             hideMessagePanel();
             
@@ -359,19 +364,19 @@
             }
         
             // fade the row all the way out and the remove it's contents from the DOM.
-            metaTagRow.fadeOut(function()
+            itemRow.fadeOut(function()
             {
-                metaTagRow.empty();
+                itemRow.empty();
                 
-                if (getActiveMetaTagRows().length == 0)
+                if (getActiveitemRows().length == 0)
                 {
-                    tagListWrap.hide();
-                    noTagsMsg.fadeIn("normal");
+                    itemsWrapDiv.hide();
+                    noItemsMessage.fadeIn("normal");
                 }
             });
             
             msgPanelWrap.addClass("success");
-            showMessagePanel("The meta tag was successfully deleted. <button title='Bring back your tag!'>Undo</button>");
+            showMessagePanel("The meta tag was successfully deleted. <button type='button' title='Bring back your tag!'>Undo</button>");
             
             var undoBtn = msgPanel.find("button");
             undoBtn.click(undoAction);
@@ -397,28 +402,28 @@
             //error.stackTrace
         }
         
-        function getMetaTagForAction(actionType, metaTagRow)
+        function getMetaTagForAction(actionType, itemRow)
         {
             var tag = new MetaTag();
             // if adding or editing a tag, collect the values from the form
             if (actionType == MetaTagAction.add || actionType == MetaTagAction.edit)
             {
-                var inputBoxes = $(":input", metaTagRow);
+                var inputBoxes = $(":input", itemRow);
                 
                 tag.name = $(inputBoxes[0]).val().trim();
                 tag.content = $(inputBoxes[1]).val().trim();
                 tag.httpEquiv = $(inputBoxes[2]).val().trim();
                 
                 if (actionType == MetaTagAction.edit)
-                    tag.id = metaTagRow.attr('id').split('metatag-').pop();
+                    tag.id = itemRow.attr('id').split('dynamic-').pop();
                 
                 return tag;
             }
             else if (actionType == MetaTagAction.remove || actionType == MetaTagAction.readonly)
             {
-                var cells = metaTagRow.children('td');
+                var cells = itemRow.children('td');
                 
-                tag.id = metaTagRow.attr('id').split('metatag-').pop();
+                tag.id = itemRow.attr('id').split('dynamic-').pop();
                 tag.name = returnNullForEmpty($(cells[0]).text().trim());
                 tag.content = $(cells[1]).text().trim();
                 tag.httpEquiv = returnNullForEmpty($(cells[2]).text().trim());
@@ -427,7 +432,7 @@
             }
             else if (actionType == MetaTagAction.undo)
             {
-                return undoMetaTag;
+                return undoOperation;
             }
             
             return null;
@@ -444,9 +449,9 @@
             msgPanelWrap.removeClass("error").removeClass("warn").removeClass("info").removeClass("success");
         }
         
-        function getActiveMetaTagRows()
+        function getActiveitemRows()
         {
-            return $("tr[id^='metatag-'][id!='metatag-add-row']:visible", "#metatag-table");
+            return $("tr[id^='dynamic-'][id!='dynamic-add-row']:visible", "#dynamic-table");
         }
         
         function returnNullForEmpty(val)

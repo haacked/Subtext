@@ -14,24 +14,6 @@ namespace Subtext.Web.Admin.Pages {
     public partial class Customize {
         
         /// <summary>
-        /// NoMetatagsMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel NoMetatagsMessage;
-        
-        /// <summary>
-        /// MetatagListWrapper control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel MetatagListWrapper;
-        
-        /// <summary>
         /// MetatagRepeater control.
         /// </summary>
         /// <remarks>
