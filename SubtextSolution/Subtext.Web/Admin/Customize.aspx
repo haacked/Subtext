@@ -20,7 +20,7 @@
     <div id="metatag-content">
         <asp:Panel GroupingText="Meta Tags" CssClass="options fluid" runat="server">
             <div class="right">
-                <span class="btn metatag-add" title="Add a New Meta Tag">Add Meta Tag</span>
+                <button class="metatag-add" title="Add a New Meta Tag">Add Meta Tag</button>
             </div>
             <asp:Panel ID="NoMetatagsMessage" runat="server" CssClass="clear">
                 There are no Meta Tags created for this blog. Add some now!</asp:Panel>
@@ -30,14 +30,10 @@
                         <table id="metatag-table" class="listing highlightTable">
                             <tbody>
                                 <tr>
-                                    <th>
-                                        Name</th>
-                                    <th>
-                                        Content</th>
-                                    <th>
-                                        Http-Equiv</th>
-                                    <th>
-                                        Action</th>
+                                    <th>Name</th>
+                                    <th>Content</th>
+                                    <th>Http-Equiv</th>
+                                    <th>Action</th>
                                 </tr>
                     </HeaderTemplate>
                     <ItemTemplate>
@@ -52,8 +48,8 @@
                                 <%# EvalHttpEquiv(Container.DataItem) %>
                             </td>
                             <td>
-                                <span class='btn metatag-edit' title='Edit Meta Tag'>Edit</span> <span class='btn metatag-delete'
-                                    title='Delete Meta Tag'>Delete</span>
+                                <button class='metatag-edit' title='Edit Meta Tag'>Edit</button> 
+                                <button class='metatag-delete' title='Delete Meta Tag'>Delete</button>
                             </td>
                         </tr>
                     </ItemTemplate>
@@ -69,25 +65,25 @@
                                 <%# EvalHttpEquiv(Container.DataItem) %>
                             </td>
                             <td>
-                                <span class="btn metatag-edit" title="Edit Meta Tag">Edit</span> <span class='btn metatag-delete'
-                                    title='Delete Meta Tag'>Delete</span>
+                                <button class="metatag-edit" title="Edit Meta Tag">Edit</button> 
+                                <button class='metatag-delete' title='Delete Meta Tag'>Delete</button>
                             </td>
                         </tr>
                     </AlternatingItemTemplate>
                     <FooterTemplate>
                         <tr id="metatag-add-row" style="display: none;">
                             <td>
-                                <input type="text" />
+                                <input type="text" class="textbox" />
                             </td>
                             <td>
-                                <input type="text" />
+                                <input type="text" class="textbox" />
                             </td>
                             <td>
-                                <input type="text" />
+                                <input type="text" class="textbox" />
                             </td>
                             <td>
-                                <span class="btn metatag-save" title="Save the Meta Tag">Save</span> <span class="btn metatag-cancel"
-                                    title="Cancel Changes">Cancel</span>
+                                <button class="metatag-save" title="Save the Meta Tag">Save</button> 
+                                <button class="metatag-cancel" title="Cancel Changes">Cancel</button>
                             </td>
                         </tr>
                         </tbody> </table>
@@ -122,8 +118,8 @@
         var msgPanelWrap = msgPanel.parent();
         var noTagsMsg = $('#<%= NoMetatagsMessage.ClientID %>');
         var tagListWrap = $('#<%= MetatagListWrapper.ClientID %>');
-        var BTNS_METATAG_DELETE_TEMPLATE = "<span class='btn metatag-edit' title='Edit Meta Tag'>Edit</span><span class='btn metatag-delete' title='Delete Meta Tag'>Delete</span>"
-        var BTNS_METATAG_SAVE_TEMPLATE = "<span class='btn metatag-save' title='Save the Meta Tag'>Save</span> <span class='btn metatag-cancel' title='Cancel Changes'>Cancel</span>";
+        var BTNS_METATAG_DELETE_TEMPLATE = "<button class='metatag-edit' title='Edit Meta Tag'>Edit</button> <button class='metatag-delete' title='Delete Meta Tag'>Delete</button>"
+        var BTNS_METATAG_SAVE_TEMPLATE = "<button class='metatag-save' title='Save the Meta Tag'>Save</button> <button class='metatag-cancel' title='Cancel Changes'>Cancel</button>";
         
         // a global variable for un-doing an operation
         var undoMetaTag = null;
@@ -337,7 +333,7 @@
         {
             // partially fade the row and then unbind the click event so the buttons can't be clicked again.
             metaTagRow.fadeTo("fast", .6);
-            $("span.btn", metaTagRow).unbind("click").removeClass("btn");
+            $("button", metaTagRow).unbind("click").disabled=true;
             hideMessagePanel();
             
             undoMetaTag = getMetaTagForAction(MetaTagAction.remove, metaTagRow);
@@ -375,9 +371,9 @@
             });
             
             msgPanelWrap.addClass("success");
-            showMessagePanel("The meta tag was successfully deleted. <span class='btn' title='Bring back your tag!'>Undo</span>");
+            showMessagePanel("The meta tag was successfully deleted. <button title='Bring back your tag!'>Undo</button>");
             
-            var undoBtn = msgPanel.find("span");
+            var undoBtn = msgPanel.find("button");
             undoBtn.click(undoAction);
         }
         
