@@ -35,6 +35,10 @@ namespace Subtext.Web.Install
 			{
 				Response.Redirect("InstallationComplete.aspx");
 			}
+
+            this.btnInstallClick.Attributes["onclick"] = "this.disabled=true;" 
+                + GetPostBackEventReference(this.btnInstallClick).ToString();
+
 		
 			litDatabaseName.Text = Config.Settings.ConnectionString.Database;
 		}
