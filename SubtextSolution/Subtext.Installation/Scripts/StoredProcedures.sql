@@ -2477,7 +2477,7 @@ WHERE [<dbUser,varchar,dbo>].[subtext_Content].ID = COALESCE(@ID, [<dbUser,varch
 	AND (EntryName = @EntryName OR @EntryName IS NULL) 
 	AND (BlogId = @BlogId OR  @BlogId IS NULL)
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY [ID] DESC
+ORDER BY [<dbUser,varchar,dbo>].[subtext_Content].[ID] DESC
 
 IF @IncludeCategories = 1
 BEGIN
