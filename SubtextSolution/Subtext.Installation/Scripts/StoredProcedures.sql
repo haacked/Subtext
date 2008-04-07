@@ -470,6 +470,16 @@ drop procedure [<dbUser,varchar,dbo>].[subtext_DeleteMetaTag]
 GO
 
 if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
+	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_InsertEnclosure')
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertEnclosure]
+GO
+
+if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
+	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_UpdateEnclosure')
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateEnclosure]
+GO
+
+if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
 	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_ClearBlogContent')
 drop procedure [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]
 GO
@@ -2443,8 +2453,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleEntry]
 )
 AS
 SELECT	BlogId
-	, [ID]
-	, Title
+	, [<dbUser,varchar,dbo>].[subtext_Content].[ID]
+	, [<dbUser,varchar,dbo>].[subtext_Content].Title
 	, DateAdded
 	, [Text]
 	, [Description]
@@ -2456,8 +2466,14 @@ SELECT	BlogId
 	, PostConfig
 	, EntryName 
 	, DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE ID = COALESCE(@ID, ID)
+	, subtext_Enclosure.Id as EnclosureId
+	, subtext_Enclosure.Title as EnclosureTitle
+	, subtext_Enclosure.Url as EnclosureUrl
+	, subtext_Enclosure.MimeType as EnclosureMimeType
+	, subtext_Enclosure.Size as EnclosureSize
+	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
+FROM [<dbUser,varchar,dbo>].[subtext_Content]  left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
+WHERE [<dbUser,varchar,dbo>].[subtext_Content].ID = COALESCE(@ID, [<dbUser,varchar,dbo>].[subtext_Content].ID)
 	AND (EntryName = @EntryName OR @EntryName IS NULL) 
 	AND (BlogId = @BlogId OR  @BlogId IS NULL)
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
@@ -5150,4 +5166,64 @@ ORDER BY [ImageID] DESC
 GO
 
 GRANT EXECUTE ON [<dbUser,varchar,dbo>].[DNW_GetRecentImages] TO [public]
+GO
+
+-- Enclosures
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertEnclosure] 
+	(
+		@Title nvarchar(256),
+		@Url nvarchar(256),
+		@MimeType nvarchar(50),
+		@Size bigint,
+		@EntryId int,
+		@Id int OUTPUT
+	)
+AS
+
+	INSERT INTO [<dbUser,varchar,dbo>].subtext_Enclosure
+		([Title], [Url], [MimeType], [Size], [EntryId])
+	VALUES
+		(@Title, @Url, @MimeType, @Size, @EntryId)
+
+	SELECT @Id = SCOPE_IDENTITY()
+
+GO 
+
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_InsertEnclosure] TO [public]
+GO
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateEnclosure] 
+	(
+		@Title nvarchar(256),
+		@Url nvarchar(256),
+		@MimeType nvarchar(50),
+		@Size bigint,
+		@EntryId int,
+		@Id int
+	)
+AS
+
+	UPDATE [<dbUser,varchar,dbo>].subtext_Enclosure
+	SET
+		[Title] = @Title,
+		[Url] = @Url,
+		MimeType = @MimeType,
+		Size = @Size,
+		EntryId = @EntryId
+	WHERE
+		[Id] = @Id
+
+GO
+
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_UpdateEnclosure] TO [public]
 GO

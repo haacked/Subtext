@@ -430,6 +430,18 @@ namespace Subtext.Framework.Providers
 
 		#endregion
 
+        #region Enclosure
+
+        public abstract int InsertEnclosure(Enclosure enclosure);
+
+        public abstract bool UpdateEnclosure(Enclosure enclosure);
+
+        public abstract IDataReader GetEnclosureForEntry(Entry entry);
+
+        public abstract bool DeleteEnclosure(int enclosureId);
+
+        #endregion
+
 		#region KeyWord
 		public abstract IDataReader GetKeyWord(int keyWordID);
 		public abstract IDataReader GetPagedKeyWords(int pageIndex, int pageSize);

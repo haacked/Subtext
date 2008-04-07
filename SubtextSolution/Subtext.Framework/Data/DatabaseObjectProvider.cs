@@ -1137,9 +1137,41 @@ namespace Subtext.Framework.Data
 
 	    #endregion
 
-		#region KeyWords
+        #region Enclosures
 
-		public override KeyWord GetKeyWord(int KeyWordID)
+        public override int Create(Enclosure enclosure)
+        {
+            return DbProvider.Instance().InsertEnclosure(enclosure);
+        }
+
+        public override bool Update(Enclosure enclosure)
+        {
+            return DbProvider.Instance().UpdateEnclosure(enclosure);
+        }
+
+        public override Enclosure GetEnclosureForEntry(Entry entry)
+        {
+            using (IDataReader reader = DbProvider.Instance().GetEnclosureForEntry(entry))
+            {
+                if (reader.Read())
+                {
+                    return DataHelper.LoadEnclosure(reader);
+                }
+                return null;
+            }
+        }
+
+
+        public override bool DeleteEnclosure(int enclosureId)
+        {
+            return DbProvider.Instance().DeleteEnclosure(enclosureId);
+        }
+
+        #endregion
+
+        #region KeyWords
+
+        public override KeyWord GetKeyWord(int KeyWordID)
 		{
 			IDataReader reader = DbProvider.Instance().GetKeyWord(KeyWordID);
 			try

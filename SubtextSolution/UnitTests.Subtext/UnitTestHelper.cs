@@ -738,6 +738,17 @@ namespace UnitTests.Subtext
             return tags;
         }
 
+        public static Enclosure BuildEnclosure(string title, string url, string mimetype, int entryId, long size)
+        {
+            Enclosure enc = new Enclosure();
+            enc.EntryId = entryId;
+            enc.Title = title;
+            enc.Url = url;
+            enc.Size = size;
+            enc.MimeType = mimetype;
+            return enc;
+        }
+
 		/// <summary>
 		/// Helper method. Makes sure you can create
 		/// </summary>

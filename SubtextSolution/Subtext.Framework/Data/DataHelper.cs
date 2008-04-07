@@ -378,6 +378,10 @@ namespace Subtext.Framework.Data
 			entry.Title = ReadString(reader, "Title");
 			entry.PostConfig = (PostConfig)(ReadInt32(reader, "PostConfig", (int)PostConfig.None));			
 			entry.DateSyndicated = ReadDate(reader, "DateSyndicated");
+
+		    bool withEnclosure = ReadBoolean(reader, "EnclosureEnabled");
+            if(withEnclosure)
+		        entry.Enclosure = LoadEnclosure(reader);
 	
 			if(buildLinks)
 			{
@@ -681,6 +685,24 @@ namespace Subtext.Framework.Data
 		#endregion
 
 
+        #region Enclosure
+
+        public static Enclosure LoadEnclosure(IDataReader reader)
+        {
+            Enclosure enclosure = new Enclosure();
+
+            enclosure.Id = ReadInt32(reader, "EnclosureId");
+            enclosure.Title = ReadString(reader, "EnclosureTitle");
+            enclosure.Url = ReadString(reader, "EnclosureUrl");
+            enclosure.MimeType = ReadString(reader, "EnclosureMimeType");
+            enclosure.Size = ReadInt64(reader, "EnclosureSize");
+            enclosure.EntryId = ReadInt32(reader, "ID");
+
+            return enclosure;
+        }
+
+        #endregion
+
 		#region Keywords
 
 		public static KeyWord LoadKeyWord(IDataReader reader)
@@ -774,6 +796,40 @@ namespace Subtext.Framework.Data
 			return entry;
 		}
 		#endregion
+
+        /// <summary>
+        /// Reads the long from the data reader.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
+        /// <param name="columnName">Name of the column.</param>
+        /// <returns></returns>
+        public static long ReadInt64(IDataReader reader, string columnName)
+        {
+            return ReadInt64(reader, columnName, 0);
+        }
+
+        /// <summary>
+        /// Reads the long from the data reader. If the value is null, 
+        /// returns the default value.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="defaultValue">devault value for the field</param>
+        /// <returns></returns>
+        public static long ReadInt64(IDataReader reader, string columnName, long defaultValue)
+        {
+            try
+            {
+                if (reader[columnName] != DBNull.Value)
+                    return (long)reader[columnName];
+                else
+                    return defaultValue;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return defaultValue;
+            }
+        }
 
 		/// <summary>
 		/// Reads the int from the data reader.

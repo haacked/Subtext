@@ -1465,7 +1465,73 @@ namespace Subtext.Framework.Data
 
         #endregion
 
-		#region MetaTags
+		#region Enclosures
+
+        public override int InsertEnclosure(Enclosure enclosure)
+        {
+            if (enclosure == null)
+                throw new ArgumentNullException("enclosure", "Cannon insert a null metaTag");
+
+            SqlParameter id = DataHelper.MakeOutParam("@Id", SqlDbType.Int, 4);
+
+            SqlParameter[] p =
+                {
+                    DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 256, DataHelper.CheckNull(enclosure.Title)),
+                    DataHelper.MakeInParam("@Url", SqlDbType.NVarChar, 256, enclosure.Url),
+                    DataHelper.MakeInParam("@MimeType", SqlDbType.NVarChar, 50, enclosure.MimeType),
+                    DataHelper.MakeInParam("@Size", SqlDbType.BigInt, 8, enclosure.Size),
+                    DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, enclosure.EntryId),
+                    id
+                };
+            NonQueryInt("subtext_InsertEnclosure", p);
+
+            return (int)id.Value;
+        }
+
+        // TODO: Implement Update Enclosure
+	    public override bool UpdateEnclosure(Enclosure enclosure)
+	    {
+            if (enclosure == null)
+                throw new ArgumentNullException("enclosure", "Cannon update a null metaTag");
+
+            SqlParameter[] p =
+                {
+                    DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 256, DataHelper.CheckNull(enclosure.Title)),
+                    DataHelper.MakeInParam("@Url", SqlDbType.NVarChar, 256, enclosure.Url),
+                    DataHelper.MakeInParam("@MimeType", SqlDbType.NVarChar, 50, enclosure.MimeType),
+                    DataHelper.MakeInParam("@Size", SqlDbType.BigInt, 8, enclosure.Size),
+                    DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, enclosure.EntryId),
+                    DataHelper.MakeInParam("@Id", SqlDbType.Int, 4, enclosure.Id),
+                };
+            return NonQueryBool("subtext_UpdateEnclosure", p);
+	    }
+
+        // TODO: Implement GetEnclosureForEntry
+	    public override IDataReader GetEnclosureForEntry(Entry entry)
+	    {
+            //SqlParameter[] p =
+            //    {
+            //        DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(entry.BlogId)),
+            //        DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(entry.Id))
+            //    };
+            //return GetReader("subtext_GetMetaTagsForEntry", p);
+	        return null;
+	    }
+
+        // TODO: Implement DeleteEnclosure
+	    public override bool DeleteEnclosure (int enclosureId)
+	    {
+            //SqlParameter[] p =
+            //{
+            //    DataHelper.MakeInParam("@Id", SqlDbType.Int, 4, enclosureId)
+            //};
+            //return NonQueryBool("subtext_DeleteMetaTag", p);
+	        return false;
+	    }
+
+	    #endregion
+
+        #region MetaTags
 
         public override int InsertMetaTag(MetaTag metaTag)
         {
@@ -1488,11 +1554,11 @@ namespace Subtext.Framework.Data
                 };
             NonQueryInt("subtext_InsertMetaTag", p);
 
-            return (int) id.Value;
+            return (int)id.Value;
         }
 
-	    public override bool UpdateMetaTag(MetaTag metaTag)
-	    {
+        public override bool UpdateMetaTag(MetaTag metaTag)
+        {
             if (metaTag == null)
                 throw new ArgumentNullException("metaTag", "Cannon update a null metaTag");
 
@@ -1508,38 +1574,40 @@ namespace Subtext.Framework.Data
                     DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, metaTag.BlogId),
                     DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, entryIdValue)
                 };
-	        return NonQueryBool("subtext_UpdateMetaTag", p);
-	    }
+            return NonQueryBool("subtext_UpdateMetaTag", p);
+        }
 
-	    public override IDataReader GetMetaTagsForBlog(BlogInfo blog)
-		{
-			SqlParameter[] p =
+        public override IDataReader GetMetaTagsForBlog(BlogInfo blog)
+        {
+            SqlParameter[] p =
 				{
 					DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(blog.Id))
 				};
-			return GetReader("subtext_GetMetaTagsForBlog", p);
-		}
+            return GetReader("subtext_GetMetaTagsForBlog", p);
+        }
 
-	    public override IDataReader GetMetaTagsForEntry(Entry entry)
-	    {
+        public override IDataReader GetMetaTagsForEntry(Entry entry)
+        {
             SqlParameter[] p =
 				{
 					DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(entry.BlogId)),
                     DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(entry.Id))
 				};
             return GetReader("subtext_GetMetaTagsForEntry", p);
-	    }
+        }
 
-	    public override bool DeleteMetaTag(int metaTagId)
-	    {
+        public override bool DeleteMetaTag(int metaTagId)
+        {
             SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@Id", SqlDbType.Int, 4, metaTagId)
 			};
             return NonQueryBool("subtext_DeleteMetaTag", p);
-	    }
+        }
 
-	    #endregion
+        #endregion
+
+
 
 		#region KeyWords
 
