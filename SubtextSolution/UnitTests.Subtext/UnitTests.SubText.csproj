@@ -261,6 +261,8 @@
     <Compile Include="Framework\Components\CommentTests\CommentSettingsTests.cs" />
     <Compile Include="Framework\Components\CommentTests\FeedbackTests.cs" />
     <Compile Include="Framework\Components\CommentTests\SpamServiceTests.cs" />
+    <Compile Include="Framework\Components\EnclosureTests\EnclosureInsertTests.cs" />
+    <Compile Include="Framework\Components\EnclosureTests\EnclosureUpdateTests.cs" />
     <Compile Include="Framework\Components\EntryTests\AutoGenerateFriendlyUrlTests.cs">
       <SubType>Code</SubType>
     </Compile>

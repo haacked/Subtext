@@ -455,6 +455,18 @@ namespace Subtext.Framework.Components
         }
 
         private StringCollection categories = new StringCollection();
+
+
+	    private Enclosure _enclosure;
+
+        /// <summary>
+        /// Gets and sets the enclosure for the entry.
+        /// </summary>
+	    public Enclosure Enclosure
+	    {
+	        get { return _enclosure; }
+	        set { _enclosure = value; }
+	    }
 	}
 }
 

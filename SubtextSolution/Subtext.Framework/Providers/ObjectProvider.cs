@@ -522,6 +522,24 @@ namespace Subtext.Framework.Providers
 
 		#endregion
 
+        #region Enclosures
+
+        /// <summary>
+        /// Adds the given enclosure to the data store
+        /// </summary>
+        /// <param name="enclosure"></param>
+        /// <returns>Id of the enclosure created</returns>
+	    public abstract int Create(Enclosure enclosure);
+
+        public abstract bool Update(Enclosure metaTag);
+
+        public abstract Enclosure GetEnclosureForEntry(Entry entry);
+
+        public abstract bool DeleteEnclosure(int enclosureId);
+
+        #endregion
+
+
         #region KeyWords
 
         public abstract KeyWord GetKeyWord(int KeyWordID);

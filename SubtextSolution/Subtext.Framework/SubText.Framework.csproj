@@ -179,6 +179,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Components\BlogGroup.cs" />
+    <Compile Include="Components\Enclosure.cs" />
     <Compile Include="Components\Entry.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -267,6 +268,7 @@
     <Compile Include="Email\SystemMailProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Enclosures.cs" />
     <Compile Include="Entries.cs">
       <SubType>Code</SubType>
     </Compile>
