@@ -79,13 +79,16 @@ namespace UnitTests.Subtext.Framework.Syndication
             entries[0].Categories.AddRange(new string[] { "Category1", "Category2" });
 			entries[0].Email = "nobody@example.com";
             entries[2].Categories.Add("Category 3");
-		    entries[2].Enclosure = new Enclosure
-                                {
-                                    Url = "http://perseus.franklins.net/hanselminutes_0107.mp3",
-                                    Title = "<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
-                                    Size = 26707573,
-                                    MimeType = "audio/mp3"
-                                };
+
+            Enclosure enc = new Enclosure();
+
+		    enc.Url = "http://perseus.franklins.net/hanselminutes_0107.mp3";
+		    enc.Title = "<Digital Photography Explained (for Geeks) with Aaron Hockley/>";
+		    enc.Size = 26707573;
+		    enc.MimeType = "audio/mp3";
+
+
+		    entries[2].Enclosure = enc;
 
 			RssWriter writer = new RssWriter(entries, NullValue.NullDateTime, false);
 
