@@ -48,7 +48,7 @@ namespace Subtext.Framework
 
         public static bool Delete(int enclosureId)
         {
-            return ObjectProvider.Instance().DeleteMetaTag(enclosureId);
+            return ObjectProvider.Instance().DeleteEnclosure(enclosureId);
         }
     }
 }
