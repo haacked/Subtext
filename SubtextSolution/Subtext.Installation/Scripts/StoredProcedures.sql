@@ -480,6 +480,11 @@ drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateEnclosure]
 GO
 
 if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
+	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_DeleteEnclosure')
+drop procedure [<dbUser,varchar,dbo>].[subtext_DeleteEnclosure]
+GO
+
+if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
 	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_ClearBlogContent')
 drop procedure [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]
 GO
@@ -5226,4 +5231,17 @@ AS
 GO
 
 GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_UpdateEnclosure] TO [public]
+GO
+
+
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeleteEnclosure] 
+	(
+		@Id int
+	)
+AS
+	DELETE FROM [<dbUser,varchar,dbo>].[subtext_Enclosure] WHERE [Id] = @Id
+
+GO
+
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_DeleteEnclosure] TO [public]
 GO

@@ -1488,7 +1488,6 @@ namespace Subtext.Framework.Data
             return (int)id.Value;
         }
 
-        // TODO: Implement Update Enclosure
 	    public override bool UpdateEnclosure(Enclosure enclosure)
 	    {
             if (enclosure == null)
@@ -1518,15 +1517,13 @@ namespace Subtext.Framework.Data
 	        return null;
 	    }
 
-        // TODO: Implement DeleteEnclosure
 	    public override bool DeleteEnclosure (int enclosureId)
 	    {
-            //SqlParameter[] p =
-            //{
-            //    DataHelper.MakeInParam("@Id", SqlDbType.Int, 4, enclosureId)
-            //};
-            //return NonQueryBool("subtext_DeleteMetaTag", p);
-	        return false;
+            SqlParameter[] p =
+            {
+                DataHelper.MakeInParam("@Id", SqlDbType.Int, 4, enclosureId)
+            };
+            return NonQueryBool("subtext_DeleteEnclosure", p);
 	    }
 
 	    #endregion
