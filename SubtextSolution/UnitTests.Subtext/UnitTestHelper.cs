@@ -334,7 +334,7 @@ namespace UnitTests.Subtext
 
 					Console.WriteLine("{0}:\t{1} ({2})\t{3} ({4})", i, expectedCharDisplay, (int)expectedChar, expectedCharText, (int)originalChar);
 				}
-				Assert.AreEqual(expected, expected, "Strings are not equal starting at character {0}", unequalPos);
+                Assert.AreEqual(expected, result, "Strings are not equal starting at character {0}", unequalPos);
 			}
 		}
 
