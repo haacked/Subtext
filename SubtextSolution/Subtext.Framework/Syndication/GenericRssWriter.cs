@@ -397,9 +397,27 @@ namespace Subtext.Framework.Syndication
 
         protected class EnclosureItem
         {
-            public string Url { get; set; }
-            public long Size { get; set; }
-            public string MimeType { get; set; }
+            private string _url;
+            private long _size;
+            private string _mimeType;
+
+            public string MimeType
+            {
+                get { return _mimeType; }
+                set { _mimeType = value; }
+            }
+
+            public long Size
+            {
+                get { return _size; }
+                set { _size = value; }
+            }
+
+            public string Url
+            {
+                get { return _url; }
+                set { _url = value; }
+            }
         }
 	}
 }
