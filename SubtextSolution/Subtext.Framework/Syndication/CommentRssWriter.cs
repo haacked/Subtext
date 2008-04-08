@@ -171,6 +171,11 @@ namespace Subtext.Framework.Syndication
 		{
 			return Config.CurrentBlog.TimeZone.ToUniversalTime(item.DateCreated);
 		}
+
+        protected override EnclosureItem GetEnclosureFromItem(FeedbackItem item)
+        {
+            return null;
+        }
 	}
 }
 

@@ -41,6 +41,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, dateCreated);
 			Entries.Create(entry); //persist to db.
 
+
 			XmlNodeList itemNodes = GetRssHandlerItemNodes(sb);
 			Assert.AreEqual(1, itemNodes.Count, "expected one item nodes.");
 
@@ -52,6 +53,47 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("guid").InnerText, "Not what we expected for the link.");
 			Assert.AreEqual(expectedUrl + "#feedback", itemNodes[0].SelectSingleNode("comments").InnerText, "Not what we expected for the link.");
 		}
+
+        [Test]
+        [RollBack]
+        public void RssWriterProducesValidFeedWithEnclosureFromDatabase()
+        {
+            string hostName = UnitTestHelper.GenerateRandomString() + ".com";
+            Assert.IsTrue(Config.CreateBlog("Test", "username", "password", hostName, string.Empty));
+
+            StringBuilder sb = new StringBuilder();
+            TextWriter output = new StringWriter(sb);
+            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
+
+            Config.CurrentBlog.Email = "Subtext@example.com";
+            Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
+
+            DateTime dateCreated = DateTime.Now;
+            Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, dateCreated);
+            int entryId = Entries.Create(entry); //persist to db.
+
+            string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
+            string enclosureMimeType = "audio/mp3";
+            long enclosureSize = 26707573;
+
+            Enclosure enc = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>", enclosureUrl, enclosureMimeType, entryId, enclosureSize );
+            Enclosures.Create(enc);
+
+
+            XmlNodeList itemNodes = GetRssHandlerItemNodes(sb);
+            Assert.AreEqual(1, itemNodes.Count, "expected one item nodes.");
+
+            string urlFormat = "http://{0}/archive/{1:yyyy/MM/dd}/{2}.aspx";
+            string expectedUrl = string.Format(urlFormat, hostName, dateCreated, "testtitle");
+
+            Assert.AreEqual("testtitle", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the title.");
+            Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("link").InnerText, "Not what we expected for the link.");
+            Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("guid").InnerText, "Not what we expected for the guid.");
+            Assert.AreEqual(enclosureUrl, itemNodes[0].SelectSingleNode("enclosure/@url").InnerText, "Not what we expected for the enclosure url.");
+            Assert.AreEqual(enclosureMimeType, itemNodes[0].SelectSingleNode("enclosure/@type").InnerText, "Not what we expected for the enclosure mimetype.");
+            Assert.AreEqual(enclosureSize.ToString(), itemNodes[0].SelectSingleNode("enclosure/@length").InnerText, "Not what we expected for the enclosure size.");
+            Assert.AreEqual(expectedUrl + "#feedback", itemNodes[0].SelectSingleNode("comments").InnerText, "Not what we expected for the link.");
+        }
 
 		/// <summary>
 		/// Tests that a simple regular RSS feed works.

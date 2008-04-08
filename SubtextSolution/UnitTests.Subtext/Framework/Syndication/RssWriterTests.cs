@@ -79,6 +79,14 @@ namespace UnitTests.Subtext.Framework.Syndication
             entries[0].Categories.AddRange(new string[] { "Category1", "Category2" });
 			entries[0].Email = "nobody@example.com";
             entries[2].Categories.Add("Category 3");
+		    entries[2].Enclosure = new Enclosure
+                                {
+                                    Url = "http://perseus.franklins.net/hanselminutes_0107.mp3",
+                                    Title = "<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
+                                    Size = 26707573,
+                                    MimeType = "audio/mp3"
+                                };
+
 			RssWriter writer = new RssWriter(entries, NullValue.NullDateTime, false);
 
 			string expected = @"<rss version=""2.0"" "
@@ -135,6 +143,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 											+ indent(3) + @"<pubDate>Sun, 16 Sep 1979 07:00:00 GMT</pubDate>" + Environment.NewLine
 											+ indent(3) + @"<comments>http://localhost/Subtext.Web/archive/1979/09/16/1003.aspx#feedback</comments>" + Environment.NewLine
 											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1003.aspx</wfw:commentRss>" + Environment.NewLine
+                                            + indent(3) + @"<enclosure url=""http://perseus.franklins.net/hanselminutes_0107.mp3"" length=""26707573"" type=""audio/mp3"" />" + Environment.NewLine
 										+ indent(2) + @"</item>" + Environment.NewLine
 										+ indent(2) + @"<item>" + Environment.NewLine
 											+ indent(3) + @"<title>Title of 1004.</title>" + Environment.NewLine

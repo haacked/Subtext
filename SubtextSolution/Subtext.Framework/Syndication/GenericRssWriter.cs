@@ -291,6 +291,16 @@ namespace Subtext.Framework.Syndication
 				if (info.TrackbacksEnabled)
 					this.WriteElementString("trackback:ping", GetTrackBackUrl(item, urlFormats));
 			}
+
+		    EnclosureItem encItem = GetEnclosureFromItem(item);
+            if(encItem!=null)
+            {
+                this.WriteStartElement("enclosure");
+                this.WriteAttributeString("url",encItem.Url);
+                this.WriteAttributeString("length", encItem.Size.ToString());
+                this.WriteAttributeString("type", encItem.MimeType);
+                this.WriteEndElement();
+            }
 		}
 
 
@@ -377,5 +387,19 @@ namespace Subtext.Framework.Syndication
 		/// <param name="item"></param>
 		/// <returns></returns>
 		protected abstract DateTime GetSyndicationDate(T item);
+
+        /// <summary>
+        /// Gets the enclosure for the item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <returns></returns>
+        protected abstract EnclosureItem GetEnclosureFromItem(T item);
+
+        protected class EnclosureItem
+        {
+            public string Url { get; set; }
+            public long Size { get; set; }
+            public string MimeType { get; set; }
+        }
 	}
 }

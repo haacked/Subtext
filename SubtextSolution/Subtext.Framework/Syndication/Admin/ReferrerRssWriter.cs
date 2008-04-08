@@ -96,5 +96,9 @@ namespace Subtext.Framework.Syndication.Admin
 		{
 			return "";
 		}
+        protected override EnclosureItem GetEnclosureFromItem(Referrer item)
+        {
+            return null;
+        }
 	}
 }

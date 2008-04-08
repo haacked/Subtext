@@ -1136,7 +1136,7 @@ SET ROWCOUNT 0
 -- in the temp table.
 SELECT BlogId
 	, [<dbUser,varchar,dbo>].[subtext_Content].[Id]
-	, Title
+	, [<dbUser,varchar,dbo>].[subtext_Content].Title
 	, DateAdded
 	, [Text]
 	, [Description]
@@ -1148,8 +1148,15 @@ SELECT BlogId
 	, PostConfig
 	, EntryName 
 	, DateSyndicated
+	, subtext_Enclosure.Id as EnclosureId
+	, subtext_Enclosure.Title as EnclosureTitle
+	, subtext_Enclosure.Url as EnclosureUrl
+	, subtext_Enclosure.MimeType as EnclosureMimeType
+	, subtext_Enclosure.Size as EnclosureSize
+	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 	INNER JOIN #IDs ON #IDs.[Id] = [<dbUser,varchar,dbo>].[subtext_Content].[Id]
+	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
 ORDER BY #IDs.TempId
 
 IF @IncludeCategories = 1

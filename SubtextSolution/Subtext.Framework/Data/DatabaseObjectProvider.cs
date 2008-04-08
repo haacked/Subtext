@@ -1149,19 +1149,6 @@ namespace Subtext.Framework.Data
             return DbProvider.Instance().UpdateEnclosure(enclosure);
         }
 
-        public override Enclosure GetEnclosureForEntry(Entry entry)
-        {
-            using (IDataReader reader = DbProvider.Instance().GetEnclosureForEntry(entry))
-            {
-                if (reader.Read())
-                {
-                    return DataHelper.LoadEnclosure(reader);
-                }
-                return null;
-            }
-        }
-
-
         public override bool DeleteEnclosure(int enclosureId)
         {
             return DbProvider.Instance().DeleteEnclosure(enclosureId);
