@@ -533,8 +533,6 @@ namespace Subtext.Framework.Providers
 
         public abstract bool Update(Enclosure metaTag);
 
-        public abstract Enclosure GetEnclosureForEntry(Entry entry);
-
         public abstract bool DeleteEnclosure(int enclosureId);
 
         #endregion

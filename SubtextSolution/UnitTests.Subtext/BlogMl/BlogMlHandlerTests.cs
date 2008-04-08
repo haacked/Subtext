@@ -8,7 +8,7 @@ using System.Web;
 using Subtext.Framework.Configuration;
 using System.Xml;
 
-namespace UnitTests.Subtext.BlogMl
+namespace UnitTests.Subtext.BlogML
 {
     [TestFixture]
     public class BlogMlHandlerTests

@@ -149,6 +149,19 @@ namespace Subtext.Framework.Syndication
 		{
 			return item.FeedBackCount;
 		}
+
+        protected override EnclosureItem GetEnclosureFromItem(Entry item)
+        {
+            if (item.Enclosure != null)
+                return new EnclosureItem()
+                           {
+                               Url = item.Enclosure.Url, 
+                               MimeType = item.Enclosure.MimeType, 
+                               Size = item.Enclosure.Size
+                           };
+            else
+                return null;
+        }
 	}
 }
 

@@ -1505,18 +1505,6 @@ namespace Subtext.Framework.Data
             return NonQueryBool("subtext_UpdateEnclosure", p);
 	    }
 
-        // TODO: Implement GetEnclosureForEntry
-	    public override IDataReader GetEnclosureForEntry(Entry entry)
-	    {
-            //SqlParameter[] p =
-            //    {
-            //        DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(entry.BlogId)),
-            //        DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(entry.Id))
-            //    };
-            //return GetReader("subtext_GetMetaTagsForEntry", p);
-	        return null;
-	    }
-
 	    public override bool DeleteEnclosure (int enclosureId)
 	    {
             SqlParameter[] p =

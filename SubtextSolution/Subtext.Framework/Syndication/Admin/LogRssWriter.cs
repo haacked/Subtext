@@ -98,5 +98,10 @@ namespace Subtext.Framework.Syndication.Admin
 		{
 			return item.Date;
 		}
+
+        protected override EnclosureItem GetEnclosureFromItem(LogEntry item)
+        {
+            return null;
+        }
 	}
 }
