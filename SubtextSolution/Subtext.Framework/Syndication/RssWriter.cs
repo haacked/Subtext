@@ -153,12 +153,12 @@ namespace Subtext.Framework.Syndication
         protected override EnclosureItem GetEnclosureFromItem(Entry item)
         {
             if (item.Enclosure != null)
-                return new EnclosureItem()
-                           {
-                               Url = item.Enclosure.Url, 
-                               MimeType = item.Enclosure.MimeType, 
-                               Size = item.Enclosure.Size
-                           };
+            {
+                EnclosureItem enc = new EnclosureItem();
+                enc.Url = item.Enclosure.Url;
+                enc.MimeType = item.Enclosure.MimeType;
+                enc.Size = item.Enclosure.Size;
+            }
             else
                 return null;
         }
