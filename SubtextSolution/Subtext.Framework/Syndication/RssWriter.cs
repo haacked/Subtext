@@ -158,6 +158,7 @@ namespace Subtext.Framework.Syndication
                 enc.Url = item.Enclosure.Url;
                 enc.MimeType = item.Enclosure.MimeType;
                 enc.Size = item.Enclosure.Size;
+                return enc;
             }
             else
                 return null;
