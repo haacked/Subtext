@@ -70,6 +70,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Assert.IsTrue(savedEntry.DateSyndicated >= date, "The DateSyndicated '{0}' should be updated to be later than '{1}.", savedEntry.DateSyndicated, date);
 		}
 
+
         [Test]
         [RollBack]
         public void UpdateEntryCorrectsNumericEntryName()

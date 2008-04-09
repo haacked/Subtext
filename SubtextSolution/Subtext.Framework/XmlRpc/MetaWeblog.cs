@@ -100,14 +100,49 @@ namespace Subtext.Framework.XmlRpc
 				entry.Title = post.title;
 				entry.Description = string.Empty;
 
+                entry.Categories.Clear();
                 if(post.categories != null)
 					entry.Categories.AddRange(post.categories);
-				
+
 				entry.PostType = PostType.BlogPost;
 				entry.IsActive = publish;
 		
 				entry.DateModified = Config.CurrentBlog.TimeZone.Now;
-				Entries.Update(entry);
+                int[] categoryIds = { };
+                if (entry.Categories.Count > 0)
+                {
+                    categoryIds = Entries.GetCategoryIdsFromCategoryTitles(entry);
+                }
+                Entries.Update(entry);
+                Entries.SetEntryCategoryList(entry.Id, categoryIds);
+
+                if (entry.Enclosure == null)
+                {
+                    if (!string.IsNullOrEmpty(post.enclosure.url))
+                    {
+                        Components.Enclosure enc = new Components.Enclosure();
+                        enc.Url = post.enclosure.url;
+                        enc.MimeType = post.enclosure.type;
+                        enc.Size = post.enclosure.length;
+                        enc.EntryId = entry.Id;
+                        Enclosures.Create(enc);
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(post.enclosure.url))
+                    {
+                        Components.Enclosure enc = entry.Enclosure;
+                        enc.Url = post.enclosure.url;
+                        enc.MimeType = post.enclosure.type;
+                        enc.Size = post.enclosure.length;
+                        Enclosures.Update(enc);
+                    }
+                    else
+                    {
+                        Enclosures.Delete(entry.Enclosure.Id);
+                    }
+                }
 			}
 			return false;
 		}
@@ -156,6 +191,12 @@ namespace Subtext.Framework.XmlRpc
                     post.categories = new string[entry.Categories.Count];
 					entry.Categories.CopyTo(post.categories, 0);
 				}
+                if(entry.Enclosure!=null)
+                {
+                    post.enclosure.length = (int) entry.Enclosure.Size;
+                    post.enclosure.url = entry.Enclosure.Url;
+                    post.enclosure.type = entry.Enclosure.MimeType;
+                }
 				posts[i] = post;
                 i++;
 			}
@@ -242,6 +283,17 @@ namespace Subtext.Framework.XmlRpc
 			try
 			{
 				postID = Entries.Create(entry);
+
+                if (!string.IsNullOrEmpty(post.enclosure.url))
+                {
+                    Components.Enclosure enc = new Components.Enclosure();
+                    enc.Url = post.enclosure.url;
+                    enc.MimeType = post.enclosure.type;
+                    enc.Size = post.enclosure.length;
+                    enc.EntryId = postID;
+                    Enclosures.Create(enc);
+                }
+
                 AddCommunityCredits(entry);
 			}
 			catch(Exception e)

@@ -282,7 +282,7 @@ namespace Subtext.Framework
 			return entry.Id;
 		}
 
-		private static int[] GetCategoryIdsFromCategoryTitles(Entry entry)
+		public static int[] GetCategoryIdsFromCategoryTitles(Entry entry)
 		{
 			int[] categoryIds;
 			Collection<int> catIds = new Collection<int>();
@@ -530,7 +530,7 @@ namespace Subtext.Framework
 			if (!entry.IncludeInMainSyndication)
 				entry.DateSyndicated = NullValue.NullDateTime;
 
-			Update(entry, null);
+            Update(entry, null);
 		}
 
 		/// <summary>
