@@ -54,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 
             Entry newEntry = Entries.GetEntry(entryId, false);
 
-            ValidateEnclosures(enc, newEntry.Enclosure);
+            UnitTestHelper.AssertEnclosures(enc, newEntry.Enclosure);
         }
 
         [RowTest]
@@ -64,7 +64,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         [Row("", "audio/mp3", 123456, "Enclosures must have a Url.", ExpectedException = typeof(ArgumentException))]
         [Row(null, "audio/mp3", 123456, "Enclosures must have a Url.", ExpectedException = typeof(ArgumentException))]
         [RollBack2]
-        public void CantUpdateWithInvalidMetaTags(string url, string mimetype, long size, string errMsg)
+        public void CantUpdateWithInvalidEnclosure(string url, string mimetype, long size, string errMsg)
         {
             this.blog = UnitTestHelper.CreateBlogAndSetupContext();
 
@@ -81,12 +81,11 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             Enclosures.Update(enc);
         }
 
-        private static void ValidateEnclosures(Enclosure expected, Enclosure result)
+        [Test]
+        [ExpectedArgumentNullException]
+        public void CanNotUpdateNullEnclosure()
         {
-            Assert.AreEqual(expected.Title, result.Title, "Title didn't get updated.");
-            Assert.AreEqual(expected.Url, result.Url, "Url didn't get updated.");
-            Assert.AreEqual(expected.MimeType, result.MimeType, "MimeType didn't get updated");
-            Assert.AreEqual(expected.Size, result.Size, "Size didn't get updated");
+            Enclosures.Update(null);
         }
     }
 }

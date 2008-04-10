@@ -45,10 +45,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 
             Assert.IsNotNull(newEntry.Enclosure,errMsg);
 
-            Assert.AreEqual(title, enc.Title, "Wrong title");
-            Assert.AreEqual(url, enc.Url, "Wrong Url");
-            Assert.AreEqual(mimetype, enc.MimeType, "Wrong MimeType");
-            Assert.AreEqual(size, enc.Size, "Wrong Size");
+            UnitTestHelper.AssertEnclosures(enc,newEntry.Enclosure);
         }
 
         [Test]

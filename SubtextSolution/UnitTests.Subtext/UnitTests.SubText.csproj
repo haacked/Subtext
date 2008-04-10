@@ -271,6 +271,7 @@
     <Compile Include="Framework\Components\EntryTests\EntryCreationTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Components\EntryTests\EntryDayGetTests.cs" />
     <Compile Include="Framework\Components\EntryTests\EntryFilterTests.cs">
       <SubType>Code</SubType>
     </Compile>

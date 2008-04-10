@@ -142,6 +142,53 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             int entryId = Entries.Create(entry);
 
+            string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
+            string enclosureMimeType = "audio/mp3";
+            long enclosureSize = 26707573;
+
+            FrameworkEnclosure enc = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>", enclosureUrl, enclosureMimeType, entryId, enclosureSize);
+            Enclosures.Create(enc);
+
+            entry = Entries.GetEntry(entryId, PostConfig.None, true);
+            Assert.IsNotNull(entry.Enclosure, "There should be a enclosure here.");
+
+
+            MetaWeblog api = new MetaWeblog();
+            Post post = new Post();
+            post.title = "Title 2";
+            post.description = "Blah";
+            post.dateCreated = DateTime.Now;
+
+            Enclosure postEnclosure = new Enclosure();
+            postEnclosure.url = "http://codeclimber.net.nz/podcast/mypodcastUpdated.mp3";
+            postEnclosure.type = "audio/mp3";
+            postEnclosure.length = 123456789;
+            post.enclosure = postEnclosure;
+
+            bool result = api.editPost(entryId.ToString(CultureInfo.InvariantCulture), "username", "password", post, true);
+
+            entry = Entries.GetEntry(entryId, PostConfig.None, true);
+
+            Assert.IsNotNull(entry.Enclosure, "Should have kept the enclosure.");
+            Assert.AreEqual("http://codeclimber.net.nz/podcast/mypodcastUpdated.mp3", entry.Enclosure.Url, "Not the updated enclosure url.");
+        }
+
+        [Test]
+        [RollBack]
+        public void UpdatingWithEnclosureAddNewEnclosure()
+        {
+            string hostname = UnitTestHelper.GenerateRandomString();
+            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            Config.CurrentBlog.AllowServiceAccess = true;
+
+            Entry entry = new Entry(PostType.BlogPost);
+            entry.Title = "Title 1";
+            entry.Body = "Blah";
+            entry.IsActive = true;
+            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            int entryId = Entries.Create(entry);
+
             Assert.IsNull(entry.Enclosure, "There should not be any enclosure here.");
 
             MetaWeblog api = new MetaWeblog();
