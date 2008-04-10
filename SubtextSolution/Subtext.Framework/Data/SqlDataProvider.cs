@@ -558,7 +558,7 @@ namespace Subtext.Framework.Data
 
 		/// <summary>
 		/// Returns a Data Reader pointing to the active entry specified by the entry id no matter 
-		/// which bog it belongs to.
+		/// which blog it belongs to.
 		/// </summary>
 		/// <param name="id"></param>
 		/// <param name="includeCategories"></param>

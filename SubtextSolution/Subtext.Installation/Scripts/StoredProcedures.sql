@@ -1348,8 +1348,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]
 )
 AS
 SELECT	BlogId
-	, [ID]
-	, Title
+	, [<dbUser,varchar,dbo>].[subtext_Content].[ID]
+	, [<dbUser,varchar,dbo>].[subtext_Content].Title
 	, DateAdded
 	, [Text]
 	, [Description]
@@ -1361,7 +1361,14 @@ SELECT	BlogId
 	, PostConfig
 	, EntryName 
 	, DateSyndicated
+	, subtext_Enclosure.Id as EnclosureId
+	, subtext_Enclosure.Title as EnclosureTitle
+	, subtext_Enclosure.Url as EnclosureUrl
+	, subtext_Enclosure.MimeType as EnclosureMimeType
+	, subtext_Enclosure.Size as EnclosureSize
+	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
+	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
 WHERE 
 	(
 		DateAdded > @StartDate 
@@ -2247,9 +2254,16 @@ SELECT	content.BlogId
 	, content.PostConfig
 	, content.EntryName 
 	, content.DateSyndicated
+	, subtext_Enclosure.Id as EnclosureId
+	, subtext_Enclosure.Title as EnclosureTitle
+	, subtext_Enclosure.Url as EnclosureUrl
+	, subtext_Enclosure.MimeType as EnclosureMimeType
+	, subtext_Enclosure.Size as EnclosureSize
+	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links WITH (NOLOCK) ON content.ID = ISNULL(links.PostID, -1)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories WITH (NOLOCK) ON links.CategoryID = categories.CategoryID
+	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on content.[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
 WHERE  content.BlogId = @BlogId 
 	AND content.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END AND categories.CategoryID = @CategoryID
 ORDER BY content.DateAdded DESC
@@ -2323,8 +2337,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonth]
 )
 AS
 SELECT	BlogId
-	, [ID]
-	, Title
+	, [<dbUser,varchar,dbo>].[subtext_Content].[ID]
+	, [<dbUser,varchar,dbo>].[subtext_Content].Title
 	, DateAdded
 	, [Text]
 	, [Description]
@@ -2336,7 +2350,14 @@ SELECT	BlogId
 	, PostConfig
 	, EntryName 
 	, DateSyndicated
+	, subtext_Enclosure.Id as EnclosureId
+	, subtext_Enclosure.Title as EnclosureTitle
+	, subtext_Enclosure.Url as EnclosureUrl
+	, subtext_Enclosure.MimeType as EnclosureMimeType
+	, subtext_Enclosure.Size as EnclosureSize
+	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
+	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
 WHERE	PostType=1 
 	AND (BlogId = @BlogId OR @BlogId IS NULL)
 	AND PostConfig & 1 = 1 
@@ -2418,8 +2439,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleDay]
 )
 AS
 SELECT	BlogId
-	, [ID]
-	, Title
+	, [<dbUser,varchar,dbo>].[subtext_Content].[ID]
+	, [<dbUser,varchar,dbo>].[subtext_Content].Title
 	, DateAdded
 	, [Text]
 	, [Description]
@@ -2431,7 +2452,14 @@ SELECT	BlogId
 	, PostConfig
 	, EntryName 
 	, DateSyndicated
+	, subtext_Enclosure.Id as EnclosureId
+	, subtext_Enclosure.Title as EnclosureTitle
+	, subtext_Enclosure.Url as EnclosureUrl
+	, subtext_Enclosure.MimeType as EnclosureMimeType
+	, subtext_Enclosure.Size as EnclosureSize
+	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
+	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
 WHERE Year(DateAdded) = Year(@Date) 
 	AND Month(DateAdded) = Month(@Date)
     AND Day(DateAdded) = Day(@Date) 
@@ -4669,6 +4697,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByTag]
 	@ItemCount int
 	, @Tag nvarchar(256)
 	, @BlogId int
+	, @IsActive bit=1
 )
 AS
 DECLARE @TagId int
@@ -4689,7 +4718,14 @@ SELECT	content.BlogId
 	, content.PostConfig
 	, content.EntryName 
 	, content.DateSyndicated
+	, subtext_Enclosure.Id as EnclosureId
+	, subtext_Enclosure.Title as EnclosureTitle
+	, subtext_Enclosure.Url as EnclosureUrl
+	, subtext_Enclosure.MimeType as EnclosureMimeType
+	, subtext_Enclosure.Size as EnclosureSize
+	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
+	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on content.[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
 WHERE  content.BlogId = @BlogId 
 	AND content.PostConfig & 1 = 1
 	AND content.ID IN 

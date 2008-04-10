@@ -874,5 +874,13 @@ namespace UnitTests.Subtext
 				principal = user;
 			}
 		}
+
+	    public static void AssertEnclosures(Enclosure expected, Enclosure result)
+	    {
+	        Assert.AreEqual(expected.Title, result.Title, "Wrong title.");
+            Assert.AreEqual(expected.Url, result.Url, "Wrong Url.");
+            Assert.AreEqual(expected.MimeType, result.MimeType, "Wrong mimetype.");
+            Assert.AreEqual(expected.Size, result.Size, "Wrong size.");
+	    }
 	}
 }
