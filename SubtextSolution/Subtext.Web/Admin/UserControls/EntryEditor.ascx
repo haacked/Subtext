@@ -4,6 +4,8 @@
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Import Namespace = "Subtext.Web.Admin" %>
 
+
+
 <ANW:MessagePanel id="Messages" runat="server" />
 
 <ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True">
@@ -105,7 +107,41 @@
 			&nbsp;
 		</div>
 	</div>
-	
+
+	<ANW:AdvancedPanel id="Enclosure" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True" Collapsed="False" HeaderText="Enclosure" BodyCssClass="Edit">
+	<asp:CheckBox id="chkEnableEnclosure" runat="server" Text="Enable Enclosure" />
+	<div id="enclosure-editor" class="Edit">
+		<fieldset title="Enclosure">
+			<legend>Basic Enclosure</legend>
+		    <label for="Editor_Enclosure_txbEnclosureTitle" accesskey="e"><u>E</u>nclosure Title</label>
+	        <asp:TextBox id="txbEnclosureTitle" runat="server" MaxLength="250" />
+	        <label for="Editor_Enclosure_txbEnclosureUrl" accesskey="u">Enclosure <u>U</u>rl&nbsp;<asp:RequiredFieldValidator id="valEncUrlRequired" runat="server" ControlToValidate="txbEnclosureUrl" ForeColor="#990066" ErrorMessage="If you enable the Enclusure you must specify its Url" /></label>
+	        <asp:TextBox id="txbEnclosureUrl" runat="server" MaxLength="250" />
+	        <label for="Editor_Enclosure_txbEnclosureSize" accesskey="s">Enclosure <u>S</u>ize (in bytes) &nbsp;<asp:RequiredFieldValidator id="valEncSizeRequired" runat="server" ControlToValidate="txbEnclosureSize" ForeColor="#990066" ErrorMessage="If you enable the Enclusure you must specify its Size" /></label>
+	        <asp:TextBox id="txbEnclosureSize" runat="server" MaxLength="250" />
+	        <label for="Editor_Enclosure_ddlMimeType" accesskey="m">Enclosure <u>M</u>imetype&nbsp;<asp:CompareValidator Operator="NotEqual" ValueToCompare="none" id="valEncMimeTypeRequired" runat="server" ControlToValidate="ddlMimeType" ForeColor="#990066" ErrorMessage="If you enable the Enclusure you must specify its MimeType" /></label>
+	        <asp:DropDownList ID="ddlMimeType" runat="server">
+	            <asp:ListItem Value="none">Choose...</asp:ListItem>
+	            <asp:ListItem Value="application/pdf">application/pdf</asp:ListItem>
+	            <asp:ListItem Value="application/octet-stream">application/octet-stream</asp:ListItem>
+	            <asp:ListItem Value="audio/mpeg">audio/mpeg</asp:ListItem>
+	            <asp:ListItem Value="video/mp4">video/mp4</asp:ListItem>
+	            <asp:ListItem Value="other">Other</asp:ListItem>
+	        </asp:DropDownList> <asp:TextBox id="txbEnclosureOtherMimetype" CssClass="othertype" runat="server" MaxLength="25" />&nbsp;<asp:RequiredFieldValidator id="valEncOtherMimetypeRequired" runat="server" ControlToValidate="txbEnclosureOtherMimetype" ForeColor="#990066" ErrorMessage="You have to specify a custom mimetype." />
+	        <label for="Editor_Enclosure_ddlDisplayOnPost" accesskey="p">Display with <u>P</u>ost on website</label>
+	        <asp:DropDownList ID="ddlDisplayOnPost" runat="server">
+	            <asp:ListItem Value="True">Yes</asp:ListItem>
+	            <asp:ListItem Value="False">No</asp:ListItem>
+	        </asp:DropDownList>
+	        <label for="Editor_Enclosure_ddlAddToFeed" accesskey="f">Add to <u>F</u>eed</label>
+	        <asp:DropDownList ID="ddlAddToFeed" runat="server">
+	            <asp:ListItem Value="True">Yes</asp:ListItem>
+	            <asp:ListItem Value="False">No</asp:ListItem>
+	        </asp:DropDownList>
+	    </fieldset>
+	</div>
+	</ANW:AdvancedPanel>
+
 	<ANW:AdvancedPanel id="Advanced" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True" Collapsed="False" HeaderText="Advanced Options" BodyCssClass="Edit">
 		<!-- todo, make this more css based than table driven -->
 		<table cellpadding="4">
@@ -131,4 +167,71 @@
 		</div>
 	</ANW:AdvancedPanel>
 	
+
+	
 </ANW:AdvancedPanel>
+
+<script type="text/javascript">
+
+        function ValidatorEnclusureEnable(enabled)
+        {
+            ValidatorEnable($("#<%= valEncUrlRequired.ClientID %>")[0], enabled);
+            ValidatorEnable($("#<%= valEncSizeRequired.ClientID %>")[0], enabled);
+            ValidatorEnable($("#<%= valEncMimeTypeRequired.ClientID %>")[0], enabled);
+            ValidatorEnable($("#<%= valEncOtherMimetypeRequired.ClientID %>")[0], enabled);
+        }
+
+        function toggleOtherMimeType(elem)
+        {
+            if(elem!=undefined) 
+            {
+                if(elem.value=="other")
+                {
+                    $("#<%= txbEnclosureOtherMimetype.ClientID %>").show();
+                    ValidatorEnable($("#<%= valEncOtherMimetypeRequired.ClientID %>")[0], true);
+                }
+                else
+                {
+                    $("#<%= txbEnclosureOtherMimetype.ClientID %>").hide();
+                    ValidatorEnable($("#<%= valEncOtherMimetypeRequired.ClientID %>")[0], false);
+                }
+            }
+        }
+        
+        function toggleEnclosureBox(elem)
+        {
+            if(elem!=undefined) 
+            {
+                if(elem.checked==true)
+                {
+                    $("#enclosure-editor").show();
+                    ValidatorEnclusureEnable(true);
+                }
+                else
+                {
+                    $("#enclosure-editor").hide();
+                    ValidatorEnclusureEnable(false);
+                }
+            }
+        }
+
+        // first let's hook up some events
+        $(document).ready(function()
+        {
+            toggleEnclosureBox($("#<%= chkEnableEnclosure.ClientID %>")[0]);
+            toggleOtherMimeType($("#<%= ddlMimeType.ClientID %>")[0]);
+
+            $("#<%= ddlMimeType.ClientID %>").change(function() 
+            {
+                toggleOtherMimeType(this);
+            });
+            
+            $("#<%= chkEnableEnclosure.ClientID %>").change(function() 
+            {
+                toggleEnclosureBox(this);
+                toggleOtherMimeType(this);
+            });
+        });
+       
+
+</script>

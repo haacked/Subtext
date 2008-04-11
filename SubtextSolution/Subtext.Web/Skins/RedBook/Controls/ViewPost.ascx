@@ -7,6 +7,10 @@
 	<h2><asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink  CssClass="singleposttitle" Runat="server" ID="TitleUrl" /></h2>
 	<asp:Literal id="Body"  runat="server" />
 
+		<p class="enclosure">
+		    <asp:Label id="Enclosure"  runat="server" DisplaySize="True" />
+		</p>
+
 		<p class="postfooter">
 			<a href="javascript:window.print();" class="printIcon"><span>Print</span></a>
 			posted @ <asp:Literal id="PostDescription"  runat="server" />

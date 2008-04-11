@@ -978,6 +978,7 @@ DELETE FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE PostID = @ID
 DELETE FROM [<dbUser,varchar,dbo>].[subtext_EntryViewCount] WHERE EntryID = @ID
 DELETE FROM [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE EntryID = @ID
 DELETE FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] WHERE EntryId = @ID
+DELETE FROM [<dbUser,varchar,dbo>].[subtext_Enclosure] WHERE EntryId = @ID
 DELETE FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE [ID] = @ID
 
 EXEC [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats] @blogId

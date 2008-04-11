@@ -251,6 +251,24 @@ namespace Subtext.Web.Admin.UserControls
 			hlEntryLink.Attributes.Add("title", "view: " + currentPost.Title);
 			hlEntryLink.Visible = true;
 
+
+            //Enclosures
+            if(currentPost.Enclosure!=null)
+            {
+                chkEnableEnclosure.Checked = true;
+                txbEnclosureTitle.Text = currentPost.Enclosure.Title;
+                txbEnclosureUrl.Text = currentPost.Enclosure.Url;
+                txbEnclosureSize.Text = currentPost.Enclosure.Size.ToString();
+                if (ddlMimeType.Items.FindByText(currentPost.Enclosure.MimeType) != null)
+                    ddlMimeType.SelectedValue = currentPost.Enclosure.MimeType;
+                else
+                {
+                    ddlMimeType.SelectedValue = "other";
+                    txbEnclosureOtherMimetype.Text = currentPost.Enclosure.MimeType;
+                }
+            }
+
+
 			chkComments.Checked                    = currentPost.AllowComments;	
 			chkCommentsClosed.Checked			   = currentPost.CommentingClosed;
 			SetCommentControls();
@@ -339,6 +357,14 @@ namespace Subtext.Web.Admin.UserControls
 			txbExcerpt.Text = String.Empty;
 			txbEntryName.Text = string.Empty;
 
+            //Enclosure
+		    chkEnableEnclosure.Checked = false;
+		    txbEnclosureTitle.Text = String.Empty;
+		    txbEnclosureUrl.Text = String.Empty;
+		    txbEnclosureSize.Text = String.Empty;
+            txbEnclosureOtherMimetype.Text = String.Empty;
+		    ddlMimeType.SelectedIndex = 0;
+
 			ckbPublished.Checked = Preferences.AlwaysCreateIsActive;
 			chkComments.Checked = true;
 			chkCommentsClosed.Checked = false;
@@ -383,6 +409,9 @@ namespace Subtext.Web.Admin.UserControls
             {
                 vCustomPostDate.IsValid = DateTime.TryParse(txtPostDate.Text, out postDate);
             }
+
+            EnableEnclosureValidation(chkEnableEnclosure.Checked);
+
             if(Page.IsValid)
 			{
 				string successMessage = Constants.RES_SUCCESSNEW;
@@ -413,6 +442,30 @@ namespace Subtext.Web.Admin.UserControls
 					entry.Email = Config.CurrentBlog.Email;
 					entry.BlogId = Config.CurrentBlog.Id;
 
+                    //Enclosure
+				    int enclosureId = 0;
+                    if (entry.Enclosure != null)
+				        enclosureId = entry.Enclosure.Id;
+                    if (chkEnableEnclosure.Checked)
+                    {
+                        if (entry.Enclosure == null)
+                            entry.Enclosure = new Enclosure();
+                        Enclosure enc = entry.Enclosure;
+
+                        enc.Title = txbEnclosureTitle.Text;
+                        enc.Url = txbEnclosureUrl.Text;
+                        if (ddlMimeType.SelectedValue.Equals("other"))
+                            enc.MimeType = txbEnclosureOtherMimetype.Text;
+                        else
+                            enc.MimeType = ddlMimeType.SelectedValue;
+                        long size = 0;
+                        Int64.TryParse(txbEnclosureSize.Text, out size);
+                        enc.Size = size;
+                    }
+                    else
+                        entry.Enclosure = null;
+
+
 					// Advanced options
 					entry.IsActive = ckbPublished.Checked;
 					entry.AllowComments = chkComments.Checked;
@@ -439,6 +492,16 @@ namespace Subtext.Web.Admin.UserControls
 						
 						Entries.Update(entry);
 
+                        if (entry.Enclosure == null && enclosureId != 0)
+                            Enclosures.Delete(enclosureId);
+                        else if (entry.Enclosure != null && entry.Enclosure.Id != 0)
+                            Enclosures.Update(entry.Enclosure);
+                        else if (entry.Enclosure != null && entry.Enclosure.Id == 0)
+                        {
+                            entry.Enclosure.EntryId = entry.Id;
+                            Enclosures.Create(entry.Enclosure);
+                        }
+
 						UpdateCategories();
 
 						if(ReturnToOriginalPost)
@@ -456,6 +519,13 @@ namespace Subtext.Web.Admin.UserControls
 					{
 						entry.DateCreated = Config.CurrentBlog.TimeZone.Now;						
 						PostID = Entries.Create(entry);
+
+                        if(entry.Enclosure!=null)
+                        {
+                            entry.Enclosure.EntryId = PostID;
+                            Enclosures.Create(entry.Enclosure);
+                        }
+
 						UpdateCategories();
 						AddCommunityCredits(entry);
 					}
@@ -477,6 +547,23 @@ namespace Subtext.Web.Admin.UserControls
                 }
 			}
 		}
+
+        private void EnableEnclosureValidation(bool enabled)
+        {
+            valEncSizeRequired.Enabled = enabled;
+            valEncUrlRequired.Enabled = enabled;
+            valEncMimeTypeRequired.Enabled = enabled;
+
+            if(!enabled)
+                valEncOtherMimetypeRequired.Enabled = false;
+            else
+            {
+                if (ddlMimeType.SelectedValue.Equals("other"))
+                    valEncOtherMimetypeRequired.Enabled = true;
+                else
+                    valEncOtherMimetypeRequired.Enabled = false;
+            }
+        }
 
         private void ReplaceSelectedCategoryNames(StringCollection sc)
         {
