@@ -35,6 +35,7 @@ namespace Subtext.Web.UI.Controls
 		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
 		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\">Feedback ({3})</a>";
 		const string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>";
+        const string linkToEnclosure = "<a href=\"{0}\" title = \"{1}\">{2}</a>{3}";
 
         private string category;
         public string Category
@@ -62,9 +63,29 @@ namespace Subtext.Web.UI.Controls
 					BindCommentCount(e, entry);
 					BindAuthor(e, entry);
 					BindCurrentEntryControls(entry, e.Item);
+                    BindEnclosure(e, entry);
 				}
 			}
 		}
+
+        private static void BindEnclosure(RepeaterItemEventArgs e, Entry entry)
+        {
+            Label enclosure = (Label)e.Item.FindControl("Enclosure");
+            if (enclosure != null)
+            {
+                bool displaySize = false;
+                Boolean.TryParse(enclosure.Attributes["DisplaySize"], out displaySize);
+
+                if (entry.Enclosure != null)
+                {
+                    string sizeStr = "";
+                    if(displaySize)
+                        sizeStr = " (" + entry.Enclosure.FormattedSize + ")";
+                    enclosure.Text = string.Format(linkToEnclosure, entry.Enclosure.Url, entry.Enclosure.Title, entry.Enclosure.Title, sizeStr);
+                }
+            }
+        }
+
 
 		private static void BindAuthor(RepeaterItemEventArgs e, Entry entry)
 		{

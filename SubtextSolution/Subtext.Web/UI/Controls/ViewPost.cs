@@ -42,8 +42,10 @@ namespace Subtext.Web.UI.Controls
 		protected PostCategoryList Categories;
 		protected Literal PingBack;
 		protected Literal TrackBack;
+        protected Label Enclosure;
 
 		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
+        const string linkToEnclosure = "<a href=\"{0}\" title = \"{1}\">{2}</a>{3}";
 
 		/// <summary>
 		/// Loads the entry specified by the URL.  If the user is an 
@@ -120,6 +122,8 @@ namespace Subtext.Web.UI.Controls
 					}
 				}
 				
+                BindEnclosure(entry);
+
 				//Set Pingback/Trackback 
 				if(PingBack == null)
 				{
@@ -143,6 +147,23 @@ namespace Subtext.Web.UI.Controls
 				this.Controls.Add(new LiteralControl("<p><strong>The entry could not be found or has been removed</strong></p>"));
 			}
 		}
+
+        private void BindEnclosure(Entry entry)
+        {
+            if (Enclosure != null)
+            {
+                bool displaySize = false;
+                Boolean.TryParse(Enclosure.Attributes["DisplaySize"], out displaySize);
+
+                if (entry.Enclosure != null)
+                {
+                    string sizeStr = "";
+                    if (displaySize)
+                        sizeStr = " (" + entry.Enclosure.FormattedSize + ")";
+                    Enclosure.Text = string.Format(linkToEnclosure, entry.Enclosure.Url, entry.Enclosure.Title, entry.Enclosure.Title, sizeStr);
+                }
+            }
+        }
 
 		// If the user is an admin AND the the skin 
 		// contains an edit Hyperlink control, this 

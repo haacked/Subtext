@@ -13,7 +13,9 @@
 				<asp:HyperLink Runat="server" ID="editLink" /> <asp:HyperLink  CssClass="posttitle" Runat="server" ID="TitleUrl" />
 			</h2>
 			<asp:Literal  runat="server" ID="PostText" />
-			
+			<p class="enclosure">
+			    <asp:Label id="Enclosure"  runat="server" DisplaySize="True" />
+			</p>
 			<p class="postfooter">
 				<asp:Literal id="PostDesc"  runat="server" />
 			</p>

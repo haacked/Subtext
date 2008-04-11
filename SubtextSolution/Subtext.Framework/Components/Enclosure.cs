@@ -68,6 +68,21 @@ namespace Subtext.Framework.Components
             set { _entryId = value; }
         }
 
+        public string FormattedSize
+        {
+            get
+            {
+                if (_size < 1024)
+                    return _size + " bytes";
+                if (_size < 1024 * 1024)
+                    return Math.Round(((double)_size / 1024), 2) + " KB";
+                if (_size < 1024 * 1024 * 1024)
+                    return Math.Round(((double)_size / (1024 * 1024)), 2) + " MB";
+
+                return Math.Round(((double)_size / (1024 * 1024 * 1024)), 2) + " GB";
+            }
+        }
+
         #endregion
 
         public bool IsValid

@@ -303,11 +303,6 @@ div#Main div.Edit p  {
 	margin: 0px 0px 10px 0px;
 }
 
-div#Main #advanced-options input.date
-{
-    width: 250px;
-}
-
 body.admin input.textbox
 {
     width: 695px;
@@ -319,7 +314,18 @@ body.admin textarea
     height: 200px;
 }
 
-#entry-editor label, #advanced-options label {
+div#Main #advanced-options input.date
+{
+    width: 250px;
+}
+
+div#Main #enclosure-editor input.othertype
+{
+    width: 250px;
+}
+
+
+#entry-editor label, #advanced-options label, #enclosure-editor label {
     display: block;
     margin: 6px 0 2px 0;
 }
