@@ -146,7 +146,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string enclosureMimeType = "audio/mp3";
             long enclosureSize = 26707573;
 
-            FrameworkEnclosure enc = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>", enclosureUrl, enclosureMimeType, entryId, enclosureSize);
+            FrameworkEnclosure enc = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>", enclosureUrl, enclosureMimeType, entryId, enclosureSize, true, true);
             Enclosures.Create(enc);
 
             entry = Entries.GetEntry(entryId, PostConfig.None, true);
@@ -234,7 +234,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string enclosureMimeType = "audio/mp3";
             long enclosureSize = 26707573;
 
-            FrameworkEnclosure enc = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>", enclosureUrl, enclosureMimeType, entryId, enclosureSize);
+            FrameworkEnclosure enc = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>", enclosureUrl, enclosureMimeType, entryId, enclosureSize, true, true);
             Enclosures.Create(enc);
 
             entry = Entries.GetEntry(entryId, PostConfig.None, true);
@@ -376,7 +376,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string enclosureMimeType = "audio/mp3";
             long enclosureSize = 26707573;
 
-            FrameworkEnclosure enc = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>", enclosureUrl, enclosureMimeType, entryId, enclosureSize);
+            FrameworkEnclosure enc = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>", enclosureUrl, enclosureMimeType, entryId, enclosureSize, true, true);
             Enclosures.Create(enc);
 
 

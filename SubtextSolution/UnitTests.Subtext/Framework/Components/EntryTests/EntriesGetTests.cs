@@ -60,7 +60,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entries.Create(entryOne);
 			Entries.Create(entryTwo);
 
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get Entries
@@ -80,6 +80,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.IsNull(entries[0].Enclosure,"Entry should not have enclosure.");
             Assert.IsNull(entries[1].Enclosure,"Entry should not have enclosure.");
             Assert.IsNotNull(entries[2].Enclosure,"Entry should have enclosure.");
+            UnitTestHelper.AssertEnclosures(enc, entries[2].Enclosure);
 		}
 
 
@@ -99,7 +100,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entries.Create(entryOne);
 
 
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             List<string> tags = new List<string>(new string[] { "Tag1", "Tag2" });
@@ -151,7 +152,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entries.Create(entryTwo);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get Entries
@@ -194,7 +195,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entries.Create(entryTwo);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
 
@@ -239,7 +240,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entries.Create(entryTwo);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get Entries

@@ -21,6 +21,8 @@ BEGIN
 		[Size] bigint NOT NULL,
 		[MimeType] nvarchar(256) NOT NULL,
 		[EnclosureEnabled] bit NOT NULL DEFAULT 1,
+		[AddToFeed] bit NOT NULL,
+		[ShowWithPost] bit NOT NULL,
 		CONSTRAINT [PK_subtext_Enclosure] PRIMARY KEY CLUSTERED 
 		(
 			[Id] ASC

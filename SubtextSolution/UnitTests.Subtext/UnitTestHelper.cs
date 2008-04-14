@@ -738,7 +738,7 @@ namespace UnitTests.Subtext
             return tags;
         }
 
-        public static Enclosure BuildEnclosure(string title, string url, string mimetype, int entryId, long size)
+        public static Enclosure BuildEnclosure(string title, string url, string mimetype, int entryId, long size, bool addToFeed, bool showWithPost)
         {
             Enclosure enc = new Enclosure();
             enc.EntryId = entryId;
@@ -746,6 +746,8 @@ namespace UnitTests.Subtext
             enc.Url = url;
             enc.Size = size;
             enc.MimeType = mimetype;
+            enc.ShowWithPost = showWithPost;
+            enc.AddToFeed = addToFeed;
             return enc;
         }
 
@@ -881,6 +883,8 @@ namespace UnitTests.Subtext
             Assert.AreEqual(expected.Url, result.Url, "Wrong Url.");
             Assert.AreEqual(expected.MimeType, result.MimeType, "Wrong mimetype.");
             Assert.AreEqual(expected.Size, result.Size, "Wrong size.");
+            Assert.AreEqual(expected.AddToFeed, result.AddToFeed, "Wrong AddToFeed flag.");
+            Assert.AreEqual(expected.ShowWithPost, result.ShowWithPost, "Wrong ShowWithPost flag.");
 	    }
 	}
 }
