@@ -86,9 +86,20 @@ namespace UnitTests.Subtext.Framework.Syndication
 		    enc.Title = "<Digital Photography Explained (for Geeks) with Aaron Hockley/>";
 		    enc.Size = 26707573;
 		    enc.MimeType = "audio/mp3";
+		    enc.AddToFeed = true;
 
 
 		    entries[2].Enclosure = enc;
+
+            Enclosure enc1 = new Enclosure();
+
+            enc1.Url = "http://perseus.franklins.net/hanselminutes_0107.mp3";
+            enc1.Title = "<Digital Photography Explained (for Geeks) with Aaron Hockley/>";
+            enc1.Size = 26707573;
+            enc1.MimeType = "audio/mp3";
+            enc1.AddToFeed = false;
+
+		    entries[3].Enclosure = enc1;
 
 			RssWriter writer = new RssWriter(entries, NullValue.NullDateTime, false);
 

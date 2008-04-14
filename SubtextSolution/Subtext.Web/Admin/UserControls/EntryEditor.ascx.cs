@@ -266,6 +266,8 @@ namespace Subtext.Web.Admin.UserControls
                     ddlMimeType.SelectedValue = "other";
                     txbEnclosureOtherMimetype.Text = currentPost.Enclosure.MimeType;
                 }
+                ddlAddToFeed.SelectedValue = currentPost.Enclosure.AddToFeed.ToString().ToLower();
+                ddlDisplayOnPost.SelectedValue = currentPost.Enclosure.ShowWithPost.ToString().ToLower();
             }
 
 
@@ -461,6 +463,8 @@ namespace Subtext.Web.Admin.UserControls
                         long size = 0;
                         Int64.TryParse(txbEnclosureSize.Text, out size);
                         enc.Size = size;
+                        enc.AddToFeed = Boolean.Parse(ddlAddToFeed.SelectedValue);
+                        enc.ShowWithPost = Boolean.Parse(ddlDisplayOnPost.SelectedValue);
                     }
                     else
                         entry.Enclosure = null;

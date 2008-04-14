@@ -73,11 +73,11 @@ namespace Subtext.Web.UI.Controls
             Label enclosure = (Label)e.Item.FindControl("Enclosure");
             if (enclosure != null)
             {
-                bool displaySize = false;
-                Boolean.TryParse(enclosure.Attributes["DisplaySize"], out displaySize);
-
-                if (entry.Enclosure != null)
+                if (entry.Enclosure != null && entry.Enclosure.ShowWithPost)
                 {
+                    bool displaySize = false;
+                    Boolean.TryParse(enclosure.Attributes["DisplaySize"], out displaySize);
+
                     string sizeStr = "";
                     if(displaySize)
                         sizeStr = " (" + entry.Enclosure.FormattedSize + ")";
