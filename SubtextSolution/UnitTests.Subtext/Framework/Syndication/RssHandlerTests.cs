@@ -76,7 +76,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             string enclosureMimeType = "audio/mp3";
             long enclosureSize = 26707573;
 
-            Enclosure enc = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>", enclosureUrl, enclosureMimeType, entryId, enclosureSize );
+            Enclosure enc = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>", enclosureUrl, enclosureMimeType, entryId, enclosureSize,true, true);
             Enclosures.Create(enc);
 
 

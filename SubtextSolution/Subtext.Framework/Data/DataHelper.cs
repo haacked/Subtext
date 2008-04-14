@@ -697,6 +697,8 @@ namespace Subtext.Framework.Data
             enclosure.MimeType = ReadString(reader, "EnclosureMimeType");
             enclosure.Size = ReadInt64(reader, "EnclosureSize");
             enclosure.EntryId = ReadInt32(reader, "ID");
+            enclosure.AddToFeed = ReadBoolean(reader, "AddToFeed");
+            enclosure.ShowWithPost = ReadBoolean(reader, "ShowWithPost");
 
             return enclosure;
         }

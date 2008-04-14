@@ -27,15 +27,15 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         private BlogInfo blog;
 
         [RowTest]
-        [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789)]
-        [Row("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789)]
+        [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true, false)]
+        [Row("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true, false)]
         [RollBack2]
-        public void CanUpdateEnclosure(string title, string url, string mimetype, long size)
+        public void CanUpdateEnclosure(string title, string url, string mimetype, long size, bool addToFeed, bool showWithPost)
         {
             this.blog = UnitTestHelper.CreateBlogAndSetupContext();
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures", "Listen to my great podcast");
             int entryId = Entries.Create(e);
-            Enclosure enc = UnitTestHelper.BuildEnclosure(title, url, mimetype, entryId, size);
+            Enclosure enc = UnitTestHelper.BuildEnclosure(title, url, mimetype, entryId, size, addToFeed, showWithPost);
 
             Enclosures.Create(enc);
 
@@ -71,7 +71,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures", "Listen to my great podcast");
             int entryId = Entries.Create(e);
 
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryId, 12345678);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryId, 12345678, true, true);
             Enclosures.Create(enc);
 
             enc.Url = url;

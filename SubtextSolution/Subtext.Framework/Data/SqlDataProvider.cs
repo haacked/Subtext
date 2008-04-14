@@ -1481,6 +1481,8 @@ namespace Subtext.Framework.Data
                     DataHelper.MakeInParam("@MimeType", SqlDbType.NVarChar, 50, enclosure.MimeType),
                     DataHelper.MakeInParam("@Size", SqlDbType.BigInt, 8, enclosure.Size),
                     DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, enclosure.EntryId),
+                    DataHelper.MakeInParam("@ShowWithPost", SqlDbType.Bit, 1, enclosure.ShowWithPost),
+                    DataHelper.MakeInParam("@AddToFeed", SqlDbType.Bit, 1, enclosure.AddToFeed),
                     id
                 };
             NonQueryInt("subtext_InsertEnclosure", p);
@@ -1500,6 +1502,8 @@ namespace Subtext.Framework.Data
                     DataHelper.MakeInParam("@MimeType", SqlDbType.NVarChar, 50, enclosure.MimeType),
                     DataHelper.MakeInParam("@Size", SqlDbType.BigInt, 8, enclosure.Size),
                     DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, enclosure.EntryId),
+                    DataHelper.MakeInParam("@ShowWithPost", SqlDbType.Bit, 1, enclosure.ShowWithPost),
+                    DataHelper.MakeInParam("@AddToFeed", SqlDbType.Bit, 1, enclosure.AddToFeed),
                     DataHelper.MakeInParam("@Id", SqlDbType.Int, 4, enclosure.Id),
                 };
             return NonQueryBool("subtext_UpdateEnclosure", p);
@@ -1530,8 +1534,7 @@ namespace Subtext.Framework.Data
                 {
                     DataHelper.MakeInParam("@Content", SqlDbType.NVarChar, 512, metaTag.Content),
                     DataHelper.MakeInParam("@Name", SqlDbType.NVarChar, 100, DataHelper.CheckNull(metaTag.Name)),
-                    DataHelper.MakeInParam("@HttpEquiv", SqlDbType.NVarChar, 100,
-                                           DataHelper.CheckNull(metaTag.HttpEquiv)),
+                    DataHelper.MakeInParam("@HttpEquiv", SqlDbType.NVarChar, 100, DataHelper.CheckNull(metaTag.HttpEquiv)),
                     DataHelper.MakeInParam("@DateCreated", SqlDbType.DateTime, 8, metaTag.DateCreated),
                     DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, metaTag.BlogId),
                     DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, entryIdValue),

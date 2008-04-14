@@ -34,7 +34,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures", "Listen to my great podcast");
             int entryId = Entries.Create(e);
 
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryId, 12345678);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryId, 12345678, true, true);
             Enclosures.Create(enc);
 
             Entry newEntry = Entries.GetEntry(entryId, false);

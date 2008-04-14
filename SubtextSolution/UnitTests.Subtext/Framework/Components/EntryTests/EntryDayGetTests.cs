@@ -50,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entries.Create(entryTwo);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get EntryDay
@@ -96,7 +96,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entries.Create(entryThree);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get EntryDay
@@ -149,7 +149,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entries.Create(entryThree);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get EntryDay
@@ -208,7 +208,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entries.Create(entryThree);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get EntryDay
@@ -258,7 +258,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entries.Create(entryThree);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get EntryDay

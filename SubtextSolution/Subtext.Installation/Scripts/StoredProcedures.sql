@@ -1155,6 +1155,8 @@ SELECT BlogId
 	, subtext_Enclosure.MimeType as EnclosureMimeType
 	, subtext_Enclosure.Size as EnclosureSize
 	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
+	, subtext_Enclosure.AddToFeed
+	, subtext_Enclosure.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 	INNER JOIN #IDs ON #IDs.[Id] = [<dbUser,varchar,dbo>].[subtext_Content].[Id]
 	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
@@ -1368,6 +1370,8 @@ SELECT	BlogId
 	, subtext_Enclosure.MimeType as EnclosureMimeType
 	, subtext_Enclosure.Size as EnclosureSize
 	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
+	, subtext_Enclosure.AddToFeed
+	, subtext_Enclosure.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
 WHERE 
@@ -2261,6 +2265,8 @@ SELECT	content.BlogId
 	, subtext_Enclosure.MimeType as EnclosureMimeType
 	, subtext_Enclosure.Size as EnclosureSize
 	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
+	, subtext_Enclosure.AddToFeed
+	, subtext_Enclosure.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links WITH (NOLOCK) ON content.ID = ISNULL(links.PostID, -1)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories WITH (NOLOCK) ON links.CategoryID = categories.CategoryID
@@ -2357,6 +2363,8 @@ SELECT	BlogId
 	, subtext_Enclosure.MimeType as EnclosureMimeType
 	, subtext_Enclosure.Size as EnclosureSize
 	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
+	, subtext_Enclosure.AddToFeed
+	, subtext_Enclosure.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
 WHERE	PostType=1 
@@ -2459,6 +2467,8 @@ SELECT	BlogId
 	, subtext_Enclosure.MimeType as EnclosureMimeType
 	, subtext_Enclosure.Size as EnclosureSize
 	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
+	, subtext_Enclosure.AddToFeed
+	, subtext_Enclosure.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
 WHERE Year(DateAdded) = Year(@Date) 
@@ -2513,6 +2523,8 @@ SELECT	BlogId
 	, subtext_Enclosure.MimeType as EnclosureMimeType
 	, subtext_Enclosure.Size as EnclosureSize
 	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
+	, subtext_Enclosure.AddToFeed
+	, subtext_Enclosure.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content]  left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
 WHERE [<dbUser,varchar,dbo>].[subtext_Content].ID = COALESCE(@ID, [<dbUser,varchar,dbo>].[subtext_Content].ID)
 	AND (EntryName = @EntryName OR @EntryName IS NULL) 
@@ -4725,6 +4737,8 @@ SELECT	content.BlogId
 	, subtext_Enclosure.MimeType as EnclosureMimeType
 	, subtext_Enclosure.Size as EnclosureSize
 	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
+	, subtext_Enclosure.AddToFeed
+	, subtext_Enclosure.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
 	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on content.[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
 WHERE  content.BlogId = @BlogId 
@@ -5229,15 +5243,17 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertEnclosure]
 		@Url nvarchar(256),
 		@MimeType nvarchar(50),
 		@Size bigint,
+		@AddToFeed bit,
+		@ShowWithPost bit,
 		@EntryId int,
 		@Id int OUTPUT
 	)
 AS
 
 	INSERT INTO [<dbUser,varchar,dbo>].subtext_Enclosure
-		([Title], [Url], [MimeType], [Size], [EntryId])
+		([Title], [Url], [MimeType], [Size], [EntryId], [AddToFeed], [ShowWithPost])
 	VALUES
-		(@Title, @Url, @MimeType, @Size, @EntryId)
+		(@Title, @Url, @MimeType, @Size, @EntryId, @AddToFeed, @ShowWithPost)
 
 	SELECT @Id = SCOPE_IDENTITY()
 
@@ -5257,6 +5273,8 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateEnclosure]
 		@Url nvarchar(256),
 		@MimeType nvarchar(50),
 		@Size bigint,
+		@AddToFeed bit,
+		@ShowWithPost bit,
 		@EntryId int,
 		@Id int
 	)
@@ -5268,7 +5286,9 @@ AS
 		[Url] = @Url,
 		MimeType = @MimeType,
 		Size = @Size,
-		EntryId = @EntryId
+		EntryId = @EntryId,
+		AddToFeed = @AddToFeed,
+		ShowWithPost = @ShowWithPost
 	WHERE
 		[Id] = @Id
 

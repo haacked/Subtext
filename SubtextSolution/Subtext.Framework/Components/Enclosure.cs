@@ -68,6 +68,22 @@ namespace Subtext.Framework.Components
             set { _entryId = value; }
         }
 
+        private bool _addToFeed;
+
+        public bool AddToFeed
+        {
+            get { return _addToFeed; }
+            set { _addToFeed = value; }
+        }
+
+        private bool _showWithPost;
+
+        public bool ShowWithPost
+        {
+            get { return _showWithPost; }
+            set { _showWithPost = value; }
+        }
+
         public string FormattedSize
         {
             get
