@@ -203,6 +203,15 @@ namespace Subtext.Web.Admin.UserControls {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator valEncSizeRequired;
         
         /// <summary>
+        /// valEncSizeFormat control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RangeValidator valEncSizeFormat;
+        
+        /// <summary>
         /// txbEnclosureSize control.
         /// </summary>
         /// <remarks>

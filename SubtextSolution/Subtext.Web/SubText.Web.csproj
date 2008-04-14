@@ -1001,7 +1001,6 @@
     <Content Include="Admin\Resources\Scripts\Images\sidesbg.jpg" />
     <Content Include="Admin\Resources\Scripts\Images\textarea.gif" />
     <Content Include="Admin\Resources\Scripts\labelFocus.js" />
-    <Content Include="Admin\Resources\Scripts\niceForms.js" />
     <Content Include="Admin\Resources\toggle_gray_down.gif" />
     <Content Include="Admin\Resources\toggle_gray_up.gif" />
     <Content Include="Admin\RssFeeds.aspx" />
