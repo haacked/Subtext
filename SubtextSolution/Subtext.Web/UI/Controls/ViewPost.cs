@@ -152,11 +152,12 @@ namespace Subtext.Web.UI.Controls
         {
             if (Enclosure != null)
             {
-                bool displaySize = false;
-                Boolean.TryParse(Enclosure.Attributes["DisplaySize"], out displaySize);
 
-                if (entry.Enclosure != null)
+                if (entry.Enclosure != null && entry.Enclosure.ShowWithPost)
                 {
+                    bool displaySize = false;
+                    Boolean.TryParse(Enclosure.Attributes["DisplaySize"], out displaySize);
+
                     string sizeStr = "";
                     if (displaySize)
                         sizeStr = " (" + entry.Enclosure.FormattedSize + ")";

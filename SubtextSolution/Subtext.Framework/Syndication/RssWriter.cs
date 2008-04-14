@@ -152,7 +152,7 @@ namespace Subtext.Framework.Syndication
 
         protected override EnclosureItem GetEnclosureFromItem(Entry item)
         {
-            if (item.Enclosure != null)
+            if (item.Enclosure != null && item.Enclosure.AddToFeed)
             {
                 EnclosureItem enc = new EnclosureItem();
                 enc.Url = item.Enclosure.Url;

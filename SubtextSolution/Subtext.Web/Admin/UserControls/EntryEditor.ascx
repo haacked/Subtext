@@ -130,13 +130,13 @@
 	        </asp:DropDownList> <asp:TextBox id="txbEnclosureOtherMimetype" CssClass="othertype" runat="server" MaxLength="25" />&nbsp;<asp:RequiredFieldValidator id="valEncOtherMimetypeRequired" runat="server" ControlToValidate="txbEnclosureOtherMimetype" ForeColor="#990066" ErrorMessage="You have to specify a custom mimetype." />
 	        <label for="Editor_Enclosure_ddlDisplayOnPost" accesskey="p">Display with <u>P</u>ost on website</label>
 	        <asp:DropDownList ID="ddlDisplayOnPost" runat="server">
-	            <asp:ListItem Value="True">Yes</asp:ListItem>
-	            <asp:ListItem Value="False">No</asp:ListItem>
+	            <asp:ListItem Value="true">Yes</asp:ListItem>
+	            <asp:ListItem Value="false">No</asp:ListItem>
 	        </asp:DropDownList>
 	        <label for="Editor_Enclosure_ddlAddToFeed" accesskey="f">Add to <u>F</u>eed</label>
 	        <asp:DropDownList ID="ddlAddToFeed" runat="server">
-	            <asp:ListItem Value="True">Yes</asp:ListItem>
-	            <asp:ListItem Value="False">No</asp:ListItem>
+	            <asp:ListItem Value="true">Yes</asp:ListItem>
+	            <asp:ListItem Value="false">No</asp:ListItem>
 	        </asp:DropDownList>
 	    </fieldset>
 	</div>
