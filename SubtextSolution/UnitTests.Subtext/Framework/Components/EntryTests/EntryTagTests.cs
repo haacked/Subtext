@@ -129,7 +129,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
 			Entries.Create(entry);
-			entry.Body = "<a href= \"http://blah/sometag\" rel= \"tag friend\">nothing</a><a href= \"http://blah/sometag\" rel= \"tag friend\">something</a>";
+			entry.Body = "<a href= \"http://blah/sometag\" rel= \"tag Friend\">nothing</a><a href= \"http://blah/sometag\" rel= \"tag friend\">something</a>";
 			Entries.Update(entry);
 
 			IList<Entry> entries = Entries.GetEntriesByTag(1, "sometag");
