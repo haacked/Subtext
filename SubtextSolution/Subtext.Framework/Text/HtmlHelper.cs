@@ -776,6 +776,7 @@ namespace Subtext.Framework.Text
             Regex anchorRegex = new Regex(@"<a(\s+\w+\s*=\s*(?:""[^""]*?""|'[^']*?')(?!\w))+\s*>.*?</a>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
             List<string> tags = new List<string>();
+            List<string> loweredTags = new List<string>();
 
             foreach (Match m in anchorRegex.Matches(html))
             {
@@ -794,8 +795,14 @@ namespace Subtext.Framework.Text
                     {
                         string[] seg = url.Segments;
                         string tag = HttpUtility.UrlDecode(seg[seg.Length - 1].Replace("/", ""));
-                        if (!tags.Contains(tag))
+
+                        //Keep a list of lowered tags so we can prevent duplicates without modifying capitalization
+                        string loweredTag = tag.ToLower();
+                        if (!loweredTags.Contains(loweredTag))
+                        {
+                            loweredTags.Add(loweredTag);
                             tags.Add(tag);
+                        }
                     }
                 }
             }
