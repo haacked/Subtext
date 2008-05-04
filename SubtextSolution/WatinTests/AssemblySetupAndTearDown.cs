@@ -6,6 +6,7 @@ using MbUnit.Framework;
 using Subtext.Scripting;
 using UnitTests.Subtext;
 using WatinTests;
+using System.ComponentModel;
 
 [assembly: AssemblyCleanup(typeof(AssemblySetupAndTearDown))]
 namespace WatinTests
@@ -63,19 +64,29 @@ namespace WatinTests
 
 		private static void StartWebServer()
 		{
-			string dotNetDir = @"C:\Windows\Microsoft.NET\Framework\v2.0.50727";
-			string webServerWebDevPath = Path.Combine(dotNetDir, "WebDev.WebServer.exe");
+            string webServerWebDevPath = @"C:\Program Files\Common Files\microsoft shared\DevServer\9.0\Webdev.WebServer.exe";
 			string commandLineArgs = String.Format(@"/port:{0} /path:""{1}""", ConfigurationManager.AppSettings["Port"], subtextWebPath);
 			ProcessStartInfo startInfo = new ProcessStartInfo(webServerWebDevPath, commandLineArgs);
 			Console.WriteLine("Starting WebDev.WebServer on port 2733 pointing to '{0}'", subtextWebPath);
-			webserverProcess = Process.Start(startInfo);
+            try
+            {
+                webserverProcess = Process.Start(startInfo);
+            }
+            catch (Win32Exception)
+            { 
+                //I really need to look this up in the registry somehow.
+                string dotNetDir = @"C:\Windows\Microsoft.NET\Framework\v2.0.50727";
+                webServerWebDevPath = Path.Combine(dotNetDir, "WebDev.WebServer.exe");
+                startInfo = new ProcessStartInfo(webServerWebDevPath, commandLineArgs);
+                webserverProcess = Process.Start(startInfo);
+            }
 			Console.WriteLine("Webserver Started");
 		}
 
 		private static void ChangeWebConfigDatabase()
 		{
-			XmlHelper.Poke(webConfigPath, "//appSettings/add[@key='connectionStringName']/@value", "subtextExpress");
-			XmlHelper.Poke(webConfigPath, "//connectionStrings/add[@name='subtextExpress']/@connectionString", connectionString);
+			XmlHelper.Poke(webConfigPath, "//appSettings/add[@key='connectionStringName']/@value", "subtextData");
+            XmlHelper.Poke(webConfigPath, "//connectionStrings/add[@name='subtextData']/@connectionString", connectionString);
 			XmlHelper.Poke(webConfigPath, "//BlogEntryEditor/@defaultProvider", "PlainTextBlogEntryEditorProvider");
 		}
 
