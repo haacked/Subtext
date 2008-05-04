@@ -78,18 +78,16 @@ namespace WatinTests
 		/// <param name="password"></param>
 		public void StepThroughInstallation(string username, string password)
 		{
-			Assert.IsTrue(ContainsText("Welcome to the Subtext Installation Wizard"), "We don't appear to be on the installation wizard.");
-			Button(Find.ByValue("On to Step 2")).Click();
+            Assert.IsTrue(ContainsText("Subtext will be installed to the"), "We don't appear to be on the installation wizard.");
 			Button(Find.ByValue("Install Now!")).Click();
-
-			Assert.IsTrue(ContainsText("Host Configuration"), "Should be on the host configuration step.");
+            Assert.IsTrue(ContainsText("Please enter information for the default Host Administrator"), "Should be on the host configuration step.");
 
 			TextField(new Regex(".*txtUserName")).Value = username;
 			TextField(new Regex(".*txtPassword")).Value = password;
 			TextField(new Regex(".*txtConfirmPassword")).Value = password;
 
 			Button(Find.ByValue("Save")).Click();
-			Button(Find.ByValue("Quick Create")).Click();
+            Button(Find.ByValue("Create!")).Click();
 		}
 
 		public void Login(string username, string password)

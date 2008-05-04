@@ -23,26 +23,40 @@ namespace WatinTests
 		[SetUp]
 		public static void SetUp()
 		{
-			//For Subtext.Web's config
-			BackupWebConfig();
-
-			//Point it to the db we're going to create.
-			ChangeWebConfigDatabase();
-
-			//This creates a new database in the App_Data directory of Subtext.Web
-			CreateDatabase();
-
-			//Start the web server.
-			StartWebServer();
-
-			//Run through the installation process.
-			using (Browser browser = new Browser(Browser.GetUrl("/")))
-			{
-				browser.StepThroughInstallation("username", "password");
-				browser.Login("username", "password");
-				Assert.IsTrue(browser.ContainsText("Configure"), "We should be in the admin tool.");
-			}
+            try
+            {
+                InternalSetup();
+            }
+            catch(Exception)
+            {
+                TearDown();
+                throw;
+            }
 		}
+
+        private static void InternalSetup()
+        {
+            //For Subtext.Web's config
+            BackupWebConfig();
+
+            //Point it to the db we're going to create.
+            ChangeWebConfigDatabase();
+
+            //This creates a new database in the App_Data directory of Subtext.Web
+            CreateDatabase();
+
+            //Start the web server.
+            StartWebServer();
+
+            //Run through the installation process.
+            using (Browser browser = new Browser())
+            {
+                browser.GoTo(Browser.GetUrl("/"));
+                browser.StepThroughInstallation("username", "password");
+                browser.Login("username", "password");
+                Assert.IsTrue(browser.ContainsText("Configure"), "We should be in the admin tool.");
+            }
+        }
 
 		[TearDown]
 		public static void TearDown()
