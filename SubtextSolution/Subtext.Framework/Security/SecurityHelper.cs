@@ -83,7 +83,7 @@ namespace Subtext.Framework.Security
 			}
 			
 			log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
-			SetAuthenticationTicket(username, persist, "HostAdmins");
+			SetAuthenticationTicket(username, persist, true, "HostAdmins");
 			
 			return true;
 		}
@@ -187,7 +187,7 @@ namespace Subtext.Framework.Security
 		    	{
 		    		//Need to clean this up. Either this should return null, or throw an exception,
 		    		//but not both.
-					if (Config.CurrentBlog != null)
+					if (!forceHostAdmin && Config.CurrentBlog != null)
 						name.Append(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
 		    		else
 						name.Append("null");
@@ -211,13 +211,17 @@ namespace Subtext.Framework.Security
 			return name.ToString();           
 		}
 
+        public static void SetAuthenticationTicket(string username, bool persist, params string[] roles)
+        {
+            SetAuthenticationTicket(username, persist, false, roles);
+        }
 		
 		/// <summary>
 		/// Used by methods in this class plus Install.Step02_ConfigureHost
 		/// </summary>
 		/// <param name="username">Username for the ticket</param>
 		/// <param name="persist">Should this ticket be persisted</param>
-		public static void SetAuthenticationTicket(string username, bool persist, params string[] roles)
+        public static void SetAuthenticationTicket(string username, bool persist, bool forceHostAdmin, params string[] roles)
 		{
 			//Getting a cookie this way and using a temp auth ticket 
 			//allows us to access the timeout value from web.config in partial trust.
@@ -234,7 +238,7 @@ namespace Subtext.Framework.Security
 				userData,//roles
 				tempTicket.CookiePath);
 			authCookie.Value = FormsAuthentication.Encrypt(authTicket);
-			authCookie.Name = GetFullCookieName();//prevents login problems with some multiblog setups
+			authCookie.Name = GetFullCookieName(forceHostAdmin);//prevents login problems with some multiblog setups
 
 			HttpContext.Current.Response.Cookies.Add(authCookie);
 			#region Logging
