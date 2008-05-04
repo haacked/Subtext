@@ -94,7 +94,8 @@ namespace WatinTests
 		{
 			ASPTextField("tbUserName").Value = username;
 			ASPTextField("tbPassword").Value = password;
-			ButtonByValue("Login").Click();
+            IE.Settings.WaitForCompleteTimeOut = 60;
+            ButtonByValue("Login").Click();
 		}
 
 		/// <summary>
