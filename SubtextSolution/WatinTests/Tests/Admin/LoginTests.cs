@@ -30,8 +30,8 @@ namespace WatinTests.Tests.Admin
 			{
 				browser.GoToAdmin();
 				browser.Login("not-username", "password");
-				browser.Link(Find.ByText("Email me my password.")).Click();
-				Assert.IsTrue(browser.ContainsText("I don't know you"));
+                browser.Link(Find.ByText("Forgot Your Password?")).Click();
+                Assert.IsTrue(browser.ContainsText("We cannot retrieve your password"));
 			}
 		}
 	}
