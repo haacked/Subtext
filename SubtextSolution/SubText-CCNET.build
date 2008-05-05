@@ -147,6 +147,15 @@
 		<call target="util.ncoverexplorer.nant" />
 	</target>
 
+    <target name="watin" depends="get-publishing-properties,compile-debug,prepare-for-testing" description="Runs the WATIN web tests.">
+        <exec program="${mbunit.exe}" workingdir="WatinTests\bin\${configuration}">
+            <arg value="/rnf:watin-test" />
+            <arg value="/rt:xml" />
+            <arg value='/rf:"${log.dir}"' />
+            <arg value="WatinTests.dll" />
+        </exec>
+    </target>
+
 	<target name="reporting" depends="compile-release">
 		<setenv name="PATH" path="${fxcop.dir}\;%PATH%" verbose="true" />
 
