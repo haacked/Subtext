@@ -108,38 +108,37 @@
 		</div>
 	</div>
 
-	<ANW:AdvancedPanel id="Enclosure" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True" Collapsed="False" HeaderText="Enclosure" BodyCssClass="Edit">
-	<asp:CheckBox id="chkEnableEnclosure" runat="server" Text="Enable Enclosure" />
-	<div id="enclosure-editor" class="Edit">
-		<fieldset title="Enclosure">
-			<legend>Basic Enclosure</legend>
-		    <label for="Editor_Enclosure_txbEnclosureTitle" accesskey="e"><u>E</u>nclosure Title</label>
-	        <asp:TextBox id="txbEnclosureTitle" runat="server" MaxLength="250" />
-	        <label for="Editor_Enclosure_txbEnclosureUrl" accesskey="u">Enclosure <u>U</u>rl&nbsp;<asp:RequiredFieldValidator id="valEncUrlRequired" runat="server" ControlToValidate="txbEnclosureUrl" ForeColor="#990066" ErrorMessage="Url is required" /></label>
-	        <asp:TextBox id="txbEnclosureUrl" runat="server" MaxLength="250" />
-	        <label for="Editor_Enclosure_txbEnclosureSize" accesskey="s">Enclosure <u>S</u>ize (in bytes) &nbsp;<asp:RequiredFieldValidator id="valEncSizeRequired" runat="server" ControlToValidate="txbEnclosureSize" ForeColor="#990066" ErrorMessage="Size is required" Display="Dynamic" /><asp:RangeValidator ControlToValidate="txbEnclosureSize" MinimumValue="0" MaximumValue="999999999" id="valEncSizeFormat" runat="server" ForeColor="#990066"  Type="Integer" ErrorMessage="Not a valid size." ></asp:RangeValidator></label>
-	        <asp:TextBox id="txbEnclosureSize" runat="server" MaxLength="250" />
-	        <label for="Editor_Enclosure_ddlMimeType" accesskey="m">Enclosure <u>M</u>imetype&nbsp;<asp:CompareValidator Operator="NotEqual" ValueToCompare="none" id="valEncMimeTypeRequired" runat="server" ControlToValidate="ddlMimeType" ForeColor="#990066" ErrorMessage="MimeType is required." /></label>
-	        <asp:DropDownList ID="ddlMimeType" runat="server">
-	            <asp:ListItem Value="none">Choose...</asp:ListItem>
-	            <asp:ListItem Value="application/pdf">application/pdf</asp:ListItem>
-	            <asp:ListItem Value="application/octet-stream">application/octet-stream</asp:ListItem>
-	            <asp:ListItem Value="audio/mpeg">audio/mpeg</asp:ListItem>
-	            <asp:ListItem Value="video/mp4">video/mp4</asp:ListItem>
-	            <asp:ListItem Value="other">Other</asp:ListItem>
-	        </asp:DropDownList> <asp:TextBox id="txbEnclosureOtherMimetype" CssClass="othertype" runat="server" MaxLength="25" />&nbsp;<asp:RequiredFieldValidator id="valEncOtherMimetypeRequired" runat="server" ControlToValidate="txbEnclosureOtherMimetype" ForeColor="#990066" ErrorMessage="You have to specify a custom mimetype." />
-	        <label for="Editor_Enclosure_ddlDisplayOnPost" accesskey="p">Display with <u>P</u>ost on website</label>
-	        <asp:DropDownList ID="ddlDisplayOnPost" runat="server">
-	            <asp:ListItem Value="true">Yes</asp:ListItem>
-	            <asp:ListItem Value="false">No</asp:ListItem>
-	        </asp:DropDownList>
-	        <label for="Editor_Enclosure_ddlAddToFeed" accesskey="f">Add to <u>F</u>eed</label>
-	        <asp:DropDownList ID="ddlAddToFeed" runat="server">
-	            <asp:ListItem Value="true">Yes</asp:ListItem>
-	            <asp:ListItem Value="false">No</asp:ListItem>
-	        </asp:DropDownList>
-	    </fieldset>
-	</div>
+	<ANW:AdvancedPanel id="Enclosure" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True" Collapsed="True" HeaderText="Enclosure" BodyCssClass="Edit">
+    <div id="messagePanelContainer" style="display: none;">
+        <div id="messagePanelWrapper">
+            <div id="messagePanel" style="display: none;">
+            </div>
+        </div>
+    </div>
+    <div id="enclosure-editor">
+	<fieldset title="Enclosure">
+		<legend>Basic Enclosure</legend>
+	    <label for="Editor_Enclosure_txbEnclosureTitle" accesskey="e"><u>E</u>nclosure Title</label>
+        <asp:TextBox id="txbEnclosureTitle" runat="server" MaxLength="250" />
+        <label for="Editor_Enclosure_txbEnclosureUrl" accesskey="u">Enclosure <u>U</u>rl&nbsp;<asp:RequiredFieldValidator id="valEncUrlRequired" runat="server" ControlToValidate="txbEnclosureUrl" ForeColor="#990066" ErrorMessage="Url is required" Display="Dynamic" /> <asp:RegularExpressionValidator ControlToValidate="txbEnclosureUrl" id="valEncUrlFormat" runat="server" ForeColor="#990066" ErrorMessage="Not a valid Url." ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$"></asp:RegularExpressionValidator> </label>
+        <asp:TextBox id="txbEnclosureUrl" runat="server" MaxLength="250" />
+        <label for="Editor_Enclosure_txbEnclosureSize" accesskey="s">Enclosure <u>S</u>ize (in bytes) &nbsp;<asp:RequiredFieldValidator id="valEncSizeRequired" runat="server" ControlToValidate="txbEnclosureSize" ForeColor="#990066" ErrorMessage="Size is required" Display="Dynamic" /><asp:RangeValidator ControlToValidate="txbEnclosureSize" MinimumValue="0" MaximumValue="999999999" id="valEncSizeFormat" runat="server" ForeColor="#990066"  Type="Integer" ErrorMessage="Not a valid size." ></asp:RangeValidator></label>
+        <asp:TextBox id="txbEnclosureSize" runat="server" MaxLength="250" />
+        <label for="Editor_Enclosure_ddlMimeType" accesskey="m">Enclosure <u>M</u>imetype&nbsp;<asp:CompareValidator Operator="NotEqual" ValueToCompare="none" id="valEncMimeTypeRequired" runat="server" ControlToValidate="ddlMimeType" ForeColor="#990066" ErrorMessage="MimeType is required." /></label>
+        <asp:DropDownList ID="ddlMimeType" runat="server">
+        </asp:DropDownList> <asp:TextBox id="txbEnclosureOtherMimetype" CssClass="othertype" runat="server" MaxLength="25" />&nbsp;<asp:RequiredFieldValidator id="valEncOtherMimetypeRequired" runat="server" ControlToValidate="txbEnclosureOtherMimetype" ForeColor="#990066" ErrorMessage="You have to specify a custom mimetype." />
+        <label for="Editor_Enclosure_ddlDisplayOnPost" accesskey="p">Display with <u>P</u>ost on website</label>
+        <asp:DropDownList ID="ddlDisplayOnPost" runat="server">
+            <asp:ListItem Value="true">Yes</asp:ListItem>
+            <asp:ListItem Value="false">No</asp:ListItem>
+        </asp:DropDownList>
+        <label for="Editor_Enclosure_ddlAddToFeed" accesskey="f">Add to <u>F</u>eed</label>
+        <asp:DropDownList ID="ddlAddToFeed" runat="server">
+            <asp:ListItem Value="true">Yes</asp:ListItem>
+            <asp:ListItem Value="false">No</asp:ListItem>
+        </asp:DropDownList>
+    </fieldset>
+    </div>
 	</ANW:AdvancedPanel>
 
 	<ANW:AdvancedPanel id="Advanced" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True" Collapsed="False" HeaderText="Advanced Options" BodyCssClass="Edit">
@@ -173,6 +172,10 @@
 
 <script type="text/javascript">
 
+        /* ---- { a few global variables } ---- */
+        var msgPanel = $('#messagePanel');
+        var msgPanelWrap = msgPanel.parent();
+
         function ValidatorEnclusureEnable(enabled)
         {
             ValidatorEnable($("#<%= valEncUrlRequired.ClientID %>")[0], enabled);
@@ -198,40 +201,126 @@
             }
         }
         
-        function toggleEnclosureBox(elem)
+        function enclosureEnabled()
         {
-            if(elem!=undefined) 
+
+            if( $("#<%= txbEnclosureTitle.ClientID %>").val()!="")
+                return true;
+            if( $("#<%= txbEnclosureUrl.ClientID %>").val()!="")
+                return true;
+            if( $("#<%= txbEnclosureSize.ClientID %>").val()!="")
+                return true;
+            if( $("#<%= ddlMimeType.ClientID %>").val()!="none")
+                return true;
+            return false;
+        }
+        
+        function toggleEnclosureBox()
+        {
+            if($("#<%= txbEnclosureTitle.ClientID %>").length==1)
             {
-                if(elem.checked==true)
+                if(enclosureEnabled())
                 {
-                    $("#enclosure-editor").show();
                     ValidatorEnclusureEnable(true);
                 }
                 else
                 {
-                    $("#enclosure-editor").hide();
                     ValidatorEnclusureEnable(false);
                 }
+                toggleOtherMimeType($("#<%= ddlMimeType.ClientID %>")[0]);
             }
+        }
+        
+        function setupChangeHandlers()
+        {
+            $("#<%= txbEnclosureTitle.ClientID %>").change(toggleEnclosureBox);
+            $("#<%= txbEnclosureUrl.ClientID %>").change(toggleEnclosureBox);
+            $("#<%= txbEnclosureSize.ClientID %>").change(toggleEnclosureBox);
+            $("#<%= ddlMimeType.ClientID %>").change(toggleEnclosureBox);
         }
 
         // first let's hook up some events
         $(document).ready(function()
         {
-            toggleEnclosureBox($("#<%= chkEnableEnclosure.ClientID %>")[0]);
-            toggleOtherMimeType($("#<%= ddlMimeType.ClientID %>")[0]);
+            toggleEnclosureBox();
 
             $("#<%= ddlMimeType.ClientID %>").change(function() 
             {
                 toggleOtherMimeType(this);
             });
             
-            $("#<%= chkEnableEnclosure.ClientID %>").change(function() 
+            setupChangeHandlers();
+            
+            $("#<%= txbEnclosureUrl.ClientID %>").change(function()
             {
-                toggleEnclosureBox(this);
-                toggleOtherMimeType(this);
+                var url = $("#<%= txbEnclosureUrl.ClientID %>").val();
+                var requiredValidationPassed = $("#<%= valEncUrlRequired.ClientID %>")[0].style.display=="none";
+                var formatValidationPassed = $("#<%= valEncUrlFormat.ClientID %>")[0].style.visibility=="hidden";
+
+                if(url=="")
+                {
+                    $("#<%= txbEnclosureOtherMimetype.ClientID %>").val("");
+                    $("#<%= ddlMimeType.ClientID %>").val("none");
+                    toggleEnclosureBox();
+                }
+
+                if(requiredValidationPassed && formatValidationPassed)
+                    {
+                        hideMessagePanel();
+                        ajaxServices.detectMimeType(url, function(response)
+                        {
+                            if(response.error)
+                            {
+                                handleError(response.error);
+                            }
+                            else
+                            {
+                                var mimetype = response.result;
+                                if($("#<%= ddlMimeType.ClientID %> option").contents().is(":contains('"+mimetype+"')"))
+                                {
+                                    $("#<%= ddlMimeType.ClientID %>").val(mimetype);
+                                    $("#<%= txbEnclosureOtherMimetype.ClientID %>").val("");
+                                }
+                                else
+                                {
+                                    $("#<%= ddlMimeType.ClientID %>").val("other");
+                                    $("#<%= txbEnclosureOtherMimetype.ClientID %>").val(mimetype);
+                                }
+                                ValidatorValidate($("#<%= valEncMimeTypeRequired.ClientID %>")[0]);
+                                toggleOtherMimeType($("#<%= ddlMimeType.ClientID %>")[0]);
+                            }
+                        });
+                    }
             });
+            
         });
        
+
+        /* ---- { error handling methods } ---- */
+
+        function handleError(error)
+        {
+            hideMessagePanel();
+            msgPanelWrap.addClass("error");
+            showMessagePanel(error.message);
+        
+            // available properties on error
+            //error.errors -> [{error}, ...]
+            //error.name
+            //error.message
+            //error.stackTrace
+        }
+
+        function showMessagePanel(message)
+        {
+            msgPanel.empty().append("<p>" + message + "</p>").fadeIn("slow");
+        }
+        
+        function hideMessagePanel()
+        {
+            msgPanel.fadeOut();
+            msgPanelWrap.removeClass("error").removeClass("warn").removeClass("info").removeClass("success");
+        }
+        
 
 </script>

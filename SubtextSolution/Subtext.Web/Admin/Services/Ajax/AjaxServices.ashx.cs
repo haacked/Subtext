@@ -40,5 +40,11 @@ namespace Subtext.Web.Admin.Services.Ajax
         {
             return MetaTags.Delete(id);
         }
+
+        [JsonRpcMethod("detectMimeType")]
+        public string DetectMimeType(string url)
+        {
+            return MimeTypesMapper.Mappings.ParseUrl(url);
+        }
     }
 }

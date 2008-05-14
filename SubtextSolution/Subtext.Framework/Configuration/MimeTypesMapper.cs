@@ -29,6 +29,9 @@ namespace Subtext.Framework.Configuration
         NameValueCollection _config = null;
         static MimeTypesMapper _mappings = new MimeTypesMapper((NameValueCollection)ConfigurationManager.GetSection("EnclosureMimetypes"));
 
+        /// <summary>
+        /// Returns the MimeTypesMapper instance.
+        /// </summary>
         public static MimeTypesMapper Mappings
         {
             get { return _mappings; }
@@ -41,6 +44,11 @@ namespace Subtext.Framework.Configuration
             get { return _count; }
         }
 
+        public NameValueCollection List
+        {
+            get { return _config; }
+        }
+
         public MimeTypesMapper(NameValueCollection config)
         {
             if (config == null)
@@ -49,6 +57,11 @@ namespace Subtext.Framework.Configuration
             _count = _config.Keys.Count;
         }
 
+        /// <summary>
+        /// Returns the mimetype that corresponds to a file extension.
+        /// </summary>
+        /// <param name="ext">Extension of a file.</param>
+        /// <returns>The MimeType</returns>
         public string GetMimeType(string ext)
         {
             if(ext==null)
@@ -58,6 +71,11 @@ namespace Subtext.Framework.Configuration
             return null;
         }
 
+        /// <summary>
+        /// Detect the mimetype of the url of a file.
+        /// </summary>
+        /// <param name="url">Url of the file</param>
+        /// <returns>The MimeType.</returns>
         public string ParseUrl(string url)
         {
             if (url == null)

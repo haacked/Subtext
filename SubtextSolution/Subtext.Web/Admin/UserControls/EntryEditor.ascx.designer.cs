@@ -158,15 +158,6 @@ namespace Subtext.Web.Admin.UserControls {
         protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Enclosure;
         
         /// <summary>
-        /// chkEnableEnclosure control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkEnableEnclosure;
-        
-        /// <summary>
         /// txbEnclosureTitle control.
         /// </summary>
         /// <remarks>
@@ -183,6 +174,15 @@ namespace Subtext.Web.Admin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator valEncUrlRequired;
+        
+        /// <summary>
+        /// valEncUrlFormat control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valEncUrlFormat;
         
         /// <summary>
         /// txbEnclosureUrl control.

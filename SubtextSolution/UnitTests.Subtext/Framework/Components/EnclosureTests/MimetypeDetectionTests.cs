@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using MbUnit.Framework;
 using Subtext.Framework.Configuration;
 
@@ -27,6 +28,13 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         {
             Assert.AreEqual(6, MimeTypesMapper.Mappings.Count);
         }
+
+        //[Test]
+        //public void CanGetListOfTypes()
+        //{
+        //    NameValueCollection list = MimeTypesMapper.Mappings.List;
+        //    Assert.AreEqual("audio/mpeg", list[0]);
+        //}
 
         [RowTest]
         [Row(".mp3","audio/mpeg")]
