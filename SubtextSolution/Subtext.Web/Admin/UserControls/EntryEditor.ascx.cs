@@ -251,11 +251,11 @@ namespace Subtext.Web.Admin.UserControls
 			hlEntryLink.Attributes.Add("title", "view: " + currentPost.Title);
 			hlEntryLink.Visible = true;
 
-
-            //Enclosures
+		    PopulateMimeTypeDropDown();
+		    //Enclosures
             if(currentPost.Enclosure!=null)
             {
-                chkEnableEnclosure.Checked = true;
+                Enclosure.Collapsed = false;
                 txbEnclosureTitle.Text = currentPost.Enclosure.Title;
                 txbEnclosureUrl.Text = currentPost.Enclosure.Url;
                 txbEnclosureSize.Text = currentPost.Enclosure.Size.ToString();
@@ -327,7 +327,17 @@ namespace Subtext.Web.Admin.UserControls
 			}
 		}
 
-		private void SetCommentControls()
+	    private void PopulateMimeTypeDropDown()
+	    {
+            ddlMimeType.Items.Add(new ListItem("Choose...", "none"));
+            foreach (string key in MimeTypesMapper.Mappings.List)
+	        {
+                ddlMimeType.Items.Add(new ListItem(MimeTypesMapper.Mappings.List[key], MimeTypesMapper.Mappings.List[key]));
+	        }
+            ddlMimeType.Items.Add(new ListItem("Other", "other"));
+	    }
+
+	    private void SetCommentControls()
 		{
 			if (!Config.CurrentBlog.CommentsEnabled)
 			{
@@ -360,7 +370,7 @@ namespace Subtext.Web.Admin.UserControls
 			txbEntryName.Text = string.Empty;
 
             //Enclosure
-		    chkEnableEnclosure.Checked = false;
+            PopulateMimeTypeDropDown();
 		    txbEnclosureTitle.Text = String.Empty;
 		    txbEnclosureUrl.Text = String.Empty;
 		    txbEnclosureSize.Text = String.Empty;
@@ -412,7 +422,7 @@ namespace Subtext.Web.Admin.UserControls
                 vCustomPostDate.IsValid = DateTime.TryParse(txtPostDate.Text, out postDate);
             }
 
-            EnableEnclosureValidation(chkEnableEnclosure.Checked);
+            EnableEnclosureValidation(EnclosureEnabled());
 
             if(Page.IsValid)
 			{
@@ -448,7 +458,7 @@ namespace Subtext.Web.Admin.UserControls
 				    int enclosureId = 0;
                     if (entry.Enclosure != null)
 				        enclosureId = entry.Enclosure.Id;
-                    if (chkEnableEnclosure.Checked)
+                    if (EnclosureEnabled())
                     {
                         if (entry.Enclosure == null)
                             entry.Enclosure = new Enclosure();
@@ -551,6 +561,20 @@ namespace Subtext.Web.Admin.UserControls
                 }
 			}
 		}
+
+        private bool EnclosureEnabled()
+        {
+            if (!String.IsNullOrEmpty(txbEnclosureUrl.Text))
+                return true;
+            if (!String.IsNullOrEmpty(txbEnclosureTitle.Text))
+                return true;
+            if (!String.IsNullOrEmpty(txbEnclosureSize.Text))
+                return true;
+            if (ddlMimeType.SelectedIndex > 0)
+                return true;
+
+            return false;
+        }
 
         private void EnableEnclosureValidation(bool enabled)
         {
