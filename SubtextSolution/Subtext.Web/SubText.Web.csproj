@@ -980,6 +980,7 @@
     <Content Include="Admin\Resources\bg_tabs.gif" />
     <Content Include="Admin\Resources\header_logo.gif" />
     <Content Include="Admin\Resources\ie6admin.css" />
+    <Content Include="Admin\Resources\ie7admin.css" />
     <Content Include="Admin\Resources\left.gif" />
     <Content Include="Admin\Resources\left_on.gif" />
     <Content Include="Admin\Resources\poweredbydotnet.gif" />
