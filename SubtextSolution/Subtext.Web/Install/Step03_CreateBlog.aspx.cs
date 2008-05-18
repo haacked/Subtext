@@ -46,7 +46,7 @@ namespace Subtext.Web.Install
 			}
 
             this.btnQuickCreate.Attributes["onclick"] = "this.disabled=true;"
-                + GetPostBackEventReference(this.btnQuickCreate).ToString();
+                + ClientScript.GetPostBackEventReference(this.btnQuickCreate, "").ToString();
 
 			if(!_anyBlogsExist)
 			{

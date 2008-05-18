@@ -37,7 +37,7 @@ namespace Subtext.Web.Install
 			}
 
             this.btnInstallClick.Attributes["onclick"] = "this.disabled=true;" 
-                + GetPostBackEventReference(this.btnInstallClick).ToString();
+                + ClientScript.GetPostBackEventReference(this.btnInstallClick, null).ToString();
 
 		
 			litDatabaseName.Text = Config.Settings.ConnectionString.Database;

@@ -318,6 +318,10 @@ div.DialogBody {
     margin-left: 170px;
 }
 
+#content .advanced-panel {
+  float: left;
+}
+
 #content div.Edit p  {
 	margin: 0px 0px 10px 0px;
 }
@@ -395,7 +399,6 @@ iframe {
 }
 
 div#content div.Edit p.Label,
-
 div.MessagePanel {
 	color: #333333;
 	background: #EEEEEE;
@@ -596,7 +599,7 @@ table.highlightTable tr.highlightAlt td
 }
     
 #tabs a:hover {
-  color: #c0c0c0;
+  color: #F8D245;
 }
 
 body.Posts li#PostsTab,

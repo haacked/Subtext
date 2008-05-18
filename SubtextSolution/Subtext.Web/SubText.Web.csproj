@@ -978,14 +978,9 @@
     <Content Include="Admin\Resources\bg.gif" />
     <Content Include="Admin\Resources\bg_body.gif" />
     <Content Include="Admin\Resources\bg_tabs.gif" />
-    <Content Include="Admin\Resources\header_logo.gif" />
     <Content Include="Admin\Resources\ie6admin.css" />
     <Content Include="Admin\Resources\ie7admin.css" />
-    <Content Include="Admin\Resources\left.gif" />
-    <Content Include="Admin\Resources\left_on.gif" />
     <Content Include="Admin\Resources\poweredbydotnet.gif" />
-    <Content Include="Admin\Resources\right.gif" />
-    <Content Include="Admin\Resources\right_on.gif" />
     <Content Include="Admin\Resources\Scripts\Admin.js" />
     <Content Include="Admin\Resources\Scripts\autoTab.js" />
     <Content Include="Admin\Resources\Scripts\comboBox.js" />

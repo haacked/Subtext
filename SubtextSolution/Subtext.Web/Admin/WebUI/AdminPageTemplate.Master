@@ -85,9 +85,6 @@
 	        </div>
 
 	        <div id="content">
-	            <div id="breadcrumb">
-			        <st:BreadCrumbs id="breadCrumbs" UsePrefixText="true" IsPanel="false" IncludeRoot="false" runat="server" />
-		        </div>
 	            <asp:ContentPlaceHolder ID="pageContent" runat="server">Default Page Content Goes Here</asp:ContentPlaceHolder>
 	        </div>
 
