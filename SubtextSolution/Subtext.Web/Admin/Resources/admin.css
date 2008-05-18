@@ -738,9 +738,13 @@ a.active
 	text-decoration: underline;
 }
 
-fieldset
-{
+fieldset {
 	margin: 4px 0 8px 0;
+}
+
+fieldset select {
+    display: block;
+    clear: both;
 }
 
 div.options, fieldset.options
