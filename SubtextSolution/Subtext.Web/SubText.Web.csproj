@@ -979,6 +979,7 @@
     <Content Include="Admin\Resources\bg_body.gif" />
     <Content Include="Admin\Resources\bg_tabs.gif" />
     <Content Include="Admin\Resources\header_logo.gif" />
+    <Content Include="Admin\Resources\ie6admin.css" />
     <Content Include="Admin\Resources\left.gif" />
     <Content Include="Admin\Resources\left_on.gif" />
     <Content Include="Admin\Resources\poweredbydotnet.gif" />
@@ -1013,7 +1014,10 @@
     <Content Include="Admin\UserControls\EntryEditor.ascx" />
     <Content Include="Admin\EditPosts.aspx" />
     <Content Include="Admin\Credits.aspx" />
-    <Content Include="App_Data\Subtext2.0.mdf">
+    <Content Include="App_Data\Subtext2.mdf">
+    </Content>
+    <Content Include="App_Data\Subtext2_log.ldf">
+      <DependentUpon>Subtext2.mdf</DependentUpon>
     </Content>
     <Content Include="DTP.aspx" />
     <Content Include="ExternalDependencies\FreeTextBox.xml" />

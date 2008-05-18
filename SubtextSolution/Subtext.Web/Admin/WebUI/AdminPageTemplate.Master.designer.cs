@@ -41,6 +41,15 @@ namespace Subtext.Web.Admin.WebUI {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
+        /// BlogTitleLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink BlogTitleLink;
+        
+        /// <summary>
         /// LoggedInUser control.
         /// </summary>
         /// <remarks>
@@ -59,24 +68,6 @@ namespace Subtext.Web.Admin.WebUI {
         protected global::System.Web.UI.WebControls.LinkButton LogoutLink;
         
         /// <summary>
-        /// BlogTitleLink control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink BlogTitleLink;
-        
-        /// <summary>
-        /// actionsHeading control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder actionsHeading;
-        
-        /// <summary>
         /// galleryTab control.
         /// </summary>
         /// <remarks>
@@ -86,13 +77,13 @@ namespace Subtext.Web.Admin.WebUI {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl galleryTab;
         
         /// <summary>
-        /// breadCrumbs control.
+        /// actionsHeading control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Admin.WebUI.BreadCrumbs breadCrumbs;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder actionsHeading;
         
         /// <summary>
         /// LinksActions control.
@@ -120,6 +111,15 @@ namespace Subtext.Web.Admin.WebUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder categoryListLinks;
+        
+        /// <summary>
+        /// breadCrumbs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Admin.WebUI.BreadCrumbs breadCrumbs;
         
         /// <summary>
         /// pageContent control.
