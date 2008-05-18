@@ -80,7 +80,7 @@ namespace Subtext.Web.Admin.WebUI
 		{
 			get
 			{
-				return this.breadCrumbs;
+				return null;
 			}
 		}
 
