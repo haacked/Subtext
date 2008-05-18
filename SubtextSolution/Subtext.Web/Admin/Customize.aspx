@@ -1,13 +1,9 @@
 <%@ Page Language="C#" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" AutoEventWireup="true"
     CodeBehind="Customize.aspx.cs" Inherits="Subtext.Web.Admin.Pages.Customize" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="actionsHeading" runat="server">
-    Actions</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="categoryListHeading" runat="server">
-</asp:Content>
-
-<asp:Content ID="Content3" ContentPlaceHolderID="categoryListLinks" runat="server">
-</asp:Content>
+<asp:Content ID="Content1" ContentPlaceHolderID="actionsHeading" runat="server">Actions</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="categoryListHeading" runat="server" />
+<asp:Content ID="Content3" ContentPlaceHolderID="categoryListLinks" runat="server" />
 
 <asp:Content ID="Content4" ContentPlaceHolderID="pageContent" runat="server">
     <div id="messagePanelContainer">

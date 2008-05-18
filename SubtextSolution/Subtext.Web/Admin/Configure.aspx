@@ -291,20 +291,18 @@
 		</asp:Panel>
 		<div class="clear">
 			<div class="options">
-				<label accesskey="c" for="Edit_txbSecondaryCss">
-					<st:HelpToolTip id="HelpToolTip1" runat="server" HelpText="You can enter custom CSS within this block.  Be careful as the tool will not validate the CSS.  This CSS will be included (as a proper link) within every page of your blog."><u>C</u>ustom CSS</st:HelpToolTip>
-				</label>
-				<asp:TextBox id="txbSecondaryCss" runat="server" CssClass="textarea" TextMode="MultiLine"></asp:TextBox>
+				<label accesskey="c" for="Edit_txbSecondaryCss"><st:HelpToolTip id="HelpToolTip1" runat="server" HelpText="You can enter custom CSS within this block.  Be careful as the tool will not validate the CSS.  This CSS will be included (as a proper link) within every page of your blog."><u>C</u>ustom CSS</st:HelpToolTip></label>
+				<asp:TextBox id="txbSecondaryCss" runat="server" CssClass="textarea" TextMode="MultiLine" />
 			</div>
 			<div class="options">
 				<label accesskey="a" for="Edit_txbNews">Static News/<u>A</u>nnouncement</label>
-				<asp:TextBox id="txbNews" runat="server" CssClass="textarea" TextMode="MultiLine"></asp:TextBox>
+				<asp:TextBox id="txbNews" runat="server" CssClass="textarea" TextMode="MultiLine" />
 			</div>
 		</div>
 		<div class="clear">
 			<div class="options">
 				<label accesskey="t" for="Edit_txtGenericTrackingCode">Sitewide <u>T</u>racking code</label>
-				<asp:TextBox id="txbGenericTrackingCode" runat="server" CssClass="textarea" TextMode="MultiLine"></asp:TextBox>
+				<asp:TextBox id="txbGenericTrackingCode" runat="server" CssClass="textarea" TextMode="MultiLine" />
 			</div>
 		</div>
 		<div class="clear">

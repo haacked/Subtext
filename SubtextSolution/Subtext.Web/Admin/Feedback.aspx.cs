@@ -26,6 +26,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Web.Controls;
+using System.Web;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -282,7 +283,10 @@ namespace Subtext.Web.Admin.Pages
 
             if (feedback.Email != null && feedback.Email.Length > 0 && feedback.Email.IndexOf("@") > 0)
             {
-                authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" class=""email"" /></a>", feedback.Email, HttpHelper.ExpandTildePath("~/images/email.gif"));
+                string mailToUrl = feedback.Email 
+                    + "&subject=re:" + HttpUtility.UrlEncode(feedback.Title) 
+                    + "&body=----------" + Environment.NewLine + HttpUtility.UrlEncode(feedback.Body);
+                authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" class=""email"" /></a>", mailToUrl, HttpHelper.ExpandTildePath("~/images/email.gif"));
             }
 
             if (feedback.SourceUrl != null)
