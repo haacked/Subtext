@@ -14,7 +14,7 @@
 			<div id="main">
 				<div id="logo"></div>
 				<h1>Installation Wizard</h1>
-				<asp:ContentPlaceHolder ID="Content" runat="server"></asp:ContentPlaceHolder>
+				<asp:ContentPlaceHolder ID="Content" runat="server" />
 			</div>
 		</form>
 	</body>
