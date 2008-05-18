@@ -83,7 +83,7 @@
 	<asp:Button id="btnCreate" runat="server" CssClass="buttonSubmit" Text="Create New" OnClick="btnCreate_Click" />
 	<st:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="false" HeaderCssClass="CollapsibleTitle"
 		HeaderText="Edit KeyWord" Collapsible="False">
-		<fieldset>
+		<fieldset class="section">
 		    <legend>Edit Keyword</legend>
 			<label>Word
 				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="txbWord" ForeColor="#990066"

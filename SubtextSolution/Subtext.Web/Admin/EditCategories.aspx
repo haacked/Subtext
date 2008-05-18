@@ -53,7 +53,7 @@
 	</st:AdvancedPanel>
 
 	<asp:PlaceHolder id="Add" runat="server">
-		<fieldset>
+		<fieldset class="section">
 			<legend>Add New Category</legend>
 		
 			<label>

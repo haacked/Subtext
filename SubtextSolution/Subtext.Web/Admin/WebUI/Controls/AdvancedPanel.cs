@@ -35,7 +35,7 @@ namespace Subtext.Web.Admin.WebUI
 		{
 			this.LinkImage = "~/admin/resources/toggle_gray_up.gif";
 			this.LinkImageCollapsed = "~/admin/resources/toggle_gray_down.gif";
-            this.CssClass = "advanced-panel";
+            this.CssClass = "section";
 		}
 	}
 }
