@@ -32,8 +32,6 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindLocalUI()
 		{
-			Editor.ResultsUrlFormat = "EditArticles.aspx?pg={0}";
-
 			// REFACTOR: we're duplicating this in both Articles and Posts for the sake
 			// of wireup. There's a structural issue btw Page and Container.
 			LinkButton lkbNewPost = Utilities.CreateLinkButton("New Article");

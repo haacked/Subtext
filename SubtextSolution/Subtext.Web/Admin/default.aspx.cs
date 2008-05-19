@@ -25,7 +25,7 @@ namespace Subtext.Web.Admin.Pages
 	{
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			Response.Redirect(Config.CurrentBlog.AdminDirectoryVirtualUrl + "/EditPosts.aspx");
+			Response.Redirect(Config.CurrentBlog.AdminDirectoryVirtualUrl + "/Posts/");
 		}
 
 		#region Web Form Designer generated code

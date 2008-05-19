@@ -169,7 +169,7 @@ namespace Subtext.Web.Admin
 		internal const string QRYSTR_IMAGEID = "imgid";
 	}
 
-	internal sealed class  Constants
+	internal sealed class Constants
 	{
 		private Constants() {}
 

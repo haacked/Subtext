@@ -45,12 +45,16 @@ namespace Subtext.Web.Admin.Pages
 			if(IsInEdit)
 			{
                 Type ctype = this.GetType();
-				Page.ClientScript.RegisterClientScriptBlock(ctype,"ConfirmationBeforeLeaving", string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}{2}",scriptStart,Message,scriptEnd));
+				Page.ClientScript.RegisterClientScriptBlock(ctype
+                    , "ConfirmationBeforeLeaving"
+                    , string.Format(System.Globalization.CultureInfo.InvariantCulture
+                    , "{0}{1}{2}"
+                    , scriptStart
+                    , Message
+                    , scriptEnd));
 			}
 			base.OnPreRender (e);
 		}
-
-
 
 		const string scriptStart = "<script type=\"text/javascript\">g_blnCheckUnload = true;function RunOnBeforeUnload() {if (g_blnCheckUnload) {window.event.returnValue = '";
 		const string scriptEnd = "';    }  }  function bypassCheck() {     g_blnCheckUnload  = false;   }</script>";

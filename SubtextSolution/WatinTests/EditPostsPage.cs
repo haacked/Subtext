@@ -18,7 +18,7 @@ namespace WatinTests
 
 		public override string PageUrl
 		{
-			get { return "/Admin/EditPosts.aspx"; }
+			get { return "/Admin/Posts/Edit.aspx"; }
 		}
 
 		public void ClickNavLink(PostsNavigationLink link)

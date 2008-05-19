@@ -47,24 +47,24 @@
 	    </div>
 
 	    <ul id="tabs">
-		    <li id="PostsTab"><a href="EditPosts.aspx" id="TabPosts" title="Posts">Posts</a></li>
-		    <li id="ArticlesTab"><a href="EditArticles.aspx" id="TabArticles" title="Articles">Articles</a></li>
-		    <li id="FeedbackTab"><a href="Feedback.aspx" id="TabFeedback" title="Feedback">Feedback</a></li>
-		    <li id="LinksTab"><a href="EditLinks.aspx" id="TabLinks" title="Links">Links</a></li>
+		    <li id="PostsTab"><a href="<%= Url.PostsList %>" id="TabPosts" title="Posts">Posts</a></li>
+		    <li id="ArticlesTab"><a href="<%= Url.ArticlesList %>" id="TabArticles" title="Articles">Articles</a></li>
+		    <li id="FeedbackTab"><a href="<%= Url.AdminUrl("Feedback.aspx") %>" id="TabFeedback" title="Feedback">Feedback</a></li>
+		    <li id="LinksTab"><a href="<%= Url.AdminUrl("EditLinks.aspx") %>" id="TabLinks" title="Links">Links</a></li>
 		    <li runat="server" id="galleryTab" class="galleryTab" visible="<%# Config.Settings.AllowImages %>">
-			    <a href="EditGalleries.aspx" id="TabGalleries" title="Galleries">Galleries</a>
+			    <a href="<%= Url.AdminUrl("EditGalleries.aspx") %>" id="TabGalleries" title="Galleries">Galleries</a>
 		    </li>
 		    <li id="StatsTab">
-			    <a href="Statistics.aspx" id="TabStats" title="Stats">Stats</a>
+			    <a href="<%= Url.AdminUrl("Statistics.aspx") %>" id="TabStats" title="Stats">Stats</a>
 		    </li>
 		    <li id="OptionsTab">
-			    <a href="Options.aspx" id="TabOptions" title="Options">Options</a>
+			    <a href="<%= Url.AdminUrl("Options.aspx") %>" id="TabOptions" title="Options">Options</a>
 		    </li>
 		    <li id="ImportExportTab">
-			    <a href="ImportExport.aspx" id="TabImportExport" title="Import/Export">Import/Export</a>
+			    <a href="<%= Url.AdminUrl("ImportExport.aspx") %>" id="TabImportExport" title="Import/Export">Import/Export</a>
 		    </li>
 		    <li id="CreditTab">
-			    <a href="Credits.aspx" id="TabCredit" title="Credits">Credits</a>
+			    <a href="<%= Url.AdminUrl("Credits.aspx") %>" id="TabCredit" title="Credits">Credits</a>
 		    </li>									
 	    </ul>
 	    
@@ -77,10 +77,10 @@
 			        <st:LinkList id="LinksActions" runat="server" />
 		        </div>
 		        <h2>
-			        <asp:ContentPlaceHolder ID="categoryListHeading" runat="server"></asp:ContentPlaceHolder>
+			        <asp:ContentPlaceHolder ID="categoryListHeading" runat="server" />
 		        </h2>
 		        <div>
-			        <asp:ContentPlaceHolder ID="categoryListLinks" runat="server"></asp:ContentPlaceHolder>
+			        <asp:ContentPlaceHolder ID="categoryListLinks" runat="server" />
 		        </div>
 	        </div>
 

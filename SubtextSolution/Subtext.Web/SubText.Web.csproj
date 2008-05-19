@@ -81,6 +81,25 @@
     <Compile Include="..\VersionInfo.Designer.cs">
       <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
+    <Compile Include="Admin\Articles\Articles.Master.cs">
+      <DependentUpon>Articles.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Articles\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Articles\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Articles\Edit.aspx.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Articles\Edit.aspx.designer.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Articles\Articles.Master.designer.cs" />
     <Compile Include="Admin\Comments.aspx.cs">
       <DependentUpon>Comments.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -201,6 +220,27 @@
     <Compile Include="Admin\Password.aspx.designer.cs">
       <DependentUpon>Password.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Posts\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Posts\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Posts\Edit.aspx.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Posts\Edit.aspx.designer.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Posts\Posts.Master.cs">
+      <DependentUpon>Posts.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Posts\Posts.Master.designer.cs">
+      <DependentUpon>Posts.Master</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Preferences.aspx.cs">
       <DependentUpon>Preferences.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -250,6 +290,13 @@
     <Compile Include="Admin\UserControls\CategoryLinkList.ascx.designer.cs">
       <DependentUpon>CategoryLinkList.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\UserControls\EntriesList.ascx.cs">
+      <DependentUpon>EntriesList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\UserControls\EntriesList.ascx.designer.cs">
+      <DependentUpon>EntriesList.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\UserControls\EntryEditor.ascx.cs">
       <DependentUpon>EntryEditor.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -267,6 +314,7 @@
     <Compile Include="Admin\WebUI\AdminPageTemplate.Master.designer.cs">
       <DependentUpon>AdminPageTemplate.Master</DependentUpon>
     </Compile>
+    <Compile Include="Admin\WebUI\AdminUrlHelper.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\IOpmlItemCollection.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\IPageLocationCollection.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\OpmlItemCollection.cs" />
@@ -297,13 +345,6 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\WebUI\Utilities.cs" />
-    <Compile Include="Admin\EditPosts.aspx.cs">
-      <DependentUpon>EditPosts.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\EditPosts.aspx.designer.cs">
-      <DependentUpon>EditPosts.aspx</DependentUpon>
-    </Compile>
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -951,6 +992,8 @@
     <Content Include="transform.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\Articles\Default.aspx" />
+    <Content Include="Admin\Articles\Edit.aspx" />
     <Content Include="Admin\Comments.aspx">
       <SubType>Form</SubType>
     </Content>
@@ -972,6 +1015,8 @@
     <Content Include="Admin\license.txt" />
     <Content Include="Admin\Options.aspx" />
     <Content Include="Admin\Password.aspx" />
+    <Content Include="Admin\Posts\Default.aspx" />
+    <Content Include="Admin\Posts\Edit.aspx" />
     <Content Include="Admin\Preferences.aspx" />
     <Content Include="Admin\Referrers.aspx" />
     <Content Include="Admin\Resources\admin.css" />
@@ -1007,8 +1052,8 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="Admin\UserControls\CategoryLinkList.ascx" />
+    <Content Include="Admin\UserControls\EntriesList.ascx" />
     <Content Include="Admin\UserControls\EntryEditor.ascx" />
-    <Content Include="Admin\EditPosts.aspx" />
     <Content Include="Admin\Credits.aspx" />
     <Content Include="App_Data\Subtext2.mdf">
     </Content>
@@ -2082,6 +2127,8 @@
     <Content Include="Log4Net.config" />
     <Content Include="Install\InstallTemplate.Master" />
     <Content Include="Images\IdenticonHandler.ashx" />
+    <Content Include="Admin\Posts\Posts.Master" />
+    <Content Include="Admin\Articles\Articles.Master" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />
