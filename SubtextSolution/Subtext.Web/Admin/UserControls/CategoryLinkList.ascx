@@ -5,7 +5,7 @@
         <ul id="LinksCategories" class="categoriesList">        
     </HeaderTemplate>
     <ItemTemplate>
-            <li><a href="<%# DataBinder.Eval(Container.DataItem, "Url")%>" title="category"><%# DataBinder.Eval(Container.DataItem, "Title")%></a></li>
+            <li><a href="<%# DataBinder.Eval(Container.DataItem, "Url")%>" title="category"><%# Eval("Title")%></a></li>
     </ItemTemplate>
     <FooterTemplate>
         </ul>        

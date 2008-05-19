@@ -16,6 +16,15 @@ namespace Subtext.Web.Admin.WebUI
 		{
 		}
 
+        public AdminUrlHelper Url 
+        {
+            get 
+            {
+                return urlHelper;
+            }
+        }
+        AdminUrlHelper urlHelper = new AdminUrlHelper();
+
 		/// <summary>
 		/// Adds a link button to the list of possible actions.
 		/// </summary>

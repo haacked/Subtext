@@ -157,12 +157,12 @@ namespace UnitTests.Subtext.Framework.Format
 			postEntry.Id = 123;
 
 			string editPostUrl = UrlFormats.GetEditLink(postEntry);
-			Assert.AreEqual("~/Admin/EditPosts.aspx?PostID=123", editPostUrl, "Expected blog post to go to EditPosts.aspx");
+			Assert.AreEqual("~/Admin/Posts/Edit.aspx?PostID=123", editPostUrl, "Expected blog post to go to Posts/Edit.aspx");
 
 			Entry articleEntry = new Entry(PostType.Story);
 			articleEntry.Id = 456;
 			string editArticleUrl = UrlFormats.GetEditLink(articleEntry);
-			Assert.AreEqual("~/Admin/EditArticles.aspx?PostID=456", editArticleUrl, "Expected blog post to go to EditPosts.aspx");
+			Assert.AreEqual("~/Admin/Articles/Edit.aspx?PostID=456", editArticleUrl, "Expected blog post to go to EditArticles.aspx");
 		}
 
 		[RowTest]

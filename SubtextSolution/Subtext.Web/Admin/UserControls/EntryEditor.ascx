@@ -2,96 +2,13 @@
 <%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+<%@ Register TagPrefix="st" Src="~/Admin/UserControls/EntriesList.ascx" TagName="EntriesList" %>
 <%@ Import Namespace = "Subtext.Web.Admin" %>
-
-
 
 <ANW:MessagePanel id="Messages" runat="server" />
 
-<ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True">
-	<asp:Repeater id="rprSelectionList" runat="server">
-		<HeaderTemplate>
-			<table id="Listing" class="listing highlightTable" cellspacing="0" cellpadding="0" border="0" style="<%= CheckHiddenStyle() %>">
-				<tr>
-					<th>Description</th>
-					<th width="50">Active</th>
-					<th width="75">Web Views</th>
-					<th width="75">Agg Views</th>
-					<th width="50">Referrals</th>
-					<th width="50">&nbsp;</th>
-					<th width="50">&nbsp;</th>
-				</tr>
-		</HeaderTemplate>
-		<ItemTemplate>
-			<tr>
-				<td>
-				    <asp:HyperLink runat="server" NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "FullyQualifiedUrl") %>' ToolTip="View Entry" >
-				        <%# DataBinder.Eval(Container.DataItem, "Title") %></asp:HyperLink>
-				</td>
-				<td>
-					<%# DataBinder.Eval(Container.DataItem, "IsActive") %>
-				</td>												
-				<td>
-					<%# DataBinder.Eval(Container.DataItem, "WebCount") %>
-				</td>
-				<td>
-					<%# DataBinder.Eval(Container.DataItem, "AggCount") %>
-				</td>				
-				<td>
-					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "Id") %>" title="View Referrals">View</a>
-				</td>				
-				<td>
-					<asp:LinkButton id="lnkEdit" CausesValidation="False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
-				</td>
-				<td>
-					<asp:LinkButton id="lnkDelete" CausesValidation="False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
-				</td>
-			</tr>
-		</ItemTemplate>
-		<AlternatingItemTemplate>
-			<tr class="alt">
-				<td>
-					<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "FullyQualifiedUrl") %>' ToolTip="View Entry" >
-				        <%# DataBinder.Eval(Container.DataItem, "Title") %></asp:HyperLink>
-				</td>
-				<td>
-					<%# DataBinder.Eval(Container.DataItem, "IsActive") %>
-				</td>
-				<td>
-					<%# DataBinder.Eval(Container.DataItem, "WebCount") %>
-				</td>
-				<td>
-					<%# DataBinder.Eval(Container.DataItem, "AggCount") %>
-				</td>					
-				<td>
-					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "Id") %>" title="View Referrals">View</a>
-				</td>				
-				<td>
-					<asp:LinkButton id="lnkEditAlt" CausesValidation="False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
-				</td>
-				<td>
-					<asp:LinkButton id="lnkDeleteAlt" CausesValidation="False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
-				</td>
-			</tr>
-		</AlternatingItemTemplate>
-		<FooterTemplate>
-			</table>
-		</FooterTemplate>
-	</asp:Repeater>
-	
-	<p id="NoMessagesLabel" runat="server" visible="false">No entries found.</p>
-		
-	<st:PagingControl id="resultsPager" runat="server" 
-			PrefixText="<div>Goto page</div>" 
-			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
-			UrlFormat="EditPosts.aspx?pg={0}" 
-			CssClass="Pager" />
-	<br class="clear" />
-</ANW:AdvancedPanel>
-
 <ANW:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle" Collapsible="False" HeaderText="Edit Post">
 	<div id="entry-editor" class="Edit">
-		<!-- DEBUG -->
 		<p class="Label"><asp:HyperLink id="hlEntryLink" Runat="server" /></p>
 		
 		<label for="Editor_Edit_txbTitle" accesskey="t">Post <u>T</u>itle&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title" /></label>
@@ -176,7 +93,7 @@
         var msgPanel = $('#messagePanel');
         var msgPanelWrap = msgPanel.parent();
 
-        function ValidatorEnclusureEnable(enabled)
+        function ValidatorEnclosureEnable(enabled)
         {
             ValidatorEnable($("#<%= valEncUrlRequired.ClientID %>")[0], enabled);
             ValidatorEnable($("#<%= valEncSizeRequired.ClientID %>")[0], enabled);
@@ -186,9 +103,9 @@
 
         function toggleOtherMimeType(elem)
         {
-            if(elem!=undefined) 
+            if(elem != undefined) 
             {
-                if(elem.value=="other")
+                if(elem.value == "other")
                 {
                     $("#<%= txbEnclosureOtherMimetype.ClientID %>").show();
                     ValidatorEnable($("#<%= valEncOtherMimetypeRequired.ClientID %>")[0], true);
@@ -204,14 +121,22 @@
         function enclosureEnabled()
         {
 
-            if( $("#<%= txbEnclosureTitle.ClientID %>").val()!="")
+            if( $("#<%= txbEnclosureTitle.ClientID %>").val() != "")
+            {
                 return true;
-            if( $("#<%= txbEnclosureUrl.ClientID %>").val()!="")
+            }
+            if( $("#<%= txbEnclosureUrl.ClientID %>").val() != "")
+            {
                 return true;
-            if( $("#<%= txbEnclosureSize.ClientID %>").val()!="")
+            }
+            if( $("#<%= txbEnclosureSize.ClientID %>").val() != "")
+            {
                 return true;
-            if( $("#<%= ddlMimeType.ClientID %>").val()!="none")
+            }
+            if( $("#<%= ddlMimeType.ClientID %>").val() != "none")
+            {
                 return true;
+            }
             return false;
         }
         
@@ -221,11 +146,11 @@
             {
                 if(enclosureEnabled())
                 {
-                    ValidatorEnclusureEnable(true);
+                    ValidatorEnclosureEnable(true);
                 }
                 else
                 {
-                    ValidatorEnclusureEnable(false);
+                    ValidatorEnclosureEnable(false);
                 }
                 toggleOtherMimeType($("#<%= ddlMimeType.ClientID %>")[0]);
             }

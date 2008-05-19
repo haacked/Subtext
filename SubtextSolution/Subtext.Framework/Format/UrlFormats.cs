@@ -396,9 +396,9 @@ namespace Subtext.Framework.Format
 			
 			string url = (String.IsNullOrEmpty(app)) ? "~" : "~/" + app;
 			if(entry.PostType == PostType.BlogPost)
-				url += "/Admin/EditPosts.aspx?PostID=" + entry.Id;
+				url += "/Admin/Posts/Edit.aspx?PostID=" + entry.Id + "&return-to-post=true";
 			else if(entry.PostType == PostType.Story)
-				url += "/Admin/EditArticles.aspx?PostID=" + entry.Id;
+				url += "/Admin/Articles/Edit.aspx?PostID=" + entry.Id + "&return-to-post=true";
 			else
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Post type {0} not expected to have an edit link.", entry.PostType));
 			return url;

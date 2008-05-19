@@ -234,7 +234,7 @@ namespace Subtext.Web.UI.Controls
 						//We'll slap on our little pencil icon.
 						editLink.ImageUrl = Config.CurrentBlog.VirtualDirectoryRoot + "Images/edit.gif";
 						ControlHelper.SetTitleIfNone(editLink, "Click to edit this entry.");
-						editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
+                        editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
 					}
 				}
 				else

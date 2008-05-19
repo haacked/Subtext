@@ -23,42 +23,6 @@ namespace Subtext.Web.Admin.UserControls {
         protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
         
         /// <summary>
-        /// Results control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Results;
-        
-        /// <summary>
-        /// rprSelectionList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rprSelectionList;
-        
-        /// <summary>
-        /// NoMessagesLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl NoMessagesLabel;
-        
-        /// <summary>
-        /// resultsPager control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Subtext.Web.Controls.PagingControl resultsPager;
-        
-        /// <summary>
         /// Edit control.
         /// </summary>
         /// <remarks>

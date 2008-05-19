@@ -38,7 +38,7 @@ namespace Subtext.Web.Admin.UserControls
                 }
                 else 
                 {
-                    this.categoryLinks.Add(new LinkCategoryLink("All Categories", Page.Request.Url.LocalPath));
+                    this.categoryLinks.Add(new LinkCategoryLink("All Categories", "Default.aspx"));
                 }
 
                 if (this.catType != CategoryType.None)
@@ -46,7 +46,7 @@ namespace Subtext.Web.Admin.UserControls
                     ICollection<LinkCategory> categories = Links.GetCategories(this.catType, ActiveFilter.None);
                     foreach (LinkCategory current in categories)
                     {
-                        this.categoryLinks.Add(new LinkCategoryLink(current.Title, string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}&{3}={4}", Page.Request.Url.LocalPath, QRYSTR_CATEGORYFILTER, current.Id, QRYSTR_CATEGORYTYPE, this.catType)));
+                        this.categoryLinks.Add(new LinkCategoryLink(current.Title, string.Format(System.Globalization.CultureInfo.InvariantCulture, "Default.aspx?{0}={1}&{2}={3}", QRYSTR_CATEGORYFILTER, current.Id, QRYSTR_CATEGORYTYPE, this.catType)));
                     }
                 }
             }

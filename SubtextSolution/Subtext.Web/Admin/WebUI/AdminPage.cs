@@ -46,7 +46,7 @@ namespace Subtext.Web.Admin.Pages
 		{
             if (this.Page.Master != null)
             {
-                this.body = this.Page.Master.FindControl("AdminSection") as HtmlGenericControl;
+                this.body = AdminMasterPage.FindControl("AdminSection") as HtmlGenericControl;
             }
             
 			if(!IsPostBack)
@@ -70,7 +70,12 @@ namespace Subtext.Web.Admin.Pages
 	    {
 	        get
 	        {
-                return (AdminPageTemplate)this.Page.Master;
+                AdminPageTemplate master = this.Master as AdminPageTemplate;
+                if (master == null && this.Master != null && this.Master.Master != null) 
+                {
+                    master = this.Master.Master as AdminPageTemplate;
+                }
+                return master;
 	        }
 	    }
 
