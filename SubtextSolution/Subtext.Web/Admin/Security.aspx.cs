@@ -17,13 +17,14 @@ using System;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Security;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Pages
 {
 	/// <summary>
 	/// Summary description for Password.
 	/// </summary>
-	public partial class Password : AdminOptionsPage
+	public partial class Security : AdminOptionsPage
 	{
 		protected Label Message;
 		protected ValidationSummary ValidationSummary1;
@@ -48,7 +49,20 @@ namespace Subtext.Web.Admin.Pages
 		}
 		#endregion
 
-		protected void btnSave_Click(object sender, EventArgs e)
+        protected override void BindLocalUI()
+        {
+            tbOpenIDURL.Text = Config.CurrentBlog.OpenIDUrl;
+            base.BindLocalUI();
+        }
+
+        protected void btnSaveOptions_Click(object sender, EventArgs e)
+        {
+            BlogInfo info = Config.CurrentBlog;
+            info.OpenIDUrl = tbOpenIDURL.Text;
+            Config.UpdateConfigData(info);
+        }
+
+        protected void btnChangePassword_Click(object sender, EventArgs e)
 		{
 			const string failureMessage = "Your password can not be updated";
 			if(Page.IsValid)

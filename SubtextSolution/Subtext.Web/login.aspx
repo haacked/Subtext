@@ -1,4 +1,5 @@
 <%@ Page Language="C#" EnableTheming="false"  EnableViewState="False" Codebehind="login.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Pages.login" %>
+<%@ Register Assembly="DotNetOpenId" Namespace="DotNetOpenId.RelyingParty" TagPrefix="cc1" %>  
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -32,6 +33,11 @@
 				    <p class="forgotPassword">
 					    <a href="ForgotPassword.aspx" title="Click to reset your password" tabindex="5">Forgot Your Password?</a>
 				    </p>
+				</fieldset>
+				<fieldset>
+				    <legend>Sign In with OpenID</legend>
+                    <cc1:openidlogin id="btnOpenIdLogin" cssclass="openidLogin" runat="server" RequestEmail="Require" RequestNickname="Request" RegisterVisible="false"   
+                         RememberMeVisible="True" PolicyUrl="~/PrivacyPolicy.aspx" TabIndex="1" OnLoggedIn="btnOpenIdLogin_LoggedIn"/>
 				</fieldset>
 			</div>
 		</form>

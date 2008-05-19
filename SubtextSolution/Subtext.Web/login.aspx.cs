@@ -21,6 +21,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using log4net;
 using Subtext.Framework.Security;
+using DotNetOpenId.RelyingParty;
 
 namespace Subtext.Web.Pages
 {
@@ -30,6 +31,7 @@ namespace Subtext.Web.Pages
 	public partial class login : System.Web.UI.Page
 	{
 		private readonly static ILog log = new Framework.Logging.Log();
+        private const string loginFailedMessage = "That&#8217;s not it<br />";
 
 		#region Declared Controls
 		#endregion
@@ -67,7 +69,7 @@ namespace Subtext.Web.Pages
 				if(!AuthenticateHostAdmin())
 				{
 					log.Warn("HostAdmin login failure for " + tbUserName.Text);
-					Message.Text = "That&#8217;s not it<br />";
+					Message.Text = loginFailedMessage;
 					return;
 				}
 				else
@@ -86,82 +88,21 @@ namespace Subtext.Web.Pages
 				else
 				{
 					log.Warn("Admin login failure for " + tbUserName.Text);
-					Message.Text = "That&#8217;s not it<br />";
+                    Message.Text = loginFailedMessage;
 				}
 			}
 		}
 
-		protected void lbSendPassword_Click(object sender, EventArgs e)
-		{
-			BlogInfo info = Config.CurrentBlog;
-			bool messageSent = false;
-			string password;
+        protected void btnOpenIdLogin_LoggedIn(object sender, OpenIdEventArgs e)
+        {
+            e.Cancel = true;
+            if (e.Response.Status == AuthenticationStatus.Authenticated &&
+                SecurityHelper.Authenticate(e.ClaimedIdentifier, chkRememberMe.Checked))
+            {
+                ReturnToUrl(Config.CurrentBlog.AdminHomeVirtualUrl);
+            }
+        } 
 
-			if (info != null)
-			{
-				//Try Admin login.
-				if (String.Equals(tbUserName.Text, info.UserName, StringComparison.InvariantCultureIgnoreCase))
-				{
-					if (info.IsPasswordHashed)
-					{
-						password = SecurityHelper.ResetPassword();
-					}
-					else
-					{
-						password = info.Password;
-					}
-
-					log.Warn("Admin password was reset for " + info.UserName);
-
-					string message = "Here is your blog login information:\nUserName: {0}\nPassword: {1}\n\nNote: your old password will no longer work.";
-					EmailProvider mail = EmailProvider.Instance();
-
-					string To = info.Email;
-					string From = mail.AdminEmail;
-					string Subject = "Login Credentials";
-					string Body = string.Format(message, info.UserName, password);
-					mail.Send(To, From, Subject, Body);
-					Message.Text = "Login Credentials Sent<br />";
-					messageSent = true;
-				}
-			}
-
-			if (String.Equals(tbUserName.Text, HostInfo.Instance.HostUserName, StringComparison.InvariantCultureIgnoreCase))
-			{
-				//Try Host Admin login.
-				if (Config.Settings.UseHashedPasswords)
-					password = SecurityHelper.ResetHostAdminPassword();
-				else
-					password = HostInfo.Instance.Password;
-
-				log.Warn("HostAdmin password was reset for " + HostInfo.Instance.HostUserName);
-
-				string message = "Here is your Host Admin Login information:\nUserName: {0}\nPassword: {1}\n\nPlease disregard this message if you did not request it.";
-				EmailProvider mail = EmailProvider.Instance();
-
-				string hostAdminEmail = ConfigurationManager.AppSettings["HostEmailAddress"];
-				if (hostAdminEmail == null || hostAdminEmail.Length == 0 || hostAdminEmail.IndexOf('@') <= 0) //Need better email validation. I know!
-				{
-					log.Debug("No Host Email Address specified in Web.config");
-					Message.Text = "Sorry, but I don&#8217;t know where to send the email.  Please specify a Host Email Address in Web.config. It is the AppSetting &#8220;HostEmailAddress&#8221;";
-					return;
-				}
-				string To = hostAdminEmail;
-				string From = mail.AdminEmail;
-				string Subject = "Subtext Host Admin Login Credentials";
-				string Body = string.Format(message, HostInfo.Instance.HostUserName, password);
-				mail.Send(To, From, Subject, Body);
-				Message.Text = "Login Credentials Sent<br />";
-				messageSent = true;
-			}
-
-			if (!messageSent)
-			{
-				log.Warn("Failed request to reset password for " + tbUserName.Text);
-				Message.Text = "I don't know you";
-			}
-		}
-		
 		private void ReturnToUrl(string defaultReturnUrl)
 		{
 			if(Request.QueryString["ReturnURL"] != null && Request.QueryString["ReturnURL"].Length > 0)

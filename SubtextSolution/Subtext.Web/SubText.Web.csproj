@@ -42,6 +42,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Subtext.Framework\ExternalDependencies\BlogML.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetOpenId, Version=2.2.0.8121, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalDependencies\DotNetOpenId.dll</HintPath>
+    </Reference>
     <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87" />
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Identicon, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -213,12 +217,12 @@
     <Compile Include="Admin\Options.aspx.designer.cs">
       <DependentUpon>Options.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Password.aspx.cs">
-      <DependentUpon>Password.aspx</DependentUpon>
+    <Compile Include="Admin\Security.aspx.cs">
+      <DependentUpon>Security.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Password.aspx.designer.cs">
-      <DependentUpon>Password.aspx</DependentUpon>
+    <Compile Include="Admin\Security.aspx.designer.cs">
+      <DependentUpon>Security.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Posts\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -838,8 +842,8 @@
       <DependentUpon>Options.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Password.aspx.resx">
-      <DependentUpon>Password.aspx.cs</DependentUpon>
+    <EmbeddedResource Include="Admin\Security.aspx.resx">
+      <DependentUpon>Security.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Admin\Preferences.aspx.resx">
@@ -1014,7 +1018,7 @@
     <Content Include="Admin\ImportExport.aspx" />
     <Content Include="Admin\license.txt" />
     <Content Include="Admin\Options.aspx" />
-    <Content Include="Admin\Password.aspx" />
+    <Content Include="Admin\Security.aspx" />
     <Content Include="Admin\Posts\Default.aspx" />
     <Content Include="Admin\Posts\Edit.aspx" />
     <Content Include="Admin\Preferences.aspx" />
@@ -2425,6 +2429,9 @@
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:2732/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

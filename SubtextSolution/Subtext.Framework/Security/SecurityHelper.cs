@@ -58,6 +58,41 @@ namespace Subtext.Framework.Security
 			return true;
 		}
 
+        /// <summary>
+        /// Check to see if the supplied OpenID claim is valid for the current blog. If so, 
+        /// Set the user's FormsAuthentication Ticket This method will handle passwords for 
+        /// both hashed and non-hashed configurations
+        /// We're comparing URI objects rather than using simple string compare because
+        /// functionally equivalent URI's may not pass string comparaisons, e.g.
+        /// such as http://example.myopenid.com/ and http://example.myopenid.com (trailing /)
+        /// </summary>
+        /// <param name="claimedIdenftifier">OpenID claimed identifier URI</param>
+        /// <param name="persist">If valid, should we persist the login</param>
+        /// <returns>bool indicating successful login</returns>
+        public static bool Authenticate(string claimedIdentifier, bool persist)
+        {
+            BlogInfo currentBlog = Config.CurrentBlog;
+            //If the current blog doesn't have a valid OpenID URI, must fail
+            if(!Uri.IsWellFormedUriString(currentBlog.OpenIDUrl, UriKind.Absolute))
+                return false;
+
+            //If the cliamed identifier isn't a valid OpenID URI, must fail
+            if (!Uri.IsWellFormedUriString(claimedIdentifier, UriKind.Absolute))
+                return false;
+
+            Uri currentBlogClaimUri = new Uri(currentBlog.OpenIDUrl);
+            Uri claimedUri = new Uri(claimedIdentifier);
+
+            if (claimedUri.Host != currentBlogClaimUri.Host ||
+                claimedUri.AbsolutePath != currentBlogClaimUri.AbsolutePath ||
+                claimedUri.Query != currentBlogClaimUri.Query)
+                return false;
+
+            log.Debug("SetAuthenticationTicket-Admins via OpenID for " + currentBlog.UserName);
+            SetAuthenticationTicket(currentBlog.UserName, persist, "Admins");
+            return true;
+        }
+
 		/// <summary>
 		/// Authenticates the host admin.
 		/// </summary>
