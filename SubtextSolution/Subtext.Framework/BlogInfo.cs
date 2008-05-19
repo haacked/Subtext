@@ -626,6 +626,28 @@ namespace Subtext.Framework
             set { _password = value; }
         }
 
+        private string _openIDUrl;
+        /// <summary>
+        /// Gets or sets the OpenIDUrl.
+        /// </summary>
+        /// <value></value>
+        public string OpenIDUrl
+        {
+            get { return _openIDUrl; }
+            set { _openIDUrl = value; }
+        }
+
+        private string _cardSpaceHash;
+        /// <summary>
+        /// Gets or sets the CardSpaceHash.
+        /// </summary>
+        /// <value></value>
+        public string CardSpaceHash
+        {
+            get { return _cardSpaceHash; }
+            set { _cardSpaceHash = value; }
+        }
+
         private string _username;
         /// <summary>
         /// Gets or sets the user name for the owner of the blog.

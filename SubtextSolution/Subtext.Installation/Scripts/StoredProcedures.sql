@@ -1238,6 +1238,8 @@ BEGIN
 		, Title AS BlogGroupTitle
 		, MobileSkin
 		, MobileSkinCssFile
+		, OpenIDUrl
+		, CardSpaceHash
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 END
 ELSE IF (@Strict = 0) AND (1 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Config] WHERE Host = @Host))
@@ -1278,6 +1280,8 @@ BEGIN
 		, bgroup.Title AS BlogGroupTitle
 		, MobileSkin
 		, MobileSkinCssFile
+		, OpenIDUrl
+		, CardSpaceHash
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 		LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON bgroup.Id = [subtext_Config].BlogGroupId
 	WHERE	Host = @Host
@@ -1320,6 +1324,8 @@ BEGIN
 		, bgroup.Title AS BlogGroupTitle
 		, MobileSkin
 		, MobileSkinCssFile
+		, OpenIDUrl
+		, CardSpaceHash
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 		LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
 bgroup.Id = [subtext_Config].BlogGroupId
@@ -3220,6 +3226,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 	, @BlogGroupId int
 	, @MobileSkin nvarchar(50) = NULL
 	, @MobileSkinCssFile nvarchar(100) = NULL
+	, @OpenIDUrl varchar(255) = NULL
+	, @CardSpaceHash nvarchar(512) = NULL
 )
 AS
 UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
@@ -3253,6 +3261,8 @@ Set
 	, BlogGroupId =  @BlogGroupId
 	, MobileSkin = @MobileSkin
 	, MobileSkinCssFile = @MobileSkinCssFile
+	, OpenIDUrl = @OpenIDUrl
+	, CardSpaceHash = @CardSpaceHash
 WHERE BlogId = @BlogId
 
 GO

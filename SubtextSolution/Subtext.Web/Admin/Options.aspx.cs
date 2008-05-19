@@ -42,7 +42,7 @@ namespace Subtext.Web.Admin.Pages
 			HyperLink lnkSyndication = Utilities.CreateHyperLink("Syndication", "Syndication.aspx");
 			HyperLink lnkComments = Utilities.CreateHyperLink("Comments", "Comments.aspx");
 			HyperLink linkKeyWords = Utilities.CreateHyperLink("Key Words", "EditKeyWords.aspx");
-			HyperLink lnkPasswords = Utilities.CreateHyperLink("Password", "Password.aspx");
+			HyperLink lnkSecurity = Utilities.CreateHyperLink("Security", "Security.aspx");
 			
 
 			// Add the buttons to the PageContainer.
@@ -53,7 +53,7 @@ namespace Subtext.Web.Admin.Pages
             AdminMasterPage.AddToActions(lnkSyndication);
             AdminMasterPage.AddToActions(lnkComments);
             AdminMasterPage.AddToActions(linkKeyWords);
-            AdminMasterPage.AddToActions(lnkPasswords);
+            AdminMasterPage.AddToActions(lnkSecurity);
 		}
 
         protected virtual void BindLocalUI()

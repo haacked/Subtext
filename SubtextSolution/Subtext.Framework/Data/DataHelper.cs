@@ -543,6 +543,8 @@ namespace Subtext.Framework.Data
 			info.Id = ReadInt32(reader, "BlogId");
 			info.Email = ReadString(reader, "Email");
 			info.Password = ReadString(reader, "Password");
+            info.OpenIDUrl = ReadString(reader, "OpenIDUrl");
+            info.CardSpaceHash = ReadString(reader, "CardSpaceHash");
 
 			info.SubTitle = ReadString(reader, "SubTitle");
 			info.Title = ReadString(reader, "Title");
@@ -575,6 +577,9 @@ namespace Subtext.Framework.Data
             info.MobileSkin = new SkinConfig();
             info.MobileSkin.TemplateFolder = ReadString(reader, "MobileSkin");
             info.MobileSkin.SkinStyleSheet = ReadString(reader, "MobileSkinCssFile");
+
+            info.OpenIDUrl = ReadString(reader, "OpenIDUrl");
+            info.CardSpaceHash = ReadString(reader, "CardSpaceHash");
 			
 			info.LicenseUrl = ReadString(reader, "LicenseUrl");
 			

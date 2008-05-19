@@ -1377,6 +1377,8 @@ namespace Subtext.Framework.Data
 					,DataHelper.MakeInParam("@BlogGroupId", SqlDbType.Int, 4, info.BlogGroupId)
                     ,DataHelper.MakeInParam("@MobileSkin", SqlDbType.NVarChar, 50, DataHelper.CheckNull(info.MobileSkin.TemplateFolder)) 
                     ,DataHelper.MakeInParam("@MobileSkinCssFile", SqlDbType.NVarChar, 50, DataHelper.CheckNull(info.MobileSkin.SkinStyleSheet)) 
+                    ,DataHelper.MakeInParam("@OpenIDUrl", SqlDbType.VarChar, 255, info.OpenIDUrl) 
+                    ,DataHelper.MakeInParam("@CardSpaceHash", SqlDbType.NVarChar, 512, info.CardSpaceHash) 
 				};
 
 			return NonQueryBool("subtext_UpdateConfig", p);

@@ -31,3 +31,32 @@ BEGIN
 	)
 END
 GO
+
+/*----------- {Login / Identity columns} ------------*/
+/* Add the OpenID Url column */
+IF NOT EXISTS 
+(
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+    WHERE   TABLE_NAME = 'subtext_Config' 
+    AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+    AND COLUMN_NAME = 'OpenIDUrl'
+)
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+		ADD [OpenIDUrl] [nvarchar] (255) NULL
+END
+GO
+
+/* Add the OpenID Url column */
+IF NOT EXISTS 
+(
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+    WHERE   TABLE_NAME = 'subtext_Config' 
+    AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+    AND COLUMN_NAME = 'CardSpaceHash'
+)
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+		ADD CardSpaceHash [nvarchar] (512) NULL
+END
+GO

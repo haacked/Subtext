@@ -2,7 +2,6 @@
 {
  background: #fff;
 }
-
 span.rememberMe
 {
 	display: block;
@@ -21,7 +20,7 @@ span.rememberMe
 
 #loginPage fieldset
 {
-	width: 270px;
+	width: 450px;
 	padding: 15px 50px;
 }
 

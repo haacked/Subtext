@@ -33,7 +33,7 @@
 		    <a href="EditKeyWords.aspx">Key Words</a>: Auto transform specific words/patterns to links.
 	    </p>
 	    <p>
-		    <a href="Password.aspx">Password</a>: Update your password.
+		    <a href="Security.aspx">Security</a>: Update your password or change your security options.
 	    </p>		
 	    <br class="clear" />
     </st:AdvancedPanel>
