@@ -70,15 +70,13 @@
 	    
 	    <div id="main">
 	        <div id="sidebar">
-                <h2>
-                    <asp:ContentPlaceHolder ID="actionsHeading" runat="server">Actions</asp:ContentPlaceHolder>
-                </h2>
+                
+                <asp:ContentPlaceHolder ID="actionsHeading" runat="server">Actions</asp:ContentPlaceHolder>
+                
 		        <div>
 			        <st:LinkList id="LinksActions" runat="server" />
 		        </div>
-		        <h2>
-			        <asp:ContentPlaceHolder ID="categoryListHeading" runat="server" />
-		        </h2>
+		        <asp:ContentPlaceHolder ID="categoryListHeading" runat="server" />
 		        <div>
 			        <asp:ContentPlaceHolder ID="categoryListLinks" runat="server" />
 		        </div>

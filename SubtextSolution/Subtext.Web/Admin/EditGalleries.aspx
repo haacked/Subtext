@@ -1,11 +1,10 @@
 <%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Edit Galleries" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="EditGalleries.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditGalleries" %>
 <%@ Register TagPrefix="st" TagName="CategoryLinks" Src="~/Admin/UserControls/CategoryLinkList.ascx" %>
 
-<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
-</asp:Content>
+<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server" />
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
-    Galleries
+    <h2>Galleries</h2>
 </asp:Content>
 
 <asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">

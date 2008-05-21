@@ -2,13 +2,12 @@
 
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
-    Actions</asp:Content>
-
-<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
+    <h2>Actions</h2>
 </asp:Content>
 
-<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
-</asp:Content>
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server" />
+
+<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server" />
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
     <st:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Options" HeaderCssClass="CollapsibleHeader"

@@ -2,9 +2,14 @@
     AutoEventWireup="true" Codebehind="Credits.aspx.cs" Inherits="Subtext.Web.Admin.WebUI.Credits"
     Title="3rd Party Credits" %>
 
-<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">Credits</asp:Content>
-<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server"></asp:Content>
+<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+    <h2>Credicts</h2>
+</asp:Content>
+
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server" />
+
 <asp:Content ID="Content3" ContentPlaceHolderID="categoryListLinks" runat="server"></asp:Content>
+
 <asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="pageContent" runat="server">
     <div id="credits">
         <h1>3rd Party Credits &amp; Licenses</h1>
