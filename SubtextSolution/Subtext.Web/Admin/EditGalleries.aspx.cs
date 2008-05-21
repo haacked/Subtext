@@ -125,14 +125,12 @@ namespace Subtext.Web.Admin.Pages
 
 		private void ShowResults(bool collapsible)
 		{
-			Results.Collapsible = collapsible;
-			Results.Collapsed = false;
+			Results.Visible = true;
 		}
 
 		private void HideResults()
 		{
-			Results.Collapsible = true;
-			Results.Collapsed = true;
+			Results.Visible = false;
 		}
 
 		private void ShowImages()

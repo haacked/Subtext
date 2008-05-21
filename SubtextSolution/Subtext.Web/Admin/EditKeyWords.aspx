@@ -8,8 +8,8 @@
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
     <st:MessagePanel id="Messages" runat="server" />
-	<st:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
-		HeaderCssClass="CollapsibleHeader" HeaderText="KeyWords" LinkText="[toggle]" Collapsible="True">
+	<h2>Keywords</h2>
+	<asp:PlaceHolder id="Results" runat="server">
 		<asp:Repeater id="rprSelectionList" runat="server" OnItemCommand="rprSelectionList_ItemCommand">
 			<HeaderTemplate>
 				<table id="Listing" class="listing highlightTable" cellspacing="0" cellpadding="0" border="0" style="<%= CheckHiddenStyle() %>">
@@ -75,9 +75,10 @@
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
 			UrlFormat="EditKeyWords.aspx?pg={0}" 
 			CssClass="Pager" />
-		<br class="clear" />
-	</st:AdvancedPanel>
-	<asp:Button id="btnCreate" runat="server" CssClass="buttonSubmit" Text="Create New" OnClick="btnCreate_Click" />
+	
+	    <asp:Button id="btnCreate" runat="server" CssClass="buttonSubmit" Text="Create New" OnClick="btnCreate_Click" />
+	</asp:PlaceHolder>
+	
 	<st:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="false" HeaderCssClass="CollapsibleTitle"
 		HeaderText="Edit KeyWord" Collapsible="False">
 		<fieldset class="section">

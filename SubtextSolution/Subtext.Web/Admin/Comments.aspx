@@ -10,13 +10,12 @@
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
     <st:MessagePanel id="Messages" runat="server" />
-    <st:AdvancedPanel id="Edit" runat="server" DisplayHeader="true" BodyCssClass="Edit" HeaderCssClass="CollapsibleHeader"
-	    HeaderText="Comments and Trackbacks" Collapsible="False">
-
+    <h2>Comments and Trackbacks Settings</h2>
+    <div class="section">
 		<fieldset title="feedback experience">
 			<legend>Feedback Options</legend>
 			<span class="checkbox">
-				<asp:CheckBox id="chkEnableComments" runat="server" Text="Enable Commenst" />
+				<asp:CheckBox id="chkEnableComments" runat="server" Text="Enable Comments" />
 			    <st:HelpToolTip id="HelpToolTip1" runat="server" HelpText="If checked, enables comments." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
 			</span>
 			
@@ -87,5 +86,5 @@
 	    <div>
 			<asp:Button id="lkbPost" runat="server" Text="Save" CssClass="buttonSubmit" />
 		</div>
-    </st:AdvancedPanel>
+    </div>
 </asp:Content>

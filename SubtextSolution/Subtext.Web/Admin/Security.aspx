@@ -11,8 +11,8 @@
 
 <asp:Content ID="passwordContent" ContentPlaceHolderID="pageContent" runat="server">
 	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
-	<st:AdvancedPanel id="Results" runat="server" HeaderText="Password" LinkStyle="Image"
-		DisplayHeader="false" HeaderCssClass="CollapsibleHeader" Collapsible="False">
+	<h2>Security</h2>
+	<div class="section">
 		<fieldset>
 		    <legend>Password</legend>
 				<label>Current Password
@@ -43,5 +43,5 @@
 				<asp:Button id="btnSaveOptions" runat="server" CssClass="buttonSubmit" Text="Save" onclick="btnSaveOptions_Click" />
 			</div>
 		</fieldset>
-	</st:AdvancedPanel>
+    </div>
 </asp:Content>

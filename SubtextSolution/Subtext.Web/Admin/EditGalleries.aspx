@@ -14,8 +14,9 @@
 <asp:Content ID="galleriesContainer" ContentPlaceHolderID="pageContent" runat="server">
 	<st:ScrollPositionSaver id="scrollsaver" runat="server" />
 	<st:MessagePanel id="Messages" runat="server" ErrorIconUrl="~/images/icons/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/images/icons/ico_info.gif" MessageCssClass="MessagePanel"></st:MessagePanel>
-	<st:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" HeaderText="Galleries" Collapsible="False" Collapsed="false">
-	
+	<h2>Galleries</h2>
+	<asp:PlaceHolder id="Results" runat="server">
+	    <div class="section">
 		<asp:DataGrid id="dgrSelectionList" runat="server" CssClass="listing highlightTable" GridLines="None" AutoGenerateColumns="False">
 			<AlternatingItemStyle CssClass="alt"></AlternatingItemStyle>
 				<HeaderStyle CssClass="Header"></HeaderStyle>
@@ -68,8 +69,8 @@
 				    </div>
 				</fieldset>
 			</st:AdvancedPanel>
-		
-		</st:AdvancedPanel>
+		    </div>
+		</asp:PlaceHolder>
 		
 		<!-- add/upload a new file -->
 		<ASP:Panel id="ImagesDiv" runat="server">

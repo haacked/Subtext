@@ -13,9 +13,7 @@
     
 <asp:Content ID="configurationOptions" ContentPlaceHolderID="pageContent" runat="server">
 	<st:MessagePanel id="Messages" runat="server" />
-	<div class="CollapsibleHeader">
-	    <span>Configure</span>
-	</div>
+	<h2>Configure</h2>
 	<div class="Edit" id="configure-form">
 		<asp:Panel runat="server" GroupingText="Main Settings" CssClass="options" >
 			

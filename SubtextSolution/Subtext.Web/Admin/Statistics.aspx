@@ -11,7 +11,7 @@
 </asp:Content>
 
 <asp:Content ID="statsContent" ContentPlaceHolderID="pageContent" runat="server">
-	<h1>Statistics</h1>
+	<h2>Statistics</h2>
 	<p>
 		<a href = "Referrers.aspx">Referrers</a>: See who is linking to you.
 	</p>

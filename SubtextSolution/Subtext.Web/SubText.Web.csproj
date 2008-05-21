@@ -1059,6 +1059,11 @@
     <Content Include="Admin\UserControls\EntriesList.ascx" />
     <Content Include="Admin\UserControls\EntryEditor.ascx" />
     <Content Include="Admin\Credits.aspx" />
+    <Content Include="App_Data\Subtext2.mdf">
+    </Content>
+    <Content Include="App_Data\Subtext2_log.ldf">
+      <DependentUpon>Subtext2.mdf</DependentUpon>
+    </Content>
     <Content Include="DTP.aspx" />
     <Content Include="ExternalDependencies\FreeTextBox.xml" />
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
@@ -2398,7 +2403,6 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Skins\Mobile\Images\" />
     <Folder Include="Skins\Mobile\Scripts\" />
     <Folder Include="Skins\Naked\Images\" />
