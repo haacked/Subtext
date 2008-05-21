@@ -10,30 +10,27 @@
 <asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server" />
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
-    <st:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Options" HeaderCssClass="CollapsibleHeader"
-	    DisplayHeader="true" BodyCssClass="Edit">
-	    <br />
-	    <p>
-		    <a href="Configure.aspx">Configure</a>: Manage your blog.
-	    </p>
-	    <p>
-		    <a href="Customize.aspx">Customize</a>: Customize your blog.
-	    </p>
-	    <p>
-		    <a href="Preferences.aspx">Preferences</a>: Set common preferences.
-	    </p>
-	    <p>
-		    <a href="Syndication.aspx">Syndication</a>: Manage your RSS (or ATOM) Feed.
-	    </p>
-	    <p>
-		    <a href="Comments.aspx">Comments</a>: Manage comment and trackback settings.
-	    </p>
-	    <p>
-		    <a href="EditKeyWords.aspx">Key Words</a>: Auto transform specific words/patterns to links.
-	    </p>
-	    <p>
-		    <a href="Security.aspx">Security</a>: Update your password or change your security options.
-	    </p>		
-	    <br class="clear" />
-    </st:AdvancedPanel>
+    <h2>Options</h2>
+    <dl>
+	    <dt><a href="Configure.aspx" title="Configure your blog">Configure</a>:</dt>
+	    <dd>Manage your blog</dd>
+        
+        <dt><a href="Customize.aspx" title="Customize your blog">Customize</a>:</dt>
+	    <dd>Customize your blog</dd>
+	   
+	    <dt><a href="Preferences.aspx" title="Manage Preferences">Preferences</a>:</dt>
+	    <dd>Set common preferences</dd>
+	    
+	    <dt><a href="Syndication.aspx" title="Edit syndication settings">Syndication</a>:</dt>
+	    <dd>Manage your RSS (or ATOM) Feed</dd>
+	   
+	    <dt><a href="Comments.aspx" title="Comment Settings">Comments</a>:</dt>
+	    <dd>Manage comment and trackback settings</dd>
+	    
+	    <dt><a href="EditKeyWords.aspx" title="Manage keywords">Key Words</a>:</dt>
+	    <dd>Auto transform specific words/patterns to links</dd>
+	   
+	    <dt><a href="Security.aspx" title="Control security">Security</a>:</dt>
+	    <dd>Update your password or change your security options</dd>
+    </dl>
 </asp:Content>

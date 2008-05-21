@@ -47,7 +47,7 @@ namespace Subtext.Web.Admin.Pages {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Results;
+        protected global::System.Web.UI.WebControls.PlaceHolder Results;
         
         /// <summary>
         /// dgrSelectionList control.

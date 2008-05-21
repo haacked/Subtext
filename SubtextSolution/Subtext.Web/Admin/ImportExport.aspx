@@ -11,8 +11,8 @@
 
 <asp:Content ID="importExportContent" ContentPlaceHolderID="pageContent" runat="server">
 	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
-	<st:AdvancedPanel id="Action" runat="server" BodyCssClass="Edit" DisplayHeader="true" HeaderCssClass="CollapsibleHeader"
-		HeaderText="Import/Export" Collapsible="False">
+	<h2>Import/Export</h2>
+	<div id="section">
 		<fieldset>
 			<legend>Import &amp; Export BlogML files.</legend>
 			<h4>Export to BlogML</h4>
@@ -56,5 +56,5 @@
 				</p>
 			</asp:Panel>
 		</fieldset>
-	</st:AdvancedPanel>
+	</div>
 </asp:Content>

@@ -94,10 +94,10 @@ h2 {
 
 h1, h2 {
     margin: 2px 0 8px 0;
-	color: #333;
-	background: #cacbcd;
-	border-bottom: 1px dashed #999;
-	border-top: 1px solid #999999;
+	color: #555;
+	background: #ecedef;
+	border-bottom: 1px dashed #ccc;
+	border-top: 1px solid #ccc;
 	font-weight: bold;
 	text-transform: uppercase;
 }
@@ -1009,4 +1009,36 @@ select.wide-dropdown
 
 #login-status a, #footer a {
     color: #F8D245;
+}
+
+/* --- dictionary ---*/
+dl 
+{
+    width: 41.1em;
+    line-height: 2em;
+    margin: 2em 0;
+    padding: 0;
+}
+
+dt 
+{
+    width: 6em;
+    float: left;
+    margin: 0;
+    padding: .5em;
+    border-top: 1px solid #999;
+    font-weight: bold;
+}
+
+/* commented backslash hack for mac-ie5 \*/
+dt { clear: both; }
+/* end hack */
+
+dd 
+{
+    float: left;
+    width: 24em;
+    margin: 0 0 0 0;
+    padding: .5em;
+    border-top: 1px solid #999;
 }

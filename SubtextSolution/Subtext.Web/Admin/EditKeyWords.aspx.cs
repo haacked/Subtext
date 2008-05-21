@@ -58,7 +58,6 @@ namespace Subtext.Web.Admin.Pages
 
 				this.resultsPager.PageSize = Preferences.ListingItemCount;
 				this.resultsPager.PageIndex = _resultsPageNumber;
-				Results.Collapsible = false;
 
 				BindList();
 				//BindImportExportCategories();
@@ -98,8 +97,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			KeyWord kw = KeyWords.GetKeyWord(KeyWordID);
 		
-			Results.Collapsed = true;
-			Results.Collapsible = true;
+			Results.Visible = false;
 			Edit.Visible = true;
 
 			txbTitle.Text = kw.Title;
@@ -169,7 +167,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 			finally
 			{
-				Results.Collapsible = false;
+				Results.Visible = true;
 			}
 		}
 
@@ -177,10 +175,8 @@ namespace Subtext.Web.Admin.Pages
 		{
 			KeyWordID = NullValue.NullInt32;
 
-			Results.Collapsible = showEdit;
-			Results.Collapsed = showEdit;
+			Results.Visible = !showEdit;
 			Edit.Visible = showEdit;
-
 			
 			txbTitle.Text = string.Empty;
 			txbText.Text = string.Empty;
@@ -190,7 +186,6 @@ namespace Subtext.Web.Admin.Pages
 			chkNewWindow.Checked = false;
 			chkFirstOnly.Checked = false;
 			chkCaseSensitive.Checked = false;
-
 		}
 
 		private void ConfirmDelete(int kwID, string kwWord)
