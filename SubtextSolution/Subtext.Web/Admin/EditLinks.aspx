@@ -15,59 +15,58 @@
 
 <asp:Content ID="linkContent" ContentPlaceHolderID="pageContent" runat="server">
 	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
-	<st:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
-		HeaderCssClass="CollapsibleHeader" HeaderText="Links" LinkText="[toggle]" Collapsible="True">
-		<asp:Repeater id="rprSelectionList" runat="server">
-			<HeaderTemplate>
-				<table id="Listing" class="listing highlightTable" cellspacing="0" cellpadding="0" border="0" style="<%= CheckHiddenStyle() %>">
-					<tr>
-						<th>Link Title</th>
-						<th width="50">Url</th>
-						<th width="50">&nbsp;</th>
-						<th width="50">&nbsp;</th>
-					</tr>
-			</HeaderTemplate>
-			<ItemTemplate>
+	<h2 id="headerLiteral" runat="server">Links</h2>
+	<asp:Repeater id="rprSelectionList" runat="server">
+		<HeaderTemplate>
+			<table id="Listing" class="listing highlightTable" cellspacing="0" cellpadding="0" border="0" style="<%= CheckHiddenStyle() %>">
 				<tr>
-					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Title") %>
-					</td>
-					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Url") %>
-					</td>
-					<td>
-						<asp:linkbutton id="lnkEdit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" /></td>
-					<td>
-						<asp:linkbutton id="lnkDelete" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" /></td>
+					<th>Link Title</th>
+					<th width="50">Url</th>
+					<th width="50">&nbsp;</th>
+					<th width="50">&nbsp;</th>
 				</tr>
-			</ItemTemplate>
-			<AlternatingItemTemplate>
-				<tr class="alt">
-					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Title") %>
-					</td>
-					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Url") %>
-					</td>
-					<td>
-						<asp:linkbutton id="lnkEdit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
-					</td>
-					<td>
-						<asp:linkbutton id="lnkDelete" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
-					</td>
-				</tr>
-			</AlternatingItemTemplate>
-			<FooterTemplate>
-				</table>
-			</FooterTemplate>
-		</ASP:Repeater>			
-		<st:PagingControl id="resultsPager" runat="server" 
-			PrefixText="<div>Goto page</div>" 
-			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
-			UrlFormat="EditLinks.aspx?pg={0}" 
-			CssClass="Pager" />
-		<br class="clear" />
-	</st:AdvancedPanel>
+		</HeaderTemplate>
+		<ItemTemplate>
+			<tr>
+				<td>
+					<%# DataBinder.Eval(Container.DataItem, "Title") %>
+				</td>
+				<td>
+					<%# DataBinder.Eval(Container.DataItem, "Url") %>
+				</td>
+				<td>
+					<asp:linkbutton id="lnkEdit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" /></td>
+				<td>
+					<asp:linkbutton id="lnkDelete" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" /></td>
+			</tr>
+		</ItemTemplate>
+		<AlternatingItemTemplate>
+			<tr class="alt">
+				<td>
+					<%# DataBinder.Eval(Container.DataItem, "Title") %>
+				</td>
+				<td>
+					<%# DataBinder.Eval(Container.DataItem, "Url") %>
+				</td>
+				<td>
+					<asp:linkbutton id="lnkEdit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
+				</td>
+				<td>
+					<asp:linkbutton id="lnkDelete" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
+				</td>
+			</tr>
+		</AlternatingItemTemplate>
+		<FooterTemplate>
+			</table>
+		</FooterTemplate>
+	</asp:Repeater>			
+	<st:PagingControl id="resultsPager" runat="server" 
+		PrefixText="<div>Goto page</div>" 
+		LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
+		UrlFormat="EditLinks.aspx?pg={0}" 
+		CssClass="Pager" />
+	<br class="clear" />
+
 	<st:AdvancedPanel id="ImportExport" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
 		HeaderCssClass="CollapsibleTitle" HeaderText="Import/Export" Collapsible="True" BodyCssClass="Edit"
 		visible="false">
@@ -88,8 +87,8 @@
 			</div>
 		</div>
 	</st:AdvancedPanel>
-	<st:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="False" HeaderCssClass="CollapsibleTitle"
-		HeaderText="Edit Link" Collapsible="False">
+	<asp:PlaceHolder id="Edit" runat="server">
+	    <h2>Edit Link</h2>
 		<fieldset>
 		    <legend>Edit Link</legend>
 			<label>Link ID</label>
@@ -119,5 +118,5 @@
 				&nbsp;
 			</div>
 		</fieldset>
-	</st:AdvancedPanel>
+	</asp:PlaceHolder>
 </asp:Content>

@@ -728,8 +728,8 @@ div.errorPage strong
 
 .FeedbackTypeControl
 {
-	float:right;
-	padding: 17px 10px 0px 0px;
+	float: right;
+	padding: .5em 1em 0px 0px;
 }
 
 .FeedbackTypeControl td {

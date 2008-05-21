@@ -76,6 +76,8 @@ namespace Subtext.Web.Admin.Pages
 
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
+            this.rprSelectionList.Visible = true;
+            this.headerLiteral.Visible = true;
 			BindLocalUI();
 
 			if (!IsPostBack)
@@ -88,7 +90,6 @@ namespace Subtext.Web.Admin.Pages
 
 				this.resultsPager.PageSize = Preferences.ListingItemCount;
 				this.resultsPager.PageIndex = this.resultsPageNumber;
-				Results.Collapsible = false;
 
 				if (NullValue.NullInt32 != this.filterCategoryID)
 					this.resultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, 
@@ -131,9 +132,9 @@ namespace Subtext.Web.Admin.Pages
 		private void BindLinkEdit()
 		{
 			Link currentLink = Links.GetSingleLink(LinkID);
-		
-			Results.Collapsed = true;
-			Results.Collapsible = true;
+
+            this.rprSelectionList.Visible = false;
+            this.headerLiteral.Visible = false;
 //			ImportExport.Visible = false;
 			Edit.Visible = true;
 
@@ -218,7 +219,8 @@ namespace Subtext.Web.Admin.Pages
 			}
 			finally
 			{
-				Results.Collapsible = false;
+                this.rprSelectionList.Visible = true;
+                this.headerLiteral.Visible = true;
 			}
 		}
 
@@ -226,9 +228,8 @@ namespace Subtext.Web.Admin.Pages
 		{
 			LinkID = NullValue.NullInt32;
 
-			Results.Collapsible = showEdit;
-			Results.Collapsed = showEdit;
-			//ImportExport.Visible = !showEdit;
+            this.rprSelectionList.Visible = !showEdit;
+            this.headerLiteral.Visible = !showEdit;
 			Edit.Visible = showEdit;
 
 			lblEntryID.Text = String.Empty;

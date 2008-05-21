@@ -41,13 +41,22 @@ namespace Subtext.Web.Admin.Pages {
         protected global::System.Web.UI.WebControls.RadioButtonList rbFeedbackFilter;
         
         /// <summary>
-        /// Results control.
+        /// headerLiteral control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Results;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLiteral;
+        
+        /// <summary>
+        /// noCommentsMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal noCommentsMessage;
         
         /// <summary>
         /// rprSelectionList control.

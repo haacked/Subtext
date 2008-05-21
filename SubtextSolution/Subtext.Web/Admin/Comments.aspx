@@ -9,7 +9,7 @@
 <asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server" />
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
-    <st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
+    <st:MessagePanel id="Messages" runat="server" />
     <st:AdvancedPanel id="Edit" runat="server" DisplayHeader="true" BodyCssClass="Edit" HeaderCssClass="CollapsibleHeader"
 	    HeaderText="Comments and Trackbacks" Collapsible="False">
 

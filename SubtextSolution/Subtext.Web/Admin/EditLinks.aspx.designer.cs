@@ -32,13 +32,13 @@ namespace Subtext.Web.Admin.Pages {
         protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
         
         /// <summary>
-        /// Results control.
+        /// headerLiteral control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Results;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLiteral;
         
         /// <summary>
         /// rprSelectionList control.
@@ -101,7 +101,7 @@ namespace Subtext.Web.Admin.Pages {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
+        protected global::System.Web.UI.WebControls.PlaceHolder Edit;
         
         /// <summary>
         /// lblEntryID control.
