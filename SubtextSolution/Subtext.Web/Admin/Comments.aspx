@@ -1,14 +1,12 @@
 <%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Comment Options" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Comments.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Comments" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
-    Actions
+    <h2>Actions</h2>
 </asp:Content>
 
-<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
-</asp:Content>
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server" />
 
-<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
-</asp:Content>
+<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server" />
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
     <st:MessagePanel id="Messages" runat="server"></st:MessagePanel>

@@ -1,11 +1,9 @@
 <%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Edit Categories" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="EditCategories.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditCategories" %>
 <%@ Register TagPrefix="st" TagName="CategoryLinks" Src="~/Admin/UserControls/CategoryLinkList.ascx" %>
 
-<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
-</asp:Content>
+<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server" />
 
-<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
-</asp:Content>
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server" />
 
 <asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
     <st:CategoryLinks ID="categoryLinks" runat="server" CategoryType="PostCollection" />

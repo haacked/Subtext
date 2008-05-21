@@ -2,11 +2,11 @@
 <%@ Register TagPrefix="st" TagName="CategoryLinks" Src="~/Admin/UserControls/CategoryLinkList.ascx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="actionsHeading" runat="server">
-    Actions
+    <h2>Actions</h2>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="categoryListHeading" runat="server">
-    Categories
+    <h2>Categories</h2>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="categoryListLinks" runat="server">

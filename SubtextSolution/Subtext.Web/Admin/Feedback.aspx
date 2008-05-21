@@ -3,7 +3,7 @@
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
 	
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
-	Folders
+	<h2>Folders</h2>
 </asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">

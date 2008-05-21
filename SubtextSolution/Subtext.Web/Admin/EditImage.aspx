@@ -5,7 +5,7 @@
 </asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
-    Images
+    <h2>Images</h2>
 </asp:Content>
 
 <asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">

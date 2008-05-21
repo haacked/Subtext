@@ -1,7 +1,7 @@
 <%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Error Log" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ErrorLog.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.ErrorLog" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
-    Actions
+    <h2>Actions</h2>
 </asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">

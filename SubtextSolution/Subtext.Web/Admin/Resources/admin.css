@@ -85,23 +85,26 @@ body
 
 h1 {
 	font-size: 1.7em;
-	padding: 8px 12px;
-	margin-bottom: 0px;
+	padding-left: 5px;
 }
 
 h2 {
-	margin: 0;
-	padding: 0;
+	font-size: 1.2em;
 }
 
+h1, h2 {
+    margin: 2px 0 8px 0;
+	color: #333;
+	background: #cacbcd;
+	border-bottom: 1px dashed #999;
+	border-top: 1px solid #999999;
+	font-weight: bold;
+	text-transform: uppercase;
+}
 
 #credits p, #credits ul, #credits ol {
     padding-left: 20px;
     margin-left: 10px;
-}
-
-#credits h1, #credits h2 {
-    margin-left: 0;
 }
 
 html>body, 

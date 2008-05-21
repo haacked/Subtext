@@ -2,7 +2,7 @@
     Codebehind="Configure.aspx.cs" Inherits="Subtext.Web.Admin.Pages.Configure" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
-    Actions
+    <h2>Actions</h2>
 </asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
