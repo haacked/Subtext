@@ -10,17 +10,13 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="categoryListLinks" runat="server" />
 
 <asp:Content ID="Content4" ContentPlaceHolderID="pageContent" runat="server">
-    <div id="messagePanelContainer">
-        <div id="messagePanelWrapper">
-            <div id="messagePanel" style="display: none;">
-            </div>
+    <div id="messagePanelWrapper">
+        <div id="messagePanel" style="display: none;">
         </div>
     </div>
-    <div class="CollapsibleHeader">
-        <span>Customize</span>
-    </div>
+    <h2>Customize</h2>
     <div id="dynamic-content">
-        <fieldset class="options fluid">
+        <fieldset>
             <legend>Meta Tags</legend>
             <div class="right">
                 <button type="button" class="dynamic-add" title="Add a New Meta Tag">Add Meta Tag</button>
