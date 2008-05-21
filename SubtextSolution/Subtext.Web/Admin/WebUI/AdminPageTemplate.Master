@@ -1,4 +1,4 @@
-    <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminPageTemplate.master.cs" Inherits="Subtext.Web.Admin.WebUI.AdminPageTemplate" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminPageTemplate.master.cs" Inherits="Subtext.Web.Admin.WebUI.AdminPageTemplate" %>
 <%@ Import Namespace="Subtext.Framework.Configuration"%>
 <%@ Import Namespace="Subtext.Web.Admin" %>
 

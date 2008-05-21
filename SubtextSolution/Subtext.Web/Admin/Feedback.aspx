@@ -23,7 +23,8 @@
             <asp:ListItem Value="Comment">Show Only Comments</asp:ListItem>
             <asp:ListItem Value="PingTrack">Show Only PingTrack</asp:ListItem>
         </asp:RadioButtonList></span>
-        <st:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Comments" HeaderCssClass="CollapsibleHeader" DisplayHeader="true">
+        <h2 ID="headerLiteral" runat="server">Comments</h2>
+        <asp:Literal ID="noCommentsMessage" runat="server" />
 		<asp:Repeater id="rprSelectionList" runat="server" OnItemCommand="rprSelectionList_ItemCommand">
 			<HeaderTemplate>
 				<table id="feedback" class="listing highlightTable" style="<%= CheckHiddenStyle() %>">
@@ -103,13 +104,12 @@
 		<asp:Button id="btnConfirmSpam" runat="server" CssClass="buttonSubmit" style="float:right" Text="Spam" onclick="OnConfirmSpam" ToolTip="Confirm Spam Moves Item To Trash" />
 		<asp:Button id="btnApprove" runat="server" CssClass="buttonSubmit" style="float:right" Text="Approve" onclick="OnApproveClick" ToolTip="Approve" Visible="false" />
 		<asp:Button id="btnEmpty" runat="server" CssClass="buttonSubmit" style="float:right" Text="Empty" OnClick="OnEmptyClick" OnClientClick="return confirm('This will permanently delete every comment of this type. Continue?');" ToolTip="Empty" Visible="false" />
-		<br class="clear" />
-	</st:AdvancedPanel>
+
 	<asp:PlaceHolder ID="Edit" runat="server" Visible="false">
 		<fieldset id="editPost">
 			<legend>Edit</legend>
-			<p class="Label"><asp:HyperLink ID="hlAuthorEmail" runat="server"><asp:Label runat="server" ID="lblName"><asp:Label runat="server" ID="lblEmail"></asp:Label></asp:Label></asp:HyperLink></p>
-			<p class="Label"><asp:HyperLink id="hlEntryLink" Runat="server" /></p>
+			<label>Posted By: <asp:HyperLink ID="hlAuthorEmail" runat="server"><asp:Label runat="server" ID="lblName"><asp:Label runat="server" ID="lblEmail"></asp:Label></asp:Label></asp:HyperLink></label>
+			<label>Comment Url: <asp:HyperLink id="hlEntryLink" Runat="server" /></label>
 			
 			<p class="Label">
 				<label for="Editor_Edit_txbTitle" accesskey="t">Comment <u>T</u>itle		
