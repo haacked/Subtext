@@ -34,9 +34,11 @@ namespace Subtext.Framework.Syndication
 		{
 			TimeSpan timeZone = tz.GetUtcOffset(dt);
 			if (timeZone.TotalHours >= 0) {
-			return dt.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + "+" + tz.GetUtcOffset(dt);
+				return dt.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture) + ":00+" + timeZone.TotalHours +
+					":" + ((timeZone.Minutes > 0) ? timeZone.Minutes.ToString() : "00");
 			}
-			return dt.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + tz.GetUtcOffset(dt);
+			return dt.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture) + ":00" + timeZone.TotalHours +
+				":" + ((timeZone.Minutes > 0) ? timeZone.Minutes.ToString() : "00");
 		}
 
 		private static string W3UTCZ(IFormattable dt)
@@ -118,7 +120,7 @@ namespace Subtext.Framework.Syndication
             this.WriteStartElement("link");
             //(Duncanma 12/28/2005, changing again... Atom vs atom was causing feed validation errors
             this.WriteAttributeString("rel", "self");
-            this.WriteAttributeString("type", "application/xml");
+            this.WriteAttributeString("type", "application/atom+xml");
             string currentURL = link + "Atom.aspx";
             if (System.Web.HttpContext.Current.Request != null)
                 currentURL = System.Web.HttpContext.Current.Request.Url.ToString();
@@ -189,7 +191,7 @@ namespace Subtext.Framework.Syndication
 						
 				this.WriteStartElement("link");
 				//(Duncanma 11/13/2005, changing alternate to self for 1.0 feed)
-				this.WriteAttributeString("rel", "self");
+				this.WriteAttributeString("rel", "alternate");
 				this.WriteAttributeString("type", "text/html");
 				this.WriteAttributeString("href", entry.FullyQualifiedUrl.ToString());
 				this.WriteEndElement();
@@ -199,7 +201,7 @@ namespace Subtext.Framework.Syndication
 				//(Duncanma 11/13/2005, hiding created, change issued to
 			    //published and modified to updated for 1.0 feed)
 				//this.WriteElementString("created",W3UTCZ(entry.DateCreated));
-				this.WriteElementString("published", W3UTC(entry.DateCreated, info.TimeZone));
+				this.WriteElementString("published", W3UTCZ(entry.DateCreated));
 				this.WriteElementString("updated", W3UTCZ(entry.DateModified));
 
 				if(entry.HasDescription)
@@ -244,5 +246,6 @@ namespace Subtext.Framework.Syndication
 		}
 	}
 }
+
 
 
