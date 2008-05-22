@@ -60,6 +60,7 @@ namespace Subtext.Framework.XmlRpc
     public Enclosure enclosure;
     public string link;
     public string permalink;
+    public string wp_slug;
     [XmlRpcMember(
       Description="Not required when posting. Depending on server may "
       + "be either string or integer. "
@@ -176,4 +177,5 @@ namespace Subtext.Framework.XmlRpc
 	  #endregion
   }
 }
+
 

@@ -35,7 +35,7 @@ namespace Subtext.Framework.XmlRpc
 	/// <summary>
 	/// Implements the MetaBlog API.
 	/// </summary>
-	public class MetaWeblog : XmlRpcService, IMetaWeblog
+	public class MetaWeblog : XmlRpcService, IMetaWeblog, IWordpressApi
 	{
       static Log Log = new Log();
 
@@ -113,6 +113,12 @@ namespace Subtext.Framework.XmlRpc
                 {
                     categoryIds = Entries.GetCategoryIdsFromCategoryTitles(entry);
                 }
+
+                if (!string.IsNullOrEmpty(post.wp_slug))
+                {
+                    entry.EntryName = post.wp_slug;
+                }
+
                 Entries.Update(entry);
                 Entries.SetEntryCategoryList(entry.Id, categoryIds);
 
@@ -268,6 +274,11 @@ namespace Subtext.Framework.XmlRpc
             if (post.categories != null)
             {
                 entry.Categories.AddRange(post.categories);
+            }
+
+            if (!string.IsNullOrEmpty(post.wp_slug))
+            {
+                entry.EntryName = post.wp_slug;
             }
 			
 			entry.PostType = PostType.BlogPost;
@@ -530,6 +541,24 @@ namespace Subtext.Framework.XmlRpc
 			return new MtTextFilter[] {new MtTextFilter("test", "test"), };
 		}
 		#endregion
-	}
+
+        #region IWordPressApi Members
+
+        public int newCategory(string blogid, string username, string password, WordpressCategory category)
+        {
+            LinkCategory newCategory = new LinkCategory();
+            newCategory.CategoryType = CategoryType.PostCollection;
+            newCategory.Title = category.name;
+            newCategory.IsActive = true;
+            newCategory.Description = category.name;
+
+            newCategory.Id = Links.CreateLinkCategory(newCategory);
+
+            return newCategory.Id;
+        }
+
+        #endregion
+    }
 }
+
 

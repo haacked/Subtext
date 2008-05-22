@@ -2,7 +2,11 @@
 <manifest xmlns="http://schemas.microsoft.com/wlw/manifest/weblog">
   <options>
       <supportsEmbeds>Yes</supportsEmbeds>
-      <supportsEmptyTitles>No</supportsEmptyTitles>      
+      <supportsEmptyTitles>No</supportsEmptyTitles>
+      <supportsSlug>Yes</supportsSlug>
+      <supportsCategories>Yes</supportsCategories>
+      <supportsNewCategories>Yes</supportsNewCategories>
+      <futurePublishDateWarning>Yes</futurePublishDateWarning>
   </options>
   <weblog>
     <homepageLinkText>View your blog</homepageLinkText>
