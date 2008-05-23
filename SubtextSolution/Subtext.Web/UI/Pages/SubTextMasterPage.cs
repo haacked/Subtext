@@ -55,6 +55,8 @@ namespace Subtext.Web.UI.Pages
         protected Literal virtualBlogRoot;
         protected Literal customTrackingCode;
         protected Literal additionalMetaTags;
+        protected Literal openIDServer;
+        protected Literal openIDDelegate;
         protected PlaceHolder metaTagsPlaceHolder;
         #endregion
 
@@ -63,6 +65,8 @@ namespace Subtext.Web.UI.Pages
         protected PostComment postCommentControl;
         protected const string TemplateLocation = "~/Skins/{0}/{1}";
         protected const string ControlLocation = "~/Skins/{0}/Controls/{1}";
+        protected const string OpenIDServerLocation = "<link rel=\"openid.server\" href=\"{0}\" />";
+        protected const string OpenIDDelegateLocation = "<link rel=\"openid.delegate\" href=\"{0}\" />";
 
         protected SkinConfig CurrentSkin = Globals.CurrentSkin;
 
@@ -141,6 +145,16 @@ namespace Subtext.Web.UI.Pages
             if (styles != null)
             {
                 styles.Text = styleRenderer.RenderStyleElementCollection(CurrentSkin.SkinKey);
+            }
+
+            if (openIDServer != null && !string.IsNullOrEmpty(CurrentBlog.OpenIDServer))
+            {
+                openIDServer.Text = string.Format(OpenIDServerLocation, CurrentBlog.OpenIDServer);
+            }
+
+            if (openIDDelegate != null && !string.IsNullOrEmpty(CurrentBlog.OpenIDDelegate))
+            {
+                openIDDelegate.Text = string.Format(OpenIDDelegateLocation, CurrentBlog.OpenIDDelegate);
             }
 
             // Add the per-blog MetaTags to the page Head section.

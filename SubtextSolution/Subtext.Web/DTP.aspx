@@ -24,7 +24,9 @@
 		<asp:Literal ID="scripts" runat="server" />
 		<asp:PlaceHolder ID="coCommentPlaceholder" runat="server" />
 		<asp:Literal ID="pinbackLinkTag" runat="server" />
-	</head>
+		<asp:Literal ID="openIDServer" runat="server" />
+        <asp:Literal ID="openIDDelegate" runat="server" />
+    </head>
 	<body>
 		<form id="Form1" method="post" runat="server">
             <asp:ScriptManager ID="SubtextScriptManager" runat="server" EnablePartialRendering="true">

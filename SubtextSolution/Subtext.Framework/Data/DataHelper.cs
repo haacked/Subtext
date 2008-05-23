@@ -579,6 +579,8 @@ namespace Subtext.Framework.Data
             info.MobileSkin.SkinStyleSheet = ReadString(reader, "MobileSkinCssFile");
 
             info.OpenIDUrl = ReadString(reader, "OpenIDUrl");
+            info.OpenIDServer = ReadString(reader, "OpenIDServer");
+            info.OpenIDDelegate = ReadString(reader, "OpenIDDelegate");
             info.CardSpaceHash = ReadString(reader, "CardSpaceHash");
 			
 			info.LicenseUrl = ReadString(reader, "LicenseUrl");

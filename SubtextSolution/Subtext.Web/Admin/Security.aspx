@@ -10,7 +10,7 @@
 </asp:Content>
 
 <asp:Content ID="passwordContent" ContentPlaceHolderID="pageContent" runat="server">
-	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
+    <st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
 	<h2>Security</h2>
 	<div class="section">
 		<fieldset>
@@ -39,7 +39,15 @@
 				<label>OpenID URL
 				</label>
 				<asp:TextBox id="tbOpenIDURL" runat="server" CssClass="textbox" />
-			<div>
+            <label>
+                OpenID Server
+                <st:HelpToolTip id="hlpTimeZone" runat="server" HelpText="The OpenID Server and Delegate offload OpenID queries to a third party while still using your blog URL as the OpenID username. For the Server, enter the URL for your provider's server (ex: http://www.myopenid.com/server). For the Delegate, enter your username from your provider (ex: http://username.myopenid.com)."
+                    ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
+            </label>
+            <asp:TextBox ID="tbOpenIDServer" runat="server"></asp:TextBox>
+                <label>OpenID Delegate</label>
+            <asp:TextBox ID="tbOpenIDDelegate" runat="server"></asp:TextBox>
+            <div>
 				<asp:Button id="btnSaveOptions" runat="server" CssClass="buttonSubmit" Text="Save" onclick="btnSaveOptions_Click" />
 			</div>
 		</fieldset>
