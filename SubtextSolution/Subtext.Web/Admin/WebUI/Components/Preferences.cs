@@ -92,66 +92,6 @@ namespace Subtext.Web.Admin
 			}
 		}
 
-		//I implemented version 2 before I let you guys see version 1.
-		//Version 1 was "show only comments". Version 2 is a filter that can show all, show only comments, or show only pingtracks.
-		//I kept the version 1 code in case you wished to use it instead.
-		/// <summary>
-		/// When true, the Admin Feedback content page shows only feedback type which is a comment. 
-		/// Therefore, when true, this excludes all feedback that is not a comment type.
-		/// </summary>
-		[Obsolete("Use FeedbackItemFilter", true)]
-		internal static bool FeedbackShowOnlyComments 
-		{
-			get 
-			{
-				if (null != HttpContext.Current.Request.Cookies[COOKIES_FEEDBACK_SHOWONLYCOMMENTS])
-				{
-					try
-					{
-						return bool.Parse(HttpContext.Current.Request.Cookies[COOKIES_FEEDBACK_SHOWONLYCOMMENTS].Value);
-					}
-					catch
-					{
-						return false;
-					}
-				}
-				else
-				{
-					return false;
-				}
-			}
-			set 
-			{ 
-					CreateCookie(COOKIES_FEEDBACK_SHOWONLYCOMMENTS, value, CookieExpiry);
-			}
-		}
-
-		/// <summary>
-		/// Values correspond to the enum FeedbackType. This property is simply a way to persist the admin's choice of 
-		/// what type of feedback items to filter in the Admin Feedback page.
-		/// </summary>
-		//internal static string FeedbackItemFilter
-		//{
-		//    get 
-		//    {
-		//        if (null != HttpContext.Current.Request.Cookies[COOKIES_FEEDBACK_FILTER])
-		//        {
-		//            return (HttpContext.Current.Request.Cookies[COOKIES_FEEDBACK_FILTER].Value ?? FeedbackType.None.ToString());
-		//        }
-		//        return FeedbackType.None.ToString();
-		//    }
-		//    set 
-		//    {
-		//        if (Enum.IsDefined(typeof(FeedbackType), value))
-		//        {
-		//            CreateCookie(COOKIES_FEEDBACK_FILTER, value, CookieExpiry);
-		//        }
-		//        else
-		//        {
-		//            log.Warn("Could not set FeedbackType value: " + value);
-		//        }
-		//    }
-		//}
 		internal static string GetFeedbackItemFilter(FeedbackStatusFlag currentView)
 		{
 			string cookieName = COOKIES_FEEDBACK_FILTER + currentView.ToString();
@@ -161,7 +101,8 @@ namespace Subtext.Web.Admin
 			}
 			return FeedbackType.None.ToString();
 		}
-		internal static void SetFeedbackItemFilter(string value, FeedbackStatusFlag currentView)
+
+        internal static void SetFeedbackItemFilter(string value, FeedbackStatusFlag currentView)
 		{
 			string cookieName = COOKIES_FEEDBACK_FILTER + currentView.ToString();
 			

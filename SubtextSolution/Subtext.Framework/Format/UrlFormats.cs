@@ -419,7 +419,7 @@ namespace Subtext.Framework.Format
 			string url = (String.IsNullOrEmpty(app)) ? "~" : "~/" + app;
 			if (feedback.FeedbackType == FeedbackType.Comment||feedback.FeedbackType==FeedbackType.PingTrack)
 			{
-				url += "/Admin/Feedback.aspx?FeedbackID=" + feedback.Id;
+				url += "/Admin/Feedback/Default.aspx?return-to-post=true&FeedbackID=" + feedback.Id;
 			}
 			else
 			{

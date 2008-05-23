@@ -406,6 +406,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SubtextWeb\Admin\AdminPageTests.cs" />
+    <Compile Include="SubtextWeb\Admin\FeedbackTests.cs" />
     <Compile Include="SubtextWeb\Controls\CaptchaTests.cs" />
     <Compile Include="SubtextWeb\Controls\ControlHelperTests.cs" />
     <Compile Include="SubtextWeb\Controls\InvisibleCaptchaTests.cs" />
