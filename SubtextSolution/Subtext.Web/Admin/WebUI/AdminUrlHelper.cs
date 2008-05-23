@@ -11,33 +11,44 @@ using Subtext.Framework;
 using Subtext.Framework.Format;
 using Subtext.Framework.Configuration;
 
-namespace Subtext.Web.Admin.WebUI {
-    public class AdminUrlHelper 
+namespace Subtext.Web.Admin.WebUI
+{
+    public class AdminUrlHelper
     {
         UrlFormats formats;
 
         public AdminUrlHelper() : this(Config.CurrentBlog) { }
 
-        public AdminUrlHelper(BlogInfo blog) 
+        public AdminUrlHelper(BlogInfo blog)
         {
             formats = blog.UrlFormats;
         }
 
-        public string PostsList 
+        public string PostsList
         {
-            get 
+            get
             {
                 return formats.AdminUrl("Posts/");
             }
         }
 
-        public string ArticlesList {
-            get {
+        public string FeedbackList
+        {
+            get
+            {
+                return formats.AdminUrl("Feedback/");
+            }
+        }
+
+        public string ArticlesList
+        {
+            get
+            {
                 return formats.AdminUrl("Articles/");
             }
         }
 
-        public string AdminUrl(string page) 
+        public string AdminUrl(string page)
         {
             return formats.AdminUrl(page);
         }

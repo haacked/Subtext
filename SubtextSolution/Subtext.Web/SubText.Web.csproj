@@ -196,13 +196,28 @@
       <DependentUpon>Export.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Feedback.aspx.cs">
-      <DependentUpon>Feedback.aspx</DependentUpon>
+    <Compile Include="Admin\Feedback\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Feedback.aspx.designer.cs">
-      <DependentUpon>Feedback.aspx</DependentUpon>
+    <Compile Include="Admin\Feedback\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Feedback\Edit.aspx.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Feedback\Edit.aspx.designer.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Feedback\Feedback.Master.cs">
+      <DependentUpon>Feedback.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Feedback\Feedback.Master.designer.cs">
+      <DependentUpon>Feedback.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Feedback\FeedbackState.cs" />
     <Compile Include="Admin\ImportExport.aspx.cs">
       <DependentUpon>ImportExport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -830,10 +845,6 @@
       <DependentUpon>Export.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Feedback.aspx.resx">
-      <DependentUpon>Feedback.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Admin\ImportExport.aspx.resx">
       <DependentUpon>ImportExport.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1014,7 +1025,8 @@
     <Content Include="Admin\Error.aspx" />
     <Content Include="Admin\ErrorLog.aspx" />
     <Content Include="Admin\Export.aspx" />
-    <Content Include="Admin\Feedback.aspx" />
+    <Content Include="Admin\Feedback\Default.aspx" />
+    <Content Include="Admin\Feedback\Edit.aspx" />
     <Content Include="Admin\ImportExport.aspx" />
     <Content Include="Admin\license.txt" />
     <Content Include="Admin\Options.aspx" />
@@ -2133,6 +2145,7 @@
     <Content Include="Images\IdenticonHandler.ashx" />
     <Content Include="Admin\Posts\Posts.Master" />
     <Content Include="Admin\Articles\Articles.Master" />
+    <Content Include="Admin\Feedback\Feedback.Master" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />

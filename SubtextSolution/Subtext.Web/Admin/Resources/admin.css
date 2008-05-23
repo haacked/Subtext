@@ -117,6 +117,7 @@ html>body th
 div.Pager  {
 	padding-bottom: 4px;
 	margin-bottom: 8px;
+	margin-right: 10px;
 	float: right;
 }
 
@@ -726,14 +727,10 @@ div.errorPage strong
 	padding-bottom: 8px;
 }
 
-.FeedbackTypeControl
+#feedback-filter
 {
 	float: right;
-	padding: .5em 1em 0px 0px;
-}
-
-.FeedbackTypeControl td {
-    background-color: Transparent;
+	margin: 4px 10px 0 0;
 }
 
 a.active
