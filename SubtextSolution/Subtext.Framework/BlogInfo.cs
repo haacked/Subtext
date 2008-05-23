@@ -637,6 +637,26 @@ namespace Subtext.Framework
             set { _openIDUrl = value; }
         }
 
+        private string _openIDServer;
+        /// <summary>
+        /// Gets or sets the OpenIDServer.
+        /// </summary>
+        public string OpenIDServer
+        {
+            get { return _openIDServer; }
+            set { _openIDServer = value; }
+        }
+
+        private string _openIDDelegate;
+        /// <summary>
+        /// Gets or sets the OpenIDDelegate.
+        /// </summary>
+        public string OpenIDDelegate
+        {
+            get { return _openIDDelegate; }
+            set { _openIDDelegate = value; }
+        }
+
         private string _cardSpaceHash;
         /// <summary>
         /// Gets or sets the CardSpaceHash.

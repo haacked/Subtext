@@ -47,7 +47,35 @@ BEGIN
 END
 GO
 
-/* Add the OpenID Url column */
+/* Add the OpenID Server column */
+IF NOT EXISTS 
+(
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+    WHERE   TABLE_NAME = 'subtext_Config' 
+    AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+    AND COLUMN_NAME = 'OpenIDServer'
+)
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+		ADD [OpenIDServer] [nvarchar] (255) NULL
+END
+GO
+
+/* Add the OpenID Delegate column */
+IF NOT EXISTS 
+(
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+    WHERE   TABLE_NAME = 'subtext_Config' 
+    AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+    AND COLUMN_NAME = 'OpenIDDelegate'
+)
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+		ADD [OpenIDDelegate] [nvarchar] (255) NULL
+END
+GO
+
+/* Add the CardSpace Hash column */
 IF NOT EXISTS 
 (
     SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
