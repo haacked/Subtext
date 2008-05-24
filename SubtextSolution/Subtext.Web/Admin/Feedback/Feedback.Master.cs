@@ -36,6 +36,12 @@ namespace Subtext.Web.Admin.Feedback {
             return ListUrl(pageIndex, status, FeedbackType);
         }
 
+        //For master page only...
+        protected string GetListUrl(FeedbackStatusFlag status)
+        {
+            return "Default.aspx?status=" + status;
+        }
+
         public string ListUrl(FeedbackStatusFlag status) 
         {
             return ListUrl(PageIndex, status, FeedbackType);   
