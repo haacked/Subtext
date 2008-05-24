@@ -170,18 +170,29 @@ namespace Subtext.Web.Admin.Feedback
         {
             FeedbackItem feedback = (FeedbackItem)dataItem;
             string authorInfo = string.Empty;
+            string safeEmail = HttpUtility.HtmlAttributeEncode(feedback.Email);
 
             if (feedback.Email != null && feedback.Email.Length > 0 && feedback.Email.IndexOf("@") > 0)
             {
-                string mailToUrl = feedback.Email
-                    + "&subject=re:" + HttpUtility.UrlEncode(feedback.Title)
-                    + "&body=----------" + Environment.NewLine + HttpUtility.UrlEncode(feedback.Body);
-                authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" class=""email"" /></a>", mailToUrl, HttpHelper.ExpandTildePath("~/images/email.gif"));
+                string safeTitle = HttpUtility.UrlEncode(HttpUtility.HtmlAttributeEncode(feedback.Title));
+                string safeBody = HttpUtility.UrlEncode(
+                        HttpUtility.HtmlAttributeEncode(
+                        feedback.Body.Replace(Environment.NewLine, "%X0A")
+                    .Replace("\"", "'")));
+
+                string mailToUrl = safeEmail
+                    + "&subject=re:" + safeTitle
+                    + "&body=----------%0A"
+                        + "From: " + HttpUtility.UrlEncode(feedback.Author) + " (" + safeEmail + ")%0A"
+                        + "Sent: " + HttpUtility.UrlEncode(feedback.DateCreated.ToString()) + "%0A"
+                        + "Subject: " + HttpUtility.UrlEncode(safeTitle) + "%0A%0A"
+                        + safeBody;
+                authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{1}""><img src=""{2}"" alt=""{1}"" border=""0"" class=""email"" /></a>", mailToUrl, safeEmail, HttpHelper.ExpandTildePath("~/images/email.gif"));
             }
 
             if (feedback.SourceUrl != null)
             {
-                authorInfo += string.Format(@"<a href=""{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" /></a>", feedback.SourceUrl, HttpHelper.ExpandTildePath("~/images/permalink.gif"));
+                authorInfo += string.Format(@"<a href=""{0}"" title=""{1}""><img src=""{2}"" alt=""{1}"" border=""0"" /></a>", feedback.SourceUrl, safeEmail, HttpHelper.ExpandTildePath("~/images/permalink.gif"));
             }
 
             return authorInfo;
