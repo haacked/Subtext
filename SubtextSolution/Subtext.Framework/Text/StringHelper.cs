@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
+using System.Web;
 
 // adapted from namespace Haack.Text
 namespace Subtext.Framework.Text
@@ -368,5 +369,15 @@ namespace Subtext.Framework.Text
 		{
 			return Regex.IsMatch(text,"^\\d+$");
 		}
+
+        public static string MailToEncode(string s)
+        {
+            return HttpUtility.UrlEncode(HttpUtility.HtmlAttributeEncode(HtmlHelper.RemoveHtml(s).Replace("\"", "'"))).Replace("+", " ");
+        }
+
+        public static string MailToBodyEncode(string body)
+        {
+            return MailToEncode(body.Replace(Environment.NewLine, "%0A"));
+        }
 	}
 }
