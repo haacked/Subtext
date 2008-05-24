@@ -281,10 +281,10 @@
 		<asp:Panel runat="server" GroupingText="Count Settings" CssClass="options">
 			
 			<label accesskey="d" for="Edit_ddlItemCount"><u>D</u>efault Number of Feed/Homepage Items</label>
-			<asp:DropDownList id="ddlItemCount" runat="server" />
+			<asp:DropDownList id="ddlItemCount" CssClass="number" runat="server" />
 		
 			<label accesskey="p" for="Edit_ddlCategoryListPostCount">Number of <u>P</u>osts in Category Lists</label>
-			<asp:DropDownList id="ddlCategoryListPostCount" runat="server" />
+			<asp:DropDownList id="ddlCategoryListPostCount" CssClass="number" runat="server" />
 		
 		</asp:Panel>
 		<div class="clear">

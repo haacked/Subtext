@@ -2,3 +2,14 @@
     float: right;
     margin-top: 35px;
 }
+
+#feedback-filter
+{
+	float: right;
+	margin: 4px 10px 0 0;
+}
+
+#feedback-filter select
+{
+    width: 10em;
+}
