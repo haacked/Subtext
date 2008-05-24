@@ -11,7 +11,7 @@
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
     <h2>Options</h2>
-    <dl>
+    <dl id="admin-options">
 	    <dt><a href="Configure.aspx" title="Configure your blog">Configure</a>:</dt>
 	    <dd>Manage your blog</dd>
         

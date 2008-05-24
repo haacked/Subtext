@@ -12,13 +12,12 @@
 
 <asp:Content ID="statsContent" ContentPlaceHolderID="pageContent" runat="server">
 	<h2>Statistics</h2>
-	<p>
-		<a href = "Referrers.aspx">Referrers</a>: See who is linking to you.
-	</p>
-	<p>
-		<a href = "StatsView.aspx">Check Page Views</a>: Get an overview of page views.
-	</p>
-	<p>
-		<a href = "ErrorLog.aspx">Error Log</a>: Configure and view error log
-	</p>
+	<dl>
+		<dt><a href="Referrers.aspx" title="Referrers">Referrers</a>:</dt>
+		<dd>See who is linking to you</dd>
+	    <dt><a href="StatsView.aspx" title="Page Views">Page Views</a>:</dt>
+	    <dd>Get an overview of page views</dd>
+	    <dt><a href="ErrorLog.aspx" title="Error Log">Error Log</a>:</dt>
+	    <dd>Configure and view error log</dd>
+	</dl>
 </asp:Content>

@@ -730,7 +730,12 @@ div.errorPage strong
 #feedback-filter
 {
 	float: right;
-	margin: 4px 10px 0 0;
+	margin: 1px 10px 0 0;
+}
+
+#feedback-filter select
+{
+    width: 10em;
 }
 
 a.active
@@ -968,6 +973,11 @@ select.wide-dropdown
     font-size: .9em;
 }
 
+select.number
+{
+    width: 4em;
+}
+
 #configure-form input.textbox, #configure-form textarea.textarea
 {
     width: 315px;
@@ -1038,4 +1048,8 @@ dd
     margin: 0 0 0 0;
     padding: .5em;
     border-top: 1px solid #999;
+}
+
+#admin-options {
+    float: left;
 }
