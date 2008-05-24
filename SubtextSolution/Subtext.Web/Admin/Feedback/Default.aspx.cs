@@ -9,6 +9,7 @@ using System.Diagnostics;
 using Subtext.Framework.Web;
 using System.Globalization;
 using Subtext.Extensibility;
+using Subtext.Framework.Text;
 
 namespace Subtext.Web.Admin.Feedback
 {
@@ -174,18 +175,16 @@ namespace Subtext.Web.Admin.Feedback
 
             if (feedback.Email != null && feedback.Email.Length > 0 && feedback.Email.IndexOf("@") > 0)
             {
-                string safeTitle = HttpUtility.UrlEncode(HttpUtility.HtmlAttributeEncode(feedback.Title));
-                string safeBody = HttpUtility.UrlEncode(
-                        HttpUtility.HtmlAttributeEncode(
-                        feedback.Body.Replace(Environment.NewLine, "%X0A")
-                    .Replace("\"", "'")));
+                string safeAuthor = StringHelper.MailToEncode(feedback.Author);
+                string safeTitle = StringHelper.MailToEncode(feedback.Title);
+                string safeBody = StringHelper.MailToBodyEncode(feedback.Body);
 
                 string mailToUrl = safeEmail
                     + "&subject=re:" + safeTitle
                     + "&body=----------%0A"
-                        + "From: " + HttpUtility.UrlEncode(feedback.Author) + " (" + safeEmail + ")%0A"
-                        + "Sent: " + HttpUtility.UrlEncode(feedback.DateCreated.ToString()) + "%0A"
-                        + "Subject: " + HttpUtility.UrlEncode(safeTitle) + "%0A%0A"
+                        + "From: " + StringHelper.MailToEncode(feedback.Author) + " (" + safeEmail + ")%0A"
+                        + "Sent: " + StringHelper.MailToEncode(feedback.DateCreated.ToString()) + "%0A"
+                        + "Subject: " + StringHelper.MailToEncode(safeTitle).Replace("+", " ") + "%0A%0A"
                         + safeBody;
                 authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{1}""><img src=""{2}"" alt=""{1}"" border=""0"" class=""email"" /></a>", mailToUrl, safeEmail, HttpHelper.ExpandTildePath("~/images/email.gif"));
             }
