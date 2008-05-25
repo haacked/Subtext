@@ -13,7 +13,7 @@
 	<st:MessagePanel id="Messages" runat="server" />
 	<st:AdvancedPanel id="Edit" runat="server" DisplayHeader="false" BodyCssClass="Edit" HeaderCssClass="CollapsibleHeader"
 		HeaderText="Syndication" Collapsible="False">
-		<fieldset>
+		<fieldset class="edit-form">
 		    <legend>Syndication</legend>
 		    <span class="checkbox">
 			    <asp:CheckBox id="chkEnableSyndication" runat="server" Text="Enable Syndication" />
@@ -32,18 +32,18 @@
 				    <img id="Img2" src="~/Admin/Resources/Scripts/Images/ms_information_small.gif" runat="Server" alt="Information"/></st:HelpToolTip>
             </span>
             		
-			<label accessKey="f" for="Edit_txtFeedBurnerName"><u>F</u>eedBurner Name or URL</label>
-			<asp:TextBox id="txtFeedBurnerName" runat="server" />
-			<st:HelpToolTip id="hlpFeedburner" runat="server" 
+			<label accessKey="f" for="Edit_txtFeedBurnerName"><u>F</u>eedBurner Name or URL<st:HelpToolTip id="hlpFeedburner" runat="server" 
 				HelpText="<p>Entering your FeedBurner feed name will redirect your main feed to use <a href='http://feedburner.com/' title='feedburner'>Feedburner</a>.  The URL of your feed will become: <strong>http://feeds.feedburner.com/<i>FEED-BURNER-NAME</i></strong>.</p><p>If you are using the MyBrand service, then enter <strong>your full feedburner URL</strong>.</p>">
 				<img id="Img4" src="~/Admin/Resources/Scripts/Images/ms_information_small.gif" runat="Server" alt="Information"/>
-			</st:HelpToolTip>
+			</st:HelpToolTip></label>
+			<asp:TextBox id="txtFeedBurnerName" runat="server" />
+			
 		
-			<label accessKey="l" for="Edit_txtLicenseUrl"><u>L</u>icense</label>
-			<asp:TextBox id="txtLicenseUrl" runat="server" />
-			<st:HelpToolTip id="HelpToolTip3" runat="server" HelpText="If specifed, indicates that your RSS feed is available under a license using the creativeCommons:license element. This can be used to display any license. For more information, read the <a href='http://backend.userland.com/creativeCommonsRssModule'>spec here</a>.">
+			<label accessKey="l" for="Edit_txtLicenseUrl"><u>L</u>icense<st:HelpToolTip id="HelpToolTip3" runat="server" HelpText="If specifed, indicates that your RSS feed is available under a license using the creativeCommons:license element. This can be used to display any license. For more information, read the <a href='http://backend.userland.com/creativeCommonsRssModule'>spec here</a>.">
 				<img id="Img3" src="~/Admin/Resources/Scripts/Images/ms_information_small.gif" runat="Server" alt="Information" />
-			</st:HelpToolTip>
+			</st:HelpToolTip></label>
+			<asp:TextBox id="txtLicenseUrl" runat="server" />
+			
 		</fieldset>
 	
 		<div>

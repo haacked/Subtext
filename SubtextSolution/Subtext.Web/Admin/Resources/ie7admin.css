@@ -13,3 +13,11 @@
 {
     width: 10em;
 }
+
+body.Links fieldset.section input.textbox, 
+body.Links fieldset.section textarea, 
+fieldset.edit-form input.textbox,
+fieldset.edit-form textarea
+{
+    margin-left: -170px;
+}

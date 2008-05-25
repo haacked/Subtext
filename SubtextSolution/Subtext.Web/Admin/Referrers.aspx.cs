@@ -57,7 +57,6 @@ namespace Subtext.Web.Admin.Pages
 
 				this.resultsPager.PageSize = Preferences.ListingItemCount;
 				this.resultsPager.PageIndex = this.pageIndex;
-				Results.Collapsible = false;
 
 				BindList();
 			}
@@ -187,8 +186,7 @@ namespace Subtext.Web.Admin.Pages
 					EntryID = Int32.Parse(args[0].ToString(), CultureInfo.InvariantCulture);
 					txbUrl.Text = args[1].ToString();
 					this.Edit.Visible = true;
-					this.Results.Collapsible = true;
-					this.Results.Collapsed = true;
+					this.Results.Visible = false;
 					txbTitle.Text = string.Empty;
 					txbBody.Text = string.Empty;
 					break;
@@ -232,6 +230,7 @@ namespace Subtext.Web.Admin.Pages
 					filter.FilterAfterPersist(entry);
 					this.Messages.ShowMessage(Constants.RES_SUCCESSNEW);
 					this.Edit.Visible = false;
+                    this.Results.Visible = true;
 				}
 				else
 				{
@@ -245,16 +244,12 @@ namespace Subtext.Web.Admin.Pages
 				this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, 
 					Constants.RES_FAILUREEDIT, ex.Message));
 			}
-			finally
-			{
-				Results.Collapsible = false;
-			}
 		}
 
 		protected void lkbCancel_Click(object sender, EventArgs e)
 		{
-			Results.Collapsible = false;
 			Edit.Visible = false;
+            Results.Visible = true;
 		}
 	}
 }

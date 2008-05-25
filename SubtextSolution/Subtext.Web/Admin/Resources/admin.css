@@ -333,12 +333,15 @@ div.DialogBody {
 body.admin input.textbox
 {
     width: 695px;
+    clear: left;
+    display: block;
 }
 
 body.admin textarea
 {
     width: 695px;
     height: 200px;
+    display: block;
 }
 
 div#content #advanced-options input.date
@@ -419,8 +422,8 @@ div.ErrorPanel {
 	font-weight: bold;
 }
 
-div.ErrorPanel IMG,
-div.MessagePanel IMG {
+div.ErrorPanel img,
+div.MessagePanel img {
 	float: left;
 }
 
@@ -1025,6 +1028,7 @@ dl
     line-height: 2em;
     margin: 2em 0;
     padding: 0;
+    float: left;
 }
 
 dt 
@@ -1052,4 +1056,22 @@ dd
 
 #admin-options {
     float: left;
+}
+
+hr {
+    margin: 5px 2px;
+}
+
+body #entry-editor table.checkbox input, body #entry-editor table.checkbox label
+{
+    display: inline;
+}
+
+body #entry-editor table.checkbox {
+    margin-bottom: 10px;
+}
+
+body #entry-editor table.checkbox label
+{
+    margin: 0 4px;
 }

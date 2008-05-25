@@ -45,7 +45,7 @@
 						</ItemTemplate>
 
 						<EditItemTemplate>
-							<asp:CheckBox id="ckbIsActive" runat="server" Checked='<%# DataBinder.Eval(Container, "DataItem.IsActive") %>'/>
+							<asp:CheckBox id="ckbIsActive" runat="server" Checked='<%# DataBinder.Eval(Container, "DataItem.IsActive") %>' CssClass="checkbox" />
 						</EditItemTemplate>
 					</asp:TemplateColumn>
 					

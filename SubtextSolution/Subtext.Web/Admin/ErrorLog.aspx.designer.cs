@@ -14,15 +14,6 @@ namespace Subtext.Web.Admin.Pages {
     public partial class ErrorLog {
         
         /// <summary>
-        /// Log control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Log;
-        
-        /// <summary>
         /// LogPage control.
         /// </summary>
         /// <remarks>

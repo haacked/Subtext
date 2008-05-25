@@ -16,7 +16,7 @@
 		<label for="Editor_Edit_richTextEditor" accesskey="b">Post <u>B</u>ody&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="richTextEditor" ForeColor="#990066" ErrorMessage="Your post must have a body" /></label>
 		<st:RichTextEditor id="richTextEditor" runat="server" onerror="richTextEditor_Error"></st:RichTextEditor>
 		<label>Categories</label>
-		<p><asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal"></asp:CheckBoxList></p>
+		<p><asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal" CssClass="checkbox" /></p>
 		<div>
 			<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post"  />
 			<asp:Button id="lkUpdateCategories" runat="server" CssClass="buttonSubmit" CausesValidation="false" Text="Categories" />
@@ -62,15 +62,15 @@
 		<!-- todo, make this more css based than table driven -->
 		<table cellpadding="4">
 			<tr>
-				<td width="200"><asp:CheckBox id="ckbPublished" runat="server" Text="Published" textalign="Right" />&nbsp;</td>
-				<td width="200"><asp:CheckBox id="chkComments" runat="server" Text="Show Comments" textalign="Right" />&nbsp;</td>	
-				<td width="200"><asp:CheckBox id="chkCommentsClosed" runat="server" Text="Comments Closed" textalign="Right" />&nbsp;</td>
-				<td width="200"><asp:CheckBox id="chkDisplayHomePage" runat="server" Text="Display on HomePage" textalign="Right" />&nbsp;</td>
+				<td width="200"><asp:CheckBox id="ckbPublished" runat="server" Text="Published" textalign="Right" CssClass="checkbox" /></td>
+				<td width="200"><asp:CheckBox id="chkComments" runat="server" Text="Show Comments" textalign="Right" CssClass="checkbox" /></td>	
+				<td width="200"><asp:CheckBox id="chkCommentsClosed" runat="server" Text="Comments Closed" textalign="Right" CssClass="checkbox" /></td>
+				<td width="200"><asp:CheckBox id="chkDisplayHomePage" runat="server" Text="Display on HomePage" textalign="Right" CssClass="checkbox" /></td>
 			</tr>
 			<tr>
-				<td><asp:CheckBox id="chkMainSyndication" runat="server" Text="Syndicate on Main Feed" textalign="Right" />&nbsp;</td>
-				<td><asp:CheckBox id="chkSyndicateDescriptionOnly" runat="server" Text="Syndicate Description Only" textalign="Right" />&nbsp;</td>
-				<td><asp:CheckBox id="chkIsAggregated" runat="server" Text="Include in Aggregated Site" textalign="Right" />&nbsp;</td>
+				<td><asp:CheckBox id="chkMainSyndication" runat="server" Text="Syndicate on Main Feed" textalign="Right" CssClass="checkbox" /></td>
+				<td><asp:CheckBox id="chkSyndicateDescriptionOnly" runat="server" Text="Syndicate Description Only" textalign="Right" CssClass="checkbox" /></td>
+				<td><asp:CheckBox id="chkIsAggregated" runat="server" Text="Include in Aggregated Site" textalign="Right" CssClass="checkbox" /></td>
 			</tr>
 		</table>
 		<div id="advanced-options">
