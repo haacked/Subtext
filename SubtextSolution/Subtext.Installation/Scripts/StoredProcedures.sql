@@ -3238,6 +3238,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 	, @MobileSkinCssFile nvarchar(100) = NULL
 	, @OpenIDUrl varchar(255) = NULL
 	, @CardSpaceHash nvarchar(512) = NULL
+	, @OpenIDServer varchar(255) = NULL
+	, @OpenIDDelegate varchar(255) = NULL
 )
 AS
 UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
