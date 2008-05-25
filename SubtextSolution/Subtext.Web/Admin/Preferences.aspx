@@ -14,20 +14,20 @@
 	
 	<p>
 		<label for="Edit_ddlPublished">Always create new items as Published</label> &nbsp;
-		<asp:DropDownList id="ddlPublished" runat="server" AutoPostBack="false">
+		<asp:DropDownList id="ddlPublished" runat="server" AutoPostBack="false" CssClass="number">
 			<asp:ListItem Value="true">Yes</asp:ListItem>
 			<asp:ListItem Value="false">No</asp:ListItem>
 		</asp:DropDownList>
 	</p>
 	<p>
 		<label for="Edit_ddlExpandAdvanced">Always expand advanced options</label> &nbsp;
-		<asp:DropDownList id="ddlExpandAdvanced" runat="server" AutoPostBack="false">
+		<asp:DropDownList id="ddlExpandAdvanced" runat="server" AutoPostBack="false" CssClass="number">
 			<asp:ListItem Value="true">Yes</asp:ListItem>
 			<asp:ListItem Value="false">No</asp:ListItem>
 		</asp:DropDownList>
 	</p>
 	<p style="MARGIN-TOP: 8px">
-	    <asp:CheckBox id="chkAutoGenerate" runat="server" Text="Auto-Generate Friendly Url" />
+	    <asp:CheckBox id="chkAutoGenerate" runat="server" Text="Auto-Generate Friendly Url" CssClass="checkbox" />
 		<st:HelpToolTip id="Helptooltip4" runat="server" HelpText="If checked, blog posts and articles will have friendly Urls auto-generated based on the title. For example, the title 'My Blog Post' will become 'MyBlogPost.aspx'.">
 			    <img id="Img2" src="~/Admin/Resources/Scripts/Images/ms_information_small.gif" runat="Server" alt="Information" />
 		</st:HelpToolTip>

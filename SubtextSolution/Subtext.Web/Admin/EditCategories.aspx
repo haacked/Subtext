@@ -1,7 +1,9 @@
 <%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Edit Categories" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="EditCategories.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditCategories" %>
 <%@ Register TagPrefix="st" TagName="CategoryLinks" Src="~/Admin/UserControls/CategoryLinkList.ascx" %>
 
-<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server" />
+<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+    <h2>Categories</h2>
+</asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server" />
 
@@ -12,7 +14,8 @@
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
 	<st:MessagePanel id="Messages" runat="server" />
 
-	<st:AdvancedPanel id="Edit" runat="server" Collapsible="False" HeaderText="Edit Categories" HeaderCssClass="CollapsibleHeader" DisplayHeader="true">
+    <h2>Edit Categories</h2>
+	<asp:PlaceHolder id="Edit" runat="server">
 		<asp:DataGrid id="dgrItems" AutoGenerateColumns="False" GridLines="None" CssClass="listing" runat="server">
 			<AlternatingItemStyle CssClass="alt"></AlternatingItemStyle>
 			<HeaderStyle CssClass="Header"></HeaderStyle>
@@ -48,8 +51,8 @@
 				<asp:ButtonColumn Text="Delete" CommandName="Delete"></asp:ButtonColumn>
 			</Columns>
 		</asp:DataGrid>
-	</st:AdvancedPanel>
-
+	</asp:PlaceHolder>
+	
 	<asp:PlaceHolder id="Add" runat="server">
 		<fieldset class="section">
 			<legend>Add New Category</legend>

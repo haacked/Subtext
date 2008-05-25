@@ -16,10 +16,6 @@ fieldset span.checkbox
     display: block;
 }
 
-fieldset span.checkbox label
-{
-    display: inline;
-}
 
 fieldset div
 {
@@ -99,6 +95,7 @@ span.checkbox
 span.checkbox label
 {
 	display: inline;
+	margin: 0 4px;
 }
 
 input.date

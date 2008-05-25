@@ -113,15 +113,6 @@ namespace Subtext.Web.Admin.Pages {
         protected global::System.Web.UI.HtmlControls.HtmlImage Img2;
         
         /// <summary>
-        /// txtFeedBurnerName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFeedBurnerName;
-        
-        /// <summary>
         /// hlpFeedburner control.
         /// </summary>
         /// <remarks>
@@ -140,13 +131,13 @@ namespace Subtext.Web.Admin.Pages {
         protected global::System.Web.UI.HtmlControls.HtmlImage Img4;
         
         /// <summary>
-        /// txtLicenseUrl control.
+        /// txtFeedBurnerName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLicenseUrl;
+        protected global::System.Web.UI.WebControls.TextBox txtFeedBurnerName;
         
         /// <summary>
         /// HelpToolTip3 control.
@@ -165,6 +156,15 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlImage Img3;
+        
+        /// <summary>
+        /// txtLicenseUrl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtLicenseUrl;
         
         /// <summary>
         /// lkbPost control.

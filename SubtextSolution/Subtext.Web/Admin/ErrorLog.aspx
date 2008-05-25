@@ -11,9 +11,8 @@
 </asp:Content>
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
-	<st:AdvancedPanel id="Log" runat="server" Collapsible="False" HeaderText="Error Log" HeaderCssClass="CollapsibleHeader"
-		DisplayHeader="true">
-		
+	<h2>Error Log</h2>
+    <div class="section">	
 		<st:RepeaterWithEmptyDataTemplate id="LogPage" runat="server">
 			<HeaderTemplate>
 				<table id="Listing" class="listing highlightTable" cellSpacing="0" cellPadding="0" border="0">
@@ -87,6 +86,5 @@
 			CssClass="Pager" />
 		<asp:Button id="btnExportToExcel" runat="Server" CssClass="buttonSubmit" Text="Export" title="Export to Excel" style="float:right;"></asp:Button> 
 		<asp:Button id="btnClearLog" runat="server" CssClass="buttonSubmit" Text="Clear" title="Clear the Log" style="float:right;"/>
-		<br class="clear" />
-	</st:AdvancedPanel>
+    </div>
 </asp:Content>
