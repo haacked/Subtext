@@ -19,6 +19,7 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
+using System;
 
 namespace UnitTests.Subtext.Framework.Configuration
 {
@@ -116,9 +117,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// as another blog when both have no subfolder specified.
 		/// </summary>
 		[Test]
-		[RollBack2]
+		[RollBack]
 		[Ignore("Need to fix the blog alias conflict detection code")]
-		[ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotCreateBlogWithHostThatIsDuplicateOfAnotherBlogAlias()
 		{
 			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
@@ -128,7 +128,19 @@ namespace UnitTests.Subtext.Framework.Configuration
 			alias.BlogId = Config.GetBlogInfo(_hostName, string.Empty).Id;
 			Config.AddBlogAlias(alias);
 
-			Config.CreateBlog("title", "username2", "password2", "example.com", string.Empty);
+            try
+            {
+                Config.CreateBlog("title", "username2", "password2", "example.com", string.Empty);
+            }
+            catch (BlogDuplicationException)
+            {
+                return;
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Expected BlogDuplicationException but got " + e);
+            }
+            Assert.Fail("Expected BlogDuplicationException");
 		}
 
 		/// <summary>
@@ -138,7 +150,6 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test]
 		[RollBack]
 		[Ignore("Need to fix the blog alias conflict detection code")]
-		[ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotAddAliasThatIsDuplicateOfAnotherBlog()
 		{
 			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
@@ -148,7 +159,20 @@ namespace UnitTests.Subtext.Framework.Configuration
 			alias.Host = "example.com";
 			alias.IsActive = true;
 			alias.BlogId = Config.GetBlogInfo(_hostName, string.Empty).Id;
-			Config.AddBlogAlias(alias);
+            try
+            {
+                Config.AddBlogAlias(alias);
+
+            }
+            catch (BlogDuplicationException)
+            {
+                return;
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Expected BlogDuplicationException but got " + e);
+            }
+            Assert.Fail("Expected BlogDuplicationException, but got nothing");
 		}
 
 		/// <summary>

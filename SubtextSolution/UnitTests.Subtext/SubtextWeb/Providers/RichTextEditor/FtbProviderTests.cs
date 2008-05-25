@@ -28,13 +28,14 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 	[TestFixture]
 	public class FtbProviderTests
 	{
-		readonly string _hostName = Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
+        string _hostName;
 		readonly string _testToolbarLayout = "Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery";
 		FtbBlogEntryEditorProvider frtep;
 
 		[SetUp]
 		public void SetUp()
 		{
+            _hostName = Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
             frtep = new FtbBlogEntryEditorProvider();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "Subtext.Web");
 		}
@@ -48,7 +49,6 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
 		[RollBack]
 		public void SetText() 
 		{
@@ -61,9 +61,10 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
 		public void SetWidth() 
 		{
+            Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+
 			Unit test=200;
 			frtep.InitializeControl();
 			frtep.Width=test;
@@ -71,9 +72,10 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
 		public void SetHeight() 
 		{
+            Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+
 			Unit test=100;
 			frtep.InitializeControl();
 			frtep.Height=test;
@@ -102,9 +104,11 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
+        [RollBack]
 		public void TestInitialization() 
 		{
+            Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+
 			System.Collections.Specialized.NameValueCollection coll=GetNameValueCollection();
 			frtep.Initialize("FTBProvider", coll);
 			frtep.InitializeControl();
