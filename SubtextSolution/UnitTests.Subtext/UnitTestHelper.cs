@@ -381,7 +381,7 @@ namespace UnitTests.Subtext
 			return entry;
 		}
 
-		public static Link CreateLinkInDb(int categoryId, string title, int? entryId)
+		public static Link CreateLinkInDb(int categoryId, string title, int? entryId, string rel)
 		{
 			Link link = new Link();
 			link.BlogId = Config.CurrentBlog.Id;
@@ -392,6 +392,7 @@ namespace UnitTests.Subtext
 			if (entryId != null)
 				link.PostID = (int)entryId;
 			link.Id = Links.CreateLink(link);
+            link.Relation = rel;
 			return link;
 		}
 		
