@@ -88,3 +88,19 @@ BEGIN
 		ADD CardSpaceHash [nvarchar] (512) NULL
 END
 GO
+
+/*----------- {Links/ XFN Relations} ------------*/
+IF NOT EXISTS
+(
+SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+    WHERE   TABLE_NAME = 'subtext_Links' 
+    AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+    AND COLUMN_NAME = 'Rel'
+)
+BEGIN
+	ALTER TABLE[<dbUser,varchar,dbo>].[subtext_Links]
+	ADD Rel [nvarchar](100) NULL
+END
+GO
+
+

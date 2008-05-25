@@ -88,6 +88,13 @@ namespace Subtext.Framework.Components
 			set{_title= value;}
 		}
 
+        private string _Relation;
+        public virtual string Relation
+        {
+            get { return _Relation; }
+            set { _Relation = value; }
+        }
+
 
 
 		public bool HasRss
@@ -96,4 +103,5 @@ namespace Subtext.Framework.Components
 		}
 	}
 }
+
 

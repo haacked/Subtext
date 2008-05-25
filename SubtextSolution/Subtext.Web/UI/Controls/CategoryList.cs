@@ -80,6 +80,7 @@ namespace Subtext.Web.UI.Controls
 				{
 					HyperLink Link = (HyperLink)e.Item.FindControl("Link");
 					Link.NavigateUrl = link.Url;
+                    
 					/*if (FriendlyUrlSettings.Settings.Enabled)
 						Link.NavigateUrl = string.Format("/category/{0}.aspx", FriendlyUrlSettings.TransformString(link.Title.Replace(" ", FriendlyUrlSettings.Settings.SeparatingCharacter), FriendlyUrlSettings.Settings.TextTransformation));*/
 
@@ -95,8 +96,10 @@ namespace Subtext.Web.UI.Controls
 						{
 							Link.Attributes["rel"] += " ";
 						}
-						Link.Attributes["rel"] += "external";
+						Link.Attributes["rel"] += "external ";
 					}
+                    
+                    Link.Attributes["rel"] += link.Relation;
 
 					HyperLink RssLink = (HyperLink)e.Item.FindControl("RssLink");
 					if (RssLink != null)
@@ -120,4 +123,5 @@ namespace Subtext.Web.UI.Controls
 		}
 	}
 }
+
 

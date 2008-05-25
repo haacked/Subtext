@@ -142,6 +142,7 @@ namespace Subtext.Web.Admin.Pages
 			txbTitle.Text = currentLink.Title;
 			txbUrl.Text = currentLink.Url;
 			txbRss.Text = currentLink.Rss;
+            txtXfn.Text = currentLink.Relation;
 		
 			chkNewWindow.Checked = currentLink.NewWindow;
 			ckbIsActive.Checked = currentLink.IsActive;
@@ -191,6 +192,7 @@ namespace Subtext.Web.Admin.Pages
 				link.CategoryID = Convert.ToInt32(ddlCategories.SelectedItem.Value);
 				link.NewWindow = chkNewWindow.Checked;
 				link.Id = Config.CurrentBlog.Id;
+                link.Relation = txtXfn.Text;
 				
 				if (LinkID > 0)
 				{
@@ -339,4 +341,5 @@ namespace Subtext.Web.Admin.Pages
 		}
 	}
 }
+
 
