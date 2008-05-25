@@ -321,14 +321,14 @@ namespace UnitTests.Subtext.Framework.Data
 			//Create a couple links that should be ignored because postId is not null.
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "title", "in great shape");
 			int entryId = Entries.Create(entry);
-			UnitTestHelper.CreateLinkInDb(this.categoryId, "A Forgettable Link", entryId);
-			UnitTestHelper.CreateLinkInDb(this.categoryId, "Another Forgettable Link", entryId);
-			UnitTestHelper.CreateLinkInDb(this.categoryId, "Another Forgettable Link", entryId);
+			UnitTestHelper.CreateLinkInDb(this.categoryId, "A Forgettable Link", entryId, String.Empty);
+            UnitTestHelper.CreateLinkInDb(this.categoryId, "Another Forgettable Link", entryId, String.Empty);
+            UnitTestHelper.CreateLinkInDb(this.categoryId, "Another Forgettable Link", entryId, String.Empty);
 		}
 
 		public void Create(int index)
 		{
-			UnitTestHelper.CreateLinkInDb(this.categoryId, "A Link To Remember Part " + index, null);
+			UnitTestHelper.CreateLinkInDb(this.categoryId, "A Link To Remember Part " + index, null, String.Empty);
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
