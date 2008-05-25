@@ -64,7 +64,6 @@
     <Compile Include="PageElements\PostsTable.cs" />
     <Compile Include="Tests\Admin\ConfigureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\Admin\DatabaseSetup.cs" />
     <Compile Include="Tests\Admin\EditPostsTests.cs" />
     <Compile Include="Tests\Admin\LoginTests.cs" />
     <Compile Include="Tests\HostAdmin\LoginTests.cs" />
