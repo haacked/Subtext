@@ -40,7 +40,7 @@ namespace Subtext.Web.Install
                 + ClientScript.GetPostBackEventReference(this.btnInstallClick, null).ToString();
 
 		
-			litDatabaseName.Text = Config.Settings.ConnectionString.Database;
+			litDatabaseName.Text = Config.ConnectionString.Database;
 		}
 
 		protected virtual void OnInstallClick(object sender, EventArgs e)

@@ -151,24 +151,6 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
-		/// Gets the connection string for the application.
-		/// </summary>
-		/// <value></value>
-		[XmlIgnore]
-		public ConnectionString ConnectionString
-		{
-			get
-			{
-                if (_connectionString == null && ConfigurationManager.ConnectionStrings["subtextData"] != null)
-                    _connectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
-
-				return _connectionString;
-			}
-		}
-
-		ConnectionString _connectionString;
-
-		/// <summary>
 		/// Returns a <see cref="NameValueCollection"/> containing the allowed 
 		/// HTML tags within a user comment.  The value contains a comma 
 		/// separated list of allowed attributes.

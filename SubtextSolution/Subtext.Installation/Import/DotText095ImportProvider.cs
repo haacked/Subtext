@@ -85,7 +85,7 @@ namespace Subtext.Installation.Import
 			string dotTextConnectionString;
 			GetConnectionStringsFromControl(populatedControl, out dotTextConnectionString);
 
-			using(SqlConnection connection = new SqlConnection(Config.Settings.ConnectionString.ToString()))
+			using(SqlConnection connection = new SqlConnection(Config.ConnectionString.ToString()))
 			{
 				connection.Open();
 				using(SqlTransaction transaction = connection.BeginTransaction())
@@ -93,7 +93,7 @@ namespace Subtext.Installation.Import
 					try
 					{
 						//Set up script parameters...
-						ConnectionString subtextConnection = Config.Settings.ConnectionString;
+						ConnectionString subtextConnection = Config.ConnectionString;
 						ConnectionString dotTextConnection = ConnectionString.Parse(dotTextConnectionString);
 
 						Stream stream = ScriptHelper.UnpackEmbeddedScript("ImportDotText095.sql");
@@ -158,7 +158,7 @@ namespace Subtext.Installation.Import
 						+ "specified in the .TEXT connection string below.";
 				}
 
-				if(!DoesTableExist("subtext_config", Config.Settings.ConnectionString))
+				if(!DoesTableExist("subtext_config", Config.ConnectionString))
 				{
 				    return "I&#8217;m sorry, but it does not appear that " 
 						+ "there is a Subtext database corresponding to the connection string within web.config. " 
