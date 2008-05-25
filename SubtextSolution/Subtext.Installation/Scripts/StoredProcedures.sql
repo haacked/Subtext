@@ -3275,6 +3275,8 @@ Set
 	, MobileSkinCssFile = @MobileSkinCssFile
 	, OpenIDUrl = @OpenIDUrl
 	, CardSpaceHash = @CardSpaceHash
+	, OpenIDServer = @OpenIDServer
+	, OpenIDDelegate = @OpenIDDelegate
 WHERE BlogId = @BlogId
 
 GO
@@ -3680,6 +3682,10 @@ SELECT	blog.BlogId
 		, bgroup.Title AS BlogGroupTitle
 		, blog.MobileSkin
 		, blog.MobileSkinCssFile
+		, blog.OpenIDUrl
+		, blog.CardSpaceHash
+		, blog.OpenIDServer
+		, blog.OpenIDDelegate
 FROM [<dbUser,varchar,dbo>].[subtext_Config] blog
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
 bgroup.Id = blog.BlogGroupId
