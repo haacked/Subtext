@@ -53,7 +53,10 @@ namespace WatinTests
             {
                 browser.GoTo(Browser.GetUrl("/"));
                 browser.StepThroughInstallation("username", "password");
-                browser.Login("username", "password");
+                if (browser.IsOnLoginPage)
+                {
+                    browser.Login("username", "password");
+                }
                 Assert.IsTrue(browser.ContainsText("Configure"), "We should be in the admin tool.");
             }
         }

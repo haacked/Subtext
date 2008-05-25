@@ -14,6 +14,10 @@ namespace WatinTests.Tests.Admin
 			using (Browser browser = new Browser())
 			{
 				browser.GoToAdmin();
+                if (!browser.IsOnLoginPage) {
+                    browser.Logout();
+                    browser.GoToAdmin();
+                }
 				Assert.IsTrue(browser.IsOnLoginPage);
 				browser.Login("username", "not-password");
 				Assert.IsTrue(browser.ContainsText("That’s not it"), "Expected an error message.");
@@ -29,6 +33,11 @@ namespace WatinTests.Tests.Admin
 			using(Browser browser = new Browser())
 			{
 				browser.GoToAdmin();
+                if (!browser.IsOnLoginPage)
+                {
+                    browser.Logout();
+                    browser.GoToAdmin();
+                }
 				browser.Login("not-username", "password");
                 browser.Link(Find.ByText("Forgot Your Password?")).Click();
                 Assert.IsTrue(browser.ContainsText("We cannot retrieve your password"));

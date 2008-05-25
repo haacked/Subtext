@@ -44,5 +44,15 @@ namespace WatinTests
 		{
 			ClickLink(nav.ToString().Replace("_", " "));
 		}
+
+        public void ClickLinkNoWait(string text)
+        {
+            browser.Link(Find.ByText(text)).ClickNoWait();
+        }
+
+        public void ClickNavLinkNoWait<T>(T nav)
+        {
+            ClickLinkNoWait(nav.ToString().Replace("_", " "));
+        }
 	}
 }
