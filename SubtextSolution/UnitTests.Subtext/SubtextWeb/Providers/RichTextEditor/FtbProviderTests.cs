@@ -41,6 +41,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
+        [RollBack]
 		public void SetControlID() 
 		{
 			string test="MyTestControlID";
@@ -61,6 +62,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
+        [RollBack]
 		public void SetWidth() 
 		{
             Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
@@ -72,6 +74,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
+        [RollBack]
 		public void SetHeight() 
 		{
             Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));

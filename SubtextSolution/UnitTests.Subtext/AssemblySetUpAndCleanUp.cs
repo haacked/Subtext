@@ -37,19 +37,23 @@ namespace UnitTests.Subtext
         [TearDown]
 		public static void TearDown()
 		{
-			if (ConfigurationManager.AppSettings["connectionStringName"] == "subtextExpress")
-			{
-				try
-				{
-					DatabaseHelper.DeleteDatabase(Config.ConnectionString.Server, Config.ConnectionString.Database, "App_Data");
-				}
-				catch(Exception e)
-				{
-					Console.WriteLine("Exception occurred while deleting the database. We'll get it the next time around.");
-					Console.WriteLine(e);
+            try
+            {
+                if (ConfigurationManager.AppSettings["connectionStringName"] == "subtextExpress")
+                {
+                    try
+                    {
+                        DatabaseHelper.DeleteDatabase(Config.ConnectionString.Server, Config.ConnectionString.Database, "App_Data");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Exception occurred while deleting the database. We'll get it the next time around.");
+                        Console.WriteLine(e);
 
-				}
-			}
+                    }
+                }
+            }
+            catch (Exception) { }
 		}
 	}
 }

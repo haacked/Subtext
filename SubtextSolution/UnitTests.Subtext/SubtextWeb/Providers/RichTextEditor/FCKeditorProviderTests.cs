@@ -30,13 +30,15 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 	[TestFixture]
 	public class FCKeditorProviderTests
 	{
-		readonly string _hostName = Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
+        string _hostName;
 		FckBlogEntryEditorProvider frtep;
 		readonly MockRepository mocks = new MockRepository();
 
 		[SetUp]
 		public void SetUp()
 		{
+            _hostName = Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
+
 			IPrincipal principal;
 			UnitTestHelper.SetCurrentPrincipalRoles(mocks, out principal, "Admins");
 			mocks.ReplayAll();
@@ -61,11 +63,12 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
+		//[Ignore("Have to setup dummy blog config first")]
 		[RollBack]
 		public void SetText() 
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+
 			string test="Lorem Ipsum";
 			frtep.InitializeControl();
 			frtep.Text=test;
@@ -74,9 +77,11 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
+        [RollBack]
 		public void SetWidth() 
 		{
+            Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+
 			Unit test=200;
 			frtep.InitializeControl();
 			frtep.Width=test;
@@ -84,9 +89,11 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
+        [RollBack]
 		public void SetHeight() 
 		{
+            Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+
 			Unit test=100;
 			frtep.InitializeControl();
 			frtep.Height=test;
@@ -114,5 +121,4 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 			frtep.Initialize("FCKProvider", new System.Collections.Specialized.NameValueCollection());
 		}
 	}
-
 }

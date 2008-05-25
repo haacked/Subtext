@@ -218,6 +218,9 @@ namespace Subtext.Framework.Web
 	    /// <param name="path"></param>
 	    public static string ExpandTildePath(string path)
 	    {
+            if (String.IsNullOrEmpty(path))
+                return string.Empty;
+
 	        string reference = path;
 	        if(reference.Substring(0, 2) == "~/")
 	        {
