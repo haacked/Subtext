@@ -105,7 +105,10 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 		public override void InitializeControl()
 		{
 			_fckCtl.ID = this.ControlId;
-			_fckCtl.BasePath = HttpHelper.ExpandTildePath(_webFormFolder);
+            if (!String.IsNullOrEmpty(_webFormFolder))
+            {
+                _fckCtl.BasePath = HttpHelper.ExpandTildePath(_webFormFolder);
+            }
 
 			if(this.Width != Unit.Empty)
 				_fckCtl.Width = this.Width;
