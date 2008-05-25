@@ -391,8 +391,8 @@ namespace UnitTests.Subtext
 			link.Url = "http://noneofyourbusiness.com/";
 			if (entryId != null)
 				link.PostID = (int)entryId;
-			link.Id = Links.CreateLink(link);
             link.Relation = rel;
+            link.Id = Links.CreateLink(link);
 			return link;
 		}
 		
