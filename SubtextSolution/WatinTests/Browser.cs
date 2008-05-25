@@ -60,6 +60,11 @@ namespace WatinTests
 			}
 		}
 
+        public void Logout()
+        {
+            this.Link(Find.ByText("logout")).Click();
+        }
+
 		public TextField ASPTextField(string id)
 		{
 			return TextField(new Regex(".*" + id));
