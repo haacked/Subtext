@@ -66,9 +66,9 @@ namespace Subtext.Web.UI.Controls
 						{
 							Link.Attributes["rel"] += " ";
 						}
-						Link.Attributes["rel"] += "external";
+                        Link.Attributes["rel"] += "external ";
 					}
-
+                    Link.Attributes["rel"] += link.Relation;
 					if(link.HasRss)
 					{
 						HyperLink RssLink = (HyperLink)e.Item.FindControl("RssLink");

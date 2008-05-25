@@ -14,6 +14,105 @@
 </asp:Content>
 
 <asp:Content ID="linkContent" ContentPlaceHolderID="pageContent" runat="server">
+
+<script language="javascript">
+
+/* ---- { Look at the xfnclient textbox, if empty do nothing, if not empty create array, iterate through array 
+and select/check appropriate input elements.} ---- */
+function SelectElements()
+{
+var itemArray = new Array();
+var initialReturn = document.getElementById('<%= txtXfn.ClientID %>');
+var title = document.getElementById('<%= txbTitle.ClientID %>');
+if (initialReturn != null && title != null && title.value.length > 0) 
+{
+            if(initialReturn.value != 'me')
+            {            
+            itemArray = $.map([initialReturn.value],function(value){return value.split(' ');});
+       
+                for(i = 0;i<itemArray.length;i++)
+                    {CheckSelect(itemArray[i]);}
+            }                    
+            else{
+                    var eMe = document.getElementById('meRel');
+                    eMe.checked = true;
+                    upit();
+                  }        
+        
+} 
+
+if(title != null && title.value.length == 0)
+    {
+    initialReturn.value = '';
+    }
+}
+window.onload = function(){
+SelectElements();
+}
+/* ---- { Select or check an element } ---- */
+function CheckSelect(object)
+{
+    var undefined;
+    var inputObject = document.getElementById(object);
+    if(inputObject != undefined)
+        {
+            inputObject.select = true;
+            inputObject.checked = true;
+        }
+}
+
+/* ---- { Get elements on page that have a common tag i.e input and class name i.e. xfnclass and populate array. } ---- */
+function GetElementsWithClassName(elementName, className) {
+	var allElements = document.getElementsByTagName(elementName);
+	var elemColl = new Array();
+	for (i = 0; i < allElements.length; i++) {
+		if (allElements[i].className == className) {
+			elemColl[elemColl.length] = allElements[i];
+		}
+	}
+	return elemColl;
+}
+
+/* ---- { returns boolean if "me" is checked } ---- */
+function meChecked() {
+	var undefined;
+	var eMe = document.getElementById('meRel');
+	if (eMe == undefined) return false;
+	else return eMe.checked;
+}
+
+/* ---- { On each onclick or keyup iterate through the input controls to see what is and is not checked displaying 
+each value in the xfn textbox. } ---- */
+function upit() {
+	var isMe = meChecked(); 
+	var inputColl = GetElementsWithClassName('input', 'xfnclass');
+	var results = document.getElementById('<%= txtXfn.ClientID %>');
+	var linkText, linkUrl, inputs = '';
+	for (i = 0; i < inputColl.length; i++) {
+		 inputColl[i].disabled = isMe;		
+		 if (!isMe && inputColl[i].checked && inputColl[i].value != '') {
+			inputs += inputColl[i].value + ' ';
+				}
+		 }
+	inputs = inputs.substr(0,inputs.length - 1);
+	
+	if (isMe) inputs='me';
+	results.value = inputs;
+	}
+
+/* ---- { Add onclick and onkeyup events to the input objects } ---- */
+function blurry() {
+	if (!document.getElementById) return;
+
+	var aInputs = document.getElementsByTagName('input');
+
+	for (var i = 0; i < aInputs.length; i++) {
+		 aInputs[i].onclick = aInputs[i].onkeyup = upit;
+	}
+}
+
+addLoadEvent(blurry);
+</script>
 	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
 	<h2 id="headerLiteral" runat="server">Links</h2>
 	<asp:Repeater id="rprSelectionList" runat="server">
@@ -106,12 +205,106 @@
 			<asp:TextBox id="txbUrl" runat="server" CssClass="textbox" />
 		    <label for="Edit_txbRss" AccessKey="r"><u>R</u>ss Url</label>
 			<asp:TextBox id="txbRss" runat="server" CssClass="textbox" />
+			<label for="txtXfn" accesskey="L"><u>L</u>ink relationship</label></strong><asp:TextBox ID="txtXfn" runat="server" CssClass="textbox" />
+			<div id="xfnRelations">			
+			<div>						
+			<h4>Link relationship helper</h4>
+			<span class="xfnTitleCol">identity</span>
+			<label for="meRel" class="xfnListOption">
+			<input type=checkbox id="meRel" />another web address of mine</label> 
+			</div>
+			
+			<div>
+			<span class="xfnTitleCol">friendship</span>
+			
+			<label for="contact" class="xfnListOption">
+						<input class="xfnclass" type="radio" name="friendship" value="contact" id="contact"  /> contact</label>
+						<label for="acquaintance"  class="xfnListOption">
+						<input class="xfnclass" type="radio" name="friendship" value="acquaintance" id="acquaintance"  />  acquaintance</label>
+						<label for="friend"  class="xfnListOption">
+						<input class="xfnclass" type="radio" name="friendship" value="friend" id="friend"  /> friend</label>
+						<label for="friendship"  class="xfnListOption">
+						<input name="friendship" type="radio" class="xfnclass" value="" id="friendship"  checked="checked" /> none</label>
+						
+			</div>
+			
+			
+		    <div>
+		    <span class="xfnTitleCol">physical</span>
+		    <label for="met" class="xfnListOption">
+			<input class="xfnclass" type="checkbox" name="physical" value="met" id="met"  />met</label>
+		    </div>
+		    
+			<div>
+			<span class="xfnTitleCol">professional</span>
+			<label for="co-worker"  class="xfnListOption">
+						<input class="xfnclass" type="checkbox" name="professional" value="co-worker" id="co-worker"  />
+						co-worker</label>
+						<label for="colleague"  class="xfnListOption">
+						<input class="xfnclass" type="checkbox" name="professional" value="colleague" id="colleague"  />
+						colleague</label>
+			</div>
+			
+			<div>
+			<span class="xfnTitleCol">geographical</span>
+			<label for="co-resident"  class="xfnListOption">
+						<input class="xfnclass" type="radio" name="geographical" value="co-resident" id="co-resident"  />
+						co-resident</label>
+						<label for="neighbor"  class="xfnListOption">
+						<input class="xfnclass" type="radio" name="geographical" value="neighbor" id="neighbor"  />
+						neighbor</label>
+						<label for="geographical"  class="xfnListOption">
+						<input class="xfnclass" type="radio" name="geographical" value="" id="Radio3"  checked="checked" />
+						none</label>
+			</div>
+			
+			<div>
+			<span class="xfnTitleCol">family</span>
+			<label for="child"  class="xfnListOption">
+						<input class="xfnclass" type="radio" name="family" value="child" id="child"/>
+						child</label>
+						<label for="kin"  class="xfnListOption">
+						<input class="xfnclass" type="radio" name="family" value="kin" id="kin"  />
+						kin</label>
+						<label for="parent"  class="xfnListOption">
+						<input class="xfnclass" type="radio" name="family" value="parent" id="parent"  />
+						parent</label>
+						<label for="sibling"  class="xfnListOption">
+						<input class="xfnclass" type="radio" name="family" value="sibling" id="sibling" />
+						sibling</label>
+						<label for="spouse"  class="xfnListOption">
+						<input class="xfnclass" type="radio" name="family" value="spouse" id="spouse" />
+						spouse</label>
+						<label for="family"  class="xfnListOption">
+						<input class="xfnclass" type="radio" name="family" value="" checked="checked" />
+						none</label>
+			</div>		
+			
+			<div>
+			<span class="xfnTitleCol">romantic</span>
+			<label for="muse"  class="xfnListOption">
+						<input class="xfnclass" type="checkbox" name="romantic" value="muse" id="muse"  />
+						muse</label>
+						<label for="crush"  class="xfnListOption">
+						<input class="xfnclass" type="checkbox" name="romantic" value="crush" id="crush"  />
+						crush</label>
+						<label for="date"  class="xfnListOption">
+						<input class="xfnclass" type="checkbox" name="romantic" value="date" id="date"  />
+						date</label>
+						<label for="romantic"  class="xfnListOption">
+						<input class="xfnclass" type="checkbox" name="romantic" value="sweetheart" id="sweetheart"  />
+						sweetheart</label>
+			</div>			
+			</div>				
+			
 		    <label for="Edit_ddlCategories" AccessKey="c"><u>C</u>ategories</label>
 			<asp:DropDownList id="ddlCategories" runat="server" />
 			<span class="checkbox">
 			    <asp:CheckBox id="ckbIsActive" runat="server" textalign="Left" Text="Visible" />
 			    <asp:CheckBox id="chkNewWindow" runat="server" textalign="Left" Text="New Window" />
 			</span>
+			
+		
 			<div>
 				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post" onclick="lkbPost_Click" />
 				<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" onclick="lkbCancel_Click" />

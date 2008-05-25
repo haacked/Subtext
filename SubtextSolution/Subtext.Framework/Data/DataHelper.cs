@@ -461,6 +461,11 @@ namespace Subtext.Framework.Data
 				link.NewWindow = (bool)reader["NewWindow"];
 			}
 
+           if (reader["Rel"] != DBNull.Value)
+           {
+               link.Relation = ReadString(reader, "Rel");
+          }   
+
 			// LinkID cannot be null
 			link.Id = ReadInt32(reader, "LinkID");
 			
@@ -524,6 +529,11 @@ namespace Subtext.Framework.Data
 			{
 				link.CategoryID = (int)dr["CategoryID"];
 			}
+
+            if (dr["Rel"] != DBNull.Value)
+            {
+                link.Relation = (string)(dr["Rel"]);
+            }  
 			
 			if(dr["PostID"] != DBNull.Value)
 			{

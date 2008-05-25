@@ -928,6 +928,7 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,link.IsActive),
 				DataHelper.MakeInParam("@NewWindow",SqlDbType.Bit,1,link.NewWindow),
 				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(link.CategoryID)),
+                DataHelper.MakeInParam("@Rel",SqlDbType.NVarChar,100,link.Relation),
 				DataHelper.MakeInParam("@PostID", SqlDbType.Int, 4, DataHelper.CheckNull(link.PostID)),
 				BlogIdParam,
 				outParam
@@ -947,6 +948,7 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,link.IsActive),
 				DataHelper.MakeInParam("@NewWindow",SqlDbType.Bit,1,link.NewWindow),
 				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(link.CategoryID)),
+                 DataHelper.MakeInParam("@Rel",SqlDbType.NVarChar,100,link.Relation),
 				DataHelper.MakeInParam("@LinkID",SqlDbType.Int,4,link.Id),
 				BlogIdParam
 			};
@@ -1764,6 +1766,7 @@ namespace Subtext.Framework.Data
 		}
 	}
 }
+
 
 
 
