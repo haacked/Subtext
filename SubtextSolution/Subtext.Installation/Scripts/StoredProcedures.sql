@@ -1591,6 +1591,7 @@ SELECT	LinkID
 	, CategoryID
 	, PostID = ISNULL(PostID, -1)
 	, NewWindow 
+	, Rel
 FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE PostID = @PostID 
 	AND BlogId = @BlogId
