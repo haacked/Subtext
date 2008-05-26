@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="<%= VirtualPathUtility.ToAbsolute("~/Skins/_System/login.css") %>" />
 	</head>
 	<body>
-		<form method="post" runat="server" id="form1">
+		<form method="post" runat="server" id="form1" defaultfocus="tbUserName">
 			<div id="loginPage" class="main">
 				<div id="logo"></div>
 				<fieldset>
@@ -36,8 +36,8 @@
 				</fieldset>
 				<fieldset>
 				    <legend>Sign In with OpenID</legend>
-                    <cc1:openidlogin id="btnOpenIdLogin" cssclass="openidLogin" runat="server" RequestEmail="Require" RequestNickname="Request" RegisterVisible="false"   
-                         RememberMeVisible="True" PolicyUrl="~/PrivacyPolicy.aspx" TabIndex="1" OnLoggedIn="btnOpenIdLogin_LoggedIn"/>
+                    <cc1:openidlogin id="btnOpenIdLogin" cssclass="openidLogin" runat="server" LabelText="" RequestEmail="Require" RequestNickname="Request" RegisterVisible="false"   
+                         RememberMeVisible="True" PolicyUrl="~/PrivacyPolicy.aspx" TabIndex="6" OnLoggedIn="btnOpenIdLogin_LoggedIn" ButtonText="Login" />
 				</fieldset>
 			</div>
 		</form>
