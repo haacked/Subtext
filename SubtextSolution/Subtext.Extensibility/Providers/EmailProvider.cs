@@ -25,15 +25,14 @@ namespace Subtext.Extensibility.Providers
 	{
         private static EmailProvider provider;
 		private static GenericProviderCollection<EmailProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<EmailProvider>("Email", out provider);
-		const int DefaultSmtpPort = 25;
-
-		string _name;
-		string _smtpServer = "localhost";
-		int _port = DefaultSmtpPort;
-		bool _sslEnabled = false;
-		string _password;
-		string _userName;
-		string _adminEmail;
+        private const int DefaultSmtpPort = 25;
+		private string _name;
+        private string _smtpServer = "localhost";
+        private int _port = DefaultSmtpPort;
+        private bool _sslEnabled;
+        private string _password;
+        private string _userName;
+        private string _adminEmail;
 
 		/// <summary>
 		/// Initializes the specified provider.
@@ -118,8 +117,10 @@ namespace Subtext.Extensibility.Providers
 		{
 			get
 			{
-				if (_smtpServer == null || _smtpServer.Length == 0)
-					_smtpServer = "localhost";
+                if (_smtpServer == null || _smtpServer.Length == 0)
+                {
+                    _smtpServer = "localhost";
+                }
 				return _smtpServer;
 			}
 			set

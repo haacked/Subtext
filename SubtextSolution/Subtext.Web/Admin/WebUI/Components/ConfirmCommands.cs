@@ -45,7 +45,7 @@ namespace Subtext.Web.Admin
 		protected string _cancelSuccessMessage; 
 		protected string _cancelFailureMessage;
 
-		protected bool _autoRedirect = false;
+		protected bool _autoRedirect;
 		protected string _redirectUrl;
 
 		#region Accessors

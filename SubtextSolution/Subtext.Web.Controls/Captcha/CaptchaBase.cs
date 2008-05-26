@@ -171,6 +171,7 @@ namespace Subtext.Web.Controls
 			}
 		}
 
+        private int timeoutInSeconds = 0;
 		[DefaultValue(0), Description("Number of seconds this CAPTCHA is valid after it is generated. Zero means valid forever."), Category("Captcha")]
 		public int CaptchaTimeout
 		{
@@ -183,7 +184,6 @@ namespace Subtext.Web.Controls
 				this.timeoutInSeconds = value;
 			}
 		}
-		private int timeoutInSeconds = 0;
 	}
 	
 	/// <summary>
