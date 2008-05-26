@@ -17,7 +17,23 @@ span.rememberMe
 	float: right;
 	margin-top: -25px;
 }
-
+input#btnOpenIdLogin_loginButton
+{
+	margin-left: 65px;
+	padding: 3px 10px;
+	font-size: 1.4em;
+}
+#btnOpenIdLogin tr td input
+{
+	float: left;
+}
+.openidLogin 
+{
+	background-color: #fffadb !important;
+	border: solid 1px #cbb930;
+	font-size: 1.4em;
+	width: 250px;
+}
 #loginPage fieldset
 {
 	width: 450px;
