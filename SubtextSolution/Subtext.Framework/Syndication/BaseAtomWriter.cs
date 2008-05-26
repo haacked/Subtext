@@ -91,7 +91,7 @@ namespace Subtext.Framework.Syndication
 			this.WriteAttributeString("xmlns:slash","http://purl.org/rss/1.0/modules/slash/");
 			//(Duncanma 11/13/2005, changing atom namespace for 1.0 feed)
 			this.WriteAttributeString("xmlns","http://www.w3.org/2005/Atom");
-			this.WriteAttributeString("xml:lang",info.Language);
+			this.WriteAttributeString("xml:lang",_info.Language);
 		}
 
 		protected virtual void StartDocument()
@@ -108,7 +108,7 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual void WriteChannel()
 		{
-			BuildChannel(info.Title, info.HomeFullyQualifiedUrl.ToString(), info.SubTitle);
+			BuildChannel(_info.Title, _info.HomeFullyQualifiedUrl.ToString(), _info.SubTitle);
 			
 		}
 
@@ -140,9 +140,9 @@ namespace Subtext.Framework.Syndication
             this.WriteElementString("id", link);
 
             this.WriteStartElement("author");
-            this.WriteElementString("name", info.Author);
+            this.WriteElementString("name", _info.Author);
             //(Duncanma 11/13/2005, changing url to uri for 1.0 feed)
-            this.WriteElementString("uri", info.HomeFullyQualifiedUrl.ToString());
+            this.WriteElementString("uri", _info.HomeFullyQualifiedUrl.ToString());
             this.WriteEndElement();
 
             //(Duncanma 11/13/05) updated generator to reflect project name change to Subtext
@@ -154,32 +154,32 @@ namespace Subtext.Framework.Syndication
             this.WriteEndElement();
 
             //(Duncanma 11/13/2005, changing modified to updated for 1.0 feed)
-            this.WriteElementString("updated", W3UTCZ(info.LastUpdated));
+            this.WriteElementString("updated", W3UTCZ(_info.LastUpdated));
 		}
 
 		private void WriteEntries()
 		{
 			BlogConfigurationSettings settings = Config.Settings;
 
-			this.clientHasAllFeedItems = true;
-			this.latestPublishDate = this.DateLastViewedFeedItemPublished;
+			this._clientHasAllFeedItems = true;
+			this._latestPublishDate = this.DateLastViewedFeedItemPublished;
 
 			foreach(Entry entry in this.Items)
 			{
 				// We'll show every entry if RFC3229 is not enabled.
 				//TODO: This is wrong.  What if a post is not published 
 				// and then gets published later. It will not be displayed.
-				if(!useDeltaEncoding || entry.DateSyndicated > this.DateLastViewedFeedItemPublished)
+				if(!_useDeltaEncoding || entry.DateSyndicated > this.DateLastViewedFeedItemPublished)
 				{
 					this.WriteStartElement("entry");
-					EntryXml(entry, settings, info.UrlFormats, info.TimeZone);
+					EntryXml(entry, settings, _info.UrlFormats, _info.TimeZone);
 					this.WriteEndElement();
-					this.clientHasAllFeedItems = false;
+					this._clientHasAllFeedItems = false;
 					
 					//Update the latest publish date.
-					if(entry.DateSyndicated > latestPublishDate)
+					if(entry.DateSyndicated > _latestPublishDate)
 					{
-						latestPublishDate = entry.DateSyndicated;
+						_latestPublishDate = entry.DateSyndicated;
 					}
 				}
 			}
@@ -229,7 +229,7 @@ namespace Subtext.Framework.Syndication
 				);		
 				this.WriteEndElement();
 
-			if(AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
+			if(AllowComments && _info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
 			{
 				//optional for CommentApi Post location
 				this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(entry.Id));

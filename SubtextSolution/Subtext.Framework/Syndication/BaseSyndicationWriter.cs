@@ -26,12 +26,15 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public abstract class BaseSyndicationWriter : XmlTextWriter
     {
-        private StringWriter writer  = null;
-        protected BlogInfo info;
-		DateTime dateLastViewedFeedItemPublished = NullValue.NullDateTime;
-		protected DateTime latestPublishDate = NullValue.NullDateTime;
-		protected bool useDeltaEncoding = false;
-		protected bool clientHasAllFeedItems = false;
+        private StringWriter _writer  = null;
+        protected BlogInfo _info;
+		private DateTime _dateLastViewedFeedItemPublished = NullValue.NullDateTime;
+		protected DateTime _latestPublishDate = NullValue.NullDateTime;
+		protected bool _useDeltaEncoding = false;
+		protected bool _clientHasAllFeedItems = false;
+
+        private bool _allowComments = true;
+        private bool _useAggBugs = false;
 
 		/// <summary>
 		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
@@ -56,12 +59,12 @@ namespace Subtext.Framework.Syndication
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
 		protected BaseSyndicationWriter(StringWriter sw, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(sw)
 		{
-			this.dateLastViewedFeedItemPublished = dateLastViewedFeedItemPublished;
-			writer = sw;
-			info = Config.CurrentBlog;
-			this.useDeltaEncoding = useDeltaEncoding;
-			this.Formatting = System.Xml.Formatting.Indented;
-			this.Indentation = 4;
+			_dateLastViewedFeedItemPublished = dateLastViewedFeedItemPublished;
+			_writer = sw;
+			_info = Config.CurrentBlog;
+			_useDeltaEncoding = useDeltaEncoding;
+			Formatting = System.Xml.Formatting.Indented;
+			Indentation = 4;
 		}
 
 		/// <summary>
@@ -73,7 +76,7 @@ namespace Subtext.Framework.Syndication
             get
             {
                 Build();
-                return writer;
+                return _writer;
             }
         }
 
@@ -108,7 +111,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				return clientHasAllFeedItems;
+				return _clientHasAllFeedItems;
 			}
 		}
 
@@ -120,7 +123,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				return latestPublishDate;
+				return _latestPublishDate;
 			}
 		}
 		
@@ -132,24 +135,20 @@ namespace Subtext.Framework.Syndication
 		/// <value></value>
 		public DateTime DateLastViewedFeedItemPublished
 		{
-			get {return this.dateLastViewedFeedItemPublished;}
+			get {return this._dateLastViewedFeedItemPublished;}
 		}
 
-    	private bool _useAggBugs = false;
         public bool UseAggBugs
         {
             get {return this._useAggBugs;}
             set {this._useAggBugs = value;}
         }
 
-        private bool _allowComments = true;
         public bool AllowComments
         {
             get {return this._allowComments;}
             set {this._allowComments = value;}
         }
-
-
 
 		/// <summary>
 		/// Builds the feed.

@@ -120,8 +120,8 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		protected virtual void WriteChannel()
 		{
-			RssImageElement image = new RssImageElement(GetRssImage(), info.Title, info.HomeFullyQualifiedUrl, 77, 60, null);
-			BuildChannel(info.Title, info.HomeFullyQualifiedUrl.ToString(), info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
+			RssImageElement image = new RssImageElement(GetRssImage(), _info.Title, _info.HomeFullyQualifiedUrl, 77, 60, null);
+			BuildChannel(_info.Title, _info.HomeFullyQualifiedUrl.ToString(), _info.Email, _info.SubTitle, _info.Language, _info.Author, Config.CurrentBlog.LicenseUrl, image);
 		}
 		
 		/// <summary>
@@ -130,7 +130,7 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		public virtual Uri GetRssImage()
 		{
-			return new Uri(info.HostFullyQualifiedUrl, "images/RSS2Image.gif");
+			return new Uri(_info.HostFullyQualifiedUrl, "images/RSS2Image.gif");
 		}
 		
 		/// <summary>
@@ -198,12 +198,12 @@ namespace Subtext.Framework.Syndication
 		private void WriteEntries()
 		{
 			BlogConfigurationSettings settings = Config.Settings;
-			this.clientHasAllFeedItems = true;
-			this.latestPublishDate = this.DateLastViewedFeedItemPublished;
+			this._clientHasAllFeedItems = true;
+			this._latestPublishDate = this.DateLastViewedFeedItemPublished;
 			
 			foreach(T entry in this.Items)
 			{
-				if (this.useDeltaEncoding && GetSyndicationDate(entry) <= DateLastViewedFeedItemPublished)
+				if (this._useDeltaEncoding && GetSyndicationDate(entry) <= DateLastViewedFeedItemPublished)
 				{
 					// Since Entries are ordered by DatePublished descending, as soon 
 					// as we encounter one that is smaller than or equal to 
@@ -216,14 +216,14 @@ namespace Subtext.Framework.Syndication
 				// If we're here, we know that entry.EntryId is larger than 
 				// the LastViewedFeedItemId.  Thus we can send it.
 				this.WriteStartElement("item");
-				EntryXml(entry, settings, info.UrlFormats);
+				EntryXml(entry, settings, _info.UrlFormats);
 				this.WriteEndElement();
-				if(GetSyndicationDate(entry) > latestPublishDate)
+				if(GetSyndicationDate(entry) > _latestPublishDate)
 				{
-					latestPublishDate = GetSyndicationDate(entry);
+					_latestPublishDate = GetSyndicationDate(entry);
 				}
 
-				this.clientHasAllFeedItems = false;
+				this._clientHasAllFeedItems = false;
 			}
 		}
 
@@ -275,7 +275,7 @@ namespace Subtext.Framework.Syndication
 
 			if (ItemCouldContainComments(item))
 			{
-				if (AllowComments && info.CommentsEnabled && ItemAllowsComments(item) && !CommentsClosedOnItem(item))
+				if (AllowComments && _info.CommentsEnabled && ItemAllowsComments(item) && !CommentsClosedOnItem(item))
 				{
 					// Comment API (http://wellformedweb.org/story/9)
 					this.WriteElementString("wfw:comment", GetCommentApiUrl(item, urlFormats));
@@ -288,7 +288,7 @@ namespace Subtext.Framework.Syndication
 
 				this.WriteElementString("wfw:commentRss", GetCommentRssUrl(item, urlFormats));
 
-				if (info.TrackbacksEnabled)
+				if (_info.TrackbacksEnabled)
 					this.WriteElementString("trackback:ping", GetTrackBackUrl(item, urlFormats));
 			}
 

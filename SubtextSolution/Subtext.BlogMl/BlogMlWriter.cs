@@ -250,13 +250,17 @@ namespace Subtext.BlogML
 				    {
 				        WriteAttachment(attachment.Path, attachment.MimeType, attachment.Url);
 				    }
-				    //Writer.Flush();
 				}
 				WriteEndElement(); // End Attachments Element
 				Writer.Flush();
 			}
 		}
 	    
+        /// <summary>
+        /// Returns a MimeType from a URL
+        /// </summary>
+        /// <param name="fullUrl">The URL to check for a mime type</param>
+        /// <returns>A string representation of the mimetype</returns>
 	    public static string GetMimeType(string fullUrl)
 		{
 			string extension = Path.GetExtension(fullUrl);

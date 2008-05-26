@@ -399,7 +399,7 @@ namespace Subtext.Framework
 			return AutoGenerateFriendlyUrl(title, wordSeparator, 0, textTransform);
 		}
 
-		static string ReplaceUnicodeCharacters(string text)
+		private static string ReplaceUnicodeCharacters(string text)
 		{
 			string normalized = text.Normalize(NormalizationForm.FormKD);
 			Encoding removal = Encoding.GetEncoding(Encoding.ASCII.CodePage, new EncoderReplacementFallback(string.Empty), new DecoderReplacementFallback(string.Empty));
@@ -417,8 +417,10 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static string AutoGenerateFriendlyUrl(string title, char wordSeparator, int entryId, TextTransform textTransform)
 		{
-			if(title == null)
-				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
+            if (title == null)
+            {
+                throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
+            }
 			
 			string entryName = RemoveNonWordCharacters(title);
 			entryName = ReplaceSpacesWithSeparator(entryName, wordSeparator);
@@ -473,11 +475,7 @@ namespace Subtext.Framework
 			return newEntryName;
 		}
 
-		
-
-		
-
-		static string ReplaceSpacesWithSeparator(string text, char wordSeparator)
+        private static string ReplaceSpacesWithSeparator(string text, char wordSeparator)
 		{
 			if(wordSeparator == char.MinValue)
 			{
@@ -490,23 +488,23 @@ namespace Subtext.Framework
 			}
 		}
 
-		static string RemoveNonWordCharacters(string text)
+		private static string RemoveNonWordCharacters(string text)
 		{
 			Regex regex = new Regex(@"[\w\d\.\- ]+", RegexOptions.Compiled);
 			MatchCollection matches = regex.Matches(text);
-			string cleansedText = string.Empty;
+            StringBuilder cleansedText = new StringBuilder();
 
 			foreach(Match match in matches)
 			{
 				if(match.Value.Length > 0)
 				{
-					cleansedText += match.Value;
+					cleansedText.Append(match.Value);
 				}
 			}			
-			return cleansedText;
+			return cleansedText.ToString();
 		}
-		
-		static string RemoveTrailingPeriods(string text)
+
+        private static string RemoveTrailingPeriods(string text)
 		{
 			Regex regex = new Regex(@"\.+$", RegexOptions.Compiled);
 			return regex.Replace(text, string.Empty);
@@ -543,7 +541,9 @@ namespace Subtext.Framework
 		public static void Update(Entry entry, params int[] categoryIDs)
 		{
             if (entry == null)
+            {
                 throw new ArgumentNullException("entry", "entry cannot be null");//Resources.ArgumentNull_Generic);
+            }
 
             entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 

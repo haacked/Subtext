@@ -389,9 +389,11 @@ namespace UnitTests.Subtext
 			link.CategoryID = categoryId;
 			link.Title = title;
 			link.Url = "http://noneofyourbusiness.com/";
-			if (entryId != null)
-				link.PostID = (int)entryId;
             link.Relation = rel;
+            if (entryId != null)
+            {
+                link.PostID = (int)entryId;
+            }
             link.Id = Links.CreateLink(link);
 			return link;
 		}
@@ -437,6 +439,11 @@ namespace UnitTests.Subtext
             return Links.CreateLinkCategory(category);
 	    }
 
+        /// <summary>
+        /// Extracts a compressed stream to a string
+        /// </summary>
+        /// <param name="compressedArchive">The archive to extract</param>
+        /// <returns></returns>
 		public static string ExtractArchiveToString(Stream compressedArchive)
 		{
 			StringBuilder target = new StringBuilder();
