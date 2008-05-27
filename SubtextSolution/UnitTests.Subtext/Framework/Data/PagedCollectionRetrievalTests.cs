@@ -137,13 +137,21 @@ namespace UnitTests.Subtext.Framework.Data
 		[Row(12, 5, 3, 2)]
 		[Row(10, 5, 2, 5)]
 		[Row(10, 20, 1, 10)]
-		[RollBack]
 		[Ignore("This test fails when run within a Transaction via the RollBack attribute, but succeeds without it.")]
 		public void GetPagedReferralsHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", this.hostName, "blog"));
-			IPagedCollectionTester tester = new ReferralsCollectionTester();
-			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
+            try
+            {
+                string host = this.hostName = UnitTestHelper.GenerateRandomString();
+                UnitTestHelper.SetHttpContextWithBlogRequest(host, "blog");
+                Assert.IsTrue(Config.CreateBlog("", "username", "password", host, "blog"));
+                IPagedCollectionTester tester = new ReferralsCollectionTester();
+                AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
+            }
+            finally
+            {
+                //DELETE
+            }
 		}
 
 		private static void AssertPagedCollection(IPagedCollectionTester pagedCollectionTester, int expectedPageCount, int itemsCountOnLastPage, int pageSize, int total)

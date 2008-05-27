@@ -18,6 +18,8 @@ using System.IO;
 using System.Text;
 using MbUnit.Framework;
 using Subtext.Scripting;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace UnitTests.Subtext.Scripting
 {
@@ -27,6 +29,70 @@ namespace UnitTests.Subtext.Scripting
 	[TestFixture]
 	public class TemplateParameterParseTests
 	{
+        [Test]
+        [ExpectedArgumentNullException]
+        public void AddWithNullTemplateParameterThrowsArgumentNullException()
+        {
+            TemplateParameterCollection collection = new TemplateParameterCollection();
+            collection.Add((TemplateParameter)null);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void AddWithNullRegexMatchThrowsArgumentNullException()
+        {
+            TemplateParameterCollection collection = new TemplateParameterCollection();
+            collection.Add((Match)null);
+        }
+
+        [Test]
+        public void CanClearCollection()
+        {
+            ICollection<TemplateParameter> collection = new TemplateParameterCollection();
+            collection.Add(new TemplateParameter("name", "string", "0"));
+            Assert.AreEqual(1, collection.Count);
+            collection.Clear();
+            Assert.AreEqual(0, collection.Count);
+        }
+
+        [Test]
+        public void CopyToEmptyArrayLeavesNotEmptyArray()
+        {
+            TemplateParameterCollection collection = new TemplateParameterCollection();
+            collection.Add(new TemplateParameter("test", "string", ""));
+
+            TemplateParameter[] parameters = new TemplateParameter[1];
+            collection.CopyTo(parameters, 0);
+            Assert.AreEqual("test", parameters[0].Name);
+        }
+
+        [Test]
+        public void IndexOfFindsTemplate()
+        {
+            TemplateParameterCollection collection = new TemplateParameterCollection();
+            TemplateParameter param = new TemplateParameter("test", "string", "");
+            collection.Add(param);
+            Assert.AreEqual(0, collection.IndexOf(param));
+        }
+
+        [Test]
+        public void IsReadOnlyReturnsFalse()
+        {
+            TemplateParameterCollection collection = new TemplateParameterCollection();
+            Assert.IsFalse(collection.IsReadOnly);
+        }
+
+        [Test]
+        public void RemoveRemovesTemplate()
+        {
+            TemplateParameterCollection collection = new TemplateParameterCollection();
+            TemplateParameter param = new TemplateParameter("test", "string", "");
+            collection.Add(param);
+            Assert.AreEqual(1, collection.Count);
+            collection.Remove(param);
+            Assert.AreEqual(0, collection.Count);
+        }
+
 	    [Test]
 	    public void TemplateParameterCollectionDoesNotStoreDuplicateParameters()
 	    {

@@ -395,7 +395,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Scripting\ExceptionTests.cs" />
+    <Compile Include="Scripting\ScriptCollectionTests.cs" />
     <Compile Include="Scripting\ScriptHelperTests.cs" />
+    <Compile Include="Scripting\ScriptSplitterTests.cs" />
+    <Compile Include="Scripting\ScriptTests.cs" />
+    <Compile Include="Scripting\SqlScriptExecutionExceptionTests.cs" />
     <Compile Include="Scripting\TemplateParameterParseTests.cs">
       <SubType>Code</SubType>
     </Compile>
