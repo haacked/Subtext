@@ -52,14 +52,6 @@ namespace Subtext.Scripting
 
         readonly string _scriptText;
 
-        public static string RemoveEmptyLines(ref string scriptText)
-        {
-            while (scriptText.IndexOf(Environment.NewLine + Environment.NewLine) >= 0)
-                scriptText = scriptText.Replace(Environment.NewLine + Environment.NewLine, Environment.NewLine);
-            return scriptText;
-        }
-
-		
 		/// <summary>
 		/// Creates a new <see cref="TemplateParameter"/> instance.
 		/// </summary>

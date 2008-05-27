@@ -262,16 +262,6 @@ namespace Subtext.Scripting
 		{
 			get { return this.LastChar == '*' && this.Current == '/'; }
 		}
-
-		protected void AppendCurrent()
-		{
-			this.splitter.Append(this.Current);
-		}
-
-		protected void Append(string text)
-		{
-			this.splitter.Append(text);
-		}
 		#endregion
 	}
 

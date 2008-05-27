@@ -63,7 +63,6 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
-		//[Ignore("Have to setup dummy blog config first")]
 		[RollBack]
 		public void SetText() 
 		{
