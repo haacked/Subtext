@@ -38,7 +38,6 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Security;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
-using System.Collections;
 using System.Collections.Specialized;
 using System.Net;
 using System.Data.SqlClient;

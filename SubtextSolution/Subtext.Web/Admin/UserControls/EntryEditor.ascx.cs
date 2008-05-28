@@ -313,10 +313,7 @@ namespace Subtext.Web.Admin.UserControls
 					Entry entry;
 					if (PostID == null)
 					{
-						if(EntryType == PostType.None)
-						{
-							throw new InvalidOperationException("The entry type is None. Impossible!");
-						}
+                        ValidateEntryTypeIsNotNone(EntryType);
 						entry = new Entry(EntryType);
 					}
 					else
@@ -427,6 +424,15 @@ namespace Subtext.Web.Admin.UserControls
                 }
 			}
 		}
+
+        [CoverageExclude]
+        private static void ValidateEntryTypeIsNotNone(PostType entryType)
+        {
+            if (entryType == PostType.None)
+            {
+                throw new InvalidOperationException("The entry type is None. Impossible!");
+            }
+        }
 
         private bool EnclosureEnabled()
         {
