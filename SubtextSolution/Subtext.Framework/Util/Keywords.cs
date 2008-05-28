@@ -204,7 +204,7 @@ namespace Subtext.Framework.Util
 
 		public static void Format(Entry entry)
 		{
-			ICollection<KeyWord> kwc = GetKeyWords();
+			IList<KeyWord> kwc = GetKeyWords();
 			if(kwc != null && kwc.Count > 0)
 			{
 				foreach(KeyWord keyword in kwc)
@@ -219,7 +219,7 @@ namespace Subtext.Framework.Util
 			return ObjectProvider.Instance().GetKeyWord(KeyWordID);
 		}
 
-        public static ICollection<KeyWord> GetKeyWords()
+        public static IList<KeyWord> GetKeyWords()
 		{
 			return ObjectProvider.Instance().GetKeyWords();
 		}

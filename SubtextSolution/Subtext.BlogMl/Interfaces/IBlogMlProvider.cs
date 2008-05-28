@@ -42,7 +42,7 @@ namespace Subtext.BlogML.Interfaces
 		/// </summary>
 		/// <param name="blogId"></param>
 		/// <returns></returns>
-		ICollection<BlogMLCategory> GetAllCategories(string blogId);
+		IList<BlogMLCategory> GetAllCategories(string blogId);
 
 		/// <summary>
 		/// Returns the blog id from whichever context the provider 

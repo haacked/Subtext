@@ -48,7 +48,7 @@ namespace UnitTests.Subtext.Scripting
         [Test]
         public void CanClearCollection()
         {
-            ICollection<TemplateParameter> collection = new TemplateParameterCollection();
+            TemplateParameterCollection collection = new TemplateParameterCollection();
             collection.Add(new TemplateParameter("name", "string", "0"));
             Assert.AreEqual(1, collection.Count);
             collection.Clear();

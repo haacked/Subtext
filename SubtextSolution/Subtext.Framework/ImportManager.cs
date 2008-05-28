@@ -75,7 +75,7 @@ namespace Subtext.Framework
 			
 			while (currentPage <= pages)
 			{
-				blogs = BlogInfo.GetBlogs(currentPage, pageSize, ConfigurationFlag.IsActive);
+				blogs = BlogInfo.GetBlogs(currentPage, pageSize, ConfigurationFlags.IsActive);
 
 				foreach(BlogInfo currentBlogInfo in blogs)
 				{

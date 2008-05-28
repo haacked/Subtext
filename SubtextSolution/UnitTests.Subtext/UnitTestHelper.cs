@@ -41,6 +41,7 @@ using Subtext.Framework.Web.HttpModules;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Net;
+using System.Data.SqlClient;
 
 namespace UnitTests.Subtext
 {
@@ -49,6 +50,40 @@ namespace UnitTests.Subtext
 	/// </summary>
 	public static class UnitTestHelper
 	{
+        public static void ClearAllBlogData()
+		{
+			string[] tables = new string[]
+				{
+					"subtext_PluginData"
+					, "subtext_PluginBlog"
+					, "subtext_KeyWords"	
+					,"subtext_Images"	
+					,"subtext_Links"
+					,"subtext_EntryViewCount"
+					,"subtext_Log"
+					,"subtext_Feedback"
+					,"subtext_EntryTag"
+					,"subtext_Tag"
+					,"subtext_Content"
+					,"subtext_LinkCategories"
+					,"subtext_Config"
+					,"subtext_Referrals"
+					,"subtext_URLs"
+				};
+
+            using (SqlConnection conn = new SqlConnection(Config.ConnectionString))
+            {
+                foreach (string tableName in tables)
+                {
+                    using (SqlCommand command = conn.CreateCommand())
+                    {
+                        command.CommandText = string.Format("DELETE [{0}]", tableName);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+		}
+
         /// <summary>
 		/// Unpacks an embedded resource into the specified directory. The resource name should 
 		/// be everything after 'UnitTests.Subtext.Resources.'.
@@ -206,7 +241,7 @@ namespace UnitTests.Subtext
 
 			string query = string.Empty;
 
-            SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(applicationPath, appPhysicalDir, page, query, output, host, port, httpVerb);
+            SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(applicationPath, appPhysicalDir, appPhysicalDir + page, page, query, output, host, port, httpVerb);
 			HttpContext.Current = new HttpContext(workerRequest);
 			HttpContext.Current.Items.Clear();
 			HttpContext.Current.Cache.Remove("BlogInfo-");
@@ -847,11 +882,11 @@ namespace UnitTests.Subtext
                     {
                         valueToSet = PageType.HomePage;
                     }
-                    else if (property.PropertyType == typeof(ICollection<Link>))
+                    else if (property.PropertyType == typeof(IList<Link>))
                     {
                         valueToSet = new List<Link>();
                     }
-                    else if (property.PropertyType == typeof(ICollection<Image>))
+                    else if (property.PropertyType == typeof(IList<Image>))
                     {
                         valueToSet = new List<Image>();
                     }
@@ -894,5 +929,145 @@ namespace UnitTests.Subtext
             Assert.AreEqual(expected.AddToFeed, result.AddToFeed, "Wrong AddToFeed flag.");
             Assert.AreEqual(expected.ShowWithPost, result.ShowWithPost, "Wrong ShowWithPost flag.");
 	    }
+
+        /// <summary>
+        /// Takes all the necessary steps to create a blog and set up the HTTP Context 
+        /// with the blog.
+        /// </summary>
+        /// <returns>
+        /// Returns a reference to a string builder.
+        /// The stringbuilder will end up containing the Response of any simulated 
+        /// requests.
+        /// </returns>
+        internal static SimulatedRequestContext SetupBlog()
+        {
+            return SetupBlog(string.Empty);
+        }
+
+        internal static MembershipUser CreateUserInstanceForTest()
+        {
+            return new MembershipUser("SubtextMembershipProvider", "Phil Haack", Guid.Empty, "test@example.com", "comment", "comment", true, false, DateTime.Now, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
+        }
+
+        /// <summary>
+        /// Takes all the necessary steps to create a blog and set up the HTTP Context
+        /// with the blog.
+        /// </summary>
+        /// <returns>
+        /// Returns a reference to a string builder.
+        /// The stringbuilder will end up containing the Response of any simulated 
+        /// requests.
+        /// </returns>
+        /// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
+        internal static SimulatedRequestContext SetupBlog(string subfolder)
+        {
+            return SetupBlog(subfolder, string.Empty);
+        }
+
+        /// <summary>
+        /// Takes all the necessary steps to create a blog and set up the HTTP Context
+        /// with the blog.
+        /// </summary>
+        /// <returns>
+        /// Returns a reference to a string builder.
+        /// The stringbuilder will end up containing the Response of any simulated 
+        /// requests.
+        /// </returns>
+        /// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
+        /// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
+        internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath)
+        {
+            return SetupBlog(subfolder, applicationPath, 80);
+        }
+
+        /// <summary>
+        /// Takes all the necessary steps to create a blog and set up the HTTP Context
+        /// with the blog.
+        /// </summary>
+        /// <returns>
+        /// Returns a reference to a string builder.
+        /// The stringbuilder will end up containing the Response of any simulated 
+        /// requests.
+        /// </returns>
+        /// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
+        /// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
+        /// <param name="port">The port for this blog.</param>
+        internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port)
+        {
+            return SetupBlog(subfolder, applicationPath, port, string.Empty);
+        }
+
+        /// <summary>
+        /// Takes all the necessary steps to create a blog and set up the HTTP Context
+        /// with the blog.
+        /// </summary>
+        /// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
+        /// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
+        /// <param name="page">The page to request.</param>
+        /// <returns>
+        /// Returns a reference to a string builder.
+        /// The stringbuilder will end up containing the Response of any simulated
+        /// requests.
+        /// </returns>
+        internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, string page)
+        {
+            return SetupBlog(subfolder, applicationPath, 80, page);
+        }
+
+        /// <summary>
+        /// Takes all the necessary steps to create a blog and set up the HTTP Context
+        /// with the blog.
+        /// </summary>
+        /// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
+        /// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
+        /// <param name="port">The port for this blog.</param>
+        /// <param name="page">The page to request.</param>
+        /// <returns>
+        /// Returns a reference to a string builder.
+        /// The stringbuilder will end up containing the Response of any simulated
+        /// requests.
+        /// </returns>
+        internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page)
+        {
+            return SetupBlog(subfolder, applicationPath, port, page, "username", "password");
+        }
+
+        /// <summary>
+        /// Takes all the necessary steps to create a blog and set up the HTTP Context
+        /// with the blog.
+        /// </summary>
+        /// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
+        /// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
+        /// <param name="port">The port for this blog.</param>
+        /// <param name="page">The page to request.</param>
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>
+        /// Returns a reference to a string builder.
+        /// The stringbuilder will end up containing the Response of any simulated
+        /// requests.
+        /// </returns>
+        internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page, string userName, string password)
+        {
+            string host = GenerateRandomString();
+
+            HttpContext.Current = null;
+            Assert.IsNotNull(Config.CreateBlog("Unit Test Blog", userName, password, host, subfolder), "Could Not Create Blog");
+
+            StringBuilder sb = new StringBuilder();
+            TextWriter output = new StringWriter(sb);
+            SimulatedHttpRequest request = SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, page, output, "GET");
+
+            if (Config.CurrentBlog != null)
+            {
+                Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
+                Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "image") + Path.DirectorySeparatorChar;
+                Config.CurrentBlog.ImagePath = "/image/";
+            }
+            HttpContext.Current.User = new GenericPrincipal(new GenericIdentity(userName), new string[] { "Administrators" });
+
+            return new SimulatedRequestContext(request, sb, output, host);
+        }
+
 	}
 }

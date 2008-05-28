@@ -13,7 +13,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
@@ -30,7 +29,7 @@ namespace Subtext.Framework
 		/// Gets archived posts by month.
 		/// </summary>
 		/// <returns></returns>
-		public static ICollection<ArchiveCount> GetPostsByMonthArchive()
+		public static IList<ArchiveCount> GetPostCountByMonth()
 		{
 			return ObjectProvider.Instance().GetPostsByMonthArchive();
 		}
@@ -39,7 +38,7 @@ namespace Subtext.Framework
 		/// Gets archived posts by year.
 		/// </summary>
 		/// <returns></returns>
-        public static ICollection<ArchiveCount> GetPostsByYearArchive()
+        public static IList<ArchiveCount> GetPostCountByYear()
 		{
 			return ObjectProvider.Instance().GetPostsByYearArchive();
 		}
@@ -48,7 +47,7 @@ namespace Subtext.Framework
         /// Gets archived posts by category.
         /// </summary>
         /// <returns></returns>
-        public static ICollection<ArchiveCount> GetPostsByCategoryArchive()
+        public static IList<ArchiveCount> GetPostCountByCategory()
         {
             return ObjectProvider.Instance().GetPostsByCategoryArchive();
         }

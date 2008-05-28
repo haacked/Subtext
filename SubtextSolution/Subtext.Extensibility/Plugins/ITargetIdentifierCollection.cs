@@ -15,16 +15,14 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Subtext.Extensibility.Plugins
 {
 	/// <summary>
 	/// Summary description for ITargetIdentifierCollection.
 	/// </summary>
-	public interface ITargetIdentifierCollection : ICollection
+	public interface ITargetIdentifierCollection : IList<ITargetIdentifier>
 	{
-		ITargetIdentifier this[int index] {get;}
-		bool Contains(ITargetIdentifier targetIdentifier);
-		void CopyTo(ITargetIdentifier[] targetIdentifiers, int index);
 	}
 }

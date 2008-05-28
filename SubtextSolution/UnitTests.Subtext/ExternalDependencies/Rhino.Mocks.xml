@@ -181,7 +181,7 @@
             Constrain that the list contains the same items as the parameter list
             </summary>
     </member>
-    <member name="M:Rhino.Mocks.Constraints.CollectionEqual.#ctor(System.Collections.ICollection)">
+    <member name="M:Rhino.Mocks.Constraints.CollectionEqual.#ctor(System.Collections.IList)">
       <summary>
             Creates a new <see cref="T:Rhino.Mocks.Constraints.CollectionEqual" /> instance.
             </summary>
@@ -204,7 +204,7 @@
             Constrain that the parameter is one of the items in the list
             </summary>
     </member>
-    <member name="M:Rhino.Mocks.Constraints.OneOf.#ctor(System.Collections.ICollection)">
+    <member name="M:Rhino.Mocks.Constraints.OneOf.#ctor(System.Collections.IList)">
       <summary>
             Creates a new <see cref="T:Rhino.Mocks.Constraints.OneOf" /> instance.
             </summary>
@@ -621,12 +621,12 @@
       <returns>
       </returns>
     </member>
-    <member name="M:Rhino.Mocks.Constraints.List.OneOf(System.Collections.ICollection)">
+    <member name="M:Rhino.Mocks.Constraints.List.OneOf(System.Collections.IList)">
       <summary>
             Determains whatever the parameter is in the collection.
             </summary>
     </member>
-    <member name="M:Rhino.Mocks.Constraints.List.Equal(System.Collections.ICollection)">
+    <member name="M:Rhino.Mocks.Constraints.List.Equal(System.Collections.IList)">
       <summary>
             Determains that the parameter collection is identical to the specified collection
             </summary>
@@ -6560,9 +6560,9 @@
     <member name="M:Castle.Core.InterceptorReferenceCollection.CopyTo(System.Array,System.Int32)">
       <summary>
             When implemented by a class, copies the elements of
-            the <see cref="T:System.Collections.ICollection" /> to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.
+            the <see cref="T:System.Collections.IList" /> to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.
             </summary>
-      <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="T:System.Collections.ICollection" />. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
+      <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="T:System.Collections.IList" />. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
       <param name="index">The zero-based index in <paramref name="array" /> at which copying begins.</param>
       <exception cref="T:System.ArgumentNullException">
         <paramref name="array" /> is <see langword="null" />.</exception>
@@ -6575,9 +6575,9 @@
         <para>
           <paramref name="index" /> is equal to or greater than the length of <paramref name="array" />.</para>
         <para>-or-</para>
-        <para>The number of elements in the source <see cref="T:System.Collections.ICollection" /> is greater than the available space from <paramref name="index" /> to the end of the destination <paramref name="array" />.</para>
+        <para>The number of elements in the source <see cref="T:System.Collections.IList" /> is greater than the available space from <paramref name="index" /> to the end of the destination <paramref name="array" />.</para>
       </exception>
-      <exception cref="T:System.InvalidCastException">The type of the source <see cref="T:System.Collections.ICollection" /> cannot be cast automatically to the type of the destination <paramref name="array" />.</exception>
+      <exception cref="T:System.InvalidCastException">The type of the source <see cref="T:System.Collections.IList" /> cannot be cast automatically to the type of the destination <paramref name="array" />.</exception>
     </member>
     <member name="M:Castle.Core.InterceptorReferenceCollection.GetEnumerator">
       <summary>
@@ -6599,7 +6599,7 @@
     <member name="P:Castle.Core.InterceptorReferenceCollection.Count">
       <summary>
             Gets the number of
-            elements contained in the <see cref="T:System.Collections.ICollection" />.
+            elements contained in the <see cref="T:System.Collections.IList" />.
             </summary>
       <value>
       </value>
@@ -6607,7 +6607,7 @@
     <member name="P:Castle.Core.InterceptorReferenceCollection.SyncRoot">
       <summary>
             Gets an object that
-            can be used to synchronize access to the <see cref="T:System.Collections.ICollection" />.
+            can be used to synchronize access to the <see cref="T:System.Collections.IList" />.
             </summary>
       <value>
       </value>
@@ -6615,7 +6615,7 @@
     <member name="P:Castle.Core.InterceptorReferenceCollection.IsSynchronized">
       <summary>
             Gets a value
-            indicating whether access to the <see cref="T:System.Collections.ICollection" /> is synchronized
+            indicating whether access to the <see cref="T:System.Collections.IList" /> is synchronized
             (thread-safe).
             </summary>
       <value>
@@ -6657,9 +6657,9 @@
     <member name="M:Castle.Core.LifecycleStepCollection.CopyTo(System.Array,System.Int32)">
       <summary>
             Copies the elements of
-            the <see cref="T:System.Collections.ICollection" /> to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.
+            the <see cref="T:System.Collections.IList" /> to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.
             </summary>
-      <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="T:System.Collections.ICollection" />. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
+      <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="T:System.Collections.IList" />. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
       <param name="index">The zero-based index in <paramref name="array" /> at which copying begins.</param>
       <exception cref="T:System.ArgumentNullException">
         <paramref name="array" /> is <see langword="null" />.</exception>
@@ -6672,9 +6672,9 @@
         <para>
           <paramref name="index" /> is equal to or greater than the length of <paramref name="array" />.</para>
         <para>-or-</para>
-        <para>The number of elements in the source <see cref="T:System.Collections.ICollection" /> is greater than the available space from <paramref name="index" /> to the end of the destination <paramref name="array" />.</para>
+        <para>The number of elements in the source <see cref="T:System.Collections.IList" /> is greater than the available space from <paramref name="index" /> to the end of the destination <paramref name="array" />.</para>
       </exception>
-      <exception cref="T:System.InvalidCastException">The type of the source <see cref="T:System.Collections.ICollection" /> cannot be cast automatically to the type of the destination <paramref name="array" />.</exception>
+      <exception cref="T:System.InvalidCastException">The type of the source <see cref="T:System.Collections.IList" /> cannot be cast automatically to the type of the destination <paramref name="array" />.</exception>
     </member>
     <member name="M:Castle.Core.LifecycleStepCollection.GetEnumerator">
       <summary>
@@ -6704,7 +6704,7 @@
     <member name="P:Castle.Core.LifecycleStepCollection.Count">
       <summary>
             Gets the number of
-            elements contained in the <see cref="T:System.Collections.ICollection" />.
+            elements contained in the <see cref="T:System.Collections.IList" />.
             </summary>
       <value>
       </value>
@@ -6712,7 +6712,7 @@
     <member name="P:Castle.Core.LifecycleStepCollection.SyncRoot">
       <summary>
             Gets an object that
-            can be used to synchronize access to the <see cref="T:System.Collections.ICollection" />.
+            can be used to synchronize access to the <see cref="T:System.Collections.IList" />.
             </summary>
       <value>
       </value>
@@ -6720,7 +6720,7 @@
     <member name="P:Castle.Core.LifecycleStepCollection.IsSynchronized">
       <summary>
             Gets a value
-            indicating whether access to the <see cref="T:System.Collections.ICollection" /> is synchronized
+            indicating whether access to the <see cref="T:System.Collections.IList" /> is synchronized
             (thread-safe).
             </summary>
       <value>

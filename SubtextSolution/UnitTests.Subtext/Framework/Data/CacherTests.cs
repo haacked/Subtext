@@ -104,7 +104,7 @@ namespace UnitTests.Subtext.Framework.Data
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
 
 			// Add categories to cache.
-			ICollection<LinkCategory> cachedCategories = new List<LinkCategory>();
+			IList<LinkCategory> cachedCategories = new List<LinkCategory>();
 			cachedCategories.Add(new LinkCategory(1, "Test 1"));
 			cachedCategories.Add(new LinkCategory(2, "Test 2"));
 
@@ -114,17 +114,17 @@ namespace UnitTests.Subtext.Framework.Data
 			ContentCache cache = ContentCache.Instantiate();
 			cache[ActiveLCCKey] = cachedCategories;
 
-			ICollection<LinkCategory> categories = Cacher.GetActiveCategories(CacheDuration.Short);
+			IList<LinkCategory> categories = Cacher.GetActiveCategories(CacheDuration.Short);
 			Assert.AreEqual(2, categories.Count, "Expected to get the cached categories.");
 			Assert.AreSame(cachedCategories, categories, "Categories should have been pulled from cache.");
 
 			//Change to spanish
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("es");
-			ICollection<LinkCategory> spanishCachedCategories = new List<LinkCategory>();
+			IList<LinkCategory> spanishCachedCategories = new List<LinkCategory>();
 			spanishCachedCategories.Add(new LinkCategory(1, "prueba numero uno"));
 			cache[ActiveLCCKey] = spanishCachedCategories;
 
-            ICollection<LinkCategory> spanishCategories = Cacher.GetActiveCategories(CacheDuration.Short);
+            IList<LinkCategory> spanishCategories = Cacher.GetActiveCategories(CacheDuration.Short);
 			Assert.AreEqual(1, spanishCategories.Count, "Only expected one category for spanish.");
 		}
 	}

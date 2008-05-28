@@ -252,6 +252,7 @@
     <Compile Include="Extensibility\EmailProviderInstantiationTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\ArchiveTests.cs" />
     <Compile Include="Framework\BlogInfoTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -377,6 +378,7 @@
     </Compile>
     <Compile Include="Framework\Web\RsdHandlerTests.cs" />
     <Compile Include="Framework\XmlRpc\MetaBlogApiTests.cs" />
+    <Compile Include="HttpSimulator.cs" />
     <Compile Include="Installation\InstallationManagerTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -406,6 +408,7 @@
     <Compile Include="SimulatedHttpRequest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SimulatedRequestContext.cs" />
     <Compile Include="StubDataReader.cs">
       <SubType>Code</SubType>
     </Compile>

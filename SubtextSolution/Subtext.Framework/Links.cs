@@ -45,7 +45,7 @@ namespace Subtext.Framework
 
 		#region LinkCollection
 
-        public static ICollection<Link> GetLinkCollectionByPostID(int PostID)
+        public static IList<Link> GetLinkCollectionByPostID(int PostID)
 		{
 			return ObjectProvider.Instance().GetLinkCollectionByPostID(PostID);
 		}
@@ -61,22 +61,22 @@ namespace Subtext.Framework
 
 		#endregion
 
-        #region ICollection<LinkCategory>
+        #region IList<LinkCategory>
 
-        public static ICollection<LinkCategory> GetCategories(CategoryType catType, ActiveFilter status)
+        public static IList<LinkCategory> GetCategories(CategoryType catType, ActiveFilter status)
 		{
             return ObjectProvider.Instance().GetCategories(catType, status == ActiveFilter.ActiveOnly);
 		}
 
-        public static ICollection<LinkCategory> GetActiveCategories()
+        public static IList<LinkCategory> GetActiveCategories()
 		{
 			return ObjectProvider.Instance().GetActiveCategories();
 		}
 
-        public static ICollection<LinkCategory> GetLinkCategoriesByPostID(int postId)
+        public static IList<LinkCategory> GetLinkCategoriesByPostID(int postId)
         {
             List<Link> links = new List<Link>(GetLinkCollectionByPostID(postId));
-            ICollection<LinkCategory> postCategories = GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            IList<LinkCategory> postCategories = GetCategories(CategoryType.PostCollection, ActiveFilter.None);
             LinkCategory[] categories = new LinkCategory[postCategories.Count];
             postCategories.CopyTo(categories, 0);
 

@@ -27,8 +27,8 @@ namespace UnitTests.Subtext
 			
 			return internalProvider.Send(to, from, subject, message);
 		}
-		
-		public void SetInternalProvider(EmailProvider provider)
+
+        public void SetInternalProvider(EmailProvider provider)
 		{
 			internalProvider = provider;
 		}
@@ -37,5 +37,6 @@ namespace UnitTests.Subtext
 		public string From;
 		public string Subject;
 		public string Message;
+        public string ReplyTo;
 	}
 }

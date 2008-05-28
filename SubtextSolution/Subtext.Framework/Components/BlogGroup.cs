@@ -87,8 +87,8 @@ namespace Subtext.Framework.Components
 			set{_isActive = value;}
 		}
 
-		private ICollection<BlogInfo> _blogs;
-        public ICollection<BlogInfo> Blogs
+		private IList<BlogInfo> _blogs;
+        public IList<BlogInfo> Blogs
 		{
             get { return _blogs; }
             set { _blogs = value; }

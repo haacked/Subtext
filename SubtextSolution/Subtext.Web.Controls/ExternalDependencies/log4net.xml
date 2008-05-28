@@ -1753,13 +1753,13 @@
         <member name="P:log4net.Repository.Hierarchy.Logger.Appenders">
             <summary>
             Get the appenders contained in this logger as an 
-            <see cref="T:System.Collections.ICollection"/>.
+            <see cref="T:System.Collections.IList"/>.
             </summary>
             <returns>A collection of the appenders in this logger</returns>
             <remarks>
             <para>
             Get the appenders contained in this logger as an 
-            <see cref="T:System.Collections.ICollection"/>. If no appenders 
+            <see cref="T:System.Collections.IList"/>. If no appenders 
             can be found, then a <see cref="T:log4net.Util.EmptyCollection"/> is returned.
             </para>
             </remarks>
@@ -7883,11 +7883,11 @@
         </member>
         <member name="T:log4net.Util.EmptyCollection">
             <summary>
-            An always empty <see cref="T:System.Collections.ICollection"/>.
+            An always empty <see cref="T:System.Collections.IList"/>.
             </summary>
             <remarks>
             <para>
-            A singleton implementation of the <see cref="T:System.Collections.ICollection"/>
+            A singleton implementation of the <see cref="T:System.Collections.IList"/>
             interface that always represents an empty collection.
             </para>
             </remarks>
@@ -7906,12 +7906,12 @@
         </member>
         <member name="M:log4net.Util.EmptyCollection.CopyTo(System.Array,System.Int32)">
             <summary>
-            Copies the elements of the <see cref="T:System.Collections.ICollection"/> to an 
+            Copies the elements of the <see cref="T:System.Collections.IList"/> to an 
             <see cref="T:System.Array"/>, starting at a particular Array index.
             </summary>
             <param name="array">The one-dimensional <see cref="T:System.Array"/> 
             that is the destination of the elements copied from 
-            <see cref="T:System.Collections.ICollection"/>. The Array must have zero-based 
+            <see cref="T:System.Collections.IList"/>. The Array must have zero-based 
             indexing.</param>
             <param name="index">The zero-based index in array at which 
             copying begins.</param>
@@ -7953,10 +7953,10 @@
         </member>
         <member name="P:log4net.Util.EmptyCollection.IsSynchronized">
             <summary>
-            Gets a value indicating if access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread-safe).
+            Gets a value indicating if access to the <see cref="T:System.Collections.IList"/> is synchronized (thread-safe).
             </summary>
             <value>
-            <b>true</b> if access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread-safe); otherwise, <b>false</b>.
+            <b>true</b> if access to the <see cref="T:System.Collections.IList"/> is synchronized (thread-safe); otherwise, <b>false</b>.
             </value>
             <remarks>
             <para>
@@ -7966,10 +7966,10 @@
         </member>
         <member name="P:log4net.Util.EmptyCollection.Count">
             <summary>
-            Gets the number of elements contained in the <see cref="T:System.Collections.ICollection"/>.
+            Gets the number of elements contained in the <see cref="T:System.Collections.IList"/>.
             </summary>
             <value>
-            The number of elements contained in the <see cref="T:System.Collections.ICollection"/>.
+            The number of elements contained in the <see cref="T:System.Collections.IList"/>.
             </value>
             <remarks>
             <para>
@@ -7979,10 +7979,10 @@
         </member>
         <member name="P:log4net.Util.EmptyCollection.SyncRoot">
             <summary>
-            Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"/>.
+            Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.IList"/>.
             </summary>
             <value>
-            An object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"/>.
+            An object that can be used to synchronize access to the <see cref="T:System.Collections.IList"/>.
             </value>
             <remarks>
             <para>
@@ -10489,9 +10489,9 @@
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="M:log4net.Util.ReadOnlyPropertiesDictionary.System#Collections#ICollection#CopyTo(System.Array,System.Int32)">
+        <member name="M:log4net.Util.ReadOnlyPropertiesDictionary.System#Collections#IList#CopyTo(System.Array,System.Int32)">
             <summary>
-            See <see cref="M:System.Collections.ICollection.CopyTo(System.Array,System.Int32)"/>
+            See <see cref="M:System.Collections.IList.CopyTo(System.Array,System.Int32)"/>
             </summary>
             <param name="array"></param>
             <param name="index"></param>
@@ -10555,9 +10555,9 @@
             See <see cref="P:System.Collections.IDictionary.IsFixedSize"/>
             </summary>
         </member>
-        <member name="P:log4net.Util.ReadOnlyPropertiesDictionary.System#Collections#ICollection#IsSynchronized">
+        <member name="P:log4net.Util.ReadOnlyPropertiesDictionary.System#Collections#IList#IsSynchronized">
             <summary>
-            See <see cref="P:System.Collections.ICollection.IsSynchronized"/>
+            See <see cref="P:System.Collections.IList.IsSynchronized"/>
             </summary>
         </member>
         <member name="P:log4net.Util.ReadOnlyPropertiesDictionary.Count">
@@ -10565,9 +10565,9 @@
             The number of properties in this collection
             </summary>
         </member>
-        <member name="P:log4net.Util.ReadOnlyPropertiesDictionary.System#Collections#ICollection#SyncRoot">
+        <member name="P:log4net.Util.ReadOnlyPropertiesDictionary.System#Collections#IList#SyncRoot">
             <summary>
-            See <see cref="P:System.Collections.ICollection.SyncRoot"/>
+            See <see cref="P:System.Collections.IList.SyncRoot"/>
             </summary>
         </member>
         <member name="M:log4net.Util.PropertiesDictionary.#ctor">
@@ -10672,9 +10672,9 @@
             </remarks>
             <exception cref="T:System.ArgumentException">Thrown if the <paramref name="key"/> is not a string</exception>
         </member>
-        <member name="M:log4net.Util.PropertiesDictionary.System#Collections#ICollection#CopyTo(System.Array,System.Int32)">
+        <member name="M:log4net.Util.PropertiesDictionary.System#Collections#IList#CopyTo(System.Array,System.Int32)">
             <summary>
-            See <see cref="M:System.Collections.ICollection.CopyTo(System.Array,System.Int32)"/>
+            See <see cref="M:System.Collections.IList.CopyTo(System.Array,System.Int32)"/>
             </summary>
             <param name="array"></param>
             <param name="index"></param>
@@ -10743,14 +10743,14 @@
             See <see cref="P:System.Collections.IDictionary.IsFixedSize"/>
             </summary>
         </member>
-        <member name="P:log4net.Util.PropertiesDictionary.System#Collections#ICollection#IsSynchronized">
+        <member name="P:log4net.Util.PropertiesDictionary.System#Collections#IList#IsSynchronized">
             <summary>
-            See <see cref="P:System.Collections.ICollection.IsSynchronized"/>
+            See <see cref="P:System.Collections.IList.IsSynchronized"/>
             </summary>
         </member>
-        <member name="P:log4net.Util.PropertiesDictionary.System#Collections#ICollection#SyncRoot">
+        <member name="P:log4net.Util.PropertiesDictionary.System#Collections#IList#SyncRoot">
             <summary>
-            See <see cref="P:System.Collections.ICollection.SyncRoot"/>
+            See <see cref="P:System.Collections.IList.SyncRoot"/>
             </summary>
         </member>
         <member name="T:log4net.Util.PatternStringConverters.ProcessIdPatternConverter">
@@ -12679,12 +12679,12 @@
         </member>
         <member name="M:log4net.Util.EmptyDictionary.CopyTo(System.Array,System.Int32)">
             <summary>
-            Copies the elements of the <see cref="T:System.Collections.ICollection"/> to an 
+            Copies the elements of the <see cref="T:System.Collections.IList"/> to an 
             <see cref="T:System.Array"/>, starting at a particular Array index.
             </summary>
             <param name="array">The one-dimensional <see cref="T:System.Array"/> 
             that is the destination of the elements copied from 
-            <see cref="T:System.Collections.ICollection"/>. The Array must have zero-based 
+            <see cref="T:System.Collections.IList"/>. The Array must have zero-based 
             indexing.</param>
             <param name="index">The zero-based index in array at which 
             copying begins.</param>
@@ -12793,10 +12793,10 @@
         </member>
         <member name="P:log4net.Util.EmptyDictionary.IsSynchronized">
             <summary>
-            Gets a value indicating if access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread-safe).
+            Gets a value indicating if access to the <see cref="T:System.Collections.IList"/> is synchronized (thread-safe).
             </summary>
             <value>
-            <b>true</b> if access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread-safe); otherwise, <b>false</b>.
+            <b>true</b> if access to the <see cref="T:System.Collections.IList"/> is synchronized (thread-safe); otherwise, <b>false</b>.
             </value>
             <remarks>
             <para>
@@ -12806,10 +12806,10 @@
         </member>
         <member name="P:log4net.Util.EmptyDictionary.Count">
             <summary>
-            Gets the number of elements contained in the <see cref="T:System.Collections.ICollection"/>
+            Gets the number of elements contained in the <see cref="T:System.Collections.IList"/>
             </summary>
             <value>
-            The number of elements contained in the <see cref="T:System.Collections.ICollection"/>.
+            The number of elements contained in the <see cref="T:System.Collections.IList"/>.
             </value>
             <remarks>
             <para>
@@ -12819,10 +12819,10 @@
         </member>
         <member name="P:log4net.Util.EmptyDictionary.SyncRoot">
             <summary>
-            Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"/>.
+            Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.IList"/>.
             </summary>
             <value>
-            An object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"/>.
+            An object that can be used to synchronize access to the <see cref="T:System.Collections.IList"/>.
             </value>
             <remarks>
             <para>
@@ -12855,9 +12855,9 @@
         </member>
         <member name="P:log4net.Util.EmptyDictionary.Keys">
             <summary>
-            Gets an <see cref="T:System.Collections.ICollection"/> containing the keys of the <see cref="T:log4net.Util.EmptyDictionary"/>.
+            Gets an <see cref="T:System.Collections.IList"/> containing the keys of the <see cref="T:log4net.Util.EmptyDictionary"/>.
             </summary>
-            <value>An <see cref="T:System.Collections.ICollection"/> containing the keys of the <see cref="T:log4net.Util.EmptyDictionary"/>.</value>
+            <value>An <see cref="T:System.Collections.IList"/> containing the keys of the <see cref="T:log4net.Util.EmptyDictionary"/>.</value>
             <remarks>
             <para>
             As the collection is empty a <see cref="T:log4net.Util.EmptyCollection"/> is returned.
@@ -12866,9 +12866,9 @@
         </member>
         <member name="P:log4net.Util.EmptyDictionary.Values">
             <summary>
-            Gets an <see cref="T:System.Collections.ICollection"/> containing the values of the <see cref="T:log4net.Util.EmptyDictionary"/>.
+            Gets an <see cref="T:System.Collections.IList"/> containing the values of the <see cref="T:log4net.Util.EmptyDictionary"/>.
             </summary>
-            <value>An <see cref="T:System.Collections.ICollection"/> containing the values of the <see cref="T:log4net.Util.EmptyDictionary"/>.</value>
+            <value>An <see cref="T:System.Collections.IList"/> containing the values of the <see cref="T:log4net.Util.EmptyDictionary"/>.</value>
             <remarks>
             <para>
             As the collection is empty a <see cref="T:log4net.Util.EmptyCollection"/> is returned.
@@ -15128,7 +15128,7 @@
             </summary>
             <param name="a">The <see cref="T:log4net.Plugin.IPlugin"/> array whose elements are copied to the new list.</param>
         </member>
-        <member name="M:log4net.Plugin.PluginCollection.#ctor(System.Collections.ICollection)">
+        <member name="M:log4net.Plugin.PluginCollection.#ctor(System.Collections.IList)">
             <summary>
             Initializes a new instance of the <c>PluginCollection</c> class
             that contains elements copied from the specified <see cref="T:log4net.Plugin.IPlugin"/> collection.
@@ -15245,7 +15245,7 @@
             <param name="x">The <see cref="T:log4net.Plugin.IPlugin"/> array whose elements should be added to the end of the <c>PluginCollection</c>.</param>
             <returns>The new <see cref="P:log4net.Plugin.PluginCollection.Count"/> of the <c>PluginCollection</c>.</returns>
         </member>
-        <member name="M:log4net.Plugin.PluginCollection.AddRange(System.Collections.ICollection)">
+        <member name="M:log4net.Plugin.PluginCollection.AddRange(System.Collections.IList)">
             <summary>
             Adds the elements of a <see cref="T:log4net.Plugin.IPlugin"/> collection to the current <c>PluginCollection</c>.
             </summary>
@@ -15280,7 +15280,7 @@
             <summary>
             Gets a value indicating whether access to the collection is synchronized (thread-safe).
             </summary>
-            <returns>true if access to the ICollection is synchronized (thread-safe); otherwise, false.</returns>
+            <returns>true if access to the IList is synchronized (thread-safe); otherwise, false.</returns>
         </member>
         <member name="P:log4net.Plugin.PluginCollection.SyncRoot">
             <summary>
@@ -18774,7 +18774,7 @@
             		</description>
             	</item>
             	<item>
-            		<term><see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> &amp; <see cref="T:System.Collections.IEnumerator"/></term>
+            		<term><see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.IList"/> &amp; <see cref="T:System.Collections.IEnumerator"/></term>
             		<description>
             		<para>
             		Rendered as an open brace, followed by a comma
@@ -18785,7 +18785,7 @@
             		For example: <c>{a, b, c}</c>.
             		</para>
             		<para>
-            		All collection classes that implement <see cref="T:System.Collections.ICollection"/> its subclasses, 
+            		All collection classes that implement <see cref="T:System.Collections.IList"/> its subclasses, 
             		or generic equivalents all implement the <see cref="T:System.Collections.IEnumerable"/> interface.
             		</para>
             		</description>
@@ -19581,7 +19581,7 @@
         <member name="P:log4net.Appender.BufferingForwardingAppender.Appenders">
             <summary>
             Gets the appenders contained in this appender as an 
-            <see cref="T:System.Collections.ICollection"/>.
+            <see cref="T:System.Collections.IList"/>.
             </summary>
             <remarks>
             If no appenders can be found, then an <see cref="T:log4net.Util.EmptyCollection"/> 
@@ -20151,7 +20151,7 @@
         <member name="P:log4net.Appender.ForwardingAppender.Appenders">
             <summary>
             Gets the appenders contained in this appender as an 
-            <see cref="T:System.Collections.ICollection"/>.
+            <see cref="T:System.Collections.IList"/>.
             </summary>
             <remarks>
             If no appenders can be found, then an <see cref="T:log4net.Util.EmptyCollection"/> 
@@ -24032,7 +24032,7 @@
             </summary>
             <param name="a">The <see cref="T:log4net.Core.Level"/> array whose elements are copied to the new list.</param>
         </member>
-        <member name="M:log4net.Core.LevelCollection.#ctor(System.Collections.ICollection)">
+        <member name="M:log4net.Core.LevelCollection.#ctor(System.Collections.IList)">
             <summary>
             Initializes a new instance of the <c>LevelCollection</c> class
             that contains elements copied from the specified <see cref="T:log4net.Core.Level"/> collection.
@@ -24148,7 +24148,7 @@
             <param name="x">The <see cref="T:log4net.Core.Level"/> array whose elements should be added to the end of the <c>LevelCollection</c>.</param>
             <returns>The new <see cref="P:log4net.Core.LevelCollection.Count"/> of the <c>LevelCollection</c>.</returns>
         </member>
-        <member name="M:log4net.Core.LevelCollection.AddRange(System.Collections.ICollection)">
+        <member name="M:log4net.Core.LevelCollection.AddRange(System.Collections.IList)">
             <summary>
             Adds the elements of a <see cref="T:log4net.Core.Level"/> collection to the current <c>LevelCollection</c>.
             </summary>
@@ -24183,7 +24183,7 @@
             <summary>
             Gets a value indicating whether access to the collection is synchronized (thread-safe).
             </summary>
-            <value>true if access to the ICollection is synchronized (thread-safe); otherwise, false.</value>
+            <value>true if access to the IList is synchronized (thread-safe); otherwise, false.</value>
         </member>
         <member name="P:log4net.Core.LevelCollection.SyncRoot">
             <summary>
@@ -27737,7 +27737,7 @@
             </summary>
             <param name="a">The <see cref="T:log4net.Appender.IAppender"/> array whose elements are copied to the new list.</param>
         </member>
-        <member name="M:log4net.Appender.AppenderCollection.#ctor(System.Collections.ICollection)">
+        <member name="M:log4net.Appender.AppenderCollection.#ctor(System.Collections.IList)">
             <summary>
             Initializes a new instance of the <c>AppenderCollection</c> class
             that contains elements copied from the specified <see cref="T:log4net.Appender.IAppender"/> collection.
@@ -27854,7 +27854,7 @@
             <param name="x">The <see cref="T:log4net.Appender.IAppender"/> array whose elements should be added to the end of the <c>AppenderCollection</c>.</param>
             <returns>The new <see cref="P:log4net.Appender.AppenderCollection.Count"/> of the <c>AppenderCollection</c>.</returns>
         </member>
-        <member name="M:log4net.Appender.AppenderCollection.AddRange(System.Collections.ICollection)">
+        <member name="M:log4net.Appender.AppenderCollection.AddRange(System.Collections.IList)">
             <summary>
             Adds the elements of a <see cref="T:log4net.Appender.IAppender"/> collection to the current <c>AppenderCollection</c>.
             </summary>
@@ -27895,7 +27895,7 @@
             <summary>
             Gets a value indicating whether access to the collection is synchronized (thread-safe).
             </summary>
-            <returns>true if access to the ICollection is synchronized (thread-safe); otherwise, false.</returns>
+            <returns>true if access to the IList is synchronized (thread-safe); otherwise, false.</returns>
         </member>
         <member name="P:log4net.Appender.AppenderCollection.SyncRoot">
             <summary>

@@ -75,7 +75,7 @@ namespace Subtext.Framework.Data
 		/// <param name="pageSize">Size of the page.</param>
 		/// <returns></returns>
         /// <param name="flags"></param>
-        public override PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags)
+        public override PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
 		{
 			using(IDataReader reader = DbProvider.Instance().GetPagedBlogs(host, pageIndex, pageSize, flags))
 			{
@@ -180,7 +180,7 @@ namespace Subtext.Framework.Data
 			{
 				//TODO: Make this more efficient.
 				IPagedCollection<BlogInfo> blogs =
-					BlogInfo.GetBlogs(0, int.MaxValue, activeOnly ? ConfigurationFlag.IsActive : ConfigurationFlag.None);
+					BlogInfo.GetBlogs(0, int.MaxValue, activeOnly ? ConfigurationFlags.IsActive : ConfigurationFlags.None);
 				group.Blogs = new List<BlogInfo>();
 				foreach (BlogInfo blog in blogs)
 				{
@@ -294,12 +294,12 @@ namespace Subtext.Framework.Data
 		/// <param name="itemCount">Item count.</param>
 		/// <param name="pc">Pc.</param>
 		/// <returns></returns>
-        public override ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc)
+        public override IList<EntryDay> GetBlogPosts(int itemCount, PostConfig pc)
 		{
 			IDataReader reader = DbProvider.Instance().GetConditionalEntries(itemCount, PostType.BlogPost, pc, false);
 			try
 			{
-                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
+                IList<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
 				return edc;
 			}
 			finally
@@ -308,12 +308,12 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-        public override ICollection<EntryDay> GetPostsByMonth(int month, int year)
+        public override IList<EntryDay> GetPostsByMonth(int month, int year)
 		{
 			IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month,year);
 			try
 			{
-                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
+                IList<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
 				return edc;
 			}
 			finally
@@ -322,12 +322,12 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-        public override ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID)
+        public override IList<EntryDay> GetPostsByCategoryID(int itemCount, int catID)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(itemCount, catID, true);
 			try
 			{
-                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
+                IList<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
 				return edc;
 			}
 			finally
@@ -760,12 +760,12 @@ namespace Subtext.Framework.Data
 
 		#region LinkCollection
 
-		public override ICollection<Link> GetLinkCollectionByPostID(int PostID)
+		public override IList<Link> GetLinkCollectionByPostID(int PostID)
 		{
 			IDataReader reader = DbProvider.Instance().GetLinkCollectionByPostID(PostID);
 			try
 			{
-				ICollection<Link> lc = new List<Link>();
+				IList<Link> lc = new List<Link>();
 				while(reader.Read())
 				{
 					lc.Add(DataHelper.LoadLink(reader));
@@ -802,7 +802,7 @@ namespace Subtext.Framework.Data
 
 		#endregion
 
-        #region ICollection<LinkCategory>
+        #region IList<LinkCategory>
 
 		/// <summary>
 		/// Gets the categories for the specified category type.
@@ -810,10 +810,10 @@ namespace Subtext.Framework.Data
 		/// <param name="catType">Type of the cat.</param>
 		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
 		/// <returns></returns>
-        public override ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly)
+        public override IList<LinkCategory> GetCategories(CategoryType catType, bool activeOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetCategories(catType, activeOnly);
-            ICollection<LinkCategory> lcc = new List<LinkCategory>();
+            IList<LinkCategory> lcc = new List<LinkCategory>();
 			try
 			{
 				while(reader.Read())
@@ -828,10 +828,10 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-        public override ICollection<LinkCategory> GetActiveCategories()
+        public override IList<LinkCategory> GetActiveCategories()
 		{
 			DataSet ds = DbProvider.Instance().GetActiveCategories();
-            ICollection<LinkCategory> lcc = new List<LinkCategory>();
+            IList<LinkCategory> lcc = new List<LinkCategory>();
 			foreach(DataRow dr in ds.Tables[0].Rows)
 			{
 				LinkCategory lc = DataHelper.LoadLinkCategory(dr);
@@ -1177,7 +1177,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 		
-		public override ICollection<KeyWord> GetKeyWords()
+		public override IList<KeyWord> GetKeyWords()
 		{
 			IDataReader reader = DbProvider.Instance().GetKeyWords();
 			try
@@ -1296,12 +1296,12 @@ namespace Subtext.Framework.Data
 
 		#region Archives
 
-		public override ICollection<ArchiveCount> GetPostsByMonthArchive()
+		public override IList<ArchiveCount> GetPostsByMonthArchive()
 		{
 			IDataReader reader = DbProvider.Instance().GetPostsByMonthArchive();
 			try
 			{
-				ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
+				IList<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
 				return acc;
 			}
 			finally
@@ -1310,12 +1310,12 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override ICollection<ArchiveCount> GetPostsByYearArchive()
+		public override IList<ArchiveCount> GetPostsByYearArchive()
 		{
 			IDataReader reader = DbProvider.Instance().GetPostsByYearArchive();
 			try
 			{
-				ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
+				IList<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
 				return acc;
 			}
 			finally
@@ -1324,12 +1324,12 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override ICollection<ArchiveCount> GetPostsByCategoryArchive()
+		public override IList<ArchiveCount> GetPostsByCategoryArchive()
 		{
 			IDataReader reader = DbProvider.Instance().GetPostsByCategoryArchive();
 			try
 			{
-				ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
+				IList<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
 				return acc;
 			}
 			finally

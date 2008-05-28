@@ -72,7 +72,7 @@ namespace Subtext.BlogML
             WriteAuthors();
             WriteExtendedProperties();
 
-			ICollection<BlogMLCategory> categories = provider.GetAllCategories(this.blogId);
+			IList<BlogMLCategory> categories = provider.GetAllCategories(this.blogId);
 			WriteCategories(categories);
 
 			ICollectionBook<BlogMLPost> allPosts = new CollectionBook<BlogMLPost>
@@ -209,7 +209,7 @@ namespace Subtext.BlogML
 			WriteComment(commentId, bmlComment.Title, ContentTypes.Text, bmlComment.DateCreated, bmlComment.DateModified, bmlComment.Approved, userName, bmlComment.UserEMail, bmlComment.UserUrl, bmlComment.Content.Text, ContentTypes.Text);
 		}
 		
-		private void WriteCategories(ICollection<BlogMLCategory> bmlCategories)
+		private void WriteCategories(IList<BlogMLCategory> bmlCategories)
 		{
 			WriteStartCategories();
 			foreach(BlogMLCategory bmlCategory in bmlCategories)

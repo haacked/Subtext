@@ -26,46 +26,47 @@ namespace UnitTests.Subtext
 	/// </summary>
 	public class SimulatedHttpRequest : SimpleWorkerRequest
 	{
+	    Uri _referer;
 		string _host;
 		string _verb;
-        int port;
+        int _port;
+	    string _physicalFilePath;
 
-	    public SimulatedHttpRequest(string appVirtualDir, string appPhysicalDir, string page, string query, TextWriter output, string host, int port, string verb) : base(appVirtualDir, appPhysicalDir, page, query, output)
+        /// <summary>
+        /// Creates a new <see cref="SimulatedHttpRequest"/> instance.
+        /// </summary>
+        /// <param name="applicationPath">App virtual dir.</param>
+        /// <param name="physicalAppPath">Physical Path to the app.</param>
+        /// <param name="physicalFilePath">Physical Path to the file.</param>
+        /// <param name="page">The Part of the URL after the application.</param>
+        /// <param name="query">Query.</param>
+        /// <param name="output">Output.</param>
+        /// <param name="host">Host.</param>
+        /// <param name="port">Port to request.</param>
+        /// <param name="verb">The HTTP Verb to use.</param>
+	    public SimulatedHttpRequest(string applicationPath, string physicalAppPath, string physicalFilePath, string page, string query, TextWriter output, string host, int port, string verb) : base(applicationPath, physicalAppPath, page, query, output)
 	    {
-            if (host == null || host.Length == 0)
-                throw new ArgumentNullException("host", "Host cannot be null nor empty.");
+            if (host == null)
+                throw new ArgumentNullException("host", "Host cannot be null.");
 
-            if (appVirtualDir == null)
-                throw new ArgumentNullException("appVirtualDir", "Can't create a request with a null virtual dir. Try empty string.");
+            if(host.Length == 0)
+                throw new ArgumentException("Host cannot be empty.", "host");
+
+            if (applicationPath == null)
+                throw new ArgumentNullException("applicationPath", "Can't create a request with a null application path. Try empty string.");
 
             _host = host;
             _verb = verb;
-	        this.port = port;
+	        _port = port;
+            _physicalFilePath = physicalFilePath;
 	    }
-	    
-		/// <summary>
-		/// Creates a new <see cref="SimulatedHttpRequest"/> instance.
-		/// </summary>
-		/// <param name="appVirtualDir">App virtual dir.</param>
-		/// <param name="appPhysicalDir">App physical dir.</param>
-		/// <param name="page">Page.</param>
-		/// <param name="query">Query.</param>
-		/// <param name="output">Output.</param>
-		/// <param name="host">Host.</param>
-		/// <param name="verb"></param>
-		public SimulatedHttpRequest(string appVirtualDir, string appPhysicalDir, string page, string query, TextWriter output, string host, string verb) : this(appVirtualDir, appPhysicalDir, page, query, output, host, 80, "GET")
-		{
-			if(host == null || host.Length == 0)
-				throw new ArgumentNullException("host", "Host cannot be null nor empty.");
 
-			if(appVirtualDir == null)
-				throw new ArgumentNullException("appVirtualDir", "Can't create a request with a null virtual dir. Try empty string.");
+        internal void SetReferer(Uri referer)
+        {
+            _referer = referer;
+        }
 
-			_host = host;
-			_verb = verb;
-		}
-		
-		/// <summary>
+	    /// <summary>
 		/// Returns the specified member of the request header.
 		/// </summary>
 		/// <returns>
@@ -88,7 +89,7 @@ namespace UnitTests.Subtext
 	    
 	    public override int GetLocalPort()
 	    {
-            return this.port;
+            return this._port;
 	    }
 
 		/// <summary>
@@ -138,6 +139,17 @@ namespace UnitTests.Subtext
 			return headersArray;
 		}
 
+        public override string GetKnownRequestHeader(int index)
+        {
+            if (index == 0x24)
+				return _referer == null ? string.Empty : _referer.ToString();
+
+            if (index == 12 && this._verb == "POST")
+                return "application/x-www-form-urlencoded";
+            
+            return base.GetKnownRequestHeader(index);
+        }
+
 		/// <summary>
 		/// Returns the virtual path to the currently executing
 		/// server application.
@@ -150,6 +162,23 @@ namespace UnitTests.Subtext
 			string appPath = base.GetAppPath();
 			return appPath;
 		}
+
+        public override string GetAppPathTranslated()
+        {
+            string path = base.GetAppPathTranslated();
+            return path;
+        }
+
+        public override string GetUriPath()
+        {
+            string uriPath = base.GetUriPath();
+            return uriPath;
+        }
+
+        public override string GetFilePathTranslated()
+        {
+            return _physicalFilePath;
+        }
 		
 		/// <summary>
 		/// Reads request data from the client (when not preloaded).

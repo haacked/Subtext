@@ -108,8 +108,7 @@ namespace Subtext.Web.Admin
 
 		internal static WebControl CopyStyles(WebControl control, NameValueCollection styles)
 		{
-			ICollection styleKeys = styles.Keys;
-			foreach (string key in styleKeys)
+			foreach (string key in styles.Keys)
 				control.Style.Add(key, styles[key]);
 
 			return control;

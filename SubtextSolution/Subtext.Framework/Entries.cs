@@ -69,7 +69,7 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="itemCount">Item count.</param>
 		/// <returns></returns>
-        public static ICollection<EntryDay> GetHomePageEntries(int itemCount)
+        public static IList<EntryDay> GetHomePageEntries(int itemCount)
 		{
 			return GetBlogPosts(itemCount, PostConfig.DisplayOnHomePage | PostConfig.IsActive);
 		}
@@ -84,17 +84,17 @@ namespace Subtext.Framework
 		/// <param name="itemCount">Item count.</param>
 		/// <param name="pc">Pc.</param>
 		/// <returns></returns>
-        public static ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc)
+        public static IList<EntryDay> GetBlogPosts(int itemCount, PostConfig pc)
 		{
 			return ObjectProvider.Instance().GetBlogPosts(itemCount, pc);
 		}
 
-		public static ICollection<EntryDay> GetPostsByMonth(int month, int year)
+		public static IList<EntryDay> GetPostsByMonth(int month, int year)
 		{
 			return ObjectProvider.Instance().GetPostsByMonth(month,year);
 		}
 
-        public static ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID)
+        public static IList<EntryDay> GetPostsByCategoryID(int itemCount, int catID)
 		{
 			return ObjectProvider.Instance().GetPostsByCategoryID(itemCount,catID);
 		}

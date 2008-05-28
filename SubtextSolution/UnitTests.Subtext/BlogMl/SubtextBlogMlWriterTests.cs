@@ -40,7 +40,7 @@ namespace UnitTests.Subtext.BlogML
 			reader.ReadBlog(stream);
 
 			// Make sure we created a post with a category.
-			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.ActiveOnly);
+			IList<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.ActiveOnly);
 			Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
 			IList<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
 			Assert.AreEqual(1, entries.Count, "Expected a single entry.");
@@ -50,7 +50,7 @@ namespace UnitTests.Subtext.BlogML
 			provider = new SubtextBlogMLProvider();
 			provider.ConnectionString = Config.ConnectionString;
 			
-			ICollection<BlogMLCategory> blogMLCategories = provider.GetAllCategories(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
+			IList<BlogMLCategory> blogMLCategories = provider.GetAllCategories(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
 			Assert.AreEqual(2, blogMLCategories.Count, "Expected to find two categories via the provider.");
 			
 			BlogMLWriter writer = BlogMLWriter.Create(provider);

@@ -182,7 +182,7 @@ namespace Subtext.Web.UI.Controls
 					if(String.IsNullOrEmpty(editLink.Text) && String.IsNullOrEmpty(editLink.ImageUrl))
 					{
 						//We'll slap on our little pencil icon.
-						editLink.ImageUrl = Config.CurrentBlog.VirtualDirectoryRoot + "Images/edit.gif";
+						editLink.ImageUrl = BlogInfo.VirtualDirectoryRoot + "Images/edit.gif";
 					}
 				}
 				else

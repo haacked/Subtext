@@ -255,7 +255,7 @@ namespace Subtext.Framework.Data
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="flags">Flags for type of retrieval.</param>
 		/// <returns></returns>
-		public override IDataReader GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags)
+		public override IDataReader GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
 		{
 			string sql = "subtext_GetPageableBlogs";
 
@@ -919,23 +919,23 @@ namespace Subtext.Framework.Data
 			if (link == null)
 				throw new ArgumentNullException("link", "Cannot insert a null link.");
 			
-			SqlParameter outParam = DataHelper.MakeOutParam("@LinkID",SqlDbType.Int,4);
+			SqlParameter outParam = DataHelper.MakeOutParam("@LinkID", SqlDbType.Int, 4);
 			SqlParameter[] p = 
 			{
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,link.Title),
-				DataHelper.MakeInParam("@Url",SqlDbType.NVarChar,255,link.Url),
-				DataHelper.MakeInParam("@Rss",SqlDbType.NVarChar,255,DataHelper.CheckNull(link.Rss)),
-				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,link.IsActive),
-				DataHelper.MakeInParam("@NewWindow",SqlDbType.Bit,1,link.NewWindow),
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(link.CategoryID)),
-                DataHelper.MakeInParam("@Rel",SqlDbType.NVarChar,100,link.Relation),
+				DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 150, link.Title),
+				DataHelper.MakeInParam("@Url", SqlDbType.NVarChar, 255, link.Url),
+				DataHelper.MakeInParam("@Rss", SqlDbType.NVarChar, 255, DataHelper.CheckNull(link.Rss)),
+				DataHelper.MakeInParam("@Active", SqlDbType.Bit, 1, link.IsActive),
+				DataHelper.MakeInParam("@NewWindow", SqlDbType.Bit, 1, link.NewWindow),
+				DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, DataHelper.CheckNull(link.CategoryID)),
+                DataHelper.MakeInParam("@Rel", SqlDbType.NVarChar, 100, link.Relation),
 				DataHelper.MakeInParam("@PostID", SqlDbType.Int, 4, DataHelper.CheckNull(link.PostID)),
 				BlogIdParam,
 				outParam
 			};
 			NonQueryInt("subtext_InsertLink", p);
-			return (int)outParam.Value;
-
+			link.Id = (int)outParam.Value;
+            return link.Id;
 		}
 
 		public override bool UpdateLink(Link link)
@@ -1250,15 +1250,15 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override bool AddBlogConfiguration(string title, string userName, string password, string host, string subfolder, int blogGroupId)
 		{
-			ConfigurationFlag flag = ConfigurationFlag.IsActive
-			                         | ConfigurationFlag.CommentsEnabled
-			                         | ConfigurationFlag.CompressSyndicatedFeed
-									 | ConfigurationFlag.IsAggregated
-									 | ConfigurationFlag.IsPasswordHashed
-									 | ConfigurationFlag.AutoFriendlyUrlEnabled
-									 | ConfigurationFlag.CommentNotificationEnabled
-									 | ConfigurationFlag.RFC3229DeltaEncodingEnabled
-									 | ConfigurationFlag.CaptchaEnabled;
+			ConfigurationFlags flag = ConfigurationFlags.IsActive
+			                         | ConfigurationFlags.CommentsEnabled
+			                         | ConfigurationFlags.CompressSyndicatedFeed
+									 | ConfigurationFlags.IsAggregated
+									 | ConfigurationFlags.IsPasswordHashed
+									 | ConfigurationFlags.AutoFriendlyUrlEnabled
+									 | ConfigurationFlags.CommentNotificationEnabled
+									 | ConfigurationFlags.RFC3229DeltaEncodingEnabled
+									 | ConfigurationFlags.CaptchaEnabled;
 			SqlParameter[] parameters = 
 			{
 				DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 100, title)

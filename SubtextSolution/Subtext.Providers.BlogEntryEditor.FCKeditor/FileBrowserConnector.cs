@@ -328,7 +328,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 		{
 			if(currentFolder.Equals("/") )
 			{
-                ICollection<LinkCategory> catList = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+                IList<LinkCategory> catList = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 
 				// Create the "Folders" node.
 				XmlNode oFoldersNode = XmlUtil.AppendElement( connectorNode, "Folders" ) ;

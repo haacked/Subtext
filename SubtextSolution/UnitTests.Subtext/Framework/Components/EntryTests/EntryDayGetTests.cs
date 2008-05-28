@@ -100,7 +100,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = Entries.GetBlogPosts(10, PostConfig.None);
+            IList<EntryDay> entryList = Entries.GetBlogPosts(10, PostConfig.None);
 
             EntryDay[] days = new EntryDay[2];
             entryList.CopyTo(days,0);
@@ -153,7 +153,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = Entries.GetHomePageEntries(10);
+            IList<EntryDay> entryList = Entries.GetHomePageEntries(10);
 
             EntryDay[] days = new EntryDay[2];
             entryList.CopyTo(days, 0);
@@ -212,7 +212,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = Entries.GetPostsByCategoryID(10, categoryId);
+            IList<EntryDay> entryList = Entries.GetPostsByCategoryID(10, categoryId);
 
             EntryDay[] days = new EntryDay[2];
             entryList.CopyTo(days, 0);
@@ -262,7 +262,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = Entries.GetPostsByMonth(DateTime.Now.Month, DateTime.Now.Year);
+            IList<EntryDay> entryList = Entries.GetPostsByMonth(DateTime.Now.Month, DateTime.Now.Year);
 
             EntryDay[] days = new EntryDay[2];
             entryList.CopyTo(days, 0);

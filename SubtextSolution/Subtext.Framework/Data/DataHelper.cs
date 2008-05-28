@@ -110,7 +110,7 @@ namespace Subtext.Framework.Data
 			return !(dtCurrent.DayOfYear == dtDay.DayOfYear && dtCurrent.Year == dtDay.Year);
 		}
 
-        public static ICollection<EntryDay> LoadEntryDayCollection(IDataReader reader)
+        public static IList<EntryDay> LoadEntryDayCollection(IDataReader reader)
 		{
 			DateTime dt = new DateTime(1900, 1, 1);
 			List<EntryDay> edc = new List<EntryDay>();
@@ -425,6 +425,14 @@ namespace Subtext.Framework.Data
 			{
 				lc.Description = ReadString(reader, "Description");
 			}
+            if (reader["BlogId"] != DBNull.Value)
+            {
+                lc.BlogId = ReadInt32(reader, "BlogId");
+            }
+            else 
+            {
+                lc.BlogId = Config.CurrentBlog.Id;
+            }
 			return lc;
 		}
 
@@ -443,6 +451,14 @@ namespace Subtext.Framework.Data
 			{
 				lc.Description = (string)dr["Description"];
 			}
+            if (dr["BlogId"] != DBNull.Value)
+            {
+                lc.BlogId = (int)dr["BlogId"];
+            }
+            else
+            {
+                lc.BlogId = Config.CurrentBlog.Id;
+            }
 			return lc;
 		}
 
@@ -461,10 +477,10 @@ namespace Subtext.Framework.Data
 				link.NewWindow = (bool)reader["NewWindow"];
 			}
 
-           if (reader["Rel"] != DBNull.Value)
-           {
+            if (reader["Rel"] != DBNull.Value)
+            {
                link.Relation = ReadString(reader, "Rel");
-          }   
+            }   
 
 			// LinkID cannot be null
 			link.Id = ReadInt32(reader, "LinkID");
@@ -493,6 +509,11 @@ namespace Subtext.Framework.Data
 			{
 				link.PostID = ReadInt32(reader, "PostID");
 			}
+
+            if (reader["BlogId"] != DBNull.Value)
+            {
+                link.BlogId = ReadInt32(reader, "BlogId");
+            }
 			return link;
 		}
 
@@ -578,7 +599,7 @@ namespace Subtext.Framework.Data
 			// This is a result of the legacy schema.
 			info.Subfolder = ReadString(reader, "Application");
 
-			info.Flag = (ConfigurationFlag)(ReadInt32(reader, "Flag"));
+			info.Flag = (ConfigurationFlags)(ReadInt32(reader, "Flag"));
 
 			info.Skin = new SkinConfig();
 			info.Skin.TemplateFolder = ReadString(reader, "Skin");
@@ -611,12 +632,12 @@ namespace Subtext.Framework.Data
 
 		#region Archive
 
-        public static ICollection<ArchiveCount> LoadArchiveCount(IDataReader reader)
+        public static IList<ArchiveCount> LoadArchiveCount(IDataReader reader)
 		{
 			const string dateformat = "{0:00}/{1:00}/{2:0000}";
 			string dt; //
 			ArchiveCount ac;// new ArchiveCount();
-            ICollection<ArchiveCount> acc = new Collection<ArchiveCount>();
+            IList<ArchiveCount> acc = new Collection<ArchiveCount>();
 			while(reader.Read())
 			{
 				ac = new ArchiveCount();

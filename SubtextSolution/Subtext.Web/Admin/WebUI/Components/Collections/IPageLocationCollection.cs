@@ -25,7 +25,7 @@ namespace Subtext.Web.Admin
 	/// typed collections of <see cref="PageLocation"/> elements.
 	/// </summary>
 	/// <remarks>
-	/// <b>IPageLocationCollection</b> provides an <see cref="ICollection"/> 
+	/// <b>IPageLocationCollection</b> provides an <see cref="IList"/> 
 	/// that is strongly typed for <see cref="PageLocation"/> elements.
 	/// </remarks>    
 	public interface IPageLocationCollection 
@@ -39,7 +39,7 @@ namespace Subtext.Web.Admin
 		/// </summary>
 		/// <value>The number of elements contained in the 
 		/// <see cref="IPageLocationCollection"/>.</value>
-		/// <remarks>Please refer to <see cref="ICollection.Count"/> for details.</remarks>
+		/// <remarks>Please refer to <see cref="IList.Count"/> for details.</remarks>
 
 		int Count { get; }
         
@@ -52,7 +52,7 @@ namespace Subtext.Web.Admin
 		/// </summary>
 		/// <value><c>true</c> if access to the <see cref="IPageLocationCollection"/> is 
 		/// synchronized (thread-safe); otherwise, <c>false</c>. The default is <c>false</c>.</value>
-		/// <remarks>Please refer to <see cref="ICollection.IsSynchronized"/> for details.</remarks>
+		/// <remarks>Please refer to <see cref="IList.IsSynchronized"/> for details.</remarks>
 
 		bool IsSynchronized { get; }
         
@@ -65,7 +65,7 @@ namespace Subtext.Web.Admin
 		/// </summary>
 		/// <value>An object that can be used to synchronize access 
 		/// to the <see cref="IPageLocationCollection"/>.</value>
-		/// <remarks>Please refer to <see cref="ICollection.SyncRoot"/> for details.</remarks>
+		/// <remarks>Please refer to <see cref="IList.SyncRoot"/> for details.</remarks>
 
 		object SyncRoot { get; }
 
@@ -93,7 +93,7 @@ namespace Subtext.Web.Admin
 		/// The number of elements in the source <see cref="IPageLocationCollection"/> is greater 
 		/// than the available space from <paramref name="arrayIndex"/> to the end of the destination 
 		/// <paramref name="array"/>.</para></exception>
-		/// <remarks>Please refer to <see cref="ICollection.CopyTo"/> for details.</remarks>
+		/// <remarks>Please refer to <see cref="IList.CopyTo"/> for details.</remarks>
 
 		void CopyTo(PageLocation[] array, int arrayIndex);
         

@@ -72,7 +72,7 @@ namespace UnitTests.Subtext.BlogML
 			DateTime dateCreated = DateTime.Now;
 			BlogMLBlog blog = ObjectHydrator.CreateBlogInstance("the title", "the subtitle", "http://blog.example.com/", "phil", "test@example.com", dateCreated);
 			BlogMLContext context = new BlogMLContext(blogId, false);
-			ICollection<BlogMLCategory> categories = new Collection<BlogMLCategory>();
+			IList<BlogMLCategory> categories = new Collection<BlogMLCategory>();
 			categories.Add(ObjectHydrator.CreateCategoryInstance(catOneId, "category1", "Category 1 is the first", true, null, dateCreated, dateCreated));
 			categories.Add(ObjectHydrator.CreateCategoryInstance(catTwoId, "category2", "Category 2 is the second", true, null, dateCreated, dateCreated));
 
@@ -172,7 +172,7 @@ namespace UnitTests.Subtext.BlogML
 			DateTime dateCreated = DateTime.Now;
 			BlogMLBlog blog = ObjectHydrator.CreateBlogInstance("the title", "the subtitle", "http://blog.example.com/", "phil", "test@example.com", dateCreated);
 			BlogMLContext context = new BlogMLContext(blogId, false);
-			ICollection<BlogMLCategory> categories = new Collection<BlogMLCategory>();
+			IList<BlogMLCategory> categories = new Collection<BlogMLCategory>();
 			categories.Add(ObjectHydrator.CreateCategoryInstance(catOneId, "category1", "Category 1 is the first", true, null, dateCreated, dateCreated));
 			categories.Add(ObjectHydrator.CreateCategoryInstance(catTwoId, "category2", "Category 2 is the second", true, null, dateCreated, dateCreated));
 

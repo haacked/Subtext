@@ -176,7 +176,7 @@ namespace Subtext.Framework.XmlRpc
 		{
 			ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess);
 			
-			ICollection<Entry> ec = Entries.GetRecentPosts(numberOfPosts, PostType.BlogPost, PostConfig.IsActive, true);
+			IList<Entry> ec = Entries.GetRecentPosts(numberOfPosts, PostType.BlogPost, PostConfig.IsActive, true);
 			//int i = 0;
 			int count = ec.Count;
 			Post[] posts = new Post[count];
@@ -214,7 +214,7 @@ namespace Subtext.Framework.XmlRpc
 			Framework.BlogInfo info = Config.CurrentBlog;
 			ValidateUser(username,password,info.AllowServiceAccess);
 
-            ICollection<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            IList<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			if(lcc == null)
 			{
 				throw new XmlRpcFaultException(0,"No categories exist");
@@ -447,7 +447,7 @@ namespace Subtext.Framework.XmlRpc
 		{
 			ValidateUser(username,password,Config.CurrentBlog.AllowServiceAccess);
 
-            ICollection<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            IList<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			if(lcc == null)
 			{
 				throw new XmlRpcFaultException(0, "No categories exist");
@@ -499,14 +499,14 @@ namespace Subtext.Framework.XmlRpc
 			ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess);
 
 			int postID = Int32.Parse(postid);
-			ICollection<Link> postCategories = Links.GetLinkCollectionByPostID(postID);
+			IList<Link> postCategories = Links.GetLinkCollectionByPostID(postID);
 			MtCategory[] categories = new MtCategory[postCategories.Count];
 			if (postCategories.Count > 0)
 			{
 				// REFACTOR: Might prefer seeing a dictionary come back straight from the provider.
 				// for now we'll build our own catid->catTitle lookup--we need it below bc collection
 				// from post is going to be null for title.
-                ICollection<LinkCategory> cats = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+                IList<LinkCategory> cats = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 				Hashtable catLookup = new Hashtable(cats.Count);
 				foreach (LinkCategory currentCat in cats)
 					catLookup.Add(currentCat.Id, currentCat.Title);

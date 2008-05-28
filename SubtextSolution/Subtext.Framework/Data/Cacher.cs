@@ -44,13 +44,13 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-        public static ICollection<LinkCategory> GetActiveCategories(CacheDuration cacheDuration)
+        public static IList<LinkCategory> GetActiveCategories(CacheDuration cacheDuration)
 		{
 			string key = string.Format(ActiveLCCKey, Config.CurrentBlog.Id);
 
 			ContentCache cache = ContentCache.Instantiate();
 
-            ICollection<LinkCategory> categories = (ICollection<LinkCategory>)cache[key];
+            IList<LinkCategory> categories = (IList<LinkCategory>)cache[key];
 			if(categories == null)
 			{
 				categories = Links.GetActiveCategories();
