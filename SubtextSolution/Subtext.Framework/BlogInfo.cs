@@ -95,7 +95,7 @@ namespace Subtext.Framework
         /// <param name="pageIndex">Zero based index of the page to retrieve.</param>
         /// <param name="pageSize">Number of records to display on the page.</param>
         /// <param name="flags">Configuration flags to filter blogs retrieved.</param>
-        public static IPagedCollection<BlogInfo> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlag flags)
+        public static IPagedCollection<BlogInfo> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
         {
             if (String.IsNullOrEmpty(host))
                 throw new ArgumentNullException("host", "Host must not be null or empty.");
@@ -116,7 +116,7 @@ namespace Subtext.Framework
         /// <param name="pageSize">Size of the page.</param>
         /// <param name="flags"></param>
         /// <returns></returns>
-        public static IPagedCollection<BlogInfo> GetBlogs(int pageIndex, int pageSize, ConfigurationFlag flags)
+        public static IPagedCollection<BlogInfo> GetBlogs(int pageIndex, int pageSize, ConfigurationFlags flags)
         {
             return ObjectProvider.Instance().GetPagedBlogs(null, pageIndex, pageSize, flags);
         }
@@ -268,7 +268,8 @@ namespace Subtext.Framework
             set { this._storyCount = value; }
         }
 
-        private string _language = "en-US";
+        const string DefaultLanguage = "en-US";
+        private string _language = DefaultLanguage;
         /// <summary>
         /// Gets or sets the language the blog is in..
         /// </summary>
@@ -276,7 +277,11 @@ namespace Subtext.Framework
         public string Language
         {
             get { return _language; }
-            set { _language = value; }
+            set 
+            { 
+                _language = value ?? DefaultLanguage;
+                _languageCode = null;
+            }
         }
 
         /// <summary>
@@ -332,7 +337,7 @@ namespace Subtext.Framework
         /// <summary>
         /// The port the blog is listening on.
         /// </summary>
-        public int Port
+        public static int Port
         {
             get
             {
@@ -353,8 +358,8 @@ namespace Subtext.Framework
         /// </value>
         public bool AllowServiceAccess
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.EnableServiceAccess); }
-            set { FlagSetter(ConfigurationFlag.EnableServiceAccess, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.EnableServiceAccess); }
+            set { FlagSetter(ConfigurationFlags.EnableServiceAccess, value); }
         }
 
         /// <summary>
@@ -367,8 +372,8 @@ namespace Subtext.Framework
         /// </value>
         public bool IsPasswordHashed
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.IsPasswordHashed); }
-            set { FlagSetter(ConfigurationFlag.IsPasswordHashed, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.IsPasswordHashed); }
+            set { FlagSetter(ConfigurationFlags.IsPasswordHashed, value); }
         }
 
         /// <summary>
@@ -380,8 +385,8 @@ namespace Subtext.Framework
         /// </value>
         public bool UseSyndicationCompression
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.CompressSyndicatedFeed); }
-            set { FlagSetter(ConfigurationFlag.CompressSyndicatedFeed, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.CompressSyndicatedFeed); }
+            set { FlagSetter(ConfigurationFlags.CompressSyndicatedFeed, value); }
         }
 
         /// <summary>
@@ -393,8 +398,8 @@ namespace Subtext.Framework
         /// </value>
         public bool IsAggregated
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.IsAggregated); }
-            set { FlagSetter(ConfigurationFlag.IsAggregated, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.IsAggregated); }
+            set { FlagSetter(ConfigurationFlags.IsAggregated, value); }
         }
 
         /// <summary>
@@ -405,8 +410,8 @@ namespace Subtext.Framework
         /// </value>
         public bool CommentsEnabled
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.CommentsEnabled); }
-            set { FlagSetter(ConfigurationFlag.CommentsEnabled, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.CommentsEnabled); }
+            set { FlagSetter(ConfigurationFlags.CommentsEnabled, value); }
         }
 
         /// <summary>
@@ -417,8 +422,8 @@ namespace Subtext.Framework
         /// </value>
         public bool CoCommentsEnabled
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.CoCommentEnabled); }
-            set { FlagSetter(ConfigurationFlag.CoCommentEnabled, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.CoCommentEnabled); }
+            set { FlagSetter(ConfigurationFlags.CoCommentEnabled, value); }
         }
 
         /// <summary>
@@ -430,8 +435,8 @@ namespace Subtext.Framework
         /// </value>
         public bool AutoFriendlyUrlEnabled
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.AutoFriendlyUrlEnabled); }
-            set { FlagSetter(ConfigurationFlag.AutoFriendlyUrlEnabled, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.AutoFriendlyUrlEnabled); }
+            set { FlagSetter(ConfigurationFlags.AutoFriendlyUrlEnabled, value); }
         }
 
         /// <summary>
@@ -442,8 +447,8 @@ namespace Subtext.Framework
         /// </value>
         public bool TrackbacksEnabled
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.TrackbacksEnabled); }
-            set { FlagSetter(ConfigurationFlag.TrackbacksEnabled, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.TrackbacksEnabled); }
+            set { FlagSetter(ConfigurationFlags.TrackbacksEnabled, value); }
         }
 
         /// <summary>
@@ -460,8 +465,8 @@ namespace Subtext.Framework
         /// </value>
         public bool DuplicateCommentsEnabled
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.DuplicateCommentsEnabled); }
-            set { FlagSetter(ConfigurationFlag.DuplicateCommentsEnabled, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.DuplicateCommentsEnabled); }
+            set { FlagSetter(ConfigurationFlags.DuplicateCommentsEnabled, value); }
         }
 
         /// <summary>
@@ -479,8 +484,8 @@ namespace Subtext.Framework
         /// </value>
         public bool RFC3229DeltaEncodingEnabled
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.RFC3229DeltaEncodingEnabled); }
-            set { FlagSetter(ConfigurationFlag.RFC3229DeltaEncodingEnabled, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.RFC3229DeltaEncodingEnabled); }
+            set { FlagSetter(ConfigurationFlags.RFC3229DeltaEncodingEnabled, value); }
         }
 
         /// <summary>
@@ -561,8 +566,8 @@ namespace Subtext.Framework
         /// </value>
         public bool IsActive
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.IsActive); }
-            set { FlagSetter(ConfigurationFlag.IsActive, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.IsActive); }
+            set { FlagSetter(ConfigurationFlags.IsActive, value); }
         }
 
         /// <summary>
@@ -573,8 +578,8 @@ namespace Subtext.Framework
         /// </value>
         public bool ModerationEnabled
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.CommentModerationEnabled); }
-            set { FlagSetter(ConfigurationFlag.CommentModerationEnabled, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.CommentModerationEnabled); }
+            set { FlagSetter(ConfigurationFlags.CommentModerationEnabled, value); }
         }
 
         /// <summary>
@@ -583,8 +588,8 @@ namespace Subtext.Framework
         /// <value><c>true</c> if captcha is enabled; otherwise, <c>false</c>.</value>
         public bool CaptchaEnabled
         {
-            get { return FlagPropertyCheck(ConfigurationFlag.CaptchaEnabled); }
-            set { FlagSetter(ConfigurationFlag.CaptchaEnabled, value); }
+            get { return FlagPropertyCheck(ConfigurationFlags.CaptchaEnabled); }
+            set { FlagSetter(ConfigurationFlags.CaptchaEnabled, value); }
         }
 
         private string subfolder;
@@ -951,7 +956,7 @@ namespace Subtext.Framework
         /// HttpContext.Current.Request.ApplicationPath property that always ends with a slash.
         /// </summary>
         /// <value>The virtual URL.</value>
-        public string VirtualDirectoryRoot
+        public static string VirtualDirectoryRoot
         {
             get
             {
@@ -1024,9 +1029,9 @@ namespace Subtext.Framework
                 if (this.hostFullyQualifiedUrl == null)
                 {
                     string host = HttpContext.Current.Request.Url.Scheme + "://" + this._host;
-                    if (this.Port != BlogRequest.DefaultPort)
+                    if (BlogInfo.Port != BlogRequest.DefaultPort)
                     {
-                        host += ":" + this.Port;
+                        host += ":" + BlogInfo.Port;
                     }
                     host += VirtualDirectoryRoot;
                     hostFullyQualifiedUrl = new Uri(host);
@@ -1048,13 +1053,13 @@ namespace Subtext.Framework
             }
         }
 
-        private ConfigurationFlag _flag = ConfigurationFlag.None;
+        private ConfigurationFlags _flag = ConfigurationFlags.None;
         /// <summary>
         /// Gets or sets the flags pertaining to this blog.  
         /// This is a bitmask of <see cref="ConfigurationFlag"/>s.
         /// </summary>
         /// <value></value>
-        public ConfigurationFlag Flag
+        public ConfigurationFlags Flag
         {
             get { return _flag; }
             set { _flag = value; }
@@ -1113,7 +1118,7 @@ namespace Subtext.Framework
         /// </summary>
         /// <param name="cf">Cf.</param>
         /// <param name="select">Select.</param>
-        protected void FlagSetter(ConfigurationFlag cf, bool select)
+        protected void FlagSetter(ConfigurationFlags cf, bool select)
         {
             if (select)
             {
@@ -1131,7 +1136,7 @@ namespace Subtext.Framework
         /// </summary>
         /// <param name="cf">Cf.</param>
         /// <returns></returns>
-        protected bool FlagPropertyCheck(ConfigurationFlag cf)
+        protected bool FlagPropertyCheck(ConfigurationFlags cf)
         {
             return (this.Flag & cf) == cf;
         }

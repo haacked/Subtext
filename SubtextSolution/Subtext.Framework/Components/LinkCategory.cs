@@ -108,15 +108,15 @@ namespace Subtext.Framework.Components
 			set{_isActive = value;}
 		}
 
-		private ICollection<Link> _links;
-		public ICollection<Link> Links
+		private IList<Link> _links;
+		public IList<Link> Links
 		{
 			get{return _links;}
 			set{_links = value;}
 		}
 
-        private ICollection<Image> _images;
-        public ICollection<Image> Images
+        private IList<Image> _images;
+        public IList<Image> Images
 		{
 			get{return _images;}
 			set{_images = value;}

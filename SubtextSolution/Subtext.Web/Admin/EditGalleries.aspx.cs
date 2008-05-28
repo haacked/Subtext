@@ -77,7 +77,7 @@ namespace Subtext.Web.Admin.Pages
 		private void BindList()
 		{
 			// TODO: possibly, later on, add paging support a la other cat editors
-            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, ActiveFilter.None);
+            IList<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, ActiveFilter.None);
 
 			if (selectionList.Count > 0)
 			{
@@ -101,7 +101,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			CategoryID = galleryID;
 			LinkCategory selectedGallery = Links.GetLinkCategory(galleryID,false);
-			ICollection<Image> imageList = Images.GetImagesByCategoryID(galleryID, false);
+			IList<Image> imageList = Images.GetImagesByCategoryID(galleryID, false);
 
 			plhImageHeader.Controls.Clear();
 			string galleryTitle = string.Format(CultureInfo.InvariantCulture, "{0} - {1} images", selectedGallery.Title, imageList.Count);

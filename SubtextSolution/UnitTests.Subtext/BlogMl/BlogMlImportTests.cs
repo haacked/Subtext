@@ -85,7 +85,7 @@ namespace UnitTests.Subtext.Framework.Import
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.TwoCategories.xml");
 			reader.ReadBlog(stream);
 
-			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+			IList<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			Assert.AreEqual(2, categories.Count, "Expected two categories to be created");
 		}
 
@@ -99,7 +99,7 @@ namespace UnitTests.Subtext.Framework.Import
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithCategory.xml");
 			reader.ReadBlog(stream);
 
-			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+			IList<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
 
 			IList<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
@@ -121,7 +121,7 @@ namespace UnitTests.Subtext.Framework.Import
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithBadCategoryRef.xml");
 			reader.ReadBlog(stream);
 
-			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+			IList<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
 
 			IList<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
@@ -133,7 +133,7 @@ namespace UnitTests.Subtext.Framework.Import
         [RollBack2]
         public void RoundTripBlogMlTest()
         {
-			UnitTestHelper.CreateBlogAndSetupContext();
+			UnitTestHelper.SetupBlog();
 
             // Import /Resources/BlogMl/SimpleBlogMl.xml into the current blog
 			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
@@ -143,6 +143,8 @@ namespace UnitTests.Subtext.Framework.Import
         	// Confirm the entries
             IList<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
         	Assert.AreEqual(18, entries.Count);
+
+            Config.CurrentBlog.ImageDirectory = null;
 
         	// Export this blog.
 			IBlogMLProvider provider = BlogMLProvider.Instance();
@@ -160,7 +162,9 @@ namespace UnitTests.Subtext.Framework.Import
                 UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "1", "");
         		Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("1"), "Looks like we've cached our old blog.");
 				memoryStream.Position = 0;
-            	reader.ReadBlog(memoryStream);
+                Config.CurrentBlog.ImageDirectory = null;
+                Config.CurrentBlog.ImagePath = null;
+                reader.ReadBlog(memoryStream);
             }
 
             IList<Entry> newEntries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);

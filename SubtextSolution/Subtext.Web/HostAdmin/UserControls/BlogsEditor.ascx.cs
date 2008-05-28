@@ -82,7 +82,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             IPagedCollection<BlogInfo> blogs; 
 			
-			ConfigurationFlag configFlags = this.chkShowInactive.Checked ? ConfigurationFlag.None : ConfigurationFlag.IsActive;
+			ConfigurationFlags configFlags = this.chkShowInactive.Checked ? ConfigurationFlags.None : ConfigurationFlags.IsActive;
 			
 			blogs = BlogInfo.GetBlogs(this.pageIndex, resultsPager.PageSize, configFlags);
 			

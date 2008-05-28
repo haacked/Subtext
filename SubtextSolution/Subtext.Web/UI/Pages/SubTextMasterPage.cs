@@ -158,7 +158,7 @@ namespace Subtext.Web.UI.Pages
             }
 
             // Add the per-blog MetaTags to the page Head section.
-            ICollection<MetaTag> blogMetaTags = MetaTags.GetMetaTagsForBlog(CurrentBlog);
+            IList<MetaTag> blogMetaTags = MetaTags.GetMetaTagsForBlog(CurrentBlog);
             foreach (MetaTag tag in blogMetaTags)
             {
                 HtmlMeta mt = new HtmlMeta();

@@ -82,7 +82,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="pageSize">Size of the page.</param>
 		/// <returns></returns>
 		/// <param name="flags"></param>
-		public abstract PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags);
+		public abstract PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags);
 		
 		/// <summary>
 		/// Gets the blog by id.
@@ -155,8 +155,8 @@ namespace Subtext.Framework.Providers
 		#region EntryDays
 
 		public abstract EntryDay GetEntryDay(DateTime dt);
-        public abstract ICollection<EntryDay> GetPostsByMonth(int month, int year);
-        public abstract ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
+        public abstract IList<EntryDay> GetPostsByMonth(int month, int year);
+        public abstract IList<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
 
 		/// <summary>
 		/// Gets entries within the system that meet the 
@@ -165,7 +165,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="itemCount">Item count.</param>
 		/// <param name="pc">Pc.</param>
 		/// <returns></returns>
-        public abstract ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc);
+        public abstract IList<EntryDay> GetBlogPosts(int itemCount, PostConfig pc);
 
 		#endregion
 
@@ -343,7 +343,7 @@ namespace Subtext.Framework.Providers
 
 		#region LinkCollection
 
-        public abstract ICollection<Link> GetLinkCollectionByPostID(int PostID);
+        public abstract IList<Link> GetLinkCollectionByPostID(int PostID);
 
 		#endregion
 
@@ -355,8 +355,8 @@ namespace Subtext.Framework.Providers
 
 		#region LinkCategoryCollection
 
-        public abstract ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly);
-        public abstract ICollection<LinkCategory> GetActiveCategories();
+        public abstract IList<LinkCategory> GetCategories(CategoryType catType, bool activeOnly);
+        public abstract IList<LinkCategory> GetActiveCategories();
 
 		#endregion
 
@@ -541,7 +541,7 @@ namespace Subtext.Framework.Providers
         #region KeyWords
 
         public abstract KeyWord GetKeyWord(int KeyWordID);
-        public abstract ICollection<KeyWord> GetKeyWords();
+        public abstract IList<KeyWord> GetKeyWords();
         public abstract IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize);
 		public abstract bool UpdateKeyWord(KeyWord keyWord);
 		public abstract int InsertKeyWord(KeyWord keyWord);
@@ -560,9 +560,9 @@ namespace Subtext.Framework.Providers
 		#endregion
 
 		#region Archives
-        public abstract ICollection<ArchiveCount> GetPostsByYearArchive();
-        public abstract ICollection<ArchiveCount> GetPostsByMonthArchive();
-        public abstract ICollection<ArchiveCount> GetPostsByCategoryArchive();
+        public abstract IList<ArchiveCount> GetPostsByYearArchive();
+        public abstract IList<ArchiveCount> GetPostsByMonthArchive();
+        public abstract IList<ArchiveCount> GetPostsByCategoryArchive();
 		#endregion
 		#endregion
 

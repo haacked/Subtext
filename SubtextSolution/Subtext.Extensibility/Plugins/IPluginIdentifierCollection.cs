@@ -15,16 +15,14 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Subtext.Extensibility.Plugins
 {
 	/// <summary>
 	/// Summary description for IPluginIdentifierCollection.
 	/// </summary>
-	public interface IPluginIdentifierCollection : ICollection
+	public interface IPluginIdentifierCollection : IList<IPluginIdentifier>
 	{
-		IPluginIdentifier this[int index] {get;}
-		bool Contains(IPluginIdentifier pluginIdentifier);
-		void CopyTo(IPluginIdentifier[] pluginIdentifiers, int index);
 	}
 }

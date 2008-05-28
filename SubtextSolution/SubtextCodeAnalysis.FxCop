@@ -8628,14 +8628,14 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="System.Collections.ICollection.CopyTo(System.Array,System.Int32):System.Void">
+           <Member Name="System.Collections.IList.CopyTo(System.Array,System.Int32):System.Void">
             <Messages>
              <Message Id="1#" TypeName="ParameterNamesShouldMatchBaseDeclaration" Category="Microsoft.Naming" CheckId="CA1725" Created="2006-05-10 07:31:04Z">
               <Issue>
                <Item>arrayIndex</Item>
-               <Item>OpmlItemCollection.System.Collections.ICollection.CopyTo(Array, Int32):Void</Item>
+               <Item>OpmlItemCollection.System.Collections.IList.CopyTo(Array, Int32):Void</Item>
                <Item>index</Item>
-               <Item>ICollection.CopyTo(Array, Int32):Void</Item>
+               <Item>IList.CopyTo(Array, Int32):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -9279,14 +9279,14 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="System.Collections.ICollection.CopyTo(System.Array,System.Int32):System.Void">
+           <Member Name="System.Collections.IList.CopyTo(System.Array,System.Int32):System.Void">
             <Messages>
              <Message Id="1#" TypeName="ParameterNamesShouldMatchBaseDeclaration" Category="Microsoft.Naming" CheckId="CA1725" Created="2006-05-10 07:31:04Z">
               <Issue>
                <Item>arrayIndex</Item>
-               <Item>PageLocationCollection.System.Collections.ICollection.CopyTo(Array, Int32):Void</Item>
+               <Item>PageLocationCollection.System.Collections.IList.CopyTo(Array, Int32):Void</Item>
                <Item>index</Item>
-               <Item>ICollection.CopyTo(Array, Int32):Void</Item>
+               <Item>IList.CopyTo(Array, Int32):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -11245,7 +11245,7 @@
          </Type>
          <Type Name="LinkControlCollection">
           <Messages>
-           <Message TypeName="ICollectionImplementationsHaveStronglyTypedMembers" Category="Microsoft.Design" CheckId="CA1035" Created="2006-05-10 07:31:04Z">
+           <Message TypeName="IListImplementationsHaveStronglyTypedMembers" Category="Microsoft.Design" CheckId="CA1035" Created="2006-05-10 07:31:04Z">
             <Issue>
              <Item>LinkControlCollection</Item>
             </Issue>
@@ -13266,8 +13266,8 @@
    <Rule TypeName="FlagsEnumsShouldHavePluralNames" Category="Microsoft.Naming" CheckId="CA1714">
     <Resolution Name="Default">If enumeration name '{0}' is singular, change it to a plural form.</Resolution>
    </Rule>
-   <Rule TypeName="ICollectionImplementationsHaveStronglyTypedMembers" Category="Microsoft.Design" CheckId="CA1035">
-    <Resolution Name="Default">'{0}' should provide a strongly typed implementation of ICollection.CopyTo.</Resolution>
+   <Rule TypeName="IListImplementationsHaveStronglyTypedMembers" Category="Microsoft.Design" CheckId="CA1035">
+    <Resolution Name="Default">'{0}' should provide a strongly typed implementation of IList.CopyTo.</Resolution>
    </Rule>
    <Rule TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709">
     <Resolution Name="Member">Correct the casing of member name '{0}'.</Resolution>

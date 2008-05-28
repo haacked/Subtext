@@ -22,7 +22,7 @@ namespace Subtext.Web.UI.Controls
 			Categories.LinkCategories = GetArchiveCategories();
 		}
 
-		protected ICollection<LinkCategory> GetArchiveCategories()
+		protected IList<LinkCategory> GetArchiveCategories()
 		{
             List<LinkCategory> lcc = new List<LinkCategory>();
 

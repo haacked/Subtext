@@ -1012,6 +1012,7 @@ SELECT subtext_LinkCategories.CategoryID
 	, subtext_LinkCategories.Active
 	, subtext_LinkCategories.CategoryType
 	, subtext_LinkCategories.[Description]
+	, subtext_LinkCategories.[BlogId]
 FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 WHERE	
 			subtext_LinkCategories.Active= 1 
@@ -1028,7 +1029,8 @@ SELECT links.LinkID
 	, links.NewWindow
 	, links.CategoryID
 	, links.Rel
-	, PostID = ISNULL(links.PostID, -1)
+	, links.BlogId
+	, PostID = links.PostID
 FROM [<dbUser,varchar,dbo>].[subtext_Links] links
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories ON links.CategoryID = categories.CategoryID
 WHERE 
@@ -1077,6 +1079,7 @@ SELECT	c.CategoryID
 		, c.Active
 		, c.CategoryType
 		, c.[Description]
+		, c.BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories] c
 WHERE (c.CategoryID = @CategoryID OR @CategoryID IS NULL)
 	AND (c.Title = @CategoryName OR @CategoryName IS NULL)
@@ -1575,7 +1578,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetLinkCollectionByPostID]
 (
-	@PostID int,
+	@PostID int = NULL,
 	@BlogId int
 )
 AS
@@ -1589,9 +1592,10 @@ SELECT	LinkID
 	, Rss
 	, Active
 	, CategoryID
-	, PostID = ISNULL(PostID, -1)
+	, PostID
 	, NewWindow 
 	, Rel
+	, BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE PostID = @PostID 
 	AND BlogId = @BlogId
@@ -1632,7 +1636,8 @@ SELECT	LinkID
 		, NewWindow
 		, CategoryID
 		, Rel
-		, PostId = ISNULL(PostID, -1)
+		, PostId
+		, BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE	CategoryID = @CategoryID 
 	AND BlogId = @BlogId
@@ -1755,7 +1760,7 @@ SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
 SELECT	@FirstId = content.[ID] 
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = ISNULL(links.PostID, -1)
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = links.PostID
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
 WHERE	content.BlogId = @BlogId 
 	AND content.PostType = @PostType 
@@ -1786,7 +1791,7 @@ SELECT	content.BlogId
 		, vc.AggLastUpdated
 		
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] l ON content.[ID] = ISNULL(l.PostID, -1)
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] l ON content.[ID] = l.PostID
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (l.CategoryID = cats.CategoryID)
 	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
 WHERE 	content.BlogId = @BlogId 
@@ -1797,7 +1802,7 @@ ORDER BY content.[ID] DESC
  
 SELECT COUNT(content.[ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = ISNULL(links.PostID, -1)
+INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = links.PostID
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
 WHERE 	content.BlogId = @BlogId 
 	AND content.PostType = @PostType 
@@ -2072,7 +2077,8 @@ SELECT links.LinkID
 	, links.NewWindow 
 	, links.CategoryID
 	, links.Rel
-	, PostID = ISNULL(links.PostID, -1)
+	, PostID = links.PostID
+	, links.BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Links] links
 WHERE 	links.BlogId = @BlogId 
 	AND links.[LinkId] <= @FirstId
@@ -2152,7 +2158,8 @@ SELECT 	links.LinkID
 		, links.NewWindow 
 		, links.CategoryID  
 		, links.Rel
-		, PostId = ISNULL(links.PostID, -1)
+		, PostId
+		, links.BlogId
 FROM 	
 	subtext_Links links
 	INNER JOIN #TempPagedLinkIDs tmp ON (links.LinkID = tmp.LinkID)
@@ -2283,7 +2290,7 @@ SELECT	content.BlogId
 	, subtext_Enclosure.AddToFeed
 	, subtext_Enclosure.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links WITH (NOLOCK) ON content.ID = ISNULL(links.PostID, -1)
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links WITH (NOLOCK) ON content.ID = links.PostID
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories WITH (NOLOCK) ON links.CategoryID = categories.CategoryID
 	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on content.[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
 WHERE  content.BlogId = @BlogId 
@@ -2620,7 +2627,8 @@ SELECT	subtext_Links.LinkID
 		, subtext_Links.NewWindow
 		, subtext_Links.CategoryID
 		, subtext_Links.Rel
-		, PostId = ISNULL(subtext_Links.PostID, -1)
+		, subtext_Links.BlogId
+		, PostId =  subtext_Links.PostID
 FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE subtext_Links.LinkID = @LinkID AND subtext_Links.BlogId = @BlogId
 
@@ -2849,14 +2857,14 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertLink]
 (
 	@Title nvarchar(150),
-	@Url nvarchar(255),
+	@Url nvarchar(255) = NULL,
 	@Rss nvarchar(255),
 	@Active bit,
 	@NewWindow bit,
 	@CategoryID int,
 	@PostID int = NULL,
 	@BlogId int,
-	@Rel nvarchar(150),
+	@Rel nvarchar(150) = NULL,
 	@LinkID int OUTPUT
 )
 AS
@@ -3471,12 +3479,12 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateLink]
 (
 	@LinkID int,
 	@Title nvarchar(150),
-	@Url nvarchar(255),
+	@Url nvarchar(255) = NULL,
 	@Rss nvarchar(255),
 	@Active bit,
 	@NewWindow bit,
 	@CategoryID int,
-	@Rel nvarchar(150),
+	@Rel nvarchar(150) = NULL,
 	@BlogId int
 	
 )

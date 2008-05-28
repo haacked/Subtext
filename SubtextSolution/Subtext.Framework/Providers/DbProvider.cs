@@ -482,7 +482,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="flags">Filter blogs retrieved.</param>
 		/// <returns></returns>
-		public abstract IDataReader GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags);
+		public abstract IDataReader GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags);
 
 		/// <summary>
 		/// Gets the blog by id.

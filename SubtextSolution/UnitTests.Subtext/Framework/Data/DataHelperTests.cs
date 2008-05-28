@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Data
 			reader.AddRecord(1, 2, 2005, 23);
 			reader.AddRecord(1, 23, 2005, 23);
 			
-			ICollection<ArchiveCount> archive = DataHelper.LoadArchiveCount(reader);
+			IList<ArchiveCount> archive = DataHelper.LoadArchiveCount(reader);
 			Assert.AreEqual(2, archive.Count, "Should only have two records.");
 
             ArchiveCount first = null;

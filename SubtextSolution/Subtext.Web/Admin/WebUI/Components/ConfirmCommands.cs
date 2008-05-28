@@ -486,7 +486,7 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				ICollection<Image> imageList = Images.GetImagesByCategoryID(_targetID, false);
+				IList<Image> imageList = Images.GetImagesByCategoryID(_targetID, false);
 				
 				// delete the folder
 				string galleryFolder = Images.LocalGalleryFilePath(HttpContext.Current, _targetID);
@@ -630,7 +630,7 @@ namespace Subtext.Web.Admin
 	public class ImportLinksCommand : ConfirmCommand
 	{		
 		protected OpmlItemCollection _linksToImport;
-		protected ICollection<Link> _allLinks;
+		protected IList<Link> _allLinks;
 		protected int _categoryID = NullValue.NullInt32;
 
 		protected ImportLinksCommand() 

@@ -211,7 +211,7 @@ namespace Subtext.Web.Admin.UserControls
 			for (int i = 0; i < cklCategories.Items.Count; i++)
 				cklCategories.Items[i].Selected = false;
 
-			ICollection<Link> postCategories = Links.GetLinkCollectionByPostID(PostID.Value);
+			IList<Link> postCategories = Links.GetLinkCollectionByPostID(PostID.Value);
 			if (postCategories.Count > 0)
 			{
 				foreach(Link postCategory in postCategories)

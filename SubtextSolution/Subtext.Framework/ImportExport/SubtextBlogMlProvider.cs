@@ -281,10 +281,10 @@ namespace Subtext.ImportExport
 		/// </summary>
 		/// <param name="blogId"></param>
 		/// <returns></returns>
-		public override ICollection<BlogMLCategory> GetAllCategories(string blogId)
+		public override IList<BlogMLCategory> GetAllCategories(string blogId)
 		{
-			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
-			ICollection<BlogMLCategory> bmlCategories = new Collection<BlogMLCategory>();
+			IList<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+			IList<BlogMLCategory> bmlCategories = new Collection<BlogMLCategory>();
 			
 			foreach(LinkCategory category in categories)
 			{
