@@ -385,11 +385,6 @@
     <Compile Include="Installation\SqlInstallationProviderTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="ReflectionHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -431,9 +426,6 @@
     <Compile Include="SubtextWeb\SubtextMasterPageTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UnitTestConfigProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="UnitTestEmailProvider.cs" />
     <Compile Include="UnitTestHelper.cs">
       <SubType>Code</SubType>
@@ -471,10 +463,6 @@
     <EmbeddedResource Include="Resources\BlogMl\TwoCategories.xml" />
     <EmbeddedResource Include="Resources\BlogMl\SimpleBlogMl.xml" />
     <None Include="App.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <EmbeddedResource Include="Resources\Skins\Skins.User.config" />
     <EmbeddedResource Include="Resources\Skins\Skins.config" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScript.txt" />
@@ -497,6 +485,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -142,6 +142,7 @@
 			program="${ncover.exe}"
 			workingDirectory="UnitTests.Subtext\bin\${configuration}"
 			coverageFile="${log.dir}\ncover-temp.xml"
+			excludeAttributes="CoverageExcludeAttribute"
 		/>
 
 		<call target="util.ncoverexplorer.nant" />

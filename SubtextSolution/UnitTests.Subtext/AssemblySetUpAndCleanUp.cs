@@ -12,6 +12,7 @@ namespace UnitTests.Subtext
 	public static class AssemblySetUpAndCleanUp
 	{
 		[SetUp]
+        [CoverageExclude]
 		public static void SetUp()
 		{
 			Console.WriteLine("Assembly Setup beginning...");
@@ -35,6 +36,7 @@ namespace UnitTests.Subtext
 		}
 
         [TearDown]
+        [CoverageExclude]
 		public static void TearDown()
 		{
             try
