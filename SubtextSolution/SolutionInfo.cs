@@ -16,11 +16,11 @@
 using System.Reflection;
 [assembly: AssemblyCompany("Subtext")]
 [assembly: AssemblyProduct("Subtext Blog Engine")]
-[assembly: AssemblyCopyright("Copyright © VelocIT Inc. 2005-2007 - BSD License")]
+[assembly: AssemblyCopyright("Copyright © Scott Watermasysk 2003. Copyright © Phil Haack. 2005-2008 - BSD License")]
 /* [assembly: AssemblyVersion("1.0.4.0")] moved to VersionInfo.cs for automatic generation */
 /* Removed [AssemblyFileVersion] since it defaults to AssemblyVersion */
 /* Human Readable version. */
-[assembly: AssemblyInformationalVersion("1.9.6.0")]
+[assembly: AssemblyInformationalVersion("2.0.0.0")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 

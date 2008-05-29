@@ -25,104 +25,126 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Image = Subtext.Framework.Components.Image;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
 	public static class Images
 	{
-		public static string LocalFilePath(HttpContext context)
+		/// <summary>
+		/// Returns the physical gallery path for the specified category.
+		/// </summary>
+		/// <param name="categoryid">The categoryid.</param>
+		/// <returns></returns>
+		public static string LocalGalleryFilePath(int categoryid)
 		{
-			return Config.CurrentBlog.ImageDirectory;
+			return Path.Combine(Config.CurrentBlog.ImageDirectory, categoryid.ToString(CultureInfo.InvariantCulture)) + Path.DirectorySeparatorChar;
 		}
 
-		public static string LocalGalleryFilePath(HttpContext context, int categoryid)
+		/// <summary>
+		/// Returns the url path to the gallery for the specified category.
+		/// </summary>
+		/// <param name="categoryid">The categoryid.</param>
+		/// <returns></returns>
+		public static string GalleryVirtualUrl(int categoryid)
 		{
-			return string.Format(CultureInfo.InvariantCulture, "{0}{1}\\",Config.CurrentBlog.ImageDirectory,categoryid);
+			return string.Format(CultureInfo.InvariantCulture, "{0}{1}/", Config.CurrentBlog.ImagePath, categoryid);
 		}
 
-		public static string HttpGalleryFilePath(HttpContext context, int categoryid)
-		{
-			return string.Format(CultureInfo.InvariantCulture, "{0}{1}/",Config.CurrentBlog.ImagePath,categoryid);
-		}
-
-		public static string HttpFilePath(HttpContext context)
-		{
-			return Config.CurrentBlog.ImagePath;
-		}
-
+		/// <summary>
+		/// gets the bytes for the posted file
+		/// </summary>
+		/// <param name="objFile">The obj file.</param>
+		/// <returns></returns>
 		public static byte[] GetFileStream(HttpPostedFile objFile)
 		{
-			if(objFile != null)
+			if (objFile != null)
 			{
 				int len = objFile.ContentLength;
 				byte[] input = new byte[len];
 				Stream file = objFile.InputStream;
-				file.Read(input,0,len);
+				file.Read(input, 0, len);
 				return input;
 			}
 			return null;
 		}
-		
+
+		/// <summary>
+		/// Validates that the file is allowed.
+		/// </summary>
+		/// <param name="filepath">The filepath.</param>
+		/// <returns></returns>
 		public static bool ValidateFile(string filepath)
 		{
-			if (File.Exists(filepath))
-			{
-				return false;
-			}
-
 			return Regex.IsMatch(filepath,
-				"(?:[^\\/\\*\\?\\\"\\<\\>\\|\\n\\r\\t]+)\\.(?:jpg|jpeg|gif|png|bmp)", 
+				"(?:[^\\/\\*\\?\\\"\\<\\>\\|\\n\\r\\t]+)\\.(?:jpg|jpeg|gif|png|bmp)",
 				RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
 				);
 		}
 
 		public static Size ResizeImage(int width, int height, int maxWidth, int maxHeight)
 		{
-			decimal MAX_WIDTH = maxWidth;
-			decimal MAX_HEIGHT = maxHeight;
-			decimal ASPECT_RATIO = MAX_WIDTH / MAX_HEIGHT;
+			decimal aspectRatio = maxWidth / maxHeight;
 
-			int newWidth, newHeight;
+			int newWidth;
+			int newHeight;
 
 			decimal originalWidth = width;
 			decimal originalHeight = height;
-			
-			if (originalWidth > MAX_WIDTH || originalHeight > MAX_HEIGHT) 
+
+			if (originalWidth > maxWidth || originalHeight > maxHeight)
 			{
 				decimal factor;
 				// determine the largest factor 
-				if (originalWidth / originalHeight > ASPECT_RATIO) 
+				if (originalWidth / originalHeight > aspectRatio)
 				{
-					factor = originalWidth / MAX_WIDTH;
+					factor = originalWidth / maxWidth;
 					newWidth = Convert.ToInt32(originalWidth / factor);
 					newHeight = Convert.ToInt32(originalHeight / factor);
-				} 
-				else 
+				}
+				else
 				{
-					factor = originalHeight / MAX_HEIGHT;
+					factor = originalHeight / maxWidth;
 					newWidth = Convert.ToInt32(originalWidth / factor);
 					newHeight = Convert.ToInt32(originalHeight / factor);
-				}	  
-			} 
-			else 
+				}
+			}
+			else
 			{
 				newWidth = width;
 				newHeight = height;
 			}
 
-			return new Size(newWidth,newHeight);
-			
+			return new Size(newWidth, newHeight);
+
 		}
 
-		public static bool SaveImage(byte[] Buffer, string FileName)
+		/// <summary>
+		/// Saves the image.
+		/// </summary>
+		/// <param name="buffer">The buffer.</param>
+		/// <param name="fileName">Name of the file.</param>
+		/// <returns></returns>
+		public static bool SaveImage(byte[] buffer, string fileName)
 		{
-			
-			if (ValidateFile(FileName))
+			if (buffer == null)
+				throw new ArgumentNullException("buffer", Resources.ArgumentNull_Array);
+
+			if (fileName == null)
+				throw new ArgumentNullException("fileName", Resources.ArgumentNull_Generic);
+
+			if (fileName.Length == 0)
 			{
-				CheckDirectory(FileName);
-				FileStream fs = new FileStream(FileName,FileMode.Create);
-				fs.Write(Buffer,0,Buffer.Length);
-				fs.Close();	
+				throw new ArgumentException(Resources.Argument_StringZeroLength, "fileName");
+			}
+
+			if (ValidateFile(fileName))
+			{
+				EnsureDirectory(Path.GetDirectoryName(fileName));
+				using(FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
+				{
+					fs.Write(buffer, 0, buffer.Length);
+				}
 				return true;
 			}
 			return false;
@@ -132,94 +154,79 @@ namespace Subtext.Framework
 		/// Saves two images. A normal image for the web site and then a thumbnail.
 		/// </summary>
 		/// <param name="image">Original image to process.</param>
-		public static void MakeAlbumImages(Subtext.Framework.Components.Image image)
+		public static void MakeAlbumImages(Image image)
 		{
-            System.Drawing.Image originalImage = System.Drawing.Image.FromFile(image.OriginalFilePath);
+			if (image == null)
+				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
 
-            // Need to load the original image to manipulate. But indexed GIFs can cause issues.
-            if ((originalImage.PixelFormat & PixelFormat.Indexed) != 0)
-            {
-                // Draw the index image to a new bitmap.  It will then be unindexed.
-                System.Drawing.Image unindexedImage = new Bitmap(originalImage.Width, originalImage.Height);
-                Graphics g = Graphics.FromImage(unindexedImage);
-                g.DrawImageUnscaled(originalImage, 0, 0);
+			System.Drawing.Image originalImage = System.Drawing.Image.FromFile(image.OriginalFilePath);
 
-                originalImage.Dispose();
-                originalImage = unindexedImage;
-            }
+			// Need to load the original image to manipulate. But indexed GIFs can cause issues.
+			if ((originalImage.PixelFormat & PixelFormat.Indexed) != 0)
+			{
+				// Draw the index image to a new bitmap.  It will then be unindexed.
+				System.Drawing.Image unindexedImage = new Bitmap(originalImage.Width, originalImage.Height);
+				Graphics g = Graphics.FromImage(unindexedImage);
+				g.DrawImageUnscaled(originalImage, 0, 0);
+
+				originalImage.Dispose();
+				originalImage = unindexedImage;
+			}
 
 			// Dispose the original graphic (be kind; clean up)
-            using (originalImage)
+			using (originalImage)
 			{
 				/// TODO: make both sizes configurations. 
 				// Calculate the new sizes we want (properly scaled) 
-				Size displaySize = ResizeImage(originalImage.Width, originalImage.Height, 640,480);
+				Size displaySize = ResizeImage(originalImage.Width, originalImage.Height, 640, 480);
 				Size thumbSize = ResizeImage(originalImage.Width, originalImage.Height, 120, 120);
 
-                // Tell the object what its new display size will be
-                image.Height = displaySize.Height;
-                image.Width = displaySize.Width;
+				// Tell the object what its new display size will be
+				image.Height = displaySize.Height;
+				image.Width = displaySize.Width;
 
-                // Create a mid-size display image by drawing the original image into a smaller area.
-                using (System.Drawing.Image displayImage = new Bitmap(displaySize.Width, displaySize.Height, originalImage.PixelFormat))
-                {
-                    using (Graphics displayGraphic = Graphics.FromImage(displayImage))
-                    {
-                        displayGraphic.CompositingQuality = CompositingQuality.HighQuality;
-                        displayGraphic.SmoothingMode = SmoothingMode.HighQuality;
-                        displayGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        Rectangle displayRectangle = new Rectangle(0, 0, displaySize.Width, displaySize.Height);
-                        displayGraphic.DrawImage(originalImage, displayRectangle);
-                        // Save our file
-                        displayImage.Save(image.ResizedFilePath, ImageFormat.Jpeg);
-                    }
-                }
+				// Create a mid-size display image by drawing the original image into a smaller area.
+				using (System.Drawing.Image displayImage = new Bitmap(displaySize.Width, displaySize.Height, originalImage.PixelFormat))
+				{
+					using (Graphics displayGraphic = Graphics.FromImage(displayImage))
+					{
+						displayGraphic.CompositingQuality = CompositingQuality.HighQuality;
+						displayGraphic.SmoothingMode = SmoothingMode.HighQuality;
+						displayGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+						Rectangle displayRectangle = new Rectangle(0, 0, displaySize.Width, displaySize.Height);
+						displayGraphic.DrawImage(originalImage, displayRectangle);
+						// Save our file
+						displayImage.Save(image.ResizedFilePath, ImageFormat.Jpeg);
+					}
+				}
 
 				// Create a small thumbnail
-                using (System.Drawing.Image thumbImage = new Bitmap(thumbSize.Width, thumbSize.Height, originalImage.PixelFormat))
-                {
-                    using (Graphics thumbGraphic = Graphics.FromImage(thumbImage))
-                    {
-                        thumbGraphic.CompositingQuality = CompositingQuality.HighQuality;
-                        thumbGraphic.SmoothingMode = SmoothingMode.HighQuality;
-                        thumbGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        Rectangle thumbRectangle = new Rectangle(0, 0, thumbSize.Width, thumbSize.Height);
-                        thumbGraphic.DrawImage(originalImage, thumbRectangle);
-                        // Save our file
-                        thumbImage.Save(image.ThumbNailFilePath, ImageFormat.Jpeg);
-                    }
-                }
+				using (System.Drawing.Image thumbImage = new Bitmap(thumbSize.Width, thumbSize.Height, originalImage.PixelFormat))
+				{
+					using (Graphics thumbGraphic = Graphics.FromImage(thumbImage))
+					{
+						thumbGraphic.CompositingQuality = CompositingQuality.HighQuality;
+						thumbGraphic.SmoothingMode = SmoothingMode.HighQuality;
+						thumbGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+						Rectangle thumbRectangle = new Rectangle(0, 0, thumbSize.Width, thumbSize.Height);
+						thumbGraphic.DrawImage(originalImage, thumbRectangle);
+						// Save our file
+						thumbImage.Save(image.ThumbNailFilePath, ImageFormat.Jpeg);
+					}
+				}
 			}
 		}
 
-		public static string GetFileName(string filepath)
+		public static void EnsureDirectory(string directoryPath)
 		{
-			if(filepath.IndexOf("\\") == -1)
-			{
-				return StripUrlCharsFromFileName(filepath);
-			}
-			else
-			{
-				int lastindex = filepath.LastIndexOf("\\");
-				return StripUrlCharsFromFileName(filepath.Substring(lastindex+1));
-			}
-		}
+			if (directoryPath == null)
+                throw new ArgumentNullException("directoryPath", Resources.ArgumentNull_String);
 
-		private static string StripUrlCharsFromFileName(string filename)
-		{
-			const string replacement = "_";
+			if (directoryPath.Length == 0)
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "directoryPath");
 
-			filename = filename.Replace("#", replacement);
-			filename = filename.Replace("&", replacement);
-			filename = filename.Replace("%", replacement);
-
-			return filename;
-		}
-
-		public static void CheckDirectory(string filepath)
-		{
-			string dir = filepath.Substring(0,filepath.LastIndexOf("\\"));
-			if(!Directory.Exists(dir))
+			string dir = Path.GetFullPath(directoryPath);
+			if (!Directory.Exists(dir))
 			{
 				Directory.CreateDirectory(dir);
 			}
@@ -232,48 +239,66 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetImagesByCategoryID(catID, activeOnly);
 		}
 
-		public static Image GetSingleImage(int imageID, bool activeOnly)
+		public static Image GetSingleImage(int imageId, bool activeOnly)
 		{
-			return ObjectProvider.Instance().GetImage(imageID, activeOnly);
+			return ObjectProvider.Instance().GetImage(imageId, activeOnly);
 		}
 
+		/// <summary>
+		/// Inserts the image.
+		/// </summary>
+		/// <param name="image">The image.</param>
+		/// <param name="Buffer">The buffer.</param>
+		/// <returns></returns>
 		public static int InsertImage(Image image, byte[] Buffer)
 		{
-			if(SaveImage(Buffer,image.OriginalFilePath))
+			if (image == null)
+				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
+
+			if (!File.Exists(image.OriginalFilePath) && SaveImage(Buffer, image.OriginalFilePath))
 			{
 				MakeAlbumImages(image);
 				return ObjectProvider.Instance().InsertImage(image);
 			}
-			return -1;
+			return NullValue.NullInt32;
 		}
 
-		public static bool UpdateImage(Image _image)
+		/// <summary>
+		/// Updates the image.
+		/// </summary>
+		/// <param name="image">The image.</param>
+		public static void UpdateImage(Image image)
 		{
-			return ObjectProvider.Instance().UpdateImage(_image);
+			if (image == null)
+				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
+			ObjectProvider.Instance().UpdateImage(image);
 		}
 
 		// added
-		public static void Update(Image image, byte[] Buffer)
+		public static void Update(Image image, byte[] buffer)
 		{
-			if(SaveImage(Buffer, image.OriginalFilePath))
+			if (image == null)
+				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
+			
+			if (buffer == null)
+				throw new ArgumentNullException("buffer", Resources.ArgumentNull_Generic);
+
+
+			if (SaveImage(buffer, image.OriginalFilePath))
 			{
 				MakeAlbumImages(image);
 				UpdateImage(image);
 			}
 		}
 
-		public static void DeleteImage(Image _image)
+		public static void DeleteImage(Image image)
 		{
-			ObjectProvider.Instance().DeleteImage(_image.ImageID);
+			if (image == null)
+				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
+
+			ObjectProvider.Instance().DeleteImage(image.ImageID);
 		}
 
-		public static void TryDeleteFile(string file)
-		{
-			if(File.Exists(file))
-			{
-				File.Delete(file);
-			}
-		}
 		#endregion
 	}
 }

@@ -44,7 +44,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				int imageID = UrlFormats.GetPostIDFromUrl(Request.Path);
 				Subtext.Framework.Components.Image _image = Images.GetSingleImage(imageID,true);
-				_baseImagePath = Images.HttpGalleryFilePath(Context,_image.CategoryID);
+				_baseImagePath = Images.GalleryVirtualUrl(_image.CategoryID);
 
 				Title.Text = _image.Title;
 				GalleryImage.ImageUrl = _baseImagePath +  _image.ResizedFile;
@@ -71,7 +71,7 @@ namespace Subtext.Web.UI.Controls
 					if(ThumbNailImage != null)
 					{
 						
-						ThumbNailImage.ImageUrl = _baseImagePath + "t_" + _image.File;
+						ThumbNailImage.ImageUrl = _baseImagePath + "t_" + _image.FileName;
 						ThumbNailImage.NavigateUrl = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.ImageUrl(null,_image.ImageID);
 						ThumbNailImage.ToolTip = _image.Title;
 

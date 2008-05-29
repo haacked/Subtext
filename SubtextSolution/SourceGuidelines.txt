@@ -1,8 +1,8 @@
 Code guidelines are typically a matter of religion.  However, we have to 
 agree on something so here goes.
 
-Wherever possible, we will follow the Microsoft Internal Coding Guidelines 
-http://blogs.msdn.com/brada/articles/361363.aspx.
+Our guidelines are online at:
+http://subtextproject.com/CodingGuidelines/tabid/118/Default.aspx
 
 Not that these are gospel, but they're as good a guideline as any.  If 
 we get a tiny bit sloppy, that's fine. This is not a gestapo.  But please 
@@ -10,16 +10,10 @@ try to maintain the style of the existing project.
 
 Also try to keep the FxCop warnings to a minimum.
 
-Project structure should generally follow the guidelines outlined in 
-this document, Team Development with Visual Studio.NET and Visual 
-SourceSafe (http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnbda/html/tdlg_app.asp).
-
-For example, 3rd party assemblies should be placed in a folder named 
-ExternalDependencies and added to the CVS repository as part of the 
+3rd party assemblies should be placed in a folder named 
+ExternalDependencies and added to the SVN repository as part of the 
 VS.NET solution.  This way, a new developer should be able to get lastest 
 and build the project without problems.
 
 Please keep "bin" and "obj" folders as well as *.user and *.suo files OUT of 
-CVS by making sure to use the CVS Ignore command.
-
-We will be using NUnit and NAnt at some point, but maybe not NAnt just yet. ;)
+SVN by making sure to use the SVN Ignore command.

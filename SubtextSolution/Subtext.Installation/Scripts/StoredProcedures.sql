@@ -1157,17 +1157,17 @@ SELECT BlogId
 	, PostConfig
 	, EntryName 
 	, DateSyndicated
-	, subtext_Enclosure.Id as EnclosureId
-	, subtext_Enclosure.Title as EnclosureTitle
-	, subtext_Enclosure.Url as EnclosureUrl
-	, subtext_Enclosure.MimeType as EnclosureMimeType
-	, subtext_Enclosure.Size as EnclosureSize
-	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
-	, subtext_Enclosure.AddToFeed
-	, subtext_Enclosure.ShowWithPost
+	, e.Id as EnclosureId
+	, e.Title as EnclosureTitle
+	, e.Url as EnclosureUrl
+	, e.MimeType as EnclosureMimeType
+	, e.Size as EnclosureSize
+	, e.EnclosureEnabled as EnclosureEnabled
+	, e.AddToFeed
+	, e.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 	INNER JOIN #IDs ON #IDs.[Id] = [<dbUser,varchar,dbo>].[subtext_Content].[Id]
-	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
+	LEFT JOIN [<dbUser,varchar,dbo>].[subtext_Enclosure] e on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = e.EntryId
 ORDER BY #IDs.TempId
 
 IF @IncludeCategories = 1
@@ -1364,39 +1364,39 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]
 	@BlogId int
 )
 AS
-SELECT	BlogId
-	, [<dbUser,varchar,dbo>].[subtext_Content].[ID]
-	, [<dbUser,varchar,dbo>].[subtext_Content].Title
-	, DateAdded
-	, [Text]
-	, [Description]
-	, PostType
-	, Author
-	, Email
-	, DateUpdated
-	, FeedbackCount = ISNULL(FeedbackCount, 0)
-	, PostConfig
-	, EntryName 
-	, DateSyndicated
-	, subtext_Enclosure.Id as EnclosureId
-	, subtext_Enclosure.Title as EnclosureTitle
-	, subtext_Enclosure.Url as EnclosureUrl
-	, subtext_Enclosure.MimeType as EnclosureMimeType
-	, subtext_Enclosure.Size as EnclosureSize
-	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
-	, subtext_Enclosure.AddToFeed
-	, subtext_Enclosure.ShowWithPost
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
+SELECT	c.BlogId
+	, c.[ID]
+	, c.Title
+	, c.DateAdded
+	, c.[Text]
+	, c.[Description]
+	, c.PostType
+	, c.Author
+	, c.Email
+	, c.DateUpdated
+	, FeedbackCount = ISNULL(c.FeedbackCount, 0)
+	, c.PostConfig
+	, c.EntryName 
+	, c.DateSyndicated
+	, e.Id as EnclosureId
+	, e.Title as EnclosureTitle
+	, e.Url as EnclosureUrl
+	, e.MimeType as EnclosureMimeType
+	, e.Size as EnclosureSize
+	, e.EnclosureEnabled as EnclosureEnabled
+	, e.AddToFeed
+	, e.ShowWithPost
+FROM [<dbUser,varchar,dbo>].[subtext_Content] c
+	LEFT JOIN [<dbUser,varchar,dbo>].[subtext_Enclosure] e ON c.[ID] = e.EntryId
 WHERE 
 	(
-		DateAdded > @StartDate 
-		AND DateAdded < DateAdd(day, 1, @StopDate)
+		c.DateAdded > @StartDate 
+		AND c.DateAdded < DateAdd(day, 1, @StopDate)
 	)
-	AND PostType=@PostType 
-	AND BlogId = @BlogId 
-	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY DateAdded DESC;
+	AND c.PostType = @PostType 
+	AND c.BlogId = @BlogId 
+	AND c.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
+ORDER BY c.DateAdded DESC;
 
 
 GO
@@ -1672,6 +1672,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 )
 AS
 
+DECLARE @FirstDate datetime
 DECLARE @FirstId int
 DECLARE @StartRow int
 DECLARE @StartRowIndex int
@@ -1680,10 +1681,12 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT	@FirstId = [ID] FROM [<dbUser,varchar,dbo>].[subtext_Content]
+SELECT	@FirstDate = DateAdded 
+	, @FirstId = ID
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	BlogId = @BlogId 
 	AND PostType = @PostType 
-ORDER BY [ID] DESC
+ORDER BY DateAdded DESC, ID DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
@@ -1711,9 +1714,10 @@ SELECT	content.BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
 WHERE 	content.BlogId = @BlogId 
+	AND content.DateAdded <= @FirstDate
 	AND content.[ID] <= @FirstId
 	AND PostType = @PostType
-ORDER BY content.[ID] DESC
+ORDER BY content.DateAdded DESC
  
 SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
@@ -1750,6 +1754,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
 )
 AS
 
+DECLARE @FirstDate datetime
 DECLARE @FirstId int
 DECLARE @StartRow int
 DECLARE @StartRowIndex int
@@ -1758,14 +1763,15 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT	@FirstId = content.[ID] 
+SELECT	@FirstDate = content.DateAdded 
+	, @FirstId = ID
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = links.PostID
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
 WHERE	content.BlogId = @BlogId 
 	AND content.PostType = @PostType 
 	AND cats.CategoryID = @CategoryID
-ORDER BY content.[ID] DESC
+ORDER BY content.DateAdded DESC, content.ID DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
@@ -1794,11 +1800,12 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] l ON content.[ID] = l.PostID
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (l.CategoryID = cats.CategoryID)
 	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
-WHERE 	content.BlogId = @BlogId 
+WHERE 	content.BlogId = @BlogId
+	AND content.DateAdded <= @FirstDate 
 	AND content.[ID] <= @FirstId
 	AND content.PostType = @PostType
 	AND cats.CategoryID = @CategoryID
-ORDER BY content.[ID] DESC
+ORDER BY content.DateAdded DESC, content.ID DESC
  
 SELECT COUNT(content.[ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
@@ -1839,6 +1846,7 @@ AS
 IF @ExcludeFeedbackStatusMask IS NULL
 	SET @ExcludeFeedbackStatusMask = ~0
 
+DECLARE @FirstDate datetime
 DECLARE @FirstId int
 DECLARE @StartRow int
 DECLARE @StartRowIndex int
@@ -1847,13 +1855,14 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT @FirstId = f.[Id] 
+SELECT @FirstDate = DateCreated,
+	@FirstId = f.Id
 FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
 WHERE 	f.BlogId = @BlogId 
 	AND (f.StatusFlag & @StatusFlag = @StatusFlag)
 	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
 	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
-ORDER BY f.[ID] DESC
+ORDER BY DateCreated DESC, f.Id DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
@@ -1883,11 +1892,12 @@ FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c 
 		ON c.Id = f.EntryId
 WHERE 	f.BlogId = @BlogId 
-	AND f.[Id] <= @FirstId
+	AND f.DateCreated <= @FirstDate
+	AND f.Id <= @FirstId
 	AND f.StatusFlag & @StatusFlag = @StatusFlag
 	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
 	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
-ORDER BY f.[Id] DESC
+ORDER BY DateCreated DESC
  
 SELECT COUNT(f.[Id]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
@@ -2077,7 +2087,7 @@ SELECT links.LinkID
 	, links.NewWindow 
 	, links.CategoryID
 	, links.Rel
-	, PostID = links.PostID
+	, links.PostID
 	, links.BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Links] links
 WHERE 	links.BlogId = @BlogId 
@@ -2210,16 +2220,21 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]
 AS
 
 DECLARE @FirstDate DateTime
+DECLARE @FirstEntryId int
+DECLARE @FirstUrlId int
 DECLARE @StartRow int
 DECLARE @StartRowIndex int
 
 SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
-SELECT	@FirstDate = [LastUpdated] FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
+SELECT	@FirstDate = [LastUpdated] 
+	, @FirstEntryId = [EntryID]
+	, @FirstUrlId = [UrlID]
+FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
 WHERE	BlogId = @BlogId 
 	AND (EntryID = @EntryID OR @EntryID IS NULL)
-ORDER BY [LastUpdated] DESC
+ORDER BY [LastUpdated] DESC, [EntryID] DESC, UrlID DESC
 
 SET ROWCOUNT @PageSize
 
@@ -2234,7 +2249,9 @@ FROM [<dbUser,varchar,dbo>].[subtext_Referrals] r
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_URLs] u ON u.UrlID = r.UrlID
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c ON c.ID = r.EntryID
 WHERE 
-	r.LastUpdated <= @FirstDate
+		r.LastUpdated <= @FirstDate
+	AND r.EntryID <= @FirstEntryId
+	AND r.UrlID <= @FirstUrlId
 	AND (r.EntryID = @EntryID OR @EntryID IS NULL)
 	AND r.BlogId = @BlogId
 ORDER BY r.[LastUpdated] DESC
@@ -2252,6 +2269,8 @@ GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]  TO [public]
 GO
+
+
 
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -2281,21 +2300,21 @@ SELECT	content.BlogId
 	, content.PostConfig
 	, content.EntryName 
 	, content.DateSyndicated
-	, subtext_Enclosure.Id as EnclosureId
-	, subtext_Enclosure.Title as EnclosureTitle
-	, subtext_Enclosure.Url as EnclosureUrl
-	, subtext_Enclosure.MimeType as EnclosureMimeType
-	, subtext_Enclosure.Size as EnclosureSize
-	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
-	, subtext_Enclosure.AddToFeed
-	, subtext_Enclosure.ShowWithPost
+	, e.Id as EnclosureId
+	, e.Title as EnclosureTitle
+	, e.Url as EnclosureUrl
+	, e.MimeType as EnclosureMimeType
+	, e.Size as EnclosureSize
+	, e.EnclosureEnabled as EnclosureEnabled
+	, e.AddToFeed
+	, e.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links WITH (NOLOCK) ON content.ID = links.PostID
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories WITH (NOLOCK) ON links.CategoryID = categories.CategoryID
-	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on content.[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
+	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] e on content.[ID] = e.EntryId
 WHERE  content.BlogId = @BlogId 
 	AND content.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END AND categories.CategoryID = @CategoryID
-ORDER BY content.DateAdded DESC
+ORDER BY content.DateSyndicated DESC
 
 
 GO
@@ -2336,12 +2355,12 @@ SELECT	BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
 	(
-			DateAdded > @StartDate 
-		AND DateAdded < DateAdd(day,1,@StopDate)
+			DateSyndicated > @StartDate 
+		AND DateSyndicated < DateAdd(day,1,@StopDate)
 	)
 	AND PostType=1 
 	AND BlogId = @BlogId
-ORDER BY DateAdded DESC;
+ORDER BY DateSyndicated DESC;
 
 
 GO
@@ -2379,22 +2398,22 @@ SELECT	BlogId
 	, PostConfig
 	, EntryName 
 	, DateSyndicated
-	, subtext_Enclosure.Id as EnclosureId
-	, subtext_Enclosure.Title as EnclosureTitle
-	, subtext_Enclosure.Url as EnclosureUrl
-	, subtext_Enclosure.MimeType as EnclosureMimeType
-	, subtext_Enclosure.Size as EnclosureSize
-	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
-	, subtext_Enclosure.AddToFeed
-	, subtext_Enclosure.ShowWithPost
+	, e.Id as EnclosureId
+	, e.Title as EnclosureTitle
+	, e.Url as EnclosureUrl
+	, e.MimeType as EnclosureMimeType
+	, e.Size as EnclosureSize
+	, e.EnclosureEnabled as EnclosureEnabled
+	, e.AddToFeed
+	, e.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
+	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] e on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = e.EntryId
 WHERE	PostType=1 
 	AND (BlogId = @BlogId OR @BlogId IS NULL)
 	AND PostConfig & 1 = 1 
-	AND Month(DateAdded) = @Month 
-	AND Year(DateAdded)  = @Year
-ORDER BY DateAdded DESC
+	AND Month(DateSyndicated) = @Month 
+	AND Year(DateSyndicated)  = @Year
+ORDER BY DateSyndicated DESC
 
 
 GO
@@ -2417,12 +2436,12 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonthArchive]
 	@BlogId int = NULL
 )
 AS
-SELECT Month(DateAdded) AS [Month]
-	, Year(DateAdded) AS [Year]
+SELECT Month(DateSyndicated) AS [Month]
+	, Year(DateSyndicated) AS [Year]
 	, 1 AS Day, Count(*) AS [Count] 
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE PostType = 1 AND PostConfig & 1 = 1 AND (BlogId = @BlogId OR @BlogId IS NULL)
-GROUP BY Year(DateAdded), Month(DateAdded) ORDER BY [Year] DESC, [Month] DESC
+GROUP BY Year(DateSyndicated), Month(DateSyndicated) ORDER BY [Year] DESC, [Month] DESC
 
 
 
@@ -2445,9 +2464,9 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByYearArchive]
 	@BlogId int
 )
 AS
-SELECT 1 AS [Month], Year(DateAdded) AS [Year], 1 AS Day, Count(*) AS [Count] FROM [<dbUser,varchar,dbo>].[subtext_Content] 
+SELECT 1 AS [Month], Year(DateSyndicated) AS [Year], 1 AS Day, Count(*) AS [Count] FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE PostType = 1 AND PostConfig & 1 = 1 AND BlogId = @BlogId 
-GROUP BY Year(DateAdded) ORDER BY [Year] DESC
+GROUP BY Year(DateSyndicated) ORDER BY [Year] DESC
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -2483,23 +2502,23 @@ SELECT	BlogId
 	, PostConfig
 	, EntryName 
 	, DateSyndicated
-	, subtext_Enclosure.Id as EnclosureId
-	, subtext_Enclosure.Title as EnclosureTitle
-	, subtext_Enclosure.Url as EnclosureUrl
-	, subtext_Enclosure.MimeType as EnclosureMimeType
-	, subtext_Enclosure.Size as EnclosureSize
-	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
-	, subtext_Enclosure.AddToFeed
-	, subtext_Enclosure.ShowWithPost
+	, e.Id as EnclosureId
+	, e.Title as EnclosureTitle
+	, e.Url as EnclosureUrl
+	, e.MimeType as EnclosureMimeType
+	, e.Size as EnclosureSize
+	, e.EnclosureEnabled as EnclosureEnabled
+	, e.AddToFeed
+	, e.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
-WHERE Year(DateAdded) = Year(@Date) 
-	AND Month(DateAdded) = Month(@Date)
-    AND Day(DateAdded) = Day(@Date) 
+	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] e on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = e.EntryId
+WHERE Year(DateSyndicated) = Year(@Date) 
+	AND Month(DateSyndicated) = Month(@Date)
+    AND Day(DateSyndicated) = Day(@Date) 
     And PostType=1
     AND BlogId = @BlogId 
     AND PostConfig & 1 = 1 
-ORDER BY DateAdded DESC;
+ORDER BY DateSyndicated DESC;
 
 
 GO
@@ -2539,15 +2558,16 @@ SELECT	BlogId
 	, PostConfig
 	, EntryName 
 	, DateSyndicated
-	, subtext_Enclosure.Id as EnclosureId
-	, subtext_Enclosure.Title as EnclosureTitle
-	, subtext_Enclosure.Url as EnclosureUrl
-	, subtext_Enclosure.MimeType as EnclosureMimeType
-	, subtext_Enclosure.Size as EnclosureSize
-	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
-	, subtext_Enclosure.AddToFeed
-	, subtext_Enclosure.ShowWithPost
-FROM [<dbUser,varchar,dbo>].[subtext_Content]  left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
+	, e.Id as EnclosureId
+	, e.Title as EnclosureTitle
+	, e.Url as EnclosureUrl
+	, e.MimeType as EnclosureMimeType
+	, e.Size as EnclosureSize
+	, e.EnclosureEnabled as EnclosureEnabled
+	, e.AddToFeed
+	, e.ShowWithPost
+FROM [<dbUser,varchar,dbo>].[subtext_Content]  
+	LEFT JOIN [<dbUser,varchar,dbo>].[subtext_Enclosure] e ON [<dbUser,varchar,dbo>].[subtext_Content].[ID] = e.EntryId
 WHERE [<dbUser,varchar,dbo>].[subtext_Content].ID = COALESCE(@ID, [<dbUser,varchar,dbo>].[subtext_Content].ID)
 	AND (EntryName = @EntryName OR @EntryName IS NULL) 
 	AND (BlogId = @BlogId OR  @BlogId IS NULL)
@@ -3739,7 +3759,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertFeedback]
 )
 AS
 
-IF @DateModified = NULL
+IF @DateModified IS NULL
     SET @DateModified = getdate()
     
 INSERT INTO [<dbUser,varchar,dbo>].[subtext_FeedBack]
@@ -4770,16 +4790,16 @@ SELECT	content.BlogId
 	, content.PostConfig
 	, content.EntryName 
 	, content.DateSyndicated
-	, subtext_Enclosure.Id as EnclosureId
-	, subtext_Enclosure.Title as EnclosureTitle
-	, subtext_Enclosure.Url as EnclosureUrl
-	, subtext_Enclosure.MimeType as EnclosureMimeType
-	, subtext_Enclosure.Size as EnclosureSize
-	, subtext_Enclosure.EnclosureEnabled as EnclosureEnabled
-	, subtext_Enclosure.AddToFeed
-	, subtext_Enclosure.ShowWithPost
+	, e.Id as EnclosureId
+	, e.Title as EnclosureTitle
+	, e.Url as EnclosureUrl
+	, e.MimeType as EnclosureMimeType
+	, e.Size as EnclosureSize
+	, e.EnclosureEnabled as EnclosureEnabled
+	, e.AddToFeed
+	, e.ShowWithPost
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
-	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] on content.[ID] = [<dbUser,varchar,dbo>].[subtext_Enclosure].EntryId
+	LEFT JOIN [<dbUser,varchar,dbo>].[subtext_Enclosure] e on content.[ID] = e.EntryId
 WHERE  content.BlogId = @BlogId 
 	AND content.PostConfig & 1 = 1
 	AND content.ID IN 

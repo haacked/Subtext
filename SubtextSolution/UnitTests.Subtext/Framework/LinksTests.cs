@@ -191,6 +191,18 @@ namespace UnitTests.Subtext.Framework
             UnitTestHelper.AssertAreNotEqual(second.Id, third.Id);
 		}
 
+        [Test]
+        [RollBack2]
+        public void CanGetPostCollectionCategories()
+        {
+            UnitTestHelper.SetupBlog();
+            CreateSomePostCategories();
+
+            // Retrieve the categories, grab the first one and update it
+            IList<LinkCategory> originalCategories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            Assert.IsTrue(originalCategories.Count > 0);
+        }
+
 		/// <summary>
 		/// Ensure UpdateLInkCategory updates the correct link category
 		/// </summary>
@@ -237,6 +249,15 @@ namespace UnitTests.Subtext.Framework
             categoryIds[0] = Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds", CategoryType.LinkCollection, true));
             categoryIds[1] = Links.CreateLinkCategory(CreateCategory("Google Blogs", "My favorite Google blogs", CategoryType.LinkCollection, true));
             categoryIds[2] = Links.CreateLinkCategory(CreateCategory("Microsoft Blogs", "My favorite Microsoft blogs", CategoryType.LinkCollection, false));
+            return categoryIds;
+        }
+
+        static int[] CreateSomePostCategories()
+        {
+            int[] categoryIds = new int[3];
+            categoryIds[0] = Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds", CategoryType.PostCollection, true));
+            categoryIds[1] = Links.CreateLinkCategory(CreateCategory("Google Blogs", "My favorite Google blogs", CategoryType.PostCollection, true));
+            categoryIds[2] = Links.CreateLinkCategory(CreateCategory("Microsoft Blogs", "My favorite Microsoft blogs", CategoryType.PostCollection, false));
             return categoryIds;
         }
 

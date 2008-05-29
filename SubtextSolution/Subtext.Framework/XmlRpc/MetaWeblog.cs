@@ -345,10 +345,12 @@ namespace Subtext.Framework.XmlRpc
 	        {
 	            //We don't validate the file because newMediaObject allows file to be overwritten
 	            //But we do check the directory and create if necessary
-	            //The media object's name can have extra folders appended so we check for this here too.
-                Images.CheckDirectory(Config.CurrentBlog.ImageDirectory + mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1 ).Replace("/", "\\"));
-                FileStream fStream = new FileStream(Config.CurrentBlog.ImageDirectory + mediaobject.name, FileMode.Create);
-                BinaryWriter bw = new BinaryWriter(fStream);
+	            //The media object's name can have extra folders appended (WLW especially does this) 
+                //so we check for this here too.
+
+				//TODO: We shouldn't do this type of path parsing. That's what the System.IO.Path object is for.
+                Images.EnsureDirectory(Path.Combine(Config.CurrentBlog.ImageDirectory, mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1 ).Replace("/", "\\")));
+                BinaryWriter bw = new BinaryWriter(new FileStream(Config.CurrentBlog.ImageDirectory + mediaobject.name, FileMode.Create));
                 bw.Write(mediaobject.bits);	            
 	        }
 	        //Any IO exceptions, we throw a new XmlRpcFault Exception

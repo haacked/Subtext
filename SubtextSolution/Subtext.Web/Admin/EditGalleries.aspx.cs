@@ -150,7 +150,7 @@ namespace Subtext.Web.Admin.Pages
 			Image image = potentialImage as Image;
 			if (image != null)
 			{
-				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
+				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.GalleryVirtualUrl(image.CategoryID), 
 					image.ThumbNailFile);
 			}
 			else
@@ -247,10 +247,8 @@ namespace Subtext.Web.Admin.Pages
                 badFiles = new List<string>(),
                 updatedFiles = new List<string>();
 
-            Image image;
+        	byte[] archiveData = Images.GetFileStream(ImageFile.PostedFile);
 
-            byte[] archiveData = Images.GetFileStream(ImageFile.PostedFile),
-                fileData;
             MemoryStream ms = new MemoryStream(archiveData);
 
             using (ZipInputStream zip = new ZipInputStream(ms))
@@ -263,12 +261,14 @@ namespace Subtext.Web.Admin.Pages
                     // TODO: Filter for image types?
                     if (!String.IsNullOrEmpty(fileName))
                     {
-                        image = new Image();
+                    	byte[] fileData;
+
+						Image image = new Image();
                         image.CategoryID = CategoryID;
                         image.Title = fileName;
                         image.IsActive = ckbIsActiveImage.Checked;
-                        image.File = Images.GetFileName(fileName);
-                        image.LocalFilePath = Images.LocalGalleryFilePath(Context, CategoryID);
+                        image.FileName = Path.GetFileName(fileName);
+                        image.LocalDirectoryPath = Images.LocalGalleryFilePath(CategoryID);
 
                         // Read the next file from the Zip stream
                         using (MemoryStream currentFileData = new MemoryStream((int)theEntry.Size))
@@ -374,8 +374,8 @@ namespace Subtext.Web.Admin.Pages
 				
 				try
 				{
-					image.File = Images.GetFileName(targetFileName);
-					image.LocalFilePath = Images.LocalGalleryFilePath(Context, CategoryID);
+					image.FileName = Path.GetFileName(targetFileName);
+					image.LocalDirectoryPath = Images.LocalGalleryFilePath(CategoryID);
 					if (File.Exists(image.OriginalFilePath))
 					{
 						// tell the user we can't accept this file.
@@ -388,7 +388,7 @@ namespace Subtext.Web.Admin.Pages
 						AddImages.Collapsed = false;
 						// Unfortunately you can't set ImageFile.PostedFile.FileName. At least suggest
 						// a name for the new file.
-						TextBoxImageFileName.Text = image.File;
+						TextBoxImageFileName.Text = image.FileName;
 						return;
 					}
 
@@ -413,15 +413,6 @@ namespace Subtext.Web.Admin.Pages
 
 			// re-bind the gallery; note we'll skip this step if a correctable error occurs.
 			BindGallery();
-		}
-
-		// REFACTOR: can the flag go in AdminPage along with this meth?
-		public string CheckHiddenStyle()
-		{
-			if (_isListHidden)
-				return Constants.CSSSTYLE_HIDDEN;
-			else
-				return String.Empty;
 		}
 
 		private void ConfirmDeleteGallery(int categoryID, string categoryTitle)
@@ -500,7 +491,8 @@ namespace Subtext.Web.Admin.Pages
 				LinkCategory existingCategory = Links.GetLinkCategory(id,false);
 				existingCategory.Title = title.Text;
 				existingCategory.IsActive = isActive.Checked;
-				existingCategory.Description = desc.Text;
+				if(desc != null)
+					existingCategory.Description = desc.Text;
 		
 				if (id != 0) 
 					PersistCategory(existingCategory);

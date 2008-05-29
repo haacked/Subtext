@@ -81,7 +81,7 @@ namespace Subtext.Web.UI.Controls
             {
                 app = "/" + app;
             }
-            string baseImagePath = Images.HttpGalleryFilePath(Context, Int32.Parse(catID));
+            string baseImagePath = Images.GalleryVirtualUrl(Int32.Parse(catID));
             string virtualPath = "http://" + host + string.Format(CultureInfo.InvariantCulture, "/images/{0}{1}/", Regex.Replace(host, @"\:|\.", "_"), app);
             return virtualPath + baseImagePath + "t_" + imageFile;
         }
@@ -92,7 +92,7 @@ namespace Subtext.Web.UI.Controls
             {
                 app = "/" + app;
             }
-            string baseImagePath = Images.HttpGalleryFilePath(Context, Int32.Parse(catID)).Replace("/", "");
+            string baseImagePath = Images.GalleryVirtualUrl(Int32.Parse(catID)).Replace("/", "");
             return "http://" + host + app + "/Gallery/" + baseImagePath + ".aspx";
         }
 
@@ -102,7 +102,7 @@ namespace Subtext.Web.UI.Controls
             {
                 app = "/" + app;
             }
-            string baseImagePath = Images.HttpGalleryFilePath(Context, Int32.Parse(catID));
+            string baseImagePath = Images.GalleryVirtualUrl(Int32.Parse(catID));
             string virtualPath = "http://" + host + string.Format(CultureInfo.InvariantCulture, "/images/{0}{1}/", Regex.Replace(host, @"\:|\.", "_"), app);
             return virtualPath + baseImagePath + "r_" + imageFile;
         }

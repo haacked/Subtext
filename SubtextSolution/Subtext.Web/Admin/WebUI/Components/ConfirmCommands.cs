@@ -138,7 +138,7 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				return string.Format(System.Globalization.CultureInfo.InvariantCulture, format, args); 
+				return string.Format(CultureInfo.InvariantCulture, format, args); 
 			}
 			catch (ArgumentNullException)
 			{
@@ -489,14 +489,14 @@ namespace Subtext.Web.Admin
 				IList<Image> imageList = Images.GetImagesByCategoryID(_targetID, false);
 				
 				// delete the folder
-				string galleryFolder = Images.LocalGalleryFilePath(HttpContext.Current, _targetID);
+				string galleryFolder = Images.LocalGalleryFilePath(_targetID);
 				if (Directory.Exists(galleryFolder))
 					Directory.Delete(galleryFolder, true);
 
 				if (imageList.Count > 0)
 				{
 					// delete from data provider
-					foreach (Subtext.Framework.Components.Image currentImage in imageList)
+					foreach (Image currentImage in imageList)
 					{
 						Images.DeleteImage(currentImage);
 					}					
@@ -590,7 +590,7 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				Subtext.Framework.Components.Image currentImage = Images.GetSingleImage(_targetID, false);
+				Image currentImage = Images.GetSingleImage(_targetID, false);
 
 				// The following line should be fully encapsulated and handle files + data
 				// For now, I commented out the file trys in the the object so it can do just
@@ -600,7 +600,7 @@ namespace Subtext.Web.Admin
 				Images.DeleteImage(currentImage);
 
 				// now delete the associated files if they exist
-				string galleryFolder = Images.LocalGalleryFilePath(HttpContext.Current, currentImage.CategoryID);
+				string galleryFolder = Images.LocalGalleryFilePath(currentImage.CategoryID);
 				if (Directory.Exists(galleryFolder))
 				{
 					DeleteFile(galleryFolder, currentImage.OriginalFile);
@@ -620,7 +620,9 @@ namespace Subtext.Web.Admin
 		{
 			string localPath = Path.Combine(path, filename);
 			if (File.Exists(localPath))
+			{
 				File.Delete(localPath);
+			}
 		}
 	}
 	#endregion

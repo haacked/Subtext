@@ -204,12 +204,12 @@ namespace Subtext.Framework.Data
 			SqlParameter outParam = DataHelper.MakeOutParam("@ImageID", SqlDbType.Int, 4);
 			SqlParameter[] p = 
 			{
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,250,image.Title),
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(image.CategoryID)),
-				DataHelper.MakeInParam("@Width",SqlDbType.Int,4,image.Width),
-				DataHelper.MakeInParam("@Height",SqlDbType.Int,4,image.Height),
-				DataHelper.MakeInParam("@File",SqlDbType.NVarChar,50,image.File),
-				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,image.IsActive),
+				DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 250, image.Title),
+				DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, DataHelper.CheckNull(image.CategoryID)),
+				DataHelper.MakeInParam("@Width", SqlDbType.Int, 4, image.Width),
+				DataHelper.MakeInParam("@Height", SqlDbType.Int, 4, image.Height),
+				DataHelper.MakeInParam("@File", SqlDbType.NVarChar, 50, image.FileName),
+				DataHelper.MakeInParam("@Active", SqlDbType.Bit, 1, image.IsActive),
 				BlogIdParam,
 				outParam
 			};
@@ -221,12 +221,12 @@ namespace Subtext.Framework.Data
 		{
 			SqlParameter[] p = 
 			{
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,250,_image.Title),
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(_image.CategoryID)),
-				DataHelper.MakeInParam("@Width",SqlDbType.Int,4,_image.Width),
-				DataHelper.MakeInParam("@Height",SqlDbType.Int,4,_image.Height),
-				DataHelper.MakeInParam("@File",SqlDbType.NVarChar,50,_image.File),
-				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,_image.IsActive),
+				DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 250, _image.Title),
+				DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, DataHelper.CheckNull(_image.CategoryID)),
+				DataHelper.MakeInParam("@Width", SqlDbType.Int, 4, _image.Width),
+				DataHelper.MakeInParam("@Height", SqlDbType.Int, 4, _image.Height),
+				DataHelper.MakeInParam("@File", SqlDbType.NVarChar, 50, _image.FileName),
+				DataHelper.MakeInParam("@Active", SqlDbType.Bit, 1, _image.IsActive),
 				BlogIdParam,
 				DataHelper.MakeInParam("@ImageID",SqlDbType.Int,4,_image.ImageID)
 			};
