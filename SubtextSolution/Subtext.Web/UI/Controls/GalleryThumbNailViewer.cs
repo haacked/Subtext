@@ -50,7 +50,7 @@ namespace Subtext.Web.UI.Controls
 			if(Context != null)
 			{
 				int catID = UrlFormats.GetPostIDFromUrl(Request.Path);
-				this.baseImagePath = Images.HttpGalleryFilePath(Context,catID);
+				baseImagePath = Images.GalleryVirtualUrl(catID);
 
 				ImageCollection ic = Images.GetImagesByCategoryID(catID, true);
 				if(ic != null)

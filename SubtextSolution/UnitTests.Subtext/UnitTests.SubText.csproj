@@ -170,6 +170,7 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices">
       <Name>System.EnterpriseServices</Name>
     </Reference>
@@ -245,7 +246,9 @@
     <Compile Include="BlogMl\BlogMLReaderTests.cs" />
     <Compile Include="BlogMl\BlogMlWriterTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMlWriterTests.cs" />
-    <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="DatabaseHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Extensibility\DotNetOpenMailProviderSendTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -321,6 +324,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\HostInfoTests.cs" />
+    <Compile Include="Framework\ImageTests.cs" />
     <Compile Include="Framework\LinksTests.cs">
       <SubType>Code</SubType>
     </Compile>
