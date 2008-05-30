@@ -546,7 +546,7 @@ namespace Subtext.Framework.Providers
 		///     TRUE - At least one unit of content was cleared.
 		///     FALSE - No content was cleared.
 		/// </returns>
-		public abstract bool ClearBlogContent();
+		public abstract bool ClearBlogContent(int blogId);
 
 		#endregion
 

@@ -19,6 +19,8 @@ using Subtext.BlogML;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
+using Subtext.Framework;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -110,14 +112,8 @@ namespace Subtext.Web.Admin.Pages
                 chkClearContent.Visible = false;
                 btnClearContent.Visible = false;
                 
-                if (DbProvider.Instance().ClearBlogContent())
-                {
-                    msgpnlClearContent.ShowMessage("Success! The content has been obliterated!");
-                }
-                else
-                {
-                    msgpnlClearContent.ShowMessage("There was nothing to be cleared, or the attempt to clear failed.");
-                }
+                BlogInfo.ClearBlogContent(Config.CurrentBlog.Id);
+                msgpnlClearContent.ShowMessage("Success! The content has been obliterated!");
             }
             else
                 msgpnlClearContent.ShowError(@"You need to check the ""Clear Content"" checkbox to continue.");

@@ -21,6 +21,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Web;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Tracking
 {
@@ -29,14 +30,8 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public class AggBugHandler : IHttpHandler
 	{
-		ILog Log = new Subtext.Framework.Logging.Log();
-		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AggBugHandler"/> class.
-		/// </summary>
-		public AggBugHandler()
-		{
-		}
+		ILog Log = new Logging.Log();
+
 
 		static AggBugHandler()
 		{
@@ -60,7 +55,7 @@ namespace Subtext.Framework.Tracking
 		{
             if (context == null)
             {
-                throw new ArgumentNullException("context", "context cannot be null");//Resources.ArgumentNull_Generic);
+                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
             }
 
 			Log.Debug("Entering AggBug Request...");

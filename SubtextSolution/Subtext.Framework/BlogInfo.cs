@@ -1203,5 +1203,10 @@ namespace Subtext.Framework
                 return aggregateBlog;
             }
         }
+
+        public static void ClearBlogContent(int blogId)
+        {
+            ObjectProvider.Instance().ClearBlogContent(blogId);
+        }
     }
 }

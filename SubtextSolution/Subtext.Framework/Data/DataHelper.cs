@@ -98,6 +98,8 @@ namespace Subtext.Framework.Data
 				refer.Count = (int) reader["Count"];
 			}
 
+            refer.BlogId = Config.CurrentBlog.Id;
+
 			return refer;
 		}
 

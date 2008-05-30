@@ -54,9 +54,7 @@ namespace UnitTests.Subtext
 		{
 			string[] tables = new string[]
 				{
-					"subtext_PluginData"
-					, "subtext_PluginBlog"
-					, "subtext_KeyWords"	
+					"subtext_KeyWords"	
 					,"subtext_Images"	
 					,"subtext_Links"
 					,"subtext_EntryViewCount"
@@ -73,6 +71,7 @@ namespace UnitTests.Subtext
 
             using (SqlConnection conn = new SqlConnection(Config.ConnectionString))
             {
+                conn.Open();
                 foreach (string tableName in tables)
                 {
                     using (SqlCommand command = conn.CreateCommand())

@@ -21,6 +21,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.UI.Skinning;
 using SkinConfig = Subtext.Framework.Configuration.SkinConfig;
+using System;
 
 namespace Subtext.Framework
 {
@@ -36,6 +37,9 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static Control GetImportInformationControl(ImportProvider provider)
 		{
+            if (provider == null)
+                throw new ArgumentNullException("provider");
+
             return provider.GatherImportInformation();
 		}
 
@@ -49,6 +53,12 @@ namespace Subtext.Framework
 		/// <returns></returns>
         public static string ValidateImportAnswers(Control populatedControl, ImportProvider provider)
 		{
+            if (populatedControl == null)
+                throw new ArgumentNullException("populatedControl");
+
+            if (provider == null)
+                throw new ArgumentNullException("provider");
+
             return provider.ValidateImportInformation(populatedControl);
 		}
 

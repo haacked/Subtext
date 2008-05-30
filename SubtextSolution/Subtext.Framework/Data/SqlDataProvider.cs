@@ -471,9 +471,9 @@ namespace Subtext.Framework.Data
 			NonQueryInt("subtext_LogClear", p);
 		}
 
-        public override bool ClearBlogContent()
+        public override bool ClearBlogContent(int id)
         {
-            SqlParameter[] p = {BlogIdParam};
+            SqlParameter[] p = { DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(id)) };
             return NonQueryBool("subtext_ClearBlogContent", p);
         }
 
