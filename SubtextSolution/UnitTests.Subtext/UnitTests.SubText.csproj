@@ -325,9 +325,11 @@
     </Compile>
     <Compile Include="Framework\HostInfoTests.cs" />
     <Compile Include="Framework\ImageTests.cs" />
+    <Compile Include="Framework\ImportManagerTests.cs" />
     <Compile Include="Framework\LinksTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\NullValueTests.cs" />
     <Compile Include="Framework\Providers\ImportProviderTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -338,6 +340,7 @@
     <Compile Include="Framework\Skinning\SkinScriptsTests.cs" />
     <Compile Include="Framework\Skinning\SkinStylesTests.cs" />
     <Compile Include="Framework\Skinning\SkinTests.cs" />
+    <Compile Include="Framework\StatsTests.cs" />
     <Compile Include="Framework\Syndication\Admin\ModeratedCommentRssWriterTests.cs" />
     <Compile Include="Framework\Syndication\AtomHandlerTests.cs">
       <SubType>Code</SubType>
@@ -355,6 +358,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Syndication\SyndicationTestBase.cs" />
+    <Compile Include="Framework\TagsTests.cs" />
     <Compile Include="Framework\Text\ConvertToAllowedHtmlTests.cs">
       <SubType>Code</SubType>
     </Compile>

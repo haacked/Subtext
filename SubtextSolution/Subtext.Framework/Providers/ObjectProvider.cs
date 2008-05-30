@@ -44,6 +44,8 @@ namespace Subtext.Framework.Providers
 			return provider;
 		}
 
+        public abstract void ClearBlogContent(int blogId);
+
 		/// <summary>
 		/// Returns all the configured ObjectProvider.
 		/// </summary>

@@ -93,6 +93,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack2]
 		public void GetBlogInfoChangesHostForOnlyLocalHostBlog()
 		{
+            UnitTestHelper.ClearAllBlogData();
 			string subfolder = UnitTestHelper.GenerateRandomString();
 			Config.CreateBlog("title", "username", "password", "localhost", subfolder);
 			Assert.AreEqual(1, BlogInfo.GetBlogs(0, 10, ConfigurationFlags.None).Count, "Need to make sure there's only one blog in the system.");
@@ -109,6 +110,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack2]
 		public void GetBlogInfoFindsBlogIfItIsOnlyBlogInSystem()
 		{
+            UnitTestHelper.ClearAllBlogData();
 			string hostName = UnitTestHelper.GenerateRandomString();
 			string subfolder = UnitTestHelper.GenerateRandomString();
 			Config.CreateBlog("title", "username", "password", hostName, subfolder);

@@ -67,6 +67,11 @@ namespace Subtext.Framework.Data
 		#endregion Host
 
 		#region Blogs
+        public override void ClearBlogContent(int blogId) 
+        {
+            DbProvider.Instance().ClearBlogContent(blogId);
+        }
+
 		/// <summary>
 		/// Gets a pageable <see cref="IList"/> of <see cref="BlogInfo"/> instances.
 		/// </summary>

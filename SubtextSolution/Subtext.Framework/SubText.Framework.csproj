@@ -213,6 +213,7 @@
     <Compile Include="Components\PageType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\PageViewType.cs" />
     <Compile Include="Components\Referrer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -463,18 +464,21 @@
     <Compile Include="Tracking\Notification.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tracking\Notifier.cs" />
     <Compile Include="Tracking\PingBackNotificatinProxy.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Tracking\PingBackService.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tracking\SourceVerificationEventArgs.cs" />
     <Compile Include="Tracking\TrackBackHandler.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tracking\TrackBackNotificationProxy.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tracking\TrackbackResponseCode.cs" />
     <Compile Include="Tracking\TrackHelpers.cs">
       <SubType>Code</SubType>
     </Compile>

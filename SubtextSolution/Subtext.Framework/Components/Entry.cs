@@ -19,6 +19,7 @@ using System.Web;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Components
 {
@@ -34,7 +35,7 @@ namespace Subtext.Framework.Components
 		/// <param name="ptype">Ptype.</param>
 		public Entry(PostType ptype)
 		{
-			this._postType = ptype;
+			_postType = ptype;
 		}
 
 		private int _blogID;
@@ -44,8 +45,8 @@ namespace Subtext.Framework.Components
 		/// <value>The blog ID.</value>
 		public int BlogId
 		{
-			get {return this._blogID;}
-			set {this._blogID = value;}
+			get { return _blogID; }
+			set { _blogID = value; }
 		}
 
 		private int _entryid = NullValue.NullInt32;
@@ -55,8 +56,8 @@ namespace Subtext.Framework.Components
 		/// <value>The entry ID.</value>
 		public int Id
 		{
-			get{return _entryid;}
-			set{_entryid = value;}
+			get { return _entryid; }
+			set { _entryid = value; }
 		}
 
 		/// <summary>
@@ -69,7 +70,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return DateCreated != this.DateModified;
+				return DateCreated != DateModified;
 			}
 		}
 
@@ -111,8 +112,8 @@ namespace Subtext.Framework.Components
 		/// <value>The description.</value>
 		public string Description
 		{
-			get{return _description;}
-			set{_description = value;}
+			get { return _description; }
+			set { _description = value; }
 		}
 		private string _description;
 
@@ -123,7 +124,7 @@ namespace Subtext.Framework.Components
 		/// <value>The name of the entry.</value>
 		public string EntryName
 		{
-			get{return _entryName;}
+			get { return _entryName; }
 			set
 			{
 				//TODO: Validate the value and throw an exception if it 
@@ -144,7 +145,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return this.EntryName != null && this.EntryName.Trim().Length > 0;
+				return EntryName != null && EntryName.Trim().Length > 0;
 			}
 		}
 
@@ -154,11 +155,11 @@ namespace Subtext.Framework.Components
 		/// <value>The title.</value>
 		public string Title
 		{
-			get{return _title;}
-			set{_title = value;}
+			get { return _title; }
+			set { _title = value; }
 		}
 		private string _title;
-	
+
 		/// <summary>
 		/// Gets or sets the body of the Entry.  This is the 
 		/// main content of the entry.
@@ -210,10 +211,10 @@ namespace Subtext.Framework.Components
 			{
 				return _datecreated;
 			}
-			set{_datecreated = value;}
+			set { _datecreated = value; }
 		}
 		private DateTime _datecreated = NullValue.NullDateTime;
-		
+
 		/// <summary>
 		/// Gets or sets the date this entry was last updated.
 		/// </summary>
@@ -224,7 +225,7 @@ namespace Subtext.Framework.Components
 			{
 				return _dateupated;
 			}
-			set{_dateupated = value;}
+			set { _dateupated = value; }
 		}
 		private DateTime _dateupated = NullValue.NullDateTime;
 
@@ -237,7 +238,7 @@ namespace Subtext.Framework.Components
 			get { return _dateSyndicated; }
 			set
 			{
-				if(NullValue.IsNull(value))
+				if (NullValue.IsNull(value))
 				{
 					this.IncludeInMainSyndication = false;
 				}
@@ -253,8 +254,8 @@ namespace Subtext.Framework.Components
 		/// <value><c>true</c> if this instance is active; otherwise, <c>false</c>.</value>
 		public bool IsActive
 		{
-			get{return EntryPropertyCheck(PostConfig.IsActive);}
-			set{PostConfigSetter(PostConfig.IsActive,value);}
+			get { return EntryPropertyCheck(PostConfig.IsActive); }
+			set { PostConfigSetter(PostConfig.IsActive, value); }
 		}
 
 		/// <summary>
@@ -263,8 +264,8 @@ namespace Subtext.Framework.Components
 		/// <value><c>true</c> if [allows comments]; otherwise, <c>false</c>.</value>
 		public bool AllowComments
 		{
-			get{return EntryPropertyCheck(PostConfig.AllowComments);}
-			set{PostConfigSetter(PostConfig.AllowComments,value);}
+			get { return EntryPropertyCheck(PostConfig.AllowComments); }
+			set { PostConfigSetter(PostConfig.AllowComments, value); }
 		}
 
 		/// <summary>
@@ -273,8 +274,8 @@ namespace Subtext.Framework.Components
 		/// <value><c>true</c> if [display on home page]; otherwise, <c>false</c>.</value>
 		public bool DisplayOnHomePage
 		{
-			get{return EntryPropertyCheck(PostConfig.DisplayOnHomePage);}
-			set{PostConfigSetter(PostConfig.DisplayOnHomePage,value);}
+			get { return EntryPropertyCheck(PostConfig.DisplayOnHomePage); }
+			set { PostConfigSetter(PostConfig.DisplayOnHomePage, value); }
 		}
 
 		/// <summary>
@@ -285,8 +286,8 @@ namespace Subtext.Framework.Components
 		/// </value>
 		public bool SyndicateDescriptionOnly
 		{
-			get{return EntryPropertyCheck(PostConfig.SyndicateDescriptionOnly);}
-			set{PostConfigSetter(PostConfig.SyndicateDescriptionOnly,value);}
+			get { return EntryPropertyCheck(PostConfig.SyndicateDescriptionOnly); }
+			set { PostConfigSetter(PostConfig.SyndicateDescriptionOnly, value); }
 		}
 
 		/// <summary>
@@ -303,11 +304,11 @@ namespace Subtext.Framework.Components
 			}
 			set
 			{
-				if(value && NullValue.IsNull(DateSyndicated) && this.IsActive)
+				if (value && NullValue.IsNull(DateSyndicated) && this.IsActive)
 				{
 					DateSyndicated = Config.CurrentBlog.TimeZone.Now;
 				}
-				PostConfigSetter(PostConfig.IncludeInMainSyndication,value);
+				PostConfigSetter(PostConfig.IncludeInMainSyndication, value);
 			}
 		}
 
@@ -316,8 +317,8 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		public bool IsAggregated
 		{
-			get{return EntryPropertyCheck(PostConfig.IsAggregated);}
-			set{PostConfigSetter(PostConfig.IsAggregated,value);}
+			get { return EntryPropertyCheck(PostConfig.IsAggregated); }
+			set { PostConfigSetter(PostConfig.IsAggregated, value); }
 		}
 
 		/// <summary>
@@ -334,8 +335,8 @@ namespace Subtext.Framework.Components
 			{
 				// Closing By Age overrides explicit closing
 				if (CommentingClosedByAge == false)
-					PostConfigSetter(PostConfig.CommentsClosed,value);
-			}			
+					PostConfigSetter(PostConfig.CommentsClosed, value);
+			}
 		}
 
 		/// <summary>
@@ -346,10 +347,10 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				if(Config.CurrentBlog.DaysTillCommentsClose == int.MaxValue)
+				if (Config.CurrentBlog.DaysTillCommentsClose == int.MaxValue)
 					return false;
 
-				return Config.CurrentBlog.TimeZone.Now > this.DateCreated.AddDays(Config.CurrentBlog.DaysTillCommentsClose);
+				return Config.CurrentBlog.TimeZone.Now > this.DateSyndicated.AddDays(Config.CurrentBlog.DaysTillCommentsClose);
 			}
 		}
 
@@ -381,7 +382,7 @@ namespace Subtext.Framework.Components
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// Gets the fully qualified url to this entry.
 		/// </summary>
@@ -394,20 +395,20 @@ namespace Subtext.Framework.Components
 			}
 		}
 		Uri _fullyQualifiedLink;
-		
-		private int _feedBackCount = 0;
+
+		private int _feedBackCount;
 		public int FeedBackCount
 		{
-			get{return _feedBackCount;}
-			set{_feedBackCount = value;}
+			get { return _feedBackCount; }
+			set { _feedBackCount = value; }
 		}
 
 		private PostConfig _PostConfig = PostConfig.None;
-		
+
 		public PostConfig PostConfig
 		{
-			get {return this._PostConfig;}
-			set {this._PostConfig = value;}
+			get { return this._PostConfig; }
+			set { this._PostConfig = value; }
 		}
 
 		protected bool EntryPropertyCheck(PostConfig ep)
@@ -417,7 +418,7 @@ namespace Subtext.Framework.Components
 
 		protected void PostConfigSetter(PostConfig ep, bool select)
 		{
-			if(select)
+			if (select)
 			{
 				this.PostConfig = PostConfig | ep;
 			}
@@ -436,10 +437,10 @@ namespace Subtext.Framework.Components
 		/// <returns></returns>
 		public static int CalculateChecksum(string text)
 		{
-			if(text == null)
-				throw new ArgumentNullException("text", "Cannot calculate checksum for null string.");
+			if (text == null)
+				throw new ArgumentNullException("text", Resources.ArgumentNull_String);
 			int checksum = 0;
-			foreach(char c in text)
+			foreach (char c in text)
 			{
 				checksum += c;
 			}
