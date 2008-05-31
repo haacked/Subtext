@@ -3,7 +3,7 @@
     Title="3rd Party Credits" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
-    <h2>Credicts</h2>
+    <h2>Credits</h2>
 </asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server" />
