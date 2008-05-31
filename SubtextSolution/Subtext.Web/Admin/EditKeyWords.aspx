@@ -1,6 +1,8 @@
 <%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Edit Keywords" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master"  Codebehind="EditKeyWords.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditKeyWords" %>
 
-<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server" />
+<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+    <h2>Options</h2>
+</asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server" />
 

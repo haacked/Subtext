@@ -1,6 +1,7 @@
 <%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Syndication" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Syndication.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Syndication" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+    <h2>Options</h2>
 </asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
@@ -10,11 +11,12 @@
 </asp:Content>
 
 <asp:Content ID="syndicationContent" ContentPlaceHolderID="pageContent" runat="server">
+    <h2>Syndication</h2>
 	<st:MessagePanel id="Messages" runat="server" />
 	<st:AdvancedPanel id="Edit" runat="server" DisplayHeader="false" BodyCssClass="Edit" HeaderCssClass="CollapsibleHeader"
 		HeaderText="Syndication" Collapsible="False">
 		<fieldset class="edit-form">
-		    <legend>Syndication</legend>
+		    <legend>Feed Settings</legend>
 		    <span class="checkbox">
 			    <asp:CheckBox id="chkEnableSyndication" runat="server" Text="Enable Syndication" />
 			    <st:HelpToolTip id="HelpToolTip1" runat="server" HelpText="If checked, This will turn on or off your RSS (or ATOM) feed.  If you don't know what RSS is, please read the following <a href='http://slate.msn.com/id/2096660/'>introduction</a>.">

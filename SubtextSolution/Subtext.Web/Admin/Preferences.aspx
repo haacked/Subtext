@@ -1,6 +1,7 @@
 <%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Preferences" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Preferences.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditPreferences" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+    <h2>Options</h2>
 </asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">

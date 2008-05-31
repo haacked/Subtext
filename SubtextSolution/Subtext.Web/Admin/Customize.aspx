@@ -2,7 +2,7 @@
     CodeBehind="Customize.aspx.cs" Inherits="Subtext.Web.Admin.Pages.Customize" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="actionsHeading" runat="server">
-    <h2>Actions</h2>
+    <h2>Options</h2>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="categoryListHeading" runat="server" />
@@ -10,11 +10,10 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="categoryListLinks" runat="server" />
 
 <asp:Content ID="Content4" ContentPlaceHolderID="pageContent" runat="server">
-    <div id="messagePanelWrapper">
-        <div id="messagePanel" style="display: none;">
-        </div>
-    </div>
     <h2>Customize</h2>
+    <div id="messagePanelWrapper">
+        <div id="messagePanel" style="display: none;"></div>
+    </div>
     <div id="dynamic-content">
         <fieldset>
             <legend>Meta Tags</legend>

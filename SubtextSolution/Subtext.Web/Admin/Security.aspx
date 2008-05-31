@@ -1,6 +1,7 @@
 <%@ Page Language="C#" EnableTheming="false"  Title="Subtext Admin - Security" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Security.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Security" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+    <h2>Options</h2>
 </asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
