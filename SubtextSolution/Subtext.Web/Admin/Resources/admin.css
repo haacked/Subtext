@@ -41,9 +41,9 @@ body
 .hide { display: none; }
 
 #header {
-    clear: both;
     background-color: #334677;
     float: left;
+    width: 100%;
 }
 
 #filler {
@@ -589,6 +589,7 @@ table.highlightTable tr.highlightAlt td
   list-style: none;
   float: right;
   margin: -25px 0 4px 0;
+  clear: both;
 }
 
 #tabs li {
