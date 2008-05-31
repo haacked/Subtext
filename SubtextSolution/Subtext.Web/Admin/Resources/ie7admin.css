@@ -21,3 +21,8 @@ fieldset.edit-form textarea
 {
     margin-left: -170px;
 }
+
+#header
+{
+    float: none;
+}
