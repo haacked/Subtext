@@ -1063,6 +1063,12 @@ hr {
     margin: 5px 2px;
 }
 
+body #entry-editor
+{
+    margin-bottom: 30px;
+    float: left;
+}
+
 body #entry-editor table.checkbox input, body #entry-editor table.checkbox label
 {
     display: inline;

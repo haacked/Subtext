@@ -6,10 +6,13 @@
 <%@ Import Namespace = "Subtext.Web.Admin" %>
 
 <ANW:MessagePanel id="Messages" runat="server" />
-
-<ANW:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle" Collapsible="False" HeaderText="Edit Post">
+    
 	<div id="entry-editor" class="Edit">
-		<p class="Label"><asp:HyperLink id="hlEntryLink" Runat="server" /></p>
+	    <h2><% if (PostID == null) {%>New<% } else { %>Edit<%} %> Post</h2>
+	    
+	    <% if (PostID != null) { %>
+		    <p class="Label"><asp:HyperLink id="hlEntryLink" Runat="server" /></p>
+		<% } %>
 		
 		<label for="Editor_Edit_txbTitle" accesskey="t">Post <u>T</u>itle&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title" /></label>
 		<asp:TextBox id="txbTitle" runat="server" MaxLength="250" />
@@ -25,40 +28,7 @@
 		</div>
 	</div>
 
-	<ANW:AdvancedPanel id="Enclosure" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True" Collapsed="True" HeaderText="Enclosure" BodyCssClass="Edit">
-    <div id="messagePanelContainer" style="display: none;">
-        <div id="messagePanelWrapper">
-            <div id="messagePanel" style="display: none;">
-            </div>
-        </div>
-    </div>
-    <div id="enclosure-editor">
-	<fieldset title="Enclosure">
-		<legend>Basic Enclosure</legend>
-	    <label for="Editor_Enclosure_txbEnclosureTitle" accesskey="e"><u>E</u>nclosure Title</label>
-        <asp:TextBox id="txbEnclosureTitle" runat="server" MaxLength="250" />
-        <label for="Editor_Enclosure_txbEnclosureUrl" accesskey="u">Enclosure <u>U</u>rl&nbsp;<asp:RequiredFieldValidator id="valEncUrlRequired" runat="server" ControlToValidate="txbEnclosureUrl" ForeColor="#990066" ErrorMessage="Url is required" Display="Dynamic" /> <asp:RegularExpressionValidator ControlToValidate="txbEnclosureUrl" id="valEncUrlFormat" runat="server" ForeColor="#990066" ErrorMessage="Not a valid Url." ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$"></asp:RegularExpressionValidator> </label>
-        <asp:TextBox id="txbEnclosureUrl" runat="server" MaxLength="250" />
-        <label for="Editor_Enclosure_txbEnclosureSize" accesskey="s">Enclosure <u>S</u>ize (in bytes) &nbsp;<asp:RequiredFieldValidator id="valEncSizeRequired" runat="server" ControlToValidate="txbEnclosureSize" ForeColor="#990066" ErrorMessage="Size is required" Display="Dynamic" /><asp:RangeValidator ControlToValidate="txbEnclosureSize" MinimumValue="0" MaximumValue="999999999" id="valEncSizeFormat" runat="server" ForeColor="#990066"  Type="Integer" ErrorMessage="Not a valid size." ></asp:RangeValidator></label>
-        <asp:TextBox id="txbEnclosureSize" runat="server" MaxLength="250" />
-        <label for="Editor_Enclosure_ddlMimeType" accesskey="m">Enclosure <u>M</u>imetype&nbsp;<asp:CompareValidator Operator="NotEqual" ValueToCompare="none" id="valEncMimeTypeRequired" runat="server" ControlToValidate="ddlMimeType" ForeColor="#990066" ErrorMessage="MimeType is required." /></label>
-        <asp:DropDownList ID="ddlMimeType" runat="server">
-        </asp:DropDownList> <asp:TextBox id="txbEnclosureOtherMimetype" CssClass="othertype" runat="server" MaxLength="25" />&nbsp;<asp:RequiredFieldValidator id="valEncOtherMimetypeRequired" runat="server" ControlToValidate="txbEnclosureOtherMimetype" ForeColor="#990066" ErrorMessage="You have to specify a custom mimetype." />
-        <label for="Editor_Enclosure_ddlDisplayOnPost" accesskey="p">Display with <u>P</u>ost on website</label>
-        <asp:DropDownList ID="ddlDisplayOnPost" runat="server">
-            <asp:ListItem Value="true">Yes</asp:ListItem>
-            <asp:ListItem Value="false">No</asp:ListItem>
-        </asp:DropDownList>
-        <label for="Editor_Enclosure_ddlAddToFeed" accesskey="f">Add to <u>F</u>eed</label>
-        <asp:DropDownList ID="ddlAddToFeed" runat="server">
-            <asp:ListItem Value="true">Yes</asp:ListItem>
-            <asp:ListItem Value="false">No</asp:ListItem>
-        </asp:DropDownList>
-    </fieldset>
-    </div>
-	</ANW:AdvancedPanel>
-
-	<ANW:AdvancedPanel id="Advanced" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True" Collapsed="False" HeaderText="Advanced Options" BodyCssClass="Edit">
+	<ANW:AdvancedPanel id="Advanced" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="False" Collapsed="False" HeaderText="Advanced Options" BodyCssClass="Edit">
 		<!-- todo, make this more css based than table driven -->
 		<table cellpadding="4">
 			<tr>
@@ -83,9 +53,38 @@
 		</div>
 	</ANW:AdvancedPanel>
 	
-
-	
-</ANW:AdvancedPanel>
+	<ANW:AdvancedPanel id="Enclosure" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="False" Collapsed="True" HeaderText="Enclosure" BodyCssClass="Edit">
+        <div id="messagePanelContainer" style="display: none;">
+            <div id="messagePanelWrapper">
+                <div id="messagePanel" style="display: none;">
+                </div>
+            </div>
+        </div>
+        <div id="enclosure-editor">
+	    <fieldset title="Enclosure">
+		    <legend>Basic Enclosure</legend>
+	        <label for="Editor_Enclosure_txbEnclosureTitle" accesskey="e"><u>E</u>nclosure Title</label>
+            <asp:TextBox id="txbEnclosureTitle" runat="server" MaxLength="250" />
+            <label for="Editor_Enclosure_txbEnclosureUrl" accesskey="u">Enclosure <u>U</u>rl&nbsp;<asp:RequiredFieldValidator id="valEncUrlRequired" runat="server" ControlToValidate="txbEnclosureUrl" ForeColor="#990066" ErrorMessage="Url is required" Display="Dynamic" /> <asp:RegularExpressionValidator ControlToValidate="txbEnclosureUrl" id="valEncUrlFormat" runat="server" ForeColor="#990066" ErrorMessage="Not a valid Url." ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$"></asp:RegularExpressionValidator> </label>
+            <asp:TextBox id="txbEnclosureUrl" runat="server" MaxLength="250" />
+            <label for="Editor_Enclosure_txbEnclosureSize" accesskey="s">Enclosure <u>S</u>ize (in bytes) &nbsp;<asp:RequiredFieldValidator id="valEncSizeRequired" runat="server" ControlToValidate="txbEnclosureSize" ForeColor="#990066" ErrorMessage="Size is required" Display="Dynamic" /><asp:RangeValidator ControlToValidate="txbEnclosureSize" MinimumValue="0" MaximumValue="999999999" id="valEncSizeFormat" runat="server" ForeColor="#990066"  Type="Integer" ErrorMessage="Not a valid size." ></asp:RangeValidator></label>
+            <asp:TextBox id="txbEnclosureSize" runat="server" MaxLength="250" />
+            <label for="Editor_Enclosure_ddlMimeType" accesskey="m">Enclosure <u>M</u>imetype&nbsp;<asp:CompareValidator Operator="NotEqual" ValueToCompare="none" id="valEncMimeTypeRequired" runat="server" ControlToValidate="ddlMimeType" ForeColor="#990066" ErrorMessage="MimeType is required." /></label>
+            <asp:DropDownList ID="ddlMimeType" runat="server">
+            </asp:DropDownList> <asp:TextBox id="txbEnclosureOtherMimetype" CssClass="othertype" runat="server" MaxLength="25" />&nbsp;<asp:RequiredFieldValidator id="valEncOtherMimetypeRequired" runat="server" ControlToValidate="txbEnclosureOtherMimetype" ForeColor="#990066" ErrorMessage="You have to specify a custom mimetype." />
+            <label for="Editor_Enclosure_ddlDisplayOnPost" accesskey="p">Display with <u>P</u>ost on website</label>
+            <asp:DropDownList ID="ddlDisplayOnPost" runat="server">
+                <asp:ListItem Value="true">Yes</asp:ListItem>
+                <asp:ListItem Value="false">No</asp:ListItem>
+            </asp:DropDownList>
+            <label for="Editor_Enclosure_ddlAddToFeed" accesskey="f">Add to <u>F</u>eed</label>
+            <asp:DropDownList ID="ddlAddToFeed" runat="server">
+                <asp:ListItem Value="true">Yes</asp:ListItem>
+                <asp:ListItem Value="false">No</asp:ListItem>
+            </asp:DropDownList>
+        </fieldset>
+        </div>
+	</ANW:AdvancedPanel>
 
 <script type="text/javascript">
 

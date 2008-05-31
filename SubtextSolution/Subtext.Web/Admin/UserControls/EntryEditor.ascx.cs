@@ -149,63 +149,63 @@ namespace Subtext.Web.Admin.UserControls
             PopulateMimeTypeDropDown();
         }
 
-		private void BindPostEdit()
+        private void BindPostEdit()
 		{
             if (PostID == null)
                 throw new InvalidOperationException("Cannot edit a null post");
 
 			SetConfirmation();
 			
-			Entry currentPost = Entries.GetEntry(PostID.Value, PostConfig.None, false);
-			if(currentPost == null)
+			Entry entry = Entries.GetEntry(PostID.Value, PostConfig.None, false);
+			if(entry == null)
 			{
                 ReturnToOrigin(null);
 				return;
 			}
 		
-			txbTitle.Text = currentPost.Title;
+			txbTitle.Text = entry.Title;
 
-			hlEntryLink.NavigateUrl = currentPost.Url;
-			hlEntryLink.Text = currentPost.FullyQualifiedUrl.ToString();
-			hlEntryLink.Attributes.Add("title", "view: " + currentPost.Title);
+			hlEntryLink.NavigateUrl = entry.Url;
+			hlEntryLink.Text = entry.FullyQualifiedUrl.ToString();
+			hlEntryLink.Attributes.Add("title", "view: " + entry.Title);
 
 		    PopulateMimeTypeDropDown();
 		    //Enclosures
-            if(currentPost.Enclosure != null)
+            if(entry.Enclosure != null)
             {
                 Enclosure.Collapsed = false;
-                txbEnclosureTitle.Text = currentPost.Enclosure.Title;
-                txbEnclosureUrl.Text = currentPost.Enclosure.Url;
-                txbEnclosureSize.Text = currentPost.Enclosure.Size.ToString();
-                if (ddlMimeType.Items.FindByText(currentPost.Enclosure.MimeType) != null)
-                    ddlMimeType.SelectedValue = currentPost.Enclosure.MimeType;
+                txbEnclosureTitle.Text = entry.Enclosure.Title;
+                txbEnclosureUrl.Text = entry.Enclosure.Url;
+                txbEnclosureSize.Text = entry.Enclosure.Size.ToString();
+                if (ddlMimeType.Items.FindByText(entry.Enclosure.MimeType) != null)
+                    ddlMimeType.SelectedValue = entry.Enclosure.MimeType;
                 else
                 {
                     ddlMimeType.SelectedValue = "other";
-                    txbEnclosureOtherMimetype.Text = currentPost.Enclosure.MimeType;
+                    txbEnclosureOtherMimetype.Text = entry.Enclosure.MimeType;
                 }
-                ddlAddToFeed.SelectedValue = currentPost.Enclosure.AddToFeed.ToString().ToLower();
-                ddlDisplayOnPost.SelectedValue = currentPost.Enclosure.ShowWithPost.ToString().ToLower();
+                ddlAddToFeed.SelectedValue = entry.Enclosure.AddToFeed.ToString().ToLower();
+                ddlDisplayOnPost.SelectedValue = entry.Enclosure.ShowWithPost.ToString().ToLower();
             }
 
-			chkComments.Checked                    = currentPost.AllowComments;	
-			chkCommentsClosed.Checked			   = currentPost.CommentingClosed;
+			chkComments.Checked                    = entry.AllowComments;	
+			chkCommentsClosed.Checked			   = entry.CommentingClosed;
 			SetCommentControls();
-			if (currentPost.CommentingClosedByAge)
+			if (entry.CommentingClosedByAge)
 				chkCommentsClosed.Enabled = false;
 
-			chkDisplayHomePage.Checked             = currentPost.DisplayOnHomePage;
-			chkMainSyndication.Checked             = currentPost.IncludeInMainSyndication;  
-			chkSyndicateDescriptionOnly.Checked    = currentPost.SyndicateDescriptionOnly ; 
-			chkIsAggregated.Checked                = currentPost.IsAggregated;
+			chkDisplayHomePage.Checked             = entry.DisplayOnHomePage;
+			chkMainSyndication.Checked             = entry.IncludeInMainSyndication;  
+			chkSyndicateDescriptionOnly.Checked    = entry.SyndicateDescriptionOnly ; 
+			chkIsAggregated.Checked                = entry.IsAggregated;
 
 			// Advanced Options
-			this.txbEntryName.Text = currentPost.EntryName;
-			this.txbExcerpt.Text = currentPost.Description;
+			this.txbEntryName.Text = entry.EntryName;
+			this.txbExcerpt.Text = entry.Description;
 			
-			SetEditorText(currentPost.Body);
+			SetEditorText(entry.Body);
 
-			ckbPublished.Checked = currentPost.IsActive;
+			ckbPublished.Checked = entry.IsActive;
 
             BindCategoryList();
 			for (int i = 0; i < cklCategories.Items.Count; i++)
@@ -230,16 +230,16 @@ namespace Subtext.Web.Admin.UserControls
             if (adminMasterPage != null && adminMasterPage.BreadCrumb != null)
 			{	
 				string title = string.Format(CultureInfo.InvariantCulture, "Editing {0} \"{1}\"", 
-					CategoryType == CategoryType.StoryCollection ? "Article" : "Post", currentPost.Title);
+					CategoryType == CategoryType.StoryCollection ? "Article" : "Post", entry.Title);
 
                 adminMasterPage.BreadCrumb.AddLastItem(title);
                 adminMasterPage.Title = title;
 			}
 
-			if(currentPost.HasEntryName)
+			if(entry.HasEntryName)
 			{
 				this.Advanced.Collapsed = false;
-				txbEntryName.Text = currentPost.EntryName;
+				txbEntryName.Text = entry.EntryName;
 			}
 		}
 
