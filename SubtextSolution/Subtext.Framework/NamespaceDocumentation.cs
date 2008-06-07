@@ -20,12 +20,15 @@
 // http://ndoc.sourceforge.net/reference/NDoc.Core.Reflection.BaseReflectionDocumenterConfig.UseNamespaceDocSummaries.html
 
 #if DOCUMENTATION
+using System.Diagnostics.CodeAnalysis;
+
 namespace Subtext
 {
 	/// <summary>
 	/// Subtext is a blogging engine built on the .NET Framework.  
 	/// For more information, check out SubtextProject.com.
 	/// </summary>
+    [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "This class is used to generate namespace summary documentation.")]
 	internal sealed class NamespaceDoc
 	{
 		private NamespaceDoc()
@@ -40,6 +43,7 @@ namespace Subtext.Framework
 	/// Contains the primary framework classes used by 
 	/// the Subtext blogging engine.
 	/// </summary>
+    [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "This class is used to generate namespace summary documentation.")]
 	internal sealed class NamespaceDoc
 	{
 		private NamespaceDoc()
@@ -70,6 +74,7 @@ namespace Subtext.Framework.Configuration
 	/// the configuration as well.
 	/// </p>
 	/// </summary>
+    [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "This class is used to generate namespace summary documentation.")]
 	internal sealed class NamespaceDoc
 	{
 		private NamespaceDoc()
@@ -84,6 +89,7 @@ namespace Subtext.Framework.Components
 	/// Contains the primary business layer classes such as <see cref="Entry"/>, 
 	/// <see cref="Image"/>, <see cref="KeyWord"/>.
 	/// </summary>
+    [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "This class is used to generate namespace summary documentation.")]
 	internal sealed class NamespaceDoc
 	{
 		private NamespaceDoc()
