@@ -88,6 +88,14 @@
                         </tbody> </table>
                     </FooterTemplate>
                 </asp:Repeater>
+                
+                <div class="Pager">
+                    <st:PagingControl id="resultsPager" runat="server" 
+		                PrefixText="<div>Goto page</div>" 
+		                LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
+		                UrlFormat="Customize.aspx?pg={0}" 
+		                CssClass="Pager" />
+		            </div>
             </div>
         </fieldset>
     </div>

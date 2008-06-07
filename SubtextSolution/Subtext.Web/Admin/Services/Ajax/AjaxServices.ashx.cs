@@ -9,9 +9,9 @@ using Subtext.Framework.Configuration;
 namespace Subtext.Web.Admin.Services.Ajax
 {
     //NOTE: we are now using Jayrock for Ajax services. Please see http://jayrock.berlios.de/ for more info
+    [PrincipalPermission(SecurityAction.Demand, Role = "Admins")]
     public class AjaxServices : JsonRpcHandler
     {
-        //[PrincipalPermission(SecurityAction.Demand, Role = "Admins")]
         [JsonRpcMethod("addMetaTagForBlog")]
         public MetaTag AddMetaTagForBlog(string content, string name, string httpEquiv)
         {

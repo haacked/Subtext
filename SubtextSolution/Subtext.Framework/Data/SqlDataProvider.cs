@@ -1571,23 +1571,28 @@ namespace Subtext.Framework.Data
             return NonQueryBool("subtext_UpdateMetaTag", p);
         }
 
-        public override IDataReader GetMetaTagsForBlog(BlogInfo blog)
+        public override IDataReader GetMetaTagsForBlog(BlogInfo blog, int pageIndex, int pageSize)
         {
             SqlParameter[] p =
 				{
-					DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(blog.Id))
+					DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(blog.Id)),
+                    DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, DataHelper.CheckNull(pageIndex)),
+                    DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, DataHelper.CheckNull(pageSize))
+
 				};
-            return GetReader("subtext_GetMetaTagsForBlog", p);
+            return GetReader("subtext_GetMetaTags", p);
         }
 
-        public override IDataReader GetMetaTagsForEntry(Entry entry)
+        public override IDataReader GetMetaTagsForEntry(Entry entry, int pageIndex, int pageSize)
         {
             SqlParameter[] p =
 				{
 					DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(entry.BlogId)),
-                    DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(entry.Id))
+                    DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(entry.Id)),
+                    DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, DataHelper.CheckNull(pageIndex)),
+                    DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, DataHelper.CheckNull(pageSize))
 				};
-            return GetReader("subtext_GetMetaTagsForEntry", p);
+            return GetReader("subtext_GetMetaTags", p);
         }
 
         public override bool DeleteMetaTag(int metaTagId)

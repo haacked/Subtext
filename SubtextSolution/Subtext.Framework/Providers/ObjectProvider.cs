@@ -506,14 +506,14 @@ namespace Subtext.Framework.Providers
 		/// Gets a collection of MetaTags for the given Blog.
 		/// </summary>
 		/// <returns></returns>
-		public abstract IList<MetaTag> GetMetaTagsForBlog(BlogInfo blog);
+        public abstract IPagedCollection<MetaTag> GetMetaTagsForBlog(BlogInfo blog, int pageIndex, int pageSize);
 
         /// <summary>
         /// Gets a collection of MetaTags for the given Entry
         /// </summary>
         /// <param name="entry"></param>
         /// <returns></returns>
-	    public abstract IList<MetaTag> GetMetaTagsForEntry(Entry entry);
+	    public abstract IPagedCollection<MetaTag> GetMetaTagsForEntry(Entry entry, int pageIndex, int pageSize);
 
         /// <summary>
         /// Deletes the MetaTag with the given metaTagId.

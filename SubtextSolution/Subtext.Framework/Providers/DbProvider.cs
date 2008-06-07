@@ -422,9 +422,9 @@ namespace Subtext.Framework.Providers
 
 	    public abstract bool UpdateMetaTag(MetaTag metaTag);
 
-		public abstract IDataReader GetMetaTagsForBlog(BlogInfo blog);
+        public abstract IDataReader GetMetaTagsForBlog(BlogInfo blog, int pageIndex, int pageSize);
 
-	    public abstract IDataReader GetMetaTagsForEntry(Entry entry);
+        public abstract IDataReader GetMetaTagsForEntry(Entry entry, int pageIndex, int pageSize);
 
         public abstract bool DeleteMetaTag(int metaTagId);
 

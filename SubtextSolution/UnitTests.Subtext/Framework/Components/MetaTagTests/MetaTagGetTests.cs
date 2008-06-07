@@ -36,7 +36,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         public void GetReturnsZeroWhenNoMetaTagsExistForBlog()
         {
             this.blog = UnitTestHelper.CreateBlogAndSetupContext();
-            Assert.AreEqual(0, MetaTags.GetMetaTagsForBlog(blog).Count, "Shouldn't have found any MetaTags for this blog.");
+            Assert.AreEqual(0, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count, "Shouldn't have found any MetaTags for this blog.");
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
                 UnitTestHelper.CreateEntryInstanceForSyndication("Steve Harman", "Loves Subtexting!", "Roses are red...");
             Entries.Create(e);
 
-            Assert.AreEqual(0, MetaTags.GetMetaTagsForEntry(e).Count, "Shouldn't have found any MetaTags for this entry.");
+            Assert.AreEqual(0, MetaTags.GetMetaTagsForEntry(e, 0, 100).Count, "Shouldn't have found any MetaTags for this entry.");
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             InsertNewMetaTag("Adding description meta tag", "description", null, DateTime.Now, blog.Id, null);
             InsertNewMetaTag("no-cache", null, "cache-control", DateTime.Now, blog.Id, null);
 
-            IList<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog);
+            IList<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, 0, 100);
 
             Assert.AreEqual(2, tags.Count, "Should be two tags for this blog.");
         }
@@ -84,7 +84,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             InsertNewMetaTag("no-cache", null, "cache-control", DateTime.Now, blog.Id, e.Id);
             InsertNewMetaTag("Mon, 22 Jul 2022 11:12:01 GMT", null, "expires", DateTime.Now, blog.Id, e.Id);
 
-            IList<MetaTag> tags = MetaTags.GetMetaTagsForEntry(e);
+            IList<MetaTag> tags = MetaTags.GetMetaTagsForEntry(e, 0, 100);
 
             Assert.AreEqual(4, tags.Count, "Should have found 4 MetaTags for this entry.");
         }

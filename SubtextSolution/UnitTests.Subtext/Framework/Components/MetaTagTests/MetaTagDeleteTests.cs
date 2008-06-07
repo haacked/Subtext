@@ -35,12 +35,12 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
                 UnitTestHelper.BuildMetaTag("Steve Harman likes to delete stuff!", "description", null, blog.Id, null,
                                             DateTime.Now);
             MetaTags.Create(tag);
-            Assert.AreEqual(1, MetaTags.GetMetaTagsForBlog(blog).Count, "Should be one (1) MetaTag for this blog.");
+            Assert.AreEqual(1, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count, "Should be one (1) MetaTag for this blog.");
 
             // Now let's remove it from the data store
             Assert.IsTrue(MetaTags.Delete(tag.Id), "Deleting the MetaTag failed.");
 
-            Assert.AreEqual(0, MetaTags.GetMetaTagsForBlog(blog).Count, "Should be zero (0) MetaTags for this blog.");
+            Assert.AreEqual(0, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count, "Should be zero (0) MetaTags for this blog.");
         }
 
         [Test]
@@ -56,14 +56,14 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             MetaTag tag = UnitTestHelper.BuildMetaTag("Foo, bar, zaa?", "author", null, blog.Id, entry.Id, DateTime.Now);
             MetaTags.Create(tag);
 
-            Assert.AreEqual(1, MetaTags.GetMetaTagsForBlog(blog).Count, "Should be one (1) MetaTag for this blog.");
-            Assert.AreEqual(1, MetaTags.GetMetaTagsForEntry(entry).Count, "Should be one (1) MetaTag for this entry.");
+            Assert.AreEqual(1, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count, "Should be one (1) MetaTag for this blog.");
+            Assert.AreEqual(1, MetaTags.GetMetaTagsForEntry(entry, 0, 100).Count, "Should be one (1) MetaTag for this entry.");
 
             // Now let's remove it from the data store
             Assert.IsTrue(MetaTags.Delete(tag.Id), "Deleting the MetaTag failed.");
 
-            Assert.AreEqual(0, MetaTags.GetMetaTagsForBlog(blog).Count, "Should be zero (0) MetaTags for this blog.");
-            Assert.AreEqual(0, MetaTags.GetMetaTagsForEntry(entry).Count, "Should be zero (0) MetaTag for this entry.");
+            Assert.AreEqual(0, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count, "Should be zero (0) MetaTags for this blog.");
+            Assert.AreEqual(0, MetaTags.GetMetaTagsForEntry(entry, 0, 100).Count, "Should be zero (0) MetaTag for this entry.");
         }
     }
 }

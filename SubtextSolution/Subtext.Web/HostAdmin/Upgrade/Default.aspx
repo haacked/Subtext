@@ -25,5 +25,5 @@
 			<strong>We recommend making a database backup first.</strong>
 		</p>
 	</div>
-	<p><asp:Button id="btnUpgrade" runat="server" text="Upgrade"></asp:Button></p>
+	<p><asp:Button id="btnUpgrade" runat="server" text="Upgrade" onclick="OnUpgradeClick" /></p>
 </asp:Content>
