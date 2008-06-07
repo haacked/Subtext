@@ -104,6 +104,20 @@ namespace UnitTests.Subtext.Framework.Data
 			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
 		}
 
+        [RowTest]
+        [Row(11, 10, 2, 1)]
+        [Row(11, 5, 3, 1)]
+        [Row(12, 5, 3, 2)]
+        [Row(10, 5, 2, 5)]
+        [Row(10, 20, 1, 10)]
+        [RollBack]
+        public void GetPagedMetaTagsHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
+        {
+            Assert.IsTrue(Config.CreateBlog("", "username", "password", this.hostName, "blog"));
+            IPagedCollectionTester tester = new MetaTagCollectionTester();
+            AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
+        }
+
 		[RowTest]
 		[Row(11, 10, 2, 1)]
 		[Row(11, 5, 3, 1)]
@@ -350,7 +364,6 @@ namespace UnitTests.Subtext.Framework.Data
 		}
 	}
 
-	
 	internal class KeyWordCollectionTester : IPagedCollectionTester
 	{
 		public KeyWordCollectionTester()
@@ -435,4 +448,30 @@ namespace UnitTests.Subtext.Framework.Data
 			return ((IPagedCollection<Referrer>)collection).Count;
 		}
 	}
+
+    internal class MetaTagCollectionTester : IPagedCollectionTester
+    {
+        public MetaTagCollectionTester()
+        {
+        }
+
+        public void Create(int index)
+        {
+            MetaTag tag = new MetaTag("test" + index);
+            tag.DateCreated = DateTime.Now;
+            tag.Name = "foo";
+            tag.BlogId = Config.CurrentBlog.Id;
+            MetaTags.Create(tag);
+        }
+
+        public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+        {
+            return MetaTags.GetMetaTagsForBlog(Config.CurrentBlog, pageIndex, pageSize);
+        }
+
+        public int GetCount(IPagedCollection collection)
+        {
+            return ((IPagedCollection<MetaTag>)collection).Count;
+        }
+    }
 }

@@ -29,36 +29,19 @@ namespace Subtext.Web.HostAdmin.Upgrade
 	/// </remarks>
 	public partial class Default : HostAdminPage
 	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
-			if(InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion) == InstallationState.Complete)
-			{
-				Response.Redirect("UpgradeComplete.aspx");
-			}
-		}
+        protected override void OnLoad(EventArgs e)
+        {
+            if (InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion) == InstallationState.Complete)
+            {
+                Response.Redirect("UpgradeComplete.aspx");
+            }
 
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-			this.btnUpgrade.Click += new System.EventHandler(this.btnUpgrade_Click);
+            btnUpgrade.Attributes["onclick"] = "this.disabled=true;"
+                + ClientScript.GetPostBackEventReference(btnUpgrade, null).ToString();
+            base.OnLoad(e);
+        }
 
-		}
-		#endregion
-
-		private void btnUpgrade_Click(object sender, EventArgs e)
+		protected void OnUpgradeClick(object sender, EventArgs e)
 		{
 			plcHolderUpgradeMessage.Visible = false;
 			try

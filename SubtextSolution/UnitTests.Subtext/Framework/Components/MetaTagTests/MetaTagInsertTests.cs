@@ -51,13 +51,13 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             MetaTag mt = UnitTestHelper.BuildMetaTag(content, name, httpEquiv, blog.Id, entryId, DateTime.Now);
 
             // make sure there are no meta-tags for this blog in the data store
-            IList<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog);
+            IList<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, 0, 100);
             Assert.AreEqual(0, tags.Count, "Should be zero MetaTags.");
 
             // add the meta-tag to the data store
             int tagId = MetaTags.Create(mt);
 
-            tags = MetaTags.GetMetaTagsForBlog(blog);
+            tags = MetaTags.GetMetaTagsForBlog(blog, 0, 100);
 
             Assert.AreEqual(1, tags.Count, errMsg);
 

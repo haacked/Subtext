@@ -48,7 +48,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 
             Assert.IsTrue(MetaTags.Update(tag));
 
-            MetaTag updTag = MetaTags.GetMetaTagsForBlog(blog)[0];
+            MetaTag updTag = MetaTags.GetMetaTagsForBlog(blog, 0, 100)[0];
 
             ValidateMetaTags(tag, updTag);
         }
@@ -68,7 +68,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 
             MetaTags.Update(tag);
 
-            ValidateMetaTags(tag, MetaTags.GetMetaTagsForBlog(blog)[0]);
+            ValidateMetaTags(tag, MetaTags.GetMetaTagsForBlog(blog, 0, 100)[0]);
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 
             MetaTags.Update(tag);
 
-            ValidateMetaTags(tag, MetaTags.GetMetaTagsForBlog(blog)[0]);
+            ValidateMetaTags(tag, MetaTags.GetMetaTagsForBlog(blog, 0, 100)[0]);
         }
 
         [RowTest]

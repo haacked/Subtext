@@ -1072,10 +1072,7 @@
     <Content Include="Admin\UserControls\EntriesList.ascx" />
     <Content Include="Admin\UserControls\EntryEditor.ascx" />
     <Content Include="Admin\Credits.aspx" />
-    <Content Include="App_Data\Subtext2.mdf">
-    </Content>
-    <Content Include="App_Data\Subtext2_log.ldf">
-      <DependentUpon>Subtext2.mdf</DependentUpon>
+    <Content Include="App_Data\Subtext2.0.mdf">
     </Content>
     <Content Include="DTP.aspx" />
     <Content Include="ExternalDependencies\FreeTextBox.xml" />

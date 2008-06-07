@@ -455,13 +455,8 @@ drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateMetaTag]
 GO
 
 if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
-	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_GetMetaTagsForBlog')
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetMetaTagsForBlog]
-GO
-
-if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
-	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_GetMetaTagsForEntry')
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetMetaTagsForEntry]
+	and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_GetMetaTags')
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetMetaTags]
 GO
 
 if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 
@@ -1717,7 +1712,7 @@ WHERE 	content.BlogId = @BlogId
 	AND content.DateAdded <= @FirstDate
 	AND content.[ID] <= @FirstId
 	AND PostType = @PostType
-ORDER BY content.DateAdded DESC
+ORDER BY content.DateAdded DESC, ID DESC
  
 SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
@@ -4965,42 +4960,52 @@ GO
 GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_UpdateMetaTag] TO [public]
 GO
 
-
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetMetaTagsForBlog] 
-	(
-		@BlogId int
-	)
-AS
-	SELECT Id, [Content], [Name], HttpEquiv, BlogId, EntryId, DateCreated FROM [<dbUser,varchar,dbo>].subtext_MetaTag
-	WHERE BlogId = @BlogId
-	ORDER BY DateCreated DESC
-GO 
-
-GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_GetMetaTagsForBlog] TO [public]
-GO
-
-
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetMetaTagsForEntry] 
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetMetaTags] 
 	(
 		@BlogId int,
-		@EntryId int
+		@EntryId int = NULL,
+		@PageIndex int,
+		@PageSize int
 	)
 AS
-	SELECT Id, [Content], [Name], HttpEquiv, BlogId, EntryId, DateCreated FROM [<dbUser,varchar,dbo>].subtext_MetaTag
+	DECLARE @FirstDate datetime
+	DECLARE @FirstId int
+	DECLARE @StartRow int
+	DECLARE @StartRowIndex int
+
+	SET @StartRowIndex = @PageIndex * @PageSize + 1
+
+	SET ROWCOUNT @StartRowIndex
+	-- Get the first id for the current page.
+	SELECT	@FirstDate = DateCreated 
+		, @FirstId = ID
+	FROM [<dbUser,varchar,dbo>].[subtext_MetaTag]
+	WHERE	BlogId = @BlogId 
+		AND (@EntryId is null OR EntryId = @EntryId)
+	ORDER BY DateCreated ASC, ID ASC
+	
+	SET ROWCOUNT @PageSize
+
+	SELECT Id, [Content], [Name], HttpEquiv, BlogId, EntryId, DateCreated 
+	FROM [<dbUser,varchar,dbo>].subtext_MetaTag
 	WHERE BlogId = @BlogId
-		AND EntryId = @EntryId
-	ORDER BY DateCreated DESC
+		AND (@EntryId is null OR EntryId = @EntryId)
+		AND DateCreated >= @FirstDate
+		AND Id >= @FirstId
+	ORDER BY DateCreated ASC, Id ASC
+	 
+	SELECT COUNT([ID]) AS TotalRecords
+	FROM [<dbUser,varchar,dbo>].[subtext_MetaTag]
+	WHERE 	BlogId = @BlogId 
+		AND (@EntryId is null OR EntryId = @EntryId)
+
 GO 
 
-GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_GetMetaTagsForEntry] TO [public]
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_GetMetaTags] TO [public]
 GO
 
 

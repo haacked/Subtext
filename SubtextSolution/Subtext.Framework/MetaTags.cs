@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
+using Subtext.Extensibility.Interfaces;
 
 namespace Subtext.Framework
 {
@@ -54,14 +55,14 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().DeleteMetaTag(metaTagId);
 		}
 
-		public static IList<MetaTag> GetMetaTagsForBlog(BlogInfo blog)
+		public static IPagedCollection<MetaTag> GetMetaTagsForBlog(BlogInfo blog, int pageIndex, int pageSize)
 		{
-			return ObjectProvider.Instance().GetMetaTagsForBlog(blog);
+			return ObjectProvider.Instance().GetMetaTagsForBlog(blog, pageIndex, pageSize);
 		}
 
-        public static IList<MetaTag> GetMetaTagsForEntry(Entry entry)
+        public static IPagedCollection<MetaTag> GetMetaTagsForEntry(Entry entry, int pageIndex, int pageSize)
         {
-            return ObjectProvider.Instance().GetMetaTagsForEntry(entry);
+            return ObjectProvider.Instance().GetMetaTagsForEntry(entry, pageIndex, pageSize);
         }
 	}
 }

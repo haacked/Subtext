@@ -26,6 +26,7 @@ using Subtext.Framework.Text;
 using Subtext.Framework.UI.Skinning;
 using Subtext.Framework.UrlManager;
 using Subtext.Web.UI.Controls;
+using Subtext.Extensibility.Interfaces;
 
 namespace Subtext.Web.UI.Pages
 {
@@ -158,7 +159,7 @@ namespace Subtext.Web.UI.Pages
             }
 
             // Add the per-blog MetaTags to the page Head section.
-            IList<MetaTag> blogMetaTags = MetaTags.GetMetaTagsForBlog(CurrentBlog);
+            IPagedCollection<MetaTag> blogMetaTags = MetaTags.GetMetaTagsForBlog(CurrentBlog, 0, int.MaxValue);
             foreach (MetaTag tag in blogMetaTags)
             {
                 HtmlMeta mt = new HtmlMeta();

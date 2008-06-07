@@ -1103,34 +1103,36 @@ namespace Subtext.Framework.Data
 	        return DbProvider.Instance().UpdateMetaTag(metaTag);
 	    }
 
-	    public override IList<MetaTag> GetMetaTagsForBlog(BlogInfo blog)
+	    public override IPagedCollection<MetaTag> GetMetaTagsForBlog(BlogInfo blog, int pageIndex, int pageSize)
 		{
-			using (IDataReader reader = DbProvider.Instance().GetMetaTagsForBlog(blog))
+			using (IDataReader reader = DbProvider.Instance().GetMetaTagsForBlog(blog, pageIndex, pageSize))
 			{
-				List<MetaTag> tags = new List<MetaTag>();
+				IPagedCollection<MetaTag> tags = new PagedCollection<MetaTag>();
 
 				while(reader.Read())
 				{
 					tags.Add(DataHelper.LoadMetaTag(reader));
 				}
-
+                reader.NextResult();
+                tags.MaxItems = DataHelper.GetMaxItems(reader);
 				return tags;
 			}
 		}
 
 
-	    public override IList<MetaTag> GetMetaTagsForEntry(Entry entry)
+        public override IPagedCollection<MetaTag> GetMetaTagsForEntry(Entry entry, int pageIndex, int pageSize)
 	    {
-	        using (IDataReader reader = DbProvider.Instance().GetMetaTagsForEntry(entry))
+	        using (IDataReader reader = DbProvider.Instance().GetMetaTagsForEntry(entry, pageIndex, pageSize))
 	        {
-	            List<MetaTag> tags = new List<MetaTag>();
+	            IPagedCollection<MetaTag> tags = new PagedCollection<MetaTag>();
 
                 while (reader.Read())
                 {
                     tags.Add(DataHelper.LoadMetaTag(reader));
                 }
-
-	            return tags;
+                reader.NextResult();
+                tags.MaxItems = DataHelper.GetMaxItems(reader);
+                return tags;
 	        }
 	    }
 
