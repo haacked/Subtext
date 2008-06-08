@@ -1,4 +1,3 @@
-
 <%@ Page Language="C#" EnableTheming="false"  Title="Subtext Installation: Step 3 - Host Configuration" MasterPageFile="~/Install/InstallTemplate.Master" Codebehind="Step02_ConfigureHost.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Install.Step02_ConfigureHost" %>
 
 <asp:Content ID="mainContent" ContentPlaceHolderID="Content" runat="server">
@@ -47,6 +46,6 @@
 			<asp:RequiredFieldValidator ID="vldHostComparePassword" runat="server" ControlToValidate="txtConfirmPassword" ValidationGroup="HostAdministration" Text="*" Display="Dynamic" />
 			<asp:CompareValidator ID="vldHostPasswordsMatch" runat="server" ControlToValidate="txtConfirmPassword" ControlToCompare="txtPassword" ValidationGroup="HostAdministration" Text="*" ErrorMessage="The passwords do not match." Display="Dynamic" />
 		</div>
-		<asp:Button id="btnSave" Runat="server" Text="Save" onclick="btnSave_Click" />
+		<asp:Button id="btnSave" Runat="server" Text="Save" CssClass="button" onclick="btnSave_Click" />
 	</fieldset>
 </asp:Content>

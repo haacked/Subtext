@@ -255,20 +255,20 @@ textarea
 
 .Textbox, textarea
 {
-	border: 1px solid #AAAAAA;
+	border: 1px solid #aaa;
 	width: 100%;
 }
 
 a.button, input.button, .button
 {
 	border: 3px double #999999;
-	border-top-color: #CCCCCC;
-	border-left-color: #CCCCCC;
+	border-top-color: #ccc;
+	border-left-color: #ccc;
 	padding: 0.25em;
-	background-color: #FFFFFF;
+	background-color: #fff;
 	/*background-image: url()  Be nice to have a decent simple gradient gif */
 	background-repeat: repeat-x;
-	color: #333333;
+	color: #333;
 	font-size: 75%;
 	font-weight: bold;
 	font-family: Verdana, Helvetica, Arial, sans-serif;
@@ -277,14 +277,14 @@ a.button, input.button, .button
 
 a.button:hover, input.button:hover
 {
-	background-color: #DDDDDD; /* //TODO: Pick a better color: */
+	background-color: #ddd; /* //TODO: Pick a better color: */
 	/*background-image: url()  Be nice to have a decent simple gradient gif */
 	background-repeat: repeat-x;
 }
 
 input.submit:active, a.button:active, .button:active
 {
-	border: 3px double #CCCCCC;
+	border: 3px double #ccc;
 	border-top-color: #999999;
 	border-left-color: #999999;
 } 

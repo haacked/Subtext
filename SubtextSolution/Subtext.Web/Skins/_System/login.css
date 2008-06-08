@@ -18,7 +18,7 @@ span.rememberMe
 
 #loginPage {
     margin: 50px auto 0 auto;
-    width: 500px;
+    width: 525px;
 }
 
 #loginPage input.button
@@ -28,6 +28,7 @@ span.rememberMe
 
 input#btnOpenIdLogin_loginButton
 {
+	padding: 3px 10px;
 	font-size: 1.4em;
 }
 
