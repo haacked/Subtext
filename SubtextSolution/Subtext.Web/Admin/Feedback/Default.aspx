@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Admin/Feedback/Feedback.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Subtext.Web.Admin.Feedback.Default" Title="Untitled Page" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Admin/Feedback/Feedback.Master" Title="Subtext Admin - Feedback" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Subtext.Web.Admin.Feedback.Default" %>
 
 <asp:Content ID="feedbackListContent" ContentPlaceHolderID="feedbackContent" runat="server">
     

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="Posts.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Subtext.Web.Admin.Posts.Default" Title="Untitled Page" %>
+﻿<%@ Page Language="C#" MasterPageFile="Posts.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Subtext.Web.Admin.Posts.Default" Title="Subtext Admin - Posts" %>
 <%@ Register TagPrefix="st" Src="~/Admin/UserControls/EntriesList.ascx" TagName="EntriesList" %>
 
 <asp:Content ID="content" ContentPlaceHolderID="postsContent" runat="server">

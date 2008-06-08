@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="Articles.Master" AutoEventWireup="true" CodeBehind="Edit.aspx.cs" Inherits="Subtext.Web.Admin.Articles.Edit" Title="Untitled Page" %>
+﻿<%@ Page Language="C#" MasterPageFile="Articles.Master" AutoEventWireup="true" CodeBehind="Edit.aspx.cs" Inherits="Subtext.Web.Admin.Articles.Edit" Title="Subtext Admin - Edit Articles" %>
 <%@ Register TagPrefix="st" TagName="EntryEditor" Src="~/Admin/UserControls/EntryEditor.ascx" %>
 
 <asp:Content ID="content" ContentPlaceHolderID="postsContent" runat="server">
