@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Admin/Feedback/Feedback.Master" AutoEventWireup="true" CodeBehind="Edit.aspx.cs" Inherits="Subtext.Web.Admin.Feedback.EditPage" Title="Untitled Page" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Admin/Feedback/Feedback.Master" AutoEventWireup="true" CodeBehind="Edit.aspx.cs" Inherits="Subtext.Web.Admin.Feedback.EditPage" Title="Subtext Admin - Edit Feedback" %>
 <%@ Register TagPrefix="st" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="feedbackContent" runat="server">

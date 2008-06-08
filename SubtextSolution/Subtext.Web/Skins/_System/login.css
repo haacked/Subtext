@@ -1,7 +1,11 @@
 ﻿body
 {
- background: #fff;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    width: 100%;
 }
+
 span.rememberMe
 {
 	display: block;
@@ -12,32 +16,40 @@ span.rememberMe
 	display: inline;
 }
 
+#loginPage {
+    margin: 50px auto 0 auto;
+    width: 500px;
+}
+
 #loginPage input.button
 {
-	float: right;
-	margin-top: -25px;
+	margin-top: 10px;
 }
+
 input#btnOpenIdLogin_loginButton
 {
-	margin-left: 65px;
-	padding: 3px 10px;
 	font-size: 1.4em;
 }
+
 #btnOpenIdLogin tr td input
 {
 	float: left;
 }
+
 .openidLogin 
 {
 	background-color: #fffadb !important;
+	color: #c0b040;
 	border: solid 1px #cbb930;
-	font-size: 1.4em;
-	width: 250px;
+	font-size: 1.8em;
+	width: 350px;
+}
+
+#loginPage input.textbox {
+    width: 350px;
 }
 #loginPage fieldset
 {
-	width: 450px;
-	padding: 15px 50px;
 }
 
 .forgotPassword

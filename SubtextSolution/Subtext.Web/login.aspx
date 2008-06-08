@@ -34,6 +34,7 @@
 					    <a href="ForgotPassword.aspx" title="Click to reset your password" tabindex="5">Forgot Your Password?</a>
 				    </p>
 				</fieldset>
+				
 				<fieldset>
 				    <legend>Sign In with OpenID</legend>
                     <cc1:openidlogin id="btnOpenIdLogin" cssclass="openidLogin" runat="server" LabelText="" RequestEmail="Require" RequestNickname="Request" RegisterVisible="false"   
