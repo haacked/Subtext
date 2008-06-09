@@ -1031,6 +1031,7 @@
     <Content Include="Admin\ImportExport.aspx" />
     <Content Include="Admin\license.txt" />
     <Content Include="Admin\Options.aspx" />
+    <Content Include="Admin\Resources\mobile.css" />
     <Content Include="Admin\Security.aspx" />
     <Content Include="Admin\Posts\Default.aspx" />
     <Content Include="Admin\Posts\Edit.aspx" />
