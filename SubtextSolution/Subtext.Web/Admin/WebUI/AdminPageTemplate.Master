@@ -29,7 +29,7 @@
     <!--[if IE 7]>
     <link type="text/css" rel="stylesheet" runat="server" href="~/Admin/Resources/ie7admin.css" />
     <![endif]-->
-
+    <link type="text/css" rel="stylesheet" runat="server" href="~/Admin/Resources/mobile.css" media="handheld" />
 </head>
 <body id="AdminSection" runat="server" class="admin">
     <form id="frmMain" runat="server">
