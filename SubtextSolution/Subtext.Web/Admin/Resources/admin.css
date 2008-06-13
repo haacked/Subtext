@@ -322,16 +322,8 @@ div.DialogBody {
     margin-left: 170px;
 }
 
-body.Galleries #content {
-    margin-left: 0;
-}
-
 #content .section {
   float: left;
-}
-
-#content .full-section {
-    margin: 0;
 }
 
 #content div.Edit p  {
