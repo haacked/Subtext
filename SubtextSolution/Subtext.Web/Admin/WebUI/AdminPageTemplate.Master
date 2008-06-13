@@ -69,7 +69,7 @@
 	    </ul>
 	    
 	    <div id="main">
-	        <div id="sidebar">
+	        <div id="sidebar" runat="server">
                 
                 <asp:ContentPlaceHolder ID="actionsHeading" runat="server">Actions</asp:ContentPlaceHolder>
                 
