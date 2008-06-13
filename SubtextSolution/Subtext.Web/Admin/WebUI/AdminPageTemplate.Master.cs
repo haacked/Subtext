@@ -16,6 +16,15 @@ namespace Subtext.Web.Admin.WebUI
 		{
 		}
 
+        public void HideSidebar()
+        {
+            if (sidebar != null)
+            {
+                sidebar.Visible = false;
+            }
+        }
+
+
         public AdminUrlHelper Url 
         {
             get 

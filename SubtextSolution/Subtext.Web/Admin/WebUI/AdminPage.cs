@@ -65,7 +65,7 @@ namespace Subtext.Web.Admin.Pages
                 ControlHelper.AddCssClass(this.body, this.TabSectionId);
             }
 	    }
-	    
+
 	    protected AdminPageTemplate AdminMasterPage
 	    {
 	        get

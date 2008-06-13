@@ -4,11 +4,11 @@
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server" />
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
-    <h2>Galleries</h2>
+    
 </asp:Content>
 
 <asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
-    <st:CategoryLinks ID="categoryLinks" runat="server" CategoryType="ImageCollection" />
+    
 </asp:Content>
 
 <asp:Content ID="galleriesContainer" ContentPlaceHolderID="pageContent" runat="server">
@@ -16,7 +16,7 @@
 	<st:MessagePanel id="Messages" runat="server" ErrorIconUrl="~/images/icons/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/images/icons/ico_info.gif" MessageCssClass="MessagePanel"></st:MessagePanel>
 	<h2>Galleries</h2>
 	<asp:PlaceHolder id="Results" runat="server">
-	    <div class="section">
+	    <div class="full-section">
 		<asp:DataGrid id="dgrSelectionList" runat="server" CssClass="listing highlightTable" GridLines="None" AutoGenerateColumns="False">
 			<AlternatingItemStyle CssClass="alt"></AlternatingItemStyle>
 				<HeaderStyle CssClass="Header"></HeaderStyle>
