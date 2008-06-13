@@ -32,6 +32,7 @@ namespace Subtext.Web.Admin.Pages
 		protected bool _isListHidden;
 		// jsbright added to support prompting for new file name
 
+		#region Accessors
 		private int CategoryID
 		{
 			get
@@ -43,6 +44,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 			set { ViewState["CategoryID"] = value; }
 		}
+		#endregion
 
 	    protected EditGalleries() : base()
 	    {
@@ -55,8 +57,6 @@ namespace Subtext.Web.Admin.Pages
 			{
 				Response.Redirect("index.aspx");
 			}
-
-            this.AdminMasterPage.HideSidebar();
 
 			if (!IsPostBack)
 			{
