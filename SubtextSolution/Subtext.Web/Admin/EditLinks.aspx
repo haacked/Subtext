@@ -178,7 +178,7 @@ addLoadEvent(blurry);
 					<p>
 						<asp:DropDownList id="ddlImportExportCategories" runat="server"></ASP:DropDownList></p>
 				</div>
-				<div style="MARGIN-TOP: 8px">
+				<div class="button-div">
 					<asp:Button id="lkbImportOpml" runat="server" CssClass="Button" Text="Import" onclick="lkbImportOpml_Click"></asp:Button><A class="Button" href="Export.aspx?command=opml">Export</A>
 					<br class="clear" />
 					&nbsp;

@@ -1,9 +1,11 @@
-* {
+* 
+{
     margin: 0;
     padding: 0;
 }
 
-html, body, form {
+html, body, form 
+{
     height: 100%;
 }
 
@@ -15,13 +17,15 @@ body
 	font-size: small;
 }
 
-#container {
+#container 
+{
     min-height: 100%;
     margin-bottom: -33px;
     position: relative;
 }
 
-#login-status {
+#login-status 
+{
 	font-size: .9em;
 	padding: 2px 10px;
 	text-align: right;
@@ -29,24 +33,28 @@ body
 	color: #bbb;
 }
 
-#login-status strong {
+#login-status strong 
+{
     color: #fff;
     margin-right: 8px;
 }
 
-#blog-title {
+#blog-title 
+{
     margin-right: 20px;
 }
 
 .hide { display: none; }
 
-#header {
+#header 
+{
     background-color: #334677;
     float: left;
     width: 100%;
 }
 
-#filler {
+#filler 
+{
     float: right;
     margin-top: 50px;
 }
@@ -83,16 +91,19 @@ body
 	display: none;
 }
 
-h1 {
+h1 
+{
 	font-size: 1.7em;
 	padding-left: 5px;
 }
 
-h2 {
+h2 
+{
 	font-size: 1.2em;
 }
 
-h1, h2 {
+h1, h2 
+{
     margin: 2px 0 8px 0;
 	color: #555;
 	background: #ecedef;
@@ -102,7 +113,8 @@ h1, h2 {
 	text-transform: uppercase;
 }
 
-#credits p, #credits ul, #credits ol {
+#credits p, #credits ul, #credits ol 
+{
     padding-left: 20px;
     margin-left: 10px;
 }
@@ -114,20 +126,23 @@ html>body th
 	font-size: small;
 }
 
-div.Pager  {
+div.Pager  
+{
 	padding-bottom: 4px;
 	margin-bottom: 8px;
 	margin-right: 10px;
 	float: right;
 }
 
-div.Pager div {
+div.Pager div 
+{
 	float: left;
 	margin: 1px 2px 1px 2px;
 }
 
 div.Pager a:link, 
-div.Pager a:visited  {
+div.Pager a:visited  
+{
 	font-weight: normal;
 	padding: 0px 2px 0px 2px;
 	margin: 1px 2px 1px 2px;
@@ -137,14 +152,16 @@ div.Pager a:visited  {
 }
 
 div.Pager a.Current:link, 
-div.Pager a.Current:visited  {
+div.Pager a.Current:visited  
+{
 	font-weight: bold;
 	border-top: 1px solid #BBBBBB;
 	border-bottom: 1px solid #BBBBBB;
 	margin: 0px 2px 0px 2px;
 }
 
-a:link, a:visited {
+a:link, a:visited 
+{
 	color: #002C99;
 	font-weight: bold;
 	text-decoration: none;
@@ -191,18 +208,21 @@ a.RightButton:visited
 	text-align: center;
 }
 
-html>body a.Button {
+html>body a.Button 
+{
 	width: auto;
 	min-width: 70px;
 }
 
-a.Button:hover {
+a.Button:hover 
+{
 	color: #CC0066;
 	text-decoration: underline;
 	background: #FFFFFF;
 }
 
-a.Thumbnail {
+a.Thumbnail 
+{
 	float: left;
 	display: block;
 	margin: 12px 12px 12px 0px;
@@ -211,28 +231,33 @@ a.Thumbnail {
 	border: 1px solid #CCC;
 }
 
-a.Thumbnail:hover {
+a.Thumbnail:hover 
+{
 	color: inherit;
 	background-color: #FFECF5;
 }
 
-a.Thumbnail IMG {
+a.Thumbnail IMG 
+{
 	margin: 12px;
 	border: 1px solid #999;	
 }
 
-p.ThumbnailTitle {
+p.ThumbnailTitle 
+{
 	font-size: 160%;
 	float: left;
 	padding-top: 48px;
 	margin-left: 13%;
 }
 
-p.ThumbnailTitle span {
+p.ThumbnailTitle span 
+{
 	font-size: 60%;
 }
 
-p.InlineSubtitle {
+p.InlineSubtitle 
+{
 	border-bottom: 1px solid #CCC;
 	font-size: 120%;
 	font-weight: bold;
@@ -241,7 +266,8 @@ p.InlineSubtitle {
 }
 
 a.ButtonInline:link,
-a.ButtonInline:visited {
+a.ButtonInline:visited 
+{
 	display: block;
 	clear: none;
 	padding: 2px 8px;
@@ -256,12 +282,14 @@ a.ButtonInline:visited {
 }
 
 html>body a.ButtonInline:link,
-html>body a.ButtonInline:visited {
+html>body a.ButtonInline:visited 
+{
 	float: left;
 	margin-left: 4px;
 }
 
-a.ButtonInline:hover {
+a.ButtonInline:hover 
+{
 	color: #CC0066;
 	text-decoration: underline;
 	background: #FFFFFF;
@@ -276,14 +304,16 @@ div.Action
 	background: #EEEEEE;
 }
 
-div.Dialog {
+div.Dialog 
+{
 	margin-left: auto;
 	margin-right: auto;
 	width: 300px;
 	border: 1px solid #AAAAAA;
 }
 
-div.DialogTitle {
+div.DialogTitle 
+{
 	font-size: 105%;
 	border-bottom: 1px dashed #999;
 	font-weight: bold;
@@ -294,19 +324,22 @@ div.DialogTitle {
 	background: #E5E5E5;
 }
 
-div.DialogBody {
+div.DialogBody 
+{
 	color: #333333;
 	background: #EEEEEE;
 	padding: 12px 12px 2px 12px;
 }
 
-#sidebar {
+#sidebar 
+{
 	width: 160px;
 	float: left;
 	font-size: .9em;
 }
 
-#sidebar ul {
+#sidebar ul 
+{
     margin: 0 0 0 8px;
     list-style: none;
 }
@@ -318,15 +351,22 @@ div.DialogBody {
 	text-decoration: none;
 }
 
-#content {
+#content 
+{
     margin-left: 170px;
 }
 
-#content .section {
+#content .section
+{
   float: left;
 }
 
-#content div.Edit p  {
+#content h2
+{
+}
+
+#content div.Edit p  
+{
 	margin: 0px 0px 10px 0px;
 }
 
@@ -567,9 +607,6 @@ tr {
 }
 
 /*--------- {Used to highlight table listings} ------------*/
-table.highlightTable
-{}
-
 table.highlightTable tr.highlight td
 {
 	background: #fefeee;
@@ -585,7 +622,8 @@ table.highlightTable tr.highlightAlt td
 	font-weight: bold;
 }
 
-#tabs {
+#tabs 
+{
   list-style: none;
   float: right;
   margin: -25px 0 4px 0;
@@ -897,6 +935,11 @@ div.button-row
 	clear: both;
 }
 
+div.button-div 
+{
+    margin-top: 8px;
+}
+
 /*-------------{table styles}--------------*/
 table
 {
@@ -1074,7 +1117,8 @@ body #entry-editor table.checkbox input, body #entry-editor table.checkbox label
     display: inline;
 }
 
-body #entry-editor table.checkbox {
+body #entry-editor table.checkbox 
+{
     margin-bottom: 10px;
 }
 
@@ -1088,11 +1132,13 @@ body #entry-editor table.checkbox label
 	display: inline !important;
 	width: 80%;
 }
+
 .xfnTitleCol
 {
 	width: 90px !important;
 	float: left;
 }
+
 #xfnRelations
 {
 	background-color: #E4E9F3;

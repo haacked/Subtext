@@ -23,15 +23,6 @@ namespace Subtext.Web.Admin.Pages {
         protected global::Subtext.Web.Admin.UserControls.CategoryLinkList categoryLinks;
         
         /// <summary>
-        /// scrollsaver control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Subtext.Web.Controls.ScrollPositionSaver scrollsaver;
-        
-        /// <summary>
         /// Messages control.
         /// </summary>
         /// <remarks>
@@ -110,7 +101,7 @@ namespace Subtext.Web.Admin.Pages {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel ImagesDiv;
+        protected global::System.Web.UI.WebControls.PlaceHolder ImagesDiv;
         
         /// <summary>
         /// AddImages control.
@@ -155,7 +146,7 @@ namespace Subtext.Web.Admin.Pages {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PanelDefaultName;
+        protected global::System.Web.UI.WebControls.PlaceHolder PanelDefaultName;
         
         /// <summary>
         /// lbkAddImage control.
@@ -210,5 +201,14 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rprImages;
+        
+        /// <summary>
+        /// scrollsaver control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.ScrollPositionSaver scrollsaver;
     }
 }
