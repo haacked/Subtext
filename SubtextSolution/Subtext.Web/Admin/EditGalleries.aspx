@@ -12,7 +12,6 @@
 </asp:Content>
 
 <asp:Content ID="galleriesContainer" ContentPlaceHolderID="pageContent" runat="server">
-	<st:ScrollPositionSaver id="scrollsaver" runat="server" />
 	<st:MessagePanel id="Messages" runat="server" ErrorIconUrl="~/images/icons/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/images/icons/ico_info.gif" MessageCssClass="MessagePanel"></st:MessagePanel>
 	<h2>Galleries</h2>
 	<asp:PlaceHolder id="Results" runat="server">
@@ -64,7 +63,7 @@
 				    <asp:CheckBox id="ckbNewIsActive" runat="server" Checked="true" CssClass="checkbox" Text="Visible" TextAlign="Left" />
 				    <label>Description (1000 characters including HTML)</label>
 				    <asp:TextBox id="txbNewDescription" MaxLength="1000"  runat="server" CssClass="textarea" rows="5" textmode="MultiLine" />
-				    <div style="MARGIN-TOP: 8px">
+				    <div class="button-div">
 					    <asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Add" onclick="lkbPost_Click"></asp:Button><br />&nbsp; 
 				    </div>
 				</fieldset>
@@ -73,57 +72,55 @@
 		</asp:PlaceHolder>
 		
 		<!-- add/upload a new file -->
-		<ASP:Panel id="ImagesDiv" runat="server">
-			<st:AdvancedPanel id="AddImages" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="false" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image (Single file or ZIP archive)" Collapsible="False" Collapsed="false" BodyCssClass="Edit">
-                <fieldset>
+		<asp:PlaceHolder id="ImagesDiv" runat="server">
+		    <st:AdvancedPanel id="AddImages" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="false" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image (Single file or ZIP archive)" Collapsible="False" Collapsed="false" BodyCssClass="Edit">
+                <fieldset class="edit-form">
                     <legend>Add New Image (Single file or ZIP archive)</legend>    
                 
-				    <label>Local File Location</label> 
-				    <input class="FileUpload" id="ImageFile" type="file" size="82" name="ImageFile" runat="server" /> 
-				    <label>Image Description (ignored for ZIP archives)</label> 
-				    <asp:TextBox id="txbImageTitle" runat="server" MaxLength="82" />&nbsp; 
-				    <asp:CheckBox id="ckbIsActiveImage" runat="server" CssClass="checkbox" Checked="true" Text="Visible" />
+			        <label>Local File Location</label> 
+			        <input class="FileUpload" id="ImageFile" type="file" size="82" name="ImageFile" runat="server" /> 
+			        <label>Image Description (ignored for ZIP archives)</label> 
+			        <asp:TextBox id="txbImageTitle" runat="server" MaxLength="82" />&nbsp; 
+			        <asp:CheckBox id="ckbIsActiveImage" runat="server" CssClass="checkbox" Checked="true" Text="Visible" />
     				
-				    <asp:Panel ID="PanelDefaultName" runat="server">
-				    <div style="margin-top: 8px">
-					    <asp:Button id="lbkAddImage" runat="server" OnClick="OnAddImage" CssClass="buttonSubmit" Text="Add" /><br /> 
-				    </div>
-				    </asp:Panel>
+			        <asp:PlaceHolder ID="PanelDefaultName" runat="server">
+			        <div class="button-div">
+				        <asp:Button id="lbkAddImage" runat="server" OnClick="OnAddImage" CssClass="buttonSubmit" Text="Add" /><br /> 
+			        </div>
+			        </asp:PlaceHolder>
     				
-				    <asp:Panel ID="PanelSuggestNewName" runat="server" visible="false">
-					    <label>Uploaded Image File Name</label> 
-					    <asp:TextBox id="TextBoxImageFileName" runat="server" MaxLength="82"/> 
-					    <div style="MARGIN-TOP: 8px">
-						    <asp:Button id="lbkNewFile" runat="server" OnClick="OnAddImageUserProvidedName" CssClass="buttonSubmit" Text="Add"/><br />
+			        <asp:Panel ID="PanelSuggestNewName" runat="server" visible="false">
+				        <label>Uploaded Image File Name</label> 
+				        <asp:TextBox id="TextBoxImageFileName" runat="server" MaxLength="82"/> 
+				        <div class="button-div">
+					        <asp:Button id="lbkNewFile" runat="server" OnClick="OnAddImageUserProvidedName" CssClass="buttonSubmit" Text="Add"/><br />
+				        </div>
+			        </asp:Panel>
+			    </fieldset>			
+		    </st:AdvancedPanel>
+            <h2><asp:PlaceHolder id="plhImageHeader" runat="server"/></h2>
+		    <asp:Repeater id="rprImages" runat="server"> 
+			    <HeaderTemplate> 			
+				    <div class="ImageList">
+			    </HeaderTemplate>
+			    <ItemTemplate>
+				    <div class="ImageThumbnail">
+					    <div class="ImageThumbnailImage">
+						    <asp:HyperLink id="lnkThumbnail" runat="server" ImageUrl='<%# EvalImageUrl(Container.DataItem) %>' NavigateUrl='<%# EvalImageNavigateUrl(Container.DataItem) %>'/>
 					    </div>
-				    </asp:Panel>
-				</fieldset>			
-			</st:AdvancedPanel>
-		
-		
-			<h1><ASP:PlaceHolder id="plhImageHeader" runat="server"/></h1>
-			<ASP:Repeater id="rprImages" runat="server"> 
-				<HeaderTemplate> 			
-					<div class="ImageList">
-				</HeaderTemplate>
-				<ItemTemplate>
-					<div class="ImageThumbnail">
-						<div class="ImageThumbnailImage">
-							<asp:HyperLink id="lnkThumbnail" runat="server" ImageUrl='<%# EvalImageUrl(Container.DataItem) %>' NavigateUrl='<%# EvalImageNavigateUrl(Container.DataItem) %>'/>
-						</div>
-						<div class="ImageThumbnailTitle">
-							<%# EvalImageTitle(Container.DataItem) %>
-							<br />
-							<a href='EditImage.aspx?imgid=<%# DataBinder.Eval(Container.DataItem, "ImageID") %>'>Edit</a>
-							&nbsp;&bull;&nbsp;
-							<asp:Button id="lnkDeleteImage" CssClass="buttonSubmit" CommandName="DeleteImage" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ImageID") %>' Text="Delete" runat="server" />
-						</div>
-					</div>
-				</ItemTemplate>
-				<FooterTemplate>
-					</div>
-				</FooterTemplate>
-			</ASP:Repeater>
-			<br class="clear" />
-		</ASP:Panel>
+					    <div class="ImageThumbnailTitle">
+						    <%# EvalImageTitle(Container.DataItem) %>
+						    <br />
+						    <a href='EditImage.aspx?imgid=<%# DataBinder.Eval(Container.DataItem, "ImageID") %>'>Edit</a>
+						    &nbsp;&bull;&nbsp;
+						    <asp:Button id="lnkDeleteImage" CssClass="buttonSubmit" CommandName="DeleteImage" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ImageID") %>' Text="Delete" runat="server" />
+					    </div>
+				    </div>
+			    </ItemTemplate>
+			    <FooterTemplate>
+				    </div>
+			    </FooterTemplate>
+		    </asp:Repeater>
+		</asp:Placeholder>
+		<st:ScrollPositionSaver id="scrollsaver" runat="server" />
 </asp:Content>

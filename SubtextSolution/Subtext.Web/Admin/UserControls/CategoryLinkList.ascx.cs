@@ -30,10 +30,13 @@ namespace Subtext.Web.Admin.UserControls
 
         private void BindCategoriesRepeater()
         {
+            string baseUrl = "Default.aspx";
+
             if (this.catType != CategoryTypeEnum.None)
             {
                 if(this.catType == CategoryTypeEnum.ImageCollection)
                 {
+                    baseUrl = "EditGalleries.aspx";
                     this.categoryLinks.Add(new LinkCategoryLink("All Galleries", "EditGalleries.aspx"));
                 }
                 else 
@@ -46,7 +49,7 @@ namespace Subtext.Web.Admin.UserControls
                     IList<LinkCategory> categories = Links.GetCategories(this.catType, ActiveFilter.None);
                     foreach (LinkCategory current in categories)
                     {
-                        this.categoryLinks.Add(new LinkCategoryLink(current.Title, string.Format(System.Globalization.CultureInfo.InvariantCulture, "Default.aspx?{0}={1}&{2}={3}", QRYSTR_CATEGORYFILTER, current.Id, QRYSTR_CATEGORYTYPE, this.catType)));
+                        this.categoryLinks.Add(new LinkCategoryLink(current.Title, string.Format(System.Globalization.CultureInfo.InvariantCulture, "{4}?{0}={1}&{2}={3}", QRYSTR_CATEGORYFILTER, current.Id, QRYSTR_CATEGORYTYPE, this.catType, baseUrl)));
                     }
                 }
             }

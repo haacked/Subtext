@@ -29,18 +29,16 @@
 		<ASP:TextBox id="txbTitle" runat="server" Text='<%# Image.Title %>' columns="255" width="98%" />
 		<label>Gallery</label>
 		<ASP:DropDownList id="ddlGalleries" runat="server" />
-		<p style="margin-top: 8px;"><label>Visible</label><ASP:checkbox id="ckbPublished" runat="server" /></p>
-		<div style="margin-top: 8px">
+		<div class="button-div"><label>Visible</label><asp:checkbox id="ckbPublished" runat="server" /></div>
+		<div class="button-div">
 			<asp:linkbutton id="lkbUpdateImage" runat="server" CssClass="Button" Text="Update" onclick="lkbUpdateImage_Click" />
-			<br />&nbsp; 
-		</div>			
+		</div>
 		<p class="InlineSubtitle">Replace File</p>
 		<label>Local File Location</label>
 		<input id="ImageFile" class="FileUpload" type="file" size="82" runat="server" name="ImageFile" />
 		<br class="clear" />		
-		<div style="margin-top: 8px">
+		<div class="button-div">
 			<asp:Button id="lbkAddImage" runat="server" CssClass="buttonSubmit" Text="Replace" onclick="lbkReplaceImage_Click" />
-			<br />&nbsp; 
 		</div>		
 	</st:AdvancedPanel>	
 	
