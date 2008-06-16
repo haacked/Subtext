@@ -45,7 +45,7 @@ namespace Subtext.Framework.Web.HttpModules
                     && context.Response.RedirectLocation.IndexOf(FormsAuthentication.LoginUrl) == 0))
                 return;
 
-            if(!Regex.IsMatch(context.Request.Path,@"Rss\.aspx"))
+            if(!Regex.IsMatch(context.Request.Path,@"Rss\.axd"))
                 return;
 
             string authHeader = context.Request.Headers["Authorization"];
