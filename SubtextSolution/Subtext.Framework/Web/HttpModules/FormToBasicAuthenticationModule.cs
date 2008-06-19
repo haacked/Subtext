@@ -54,31 +54,6 @@ namespace Subtext.Framework.Web.HttpModules
             {
                 SendAuthRequest(context);
             }
-            else
-            {
-				//if (authHeader.IndexOf("Basic ") == 0)
-				//{
-				//    byte[] bytes = Convert.FromBase64String(authHeader.Remove(0, 6));
-
-				//    string authString = Encoding.Default.GetString(bytes);
-				//    string[] usernamepassword = authString.Split(':');
-
-				//    if (SecurityHelper.Authenticate(usernamepassword[0], usernamepassword[1], false))
-				//    {
-				//        context.Response.RedirectLocation = "";
-				//        //FormsAuthentication.SetAuthCookie(usernamepassword[0],false);
-				//        context.Server.TransferRequest(context.Request.Url.ToString());
-				//    }
-				//    else
-				//    {
-				//        SendAuthRequest(context);
-				//    }
-				//}
-				//else
-				//{
-				//    FormsAuthentication.RedirectToLoginPage();
-				//}
-            }
         }
 
         private static void SendAuthRequest(HttpContext context)
