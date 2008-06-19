@@ -10,7 +10,7 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="categoryListLinks" runat="server">
-    <st:CategoryLinks ID="categoryLinks" runat="server" CategoryType="PostCollection" />
+    <st:CategoryLinks ID="categoryLinks" runat="server" CategoryType="StoryCollection" />
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="pageContent" runat="server">

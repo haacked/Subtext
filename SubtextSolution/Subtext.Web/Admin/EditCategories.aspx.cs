@@ -26,11 +26,10 @@ namespace Subtext.Web.Admin.Pages
 	{
         public EditCategories() : base()
 	    {
-            this.TabSectionId = "Posts";
 	    }
 	    
 		protected void Page_Load(object sender, EventArgs e)
-		{			
+		{
 			if (!IsPostBack)
 			{
                 if (null != Request.QueryString[Keys.QRYSTR_CATEGORYTYPE])
@@ -41,7 +40,7 @@ namespace Subtext.Web.Admin.Pages
                 {
                     this.CategoryType = CategoryTypeEnum.LinkCollection;
                 }
-				
+
 				if(this.CategoryType == CategoryTypeEnum.LinkCollection)
 				{
 					this.TabSectionId = "Links";
