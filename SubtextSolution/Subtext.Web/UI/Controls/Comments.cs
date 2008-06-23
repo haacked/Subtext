@@ -211,20 +211,6 @@ namespace Subtext.Web.UI.Controls
                             else
                                 ip = DateTime.Now.Millisecond + " " + DateTime.Now.Second;
 
-                            if (String.IsNullOrEmpty(defaultGravatarImage))
-                            {
-                                string identiconSizeSetting = ConfigurationManager.AppSettings["IdenticonSize"];
-
-                                int identiconSize = 40;
-                                if (!String.IsNullOrEmpty(identiconSizeSetting))
-                                {
-                                    int.TryParse(identiconSizeSetting, out identiconSize);
-                                }
-                                defaultGravatarImage = string.Format("~/images/IdenticonHandler.ashx?size={0}&code={1}"
-                                    , identiconSize
-                                    , IdenticonUtil.Code(ip));
-                            }
-
                             //This allows a host-wide setting of the default gravatar image.
                             string gravatarUrl = null;
                             if (!String.IsNullOrEmpty(feedbackItem.Email))
@@ -241,7 +227,19 @@ namespace Subtext.Web.UI.Controls
                             }
                             else
                             {
-                                gravatarImage.ImageUrl = defaultGravatarImage;
+                                string identiconUrl;
+                                string identiconSizeSetting = ConfigurationManager.AppSettings["IdenticonSize"];
+
+                                int identiconSize = 40;
+                                if (!String.IsNullOrEmpty(identiconSizeSetting))
+                                {
+                                    int.TryParse(identiconSizeSetting, out identiconSize);
+                                }
+                                identiconUrl = string.Format("~/images/IdenticonHandler.ashx?size={0}&code={1}"
+                                    , identiconSize
+                                    , IdenticonUtil.Code(ip));
+
+                                gravatarImage.ImageUrl = identiconUrl;
                                 gravatarImage.Visible = true;
                             }
                         }
@@ -308,17 +306,20 @@ namespace Subtext.Web.UI.Controls
                 throw new ArgumentNullException("email", "Email should not be null.");
 
             if (defaultGravatar == null)
-                throw new ArgumentNullException("defaultGravatar", "Default gravatar should not be null.");
+            {
+                defaultGravatar = "identicon"; //Leverage Gravatar's support for Identicons
+            }
+            else
+            {
+                if (Request.Url.Port != 80)
+                    defaultGravatar = string.Format("{0}://{1}:{2}{3}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, HttpHelper.ExpandTildePath(defaultGravatar));
+                else
+                    defaultGravatar = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, HttpHelper.ExpandTildePath(defaultGravatar));
+
+                defaultGravatar = Server.UrlEncode(defaultGravatar);
+            }
 
             string processedEmail = string.Empty;
-
-            if (Request.Url.Port != 80)
-                defaultGravatar = string.Format("{0}://{1}:{2}{3}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, HttpHelper.ExpandTildePath(defaultGravatar));
-            else
-                defaultGravatar = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, HttpHelper.ExpandTildePath(defaultGravatar));
-
-            defaultGravatar = Server.UrlEncode(defaultGravatar);
-
             if (gravatarEmailFormat.Equals("plain"))
             {
                 processedEmail = email;
