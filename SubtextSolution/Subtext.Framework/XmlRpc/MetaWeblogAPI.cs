@@ -177,5 +177,3 @@ namespace Subtext.Framework.XmlRpc
 	  #endregion
   }
 }
-
-
