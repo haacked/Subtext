@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns="http://schemas.microsoft.com/wlw/manifest/weblog">
   <options>
-      <supportsEmbeds>Yes</supportsEmbeds>
-      <supportsEmptyTitles>No</supportsEmptyTitles>
-      <supportsSlug>Yes</supportsSlug>
-      <supportsCategories>Yes</supportsCategories>
-      <supportsNewCategories>Yes</supportsNewCategories>
-      <futurePublishDateWarning>Yes</futurePublishDateWarning>
+    <supportsEmbeds>Yes</supportsEmbeds>
+    <supportsEmptyTitles>No</supportsEmptyTitles>
+    <supportsSlug>Yes</supportsSlug>
+    <supportsCategories>Yes</supportsCategories>
+    <supportsNewCategories>Yes</supportsNewCategories>
+    <futurePublishDateWarning>Yes</futurePublishDateWarning>
+    <supportsScripts>No</supportsScripts>
   </options>
   <weblog>
     <homepageLinkText>View your blog</homepageLinkText>
     <adminLinkText>Administer your blog</adminLinkText>
-    <adminUrl><![CDATA[
+    <adminUrl>
+      <![CDATA[
         {blog-homepage-url}admin
-    ]]></adminUrl>
-    <postEditingUrl><![CDATA[
+    ]]>
+    </adminUrl>
+    <postEditingUrl>
+      <![CDATA[
         {blog-homepage-url}admin/EditPosts.aspx
-    ]]></postEditingUrl>
+    ]]>
+    </postEditingUrl>
     <watermarkImageUrl>images/subtextWatermark.png</watermarkImageUrl>
     <imageUrl>images/subtextLogo32-23.png</imageUrl>
   </weblog>
