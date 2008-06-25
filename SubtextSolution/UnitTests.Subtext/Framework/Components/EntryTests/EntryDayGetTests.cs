@@ -21,28 +21,30 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
     [TestFixture]
     public class EntryDayGetTests
     {
-        [Test]
-        [RollBack2]
-        public void GetSingleDayReturnsDayWithEnclosure()
+        [SetUp]
+        public void Setup()
         {
             string hostname = UnitTestHelper.GenerateRandomString();
             Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+        }
 
+        [Test]
+        [RollBack2]
+        public void GetSingleDayReturnsDayWithEnclosure()
+        {
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
             Thread.Sleep(100);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one");
             Thread.Sleep(100);
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
-
 
             //Persist entries.
             Entries.Create(entryZero);
@@ -74,10 +76,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [RollBack2]
         public void GetBlogPostsReturnsDaysWithEnclosure()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
             Thread.Sleep(500);
@@ -103,14 +101,13 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             IList<EntryDay> entryList = Entries.GetBlogPosts(10, PostConfig.None);
 
             EntryDay[] days = new EntryDay[2];
-            entryList.CopyTo(days,0);
+            entryList.CopyTo(days, 0);
 
             //Test outcome
             Assert.AreEqual(2, entryList.Count, "Expected to find two days.");
 
             EntryDay entries = days[1];
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
-
 
             Assert.AreEqual(entries[0].Id, entryOne.Id, "Ordering is off.");
             Assert.AreEqual(entries[1].Id, entryZero.Id, "Ordering is off.");
@@ -122,15 +119,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.AssertEnclosures(enc, entries[1].Enclosure);
         }
 
-
         [Test]
         [RollBack2]
         public void GetHomePageEntriesReturnsDaysWithEnclosure()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
             Thread.Sleep(100);
@@ -176,10 +168,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [RollBack2]
         public void GetPostsByCategoryIDReturnsDaysWithEnclosure()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-
             //Create Category
             int blogId = Config.CurrentBlog.Id;
             int categoryId = UnitTestHelper.CreateCategory(blogId, "Test Category");
@@ -193,7 +181,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Thread.Sleep(100);
             Entry entryThree = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
             entryThree.DateCreated = DateTime.Now.AddDays(1);
-
 
             //Associate Category
             entryZero.Categories.Add("Test Category");
@@ -231,15 +218,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.AssertEnclosures(enc, entries[1].Enclosure);
         }
 
-
         [Test]
         [RollBack2]
         public void GetPostsByMonthReturnsDaysWithEnclosure()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
             Thread.Sleep(100);
@@ -249,7 +231,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Thread.Sleep(100);
             Entry entryThree = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
             entryThree.DateCreated = DateTime.Now.AddDays(1);
-
 
             //Persist entries.
             Entries.Create(entryZero);
@@ -282,6 +263,5 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.IsNotNull(entries[2].Enclosure, "Entry should have enclosure.");
             UnitTestHelper.AssertEnclosures(enc, entries[2].Enclosure);
         }
-
     }
 }
