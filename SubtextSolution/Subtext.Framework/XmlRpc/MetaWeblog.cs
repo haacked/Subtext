@@ -35,23 +35,115 @@ namespace Subtext.Framework.XmlRpc
 	/// <summary>
 	/// Implements the MetaBlog API.
 	/// </summary>
-	public class MetaWeblog : XmlRpcService, IMetaWeblog, IWordpressApi
+	public class MetaWeblog : XmlRpcService, IMetaWeblog, IWordPressApi
 	{
-      static Log Log = new Log();
+        static Log Log = new Log();
 
-		private static void ValidateUser(string username, string password, bool allowServiceAccess)
-		{
+        #region Helper Methods
+        private static void ValidateUser(string username, string password, bool allowServiceAccess)
+        {
             if (!Config.Settings.AllowServiceAccess || !allowServiceAccess)
             {
                 throw new XmlRpcFaultException(0, "Web Service Access is not enabled.");
             }
 
-			bool isValid = SecurityHelper.IsValidUser(username, password);
+            bool isValid = SecurityHelper.IsValidUser(username, password);
             if (!isValid)
             {
                 throw new XmlRpcFaultException(0, "Username and password denied.");
             }
-		}
+        }
+
+        private string PostContent(string username, string password, ref Post post, bool publish, PostType postType)
+        {
+            Framework.BlogInfo info = Config.CurrentBlog;
+            ValidateUser(username, password, info.AllowServiceAccess);
+
+            Entry entry = new Entry(postType);
+            entry.Author = info.Author;
+            entry.Email = info.Email;
+            entry.Body = post.description;
+            entry.Title = post.title;
+            entry.Description = string.Empty;
+
+            //TODO: Figure out why this is here.
+            //		Probably means the poster forgot to set the date.
+            if (post.dateCreated.Year >= 2003)
+            {
+                entry.DateCreated = post.dateCreated;
+                entry.DateModified = post.dateCreated;
+            }
+            else
+            {
+                entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
+                entry.DateModified = entry.DateCreated;
+            }
+
+            if (post.categories != null)
+            {
+                entry.Categories.AddRange(post.categories);
+            }
+
+            if (!string.IsNullOrEmpty(post.wp_slug))
+            {
+                entry.EntryName = post.wp_slug;
+            }
+
+            entry.PostType = postType;
+
+            entry.IsActive = publish;
+            entry.AllowComments = true;
+            entry.DisplayOnHomePage = true;
+            entry.IncludeInMainSyndication = true;
+            entry.IsAggregated = true;
+            entry.SyndicateDescriptionOnly = false;
+
+            int postID;
+            try
+            {
+                postID = Entries.Create(entry);
+
+                if (!string.IsNullOrEmpty(post.enclosure.url))
+                {
+                    Components.Enclosure enc = new Components.Enclosure();
+                    enc.Url = post.enclosure.url;
+                    enc.MimeType = post.enclosure.type;
+                    enc.Size = post.enclosure.length;
+                    enc.EntryId = postID;
+                    Enclosures.Create(enc);
+                }
+
+                AddCommunityCredits(entry);
+            }
+            catch (Exception e)
+            {
+                throw new XmlRpcFaultException(0, e.Message + " " + e.StackTrace);
+            }
+            if (postID < 0)
+            {
+                throw new XmlRpcFaultException(0, "The post could not be added");
+            }
+            return postID.ToString(CultureInfo.InvariantCulture);
+        }
+
+        private void AddCommunityCredits(Entry entry)
+        {
+            string result = string.Empty;
+
+            try
+            {
+                CommunityCreditNotification.AddCommunityCredits(entry);
+            }
+            catch (CommunityCreditNotificationException ex)
+            {
+                Log.WarnFormat("Community Credit ws returned the following response while notifying for the url {0}: {1}", entry.FullyQualifiedUrl.ToString(), ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error while connecting to the Community Credit webservice", ex);
+            }
+        } 
+        #endregion
 
 		#region BlogApi Members
 		public BlogInfo[] getUsersBlogs(string appKey, string username, string password)
@@ -86,28 +178,30 @@ namespace Subtext.Framework.XmlRpc
 
 		#endregion
 
-		public bool editPost(string postid,	string username, string password, Post post, bool publish)
-		{
-			Framework.BlogInfo info = Config.CurrentBlog;
-			ValidateUser(username,password,info.AllowServiceAccess);
-			
-			Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
-			if(entry != null)
-			{
-				entry.Author = info.Author;
-				entry.Email = info.Email;
-				entry.Body = post.description;
-				entry.Title = post.title;
-				entry.Description = string.Empty;
+        #region MetaWeblog Members
+        public bool editPost(string postid, string username, string password, Post post, bool publish)
+        {
+            Framework.BlogInfo info = Config.CurrentBlog;
+            ValidateUser(username, password, info.AllowServiceAccess);
+
+            Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
+            if (entry != null)
+            {
+                entry.Author = info.Author;
+                entry.Email = info.Email;
+                entry.Body = post.description;
+                entry.Title = post.title;
+                entry.Description = string.Empty;
+                entry.IncludeInMainSyndication = true;
 
                 entry.Categories.Clear();
-                if(post.categories != null)
-					entry.Categories.AddRange(post.categories);
+                if (post.categories != null)
+                    entry.Categories.AddRange(post.categories);
 
-				entry.PostType = PostType.BlogPost;
-				entry.IsActive = publish;
-		
-				entry.DateModified = Config.CurrentBlog.TimeZone.Now;
+                entry.PostType = PostType.BlogPost;
+                entry.IsActive = publish;
+
+                entry.DateModified = Config.CurrentBlog.TimeZone.Now;
                 int[] categoryIds = { };
                 if (entry.Categories.Count > 0)
                 {
@@ -149,221 +243,145 @@ namespace Subtext.Framework.XmlRpc
                         Enclosures.Delete(entry.Enclosure.Id);
                     }
                 }
-			}
-			return false;
-		}
-
-		public Post getPost(string postid,string username,string password)
-		{
-			Framework.BlogInfo info = Config.CurrentBlog;
-			ValidateUser(username,password,info.AllowServiceAccess);
-			
-			Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
-			Post post = new Post();
-			post.link = entry.Url;
-			post.description = entry.Body;
-			post.dateCreated = entry.DateCreated;
-			post.postid = entry.Id;
-			post.title = entry.Title;
-			post.permalink = entry.FullyQualifiedUrl.ToString();
-            post.categories = new string[entry.Categories.Count] ;
-			entry.Categories.CopyTo(post.categories, 0);
-
-			return post;
-		}
-
-		public Post[] getRecentPosts(string blogid, string username, string password, int numberOfPosts)
-		{
-			ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess);
-			
-			IList<Entry> ec = Entries.GetRecentPosts(numberOfPosts, PostType.BlogPost, PostConfig.IsActive, true);
-			//int i = 0;
-			int count = ec.Count;
-			Post[] posts = new Post[count];
-			
-			int i = 0;
-			foreach(Entry entry in ec)
-			{
-				Post post = new Post();
-				post.dateCreated = entry.DateCreated;
-				post.description = entry.Body;
-				post.link = entry.Url;
-				post.permalink = entry.FullyQualifiedUrl.ToString();
-				post.title = entry.Title;
-				post.postid = entry.Id.ToString(CultureInfo.InvariantCulture);
-				post.userid = entry.Body.GetHashCode().ToString(CultureInfo.InvariantCulture);
-				if(entry.Categories != null && entry.Categories.Count > 0)
-				{
-                    post.categories = new string[entry.Categories.Count];
-					entry.Categories.CopyTo(post.categories, 0);
-				}
-                if(entry.Enclosure!=null)
-                {
-                    post.enclosure.length = (int) entry.Enclosure.Size;
-                    post.enclosure.url = entry.Enclosure.Url;
-                    post.enclosure.type = entry.Enclosure.MimeType;
-                }
-				posts[i] = post;
-                i++;
-			}
-			return posts;
-		}
-
-		public CategoryInfo[] getCategories(string blogid, string username, string password)
-		{
-			Framework.BlogInfo info = Config.CurrentBlog;
-			ValidateUser(username,password,info.AllowServiceAccess);
-
-            IList<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
-			if(lcc == null)
-			{
-				throw new XmlRpcFaultException(0,"No categories exist");
-			}
-			CategoryInfo[] categories = new CategoryInfo[lcc.Count];
-            int i = 0;
-			foreach(LinkCategory linkCategory in lcc)
-			{
-				CategoryInfo category = new CategoryInfo();
-                category.categoryid = linkCategory.Id.ToString(CultureInfo.InvariantCulture);
-                category.title = linkCategory.Title;
-				category.htmlUrl = info.RootUrl + "Category/" + linkCategory.Id.ToString(CultureInfo.InvariantCulture) + ".aspx";
-                category.rssUrl = info.RootUrl + "rss.aspx?catid=" + linkCategory.Id.ToString(CultureInfo.InvariantCulture);
-                category.description = linkCategory.Title;
-
-				categories[i] = category;
-                i++;
-			}
-			return categories;
-		}
-
-		/// <summary>
-		/// Creates a new post.  The publish boolean is used to determine whether the item 
-		/// should be published or not.
-		/// </summary>
-		/// <param name="blogid">The blogid.</param>
-		/// <param name="username">The username.</param>
-		/// <param name="password">The password.</param>
-		/// <param name="post">The post.</param>
-		/// <param name="publish">if set to <c>true</c> [publish].</param>
-		/// <returns></returns>
-		public string newPost(string blogid, string username, string password, Post post, bool publish)
-		{
-			Framework.BlogInfo info = Config.CurrentBlog;
-			ValidateUser(username,password,info.AllowServiceAccess);
-			
-			Entry entry = new Entry(PostType.BlogPost);
-			entry.Author = info.Author;
-			entry.Email = info.Email;
-			entry.Body = post.description;
-			entry.Title = post.title;
-			entry.Description = string.Empty;
-			
-			//TODO: Figure out why this is here.
-			//		Probably means the poster forgot to set the date.
-			if(post.dateCreated.Year >= 2003)
-			{
-				entry.DateCreated = post.dateCreated;
-				entry.DateModified = post.dateCreated;
-			}
-			else
-			{
-				entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
-				entry.DateModified = entry.DateCreated;
-			}
-
-            if (post.categories != null)
-            {
-                entry.Categories.AddRange(post.categories);
             }
+            return false;
+        }
 
-            if (!string.IsNullOrEmpty(post.wp_slug))
-            {
-                entry.EntryName = post.wp_slug;
-            }
-			
-			entry.PostType = PostType.BlogPost;
-			
-			entry.IsActive = publish;
-			entry.AllowComments = true;
-			entry.DisplayOnHomePage = true;
-			entry.IncludeInMainSyndication = true;
-			entry.IsAggregated = true;
-			entry.SyndicateDescriptionOnly = false;
-
-			int postID;
-			try
-			{
-				postID = Entries.Create(entry);
-
-                if (!string.IsNullOrEmpty(post.enclosure.url))
-                {
-                    Components.Enclosure enc = new Components.Enclosure();
-                    enc.Url = post.enclosure.url;
-                    enc.MimeType = post.enclosure.type;
-                    enc.Size = post.enclosure.length;
-                    enc.EntryId = postID;
-                    Enclosures.Create(enc);
-                }
-
-                AddCommunityCredits(entry);
-			}
-			catch(Exception e)
-			{
-				throw new XmlRpcFaultException(0, e.Message + " " + e.StackTrace);
-			}
-			if(postID < 0)
-			{
-				throw new XmlRpcFaultException(0,"The post could not be added");
-			}
-			return postID.ToString(CultureInfo.InvariantCulture);
-		}
-
-      private void AddCommunityCredits(Entry entry)
-      {
-         string result = string.Empty;
-
-         try
-         {
-            CommunityCreditNotification.AddCommunityCredits(entry);
-         }
-         catch (CommunityCreditNotificationException ex)
-         {
-            Log.WarnFormat("Community Credit ws returned the following response while notifying for the url {0}: {1}", entry.FullyQualifiedUrl.ToString(), ex.Message);
-         }
-         catch (Exception ex)
-         {
-            Log.Error("Error while connecting to the Community Credit webservice", ex);
-         }
-      }
-
-	    public mediaObjectInfo newMediaObject(object blogid, string username, string password, mediaObject mediaobject)
-	    {
+        public Post getPost(string postid, string username, string password)
+        {
             Framework.BlogInfo info = Config.CurrentBlog;
             ValidateUser(username, password, info.AllowServiceAccess);
 
-	        try
-	        {
-	            //We don't validate the file because newMediaObject allows file to be overwritten
-	            //But we do check the directory and create if necessary
-	            //The media object's name can have extra folders appended (WLW especially does this) 
-                //so we check for this here too.
+            Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
+            Post post = new Post();
+            post.link = entry.Url;
+            post.description = entry.Body;
+            post.dateCreated = entry.DateCreated;
+            post.postid = entry.Id;
+            post.title = entry.Title;
+            post.permalink = entry.FullyQualifiedUrl.ToString();
+            post.categories = new string[entry.Categories.Count];
 
-				//TODO: We shouldn't do this type of path parsing. That's what the System.IO.Path object is for.
-                Images.EnsureDirectory(Path.Combine(Config.CurrentBlog.ImageDirectory, mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1 ).Replace("/", "\\")));
-                BinaryWriter bw = new BinaryWriter(new FileStream(Config.CurrentBlog.ImageDirectory + mediaobject.name, FileMode.Create));
-                bw.Write(mediaobject.bits);	            
-	        }
-	        //Any IO exceptions, we throw a new XmlRpcFault Exception
-	        catch (IOException)
-	        {
+            if (entry.HasEntryName)
+            {
+                post.wp_slug = entry.EntryName;
+            }
+
+            entry.Categories.CopyTo(post.categories, 0);
+
+            return post;
+        }
+
+        public Post[] getRecentPosts(string blogid, string username, string password, int numberOfPosts)
+        {
+            ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess);
+
+            ICollection<Entry> ec = Entries.GetRecentPosts(numberOfPosts, PostType.BlogPost, PostConfig.IsActive, true);
+            //int i = 0;
+            int count = ec.Count;
+            Post[] posts = new Post[count];
+
+            int i = 0;
+            foreach (Entry entry in ec)
+            {
+                Post post = new Post();
+                post.dateCreated = entry.DateCreated;
+                post.description = entry.Body;
+                post.link = entry.Url;
+                post.permalink = entry.FullyQualifiedUrl.ToString();
+                post.title = entry.Title;
+                post.postid = entry.Id.ToString(CultureInfo.InvariantCulture);
+                post.userid = entry.Body.GetHashCode().ToString(CultureInfo.InvariantCulture);
+                if (entry.HasEntryName)
+                {
+                    post.wp_slug = entry.EntryName;
+                }
+                if (entry.Categories != null && entry.Categories.Count > 0)
+                {
+                    post.categories = new string[entry.Categories.Count];
+                    entry.Categories.CopyTo(post.categories, 0);
+                }
+                if (entry.Enclosure != null)
+                {
+                    post.enclosure.length = (int)entry.Enclosure.Size;
+                    post.enclosure.url = entry.Enclosure.Url;
+                    post.enclosure.type = entry.Enclosure.MimeType;
+                }
+                posts[i] = post;
+                i++;
+            }
+            return posts;
+        }
+
+        public CategoryInfo[] getCategories(string blogid, string username, string password)
+        {
+            Framework.BlogInfo info = Config.CurrentBlog;
+            ValidateUser(username, password, info.AllowServiceAccess);
+
+            ICollection<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            if (lcc == null)
+            {
+                throw new XmlRpcFaultException(0, "No categories exist");
+            }
+            CategoryInfo[] categories = new CategoryInfo[lcc.Count];
+            int i = 0;
+            foreach (LinkCategory linkCategory in lcc)
+            {
+                CategoryInfo category = new CategoryInfo();
+                category.categoryid = linkCategory.Id.ToString(CultureInfo.InvariantCulture);
+                category.title = linkCategory.Title;
+                category.htmlUrl = info.RootUrl + "Category/" + linkCategory.Id.ToString(CultureInfo.InvariantCulture) + ".aspx";
+                category.rssUrl = info.RootUrl + "rss.aspx?catid=" + linkCategory.Id.ToString(CultureInfo.InvariantCulture);
+                category.description = linkCategory.Title;
+
+                categories[i] = category;
+                i++;
+            }
+            return categories;
+        }
+
+        /// <summary>
+        /// Creates a new post.  The publish boolean is used to determine whether the item 
+        /// should be published or not.
+        /// </summary>
+        /// <param name="blogid">The blogid.</param>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="post">The post.</param>
+        /// <param name="publish">if set to <c>true</c> [publish].</param>
+        /// <returns></returns>
+        public string newPost(string blogid, string username, string password, Post post, bool publish)
+        {
+            return PostContent(username, password, ref post, publish, PostType.BlogPost);
+        }
+
+        public mediaObjectInfo newMediaObject(object blogid, string username, string password, mediaObject mediaobject)
+        {
+            Framework.BlogInfo info = Config.CurrentBlog;
+            ValidateUser(username, password, info.AllowServiceAccess);
+
+            try
+            {
+                //We don't validate the file because newMediaObject allows file to be overwritten
+                //But we do check the directory and create if necessary
+                //The media object's name can have extra folders appended so we check for this here too.
+                Images.CheckDirectory(Config.CurrentBlog.ImageDirectory + mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1).Replace("/", "\\"));
+                FileStream fStream = new FileStream(Config.CurrentBlog.ImageDirectory + mediaobject.name, FileMode.Create);
+                BinaryWriter bw = new BinaryWriter(fStream);
+                bw.Write(mediaobject.bits);
+            }
+            //Any IO exceptions, we throw a new XmlRpcFault Exception
+            catch (IOException)
+            {
                 throw new XmlRpcFaultException(0, "Error saving file.");
-	        }
+            }
 
-	        //If all works, we return a mediaobjectinfo struct back holding the URL.
+            //If all works, we return a mediaobjectinfo struct back holding the URL.
             mediaObjectInfo media;
             media.url = Config.CurrentBlog.ImagePath + mediaobject.name;
-	        return media;
-	    }
+            return media;
+        }
+        #endregion
 
 	    #region w.bloggar workarounds/nominal MT support - HACKS
 		
@@ -449,7 +467,7 @@ namespace Subtext.Framework.XmlRpc
 		{
 			ValidateUser(username,password,Config.CurrentBlog.AllowServiceAccess);
 
-            IList<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            ICollection<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			if(lcc == null)
 			{
 				throw new XmlRpcFaultException(0, "No categories exist");
@@ -501,14 +519,14 @@ namespace Subtext.Framework.XmlRpc
 			ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess);
 
 			int postID = Int32.Parse(postid);
-			IList<Link> postCategories = Links.GetLinkCollectionByPostID(postID);
+			ICollection<Link> postCategories = Links.GetLinkCollectionByPostID(postID);
 			MtCategory[] categories = new MtCategory[postCategories.Count];
 			if (postCategories.Count > 0)
 			{
 				// REFACTOR: Might prefer seeing a dictionary come back straight from the provider.
 				// for now we'll build our own catid->catTitle lookup--we need it below bc collection
 				// from post is going to be null for title.
-                IList<LinkCategory> cats = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+                ICollection<LinkCategory> cats = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 				Hashtable catLookup = new Hashtable(cats.Count);
 				foreach (LinkCategory currentCat in cats)
 					catLookup.Add(currentCat.Id, currentCat.Title);
@@ -559,8 +577,117 @@ namespace Subtext.Framework.XmlRpc
             return newCategory.Id;
         }
 
+        public int newPage(string blog_id, string username, string password, Post content, bool publish)
+        {
+            return Convert.ToInt32(PostContent(username, password, ref content, publish, PostType.Story));
+        }
+
+        public int editPage(string blog_id, string page_id, string username, string password, Post content, bool publish)
+        {
+            Framework.BlogInfo info = Config.CurrentBlog;
+            ValidateUser(username, password, info.AllowServiceAccess);
+
+            Entry entry = Entries.GetEntry(Int32.Parse(page_id), PostConfig.None, true);
+            if (entry != null)
+            {
+                entry.Author = info.Author;
+                entry.Email = info.Email;
+                entry.Body = content.description;
+                entry.Title = content.title;
+                entry.Description = string.Empty;
+                entry.IncludeInMainSyndication = true;
+
+                if (content.categories != null)
+                    entry.Categories.AddRange(content.categories);
+
+                entry.PostType = PostType.Story;
+                entry.IsActive = publish;
+
+                if (!string.IsNullOrEmpty(content.wp_slug))
+                {
+                    entry.EntryName = content.wp_slug;
+                }
+
+                entry.DateModified = Config.CurrentBlog.TimeZone.Now;
+                Entries.Update(entry);
+            }
+            return Convert.ToInt32(page_id);
+        }
+
+        public Post[] getPages(string blog_id, string username, string password, int numberOfPosts)
+        {
+            ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess);
+
+            ICollection<Entry> ec = Entries.GetRecentPosts(numberOfPosts, PostType.Story, PostConfig.IsActive, true);
+            //int i = 0;
+            int count = ec.Count;
+            Post[] posts = new Post[count];
+
+            int i = 0;
+            foreach (Entry entry in ec)
+            {
+                Post post = new Post();
+                post.dateCreated = entry.DateCreated;
+                post.description = entry.Body;
+                post.link = entry.Url;
+                post.permalink = entry.FullyQualifiedUrl.ToString();
+                post.title = entry.Title;
+                post.postid = entry.Id.ToString(CultureInfo.InvariantCulture);
+                post.userid = entry.Body.GetHashCode().ToString(CultureInfo.InvariantCulture);
+                if (entry.Categories != null && entry.Categories.Count > 0)
+                {
+                    post.categories = new string[entry.Categories.Count];
+                    entry.Categories.CopyTo(post.categories, 0);
+                }
+
+                if (entry.HasEntryName)
+                {
+                    post.wp_slug = entry.EntryName;
+                }
+                posts[i] = post;
+                i++;
+            }
+            return posts;
+        }
+
+        public Post getPage(string blog_id, string page_id, string username, string password)
+        {
+            Framework.BlogInfo info = Config.CurrentBlog;
+            ValidateUser(username, password, info.AllowServiceAccess);
+
+            Entry entry = Entries.GetEntry(Int32.Parse(page_id), PostConfig.None, true);
+            Post post = new Post();
+            post.link = entry.Url;
+            post.description = entry.Body;
+            post.dateCreated = entry.DateCreated;
+            post.postid = entry.Id;
+            post.title = entry.Title;
+            post.permalink = entry.FullyQualifiedUrl.ToString();
+            post.categories = new string[entry.Categories.Count];
+            entry.Categories.CopyTo(post.categories, 0);
+            if (entry.HasEntryName)
+            {
+                post.wp_slug = entry.EntryName;
+            }
+
+            return post;
+        }
+
+        public bool deletePage(string blog_id, string username, string password, string page_id)
+        {
+            ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess);
+
+            try
+            {
+                Entries.Delete(Int32.Parse(page_id));
+                return true;
+            }
+            catch
+            {
+                throw new XmlRpcFaultException(1, "Could not delete page: " + page_id);
+            }
+        }
+
         #endregion
     }
 }
-
-
