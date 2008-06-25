@@ -37,7 +37,7 @@ namespace Subtext.Web.SiteMap
                 {
                     ChangeFrequency frequency = CalculateFrequency(post);
                     urlCollection.Add(
-                        new Url(new Uri(Config.CurrentBlog.HostFullyQualifiedUrl + post.Url), post.DateModified,
+                        new Url(post.FullyQualifiedUrl, post.DateModified,
                                 frequency, 0.8M));
                 }
             }
@@ -50,7 +50,7 @@ namespace Subtext.Web.SiteMap
                 {
                     ChangeFrequency frequency = CalculateFrequency(story);
                     urlCollection.Add(
-                        new Url(new Uri(Config.CurrentBlog.HostFullyQualifiedUrl + story.Url), story.DateModified,
+                        new Url(story.FullyQualifiedUrl, story.DateModified,
                                 frequency, 0.8M));
                 }
             }
@@ -62,7 +62,7 @@ namespace Subtext.Web.SiteMap
                 foreach (Link category in categories.Links)
                 {
                     urlCollection.Add(
-                        new Url(new Uri(Config.CurrentBlog.HostFullyQualifiedUrl + category.Url), DateTime.Today,
+                        new Url(new Uri("http://" + Config.CurrentBlog.Host + category.Url), DateTime.Today,
                                 ChangeFrequency.Weekly, 0.6M));
                 }
             }
@@ -76,7 +76,7 @@ namespace Subtext.Web.SiteMap
                 {
                     urlCollection.Add(
                         new Url(
-                            new Uri(Config.CurrentBlog.HostFullyQualifiedUrl + archive.Url), DateTime.Today, ChangeFrequency.Weekly, 0.6M));
+                            new Uri("http://" + Config.CurrentBlog.Host + archive.Url), DateTime.Today, ChangeFrequency.Weekly, 0.6M));
                 }
             }
 
