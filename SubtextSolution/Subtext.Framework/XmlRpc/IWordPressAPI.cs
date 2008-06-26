@@ -3,15 +3,12 @@ using CookComputing.XmlRpc;
 
 namespace Subtext.Framework.XmlRpc
 {
+
     public struct WordpressCategory
     {
         public string name;
     }
 
-    /// <summary>
-    /// Wordpress API implementation
-    /// Using http://codex.wordpress.org/XML-RPC_wp
-    /// </summary>
     public interface IWordPressApi
     {
         [XmlRpcMethod("wp.newCategory",
