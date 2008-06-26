@@ -439,6 +439,7 @@
     <Compile Include="Syndication\RssCommentHandler.cs" />
     <Compile Include="Syndication\RssHandler.cs" />
     <Compile Include="Syndication\RssImageElement.cs" />
+    <Compile Include="Syndication\RssTagHandler.cs" />
     <Compile Include="Syndication\RssWriter.cs" />
     <Compile Include="Tags.cs" />
     <Compile Include="Text\HtmlHelper.cs">
