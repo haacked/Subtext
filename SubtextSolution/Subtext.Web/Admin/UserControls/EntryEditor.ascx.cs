@@ -144,9 +144,20 @@ namespace Subtext.Web.Admin.UserControls
             if (PostID != null)
                 throw new InvalidOperationException("Cannot create a post when we have an id.");
 
-            SetConfirmation();
+            this.txbTitle.Text = string.Empty;
+            this.richTextEditor.Text = string.Empty;
 
+            SetConfirmation();
+            SetDefaultPublishOptions();
             PopulateMimeTypeDropDown();
+        }
+
+        private void SetDefaultPublishOptions() 
+        {
+            chkMainSyndication.Checked = true;
+            ckbPublished.Checked = true;
+            chkDisplayHomePage.Checked = true;
+            chkComments.Checked = Config.CurrentBlog.CommentsEnabled;
         }
 
         private void BindPostEdit()

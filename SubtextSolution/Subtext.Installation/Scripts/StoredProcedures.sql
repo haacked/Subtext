@@ -2435,8 +2435,12 @@ SELECT Month(DateSyndicated) AS [Month]
 	, Year(DateSyndicated) AS [Year]
 	, 1 AS Day, Count(*) AS [Count] 
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-WHERE PostType = 1 AND PostConfig & 1 = 1 AND (BlogId = @BlogId OR @BlogId IS NULL)
-GROUP BY Year(DateSyndicated), Month(DateSyndicated) ORDER BY [Year] DESC, [Month] DESC
+WHERE PostType = 1 
+	AND PostConfig & 1 = 1 
+	AND (BlogId = @BlogId OR @BlogId IS NULL)
+	AND NOT DateSyndicated IS NULL
+GROUP BY Year(DateSyndicated), Month(DateSyndicated) 
+ORDER BY [Year] DESC, [Month] DESC
 
 
 
