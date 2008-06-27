@@ -17,7 +17,7 @@
 		<label for="Editor_Edit_txbTitle" accesskey="t">Post <u>T</u>itle&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title" /></label>
 		<asp:TextBox id="txbTitle" runat="server" MaxLength="250" />
 		<label for="Editor_Edit_richTextEditor" accesskey="b">Post <u>B</u>ody&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="richTextEditor" ForeColor="#990066" ErrorMessage="Your post must have a body" /></label>
-		<st:RichTextEditor id="richTextEditor" runat="server" onerror="richTextEditor_Error"></st:RichTextEditor>
+		<st:RichTextEditor id="richTextEditor" runat="server" onerror="richTextEditor_Error" />
 		<label>Categories</label>
 		<p><asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal" CssClass="checkbox" /></p>
 		<div>

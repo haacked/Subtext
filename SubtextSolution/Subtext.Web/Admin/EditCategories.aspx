@@ -54,7 +54,7 @@
 	</asp:PlaceHolder>
 	
 	<asp:PlaceHolder id="Add" runat="server">
-		<fieldset class="section">
+		<fieldset class="section categories-edit">
 			<legend>Add New Category</legend>
 		
 			<label>
