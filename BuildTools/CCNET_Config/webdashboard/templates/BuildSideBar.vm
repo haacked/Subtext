@@ -5,6 +5,7 @@
          #foreach ($link in $links)
             <li><a href="$link.Url" class="$link.LinkClass">$link.Text</a></li>
          #end
+         <li><a href="/builds/" title="Builds">Packaged Builds</a></li>
       </ul>
    </div>
 </div>
