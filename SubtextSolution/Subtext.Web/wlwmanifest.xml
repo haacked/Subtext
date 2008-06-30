@@ -8,6 +8,7 @@
     <supportsNewCategories>Yes</supportsNewCategories>
     <futurePublishDateWarning>Yes</futurePublishDateWarning>
     <supportsScripts>No</supportsScripts>
+    <supportsPages>Yes</supportsPages>
   </options>
   <weblog>
     <homepageLinkText>View your blog</homepageLinkText>
