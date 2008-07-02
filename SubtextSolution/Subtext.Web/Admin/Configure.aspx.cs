@@ -167,6 +167,9 @@ namespace Subtext.Web.Admin.Pages
             }
 
             UpdateTime();
+            tbOpenIDServer.Text = info.OpenIDServer;
+            tbOpenIDDelegate.Text = info.OpenIDDelegate;
+
             base.BindLocalUI();
         }
 
@@ -208,6 +211,9 @@ namespace Subtext.Web.Admin.Pages
 
                 info.News = NormalizeString(txbNews.Text);
                 info.TrackingCode = NormalizeString(txbGenericTrackingCode.Text);
+
+                info.OpenIDServer = tbOpenIDServer.Text;
+                info.OpenIDDelegate = tbOpenIDDelegate.Text;
 
                 SkinTemplate skinTemplate = new SkinTemplateCollection().GetTemplate(ddlSkin.SelectedItem.Value);
                 info.Skin.TemplateFolder = skinTemplate.TemplateFolder;
