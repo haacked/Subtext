@@ -52,8 +52,6 @@ namespace Subtext.Web.Admin.Pages
         protected override void BindLocalUI()
         {
             tbOpenIDURL.Text = Config.CurrentBlog.OpenIDUrl;
-            tbOpenIDServer.Text = Config.CurrentBlog.OpenIDServer;
-            tbOpenIDDelegate.Text = Config.CurrentBlog.OpenIDDelegate;
             base.BindLocalUI();
         }
 
@@ -61,8 +59,6 @@ namespace Subtext.Web.Admin.Pages
         {
             BlogInfo info = Config.CurrentBlog;
             info.OpenIDUrl = tbOpenIDURL.Text;
-            info.OpenIDServer = tbOpenIDServer.Text;
-            info.OpenIDDelegate = tbOpenIDDelegate.Text;
             Config.UpdateConfigData(info);
         }
 

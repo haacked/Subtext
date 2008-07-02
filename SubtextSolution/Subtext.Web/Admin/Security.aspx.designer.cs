@@ -113,24 +113,6 @@ namespace Subtext.Web.Admin.Pages {
         protected global::Subtext.Web.Controls.HelpToolTip hlpTimeZone;
         
         /// <summary>
-        /// tbOpenIDServer control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbOpenIDServer;
-        
-        /// <summary>
-        /// tbOpenIDDelegate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbOpenIDDelegate;
-        
-        /// <summary>
         /// btnSaveOptions control.
         /// </summary>
         /// <remarks>
