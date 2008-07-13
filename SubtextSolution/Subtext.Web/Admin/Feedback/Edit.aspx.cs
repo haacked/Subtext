@@ -20,9 +20,10 @@ namespace Subtext.Web.Admin.Feedback {
             {
                 Response.Redirect(CancelUrl);
                 return;
-            }  
- 
-            BindFeedbackEdit();
+            }
+
+            if (!IsPostBack)
+                BindFeedbackEdit();
             base.OnLoad(e);
         }
 
