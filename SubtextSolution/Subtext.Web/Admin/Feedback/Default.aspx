@@ -68,7 +68,7 @@
 			<AlternatingItemTemplate>
 				<tr class="alt">
 					<td>	
-						<asp:ImageButton id="ImageButton1" CausesValidation="False" ImageUrl="~/Images/edit.gif" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" ToolTip="Edit this comment" />
+						<a href="Edit.aspx?FeedBackID=<%# Eval("Id") %>&<%= Master.CurrentQuery %>" title="Edit this item"><asp:Image runat="server" ImageUrl="~/Images/edit.gif" /></a>
 					</td>
 					<td>
 						<strong><%# GetTitle(Container.DataItem) %></strong>
