@@ -38,7 +38,7 @@ and later adapted for the SubText blogging platform by Simone Chiaretta www.piyo
 						<uc1:News id="news" runat="server" />
 						<uc1:MyLinks id="links" runat="server" />
 						<div class="links">
-							<uc1:TagCloud id="tagCloud" runat="server" />
+							<uc1:TagCloud id="tagCloud" runat="server" ItemCount="20" />
 						</div>
 						<uc1:SingleColumn id="column" runat="server" />
 						<div id="subtext" class="links">

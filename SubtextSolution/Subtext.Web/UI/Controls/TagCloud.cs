@@ -34,9 +34,9 @@ namespace Subtext.Web.UI.Controls
             set { tags = value; }
         }
 
-        private int itemCount = 20;
+        private int itemCount = 0;
         
-		[DefaultValue(20)]
+		[DefaultValue(0)]
         public int ItemCount
         {
             get { return itemCount; }

@@ -22,7 +22,7 @@
 			<DT:ContentRegion id="MPRightColumn" runat="server">
 				<uc1:Search ID="search" runat="server" />
 				<uc1:BlogStats id="BlogStats1" runat="server" />
-				<uc1:TagCloud id="tagCloud" runat="server" />
+				<uc1:TagCloud id="tagCloud" runat="server" ItemCount="20" />
 				<uc1:MyLinks id="MyLinks1" runat="server" />
 				<uc1:CategoryDisplay id="CategoryDisplay1" runat="server" />
 				<uc1:News id="News1" runat="server" />

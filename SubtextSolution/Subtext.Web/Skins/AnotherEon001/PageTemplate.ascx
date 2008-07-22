@@ -21,7 +21,7 @@
 					<uc1:MyLinks id="MyLinks1" runat="server" />
 					<uc1:Search ID="search" runat="server" />
 					<uc1:News id="News1" runat="server" />
-					<uc1:TagCloud id="tagCloud" runat="server" />
+					<uc1:TagCloud id="tagCloud" runat="server" ItemCount="20" />
 					<uc1:SingleColumn id="SingleColumn1" runat="server" />
 				</DT:ContentRegion>
 				
