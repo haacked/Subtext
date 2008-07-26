@@ -10,6 +10,7 @@ using Subtext.Framework.Web;
 using System.Globalization;
 using Subtext.Extensibility;
 using Subtext.Framework.Text;
+using Subtext.Framework;
 
 namespace Subtext.Web.Admin.Feedback
 {
@@ -153,7 +154,7 @@ namespace Subtext.Web.Admin.Feedback
         protected static string GetTitle(object dataItem)
         {
             FeedbackItem feedbackItem = (FeedbackItem)dataItem;
-            if (feedbackItem.DisplayUrl != null)
+            if (feedbackItem.DisplayUrl != null && !NullValue.IsNull(feedbackItem.EntryId))
             {
                 return string.Format(@"<a href=""{0}"" title=""{0}"">{1}</a>", feedbackItem.DisplayUrl, feedbackItem.Title);
             }
