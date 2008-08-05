@@ -589,7 +589,8 @@ SET ANSI_NULLS ON
 GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackStats]
 (
-	@BlogId int
+	@BlogId int,
+	@CurrentDateTime datetime
 )
 AS
 	-- Update the blog comment count.
@@ -603,6 +604,7 @@ AS
 				AND f.StatusFlag & 1 = 1
 				AND f.FeedbackType = 1
 				AND c.PostConfig & 1 = 1
+				AND c.DateSyndicated <= @CurrentDateTime
 		)
 	WHERE BlogId = @BlogId
 	
@@ -617,6 +619,7 @@ AS
 				AND f.StatusFlag & 1 = 1
 				AND f.FeedbackType = 2
 				AND c.PostConfig & 1 = 1
+				AND c.DateSyndicated <= @CurrentDateTime
 		)
 	WHERE BlogId = @BlogId
 
@@ -635,22 +638,31 @@ SET ANSI_NULLS ON
 GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats]
 (
-	@BlogId int
+	@BlogId int,
+	@CurrentDateTime datetime
 )
 AS
 
     UPDATE [<dbUser,varchar,dbo>].[subtext_Config]  
     SET PostCount = 
 	    (
-		    SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogId = @BlogId AND PostType = 1 AND PostConfig & 1 = 1
+		    SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Content] 
+		    WHERE BlogId = @BlogId 
+				AND PostType = 1 
+				AND PostConfig & 1 = 1
+				AND DateSyndicated <= @CurrentDateTime
 	    ),
 	    StoryCount = 
 	    (
-	        SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogId = @BlogId AND PostType = 2 AND PostConfig & 1 = 1
+	        SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Content] 
+	        WHERE BlogId = @BlogId 
+				AND PostType = 2 
+				AND PostConfig & 1 = 1
+				AND DateSyndicated <= @CurrentDateTime
 	    )
     WHERE BlogId = @BlogId
     
-    EXEC [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackStats] @BlogId
+    EXEC [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackStats] @BlogId, @CurrentDateTime
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -669,6 +681,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount]
 (
 	@BlogId int
 	,@EntryId int
+	,@CurrentDateTime datetime
 )
 AS
 	-- Update the entry comment count.
@@ -683,7 +696,7 @@ AS
 	WHERE Id = @EntryId
 
 	-- Update the blog comment count.
-	EXEC [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackStats] @BlogId
+	EXEC [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackStats] @BlogId, @CurrentDateTime
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -897,6 +910,7 @@ Fully deletes a Feedback item from the db.
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteFeedback]
 (
 	@Id int
+	,@CurrentDateTime datetime
 )
 AS
 
@@ -907,7 +921,7 @@ SELECT @EntryId = EntryId, @BlogId = BlogId FROM [<dbUser,varchar,dbo>].[subtext
 
 DELETE [<dbUser,varchar,dbo>].[subtext_FeedBack] WHERE [Id] = @Id
 
-exec [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] @BlogId, @EntryId
+exec [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] @BlogId, @EntryId, @CurrentDateTime
 GO
 
 GO
@@ -966,6 +980,7 @@ Deletes a record FROM [<dbUser,varchar,dbo>].[subtext_Content], whether it be a 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeletePost]
 (
 	@ID int
+	,@CurrentDateTime datetime
 )
 AS
 
@@ -980,7 +995,7 @@ DELETE FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] WHERE EntryId = @ID
 DELETE FROM [<dbUser,varchar,dbo>].[subtext_Enclosure] WHERE EntryId = @ID
 DELETE FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE [ID] = @ID
 
-EXEC [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats] @blogId
+EXEC [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats] @blogId, @CurrentDateTime
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -1111,6 +1126,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetConditionalEntries]
 	, @PostConfig int
 	, @BlogId int = NULL
 	, @IncludeCategories bit = 0
+	, @CurrentDateTime datetime
 )
 AS
 /* 
@@ -1132,6 +1148,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType = @PostType 
 	AND BlogId = COALESCE(@BlogId, BlogId)
 	AND PostConfig & @PostConfig = @PostConfig
+	AND (@PostConfig & 1 != 1 OR DateSyndicated <= @CurrentDateTime)
 ORDER BY ISNULL([DateSyndicated], [DateAdded]) DESC
 
 SET ROWCOUNT 0
@@ -1356,7 +1373,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]
 	@StopDate datetime,
 	@PostType int,
 	@IsActive bit,
-	@BlogId int
+	@BlogId int,
+	@CurrentDateTime datetime
 )
 AS
 SELECT	c.BlogId
@@ -1385,13 +1403,14 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content] c
 	LEFT JOIN [<dbUser,varchar,dbo>].[subtext_Enclosure] e ON c.[ID] = e.EntryId
 WHERE 
 	(
-		c.DateAdded > @StartDate 
-		AND c.DateAdded < DateAdd(day, 1, @StopDate)
+		c.DateSyndicated > @StartDate 
+		AND c.DateSyndicated < DateAdd(day, 1, @StopDate)
 	)
 	AND c.PostType = @PostType 
 	AND c.BlogId = @BlogId 
 	AND c.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY c.DateAdded DESC;
+	AND c.DateSyndicated <= CASE @IsActive WHEN 1 THEN @CurrentDateTime ELSE c.DateSyndicated END
+ORDER BY c.DateSyndicated DESC;
 
 
 GO
@@ -2278,6 +2297,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryID]
 	, @CategoryID int
 	, @IsActive bit
 	, @BlogId int
+	, @CurrentDateTime datetime
 )
 AS
 SET ROWCOUNT @ItemCount
@@ -2308,6 +2328,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories WITH (NOLOCK) ON links.CategoryID = categories.CategoryID
 	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] e on content.[ID] = e.EntryId
 WHERE  content.BlogId = @BlogId 
+	AND DateSyndicated <= @CurrentDateTime
 	AND content.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END AND categories.CategoryID = @CategoryID
 ORDER BY content.DateSyndicated DESC
 
@@ -2377,6 +2398,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonth]
 	@Month int
 	, @Year int
 	, @BlogId int = NULL
+	, @CurrentDateTime datetime
 )
 AS
 SELECT	BlogId
@@ -2406,6 +2428,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=1 
 	AND (BlogId = @BlogId OR @BlogId IS NULL)
 	AND PostConfig & 1 = 1 
+	AND DateSyndicated <= @CurrentDateTime
 	AND Month(DateSyndicated) = @Month 
 	AND Year(DateSyndicated)  = @Year
 ORDER BY DateSyndicated DESC
@@ -2428,7 +2451,8 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonthArchive]
 (
-	@BlogId int = NULL
+	@BlogId int = NULL,
+	@CurrentDateTime datetime
 )
 AS
 SELECT Month(DateSyndicated) AS [Month]
@@ -2437,6 +2461,7 @@ SELECT Month(DateSyndicated) AS [Month]
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE PostType = 1 
 	AND PostConfig & 1 = 1 
+	AND DateSyndicated <= @CurrentDateTime
 	AND (BlogId = @BlogId OR @BlogId IS NULL)
 	AND NOT DateSyndicated IS NULL
 GROUP BY Year(DateSyndicated), Month(DateSyndicated) 
@@ -2460,11 +2485,15 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByYearArchive] 
 (
-	@BlogId int
+	@BlogId int,
+	@CurrentDateTime datetime
 )
 AS
 SELECT 1 AS [Month], Year(DateSyndicated) AS [Year], 1 AS Day, Count(*) AS [Count] FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-WHERE PostType = 1 AND PostConfig & 1 = 1 AND BlogId = @BlogId 
+WHERE PostType = 1 
+	AND PostConfig & 1 = 1 
+	AND DateSyndicated <= @CurrentDateTime
+	AND BlogId = @BlogId 
 GROUP BY Year(DateSyndicated) ORDER BY [Year] DESC
 
 GO
@@ -2485,6 +2514,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleDay]
 (
 	@Date datetime
 	,@BlogId int
+	,@CurrentDateTime datetime
 )
 AS
 SELECT	BlogId
@@ -2517,6 +2547,7 @@ WHERE Year(DateSyndicated) = Year(@Date)
     And PostType=1
     AND BlogId = @BlogId 
     AND PostConfig & 1 = 1 
+    AND DateSyndicated <= @CurrentDateTime
 ORDER BY DateSyndicated DESC;
 
 
@@ -3361,6 +3392,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateEntry]
 	, @EntryName nvarchar(150) = NULL
 	, @DateSyndicated DateTime = NULL
 	, @BlogId int
+	, @CurrentDateTime datetime
 )
 AS
 
@@ -3394,8 +3426,8 @@ WHERE
 		[ID] = @ID 
 	AND BlogId = @BlogId
 EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @BlogId, @DateUpdated
-EXEC [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] @BlogId, @ID
-EXEC [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats] @BlogId
+EXEC [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] @BlogId, @ID, @CurrentDateTime
+EXEC [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats] @BlogId, @CurrentDateTime
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3754,7 +3786,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertFeedback]
 	, @FeedbackChecksumHash varchar(32)
 	, @DateCreated datetime
 	, @DateModified datetime = NULL
-	, @Id int OUTPUT	
+	, @CurrentDateTime datetime
+	, @Id int OUTPUT
 )
 AS
 
@@ -3804,7 +3837,7 @@ VALUES
 
 SELECT @Id = SCOPE_IDENTITY()
 
-exec [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] @BlogId, @EntryId
+exec [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] @BlogId, @EntryId, @CurrentDateTime
 
 
 GO
@@ -3832,6 +3865,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateFeedback]
 	, @StatusFlag int
 	, @FeedbackChecksumHash varchar(32)
 	, @DateModified datetime
+	, @CurrentDateTime datetime
 )
 AS
 
@@ -3850,7 +3884,7 @@ SET	Title = @Title
 	, DateModified = @DateModified
 WHERE Id = @Id
 
-exec [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] @BlogId, @EntryId
+exec [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] @BlogId, @EntryId, @CurrentDateTime
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3879,7 +3913,9 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertEntry]
 	, @PostConfig int
 	, @EntryName nvarchar(150) = NULL
 	, @DateSyndicated DateTime = NULL
+	, @CurrentDateTime datetime
 	, @ID int OUTPUT
+	
 )
 AS
 
@@ -3932,7 +3968,7 @@ VALUES
 SELECT @ID = SCOPE_IDENTITY()
 
 EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @BlogId, @DateAdded
-EXEC [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats] @BlogId
+EXEC [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats] @BlogId, @CurrentDateTime
 
 
 GO
@@ -4075,6 +4111,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[DNW_GetRecentPosts]
 	@Host nvarchar(100)
 	, @GroupID int
+	,@CurrentDateTime datetime
 
 AS
 SELECT Top 35 Host
@@ -4097,11 +4134,12 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 INNER JOIN	[<dbUser,varchar,dbo>].[subtext_Config] config ON content.BlogId = config.BlogId
 WHERE  content.PostType = 1 
 	AND content.PostConfig & 1 = 1 
+	AND DateSyndicated <= @CurrentDateTime
 	AND content.PostConfig & 64 = 64 
 	AND config.Flag & 2 = 2 
 	AND config.Host = @Host
 	AND (BlogGroupId = @GroupID or @GroupID = 0)
-ORDER BY [ID] DESC
+ORDER BY DateSyndicated DESC
 
 
 GO
@@ -4349,10 +4387,11 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [<dbUser,varchar,dbo>].subtext_SearchEntries
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_SearchEntries]
 (
 	@BlogId int
-	, @SearchStr nvarchar(30)
+	,@SearchStr nvarchar(30)
+	,@CurrentDateTime datetime
 )
 as
 
@@ -4366,8 +4405,10 @@ Select [ID]
 From [<dbUser,varchar,dbo>].[subtext_Content]
 Where (PostType = 1 OR PostType = 2)
 	AND PostConfig & 1 = 1 -- IsActive!
+	AND DateSyndicated <= @CurrentDateTime
 	AND ([Text] LIKE @SearchStr OR Title LIKE @SearchStr)
 	AND BlogId = @BlogId
+ORDER by DateSyndicated DESC
 	
 GO
 
@@ -4394,6 +4435,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntry_PreviousNext]
 	@ID int
 	, @PostType int = 1
 	, @BlogId int
+	,@CurrentDateTime datetime
 )
 AS
 
@@ -4417,6 +4459,7 @@ SELECT * FROM
 	WHERE ISNULL([DateSyndicated], [DateAdded]) >= @DateSyndicated
 		AND subtext_Content.BlogId = @BlogId 
 		AND subtext_Content.PostConfig & 1 = 1 
+		AND subtext_Content.DateSyndicated <= @CurrentDateTime
 		AND PostType = @PostType
 		AND [ID] != @ID
 	ORDER BY ISNULL(DateSyndicated, DateAdded) ASC
@@ -4437,6 +4480,7 @@ SELECT * FROM
 	WHERE ISNULL([DateSyndicated], [DateAdded]) <= @DateSyndicated
 		AND subtext_Content.BlogId = @BlogId 
 		AND subtext_Content.PostConfig & 1 = 1 
+		AND subtext_Content.DateSyndicated <= @CurrentDateTime
 		AND PostType = @PostType
 		AND [ID] != @ID
 	ORDER BY ISNULL(DateSyndicated, DateAdded) DESC
@@ -4656,7 +4700,7 @@ GO
 
 /*
 	subtext_GetPostsByCategoriesArchive - (called from CategoryCloud.ascx) - SCH
-	retrieves all active categories with realative post number
+	retrieves all active categories with their post count
 */
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -4752,7 +4796,10 @@ DELETE FROM [<dbUser,varchar,dbo>].subtext_EntryViewCount WHERE BlogId = @BlogId
 DELETE FROM [<dbUser,varchar,dbo>].subtext_FeedBack WHERE BlogId = @BlogId
 DELETE FROM [<dbUser,varchar,dbo>].subtext_Content WHERE BlogId = @BlogId
 
-EXEC [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats] @BlogId
+DECLARE @Now datetime
+set @Now = getdate()
+
+EXEC [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats] @BlogId, @Now
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -4769,6 +4816,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByTag]
 	, @Tag nvarchar(256)
 	, @BlogId int
 	, @IsActive bit=1
+	, @CurrentDateTime datetime
 )
 AS
 DECLARE @TagId int
@@ -4801,6 +4849,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
 	LEFT JOIN [<dbUser,varchar,dbo>].[subtext_Enclosure] e on content.[ID] = e.EntryId
 WHERE  content.BlogId = @BlogId 
 	AND content.PostConfig & 1 = 1
+	AND content.DateSyndicated <= @CurrentDateTime
 	AND content.ID IN 
 	(
 		SELECT EntryId 
@@ -4808,7 +4857,7 @@ WHERE  content.BlogId = @BlogId
 		WHERE BlogId = @BlogId 
 			AND TagId = @TagId
 	)
-ORDER BY content.DateAdded DESC
+ORDER BY content.DateSyndicated DESC
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByTag]  TO [public]

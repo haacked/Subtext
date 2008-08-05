@@ -71,6 +71,31 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
         [Test]
         [RollBack]
+        public void NewPostWithFutureDateSyndicatesInTheFuture() {
+            string hostname = UnitTestHelper.GenerateRandomString();
+            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            Config.CurrentBlog.AllowServiceAccess = true;
+
+            MetaWeblog api = new MetaWeblog();
+            Post post = new Post();
+            post.categories = null;
+            post.description = "A unit test";
+            post.title = "A unit testing title";
+            post.dateCreated = DateTime.Now.AddDays(1);
+
+            string result = api.newPost(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), "username", "password", post, true);
+            int entryId = int.Parse(result);
+
+            Entry entry = Entries.GetEntry(entryId, PostConfig.None, true);
+            Assert.IsNotNull(entry, "Guess the entry did not get created properly.");
+            Assert.IsTrue(entry.DateSyndicated > DateTime.Now.AddDays(.75));
+            Assert.IsTrue(entry.DateSyndicated <= DateTime.Now.AddDays(1));
+        }
+
+
+        [Test]
+        [RollBack]
         public void NewPostWithEnclosureCreatesEntryWithEnclosure()
         {
             string hostname = UnitTestHelper.GenerateRandomString();
@@ -344,11 +369,13 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Title = "Title 1";
             entry.Body = "Blah";
             entry.IsActive = true;
+            entry.IncludeInMainSyndication = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Categories.Add(category1Name);
         	Entries.Create(entry);
 
             entry = new Entry(PostType.BlogPost);
+            entry.IncludeInMainSyndication = true;
             entry.Title = "Title 2";
             entry.Body = "Blah1";
             entry.IsActive = true;
@@ -359,6 +386,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             entry = new Entry(PostType.BlogPost);
             entry.Title = "Title 3";
+            entry.IncludeInMainSyndication = true;
             entry.Body = "Blah2";
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1979/09/16", "yyyy/MM/dd", CultureInfo.InvariantCulture);
@@ -366,6 +394,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             entry = new Entry(PostType.BlogPost);
             entry.Title = "Title 4";
+            entry.IncludeInMainSyndication = true;
             entry.Body = "Blah3";
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/01/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
@@ -378,7 +407,6 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             FrameworkEnclosure enc = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>", enclosureUrl, enclosureMimeType, entryId, enclosureSize, true, true);
             Enclosures.Create(enc);
-
 
             posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
             Assert.AreEqual(4, posts.Length, "Expected 4 posts");

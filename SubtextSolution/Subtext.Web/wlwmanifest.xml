@@ -6,7 +6,7 @@
     <supportsSlug>Yes</supportsSlug>
     <supportsCategories>Yes</supportsCategories>
     <supportsNewCategories>Yes</supportsNewCategories>
-    <futurePublishDateWarning>Yes</futurePublishDateWarning>
+    <futurePublishDateWarning>No</futurePublishDateWarning>
     <supportsScripts>No</supportsScripts>
     <supportsPages>Yes</supportsPages>
   </options>

@@ -65,9 +65,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			entry.Title = "Some Really Random Title";
 			entry.Body = "Some <script></script> Body";
 			Config.Settings.AllowScriptsInPosts = true;
+		    entry.DateSyndicated = entry.DateCreated.AddMonths(1);
+		    entry.IsActive = true;
 			Entries.Create(entry);
 
-			Assert.AreEqual("http://" + hostname + "/archive/2005/01/23/Some_Really_Random_Title.aspx", entry.FullyQualifiedUrl.ToString());
+			Assert.AreEqual("http://" + hostname + "/archive/2005/02/23/Some_Really_Random_Title.aspx", entry.FullyQualifiedUrl.ToString());
 		}
 
 		[Test]
@@ -82,9 +84,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			entry.DateCreated = DateTime.ParseExact("2005/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Title = "Some Really Random Title";
 			entry.Body = "Some Body";
+            entry.DateSyndicated = entry.DateCreated.AddMonths(1);
+            entry.IsActive = true;
 			Entries.Create(entry);
 
-			Assert.AreEqual("http://" + hostname + "/archive/2005/01/23/Some_Really_Random_Title.aspx", entry.FullyQualifiedUrl.ToString());
+			Assert.AreEqual("http://" + hostname + "/archive/2005/02/23/Some_Really_Random_Title.aspx", entry.FullyQualifiedUrl.ToString());
 		}
 
 		/// <summary>
@@ -107,9 +111,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			entry.DateCreated = DateTime.ParseExact("2005/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Title = "Some Title";
 			entry.Body = "Some Body";
+            entry.DateSyndicated = entry.DateCreated.AddMonths(1);
+            entry.IsActive = true;
 			int id = Entries.Create(entry);
 
-			string expectedLink = string.Format("{0}/archive/2005/01/23/{1}.aspx", expectedUrlPrefix, "Some_Title");
+			string expectedLink = string.Format("{0}/archive/2005/02/23/{1}.aspx", expectedUrlPrefix, "Some_Title");
 			string expectedFullyQualifiedLink = "http://" + hostname + expectedLink;
 
             Entry savedEntry = Entries.GetEntry(id, PostConfig.None, false);
@@ -133,16 +139,25 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entry savedEntry = Entries.GetEntry(id, PostConfig.None, false);
 			
 			Assert.AreEqual(NullValue.NullDateTime, savedEntry.DateSyndicated, "DateSyndicated should be null since it was not syndicated.");
-			
+
+            Thread.Sleep(1000);
 			savedEntry.IsActive = true;
+            Entries.Update(savedEntry);
+
+            Assert.IsTrue(savedEntry.DateSyndicated > savedEntry.DateCreated, string.Format("DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
+		    
+            savedEntry = Entries.GetEntry(id, PostConfig.None, false);
+            Assert.IsTrue(savedEntry.DateSyndicated > savedEntry.DateCreated, string.Format("After reloading from DB, DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
+            DateTime dateAfterPublishing = savedEntry.DateSyndicated;
+
 			Thread.Sleep(1000);
 			savedEntry.IncludeInMainSyndication = true;
 			Entries.Update(savedEntry);
-					
-			Assert.IsTrue(savedEntry.DateSyndicated > savedEntry.DateCreated, string.Format("DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
+
+            Assert.IsTrue(dateAfterPublishing.Equals(savedEntry.DateSyndicated), string.Format("DateSyndicated '{0}' should be the same as the date of publication '{1}'.", savedEntry.DateSyndicated, dateAfterPublishing));
 
             savedEntry = Entries.GetEntry(id, PostConfig.None, false);
-			Assert.IsTrue(savedEntry.DateSyndicated > savedEntry.DateCreated, string.Format("After reloading from DB, DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
+            Assert.AreEqual(dateAfterPublishing, savedEntry.DateSyndicated, string.Format("After reloading from DB, DateSyndicated '{0}' should be the same as the date of publication '{1}'.", savedEntry.DateSyndicated, dateAfterPublishing));
 		}
 
         [RowTest]

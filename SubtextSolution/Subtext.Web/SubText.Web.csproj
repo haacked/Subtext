@@ -355,8 +355,8 @@
     <Compile Include="Admin\WebUI\Controls\LinkList.cs" />
     <Compile Include="Admin\WebUI\Controls\MessagePanel.cs" />
     <Compile Include="Admin\Credits.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>Credits.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\Credits.aspx.designer.cs">
       <DependentUpon>Credits.aspx</DependentUpon>
@@ -776,7 +776,6 @@
     <Compile Include="UI\WebControls\RssHyperLink.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="blue.css" />
     <Content Include="default.aspx" />
     <Content Include="emoticons.txt" />
     <Content Include="ExternalDependencies\AngryPets.Web.Frameworks.ReverseDOS.dll" />
@@ -1004,7 +1003,6 @@
   <ItemGroup>
     <Content Include="OPML.aspx" />
     <Content Include="ReleaseNotes.txt" />
-    <Content Include="style.css" />
     <Content Include="transform.txt" />
   </ItemGroup>
   <ItemGroup>

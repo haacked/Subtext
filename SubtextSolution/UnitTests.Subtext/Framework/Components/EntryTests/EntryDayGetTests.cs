@@ -21,6 +21,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using System.Collections.ObjectModel;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -74,6 +75,79 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
         [Test]
         [RollBack2]
+        public void GetBlogPostsReturnsAllPostsIfPostConfigNoneSpecified()
+        {
+            //Create some entries.
+            Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
+            entryZero.IsActive = true;
+            Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one");
+            entryOne.IsActive = true;
+            Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
+            entryTwo.IsActive = false;
+            Entry entryThree = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-three", "body-zero");
+            entryThree.IsActive = true;
+            entryThree.DateCreated = DateTime.Now.AddDays(10);
+            entryThree.DateSyndicated = DateTime.Now.AddDays(10);
+
+            //Persist entries.
+            Entries.Create(entryZero);
+            Thread.Sleep(500);
+            Entries.Create(entryOne);
+            Thread.Sleep(500);
+            Entries.Create(entryTwo);
+            Thread.Sleep(500);
+            Entries.Create(entryThree);
+
+            Assert.IsTrue(entryThree.DateSyndicated > DateTime.Now);
+
+            //Get EntryDay
+            IList<EntryDay> entryList = Entries.GetBlogPosts(10, PostConfig.None);
+
+            //Test outcome
+            Assert.AreEqual(2, entryList.Count, "Expected to find two entry days.");
+            Assert.AreEqual(1, entryList[0].Count, "Expected to find one entry in the first day.");
+            Assert.AreEqual(3, entryList[1].Count, "Expected to find three entries in the second day.");
+        }
+
+        [Test]
+        [RollBack2]
+        public void GetBlogPostsReturnsActiveOnlyAndNoneInFuture()
+        {
+            //Create some entries.
+            Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
+            entryZero.IsActive = true;
+            Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one");
+            entryOne.IsActive = true;
+            entryOne.DateCreated = DateTime.Now.AddDays(-1);
+            Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
+            entryTwo.IsActive = false;
+            Entry entryThree = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-three", "body-zero");
+            entryThree.IsActive = true;
+            entryThree.DateCreated.AddDays(-2);
+            entryThree.DateSyndicated = DateTime.Now.AddDays(10);
+
+            //Persist entries.
+            Entries.Create(entryZero);
+            Thread.Sleep(500);
+            Entries.Create(entryOne);
+            Thread.Sleep(500);
+            Entries.Create(entryTwo);
+            Thread.Sleep(500);
+            Entries.Create(entryThree);
+
+            Assert.IsTrue(entryThree.DateSyndicated > DateTime.Now);
+
+            //Get EntryDay
+            IList<EntryDay> entryList = Entries.GetBlogPosts(10, PostConfig.IsActive);
+
+            //Test outcome
+            Assert.AreEqual(2, entryList.Count, "Expected to find two entry days.");
+            Assert.AreEqual(1, entryList[0].Count);
+            Assert.AreEqual(1, entryList[1].Count);
+        }
+
+        [Test]
+        [RollBack2]
         public void GetBlogPostsReturnsDaysWithEnclosure()
         {
             //Create some entries.
@@ -84,8 +158,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
             entryTwo.IsActive = false;
             Thread.Sleep(500);
-            Entry entryThree = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
-            entryThree.DateCreated = DateTime.Now.AddDays(1);
+            Entry entryThree = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-three", "body-three");
 
             //Persist entries.
             Entries.Create(entryZero);
@@ -93,30 +166,27 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entries.Create(entryTwo);
             Entries.Create(entryThree);
 
+            Assert.IsTrue(entryZero.DateCreated < entryOne.DateCreated);
+            Assert.IsTrue(entryOne.DateCreated < entryTwo.DateCreated);
+            Assert.IsTrue(entryTwo.DateCreated < entryThree.DateCreated);
+
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get EntryDay
-            IList<EntryDay> entryList = Entries.GetBlogPosts(10, PostConfig.None);
+            IList<EntryDay> entryList = Entries.GetBlogPosts(10, PostConfig.IsActive);
 
-            EntryDay[] days = new EntryDay[2];
-            entryList.CopyTo(days, 0);
-
+            Collection<Entry> entries = entryList[0];
             //Test outcome
-            Assert.AreEqual(2, entryList.Count, "Expected to find two days.");
+            Assert.AreEqual(1, entryList.Count, "Expected to find one entry day.");
 
-            EntryDay entries = days[1];
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
 
-            Assert.AreEqual(entries[0].Id, entryOne.Id, "Ordering is off.");
-            Assert.AreEqual(entries[1].Id, entryZero.Id, "Ordering is off.");
-            Assert.AreEqual(entries[2].Id, entryTwo.Id, "Ordering is off.");
-
             Assert.IsNull(entries[0].Enclosure, "Entry should not have enclosure.");
-            Assert.IsNull(entries[2].Enclosure, "Entry should not have enclosure.");
-            Assert.IsNotNull(entries[1].Enclosure, "Entry should have enclosure.");
-            UnitTestHelper.AssertEnclosures(enc, entries[1].Enclosure);
+            Assert.IsNull(entries[1].Enclosure, "Entry should not have enclosure.");
+            Assert.IsNotNull(entries[2].Enclosure, "Entry should have enclosure.");
+            UnitTestHelper.AssertEnclosures(enc, entries[2].Enclosure);
         }
 
         [Test]
@@ -154,7 +224,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(2, entryList.Count, "Expected to find two days.");
 
             EntryDay entries = days[1];
-            Assert.AreEqual(2, entries.Count, "Expected to find three entries.");
+            Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
 
             Assert.AreEqual(entries[0].Id, entryOne.Id, "Ordering is off.");
             Assert.AreEqual(entries[1].Id, entryZero.Id, "Ordering is off.");
@@ -208,7 +278,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(2, entryList.Count, "Expected to find two days.");
 
             EntryDay entries = days[1];
-            Assert.AreEqual(2, entries.Count, "Expected to find three entries.");
+            Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
 
             Assert.AreEqual(entries[0].Id, entryOne.Id, "Ordering is off.");
             Assert.AreEqual(entries[1].Id, entryZero.Id, "Ordering is off.");

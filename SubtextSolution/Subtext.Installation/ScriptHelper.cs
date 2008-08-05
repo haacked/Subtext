@@ -26,8 +26,6 @@ namespace Subtext.Installation
 	/// </summary>
 	public static class ScriptHelper
 	{
-
-
 		/// <summary>
 		/// Executes the script.
 		/// </summary>
@@ -41,7 +39,6 @@ namespace Subtext.Installation
 		{
 			ExecuteScript(scriptName, transaction, null);
 		}
-
 
 		/// <summary>
 		/// Executes the script.

@@ -642,6 +642,7 @@ table.highlightTable tr.highlightAlt td
   text-decoration: none;
   font-weight: bold;
   color: #fff;
+  background:transparent;
 }
     
 #tabs a:hover {
@@ -655,7 +656,8 @@ body.Links li#LinksTab,
 body.Galleries li.galleryTab,
 body.Stats li#StatsTab,
 body.Options li#OptionsTab,
-body.ImportExport li#ImportExportTab {
+body.ImportExport li#ImportExportTab,
+body.Credits li#CreditTab {
 	background-color: #fff;
 	-moz-border-radius-topleft: 4px;
 	-khtml-border-top-left-radius: 4px;
@@ -674,7 +676,8 @@ body.Links li#LinksTab a,
 body.Galleries #tabs li.galleryTab a,
 body.Stats li#StatsTab a,
 body.Options li#OptionsTab a,
-body.ImportExport li#ImportExportTab a {
+body.ImportExport li#ImportExportTab a,
+body.Credits li#CreditTab a {
 	color: #000;
 }
 

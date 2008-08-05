@@ -51,13 +51,22 @@ namespace Subtext.Framework.Data
 			}
 		}
 
+        private static SqlParameter CurrentDateTimeParam
+        {
+            get
+            {
+                return DataHelper.MakeInParam("@CurrentDateTime", SqlDbType.DateTime, 4, Config.CurrentBlog.TimeZone.Now);
+            }
+        }
+
 		#region DbProvider Methods
         public override IDataReader GetPreviousNext(int entryId)
         {
             SqlParameter[] p =
 					{
 						DataHelper.MakeInParam("@ID", SqlDbType.Int, 4, entryId),
-						BlogIdParam
+						BlogIdParam,
+                        CurrentDateTimeParam
 					};
 
             return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, "subtext_GetEntry_PreviousNext", p);
@@ -107,7 +116,8 @@ namespace Subtext.Framework.Data
             SqlParameter[] p = 
 				{
 					DataHelper.MakeInParam("@Host", SqlDbType.NVarChar,100, BlogInfo.AggregateBlog.Host),
-					DataHelper.MakeInParam("@GroupID", SqlDbType.Int, 4, groupId)
+					DataHelper.MakeInParam("@GroupID", SqlDbType.Int, 4, groupId),
+                    CurrentDateTimeParam
 				};
 
             return DataHelper.ExecuteDataTable(conn, CommandType.StoredProcedure, sql, p);
@@ -497,7 +507,8 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, postType),
 				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, postConfiguration),
 				DataHelper.MakeInParam("@IncludeCategories", SqlDbType.Bit, 1, includeCategories),
-				BlogIdParam				
+				BlogIdParam,
+                CurrentDateTimeParam
 			};
 
 			return GetReader("subtext_GetConditionalEntries", p);
@@ -511,7 +522,8 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@StopDate",SqlDbType.DateTime, 8, stop),
 				DataHelper.MakeInParam("@PostType",SqlDbType.Int, 4, postType),
 				DataHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
-				BlogIdParam
+				BlogIdParam,
+                CurrentDateTimeParam
 			};
 			return GetReader("subtext_GetEntriesByDayRange",p);
 		}
@@ -596,7 +608,8 @@ namespace Subtext.Framework.Data
 			SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@Date",SqlDbType.DateTime,8,dt),
-				BlogIdParam
+				BlogIdParam,
+                CurrentDateTimeParam
 			};
 			return GetReader("subtext_GetSingleDay",p);
 		}
@@ -608,7 +621,8 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, itemCount),
 				DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, DataHelper.CheckNull(catID)),
 				DataHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
-				BlogIdParam
+				BlogIdParam,
+                CurrentDateTimeParam
 			};
 			return GetReader("subtext_GetPostsByCategoryID", p);
 	
@@ -620,7 +634,8 @@ namespace Subtext.Framework.Data
                 {
                     DataHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, itemCount),
                     DataHelper.MakeInParam("@Tag", SqlDbType.NVarChar, 256, tagName),
-                    BlogIdParam
+                    BlogIdParam,
+                    CurrentDateTimeParam
                 };
             return GetReader("subtext_GetPostsByTag", p);
         }
@@ -632,7 +647,9 @@ namespace Subtext.Framework.Data
 			{
 				DataHelper.MakeInParam("@Month",SqlDbType.Int,4,month),
 				DataHelper.MakeInParam("@Year",SqlDbType.Int,4,year),
-				BlogIdParam};
+				BlogIdParam,
+                CurrentDateTimeParam
+            };
 			return GetReader("subtext_GetPostsByMonth",p);
 		}
 	    #endregion
@@ -648,7 +665,8 @@ namespace Subtext.Framework.Data
 		{
 			SqlParameter[] p =
 			{
-				DataHelper.MakeInParam("@ID", SqlDbType.Int, 4, PostID)
+				DataHelper.MakeInParam("@ID", SqlDbType.Int, 4, PostID),
+                CurrentDateTimeParam
 			};
 			return NonQueryBool("subtext_DeletePost", p);
 		}
@@ -663,6 +681,7 @@ namespace Subtext.Framework.Data
 			SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@Id", SqlDbType.Int, 4, id),
+                CurrentDateTimeParam
 			};
 			NonQueryBool("subtext_DeleteFeedback", p);
 		}
@@ -772,6 +791,7 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, StringHelper.ReturnNullForEmpty(entry.EntryName)), 
 				DataHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, DataHelper.CheckNull(entry.DateSyndicated)), 
 				BlogIdParam,
+                CurrentDateTimeParam,
 				outIdParam
 			};
 
@@ -801,6 +821,7 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@StatusFlag", SqlDbType.Int, 4, (int)feedbackItem.Status),
 				DataHelper.MakeInParam("@FeedbackChecksumHash", SqlDbType.VarChar, 32, feedbackItem.ChecksumHash), 
 				DataHelper.MakeInParam("@DateModified", SqlDbType.DateTime, 8, Config.CurrentBlog.TimeZone.Now),
+                CurrentDateTimeParam
 			};
 			return NonQueryBool("subtext_UpdateFeedback", p);
 		}
@@ -828,7 +849,8 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
 				DataHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
 				DataHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, DataHelper.CheckNull(entry.DateSyndicated)), 
-				BlogIdParam
+				BlogIdParam,
+                CurrentDateTimeParam
 			};
 			return NonQueryBool("subtext_UpdateEntry", p);
 		}
@@ -871,6 +893,7 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@DateCreated", SqlDbType.DateTime, 8, feedbackItem.DateCreated),
 				DataHelper.MakeInParam("@DateModified", SqlDbType.DateTime, 8, feedbackItem.DateModified),
 				BlogIdParam,
+                CurrentDateTimeParam,
 				outParam
 			};
 
@@ -1439,13 +1462,19 @@ namespace Subtext.Framework.Data
 
 		public override IDataReader GetPostsByMonthArchive()
 		{
-			SqlParameter[] p = {BlogIdParam};
+			SqlParameter[] p = {
+                                   BlogIdParam,
+                                   CurrentDateTimeParam
+                               };
 			return GetReader("subtext_GetPostsByMonthArchive", p);
 		}
 
 		public override IDataReader GetPostsByYearArchive()
 		{
-			SqlParameter[] p = {BlogIdParam};
+			SqlParameter[] p = {
+			                       BlogIdParam,
+                                   CurrentDateTimeParam
+			                   };
 			return GetReader("subtext_GetPostsByYearArchive", p);
 		}
 

@@ -12,6 +12,8 @@ namespace UnitTests.Subtext.Framework.Util
 	public class TimeZonesTest
 	{
 		const int PacificTimeZoneId = -2037797565;
+        const int NewZealandZoneId = -695818228;
+        const int CentralEuropeZoneId = -798214753;
 
 		[Test]
 		public void GenerateUpdateScript()
@@ -95,6 +97,21 @@ namespace UnitTests.Subtext.Framework.Util
 		  DateTime utcDate = DateTime.Parse("10/01/2006 19:30", culture, DateTimeStyles.AssumeUniversal);
 		  Assert.AreEqual("10/01/2006 19:30", utcDate.ToUniversalTime().ToString("MM/dd/yyyy HH:mm", culture));
 		}
+
+        [Test]
+        public void CanConvertBeetweenTimeZones()
+        {
+            IFormatProvider culture = new CultureInfo("en-US", true);
+            DateTime nzdtDate = DateTime.Parse("12/30/2006 19:30", culture, DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal);
+
+            WindowsTimeZone nzdt = WindowsTimeZone.TimeZones.GetById(NewZealandZoneId); //NZ
+            WindowsTimeZone cet = WindowsTimeZone.TimeZones.GetById(CentralEuropeZoneId); //CET
+
+            DateTime cetDate = cet.ToLocalTime(nzdt.ToUniversalTime(nzdtDate));
+
+            string formattedPstDate = cetDate.ToString("MM/dd/yyyy HH:mm", culture);
+            Assert.AreEqual("12/30/2006 07:30", formattedPstDate);
+        }
 
 		[Test]
 		public void ToLocalTimeReturnsProperTime()

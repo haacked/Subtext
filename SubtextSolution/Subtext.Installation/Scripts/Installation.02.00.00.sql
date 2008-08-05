@@ -104,3 +104,7 @@ END
 GO
 
 
+
+UPDATE    [<dbUser,varchar,dbo>].[subtext_Content]
+SET     [DateSyndicated] = [DateAdded]
+GO

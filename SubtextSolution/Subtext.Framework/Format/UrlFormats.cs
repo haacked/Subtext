@@ -105,7 +105,7 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public virtual string EntryUrl(Entry entry)
 		{
-			return EntryUrl(entry.Id, entry.EntryName, entry.DateCreated);
+			return EntryUrl(entry.Id, entry.EntryName, entry.DateSyndicated);
 		}
 		
 		private string EntryUrl(int entryId, string entryName, DateTime entryDate)
@@ -124,7 +124,7 @@ namespace Subtext.Framework.Format
 
 		public virtual string EntryFullyQualifiedUrl(Entry entry)
 		{
-			return EntryFullyQualifiedUrl(entry.DateCreated, entry.EntryName, entry.Id);
+			return EntryFullyQualifiedUrl(entry.DateSyndicated, entry.EntryName, entry.Id);
 		}
 		
 		public virtual string EntryFullyQualifiedUrl(DateTime entryDate, string entryName, int entryId)
@@ -141,9 +141,9 @@ namespace Subtext.Framework.Format
 			return EntryFullyQualifiedUrl(entryDate, entryPart);
 		}
 
-		public virtual string EntryFullyQualifiedUrl(DateTime dateCreated, string entryID)
+        public virtual string EntryFullyQualifiedUrl(DateTime entryDate, string entryID)
 		{
-			return GetFullyQualifiedUrl("archive/{0:yyyy/MM/dd}/{1}.aspx", dateCreated, entryID);
+            return GetFullyQualifiedUrl("archive/{0:yyyy/MM/dd}/{1}.aspx", entryDate, entryID);
 		}
 
 		public virtual string ImageUrl(string category, int ImageID)

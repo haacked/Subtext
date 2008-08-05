@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Providers
@@ -24,6 +25,7 @@ namespace Subtext.Framework.Providers
 			SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, blogId),
+                DataHelper.MakeInParam("@CurrentDateTime", SqlDbType.DateTime, 4, Config.CurrentBlog.TimeZone.Now),
 				DataHelper.MakeInParam("@SearchStr", searchTerm)
 			};
 

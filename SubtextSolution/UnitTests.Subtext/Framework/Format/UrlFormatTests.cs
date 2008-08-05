@@ -80,8 +80,9 @@ namespace UnitTests.Subtext.Framework.Format
 			UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.Parse("January 23, 1975");
+            entry.DateSyndicated = entry.DateCreated.AddMonths(1);
 			entry.Id = 123;
-			Assert.AreEqual("/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+			Assert.AreEqual("/archive/1975/02/23/123.aspx", formats.EntryUrl(entry));
 		}
 
 		/// <summary>
@@ -98,9 +99,10 @@ namespace UnitTests.Subtext.Framework.Format
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 			UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
 			Entry entry = new Entry(PostType.BlogPost);
-			entry.DateCreated = DateTime.Parse("January 23, 1975");
+            entry.DateCreated = DateTime.Parse("January 23, 1975");
+            entry.DateSyndicated = entry.DateCreated.AddMonths(1);
 			entry.Id = 123;
-			Assert.AreEqual("/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+			Assert.AreEqual("/MyBlog/archive/1975/02/23/123.aspx", formats.EntryUrl(entry));
 		}
 
 		/// <summary>
@@ -117,9 +119,10 @@ namespace UnitTests.Subtext.Framework.Format
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 			UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
 			Entry entry = new Entry(PostType.BlogPost);
-			entry.DateCreated = DateTime.Parse("January 23, 1975");
+            entry.DateCreated = DateTime.Parse("January 23, 1975");
+            entry.DateSyndicated = entry.DateCreated.AddMonths(1);
 			entry.Id = 123;
-			Assert.AreEqual("/Subtext.Web/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+			Assert.AreEqual("/Subtext.Web/MyBlog/archive/1975/02/23/123.aspx", formats.EntryUrl(entry));
 		}
 		/// <summary>
 		/// Makes sure that url formatting is culture invariant.
@@ -130,17 +133,18 @@ namespace UnitTests.Subtext.Framework.Format
 		{
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.Id = 123;
-			entry.DateCreated = DateTime.Parse("2006/01/23");
+            entry.DateCreated = DateTime.Parse("January 23, 2006");
+            entry.DateSyndicated = entry.DateCreated.AddMonths(1);
 			entry.EntryName = "test";
 
 			UrlFormats formats = new UrlFormats(new Uri("http://localhost/"));
 			string url = formats.EntryUrl(entry);
-			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/01/23/test.aspx", url, "Expected a normally formatted url.");
+			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/02/23/test.aspx", url, "Expected a normally formatted url.");
 
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("tr");
 			url = formats.EntryUrl(entry);
-			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/01/23/test.aspx", url, "Expected a normally formatted url.");
-			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/01.aspx", formats.MonthUrl(entry.DateCreated), "Expected a normally formatted url.");
+			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/02/23/test.aspx", url, "Expected a normally formatted url.");
+            Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/02.aspx", formats.MonthUrl(entry.DateSyndicated), "Expected a normally formatted url.");
 		}
 
 		/// <summary>

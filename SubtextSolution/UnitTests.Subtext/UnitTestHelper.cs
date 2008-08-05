@@ -400,9 +400,12 @@ namespace UnitTests.Subtext
 				entry.EntryName = entryName;
 			}
 			entry.BlogId = Config.CurrentBlog.Id;
-			entry.DateCreated = dateCreated;
-			entry.DateModified = entry.DateCreated;
-			entry.DateSyndicated = entry.DateCreated;
+            if (dateCreated != NullValue.NullDateTime)
+            {
+                entry.DateCreated = dateCreated;
+                entry.DateModified = entry.DateCreated;
+                entry.DateSyndicated = entry.DateCreated;
+            }
 			entry.Title = title;
 			entry.Author = author;
 			entry.Body = body;

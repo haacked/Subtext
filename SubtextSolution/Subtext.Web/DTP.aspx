@@ -10,7 +10,6 @@
 		<asp:PlaceHolder id="metaTagsPlaceHolder" runat="server" />
 		<asp:Literal id="authorMetaTag" runat="server" />
 		<asp:Literal id="versionMetaTag" runat="server" />
-		<asp:Literal id="additionalMetaTags" runat="server" />
 		<link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" runat="Server" />
         <asp:literal id="styles" runat="server"></asp:literal>
         <link id="CustomCss" runat="server" type="text/css" rel="stylesheet" />
