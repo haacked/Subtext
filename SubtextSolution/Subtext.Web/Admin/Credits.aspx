@@ -1,6 +1,6 @@
 <%@ Page Language="C#" EnableTheming="false" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master"
     AutoEventWireup="true" Codebehind="Credits.aspx.cs" Inherits="Subtext.Web.Admin.WebUI.Credits"
-    Title="3rd Party Credits" %>
+    Title="Subtext Admin - 3rd Party Credits" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
     <h2>Credits</h2>

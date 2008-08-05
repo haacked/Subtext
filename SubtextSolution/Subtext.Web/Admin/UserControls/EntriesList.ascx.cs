@@ -4,6 +4,7 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using System.Globalization;
 using Subtext.Extensibility;
+using Subtext.Framework.Configuration;
 using Subtext.Web.Admin.Pages;
 
 namespace Subtext.Web.Admin.UserControls {
@@ -53,6 +54,24 @@ namespace Subtext.Web.Admin.UserControls {
                 page.Command.RedirectUrl = Request.Url.ToString();
             }
             Server.Transfer("../" + Constants.URL_CONFIRM);
+        }
+
+        protected string IsActiveText(object entryObject) 
+        {
+            Entry entry = entryObject as Entry;
+            if (entry == null)
+                throw new InvalidOperationException("Entry was null when it shouldn't be.");
+
+            string active = "False";
+            if (entry.IsActive) 
+            {
+                active = "True";
+                if (entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now) 
+                {
+                    active += "<em> on " + entry.DateSyndicated.ToShortDateString() + "</em>";
+                }
+            }
+            return active;
         }
 
 

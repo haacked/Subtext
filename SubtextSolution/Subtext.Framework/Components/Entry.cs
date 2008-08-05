@@ -255,7 +255,14 @@ namespace Subtext.Framework.Components
 		public bool IsActive
 		{
 			get { return EntryPropertyCheck(PostConfig.IsActive); }
-			set { PostConfigSetter(PostConfig.IsActive, value); }
+			set
+			{
+                if (value && NullValue.IsNull(DateSyndicated))
+                {
+                    DateSyndicated = Config.CurrentBlog.TimeZone.Now;
+                }
+			    PostConfigSetter(PostConfig.IsActive, value);
+			}
 		}
 
 		/// <summary>

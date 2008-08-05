@@ -8,11 +8,17 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using Subtext.Web.Admin.Pages;
 
 namespace Subtext.Web.Admin.WebUI
 {
-    public partial class Credits : System.Web.UI.Page
+    public partial class Credits : AdminPage
     {
+        public Credits()
+	    {
+            TabSectionId = "Credits";
+	    }
+
         protected void Page_Load(object sender, EventArgs e)
         {
 

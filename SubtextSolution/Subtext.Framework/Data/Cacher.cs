@@ -295,8 +295,12 @@ namespace Subtext.Framework.Data
 			if(entry == null)
 			{
                 entry = Entries.GetEntry(EntryName, PostConfig.IsActive, true);
+
 				if(entry != null)
 				{
+                    if (entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now)
+                        return null;
+
 					cache.Insert(key, entry, cacheDuration);
 
 					//Most other page items will use the entryID. Add entry to cache for id key as well.

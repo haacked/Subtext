@@ -26,6 +26,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Security;
 using Subtext.Framework.Tracking;
+using Subtext.Framework.Util;
 
 //Need to find a method that has access to context, so we can terminate the request if AllowServiceAccess == false.
 //Users will be able to access the metablogapi page, but will not be able to make a request, but the page should not be visible
@@ -68,10 +69,14 @@ namespace Subtext.Framework.XmlRpc
 
             //TODO: Figure out why this is here.
             //		Probably means the poster forgot to set the date.
-            if (post.dateCreated.Year >= 2003)
+
+            DateTime dateTimeInPost = Config.CurrentBlog.TimeZone.ToLocalTime(post.dateCreated);
+
+
+            if (dateTimeInPost.Year >= 2003)
             {
-                entry.DateCreated = post.dateCreated;
-                entry.DateModified = post.dateCreated;
+                entry.DateCreated = dateTimeInPost;
+                entry.DateModified = dateTimeInPost;
             }
             else
             {
@@ -92,6 +97,10 @@ namespace Subtext.Framework.XmlRpc
             entry.PostType = postType;
 
             entry.IsActive = publish;
+            if (publish) 
+            { 
+                entry.DateSyndicated = entry.DateCreated;
+            }
             entry.AllowComments = true;
             entry.DisplayOnHomePage = true;
             entry.IncludeInMainSyndication = true;
@@ -199,7 +208,16 @@ namespace Subtext.Framework.XmlRpc
                     entry.Categories.AddRange(post.categories);
 
                 entry.PostType = PostType.BlogPost;
+                //User trying to change future dating.
+
+                DateTime dateTimeInPost = Config.CurrentBlog.TimeZone.ToLocalTime(post.dateCreated);
+
+                if (dateTimeInPost > Config.CurrentBlog.TimeZone.Now && publish) 
+                {
+                    entry.DateSyndicated = dateTimeInPost;
+                }
                 entry.IsActive = publish;
+                
 
                 entry.DateModified = Config.CurrentBlog.TimeZone.Now;
                 int[] categoryIds = { };

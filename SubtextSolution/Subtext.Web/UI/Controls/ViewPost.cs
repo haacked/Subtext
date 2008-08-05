@@ -81,7 +81,7 @@ namespace Subtext.Web.UI.Controls
 				Body.Text = entry.Body;
 				if(PostDescription != null)
 				{
-					PostDescription.Text = string.Format(CultureInfo.InvariantCulture, "{0} {1}",entry.DateCreated.ToLongDateString(),entry.DateCreated.ToShortTimeString());
+                    PostDescription.Text = string.Format(CultureInfo.InvariantCulture, "{0} {1}", entry.DateSyndicated.ToLongDateString(), entry.DateSyndicated.ToShortTimeString());
 				}
                 Trace.Write("loading categories");
 				if(Categories != null)
@@ -94,12 +94,12 @@ namespace Subtext.Web.UI.Controls
 				{
 					if(date.Attributes["Format"] != null)
 					{
-						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Url, entry.DateCreated.ToString(date.Attributes["Format"]));
+						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Url, entry.DateSyndicated.ToString(date.Attributes["Format"]));
 						date.Attributes.Remove("Format");
 					}
 					else
 					{
-						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Url, entry.DateCreated.ToString("f"));
+                        date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Url, entry.DateSyndicated.ToString("f"));
 					}
 				}
 

@@ -42,7 +42,8 @@ namespace UnitTests.Subtext.Framework
 			Assert.AreEqual(0, counts.Count);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title", "body");
-			Entries.Create(entry);
+            entry.DateSyndicated = DateTime.Now.AddDays(-1);
+            Entries.Create(entry);
 			counts = Archives.GetPostCountByYear();
 			Assert.AreEqual(1, counts.Count);
 

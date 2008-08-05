@@ -1,4 +1,4 @@
-<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Installation: Step 3 - Host Configuration" MasterPageFile="~/Install/InstallTemplate.Master" Codebehind="Step02_ConfigureHost.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Install.Step02_ConfigureHost" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Installation: Step 2 - Host Configuration" MasterPageFile="~/Install/InstallTemplate.Master" Codebehind="Step02_ConfigureHost.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Install.Step02_ConfigureHost" %>
 
 <asp:Content ID="mainContent" ContentPlaceHolderID="Content" runat="server">
 	<fieldset>

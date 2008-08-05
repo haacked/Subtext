@@ -175,6 +175,9 @@ namespace Subtext.Web.Admin.UserControls
 			}
 		
 			txbTitle.Text = entry.Title;
+            if (!NullValue.IsNull(entry.DateSyndicated) && entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now) {
+                txtPostDate.Text = entry.DateSyndicated.ToString(CultureInfo.CurrentCulture);
+            }
 
 			hlEntryLink.NavigateUrl = entry.Url;
 			hlEntryLink.Text = entry.FullyQualifiedUrl.ToString();
@@ -207,7 +210,7 @@ namespace Subtext.Web.Admin.UserControls
 
 			chkDisplayHomePage.Checked             = entry.DisplayOnHomePage;
 			chkMainSyndication.Checked             = entry.IncludeInMainSyndication;  
-			chkSyndicateDescriptionOnly.Checked    = entry.SyndicateDescriptionOnly ; 
+			chkSyndicateDescriptionOnly.Checked    = entry.SyndicateDescriptionOnly;
 			chkIsAggregated.Checked                = entry.IsAggregated;
 
 			// Advanced Options
@@ -219,8 +222,10 @@ namespace Subtext.Web.Admin.UserControls
 			ckbPublished.Checked = entry.IsActive;
 
             BindCategoryList();
-			for (int i = 0; i < cklCategories.Items.Count; i++)
-				cklCategories.Items[i].Selected = false;
+            for (int i = 0; i < cklCategories.Items.Count; i++)
+            {
+                cklCategories.Items[i].Selected = false;
+            }
 
 			IList<Link> postCategories = Links.GetLinkCollectionByPostID(PostID.Value);
 			if (postCategories.Count > 0)
@@ -345,19 +350,28 @@ namespace Subtext.Web.Admin.UserControls
                     //Enclosure
 				    int enclosureId = 0;
                     if (entry.Enclosure != null)
-				        enclosureId = entry.Enclosure.Id;
+                    {
+                        enclosureId = entry.Enclosure.Id;
+                    }
+
                     if (EnclosureEnabled())
                     {
                         if (entry.Enclosure == null)
+                        {
                             entry.Enclosure = new Enclosure();
+                        }
                         Enclosure enc = entry.Enclosure;
 
                         enc.Title = txbEnclosureTitle.Text;
                         enc.Url = txbEnclosureUrl.Text;
                         if (ddlMimeType.SelectedValue.Equals("other"))
+                        {
                             enc.MimeType = txbEnclosureOtherMimetype.Text;
+                        }
                         else
+                        {
                             enc.MimeType = ddlMimeType.SelectedValue;
+                        }
                         long size = 0;
                         Int64.TryParse(txbEnclosureSize.Text, out size);
                         enc.Size = size;
@@ -365,8 +379,9 @@ namespace Subtext.Web.Admin.UserControls
                         enc.ShowWithPost = Boolean.Parse(ddlDisplayOnPost.SelectedValue);
                     }
                     else
+                    {
                         entry.Enclosure = null;
-
+                    }
 
 					// Advanced options
 					entry.IsActive = ckbPublished.Checked;
@@ -395,9 +410,13 @@ namespace Subtext.Web.Admin.UserControls
 						Entries.Update(entry);
 
                         if (entry.Enclosure == null && enclosureId != 0)
+                        {
                             Enclosures.Delete(enclosureId);
+                        }
                         else if (entry.Enclosure != null && entry.Enclosure.Id != 0)
+                        {
                             Enclosures.Update(entry.Enclosure);
+                        }
                         else if (entry.Enclosure != null && entry.Enclosure.Id == 0)
                         {
                             entry.Enclosure.EntryId = entry.Id;
@@ -408,7 +427,6 @@ namespace Subtext.Web.Admin.UserControls
 					}
 					else
 					{
-						entry.DateCreated = Config.CurrentBlog.TimeZone.Now;						
 						_postId = Entries.Create(entry);
 
                         if(entry.Enclosure != null)

@@ -1,4 +1,4 @@
-<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Installation: Step 4 - Create Blog" MasterPageFile="~/Install/InstallTemplate.Master" Codebehind="Step03_CreateBlog.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Install.Step03_CreateBlog" %>
+<%@ Page Language="C#" EnableTheming="false"  Title="Subtext Installation: Step 3 - Create Blog" MasterPageFile="~/Install/InstallTemplate.Master" Codebehind="Step03_CreateBlog.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Install.Step03_CreateBlog" %>
 
 <asp:Content ID="mainContent" ContentPlaceHolderID="Content" runat="server">
     <fieldset>

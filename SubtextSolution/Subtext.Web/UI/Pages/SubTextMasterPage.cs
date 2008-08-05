@@ -55,7 +55,6 @@ namespace Subtext.Web.UI.Pages
         protected Literal virtualRoot;
         protected Literal virtualBlogRoot;
         protected Literal customTrackingCode;
-        protected Literal additionalMetaTags;
         protected Literal openIDServer;
         protected Literal openIDDelegate;
         protected PlaceHolder metaTagsPlaceHolder;
@@ -170,6 +169,9 @@ namespace Subtext.Web.UI.Pages
                 else
                     mt.HttpEquiv = tag.HttpEquiv;
 
+                Literal newLineLiteral = new Literal();
+                newLineLiteral.Text = Environment.NewLine;
+                metaTagsPlaceHolder.Controls.Add(newLineLiteral);
                 metaTagsPlaceHolder.Controls.Add(mt);
             }
         }
@@ -197,7 +199,7 @@ namespace Subtext.Web.UI.Pages
             {
                 authorMetaTag.Text = String.Format(Environment.NewLine + "<meta name=\"author\" content=\"{0}\" />", Config.CurrentBlog.Author);
             }
-            versionMetaTag.Text = String.Format(Environment.NewLine + "<meta name=\"Generator\" content=\"{0}\" />", VersionInfo.VersionDisplayText);
+            versionMetaTag.Text = String.Format(Environment.NewLine + "<meta name=\"Generator\" content=\"{0}\" />" + Environment.NewLine, VersionInfo.VersionDisplayText);
 
             if (!String.IsNullOrEmpty(Config.CurrentBlog.TrackingCode))
             {
