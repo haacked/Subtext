@@ -229,7 +229,10 @@ namespace Subtext.BlogML
 		        foreach(BlogMLTrackback bmlTrackback in trackbacks)
 		        {
 		            string trackBackId = this.conversionStrategy.GetConvertedId(IdScopes.TrackBacks, bmlTrackback.ID);
-		            WriteTrackback(trackBackId, bmlTrackback.Title, ContentTypes.Text, bmlTrackback.DateCreated, bmlTrackback.DateModified, bmlTrackback.Approved, (bmlTrackback.Url ?? string.Empty));
+                    if (!String.IsNullOrEmpty(bmlTrackback.Url))
+                    {
+                        WriteTrackback(trackBackId, bmlTrackback.Title, ContentTypes.Text, bmlTrackback.DateCreated, bmlTrackback.DateModified, bmlTrackback.Approved, bmlTrackback.Url);
+                    }
 		        }
 		        WriteEndElement();
 		    }
