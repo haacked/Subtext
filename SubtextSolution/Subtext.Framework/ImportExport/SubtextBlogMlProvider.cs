@@ -42,6 +42,15 @@ namespace Subtext.ImportExport
 {
 	public class SubtextBlogMLProvider : BlogMLProvider
 	{
+        public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
+        {
+            base.Initialize(name, configValue);
+            if (string.IsNullOrEmpty(ConnectionString))
+            {
+                ConnectionString = Config.ConnectionString.RawOriginal;
+            }
+        }
+
 		bool duplicateCommentsEnabled;
 		SubtextConversionStrategy conversion = new SubtextConversionStrategy();
 		/// <summary>
