@@ -1,7 +1,7 @@
 
 /*
 WARNING: This SCRIPT USES SQL TEMPLATE PARAMETERS.
-Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
+Be sure to hit CTRL+SHIFT+M in Query Analyzer 2005 or choose Specify Values for Template Parameters in Query Analyzer 2008 if running manually.
 
 When generating drop and create from SQL Query Analyzer, you can 
 use the following search and replace expressions to convert the 
