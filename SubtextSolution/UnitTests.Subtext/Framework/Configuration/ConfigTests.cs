@@ -91,6 +91,22 @@ namespace UnitTests.Subtext.Framework.Configuration
             BlogInfo info = Config.GetBlogInfo(hostName, string.Empty);
             Assert.IsNull(info, "Hmm... Looks like found a blog using too generic of search criteria.");
         }
+
+        [Test]
+        [RollBack2]
+        public void GetBlogInfoLoadsOpenIDSettings()
+        {
+            Config.CreateBlog("title", "username", "password", hostName, string.Empty);
+
+            BlogInfo info = Config.GetBlogInfo(hostName, string.Empty);
+            info.OpenIDServer = "http://server.example.com/";
+            info.OpenIDDelegate = "http://delegate.example.com/";
+            Config.UpdateConfigData(info);
+            info = Config.GetBlogInfo(hostName, string.Empty);
+
+            Assert.AreEqual("http://server.example.com/", info.OpenIDServer);
+            Assert.AreEqual("http://delegate.example.com/", info.OpenIDDelegate);
+        }
         
         /// <summary>
         /// Sets the up test fixture.  This is called once for 
