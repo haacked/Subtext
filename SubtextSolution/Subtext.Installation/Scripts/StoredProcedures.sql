@@ -1259,6 +1259,8 @@ BEGIN
 		, MobileSkin
 		, MobileSkinCssFile
 		, OpenIDUrl
+		, OpenIDServer
+		, OpenIDDelegate
 		, CardSpaceHash
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 END
@@ -1301,6 +1303,8 @@ BEGIN
 		, MobileSkin
 		, MobileSkinCssFile
 		, OpenIDUrl
+		, OpenIDServer
+		, OpenIDDelegate
 		, CardSpaceHash
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 		LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON bgroup.Id = [subtext_Config].BlogGroupId
@@ -3655,6 +3659,7 @@ SELECT	blog.BlogId
 		, blog.Author
 		, blog.TimeZone
 		, blog.ItemCount
+		, blog.CategoryListPostCount
 		, blog.[Language]
 		, blog.News
 		, blog.SecondaryCss
@@ -3676,6 +3681,10 @@ SELECT	blog.BlogId
 		, bgroup.Title AS BlogGroupTitle
 		, blog.MobileSkin
 		, blog.MobileSkinCssFile
+		, blog.OpenIDUrl
+		, blog.OpenIDServer
+		, blog.OpenIDDelegate
+		, blog.CardSpaceHash
 		
 FROM [<dbUser,varchar,dbo>].[subtext_Config] blog
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
@@ -3720,6 +3729,7 @@ SELECT	blog.BlogId
 		, blog.Host
 		, blog.Author
 		, blog.TimeZone
+		, blog.CategoryListPostCount
 		, blog.ItemCount
 		, blog.[Language]
 		, blog.News
