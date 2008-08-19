@@ -130,29 +130,6 @@ namespace Subtext.Framework.UrlManager
 
 		private static IHttpHandler GetHandlerForUrl(string url)
 		{
-			if(!UrlAuthorizationModule.CheckUrlAccessForPrincipal(url, HttpContext.Current.User, HttpContext.Current.Request.HttpMethod))
-			{
-				BlogRequest request = BlogRequest.Current;
-				if (String.IsNullOrEmpty(request.Subfolder))
-				{
-					FormsAuthentication.RedirectToLoginPage();
-				}
-				else
-				{
-					string query = HttpContext.Current.Request.QueryString.ToString();
-					if(!String.IsNullOrEmpty(query))
-					{
-						query = "?" + query;
-					}
-					HttpContext.Current.Response.Redirect(Config.CurrentBlog.VirtualUrl
-														  + "Login.aspx?ReturnUrl="
-														  +
-														  HttpUtility.UrlEncode(HttpContext.Current.Request.Path + query,
-																				HttpContext.Current.Request.ContentEncoding));
-				}
-				return null;
-			}
-
 			string path = HttpContext.Current.Request.Path;
 			if (path.EndsWith("/"))
 			{
