@@ -11,7 +11,7 @@
     runat="server">
 </asp:Content>
 <asp:Content ID="configurationOptions" ContentPlaceHolderID="pageContent" runat="server">
-    <st:MessagePanel ID="Messages" runat="server" />
+    <st:messagepanel ID="Messages" runat="server" />
     <h2>
         Configure</h2>
     <div class="Edit" id="configure-form">
@@ -30,7 +30,8 @@
             <asp:TextBox ID="txbAuthor" runat="server" CssClass="textbox" />
             <label accesskey="e" for="Edit_txbAuthorEmail">
                 Owner's <u>E</u>mail</label>
-            <asp:TextBox ID="txbAuthorEmail" runat="server" CssClass="textbox" />
+            <asp:TextBox ID="txbAuthorEmail" runat="server" CssClass="textbox" />            
+            <asp:CheckBox ID="ckbShowEmailonRssFeed" runat="server" CssClass="checkbox" AccessKey="r" Text="Show email address on <u>R</u>SS Feed" /><br />
             <label accesskey="s" for="Edit_ddlSkin">
                 Display <u>S</u>kin</label>
             <asp:DropDownList ID="ddlSkin" runat="server" DataSource="<%# Skins %>" DataTextField="Name"
@@ -300,8 +301,9 @@
             <div class="options">
                 <label accesskey="c" for="Edit_txbSecondaryCss">
                     <u>C</u>ustom CSS
-                    <st:HelpToolTip ID="HelpToolTip1" runat="server" HelpText="You can enter custom CSS within this block.  Be careful as the tool will not validate the CSS.  This CSS will be included (as a proper link) within every page of your blog."
-                        ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
+                    <st:helptooltip ID="HelpToolTip1" runat="server" HelpText="You can enter custom CSS within this block.  Be careful as the tool will not validate the CSS.  This CSS will be included (as a proper link) within every page of your blog."
+                        ImageUrl="~/images/icons/help-small.png" ImageWidth="16" 
+                    ImageHeight="16" />
                 </label>
                 <asp:TextBox ID="txbSecondaryCss" runat="server" CssClass="textarea" TextMode="MultiLine" />
                 <label accesskey="a" for="Edit_txbNews">

@@ -120,7 +120,8 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		protected virtual void WriteChannel()
 		{
-			RssImageElement image = new RssImageElement(GetRssImage(), _info.Title, _info.HomeFullyQualifiedUrl, 77, 60, null);
+			RssImageElement image = 
+                new RssImageElement(GetRssImage(), _info.Title, _info.HomeFullyQualifiedUrl, 77, 60, null);
 			BuildChannel(_info.Title, _info.HomeFullyQualifiedUrl.ToString(), _info.Email, _info.SubTitle, _info.Language, _info.Author, Config.CurrentBlog.LicenseUrl, image);
 		}
 		
@@ -170,10 +171,12 @@ namespace Subtext.Framework.Syndication
 			this.WriteElementString("language", lang);
 			//TODO: Implement this element.
 			this.WriteElementString("copyright", copyright);
-
-			//TODO: Provide REAL email authentication.
-			//TODO: Allow blog owner to omit this field on a per-blog basis without having to remove email address. Or we might consider a separate field for Syndicated email address.
-			if (authorEmail != null && authorEmail.Length > 0 && authorEmail.IndexOf("@") > 0 && authorEmail.IndexOf(".") > 0)
+			
+            if (authorEmail != null 
+                && authorEmail.Length > 0 
+                && authorEmail.IndexOf("@") > 0 
+                && authorEmail.IndexOf(".") > 0 
+                && (Config.CurrentBlog.ShowEmailAddressInRss))
 			{
 				this.WriteElementString("managingEditor", authorEmail);
 			}
@@ -186,8 +189,10 @@ namespace Subtext.Framework.Syndication
 				this.WriteElementString("creativeCommons:license", cclicense);
 			}
 
-			if(image != null)
-				image.WriteToXmlWriter(this);
+            if (image != null)
+            {
+                image.WriteToXmlWriter(this);
+            }
 		}
 
 		protected void EndChannel()

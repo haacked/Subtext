@@ -104,6 +104,12 @@ namespace UnitTests.Subtext.Framework
 			blog.IsActive = false;
 			Assert.IsTrue((blog.Flag & ConfigurationFlags.IsActive) != ConfigurationFlags.IsActive);
 
+            blog.ShowEmailAddressInRss = true;
+            Assert.IsTrue(blog.ShowEmailAddressInRss);
+            Assert.IsTrue((blog.Flag & ConfigurationFlags.ShowAuthorEmailAddressinRss) == ConfigurationFlags.ShowAuthorEmailAddressinRss);
+            blog.ShowEmailAddressInRss = false;
+            Assert.IsTrue((blog.Flag & ConfigurationFlags.ShowAuthorEmailAddressinRss) != ConfigurationFlags.ShowAuthorEmailAddressinRss);
+
 			blog.IsAggregated = true;
 			Assert.IsTrue(blog.IsAggregated);
 			Assert.IsTrue((blog.Flag & ConfigurationFlags.IsAggregated) == ConfigurationFlags.IsAggregated);
