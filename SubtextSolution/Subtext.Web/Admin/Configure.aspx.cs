@@ -93,6 +93,7 @@ namespace Subtext.Web.Admin.Pages
             txbAuthorEmail.Text = info.Email;
             txbUser.Text = info.UserName;
             txbNews.Text = info.News;
+            ckbShowEmailonRssFeed.Checked = info.ShowEmailAddressInRss;
             txbGenericTrackingCode.Text = info.TrackingCode;
             ckbAllowServiceAccess.Checked = info.AllowServiceAccess;
             ddlTimezone.DataSource = WindowsTimeZone.TimeZones;
@@ -195,7 +196,7 @@ namespace Subtext.Web.Admin.Pages
                 info.Author = txbAuthor.Text;
                 info.Email = txbAuthorEmail.Text;
                 info.UserName = txbUser.Text;
-
+                info.ShowEmailAddressInRss = ckbShowEmailonRssFeed.Checked;
                 info.TimeZoneId = Int32.Parse(ddlTimezone.SelectedItem.Value);
                 info.Subfolder = Config.CurrentBlog.Subfolder;
                 info.Host = Config.CurrentBlog.Host;

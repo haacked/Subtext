@@ -63,5 +63,7 @@ namespace Subtext.Framework.Configuration
         CommentNotificationEnabled = 8192,
         /// <summary>Trackback notification mails are enabled.</summary>
         TrackbackNotificationEnabled = 16384,
+        /// <summary>Show blog author email address in rss feed</summary>
+        ShowAuthorEmailAddressinRss = 1,
 	};
 }

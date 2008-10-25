@@ -131,6 +131,8 @@ namespace Subtext.Framework
             return ObjectProvider.Instance().GetBlogById(blogId);
         }
 
+        
+
         /// <summary>
         /// Class used to encapsulate URL formats for 
         /// various sections of the blog.
@@ -198,6 +200,17 @@ namespace Subtext.Framework
         {
             get { return _blogID; }
             set { _blogID = value; }
+        }
+
+        private bool _showEmailAddressInRss;
+        /// <summary>
+        /// Gets or sets the option to show the blog owners email address in rss feeds.
+        /// </summary>
+
+        public bool ShowEmailAddressInRss
+        {
+            get { return _showEmailAddressInRss; }
+            set { _showEmailAddressInRss = value; }
         }
 
         /// <summary>
