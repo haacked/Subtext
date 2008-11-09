@@ -1349,6 +1349,8 @@ BEGIN
 		, MobileSkin
 		, MobileSkinCssFile
 		, OpenIDUrl
+		, OpenIDServer
+		, OpenIDDelegate
 		, CardSpaceHash
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 		LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
@@ -3662,6 +3664,7 @@ SELECT	blog.BlogId
 		, blog.CategoryListPostCount
 		, blog.[Language]
 		, blog.News
+		, blog.TrackingCode
 		, blog.SecondaryCss
 		, blog.LastUpdated
 		, blog.PostCount
@@ -3733,6 +3736,7 @@ SELECT	blog.BlogId
 		, blog.ItemCount
 		, blog.[Language]
 		, blog.News
+		, blog.TrackingCode
 		, blog.SecondaryCss
 		, blog.LastUpdated
 		, blog.PostCount
