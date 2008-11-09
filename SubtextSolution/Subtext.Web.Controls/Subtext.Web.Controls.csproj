@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -97,7 +97,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -139,12 +142,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
-      <Link>SolutionInfo.cs</Link>
-      <SubType>Code</SubType>
+      <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="..\VersionInfo.Designer.cs">
-      <Link>VersionInfo.Designer.cs</Link>
-      <SubType>Code</SubType>
+      <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -201,10 +202,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\InvisibleCaptcha.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ExternalDependencies\log4net.dll" />
-    <Content Include="ExternalDependencies\log4net.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -578,7 +578,6 @@ namespace Subtext.Framework.Data
 			info.Password = ReadString(reader, "Password");
             info.OpenIDUrl = ReadString(reader, "OpenIDUrl");
             info.CardSpaceHash = ReadString(reader, "CardSpaceHash");
-            info.ShowEmailAddressInRss = ReadBoolean(reader, "ShowEmailRssFeed");
 
 			info.SubTitle = ReadString(reader, "SubTitle");
 			info.Title = ReadString(reader, "Title");

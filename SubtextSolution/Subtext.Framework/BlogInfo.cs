@@ -202,15 +202,14 @@ namespace Subtext.Framework
             set { _blogID = value; }
         }
 
-        private bool _showEmailAddressInRss;
         /// <summary>
         /// Gets or sets the option to show the blog owners email address in rss feeds.
         /// </summary>
 
         public bool ShowEmailAddressInRss
         {
-            get { return _showEmailAddressInRss; }
-            set { _showEmailAddressInRss = value; }
+            get { return FlagPropertyCheck(ConfigurationFlags.ShowAuthorEmailAddressinRss); }
+            set { FlagSetter(ConfigurationFlags.ShowAuthorEmailAddressinRss, value); }
         }
 
         /// <summary>

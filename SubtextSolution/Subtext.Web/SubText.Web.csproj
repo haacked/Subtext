@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8C11B428-9C4A-46C3-B7F0-48215276BFA5}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -37,31 +37,47 @@
   <ItemGroup>
     <Reference Include="AjaxControlToolkit, Version=1.0.10201.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExternalDependencies\AjaxControlToolkit.dll</HintPath>
+      <HintPath>..\Dependencies\AjaxControlToolkit.dll</HintPath>
     </Reference>
     <Reference Include="BlogML, Version=1.0.2229.38505, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Subtext.Framework\ExternalDependencies\BlogML.dll</HintPath>
+      <HintPath>..\Subtext.Framework\..\Dependencies\BlogML.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenId, Version=2.2.0.8121, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExternalDependencies\DotNetOpenId.dll</HintPath>
+      <HintPath>..\Dependencies\DotNetOpenId.dll</HintPath>
     </Reference>
-    <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87" />
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="Identicon, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\freetextbox.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Identicon, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Identicon.dll</HintPath>
+    </Reference>
     <Reference Include="Jayrock, Version=0.9.8316.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExternalDependencies\Jayrock.dll</HintPath>
+      <HintPath>..\Dependencies\Jayrock.dll</HintPath>
     </Reference>
     <Reference Include="Jayrock.Json, Version=0.9.8316.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExternalDependencies\Jayrock.Json.dll</HintPath>
+      <HintPath>..\Dependencies\Jayrock.Json.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
     <Reference Include="PostBackRitalin, Version=0.9.2952.29277, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExternalDependencies\PostBackRitalin.dll</HintPath>
+      <HintPath>..\Dependencies\PostBackRitalin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -71,7 +87,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExternalDependencies\System.Web.Extensions.dll</HintPath>
+      <HintPath>..\Dependencies\System.Web.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -778,8 +794,6 @@
   <ItemGroup>
     <Content Include="default.aspx" />
     <Content Include="emoticons.txt" />
-    <Content Include="ExternalDependencies\AngryPets.Web.Frameworks.ReverseDOS.dll" />
-    <Content Include="ExternalDependencies\freetextbox.dll" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="login.aspx" />
@@ -1074,11 +1088,6 @@
     <Content Include="App_Data\Subtext2.0.mdf">
     </Content>
     <Content Include="DTP.aspx" />
-    <Content Include="ExternalDependencies\FreeTextBox.xml" />
-    <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="ExternalDependencies\Identicon.dll" />
-    <Content Include="ExternalDependencies\log4net.dll" />
-    <Content Include="ExternalDependencies\log4net.xml" />
     <Content Include="ForgotPassword.aspx" />
     <Content Include="HostAdmin\ChangePassword.aspx" />
     <Content Include="HostAdmin\ManageGroups.aspx" />
@@ -2439,6 +2448,9 @@
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:2732/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
