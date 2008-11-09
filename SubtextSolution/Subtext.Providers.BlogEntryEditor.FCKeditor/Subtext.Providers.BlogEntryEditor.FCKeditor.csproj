@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -99,7 +99,7 @@
   <ItemGroup>
     <Reference Include="FredCK.FCKeditorV2">
       <Name>FredCK.FCKeditorV2</Name>
-      <HintPath>ExternalDependencies\FredCK.FCKeditorV2.dll</HintPath>
+      <HintPath>..\Dependencies\FredCK.FCKeditorV2.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -136,12 +136,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
-      <Link>SolutionInfo.cs</Link>
-      <SubType>Code</SubType>
+      <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="..\VersionInfo.Designer.cs">
-      <Link>VersionInfo.Designer.cs</Link>
-      <SubType>Code</SubType>
+      <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -153,7 +151,6 @@
     <Compile Include="XmlUtil.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Content Include="ExternalDependencies\FredCK.FCKeditorV2.dll" />
     <Content Include="license.txt" />
     <EmbeddedResource Include="resources\ErrorMessages.resx">
       <SubType>Designer</SubType>

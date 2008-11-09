@@ -1,0 +1,4091 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LumiSoft.Net</name>
+    </assembly>
+    <members>
+        <member name="T:LumiSoft.Net.Dns.MX_Record">
+            <summary>
+            MX record class.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.MX_Record.#ctor(System.Int32,System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="preference">MX record preference.</param>
+            <param name="host">Mail host dns name.</param>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.MX_Record.Preference">
+            <summary>
+            Gets MX record preference.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.MX_Record.Host">
+            <summary>
+            Gets mail host dns name.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Dns.Dns_Answer">
+            <summary>
+            Summary description for Dns_Answer.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.Dns_Answer.#ctor(System.String,LumiSoft.Net.Dns.QTYPE,System.Int32,System.Int32,System.Int32,System.Object)">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.Dns_Answer.GetRecordType">
+            <summary>
+            Gets query type eg. MX.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Answer.NAME">
+            <summary>
+            A domain name to which this resource record pertains.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Answer.QTYPE">
+            <summary>
+            This field specifies the meaning of the data in the RDATA field.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Answer.CLASS">
+            <summary>
+            Two octets which specify the class of the data in the RDATA field.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Answer.TTL">
+            <summary>
+            a 32 bit unsigned integer that specifies the time
+            interval (in seconds) that the resource record may be
+            cached before it should be discarded.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Answer.RDLENGTH">
+            <summary>
+            An unsigned 16 bit integer that specifies the length in octets of the RDATA field.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Answer.RecordObj">
+            <summary>
+            Gets answer object.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Dns.Dns_Answers">
+            <summary>
+            This class holds Dns answers returned by server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.Dns_Answers.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.Dns_Answers.ParseAnswers(System.Byte[],System.Int32)">
+            <summary>
+            Parses answer.
+            </summary>
+            <param name="reply"></param>
+            <param name="queryID"></param>
+            <returns>Returns true if answer parsed successfully.</returns>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.Dns_Answers.ParseMxRecord(System.Byte[],System.Int32@)">
+            <summary>
+            Parses MX record.
+            </summary>
+            <param name="reply"></param>
+            <param name="offset"></param>
+            <returns>Returns null, if failed.</returns>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.Dns_Answers.GetMxRecordsFromAnswers">
+            <summary>
+            Gets MX records from answer collection and ORDERS them by preference.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Answers.Answers">
+            <summary>
+            Gets answers.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Dns.Dns_Header">
+            <summary>
+            Summary description for Dns_Header.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.Dns_Header.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.Dns_Header.#ctor(System.Int32,LumiSoft.Net.Dns.OPCODE)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="opcode"></param>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.Dns_Header.GetHeader">
+            <summary>
+            Gets header.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Header.ID">
+            <summary>
+            A 16 bit identifier assigned by the program that
+            generates any kind of query.  This identifier is copied
+            the corresponding reply and can be used by the requester
+            to match up replies to outstanding queries.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Header.OPCODE">
+            <summary>
+            A four bit field that specifies kind of query in this
+            message.  This value is set by the originator of a query
+            and copied into the response.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Header.RCODE">
+            <summary>
+            Response code - this 4 bit field is set as part of responses.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Header.QDCOUNT">
+            <summary>
+            an unsigned 16 bit integer specifying the number of
+            entries in the question section.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Header.ANCOUNT">
+            <summary>
+            an unsigned 16 bit integer specifying the number of
+            resource records in the answer section.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Header.NSCOUNT">
+            <summary>
+            an unsigned 16 bit integer specifying the number of name
+            server resource records in the authority records section.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Header.ARCOUNT">
+            <summary>
+            an unsigned 16 bit integer specifying the number of
+            resource records in the additional records section.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Dns.Dns_Query">
+            <summary>
+            Summary description for Dns_Query.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.Dns_Query.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.Dns_Query.#ctor(System.String,LumiSoft.Net.Dns.QTYPE,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="qname"></param>
+            <param name="qtype"></param>
+            <param name="qclass"></param>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.Dns_Query.GetQuery(LumiSoft.Net.Dns.Dns_Header)">
+            <summary>
+            Gets query.
+            </summary>
+            <param name="header"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Query.QNAME">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Query.QTYPE">
+            <summary>
+            Gets query type.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.Dns_Query.QCLASS">
+            <summary>
+            Gets query class.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Dns.DnsCache">
+            <summary>
+            Summary description for DnsCache.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.DnsCache.GetMXFromCache(System.String)">
+            <summary>
+            Tries to get MX records from cache, if any.
+            </summary>
+            <param name="domain"></param>
+            <returns>Returns null if not in cache.</returns>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.DnsCache.AddMXToCache(System.String,LumiSoft.Net.Dns.MX_Record[])">
+            <summary>
+            Adds domain's MX records to cache.
+            </summary>
+            <param name="domain"></param>
+            <param name="mx"></param>
+        </member>
+        <member name="T:LumiSoft.Net.Dns.DnsReplyCode">
+            <summary>
+            Dns reply codes.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.DnsReplyCode.Ok">
+            <summary>
+            Requested records retrieved sucessfully.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.DnsReplyCode.NoEntries">
+            <summary>
+            No requested records found.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.DnsReplyCode.TempError">
+            <summary>
+            There was error retrieving records.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Dns.DnsEx">
+            <summary>
+            Dns.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.DnsEx.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Dns.DnsEx.GetMXRecords(System.String,LumiSoft.Net.Dns.MX_Record[]@)">
+            <summary>
+            Gets MX records.(MX records are sorted by preference, lower array element is prefered)
+            </summary>
+            <param name="domain"></param>
+            <param name="mxRecords"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.DnsEx.DnsServers">
+            <summary>
+            Gets or sets dns servers.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Dns.DnsEx.UseDnsCache">
+            <summary>
+            Gets or sets if to use dns caching.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Dns.OPCODE">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.OPCODE.QUERY">
+            <summary>
+             a standard query.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.OPCODE.IQUERY">
+            <summary>
+            an inverse query.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.OPCODE.STATUS">
+            <summary>
+            a server status request.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Dns.QTYPE">
+            <summary>
+            ´Query type.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.QTYPE.A">
+            <summary>
+            a host address
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.QTYPE.NS">
+            <summary>
+            an authoritative name server
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.QTYPE.CNAME">
+            <summary>
+            the canonical name for an alias
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.QTYPE.SOA">
+            <summary>
+            marks the start of a zone of authority
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.QTYPE.WKS">
+            <summary>
+            a well known service description
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.QTYPE.PTR">
+            <summary>
+            a domain name pointer
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.QTYPE.HINFO">
+            <summary>
+            host information
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.QTYPE.MINFO">
+            <summary>
+            mailbox or mail list information
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.QTYPE.MX">
+            <summary>
+            mail exchange
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.QTYPE.TXT">
+            <summary>
+            text strings
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.QTYPE.UnKnown">
+            <summary>
+            UnKnown
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Dns.RCODE">
+            <summary>
+            Dns server reply codes.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.RCODE.NO_ERROR">
+            <summary>
+            No error condition.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.RCODE.FORMAT_ERRROR">
+            <summary>
+            Format error - The name server was unable to interpret the query.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.RCODE.SERVER_FAILURE">
+            <summary>
+            Server failure - The name server was unable to process this query due to a problem with the name server.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.RCODE.NAME_ERROR">
+            <summary>
+            Name Error - Meaningful only for responses from an authoritative name server, this code signifies that the
+            domain name referenced in the query does not exist.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.RCODE.NOT_IMPLEMENTED">
+            <summary>
+            Not Implemented - The name server does not support the requested kind of query.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Dns.RCODE.REFUSED">
+            <summary>
+            Refused - The name server refuses to perform the specified operation for policy reasons.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.FTP.Client.TransferMode">
+            <summary>
+            Transfer mode.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.FTP.Client.TransferMode.Ascii">
+            <summary>
+            ASCII transfer mode.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.FTP.Client.TransferMode.Binary">
+            <summary>
+            Binary transfer mode. 
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.FTP.Client.FTP_Client">
+            <summary>
+            Ftp client.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.#ctor">
+            <summary>
+            Default connection.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.Dispose">
+            <summary>
+            Clears resources and closes connection if open.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.Connect(System.String,System.Int32)">
+            <summary>
+            Connects to specified host.
+            </summary>
+            <param name="host">Host name.</param>
+            <param name="port">Port.</param>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.Disconnect">
+            <summary>
+            Disconnects from active host.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.Authenticate(System.String,System.String)">
+            <summary>
+            Authenticates user.
+            </summary>
+            <param name="userName">User name.</param>
+            <param name="password">Password.</param>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.SetCurrentDir(System.String)">
+            <summary>
+            Sets current directory.
+            </summary>
+            <param name="dir">Directory.</param>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.CreateDir(System.String)">
+            <summary>
+            Creates directory.
+            </summary>
+            <param name="dir"></param>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.ReceiveFile(System.String,LumiSoft.Net.FTP.Client.TransferMode,System.String)">
+            <summary>
+            Recieves specified file from server.
+            </summary>
+            <param name="fileName">File name of file which to recieve.</param>
+            <param name="mode">Transfer mode.</param>
+            <param name="putFileName">File path+name which to store.</param>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.ReceiveFile(System.String,LumiSoft.Net.FTP.Client.TransferMode,System.IO.Stream)">
+            <summary>
+            Recieves specified file from server.
+            </summary>
+            <param name="fileName">File name of file which to recieve.</param>
+            <param name="mode">Transfer mode.</param>
+            <param name="storeStream">Stream where to store file.</param>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.StoreFile(System.String,System.String,LumiSoft.Net.FTP.Client.TransferMode)">
+            <summary>
+            Stores specified file to server.
+            </summary>
+            <param name="getFileName">File path+name which to store in server.</param>
+            <param name="fileName">File name to store in server.</param>
+            <param name="mode">Transfer mode.</param>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.StoreFile(System.IO.Stream,System.String,LumiSoft.Net.FTP.Client.TransferMode)">
+            <summary>
+            Stores specified file to server.
+            </summary>
+            <param name="getStream">Stream from where to gets file.</param>
+            <param name="fileName">File name to store in server.</param>
+            <param name="mode">Transfer mode.</param>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.DeleteFile(System.String)">
+            <summary>
+            Deletes specified file or directory.
+            </summary>
+            <param name="file">File name.</param>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.Rename(System.String)">
+            <summary>
+            Renames specified file or directory.
+            </summary>
+            <param name="file">File name.</param>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.GetsList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.FTP.Client.FTP_Client.SetTransferMode(LumiSoft.Net.FTP.Client.TransferMode)">
+            <summary>
+            Sets transfer mode.
+            </summary>
+            <param name="mode">Transfer mode.</param>
+        </member>
+        <member name="T:LumiSoft.Net.ICMP.ICMP_Type">
+            <summary>
+            ICMP type.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.ICMP.ICMP_Type.EchoReply">
+            <summary>
+            Echo rely.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.ICMP.ICMP_Type.TimeExceeded">
+            <summary>
+            Time to live exceeded reply.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.ICMP.ICMP_Type.Echo">
+            <summary>
+            Echo.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.ICMP.EchoMessage">
+            <summary>
+            Echo reply message.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.ICMP.EchoMessage.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="ip"></param>
+            <param name="ttl"></param>
+            <param name="time"></param>
+        </member>
+        <member name="M:LumiSoft.Net.ICMP.EchoMessage.ToStringEx">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.ICMP.EchoMessage.ToStringEx(LumiSoft.Net.ICMP.EchoMessage[])">
+            <summary>
+            
+            </summary>
+            <param name="messages"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LumiSoft.Net.ICMP.Icmp">
+            <summary>
+            Icmp utils.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.ICMP.Icmp.Trace(System.String)">
+            <summary>
+            Traces specified ip.
+            </summary>
+            <param name="destIP"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Client.IMAP_Client">
+            <summary>
+            IMAP client.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.Dispose">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.Connect(System.String,System.Int32)">
+            <summary>
+            Connects to IMAP server.
+            </summary>		
+            <param name="host">Host name.</param>
+            <param name="port">Port number.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.Disconnect">
+            <summary>
+            Disconnects from IMAP server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.Authenticate(System.String,System.String)">
+            <summary>
+            Authenticates user.
+            </summary>
+            <param name="userName">User name.</param>
+            <param name="password">Password.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.CreateFolder(System.String)">
+            <summary>
+            Creates specified folder to IMAP server.
+            </summary>
+            <param name="folderName">Folder name. Eg. test, Inbox\SomeSubFolder.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.DeleteFolder(System.String)">
+            <summary>
+            Deletes specified folder to IMAP server.
+            </summary>
+            <param name="folderName">Folder name.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.RenameFolder(System.String,System.String)">
+            <summary>
+            Renames specified folder to IMAP server.
+            </summary>
+            <param name="sourceFolderName">Source folder name.</param>
+            <param name="destinationFolderName">Destination folder name.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.GetFolders">
+            <summary>
+             Gets all available folders.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.GetSubscribedFolders">
+            <summary>
+            Gets all subscribed folders.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.SubscribeFolder(System.String)">
+            <summary>
+            Subscribes specified folder.
+            </summary>
+            <param name="folderName">Folder name.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.UnSubscribeFolder(System.String)">
+            <summary>
+            UnSubscribes specified folder.
+            </summary>
+            <param name="folderName">Folder name,</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.SelectFolder(System.String)">
+            <summary>
+            Selects specified folder.
+            </summary>
+            <param name="folderName">Folder name.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.CopyMessages(System.Int32,System.Int32,System.String,System.Boolean)">
+            <summary>
+            Makes copy of messages to specified folder.
+            </summary>
+            <param name="startMsgNo">Start message number.</param>
+            <param name="endMsgNo">End message number. -1 = last.</param>
+            <param name="destFolder">Folder where to cpoy messages.</param>
+            <param name="uidCopy">Specifies if startMsgNo and endMsgNo is message UIDs.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.MoveMessages(System.Int32,System.Int32,System.String,System.Boolean)">
+            <summary>
+            Moves messages to specified folder.
+            </summary>
+            <param name="startMsgNo">Start message number.</param>
+            <param name="endMsgNo">End message number. -1 = last.</param>
+            <param name="destFolder">Folder where to cpoy messages.</param>
+            <param name="uidMove">Specifies if startMsgNo and endMsgNo is message UIDs.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.DeleteMessages(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Deletes specified messages.
+            </summary>
+            <param name="startMsgNo">Start message number.</param>
+            <param name="endMsgNo">End message number. -1 = last.</param>
+            <param name="uidDelete">Specifies if startMsgNo and endMsgNo is message UIDs.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.StoreMessage(System.String,System.Byte[])">
+            <summary>
+            Stores message to specified folder.
+            </summary>
+            <param name="folderName">Folder where to store message.</param>
+            <param name="data">Message data which to store.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.FetchMessages(System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Fetches messages headers or full messages data.
+            </summary>
+            <param name="startMsgNo">Start message number.</param>
+            <param name="endMsgNo">End message number. -1 = last.</param>
+            <param name="uidFetch">Specifies if startMsgNo and endMsgNo is message UIDs.</param>
+            <param name="headersOnly">If true message headers are retrieved, otherwise full message retrieved.</param>
+            <param name="setSeenFlag">If true message seen flag is seeted..</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.GetMessagesTotalSize">
+            <summary>
+            Gets messages total size in selected folder.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.GetUnseenMessagesCount">
+            <summary>
+            Gets unseen messages total size in selected folder.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_Client.GetFolderSeparator">
+            <summary>
+            Gets IMAP server folder separator char.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Client.IMAP_Client.SelectedFolder">
+            <summary>
+            Gets selected folder.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Client.IMAP_Client.RecentMessagesCount">
+            <summary>
+            Gets numbers of recent(not accessed messages) in selected folder.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Client.IMAP_Client.MessagesCount">
+            <summary>
+            Gets numbers of messages in selected folder.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Client.IMAP_FetchItem">
+            <summary>
+            IMAP fetch item.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Client.IMAP_FetchItem.#ctor(System.Int32,System.Int32,System.Byte[],System.Boolean,System.Boolean)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="uid">Message UID.</param>
+            <param name="size">Message size.</param>
+            <param name="data">Message data.</param>
+            <param name="headersOnly">Specifies if message data contains headers only or full message.</param>
+            <param name="isNewMessage">Specifies if unseen message.</param>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Client.IMAP_FetchItem.UID">
+            <summary>
+            Gets message UID.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Client.IMAP_FetchItem.Size">
+            <summary>
+            Gets message size.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Client.IMAP_FetchItem.Data">
+            <summary>
+            Gets message data(headers or full message), it depends on HeadersOnly property.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Client.IMAP_FetchItem.HeadersOnly">
+            <summary>
+            Gets if headers or full message requested in fetch.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Client.IMAP_FetchItem.IsNewMessage">
+            <summary>
+            Gets if message is unseen.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.FetchHelper">
+            <summary>
+            Summary description for FetchHelper.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.FetchHelper.ParseHeaderFields(System.String,System.Byte[])">
+            <summary>
+            Returns requested header fields lines.
+            </summary>
+            <param name="fieldsStr">Header fields to get.</param>
+            <param name="data">Message data.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.FetchHelper.ParseHeaderFieldsNot(System.String,System.Byte[])">
+            <summary>
+            Returns header fields lines except requested.
+            </summary>
+            <param name="fieldsStr">Header fields to skip.</param>
+            <param name="data">Message data.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.FetchHelper.ParseText(System.Byte[])">
+            <summary>
+            Parses body text from message
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.FetchHelper.ParseMimeEntry(System.Byte[],System.Int32)">
+            <summary>
+            Returns requested mime entry data.
+            </summary>
+            <param name="message"></param>
+            <param name="mimeEntryNo"></param>
+            <returns>Returns requested mime entry data or NULL if requested entri doesn't exist.</returns>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.AuthUser_EventArgs">
+            <summary>
+            Provides data for the AuthUser event for POP3_Server and SMTP_Server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.AuthUser_EventArgs.#ctor(LumiSoft.Net.IMAP.Server.IMAP_Session,System.String,System.String,System.String,LumiSoft.Net.AuthType)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="userName">Username.</param>
+            <param name="passwData">Password data.</param>
+            <param name="data">Authentication specific data(as tag).</param>
+            <param name="authType">Authentication type.</param>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.AuthUser_EventArgs.Session">
+            <summary>
+            Gets reference to smtp session.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.AuthUser_EventArgs.UserName">
+            <summary>
+            User name.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.AuthUser_EventArgs.PasswData">
+            <summary>
+            Password data. eg. for AUTH=PLAIN it's password and for AUTH=APOP it's md5HexHash.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.AuthUser_EventArgs.AuthData">
+            <summary>
+            Authentication specific data(as tag).
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.AuthUser_EventArgs.AuthType">
+            <summary>
+            Authentication type.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.AuthUser_EventArgs.Validated">
+            <summary>
+            Gets or sets if user is valid.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.Mailbox_EventArgs">
+            <summary>
+            Provides data for IMAP events.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.Mailbox_EventArgs.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="folder"></param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.Mailbox_EventArgs.#ctor(System.String,System.String)">
+            <summary>
+            Folder rename constructor.
+            </summary>
+            <param name="folder"></param>
+            <param name="newFolder"></param>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.Mailbox_EventArgs.Folder">
+            <summary>
+            Gets folder.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.Mailbox_EventArgs.NewFolder">
+            <summary>
+            Gets new folder name, this is available for rename only.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.Mailbox_EventArgs.ErrorText">
+            <summary>
+            Gets or sets custom error text, which is returned to client.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.IMAP_Folder">
+            <summary>
+            IMAP mailbox
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Folder.#ctor(System.String)">
+            <summary>
+            Default cnstructor.
+            </summary>
+            <param name="folder">Full path to folder, path separator = '/'. Eg. Inbox/myFolder .</param>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Folder.Folder">
+            <summary>
+            IMAP folder.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.IMAP_Folders">
+            <summary>
+            IMAP folders collection.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Folders.#ctor(System.String,System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="referenceName"></param>
+            <param name="folder"></param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Folders.Add(System.String)">
+            <summary>
+            Adds folder to folders list.
+            </summary>
+            <param name="folder">Full path to folder, path separator = '/'. Eg. Inbox/myFolder .</param>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Folders.Folders">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.IMAP_Message">
+            <summary>
+            IMAP message info.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Message.#ctor(LumiSoft.Net.IMAP.Server.IMAP_Messages,System.String,System.Int32,LumiSoft.Net.IMAP.Server.IMAP_MessageFlags,System.Int64,System.DateTime)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="messages"></param>
+            <param name="messageID">Internal messageID.</param>
+            <param name="UID">Message UID. NOTE: message uid must increase all the time, for new messages.</param>
+            <param name="flags">Message flags.</param>
+            <param name="size">Message size.</param>
+            <param name="date">Message recieve date.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Message.FlagsToString">
+            <summary>
+            Converts message flags to string. Eg. \SEEN \DELETED .
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Message.MessageNo">
+            <summary>
+            Gets message number.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Message.MessageID">
+            <summary>
+            Gets internal messageID.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Message.MessageUID">
+            <summary>
+            Gets message UID.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Message.Flags">
+            <summary>
+            Gets message flags.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Message.Size">
+            <summary>
+            Gets message size.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Message.Date">
+            <summary>
+            Gets message size.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.IMAP_MessageFlags">
+            <summary>
+            IMAP message flags.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.IMAP.Server.IMAP_MessageFlags.Seen">
+            <summary>
+            Message has been read.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.IMAP.Server.IMAP_MessageFlags.Answered">
+            <summary>
+            Message has been answered.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.IMAP.Server.IMAP_MessageFlags.Flagged">
+            <summary>
+            Message is "flagged" for urgent/special attention.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.IMAP.Server.IMAP_MessageFlags.Deleted">
+            <summary>
+            Message is "deleted" for removal by later EXPUNGE.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.IMAP.Server.IMAP_MessageFlags.Draft">
+            <summary>
+            Message has not completed composition.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.IMAP.Server.IMAP_MessageFlags.Recent">
+            <summary>
+            Message is "recently" arrived in this mailbox.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.IMAP_Messages">
+            <summary>
+            IMAP messages info collection.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Messages.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="folder"></param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Messages.AddMessage(System.String,System.Int32,LumiSoft.Net.IMAP.Server.IMAP_MessageFlags,System.Int64,System.DateTime)">
+            <summary>
+            Adds new message to list.
+            </summary>
+            <param name="messageID">Internal messageID.</param>
+            <param name="UID">Message UID. NOTE: message uid must increase all the time, for new messages.</param>
+            <param name="flags">Message flags.</param>
+            <param name="size">Message size.</param>
+            <param name="date">Message recieve date.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Messages.IndexOf(LumiSoft.Net.IMAP.Server.IMAP_Message)">
+            <summary>
+            Gets message 1-based index.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Messages.IndexFromUID(System.Int32)">
+            <summary>
+            Gets message 1-based message index from message UID.
+            </summary>
+            <param name="uid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Messages.GetDeleteMessages">
+            <summary>
+            Gets messages marked for delete.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Messages.Item(System.Int32)">
+            <summary>
+            Gets specified message.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Messages.FirstUnseen">
+            <summary>
+            Gets first unseen message number.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Messages.UnSeenCount">
+            <summary>
+            Gets unseen messages count.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Messages.RecentCount">
+            <summary>
+            Gets new messages count.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Messages.DeleteCount">
+            <summary>
+            Gets messages marked for delete count.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Messages.Count">
+            <summary>
+            Gets messages total count.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Messages.Mailbox">
+            <summary>
+            Gets mailbox which messages contains.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Messages.MailboxUID">
+            <summary>
+            Gets or sets mailbox UID value.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Messages.UID_Next">
+            <summary>
+            Gets predictable next UID value.(Max(messageUID) + 1).
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Messages.ReadOnly">
+            <summary>
+            Gets or sets if messages folder is read only.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Messages.ErrorText">
+            <summary>
+            Gets or sets custom error text, which is returned to client.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.AuthUserEventHandler">
+            <summary>
+            Represents the method that will handle the AuthUser event for SMTP_Server.
+            </summary>
+            <param name="sender">The source of the event. </param>
+            <param name="e">A AuthUser_EventArgs that contains the event data.</param>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.FolderEventHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.FoldersEventHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.MessagesEventHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.MessageEventHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.IMAP_Server">
+            <summary>
+            IMAP server componet.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.IMAP.Server.IMAP_Server.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.#ctor(System.ComponentModel.IContainer)">
+            <summary>
+            
+            </summary>
+            <param name="container"></param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.Dispose">
+            <summary>
+            Clean up any resources being used and stops IMAP server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.Start">
+            <summary>
+            Starts SMTP Server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.Stop">
+            <summary>
+            Stops SMTP Server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.Run">
+            <summary>
+            Starts server message loop.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.AddSession(System.String,LumiSoft.Net.IMAP.Server.IMAP_Session,LumiSoft.Net._LogWriter)">
+            <summary>
+            Adds session.
+            </summary>
+            <param name="sessionID">Session ID.</param>
+            <param name="session">Session object.</param>
+            <param name="logWriter">Log writer.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.RemoveSession(System.String,LumiSoft.Net._LogWriter)">
+            <summary>
+            Removes session.
+            </summary>
+            <param name="sessionID">Session ID.</param>
+            <param name="logWriter">Log writer.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnValidate_IpAddress(System.Net.EndPoint)">
+            <summary>
+            Raises event ValidateIP.
+            </summary>
+            <param name="enpoint">Connected host EndPoint.</param>
+            <returns>Returns true if connection allowed.</returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnAuthUser(LumiSoft.Net.IMAP.Server.IMAP_Session,System.String,System.String,System.String,LumiSoft.Net.AuthType)">
+            <summary>
+            Raises event AuthUser.
+            </summary>
+            <param name="session">Reference to current IMAP session.</param>
+            <param name="userName">User name.</param>
+            <param name="passwordData">Password compare data,it depends of authentication type.</param>
+            <param name="data">For md5 eg. md5 calculation hash.It depends of authentication type.</param>
+            <param name="authType">Authentication type.</param>
+            <returns>Returns true if user is authenticated ok.</returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnSubscribeMailbox(LumiSoft.Net.IMAP.Server.IMAP_Session,System.String)">
+            <summary>
+            Raises event 'SubscribeMailbox'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="mailbox">Mailbox which to subscribe.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnUnSubscribeMailbox(LumiSoft.Net.IMAP.Server.IMAP_Session,System.String)">
+            <summary>
+            Raises event 'UnSubscribeMailbox'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="mailbox">Mailbox which to unsubscribe.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnGetSubscribedMailboxes(LumiSoft.Net.IMAP.Server.IMAP_Session,System.String,System.String)">
+            <summary>
+            Raises event 'GetSubscribedMailboxes'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="referenceName">Mailbox reference.</param>
+            <param name="mailBox">Mailbox search pattern or mailbox.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnGetMailboxes(LumiSoft.Net.IMAP.Server.IMAP_Session,System.String,System.String)">
+            <summary>
+            Raises event 'GetMailboxes'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="referenceName">Mailbox reference.</param>
+            <param name="mailBox">Mailbox search pattern or mailbox.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnCreateMailbox(LumiSoft.Net.IMAP.Server.IMAP_Session,System.String)">
+            <summary>
+            Raises event 'CreateMailbox'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="mailbox">Mailbox to create.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnDeleteMailbox(LumiSoft.Net.IMAP.Server.IMAP_Session,System.String)">
+            <summary>
+            Raises event 'DeleteMailbox'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="mailbox">Mailbox which to delete.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnRenameMailbox(LumiSoft.Net.IMAP.Server.IMAP_Session,System.String,System.String)">
+            <summary>
+            Raises event 'RenameMailbox'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="mailbox">Mailbox which to rename.</param>
+            <param name="newMailboxName">New mailbox name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnGetMessagesInfo(LumiSoft.Net.IMAP.Server.IMAP_Session,System.String)">
+            <summary>
+            Raises event 'GetMessagesInfo'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="mailbox">Mailbox which messages info to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnGetMessage(LumiSoft.Net.IMAP.Server.IMAP_Session,LumiSoft.Net.IMAP.Server.IMAP_Message,System.Boolean)">
+            <summary>
+            Raises event 'GetMessage'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="msg">Message which to get.</param>
+            <param name="headersOnly">Specifies if message header or full message is wanted.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnDeleteMessage(LumiSoft.Net.IMAP.Server.IMAP_Session,LumiSoft.Net.IMAP.Server.IMAP_Message)">
+            <summary>
+            Raises event 'DeleteMessage'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="message">Message which to delete.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnCopyMessage(LumiSoft.Net.IMAP.Server.IMAP_Session,LumiSoft.Net.IMAP.Server.IMAP_Message,System.String)">
+            <summary>
+            Raises event 'CopyMessage'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="msg">Message which to copy.</param>
+            <param name="location">New message location.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnStoreMessage(LumiSoft.Net.IMAP.Server.IMAP_Session,System.String,LumiSoft.Net.IMAP.Server.IMAP_Message,System.Byte[])">
+            <summary>
+            Raises event 'StoreMessage'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="folder">Folder where to store.</param>
+            <param name="msg">Message which to store.</param>
+            <param name="messageData">Message data which to store.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnStoreMessageFlags(LumiSoft.Net.IMAP.Server.IMAP_Session,LumiSoft.Net.IMAP.Server.IMAP_Message)">
+            <summary>
+            Raises event 'StoreMessageFlags'.
+            </summary>
+            <param name="session">Reference to IMAP session.</param>
+            <param name="msg">Message which flags to store.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Server.OnSysError(System.Exception,System.Diagnostics.StackTrace)">
+            <summary>
+            Raises SysError event.
+            </summary>
+            <param name="x"></param>
+            <param name="stackTrace"></param>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.ValidateIPAddress">
+            <summary>
+            Occurs when new computer connected to IMAP server.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.AuthUser">
+            <summary>
+            Occurs when connected user tryes to authenticate.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.SubscribeFolder">
+            <summary>
+            Occurs when server requests to subscribe folder.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.UnSubscribeFolder">
+            <summary>
+            Occurs when server requests to unsubscribe folder.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.GetFolders">
+            <summary>
+            Occurs when server requests all available folders.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.GetSubscribedFolders">
+            <summary>
+            Occurs when server requests subscribed folders.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.CreateFolder">
+            <summary>
+            Occurs when server requests to create folder.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.DeleteFolder">
+            <summary>
+            Occurs when server requests to delete folder.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.RenameFolder">
+            <summary>
+            Occurs when server requests to rename folder.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.GetMessagesInfo">
+            <summary>
+            Occurs when server requests to folder messages info.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.DeleteMessage">
+            <summary>
+            Occurs when server requests to delete message.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.StoreMessage">
+            <summary>
+            Occurs when server requests to store message.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.StoreMessageFlags">
+            <summary>
+            Occurs when server requests to store message flags.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.CopyMessage">
+            <summary>
+            Occurs when server requests to copy message to new location.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.GetMessage">
+            <summary>
+            Occurs when server requests to get message.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.SysError">
+            <summary>
+            Occurs when server has system error(Unknown error).
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.IMAP.Server.IMAP_Server.SessionLog">
+            <summary>
+            Occurs when IMAP session has finished and session log is available.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Server.IpAddress">
+            <summary>
+            Gets or sets which IP address to listen.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Server.Port">
+            <summary>
+            Gets or sets which port to listen.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Server.Threads">
+            <summary>
+            Gets or sets maximum session threads.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Server.Enabled">
+            <summary>
+            Runs and stops server.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Server.LogCommands">
+            <summary>
+            Gets or sets if to log commands.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Server.SessionIdleTimeOut">
+            <summary>
+            Session idle timeout in milliseconds.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Server.CommandIdleTimeOut">
+            <summary>
+            Command idle timeout in milliseconds.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Server.MaxMessageSize">
+            <summary>
+            Maximum message size.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Server.MaxBadCommands">
+            <summary>
+            Gets or sets maximum bad commands allowed to session.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.IMAP_Session">
+            <summary>
+            IMAP session.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Session.#ctor(System.Net.Sockets.Socket,LumiSoft.Net.IMAP.Server.IMAP_Server,System.String,LumiSoft.Net._LogWriter)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="clientSocket">Referance to socket.</param>
+            <param name="server">Referance to IMAP server.</param>
+            <param name="sessionID">Session ID which is assigned to this session.</param>
+            <param name="logWriter">Log writer.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Session.StartProcessing">
+            <summary>
+            Starts session processing.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Session.SwitchCommand(System.String)">
+            <summary>
+            Executes IMAP command.
+            </summary>
+            <param name="IMAP_commandTxt">Original command text.</param>
+            <returns>Returns true if must end session(command loop).</returns>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Session.SendData(System.String)">
+            <summary>
+            Sends data to socket.
+            </summary>
+            <param name="data">String data which to send.</param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Session.SendData(System.IO.MemoryStream)">
+            <summary>
+            Send stream data to socket.
+            </summary>
+            <param name="strm"></param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.IMAP_Session.ReadLine">
+            <summary>
+            Reads line from socket.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Session.SessionID">
+            <summary>
+            Gets session ID.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Session.Authenticated">
+            <summary>
+            Gets if session authenticated.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Session.UserName">
+            <summary>
+            Gets loggded in user name (session owner).
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Session.SelectedMailbox">
+            <summary>
+            Gets selected mailbox.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Session.RemoteEndPoint">
+            <summary>
+            Gets connected Host(client) EndPoint.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Session.LocalEndPoint">
+            <summary>
+            Gets local EndPoint which accepted client(connected host).
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Session.SessionStartTime">
+            <summary>
+            Gets session start time.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.IMAP_Session.Tag">
+            <summary>
+            Gets or sets custom user data.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.IMAP.Server.Message_EventArgs">
+            <summary>
+            Provides data for message related events.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.Message_EventArgs.#ctor(System.String,LumiSoft.Net.IMAP.Server.IMAP_Message)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="folder">IMAP folder which message is.</param>
+            <param name="msg"></param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.Message_EventArgs.#ctor(System.String,LumiSoft.Net.IMAP.Server.IMAP_Message,System.String)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="folder">IMAP folder which message is.</param>
+            <param name="msg"></param>
+            <param name="copyLocation"></param>
+        </member>
+        <member name="M:LumiSoft.Net.IMAP.Server.Message_EventArgs.#ctor(System.String,LumiSoft.Net.IMAP.Server.IMAP_Message,System.Boolean)">
+            <summary>
+            GetMessage constructor.
+            </summary>
+            <param name="folder">IMAP folder which message is.</param>
+            <param name="msg"></param>
+            <param name="headersOnly">Specifies if messages headers or full message is needed.</param>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.Message_EventArgs.Folder">
+            <summary>
+            Gets IMAP folder.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.Message_EventArgs.Message">
+            <summary>
+            Gets IMAP message info.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.Message_EventArgs.CopyLocation">
+            <summary>
+            Gets message new location. NOTE: this is available for copy command only.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.Message_EventArgs.MessageData">
+            <summary>
+            Gets or sets message data. NOTE: this is available for GetMessage and StoreMessage event only.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.Message_EventArgs.HeadersOnly">
+            <summary>
+            Gets if message headers or full message wanted. NOTE: this is available for GetMessage event only.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.IMAP.Server.Message_EventArgs.ErrorText">
+            <summary>
+            Gets or sets custom error text, which is returned to client.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Mime.Parser.eAddress">
+            <summary>
+            Electronic address.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.Parser.eAddress.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="address">Electronic address. Eg. "Ivar Lumi" ivar@lumisoft.ee.</param>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.Parser.eAddress.Email">
+            <summary>
+            Gets email address.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.Parser.eAddress.Mailbox">
+            <summary>
+            Gets mailbox.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.Parser.eAddress.Domain">
+            <summary>
+            Gets domain.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.Parser.eAddress.Name">
+            <summary>
+            Gets name
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Mime.MimeEntry">
+            <summary>
+            Mime entry.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeEntry.#ctor(System.Byte[],LumiSoft.Net.Mime.MimeParser)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="mimeEntry"></param>
+            <param name="mime"></param>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeEntry.ParseHeaders(System.Byte[])">
+            <summary>
+            Parses mime entry headers.
+            </summary>
+            <param name="mimeEntry"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeEntry.ParseContentType(System.String)">
+            <summary>
+            Parse content type.
+            </summary>
+            <param name="headers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeEntry.ParseCharSet(System.String)">
+            <summary>
+            Parse charset.
+            </summary>
+            <param name="headers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeEntry.ParseEncoding(System.String)">
+            <summary>
+            Parse encoding.
+            </summary>
+            <param name="headers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeEntry.ParseFileName(System.String)">
+            <summary>
+            Parse file name.
+            </summary>
+            <param name="headers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeEntry.ParseData(System.String)">
+            <summary>
+            Parse entry data.
+            </summary>
+            <param name="mimeDataEntry"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeEntry.ContentType">
+            <summary>
+            Gets content type.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeEntry.ContentDisposition">
+            <summary>
+            Gets content disposition type.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeEntry.FileName">
+            <summary>
+            Gets file name. NOTE: available only if ContentDisposition.Attachment.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeEntry.Data">
+            <summary>
+            Gets mime entry data.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeEntry.DataS">
+            <summary>
+            Gets string data. NOTE: available only if content-type=text/xxx.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeEntry.MimeEntries">
+            <summary>
+            Gets nested mime entries.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Mime.Disposition">
+            <summary>
+            Content disposition.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Mime.Disposition.Attachment">
+            <summary>
+            Content is attachment.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Mime.Disposition.Inline">
+            <summary>
+            Content is embbed resource.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.Mime.Disposition.Unknown">
+            <summary>
+            Content is unknown.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Mime.MimeParser">
+            <summary>
+            Mime parser.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeParser.#ctor(System.Byte[])">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="msg">Mime message which to parse.</param>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeParser.ParseHeaders(System.IO.MemoryStream)">
+            <summary>
+            Parses mime headers from message.
+            </summary>
+            <param name="msgStrm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeParser.ParseFrom(System.String)">
+            <summary>
+            Parse sender from message.
+            </summary>
+            <param name="headers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeParser.ParseSubject(System.String)">
+            <summary>
+            Parses subject from message.
+            </summary>
+            <param name="headers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeParser.ParseDate(System.String)">
+            <summary>
+            Parse message date.
+            </summary>
+            <param name="headers"></param>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeParser.ParseMessageID(System.String)">
+            <summary>
+            Parse message ID.
+            </summary>
+            <param name="headers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeParser.ParseContentType(System.String)">
+            <summary>
+            Parse content type.
+            </summary>
+            <param name="headers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeParser.ParseBoundaryID(System.String)">
+            <summary>
+            Parse boundaryID.
+            </summary>
+            <param name="headers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeParser.ParseEntries(System.IO.MemoryStream,System.Int32,System.String)">
+            <summary>
+            Parses mime entries.
+            </summary>
+            <param name="msgStrm"></param>
+            <param name="pos"></param>
+            <param name="boundaryID"></param>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeParser.ParseDateS(System.String)">
+            <summary>
+            Parses rfc2822 datetime.
+            </summary>
+            <param name="date">Date string</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeParser.ParseHeaderField(System.String,System.String)">
+            <summary>
+            Parse header specified header field.
+            </summary>
+            <param name="fieldName">Header field which to parse.</param>
+            <param name="headers">Full headers.</param>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeParser.Headers">
+            <summary>
+            Gets message headers.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeParser.From">
+            <summary>
+            Gets sender.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeParser.To">
+            <summary>
+            Gets recipients.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeParser.Cc">
+            <summary>
+            Gets cc.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeParser.Bcc">
+            <summary>
+            Gets bcc.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeParser.Subject">
+            <summary>
+            Gets subject.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeParser.BodyText">
+            <summary>
+            Gets message body text.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeParser.MessageID">
+            <summary>
+            Gets messageID.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeParser.ContentType">
+            <summary>
+            Gets messageID.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeParser.MessageDate">
+            <summary>
+            Gets message date.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeParser.MimeEntries">
+            <summary>
+            Gets mime entries.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Mime.Attachment">
+            <summary>
+            Attachment.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.Attachment.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="fileName"></param>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.Attachment.#ctor(System.String,System.IO.Stream)">
+            <summary>
+            
+            </summary>
+            <param name="fileName"></param>
+            <param name="strm"></param>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.Attachment.#ctor(System.String,System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="fileName"></param>
+            <param name="fileData"></param>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.Attachment.FileName">
+            <summary>
+            Gets file name.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.Attachment.FileData">
+            <summary>
+            Gets file data.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.Attachment.AttachmentType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Mime.Attachments">
+            <summary>
+            Attachments collection.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.Attachments.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.Attachments.Add(LumiSoft.Net.Mime.Attachment)">
+            <summary>
+            
+            </summary>
+            <param name="attachment"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.Attachments.Item(System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Mime.MimeConstructor">
+            <summary>
+            Mime constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeConstructor.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeConstructor.ConstructBinaryMime">
+            <summary>
+            Constructs mime.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeConstructor.ConstructMime">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Mime.MimeConstructor.CEnCode(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeConstructor.MessageID">
+            <summary>
+            Gets or sets mesaage ID.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeConstructor.To">
+            <summary>
+            Gets or sets receptients.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeConstructor.Cc">
+            <summary>
+            Gets or sets .
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeConstructor.Bcc">
+            <summary>
+            Gets or sets .
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeConstructor.From">
+            <summary>
+            Gets or sets sender.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeConstructor.Subject">
+            <summary>
+            Gets or sets subject.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeConstructor.Date">
+            <summary>
+            Gets or sets message date.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeConstructor.Body">
+            <summary>
+            Gets or sets body text.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeConstructor.BodyHtml">
+            <summary>
+            Gets or sets html body.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeConstructor.CharSet">
+            <summary>
+            Gets or sets message charset. Default is 'iso-8859-1'.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Mime.MimeConstructor.Attachments">
+            <summary>
+            Gets referance to attachments collection.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Client.POP3_Client">
+            <summary>
+            POP3 Client.
+            </summary>
+            <example>
+            <code>
+            using(POP3_Client c = new POP3_Client()){
+            	c.Connect("ivx",110);
+            	c.Authenticate("test","test");
+            	
+            	POP3_MessagesInfo mInf = c.GetMessagesInfo();
+            	
+            	// Do your suff
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_Client.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_Client.Dispose">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_Client.Connect(System.String,System.Int32)">
+            <summary>
+            Connects to specified host.
+            </summary>
+            <param name="host">Host name.</param>
+            <param name="port">Port number.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_Client.Disconnect">
+            <summary>
+            Closes connection to POP3 server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_Client.Authenticate(System.String,System.String,System.Boolean)">
+            <summary>
+            Authenticates user.
+            </summary>
+            <param name="userName">User login name.</param>
+            <param name="password">Password.</param>
+            <param name="tryApop"> If true and POP3 server supports APOP, then APOP is used, otherwise normal login used.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_Client.GetMessagesInfo">
+            <summary>
+            Gets messages info.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_Client.GetUidlList">
+            <summary>
+            Gets uid listing.
+            </summary>
+            <returns>Returns Hashtable containing uidl listing. Key column contains message NR and value contains message UID.</returns>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_Client.GetMessage(System.Int32,System.Net.Sockets.Socket)">
+            <summary>
+            Transfers specified message to specifeid socket.
+            </summary>
+            <param name="nr">Message number.</param>
+            <param name="socket">Socket where to store message.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_Client.GetMessage(System.Int32)">
+            <summary>
+            Gets specified message.
+            </summary>
+            <param name="nr">Message number.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_Client.DeleteMessage(System.Int32)">
+            <summary>
+            Deletes specified message
+            </summary>
+            <param name="messageNr">Message number.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_Client.GetTopOfMessage(System.Int32,System.Int32)">
+            <summary>
+            Gets top lines of message.
+            </summary>
+            <param name="nr">Message number which top lines to get.</param>
+            <param name="nLines">Number of lines to get.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_Client.Reset">
+            <summary>
+            Resets session.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Client.POP3_MessageInfo">
+            <summary>
+            Holds POP3 message info.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_MessageInfo.#ctor(System.String,System.Int32,System.Int64)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="messageID"></param>
+            <param name="messageNr"></param>
+            <param name="messageSize"></param>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Client.POP3_MessageInfo.MessegeID">
+            <summary>
+            Gets message unique ID returned by pop3 server.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Client.POP3_MessageInfo.MessageNr">
+            <summary>
+            Gets message number in POP3 server.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Client.POP3_MessageInfo.MessageSize">
+            <summary>
+            Gets message size.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Client.POP3_MessagesInfo">
+            <summary>
+            Holds POP3 messages info.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_MessagesInfo.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Client.POP3_MessagesInfo.GetMessageInfo(System.Int32)">
+            <summary>
+            Gets specified message info.
+            </summary>
+            <param name="nr"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Client.POP3_MessagesInfo.TotalSize">
+            <summary>
+            Gets total size of messages.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Client.POP3_MessagesInfo.Count">
+            <summary>
+            Gets messages count.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Client.POP3_MessagesInfo.Messages">
+            <summary>
+            Gets list of messages.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.AuthUser_EventArgs">
+            <summary>
+            Provides data for the AuthUser event for POP3_Server and SMTP_Server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.AuthUser_EventArgs.#ctor(LumiSoft.Net.POP3.Server.POP3_Session,System.String,System.String,System.String,LumiSoft.Net.AuthType)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="session">Reference to pop3 session.</param>
+            <param name="userName">Username.</param>
+            <param name="passwData">Password data.</param>
+            <param name="data">Authentication specific data(as tag).</param>
+            <param name="authType">Authentication type.</param>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.AuthUser_EventArgs.Session">
+            <summary>
+            Gets reference to pop3 session.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.AuthUser_EventArgs.UserName">
+            <summary>
+            User name.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.AuthUser_EventArgs.PasswData">
+            <summary>
+            Password data. eg. for AUTH=PLAIN it's password and for AUTH=APOP it's md5HexHash.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.AuthUser_EventArgs.AuthData">
+            <summary>
+            Authentication specific data(as tag).
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.AuthUser_EventArgs.AuthType">
+            <summary>
+            Authentication type.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.AuthUser_EventArgs.Validated">
+            <summary>
+            Gets or sets if user is valid.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.DeleteMessage_EventArgs">
+            <summary>
+            Provides data for the DeleteMessageEvent event.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.DeleteMessage_EventArgs.#ctor(LumiSoft.Net.POP3.Server.POP3_Session,LumiSoft.Net.POP3.Server.POP3_Message)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="session">Reference to pop3 session.</param>
+            <param name="message">Message which to delete.</param>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.DeleteMessage_EventArgs.Session">
+            <summary>
+            Gets reference to pop3 session.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.DeleteMessage_EventArgs.Message">
+            <summary>
+            Gets reference to message, which to get.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.DeleteMessage_EventArgs.MessageID">
+            <summary>
+            ID of message which to delete.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.DeleteMessage_EventArgs.UserName">
+            <summary>
+            User Name.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.DeleteMessage_EventArgs.Mailbox">
+            <summary>
+            Mailbox name.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.GetMessage_EventArgs">
+            <summary>
+            Provides data for the GetMailEvent event.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.GetMessage_EventArgs.#ctor(LumiSoft.Net.POP3.Server.POP3_Session,LumiSoft.Net.POP3.Server.POP3_Message,System.Net.Sockets.Socket)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="session">Reference to pop3 session.</param>
+            <param name="message">Message which to get.</param>
+            <param name="socket">Connected socket.</param>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetMessage_EventArgs.Session">
+            <summary>
+            Gets reference to pop3 session.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetMessage_EventArgs.Message">
+            <summary>
+            Gets reference to message, which to get.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetMessage_EventArgs.MessageID">
+            <summary>
+            ID of message which to retrieve.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetMessage_EventArgs.ConnectedSocket">
+            <summary>
+            Gets direct access to connected socket.
+            This is meant for advanced users only.
+            Just write message to this socket.
+            NOTE: Message must be peiod handled and doesn't contain message terminator at end.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetMessage_EventArgs.MessageData">
+            <summary>
+            Mail message which is delivered to user.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetMessage_EventArgs.UserName">
+            <summary>
+            User Name.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.GetMessagesInfo_EventArgs">
+            <summary>
+            Provides data for the GetMessgesList event.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.GetMessagesInfo_EventArgs.#ctor(LumiSoft.Net.POP3.Server.POP3_Session,LumiSoft.Net.POP3.Server.POP3_Messages,System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="session">Reference to pop3 session.</param>
+            <param name="messages"></param>
+            <param name="mailbox">Mailbox name.</param>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetMessagesInfo_EventArgs.Session">
+            <summary>
+            Gets reference to pop3 session.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetMessagesInfo_EventArgs.Messages">
+            <summary>
+            Gets referance to POP3 messages info.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetMessagesInfo_EventArgs.UserName">
+            <summary>
+            User Name.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetMessagesInfo_EventArgs.Mailbox">
+            <summary>
+            Mailbox name.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.GetTopLines_Eventargs">
+            <summary>
+            Provides data for the GetTopLines event.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.GetTopLines_Eventargs.#ctor(LumiSoft.Net.POP3.Server.POP3_Session,LumiSoft.Net.POP3.Server.POP3_Message,System.Int32)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="session">Reference to pop3 session.</param>
+            <param name="message">Message wich top line to get.</param>
+            <param name="nLines">Number of lines to get.</param>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetTopLines_Eventargs.Session">
+            <summary>
+            Gets reference to pop3 session.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetTopLines_Eventargs.Message">
+            <summary>
+            Gets reference to message, which to get.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetTopLines_Eventargs.Mailbox">
+            <summary>
+            Mailbox name.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetTopLines_Eventargs.MessageID">
+            <summary>
+            Message ID of message which TOP lines to get.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetTopLines_Eventargs.Lines">
+            <summary>
+            Number of lines to get.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.GetTopLines_Eventargs.LinesData">
+            <summary>
+            Gets or sets TOP lines.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.POP3_Message">
+            <summary>
+            Holds POP3_Message info (ID,Size,...).
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Message.#ctor(LumiSoft.Net.POP3.Server.POP3_Messages)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="messages"></param>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Message.MessageID">
+            <summary>
+            Gets or sets message ID.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Message.MessageSize">
+            <summary>
+            Gets or sets message size.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Message.MarkedForDelete">
+            <summary>
+            Gets or sets message state flag.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Message.MessageNr">
+            <summary>
+            Gets message number. NOTE message number is 1 based (not zero based).
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Message.Tag">
+            <summary>
+            Gets or sets user data for message.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.POP3_Messages">
+            <summary>
+            POP3 messages collection.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Messages.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Messages.AddMessage(System.String,System.Int32)">
+            <summary>
+            Adds new message to message list.
+            </summary>
+            <param name="messageID">Message Unique ID.</param>
+            <param name="messageSize">Message size in bytes.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Messages.AddMessage(System.String,System.Int32,System.Object)">
+            <summary>
+            Adds new message to message list.
+            </summary>
+            <param name="messageID">Message Unique ID.</param>
+            <param name="messageSize">Message size in bytes.</param>
+            <param name="tag">User data for message.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Messages.GetMessage(System.Int32)">
+            <summary>
+            Gets specified message from message list.
+            </summary>
+            <param name="messageNr">Number of message which to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Messages.MessageExists(System.Int32)">
+            <summary>
+            Checks if message exists. NOTE marked for delete messages returns false.
+            </summary>
+            <param name="nr">Number of message which to check.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Messages.GetTotalMessagesSize">
+            <summary>
+            Gets messages total sizes. NOTE messages marked for deletion is excluded.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Messages.ResetDeleteFlags">
+            <summary>
+            Unmarks all messages, which are marked for deletion.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Messages.Count">
+            <summary>
+            Gets count of messages. NOTE messages marked for deletion are excluded.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Messages.ActiveMessages">
+            <summary>
+            Gets messages, which aren't marked for deletion.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Messages.Messages">
+            <summary>
+            Referance to Messages ArrayList.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Messages.Item(System.Int32)">
+            <summary>
+            Gets specified message.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.AuthUserEventHandler">
+            <summary>
+            Represents the method that will handle the AuthUser event for POP3_Server.
+            </summary>
+            <param name="sender">The source of the event. </param>
+            <param name="e">A AuthUser_EventArgs that contains the event data.</param>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.GetMessagesInfoHandler">
+            <summary>
+            Represents the method that will handle the GetMessgesList event for POP3_Server.
+            </summary>
+            <param name="sender">The source of the event. </param>
+            <param name="e">A GetMessagesInfo_EventArgs that contains the event data.</param>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.GetMessageHandler">
+            <summary>
+            Represents the method that will handle the GetMessage event for POP3_Server.
+            </summary>
+            <param name="sender">The source of the event. </param>
+            <param name="e">A GetMessage_EventArgs that contains the event data.</param>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.DeleteMessageHandler">
+            <summary>
+            Represents the method that will handle the DeleteMessage event for POP3_Server.
+            </summary>
+            <param name="sender">The source of the event. </param>
+            <param name="e">A DeleteMessage_EventArgs that contains the event data.</param>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.GetTopLinesHandler">
+            <summary>
+            Represents the method that will handle the GetTopLines event for POP3_Server.
+            </summary>
+            <param name="sender">The source of the event. </param>
+            <param name="e">A GetTopLines_Eventargs that contains the event data.</param>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.POP3_Server">
+            <summary>
+            POP3 server component.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.POP3.Server.POP3_Server.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.#ctor(System.ComponentModel.IContainer)">
+            <summary>
+            
+            </summary>
+            <param name="container"></param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.Dispose">
+            <summary>
+            Clean up any resources being used and STOPs POP3 server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.Start">
+            <summary>
+            Starts POP3 Server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.Stop">
+            <summary>
+            Stops POP3 Server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.Run">
+            <summary>
+            Starts server message loop.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.AddSession(System.String,LumiSoft.Net.POP3.Server.POP3_Session,LumiSoft.Net._LogWriter)">
+            <summary>
+            Adds session.
+            </summary>
+            <param name="sessionID">Session ID.</param>
+            <param name="session">Session object.</param>
+            <param name="logWriter">Log writer.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.RemoveSession(LumiSoft.Net.POP3.Server.POP3_Session,LumiSoft.Net._LogWriter)">
+            <summary>
+            Removes session.
+            </summary>
+            <param name="session">Session which to remove.</param>
+            <param name="logWriter">Log writer.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.IsUserLoggedIn(System.String)">
+            <summary>
+            Checks if user is logged in.
+            </summary>
+            <param name="userName">User name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.OnValidate_IpAddress(System.Net.EndPoint)">
+            <summary>
+            Raises event ValidateIP.
+            </summary>
+            <param name="endpoint">Connected host EndPoint.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.OnAuthUser(LumiSoft.Net.POP3.Server.POP3_Session,System.String,System.String,System.String,LumiSoft.Net.AuthType)">
+            <summary>
+            Authenticates user.
+            </summary>
+            <param name="session">Reference to current pop3 session.</param>
+            <param name="userName">User name.</param>
+            <param name="passwData"></param>
+            <param name="data"></param>
+            <param name="authType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.OnGetMessagesInfo(LumiSoft.Net.POP3.Server.POP3_Session,LumiSoft.Net.POP3.Server.POP3_Messages)">
+            <summary>
+            Gest pop3 messages info.
+            </summary>
+            <param name="session"></param>
+            <param name="messages"></param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.OnGetMail(LumiSoft.Net.POP3.Server.POP3_Session,LumiSoft.Net.POP3.Server.POP3_Message,System.Net.Sockets.Socket)">
+            <summary>
+            Raises event get message.
+            </summary>
+            <param name="session"></param>
+            <param name="message">Message which to get.</param>
+            <param name="sessionSocket">Message which to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.OnDeleteMessage(LumiSoft.Net.POP3.Server.POP3_Session,LumiSoft.Net.POP3.Server.POP3_Message)">
+            <summary>
+            Raises delete message event.
+            </summary>
+            <param name="session"></param>
+            <param name="message">Message which to delete.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.OnGetTopLines(LumiSoft.Net.POP3.Server.POP3_Session,LumiSoft.Net.POP3.Server.POP3_Message,System.Int32)">
+            <summary>
+            Raises event GetTopLines.
+            </summary>
+            <param name="session"></param>
+            <param name="message">Message wich top lines to get.</param>
+            <param name="nLines">Header + number of body lines to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.OnSessionEnd(System.Object)">
+            <summary>
+            Raises SessionEnd event.
+            </summary>
+            <param name="session">Session which is ended.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.OnSessionResetted(System.Object)">
+            <summary>
+            Raises SessionResetted event.
+            </summary>
+            <param name="session">Session which is resetted.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Server.OnSysError(System.Exception,System.Diagnostics.StackTrace)">
+            <summary>
+            Raises SysError event.
+            </summary>
+            <param name="x"></param>
+            <param name="stackTrace"></param>
+        </member>
+        <member name="E:LumiSoft.Net.POP3.Server.POP3_Server.ValidateIPAddress">
+            <summary>
+            Occurs when new computer connected to POP3 server.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.POP3.Server.POP3_Server.AuthUser">
+            <summary>
+            Occurs when connected user tryes to authenticate.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.POP3.Server.POP3_Server.SessionEnd">
+            <summary>
+            Occurs user session ends. This is place for clean up.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.POP3.Server.POP3_Server.SessionResetted">
+            <summary>
+            Occurs user session resetted. Messages marked for deletion are unmarked.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.POP3.Server.POP3_Server.GetMessgesList">
+            <summary>
+            Occurs when server needs to know logged in user's maibox messages.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.POP3.Server.POP3_Server.GetMessage">
+            <summary>
+            Occurs when user requests specified message.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.POP3.Server.POP3_Server.DeleteMessage">
+            <summary>
+            Occurs when user requests delete message.
+            </summary>		
+        </member>
+        <member name="E:LumiSoft.Net.POP3.Server.POP3_Server.GetTopLines">
+            <summary>
+            Occurs when user requests specified message TOP lines.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.POP3.Server.POP3_Server.SysError">
+            <summary>
+            Occurs when server has system error(Unknown error).
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.POP3.Server.POP3_Server.SessionLog">
+            <summary>
+            Occurs when POP3 session has finished and session log is available.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Server.IpAddress">
+            <summary>
+            Gets or sets whick IP address to listen.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Server.Port">
+            <summary>
+            Gets or sets which port to listen.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Server.Threads">
+            <summary>
+            Gets or sets maximum session threads.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Server.Enabled">
+            <summary>
+            Runs or stops server.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Server.LogCommands">
+            <summary>
+            Gets or sets if to log commands.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Server.SessionIdleTimeOut">
+            <summary>
+            Session idle timeout.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Server.CommandIdleTimeOut">
+            <summary>
+            Command idle timeout.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Server.MaxBadCommands">
+            <summary>
+            Gets or sets maximum bad commands allowed to session.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.POP3.Server.POP3_Session">
+            <summary>
+            POP3 Session.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Session.#ctor(System.Net.Sockets.Socket,LumiSoft.Net.POP3.Server.POP3_Server,System.String,LumiSoft.Net._LogWriter)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="clientSocket">Referance to socket.</param>
+            <param name="server">Referance to POP3 server.</param>
+            <param name="sessionID">Session ID which is assigned to this session.</param>
+            <param name="logWriter">Log writer.</param>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Session.StartProcessing">
+            <summary>
+            Starts POP3 Session processing.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Session.SwitchCommand(System.String)">
+            <summary>
+            Parses and executes POP3 commmand.
+            </summary>
+            <param name="POP3_commandTxt">POP3 command text.</param>
+            <returns>Returns true,if session must be terminated.</returns>
+        </member>
+        <member name="M:LumiSoft.Net.POP3.Server.POP3_Session.ReadLine">
+            <summary>
+            Reads line from socket.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Session.SessionID">
+            <summary>
+            Gets session ID.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Session.SessionStartTime">
+            <summary>
+            Gets session start time.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Session.UserName">
+            <summary>
+            Gets loggded in user name (session owner).
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Session.LocalEndPoint">
+            <summary>
+            Gets EndPoint which accepted conection.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Session.RemoteEndPoint">
+            <summary>
+            Gets connected Host(client) EndPoint.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Session.Tag">
+            <summary>
+            Gets or sets custom user data.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.POP3.Server.POP3_Session.IpStr">
+            <summary>
+            Gets connected Host(client) Ip address.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net._FixedStack">
+            <summary>
+            Summary description for _FixedStack.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net._FixedStack.#ctor(System.String)">
+            <summary>
+            Terninator holder and checker stack.
+            </summary>
+            <param name="terminator"></param>
+        </member>
+        <member name="M:LumiSoft.Net._FixedStack.Push(System.Byte[],System.Int32)">
+            <summary>
+            Pushes new bytes to stack.(Last in, first out). 
+            </summary>
+            <param name="bytes"></param>
+            <param name="count">Count to push from bytes parameter</param>
+            <returns>Returns number of bytes may be pushed next push.
+            NOTE: returns 0 if stack contains terminator.
+            </returns>
+        </member>
+        <member name="M:LumiSoft.Net._FixedStack.ContainsTerminator">
+            <summary>
+            Check if stack contains terminator.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:LumiSoft.Net._LogWriter">
+            <summary>
+            Cached log writer.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net._LogWriter.#ctor(LumiSoft.Net.LogEventHandler)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="logHandler"></param>
+        </member>
+        <member name="M:LumiSoft.Net._LogWriter.AddEntry(System.String,System.String,System.String,System.String)">
+            <summary>
+            Writes log entry to log cache.
+            </summary>
+            <param name="logText"></param>
+            <param name="sessionID"></param>
+            <param name="IP"></param>
+            <param name="prefix"></param>
+        </member>
+        <member name="M:LumiSoft.Net._LogWriter.AddEntry(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="logText"></param>
+        </member>
+        <member name="M:LumiSoft.Net._LogWriter.Flush">
+            <summary>
+            Writes all log entries to log file.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net._Parameter.#ctor(System.String,System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="paramName"></param>
+            <param name="paramValue"></param>
+        </member>
+        <member name="P:LumiSoft.Net._Parameter.ParamName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net._Parameter.ParamValue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net._ParamParser">
+            <summary>
+            Summary description for _ParamParser.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net._ParamParser.Paramparser_NameValue(System.String,System.String[])">
+            <summary>
+            Parses name-value params.
+            </summary>
+            <param name="source">Parse source.</param>
+            <param name="expressions">Expressions importance order. NOTE: must contain param and value groups.</param>
+        </member>
+        <member name="T:LumiSoft.Net.ErrorEventHandler">
+            <summary>
+            To be supplied.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.LogEventHandler">
+            <summary>
+            To be supplied.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.ValidateIPHandler">
+            <summary>
+            Represents the method that will handle the <see href="LumiSoftMailServerSMTPSMTP_ServerValidateIPAddressFieldOrEvent.html">SMTP_Server.ValidateIPAddress</see> and <see href="LumiSoftMailServerPOP3POP3_ServerValidateIPAddressFieldOrEvent.html">POP3_Server.ValidateIPAddress</see>event.
+            </summary>
+            <param name="sender">The source of the event. </param>
+            <param name="e">A <see href="LumiSoftMailServerValidateIP_EventArgs.html">ValidateIP_EventArgs</see> that contains the event data.</param>
+        </member>
+        <member name="T:LumiSoft.Net.Error_EventArgs">
+            <summary>
+            Provides data for the SysError event for POP3_Server and SMTP_Server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Error_EventArgs.#ctor(System.Exception,System.Diagnostics.StackTrace)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="x"></param>
+            <param name="stackTrace"></param>
+        </member>
+        <member name="P:LumiSoft.Net.Error_EventArgs.Exception">
+            <summary>
+            Occured error's exception.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.Error_EventArgs.StackTrace">
+            <summary>
+            Occured error's stacktrace.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Log_EventArgs">
+            <summary>
+            Provides data for the SessionLog event for POP3_Server and SMTP_Server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Log_EventArgs.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="logText"></param>
+        </member>
+        <member name="P:LumiSoft.Net.Log_EventArgs.LogText">
+            <summary>
+            Gets log text.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.ValidateIP_EventArgs">
+            <summary>
+            Provides data for the ValidateIPAddress event for POP3_Server and SMTP_Server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.ValidateIP_EventArgs.#ctor(System.Net.EndPoint)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="enpoint">Connected host EndPoint.</param>
+        </member>
+        <member name="P:LumiSoft.Net.ValidateIP_EventArgs.ConnectedIP">
+            <summary>
+            IP address of computer, which is sending mail to here.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.ValidateIP_EventArgs.Validated">
+            <summary>
+            Gets or sets if IP is allowed access.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Client.PartOfMessage_EventArgs">
+            <summary>
+            Summary description for PartOfMessage_EventArgs.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.PartOfMessage_EventArgs.#ctor(System.String,System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="jobID"></param>
+            <param name="sentBlockSize">Size of sent block.</param>
+            <param name="totalSent"></param>
+            <param name="messageSize"></param>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.PartOfMessage_EventArgs.JobID">
+            <summary>
+            Gets job ID which these properties are.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.PartOfMessage_EventArgs.SentBlockSize">
+            <summary>
+            Gets bytes what has sent  on this sendjob.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.PartOfMessage_EventArgs.TotalSent">
+            <summary>
+            Gets total bytes what has been sent on this sendjob.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.PartOfMessage_EventArgs.MessageSize">
+            <summary>
+            Gets message size.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Client.SendJob_EventArgs">
+            <summary>
+            Summary description for SendJob_Eventargs.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SendJob_EventArgs.#ctor(System.String,System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="jobID"></param>
+            <param name="to"></param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SendJob_EventArgs.#ctor(System.String,System.String[],System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="jobID"></param>
+            <param name="to"></param>
+            <param name="defectiveEmails"></param>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SendJob_EventArgs.JobID">
+            <summary>
+            Gets send job ID.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SendJob_EventArgs.To">
+            <summary>
+            Gets this send job's email addresses.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SendJob_EventArgs.DeffectiveEmails">
+            <summary>
+            Gets email addresses to which message couldn't be sent.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Client.SMTP_ErrorType">
+            <summary>
+            SMTP error types.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.SMTP.Client.SMTP_ErrorType.ConnectionError">
+            <summary>
+            Connection related error.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.SMTP.Client.SMTP_ErrorType.InvalidEmailAddress">
+            <summary>
+            Email address doesn't exist.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.SMTP.Client.SMTP_ErrorType.NotSupported">
+            <summary>
+            Some feature isn't supported.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.SMTP.Client.SMTP_ErrorType.UnKnown">
+            <summary>
+            Unknown error.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Client.SMTP_Error_EventHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Client.SMTP_PartOfMessage_EventHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Client.SMTP_SendJob_EventHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Client.SMTP_Client">
+            <summary>
+            SMTP Client.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Client.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Client.#ctor(System.Windows.Forms.Control)">
+            <summary>
+            Use this constructor if you use this component on UI component.
+            NOTE: Events are invoked on UI Thread.
+            </summary>
+            <param name="ownerUI"></param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Client.BeginSend(System.String[],System.String,System.IO.Stream)">
+            <summary>
+            Starts asynchronous sending.
+            </summary>
+            <param name="to">Recipients, may be from different e-domain when using dns or relay is allowed in smart host.</param>
+            <param name="from">Sendres email address.</param>
+            <param name="message">Stream which contains message. NOTE: reading from stream is started from stream current position.</param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Client.BeginSend">
+            <summary>
+            This function just controls sending.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Client.Send(System.String[],System.String,System.IO.Stream)">
+            <summary>
+            
+            </summary>
+            <param name="to"></param>
+            <param name="from"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Client.RemoveSenderThread(System.Threading.Thread)">
+            <summary>
+            Removes sender Thread - Thread has finnished sending.
+            </summary>
+            <param name="t"></param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Client.IsReplyCode(System.String,System.String)">
+            <summary>
+            Checks if reply code.
+            </summary>
+            <param name="replyCode">Replay code to check.</param>
+            <param name="reply">Full repaly.</param>
+            <returns>Retruns true if reply is as specified.</returns>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Client.OnPartOfMessageIsSent(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Raises PartOfMessageIsSent event.
+            </summary>
+            <param name="sentBlockSize"></param>
+            <param name="totalSent"></param>
+            <param name="messageSize"></param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Client.OnNewSendJobStarted(System.String,System.String[])">
+            <summary>
+            Raises NewSendJob event.
+            </summary>
+            <param name="jobID"></param>
+            <param name="to"></param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Client.OnSendJobCompleted(System.String,System.String[],System.Collections.ArrayList)">
+            <summary>
+            Raises SendJobCompleted event.
+            </summary>
+            <param name="jobID"></param>
+            <param name="to"></param>
+            <param name="defectiveEmails"></param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Client.OnCompletedAll">
+            <summary>
+            Raises CompletedAll event.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Client.OnError(LumiSoft.Net.SMTP.Client.SMTP_ErrorType,System.String[],System.String)">
+            <summary>
+            Raises Error event.
+            </summary>
+            <param name="type">Error type.</param>
+            <param name="affectedAddresses">Affected email addresses.</param>
+            <param name="errorText">Error text.</param>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Client.SMTP_Client.PartOfMessageIsSent">
+            <summary>
+            Is raised when some send jobs message part is sent.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Client.SMTP_Client.NewSendJob">
+            <summary>
+            Is raised when new send job starts.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Client.SMTP_Client.SendJobCompleted">
+            <summary>
+            Is raised when send job completes.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Client.SMTP_Client.Error">
+            <summary>
+            Is raised when error occurs.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Client.SMTP_Client.CompletedAll">
+            <summary>
+            Is raised when all sedjobs are completed.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SMTP_Client.SmartHost">
+            <summary>
+            Gets or sets smart host. Eg. 'mail.yourserver.net'.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SMTP_Client.DnsServers">
+            <summary>
+            Gets or sets dns servers(IP addresses).
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SMTP_Client.UseSmartHost">
+            <summary>
+            Gets or sets if mail is sent through smart host or using dns.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SMTP_Client.Port">
+            <summary>
+            Gets or sets SMTP port.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SMTP_Client.MaxSenderThreads">
+            <summary>
+            Gets or sets maximum sender Threads.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SMTP_Client.Errors">
+            <summary>
+            Gets last send attempt errors.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SMTP_Client.IsSending">
+            <summary>
+            Gets if some send job is active.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Client.SMTP_Error">
+            <summary>
+            This class holds smtp error info.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Client.SMTP_Error.#ctor(LumiSoft.Net.SMTP.Client.SMTP_ErrorType,System.String[],System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="errorType"></param>
+            <param name="affectedEmails"></param>
+            <param name="errorText"></param>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SMTP_Error.ErrorType">
+            <summary>
+            Gets SMTP error type.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SMTP_Error.AffectedEmails">
+            <summary>
+            Gets list of email addresses which are affected by this error.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Client.SMTP_Error.ErrorText">
+            <summary>
+            Gets additional error text.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator">
+            <summary>
+            SMTP command order validator.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator.Reset">
+            <summary>
+            Resets state.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator.MayHandle_MAIL">
+            <summary>
+            Gets if may handle MAIL command.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator.MayHandle_RCPT">
+            <summary>
+            Gets if may handle RCPT command.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator.MayHandle_DATA">
+            <summary>
+            Gets if may handle DATA command.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator.MayHandle_BDAT">
+            <summary>
+            Gets if may handle BDAT command.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator.MayHandle_AUTH">
+            <summary>
+            Gets if may handle AUTH command.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator.Helo_ok">
+            <summary>
+            Gest or sets if HELO command handled.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator.Authenticated">
+            <summary>
+            Gest or sets if AUTH command handled.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator.MailFrom_ok">
+            <summary>
+            Gest or sets if MAIL command handled.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator.RcptTo_ok">
+            <summary>
+            Gest or sets if RCPT command handled.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Cmd_Validator.BDAT_Last_ok">
+            <summary>
+            Gest or sets if BinaryMime.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.AuthUser_EventArgs">
+            <summary>
+            Provides data for the AuthUser event for POP3_Server and SMTP_Server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.AuthUser_EventArgs.#ctor(LumiSoft.Net.SMTP.Server.SMTP_Session,System.String,System.String,System.String,LumiSoft.Net.AuthType)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="session">Reference to pop3 session.</param>
+            <param name="userName">Username.</param>
+            <param name="passwData">Password data.</param>
+            <param name="data">Authentication specific data(as tag).</param>
+            <param name="authType">Authentication type.</param>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.AuthUser_EventArgs.Session">
+            <summary>
+            Gets reference to smtp session.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.AuthUser_EventArgs.UserName">
+            <summary>
+            User name.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.AuthUser_EventArgs.PasswData">
+            <summary>
+            Password data. eg. for AUTH=PLAIN it's password and for AUTH=APOP it's md5HexHash.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.AuthUser_EventArgs.AuthData">
+            <summary>
+            Authentication specific data(as tag).
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.AuthUser_EventArgs.AuthType">
+            <summary>
+            Authentication type.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.AuthUser_EventArgs.Validated">
+            <summary>
+            Gets or sets if user is valid.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.AuthUserEventHandler">
+            <summary>
+            Represents the method that will handle the AuthUser event for SMTP_Server.
+            </summary>
+            <param name="sender">The source of the event. </param>
+            <param name="e">A AuthUser_EventArgs that contains the event data.</param>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.ValidateMailFromHandler">
+            <summary>
+            Represents the method that will handle the ValidateMailFrom event for POP3_Server.
+            </summary>
+            <param name="sender">The source of the event. </param>
+            <param name="e">A ValidateSender_EventArgs that contains the event data.</param>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.ValidateMailToHandler">
+            <summary>
+            Represents the method that will handle the ValidateMailTo event for POP3_Server.
+            </summary>
+            <param name="sender">The source of the event. </param>
+            <param name="e">A ValidateRecipient_EventArgs that contains the event data.</param>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.ValidateMailboxSize">
+            <summary>
+            Represents the method that will handle the ValidateMailboxSize event for POP3_Server.
+            </summary>
+            <param name="sender">The source of the event. </param>
+            <param name="e">A ValidateMailboxSize_EventArgs that contains the event data.</param>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.NewMailEventHandler">
+            <summary>
+            Represents the method that will handle the StoreMessage event for POP3_Server.
+            </summary>
+            <param name="sender">The source of the event. </param>
+            <param name="e">A NewMail_EventArgs that contains the event data.</param>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.SMTP_Server">
+            <summary>
+            SMTP server component.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.SMTP.Server.SMTP_Server.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.#ctor(System.ComponentModel.IContainer)">
+            <summary>
+            
+            </summary>
+            <param name="container"></param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.Dispose">
+            <summary>
+            Clean up any resources being used and STOPs SMTP server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.Start">
+            <summary>
+            Starts SMTP Server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.Stop">
+            <summary>
+            Stops SMTP Server.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.Run">
+            <summary>
+            Starts server message loop.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.AddSession(System.String,LumiSoft.Net.SMTP.Server.SMTP_Session,LumiSoft.Net._LogWriter)">
+            <summary>
+            Adds session.
+            </summary>
+            <param name="sessionID">Session ID.</param>
+            <param name="session">Session object.</param>
+            <param name="logWriter">Log writer.</param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.RemoveSession(System.String,LumiSoft.Net._LogWriter)">
+            <summary>
+            Removes session.
+            </summary>
+            <param name="sessionID">Session ID.</param>
+            <param name="logWriter">Log writer.</param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.OnValidate_IpAddress(System.Net.EndPoint)">
+            <summary>
+            Raises event ValidateIP.
+            </summary>
+            <param name="enpoint">Connected host EndPoint.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.OnAuthUser(LumiSoft.Net.SMTP.Server.SMTP_Session,System.String,System.String,System.String,LumiSoft.Net.AuthType)">
+            <summary>
+            Raises event AuthUser.
+            </summary>
+            <param name="session">Reference to current smtp session.</param>
+            <param name="userName">User name.</param>
+            <param name="passwordData">Password compare data,it depends of authentication type.</param>
+            <param name="data">For md5 eg. md5 calculation hash.It depends of authentication type.</param>
+            <param name="authType">Authentication type.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.OnValidate_MailFrom(LumiSoft.Net.SMTP.Server.SMTP_Session,System.String,System.String)">
+            <summary>
+            Raises event ValidateMailFrom.
+            </summary>
+            <param name="session"></param>
+            <param name="reverse_path"></param>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.OnValidate_MailTo(LumiSoft.Net.SMTP.Server.SMTP_Session,System.String,System.String,System.Boolean)">
+            <summary>
+            Raises event ValidateMailTo.
+            </summary>
+            <param name="session"></param>
+            <param name="forward_path"></param>
+            <param name="email"></param>
+            <param name="authenticated"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.Validate_MailBoxSize(LumiSoft.Net.SMTP.Server.SMTP_Session,System.String,System.Int64)">
+            <summary>
+            Raises event ValidateMailboxSize.
+            </summary>
+            <param name="session"></param>
+            <param name="eAddress"></param>
+            <param name="messageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.OnStoreMessage(LumiSoft.Net.SMTP.Server.SMTP_Session,System.IO.MemoryStream)">
+            <summary>
+            Raises event StoreMessage.
+            </summary>
+            <param name="session"></param>
+            <param name="msgStream"></param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Server.OnSysError(System.Exception,System.Diagnostics.StackTrace)">
+            <summary>
+            Raises SysError event.
+            </summary>
+            <param name="x"></param>
+            <param name="stackTrace"></param>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Server.SMTP_Server.ValidateIPAddress">
+            <summary>
+            Occurs when new computer connected to POP3 server.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Server.SMTP_Server.AuthUser">
+            <summary>
+            Occurs when connected user tryes to authenticate.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Server.SMTP_Server.ValidateMailFrom">
+            <summary>
+            Occurs when server needs to validate sender.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Server.SMTP_Server.ValidateMailTo">
+            <summary>
+            Occurs when server needs to validate recipient.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Server.SMTP_Server.ValidateMailboxSize">
+            <summary>
+            Occurs when server needs to validate recipient mailbox size.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Server.SMTP_Server.StoreMessage">
+            <summary>
+            Occurs when server has accepted message to store.
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Server.SMTP_Server.SysError">
+            <summary>
+            Occurs when server has system error(Unknown error).
+            </summary>
+        </member>
+        <member name="E:LumiSoft.Net.SMTP.Server.SMTP_Server.SessionLog">
+            <summary>
+            Occurs when SMTP session has finished and session log is available.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Server.IpAddress">
+            <summary>
+            Gets or sets which IP address to listen.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Server.Port">
+            <summary>
+            Gets or sets which port to listen.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Server.Threads">
+            <summary>
+            Gets or sets maximum session threads.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Server.Enabled">
+            <summary>
+            Runs and stops server.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Server.LogCommands">
+            <summary>
+            Gets or sets if to log commands.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Server.SessionIdleTimeOut">
+            <summary>
+            Session idle timeout in milliseconds.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Server.CommandIdleTimeOut">
+            <summary>
+            Command idle timeout in milliseconds.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Server.MaxMessageSize">
+            <summary>
+            Maximum message size.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Server.MaxRecipients">
+            <summary>
+            Maximum recipients per message.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Server.MaxBadCommands">
+            <summary>
+            Gets or sets maximum bad commands allowed to session.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.SMTP_Session">
+            <summary>
+            SMTP Session.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Session.#ctor(System.Net.Sockets.Socket,LumiSoft.Net.SMTP.Server.SMTP_Server,System.String,LumiSoft.Net._LogWriter)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="clientSocket">Referance to socket.</param>
+            <param name="server">Referance to SMTP server.</param>
+            <param name="sessionID">Session ID which is assigned to this session.</param>
+            <param name="logWriter">Log writer.</param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Session.StartProcessing">
+            <summary>
+            Starts session processing.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Session.SwitchCommand(System.String)">
+            <summary>
+            Executes SMTP command.
+            </summary>
+            <param name="SMTP_commandTxt">Original command text.</param>
+            <returns>Returns true if must end session(command loop).</returns>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Session.SendData(System.String)">
+            <summary>
+            Sends data to socket.
+            </summary>
+            <param name="data">String data wich to send.</param>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.SMTP_Session.ReadLine">
+            <summary>
+            Reads line from socket.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Session.SessionID">
+            <summary>
+            Gets session ID.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Session.Authenticated">
+            <summary>
+            Gets if session authenticated.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Session.UserName">
+            <summary>
+            Gets loggded in user name (session owner).
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Session.BodyType">
+            <summary>
+            Gets body type.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Session.LocalEndPoint">
+            <summary>
+            Gets local EndPoint which accepted client(connected host).
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Session.RemoteEndPoint">
+            <summary>
+            Gets connected Host(client) EndPoint.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Session.MailFrom">
+            <summary>
+            Gets sender.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Session.MailTo">
+            <summary>
+            Gets recipients.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Session.SessionStartTime">
+            <summary>
+            Gets session start time.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.SMTP_Session.Tag">
+            <summary>
+            Gets or sets custom user data.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.NewMail_EventArgs">
+            <summary>
+            Provides data for the NewMailEvent event.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.NewMail_EventArgs.#ctor(LumiSoft.Net.SMTP.Server.SMTP_Session,System.IO.MemoryStream)">
+            <summary>
+            Default constructor.
+            </summary>		
+            <param name="session">Reference to smtp session.</param>
+            <param name="msgStream">Message stream.</param>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.NewMail_EventArgs.Session">
+            <summary>
+            Gets reference to smtp session.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.NewMail_EventArgs.MessageStream">
+            <summary>
+            Message stream - stream where message has stored.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.NewMail_EventArgs.MessageSize">
+            <summary>
+            Message size.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.NewMail_EventArgs.MailFrom">
+            <summary>
+            Sender's email address.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.NewMail_EventArgs.MailTo">
+            <summary>
+            Receptient's email address.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.ValidateMailboxSize_EventArgs">
+            <summary>
+            Provides data for the ValidateMailboxSize event.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.ValidateMailboxSize_EventArgs.#ctor(LumiSoft.Net.SMTP.Server.SMTP_Session,System.String,System.Int64)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="session">Reference to smtp session.</param>
+            <param name="eAddress">Email address of recipient.</param>
+            <param name="messageSize">Message size.</param>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateMailboxSize_EventArgs.Session">
+            <summary>
+            Gets reference to smtp session.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateMailboxSize_EventArgs.eAddress">
+            <summary>
+            Email address which mailbox size to check.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateMailboxSize_EventArgs.MessageSize">
+            <summary>
+            Message size.NOTE: value 0 means that size is unknown.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateMailboxSize_EventArgs.IsValid">
+            <summary>
+            Gets or sets if mailbox size is valid.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.ValidateRecipient_EventArgs">
+            <summary>
+            Provides data for the ValidateMailTo event.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.ValidateRecipient_EventArgs.#ctor(LumiSoft.Net.SMTP.Server.SMTP_Session,System.String,System.Boolean)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="session">Reference to smtp session.</param>
+            <param name="mailTo">Recipient email address.</param>
+            <param name="authenticated">Specifies if connected user is authenticated.</param>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateRecipient_EventArgs.Session">
+            <summary>
+            Gets reference to smtp session.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateRecipient_EventArgs.MailTo">
+            <summary>
+            Recipient's email address.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateRecipient_EventArgs.Authenticated">
+            <summary>
+            Gets if connected user is authenticated.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateRecipient_EventArgs.ConnectedIP">
+            <summary>
+            IP address of computer, which is sending mail to here.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateRecipient_EventArgs.Validated">
+            <summary>
+            Gets or sets if reciptient is allowed to send mail here.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateRecipient_EventArgs.LocalRecipient">
+            <summary>
+            Gets or sets if recipient is local or needs relay.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.Server.ValidateSender_EventArgs">
+            <summary>
+            Provides data for the ValidateMailFrom event.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.SMTP.Server.ValidateSender_EventArgs.#ctor(LumiSoft.Net.SMTP.Server.SMTP_Session,System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="session">Reference to smtp session.</param>
+            <param name="mailFrom">Sender email address.</param>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateSender_EventArgs.Session">
+            <summary>
+            Gets reference to smtp session.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateSender_EventArgs.MailFrom">
+            <summary>
+            Sender's email address.
+            </summary>
+        </member>
+        <member name="P:LumiSoft.Net.SMTP.Server.ValidateSender_EventArgs.Validated">
+            <summary>
+            Gets or sets if sender is ok.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.SMTP.BodyType">
+            <summary>
+            Holds body(mime) type.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.SMTP.BodyType.x7_bit">
+            <summary>
+            ASCII body.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.SMTP.BodyType.x8_bit">
+            <summary>
+            ANSI body.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.SMTP.BodyType.binary">
+            <summary>
+            Binary body.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.AuthType">
+            <summary>
+            Authentication type.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.AuthType.Plain">
+            <summary>
+            Plain username/password authentication.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.AuthType.APOP">
+            <summary>
+            APOP
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.AuthType.LOGIN">
+            <summary>
+            Not implemented.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.AuthType.CRAM_MD5">
+            <summary>
+            Cram-md5 authentication.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.Core">
+            <summary>
+            Provides net core utility methods.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.Core.DoPeriodHandling(System.Byte[],System.Boolean)">
+            <summary>
+            Does period handling.
+            </summary>
+            <param name="data"></param>
+            <param name="add_Remove">If true add periods, else removes periods.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.DoPeriodHandling(System.IO.Stream,System.Boolean)">
+            <summary>
+            Does period handling.
+            </summary>
+            <param name="strm">Input stream.</param>
+            <param name="add_Remove">If true add periods, else removes periods.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.DoPeriodHandling(System.IO.Stream,System.Boolean,System.Boolean)">
+            <summary>
+            Does period handling.
+            </summary>
+            <param name="strm">Input stream.</param>
+            <param name="add_Remove">If true add periods, else removes periods.</param>
+            <param name="setStrmPosTo0">If true sets stream position to 0.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.ReadLine(System.Net.Sockets.Socket)">
+            <summary>
+            Reads line of data from Socket.
+            </summary>
+            <param name="socket"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.ReadLine(System.Net.Sockets.Socket,System.Int32,System.Int32)">
+            <summary>
+            Reads line of data from Socket.
+            </summary>
+            <param name="socket"></param>
+            <param name="maxLen"></param>
+            <param name="idleTimeOut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.SendLine(System.Net.Sockets.Socket,System.String)">
+            <summary>
+            Sends line to Socket.
+            </summary>
+            <param name="socket"></param>
+            <param name="lineData"></param>
+        </member>
+        <member name="M:LumiSoft.Net.Core.ReadData(System.Net.Sockets.Socket,System.String,System.String)">
+            <summary>
+            Reads byte data from Socket while gets terminator or timeout.
+            </summary>
+            <param name="socket">Socket from to read data.</param>
+            <param name="terminator">Terminator which terminates data.</param>
+            <param name="removeFromEnd">Chars which will be removed from end of data.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.ReadData(System.Net.Sockets.Socket,System.Int64,System.IO.Stream,System.Boolean,System.Int32)">
+            <summary>
+            Reads specified count of data from Socket.
+            </summary>
+            <param name="socket"></param>
+            <param name="count">Number of bytes to read.</param>
+            <param name="storeStrm"></param>
+            <param name="storeToStream">If true stores readed data to stream, otherwise just junks data.</param>
+            <param name="cmdIdleTimeOut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.ReadData(System.Net.Sockets.Socket,System.IO.MemoryStream@,System.Byte[],System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Reads reply from socket.
+            </summary>
+            <param name="socket"></param>
+            <param name="replyData">Data that has been readen from socket.</param>
+            <param name="addData">Data that has will be written at the beginning of read data. This param may be null.</param>
+            <param name="maxLength">Maximum Length of data which may read.</param>
+            <param name="cmdIdleTimeOut">Command idle time out in milliseconds.</param>
+            <param name="terminator">Terminator string which terminates reading. eg '\r\n'.</param>
+            <param name="removeFromEnd">Removes following string from reply.NOTE: removes only if ReadReplyCode is Ok.</param>		
+            <returns>Return reply code.</returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.ParseIP_from_EndPoint(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="endpoint"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.GetArgsText(System.String,System.String)">
+            <summary>
+            Gets argument part of command text.
+            </summary>
+            <param name="input">Input srting from where to remove value.</param>
+            <param name="cmdTxtToRemove">Command text which to remove.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.GetHostName(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="IP"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.IsNumber(System.String)">
+            <summary>
+            Checks if specified string is number(long).
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.QDecode(System.Text.Encoding,System.String)">
+            <summary>
+            quoted-printable decoder.
+            </summary>
+            <param name="encoding">Input string encoding.</param>
+            <param name="data">String which to encode.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LumiSoft.Net.Core.IsAscii(System.String)">
+            <summary>
+            Checks if specified string data is acii data.
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LumiSoft.Net.ReadReplyCode">
+            <summary>
+            Reply reading return codes.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.ReadReplyCode.Ok">
+            <summary>
+            Read completed successfully.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.ReadReplyCode.TimeOut">
+            <summary>
+            Read timed out.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.ReadReplyCode.LengthExceeded">
+            <summary>
+            Maximum allowed Length exceeded.
+            </summary>
+        </member>
+        <member name="F:LumiSoft.Net.ReadReplyCode.UnKnownError">
+            <summary>
+            UnKnown error, eception raised.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.ReadException">
+            <summary>
+            Summary description for ReadException.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.ReadException.#ctor(LumiSoft.Net.ReadReplyCode,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+            <param name="message"></param>
+        </member>
+        <member name="P:LumiSoft.Net.ReadException.ReadReplyCode">
+            <summary>
+            Gets read error.
+            </summary>
+        </member>
+        <member name="T:LumiSoft.Net.StreamLineReader">
+            <summary>
+            Byte[] line parser.
+            </summary>
+        </member>
+        <member name="M:LumiSoft.Net.StreamLineReader.#ctor(System.IO.Stream)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="strmSource"></param>
+        </member>
+        <member name="M:LumiSoft.Net.StreamLineReader.ReadLine">
+            <summary>
+            Reads byte[] line from stream.
+            </summary>
+            <returns>Return null if end of stream reached.</returns>
+        </member>
+    </members>
+</doc>

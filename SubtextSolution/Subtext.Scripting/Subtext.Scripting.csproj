@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -97,7 +97,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -110,12 +113,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
-      <Link>SolutionInfo.cs</Link>
-      <SubType>Code</SubType>
+      <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="..\VersionInfo.Designer.cs">
-      <Link>VersionInfo.Designer.cs</Link>
-      <SubType>Code</SubType>
+      <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -149,10 +150,6 @@
     <Compile Include="TemplateParameterCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
-    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

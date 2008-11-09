@@ -51,15 +51,6 @@ namespace UnitTests.Subtext.Extensibility
 	internal class EmailProviderFactory
 	{
 		[Factory]
-		public EmailProvider DotNetOpenMailProvider
-		{
-			get
-			{
-				return new DotNetOpenMailProvider();
-			}
-		}
-		
-		[Factory]
 		public EmailProvider SystemMailProvider
 		{
 			get

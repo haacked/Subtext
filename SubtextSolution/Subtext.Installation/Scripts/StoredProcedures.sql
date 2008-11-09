@@ -1262,7 +1262,6 @@ BEGIN
 		, OpenIDServer
 		, OpenIDDelegate
 		, CardSpaceHash
-		, ShowEmailRssFeed
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 END
 ELSE IF (@Strict = 0) AND (1 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Config] WHERE Host = @Host))
@@ -1307,7 +1306,6 @@ BEGIN
 		, OpenIDServer
 		, OpenIDDelegate
 		, CardSpaceHash
-		, ShowEmailRssFeed
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 		LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON bgroup.Id = [subtext_Config].BlogGroupId
 	WHERE	Host = @Host
@@ -1352,7 +1350,6 @@ BEGIN
 		, MobileSkinCssFile
 		, OpenIDUrl
 		, CardSpaceHash
-		, ShowEmailRssFeed
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 		LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
 bgroup.Id = [subtext_Config].BlogGroupId
@@ -3306,7 +3303,6 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 	, @CardSpaceHash nvarchar(512) = NULL
 	, @OpenIDServer varchar(255) = NULL
 	, @OpenIDDelegate varchar(255) = NULL
-	, @ShowEmailRssFeed bit
 )
 AS
 UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
@@ -3344,7 +3340,6 @@ Set
 	, CardSpaceHash = @CardSpaceHash
 	, OpenIDServer = @OpenIDServer
 	, OpenIDDelegate = @OpenIDDelegate
-	, ShowEmailRssFeed = @ShowEmailRssFeed
 WHERE BlogId = @BlogId
 
 GO
@@ -3761,7 +3756,6 @@ SELECT	blog.BlogId
 		, blog.CardSpaceHash
 		, blog.OpenIDServer
 		, blog.OpenIDDelegate
-		, blog.ShowEmailRssFeed
 FROM [<dbUser,varchar,dbo>].[subtext_Config] blog
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
 bgroup.Id = blog.BlogGroupId

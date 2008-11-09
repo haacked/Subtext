@@ -72,6 +72,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 			blogInfo.TimeZoneId = PacificTimeZoneId;
+            blogInfo.ShowEmailAddressInRss = true;
+            blogInfo.TrackbacksEnabled = true;
 			
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
@@ -136,6 +138,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 											+ indent(3) + @"<pubDate>Sun, 23 Feb 1975 08:00:00 GMT</pubDate>" + Environment.NewLine
 											+ indent(3) + @"<comments>http://localhost/Subtext.Web/archive/1975/02/23/1001.aspx#feedback</comments>" + Environment.NewLine
 											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1001.aspx</wfw:commentRss>" + Environment.NewLine
+                                            + indent(3) + @"<trackback:ping>http://localhost/Subtext.Web/services/trackbacks/1001.aspx</trackback:ping>" + Environment.NewLine
 										+ indent(2) + @"</item>" + Environment.NewLine
 										+ indent(2) + @"<item>" + Environment.NewLine
 											+ indent(3) + @"<title>Title of 1002.</title>" + Environment.NewLine
@@ -146,6 +149,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 											+ indent(3) + @"<pubDate>Fri, 25 Jun 1976 07:00:00 GMT</pubDate>" + Environment.NewLine
 											+ indent(3) + @"<comments>http://localhost/Subtext.Web/archive/1976/06/25/1002.aspx#feedback</comments>" + Environment.NewLine
 											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1002.aspx</wfw:commentRss>" + Environment.NewLine
+                                            + indent(3) + @"<trackback:ping>http://localhost/Subtext.Web/services/trackbacks/1002.aspx</trackback:ping>" + Environment.NewLine
 										+ indent(2) + @"</item>" + Environment.NewLine
 										+ indent(2) + @"<item>" + Environment.NewLine
 											+ indent(3) + @"<title>Title of 1003.</title>" + Environment.NewLine
@@ -157,6 +161,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 											+ indent(3) + @"<pubDate>Tue, 16 Oct 1979 07:00:00 GMT</pubDate>" + Environment.NewLine
 											+ indent(3) + @"<comments>http://localhost/Subtext.Web/archive/1979/10/16/1003.aspx#feedback</comments>" + Environment.NewLine
 											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1003.aspx</wfw:commentRss>" + Environment.NewLine
+                                            + indent(3) + @"<trackback:ping>http://localhost/Subtext.Web/services/trackbacks/1003.aspx</trackback:ping>" + Environment.NewLine
                                             + indent(3) + @"<enclosure url=""http://perseus.franklins.net/hanselminutes_0107.mp3"" length=""26707573"" type=""audio/mp3"" />" + Environment.NewLine
 										+ indent(2) + @"</item>" + Environment.NewLine
 										+ indent(2) + @"<item>" + Environment.NewLine
@@ -168,6 +173,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 											+ indent(3) + @"<pubDate>Mon, 14 Jul 2003 07:00:00 GMT</pubDate>" + Environment.NewLine
 											+ indent(3) + @"<comments>http://localhost/Subtext.Web/archive/2003/07/14/1004.aspx#feedback</comments>" + Environment.NewLine
 											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss>" + Environment.NewLine
+                                            + indent(3) + @"<trackback:ping>http://localhost/Subtext.Web/services/trackbacks/1004.aspx</trackback:ping>" + Environment.NewLine
 										+ indent(2) + @"</item>" + Environment.NewLine
 								+ indent() + @"</channel>" + Environment.NewLine
 							  + @"</rss>";
@@ -211,7 +217,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 									+ indent(2) + "<description />" + Environment.NewLine
 									+ indent(2) + "<language>en-US</language>" + Environment.NewLine
 									+ indent(2) + "<copyright>Subtext Weblog</copyright>" + Environment.NewLine
-									+ indent(2) + "<managingEditor>Subtext@example.com</managingEditor>" + Environment.NewLine
 									+ indent(2) + "<generator>{0}</generator>" + Environment.NewLine
 									+ indent(2) + "<image>" + Environment.NewLine
 										+ indent(3) + "<title />" + Environment.NewLine
@@ -279,7 +284,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 									+ indent(2) + "<description />" + Environment.NewLine
 									+ indent(2) + "<language>en-US</language>" + Environment.NewLine
 									+ indent(2) + "<copyright>Subtext Weblog</copyright>" + Environment.NewLine
-									+ indent(2) + "<managingEditor>Subtext@example.com</managingEditor>" + Environment.NewLine
 									+ indent(2) + "<generator>{0}</generator>" + Environment.NewLine
 									+ indent(2) + "<image>" + Environment.NewLine
 										+ indent(3) + "<title />" + Environment.NewLine

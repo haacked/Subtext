@@ -1406,7 +1406,6 @@ namespace Subtext.Framework.Data
                     ,DataHelper.MakeInParam("@CardSpaceHash", SqlDbType.NVarChar, 512, info.CardSpaceHash) 
                     ,DataHelper.MakeInParam("@OpenIDServer", SqlDbType.VarChar, 255, info.OpenIDServer) 
                     ,DataHelper.MakeInParam("@OpenIDDelegate", SqlDbType.VarChar, 255, info.OpenIDDelegate) 
-                    ,DataHelper.MakeInParam("@ShowEmailRssFeed", SqlDbType.Bit,100,info.ShowEmailAddressInRss)
 				};
 
 			return NonQueryBool("subtext_UpdateConfig", p);

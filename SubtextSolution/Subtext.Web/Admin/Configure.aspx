@@ -11,7 +11,7 @@
     runat="server">
 </asp:Content>
 <asp:Content ID="configurationOptions" ContentPlaceHolderID="pageContent" runat="server">
-    <st:messagepanel ID="Messages" runat="server" />
+    <st:MessagePanel ID="Messages" runat="server" />
     <h2>
         Configure</h2>
     <div class="Edit" id="configure-form">
