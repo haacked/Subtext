@@ -361,7 +361,6 @@
     <Compile Include="Framework\Text\HtmlHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Framework\Text\RemoveCommentsTests.cs" />
     <Compile Include="Framework\Text\RemoveHtmlTests.cs">
       <SubType>Code</SubType>
     </Compile>

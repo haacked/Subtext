@@ -20,6 +20,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Web.Controls;
+using System.Web;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -88,7 +89,8 @@ namespace Subtext.Web.UI.Controls
 						string truncatedText = string.Empty;
 						if (commentLength > 0)
 						{
-							truncatedText = HtmlHelper.RemoveHtmlAndComments(comment.Body);
+                            //the html encode is for extra safety.
+							truncatedText = HttpUtility.HtmlEncode(HtmlHelper.RemoveHtml(comment.Body));
 							if (truncatedText.Length > commentLength)
 							{
 								truncatedText = truncatedText.Substring(0, commentLength);
@@ -100,7 +102,8 @@ namespace Subtext.Web.UI.Controls
 					} 
 					else
 					{
-						title.Text = HtmlHelper.RemoveHtmlAndComments(comment.Body);
+                        //the html encode is for extra safety.
+						title.Text = HttpUtility.HtmlEncode(HtmlHelper.RemoveHtml(comment.Body));
 						title.NavigateUrl = comment.DisplayUrl.ToString();
 					}
 					ControlHelper.SetTitleIfNone(title, "Reader Comment.");
