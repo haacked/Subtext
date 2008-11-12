@@ -139,52 +139,145 @@ namespace Subtext.Framework.Text
             }
         }
 
+        public static string RemoveHtml2(string html)
+        {
+            if (html == null) throw new ArgumentNullException("html");
+            var re = new Regex(@"<[\/!A-z]+(?:.*?(?:=\s?(?:(""|')[^\1]*\1|[^\s>]*))?)+(?:>|(<))");
+            return re.Replace(html, @"${2}");
+        }
+
         /// <summary>
-        /// Strips HTML tags from the specified text.
+        /// Returns a string with all HTML tags and comments removed.
         /// </summary>
-        /// <param name="text">The text.</param>
+        /// <param name="html"></param>
         /// <returns></returns>
-        public static string RemoveHtml(string text)
+        public static string RemoveHtml(string html)
         {
-            if (!String.IsNullOrEmpty(text))
-            {
-                HtmlTagRegex regex = new HtmlTagRegex();
-                return regex.Replace(text, string.Empty);
+            //Yeah, this is ugly, but it's perf optimized! ;)
+            if (html == null) {
+                return string.Empty;
             }
-            return text;
+
+            var strippedHtml = new char[html.Length];
+            bool inHtmlTag = false;
+            bool inHtmlAttribute = false;
+            int cleanCount = 0;
+
+            for (int i = 0; i < html.Length; i++)
+            {
+                char current = html[i];
+
+                if (!inHtmlTag)
+                {
+                    if (current == '<')
+                    {
+                        if (NextCharBeginsHtmlTag(html, i))
+                        {
+                            inHtmlTag = true;
+                            continue;
+                        }
+                    }
+                }
+                else
+                { //in html tag
+                    if (!inHtmlAttribute)
+                    {
+                        if (current == '>')
+                        {
+                            inHtmlTag = false;
+                        }
+                        if (current == '<')
+                        {
+                            if (!NextCharBeginsHtmlTag(html, i))
+                            {
+                                strippedHtml[cleanCount++] = current;
+                                inHtmlTag = false;
+                            }
+                            else {
+                                continue;
+                            }
+                        }
+                        if (current == '=')
+                        {
+                            //Potentially in attribute value...
+                            i++;
+                            bool foundAttrStart = false;
+                            char attrStartDelimiter = char.MinValue;
+                            char currentAttrChar;
+
+                            // We'll just "eat" the attribute here:
+                            while (i < html.Length)
+                            {
+                                currentAttrChar = html[i];
+
+                                //Find start delimiter...
+                                if (!foundAttrStart)
+                                {
+                                    if (IsAttributeValueStartCharacter(currentAttrChar))
+                                    {
+                                        attrStartDelimiter = currentAttrChar;
+                                        foundAttrStart = true;
+                                        i++;
+                                        continue;
+                                    }
+                                }
+                                else
+                                { //Find end delimiter...
+                                    if (IsAttributeValueEndCharacter(currentAttrChar, attrStartDelimiter))
+                                    {
+                                        inHtmlAttribute = false;
+                                        //Special case. The '>' ended the attr value and the tag
+                                        //in the case of unquoted attr value
+                                        if (currentAttrChar == '>')
+                                        {
+                                            inHtmlTag = false;
+                                        }
+                                        break;
+                                    }
+                                }
+                                i++;
+                            }
+                        }
+                    }
+                    continue;
+                }
+
+                strippedHtml[cleanCount++] = current;
+            }
+
+            return new String(strippedHtml, 0, cleanCount);
         }
 
-        /// <summary>
-        /// Strips HTML comments from the specified text
-        /// </summary>
-        /// <param name="text">The text</param>
-        /// <returns>The text without comments</returns>
-        public static string RemoveHtmlComments(string text)
+        private static bool NextCharBeginsHtmlTag(string html, int i)
         {
-            if (!String.IsNullOrEmpty(text))
-            {
-                Regex commentStripper = new Regex("(?:&lt;!--)(?:(\\w|[ ]|\\W)*)(?:--&gt;)|(?:<!--)(?:(\\w|[ ]|\\W)*)(?:-->)");
-                return commentStripper.Replace(text, string.Empty);
-            }
-            return text;
+            return i + 1 < html.Length && IsHtmlTagBeginCharacter(html[i + 1]);
         }
 
-
-        /// <summary>
-        /// Strips HTML tags and comments from the specified text
-        /// </summary>
-        /// <param name="text">The text</param>
-        /// <returns>The text without tags and comments</returns>
-        public static string RemoveHtmlAndComments(string text)
+        private static bool IsAttributeValueStartCharacter(char c)
         {
-            if (!String.IsNullOrEmpty(text))
-            {
-                text = RemoveHtmlComments(text);
-                text = RemoveHtml(text);
-            }
-            return text;
+            return !Char.IsWhiteSpace(c) || c == '\'' || c == '"';
         }
 
+        private static bool IsAttributeValueEndCharacter(char c, char attributeStartChar)
+        {
+            if (attributeStartChar == '\'' || attributeStartChar == '"')
+            {
+                return c == attributeStartChar;
+            }
+
+            return Char.IsWhiteSpace(c) || c == '>';
+        }
+
+        private static bool IsHtmlTagBeginCharacter(char c)
+        {
+            return c == '!' || c == '/' || IsEnglishLetter(c);
+        }
+
+        private static bool IsEnglishLetter(char nextChar)
+        {
+            return ('a' <= nextChar && nextChar <= 'z') || ('A' <= nextChar && nextChar <= 'Z');
+        }
+        
         /// <summary>
         /// Converts the entry body into XHTML compliant text. 
         /// Returns false if it encounters a problem in doing so.
