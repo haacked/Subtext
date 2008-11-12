@@ -142,7 +142,7 @@ namespace Subtext.Framework.Text
         public static string RemoveHtml2(string html)
         {
             if (html == null) throw new ArgumentNullException("html");
-            var re = new Regex(@"<[\/!A-z]+(?:.*?(?:=\s?(?:(""|')[^\1]*\1|[^\s>]*))?)+(?:>|(<))");
+            Regex re = new Regex(@"<[\/!A-z]+(?:.*?(?:=\s?(?:(""|')[^\1]*\1|[^\s>]*))?)+(?:>|(<))");
             return re.Replace(html, @"${2}");
         }
 
@@ -158,7 +158,7 @@ namespace Subtext.Framework.Text
                 return string.Empty;
             }
 
-            var strippedHtml = new char[html.Length];
+            char[] strippedHtml = new char[html.Length];
             bool inHtmlTag = false;
             bool inHtmlAttribute = false;
             int cleanCount = 0;
