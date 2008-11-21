@@ -118,11 +118,17 @@ a.Button
 {
 	color: yellow;
 }
+
 span.ErrorMessage
 {
 	display: block;
 	font-weight: bold;
 	color: #904;
+}
+
+.error {
+    font-weight: bold;
+    color: #c00;
 }
 
 p.Small
