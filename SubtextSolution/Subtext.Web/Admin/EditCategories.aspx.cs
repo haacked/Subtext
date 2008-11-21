@@ -241,10 +241,7 @@ namespace Subtext.Web.Admin.Pages
 				newCategory.Description = txbNewDescription.Text;
 				PersistCategory(newCategory);
 
-				BindList();	
-				txbNewTitle.Text = string.Empty;
-				ckbNewIsActive.Checked = Preferences.AlwaysCreateIsActive;
-				txbNewDescription.Text = string.Empty;
+                Response.Redirect(Request.RawUrl);
 			}
 		}
 	}
