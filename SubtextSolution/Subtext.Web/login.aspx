@@ -37,8 +37,11 @@
 				
 				<fieldset>
 				    <legend>Sign In with OpenID</legend>
-                    <cc1:openidlogin id="btnOpenIdLogin" cssclass="openidLogin" runat="server" LabelText="" RequestEmail="Require" RequestNickname="Request" RegisterVisible="false"   
-                         RememberMeVisible="True" PolicyUrl="~/PrivacyPolicy.aspx" TabIndex="6" OnLoggedIn="btnOpenIdLogin_LoggedIn" ButtonText="Login" Text="http://" />
+				    <span class="error"><asp:Literal ID="openIdMessage" runat="server" /></span>
+                    <cc1:openidlogin id="btnOpenIdLogin" cssclass="openidLogin" runat="server" 
+                        LabelText="" RequestEmail="Require" RequestNickname="Request" RegisterVisible="false"   
+                         RememberMeVisible="True" PolicyUrl="~/PrivacyPolicy.aspx" TabIndex="6" 
+                         OnLoggedIn="btnOpenIdLogin_LoggedIn" ButtonText="Login" Text="http://" OnLoggingIn="btnOpenIdLogin_LoggingIn" />
 				</fieldset>
 			</div>
 		</form>

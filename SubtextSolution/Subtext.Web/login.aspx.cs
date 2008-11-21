@@ -22,6 +22,7 @@ using Subtext.Framework.Text;
 using log4net;
 using Subtext.Framework.Security;
 using DotNetOpenId.RelyingParty;
+using System.Web;
 
 namespace Subtext.Web.Pages
 {
@@ -38,6 +39,14 @@ namespace Subtext.Web.Pages
 	
 		protected void Page_Load(object sender, EventArgs e)
 		{
+            if (!IsPostBack)
+            {
+                HttpCookie cookie = Request.Cookies["__OpenIdUrl__"];
+                if (cookie != null)
+                {
+                    btnOpenIdLogin.Text = cookie.Value;
+                }
+            }
 		}
 
 		#region Web Form Designer generated code
@@ -93,13 +102,24 @@ namespace Subtext.Web.Pages
 			}
 		}
 
+        protected void btnOpenIdLogin_LoggingIn(object sender, OpenIdEventArgs e) {
+            if (btnOpenIdLogin.RememberMe) {
+                HttpCookie openIdCookie = new HttpCookie("__OpenIdUrl__", btnOpenIdLogin.Text);
+                openIdCookie.Expires = DateTime.Now.AddDays(14);
+                Response.Cookies.Add(openIdCookie);
+            }
+        }
+
         protected void btnOpenIdLogin_LoggedIn(object sender, OpenIdEventArgs e)
         {
             e.Cancel = true;
             if (e.Response.Status == AuthenticationStatus.Authenticated &&
-                SecurityHelper.Authenticate(e.ClaimedIdentifier, chkRememberMe.Checked))
+                SecurityHelper.Authenticate(e.ClaimedIdentifier, btnOpenIdLogin.RememberMe))
             {
                 ReturnToUrl(Config.CurrentBlog.AdminHomeVirtualUrl);
+            }
+            else {
+                openIdMessage.Text = "Authentication failed.";
             }
         } 
 
