@@ -72,6 +72,10 @@ namespace Subtext.Framework.Security
         public static bool Authenticate(string claimedIdentifier, bool persist)
         {
             BlogInfo currentBlog = Config.CurrentBlog;
+            if (currentBlog == null) {
+                return false;
+            }
+
             //If the current blog doesn't have a valid OpenID URI, must fail
             if(!Uri.IsWellFormedUriString(currentBlog.OpenIDUrl, UriKind.Absolute))
                 return false;
