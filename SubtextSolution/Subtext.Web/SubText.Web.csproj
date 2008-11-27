@@ -1510,13 +1510,15 @@
     <Content Include="Scripts\effects.js" />
     <Content Include="Scripts\ExternalLinks.js" />
     <Content Include="Scripts\InPlaceEdit.js" />
-    <Content Include="Scripts\jquery-1.2.1.min.js" />
+    <Content Include="Scripts\jquery-1.2.6-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.2.6.min.js" />
     <Content Include="Scripts\jquery.color.min.js" />
     <Content Include="Scripts\jquery.hotkeys.min.js" />
     <Content Include="Scripts\json.js" />
     <Content Include="Scripts\lightbox.css" />
     <Content Include="Scripts\lightbox.js" />
     <Content Include="Scripts\LiveCommentPreview.js" />
+    <Content Include="Scripts\flash.js" />
     <Content Include="Scripts\prototype.js" />
     <Content Include="Scripts\scriptaculous.js" />
     <Content Include="Scripts\tableEffects.js" />

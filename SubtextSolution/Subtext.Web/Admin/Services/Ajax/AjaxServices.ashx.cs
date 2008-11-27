@@ -46,5 +46,10 @@ namespace Subtext.Web.Admin.Services.Ajax
         {
             return MimeTypesMapper.Mappings.ParseUrl(url);
         }
+
+        [JsonRpcMethod("getTimeZoneInfo")]
+        public ServerTimeZoneInfo GetTimeZoneInfo(string timeZoneText) {
+            return new ServerTimeZoneInfo(timeZoneText);
+        }
     }
 }

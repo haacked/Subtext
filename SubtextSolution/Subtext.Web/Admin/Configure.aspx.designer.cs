@@ -104,15 +104,6 @@ namespace Subtext.Web.Admin.Pages {
         protected global::System.Web.UI.WebControls.CheckBox ckbAllowServiceAccess;
         
         /// <summary>
-        /// ajaxTimezone control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel ajaxTimezone;
-        
-        /// <summary>
         /// hlpTimeZone control.
         /// </summary>
         /// <remarks>
@@ -137,7 +128,7 @@ namespace Subtext.Web.Admin.Pages {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCurrentTime;
+        protected global::System.Web.UI.WebControls.Literal lblCurrentTime;
         
         /// <summary>
         /// lblServerTime control.
@@ -146,7 +137,7 @@ namespace Subtext.Web.Admin.Pages {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblServerTime;
+        protected global::System.Web.UI.WebControls.Literal lblServerTime;
         
         /// <summary>
         /// lblServerTimeZone control.
@@ -155,7 +146,7 @@ namespace Subtext.Web.Admin.Pages {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblServerTimeZone;
+        protected global::System.Web.UI.WebControls.Literal lblServerTimeZone;
         
         /// <summary>
         /// lblUtcTime control.
@@ -164,7 +155,7 @@ namespace Subtext.Web.Admin.Pages {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUtcTime;
+        protected global::System.Web.UI.WebControls.Literal lblUtcTime;
         
         /// <summary>
         /// ddlLangLocale control.
