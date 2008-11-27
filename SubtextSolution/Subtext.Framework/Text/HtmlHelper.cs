@@ -139,13 +139,6 @@ namespace Subtext.Framework.Text
             }
         }
 
-        public static string RemoveHtml2(string html)
-        {
-            if (html == null) throw new ArgumentNullException("html");
-            Regex re = new Regex(@"<[\/!A-z]+(?:.*?(?:=\s?(?:(""|')[^\1]*\1|[^\s>]*))?)+(?:>|(<))");
-            return re.Replace(html, @"${2}");
-        }
-
         /// <summary>
         /// Returns a string with all HTML tags and comments removed.
         /// </summary>
@@ -358,7 +351,7 @@ namespace Subtext.Framework.Text
 							string text = reader.Value;
 
 							if (converter != null && !insideAnchor)
-								xmlWriter.WriteRaw(converter(text));
+								xmlWriter.WriteRaw(converter(HttpUtility.HtmlEncode(text)));
 							else
 								xmlWriter.WriteString(text);
 							break;
