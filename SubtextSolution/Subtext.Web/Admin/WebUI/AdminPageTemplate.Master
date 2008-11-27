@@ -34,7 +34,6 @@
 </head>
 <body id="AdminSection" runat="server" class="admin">
     <form id="frmMain" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" />
     <div id="container">
 	    <div id="login-status">
 		    <span id="blog-title"><asp:HyperLink id="BlogTitleLink" runat="server" ToolTip="Blog Home Page" NavigateUrl="<%# Config.CurrentBlog.HomeVirtualUrl %>" Text="<%# Config.CurrentBlog.Title %>" /></span>
