@@ -146,25 +146,32 @@ namespace UnitTests.Subtext.Framework.Text
 		[Row("<p>www.haacked.com</p>", "<p><a rel=\"nofollow external\" href=\"http://www.haacked.com\" title=\"www.haacked.com\">www.haacked.com</a></p>")]
 		[Row("<b>www.haacked.com</b>", "<b><a rel=\"nofollow external\" href=\"http://www.haacked.com\" title=\"www.haacked.com\">www.haacked.com</a></b>")]
 		[Row("subtextproject.com", "subtextproject.com")]
-		[Row("www.subtextproject.com?test=test&blah=blah", "<a rel=\"nofollow external\" href=\"http://www.subtextproject.com?test=test&blah=blah\" title=\"www.subtextproject.com?test=test&blah=blah\">www.subtextproject.com?test=test&blah=blah</a>")]
+		[Row("www.subtextproject.com?test=test&blah=blah", "<a rel=\"nofollow external\" href=\"http://www.subtextproject.com?test=test&amp;blah=blah\" title=\"www.subtextproject.com?test=test&amp;blah=blah\">www.subtextproject.com?test=test&amp;blah=blah</a>")]
 		[Row("<a href=\"http://example.com/\">Test</a>", "<a href=\"http://example.com/\">Test</a>")]
 		[Row("<img src=\"http://example.com/\" />", "<img src=\"http://example.com/\" />")]
 		[Row("<a href='http://example.com/'>Test</a>", "<a href=\"http://example.com/\">Test</a>")]
 		[Row("<a href=http://example.com/>Test</a>", "<a href=\"http://example.com/\">Test</a>")]
 		[Row("<b title=\"blah http://example.com/ blah\" />", "<b title=\"blah http://example.com/ blah\" />")]
-		[Row("a < b blah http://example.com/", "a < b blah <a rel=\"nofollow external\" href=\"http://example.com/\" title=\"http://example.com/\">http://example.com/</a>")]
+        [Row("a < b blah http://example.com/", "a &lt; b blah <a rel=\"nofollow external\" href=\"http://example.com/\" title=\"http://example.com/\">http://example.com/</a>")]
 		[Row("www.haacked.com<a href=\"test\">test</a>", "<a rel=\"nofollow external\" href=\"http://www.haacked.com\" title=\"www.haacked.com\">www.haacked.com</a><a href=\"test\">test</a>")]
 		public void ConvertUrlsToHyperLinksConvertsUrlsToAnchorTags(string html, string expected)
 		{
-			Assert.AreEqual(expected, HtmlHelper.ConvertUrlsToHyperLinks(html), "Did not pare url correctly.");
+			Assert.AreEqual(expected, HtmlHelper.ConvertUrlsToHyperLinks(html));
 		}
 
 		[Test]
 		public void ConvertUrlToHyperlinksIgnoreAnchorContents()
 		{
 			string html = "<a href=\"/\"><b>http://example.com/</b></a>";
-			Assert.AreEqual(html, HtmlHelper.ConvertUrlsToHyperLinks(html), "Did not pare url correctly.");
+			Assert.AreEqual(html, HtmlHelper.ConvertUrlsToHyperLinks(html));
 		}
+
+        [Test]
+        public void Html_WithEncodedMarkup_IsNotUnencoded()
+        {
+            string html = "&lt;script /&gt;";
+            Assert.AreEqual(html, HtmlHelper.ConvertUrlsToHyperLinks(html));
+        }
 
 		[Test]
 		public void CanApplyConverterWhileConvertingHtmlToXhtml()
