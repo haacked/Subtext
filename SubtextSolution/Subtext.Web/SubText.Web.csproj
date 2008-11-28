@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxControlToolkit, Version=1.0.10201.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\AjaxControlToolkit.dll</HintPath>
-    </Reference>
     <Reference Include="BlogML, Version=1.0.2229.38505, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Subtext.Framework\..\Dependencies\BlogML.dll</HintPath>
