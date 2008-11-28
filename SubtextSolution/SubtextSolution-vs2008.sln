@@ -18,11 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCNET", "CCNET", "{DD225739-6817-4A4F-9386-765ABA27C754}"
 	ProjectSection(SolutionItems) = preProject
-		..\BuildTools\CCNET_Config\webdashboard\templates\BuildSideBar.vm = ..\BuildTools\CCNET_Config\webdashboard\templates\BuildSideBar.vm
-		..\BuildTools\CCNET_Config\server\ccnet.config = ..\BuildTools\CCNET_Config\server\ccnet.config
-		NDependProject.xml = NDependProject.xml
-		..\BuildTools\CCNET_Config\xsl\ndependreport-ccnet.xsl = ..\BuildTools\CCNET_Config\xsl\ndependreport-ccnet.xsl
-		..\BuildTools\CCNET_Config\xsl\ndependsummary-ccnet.xsl = ..\BuildTools\CCNET_Config\xsl\ndependsummary-ccnet.xsl
 		SubText-CCNET.build = SubText-CCNET.build
 		..\BuildTools\CCNET_Config\Update-CCNET.build = ..\BuildTools\CCNET_Config\Update-CCNET.build
 	EndProjectSection
@@ -48,6 +43,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Akismet", "Subtext.Akismet\Subtext.Akismet.csproj", "{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatinTests", "WatinTests\WatinTests.csproj", "{B5AF13BF-9482-4150-9570-FC7DEC007300}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTools", "..\BuildTools\BuildTools.csproj", "{8A910A5B-E14B-4963-99FD-99704BB35097}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -226,8 +223,26 @@ Global
 		{B5AF13BF-9482-4150-9570-FC7DEC007300}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B5AF13BF-9482-4150-9570-FC7DEC007300}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B5AF13BF-9482-4150-9570-FC7DEC007300}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|.NET.ActiveCfg = Debug|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|.NET.ActiveCfg = Release|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8A910A5B-E14B-4963-99FD-99704BB35097} = {DD225739-6817-4A4F-9386-765ABA27C754}
 	EndGlobalSection
 EndGlobal

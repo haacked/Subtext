@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8A910A5B-E14B-4963-99FD-99704BB35097}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BuildTools</RootNamespace>
+    <AssemblyName>BuildTools</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CCNET Hacks\StatisticsBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CCNET Hacks\statistics-mod.xsl" />
+    <Content Include="CCNET Hacks\ThoughtWorks.CruiseControl.Core.dll" />
+    <Content Include="CCNET_Config\server\ccnet.TwitterPublisher.plugin.dll" />
+    <Content Include="CCNET_Config\webdashboard\cruisecontrol.css" />
+    <Content Include="CCNET_Config\webdashboard\IEPatches.css" />
+    <Content Include="CCNET_Config\webdashboard\images\add.png" />
+    <Content Include="CCNET_Config\webdashboard\images\check.png" />
+    <Content Include="CCNET_Config\webdashboard\images\delete.png" />
+    <Content Include="CCNET_Config\webdashboard\images\document_text.png" />
+    <Content Include="CCNET_Config\webdashboard\images\edit.png" />
+    <Content Include="CCNET_Config\webdashboard\images\error.png" />
+    <Content Include="CCNET_Config\webdashboard\images\gears_pause.png" />
+    <Content Include="CCNET_Config\webdashboard\images\gears_run.png" />
+    <Content Include="CCNET_Config\webdashboard\images\gear_pause.png" />
+    <Content Include="CCNET_Config\webdashboard\images\gear_refresh.png" />
+    <Content Include="CCNET_Config\webdashboard\images\gear_replace.png" />
+    <Content Include="CCNET_Config\webdashboard\images\gear_run.png" />
+    <Content Include="CCNET_Config\webdashboard\images\gear_time.png" />
+    <Content Include="CCNET_Config\webdashboard\images\gear_view.png" />
+    <Content Include="CCNET_Config\webdashboard\images\help.png" />
+    <Content Include="CCNET_Config\webdashboard\images\released-by-tw.gif" />
+    <Content Include="CCNET_Config\webdashboard\images\shim.gif" />
+    <Content Include="CCNET_Config\webdashboard\images\unknown.png" />
+    <Content Include="CCNET_Config\webdashboard\images\warning.png" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\analysis.details.fxcop.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\analysis.details.mbunit.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\analysis.details.ncoverexplorer.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\analysis.details.ndepend.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\analysis.summary.fxcop.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\analysis.summary.mbunit.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\analysis.summary.ncoverexplorer.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\analysis.summary.ndepend.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\analysis.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\compile.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\header.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\modifications.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\nant.timing.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\nant.xsl" />
+    <Content Include="CCNET_Config\webdashboard\xsl\subtext\statistics.xsl" />
+    <Content Include="CCNET_Config\xsl\ndependreport-ccnet.xsl" />
+    <Content Include="CCNET_Config\xsl\ndependsummary-ccnet.xsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CCNET_Config\server\ccnet.config">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ccnet.tt</DependentUpon>
+    </None>
+    <None Include="CCNET_Config\server\ccnet.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ccnet.config</LastGenOutput>
+    </None>
+    <None Include="CCNET_Config\templates\ProjectSideBar.vm" />
+    <None Include="CCNET_Config\templates\SiteTemplate.vm" />
+    <None Include="CCNET_Config\Update-CCNET.build" />
+    <None Include="CCNET_Config\webdashboard\dashboard.config" />
+    <None Include="CCNET_Config\webdashboard\templates\ActionException.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\AllBuilds.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\BuildLog.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\BuildRows.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\BuildSideBar.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\FarmSideBar.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\ProjectGrid.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\ProjectReport.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\ProjectSideBar.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\RecentBuilds.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\ServerInfo.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\ServerLog.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\ServerSideBar.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\SiteTemplate.vm" />
+    <None Include="CCNET_Config\webdashboard\templates\TopMenu.vm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

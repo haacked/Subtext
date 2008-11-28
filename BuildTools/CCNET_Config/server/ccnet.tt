@@ -1,0 +1,151 @@
+﻿<#@ template language="C#v3.5" #>
+<#@ output extension=".config" #>
+<#
+var releases = new Release[] {
+	new Release {	Name = "trunk",			Branch = "trunk",				VersionPrefix = "2.1.1."},
+	new Release {	Name = "Release2.1",	Branch="branches/Release2.1",	VersionPrefix ="2.1.0." }
+};
+#>
+<cruisecontrol>
+<# foreach(var release in releases) { #>
+	<project name="Subtext_<#= release.Name #>">
+		<workingDirectory>E:\CCNET-Projects\workingFolder\\<#= release.Name #></workingDirectory>
+		<artifactDirectory>E:\CCNET-Projects\artifact\\<#= release.Name #></artifactDirectory>
+
+		<webURL>http://build.subtextproject.com/ccnet/server/local/project/<#= release.Name #>/ViewLatestBuildReport.aspx</webURL>
+		<modificationDelaySeconds>60</modificationDelaySeconds>
+
+		<!-- SVN configuration -->
+		<sourcecontrol type="filtered">
+			<sourceControlProvider type="svn">
+				<executable>C:\Program Files\Subversion\bin\svn.exe</executable>
+				<trunkUrl>https://subtext.svn.sourceforge.net/svnroot/subtext/<#= release.Branch #></trunkUrl>
+				<workingDirectory>E:\CCNET-Projects\workingFolder\\<#= release.Name #> </workingDirectory>
+				<autoGetSource>true</autoGetSource>
+				<webUrlBuilder type="websvn">
+					<url>http://svn.sourceforge.net/viewvc/subtext{0}?view=markup&amp;pathrev={1}</url>
+				</webUrlBuilder>
+			</sourceControlProvider>
+			<inclusionFilters>
+				<pathFilter>
+					<pattern>/<#= release.Branch #>/SubtextSolution/**/*.*</pattern>
+				</pathFilter>
+			</inclusionFilters>
+		</sourcecontrol>
+
+		<labeller type="defaultlabeller">
+			<prefix><#= release.VersionPrefix #></prefix>
+			<incrementOnFailure>false</incrementOnFailure>
+		</labeller>
+
+		<prebuild>
+		</prebuild>
+
+		<tasks>
+			<!-- Build configutation -->
+			<nant>
+				<executable>E:\CCNET-Projects\workingFolder\\<#= release.Name #>\BuildTools\Nant\NAnt.exe</executable>
+				<baseDirectory>SubtextSolution</baseDirectory>
+				<buildFile>SubText-CCNET.build</buildFile>
+				<buildArgs>-D:msbuild.exe="C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\MSBuild.exe"</buildArgs>
+				<buildTimeoutSeconds>3600</buildTimeoutSeconds>
+				<targetList>
+					<target>testAndCover</target>
+					<target>reporting</target>
+					<target>release</target>
+					<target>dist.source</target>
+                    <!--<target>watin</target> Removed until Simo can fix it.-->
+				</targetList>
+			</nant>
+		</tasks>
+
+		<publishers>
+			<merge>
+				<files>
+					<file>E:\CCNET-Projects\workingFolder\\<#= ReverseSlash(release.Branch) #>\logs\ncover.xml</file>
+					<file>E:\CCNET-Projects\workingFolder\\<#= ReverseSlash(release.Branch) #>\logs\unittest.xml</file>
+					<file>E:\CCNET-Projects\workingFolder\\<#= ReverseSlash(release.Branch) #>\logs\ccnet-fxcop.xml</file>
+					<file>E:\CCNET-Projects\workingFolder\\<#= ReverseSlash(release.Branch) #>\logs\buildinfo.xml</file>
+				</files>
+			</merge>
+			<xmllogger/>
+			<statistics>
+				<statisticList>
+					<statistic name='TestCountMb' xpath='sum(//report-result/counter/@run-count)'/>
+					<statistic name='TestFailuresMb' xpath='sum(//report-result/counter/@failure-count)'/>
+					<statistic name='TestIgnoredMb' xpath='sum(//report-result/counter/@ignore-count)+sum(//report-result/counter/@skip-count)'/>
+					<statistic name='Coverage' xpath='round(//coverageReport/project/@coverage)'/>
+					<statistic name='Code Lines' xpath='round(//coverageReport/project/@nonCommentLines)'/>
+				</statisticList>
+			</statistics>
+
+			<twitter>
+				<user>subtextbuild</user>
+				<password>subtext</password>
+			</twitter>
+		</publishers>
+
+		<externalLinks>
+			<externalLink name="Project Site" url="http://www.subtextproject.com" />
+			<externalLink name="Subtext SF Dashboard" url="http://sourceforge.net/projects/subtext" />
+			<externalLink name="Bug Tracker" url="http://sourceforge.net/tracker/?group_id=137896&amp;atid=739979" />
+			<externalLink name="Forum" url="http://sourceforge.net/forum/forum.php?forum_id=464968" />
+			<externalLink name="Build archive" url="http://build.subtextproject.com/builds/" />
+		</externalLinks>
+	</project>
+<# } #>
+
+    <project name="Subtext_CI-Config">
+		<workingDirectory>E:\CCNET-Projects\workingFolder\Subtext\BuildTools\CCNET_Config</workingDirectory>
+		<artifactDirectory>E:\CCNET-Projects\artifact\CIConfig</artifactDirectory>
+		<webURL>http://build.subtextproject.com/ccnet/server/local/project/CI-Config/ViewLatestBuildReport.aspx</webURL>
+
+		<sourcecontrol type="filtered">
+			<sourceControlProvider type="svn">
+				<executable>C:\Program Files\Subversion\bin\svn.exe</executable>
+				<trunkUrl>https://subtext.svn.sourceforge.net/svnroot/subtext/trunk/BuildTools/CCNET_Config</trunkUrl>
+				<workingDirectory>E:\CCNET-Projects\workingFolder\Subtext\BuildTools\CCNET_Config</workingDirectory>
+				<autoGetSource>true</autoGetSource>
+				<webUrlBuilder type="websvn">
+					<url>http://svn.sourceforge.net/viewvc/subtext{0}?view=markup&amp;pathrev={1}</url>
+				</webUrlBuilder>
+			</sourceControlProvider>
+		</sourcecontrol>
+
+		<tasks>
+			<nant>
+				<executable>E:\CCNET-Projects\workingFolder\trunk\BuildTools\Nant\NAnt.exe</executable>
+				<baseDirectory>.</baseDirectory>
+				<buildFile>Update-CCNET.build</buildFile>
+				<buildArgs>-D:ccnet.root="C:\Program Files\CruiseControl.NET"</buildArgs>
+
+				<targetList>
+					<target>copyfiles</target>
+				</targetList>
+
+			</nant>
+		</tasks>
+	</project>
+</cruisecontrol>
+
+<#+
+public class Release {
+  public string Name {
+	get;
+	set;
+  }
+  
+  public string Branch {
+	get;
+	set;
+  }
+  public string VersionPrefix {
+	get;
+	set;
+  }  
+}
+
+public static string ReverseSlash(string s) {
+	return s.Replace("/", @"\");
+}
+#>
