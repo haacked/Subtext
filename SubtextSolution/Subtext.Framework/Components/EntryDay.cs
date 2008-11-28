@@ -39,19 +39,16 @@ namespace Subtext.Framework.Components
 			BlogDay = dt;
 		}
 
-		private DateTime _blogday;
 		public DateTime BlogDay
 		{
-			get { return _blogday; }
-			set { _blogday = value; }
+			get;
+			set;
 		}
 
-
-		private string _link;
 		public string Link
 		{
-			get { return _link; }
-			set { _link = value; }
+			get;
+			set;
 		}
 	}
 }

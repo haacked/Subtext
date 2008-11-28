@@ -25,24 +25,14 @@ namespace Subtext.Framework.UI.Skinning
 	[Serializable]
 	public class Style
 	{
-		private string _href;
-		private string _title;
-		private string _media;
-
 		/// <summary>
 		/// Location of the script. Specified as relative to the skin directory
 		/// </summary>
 		[XmlAttribute("href")]
 		public string Href
 		{
-			get
-			{
-				return _href;
-			}
-			set
-			{
-				_href = value;
-			}	
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -51,14 +41,8 @@ namespace Subtext.Framework.UI.Skinning
 		[XmlAttribute("title")]
 		public string Title
 		{
-			get
-			{
-				return _title;
-			}
-			set
-			{
-				_title = value;
-			}	
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -71,14 +55,8 @@ namespace Subtext.Framework.UI.Skinning
 		[XmlAttribute("media")]
 		public string Media
 		{
-			get
-			{
-				return _media;
-			}
-			set
-			{
-				_media = value;
-			}	
+			get;
+			set;
 		}
 
 	    /// <summary>
@@ -97,10 +75,8 @@ namespace Subtext.Framework.UI.Skinning
 	    [XmlAttribute("conditional")]
 	    public string Conditional
 	    {
-	        get { return this.conditional; }
-	        set { this.conditional = value; }
+	        get;
+	        set;
 	    }
-
-	    string conditional;
 	}
 }

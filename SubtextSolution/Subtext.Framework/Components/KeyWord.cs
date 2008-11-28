@@ -24,85 +24,75 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class KeyWord
 	{
-		private string _word;
 		/// <summary>
 		/// The word or words to look for. Could also be short hand. ie, ScottW would end up <a href = "http://scottwater.com/blog">Scott Watermasysk</a>
 		/// </summary>
 		public string Word
 		{
-			get {return this._word;}
-			set {this._word = value;}
+			get;
+			set;
 		}
 
-		private string _text;
 		/// <summary>
 		/// The text value of an anchor tag: <a href="#">TEXT</a>
 		/// </summary>
 		public string Text
 		{
-			get {return this._text;}
-			set {this._text = value;}
+			get;
+			set;
 		}
 
-		private bool _replaceFirstTimeOnly;
 		public bool ReplaceFirstTimeOnly
 		{
-			get {return this._replaceFirstTimeOnly;}
-			set {this._replaceFirstTimeOnly = value;}
+			get;
+			set;
 		}
 
-		private bool _caseSensitive;
 		public bool CaseSensitive
 		{
-			get {return this._caseSensitive;}
-			set {this._caseSensitive = value;}
+			get;
+			set;
 		}
 
-		private bool _openInNewWindow = true;
 		public bool OpenInNewWindow
 		{
-			get {return this._openInNewWindow;}
-			set {this._openInNewWindow = value;}
+			get;
+			set;
 		}
 
-		private string _url;
 		public string Url
 		{
-			get {return this._url;}
-			set {this._url = value;}
+			get;
+			set;
 		}
 
-		private string _title;
 		public string Title
 		{
-			get {return this._title;}
-			set {this._title = value;}
+			get;
+			set;
 		}
 
-		private string _rel;
 		/// <summary>
 		/// Rel entries for a keyword. For instance, you could add "Friend" to a keyword, and XFN would pick it up as a Friend link
 		/// </summary>
 		public string Rel
 		{
-			get { return this._rel; }
-			set { this._rel = value; }
+			get;
+			set;
 		}
 
-		private int _blogID;
 		public int BlogId
 		{
-			get {return this._blogID;}
-			set {this._blogID = value;}
+			get;
+			set;
 		}
 
 		[XmlAttribute]
 		public int Id
 		{
-			get {return this.id;}
-			set {this.id = value;}
+			get;
+			set;
 		}
-		private int id;
 
 		private string _format;
 		public string GetFormat

@@ -15,47 +15,41 @@ namespace Subtext.Framework.Tracking
 	{
 		static Logging.Log Log = new Logging.Log();
 
-		private string description;
 		public string Description
 		{
-			get { return description; }
-			set { description = value; }
+			get;
+			set;
 		}
 
-		private string blogName;
 		public string BlogName
 		{
-			get { return blogName; }
-			set { blogName = value; }
+			get;
+			set;
 		}
 
-		private string title;
 		public string Title
 		{
-			get { return title; }
-			set { title = value; }
+			get;
+			set;
 		}
 
-		private string fullyQualifiedUrl;
 		public string FullyQualifiedUrl
 		{
-			get { return fullyQualifiedUrl; }
-			set { fullyQualifiedUrl = value; }
+			get;
+			set;
 		}
 
-		private Uri postUrl;
 		public Uri PostUrl
 		{
-			get { return postUrl; }
-			set { postUrl = value; }
+			get;
+			set;
 		}
 
-		private string text;
-		public string Text
-		{
-			get { return text; }
-			set { text = value; }
-		}
+        public string Text
+        {
+            get;
+            set;
+        }
 
 		/// <summary>
 		/// Notifies the specified state.

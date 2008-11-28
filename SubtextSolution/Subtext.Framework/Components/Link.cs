@@ -24,78 +24,70 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class Link
 	{
-		private int _blogID;
-		public int BlogId
-		{
-			get {return this._blogID;}
-			set {this._blogID = value;}
-		}
-
-		private int _linkid;
-		[XmlAttribute("LinkID")]
-		public  virtual int Id
-		{
-			get{return _linkid;}
-			set{_linkid = value;}
-		}
-
-		private int _postID = NullValue.NullInt32;
-		public  virtual int PostID
-		{
-			get{return _postID;}
-			set{_postID = value;}
-		}
-
-		private int _catID;
-		public  virtual int CategoryID
-		{
-			get{return _catID;}
-			set{_catID = value;}
-		}
-
-		private bool _isActive;
-		public  virtual bool IsActive
-		{
-			get{return _isActive;}
-			set{_isActive = value;}
-		}
-
-		private bool _newtarget;
-		public  virtual bool NewWindow
-		{
-			get{return _newtarget;}
-			set{_newtarget = value;}
-		}
-
-		private string _url;
-		public  virtual string Url
-		{
-			get{return _url;}
-			set{_url= value;}
-		}
-
-		private string _rss;
-		public  virtual string Rss
-		{
-			get{return _rss;}
-			set{_rss= value;}
-		}
-
-		private string _title;
-		public  virtual string Title
-		{
-			get{return _title;}
-			set{_title= value;}
-		}
-
-        private string _Relation;
-        public virtual string Relation
-        {
-            get { return _Relation; }
-            set { _Relation = value; }
+        public Link() {
+            PostID = NullValue.NullInt32;
         }
 
+		public int BlogId
+		{
+			get;
+			set;
+		}
 
+		[XmlAttribute("LinkID")]
+		public int Id
+		{
+			get;
+			set;
+		}
+
+		public int PostID
+		{
+			get;
+			set;
+		}
+
+		public int CategoryID
+		{
+			get;
+			set;
+		}
+
+		public bool IsActive
+		{
+			get;
+			set;
+		}
+
+		public bool NewWindow
+		{
+			get;
+			set;
+		}
+
+		public string Url
+		{
+			get;
+			set;
+		}
+
+		public string Rss
+		{
+			get;
+			set;
+		}
+
+		public string Title
+		{
+			get;
+			set;
+		}
+
+        public string Relation
+        {
+            get;
+            set;
+        }
 
 		public bool HasRss
 		{

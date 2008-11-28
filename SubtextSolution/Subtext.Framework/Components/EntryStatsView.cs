@@ -30,32 +30,28 @@ namespace Subtext.Framework.Components
 		{
 		}
 
-		private int _webCount;
 		public int WebCount
 		{
-			get {return this._webCount;}
-			set {this._webCount = value;}
+			get;
+			set;
 		}
 
-		private int _aggCount;
 		public int AggCount
 		{
-			get {return this._aggCount;}
-			set {this._aggCount = value;}
+			get;
+			set;
 		}
 
-		private DateTime _webLastUpdated;
 		public DateTime WebLastUpdated
 		{
-			get {return this._webLastUpdated;}
-			set {this._webLastUpdated = value;}
+			get;
+			set;
 		}
 
-		private DateTime _aggLastUpdated;
 		public DateTime AggLastUpdated
 		{
-			get {return this._aggLastUpdated;}
-			set {this._aggLastUpdated = value;}
+			get;
+			set;
 		}
 	}
 }

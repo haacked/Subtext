@@ -201,8 +201,6 @@ namespace UnitTests.Subtext
 			private string sessionID = Guid.NewGuid().ToString();
 			private int timeout = 30; //minutes
 			private bool isNewSession = true;
-			private int lcid;
-			private int codePage;
 			private HttpStaticObjectsCollection staticObjects = new HttpStaticObjectsCollection();
 			private object syncRoot = new Object();
 
@@ -364,8 +362,8 @@ namespace UnitTests.Subtext
 			///
 			public int LCID
 			{
-				get { return lcid; }
-				set { lcid = value; }
+				get;
+				set;
 			}
 
 			///<summary>
@@ -378,8 +376,8 @@ namespace UnitTests.Subtext
 			///
 			public int CodePage
 			{
-				get { return codePage; }
-				set { codePage = value; }
+				get;
+				set;
 			}
 
 			///<summary>

@@ -26,61 +26,50 @@ namespace Subtext.Framework.Components
 
         public MetaTag(string content)
         {
-            this.content = content;
+            Content = content;
         }
 
-        #region Getters and Setters
-
-        private int id;
         public int Id
         {
-            get { return id; }
-            set { id = value; }
+            get;
+            set;
         }
 
-        private string content;
         public string Content
         {
-            get { return content; }
-            set { content = value; }
+            get;
+            set;
         }
 
-        private string name;
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get;
+            set;
         }
 
-        private string httpEquiv;
         public string HttpEquiv
         {
-            get { return httpEquiv; }
-            set { httpEquiv = value; }
+            get;
+            set;
         }
 
-        private int blogId;
         public int BlogId
         {
-            get { return blogId; }
-            set { blogId = value; }
+            get;
+            set;
         }
 
-        private int? entryId;
         public int? EntryId
         {
-            get { return entryId; }
-            set { entryId = value; }
+            get;
+            set;
         }
 
-        private DateTime dateCreated;
         public DateTime DateCreated
         {
-            get { return dateCreated; }
-            set { dateCreated = value; }
+            get;
+            set;
         }
-
-        #endregion
 
         /// <summary>
         /// Validates that this MetaTag is Valid:
@@ -93,35 +82,32 @@ namespace Subtext.Framework.Components
             {
                 if (string.IsNullOrEmpty(this.Content))
                 {
-                    _validationMessage = "Meta Tag requires Content.";
+                    ValidationMessage = "Meta Tag requires Content.";
                     return false;
                 }
 
                 // to be valid, a MetaTag requires etiher the Name or HttpEquiv attribute, but never both.
                 if (string.IsNullOrEmpty(this.Name) && string.IsNullOrEmpty(this.HttpEquiv))
                 {
-                    _validationMessage = "Meta Tag requires either a Name or Http-Equiv value.";
+                    ValidationMessage = "Meta Tag requires either a Name or Http-Equiv value.";
                     return false;
                 }
 
                 if (!string.IsNullOrEmpty(this.Name) && !string.IsNullOrEmpty(this.HttpEquiv))
                 {
-                    _validationMessage = "Meta Tag can not have both a Name and Http-Equiv value.";
+                    ValidationMessage = "Meta Tag can not have both a Name and Http-Equiv value.";
                     return false;
                 }
 
-                _validationMessage = null;
+                ValidationMessage = null;
                 return true;
-            }
+               }
         }
 
-            private string _validationMessage;
-            public string ValidationMessage
-            {
-                get
-                {
-                    return _validationMessage;
-                }
-            }
+        public string ValidationMessage
+        {
+            get;
+            private set;
         }
     }
+}

@@ -7,41 +7,44 @@ namespace Subtext.Framework
 {
 	public class BlogAlias
 	{
-		int id = NullValue.NullInt32;
+        public BlogAlias()
+        {
+            Id = NullValue.NullInt32;
 
-		int blogId = NullValue.NullInt32;
-		string subfolder = "";
-		string host = "";
-		bool active = true;
+            BlogId = NullValue.NullInt32;
+            Subfolder = string.Empty;
+            Host = string.Empty;
+            IsActive = true;
+        }
 
 		public int Id
 		{
-			get { return id; }
-			set { id = value; }
+			get;
+			set;
 		}
 
 		public bool IsActive
 		{
-			get { return active; }
-			set { active = value; }
+			get;
+			set;
 		}
 
 		public string Host
 		{
-			get { return host; }
-			set { host = value; }
+			get;
+			set;
 		}
 
 		public string Subfolder
 		{
-			get { return subfolder; }
-			set { subfolder = value; }
-		}
-		public int BlogId
-		{
-			get { return blogId; }
-			set { blogId = value; }
+			get;
+			set;
 		}
 
+		public int BlogId
+		{
+			get;
+			set;
+		}
 	}
 }

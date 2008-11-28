@@ -27,14 +27,6 @@ namespace Subtext.Framework.Syndication
     public abstract class BaseSyndicationWriter : XmlTextWriter
     {
         private StringWriter _writer  = null;
-        protected BlogInfo _info;
-		private DateTime _dateLastViewedFeedItemPublished = NullValue.NullDateTime;
-		protected DateTime _latestPublishDate = NullValue.NullDateTime;
-		protected bool _useDeltaEncoding = false;
-		protected bool _clientHasAllFeedItems = false;
-
-        private bool _allowComments = true;
-        private bool _useAggBugs = false;
 
 		/// <summary>
 		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
@@ -59,13 +51,27 @@ namespace Subtext.Framework.Syndication
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
 		protected BaseSyndicationWriter(StringWriter sw, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(sw)
 		{
-			_dateLastViewedFeedItemPublished = dateLastViewedFeedItemPublished;
+            LatestPublishDate = NullValue.NullDateTime;
+
+			DateLastViewedFeedItemPublished = dateLastViewedFeedItemPublished;
 			_writer = sw;
-			_info = Config.CurrentBlog;
-			_useDeltaEncoding = useDeltaEncoding;
+			Blog = Config.CurrentBlog;
+			UseDeltaEncoding = useDeltaEncoding;
 			Formatting = System.Xml.Formatting.Indented;
 			Indentation = 4;
 		}
+
+        public BlogInfo Blog
+        {
+            get;
+            protected set;
+        }
+
+        public bool UseDeltaEncoding
+        {
+            get;
+            protected set;
+        }
 
 		/// <summary>
 		/// Gets the string writer.
@@ -109,10 +115,8 @@ namespace Subtext.Framework.Syndication
 		/// </value>
 		public bool ClientHasAllFeedItems
 		{
-			get
-			{
-				return _clientHasAllFeedItems;
-			}
+			get;
+            protected set;
 		}
 
 		/// <summary>
@@ -121,10 +125,8 @@ namespace Subtext.Framework.Syndication
 		/// <value></value>
 		public DateTime LatestPublishDate
 		{
-			get
-			{
-				return _latestPublishDate;
-			}
+			get;
+            protected set;
 		}
 		
 		/// <summary>
@@ -133,21 +135,22 @@ namespace Subtext.Framework.Syndication
 		/// the ETag.
 		/// </summary>
 		/// <value></value>
-		public DateTime DateLastViewedFeedItemPublished
-		{
-			get {return this._dateLastViewedFeedItemPublished;}
-		}
+        public DateTime DateLastViewedFeedItemPublished
+        {
+            get;
+            private set;
+        }
 
         public bool UseAggBugs
         {
-            get {return this._useAggBugs;}
-            set {this._useAggBugs = value;}
+            get;
+            set;
         }
 
         public bool AllowComments
         {
-            get {return this._allowComments;}
-            set {this._allowComments = value;}
+            get;
+            set;
         }
 
 		/// <summary>

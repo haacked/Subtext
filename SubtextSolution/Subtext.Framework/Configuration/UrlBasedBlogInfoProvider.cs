@@ -31,6 +31,10 @@ namespace Subtext.Framework.Configuration
 	/// </summary>
 	public class UrlBasedBlogInfoProvider
 	{
+        public UrlBasedBlogInfoProvider() {
+            CacheTime = 5;
+        }
+
 		private readonly static ILog log = new Log();
 
 		static readonly UrlBasedBlogInfoProvider _singletonInstance = new UrlBasedBlogInfoProvider();
@@ -68,18 +72,15 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
-		#region IConfig
-		private int _cacheTime = 5;
 		/// <summary>
 		/// Gets or sets the cache time.
 		/// </summary>
 		/// <value></value>
 		public int CacheTime
 		{
-			get {return this._cacheTime;}
-			set {this._cacheTime = value;}
+			get;
+			set;
 		}
-		#endregion
 
 		static T GetRequestCache<T>(string key)
 		{

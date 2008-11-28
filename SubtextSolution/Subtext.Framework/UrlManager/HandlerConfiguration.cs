@@ -48,7 +48,6 @@ namespace Subtext.Framework.UrlManager
 			return (string[])context.Items["Subtext.Framework.UrlManager.ControlContext"];
 		}
 
-		private HttpHandler[] _httpHandlers;
 		/// <summary>
 		/// Gets or sets the HTTP handlers configured in the HttpHandlers section.
 		/// </summary>
@@ -56,11 +55,10 @@ namespace Subtext.Framework.UrlManager
 		[XmlArray("HttpHandlers")]
 		public HttpHandler[] HttpHandlers
 		{
-			get {return this._httpHandlers;}
-			set {this._httpHandlers = value;}
+			get;
+			set;
 		}
 
-		private string _defaultPageLocation;
 		/// <summary>
 		/// Gets or sets the defualt page location.
 		/// </summary>
@@ -68,8 +66,8 @@ namespace Subtext.Framework.UrlManager
 		[XmlAttribute("defaultPageLocation")]
 		public string DefaultPageLocation
 		{
-			get {return this._defaultPageLocation;}
-			set {this._defaultPageLocation = value;}
+			get;
+			set;
 		}
 
 		private string _fullPageLocation;

@@ -25,38 +25,28 @@ namespace Subtext.Framework.UI.Skinning
 	[Serializable]
 	public class Script
 	{
-		private string _type = "text/javascript";
+        public Script() { 
+            Type = "text/javascript";
+        }
+
 		/// <summary>
 		/// Script type. Default value is <code>text/javascript</code>
 		/// </summary>
 		[XmlAttribute]
 		public string Type
 		{
-			get
-			{
-				return _type;
-			}
-			set
-			{
-				_type = value;
-			}
+			get;
+			set;
 		}
 
-		private string _src;
 		/// <summary>
 		/// Location of the script. Specified as relative to the skin directory
 		/// </summary>
 		[XmlAttribute]
 		public string Src
 		{
-			get
-			{
-				return _src;
-			}
-			set
-			{
-				_src = value;
-			}	
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -66,10 +56,8 @@ namespace Subtext.Framework.UI.Skinning
 		[XmlAttribute]
 		public bool Defer
 		{
-			get { return this.defer; }
-			set { this.defer = value; }
+			get;
+			set;
 		}
-
-		private bool defer;
 	}
 }

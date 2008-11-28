@@ -28,7 +28,13 @@ namespace Subtext.Framework.Configuration
 	[Serializable]
 	public class BlogConfigurationSettings 
 	{
-		private Tracking _tracking;
+        public BlogConfigurationSettings() {
+            QueuedThreads = 2;
+            ItemCount = 15;
+            CategoryListPostCount = 10;
+            ServerTimeZone = -2037797565; //PST
+        }
+		
 
 		public Tracking Tracking
 		{
@@ -40,45 +46,40 @@ namespace Subtext.Framework.Configuration
 				}
 				return this._tracking;
 			}
-			    set {this._tracking = value;}
+			set {this._tracking = value;}
 		}
+        private Tracking _tracking;
 
-		private bool _useWWW;
 		public bool UseWWW
 		{
-			get {return this._useWWW;}
-			set {this._useWWW = value;}
+			get;
+			set;
 		}
 
-		private int _queuedThreads = 2;
 		public int QueuedThreads
 		{
-			get {return this._queuedThreads;}
-			set {this._queuedThreads = value;}
+			get;
+			set;
 		}
 
-		private bool _allowserviceaccess;
 		public bool AllowServiceAccess
 		{
-			get{return _allowserviceaccess;}
-			set{_allowserviceaccess = value;}
+			get;
+			set;
 		}
 
 		public bool AllowScriptsInPosts
 		{
-			get { return this.allowScriptsInPosts; }
-			set{ this.allowScriptsInPosts = value; }
+			get;
+			set;
 		}
-		bool allowScriptsInPosts;
 
-		private bool _useHashedPasswords;
 		public bool UseHashedPasswords
 		{
-			get {return this._useHashedPasswords;}
-			set {this._useHashedPasswords = value;}
+			get;
+			set;
 		}
 
-		private bool _allowImages;
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to allow images.
 		/// </summary>
@@ -87,8 +88,8 @@ namespace Subtext.Framework.Configuration
 		/// </value>
 		public bool AllowImages
 		{
-			get{return _allowImages;}
-			set{_allowImages = value;}
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -98,11 +99,9 @@ namespace Subtext.Framework.Configuration
 		/// <value></value>
 		public int ItemCount
 		{
-			get{return this.feedItemCount;}
-			set{this.feedItemCount = value;}
+			get;
+			set;
 		}
-		private int feedItemCount = 15;
-
 
 		/// <summary>
 		/// Gets or sets the number of posts to display 
@@ -111,10 +110,9 @@ namespace Subtext.Framework.Configuration
 		/// <value></value>
 		public int CategoryListPostCount
 		{
-			get{return this.categoryListPostCount;}
-			set{this.categoryListPostCount = value;}
+			get;
+			set;
 		}
-		private int categoryListPostCount = 10;
 
 		/// <summary>
 		/// Gets or sets the server time zone.
@@ -122,10 +120,9 @@ namespace Subtext.Framework.Configuration
 		/// <value></value>
 		public int ServerTimeZone
 		{
-			get{return serverTimeZone;}
-			set{serverTimeZone = value;}
+			get;
+			set;
 		}
-		private int serverTimeZone = -2037797565; //PST
 
 		/// <summary>
 		/// Gets a value indicating whether invisible captcha enabled.  This is 

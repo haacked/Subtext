@@ -28,8 +28,9 @@ namespace Subtext.Framework.Syndication
 	/// </summary>
 	public class CachedFeed
 	{
-		private DateTime lastModified;
-		
+        public CachedFeed() {
+            LatestFeedItemPublishDate = NullValue.NullDateTime;        
+        }
 		
 		/// <summary>
 		/// Gets or sets the date this feed was last modified.
@@ -51,6 +52,7 @@ namespace Subtext.Framework.Syndication
 				lastModified = value;
 			}
 		}
+        private DateTime lastModified;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether client has all feed items. 
@@ -62,11 +64,9 @@ namespace Subtext.Framework.Syndication
 		/// </value>
 		public bool ClientHasAllFeedItems
 		{
-			get { return _clientHasAllFeedItems; }
-			set { _clientHasAllFeedItems = value; }
+			get;
+			set;
 		}
-
-		bool _clientHasAllFeedItems;
 
 		/// <summary>
 		/// Gets or sets the latest feed item publish date. This is the date that the latest feed 
@@ -75,12 +75,9 @@ namespace Subtext.Framework.Syndication
 		/// <value></value>
 		public DateTime LatestFeedItemPublishDate
 		{
-			get { return _latestFeedItemPublishDate; }
-			set { _latestFeedItemPublishDate = value; }
+			get;
+			set;
 		}
-
-		DateTime _latestFeedItemPublishDate = NullValue.NullDateTime;
-
 
 		private string etag;
 		/// <summary>
@@ -107,21 +104,14 @@ namespace Subtext.Framework.Syndication
 			}
 		}
 
-		private string xml;
 		/// <summary>
 		/// Gets or sets the contents of the feed.
 		/// </summary>
 		/// <value></value>
 		public string Xml
 		{
-			get
-			{
-				return xml;
-			}
-			set
-			{
-				xml = value;
-			}
+			get;
+			set;
 		}
 	}
 }
