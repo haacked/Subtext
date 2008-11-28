@@ -23,41 +23,38 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class ViewStat
 	{
-		private string _pageTitle;
-		private int _viewCount;
-		private DateTime _viewDate;
-		private PageType _pageType = PageType.NotSpecified;
-
+        public ViewStat() {
+            PageType = PageType.NotSpecified;
+        }
 
 		public string PageTitle
 		{
-			get { return _pageTitle; }
-			set { _pageTitle = value; }
+			get;
+			set;
 		}
 
 		public int ViewCount
 		{
-			get { return _viewCount; }
-			set { _viewCount = value; }
+			get;
+			set;
 		}
 
 		public DateTime ViewDate
 		{
-			get { return _viewDate; }
-			set { _viewDate = value; }
+			get;
+			set;
 		}
 
 		public PageType PageType
 		{
-			get { return _pageType; }
-			set { _pageType = value; }
+			get;
+			set;
 		}
 
-		private int _blogID;
 		public int BlogId
 		{
-			get {return this._blogID;}
-			set {this._blogID = value;}
+			get;
+			set;
 		}
 	}
 }

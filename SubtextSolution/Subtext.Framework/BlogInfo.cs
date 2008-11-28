@@ -44,6 +44,12 @@ namespace Subtext.Framework
         const int DefaultRecentCommentsLength = 50;
         private UrlFormats _urlFormats;
 
+        public BlogInfo() {
+            Id = NullValue.NullInt32;
+            ItemCount = 25;
+            Author = "Subtext Weblog";
+        }
+
         /// <summary>
         /// Strips the port number from the host name.
         /// </summary>
@@ -150,29 +156,26 @@ namespace Subtext.Framework
             }
         }
 
-        private string _imageDirectory;
         /// <summary>
         /// Gets or sets the physical path to the image directory.
         /// </summary>
         /// <value></value>
         public string ImageDirectory
         {
-            get { return _imageDirectory; }
-            set { _imageDirectory = value; }
+            get;
+            set;
         }
 
-        private string _imagePath;
         /// <summary>
         /// Gets or sets the path (url) to the image directory.
         /// </summary>
         /// <value></value>
         public string ImagePath
         {
-            get { return _imagePath; }
-            set { _imagePath = value; }
+            get;
+            set;
         }
 
-        private DateTime _lastupdated;
         /// <summary>
         /// Gets or sets the date that the blog's configuration 
         /// was last updated.
@@ -180,17 +183,10 @@ namespace Subtext.Framework
         /// <value></value>
         public DateTime LastUpdated
         {
-            get
-            {
-                return _lastupdated;
-            }
-            set
-            {
-                _lastupdated = value;
-            }
+            get;
+            set;
         }
 
-        private int _blogID = NullValue.NullInt32;
         /// <summary>
         /// Gets or sets the ID of the blog.  This is the 
         /// primary key in the blog_config table.
@@ -198,8 +194,8 @@ namespace Subtext.Framework
         /// <value></value>
         public int Id
         {
-            get { return _blogID; }
-            set { _blogID = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -220,7 +216,7 @@ namespace Subtext.Framework
         {
             get
             {
-                WindowsTimeZone timezone = WindowsTimeZone.GetById(_timeZoneId);
+                WindowsTimeZone timezone = WindowsTimeZone.GetById(TimeZoneId);
                 if (timezone == null)
                     return WindowsTimeZone.GetById(System.TimeZone.CurrentTimeZone.StandardName.GetHashCode());
                 return timezone;
@@ -234,12 +230,10 @@ namespace Subtext.Framework
         /// <value></value>
         public int TimeZoneId
         {
-            get { return this._timeZoneId; }
-            set { this._timeZoneId = value; }
+            get;
+            set;
         }
-        private int _timeZoneId = 0;
 
-        private int _itemCount = 15;
         /// <summary>
         /// Gets or sets the count of posts displayed on the front page 
         /// of the blog.
@@ -247,8 +241,8 @@ namespace Subtext.Framework
         /// <value></value>
         public int ItemCount
         {
-            get { return _itemCount; }
-            set { _itemCount = value; }
+            get;
+            set;
         }
 
         private int _categoryListPostCount = 10;
@@ -269,15 +263,14 @@ namespace Subtext.Framework
             }
         }
 
-        private int _storyCount;
         /// <summary>
         /// Gets or sets the story count.
         /// </summary>
         /// <value></value>
         public int StoryCount
         {
-            get { return this._storyCount; }
-            set { this._storyCount = value; }
+            get;
+            set;
         }
 
         const string DefaultLanguage = "en-US";
@@ -317,15 +310,14 @@ namespace Subtext.Framework
 
         string _languageCode;
 
-        private string _email;
         /// <summary>
         /// Gets or sets the email of the blog owner.
         /// </summary>
         /// <value></value>
         public string Email
         {
-            get { return _email; }
-            set { _email = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -643,46 +635,42 @@ namespace Subtext.Framework
             set { _password = value; }
         }
 
-        private string _openIDUrl;
         /// <summary>
         /// Gets or sets the OpenIDUrl.
         /// </summary>
         /// <value></value>
         public string OpenIDUrl
         {
-            get { return _openIDUrl; }
-            set { _openIDUrl = value; }
+            get;
+            set;
         }
 
-        private string _openIDServer;
         /// <summary>
         /// Gets or sets the OpenIDServer.
         /// </summary>
         public string OpenIDServer
         {
-            get { return _openIDServer; }
-            set { _openIDServer = value; }
+            get;
+            set;
         }
 
-        private string _openIDDelegate;
         /// <summary>
         /// Gets or sets the OpenIDDelegate.
         /// </summary>
         public string OpenIDDelegate
         {
-            get { return _openIDDelegate; }
-            set { _openIDDelegate = value; }
+            get;
+            set;
         }
 
-        private string _cardSpaceHash;
         /// <summary>
         /// Gets or sets the CardSpaceHash.
         /// </summary>
         /// <value></value>
         public string CardSpaceHash
         {
-            get { return _cardSpaceHash; }
-            set { _cardSpaceHash = value; }
+            get;
+            set;
         }
 
         private string _username;
@@ -704,29 +692,26 @@ namespace Subtext.Framework
             set { _username = value; }
         }
 
-        private string _title;
         /// <summary>
         /// Gets or sets the title of the blog.
         /// </summary>
         /// <value></value>
         public string Title
         {
-            get { return _title; }
-            set { _title = value; }
+            get;
+            set;
         }
 
-        private string _subtitle;
         /// <summary>
         /// Gets or sets the sub title of the blog.
         /// </summary>
         /// <value></value>
         public string SubTitle
         {
-            get { return _subtitle; }
-            set { _subtitle = value; }
+            get;
+            set;
         }
 
-        private SkinConfig _skin;
         /// <summary>
         /// Gets or sets the <see cref="SkinConfig"/> instance 
         /// which contains information about the specified skin.
@@ -734,11 +719,10 @@ namespace Subtext.Framework
         /// <value></value>
         public SkinConfig Skin
         {
-            get { return _skin; }
-            set { _skin = value; }
+            get;
+            set;
         }
 
-        private SkinConfig mobileSkin;
         /// <summary>
         /// Gets or sets the <see cref="SkinConfig"/> instance 
         /// which contains information about the specified skin.
@@ -746,8 +730,8 @@ namespace Subtext.Framework
         /// <value></value>
         public SkinConfig MobileSkin
         {
-            get { return this.mobileSkin; }
-            set { this.mobileSkin = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -762,29 +746,25 @@ namespace Subtext.Framework
             get { return News != null && News.Trim().Length > 0; }
         }
 
-        private string news;
         /// <summary>
         /// Gets or sets the news.
         /// </summary>
         /// <value></value>
         public string News
         {
-            get { return news; }
-            set { news = value; }
+            get;
+            set;
         }
 
-        private string _author = "Subtext Weblog";
         /// <summary>
         /// Gets or sets the author of the blog.
         /// </summary>
         /// <value></value>
         public string Author
         {
-            get { return _author; }
-            set { _author = value; }
+            get;
+            set;
         }
-
-        private string _trackingCode;
 
         /// <summary>
         /// Gets or sets blog tracking code.
@@ -792,30 +772,28 @@ namespace Subtext.Framework
         /// <value></value>
         public string TrackingCode
         {
-            get { return _trackingCode; }
-            set { _trackingCode = value; }
+            get;
+            set;
         }
 
-        private int _blogGroup;
         /// <summary>
         /// Gets or sets the Blog Group ID
         /// </summary>
         /// <value></value>
         public int BlogGroupId
         {
-            get { return _blogGroup; }
-            set { _blogGroup = value; }
+            get;
+            set;
         }
 
-        private string _blogGroupTitle;
         /// <summary>
         /// Gets or sets the Blog Group Title
         /// </summary>
         /// <value></value>
         public string BlogGroupTitle
         {
-            get { return _blogGroupTitle; }
-            set { _blogGroupTitle = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -827,11 +805,9 @@ namespace Subtext.Framework
         /// <value></value>
         public string LicenseUrl
         {
-            get { return _licenseUrl; }
-            set { _licenseUrl = value; }
+            get;
+            set;
         }
-
-        string _licenseUrl;
 
         /// <summary>
         /// Gets or sets the Comment Service API key. This is for a comment spam filtering 

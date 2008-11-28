@@ -25,41 +25,36 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class Image
 	{
-		private int _blogID;
 		public int BlogId
 		{
-			get {return this._blogID;}
-			set {this._blogID = value;}
+			get;
+			set;
 		}
 
-		private int _imageId;
 		[XmlAttribute]
-		public  virtual int ImageID
+		public int ImageID
 		{
-			get{return _imageId;}
-			set{_imageId = value;}
+			get;
+			set;
 		}
 
-		private int _catId;
-		public  virtual int CategoryID
+		public int CategoryID
 		{
-			get{return _catId;}
-			set{_catId = value;}
+			get;
+			set;
 		}
 
-		private bool _isActive;
-		public  virtual bool IsActive
+		public bool IsActive
 		{
-			get{return _isActive;}
-			set{_isActive = value;}
+			get;
+			set;
 		}
 
-		public  virtual string FileName
-		{
-			get{return _file;}
-			set{_file= value;}
-		}
-		private string _file;
+        public string FileName
+        {
+            get;
+            set;
+        }
 
 		/// <summary>
 		/// Gets the filepath on the local server.
@@ -96,25 +91,22 @@ namespace Subtext.Framework.Components
             }
         }
 
-		private string _title;
-		public  virtual string Title
+		public string Title
 		{
-			get{return _title;}
-			set{_title= value;}
+			get;
+			set;
 		}
 
-		private int _width;
-		public  virtual int Width
+		public int Width
 		{
-			get{return _width;}
-			set{_width = value;}
+			get;
+			set;
 		}
 	
-		private int _height;
-		public  virtual int Height
+		public int Height
 		{
-			get{return _height;}
-			set{_height = value;}
+			get;
+			set;
 		}
 
 		public string OriginalFile

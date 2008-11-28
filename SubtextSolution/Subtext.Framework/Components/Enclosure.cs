@@ -23,126 +23,106 @@ namespace Subtext.Framework.Components
         {
         }
 
-        #region Getter and Setters
-
-        private int _id;
-        private string _title;
-        private string _url;
-        private long _size;
-        private string _mimetype;
-        private int _entryId;
-
         public string Url
         {
-            get { return _url; }
-            set { _url = value; }
+            get;
+            set;
         }
 
         public string Title
         {
-            get { return _title; }
-            set { _title = value; }
+            get;
+            set;
         }
 
         public long Size
         {
-            get { return _size; }
-            set { _size = value; }
+            get;
+            set;
         }
 
         public string MimeType
         {
-            get { return _mimetype; }
-            set { _mimetype = value; }
+            get;
+            set;
         }
 
         public int Id
         {
-            get { return _id; }
-            set { _id = value; }
+            get;
+            set;
         }
 
         public int EntryId
         {
-            get { return _entryId; }
-            set { _entryId = value; }
+            get;
+            set;
         }
-
-        private bool _addToFeed;
 
         public bool AddToFeed
         {
-            get { return _addToFeed; }
-            set { _addToFeed = value; }
+            get;
+            set;
         }
-
-        private bool _showWithPost;
 
         public bool ShowWithPost
         {
-            get { return _showWithPost; }
-            set { _showWithPost = value; }
+            get;
+            set;
         }
 
         public string FormattedSize
         {
             get
             {
-                if (_size < 1024)
-                    return _size + " bytes";
-                if (_size < 1024 * 1024)
-                    return Math.Round(((double)_size / 1024), 2) + " KB";
-                if (_size < 1024 * 1024 * 1024)
-                    return Math.Round(((double)_size / (1024 * 1024)), 2) + " MB";
+                if (Size < 1024)
+                    return Size + " bytes";
+                if (Size < 1024 * 1024)
+                    return Math.Round(((double)Size / 1024), 2) + " KB";
+                if (Size < 1024 * 1024 * 1024)
+                    return Math.Round(((double)Size / (1024 * 1024)), 2) + " MB";
 
-                return Math.Round(((double)_size / (1024 * 1024 * 1024)), 2) + " GB";
+                return Math.Round(((double)Size / (1024 * 1024 * 1024)), 2) + " GB";
             }
         }
-
-        #endregion
 
         public bool IsValid
         {
             get
             {
-                if(_entryId==0)
+                if(EntryId == 0)
                 {
-                    _validationMessage = "Enclosure requires to be bound to a Entry.";
+                    ValidationMessage = "Enclosure requires to be bound to a Entry.";
                     return false;
                 }
 
-                if (string.IsNullOrEmpty(_url))
+                if (string.IsNullOrEmpty(Url))
                 {
-                    _validationMessage = "Enclosure requires a Url.";
+                    ValidationMessage = "Enclosure requires a Url.";
                     return false;
                 }
 
-                if (string.IsNullOrEmpty(_mimetype))
+                if (string.IsNullOrEmpty(MimeType))
                 {
-                    _validationMessage = "Enclosure requires a MimeType.";
+                    ValidationMessage = "Enclosure requires a MimeType.";
                     return false;
                 }
 
-                if (_size == 0)
+                if (Size == 0)
                 {
-                    _validationMessage = "Enclosure size must be greater than zero.";
+                    ValidationMessage = "Enclosure size must be greater than zero.";
                     return false;
                 }
-                
 
-
-                _validationMessage = null;
+                ValidationMessage = null;
                 return true;
             }
         }
 
-        private string _validationMessage;
         public string ValidationMessage
         {
-            get
-            {
-                return _validationMessage;
-            }
+            get;
+            private set;
         }
         
     }

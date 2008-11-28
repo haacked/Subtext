@@ -10,56 +10,37 @@ namespace Subtext.Framework.Components {
         }
         
         public ServerTimeZoneInfo(WindowsTimeZone timeZone) {
-            _serverTimeZone = string.Format("{0} ({1})",
+            ServerTimeZone = string.Format("{0} ({1})",
                     TimeZone.CurrentTimeZone.StandardName,
                     TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now));
-            _serverTime = DateTime.Now.ToString("yyyy/MM/dd hh:mm tt");
-            _serverUtcTime = DateTime.UtcNow.ToString("yyyy/MM/dd hh:mm tt");
-            _currentTime = timeZone.Now.ToString("yyyy/MM/dd hh:mm tt");
+            ServerTime = DateTime.Now.ToString("yyyy/MM/dd hh:mm tt");
+            ServerUtcTime = DateTime.UtcNow.ToString("yyyy/MM/dd hh:mm tt");
+            CurrentTime = timeZone.Now.ToString("yyyy/MM/dd hh:mm tt");
         }
 
         public ServerTimeZoneInfo(string timeZoneText) : this(GetTimeZoneFromText(timeZoneText)) {
         }
 
         public string ServerTimeZone {
-            get {
-                return _serverTimeZone; 
-            }
-            set {
-                _serverTimeZone = value;
-            }
+            get;
+            set;
         }
-        string _serverTimeZone;
 
         public string ServerTime {
-            get {
-                return _serverTime;
-            }
-            set {
-                _serverTime = value;
-            }
+            get;
+            set;
         }
-        string _serverTime;
 
         public string ServerUtcTime {
-            get {
-                return _serverUtcTime;
-            }
-            set {
-                _serverUtcTime = value;
-            }
+            get;
+            set;
         }
-        string _serverUtcTime;
 
-        public string CurrentTime {
-            get {
-                return _currentTime;
-            }
-            set {
-                _currentTime = value;
-            }
+        public string CurrentTime
+        {
+            get;
+            set;
         }
-        string _currentTime;
 
         private static WindowsTimeZone GetTimeZoneFromText(string timeZoneText) {
             int timeZoneId = String.IsNullOrEmpty(timeZoneText)

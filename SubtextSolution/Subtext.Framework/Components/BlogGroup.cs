@@ -42,11 +42,10 @@ namespace Subtext.Framework.Components
             this.Id = id;
 		}
 
-		private string _title;
 		public string Title
 		{
-			get{return _title;}
-			set{_title = value;}
+			get;
+			set;
 		}
 
 		public bool HasDescription
@@ -57,43 +56,37 @@ namespace Subtext.Framework.Components
 			}
 		}
 
-		private string _description;
 		public string Description
 		{
-			get{return _description;}
-			set{_description = value;}
+			get;
+			set;
 		}
 
 
-        private int _displayOrder;
 		public int DisplayOrder
 		{
-			get{return _displayOrder;}
-			set{_displayOrder = value;}
+			get;
+			set;
 		}
 
-		private int id;
         [XmlAttribute("BlogGroupID")]
 		public int Id
 		{
-			get{return this.id;}
-			set{this.id = value;}
+			get;
+			set;
 		}
 
-		private bool _isActive;
 		public bool IsActive
 		{
-			get{return _isActive;}
-			set{_isActive = value;}
+			get;
+			set;
 		}
 
-		private IList<BlogInfo> _blogs;
         public IList<BlogInfo> Blogs
 		{
-            get { return _blogs; }
-            set { _blogs = value; }
+            get;
+            set;
 		}
-
 	}
 }
 

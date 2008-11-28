@@ -25,10 +25,10 @@ using Subtext.Extensibility.Providers;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Security;
 using Subtext.Framework.Text;
 using Subtext.Framework.Threading;
 using Subtext.Framework.Web;
-using Subtext.Framework.Security;
 
 namespace Subtext.Framework.Components
 {
@@ -39,6 +39,20 @@ namespace Subtext.Framework.Components
 	public class FeedbackItem : IIdentifiable
 	{
 		private readonly static ILog log = new Log();
+
+        /// <summary>
+        /// Ctor. Creates a new <see cref="FeedbackItem"/> instance.
+        /// </summary>
+        /// <param name="type">Ptype.</param>
+        public FeedbackItem(FeedbackType type)
+        {
+            Id = NullValue.NullInt32;
+            EntryId = NullValue.NullInt32;
+            FeedbackType = type;
+            Status = FeedbackStatusFlag.None;
+            DateCreated = NullValue.NullDateTime;
+            DateModified = NullValue.NullDateTime;
+        }
 
 		/// <summary>
 		/// Gets the specified feedback by id.
@@ -301,25 +315,15 @@ namespace Subtext.Framework.Components
 		}
 
 		/// <summary>
-		/// Creates a new <see cref="FeedbackItem"/> instance.
-		/// </summary>
-		/// <param name="type">Ptype.</param>
-		public FeedbackItem(FeedbackType type)
-		{
-			this.feedbackType = type;
-		}
-
-		/// <summary>
 		/// Gets or sets the ID for this feedback item.
 		/// </summary>
 		/// <value>The feedback ID.</value>
 		public int Id
 		{
-			get { return this._id; }
-			set { this._id = value; }
+			get;
+			set;
 		}
-		private int _id = NullValue.NullInt32;
-
+		
 		/// <summary>
 		/// Gets or sets the blog id for this feedback item.
 		/// You can usually get this via the entry, but not 
@@ -328,11 +332,9 @@ namespace Subtext.Framework.Components
 		/// <value>The blog id.</value>
 		public int BlogId
 		{
-			get { return this.blogId; }
-			set { this.blogId = value; }
+			get;
+			set;
 		}
-
-		int blogId;
 		
 		/// <summary>
 		/// Gets or sets the parent entry ID. Feedback must be associated with an entry, 
@@ -341,16 +343,9 @@ namespace Subtext.Framework.Components
 		/// <value>The parent ID.</value>
 		public int EntryId
 		{
-			get
-			{
-				return this._entryId;
-			}
-			set
-			{
-				this._entryId = value;
-			}
+			get;
+			set;
 		}
-		private int _entryId = NullValue.NullInt32;
 
 		/// <summary>
 		/// The Entry.
@@ -359,8 +354,8 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				if (this.entry == null && _entryId != NullValue.NullInt32)
-					this.entry = Entries.GetEntry(_entryId, PostConfig.None, false);
+				if (this.entry == null && EntryId != NullValue.NullInt32)
+                    this.entry = Entries.GetEntry(EntryId, PostConfig.None, false);
 				return this.entry;
 			}
 			set { this.entry = value; }
@@ -374,16 +369,9 @@ namespace Subtext.Framework.Components
 		/// <value>The type of the post.</value>
 		public FeedbackType FeedbackType
 		{
-			get
-			{
-				return this.feedbackType;
-			}
-			set
-			{
-				this.feedbackType = value;
-			}
+			get;
+			set;
 		}
-		private FeedbackType feedbackType = FeedbackType.None;
 
 		/// <summary>
 		/// Gets or sets the status of this feedback item.
@@ -391,16 +379,9 @@ namespace Subtext.Framework.Components
 		/// <value>The type of the post.</value>
 		public FeedbackStatusFlag Status
 		{
-			get
-			{
-				return this.statusFlag;
-			}
-			set
-			{
-				this.statusFlag = value;
-			}
+			get;
+			set;
 		}
-		private FeedbackStatusFlag statusFlag = FeedbackStatusFlag.None;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this feedback was created via the CommentAPI.
@@ -410,11 +391,9 @@ namespace Subtext.Framework.Components
 		/// </value>
 		internal bool CreatedViaCommentAPI
 		{
-			get { return this.createdViaCommentAPI; }
-			set { this.createdViaCommentAPI = value; }
+			get;
+			set;
 		}
-
-		bool createdViaCommentAPI;
 
 		/// <summary>
 		/// Gets or sets the title of the feedback.
@@ -422,10 +401,9 @@ namespace Subtext.Framework.Components
 		/// <value>The title.</value>
 		public string Title
 		{
-			get { return _title; }
-			set { _title = value; }
+			get;
+			set;
 		}
-		private string _title;
 		
 		/// <summary>
 		/// Gets or sets the body of the Feedback.  This is the 
@@ -455,10 +433,9 @@ namespace Subtext.Framework.Components
 		/// <value>The source URL.</value>
 		public Uri SourceUrl
 		{
-			get { return _sourceurl; }
-			set { _sourceurl = value; }
+			get;
+			set;
 		}
-		private Uri _sourceurl;
 	
 		/// <summary>
 		/// Returns the URL to view the specific comment 
@@ -492,11 +469,9 @@ namespace Subtext.Framework.Components
 		/// </value>
 		public bool IsBlogAuthor
 		{
-			get { return this.isBlogAuthor; }
-			set { this.isBlogAuthor = value; }
+			get;
+			set;
 		}
-
-		bool isBlogAuthor;
 
 		public string Email
 		{
@@ -515,11 +490,9 @@ namespace Subtext.Framework.Components
 
 		public IPAddress IpAddress
 		{
-			get { return this.ipAddress; }
-			set { this.ipAddress = value; }
+			get;
+			set;
 		}
-
-		IPAddress ipAddress;
 
 		public string UserAgent
 		{
@@ -529,32 +502,24 @@ namespace Subtext.Framework.Components
 
 		string userAgent;
 
-		private DateTime _datecreated = NullValue.NullDateTime;
 		/// <summary>
 		/// Gets or sets the date this item was created.
 		/// </summary>
 		/// <value></value>
 		public DateTime DateCreated
 		{
-			get
-			{
-				return _datecreated;
-			}
-			set { _datecreated = value; }
+			get;
+			set;
 		}
 
-		private DateTime _dateupated = NullValue.NullDateTime;
 		/// <summary>
 		/// Gets or sets the date this entry was last updated.
 		/// </summary>
 		/// <value></value>
 		public DateTime DateModified
 		{
-			get
-			{
-				return _dateupated;
-			}
-			set { _dateupated = value; }
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -598,7 +563,7 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		public bool NeedsModeratorApproval
 		{
-			get { return FeedbackStatusFlag.NeedsModeration == statusFlag; }
+			get { return FeedbackStatusFlag.NeedsModeration == Status; }
 			set { SetStatus(FeedbackStatusFlag.NeedsModeration, value); }
 		}
 

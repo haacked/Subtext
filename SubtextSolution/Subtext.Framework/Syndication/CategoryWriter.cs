@@ -25,18 +25,16 @@ namespace Subtext.Framework.Syndication
 	/// </summary>
 	public class CategoryWriter : RssWriter
 	{
-		private LinkCategory _lc;
 		public LinkCategory Category
 		{
-			get {return this._lc;}
-			set {this._lc = value;}
+			get;
+			set;
 		}
 
-		private string _url;
 		public string Url
 		{
-			get {return this._url;}
-			set {this._url = value;}
+			get;
+			set;
 		}
 
 		//TODO: implement dateLastViewedFeedItemPublished
@@ -61,7 +59,7 @@ namespace Subtext.Framework.Syndication
 			}
 			else
 			{
-				this.BuildChannel(Category.Title,  Url,  _info.Email,  Category.HasDescription ? Category.Description : Category.Title, _info.Language, _info.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
+				this.BuildChannel(Category.Title,  Url,  Blog.Email,  Category.HasDescription ? Category.Description : Category.Title, Blog.Language, Blog.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
 			}
 		}
 	}

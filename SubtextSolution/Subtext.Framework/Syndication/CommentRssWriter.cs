@@ -57,7 +57,7 @@ namespace Subtext.Framework.Syndication
 		protected override void WriteChannel()
 		{
 			RssImageElement image = new RssImageElement(GetRssImage(), CommentEntry.Title, CommentEntry.FullyQualifiedUrl, 77, 60, null);
-			this.BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl.ToString(), CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, _info.Language, _info.Author, Config.CurrentBlog.LicenseUrl, image);
+			this.BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl.ToString(), CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, Blog.Language, Blog.Author, Config.CurrentBlog.LicenseUrl, image);
 		}
 
 		/// <summary>

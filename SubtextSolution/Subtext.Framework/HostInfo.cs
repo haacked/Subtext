@@ -148,11 +148,9 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string HostUserName
 		{
-			get { return _hostUserName; }
-			set { _hostUserName = value; }
+			get;
+			set;
 		}
-
-		string _hostUserName;
 
 		/// <summary>
 		/// Gets or sets the host password.
@@ -160,11 +158,9 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string Password
 		{
-			get { return _hostPassword; }
-			set { _hostPassword = value; }
+			get;
+			set;
 		}
-
-		string _hostPassword;
 
 		/// <summary>
 		/// Gets or sets the salt.
@@ -172,11 +168,9 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string Salt
 		{
-			get { return _salt; }
-			set { _salt = value; }
+			get;
+			set;
 		}
-
-		string _salt;
 
 		/// <summary>
 		/// Gets or sets the date this record was created. 
@@ -186,10 +180,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public DateTime DateCreated
 		{
-			get { return _dateCreated; }
-			set { _dateCreated = value; }
+			get;
+			set;
 		}
-
-		DateTime _dateCreated;
 	}
 }

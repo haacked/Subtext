@@ -63,11 +63,10 @@ namespace Subtext.Framework.Providers
 		/// <param name="configValue">Config value.</param>
 		public override void Initialize(string name, NameValueCollection configValue)
 		{
-            _connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue);
+            ConnectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue);
             base.Initialize(name, configValue);
 		}
 
-		private string _connectionString;
 		/// <summary>
 		/// Gets or sets the connection string.
 		/// </summary>
@@ -75,8 +74,8 @@ namespace Subtext.Framework.Providers
 		public string ConnectionString
 		{
 			//TODO: Make this protected.
-			get {return _connectionString;}
-			set {_connectionString = value;}
+			get;
+			set;
 		}
 
 		#region DbProvider specific methods

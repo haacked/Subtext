@@ -25,6 +25,11 @@ namespace Subtext.Framework.Configuration
 	[Serializable]
 	public class Tracking
 	{
+        public Tracking() {
+            QueueStatsCount = 25;
+            QueueStats = true;
+        }
+
 		/// <summary>
 		/// Gets a value indicating whether tracking services 
 		/// are being used such as Weblogs Ping, Pingbacks, and Trackbacks.
@@ -40,7 +45,6 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
-		private int _queueStatsCount = 25;
 		/// <summary>
 		/// Gets or sets the queue stats count. This is the number of 
 		/// tracking operations that are currently in the queue.
@@ -49,11 +53,10 @@ namespace Subtext.Framework.Configuration
 		[XmlAttribute("queueStatsCount")]
 		public int QueueStatsCount
 		{
-			get {return this._queueStatsCount;}
-			set {this._queueStatsCount = value;}
+			get;
+			set;
 		}
 
-		private bool _queueStats = true;
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to queue stats. 
 		/// This simply indicates whether trackbacks and pings are queued 
@@ -65,11 +68,10 @@ namespace Subtext.Framework.Configuration
 		[XmlAttribute("queueStats")]
 		public bool QueueStats
 		{
-			get {return this._queueStats;}
-			set {this._queueStats = value;}
+			get;
+			set;
 		}
 
-		private bool _enableTrackBacks = true;
 		/// <summary>
 		/// Gets or sets a value indicating whether trackbaks are enabled.
 		/// </summary>
@@ -79,11 +81,10 @@ namespace Subtext.Framework.Configuration
 		[XmlAttribute("enableTrackBacks")]
 		public bool EnableTrackBacks
 		{
-			get {return this._enableTrackBacks;}
-			set {this._enableTrackBacks = value;}
+			get;
+			set;
 		}
 
-		private bool _enablePingBacks = true;
 		/// <summary>
 		/// Gets or sets a value indicating whether ping backs are enabled.
 		/// </summary>
@@ -93,11 +94,10 @@ namespace Subtext.Framework.Configuration
 		[XmlAttribute("enablePingBacks")]
 		public bool EnablePingBacks
 		{
-			get {return this._enablePingBacks;}
-			set {this._enablePingBacks = value;}
+			get;
+			set;
 		}
 
-		private bool _pingWeblogs = true;
 		/// <summary>
 		/// Gets or sets a value indicating whether to ping weblogs.
 		/// </summary>
@@ -107,11 +107,10 @@ namespace Subtext.Framework.Configuration
 		[XmlAttribute("pingWeblogs")]
 		public bool PingWeblogs
 		{
-			get {return this._pingWeblogs;}
-			set {this._pingWeblogs = value;}
+			get;
+			set;
 		}
 
-		private bool _enableWebStats = true;
 		/// <summary>
 		/// Gets or sets a value indicating whether to enable web stats in general.
 		/// </summary>
@@ -121,11 +120,10 @@ namespace Subtext.Framework.Configuration
 		[XmlAttribute("enableWebStats")]
 		public bool EnableWebStats
 		{
-			get {return this._enableWebStats;}
-			set {this._enableWebStats = value;}
+			get;
+			set;
 		}
 
-		private bool _enableAggBugs = true;
 		/// <summary>
 		/// Gets or sets a value indicating whether aggregator bugs are enabled. 
 		/// These are 1pixel images used to track the number of users who 
@@ -137,8 +135,8 @@ namespace Subtext.Framework.Configuration
 		[XmlAttribute("enableAggBugs")]
 		public bool EnableAggBugs
 		{
-			get {return this._enableAggBugs;}
-			set {this._enableAggBugs = value;}
+			get;
+			set;
 		}
 
 	}

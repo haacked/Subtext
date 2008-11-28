@@ -23,33 +23,33 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class EntryView
 	{
+        public EntryView() {
+            BlogId = NullValue.NullInt32;
+            EntryId = NullValue.NullInt32;
+        }
+
 		public int BlogId
 		{
-			get {return this.blogId;}
-			set {this.blogId = value;}
+			get;
+			set;
 		}
-		private int blogId = NullValue.NullInt32;
 
 		public int EntryId
 		{
-			get {return this.entryId;}
-			set {this.entryId = value;}
+			get;
+			set;
 		}
-		private int entryId = NullValue.NullInt32;
-
 		
 		public string ReferralUrl
 		{
-			get {return this.referralUrl;}
-			set {this.referralUrl = value;}
+			get;
+			set;
 		}
-		private string referralUrl;
 
 		public PageViewType PageViewType
 		{
-			get {return this.pageViewType;}
-			set {this.pageViewType = value;}
+			get;
+			set;
 		}
-		private PageViewType pageViewType;
 	}
 }

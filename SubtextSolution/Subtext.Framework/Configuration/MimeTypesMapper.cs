@@ -13,20 +13,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-
 using System;
 using System.Collections.Specialized;
 using System.Configuration;
-using System.Globalization;
 using System.IO;
-using log4net;
-using Subtext.Framework.Logging;
 
 namespace Subtext.Framework.Configuration
 {
     public class MimeTypesMapper
     {
-        NameValueCollection _config = null;
         static MimeTypesMapper _mappings = new MimeTypesMapper((NameValueCollection)ConfigurationManager.GetSection("EnclosureMimetypes"));
 
         /// <summary>
@@ -37,24 +32,24 @@ namespace Subtext.Framework.Configuration
             get { return _mappings; }
         }
 
-        private int _count=0;
-
         public int Count
         {
-            get { return _count; }
+            get;
+            private set;
         }
 
         public NameValueCollection List
         {
-            get { return _config; }
+            get;
+            private set;
         }
 
         public MimeTypesMapper(NameValueCollection config)
         {
             if (config == null)
                 throw new ArgumentNullException("config");
-            _config = config;
-            _count = _config.Keys.Count;
+            List = config;
+            Count = config.Keys.Count;
         }
 
         /// <summary>
@@ -66,8 +61,8 @@ namespace Subtext.Framework.Configuration
         {
             if(ext==null)
                 throw new ArgumentNullException("ext","The file extension cannot be null.");
-            if (_config[ext] != null)
-                return _config[ext];
+            if (List[ext] != null)
+                return List[ext];
             return null;
         }
 

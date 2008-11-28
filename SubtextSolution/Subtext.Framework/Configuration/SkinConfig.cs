@@ -53,12 +53,10 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		public string TemplateFolder
 		{
-			get{return this.templateFolder;}
-			set{this.templateFolder = value;}
+			get;
+			set;
 		}
 
-		private string templateFolder;
-		
 		/// <summary>
 		/// Gets or sets the skin's primary CSS file, if any.  
 		/// Some Skins have multiple flavors based on different CSS files.  
@@ -68,23 +66,19 @@ namespace Subtext.Framework.Configuration
 		/// <value>The skin CSS file.</value>
 		public string SkinStyleSheet
 		{
-			get{return this.skinStyleSheet;}
-			set{this.skinStyleSheet = value;}
+			get;
+			set;
 		}
-
-		private string skinStyleSheet;
 
 		/// <summary>
 		/// This is CSS text that is entered within the admin section.
 		/// </summary>
 		public string CustomCssText
 		{
-			get{return this.customCssText;}
-			set{this.customCssText = value;}
+			get;
+			set;
 		}
 		
-		private string customCssText;
-
 		/// <summary>
 		/// Returns true if the skin has a skin specific css file 
 		/// that is applied after style.css (there is one style.css 

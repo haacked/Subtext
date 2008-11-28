@@ -29,24 +29,25 @@ namespace Subtext.Framework.Components
 		/// Creates a new <see cref="LinkCategory"/> instance.
 		/// </summary>
 		public LinkCategory()
-		{}
+		{
+            CategoryType = CategoryType.LinkCollection;
+        }
 
 		/// <summary>
 		/// Creates a new <see cref="LinkCategory"/> instance.
 		/// </summary>
 		/// <param name="catID">Cat ID.</param>
 		/// <param name="title">Title.</param>
-		public LinkCategory(int catID, string title)
+		public LinkCategory(int catID, string title) : this()
 		{
 			Title = title;
 			this.Id = catID;
 		}
 
-		private int _blogID;
 		public int BlogId
 		{
-			get {return this._blogID;}
-			set {this._blogID = value;}
+			get;
+			set;
 		}
 
 		private string _sorttext;
@@ -63,11 +64,10 @@ namespace Subtext.Framework.Components
 			set{_sorttext = value;}
 		}
 
-		private string _title;
 		public string Title
 		{
-			get{return _title;}
-			set{_title = value;}
+			get;
+			set;
 		}
 
 		public bool HasDescription
@@ -78,48 +78,42 @@ namespace Subtext.Framework.Components
 			}
 		}
 
-		private string _description;
 		public string Description
 		{
-			get{return _description;}
-			set{_description = value;}
+			get;
+			set;
 		}
 
 		
-		private CategoryType _categoryType = CategoryType.LinkCollection;
 		public CategoryType CategoryType
 		{
-			get{return _categoryType;}
-			set{_categoryType = value;}
+			get;
+			set;
 		}
 
-		private int id;
 		[XmlAttribute("CategoryID")]
 		public int Id
 		{
-			get{return this.id;}
-			set{this.id = value;}
+			get;
+			set;
 		}
 
-		private bool _isActive;
 		public bool IsActive
 		{
-			get{return _isActive;}
-			set{_isActive = value;}
+			get;
+			set;
 		}
 
-		private IList<Link> _links;
 		public IList<Link> Links
 		{
-			get{return _links;}
-			set{_links = value;}
+			get;
+			set;
 		}
 
-        private IList<Image> _images;
         public IList<Image> Images
 		{
-			get{return _images;}
-			set{_images = value;}
+			get;
+			set;
 		}
 
 		public bool HasLinks

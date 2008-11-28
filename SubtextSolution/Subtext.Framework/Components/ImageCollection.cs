@@ -24,14 +24,13 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class ImageCollection : Collection<Image>
 	{
-		private LinkCategory _lc;
 	    /// <summary>
 	    /// The link category for this image.
 	    /// </summary>
 		public LinkCategory Category
 		{
-			get{return _lc;}
-			set{_lc = value;}
+			get;
+			set;
 		}
 
 	    /// <summary>

@@ -22,39 +22,32 @@ using Subtext.Framework.Threading;
 
 namespace Subtext.Framework.UrlManager
 {
-
-	public enum HandlerType
-	{
-		Direct,
-		Factory,
-		Page,
-		Directory,
-	};
-
 	/// <summary>
 	/// Class used to match URLS to the controls that render the URL.
 	/// </summary>
 	public class HttpHandler
 	{
+        public HttpHandler() {
+            DirectoryLocation = string.Empty;
+            HandlerType = HandlerType.Page;
+        }
+
 		private readonly object handlerLock = new object();
 
-		private string _pattern;
 		[XmlAttribute("pattern")]
 		public string Pattern
 		{
-			get {return this._pattern;}
-			set {this._pattern = value;}
+			get;
+			set;
 		}
 
-		private string _type;
 		[XmlAttribute("type")]
 		public string Type
 		{
-			get {return this._type;}
-			set {this._type = value;}
+			get;
+			set;
 		}
 
-		private string _PageLocation;
 		/// <summary>
 		/// <p>Gets or sets the page location.  This is the location 
 		/// of the page used when the handler type is <see cref="Page"/>. 
@@ -73,8 +66,8 @@ namespace Subtext.Framework.UrlManager
 		[XmlAttribute("pageLocation")]
 		public string PageLocation
 		{
-			get {return this._PageLocation;}
-			set {this._PageLocation = value;}
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -101,10 +94,9 @@ namespace Subtext.Framework.UrlManager
 		[XmlAttribute("directoryLocation")]
 		public string DirectoryLocation
 		{
-			get {return this._directoryLocation;}
-			set {this._directoryLocation = value;}
+			get;
+			set;
 		}
-		string _directoryLocation = string.Empty;
 
 		private string _fullPageLocation;
 
@@ -125,12 +117,11 @@ namespace Subtext.Framework.UrlManager
 			}
 		}
 
-		private string _controls;
 		[XmlAttribute("controls")]
 		public string Controls
 		{
-			get {return this._controls;}
-			set {this._controls = value;}
+			get;
+			set;
 		}
 
 		public string[] BlogControls
@@ -210,13 +201,11 @@ namespace Subtext.Framework.UrlManager
 			return UrlRegex.IsMatch(url);
 		}
 
-
-		private HandlerType _handlerType = HandlerType.Page;
 		[XmlAttribute("handlerType")]
 		public HandlerType HandlerType
 		{
-			get {return this._handlerType;}
-			set {this._handlerType = value;}
+			get;
+			set;
 		}
 	}
 }

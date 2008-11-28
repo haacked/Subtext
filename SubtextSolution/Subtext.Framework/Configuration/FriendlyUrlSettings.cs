@@ -45,22 +45,23 @@ namespace Subtext.Configuration
 		{
 			if (config == null)
 				return;
-			textTransformation = ParseTextTransform(config["textTransform"]);
-			separatingCharacter = config["separatingCharacter"];
+			TextTransformation = ParseTextTransform(config["textTransform"]);
+            SeparatingCharacter = config["separatingCharacter"];
 			string wordCountLimitText = config["limitWordCount"];
 			if(!String.IsNullOrEmpty(wordCountLimitText) )
 			{
-				int.TryParse(wordCountLimitText, out this.wordCountLimit);
+                int wordCountLimit;
+				int.TryParse(wordCountLimitText, out wordCountLimit);
+                WordCountLimit = wordCountLimit;
 			}
-			enabled = true;
+			Enabled = true;
 		}
 
-		public bool Enabled
-		{
-			get { return this.enabled; }
-		}
-
-		private bool enabled = false;
+        public bool Enabled
+        {
+            get;
+            private set;
+        }
 
 		/// <summary>
 		/// The type of transformation to apply on the URL such 
@@ -68,7 +69,8 @@ namespace Subtext.Configuration
 		/// </summary>
 		public TextTransform TextTransformation
 		{
-			get { return this.textTransformation; }
+			get;
+            private set;
 		}
 
 		/// <summary>
@@ -76,19 +78,15 @@ namespace Subtext.Configuration
 		/// </summary>
 		public string SeparatingCharacter
 		{
-			get { return this.separatingCharacter; }
+			get;
+            private set;
 		}
 
-		public int WordCountLimit
-		{
-			get { return this.wordCountLimit; }
-		}
-
-		private int wordCountLimit = 0;
-
-		private string separatingCharacter;
-
-		private TextTransform textTransformation;
+        public int WordCountLimit
+        {
+            get;
+            private set;
+        }
 
 		static TextTransform ParseTextTransform(string enumValue)
 		{

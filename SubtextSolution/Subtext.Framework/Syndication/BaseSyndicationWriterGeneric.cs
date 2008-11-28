@@ -38,9 +38,8 @@ namespace Subtext.Framework.Syndication
 		/// <value>The entries.</value>
 		public IList<T> Items
 		{
-			get { return this.items; }
-			set { this.items = value; }
+			get;
+			set;
 		}
-		private IList<T> items;
 	}
 }

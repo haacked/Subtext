@@ -31,6 +31,7 @@ namespace Subtext.Framework.Logging
 		/// </summary>
 		public LogEntry()
 		{
+            BlogId = NullValue.NullInt32;
 		}
 
 		/// <summary>
@@ -39,11 +40,9 @@ namespace Subtext.Framework.Logging
 		/// <value>The id.</value>
 		public int Id
 		{
-			get { return _id; }
-			set { _id = value; }
+			get;
+			set;
 		}
-
-		int _id;
 
 		/// <summary>
 		/// Gets or sets the blog id.
@@ -51,11 +50,9 @@ namespace Subtext.Framework.Logging
 		/// <value>The blog id.</value>
 		public int BlogId
 		{
-			get { return _blogId; }
-			set { _blogId = value; }
+			get;
+			set;
 		}
-
-		int _blogId = NullValue.NullInt32;
 
 		/// <summary>
 		/// Gets or sets the date of the log entry.
@@ -63,11 +60,9 @@ namespace Subtext.Framework.Logging
 		/// <value>The date.</value>
 		public DateTime Date
 		{
-			get { return _date; }
-			set { _date = value; }
+			get;
+			set;
 		}
-
-		DateTime _date;
 
 		/// <summary>
 		/// Gets or sets the id or name of thread on which 
@@ -76,11 +71,9 @@ namespace Subtext.Framework.Logging
 		/// <value>The thread.</value>
 		public string Thread
 		{
-			get { return _thread; }
-			set { _thread = value; }
+			get;
+			set;
 		}
-
-		string _thread;
 
 		/// <summary>
 		/// Gets or sets the context of the message if any was set.
@@ -88,11 +81,9 @@ namespace Subtext.Framework.Logging
 		/// <value>The context.</value>
 		public string Context
 		{
-			get { return _context; }
-			set { _context = value; }
+			get;
+			set;
 		}
-
-		string _context;
 
 		/// <summary>
 		/// Gets or sets the level of the log message.
@@ -100,11 +91,9 @@ namespace Subtext.Framework.Logging
 		/// <value>The level.</value>
 		public string Level
 		{
-			get { return _level; }
-			set { _level = value; }
+			get;
+			set;
 		}
-
-		string _level;
 
 		/// <summary>
 		/// Gets or sets the logger that logged this message.
@@ -112,11 +101,9 @@ namespace Subtext.Framework.Logging
 		/// <value>The logger.</value>
 		public string Logger
 		{
-			get { return _logger; }
-			set { _logger = value; }
+			get;
+			set;
 		}
-
-		string _logger;
 
 		/// <summary>
 		/// Gets or sets the log message.
@@ -124,11 +111,9 @@ namespace Subtext.Framework.Logging
 		/// <value>The message.</value>
 		public string Message
 		{
-			get { return _message; }
-			set { _message = value; }
+			get;
+			set;
 		}
-
-		string _message;
 
 		/// <summary>
 		/// Gets or sets the exception type and stack trace 
@@ -137,11 +122,9 @@ namespace Subtext.Framework.Logging
 		/// <value>The exception.</value>
 		public string Exception
 		{
-			get { return _exception; }
-			set { _exception = value; }
+			get;
+			set;
 		}
-
-		string _exception;
 
 		/// <summary>
 		/// Gets or sets the Url that of the request that caused this 
@@ -150,15 +133,8 @@ namespace Subtext.Framework.Logging
 		/// <value>The URL.</value>
 		public Uri Url
 		{
-			get
-			{
-				return this.url;
-			}
-			set
-			{
-				this.url = value;
-			}
+			get;
+			set;
 		}
-		Uri url;
 	}
 }

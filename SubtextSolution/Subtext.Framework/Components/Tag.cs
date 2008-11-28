@@ -23,36 +23,32 @@ namespace Subtext.Framework.Components
     {
         public Tag(KeyValuePair<string,int> tag)
         {
-            tagName = tag.Key;
-            tagCount = tag.Value;
+            TagName = tag.Key;
+            Count = tag.Value;
         }
 
-        private string tagName;
         public string TagName
         {
-            get { return tagName; }
-            set { tagName = value; }
+            get;
+            set;
         }
 
-        private int tagCount;
         public int Count
         {
-            get { return tagCount; }
-            set { tagCount = value; }
+            get;
+            set;
         }
 
-        private int tagWeight;
         public int Weight
         {
-            get { return tagWeight; }
-            set { tagWeight = value; }
+            get;
+            set;
         }
 
-        private double factor;
         public double Factor
         {
-            get { return factor; }
-            set { factor = value; }
+            get;
+            set;
         }
     }
 }

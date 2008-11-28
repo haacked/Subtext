@@ -25,6 +25,10 @@ namespace Subtext.Framework.UI.Skinning
 	[Serializable]
 	public class SkinTemplate
 	{
+        public SkinTemplate() {
+            MobileSupport = MobileSupport.None;
+        }
+
         public static SkinTemplate Empty
         {
             get
@@ -41,20 +45,16 @@ namespace Subtext.Framework.UI.Skinning
 		[XmlAttribute]
 		public string TemplateFolder
 		{
-			get {return this.templateFolder;}
-			set {this.templateFolder = value;}
+			get;
+			set;
 		}
-
-		private string templateFolder;
 
         [XmlAttribute]
         public MobileSupport MobileSupport
         {
-            get { return this.mobileSupport; }
-            set { this.mobileSupport = value; }
+            get;
+            set;
         }
-
-        private MobileSupport mobileSupport = MobileSupport.None;
 
 		/// <summary>
 		/// Gets or sets the stylesheet for this Skin.  Remember, 
@@ -69,11 +69,9 @@ namespace Subtext.Framework.UI.Skinning
 		[XmlAttribute]
 		public string StyleSheet
 		{
-			get {return this.styleSheet;}
-			set {this.styleSheet = value;}
+			get;
+			set;
 		}
-
-		private string styleSheet;
 
         /// <summary>
         /// Exclude the the default style.css from being rendered in the skin.
@@ -82,11 +80,9 @@ namespace Subtext.Framework.UI.Skinning
         [XmlAttribute]
 	    public bool ExcludeDefaultStyle
 	    {
-	        get { return excludeDefaultStyle; }
-	        set { excludeDefaultStyle = value; }
+	        get;
+	        set;
 	    }
-
-        private bool excludeDefaultStyle;
 
         /// <summary>
         /// Specifies the order in which the styles are rendered inside the skin.
@@ -95,12 +91,9 @@ namespace Subtext.Framework.UI.Skinning
         [XmlAttribute]
 	    public StyleMergeMode StyleMergeMode
 	    {
-	        get { return styleMergeMode; }
-	        set { styleMergeMode = value; }
+	        get;
+	        set;
 	    }
-        
-        private StyleMergeMode styleMergeMode;
-
 
         /// <summary>
         /// How to merge all scripts into one.
@@ -113,11 +106,9 @@ namespace Subtext.Framework.UI.Skinning
         [XmlAttribute]
         public ScriptMergeMode ScriptMergeMode
         {
-            get { return scriptMergeMode; }
-            set { scriptMergeMode = value; }
+            get;
+            set;
         }
-
-        private ScriptMergeMode scriptMergeMode;
 
         /// <summary>
         /// Whether or not to merge all scripts into one.
@@ -145,11 +136,9 @@ namespace Subtext.Framework.UI.Skinning
 		[XmlAttribute]
 		public string Name
 		{
-			get {return this.name;}
-			set {this.name = value;}
+			get;
+			set;
 		}
-
-		private string name;
 		
 		/// <summary>
 		/// A key representing this particular skin.  A Skin 
@@ -165,40 +154,25 @@ namespace Subtext.Framework.UI.Skinning
 			}
 		}
 
-		private Script[] _scripts;
 		/// <summary>
 		/// Collection of <code>script</code> elements, declared for the skin.
 		/// </summary>
-		[XmlArray("Scripts")]
-		public Script[] Scripts
-		{
-			get
-			{
-				return _scripts;
-			}
-			set
-			{
-				_scripts = value;
-			}
-		}
+        [XmlArray("Scripts")]
+        public Script[] Scripts
+        {
+            get;
+            set;
+        }
 
-		private Style[] _styles;
 		/// <summary>
 		/// Collection of stylesheet elements declared for the skin.
 		/// </summary>
 		[XmlArray("Styles")]
 		public Style[] Styles
 		{
-			get
-			{
-				return _styles;
-			}
-			set
-			{
-				_styles = value;
-			}
+			get;
+			set;
 		}
-		
 	}
 
     public enum MobileSupport

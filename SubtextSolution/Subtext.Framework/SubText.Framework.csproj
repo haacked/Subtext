@@ -27,6 +27,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -123,6 +124,9 @@
       <Name>System</Name>
     </Reference>
     <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
@@ -514,8 +518,10 @@
     <Compile Include="UI\Skinning\Style.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\Skinning\StyleDefinition.cs" />
     <Compile Include="UI\Skinning\StyleSheetElementCollectionRenderer.cs" />
     <Compile Include="UrlManager\HandlerConfiguration.cs" />
+    <Compile Include="UrlManager\HandlerType.cs" />
     <Compile Include="UrlManager\HttpHandler.cs" />
     <Compile Include="UrlManager\PageHandlerFactory.cs" />
     <Compile Include="UrlManager\UrlReWriteHandlerFactory.cs" />

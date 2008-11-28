@@ -35,29 +35,32 @@ namespace Subtext.Framework.Components
 		/// <param name="ptype">Ptype.</param>
 		public Entry(PostType ptype)
 		{
-			_postType = ptype;
+            Categories = new StringCollection();
+            PostConfig = PostConfig.None;
+            DateModified = NullValue.NullDateTime;
+            DateCreated = NullValue.NullDateTime;
+			PostType = ptype;
+            Id = NullValue.NullInt32;
 		}
 
-		private int _blogID;
 		/// <summary>
 		/// Gets or sets the blog ID.
 		/// </summary>
 		/// <value>The blog ID.</value>
 		public int BlogId
 		{
-			get { return _blogID; }
-			set { _blogID = value; }
+			get;
+			set;
 		}
 
-		private int _entryid = NullValue.NullInt32;
 		/// <summary>
 		/// Gets or sets the entry ID.
 		/// </summary>
 		/// <value>The entry ID.</value>
 		public int Id
 		{
-			get { return _entryid; }
-			set { _entryid = value; }
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -94,16 +97,9 @@ namespace Subtext.Framework.Components
 		/// <value>The type of the post.</value>
 		public virtual PostType PostType
 		{
-			get
-			{
-				return _postType;
-			}
-			set
-			{
-				_postType = value;
-			}
+			get;
+			set;
 		}
-		private PostType _postType = PostType.None;
 
 		/// <summary>
 		/// Gets or sets the description or excerpt for this blog post. 
@@ -112,10 +108,9 @@ namespace Subtext.Framework.Components
 		/// <value>The description.</value>
 		public string Description
 		{
-			get { return _description; }
-			set { _description = value; }
+			get;
+			set;
 		}
-		private string _description;
 
 		/// <summary>
 		/// Gets or sets the name of the entry.  This is used 
@@ -155,10 +150,9 @@ namespace Subtext.Framework.Components
 		/// <value>The title.</value>
 		public string Title
 		{
-			get { return _title; }
-			set { _title = value; }
+			get;
+			set;
 		}
-		private string _title;
 
 		/// <summary>
 		/// Gets or sets the body of the Entry.  This is the 
@@ -167,16 +161,9 @@ namespace Subtext.Framework.Components
 		/// <value></value>
 		public string Body
 		{
-			get
-			{
-				return _body;
-			}
-			set
-			{
-				_body = value;
-			}
+			get;
+			set;
 		}
-		private string _body;
 
 		/// <summary>
 		/// Gets or sets the author name of the entry.  
@@ -185,10 +172,9 @@ namespace Subtext.Framework.Components
 		/// <value>The author.</value>
 		public string Author
 		{
-			get{return _author;}
-			set{_author = value;}
+			get;
+			set;
 		}
-		private string _author;
 
 		/// <summary>
 		/// Gets or sets the email of the author.
@@ -196,10 +182,9 @@ namespace Subtext.Framework.Components
 		/// <value>The email.</value>
 		public string Email
 		{
-			get{return _email;}
-			set{_email = value;}
+			get;
+			set;
 		}
-		private string _email;
 
 		/// <summary>
 		/// Gets or sets the date this item was created.
@@ -207,13 +192,10 @@ namespace Subtext.Framework.Components
 		/// <value></value>
 		public DateTime DateCreated
 		{
-			get
-			{
-				return _datecreated;
-			}
-			set { _datecreated = value; }
+			get;
+			set;
 		}
-		private DateTime _datecreated = NullValue.NullDateTime;
+		
 
 		/// <summary>
 		/// Gets or sets the date this entry was last updated.
@@ -221,13 +203,9 @@ namespace Subtext.Framework.Components
 		/// <value></value>
 		public DateTime DateModified
 		{
-			get
-			{
-				return _dateupated;
-			}
-			set { _dateupated = value; }
+			get;
+			set;
 		}
-		private DateTime _dateupated = NullValue.NullDateTime;
 
 		/// <summary>
 		/// Gets or sets the date the item was published.
@@ -378,13 +356,13 @@ namespace Subtext.Framework.Components
 				if (HttpContext.Current != null && !String.IsNullOrEmpty(value))
 				{
 					if (this.PostType == PostType.BlogPost || this.PostType == PostType.Story)
-						_fullyQualifiedLink = new Uri(Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(this));
+						FullyQualifiedUrl = new Uri(Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(this));
 					else
 					{
 						string url = _url;
 						if (url.StartsWith("/"))
 							url = url.Remove(0, 1);
-						_fullyQualifiedLink = new Uri(Config.CurrentBlog.RootUrl, url);
+						FullyQualifiedUrl = new Uri(Config.CurrentBlog.RootUrl, url);
 					}
 				}
 			}
@@ -396,26 +374,20 @@ namespace Subtext.Framework.Components
 		/// <value>The fully qualified link.</value>
 		public Uri FullyQualifiedUrl
 		{
-			get
-			{
-				return _fullyQualifiedLink;
-			}
+			get;
+            private set;
 		}
-		Uri _fullyQualifiedLink;
 
-		private int _feedBackCount;
 		public int FeedBackCount
 		{
-			get { return _feedBackCount; }
-			set { _feedBackCount = value; }
+			get;
+			set;
 		}
-
-		private PostConfig _PostConfig = PostConfig.None;
 
 		public PostConfig PostConfig
 		{
-			get { return this._PostConfig; }
-			set { this._PostConfig = value; }
+			get;
+			set;
 		}
 
 		protected bool EntryPropertyCheck(PostConfig ep)
@@ -459,21 +431,17 @@ namespace Subtext.Framework.Components
         /// </summary>
         public StringCollection Categories
         {
-            get { return this.categories; }
+            get;
+            private set;
         }
-
-        private StringCollection categories = new StringCollection();
-
-
-	    private Enclosure _enclosure;
 
         /// <summary>
         /// Gets and sets the enclosure for the entry.
         /// </summary>
 	    public Enclosure Enclosure
 	    {
-	        get { return _enclosure; }
-	        set { _enclosure = value; }
+	        get;
+	        set;
 	    }
 	}
 }

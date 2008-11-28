@@ -18,38 +18,32 @@ using System;
 namespace Subtext.Framework.Components
 {
 	/// <summary>
-	/// Summary description for ArchiveCount.
+	/// DTO style class for representing a count of archived posts.
 	/// </summary>
 	[Serializable]
 	public class ArchiveCount
 	{
-		private String _title;
-        public String Title
+        public String Title 
         {
-            get { return _title; }
-            set { _title = value; }
+            get; set;
+        }
+        
+        public int Id 
+        {
+            get;
+            set;
         }
 
-        private int _id;
-        public int Id
+        public DateTime Date
         {
-            get { return _id; }
-            set { _id = value; }
+            get;
+            set;
         }
 
-
-		private DateTime _date;
-		public DateTime Date
-		{
-			get {return _date;}
-			set {_date = value;}
-		}
-
-		private int _count;
 		public int Count
 		{
-			get {return _count;}
-			set {_count = value;}
+			get;
+			set;
 		}
 	}
 }
