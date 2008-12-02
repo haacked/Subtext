@@ -227,17 +227,14 @@ Global
 		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|.NET.ActiveCfg = Debug|Any CPU
 		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
 		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|Mixed Platforms.Build.0 = Debug|Any CPU
 		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|.NET.ActiveCfg = Release|Any CPU
 		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
