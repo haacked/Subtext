@@ -28,8 +28,8 @@ namespace Subtext.Web.UI.Controls
 	{
 		protected Repeater CatList;
 
-        private IList<LinkCategory> lcc;
-        public IList<LinkCategory> LinkCategories
+        private ICollection<LinkCategory> lcc;
+        public ICollection<LinkCategory> LinkCategories
 		{
 			get{return lcc;}
 			set{lcc = value;}

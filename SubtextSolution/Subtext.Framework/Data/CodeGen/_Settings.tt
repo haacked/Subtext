@@ -1,0 +1,18 @@
+﻿<#@ output extension=".cs" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Data.Common" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#+
+const string ConnectionString=@"Data Source=.\SQLExpress;Integrated Security=true;AttachDbFilename=D:\svn\subtext\trunk\SubtextSolution\Subtext.Web\App_Data\Subtext2.1.mdf;User Instance=true;";
+const string Namespace = "Subtext.Framework.Data";
+const string ProviderName="subtextData";
+string[] ExcludeTables= new string[]{"sysdiagrams"};
+#>

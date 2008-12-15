@@ -1,42 +1,34 @@
 using System;
-using System.Data;
+using System.Globalization;
 using System.Web;
 using System.Web.UI.WebControls;
+using Subtext.Framework;
 using Subtext.Framework.Providers;
-using System.Globalization;
+using Subtext.Web.UI.Controls.Aggregate;
 
 namespace Subtext.Web.UI.Controls
 {
-    public class AggRecentPosts : BaseControl
+    public class AggRecentPosts : AggregateControl
     {
         protected Repeater RecentPosts;
-
-        private int _Count;
 
         /// <summary>
         /// Prroperty to limit the number of posts displayed. Default is 35.
         /// </summary>
         public int Count
         {
-            get { return _Count; }
-            set { _Count = value; }
+            get;
+            set;
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            int groupId = 0;
+            int? groupId = GetGroupIdFromQueryString();
 
-            if (Request.QueryString["GroupID"] != null)
-            {
-                Int32.TryParse(Request.QueryString["GroupID"], out groupId);
-            }
-
-            DataTable dt = DbProvider.Instance().GetAggregateRecentPosts(groupId);
-            while (dt.Rows.Count > _Count)
-                dt.Rows.RemoveAt(dt.Rows.Count - 1);
-            RecentPosts.DataSource = dt;
+            var entries = ObjectProvider.Instance().GetRecentEntries(BlogInfo.AggregateBlog.Host, groupId, Count);
+            RecentPosts.DataSource = entries;
             RecentPosts.DataBind();
         }
 
@@ -44,7 +36,6 @@ namespace Subtext.Web.UI.Controls
         {
             return string.Format(CultureInfo.InvariantCulture, "{0}archive/{1:yyyy/MM/dd}/{2}.aspx", GetFullUrl(host, app), dt, entryName);
         }
-         
 
         private string appPath;
         readonly string fullUrl = HttpContext.Current.Request.Url.Scheme + "://{0}{1}{2}/";

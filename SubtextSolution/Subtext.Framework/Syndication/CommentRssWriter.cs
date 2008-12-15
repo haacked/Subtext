@@ -37,7 +37,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="commentEntries">Ec.</param>
 		/// <param name="entry">Ce.</param>
-		public CommentRssWriter(IList<FeedbackItem> commentEntries, Entry entry) : base(NullValue.NullDateTime, false)
+		public CommentRssWriter(ICollection<FeedbackItem> commentEntries, Entry entry) : base(NullValue.NullDateTime, false)
 		{
 			if(commentEntries == null)
 				throw new ArgumentNullException("commentEntries", "Cannot generate a comment rss feed for a null collection of entries.");

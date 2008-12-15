@@ -17,7 +17,7 @@ namespace UnitTests.Subtext.BlogML
         [RollBack2]
         public void CanHandleRequest()
         {
-            string host = UnitTestHelper.GenerateRandomString();
+            string host = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("The Title Of This Blog", "blah", "None-of-your-biz", host, string.Empty);
             StringBuilder sb = new StringBuilder();
             StringWriter writer = new StringWriter(sb);

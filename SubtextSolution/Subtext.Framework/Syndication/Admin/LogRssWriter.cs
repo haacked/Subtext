@@ -9,7 +9,7 @@ namespace Subtext.Framework.Syndication.Admin
 {
 	public class LogRssWriter:GenericRssWriter<LogEntry>
 	{
-		public LogRssWriter(IList<LogEntry> logs, bool useDeltaEncoding)
+		public LogRssWriter(ICollection<LogEntry> logs, bool useDeltaEncoding)
 			: base(NullValue.NullDateTime, useDeltaEncoding)
 		{
 			this.Items = logs;

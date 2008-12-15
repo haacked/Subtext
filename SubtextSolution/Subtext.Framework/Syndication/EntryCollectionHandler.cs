@@ -24,7 +24,7 @@ namespace Subtext.Framework.Syndication
 	/// </summary>
 	public abstract class EntryCollectionHandler<T> : BaseSyndicationHandler<T>
 	{
-		protected abstract IList<T> GetFeedEntries();
+		protected abstract ICollection<T> GetFeedEntries();
 
 		protected override bool IsLocalCacheOK()
 		{
@@ -32,13 +32,13 @@ namespace Subtext.Framework.Syndication
 
 			if (dt != null)
 			{
-				IList<T> ec = GetFeedEntries();
+				ICollection<T> ec = GetFeedEntries();
 
 				if (ec != null && ec.Count > 0)
 				{
 				    //Get the first entry.
 				    T entry = default(T);
-				    //TODO: Probably change GetFeedEntries to return IList<Entry>
+				    //TODO: Probably change GetFeedEntries to return ICollection<Entry>
 				    foreach(T en in ec)
 				    {
 				        entry = en;

@@ -27,9 +27,9 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string excerpt = "Blah blah blah.";
 			string blogName = "You've been haacked";
 
-			string hostname = UnitTestHelper.GenerateRandomString();
+			string hostname = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = Entries.Create(entry);
@@ -55,9 +55,9 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string excerpt = "Blah blah blah.";
 			string blogName = "You've been haacked";
 			
-			string hostname = UnitTestHelper.GenerateRandomString();
+			string hostname = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
@@ -83,9 +83,9 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string excerpt = "Blah blah blah blah blah.";
 			string blogName = "You've been haacked";
 			
-			string hostname = UnitTestHelper.GenerateRandomString();
+			string hostname = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
 			
@@ -113,9 +113,9 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string excerpt = "Blah aoeu taonsteuh aonsteuh blah blah.";
 			string blogName = "You've been haacked";
 			
-			string hostname = UnitTestHelper.GenerateRandomString();
+			string hostname = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
@@ -142,22 +142,22 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string excerpt = "Blah blah blah.";
 			string blogName = "You've been haacked";
 			
-			string hostname = UnitTestHelper.GenerateRandomString();
+			string hostname = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = Entries.Create(entry);
-            IList<FeedbackItem> feedback = Entries.GetFeedBack(entry);
+            ICollection<FeedbackItem> feedback = Entries.GetFeedBack(entry);
 			Assert.AreEqual(0, feedback.Count, "Something is wrong if a freshly created entry has feedback.");
 			
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, hostname, string.Empty, id, title, url);
 			
 			Assert.IsTrue(responseText.IndexOf("no url parameter found, please try harder!") > 0, "Did not receive the correct error message.");
 
-			IList<FeedbackItem> trackbacks = Entries.GetFeedBack(entry);
+			ICollection<FeedbackItem> trackbacks = Entries.GetFeedBack(entry);
 			Assert.AreEqual(0, trackbacks.Count, "We did not expect to see a trackback created.");
 		}
 
@@ -204,27 +204,27 @@ namespace UnitTests.Subtext.Framework.Tracking
 		public void TrackBackPostCreatesProperTrackback()
 		{
 			string url = "http://haacked.com/";
-			string title = "This is the Title of the Trackback" + UnitTestHelper.GenerateRandomString();
-			string excerpt = "Blah blah blah blah blah." + UnitTestHelper.GenerateRandomString();
+			string title = "This is the Title of the Trackback" + UnitTestHelper.GenerateUniqueString();
+			string excerpt = "Blah blah blah blah blah." + UnitTestHelper.GenerateUniqueString();
 			string blogName = "You've been haacked";
 			
-			string hostname = UnitTestHelper.GenerateRandomString();
+			string hostname = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "blog", string.Empty);
-			Assert.IsTrue(Config.CreateBlog("Some Title", "username", "password", hostname, "blog"));
+			Config.CreateBlog("Some Title", "username", "password", hostname, "blog");
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
 			
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = Entries.Create(entry);
-			IList<FeedbackItem> feedback = Entries.GetFeedBack(entry);
+			ICollection<FeedbackItem> feedback = Entries.GetFeedBack(entry);
 			Assert.AreEqual(0, feedback.Count, "Something is wrong if a freshly created entry has feedback.");
 			
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, hostname, "blog", id, title, url);
 
             Assert.AreEqual(string.Empty, responseText, "Did not expect any error response.");
 
-			IList<FeedbackItem> trackbacks = Entries.GetFeedBack(entry);
+			ICollection<FeedbackItem> trackbacks = Entries.GetFeedBack(entry);
 			Assert.AreEqual(1, trackbacks.Count, "We expect to see the one feedback we just created.");
 
 			FeedbackItem trackback = null;

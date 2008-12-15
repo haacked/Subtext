@@ -26,7 +26,6 @@ using System.Security.Permissions;
 [assembly: AssemblyTitle("Subtext.Installation")]
 [assembly: AssemblyDescription("Implements the InstallationProvider for SQL Server. Contains classes used to install and upgrade Subtext")]
 [assembly: AssemblyCulture("")]
-
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution = true)]

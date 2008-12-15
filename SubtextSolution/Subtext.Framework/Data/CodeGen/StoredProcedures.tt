@@ -1,0 +1,466 @@
+﻿<#@ template language="C#v3.5" debug="True" hostspecific="True" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ assembly name="Microsoft.SqlServer.Smo" #>
+<#@ assembly name="Microsoft.SqlServer.ConnectionInfo" #>
+<#@ import namespace="Microsoft.SqlServer.Management.Smo" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Data.Common" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#
+//const string databaseName = @"D:\svn\subtext\trunk\SubtextSolution\Subtext.Web\App_Data\Subtext2.1.mdf";
+//string ConnectionString = @"Data Source=.\SQLExpress;Integrated Security=true;AttachDbFilename=" + databaseName + ";User Instance=true;";
+string databaseName = @"Subtext";
+string ConnectionString = @"Server=localhost;Database=" + databaseName + ";Trusted_Connection=True;";
+const string Namespace = "Subtext.Framework.Data";
+
+Server server = new Server();
+server.ConnectionContext.ConnectionString = ConnectionString;
+Database database = server.Databases[databaseName];
+#>
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Globalization;
+using log4net;
+using Microsoft.ApplicationBlocks.Data;
+using Subtext.Extensibility;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Text;
+
+namespace <#= Namespace #> {
+	public partial class StoredProcedures {
+<#
+foreach(StoredProcedure storedProcedure in database.StoredProcedures) {
+	var proc = new StoredProcedureInfo(storedProcedure);
+	
+	if(proc.IsSubtextProcedure) { #>
+		public <#= proc.ReturnType #> <#= proc.MethodName #>(<#= proc.Parameters.ToArgumentList() #>) {
+<#		if(proc.Parameters.Count > 0) {
+
+			for(int i = 0; i < proc.OutputParameters.Count; i++) {
+				var parameter = proc.OutputParameters[i];
+#>
+			var outParam<#= i #> = DataHelper.MakeOutParam("<#= parameter.Name #>", <#= parameter.SqlDataType #>, <#= parameter.Size #>);
+<#			}
+#>
+			SqlParameter[] p = {
+<#			foreach(ParameterInfo parameter in proc.InputParameters) { #>
+				DataHelper.MakeInParam("<#= parameter.Name #>", <#= parameter.ArgumentName #>),		
+<#			}
+			for(int i = 0; i < proc.OutputParameters.Count; i++) {
+#>				outParam<#= i #>,
+<#			} #>
+			};
+			
+<#			if(proc.ReturnType == "IDataReader") { #>
+			return GetReader("<#= proc.Name #>", p);
+<#			}
+			else if(proc.ReturnType.StartsWith("int")) {
+				if(proc.OutputParameters.Count != 1) { #>	
+			return NonQueryInt("<#= proc.Name #>", p);
+<#				} 
+				else {
+#>			NonQueryInt("<#= proc.Name #>", p);
+<#			if(proc.ReturnTypeIsNullable) { #>
+			if(outParam0.Value == null) {
+			  return null;
+			}
+			return (<#= proc.NonNullableReturnType #>)outParam0.Value;
+<#			} else  {#>
+			return (<#= proc.ReturnType.Replace("?", "") #>)outParam0.Value;
+<#			}#>
+<#				}
+			}
+			else if(proc.ReturnType == "bool") {
+				if(proc.OutputParameters.Count != 1) { #>	
+			return NonQueryBool("<#= proc.Name #>", p);
+<#				} 
+				else {
+#>			NonQueryBool("<#= proc.Name #>", p);
+			return (<#= proc.ReturnType #>)outParam0.Value;		
+<#				}
+			}
+			else if(proc.ReturnType == "void") {
+#>			NonQueryBool("<#= proc.Name #>", p); 
+<#				for(int i = 0; i < proc.OutputParameters.Count; i++) {
+					var outParam = proc.OutputParameters[i]; #>
+			<#= outParam.ArgumentName #> = (<#= outParam.ClrType #>)outParam<#= i #>.Value;			
+<#				}
+			}
+		}
+		else {
+			if(proc.ReturnType == "int") {#>
+			return NonQueryInt("<#= proc.Name #>");
+<#			}
+
+			if(proc.ReturnType == "bool") {#>
+			return NonQueryBool("<#= proc.Name #>");
+<#			}
+		#>
+			return GetReader("<#= proc.Name #>");
+<#		} #>
+		}
+		
+<#	} #>
+<# 
+} #>
+	}
+}
+<#+
+public class StoredProcedureInfo {
+	public StoredProcedureInfo(StoredProcedure proc) {
+		IsSubtextProcedure = IsSubtextStoredProcedure(proc);
+		if(IsSubtextProcedure) {
+			MethodName = ToMethodName(proc);
+			PopulateParameters(proc.Parameters);
+			ReturnType = MethodReturnType(proc);
+			Name = proc.Name;
+		}
+	}
+	
+	public string Name {
+		get;
+		private set;
+	}
+	
+	public string MethodName {
+		get;
+		private set;
+	}
+	
+	public string ReturnType {
+		get;
+		private set;
+	}
+	
+	public bool ReturnTypeIsNullable {
+		get {
+			return ReturnType.EndsWith("?");
+		}
+	}
+	
+	public string NonNullableReturnType {
+		get {
+			return ReturnType.Replace("?", "");
+		}
+	}
+	
+	public bool IsSubtextProcedure {
+		get;
+		private set;
+	}
+	
+	public ParameterList Parameters {
+		get;
+		private set;
+	}
+
+	public ParameterList InputParameters {
+		get;
+		private set;
+	}
+
+	public ParameterList OutputParameters {
+		get;
+		private set;
+	}
+	
+	void PopulateParameters(StoredProcedureParameterCollection parameters) {
+		InputParameters = new ParameterList();
+		OutputParameters = new ParameterList();
+		Parameters = new ParameterList();
+		
+		foreach(StoredProcedureParameter param in parameters) {
+			ParameterInfo parameter = new ParameterInfo(param);
+			Parameters.Add(parameter);
+			if(!parameter.IsOutput) {
+				InputParameters.Add(parameter);
+			}
+			else {
+				OutputParameters.Add(parameter);
+			}
+		}
+		Parameters.OutputCount = OutputParameters.Count;
+	}
+	
+	string ToMethodName(StoredProcedure proc) {
+		string[] removals = new string[] {
+			" ",
+			"subtext_",
+			"DNW_",
+			"_"
+		};
+		string methodName = proc.Name;
+		foreach(string removalString in removals) {
+			methodName = methodName.Replace(removalString, string.Empty);
+		}
+		return methodName;
+	}
+	
+	string MethodReturnType(StoredProcedure proc) {
+		if(OutputParameters.Count == 1) {
+			return OutputParameters[0].ClrType;
+		}
+		
+		if(OutputParameters.Count > 1) {
+			return "void";
+		}
+		
+		try {
+			//This is really hacky. I need to rename the procs to follow a consistent pattern.
+		
+			string sql = proc.TextBody;
+			
+			//Special case.
+			if(sql.IndexOf("subtext_Insert") >= 0) {
+				return "bool";
+			}
+			
+			if(sql.IndexOf("DELETE FROM", StringComparison.OrdinalIgnoreCase) >= 0) {
+				return "bool";
+			}
+			
+			if(sql.IndexOf("SELECT BlogId", StringComparison.OrdinalIgnoreCase) >= 0) {
+				return "IDataReader";
+			}
+			
+			if(sql.IndexOf("SCOPE_IDENTITY()", StringComparison.OrdinalIgnoreCase) >= 0) {
+				return "int";
+			}
+			
+			if(sql.IndexOf("DELETE ", StringComparison.OrdinalIgnoreCase) >= 0) {
+				return "bool";
+			}
+			if(sql.IndexOf("INSERT ", StringComparison.OrdinalIgnoreCase) >= 0) {
+				return "bool";
+			}
+			if(sql.IndexOf("UPDATE ", StringComparison.OrdinalIgnoreCase) >= 0) {
+				return "bool";
+			}
+		}
+		catch {
+		}
+		return "IDataReader";
+	}
+	
+	bool IsSubtextStoredProcedure(StoredProcedure storedProcedure) {
+		return storedProcedure.Name.StartsWith("subtext_") || storedProcedure.Name.StartsWith("DNW_");
+	}
+}
+
+public class ParameterList : List<ParameterInfo> {
+	public ParameterList() {
+	}
+	
+	public int OutputCount {
+		get;
+		set;
+	}
+	
+	public string ToArgumentList() {
+		string argumentList = string.Empty;
+		
+		foreach(ParameterInfo parameter in this) {
+			if(OutputCount == 1 && parameter.IsOutput) {
+				continue;
+			}
+			if(OutputCount > 1 && parameter.IsOutput) {
+				argumentList += "out ";
+			}
+			
+			//argumentList += "/* OutputCount: " + OutputCount + " IsOutput: " + parameter.IsOutput + " */";
+			argumentList += parameter.ClrType + " " + parameter.ArgumentName + ", ";
+		}
+		
+		if(argumentList.EndsWith(", ")) {
+			argumentList = argumentList.Substring(0, argumentList.Length - 2);
+		}
+		return argumentList;
+	}
+}
+
+public class ParameterInfo {
+	public ParameterInfo(StoredProcedureParameter parameter) {
+		ClrType = GetClrType(parameter);
+		ArgumentName = ToArgumentName(parameter);
+		IsOutput = parameter.IsOutputParameter;
+		Name = parameter.Name;
+		SqlDataType = GetSqlDbType(parameter.DataType.ToString());
+		Properties = parameter.Properties;
+	}
+	
+	public string ClrType {
+		get;
+		private set;
+	}
+	
+	public string Name {
+		get;
+		private set;
+	}
+	
+	public string ArgumentName {
+		get;
+		private set;
+	}
+	
+	public bool IsOutput {
+		get;
+		private set;
+	}
+	
+	public int Size {
+		get {
+			foreach(Property property in Properties) {
+				if(property.Name == "Length") {
+					return Convert.ToInt32(property.Value);
+				}
+			}
+			return 0;
+		}
+	}
+	
+	public string SqlDataType {
+		get;
+		private set;
+	}
+	
+	public SqlPropertyCollection Properties {
+		get; set;
+	}
+	
+	string GetClrType(StoredProcedureParameter parameter) {
+		string clrType = GetClrType(parameter.DataType.ToString());
+		if(parameter.DefaultValue != string.Empty && IsNullable(clrType)) {
+			if(clrType == "bool" && parameter.DefaultValue == "0") {
+				return "bool";
+			}
+			clrType += "?";
+		}
+		return clrType;
+	}
+	
+	bool IsNullable(string clrType) {
+		return clrType == "int" || 
+			clrType == "long" || 
+			clrType == "decimal" || 
+			clrType == "DateTime" || 
+			clrType == "bool";
+	}
+	
+	string GetClrType(string dataType) {
+		switch(dataType.ToString()) {
+			case "nchar":
+			case "varchar":
+			case "ntext":
+				return "string";
+			case "int":
+			case "tinyint":
+				return "int";
+			case "bigint":
+				return "long";
+			case "bit":
+				return "bool";
+			case "uniqueidentifier":
+				return "Guid";
+			case "money":
+				return "decimal";
+			case "image":
+				return "datetime";
+			case "datetime":
+			case "smalldatetime":
+				return "DateTime";
+			default:
+				return "string";			
+		}
+	}
+	
+	string ToArgumentName(StoredProcedureParameter parameter) {
+		if(parameter.Name == "@ID") {
+			return "id";
+		}
+		string camelCase = CamelCase(parameter.Name.Replace("@", string.Empty));
+		if(camelCase.EndsWith("ID")) {
+			camelCase = camelCase.Substring(0, camelCase.Length - 2) + "Id";
+		}
+		return camelCase;
+	}
+	
+	string CamelCase(string s) {
+		return s.Substring(0, 1).ToLower() + s.Substring(1);
+	}
+	
+	string GetSqlDbType(string sqlType){
+		switch(sqlType)
+		{
+			case "varchar":
+				return "SqlDbType.VarChar";
+			case "nvarchar":
+				return "SqlDbType.NVarChar";
+			case "int":
+				return "SqlDbType.Int";
+			case "uniqueidentifier":
+				return "SqlDbType.UniqueIdentifier";
+			case "datetime":
+				return "SqlDbType.DateTime";
+			case "bigint":
+				return "SqlDbType.BigInt";
+			case "binary":
+				return "SqlDbType.Binary";
+			case "bit":
+				return "SqlDbType.Bit";
+			case "char":
+				return "SqlDbType.Char";
+			case "decimal":
+				return "SqlDbType.Decimal";
+			case "float":
+				return "SqlDbType.Float";
+			case "image":
+				return "SqlDbType.Image";
+			case "money":
+				return "SqlDbType.Money";
+			case "nchar":
+				return "SqlDbType.NChar";
+			case "ntext":
+				return "SqlDbType.NText";
+			case "numeric":
+				return "SqlDbType.Decimal";
+			case "real":
+				return "SqlDbType.Real";
+			case "smalldatetime":
+				return "SqlDbType.SmallDateTime";
+			case "smallint":
+				return "SqlDbType.SmallInt";
+			case "smallmoney":
+				return "SqlDbType.SmallMoney";
+			case "sql_variant":
+				return "SqlDbType.Variant";
+			case "sysname":
+				return "SqlDbType.VarChar";
+			case "text":
+				return "SqlDbType.Text";
+			case "timestamp":
+				return "SqlDbType.Timestamp";
+			case "tinyint":
+				return "SqlDbType.TinyInt";
+			case "varbinary":
+				return "SqlDbType.VarBinary";
+			default:
+				return "SqlDbType.NVarChar";
+		}
+	}
+}
+#>

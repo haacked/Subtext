@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Web;
 using MbUnit.Framework;
@@ -44,13 +45,13 @@ namespace UnitTests.Subtext.Framework
 			int entryId = Entries.Create(entry);
 			Entries.SetEntryCategoryList(entryId, category1Id, category2Id);
 
-            IList<LinkCategory> categories = Links.GetLinkCategoriesByPostID(entryId);
+            ICollection<LinkCategory> categories = Links.GetLinkCategoriesByPostID(entryId);
 			Assert.AreEqual(2, categories.Count, "Expected two of the three categories");
 
-			Assert.AreEqual(category1Id, categories[0].Id);
-			Assert.AreEqual(category2Id, categories[1].Id);
+			Assert.AreEqual(category1Id, categories.First().Id);
+			Assert.AreEqual(category2Id, categories.ElementAt(1).Id);
 
-			Assert.AreEqual(Config.CurrentBlog.Id, categories[0].BlogId);
+			Assert.AreEqual(Config.CurrentBlog.Id, categories.First().BlogId);
 		}
 
 		[Test]
@@ -64,15 +65,15 @@ namespace UnitTests.Subtext.Framework
 			CreateLink("Link two", categoryIds[0], null);
 			CreateLink("Link one-two", categoryIds[1], null);
 
-			IList<LinkCategory> linkCollections = Links.GetActiveCategories();
+			ICollection<LinkCategory> linkCollections = Links.GetActiveCategories();
 			
 			//Test ordering by title
-			Assert.AreEqual("Google Blogs", linkCollections[0].Title);
-			Assert.AreEqual("My Favorite Feeds", linkCollections[1].Title);
+			Assert.AreEqual("Google Blogs", linkCollections.First().Title);
+			Assert.AreEqual("My Favorite Feeds", linkCollections.ElementAt(1).Title);
 
 			//Check link counts
-			Assert.AreEqual(1, linkCollections[0].Links.Count);
-			Assert.AreEqual(2, linkCollections[1].Links.Count);
+			Assert.AreEqual(1, linkCollections.First().Links.Count);
+			Assert.AreEqual(2, linkCollections.ElementAt(1).Links.Count);
 		}
 
 		[Test]
@@ -159,7 +160,7 @@ namespace UnitTests.Subtext.Framework
 
 			// Create some categories
 			CreateSomeLinkCategories();
-            IList<LinkCategory> linkCategoryCollection = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
+            ICollection<LinkCategory> linkCategoryCollection = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
 
             LinkCategory first = null;
             LinkCategory second = null;
@@ -199,7 +200,7 @@ namespace UnitTests.Subtext.Framework
             CreateSomePostCategories();
 
             // Retrieve the categories, grab the first one and update it
-            IList<LinkCategory> originalCategories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            ICollection<LinkCategory> originalCategories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
             Assert.IsTrue(originalCategories.Count > 0);
         }
 
@@ -216,7 +217,7 @@ namespace UnitTests.Subtext.Framework
 			CreateSomeLinkCategories();
 
 			// Retrieve the categories, grab the first one and update it
-            IList<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
+            ICollection<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
 			Assert.Greater(originalCategories.Count, 0, "Expected some categories in there.");
 		    LinkCategory linkCat = null;
             foreach (LinkCategory linkCategory in originalCategories)
@@ -230,7 +231,7 @@ namespace UnitTests.Subtext.Framework
 			bool updated = Links.UpdateLinkCategory(originalCategory);
 
 			// Retrieve the categories and find the one we updated
-            IList<LinkCategory> updatedCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
+            ICollection<LinkCategory> updatedCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
 			LinkCategory updatedCategory = null;
 			foreach(LinkCategory lc in updatedCategories)
 				if (lc.Id == originalCategory.Id)

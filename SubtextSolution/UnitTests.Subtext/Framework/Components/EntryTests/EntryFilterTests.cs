@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[ExpectedException(typeof(CommentFrequencyException))]
 		public void CannotCreateMoreThanOneCommentWithinDelay()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
 			BlogInfo blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 1;
 
@@ -73,7 +73,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[ExpectedException(typeof(CommentDuplicateException))]
 		public void CannotCreateDuplicateComments()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
 			BlogInfo blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 0;
 
@@ -95,7 +95,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	    [RollBack]
 	    public void CommentsFromAdminNotFiltered()
 	    {
-            Assert.IsTrue(Config.CreateBlog("", "username", "some-password", _hostName, string.Empty));
+            Config.CreateBlog("", "username", "some-password", _hostName, string.Empty);
             BlogInfo blog = Config.CurrentBlog;
             blog.CommentDelayInMinutes = 0;
 	        
@@ -130,7 +130,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = UnitTestHelper.GenerateRandomString();
+			_hostName = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
 			new CommentFilter(HttpContext.Current.Cache).ClearCommentCache();
 		}

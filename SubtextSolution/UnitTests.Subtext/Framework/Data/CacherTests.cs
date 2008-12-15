@@ -24,8 +24,8 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void GetEntryFromRequestDoesNotThrowNullReferenceException()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("test", UnitTestHelper.GenerateRandomString(), UnitTestHelper.GenerateRandomString(), host, "");
+			string host = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/archive/999999.aspx");
 			Assert.IsNull(Cacher.GetEntryFromRequest(CacheDuration.Short));
 		}
@@ -42,8 +42,8 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void SingleCategoryReturnsNullForNonExistentCategory()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("test", UnitTestHelper.GenerateRandomString(), UnitTestHelper.GenerateRandomString(), host, "");
+			string host = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/99.aspx");
 			Assert.IsNull(Cacher.SingleCategory(CacheDuration.Short));
 		}
@@ -52,8 +52,8 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void CanGetCategoryByIdRequest()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("test", UnitTestHelper.GenerateRandomString(), UnitTestHelper.GenerateRandomString(), host, "");
+			string host = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/");
 			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "This Is a Test");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/" + categoryId + ".aspx");
@@ -66,8 +66,8 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void CanGetCategoryByNameRequest()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("test", UnitTestHelper.GenerateRandomString(), UnitTestHelper.GenerateRandomString(), host, "");
+			string host = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/This Is a Test.aspx");
 			UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "This Is a Test");
 
@@ -79,8 +79,8 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void CanGetCategoryByNameWithWordDelimitersRequest()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("test", UnitTestHelper.GenerateRandomString(), UnitTestHelper.GenerateRandomString(), host, "");
+			string host = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/This_Is_a_Test.aspx");
 			UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "This Is a Test");
 
@@ -96,7 +96,7 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void GetActiveCategoriesHandlesLocale()
 		{
-			string hostName = UnitTestHelper.GenerateRandomString();
+			string hostName = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
 			Config.CreateBlog("", "username", "thePassword", hostName, "");
 
@@ -104,7 +104,7 @@ namespace UnitTests.Subtext.Framework.Data
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
 
 			// Add categories to cache.
-			IList<LinkCategory> cachedCategories = new List<LinkCategory>();
+			ICollection<LinkCategory> cachedCategories = new List<LinkCategory>();
 			cachedCategories.Add(new LinkCategory(1, "Test 1"));
 			cachedCategories.Add(new LinkCategory(2, "Test 2"));
 
@@ -114,17 +114,17 @@ namespace UnitTests.Subtext.Framework.Data
 			ContentCache cache = ContentCache.Instantiate();
 			cache[ActiveLCCKey] = cachedCategories;
 
-			IList<LinkCategory> categories = Cacher.GetActiveCategories(CacheDuration.Short);
+			ICollection<LinkCategory> categories = Cacher.GetActiveCategories(CacheDuration.Short);
 			Assert.AreEqual(2, categories.Count, "Expected to get the cached categories.");
 			Assert.AreSame(cachedCategories, categories, "Categories should have been pulled from cache.");
 
 			//Change to spanish
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("es");
-			IList<LinkCategory> spanishCachedCategories = new List<LinkCategory>();
+			ICollection<LinkCategory> spanishCachedCategories = new List<LinkCategory>();
 			spanishCachedCategories.Add(new LinkCategory(1, "prueba numero uno"));
 			cache[ActiveLCCKey] = spanishCachedCategories;
 
-            IList<LinkCategory> spanishCategories = Cacher.GetActiveCategories(CacheDuration.Short);
+            ICollection<LinkCategory> spanishCategories = Cacher.GetActiveCategories(CacheDuration.Short);
 			Assert.AreEqual(1, spanishCategories.Count, "Only expected one category for spanish.");
 		}
 	}

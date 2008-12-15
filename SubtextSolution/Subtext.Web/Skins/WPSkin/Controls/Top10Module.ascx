@@ -4,8 +4,8 @@
 	<asp:Repeater id="Top10Entries" runat="server">
 		<ItemTemplate>
 			<div class="popitem">
-					<a href="<%# DataBinder.Eval(Container.DataItem, "url") %>"> 
-						<%# DataBinder.Eval(Container.DataItem, "Title") %> 
+					<a href="<%# Eval("Url") %>"> 
+						<%# Eval("Title") %> 
 					</a> 
 			</div>
 		</ItemTemplate>

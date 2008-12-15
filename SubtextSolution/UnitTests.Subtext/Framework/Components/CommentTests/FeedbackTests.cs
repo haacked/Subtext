@@ -335,11 +335,11 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void CreateFeedbackHasContentHash()
 		{
-			Assert.IsTrue(Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty));
+			Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
 
 			FeedbackItem trackback = new FeedbackItem(FeedbackType.PingTrack);
 			trackback.DateCreated = DateTime.Now;
-			trackback.SourceUrl = new Uri("http://" + UnitTestHelper.GenerateRandomString() + "/ThisUrl/");
+			trackback.SourceUrl = new Uri("http://" + UnitTestHelper.GenerateUniqueString() + "/ThisUrl/");
 			trackback.Title = "Some Title";
 			trackback.Body = "Some Body";
 			int id = FeedbackItem.Create(trackback, null);
@@ -355,7 +355,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 	    [RollBack]
 	    public void CreateFeedbackWithSpecifiedDateCreated()
 	    {
-	        Assert.IsTrue(Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty));
+	        Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
             DateTime dateCreated = DateTime.ParseExact("2005/01/23 05:05:05", "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
 	        
             FeedbackItem savedComment = CreateFeedbackWithSpecifiedDates(dateCreated, NullValue.NullDateTime);
@@ -370,7 +370,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         [RollBack]
         public void CreateFeedbackWithSpecifiedDateModified()
         {
-            Assert.IsTrue(Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty));
+            Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
             DateTime dateCreated = DateTime.ParseExact("2005/01/23 05:05:05", "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
             DateTime dateModified = dateCreated.AddDays(5);
 
@@ -391,7 +391,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void CreateFeedbackSendsCorrectEmail(string commenterEmail, string commenterUrl, string applicationPath, string subfolder, string expectedEmail, string expectedUrl)
 		{
-			Assert.IsTrue(Config.CreateBlog(string.Empty, "username", "password", _hostName, subfolder));
+			Config.CreateBlog(string.Empty, "username", "password", _hostName, subfolder);
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, subfolder, applicationPath);
 			Config.CurrentBlog.Email = "test@example.com";
 			Config.CurrentBlog.Title = "You've been haacked";
@@ -445,9 +445,9 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         static FeedbackItem CreateFeedbackWithSpecifiedDates(DateTime created, DateTime modified)
         {
             FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
-            comment.SourceUrl = new Uri("http://" + UnitTestHelper.GenerateRandomString() + "/ThisUrl/");
-            comment.Title = UnitTestHelper.GenerateRandomString();
-            comment.Body = UnitTestHelper.GenerateRandomString();
+            comment.SourceUrl = new Uri("http://" + UnitTestHelper.GenerateUniqueString() + "/ThisUrl/");
+            comment.Title = UnitTestHelper.GenerateUniqueString();
+            comment.Body = UnitTestHelper.GenerateUniqueString();
             comment.DateCreated = created;
             comment.DateModified = modified;
 
@@ -458,8 +458,8 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		static FeedbackItem CreateAndUpdateFeedbackWithExactStatus(Entry entry, FeedbackType type, FeedbackStatusFlag status)
 		{
 			FeedbackItem feedback = new FeedbackItem(type);
-			feedback.Title = UnitTestHelper.GenerateRandomString();
-			feedback.Body = UnitTestHelper.GenerateRandomString();
+			feedback.Title = UnitTestHelper.GenerateUniqueString();
+			feedback.Body = UnitTestHelper.GenerateUniqueString();
 			feedback.EntryId = entry.Id;
 			int id = FeedbackItem.Create(feedback, null);
 
@@ -472,7 +472,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 
         Entry SetupBlogForCommentsAndCreateEntry()
         {
-            Assert.IsTrue(Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty));
+            Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
             BlogInfo info = Config.CurrentBlog;
             info.Email = "test@example.com";
             info.Title = "You've been haacked";
@@ -526,7 +526,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = UnitTestHelper.GenerateRandomString();
+			_hostName = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
 		}
 

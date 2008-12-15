@@ -46,8 +46,8 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void GetBlogInfoFindsBlogWithUniqueHostName()
         {
-            string anotherHost = UnitTestHelper.GenerateRandomString();
-            string subfolder = UnitTestHelper.GenerateRandomString();
+            string anotherHost = UnitTestHelper.GenerateUniqueString();
+            string subfolder = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("title", "username", "password", hostName, subfolder);
             Config.CreateBlog("title", "username", "password", anotherHost, string.Empty);
 
@@ -65,8 +65,8 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void GetBlogInfoFindsBlogWithUniqueHostAndSubfolder()
         {
-            string subfolder1 = UnitTestHelper.GenerateRandomString();
-            string subfolder2 = UnitTestHelper.GenerateRandomString();
+            string subfolder1 = UnitTestHelper.GenerateUniqueString();
+            string subfolder2 = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("title", "username", "password", hostName, subfolder1);
             Config.CreateBlog("title", "username", "password", hostName, subfolder2);
 
@@ -83,8 +83,8 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void GetBlogInfoDoesNotFindBlogWithWrongSubfolderInMultiBlogSystem()
         {
-            string subfolder1 = UnitTestHelper.GenerateRandomString();
-            string subfolder2 = UnitTestHelper.GenerateRandomString();
+            string subfolder1 = UnitTestHelper.GenerateUniqueString();
+            string subfolder2 = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("title", "username", "password", hostName, subfolder1);
             Config.CreateBlog("title", "username", "password", hostName, subfolder2);
 
@@ -122,7 +122,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         [SetUp]
         public void SetUp()
         {
-            hostName = UnitTestHelper.GenerateRandomString();
+            hostName = UnitTestHelper.GenerateUniqueString();
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "MyBlog");
         }
     }

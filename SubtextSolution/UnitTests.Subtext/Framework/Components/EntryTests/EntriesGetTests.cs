@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using MbUnit.Framework;
@@ -31,8 +32,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [SetUp]
         public void Setup()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            string hostname = UnitTestHelper.GenerateUniqueString();
+            Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "", "");
         }
 
@@ -68,23 +69,23 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get Entries
-            IList<Entry> entries = Entries.GetRecentPosts(3, PostType.BlogPost, PostConfig.IsActive, true);
+            ICollection<Entry> entries = Entries.GetRecentPosts(3, PostType.BlogPost, PostConfig.IsActive, true);
 
             //Test outcome
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
 
-            Assert.AreEqual(entries[0].Id, entryTwo.Id, "Ordering is off.");
-            Assert.AreEqual(entries[1].Id, entryOne.Id, "Ordering is off.");
-            Assert.AreEqual(entries[2].Id, entryZero.Id, "Ordering is off.");
+            Assert.AreEqual(entries.First().Id, entryTwo.Id, "Ordering is off.");
+            Assert.AreEqual(entries.ElementAt(1).Id, entryOne.Id, "Ordering is off.");
+            Assert.AreEqual(entries.ElementAt(2).Id, entryZero.Id, "Ordering is off.");
 
-            Assert.AreEqual(1, entries[0].Categories.Count);
-            Assert.AreEqual(5, entries[1].Categories.Count);
-            Assert.AreEqual(5, entries[2].Categories.Count);
+            Assert.AreEqual(1, entries.First().Categories.Count);
+            Assert.AreEqual(5, entries.ElementAt(1).Categories.Count);
+            Assert.AreEqual(5, entries.ElementAt(2).Categories.Count);
 
-            Assert.IsNull(entries[0].Enclosure, "Entry should not have enclosure.");
-            Assert.IsNull(entries[1].Enclosure, "Entry should not have enclosure.");
-            Assert.IsNotNull(entries[2].Enclosure, "Entry should have enclosure.");
-            UnitTestHelper.AssertEnclosures(enc, entries[2].Enclosure);
+            Assert.IsNull(entries.First().Enclosure, "Entry should not have enclosure.");
+            Assert.IsNull(entries.ElementAt(1).Enclosure, "Entry should not have enclosure.");
+            Assert.IsNotNull(entries.ElementAt(2).Enclosure, "Entry should have enclosure.");
+            UnitTestHelper.AssertEnclosures(enc, entries.ElementAt(2).Enclosure);
         }
 
         [Test]
@@ -107,17 +108,17 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             new DatabaseObjectProvider().SetEntryTagList(entryOne.Id, tags);
 
 
-            IList<Entry> entries = Entries.GetEntriesByTag(3, "Tag1");
+            ICollection<Entry> entries = Entries.GetEntriesByTag(3, "Tag1");
 
             //Test outcome
             Assert.AreEqual(2, entries.Count, "Should have retrieved two entries.");
 
-            Assert.AreEqual(entries[0].Id, entryOne.Id, "Ordering is off.");
-            Assert.AreEqual(entries[1].Id, entryZero.Id, "Ordering is off.");
+            Assert.AreEqual(entries.First().Id, entryOne.Id, "Ordering is off.");
+            Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
 
-            Assert.IsNull(entries[0].Enclosure, "Entry should not have enclosure.");
-            Assert.IsNotNull(entries[1].Enclosure, "Entry should have enclosure.");
-            UnitTestHelper.AssertEnclosures(enc, entries[1].Enclosure);
+            Assert.IsNull(entries.First().Enclosure, "Entry should not have enclosure.");
+            Assert.IsNotNull(entries.ElementAt(1).Enclosure, "Entry should have enclosure.");
+            UnitTestHelper.AssertEnclosures(enc, entries.ElementAt(1).Enclosure);
         }
 
         [Test]
@@ -151,21 +152,21 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get Entries
-            IList<Entry> entries = Entries.GetEntriesByCategory(3, categoryId, true);
+            ICollection<Entry> entries = Entries.GetEntriesByCategory(3, categoryId, true);
 
 
             //Test outcome
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
 
-            Assert.AreEqual(entries[0].Id, entryTwo.Id, "Ordering is off.");
-            Assert.AreEqual(entries[1].Id, entryOne.Id, "Ordering is off.");
-            Assert.AreEqual(entries[2].Id, entryZero.Id, "Ordering is off.");
+            Assert.AreEqual(entries.First().Id, entryTwo.Id, "Ordering is off.");
+            Assert.AreEqual(entries.ElementAt(1).Id, entryOne.Id, "Ordering is off.");
+            Assert.AreEqual(entries.ElementAt(2).Id, entryZero.Id, "Ordering is off.");
 
 
-            Assert.IsNull(entries[0].Enclosure, "Entry should not have enclosure.");
-            Assert.IsNull(entries[1].Enclosure, "Entry should not have enclosure.");
-            Assert.IsNotNull(entries[2].Enclosure, "Entry should have enclosure.");
-            UnitTestHelper.AssertEnclosures(enc, entries[2].Enclosure);
+            Assert.IsNull(entries.First().Enclosure, "Entry should not have enclosure.");
+            Assert.IsNull(entries.ElementAt(1).Enclosure, "Entry should not have enclosure.");
+            Assert.IsNotNull(entries.ElementAt(2).Enclosure, "Entry should have enclosure.");
+            UnitTestHelper.AssertEnclosures(enc, entries.ElementAt(2).Enclosure);
         }
 
         [Test]
@@ -192,21 +193,21 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
             //Get Entries
             DateTime beginningOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            IList<Entry> entries = Entries.GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1), PostType.BlogPost, true);
+            ICollection<Entry> entries = Entries.GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1), PostType.BlogPost, true);
 
 
             //Test outcome
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
 
-            Assert.AreEqual(entries[0].Id, entryTwo.Id, "Ordering is off.");
-            Assert.AreEqual(entries[1].Id, entryOne.Id, "Ordering is off.");
-            Assert.AreEqual(entries[2].Id, entryZero.Id, "Ordering is off.");
+            Assert.AreEqual(entries.First().Id, entryTwo.Id, "Ordering is off.");
+            Assert.AreEqual(entries.ElementAt(1).Id, entryOne.Id, "Ordering is off.");
+            Assert.AreEqual(entries.ElementAt(2).Id, entryZero.Id, "Ordering is off.");
 
 
-            Assert.IsNull(entries[0].Enclosure, "Entry should not have enclosure.");
-            Assert.IsNull(entries[1].Enclosure, "Entry should not have enclosure.");
-            Assert.IsNotNull(entries[2].Enclosure, "Entry should have enclosure.");
-            UnitTestHelper.AssertEnclosures(enc, entries[2].Enclosure);
+            Assert.IsNull(entries.First().Enclosure, "Entry should not have enclosure.");
+            Assert.IsNull(entries.ElementAt(1).Enclosure, "Entry should not have enclosure.");
+            Assert.IsNotNull(entries.ElementAt(2).Enclosure, "Entry should have enclosure.");
+            UnitTestHelper.AssertEnclosures(enc, entries.ElementAt(2).Enclosure);
         }
 
         [Test]
@@ -230,20 +231,20 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get Entries
-            IList<Entry> entries = Entries.GetPostCollectionByMonth(DateTime.Now.Month, DateTime.Now.Year);
+            ICollection<Entry> entries = Entries.GetPostsByMonth(DateTime.Now.Month, DateTime.Now.Year);
 
             //Test outcome
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
 
-            Assert.AreEqual(entries[0].Id, entryTwo.Id, "Ordering is off.");
-            Assert.AreEqual(entries[1].Id, entryOne.Id, "Ordering is off.");
-            Assert.AreEqual(entries[2].Id, entryZero.Id, "Ordering is off.");
+            Assert.AreEqual(entries.First().Id, entryTwo.Id, "Ordering is off.");
+            Assert.AreEqual(entries.ElementAt(1).Id, entryOne.Id, "Ordering is off.");
+            Assert.AreEqual(entries.ElementAt(2).Id, entryZero.Id, "Ordering is off.");
 
 
-            Assert.IsNull(entries[0].Enclosure, "Entry should not have enclosure.");
-            Assert.IsNull(entries[1].Enclosure, "Entry should not have enclosure.");
-            Assert.IsNotNull(entries[2].Enclosure, "Entry should have enclosure.");
-            UnitTestHelper.AssertEnclosures(enc, entries[2].Enclosure);
+            Assert.IsNull(entries.First().Enclosure, "Entry should not have enclosure.");
+            Assert.IsNull(entries.ElementAt(1).Enclosure, "Entry should not have enclosure.");
+            Assert.IsNotNull(entries.ElementAt(2).Enclosure, "Entry should have enclosure.");
+            UnitTestHelper.AssertEnclosures(enc, entries.ElementAt(2).Enclosure);
         }
     }
 }

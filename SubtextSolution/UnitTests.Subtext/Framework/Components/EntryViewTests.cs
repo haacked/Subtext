@@ -21,7 +21,7 @@ namespace UnitTests.Subtext.Framework.Components
         [RollBack2]
         public void CanSetAndGetSimpleEntryStatsViewProperties()
         {
-            string host = UnitTestHelper.GenerateRandomString();
+            string host = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("title", "blah", "blah", host, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(host, string.Empty);
             EntryStatsView view = new EntryStatsView();

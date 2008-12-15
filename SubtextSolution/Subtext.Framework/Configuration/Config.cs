@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Configuration;
@@ -230,7 +231,7 @@ namespace Subtext.Framework.Configuration
         /// <param name="subfolder"></param>
         /// <param name="host"></param>
         /// <returns></returns>
-        public static bool CreateBlog(string title, string userName, string password, string host, string subfolder)
+        public static int CreateBlog(string title, string userName, string password, string host, string subfolder)
         {
             return CreateBlog(title, userName, password, host, subfolder, 1, false);
         }
@@ -247,7 +248,7 @@ namespace Subtext.Framework.Configuration
 		/// <param name="groupId"></param>
 		/// <param name="host"></param>
 		/// <returns></returns>
-        public static bool CreateBlog(string title, string userName, string password, string host, string subfolder, int groupId)
+        public static int CreateBlog(string title, string userName, string password, string host, string subfolder, int groupId)
 		{
 			return CreateBlog(title, userName, password, host, subfolder, groupId, false);
 		}
@@ -265,7 +266,7 @@ namespace Subtext.Framework.Configuration
 		/// <param name="host"></param>
 		/// <param name="passwordAlreadyHashed">If true, the password has already been hashed.</param>
 		/// <returns></returns>
-        public static bool CreateBlog(string title, string userName, string password, string host, string subfolder, bool passwordAlreadyHashed)
+        public static int CreateBlog(string title, string userName, string password, string host, string subfolder, bool passwordAlreadyHashed)
         {
             return CreateBlog(title, userName, password, host, subfolder, 1, passwordAlreadyHashed);
         }
@@ -283,7 +284,7 @@ namespace Subtext.Framework.Configuration
         /// <param name="blogGroupId"></param>
 		/// <param name="passwordAlreadyHashed">If true, the password has already been hashed.</param>
 		/// <returns></returns>
-        public static bool CreateBlog(string title, string userName, string password, string host, string subfolder, int blogGroupId, bool passwordAlreadyHashed)
+        public static int CreateBlog(string title, string userName, string password, string host, string subfolder, int blogGroupId, bool passwordAlreadyHashed)
 		{
 			if(subfolder != null && subfolder.EndsWith("."))
 				throw new InvalidSubfolderNameException(subfolder);
@@ -371,7 +372,7 @@ namespace Subtext.Framework.Configuration
                 IPagedCollection<BlogInfo> blogsWithHost = BlogInfo.GetBlogsByHost(info.Host, 0, 1, ConfigurationFlags.IsActive);
 				if(blogsWithHost.Count > 0)
 				{
-					if (blogsWithHost.Count > 1 || !blogsWithHost[0].Equals(info))
+					if (blogsWithHost.Count > 1 || !blogsWithHost.First().Equals(info))
 					{
 						throw new BlogRequiresSubfolderException(info.Host, blogsWithHost.Count);
 					}
@@ -483,7 +484,7 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
 		/// <returns></returns>
-		public static IList<BlogGroup> ListBlogGroups(bool activeOnly)
+		public static ICollection<BlogGroup> ListBlogGroups(bool activeOnly)
 		{
 			return ObjectProvider.Instance().ListBlogGroups(activeOnly);
 		}

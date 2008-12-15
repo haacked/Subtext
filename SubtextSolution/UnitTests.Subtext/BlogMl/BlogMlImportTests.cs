@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -32,11 +33,11 @@ namespace UnitTests.Subtext.Framework.Import
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.FieldsTooLong.xml");
             reader.ReadBlog(stream);
 
-            IList<Entry> entries = Entries.GetRecentPosts(10, PostType.BlogPost, PostConfig.None, true);
+            ICollection<Entry> entries = Entries.GetRecentPosts(10, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(1, entries.Count, "Expected only one post.");
-            Assert.AreEqual(255, entries[0].Title.Length, "Expected the title to be the max length");
-            Assert.AreEqual(150, entries[0].Categories[0].Length, "Expected the category name to be the max length");
-            Assert.AreEqual(50, entries[0].Author.Length, "Expected the author name to be the max length");
+            Assert.AreEqual(255, entries.First().Title.Length, "Expected the title to be the max length");
+            Assert.AreEqual(150, entries.First().Categories[0].Length, "Expected the category name to be the max length");
+            Assert.AreEqual(50, entries.First().Author.Length, "Expected the author name to be the max length");
         }
 
         [Test]
@@ -51,9 +52,9 @@ namespace UnitTests.Subtext.Framework.Import
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.PostWithAuthor.xml");
             reader.ReadBlog(stream);
 
-            IList<Entry> entries = Entries.GetRecentPosts(10, PostType.BlogPost, PostConfig.None, false);
+            ICollection<Entry> entries = Entries.GetRecentPosts(10, PostType.BlogPost, PostConfig.None, false);
             Assert.AreEqual(1, entries.Count, "Expected only one post.");
-            Assert.AreEqual("The Author", entries[0].Author, "Expected the title to be the max length");
+            Assert.AreEqual("The Author", entries.First().Author, "Expected the title to be the max length");
         }
 
         [Test]
@@ -68,7 +69,7 @@ namespace UnitTests.Subtext.Framework.Import
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml");
             reader.ReadBlog(stream);
 
-            IList<Entry> entries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);
+            ICollection<Entry> entries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(18, entries.Count, "Did not get the expected number of entries.");
 
             string[] attachments = Directory.GetFiles(Config.CurrentBlog.ImageDirectory, "*.png");
@@ -85,7 +86,7 @@ namespace UnitTests.Subtext.Framework.Import
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.TwoCategories.xml");
 			reader.ReadBlog(stream);
 
-			IList<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			Assert.AreEqual(2, categories.Count, "Expected two categories to be created");
 		}
 
@@ -99,12 +100,12 @@ namespace UnitTests.Subtext.Framework.Import
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithCategory.xml");
 			reader.ReadBlog(stream);
 
-			IList<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
 
-			IList<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+			ICollection<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
 			Assert.AreEqual(1, entries.Count, "Expected a single entry.");
-			Assert.AreEqual("Category002", entries[0].Categories[0], "Expected the catgory to be 'Category002'");
+			Assert.AreEqual("Category002", entries.First().Categories[0], "Expected the catgory to be 'Category002'");
 		}
 
 		/// <summary>
@@ -121,12 +122,12 @@ namespace UnitTests.Subtext.Framework.Import
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithBadCategoryRef.xml");
 			reader.ReadBlog(stream);
 
-			IList<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
 
-			IList<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+			ICollection<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
 			Assert.AreEqual(1, entries.Count, "Expected a single entry.");
-			Assert.AreEqual(0, entries[0].Categories.Count, "Expected this post not to have any categories.");
+			Assert.AreEqual(0, entries.First().Categories.Count, "Expected this post not to have any categories.");
 		}
 
         [Test]
@@ -141,7 +142,7 @@ namespace UnitTests.Subtext.Framework.Import
             reader.ReadBlog(stream);
 
         	// Confirm the entries
-            IList<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+            ICollection<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
         	Assert.AreEqual(18, entries.Count);
 
             Config.CurrentBlog.ImageDirectory = null;
@@ -158,7 +159,7 @@ namespace UnitTests.Subtext.Framework.Import
 				reader = BlogMLReader.Create(new SubtextBlogMLProvider());
                 
                 // Now read it back in.
-                Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "1", ""), "Could not create the blog for this test");
+                Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "1", "");
                 UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "1", "");
         		Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("1"), "Looks like we've cached our old blog.");
 				memoryStream.Position = 0;
@@ -167,7 +168,7 @@ namespace UnitTests.Subtext.Framework.Import
                 reader.ReadBlog(memoryStream);
             }
 
-            IList<Entry> newEntries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+            ICollection<Entry> newEntries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(newEntries.Count, entries.Count, "Round trip failed to create the same number of entries.");
         }
 

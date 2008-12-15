@@ -44,13 +44,13 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-        public static IList<LinkCategory> GetActiveCategories(CacheDuration cacheDuration)
+        public static ICollection<LinkCategory> GetActiveCategories(CacheDuration cacheDuration)
 		{
 			string key = string.Format(ActiveLCCKey, Config.CurrentBlog.Id);
 
 			ContentCache cache = ContentCache.Instantiate();
 
-            IList<LinkCategory> categories = (IList<LinkCategory>)cache[key];
+            ICollection<LinkCategory> categories = (ICollection<LinkCategory>)cache[key];
 			if(categories == null)
 			{
 				categories = Links.GetActiveCategories();
@@ -73,14 +73,14 @@ namespace Subtext.Framework.Data
 		/// <param name="dt">The dt.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static IList<Entry> GetMonth(DateTime dt, CacheDuration cacheDuration)
+		public static ICollection<Entry> GetMonth(DateTime dt, CacheDuration cacheDuration)
 		{
 			string key = string.Format(CultureInfo.InvariantCulture, EntryMonthKey, dt, Config.CurrentBlog.Id);
 			ContentCache cache = ContentCache.Instantiate();
-            IList<Entry> month = (IList<Entry>)cache[key];
+            ICollection<Entry> month = (ICollection<Entry>)cache[key];
 			if(month == null)
 			{
-				month = Entries.GetPostCollectionByMonth(dt.Month,dt.Year);
+				month = Entries.GetPostsByMonth(dt.Month,dt.Year);
 				if(month != null)
 				{
 					cache.Insert(key, month, cacheDuration);
@@ -122,11 +122,11 @@ namespace Subtext.Framework.Data
 
 		#region EntriesByCategory
 		private static readonly string ECKey="EC:Count{0}Category{1}BlogId{2}";
-        public static IList<Entry> GetEntriesByCategory(int count, CacheDuration cacheDuration, int categoryID)
+        public static ICollection<Entry> GetEntriesByCategory(int count, CacheDuration cacheDuration, int categoryID)
 		{
 			string key = string.Format(ECKey, count, categoryID, Config.CurrentBlog.Id);
 			ContentCache cache = ContentCache.Instantiate();
-            IList<Entry> ec = (IList<Entry>)cache[key];
+            ICollection<Entry> ec = (ICollection<Entry>)cache[key];
 			if(ec == null)
 			{
 				ec = Entries.GetEntriesByCategory(count, categoryID, true);
@@ -142,11 +142,11 @@ namespace Subtext.Framework.Data
 
         #region EntriesByTag
         private static readonly string ETKey = "ET:Count{0}Tag{1}BlogId{2}";
-        public static IList<Entry> GetEntriesByTag(int count, CacheDuration cacheDuration, string tag)
+        public static ICollection<Entry> GetEntriesByTag(int count, CacheDuration cacheDuration, string tag)
         {
             string key = string.Format(ETKey, count, tag, Config.CurrentBlog.Id);
             ContentCache cache = ContentCache.Instantiate();
-            IList<Entry> et = (IList<Entry>)cache[key];
+            ICollection<Entry> et = (ICollection<Entry>)cache[key];
             if (et == null)
             {
                 et = Entries.GetEntriesByTag(count, tag);
@@ -174,7 +174,7 @@ namespace Subtext.Framework.Data
 
 			string path = WebPathStripper.RemoveRssSlash(HttpContext.Current.Request.Path);
 			string categoryName = Path.GetFileNameWithoutExtension(path);
-			if(StringHelper.IsNumeric(categoryName))
+			if(categoryName.IsNumeric())
 			{
 				int categoryID = Int32.Parse(categoryName);
 				return SingleCategory(cacheDuration, categoryID, true);
@@ -239,14 +239,14 @@ namespace Subtext.Framework.Data
 		{
 			string id = Path.GetFileNameWithoutExtension(HttpContext.Current.Request.Path);
 
-			if (StringHelper.IsNumeric(id))
+			if (id.IsNumeric())
 			{
 				Entry entry = GetEntry(Int32.Parse(id), cacheDuration);
 				if (entry == null)
 					return null;
 
 				//Second condition avoids infinite redirect loop. Should never happen.
-				if (allowRedirectToEntryName && entry.HasEntryName && !StringHelper.IsNumeric(entry.EntryName))
+                if (allowRedirectToEntryName && entry.HasEntryName && !entry.EntryName.IsNumeric())
 				{
 					HttpContext.Current.Response.StatusCode = 301;
 					HttpContext.Current.Response.Status = "301 Moved Permanently";
@@ -392,16 +392,16 @@ namespace Subtext.Framework.Data
 		/// <param name="cacheDuration"></param>
 		/// <returns></returns>
         /// <param name="fromCache"></param>
-        public static IList<FeedbackItem> GetFeedback(Entry parentEntry, CacheDuration cacheDuration, bool fromCache)
+        public static ICollection<FeedbackItem> GetFeedback(Entry parentEntry, CacheDuration cacheDuration, bool fromCache)
 		{
-			IList<FeedbackItem> comments = null;
+			ICollection<FeedbackItem> comments = null;
 			ContentCache cache = null;
 			string key = null;
 			if (fromCache)
 			{
 				key = string.Format(ParentCommentEntryKey, parentEntry.Id, Config.CurrentBlog.Id);
 				cache = ContentCache.Instantiate();
-				comments = (IList<FeedbackItem>)cache[key];
+				comments = (ICollection<FeedbackItem>)cache[key];
 			}
 			if(comments == null)
 			{

@@ -15,7 +15,7 @@ namespace UnitTests.Subtext.Framework
 		public void CanGetPostsByMonthArchive()
 		{
 			UnitTestHelper.SetupBlog();
-			IList<ArchiveCount> counts = Archives.GetPostCountByMonth();
+			ICollection<ArchiveCount> counts = Archives.GetPostCountByMonth();
 			Assert.AreEqual(0, counts.Count);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title", "body");
@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Framework
 		public void CanGetPostsByYearArchive()
 		{
 			UnitTestHelper.SetupBlog();
-			IList<ArchiveCount> counts = Archives.GetPostCountByYear();
+			ICollection<ArchiveCount> counts = Archives.GetPostCountByYear();
 			Assert.AreEqual(0, counts.Count);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title", "body");
@@ -62,7 +62,7 @@ namespace UnitTests.Subtext.Framework
 		public void CanGetPostsByCategoryArchive()
 		{
 			UnitTestHelper.SetupBlog();
-			IList<ArchiveCount> counts = Archives.GetPostCountByCategory();
+			ICollection<ArchiveCount> counts = Archives.GetPostCountByCategory();
 			Assert.AreEqual(0, counts.Count);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title", "body");

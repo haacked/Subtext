@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.UI;
@@ -35,7 +36,7 @@ namespace Subtext.Web.UI.Controls
 				//Sent entry properties
 				MainLink.NavigateUrl = CurrentBlog.HomeVirtualUrl;
 
-				IList<Entry> entries = ObjectProvider.Instance().GetPreviousAndNextEntries(entry.Id, PostType.BlogPost);
+				ICollection<Entry> entries = ObjectProvider.Instance().GetPreviousAndNextEntries(entry.Id, PostType.BlogPost);
 
 				//Remember, the NEXT entry is the MORE RECENT entry.
 				switch (entries.Count)
@@ -52,19 +53,19 @@ namespace Subtext.Web.UI.Controls
 						//since there is only one record, you are at an end
 						//Check EntryID to see if it is greater or less than
 						//the current ID
-						if (entries[0].DateSyndicated > entry.DateSyndicated)
+						if (entries.First().DateSyndicated > entry.DateSyndicated)
 						{
 							//this is the oldest blog
 							PrevLink.Visible = false;
 							LeftPipe.Visible = false;							
-							SetNav(NextLink, entries[0]);
+							SetNav(NextLink, entries.First());
 						}
 						else
 						{
 							//this is the latest blog
 							NextLink.Visible = false;
 							RightPipe.Visible = false;
-							SetNav(PrevLink, entries[0]);
+							SetNav(PrevLink, entries.First());
 						}
 						break;
 					}
@@ -73,8 +74,8 @@ namespace Subtext.Web.UI.Controls
 						//two records found. The first record will be NEXT
 						//the second record will be PREVIOUS
 						//This is because the query is sorted by EntryID
-						SetNav(NextLink, entries[0]);
-						SetNav(PrevLink, entries[1]);
+						SetNav(NextLink, entries.First());
+						SetNav(PrevLink, entries.ElementAt(1));
 						break;
 					}
 				}

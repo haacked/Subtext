@@ -16,6 +16,15 @@ REPLACE: IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_
 	These are stored procs that used to be in the system but are no longer needed.
 	The statements will only drop the procs if they exist as a form of cleanup.
 */
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRelatedLinks]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetRelatedLinks]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetTop10byBlogId]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetTop10byBlogId]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetLinksByActiveCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetLinksByActiveCategoryID]
 GO
@@ -420,12 +429,12 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_SearchEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRelatedLinks]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetRelatedLinks]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRelatedEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetRelatedEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetTop10byBlogId]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetTop10byBlogId]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetTopEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetTopEntries]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByCategoriesArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -564,7 +573,7 @@ GO
          WHILE @pos > 0
          BEGIN
             SET @tmpval = ltrim(rtrim(left(@tmpstr, @pos - 1)))
-            INSERT @tbl (str, nstr) VALUES(@tmpval, @tmpval)
+            INSERT INTO @tbl (str, nstr) VALUES(@tmpval, @tmpval)
             SET @tmpstr = substring(@tmpstr, @pos + 1, len(@tmpstr))
             SET @pos = charindex(@delimiter, @tmpstr)
          END
@@ -1864,7 +1873,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]
 AS
 
 IF @ExcludeFeedbackStatusMask IS NULL
-	SET @ExcludeFeedbackStatusMask = ~0
+	SET @ExcludeFeedbackStatusMask = 0
 
 DECLARE @FirstDate datetime
 DECLARE @FirstId int
@@ -2647,7 +2656,8 @@ SELECT Title
 	, Width
 	, [File]
 	, Active
-	, ImageID 
+	, ImageID
+	, BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Images]  
 WHERE ImageID = @ImageID 
 	AND BlogId = @BlogId 
@@ -2717,7 +2727,7 @@ END
 Else
 BEGIN
 	IF(@Url != '' AND NOT @Url IS NULL)
-		INSERT subtext_Urls VALUES (@Url)
+		INSERT INTO subtext_Urls VALUES (@Url)
 		SELECT @UrlID = SCOPE_IDENTITY()
 END
 
@@ -2925,7 +2935,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertLink]
 )
 AS
 
-IF @PostID = -1
+IF @PostID < 0
 	SET @PostID = NULL
 
 INSERT INTO subtext_Links 
@@ -3168,7 +3178,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UTILITY_AddBlog]
 	@Host nvarchar(50),
 	@Application nvarchar(50),
 	@Flag int,
-	@BlogGroupId int
+	@BlogGroupId int,
+	@Id int OUTPUT
 )
 
 AS
@@ -3218,6 +3229,8 @@ Values
 	, 'Naked'
 	, ''
 )
+
+SELECT @Id = SCOPE_IDENTITY()
 END
 
 GO
@@ -4124,11 +4137,14 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[DNW_GetRecentPosts]
 	@Host nvarchar(100)
-	, @GroupID int
-	,@CurrentDateTime datetime
+	, @GroupID int = NULL
+	, @CurrentDateTime datetime
+	, @RowCount int = 10
 
 AS
-SELECT Top 35 Host
+SET ROWCOUNT @RowCount
+SELECT
+	Host
 	, Application
 	, [EntryName] = IsNull(content.EntryName, content.[ID])
 	, content.[ID]
@@ -4152,7 +4168,7 @@ WHERE  content.PostType = 1
 	AND content.PostConfig & 64 = 64 
 	AND config.Flag & 2 = 2 
 	AND config.Host = @Host
-	AND (BlogGroupId = @GroupID or @GroupID = 0)
+	AND (BlogGroupId = @GroupID or @GroupID is NULL)
 ORDER BY DateSyndicated DESC
 
 
@@ -4175,7 +4191,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[DNW_Stats]
 (
 	@Host nvarchar(100),
-	@GroupID int
+	@GroupID int = NULL
 )
 AS
 SELECT blog.BlogId
@@ -4193,14 +4209,13 @@ SELECT blog.BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Config] blog
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
 bgroup.Id = blog.BlogGroupId
-WHERE PostCount > 0 
-	AND blog.Flag & 2 = 2 
+WHERE blog.Flag & 2 = 2 
 	AND blog.Flag & 1 = 1
 	AND blog.Host = @Host
 	AND bgroup.Active = 1
 	AND blog.IsActive = 1
 	AND (blog.BlogGroupId = @GroupID
-	OR @GroupID = 0)
+	OR @GroupID is null)
 ORDER BY bgroup.DisplayOrder, bgroup.Id,  blog.PostCount DESC
 
 
@@ -4251,28 +4266,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON 
 GO
-
-
-CREATE PROC [<dbUser,varchar,dbo>].[DNW_HomePageData]
-(
-	@Host nvarchar(100),
-	@GroupID int
-)
-AS 
-EXEC [<dbUser,varchar,dbo>].[DNW_Stats] @Host, @GroupID
-EXEC [<dbUser,varchar,dbo>].[DNW_GetRecentPosts] @Host, @GroupID
-EXEC [<dbUser,varchar,dbo>].[DNW_Total_Stats] @Host, @GroupID
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[DNW_HomePageData]  TO [public]
-GO
-
 
 SET QUOTED_IDENTIFIER ON 
 GO
@@ -4447,7 +4440,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntry_PreviousNext]
 (
 	@ID int
-	, @PostType int = 1
+	, @PostType int
 	, @BlogId int
 	,@CurrentDateTime datetime
 )
@@ -4518,22 +4511,26 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetRelatedLinks] 
-@BlogId int,
-@EntryID int
-AS
-
-Select Distinct Top 10 c.ID EntryID, c.Title, c.DateAdded 
-From [<dbUser,varchar,dbo>].subtext_LinkCategories lc, [<dbUser,varchar,dbo>].subtext_Links l, [<dbUser,varchar,dbo>].subtext_Content c 
-Where lc.CategoryType = 1 
-And lc.Active = 1
-And l.CategoryID = lc.CategoryID
-And l.CategoryID In (Select CategoryID From [<dbUser,varchar,dbo>].subtext_links Where PostID = @EntryID)
-And l.PostID = c.ID
-And c.BlogId = @BlogId --param
-And c.ID <> @EntryID --param --do not list the same entry in related links
-Order By c.DateAdded Desc
-
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetRelatedEntries]
+	@BlogId int,  
+	@EntryID int,
+	@RowCount int
+AS  
+SET ROWCOUNT @RowCount
+SELECT DISTINCT c.ID as EntryID
+	, c.Title
+	, ViewCount = 0 /* not needed here */
+	, c.DateAdded   
+FROM [<dbUser,varchar,dbo>].subtext_LinkCategories lc
+	INNER JOIN [<dbUser,varchar,dbo>].subtext_Links l ON l.CategoryID = lc.CategoryID
+	INNER JOIN [<dbUser,varchar,dbo>].subtext_Content c ON l.PostID = c.ID  
+WHERE lc.CategoryType = 1   
+	AND lc.Active = 1  
+	AND l.CategoryID In (Select CategoryID From [<dbUser,varchar,dbo>].subtext_links Where PostID = @EntryID)  
+	AND c.BlogId = @BlogId
+	AND c.ID <> @EntryID
+ORDER BY c.DateAdded DESC
+SET ROWCOUNT 0
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -4541,7 +4538,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetRelatedLinks]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetRelatedEntries]  TO [public]
 GO
 
 /*Top10Posts - (called from Top10Module.ascx) - GY*/
@@ -4550,14 +4547,22 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetTop10byBlogId]  
-@BlogId int
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetTopEntries]
+	@BlogId int,
+	@RowCount int
 AS
-Select Distinct top 10 evc.EntryId, (evc.WebCount + evc.AggCount) As mcount, c.title, c.DateAdded
-From [<dbUser,varchar,dbo>].subtext_EntryViewCount evc, [<dbUser,varchar,dbo>].subtext_Content c
-Where evc.EntryId = c.Id
-And c.BlogId = @BlogId --param
-Order By mcount desc
+SET ROWCOUNT @RowCount
+SELECT DISTINCT
+	evc.EntryId
+	, ViewCount = (evc.WebCount + evc.AggCount)
+	, c.Title
+	, c.DateAdded  
+FROM [<dbUser,varchar,dbo>].subtext_EntryViewCount evc
+	INNER JOIN [<dbUser,varchar,dbo>].subtext_Content c  
+		ON evc.EntryId = c.Id
+WHERE c.BlogId = @BlogId
+ORDER BY ViewCount DESC
+SET ROWCOUNT 0
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -4565,7 +4570,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetTop10byBlogId]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetTopEntries]  TO [public]
 GO
 
 /*
@@ -5164,10 +5169,15 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_CreateDomainAlias]
 		, @Host	nvarchar(100)
 		, @Application nvarchar(50)
 		, @Active bit = 1
-		, @Id int = NULL OUTPUT
+		, @Id int OUTPUT
 	)
 AS
-IF NOT EXISTS(SELECT * FROM [<dbUser,varchar,dbo>].[subtext_DomainAlias] WHERE Host = @Host AND Application = @Application)
+
+SELECT @Id = Id 
+FROM [<dbUser,varchar,dbo>].[subtext_DomainAlias] 
+WHERE Host = @Host AND Application = @Application
+
+IF @Id IS NULL
 BEGIN
 	INSERT INTO [<dbUser,varchar,dbo>].[subtext_DomainAlias]		
 	(
@@ -5186,6 +5196,8 @@ BEGIN
 
 	SELECT @Id = SCOPE_IDENTITY()
 END
+ELSE
+	SELECT @Id
 GO
 GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_CreateDomainAlias] TO [public]
 GO
@@ -5338,25 +5350,29 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[DNW_GetRecentImages]
 	@Host nvarchar(100)
-	, @GroupID int
+	, @GroupID int = NULL
+	, @rowCount int
 
 AS
-SELECT Top 35 Host
-	, Application
+SET ROWCOUNT @rowCount
+SELECT [Blog.Host] = Host
+	, images.BlogId
+	, [Blog.Application] = Application
 	, images.ImageID
-	, [ImageTitle] = images.Title
-	, [ImageFile] = images.[File]
-	, config.TimeZone
-	, [BlogTitle] = config.Title
-	, [CategoryTitle] = categories.Title
-	, categories.CategoryID
+	, images.Title
+	, images.[File]
+	, [Blog.TimeZone] = config.TimeZone
+	, [Blog.Title] = config.Title
+	, [Category.Title] = categories.Title
+	, images.CategoryID
 FROM [<dbUser,varchar,dbo>].[subtext_Images] images
 INNER JOIN	[<dbUser,varchar,dbo>].[subtext_Config] config ON images.BlogId = config.BlogId
 INNER JOIN  [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories ON categories.CategoryID = images.CategoryID
 WHERE  images.Active > 0
 	AND config.Host = @Host
-	AND (config.BlogGroupId = @GroupID OR @GroupID = 0)
+	AND (config.BlogGroupId = @GroupID OR @GroupID is NULL)
 ORDER BY [ImageID] DESC
+SET ROWCOUNT 0
 GO
 
 GRANT EXECUTE ON [<dbUser,varchar,dbo>].[DNW_GetRecentImages] TO [public]

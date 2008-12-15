@@ -20,39 +20,26 @@ using System.IO;
 using System.Xml;
 using Subtext.Framework;
 using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
+using Subtext.Web.UI.Controls.Aggregate;
+using System.Collections.Generic;
 
 namespace Subtext.Web
 {
 	/// <summary>
 	/// Summary description for OPML.
 	/// </summary>
-	public class OPML : System.Web.UI.Page
+	public class OPML : AggregatePage
 	{
 		private void Page_Load(object sender, EventArgs e)
 		{
-			string sql = "DNW_Stats";
-			string conn = Subtext.Framework.Providers.DbProvider.Instance().ConnectionString;
-
-			int groupID = 0;
-
-			if(Request.QueryString["GroupID"] !=null)
-			{
-				Int32.TryParse(Request.QueryString["GroupID"], out groupID);
-			}
-
-			SqlParameter[] p = 
-				{
-					DataHelper.MakeInParam("@Host", SqlDbType.NVarChar,100, BlogInfo.AggregateBlog.Host),
-					DataHelper.MakeInParam("@GroupID", SqlDbType.Int, 4, groupID)
-				};
-
-
-			DataTable dt = DataHelper.ExecuteDataTable(conn, CommandType.StoredProcedure, sql, p);
+            int? groupId = GetGroupIdFromQueryString();
+            var blogStats = ObjectProvider.Instance().GetBlogsByGroup(BlogInfo.AggregateBlog.Host, groupId);
 			Response.ContentType = "text/xml";
-			Response.Write(Write(dt, Request.ApplicationPath));
+			Response.Write(Write(blogStats, Request.ApplicationPath));
 		}
 		
-		private static string Write(DataTable dt, string appPath)
+		private static string Write(IEnumerable<BlogInfo> blogStats, string appPath)
 		{
 			if(!appPath.EndsWith("/"))
 			{
@@ -70,20 +57,18 @@ namespace Subtext.Web
 			//Body
 			writer.WriteStartElement("body");
 
-			int count = dt.Rows.Count;
 			string baseUrl = "http://{0}" + appPath + "{1}";
-			for(int i = 0; i< count; i++)
+            foreach (var blog in blogStats)
 			{
-				DataRow dr = dt.Rows[i];
 				writer.WriteStartElement("outline");
 
-				string title = (string)dr["Title"];
-				string htmlUrl = string.Format(baseUrl, dr["Host"], dr["Application"]);
+				string title = blog.Title;
+				string htmlUrl = string.Format(baseUrl, blog.Host, blog.Subfolder);
 				string xmlUrl= htmlUrl + "/rss.aspx";
 
-				writer.WriteAttributeString("title",title);
-				writer.WriteAttributeString("htmlUrl",htmlUrl);
-				writer.WriteAttributeString("xmlUrl",xmlUrl);
+				writer.WriteAttributeString("title", title);
+				writer.WriteAttributeString("htmlUrl", htmlUrl);
+				writer.WriteAttributeString("xmlUrl", xmlUrl);
 
 				writer.WriteEndElement();									
 			}
@@ -116,5 +101,3 @@ namespace Subtext.Web
 		#endregion
 	}
 }
-
-

@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -41,7 +42,7 @@ namespace Subtext.Web.UI.Controls
 	public class Calendar: BaseControl
 	{
 		// The list of entries found for the month
-        IList<Entry> _monthEntries;
+        ICollection<Entry> _monthEntries;
 		// Current index into _monthEntries.
 		int _currentDateIndex;
 		// Number of entries in _monthEntries
@@ -171,7 +172,7 @@ namespace Subtext.Web.UI.Controls
 			if (_currentDateIndex >= _dateCount || _currentDateIndex < 0)
 				return;
 	
-			DateTime entryDate = _monthEntries[_currentDateIndex].DateCreated;
+			DateTime entryDate = _monthEntries.ElementAt(_currentDateIndex).DateCreated;
 			DateTime calDate = e.Day.Date;
 	
 			if (IsSameDay(calDate,entryDate))
@@ -182,7 +183,7 @@ namespace Subtext.Web.UI.Controls
 				do
 				{
 					_currentDateIndex--;
-				} while (_currentDateIndex > -1 && IsSameDay(e.Day.Date, _monthEntries[_currentDateIndex].DateCreated));
+				} while (_currentDateIndex > -1 && IsSameDay(e.Day.Date, _monthEntries.ElementAt(_currentDateIndex).DateCreated));
 			}		   
 		}
 

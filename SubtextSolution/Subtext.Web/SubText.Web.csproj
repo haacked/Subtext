@@ -650,6 +650,12 @@
     <Compile Include="UI\Controls\Aggregate\AggRecentPosts.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\Controls\Aggregate\AggregateControl.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\Aggregate\AggregatePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="UI\Controls\Aggregate\AggSyndication.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -2429,6 +2435,9 @@
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Skins\Mobile\Images\" />

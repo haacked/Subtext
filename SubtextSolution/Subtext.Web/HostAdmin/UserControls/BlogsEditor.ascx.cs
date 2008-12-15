@@ -346,7 +346,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		// Saves a new blog.  Any exceptions are propagated up to the caller.
 		void SaveNewBlog()
 		{
-			if(Config.CreateBlog(this.txtTitle.Text, this.txtUsername.Text, this.txtPassword.Text, this.txtHost.Text, this.txtApplication.Text, Int32.Parse(ddlGroups.SelectedValue)))
+			if(Config.CreateBlog(this.txtTitle.Text, this.txtUsername.Text, this.txtPassword.Text, this.txtHost.Text, this.txtApplication.Text, Int32.Parse(ddlGroups.SelectedValue)) > 0)
 			{
 				this.messagePanel.ShowMessage("Blog Created.");
 			}

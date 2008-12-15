@@ -229,7 +229,7 @@ namespace Subtext.Framework.Web
 	                appPath = string.Empty;
 	            if(appPath.EndsWith("/"))
 	            {
-	                appPath = StringHelper.Left(appPath, appPath.Length - 1);
+	                appPath = appPath.Left(appPath.Length - 1);
 	            }
 	            return appPath + reference.Substring(1);
 	        }

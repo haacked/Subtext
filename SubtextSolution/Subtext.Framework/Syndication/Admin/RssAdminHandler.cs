@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Subtext.Framework.Components;
@@ -30,7 +31,7 @@ namespace Subtext.Framework.Syndication.Admin
 				{
 					//Get the first entry.
 					object entry = default(object);
-					//TODO: Probably change GetFeedEntries to return IList<Entry>
+					//TODO: Probably change GetFeedEntries to return ICollection<Entry>
 					foreach (object en in ec)
 					{
 						entry = en;
@@ -99,7 +100,7 @@ namespace Subtext.Framework.Syndication.Admin
 
 
 		}
-		protected override IList<object> GetFeedEntries()
+		protected override ICollection<object> GetFeedEntries()
 		{
 			throw new Exception("The method or operation is not implemented.");
 		}
@@ -124,13 +125,13 @@ namespace Subtext.Framework.Syndication.Admin
 					}
 
 					filterFlags = flags;
-					IList<FeedbackItem> moderatedFeedback = FeedbackItem.GetPagedFeedback(0, count, flags, FeedbackType.None);
+					ICollection<FeedbackItem> moderatedFeedback = FeedbackItem.GetPagedFeedback(0, count, flags, FeedbackType.None);
 					return (IList)moderatedFeedback;
 				case "Referral":
-					IList<Referrer> referrers = Stats.GetPagedReferrers(0, count);
+					ICollection<Referrer> referrers = Stats.GetPagedReferrers(0, count);
 					return (IList)referrers;
 				case "Log":
-					IList<LogEntry> entries = LoggingProvider.Instance().GetPagedLogEntries(0, count);
+					ICollection<LogEntry> entries = LoggingProvider.Instance().GetPagedLogEntries(0, count);
 					return (IList)entries;
 			}
 
@@ -155,7 +156,7 @@ namespace Subtext.Framework.Syndication.Admin
 			get
 			{
 				IList feed = GetFeedEntriesSimple();
-				if (feed is IList<FeedbackItem>)
+				if (feed is ICollection<FeedbackItem>)
 				{
 
 					Entry entry = new Entry(PostType.None);
@@ -173,22 +174,22 @@ namespace Subtext.Framework.Syndication.Admin
 
 					entry.Body = "";
 
-					IList<FeedbackItem> feedback = (IList<FeedbackItem>)feed;
+					ICollection<FeedbackItem> feedback = (ICollection<FeedbackItem>)feed;
 
 					return new CommentRssWriter(feedback, entry);
 
 				}
-				if (feed is IList<Referrer>)
+				if (feed is ICollection<Referrer>)
 				{
-					IList<Referrer> referrers = (IList<Referrer>)feed;
+					ICollection<Referrer> referrers = (ICollection<Referrer>)feed;
 					DateTime lastReferrer = NullValue.NullDateTime;
 					if (referrers.Count > 0)
-						lastReferrer = referrers[0].LastReferDate;
+						lastReferrer = referrers.First().LastReferDate;
 					return new ReferrerRssWriter(referrers, lastReferrer, this.UseDeltaEncoding);
 				}
-				if (feed is IList<LogEntry>)
+				if (feed is ICollection<LogEntry>)
 				{
-					IList<LogEntry> entries = (IList<LogEntry>)feed;
+					ICollection<LogEntry> entries = (ICollection<LogEntry>)feed;
 					return new LogRssWriter(entries, this.UseDeltaEncoding);
 				}
 				return null;

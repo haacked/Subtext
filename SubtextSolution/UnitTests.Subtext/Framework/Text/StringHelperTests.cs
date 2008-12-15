@@ -38,14 +38,14 @@ namespace UnitTests.Subtext.Framework.Text
 		[Row("a bee keeper's dream.", "ABeeKeeper'sDream.")]
 		public void PascalCaseTests(string original, string expected)
 		{
-			Assert.AreEqual(expected, StringHelper.PascalCase(original));
+			Assert.AreEqual(expected, original.ToPascalCase());
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void PascalCaseThrowsArgumentNullException()
 		{
-			StringHelper.PascalCase(null);
+			StringHelper.ToPascalCase(null);
 		}
 		
 		[RowTest]

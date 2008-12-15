@@ -31,7 +31,7 @@ namespace Subtext.Web.UI.Controls
 	public class RecentPosts : BaseControl, IEntryControl
     {
         private const int DefaultRecentPostCount = 5;
-        private IList<Entry> posts;
+        private ICollection<Entry> posts;
         protected Repeater postList;
 
         /// <summary>

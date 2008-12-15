@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             MetaTag tag = UnitTestHelper.BuildMetaTag(content, name, httpequiv, blog.Id, null, DateTime.Now);
             MetaTags.Create(tag);
 
-            string randomStr = StringHelper.Left(UnitTestHelper.GenerateRandomString(), 20);
+            string randomStr = UnitTestHelper.GenerateUniqueString().Left(20);
             tag.Content = content + randomStr;
 
             if (!string.IsNullOrEmpty(name))

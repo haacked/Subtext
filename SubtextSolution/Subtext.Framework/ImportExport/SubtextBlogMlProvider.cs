@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,10 +34,10 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 using Subtext.ImportExport.Conversion;
+using Subtext.Framework.Data;
 
 namespace Subtext.ImportExport
 {
@@ -186,7 +187,7 @@ namespace Subtext.ImportExport
 		{
 			for (int i = 0; i < bmlPosts.Count; i++)
 			{
-				BlogMLPost post = bmlPosts[i];
+				BlogMLPost post = bmlPosts.ElementAt(i);
 				int postId = int.Parse(post.ID);
 				// We are going to make use of the fact that everything is ordered by Post Id ASC
 				// to optimize this...
@@ -199,7 +200,7 @@ namespace Subtext.ImportExport
 						while (postId < postIdForeignKey && i < bmlPosts.Count)
 						{
 							i++;
-							post = bmlPosts[i];
+							post = bmlPosts.ElementAt(i);
 							postId = int.Parse(post.ID);
 						}
 					}
@@ -290,10 +291,10 @@ namespace Subtext.ImportExport
 		/// </summary>
 		/// <param name="blogId"></param>
 		/// <returns></returns>
-		public override IList<BlogMLCategory> GetAllCategories(string blogId)
+		public override ICollection<BlogMLCategory> GetAllCategories(string blogId)
 		{
-			IList<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
-			IList<BlogMLCategory> bmlCategories = new Collection<BlogMLCategory>();
+			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+			ICollection<BlogMLCategory> bmlCategories = new Collection<BlogMLCategory>();
 			
 			foreach(LinkCategory category in categories)
 			{

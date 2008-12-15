@@ -49,7 +49,7 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="entryId">The entry id.</param>
 		/// <param name="tags">The tags.</param>
-		public static void SetTagsOnEntry(int entryId, IList<string> tags)
+		public static void SetTagsOnEntry(int entryId, ICollection<string> tags)
 		{
 			ObjectProvider.Instance().SetEntryTagList(entryId, tags);
 		}
@@ -59,7 +59,7 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="itemCount">The item count.</param>
 		/// <returns></returns>
-        public static IList<Tag> GetTopTags(int itemCount)
+        public static ICollection<Tag> GetTopTags(int itemCount)
         {
 			if (itemCount < 0)
 				throw new ArgumentNullException("itemCount", "Cannot request negative tags. Pass in 0 to get all tags.");
@@ -68,7 +68,7 @@ namespace Subtext.Framework
             double mean;
             double stdDev = Statistics.StdDev(topTags.Values, out mean);
 
-            IList<Tag> tags = new List<Tag>();
+            ICollection<Tag> tags = new List<Tag>();
             foreach (KeyValuePair<string, int> tag in topTags)
             {
                 Tag t = new Tag(tag);

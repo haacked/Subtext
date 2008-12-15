@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using MbUnit.Framework;
 using Subtext.Framework;
@@ -51,7 +52,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             MetaTag mt = UnitTestHelper.BuildMetaTag(content, name, httpEquiv, blog.Id, entryId, DateTime.Now);
 
             // make sure there are no meta-tags for this blog in the data store
-            IList<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, 0, 100);
+            ICollection<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, 0, 100);
             Assert.AreEqual(0, tags.Count, "Should be zero MetaTags.");
 
             // add the meta-tag to the data store
@@ -61,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 
             Assert.AreEqual(1, tags.Count, errMsg);
 
-            MetaTag newTag = tags[0];
+            MetaTag newTag = tags.First();
 
             // make sure all attributes of the meta-tag were written to the data store correctly.
             Assert.AreEqual(tagId, newTag.Id, "Wrong Id");

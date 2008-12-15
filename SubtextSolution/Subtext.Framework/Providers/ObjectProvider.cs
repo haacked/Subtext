@@ -16,11 +16,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration.Provider;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
-using System.Configuration.Provider;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Providers
@@ -72,12 +72,27 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="hostInfo">The host information.</param>
 		public abstract bool UpdateHost(HostInfo hostInfo);
-		
+
+        /// <summary>
+        /// Inserts the blog group.
+        /// </summary>
+        /// <param name="blogGroup">The group to insert.</param>
+        /// <returns>The blog group id</returns>
+        public abstract int InsertBlogGroup(BlogGroup blogGroup);
+
+        /// <summary>
+        /// Update the blog group.
+        /// </summary>
+        /// <param name="blogGroup">The group to insert.</param>
+        /// <returns>The blog group id</returns>
+        public abstract bool UpdateBlogGroup(BlogGroup blogGroup);
+
+        public abstract bool DeleteBlogGroup(int blogGroupId);
 		#endregion Host
 
 		#region Blogs
 		/// <summary>
-		/// Gets a pageable <see cref="IList"/> of <see cref="BlogInfo"/> instances.
+		/// Gets a pageable <see cref="ICollection"/> of <see cref="BlogInfo"/> instances.
 		/// </summary>
 		/// <param name="host">The host to filter by.</param>
 		/// <param name="pageIndex">Page index.</param>
@@ -113,7 +128,7 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
 		/// <returns></returns>
-		public abstract IList<BlogGroup> ListBlogGroups(bool activeOnly);
+		public abstract ICollection<BlogGroup> ListBlogGroups(bool activeOnly);
 		#endregion
 
 		#region BlogAlias
@@ -157,8 +172,7 @@ namespace Subtext.Framework.Providers
 		#region EntryDays
 
 		public abstract EntryDay GetEntryDay(DateTime dt);
-        public abstract IList<EntryDay> GetPostsByMonth(int month, int year);
-        public abstract IList<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
+        public abstract ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
 
 		/// <summary>
 		/// Gets entries within the system that meet the 
@@ -167,7 +181,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="itemCount">Item count.</param>
 		/// <param name="pc">Pc.</param>
 		/// <returns></returns>
-        public abstract IList<EntryDay> GetBlogPosts(int itemCount, PostConfig pc);
+        public abstract ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc);
 
 		#endregion
 
@@ -178,7 +192,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="entryId"></param>
 		/// <param name="postType"></param>
 		/// <returns></returns>
-		public abstract IList<Entry> GetPreviousAndNextEntries(int entryId, PostType postType);
+		public abstract ICollection<Entry> GetPreviousAndNextEntries(int entryId, PostType postType);
 		
 		/// <summary>
 		/// Gets the entries that meet the <see cref="PostType"/> and 
@@ -189,14 +203,14 @@ namespace Subtext.Framework.Providers
 		/// <param name="postConfig">Post Configuration options.</param>
         /// <param name="includeCategories">Whether or not to include categories</param>
 		/// <returns></returns>
-		public abstract IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories);
+		public abstract ICollection<Entry> GetEntries(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories);
 		
 		/// <summary>
 		/// Gets the <see cref="FeedbackItem" /> items for the specified entry.
 		/// </summary>
 		/// <param name="parentEntry">The parent entry.</param>
 		/// <returns></returns>
-		public abstract IList<FeedbackItem> GetFeedbackForEntry(Entry parentEntry);
+		public abstract ICollection<FeedbackItem> GetFeedbackForEntry(Entry parentEntry);
 
 		/// <summary>
 		/// Gets the feedback by the specified id.
@@ -214,10 +228,10 @@ namespace Subtext.Framework.Providers
 		/// <param name="deleted">The deleted.</param>
 		public abstract void GetFeedbackCounts(out int approved, out int needsModeration, out int flaggedAsSpam, out int deleted);
 		
-		public abstract IList<Entry> GetPostCollectionByMonth(int month, int year);
-		public abstract IList<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
-		public abstract IList<Entry> GetEntriesByCategory(int ItemCount,int catID,bool ActiveOnly);
-        public abstract IList<Entry> GetEntriesByTag(int itemCount, string tagName);
+		public abstract ICollection<Entry> GetPostsByMonth(int month, int year);
+		public abstract ICollection<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
+		public abstract ICollection<Entry> GetEntriesByCategory(int ItemCount,int catID,bool ActiveOnly);
+        public abstract ICollection<Entry> GetEntriesByTag(int itemCount, string tagName);
 
 		#endregion
 
@@ -229,7 +243,7 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="checksumHash">Checksum hash.</param>
 		/// <returns></returns>
-		public abstract Entry GetCommentByChecksumHash(string checksumHash);
+		public abstract FeedbackItem GetFeedbackByChecksumHash(string checksumHash);
         
 	    /// <summary>
 	    /// Returns an <see cref="Entry" /> with the specified id as long as it is 
@@ -269,7 +283,7 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="entryId">The entry id.</param>
 		/// <returns></returns>
-		public abstract bool Delete(int entryId);
+		public abstract bool DeleteEntry(int entryId);
 
 		/// <summary>
 		/// Completely deletes the specified feedback as 
@@ -317,7 +331,7 @@ namespace Subtext.Framework.Providers
 
 		#region Entry Category List
 
-		public abstract bool SetEntryCategoryList(int entryId, int[] categoryIds);
+		public abstract bool SetEntryCategoryList(int entryId, IEnumerable<int> categoryIds);
 
 		#endregion
 
@@ -329,7 +343,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="entryId"></param>
 		/// <param name="tags"></param>
 		/// <returns></returns>
-		public abstract bool SetEntryTagList(int entryId, IList<string> tags);
+		public abstract bool SetEntryTagList(int entryId, IEnumerable<string> tags);
 
         #endregion
 
@@ -345,7 +359,7 @@ namespace Subtext.Framework.Providers
 
 		#region LinkCollection
 
-        public abstract IList<Link> GetLinkCollectionByPostID(int PostID);
+        public abstract ICollection<Link> GetLinkCollectionByPostID(int PostID);
 
 		#endregion
 
@@ -357,8 +371,8 @@ namespace Subtext.Framework.Providers
 
 		#region LinkCategoryCollection
 
-        public abstract IList<LinkCategory> GetCategories(CategoryType catType, bool activeOnly);
-        public abstract IList<LinkCategory> GetActiveCategories();
+        public abstract ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly);
+        public abstract ICollection<LinkCategory> GetActiveCategories();
 
 		#endregion
 
@@ -395,9 +409,7 @@ namespace Subtext.Framework.Providers
 
         #region Stats
 
-        public abstract IPagedCollection<ViewStat> GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
         public abstract IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId);
-
 		public abstract bool TrackEntry(EntryView ev);
 		public abstract bool TrackEntry(IEnumerable<EntryView> evc);
 
@@ -416,7 +428,7 @@ namespace Subtext.Framework.Providers
         /// <param name="host"></param>
         /// <param name="subfolder"></param>
         /// <returns></returns>
-        public abstract bool CreateBlog(string title, string userName, string password, string host, string subfolder);
+        public abstract int CreateBlog(string title, string userName, string password, string host, string subfolder);
 
 		/// <summary>
 		/// Adds the initial blog configuration.  This is a convenience method for 
@@ -429,8 +441,8 @@ namespace Subtext.Framework.Providers
 		/// <param name="host"></param>
 		/// <param name="subfolder"></param>
         /// <param name="blogGroupId"></param>
-		/// <returns></returns>
-        public abstract bool CreateBlog(string title, string userName, string password, string host, string subfolder, int blogGroupId);
+		/// <returns>The id of the created blog.</returns>
+        public abstract int CreateBlog(string title, string userName, string password, string host, string subfolder, int blogGroupId);
 
 		/// <summary>
 		/// Updates the specified blog configuration.
@@ -539,11 +551,10 @@ namespace Subtext.Framework.Providers
 
         #endregion
 
-
         #region KeyWords
 
         public abstract KeyWord GetKeyWord(int KeyWordID);
-        public abstract IList<KeyWord> GetKeyWords();
+        public abstract ICollection<KeyWord> GetKeyWords();
         public abstract IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize);
 		public abstract bool UpdateKeyWord(KeyWord keyWord);
 		public abstract int InsertKeyWord(KeyWord keyWord);
@@ -562,12 +573,19 @@ namespace Subtext.Framework.Providers
 		#endregion
 
 		#region Archives
-        public abstract IList<ArchiveCount> GetPostsByYearArchive();
-        public abstract IList<ArchiveCount> GetPostsByMonthArchive();
-        public abstract IList<ArchiveCount> GetPostsByCategoryArchive();
+        public abstract ICollection<ArchiveCount> GetPostCountsByYear();
+        public abstract ICollection<ArchiveCount> GetPostCountsByMonth();
+        public abstract ICollection<ArchiveCount> GetPostCountsByCategory();
 		#endregion
 		#endregion
 
 		public abstract BlogAlias GetBlogAliasById(int aliasId);
+        public abstract ICollection<BlogInfo> GetBlogsByGroup(string host, int? groupId);
+        public abstract ICollection<BlogGroup> GroupBlogs(IEnumerable<BlogInfo> blogs);
+        public abstract HostStats GetTotalBlogStats(string host, int groupId);
+        public abstract ICollection<Entry> GetRecentEntries(string host, int? groupId, int rowCount);
+        public abstract ICollection<Image> GetImages(string host, int? groupId, int rowCount);
+        public abstract ICollection<EntrySummary> GetTopEntrySummaries(int blogId, int rowCount);
+        public abstract ICollection<EntrySummary> GetRelatedEntries(int blogId, int entryId, int rowCount);
 	}
 }

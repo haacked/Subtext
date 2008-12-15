@@ -34,7 +34,6 @@ namespace Subtext.Web.UI.Controls
 			return String.Format(format, arguments);
 		}
 
-
 		/// <summary>
 		/// Url encodes the string.
 		/// </summary>

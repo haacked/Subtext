@@ -33,7 +33,7 @@ namespace Subtext.Web.Admin.Pages
         private const string RES_FAILURE = "Configuration update failed.";
         private const string RES_SUCCESS = "Your configuration was successfully updated.";
         private IList<SkinTemplate> mobileSkins;
-        private IList<SkinTemplate> skins;
+        private ICollection<SkinTemplate> skins;
 
         public CategoryType CategoryType
         {
@@ -41,7 +41,7 @@ namespace Subtext.Web.Admin.Pages
             set { ViewState["CategoryType"] = value; }
         }
 
-        protected IList<SkinTemplate> Skins
+        protected ICollection<SkinTemplate> Skins
         {
             get
             {
@@ -58,7 +58,7 @@ namespace Subtext.Web.Admin.Pages
             }
         }
 
-        protected IList<SkinTemplate> MobileSkins
+        protected ICollection<SkinTemplate> MobileSkins
         {
             get
             {

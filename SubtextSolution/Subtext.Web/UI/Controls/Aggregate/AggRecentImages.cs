@@ -6,6 +6,7 @@ using Subtext.Framework.Providers;
 using System.Globalization;
 using Subtext.Framework;
 using System.Text.RegularExpressions;
+using Subtext.Framework.Data;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -15,39 +16,39 @@ namespace Subtext.Web.UI.Controls
 
         private string _appPath;
         private string _fullUrl = HttpContext.Current.Request.Url.Scheme + "://{0}{1}{2}/";
-        private int _count;
 
         /// <summary>
         /// Prroperty to limit the number of images displayed. Default is 35.
         /// </summary>
         public int Count
         {
-            get { return _count; }
-            set { _count = value; }
+            get;
+            set;
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            int groupId = 0;
+            int? groupId = GetGroupIdFromQueryString();
 
-            if (Request.QueryString["GroupID"] != null)
-            {
-                try
-                {
-                    groupId = Int32.Parse(Request.QueryString["GroupID"]);
-                }
-                catch { }
-
-            }
-
-            DataTable dt = DbProvider.Instance().GetAggregateRecentImages(groupId);
-            while (dt.Rows.Count > _count)
-            {
-                dt.Rows.RemoveAt(dt.Rows.Count - 1);
-            }
-            RecentImages.DataSource = dt;
+            var images = ObjectProvider.Instance().GetImages(BlogInfo.AggregateBlog.Host, groupId, Count);
+            RecentImages.DataSource = images;
             RecentImages.DataBind();
+        }
+
+        private int? GetGroupIdFromQueryString()
+        {
+            int? groupId = null;
+            string groupIdText = Request.QueryString["GroupID"];
+            if (groupIdText != null)
+            {
+                int parsedGroupId;
+                if (int.TryParse(groupIdText, out parsedGroupId))
+                {
+                    groupId = parsedGroupId;
+                }
+            }
+            return groupId;
         }
 
         protected string GetEntryUrl(string host, string app, string entryName, DateTime dt)

@@ -104,13 +104,17 @@ namespace Subtext.Framework.Components
 			set;
 		}
 
-		public IList<Link> Links
+		public ICollection<Link> Links
 		{
-			get;
-			set;
+			get {
+                _links = _links ?? new List<Link>();
+                return _links;
+            }
+			
 		}
+        ICollection<Link> _links;
 
-        public IList<Image> Images
+        public ICollection<Image> Images
 		{
 			get;
 			set;
@@ -120,7 +124,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return Links != null;
+				return Links.Count > 0;
 			}
 		}
 

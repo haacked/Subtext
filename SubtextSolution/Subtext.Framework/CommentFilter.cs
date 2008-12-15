@@ -162,7 +162,7 @@ namespace Subtext.Framework
 			}
 
 			// Check the database
-			Entry duplicate = Entries.GetCommentByChecksumHash(feedbackItem.ChecksumHash);
+			FeedbackItem duplicate = Entries.GetFeedbackByChecksumHash(feedbackItem.ChecksumHash);
 			if(duplicate != null)
 				return true;
 

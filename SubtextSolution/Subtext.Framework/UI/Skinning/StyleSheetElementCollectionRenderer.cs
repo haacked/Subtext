@@ -221,12 +221,12 @@ namespace Subtext.Framework.UI.Skinning
                 string.Empty;
         }
 
-        public IList<StyleDefinition> GetStylesToBeMerged(string name)
+        public ICollection<StyleDefinition> GetStylesToBeMerged(string name)
         {
             return GetStylesToBeMerged(name, null, null, null);
         }
 
-        public IList<StyleDefinition> GetStylesToBeMerged(string skinName, string media, string title, string conditional)
+        public ICollection<StyleDefinition> GetStylesToBeMerged(string skinName, string media, string title, string conditional)
         {
             bool normalCss = false;
             List<StyleDefinition> styles = new List<StyleDefinition>();

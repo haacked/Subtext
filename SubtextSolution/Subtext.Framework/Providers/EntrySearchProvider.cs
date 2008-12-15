@@ -18,7 +18,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="blogId"></param>
 		/// <param name="searchTerm"></param>
 		/// <returns></returns>
-		public override IList<SearchResult> Search(int blogId, string searchTerm)
+		public override ICollection<SearchResult> Search(int blogId, string searchTerm)
 		{
 			string storedProc = "subtext_SearchEntries";
 
@@ -31,7 +31,7 @@ namespace Subtext.Framework.Providers
 
 			IDataReader reader = SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, storedProc, p);
 
-			IList<SearchResult> results = new List<SearchResult>();
+			ICollection<SearchResult> results = new List<SearchResult>();
 			while(reader.Read())
 			{
 				Entry foundEntry = DataHelper.LoadEntry(reader, true);

@@ -55,7 +55,7 @@ namespace Subtext.Web.UI.Controls
 					return;
 				}
 				
-				IList<Entry> ec = Cacher.GetEntriesByCategory(count, CacheDuration.Short, lc.Id);
+				ICollection<Entry> ec = Cacher.GetEntriesByCategory(count, CacheDuration.Short, lc.Id);
 				EntryStoryList.EntryListItems = ec;
 
 				EntryStoryList.EntryListTitle = lc.Title;

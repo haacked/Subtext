@@ -40,7 +40,7 @@ namespace UnitTests.Subtext.Framework
 		public void CanUpdate()
 		{
 			Image image = CreateImageInstance();
-			Assert.Greater(Config.CurrentBlog.Id, 0);
+			Assert.GreaterEqualThan(Config.CurrentBlog.Id, 0);
 			Assert.AreEqual(Config.CurrentBlog.Id, image.BlogId);
 			int imageId = Images.InsertImage(image, singlePixelBytes);
 

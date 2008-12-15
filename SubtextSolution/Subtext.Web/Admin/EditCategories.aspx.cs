@@ -109,7 +109,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
-            IList<LinkCategory> cats = Links.GetCategories(CategoryType, ActiveFilter.None);
+            ICollection<LinkCategory> cats = Links.GetCategories(CategoryType, ActiveFilter.None);
 			dgrItems.DataSource = cats;
 			dgrItems.DataKeyField = "Id";
 			dgrItems.DataBind();

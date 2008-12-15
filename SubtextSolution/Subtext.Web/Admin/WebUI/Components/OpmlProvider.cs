@@ -26,7 +26,7 @@ namespace Subtext.Web.Admin
 {
 	public static class OpmlProvider
 	{
-		public static XmlDocument Export(IList<Link> items)
+		public static XmlDocument Export(ICollection<Link> items)
 		{
 			#region	DEP: writer		
 //			StringWriter sw = new StringWriter();

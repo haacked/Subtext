@@ -157,7 +157,7 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		/// <param name="itemCount"></param>
 		/// <returns></returns>
-		public static IList<FeedbackItem> GetRecentComments(int itemCount)
+		public static ICollection<FeedbackItem> GetRecentComments(int itemCount)
 		{
 			return ObjectProvider.Instance().GetPagedFeedback(0, itemCount, FeedbackStatusFlag.Approved, FeedbackStatusFlag.None, FeedbackType.Comment);
 		}

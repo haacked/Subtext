@@ -56,6 +56,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack2]
 		public void AliasRedirectHandlesSubfolder()
 		{
+            // arrange
 			Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
 			Config.CreateBlog("title", "username", "password", "example.com", string.Empty);
 			BlogAlias alias = new BlogAlias();
@@ -63,10 +64,14 @@ namespace UnitTests.Subtext.Framework.Configuration
 			alias.Host = "alias.example.com";
 			alias.Subfolder = "blog";
 			alias.IsActive = true;
-			Config.AddBlogAlias(alias);
+			
+            // act
+            Config.AddBlogAlias(alias);
 			UnitTestHelper.SetHttpContextWithBlogRequest("alias.example.com", "blog");
 			BlogRequest.Current = new BlogRequest("alias.example.com", "blog", new Uri("http://alias.example.com/blog/2007/01/23/some-post.aspx"), false);
-			Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(), "Should return null");
+			
+            // assert
+            Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(), "Should return null");
 			Assert.AreEqual(301, HttpContext.Current.Response.StatusCode, "Expected a 301 status code");
 			Assert.AreEqual("http://example.com:80/2007/01/23/some-post.aspx", HttpContext.Current.Response.RedirectLocation, "Expected the url to change");
 		}
@@ -94,7 +99,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void GetBlogInfoChangesHostForOnlyLocalHostBlog()
 		{
             UnitTestHelper.ClearAllBlogData();
-			string subfolder = UnitTestHelper.GenerateRandomString();
+			string subfolder = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("title", "username", "password", "localhost", subfolder);
 			Assert.AreEqual(1, BlogInfo.GetBlogs(0, 10, ConfigurationFlags.None).Count, "Need to make sure there's only one blog in the system.");
 
@@ -111,8 +116,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void GetBlogInfoFindsBlogIfItIsOnlyBlogInSystem()
 		{
             UnitTestHelper.ClearAllBlogData();
-			string hostName = UnitTestHelper.GenerateRandomString();
-			string subfolder = UnitTestHelper.GenerateRandomString();
+			string hostName = UnitTestHelper.GenerateUniqueString();
+			string subfolder = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("title", "username", "password", hostName, subfolder);
 			Assert.AreEqual(1, BlogInfo.GetBlogs(0, 10, ConfigurationFlags.None).Count, "Need to make sure there's only one blog in the system.");
 			

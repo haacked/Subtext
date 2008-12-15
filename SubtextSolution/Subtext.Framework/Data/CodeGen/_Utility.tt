@@ -1,0 +1,255 @@
+﻿<#@ template language="C#v3.5" debug="True" hostspecific="True" #>
+<#@ include file="_Settings.tt" #>
+<#+
+
+string CleanUp(string tableName){
+	string result=tableName;
+	
+	//strip blanks
+	result=result.Replace(" ","_");
+	
+	//put your logic here...
+	
+	return result;
+}
+
+DbConnection GetConnection(){
+	string connectionString=ConnectionString;
+	SqlConnection conn=new SqlConnection(connectionString);
+	conn.Open();
+	return conn;
+}
+
+string GetPK(string table){
+    string[] restrictions = new string[4] { ProviderName, null, table, null };
+    DataTable tbl=GetSchema("IndexColumns",restrictions);;
+	string pk="";
+	foreach(DataRow dr in tbl.Rows){
+		string index=dr["constraint_name"].ToString();
+		if(index.StartsWith("PK_")){
+			pk=dr["COLUMN_NAME"].ToString();
+			break;
+		}
+	}
+	return pk;
+}
+DataTable GetColumns(string table){
+    string[] restrictions = new string[4] { ProviderName, null, table, null };
+	return GetSchema("COLUMNS",restrictions);
+}
+DataTable GetTables(){
+ 	return GetSchema("tables");
+}
+DataTable GetSchema(string meta){
+	return GetSchema(meta, new string[4]);
+}
+DataTable GetSchema(string meta, string[] restrictions){
+    DataTable tbl=null;
+    using(DbConnection conn=GetConnection()){
+		tbl= conn.GetSchema(meta, restrictions);
+	}
+	return tbl;
+}
+DataTable GetSPs(){
+	return GetSchema("Procedures");
+}
+DataTable GetFKs(string tableName){
+    DataTable tbl=new DataTable();
+    using(SqlConnection conn=new SqlConnection(ConnectionString)){
+		SqlCommand cmd=new SqlCommand(FKSql,conn);
+		cmd.Parameters.AddWithValue("@tableName",tableName);
+		SqlDataAdapter da=new SqlDataAdapter(cmd);
+		da.Fill(tbl);
+	}
+	return tbl;
+}
+DataTable GetStoredProcedureParameters(string spName){
+    string[] restrictions = new string[4] { null, null, spName, null };
+	return GetSchema("ProcedureParameters", restrictions);
+}
+string GetSysType(string sqlType){
+	string sysType="string";
+	switch (sqlType) {
+		case "bigint":
+		case "smallint":
+		case "int":
+			sysType= "int";
+			break;
+		case "uniqueidentifier":
+			sysType=  "Guid";
+			 break;
+		case "smalldatetime":
+		case "datetime":
+			sysType=  "DateTime";
+			  break;
+		case "float":
+			sysType="double";
+			break;
+		case "real":
+		case "numeric":
+		case "smallmoney":
+		case "decimal":
+		case "money":
+			sysType=  "decimal";
+			 break;
+		case "bit":
+			sysType=  "bool";
+			   break;
+		case "image":
+		case "binary":
+		case "tinyint":
+		case "varbinary":
+			sysType=  "byte[]";
+			 break;
+	}
+	return sysType;
+}
+
+string CamelCase(string s) {
+	return s.Substring(0, 1).ToLower() + s.Substring(1);
+}
+
+DbType GetDbType(string sqlType){
+	switch(sqlType)
+    {
+        case "varchar":
+            return DbType.AnsiString;
+        case "nvarchar":
+            return DbType.String;
+        case "int":
+            return DbType.Int32;
+        case "uniqueidentifier":
+            return DbType.Guid;
+        case "datetime":
+            return DbType.DateTime;
+        case "bigint":
+            return DbType.Int64;
+        case "binary":
+            return DbType.Binary;
+        case "bit":
+            return DbType.Boolean;
+        case "char":
+            return DbType.AnsiStringFixedLength;
+        case "decimal":
+            return DbType.Decimal;
+        case "float":
+            return DbType.Double;
+        case "image":
+            return DbType.Binary;
+        case "money":
+            return DbType.Currency;
+        case "nchar":
+            return DbType.String;
+        case "ntext":
+            return DbType.String;
+        case "numeric":
+            return DbType.Decimal;
+        case "real":
+            return DbType.Single;
+        case "smalldatetime":
+            return DbType.DateTime;
+        case "smallint":
+            return DbType.Int16;
+        case "smallmoney":
+            return DbType.Currency;
+        case "sql_variant":
+            return DbType.String;
+        case "sysname":
+            return DbType.String;
+        case "text":
+            return DbType.AnsiString;
+        case "timestamp":
+            return DbType.Binary;
+        case "tinyint":
+            return DbType.Byte;
+        case "varbinary":
+            return DbType.Binary;
+        default:
+            return DbType.AnsiString;
+    }
+}
+
+SqlDbType GetSqlDbType(string sqlType){
+	switch(sqlType)
+    {
+        case "varchar":
+            return SqlDbType.VarChar;
+        case "nvarchar":
+            return SqlDbType.NVarChar;
+        case "int":
+            return SqlDbType.Int;
+        case "uniqueidentifier":
+            return SqlDbType.UniqueIdentifier;
+        case "datetime":
+            return SqlDbType.DateTime;
+        case "bigint":
+            return SqlDbType.BigInt;
+        case "binary":
+            return SqlDbType.Binary;
+        case "bit":
+            return SqlDbType.Bit;
+        case "char":
+            return SqlDbType.Char;
+        case "decimal":
+            return SqlDbType.Decimal;
+        case "float":
+            return SqlDbType.Float;
+        case "image":
+            return SqlDbType.Image;
+        case "money":
+            return SqlDbType.Money;
+        case "nchar":
+            return SqlDbType.NChar;
+        case "ntext":
+            return SqlDbType.NText;
+        case "numeric":
+            return SqlDbType.Decimal;
+        case "real":
+            return SqlDbType.Real;
+        case "smalldatetime":
+            return SqlDbType.SmallDateTime;
+        case "smallint":
+            return SqlDbType.SmallInt;
+        case "smallmoney":
+            return SqlDbType.SmallMoney;
+        case "sql_variant":
+            return SqlDbType.Variant;
+        case "sysname":
+            return SqlDbType.VarChar;
+        case "text":
+            return SqlDbType.Text;
+        case "timestamp":
+            return SqlDbType.Timestamp;
+        case "tinyint":
+            return SqlDbType.TinyInt;
+        case "varbinary":
+            return SqlDbType.VarBinary;
+        default:
+            return SqlDbType.NVarChar;
+    }
+}
+
+const string FKSql=@"SELECT
+    ThisTable  = FK.TABLE_NAME,
+    ThisColumn = CU.COLUMN_NAME,
+    OtherTable  = PK.TABLE_NAME,
+    OtherColumn = PT.COLUMN_NAME, 
+    Constraint_Name = C.CONSTRAINT_NAME,
+    Owner = FK.TABLE_SCHEMA
+FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS C
+INNER JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS FK ON C.CONSTRAINT_NAME = FK.CONSTRAINT_NAME
+INNER JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS PK ON C.UNIQUE_CONSTRAINT_NAME = PK.CONSTRAINT_NAME
+INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE CU ON C.CONSTRAINT_NAME = CU.CONSTRAINT_NAME
+INNER JOIN
+    (	
+        SELECT i1.TABLE_NAME, i2.COLUMN_NAME
+        FROM  INFORMATION_SCHEMA.TABLE_CONSTRAINTS i1
+        INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE i2 ON i1.CONSTRAINT_NAME = i2.CONSTRAINT_NAME
+        WHERE i1.CONSTRAINT_TYPE = 'PRIMARY KEY'
+    ) 
+PT ON PT.TABLE_NAME = PK.TABLE_NAME
+WHERE FK.Table_NAME=@tableName OR PK.Table_NAME=@tableName";
+
+
+
+#>

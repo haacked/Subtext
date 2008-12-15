@@ -14,12 +14,13 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
-using Subtext.Framework.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Util;
+using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Syndication
 {
@@ -31,9 +32,9 @@ namespace Subtext.Framework.Syndication
 	public class RssCategoryHandler : EntryCollectionHandler<Entry>
 	{
 		protected LinkCategory Category;
-        IList<Entry> posts;
+        ICollection<Entry> posts;
 
-        protected override IList<Entry> GetFeedEntries()
+        protected override ICollection<Entry> GetFeedEntries()
 		{
 			if(Category == null)
 			{
@@ -63,7 +64,7 @@ namespace Subtext.Framework.Syndication
 			{
 				feed = new CachedFeed();
 				CategoryWriter cw = new CategoryWriter(posts, Category,WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
-				feed.LastModified = ConvertLastUpdatedDate(posts[0].DateCreated);
+				feed.LastModified = ConvertLastUpdatedDate(posts.First().DateCreated);
 				feed.Xml = cw.Xml;
 			}
 			return feed;
