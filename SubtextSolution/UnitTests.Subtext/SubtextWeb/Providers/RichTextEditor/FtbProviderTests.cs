@@ -35,7 +35,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		[SetUp]
 		public void SetUp()
 		{
-            _hostName = Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
+            _hostName = UnitTestHelper.GenerateUniqueHostname();
             frtep = new FtbBlogEntryEditorProvider();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "Subtext.Web");
 		}
@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		[RollBack]
 		public void SetText() 
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+			Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
 			string test="Lorem Ipsum";
 			frtep.InitializeControl();
 			frtep.Text=test;
@@ -65,7 +65,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         [RollBack]
 		public void SetWidth() 
 		{
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+            Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
 
 			Unit test=200;
 			frtep.InitializeControl();
@@ -77,7 +77,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         [RollBack]
 		public void SetHeight() 
 		{
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+            Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
 
 			Unit test=100;
 			frtep.InitializeControl();
@@ -110,7 +110,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         [RollBack]
 		public void TestInitialization() 
 		{
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+            Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
 
 			System.Collections.Specialized.NameValueCollection coll=GetNameValueCollection();
 			frtep.Initialize("FTBProvider", coll);

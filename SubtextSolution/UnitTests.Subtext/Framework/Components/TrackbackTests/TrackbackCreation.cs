@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -23,8 +24,8 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 		[RollBack]
 		public void CreateTrackbackSetsFeedbackTypeCorrectly()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			string hostname = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
@@ -45,14 +46,14 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 		[RollBack]
 		public void TrackbackShowsUpInFeedbackList()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, "blog"));
+			string hostname = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("", "username", "password", hostname, "blog");
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "blog", string.Empty);
 			
 			Entry parentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("philsath aeuoa asoeuhtoensth", "sntoehu title aoeuao eu", "snaot hu aensaoehtu body");
 			int parentId = Entries.Create(parentEntry);
 
-            IList<FeedbackItem> entries = Entries.GetFeedBack(parentEntry);
+            ICollection<FeedbackItem> entries = Entries.GetFeedBack(parentEntry);
 			Assert.AreEqual(0, entries.Count, "Did not expect any feedback yet.");
 			
 			Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body");
@@ -62,7 +63,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			
 			entries = Entries.GetFeedBack(parentEntry);
 			Assert.AreEqual(1, entries.Count, "Expected a trackback.");
-			Assert.AreEqual(trackbackId, entries[0].Id, "The feedback was not the same one we expected. The IDs do not match.");
+			Assert.AreEqual(trackbackId, entries.First().Id, "The feedback was not the same one we expected. The IDs do not match.");
 		}
 	}
 }

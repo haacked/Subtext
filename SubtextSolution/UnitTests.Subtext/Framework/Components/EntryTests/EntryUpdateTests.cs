@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void CanDeleteEntry()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
 			Entries.Create(entry);
@@ -41,33 +41,27 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void SettingDateSyndicatedToNullRemovesItemFromSyndication()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+            //arrange
+			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
 			Entries.Create(entry);
 
 			Assert.IsTrue(entry.IncludeInMainSyndication, "Failed to setup this test properly.  This entry should be included in the main syndication.");
-			Assert.IsFalse(NullValue.IsNull(entry.DateSyndicated), "Failed to setup this test properly. DateSyndicated should be not null.");
+			Assert.IsFalse(NullValue.IsNull(entry.DateSyndicated), "Failed to setup this test properly. DateSyndicated should be null.");
 			
+            //act
 			entry.DateSyndicated = NullValue.NullDateTime;
-			Assert.IsFalse(entry.IncludeInMainSyndication, "Setting the DateSyndicated to a null date should have reset 'IncludeInMainSyndication'.");
-			
-			//Ok, update and make sure these changes persist.
-			Entries.Update(entry);
 
+            //assert
+			Assert.IsFalse(entry.IncludeInMainSyndication, "Setting the DateSyndicated to a null date should have reset 'IncludeInMainSyndication'.");
+
+            //save it
+			Entries.Update(entry);
             Entry savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
-			Assert.IsFalse(savedEntry.IncludeInMainSyndication, "This item should still not be included in main syndication.");
-			int allowableMarginOfError = 1; //ms
-			Assert.IsTrue((savedEntry.DateSyndicated - entry.DateSyndicated).Milliseconds <= allowableMarginOfError, "The DateSyndicated was not stored in the db.");
 			
-			//Ok, make other changes.
-			DateTime date = DateTime.Now;
-			Thread.Sleep(1000);
-			savedEntry.IncludeInMainSyndication = true;
-			Assert.IsTrue(savedEntry.DateSyndicated >= date, "The DateSyndicated '{0}' should be updated to be later than '{1}.", savedEntry.DateSyndicated, date);
-			Entries.Update(savedEntry);
-            savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
-			Assert.IsTrue(savedEntry.DateSyndicated >= date, "The DateSyndicated '{0}' should be updated to be later than '{1}.", savedEntry.DateSyndicated, date);
+            //assert again
+            Assert.IsFalse(savedEntry.IncludeInMainSyndication, "This item should still not be included in main syndication.");
 		}
 
 
@@ -97,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = UnitTestHelper.GenerateRandomString();
+			_hostName = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
 		}
 

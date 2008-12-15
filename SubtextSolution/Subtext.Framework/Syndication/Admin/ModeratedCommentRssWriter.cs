@@ -8,7 +8,7 @@ namespace Subtext.Framework.Syndication.Admin
 {
 	public class ModeratedCommentRssWriter:CommentRssWriter
 	{
-		public ModeratedCommentRssWriter(IList<FeedbackItem> commentEntries, Entry entry)
+		public ModeratedCommentRssWriter(ICollection<FeedbackItem> commentEntries, Entry entry)
 			:base(commentEntries,entry)
 		{
 		}

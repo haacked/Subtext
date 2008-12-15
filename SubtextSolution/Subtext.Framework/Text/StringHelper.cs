@@ -26,6 +26,13 @@ namespace Subtext.Framework.Text
 	/// </summary>
 	public static class StringHelper
 	{
+        public static string NullIfEmpty(this string s) {
+            if (String.IsNullOrEmpty(s)) {
+                return null;
+            }
+            return s;
+        }
+
 		/// <summary>
 		/// Removes any double instances of the specified character. 
 		/// So "--" becomes "-" if the character is '-'.
@@ -33,7 +40,7 @@ namespace Subtext.Framework.Text
 		/// <param name="text">The text.</param>
 		/// <param name="character">The character.</param>
 		/// <returns></returns>
-		public static string RemoveDoubleCharacter(string text, char character)
+		public static string RemoveDoubleCharacter(this string text, char character)
 		{
 			if (text == null)
 				throw new ArgumentNullException("text");
@@ -68,7 +75,7 @@ namespace Subtext.Framework.Text
 		/// </example>
 		/// <param name="source"></param>
 		/// <returns></returns>
-		public static string[] SplitUppercase(string source)
+		public static string[] SplitUppercase(this string source)
 		{
 			if(source == null)
 				return new string[] {}; //Return empty array.
@@ -111,7 +118,7 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string SplitUppercaseToString(string source)
 		{
-			return string.Join(" ", SplitUppercase(source));
+			return string.Join(" ", source.SplitUppercase());
 		}
 
 		/// <summary>
@@ -119,7 +126,7 @@ namespace Subtext.Framework.Text
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public static string PascalCase(string text)
+		public static string ToPascalCase(this string text)
 		{
 			if(text == null)
 				throw new ArgumentNullException("text", "Cannot PascalCase null text.");
@@ -151,7 +158,7 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		/// <exception cref="ArgumentOutOfRangeException">Thrown if length is less than 0</exception>
 		/// <exception cref="ArgumentNullException">Thrown if str is null.</exception>
-		public static string Left(string str, int length)
+		public static string Left(this string str, int length)
 		{
 			if(length >= str.Length)
 				return str;
@@ -321,7 +328,7 @@ namespace Subtext.Framework.Text
 			if(searchIndex < 0)
 				return original;
 
-			return Left(original, searchIndex);
+			return original.Left(searchIndex);
 		}
 
 		/// <summary>
@@ -365,7 +372,7 @@ namespace Subtext.Framework.Text
 		/// <returns>
 		/// 	<c>true</c> if the specified text is numeric; otherwise, <c>false</c>.
 		/// </returns>
-		public static bool IsNumeric(string text)
+		public static bool IsNumeric(this string text)
 		{
 			return Regex.IsMatch(text,"^\\d+$");
 		}

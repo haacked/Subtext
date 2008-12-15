@@ -17,8 +17,9 @@ using System;
 using System.Data;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
-using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Data;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Logging
 {
@@ -27,6 +28,19 @@ namespace Subtext.Framework.Logging
 	/// </summary>
 	public class DatabaseLoggingProvider : LoggingProvider
 	{
+        StoredProcedures _procedures = new StoredProcedures(Config.ConnectionString);
+        
+        public int BlogId
+        {
+            get
+            {
+                if (InstallationManager.IsInHostAdminDirectory)
+                    return NullValue.NullInt32;
+                else
+                    return Config.CurrentBlog.Id;
+            }
+        }
+        
 		/// <summary>
 		/// Gets a pageable collection of log entries.
 		/// </summary>
@@ -35,15 +49,10 @@ namespace Subtext.Framework.Logging
 		/// <returns></returns>
         public override IPagedCollection<LogEntry> GetPagedLogEntries(int pageIndex, int pageSize)
 		{
-			IDataReader reader = DbProvider.Instance().GetPagedLogEntries(pageIndex, pageSize);
-            IPagedCollection<LogEntry> entries = new PagedCollection<LogEntry>();
-			while(reader.Read())
-			{
-				entries.Add(DataHelper.LoadLogEntry(reader));
-			}
-			reader.NextResult();
-			entries.MaxItems = DataHelper.GetMaxItems(reader);
-			return entries;
+            using (IDataReader reader = _procedures.GetPageableLogEntries(BlogId, pageIndex, pageSize))
+            {
+                return reader.GetPagedCollection(r => DataHelper.LoadLogEntry(r));
+            }
 		}
 
 		/// <summary>
@@ -51,7 +60,7 @@ namespace Subtext.Framework.Logging
 		/// </summary>
 		public override void ClearLog()
 		{
-			DbProvider.Instance().ClearLog();
+            _procedures.LogClear(BlogId.NullIfMinValue());
 		}
 
 	}

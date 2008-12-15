@@ -139,7 +139,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
         public static IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize)
 		{
-			return GetPagedReferrers(pageIndex, pageSize, NullValue.NullInt32);
+			return GetPagedReferrers(pageIndex, pageSize, NullValue.NullInt32 /* entryId */);
 		}
 
 		/// <summary>

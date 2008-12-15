@@ -69,7 +69,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[SetUp]
 		public void SetUp()
 		{
-			this.hostName = UnitTestHelper.GenerateRandomString();
+			this.hostName = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(this.hostName, "MyBlog1");
 		}
 

@@ -29,27 +29,27 @@ namespace Subtext.Framework
 		/// Gets archived posts by month.
 		/// </summary>
 		/// <returns></returns>
-		public static IList<ArchiveCount> GetPostCountByMonth()
+		public static ICollection<ArchiveCount> GetPostCountByMonth()
 		{
-			return ObjectProvider.Instance().GetPostsByMonthArchive();
+			return ObjectProvider.Instance().GetPostCountsByMonth();
 		}
 
 		/// <summary>
 		/// Gets archived posts by year.
 		/// </summary>
 		/// <returns></returns>
-        public static IList<ArchiveCount> GetPostCountByYear()
+        public static ICollection<ArchiveCount> GetPostCountByYear()
 		{
-			return ObjectProvider.Instance().GetPostsByYearArchive();
+			return ObjectProvider.Instance().GetPostCountsByYear();
 		}
 
         /// <summary>
         /// Gets archived posts by category.
         /// </summary>
         /// <returns></returns>
-        public static IList<ArchiveCount> GetPostCountByCategory()
+        public static ICollection<ArchiveCount> GetPostCountByCategory()
         {
-            return ObjectProvider.Instance().GetPostsByCategoryArchive();
+            return ObjectProvider.Instance().GetPostCountsByCategory();
         }
 	}
 }

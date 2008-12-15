@@ -22,7 +22,7 @@ namespace Subtext.Extensibility.Plugins
 	/// <summary>
 	/// Summary description for ITargetIdentifierCollection.
 	/// </summary>
-	public interface ITargetIdentifierCollection : IList<ITargetIdentifier>
+	public interface ITargetIdentifierCollection : ICollection<ITargetIdentifier>
 	{
 	}
 }

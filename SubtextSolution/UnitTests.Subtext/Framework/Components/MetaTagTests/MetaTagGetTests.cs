@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             InsertNewMetaTag("Adding description meta tag", "description", null, DateTime.Now, blog.Id, null);
             InsertNewMetaTag("no-cache", null, "cache-control", DateTime.Now, blog.Id, null);
 
-            IList<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, 0, 100);
+            ICollection<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, 0, 100);
 
             Assert.AreEqual(2, tags.Count, "Should be two tags for this blog.");
         }
@@ -84,7 +84,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             InsertNewMetaTag("no-cache", null, "cache-control", DateTime.Now, blog.Id, e.Id);
             InsertNewMetaTag("Mon, 22 Jul 2022 11:12:01 GMT", null, "expires", DateTime.Now, blog.Id, e.Id);
 
-            IList<MetaTag> tags = MetaTags.GetMetaTagsForEntry(e, 0, 100);
+            ICollection<MetaTag> tags = MetaTags.GetMetaTagsForEntry(e, 0, 100);
 
             Assert.AreEqual(4, tags.Count, "Should have found 4 MetaTags for this entry.");
         }

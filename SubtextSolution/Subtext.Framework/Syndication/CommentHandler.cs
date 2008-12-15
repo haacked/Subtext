@@ -20,6 +20,7 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
+using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Syndication
 {
@@ -65,7 +66,7 @@ namespace Subtext.Framework.Syndication
 				comment.EntryId = UrlFormats.GetPostIDFromUrl(Request.Path);
 
 				// [ 1644691 ] Closing comments didn't stop the CommentAPI
-				if(!Subtext.Framework.Data.Cacher.GetEntry(comment.EntryId,CacheDuration.Medium).CommentingClosed)
+				if(!Cacher.GetEntry(comment.EntryId,CacheDuration.Medium).CommentingClosed)
 					FeedbackItem.Create(comment, new CommentFilter(HttpContext.Current.Cache));
 			}
 		}

@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using MbUnit.Framework;
@@ -23,7 +24,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 
-namespace UnitTests.Subtext.Framework.Components.EntryTests
+namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 {
 	/// <summary>
 	/// Tests the methods to obtain the previous and next entry to an entry.
@@ -38,19 +39,19 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void GetPreviousAndNextEntriesReturnsPreviousWhenNoNextExists()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			string hostname = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
 
-			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-1));
-			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now);
+			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-1));
+			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now);
 
 			int previousId = Entries.Create(previousEntry);
 			int currentId = Entries.Create(currentEntry);
 
-			IList<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
+			ICollection<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
 			Assert.AreEqual(1, entries.Count, "Since there is no next entry, should return only 1");
-			Assert.AreEqual(previousId, entries[0].Id, "The previous entry does not match expectations.");
+			Assert.AreEqual(previousId, entries.First().Id, "The previous entry does not match expectations.");
 		}
 
 		/// <summary>
@@ -60,19 +61,19 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void GetPreviousAndNextEntriesReturnsNextWhenNoPreviousExists()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			string hostname = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
 
-			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-1));
-			Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now);
+			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-1));
+			Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now);
 
 			int currentId = Entries.Create(currentEntry);
 			int nextId = Entries.Create(nextEntry);
 
-			IList<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
+			ICollection<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
 			Assert.AreEqual(1, entries.Count, "Since there is no previous entry, should return only next");
-			Assert.AreEqual(nextId, entries[0].Id, "The next entry does not match expectations.");
+			Assert.AreEqual(nextId, entries.First().Id, "The next entry does not match expectations.");
 		}
 
 		/// <summary>
@@ -82,13 +83,13 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void GetPreviousAndNextEntriesReturnsBoth()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			string hostname = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
 
-			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-2));
-			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-1));
-			Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now);
+			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-2));
+			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-1));
+			Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now);
 
 			int previousId = Entries.Create(previousEntry);
 			Thread.Sleep(100);
@@ -96,12 +97,12 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Thread.Sleep(100);
 			int nextId = Entries.Create(nextEntry);
 
-			IList<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
+			ICollection<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
 			Assert.AreEqual(2, entries.Count, "Expected both previous and next.");
 			
 			//The more recent one is next because of desceding sort.
-			Assert.AreEqual(nextId, entries[0].Id, "The next entry does not match expectations.");
-			Assert.AreEqual(previousId, entries[1].Id, "The previous entry does not match expectations.");
+			Assert.AreEqual(nextId, entries.First().Id, "The next entry does not match expectations.");
+			Assert.AreEqual(previousId, entries.ElementAt(1).Id, "The previous entry does not match expectations.");
 		}
 
 		/// <summary>
@@ -111,15 +112,15 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void GetPreviousAndNextEntriesReturnsCorrectEntries()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			string hostname = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
 
-			Entry firstEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-3));
-			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-2));
-			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-1));
-			Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now);
-			Entry lastEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(1));
+			Entry firstEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-3));
+			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-2));
+			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-1));
+			Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now);
+			Entry lastEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(1));
 
 			Console.WriteLine("{0} Syndicate: {1:hh:mm:ss:fff}", Entries.Create(firstEntry), firstEntry.DateSyndicated);
 			Thread.Sleep(100);
@@ -133,15 +134,15 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Thread.Sleep(100);
 			Console.WriteLine("{0} Syndicate: {1:hh:mm:ss:fff}", Entries.Create(lastEntry), lastEntry.DateSyndicated);
 
-			IList<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
+			ICollection<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
 			Assert.AreEqual(2, entries.Count, "Expected both previous and next.");
 
-			Console.WriteLine("Prev: {0} Syndicate: {1:hh:mm:ss:fff}", entries[0].Id, entries[0].DateSyndicated);
-			Console.WriteLine("Next: {0} Syndicate: {1:hh:mm:ss:fff}", entries[1].Id, entries[1].DateSyndicated);
+			Console.WriteLine("Prev: {0} Syndicate: {1:hh:mm:ss:fff}", entries.First().Id, entries.First().DateSyndicated);
+			Console.WriteLine("Next: {0} Syndicate: {1:hh:mm:ss:fff}", entries.ElementAt(1).Id, entries.ElementAt(1).DateSyndicated);
 
 			//The more recent one is next because of desceding sort.
-			Assert.AreEqual(nextId, entries[0].Id, "The next entry does not match expectations.");
-			Assert.AreEqual(previousId, entries[1].Id, "The previous entry does not match expectations.");
+			Assert.AreEqual(nextId, entries.First().Id, "The next entry does not match expectations.");
+			Assert.AreEqual(previousId, entries.ElementAt(1).Id, "The previous entry does not match expectations.");
 		}
 
 		/// <summary>
@@ -151,8 +152,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void GetPreviousAndNextBasedOnSyndicationDateNotEntryId()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			string hostname = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
 
 			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");
@@ -180,11 +181,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			
 			Assert.IsTrue(previousId > currentId, "Ids are out of order.");
 
-			IList<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
+			ICollection<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
 			Assert.AreEqual(2, entries.Count, "Expected both previous and next.");
 			//The first should be next because of descending sort.
-			Assert.AreEqual(nextId, entries[0].Id, "The next entry does not match expectations.");
-			Assert.AreEqual(previousId, entries[1].Id, "The previous entry does not match expectations.");
+			Assert.AreEqual(nextId, entries.First().Id, "The next entry does not match expectations.");
+			Assert.AreEqual(previousId, entries.ElementAt(1).Id, "The previous entry does not match expectations.");
 		}
 
 	}

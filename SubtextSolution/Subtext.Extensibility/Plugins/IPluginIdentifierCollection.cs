@@ -22,7 +22,7 @@ namespace Subtext.Extensibility.Plugins
 	/// <summary>
 	/// Summary description for IPluginIdentifierCollection.
 	/// </summary>
-	public interface IPluginIdentifierCollection : IList<IPluginIdentifier>
+	public interface IPluginIdentifierCollection : ICollection<IPluginIdentifier>
 	{
 	}
 }

@@ -59,7 +59,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			this.pnlResults.Visible = true;
 			this.pnlEdit.Visible = false;
 
-			IList<BlogGroup> groups = Config.ListBlogGroups(!chkShowInactive.Checked);
+			ICollection<BlogGroup> groups = Config.ListBlogGroups(!chkShowInactive.Checked);
 
             if (groups.Count > 0)
 			{
@@ -85,13 +85,13 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             if(!CreatingGroup)
 			{
-                SqlDataReader reader = (SqlDataReader) DbProvider.Instance().GetBlogGroup(GroupId, false);
-                if (reader.Read())
+                BlogGroup group = ObjectProvider.Instance().GetBlogGroup(GroupId, false);
+                if(group != null)
                 {
-                    this.txtTitle.Text = reader.GetString(reader.GetOrdinal("Title"));
-                    this.txtDescription.Text = reader.IsDBNull(reader.GetOrdinal("Description")) ? string.Empty : reader.GetString(reader.GetOrdinal("Description"));
-                    this.txtDisplayOrder.Text = reader.IsDBNull(reader.GetOrdinal("DisplayOrder")) ? string.Empty : reader.GetInt32(reader.GetOrdinal("DisplayOrder")).ToString();
-                    hfActive.Value = Convert.ToString(reader.GetBoolean(reader.GetOrdinal("Active")));
+                    this.txtTitle.Text = group.Title;
+                    this.txtDescription.Text = group.Description;
+                    this.txtDisplayOrder.Text = group.DisplayOrder.ToString(CultureInfo.InvariantCulture);
+                    hfActive.Value = group.IsActive.ToString(CultureInfo.CurrentCulture);
                 }
 			}					
 		}
@@ -203,7 +203,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		}
 
         private void DeleteGroup(){
-            if (DbProvider.Instance().DeleteBlogGroup(GroupId))
+            if (ObjectProvider.Instance().DeleteBlogGroup(GroupId))
                 BindList();
         }
 
@@ -237,10 +237,21 @@ namespace Subtext.Web.HostAdmin.UserControls
 		// Saves a new blog group.  Any exceptions are propagated up to the caller.
         void SaveNewGroup()
 		{
-            int d;
-            if (!Int32.TryParse(this.txtDisplayOrder.Text, out d))
-                d = NullValue.NullInt32;
-            if (DbProvider.Instance().InsertBlogGroup(this.txtTitle.Text, true, d, this.txtDescription.Text) > 0)
+            int displayOrder;
+            if (!Int32.TryParse(this.txtDisplayOrder.Text, out displayOrder))
+            {
+                displayOrder = NullValue.NullInt32;
+            }
+
+            var blogGroup = new BlogGroup
+            {
+                Title = this.txtTitle.Text,
+                Description = txtDescription.Text,
+                IsActive = true,
+                DisplayOrder = displayOrder,
+            };
+
+            if (ObjectProvider.Instance().InsertBlogGroup(blogGroup) > 0)
 			{
 				this.messagePanel.ShowMessage("Blog Group Created.");
 			}
@@ -253,10 +264,23 @@ namespace Subtext.Web.HostAdmin.UserControls
 		// Saves changes to a blog group.  Any exceptions are propagated up to the caller.
         void SaveGroupEdits()
         {
-            int d;
-            if (!Int32.TryParse(this.txtDisplayOrder.Text, out d))
-                d = NullValue.NullInt32;
-            if (DbProvider.Instance().UpdateBlogGroup(GroupId, this.txtTitle.Text, Convert.ToBoolean(hfActive.Value), d, this.txtDescription.Text))
+            int displayOrder;
+            if (!Int32.TryParse(this.txtDisplayOrder.Text, out displayOrder))
+            {
+                displayOrder = NullValue.NullInt32;
+            }
+
+            var blogGroup = new BlogGroup
+            {
+                Id = GroupId,
+                Title = this.txtTitle.Text,
+                Description = txtDescription.Text,
+                IsActive = Convert.ToBoolean(hfActive.Value),
+                DisplayOrder = displayOrder,
+            };
+
+
+            if (ObjectProvider.Instance().UpdateBlogGroup(blogGroup))
 			{
 				this.messagePanel.ShowMessage("Blog Group Saved.");
 			}
@@ -279,7 +303,16 @@ namespace Subtext.Web.HostAdmin.UserControls
             try
 			{
                 BlogGroup group = Config.GetBlogGroup(GroupId, false);
-                DbProvider.Instance().UpdateBlogGroup(GroupId, group.Title, !IsActive, (int) DataHelper.CheckNull(group.DisplayOrder), group.Description); 
+                var blogGroup = new BlogGroup
+                {
+                    Id = GroupId,
+                    Title = this.txtTitle.Text,
+                    Description = txtDescription.Text,
+                    IsActive = !IsActive,
+                    DisplayOrder = group.DisplayOrder,
+                };
+
+                ObjectProvider.Instance().UpdateBlogGroup(blogGroup); 
 			}
 			catch(BaseBlogConfigurationException e)
 			{

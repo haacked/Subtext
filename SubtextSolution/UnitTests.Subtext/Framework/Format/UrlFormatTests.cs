@@ -155,7 +155,7 @@ namespace UnitTests.Subtext.Framework.Format
 		public void GetEditLinkDistringuishesBetweenPostAndArticle()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "");
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
 
 			Entry postEntry = new Entry(PostType.BlogPost);
 			postEntry.Id = 123;
@@ -212,7 +212,7 @@ namespace UnitTests.Subtext.Framework.Format
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = UnitTestHelper.GenerateRandomString();
+			_hostName = UnitTestHelper.GenerateUniqueString();
 			
 		}
 

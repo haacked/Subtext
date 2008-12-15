@@ -53,6 +53,12 @@ namespace Subtext.Framework.Components
 			set;
 		}
 
+        public BlogInfo Blog
+        {
+            get;
+            set;
+        }
+
 		/// <summary>
 		/// Gets or sets the entry ID.
 		/// </summary>

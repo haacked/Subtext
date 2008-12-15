@@ -12,7 +12,7 @@ namespace Subtext.Framework.Syndication.Admin
 	public class ReferrerRssWriter:GenericRssWriter<Referrer>
 	{
 		BlogInfo currentBlog = null;
-		public ReferrerRssWriter(IList<Referrer> referrers, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
+		public ReferrerRssWriter(ICollection<Referrer> referrers, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
 			: base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
 			this.Items = referrers;

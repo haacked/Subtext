@@ -16,7 +16,7 @@ namespace UnitTests.Subtext.Framework.Util
 		[Test]
 		public void CanLoadEmoticonsFile()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "");
+			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateUniqueString(), "");
 			UnitTestHelper.UnpackEmbeddedResource("Web.emoticons.txt", emoticonsPath);
 			List<string> transforms = Transform.LoadTransformFile(emoticonsPath);
 			Assert.AreEqual(48, transforms.Count, "Expected 48 transformations");
@@ -29,7 +29,7 @@ namespace UnitTests.Subtext.Framework.Util
         [RollBack2]
 		public void CanPerformEmoticonTransform()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
+			string host = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("title", "somebody", "something", host, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, string.Empty);
 			UnitTestHelper.UnpackEmbeddedResource("Web.emoticons.txt", emoticonsPath);

@@ -138,7 +138,7 @@ namespace Subtext.BlogML
 		/// </summary>
 		/// <param name="blogId"></param>
 		/// <returns></returns>
-		public abstract IList<BlogMLCategory> GetAllCategories(string blogId);
+		public abstract ICollection<BlogMLCategory> GetAllCategories(string blogId);
 
 		/// <summary>
 		/// Returns the blog id from whichever context the provider 

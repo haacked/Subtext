@@ -9,6 +9,9 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Data;
+using Subtext.Framework;
+using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -36,17 +39,15 @@ namespace Subtext.Web.UI.Controls
 
 			}
 
-            DataSet ds = DbProvider.Instance().GetAggregateTotalStats(GroupID);
-            if(ds.Tables[0] != null)
-			{
-				DataRow dr = ds.Tables[0].Rows[0];
-				BlogCount.Text = dr["BlogCount"].ToString();
-				PostCount.Text = dr["PostCount"].ToString();
-				StoryCount.Text = dr["StoryCount"].ToString();
-				CommentCount.Text = dr["CommentCount"].ToString();
-				PingtrackCount.Text = dr["PingtrackCount"].ToString();
-
-			}
+            HostStats stats = ObjectProvider.Instance().GetTotalBlogStats(BlogInfo.AggregateBlog.Host, GroupID);
+            if (stats != null)
+            {
+                BlogCount.Text = stats.BlogCount.ToString();
+                PostCount.Text = stats.PostCount.ToString();
+                StoryCount.Text = stats.StoryCount.ToString();
+                CommentCount.Text = stats.CommentCount.ToString();
+                PingtrackCount.Text = stats.PingTrackCount.ToString();
+            }
         }
     }
 }

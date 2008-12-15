@@ -203,10 +203,12 @@
     <Compile Include="Components\EntryStatsView.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\EntrySummary.cs" />
     <Compile Include="Components\EntryView.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Components\FeedbackItem.cs" />
+    <Compile Include="Components\HostStats.cs" />
     <Compile Include="Components\Image.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -262,12 +264,37 @@
     <Compile Include="ContentCache.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\BlogRepository.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\Cacher.cs" />
+    <Compile Include="Data\CodeGen\StoredProcedures.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StoredProcedures.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\DatabaseObjectProvider.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\DataHelper.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\EntryRepository.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\FeedbackRepository.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\HostRepository.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\LinkRepository.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\SqlDataProvider.cs">
       <SubType>Code</SubType>
@@ -275,7 +302,22 @@
     <Compile Include="Data\SqlErrorMessage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\StoredProcedures.cs" />
+    <Compile Include="Data\TagRepository.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\Transformer.cs" />
+    <Compile Include="Data\CodeGen\_Settings.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Settings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\CodeGen\_Utility.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Utility.tt</DependentUpon>
+    </Compile>
     <Compile Include="DateTimeHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -545,12 +587,12 @@
     <Compile Include="VersionInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BlogAlias.cs" />
     <Compile Include="Web References\com.community-credit.www\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="BlogAlias.cs" />
     <Compile Include="Web\Handlers\CssHandler.cs" />
     <Compile Include="Web\Handlers\JsHandler.cs" />
     <Compile Include="Web\Handlers\RsdHandler.cs" />
@@ -578,12 +620,24 @@
     </Compile>
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
+    <None Include="Data\CodeGen\StoredProcedures.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>StoredProcedures.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\com.community-credit.www\affiliateservices.disco" />
     <None Include="app.config" />
+    <None Include="Data\CodeGen\_Settings.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_Settings.cs</LastGenOutput>
+    </None>
+    <None Include="Data\CodeGen\_Utility.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_Utility.cs</LastGenOutput>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Web References\com.community-credit.www\affiliateservices.disco" />
     <None Include="Web References\com.community-credit.www\affiliateservices.wsdl" />
     <None Include="Web References\com.community-credit.www\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -606,6 +660,9 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
     <WebReferenceUrl Include="http://www.community-credit.com/services/affiliateservices.asmx%3fop=AddCommunityCredit">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\com.community-credit.www\</RelPath>
@@ -614,8 +671,10 @@
       </ServiceLocationURL>
       <CachedDynamicPropName>
       </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>Subtext_Framework_com_community_credit_www_AffiliateServices</CachedSettingsPropName>
+      <CachedAppSettingsObjectName>
+      </CachedAppSettingsObjectName>
+      <CachedSettingsPropName>
+      </CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

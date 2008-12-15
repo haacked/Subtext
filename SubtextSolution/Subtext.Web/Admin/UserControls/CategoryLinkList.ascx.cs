@@ -11,7 +11,7 @@ namespace Subtext.Web.Admin.UserControls
     {
         private const string QRYSTR_CATEGORYFILTER = "catid";
         private const string QRYSTR_CATEGORYTYPE = "catType";
-        protected IList<LinkCategoryLink> categoryLinks = new List<LinkCategoryLink>();
+        protected ICollection<LinkCategoryLink> categoryLinks = new List<LinkCategoryLink>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -41,12 +41,12 @@ namespace Subtext.Web.Admin.UserControls
                 }
                 else 
                 {
-                    this.categoryLinks.Add(new LinkCategoryLink("All Categories", "Default.aspx"));
+                    this.categoryLinks.Add(new LinkCategoryLink("All Categories", "EditLinks.aspx"));
                 }
 
                 if (this.catType != CategoryType.None)
                 {
-                    IList<LinkCategory> categories = Links.GetCategories(this.catType, ActiveFilter.None);
+                    ICollection<LinkCategory> categories = Links.GetCategories(this.catType, ActiveFilter.None);
                     foreach (LinkCategory current in categories)
                     {
                         this.categoryLinks.Add(new LinkCategoryLink(current.Title, string.Format(System.Globalization.CultureInfo.InvariantCulture, "{4}?{0}={1}&{2}={3}", QRYSTR_CATEGORYFILTER, current.Id, QRYSTR_CATEGORYTYPE, this.catType, baseUrl)));

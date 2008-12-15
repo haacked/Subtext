@@ -31,8 +31,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void CommentRssHandlerProducesValidEmptyFeed()
 		{
-			string hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
-			Assert.IsTrue(Config.CreateBlog("Test", "username", "password", hostName, string.Empty));
+			string hostName = UnitTestHelper.GenerateUniqueHostname();
+			Config.CreateBlog("Test", "username", "password", hostName, string.Empty);
 
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);

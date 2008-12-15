@@ -156,14 +156,21 @@ namespace UnitTests.Subtext
 		}
 
 		/// <summary>
-		/// Generates a random hostname.
+		/// Generates a unique string.
 		/// </summary>
 		/// <returns></returns>
-		public static string GenerateRandomString()
+		public static string GenerateUniqueString()
 		{
-			return Guid.NewGuid().ToString().Replace("-", "") + ".com";
+			return Guid.NewGuid().ToString().Replace("-", "");
 		}
 
+        /// <summary>
+        /// Generates a unique host name.
+        /// </summary>
+        /// <returns></returns>
+        public static string GenerateUniqueHostname() {
+            return GenerateUniqueString() + ".com";
+        }
 
 		/// <summary>
 		/// Sets the HTTP context with a valid request for the blog specified 
@@ -752,8 +759,8 @@ namespace UnitTests.Subtext
 
 	    public static BlogInfo CreateBlogAndSetupContext()
 	    {
-	        string hostName = GenerateRandomString();
-	        Assert.IsTrue(Config.CreateBlog("Just A Test Blog", "test", "test", hostName, ""), "Could not create the blog for this test");
+	        string hostName = GenerateUniqueString();
+	        Config.CreateBlog("Just A Test Blog", "test", "test", hostName, "");
 	        SetHttpContextWithBlogRequest(hostName, "");
 	        Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
 
@@ -796,7 +803,7 @@ namespace UnitTests.Subtext
 	        return mt;
 	    }
 
-        public static IList<MetaTag> BuildMetaTagsFor(BlogInfo blog, Entry entry, int numberOfTags)
+        public static ICollection<MetaTag> BuildMetaTagsFor(BlogInfo blog, Entry entry, int numberOfTags)
         {
             List<MetaTag> tags = new List<MetaTag>(numberOfTags);
 
@@ -807,10 +814,10 @@ namespace UnitTests.Subtext
             for (int i = 0; i < numberOfTags; i++)
             {
                 MetaTag aTag = BuildMetaTag(
-                    StringHelper.Left(GenerateRandomString(), 50),
+                    GenerateUniqueString().Left(50),
                     // if even, make a name attribute, else http-equiv
-                    (i%2 == 0) ? StringHelper.Left(GenerateRandomString(), 25) : null,
-                    (i%2 == 1) ? StringHelper.Left(GenerateRandomString(), 25) : null,
+                    (i%2 == 0) ? GenerateUniqueString().Left(25) : null,
+                    (i%2 == 1) ? GenerateUniqueString().Left(25) : null,
                     blog.Id,
                     entryId,
                     DateTime.Now);
@@ -922,11 +929,11 @@ namespace UnitTests.Subtext
                     {
                         valueToSet = PageType.HomePage;
                     }
-                    else if (property.PropertyType == typeof(IList<Link>))
+                    else if (property.PropertyType == typeof(ICollection<Link>))
                     {
                         valueToSet = new List<Link>();
                     }
-                    else if (property.PropertyType == typeof(IList<Image>))
+                    else if (property.PropertyType == typeof(ICollection<Image>))
                     {
                         valueToSet = new List<Image>();
                     }
@@ -1089,7 +1096,7 @@ namespace UnitTests.Subtext
         /// </returns>
         internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page, string userName, string password)
         {
-            string host = GenerateRandomString();
+            string host = GenerateUniqueString();
 
             HttpContext.Current = null;
             Assert.IsNotNull(Config.CreateBlog("Unit Test Blog", userName, password, host, subfolder), "Could Not Create Blog");

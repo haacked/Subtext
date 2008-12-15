@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -152,14 +153,14 @@ namespace Subtext.Web.Admin
 		/// </summary>
 		/// <param name="integers">Integers.</param>
 		/// <returns></returns>
-		protected string GetDisplayTextFromIntArray(IList<int> integers)
+		protected string GetDisplayTextFromIntArray(ICollection<int> integers)
 		{
 			if (integers == null || integers.Count == 0)
 				return string.Empty;
 
 			if(integers.Count == 2)
 			{
-				return integers[0] + " and " + integers[1];
+				return integers.First() + " and " + integers.ElementAt(1);
 			}
 
 			string display = string.Empty;
@@ -167,7 +168,7 @@ namespace Subtext.Web.Admin
 			{
 				display += integer + ", ";
 			}
-			return StringHelper.Left(display, display.Length - 2);
+			return display.Left(display.Length - 2);
 		}
 
 		public abstract string Cancel();
@@ -226,7 +227,7 @@ namespace Subtext.Web.Admin
 	[Serializable]
 	public abstract class DeleteTargetsCommand : ConfirmCommand
 	{
-		protected IList<int> _targetIDs;
+		protected ICollection<int> _targetIDs;
 		protected string _targetName = "Items";
 
 		/// <summary>
@@ -245,7 +246,7 @@ namespace Subtext.Web.Admin
 		/// Creates a new <see cref="DeleteTargetsCommand"/> instance.
 		/// </summary>
 		/// <param name="targetIDs">Target ID.</param>
-		protected DeleteTargetsCommand(IList<int> targetIDs) : this()
+		protected DeleteTargetsCommand(ICollection<int> targetIDs) : this()
 		{
 			_targetIDs = targetIDs;
 
@@ -407,7 +408,7 @@ namespace Subtext.Web.Admin
 		/// Creates a new <see cref="DeleteCommentsCommand"/> instance.
 		/// </summary>
 		/// <param name="postIDs">Post IDs.</param>
-		public DeleteCommentsCommand(IList<int> postIDs) : base(postIDs)
+		public DeleteCommentsCommand(ICollection<int> postIDs) : base(postIDs)
 		{
 			if(postIDs.Count > 1)
 			{
@@ -486,7 +487,7 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				IList<Image> imageList = Images.GetImagesByCategoryID(_targetID, false);
+				ICollection<Image> imageList = Images.GetImagesByCategoryID(_targetID, false);
 				
 				// delete the folder
 				string galleryFolder = Images.LocalGalleryFilePath(_targetID);
@@ -632,7 +633,7 @@ namespace Subtext.Web.Admin
 	public class ImportLinksCommand : ConfirmCommand
 	{		
 		protected OpmlItemCollection _linksToImport;
-		protected IList<Link> _allLinks;
+		protected ICollection<Link> _allLinks;
 		protected int _categoryID = NullValue.NullInt32;
 
 		protected ImportLinksCommand() 

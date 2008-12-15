@@ -14,12 +14,13 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
-using Subtext.Framework.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Web;
+using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Syndication
 {
@@ -31,14 +32,14 @@ namespace Subtext.Framework.Syndication
 	public class RssCommentHandler : EntryCollectionHandler<FeedbackItem>
 	{
 		protected Entry ParentEntry;
-        protected IList<FeedbackItem> Comments;
-        IList<FeedbackItem> comments;
+        protected ICollection<FeedbackItem> Comments;
+        ICollection<FeedbackItem> comments;
 
 		/// <summary>
 		/// Gets the feed entries.
 		/// </summary>
 		/// <returns></returns>
-        protected override IList<FeedbackItem> GetFeedEntries()
+        protected override ICollection<FeedbackItem> GetFeedEntries()
 		{
 			if(ParentEntry == null)
 			{
@@ -59,7 +60,7 @@ namespace Subtext.Framework.Syndication
 			return Comments;
 		}
 
-		protected virtual CommentRssWriter GetCommentWriter(IList<FeedbackItem> comments, Entry entry)
+		protected virtual CommentRssWriter GetCommentWriter(ICollection<FeedbackItem> comments, Entry entry)
 		{
 			return new CommentRssWriter(comments, entry);
 		}
@@ -81,7 +82,7 @@ namespace Subtext.Framework.Syndication
 			CommentRssWriter crw = GetCommentWriter(comments, ParentEntry);
 			if(comments.Count > 0)
 			{
-				feed.LastModified = ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated);
+				feed.LastModified = ConvertLastUpdatedDate(comments.Last().DateCreated);
 			}
 			else
 			{
@@ -100,7 +101,7 @@ namespace Subtext.Framework.Syndication
 
 				if(comments != null && comments.Count > 0)
 				{
-					return DateTime.Compare(DateTime.Parse(dt), ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated)) == 0;
+					return DateTime.Compare(DateTime.Parse(dt), ConvertLastUpdatedDate(comments.Last().DateCreated)) == 0;
 				}
 			}
 			return false;			

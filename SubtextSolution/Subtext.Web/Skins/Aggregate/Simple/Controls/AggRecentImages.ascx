@@ -4,8 +4,14 @@
 <asp:repeater id="RecentImages" runat="server">
 	<ItemTemplate>
 		<div>
-            <asp:HyperLink ID="HyperLink2" runat="server" rel="lightbox" ImageUrl='<%# GetImageUrl(DataBinder.Eval(Container.DataItem,"CategoryID").ToString(), DataBinder.Eval(Container.DataItem,"host").ToString(),DataBinder.Eval(Container.DataItem,"Application").ToString(), DataBinder.Eval(Container.DataItem,"ImageFile").ToString()) %>' ToolTip='<%# DataBinder.Eval(Container.DataItem,"ImageTitle") %>' NavigateUrl='<%# GetImageLink(DataBinder.Eval(Container.DataItem,"CategoryID").ToString(), DataBinder.Eval(Container.DataItem,"host").ToString(),DataBinder.Eval(Container.DataItem,"Application").ToString(), DataBinder.Eval(Container.DataItem,"ImageFile").ToString()) %>' />
-	From <asp:HyperLink ID="HyperLink1" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "CategoryTitle")%>' NavigateUrl='<%# GetAlbumUrl(DataBinder.Eval(Container.DataItem,"CategoryID").ToString(), DataBinder.Eval(Container.DataItem,"host").ToString(),DataBinder.Eval(Container.DataItem,"Application").ToString(), DataBinder.Eval(Container.DataItem,"ImageFile").ToString()) %>' ToolTip='<%# DataBinder.Eval(Container.DataItem,"ImageTitle") %>' />
+            <asp:HyperLink ID="HyperLink2" runat="server" rel="lightbox" 
+                ImageUrl='<%# GetImageUrl(Eval("CategoryID").ToString(), Eval("Blog.Host").ToString(), Eval("Blog.Subfolder").ToString(), Eval("FileName").ToString()) %>' 
+                ToolTip='<%# Eval("Title") %>' 
+                NavigateUrl='<%# GetImageLink(Eval("CategoryID").ToString(), Eval("Blog.Host").ToString(), Eval("Blog.Subfolder").ToString(), Eval("FileName").ToString()) %>' />
+	From <asp:HyperLink ID="HyperLink1" runat="server" 
+	        Text='<%# Eval("CategoryTitle")%>' 
+	        NavigateUrl='<%# GetAlbumUrl(Eval("CategoryID").ToString(), Eval("Blog.Host").ToString(), Eval("Blog.Subfolder").ToString(), Eval("FileName").ToString()) %>' 
+	        ToolTip='<%# Eval("Title") %>' />
 		</div>
 	</ItemTemplate>
 </asp:repeater>

@@ -21,7 +21,7 @@ using Subtext.Framework.Components;
 namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 {
     [TestFixture]
-    public class EncosureDeleteTests
+    public class EnclosureDeleteTests
     {
         private BlogInfo blog;
 

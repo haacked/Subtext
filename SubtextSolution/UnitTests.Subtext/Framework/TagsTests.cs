@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using MbUnit.Framework;
 using Subtext.Framework;
@@ -42,8 +43,8 @@ namespace UnitTests.Subtext.Framework
 			entry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "the title for this post", @"<a href=""http://blah/tag3/"" rel=""tag"">test</a>");
 			Entries.Create(entry);
 
-			IList<Tag> topTags = Tags.GetTopTags(1);
-			Assert.AreEqual("tag3", topTags[0].TagName);
+			ICollection<Tag> topTags = Tags.GetTopTags(1);
+            Assert.AreEqual("tag3", topTags.First().TagName);
 		}
 	}
 }

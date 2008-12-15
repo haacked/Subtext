@@ -94,7 +94,7 @@ namespace Subtext.Web.UI.Controls
 				int blogId = 0;
 				if (CurrentBlog.Id > 0)
 					blogId = CurrentBlog.Id;
-				IList<SearchResult> searchResults = SearchProvider.Instance().Search(blogId, txtSearch.Text);
+				ICollection<SearchResult> searchResults = SearchProvider.Instance().Search(blogId, txtSearch.Text);
 
 				SearchResults.DataSource = searchResults;
 				SearchResults.DataBind();

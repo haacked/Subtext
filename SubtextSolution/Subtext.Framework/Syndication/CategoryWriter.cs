@@ -45,7 +45,7 @@ namespace Subtext.Framework.Syndication
 		/// <param name="ec">Ec.</param>
 		/// <param name="lc">Lc.</param>
 		/// <param name="url">URL.</param>
-		public CategoryWriter(IList<Entry> ec, LinkCategory lc, string url) : base(ec, NullValue.NullDateTime, false)
+		public CategoryWriter(ICollection<Entry> ec, LinkCategory lc, string url) : base(ec, NullValue.NullDateTime, false)
 		{
 			this.Category = lc;
 			this.Url = url;

@@ -14,23 +14,18 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
-using System.Globalization;
 using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
+using Subtext.Web.UI.Controls.Aggregate;
 
 namespace Subtext.Web
 {
-	/// <summary>
-	/// Summary description for _default.
-	/// </summary>
-	public partial class _default : Page
+    /// <summary>
+    /// When AggregateBlog is enabled in Web.config, this page renders contents from 
+    /// all blogs which have set their blog posts to be included in the main blog.
+    /// </summary>
+	public partial class _default : AggregatePage
 	{
 		protected HyperLink Hyperlink6;
 		protected HyperLink Hyperlink7;

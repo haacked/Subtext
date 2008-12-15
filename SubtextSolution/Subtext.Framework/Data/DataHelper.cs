@@ -25,6 +25,8 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
+using Subtext.Framework;
+using System.ComponentModel;
 
 //Need to remove Global.X calls ...just seems unclean
 //Maybe create a another class formatter ...Format.Entry(ref Entry entry) 
@@ -39,6 +41,15 @@ namespace Subtext.Framework.Data
 	/// </summary>
 	public static class DataHelper
 	{
+        public static DateTime? NullIfEmpty(this DateTime dateTime)
+        {
+            if (NullValue.IsNull(dateTime))
+            {
+                return null;
+            }
+            return dateTime;
+        }
+
 		#region Statisitics
 
 		public static ViewStat LoadViewStat(IDataReader reader)
@@ -112,7 +123,7 @@ namespace Subtext.Framework.Data
 			return !(dtCurrent.DayOfYear == dtDay.DayOfYear && dtCurrent.Year == dtDay.Year);
 		}
 
-        public static IList<EntryDay> LoadEntryDayCollection(IDataReader reader)
+        public static ICollection<EntryDay> LoadEntryDayCollection(IDataReader reader)
 		{
 			DateTime dt = new DateTime(1900, 1, 1);
 			List<EntryDay> edc = new List<EntryDay>();
@@ -135,42 +146,33 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region EntryCollection
-        internal static IList<Entry> LoadEntryCollectionFromDataReader(IDataReader reader)
+        internal static ICollection<Entry> LoadEntryCollectionFromDataReader(this IDataReader reader) {
+            return reader.LoadEntryCollectionFromDataReader(true /* buildLinks */);
+        }
+
+        internal static ICollection<Entry> LoadEntryCollectionFromDataReader(this IDataReader reader, bool buildLinks)
         {
-            List<Entry> entries = new List<Entry>();
+            var entries = new Dictionary<int, Entry>();
             while(reader.Read())
             {
-                entries.Add(LoadEntry(reader));
+                var entry = reader.LoadEntry(buildLinks);
+                entries.Add(entry.Id, entry);
             }
 
             if(entries.Count > 0 && reader.NextResult())
             {
                 //Categories...
-                Dictionary<int, StringCollection> categories = new Dictionary<int, StringCollection>();
                 while(reader.Read())
                 {
-                    int postId = ReadInt32(reader, "Id");
+                    int entryId = ReadInt32(reader, "Id");
                     string categoryTitle = ReadString(reader, "Title");
-                    if(!categories.ContainsKey(postId))
-                    {
-                        categories.Add(postId, new StringCollection());
-                    }
-                    categories[postId].Add(categoryTitle);
-                }
-                
-                foreach(Entry entry in entries)
-                {
-                    StringCollection categoryTitles;
-                    if (categories.TryGetValue(entry.Id, out categoryTitles))
-                    {
-                        foreach (string category in categoryTitles)
-                        {
-                            entry.Categories.Add(category);
-                        }
+                    Entry entry;
+                    if (entries.TryGetValue(entryId, out entry)) {
+                        entry.Categories.Add(categoryTitle);
                     }
                 }
             }
-            return entries;
+            return entries.Values;
         }
 		#endregion
 
@@ -291,7 +293,7 @@ namespace Subtext.Framework.Data
 			return entry;
 		}
 
-		public static Entry LoadEntry(IDataReader reader)
+		public static Entry LoadEntry(this IDataReader reader)
 		{
 			return LoadEntry(reader, true);
 		}
@@ -318,7 +320,7 @@ namespace Subtext.Framework.Data
 			return entry;
 		}
 
-		internal static FeedbackItem LoadFeedbackItem(IDataReader reader, Entry entry)
+		internal static FeedbackItem LoadFeedbackItem(this IDataReader reader, Entry entry)
 		{
 			FeedbackItem feedbackItem = new FeedbackItem((FeedbackType)ReadInt32(reader, "FeedbackType"));
 			LoadFeedbackItem(reader, feedbackItem);
@@ -326,14 +328,14 @@ namespace Subtext.Framework.Data
 			return feedbackItem;
 		}
 
-		internal static FeedbackItem LoadFeedbackItem(IDataReader reader)
+		internal static FeedbackItem LoadFeedbackItem(this IDataReader reader)
 		{
 			FeedbackItem feedbackItem = new FeedbackItem((FeedbackType)ReadInt32(reader, "FeedbackType"));
 			LoadFeedbackItem(reader, feedbackItem);
 			return feedbackItem;
 		}
 
-		private static void LoadFeedbackItem(IDataReader reader, FeedbackItem feedbackItem)
+		private static void LoadFeedbackItem(this IDataReader reader, FeedbackItem feedbackItem)
 		{
 			feedbackItem.Id = ReadInt32(reader, "Id");
 			feedbackItem.Title = ReadString(reader, "Title");
@@ -357,14 +359,19 @@ namespace Subtext.Framework.Data
 			feedbackItem.ParentDateCreated = ReadDate(reader, "ParentEntryCreateDate");
 		}
 
-		internal static Entry LoadEntry(IDataReader reader, bool buildLinks)
+		public static Entry LoadEntry(this IDataReader reader, bool buildLinks)
 		{
 			Entry entry = new Entry((PostType)ReadInt32(reader, "PostType"));
 			LoadEntry(reader, entry, buildLinks);
 			return entry;
 		}
 
-		private static void LoadEntry(IDataReader reader, Entry entry, bool buildLinks)
+        public static Entry LoadEntry(this IDataReader reader, Entry entry, bool buildLinks)
+        {
+            return LoadEntry(reader, entry, buildLinks, false);
+        }
+
+		public static Entry LoadEntry(this IDataReader reader, Entry entry, bool buildLinks, bool includeBlog)
 		{
 			entry.Author = ReadString(reader, "Author");
 			entry.Email = ReadString(reader, "Email");
@@ -382,13 +389,19 @@ namespace Subtext.Framework.Data
 			entry.DateSyndicated = ReadDate(reader, "DateSyndicated");
 
 		    bool withEnclosure = ReadBoolean(reader, "EnclosureEnabled");
-            if(withEnclosure)
-		        entry.Enclosure = LoadEnclosure(reader);
+            if (withEnclosure)
+            {
+                entry.Enclosure = LoadEnclosure(reader);
+            }
 	
-			if(buildLinks)
-			{
+			if(buildLinks) {
 				SetUrlPattern(entry);
 			}
+
+            if (includeBlog) {
+                entry.Blog = LoadBlogInfo(reader);
+            }
+            return entry;
 		}
 
 		private static void SetUrlPattern(Entry entry)
@@ -415,24 +428,20 @@ namespace Subtext.Framework.Data
 
 		#region Categories
 
-		public static LinkCategory LoadLinkCategory(IDataReader reader)
+		public static LinkCategory LoadLinkCategory(this IDataReader reader)
 		{
-			LinkCategory lc = new LinkCategory(ReadInt32(reader, "CategoryID"), ReadString(reader, "Title"));
+			LinkCategory lc = new LinkCategory(reader.ReadInt32("CategoryID"), reader.ReadString("Title"));
 			lc.IsActive = (bool)reader["Active"];
-			if(reader["CategoryType"] != DBNull.Value)
-			{
+			if(reader["CategoryType"] != DBNull.Value) {
 				lc.CategoryType = (CategoryType)((byte)reader["CategoryType"]);
 			}
-			if(reader["Description"] != DBNull.Value)
-			{
-				lc.Description = ReadString(reader, "Description");
+			if(reader["Description"] != DBNull.Value) {
+				lc.Description = reader.ReadString("Description");
 			}
-            if (reader["BlogId"] != DBNull.Value)
-            {
-                lc.BlogId = ReadInt32(reader, "BlogId");
+            if (reader["BlogId"] != DBNull.Value) {
+                lc.BlogId = reader.ReadInt32("BlogId");
             }
-            else 
-            {
+            else {
                 lc.BlogId = Config.CurrentBlog.Id;
             }
 			return lc;
@@ -468,7 +477,7 @@ namespace Subtext.Framework.Data
 
 		#region Links
 
-		public static Link LoadLink(IDataReader reader)
+		public static Link LoadLink(this IDataReader reader)
 		{
 			Link link = new Link();
 			// Active cannot be null
@@ -568,65 +577,67 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region Config
+        public static BlogInfo LoadBlogInfo(this IDataReader reader) {
+            return reader.LoadBlogInfo(string.Empty);
+        }
 
-		public static BlogInfo LoadConfigData(IDataReader reader)
+		public static BlogInfo LoadBlogInfo(this IDataReader reader, string prefix)
 		{
 			BlogInfo info = new BlogInfo();
-			info.Author = ReadString(reader, "Author");
-			info.Id = ReadInt32(reader, "BlogId");
-			info.Email = ReadString(reader, "Email");
-			info.Password = ReadString(reader, "Password");
-            info.OpenIDUrl = ReadString(reader, "OpenIDUrl");
-            info.CardSpaceHash = ReadString(reader, "CardSpaceHash");
+			info.Author = reader.ReadString(prefix + "Author");
+			info.Id = reader.ReadInt32(prefix + "BlogId");
+			info.Email = reader.ReadString(prefix + "Email");
+			info.Password = reader.ReadString(prefix + "Password");
+            info.OpenIDUrl = reader.ReadString(prefix + "OpenIDUrl");
+            info.CardSpaceHash = reader.ReadString(prefix + "CardSpaceHash");
 
-			info.SubTitle = ReadString(reader, "SubTitle");
-			info.Title = ReadString(reader, "Title");
-			info.UserName = ReadString(reader, "UserName");
-			info.TimeZoneId = ReadInt32(reader, "TimeZone");
-			info.ItemCount = ReadInt32(reader, "ItemCount");
-			info.CategoryListPostCount = ReadInt32(reader, "CategoryListPostCount");
-			info.Language = ReadString(reader, "Language");
-			
+			info.SubTitle = reader.ReadString(prefix + "SubTitle");
+			info.Title = reader.ReadString(prefix + "Title");
+            info.UserName = reader.ReadString(prefix + "UserName");
+            info.TimeZoneId = reader.ReadInt32(prefix + "TimeZone");
+			info.ItemCount = reader.ReadInt32(prefix + "ItemCount");
+			info.CategoryListPostCount = reader.ReadInt32(prefix + "CategoryListPostCount");
+			info.Language = reader.ReadString(prefix + "Language");
 
-			info.PostCount = ReadInt32(reader, "PostCount");
-			info.CommentCount = ReadInt32(reader, "CommentCount");
-			info.StoryCount = ReadInt32(reader, "StoryCount");
-			info.PingTrackCount = ReadInt32(reader, "PingTrackCount");
-			info.News = ReadString(reader, "News");
-			info.TrackingCode = ReadString(reader, "TrackingCode");	
-			
-			info.LastUpdated = ReadDate(reader, "LastUpdated", new DateTime(2003, 1 , 1));
-			info.Host = ReadString(reader, "Host");
+			info.PostCount = reader.ReadInt32(prefix + "PostCount");
+            info.CommentCount = reader.ReadInt32(prefix + "CommentCount");
+            info.StoryCount = reader.ReadInt32(prefix + "StoryCount");
+            info.PingTrackCount = reader.ReadInt32(prefix + "PingTrackCount");
+            info.News = reader.ReadString(prefix + "News");
+            info.TrackingCode = reader.ReadString(prefix + "TrackingCode");
+
+            info.LastUpdated = reader.ReadDate(prefix + "LastUpdated", new DateTime(2003, 1, 1));
+			info.Host = reader.ReadString(prefix + "Host");
 			// The Subfolder property is stored in the Application column. 
 			// This is a result of the legacy schema.
-			info.Subfolder = ReadString(reader, "Application");
+            info.Subfolder = reader.ReadString(prefix + "Application");
 
-			info.Flag = (ConfigurationFlags)(ReadInt32(reader, "Flag"));
+            info.Flag = (ConfigurationFlags)(reader.ReadInt32(prefix + "Flag"));
 
 			info.Skin = new SkinConfig();
-			info.Skin.TemplateFolder = ReadString(reader, "Skin");
-			info.Skin.SkinStyleSheet = ReadString(reader, "SkinCssFile");
-            info.Skin.CustomCssText = ReadString(reader, "SecondaryCss");
+			info.Skin.TemplateFolder = reader.ReadString(prefix + "Skin");
+			info.Skin.SkinStyleSheet = reader.ReadString(prefix + "SkinCssFile");
+            info.Skin.CustomCssText = reader.ReadString(prefix + "SecondaryCss");
             info.MobileSkin = new SkinConfig();
-            info.MobileSkin.TemplateFolder = ReadString(reader, "MobileSkin");
-            info.MobileSkin.SkinStyleSheet = ReadString(reader, "MobileSkinCssFile");
+            info.MobileSkin.TemplateFolder = reader.ReadString(prefix + "MobileSkin");
+            info.MobileSkin.SkinStyleSheet = reader.ReadString(prefix + "MobileSkinCssFile");
 
-            info.OpenIDUrl = ReadString(reader, "OpenIDUrl");
-            info.OpenIDServer = ReadString(reader, "OpenIDServer");
-            info.OpenIDDelegate = ReadString(reader, "OpenIDDelegate");
-            info.CardSpaceHash = ReadString(reader, "CardSpaceHash");
+            info.OpenIDUrl = reader.ReadString(prefix + "OpenIDUrl");
+            info.OpenIDServer = reader.ReadString(prefix + "OpenIDServer");
+            info.OpenIDDelegate = reader.ReadString(prefix + "OpenIDDelegate");
+            info.CardSpaceHash = reader.ReadString(prefix + "CardSpaceHash");
 			
-			info.LicenseUrl = ReadString(reader, "LicenseUrl");
+			info.LicenseUrl = reader.ReadString(prefix + "LicenseUrl");
 			
-			info.DaysTillCommentsClose = ReadInt32(reader, "DaysTillCommentsClose", int.MaxValue);
-			info.CommentDelayInMinutes = ReadInt32(reader, "CommentDelayInMinutes");
-			info.NumberOfRecentComments = ReadInt32(reader, "NumberOfRecentComments");
-			info.RecentCommentsLength = ReadInt32(reader, "RecentCommentsLength");
-			info.FeedbackSpamServiceKey = ReadString(reader, "AkismetAPIKey");
-			info.FeedBurnerName = ReadString(reader, "FeedBurnerName");
+			info.DaysTillCommentsClose = reader.ReadInt32(prefix + "DaysTillCommentsClose", int.MaxValue);
+			info.CommentDelayInMinutes = reader.ReadInt32(prefix + "CommentDelayInMinutes");
+			info.NumberOfRecentComments = reader.ReadInt32(prefix + "NumberOfRecentComments");
+			info.RecentCommentsLength = reader.ReadInt32(prefix + "RecentCommentsLength");
+			info.FeedbackSpamServiceKey = reader.ReadString(prefix + "AkismetAPIKey");
+			info.FeedBurnerName = reader.ReadString(prefix + "FeedBurnerName");
 
-            info.BlogGroupId = ReadInt32(reader, "BlogGroupId");
-            info.BlogGroupTitle = ReadString(reader, "BlogGroupTitle");
+            info.BlogGroupId = reader.ReadInt32(prefix + "BlogGroupId");
+            info.BlogGroupTitle = reader.ReadString(prefix + "BlogGroupTitle");
 			return info;
 		}
 
@@ -634,13 +645,13 @@ namespace Subtext.Framework.Data
 
 		#region Archive
 
-        public static IList<ArchiveCount> LoadArchiveCount(IDataReader reader)
+        public static ICollection<ArchiveCount> LoadArchiveCount(IDataReader reader)
 		{
 			const string dateformat = "{0:00}/{1:00}/{2:0000}";
 			string dt; //
             DateTime parsedDate;
 			ArchiveCount ac;// new ArchiveCount();
-            IList<ArchiveCount> acc = new Collection<ArchiveCount>();
+            ICollection<ArchiveCount> acc = new Collection<ArchiveCount>();
 			while(reader.Read())
 			{
 				ac = new ArchiveCount();
@@ -676,18 +687,29 @@ namespace Subtext.Framework.Data
 
 		#region Image
 
-		public static Image LoadImage(IDataReader reader)
+        public static Image LoadImage(this IDataReader reader) {
+            return LoadImage(reader, false, false);
+        }
+		
+        public static Image LoadImage(this IDataReader reader, bool includeBlog, bool includeCategory)
 		{
-			Image _image = new Image();
-			_image.CategoryID = ReadInt32(reader, "CategoryID");
-			_image.FileName = ReadString(reader, "File");
-			_image.Height = ReadInt32(reader, "Height");
-			_image.Width = ReadInt32(reader, "Width");
-			_image.ImageID = ReadInt32(reader, "ImageID");
-			_image.IsActive = (bool)reader["Active"];
-			_image.Title = ReadString(reader, "Title");
-            _image.BlogId = Config.CurrentBlog.Id;
-			return _image;
+			Image image = new Image();
+			image.CategoryID = reader.ReadInt32("CategoryID");
+			image.FileName = reader.ReadString("File");
+			image.Height = reader.ReadInt32("Height");
+			image.Width = reader.ReadInt32("Width");
+			image.ImageID = reader.ReadInt32("ImageID");
+			image.IsActive = reader.ReadBoolean("Active");
+			image.Title = reader.ReadString("Title");
+            image.BlogId = reader.ReadInt32("BlogId");
+
+            if (includeBlog) {
+                image.Blog = reader.LoadBlogInfo("Blog.");
+            }
+            if (includeCategory) {
+                image.CategoryTitle = reader.ReadString("Category.Title");
+            }
+			return image;
 		}
 
 		#endregion
@@ -738,7 +760,7 @@ namespace Subtext.Framework.Data
             enclosure.Title = ReadString(reader, "EnclosureTitle");
             enclosure.Url = ReadString(reader, "EnclosureUrl");
             enclosure.MimeType = ReadString(reader, "EnclosureMimeType");
-            enclosure.Size = ReadInt64(reader, "EnclosureSize");
+            enclosure.Size = reader.ReadInt64("EnclosureSize");
             enclosure.EntryId = ReadInt32(reader, "ID");
             enclosure.AddToFeed = ReadBoolean(reader, "AddToFeed");
             enclosure.ShowWithPost = ReadBoolean(reader, "ShowWithPost");
@@ -848,7 +870,7 @@ namespace Subtext.Framework.Data
         /// <param name="reader">The reader.</param>
         /// <param name="columnName">Name of the column.</param>
         /// <returns></returns>
-        public static long ReadInt64(IDataReader reader, string columnName)
+        public static long ReadInt64(this IDataReader reader, string columnName)
         {
             return ReadInt64(reader, columnName, 0);
         }
@@ -861,7 +883,7 @@ namespace Subtext.Framework.Data
         /// <param name="columnName">Name of the column.</param>
         /// <param name="defaultValue">devault value for the field</param>
         /// <returns></returns>
-        public static long ReadInt64(IDataReader reader, string columnName, long defaultValue)
+        public static long ReadInt64(this IDataReader reader, string columnName, long defaultValue)
         {
             try
             {
@@ -882,7 +904,7 @@ namespace Subtext.Framework.Data
 		/// <param name="reader">The reader.</param>
 		/// <param name="columnName">Name of the column.</param>
 		/// <returns></returns>
-		public static int ReadInt32(IDataReader reader, string columnName)
+		public static int ReadInt32(this IDataReader reader, string columnName)
 		{
 			return ReadInt32(reader, columnName, NullValue.NullInt32);
 		}
@@ -895,7 +917,7 @@ namespace Subtext.Framework.Data
 		/// <param name="columnName">Name of the column.</param>
 		/// <param name="defaultValue">devault value for the field</param>
 		/// <returns></returns>
-		public static int ReadInt32(IDataReader reader, string columnName, int defaultValue)
+		public static int ReadInt32(this IDataReader reader, string columnName, int defaultValue)
 		{
 			try
 			{
@@ -917,7 +939,7 @@ namespace Subtext.Framework.Data
 		/// <param name="reader">The reader.</param>
 		/// <param name="columnName">Name of the column.</param>
 		/// <returns></returns>
-		public static bool ReadBoolean(IDataReader reader, string columnName)
+		public static bool ReadBoolean(this IDataReader reader, string columnName)
 		{
 			try
 			{
@@ -938,7 +960,7 @@ namespace Subtext.Framework.Data
 		/// <param name="reader">The reader.</param>
 		/// <param name="columnName">Name of the column.</param>
 		/// <returns></returns>
-		public static int? ReadNullableInt(IDataReader reader, string columnName)
+		public static int? ReadNullableInt(this IDataReader reader, string columnName)
 		{
 			try
 			{
@@ -959,7 +981,7 @@ namespace Subtext.Framework.Data
 		/// <param name="reader">The reader.</param>
 		/// <param name="columnName">Name of the coumn.</param>
 		/// <returns></returns>
-		public static string ReadString(IDataReader reader, string columnName)
+		public static string ReadString(this IDataReader reader, string columnName)
 		{
 			try
 			{
@@ -974,13 +996,28 @@ namespace Subtext.Framework.Data
 			}
 		}
 
+        public static T LoadObject<T>(this IDataReader reader) where T : new()
+        {
+            T item = new T();
+            var properties = TypeDescriptor.GetProperties(item);
+            foreach(PropertyDescriptor property in properties) 
+            {
+                if (reader[property.Name] != DBNull.Value)
+                {
+                    object value = reader[property.Name];
+                    property.SetValue(item, value);
+                }
+            }
+            return item;
+        }
+
 		/// <summary>
 		/// Reads the string.
 		/// </summary>
 		/// <param name="reader">The reader.</param>
 		/// <param name="columnName">Name of the coumn.</param>
 		/// <returns></returns>
-		public static IPAddress ReadIpAddress(IDataReader reader, string columnName)
+		public static IPAddress ReadIpAddress(this IDataReader reader, string columnName)
 		{
 			try
 			{
@@ -1005,7 +1042,7 @@ namespace Subtext.Framework.Data
 		/// <param name="reader"></param>
 		/// <param name="columnName"></param>
 		/// <returns></returns>
-		public static Uri ReadUri(IDataReader reader, string columnName)
+		public static Uri ReadUri(this IDataReader reader, string columnName)
 		{
 			try
 			{
@@ -1030,7 +1067,7 @@ namespace Subtext.Framework.Data
 		/// <param name="reader">The reader.</param>
 		/// <param name="columnName">Name of the column.</param>
 		/// <returns></returns>
-		public static DateTime ReadDate(IDataReader reader, string columnName)
+		public static DateTime ReadDate(this IDataReader reader, string columnName)
 		{
 			return ReadDate(reader, columnName, NullValue.NullDateTime);
 		}
@@ -1042,7 +1079,7 @@ namespace Subtext.Framework.Data
 		/// <param name="columnName">Name of the column.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns></returns>
-		public static DateTime ReadDate(IDataReader reader, string columnName, DateTime defaultValue)
+		public static DateTime ReadDate(this IDataReader reader, string columnName, DateTime defaultValue)
 		{
 			try
 			{
@@ -1057,9 +1094,9 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public static SqlParameter MakeInParam(string ParamName, object Value)
+		public static SqlParameter MakeInParam(string paramName, object value)
 		{
-			return new SqlParameter(ParamName, Value);
+			return new SqlParameter(paramName, value);
 		}
 
 		/// <summary>
@@ -1118,12 +1155,25 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="obj">The obj.</param>
 		/// <returns></returns>
-		public static object CheckNull(int obj)
+		public static object CheckNull(this int obj)
 		{
 			if(NullValue.IsNull(obj))
 				return null;
 			return obj;
 		}
+
+        /// <summary>
+        /// Checks the value type and returns null if the 
+        /// value is "null-equivalent".
+        /// </summary>
+        /// <param name="obj">The obj.</param>
+        /// <returns></returns>
+        public static int? NullIfMinValue(this int value)
+        {
+            if (NullValue.IsNull(value))
+                return null;
+            return (int?)value;
+        }
 
 		/// <summary>
 		/// Returns an empty string if the value is null.
@@ -1161,6 +1211,11 @@ namespace Subtext.Framework.Data
 			return null;
 		}
 
+        public static object CheckNull(FeedbackType feedBackType)
+        {
+            return (feedBackType == FeedbackType.None ? null : (object)feedBackType);
+        }
+
 		/// <summary>
 		/// Checks the value of the specified value type for a null value.  
 		/// Returns null if the value represents a null value
@@ -1183,6 +1238,17 @@ namespace Subtext.Framework.Data
 			}
 			Console.Write(Environment.NewLine);
 		}
+
+        public static PagedCollection<T> GetPagedCollection<T>(this IDataReader reader, Func<IDataReader, T> loadIndividualFunc) {
+            PagedCollection<T> collection = new PagedCollection<T>();
+            while (reader.Read())
+            {
+                collection.Add(loadIndividualFunc(reader));
+            }
+            reader.NextResult();
+            collection.MaxItems = DataHelper.GetMaxItems(reader);
+            return collection;
+        }
 
 		#region ExecuteDataTable
 
@@ -1373,6 +1439,38 @@ namespace Subtext.Framework.Data
 
 			return;
 		}
+
+        // Expects that the caller will dispose of the reader.
+        public static ICollection<LinkCategory> LoadLinkCategories(this IDataReader reader, bool includeLinks) {
+            var categories = new Dictionary<int, LinkCategory>();
+            
+            while (reader.Read()) {
+                var category = reader.LoadLinkCategory();
+                categories.Add(category.Id, category);
+            }
+
+            if (includeLinks && reader.NextResult()) {
+                while (reader.Read()) {
+                    var link = reader.LoadLink();
+                    LinkCategory category;
+                    if(categories.TryGetValue(link.CategoryID, out category)) {
+                        category.Links.Add(link);
+                    }
+                }
+            }
+
+            return categories.Values;
+        }
+        
+        internal static LinkCategory LoadLinkCategoryFromReader(this IDataReader reader)
+        {
+            if (reader.Read())
+            {
+                LinkCategory lc = DataHelper.LoadLinkCategory(reader);
+                return lc;
+            }
+            return null;
+        }
 
 		/// <summary>
 		/// This method is used to attach array of SqlParameters to a SqlCommand.

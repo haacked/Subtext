@@ -30,7 +30,7 @@ namespace Subtext.Web.SiteMap
             urlCollection.Add(homePage);
 
             // then all the entries
-            IList<Entry> posts = Entries.GetRecentPosts(0, PostType.BlogPost, PostConfig.IsActive, false);
+            ICollection<Entry> posts = Entries.GetRecentPosts(0, PostType.BlogPost, PostConfig.IsActive, false);
             if (posts != null)
             {
                 foreach (Entry post in posts)
@@ -43,7 +43,7 @@ namespace Subtext.Web.SiteMap
             }
 
             // all articles
-            IList<Entry> stories = Entries.GetRecentPosts(0, PostType.Story, PostConfig.IsActive, false);
+            ICollection<Entry> stories = Entries.GetRecentPosts(0, PostType.Story, PostConfig.IsActive, false);
             if (stories != null)
             {
                 foreach (Entry story in stories)

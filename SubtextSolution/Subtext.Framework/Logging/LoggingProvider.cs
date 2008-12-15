@@ -46,7 +46,5 @@ namespace Subtext.Framework.Logging
 		/// Clears the log.
 		/// </summary>
 		public abstract void ClearLog();
-
-
 	}
 }

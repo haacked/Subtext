@@ -257,7 +257,7 @@ namespace Subtext.Web.UI.Pages
                 }
                 if (Config.Settings.AllowedHtmlTags.Count > 0)
                 {
-                    declaration = StringHelper.Left(declaration, declaration.Length - 2);
+                    declaration = declaration.Left(declaration.Length - 2);
                 }
 
                 return declaration + "];";

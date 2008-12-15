@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -40,17 +41,17 @@ namespace UnitTests.Subtext.BlogML
 			reader.ReadBlog(stream);
 
 			// Make sure we created a post with a category.
-			IList<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.ActiveOnly);
+			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.ActiveOnly);
 			Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
-			IList<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+			ICollection<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
 			Assert.AreEqual(1, entries.Count, "Expected a single entry.");
-			Assert.AreEqual("Category002", entries[0].Categories[0], "Expected the catgory to be 'Category002'");
+			Assert.AreEqual("Category002", entries.First().Categories[0], "Expected the catgory to be 'Category002'");
 			
 			// Now export.
 			provider = new SubtextBlogMLProvider();
 			provider.ConnectionString = Config.ConnectionString;
 			
-			IList<BlogMLCategory> blogMLCategories = provider.GetAllCategories(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
+			ICollection<BlogMLCategory> blogMLCategories = provider.GetAllCategories(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
 			Assert.AreEqual(2, blogMLCategories.Count, "Expected to find two categories via the provider.");
 			
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
@@ -63,7 +64,7 @@ namespace UnitTests.Subtext.BlogML
 				writer.Write(xmlWriter);
 
 				// Create a new blog.
-				Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "2", ""), "Could not create the blog for this test");
+				Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "2", "");
 				UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "2", "");
 				Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("2"), "Looks like we've cached our old blog.");
 
@@ -78,10 +79,10 @@ namespace UnitTests.Subtext.BlogML
 				reader.ReadBlog(memoryStream);
 			}
 
-			IList<Entry> newEntries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+			ICollection<Entry> newEntries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
 			Assert.AreEqual(1, newEntries.Count, "Round trip failed to create the same number of entries.");
-			Assert.AreEqual(1, newEntries[0].Categories.Count, "Expected one category for this entry.");
-			Assert.AreEqual("Category002", newEntries[0].Categories[0], "Expected the catgory to be 'Category002'");
+			Assert.AreEqual(1, newEntries.First().Categories.Count, "Expected one category for this entry.");
+			Assert.AreEqual("Category002", newEntries.First().Categories[0], "Expected the catgory to be 'Category002'");
 		}
 		
 		[Test]
@@ -140,13 +141,13 @@ namespace UnitTests.Subtext.BlogML
 			Entries.Create(entry);
 
 			//Add a comment.
-			FeedbackItem comment = UnitTestHelper.CreateCommentInstance(entry.Id, "joe", "re: blah", UnitTestHelper.GenerateRandomString(), DateTime.Now);
+			FeedbackItem comment = UnitTestHelper.CreateCommentInstance(entry.Id, "joe", "re: blah", UnitTestHelper.GenerateUniqueString(), DateTime.Now);
 			comment.FeedbackType = FeedbackType.Comment;
 			FeedbackItem.Create(comment, null);
 			FeedbackItem.Approve(comment);
 
 			//Add a trackback.
-			Trackback trackback = new Trackback(entry.Id, "blah", new Uri("http://example.com/"), "you", "your post is great" + UnitTestHelper.GenerateRandomString());
+			Trackback trackback = new Trackback(entry.Id, "blah", new Uri("http://example.com/"), "you", "your post is great" + UnitTestHelper.GenerateUniqueString());
 			FeedbackItem.Create(trackback, null);
 			FeedbackItem.Approve(trackback);
 
@@ -189,8 +190,8 @@ namespace UnitTests.Subtext.BlogML
 
 		private static void CreateBlogAndSetupContext()
 		{
-			string hostName = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, ""), "Could not create the blog for this test");
+			string hostName = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
 			BlogRequest.Current = new BlogRequest(hostName, string.Empty, new Uri(string.Format("http://{0}/", hostName)), false);
 			Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");

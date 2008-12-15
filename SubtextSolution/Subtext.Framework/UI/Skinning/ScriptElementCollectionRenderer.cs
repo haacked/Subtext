@@ -116,7 +116,7 @@ namespace Subtext.Framework.UI.Skinning
             return skinTemplate.ScriptMergeMode;
         }
 
-        public IList<string> GetScriptsToBeMerged(string skinName)
+        public ICollection<string> GetScriptsToBeMerged(string skinName)
         {
             List<string> scripts = new List<string>();
 

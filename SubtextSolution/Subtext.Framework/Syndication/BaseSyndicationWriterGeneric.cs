@@ -36,7 +36,7 @@ namespace Subtext.Framework.Syndication
 		/// Gets or sets the entries to be rendered in the feed.
 		/// </summary>
 		/// <value>The entries.</value>
-		public IList<T> Items
+		public ICollection<T> Items
 		{
 			get;
 			set;

@@ -80,7 +80,7 @@ namespace Subtext.Web.UI.Handlers
 			{
 				string entryName = Path.GetFileNameWithoutExtension(uri);
 				Entry entry;
-				if(StringHelper.IsNumeric(entryName))
+                if (entryName.IsNumeric())
 				{
 					entry = Cacher.GetEntry(Int32.Parse(entryName), CacheDuration.Short);
 				}

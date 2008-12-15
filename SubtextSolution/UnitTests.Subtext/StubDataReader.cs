@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using MbUnit.Framework;
@@ -85,7 +86,7 @@ namespace UnitTests.Subtext
 	/// </summary>
 	public class StubDataReader : IDataReader
 	{
-		IList<StubResultSet> stubResultSets;
+		ICollection<StubResultSet> stubResultSets;
 		private int currentResultsetIndex = 0;
 	
 		/// <summary>
@@ -93,7 +94,7 @@ namespace UnitTests.Subtext
 		/// Each row in the arraylist is a result set.
 		/// </summary>
 		/// <param name="stubResultSets">The result sets.</param>
-		public StubDataReader(IList<StubResultSet> stubResultSets)
+		public StubDataReader(ICollection<StubResultSet> stubResultSets)
 		{
 			this.stubResultSets = stubResultSets;
 		}
@@ -176,7 +177,7 @@ namespace UnitTests.Subtext
 			//		  look at the actual data to determine this.
 			//		  We'll loook at the first row since it's the most likely 
 			//			to have data.
-			return this.stubResultSets[0][i].GetType();
+			return this.stubResultSets.First()[i].GetType();
 		}
 
 		public object GetValue(int i)
@@ -323,7 +324,7 @@ namespace UnitTests.Subtext
 		{
 			get
 			{
-				return this.stubResultSets[currentResultsetIndex];
+				return this.stubResultSets.ElementAt(currentResultsetIndex);
 			}
 		}
 	}

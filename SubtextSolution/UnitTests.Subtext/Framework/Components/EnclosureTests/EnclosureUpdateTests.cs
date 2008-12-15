@@ -39,7 +39,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 
             Enclosures.Create(enc);
 
-            string randomStr = StringHelper.Left(UnitTestHelper.GenerateRandomString(), 20);
+            string randomStr = UnitTestHelper.GenerateUniqueString().Left(20);
             enc.Url = url + randomStr;
 
             if (!string.IsNullOrEmpty(title))

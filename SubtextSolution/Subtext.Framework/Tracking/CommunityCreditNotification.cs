@@ -2,6 +2,7 @@ using System;
 using System.Configuration;
 using System.Collections.Generic;
 using System.Text;
+using Subtext;
 using Subtext.Framework.Components;
 using Subtext.Extensibility;
 using Subtext.Framework.Configuration;

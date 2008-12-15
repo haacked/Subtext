@@ -304,8 +304,8 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
-        private IList<Entry> entries;
-        public IList<Entry> EntryListItems
+        private ICollection<Entry> entries;
+        public ICollection<Entry> EntryListItems
 		{
 			get{return entries;}
 			set{entries = value;}
@@ -367,7 +367,7 @@ namespace Subtext.Web.UI.Controls
                 // This EntryList is independent of an outside control and needs to
                 //   populate its own EntryListItems.
                 LinkCategory lc;
-                if (StringHelper.IsNumeric(Category))
+                if (Category.IsNumeric())
                 {
                     int categoryID = Int32.Parse(Category);
                     lc = Cacher.SingleCategory(CacheDuration.Short, categoryID, false);

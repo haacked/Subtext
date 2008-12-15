@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
@@ -31,7 +32,7 @@ namespace Subtext.Web.UI.Controls
 	{
 		private const int DefaultRecentPostCount = 5;
 		protected Repeater feedList;
-        private IList<FeedbackItem> comments;
+        private ICollection<FeedbackItem> comments;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RecentComments"/> class.
@@ -42,13 +43,7 @@ namespace Subtext.Web.UI.Controls
 			
 		    comments = FeedbackItem.GetRecentComments(commentCount);
 
-			for(int i = comments.Count - 1; i >= 0; i--)
-			{
-				if(comments[i].EntryId <= 0)
-				{
-					comments.RemoveAt(i);
-				}
-			}
+            comments = (from c in comments where c.EntryId > 0 select c).ToList();
 		}
 
 		/// <summary>

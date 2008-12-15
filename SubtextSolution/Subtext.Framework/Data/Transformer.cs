@@ -36,13 +36,12 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public static LinkCategory BuildLinks(string title, CategoryType catType, UrlFormats formats)
 		{
-            IList<LinkCategory> lcc = Links.GetCategories(catType, ActiveFilter.ActiveOnly);
+            ICollection<LinkCategory> lcc = Links.GetCategories(catType, ActiveFilter.ActiveOnly);
 			LinkCategory lc = null;
 			if(lcc != null && lcc.Count > 0)
 			{
 				lc = new LinkCategory();
 				lc.Title = title;
-				lc.Links = new List<Link>();
 				Link link;
 				foreach(LinkCategory linkCategory in lcc)
 				{
@@ -81,11 +80,10 @@ namespace Subtext.Framework.Data
 		/// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
 		public static LinkCategory BuildMonthLinks(string title, UrlFormats formats)
 		{
-            IList<ArchiveCount> acc = Archives.GetPostCountByMonth();
+            var acc = Archives.GetPostCountByMonth();
 
 			LinkCategory lc = new LinkCategory();
 			lc.Title = title;
-			lc.Links = new List<Link>();
 			foreach(ArchiveCount ac in acc)
 			{
 				Link link = new Link();
@@ -109,11 +107,10 @@ namespace Subtext.Framework.Data
         /// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
         public static LinkCategory BuildCategoriesArchiveLinks(string title, UrlFormats formats)
         {
-            IList<ArchiveCount> acc = Archives.GetPostCountByCategory();
+            ICollection<ArchiveCount> acc = Archives.GetPostCountByCategory();
 
             LinkCategory lc = new LinkCategory();
             lc.Title = title;
-            lc.Links = new List<Link>();
             foreach (ArchiveCount ac in acc)
             {
                 Link link = new Link();

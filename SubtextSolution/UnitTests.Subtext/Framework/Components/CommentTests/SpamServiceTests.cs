@@ -28,7 +28,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void FeedbackCreateCallsCommentService(bool isSpam, bool isAdmin)
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
 			MockRepository mocks = new MockRepository();
 			IFeedbackSpamService service = (IFeedbackSpamService)mocks.CreateMock(typeof(IFeedbackSpamService));
 			Config.CurrentBlog.FeedbackSpamService = service;
@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			FeedbackItem feedback = new FeedbackItem(FeedbackType.Comment);
 			Expect.Call(service.IsSpam(feedback)).Return(isSpam);
 			feedback.Title = "blah";
-			feedback.Body = UnitTestHelper.GenerateRandomString();
+			feedback.Body = UnitTestHelper.GenerateUniqueString();
 			mocks.ReplayAll();
 
 			Assert.AreEqual(isAdmin, SecurityHelper.IsAdmin);
@@ -56,7 +56,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = UnitTestHelper.GenerateRandomString();
+			_hostName = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
 		}
 

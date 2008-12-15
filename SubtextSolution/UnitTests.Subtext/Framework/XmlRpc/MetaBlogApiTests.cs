@@ -18,8 +18,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 		[RollBack]
 		public void NewPostWithCategoryCreatesEntryWithCategory()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+			string hostname = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("", "username", "password", hostname, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
 			Config.CurrentBlog.AllowServiceAccess = true;
 
@@ -49,8 +49,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
     	[RollBack]
     	public void NewPostAcceptsNullCategories()
     	{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+			string hostname = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("", "username", "password", hostname, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
 			Config.CurrentBlog.AllowServiceAccess = true;
 
@@ -72,8 +72,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [Test]
         [RollBack]
         public void NewPostWithFutureDateSyndicatesInTheFuture() {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            string hostname = UnitTestHelper.GenerateUniqueString();
+            Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
@@ -98,8 +98,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [RollBack]
         public void NewPostWithEnclosureCreatesEntryWithEnclosure()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            string hostname = UnitTestHelper.GenerateUniqueString();
+            Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
@@ -131,8 +131,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [RollBack]
         public void NewPostAcceptsNullEnclosure()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            string hostname = UnitTestHelper.GenerateUniqueString();
+            Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
@@ -155,8 +155,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [RollBack]
         public void CanUpdatePostWithEnclosure()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            string hostname = UnitTestHelper.GenerateUniqueString();
+            Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
@@ -202,8 +202,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [RollBack]
         public void UpdatingWithEnclosureAddNewEnclosure()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            string hostname = UnitTestHelper.GenerateUniqueString();
+            Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
@@ -243,8 +243,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [RollBack]
         public void PostWithoutEnclosureRemovesEnclosureFromEntry()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            string hostname = UnitTestHelper.GenerateUniqueString();
+            Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
@@ -282,13 +282,13 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [RollBack]
         public void CanUpdatePostWithCategories()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            string hostname = UnitTestHelper.GenerateUniqueString();
+            Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
-            string category1Name = UnitTestHelper.GenerateRandomString();
-            string category2Name = UnitTestHelper.GenerateRandomString();
+            string category1Name = UnitTestHelper.GenerateUniqueString();
+            string category2Name = UnitTestHelper.GenerateUniqueString();
             UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category1Name);
             UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category2Name);
 
@@ -318,12 +318,12 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [RollBack]
         public void PostWithNoCategoriesRemovesCategoriesFromEntry()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            string hostname = UnitTestHelper.GenerateUniqueString();
+            Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
-            string category1Name = UnitTestHelper.GenerateRandomString();
+            string category1Name = UnitTestHelper.GenerateUniqueString();
             UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category1Name);
 
             Entry entry = new Entry(PostType.BlogPost);
@@ -351,8 +351,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [RollBack]
         public void GetRecentPostsReturnsRecentPosts()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+            string hostname = UnitTestHelper.GenerateUniqueString();
+			Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
@@ -360,8 +360,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Post[] posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
             Assert.AreEqual(0, posts.Length);
 
-            string category1Name = UnitTestHelper.GenerateRandomString();
-            string category2Name = UnitTestHelper.GenerateRandomString();
+            string category1Name = UnitTestHelper.GenerateUniqueString();
+            string category2Name = UnitTestHelper.GenerateUniqueString();
             UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category1Name);
             UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category2Name);
             

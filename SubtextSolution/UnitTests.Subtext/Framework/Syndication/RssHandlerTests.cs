@@ -32,8 +32,9 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void RssWriterProducesValidFeedFromDatabase()
 		{
-			string hostName = UnitTestHelper.GenerateRandomString() + ".com";
-			Assert.IsTrue(Config.CreateBlog("Test", "username", "password", hostName, string.Empty));
+			string hostName = UnitTestHelper.GenerateUniqueHostname();
+			int blogId = Config.CreateBlog("Test", "username", "password", hostName, string.Empty);
+            Console.WriteLine(blogId);
 
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
@@ -43,10 +44,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 
 			DateTime dateSyndicated = DateTime.Now.AddDays(-1);
-            Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, NullValue.NullDateTime);
+            Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", 
+                "testtitle",
+                "testbody", 
+                null, 
+                NullValue.NullDateTime);
 		    entry.DateSyndicated = dateSyndicated;
 			Entries.Create(entry); //persist to db.
-
 
 			XmlNodeList itemNodes = GetRssHandlerItemNodes(sb);
 			Assert.AreEqual(1, itemNodes.Count, "expected one item nodes.");
@@ -64,8 +68,8 @@ namespace UnitTests.Subtext.Framework.Syndication
         [RollBack]
         public void RssWriterProducesValidFeedWithEnclosureFromDatabase()
         {
-            string hostName = UnitTestHelper.GenerateRandomString() + ".com";
-            Assert.IsTrue(Config.CreateBlog("Test", "username", "password", hostName, string.Empty));
+            string hostName = UnitTestHelper.GenerateUniqueString() + ".com";
+            Config.CreateBlog("Test", "username", "password", hostName, string.Empty);
 
             StringBuilder sb = new StringBuilder();
             TextWriter output = new StringWriter(sb);
@@ -109,11 +113,11 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void RssHandlerProducesValidRssFeed()
 		{
-			string hostName = Guid.NewGuid().ToString().Replace("-", "") + ".com";
+			string hostName = UnitTestHelper.GenerateUniqueHostname();
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostName, string.Empty));
+			Config.CreateBlog("", "username", "password", hostName, string.Empty);
 
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
 			Thread.Sleep(50);
@@ -136,16 +140,18 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void RssHandlerHandlesDateSyndicatedProperly()
 		{
-			// Setup
-			string hostName = Guid.NewGuid().ToString().Replace("-", "") + ".com";
+			// arrange
+            string hostName = UnitTestHelper.GenerateUniqueHostname();
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostName, string.Empty));
+			Config.CreateBlog("", "username", "password", hostName, string.Empty);
 
 			//Create two entries, but only include one in main syndication.
-			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
-			int id = Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
+            var entryForSyndication = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
+            Entries.Create(entryForSyndication);
+            var entryTwoForSyndication = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2");
+            int id = Entries.Create(entryTwoForSyndication);
             Entry entry = Entries.GetEntry(id, PostConfig.None, false);
 		    DateTime date = entry.DateSyndicated;
 			entry.IncludeInMainSyndication = false;
@@ -177,11 +183,11 @@ namespace UnitTests.Subtext.Framework.Syndication
 		public void RssHandlerSortsByDateSyndicated()
 		{
 			// Setup
-			string hostName = Guid.NewGuid().ToString().Replace("-", "") + ".com";
+            string hostName = UnitTestHelper.GenerateUniqueHostname();
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostName, string.Empty));
+			Config.CreateBlog("", "username", "password", hostName, string.Empty);
 
 			//Create two entries.
 			int firstId = Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
@@ -201,7 +207,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             sb = new StringBuilder();
             output = new StringWriter(sb);
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
+            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, string.Empty /* port */, string.Empty /* subfolder */, string.Empty /* applicationPath */, output);
             itemNodes = GetRssHandlerItemNodes(sb);
 		    Assert.AreEqual(1, itemNodes.Count, "Here we were expeting only one item");
 
@@ -229,11 +235,11 @@ namespace UnitTests.Subtext.Framework.Syndication
         public void RssHandlerHandlesDoesNotSyndicateFuturePosts()
         {
             // Setup
-            string hostName = Guid.NewGuid().ToString().Replace("-", "") + ".com";
+            string hostName = UnitTestHelper.GenerateUniqueHostname();
             StringBuilder sb = new StringBuilder();
             TextWriter output = new StringWriter(sb);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", hostName, string.Empty));
+            Config.CreateBlog("", "username", "password", hostName, string.Empty);
             Config.CurrentBlog.TimeZoneId = HawaiiTimeZoneId;
 
             //Create two entries, but only include one in main syndication.
@@ -280,13 +286,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void TestCompressedFeedWorks()
 		{
-			string hostName = Guid.NewGuid().ToString().Replace("-", "") + ".com";
+            string hostName = UnitTestHelper.GenerateUniqueHostname();
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
 
 			SimulatedHttpRequest workerRequest = UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
 			workerRequest.Headers.Add("Accept-Encoding", "gzip");
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostName, string.Empty));
+			Config.CreateBlog("", "username", "password", hostName, string.Empty);
 			Config.CurrentBlog.UseSyndicationCompression = true;
 
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));

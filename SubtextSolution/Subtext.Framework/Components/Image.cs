@@ -31,6 +31,12 @@ namespace Subtext.Framework.Components
 			set;
 		}
 
+        public BlogInfo Blog
+        {
+            get;
+            set;
+        }
+
 		[XmlAttribute]
 		public int ImageID
 		{
@@ -43,6 +49,13 @@ namespace Subtext.Framework.Components
 			get;
 			set;
 		}
+
+        //TODO: This is pure laziness and a band-aid for 
+        //      aggregate blogs. Will fix later.
+        public string CategoryTitle { 
+            get; 
+            set; 
+        }
 
 		public bool IsActive
 		{

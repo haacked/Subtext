@@ -18,7 +18,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            IList<BlogGroup> groups = Config.ListBlogGroups(true);
+            ICollection<BlogGroup> groups = Config.ListBlogGroups(true);
             blogGroupRepeater.DataSource = groups;
             blogGroupRepeater.DataBind();
         }

@@ -75,7 +75,7 @@ namespace Subtext.Extensibility.Providers
 		/// <param name="blogId"></param>
 		/// <param name="searchTerm"></param>
 		/// <returns></returns>
-		public abstract IList<SearchResult> Search(int blogId, string searchTerm);
+		public abstract ICollection<SearchResult> Search(int blogId, string searchTerm);
 	}
 	
 	public struct SearchResult

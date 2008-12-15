@@ -29,7 +29,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="entries">Entries.</param>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-        public AtomWriter(IList<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
+        public AtomWriter(ICollection<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
 			this.Items = entries;
 			this.UseAggBugs = true;

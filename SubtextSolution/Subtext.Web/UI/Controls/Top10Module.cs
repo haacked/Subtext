@@ -20,47 +20,23 @@ namespace Subtext.Web.UI.Controls
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
-
-			string sql = "subtext_GetTop10byBlogId";
-			string conn = DbProvider.Instance().ConnectionString;
-			int BlogId;
-
+            
+            int blogId = CurrentBlog.Id >= 1 ? CurrentBlog.Id : 0;
 			ArrayList myLastItems = new ArrayList();
 
-			//fix for the blogs where only one installed
-			if (CurrentBlog.Id >= 1)
-				BlogId = CurrentBlog.Id;
-			else
-				BlogId = 0;
+			var entrySummaries = ObjectProvider.Instance().GetTopEntrySummaries(blogId, 10);
 
-			SqlParameter[] p =
-				{
-					DataHelper.MakeInParam("@BlogID", SqlDbType.Int, 4, BlogId)
-				};
-
-			DataTable dt = DataHelper.ExecuteDataTable(conn, CommandType.StoredProcedure, sql, p);
-
-			int count = dt.Rows.Count;
-
-			for (int i = 0; i < count; i++)
+			foreach(var entrySummary in entrySummaries)
 			{
-				DataRow dr = dt.Rows[i];
-
-				string title = (string) dr["title"];
-
-				DateTime dateAdded = (DateTime) dr["DateAdded"];
-				string id = dr["EntryId"].ToString();
-
-				string myURL = CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(dateAdded, id);
+				string title = entrySummary.Title;
+                string myURL = CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(entrySummary.DateAdded, entrySummary.EntryId.ToString());
 
 				myLastItems.Add(new PositionItems(title, myURL));
-
 			}
 
 			Top10Entries.DataSource = myLastItems;
 			Top10Entries.DataBind();
 		}
-
 	}
 
 	public class PositionTopItems
