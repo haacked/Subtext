@@ -23,10 +23,6 @@ namespace Subtext.Scripting
 	[Serializable]
 	public class TemplateParameter
 	{
-		string _name;
-		string _type;
-		string _value;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TemplateParameter"/> class.
 		/// </summary>
@@ -35,8 +31,8 @@ namespace Subtext.Scripting
 		/// <param name="defaultValue">The default value.</param>
 		public TemplateParameter(string name, string type, string defaultValue)
 		{
-			_name = name;
-			_type = type;
+			Name = name;
+			DataType = type;
 			_value = defaultValue;
 		}
 
@@ -46,7 +42,8 @@ namespace Subtext.Scripting
 		/// <value>The name.</value>
 		public string Name
 		{
-			get { return _name; }
+			get;
+            private set;
 		}
 
 		/// <summary>
@@ -55,7 +52,8 @@ namespace Subtext.Scripting
 		/// <value>The type of the data.</value>
 		public string DataType
 		{
-			get { return _type; }
+			get;
+            private set;
 		}
 
 		/// <summary>
@@ -72,6 +70,7 @@ namespace Subtext.Scripting
 				_value = value;
 			}
 		}
+        string _value;
 
 		protected void OnValueChanged(string oldValue, string newValue)
 		{
@@ -84,57 +83,5 @@ namespace Subtext.Scripting
 		/// Event raised when the parameter's value changes.
 		/// </summary>
         public event EventHandler<ParameterValueChangedEventArgs> ValueChanged;
-	}
-
-    /// <summary>
-	/// Contains information about when a template parameter value changes.
-	/// </summary>
-	public class ParameterValueChangedEventArgs : EventArgs
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ParameterValueChangedEventArgs"/> class.
-		/// </summary>
-		/// <param name="parameterName">Name of the parameter.</param>
-		/// <param name="oldValue">The old value.</param>
-		/// <param name="newValue">The new value.</param>
-		public ParameterValueChangedEventArgs(string parameterName, string oldValue, string newValue)
-		{
-			_oldValue = oldValue;
-			_newValue = newValue;
-			_parameterName = parameterName;
-		}
-
-		/// <summary>
-		/// Gets the name of the parameter.
-		/// </summary>
-		/// <value>The name of the parameter.</value>
-		public string ParameterName
-		{
-			get { return _parameterName; }
-		}
-
-		string _parameterName;
-
-		/// <summary>
-		/// Gets the old value.
-		/// </summary>
-		/// <value>The old value.</value>
-		public string OldValue
-		{
-			get { return _oldValue; }
-		}
-
-		string _oldValue;
-
-		/// <summary>
-		/// Gets the new value.
-		/// </summary>
-		/// <value>The new value.</value>
-		public string NewValue
-		{
-			get { return _newValue; }
-		}
-
-		string _newValue;
 	}
 }

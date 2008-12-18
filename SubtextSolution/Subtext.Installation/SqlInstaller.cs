@@ -18,14 +18,11 @@ namespace Subtext.Installation
 			this.connectionString = connectionString;
 		}
 
-		private string _dbUser = string.Empty;
-
 		public string DbUser
 		{
-			get { return _dbUser; }
-			set { _dbUser = value; }
+			get;
+			set;
 		}
-
 
 		public void Install(Version assemblyVersion)
 		{
@@ -39,10 +36,10 @@ namespace Subtext.Installation
 						string[] scripts = ListInstallationScripts(this.GetCurrentInstallationVersion(), VersionInfo.FrameworkVersion);
 						foreach (string scriptName in scripts)
 						{
-							ScriptHelper.ExecuteScript(scriptName, transaction, _dbUser);
+                            ScriptHelper.ExecuteScript(scriptName, transaction, DbUser);
 						}
 
-						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, _dbUser);
+						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, DbUser);
 						UpdateInstallationVersionNumber(assemblyVersion, transaction);
 						transaction.Commit();
 					}
@@ -79,9 +76,9 @@ namespace Subtext.Installation
 						string[] scripts = ListInstallationScripts(installationVersion, VersionInfo.FrameworkVersion);
 						foreach (string scriptName in scripts)
 						{
-							ScriptHelper.ExecuteScript(scriptName, transaction, _dbUser);
+							ScriptHelper.ExecuteScript(scriptName, transaction, DbUser);
 						}
-						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, _dbUser);
+						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, DbUser);
 
 						UpdateInstallationVersionNumber(VersionInfo.FrameworkVersion, transaction);
 						transaction.Commit();

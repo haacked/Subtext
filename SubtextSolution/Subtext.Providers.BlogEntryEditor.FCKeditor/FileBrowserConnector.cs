@@ -36,6 +36,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Security;
@@ -50,7 +51,6 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using System.Diagnostics.CodeAnalysis;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 

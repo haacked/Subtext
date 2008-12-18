@@ -2283,7 +2283,7 @@ WHERE
 	AND r.UrlID <= @FirstUrlId
 	AND (r.EntryID = @EntryID OR @EntryID IS NULL)
 	AND r.BlogId = @BlogId
-ORDER BY r.[LastUpdated] DESC, [EntryID] DESC, UrlID DESC
+ORDER BY r.[LastUpdated] DESC, r.[EntryID] DESC, r.[UrlID] DESC
 
 SELECT COUNT([UrlID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Referrals] 

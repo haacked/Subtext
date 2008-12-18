@@ -6,17 +6,6 @@ namespace Subtext.Akismet
 {
 	public class Comment : IComment
 	{
-		private NameValueCollection serverEnvironmentVariables = new NameValueCollection();
-		private IPAddress ipAddress;
-		private string commentType;
-		private string userAgent;
-		private Uri permalink;
-		private string referer;
-		private string content;
-		private Uri authorUrl;
-		private string authorEmail;
-		private string author;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Comment"/> class.
 		/// </summary>
@@ -24,8 +13,8 @@ namespace Subtext.Akismet
 		/// <param name="authorUserAgent">The author user agent.</param>
 		public Comment(IPAddress authorIpAddress, string authorUserAgent)
 		{
-			this.ipAddress = authorIpAddress;
-			this.userAgent = authorUserAgent;
+			IpAddress = authorIpAddress;
+			UserAgent = authorUserAgent;
 		}
 		
 		/// <summary>
@@ -33,8 +22,8 @@ namespace Subtext.Akismet
 		/// </summary>
 		public string Author
 		{
-			get { return this.author; }
-			set { this.author = value;}
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -42,8 +31,8 @@ namespace Subtext.Akismet
 		/// </summary>
 		public string AuthorEmail
 		{
-			get { return this.authorEmail; }
-			set { this.authorEmail = value;}
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -51,8 +40,8 @@ namespace Subtext.Akismet
 		/// </summary>
 		public Uri AuthorUrl
 		{
-			get { return this.authorUrl; }
-			set { this.authorUrl = value; }
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -60,8 +49,8 @@ namespace Subtext.Akismet
 		/// </summary>
 		public string Content
 		{
-			get { return this.content; }
-			set { this.content = value; }
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -70,8 +59,8 @@ namespace Subtext.Akismet
 		/// </summary>
 		public string Referer
 		{
-			get { return this.referer; }
-			set { this.referer = value; }
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -80,8 +69,8 @@ namespace Subtext.Akismet
 		/// </summary>
 		public Uri Permalink
 		{
-			get { return this.permalink; }
-			set { this.permalink = value; }
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -89,7 +78,8 @@ namespace Subtext.Akismet
 		/// </summary>
 		public string UserAgent
 		{
-			get { return this.userAgent; }
+			get;
+            private set;
 		}
 
 		/// <summary>
@@ -98,24 +88,30 @@ namespace Subtext.Akismet
 		/// </summary>
 		public string CommentType
 		{
-			get { return this.commentType; }
-			set { this.commentType = value; }
+			get;
+			set;
 		}
 
 		/// <summary>
 		/// IPAddress of the submitter
 		/// </summary>
-		public IPAddress IpAddress
-		{
-			get { return this.ipAddress; }
-		}
+        public IPAddress IpAddress
+        {
+            get;
+            private set;
+        }
 
 		/// <summary>
 		/// Optional collection of various server environment variables. 
 		/// </summary>
-		public NameValueCollection ServerEnvironmentVariables
-		{
-			get { return this.serverEnvironmentVariables; }
-		}
-	}
+        public NameValueCollection ServerEnvironmentVariables
+        {
+            get {
+                _serverEnvironmentVariables = _serverEnvironmentVariables ?? new NameValueCollection();
+                return _serverEnvironmentVariables;
+            }
+        }
+        NameValueCollection _serverEnvironmentVariables;
+
+    }
 }

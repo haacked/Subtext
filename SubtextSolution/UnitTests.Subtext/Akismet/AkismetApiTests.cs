@@ -43,9 +43,11 @@ namespace UnitTests.Subtext.Akismet
         public void CanSetAndGetCommentProperties()
         {
             Comment comment = new Comment(IPAddress.Loopback, "Test");
-            UnitTestHelper.AssertSimpleProperties(comment);
-            Assert.AreEqual(IPAddress.Loopback, comment.IpAddress);
             Assert.AreEqual("Test", comment.UserAgent);
+            Assert.AreEqual(IPAddress.Loopback, comment.IpAddress);
+
+            UnitTestHelper.AssertSimpleProperties(comment);
+            
             comment.ServerEnvironmentVariables.Add("SomeVar", "SomeVal");
             Assert.AreEqual(1, comment.ServerEnvironmentVariables.Count);
         }

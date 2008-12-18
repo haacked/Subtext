@@ -36,7 +36,6 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 		string _toolbarSet=string.Empty;
 		string _skin=string.Empty;
 		static string _fileAllowedExtensions=string.Empty;
-		static string _imageAllowedExtensions=string.Empty;
 
         private static readonly ResourceManager rm = new ResourceManager("Subtext.Providers.BlogEntryEditor.FCKeditor.resources.ErrorMessages", System.Reflection.Assembly.GetExecutingAssembly());
 
@@ -56,47 +55,47 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			if(configValue == null)
 				throw new ArgumentNullException("configValue", rm.GetString("configNeeded"));
 
-			if(configValue["WebFormFolder"]!=null)
+			if(configValue["WebFormFolder"] != null)
 				_webFormFolder=configValue["WebFormFolder"];
 			else
 				throw new InvalidOperationException(rm.GetString("WebFormFolderNeeded"));
 
-			if(configValue["ImageBrowserURL"]!=null)
+			if(configValue["ImageBrowserURL"] != null)
 				_imageBrowserURL=configValue["ImageBrowserURL"];
 			else
 				throw new InvalidOperationException(rm.GetString("ImageBrowserURLNeeded"));
 
-			if(configValue["LinkBrowserURL"]!=null)
+			if(configValue["LinkBrowserURL"] != null)
 				_linkBrowserURL=configValue["LinkBrowserURL"];
 			else
 				throw new InvalidOperationException(rm.GetString("LinkBrowserURLNeeded"));
 
-			if(configValue["ImageConnectorURL"]!=null)
+			if(configValue["ImageConnectorURL"] != null)
 				_imageConnectorURL=configValue["ImageConnectorURL"];
 			else
 				throw new InvalidOperationException(rm.GetString("ImageConnectorURLNeeded"));
 
-			if(configValue["LinkConnectorURL"]!=null)
+			if(configValue["LinkConnectorURL"] != null)
 				_linkConnectorURL=configValue["LinkConnectorURL"];
 			else
 				throw new InvalidOperationException(rm.GetString("LinkConnectorURLNeeded"));
 
 
-			if(configValue["FileAllowedExtensions"]!=null)
-				_fileAllowedExtensions=configValue["FileAllowedExtensions"];
+			if(configValue["FileAllowedExtensions"] != null)
+				FileAllowedExtensions = configValue["FileAllowedExtensions"];
 			else
 				throw new InvalidOperationException(rm.GetString("FileAllowedExtensionsNeeded"));
 
 
-			if(configValue["ImageAllowedExtensions"]!=null)
-				_imageAllowedExtensions=configValue["ImageAllowedExtensions"];
+			if(configValue["ImageAllowedExtensions"] != null)
+				ImageAllowedExtensions = configValue["ImageAllowedExtensions"];
 			else
 				throw new InvalidOperationException(rm.GetString("ImageAllowedExtensionsNeeded"));
 
-			if(configValue["ToolbarSet"]!=null)
+			if(configValue["ToolbarSet"] != null)
 				_toolbarSet=configValue["ToolbarSet"];
 
-			if(configValue["Skin"]!=null)
+			if(configValue["Skin"] != null)
 				_skin=configValue["Skin"];
 			
 			base.Initialize(name, configValue);
@@ -158,18 +157,14 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 
 		public static string ImageAllowedExtensions 
 		{
-			get 
-			{
-				return _imageAllowedExtensions;
-			}
+			get;
+            private set;
 		}
 
 		public static string FileAllowedExtensions 
 		{
-			get 
-			{
-				return _fileAllowedExtensions;
-			}
+			get;
+            private set;
 		}
 
 	}

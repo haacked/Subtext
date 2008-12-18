@@ -6,6 +6,7 @@ using System.Globalization;
 using MbUnit.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
+using Moq;
 
 namespace UnitTests.Subtext.Framework.Data
 {
@@ -15,6 +16,43 @@ namespace UnitTests.Subtext.Framework.Data
 	[TestFixture]
 	public class DataHelperTests
 	{
+        public class ObjectWithProperties {
+            public int IntProperty { get; set; }
+            public int? NullableIntProperty { get; set; }
+            public string StringProperty { get; set; }
+        }
+
+        [Test]
+        public void IDataReader_WithIntColumnHavingSameNameAsIntProperty_PopulatesObjectWithIntPropertySetCorrectly() { 
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
+            reader.ExpectGet(r => r["IntProperty"]).Returns(42);
+            reader.Expect(r => r.Read()).Returns(false);
+
+            //act
+            var result = reader.Object.LoadObject<ObjectWithProperties>();
+
+            //assert
+            Assert.AreEqual(42, result.IntProperty);
+        }
+
+        [Test]
+        public void IDataReader_WithNullableIntColumnHavingSameNameAsIntProperty_PopulatesObjectWithNullableIntPropertySetCorrectly()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
+            reader.ExpectGet(r => r["NullableIntProperty"]).Returns(DBNull.Value);
+            reader.Expect(r => r.Read()).Returns(false);
+
+            //act
+            var result = reader.Object.LoadObject<ObjectWithProperties>();
+
+            //assert
+            Assert.AreEqual((int?)null, result.NullableIntProperty);
+        }
+
 		/// <summary>
 		/// Makes sure that we parse the date correctly.
 		/// </summary>

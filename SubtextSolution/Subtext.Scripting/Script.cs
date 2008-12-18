@@ -50,15 +50,13 @@ namespace Subtext.Scripting
 			return scripts;
         }
 
-        readonly string _scriptText;
-
 		/// <summary>
 		/// Creates a new <see cref="TemplateParameter"/> instance.
 		/// </summary>
 		/// <param name="scriptText">Script text.</param>
 		public Script(string scriptText)
 		{
-			_scriptText = scriptText;
+            OriginalScriptText = scriptText;
 		}
 
 		/// <summary>
@@ -80,10 +78,8 @@ namespace Subtext.Scripting
 		/// <value>The original script text.</value>
 		public string OriginalScriptText
 		{
-			get
-			{
-				return this._scriptText;
-			}
+			get;
+            private set;
 		}
 
 		/// <summary>
@@ -118,11 +114,11 @@ namespace Subtext.Scripting
 				{
 					_parameters = new TemplateParameterCollection();
 
-					if(this._scriptText.Length == 0)
+					if(String.IsNullOrEmpty(OriginalScriptText))
 						return _parameters;
 
 					Regex regex = new Regex(@"<\s*(?<name>[^()\[\]>,]*)\s*,\s*(?<type>[^>,]*)\s*,\s*(?<default>[^>,]*)\s*>", RegexOptions.Compiled);
-					MatchCollection matches = regex.Matches(this._scriptText);
+                    MatchCollection matches = regex.Matches(OriginalScriptText);
 			
 					_scriptTokens = new ScriptToken();
 			
@@ -131,7 +127,7 @@ namespace Subtext.Scripting
 					{
 						if(match.Index > 0)
 						{
-							string textBeforeMatch = this._scriptText.Substring(lastIndex, match.Index - lastIndex);
+                            string textBeforeMatch = OriginalScriptText.Substring(lastIndex, match.Index - lastIndex);
 							_scriptTokens.Append(textBeforeMatch);
 						}
 
@@ -139,7 +135,7 @@ namespace Subtext.Scripting
 						TemplateParameter parameter = _parameters.Add(match);
 						_scriptTokens.Append(parameter);
 					}
-					string textAfterLastMatch = this._scriptText.Substring(lastIndex);
+                    string textAfterLastMatch = OriginalScriptText.Substring(lastIndex);
 					if(textAfterLastMatch.Length > 0)
 						_scriptTokens.Append(textAfterLastMatch);
 				}
@@ -190,19 +186,18 @@ namespace Subtext.Scripting
 			/// <param name="text">The text.</param>
 			internal ScriptToken(string text)
 			{
-				_text = text;	
+				Text = text;	
 			}
 
 			/// <summary>
 			/// Gets the text.
 			/// </summary>
 			/// <value>The text.</value>
-			public virtual string Text
-			{
-				get { return _text; }
-			}
-
-			readonly string _text;
+            public virtual string Text
+            {
+                get;
+                private set;
+            }
 
 			/// <summary>
 			/// Gets or sets the next node.
@@ -210,11 +205,9 @@ namespace Subtext.Scripting
 			/// <value>The next.</value>
 			public ScriptToken Next
 			{
-				get { return _next; }
-				set {_next = value;}
+				get;
+				set;
 			}
-
-			ScriptToken _next;
 
 			/// <summary>
 			/// Gets the last node.
@@ -225,7 +218,7 @@ namespace Subtext.Scripting
 				get
 				{
 					ScriptToken last = this;
-					ScriptToken next = _next;
+					ScriptToken next = Next;
 				
 					while(next != null)
 					{

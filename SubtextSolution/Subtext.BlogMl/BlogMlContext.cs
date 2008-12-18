@@ -14,28 +14,23 @@ namespace Subtext.BlogML
 		/// <param name="blogId">The blog id.</param>
 		public BlogMLContext(string blogId, bool embedAttachments)
 		{
-			this.blogId = blogId;
-			this.embedAttachments = embedAttachments;
+			BlogId = blogId;
+			EmbedAttachments = embedAttachments;
 		}
 
 		/// <summary>
 		/// The id of the blog for which to import/export the blogml.
 		/// </summary>
-		public string BlogId
-		{
-			get { return this.blogId; }
-		}
-
-		private string blogId;
+        public string BlogId
+        {
+            get;
+            private set;
+        }
 
 		public bool EmbedAttachments
 		{
-			get
-			{
-				return this.embedAttachments;
-			}
+			get;
+            private set;
 		}
-
-		bool embedAttachments;
 	}
 }

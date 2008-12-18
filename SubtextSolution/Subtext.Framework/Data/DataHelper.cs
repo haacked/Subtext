@@ -1002,9 +1002,9 @@ namespace Subtext.Framework.Data
             var properties = TypeDescriptor.GetProperties(item);
             foreach(PropertyDescriptor property in properties) 
             {
-                if (reader[property.Name] != DBNull.Value)
+                var value = reader[property.Name];
+                if (value != DBNull.Value)
                 {
-                    object value = reader[property.Name];
                     property.SetValue(item, value);
                 }
             }

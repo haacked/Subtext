@@ -72,14 +72,10 @@ namespace Subtext.Scripting
 		/// <value>The server.</value>
 		public string Server
 		{
-			get
-			{
-				return _server;
-			}
-			set { _server=value; }
+			get;
+			set;
 		}
 
-		string _server;
 
 		/// <summary>
 		/// Gets or sets the database this connection string connects to.
@@ -87,11 +83,9 @@ namespace Subtext.Scripting
 		/// <value>The database.</value>
 		public string Database
 		{
-			get { return _database; }
-			set { _database=value; }
+			get;
+			set;
 		}
-
-		string _database;
 
 		/// <summary>
 		/// Gets or sets the user id.
@@ -99,11 +93,9 @@ namespace Subtext.Scripting
 		/// <value>The user id.</value>
 		public string UserId
 		{
-			get { return _userId; }
-			set { _userId = value; }
+			get;
+			set;
 		}
-
-		string _userId;
 
 		/// <summary>
 		/// Gets or sets the password.
@@ -111,11 +103,9 @@ namespace Subtext.Scripting
 		/// <value>The password.</value>
 		public string Password
 		{
-			get { return _password; }
-			set { _password = value; }
+			get;
+			set;
 		}
-
-		string _password;
 
 		/// <summary>
 		/// Gets a value indicating whether [trusted connection].
@@ -149,14 +139,14 @@ namespace Subtext.Scripting
 		public override string ToString()
 		{
 			if(TrustedConnection)
-				return string.Format(_trustedConnectionFormatString, _serverFieldName, _server, _databaseFieldName, _database, _securityTypeText);
+				return string.Format(_trustedConnectionFormatString, _serverFieldName, Server, _databaseFieldName, Database, _securityTypeText);
 			else
-				return string.Format(_connectionFormatString, _serverFieldName, _server, _databaseFieldName, _database, _userId, _password, _securityTypeText);
+				return string.Format(_connectionFormatString, _serverFieldName, Server, _databaseFieldName, Database, UserId, Password, _securityTypeText);
 		}
 
 		private ConnectionString(string connectionString)
 		{
-            _rawOriginal = connectionString;
+            RawOriginal = connectionString;
 			ParseServer(connectionString);
 			ParseDatabase(connectionString);
 			ParseUserId(connectionString);
@@ -166,12 +156,9 @@ namespace Subtext.Scripting
 
         public string RawOriginal
         {
-            get 
-            {
-                return _rawOriginal;
-            }
+            get;
+            private set;
         }
-        private string _rawOriginal;
 
 		private bool ParseServer(string connectionString)
 		{
@@ -179,7 +166,7 @@ namespace Subtext.Scripting
 			Match match = regex.Match(connectionString);
 			if(match.Success)
 			{
-				_server = match.Groups["server"].Value;
+				Server = match.Groups["server"].Value;
 				_serverFieldName = match.Groups["serverField"].Value;
 				return true;
 			}
@@ -193,20 +180,20 @@ namespace Subtext.Scripting
 			Match match = regex.Match(connectionString);
 			if(match.Success)
 			{
-				_database = match.Groups["database"].Value;
+				Database = match.Groups["database"].Value;
 				_databaseFieldName = match.Groups["databaseField"].Value;
-                if(!String.IsNullOrEmpty(_database))
+                if(!String.IsNullOrEmpty(Database))
                     return true;
 			}
 
-            if (String.IsNullOrEmpty(_database))
+            if (String.IsNullOrEmpty(Database))
             {
                 regex = new Regex(@"AttachDbFilename\s*=\s*\|DataDirectory\|\\(?<database>.*?)(;|$|\s)", RegexOptions.IgnoreCase);
                 match = regex.Match(connectionString);
                 if (match.Success)
                 {
-                    _database = match.Groups["database"].Value;
-                    if (!String.IsNullOrEmpty(_database))
+                    Database = match.Groups["database"].Value;
+                    if (!String.IsNullOrEmpty(Database))
                         return true;
                 }
             }
@@ -220,7 +207,7 @@ namespace Subtext.Scripting
 			Match match = regex.Match(connectionString);
 			if(match.Success)
 			{
-				_userId = match.Groups["userId"].Value;
+				UserId = match.Groups["userId"].Value;
 				return true;
 			}
 
@@ -233,7 +220,7 @@ namespace Subtext.Scripting
 			Match match = regex.Match(connectionString);
 			if(match.Success)
 			{
-				_password = match.Groups["password"].Value;
+				Password = match.Groups["password"].Value;
 				return true;
 			}
 
