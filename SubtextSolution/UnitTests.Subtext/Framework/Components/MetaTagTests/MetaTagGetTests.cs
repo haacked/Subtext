@@ -23,6 +23,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 {
@@ -89,28 +90,16 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             Assert.AreEqual(4, tags.Count, "Should have found 4 MetaTags for this entry.");
         }
 
-        #region Some helper code to populate the db w/metatags
-
-        private static readonly string insertSql = @"INSERT INTO subtext_MetaTag ([Content], [Name], HttpEquiv, DateCreated, BlogId, EntryId) VALUES (@Content, @Name, @HttpEquiv, @DateCreated, @BlogId, @EntryId)";
-
-
         private static void InsertNewMetaTag(string content, string nameValue, string httpEquivValue, DateTime created, int blogId, int? entryId)
         {
-            object entryIdValue = entryId.HasValue ? DataHelper.CheckNull(entryId.Value) : DBNull.Value;
-
-            SqlParameter[] p = 
-                {
-                    DataHelper.MakeInParam("@Content", content),
-                    DataHelper.MakeInParam("@Name", DataHelper.CheckNull(nameValue)),
-                    DataHelper.MakeInParam("@HttpEquiv", DataHelper.CheckNull(httpEquivValue)),
-                    DataHelper.MakeInParam("@DateCreated", created),
-                    DataHelper.MakeInParam("@BlogId", blogId),
-                    DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, entryIdValue)
-                };
-            SqlHelper.ExecuteNonQuery(Config.ConnectionString, CommandType.Text, insertSql, p);
+            MetaTag metaTag = new MetaTag();
+            metaTag.Content = content;
+            metaTag.Name = nameValue;
+            metaTag.HttpEquiv = httpEquivValue;
+            metaTag.DateCreated = created;
+            metaTag.BlogId = blogId;
+            metaTag.EntryId = entryId;
+            ObjectProvider.Instance().Create(metaTag);
         }
-
-        #endregion
-        
     }
 }

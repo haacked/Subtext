@@ -16,7 +16,7 @@ namespace Subtext.Framework.Data
             //TODO: Update proc to allow for sort parameter.
             using (IDataReader reader = _procedures.GetPageableLinks(BlogId, categoryId, pageIndex, pageSize))
             {
-                return reader.GetPagedCollection(r => DataHelper.LoadLink(r));
+                return reader.GetPagedCollection(r => reader.LoadObject<Link>());
             }
         }
 
@@ -27,7 +27,7 @@ namespace Subtext.Framework.Data
                 ICollection<Link> lc = new List<Link>();
                 while (reader.Read())
                 {
-                    lc.Add(DataHelper.LoadLink(reader));
+                    lc.Add(reader.LoadObject<Link>());
                 }
                 return lc;
             }
@@ -40,7 +40,7 @@ namespace Subtext.Framework.Data
                 Link link = null;
                 while (reader.Read())
                 {
-                    link = DataHelper.LoadLink(reader);
+                    link = reader.LoadObject<Link>();
                     break;
                 }
                 return link;

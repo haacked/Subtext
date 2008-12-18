@@ -75,20 +75,6 @@ namespace Subtext.Framework.Data
             set;
         }
 
-        private static SqlParameter BlogIdParam
-        {
-            get
-            {
-                int blogId;
-                if (InstallationManager.IsInHostAdminDirectory)
-                    blogId = NullValue.NullInt32;
-                else
-                    blogId = Config.CurrentBlog.Id;
-
-                return DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(blogId));
-            }
-        }
-
         /// <summary>
         /// Returns a Data Reader pointing to the entry specified by the entry name.
         /// Only returns entries for the current blog (Config.CurrentBlog).

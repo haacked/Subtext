@@ -426,57 +426,6 @@ namespace Subtext.Framework.Data
 			return lc;
 		}
 
-		public static Link LoadLink(this IDataReader reader)
-		{
-			Link link = new Link();
-			// Active cannot be null
-			link.IsActive = (bool)reader["Active"];
-
-			if(reader["NewWindow"] != DBNull.Value)
-			{
-				link.NewWindow = (bool)reader["NewWindow"];
-			}
-
-            if (reader["Rel"] != DBNull.Value)
-            {
-               link.Relation = ReadString(reader, "Rel");
-            }   
-
-			// LinkID cannot be null
-			link.Id = ReadInt32(reader, "LinkID");
-			
-			if(reader["Rss"] != DBNull.Value)
-			{
-				link.Rss = ReadString(reader, "Rss");
-			}
-			
-			if(reader["Url"] != DBNull.Value)
-			{
-				link.Url = ReadString(reader, "Url");
-			}
-			
-			if(reader["Title"] != DBNull.Value)
-			{
-				link.Title = ReadString(reader, "Title");
-			}
-
-			if(reader["CategoryID"] != DBNull.Value)
-			{
-				link.CategoryID = ReadInt32(reader, "CategoryID");
-			}
-			
-			if(reader["PostID"] != DBNull.Value)
-			{
-				link.PostID = ReadInt32(reader, "PostID");
-			}
-
-            if (reader["BlogId"] != DBNull.Value)
-            {
-                link.BlogId = ReadInt32(reader, "BlogId");
-            }
-			return link;
-		}
-
         public static BlogInfo LoadBlogInfo(this IDataReader reader) {
             return reader.LoadBlogInfo(string.Empty);
         }
@@ -570,7 +519,7 @@ namespace Subtext.Framework.Data
 		{
 			Link link = new Link();
 			int count = ReadInt32(reader, "Count");
-			DateTime dt = new DateTime(ReadInt32(reader, "Year"),ReadInt32(reader, "Month"),1);
+			DateTime dt = new DateTime(ReadInt32(reader, "Year"), ReadInt32(reader, "Month"), 1);
 			link.NewWindow = false;
 			link.Title = dt.ToString("y", CultureInfo.InvariantCulture) + " (" + count.ToString(CultureInfo.InvariantCulture) + ")";
 			//link.Url = Globals.ArchiveUrl(dt,"MMyyyy");
@@ -627,61 +576,6 @@ namespace Subtext.Framework.Data
         }
 
         #endregion
-
-		#region Keywords
-
-		public static KeyWord LoadKeyWord(IDataReader reader)
-		{
-			KeyWord kw = new KeyWord();
-			kw.Id = ReadInt32(reader, "KeyWordID");
-			kw.BlogId = ReadInt32(reader, "BlogId");
-			kw.OpenInNewWindow = (bool)reader["OpenInNewWindow"];
-			kw.ReplaceFirstTimeOnly = (bool)reader["ReplaceFirstTimeOnly"];
-			kw.CaseSensitive = (bool)reader["CaseSensitive"];
-			kw.Text = ReadString(reader, "Text");
-			kw.Rel = ReadString(reader, "Rel");
-			if(reader["Title"] != DBNull.Value)
-			{
-				kw.Title = CheckNullString(reader["Title"]);
-			}
-			kw.Url = ReadString(reader, "Url");
-			kw.Word = ReadString(reader, "Word");
-			return kw;
-		}
-
-		/// <summary>
-		/// If the string is empty or null, returns a 
-		/// System.DBNull.Value.
-		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public static object CheckForNullString(string text)
-		{
-			if (String.IsNullOrEmpty(text))
-			{
-				return DBNull.Value;
-			}
-			else
-			{
-				return text;
-			}
-		}
-
-		/// <summary>
-		/// If the string is DBNull, returns null. Otherwise returns the string.
-		/// </summary>
-		/// <param name="obj">The obj.</param>
-		/// <returns></returns>
-		public static string CheckNullString(object obj)
-		{
-			if (obj is DBNull)
-			{
-				return null;
-			}
-			return (string)obj;
-		}
-
-		#endregion
 
 		#region Host
 		/// <summary>
@@ -1045,19 +939,6 @@ namespace Subtext.Framework.Data
 		}
 
 		/// <summary>
-		/// Checks the value type and returns null if the 
-		/// value is "null-equivalent".
-		/// </summary>
-		/// <param name="obj">The obj.</param>
-		/// <returns></returns>
-		public static object CheckNull(this int obj)
-		{
-			if(NullValue.IsNull(obj))
-				return null;
-			return obj;
-		}
-
-        /// <summary>
         /// Checks the value type and returns null if the 
         /// value is "null-equivalent".
         /// </summary>
@@ -1069,70 +950,6 @@ namespace Subtext.Framework.Data
                 return null;
             return (int?)value;
         }
-
-		/// <summary>
-		/// Returns an empty string if the value is null.
-		/// </summary>
-		/// <param name="obj">The obj.</param>
-		/// <returns></returns>
-		public static string CheckNull(string obj)
-		{
-			if(obj == null)
-				return string.Empty;
-							 
-			return obj;
-		}
-
-		/// <summary>
-		/// Returns null if the value is an empty string.
-		/// </summary>
-		/// <param name="obj">The obj.</param>
-		/// <returns></returns>
-		public static string ReturnNullIfEmpty(string obj)
-		{
-			if (String.IsNullOrEmpty(obj))
-				return null;
-
-			return obj;
-		}
-
-		/// <summary>
-		/// Returns a true null if the object is DBNull.
-		/// </summary>
-		/// <param name="obj">The obj.</param>
-		/// <returns></returns>
-		public static string CheckNull(DBNull obj)
-		{
-			return null;
-		}
-
-        public static object CheckNull(FeedbackType feedBackType)
-        {
-            return (feedBackType == FeedbackType.None ? null : (object)feedBackType);
-        }
-
-		/// <summary>
-		/// Checks the value of the specified value type for a null value.  
-		/// Returns null if the value represents a null value
-		/// </summary>
-		/// <param name="dateTime">Date time.</param>
-		/// <returns></returns>
-		public static object CheckNull(DateTime dateTime)
-		{
-			if(NullValue.IsNull(dateTime))
-				return null;
-			return dateTime;
-		}
-
-		internal static void DebugPrintCommand(SqlCommand command)
-		{
-			Console.Write(command.CommandText);
-			foreach(SqlParameter parameter in command.Parameters)
-			{
-				Console.Write(" " + parameter.ParameterName + "=" + parameter.Value + ", ");
-			}
-			Console.Write(Environment.NewLine);
-		}
 
         public static PagedCollection<T> GetPagedCollection<T>(this IDataReader reader, Func<IDataReader, T> loadIndividualFunc) {
             PagedCollection<T> collection = new PagedCollection<T>();
@@ -1156,7 +973,7 @@ namespace Subtext.Framework.Data
 
             if (includeLinks && reader.NextResult()) {
                 while (reader.Read()) {
-                    var link = reader.LoadLink();
+                    var link = reader.LoadObject<Link>();
                     LinkCategory category;
                     if(categories.TryGetValue(link.CategoryID, out category)) {
                         category.Links.Add(link);
