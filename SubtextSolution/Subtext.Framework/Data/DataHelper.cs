@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -25,8 +25,6 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
-using Subtext.Framework;
-using System.ComponentModel;
 
 //Need to remove Global.X calls ...just seems unclean
 //Maybe create a another class formatter ...Format.Entry(ref Entry entry) 
@@ -49,8 +47,6 @@ namespace Subtext.Framework.Data
             }
             return dateTime;
         }
-
-		#region Statisitics
 
 		public static ViewStat LoadViewStat(IDataReader reader)
 		{
@@ -114,10 +110,6 @@ namespace Subtext.Framework.Data
 			return refer;
 		}
 
-		#endregion
-
-		#region EntryDayCollection
-
 		private static bool IsNewDay(DateTime dtCurrent, DateTime dtDay)
 		{
 			return !(dtCurrent.DayOfYear == dtDay.DayOfYear && dtCurrent.Year == dtDay.Year);
@@ -142,10 +134,6 @@ namespace Subtext.Framework.Data
 			return edc;
 		}
 
-
-		#endregion
-
-		#region EntryCollection
         internal static ICollection<Entry> LoadEntryCollectionFromDataReader(this IDataReader reader) {
             return reader.LoadEntryCollectionFromDataReader(true /* buildLinks */);
         }
@@ -174,9 +162,7 @@ namespace Subtext.Framework.Data
             }
             return entries.Values;
         }
-		#endregion
 
-		#region Blog Group
 		public static BlogGroup LoadBlogGroup(IDataReader reader)
 		{
 			BlogGroup group = new BlogGroup();
@@ -188,9 +174,7 @@ namespace Subtext.Framework.Data
 			group.IsActive = ReadBoolean(reader, "Active");
 			return group;
 		}
-		#endregion
 
-		#region BlogAlias
 		/// <summary>
 		/// Loads the blog alias.
 		/// </summary>
@@ -207,8 +191,7 @@ namespace Subtext.Framework.Data
 			alias.IsActive = ReadBoolean(reader, "IsActive");
 			return alias;
 		}
-		#endregion
-		#region Single Entry
+
 		//Crappy. Need to clean up all of the entry references
 		public static EntryStatsView LoadEntryStatsView(IDataReader reader)
 		{
@@ -424,10 +407,6 @@ namespace Subtext.Framework.Data
 			return ReadInt32(reader, "TotalRecords");
 		}
 
-		#endregion
-
-		#region Categories
-
 		public static LinkCategory LoadLinkCategory(this IDataReader reader)
 		{
 			LinkCategory lc = new LinkCategory(reader.ReadInt32("CategoryID"), reader.ReadString("Title"));
@@ -446,36 +425,6 @@ namespace Subtext.Framework.Data
             }
 			return lc;
 		}
-
-		public static LinkCategory LoadLinkCategory(DataRow dr)
-		{
-			LinkCategory lc = new LinkCategory((int)dr["CategoryID"], (string)dr["Title"]);
-			
-			// Active cannot be null.
-			lc.IsActive = (bool)dr["Active"];
-
-			if(dr["CategoryType"] != DBNull.Value)
-			{
-				lc.CategoryType = (CategoryType)((byte)dr["CategoryType"]);
-			}
-			if(dr["Description"] != DBNull.Value)
-			{
-				lc.Description = (string)dr["Description"];
-			}
-            if (dr["BlogId"] != DBNull.Value)
-            {
-                lc.BlogId = (int)dr["BlogId"];
-            }
-            else
-            {
-                lc.BlogId = Config.CurrentBlog.Id;
-            }
-			return lc;
-		}
-
-		#endregion
-
-		#region Links
 
 		public static Link LoadLink(this IDataReader reader)
 		{
@@ -528,55 +477,6 @@ namespace Subtext.Framework.Data
 			return link;
 		}
 
-		public static Link LoadLink(DataRow dr)
-		{
-			Link link = new Link();
-			// Active cannot be null
-			link.IsActive = (bool)dr["Active"];
-			
-			if(dr["NewWindow"] != DBNull.Value)
-			{
-				link.NewWindow = (bool)dr["NewWindow"];
-			}
-
-			//LinkID cannot be null.
-			link.Id = (int)dr["LinkID"];
-			
-			if(dr["Rss"] != DBNull.Value)
-			{
-				link.Rss = (string)dr["Rss"];
-			}
-			
-			if(dr["Url"] != DBNull.Value)
-			{
-				link.Url = (string)dr["Url"];
-			}
-			
-			if(dr["Title"] != DBNull.Value)
-			{
-				link.Title = (string)dr["Title"];
-			}
-			
-			if(dr["CategoryID"] != DBNull.Value)
-			{
-				link.CategoryID = (int)dr["CategoryID"];
-			}
-
-            if (dr["Rel"] != DBNull.Value)
-            {
-                link.Relation = (string)(dr["Rel"]);
-            }  
-			
-			if(dr["PostID"] != DBNull.Value)
-			{
-				link.PostID = (int)dr["PostID"];
-			}
-			return link;
-		}
-
-		#endregion
-
-		#region Config
         public static BlogInfo LoadBlogInfo(this IDataReader reader) {
             return reader.LoadBlogInfo(string.Empty);
         }
@@ -641,10 +541,6 @@ namespace Subtext.Framework.Data
 			return info;
 		}
 
-		#endregion
-
-		#region Archive
-
         public static ICollection<ArchiveCount> LoadArchiveCount(IDataReader reader)
 		{
 			const string dateformat = "{0:00}/{1:00}/{2:0000}";
@@ -683,25 +579,13 @@ namespace Subtext.Framework.Data
 			return link;
 		}
 
-		#endregion
-
-		#region Image
-
         public static Image LoadImage(this IDataReader reader) {
             return LoadImage(reader, false, false);
         }
 		
         public static Image LoadImage(this IDataReader reader, bool includeBlog, bool includeCategory)
 		{
-			Image image = new Image();
-			image.CategoryID = reader.ReadInt32("CategoryID");
-			image.FileName = reader.ReadString("File");
-			image.Height = reader.ReadInt32("Height");
-			image.Width = reader.ReadInt32("Width");
-			image.ImageID = reader.ReadInt32("ImageID");
-			image.IsActive = reader.ReadBoolean("Active");
-			image.Title = reader.ReadString("Title");
-            image.BlogId = reader.ReadInt32("BlogId");
+            Image image = reader.LoadObject<Image>("CategoryTitle", "LocalDirectoryPath");
 
             if (includeBlog) {
                 image.Blog = reader.LoadBlogInfo("Blog.");
@@ -711,10 +595,6 @@ namespace Subtext.Framework.Data
             }
 			return image;
 		}
-
-		#endregion
-
-        #region Tags
 
         public static IDictionary<string, int> LoadTags(IDataReader reader)
         {
@@ -727,28 +607,6 @@ namespace Subtext.Framework.Data
             }
             return tags;
         }
-
-        #endregion
-
-		#region MetaTags
-
-		public static MetaTag LoadMetaTag(IDataReader reader)
-		{
-			MetaTag tag = new MetaTag();
-
-		    tag.Id = ReadInt32(reader, "Id");
-			tag.Content = ReadString(reader, "Content");
-			tag.Name = ReadString(reader, "Name");
-			tag.HttpEquiv = ReadString(reader, "HttpEquiv");
-		    tag.BlogId = ReadInt32(reader, "BlogId");
-		    tag.EntryId = ReadNullableInt(reader, "EntryId");
-            tag.DateCreated = ReadDate(reader, "DateCreated");
-
-			return tag;
-		}
-
-		#endregion
-
 
         #region Enclosure
 
@@ -996,12 +854,24 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-        public static T LoadObject<T>(this IDataReader reader) where T : new()
+        public static T LoadObject<T>(this IDataReader reader, params string[] exclusionList) where T : new()
         {
             T item = new T();
             var properties = TypeDescriptor.GetProperties(item);
             foreach(PropertyDescriptor property in properties) 
             {
+                if (property.IsReadOnly) {
+                    continue;
+                }
+
+                if (!property.PropertyType.IsLoadablePropertyType()) {
+                    continue;
+                }
+
+                if (exclusionList != null && IsExcluded(property.Name, exclusionList)) {
+                    continue;
+                }
+
                 var value = reader[property.Name];
                 if (value != DBNull.Value)
                 {
@@ -1009,6 +879,31 @@ namespace Subtext.Framework.Data
                 }
             }
             return item;
+        }
+
+        private static bool IsExcluded(string propertyName, string[] exclusionList) {
+            foreach (string excludedProperty in exclusionList) {
+                if (propertyName == excludedProperty) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static bool IsLoadablePropertyType(this Type t) {
+            
+            bool isLoadable = t.IsPrimitive || 
+                t == typeof(DateTime) || 
+                t == typeof(string);
+
+            if (!isLoadable) { 
+                //Maybe it's a nullable.
+                Type underlyingType = Nullable.GetUnderlyingType(t);
+                if (underlyingType != null) {
+                    return IsLoadablePropertyType(underlyingType);
+                }
+            }
+            return isLoadable;
         }
 
 		/// <summary>
@@ -1250,196 +1145,6 @@ namespace Subtext.Framework.Data
             return collection;
         }
 
-		#region ExecuteDataTable
-
-		/// <summary>
-		/// Execute a SqlCommand (that returns a resultset and takes no parameters) against the database specified in 
-		/// the connection string. 
-		/// </summary>
-		/// <remarks>
-		/// e.g.:  
-		///  DataTable dt = ExecuteDataTable(connString, CommandType.StoredProcedure, "GetOrders");
-		/// </remarks>
-		/// <param name="connectionString">a valid connection string for a SqlConnection</param>
-		/// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
-		/// <param name="commandText">the stored procedure name or T-SQL command</param>
-		/// <returns>a DataTable containing the resultset generated by the command</returns>
-		public static DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText)
-		{
-			//pass through the call providing null for the set of SqlParameters
-			return ExecuteDataTable(connectionString, commandType, commandText, null);
-		}
-
-		/// <summary>
-		/// Execute a SqlCommand (that returns a resultset) against the database specified in the connection string 
-		/// using the provided parameters.
-		/// </summary>
-		/// <remarks>
-		/// e.g.:  
-		///  DataTable dt = ExecuteDataTable(connString, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
-		/// </remarks>
-		/// <param name="connectionString">a valid connection string for a SqlConnection</param>
-		/// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
-		/// <param name="commandText">the stored procedure name or T-SQL command</param>
-		/// <param name="commandParameters">an array of SqlParamters used to execute the command</param>
-		/// <returns>a DataTable containing the resultset generated by the command</returns>
-		public static DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
-		{
-			//create & open a SqlConnection, and dispose of it after we are done.
-			using (SqlConnection cn = new SqlConnection(connectionString))
-			{
-				cn.Open();
-
-				//call the overload that takes a connection in place of the connection string
-				return ExecuteDataTable(cn, commandType, commandText, commandParameters);
-			}
-		}
-
-
-
-		/// <summary>
-		/// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlConnection. 
-		/// </summary>
-		/// <remarks>
-		/// e.g.:  
-		///  DataTable dt = ExecuteDataTable(conn, CommandType.StoredProcedure, "GetOrders");
-		/// </remarks>
-		/// <param name="connection">a valid SqlConnection</param>
-		/// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
-		/// <param name="commandText">the stored procedure name or T-SQL command</param>
-		/// <returns>a DataTable containing the resultset generated by the command</returns>
-		public static DataTable ExecuteDataTable(SqlConnection connection, CommandType commandType, string commandText)
-		{
-			//pass through the call providing null for the set of SqlParameters
-			return ExecuteDataTable(connection, commandType, commandText, null);
-		}
-
-		/// <summary>
-		/// Execute a SqlCommand (that returns a resultset) against the specified SqlConnection 
-		/// using the provided parameters.
-		/// </summary>
-		/// <remarks>
-		/// e.g.:  
-		///  DataTable dt = ExecuteDataTable(conn, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
-		/// </remarks>
-		/// <param name="connection">a valid SqlConnection</param>
-		/// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
-		/// <param name="commandText">the stored procedure name or T-SQL command</param>
-		/// <param name="commandParameters">an array of SqlParamters used to execute the command</param>
-		/// <returns>a DataTable containing the resultset generated by the command</returns>
-		public static DataTable ExecuteDataTable(SqlConnection connection, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
-		{
-			//create a command and prepare it for execution
-			SqlCommand cmd = new SqlCommand();
-			PrepareCommand(cmd, connection, null, commandType, commandText, commandParameters);
-
-			//create the DataAdapter & DataTable
-			SqlDataAdapter da = new SqlDataAdapter(cmd);
-			DataTable dt = new DataTable();
-
-			//fill the DataTable using default values for DataTable names, etc.
-			da.Fill(dt);
-
-			// detach the SqlParameters from the command object, so they can be used again.			
-			cmd.Parameters.Clear();
-
-			//return the DataTable
-			return dt;
-		}
-
-
-		/// <summary>
-		/// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlTransaction. 
-		/// </summary>
-		/// <remarks>
-		/// e.g.:  
-		///  DataTable dt = ExecuteDataTable(trans, CommandType.StoredProcedure, "GetOrders");
-		/// </remarks>
-		/// <param name="transaction">a valid SqlTransaction</param>
-		/// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
-		/// <param name="commandText">the stored procedure name or T-SQL command</param>
-		/// <returns>a DataTable containing the resultset generated by the command</returns>
-		public static DataTable ExecuteDataTable(SqlTransaction transaction, CommandType commandType, string commandText)
-		{
-			//pass through the call providing null for the set of SqlParameters
-			return ExecuteDataTable(transaction, commandType, commandText, null);
-		}
-
-		/// <summary>
-		/// Execute a SqlCommand (that returns a resultset) against the specified SqlTransaction
-		/// using the provided parameters.
-		/// </summary>
-		/// <remarks>
-		/// e.g.:  
-		///  DataTable dt = ExecuteDataTable(trans, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
-		/// </remarks>
-		/// <param name="transaction">a valid SqlTransaction</param>
-		/// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
-		/// <param name="commandText">the stored procedure name or T-SQL command</param>
-		/// <param name="commandParameters">an array of SqlParamters used to execute the command</param>
-		/// <returns>a DataTable containing the resultset generated by the command</returns>
-		public static DataTable ExecuteDataTable(SqlTransaction transaction, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
-		{
-			//create a command and prepare it for execution
-			SqlCommand cmd = new SqlCommand();
-			PrepareCommand(cmd, transaction.Connection, transaction, commandType, commandText, commandParameters);
-
-			//create the DataAdapter & DataTable
-			SqlDataAdapter da = new SqlDataAdapter(cmd);
-			DataTable dt = new DataTable();
-
-			//fill the DataTable using default values for DataTable names, etc.
-			da.Fill(dt);
-
-			// detach the SqlParameters from the command object, so they can be used again.
-			cmd.Parameters.Clear();
-
-			//return the DataTable
-			return dt;
-		}
-
-		/// <summary>
-		/// This method opens (if necessary) and assigns a connection, transaction, command type and parameters 
-		/// to the provided command.
-		/// </summary>
-		/// <param name="command">the SqlCommand to be prepared</param>
-		/// <param name="connection">a valid SqlConnection, on which to execute this command</param>
-		/// <param name="transaction">a valid SqlTransaction, or 'null'</param>
-		/// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
-		/// <param name="commandText">the stored procedure name or T-SQL command</param>
-		/// <param name="commandParameters">an array of SqlParameters to be associated with the command or 'null' if no parameters are required</param>
-		private static void PrepareCommand(SqlCommand command, SqlConnection connection, SqlTransaction transaction, CommandType commandType, string commandText, SqlParameter[] commandParameters)
-		{
-			//if the provided connection is not open, we will open it
-			if (connection.State != ConnectionState.Open)
-			{
-				connection.Open();
-			}
-
-			//associate the connection with the command
-			command.Connection = connection;
-
-			//set the command text (stored procedure name or SQL statement)
-			command.CommandText = commandText;
-
-			//if we were provided a transaction, assign it.
-			if (transaction != null)
-			{
-				command.Transaction = transaction;
-			}
-
-			//set the command type
-			command.CommandType = commandType;
-
-			//attach the command parameters if they are provided
-			if (commandParameters != null)
-			{
-				AttachParameters(command, commandParameters);
-			}
-
-			return;
-		}
-
         // Expects that the caller will dispose of the reader.
         public static ICollection<LinkCategory> LoadLinkCategories(this IDataReader reader, bool includeLinks) {
             var categories = new Dictionary<int, LinkCategory>();
@@ -1471,33 +1176,6 @@ namespace Subtext.Framework.Data
             }
             return null;
         }
-
-		/// <summary>
-		/// This method is used to attach array of SqlParameters to a SqlCommand.
-		/// 
-		/// This method will assign a value of DbNull to any parameter with a direction of
-		/// InputOutput and a value of null.  
-		/// 
-		/// This behavior will prevent default values from being used, but
-		/// this will be the less common case than an intended pure output parameter (derived as InputOutput)
-		/// where the user provided no input value.
-		/// </summary>
-		/// <param name="command">The command to which the parameters will be added</param>
-		/// <param name="commandParameters">an array of SqlParameters tho be added to command</param>
-		private static void AttachParameters(SqlCommand command, SqlParameter[] commandParameters)
-		{
-			foreach (SqlParameter p in commandParameters)
-			{
-				//check for derived output value with no value assigned
-				if ((p.Direction == ParameterDirection.InputOutput) && (p.Value == null))
-				{
-					p.Value = DBNull.Value;
-				}
-
-				command.Parameters.Add(p);
-			}
-		}
-		#endregion ExecuteDataTable
 	}
 
 	/// <summary>

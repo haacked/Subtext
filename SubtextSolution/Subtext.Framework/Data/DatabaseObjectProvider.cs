@@ -148,7 +148,7 @@ namespace Subtext.Framework.Data
 		{
 			using (IDataReader reader = _procedures.GetMetaTags(blog.Id, null, pageIndex, pageSize))
 			{
-                return reader.GetPagedCollection(r => DataHelper.LoadMetaTag(r));
+                return reader.GetPagedCollection(r => DataHelper.LoadObject<MetaTag>(r));
 			}
 		}
 
@@ -156,7 +156,7 @@ namespace Subtext.Framework.Data
 	    {
             using (IDataReader reader = _procedures.GetMetaTags(entry.BlogId, entry.Id, pageIndex, pageSize))
 	        {
-                return reader.GetPagedCollection(r => DataHelper.LoadMetaTag(r));
+                return reader.GetPagedCollection(r => DataHelper.LoadObject<MetaTag>(r));
 	        }
 	    }
 

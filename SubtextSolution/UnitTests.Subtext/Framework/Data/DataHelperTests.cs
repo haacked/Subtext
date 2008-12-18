@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using MbUnit.Framework;
+using Moq;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
-using Moq;
+using Subtext.Framework;
 
 namespace UnitTests.Subtext.Framework.Data
 {
@@ -20,10 +21,45 @@ namespace UnitTests.Subtext.Framework.Data
             public int IntProperty { get; set; }
             public int? NullableIntProperty { get; set; }
             public string StringProperty { get; set; }
+            public bool ReadOnlyBoolean { get; private set; }
+            public BlogInfo ComplexObject { get; set; }
+            public DateTime DateProperty { get; set; }
         }
 
         [Test]
-        public void IDataReader_WithIntColumnHavingSameNameAsIntProperty_PopulatesObjectWithIntPropertySetCorrectly() { 
+        public void Object_WithComplexProperty_DoesNotTryAndSetIt()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
+            reader.ExpectGet(r => r["ComplexObject"]).Throws(new IndexOutOfRangeException());
+            reader.Expect(r => r.Read()).Returns(false);
+
+            //act
+            var result = reader.Object.LoadObject<ObjectWithProperties>();
+
+            //assert
+            Assert.AreEqual(null, result.ComplexObject);
+        }
+
+        [Test]
+        public void Object_WithReadOnlyProperty_DoesNotTryAndSetIt()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
+            reader.ExpectGet(r => r["ReadOnlyBoolean"]).Throws(new IndexOutOfRangeException());
+            reader.Expect(r => r.Read()).Returns(false);
+
+            //act
+            var result = reader.Object.LoadObject<ObjectWithProperties>();
+
+            //assert
+            Assert.AreEqual(false, result.ReadOnlyBoolean);
+        }
+
+        [Test]
+        public void IDataReader_WithIntColumnHavingSameNameAsProperty_PopulatesObjectWithPropertySetCorrectly() { 
             //arrange
             var reader = new Mock<IDataReader>();
             reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
@@ -38,7 +74,40 @@ namespace UnitTests.Subtext.Framework.Data
         }
 
         [Test]
-        public void IDataReader_WithNullableIntColumnHavingSameNameAsIntProperty_PopulatesObjectWithNullableIntPropertySetCorrectly()
+        public void IDataReader_WithStringColumnHavingSameNameAsProperty_PopulatesObjectWithPropertySetCorrectly()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
+            reader.ExpectGet(r => r["StringProperty"]).Returns("Hello world");
+            reader.Expect(r => r.Read()).Returns(false);
+
+            //act
+            var result = reader.Object.LoadObject<ObjectWithProperties>();
+
+            //assert
+            Assert.AreEqual("Hello world", result.StringProperty);
+        }
+
+        [Test]
+        public void IDataReader_WithDateTimeColumnHavingSameNameAsDateTimeProperty_PopulatesObjectWithPropertySetCorrectly()
+        {
+            //arrange
+            DateTime now = DateTime.Now;
+            var reader = new Mock<IDataReader>();
+            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
+            reader.ExpectGet(r => r["DateProperty"]).Returns(now);
+            reader.Expect(r => r.Read()).Returns(false);
+
+            //act
+            var result = reader.Object.LoadObject<ObjectWithProperties>();
+
+            //assert
+            Assert.AreEqual(now, result.DateProperty);
+        }
+
+        [Test]
+        public void IDataReader_WithNullColumn_DoesNotSetProperty()
         {
             //arrange
             var reader = new Mock<IDataReader>();
@@ -51,6 +120,22 @@ namespace UnitTests.Subtext.Framework.Data
 
             //assert
             Assert.AreEqual((int?)null, result.NullableIntProperty);
+        }
+
+        [Test]
+        public void IDataReader_WithNullableIntColumnHavingSameNameAsProperty_PopulatesObjectWithNullablePropertySetCorrectly()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
+            reader.ExpectGet(r => r["NullableIntProperty"]).Returns(23);
+            reader.Expect(r => r.Read()).Returns(false);
+
+            //act
+            var result = reader.Object.LoadObject<ObjectWithProperties>();
+
+            //assert
+            Assert.AreEqual(23, result.NullableIntProperty);
         }
 
 		/// <summary>
