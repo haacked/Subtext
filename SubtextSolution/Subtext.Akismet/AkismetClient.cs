@@ -12,60 +12,59 @@ namespace Subtext.Akismet
 	[Serializable]
 	public class AkismetClient
 	{
+        static readonly string version = typeof(HttpClient).Assembly.GetName().Version.ToString();
+        static readonly Uri verifyUrl = new Uri("http://rest.akismet.com/1.1/verify-key");
+        const string checkUrlFormat = "http://{0}.rest.akismet.com/1.1/comment-check";
+        const string submitSpamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-spam";
+        const string submitHamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-ham";
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AkismetClient"/> class.
+        /// </summary>
+        /// <param name="apiKey">The Akismet API key.</param>
+        /// <param name="blogUrl">The root url of the blog.</param>
+        public AkismetClient(string apiKey, Uri blogUrl)
+            : this(apiKey, blogUrl, new HttpClient())
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AkismetClient"/> class.
+        /// </summary>
+        /// <remarks>
+        /// This constructor takes in all the dependencies to allow for 
+        /// dependency injection and unit testing. Seems like overkill, 
+        /// but it's worth it.
+        /// </remarks>
+        /// <param name="apiKey">The Akismet API key.</param>
+        /// <param name="blogUrl">The root url of the blog.</param>
+        /// <param name="httpClient">Client class used to make the underlying requests.</param>
+        public AkismetClient(string apiKey, Uri blogUrl, HttpClient httpClient)
+        {
+            if (apiKey == null)
+                throw new ArgumentNullException("The akismet Api Key must be specified");
+
+            if (blogUrl == null)
+                throw new ArgumentNullException("The blog's url must be specified");
+
+            if (httpClient == null)
+                throw new ArgumentNullException("Must supply an http client");
+
+            this.apiKey = apiKey;
+            BlogUrl = blogUrl;
+            this.httpClient = httpClient;
+            Timeout = 5000; /* default */
+            SetServiceUrls();
+        }
+        
         [NonSerialized]
 		private HttpClient httpClient;
-
-
-		static readonly string version = typeof(HttpClient).Assembly.GetName().Version.ToString();
-		static readonly Uri verifyUrl = new Uri("http://rest.akismet.com/1.1/verify-key");
-		const string checkUrlFormat = "http://{0}.rest.akismet.com/1.1/comment-check";
-		const string submitSpamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-spam";
-		const string submitHamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-ham";
 
 		Uri submitSpamUrl;
 		Uri submitHamUrl;
 		Uri checkUrl;
-		
-		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AkismetClient"/> class.
-		/// </summary>
-		/// <remarks>
-		/// This constructor takes in all the dependencies to allow for 
-		/// dependency injection and unit testing. Seems like overkill, 
-		/// but it's worth it.
-		/// </remarks>
-		/// <param name="apiKey">The Akismet API key.</param>
-		/// <param name="blogUrl">The root url of the blog.</param>
-		/// <param name="httpClient">Client class used to make the underlying requests.</param>
-		public AkismetClient(string apiKey, Uri blogUrl, HttpClient httpClient)
-		{
-			if(apiKey == null)
-				throw new ArgumentNullException("The akismet Api Key must be specified");
-
-			if (blogUrl == null)
-				throw new ArgumentNullException("The blog's url must be specified");
 			
-			if (httpClient == null)
-				throw new ArgumentNullException("Must supply an http client");
-			
-			this.apiKey = apiKey;
-			this.blogUrl = blogUrl;
-			this.httpClient = httpClient;
-
-			SetServiceUrls();
-		}
-		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AkismetClient"/> class.
-		/// </summary>
-		/// <param name="apiKey">The Akismet API key.</param>
-		/// <param name="blogUrl">The root url of the blog.</param>
-		public AkismetClient(string apiKey, Uri blogUrl) : this(apiKey, blogUrl, new HttpClient())
-		{
-			
-		}
-		
 		void SetServiceUrls()
 		{
 			this.submitHamUrl = new Uri(String.Format(submitHamUrlFormat, this.apiKey));
@@ -122,23 +121,19 @@ namespace Subtext.Akismet
 		/// <value>The timeout.</value>
 		public int Timeout
 		{
-			get { return this.timeout; }
-			set { this.timeout = value; }
+			get;
+			set;
 		}
 
-		int timeout = 5000;
-		
 		/// <summary>
 		/// Gets or sets the root URL to the blog.
 		/// </summary>
 		/// <value>The blog URL.</value>
 		public Uri BlogUrl
 		{
-			get { return this.blogUrl; }
-			set { this.blogUrl = value; }
+			get;
+			set;
 		}
-
-		Uri blogUrl;
 
 		/// <summary>
 		/// Gets or sets the proxy to use.
@@ -146,17 +141,9 @@ namespace Subtext.Akismet
 		/// <value>The proxy.</value>
 		public IWebProxy Proxy
 		{
-			get
-			{
-				return this.proxy;
-			}
-			set
-			{
-				this.proxy = value;
-			}
+			get;
+			set;
 		}
-
-		IWebProxy proxy;
 
 		/// <summary>
 		/// Verifies the API key.  You really only need to
@@ -218,7 +205,7 @@ namespace Subtext.Akismet
 		string SubmitComment(IComment comment, Uri url)
 		{
 			//Not too many concatenations.  Might not need a string builder.
-			string parameters = "blog=" + HttpUtility.UrlEncode(this.blogUrl.ToString())
+			string parameters = "blog=" + HttpUtility.UrlEncode(BlogUrl.ToString())
 								+ "&user_ip=" + comment.IpAddress.ToString()
 								+ "&user_agent=" + HttpUtility.UrlEncode(comment.UserAgent);
 

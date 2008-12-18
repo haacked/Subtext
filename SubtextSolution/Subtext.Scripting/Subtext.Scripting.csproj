@@ -138,6 +138,7 @@
     <Compile Include="ITemplateScript.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ParameterValueChangedEventArgs.cs" />
     <Compile Include="Script.cs">
       <SubType>Code</SubType>
     </Compile>

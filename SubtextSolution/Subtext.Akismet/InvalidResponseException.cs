@@ -13,8 +13,6 @@ namespace Subtext.Akismet
 	[Serializable]
 	public sealed class InvalidResponseException : Exception
 	{
-		HttpStatusCode status = (HttpStatusCode)0;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="InvalidResponseException"/> class.
 		/// </summary>
@@ -45,7 +43,7 @@ namespace Subtext.Akismet
 		/// <param name="message">The message.</param>
 		public InvalidResponseException(string message, HttpStatusCode status) : base(message)
 		{
-			this.status = status;
+			HttpStatus = status;
 		}
 
 		/// <summary>
@@ -54,10 +52,8 @@ namespace Subtext.Akismet
 		/// <value>The HTTP status.</value>
 		public HttpStatusCode HttpStatus
 		{
-			get
-			{
-				return this.status;
-			}
+			get;
+            private set;
 		}
 	}
 }
