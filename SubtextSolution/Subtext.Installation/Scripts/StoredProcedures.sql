@@ -1550,9 +1550,10 @@ SELECT	Title
 		, CategoryID
 		, Height
 		, Width
-		, [File]
-		, Active
+		, FileName = [File]
+		, IsActive = Active
 		, ImageID 
+		, BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Images]  
 WHERE CategoryID = @CategoryID 
 	AND BlogId = @BlogId 
@@ -2654,8 +2655,8 @@ SELECT Title
 	, CategoryID
 	, Height
 	, Width
-	, [File]
-	, Active
+	, FileName = [File]
+	, IsActive = Active
 	, ImageID
 	, BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Images]  
@@ -5360,11 +5361,12 @@ SELECT [Blog.Host] = Host
 	, [Blog.Application] = Application
 	, images.ImageID
 	, images.Title
-	, images.[File]
+	, FileName = images.[File]
 	, [Blog.TimeZone] = config.TimeZone
 	, [Blog.Title] = config.Title
 	, [Category.Title] = categories.Title
 	, images.CategoryID
+	, IsActive = 1
 FROM [<dbUser,varchar,dbo>].[subtext_Images] images
 INNER JOIN	[<dbUser,varchar,dbo>].[subtext_Config] config ON images.BlogId = config.BlogId
 INNER JOIN  [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories ON categories.CategoryID = images.CategoryID
