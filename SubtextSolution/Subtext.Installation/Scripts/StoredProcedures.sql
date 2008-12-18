@@ -1040,14 +1040,14 @@ WHERE
 ORDER BY 
 	subtext_LinkCategories.Title;
 
-SELECT links.LinkID
+SELECT Id = links.LinkID
 	, links.Title
 	, links.Url
 	, links.Rss
-	, links.Active
+	, IsActive = links.Active
 	, links.NewWindow
 	, links.CategoryID
-	, links.Rel
+	, Relation = links.Rel
 	, links.BlogId
 	, PostID = links.PostID
 FROM [<dbUser,varchar,dbo>].[subtext_Links] links
@@ -1584,7 +1584,16 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetKeyWord]
 AS
 
 SELECT 
-	KeyWordID, Word,Rel,[Text],ReplaceFirstTimeOnly,OpenInNewWindow, CaseSensitive,Url,Title,BlogId
+	Id = KeyWordID, 
+	Word,
+	Rel,
+	[Text],
+	ReplaceFirstTimeOnly,
+	OpenInNewWindow, 
+	CaseSensitive,
+	Url,
+	Title,
+	BlogId
 FROM
 	subtext_keywords
 WHERE 
@@ -1616,15 +1625,15 @@ AS
 IF @PostID = -1
 	SET @PostID = NULL
 
-SELECT	LinkID
+SELECT	Id = LinkID
 	, Title
 	, Url
 	, Rss
-	, Active
+	, IsActive = Active
 	, CategoryID
 	, PostID
 	, NewWindow 
-	, Rel
+	, Relation = Rel
 	, BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE PostID = @PostID 
@@ -1658,14 +1667,14 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetLinksByCategoryID]
 )
 AS
 EXEC [<dbUser,varchar,dbo>].[subtext_GetCategory] @CategoryID, @BlogId
-SELECT	LinkID
+SELECT	Id = LinkID
 		, Title
 		, Url
 		, Rss
-		, Active
+		, IsActive = Active
 		, NewWindow
 		, CategoryID
-		, Rel
+		, Relation = Rel
 		, PostId
 		, BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Links]
@@ -2043,7 +2052,7 @@ ORDER BY [Word] ASC
 -- all records >= @first_id
 SET ROWCOUNT @PageSize
 
-SELECT 	words.KeyWordID
+SELECT 	Id = words.KeyWordID
 		, words.Word
 		, words.Rel
 		, words.[Text]
@@ -2109,14 +2118,14 @@ ORDER BY [LinkID] DESC
 -- all records >= @first_id
 SET ROWCOUNT @PageSize
 
-SELECT links.LinkID 
+SELECT Id = links.LinkID 
 	, links.Title 
 	, links.Url
 	, links.Rss 
-	, links.Active 
+	, IsActive = links.Active 
 	, links.NewWindow 
 	, links.CategoryID
-	, links.Rel
+	, Relation = links.Rel
 	, links.PostID
 	, links.BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Links] links
@@ -2190,14 +2199,14 @@ BEGIN
 	ORDER BY Title DESC
 END
 
-SELECT 	links.LinkID
+SELECT 	Id = links.LinkID
 		, links.Title
 		, links.Url
 		, links.Rss 
-		, links.Active 
+		, IsActive = links.Active 
 		, links.NewWindow 
 		, links.CategoryID  
-		, links.Rel
+		, Relation = links.Rel
 		, PostId
 		, links.BlogId
 FROM 	
@@ -2686,14 +2695,14 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleLink]
 	, @BlogId int
 )
 AS
-SELECT	subtext_Links.LinkID
+SELECT	Id = subtext_Links.LinkID
 		, subtext_Links.Title
 		, subtext_Links.Url
 		, subtext_Links.Rss
-		, subtext_Links.Active
+		, IsActive = subtext_Links.Active
 		, subtext_Links.NewWindow
 		, subtext_Links.CategoryID
-		, subtext_Links.Rel
+		, Relation = subtext_Links.Rel
 		, subtext_Links.BlogId
 		, PostId =  subtext_Links.PostID
 FROM [<dbUser,varchar,dbo>].[subtext_Links]
@@ -4770,7 +4779,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]
 AS
 
 SELECT 
-	KeyWordID
+	Id = KeyWordID
 	, Word
 	, Rel
 	, [Text]

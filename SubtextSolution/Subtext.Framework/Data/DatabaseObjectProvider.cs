@@ -200,7 +200,7 @@ namespace Subtext.Framework.Data
 				KeyWord kw = null;
 				while(reader.Read())
 				{
-					kw = DataHelper.LoadKeyWord(reader);
+					kw = DataHelper.LoadObject<KeyWord>(reader);
 					break;
 				}
 				return kw;
@@ -214,7 +214,7 @@ namespace Subtext.Framework.Data
 				List<KeyWord> kwc = new List<KeyWord>();
 				while(reader.Read())
 				{
-					kwc.Add(DataHelper.LoadKeyWord(reader));
+					kwc.Add(DataHelper.LoadObject<KeyWord>(reader));
 				}
 				return kwc;
 			}
@@ -223,7 +223,7 @@ namespace Subtext.Framework.Data
 		public override IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize)
 		{
             using (IDataReader reader = _procedures.GetPageableKeyWords(BlogId, pageIndex, pageSize)) {
-                return reader.GetPagedCollection(r => DataHelper.LoadKeyWord(r));
+                return reader.GetPagedCollection(r => DataHelper.LoadObject<KeyWord>(r));
             }
 		}
 		
