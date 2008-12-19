@@ -51,7 +51,7 @@ namespace Subtext.Framework.Logging
 		{
             using (IDataReader reader = _procedures.GetPageableLogEntries(BlogId, pageIndex, pageSize))
             {
-                return reader.GetPagedCollection(r => DataHelper.LoadLogEntry(r));
+                return reader.GetPagedCollection(r => r.LoadObject<LogEntry>());
             }
 		}
 

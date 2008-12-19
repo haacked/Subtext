@@ -301,9 +301,6 @@ namespace UnitTests.Subtext.Framework
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDir);
 			
-			Console.WriteLine("TEST: Subfolder: " + subfolder);
-			Console.WriteLine("TEST: VirtualDir: " + virtualDir);
-			Console.WriteLine("TEST: expected: " + expected);
 			Assert.AreEqual(expected, Config.CurrentBlog.VirtualUrl, "Did not set the Virtual Dir correctly.");
 		}
 

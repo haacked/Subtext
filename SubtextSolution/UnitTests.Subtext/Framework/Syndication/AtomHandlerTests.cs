@@ -48,8 +48,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 			XmlNamespaceManager nsmanager = new XmlNamespaceManager(doc.NameTable);
 			nsmanager.AddNamespace("atom", "http://www.w3.org/2005/Atom");
 
-			Console.Write(rssOutput);
-			Console.WriteLine(doc.ChildNodes[0].Name);
 			XmlNodeList itemNodes = doc.SelectNodes("/atom:feed/atom:entry", nsmanager);
 			Assert.AreEqual(1, itemNodes.Count, "expected one entry node.");
 

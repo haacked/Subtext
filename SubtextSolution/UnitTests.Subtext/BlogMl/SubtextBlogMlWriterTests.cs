@@ -73,8 +73,6 @@ namespace UnitTests.Subtext.BlogML
 
 				//Let's take a look at the export.
 				StreamReader streamReader = new StreamReader(memoryStream);
-				Console.WriteLine(streamReader.ReadToEnd());
-
 				memoryStream.Position = 0;
 				reader.ReadBlog(memoryStream);
 			}
@@ -174,7 +172,6 @@ namespace UnitTests.Subtext.BlogML
 			XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
 			nsmgr.AddNamespace("bml", "http://www.blogml.com/2006/09/BlogML");
 
-			Console.WriteLine(doc.InnerXml);
 			XmlNode postNode = doc.SelectSingleNode("bml:blog/bml:posts/bml:post[@id='1']", nsmgr);
 			Assert.IsNotNull(postNode, "The post node is null");
 

@@ -2278,12 +2278,13 @@ ORDER BY [LastUpdated] DESC, [EntryID] DESC, UrlID DESC
 SET ROWCOUNT @PageSize
 
 SELECT	
-	u.URL
-	, c.Title
+	ReferrerURL = u.URL
+	, PostTitle = c.Title
 	, c.EntryName
 	, r.[EntryId]
 	, [Count]
-	, r.LastUpdated
+	, LastReferDate = r.LastUpdated
+	, BlogId = @BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Referrals] r
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_URLs] u ON u.UrlID = r.UrlID
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c ON c.ID = r.EntryID
@@ -5160,7 +5161,7 @@ SELECT
 		  Id
 		, BlogId
 		, Host
-		, Application
+		, Subfolder = Application
 		, IsActive
 FROM [<dbUser,varchar,dbo>].[subtext_DomainAlias] 
 WHERE Id >= @FirstId
@@ -5248,7 +5249,11 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetDomainAliasById]
 		  @Id	INT
 	)
 AS
-	SELECT Id, BlogId, Host, Application, IsActive
+	SELECT Id, 
+		BlogId, 
+		Host, 
+		Subfolder = Application, 
+		IsActive
 	FROM [<dbUser,varchar,dbo>].[subtext_DomainAlias] 
 	WHERE Id = @Id
 GO
@@ -5278,7 +5283,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogGroup]
 AS
 SELECT	c.Id
 		, c.Title
-		, c.Active
+		, IsActive = c.Active
 		, c.DisplayOrder
 		, c.[Description]
 FROM [<dbUser,varchar,dbo>].[subtext_BlogGroup] c
@@ -5347,7 +5352,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_ListBlogGroups]
 AS
 SELECT	c.Id
 		, c.Title
-		, c.Active
+		, IsActive = c.Active
 		, c.DisplayOrder
 		, c.[Description]
 FROM [<dbUser,varchar,dbo>].[subtext_BlogGroup] c

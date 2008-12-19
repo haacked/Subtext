@@ -58,12 +58,8 @@ namespace UnitTests.Subtext.Framework.Skinning
             ScriptElementCollectionRenderer renderer = new ScriptElementCollectionRenderer(templates);
             string scriptElements = renderer.RenderScriptElementCollection("RedBook-Green.css");
 
-            Console.WriteLine(scriptElements);
-
             string script = @"<script type=""text/javascript"" src=""/Skins/RedBook/blah.js""></script>";
             Assert.IsTrue(scriptElements.IndexOf(script) > -1, "Rendered the script improperly.");
-
-            Console.WriteLine(scriptElements);
 
             scriptElements = renderer.RenderScriptElementCollection("Nature-Leafy.css");
             script = @"<script type=""text/javascript"" src=""/scripts/XFNHighlighter.js""></script>";
@@ -82,8 +78,6 @@ namespace UnitTests.Subtext.Framework.Skinning
             SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
             ScriptElementCollectionRenderer renderer = new ScriptElementCollectionRenderer(templates);
             string scriptElements = renderer.RenderScriptElementCollection("RedBook-Blue.css");
-
-            Console.WriteLine(scriptElements);
 
             string script = @"<script type=""text/javascript"" src=""/Skins/RedBook/js.axd?name=RedBook-Blue.css""></script>";
             Assert.IsTrue(scriptElements.IndexOf(script) > -1, "Rendered the script improperly.");

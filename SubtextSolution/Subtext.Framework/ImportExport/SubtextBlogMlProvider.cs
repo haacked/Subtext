@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +21,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Web;
 using BlogML;
 using BlogML.Xml;
@@ -34,21 +34,33 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 using Subtext.ImportExport.Conversion;
-using Subtext.Framework.Data;
 
 namespace Subtext.ImportExport
 {
 	public class SubtextBlogMLProvider : BlogMLProvider
 	{
+        StoredProcedures _procedures = null;
         public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
         {
             base.Initialize(name, configValue);
-            if (string.IsNullOrEmpty(ConnectionString))
+        }
+
+        public override string ConnectionString
+        {
+            get
             {
-                ConnectionString = Config.ConnectionString.RawOriginal;
+                return base.ConnectionString;
+            }
+            set
+            {
+                if (value != null) {
+                    _procedures = new StoredProcedures(value);
+                }
+                base.ConnectionString = value;
             }
         }
 
@@ -223,17 +235,11 @@ namespace Subtext.ImportExport
 		
 		private IDataReader GetPostsAndArticlesReader(string blogId, int pageIndex, int pageSize)
 		{
-			int blogIdValue;
-			if (!int.TryParse(blogId, out blogIdValue))
-				throw new ArgumentException(string.Format("Invalid blog id '{0}' specified", blogId), "blogId");
-			
-			SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, blogIdValue),
-				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
-				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize),
-			};
-			return GetReader("subtext_GetEntriesForBlogMl", p);
+            int blogIdValue;
+            if (!int.TryParse(blogId, out blogIdValue))
+                throw new ArgumentException(string.Format("Invalid blog id '{0}' specified", blogId), "blogId");
+
+            return _procedures.GetEntriesForBlogMl(blogIdValue, pageIndex, pageSize);
 		}
 
 		/// <summary>

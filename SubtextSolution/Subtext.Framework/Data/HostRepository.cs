@@ -23,11 +23,8 @@ namespace Subtext.Framework.Data
             {
                 if (reader.Read())
                 {
-                    DataHelper.LoadHost(reader, hostInfo);
-                    reader.Close();
-                    return hostInfo;
+                    return reader.LoadObject<HostInfo>(hostInfo);
                 }
-                reader.Close();
             }
             return null;
         }

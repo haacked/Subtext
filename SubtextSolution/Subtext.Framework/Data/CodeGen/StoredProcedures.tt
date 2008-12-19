@@ -225,6 +225,10 @@ public class StoredProcedureInfo {
 			string sql = proc.TextBody;
 			
 			//Special case.
+			if(sql.IndexOf("#IDs") >= 0) {
+				return "IDataReader";
+			}
+			
 			if(sql.IndexOf("subtext_Insert") >= 0) {
 				return "bool";
 			}

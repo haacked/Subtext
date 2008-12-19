@@ -48,65 +48,10 @@ namespace Subtext.Framework.Data
             return dateTime;
         }
 
-		public static ViewStat LoadViewStat(IDataReader reader)
-		{
-			ViewStat vStat = new ViewStat();
-
-			if (reader["Title"] != DBNull.Value)
-			{
-				vStat.PageTitle = (string) reader["Title"];
-			}
-
-			if (reader["Count"] != DBNull.Value)
-			{
-				vStat.ViewCount = (int) reader["Count"];
-			}
-
-			if (reader["Day"] != DBNull.Value)
-			{
-				vStat.ViewDate = (DateTime) reader["Day"];
-			}
-
-			if (reader["PageType"] != DBNull.Value)
-			{
-				vStat.PageType = (PageType)((byte)reader["PageType"]);
-			}
-
-            return vStat;
-		}
-
 		public static Referrer LoadReferrer(IDataReader reader)
 		{
-			Referrer refer = new Referrer();
-
-
-			if (reader["URL"] != DBNull.Value)
-			{
-				refer.ReferrerURL = (string) reader["URL"];
-			}
-
-			if (reader["Title"] != DBNull.Value)
-			{
-				refer.PostTitle = (string) reader["Title"];
-			}
-
-			if (reader["EntryID"] != DBNull.Value)
-			{
-				refer.EntryID = (int) reader["EntryID"];
-			}
-
-			if (reader["LastUpdated"] != DBNull.Value)
-			{
-				refer.LastReferDate = (DateTime) reader["LastUpdated"];
-			}
-
-			if (reader["Count"] != DBNull.Value)
-			{
-				refer.Count = (int) reader["Count"];
-			}
-
+            Referrer refer = reader.LoadObject<Referrer>();
             refer.BlogId = Config.CurrentBlog.Id;
-
 			return refer;
 		}
 
@@ -162,35 +107,6 @@ namespace Subtext.Framework.Data
             }
             return entries.Values;
         }
-
-		public static BlogGroup LoadBlogGroup(IDataReader reader)
-		{
-			BlogGroup group = new BlogGroup();
-
-			group.Id = ReadInt32(reader, "Id");
-			group.Title = ReadString(reader, "Title");
-			group.Description = ReadString(reader, "Description");
-			group.DisplayOrder = ReadInt32(reader, "DisplayOrder");
-			group.IsActive = ReadBoolean(reader, "Active");
-			return group;
-		}
-
-		/// <summary>
-		/// Loads the blog alias.
-		/// </summary>
-		/// <param name="reader">The reader.</param>
-		/// <returns></returns>
-		public static BlogAlias LoadBlogAlias(IDataReader reader)
-		{
-			BlogAlias alias = new BlogAlias();
-
-			alias.Id = ReadInt32(reader, "Id");
-			alias.BlogId = ReadInt32(reader, "BlogId");
-			alias.Host = ReadString(reader, "Host");
-			alias.Subfolder = ReadString(reader, "Application");
-			alias.IsActive = ReadBoolean(reader, "IsActive");
-			return alias;
-		}
 
 		//Crappy. Need to clean up all of the entry references
 		public static EntryStatsView LoadEntryStatsView(IDataReader reader)
@@ -577,45 +493,6 @@ namespace Subtext.Framework.Data
 
         #endregion
 
-		#region Host
-		/// <summary>
-		/// Loads the host from the data reader.
-		/// </summary>
-		/// <param name="reader">Reader.</param>
-		/// <param name="info">HostInfo</param>
-		/// <returns></returns>
-		public static void LoadHost(IDataReader reader, HostInfo info)
-		{
-			info.HostUserName = ReadString(reader, "HostUserName");
-			info.Password = ReadString(reader, "Password");
-			info.Salt = ReadString(reader, "Salt");
-			info.DateCreated = (DateTime)reader["DateCreated"];
-		}
-		#endregion
-
-		#region Log Entries
-		/// <summary>
-		/// Loads the single log entry.
-		/// </summary>
-		/// <param name="reader">The reader.</param>
-		/// <returns></returns>
-		public static LogEntry LoadLogEntry(IDataReader reader)
-		{
-			LogEntry entry = new LogEntry();
-			entry.Id = ReadInt32(reader, "Id");
-			entry.BlogId = ReadInt32(reader, "BlogId");
-			entry.Date = ReadDate(reader, "Date");
-			entry.Thread = ReadString(reader, "Thread");
-			entry.Level = ReadString(reader, "Level");
-			entry.Context = ReadString(reader, "Context");
-			entry.Logger = ReadString(reader, "Logger");
-			entry.Message = ReadString(reader, "Message");
-			entry.Exception = ReadString(reader, "Exception");
-			entry.Url = ReadUri(reader, "Url");
-			return entry;
-		}
-		#endregion
-
         /// <summary>
         /// Reads the long from the data reader.
         /// </summary>
@@ -748,9 +625,14 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-        public static T LoadObject<T>(this IDataReader reader, params string[] exclusionList) where T : new()
-        {
+        public static T LoadObject<T>(this IDataReader reader, params string[] exclusionList) where T : new() {
             T item = new T();
+            reader.LoadObject<T>(item, exclusionList);
+            return item;
+        }
+
+        public static T LoadObject<T>(this IDataReader reader, T item, params string[] exclusionList)
+        {
             var properties = TypeDescriptor.GetProperties(item);
             foreach(PropertyDescriptor property in properties) 
             {
@@ -886,19 +768,6 @@ namespace Subtext.Framework.Data
 		public static SqlParameter MakeInParam(string paramName, object value)
 		{
 			return new SqlParameter(paramName, value);
-		}
-
-		/// <summary>
-		/// Make input param.
-		/// </summary>
-		/// <param name="name">Name of param.</param>
-		/// <param name="sqlType">Param type.</param>
-		/// <param name="size">Param size.</param>
-		/// <param name="value">Param value.</param>
-		/// <returns>New parameter.</returns>
-		public static SqlParameter MakeInParam(string name, SqlDbType sqlType, int size, object value)
-		{
-			return MakeParam(name, sqlType, size, ParameterDirection.Input, value);
 		}
 
 		/// <summary>

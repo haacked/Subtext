@@ -20,7 +20,6 @@ namespace UnitTests.Subtext.Framework.Configuration
             alias.Subfolder = UnitTestHelper.GenerateUniqueString();
             Config.AddBlogAlias(alias);
             Assert.AreNotEqual(alias.Id, NullValue.NullInt32);
-            Console.WriteLine(alias.Id.ToString(), "Alias not created.");
         }
 
 
@@ -68,7 +67,6 @@ namespace UnitTests.Subtext.Framework.Configuration
             Config.AddBlogAlias(alias);
 
             BlogInfo testBlog = Config.GetBlogInfoFromDomainAlias(blog.Host, "", false);
-            Console.WriteLine((testBlog == blog).ToString());
             Assert.IsNull(testBlog, "Should not have found a blog, alias is on same host.");
         }
 

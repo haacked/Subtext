@@ -52,33 +52,18 @@ namespace UnitTests.Subtext.Framework.Util
 		[Test]
 		public void CanEnumerateTimezones()
 		{
-			Console.WriteLine(WindowsTimeZone.TimeZones.Count + " timezones.");
 			Assert.IsTrue(WindowsTimeZone.TimeZones.Count > 10, "Expected more than ten.");
 			
-			Console.WriteLine("Zone Index\tTimeZone\tUtcOffset");
 			foreach(WindowsTimeZone timeZone in WindowsTimeZone.TimeZones)
 			{
 				Console.WriteLine(timeZone.ZoneIndex + "\t" + timeZone.DisplayName + "\t" + timeZone.GetUtcOffset(DateTime.Now));
 			}
 
 			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId);
-			Console.WriteLine();
 			
-			Console.WriteLine("The time at " + pst.DisplayName + " is " + pst.ToLocalTime(DateTime.Now) + " and is daylight savings:" + pst.IsDaylightSavingTime(DateTime.Now));
-
 			DaylightTime daylightTime = pst.GetDaylightChanges(2006);
-			Console.WriteLine("DaylightTime");
-			Console.WriteLine(daylightTime.Start);
-			Console.WriteLine(daylightTime.End);
-			Console.WriteLine(daylightTime.Delta);
-			Console.WriteLine("WinTZI: Daylight Date Month: " + pst.WinTZI.daylightDate.month);
-			Console.WriteLine("WinTZI: Standard Date Month: " + pst.WinTZI.standardDate.month);
-
-			Console.WriteLine("DaylightTime According to TimeZone.Current");
+			
 			daylightTime = TimeZone.CurrentTimeZone.GetDaylightChanges(2006);
-			Console.WriteLine(daylightTime.Start);
-			Console.WriteLine(daylightTime.End);
-			Console.WriteLine(daylightTime.Delta);
 		}
 		
 		[Test]

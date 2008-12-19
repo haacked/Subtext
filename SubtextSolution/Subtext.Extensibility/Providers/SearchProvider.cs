@@ -53,7 +53,7 @@ namespace Subtext.Extensibility.Providers
 		/// <param name="configValue">Config value.</param>
 		public override void Initialize(string name, NameValueCollection configValue)
 		{
-			this.connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue);
+			ConnectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue);
 			base.Initialize(name, configValue);
 		}
 
@@ -61,13 +61,11 @@ namespace Subtext.Extensibility.Providers
 		/// Gets or sets the connection string.
 		/// </summary>
 		/// <value></value>
-		protected string ConnectionString
+		protected virtual string ConnectionString
 		{
-			get { return this.connectionString; }
-			set { this.connectionString = value; }
+			get;
+			set;
 		}
-		
-		private string connectionString;
 		
 		/// <summary>
 		/// Searches the specified blog for items that match the search term.

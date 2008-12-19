@@ -67,7 +67,6 @@ namespace UnitTests.Subtext.Framework.Tracking
 			TextWriter output = new StringWriter(sb);
 			SimulatedHttpRequest request = UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty, "/trackback/services/" + id + ".aspx", output, "GET");
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url);
-			Console.WriteLine("--->" + responseText + "<---");
 			Assert.Greater(responseText.IndexOf(entry.Title), 0, "Did not find the entry title.");
 		}
 		
@@ -97,7 +96,6 @@ namespace UnitTests.Subtext.Framework.Tracking
 			TextWriter output = new StringWriter(sb);
 			SimulatedHttpRequest request = UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty, "/trackback/services/" + int.MaxValue + ".aspx", output, "POST");
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url);
-            Console.WriteLine("ResponseText" + Environment.NewLine + responseText);
             Assert.IsTrue(responseText.IndexOf("EntryID is invalid or missing") > 0, "Could not find the expected text.");
 		}
 		

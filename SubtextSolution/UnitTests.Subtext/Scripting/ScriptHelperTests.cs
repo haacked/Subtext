@@ -219,8 +219,6 @@ gO
 			for(int i = 0; i < scripts.Count; i++)
 			{
 				Script sqlScript = scripts[i];
-				Console.WriteLine("------------------------------");
-				Console.WriteLine(sqlScript.ScriptText);
 				Assert.IsFalse(sqlScript.ScriptText.StartsWith("GO"), "Script '" + i + "' failed had a GO statement");
 			}
 
