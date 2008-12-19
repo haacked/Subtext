@@ -70,8 +70,6 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
 
 			expected = string.Format(expected, VersionInfo.VersionDisplayText);
 
-			Console.WriteLine("EXPECTED: " + expected);
-			Console.WriteLine("ACTUAL  : " + writer.Xml);
 			Assert.AreEqual(expected, writer.Xml);
 		}
 /// <summary>
@@ -156,8 +154,6 @@ string expected = @"<rss version=""2.0"" "
 
 expected = string.Format(expected, VersionInfo.VersionDisplayText);
 
-Console.WriteLine("EXPECTED: " + expected);
-Console.WriteLine("ACTUAL  : " + writer.Xml);
 Assert.AreEqual(expected, writer.Xml);
 }
 #region ---- [Exception Cases] ------

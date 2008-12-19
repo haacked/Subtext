@@ -87,8 +87,6 @@ namespace UnitTests.Subtext.Framework.Skinning
             StyleSheetElementCollectionRenderer renderer = new StyleSheetElementCollectionRenderer(templates);
             string styleElements = renderer.RenderStyleElementCollection("lightz");
 
-            Console.WriteLine(styleElements);
-
             string printCss = string.Format(@"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""{0}"" />", expectedPrintCssPath);
             Assert.IsTrue(styleElements.IndexOf(printCss) > -1, "Expected the printcss to be there.");
 
@@ -113,8 +111,6 @@ namespace UnitTests.Subtext.Framework.Skinning
             StyleSheetElementCollectionRenderer renderer = new StyleSheetElementCollectionRenderer(templates);
             string styleElements = renderer.RenderStyleElementCollection("WPSkin");
 
-            Console.WriteLine(styleElements);
-
             string printCss = string.Format(@"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""{0}"" />", expectedPrintCssPath);
             Assert.IsTrue(styleElements.IndexOf(printCss) > -1, "Expected the print css to be there.");
 
@@ -137,8 +133,6 @@ namespace UnitTests.Subtext.Framework.Skinning
             SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
             StyleSheetElementCollectionRenderer renderer = new StyleSheetElementCollectionRenderer(templates);
             string styleElements = renderer.RenderStyleElementCollection("Nature-rain.css");
-
-            Console.WriteLine(styleElements);
 
             string printCss = string.Format(@"<link media=""print"" type=""text/css"" rel=""stylesheet"" href=""{0}"" />", expectedPrintCssPath);
             Assert.IsTrue(styleElements.IndexOf(printCss) > -1, "Expected the printcss to be there.");
@@ -168,8 +162,6 @@ namespace UnitTests.Subtext.Framework.Skinning
             string styleElements = renderer.RenderStyleElementCollection(skinKey);
             SkinTemplate template = templates.GetTemplate(skinKey);
 
-
-            Console.WriteLine(styleElements);
             styleElements = styleElements.Trim('\r', '\n');
             string mergedCss = @"<link type=""text/css"" rel=""stylesheet"" href=""/Skins/" + template.TemplateFolder + "/css.axd?name=" + skinKey + @""" />";
             if (expectedFirst)
@@ -194,8 +186,6 @@ namespace UnitTests.Subtext.Framework.Skinning
             SkinTemplateCollection templates = new SkinTemplateCollection(pathProvider);
             StyleSheetElementCollectionRenderer renderer = new StyleSheetElementCollectionRenderer(templates);
             string styleElements = renderer.RenderStyleElementCollection("Piyo");
-
-            Console.WriteLine(styleElements);
 
             string printCss = string.Format(@"<link media=""screen"" type=""text/css"" rel=""stylesheet"" title=""fixed"" href=""{0}"" />", expectedPrintCssPath);
             Assert.IsTrue(styleElements.IndexOf(printCss) > -1, "Expected the fixed screen css to be there.");
@@ -231,7 +221,6 @@ namespace UnitTests.Subtext.Framework.Skinning
             StyleSheetElementCollectionRenderer renderer = new StyleSheetElementCollectionRenderer(templates);
             string styleElements = renderer.RenderStyleElementCollection(skinKey);
             SkinTemplate template = templates.GetTemplate(skinKey);
-            Console.WriteLine(styleElements);
 
             string mergedCss = @"<link type=""text/css"" rel=""stylesheet"" href=""/Skins/" + template.TemplateFolder + "/css.axd?name=" + skinKey + @""" />";
             styleElements = styleElements.Replace(mergedCss, string.Empty);

@@ -183,9 +183,6 @@ namespace UnitTests.Subtext.Framework.Format
 		public void CheckUrlShortenerInText(string source, string expected)
 		{
 			string actual = UrlFormats.ResolveLinks(source);
-			Console.WriteLine("Source: " + source);
-			Console.WriteLine("Expected: " + expected);
-			Console.WriteLine("Actual: " + actual);
 			Assert.AreEqual(expected, actual, "Did not properly shorten url");
 		}
 
@@ -194,7 +191,6 @@ namespace UnitTests.Subtext.Framework.Format
 		public void GetBlogNameReturnsBlogNameForEmptyVirtualDir()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "");
-			Console.WriteLine("HttpContext.Current.Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
 			string blogName = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
 			Assert.AreEqual("MyBlog", blogName, "Wasn't able to parse request properly.");
 		}
@@ -204,7 +200,6 @@ namespace UnitTests.Subtext.Framework.Format
 		public void GetBlogNameReturnsBlogNameForNonEmptyVirtualDir()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog2", "Subtext.Web");
-			Console.WriteLine("HttpContext.Current.Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
 			string blogName = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
 			Assert.AreEqual("MyBlog2", blogName, "Wasn't able to parse request properly.");
 		}

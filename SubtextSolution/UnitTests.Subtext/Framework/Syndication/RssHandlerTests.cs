@@ -34,9 +34,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 		{
 			string hostName = UnitTestHelper.GenerateUniqueHostname();
 			int blogId = Config.CreateBlog("Test", "username", "password", hostName, string.Empty);
-            Console.WriteLine(blogId);
 
-			StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
 

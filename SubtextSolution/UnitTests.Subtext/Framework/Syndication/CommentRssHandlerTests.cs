@@ -54,7 +54,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 			string rssOutput = sb.ToString();
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(rssOutput);
-			Console.Write(rssOutput);
 			
 			XmlNodeList titleNodes = doc.SelectNodes("/rss/channel/title");
 			Assert.IsNotNull(titleNodes, "The title node should not be null.");

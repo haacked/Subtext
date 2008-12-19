@@ -327,15 +327,14 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetEntriesByDayRange", p);
 		}
 		
-		public bool GetEntriesForBlogMl(int blogId, int pageIndex, int pageSize) {
+		public IDataReader GetEntriesForBlogMl(int blogId, int pageIndex, int pageSize) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@PageIndex", pageIndex),		
 				DataHelper.MakeInParam("@PageSize", pageSize),		
 			};
 			
-	
-			return NonQueryBool("subtext_GetEntriesForBlogMl", p);
+			return GetReader("subtext_GetEntriesForBlogMl", p);
 		}
 		
 		public IDataReader GetEntryPreviousNext(int id, int postType, int blogId, DateTime currentDateTime) {

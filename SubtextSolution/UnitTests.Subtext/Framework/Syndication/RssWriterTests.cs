@@ -180,8 +180,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			expected = string.Format(expected, VersionInfo.VersionDisplayText);
 			
-			Console.WriteLine(expected);
-			Console.WriteLine(writer.Xml);
 			UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, writer.Xml);
 		}
 

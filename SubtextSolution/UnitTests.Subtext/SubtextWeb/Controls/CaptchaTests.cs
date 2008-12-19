@@ -23,7 +23,6 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 			Assert.AreEqual(CaptchaControl.Layout.CssBased, control.LayoutStyle, "Expected default of CSS based layout style.");
 			
 			control.RenderOverride(writer);
-			Console.WriteLine(builder);
 			Assert.IsTrue(builder.ToString().StartsWith("<div>"), "Expected the output to start with <div>");
 			
 		}

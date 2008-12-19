@@ -42,6 +42,10 @@ namespace Subtext.BlogML
 			return provider;
 		}
 
+        public BlogMLProvider() {
+            PageSize = 1000;
+        }
+
 		/// <summary>
 		/// Returns all the configured Email Providers.
 		/// </summary>
@@ -71,22 +75,26 @@ namespace Subtext.BlogML
 		/// <param name="configValue">The config value.</param>
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
+            //initial value.
+            PageSize = 100;
+
 			if (!String.IsNullOrEmpty(configValue["connectionStringName"]))
 			{
 				ConnectionStringSettings connection = ConfigurationManager.ConnectionStrings[configValue["connectionStringName"]];
 				if (connection == null)
 					throw new ProviderException(string.Format("No connection string matches the key '{0}'.", configValue["connectionStringName"]));
-				this.connectionString = connection.ConnectionString;
+				ConnectionString = connection.ConnectionString;
 			}
 
-			if (!String.IsNullOrEmpty(configValue["connectionString"]))
-				this.connectionString = configValue["connectionString"];
+            if (!String.IsNullOrEmpty(configValue["connectionString"])) {
+                ConnectionString = configValue["connectionString"];
+            }
 			
 			if(!String.IsNullOrEmpty(configValue["pageSize"]))
 			{
 				int postPageSize;
 				if (int.TryParse(configValue["pageSize"], out postPageSize))
-					this.pageSize = postPageSize;
+					PageSize = postPageSize;
 			}
 
 			base.Initialize(name, configValue);
@@ -96,25 +104,21 @@ namespace Subtext.BlogML
 		/// Gets or sets the connection string.
 		/// </summary>
 		/// <value>The connection string.</value>
-		public string ConnectionString
+		public virtual string ConnectionString
 		{
-			get { return this.connectionString; }
-			set { this.connectionString = value; }
+			get;
+            set;
 		}
 
-		string connectionString;
-		
 		/// <summary>
 		/// Returns the number of blog post records to pull from the data store 
 		/// at a time when exporting the blog as BlogMl.
 		/// </summary>
 		public int PageSize
 		{
-			get { return this.pageSize; }
-			set { this.pageSize = value; }
+			get;
+			set;
 		}
-
-		int pageSize = 100;
 
 		/// <summary>
 		/// Returns a page of fully hydrated blog posts. The blog posts allow the 

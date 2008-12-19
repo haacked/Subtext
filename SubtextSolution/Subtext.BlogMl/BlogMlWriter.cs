@@ -52,7 +52,7 @@ namespace Subtext.BlogML
 		/// Constructs an instance of the BlogMlWriter for the specified blogId.
 		/// </summary>
 		private BlogMLWriter(IBlogMLProvider provider, IBlogMLContext context)
-		{			
+		{
 			this.provider = provider;
 			this.blogId = context.BlogId;
 			this.conversionStrategy = provider.IdConversion;
@@ -75,8 +75,7 @@ namespace Subtext.BlogML
 			ICollection<BlogMLCategory> categories = provider.GetAllCategories(this.blogId);
 			WriteCategories(categories);
 
-			ICollectionBook<BlogMLPost> allPosts = new CollectionBook<BlogMLPost>
-				(
+			ICollectionBook<BlogMLPost> allPosts = new CollectionBook<BlogMLPost>(
 					delegate(int pageIndex, int pageSize)
 					{
 						return provider.GetBlogPosts(this.blogId, pageIndex, pageSize);

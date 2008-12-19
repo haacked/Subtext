@@ -72,8 +72,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			expected = string.Format(expected, VersionInfo.VersionDisplayText);
 			
-			Console.WriteLine("EXPECTED: " + expected);
-			Console.WriteLine("ACTUAL  : " + writer.Xml);
 			Assert.AreEqual(expected, writer.Xml);			
 		}
 
@@ -153,8 +151,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			expected = string.Format(expected, VersionInfo.VersionDisplayText);
 
-			Console.WriteLine("EXPECTED: " + expected);
-			Console.WriteLine("ACTUAL  : " + writer.Xml);
 			Assert.AreEqual(expected, writer.Xml);
 		}
 		
