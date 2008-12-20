@@ -1,14 +1,50 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using MbUnit.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Configuration;
 
 namespace UnitTests.Subtext.Framework.Components
 {
     [TestFixture]
     public class ImageTests
     {
+        [Test]
+        [RollBack]
+        public void CanGetRecentImages() {
+            //arrange
+            UnitTestHelper.SetupBlog();
+            ObjectProvider provider = ObjectProvider.Instance();
+            LinkCategory category = new LinkCategory {
+                BlogId = Config.CurrentBlog.Id,
+                Description = "Whatever",
+                IsActive = true,
+                Title = "Whatever"
+            };
+            int categoryId = provider.CreateLinkCategory(category);
+            
+            Image image = new Image {
+                Title = "Title",
+                CategoryID = categoryId,
+                BlogId = Config.CurrentBlog.Id,
+                FileName = "Foo",
+                Height = 10,
+                Width = 10,
+                IsActive = true,
+            };
+            int imageId = provider.InsertImage(image);
+           
+            //act
+            var images = provider.GetImages(Config.CurrentBlog.Host, null, 10);
+            
+            //assert
+            Assert.AreEqual(1, images.Count);
+            Assert.AreEqual(imageId, images.First().ImageID);
+        }
+
         [Test]
         public void CanGetAndSetSimpleProperties()
         {

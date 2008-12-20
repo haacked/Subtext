@@ -5376,6 +5376,8 @@ SELECT [Blog.Host] = Host
 	, images.ImageID
 	, images.Title
 	, FileName = images.[File]
+	, images.Width
+	, images.Height
 	, [Blog.TimeZone] = config.TimeZone
 	, [Blog.Title] = config.Title
 	, [Category.Title] = categories.Title
