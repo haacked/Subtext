@@ -430,20 +430,6 @@ namespace Subtext.Framework.Data
 	
 		}
 
-		//Needs to be handled else where!
-		public static Link LoadArchiveLink(IDataReader reader)
-		{
-			Link link = new Link();
-			int count = ReadInt32(reader, "Count");
-			DateTime dt = new DateTime(ReadInt32(reader, "Year"), ReadInt32(reader, "Month"), 1);
-			link.NewWindow = false;
-			link.Title = dt.ToString("y", CultureInfo.InvariantCulture) + " (" + count.ToString(CultureInfo.InvariantCulture) + ")";
-			//link.Url = Globals.ArchiveUrl(dt,"MMyyyy");
-			link.NewWindow = false;
-			link.IsActive = true;
-			return link;
-		}
-
         public static Image LoadImage(this IDataReader reader) {
             return LoadImage(reader, false, false);
         }
@@ -584,27 +570,6 @@ namespace Subtext.Framework.Data
 		}
 
 		/// <summary>
-		/// Reads the int from the data reader.
-		/// </summary>
-		/// <param name="reader">The reader.</param>
-		/// <param name="columnName">Name of the column.</param>
-		/// <returns></returns>
-		public static int? ReadNullableInt(this IDataReader reader, string columnName)
-		{
-			try
-			{
-				if (reader[columnName] != DBNull.Value)
-					return (int)reader[columnName];
-				else
-					return null;
-			}
-			catch(IndexOutOfRangeException)
-			{
-				return null;
-			}
-		}
-
-		/// <summary>
 		/// Reads the string.
 		/// </summary>
 		/// <param name="reader">The reader.</param>
@@ -651,7 +616,15 @@ namespace Subtext.Framework.Data
                 var value = reader[property.Name];
                 if (value != DBNull.Value)
                 {
-                    property.SetValue(item, value);
+                    if (property.PropertyType == typeof(Boolean))
+                    {
+                        //fixes issues with booleans stored as bit fields in db.
+                        property.SetValue(item, ((int)value == 1) ? true : false);
+                    }
+                    else
+                    {
+                        property.SetValue(item, value);
+                    }
                 }
             }
             return item;

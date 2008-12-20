@@ -564,7 +564,7 @@ namespace Subtext.Framework.Text
         public static string StripRTB(string text, string host)
         {
             string s = Regex.Replace(text, "/localhost/S*Admin/", "", RegexOptions.IgnoreCase);
-            return Regex.Replace(s, "<A href=\"/", "<A href=\"" + "http://" + host + "/", RegexOptions.IgnoreCase);
+            return Regex.Replace(s, "<a href=\"/", "<a href=\"" + "http://" + host + "/", RegexOptions.IgnoreCase);
         }
 
         /// <summary>

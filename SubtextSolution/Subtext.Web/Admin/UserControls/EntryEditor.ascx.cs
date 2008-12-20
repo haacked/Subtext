@@ -391,8 +391,8 @@ namespace Subtext.Web.Admin.UserControls
 					entry.IncludeInMainSyndication = chkMainSyndication.Checked;
 					entry.SyndicateDescriptionOnly = chkSyndicateDescriptionOnly.Checked;
 					entry.IsAggregated = chkIsAggregated.Checked;
-					entry.EntryName = StringHelper.ReturnNullForEmpty(txbEntryName.Text);
-					entry.Description = StringHelper.ReturnNullForEmpty(txbExcerpt.Text);
+					entry.EntryName = txbEntryName.Text.NullIfEmpty();
+					entry.Description = txbExcerpt.Text.NullIfEmpty();
                     entry.Categories.Clear();
                     ReplaceSelectedCategoryNames(entry.Categories);
 

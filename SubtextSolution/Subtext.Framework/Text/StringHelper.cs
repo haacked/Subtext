@@ -116,7 +116,7 @@ namespace Subtext.Framework.Text
 		/// </example>
 		/// <param name="source"></param>
 		/// <returns></returns>
-		public static string SplitUppercaseToString(string source)
+		public static string SplitUppercaseToString(this string source)
 		{
 			return string.Join(" ", source.SplitUppercase());
 		}
@@ -177,7 +177,7 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		/// <exception cref="ArgumentOutOfRangeException">Thrown if length is less than 0</exception>
 		/// <exception cref="ArgumentNullException">Thrown if str is null.</exception>
-		public static string Right(string original, int length)
+		public static string Right(this string original, int length)
 		{
 			if(original == null)
 				throw new ArgumentNullException("original", "Right cannot be evaluated on a null string.");
@@ -204,7 +204,7 @@ namespace Subtext.Framework.Text
 		/// returned.</param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
-		public static string RightAfter(string original, string search)
+		public static string RightAfter(this string original, string search)
 		{
 			return RightAfter(original, search, StringComparison.InvariantCulture);
 		}
@@ -220,7 +220,7 @@ namespace Subtext.Framework.Text
 		/// <param name="comparisonType">Determines whether or not to use case sensitive search.</param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
-		public static string RightAfter(string original, string search, StringComparison comparisonType)
+		public static string RightAfter(this string original, string search, StringComparison comparisonType)
 		{
 			if(original == null)
 				throw new ArgumentNullException("original", "The original string may not be null.");
@@ -249,7 +249,7 @@ namespace Subtext.Framework.Text
 		/// returned.</param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
-		public static string RightAfterLast(string original, string search)
+		public static string RightAfterLast(this string original, string search)
 		{
 			return RightAfterLast(original, search, original.Length - 1, StringComparison.InvariantCulture);
 		}
@@ -266,7 +266,7 @@ namespace Subtext.Framework.Text
 		/// <param name="comparisonType">Determines whether or not to use case sensitive search.</param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
-		public static string RightAfterLast(string original, string search, int startIndex, StringComparison comparisonType)
+		public static string RightAfterLast(this string original, string search, int startIndex, StringComparison comparisonType)
 		{
 			if (original == null)
 				throw new ArgumentNullException("original", "The original string may not be null.");
@@ -311,7 +311,7 @@ namespace Subtext.Framework.Text
 		/// <param name="comparisonType">Determines whether or not to use case sensitive search.</param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
-		public static string LeftBefore(string original, string search, StringComparison comparisonType)
+		public static string LeftBefore(this string original, string search, StringComparison comparisonType)
 		{
 			if(original == null)
 				throw new ArgumentNullException("original", "The original string may not be null.");
@@ -339,31 +339,11 @@ namespace Subtext.Framework.Text
 		/// <param name="contained">Contained.</param>
 		/// <param name="comparison">Case sensitivity.</param>
 		/// <returns></returns>
-		public static bool Contains(string container, string contained, StringComparison comparison)
+		public static bool Contains(this string container, string contained, StringComparison comparison)
 		{
 			return container.IndexOf(contained, comparison) >= 0;
 		}
-		/// <summary>
-		/// Returns the EmptyString ("") if the passed in string is either the EmptyString
-		/// or is NULL, else it returns the passed in string.
-		/// </summary>
-		/// <param name="str">The string to be checked</param>
-		/// <returns></returns>
-		public static String ReturnCheckForNull(string str)
-		{
-			return (str == null || str.Length==0) ? string.Empty : str;
-		}
-		/// <summary>
-		/// Returns a NULL if the passed in string is either the EmptyString ("") or 
-		/// is NULL, else it returns the passed in string.
-		/// </summary>
-		/// <param name="str">The string to be checked</param>
-		/// <returns></returns>
-		public static String ReturnNullForEmpty(string str)
-		{
-			return (str == null || str.Length==0) ? null : str;
-		}
-		
+			
 		/// <summary>
 		/// Determines whether the specified text is a numeric... or to be 
 		/// more precise, if the text is an integer.

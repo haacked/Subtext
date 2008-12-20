@@ -484,9 +484,9 @@ namespace Subtext.ImportExport
 			newComment.Title = bmlComment.Title ?? string.Empty;
 			newComment.DateCreated = bmlComment.DateCreated;
 			newComment.DateModified = bmlComment.DateModified;
-			newComment.Body = StringHelper.ReturnCheckForNull(bmlComment.Content.UncodedText);
+			newComment.Body = bmlComment.Content.UncodedText ?? string.Empty;
 			newComment.Approved = bmlComment.Approved;
-			newComment.Author = StringHelper.ReturnCheckForNull(bmlComment.UserName);
+			newComment.Author = bmlComment.UserName ?? string.Empty;
 			newComment.Email = bmlComment.UserEMail;
 		    
 		    if (!string.IsNullOrEmpty(bmlComment.UserUrl))
