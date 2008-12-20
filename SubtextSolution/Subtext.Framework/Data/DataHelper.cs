@@ -616,15 +616,7 @@ namespace Subtext.Framework.Data
                 var value = reader[property.Name];
                 if (value != DBNull.Value)
                 {
-                    if (property.PropertyType == typeof(Boolean))
-                    {
-                        //fixes issues with booleans stored as bit fields in db.
-                        property.SetValue(item, ((int)value == 1) ? true : false);
-                    }
-                    else
-                    {
-                        property.SetValue(item, value);
-                    }
+                    property.SetValue(item, value);
                 }
             }
             return item;

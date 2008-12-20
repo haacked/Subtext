@@ -5382,7 +5382,7 @@ SELECT [Blog.Host] = Host
 	, [Blog.Title] = config.Title
 	, [Category.Title] = categories.Title
 	, images.CategoryID
-	, IsActive = 1
+	, IsActive = images.Active
 FROM [<dbUser,varchar,dbo>].[subtext_Images] images
 INNER JOIN	[<dbUser,varchar,dbo>].[subtext_Config] config ON images.BlogId = config.BlogId
 INNER JOIN  [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories ON categories.CategoryID = images.CategoryID
