@@ -27,6 +27,8 @@ using Subtext.Framework.UI.Skinning;
 using Subtext.Framework.UrlManager;
 using Subtext.Web.UI.Controls;
 using Subtext.Extensibility.Interfaces;
+using Subtext.Framework.Routing;
+using System.Web.Routing;
 
 namespace Subtext.Web.UI.Pages
 {
@@ -36,7 +38,7 @@ namespace Subtext.Web.UI.Pages
     /// a PlaceHolder in which the PageTemplate.ascx control within 
     /// each skin is loaded.
     /// </summary>
-    public class SubtextMasterPage : Page
+    public class SubtextMasterPage : RoutablePage, ISubtextPage
     {
         #region Declared Controls in DTP.aspx
         private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinTemplateCollection());
@@ -79,7 +81,7 @@ namespace Subtext.Web.UI.Pages
 
             string skinFolder = CurrentSkin.TemplateFolder;
 
-            string[] controls = HandlerConfiguration.GetControls(Context);
+            IEnumerable<string> controls = _controls;
             if (controls != null)
             {
                 UpdatePanel apnlCommentsWrapper = new UpdatePanel();
@@ -263,5 +265,11 @@ namespace Subtext.Web.UI.Pages
                 return declaration + "];";
             }
         }
+
+        public void SetControls(IEnumerable<string> controls)
+        {
+            _controls = controls;
+        }
+        IEnumerable<string> _controls;
     }
 }

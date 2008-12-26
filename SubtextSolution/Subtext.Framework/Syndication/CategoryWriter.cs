@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using System.IO;
 
 namespace Subtext.Framework.Syndication
 {
@@ -45,7 +46,7 @@ namespace Subtext.Framework.Syndication
 		/// <param name="ec">Ec.</param>
 		/// <param name="lc">Lc.</param>
 		/// <param name="url">URL.</param>
-		public CategoryWriter(ICollection<Entry> ec, LinkCategory lc, string url) : base(ec, NullValue.NullDateTime, false)
+		public CategoryWriter(TextWriter writer, ICollection<Entry> ec, LinkCategory lc, string url, ISubtextContext context) : base(writer, ec, NullValue.NullDateTime, false, context)
 		{
 			this.Category = lc;
 			this.Url = url;

@@ -17,9 +17,12 @@ using System;
 using System.Globalization;
 using System.Net;
 using System.Web;
+using System.Web.Routing;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Syndication.Compression;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
+using Subtext.Framework.Syndication.Compression;
 
 namespace Subtext.Framework.Syndication
 {
@@ -32,19 +35,40 @@ namespace Subtext.Framework.Syndication
 		const int HTTP_IM_USED = 226;
 		const int HTTP_MOVED_PERMANENTLY = 301;
 
-		protected BlogInfo CurrentBlog ;
-		protected HttpContext Context = null;
-		protected CachedFeed Feed = null;
+        protected BlogInfo Blog
+        {
+            get {
+                return SubtextContext.Blog;
+            }
+        }
 
-		protected virtual bool RequiresAdminRole
-		{
-			get { return false; }
-		}
+        protected ISubtextContext SubtextContext {
+            get;
+            private set;
+        }
 
-		protected virtual bool RequiresHostAdminRole
-		{
-			get { return false; }
-		}
+		protected HttpContextBase HttpContext {
+            get {
+                return SubtextContext.RequestContext.HttpContext;
+            }
+        }
+
+        protected CachedFeed Feed {
+            get;
+            set;
+        }
+
+        protected virtual bool RequiresAdminRole
+        {
+            get;
+            private set;
+        }
+
+        protected virtual bool RequiresHostAdminRole
+        {
+            get;
+            private set;
+        }
 
 		/// <summary>
 		/// Returns the "If-Modified-Since" HTTP header.  This indicates 
@@ -56,7 +80,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				return Context.Request.Headers["If-Modified-Since"];
+				return HttpContext.Request.Headers["If-Modified-Since"];
 			}
 		}
 
@@ -70,7 +94,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				return Context.Request.Headers["If-None-Match"];	
+				return HttpContext.Request.Headers["If-None-Match"];	
 			}
 		}
 
@@ -85,14 +109,11 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				if(IfNonMatchHeader != null && IfNonMatchHeader.Length > 0)
-				{
-					try
-					{
+				if(IfNonMatchHeader != null && IfNonMatchHeader.Length > 0) {
+					try {
 						return DateTime.Parse(IfNonMatchHeader);
 					}
-					catch(FormatException)
-					{
+					catch(FormatException) {
 						//Swallow it.
 					}
 				}
@@ -108,9 +129,8 @@ namespace Subtext.Framework.Syndication
 		/// </value>
 		protected bool UseDeltaEncoding
 		{
-			get
-			{
-				return CurrentBlog.RFC3229DeltaEncodingEnabled && AcceptDeltaEncoding;	
+			get {
+				return Blog.RFC3229DeltaEncodingEnabled && AcceptDeltaEncoding;	
 			}
 		}
 
@@ -123,20 +143,19 @@ namespace Subtext.Framework.Syndication
 		protected virtual bool IsLocalCacheOK()
 		{
 			string dt = LastModifiedHeader;
-			if(dt != null)
-			{
+			if(dt != null) {
 				try
 				{
 					DateTime feedDT = DateTime.Parse(dt);
-					DateTime lastUpdated = ConvertLastUpdatedDate(CurrentBlog.LastUpdated); 
+					DateTime lastUpdated = ConvertLastUpdatedDate(Blog.LastUpdated); 
 					TimeSpan ts = feedDT - lastUpdated;
 					
 					//We need to allow some margin of error.
 					return Math.Abs(ts.TotalMilliseconds) <= 500;
 				}
-				catch(FormatException)
-				{
-					//swallow it for now.
+				catch(FormatException) {
+					//TODO: Review
+                    //swallow it for now.
 					//Some browsers send a funky last modified header.
 					//We don't want to throw an exception in those cases.
 				}
@@ -149,22 +168,24 @@ namespace Subtext.Framework.Syndication
 		/// Returns whether or not the http cache is OK.
 		/// </summary>
 		/// <returns></returns>
-		protected virtual bool IsHttpCacheOK()
-		{
-			Feed = Context.Cache[this.CacheKey(this.PublishDateOfLastFeedItemReceived)] as CachedFeed;
-			if(Feed == null)
-			{
+		protected virtual bool IsHttpCacheOK() {
+            if (HttpContext.Cache == null) {
+                Feed = null;
+                return false;
+            }
+
+            Feed = HttpContext.Cache[this.CacheKey(this.PublishDateOfLastFeedItemReceived)] as CachedFeed;
+			if(Feed == null) {
 				return false;
 			}
-			return Feed.LastModified == ConvertLastUpdatedDate(CurrentBlog.LastUpdated);
+			return Feed.LastModified == ConvertLastUpdatedDate(Blog.LastUpdated);
 		}
 
 		/// <summary>
 		/// Send the HTTP status code 304 to the response this instance.
 		/// </summary>
-		private void Send304()
-		{
-			Context.Response.StatusCode = 304;
+		private void Send304() {
+			HttpContext.Response.StatusCode = 304;
 		}
 
 		/// <summary>
@@ -172,9 +193,8 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="dt"></param>
 		/// <returns></returns>
-		protected static DateTime ConvertLastUpdatedDate(DateTime dt)
-		{
-			DateTime utc = Config.CurrentBlog.TimeZone.ToUniversalTime(dt);
+		protected static DateTime ConvertLastUpdatedDate(DateTime dateTime) {
+            DateTime utc = Config.CurrentBlog.TimeZone.ToUniversalTime(dateTime);
 			return TimeZone.CurrentTimeZone.ToLocalTime(utc);
 		}
 
@@ -182,26 +202,21 @@ namespace Subtext.Framework.Syndication
 		/// Processs the feed. Responds to the incoming request with the 
 		/// contents of the feed.
 		/// </summary>
-		protected virtual void ProcessFeed()
-		{
+		protected virtual void ProcessFeed() {
 			if(RedirectToFeedBurnerIfNecessary())
 				return;
 			
 			// Checks Last Modified Header.
-			if(IsLocalCacheOK())
-			{
+			if(IsLocalCacheOK()) {
 				Send304();
 				return;
 			}
 		
 			// Checks our cache against last modified header.
-			if(!IsHttpCacheOK())
-			{
+			if(!IsHttpCacheOK()) {
 				Feed = BuildFeed();
-				if(Feed != null)
-				{
-					if(UseDeltaEncoding && Feed.ClientHasAllFeedItems)
-					{
+				if(Feed != null) {
+					if(UseDeltaEncoding && Feed.ClientHasAllFeedItems) {
 						Send304();
 						return;
 					}
@@ -226,10 +241,9 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected abstract BaseSyndicationWriter SyndicationWriter{ get; }
 
-		protected virtual CachedFeed BuildFeed()
-		{
+		protected virtual CachedFeed BuildFeed() {
 			CachedFeed feed = new CachedFeed();
-			feed.LastModified = ConvertLastUpdatedDate(CurrentBlog.LastUpdated);
+			feed.LastModified = ConvertLastUpdatedDate(Blog.LastUpdated);
 			BaseSyndicationWriter writer = SyndicationWriter;
 			feed.Xml = writer.Xml;
 			feed.ClientHasAllFeedItems = writer.ClientHasAllFeedItems;
@@ -248,41 +262,41 @@ namespace Subtext.Framework.Syndication
 
 			if(Feed != null)
 			{
-				if(Config.CurrentBlog.UseSyndicationCompression && this.AcceptGzipCompression)
+				if(Blog.UseSyndicationCompression && this.AcceptGzipCompression)
 				{
 					// We're GZip Encoding!
-					SyndicationCompressionFilter filter = SyndicationCompressionHelper.GetFilterForScheme(this.AcceptEncoding, Context.Response.Filter);
+					SyndicationCompressionFilter filter = SyndicationCompressionHelper.GetFilterForScheme(this.AcceptEncoding, HttpContext.Response.Filter);
 	
 					if(filter != null)
 					{
 						encoding = filter.ContentEncoding;
-						Context.Response.Filter = filter.Filter;
+						HttpContext.Response.Filter = filter.Filter;
 					}
 				}
 
-				if(encoding == null)
-				{
-					Context.Response.ContentEncoding = System.Text.Encoding.UTF8;
+				if(encoding == null) {
+					HttpContext.Response.ContentEncoding = System.Text.Encoding.UTF8;
 				}
 
-				Context.Response.ContentType = "text/xml";
-				Context.Response.Cache.SetCacheability(HttpCacheability.Public);
-				Context.Response.Cache.SetLastModified(Feed.LastModified);
-				Context.Response.Cache.SetETag(Feed.Etag);
-				if(AcceptGzipCompression)
+				HttpContext.Response.ContentType = "text/xml";
+				HttpContext.Response.Cache.SetCacheability(HttpCacheability.Public);
+				HttpContext.Response.Cache.SetLastModified(Feed.LastModified);
+				HttpContext.Response.Cache.SetETag(Feed.Etag);
+				
+                if(AcceptGzipCompression)
 				{
-					Context.Response.AddHeader("IM", "feed, gzip");
+					HttpContext.Response.AddHeader("IM", "feed, gzip");
 				}
 				else
 				{
-					Context.Response.AddHeader("IM", "feed");
+					HttpContext.Response.AddHeader("IM", "feed");
 				}
 				if(this.UseDeltaEncoding)
-					Context.Response.StatusCode = HTTP_IM_USED; //IM Used
+					HttpContext.Response.StatusCode = HTTP_IM_USED; //IM Used
 				else
-					Context.Response.StatusCode = (int)HttpStatusCode.OK;
+					HttpContext.Response.StatusCode = (int)HttpStatusCode.OK;
 
-				Context.Response.Write(Feed.Xml);
+				HttpContext.Response.Write(Feed.Xml);
 			}
 		}
 
@@ -290,19 +304,23 @@ namespace Subtext.Framework.Syndication
 		/// Processs the request and sends the feed to the response.
 		/// </summary>
 		/// <param name="context">Context.</param>
-		public void ProcessRequest(HttpContext context)
+		void IHttpHandler.ProcessRequest(HttpContext context)
 		{
-			if ((RequiresAdminRole && !SecurityHelper.IsAdmin) || (RequiresHostAdminRole && !SecurityHelper.IsHostAdmin))
-			{
-				System.Web.Security.FormsAuthentication.RedirectToLoginPage();
-				return;
-			}
+            if ((RequiresAdminRole && !SecurityHelper.IsAdmin) || (RequiresHostAdminRole && !SecurityHelper.IsHostAdmin)) {
+                System.Web.Security.FormsAuthentication.RedirectToLoginPage();
+                return;
+            }
 
-			CurrentBlog = Config.CurrentBlog;
-			Context = context;
-
-			ProcessFeed();
+            var httpContext = new HttpContextWrapper(context);
+            var requestContext = new RequestContext(httpContext, new RouteData());
+            var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, new UrlHelper(requestContext, null), ObjectProvider.Instance());
+			ProcessRequest(subtextContext);
 		}
+
+        public virtual void ProcessRequest(ISubtextContext context) {
+            SubtextContext = context;
+            ProcessFeed();
+        }
 
 		/// <summary>
 		/// Gets a value indicating whether this handler is reusable.
@@ -312,10 +330,8 @@ namespace Subtext.Framework.Syndication
 		/// </value>
 		public bool IsReusable
 		{
-			get
-			{
-				return false;
-			}
+			get;
+            private set;
 		}
 
 		/// <summary>
@@ -330,7 +346,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				string header = Context.Request.Headers["Accept-Encoding"];
+				string header = HttpContext.Request.Headers["Accept-Encoding"];
 				if(header != null)
 					return header;
 				else
@@ -346,7 +362,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				string header = Context.Request.Headers["A-IM"];
+				string header = HttpContext.Request.Headers["A-IM"];
 				if(header != null)
 					return header;
 				else
@@ -391,16 +407,15 @@ namespace Subtext.Framework.Syndication
 			//If we are using FeedBurner, only allow them to get our feed...
 			if (!String.IsNullOrEmpty(Config.CurrentBlog.FeedBurnerName))
 			{
-				HttpContext current = HttpContext.Current;
-				string userAgent = current.Request.UserAgent;
+				string userAgent = HttpContext.Request.UserAgent;
 				if (!String.IsNullOrEmpty(userAgent))
 				{
 					// If they aren't FeedBurner and they aren't asking for a category or comment rss, redirect them!
 					if (!userAgent.StartsWith("FeedBurner") && IsMainfeed)
 					{
-						current.Response.StatusCode = HTTP_MOVED_PERMANENTLY;
-						current.Response.Status = HTTP_MOVED_PERMANENTLY + " Moved Permanently";
-						current.Response.RedirectLocation = Config.CurrentBlog.UrlFormats.FeedBurnerUrl.ToString();
+                        HttpContext.Response.StatusCode = HTTP_MOVED_PERMANENTLY;
+                        HttpContext.Response.Status = HTTP_MOVED_PERMANENTLY + " Moved Permanently";
+                        HttpContext.Response.RedirectLocation = Config.CurrentBlog.UrlFormats.FeedBurnerUrl.ToString();
 						return true;
 					}
 				}

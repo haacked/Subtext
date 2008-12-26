@@ -63,7 +63,7 @@ namespace Subtext.Framework.Syndication
 			if(posts != null && posts.Count > 0)
 			{
 				feed = new CachedFeed();
-				CategoryWriter cw = new CategoryWriter(posts, Category,WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
+				CategoryWriter cw = new CategoryWriter(HttpContext.Response.Output, posts, Category,WebPathStripper.RemoveRssSlash(HttpContext.Request.Url.ToString()), SubtextContext);
 				feed.LastModified = ConvertLastUpdatedDate(posts.First().DateCreated);
 				feed.Xml = cw.Xml;
 			}
@@ -74,7 +74,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				return new CategoryWriter(posts, Category,WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
+				return new CategoryWriter(HttpContext.Response.Output, posts, Category,WebPathStripper.RemoveRssSlash(HttpContext.Request.Url.ToString()), SubtextContext);
 			}
 		}
 

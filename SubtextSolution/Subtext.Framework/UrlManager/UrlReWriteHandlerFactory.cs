@@ -87,7 +87,7 @@ namespace Subtext.Framework.UrlManager
 								return (IHttpHandler)handler.Instance();
 						
 							case HandlerType.Factory:
-								//Pass a long the request to a custom IHttpHandlerFactory
+								//Pass along the request to a custom IHttpHandlerFactory
 								return ((IHttpHandlerFactory)handler.Instance()).GetHandler(context, requestType, url, path);
 						
 							case HandlerType.Directory:

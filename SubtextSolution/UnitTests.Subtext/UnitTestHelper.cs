@@ -379,16 +379,24 @@ namespace UnitTests.Subtext
 			}
 		}
 
+        public static Entry CreateEntryInstanceForSyndication(string author, string title, string body) {
+            return CreateEntryInstanceForSyndication(Config.CurrentBlog, author, title, body);
+        }
+
 		/// <summary>
 		/// Creates an entry instance with the proper syndication settings.
 		/// </summary>
 		/// <param name="author">The author.</param>
 		/// <param name="body">The body.</param>
 		/// <param name="title">The title.</param>
-		public static Entry CreateEntryInstanceForSyndication(string author, string title, string body)
+		public static Entry CreateEntryInstanceForSyndication(BlogInfo blog, string author, string title, string body)
 		{
-			return CreateEntryInstanceForSyndication(author, title, body, null, DateTime.Now);
+			return CreateEntryInstanceForSyndication(blog, author, title, body, null, DateTime.Now);
 		}
+
+        public static Entry CreateEntryInstanceForSyndication(string author, string title, string body, string entryName, DateTime dateCreated) {
+            return CreateEntryInstanceForSyndication(Config.CurrentBlog, author, title, body, entryName, dateCreated);
+        }
 
 		/// <summary>
 		/// Creates an entry instance with the proper syndication settings.
@@ -399,14 +407,14 @@ namespace UnitTests.Subtext
 		/// <param name="entryName">Name of the entry.</param>
 		/// <param name="dateCreated">The date created.</param>
 		/// <returns></returns>
-		public static Entry CreateEntryInstanceForSyndication(string author, string title, string body, string entryName, DateTime dateCreated)
+		public static Entry CreateEntryInstanceForSyndication(BlogInfo blog, string author, string title, string body, string entryName, DateTime dateCreated)
 		{
 			Entry entry = new Entry(PostType.BlogPost);
 			if(entryName != null)
 			{
 				entry.EntryName = entryName;
 			}
-			entry.BlogId = Config.CurrentBlog.Id;
+			entry.BlogId = blog.Id;
             if (dateCreated != NullValue.NullDateTime)
             {
                 entry.DateCreated = dateCreated;

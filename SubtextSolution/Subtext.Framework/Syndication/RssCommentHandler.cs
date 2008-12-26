@@ -43,7 +43,7 @@ namespace Subtext.Framework.Syndication
 		{
 			if(ParentEntry == null)
 			{
-				ParentEntry = Cacher.GetEntryFromRequest(CacheDuration.Short, false);
+				ParentEntry = Cacher.GetEntryFromRequest(CacheDuration.Short, false, HttpContext);
 			}
 
             if (ParentEntry == null)
@@ -62,7 +62,7 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual CommentRssWriter GetCommentWriter(ICollection<FeedbackItem> comments, Entry entry)
 		{
-			return new CommentRssWriter(comments, entry);
+			return new CommentRssWriter(HttpContext.Response.Output, comments, entry, SubtextContext);
 		}
 
 		/// <summary>
@@ -77,7 +77,6 @@ namespace Subtext.Framework.Syndication
 			if(comments == null)
 				comments = new List<FeedbackItem>();
 
-		
 			feed = new CachedFeed();
 			CommentRssWriter crw = GetCommentWriter(comments, ParentEntry);
 			if(comments.Count > 0)
@@ -111,7 +110,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				return new CommentRssWriter(comments, ParentEntry);
+				return new CommentRssWriter(HttpContext.Response.Output, comments, ParentEntry, SubtextContext);
 			}
 		}
 

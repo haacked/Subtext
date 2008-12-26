@@ -16,11 +16,13 @@
 using System;
 using System.Collections.Specialized;
 using System.Globalization;
-using Subtext.Extensibility.Interfaces;
+using System.IO;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
+using System.Web;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Syndication
 {
@@ -35,8 +37,8 @@ namespace Subtext.Framework.Syndication
 		/// Creates a new <see cref="BaseRssWriter"/> instance.
 		/// </summary>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-		protected GenericRssWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
-			: base(dateLastViewedFeedItemPublished, useDeltaEncoding)
+		protected GenericRssWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context)
+            : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
 		{
 		}
 
@@ -79,8 +81,8 @@ namespace Subtext.Framework.Syndication
 			
 			// Copyright notice
 			this.WriteAttributeString("xmlns:copyright", "http://blogs.law.harvard.edu/tech/rss");
-			
-			if(Config.CurrentBlog.LicenseUrl != null && Config.CurrentBlog.LicenseUrl.Length > 0)
+
+            if (Blog.LicenseUrl != null && Blog.LicenseUrl.Length > 0)
 			{
 				// Used to specify a license. Does not have to be a creative commons license.
 				// see http://backend.userland.com/creativeCommonsRssModule
@@ -120,18 +122,19 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		protected virtual void WriteChannel()
 		{
-			RssImageElement image = 
-                new RssImageElement(GetRssImage(), Blog.Title, Blog.HomeFullyQualifiedUrl, 77, 60, null);
-			BuildChannel(Blog.Title, Blog.HomeFullyQualifiedUrl.ToString(), Blog.Email, Blog.SubTitle, Blog.Language, Blog.Author, Config.CurrentBlog.LicenseUrl, image);
+            Uri blogUrl = new Uri(UrlHelper.BlogUrl().ToFullyQualifiedUrl(Blog), "Default.aspx");
+			RssImageElement image =
+                new RssImageElement(GetRssImage(), Blog.Title, blogUrl, 77, 60, null);
+            BuildChannel(Blog.Title, blogUrl.ToString(), Blog.Email, Blog.SubTitle, Blog.Language, Blog.Author, Blog.LicenseUrl, image);
 		}
 		
 		/// <summary>
 		/// Returns the image that will be displayed in an RSS aggregator that supports RSS images. 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Uri GetRssImage()
-		{
-			return new Uri(Blog.HostFullyQualifiedUrl, "images/RSS2Image.gif");
+		public virtual Uri GetRssImage() {
+            VirtualPath url = UrlHelper.ResolveUrl("~/images/RSS2Image.gif");
+            return url.ToFullyQualifiedUrl(Blog);
 		}
 		
 		/// <summary>
@@ -175,8 +178,8 @@ namespace Subtext.Framework.Syndication
             if (authorEmail != null 
                 && authorEmail.Length > 0 
                 && authorEmail.IndexOf("@") > 0 
-                && authorEmail.IndexOf(".") > 0 
-                && (Config.CurrentBlog.ShowEmailAddressInRss))
+                && authorEmail.IndexOf(".") > 0
+                && (Blog.ShowEmailAddressInRss))
 			{
 				this.WriteElementString("managingEditor", authorEmail);
 			}
@@ -221,7 +224,7 @@ namespace Subtext.Framework.Syndication
 				// If we're here, we know that entry.EntryId is larger than 
 				// the LastViewedFeedItemId.  Thus we can send it.
 				this.WriteStartElement("item");
-				EntryXml(entry, settings, Blog.UrlFormats);
+				EntryXml(entry, settings);
 				this.WriteEndElement();
 				if(GetSyndicationDate(entry) > LatestPublishDate)
 				{
@@ -236,13 +239,14 @@ namespace Subtext.Framework.Syndication
 		{
 			return GetLinkFromItem(item);
 		}
+
 		/// <summary>
 		/// Writes the XML for a single entry.
 		/// </summary>
 		/// <param name="item">Entry.</param>
 		/// <param name="settings">Settings.</param>
 		/// <param name="urlFormats">Uformat.</param>
-		protected virtual void EntryXml(T item, BlogConfigurationSettings settings, UrlFormats urlFormats)
+		protected virtual void EntryXml(T item, BlogConfigurationSettings settings)
 		{
 			//core
 			this.WriteElementString("title", GetTitleFromItem(item));
@@ -265,7 +269,7 @@ namespace Subtext.Framework.Syndication
 				string.Format
 				(
 					"{0}{1}", //tag def
-					GetBodyFromItem(item), (UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(GetAggBugUrl(item,urlFormats)) : null //use aggbugs
+					GetBodyFromItem(item), (UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(GetAggBugUrl(item)) : null //use aggbugs
 				)
 			);
 
@@ -283,7 +287,7 @@ namespace Subtext.Framework.Syndication
 				if (AllowComments && Blog.CommentsEnabled && ItemAllowsComments(item) && !CommentsClosedOnItem(item))
 				{
 					// Comment API (http://wellformedweb.org/story/9)
-					this.WriteElementString("wfw:comment", GetCommentApiUrl(item, urlFormats));
+					this.WriteElementString("wfw:comment", GetCommentApiUrl(item));
 				}
 
 				this.WriteElementString("comments", fullUrl + "#feedback");
@@ -291,10 +295,10 @@ namespace Subtext.Framework.Syndication
 				if (GetFeedbackCount(item) > 0)
 					this.WriteElementString("slash:comments", GetFeedbackCount(item).ToString(CultureInfo.InvariantCulture));
 
-				this.WriteElementString("wfw:commentRss", GetCommentRssUrl(item, urlFormats));
+				this.WriteElementString("wfw:commentRss", GetCommentRssUrl(item));
 
 				if (Blog.TrackbacksEnabled)
-					this.WriteElementString("trackback:ping", GetTrackBackUrl(item, urlFormats));
+					this.WriteElementString("trackback:ping", GetTrackBackUrl(item));
 			}
 
 		    EnclosureItem encItem = GetEnclosureFromItem(item);
@@ -309,10 +313,10 @@ namespace Subtext.Framework.Syndication
 		}
 
 
-		protected abstract string GetCommentRssUrl(T item, UrlFormats urlFormats);
-		protected abstract string GetTrackBackUrl(T item, UrlFormats urlFormats);
-		protected abstract string GetCommentApiUrl(T item, UrlFormats urlFormats);
-		protected abstract string GetAggBugUrl(T item, UrlFormats urlFormats);
+		protected abstract string GetCommentRssUrl(T item);
+		protected abstract string GetTrackBackUrl(T item);
+		protected abstract string GetCommentApiUrl(T item);
+		protected abstract string GetAggBugUrl(T item);
 
 		/// <summary>
 		/// Gets the categories from entry.

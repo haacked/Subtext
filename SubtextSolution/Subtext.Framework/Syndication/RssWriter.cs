@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using System.IO;
 
 namespace Subtext.Framework.Syndication
 {
@@ -32,7 +33,7 @@ namespace Subtext.Framework.Syndication
 		/// <param name="entries">Entries.</param>
 		/// <param name="dateLastViewedFeedItemPublished"></param>
 		/// <param name="useDeltaEncoding"></param>
-		public RssWriter(ICollection<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
+		public RssWriter(TextWriter writer, ICollection<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context) : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
 		{
 			this.Items = entries;
 			this.UseAggBugs = true;
@@ -107,8 +108,7 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected override DateTime GetPublishedDateUtc(Entry item)
 		{
-			//return Config.CurrentBlog.TimeZone.ToUniversalTime(item.DateCreated);
-			return Config.CurrentBlog.TimeZone.ToUniversalTime(item.DateSyndicated);
+			return Blog.TimeZone.ToUniversalTime(item.DateSyndicated);
 		}
 
 		/// <summary>

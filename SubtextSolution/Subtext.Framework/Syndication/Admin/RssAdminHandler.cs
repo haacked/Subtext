@@ -11,7 +11,7 @@ using Subtext.Framework.Logging;
 
 namespace Subtext.Framework.Syndication.Admin
 {
-	public class RssAdminHandler:EntryCollectionHandler<object>
+	public class RssAdminHandler : EntryCollectionHandler<object>
 	{
 		string title = "";
 		string rssType = "";
@@ -50,13 +50,16 @@ namespace Subtext.Framework.Syndication.Admin
 				return true;
 			}
 		}
+
 		protected void SetOptions()
 		{
-			if (!Int32.TryParse(Context.Request.QueryString["Count"], out count))
+			if (!Int32.TryParse(HttpContext.Request.QueryString["Count"], out count))
 			{
 				count = Config.Settings.ItemCount;
 			}
-			if (Regex.IsMatch(Context.Request.Url.PathAndQuery, "ModeratedCommentRss", RegexOptions.IgnoreCase))
+		
+            //TODO: Use route data instead.
+            if (Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ModeratedCommentRss", RegexOptions.IgnoreCase))
 			{
 				title = "Comments requiring your approval.";
 				filters = new string[] { "NeedsModeration" };
@@ -64,24 +67,24 @@ namespace Subtext.Framework.Syndication.Admin
 				return;
 			}
 
-			if (Regex.IsMatch(Context.Request.Url.PathAndQuery, "ReferrersRss", RegexOptions.IgnoreCase))
+			if (Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ReferrersRss", RegexOptions.IgnoreCase))
 			{
 				title = "Referrals";
 				rssType = "Referral";
 				return;
 			}
 
-			if (Regex.IsMatch(Context.Request.Url.PathAndQuery, "ErrorsRss", RegexOptions.IgnoreCase))
+			if (Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ErrorsRss", RegexOptions.IgnoreCase))
 			{
 				title = "Errors";
 				rssType = "Log";
 				return;
 			}
 			
-			title = this.Context.Request["Title"];
-			rssType = this.Context.Request.QueryString["Type"];
+			title = this.HttpContext.Request["Title"];
+			rssType = this.HttpContext.Request.QueryString["Type"];
 
-			string qryFilters = Context.Request.QueryString["Filter"];
+			string qryFilters = HttpContext.Request.QueryString["Filter"];
 			if (String.IsNullOrEmpty(qryFilters))
 			{
 				filters = new string[] { };
@@ -164,11 +167,11 @@ namespace Subtext.Framework.Syndication.Admin
 
 					if (((FeedbackStatusFlag)filterFlags) == FeedbackStatusFlag.NeedsModeration)
 					{
-						entry.Url = CurrentBlog.UrlFormats.AdminUrl("Feedback.aspx?status=2");
+						entry.Url = Blog.UrlFormats.AdminUrl("Feedback.aspx?status=2");
 					}
 					else
 					{
-						entry.Url = CurrentBlog.UrlFormats.AdminUrl("Feedback.aspx");
+						entry.Url = Blog.UrlFormats.AdminUrl("Feedback.aspx");
 
 					}
 
@@ -176,7 +179,7 @@ namespace Subtext.Framework.Syndication.Admin
 
 					ICollection<FeedbackItem> feedback = (ICollection<FeedbackItem>)feed;
 
-					return new CommentRssWriter(feedback, entry);
+					return new CommentRssWriter(HttpContext.Response.Output, feedback, entry, SubtextContext);
 
 				}
 				if (feed is ICollection<Referrer>)
@@ -185,12 +188,12 @@ namespace Subtext.Framework.Syndication.Admin
 					DateTime lastReferrer = NullValue.NullDateTime;
 					if (referrers.Count > 0)
 						lastReferrer = referrers.First().LastReferDate;
-					return new ReferrerRssWriter(referrers, lastReferrer, this.UseDeltaEncoding);
+					return new ReferrerRssWriter(HttpContext.Response.Output, referrers, lastReferrer, this.UseDeltaEncoding, SubtextContext);
 				}
 				if (feed is ICollection<LogEntry>)
 				{
 					ICollection<LogEntry> entries = (ICollection<LogEntry>)feed;
-					return new LogRssWriter(entries, this.UseDeltaEncoding);
+					return new LogRssWriter(HttpContext.Response.Output, entries, this.UseDeltaEncoding, SubtextContext);
 				}
 				return null;
 			}

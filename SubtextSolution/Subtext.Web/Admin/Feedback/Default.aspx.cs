@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Web;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using Subtext.Web.Admin.Pages;
-using Subtext.Framework.Components;
-using Subtext.Extensibility.Interfaces;
-using System.Diagnostics;
-using Subtext.Framework.Web;
 using System.Globalization;
+using System.Web;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 using Subtext.Extensibility;
-using Subtext.Framework.Text;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Text;
+using Subtext.Framework.Web;
+using Subtext.Web.Admin.Pages;
 
 namespace Subtext.Web.Admin.Feedback
 {
@@ -151,12 +150,12 @@ namespace Subtext.Web.Admin.Feedback
         /// </summary>
         /// <param name="dataItem">The data item.</param>
         /// <returns></returns>
-        protected static string GetTitle(object dataItem)
+        protected string GetTitle(object dataItem)
         {
             FeedbackItem feedbackItem = (FeedbackItem)dataItem;
-            if (feedbackItem.DisplayUrl != null && !NullValue.IsNull(feedbackItem.EntryId))
-            {
-                return string.Format(@"<a href=""{0}"" title=""{0}"">{1}</a>", feedbackItem.DisplayUrl, feedbackItem.Title);
+            string feedbackUrl = Url.FeedbackUrl(feedbackItem);
+            if (!String.IsNullOrEmpty(feedbackUrl)) { 
+                return string.Format(@"<a href=""{0}"" title=""{0}"">{1}</a>", feedbackUrl, feedbackItem.Title);
             }
 
             return feedbackItem.Title;

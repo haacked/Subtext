@@ -327,12 +327,10 @@ namespace Subtext.Framework
         /// <value></value>
         public string Host
         {
-            get
-            {
+            get {
                 return _host;
             }
-            set
-            {
+            set {
                 _host = StripPortFromHost(value);
             }
         }

@@ -137,7 +137,17 @@
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
+    <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\System.Web.Abstractions.dll</HintPath>
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Web.Mobile" />
+    <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\System.Web.Routing.dll</HintPath>
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Web.Services">
       <Name>System.Web.Services</Name>
     </Reference>
@@ -398,6 +408,7 @@
     <Compile Include="InstallationManager.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ISubtextContext.cs" />
     <Compile Include="Links.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -440,6 +451,25 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\EntrySearchProvider.cs" />
+    <Compile Include="Routing\DirectoryRoute.cs" />
+    <Compile Include="Routing\DirectoryRouteHandler.cs" />
+    <Compile Include="Routing\HttpRouteHandler.cs" />
+    <Compile Include="Routing\IgnoreRoute.cs" />
+    <Compile Include="Routing\IRouteableHandler.cs" />
+    <Compile Include="Routing\ISubtextPageBuilder.cs" />
+    <Compile Include="Routing\ISubtextPage.cs" />
+    <Compile Include="Routing\RoutablePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Routing\RouteHandlerBase.cs" />
+    <Compile Include="Routing\SubfolderRoute.cs" />
+    <Compile Include="Routing\SubtextPageBuilder.cs" />
+    <Compile Include="Routing\PageRoute.cs" />
+    <Compile Include="Routing\SubtextRoute.cs" />
+    <Compile Include="Routing\SubtextRouteExtensions.cs" />
+    <Compile Include="Routing\PageRouteHandler.cs" />
+    <Compile Include="Routing\UrlHelper.cs" />
+    <Compile Include="Routing\VirtualPath.cs" />
     <Compile Include="Security\SecurityHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -450,6 +480,7 @@
     <Compile Include="Stats.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SubtextContext.cs" />
     <Compile Include="Syndication\Admin\LogRssWriter.cs" />
     <Compile Include="Syndication\Admin\RssAdminHandler.cs" />
     <Compile Include="Syndication\Admin\ReferrerRssWriter.cs" />

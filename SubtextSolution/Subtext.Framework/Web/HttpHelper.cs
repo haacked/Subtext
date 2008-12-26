@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Web
@@ -235,5 +236,31 @@ namespace Subtext.Framework.Web
 	        }
 	        return path;
 	    }
+
+        /// <summary>
+        /// If the URL is is the format ~/SomePath, this 
+        /// method expands the tilde using the app path.
+        /// </summary>
+        /// <param name="path"></param>
+        public static VirtualPath ExpandTildePath(this HttpContextBase httpContext, string path)
+        {
+            if (String.IsNullOrEmpty(path))
+                return string.Empty;
+
+            string reference = path;
+            if (reference.Substring(0, 2) == "~/")
+            {
+                string appPath = httpContext.Request.ApplicationPath;
+                if (appPath == null)
+                    appPath = string.Empty;
+
+                if (appPath.EndsWith("/"))
+                {
+                    appPath = appPath.Left(appPath.Length - 1);
+                }
+                return appPath + reference.Substring(1);
+            }
+            return path;
+        }
 	}
 }

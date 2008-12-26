@@ -1,13 +1,13 @@
 using System;
-using System.IO;
-using System.Text;
 using System.Web;
 using System.Xml;
 using MbUnit.Framework;
-using Subtext.Framework.Syndication;
+using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
+using Subtext.Framework.Syndication;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -27,9 +27,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			string hostName = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("Test", "username", "password", hostName, string.Empty);
 
-			StringBuilder sb = new StringBuilder();
-			TextWriter output = new StringWriter(sb);
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
 
 			Config.CurrentBlog.Email = "Subtext@example.com";
 			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
@@ -39,10 +37,16 @@ namespace UnitTests.Subtext.Framework.Syndication
 			int id = Entries.Create(entry); //persist to db.
 
 			AtomHandler handler = new AtomHandler();
-			handler.ProcessRequest(HttpContext.Current);
+
+            var subtextContext = new Mock<ISubtextContext>();
+            string rssOutput = null;
+            subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
+            var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
+            urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+
+			handler.ProcessRequest(subtextContext.Object);
 			HttpContext.Current.Response.Flush();
 
-			string rssOutput = sb.ToString();
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(rssOutput);
 			XmlNamespaceManager nsmanager = new XmlNamespaceManager(doc.NameTable);

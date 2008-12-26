@@ -14,10 +14,10 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Syndication
 {
@@ -26,45 +26,41 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public abstract class BaseSyndicationWriter : XmlTextWriter
     {
-        private StringWriter _writer  = null;
-
-		/// <summary>
-		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
-		/// </summary>
-		/// <param name="sw">Sw.</param>
-        protected BaseSyndicationWriter(StringWriter sw) : this(sw, NullValue.NullDateTime, false)
-        {
-        }
-
-		/// <summary>
-		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
-		/// </summary>
-		/// <param name="dateLastViewedFeedItemPublished"></param>
-        protected BaseSyndicationWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : this(new StringWriter(), dateLastViewedFeedItemPublished, useDeltaEncoding)
-        {
-		}
+        private TextWriter _writer  = null;
 
 		/// <summary>
 		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
 		/// </summary>
 		/// <param name="sw">Sw.</param>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-		protected BaseSyndicationWriter(StringWriter sw, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(sw)
+		protected BaseSyndicationWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context) : base(writer)
 		{
             LatestPublishDate = NullValue.NullDateTime;
 
 			DateLastViewedFeedItemPublished = dateLastViewedFeedItemPublished;
-			_writer = sw;
-			Blog = Config.CurrentBlog;
+			_writer = writer;
+            SubtextContext = context;
+			Blog = context.Blog;
+            UrlHelper = context.UrlHelper;
 			UseDeltaEncoding = useDeltaEncoding;
-			Formatting = System.Xml.Formatting.Indented;
+			Formatting = Formatting.Indented;
 			Indentation = 4;
 		}
+
+        public ISubtextContext SubtextContext {
+            get;
+            private set;
+        }
+
+        public UrlHelper UrlHelper {
+            get;
+            private set;
+        }
 
         public BlogInfo Blog
         {
             get;
-            protected set;
+            private set;
         }
 
         public bool UseDeltaEncoding
@@ -74,10 +70,10 @@ namespace Subtext.Framework.Syndication
         }
 
 		/// <summary>
-		/// Gets the string writer.
+		/// Gets the underlying text writer.
 		/// </summary>
 		/// <value></value>
-        public StringWriter StringWriter
+        public TextWriter TextWriter
         {
             get
             {
@@ -94,7 +90,7 @@ namespace Subtext.Framework.Syndication
         {
             get
 			{
-				return this.StringWriter.ToString();
+				return this.TextWriter.ToString();
 			}
         }
 

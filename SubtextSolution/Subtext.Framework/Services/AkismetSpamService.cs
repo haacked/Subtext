@@ -16,9 +16,10 @@
 using System;
 using System.Globalization;
 using System.Net;
-using Subtext.Akismet;
 using log4net;
+using Subtext.Akismet;
 using Subtext.Framework.Components;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Services
@@ -27,20 +28,28 @@ namespace Subtext.Framework.Services
 	public class AkismetSpamService : IFeedbackSpamService
 	{
 		private readonly static ILog log = new Subtext.Framework.Logging.Log();
-		AkismetClient akismet;
+		AkismetClient _akismet;
+        UrlHelper _urlHelper;
+        BlogInfo _blog;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AkismetSpamService"/> class.
 		/// </summary>
 		/// <param name="apiKey">The API key.</param>
 		/// <param name="blog">The blog.</param>
-		public AkismetSpamService(string apiKey, BlogInfo blog)
+		public AkismetSpamService(string apiKey, BlogInfo blog) : this(apiKey, blog, null, null)
 		{
-			this.akismet = new AkismetClient(apiKey, blog.RootUrl);
-			IWebProxy proxy = HttpHelper.GetProxy();
-			if(proxy != null)
-				this.akismet.Proxy = proxy;
 		}
+
+        public AkismetSpamService(string apiKey, BlogInfo blog, AkismetClient akismetClient, UrlHelper urlHelper) {
+            _blog = blog;
+            _akismet = akismetClient ?? new AkismetClient(apiKey, blog.RootUrl);
+            IWebProxy proxy = HttpHelper.GetProxy();
+            if (proxy != null) {
+                _akismet.Proxy = proxy;
+            }
+            _urlHelper = urlHelper ?? new UrlHelper(null, null);
+        }
 
 		/// <summary>
 		/// Verifies the api key.
@@ -50,7 +59,7 @@ namespace Subtext.Framework.Services
 		{
 			try
 			{
-				return this.akismet.VerifyApiKey();
+				return _akismet.VerifyApiKey();
 			}
 			catch (WebException e)
 			{
@@ -71,9 +80,9 @@ namespace Subtext.Framework.Services
 			try
 			{
 				
-				if (this.akismet.CheckCommentForSpam(comment))
+				if (_akismet.CheckCommentForSpam(comment))
 				{
-					this.akismet.SubmitSpam(comment);
+					_akismet.SubmitSpam(comment);
 					return true;
 				}
 			}
@@ -92,7 +101,7 @@ namespace Subtext.Framework.Services
 		public void SubmitGoodFeedback(FeedbackItem feedback)
 		{
 			Comment comment = ConvertToAkismetItem(feedback);
-			this.akismet.SubmitHam(comment);
+			_akismet.SubmitHam(comment);
 		}
 
 		/// <summary>
@@ -103,20 +112,22 @@ namespace Subtext.Framework.Services
 		public void SubmitSpam(FeedbackItem feedback)
 		{
 			Comment comment = ConvertToAkismetItem(feedback);
-			this.akismet.SubmitSpam(comment);
+			_akismet.SubmitSpam(comment);
 		}
 		
 		private Comment ConvertToAkismetItem(FeedbackItem feedback)
 		{
 			Comment comment = new Comment(feedback.IpAddress, feedback.UserAgent);
-			comment.Author = feedback.Author;
+			comment.Author = feedback.Author ?? string.Empty;
 			comment.AuthorEmail = feedback.Email;
 			if (feedback.SourceUrl != null)
 				comment.AuthorUrl = feedback.SourceUrl;
 			comment.Content = feedback.Body;
 			comment.Referer = feedback.Referrer;
-			if (feedback.DisplayUrl != null)
-				comment.Permalink = feedback.DisplayUrl;
+
+            Uri permalink = _urlHelper.FeedbackUrl(feedback).ToFullyQualifiedUrl(_blog);
+            if (permalink != null)
+				comment.Permalink = permalink;
 
 			comment.CommentType = feedback.FeedbackType.ToString().ToLower(CultureInfo.InvariantCulture);
 			return comment;

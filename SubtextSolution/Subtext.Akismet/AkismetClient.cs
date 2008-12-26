@@ -18,6 +18,9 @@ namespace Subtext.Akismet
         const string submitSpamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-spam";
         const string submitHamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-ham";
 
+        protected AkismetClient() { 
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AkismetClient"/> class.
         /// </summary>
@@ -186,7 +189,7 @@ namespace Subtext.Akismet
 		/// </summary>
 		/// <param name="comment"></param>
 		/// <returns></returns>
-		public void SubmitSpam(IComment comment)
+		public virtual void SubmitSpam(IComment comment)
 		{
 			SubmitComment(comment, this.submitSpamUrl);
 		}
