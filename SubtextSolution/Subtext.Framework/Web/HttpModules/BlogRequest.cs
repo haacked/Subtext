@@ -6,9 +6,10 @@ namespace Subtext.Framework.Web.HttpModules
 	/// <summary>
 	/// Represents the current blog request.
 	/// </summary>
-	public struct BlogRequest
+	public class BlogRequest
 	{
 		public const int DefaultPort = 80;
+        public const string BlogRequestKey = "Subtext__CurrentRequest";
 
 		/// <summary>
 		/// Gets or sets the current blog request.
@@ -16,8 +17,8 @@ namespace Subtext.Framework.Web.HttpModules
 		/// <value>The current.</value>
 		public static BlogRequest Current
 		{
-			get { return (BlogRequest)HttpContext.Current.Items["Subtext__CurrentRequest"]; }
-			set { HttpContext.Current.Items["Subtext__CurrentRequest"] = value; }
+            get { return (BlogRequest)HttpContext.Current.Items[BlogRequestKey]; }
+            set { HttpContext.Current.Items[BlogRequestKey] = value; }
 		}
 
 		/// <summary>
@@ -29,18 +30,17 @@ namespace Subtext.Framework.Web.HttpModules
 		/// <param name="isLocal">True if this requset is a local machine request.</param>
 		public BlogRequest(string host, string subfolder, Uri url, bool isLocal)
 		{
-			this.host = host;
-			this.subfolder = subfolder;
-			this.rawUrl = url;
-			this.isLocal = isLocal;
+			Host = host;
+			Subfolder = subfolder;
+			RawUrl = url;
+			IsLocal = isLocal;
 		}
 
 		public bool IsLocal
 		{
-			get { return isLocal; }
+			get;
+            private set;
 		}
-
-		private readonly bool isLocal;
 		
 		/// <summary>
 		/// Gets the host.
@@ -48,12 +48,9 @@ namespace Subtext.Framework.Web.HttpModules
 		/// <value>The host.</value>
 		public string Host
 		{
-			get
-			{
-				return host;
-			}
+			get;
+            private set;
 		}
-		readonly string host;
 
 	    /// <summary>
 		/// Gets the host.
@@ -61,23 +58,14 @@ namespace Subtext.Framework.Web.HttpModules
 		/// <value>The host.</value>
 		public string Subfolder
 		{
-			get
-			{
-				return subfolder;
-			}
-			set
-			{
-				this.subfolder = value;
-			}
+			get;
+            private set;
 		}
-		string subfolder;
 
 		public Uri RawUrl
 		{
-			get { return this.rawUrl; }
-			set { this.rawUrl = value; }
+			get;
+			private set;
 		}
-
-		private Uri rawUrl;
 	}
 }

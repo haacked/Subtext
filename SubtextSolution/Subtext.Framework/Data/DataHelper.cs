@@ -240,7 +240,7 @@ namespace Subtext.Framework.Data
 			feedbackItem.Title = ReadString(reader, "Title");
 			feedbackItem.Body = ReadString(reader, "Body");
 			feedbackItem.EntryId = ReadInt32(reader, "EntryId");
-			feedbackItem.Author = ReadString(reader, "Author");
+			feedbackItem.Author = ReadString(reader, "Author") ?? string.Empty;
 			feedbackItem.IsBlogAuthor = ReadBoolean(reader, "IsBlogAuthor");
 			feedbackItem.Email = ReadString(reader, "Email");
 			feedbackItem.SourceUrl = ReadUri(reader, "Url");

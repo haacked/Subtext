@@ -19,6 +19,7 @@ using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
 using Subtext.Web.Controls;
 using Subtext.Web.Controls.Captcha;
 
@@ -29,6 +30,16 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class BaseControl : UserControl
 	{
+        public UrlHelper Url {
+            get {
+                var routablePage = Page as IRouteableHandler;
+                if (routablePage != null) {
+                    return routablePage.Url;
+                }
+                return new UrlHelper(null, null);
+            }
+        }
+
 		protected static string Format(string format, params object[] arguments)
 		{
 			return String.Format(format, arguments);

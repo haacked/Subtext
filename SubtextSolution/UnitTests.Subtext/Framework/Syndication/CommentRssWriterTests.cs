@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Web;
 using MbUnit.Framework;
-using Subtext.Framework.Syndication;
+using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
+using Subtext.Framework.Syndication;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -23,11 +26,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 		/// Tests that a valid feed is produced even if a post has no comments.
 		/// </summary>
 		[Test]
-		[RollBack]
 		public void CommentRssWriterProducesValidEmptyFeed()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog");
-
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "blog";
@@ -36,13 +36,18 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Title = "My Blog Rulz";
 			blogInfo.TimeZoneId = PacificTimeZoneId;
 			
-			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
-
-			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("haacked", "title of the post", "Body of the post.");
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blogInfo, "haacked", "title of the post", "Body of the post.");
 			entry.EntryName = "titleofthepost";
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Url = "/archive/2006/04/01/titleofthepost.aspx";
-			CommentRssWriter writer = new CommentRssWriter(new List<FeedbackItem>(), entry);
+            entry.FullyQualifiedUrl = new Uri("http://localhost/blog" + entry.Url);
+
+            var context = new Mock<ISubtextContext>();
+            context.FakeSyndicationContext(blogInfo, "/", null);
+            var urlHelper = Mock.Get<UrlHelper>(context.Object.UrlHelper);
+            urlHelper.Expect(url => url.EntryUrl(It.IsAny<Entry>())).Returns("/blog" + entry.Url);
+
+			CommentRssWriter writer = new CommentRssWriter(new StringWriter(), new List<FeedbackItem>(), entry, context.Object);
 			
 			Assert.IsTrue(entry.HasEntryName, "This entry should have an entry name.");
 
@@ -79,11 +84,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 		/// Tests that a valid feed is produced even if a post has no comments.
 		/// </summary>
 		[Test]
-		[RollBack]
 		public void CommentRssWriterProducesValidFeed()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
-
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
 			blogInfo.Email = "Subtext@example.com";
@@ -91,14 +93,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Title = "My Blog Rulz";
 			blogInfo.TimeZoneId = PacificTimeZoneId;
 
-			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
-
-			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("haacked", "title of the post", "Body of the post.");
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blogInfo, "haacked", "title of the post", "Body of the post.");
 			entry.EntryName = "titleofthepost";
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Url = "/archive/2006/02/01/titleofthepost.aspx";
+            entry.FullyQualifiedUrl = new Uri("http://localhost/Subtext.Web/archive/2006/02/01/titleofthepost.aspx");
 			entry.Id = 1001;
-
+            
 			FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
 			comment.Id = 1002;
 			comment.DateCreated = comment.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
@@ -112,8 +113,15 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			List <FeedbackItem> comments = new List<FeedbackItem>();
 			comments.Add(comment);
-			
-			CommentRssWriter writer = new CommentRssWriter(comments, entry);
+
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.FakeSyndicationContext(blogInfo, "/Subtext.Web/Whatever", "Subtext.Web", null);
+            var httpContext = Mock.Get<HttpContextBase>(subtextContext.Object.RequestContext.HttpContext);
+            httpContext.Expect(c => c.Request.ApplicationPath).Returns("/Subtext.Web");
+            var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
+            urlHelper.Expect(u => u.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/Subtext.Web" + entry.Url + "#" + comment.Id);
+
+            CommentRssWriter writer = new CommentRssWriter(new StringWriter(), comments, entry, subtextContext.Object);
 
 			Assert.IsTrue(entry.HasEntryName, "This entry should have an entry name.");
 
@@ -151,7 +159,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			expected = string.Format(expected, VersionInfo.VersionDisplayText);
 
-			Assert.AreEqual(expected, writer.Xml);
+            Assert.AreEqual(expected, writer.Xml);
 		}
 		
 		#region ---- [Exception Cases] ------
@@ -159,14 +167,14 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void CommentRssWriterRequiresNonNullEntryCollection()
 		{
-			new CommentRssWriter(null, new Entry(PostType.BlogPost));
+			new CommentRssWriter(new StringWriter(), null, new Entry(PostType.BlogPost), new Mock<ISubtextContext>().Object);
 		}
 		
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void CommentRssWriterRequiresNonNullEntry()
 		{
-			new CommentRssWriter(new List<FeedbackItem>(), null);
+            new CommentRssWriter(new StringWriter(), new List<FeedbackItem>(), null, new Mock<ISubtextContext>().Object);
 		}
 		#endregion
 		

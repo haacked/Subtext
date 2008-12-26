@@ -93,13 +93,13 @@ namespace Subtext.Web.UI.Controls
 						}
 
 						title.Text = truncatedText + "...";
-						title.NavigateUrl = comment.DisplayUrl.ToString();
+						title.NavigateUrl = Url.FeedbackUrl(comment);
 					} 
 					else
 					{
                         //the html encode is for extra safety.
 						title.Text = HttpUtility.HtmlEncode(HtmlHelper.RemoveHtml(comment.Body));
-						title.NavigateUrl = comment.DisplayUrl.ToString();
+						title.NavigateUrl = Url.FeedbackUrl(comment);
 					}
 					ControlHelper.SetTitleIfNone(title, "Reader Comment.");
 				}

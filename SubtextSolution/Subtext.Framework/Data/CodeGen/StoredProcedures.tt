@@ -16,10 +16,10 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#
-//const string databaseName = @"D:\svn\subtext\trunk\SubtextSolution\Subtext.Web\App_Data\Subtext2.1.mdf";
-//string ConnectionString = @"Data Source=.\SQLExpress;Integrated Security=true;AttachDbFilename=" + databaseName + ";User Instance=true;";
-string databaseName = @"Subtext";
-string ConnectionString = @"Server=localhost;Database=" + databaseName + ";Trusted_Connection=True;";
+const string databaseName = "Subtext2.1";
+string databasePath = Path.GetFullPath(Host.ResolvePath(@"..\..\..\Subtext.Web\App_Data\" + databaseName + ".mdf"));
+string ConnectionString = @"Server=.\SQLEXPRESS;AttachDbFilename=" + databasePath + ";Database=" + databaseName + ";Trusted_Connection=Yes;";
+//string ConnectionString = @"Server=localhost;Database=" + databaseName + ";Trusted_Connection=True;";
 const string Namespace = "Subtext.Framework.Data";
 
 Server server = new Server();

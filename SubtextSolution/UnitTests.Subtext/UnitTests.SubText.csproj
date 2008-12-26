@@ -188,6 +188,16 @@
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
+    <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\System.Web.Abstractions.dll</HintPath>
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\System.Web.Routing.dll</HintPath>
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
@@ -245,6 +255,7 @@
       <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
     <Compile Include="Akismet\AkismetApiTests.cs" />
+    <Compile Include="Akismet\AkismetSpamServiceTests.cs" />
     <Compile Include="AssemblySetUpAndCleanUp.cs" />
     <Compile Include="BlogEntryProvider\FileBrowserConnectorTests.cs" />
     <Compile Include="BlogMl\BlogMlHandlerTests.cs" />
@@ -337,6 +348,17 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Providers\ProviderConfigurationHelperTests.cs" />
+    <Compile Include="Framework\Routing\DirectoryRouteHandlerTests.cs" />
+    <Compile Include="Framework\Routing\DirectoryRouteTests.cs" />
+    <Compile Include="Framework\Routing\HttpRouteHandlerTests.cs" />
+    <Compile Include="Framework\Routing\IgnoreRouteTests.cs" />
+    <Compile Include="Framework\Routing\RoutablePageTests.cs" />
+    <Compile Include="Framework\Routing\RouteExtensionsTests.cs" />
+    <Compile Include="Framework\Routing\RoutesTests.cs" />
+    <Compile Include="Framework\Routing\SubtextRouteHandlerTests.cs" />
+    <Compile Include="Framework\Routing\PageRouteTests.cs" />
+    <Compile Include="Framework\Routing\UrlHelperTests.cs" />
+    <Compile Include="Framework\Routing\VirtualPathTests.cs" />
     <Compile Include="Framework\SecurityHandling\SecurityTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -395,6 +417,7 @@
     <Compile Include="Installation\SqlInstallationProviderTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MockExtensions.cs" />
     <Compile Include="ReflectionHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -414,9 +437,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SimulatedRequestContext.cs" />
-    <Compile Include="StubDataReader.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="SubtextWeb\Admin\AdminPageTests.cs" />
     <Compile Include="SubtextWeb\Admin\FeedbackTests.cs" />
     <Compile Include="SubtextWeb\Controls\CaptchaTests.cs" />

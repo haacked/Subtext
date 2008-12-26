@@ -9,6 +9,7 @@ using System.IO;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Reflection;
+using Moq;
 
 namespace UnitTests.Subtext.Akismet
 {
@@ -67,16 +68,12 @@ namespace UnitTests.Subtext.Akismet
 			string userAgent = GetExpectedUserAgent();
 			Uri verifyUrl = new Uri("http://rest.akismet.com/1.1/verify-key");
 			string parameters = "key=" + HttpUtility.UrlEncode("fake-key") + "&blog=" + HttpUtility.UrlEncode("http://haacked.com/");
+
+            var httpClient = new Mock<HttpClient>();
+			httpClient.Expect(hc => hc.PostRequest(verifyUrl, userAgent, 5000, parameters)).Returns("valid");
 			
-			MockRepository mocks = new MockRepository();
-			HttpClient httpClient = (HttpClient)mocks.CreateMock(typeof(HttpClient));
-			Expect.Call(httpClient.PostRequest(verifyUrl, userAgent, 5000, parameters)).Return("valid");
-			mocks.ReplayAll();	
-			
-			AkismetClient client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), httpClient);
+			AkismetClient client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), httpClient.Object);
 			Assert.IsTrue(client.VerifyApiKey(), "If the request returns 'valid' we should return true.");
-			
-			mocks.VerifyAll();
 		}
 
 		[Test]
@@ -86,15 +83,11 @@ namespace UnitTests.Subtext.Akismet
 			Uri verifyUrl = new Uri("http://rest.akismet.com/1.1/verify-key");
 			string parameters = "key=" + HttpUtility.UrlEncode("wrong-key") + "&blog=" + HttpUtility.UrlEncode("http://haacked.com/");
 
-			MockRepository mocks = new MockRepository();
-			HttpClient httpClient = (HttpClient)mocks.CreateMock(typeof(HttpClient));
-			Expect.Call(httpClient.PostRequest(verifyUrl, userAgent, 5000, parameters)).Return("invalid");
-			mocks.ReplayAll();
+            var httpClient = new Mock<HttpClient>();
+            httpClient.Expect(hc => hc.PostRequest(verifyUrl, userAgent, 5000, parameters)).Returns("invalid");
 
-			AkismetClient client = new AkismetClient("wrong-key", new Uri("http://haacked.com/"), httpClient);
+			AkismetClient client = new AkismetClient("wrong-key", new Uri("http://haacked.com/"), httpClient.Object);
 			Assert.IsFalse(client.VerifyApiKey(), "If the request returns 'invalid' then we should return false!");
-
-			mocks.VerifyAll();
 		}
 		
 		[Test]
@@ -113,9 +106,8 @@ namespace UnitTests.Subtext.Akismet
 								+ "&comment_author_url=" + HttpUtility.UrlEncode("http://mysite.example.com/foo/")
 								+ "&comment_content=" + HttpUtility.UrlEncode("This is my rifle. There are many like it, but this one is MINE.");
 
-			MockRepository mocks = new MockRepository();
-			HttpClient httpClient = (HttpClient)mocks.CreateMock(typeof(HttpClient));
-			IComment comment = (IComment)mocks.CreateMock(typeof(IComment));
+            var httpClient = new Mock<HttpClient>();
+            var comment = new Mock<IComment>();
 
 			SetupCallsAnComment(comment
 			                    , "Your Mama"
@@ -129,13 +121,10 @@ namespace UnitTests.Subtext.Akismet
 			                    , "This is my rifle. There are many like it, but this one is MINE."
 								, null);
 
-			Expect.Call(httpClient.PostRequest(checkUrl, userAgent, 5000, parameters)).Return("true");
-			mocks.ReplayAll();
+			httpClient.Expect(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("true");
 
-			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient);
-			Assert.IsTrue(client.CheckCommentForSpam(comment), "If the request returns 'false' then we should return false!");
-
-			mocks.VerifyAll();
+			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient.Object);
+			Assert.IsTrue(client.CheckCommentForSpam(comment.Object), "If the request returns 'false' then we should return false!");
 		}
 
 		[Test]
@@ -147,9 +136,9 @@ namespace UnitTests.Subtext.Akismet
 			                    + "&user_ip=192.168.200.201"
 			                    + "&user_agent=" + HttpUtility.UrlEncode("Mozilla (My Silly Browser)");
 
-			MockRepository mocks = new MockRepository();
-			HttpClient httpClient = (HttpClient)mocks.CreateMock(typeof(HttpClient));
-			IComment comment = (IComment)mocks.CreateMock(typeof(IComment));
+			
+			var httpClient = new Mock<HttpClient>();
+			var comment = new Mock<IComment>();
 			
 			//We'll try a mix of nulls and empty strings.
 			SetupCallsAnComment(comment
@@ -164,13 +153,11 @@ namespace UnitTests.Subtext.Akismet
 								, string.Empty
 								, null);
 			
-			Expect.Call(httpClient.PostRequest(checkUrl, userAgent, 5000, parameters)).Return("true");
-			mocks.ReplayAll();
+			httpClient.Expect(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("true");
+			
 
-			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient);
-			Assert.IsTrue(client.CheckCommentForSpam(comment), "If the request returns 'false' then we should return false!");
-
-			mocks.VerifyAll();
+			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient.Object);
+			Assert.IsTrue(client.CheckCommentForSpam(comment.Object), "If the request returns 'false' then we should return false!");
 		}
 
 		[Test]
@@ -184,9 +171,9 @@ namespace UnitTests.Subtext.Akismet
 								+ "&Making=" + HttpUtility.UrlEncode("This-Stuff")
 								+ "&Up=" + HttpUtility.UrlEncode("As I-Go-Along");
 
-			MockRepository mocks = new MockRepository();
-			HttpClient httpClient = (HttpClient)mocks.CreateMock(typeof(HttpClient));
-			IComment comment = (IComment)mocks.CreateMock(typeof(IComment));
+			
+			var httpClient = new Mock<HttpClient>();
+			var comment = new Mock<IComment>();
 
 			NameValueCollection extendedProps = new NameValueCollection();
 			
@@ -207,13 +194,11 @@ namespace UnitTests.Subtext.Akismet
 								, extendedProps);
 			
 			
-			Expect.Call(httpClient.PostRequest(checkUrl, userAgent, 5000, parameters)).Return("false");
-			mocks.ReplayAll();
+			httpClient.Expect(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("false");
+			
 
-			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient);
-			Assert.IsFalse(client.CheckCommentForSpam(comment), "If the request returns 'false' then we should return false!");
-
-			mocks.VerifyAll();
+			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient.Object);
+			Assert.IsFalse(client.CheckCommentForSpam(comment.Object), "If the request returns 'false' then we should return false!");
 		}
 
 		[RowTest]
@@ -227,9 +212,9 @@ namespace UnitTests.Subtext.Akismet
 								+ "&user_ip=192.168.200.201"
 								+ "&user_agent=" + HttpUtility.UrlEncode("Mozilla (My Silly Browser)");
 
-			MockRepository mocks = new MockRepository();
-			HttpClient httpClient = (HttpClient)mocks.CreateMock(typeof(HttpClient));
-			IComment comment = (IComment)mocks.CreateMock(typeof(IComment));
+			
+			var httpClient = new Mock<HttpClient>();
+			var comment = new Mock<IComment>();
 
 			//We'll try a mix of nulls and empty strings.
 			SetupCallsAnComment(comment
@@ -244,16 +229,14 @@ namespace UnitTests.Subtext.Akismet
 								, string.Empty
 								, null);
 
-			Expect.Call(httpClient.PostRequest(checkUrl, userAgent, 5000, parameters)).Return(string.Empty);
-			mocks.ReplayAll();
+			httpClient.Expect(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns(string.Empty);
+			
 
-			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient);
+			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient.Object);
 			if (isHam)
-				client.SubmitHam(comment);
+				client.SubmitHam(comment.Object);
 			else
-				client.SubmitSpam(comment);
-
-			mocks.VerifyAll();
+				client.SubmitSpam(comment.Object);
 		}
 
 		/// <summary>
@@ -270,9 +253,9 @@ namespace UnitTests.Subtext.Akismet
 								+ "&user_ip=192.168.200.201"
 								+ "&user_agent=" + HttpUtility.UrlEncode("Mozilla (My Silly Browser)");
 
-			MockRepository mocks = new MockRepository();
-			HttpClient httpClient = (HttpClient)mocks.CreateMock(typeof(HttpClient));
-			IComment comment = (IComment)mocks.CreateMock(typeof(IComment));
+			
+			var httpClient = new Mock<HttpClient>();
+			var comment = new Mock<IComment>();
 
 			//We'll try a mix of nulls and empty strings.
 			SetupCallsAnComment(comment
@@ -287,25 +270,25 @@ namespace UnitTests.Subtext.Akismet
 								, string.Empty
 								, null);
 
-			Expect.Call(httpClient.PostRequest(checkUrl, userAgent, 5000, parameters)).Return("invalid");
-			mocks.ReplayAll();
+			httpClient.Expect(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("invalid");
+			
 
-			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient);
-			Assert.IsTrue(client.CheckCommentForSpam(comment), "If the request returns 'false' then we should return false!");
+			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient.Object);
+			Assert.IsTrue(client.CheckCommentForSpam(comment.Object), "If the request returns 'false' then we should return false!");
 		}
 
-		private static void SetupCallsAnComment(IComment comment, string author, string email, IPAddress ip, string userAgent, string referer, Uri permalink, string commentType, Uri authorUrl, string content, NameValueCollection extendedProperties)
+		private static void SetupCallsAnComment(Mock<IComment> comment, string author, string email, IPAddress ip, string userAgent, string referer, Uri permalink, string commentType, Uri authorUrl, string content, NameValueCollection extendedProperties)
 		{
-			Expect.Call(comment.Author).Return(author).Repeat.Any();
-			Expect.Call(comment.AuthorEmail).Return(email).Repeat.Any();
-			Expect.Call(comment.IpAddress).Return(ip).Repeat.Any();
-			Expect.Call(comment.UserAgent).Return(userAgent).Repeat.Any();
-			Expect.Call(comment.Referer).Return(referer).Repeat.Any();
-			Expect.Call(comment.Permalink).Return(permalink).Repeat.Any();
-			Expect.Call(comment.CommentType).Return(commentType).Repeat.Any();
-			Expect.Call(comment.AuthorUrl).Return(authorUrl).Repeat.Any();
-			Expect.Call(comment.Content).Return(content).Repeat.Any();
-			Expect.Call(comment.ServerEnvironmentVariables).Return(extendedProperties).Repeat.Any();
+            comment.Expect(c => c.Author).Returns(author);
+			comment.Expect(c => c.AuthorEmail).Returns(email);
+			comment.Expect(c => c.IpAddress).Returns(ip);
+			comment.Expect(c => c.UserAgent).Returns(userAgent);
+			comment.Expect(c => c.Referer).Returns(referer);
+			comment.Expect(c => c.Permalink).Returns(permalink);
+			comment.Expect(c => c.CommentType).Returns(commentType);
+			comment.Expect(c => c.AuthorUrl).Returns(authorUrl);
+			comment.Expect(c => c.Content).Returns(content);
+			comment.Expect(c => c.ServerEnvironmentVariables).Returns(extendedProperties);
 		}
 
 		static string GetExpectedUserAgent()

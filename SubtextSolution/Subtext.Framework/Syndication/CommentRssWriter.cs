@@ -16,11 +16,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Xml;
-using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Syndication;
 
 namespace Subtext.Framework.Syndication
 {
@@ -37,7 +35,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="commentEntries">Ec.</param>
 		/// <param name="entry">Ce.</param>
-		public CommentRssWriter(ICollection<FeedbackItem> commentEntries, Entry entry) : base(NullValue.NullDateTime, false)
+		public CommentRssWriter(TextWriter writer, ICollection<FeedbackItem> commentEntries, Entry entry, ISubtextContext context) : base(writer, NullValue.NullDateTime, false, context)
 		{
 			if(commentEntries == null)
 				throw new ArgumentNullException("commentEntries", "Cannot generate a comment rss feed for a null collection of entries.");
@@ -57,7 +55,7 @@ namespace Subtext.Framework.Syndication
 		protected override void WriteChannel()
 		{
 			RssImageElement image = new RssImageElement(GetRssImage(), CommentEntry.Title, CommentEntry.FullyQualifiedUrl, 77, 60, null);
-			this.BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl.ToString(), CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, Blog.Language, Blog.Author, Config.CurrentBlog.LicenseUrl, image);
+			this.BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl.ToString(), CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, Blog.Language, Blog.Author, Blog.LicenseUrl, image);
 		}
 
 		/// <summary>
@@ -87,7 +85,7 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected override string GetLinkFromItem(FeedbackItem item)
 		{
-			return item.DisplayUrl.ToString();
+            return UrlHelper.FeedbackUrl(item).ToFullyQualifiedUrl(Blog).ToString();
 		}
 
 		/// <summary>
@@ -169,7 +167,7 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected override DateTime GetPublishedDateUtc(FeedbackItem item)
 		{
-			return Config.CurrentBlog.TimeZone.ToUniversalTime(item.DateCreated);
+			return Blog.TimeZone.ToUniversalTime(item.DateCreated);
 		}
 
         protected override EnclosureItem GetEnclosureFromItem(FeedbackItem item)

@@ -42,7 +42,7 @@ using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Tracking
 {
-	/// <summary>
+    /// <summary>
 	/// Service used to receive pingbacks from remote clients.
 	/// </summary>
 	public class PingBackService : XmlRpcService

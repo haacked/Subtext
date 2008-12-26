@@ -2,37 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Syndication
 {
-	public abstract class BaseSyndicationWriter<T>:BaseSyndicationWriter
+	public abstract class BaseSyndicationWriter<T> : BaseSyndicationWriter
 	{
-
-				/// <summary>
-		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
-		/// </summary>
-		/// <param name="sw">Sw.</param>
-        protected BaseSyndicationWriter(StringWriter sw) : base(sw, NullValue.NullDateTime, false)
-        {
-        }
-
-		/// <summary>
-		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
-		/// </summary>
-		/// <param name="dateLastViewedFeedItemPublished"></param>
-        protected BaseSyndicationWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(new StringWriter(), dateLastViewedFeedItemPublished, useDeltaEncoding)
-        {
-		}
-
 		/// <summary>
 		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
 		/// </summary>
 		/// <param name="sw">Sw.</param>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-		protected BaseSyndicationWriter(StringWriter sw, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(sw,dateLastViewedFeedItemPublished,useDeltaEncoding)
+        protected BaseSyndicationWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context)
+            : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
 		{
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// Gets or sets the entries to be rendered in the feed.
 		/// </summary>
 		/// <value>The entries.</value>

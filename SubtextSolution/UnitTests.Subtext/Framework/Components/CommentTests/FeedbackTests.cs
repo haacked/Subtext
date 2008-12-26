@@ -405,6 +405,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			feedbackItem.Author = "Billy Bob";
 			feedbackItem.Email = commenterEmail;
 			feedbackItem.DateCreated = DateTime.Now;
+            feedbackItem.ParentDateCreated = entry.DateCreated;
 			if (commenterUrl.Length > 0)
 				feedbackItem.SourceUrl = new Uri(commenterUrl);
 			feedbackItem.Title = "Some Title";
@@ -461,6 +462,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			feedback.Title = UnitTestHelper.GenerateUniqueString();
 			feedback.Body = UnitTestHelper.GenerateUniqueString();
 			feedback.EntryId = entry.Id;
+            feedback.Author = "TestAuthor";
 			int id = FeedbackItem.Create(feedback, null);
 
 			feedback = FeedbackItem.Get(id);

@@ -61,7 +61,6 @@ namespace UnitTests.Subtext.Framework.Format
 			info.Host = "localhost";
 			info.Subfolder = subfolder; 
 
-
 			Assert.AreEqual(info.UrlFormats.AdminUrl(url), expected);
 
 		}

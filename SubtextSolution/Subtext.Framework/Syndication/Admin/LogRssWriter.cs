@@ -4,37 +4,38 @@ using System.Text;
 using Subtext.Framework.Logging;
 using System.Collections.Specialized;
 using Subtext.Framework.Configuration;
+using System.IO;
 
 namespace Subtext.Framework.Syndication.Admin
 {
-	public class LogRssWriter:GenericRssWriter<LogEntry>
+	public class LogRssWriter : GenericRssWriter<LogEntry>
 	{
-		public LogRssWriter(ICollection<LogEntry> logs, bool useDeltaEncoding)
-			: base(NullValue.NullDateTime, useDeltaEncoding)
+		public LogRssWriter(TextWriter writer, ICollection<LogEntry> logs, bool useDeltaEncoding, ISubtextContext context)
+            : base(writer, NullValue.NullDateTime, useDeltaEncoding, context)
 		{
 			this.Items = logs;
 		}
 
-		protected override string GetCommentRssUrl(LogEntry item, Subtext.Framework.Format.UrlFormats urlFormats)
+		protected override string GetCommentRssUrl(LogEntry item)
 		{
-			return "";
+			return string.Empty;
 		}
 
 		protected override string GetGuid(LogEntry item)
 		{
-			return item.Message+item.Date.ToUniversalTime();
+			return item.Message + item.Date.ToUniversalTime();
 		}
-		protected override string GetTrackBackUrl(LogEntry item, Subtext.Framework.Format.UrlFormats urlFormats)
+		protected override string GetTrackBackUrl(LogEntry item)
+		{
+			return string.Empty;
+		}
+
+		protected override string GetCommentApiUrl(LogEntry item)
 		{
 			return "";
 		}
 
-		protected override string GetCommentApiUrl(LogEntry item, Subtext.Framework.Format.UrlFormats urlFormats)
-		{
-			return "";
-		}
-
-		protected override string GetAggBugUrl(LogEntry item, Subtext.Framework.Format.UrlFormats urlFormats)
+		protected override string GetAggBugUrl(LogEntry item)
 		{
 			return "";
 		}
@@ -56,7 +57,7 @@ namespace Subtext.Framework.Syndication.Admin
 
 		protected override string GetLinkFromItem(LogEntry item)
 		{
-			return Config.CurrentBlog.UrlFormats.AdminUrl("ErrorLog.aspx");
+			return Blog.UrlFormats.AdminUrl("ErrorLog.aspx");
 		}
 
 		protected override string GetBodyFromItem(LogEntry item)

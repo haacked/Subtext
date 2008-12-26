@@ -228,6 +228,33 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region Entry
+
+        public static Entry GetEntryFromRequest(CacheDuration cacheDuration, bool allowRedirectToEntryName, HttpContextBase httContext)
+        {
+            string id = Path.GetFileNameWithoutExtension(httContext.Request.Path);
+
+            if (id.IsNumeric())
+            {
+                Entry entry = GetEntry(Int32.Parse(id), cacheDuration);
+                if (entry == null)
+                    return null;
+
+                //Second condition avoids infinite redirect loop. Should never happen.
+                if (allowRedirectToEntryName && entry.HasEntryName && !entry.EntryName.IsNumeric())
+                {
+                    HttpContext.Current.Response.StatusCode = 301;
+                    HttpContext.Current.Response.Status = "301 Moved Permanently";
+                    HttpContext.Current.Response.RedirectLocation = entry.FullyQualifiedUrl.ToString();
+                    HttpContext.Current.Response.End();
+                }
+                return entry;
+            }
+            else
+            {
+                return GetEntry(id, cacheDuration);
+            }
+        }
+
 		/// <summary>
 		/// Returns an Entry requested by the current Http Request. 
 		/// The URL must be correctly formatted for requesting an entry.
@@ -237,29 +264,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public static Entry GetEntryFromRequest(CacheDuration cacheDuration, bool allowRedirectToEntryName)
 		{
-			string id = Path.GetFileNameWithoutExtension(HttpContext.Current.Request.Path);
-
-			if (id.IsNumeric())
-			{
-				Entry entry = GetEntry(Int32.Parse(id), cacheDuration);
-				if (entry == null)
-					return null;
-
-				//Second condition avoids infinite redirect loop. Should never happen.
-                if (allowRedirectToEntryName && entry.HasEntryName && !entry.EntryName.IsNumeric())
-				{
-					HttpContext.Current.Response.StatusCode = 301;
-					HttpContext.Current.Response.Status = "301 Moved Permanently";
-					HttpContext.Current.Response.RedirectLocation = entry.FullyQualifiedUrl.ToString();
-					HttpContext.Current.Response.End();
-				}
-				return entry;
-			}
-			else
-			{
-				return GetEntry(id, cacheDuration);
-			}
-
+            return GetEntryFromRequest(cacheDuration, allowRedirectToEntryName, new HttpContextWrapper(HttpContext.Current));
 		}
 
 		/// <summary>

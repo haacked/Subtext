@@ -52,6 +52,7 @@ namespace Subtext.Framework.Components
             Status = FeedbackStatusFlag.None;
             DateCreated = NullValue.NullDateTime;
             DateModified = NullValue.NullDateTime;
+            Author = string.Empty;
         }
 
 		/// <summary>
@@ -354,8 +355,20 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				if (this.entry == null && EntryId != NullValue.NullInt32)
-                    this.entry = Entries.GetEntry(EntryId, PostConfig.None, false);
+                if (this.entry == null && EntryId != NullValue.NullInt32) {
+                    if (!String.IsNullOrEmpty(parentEntryName))
+                    {
+                        entry = new Entry(PostType.BlogPost)
+                        {
+                            Id = EntryId,
+                            EntryName = parentEntryName,
+                            DateCreated = parentDateCreated
+                        };
+                    }
+                    else {
+                        this.entry = Entries.GetEntry(EntryId, PostConfig.None, false);
+                    }
+                }
 				return this.entry;
 			}
 			set { this.entry = value; }
@@ -438,28 +451,15 @@ namespace Subtext.Framework.Components
 		}
 	
 		/// <summary>
-		/// Returns the URL to view the specific comment 
-		/// within the blog.
-		/// </summary>
-		public Uri DisplayUrl
-		{
-			get
-			{
-				return Config.CurrentBlog.UrlFormats.FeedbackFullyQualifiedUrl(EntryId, ParentEntryName, ParentDateCreated, this);
-			}
-		}
-
-		/// <summary>
 		/// Gets or sets the author name of the entry.  
 		/// For comments, this is the name given by the commenter. 
 		/// </summary>
 		/// <value>The author.</value>
 		public string Author
 		{
-			get { return _author ?? string.Empty; }
-			set { _author = value; }
+			get;
+			set;
 		}
-		private string _author;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this feedback was left by an author of the blog.

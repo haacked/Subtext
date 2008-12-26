@@ -36,7 +36,7 @@ namespace Subtext.Framework.Syndication
 		protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
 		{
 			const string key = "ATOM;IndividualMainFeed;BlogId:{0};LastViewed:{1}";
-			return string.Format(key, CurrentBlog.Id, dateLastViewedFeedItemPublished);
+			return string.Format(key, Blog.Id, dateLastViewedFeedItemPublished);
 		}
 
 		/// <summary>
@@ -49,7 +49,7 @@ namespace Subtext.Framework.Syndication
 			{
 				if(writer == null)
 				{
-					writer = new AtomWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding);
+					writer = new AtomWriter(HttpContext.Response.Output, Entries.GetMainSyndicationEntries(Blog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding, SubtextContext);
 				}
 				return writer;
 			}
@@ -65,7 +65,9 @@ namespace Subtext.Framework.Syndication
 
 		protected override void Cache(CachedFeed feed)
 		{
-			Context.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed,null, DateTime.Now.AddSeconds((double)CacheDuration.Medium), TimeSpan.Zero);
+            if (HttpContext.Cache != null) {
+                HttpContext.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, null, DateTime.Now.AddSeconds((double)CacheDuration.Medium), TimeSpan.Zero);
+            }
 		}
 	}
 }

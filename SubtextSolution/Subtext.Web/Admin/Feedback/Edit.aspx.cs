@@ -44,8 +44,8 @@ namespace Subtext.Web.Admin.Feedback {
                 hlAuthorEmail.NavigateUrl = "mailto:" + currentFeedback.Email;
             }
 
-            hlEntryLink.NavigateUrl = currentFeedback.DisplayUrl.ToString();
-            hlEntryLink.Text = currentFeedback.DisplayUrl.ToString();
+            hlEntryLink.NavigateUrl = Url.FeedbackUrl(currentFeedback);
+            hlEntryLink.Text = Url.FeedbackUrl(currentFeedback);
             if (currentFeedback.SourceUrl != null) 
             {
                 txbWebsite.Text = currentFeedback.SourceUrl.ToString();
@@ -95,7 +95,7 @@ namespace Subtext.Web.Admin.Feedback {
                     if (ReturnToOriginalPost) 
                     {
                         if (updatedFeedback != null) {
-                            Response.Redirect(updatedFeedback.DisplayUrl.ToString());
+                            Response.Redirect(Url.FeedbackUrl(updatedFeedback));
                             return;
                         }
                     }
@@ -117,7 +117,7 @@ namespace Subtext.Web.Admin.Feedback {
                     FeedbackItem updatedFeedback = FeedbackItem.Get(FeedbackId);
                     if (updatedFeedback != null) 
                     {
-                        return updatedFeedback.DisplayUrl.ToString();
+                        return Url.FeedbackUrl(updatedFeedback);
                     }
                 }
                 //Go back to the list.

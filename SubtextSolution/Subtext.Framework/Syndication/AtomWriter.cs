@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using Subtext.Framework.Components;
+using System.IO;
 
 namespace Subtext.Framework.Syndication
 {
@@ -29,7 +30,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="entries">Entries.</param>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-        public AtomWriter(ICollection<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
+        public AtomWriter(TextWriter writer, ICollection<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context) : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
 		{
 			this.Items = entries;
 			this.UseAggBugs = true;

@@ -1,13 +1,11 @@
 using System;
-using System.IO;
-using System.Text;
-using System.Web;
 using System.Xml;
 using MbUnit.Framework;
-using Subtext.Framework.Syndication;
+using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Syndication;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -32,26 +30,30 @@ namespace UnitTests.Subtext.Framework.Syndication
 		public void CommentRssHandlerProducesValidEmptyFeed()
 		{
 			string hostName = UnitTestHelper.GenerateUniqueHostname();
-			Config.CreateBlog("Test", "username", "password", hostName, string.Empty);
+            //BlogInfo blog = new BlogInfo {
+            //    Host = hostName,
+            //    Email = "Subtext@example.com",
+            //    RFC3229DeltaEncodingEnabled = false,
+            //};
+            int blogId = Config.CreateBlog("Test", "username", "password", hostName, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, string.Empty);
+            BlogInfo blog = Config.CurrentBlog;
+            blog.Host = hostName;
+            blog.Email = "Subtext@example.com";
+            blog.RFC3229DeltaEncodingEnabled = false;
 
-			StringBuilder sb = new StringBuilder();
-			TextWriter output = new StringWriter(sb);
-			
 			DateTime dateCreated = DateTime.Now;
-			
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
-			Config.CurrentBlog.Email = "Subtext@example.com";
-			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
-			
-			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "Best post EVER", "testbody", null, dateCreated);
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blog, "Author", "Best post EVER", "testbody", null, dateCreated);
 			int id = Entries.Create(entry); //persist to db.
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", string.Format("/2006/04/01/{0}.aspx", id), output);
 
 			RssCommentHandler handler = new RssCommentHandler();
-			handler.ProcessRequest(HttpContext.Current);
-			HttpContext.Current.Response.Flush();
+            string rssOutput = null;
 
-			string rssOutput = sb.ToString();
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.FakeSyndicationContext(blog, "/" + id + ".aspx", s => rssOutput = s);
+
+			handler.ProcessRequest(subtextContext.Object);
+
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(rssOutput);
 			

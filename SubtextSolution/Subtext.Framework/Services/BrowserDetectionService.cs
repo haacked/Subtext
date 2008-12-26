@@ -10,16 +10,20 @@ namespace Subtext.Framework.Services
 {
     public class BrowserDetectionService : IHttpHandler
     {
-        HttpContext context;
-        int blogId;
-
-        public BrowserDetectionService() : this(HttpContext.Current, Config.CurrentBlog.Id)
-        { }
-
-        public BrowserDetectionService(HttpContext context, int blogId)
+        public BrowserDetectionService()
         {
-            this.context = context;
-            this.blogId = blogId;
+        }
+
+        private int BlogId {
+            get {
+                return Config.CurrentBlog.Id;
+            }
+        }
+
+        private HttpContext HttpContext {
+            get {
+                return HttpContext.Current;
+            }
         }
 
         public BrowserInfo DetectBrowserCapabilities()
@@ -27,15 +31,15 @@ namespace Subtext.Framework.Services
             bool? isMobile = UserSpecifiedMobile();
             if (isMobile == null)
             {
-                MobileCapabilities mobileCaps = this.context.Request.Browser as MobileCapabilities;
+                MobileCapabilities mobileCaps = HttpContext.Current.Request.Browser as MobileCapabilities;
                 isMobile = mobileCaps != null && mobileCaps.IsMobileDevice;
             }
             return new BrowserInfo(isMobile.Value);
         }
 
         bool? UserSpecifiedMobile()
-        { 
-            HttpCookie cookie = context.Request.Cookies.Get("MobileDeviceInfo_" + this.blogId);
+        {
+            HttpCookie cookie = HttpContext.Current.Request.Cookies.Get("MobileDeviceInfo_" + BlogId);
             if (cookie == null)
                 return null;
             return (cookie.Value == "True");
@@ -43,9 +47,9 @@ namespace Subtext.Framework.Services
 
         public void SetMobile(bool isMobile)
         {
-            HttpCookie cookie = new HttpCookie("MobileDeviceInfo_" + this.blogId, isMobile.ToString(CultureInfo.InvariantCulture));
+            HttpCookie cookie = new HttpCookie("MobileDeviceInfo_" + BlogId, isMobile.ToString(CultureInfo.InvariantCulture));
             cookie.Value = isMobile.ToString(CultureInfo.InvariantCulture);
-            this.context.Response.Cookies.Add(cookie);
+            HttpContext.Current.Response.Cookies.Add(cookie);
         }
 
         #region IHttpHandler Members

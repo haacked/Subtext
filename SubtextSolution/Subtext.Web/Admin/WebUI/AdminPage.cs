@@ -22,6 +22,7 @@ using System.Web.UI.WebControls;
 using Subtext.Framework.Configuration;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -37,7 +38,7 @@ namespace Subtext.Web.Admin.Pages
 	/// Base Page class for all pages in the admin tool.
 	/// </summary>
 	[PrincipalPermission(SecurityAction.Demand, Role = "Admins")]
-	public class AdminPage : Page
+	public class AdminPage : RoutablePage
 	{
         private HtmlGenericControl body;
 		private ConfirmCommand _command;

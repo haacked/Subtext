@@ -31,11 +31,11 @@ namespace Subtext.Framework.Format
 	/// </summary>
 	public class UrlFormats
 	{
-        protected string fullyQualifiedUrl;
+        Uri _rootUrl;
 
         public UrlFormats(Uri fullyQualifiedUrl)
 		{
-			this.fullyQualifiedUrl = fullyQualifiedUrl.ToString();
+            _rootUrl = fullyQualifiedUrl;
 		}
 
 		/// <summary>
@@ -70,7 +70,7 @@ namespace Subtext.Framework.Format
 			{
 				if (Config.CurrentBlog.FeedBurnerEnabled)
 					return FeedBurnerUrl;
-				return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}Rss.aspx", Config.CurrentBlog.RootUrl));
+				return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}Rss.aspx", _rootUrl));
 			}
 		}
 
@@ -84,7 +84,7 @@ namespace Subtext.Framework.Format
 			{
 				if (Config.CurrentBlog.FeedBurnerEnabled)
 					return FeedBurnerUrl;
-				return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}Atom.aspx", Config.CurrentBlog.RootUrl));
+				return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}Atom.aspx", _rootUrl));
 			}
 		}
 		
@@ -187,21 +187,6 @@ namespace Subtext.Framework.Format
 		}
 
 		/// <summary>
-		/// Returns the URL to the specified feedback item.
-		/// </summary>
-		/// <param name="parentId">The id of the parent entry.</param>
-		/// <param name="parentEntryName">If exists.</param>
-		/// <param name="feedback">The feedback.</param>
-		/// <param name="parentCreateDate"></param>
-		/// <param name="feedback">The feedback item.</param>
-		/// <returns></returns>
-		public virtual string FeedbackUrl(int parentId, string parentEntryName, DateTime parentCreateDate, FeedbackItem feedback)
-		{
-			string entryUrl = EntryUrl(parentId, parentEntryName, parentCreateDate);
-			return string.Format(CultureInfo.InvariantCulture, "{0}#{1}", entryUrl, feedback.Id);
-		}
-
-		/// <summary>
 		/// Returns the fully URL to the specified feedback item.
 		/// </summary>
 		/// <param name="parentId">The id of the parent entry.</param>
@@ -225,10 +210,11 @@ namespace Subtext.Framework.Format
 			return GetFullyQualifiedUrl("services/trackbacks/{0}.aspx", entryId);
 		}
  
-		public virtual string AggBugkUrl(int EntryID)
+		public virtual string AggBugUrl(int EntryID)
 		{
-			return GetFullyQualifiedUrl("aggbug/{0}.aspx",EntryID);
+			return GetFullyQualifiedUrl("aggbug/{0}.aspx", EntryID);
 		}
+
 		public virtual string AdminUrl(string Page)
 		{
 			return GetFullyQualifiedUrl("Admin/{0}", Page);
@@ -253,7 +239,7 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		protected virtual string GetFullyQualifiedUrl(string formatString, params object[] items)
 		{
-			return fullyQualifiedUrl + string.Format(CultureInfo.InvariantCulture, formatString, items);
+			return _rootUrl.ToString() + string.Format(CultureInfo.InvariantCulture, formatString, items);
 		}
 
 		/// <summary>
@@ -419,7 +405,7 @@ namespace Subtext.Framework.Format
 			string url = (String.IsNullOrEmpty(app)) ? "~" : "~/" + app;
 			if (feedback.FeedbackType == FeedbackType.Comment||feedback.FeedbackType==FeedbackType.PingTrack)
 			{
-				url += "/Admin/Feedback/Default.aspx?return-to-post=true&FeedbackID=" + feedback.Id;
+				url += "/Admin/Feedback/Edit.aspx?return-to-post=true&FeedbackID=" + feedback.Id;
 			}
 			else
 			{

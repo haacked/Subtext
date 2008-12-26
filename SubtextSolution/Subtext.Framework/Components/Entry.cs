@@ -381,7 +381,7 @@ namespace Subtext.Framework.Components
 		public Uri FullyQualifiedUrl
 		{
 			get;
-            private set;
+            set;
 		}
 
 		public int FeedBackCount

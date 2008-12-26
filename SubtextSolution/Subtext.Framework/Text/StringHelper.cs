@@ -33,14 +33,29 @@ namespace Subtext.Framework.Text
             return s;
         }
 
-		/// <summary>
-		/// Removes any double instances of the specified character. 
-		/// So "--" becomes "-" if the character is '-'.
-		/// </summary>
-		/// <param name="text">The text.</param>
-		/// <param name="character">The character.</param>
-		/// <returns></returns>
-		public static string RemoveDoubleCharacter(this string text, char character)
+        public static string Remove(this string original, string textToRemove, int occurrenceCount, StringComparison comparison) {
+            if (!original.Contains(textToRemove, comparison)) {
+                return original;
+            }
+
+            string result = original;
+            for (int i = 0; i < occurrenceCount; i++ ) {
+                result = result.LeftBefore(textToRemove, comparison) + result.RightAfter(textToRemove, comparison);
+                if (!result.Contains(textToRemove, comparison)) {
+                    return result;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Removes any double instances of the specified character. 
+        /// So "--" becomes "-" if the character is '-'.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="character">The character.</param>
+        /// <returns></returns>
+        public static string RemoveDoubleCharacter(this string text, char character)
 		{
 			if (text == null)
 				throw new ArgumentNullException("text");
@@ -224,7 +239,8 @@ namespace Subtext.Framework.Text
 		{
 			if(original == null)
 				throw new ArgumentNullException("original", "The original string may not be null.");
-			if(search == null)
+			
+            if(search == null)
 				throw new ArgumentNullException("search", "The searchString string may not be null.");
 
 			//Shortcut.

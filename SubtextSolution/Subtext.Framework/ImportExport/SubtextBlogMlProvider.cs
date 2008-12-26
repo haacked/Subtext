@@ -514,7 +514,7 @@ namespace Subtext.ImportExport
 			newPingTrack.DateModified = trackback.DateModified;
 			// we use an actual name here, but BlogML doesn't support this, so let's try  
 			// to parse the url's host out of the url.
-			newPingTrack.Author = UrlFormats.GetHostFromExternalUrl(trackback.Url);
+			newPingTrack.Author = UrlFormats.GetHostFromExternalUrl(trackback.Url) ?? string.Empty;
 			// so the duplicate Comment Filter doesn't break when computing the checksum
 			newPingTrack.Body = string.Empty;
 

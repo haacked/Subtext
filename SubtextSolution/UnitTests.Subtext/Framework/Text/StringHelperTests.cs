@@ -10,6 +10,36 @@ namespace UnitTests.Subtext.Framework.Text
 	[TestFixture]
 	public class StringHelperTests
 	{
+        [Test]
+        public void Remove_PassingInTextWithRepeatingSequenceAndOccurrenceCountOfOne_RemovesFirstOccurrence()
+        {
+            //act
+            string result = "foo/bar/foo".Remove("Foo", 1, StringComparison.OrdinalIgnoreCase);
+
+            //assert
+            Assert.AreEqual("/bar/foo", result);
+        }
+
+        [Test]
+        public void Remove_PassingInTextWithRepeatingSequenceAndOccurrenceCountOfTwo_RemovesAllOccurrences()
+        {
+            //act
+            string result = "foo/bar/foo".Remove("Foo", 2, StringComparison.OrdinalIgnoreCase);
+
+            //assert
+            Assert.AreEqual("/bar/", result);
+        }
+
+        [Test]
+        public void Remove_PassingInTextWithRepeatingSequenceAndOccurrenceCountOfFour_RemovesAllOccurrences()
+        {
+            //act
+            string result = "foo/bar/foo".Remove("Foo", 4, StringComparison.OrdinalIgnoreCase);
+
+            //assert
+            Assert.AreEqual("/bar/", result);
+        }
+
 		[RowTest]
 		[Row(null, char.MinValue, null, ExpectedException = typeof(ArgumentNullException))]
 		[Row("Blah..Blah", '.', "Blah.Blah")]

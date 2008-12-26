@@ -31,9 +31,9 @@ namespace Subtext.Web.Admin.WebUI
 		/// <param name="button"></param>
 		public void AddToActions(LinkButton button)
 		{
-			AddToActions(button,"");
+			AddToActions(button, "");
 		}
-		public void AddToActions(LinkButton button,string rssFeed)
+		public void AddToActions(LinkButton button, string rssFeed)
 		{
 			// HACK: one without the other doesn't seem to work. If I don't add this
 			// to Items it doesn't render, if I don't add to controls it doesn't get
@@ -62,8 +62,9 @@ namespace Subtext.Web.Admin.WebUI
 		/// <param name="link"></param>
 		public void AddToActions(HyperLink link)
 		{
-			AddToActions(link,"");
+			AddToActions(link, "");
 		}
+
 		public void AddToActions(HyperLink link, string rssFeed)
 		{
 			LinksActions.Items.Add(link);

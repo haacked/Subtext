@@ -16,13 +16,16 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Web;
 using MbUnit.Framework;
-using Subtext.Framework.Syndication;
+using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Syndication;
+using Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -51,8 +54,12 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
-			
-			RssWriter writer = new RssWriter(new List<Entry>(), DateTime.Now, false);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.FakeSyndicationContext(blogInfo, "/", application, null);
+            var httpContext = Mock.Get<HttpContextBase>(subtextContext.Object.RequestContext.HttpContext);
+            httpContext.Expect(h => h.Request.ApplicationPath).Returns(application);
+
+			RssWriter writer = new RssWriter(new StringWriter(), new List<Entry>(), DateTime.Now, false, subtextContext.Object);
 			Uri rssImageUrl = writer.GetRssImage();
 			Assert.AreEqual(expected, rssImageUrl.ToString(), "not the expected url.");			
 		}
@@ -89,8 +96,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 		    enc.Size = 26707573;
 		    enc.MimeType = "audio/mp3";
 		    enc.AddToFeed = true;
-
-
 		    entries[2].Enclosure = enc;
 
             Enclosure enc1 = new Enclosure();
@@ -103,7 +108,12 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 		    entries[3].Enclosure = enc1;
 
-			RssWriter writer = new RssWriter(entries, NullValue.NullDateTime, false);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.FakeSyndicationContext(blogInfo, "/", "Subtext.Web", null);
+            var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
+            urlHelper.Expect(u => u.BlogUrl()).Returns("/Subtext.Web/");
+
+			RssWriter writer = new RssWriter(new StringWriter(), entries, NullValue.NullDateTime, false, subtextContext.Object);
 
 			string expected = @"<rss version=""2.0"" "
 									+ @"xmlns:dc=""http://purl.org/dc/elements/1.1/"" "
@@ -204,8 +214,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
             List<Entry> entries = new List<Entry>(CreateSomeEntriesDescending());
-			// Tell the write we already received 1002 published 6/25/1976.
-			RssWriter writer = new RssWriter(entries, DateTime.ParseExact("06/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture), true);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.FakeSyndicationContext(blogInfo, "/", "Subtext.Web", null);
+            var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
+            urlHelper.Expect(u => u.BlogUrl()).Returns("/Subtext.Web/");
+            
+            // Tell the write we already received 1002 published 6/25/1976.
+			RssWriter writer = new RssWriter(new StringWriter(), entries, DateTime.ParseExact("06/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture), true, subtextContext.Object);
 
 			// We only expect 1003 and 1004
 			string expected = @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" + Environment.NewLine
@@ -272,8 +287,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 			
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
-            List<Entry> entries = new List<Entry>(CreateSomeEntriesDescending());		
-			RssWriter writer = new RssWriter(entries, DateTime.ParseExact("07/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture), false);
+            List<Entry> entries = new List<Entry>(CreateSomeEntriesDescending());
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.FakeSyndicationContext(blogInfo, "/Subtext.Web/", "Subtext.Web", null);
+            var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
+            urlHelper.Expect(u => u.BlogUrl()).Returns("/Subtext.Web/");
+            
+			RssWriter writer = new RssWriter(new StringWriter(), entries, DateTime.ParseExact("07/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture), false, subtextContext.Object);
 
 			string expected = @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" + Environment.NewLine 
 								+ indent() + "<channel>" + Environment.NewLine

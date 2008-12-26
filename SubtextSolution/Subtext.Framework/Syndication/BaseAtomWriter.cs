@@ -20,6 +20,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
+using System.IO;
 
 namespace Subtext.Framework.Syndication
 {
@@ -54,7 +55,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
 		/// <param name="useDeltaEncoding">if set to <c>true</c> [use delta encoding].</param>
-		protected BaseAtomWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
+		protected BaseAtomWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context) : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
 		{
 		}
 
@@ -108,8 +109,8 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual void WriteChannel()
 		{
-			BuildChannel(Blog.Title, Blog.HomeFullyQualifiedUrl.ToString(), Blog.SubTitle);
-			
+            Uri blogUrl = new Uri(UrlHelper.BlogUrl().ToFullyQualifiedUrl(Blog), "Default.aspx");
+			BuildChannel(Blog.Title, blogUrl.ToString(), Blog.SubTitle);
 		}
 
 		protected void BuildChannel(string title, string link, string description)
@@ -141,8 +142,9 @@ namespace Subtext.Framework.Syndication
 
             this.WriteStartElement("author");
             this.WriteElementString("name", Blog.Author);
-            //(Duncanma 11/13/2005, changing url to uri for 1.0 feed)
-            this.WriteElementString("uri", Blog.HomeFullyQualifiedUrl.ToString());
+
+            Uri blogUrl = new Uri(UrlHelper.BlogUrl().ToFullyQualifiedUrl(Blog), "Default.aspx");
+            this.WriteElementString("uri", blogUrl.ToString());
             this.WriteEndElement();
 
             //(Duncanma 11/13/05) updated generator to reflect project name change to Subtext
@@ -224,7 +226,7 @@ namespace Subtext.Framework.Syndication
 					string.Format
 					("{0}{1}", //tag def
 						entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
-						(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.Id)) : null //use aggbugs
+						(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugUrl(entry.Id)) : null //use aggbugs
 					)
 				);		
 				this.WriteEndElement();
@@ -232,7 +234,7 @@ namespace Subtext.Framework.Syndication
 			if(AllowComments && Blog.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
 			{
 				//optional for CommentApi Post location
-				this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(entry.Id));
+				this.WriteElementString("wfw:comment", UrlHelper.CommentApiUrl(entry.Id));
 				//optional url for comments
 				//this.WriteElementString("comments",entry.Link + "#feedback");
 				//optional comment count

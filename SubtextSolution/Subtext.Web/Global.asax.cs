@@ -17,17 +17,112 @@ using System;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Web;
+using System.Web.Routing;
 using log4net;
+using Subtext.BlogML;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Routing;
+using Subtext.Framework.Services;
+using Subtext.Framework.Syndication;
+using Subtext.Framework.Syndication.Admin;
+using Subtext.Framework.Tracking;
+using Subtext.Framework.XmlRpc;
+using Subtext.Web.Controls.Captcha;
+using Subtext.Web.SiteMap;
+using Subtext.Web.UI.Handlers;
 
 namespace Subtext.Web
 {
     public class Global : HttpApplication
     {
+        public static void RegisterRoutes(RouteCollection routes) {
+            routes.Ignore("hostadmin/{*pathinfo}");
+            routes.Ignore("install/{*pathinfo}");
+            routes.Ignore("SystemMessages/{*pathinfo}");
+
+
+            routes.MapPage("login.aspx", "~/login.aspx");
+            routes.MapPage("logout.aspx", "~/logout.aspx");
+            
+            routes.MapHttpHandler<BlogMLHttpHandler>("admin/handlers/BlogMLExport.ashx");
+            routes.MapHttpHandler<RssAdminHandler>("admin/{adminRss}Rss.axd");
+            routes.MapDirectory("admin");
+            routes.MapDirectory("providers");
+
+            routes.MapHttpHandler<SiteMapHttpHandler>("sitemap.ashx");
+            routes.MapHttpHandler<BrowserDetectionService>("BrowserServices.ashx");
+            routes.MapHttpHandler<RssHandler>("rss.aspx");
+            routes.MapHttpHandler<AtomHandler>("atom.aspx");
+            routes.MapHttpHandler<RssCommentHandler>("comment-rss", "comments/commentRss/{id}.aspx");
+            routes.MapHttpHandler<CommentHandler>("comment-api", "comments/{id}.aspx", new { id = @"\d+" });
+
+            routes.MapHttpHandler<AggBugHandler>("aggbug", "aggbug/{id}.aspx");
+            routes.MapHttpHandler<BlogSecondaryCssHandler>("customcss.aspx");
+            routes.MapHttpHandler<RssCategoryHandler>("category/{categoryName}.aspx/rss", new {categoryName=@"[-\w\s\d]+"});
+            routes.MapPageToControl("ArchivePostPage");
+            routes.MapPageToControl("ArticleCategories");
+            routes.MapControls("archives.aspx", new[] {"SingleColumn"});
+
+            routes.MapControls("entry-by-id", 
+                "archive/{year}/{month}/{day}/{id}.aspx"
+                , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])", id=@"\d+" }
+                , new[] { "viewpost", "comments", "postcomment" });
+
+            routes.MapControls("entry-by-slug", 
+                "archive/{year}/{month}/{day}/{slug}.aspx"
+                , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])" }
+                , new[] { "viewpost", "comments", "postcomment" });
+
+            routes.MapControls("archive/{year}/{month}/{day}.aspx"
+                , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])" }
+                , new[] { "ArchiveDay" });
+
+            routes.MapControls("archive/{year}/{month}.aspx"
+                , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])" }
+                , new[] { "ArchiveMonth" });
+
+            routes.MapControls("articles/{id}.aspx"
+                , new { id = @"\d+" }
+                , new[] { "viewpost", "comments", "postcomment" });
+
+            routes.MapControls("articles/{slug}.aspx"
+                , new[] { "viewpost", "comments", "postcomment" });
+
+            routes.MapPageToControl("contact");
+            
+
+            routes.MapControls("gallery/{id}.aspx"
+                , new { id = @"\d+"}
+                , new[] { "GalleryThumbNailViewer" });
+
+            routes.MapControls("gallery/image/{id}.aspx"
+                , new { id = @"\d+" }
+                , new[] { "ViewPicture" });
+
+            routes.MapControls("{category}/{slug}.aspx"
+                , new { category = @"category|stories" }
+                , new[] { "CategoryEntryList" });
+
+            routes.MapControls("tags/{tag}/default.aspx", new[] { "TagEntryList" });
+            routes.MapControls("tags/default.aspx", new[] { "FullTagCloud" });
+            routes.MapControls("tags/default.aspx", new[] { "FullTagCloud" });
+            routes.MapHttpHandler<RssTagHandler>("tags/{tag}/rss.aspx");
+
+            routes.MapHttpHandler<TrackBackHandler>("trackbacks", "services/trackbacks/{id}.aspx", new { id = @"\d+" });
+            routes.MapXmlRpcHandler<PingBackService>("services/pingback/{id}.aspx", new { id = @"\d+" });
+            routes.MapXmlRpcHandler<MetaWeblog>("services/metablogapi.aspx");
+            routes.MapControls("Default.aspx", new[] { "homepage" });
+            routes.MapControls("root", string.Empty, null, new[] { "homepage" });
+
+            routes.Add(new Route("images/IdenticonHandler.ashx", new HttpRouteHandler<IdenticonHandler>()));
+            routes.Add(new Route("images/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>()));
+            routes.MapHttpHandler<RedirectHandler>("{stories}/{*pathinfo}", new { stories = @"posts|story|archive" });
+        }
+
         //This call is to kickstart log4net.
         //log4net Configuration Attribute is in AssemblyInfo
         private readonly static ILog log = LogManager.GetLogger(typeof(Global));
@@ -37,7 +132,7 @@ namespace Subtext.Web
             //Wrap the logger with our own.
             log = new Log(log);
         }
-		
+	
         /// <summary>
         /// <para>
         /// This is used to vary partial caching of ASCX controls and ASPX pages on a per blog basis.  
@@ -85,6 +180,7 @@ namespace Subtext.Web
         {
             //This line will trigger the configuration.
             log.Info("Application_Start - This is not a malfunction.");
+            RegisterRoutes(RouteTable.Routes);
         }
 
         /// <summary>

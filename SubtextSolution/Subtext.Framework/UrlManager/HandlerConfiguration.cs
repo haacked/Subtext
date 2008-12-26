@@ -17,6 +17,7 @@ using System;
 using System.Configuration;
 using System.Web;
 using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace Subtext.Framework.UrlManager
 {
@@ -31,7 +32,7 @@ namespace Subtext.Framework.UrlManager
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="controls">Controls.</param>
-		public static void SetControls(HttpContext context, string[] controls)
+		public static void SetControls(HttpContext context, IEnumerable<string> controls)
 		{
 			if(controls != null)
 			{
@@ -43,7 +44,7 @@ namespace Subtext.Framework.UrlManager
 		/// Gets the controls associated to the specified context.
 		/// </summary>
 		/// <param name="context">Context.</param>
-		public static string[] GetControls(HttpContext context)
+		public static IEnumerable<string> GetControls(HttpContext context)
 		{
 			return (string[])context.Items["Subtext.Framework.UrlManager.ControlContext"];
 		}

@@ -14,46 +14,36 @@
 #endregion
 
 using System;
-using System.Collections.Specialized;
-using System.Globalization;
+using System.IO;
 using Subtext.Extensibility.Interfaces;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
-using Subtext.Framework.Text;
-using Subtext.Framework.Tracking;
 
 namespace Subtext.Framework.Syndication
 {
 	/// <summary>
 	/// Abstract base class used to write RSS feeds.
 	/// </summary>
-	public abstract class BaseRssWriter<T> : GenericRssWriter<T> where T : IIdentifiable
-	{
+	public abstract class BaseRssWriter<T> : GenericRssWriter<T> where T : IIdentifiable {
 		/// <summary>
 		/// Creates a new <see cref="BaseRssWriter"/> instance.
 		/// </summary>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-		protected BaseRssWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
-		{
+		protected BaseRssWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context) : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context) {
 		}
 
-		protected override string  GetAggBugUrl(T item,UrlFormats urlFormats)
-		{
- 			return urlFormats.AggBugkUrl(item.Id);
+		protected override string GetAggBugUrl(T item) {
+            return UrlHelper.AggBugUrl(item.Id).ToFullyQualifiedUrl(Blog).ToString();
 		}
 
-		protected override string  GetCommentApiUrl(T item,UrlFormats urlFormats)
-		{
- 			return urlFormats.CommentApiUrl(item.Id);
+		protected override string GetCommentApiUrl(T item) {
+ 			return UrlHelper.CommentApiUrl(item.Id).ToFullyQualifiedUrl(Blog).ToString();
 		}
 
-		protected override string GetCommentRssUrl(T item,UrlFormats urlFormats)
-		{												 
-			return urlFormats.CommentRssUrl(item.Id);
+		protected override string GetCommentRssUrl(T item) {
+            return UrlHelper.CommentRssUrl(item.Id).ToFullyQualifiedUrl(Blog).ToString();
 		}
-		protected override string GetTrackBackUrl(T item,UrlFormats urlFormats)
-		{
-			return urlFormats.TrackBackUrl(item.Id);
+
+		protected override string GetTrackBackUrl(T item) {
+            return UrlHelper.TrackbacksUrl(item.Id).ToFullyQualifiedUrl(Blog).ToString();
 		}
 	}
 }

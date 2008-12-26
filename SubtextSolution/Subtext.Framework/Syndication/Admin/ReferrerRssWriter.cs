@@ -6,17 +6,16 @@ using System.Collections.Specialized;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Extensibility;
+using System.IO;
 
 namespace Subtext.Framework.Syndication.Admin
 {
-	public class ReferrerRssWriter:GenericRssWriter<Referrer>
+	public class ReferrerRssWriter : GenericRssWriter<Referrer>
 	{
-		BlogInfo currentBlog = null;
-		public ReferrerRssWriter(ICollection<Referrer> referrers, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
-			: base(dateLastViewedFeedItemPublished, useDeltaEncoding)
+		public ReferrerRssWriter(TextWriter writer, ICollection<Referrer> referrers, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context)
+            : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
 		{
 			this.Items = referrers;
-			currentBlog = Config.CurrentBlog;
 		}
 
 		protected override System.Collections.Specialized.StringCollection GetCategoriesFromItem(Referrer item)
@@ -38,7 +37,7 @@ namespace Subtext.Framework.Syndication.Admin
 
 		protected override string GetLinkFromItem(Referrer item)
 		{
-			return currentBlog.UrlFormats.AdminUrl("Referrers.aspx");
+			return Blog.UrlFormats.AdminUrl("Referrers.aspx");
 		}
 
 		protected override string GetBodyFromItem(Referrer item)
@@ -80,21 +79,25 @@ namespace Subtext.Framework.Syndication.Admin
 		{
 			return item.LastReferDate;
 		}
-		protected override string GetAggBugUrl(Referrer item, UrlFormats urlFormats)
+
+		protected override string GetAggBugUrl(Referrer item)
 		{
-			return "";
+			return string.Empty;
 		}
-		protected override string GetCommentApiUrl(Referrer item, UrlFormats urlFormats)
+
+		protected override string GetCommentApiUrl(Referrer item)
 		{
-			return "";
+            return string.Empty;
 		}
-		protected override string GetCommentRssUrl(Referrer item, UrlFormats urlFormats)
+
+		protected override string GetCommentRssUrl(Referrer item)
 		{
-			return "";
+            return string.Empty;
 		}
-		protected override string GetTrackBackUrl(Referrer item, UrlFormats urlFormats)
+
+		protected override string GetTrackBackUrl(Referrer item)
 		{
-			return "";
+            return string.Empty;
 		}
         protected override EnclosureItem GetEnclosureFromItem(Referrer item)
         {

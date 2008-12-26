@@ -150,7 +150,7 @@ namespace Subtext.Web.UI.Controls
                         // we should probably change skin format to dynamically wire up to 
                         // skin located title and permalinks at some point
                         title.Text = string.Format(CultureInfo.InvariantCulture, "{2}&nbsp;{0}{1}", Anchor(feedbackItem.Id),
-                            feedbackItem.Title, Link(feedbackItem.Title, feedbackItem.DisplayUrl));
+                            feedbackItem.Title, Link(feedbackItem.Title, Url.FeedbackUrl(feedbackItem)));
                     }
 
                     //Shows the name of the commenter with a link if provided.
@@ -285,7 +285,7 @@ namespace Subtext.Web.UI.Controls
         }
 
         const string linktag = "<a title=\"permalink: {0}\" href=\"{1}\">#</a>";
-        private static string Link(string title, Uri link)
+        private static string Link(string title, string link)
         {
             if (link == null)
                 return string.Empty;
