@@ -10,7 +10,6 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Format;
-using Subtext.Web.SiteMap;
 
 namespace Subtext.Web.SiteMap
 {
@@ -85,26 +84,20 @@ namespace Subtext.Web.SiteMap
             XmlSerializer serializer = new XmlSerializer(typeof(UrlCollection));
             XmlTextWriter xmlTextWriter = new XmlTextWriter(context.Response.OutputStream, Encoding.UTF8);
             serializer.Serialize(xmlTextWriter, urlCollection);            
-
         }
 
-        private static ChangeFrequency CalculateFrequency(Entry entry)
-        {
+        private static ChangeFrequency CalculateFrequency(Entry entry) {
             ChangeFrequency frequency = ChangeFrequency.Hourly;
-            if (entry.DateModified < DateTime.Now.AddMonths(-12))
-            {
+            if (entry.DateModified < DateTime.Now.AddMonths(-12)) {
                 frequency = ChangeFrequency.Yearly;
             }
-            else if (entry.DateModified < DateTime.Now.AddDays(-60))
-            {
+            else if (entry.DateModified < DateTime.Now.AddDays(-60)) {
                 frequency = ChangeFrequency.Monthly;
             }
-            else if (entry.DateModified < DateTime.Now.AddDays(-14))
-            {
+            else if (entry.DateModified < DateTime.Now.AddDays(-14)) {
                 frequency = ChangeFrequency.Weekly;
             }
-            else if (entry.DateModified < DateTime.Now.AddDays(-2))
-            {
+            else if (entry.DateModified < DateTime.Now.AddDays(-2)) {
                 frequency = ChangeFrequency.Daily;
             }
             return frequency;
