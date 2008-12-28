@@ -15,17 +15,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Format;
-using Subtext.Web.Controls;
 using Subtext.Framework.Security;
 using Subtext.Framework.Text;
-using Subtext.Framework.Data;
-using System.Globalization;
-using System.Text;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -101,24 +101,23 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
-		private static void BindCommentCount(RepeaterItemEventArgs e, Entry entry)
+		private void BindCommentCount(RepeaterItemEventArgs e, Entry entry)
 		{
 			Label commentCount = e.Item.FindControl("commentCount") as Label;
 			if(commentCount != null)
 			{
 				if(Config.CurrentBlog.CommentsEnabled && entry.AllowComments)
 				{
-					if(entry.FeedBackCount == 0)
-					{
-						commentCount.Text = string.Format(linkToComments, entry.Url, "Add Comment", "");
+                    //TODO: Consider a specific url helper method for link to feedback section.
+                    string entryUrl = Url.EntryUrl(entry);
+                    if(entry.FeedBackCount == 0) {
+						commentCount.Text = string.Format(linkToComments, entryUrl, "Add Comment", string.Empty);
 					}
-					else if(entry.FeedBackCount == 1)
-					{
-						commentCount.Text = string.Format(linkToComments, entry.Url, "One Comment", "");
+					else if(entry.FeedBackCount == 1) {
+                        commentCount.Text = string.Format(linkToComments, entryUrl, "One Comment", string.Empty);
 					}
-					else if(entry.FeedBackCount > 1)
-					{
-						commentCount.Text = string.Format(linkToComments, entry.Url, entry.FeedBackCount, " Comments");
+					else if(entry.FeedBackCount > 1) {
+                        commentCount.Text = string.Format(linkToComments, entryUrl, entry.FeedBackCount, " Comments");
 					}
 				}
 			}
@@ -141,35 +140,33 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
-		private static void BindPermalink(RepeaterItemEventArgs e, Entry entry)
+		private void BindPermalink(RepeaterItemEventArgs e, Entry entry)
 		{
 			Label permalink = e.Item.FindControl("permalink") as Label;
 			if(permalink != null)
 			{
-				if(permalink.Attributes["Format"] != null)
-				{
-					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Url, entry.DateSyndicated.ToString(permalink.Attributes["Format"]));
+                string entryUrl = Url.EntryUrl(entry);
+				if(permalink.Attributes["Format"] != null) {
+                    permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entryUrl, entry.DateSyndicated.ToString(permalink.Attributes["Format"]));
 					permalink.Attributes.Remove("Format");
 				}
-				else
-				{
-					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Url, entry.DateSyndicated.ToString("f"));
+				else {
+					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entryUrl, entry.DateSyndicated.ToString("f"));
 				}
 			}
 		}
 
-		private static void BindPostDescription(RepeaterItemEventArgs e, Entry entry)
+		private void BindPostDescription(RepeaterItemEventArgs e, Entry entry)
 		{
 			Literal PostDesc = (Literal)e.Item.FindControl("PostDesc");
 			if(PostDesc != null)
 			{
-				if(entry.AllowComments)
-				{
-					PostDesc.Text = string.Format(postdescWithComments, entry.Url, entry.DateSyndicated.ToString("f"), entry.Url, entry.FeedBackCount);
+                string entryUrl = Url.EntryUrl(entry);
+				if(entry.AllowComments) {
+					PostDesc.Text = string.Format(postdescWithComments, entryUrl, entry.DateSyndicated.ToString("f"), entryUrl, entry.FeedBackCount);
 				}
-				else
-				{
-					PostDesc.Text = string.Format(postdescWithNoComments, entry.Url, entry.DateSyndicated.ToString("f"));
+				else {
+					PostDesc.Text = string.Format(postdescWithNoComments, entryUrl, entry.DateSyndicated.ToString("f"));
 				}
 			}
 		}
@@ -267,14 +264,14 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
-		private static void BindTitle(RepeaterItemEventArgs e, Entry entry)
+		private void BindTitle(RepeaterItemEventArgs e, Entry entry)
 		{
 			HyperLink title = e.Item.FindControl("TitleUrl") as HyperLink;
 			if(title != null)
 			{
 				title.Text = entry.Title;
 				ControlHelper.SetTitleIfNone(title, "Click To View Entry.");
-				title.NavigateUrl = entry.Url;
+				title.NavigateUrl = Url.EntryUrl(entry);
 			}
 		}
 

@@ -41,7 +41,6 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
 			Entry entry = new Entry(PostType.None);
 			entry.AllowComments = true;
 			entry.Title = "Comments requiring your approval.";
-			entry.Url = "/Admin/Feedback.aspx?status=2";
 			entry.Body = "The following items are waiting approval.";
 			entry.PostType = PostType.None;
 

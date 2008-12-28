@@ -77,7 +77,7 @@ namespace Subtext.Web.UI.Controls
 				//Sent entry properties
 				TitleUrl.Text = entry.Title;
 				ControlHelper.SetTitleIfNone(TitleUrl, "Title of this entry.");
-				TitleUrl.NavigateUrl = entry.Url;
+				TitleUrl.NavigateUrl = Url.EntryUrl(entry);
 				Body.Text = entry.Body;
 				if(PostDescription != null)
 				{
@@ -92,14 +92,13 @@ namespace Subtext.Web.UI.Controls
 
 				if(date != null)
 				{
-					if(date.Attributes["Format"] != null)
-					{
-						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Url, entry.DateSyndicated.ToString(date.Attributes["Format"]));
+                    string entryUrl = Url.EntryUrl(entry);
+					if(date.Attributes["Format"] != null) {
+						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entryUrl, entry.DateSyndicated.ToString(date.Attributes["Format"]));
 						date.Attributes.Remove("Format");
 					}
-					else
-					{
-                        date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Url, entry.DateSyndicated.ToString("f"));
+					else {
+                        date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entryUrl, entry.DateSyndicated.ToString("f"));
 					}
 				}
 
@@ -107,17 +106,15 @@ namespace Subtext.Web.UI.Controls
 				{
 					if(CurrentBlog.CommentsEnabled && entry.AllowComments)
 					{
-						if(entry.FeedBackCount == 0)
-						{
-							commentCount.Text = string.Format(linkToComments, entry.Url, "Add Comment", "");
+                        string entryUrl = Url.EntryUrl(entry);
+						if(entry.FeedBackCount == 0) {
+							commentCount.Text = string.Format(linkToComments, entryUrl, "Add Comment", "");
 						}
-						else if(entry.FeedBackCount == 1)
-						{
-							commentCount.Text = string.Format(linkToComments, entry.Url, "One Comment", "");
+						else if(entry.FeedBackCount == 1) {
+							commentCount.Text = string.Format(linkToComments, entryUrl, "One Comment", "");
 						}
-						else if(entry.FeedBackCount > 1)
-						{
-							commentCount.Text = string.Format(linkToComments, entry.Url, entry.FeedBackCount, " Comments");
+						else if(entry.FeedBackCount > 1) {
+							commentCount.Text = string.Format(linkToComments, entryUrl, entry.FeedBackCount, " Comments");
 						}
 					}
 				}
