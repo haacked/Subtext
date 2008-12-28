@@ -38,13 +38,13 @@ namespace Subtext.Framework
     /// is persisted via a <see cref="ObjectProvider"/>.
     /// </summary>
     [Serializable]
-    public class BlogInfo
+    public class Blog
     {
         private readonly static ILog Log = new Log();
         const int DefaultRecentCommentsLength = 50;
         private UrlFormats _urlFormats;
 
-        public BlogInfo() {
+        public Blog() {
             Id = NullValue.NullInt32;
             ItemCount = 25;
             Author = "Subtext Weblog";
@@ -101,7 +101,7 @@ namespace Subtext.Framework
         /// <param name="pageIndex">Zero based index of the page to retrieve.</param>
         /// <param name="pageSize">Number of records to display on the page.</param>
         /// <param name="flags">Configuration flags to filter blogs retrieved.</param>
-        public static IPagedCollection<BlogInfo> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
+        public static IPagedCollection<Blog> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
         {
             if (String.IsNullOrEmpty(host))
                 throw new ArgumentNullException("host", "Host must not be null or empty.");
@@ -122,7 +122,7 @@ namespace Subtext.Framework
         /// <param name="pageSize">Size of the page.</param>
         /// <param name="flags"></param>
         /// <returns></returns>
-        public static IPagedCollection<BlogInfo> GetBlogs(int pageIndex, int pageSize, ConfigurationFlags flags)
+        public static IPagedCollection<Blog> GetBlogs(int pageIndex, int pageSize, ConfigurationFlags flags)
         {
             return ObjectProvider.Instance().GetPagedBlogs(null, pageIndex, pageSize, flags);
         }
@@ -132,7 +132,7 @@ namespace Subtext.Framework
         /// </summary>
         /// <param name="blogId">Blog id.</param>
         /// <returns></returns>
-        public static BlogInfo GetBlogById(int blogId)
+        public static Blog GetBlogById(int blogId)
         {
             return ObjectProvider.Instance().GetBlogById(blogId);
         }
@@ -1015,9 +1015,9 @@ namespace Subtext.Framework
                 if (this.hostFullyQualifiedUrl == null)
                 {
                     string host = HttpContext.Current.Request.Url.Scheme + "://" + this._host;
-                    if (BlogInfo.Port != BlogRequest.DefaultPort)
+                    if (Blog.Port != BlogRequest.DefaultPort)
                     {
-                        host += ":" + BlogInfo.Port;
+                        host += ":" + Blog.Port;
                     }
                     host += VirtualDirectoryRoot;
                     hostFullyQualifiedUrl = new Uri(host);
@@ -1137,7 +1137,7 @@ namespace Subtext.Framework
             if (obj == null || GetType() != obj.GetType())
                 return false;
 
-            return ((BlogInfo)obj).Id == this.Id;
+            return ((Blog)obj).Id == this.Id;
         }
 
         /// <summary>
@@ -1150,9 +1150,9 @@ namespace Subtext.Framework
             return this.Host.GetHashCode() ^ this.Subfolder.GetHashCode();
         }
 
-        private static readonly BlogInfo aggregateBlog = InitAggregateBlog();
+        private static readonly Blog aggregateBlog = InitAggregateBlog();
 
-        private static BlogInfo InitAggregateBlog()
+        private static Blog InitAggregateBlog()
         {
             HostInfo hostInfo = HostInfo.Instance;
             string aggregateHost = ConfigurationManager.AppSettings["AggregateUrl"];
@@ -1165,7 +1165,7 @@ namespace Subtext.Framework
             if (match.Success)
                 aggregateHost = match.Groups["host"].Value;
 
-            BlogInfo blog = new BlogInfo();
+            Blog blog = new Blog();
             blog.Title = ConfigurationManager.AppSettings["AggregateTitle"];
             blog.Skin = SkinConfig.GetDefaultSkin();
             //TODO: blog.MobileSkin = ...
@@ -1182,7 +1182,7 @@ namespace Subtext.Framework
             return blog;
         }
 
-        public static BlogInfo AggregateBlog
+        public static Blog AggregateBlog
         {
             get
             {

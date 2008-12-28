@@ -263,7 +263,7 @@ namespace Subtext.Web.UI.Controls
                             editCommentImgLink.NavigateUrl = UrlFormats.GetFeedbackEditLink(feedbackItem);
                             if (String.IsNullOrEmpty(editCommentImgLink.ImageUrl))
                             {
-                                editCommentImgLink.ImageUrl = BlogInfo.VirtualDirectoryRoot + "Images/edit.gif";
+                                editCommentImgLink.ImageUrl = Blog.VirtualDirectoryRoot + "Images/edit.gif";
                             }
                             ControlHelper.SetTitleIfNone(editCommentImgLink, "Click to edit comment " + feedbackItem.Id.ToString(CultureInfo.InstalledUICulture));
                         }

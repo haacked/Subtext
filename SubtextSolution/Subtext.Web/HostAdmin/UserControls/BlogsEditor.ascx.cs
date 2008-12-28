@@ -80,11 +80,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 			this.pnlResults.Visible = true;
 			this.pnlEdit.Visible = false;
 
-            IPagedCollection<BlogInfo> blogs; 
+            IPagedCollection<Blog> blogs; 
 			
 			ConfigurationFlags configFlags = this.chkShowInactive.Checked ? ConfigurationFlags.None : ConfigurationFlags.IsActive;
 			
-			blogs = BlogInfo.GetBlogs(this.pageIndex, resultsPager.PageSize, configFlags);
+			blogs = Blog.GetBlogs(this.pageIndex, resultsPager.PageSize, configFlags);
 			
 			if (blogs.Count > 0)
 			{
@@ -115,10 +115,10 @@ namespace Subtext.Web.HostAdmin.UserControls
 			
 			BindEditHelp();
 
-			BlogInfo blog;
+			Blog blog;
             if (!CreatingBlog)
             {
-                blog = BlogInfo.GetBlogById(BlogId);
+                blog = Blog.GetBlogById(BlogId);
                 this.txtApplication.Text = blog.Subfolder;
                 this.txtHost.Text = blog.Host;
                 this.txtUsername.Text = blog.UserName;
@@ -359,7 +359,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		// Saves changes to a blog.  Any exceptions are propagated up to the caller.
 		void SaveBlogEdits()
 		{
-			BlogInfo blog = BlogInfo.GetBlogById(BlogId);
+			Blog blog = Blog.GetBlogById(BlogId);
 			
 			if(blog == null)
 				throw new ArgumentNullException("BlogId", "Ok, somehow the blog you were editing is now null.  This is very odd.");
@@ -455,7 +455,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 		void ToggleActive()
 		{
-			BlogInfo blog = BlogInfo.GetBlogById(BlogId);
+			Blog blog = Blog.GetBlogById(BlogId);
 			blog.IsActive = !blog.IsActive;
 			try
 			{

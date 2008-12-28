@@ -1,9 +1,7 @@
 using System;
-using System.IO;
-using System.Reflection;
+using System.Globalization;
 using System.Text;
 using System.Threading;
-using System.Web;
 using System.Xml;
 using MbUnit.Framework;
 using Moq;
@@ -11,8 +9,8 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Syndication;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Syndication;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -40,13 +38,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Config.CurrentBlog.Email = "Subtext@example.com";
 			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 
-			DateTime dateSyndicated = DateTime.Now.AddDays(-1);
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", 
                 "testtitle",
                 "testbody", 
                 null, 
                 NullValue.NullDateTime);
-		    entry.DateSyndicated = dateSyndicated;
+            entry.DateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateSyndicated = entry.DateCreated;
 			Entries.Create(entry); //persist to db.
 
             string rssOutput = null;
@@ -54,12 +52,13 @@ namespace UnitTests.Subtext.Framework.Syndication
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/2008/01/23/testtitle.aspx");
 
 			XmlNodeList itemNodes = GetRssHandlerItemNodes(subtextContext.Object, ref rssOutput);
 			Assert.AreEqual(1, itemNodes.Count, "expected one item nodes.");
 
-			string urlFormat = "http://{0}/archive/{1:yyyy/MM/dd}/{2}.aspx";
-            string expectedUrl = string.Format(urlFormat, hostName, dateSyndicated, "testtitle");
+			string urlFormat = "http://{0}/archive/2008/01/23/{1}.aspx";
+            string expectedUrl = string.Format(urlFormat, hostName, "testtitle");
 
 			Assert.AreEqual("testtitle", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the title.");
 			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("link").InnerText, "Not what we expected for the link.");
@@ -79,9 +78,9 @@ namespace UnitTests.Subtext.Framework.Syndication
             Config.CurrentBlog.Email = "Subtext@example.com";
             Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 
-            DateTime dateSyndicated = DateTime.Now.AddDays(-1);
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, NullValue.NullDateTime);
-            entry.DateSyndicated = dateSyndicated;
+            entry.DateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateSyndicated = entry.DateCreated;
             int entryId = Entries.Create(entry); //persist to db.
 
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
@@ -96,11 +95,13 @@ namespace UnitTests.Subtext.Framework.Syndication
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/2008/01/23/testtitle.aspx");
+
             XmlNodeList itemNodes = GetRssHandlerItemNodes(subtextContext.Object, ref rssOutput);
             Assert.AreEqual(1, itemNodes.Count, "expected one item nodes.");
 
-            string urlFormat = "http://{0}/archive/{1:yyyy/MM/dd}/{2}.aspx";
-            string expectedUrl = string.Format(urlFormat, hostName, dateSyndicated, "testtitle");
+            string urlFormat = "http://{0}/archive/2008/01/23/{1}.aspx";
+            string expectedUrl = string.Format(urlFormat, hostName, "testtitle");
 
             Assert.AreEqual("testtitle", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the title.");
             Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("link").InnerText, "Not what we expected for the link.");
@@ -131,6 +132,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
 
             XmlNodeList itemNodes = GetRssHandlerItemNodes(subtextContext.Object, ref rssOutput);
 			Assert.AreEqual(2, itemNodes.Count, "expected two item nodes.");
@@ -170,6 +172,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
 
             XmlNodeList itemNodes = GetRssHandlerItemNodes(subtextContext.Object, ref rssOutput);
 			Assert.AreEqual(1, itemNodes.Count, "expected one item node.");
@@ -186,6 +189,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
 
             itemNodes = GetRssHandlerItemNodes(subtextContext.Object, ref rssOutput);
 			Assert.AreEqual(2, itemNodes.Count, "Expected two items in the feed now.");
@@ -213,6 +217,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
 
             XmlNodeList itemNodes = GetRssHandlerItemNodes(subtextContext.Object, ref rssOutput);
 			
@@ -231,6 +236,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
 
             itemNodes = GetRssHandlerItemNodes(subtextContext.Object, ref rssOutput);
 		    Assert.AreEqual(1, itemNodes.Count, "Here we were expeting only one item");
@@ -247,6 +253,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
 
             itemNodes = GetRssHandlerItemNodes(subtextContext.Object, ref rssOutput);
 			
@@ -277,6 +284,8 @@ namespace UnitTests.Subtext.Framework.Syndication
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
+
             XmlNodeList itemNodes = GetRssHandlerItemNodes(subtextContext.Object, ref rssOutput);
             Assert.AreEqual(1, itemNodes.Count, "expected one item node.");
 
@@ -292,6 +301,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
 
             itemNodes = GetRssHandlerItemNodes(subtextContext.Object, ref rssOutput);
             Assert.AreEqual(2, itemNodes.Count, "Expected two items in the feed now.");

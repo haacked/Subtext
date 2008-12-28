@@ -57,7 +57,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected void btnSaveOptions_Click(object sender, EventArgs e)
         {
-            BlogInfo info = Config.CurrentBlog;
+            Blog info = Config.CurrentBlog;
             info.OpenIDUrl = tbOpenIDURL.Text;
             Config.UpdateConfigData(info);
         }

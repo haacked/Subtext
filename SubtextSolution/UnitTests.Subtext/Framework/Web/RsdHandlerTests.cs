@@ -22,7 +22,7 @@ namespace UnitTests.Subtext.Framework.Web
 			XmlWriter writer = XmlWriter.Create(builder);
 			RsdHandler handler = new RsdHandler();
 
-			BlogInfo blog = new BlogInfo();
+			Blog blog = new Blog();
 			blog.Id = 8675309;
 			blog.Subfolder = subfolder;
 			blog.Host = host;

@@ -61,30 +61,26 @@ namespace Subtext.Framework.Data
 			//TODO: Make this a configuration option.
 			e.Body = Transform.EmoticonTransforms(e.Body);
 
-			if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body))
-			{
+            //TODO: The following doesn't belong here. It's verification code.
+			if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body)) {
 				throw new IllegalPostCharactersException("Illegal Characters Found");
 			}
 
 			//Never allow scripts in the title.
-			if(HtmlHelper.HasIllegalContent(e.Title))
-			{
+			if(HtmlHelper.HasIllegalContent(e.Title)) {
 				throw new IllegalPostCharactersException("Illegal Characters Found");
 			}
 
-			if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Description))
-			{
+			if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Description)) {
 				throw new IllegalPostCharactersException("Illegal Characters Found");
 			}
 
 			//never allow scripts in the url.
-			if(HtmlHelper.HasIllegalContent(e.Url))
-			{
+			if(HtmlHelper.HasIllegalContent(e.EntryName)) {
 				throw new IllegalPostCharactersException("Illegal Characters Found");
 			}
 
-			if(!HtmlHelper.ConvertHtmlToXHtml(e))
-			{
+			if(!HtmlHelper.ConvertHtmlToXHtml(e)) {
 				return false;
 			}
 
@@ -144,7 +140,7 @@ namespace Subtext.Framework.Data
                 metaTag.EntryId);
 	    }
 
-	    public override IPagedCollection<MetaTag> GetMetaTagsForBlog(BlogInfo blog, int pageIndex, int pageSize)
+	    public override IPagedCollection<MetaTag> GetMetaTagsForBlog(Blog blog, int pageIndex, int pageSize)
 		{
 			using (IDataReader reader = _procedures.GetMetaTags(blog.Id, null, pageIndex, pageSize))
 			{

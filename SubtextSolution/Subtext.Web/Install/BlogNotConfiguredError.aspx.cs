@@ -41,7 +41,7 @@ namespace Subtext.Web
 			//local user.
 			
 			bool blogConfigured = true;
-			BlogInfo info = null;
+			Blog info = null;
 			try
 			{
 				info = Config.CurrentBlog;

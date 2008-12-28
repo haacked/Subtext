@@ -78,7 +78,7 @@ namespace Subtext.Framework.Web.Handlers
 		/// </summary>
 		/// <param name="writer"></param>
 		/// <param name="blog"></param>
-		public void WriteRsd(XmlWriter writer, BlogInfo blog)
+		public void WriteRsd(XmlWriter writer, Blog blog)
 		{
 			writer.WriteStartDocument();
 			writer.WriteStartElement("rsd", "http://archipelago.phrasewise.com/rsd");

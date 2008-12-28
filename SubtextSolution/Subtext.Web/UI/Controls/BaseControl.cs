@@ -75,8 +75,8 @@ namespace Subtext.Web.UI.Controls
 			return HttpUtility.UrlEncode(s.ToString());
 		}
 
-		private BlogInfo _config;
-		protected BlogInfo CurrentBlog
+		private Blog _config;
+		protected Blog CurrentBlog
 		{
 			get
 			{

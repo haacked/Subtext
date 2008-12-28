@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Web;
 using System.Xml;
 using MbUnit.Framework;
@@ -32,8 +33,9 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Config.CurrentBlog.Email = "Subtext@example.com";
 			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 
-			DateTime dateCreated = DateTime.Now;
-			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, dateCreated);
+            var dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, dateCreated);
+            
 			int id = Entries.Create(entry); //persist to db.
 
 			AtomHandler handler = new AtomHandler();
@@ -43,6 +45,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/2008/01/23/testtitle.aspx");
 
 			handler.ProcessRequest(subtextContext.Object);
 			HttpContext.Current.Response.Flush();
@@ -56,9 +59,9 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Assert.AreEqual(1, itemNodes.Count, "expected one entry node.");
 
 			Assert.AreEqual("testtitle", itemNodes[0].SelectSingleNode("atom:title", nsmanager).InnerText, "Not what we expected for the title.");
-			string urlFormat = "http://{0}/archive/{1:yyyy/MM/dd}/{2}.aspx";
+			string urlFormat = "http://{0}/archive/2008/01/23/{1}.aspx";
 
-			string expectedUrl = string.Format(urlFormat, hostName, dateCreated, "testtitle");
+			string expectedUrl = string.Format(urlFormat, hostName, "testtitle");
 
 			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("atom:id", nsmanager).InnerText, "Not what we expected for the link.");
 			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("atom:link/@href", nsmanager).InnerText, "Not what we expected for the link.");

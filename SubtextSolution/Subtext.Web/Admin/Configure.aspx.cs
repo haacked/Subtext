@@ -86,7 +86,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void BindLocalUI()
         {
-            BlogInfo info = Config.CurrentBlog;
+            Blog info = Config.CurrentBlog;
             txbTitle.Text = info.Title;
             txbSubtitle.Text = info.SubTitle;
             txbAuthor.Text = info.Author;
@@ -190,7 +190,7 @@ namespace Subtext.Web.Admin.Pages
         {
             try
             {
-                BlogInfo info = Config.CurrentBlog;
+                Blog info = Config.CurrentBlog;
                 info.Title = txbTitle.Text;
                 info.SubTitle = txbSubtitle.Text;
                 info.Author = txbAuthor.Text;

@@ -68,6 +68,34 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
+        public void EntryUrl_WithEntryWhichIsReallyAnArticle_ReturnsArticleLink()
+        {
+            //arrange
+            var routes = new RouteCollection();
+            Global.RegisterRoutes(routes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.Expect(c => c.Request.ApplicationPath).Returns("/");
+            httpContext.Expect(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
+            var requestContext = new RequestContext(httpContext.Object, new RouteData());
+            UrlHelper helper = new UrlHelper(requestContext, routes);
+            DateTime dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            Entry entry = new Entry(PostType.BlogPost)
+            {
+                Id = 123,
+                DateCreated = dateCreated,
+                EntryName = "post-slug",
+                PostType = PostType.Story
+            };
+
+            //act
+            string url = helper.EntryUrl(entry);
+
+            //assert
+            Assert.AreEqual("/articles/post-slug.aspx", url);
+        }
+
+
+        [Test]
         public void EntryUrl_WithEntryNotHavingEntryName_RendersVirtualPathWithId()
         {
             //arrange
@@ -120,16 +148,12 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void EntryUrl_WithNulEntry_ThrowsArgumentNullException()
+        public void EntryUrl_WithNullEntry_ThrowsArgumentNullException()
         {
             //arrange
-            var routes = new RouteCollection();
-            Global.RegisterRoutes(routes);
             var httpContext = new Mock<HttpContextBase>();
-            httpContext.Expect(c => c.Request.ApplicationPath).Returns("/App");
-            httpContext.Expect(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
             var requestContext = new RequestContext(httpContext.Object, new RouteData());
-            UrlHelper helper = new UrlHelper(requestContext, routes);
+            UrlHelper helper = new UrlHelper(requestContext, new RouteCollection());
             
             //act
             try {
@@ -142,6 +166,27 @@ namespace UnitTests.Subtext.Framework.Routing
             //assert
             Assert.Fail();
         }
+
+        [Test]
+        public void EntryUrl_WithEntryHavingPostTypeOfNone_ThrowsArgumentException()
+        {
+            //arrange
+            var httpContext = new Mock<HttpContextBase>();
+            var requestContext = new RequestContext(httpContext.Object, new RouteData());
+            UrlHelper helper = new UrlHelper(requestContext, new RouteCollection());
+
+            //act
+            try {
+                helper.EntryUrl(new Entry(PostType.None));
+            }
+            catch (ArgumentException) {
+                return;
+            }
+
+            //assert
+            Assert.Fail();
+        }
+
 
         [Test]
         public void FeedbackUrl_WithEntryHavingEntryName_RendersVirtualPathWithFeedbackIdInFragment()
@@ -306,6 +351,82 @@ namespace UnitTests.Subtext.Framework.Routing
 
             //assert
             Assert.AreEqual("/App/subfolder/", url);
+        }
+
+        [Test]
+        public void CategoryUrl_ReturnsURlWithCategoryId() {
+            var routes = new RouteCollection();
+            Global.RegisterRoutes(routes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.Expect(c => c.Request.ApplicationPath).Returns("/");
+            httpContext.Expect(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
+            var routeData = new RouteData();
+            var requestContext = new RequestContext(httpContext.Object, routeData);
+            UrlHelper helper = new UrlHelper(requestContext, routes);
+
+            //act
+            string url = helper.CategoryUrl(new LinkCategory { Id = 1234 });
+
+            //assert
+            Assert.AreEqual("/category/1234.aspx", url.ToString());
+        }
+
+        [Test]
+        public void CategoryRssUrl_ReturnsURlWithCategoryIdInQueryString()
+        {
+            var routes = new RouteCollection();
+            Global.RegisterRoutes(routes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.Expect(c => c.Request.ApplicationPath).Returns("/");
+            httpContext.Expect(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
+            var routeData = new RouteData();
+            var requestContext = new RequestContext(httpContext.Object, routeData);
+            UrlHelper helper = new UrlHelper(requestContext, routes);
+
+            //act
+            string url = helper.CategoryRssUrl(new LinkCategory { Id = 1234 });
+
+            //assert
+            Assert.AreEqual("/rss.aspx?catId=1234", url.ToString());
+        }
+
+        [Test]
+        public void AdminUrl_WithoutSubfolder_ReturnsCorrectUrl()
+        {
+            var routes = new RouteCollection();
+            Global.RegisterRoutes(routes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.Expect(c => c.Request.ApplicationPath).Returns("/");
+            httpContext.Expect(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
+            var routeData = new RouteData();
+            var requestContext = new RequestContext(httpContext.Object, routeData);
+            UrlHelper helper = new UrlHelper(requestContext, routes);
+
+            //act
+            string url = helper.AdminUrl("Feedback.aspx", new {status = 2});
+
+            //assert
+            Assert.AreEqual("/admin/Feedback.aspx?status=2", url.ToString());
+        }
+
+        [Test]
+        public void AdminUrl_WithSubfolderAndApplicationPath_ReturnsCorrectUrl()
+        {
+            var routes = new RouteCollection();
+            Global.RegisterRoutes(routes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.Expect(c => c.Request.ApplicationPath).Returns("/Subtext.Web");
+            httpContext.Expect(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "subfolder");
+            var requestContext = new RequestContext(httpContext.Object, routeData);
+            UrlHelper helper = new UrlHelper(requestContext, routes);
+
+            //act
+            string url = helper.AdminUrl("Feedback.aspx", new { status = 2 });
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/subfolder/admin/Feedback.aspx?status=2", url.ToString());
         }
     }
 }

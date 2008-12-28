@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 			string password = SecurityHelper.HashPassword("newPass");
 
 			SecurityHelper.UpdatePassword("newPass");
-			BlogInfo info = Config.GetBlogInfo(_hostName, "MyBlog");
+			Blog info = Config.GetBlogInfo(_hostName, "MyBlog");
 			Assert.AreEqual(password, info.Password);
 		}
 

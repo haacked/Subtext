@@ -177,7 +177,7 @@ namespace Subtext.Framework.Components
 			return ObjectProvider.Instance().Update(feedbackItem);
 		}
 
-		private static void EmailCommentToAdmin(FeedbackItem comment, BlogInfo currentBlog)
+		private static void EmailCommentToAdmin(FeedbackItem comment, Blog currentBlog)
 		{
 			string blogTitle = currentBlog.Title;
 

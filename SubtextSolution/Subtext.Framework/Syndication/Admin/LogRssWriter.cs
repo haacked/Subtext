@@ -40,9 +40,9 @@ namespace Subtext.Framework.Syndication.Admin
 			return "";
 		}
 
-		protected override System.Collections.Specialized.StringCollection GetCategoriesFromItem(LogEntry item)
+		protected override ICollection<string> GetCategoriesFromItem(LogEntry item)
 		{
-			StringCollection collection = new StringCollection();
+			IList<string> collection = new List<string>();
 			collection.Add(item.Level);
 
 			string path = item.Url.PathAndQuery.Split('?')[0];

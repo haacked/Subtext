@@ -30,18 +30,18 @@ namespace Subtext.Framework.Services
 		private readonly static ILog log = new Subtext.Framework.Logging.Log();
 		AkismetClient _akismet;
         UrlHelper _urlHelper;
-        BlogInfo _blog;
+        Blog _blog;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AkismetSpamService"/> class.
 		/// </summary>
 		/// <param name="apiKey">The API key.</param>
 		/// <param name="blog">The blog.</param>
-		public AkismetSpamService(string apiKey, BlogInfo blog) : this(apiKey, blog, null, null)
+		public AkismetSpamService(string apiKey, Blog blog) : this(apiKey, blog, null, null)
 		{
 		}
 
-        public AkismetSpamService(string apiKey, BlogInfo blog, AkismetClient akismetClient, UrlHelper urlHelper) {
+        public AkismetSpamService(string apiKey, Blog blog, AkismetClient akismetClient, UrlHelper urlHelper) {
             _blog = blog;
             _akismet = akismetClient ?? new AkismetClient(apiKey, blog.RootUrl);
             IWebProxy proxy = HttpHelper.GetProxy();

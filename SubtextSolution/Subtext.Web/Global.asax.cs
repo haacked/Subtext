@@ -19,11 +19,11 @@ using System.Globalization;
 using System.Web;
 using System.Web.Routing;
 using log4net;
-using Subtext.BlogML;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.ImportExport;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
@@ -44,18 +44,17 @@ namespace Subtext.Web
             routes.Ignore("install/{*pathinfo}");
             routes.Ignore("SystemMessages/{*pathinfo}");
 
-
             routes.MapPage("login.aspx", "~/login.aspx");
             routes.MapPage("logout.aspx", "~/logout.aspx");
             
-            routes.MapHttpHandler<BlogMLHttpHandler>("admin/handlers/BlogMLExport.ashx");
+            routes.MapHttpHandler<SubtextBlogMlHttpHandler>("admin/handlers/BlogMLExport.ashx");
             routes.MapHttpHandler<RssAdminHandler>("admin/{adminRss}Rss.axd");
             routes.MapDirectory("admin");
             routes.MapDirectory("providers");
 
             routes.MapHttpHandler<SiteMapHttpHandler>("sitemap.ashx");
             routes.MapHttpHandler<BrowserDetectionService>("BrowserServices.ashx");
-            routes.MapHttpHandler<RssHandler>("rss.aspx");
+            routes.MapHttpHandler<RssHandler>("rss", "rss.aspx");
             routes.MapHttpHandler<AtomHandler>("atom.aspx");
             routes.MapHttpHandler<RssCommentHandler>("comment-rss", "comments/commentRss/{id}.aspx");
             routes.MapHttpHandler<CommentHandler>("comment-api", "comments/{id}.aspx", new { id = @"\d+" });
@@ -85,16 +84,16 @@ namespace Subtext.Web
                 , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])" }
                 , new[] { "ArchiveMonth" });
 
-            routes.MapControls("articles/{id}.aspx"
+            routes.MapControls("article-by-id", "articles/{id}.aspx"
                 , new { id = @"\d+" }
                 , new[] { "viewpost", "comments", "postcomment" });
 
-            routes.MapControls("articles/{slug}.aspx"
+            routes.MapControls("article-by-slug", "articles/{slug}.aspx"
+                , new { /*slug = @"\w*([\w-_]+\.)*[\w-_]+"*/}
                 , new[] { "viewpost", "comments", "postcomment" });
 
             routes.MapPageToControl("contact");
             
-
             routes.MapControls("gallery/{id}.aspx"
                 , new { id = @"\d+"}
                 , new[] { "GalleryThumbNailViewer" });
@@ -103,8 +102,8 @@ namespace Subtext.Web
                 , new { id = @"\d+" }
                 , new[] { "ViewPicture" });
 
-            routes.MapControls("{category}/{slug}.aspx"
-                , new { category = @"category|stories" }
+            routes.MapControls("category", "{categoryType}/{slug}.aspx"
+                , new { categoryType = @"category|stories" }
                 , new[] { "CategoryEntryList" });
 
             routes.MapControls("tags/{tag}/default.aspx", new[] { "TagEntryList" });

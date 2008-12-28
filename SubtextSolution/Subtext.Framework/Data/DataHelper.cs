@@ -187,8 +187,6 @@ namespace Subtext.Framework.Data
 				entry.DateSyndicated = (DateTime)reader["DateSyndicated"];
 			}
 
-			SetUrlPattern(entry);
-
 			return entry;
 		}
 
@@ -293,28 +291,10 @@ namespace Subtext.Framework.Data
                 entry.Enclosure = LoadEnclosure(reader);
             }
 	
-			if(buildLinks) {
-				SetUrlPattern(entry);
-			}
-
             if (includeBlog) {
                 entry.Blog = LoadBlogInfo(reader);
             }
             return entry;
-		}
-
-		private static void SetUrlPattern(Entry entry)
-		{
-			switch(entry.PostType)
-			{
-				case PostType.BlogPost:
-					entry.Url = Config.CurrentBlog.UrlFormats.EntryUrl(entry);
-					break;
-
-				case PostType.Story:
-					entry.Url = Config.CurrentBlog.UrlFormats.ArticleUrl(entry);
-					break;
-			}
 		}
 
 		internal static int GetMaxItems(IDataReader reader)
@@ -342,13 +322,13 @@ namespace Subtext.Framework.Data
 			return lc;
 		}
 
-        public static BlogInfo LoadBlogInfo(this IDataReader reader) {
+        public static Blog LoadBlogInfo(this IDataReader reader) {
             return reader.LoadBlogInfo(string.Empty);
         }
 
-		public static BlogInfo LoadBlogInfo(this IDataReader reader, string prefix)
+		public static Blog LoadBlogInfo(this IDataReader reader, string prefix)
 		{
-			BlogInfo info = new BlogInfo();
+			Blog info = new Blog();
 			info.Author = reader.ReadString(prefix + "Author");
 			info.Id = reader.ReadInt32(prefix + "BlogId");
 			info.Email = reader.ReadString(prefix + "Email");

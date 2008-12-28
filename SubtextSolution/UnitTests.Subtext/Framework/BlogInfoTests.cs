@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework
 		[Row(null, null, "Expect an exception", ExpectedException = typeof(ArgumentException))]
 		public void StripWwwPrefixFromHostFunctionsProperly(string host, string expected, string message)
 		{
-			Assert.AreEqual(expected, BlogInfo.StripWwwPrefixFromHost(host), message);
+			Assert.AreEqual(expected, Blog.StripWwwPrefixFromHost(host), message);
 		}
 
 		[RowTest]
@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework
 		[Row(null, null, "Expect an exception", ExpectedException = typeof(ArgumentException))]
 		public void StripPortFromHostFunctionsProperly(string host, string expected, string message)
 		{
-			Assert.AreEqual(expected, BlogInfo.StripPortFromHost(host), message);
+			Assert.AreEqual(expected, Blog.StripPortFromHost(host), message);
 		}
 
 		[RowTest]
@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.Framework
 		[Row(null, null, "Expect an exception", ExpectedException = typeof(ArgumentException))]
 		public void CanGetAlternativeHostAlias(string host, string expected, string message)
 		{
-			Assert.AreEqual(expected, BlogInfo.GetAlternateHostAlias(host), message);
+			Assert.AreEqual(expected, Blog.GetAlternateHostAlias(host), message);
 		}
 	    
 		/// <summary>
@@ -71,7 +71,7 @@ namespace UnitTests.Subtext.Framework
 		[Test]
 		public void PropertyGetSetTests()
 		{
-			BlogInfo blog = new BlogInfo();
+			Blog blog = new Blog();
 
 			Assert.AreEqual("Subtext Weblog", blog.Author, "Expected the default author name.");
 
@@ -140,9 +140,9 @@ namespace UnitTests.Subtext.Framework
 		public void CanGetBlogs()
 		{
 			UnitTestHelper.SetupBlog();
-			IPagedCollection<BlogInfo> blogs = BlogInfo.GetBlogs(0, int.MaxValue, ConfigurationFlags.None);
+			IPagedCollection<Blog> blogs = Blog.GetBlogs(0, int.MaxValue, ConfigurationFlags.None);
 			Assert.GreaterEqualThan(blogs.Count, 1);
-			foreach(BlogInfo blog in blogs)
+			foreach(Blog blog in blogs)
 			{
 				if (blog.Id == Config.CurrentBlog.Id)
 					return;
@@ -153,12 +153,12 @@ namespace UnitTests.Subtext.Framework
 		[Test]
 		public void CanTestForEquality()
 		{
-			BlogInfo blog = new BlogInfo();
+			Blog blog = new Blog();
 			blog.Id = 12;
 			Assert.IsFalse(blog.Equals(null), "Blog should not equal null");
 			Assert.IsFalse(blog.Equals("Something Not A Blog"), "Blog should not equal a string");
 
-			BlogInfo blog2 = new BlogInfo();
+			Blog blog2 = new Blog();
 			blog2.Id = 12;
 			Assert.IsTrue(blog.Equals(blog2));
 		}
@@ -166,7 +166,7 @@ namespace UnitTests.Subtext.Framework
 		[Test]
 		public void CanGetDefaultTimeZone()
 		{
-			BlogInfo blog = new BlogInfo();
+			Blog blog = new Blog();
 			blog.TimeZoneId = int.MinValue;
 			Assert.IsNotNull(blog.TimeZone);
 		}
@@ -174,7 +174,7 @@ namespace UnitTests.Subtext.Framework
 		[Test]
 		public void CanGetLanguageAndLanguageCode()
 		{
-			BlogInfo blog = new BlogInfo();
+			Blog blog = new Blog();
 			blog.Language = null;
 			Assert.AreEqual("en-US", blog.Language, "By default, the language is en-US");
 			Assert.AreEqual("en", blog.LanguageCode);
@@ -189,7 +189,7 @@ namespace UnitTests.Subtext.Framework
 		{
 			HttpContext.Current = null;
 			Assert.IsNull(HttpContext.Current);
-			Assert.AreEqual(80, BlogInfo.Port);
+			Assert.AreEqual(80, Blog.Port);
 		}
 
 		[Test]
@@ -197,7 +197,7 @@ namespace UnitTests.Subtext.Framework
 		{
 			using (new HttpSimulator().SimulateRequest())
 			{
-				BlogInfo blog = new BlogInfo();
+				Blog blog = new Blog();
 				blog.Host = "http://subtextproject.com/";
 				blog.FeedbackSpamServiceKey = null;
 				Assert.IsNull(blog.FeedbackSpamService);
@@ -212,7 +212,7 @@ namespace UnitTests.Subtext.Framework
 		[Test]
 		public void HasNewsReturnsProperResult()
 		{
-			BlogInfo blog = new BlogInfo();
+			Blog blog = new Blog();
 			Assert.IsFalse(blog.HasNews);
 			blog.News = "You rock! Story at eleven";
 			Assert.IsTrue(blog.HasNews);
@@ -221,7 +221,7 @@ namespace UnitTests.Subtext.Framework
 		[Test]
 		public void CanGetHashCode()
 		{
-			BlogInfo blog = new BlogInfo();
+			Blog blog = new Blog();
 			blog.Host = "http://subtextproject.com";
 			blog.Subfolder = "blog";
 
@@ -231,7 +231,7 @@ namespace UnitTests.Subtext.Framework
 		[Test]
 		public void CanSetFeedBurnerName()
 		{
-			BlogInfo blog = new BlogInfo();
+			Blog blog = new Blog();
 			blog.FeedBurnerName = null;
 			Assert.IsFalse(blog.FeedBurnerEnabled);
 
@@ -397,21 +397,21 @@ namespace UnitTests.Subtext.Framework
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDir);
 
-			Assert.AreEqual(expected, BlogInfo.VirtualDirectoryRoot, "Did not set the VirtualDirectoryRoot correctly.");
+			Assert.AreEqual(expected, Blog.VirtualDirectoryRoot, "Did not set the VirtualDirectoryRoot correctly.");
 		}
 
 		[Test]
 		[ExpectedArgumentNullException]
 		public void GetBlogsByHostThrowsArgumentNullException()
 		{
-			BlogInfo.GetBlogsByHost(null, 0, 10, ConfigurationFlags.IsActive);
+			Blog.GetBlogsByHost(null, 0, 10, ConfigurationFlags.IsActive);
 		}
 
 		[Test]
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void FeedBurnerNameThrowsInvalidOperationException()
 		{
-			new BlogInfo().FeedBurnerName = "\\";
+			new Blog().FeedBurnerName = "\\";
 		}
 	}
 }

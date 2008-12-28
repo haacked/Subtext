@@ -8,6 +8,7 @@ using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
@@ -134,7 +135,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         public void CreateFeedbackSetsBlogStatsCorrectly()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
-            BlogInfo info = Config.CurrentBlog;
+            Blog info = Config.CurrentBlog;
 
             Assert.AreEqual(0, info.CommentCount);
             Assert.AreEqual(0, info.PingTrackCount);
@@ -163,7 +164,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         public void CreateEntryDoesNotResetBlogStats()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
-            BlogInfo info = Config.CurrentBlog;
+            Blog info = Config.CurrentBlog;
 
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
@@ -181,7 +182,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         public void DeleteEntrySetsBlogStats()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
-            BlogInfo info = Config.CurrentBlog;
+            Blog info = Config.CurrentBlog;
 
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
@@ -397,6 +398,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			Config.CurrentBlog.Title = "You've been haacked";
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("blah", "blah", "blah");
+            entry.DateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int entryId = Entries.Create(entry);
 			entry = Entries.GetEntry(entryId, PostConfig.None, false);
 
@@ -404,7 +406,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			feedbackItem.ParentEntryName = entry.EntryName;
 			feedbackItem.Author = "Billy Bob";
 			feedbackItem.Email = commenterEmail;
-			feedbackItem.DateCreated = DateTime.Now;
+			feedbackItem.DateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             feedbackItem.ParentDateCreated = entry.DateCreated;
 			if (commenterUrl.Length > 0)
 				feedbackItem.SourceUrl = new Uri(commenterUrl);
@@ -414,6 +416,16 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			int id = FeedbackItem.Create(feedbackItem, null);
 			Thread.Sleep(100); //Sending email is asynch.
 
+            string virtualPath = applicationPath ?? "/";
+            if (!virtualPath.EndsWith("/")) {
+                virtualPath += "/";
+            }
+            if (!String.IsNullOrEmpty(subfolder) && !subfolder.EndsWith("/")) {
+                virtualPath += subfolder + "/";
+            }
+
+            string feedbackUrl = "http://" + _hostName + virtualPath + "archive/2008/01/23/blah.aspx#" + id;
+
 			string expectedMessageBody = "Comment from You've been haacked" + Environment.NewLine
 			                             + "----------------------------------------------------" + Environment.NewLine
 			                             + "From:\tBilly Bob <" + expectedEmail + ">" + Environment.NewLine
@@ -421,7 +433,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			                             "IP:\t127.0.0.1" + Environment.NewLine
 			                             + "====================================================" + Environment.NewLine + Environment.NewLine
 			                             + "Some Body" + Environment.NewLine + " likes me." + Environment.NewLine + Environment.NewLine
-			                             + "Source: " + entry.FullyQualifiedUrl + "#" + id;
+			                             + "Source: " + feedbackUrl;
 			
 			string expectedMessageBodyInCaseOfSpam = "Spam Flagged " + expectedMessageBody;
 
@@ -434,7 +446,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			if (feedbackItem.FlaggedAsSpam)
 			{
 				Assert.AreEqual("[SPAM Flagged] Comment: Some Title (via You've been haacked)", emailProvider.Subject, "Comment subject line wrong.");
-				Assert.AreEqual(expectedMessageBodyInCaseOfSpam, emailProvider.Message, "Did not receive the expected message.");
+				Assert.AreEqual(expectedMessageBodyInCaseOfSpam, emailProvider.Message);
 			}
 			else
 			{
@@ -475,7 +487,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         Entry SetupBlogForCommentsAndCreateEntry()
         {
             Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
-            BlogInfo info = Config.CurrentBlog;
+            Blog info = Config.CurrentBlog;
             info.Email = "test@example.com";
             info.Title = "You've been haacked";
             info.CommentsEnabled = true;

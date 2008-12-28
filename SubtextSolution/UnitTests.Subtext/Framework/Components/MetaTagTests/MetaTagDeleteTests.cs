@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
     [TestFixture]
     class MetaTagDeleteTests
     {
-        private BlogInfo blog;
+        private Blog blog;
 
         [Test]
         [RollBack2]

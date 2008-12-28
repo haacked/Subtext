@@ -389,7 +389,7 @@ namespace UnitTests.Subtext
 		/// <param name="author">The author.</param>
 		/// <param name="body">The body.</param>
 		/// <param name="title">The title.</param>
-		public static Entry CreateEntryInstanceForSyndication(BlogInfo blog, string author, string title, string body)
+		public static Entry CreateEntryInstanceForSyndication(Blog blog, string author, string title, string body)
 		{
 			return CreateEntryInstanceForSyndication(blog, author, title, body, null, DateTime.Now);
 		}
@@ -407,7 +407,7 @@ namespace UnitTests.Subtext
 		/// <param name="entryName">Name of the entry.</param>
 		/// <param name="dateCreated">The date created.</param>
 		/// <returns></returns>
-		public static Entry CreateEntryInstanceForSyndication(BlogInfo blog, string author, string title, string body, string entryName, DateTime dateCreated)
+		public static Entry CreateEntryInstanceForSyndication(Blog blog, string author, string title, string body, string entryName, DateTime dateCreated)
 		{
 			Entry entry = new Entry(PostType.BlogPost);
 			if(entryName != null)
@@ -765,7 +765,7 @@ namespace UnitTests.Subtext
 		}
 		#endregion
 
-	    public static BlogInfo CreateBlogAndSetupContext()
+	    public static Blog CreateBlogAndSetupContext()
 	    {
 	        string hostName = GenerateUniqueString();
 	        Config.CreateBlog("Just A Test Blog", "test", "test", hostName, "");
@@ -779,11 +779,11 @@ namespace UnitTests.Subtext
 	        return Config.CurrentBlog;
 	    }
 
-		public static BlogAlias CreateBlogAlias(BlogInfo info, string host, string subfolder)
+		public static BlogAlias CreateBlogAlias(Blog info, string host, string subfolder)
 		{
 			return CreateBlogAlias(info, host, subfolder, true);
 		}
-		public static BlogAlias CreateBlogAlias(BlogInfo info, string host, string subfolder, bool active)
+		public static BlogAlias CreateBlogAlias(Blog info, string host, string subfolder, bool active)
 		{
 			BlogAlias alias = new BlogAlias();
 			alias.BlogId = info.Id;
@@ -811,7 +811,7 @@ namespace UnitTests.Subtext
 	        return mt;
 	    }
 
-        public static ICollection<MetaTag> BuildMetaTagsFor(BlogInfo blog, Entry entry, int numberOfTags)
+        public static ICollection<MetaTag> BuildMetaTagsFor(Blog blog, Entry entry, int numberOfTags)
         {
             List<MetaTag> tags = new List<MetaTag>(numberOfTags);
 

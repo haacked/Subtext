@@ -34,7 +34,7 @@ namespace Subtext.Web.UI
 		{
             get
             {
-                BlogInfo blog = Config.CurrentBlog;
+                Blog blog = Config.CurrentBlog;
                 BrowserDetectionService service = new BrowserDetectionService();
                 BrowserInfo capabilities = service.DetectBrowserCapabilities();
 

@@ -90,7 +90,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			if(Page.IsValid)
 			{
-				BlogInfo info = Config.CurrentBlog;
+				Blog info = Config.CurrentBlog;
 
 				if(SendContactMessageToFeedback || String.IsNullOrEmpty(info.Email))
 				{

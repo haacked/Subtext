@@ -35,7 +35,7 @@ namespace Subtext.Framework.Syndication
 		const int HTTP_IM_USED = 226;
 		const int HTTP_MOVED_PERMANENTLY = 301;
 
-        protected BlogInfo Blog
+        protected Blog Blog
         {
             get {
                 return SubtextContext.Blog;

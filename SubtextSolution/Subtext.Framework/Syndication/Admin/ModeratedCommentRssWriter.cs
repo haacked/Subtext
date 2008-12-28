@@ -14,8 +14,16 @@ namespace Subtext.Framework.Syndication.Admin
 
 		protected override void WriteChannel()
 		{
-			RssImageElement image = new RssImageElement(GetRssImage(), CommentEntry.Title, CommentEntry.FullyQualifiedUrl, 77, 60, null);
-			this.BuildChannel(CommentEntry.Title, Blog.UrlFormats.AdminUrl("Feedback.aspx?status=2"), CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, Blog.Language, Blog.Author, Blog.LicenseUrl, image);			
+			RssImageElement image = new RssImageElement(GetRssImage(), 
+                CommentEntry.Title,
+                UrlHelper.EntryUrl(CommentEntry).ToFullyQualifiedUrl(Blog), 
+                77, 
+                60, 
+                null);
+
+            string url = UrlHelper.AdminUrl("Feedback.aspx", new {status = 2 }).ToFullyQualifiedUrl(Blog).ToString();
+
+            this.BuildChannel(CommentEntry.Title, url, CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, Blog.Language, Blog.Author, Blog.LicenseUrl, image);			
 		}
 
 

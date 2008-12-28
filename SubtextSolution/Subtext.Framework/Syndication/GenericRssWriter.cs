@@ -23,6 +23,7 @@ using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
 using System.Web;
 using Subtext.Framework.Routing;
+using System.Collections.Generic;
 
 namespace Subtext.Framework.Syndication
 {
@@ -192,8 +193,7 @@ namespace Subtext.Framework.Syndication
 				this.WriteElementString("creativeCommons:license", cclicense);
 			}
 
-            if (image != null)
-            {
+            if (image != null) {
                 image.WriteToXmlWriter(this);
             }
 		}
@@ -251,7 +251,7 @@ namespace Subtext.Framework.Syndication
 			//core
 			this.WriteElementString("title", GetTitleFromItem(item));
 
-			StringCollection categories = GetCategoriesFromItem(item);
+			ICollection<string> categories = GetCategoriesFromItem(item);
 			if (categories != null)
 			{
 				foreach (string category in categories)
@@ -323,7 +323,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="item">The entry.</param>
 		/// <returns></returns>
-		protected abstract StringCollection GetCategoriesFromItem(T item);
+		protected abstract ICollection<string> GetCategoriesFromItem(T item);
 
 		/// <summary>
 		/// Gets the title from item.

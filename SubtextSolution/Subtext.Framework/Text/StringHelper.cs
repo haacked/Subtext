@@ -17,6 +17,7 @@ using System;
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Collections.Generic;
 
 // adapted from namespace Haack.Text
 namespace Subtext.Framework.Text
@@ -98,7 +99,7 @@ namespace Subtext.Framework.Text
 			if(source.Length == 0)
 				return new string[] {""};
 
-			StringCollection words = new StringCollection();
+			var words = new List<string>();
 			int wordStartIndex = 0;
 
 			char[] letters = source.ToCharArray();
@@ -370,7 +371,7 @@ namespace Subtext.Framework.Text
 		/// </returns>
 		public static bool IsNumeric(this string text)
 		{
-			return Regex.IsMatch(text,"^\\d+$");
+			return Regex.IsMatch(text, "^\\d+$");
 		}
 
         public static string MailToEncode(string s)

@@ -408,12 +408,12 @@ namespace UnitTests.Subtext.Framework.Data
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
 		{
-			return BlogInfo.GetBlogsByHost(this.host, pageIndex, pageSize, ConfigurationFlags.IsActive);
+			return Blog.GetBlogsByHost(this.host, pageIndex, pageSize, ConfigurationFlags.IsActive);
 		}
 
 		public int GetCount(IPagedCollection collection)
 		{
-			return ((IPagedCollection<BlogInfo>)collection).Count;
+			return ((IPagedCollection<Blog>)collection).Count;
 		}
 	}
 

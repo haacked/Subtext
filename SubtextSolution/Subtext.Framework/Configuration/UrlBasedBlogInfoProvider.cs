@@ -103,12 +103,12 @@ namespace Subtext.Framework.Configuration
 		/// It will next check the cache.
 		/// </summary>
 		/// <returns></returns>
-		public virtual BlogInfo GetBlogInfo()
+		public virtual Blog GetBlogInfo()
 		{
 			// First check the cache for the current request for an 
 			// existing BlogConfig. This saves us the trouble of having 
 			// to figure out which blog is being requested.
-			BlogInfo info = GetRequestCache<BlogInfo>(cacheKey);
+			Blog info = GetRequestCache<Blog>(cacheKey);
 
 			if (info != null)
 				return info;
@@ -119,7 +119,7 @@ namespace Subtext.Framework.Configuration
 			string mCacheKey = cacheKey + blogRequest.Host + "/" + blogRequest.Subfolder;
 
 			//check the application cache.
-			info = GetApplicationCache<BlogInfo>(mCacheKey);
+			info = GetApplicationCache<Blog>(mCacheKey);
 
 			if (info != null)
 			{
@@ -134,7 +134,7 @@ namespace Subtext.Framework.Configuration
 
 			if (info == null)
 			{
-				info = Config.GetBlogInfo(BlogInfo.GetAlternateHostAlias(blogRequest.Host), blogRequest.Subfolder, false);
+				info = Config.GetBlogInfo(Blog.GetAlternateHostAlias(blogRequest.Host), blogRequest.Subfolder, false);
 				if (info == null
 						&& !InstallationManager.IsInHostAdminDirectory 
 						&& !InstallationManager.IsInSystemMessageDirectory 
@@ -194,7 +194,7 @@ namespace Subtext.Framework.Configuration
 			return info;
 		}
 
-		private static void SetBlogIdContextForLogging(BlogInfo info)
+		private static void SetBlogIdContextForLogging(Blog info)
 		{
 			if(!InstallationManager.IsInHostAdminDirectory)
 			{
@@ -207,7 +207,7 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
-		private static void RedirectToPrimaryHost(BlogInfo info, BlogRequest blogRequest)
+		private static void RedirectToPrimaryHost(Blog info, BlogRequest blogRequest)
 		{
 			string url = BlogRequest.Current.RawUrl.ToString();
 			UriBuilder uriBuilder = new UriBuilder(url);
@@ -227,7 +227,7 @@ namespace Subtext.Framework.Configuration
 			HttpContext.Current.Response.End();
 		}
 
-		private static void MapImageDirectory(BlogInfo info, BlogRequest blogRequest)
+		private static void MapImageDirectory(Blog info, BlogRequest blogRequest)
 		{
 			BlogConfigurationSettings settings = Config.Settings;
 			string webApp = HttpContext.Current.Request.ApplicationPath;
@@ -259,10 +259,10 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
-		private BlogInfo GetAggregateBlog(string mCacheKey)
+		private Blog GetAggregateBlog(string mCacheKey)
 		{
-			BlogInfo info;
-			info = BlogInfo.AggregateBlog;
+			Blog info;
+			info = Blog.AggregateBlog;
 			CacheConfig(HttpContext.Current.Cache, info, mCacheKey);
 			HttpContext.Current.Items.Add(cacheKey, info);
 			return info;
@@ -299,7 +299,7 @@ namespace Subtext.Framework.Configuration
 		/// <param name="cache">Cache.</param>
 		/// <param name="info">Config.</param>
 		/// <param name="cacheKEY">Cache KEY.</param>
-		protected void CacheConfig(Cache cache, BlogInfo info, string cacheKey)
+		protected void CacheConfig(Cache cache, Blog info, string cacheKey)
 		{
 			cache.Insert(cacheKey, info, null, DateTime.Now.AddSeconds(CacheTime), TimeSpan.Zero, CacheItemPriority.High, null);
 		}

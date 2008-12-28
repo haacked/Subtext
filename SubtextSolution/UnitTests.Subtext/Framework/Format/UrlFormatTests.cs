@@ -57,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Format
 		public void FormatAdminUrl(string url, string subfolder, string expected)
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subfolder);
-			BlogInfo info = new BlogInfo();
+			Blog info = new Blog();
 			info.Host = "localhost";
 			info.Subfolder = subfolder; 
 
@@ -71,7 +71,7 @@ namespace UnitTests.Subtext.Framework.Format
 		public void EntryArchiveUrlWithNoApplication()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", string.Empty);
-			BlogInfo blogInfo = new BlogInfo();
+			Blog blogInfo = new Blog();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = string.Empty;
 
@@ -91,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Format
 		public void EntryArchiveUrlWithApplication()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "MyBlog");
-			BlogInfo blogInfo = new BlogInfo();
+			Blog blogInfo = new Blog();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "MyBlog";
 
@@ -111,7 +111,7 @@ namespace UnitTests.Subtext.Framework.Format
 		public void EntryArchiveUrlWithApplicationAndVirtualDir()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "MyBlog", "Subtext.Web");
-			BlogInfo blogInfo = new BlogInfo();
+			Blog blogInfo = new Blog();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "MyBlog";
 

@@ -87,12 +87,12 @@ namespace Subtext.BlogML
 			Writer.Flush();
 		}
 
-		private void WritePosts(ICollectionBook<BlogMLPost> allPosts)
-		{
+		private void WritePosts(ICollectionBook<BlogMLPost> allPosts) {
 			WriteStartPosts();
-			
-			foreach(IPagedCollection<BlogMLPost> pageOfPosts in allPosts)
-				WritePostsPage(pageOfPosts);
+
+            foreach (IPagedCollection<BlogMLPost> pageOfPosts in allPosts) {
+                WritePostsPage(pageOfPosts);
+            }
 
 			WriteEndElement(); // </posts>
 		}
@@ -128,8 +128,7 @@ namespace Subtext.BlogML
 
 		protected void WritePostsPage(IPagedCollection<BlogMLPost> posts)
 		{
-			foreach (BlogMLPost bmlPost in posts)
-			{
+			foreach (BlogMLPost bmlPost in posts) {
 				WritePost(bmlPost);
 			}
 			Writer.Flush(); //Flushes this page of posts.
@@ -138,8 +137,16 @@ namespace Subtext.BlogML
 		private void WritePost(BlogMLPost bmlPost)
 		{
 			string postId = this.conversionStrategy.GetConvertedId(IdScopes.Posts, bmlPost.ID);
-		    WriteStartPost(postId, bmlPost.Title, bmlPost.DateCreated, bmlPost.DateModified, bmlPost.Approved, bmlPost.Content.Text,
-		                   bmlPost.PostUrl, bmlPost.Views, bmlPost.PostType, bmlPost.PostName);
+		    WriteStartPost(postId, 
+                bmlPost.Title, 
+                bmlPost.DateCreated, 
+                bmlPost.DateModified, 
+                bmlPost.Approved, 
+                bmlPost.Content.Text,
+                bmlPost.PostUrl, 
+                bmlPost.Views, 
+                bmlPost.PostType, 
+                bmlPost.PostName);
 
 			WritePostCategories(bmlPost.Categories);
 			WritePostComments(bmlPost.Comments);

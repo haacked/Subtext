@@ -13,18 +13,10 @@ namespace Subtext.Framework.Routing
                 throw new ArgumentNullException("virtualPath");
             }
 
-            _virtualPath = virtualPath.LeftBefore("#", StringComparison.Ordinal);
-            if (virtualPath.Contains("#")) {
-                Fragment = virtualPath.RightAfter("#", StringComparison.Ordinal);
-            }
+            _virtualPath = new Uri(virtualPath, UriKind.Relative);
         }
 
-        string _virtualPath;
-
-        public string Fragment {
-            get;
-            private set;
-        }
+        Uri _virtualPath;
 
         public static implicit operator String(VirtualPath vp) {
             if (vp == null)
@@ -42,14 +34,14 @@ namespace Subtext.Framework.Routing
 
         public override string ToString()
         {
-            return _virtualPath + (String.IsNullOrEmpty(Fragment) ? "" : "#" + Fragment);
+            return _virtualPath.ToString();
         }
 
-        public virtual Uri ToFullyQualifiedUrl(BlogInfo blog) {
-            UriBuilder builder = new UriBuilder("http", blog.Host);
-            builder.Path = _virtualPath;
-            builder.Fragment = Fragment;
-            return builder.Uri;
+        public virtual Uri ToFullyQualifiedUrl(Blog blog) {
+            UriBuilder builder = new UriBuilder();
+            builder.Scheme = "http";
+            builder.Host = blog.Host;
+            return new Uri(builder.Uri, _virtualPath);
         }
     }
 }

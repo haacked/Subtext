@@ -28,7 +28,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[Test]
 		public void CommentRssWriterProducesValidEmptyFeed()
 		{
-			BlogInfo blogInfo = new BlogInfo();
+			Blog blogInfo = new Blog();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "blog";
 			blogInfo.Email = "Subtext@example.com";
@@ -39,13 +39,11 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blogInfo, "haacked", "title of the post", "Body of the post.");
 			entry.EntryName = "titleofthepost";
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-			entry.Url = "/archive/2006/04/01/titleofthepost.aspx";
-            entry.FullyQualifiedUrl = new Uri("http://localhost/blog" + entry.Url);
-
+			
             var context = new Mock<ISubtextContext>();
             context.FakeSyndicationContext(blogInfo, "/", null);
             var urlHelper = Mock.Get<UrlHelper>(context.Object.UrlHelper);
-            urlHelper.Expect(url => url.EntryUrl(It.IsAny<Entry>())).Returns("/blog" + entry.Url);
+            urlHelper.Expect(url => url.EntryUrl(It.IsAny<Entry>())).Returns("/blog/archive/2006/04/01/titleofthepost.aspx");
 
 			CommentRssWriter writer = new CommentRssWriter(new StringWriter(), new List<FeedbackItem>(), entry, context.Object);
 			
@@ -86,7 +84,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[Test]
 		public void CommentRssWriterProducesValidFeed()
 		{
-			BlogInfo blogInfo = new BlogInfo();
+			Blog blogInfo = new Blog();
 			blogInfo.Host = "localhost";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
@@ -96,8 +94,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blogInfo, "haacked", "title of the post", "Body of the post.");
 			entry.EntryName = "titleofthepost";
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-			entry.Url = "/archive/2006/02/01/titleofthepost.aspx";
-            entry.FullyQualifiedUrl = new Uri("http://localhost/Subtext.Web/archive/2006/02/01/titleofthepost.aspx");
 			entry.Id = 1001;
             
 			FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
@@ -119,7 +115,8 @@ namespace UnitTests.Subtext.Framework.Syndication
             var httpContext = Mock.Get<HttpContextBase>(subtextContext.Object.RequestContext.HttpContext);
             httpContext.Expect(c => c.Request.ApplicationPath).Returns("/Subtext.Web");
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
-            urlHelper.Expect(u => u.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/Subtext.Web" + entry.Url + "#" + comment.Id);
+            urlHelper.Expect(u => u.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/Subtext.Web/archive/2006/02/01/titleofthepost.aspx#" + comment.Id);
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/Subtext.Web/archive/2006/02/01/titleofthepost.aspx");
 
             CommentRssWriter writer = new CommentRssWriter(new StringWriter(), comments, entry, subtextContext.Object);
 

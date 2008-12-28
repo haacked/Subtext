@@ -106,7 +106,7 @@ namespace UnitTests.Subtext.Framework
 			finally
 			{
 				//Can't run this test in a transaction. This is the best I can do.
-				BlogInfo.ClearBlogContent(Config.CurrentBlog.Id);
+				Blog.ClearBlogContent(Config.CurrentBlog.Id);
 			}
 		}
 

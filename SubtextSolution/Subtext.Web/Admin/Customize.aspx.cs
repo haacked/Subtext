@@ -45,7 +45,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void BindLocalUI()
         {
-            BlogInfo blog = Config.CurrentBlog;
+            Blog blog = Config.CurrentBlog;
             IPagedCollection<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, this.pageIndex, this.resultsPager.PageSize);
 
             this.containsTags = tags.Count > 0;

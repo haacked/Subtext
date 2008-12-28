@@ -57,7 +57,7 @@ namespace Subtext.Framework.Syndication
             private set;
         }
 
-        public BlogInfo Blog
+        public Blog Blog
         {
             get;
             private set;

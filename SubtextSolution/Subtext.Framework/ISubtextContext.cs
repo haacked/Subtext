@@ -6,7 +6,7 @@ namespace Subtext.Framework
 {
     public interface ISubtextContext
     {
-        BlogInfo Blog { get; }
+        Blog Blog { get; }
         ObjectProvider Repository { get; }
         RequestContext RequestContext { get; }
         UrlHelper UrlHelper { get; }

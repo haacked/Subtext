@@ -21,6 +21,8 @@ using BlogML.Xml;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
+using Subtext.Framework.Routing;
+using Subtext.Framework;
 
 namespace Subtext.ImportExport
 {
@@ -34,13 +36,13 @@ namespace Subtext.ImportExport
 		/// </summary>
 		/// <param name="reader">The reader.</param>
 		/// <returns></returns>
-		public static BlogMLPost LoadPostFromDataReader(IDataReader reader)
+		public static BlogMLPost LoadPostFromDataReader(ISubtextContext context, IDataReader reader)
 		{
 			Entry entry = DataHelper.LoadEntry(reader);
 			BlogMLPost bmlPost = new BlogMLPost();
 			bmlPost.ID = entry.Id.ToString(CultureInfo.InvariantCulture);
 			bmlPost.Title = entry.Title;
-			bmlPost.PostUrl = entry.FullyQualifiedUrl.ToString();
+            bmlPost.PostUrl = context.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(context.Blog).ToString();
 			bmlPost.Approved = entry.IsActive;
 			bmlPost.Content.Text = entry.Body;
 			bmlPost.DateCreated = entry.DateCreated;
@@ -48,14 +50,12 @@ namespace Subtext.ImportExport
             bmlPost.PostType = (entry.PostType == PostType.Story) ? BlogPostTypes.Article : BlogPostTypes.Normal;
             bmlPost.Views = 0; // I think we have this statistic in the db... right?
 		    
-            if (entry.HasEntryName)
-            {
+            if (entry.HasEntryName) {
                 bmlPost.PostName = entry.EntryName;
             }
 		    
             bmlPost.HasExcerpt = entry.HasDescription;
-            if (entry.HasDescription)
-            {
+            if (entry.HasDescription) {
                 bmlPost.Excerpt.Text = entry.Description;
             }
 

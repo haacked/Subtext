@@ -111,7 +111,7 @@ namespace Subtext.Framework.Configuration
 		/// <exception type="BlogDoesNotExistException">Thrown if the blog does not exist</exception>
 		/// <exception type="BlogInactiveException">Thrown if the blog is no longer active</exception>
 		/// <returns>The current blog</returns>
-		public static BlogInfo CurrentBlog
+		public static Blog CurrentBlog
 		{
 			get
 			{
@@ -121,7 +121,7 @@ namespace Subtext.Framework.Configuration
 				if (InstallationManager.IsInHostAdminDirectory)
 					return null;
 				
-				BlogInfo currentBlog = ConfigurationProvider.GetBlogInfo();
+				Blog currentBlog = ConfigurationProvider.GetBlogInfo();
 				return currentBlog;
 			}
 		}
@@ -134,7 +134,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				IPagedCollection<BlogInfo> blogs = BlogInfo.GetBlogs(1, 1, ConfigurationFlags.IsActive);
+				IPagedCollection<Blog> blogs = Blog.GetBlogs(1, 1, ConfigurationFlags.IsActive);
 				return blogs.MaxItems;
 			}
 		}
@@ -147,7 +147,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				IPagedCollection blogs = BlogInfo.GetBlogs(1, 1, ConfigurationFlags.None);
+				IPagedCollection blogs = Blog.GetBlogs(1, 1, ConfigurationFlags.None);
 				return blogs.MaxItems;
 			}
 		}
@@ -180,7 +180,7 @@ namespace Subtext.Framework.Configuration
 		/// <param name="hostName">Hostname.</param>
 		/// <param name="subfolder">Subfolder Name.</param>
 		/// <returns></returns>
-		public static BlogInfo GetBlogInfo(string hostName, string subfolder)
+		public static Blog GetBlogInfo(string hostName, string subfolder)
 		{
 			return GetBlogInfo(hostName, subfolder, false);
 		}
@@ -199,9 +199,9 @@ namespace Subtext.Framework.Configuration
 		/// <param name="strict">If false, then this will return a blog record if 
 		/// there is only one blog record, regardless if the subfolder and hostname match.</param>
 		/// <returns></returns>
-		public static BlogInfo GetBlogInfo(string hostName, string subfolder, bool strict)
+		public static Blog GetBlogInfo(string hostName, string subfolder, bool strict)
 		{
-			hostName = BlogInfo.StripPortFromHost(hostName);
+			hostName = Blog.StripPortFromHost(hostName);
 			return ObjectProvider.Instance().GetBlogInfo(hostName, subfolder, strict);
 		}
 
@@ -214,9 +214,9 @@ namespace Subtext.Framework.Configuration
 		/// <param name="subfolder">Sub Folder</param>
 		/// <param name="strict">Strict</param>
 		/// <returns></returns>
-		public static BlogInfo GetBlogInfoFromDomainAlias(string domainAlias, string subfolder, bool strict)
+		public static Blog GetBlogInfoFromDomainAlias(string domainAlias, string subfolder, bool strict)
 		{
-			domainAlias = BlogInfo.StripPortFromHost(domainAlias);
+			domainAlias = Blog.StripPortFromHost(domainAlias);
 			return ObjectProvider.Instance().GetBlogByDomainAlias(domainAlias, subfolder, strict);
 		}
 
@@ -289,10 +289,10 @@ namespace Subtext.Framework.Configuration
 			if(subfolder != null && subfolder.EndsWith("."))
 				throw new InvalidSubfolderNameException(subfolder);
 
-			host = BlogInfo.StripPortFromHost(host);
+			host = Blog.StripPortFromHost(host);
 
 			//Check for duplicate
-			BlogInfo potentialDuplicate = GetBlogInfo(host, subfolder, true);
+			Blog potentialDuplicate = GetBlogInfo(host, subfolder, true);
 			if(potentialDuplicate != null)
 			{
 				//we found a duplicate!
@@ -304,7 +304,7 @@ namespace Subtext.Framework.Configuration
 			if (subfolder != null && subfolder.Length > 0)
             {
                 //Check to see if we're going to end up hiding another blog.
-                BlogInfo potentialHidden = GetBlogInfo(host, string.Empty, true);
+                Blog potentialHidden = GetBlogInfo(host, string.Empty, true);
                 if (potentialHidden != null)
                 {
                     //We found a blog that would be hidden by this one.
@@ -319,7 +319,7 @@ namespace Subtext.Framework.Configuration
 			{
 				//Check to see if this blog requires a Subfolder value
 				//This would occur if another blog has the same host already.
-				int activeBlogWithHostCount = BlogInfo.GetBlogsByHost(host, 0, 1, ConfigurationFlags.IsActive).Count;
+				int activeBlogWithHostCount = Blog.GetBlogsByHost(host, 0, 1, ConfigurationFlags.IsActive).Count;
 				if(activeBlogWithHostCount > 0)
 				{
 					throw new BlogRequiresSubfolderException(host, activeBlogWithHostCount);
@@ -345,10 +345,10 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		public static void UpdateConfigData(BlogInfo info)
+		public static void UpdateConfigData(Blog info)
 		{
 			//Check for duplicate
-			BlogInfo potentialDuplicate = GetBlogInfo(info.Host, info.Subfolder, true);
+			Blog potentialDuplicate = GetBlogInfo(info.Host, info.Subfolder, true);
 			if (potentialDuplicate != null && !potentialDuplicate.Equals(info))
 			{
 				//we found a duplicate!
@@ -356,7 +356,7 @@ namespace Subtext.Framework.Configuration
 			}
 
 			//Check to see if we're going to end up hiding another blog.
-			BlogInfo potentialHidden = GetBlogInfo(info.Host, string.Empty, true);
+			Blog potentialHidden = GetBlogInfo(info.Host, string.Empty, true);
 			if (potentialHidden != null && !potentialHidden.Equals(info) && potentialHidden.IsActive)
 			{
 				//We found a blog that would be hidden by this one.
@@ -369,7 +369,7 @@ namespace Subtext.Framework.Configuration
 			{
 				//Check to see if this blog requires a Subfolder value
 				//This would occur if another blog has the same host already.
-                IPagedCollection<BlogInfo> blogsWithHost = BlogInfo.GetBlogsByHost(info.Host, 0, 1, ConfigurationFlags.IsActive);
+                IPagedCollection<Blog> blogsWithHost = Blog.GetBlogsByHost(info.Host, 0, 1, ConfigurationFlags.IsActive);
 				if(blogsWithHost.Count > 0)
 				{
 					if (blogsWithHost.Count > 1 || !blogsWithHost.First().Equals(info))

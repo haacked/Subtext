@@ -71,7 +71,7 @@ namespace Subtext.Web.Pages
 
 		protected void btnLogin_Click(object sender, EventArgs e)
 		{
-			BlogInfo currentBlog = Config.CurrentBlog;
+			Blog currentBlog = Config.CurrentBlog;
 			string returnUrl = Request.QueryString["ReturnURL"];
 			if(currentBlog == null || (returnUrl != null && StringHelper.Contains(returnUrl, "HostAdmin", StringComparison.InvariantCultureIgnoreCase)))
 			{

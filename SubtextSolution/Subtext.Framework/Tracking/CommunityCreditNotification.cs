@@ -33,7 +33,7 @@ namespace Subtext.Framework.Tracking
             else if (entry.PostType == PostType.Story)
                category = "Article";
             string description = "Blogged about: " + entry.Title;
-            BlogInfo info = Config.CurrentBlog;
+            Blog info = Config.CurrentBlog;
             string firstName = string.Empty;
             string lastName = info.Author;
             string email = info.Email;

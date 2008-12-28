@@ -24,7 +24,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
     [TestFixture]
     public class MetatTagUpdateTests
     {
-        private BlogInfo blog;
+        private Blog blog;
 
         [RowTest]
         [Row("Steven Harman", "author", null)]

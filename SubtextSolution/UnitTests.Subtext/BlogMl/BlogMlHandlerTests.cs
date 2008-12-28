@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.IO;
 using System.Text;
-using MbUnit.Framework;
-using System.IO;
-using Subtext.BlogML;
 using System.Web;
-using Subtext.Framework.Configuration;
 using System.Xml;
+using MbUnit.Framework;
+using Subtext.BlogML;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.ImportExport;
 
 namespace UnitTests.Subtext.BlogML
 {
@@ -27,9 +26,7 @@ namespace UnitTests.Subtext.BlogML
 
             HttpContext.Current.Response.Clear();
 
-            BlogMLProvider.Instance().ConnectionString = Config.ConnectionString;
-
-            BlogMLHttpHandler handler = new BlogMLHttpHandler();
+            BlogMLHttpHandler handler = new SubtextBlogMlHttpHandler();
             Assert.AreEqual(0, sb.Length);
             handler.ProcessRequest(HttpContext.Current);
             string result = sb.ToString();

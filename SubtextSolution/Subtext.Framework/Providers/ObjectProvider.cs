@@ -99,18 +99,18 @@ namespace Subtext.Framework.Providers
 		/// <param name="pageSize">Size of the page.</param>
 		/// <returns></returns>
 		/// <param name="flags"></param>
-		public abstract PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags);
+		public abstract PagedCollection<Blog> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags);
 		
 		/// <summary>
 		/// Gets the blog by id.
 		/// </summary>
 		/// <param name="blogId">Blog id.</param>
 		/// <returns></returns>
-		public abstract BlogInfo GetBlogById(int blogId);
+		public abstract Blog GetBlogById(int blogId);
 
-		public abstract BlogInfo GetBlogByDomainAlias(string host, string subfolder, bool strict);
+		public abstract Blog GetBlogByDomainAlias(string host, string subfolder, bool strict);
 
-		public abstract PagedCollection<BlogAlias> GetPagedBlogDomainAlias(BlogInfo blog, int pageIndex, int pageSize);
+		public abstract PagedCollection<BlogAlias> GetPagedBlogDomainAlias(Blog blog, int pageIndex, int pageSize);
 
 		#endregion Blogs
 
@@ -449,7 +449,7 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		public abstract bool UpdateBlog(BlogInfo info);
+		public abstract bool UpdateBlog(Blog info);
 		
 		/// <summary>
 		/// Returns a <see cref="BlogInfo"/> instance containing 
@@ -462,7 +462,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="hostname">Hostname.</param>
 		/// <param name="subfolder">Subfolder.</param>
 		/// <returns></returns>
-		public BlogInfo GetBlogInfo(string hostname, string subfolder)
+		public Blog GetBlogInfo(string hostname, string subfolder)
 		{
 			return GetBlogInfo(hostname, subfolder, true);
 		}
@@ -481,7 +481,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="strict">If false, then this will return a blog record if 
 		/// there is only one blog record, regardless if the subfolder and hostname match.</param>
 		/// <returns></returns>
-		public abstract BlogInfo GetBlogInfo(string hostname, string subfolder, bool strict);
+		public abstract Blog GetBlogInfo(string hostname, string subfolder, bool strict);
 		#endregion
 
         #region Tags
@@ -518,7 +518,7 @@ namespace Subtext.Framework.Providers
 		/// Gets a collection of MetaTags for the given Blog.
 		/// </summary>
 		/// <returns></returns>
-        public abstract IPagedCollection<MetaTag> GetMetaTagsForBlog(BlogInfo blog, int pageIndex, int pageSize);
+        public abstract IPagedCollection<MetaTag> GetMetaTagsForBlog(Blog blog, int pageIndex, int pageSize);
 
         /// <summary>
         /// Gets a collection of MetaTags for the given Entry
@@ -580,8 +580,8 @@ namespace Subtext.Framework.Providers
 		#endregion
 
 		public abstract BlogAlias GetBlogAliasById(int aliasId);
-        public abstract ICollection<BlogInfo> GetBlogsByGroup(string host, int? groupId);
-        public abstract ICollection<BlogGroup> GroupBlogs(IEnumerable<BlogInfo> blogs);
+        public abstract ICollection<Blog> GetBlogsByGroup(string host, int? groupId);
+        public abstract ICollection<BlogGroup> GroupBlogs(IEnumerable<Blog> blogs);
         public abstract HostStats GetTotalBlogStats(string host, int groupId);
         public abstract ICollection<Entry> GetRecentEntries(string host, int? groupId, int rowCount);
         public abstract ICollection<Image> GetImages(string host, int? groupId, int rowCount);

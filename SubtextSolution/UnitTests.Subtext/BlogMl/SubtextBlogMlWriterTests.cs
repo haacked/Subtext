@@ -1,17 +1,19 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using BlogML.Xml;
 using MbUnit.Framework;
+using Moq;
 using Subtext.BlogML;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.ImportExport;
 
@@ -34,8 +36,13 @@ namespace UnitTests.Subtext.BlogML
 			CreateBlogAndSetupContext();
 
 			// Shortcut to creating a blog post with a category.
-			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
-			provider.ConnectionString = Config.ConnectionString;
+            var urlHelper = new Mock<UrlHelper>();
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+
+            SubtextBlogMLProvider provider = new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object);
 			BlogMLReader reader = BlogMLReader.Create(provider);
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithCategory.xml");
 			reader.ReadBlog(stream);
@@ -45,11 +52,10 @@ namespace UnitTests.Subtext.BlogML
 			Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
 			ICollection<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
 			Assert.AreEqual(1, entries.Count, "Expected a single entry.");
-			Assert.AreEqual("Category002", entries.First().Categories[0], "Expected the catgory to be 'Category002'");
-			
-			// Now export.
-			provider = new SubtextBlogMLProvider();
-			provider.ConnectionString = Config.ConnectionString;
+			Assert.AreEqual("Category002", entries.First().Categories.First(), "Expected the catgory to be 'Category002'");
+
+			// act
+			provider = new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object);
 			
 			ICollection<BlogMLCategory> blogMLCategories = provider.GetAllCategories(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
 			Assert.AreEqual(2, blogMLCategories.Count, "Expected to find two categories via the provider.");
@@ -80,7 +86,7 @@ namespace UnitTests.Subtext.BlogML
 			ICollection<Entry> newEntries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
 			Assert.AreEqual(1, newEntries.Count, "Round trip failed to create the same number of entries.");
 			Assert.AreEqual(1, newEntries.First().Categories.Count, "Expected one category for this entry.");
-			Assert.AreEqual("Category002", newEntries.First().Categories[0], "Expected the catgory to be 'Category002'");
+			Assert.AreEqual("Category002", newEntries.First().Categories.First(), "Expected the catgory to be 'Category002'");
 		}
 		
 		[Test]
@@ -94,8 +100,13 @@ namespace UnitTests.Subtext.BlogML
 			Entries.Create(entry);
 
 			// Not using BlogMlProvider.Instance() because we need to reset the state.
-			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
-			provider.ConnectionString = Config.ConnectionString;
+            var urlHelper = new Mock<UrlHelper>();
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+
+			var provider = new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object);
 			
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
             // TODO- BlogML 2.0
@@ -151,8 +162,13 @@ namespace UnitTests.Subtext.BlogML
 
 			//setup provider
 			// Not using BlogMlProvider.Instance() because we need to reset the state.
-			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
-			provider.ConnectionString = Config.ConnectionString;
+            var urlHelper = new Mock<UrlHelper>();
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+
+			SubtextBlogMLProvider provider = new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object);
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
             // TODO- BlogML 2.0
 //			writer.EmbedAttachments = false;

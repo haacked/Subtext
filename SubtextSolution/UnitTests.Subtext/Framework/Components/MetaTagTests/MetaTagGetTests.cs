@@ -30,7 +30,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
     [TestFixture]
     public class MetaTagGetTests
     {
-        private BlogInfo blog;
+        private Blog blog;
 
         [Test]
         [RollBack2]

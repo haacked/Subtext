@@ -55,7 +55,7 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().DeleteMetaTag(metaTagId);
 		}
 
-		public static IPagedCollection<MetaTag> GetMetaTagsForBlog(BlogInfo blog, int pageIndex, int pageSize)
+		public static IPagedCollection<MetaTag> GetMetaTagsForBlog(Blog blog, int pageIndex, int pageSize)
 		{
 			return ObjectProvider.Instance().GetMetaTagsForBlog(blog, pageIndex, pageSize);
 		}

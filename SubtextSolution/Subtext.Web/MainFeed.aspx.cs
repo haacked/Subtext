@@ -43,7 +43,7 @@ namespace Subtext.Web
 		{
 			int? groupId = GetGroupIdFromQueryString();
 
-            var entries = ObjectProvider.Instance().GetRecentEntries(BlogInfo.AggregateBlog.Host, groupId, 25);
+            var entries = ObjectProvider.Instance().GetRecentEntries(Blog.AggregateBlog.Host, groupId, 25);
 			
 		    //TODO: Use our other feed generation code.
 			if(entries != null && entries.Count > 0)
