@@ -48,6 +48,8 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
             var urlHelper = new Mock<UrlHelper>();
             urlHelper.Expect(url => url.ResolveUrl(It.IsAny<string>())).Returns("/images/RSS2Image.gif");
             urlHelper.Expect(url => url.GetVirtualPath(It.IsAny<string>(), It.IsAny<object>())).Returns("/blog/Admin/Feedback.aspx?status=2");
+            urlHelper.Expect(url => url.EntryUrl(It.IsAny<Entry>())).Returns("/blog/Admin/Feedback.aspx?status=2");
+            urlHelper.Expect(url => url.AdminUrl(It.IsAny<string>(), It.IsAny<object>())).Returns("/blog/Admin/Feedback.aspx?status=2");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Expect(c => c.Blog).Returns(blogInfo);
             subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
