@@ -89,7 +89,7 @@ namespace Subtext.Web.UI.Controls
 		}
 
 
-		private static void SetNav(HyperLink navLink, Entry entry)
+		private void SetNav(HyperLink navLink, Entry entry)
 		{
 			string format = navLink.Attributes["Format"];
 			if(String.IsNullOrEmpty(format))
@@ -115,7 +115,7 @@ namespace Subtext.Web.UI.Controls
 			navLink.Attributes.Remove("TextSizeLimit");
 
             navLink.Text = HttpUtility.HtmlEncode(string.Format(format, entryTitle));
-			navLink.NavigateUrl = entry.FullyQualifiedUrl.ToString();
+			navLink.NavigateUrl = Url.EntryUrl(entry);
 		}
 	}
 }

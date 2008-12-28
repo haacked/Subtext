@@ -138,7 +138,7 @@ namespace Subtext.Framework.XmlRpc
             }
             catch (CommunityCreditNotificationException ex)
             {
-                Log.WarnFormat("Community Credit ws returned the following response while notifying for the url {0}: {1}", entry.FullyQualifiedUrl.ToString(), ex.Message);
+                Log.WarnFormat("Community Credit ws returned the following response while notifying for the url {0}: {1}", Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(), ex.Message);
             }
             catch (Exception ex)
             {

@@ -5,7 +5,6 @@ using System.Xml.Serialization;
 
 namespace Subtext.Web.SiteMap
 {
-
     [XmlTypeAttribute(TypeName = "url")]
     public class Url
     {

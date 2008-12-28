@@ -178,8 +178,9 @@ namespace Subtext.Web.Admin.UserControls
                 txtPostDate.Text = entry.DateSyndicated.ToString(CultureInfo.CurrentCulture);
             }
 
-			hlEntryLink.NavigateUrl = Url.EntryUrl(entry);
-			hlEntryLink.Text = entry.FullyQualifiedUrl.ToString();
+            var entryUrl = Url.EntryUrl(entry);
+			hlEntryLink.NavigateUrl = entryUrl;
+            hlEntryLink.Text = entryUrl.ToFullyQualifiedUrl(Config.CurrentBlog).ToString();
 			hlEntryLink.Attributes.Add("title", "view: " + entry.Title);
 
 		    PopulateMimeTypeDropDown();
