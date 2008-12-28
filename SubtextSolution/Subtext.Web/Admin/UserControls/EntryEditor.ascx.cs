@@ -17,6 +17,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
@@ -24,17 +25,15 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
+using Subtext.Framework.Tracking;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
-using StringHelper = Subtext.Framework.Text.StringHelper;
-using Subtext.Framework.Tracking;
-using System.Collections.Specialized;
-using System.Web;
+using Subtext.Web.UI.Controls;
 
 namespace Subtext.Web.Admin.UserControls
 {
-	public partial class EntryEditor : UserControl
+    public partial class EntryEditor : BaseControl
 	{
 		private const string VSKEY_CATEGORYTYPE = "CategoryType";
 
@@ -179,7 +178,7 @@ namespace Subtext.Web.Admin.UserControls
                 txtPostDate.Text = entry.DateSyndicated.ToString(CultureInfo.CurrentCulture);
             }
 
-			hlEntryLink.NavigateUrl = entry.Url;
+			hlEntryLink.NavigateUrl = Url.EntryUrl(entry);
 			hlEntryLink.Text = entry.FullyQualifiedUrl.ToString();
 			hlEntryLink.Attributes.Add("title", "view: " + entry.Title);
 
@@ -291,7 +290,7 @@ namespace Subtext.Web.Admin.UserControls
                 Entry updatedEntry = Entries.GetEntry(PostID.Value, PostConfig.IsActive, false);
                 if (updatedEntry != null) 
                 {
-                    Response.Redirect(updatedEntry.Url);
+                    Response.Redirect(Url.EntryUrl(updatedEntry));
                 }
             }
             else 
@@ -583,7 +582,7 @@ namespace Subtext.Web.Admin.UserControls
 				Entry updatedEntry = Entries.GetEntry(PostID.Value, PostConfig.IsActive, false);
 				if(updatedEntry != null)
 				{
-					Response.Redirect(updatedEntry.Url);
+					Response.Redirect(Url.EntryUrl(updatedEntry));
 					return;
 				}
 			}

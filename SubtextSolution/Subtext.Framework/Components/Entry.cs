@@ -346,35 +346,6 @@ namespace Subtext.Framework.Components
 			}
 		}
 
-		private string _url;
-		/// <summary>
-		/// Returns the relative URL to this entry.
-		/// </summary>
-		/// <value>The link.</value>
-		public string Url
-		{
-			get
-			{
-				return _url;
-			}
-			set
-			{
-				_url = value;
-				if (HttpContext.Current != null && !String.IsNullOrEmpty(value))
-				{
-					if (this.PostType == PostType.BlogPost || this.PostType == PostType.Story)
-						FullyQualifiedUrl = new Uri(Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(this));
-					else
-					{
-						string url = _url;
-						if (url.StartsWith("/"))
-							url = url.Remove(0, 1);
-						FullyQualifiedUrl = new Uri(Config.CurrentBlog.RootUrl, url);
-					}
-				}
-			}
-		}
-
 		/// <summary>
 		/// Gets the fully qualified url to this entry.
 		/// </summary>

@@ -90,11 +90,7 @@ namespace Subtext.Web.UI.Controls
 						}
 					}
 					coComment.PostTitle = entry.Title;
-					coComment.PostUrl = entry.Url;
-					if(entry.Url.StartsWith("/"))
-					{
-						coComment.PostUrl = "http://" + Config.CurrentBlog.Host + coComment.PostUrl;
-					}
+					coComment.PostUrl = Url.EntryUrl(entry).ToFullyQualifiedUrl(CurrentBlog).ToString();
 				}
 			}
 

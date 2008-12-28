@@ -32,11 +32,17 @@ namespace Subtext.Web.UI.Controls
 	{
         public UrlHelper Url {
             get {
-                var routablePage = Page as IRouteableHandler;
+                var routablePage = RouteablePage;
                 if (routablePage != null) {
                     return routablePage.Url;
                 }
                 return new UrlHelper(null, null);
+            }
+        }
+
+        protected IRouteableHandler RouteablePage {
+            get {
+                return Page as IRouteableHandler;
             }
         }
 

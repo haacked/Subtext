@@ -24,6 +24,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.UI.Handlers
 {
@@ -90,9 +91,10 @@ namespace Subtext.Web.UI.Handlers
 					entry = Cacher.GetEntry(entryName, CacheDuration.Short);
 				}
 				
-				if(entry != null)
-				{
-					redirectUrl = entry.Url;
+				if(entry != null) {
+                    //TODO: Fix this
+                    var urlHelper = new UrlHelper(null, null);
+					redirectUrl = urlHelper.EntryUrl(entry);
 				}
 			}
 

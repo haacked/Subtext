@@ -83,11 +83,10 @@ namespace Subtext.Web.UI.Controls
                 Entry post = (Entry)e.Item.DataItem;
             	this.currentEntry = post;
                 HyperLink lnkPost = (HyperLink)e.Item.FindControl("Link");
-                if (lnkPost != null)
-                {
+                if (lnkPost != null) {
                     // display whole title, (up to 255 chars), no truncation
                     lnkPost.Text = HtmlHelper.RemoveHtml(post.Title);
-                    lnkPost.NavigateUrl = post.Url;
+                    lnkPost.NavigateUrl = Url.EntryUrl(post);
                     ControlHelper.SetTitleIfNone(lnkPost, "Blog Entry.");
                 }
             }
