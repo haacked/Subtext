@@ -39,14 +39,18 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
+using Subtext.Framework.XmlRpc;
 
 namespace Subtext.Framework.Tracking
 {
     /// <summary>
 	/// Service used to receive pingbacks from remote clients.
 	/// </summary>
-	public class PingBackService : XmlRpcService
+	public class PingBackService : SubtextXmlRpcService
 	{
+        public PingBackService(ISubtextContext context) : base(context){
+        }
+
 		/// <summary>
 		/// Method called by a remote client to ping this server.
 		/// </summary>

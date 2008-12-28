@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Web;
-using Moq;
-using Subtext.Framework.Web.HttpModules;
-using Subtext.Framework;
-using System.IO;
 using System.Collections.Specialized;
-using Subtext.Framework.Routing;
-using System.Web.Routing;
+using System.IO;
+using System.Web;
 using System.Web.Caching;
+using System.Web.Routing;
+using Moq;
+using Subtext.Framework;
+using Subtext.Framework.Routing;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext
 {
@@ -20,14 +20,32 @@ namespace UnitTests.Subtext
         public static void FakeRequest(this Mock<HttpContextBase> httpContextMock, string virtualPath, string subfolder)
         {
             httpContextMock.Expect(context => context.Request.AppRelativeCurrentExecutionFilePath).Returns(virtualPath);
+            httpContextMock.Expect(context => context.Request.Path).Returns(virtualPath);
             httpContextMock.ExpectGet(c => c.Items[BlogRequest.BlogRequestKey]).Returns(new BlogRequest("localhost", subfolder, new Uri("http://localhost/"), true));
         }
 
-        public static void FakeSyndicationContext(this Mock<ISubtextContext> subtextContextMock, BlogInfo blog, string virtualPath, string applicationPath, Action<string> callback) {
+        public static void FakeSyndicationContext(this Mock<ISubtextContext> subtextContextMock, Blog blog, string virtualPath, string applicationPath, Action<string> callback) {
             subtextContextMock.FakeSyndicationContext(blog, virtualPath, applicationPath, null, callback);
         }
 
-        public static void FakeSyndicationContext(this Mock<ISubtextContext> subtextContextMock, BlogInfo blog, string virtualPath, string applicationPath, string subfolder, Action<string> callback) {
+        public static void FakeSubtextContextRequest(this Mock<ISubtextContext> subtextContextMock, Blog blog, string virtualPath, string applicationPath, string subfolder) {
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.Expect(c => c.Request.AppRelativeCurrentExecutionFilePath).Returns(virtualPath);
+            httpContext.Expect(c => c.Request.ApplicationPath).Returns(applicationPath);
+
+            var urlHelper = new Mock<UrlHelper>();
+            
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", subfolder);
+            
+            var requestContext = new RequestContext(httpContext.Object, routeData);
+            
+            subtextContextMock.Expect(c => c.Blog).Returns(blog);
+            subtextContextMock.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+            subtextContextMock.Expect(c => c.RequestContext).Returns(requestContext);
+        }
+        
+        public static void FakeSyndicationContext(this Mock<ISubtextContext> subtextContextMock, Blog blog, string virtualPath, string applicationPath, string subfolder, Action<string> callback) {
             var urlHelper = new Mock<UrlHelper>();
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeSyndicationRequest(virtualPath, applicationPath, callback);
@@ -50,13 +68,14 @@ namespace UnitTests.Subtext
             subtextContextMock.Expect(c => c.RequestContext).Returns(requestContext);
         }
 
-        public static void FakeSyndicationContext(this Mock<ISubtextContext> subtextContextMock, BlogInfo blog, string virtualPath, Action<string> callback) {
+        public static void FakeSyndicationContext(this Mock<ISubtextContext> subtextContextMock, Blog blog, string virtualPath, Action<string> callback) {
             subtextContextMock.FakeSyndicationContext(blog, virtualPath, "/", callback);
         }
 
         public static void FakeSyndicationRequest(this Mock<HttpContextBase> httpContextMock, string virtualPath, string applicationPath, Action<string> callback) {
             var headers = new NameValueCollection();
             headers.Add("If-Modified-Since", null);
+            httpContextMock.Expect(c => c.Request.AppRelativeCurrentExecutionFilePath).Returns(virtualPath);
             httpContextMock.Expect(c => c.Request.Path).Returns(virtualPath);
             httpContextMock.Expect(c => c.Request.ApplicationPath).Returns(applicationPath);
             httpContextMock.Expect(c => c.Response.Output).Returns(new StringWriter());

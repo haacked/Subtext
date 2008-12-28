@@ -54,8 +54,17 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		protected override void WriteChannel()
 		{
-			RssImageElement image = new RssImageElement(GetRssImage(), CommentEntry.Title, CommentEntry.FullyQualifiedUrl, 77, 60, null);
-			this.BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl.ToString(), CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, Blog.Language, Blog.Author, Blog.LicenseUrl, image);
+            Uri entryUrl = UrlHelper.EntryUrl(CommentEntry).ToFullyQualifiedUrl(Blog);
+            RssImageElement image = new RssImageElement(GetRssImage(), CommentEntry.Title, entryUrl, 77, 60, null);
+            
+            this.BuildChannel(CommentEntry.Title, 
+                entryUrl.ToString(), 
+                CommentEntry.Email, 
+                CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, 
+                Blog.Language, 
+                Blog.Author, 
+                Blog.LicenseUrl, 
+                image);
 		}
 
 		/// <summary>
@@ -63,7 +72,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="item">The entry.</param>
 		/// <returns></returns>
-		protected override StringCollection GetCategoriesFromItem(FeedbackItem item)
+		protected override ICollection<string> GetCategoriesFromItem(FeedbackItem item)
 		{
 			return null;
 		}

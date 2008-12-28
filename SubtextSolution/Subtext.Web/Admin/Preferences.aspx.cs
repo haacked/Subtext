@@ -62,7 +62,7 @@ namespace Subtext.Web.Admin.Pages
 			bool alwaysExpand = Boolean.Parse(ddlExpandAdvanced.SelectedItem.Value);
 			Preferences.AlwaysExpandAdvanced = alwaysExpand;
 
-			BlogInfo info  = Config.CurrentBlog;
+			Blog info  = Config.CurrentBlog;
 			info.AutoFriendlyUrlEnabled = this.chkAutoGenerate.Checked;
 			Config.UpdateConfigData(info);
 		}

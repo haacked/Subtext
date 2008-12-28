@@ -70,7 +70,7 @@ namespace Subtext.Framework
 		{
             provider.Import(populatedControl);
 
-            IPagedCollection<BlogInfo> blogs;
+            IPagedCollection<Blog> blogs;
 			
 			int totalBlogCount = Config.BlogCount;
 			const int pageSize = 100;
@@ -85,9 +85,9 @@ namespace Subtext.Framework
 			
 			while (currentPage <= pages)
 			{
-				blogs = BlogInfo.GetBlogs(currentPage, pageSize, ConfigurationFlags.IsActive);
+				blogs = Blog.GetBlogs(currentPage, pageSize, ConfigurationFlags.IsActive);
 
-				foreach(BlogInfo currentBlogInfo in blogs)
+				foreach(Blog currentBlogInfo in blogs)
 				{
 					if (skins.GetTemplate(currentBlogInfo.Skin.TemplateFolder) == null)
 					{

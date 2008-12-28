@@ -134,7 +134,8 @@ namespace Subtext.Framework
 		
 		public static int CreateLinkCategory(LinkCategory lc)
 		{
-			return ObjectProvider.Instance().CreateLinkCategory(lc);
+			lc.Id = ObjectProvider.Instance().CreateLinkCategory(lc);
+            return lc.Id;
 		}
 
 		public static bool DeleteLinkCategory(int CategoryID)

@@ -28,7 +28,7 @@ namespace UnitTests.Subtext.Akismet
             var urlHelper = new Mock<UrlHelper>();
             urlHelper.Expect(helper => helper.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/feedback-item");
             var service = new AkismetSpamService("apikey"
-                , new BlogInfo { Host = "localhost" }
+                , new Blog { Host = "localhost" }
                 , akismetClient.Object
                 , urlHelper.Object);
 

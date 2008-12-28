@@ -28,7 +28,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog");
 
-			BlogInfo blogInfo = new BlogInfo();
+			Blog blogInfo = new Blog();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "blog";
 			blogInfo.Email = "Subtext@example.com";
@@ -47,6 +47,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
 
             var urlHelper = new Mock<UrlHelper>();
             urlHelper.Expect(url => url.ResolveUrl(It.IsAny<string>())).Returns("/images/RSS2Image.gif");
+            urlHelper.Expect(url => url.GetVirtualPath(It.IsAny<string>(), It.IsAny<object>())).Returns("/blog/Admin/Feedback.aspx?status=2");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Expect(c => c.Blog).Returns(blogInfo);
             subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
@@ -90,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
 
-            BlogInfo blogInfo = new BlogInfo();
+            Blog blogInfo = new Blog();
             blogInfo.Host = "localhost";
             blogInfo.Email = "Subtext@example.com";
             blogInfo.RFC3229DeltaEncodingEnabled = true;
@@ -102,14 +103,12 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
             Entry rootEntry = new Entry(PostType.None);
             rootEntry.AllowComments = true;
             rootEntry.Title = "Comments requiring your approval.";
-            rootEntry.Url = "/Admin/Feedback.aspx?status=2";
             rootEntry.Body = "The following items are waiting approval.";
             rootEntry.PostType = PostType.None;
 
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blogInfo, "haacked", "title of the post", "Body of the post.");
             entry.EntryName = "titleofthepost";
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            entry.Url = "/archive/2006/02/01/titleofthepost.aspx";
             entry.Id = 1001;
 
             FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
@@ -128,8 +127,10 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
             comments.Add(comment);
 
             var urlHelper = new Mock<UrlHelper>();
+            urlHelper.Expect(url => url.EntryUrl(It.IsAny<Entry>())).Returns("/Subtext.Web/archive/2006/02/01/titleofthepost.aspx");
             urlHelper.Expect(url => url.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/Subtext.Web/archive/2006/02/01/titleofthepost.aspx#1002");
             urlHelper.Expect(url => url.ResolveUrl(It.IsAny<string>())).Returns("/Subtext.Web/images/RSS2Image.gif");
+            urlHelper.Expect(url => url.AdminUrl(It.IsAny<string>(), It.IsAny<object>())).Returns("/Subtext.Web/Admin/Feedback.aspx?status=2");
             var context = new Mock<ISubtextContext>();
             context.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
             context.Expect(c => c.Blog).Returns(blogInfo);
@@ -153,7 +154,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
 							            + indent(2) + @"<image>" + Environment.NewLine
 								            + indent(3) + @"<title>Comments requiring your approval.</title>" + Environment.NewLine
 								            + indent(3) + @"<url>http://localhost/Subtext.Web/images/RSS2Image.gif</url>" + Environment.NewLine
-								            + indent(3) + @"<link>http://localhost/Subtext.Web/Admin/Feedback.aspx?status=2</link>" + Environment.NewLine
+                                            + indent(3) + @"<link>http://localhost/Subtext.Web/archive/2006/02/01/titleofthepost.aspx</link>" + Environment.NewLine
 								            + indent(3) + @"<width>77</width>" + Environment.NewLine
 								            + indent(3) + @"<height>60</height>" + Environment.NewLine
 							            + indent(2) + @"</image>" + Environment.NewLine

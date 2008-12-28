@@ -161,24 +161,12 @@ namespace Subtext.Framework.Syndication.Admin
 				IList feed = GetFeedEntriesSimple();
 				if (feed is ICollection<FeedbackItem>)
 				{
-
+                    //TODO: Test the admin feeds
 					Entry entry = new Entry(PostType.None);
 					entry.Title = title;
-
-					if (((FeedbackStatusFlag)filterFlags) == FeedbackStatusFlag.NeedsModeration)
-					{
-						entry.Url = Blog.UrlFormats.AdminUrl("Feedback.aspx?status=2");
-					}
-					else
-					{
-						entry.Url = Blog.UrlFormats.AdminUrl("Feedback.aspx");
-
-					}
-
-					entry.Body = "";
+					entry.Body = string.Empty;
 
 					ICollection<FeedbackItem> feedback = (ICollection<FeedbackItem>)feed;
-
 					return new CommentRssWriter(HttpContext.Response.Output, feedback, entry, SubtextContext);
 
 				}

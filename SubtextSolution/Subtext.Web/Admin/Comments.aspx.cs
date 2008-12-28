@@ -37,7 +37,7 @@ namespace Subtext.Web.Admin.Pages
 
 		protected override void BindLocalUI()
 		{
-			BlogInfo info = Config.CurrentBlog;
+			Blog info = Config.CurrentBlog;
 			
 			this.chkEnableComments.Checked = info.CommentsEnabled;
 			this.chkEnableCommentModeration.Checked = info.ModerationEnabled;
@@ -112,7 +112,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			if(IsPageValid)
 			{
-				BlogInfo info = Config.CurrentBlog;
+				Blog info = Config.CurrentBlog;
 			
 				info.CommentsEnabled = this.chkEnableComments.Checked;
 				info.ModerationEnabled = this.chkEnableCommentModeration.Checked;

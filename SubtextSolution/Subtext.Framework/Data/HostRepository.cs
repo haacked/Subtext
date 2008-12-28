@@ -84,9 +84,9 @@ namespace Subtext.Framework.Data
             return _procedures.DeleteBlogGroup(blogGroupId);
         }
 
-        public override ICollection<BlogInfo> GetBlogsByGroup(string host, int? groupId)
+        public override ICollection<Blog> GetBlogsByGroup(string host, int? groupId)
         {
-            List<BlogInfo> blogs = new List<BlogInfo>();
+            List<Blog> blogs = new List<Blog>();
             using (var reader = _procedures.Stats(host, groupId)) {
                 while (reader.Read())
                 {
@@ -101,7 +101,7 @@ namespace Subtext.Framework.Data
         /// </summary>
         /// <param name="blogs"></param>
         /// <returns></returns>
-        public override ICollection<BlogGroup> GroupBlogs(IEnumerable<BlogInfo> blogs)
+        public override ICollection<BlogGroup> GroupBlogs(IEnumerable<Blog> blogs)
         {
             return blogs.GroupBy(blog => blog.BlogGroupId,
                 (blogGroupId, blogsInGroup) => new BlogGroup

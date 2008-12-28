@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 			string hashedPassword = SecurityHelper.HashPassword(password);
             
 			Config.CreateBlog("", "username", password, _hostName, "MyBlog1");
-			BlogInfo info = Config.GetBlogInfo(_hostName, "MyBlog1");
+			Blog info = Config.GetBlogInfo(_hostName, "MyBlog1");
 			Assert.IsNotNull(info, "We tried to get blog at " + _hostName + "/MyBlog1 but it was null");
 
 			Config.Settings.UseHashedPasswords = true;
@@ -62,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		{
 			Config.Settings.UseHashedPasswords = true;
 			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog1");
-			BlogInfo info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
+			Blog info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
 			string password = info.Password;
 			info.LicenseUrl = "http://subtextproject.com/";
 			Config.UpdateConfigData(info);
@@ -200,7 +200,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 			string secondHost = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("title", "username", "password", _hostName, "MyBlog");
 			Config.CreateBlog("title", "username2", "password2", secondHost, "MyBlog");
-			BlogInfo info = Config.GetBlogInfo(secondHost, "MyBlog");
+			Blog info = Config.GetBlogInfo(secondHost, "MyBlog");
 			info.Host = _hostName;
 			
 			Config.UpdateConfigData(info);
@@ -218,7 +218,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 			string anotherHost = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
 			Config.CreateBlog("title", "username2", "password2", anotherHost, string.Empty);
-			BlogInfo info = Config.GetBlogInfo(anotherHost, string.Empty);
+			Blog info = Config.GetBlogInfo(anotherHost, string.Empty);
 			info.Host = _hostName;
 			
 			Config.UpdateConfigData(info);
@@ -267,7 +267,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		{
 			Config.CreateBlog("title", "username", "password", "www.mydomain.com", string.Empty);
 			
-			BlogInfo info = Config.GetBlogInfo("www.mydomain.com", string.Empty);
+			Blog info = Config.GetBlogInfo("www.mydomain.com", string.Empty);
 			info.Host = "mydomain.com";
 			info.Subfolder = "MyBlog";
 			Config.UpdateConfigData(info);
@@ -286,7 +286,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Config.CreateBlog("title", "username", "password", _hostName, "MyBlog1");
 			Config.CreateBlog("title", "username", "password", anotherHost, string.Empty);
 
-			BlogInfo info = Config.GetBlogInfo(anotherHost, string.Empty);
+			Blog info = Config.GetBlogInfo(anotherHost, string.Empty);
 			info.Host = _hostName;
 			info.Subfolder = string.Empty;
 			Config.UpdateConfigData(info);
@@ -301,7 +301,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void UpdatingBlogIsFine()
 		{
 			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
-			BlogInfo info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
+			Blog info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
 			info.Author = "Phil";
             Config.UpdateConfigData(info); //Make sure no exception is thrown.
 		}
@@ -311,12 +311,12 @@ namespace UnitTests.Subtext.Framework.Configuration
         public void CanUpdateMobileSkin()
         {
             Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
-            BlogInfo info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
+            Blog info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
             info.MobileSkin = new SkinConfig();
             info.MobileSkin.TemplateFolder = "Mobile";
             info.MobileSkin.SkinStyleSheet = "Mobile.css";
             Config.UpdateConfigData(info);
-            BlogInfo blog = BlogInfo.GetBlogById(info.Id);
+            Blog blog = Blog.GetBlogById(info.Id);
             Assert.AreEqual("Mobile", blog.MobileSkin.TemplateFolder);
             Assert.AreEqual("Mobile.css", blog.MobileSkin.SkinStyleSheet);
         }
@@ -372,7 +372,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void CannotRenameBlogToHaveSubfolderNameBin()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, "Anything");
-			BlogInfo info = Config.GetBlogInfo(_hostName, "Anything");
+			Blog info = Config.GetBlogInfo(_hostName, "Anything");
 			info.Subfolder = "bin";
 
 			Config.UpdateConfigData(info);
@@ -387,7 +387,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void CannotCreateBlogWithSubfolderNameArchive()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, "archive");
-			BlogInfo info = Config.GetBlogInfo(_hostName, "archive");
+			Blog info = Config.GetBlogInfo(_hostName, "archive");
 			info.Subfolder = "archive";
 
 			Config.UpdateConfigData(info);

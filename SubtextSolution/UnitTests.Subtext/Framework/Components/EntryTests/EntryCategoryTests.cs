@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -27,7 +28,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entries.SetEntryCategoryList(id, new int[] { categoryId });
 
 			Entry loaded = Entries.GetEntry(id, PostConfig.None, true);
-			Assert.AreEqual("My Subtext UnitTest Category", loaded.Categories[0], "Expected a category for this entry");
+			Assert.AreEqual("My Subtext UnitTest Category", loaded.Categories.First(), "Expected a category for this entry");
 
 			Entries.SetEntryCategoryList(id, new int[]{});
 

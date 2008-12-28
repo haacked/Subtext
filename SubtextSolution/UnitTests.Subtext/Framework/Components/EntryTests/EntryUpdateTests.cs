@@ -70,7 +70,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void UpdateEntryCorrectsNumericEntryName()
         {
             Config.CreateBlog("", "username", "password", _hostName, string.Empty);
-            BlogInfo info = Config.CurrentBlog;
+            Blog info = Config.CurrentBlog;
             Config.UpdateConfigData(info);
 
             Entry entry = new Entry(PostType.BlogPost);

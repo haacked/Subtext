@@ -44,7 +44,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="item">The entry.</param>
 		/// <returns></returns>
-		protected override StringCollection GetCategoriesFromItem(Entry item)
+		protected override ICollection<string> GetCategoriesFromItem(Entry item)
 		{
 			return item.Categories;
 		}
@@ -66,7 +66,7 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected override string GetLinkFromItem(Entry item)
 		{
-			return item.FullyQualifiedUrl.ToString();
+            return UrlHelper.EntryUrl(item).ToFullyQualifiedUrl(Blog).ToString();
 		}
 
 		/// <summary>

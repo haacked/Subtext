@@ -4,6 +4,7 @@ using Subtext.Framework.Configuration;
 using System.Collections.Specialized;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
+using System.Collections.Generic;
 
 namespace Subtext.Framework.Tracking
 {
@@ -82,7 +83,7 @@ namespace Subtext.Framework.Tracking
 			}
 
 			//Get the links from the last post
-			StringCollection links = HtmlHelper.GetLinks(Text);
+			ICollection<string> links = HtmlHelper.GetLinks(Text);
 
 			//Do we have links
 			if (links == null || links.Count == 0)

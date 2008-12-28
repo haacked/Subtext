@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void CannotCreateMoreThanOneCommentWithinDelay()
 		{
 			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
-			BlogInfo blog = Config.CurrentBlog;
+			Blog blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 1;
 
 			FeedbackItem trackback = new FeedbackItem(FeedbackType.PingTrack);
@@ -74,7 +74,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void CannotCreateDuplicateComments()
 		{
 			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
-			BlogInfo blog = Config.CurrentBlog;
+			Blog blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 0;
 
 			FeedbackItem feedbackItem = new FeedbackItem(FeedbackType.Comment);
@@ -96,7 +96,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	    public void CommentsFromAdminNotFiltered()
 	    {
             Config.CreateBlog("", "username", "some-password", _hostName, string.Empty);
-            BlogInfo blog = Config.CurrentBlog;
+            Blog blog = Config.CurrentBlog;
             blog.CommentDelayInMinutes = 0;
 	        
 	        /*

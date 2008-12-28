@@ -62,7 +62,7 @@ namespace Subtext.Web.UI.Pages
         protected PlaceHolder metaTagsPlaceHolder;
         #endregion
 
-        protected BlogInfo CurrentBlog;
+        protected Blog CurrentBlog;
         protected Comments commentsControl;
         protected PostComment postCommentControl;
         protected const string TemplateLocation = "~/Skins/{0}/{1}";

@@ -84,8 +84,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Config.CreateBlog("title", "username", "password", "blog2.example.com", string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest("example.com", string.Empty);
 			BlogRequest.Current = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/"), false);
-			BlogInfo info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo();
-			Assert.AreEqual(BlogInfo.AggregateBlog, info, "Should have received the aggregate blog");
+			Blog info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo();
+			Assert.AreEqual(Blog.AggregateBlog, info, "Should have received the aggregate blog");
 		}
 
 		/// <summary>
@@ -101,11 +101,11 @@ namespace UnitTests.Subtext.Framework.Configuration
             UnitTestHelper.ClearAllBlogData();
 			string subfolder = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("title", "username", "password", "localhost", subfolder);
-			Assert.AreEqual(1, BlogInfo.GetBlogs(0, 10, ConfigurationFlags.None).Count, "Need to make sure there's only one blog in the system.");
+			Assert.AreEqual(1, Blog.GetBlogs(0, 10, ConfigurationFlags.None).Count, "Need to make sure there's only one blog in the system.");
 
 			UnitTestHelper.SetHttpContextWithBlogRequest("example.com", subfolder);
 			BlogRequest.Current = new BlogRequest("example.com", subfolder, new Uri("http://example.com/"), false);
-			BlogInfo info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo();
+			Blog info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo();
 			Assert.IsNotNull(info, "Expected to find a blog.");
 			Assert.AreEqual(subfolder, info.Subfolder, "The subfolder has not changed.");
 			Assert.AreEqual("example.com", info.Host, "The host should have changed.");
@@ -119,11 +119,11 @@ namespace UnitTests.Subtext.Framework.Configuration
 			string hostName = UnitTestHelper.GenerateUniqueString();
 			string subfolder = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("title", "username", "password", hostName, subfolder);
-			Assert.AreEqual(1, BlogInfo.GetBlogs(0, 10, ConfigurationFlags.None).Count, "Need to make sure there's only one blog in the system.");
+			Assert.AreEqual(1, Blog.GetBlogs(0, 10, ConfigurationFlags.None).Count, "Need to make sure there's only one blog in the system.");
 			
 			UnitTestHelper.SetHttpContextWithBlogRequest("example.com", subfolder);
 			BlogRequest.Current = new BlogRequest("example.com", subfolder, new Uri("http://example.com/" + subfolder + "/"), false);
-			BlogInfo info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo();
+			Blog info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo();
 			
 			Assert.IsNotNull(info, "Expected to find a blog.");
 			Assert.AreEqual(subfolder, info.Subfolder, "The subfolder should not have changed.");

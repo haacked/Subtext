@@ -494,7 +494,7 @@ namespace Subtext.Web.Admin.UserControls
             }
         }
 
-        private void ReplaceSelectedCategoryNames(StringCollection sc)
+        private void ReplaceSelectedCategoryNames(ICollection<string> sc)
         {
             sc.Clear();
             foreach (ListItem item in cklCategories.Items)

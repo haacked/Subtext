@@ -18,9 +18,9 @@ namespace Subtext.Framework.Syndication.Admin
 			this.Items = referrers;
 		}
 
-		protected override System.Collections.Specialized.StringCollection GetCategoriesFromItem(Referrer item)
+		protected override ICollection<string> GetCategoriesFromItem(Referrer item)
 		{
-			StringCollection strings = new StringCollection();
+			var strings = new List<string>();
 			strings.Add(item.PostTitle);
 			strings.Add(new Uri(item.ReferrerURL).Host);
 			return strings;

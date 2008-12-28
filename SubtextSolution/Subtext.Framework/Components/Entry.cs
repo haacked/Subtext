@@ -20,6 +20,7 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
+using System.Collections.Generic;
 
 namespace Subtext.Framework.Components
 {
@@ -35,7 +36,7 @@ namespace Subtext.Framework.Components
 		/// <param name="ptype">Ptype.</param>
 		public Entry(PostType ptype)
 		{
-            Categories = new StringCollection();
+            Categories = new List<string>();
             PostConfig = PostConfig.None;
             DateModified = NullValue.NullDateTime;
             DateCreated = NullValue.NullDateTime;
@@ -53,7 +54,7 @@ namespace Subtext.Framework.Components
 			set;
 		}
 
-        public BlogInfo Blog
+        public Blog Blog
         {
             get;
             set;
@@ -435,7 +436,7 @@ namespace Subtext.Framework.Components
         /// <summary>
         /// Returns the categories for this entry.
         /// </summary>
-        public StringCollection Categories
+        public ICollection<string> Categories
         {
             get;
             private set;

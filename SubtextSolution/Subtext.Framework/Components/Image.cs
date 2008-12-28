@@ -31,7 +31,7 @@ namespace Subtext.Framework.Components
 			set;
 		}
 
-        public BlogInfo Blog
+        public Blog Blog
         {
             get;
             set;

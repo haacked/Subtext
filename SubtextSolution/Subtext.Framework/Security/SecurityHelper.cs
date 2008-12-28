@@ -71,7 +71,7 @@ namespace Subtext.Framework.Security
         /// <returns>bool indicating successful login</returns>
         public static bool Authenticate(string claimedIdentifier, bool persist)
         {
-            BlogInfo currentBlog = Config.CurrentBlog;
+            Blog currentBlog = Config.CurrentBlog;
             if (currentBlog == null) {
                 return false;
             }
@@ -449,7 +449,7 @@ namespace Subtext.Framework.Security
 		/// <param name="password">Supplied Password</param>
 		public static void UpdatePassword(string password)
 		{
-			BlogInfo info = Config.CurrentBlog;
+			Blog info = Config.CurrentBlog;
 			if(Config.CurrentBlog.IsPasswordHashed)
 			{
 				info.Password = HashPassword(password);

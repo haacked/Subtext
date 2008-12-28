@@ -21,6 +21,10 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.ImportExport;
+using System.Web;
+using System.Web.Routing;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -83,9 +87,15 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		private void LoadBlogML()
-		{
-			BlogMLReader bmlReader = BlogMLReader.Create(BlogMLProvider.Instance());
+		private void LoadBlogML() {
+            var httpContext = new HttpContextWrapper(HttpContext.Current);
+            var requestContext = new RequestContext(httpContext, new RouteData());
+            var urlHelper = new UrlHelper(requestContext, RouteTable.Routes);
+            ISubtextContext context = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper, ObjectProvider.Instance());
+
+            var provider = new SubtextBlogMLProvider(Config.ConnectionString, context);
+
+			BlogMLReader bmlReader = BlogMLReader.Create(provider);
 			
 			try
 			{
@@ -112,7 +122,7 @@ namespace Subtext.Web.Admin.Pages
                 chkClearContent.Visible = false;
                 btnClearContent.Visible = false;
                 
-                BlogInfo.ClearBlogContent(Config.CurrentBlog.Id);
+                Blog.ClearBlogContent(Config.CurrentBlog.Id);
                 msgpnlClearContent.ShowMessage("Success! The content has been obliterated!");
             }
             else

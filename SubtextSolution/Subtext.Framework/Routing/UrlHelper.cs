@@ -4,6 +4,7 @@ using Subtext.Framework.Components;
 using System;
 using System.Web.Hosting;
 using Subtext.Framework.Web;
+using Subtext.Extensibility;
 
 namespace Subtext.Framework.Routing
 {
@@ -38,25 +39,34 @@ namespace Subtext.Framework.Routing
             if (entry == null) {
                 throw new ArgumentNullException("entry");
             }
+            if (entry.PostType == PostType.None) {
+                throw new ArgumentException("Entry must have a valid PostType", "entry");
+            }
 
             if (NullValue.IsNull(entry.Id)) {
                 return null;
             }
 
-            RouteValueDictionary routeValues = new RouteValueDictionary(new {
-                year = entry.DateCreated.ToString("yyyy"),
-                month = entry.DateCreated.ToString("MM"),
-                day = entry.DateCreated.ToString("dd")
-            });
-
             string routeName;
+            RouteValueDictionary routeValues = new RouteValueDictionary();
+
+            if (entry.PostType == PostType.BlogPost) {
+                routeValues.Add("year", entry.DateCreated.ToString("yyyy"));
+                routeValues.Add("month", entry.DateCreated.ToString("MM"));
+                routeValues.Add("day", entry.DateCreated.ToString("dd"));
+                routeName = "entry-";
+            }
+            else {
+                routeName = "article-";
+            }
+            
             if (string.IsNullOrEmpty(entry.EntryName)) {
                 routeValues.Add("id", entry.Id);
-                routeName = "entry-by-id";
+                routeName += "by-id";
             }
             else {
                 routeValues.Add("slug", entry.EntryName);
-                routeName = "entry-by-slug";
+                routeName += "by-slug";
             }
             
             var virtualPath = Routes.GetVirtualPath(_requestContext, routeName, routeValues);
@@ -94,12 +104,36 @@ namespace Subtext.Framework.Routing
             return GetVirtualPath("trackbacks", new { id = entryId });
         }
 
-        public VirtualPath GetVirtualPath(string routeName, object routeValues) {
-            var virtualPath = Routes.GetVirtualPath(_requestContext, routeName, new RouteValueDictionary(routeValues));
+        public virtual VirtualPath CategoryUrl(LinkCategory category) {
+            return GetVirtualPath("category", new { slug = category.Id, categoryType = "category" });
+        }
+
+        public virtual VirtualPath CategoryRssUrl(LinkCategory category)
+        {
+            return GetVirtualPath("rss", new { catId = category.Id });
+        }
+
+        public virtual VirtualPath GetVirtualPath(string routeName, object routeValues) {
+            RouteValueDictionary routeValueDictionary;
+
+            if (routeValues is RouteValueDictionary) {
+                routeValueDictionary = (RouteValueDictionary)routeValues;
+            }
+            else {
+                routeValueDictionary = new RouteValueDictionary(routeValues);    
+            }
+
+            var virtualPath = Routes.GetVirtualPath(_requestContext, routeName, routeValueDictionary);
             if (virtualPath == null) {
                 return null;
             }
             return virtualPath.VirtualPath;
+        }
+
+        public virtual VirtualPath AdminUrl(string path, object routeValues) {
+            var routeValuesDict = new RouteValueDictionary(routeValues);
+            routeValuesDict.Add("pathinfo", path);
+            return GetVirtualPath("admin", routeValuesDict);
         }
     }
 }

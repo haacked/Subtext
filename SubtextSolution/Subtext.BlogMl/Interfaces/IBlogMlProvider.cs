@@ -9,12 +9,6 @@ namespace Subtext.BlogML.Interfaces
 	public interface IBlogMLProvider
 	{
 		/// <summary>
-		/// Gets or sets the connection string.
-		/// </summary>
-		/// <value>The connection string.</value>
-		string ConnectionString {get; set;}
-		
-		/// <summary>
 		/// Returns the number of blog post records to pull from the data store 
 		/// at a time when exporting the blog as BlogMl.
 		/// </summary>

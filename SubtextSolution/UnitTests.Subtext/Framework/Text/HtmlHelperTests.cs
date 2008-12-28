@@ -355,7 +355,7 @@ namespace UnitTests.Subtext.Framework.Text
 		public void SetUp()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "MyBlog");
-			BlogInfo blogInfo = new BlogInfo();
+			Blog blogInfo = new Blog();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "MyBlog";
 

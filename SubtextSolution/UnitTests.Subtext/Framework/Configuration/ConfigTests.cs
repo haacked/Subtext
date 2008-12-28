@@ -51,7 +51,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Config.CreateBlog("title", "username", "password", hostName, subfolder);
             Config.CreateBlog("title", "username", "password", anotherHost, string.Empty);
 
-            BlogInfo info = Config.GetBlogInfo(hostName, string.Empty);
+            Blog info = Config.GetBlogInfo(hostName, string.Empty);
             Assert.IsNotNull(info, "Could not find the blog with the unique hostName.");
             Assert.AreEqual(info.Host, hostName, "Oops! Looks like we found the wrong Blog!");
             Assert.AreEqual(info.Subfolder, subfolder, "Oops! Looks like we found the wrong Blog!");
@@ -70,7 +70,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Config.CreateBlog("title", "username", "password", hostName, subfolder1);
             Config.CreateBlog("title", "username", "password", hostName, subfolder2);
 
-            BlogInfo info = Config.GetBlogInfo(hostName, subfolder1);
+            Blog info = Config.GetBlogInfo(hostName, subfolder1);
             Assert.IsNotNull(info, "Could not find the blog with the unique hostName & subfolder combination.");
             Assert.AreEqual(info.Subfolder, subfolder1, "Oops! Looks like we found the wrong Blog!");
 
@@ -88,7 +88,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Config.CreateBlog("title", "username", "password", hostName, subfolder1);
             Config.CreateBlog("title", "username", "password", hostName, subfolder2);
 
-            BlogInfo info = Config.GetBlogInfo(hostName, string.Empty);
+            Blog info = Config.GetBlogInfo(hostName, string.Empty);
             Assert.IsNull(info, "Hmm... Looks like found a blog using too generic of search criteria.");
         }
 
@@ -98,7 +98,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         {
             Config.CreateBlog("title", "username", "password", hostName, string.Empty);
 
-            BlogInfo info = Config.GetBlogInfo(hostName, string.Empty);
+            Blog info = Config.GetBlogInfo(hostName, string.Empty);
             info.OpenIDServer = "http://server.example.com/";
             info.OpenIDDelegate = "http://delegate.example.com/";
             Config.UpdateConfigData(info);

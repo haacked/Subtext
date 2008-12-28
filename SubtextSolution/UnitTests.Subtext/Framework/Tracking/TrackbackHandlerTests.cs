@@ -163,7 +163,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 		{	
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
-			BlogInfo blog = Config.CurrentBlog;
+			Blog blog = Config.CurrentBlog;
 			//the next line resets the httpcontext.
 			SimulatedHttpRequest request = UnitTestHelper.SetHttpContextWithBlogRequest(hostname, subfolder, string.Empty, "/trackback/services/" + id + ".aspx", output, "POST");
 			HttpContext.Current.Items["BlogInfo-"] = blog;

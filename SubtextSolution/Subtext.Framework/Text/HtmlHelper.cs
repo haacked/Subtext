@@ -806,9 +806,9 @@ namespace Subtext.Framework.Text
         /// </summary>
         /// <param name="text">The text.</param>
         /// <returns></returns>
-        public static StringCollection GetLinks(string text)
+        public static ICollection<string> GetLinks(string text)
         {
-            StringCollection links = new StringCollection();
+            var links = new List<string>();
             string sPattern = @"(?:[hH][rR][eE][fF]\s*=)" +
                 @"(?:[\s""']*)(?!#|[Mm]ailto|[lL]ocation.|[jJ]avascript|.*css|.*this\.)" +
                 @"(.*?)(?:[\s>""'])";

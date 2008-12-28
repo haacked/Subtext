@@ -17,13 +17,13 @@ namespace Subtext.Framework.Data
         /// </summary>
         /// <param name="blogId">Blog id.</param>
         /// <returns></returns>
-        public override BlogInfo GetBlogById(int blogId)
+        public override Blog GetBlogById(int blogId)
         {
             using (IDataReader reader = _procedures.GetBlogById(blogId))
             {
                 if (reader.Read())
                 {
-                    BlogInfo info = DataHelper.LoadBlogInfo(reader);
+                    Blog info = DataHelper.LoadBlogInfo(reader);
                     return info;
                 }
             }
@@ -44,11 +44,11 @@ namespace Subtext.Framework.Data
         /// <param name="strict">If false, then this will return a blog record if 
         /// there is only one blog record, regardless if the subfolder and hostname match.</param>
         /// <returns></returns>
-        public override BlogInfo GetBlogInfo(string hostname, string subfolder, bool strict)
+        public override Blog GetBlogInfo(string hostname, string subfolder, bool strict)
         {
             using(IDataReader reader = _procedures.GetConfig(hostname, subfolder, strict))
             {
-                BlogInfo info = null;
+                Blog info = null;
                 while (reader.Read())
                 {
                     info = DataHelper.LoadBlogInfo(reader);
@@ -72,9 +72,9 @@ namespace Subtext.Framework.Data
             return alias;
         }
 
-        public override BlogInfo GetBlogByDomainAlias(string host, string subfolder, bool strict)
+        public override Blog GetBlogByDomainAlias(string host, string subfolder, bool strict)
         {
-            BlogInfo info = null;
+            Blog info = null;
             using (IDataReader reader = _procedures.GetBlogByDomainAlias(host, subfolder, strict))
             {
                 if (reader.Read())
@@ -94,7 +94,7 @@ namespace Subtext.Framework.Data
         /// <param name="pageSize">Size of the page.</param>
         /// <returns></returns>
         /// <param name="flags"></param>
-        public override PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
+        public override PagedCollection<Blog> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
         {
             using (IDataReader reader = _procedures.GetPagedBlogs(host, pageIndex, pageSize, flags))
             {
@@ -102,7 +102,7 @@ namespace Subtext.Framework.Data
             }
         }
 
-        public override PagedCollection<BlogAlias> GetPagedBlogDomainAlias(BlogInfo blog, int pageIndex, int pageSize)
+        public override PagedCollection<BlogAlias> GetPagedBlogDomainAlias(Blog blog, int pageIndex, int pageSize)
         {
             using (IDataReader reader = _procedures.GetPageableDomainAliases(pageIndex, pageSize, blog.Id))
             {
@@ -153,7 +153,7 @@ namespace Subtext.Framework.Data
             return _procedures.UTILITYAddBlog(title, userName, password, string.Empty, host, subfolder, (int)flag, blogGroupId);
         }
 
-        public override bool UpdateBlog(BlogInfo info)
+        public override bool UpdateBlog(Blog info)
         {
             int? daysTillCommentsClose = null;
             if (info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
@@ -256,10 +256,10 @@ namespace Subtext.Framework.Data
             if (group != null)
             {
                 //TODO: Make this more efficient.
-                IPagedCollection<BlogInfo> blogs =
-                    BlogInfo.GetBlogs(0, int.MaxValue, activeOnly ? ConfigurationFlags.IsActive : ConfigurationFlags.None);
-                group.Blogs = new List<BlogInfo>();
-                foreach (BlogInfo blog in blogs)
+                IPagedCollection<Blog> blogs =
+                    Blog.GetBlogs(0, int.MaxValue, activeOnly ? ConfigurationFlags.IsActive : ConfigurationFlags.None);
+                group.Blogs = new List<Blog>();
+                foreach (Blog blog in blogs)
                 {
                     if (blog.BlogGroupId == group.Id)
                         group.Blogs.Add(blog);

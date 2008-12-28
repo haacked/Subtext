@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
     [TestFixture]
     public class EnclosureDeleteTests
     {
-        private BlogInfo blog;
+        private Blog blog;
 
         [Test]
         [RollBack2]

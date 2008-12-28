@@ -189,7 +189,7 @@ namespace UnitTests.Subtext.Framework
 			return CreateImageInstance(Config.CurrentBlog, categoryId);
 		}
 
-		private static Image CreateImageInstance(BlogInfo currentBlog, int categoryId)
+		private static Image CreateImageInstance(Blog currentBlog, int categoryId)
 		{
 			Image image = CreateStandaloneImageInstance();
 			image.BlogId = currentBlog.Id;

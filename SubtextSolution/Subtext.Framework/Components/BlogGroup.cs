@@ -82,7 +82,7 @@ namespace Subtext.Framework.Components
 			set;
 		}
 
-        public ICollection<BlogInfo> Blogs
+        public ICollection<Blog> Blogs
 		{
             get;
             set;

@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
     [TestFixture]
     public class MetaTagInsertTests
     {
-        private BlogInfo blog; 
+        private Blog blog; 
 
         [RowTest]
         [Row("Steve loves Testing.", "description", null, false, "Did not create blog specific MetaTag.")]

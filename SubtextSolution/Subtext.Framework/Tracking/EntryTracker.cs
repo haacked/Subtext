@@ -94,8 +94,8 @@ namespace Subtext.Framework.Tracking
 
 			string url = uri.ToString();
 
-			url = BlogInfo.StripWwwPrefixFromHost(url.ToString());
-			string fqu = BlogInfo.StripWwwPrefixFromHost(Config.CurrentBlog.RootUrl.ToString());
+			url = Blog.StripWwwPrefixFromHost(url.ToString());
+			string fqu = Blog.StripWwwPrefixFromHost(Config.CurrentBlog.RootUrl.ToString());
 			
 			if(Regex.IsMatch(url, fqu, RegexOptions.IgnoreCase))
 			{

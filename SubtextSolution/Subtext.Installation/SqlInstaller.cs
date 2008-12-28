@@ -6,6 +6,7 @@ using System.Reflection;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework;
 using Subtext.Framework.Data;
+using System.Collections.Generic;
 
 namespace Subtext.Installation
 {
@@ -103,7 +104,7 @@ namespace Subtext.Installation
 		{
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			string[] resourceNames = assembly.GetManifestResourceNames();
-			StringCollection collection = new StringCollection();
+			var collection = new List<string>();
 			foreach (string resourceName in resourceNames)
 			{
 				SqlInstallationProvider.InstallationScriptInfo scriptInfo = SqlInstallationProvider.InstallationScriptInfo.Parse(resourceName);

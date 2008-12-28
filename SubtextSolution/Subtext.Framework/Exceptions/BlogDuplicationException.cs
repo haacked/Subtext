@@ -28,7 +28,7 @@ namespace Subtext.Framework.Exceptions
 		/// Creates a new <see cref="BlogDuplicationException"/> instance.
 		/// </summary>
 		/// <param name="duplicate">Duplicate.</param>
-		public BlogDuplicationException(BlogInfo duplicate) : this(duplicate, NullValue.NullInt32)
+		public BlogDuplicationException(Blog duplicate) : this(duplicate, NullValue.NullInt32)
 		{
 		}
 
@@ -37,7 +37,7 @@ namespace Subtext.Framework.Exceptions
 		/// </summary>
 		/// <param name="duplicate">Duplicate.</param>
 		/// <param name="blogId">Blog id of the blog we were updating.  If this is .</param>
-		public BlogDuplicationException(BlogInfo duplicate, int blogId) : base()
+		public BlogDuplicationException(Blog duplicate, int blogId) : base()
 		{
 			_duplicateBlog = duplicate;
 			_blogId = blogId;
@@ -66,7 +66,7 @@ namespace Subtext.Framework.Exceptions
 		/// Gets the duplicate blog.
 		/// </summary>
 		/// <value></value>
-		public BlogInfo DuplicateBlog
+		public Blog DuplicateBlog
 		{
 			get { return _duplicateBlog; }
 		}
@@ -84,6 +84,6 @@ namespace Subtext.Framework.Exceptions
 
 		int _blogId = NullValue.NullInt32;
 
-		BlogInfo _duplicateBlog;
+		Blog _duplicateBlog;
 	}
 }

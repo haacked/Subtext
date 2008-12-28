@@ -24,7 +24,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
     [TestFixture]
     public class EnclosureUpdateTests
     {
-        private BlogInfo blog;
+        private Blog blog;
 
         [RowTest]
         [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true, false)]

@@ -19,7 +19,7 @@ namespace Subtext.Web.Admin.WebUI
 
         public AdminUrlHelper() : this(Config.CurrentBlog) { }
 
-        public AdminUrlHelper(BlogInfo blog)
+        public AdminUrlHelper(Blog blog)
         {
             formats = blog.UrlFormats;
         }

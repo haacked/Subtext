@@ -17,6 +17,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -36,37 +37,29 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Format;
-using Subtext.Framework.Text;
 using Subtext.ImportExport.Conversion;
 
 namespace Subtext.ImportExport
 {
 	public class SubtextBlogMLProvider : BlogMLProvider
 	{
+        public SubtextBlogMLProvider(string connectionString, ISubtextContext context) {
+            _procedures = new StoredProcedures(connectionString);
+            SubtextContext = context;
+            PageSize = 100;
+        }
+
+        public ISubtextContext SubtextContext {
+            get;
+            private set;
+        }
+
         StoredProcedures _procedures = null;
-        public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
-        {
-            base.Initialize(name, configValue);
-        }
-
-        public override string ConnectionString
-        {
-            get
-            {
-                return base.ConnectionString;
-            }
-            set
-            {
-                if (value != null) {
-                    _procedures = new StoredProcedures(value);
-                }
-                base.ConnectionString = value;
-            }
-        }
-
+        
 		bool duplicateCommentsEnabled;
 		SubtextConversionStrategy conversion = new SubtextConversionStrategy();
-		/// <summary>
+
+        /// <summary>
 		/// Returns a page of fully hydrated blog posts. The blog posts allow the 
 		/// user of this method to navigate blog post categories, comments, etc...
 		/// </summary>
@@ -80,28 +73,30 @@ namespace Subtext.ImportExport
 			using (IDataReader reader = GetPostsAndArticlesReader(blogId, pageIndex, pageSize))
 			{
                 IBlogMLContext bmlContext = this.GetBlogMlContext();
-				while (reader.Read())
-				{
-					BlogMLPost bmlPost = ObjectHydrator.LoadPostFromDataReader(reader);
+				while (reader.Read()) {
+                    BlogMLPost bmlPost = ObjectHydrator.LoadPostFromDataReader(SubtextContext, reader);
                     bmlPost.Attachments.AddRange(GetPostAttachments(bmlPost, bmlContext));
 					bmlPosts.Add(bmlPost);
 				}
 
 				if (reader.NextResult() && reader.Read())
 					bmlPosts.MaxItems = DataHelper.ReadInt32(reader, "TotalRecords");
-					
-				if (bmlPosts.Count > 0 && reader.NextResult())
-					PopulateCategories(bmlPosts, reader);
-				
-				if (bmlPosts.Count > 0 && reader.NextResult())
-					PopulateComments(bmlPosts, reader);
-				
-				if (bmlPosts.Count > 0 && reader.NextResult())
-					PopulateTrackbacks(bmlPosts, reader);
-			    
-			    if (bmlPosts.Count > 0 && reader.NextResult())
-			        PopulateAuthors(bmlPosts, reader);
-				
+
+                if (bmlPosts.Count > 0 && reader.NextResult()) {
+                    PopulateCategories(bmlPosts, reader);
+                }
+
+                if (bmlPosts.Count > 0 && reader.NextResult()) {
+                    PopulateComments(bmlPosts, reader);
+                }
+
+                if (bmlPosts.Count > 0 && reader.NextResult()) {
+                    PopulateTrackbacks(bmlPosts, reader);
+                }
+
+                if (bmlPosts.Count > 0 && reader.NextResult()) {
+                    PopulateAuthors(bmlPosts, reader);
+                }
 			}
 			return bmlPosts;
 		}
@@ -228,11 +223,6 @@ namespace Subtext.ImportExport
 		
 		private delegate void PostChildrenPopulator(BlogMLPost post);
 
-		private IDataReader GetReader(string sql, SqlParameter[] p)
-		{
-			return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql, p);
-		}
-		
 		private IDataReader GetPostsAndArticlesReader(string blogId, int pageIndex, int pageSize)
 		{
             int blogIdValue;
@@ -252,7 +242,7 @@ namespace Subtext.ImportExport
 			int blogIdentifier;
 			if (int.TryParse(blogId, out blogIdentifier))
 			{
-				BlogInfo blog = BlogInfo.GetBlogById(blogIdentifier);
+				Blog blog = Blog.GetBlogById(blogIdentifier);
 				BlogMLBlog bmlBlog = new BlogMLBlog();
 				bmlBlog.Title = blog.Title;
 				bmlBlog.SubTitle = blog.SubTitle;
@@ -502,8 +492,7 @@ namespace Subtext.ImportExport
 		/// </summary>
 		/// <param name="trackback"></param>
 		/// <param name="newPostId"></param>
-		public override void CreatePostTrackback(BlogMLTrackback trackback, string newPostId)
-		{
+		public override void CreatePostTrackback(BlogMLTrackback trackback, string newPostId) {
 			FeedbackItem newPingTrack = new FeedbackItem(FeedbackType.PingTrack);
 			newPingTrack.BlogId = Config.CurrentBlog.Id;
 			newPingTrack.EntryId = int.Parse(newPostId);
@@ -521,11 +510,10 @@ namespace Subtext.ImportExport
 			FeedbackItem.Create(newPingTrack, null);
 		}
 
-	    public override void SetBlogMlExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties)
-	    {
+	    public override void SetBlogMlExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties) {
             if (extendedProperties != null && extendedProperties.Count > 0)
             {
-                BlogInfo info = Config.CurrentBlog;
+                Blog info = Config.CurrentBlog;
                 
                 foreach (Pair<string, string> extProp in extendedProperties)
                 {

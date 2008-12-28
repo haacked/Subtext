@@ -40,7 +40,7 @@ namespace Subtext.Web.Admin.Pages
 		
 		private void PopulateForm()
 		{
-			BlogInfo info = Config.CurrentBlog;
+			Blog info = Config.CurrentBlog;
 			
 			this.chkEnableSyndication.Checked = info.IsAggregated;
 			this.chkUseDeltaEncoding.Checked = info.RFC3229DeltaEncodingEnabled;
@@ -77,7 +77,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void UpdateConfiguration()
 		{
-			BlogInfo info = Config.CurrentBlog;
+			Blog info = Config.CurrentBlog;
 			
 			info.IsAggregated = this.chkEnableSyndication.Checked;
 			info.UseSyndicationCompression = this.chkUseSyndicationCompression.Checked;

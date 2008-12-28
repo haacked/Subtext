@@ -10,13 +10,13 @@ namespace Subtext.Framework
 {
     public class SubtextContext : Subtext.Framework.ISubtextContext
     {
-        public SubtextContext(BlogInfo blog, RequestContext requestContext, UrlHelper urlHelper, ObjectProvider repository) {
+        public SubtextContext(Blog blog, RequestContext requestContext, UrlHelper urlHelper, ObjectProvider repository) {
             Blog = blog;
             RequestContext = requestContext;
             UrlHelper = urlHelper;
         }
 
-        public BlogInfo Blog
+        public Blog Blog
         {
             get;
             private set;

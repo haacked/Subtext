@@ -34,12 +34,12 @@ namespace Subtext.Web
 		private void Page_Load(object sender, EventArgs e)
 		{
             int? groupId = GetGroupIdFromQueryString();
-            var blogStats = ObjectProvider.Instance().GetBlogsByGroup(BlogInfo.AggregateBlog.Host, groupId);
+            var blogStats = ObjectProvider.Instance().GetBlogsByGroup(Blog.AggregateBlog.Host, groupId);
 			Response.ContentType = "text/xml";
 			Response.Write(Write(blogStats, Request.ApplicationPath));
 		}
 		
-		private static string Write(IEnumerable<BlogInfo> blogStats, string appPath)
+		private static string Write(IEnumerable<Blog> blogStats, string appPath)
 		{
 			if(!appPath.EndsWith("/"))
 			{

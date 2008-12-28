@@ -265,18 +265,11 @@ namespace Subtext.Framework.Data
                 , entry.DateSyndicated.NullIfEmpty()
                 , CurrentDateTime);
 
-            if (categoryIds != null)
-            {
+            if (categoryIds != null) {
                 SetEntryCategoryList(entry.Id, categoryIds);
             }
 
-            if (entry.Id > -1 && Config.Settings.Tracking.UseTrackingServices)
-            {
-                entry.Url = Config.CurrentBlog.UrlFormats.EntryUrl(entry);
-            }
-
-            if (entry.Id > -1)
-            {
+            if (entry.Id > -1) {
                 Config.CurrentBlog.LastUpdated = entry.DateCreated;
             }
 
@@ -367,19 +360,8 @@ namespace Subtext.Framework.Data
                 SetEntryCategoryList(entry.Id, categoryIds);
             }
 
-            if (Config.Settings.Tracking.UseTrackingServices)
-            {
-                if (entry.PostType == PostType.BlogPost)
-                {
-                    entry.Url = Config.CurrentBlog.UrlFormats.EntryUrl(entry);
-                }
-                else
-                {
-                    entry.Url = Config.CurrentBlog.UrlFormats.ArticleUrl(entry);
-                }
-
-                if (entry.Id > -1)
-                {
+            if (Config.Settings.Tracking.UseTrackingServices) {
+                if (entry.Id > -1) {
                     Config.CurrentBlog.LastUpdated = entry.DateModified;
                 }
             }

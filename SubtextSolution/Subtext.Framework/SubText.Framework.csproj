@@ -193,6 +193,7 @@
     <Compile Include="BlogInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CollectionExtensions.cs" />
     <Compile Include="CommentFilter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -400,6 +401,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ImportExport\ObjectHydrator.cs" />
+    <Compile Include="ImportExport\SubtextBlogMlHttpHandler.cs" />
     <Compile Include="ImportExport\SubtextBlogMlProvider.cs" />
     <Compile Include="ImportExport\SubtextConversionStrategy.cs" />
     <Compile Include="ImportManager.cs">
@@ -470,6 +472,7 @@
     <Compile Include="Routing\PageRouteHandler.cs" />
     <Compile Include="Routing\UrlHelper.cs" />
     <Compile Include="Routing\VirtualPath.cs" />
+    <Compile Include="Routing\XmlRpcRouteHandler.cs" />
     <Compile Include="Security\SecurityHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -649,6 +652,7 @@
     <Compile Include="XmlRpc\MetaWeblogAPI.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="XmlRpc\SubtextXmlRpcService.cs" />
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
     <None Include="Data\CodeGen\StoredProcedures.tt">

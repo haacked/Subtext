@@ -22,7 +22,7 @@ namespace UnitTests.Subtext.Framework.Data
             public int? NullableIntProperty { get; set; }
             public string StringProperty { get; set; }
             public bool ReadOnlyBoolean { get; private set; }
-            public BlogInfo ComplexObject { get; set; }
+            public Blog ComplexObject { get; set; }
             public DateTime DateProperty { get; set; }
         }
 

@@ -2,6 +2,7 @@
 using System.Web.Routing;
 using System.Web;
 using CookComputing.XmlRpc;
+using Subtext.Framework.XmlRpc;
 
 namespace Subtext.Framework.Routing
 {
@@ -15,7 +16,7 @@ namespace Subtext.Framework.Routing
         }
 
         public static void MapDirectory(this RouteCollection routes, string directoryName) {
-            routes.Add(new DirectoryRoute(directoryName));
+            routes.Add(directoryName, new DirectoryRoute(directoryName));
         }
 
         public static void MapControls(this RouteCollection routes, string url, object constraints, IEnumerable<string> controls) {
@@ -51,15 +52,15 @@ namespace Subtext.Framework.Routing
         }
 
         public static void MapXmlRpcHandler<TXmlRpcHandler>(this RouteCollection routes, string url)
-            where TXmlRpcHandler : XmlRpcService, new()
+            where TXmlRpcHandler : SubtextXmlRpcService
         {
-            routes.Add(new SubtextRoute(url, new HttpRouteHandler<TXmlRpcHandler>(new TXmlRpcHandler())));
+            routes.Add(new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>()));
         }
 
         public static void MapXmlRpcHandler<TXmlRpcHandler>(this RouteCollection routes, string url, object constraints)
-            where TXmlRpcHandler : XmlRpcService, new()
+            where TXmlRpcHandler : SubtextXmlRpcService
         {
-            routes.Add(new SubtextRoute(url, new HttpRouteHandler<TXmlRpcHandler>(new TXmlRpcHandler())));
+            routes.Add(new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>()));
         }
 
         public static void MapHttpHandler<THttpHandler>(this RouteCollection routes, string name, string url, object constraints) where THttpHandler : IHttpHandler, new() {

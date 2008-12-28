@@ -8,7 +8,7 @@ using Subtext.Extensibility.Web;
 
 namespace Subtext.BlogML
 {
-	public class BlogMLHttpHandler : BaseHttpHandler
+	public abstract class BlogMLHttpHandler : BaseHttpHandler
 	{
 		/// <summary>
 		/// Http handler used to export BlogML.
@@ -46,17 +46,19 @@ namespace Subtext.BlogML
 			context.Response.End();
 		}
 
+        public abstract IBlogMLProvider GetBlogMlProvider();
+
 		private void WriteBlogML(Stream outStream)
 		{
-			IBlogMLProvider provider = BlogMLProvider.Instance();
-			
-			if(provider.GetBlogMlContext() == null)
-				throw new InvalidOperationException("The BlogMl provider did not set the context.");
+			IBlogMLProvider provider = GetBlogMlProvider();
+
+            if (provider.GetBlogMlContext() == null) {
+                throw new InvalidOperationException("The BlogMl provider did not set the context.");
+            }
 
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
 
-			using(XmlTextWriter xmlWriter = new XmlTextWriter(outStream, Encoding.UTF8))
-			{
+			using(XmlTextWriter xmlWriter = new XmlTextWriter(outStream, Encoding.UTF8)) {
                 xmlWriter.Formatting = Formatting.Indented;
 				writer.Write(xmlWriter);
 				xmlWriter.Flush();
@@ -86,8 +88,7 @@ namespace Subtext.BlogML
 		/// </value>
 		public override bool RequiresAuthentication
 		{
-			get
-			{
+			get {
 				return false;
 			}
 		}
@@ -98,8 +99,7 @@ namespace Subtext.BlogML
 		/// <value></value>
 		public override string ContentMimeType
 		{
-			get
-			{
+			get {
 				return "text/xml";
 			}
 		}
