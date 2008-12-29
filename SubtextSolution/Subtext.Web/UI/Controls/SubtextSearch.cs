@@ -17,6 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -92,9 +94,12 @@ namespace Subtext.Web.UI.Controls
 			{
 				//fix for the blogs where only one installed
 				int blogId = 0;
-				if (CurrentBlog.Id > 0)
-					blogId = CurrentBlog.Id;
-				ICollection<SearchResult> searchResults = SearchProvider.Instance().Search(blogId, txtSearch.Text);
+                if (CurrentBlog.Id > 0) {
+                    blogId = CurrentBlog.Id;
+                }
+
+                var searchEngine = new EntrySearchProvider(CurrentBlog, Url, Config.ConnectionString);
+                ICollection<SearchResult> searchResults = searchEngine.Search(blogId, txtSearch.Text);
 
 				SearchResults.DataSource = searchResults;
 				SearchResults.DataBind();

@@ -184,7 +184,6 @@
     <Compile Include="Providers\ProviderSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Providers\SearchProvider.cs" />
     <Compile Include="Web\BaseHttpHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
