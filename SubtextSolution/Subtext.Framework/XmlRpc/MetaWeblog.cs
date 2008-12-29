@@ -106,6 +106,9 @@ namespace Subtext.Framework.XmlRpc
             try
             {
                 postID = Entries.Create(entry);
+                if (Blog.TrackbacksEnabled) {
+                    NotificationServices.Run(entry, Blog, Url);
+                }
 
                 if (!string.IsNullOrEmpty(post.enclosure.url))
                 {

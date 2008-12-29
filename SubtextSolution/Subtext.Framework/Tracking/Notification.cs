@@ -34,6 +34,8 @@
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Threading;
+using Subtext.Framework.Routing;
+using System.Threading;
 
 namespace Subtext.Framework.Tracking
 {
@@ -50,32 +52,38 @@ namespace Subtext.Framework.Tracking
 		/// Posts trackbacks and pingbacks for the specified entry.
 		/// </summary>
 		/// <param name="entry">The entry.</param>
-		public static void Run(Entry entry)
+		public static void Run(Entry entry, Blog blog, UrlHelper urlHelper)
 		{
+            if (!blog.TrackbacksEnabled) {
+                return;
+            }
+
+            if (!Config.Settings.Tracking.EnablePingBacks && !Config.Settings.Tracking.EnableTrackBacks) {
+                return;
+            }
+
 			if(entry != null)
 			{
 				Notifier notify = new Notifier();
 
-				notify.FullyQualifiedUrl = Config.CurrentBlog.RootUrl.ToString();
-				notify.BlogName = Config.CurrentBlog.Title;
+                notify.FullyQualifiedUrl = urlHelper.BlogUrl();
+				notify.BlogName = blog.Title;
 
 				notify.Title = entry.Title;
 
-				notify.PostUrl = entry.FullyQualifiedUrl;
+				notify.PostUrl = urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(blog);
 
-				if(entry.HasDescription)
-				{
+				if(entry.HasDescription) {
 					notify.Description = entry.Description;
 				}
-				else
-				{
+				else {
 					notify.Description = entry.Title;	
 				}
 
 				notify.Text = entry.Body;
 				
 				//This could take a while, do it on another thread
-				ManagedThreadPool.QueueUserWorkItem(new System.Threading.WaitCallback(notify.Notify));
+				ManagedThreadPool.QueueUserWorkItem(new WaitCallback(notify.Notify));
 			}
 		}
 
