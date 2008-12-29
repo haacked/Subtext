@@ -134,7 +134,7 @@ namespace Subtext.Framework.XmlRpc
 
             try
             {
-                CommunityCreditNotification.AddCommunityCredits(entry);
+                CommunityCreditNotification.AddCommunityCredits(entry, Url, Blog);
             }
             catch (CommunityCreditNotificationException ex)
             {

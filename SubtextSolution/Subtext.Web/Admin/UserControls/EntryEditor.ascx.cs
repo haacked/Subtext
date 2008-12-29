@@ -616,7 +616,7 @@ namespace Subtext.Web.Admin.UserControls
 
          try
          {
-            CommunityCreditNotification.AddCommunityCredits(entry);
+            CommunityCreditNotification.AddCommunityCredits(entry, Url, Blog);
          }
          catch (CommunityCreditNotificationException ex)
          {

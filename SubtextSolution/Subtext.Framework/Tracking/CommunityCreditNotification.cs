@@ -7,6 +7,7 @@ using Subtext.Framework.Components;
 using Subtext.Extensibility;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Tracking
 {
@@ -14,7 +15,7 @@ namespace Subtext.Framework.Tracking
    {
       static Log Log = new Log();
 
-      public static void AddCommunityCredits(Entry entry)
+      public static void AddCommunityCredits(Entry entry, UrlHelper urlHelper, Blog blog)
       {
          string result = string.Empty;
             
@@ -26,19 +27,20 @@ namespace Subtext.Framework.Tracking
          if (commCreditsEnabled && entry.IsActive)
          {
             com.community_credit.www.AffiliateServices wsCommunityCredit = new com.community_credit.www.AffiliateServices();
-            string url = entry.FullyQualifiedUrl.ToString();
+            
+            string url = urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(blog).ToString();
             string category = String.Empty;
             if (entry.PostType == PostType.BlogPost)
                category = "Blog";
             else if (entry.PostType == PostType.Story)
                category = "Article";
             string description = "Blogged about: " + entry.Title;
-            Blog info = Config.CurrentBlog;
+            
             string firstName = string.Empty;
-            string lastName = info.Author;
-            string email = info.Email;
-            string affiliateCode = System.Configuration.ConfigurationManager.AppSettings["CommCreditAffiliateCode"];
-            string affiliateKey = System.Configuration.ConfigurationManager.AppSettings["CommCreditAffiliateKey"];
+            string lastName = blog.Author;
+            string email = blog.Email;
+            string affiliateCode = ConfigurationManager.AppSettings["CommCreditAffiliateCode"];
+            string affiliateKey = ConfigurationManager.AppSettings["CommCreditAffiliateKey"];
 
             Log.InfoFormat("Sending notification to community credit for url {0} in category {1} for user {2}", url, category, email);
 
