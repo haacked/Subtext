@@ -286,7 +286,7 @@ namespace Subtext.Framework
 			Tags.SetTagsOnEntry(entry);
 
 			log.Debug("Created entry, running notification services.");
-			NotificationServices.Run(entry);
+			
 			return entry.Id;
 		}
 

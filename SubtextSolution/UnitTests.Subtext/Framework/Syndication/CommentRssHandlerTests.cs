@@ -52,6 +52,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blog, "/" + id + ".aspx", s => rssOutput = s);
+            subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
 

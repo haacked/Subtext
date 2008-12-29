@@ -428,6 +428,7 @@ namespace Subtext.Web.Admin.UserControls
 					else
 					{
 						_postId = Entries.Create(entry);
+                        NotificationServices.Run(entry, Blog, Url);
 
                         if(entry.Enclosure != null)
                         {

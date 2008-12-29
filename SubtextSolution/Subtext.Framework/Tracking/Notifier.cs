@@ -58,8 +58,7 @@ namespace Subtext.Framework.Tracking
 		/// <param name="state">The state.</param>
 		public void Notify(object state)
 		{
-			try
-			{
+			try {
 				Notify();
 			}
 			catch (Exception e)
@@ -104,7 +103,7 @@ namespace Subtext.Framework.Tracking
 					if (pageText == null || !track.EnableTrackBacks)
 						continue;
 					
-					if (!TrackBackNotificationProxy.TrackBackPing(pageText, url, Title, PostUrl, BlogName, Description) && track.EnablePingBacks)
+					if (track.EnablePingBacks && !TrackBackNotificationProxy.TrackBackPing(pageText, url, Title, PostUrl, BlogName, Description))
 					{
 						Log.DebugFormat("Trackback failed to '{0}'. Let's try a PingBack.", url);
 						pbnp.Ping(pageText, PostUrl, url);
