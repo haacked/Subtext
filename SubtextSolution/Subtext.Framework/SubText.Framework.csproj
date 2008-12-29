@@ -307,9 +307,6 @@
       <SubType>Code</SubType>
       <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\SqlDataProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Data\SqlErrorMessage.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -446,13 +443,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Providers\DbProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Providers\ObjectProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Providers\EntrySearchProvider.cs" />
+    <Compile Include="Providers\SearchEngine.cs" />
     <Compile Include="Providers\SearchResult.cs" />
     <Compile Include="Routing\DirectoryRoute.cs" />
     <Compile Include="Routing\DirectoryRouteHandler.cs" />

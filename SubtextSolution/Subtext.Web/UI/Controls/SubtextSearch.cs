@@ -98,7 +98,7 @@ namespace Subtext.Web.UI.Controls
                     blogId = CurrentBlog.Id;
                 }
 
-                var searchEngine = new EntrySearchProvider(CurrentBlog, Url, Config.ConnectionString);
+                var searchEngine = new SearchEngine(CurrentBlog, Url, Config.ConnectionString);
                 ICollection<SearchResult> searchResults = searchEngine.Search(blogId, txtSearch.Text);
 
 				SearchResults.DataSource = searchResults;
