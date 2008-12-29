@@ -19,16 +19,14 @@ using System.Text;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 using Subtext.Framework.UI.Skinning;
-using Subtext.Framework.UrlManager;
 using Subtext.Web.UI.Controls;
-using Subtext.Extensibility.Interfaces;
-using Subtext.Framework.Routing;
-using System.Web.Routing;
 
 namespace Subtext.Web.UI.Pages
 {
@@ -62,7 +60,7 @@ namespace Subtext.Web.UI.Pages
         protected PlaceHolder metaTagsPlaceHolder;
         #endregion
 
-        protected Blog CurrentBlog;
+        
         protected Comments commentsControl;
         protected PostComment postCommentControl;
         protected const string TemplateLocation = "~/Skins/{0}/{1}";
@@ -74,10 +72,15 @@ namespace Subtext.Web.UI.Pages
 
         public static readonly string CommentsPanelId = "commentsUpdatePanelWrapper";
 
+        public Blog Blog {
+            get {
+                return SubtextContext.Blog;
+            }
+        }
+
         private void InitializeBlogPage()
         {
             MaintainScrollPositionOnPostBack = true;
-            CurrentBlog = Config.CurrentBlog;
 
             string skinFolder = CurrentSkin.TemplateFolder;
 
@@ -115,7 +118,7 @@ namespace Subtext.Web.UI.Pages
 
             if (CurrentSkin.HasCustomCssText)
             {
-                CustomCss.Attributes.Add("href", CurrentBlog.RootUrl + "customcss.aspx");
+                CustomCss.Attributes.Add("href", Blog.RootUrl + "customcss.aspx");
             }
             else
             {
@@ -125,17 +128,17 @@ namespace Subtext.Web.UI.Pages
 
             if (Rsd != null)
             {
-                Rsd.Attributes.Add("href", CurrentBlog.RootUrl + "rsd.xml.ashx");
+                Rsd.Attributes.Add("href", Blog.RootUrl + "rsd.xml.ashx");
             }
 
             if (RSSLink != null)
             {
-                RSSLink.Attributes.Add("href", CurrentBlog.UrlFormats.RssUrl.ToString());
+                RSSLink.Attributes.Add("href", Blog.UrlFormats.RssUrl.ToString());
             }
 
             if (AtomLink != null)
             {
-                AtomLink.Attributes.Add("href", CurrentBlog.UrlFormats.RssUrl.ToString());
+                AtomLink.Attributes.Add("href", Blog.UrlFormats.RssUrl.ToString());
             }
 
             // if specified, add script elements
@@ -149,18 +152,18 @@ namespace Subtext.Web.UI.Pages
                 styles.Text = styleRenderer.RenderStyleElementCollection(CurrentSkin.SkinKey);
             }
 
-            if (openIDServer != null && !string.IsNullOrEmpty(CurrentBlog.OpenIDServer))
+            if (openIDServer != null && !string.IsNullOrEmpty(Blog.OpenIDServer))
             {
-                openIDServer.Text = string.Format(OpenIDServerLocation, CurrentBlog.OpenIDServer);
+                openIDServer.Text = string.Format(OpenIDServerLocation, Blog.OpenIDServer);
             }
 
-            if (openIDDelegate != null && !string.IsNullOrEmpty(CurrentBlog.OpenIDDelegate))
+            if (openIDDelegate != null && !string.IsNullOrEmpty(Blog.OpenIDDelegate))
             {
-                openIDDelegate.Text = string.Format(OpenIDDelegateLocation, CurrentBlog.OpenIDDelegate);
+                openIDDelegate.Text = string.Format(OpenIDDelegateLocation, Blog.OpenIDDelegate);
             }
 
             // Add the per-blog MetaTags to the page Head section.
-            IPagedCollection<MetaTag> blogMetaTags = MetaTags.GetMetaTagsForBlog(CurrentBlog, 0, int.MaxValue);
+            IPagedCollection<MetaTag> blogMetaTags = MetaTags.GetMetaTagsForBlog(Blog, 0, int.MaxValue);
             foreach (MetaTag tag in blogMetaTags)
             {
                 HtmlMeta mt = new HtmlMeta();
@@ -197,15 +200,15 @@ namespace Subtext.Web.UI.Pages
             //Is this for extra security?
             EnableViewState = false;
             pageTitle.Text = Globals.CurrentTitle(Context);
-            if (!String.IsNullOrEmpty(Config.CurrentBlog.Author))
+            if (!String.IsNullOrEmpty(Blog.Author))
             {
-                authorMetaTag.Text = String.Format(Environment.NewLine + "<meta name=\"author\" content=\"{0}\" />", Config.CurrentBlog.Author);
+                authorMetaTag.Text = String.Format(Environment.NewLine + "<meta name=\"author\" content=\"{0}\" />", Blog.Author);
             }
             versionMetaTag.Text = String.Format(Environment.NewLine + "<meta name=\"Generator\" content=\"{0}\" />" + Environment.NewLine, VersionInfo.VersionDisplayText);
 
-            if (!String.IsNullOrEmpty(Config.CurrentBlog.TrackingCode))
+            if (!String.IsNullOrEmpty(Blog.TrackingCode))
             {
-                customTrackingCode.Text = Config.CurrentBlog.TrackingCode;
+                customTrackingCode.Text = Blog.TrackingCode;
             }
 
             base.OnPreRender(e);
@@ -271,5 +274,12 @@ namespace Subtext.Web.UI.Pages
             _controls = controls;
         }
         IEnumerable<string> _controls;
+
+
+        public ISubtextContext SubtextContext
+        {
+            get;
+            set;
+        }
     }
 }

@@ -348,6 +348,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Providers\ProviderConfigurationHelperTests.cs" />
+    <Compile Include="Framework\Providers\SearchEngineTests.cs" />
     <Compile Include="Framework\Routing\DirectoryRouteHandlerTests.cs" />
     <Compile Include="Framework\Routing\DirectoryRouteTests.cs" />
     <Compile Include="Framework\Routing\HttpRouteHandlerTests.cs" />

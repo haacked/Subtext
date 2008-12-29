@@ -6,7 +6,8 @@ namespace Subtext.Framework.Routing
     public interface IRouteableHandler : IHttpHandler
     {
         RequestContext RequestContext {
-            get; set; 
+            get;
+            set;
         }
 
         UrlHelper Url {

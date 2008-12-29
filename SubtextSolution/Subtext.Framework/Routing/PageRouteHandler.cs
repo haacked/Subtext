@@ -2,6 +2,8 @@
 using System.Web;
 using System.Web.Routing;
 using System.Web.UI;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Routing
 {
@@ -22,12 +24,10 @@ namespace Subtext.Framework.Routing
             private set; 
         }
 
-        protected override IHttpHandler GetHandler(RequestContext requestContext)
-        {
+        protected override IHttpHandler GetHandler(RequestContext requestContext) {
             var page = _builder.CreateInstanceFromVirtualPath(this.VirtualPath, typeof(Page)) as IHttpHandler;
 
-            if (page != null)
-            {
+            if (page != null) {
                 var subtextPage = page as ISubtextPage;
                 if (subtextPage != null) {
                     if (requestContext.RouteData.DataTokens != null) {
@@ -36,6 +36,7 @@ namespace Subtext.Framework.Routing
                         //Todo: Temporary hack to append .ascx
                         subtextPage.SetControls(controls.Select(s => s += ".ascx"));
                     }
+                    subtextPage.SubtextContext = new SubtextContext(Config.CurrentBlog, requestContext, new UrlHelper(requestContext, RouteTable.Routes), ObjectProvider.Instance());
                 }
             }
             return page;
