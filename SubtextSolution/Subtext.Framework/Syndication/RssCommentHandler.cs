@@ -14,13 +14,11 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using Subtext.Framework;
+using System.Linq;
 using Subtext.Framework.Components;
-using Subtext.Framework.Syndication;
-using Subtext.Framework.Web;
 using Subtext.Framework.Data;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Syndication
 {
@@ -41,13 +39,11 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
         protected override ICollection<FeedbackItem> GetFeedEntries()
 		{
-			if(ParentEntry == null)
-			{
-				ParentEntry = Cacher.GetEntryFromRequest(CacheDuration.Short, false, HttpContext);
+			if(ParentEntry == null) {
+				ParentEntry = Cacher.GetEntryFromRequest(CacheDuration.Short, false, SubtextContext);
 			}
 
-            if (ParentEntry == null)
-            {
+            if (ParentEntry == null) {
                 // bad news... we couldn't find the entry the request is looking for - return 404.
                 HttpHelper.SetFileNotFoundResponse();
             }

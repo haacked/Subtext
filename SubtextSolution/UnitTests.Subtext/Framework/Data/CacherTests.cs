@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Web;
+using System.Web.Routing;
 using MbUnit.Framework;
-using Subtext.Framework.Data;
+using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Data
 {
@@ -22,12 +24,23 @@ namespace UnitTests.Subtext.Framework.Data
 		/// </summary>
 		[Test]
 		[RollBack]
-		public void GetEntryFromRequestDoesNotThrowNullReferenceException()
+		public void GetEntryFromRequest_WithNonExistentEntry_DoesNotThrowNullReferenceException()
 		{
-			string host = UnitTestHelper.GenerateUniqueString();
-			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
-			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/archive/999999.aspx");
-			Assert.IsNull(Cacher.GetEntryFromRequest(CacheDuration.Short));
+            //arrange
+            UnitTestHelper.SetupBlog();
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/archive/99999.aspx");
+            var routeData = new RouteData();
+            routeData.Values.Add("id", "999999");
+            var requestContext = new RequestContext(httpContext.Object, routeData);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Expect(c => c.RequestContext).Returns(requestContext);
+            
+            //act
+            Cacher.GetEntryFromRequest(CacheDuration.Short, true, subtextContext.Object);
+            
+            //assert
+            //None needed.
 		}
 
 		[Test]

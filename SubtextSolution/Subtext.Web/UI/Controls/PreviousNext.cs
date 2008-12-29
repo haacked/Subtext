@@ -1,13 +1,13 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Data;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
@@ -28,7 +28,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			
 			//Get the entry
-			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);			
+			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, SubtextContext);			
 			
 			//if found
 			if(entry != null)

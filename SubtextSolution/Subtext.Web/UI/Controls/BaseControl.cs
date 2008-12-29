@@ -32,17 +32,35 @@ namespace Subtext.Web.UI.Controls
 	{
         public UrlHelper Url {
             get {
-                var routablePage = RouteablePage;
-                if (routablePage != null) {
-                    return routablePage.Url;
+                var subtextPage = SubtextPage;
+                if (subtextPage != null) {
+                    return subtextPage.SubtextContext.UrlHelper;
                 }
                 return new UrlHelper(null, null);
             }
         }
 
-        protected IRouteableHandler RouteablePage {
+        public Blog Blog {
+            get
+            {
+                var subtextPage = SubtextPage;
+                if (subtextPage != null) {
+                    return subtextPage.SubtextContext.Blog;
+                }
+                return Config.CurrentBlog;
+            }
+        }
+
+        protected ISubtextPage SubtextPage {
             get {
-                return Page as IRouteableHandler;
+                return Page as ISubtextPage;
+            }
+        }
+
+        protected ISubtextContext SubtextContext
+        {
+            get {
+                return SubtextPage.SubtextContext;
             }
         }
 

@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Data;
-using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -19,7 +17,7 @@ namespace Subtext.Web.UI.Controls
 			ArrayList myRelLinks = new ArrayList();
 			int blogId = CurrentBlog.Id >= 1 ? CurrentBlog.Id : 0;
 
-			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
+			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, SubtextContext);
             var relatedEntries = ObjectProvider.Instance().GetRelatedEntries(blogId, entry.Id, 10);
 
 			foreach(var relatedEntry in relatedEntries)

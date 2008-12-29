@@ -32,7 +32,6 @@ using Subtext.Web.Controls;
 using Image = System.Web.UI.WebControls.Image;
 using Subtext.Framework.Security;
 using Subtext.Framework.Format;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -110,7 +109,7 @@ namespace Subtext.Web.UI.Controls
 
         internal void BindFeedback(bool fromCache)
         {
-            Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
+            Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, SubtextContext);
 
             if (entry != null && entry.AllowComments)
             {

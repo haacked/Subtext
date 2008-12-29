@@ -21,7 +21,6 @@ using System.Web;
 using System.Web.Caching;
 using Subtext.Configuration;
 using Subtext.Extensibility;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
@@ -228,23 +227,26 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region Entry
-
-        public static Entry GetEntryFromRequest(CacheDuration cacheDuration, bool allowRedirectToEntryName, HttpContextBase httContext)
+        //TODO: This should only be called in one place total. And it needs to be tested.
+        public static Entry GetEntryFromRequest(CacheDuration cacheDuration, bool allowRedirectToEntryName, ISubtextContext context)
         {
-            string id = Path.GetFileNameWithoutExtension(httContext.Request.Path);
+            string idText = (string)context.RequestContext.RouteData.Values["id"];
+            int id;
 
-            if (id.IsNumeric())
+            if (int.TryParse(idText, out id))
             {
-                Entry entry = GetEntry(Int32.Parse(id), cacheDuration);
-                if (entry == null)
+                Entry entry = GetEntry(id, cacheDuration);
+                if (entry == null) {
                     return null;
+                }
 
+                //TODO: Violation of SRP here!
                 //Second condition avoids infinite redirect loop. Should never happen.
                 if (allowRedirectToEntryName && entry.HasEntryName && !entry.EntryName.IsNumeric())
                 {
                     HttpContext.Current.Response.StatusCode = 301;
                     HttpContext.Current.Response.Status = "301 Moved Permanently";
-                    HttpContext.Current.Response.RedirectLocation = entry.FullyQualifiedUrl.ToString();
+                    HttpContext.Current.Response.RedirectLocation = context.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(Config.CurrentBlog).ToString();
                     HttpContext.Current.Response.End();
                 }
                 return entry;
@@ -255,31 +257,8 @@ namespace Subtext.Framework.Data
             }
         }
 
-		/// <summary>
-		/// Returns an Entry requested by the current Http Request. 
-		/// The URL must be correctly formatted for requesting an entry.
-		/// </summary>
-		/// <param name="cacheDuration">The cache duration.</param>
-		/// <param name="allowRedirectToEntryName">if set to <c>true</c> [allow redirect to entry name].</param>
-		/// <returns></returns>
-		public static Entry GetEntryFromRequest(CacheDuration cacheDuration, bool allowRedirectToEntryName)
-		{
-            return GetEntryFromRequest(cacheDuration, allowRedirectToEntryName, new HttpContextWrapper(HttpContext.Current));
-		}
-
-		/// <summary>
-		/// Parses the current request and returns the URL. 
-		/// If the current request is in the cache, it uses that first.
-		/// </summary>
-		/// <param name="cacheDuration"></param>
-		/// <returns></returns>
-		public static Entry GetEntryFromRequest(CacheDuration cacheDuration)
-		{
-			return GetEntryFromRequest(cacheDuration, true);
-		}
-
-		private static readonly string EntryKeyID="Entry{0}BlogId{1}";
-		private static readonly string EntryKeyName="EntryName{0}BlogId{1}";
+		private const string EntryKeyID = "Entry{0}BlogId{1}";
+		private const string EntryKeyName = "EntryName{0}BlogId{1}";
 
 		/// <summary>
 		/// Retrieves a single entry from the cache by the entry name.  
@@ -289,17 +268,17 @@ namespace Subtext.Framework.Data
 		/// <param name="EntryName">Name of the entry.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static Entry GetEntry(string EntryName, CacheDuration cacheDuration)
+		public static Entry GetEntry(string entryName, CacheDuration cacheDuration)
 		{
 			int blogId = Config.CurrentBlog.Id;
 			
 			ContentCache cache = ContentCache.Instantiate();
-			string key = string.Format(EntryKeyName, EntryName, blogId);
+			string key = string.Format(EntryKeyName, entryName, blogId);
 			
 			Entry entry = (Entry)cache[key];
 			if(entry == null)
 			{
-                entry = Entries.GetEntry(EntryName, PostConfig.IsActive, true);
+                entry = Entries.GetEntry(entryName, PostConfig.IsActive, true);
 
 				if(entry != null)
 				{
@@ -327,15 +306,15 @@ namespace Subtext.Framework.Data
 		/// <param name="entryID">The entry ID.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static Entry GetEntry(int entryID, CacheDuration cacheDuration)
+		public static Entry GetEntry(int entryId, CacheDuration cacheDuration)
 		{
 			ContentCache cache = ContentCache.Instantiate();
-			string key = string.Format(EntryKeyID, entryID, Config.CurrentBlog.Id);
+			string key = string.Format(EntryKeyID, entryId, Config.CurrentBlog.Id);
 			
 			Entry entry = (Entry)cache[key];
 			if(entry == null)
 			{
-				entry = Entries.GetEntry(entryID, PostConfig.IsActive, true);
+				entry = Entries.GetEntry(entryId, PostConfig.IsActive, true);
 				if(entry != null)
 				{
 					cache.Insert(key, entry, cacheDuration);

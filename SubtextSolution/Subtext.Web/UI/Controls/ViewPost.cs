@@ -19,7 +19,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Format;
 using Subtext.Framework.Security;
@@ -59,7 +58,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			
 			//Get the entry
-			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);			
+            Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, SubtextContext);
 			
 			//if found
 			if(entry != null)

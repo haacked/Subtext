@@ -14,10 +14,9 @@
 #endregion
 
 using System;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Collections.Generic;
 
 // adapted from namespace Haack.Text
 namespace Subtext.Framework.Text

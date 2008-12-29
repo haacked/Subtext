@@ -10,10 +10,10 @@ namespace Subtext.Framework.Routing
         IHttpHandler IRouteHandler.GetHttpHandler(RequestContext requestContext) {
             IHttpHandler handler = GetHandler(requestContext);
             var routableHandler = handler as IRouteableHandler;
-            if (routableHandler != null)
-            {
+            if (routableHandler != null) {
                 routableHandler.RequestContext = requestContext;
             }
+
             return handler;
         }
     }
