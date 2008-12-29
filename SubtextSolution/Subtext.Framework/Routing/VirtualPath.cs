@@ -37,6 +37,10 @@ namespace Subtext.Framework.Routing
             return _virtualPath.ToString();
         }
 
+        public Uri ToUri() {
+            return _virtualPath;
+        }
+
         public virtual Uri ToFullyQualifiedUrl(Blog blog) {
             UriBuilder builder = new UriBuilder();
             builder.Scheme = "http";

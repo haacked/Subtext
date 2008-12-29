@@ -1,35 +1,27 @@
 using System.Collections.Generic;
 using System.Data;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Providers
 {
-	public class EntrySearchProvider : SearchProvider
+	public class EntrySearchProvider
 	{
         StoredProcedures _procedures = null;
-        
-        public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
+        UrlHelper _urlHelper;
+        Blog _blog;
+
+        public EntrySearchProvider(Blog blog, UrlHelper urlHelper, string connectionString)
         {
-            base.Initialize(name, configValue);
-            
+            _blog = blog;
+            _procedures = new StoredProcedures(connectionString);
+            _urlHelper = urlHelper;
         }
 
-        protected override string ConnectionString
-        {
-            get
-            {
-                return base.ConnectionString;
-            }
-            set
-            {
-                if (value != null) {
-                    _procedures = new StoredProcedures(value);
-                }
-                base.ConnectionString = value;
-            }
+        protected string ConnectionString {
+            get;
+            private set;
         }
 
 		/// <summary>
@@ -38,15 +30,15 @@ namespace Subtext.Framework.Providers
 		/// <param name="blogId"></param>
 		/// <param name="searchTerm"></param>
 		/// <returns></returns>
-		public override ICollection<SearchResult> Search(int blogId, string searchTerm)
+		public virtual ICollection<SearchResult> Search(int blogId, string searchTerm)
 		{
             ICollection<SearchResult> results = new List<SearchResult>();
 
-            using (IDataReader reader = _procedures.SearchEntries(blogId, searchTerm, Config.CurrentBlog.TimeZone.Now)) {
+            using (IDataReader reader = _procedures.SearchEntries(blogId, searchTerm, _blog.TimeZone.Now)) {
                 while (reader.Read())
                 {
                     Entry foundEntry = DataHelper.LoadEntry(reader, true);
-                    results.Add(new SearchResult(foundEntry.Title, foundEntry.FullyQualifiedUrl));
+                    results.Add(new SearchResult(foundEntry.Title, _urlHelper.EntryUrl(foundEntry).ToUri()));
                 }
             }
             return results;
