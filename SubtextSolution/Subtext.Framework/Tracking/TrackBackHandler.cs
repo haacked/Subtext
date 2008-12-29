@@ -34,14 +34,15 @@
 #endregion
 using System;
 using System.Globalization;
-using System.IO;
 using System.Web;
+using System.Web.Routing;
 using System.Xml;
-using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Tracking
@@ -49,7 +50,7 @@ namespace Subtext.Framework.Tracking
 	/// <summary>
 	/// Service used to receive trackbacks from remote clients.
 	/// </summary>
-	public class TrackBackHandler : IHttpHandler
+    public class TrackBackHandler : IRouteableHandler
 	{
 		static Log Log = new Log();
 
@@ -59,58 +60,79 @@ namespace Subtext.Framework.Tracking
 		/// that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
 		/// </summary>
 		/// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, <see langword="Request"/>, <see langword="Response"/>, <see langword="Session"/>, and <see langword="Server"/>)<see langword=""/> used to service HTTP requests.</param>
-		public void ProcessRequest(HttpContext context)
+		void IHttpHandler.ProcessRequest(HttpContext context)
 		{
-			if (!Config.CurrentBlog.TrackbacksEnabled)
-				return;
-			try
-			{
-				HandleTrackback(context);
-			}
-			catch (BaseCommentException e)
-			{
-				Log.Info("Comment exception occurred.", e);
-			}
+            var subtextContext = new SubtextContext(Config.CurrentBlog, RequestContext, new UrlHelper(RequestContext, RouteTable.Routes), ObjectProvider.Instance());
+            ProcessRequest(subtextContext);
 		}
 
-		private void HandleTrackback(HttpContext context)
+        public void ProcessRequest(ISubtextContext subtextContext) {
+            if (!subtextContext.Blog.TrackbacksEnabled) {
+                return;
+            }
+
+            try {
+                HandleTrackback(subtextContext);
+            }
+            catch (BaseCommentException e)
+            {
+                Log.Info("Comment exception occurred.", e);
+            }
+        }
+
+        public RequestContext RequestContext
+        {
+            get;
+            set;
+        }
+
+        public UrlHelper Url
+        {
+            get { 
+                throw new NotImplementedException(); 
+            }
+        }
+
+		private void HandleTrackback(ISubtextContext subtextContext)
 		{
-			context.Response.ContentType = "text/xml";
+            var httpContext = subtextContext.RequestContext.HttpContext;
+            httpContext.Response.ContentType = "text/xml";
 
 			Entry entry;
 
 			int postId;
-			string entryIdentifier = Path.GetFileNameWithoutExtension(context.Request.Path);
-			if (int.TryParse(entryIdentifier, out postId))
-			{
-				entry = Entries.GetEntry(postId, PostConfig.IsActive, false);
+
+            string entryIdentifier = (string)subtextContext.RequestContext.RouteData.Values["id"];
+			if (int.TryParse(entryIdentifier, out postId)) {
+                entry = subtextContext.Repository.GetEntry(postId, true /* activeOnly */, false /* includeCategories */);
 			}
 			else
 			{
-				entry = Entries.GetEntry(entryIdentifier, PostConfig.IsActive, false);
+                string slug = (string)subtextContext.RequestContext.RouteData.Values["slug"];
+                entry = subtextContext.Repository.GetEntry(slug, true /* activeOnly */, false /* includeCategories */);
 			}
 
-			if (entry == null)
-			{
-				Log.Info(string.Format("Could not extract entry id from incoming URL '{0}' .", context.Request.Path));
-				SendTrackbackResponse(context, 1, "EntryID is invalid or missing");
+			if (entry == null) {
+                Log.Info(string.Format("Could not extract entry id from incoming URL '{0}' .", httpContext.Request.Path));
+				SendTrackbackResponse(httpContext, 1, "EntryID is invalid or missing");
 				return;
 			}
 
-			if (context.Request.HttpMethod == "POST")
-			{
-				CreateTrackbackAndSendResponse(context, entry, entry.Id);
+			if (httpContext.Request.HttpMethod == "POST") {
+                CreateTrackbackAndSendResponse(subtextContext, entry, entry.Id);
 			}
 			else
 			{
-				SendTrackbackRss(context, entry, entry.Id);
+                SendTrackbackRss(subtextContext, entry, entry.Id);
 			}
 		}
 
-		private static void SendTrackbackRss(HttpContext context, Entry entry, int postId)
+		private static void SendTrackbackRss(ISubtextContext context, Entry entry, int postId)
 		{
-			XmlTextWriter w = new XmlTextWriter(context.Response.Output);
+			XmlTextWriter w = new XmlTextWriter(context.RequestContext.HttpContext.Response.Output);
 			w.Formatting = Formatting.Indented;
+
+            string url = context.UrlHelper.TrackbacksUrl(postId).ToFullyQualifiedUrl(context.Blog).ToString();
 
 			w.WriteStartDocument();
 			w.WriteStartElement("response");
@@ -119,8 +141,8 @@ namespace Subtext.Framework.Tracking
 			w.WriteAttributeString("version", "0.91");
 			w.WriteStartElement("channel");
 			w.WriteElementString("title", entry.Title);
-			w.WriteElementString("link", Config.CurrentBlog.UrlFormats.TrackBackUrl(postId));
-			w.WriteElementString("description", "");
+			w.WriteElementString("link", url);
+			w.WriteElementString("description", string.Empty);
 			w.WriteElementString("language", "en-us");
 
 			w.WriteEndElement(); // channel
@@ -129,8 +151,9 @@ namespace Subtext.Framework.Tracking
 			w.WriteEndDocument();
 		}
 
-		private void CreateTrackbackAndSendResponse(HttpContext context, Entry entry, int entryId)
+		private void CreateTrackbackAndSendResponse(ISubtextContext subtextContext, Entry entry, int entryId)
 		{
+            var context = subtextContext.RequestContext.HttpContext;
 			string title = SafeParam(context, "title");
 			string excerpt = SafeParam(context, "excerpt");
 			string urlText = SafeParam(context, "url");
@@ -143,7 +166,7 @@ namespace Subtext.Framework.Tracking
 				return;
 			}
 
-			if (entry == null || !IsSourceVerification(url, entry.FullyQualifiedUrl))
+			if (entry == null || !IsSourceVerification(url, subtextContext.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(subtextContext.Blog)))
 			{
 				SendTrackbackResponse(context, 2, "Sorry couldn't find a relevant link in " + url);
 				return;
@@ -165,7 +188,7 @@ namespace Subtext.Framework.Tracking
 			get { return true; }
 		}
 
-		private static void SendTrackbackResponse(HttpContext context, int errorNumber, string errorMessage)
+		private static void SendTrackbackResponse(HttpContextBase context, int errorNumber, string errorMessage)
 		{
 			XmlDocument d = new XmlDocument();
 			XmlElement root = d.CreateElement("response");
@@ -183,7 +206,7 @@ namespace Subtext.Framework.Tracking
 			context.Response.Output.Flush();
 		}
 
-		private static string SafeParam(HttpContext context, string pName)
+		private static string SafeParam(HttpContextBase context, string pName)
 		{
 			if (context.Request.Form[pName] != null)
 				return HtmlHelper.SafeFormat(context.Request.Form[pName]);
@@ -208,5 +231,5 @@ namespace Subtext.Framework.Tracking
 				return Verifier.SourceContainsTarget(sourceUrl, entryUrl);
 			}
 		}
-	}
+    }
 }
