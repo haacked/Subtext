@@ -35,6 +35,7 @@ using System.Globalization;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Tracking
 {
@@ -44,23 +45,20 @@ namespace Subtext.Framework.Tracking
 	public static class TrackHelpers
 	{
 		//Text to insert into a file with pinkback service location
-		public static string PingPackTag
+		public static string GetPingPackTag(UrlHelper urlHelper)
 		{
-			get
-			{
-				return string.Format(CultureInfo.InvariantCulture, "<link rel=\"pingback\" href=\"{0}Services/Pingback.aspx\"></link>", Config.CurrentBlog.RootUrl);
-			}
+			return string.Format(CultureInfo.InvariantCulture, "<link rel=\"pingback\" href=\"{0}Services/Pingback.aspx\"></link>", urlHelper.BlogUrl());
 		}
 
 		//Body of text to insert into a post with Trackback
-		public static string TrackBackTag(Entry entry)
+		public static string TrackBackTag(Entry entry, Blog blog, UrlHelper urlHelper)
 		{
-			if (entry == null)
-			{
+			if (entry == null) {
 				throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
 			}
 
-			return String.Format(CultureInfo.InvariantCulture, Resources.TrackbackTag, entry.FullyQualifiedUrl, entry.FullyQualifiedUrl, entry.Title, Config.CurrentBlog.RootUrl, entry.Id.ToString(CultureInfo.InvariantCulture));
+            Uri entryUrl = urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(blog);
+            return String.Format(CultureInfo.InvariantCulture, Resources.TrackbackTag, entryUrl, entryUrl, entry.Title, urlHelper.BlogUrl(), entry.Id.ToString(CultureInfo.InvariantCulture));
 		}
 	}
 }

@@ -6,8 +6,11 @@ using System.Web.Caching;
 using System.Web.Routing;
 using Moq;
 using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Extensibility;
 
 namespace UnitTests.Subtext
 {
@@ -15,6 +18,17 @@ namespace UnitTests.Subtext
     {
         public static void FakeRequest(this Mock<HttpContextBase> httpContextMock, string virtualPath) {
             httpContextMock.FakeRequest(virtualPath, null);
+        }
+
+        public static StringWriter FakeSitemapHandlerRequest(this Mock<ISubtextContext> subtextContext, Mock<ObjectProvider> repository)
+        {
+            subtextContext.Expect(c => c.Repository).Returns(repository.Object);
+            StringWriter writer = subtextContext.FakeSubtextContextRequest(new Blog { Host = "localhost" }, "/sitemap.xml", "/", string.Empty);
+            var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns<Entry>(e => e.PostType == PostType.BlogPost ? "/some-blogpost-with-id-of-" + e.Id : "some-article-with-id-of-" + e.Id);
+            urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.ContactFormUrl()).Returns("/contact.aspx");
+            return writer;
         }
 
         public static StringWriter FakeRequest(this Mock<HttpContextBase> httpContextMock, string virtualPath, string subfolder)

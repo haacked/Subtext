@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Web;
+using System.Web.Routing;
 using System.Xml;
 using System.Xml.Serialization;
 using Subtext.Extensibility;
@@ -9,81 +11,96 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
-using Subtext.Framework.Format;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.SiteMap
 {
     /// <summary>
     /// Your blog sitemap that search engines can use to decide how to index your site.
     /// </summary>    
-    public class SiteMapHttpHandler : IHttpHandler
+    public class SiteMapHttpHandler : IRouteableHandler
     {
-        public void ProcessRequest(HttpContext context)
+        void IHttpHandler.ProcessRequest(HttpContext context) {
+            ProcessRequest(_subtextContext);
+        }
+
+        public void ProcessRequest(ISubtextContext subtextContext)
         {
+            Url = subtextContext.UrlHelper;
+
+            HttpContextBase context = subtextContext.RequestContext.HttpContext;
+            ObjectProvider repository = subtextContext.Repository;
+
             context.Response.ContentType = "text/xml";
 
             UrlCollection urlCollection = new UrlCollection();
 
             // Let's add home page
-            Url homePage = new Url(Config.CurrentBlog.HomeFullyQualifiedUrl, DateTime.Now, ChangeFrequency.Daily, 1.0M);
+            UrlElement homePage = new UrlElement(Url.BlogUrl().ToFullyQualifiedUrl(subtextContext.Blog), DateTime.Now, ChangeFrequency.Daily, 1.0M);
             urlCollection.Add(homePage);
 
             // then all the entries
-            ICollection<Entry> posts = Entries.GetRecentPosts(0, PostType.BlogPost, PostConfig.IsActive, false);
+
+            ICollection<Entry> posts = repository.GetEntries(0, PostType.BlogPost, PostConfig.IsActive, false /* includeCategories */);
             if (posts != null)
             {
                 foreach (Entry post in posts)
                 {
                     ChangeFrequency frequency = CalculateFrequency(post);
                     urlCollection.Add(
-                        new Url(post.FullyQualifiedUrl, post.DateModified,
+                        new UrlElement(Url.EntryUrl(post).ToFullyQualifiedUrl(subtextContext.Blog), post.DateModified,
                                 frequency, 0.8M));
                 }
             }
 
             // all articles
-            ICollection<Entry> stories = Entries.GetRecentPosts(0, PostType.Story, PostConfig.IsActive, false);
+            ICollection<Entry> stories = repository.GetEntries(0, PostType.Story, PostConfig.IsActive, false /* includeCategories */);
             if (stories != null)
             {
                 foreach (Entry story in stories)
                 {
                     ChangeFrequency frequency = CalculateFrequency(story);
                     urlCollection.Add(
-                        new Url(story.FullyQualifiedUrl, story.DateModified,
-                                frequency, 0.8M));
+                        new UrlElement(Url.EntryUrl(story).ToFullyQualifiedUrl(subtextContext.Blog), 
+                            story.DateModified,
+                            frequency, 0.8M));
                 }
             }
 
             // categories
-            LinkCategory categories = Transformer.BuildLinks("", CategoryType.PostCollection, new UrlFormats(Config.CurrentBlog.RootUrl));
+            var links = repository.GetCategories(CategoryType.PostCollection, true /* activeOnly */);
+            LinkCategory categories = Transformer.MergeLinkCategoriesIntoSingleLinkCategory(string.Empty /* title */, CategoryType.PostCollection, links, Url, subtextContext.Blog);
             if (categories != null)
             {
                 foreach (Link category in categories.Links)
                 {
                     urlCollection.Add(
-                        new Url(new Uri("http://" + Config.CurrentBlog.Host + category.Url), DateTime.Today,
-                                ChangeFrequency.Weekly, 0.6M));
+                        new UrlElement(new Uri(Url.BlogUrl().ToFullyQualifiedUrl(subtextContext.Blog).ToString() + category.Url), 
+                            DateTime.Today,
+                            ChangeFrequency.Weekly, 0.6M));
                 }
             }
 
             // archives
             // categories            
-            LinkCategory archives = Transformer.BuildMonthLinks("",new UrlFormats(Config.CurrentBlog.RootUrl));
+            ICollection<ArchiveCount> archiveCounts = repository.GetPostCountsByMonth();
+            LinkCategory archives = Transformer.MergeArchiveCountsIntoLinkCategory(string.Empty, archiveCounts, Url, subtextContext.Blog);
             if (archives != null)
             {
                 foreach (Link archive in archives.Links)
                 {
                     urlCollection.Add(
-                        new Url(
-                            new Uri("http://" + Config.CurrentBlog.Host + archive.Url), DateTime.Today, ChangeFrequency.Weekly, 0.6M));
+                        new UrlElement(
+                            new Uri(Url.BlogUrl().ToFullyQualifiedUrl(subtextContext.Blog).ToString() + archive.Url), DateTime.Today, ChangeFrequency.Weekly, 0.6M));
                 }
             }
 
             // don't index contact form
-            urlCollection.Add(new Url(new Uri(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}contact.aspx", Config.CurrentBlog.HostFullyQualifiedUrl)), DateTime.Today, ChangeFrequency.Never, 0.0M));
+            urlCollection.Add(new UrlElement(Url.ContactFormUrl().ToFullyQualifiedUrl(subtextContext.Blog), DateTime.Today, ChangeFrequency.Never, 0.0M));
             XmlSerializer serializer = new XmlSerializer(typeof(UrlCollection));
-            XmlTextWriter xmlTextWriter = new XmlTextWriter(context.Response.OutputStream, Encoding.UTF8);
-            serializer.Serialize(xmlTextWriter, urlCollection);            
+            XmlTextWriter xmlTextWriter = new XmlTextWriter(context.Response.Output);
+            serializer.Serialize(xmlTextWriter, urlCollection);
         }
 
         private static ChangeFrequency CalculateFrequency(Entry entry) {
@@ -103,12 +120,27 @@ namespace Subtext.Web.SiteMap
             return frequency;
         }
 
-        public bool IsReusable
-        {
-            get
-            {
+        bool IHttpHandler.IsReusable {
+            get {
                 return false;
             }
+        }
+
+        public RequestContext RequestContext
+        {
+            get {
+                return _subtextContext.RequestContext;
+            }
+            set {
+                _subtextContext = new SubtextContext(Config.CurrentBlog, value, new UrlHelper(value, RouteTable.Routes), ObjectProvider.Instance());
+            }
+        }
+        ISubtextContext _subtextContext;
+
+        public UrlHelper Url
+        {
+            get;
+            private set;
         }
     }
 

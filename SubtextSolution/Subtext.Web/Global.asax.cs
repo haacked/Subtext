@@ -80,7 +80,8 @@ namespace Subtext.Web
                 , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])" }
                 , new[] { "ArchiveDay" });
 
-            routes.MapControls("archive/{year}/{month}.aspx"
+            routes.MapControls("entries-by-month", 
+                "archive/{year}/{month}.aspx"
                 , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])" }
                 , new[] { "ArchiveMonth" });
 
@@ -94,7 +95,7 @@ namespace Subtext.Web
 
             routes.MapPageToControl("contact");
             
-            routes.MapControls("gallery/{id}.aspx"
+            routes.MapControls("gallery", "gallery/{id}.aspx"
                 , new { id = @"\d+"}
                 , new[] { "GalleryThumbNailViewer" });
 
