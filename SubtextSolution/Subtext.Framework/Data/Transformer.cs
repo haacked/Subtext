@@ -13,12 +13,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Subtext.Framework;
+using System.Linq;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Routing;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Data
 {
@@ -36,40 +38,52 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public static LinkCategory BuildLinks(string title, CategoryType catType, UrlFormats formats)
 		{
-            ICollection<LinkCategory> lcc = Links.GetCategories(catType, ActiveFilter.ActiveOnly);
-			LinkCategory lc = null;
-			if(lcc != null && lcc.Count > 0)
-			{
-				lc = new LinkCategory();
-				lc.Title = title;
-				Link link;
-				foreach(LinkCategory linkCategory in lcc)
-				{
-					link = new Link();
+            ICollection<LinkCategory> links = Links.GetCategories(catType, ActiveFilter.ActiveOnly);
+            return MergeLinkCategoriesIntoSingleLinkCategory(title, catType, links, new UrlHelper(null, null), Config.CurrentBlog);
+		}
+
+        /// <summary>
+        /// Converts a LinkCategoryCollection into a single LinkCategory with its own LinkCollection.
+        /// </summary>
+        /// <param name="title">title for the LinkCategory</param>
+        /// <param name="catType">Type of Categories to transform</param>
+        /// <param name="formats">Determines how the Urls are formated</param>
+        /// <returns></returns>
+        public static LinkCategory MergeLinkCategoriesIntoSingleLinkCategory(string title, CategoryType catType, IEnumerable<LinkCategory> links, UrlHelper urlHelper, Blog blog)
+        {
+            if (links != null && links.Count() > 0)
+            {
+                LinkCategory mergedLinkCategory = new LinkCategory();
+                mergedLinkCategory.Title = title;
+                
+                foreach (LinkCategory linkCategory in links)
+                {
+                    Link link = new Link();
 
                     link.Title = linkCategory.Title;
-					switch(catType)
-					{
-						case CategoryType.StoryCollection:
-                            link.Url = formats.ArticleCategoryUrl(link.Title, linkCategory.Id);
-							break;
-						
-						case CategoryType.PostCollection:
-                            link.Url = formats.PostCategoryUrl(link.Title, linkCategory.Id);
-							link.Rss = link.Url + "/rss";
-							break;
-						
-						case CategoryType.ImageCollection:
-                            link.Url = formats.GalleryUrl(link.Title, linkCategory.Id);
-							break;
+                    switch(catType)
+                    {
+                        case CategoryType.StoryCollection:
+                            link.Url = urlHelper.CategoryUrl(linkCategory).ToFullyQualifiedUrl(blog).ToString();
+                            break;
 
-					}
-					link.NewWindow = false;
-					lc.Links.Add(link);
-				}
-			}				
-			return lc;
-		}
+                        case CategoryType.PostCollection:
+                            link.Url = urlHelper.CategoryUrl(linkCategory).ToFullyQualifiedUrl(blog).ToString();
+                            link.Rss = urlHelper.CategoryRssUrl(linkCategory);
+                            break;
+
+                        case CategoryType.ImageCollection:
+                            link.Url = urlHelper.GalleryUrl(linkCategory.Id).ToFullyQualifiedUrl(blog).ToString();
+                            break;
+
+                    }
+                    link.NewWindow = false;
+                    mergedLinkCategory.Links.Add(link);
+                }
+            }
+
+            return null;
+        }
 
 		/// <summary>
 		/// Will convert ArchiveCountCollection method from Archives.GetPostsByMonthArchive()
@@ -80,23 +94,27 @@ namespace Subtext.Framework.Data
 		/// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
 		public static LinkCategory BuildMonthLinks(string title, UrlFormats formats)
 		{
-            var acc = Archives.GetPostCountByMonth();
-
-			LinkCategory lc = new LinkCategory();
-			lc.Title = title;
-			foreach(ArchiveCount ac in acc)
-			{
-				Link link = new Link();
-				link.NewWindow = false;
-				link.Title = ac.Date.ToString("y") + " (" + ac.Count.ToString(CultureInfo.InvariantCulture) + ")";
-				link.Url = formats.MonthUrl(ac.Date);
-				link.NewWindow = false;
-				link.IsActive = true;
-
-				lc.Links.Add(link);
-			}
-			return lc;
+            ICollection<ArchiveCount> archiveCounts = ObjectProvider.Instance().GetPostCountsByMonth();
+            return MergeArchiveCountsIntoLinkCategory(title, archiveCounts, new UrlHelper(null, null), Config.CurrentBlog);
 		}
+
+        public static LinkCategory MergeArchiveCountsIntoLinkCategory(string title, IEnumerable<ArchiveCount> archiveCounts, UrlHelper urlHelper, Blog blog)
+        {
+            LinkCategory linkCategory = new LinkCategory();
+            linkCategory.Title = title;
+            foreach (ArchiveCount archiveCount in archiveCounts)
+            {
+                Link link = new Link();
+                link.NewWindow = false;
+                link.Title = archiveCount.Date.ToString("y") + " (" + archiveCount.Count.ToString(CultureInfo.InvariantCulture) + ")";
+                link.Url = urlHelper.MonthUrl(archiveCount.Date);
+                link.NewWindow = false;
+                link.IsActive = true;
+
+                linkCategory.Links.Add(link);
+            }
+            return linkCategory;
+        }
 
         /// <summary>
         /// Will convert ArchiveCountCollection method from Archives.GetPostsByCategoryArchive()

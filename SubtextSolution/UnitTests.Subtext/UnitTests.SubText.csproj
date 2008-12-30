@@ -454,6 +454,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SubtextWeb\Sitemap.cs" />
+    <Compile Include="SubtextWeb\SitemapHandlerTests.cs" />
     <Compile Include="SubtextWeb\SubtextMasterPageTests.cs">
       <SubType>Code</SubType>
     </Compile>

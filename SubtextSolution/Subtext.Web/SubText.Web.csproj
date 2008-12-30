@@ -591,8 +591,8 @@
     <Compile Include="SiteMap\SiteMapHttpHandler.ashx.cs">
       <DependentUpon>SiteMapHttpHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="SiteMap\Url.cs" />
-    <Compile Include="SiteMap\UrlCollection.cs" />
+    <Compile Include="SiteMap\UrlElement.cs" />
+    <Compile Include="SiteMap\UrlElementCollection.cs" />
     <Compile Include="Skins\_System\ForgotPassword.Master.cs">
       <DependentUpon>ForgotPassword.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

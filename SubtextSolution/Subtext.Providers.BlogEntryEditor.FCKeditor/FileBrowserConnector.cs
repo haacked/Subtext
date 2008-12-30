@@ -60,7 +60,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 	/// Used to provide file management functionality for FCKEditor.
 	/// </summary>
 	[PrincipalPermission(SecurityAction.Demand, Role = "Admins")]
-	public class FileBrowserConnector: Page
+	public class FileBrowserConnector : Page
 	{
 		protected override void OnLoad(EventArgs e)
 		{

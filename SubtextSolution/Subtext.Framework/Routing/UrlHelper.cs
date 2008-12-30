@@ -76,6 +76,10 @@ namespace Subtext.Framework.Routing
             return null;
         }
 
+        public virtual VirtualPath GalleryUrl(int id) {
+            return GetVirtualPath("gallery", new { id = id });
+        }
+
         public virtual VirtualPath AggBugUrl(int id) {
             return GetVirtualPath("aggbug", new { id = id });
         }
@@ -90,6 +94,14 @@ namespace Subtext.Framework.Routing
                 vp += "/";
             }
             return vp;
+        }
+
+        public virtual VirtualPath ContactFormUrl() {
+            return BlogUrl() + "Contact.aspx";
+        }
+
+        public virtual VirtualPath MonthUrl(DateTime dateTime) {
+            return GetVirtualPath("entries-by-month", new { year = dateTime.ToString("yyyy"), month = dateTime.ToString("MM") });
         }
 
         public virtual VirtualPath CommentApiUrl(int entryId) {

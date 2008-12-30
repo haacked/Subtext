@@ -6,9 +6,8 @@ using System.Xml.Serialization;
 namespace Subtext.Web.SiteMap
 {
     [XmlTypeAttribute(TypeName = "url")]
-    public class Url
+    public class UrlElement
     {
-
         private Uri pageUrl;
         private DateTime lastModified;
         private ChangeFrequency changeFrequency;
@@ -17,7 +16,8 @@ namespace Subtext.Web.SiteMap
         /// <summary>
         /// We need this contructor if we want to serialize the class.
         /// </summary>
-        public Url() { }
+        public UrlElement() {
+        }
 
         /// <summary>
         /// Constructor
@@ -37,7 +37,7 @@ namespace Subtext.Web.SiteMap
         /// The default priority of a page is 0.5.
         /// Please note that the priority you assign to a page has no influence on the position of your URLs in a search engine's result pages. Search engines use this information when selecting between URLs on the same site, so you can use this tag to increase the likelihood that your more important pages are present in a search index.
         /// Also, please note that assigning a high priority to all of the URLs on your site will not help you. Since the priority is relative, it is only used to select between URLs on your site; the priority of your pages will not be compared to the priority of pages on other sites.</param>
-        public Url(Uri pageUrl, DateTime lastModified, ChangeFrequency changeFrequency, decimal priority)
+        public UrlElement(Uri pageUrl, DateTime lastModified, ChangeFrequency changeFrequency, decimal priority)
         {
             this.pageUrl = pageUrl;
             LastModified = lastModified;
