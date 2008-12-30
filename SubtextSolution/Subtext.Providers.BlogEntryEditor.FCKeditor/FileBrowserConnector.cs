@@ -53,6 +53,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 {
@@ -364,7 +365,11 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 				if(entry.IsActive) 
 				{
 					XmlNode oFileNode = XmlUtil.AppendElement( oFilesNode, "File" ) ;
-                    XmlUtil.SetAttribute(oFileNode, "name", string.Format(CultureInfo.InvariantCulture, "{0}|{1}", entry.Title, entry.FullyQualifiedUrl));
+                    
+                    //TODO: Seriously refactor.
+                    UrlHelper urlHelper = new UrlHelper(null, null);
+
+                    XmlUtil.SetAttribute(oFileNode, "name", string.Format(CultureInfo.InvariantCulture, "{0}|{1}", entry.Title, urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(Config.CurrentBlog).ToString()));
                     XmlUtil.SetAttribute(oFileNode, "size", entry.DateModified.ToShortDateString());
 				}
 			}

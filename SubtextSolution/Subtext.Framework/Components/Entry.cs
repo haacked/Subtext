@@ -346,16 +346,6 @@ namespace Subtext.Framework.Components
 			}
 		}
 
-		/// <summary>
-		/// Gets the fully qualified url to this entry.
-		/// </summary>
-		/// <value>The fully qualified link.</value>
-		public Uri FullyQualifiedUrl
-		{
-			get;
-            set;
-		}
-
 		public int FeedBackCount
 		{
 			get;
