@@ -128,6 +128,9 @@ namespace UnitTests.Subtext.Framework.Data
 		public void GetEntryFromRequest_WithNonExistentEntry_DoesNotThrowNullReferenceException()
 		{
             //arrange
+            var repository = new Mock<ObjectProvider>();
+            repository.Expect(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns((Entry)null);
+
             UnitTestHelper.SetupBlog();
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/99999.aspx");
@@ -136,6 +139,7 @@ namespace UnitTests.Subtext.Framework.Data
             var requestContext = new RequestContext(httpContext.Object, routeData);
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Expect(c => c.RequestContext).Returns(requestContext);
+            subtextContext.Expect(c => c.Repository).Returns(repository.Object);
             
             //act
             Cacher.GetEntryFromRequest(CacheDuration.Short, true, subtextContext.Object);
