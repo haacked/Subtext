@@ -23,7 +23,7 @@ namespace Subtext.Framework.Data
             {
                 if (reader.Read())
                 {
-                    Blog info = DataHelper.LoadBlogInfo(reader);
+                    Blog info = DataHelper.LoadBlog(reader);
                     return info;
                 }
             }
@@ -31,7 +31,7 @@ namespace Subtext.Framework.Data
         }
 
         /// <summary>
-        /// Returns a <see cref="BlogInfo"/> instance containing 
+        /// Returns a <see cref="Blog"/> instance containing 
         /// the configuration settings for the blog specified by the 
         /// Hostname and Application.
         /// </summary>
@@ -44,14 +44,14 @@ namespace Subtext.Framework.Data
         /// <param name="strict">If false, then this will return a blog record if 
         /// there is only one blog record, regardless if the subfolder and hostname match.</param>
         /// <returns></returns>
-        public override Blog GetBlogInfo(string hostname, string subfolder, bool strict)
+        public override Blog GetBlog(string hostname, string subfolder, bool strict)
         {
             using(IDataReader reader = _procedures.GetConfig(hostname, subfolder, strict))
             {
                 Blog info = null;
                 while (reader.Read())
                 {
-                    info = DataHelper.LoadBlogInfo(reader);
+                    info = DataHelper.LoadBlog(reader);
                     break;
                 }
                 return info;
@@ -79,7 +79,7 @@ namespace Subtext.Framework.Data
             {
                 if (reader.Read())
                 {
-                    info = DataHelper.LoadBlogInfo(reader);
+                    info = DataHelper.LoadBlog(reader);
                 }
                 reader.Close();
             }
@@ -87,7 +87,7 @@ namespace Subtext.Framework.Data
         }
 
         /// <summary>
-        /// Gets a pageable <see cref="ICollection"/> of <see cref="BlogInfo"/> instances.
+        /// Gets a pageable <see cref="ICollection"/> of <see cref="Blog"/> instances.
         /// </summary>
         /// <param name="host">The host filter. Set to null to return all blogs.</param>
         /// <param name="pageIndex">Page index.</param>
@@ -98,7 +98,7 @@ namespace Subtext.Framework.Data
         {
             using (IDataReader reader = _procedures.GetPagedBlogs(host, pageIndex, pageSize, flags))
             {
-                return reader.GetPagedCollection(r => DataHelper.LoadBlogInfo(r));
+                return reader.GetPagedCollection(r => DataHelper.LoadBlog(r));
             }
         }
 

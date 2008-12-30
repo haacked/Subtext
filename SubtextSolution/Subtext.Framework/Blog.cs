@@ -115,7 +115,7 @@ namespace Subtext.Framework
         }
 
         /// <summary>
-        /// Returns a <see cref="IList{T}"/> containing ACTIVE the <see cref="BlogInfo"/> 
+        /// Returns a <see cref="IList{T}"/> containing ACTIVE the <see cref="Blog"/> 
         /// instances within the specified range.
         /// </summary>
         /// <param name="pageIndex">Page index.</param>
@@ -225,7 +225,6 @@ namespace Subtext.Framework
 
         /// <summary>
         /// Gets or sets the time zone for the blogger.  
-        /// 0 = GMT. -8 = PST.
         /// </summary>
         /// <value></value>
         public int TimeZoneId

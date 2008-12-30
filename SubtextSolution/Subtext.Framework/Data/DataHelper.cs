@@ -292,7 +292,7 @@ namespace Subtext.Framework.Data
             }
 	
             if (includeBlog) {
-                entry.Blog = LoadBlogInfo(reader);
+                entry.Blog = LoadBlog(reader);
             }
             return entry;
 		}
@@ -322,11 +322,11 @@ namespace Subtext.Framework.Data
 			return lc;
 		}
 
-        public static Blog LoadBlogInfo(this IDataReader reader) {
-            return reader.LoadBlogInfo(string.Empty);
+        public static Blog LoadBlog(this IDataReader reader) {
+            return reader.LoadBlog(string.Empty);
         }
 
-		public static Blog LoadBlogInfo(this IDataReader reader, string prefix)
+		public static Blog LoadBlog(this IDataReader reader, string prefix)
 		{
 			Blog info = new Blog();
 			info.Author = reader.ReadString(prefix + "Author");
@@ -419,7 +419,7 @@ namespace Subtext.Framework.Data
             Image image = reader.LoadObject<Image>("CategoryTitle", "LocalDirectoryPath");
 
             if (includeBlog) {
-                image.Blog = reader.LoadBlogInfo("Blog.");
+                image.Blog = reader.LoadBlog("Blog.");
             }
             if (includeCategory) {
                 image.CategoryTitle = reader.ReadString("Category.Title");

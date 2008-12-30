@@ -25,6 +25,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Data
 {
@@ -230,12 +231,18 @@ namespace Subtext.Framework.Data
         //TODO: This should only be called in one place total. And it needs to be tested.
         public static Entry GetEntryFromRequest(CacheDuration cacheDuration, bool allowRedirectToEntryName, ISubtextContext context)
         {
-            string idText = (string)context.RequestContext.RouteData.Values["id"];
+            var routeValues = context.RequestContext.RouteData.Values;
+
+            if (routeValues.ContainsKey("slug")) {
+                string slug = (string)routeValues["slug"];
+                return GetEntry(slug, cacheDuration, context.Repository, context.Blog);
+            }
+            
             int id;
 
-            if (int.TryParse(idText, out id))
+            if (int.TryParse((string)routeValues["id"], out id))
             {
-                Entry entry = GetEntry(id, cacheDuration);
+                Entry entry = GetEntry(id, cacheDuration, context.Repository);
                 if (entry == null) {
                     return null;
                 }
@@ -244,17 +251,16 @@ namespace Subtext.Framework.Data
                 //Second condition avoids infinite redirect loop. Should never happen.
                 if (allowRedirectToEntryName && entry.HasEntryName && !entry.EntryName.IsNumeric())
                 {
-                    HttpContext.Current.Response.StatusCode = 301;
-                    HttpContext.Current.Response.Status = "301 Moved Permanently";
-                    HttpContext.Current.Response.RedirectLocation = context.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(Config.CurrentBlog).ToString();
-                    HttpContext.Current.Response.End();
+                    var response = context.RequestContext.HttpContext.Response;
+                    response.StatusCode = 301;
+                    response.Status = "301 Moved Permanently";
+                    response.RedirectLocation = context.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(context.Blog).ToString();
+                    response.End();
                 }
                 return entry;
             }
-            else
-            {
-                return GetEntry(id, cacheDuration);
-            }
+
+            return null;
         }
 
 		private const string EntryKeyID = "Entry{0}BlogId{1}";
@@ -268,9 +274,9 @@ namespace Subtext.Framework.Data
 		/// <param name="EntryName">Name of the entry.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static Entry GetEntry(string entryName, CacheDuration cacheDuration)
+		public static Entry GetEntry(string entryName, CacheDuration cacheDuration, ObjectProvider repository, Blog blog)
 		{
-			int blogId = Config.CurrentBlog.Id;
+            int blogId = blog.Id;
 			
 			ContentCache cache = ContentCache.Instantiate();
 			string key = string.Format(EntryKeyName, entryName, blogId);
@@ -278,12 +284,13 @@ namespace Subtext.Framework.Data
 			Entry entry = (Entry)cache[key];
 			if(entry == null)
 			{
-                entry = Entries.GetEntry(entryName, PostConfig.IsActive, true);
+                entry = repository.GetEntry(entryName, true /* activeOnly */, true /* includeCategories */);
 
 				if(entry != null)
 				{
-                    if (entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now)
+                    if (entry.DateSyndicated > blog.TimeZone.Now) {
                         return null;
+                    }
 
 					cache.Insert(key, entry, cacheDuration);
 
@@ -292,7 +299,6 @@ namespace Subtext.Framework.Data
 					string entryIDKey = string.Format(EntryKeyID, entry.Id, blogId);
 					CacheDependency cd = new CacheDependency(null, new string[]{key});
 					cache.Insert(entryIDKey, entry, cd);
-
 				}
 			}
 			return entry;
@@ -306,7 +312,7 @@ namespace Subtext.Framework.Data
 		/// <param name="entryID">The entry ID.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static Entry GetEntry(int entryId, CacheDuration cacheDuration)
+		public static Entry GetEntry(int entryId, CacheDuration cacheDuration, ObjectProvider repository)
 		{
 			ContentCache cache = ContentCache.Instantiate();
 			string key = string.Format(EntryKeyID, entryId, Config.CurrentBlog.Id);
@@ -314,7 +320,7 @@ namespace Subtext.Framework.Data
 			Entry entry = (Entry)cache[key];
 			if(entry == null)
 			{
-				entry = Entries.GetEntry(entryId, PostConfig.IsActive, true);
+				entry = repository.GetEntry(entryId, true /* activeOnly */, true /* includeCategories */);
 				if(entry != null)
 				{
 					cache.Insert(key, entry, cacheDuration);

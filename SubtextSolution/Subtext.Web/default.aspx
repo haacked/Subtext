@@ -15,7 +15,7 @@
 		<asp:Literal id="Style" runat="Server" />
 		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>" ></script>
         <script type="text/javascript">
-			var subtextBlogInfo = new blogInfo('<%= BlogInfo.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>');
+			var subtextBlogInfo = new blogInfo('<%= Blog.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>');
 		</script>
 		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/prototype.js") %>" ></script>
 		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/scriptaculous.js") %>" ></script>

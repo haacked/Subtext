@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Routing;
-using Subtext.Framework.Routing;
+﻿using System.Web.Routing;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework
 {
@@ -14,6 +10,7 @@ namespace Subtext.Framework
             Blog = blog;
             RequestContext = requestContext;
             UrlHelper = urlHelper;
+            Repository = repository;
         }
 
         public Blog Blog

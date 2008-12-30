@@ -81,7 +81,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void ToFullyQualifiedUrl_WithBlogInfo_ReturnsUri()
+        public void ToFullyQualifiedUrl_WithBlog_ReturnsUri()
         {
             //arrange
             VirtualPath vp = "/foo";

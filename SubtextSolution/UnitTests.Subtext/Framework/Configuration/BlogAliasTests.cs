@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             BlogAlias alias = UnitTestHelper.CreateBlogAlias(blog, UnitTestHelper.GenerateUniqueString(), "");
 
             Config.AddBlogAlias(alias);
-            Blog testBlog = Config.GetBlogInfoFromDomainAlias(alias.Host, alias.Subfolder, false);
+            Blog testBlog = Config.GetBlogFromDomainAlias(alias.Host, alias.Subfolder, false);
             Assert.AreEqual(blog.Id, testBlog.Id, "Found the wrong blog.");
         }
 
@@ -49,8 +49,8 @@ namespace UnitTests.Subtext.Framework.Configuration
             Config.AddBlogAlias(alias1);
             Config.AddBlogAlias(alias2);
 
-            Blog testBlog1 = Config.GetBlogInfoFromDomainAlias(alias1.Host, alias1.Subfolder, false);
-            Blog testBlog2 = Config.GetBlogInfoFromDomainAlias(alias2.Host, alias2.Subfolder, false);
+            Blog testBlog1 = Config.GetBlogFromDomainAlias(alias1.Host, alias1.Subfolder, false);
+            Blog testBlog2 = Config.GetBlogFromDomainAlias(alias2.Host, alias2.Subfolder, false);
 
             Assert.AreEqual(blog1.Id, testBlog1.Id, "Found the wrong blog.");
             Assert.AreEqual(blog2.Id, testBlog2.Id, "Found the wrong blog.");
@@ -66,7 +66,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 
             Config.AddBlogAlias(alias);
 
-            Blog testBlog = Config.GetBlogInfoFromDomainAlias(blog.Host, "", false);
+            Blog testBlog = Config.GetBlogFromDomainAlias(blog.Host, "", false);
             Assert.IsNull(testBlog, "Should not have found a blog, alias is on same host.");
         }
 
@@ -118,7 +118,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         {
             UnitTestHelper.CreateBlogAndSetupContext();
 
-            Blog testBlog = Config.GetBlogInfoFromDomainAlias(UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), false);
+            Blog testBlog = Config.GetBlogFromDomainAlias(UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), false);
 
             Assert.IsNull(testBlog);
         }
@@ -132,7 +132,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             BlogAlias alias = UnitTestHelper.CreateBlogAlias(blog, UnitTestHelper.GenerateUniqueString(), "", false);
 
             BlogAlias testAlias = Config.GetBlogAlias(alias.Id);
-            Blog testBlog = Config.GetBlogInfoFromDomainAlias(alias.Host, alias.Subfolder, false);
+            Blog testBlog = Config.GetBlogFromDomainAlias(alias.Host, alias.Subfolder, false);
 
             Assert.AreNotEqual(NullValue.NullInt32, alias.Id, "Alias was not saved.");
             Assert.AreEqual(alias.Id, testAlias.Id, "The test alias is not the alias saved.");

@@ -27,7 +27,7 @@ using Subtext.Framework.Web.HttpModules;
 namespace Subtext.Framework.Configuration
 {
 	/// <summary>
-	/// Provides a <see cref="BlogInfo"/> instance based on the URL.
+	/// Provides a <see cref="Blog"/> instance based on the URL.
 	/// </summary>
 	public class UrlBasedBlogInfoProvider
 	{
@@ -98,7 +98,7 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
-		/// Returns a <see cref="BlogInfo"/> instance for the current blog. 
+		/// Returns a <see cref="Blog"/> instance for the current blog. 
 		/// The object first checks the context for an existing object. 
 		/// It will next check the cache.
 		/// </summary>
@@ -130,18 +130,18 @@ namespace Subtext.Framework.Configuration
 			//Not found in the cache
 			log.DebugFormat("Attempting to get blog info. Host: {0}, Subfolder: {1}", blogRequest.Host, blogRequest.Subfolder);
 			
-            info = Config.GetBlogInfo(blogRequest.Host, blogRequest.Subfolder, false);
+            info = Config.GetBlog(blogRequest.Host, blogRequest.Subfolder, false);
 
 			if (info == null)
 			{
-				info = Config.GetBlogInfo(Blog.GetAlternateHostAlias(blogRequest.Host), blogRequest.Subfolder, false);
+				info = Config.GetBlog(Blog.GetAlternateHostAlias(blogRequest.Host), blogRequest.Subfolder, false);
 				if (info == null
 						&& !InstallationManager.IsInHostAdminDirectory 
 						&& !InstallationManager.IsInSystemMessageDirectory 
 						&& !InstallationManager.IsOnLoginPage)
 				{
 					log.DebugFormat("Attempting to get blog by domain alias. Host: {0}, Subfolder: {1}", blogRequest.Host, blogRequest.Subfolder);
-					info = Config.GetBlogInfoFromDomainAlias(blogRequest.Host, blogRequest.Subfolder, false);							
+					info = Config.GetBlogFromDomainAlias(blogRequest.Host, blogRequest.Subfolder, false);							
 				}
 
 				if (info != null)
