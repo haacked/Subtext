@@ -7,6 +7,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -43,15 +44,20 @@ namespace UnitTests.Subtext.Framework.Syndication
             blog.Email = "Subtext@example.com";
             blog.RFC3229DeltaEncodingEnabled = false;
 
+            
 			DateTime dateCreated = DateTime.Now;
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blog, "Author", "Best post EVER", "testbody", null, dateCreated);
-			int id = Entries.Create(entry); //persist to db.
+			var repository = new Mock<ObjectProvider>();
+            repository.Expect(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
+
+            int id = Entries.Create(entry); //persist to db.
 
 			RssCommentHandler handler = new RssCommentHandler();
             string rssOutput = null;
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blog, "/" + id + ".aspx", s => rssOutput = s);
+            subtextContext.Expect(c => c.Repository).Returns(repository.Object);
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
