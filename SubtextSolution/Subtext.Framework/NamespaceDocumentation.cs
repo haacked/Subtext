@@ -69,7 +69,7 @@ namespace Subtext.Framework.Configuration
 	/// tag in Web.config).
 	/// </p>
 	/// <p>
-	/// The <see cref="Config.CurrentBlog"/> method returns an instance of <see cref="BlogInfo"/> 
+	/// The <see cref="Config.CurrentBlog"/> method returns an instance of <see cref="Blog"/> 
 	/// contains settings stored in the blog_config table.  This can be used to save settings to 
 	/// the configuration as well.
 	/// </p>

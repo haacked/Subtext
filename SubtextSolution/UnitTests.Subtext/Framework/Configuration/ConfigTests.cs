@@ -51,7 +51,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Config.CreateBlog("title", "username", "password", hostName, subfolder);
             Config.CreateBlog("title", "username", "password", anotherHost, string.Empty);
 
-            Blog info = Config.GetBlogInfo(hostName, string.Empty);
+            Blog info = Config.GetBlog(hostName, string.Empty);
             Assert.IsNotNull(info, "Could not find the blog with the unique hostName.");
             Assert.AreEqual(info.Host, hostName, "Oops! Looks like we found the wrong Blog!");
             Assert.AreEqual(info.Subfolder, subfolder, "Oops! Looks like we found the wrong Blog!");
@@ -70,11 +70,11 @@ namespace UnitTests.Subtext.Framework.Configuration
             Config.CreateBlog("title", "username", "password", hostName, subfolder1);
             Config.CreateBlog("title", "username", "password", hostName, subfolder2);
 
-            Blog info = Config.GetBlogInfo(hostName, subfolder1);
+            Blog info = Config.GetBlog(hostName, subfolder1);
             Assert.IsNotNull(info, "Could not find the blog with the unique hostName & subfolder combination.");
             Assert.AreEqual(info.Subfolder, subfolder1, "Oops! Looks like we found the wrong Blog!");
 
-            info = Config.GetBlogInfo(hostName, subfolder2);
+            info = Config.GetBlog(hostName, subfolder2);
             Assert.IsNotNull(info, "Could not find the blog with the unique hostName & subfolder combination.");
             Assert.AreEqual(info.Subfolder, subfolder2, "Oops! Looks like we found the wrong Blog!");
         }
@@ -88,7 +88,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Config.CreateBlog("title", "username", "password", hostName, subfolder1);
             Config.CreateBlog("title", "username", "password", hostName, subfolder2);
 
-            Blog info = Config.GetBlogInfo(hostName, string.Empty);
+            Blog info = Config.GetBlog(hostName, string.Empty);
             Assert.IsNull(info, "Hmm... Looks like found a blog using too generic of search criteria.");
         }
 
@@ -98,11 +98,11 @@ namespace UnitTests.Subtext.Framework.Configuration
         {
             Config.CreateBlog("title", "username", "password", hostName, string.Empty);
 
-            Blog info = Config.GetBlogInfo(hostName, string.Empty);
+            Blog info = Config.GetBlog(hostName, string.Empty);
             info.OpenIDServer = "http://server.example.com/";
             info.OpenIDDelegate = "http://delegate.example.com/";
             Config.UpdateConfigData(info);
-            info = Config.GetBlogInfo(hostName, string.Empty);
+            info = Config.GetBlog(hostName, string.Empty);
 
             Assert.AreEqual("http://server.example.com/", info.OpenIDServer);
             Assert.AreEqual("http://delegate.example.com/", info.OpenIDDelegate);

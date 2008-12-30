@@ -87,12 +87,12 @@ namespace Subtext.Framework
 			{
 				blogs = Blog.GetBlogs(currentPage, pageSize, ConfigurationFlags.IsActive);
 
-				foreach(Blog currentBlogInfo in blogs)
+				foreach(Blog currentBlog in blogs)
 				{
-					if (skins.GetTemplate(currentBlogInfo.Skin.TemplateFolder) == null)
+					if (skins.GetTemplate(currentBlog.Skin.TemplateFolder) == null)
 					{
-						currentBlogInfo.Skin = SkinConfig.GetDefaultSkin();
-						Config.UpdateConfigData(currentBlogInfo);
+						currentBlog.Skin = SkinConfig.GetDefaultSkin();
+						Config.UpdateConfigData(currentBlog);
 					}
 				}
 

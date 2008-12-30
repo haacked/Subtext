@@ -92,7 +92,7 @@ namespace Subtext.Framework.Providers
 
 		#region Blogs
 		/// <summary>
-		/// Gets a pageable <see cref="ICollection"/> of <see cref="BlogInfo"/> instances.
+		/// Gets a pageable <see cref="ICollection"/> of <see cref="Blog"/> instances.
 		/// </summary>
 		/// <param name="host">The host to filter by.</param>
 		/// <param name="pageIndex">Page index.</param>
@@ -452,7 +452,7 @@ namespace Subtext.Framework.Providers
 		public abstract bool UpdateBlog(Blog info);
 		
 		/// <summary>
-		/// Returns a <see cref="BlogInfo"/> instance containing 
+		/// Returns a <see cref="Blog"/> instance containing 
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
@@ -462,13 +462,13 @@ namespace Subtext.Framework.Providers
 		/// <param name="hostname">Hostname.</param>
 		/// <param name="subfolder">Subfolder.</param>
 		/// <returns></returns>
-		public Blog GetBlogInfo(string hostname, string subfolder)
+		public Blog GetBlog(string hostname, string subfolder)
 		{
-			return GetBlogInfo(hostname, subfolder, true);
+			return GetBlog(hostname, subfolder, true);
 		}
 
 		/// <summary>
-		/// Returns a <see cref="BlogInfo"/> instance containing 
+		/// Returns a <see cref="Blog"/> instance containing 
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
@@ -481,7 +481,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="strict">If false, then this will return a blog record if 
 		/// there is only one blog record, regardless if the subfolder and hostname match.</param>
 		/// <returns></returns>
-		public abstract Blog GetBlogInfo(string hostname, string subfolder, bool strict);
+		public abstract Blog GetBlog(string hostname, string subfolder, bool strict);
 		#endregion
 
         #region Tags

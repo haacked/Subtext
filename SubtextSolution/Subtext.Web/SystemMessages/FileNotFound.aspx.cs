@@ -63,7 +63,7 @@ namespace Subtext.Web.SystemMessages
 							uriAbsolutePath += "/";
 						}
 						string subfolder = UrlFormats.GetBlogSubfolderFromRequest(uriAbsolutePath, Request.ApplicationPath);
-						Blog info = Subtext.Framework.Configuration.Config.GetBlogInfo(uri.Host, subfolder);
+						Blog info = Subtext.Framework.Configuration.Config.GetBlog(uri.Host, subfolder);
 						if (info != null)
 						{
 							Response.Redirect(uriAbsolutePath + "Default.aspx");

@@ -90,7 +90,7 @@ namespace Subtext.Framework.Data
             using (var reader = _procedures.Stats(host, groupId)) {
                 while (reader.Read())
                 {
-                    blogs.Add(DataHelper.LoadBlogInfo(reader));
+                    blogs.Add(DataHelper.LoadBlog(reader));
                 }
             }
             return blogs;

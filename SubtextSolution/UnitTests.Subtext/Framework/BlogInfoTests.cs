@@ -11,10 +11,10 @@ using Subtext.Extensibility.Interfaces;
 namespace UnitTests.Subtext.Framework
 {
 	/// <summary>
-	/// Tests of the <see cref="BlogInfo"/> class.
+	/// Tests of the <see cref="Blog"/> class.
 	/// </summary>
 	[TestFixture]
-	public class BlogInfoTests
+	public class BlogTests
 	{
 		[RowTest]
 		[Row("example.com", "example.com", "Should not have altered the host because it doesn't start with www.")]

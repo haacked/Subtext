@@ -10,6 +10,9 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
+using Subtext.Extensibility;
+using Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Data
 {
@@ -19,6 +22,104 @@ namespace UnitTests.Subtext.Framework.Data
 	[TestFixture]
 	public class CacherTests
 	{
+        /// <summary>
+        /// This test is to make sure a bug I introduced never happens again.
+        /// </summary>
+        [Test]
+        [RollBack]
+        public void GetEntryFromRequest_WithIdInRouteDataMatchingEntryInRepository_ReturnsEntry()
+        {
+            //arrange
+            var repository = new Mock<ObjectProvider>();
+            repository.Expect(r => r.GetEntry(123, true, true)).Returns(new Entry(PostType.BlogPost) { Id = 123, Title = "Testing 123" });
+            UnitTestHelper.SetupBlog();
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/archive/123.aspx");
+            var routeData = new RouteData();
+            routeData.Values.Add("id", "123");
+            var requestContext = new RequestContext(httpContext.Object, routeData);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Expect(c => c.RequestContext).Returns(requestContext);
+            subtextContext.Expect(c => c.Repository).Returns(repository.Object);
+
+            //act
+            Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, subtextContext.Object);
+
+            //assert
+            Assert.AreEqual(123, entry.Id);
+            Assert.AreEqual("Testing 123", entry.Title);
+        }
+
+        /// <summary>
+        /// This test is to make sure a bug I introduced never happens again.
+        /// </summary>
+        [Test]
+        [RollBack]
+        public void GetEntryFromRequest_WithEntryHavingEntryNameButIdInRouteDataMatchingEntryInRepository_RedirectsToUrlWithSlug()
+        {
+            //arrange
+            var repository = new Mock<ObjectProvider>();
+            
+            Entry entry = new Entry(PostType.BlogPost) { Id = 123, EntryName = "testing-slug", Title = "Testing 123" };
+            repository.Expect(r => r.GetEntry(123, true, true)).Returns(entry);
+            var urlHelper = new Mock<UrlHelper>();
+            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/testing-slug.aspx");
+            UnitTestHelper.SetupBlog();
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/archive/testing-slug.aspx");
+            httpContext.Expect(c => c.Response.End());
+            httpContext.ExpectSet(c => c.Response.StatusCode, 302).Verifiable();
+            httpContext.ExpectSet(c => c.Response.Status, "301 Moved Permanently").Verifiable();
+            string redirectLocation = null;
+            httpContext.ExpectSet(c => c.Response.RedirectLocation).Callback(s => redirectLocation = s);
+            var routeData = new RouteData();
+            routeData.Values.Add("id", "123");
+            var requestContext = new RequestContext(httpContext.Object, routeData);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+            subtextContext.Expect(c => c.RequestContext).Returns(requestContext);
+            subtextContext.Expect(c => c.Repository).Returns(repository.Object);
+            subtextContext.Expect(c => c.Blog).Returns(new Blog { Host = "localhost" });
+
+            //act
+            Entry cachedEntry = Cacher.GetEntryFromRequest(CacheDuration.Short, true /* allowRedirect */, subtextContext.Object);
+
+            //assert
+            Assert.AreEqual(123, cachedEntry.Id);
+            Assert.AreEqual("Testing 123", cachedEntry.Title);
+            Assert.AreEqual("http://localhost/archive/testing-slug.aspx", redirectLocation);
+        }
+
+        /// <summary>
+        /// This test is to make sure a bug I introduced never happens again.
+        /// </summary>
+        [Test]
+        [RollBack]
+        public void GetEntryFromRequest_WithSlugInRouteDataMatchingEntryInRepository_ReturnsEntry()
+        {
+            //arrange
+            var repository = new Mock<ObjectProvider>();
+            repository.Expect(r => r.GetEntry("the-slug", true, true)).Returns(new Entry(PostType.BlogPost) { Id = 123, EntryName = "the-slug", Title = "Testing 123" });
+            UnitTestHelper.SetupBlog();
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/archive/the-slug.aspx");
+            var routeData = new RouteData();
+            routeData.Values.Add("slug", "the-slug");
+            var requestContext = new RequestContext(httpContext.Object, routeData);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Expect(c => c.RequestContext).Returns(requestContext);
+            subtextContext.Expect(c => c.Repository).Returns(repository.Object);
+            subtextContext.Expect(c => c.Blog).Returns(new Blog { Id = 1, TimeZoneId = -2037797565 /* pacific */ });
+
+            //act
+            Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, subtextContext.Object);
+
+            //assert
+            Assert.AreEqual(123, entry.Id);
+            Assert.AreEqual("Testing 123", entry.Title);
+            Assert.AreEqual("the-slug", entry.EntryName);
+        }
+
 		/// <summary>
 		/// This test is to make sure a bug I introduced never happens again.
 		/// </summary>

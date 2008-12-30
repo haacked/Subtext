@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
 			Config.CreateBlog("title", "username", "password", "example.com", string.Empty);
 			BlogAlias alias = new BlogAlias();
-			alias.BlogId = Config.GetBlogInfo("example.com", string.Empty).Id;
+			alias.BlogId = Config.GetBlog("example.com", string.Empty).Id;
 			alias.Host = "alias.example.com";
 			alias.IsActive = true;
 			Config.AddBlogAlias(alias);
@@ -60,7 +60,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
 			Config.CreateBlog("title", "username", "password", "example.com", string.Empty);
 			BlogAlias alias = new BlogAlias();
-			alias.BlogId = Config.GetBlogInfo("example.com", string.Empty).Id;
+			alias.BlogId = Config.GetBlog("example.com", string.Empty).Id;
 			alias.Host = "alias.example.com";
 			alias.Subfolder = "blog";
 			alias.IsActive = true;

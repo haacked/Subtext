@@ -140,21 +140,21 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.AreEqual(0, info.CommentCount);
             Assert.AreEqual(0, info.PingTrackCount);
 
-            info = Config.GetBlogInfo(info.Host, info.Subfolder); // pull back the updated info from the datastore.
+            info = Config.GetBlog(info.Host, info.Subfolder); // pull back the updated info from the datastore.
             Assert.AreEqual(0, info.CommentCount);
             Assert.AreEqual(0, info.PingTrackCount);
 
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
-            info = Config.GetBlogInfo(info.Host, info.Subfolder);
+            info = Config.GetBlog(info.Host, info.Subfolder);
             Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
             Assert.AreEqual(1, info.PingTrackCount, "Blog Ping/Trackback count should be 1");
 
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
-            info = Config.GetBlogInfo(info.Host, info.Subfolder);
+            info = Config.GetBlog(info.Host, info.Subfolder);
             Assert.AreEqual(2, info.CommentCount, "Blog CommentCount should be 2");
             Assert.AreEqual(2, info.PingTrackCount, "Blog Ping/Trackback count should be 2");
         }
@@ -171,7 +171,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 
             Entry entry2 = UnitTestHelper.CreateEntryInstanceForSyndication("johnny b goode", "foo-bar", "zaa zaa zoo.");
             Entries.Create(entry2);
-            info = Config.GetBlogInfo(info.Host, info.Subfolder); // pull back the updated info from the datastore
+            info = Config.GetBlog(info.Host, info.Subfolder); // pull back the updated info from the datastore
 
             Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
             Assert.AreEqual(1, info.PingTrackCount, "Blog Ping/Trackback count should be 1");
@@ -187,12 +187,12 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
-            info = Config.GetBlogInfo(info.Host, info.Subfolder);
+            info = Config.GetBlog(info.Host, info.Subfolder);
             Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
             Assert.AreEqual(1, info.PingTrackCount, "Blog Ping/Trackback count should be 1");
 
             Entries.Delete(entry.Id);
-            info = Config.GetBlogInfo(info.Host, info.Subfolder);
+            info = Config.GetBlog(info.Host, info.Subfolder);
 
             Assert.AreEqual(0, info.CommentCount, "Blog CommentCount should be 0");
             Assert.AreEqual(0, info.PingTrackCount, "Blog Ping/Trackback count should be 0");

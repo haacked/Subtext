@@ -25,6 +25,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Handlers
 {
@@ -83,12 +84,12 @@ namespace Subtext.Web.UI.Handlers
 				Entry entry;
                 if (entryName.IsNumeric())
 				{
-					entry = Cacher.GetEntry(Int32.Parse(entryName), CacheDuration.Short);
+					entry = Cacher.GetEntry(Int32.Parse(entryName), CacheDuration.Short, ObjectProvider.Instance());
 				}
 				else
 				{
 					//This is why EntryName must be unique.
-					entry = Cacher.GetEntry(entryName, CacheDuration.Short);
+                    entry = Cacher.GetEntry(entryName, CacheDuration.Short, ObjectProvider.Instance(), Config.CurrentBlog);
 				}
 				
 				if(entry != null) {
