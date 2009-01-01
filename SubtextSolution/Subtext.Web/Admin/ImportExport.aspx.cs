@@ -78,7 +78,10 @@ namespace Subtext.Web.Admin.Pages
 			{
 				try
 				{
-					LoadBlogML();
+                    //Temporarily extend script timeout for large BlogML imports
+                    if(Server.ScriptTimeout < 3600)
+                        Server.ScriptTimeout = 3600;
+                    LoadBlogML();
 				}
 				catch(InvalidOperationException)
 				{
