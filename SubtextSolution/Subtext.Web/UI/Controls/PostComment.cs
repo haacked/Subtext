@@ -19,10 +19,12 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Encosia;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
+using Subtext.Framework.Email;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
 using Subtext.Framework.Text;
@@ -89,7 +91,7 @@ namespace Subtext.Web.UI.Controls
 						}
 					}
 					coComment.PostTitle = entry.Title;
-					coComment.PostUrl = Url.EntryUrl(entry).ToFullyQualifiedUrl(CurrentBlog).ToString();
+					coComment.PostUrl = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString();
 				}
 			}
 
@@ -202,6 +204,8 @@ namespace Subtext.Web.UI.Controls
 					{
 						FeedbackItem feedbackItem = CreateFeedbackInstanceFromFormInput(currentEntry);
 						FeedbackItem.Create(feedbackItem, new CommentFilter(HttpContext.Current.Cache));
+                        var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
+                        emailService.EmailCommentToBlogAuthor(feedbackItem);
 						
 						if(chkRemember == null || chkRemember.Checked)
 						{
@@ -343,12 +347,12 @@ namespace Subtext.Web.UI.Controls
 
 		bool IsCommentsRendered
 		{
-			get { return CurrentBlog.CommentsEnabled && Entry != null && Entry.AllowComments; }
+			get { return Blog.CommentsEnabled && Entry != null && Entry.AllowComments; }
 		}
 		
 		bool IsCommentAllowed
 		{
-			get { return CurrentBlog.CommentsEnabled && Entry != null && Entry.AllowComments && !Entry.CommentingClosed; }
+			get { return Blog.CommentsEnabled && Entry != null && Entry.AllowComments && !Entry.CommentingClosed; }
 		}
 
 		protected override void OnPreRender(EventArgs e)

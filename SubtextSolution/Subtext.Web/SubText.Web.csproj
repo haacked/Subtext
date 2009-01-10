@@ -385,6 +385,9 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\WebUI\Controls\AdvancedPanel.cs" />
+    <Compile Include="Admin\WebUI\Controls\BaseUserControl.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Admin\WebUI\Controls\BreadCrumbs.cs" />
     <Compile Include="Admin\WebUI\Controls\ContentRegion.cs" />
     <Compile Include="Admin\WebUI\Controls\HeaderBase.cs" />

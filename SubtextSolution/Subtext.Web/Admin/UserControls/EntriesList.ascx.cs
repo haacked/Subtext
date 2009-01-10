@@ -1,14 +1,16 @@
 ﻿using System;
-using Subtext.Framework.Components;
+using System.Globalization;
+using System.Web.UI;
+using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
-using System.Globalization;
-using Subtext.Extensibility;
+using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Web.Admin.Pages;
+using Subtext.Web.Admin.WebUI.Controls;
 
 namespace Subtext.Web.Admin.UserControls {
-    public partial class EntriesList : System.Web.UI.UserControl {
+    public partial class EntriesList : BaseUserControl {
         private int categoryId = NullValue.NullInt32;
         private int pageIndex = 0;
 

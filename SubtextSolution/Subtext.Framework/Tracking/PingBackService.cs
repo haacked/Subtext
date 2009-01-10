@@ -35,8 +35,10 @@
 using System;
 using System.Web;
 using CookComputing.XmlRpc;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Email;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 using Subtext.Framework.XmlRpc;
@@ -82,7 +84,11 @@ namespace Subtext.Framework.Tracking
 			//PTR = Pingback - TrackBack - Referral
 			Trackback trackback = new Trackback(postId, HtmlHelper.SafeFormat(pageTitle), new Uri(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle));
 			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
-		
+
+            //TODO: Create this using IoC container
+            var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
+            emailService.EmailCommentToBlogAuthor(trackback);
+
 			return "thanks for the pingback on " + sourceURI ;
 		}
 	}

@@ -53,7 +53,7 @@ namespace Subtext.Web.UI.Controls
                 EntryStoryList.EntryListTitle = tagName;
                 EntryStoryList.EntryListDescription = string.Format("There are {0} entries for the tag <em>{1}</em>", et.Count, tagName);
 
-                Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1}", CurrentBlog.Title, tagName), Context);
+                Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1}", Blog.Title, tagName), Context);
             }
         }
     }

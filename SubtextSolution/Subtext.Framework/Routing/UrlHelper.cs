@@ -1,10 +1,10 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Routing;
-using Subtext.Framework.Components;
-using System;
-using System.Web.Hosting;
-using Subtext.Framework.Web;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
+using Subtext.Framework.Components;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Routing
 {
@@ -35,7 +35,8 @@ namespace Subtext.Framework.Routing
             return entryUrl + "#" + comment.Id;
         }
 
-        public virtual VirtualPath EntryUrl(Entry entry) {
+        public virtual VirtualPath EntryUrl(IEntryIdentity entry)
+        {
             if (entry == null) {
                 throw new ArgumentNullException("entry");
             }

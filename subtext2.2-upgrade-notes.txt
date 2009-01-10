@@ -1,0 +1,11 @@
+Upgrade notes from Subtext 2.1 to 2.2
+--------------------------------------
+
+Web.config changes
+  1. Remove the Database section
+  2. Remove the Import section
+  3. Remove the HandlerConfiguration section
+  
+Database changes
+  1. No Schema changes
+  2. Stored Proc changes

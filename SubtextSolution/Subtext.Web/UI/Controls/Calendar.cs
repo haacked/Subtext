@@ -72,9 +72,9 @@ namespace Subtext.Web.UI.Controls
 				// setup prev/next months
 				DateTime tempDate;
 				tempDate = selectedDate.AddMonths(-1);
-				entryCal.PrevMonthText = string.Format("<a href=\"{0}\">&laquo;</a>", CurrentBlog.UrlFormats.MonthUrl(tempDate));
+				entryCal.PrevMonthText = string.Format("<a href=\"{0}\" title=\"previous month\">&laquo;</a>", Url.MonthUrl(tempDate));
 				tempDate = selectedDate.AddMonths(1);
-				entryCal.NextMonthText = string.Format("<a href=\"{0}\">&raquo;</a>", CurrentBlog.UrlFormats.MonthUrl(tempDate));
+                entryCal.NextMonthText = string.Format("<a href=\"{0}\" title=\"next month\">&raquo;</a>", Url.MonthUrl(tempDate));
 	
 				// fix the selected date if we're in "month mode"
 				//		if (_isUrlMonthMode)
@@ -177,7 +177,7 @@ namespace Subtext.Web.UI.Controls
 	
 			if (IsSameDay(calDate,entryDate))
 			{
-				e.Cell.Text = string.Format("<a href=\"{0}\">{1}</a>", CurrentBlog.UrlFormats.DayUrl(e.Day.Date), e.Day.Date.Day);
+				e.Cell.Text = string.Format("<a href=\"{0}\">{1}</a>", Blog.UrlFormats.DayUrl(e.Day.Date), e.Day.Date.Day);
 		
 				// Go through the rest of the entries. (_monthEntries should always be sorted by DateCreated in descending order)
 				do

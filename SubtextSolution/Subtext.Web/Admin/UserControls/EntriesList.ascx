@@ -18,7 +18,7 @@
 	<ItemTemplate>
 		<tr>
 			<td>
-			    <asp:HyperLink runat="server" NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "FullyQualifiedUrl") %>' ToolTip="View Entry" >
+			    <asp:HyperLink runat="server" NavigateUrl='<%# Url.EntryUrl((Entry)Container.DataItem) %>' ToolTip="View Entry" >
 			        <%# DataBinder.Eval(Container.DataItem, "Title") %></asp:HyperLink>
 			</td>
 			<td>

@@ -22,6 +22,8 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Email;
+using Subtext.Extensibility.Providers;
 
 namespace Subtext.Framework.Syndication
 {
@@ -67,8 +69,9 @@ namespace Subtext.Framework.Syndication
 				comment.EntryId = UrlFormats.GetPostIDFromUrl(Request.Path);
 
 				// [ 1644691 ] Closing comments didn't stop the CommentAPI
-				if(!Cacher.GetEntry(comment.EntryId,CacheDuration.Medium, ObjectProvider.Instance()).CommentingClosed)
-					FeedbackItem.Create(comment, new CommentFilter(HttpContext.Current.Cache));
+                if (!Cacher.GetEntry(comment.EntryId, CacheDuration.Medium, ObjectProvider.Instance()).CommentingClosed) {
+                    FeedbackItem.Create(comment, new CommentFilter(HttpContext.Current.Cache));
+                }
 			}
 		}
 	

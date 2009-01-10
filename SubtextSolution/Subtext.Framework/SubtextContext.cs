@@ -1,4 +1,5 @@
-﻿using System.Web.Routing;
+﻿using System.Security.Principal;
+using System.Web.Routing;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 
@@ -11,6 +12,7 @@ namespace Subtext.Framework
             RequestContext = requestContext;
             UrlHelper = urlHelper;
             Repository = repository;
+            User = requestContext.HttpContext.User;
         }
 
         public Blog Blog
@@ -30,6 +32,11 @@ namespace Subtext.Framework
         }
 
         public ObjectProvider Repository {
+            get;
+            private set;
+        }
+
+        public IPrincipal User {
             get;
             private set;
         }

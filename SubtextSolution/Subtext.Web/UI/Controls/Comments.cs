@@ -86,7 +86,7 @@ namespace Subtext.Web.UI.Controls
                 gravatarEmailFormat = ConfigurationManager.AppSettings["GravatarEmailFormat"];
             }
 
-            if (CurrentBlog.CommentsEnabled)
+            if (Blog.CommentsEnabled)
             {
                 BindFeedback(true);
             }

@@ -68,7 +68,7 @@ namespace Subtext.Web.UI.Controls
 				DisplayEditLink(entry);
 
 				//Track this entry
-				EntryTracker.Track(Context, entry.Id, CurrentBlog.Id);
+				EntryTracker.Track(Context, entry.Id, Blog.Id);
 
 				//Set the page title
 				Globals.SetTitle(entry.Title, Context);
@@ -103,7 +103,7 @@ namespace Subtext.Web.UI.Controls
 
 				if(commentCount != null)
 				{
-					if(CurrentBlog.CommentsEnabled && entry.AllowComments)
+					if(Blog.CommentsEnabled && entry.AllowComments)
 					{
                         string entryUrl = Url.EntryUrl(entry);
 						if(entry.FeedBackCount == 0) {

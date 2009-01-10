@@ -50,19 +50,19 @@ namespace Subtext.Web.UI.Controls
 			{
 				if(HomeLink != null)
 				{
-					HomeLink.NavigateUrl = CurrentBlog.HomeVirtualUrl;
+					HomeLink.NavigateUrl = Blog.HomeVirtualUrl;
 					ControlHelper.SetTitleIfNone(HomeLink, "Link to the home page.");
 				}
 				
 				if(ContactLink != null)
 				{
-					ContactLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}contact.aspx", CurrentBlog.VirtualUrl);
+					ContactLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}contact.aspx", Blog.VirtualUrl);
 					ControlHelper.SetTitleIfNone(ContactLink, "Contact form.");
 				}
 
 				if(Archives != null)
 				{
-					Archives.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}archives.aspx", CurrentBlog.VirtualUrl);
+					Archives.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}archives.aspx", Blog.VirtualUrl);
 					ControlHelper.SetTitleIfNone(Archives, "View Archives.");
 				}
 
@@ -71,50 +71,50 @@ namespace Subtext.Web.UI.Controls
 					if(Request.IsAuthenticated && SecurityHelper.IsAdmin)
 					{
 						Admin.Text = "Admin";
-						Admin.NavigateUrl = CurrentBlog.AdminHomeVirtualUrl;
+						Admin.NavigateUrl = Blog.AdminHomeVirtualUrl;
 						ControlHelper.SetTitleIfNone(Admin, "Admin Section.");
 					}
 					else
 					{
 						Admin.Text = "Login";
-						Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}login.aspx", CurrentBlog.VirtualUrl);
+						Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}login.aspx", Blog.VirtualUrl);
 						ControlHelper.SetTitleIfNone(Admin, "Login Form.");
 					}
 				}
 
 				if (Syndication != null)
 				{
-					Syndication.NavigateUrl = CurrentBlog.UrlFormats.RssUrl.ToString();
+					Syndication.NavigateUrl = Blog.UrlFormats.RssUrl.ToString();
 					ControlHelper.SetTitleIfNone(Syndication, "Subscribe to this feed.");
 				}
 
 				if (XMLLink != null)
 				{
-					XMLLink.NavigateUrl = CurrentBlog.UrlFormats.RssUrl.ToString();
+					XMLLink.NavigateUrl = Blog.UrlFormats.RssUrl.ToString();
 					ControlHelper.SetTitleIfNone(XMLLink, "Subscribe to this feed.");
 				}
 
 				if (AtomLink != null)
 				{
-					AtomLink.NavigateUrl = CurrentBlog.UrlFormats.AtomUrl.ToString();
+					AtomLink.NavigateUrl = Blog.UrlFormats.AtomUrl.ToString();
 					ControlHelper.SetTitleIfNone(AtomLink, "Subscribe to this feed.");
 				}
 
 				if(ArchivePostPageLink != null)
 				{
-					ArchivePostPageLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}ArchivePostPage.aspx", CurrentBlog.VirtualUrl);
+					ArchivePostPageLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}ArchivePostPage.aspx", Blog.VirtualUrl);
 					ControlHelper.SetTitleIfNone(ArchivePostPageLink, "Archives.");
 				}
 
 				if(LinkPageLink != null)
 				{
-					LinkPageLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}LinkPage.aspx", CurrentBlog.VirtualUrl);
+					LinkPageLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}LinkPage.aspx", Blog.VirtualUrl);
 					ControlHelper.SetTitleIfNone(LinkPageLink, "Links.");
 				}
 
 				if(ArticleCategoriesLink != null)
 				{
-					ArticleCategoriesLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}ArticleCategoriesPage.aspx", CurrentBlog.VirtualUrl);
+					ArticleCategoriesLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}ArticleCategoriesPage.aspx", Blog.VirtualUrl);
 					ControlHelper.SetTitleIfNone(ArticleCategoriesLink, "Article Categories.");
 				}
 				

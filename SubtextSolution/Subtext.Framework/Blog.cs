@@ -1146,7 +1146,7 @@ namespace Subtext.Framework
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return this.Host.GetHashCode() ^ this.Subfolder.GetHashCode();
+            return (this.Host ?? string.Empty).GetHashCode() ^ (this.Subfolder ?? string.Empty).GetHashCode() ^ this.Id.GetHashCode();
         }
 
         private static readonly Blog aggregateBlog = InitAggregateBlog();

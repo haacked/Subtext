@@ -78,7 +78,7 @@ namespace Subtext.Web.UI.Controls
 				HyperLink title = (HyperLink)e.Item.FindControl("Link");
 				if(title != null)
 				{
-					int commentLength = CurrentBlog.RecentCommentsLength;
+					int commentLength = Blog.RecentCommentsLength;
 					if (comment.Body.Length > commentLength) 
 					{
 						string truncatedText = string.Empty;

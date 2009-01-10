@@ -68,9 +68,9 @@ namespace Subtext.Framework.Data
 
 			while(reader.Read())
 			{
-				if(IsNewDay(dt, (DateTime)reader["DateAdded"]))
+				if(IsNewDay(dt, (DateTime)reader["DateCreated"]))
 				{
-					dt = (DateTime)reader["DateAdded"];
+					dt = (DateTime)reader["DateCreated"];
 					day = new EntryDay(dt);
 					edc.Add(day);
 				}
@@ -143,7 +143,7 @@ namespace Subtext.Framework.Data
 			{
 				entry.Email = ReadString(reader, "Email");
 			}
-			entry.DateCreated = (DateTime)reader["DateAdded"];
+			entry.DateCreated = (DateTime)reader["DateCreated"];
 			
 			if(reader["DateUpdated"] != DBNull.Value)
 			{
@@ -272,7 +272,7 @@ namespace Subtext.Framework.Data
 		{
 			entry.Author = ReadString(reader, "Author");
 			entry.Email = ReadString(reader, "Email");
-			entry.DateCreated = ReadDate(reader, "DateAdded");
+            entry.DateCreated = ReadDate(reader, "DateCreated");
 			entry.DateModified = ReadDate(reader, "DateUpdated");
 			
 			entry.Id = ReadInt32(reader, "ID");

@@ -15,26 +15,21 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Configuration.Provider;
 
 namespace Subtext.Extensibility.Providers
 {
 	/// <summary>
 	/// Provides a class used to handle email.
 	/// </summary>
-    public abstract class EmailProvider : System.Configuration.Provider.ProviderBase
+    public abstract class EmailProvider : ProviderBase
 	{
         private static EmailProvider provider;
 		private static GenericProviderCollection<EmailProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<EmailProvider>("Email", out provider);
         private const int DefaultSmtpPort = 25;
-		private string _name;
         private string _smtpServer = "localhost";
-        private int _port = DefaultSmtpPort;
-        private bool _sslEnabled;
-        private string _password;
-        private string _userName;
-        private string _adminEmail;
-
-		/// <summary>
+       
+        /// <summary>
 		/// Initializes the specified provider.
 		/// </summary>
 		/// <param name="name">Friendly Name of the provider.</param>
@@ -42,31 +37,26 @@ namespace Subtext.Extensibility.Providers
 		public override void Initialize(string name, NameValueCollection configValue)
 		{
 			_name = name;
-			_adminEmail = configValue["adminEmail"];
-			_smtpServer = configValue["smtpServer"];
-			_password = configValue["password"];
-			_userName = configValue["username"];
-			if (configValue["port"] != null)
-			{
-				try
-				{
-					_port = int.Parse(configValue["port"]);
-				}
-				catch (System.FormatException)
-				{
-					//Do nothing.
-				}
+			AdminEmail = configValue["adminEmail"];
+			SmtpServer = configValue["smtpServer"];
+			Password = configValue["password"];
+			UserName = configValue["username"];
+			if (configValue["port"] != null) {
+                int port;
+                if (int.TryParse(configValue["port"], out port)) {
+                    Port = port;
+                }
+                else {
+                    Port = DefaultSmtpPort;
+                }
 			}
-			if (configValue["sslEnabled"] != null)
+			
+            if (configValue["sslEnabled"] != null)
 			{
-				try
-				{
-					_sslEnabled = bool.Parse(configValue["sslEnabled"]);
-				}
-				catch (System.FormatException)
-				{
-					//Do nothing.
-				}
+                bool sslEnabled;
+                if (bool.TryParse(configValue["sslEnabled"], out sslEnabled)) {
+                    SslEnabled = sslEnabled;
+                }
 			}
 		}
 
@@ -96,16 +86,9 @@ namespace Subtext.Extensibility.Providers
 		/// the system and might not be a real address.
 		/// </summary>
 		/// <value></value>
-		public string AdminEmail
-		{
-			get
-			{
-				return _adminEmail;
-			}
-			set
-			{
-				_adminEmail = value;
-			}
+		public string AdminEmail {
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -113,8 +96,7 @@ namespace Subtext.Extensibility.Providers
 		/// defaults to "localhost";
 		/// </summary>
 		/// <value></value>
-		public string SmtpServer
-		{
+		public string SmtpServer {
 			get
 			{
                 if (_smtpServer == null || _smtpServer.Length == 0)
@@ -123,8 +105,7 @@ namespace Subtext.Extensibility.Providers
                 }
 				return _smtpServer;
 			}
-			set
-			{
+			set {
 				_smtpServer = value;
 			}
 		}
@@ -134,20 +115,18 @@ namespace Subtext.Extensibility.Providers
 		/// Gets and sets the port.
 		/// </summary>
 		/// <value>The port.</value>
-		public int Port
-		{
-			get { return this._port; }
-			set { this._port = value; }
+		public int Port {
+			get;
+			set;
 		}
 
 		/// <summary>
 		/// Gets and sets the SSL protocol enable.
 		/// </summary>
 		/// <value>true or false.</value>
-		public bool SslEnabled
-		{
-            get { return this._sslEnabled; }
-            set { this._sslEnabled = value; }
+		public bool SslEnabled {
+            get;
+            set;
 		}
 
 		/// <summary>
@@ -155,32 +134,18 @@ namespace Subtext.Extensibility.Providers
 		/// require authentication.
 		/// </summary>
 		/// <value></value>
-		public string Password
-		{
-			get
-			{
-				return _password;
-			}
-			set
-			{
-				_password = value;
-			}
+		public string Password {
+			get;
+			set;
 		}
 
 		/// <summary>
 		/// Gets or sets the name of the user for smpt servers that require authentication.
 		/// </summary>
 		/// <value></value>
-		public string UserName
-		{
-			get
-			{
-				return _userName;
-			}
-			set
-			{
-				_userName = value;
-			}
+		public string UserName {
+			get;
+			set;
 		}
 
 
@@ -190,13 +155,12 @@ namespace Subtext.Extensibility.Providers
 		/// <value></value>
 		public override string Name
 		{
-			get
-			{
-				return _name;
-			}
+            get {
+                return _name;
+            }
 		}
+        private string _name;
 		
-		#region EmailProvider Methods
 		/// <summary>
 		/// Sends an email.
 		/// </summary>
@@ -205,7 +169,6 @@ namespace Subtext.Extensibility.Providers
 		/// <param name="subject"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		public abstract bool Send(string to, string from, string subject, string message);
-		#endregion
+		public abstract void Send(string to, string from, string subject, string message);
 	}
 }

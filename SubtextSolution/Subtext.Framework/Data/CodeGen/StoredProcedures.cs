@@ -745,7 +745,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public int InsertEntry(string title, string text, int postType, string author, string email, string description, int blogId, DateTime dateAdded, int postConfig, string entryName, DateTime? dateSyndicated, DateTime currentDateTime) {
+		public int InsertEntry(string title, string text, int postType, string author, string email, string description, int blogId, DateTime dateCreated, int postConfig, string entryName, DateTime? dateSyndicated, DateTime currentDateTime) {
 			var outParam0 = DataHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Title", title),		
@@ -755,7 +755,7 @@ namespace Subtext.Framework.Data {
 				DataHelper.MakeInParam("@Email", email),		
 				DataHelper.MakeInParam("@Description", description),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
-				DataHelper.MakeInParam("@DateAdded", dateAdded),		
+				DataHelper.MakeInParam("@DateCreated", dateCreated),		
 				DataHelper.MakeInParam("@PostConfig", postConfig),		
 				DataHelper.MakeInParam("@EntryName", entryName),		
 				DataHelper.MakeInParam("@DateSyndicated", dateSyndicated),		

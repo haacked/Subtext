@@ -71,7 +71,7 @@ namespace Subtext.Web.UI.Controls
 
 				}
 
-				Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1}",CurrentBlog.Title,lc.Title),Context);
+				Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1}", Blog.Title, lc.Title), Context);
 			}
 		}
 	}

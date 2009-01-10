@@ -26,7 +26,7 @@ namespace Subtext.Web.UI.Controls
 		{
             List<LinkCategory> lcc = new List<LinkCategory>();
 
-			lcc.Add(UIData.Links(CategoryType.StoryCollection,CurrentBlog.UrlFormats));			
+			lcc.Add(UIData.Links(CategoryType.StoryCollection, Blog.UrlFormats));			
 
 			return lcc;
 		}

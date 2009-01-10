@@ -714,6 +714,16 @@ namespace UnitTests.Subtext
 		}
 
 		#region ...Assert.AreNotEqual replacements...
+        public static void AssertThrows<TException>(Action action) where TException : Exception {
+            try {
+                action();
+            }
+            catch (TException) {
+                return;
+            }
+            Assert.Fail("Exception " + typeof(TException).Name + " not thrown");
+        }
+
 		/// <summary>
 		/// Asserts that the two values are not equal.
 		/// </summary>
