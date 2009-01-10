@@ -7,6 +7,6 @@ namespace Subtext.Extensibility.Interfaces
 	/// </summary>
 	public interface IIdentifiable
 	{
-		int Id { get; }
+        int Id { get; }
 	}
 }

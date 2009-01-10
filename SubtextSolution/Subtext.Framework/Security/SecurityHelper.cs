@@ -27,6 +27,7 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
+using System.Security.Principal;
 
 namespace Subtext.Framework.Security
 {
@@ -491,6 +492,19 @@ namespace Subtext.Framework.Security
 		{
 			return Guid.NewGuid().ToString().Substring(0,8);
 		}
+
+        public static bool IsInAdminRole(this IPrincipal user, Blog blog) {
+            if (user == null) {
+                return false;
+            }
+            string userName = user.Identity.Name;
+            // Should be able to remove following if block.
+            // Need to review security code to be sure.
+            if (!String.Equals(userName, blog.UserName, StringComparison.OrdinalIgnoreCase)) {
+                return false;
+            }
+            return user.IsInRole("Admins");
+        }
 
 		/// <summary>
 		/// Gets a value indicating whether the current 

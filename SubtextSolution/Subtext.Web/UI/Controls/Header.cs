@@ -51,9 +51,9 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 
-			this.title = CurrentBlog.Title;
-			this.homeUrl = CurrentBlog.HomeVirtualUrl;
-			this.subtitle = CurrentBlog.SubTitle;
+			this.title = Blog.Title;
+			this.homeUrl = Blog.HomeVirtualUrl;
+			this.subtitle = Blog.SubTitle;
 
 			if (null != this.FindControl("HeaderTitle"))
 			{

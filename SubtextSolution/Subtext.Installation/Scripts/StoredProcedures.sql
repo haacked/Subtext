@@ -1167,7 +1167,7 @@ SET ROWCOUNT 0
 SELECT BlogId
 	, [<dbUser,varchar,dbo>].[subtext_Content].[Id]
 	, [<dbUser,varchar,dbo>].[subtext_Content].Title
-	, DateAdded
+	, DateCreated = DateAdded
 	, [Text]
 	, [Description]
 	, PostType
@@ -1395,7 +1395,7 @@ AS
 SELECT	c.BlogId
 	, c.[ID]
 	, c.Title
-	, c.DateAdded
+	, DateCreated = c.DateAdded
 	, c.[Text]
 	, c.[Description]
 	, c.PostType
@@ -1734,7 +1734,7 @@ SET ROWCOUNT @PageSize
 SELECT	content.BlogId 
 		, content.[ID] 
 		, content.Title 
-		, content.DateAdded 
+		, DateCreated = content.DateAdded 
 		, content.[Text] 
 		, content.[Description]
 		, content.PostType 
@@ -1819,7 +1819,7 @@ SET ROWCOUNT @PageSize
 SELECT	content.BlogId 
 		, content.[ID] 
 		, content.Title 
-		, content.DateAdded 
+		, DateCreated = content.DateAdded 
 		, content.[Text] 
 		, content.[Description]
 		, content.PostType 
@@ -2330,7 +2330,7 @@ SET ROWCOUNT @ItemCount
 SELECT	content.BlogId
 	, content.[ID]
 	, content.Title
-	, content.DateAdded
+	, DateCreated = content.DateAdded
 	, content.[Text]
 	, content.[Description]
 	, content.PostType
@@ -2383,7 +2383,7 @@ AS
 SELECT	BlogId
 		, [ID]
 		, Title
-		, DateAdded
+		, DateCreated = DateAdded
 		, [Text]
 		, [Description]
 		, PostType
@@ -2430,7 +2430,7 @@ AS
 SELECT	BlogId
 	, [<dbUser,varchar,dbo>].[subtext_Content].[ID]
 	, [<dbUser,varchar,dbo>].[subtext_Content].Title
-	, DateAdded
+	, DateCreated = DateAdded
 	, [Text]
 	, [Description]
 	, PostType
@@ -2546,7 +2546,7 @@ AS
 SELECT	BlogId
 	, [<dbUser,varchar,dbo>].[subtext_Content].[ID]
 	, [<dbUser,varchar,dbo>].[subtext_Content].Title
-	, DateAdded
+	, DateCreated = DateAdded
 	, [Text]
 	, [Description]
 	, PostType
@@ -2603,7 +2603,7 @@ AS
 SELECT	BlogId
 	, [<dbUser,varchar,dbo>].[subtext_Content].[ID]
 	, [<dbUser,varchar,dbo>].[subtext_Content].Title
-	, DateAdded
+	, DateCreated = DateAdded
 	, [Text]
 	, [Description]
 	, PostType
@@ -3947,7 +3947,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertEntry]
 	, @Email nvarchar(50) = NULL
 	, @Description nvarchar(500) = NULL
 	, @BlogId int
-	, @DateAdded datetime
+	, @DateCreated datetime
 	, @PostConfig int
 	, @EntryName nvarchar(150) = NULL
 	, @DateSyndicated DateTime = NULL
@@ -3994,8 +3994,8 @@ VALUES
 	, @PostType
 	, @Author
 	, @Email
-	, @DateAdded
-	, @DateAdded
+	, @DateCreated
+	, @DateCreated
 	, @Description
 	, @PostConfig
 	, 0 -- Feedback Count
@@ -4005,7 +4005,7 @@ VALUES
 )
 SELECT @ID = SCOPE_IDENTITY()
 
-EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @BlogId, @DateAdded
+EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @BlogId, @DateCreated
 EXEC [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats] @BlogId, @CurrentDateTime
 
 
@@ -4160,7 +4160,7 @@ SELECT
 	, [EntryName] = IsNull(content.EntryName, content.[ID])
 	, content.[ID]
 	, content.Title
-	, content.DateAdded
+	, DateCreated = content.DateAdded
 	, content.PostType
 	, content.Author
 	, content.Email
@@ -4417,7 +4417,7 @@ Set @SearchStr = '%' + @SearchStr + '%'
 
 Select [ID]
 	, Title
-	, DateAdded
+	, DateCreated = DateAdded
 	, EntryName
 	, PostType
 From [<dbUser,varchar,dbo>].[subtext_Content]
@@ -4467,7 +4467,7 @@ SELECT * FROM
 	SELECT Top 1 BlogId
 		, [ID]
 		, Title
-		, DateAdded
+		, DateCreated = DateAdded
 		, PostType
 		, PostConfig
 		, EntryName 
@@ -4488,7 +4488,7 @@ SELECT * FROM
 	SELECT Top 1 BlogId
 		, [ID]
 		, Title
-		, DateAdded
+		, DateCreated = DateAdded
 		, PostType
 		, PostConfig
 		, EntryName 
@@ -4528,10 +4528,11 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetRelatedEntries]
 	@RowCount int
 AS  
 SET ROWCOUNT @RowCount
-SELECT DISTINCT c.ID as EntryID
+SELECT DISTINCT c.ID
 	, c.Title
+	, c.EntryName
 	, ViewCount = 0 /* not needed here */
-	, c.DateAdded   
+	, DateCreated = c.DateAdded
 FROM [<dbUser,varchar,dbo>].subtext_LinkCategories lc
 	INNER JOIN [<dbUser,varchar,dbo>].subtext_Links l ON l.CategoryID = lc.CategoryID
 	INNER JOIN [<dbUser,varchar,dbo>].subtext_Content c ON l.PostID = c.ID  
@@ -4564,10 +4565,11 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetTopEntries]
 AS
 SET ROWCOUNT @RowCount
 SELECT DISTINCT
-	evc.EntryId
+	Id = evc.EntryId
+	, c.EntryName
 	, ViewCount = (evc.WebCount + evc.AggCount)
 	, c.Title
-	, c.DateAdded  
+	, DateCreated = c.DateAdded
 FROM [<dbUser,varchar,dbo>].subtext_EntryViewCount evc
 	INNER JOIN [<dbUser,varchar,dbo>].subtext_Content c  
 		ON evc.EntryId = c.Id
@@ -4633,7 +4635,7 @@ SET ROWCOUNT 0
 SELECT	content.BlogId 
 		, idTable.[ID] 
 		, content.Title 
-		, content.DateAdded 
+		, DateCreated = content.DateAdded 
 		, content.[Text] 
 		, content.[Description]
 		, content.PostType 
@@ -4856,7 +4858,7 @@ SET ROWCOUNT @ItemCount
 SELECT	content.BlogId
 	, content.[ID]
 	, content.Title
-	, content.DateAdded
+	, DateCreated = content.DateAdded
 	, content.[Text]
 	, content.[Description]
 	, content.PostType

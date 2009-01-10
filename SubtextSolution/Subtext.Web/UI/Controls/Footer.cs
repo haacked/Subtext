@@ -39,7 +39,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
             if (FooterText != null)
             {
-                FooterText.Text = CurrentBlog.Author;
+                FooterText.Text = Blog.Author;
             }
 		    
 		    if(currentYear != null)

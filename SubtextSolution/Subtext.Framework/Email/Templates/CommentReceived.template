@@ -1,0 +1,10 @@
+﻿{spamflag}Comment from {blog.Title}
+----------------------------------------------------
+From:   {comment.author} <{comment.email}>
+Url:    {comment.authorUrl}
+IP:     {comment.ip}
+====================================================
+
+{comment.body}
+
+Source: {comment.source}

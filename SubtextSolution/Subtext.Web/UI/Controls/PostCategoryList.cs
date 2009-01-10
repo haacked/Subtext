@@ -72,7 +72,7 @@ namespace Subtext.Web.UI.Controls
 				if(linkcat != null)
 				{
 					HyperLink Link = (HyperLink)e.Item.FindControl("Link");
-                    Link.NavigateUrl = CurrentBlog.UrlFormats.PostCategoryUrl(linkcat.Title, linkcat.Id);
+                    Link.NavigateUrl = Blog.UrlFormats.PostCategoryUrl(linkcat.Title, linkcat.Id);
 					if(Link.Attributes["title"] == null || Link.Attributes["title"].Length == 0)
 					{
 						Link.Attributes["title"] = "";

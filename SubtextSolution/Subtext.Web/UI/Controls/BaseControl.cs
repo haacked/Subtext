@@ -99,15 +99,6 @@ namespace Subtext.Web.UI.Controls
 			return HttpUtility.UrlEncode(s.ToString());
 		}
 
-		private Blog _config;
-		protected Blog CurrentBlog
-		{
-			get
-			{
-				return _config;
-			}
-		}
-
         /// <summary>
         /// Url decodes the string.
         /// </summary>
@@ -127,22 +118,14 @@ namespace Subtext.Web.UI.Controls
 		{
 			get
 			{
-				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}:{1}",this.GetType(),CurrentBlog.Id);
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}:{1}", this.GetType(), Blog.Id);
 			}
 		}
 
-		protected override void OnInit(EventArgs e)
-		{
-			_config = Config.CurrentBlog;
-			base.OnInit (e);
-		}
-
-		private string skinFilePath;
 		public string SkinFilePath
 		{
-			get
-			{return skinFilePath;}
-			set{skinFilePath = value;}
+			get;
+			set;
 		}
 		
 		protected static void BindCurrentEntryControls(Entry entry, Control root)

@@ -225,7 +225,7 @@ namespace UnitTests.Subtext.Framework
 			blog.Host = "http://subtextproject.com";
 			blog.Subfolder = "blog";
 
-			Assert.AreEqual(-1988688221, blog.GetHashCode());
+            Assert.AreEqual(158795427, blog.GetHashCode());
 		}
 
 		[Test]
@@ -260,31 +260,6 @@ namespace UnitTests.Subtext.Framework
 			
 			Assert.AreEqual("http://" + Config.CurrentBlog.Host + expected, Config.CurrentBlog.HostFullyQualifiedUrl.ToString(), "Did not set the HostFullyQualifiedUrl correctly.");
 		}
-
-	    /// <summary>
-	    /// Test makes sure that the port number is included in fully qualified 
-	    /// urls.
-	    /// </summary>
-	    /// <param name="subfolder"></param>
-	    /// <param name="virtualDir"></param>
-	    /// <param name="port"></param>
-	    /// <param name="expected"></param>
-        [RowTest]
-        [Row("", "", 8080, ":8080/archive/1975/01/23/987123.aspx")]
-        [Row("", "", 80, "/archive/1975/01/23/987123.aspx")]
-        [Row("", "Subtext.Web", 8080, ":8080/Subtext.Web/archive/1975/01/23/987123.aspx")]
-        [Row("blog", "Subtext.Web", 8080, ":8080/Subtext.Web/blog/archive/1975/01/23/987123.aspx")]
-        [Row("blog", "", 8080, ":8080/blog/archive/1975/01/23/987123.aspx")]
-        [RollBack2]
-        public void FullyQualifiedUrlPropertySetCorrectly(string subfolder, string virtualDir, int port, string expected)
-        {
-			UnitTestHelper.SetupBlog(subfolder, virtualDir, port);
-            
-            Entry entry = new Entry(PostType.BlogPost);
-            entry.DateCreated = entry.DateSyndicated = DateTime.ParseExact("1/23/1975", "M/d/yyyy", CultureInfo.InvariantCulture);
-            entry.Id = 987123;
-            Assert.AreEqual("http://" + Config.CurrentBlog.Host + expected, Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(entry), "Did not set the entry url correctly.");
-        }
 	    
 		[RowTest]
 		[Row("", "", "/")]

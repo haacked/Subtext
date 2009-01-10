@@ -29,6 +29,8 @@ using Subtext.Framework.Security;
 using Subtext.Framework.Text;
 using Subtext.Framework.Threading;
 using Subtext.Framework.Web;
+using Subtext.Framework.Routing;
+using Subtext.Framework.Email;
 
 namespace Subtext.Framework.Components
 {
@@ -110,8 +112,7 @@ namespace Subtext.Framework.Components
 		/// <returns></returns>
 		public static int Create(FeedbackItem feedback, CommentFilter filter)
 		{
-			if (HttpContext.Current != null && HttpContext.Current.Request != null)
-			{
+			if (HttpContext.Current != null && HttpContext.Current.Request != null) {
 				feedback.UserAgent = HttpContext.Current.Request.UserAgent;
 				feedback.IpAddress = HttpHelper.GetUserIpAddress(HttpContext.Current);
 			}
@@ -123,33 +124,24 @@ namespace Subtext.Framework.Components
 		    
 		    // If we are creating this feedback item as part of an import, we want to 
 		    // be sure to use the item's datetime, and not set it to the current time.
-            if (NullValue.NullDateTime.Equals(feedback.DateCreated))
-            {
+            if (NullValue.NullDateTime.Equals(feedback.DateCreated)) {
                 feedback.DateCreated = Config.CurrentBlog.TimeZone.Now;
                 feedback.DateModified = feedback.DateCreated;
             }
-            else if (NullValue.NullDateTime.Equals(feedback.DateModified))
-            {
+            else if (NullValue.NullDateTime.Equals(feedback.DateModified)) {
                 feedback.DateModified = feedback.DateCreated;
             }
 
-			
-			if(filter != null)
-				filter.FilterBeforePersist(feedback);
+            if (filter != null) {
+                filter.FilterBeforePersist(feedback);
+            }
 			
 			feedback.Id = ObjectProvider.Instance().Create(feedback);
-			
-			if(filter != null)
-				filter.FilterAfterPersist(feedback);
 
-			// if it's not the administrator commenting and it's not a trackback.
-			if (!SecurityHelper.IsAdmin && !String.IsNullOrEmpty(Config.CurrentBlog.Email) && feedback.FeedbackType != Extensibility.FeedbackType.PingTrack)
-			{
-				//In order to make this async, we need to pass the HttpContext.Current 
-				//several layers deep. Instead, we should create our own context.
-				EmailCommentToAdmin(feedback, Config.CurrentBlog);
-			}
-			
+            if (filter != null) {
+                filter.FilterAfterPersist(feedback);
+            }
+
 			return feedback.Id;
 		}
 
@@ -172,66 +164,11 @@ namespace Subtext.Framework.Components
 		{
 			if (feedbackItem == null)
 				throw new ArgumentNullException("feedbackItem", "Cannot update a null feedback");
-
+    
 			feedbackItem.DateModified = Config.CurrentBlog.TimeZone.Now;
 			return ObjectProvider.Instance().Update(feedbackItem);
 		}
 
-		private static void EmailCommentToAdmin(FeedbackItem comment, Blog currentBlog)
-		{
-			string blogTitle = currentBlog.Title;
-
-			// create and format an email to the site admin with comment details
-			EmailProvider im = EmailProvider.Instance();
-
-			string fromEmail = comment.Email;
-			if (String.IsNullOrEmpty(fromEmail))
-				fromEmail = null;
-
-			string to = currentBlog.Email;
-			string from = fromEmail ?? im.AdminEmail;
-			
-            string subject = String.Format(CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
-            if (comment.FlaggedAsSpam)
-                subject = "[SPAM Flagged] " + subject;
-
-            string commenterUrl = "none given";
-			if(comment.SourceUrl != null)
-				commenterUrl = comment.SourceUrl.ToString();
-			
-			string bodyFormat = "{7}Comment from {0}" + Environment.NewLine
-								+ "----------------------------------------------------" + Environment.NewLine
-								+ "From:\t{1} <{2}>" + Environment.NewLine
-								+ "Url:\t{3}" + Environment.NewLine
-								+ "IP:\t{4}" + Environment.NewLine
-								+ "====================================================" + Environment.NewLine + Environment.NewLine
-								+ "{5}" + Environment.NewLine + Environment.NewLine
-								+ "Source: {6}";
-
-			string body = string.Format(CultureInfo.InvariantCulture, bodyFormat,
-										blogTitle,
-										comment.Author,
-										fromEmail ?? "no email given",
-										commenterUrl,
-										comment.IpAddress,
-				// we're sending plain text email by default, but body includes <br />s for crlf
-										comment.Body.Replace("<br />", Environment.NewLine).Replace("&lt;br /&gt;", Environment.NewLine),
-										currentBlog.UrlFormats.FeedbackFullyQualifiedUrl(comment.EntryId, comment.parentEntryName, comment.ParentDateCreated, comment),
-                                        comment.FlaggedAsSpam ? "Spam Flagged " : string.Empty);
-
-			try
-			{
-				SendEmailDelegate sendEmail = im.Send;
-				AsyncHelper.FireAndForget(sendEmail, to, from, subject, body);
-			}
-			catch(Exception e)
-			{
-				log.Warn("Could not email comment to admin", e);
-			}
-		}
-
-		delegate bool SendEmailDelegate(string to, string from, string subject, string body);
-	
 		/// <summary>
 		/// Approves the comment, and removes it from the SPAM folder or from the 
 		/// Trash folder.

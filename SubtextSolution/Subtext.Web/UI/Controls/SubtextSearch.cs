@@ -94,11 +94,11 @@ namespace Subtext.Web.UI.Controls
 			{
 				//fix for the blogs where only one installed
 				int blogId = 0;
-                if (CurrentBlog.Id > 0) {
-                    blogId = CurrentBlog.Id;
+                if (Blog.Id > 0) {
+                    blogId = Blog.Id;
                 }
 
-                var searchEngine = new SearchEngine(CurrentBlog, Url, Config.ConnectionString);
+                var searchEngine = new SearchEngine(Blog, Url, Config.ConnectionString);
                 ICollection<SearchResult> searchResults = searchEngine.Search(blogId, txtSearch.Text);
 
 				SearchResults.DataSource = searchResults;

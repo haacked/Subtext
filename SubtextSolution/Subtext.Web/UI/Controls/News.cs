@@ -1,5 +1,3 @@
-using System;
-
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
@@ -15,6 +13,8 @@ using System;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
+
 namespace Subtext.Web.UI.Controls
 {
 	/// <summary>
@@ -29,12 +29,10 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			if(Context != null)
 			{
-				if(CurrentBlog.HasNews)
-				{
-					NewsItem.Text = CurrentBlog.News;
+				if(Blog.HasNews) {
+					NewsItem.Text = Blog.News;
 				}
-				else
-				{
+				else {
 					//this.Controls.Clear();
 					this.Visible = false;
 				}

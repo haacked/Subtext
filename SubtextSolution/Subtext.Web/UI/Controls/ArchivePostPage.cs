@@ -27,11 +27,11 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
             List<LinkCategory> lcc = new List<LinkCategory>();
             lcc.AddRange(Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None));
-			lcc.Add(UIData.Links(CategoryType.PostCollection, CurrentBlog.UrlFormats));
+			lcc.Add(UIData.Links(CategoryType.PostCollection, Blog.UrlFormats));
 			CatList.DataSource = lcc;
 			CatList.DataBind();
 
-			LinkCategory monthCat = UIData.ArchiveMonth(CurrentBlog.UrlFormats);
+			LinkCategory monthCat = UIData.ArchiveMonth(Blog.UrlFormats);
 			DateItemList.DataSource = monthCat.Links;
 			DateItemList.DataBind();
 		}

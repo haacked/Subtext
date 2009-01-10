@@ -7,10 +7,11 @@ using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Email;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Security;
 using Subtext.Framework.Web;
 using Subtext.Web.Controls.Captcha;
-using Subtext.Framework.Security;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -115,16 +116,16 @@ namespace Subtext.Web.UI.Controls
 					sendersIpAddress,
 					tbMessage.Text);				
 
-				if(email.Send(toEmail, fromEmail, subject, body))
-				{
+				try
+                {
+                    email.Send(toEmail, fromEmail, subject, body);
 					lblMessage.Text = "Your message was sent.";
-					tbName.Text = "";
-					tbEmail.Text = "";
-					tbSubject.Text = "";
-					tbMessage.Text = "";
-				}
-				else
-				{
+					tbName.Text = string.Empty;
+					tbEmail.Text = string.Empty;
+					tbSubject.Text = string.Empty;
+					tbMessage.Text = string.Empty;
+                }
+                catch(Exception) {
 					lblMessage.Text = "Your message could not be sent, most likely due to a problem with the mail server.";
 				}
 			}
@@ -143,6 +144,8 @@ namespace Subtext.Web.UI.Controls
 			try
 			{
 				FeedbackItem.Create(contactMessage, new CommentFilter(HttpContext.Current.Cache));
+                var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
+                emailService.EmailCommentToBlogAuthor(contactMessage);
 				lblMessage.Text = "Your message was sent.";
 			}
 			catch (BaseCommentException exc)

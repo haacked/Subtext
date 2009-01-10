@@ -40,7 +40,7 @@ namespace Subtext.Web.UI.Controls
 				DateTime dt = WebPathStripper.GetDateFromRequest(Request.Path,"archive");
 				Days.EntryListItems = Cacher.GetMonth(dt, CacheDuration.Short);
 				Days.EntryListTitle = string.Format(CultureInfo.InvariantCulture, "{0} Entries", dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture));
-				Globals.SetTitle(string.Format(CultureInfo.InvariantCulture, "{0} - {1} Entries", CurrentBlog.Title, dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture)),Context);
+				Globals.SetTitle(string.Format(CultureInfo.InvariantCulture, "{0} - {1} Entries", Blog.Title, dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture)),Context);
 			}
 			catch(FormatException)
 			{

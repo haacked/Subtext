@@ -327,6 +327,12 @@
     <Compile Include="DateTimeHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Email\EmailService.cs" />
+    <Compile Include="Email\EmbeddedTemplateEngine.cs" />
+    <Compile Include="Email\IEmailService.cs" />
+    <Compile Include="Email\ITemplateEngine.cs" />
+    <Compile Include="Email\ITextTemplate.cs" />
+    <Compile Include="Email\NamedFormatTextTemplate.cs" />
     <Compile Include="Email\SystemMailProvider.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -446,6 +452,7 @@
     </Compile>
     <Compile Include="Providers\SearchEngine.cs" />
     <Compile Include="Providers\SearchResult.cs" />
+    <Compile Include="Resource\ResourceHelper.cs" />
     <Compile Include="Routing\DirectoryRoute.cs" />
     <Compile Include="Routing\DirectoryRouteHandler.cs" />
     <Compile Include="Routing\HttpRouteHandler.cs" />
@@ -523,13 +530,16 @@
     <Compile Include="Syndication\RssTagHandler.cs" />
     <Compile Include="Syndication\RssWriter.cs" />
     <Compile Include="Tags.cs" />
+    <Compile Include="Text\FormatExpression.cs" />
+    <Compile Include="Text\HaackFormatter.cs" />
     <Compile Include="Text\HtmlHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Text\ITextExpression.cs" />
+    <Compile Include="Text\LiteralFormat.cs" />
     <Compile Include="Text\StringHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Threading\AsyncHelper.cs" />
     <Compile Include="Threading\ManagedThreadPool.cs" />
     <Compile Include="Threading\Semaphore.cs" />
     <Compile Include="Threading\TimedLock.cs">
@@ -646,6 +656,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XmlRpc\SubtextXmlRpcService.cs" />
+    <EmbeddedResource Include="Email\Templates\CommentReceived.template" />
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
     <None Include="Data\CodeGen\StoredProcedures.tt">

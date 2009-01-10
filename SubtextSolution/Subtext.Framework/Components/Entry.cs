@@ -28,7 +28,7 @@ namespace Subtext.Framework.Components
 	/// Summary description for Entry.
 	/// </summary>
 	[Serializable]
-	public class Entry : IIdentifiable
+    public class Entry : IEntryIdentity
 	{
 		/// <summary>
 		/// Creates a new <see cref="Entry"/> instance.
@@ -411,6 +411,6 @@ namespace Subtext.Framework.Components
 	        get;
 	        set;
 	    }
-	}
+    }
 }
 

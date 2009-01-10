@@ -15,15 +15,14 @@ namespace Subtext.Web.UI.Controls
 		private void Page_Load(object sender, EventArgs e)
 		{
 			ArrayList myRelLinks = new ArrayList();
-			int blogId = CurrentBlog.Id >= 1 ? CurrentBlog.Id : 0;
+			int blogId = Blog.Id >= 1 ? Blog.Id : 0;
 
 			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, SubtextContext);
             var relatedEntries = ObjectProvider.Instance().GetRelatedEntries(blogId, entry.Id, 10);
 
 			foreach(var relatedEntry in relatedEntries)
 			{
-				string myURL = CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(relatedEntry.DateAdded, relatedEntry.EntryId.ToString());
-
+				string myURL = Url.EntryUrl(relatedEntry);
 				myRelLinks.Add(new PositionItems(relatedEntry.Title, myURL));
 			}
 

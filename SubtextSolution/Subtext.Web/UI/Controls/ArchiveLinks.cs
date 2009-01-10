@@ -38,22 +38,22 @@ namespace Subtext.Web.UI.Controls
 		    LinkCategory lc;
 		    
             // we want to make sure that the LinkCategory is NOT null before we add it to the collection.
-            lc = UIData.Links(CategoryType.PostCollection, CurrentBlog.UrlFormats);
+            lc = UIData.Links(CategoryType.PostCollection, Blog.UrlFormats);
 		    if (lc != null)
 		    {
 		        lcc.Add(lc);
 		    }
-            lc = UIData.Links(CategoryType.StoryCollection, CurrentBlog.UrlFormats);
+            lc = UIData.Links(CategoryType.StoryCollection, Blog.UrlFormats);
 		    if (lc != null)
 		    {
 		        lcc.Add(lc);
 		    }
-			lc = UIData.ArchiveMonth(CurrentBlog.UrlFormats);
+			lc = UIData.ArchiveMonth(Blog.UrlFormats);
             if (lc != null)
             {
                 lcc.Add(lc);
             }
-			lc = UIData.Links(CategoryType.ImageCollection,CurrentBlog.UrlFormats);
+			lc = UIData.Links(CategoryType.ImageCollection, Blog.UrlFormats);
             if (lc != null)
             {
                 lcc.Add(lc);

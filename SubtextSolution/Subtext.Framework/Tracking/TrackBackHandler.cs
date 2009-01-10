@@ -44,6 +44,8 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
+using Subtext.Extensibility.Providers;
+using Subtext.Framework.Email;
 
 namespace Subtext.Framework.Tracking
 {
@@ -175,6 +177,9 @@ namespace Subtext.Framework.Tracking
 			Trackback trackback = new Trackback(entryId, title, url, blog_name, excerpt);
 
 			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
+            //TODO: Create this using IoC container
+            var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), subtextContext);
+            emailService.EmailCommentToBlogAuthor(trackback);
 		}
 
 		/// <summary>

@@ -127,6 +127,7 @@
     </Compile>
     <Compile Include="Collections\CollectionBook.cs" />
     <Compile Include="CoverageExcludeAttribute.cs" />
+    <Compile Include="Interfaces\IEntryIdentity.cs" />
     <Compile Include="Interfaces\IIdentifiable.cs" />
     <Compile Include="Interfaces\ICollectionBook.cs" />
     <Compile Include="Interfaces\IPagedCollection.cs" />

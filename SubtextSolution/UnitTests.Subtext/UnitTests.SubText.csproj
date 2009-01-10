@@ -334,6 +334,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Data\PagedCollectionRetrievalTests.cs" />
+    <Compile Include="Framework\Email\EmailServiceTests.cs" />
+    <Compile Include="Framework\Email\EmbeddedTemplateEngineTests.cs" />
     <Compile Include="Framework\Format\UrlFormatTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -389,12 +391,15 @@
     <Compile Include="Framework\Text\ConvertToAllowedHtmlTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Text\FormatExpressionTests.cs" />
     <Compile Include="Framework\Text\HtmlHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Text\LiteralFormatTests.cs" />
     <Compile Include="Framework\Text\RemoveHtmlTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Text\NamedFormatTests.cs" />
     <Compile Include="Framework\Text\StringHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
