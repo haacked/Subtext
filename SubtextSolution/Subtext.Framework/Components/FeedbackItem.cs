@@ -46,8 +46,7 @@ namespace Subtext.Framework.Components
         /// Ctor. Creates a new <see cref="FeedbackItem"/> instance.
         /// </summary>
         /// <param name="type">Ptype.</param>
-        public FeedbackItem(FeedbackType type)
-        {
+        public FeedbackItem(FeedbackType type) {
             Id = NullValue.NullInt32;
             EntryId = NullValue.NullInt32;
             FeedbackType = type;

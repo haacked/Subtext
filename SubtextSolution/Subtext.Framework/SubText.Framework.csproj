@@ -541,7 +541,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Threading\ManagedThreadPool.cs" />
-    <Compile Include="Threading\Semaphore.cs" />
+    <Compile Include="Threading\Semaphore.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Threading\TimedLock.cs">
       <SubType>Code</SubType>
     </Compile>

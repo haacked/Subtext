@@ -27,7 +27,7 @@ namespace Subtext.Web.UI.Controls
 	/// <summary>
 	///		Summary description for GalleryThumbNailViewer.
 	/// </summary>
-	public class ViewPicture : Subtext.Web.UI.Controls.BaseControl
+	public class ViewPicture : BaseControl
 	{
 		protected System.Web.UI.WebControls.Literal Title;
 		protected System.Web.UI.WebControls.Image GalleryImage;
@@ -56,7 +56,7 @@ namespace Subtext.Web.UI.Controls
 
 				OriginalImage.NavigateUrl = _baseImagePath + _image.OriginalFile;
 
-				ReturnUrl.NavigateUrl = Config.CurrentBlog.UrlFormats.GalleryUrl(null,_image.CategoryID);
+				ReturnUrl.NavigateUrl = Url.GalleryUrl(_image.CategoryID);
 			}
 		}
 

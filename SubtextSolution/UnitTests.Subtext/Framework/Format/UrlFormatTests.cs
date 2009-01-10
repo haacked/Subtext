@@ -92,7 +92,7 @@ namespace UnitTests.Subtext.Framework.Format
 		[Row("http://localhost/Subtext.Web/MyBlog/archive/2006/01.aspx", 20, "localhost/.../01.aspx")]
 		public void CheckUrlShortener(string source, int maxLength, string expected)
 		{
-			string actual = UrlFormats.ShortenUrl(source, maxLength);
+			string actual = UrlFormats.ShortenUrlForDisplay(source, maxLength);
 			Assert.AreEqual(expected,actual,"Shortened Url is not correct.");
 		}
 

@@ -810,7 +810,6 @@
     </Compile>
     <Compile Include="UI\Globals.cs" />
     <Compile Include="UI\Handlers\BlogSecondaryCssHandler.cs" />
-    <Compile Include="UI\Handlers\RedirectHandler.cs" />
     <Compile Include="UI\Pages\SubTextMasterPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

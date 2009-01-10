@@ -120,7 +120,6 @@ namespace Subtext.Web
 
             routes.Add(new Route("images/IdenticonHandler.ashx", new HttpRouteHandler<IdenticonHandler>()));
             routes.Add(new Route("images/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>()));
-            routes.MapHttpHandler<RedirectHandler>("{stories}/{*pathinfo}", new { stories = @"posts|story|archive" });
         }
 
         //This call is to kickstart log4net.

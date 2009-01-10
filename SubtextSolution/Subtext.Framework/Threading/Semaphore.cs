@@ -6,15 +6,11 @@ namespace Subtext.Framework.Threading
     /// <summary>Implementation of Dijkstra's PV Semaphore based on the Monitor class.</summary>
     public class Semaphore
     {
-        #region Member Variables
         /// <summary>The number of units alloted by this semaphore.</summary>
         private int _count;
-        #endregion
 
-        #region Construction
         /// <summary> Initialize the semaphore as a binary semaphore.</summary>
-        public Semaphore()
-            : this(1)
+        public Semaphore() : this(1)
         {
         }
 
@@ -26,9 +22,7 @@ namespace Subtext.Framework.Threading
             if (count < 0) throw new ArgumentException("Semaphore must have a count of at least 0.", "count");
             _count = count;
         }
-        #endregion
 
-        #region Synchronization Operations
         /// <summary>V the semaphore (add 1 unit to it).</summary>
         public void AddOne() { V(); }
 
@@ -69,8 +63,9 @@ namespace Subtext.Framework.Threading
         /// <summary>Resets the semaphore to the specified count.  Should be used cautiously.</summary>
         public void Reset(int count)
         {
-            using (TimedLock.Lock(this)) { _count = count; }
+            using (TimedLock.Lock(this)) { 
+                _count = count; 
+            }
         }
-        #endregion
     }
 }

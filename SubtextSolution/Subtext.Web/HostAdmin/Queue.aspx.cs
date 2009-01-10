@@ -15,6 +15,7 @@
 
 using System;
 using System.Globalization;
+using Subtext.Framework.Threading;
 
 namespace Subtext.Web.HostAdmin
 {
@@ -25,8 +26,8 @@ namespace Subtext.Web.HostAdmin
 	{	
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			this.ltlActiveThreads.Text = Subtext.Framework.Threading.ManagedThreadPool.ActiveThreads.ToString(CultureInfo.InvariantCulture);
-            this.ltlWaitingCallbacks.Text = Subtext.Framework.Threading.ManagedThreadPool.WaitingCallbacks.ToString(CultureInfo.InvariantCulture);
+			this.ltlActiveThreads.Text = ManagedThreadPool.ActiveThreads.ToString(CultureInfo.InvariantCulture);
+            this.ltlWaitingCallbacks.Text = ManagedThreadPool.WaitingCallbacks.ToString(CultureInfo.InvariantCulture);
 		}
 
 		#region Web Form Designer generated code

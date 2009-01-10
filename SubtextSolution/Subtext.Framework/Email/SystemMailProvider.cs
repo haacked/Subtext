@@ -42,7 +42,7 @@ namespace Subtext.Framework.Email
 		/// <returns></returns>
 		public override void Send(string to, string from, string subject, string message)
 		{
-            ThreadPool.QueueUserWorkItem(callback => SendAsync(to, from, subject, message));
+            ManagedThreadPool.QueueUserWorkItem(callback => SendAsync(to, from, subject, message));
 		}
 
         private void SendAsync(string toStr, string fromStr, string subject, string message) {

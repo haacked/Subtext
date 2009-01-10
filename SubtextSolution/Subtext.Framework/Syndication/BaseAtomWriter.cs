@@ -226,7 +226,7 @@ namespace Subtext.Framework.Syndication
 					string.Format
 					("{0}{1}", //tag def
 						entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
-						(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugUrl(entry.Id)) : null //use aggbugs
+						(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(UrlHelper.AggBugUrl(entry.Id)) : null //use aggbugs
 					)
 				);		
 				this.WriteEndElement();
@@ -240,9 +240,9 @@ namespace Subtext.Framework.Syndication
 				//optional comment count
 				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
 				//optional commentRss feed location
-				this.WriteElementString("wfw:commentRss", urlFormats.CommentRssUrl(entry.Id));
+				this.WriteElementString("wfw:commentRss", UrlHelper.CommentRssUrl(entry.Id));
 				//optional trackback location
-				this.WriteElementString("trackback:ping", urlFormats.TrackBackUrl(entry.Id));
+				this.WriteElementString("trackback:ping", UrlHelper.TrackbacksUrl(entry.Id));
 				//core 
 			}
 		}

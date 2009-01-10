@@ -32,7 +32,7 @@ namespace Subtext.Framework.Syndication.Admin
 
 		protected override string GetTitleFromItem(Referrer item)
 		{
-			return item.PostTitle + " - " + UrlFormats.ShortenUrl(item.ReferrerURL,20) ;
+			return item.PostTitle + " - " + UrlFormats.ShortenUrlForDisplay(item.ReferrerURL,20) ;
 		}
 
 		protected override string GetLinkFromItem(Referrer item)
