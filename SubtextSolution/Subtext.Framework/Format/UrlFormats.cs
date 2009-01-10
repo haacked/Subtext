@@ -93,64 +93,14 @@ namespace Subtext.Framework.Format
 			return GetUrl("category/{0}.aspx", categoryID);
 		}
 		
-		public virtual string ArticleCategoryUrl(string categoryName, int categoryID)
-		{
-			return GetUrl("category/{0}.aspx", categoryID);
-		}
-
 		public virtual string ImageUrl(string category, int ImageID)
 		{
 			return GetUrl("gallery/image/{0}.aspx",ImageID);
 		}
 
-		public virtual string YearUrl(DateTime dt)
-		{
-			return GetUrl("archive/{0:yyyy}.aspx", dt);
-		}
-
 		public virtual string DayUrl(DateTime dt)
 		{
 			return GetUrl("archive/{0:yyyy/MM/dd}.aspx", dt);
-		}
-
-		public virtual string GalleryUrl(string category, int GalleryID)
-		{
-			return GetUrl("gallery/{0}.aspx",GalleryID);
-		}
-
-		public virtual string ArticleUrl(Entry entry)
-		{
-			if(entry.HasEntryName)
-			{
-				return GetUrl("articles/{0}.aspx",entry.EntryName);
-			}
-
-			return GetUrl("articles/{0}.aspx",entry.Id);
-		}
-
-		public virtual string MonthUrl(DateTime dt)
-		{
-			return GetUrl("archive/{0:yyyy/MM}.aspx", dt);
-		}
-
-		public virtual string CommentRssUrl(int entryId)
-		{
-			return GetFullyQualifiedUrl("comments/commentRss/{0}.aspx", entryId);
-		}
-
-		public virtual string CommentApiUrl(int entryId)
-		{
-			return GetFullyQualifiedUrl("comments/{0}.aspx", entryId);
-		}
-
-		public virtual string TrackBackUrl(int entryId)
-		{
-			return GetFullyQualifiedUrl("services/trackbacks/{0}.aspx", entryId);
-		}
- 
-		public virtual string AggBugUrl(int EntryID)
-		{
-			return GetFullyQualifiedUrl("aggbug/{0}.aspx", EntryID);
 		}
 
 		public virtual string AdminUrl(string Page)
@@ -501,30 +451,28 @@ namespace Subtext.Framework.Format
 			if (string.IsNullOrEmpty(body))
 				return body;
 
-			foreach (Match match in regex.Matches(body))
-			{
-				if (!match.Value.Contains("://"))
-				{
-					body = body.Replace(match.Value, string.Format(link, "http://", match.Value, ShortenUrl(match.Value, 50)));
+			foreach (Match match in regex.Matches(body)) {
+				if (!match.Value.Contains("://")) {
+					body = body.Replace(match.Value, string.Format(link, "http://", match.Value, ShortenUrlForDisplay(match.Value, 50)));
 				}
-				else
-				{
-					body = body.Replace(match.Value, string.Format(link, string.Empty, match.Value, ShortenUrl(match.Value, 50)));
+				else {
+					body = body.Replace(match.Value, string.Format(link, string.Empty, match.Value, ShortenUrlForDisplay(match.Value, 50)));
 				}
 			}
 
 			return body;
 		}
 
-		public static string ShortenUrl(string url, int max)
+		public static string ShortenUrlForDisplay(string url, int max)
 		{
 			if (url.Length <= max)
 				return url;
 
 			// Remove the protocal
 			int startIndex = url.IndexOf("://");
-			if (startIndex > -1)
-				url = url.Substring(startIndex + 3);
+            if (startIndex > -1) {
+                url = url.Substring(startIndex + 3);
+            }
 
 			if (url.Length <= max)
 				return url;
@@ -532,11 +480,13 @@ namespace Subtext.Framework.Format
 			// Remove the folder structure
 			int firstIndex = url.IndexOf("/") + 1;
 			int lastIndex = url.LastIndexOf("/");
-			if (firstIndex < lastIndex)
-				url = url.Replace(url.Substring(firstIndex, lastIndex - firstIndex), "...");
+            if (firstIndex < lastIndex) {
+                url = url.Replace(url.Substring(firstIndex, lastIndex - firstIndex), "...");
+            }
 
-			if (url.Length <= max)
-				return url;
+            if (url.Length <= max) {
+                return url;
+            }
 
 			// Remove URL parameters
 			int queryIndex = url.IndexOf("?");

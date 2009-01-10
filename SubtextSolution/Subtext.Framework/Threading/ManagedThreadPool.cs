@@ -17,8 +17,8 @@ using System;
 using System.Collections;
 using System.Globalization;
 using System.Threading;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Threading;
 
 #region Credits
 // Stephen Toub
@@ -49,13 +49,6 @@ namespace Subtext.Framework.Threading
 	{	
 		static Log Log = new Log();
 
-		#region Constants
-		/// <summary>Maximum number of threads the thread pool has at its disposal.</summary>
-		private static int _maxWorkerThreads = 5;
-
-		#endregion
-
-		#region Member Variables
 		/// <summary>Queue of all the callbacks waiting to be executed.</summary>
 		static Queue _waitingCallbacks;
 		/// <summary>
@@ -68,17 +61,12 @@ namespace Subtext.Framework.Threading
 		static ArrayList _workerThreads;
 		/// <summary>Number of threads currently active.</summary>
 		static int _inUseThreads;
-		#endregion
 
-		#region Construction
 		/// <summary>Initialize the thread pool.</summary>
 		static ManagedThreadPool()
 		{
-			try
-			{
-				_maxWorkerThreads = Subtext.Framework.Configuration.Config.Settings.QueuedThreads;
-			}
-			catch{}
+			MaxThreads = Config.Settings.QueuedThreads;
+			
 			// Create our thread stores; we handle synchronization ourself
 			// as we may run into situtations where multiple operations need to be atomic.
 			// We keep track of the threads we've created just for good measure; not actually
@@ -91,7 +79,7 @@ namespace Subtext.Framework.Threading
 			_workerThreadNeeded = new Semaphore(0);
 			
 			// Create all of the worker threads
-			for(int i=0; i<_maxWorkerThreads; i++)
+			for(int i = 0; i < MaxThreads; i++)
 			{
 				// Create a new thread and add it to the list of threads.
 				Thread newThread = new Thread(new ThreadStart(ProcessQueuedItems));
@@ -103,9 +91,7 @@ namespace Subtext.Framework.Threading
 				newThread.Start();
 			}
 		}
-		#endregion
 
-		#region Public Methods
 		/// <summary>Queues a user work item to the thread pool.</summary>
 		/// <param name="callback">
 		/// A WaitCallback representing the delegate to invoke when the thread in the 
@@ -159,18 +145,29 @@ namespace Subtext.Framework.Threading
 				_workerThreadNeeded.Reset(0);
 			}
 		}
-		#endregion
 
-		#region Properties
 		/// <summary>Gets the number of threads at the disposal of the thread pool.</summary>
-		public static int MaxThreads { get { return _maxWorkerThreads; } }
-		/// <summary>Gets the number of currently active threads in the thread pool.</summary>
-		public static int ActiveThreads { get { return _inUseThreads; } }
-		/// <summary>Gets the number of callback delegates currently waiting in the thread pool.</summary>
-		public static int WaitingCallbacks { get { using(TimedLock.Lock(_waitingCallbacks.SyncRoot)) { return _waitingCallbacks.Count; } } }
-		#endregion
+        public static int MaxThreads {
+            get;
+            private set;
+        }
+		
+        /// <summary>Gets the number of currently active threads in the thread pool.</summary>
+		public static int ActiveThreads { 
+            get { 
+                return _inUseThreads; 
+            } 
+        }
 
-		#region Thread Processing
+		/// <summary>Gets the number of callback delegates currently waiting in the thread pool.</summary>
+		public static int WaitingCallbacks { 
+            get { 
+                using(TimedLock.Lock(_waitingCallbacks.SyncRoot)) { 
+                    return _waitingCallbacks.Count; 
+                } 
+            } 
+        }
+
 		/// <summary>A thread worker function that processes items from the work queue.</summary>
 		private static void ProcessQueuedItems()
 		{
@@ -180,12 +177,10 @@ namespace Subtext.Framework.Threading
 				// Get the next item in the queue.  If there is nothing there, go to sleep
 				// for a while until we're woken up when a callback is waiting.
 				WaitingCallback callback = null;
-				while (callback == null)
-				{
+				while (callback == null) {
 					// Try to get the next callback available.  We need to lock on the 
 					// queue in order to make our count check and retrieval atomic.
-					using(TimedLock.Lock(_waitingCallbacks.SyncRoot))
-					{
+					using(TimedLock.Lock(_waitingCallbacks.SyncRoot)) {
 						if (_waitingCallbacks.Count > 0)
 						{
 							try { callback = (WaitingCallback)_waitingCallbacks.Dequeue(); } 
@@ -222,35 +217,30 @@ namespace Subtext.Framework.Threading
 				}
 			}
 		}
-		#endregion
 
 		/// <summary>Used to hold a callback delegate and the state for that delegate.</summary>
 		private class WaitingCallback
 		{
-			#region Member Variables
-			/// <summary>Callback delegate for the callback.</summary>
-			private WaitCallback _callback;
-			/// <summary>State with which to call the callback delegate.</summary>
-			private object _state;
-			#endregion
-
-			#region Construction
 			/// <summary>Initialize the callback holding object.</summary>
 			/// <param name="callback">Callback delegate for the callback.</param>
 			/// <param name="state">State with which to call the callback delegate.</param>
 			public WaitingCallback(WaitCallback callback, object state)
 			{
-				_callback = callback;
-				_state = state;
+				Callback = callback;
+				State = state;
 			}
-			#endregion
 
-			#region Properties
 			/// <summary>Gets the callback delegate for the callback.</summary>
-			public WaitCallback Callback { get { return _callback; } }
+            public WaitCallback Callback {
+                get;
+                private set;
+            }
 			/// <summary>Gets the state with which to call the callback delegate.</summary>
-			public object State { get { return _state; } }
-			#endregion
+            public object State
+            {
+                get;
+                private set;
+            }
 		}
 	}
 }

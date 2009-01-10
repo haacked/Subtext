@@ -82,7 +82,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeData = routes.GetRouteData(httpContext.Object);
 
             //assert.
-            Assert.IsNull(routeData.Route as PageRoute);
+            Assert.IsNull(routeData);
         }
 
         [Test]

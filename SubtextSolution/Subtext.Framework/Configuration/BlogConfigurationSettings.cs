@@ -29,7 +29,7 @@ namespace Subtext.Framework.Configuration
 	public class BlogConfigurationSettings 
 	{
         public BlogConfigurationSettings() {
-            QueuedThreads = 2;
+            QueuedThreads = 5;
             ItemCount = 15;
             CategoryListPostCount = 10;
             ServerTimeZone = -2037797565; //PST
