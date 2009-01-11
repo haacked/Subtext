@@ -99,7 +99,7 @@ namespace Subtext.Web
                 , new { id = @"\d+"}
                 , new[] { "GalleryThumbNailViewer" });
 
-            routes.MapControls("gallery/image/{id}.aspx"
+            routes.MapControls("gallery-image", "gallery/image/{id}.aspx"
                 , new { id = @"\d+" }
                 , new[] { "ViewPicture" });
 

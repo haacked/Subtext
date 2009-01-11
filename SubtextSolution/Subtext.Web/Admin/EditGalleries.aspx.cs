@@ -162,7 +162,7 @@ namespace Subtext.Web.Admin.Pages
 			Image image = potentialImage as Image;
 			if (image != null)
 			{
-				return Config.CurrentBlog.UrlFormats.ImageUrl(null, image.ImageID);
+				return Url.ImageUrl(image);
 			}
 			else
 				return String.Empty;

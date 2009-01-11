@@ -149,7 +149,7 @@ namespace Subtext.Web.Admin.Pages
 			if (imageObject is Image)
 			{
 				Image image = (Image)imageObject;
-				return Config.CurrentBlog.UrlFormats.ImageUrl(null,image.ImageID);
+				return Url.ImageUrl(image);
 			}
 			else
 				return String.Empty;

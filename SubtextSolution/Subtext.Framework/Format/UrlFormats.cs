@@ -86,11 +86,6 @@ namespace Subtext.Framework.Format
 				return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}Atom.aspx", _rootUrl));
 			}
 		}
-				
-		public virtual string ImageUrl(string category, int ImageID)
-		{
-			return GetUrl("gallery/image/{0}.aspx",ImageID);
-		}
 
 		public virtual string DayUrl(DateTime dt)
 		{
