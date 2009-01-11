@@ -35,62 +35,52 @@ namespace Subtext.Framework.Components
 		}
 
 		[XmlAttribute("LinkID")]
-		public int Id
-		{
+		public int Id {
 			get;
 			set;
 		}
 
-		public int PostID
-		{
+		public int PostID {
 			get;
 			set;
 		}
 
-		public int CategoryID
-		{
+		public int CategoryID {
 			get;
 			set;
 		}
 
-		public bool IsActive
-		{
+		public bool IsActive {
 			get;
 			set;
 		}
 
-		public bool NewWindow
-		{
+		public bool NewWindow {
 			get;
 			set;
 		}
 
-		public string Url
-		{
+		public string Url {
 			get;
 			set;
 		}
 
-		public string Rss
-		{
+		public string Rss {
 			get;
 			set;
 		}
 
-		public string Title
-		{
+		public string Title	{
 			get;
 			set;
 		}
 
-        public string Relation
-        {
+        public string Relation {
             get;
             set;
         }
 
-		public bool HasRss
-		{
+		public bool HasRss {
 			get{return (Rss != null && Rss.Trim().Length > 0); }
 		}
 	}

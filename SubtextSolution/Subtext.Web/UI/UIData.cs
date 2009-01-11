@@ -17,6 +17,7 @@ using System;
 using Subtext.Framework.Data;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.UI
 {
@@ -49,20 +50,9 @@ namespace Subtext.Web.UI
 		/// </summary>
 		/// <param name="formats">Determines how the links are formatted.</param>
 		/// <returns></returns>
-		public static LinkCategory ArchiveMonth(UrlFormats formats)
+		public static LinkCategory ArchiveMonth(UrlHelper urlHelper)
 		{
-			return Transformer.BuildMonthLinks(UIText.Archives, formats);
+            return Transformer.BuildMonthLinks(UIText.Archives, urlHelper);
 		}
-
-        /// <summary>
-        /// Builds a <see cref="LinkCategory"/> using the specified url formats. 
-        /// A LinkCategory is a common item to databind to a web control.
-        /// </summary>
-        /// <param name="formats">Determines how the links are formatted.</param>
-        /// <returns></returns>
-        public static LinkCategory ArchiveCategory(UrlFormats formats)
-        {
-            return Transformer.BuildCategoriesArchiveLinks(UIText.PostCollection, formats);
-        }
 	}
 }
