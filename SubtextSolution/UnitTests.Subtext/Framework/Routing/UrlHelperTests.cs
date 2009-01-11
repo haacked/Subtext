@@ -357,6 +357,23 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/subfolder/admin/Feedback.aspx?status=2", url.ToString());
         }
 
+        [Test]
+        public void DayUrl_WithDate_ReturnsUrlWithDateInIt()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            //Make sure date isn't midnight.
+            DateTime dateTime = DateTime.ParseExact("2009/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            dateTime.AddMinutes(231);
+
+            //act
+            string url = helper.DayUrl(dateTime);
+
+
+            //assert
+            Assert.AreEqual("/archive/2009/01/23.aspx", url.ToString());
+        }
+
         private static UrlHelper SetupUrlHelper(string appPath) {
             return SetupUrlHelper(appPath, new RouteData());
         }

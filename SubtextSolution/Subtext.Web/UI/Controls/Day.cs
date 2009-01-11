@@ -57,7 +57,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				DayList.ItemDataBound += DayList_ItemDataBound;
 
-				ImageLink.NavigateUrl = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.DayUrl(bpd.BlogDay);
+				ImageLink.NavigateUrl = Url.DayUrl(bpd.BlogDay);
 				ControlHelper.SetTitleIfNone(ImageLink, "Click to see entries for this day.");
 				DateTitle.Text = bpd.BlogDay.ToLongDateString();
 				DayList.DataSource = bpd;

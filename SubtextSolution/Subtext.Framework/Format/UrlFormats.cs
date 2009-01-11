@@ -87,25 +87,9 @@ namespace Subtext.Framework.Format
 			}
 		}
 
-		public virtual string DayUrl(DateTime dt)
-		{
-			return GetUrl("archive/{0:yyyy/MM/dd}.aspx", dt);
-		}
-
 		public virtual string AdminUrl(string Page)
 		{
 			return GetFullyQualifiedUrl("Admin/{0}", Page);
-		}
-
-		/// <summary>
-		/// Returns a fully qualified Url using the specified format string.
-		/// </summary>
-		/// <param name="formatString">The pattern.</param>
-		/// <param name="items">The items.</param>
-		/// <returns></returns>
-		protected virtual string GetUrl(string formatString, params object[] items)
-		{
-			return Config.CurrentBlog.VirtualUrl + string.Format(CultureInfo.InvariantCulture, formatString, items);
 		}
 
 		/// <summary>
@@ -131,9 +115,9 @@ namespace Subtext.Framework.Format
 			switch(date.Length)
 			{
 				case 8:
-					return DateTime.ParseExact(date,"MMddyyyy", en);
+					return DateTime.ParseExact(date, "MMddyyyy", en);
 				case 6:
-					return DateTime.ParseExact(date,"MMyyyy", en);
+					return DateTime.ParseExact(date, "MMyyyy", en);
 				default:
 					throw new Exception("Invalid Date Format");
 			}
@@ -156,12 +140,10 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public static int GetPostIDFromUrl(string uri)
 		{
-			try
-			{
+			try	{
 				return Int32.Parse(GetRequestedFileName(uri));
 			}
-			catch (FormatException)
-			{
+			catch (FormatException) {
 				throw new ArgumentException("Invalid Post ID.");
 			}			
 		}
@@ -234,8 +216,7 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public static Uri GetUriReferrerSafe(HttpRequest request)
 		{
-			try
-			{
+			try {
 				return request.UrlReferrer;
 			}
 			catch(UriFormatException)
@@ -269,8 +250,7 @@ namespace Subtext.Framework.Format
 
 		public static string GetFeedbackEditLink(FeedbackItem feedback)
 		{
-			if (feedback == null)
-			{
+			if (feedback == null) {
 				throw new ArgumentNullException("feedback");
 			}
 
