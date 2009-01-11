@@ -72,7 +72,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						
 						ThumbNailImage.ImageUrl = _baseImagePath + "t_" + _image.FileName;
-						ThumbNailImage.NavigateUrl = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.ImageUrl(null,_image.ImageID);
+						ThumbNailImage.NavigateUrl = Url.ImageUrl(_image);
 						ThumbNailImage.ToolTip = _image.Title;
 
 					}

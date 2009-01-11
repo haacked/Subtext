@@ -77,6 +77,10 @@ namespace Subtext.Framework.Routing
             return null;
         }
 
+        public virtual VirtualPath ImageUrl(Image image) {
+            return GetVirtualPath("gallery-image", new { id = image.ImageID });
+        }
+
         public virtual VirtualPath GalleryUrl(int id) {
             return GetVirtualPath("gallery", new { id = id });
         }
