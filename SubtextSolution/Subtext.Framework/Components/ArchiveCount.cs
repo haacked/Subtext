@@ -21,27 +21,23 @@ namespace Subtext.Framework.Components
 	/// DTO style class for representing a count of archived posts.
 	/// </summary>
 	[Serializable]
-	public class ArchiveCount
-	{
-        public String Title 
-        {
-            get; set;
+	public class ArchiveCount {
+        public String Title {
+            get;
+            set;
         }
         
-        public int Id 
-        {
+        public int Id {
             get;
             set;
         }
 
-        public DateTime Date
-        {
+        public DateTime Date {
             get;
             set;
         }
 
-		public int Count
-		{
+		public int Count {
 			get;
 			set;
 		}

@@ -92,10 +92,10 @@ namespace Subtext.Framework.Data
 		/// <param name="title">title for the Category</param>
 		/// <param name="formats">Determines how the Urls are formated</param>
 		/// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
-		public static LinkCategory BuildMonthLinks(string title, UrlFormats formats)
+		public static LinkCategory BuildMonthLinks(string title, UrlHelper urlHelper)
 		{
             ICollection<ArchiveCount> archiveCounts = ObjectProvider.Instance().GetPostCountsByMonth();
-            return MergeArchiveCountsIntoLinkCategory(title, archiveCounts, new UrlHelper(null, null), Config.CurrentBlog);
+            return MergeArchiveCountsIntoLinkCategory(title, archiveCounts, urlHelper, Config.CurrentBlog);
 		}
 
         public static LinkCategory MergeArchiveCountsIntoLinkCategory(string title, IEnumerable<ArchiveCount> archiveCounts, UrlHelper urlHelper, Blog blog)
@@ -123,7 +123,7 @@ namespace Subtext.Framework.Data
         /// <param name="title">title for the Category</param>
         /// <param name="formats">Determines how the Urls are formated</param>
         /// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
-        public static LinkCategory BuildCategoriesArchiveLinks(string title, UrlFormats formats)
+        public static LinkCategory BuildCategoriesArchiveLinks(string title, UrlHelper urlHelper)
         {
             ICollection<ArchiveCount> acc = Archives.GetPostCountByCategory();
 
@@ -134,7 +134,8 @@ namespace Subtext.Framework.Data
                 Link link = new Link();
                 link.NewWindow = false;
                 link.Title = ac.Title + " (" + ac.Count.ToString(CultureInfo.InvariantCulture) + ")";
-                link.Url = formats.PostCategoryUrl(ac.Title, ac.Id);
+                //Ugh, I hate how categories work in Subtext. So intertwined with links.
+                link.Url = urlHelper.CategoryUrl(new Category { Id = ac.Id, Title = ac.Title });
                 link.NewWindow = false;
                 link.IsActive = true;
 

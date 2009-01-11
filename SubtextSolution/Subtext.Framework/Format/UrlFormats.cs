@@ -80,19 +80,13 @@ namespace Subtext.Framework.Format
 		/// <value>The RSS URL.</value>
 		public Uri AtomUrl
 		{
-			get
-			{
+			get	{
 				if (Config.CurrentBlog.FeedBurnerEnabled)
 					return FeedBurnerUrl;
 				return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}Atom.aspx", _rootUrl));
 			}
 		}
-		
-		public virtual string PostCategoryUrl(string categoryName, int categoryID)
-		{
-			return GetUrl("category/{0}.aspx", categoryID);
-		}
-		
+				
 		public virtual string ImageUrl(string category, int ImageID)
 		{
 			return GetUrl("gallery/image/{0}.aspx",ImageID);

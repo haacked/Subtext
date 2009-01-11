@@ -117,11 +117,11 @@ namespace Subtext.Framework.Routing
             return GetVirtualPath("trackbacks", new { id = entryId });
         }
 
-        public virtual VirtualPath CategoryUrl(LinkCategory category) {
+        public virtual VirtualPath CategoryUrl(Category category) {
             return GetVirtualPath("category", new { slug = category.Id, categoryType = "category" });
         }
 
-        public virtual VirtualPath CategoryRssUrl(LinkCategory category)
+        public virtual VirtualPath CategoryRssUrl(Category category)
         {
             return GetVirtualPath("rss", new { catId = category.Id });
         }

@@ -48,7 +48,7 @@ namespace Subtext.Web.UI.Controls
 		    {
 		        lcc.Add(lc);
 		    }
-			lc = UIData.ArchiveMonth(Blog.UrlFormats);
+			lc = UIData.ArchiveMonth(Url);
             if (lc != null)
             {
                 lcc.Add(lc);

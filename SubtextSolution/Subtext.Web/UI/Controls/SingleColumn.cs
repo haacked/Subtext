@@ -53,7 +53,7 @@ namespace Subtext.Web.UI.Controls
 			if(storyCollection != null)
 				lcc.Add(storyCollection);
 
-			LinkCategory archiveMonth = UIData.ArchiveMonth(Blog.UrlFormats);
+			LinkCategory archiveMonth = UIData.ArchiveMonth(Url);
 			if (archiveMonth != null)
 				lcc.Add(archiveMonth);
 

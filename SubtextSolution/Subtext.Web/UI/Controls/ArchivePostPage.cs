@@ -31,7 +31,7 @@ namespace Subtext.Web.UI.Controls
 			CatList.DataSource = lcc;
 			CatList.DataBind();
 
-			LinkCategory monthCat = UIData.ArchiveMonth(Blog.UrlFormats);
+			LinkCategory monthCat = UIData.ArchiveMonth(Url);
 			DateItemList.DataSource = monthCat.Links;
 			DateItemList.DataBind();
 		}
@@ -54,7 +54,7 @@ namespace Subtext.Web.UI.Controls
 						HyperLink catlink = (HyperLink) e.Item.FindControl("CatLink");
 						if (catlink != null)
 						{							
-							catlink.NavigateUrl = Config.CurrentBlog.UrlFormats.PostCategoryUrl(linkcat.Description, linkcat.Id);
+							catlink.NavigateUrl = Url.CategoryUrl(linkcat);
 							catlink.Text = linkcat.Title;
 							ControlHelper.SetTitleIfNone(catlink, linkcat.CategoryType + " Category.");
 						}

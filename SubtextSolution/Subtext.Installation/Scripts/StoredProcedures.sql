@@ -2481,9 +2481,10 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonthArchive]
 	@CurrentDateTime datetime
 )
 AS
-SELECT Month(DateSyndicated) AS [Month]
-	, Year(DateSyndicated) AS [Year]
-	, 1 AS Day, Count(*) AS [Count] 
+SELECT [Month] = Month(DateSyndicated)
+	, [Year] = Year(DateSyndicated)
+	, [Day] = 1
+	, [Count] = Count(*) 
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE PostType = 1 
 	AND PostConfig & 1 = 1 
@@ -2515,7 +2516,11 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByYearArchive]
 	@CurrentDateTime datetime
 )
 AS
-SELECT 1 AS [Month], Year(DateSyndicated) AS [Year], 1 AS Day, Count(*) AS [Count] FROM [<dbUser,varchar,dbo>].[subtext_Content] 
+SELECT [Month] = 1
+	, [Year] = Year(DateSyndicated)
+	, [Day] = 1
+	, [Count] = Count(*)
+FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE PostType = 1 
 	AND PostConfig & 1 = 1 
 	AND DateSyndicated <= @CurrentDateTime

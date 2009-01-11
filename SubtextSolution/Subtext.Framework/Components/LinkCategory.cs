@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 
 namespace Subtext.Framework.Components
 {
@@ -23,7 +22,7 @@ namespace Subtext.Framework.Components
 	/// Summary description for LinkCategory.
 	/// </summary>
 	[Serializable]
-	public class LinkCategory
+	public class LinkCategory : Category
 	{
 		/// <summary>
 		/// Creates a new <see cref="LinkCategory"/> instance.
@@ -44,37 +43,11 @@ namespace Subtext.Framework.Components
 			this.Id = catID;
 		}
 
-		public int BlogId
-		{
-			get;
-			set;
-		}
-
-		private string _sorttext;
-		public string SortText
-		{
-			get
-			{
-				if(_sorttext == null)
-				{
-					_sorttext = Title;
-				}
-				return _sorttext;
-			}
-			set{_sorttext = value;}
-		}
-
-		public string Title
-		{
-			get;
-			set;
-		}
-
 		public bool HasDescription
 		{
 			get
 			{
-				return Description != null && Description.Trim().Length > 0;
+                return !String.IsNullOrEmpty(Description);
 			}
 		}
 
@@ -86,13 +59,6 @@ namespace Subtext.Framework.Components
 
 		
 		public CategoryType CategoryType
-		{
-			get;
-			set;
-		}
-
-		[XmlAttribute("CategoryID")]
-		public int Id
 		{
 			get;
 			set;
