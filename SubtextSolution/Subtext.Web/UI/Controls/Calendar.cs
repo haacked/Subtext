@@ -177,7 +177,7 @@ namespace Subtext.Web.UI.Controls
 	
 			if (IsSameDay(calDate,entryDate))
 			{
-				e.Cell.Text = string.Format("<a href=\"{0}\">{1}</a>", Blog.UrlFormats.DayUrl(e.Day.Date), e.Day.Date.Day);
+				e.Cell.Text = string.Format("<a href=\"{0}\">{1}</a>", Url.DayUrl(e.Day.Date), e.Day.Date.Day);
 		
 				// Go through the rest of the entries. (_monthEntries should always be sorted by DateCreated in descending order)
 				do

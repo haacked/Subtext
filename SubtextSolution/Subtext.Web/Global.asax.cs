@@ -76,7 +76,7 @@ namespace Subtext.Web
                 , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])" }
                 , new[] { "viewpost", "comments", "postcomment" });
 
-            routes.MapControls("archive/{year}/{month}/{day}.aspx"
+            routes.MapControls("entries-by-day", "archive/{year}/{month}/{day}.aspx"
                 , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])" }
                 , new[] { "ArchiveDay" });
 

@@ -130,6 +130,20 @@ namespace Subtext.Framework.Routing
             return GetVirtualPath("rss", new { catId = category.Id });
         }
 
+        /// <summary>
+        /// Returns the url for all posts on the day specified by the date
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public virtual VirtualPath DayUrl(DateTime date) {
+            return GetVirtualPath("entries-by-day", 
+                new { 
+                    year = date.ToString("yyyy"), 
+                    month = date.ToString("MM"), 
+                    day = date.ToString("dd") 
+                });
+        }
+
         public virtual VirtualPath GetVirtualPath(string routeName, object routeValues) {
             RouteValueDictionary routeValueDictionary;
 
