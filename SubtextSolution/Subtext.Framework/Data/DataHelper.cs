@@ -379,7 +379,7 @@ namespace Subtext.Framework.Data
 			info.NumberOfRecentComments = reader.ReadInt32(prefix + "NumberOfRecentComments");
 			info.RecentCommentsLength = reader.ReadInt32(prefix + "RecentCommentsLength");
 			info.FeedbackSpamServiceKey = reader.ReadString(prefix + "AkismetAPIKey");
-			info.FeedBurnerName = reader.ReadString(prefix + "FeedBurnerName");
+			info.RssProxyUrl = reader.ReadString(prefix + "FeedBurnerName");
 
             info.BlogGroupId = reader.ReadInt32(prefix + "BlogGroupId");
             info.BlogGroupTitle = reader.ReadString(prefix + "BlogGroupTitle");

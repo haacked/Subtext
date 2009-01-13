@@ -21,6 +21,4 @@
 			</li>
 		</ul>
 	</div>
-	<asp:hyperlink runat="server" Visible="False" id="XMLLink" />
-	
 </div>

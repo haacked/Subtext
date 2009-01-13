@@ -815,10 +815,8 @@
     </Compile>
     <Compile Include="UI\UIData.cs" />
     <Compile Include="UI\UIText.cs" />
-    <Compile Include="UI\WebControls\AtomHyperLink.cs" />
     <Compile Include="UI\WebControls\ContentRegion.cs" />
     <Compile Include="UI\WebControls\MasterPage.cs" />
-    <Compile Include="UI\WebControls\RssHyperLink.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="default.aspx" />

@@ -232,11 +232,11 @@ namespace UnitTests.Subtext.Framework
 		public void CanSetFeedBurnerName()
 		{
 			Blog blog = new Blog();
-			blog.FeedBurnerName = null;
-			Assert.IsFalse(blog.FeedBurnerEnabled);
+			blog.RssProxyUrl = null;
+			Assert.IsFalse(blog.RssProxyEnabled);
 
-			blog.FeedBurnerName = "Subtext";
-			Assert.IsTrue(blog.FeedBurnerEnabled);
+			blog.RssProxyUrl = "Subtext";
+			Assert.IsTrue(blog.RssProxyEnabled);
 		}
 	    
 		/// <summary>
@@ -386,7 +386,7 @@ namespace UnitTests.Subtext.Framework
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void FeedBurnerNameThrowsInvalidOperationException()
 		{
-			new Blog().FeedBurnerName = "\\";
+			new Blog().RssProxyUrl = "\\";
 		}
 	}
 }

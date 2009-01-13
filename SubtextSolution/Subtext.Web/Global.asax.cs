@@ -54,8 +54,12 @@ namespace Subtext.Web
 
             routes.MapHttpHandler<SiteMapHttpHandler>("sitemap.ashx");
             routes.MapHttpHandler<BrowserDetectionService>("BrowserServices.ashx");
+            
+            //Todo: Add a data token to indicate feed title.
+            // By default, the main feed is RSS. To chang it to atom, just 
+            // swap the route names.
             routes.MapHttpHandler<RssHandler>("rss", "rss.aspx");
-            routes.MapHttpHandler<AtomHandler>("atom.aspx");
+            routes.MapHttpHandler<AtomHandler>("atom", "atom.aspx");
             routes.MapHttpHandler<RssCommentHandler>("comment-rss", "comments/commentRss/{id}.aspx");
             routes.MapHttpHandler<CommentHandler>("comment-api", "comments/{id}.aspx", new { id = @"\d+" });
 

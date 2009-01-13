@@ -7,4 +7,3 @@
 	    <li><asp:HyperLink Runat="server" Text="Admin" ID="Admin" /></li>
     </ul>
 </div>
-<!-- Not Visible --><asp:HyperLink Runat="server" ID="XMLLink" Visible="False"></asp:HyperLink><asp:HyperLink Runat="server" Text="Syndication" ID="Syndication" Visible="False" />

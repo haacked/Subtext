@@ -405,7 +405,7 @@ namespace Subtext.Framework.Syndication
 		private bool RedirectToFeedBurnerIfNecessary()
 		{
 			//If we are using FeedBurner, only allow them to get our feed...
-			if (!String.IsNullOrEmpty(Config.CurrentBlog.FeedBurnerName))
+			if (!String.IsNullOrEmpty(Config.CurrentBlog.RssProxyUrl))
 			{
 				string userAgent = HttpContext.Request.UserAgent;
 				if (!String.IsNullOrEmpty(userAgent))
@@ -415,7 +415,7 @@ namespace Subtext.Framework.Syndication
 					{
                         HttpContext.Response.StatusCode = HTTP_MOVED_PERMANENTLY;
                         HttpContext.Response.Status = HTTP_MOVED_PERMANENTLY + " Moved Permanently";
-                        HttpContext.Response.RedirectLocation = Config.CurrentBlog.UrlFormats.FeedBurnerUrl.ToString();
+                        HttpContext.Response.RedirectLocation = SubtextContext.UrlHelper.RssProxyUrl(SubtextContext.Blog).ToString();
 						return true;
 					}
 				}

@@ -45,7 +45,7 @@ namespace Subtext.Web.Admin.Pages
 			this.chkEnableSyndication.Checked = info.IsAggregated;
 			this.chkUseDeltaEncoding.Checked = info.RFC3229DeltaEncodingEnabled;
 			this.chkUseSyndicationCompression.Checked = info.UseSyndicationCompression;
-			this.txtFeedBurnerName.Text = info.FeedBurnerName;
+			this.txtFeedBurnerName.Text = info.RssProxyUrl;
 			this.txtLicenseUrl.Text = info.LicenseUrl;
 		}
 
@@ -82,7 +82,7 @@ namespace Subtext.Web.Admin.Pages
 			info.IsAggregated = this.chkEnableSyndication.Checked;
 			info.UseSyndicationCompression = this.chkUseSyndicationCompression.Checked;
 			info.RFC3229DeltaEncodingEnabled = this.chkUseDeltaEncoding.Checked;
-			info.FeedBurnerName = this.txtFeedBurnerName.Text;
+			info.RssProxyUrl = this.txtFeedBurnerName.Text;
 			info.LicenseUrl = this.txtLicenseUrl.Text;
 
 			Config.UpdateConfigData(info);
