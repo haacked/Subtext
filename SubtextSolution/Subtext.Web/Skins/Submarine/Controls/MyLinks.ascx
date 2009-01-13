@@ -10,6 +10,4 @@
 		<asp:hyperlink cssclass="archives" runat="server" navigateurl="~/Archives.aspx" text="Archives"	id="Archives" />&nbsp;&nbsp;&nbsp;
 		<asp:hyperlink cssclass="syndication" runat="server" text="Syndication" id="Syndication" />
 	</div>
-	<asp:hyperlink runat="server" Visible="False" id="XMLLink" />
-
 </div>

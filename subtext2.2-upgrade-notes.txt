@@ -6,6 +6,12 @@ Web.config changes
   2. Remove the Import section
   3. Remove the HandlerConfiguration section
   
+UI changes
+  1.  Removed the redundant hyperlink with id="AtomLink" and hyperlink with id="XmlLink"
+      from MyLinks.ascx/Syndication.ascx in all the skins
+      If you want to use Atom instead of Rss, just change the route with the name "rss" 
+      to point to the AtomHandler.
+  
 Database changes
   1. No Schema changes
   2. Stored Proc changes

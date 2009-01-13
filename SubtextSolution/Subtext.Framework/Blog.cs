@@ -854,38 +854,39 @@ namespace Subtext.Framework
         IFeedbackSpamService feedbackService;
 
         /// <summary>
-        /// Gets a value indicating whether [feed burner enabled].
+        /// Gets a value indicating whether an RSS Proxy such as FeedBurner is enabled.
         /// </summary>
-        /// <value><c>true</c> if [feed burner enabled]; otherwise, <c>false</c>.</value>
-        public bool FeedBurnerEnabled
+        public bool RssProxyEnabled
         {
             get
             {
-                return !String.IsNullOrEmpty(this.feedBurnerName);
+                return !String.IsNullOrEmpty(_rssProxyUrl);
             }
         }
 
         /// <summary>
-        /// Gets or sets the name of the feedburner account. 
-        /// This is the portion of the feedburner URL after:
-        /// http://feeds.feedburner.com/
+        /// Gets or sets the name of the feedburner account. This is the portion of the 
+        /// feedburner URL after: http://feedproxy.google.com/ You can also specify a 
+        /// full URL
         /// </summary>
         /// <value>The name of the feed burner.</value>
-        public string FeedBurnerName
+        public string RssProxyUrl
         {
-            get { return this.feedBurnerName; }
+            get { 
+                return _rssProxyUrl; 
+            }
             set
             {
                 if (!String.IsNullOrEmpty(value))
                 {
                     if (value.Contains("\\"))
-                        throw new InvalidOperationException("Backslashes are not allowed in the feedburner name.");
+                        throw new InvalidOperationException("Backslashes are not allowed in the rss proxy name.");
                 }
-                this.feedBurnerName = value;
+                _rssProxyUrl = value;
             }
         }
 
-        string feedBurnerName;
+        string _rssProxyUrl;
 
         /// <summary>
         /// Gets the root URL for this blog.  For example, "http://example.com/" or "http://example.com/blog/".

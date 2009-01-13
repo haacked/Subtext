@@ -30,8 +30,6 @@ namespace Subtext.Web.UI.Controls
 	{
 		#region Declared Controls
 		protected System.Web.UI.WebControls.HyperLink Admin;
-		protected System.Web.UI.WebControls.HyperLink XMLLink;
-		protected System.Web.UI.WebControls.HyperLink AtomLink;
 		protected System.Web.UI.WebControls.HyperLink Syndication;
 		protected System.Web.UI.WebControls.HyperLink HomeLink;
 		protected System.Web.UI.WebControls.HyperLink Archives;
@@ -84,20 +82,8 @@ namespace Subtext.Web.UI.Controls
 
 				if (Syndication != null)
 				{
-					Syndication.NavigateUrl = Blog.UrlFormats.RssUrl.ToString();
+					Syndication.NavigateUrl = Url.RssUrl(Blog).ToString();
 					ControlHelper.SetTitleIfNone(Syndication, "Subscribe to this feed.");
-				}
-
-				if (XMLLink != null)
-				{
-					XMLLink.NavigateUrl = Blog.UrlFormats.RssUrl.ToString();
-					ControlHelper.SetTitleIfNone(XMLLink, "Subscribe to this feed.");
-				}
-
-				if (AtomLink != null)
-				{
-					AtomLink.NavigateUrl = Blog.UrlFormats.AtomUrl.ToString();
-					ControlHelper.SetTitleIfNone(AtomLink, "Subscribe to this feed.");
 				}
 
 				if(ArchivePostPageLink != null)

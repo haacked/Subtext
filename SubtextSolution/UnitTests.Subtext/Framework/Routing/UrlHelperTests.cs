@@ -374,6 +374,94 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/archive/2009/01/23.aspx", url.ToString());
         }
 
+        [Test]
+        public void RssProxyUrl_WithBlogHavingFeedBurnerName_ReturnsFeedburnerUrl()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            Blog blog = new Blog { RssProxyUrl = "test" };
+
+            //act
+            Uri url = helper.RssProxyUrl(blog);
+
+
+            //assert
+            Assert.AreEqual("http://feedproxy.google.com/test", url.ToString());
+        }
+
+        [Test]
+        public void RssProxyUrl_WithBlogHavingSyndicationProviderUrl_ReturnsFullUrl()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            Blog blog = new Blog { RssProxyUrl = "http://feeds.example.com/" };
+
+            //act
+            Uri url = helper.RssProxyUrl(blog);
+
+
+            //assert
+            Assert.AreEqual("http://feeds.example.com/", url.ToString());
+        }
+
+        [Test]
+        public void RssUrl_WithoutRssProxy_ReturnsRssUri() { 
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            var blog = new Blog { Host = "example.com" };
+
+            //act
+            Uri url = helper.RssUrl(blog);
+
+            //assert
+            Assert.AreEqual("http://example.com/rss.aspx", url.ToString());
+
+        }
+
+        [Test]
+        public void RssUrl_WithRssProxy_ReturnsProxyUrl() {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            var blog = new Blog { Host = "example.com", RssProxyUrl = "http://feeds.example.com/feed" };
+
+            //act
+            Uri url = helper.RssUrl(blog);
+
+            //assert
+            Assert.AreEqual("http://feeds.example.com/feed", url.ToString());
+
+        }
+
+        [Test]
+        public void AtomUrl_WithoutRssProxy_ReturnsRssUri()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            var blog = new Blog { Host = "example.com" };
+
+            //act
+            Uri url = helper.AtomUrl(blog);
+
+            //assert
+            Assert.AreEqual("http://example.com/atom.aspx", url.ToString());
+
+        }
+
+        [Test]
+        public void AtomUrl_WithRssProxy_ReturnsRssUri()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            var blog = new Blog { Host = "example.com", RssProxyUrl = "http://atom.example.com/atom" };
+            
+            //act
+            Uri url = helper.AtomUrl(blog);
+
+            //assert
+            Assert.AreEqual("http://atom.example.com/atom", url.ToString());
+
+        }
+
         private static UrlHelper SetupUrlHelper(string appPath) {
             return SetupUrlHelper(appPath, new RouteData());
         }

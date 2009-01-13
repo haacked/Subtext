@@ -3,10 +3,14 @@
 <ul>
 	<li>
 		<asp:HyperLink Runat="server" NavigateUrl="~/Default.aspx" Text="Home" ID="HomeLink" />
+    </li>
 	<li>
 		<asp:HyperLink AccessKey="9" Runat="server" NavigateUrl="~/Contact.aspx" Text="Contact" ID="ContactLink" />
+	</li>
 	<li>
-		<asp:HyperLink ImageUrl="~/images/xml.gif" Runat="server" ID="XMLLink">RSS 2.0 Feed</asp:HyperLink><asp:HyperLink Runat="server" Text="Syndication" ID="Syndication" Visible="False" />
+		<asp:HyperLink ImageUrl="~/images/xml.gif" Runat="server" ID="Syndication">RSS Feed</asp:HyperLink>
+	</li>
 	<li>
-		<asp:HyperLink Runat="server" Text="Admin" ID="Admin" /></li>
+		<asp:HyperLink Runat="server" Text="Admin" ID="Admin" />
+	</li>
 </ul>

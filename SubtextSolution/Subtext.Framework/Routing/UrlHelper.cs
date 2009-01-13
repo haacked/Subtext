@@ -5,6 +5,7 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Web;
+using System.Configuration;
 
 namespace Subtext.Framework.Routing
 {
@@ -142,6 +143,39 @@ namespace Subtext.Framework.Routing
                     month = date.ToString("MM"), 
                     day = date.ToString("dd") 
                 });
+        }
+
+        /// <summary>
+        /// Returns the url for all posts on the day specified by the date
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public virtual Uri RssUrl(Blog blog) {
+            if (blog.RssProxyEnabled) {
+                return RssProxyUrl(blog);
+            }
+
+            return GetVirtualPath("rss", null).ToFullyQualifiedUrl(blog);
+        }
+
+        /// <summary>
+        /// Returns the url for all posts on the day specified by the date
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public virtual Uri AtomUrl(Blog blog) {
+            if (blog.RssProxyEnabled) {
+                return RssProxyUrl(blog);
+            }
+
+            return GetVirtualPath("atom", null).ToFullyQualifiedUrl(blog);
+        }
+
+        public virtual Uri RssProxyUrl(Blog blog) {
+            //TODO: Store this in db.
+            string feedburnerUrl = ConfigurationManager.AppSettings["FeedBurnerUrl"];
+            feedburnerUrl = String.IsNullOrEmpty(feedburnerUrl) ? "http://feedproxy.google.com/" : feedburnerUrl;
+            return new Uri(new Uri(feedburnerUrl), blog.RssProxyUrl);
         }
 
         public virtual VirtualPath GetVirtualPath(string routeName, object routeValues) {

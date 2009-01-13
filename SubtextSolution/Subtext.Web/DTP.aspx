@@ -14,7 +14,6 @@
         <asp:literal id="styles" runat="server"></asp:literal>
         <link id="CustomCss" runat="server" type="text/css" rel="stylesheet" />
 		<link id="Rsd" rel="EditURI" type="application/rsd+xml" title="RSD" runat="server" />
-		<link id="AtomLink" title="RSS" type="application/rss+xml" rel="alternate" runat="Server" />
 		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>" ></script>
 		<script type="text/javascript">
 			<%= AllowedHtmlJavascriptDeclaration %>

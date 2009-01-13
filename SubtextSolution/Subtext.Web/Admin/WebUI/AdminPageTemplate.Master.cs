@@ -1,7 +1,7 @@
 using System;
 using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
 
@@ -10,7 +10,7 @@ namespace Subtext.Web.Admin.WebUI
 	/// <summary>
 	/// Code behind for the admin master template.
 	/// </summary>
-	public partial class AdminPageTemplate : System.Web.UI.MasterPage
+	public partial class AdminPageTemplate : MasterPage
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
@@ -33,6 +33,7 @@ namespace Subtext.Web.Admin.WebUI
 		{
 			AddToActions(button, "");
 		}
+
 		public void AddToActions(LinkButton button, string rssFeed)
 		{
 			// HACK: one without the other doesn't seem to work. If I don't add this

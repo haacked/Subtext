@@ -205,7 +205,7 @@ namespace Subtext.Framework.Data
                 numberOfRecentComments,
                 recentCommentsLength,
                 info.FeedbackSpamServiceKey.NullIfEmpty(),
-                info.FeedBurnerName.NullIfEmpty(),
+                info.RssProxyUrl.NullIfEmpty(),
                 info.BlogGroupId,
                 info.MobileSkin.TemplateFolder.NullIfEmpty(),
                 info.MobileSkin.SkinStyleSheet.NullIfEmpty(),
