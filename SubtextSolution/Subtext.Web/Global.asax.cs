@@ -166,13 +166,7 @@ namespace Subtext.Web
         private const string BadConnectionStringPage = "~/SystemMessages/CheckYourConnectionString.aspx";
         private const string DatabaseLoginFailedPage = "~/SystemMessages/DatabaseLoginFailed.aspx";
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Global"/> class.
-        /// </summary>
-        public Global()
-        {
-            InitializeComponent();
-        }	
+        bool _logInitialized = false;
 		
         /// <summary>
         /// Method called by the application on startup.  
@@ -181,19 +175,8 @@ namespace Subtext.Web
         /// <param name="e"></param>
         protected void Application_Start(Object sender, EventArgs e)
         {
-            //This line will trigger the configuration.
-            log.Info("Application_Start - This is not a malfunction.");
+            _logInitialized = true;
             RegisterRoutes(RouteTable.Routes);
-        }
-
-        /// <summary>
-        /// Method called when a session starts.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void Session_Start(Object sender, EventArgs e)
-        {
-			
         }
 		
         /// <summary>
@@ -202,29 +185,16 @@ namespace Subtext.Web
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void Application_BeginRequest(Object sender, EventArgs e)
-        {		
+        {
+            if (!_logInitialized) {
+                //This line will trigger the configuration.
+                log.Info("Application_Start - This is not a malfunction.");
+                _logInitialized = true;
+            }
+            
             //KLUDGE: This is required due to a bug in Log4Net 1.2.9.
             // This should be fixed in the next release.
             Log.SetBlogIdContext(NullValue.NullInt32);
-        }
-
-        /// <summary>
-        /// Handles the EndRequest event of the Application control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        protected void Application_EndRequest(Object sender, EventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// Handles the AuthenticateRequest event of the Application control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        protected void Application_AuthenticateRequest(Object sender, EventArgs e)
-        {
-            //Handled by Subtext.Web.HttpModules.AuthenticationModule in Subtext.Framework.
         }
 
         /// <summary>
@@ -346,16 +316,6 @@ namespace Subtext.Web
         }
 
         /// <summary>
-        /// Handles the End event of the Session control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        protected void Session_End(Object sender, EventArgs e)
-        {
-
-        }
-
-        /// <summary>
         /// Handles the End event of the Application control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -363,16 +323,7 @@ namespace Subtext.Web
         protected void Application_End(Object sender, EventArgs e)
         {
             Stats.ClearQueue(true);
+            _logInitialized = false;
         }
-			
-        #region Web Form Designer generated code
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {    
-        }
-        #endregion
     }
 }
