@@ -174,7 +174,7 @@ namespace Subtext.Framework.Syndication
 				if(!UseDeltaEncoding || entry.DateSyndicated > this.DateLastViewedFeedItemPublished)
 				{
 					this.WriteStartElement("entry");
-					EntryXml(entry, settings, Blog.UrlFormats, Blog.TimeZone);
+					EntryXml(entry, settings, Blog.TimeZone);
 					this.WriteEndElement();
 					ClientHasAllFeedItems = false;
 					
@@ -187,7 +187,7 @@ namespace Subtext.Framework.Syndication
 			}
 		}
 
-		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, UrlFormats urlFormats, TimeZone timezone)
+		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, TimeZone timezone)
 		{
 				this.WriteElementString("title",entry.Title);
 						

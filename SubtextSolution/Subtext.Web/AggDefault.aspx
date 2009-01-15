@@ -1,4 +1,4 @@
-<%@ Page CodeBehind="default.aspx.cs" EnableViewState="false" Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web._default" %>
+<%@ Page CodeBehind="default.aspx.cs" EnableViewState="false" Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.AggDefault" %>
 <%@ OutputCache Duration="600" VaryByParam="GroupID" VaryByHeader="Accept-Language" %>
 <%@ Import namespace="Subtext.Framework.Configuration"%>
 <%@ Register TagPrefix="uc1" TagName="AggSyndication" Src="~/Skins/Aggregate/Simple/Controls/AggSyndication.ascx" %>

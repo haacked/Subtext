@@ -371,7 +371,6 @@
     <Compile Include="Admin\WebUI\AdminPageTemplate.Master.designer.cs">
       <DependentUpon>AdminPageTemplate.Master</DependentUpon>
     </Compile>
-    <Compile Include="Admin\WebUI\AdminUrlHelper.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\IOpmlItemCollection.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\IPageLocationCollection.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\OpmlItemCollection.cs" />
@@ -405,12 +404,12 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\WebUI\Utilities.cs" />
-    <Compile Include="default.aspx.cs">
-      <DependentUpon>default.aspx</DependentUpon>
+    <Compile Include="AggDefault.aspx.cs">
+      <DependentUpon>AggDefault.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="default.aspx.designer.cs">
-      <DependentUpon>default.aspx</DependentUpon>
+    <Compile Include="AggDefault.aspx.designer.cs">
+      <DependentUpon>AggDefault.aspx</DependentUpon>
     </Compile>
     <Compile Include="ForgotPassword.aspx.cs">
       <DependentUpon>ForgotPassword.aspx</DependentUpon>
@@ -819,7 +818,6 @@
     <Compile Include="UI\WebControls\MasterPage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="default.aspx" />
     <Content Include="emoticons.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -922,9 +920,8 @@
       <DependentUpon>EntryEditor.ascx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="default.aspx.resx">
-      <DependentUpon>default.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="AggDefault.aspx.resx">
+      <DependentUpon>AggDefault.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Global.asax.resx">
       <DependentUpon>Global.asax.cs</DependentUpon>
@@ -1112,6 +1109,7 @@
     <Content Include="Admin\UserControls\EntriesList.ascx" />
     <Content Include="Admin\UserControls\EntryEditor.ascx" />
     <Content Include="Admin\Credits.aspx" />
+    <Content Include="AggDefault.aspx" />
     <Content Include="App_Data\Subtext2.1.mdf">
     </Content>
     <Content Include="DTP.aspx" />

@@ -50,21 +50,6 @@ namespace UnitTests.Subtext.Framework.Format
 			Assert.AreEqual(expected, UrlFormats.GetBlogSubfolderFromRequest(rawUrl, subfolder));
 		}
 
-		[RowTest]		
-		[Row("Feedback.aspx","test", "http://localhost/test/Admin/Feedback.aspx")]
-		[Row("Referrers.aspx", "test", "http://localhost/test/Admin/Referrers.aspx")]
-		[Row("Referrers.aspx", "", "http://localhost/Admin/Referrers.aspx")]
-		public void FormatAdminUrl(string url, string subfolder, string expected)
-		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subfolder);
-			Blog info = new Blog();
-			info.Host = "localhost";
-			info.Subfolder = subfolder; 
-
-			Assert.AreEqual(info.UrlFormats.AdminUrl(url), expected);
-
-		}
-
 		/// <summary>
 		/// Makes sure the method GetEditLink distringuishes between a post and article.
 		/// </summary>

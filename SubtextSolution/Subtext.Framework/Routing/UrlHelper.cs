@@ -195,6 +195,11 @@ namespace Subtext.Framework.Routing
             return virtualPath.VirtualPath;
         }
 
+        public virtual VirtualPath AdminUrl(string path)
+        {
+            return AdminUrl(path, null);
+        }
+
         public virtual VirtualPath AdminUrl(string path, object routeValues) {
             var routeValuesDict = new RouteValueDictionary(routeValues);
             routeValuesDict.Add("pathinfo", path);

@@ -36,16 +36,7 @@ namespace Subtext.Framework.Web.HttpModules
         {
             context.BeginRequest += MapUrlToBlogStatus;
         }
-
-        /// <summary>
-        /// Disposes of the resources (other than memory) used by the
-        /// module that implements <see langword="IHttpModule."/>
-        /// </summary>
-        public void Dispose()
-        {
-            //Do Nothing.
-        }
-
+        
         /// <summary>
         /// Maps the incoming URL to the corresponding blog. If no blog matches, then 
         /// makes sure any host application settings are still set.
@@ -54,27 +45,16 @@ namespace Subtext.Framework.Web.HttpModules
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private static void MapUrlToBlogStatus(object sender, EventArgs e)
         {
-            string subfolder = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
-            if(!Config.IsValidSubfolderName(subfolder))
-                subfolder = string.Empty;
-
-            BlogRequest.Current = new BlogRequest(Host, subfolder, HttpContext.Current.Request.Url, HttpContext.Current.Request.IsLocal);
+            BlogRequest.Current = new BlogRequest(new HttpContextWrapper(HttpContext.Current).Request);
         }
-		
-        /// <summary>
-        /// Gets the current host.
-        /// </summary>
-        /// <returns></returns>
-        protected static string Host
-        {
-            get
-            {
-                string host = HttpContext.Current.Request.Params["HTTP_HOST"];
-                if (String.IsNullOrEmpty(host))
-                    host = HttpContext.Current.Request.Url.Authority;
 
-                return host;
-            }
+        /// <summary>
+        /// Disposes of the resources (other than memory) used by the
+        /// module that implements <see langword="IHttpModule."/>
+        /// </summary>
+        public void Dispose()
+        {
+            //Do Nothing.
         }
     }
 }

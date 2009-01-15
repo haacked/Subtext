@@ -29,7 +29,7 @@ namespace Subtext.Framework.Syndication.Admin
 
 		//protected override string GetLinkFromItem(FeedbackItem item)
 		//{
-		//    return Blog.UrlFormats.AdminUrl("Feedback.aspx?status=2");
+		//    return UrlHelper.AdminUrl("Feedback.aspx?status=2");
 		//}
 		protected override void EntryXml(FeedbackItem item, BlogConfigurationSettings settings)
 		{

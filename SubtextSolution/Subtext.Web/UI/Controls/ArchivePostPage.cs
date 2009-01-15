@@ -27,7 +27,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
             List<LinkCategory> lcc = new List<LinkCategory>();
             lcc.AddRange(Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None));
-			lcc.Add(UIData.Links(CategoryType.PostCollection, Blog.UrlFormats));
+			lcc.Add(UIData.Links(CategoryType.PostCollection));
 			CatList.DataSource = lcc;
 			CatList.DataBind();
 

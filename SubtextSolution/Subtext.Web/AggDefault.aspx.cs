@@ -25,7 +25,7 @@ namespace Subtext.Web
     /// When AggregateBlog is enabled in Web.config, this page renders contents from 
     /// all blogs which have set their blog posts to be included in the main blog.
     /// </summary>
-	public partial class _default : AggregatePage
+	public partial class AggDefault : AggregatePage
 	{
 		protected HyperLink Hyperlink6;
 		protected HyperLink Hyperlink7;

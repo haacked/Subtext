@@ -36,7 +36,7 @@ namespace Subtext.Framework.Data
 		/// <param name="catType">Type of Categories to transform</param>
 		/// <param name="formats">Determines how the Urls are formated</param>
 		/// <returns></returns>
-		public static LinkCategory BuildLinks(string title, CategoryType catType, UrlFormats formats)
+		public static LinkCategory BuildLinks(string title, CategoryType catType)
 		{
             ICollection<LinkCategory> links = Links.GetCategories(catType, ActiveFilter.ActiveOnly);
             return MergeLinkCategoriesIntoSingleLinkCategory(title, catType, links, new UrlHelper(null, null), Config.CurrentBlog);

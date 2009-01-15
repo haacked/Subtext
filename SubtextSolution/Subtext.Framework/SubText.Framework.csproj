@@ -454,6 +454,7 @@
     <Compile Include="Providers\SearchEngine.cs" />
     <Compile Include="Providers\SearchResult.cs" />
     <Compile Include="Resource\ResourceHelper.cs" />
+    <Compile Include="Routing\AggregateEnabledConstraint.cs" />
     <Compile Include="Routing\DirectoryRoute.cs" />
     <Compile Include="Routing\DirectoryRouteHandler.cs" />
     <Compile Include="Routing\HttpRouteHandler.cs" />

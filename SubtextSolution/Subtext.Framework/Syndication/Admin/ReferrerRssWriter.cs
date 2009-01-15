@@ -37,7 +37,7 @@ namespace Subtext.Framework.Syndication.Admin
 
 		protected override string GetLinkFromItem(Referrer item)
 		{
-			return Blog.UrlFormats.AdminUrl("Referrers.aspx");
+			return UrlHelper.AdminUrl("Referrers.aspx");
 		}
 
 		protected override string GetBodyFromItem(Referrer item)

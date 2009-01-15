@@ -26,18 +26,18 @@ namespace Subtext.Web.UI
 	/// </summary>
 	public static class UIData
 	{
-		public static LinkCategory Links(CategoryType catType, UrlFormats formats)
+		public static LinkCategory Links(CategoryType catType)
 		{
 			switch(catType)
 			{
 				case CategoryType.PostCollection:
-					return Transformer.BuildLinks(UIText.PostCollection, CategoryType.PostCollection, formats);
+					return Transformer.BuildLinks(UIText.PostCollection, CategoryType.PostCollection);
 				
 				case CategoryType.ImageCollection:
-					return Transformer.BuildLinks(UIText.ImageCollection, CategoryType.ImageCollection, formats);
+					return Transformer.BuildLinks(UIText.ImageCollection, CategoryType.ImageCollection);
 				
 				case CategoryType.StoryCollection:
-					return Transformer.BuildLinks(UIText.ArticleCollection, CategoryType.StoryCollection, formats);
+					return Transformer.BuildLinks(UIText.ArticleCollection, CategoryType.StoryCollection);
 				
 				default:
 					throw new InvalidOperationException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Invalid CategoryType: {0} via Subtext.Web.UI.UIData.Links",catType));

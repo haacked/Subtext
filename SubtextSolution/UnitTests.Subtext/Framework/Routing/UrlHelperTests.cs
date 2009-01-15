@@ -462,6 +462,48 @@ namespace UnitTests.Subtext.Framework.Routing
 
         }
 
+        [Test]
+        public void AdminUrl_WithPage_RendersAdminUrlToPage() {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+
+            //act
+            string url = helper.AdminUrl("log.aspx");
+
+            //assert
+            Assert.AreEqual("/admin/log.aspx", url);
+        }
+
+        [Test]
+        public void AdminUrl_WithBlogHavingSubfolder_RendersAdminUrlToPage()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/", routeData);
+
+            //act
+            string url = helper.AdminUrl("log.aspx");
+
+            //assert
+            Assert.AreEqual("/sub/admin/log.aspx", url);
+        }
+
+        [Test]
+        public void AdminUrl_WithBlogHavingSubfolderAndVirtualPath_RendersAdminUrlToPage()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            string url = helper.AdminUrl("log.aspx");
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/sub/admin/log.aspx", url);
+        }
+
         private static UrlHelper SetupUrlHelper(string appPath) {
             return SetupUrlHelper(appPath, new RouteData());
         }

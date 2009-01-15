@@ -4,6 +4,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.Admin.WebUI
 {
@@ -16,14 +17,14 @@ namespace Subtext.Web.Admin.WebUI
 		{
 		}
 
-        public AdminUrlHelper Url 
+        public UrlHelper Url 
         {
             get 
             {
-                return urlHelper;
+                return _urlHelper;
             }
         }
-        AdminUrlHelper urlHelper = new AdminUrlHelper();
+        UrlHelper _urlHelper = new UrlHelper(null, null);
 
 		/// <summary>
 		/// Adds a link button to the list of possible actions.

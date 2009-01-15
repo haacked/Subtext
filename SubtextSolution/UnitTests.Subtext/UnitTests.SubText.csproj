@@ -351,6 +351,7 @@
     </Compile>
     <Compile Include="Framework\Providers\ProviderConfigurationHelperTests.cs" />
     <Compile Include="Framework\Providers\SearchEngineTests.cs" />
+    <Compile Include="Framework\Routing\AggregateEnabledConstraintTests.cs" />
     <Compile Include="Framework\Routing\DirectoryRouteHandlerTests.cs" />
     <Compile Include="Framework\Routing\DirectoryRouteTests.cs" />
     <Compile Include="Framework\Routing\HttpRouteHandlerTests.cs" />
@@ -415,6 +416,7 @@
     <Compile Include="Framework\Web\HttpHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Web\HttpModules\BlogRequestTests.cs" />
     <Compile Include="Framework\Web\RsdHandlerTests.cs" />
     <Compile Include="Framework\XmlRpc\MetaBlogApiTests.cs" />
     <Compile Include="HttpSimulator.cs" />

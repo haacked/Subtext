@@ -1,5 +1,7 @@
 using System;
 using System.Web;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
 
 namespace Subtext.Framework.Web.HttpModules
 {
@@ -35,6 +37,29 @@ namespace Subtext.Framework.Web.HttpModules
 			RawUrl = url;
 			IsLocal = isLocal;
 		}
+
+        public BlogRequest(HttpRequestBase request)
+            : this(HostFromRequest(request), SubfolderFromRequest(request), request.Url, request.IsLocal)
+        {
+        }
+
+        private static string SubfolderFromRequest(HttpRequestBase request) {
+            string subfolder = UrlFormats.GetBlogSubfolderFromRequest(request.RawUrl, request.ApplicationPath) ?? string.Empty;
+            if (!Config.IsValidSubfolderName(subfolder))
+            {
+                subfolder = string.Empty;
+            }
+            return subfolder;
+        }
+
+        private static string HostFromRequest(HttpRequestBase request) {
+            string host = request.Params["HTTP_HOST"];
+            if (String.IsNullOrEmpty(host))
+            {
+                host = request.Url.Authority;
+            }
+            return host;
+        }
 
 		public bool IsLocal
 		{
