@@ -42,7 +42,6 @@ namespace Subtext.Framework
     {
         private readonly static ILog Log = new Log();
         const int DefaultRecentCommentsLength = 50;
-        private UrlFormats _urlFormats;
 
         public Blog() {
             Id = NullValue.NullInt32;
@@ -135,25 +134,6 @@ namespace Subtext.Framework
         public static Blog GetBlogById(int blogId)
         {
             return ObjectProvider.Instance().GetBlogById(blogId);
-        }
-
-        
-
-        /// <summary>
-        /// Class used to encapsulate URL formats for 
-        /// various sections of the blog.
-        /// </summary>
-        /// <value></value>
-        public UrlFormats UrlFormats
-        {
-            get
-            {
-                if (_urlFormats == null)
-                {
-                    _urlFormats = new UrlFormats(this.RootUrl);
-                }
-                return _urlFormats;
-            }
         }
 
         /// <summary>

@@ -7,7 +7,8 @@ Web.config changes
   3. Remove the HandlerConfiguration section
   
 UI changes
-  1.  Removed the redundant hyperlink with id="AtomLink" and hyperlink with id="XmlLink"
+  1.  !IMPORTANT! Delete Default.aspx. Add the new AggDefault.aspx.
+  2.  Removed the redundant hyperlink with id="AtomLink" and hyperlink with id="XmlLink"
       from MyLinks.ascx/Syndication.ascx in all the skins
       If you want to use Atom instead of Rss, just change the route with the name "rss" 
       to point to the AtomHandler.

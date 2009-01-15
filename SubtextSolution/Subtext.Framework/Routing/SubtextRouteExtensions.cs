@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Web.Routing;
 using System.Web;
-using CookComputing.XmlRpc;
+using System.Web.Routing;
 using Subtext.Framework.XmlRpc;
 
 namespace Subtext.Framework.Routing
@@ -20,12 +19,21 @@ namespace Subtext.Framework.Routing
         }
 
         public static void MapControls(this RouteCollection routes, string url, object constraints, IEnumerable<string> controls) {
-            routes.Add(new PageRoute(url, "~/Dtp.aspx", controls) { Constraints = new RouteValueDictionary(constraints) });
+            routes.MapControls(url, new RouteValueDictionary(constraints), controls);
+        }
+
+        public static void MapControls(this RouteCollection routes, string url, RouteValueDictionary constraints, IEnumerable<string> controls)
+        {
+            routes.Add(new PageRoute(url, "~/Dtp.aspx", controls) { Constraints = constraints });
         }
 
         public static void MapControls(this RouteCollection routes, string name, string url, object constraints, IEnumerable<string> controls)
         {
-            routes.Add(name, new PageRoute(url, "~/Dtp.aspx", controls) { Constraints = new RouteValueDictionary(constraints ?? new { }) });
+            routes.MapControls(name, url, new RouteValueDictionary(constraints), controls);
+        }
+
+        public static void MapControls(this RouteCollection routes, string name, string url, RouteValueDictionary constraints, IEnumerable<string> controls) {
+            routes.Add(name, new PageRoute(url, "~/Dtp.aspx", controls) { Constraints = constraints });
         }
 
         public static void MapControls(this RouteCollection routes, string url, IEnumerable<string> controls) {
@@ -35,6 +43,22 @@ namespace Subtext.Framework.Routing
         public static void MapPageToControl(this RouteCollection routes, string controlName)
         {
             routes.MapControls(controlName + ".aspx", new string[] { controlName });
+        }
+
+        /// <summary>
+        /// We need special handling here because of Aggregate blogs.
+        /// </summary>
+        /// <param name="routes"></param>
+        public static void MapRoot(this RouteCollection routes) {
+            var aggDisabledConstraints = new RouteValueDictionary();
+            aggDisabledConstraints.Add("", new AggregateEnabledConstraint(false));
+            routes.MapControls("Default.aspx", aggDisabledConstraints, new[] { "homepage" });
+            routes.MapControls("root", string.Empty, aggDisabledConstraints, new[] { "homepage" });
+
+            var aggEnabledConstraints = new RouteValueDictionary();
+            aggEnabledConstraints.Add("", new AggregateEnabledConstraint(true));
+            routes.Add(new SubtextRoute("Default.aspx", new PageRouteHandler("~/AggDefault.aspx")) { Constraints = aggEnabledConstraints });
+            routes.Add(new SubtextRoute(string.Empty, new PageRouteHandler("~/AggDefault.aspx")) { Constraints = aggEnabledConstraints });
         }
 
         public static void MapPage(this RouteCollection routes, string url, string virtualPath)

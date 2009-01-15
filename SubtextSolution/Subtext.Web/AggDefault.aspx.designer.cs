@@ -11,7 +11,7 @@
 namespace Subtext.Web {
     
     
-    public partial class _default {
+    public partial class AggDefault {
         
         /// <summary>
         /// title control.

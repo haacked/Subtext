@@ -12,7 +12,7 @@
 <script type="text/javascript">
 	function UpdateForm()
 	{
-		var page = '<%=Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.AdminUrl("AdminRss.axd") %>';
+		var page = '<%=Subtext.Framework.Configuration.Config.CurrentUrlHelper.AdminUrl("AdminRss.axd") %>';
 		var type = document.getElementById("selType").value;
 		var count = document.getElementById("txtCount").value;
 		var title = document.getElementById("txtTitle").value;

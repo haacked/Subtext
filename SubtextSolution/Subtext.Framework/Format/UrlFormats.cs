@@ -31,29 +31,6 @@ namespace Subtext.Framework.Format
 	/// </summary>
 	public class UrlFormats
 	{
-        Uri _rootUrl;
-
-        public UrlFormats(Uri fullyQualifiedUrl)
-		{
-            _rootUrl = fullyQualifiedUrl;
-		}
-
-		public virtual string AdminUrl(string Page)
-		{
-			return GetFullyQualifiedUrl("Admin/{0}", Page);
-		}
-
-		/// <summary>
-		/// Returns a fully qualified Url using the specified format string.
-		/// </summary>
-		/// <param name="formatString">The pattern.</param>
-		/// <param name="items">The items.</param>
-		/// <returns></returns>
-		protected virtual string GetFullyQualifiedUrl(string formatString, params object[] items)
-		{
-			return _rootUrl.ToString() + string.Format(CultureInfo.InvariantCulture, formatString, items);
-		}
-
 		/// <summary>
 		/// Returns a <see cref="DateTime"/> instance parsed from the url.
 		/// </summary>

@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Subtext.Framework.Logging;
-using System.Collections.Specialized;
-using Subtext.Framework.Configuration;
 using System.IO;
+using Subtext.Framework.Logging;
 
 namespace Subtext.Framework.Syndication.Admin
 {
@@ -16,6 +13,7 @@ namespace Subtext.Framework.Syndication.Admin
 			this.Items = logs;
 		}
 
+        //TODO: Fix ISP Violation
 		protected override string GetCommentRssUrl(LogEntry item)
 		{
 			return string.Empty;
@@ -25,19 +23,23 @@ namespace Subtext.Framework.Syndication.Admin
 		{
 			return item.Message + item.Date.ToUniversalTime();
 		}
+
+        //TODO: Fix ISP violation
 		protected override string GetTrackBackUrl(LogEntry item)
 		{
 			return string.Empty;
 		}
 
+        //TODO: Fix ISP violation
 		protected override string GetCommentApiUrl(LogEntry item)
 		{
-			return "";
+			return string.Empty;
 		}
 
+        //TODO: Fix ISP violation
 		protected override string GetAggBugUrl(LogEntry item)
 		{
-			return "";
+			return string.Empty;
 		}
 
 		protected override ICollection<string> GetCategoriesFromItem(LogEntry item)
@@ -57,7 +59,7 @@ namespace Subtext.Framework.Syndication.Admin
 
 		protected override string GetLinkFromItem(LogEntry item)
 		{
-			return Blog.UrlFormats.AdminUrl("ErrorLog.aspx");
+			return UrlHelper.AdminUrl("ErrorLog.aspx");
 		}
 
 		protected override string GetBodyFromItem(LogEntry item)

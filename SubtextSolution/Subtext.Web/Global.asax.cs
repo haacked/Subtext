@@ -40,6 +40,8 @@ namespace Subtext.Web
     public class Global : HttpApplication
     {
         public static void RegisterRoutes(RouteCollection routes) {
+            routes.Ignore("{resource}.axd/{*pathInfo}");
+            
             routes.Ignore("hostadmin/{*pathinfo}");
             routes.Ignore("install/{*pathinfo}");
             routes.Ignore("SystemMessages/{*pathinfo}");
@@ -119,11 +121,11 @@ namespace Subtext.Web
             routes.MapHttpHandler<TrackBackHandler>("trackbacks", "services/trackbacks/{id}.aspx", new { id = @"\d+" });
             routes.MapXmlRpcHandler<PingBackService>("services/pingback/{id}.aspx", new { id = @"\d+" });
             routes.MapXmlRpcHandler<MetaWeblog>("services/metablogapi.aspx");
-            routes.MapControls("Default.aspx", new[] { "homepage" });
-            routes.MapControls("root", string.Empty, null, new[] { "homepage" });
-
+            
             routes.Add(new Route("images/IdenticonHandler.ashx", new HttpRouteHandler<IdenticonHandler>()));
             routes.Add(new Route("images/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>()));
+
+            routes.MapRoot();
         }
 
         //This call is to kickstart log4net.

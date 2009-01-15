@@ -47,9 +47,9 @@
 	    </div>
 
 	    <ul id="tabs">
-		    <li id="PostsTab"><a href="<%= Url.PostsList %>" id="TabPosts" title="Posts">Posts</a></li>
-		    <li id="ArticlesTab"><a href="<%= Url.ArticlesList %>" id="TabArticles" title="Articles">Articles</a></li>
-		    <li id="FeedbackTab"><a href="<%= Url.FeedbackList %>" id="TabFeedback" title="Feedback">Feedback</a></li>
+		    <li id="PostsTab"><a href="<%= Url.AdminUrl("Posts") %>" id="TabPosts" title="Posts">Posts</a></li>
+		    <li id="ArticlesTab"><a href="<%= Url.AdminUrl("Articles") %>" id="TabArticles" title="Articles">Articles</a></li>
+		    <li id="FeedbackTab"><a href="<%= Url.AdminUrl("Feedback") %>" id="TabFeedback" title="Feedback">Feedback</a></li>
 		    <li id="LinksTab"><a href="<%= Url.AdminUrl("EditLinks.aspx") %>" id="TabLinks" title="Links">Links</a></li>
 		    <li runat="server" id="galleryTab" class="galleryTab" visible="<%# Config.Settings.AllowImages %>">
 			    <a href="<%= Url.AdminUrl("EditGalleries.aspx") %>" id="TabGalleries" title="Galleries">Galleries</a>
