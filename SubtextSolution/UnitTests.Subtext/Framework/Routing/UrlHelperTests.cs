@@ -504,6 +504,66 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/admin/log.aspx", url);
         }
 
+        [Test]
+        public void LoginUrl_WithSubfolderAndApp_ReturnsLoginUrlInSubfolder()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            string url = helper.LoginUrl();
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/sub/login.aspx", url);
+        }
+
+        [Test]
+        public void LogoutUrl_WithSubfolderAndApp_ReturnsLoginUrlInSubfolder()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            string url = helper.LogoutUrl();
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/sub/logout.aspx", url);
+        }
+
+        [Test]
+        public void ArchivesUrl_WithSubfolderAndApp_ReturnsUrlWithAppAndSubfolder()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            string url = helper.ArchivesUrl();
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/sub/archives.aspx", url);
+        }
+
+        [Test]
+        public void ContactFormUrl_WithSubfolderAndApp_ReturnsUrlWithAppAndSubfolder()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            string url = helper.ContactFormUrl();
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/sub/contact.aspx", url);
+        }
+
         private static UrlHelper SetupUrlHelper(string appPath) {
             return SetupUrlHelper(appPath, new RouteData());
         }

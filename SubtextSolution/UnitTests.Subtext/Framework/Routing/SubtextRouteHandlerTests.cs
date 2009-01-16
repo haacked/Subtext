@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.Framework.Routing
             routeData.DataTokens.Add("controls", new string[] { "SomeControl" });
             var httpContext = new Mock<HttpContextBase>();
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            var routableHandler = new Mock<IRouteableHandler>();
+            var routableHandler = new Mock<IRoutableHandler>();
             RequestContext setContext = null;
             routableHandler.ExpectSet(h => h.RequestContext).Callback(context => setContext = context);
             var pageBuilder = new Mock<ISubtextPageBuilder>();

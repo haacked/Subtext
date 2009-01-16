@@ -42,7 +42,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			if(Context != null)
 			{
-				Blog info = Config.CurrentBlog;
+				Blog info = Blog;
 
 				LinkCategory lc = Cacher.SingleCategory(CacheDuration.Short);
 				

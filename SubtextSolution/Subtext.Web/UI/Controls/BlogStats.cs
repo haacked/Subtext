@@ -39,7 +39,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			if(Context != null)
 			{
-				Blog info = Config.CurrentBlog;
+				Blog info = Blog;
 				PostCount.Text = info.PostCount.ToString(CultureInfo.InvariantCulture);
 				StoryCount.Text = info.StoryCount.ToString(CultureInfo.InvariantCulture);
 				CommentCount.Text = info.CommentCount.ToString(CultureInfo.InvariantCulture);

@@ -14,31 +14,28 @@
 #endregion
 
 using System;
-using System.Configuration;
-using Subtext.Extensibility.Providers;
+using System.Web;
+using DotNetOpenId.RelyingParty;
+using log4net;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Text;
-using log4net;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
-using DotNetOpenId.RelyingParty;
-using System.Web;
+using Subtext.Framework.Text;
 
 namespace Subtext.Web.Pages
 {
 	/// <summary>
 	/// Summary description for login.
 	/// </summary>
-	public partial class login : System.Web.UI.Page
+	public partial class login : RoutablePage
 	{
 		private readonly static ILog log = new Framework.Logging.Log();
         private const string loginFailedMessage = "That&#8217;s not it<br />";
 
-		#region Declared Controls
-		#endregion
-	
-		protected void Page_Load(object sender, EventArgs e)
+		protected override void OnLoad(EventArgs e)
 		{
+            base.OnLoad(e);
             if (!IsPostBack)
             {
                 HttpCookie cookie = Request.Cookies["__OpenIdUrl__"];
@@ -48,26 +45,6 @@ namespace Subtext.Web.Pages
                 }
             }
 		}
-
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-
-		}
-		#endregion
 
 		protected void btnLogin_Click(object sender, EventArgs e)
 		{
@@ -91,7 +68,7 @@ namespace Subtext.Web.Pages
 			{
                 if (SecurityHelper.Authenticate(tbUserName.Text, tbPassword.Text, chkRememberMe.Checked))
 				{
-					ReturnToUrl(currentBlog.AdminHomeVirtualUrl);
+					ReturnToUrl(AdminUrl.Home());
 					return;
 				}
 				else
@@ -116,7 +93,7 @@ namespace Subtext.Web.Pages
             if (e.Response.Status == AuthenticationStatus.Authenticated &&
                 SecurityHelper.Authenticate(e.ClaimedIdentifier, btnOpenIdLogin.RememberMe))
             {
-                ReturnToUrl(Config.CurrentBlog.AdminHomeVirtualUrl);
+                ReturnToUrl(AdminUrl.Home());
             }
             else {
                 openIdMessage.Text = "Authentication failed.";

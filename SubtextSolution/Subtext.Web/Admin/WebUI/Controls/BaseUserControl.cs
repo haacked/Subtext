@@ -10,17 +10,16 @@ namespace Subtext.Web.Admin.WebUI.Controls
             get
             {
                 var routablePage = RoutablePage;
-                if (routablePage != null)
-                {
+                if (routablePage != null) {
                     return routablePage.Url;
                 }
-                return new UrlHelper(null, null);
+                return null;
             }
         }
 
-        public RoutablePage RoutablePage {
+        public IRoutableHandler RoutablePage {
             get {
-                return Page as RoutablePage;
+                return Page as IRoutableHandler;
             }
         }
     }

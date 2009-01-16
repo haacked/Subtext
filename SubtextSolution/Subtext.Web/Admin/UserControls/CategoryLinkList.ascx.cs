@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using CategoryTypeEnum = Subtext.Framework.Components.CategoryType;
 
 namespace Subtext.Web.Admin.UserControls
 {
     public partial class CategoryLinkList : System.Web.UI.UserControl
     {
+        public CategoryLinkList() {
+            CategoryType = CategoryType.None;
+        }
+
         private const string QRYSTR_CATEGORYFILTER = "catid";
         private const string QRYSTR_CATEGORYTYPE = "catType";
         protected ICollection<LinkCategoryLink> categoryLinks = new List<LinkCategoryLink>();
@@ -22,7 +25,7 @@ namespace Subtext.Web.Admin.UserControls
                 //the querystring's category type enumeration
                 if (!String.IsNullOrEmpty(Request.QueryString[Keys.QRYSTR_CATEGORYTYPE]))
                 {
-                    this.catType = (CategoryType)Enum.Parse(typeof(CategoryType), Request.QueryString[Keys.QRYSTR_CATEGORYTYPE]);
+                    CategoryType = (CategoryType)Enum.Parse(typeof(CategoryType), Request.QueryString[Keys.QRYSTR_CATEGORYTYPE]);
                 }
                 BindCategoriesRepeater();
             }
@@ -32,9 +35,9 @@ namespace Subtext.Web.Admin.UserControls
         {
             string baseUrl = "Default.aspx";
 
-            if (this.catType != CategoryTypeEnum.None)
+            if (this.CategoryType != CategoryType.None)
             {
-                if(this.catType == CategoryTypeEnum.ImageCollection)
+                if (this.CategoryType == CategoryType.ImageCollection)
                 {
                     baseUrl = "EditGalleries.aspx";
                     this.categoryLinks.Add(new LinkCategoryLink("All Galleries", "EditGalleries.aspx"));
@@ -44,12 +47,12 @@ namespace Subtext.Web.Admin.UserControls
                     this.categoryLinks.Add(new LinkCategoryLink("All Categories", "EditLinks.aspx"));
                 }
 
-                if (this.catType != CategoryType.None)
+                if (this.CategoryType != CategoryType.None)
                 {
-                    ICollection<LinkCategory> categories = Links.GetCategories(this.catType, ActiveFilter.None);
+                    ICollection<LinkCategory> categories = Links.GetCategories(CategoryType, ActiveFilter.None);
                     foreach (LinkCategory current in categories)
                     {
-                        this.categoryLinks.Add(new LinkCategoryLink(current.Title, string.Format(System.Globalization.CultureInfo.InvariantCulture, "{4}?{0}={1}&{2}={3}", QRYSTR_CATEGORYFILTER, current.Id, QRYSTR_CATEGORYTYPE, this.catType, baseUrl)));
+                        this.categoryLinks.Add(new LinkCategoryLink(current.Title, string.Format(System.Globalization.CultureInfo.InvariantCulture, "{4}?{0}={1}&{2}={3}", QRYSTR_CATEGORYFILTER, current.Id, QRYSTR_CATEGORYTYPE, this.CategoryType, baseUrl)));
                     }
                 }
             }
@@ -59,13 +62,11 @@ namespace Subtext.Web.Admin.UserControls
 
         [Browsable(true)]
         [Description("Sets the type of categories to load.")]
-        public CategoryTypeEnum CategoryType
+        public CategoryType CategoryType
         {
-            get { return catType; }
-            set { catType = value; }
+            get;
+            set;
         }
-
-        CategoryTypeEnum catType = CategoryTypeEnum.None;
     }
 
     public struct LinkCategoryLink

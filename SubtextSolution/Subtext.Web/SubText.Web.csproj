@@ -361,6 +361,9 @@
     <Compile Include="Admin\UserControls\EntryEditor.ascx.designer.cs">
       <DependentUpon>EntryEditor.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\WebUI\AdminMasterPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Admin\WebUI\AdminPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -814,8 +817,12 @@
     </Compile>
     <Compile Include="UI\UIData.cs" />
     <Compile Include="UI\UIText.cs" />
-    <Compile Include="UI\WebControls\ContentRegion.cs" />
-    <Compile Include="UI\WebControls\MasterPage.cs" />
+    <Compile Include="UI\WebControls\ContentRegion.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\WebControls\MasterPage.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="emoticons.txt" />
@@ -2404,8 +2411,6 @@
     <Content Include="SystemMessages\UpgradeInProgress.aspx">
       <SubType>Form</SubType>
     </Content>
-    <Content Include="UI\WebControls\ContentRegion.bmp" />
-    <Content Include="UI\WebControls\MasterPage.bmp" />
     <Content Include="Admin\WebUI\AdminPageTemplate.Master" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -2413,6 +2418,8 @@
     </None>
     <Content Include="Skins\_System\ForgotPassword.Master" />
     <Content Include="SystemMessages\SystemMessageTemplate.Master" />
+    <Content Include="UI\WebControls\ContentRegion.bmp" />
+    <Content Include="UI\WebControls\MasterPage.bmp" />
     <Content Include="wlwmanifest.xml" />
   </ItemGroup>
   <ItemGroup>

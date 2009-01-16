@@ -12,7 +12,7 @@ using Subtext.Framework;
 using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Posts {
-    public partial class Posts : System.Web.UI.MasterPage 
+    public partial class Posts : AdminMasterPage 
     {
         protected override void OnLoad(EventArgs e) 
         {
@@ -24,15 +24,11 @@ namespace Subtext.Web.Admin.Posts {
         {
             HyperLink newPostLink = new HyperLink();
             newPostLink.Text = "New Post";
-            newPostLink.NavigateUrl = "Edit.aspx";
+            newPostLink.NavigateUrl = AdminUrl.PostsEdit();
             AdminMasterPage.AddToActions(newPostLink);
 
             HyperLink lnkEditCategories = Utilities.CreateHyperLink("Edit Categories",
-                string.Format(System.Globalization.CultureInfo.InvariantCulture
-                , "{0}?{1}={2}"
-                , "../" + Constants.URL_EDITCATEGORIES
-                , Keys.QRYSTR_CATEGORYTYPE
-                , categoryLinks.CategoryType));
+                AdminUrl.EditCategories(categoryLinks.CategoryType));
             AdminMasterPage.AddToActions(lnkEditCategories);
 
             LinkButton lkbRebuildTags = Utilities.CreateLinkButton("Rebuild All Tags");

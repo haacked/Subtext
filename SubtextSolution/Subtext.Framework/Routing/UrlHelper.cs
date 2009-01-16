@@ -103,7 +103,7 @@ namespace Subtext.Framework.Routing
         }
 
         public virtual VirtualPath ContactFormUrl() {
-            return BlogUrl() + "Contact.aspx";
+            return GetVirtualPath("contact", null);
         }
 
         public virtual VirtualPath MonthUrl(DateTime dateTime) {
@@ -195,11 +195,25 @@ namespace Subtext.Framework.Routing
             return virtualPath.VirtualPath;
         }
 
+        public virtual VirtualPath LoginUrl() {
+            return GetVirtualPath("login", new { });
+        }
+
+        public virtual VirtualPath LogoutUrl()
+        {
+            return GetVirtualPath("logout", new { });
+        }
+
+        public virtual VirtualPath ArchivesUrl()
+        {
+            return GetVirtualPath("archives", new { });
+        }
+        
         public virtual VirtualPath AdminUrl(string path)
         {
             return AdminUrl(path, null);
         }
-
+                
         public virtual VirtualPath AdminUrl(string path, object routeValues) {
             var routeValuesDict = new RouteValueDictionary(routeValues);
             routeValuesDict.Add("pathinfo", path);

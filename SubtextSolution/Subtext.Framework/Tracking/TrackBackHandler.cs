@@ -52,7 +52,7 @@ namespace Subtext.Framework.Tracking
 	/// <summary>
 	/// Service used to receive trackbacks from remote clients.
 	/// </summary>
-    public class TrackBackHandler : IRouteableHandler
+    public class TrackBackHandler : IRoutableHandler
 	{
 		static Log Log = new Log();
 

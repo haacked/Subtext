@@ -1,6 +1,3 @@
-using System;
-using Subtext.Web.Controls;
-
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
@@ -16,6 +13,9 @@ using Subtext.Web.Controls;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
+using Subtext.Web.Controls;
+
 namespace Subtext.Web.UI.Controls
 {
 	/// <summary>
@@ -28,32 +28,29 @@ namespace Subtext.Web.UI.Controls
 	
 		protected string Title
 		{
-			get { return this.title; }
-			set { this.title = value; }
+			get;
+			set;
 		}
-		private string title;
 
 		public string Subtitle
 		{
-			get { return this.subtitle; }
-			set { this.subtitle = value; }
+			get;
+			set;
 		}
-		private string subtitle;
 
 		protected string HomeUrl
 		{
-			get { return this.homeUrl; }
-			set { this.homeUrl = value; }
+			get;
+			set;
 		}
-		private string homeUrl;
 
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
 
-			this.title = Blog.Title;
-			this.homeUrl = Blog.HomeVirtualUrl;
-			this.subtitle = Blog.SubTitle;
+			this.Title = Blog.Title;
+			this.HomeUrl = Url.BlogUrl();
+			this.Subtitle = Blog.SubTitle;
 
 			if (null != this.FindControl("HeaderTitle"))
 			{

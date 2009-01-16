@@ -18,40 +18,20 @@ using System.Web;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.Pages
 {
 	/// <summary>
 	/// Logs a user out of the system.
 	/// </summary>
-	public class logout : System.Web.UI.Page
+	public class logout : RoutablePage
 	{
-		private void Page_Load(object sender, System.EventArgs e)
+		protected override void OnLoad(EventArgs e)
 		{
 			SecurityHelper.LogOut();
-			HttpContext.Current.Response.Redirect(Config.CurrentBlog.HomeVirtualUrl);
+			HttpContext.Current.Response.Redirect(Url.BlogUrl());
 		}
-
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-			this.Load += new System.EventHandler(this.Page_Load);
-
-		}
-		#endregion
 	}
 }
 

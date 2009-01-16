@@ -50,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeHandler = new HttpRouteHandler<FakeRoutableHttpHandler>(handler);
 
             //act
-            var returnedHandler = routeHandler.GetHttpHandler(requestContext) as IRouteableHandler;
+            var returnedHandler = routeHandler.GetHttpHandler(requestContext) as IRoutableHandler;
 
             //assert
             Assert.AreEqual(requestContext, returnedHandler.RequestContext);
@@ -70,7 +70,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
     }
 
-    internal class FakeRoutableHttpHandler : IHttpHandler, IRouteableHandler
+    internal class FakeRoutableHttpHandler : IHttpHandler, IRoutableHandler
     {
         public bool IsReusable
         {

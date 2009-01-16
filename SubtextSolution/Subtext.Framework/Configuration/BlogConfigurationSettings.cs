@@ -34,19 +34,17 @@ namespace Subtext.Framework.Configuration
             CategoryListPostCount = 10;
             ServerTimeZone = -2037797565; //PST
         }
-		
 
 		public Tracking Tracking
 		{
 			get 
 			{
-				if(this._tracking == null)
-				{
-					this._tracking = new Tracking();
-				}
-				return this._tracking;
+                _tracking = _tracking ?? new Tracking();
+				return _tracking;
 			}
-			set {this._tracking = value;}
+			set {
+                _tracking = value;
+            }
 		}
         private Tracking _tracking;
 

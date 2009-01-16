@@ -19,7 +19,7 @@ namespace Subtext.Web.SiteMap
     /// <summary>
     /// Your blog sitemap that search engines can use to decide how to index your site.
     /// </summary>    
-    public class SiteMapHttpHandler : IRouteableHandler
+    public class SiteMapHttpHandler : IRoutableHandler
     {
         void IHttpHandler.ProcessRequest(HttpContext context) {
             ProcessRequest(_subtextContext);

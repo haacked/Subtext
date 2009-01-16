@@ -36,9 +36,13 @@
     <form id="frmMain" runat="server">
     <div id="container">
 	    <div id="login-status">
-		    <span id="blog-title"><asp:HyperLink id="BlogTitleLink" runat="server" ToolTip="Blog Home Page" NavigateUrl="<%# Config.CurrentBlog.HomeVirtualUrl %>" Text="<%# Config.CurrentBlog.Title %>" /></span>
-		    Logged in as <strong>
-			    <asp:Literal Runat="server" ID="LoggedInUser" Text="<%# Config.CurrentBlog.Author %>" /></strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>) 
+		    <span id="blog-title">
+		        <a title="Blog Home Page" href="<%= Url.BlogUrl() %>"><%= Config.CurrentBlog.Title %></a>
+		    </span>
+		    Logged in as 
+		    <strong>
+			    <asp:Literal Runat="server" ID="LoggedInUser" Text="<%# Config.CurrentBlog.Author %>" />
+	        </strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>)
 	     </div>
 
         <div id="header">
@@ -47,24 +51,24 @@
 	    </div>
 
 	    <ul id="tabs">
-		    <li id="PostsTab"><a href="<%= Url.AdminUrl("Posts") %>" id="TabPosts" title="Posts">Posts</a></li>
-		    <li id="ArticlesTab"><a href="<%= Url.AdminUrl("Articles") %>" id="TabArticles" title="Articles">Articles</a></li>
-		    <li id="FeedbackTab"><a href="<%= Url.AdminUrl("Feedback") %>" id="TabFeedback" title="Feedback">Feedback</a></li>
-		    <li id="LinksTab"><a href="<%= Url.AdminUrl("EditLinks.aspx") %>" id="TabLinks" title="Links">Links</a></li>
+		    <li id="PostsTab"><a href="<%= AdminUrl.PostsList() %>" id="TabPosts" title="Posts">Posts</a></li>
+		    <li id="ArticlesTab"><a href="<%= AdminUrl.ArticlesList() %>" id="TabArticles" title="Articles">Articles</a></li>
+		    <li id="FeedbackTab"><a href="<%= AdminUrl.FeedbackList() %>" id="TabFeedback" title="Feedback">Feedback</a></li>
+		    <li id="LinksTab"><a href="<%= AdminUrl.LinksEdit() %>" id="TabLinks" title="Links">Links</a></li>
 		    <li runat="server" id="galleryTab" class="galleryTab" visible="<%# Config.Settings.AllowImages %>">
-			    <a href="<%= Url.AdminUrl("EditGalleries.aspx") %>" id="TabGalleries" title="Galleries">Galleries</a>
+			    <a href="<%= AdminUrl.GalleriesEdit() %>" id="TabGalleries" title="Galleries">Galleries</a>
 		    </li>
 		    <li id="StatsTab">
-			    <a href="<%= Url.AdminUrl("Statistics.aspx") %>" id="TabStats" title="Stats">Stats</a>
+			    <a href="<%= AdminUrl.Statistics() %>" id="TabStats" title="Stats">Stats</a>
 		    </li>
 		    <li id="OptionsTab">
-			    <a href="<%= Url.AdminUrl("Options.aspx") %>" id="TabOptions" title="Options">Options</a>
+			    <a href="<%= AdminUrl.Options() %>" id="TabOptions" title="Options">Options</a>
 		    </li>
 		    <li id="ImportExportTab">
-			    <a href="<%= Url.AdminUrl("ImportExport.aspx") %>" id="TabImportExport" title="Import/Export">Import/Export</a>
+			    <a href="<%= AdminUrl.ImportExport() %>" id="TabImportExport" title="Import/Export">Import/Export</a>
 		    </li>
 		    <li id="CreditTab">
-			    <a href="<%= Url.AdminUrl("Credits.aspx") %>" id="TabCredit" title="Credits">Credits</a>
+			    <a href="<%= AdminUrl.Credits() %>" id="TabCredit" title="Credits">Credits</a>
 		    </li>									
 	    </ul>
 	    

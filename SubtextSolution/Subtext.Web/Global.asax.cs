@@ -46,8 +46,9 @@ namespace Subtext.Web
             routes.Ignore("install/{*pathinfo}");
             routes.Ignore("SystemMessages/{*pathinfo}");
 
-            routes.MapPage("login.aspx", "~/login.aspx");
-            routes.MapPage("logout.aspx", "~/logout.aspx");
+            //TODO: Consider making this a single route with a constraint of the allowed pages.
+            routes.MapPage("login");
+            routes.MapPage("logout");
             
             routes.MapHttpHandler<SubtextBlogMlHttpHandler>("admin/handlers/BlogMLExport.ashx");
             routes.MapHttpHandler<RssAdminHandler>("admin/{adminRss}Rss.axd");
@@ -68,9 +69,10 @@ namespace Subtext.Web
             routes.MapHttpHandler<AggBugHandler>("aggbug", "aggbug/{id}.aspx");
             routes.MapHttpHandler<BlogSecondaryCssHandler>("customcss.aspx");
             routes.MapHttpHandler<RssCategoryHandler>("category/{categoryName}.aspx/rss", new {categoryName=@"[-\w\s\d]+"});
+            routes.MapPageToControl("contact");
             routes.MapPageToControl("ArchivePostPage");
             routes.MapPageToControl("ArticleCategories");
-            routes.MapControls("archives.aspx", new[] {"SingleColumn"});
+            routes.MapControls("archives", "archives.aspx", null, new[] {"SingleColumn"});
 
             routes.MapControls("entry-by-id", 
                 "archive/{year}/{month}/{day}/{id}.aspx"
@@ -99,8 +101,6 @@ namespace Subtext.Web
                 , new { /*slug = @"\w*([\w-_]+\.)*[\w-_]+"*/}
                 , new[] { "viewpost", "comments", "postcomment" });
 
-            routes.MapPageToControl("contact");
-            
             routes.MapControls("gallery", "gallery/{id}.aspx"
                 , new { id = @"\d+"}
                 , new[] { "GalleryThumbNailViewer" });

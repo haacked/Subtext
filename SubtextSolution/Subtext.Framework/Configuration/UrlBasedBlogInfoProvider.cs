@@ -103,7 +103,7 @@ namespace Subtext.Framework.Configuration
 		/// It will next check the cache.
 		/// </summary>
 		/// <returns></returns>
-		public virtual Blog GetBlogInfo()
+		public virtual Blog GetBlogInfo(BlogRequest blogRequest)
 		{
 			// First check the cache for the current request for an 
 			// existing BlogConfig. This saves us the trouble of having 
@@ -113,7 +113,7 @@ namespace Subtext.Framework.Configuration
 			if (info != null)
 				return info;
 			
-			BlogRequest blogRequest = BlogRequest.Current;
+			blogRequest = BlogRequest.Current;
 			
 			//BlogConfig was not found in the context. It could be in the current cache.
 			string mCacheKey = cacheKey + blogRequest.Host + "/" + blogRequest.Subfolder;
@@ -209,7 +209,7 @@ namespace Subtext.Framework.Configuration
 
 		private static void RedirectToPrimaryHost(Blog info, BlogRequest blogRequest)
 		{
-			string url = BlogRequest.Current.RawUrl.ToString();
+			string url = blogRequest.RawUrl.ToString();
 			UriBuilder uriBuilder = new UriBuilder(url);
 			uriBuilder.Host = info.Host;
 			if (blogRequest.Subfolder != info.Subfolder)

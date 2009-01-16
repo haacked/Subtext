@@ -207,7 +207,7 @@ namespace UnitTests.Subtext.BlogML
 			Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
 			BlogRequest.Current = new BlogRequest(hostName, string.Empty, new Uri(string.Format("http://{0}/", hostName)), false);
-			Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
+			Assert.IsNotNull(Config.CurrentBlog);
 
 			Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
 			Config.CurrentBlog.ImagePath = "/image/";

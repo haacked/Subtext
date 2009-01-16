@@ -19,22 +19,22 @@
 		<tr>
 			<td>
 			    <asp:HyperLink runat="server" NavigateUrl='<%# Url.EntryUrl((Entry)Container.DataItem) %>' ToolTip="View Entry" >
-			        <%# DataBinder.Eval(Container.DataItem, "Title") %></asp:HyperLink>
+			        <%# Eval("Title") %></asp:HyperLink>
 			</td>
 			<td>
 				<%# IsActiveText(Container.DataItem)%>
 			</td>												
 			<td>
-				<%# DataBinder.Eval(Container.DataItem, "WebCount") %>
+				<%# Eval("WebCount") %>
 			</td>
 			<td>
-				<%# DataBinder.Eval(Container.DataItem, "AggCount") %>
+				<%# Eval("AggCount") %>
 			</td>				
 			<td>
-				<a href="../Referrers.aspx?EntryID=<%# Eval("Id") %>" title="View Referrals">View</a>
+				<a href="<%# ReferrersUrl(Container.DataItem) %>" title="View Referrals">View</a>
 			</td>				
 			<td>
-				<a href="Edit.aspx?PostId=<%# Eval("Id") %>" title="Edit Post">Edit</a>
+				<a href="<%# PostsEditUrl(Container.DataItem) %>" title="Edit Post">Edit</a>
 			</td>
 			<td>
 				<asp:LinkButton id="lnkDelete" CausesValidation="False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />

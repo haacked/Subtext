@@ -351,6 +351,7 @@
     </Compile>
     <Compile Include="Framework\Providers\ProviderConfigurationHelperTests.cs" />
     <Compile Include="Framework\Providers\SearchEngineTests.cs" />
+    <Compile Include="Framework\Routing\AdminUrlHelperTests.cs" />
     <Compile Include="Framework\Routing\AggregateEnabledConstraintTests.cs" />
     <Compile Include="Framework\Routing\DirectoryRouteHandlerTests.cs" />
     <Compile Include="Framework\Routing\DirectoryRouteTests.cs" />

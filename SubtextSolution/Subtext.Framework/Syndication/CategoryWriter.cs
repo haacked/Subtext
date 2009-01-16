@@ -60,7 +60,7 @@ namespace Subtext.Framework.Syndication
 			}
 			else
 			{
-				this.BuildChannel(Category.Title,  Url,  Blog.Email,  Category.HasDescription ? Category.Description : Category.Title, Blog.Language, Blog.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
+				this.BuildChannel(Category.Title,  Url,  Blog.Email,  Category.HasDescription ? Category.Description : Category.Title, Blog.Language, Blog.Author, Blog.LicenseUrl);
 			}
 		}
 	}

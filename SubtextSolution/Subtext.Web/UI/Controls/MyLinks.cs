@@ -1,7 +1,3 @@
-using System;
-using Subtext.Framework;
-using Subtext.Web.Controls;
-
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
@@ -17,10 +13,14 @@ using Subtext.Web.Controls;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
+using System.Web.UI.WebControls;
+using Subtext.Framework;
+using Subtext.Framework.Security;
+using Subtext.Web.Controls;
+
 namespace Subtext.Web.UI.Controls
 {
-	using System;
-    using Subtext.Framework.Security;
 
 	/// <summary>
 	///	Code behind class for the MyLinks section.  Hooks up links within 
@@ -28,17 +28,12 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class MyLinks : BaseControl
 	{
-		#region Declared Controls
-		protected System.Web.UI.WebControls.HyperLink Admin;
-		protected System.Web.UI.WebControls.HyperLink Syndication;
-		protected System.Web.UI.WebControls.HyperLink HomeLink;
-		protected System.Web.UI.WebControls.HyperLink Archives;
-		protected System.Web.UI.WebControls.HyperLink ContactLink;
-		protected System.Web.UI.WebControls.HyperLink ArchivePostPageLink;
-		protected System.Web.UI.WebControls.HyperLink LinkPageLink;
-		protected System.Web.UI.WebControls.HyperLink ArticleCategoriesLink;
-		#endregion
-
+		protected HyperLink Admin;
+		protected HyperLink Syndication;
+		protected HyperLink HomeLink;
+		protected HyperLink Archives;
+		protected HyperLink ContactLink;
+		
 		protected override void OnLoad(EventArgs e)
 		{
 			//TODO: Make sure these urls use the UrlFormats class.
@@ -48,19 +43,19 @@ namespace Subtext.Web.UI.Controls
 			{
 				if(HomeLink != null)
 				{
-					HomeLink.NavigateUrl = Blog.HomeVirtualUrl;
+                    HomeLink.NavigateUrl = Url.BlogUrl();
 					ControlHelper.SetTitleIfNone(HomeLink, "Link to the home page.");
 				}
 				
 				if(ContactLink != null)
 				{
-					ContactLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}contact.aspx", Blog.VirtualUrl);
+                    ContactLink.NavigateUrl = Url.ContactFormUrl();
 					ControlHelper.SetTitleIfNone(ContactLink, "Contact form.");
 				}
 
 				if(Archives != null)
 				{
-					Archives.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}archives.aspx", Blog.VirtualUrl);
+                    Archives.NavigateUrl = Url.ArchivesUrl();
 					ControlHelper.SetTitleIfNone(Archives, "View Archives.");
 				}
 
@@ -69,13 +64,13 @@ namespace Subtext.Web.UI.Controls
 					if(Request.IsAuthenticated && SecurityHelper.IsAdmin)
 					{
 						Admin.Text = "Admin";
-						Admin.NavigateUrl = Blog.AdminHomeVirtualUrl;
+                        Admin.NavigateUrl = AdminUrl.Home();
 						ControlHelper.SetTitleIfNone(Admin, "Admin Section.");
 					}
 					else
 					{
 						Admin.Text = "Login";
-						Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}login.aspx", Blog.VirtualUrl);
+                        Admin.NavigateUrl = Url.LoginUrl();
 						ControlHelper.SetTitleIfNone(Admin, "Login Form.");
 					}
 				}
@@ -85,29 +80,8 @@ namespace Subtext.Web.UI.Controls
 					Syndication.NavigateUrl = Url.RssUrl(Blog).ToString();
 					ControlHelper.SetTitleIfNone(Syndication, "Subscribe to this feed.");
 				}
-
-				if(ArchivePostPageLink != null)
-				{
-					ArchivePostPageLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}ArchivePostPage.aspx", Blog.VirtualUrl);
-					ControlHelper.SetTitleIfNone(ArchivePostPageLink, "Archives.");
-				}
-
-				if(LinkPageLink != null)
-				{
-					LinkPageLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}LinkPage.aspx", Blog.VirtualUrl);
-					ControlHelper.SetTitleIfNone(LinkPageLink, "Links.");
-				}
-
-				if(ArticleCategoriesLink != null)
-				{
-					ArticleCategoriesLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}ArticleCategoriesPage.aspx", Blog.VirtualUrl);
-					ControlHelper.SetTitleIfNone(ArticleCategoriesLink, "Article Categories.");
-				}
-				
 			}
 		}
-
-		
 	}
 }
 

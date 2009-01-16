@@ -14,9 +14,10 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
+using System.Web;
 using System.Web.Configuration;
 using log4net;
 using Subtext.Extensibility.Interfaces;
@@ -26,8 +27,8 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
+using Subtext.Framework.Web.HttpModules;
 using Subtext.Scripting;
-using System.Web;
 
 namespace Subtext.Framework.Configuration
 {
@@ -115,13 +116,11 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				if (HttpContext.Current == null)
-					return null;
-
-				if (InstallationManager.IsInHostAdminDirectory)
-					return null;
+                if (HttpContext.Current == null || InstallationManager.IsInHostAdminDirectory) {
+                    return null;
+                }
 				
-				Blog currentBlog = ConfigurationProvider.GetBlogInfo();
+				Blog currentBlog = ConfigurationProvider.GetBlogInfo(BlogRequest.Current);
 				return currentBlog;
 			}
 		}

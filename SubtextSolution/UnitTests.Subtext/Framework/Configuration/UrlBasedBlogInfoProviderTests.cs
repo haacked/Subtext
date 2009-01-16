@@ -22,8 +22,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
 			Config.CreateBlog("title", "username", "password", "www.example.com", string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest("example.com", string.Empty);
-			BlogRequest.Current = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/2007/01/23/some-post.aspx"), false);
-			Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(), "Should return null");
+			var blogRequest = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/2007/01/23/some-post.aspx"), false);
+            Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(blogRequest), "Should return null");
 			Assert.AreEqual(301, HttpContext.Current.Response.StatusCode, "Expected a 301 status code");
 			Assert.AreEqual("http://www.example.com:80/2007/01/23/some-post.aspx", HttpContext.Current.Response.RedirectLocation, "Expected the url to change");
 		}
@@ -43,8 +43,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 			alias.IsActive = true;
 			Config.AddBlogAlias(alias);
 			UnitTestHelper.SetHttpContextWithBlogRequest("alias.example.com", string.Empty);
-			BlogRequest.Current = new BlogRequest("alias.example.com", string.Empty, new Uri("http://alias.example.com/2007/01/23/some-post.aspx"), false);
-			Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(), "Should return null");
+			var blogRequest = new BlogRequest("alias.example.com", string.Empty, new Uri("http://alias.example.com/2007/01/23/some-post.aspx"), false);
+            Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(blogRequest), "Should return null");
 			Assert.AreEqual(301, HttpContext.Current.Response.StatusCode, "Expected a 301 status code");
 			Assert.AreEqual("http://example.com:80/2007/01/23/some-post.aspx", HttpContext.Current.Response.RedirectLocation, "Expected the url to change");
 		}
@@ -68,10 +68,10 @@ namespace UnitTests.Subtext.Framework.Configuration
             // act
             Config.AddBlogAlias(alias);
 			UnitTestHelper.SetHttpContextWithBlogRequest("alias.example.com", "blog");
-			BlogRequest.Current = new BlogRequest("alias.example.com", "blog", new Uri("http://alias.example.com/blog/2007/01/23/some-post.aspx"), false);
+			var blogRequest = new BlogRequest("alias.example.com", "blog", new Uri("http://alias.example.com/blog/2007/01/23/some-post.aspx"), false);
 			
             // assert
-            Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(), "Should return null");
+            Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(blogRequest), "Should return null");
 			Assert.AreEqual(301, HttpContext.Current.Response.StatusCode, "Expected a 301 status code");
 			Assert.AreEqual("http://example.com:80/2007/01/23/some-post.aspx", HttpContext.Current.Response.RedirectLocation, "Expected the url to change");
 		}
@@ -83,8 +83,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Config.CreateBlog("title", "username", "password", "blog1.example.com", string.Empty);
 			Config.CreateBlog("title", "username", "password", "blog2.example.com", string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest("example.com", string.Empty);
-			BlogRequest.Current = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/"), false);
-			Blog info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo();
+            var blogRequest = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/"), false);
+            Blog info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo(blogRequest);
 			Assert.AreEqual(Blog.AggregateBlog, info, "Should have received the aggregate blog");
 		}
 
@@ -104,8 +104,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Assert.AreEqual(1, Blog.GetBlogs(0, 10, ConfigurationFlags.None).Count, "Need to make sure there's only one blog in the system.");
 
 			UnitTestHelper.SetHttpContextWithBlogRequest("example.com", subfolder);
-			BlogRequest.Current = new BlogRequest("example.com", subfolder, new Uri("http://example.com/"), false);
-			Blog info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo();
+            var blogRequest = new BlogRequest("example.com", subfolder, new Uri("http://example.com/"), false);
+            Blog info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo(blogRequest);
 			Assert.IsNotNull(info, "Expected to find a blog.");
 			Assert.AreEqual(subfolder, info.Subfolder, "The subfolder has not changed.");
 			Assert.AreEqual("example.com", info.Host, "The host should have changed.");
@@ -122,8 +122,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Assert.AreEqual(1, Blog.GetBlogs(0, 10, ConfigurationFlags.None).Count, "Need to make sure there's only one blog in the system.");
 			
 			UnitTestHelper.SetHttpContextWithBlogRequest("example.com", subfolder);
-			BlogRequest.Current = new BlogRequest("example.com", subfolder, new Uri("http://example.com/" + subfolder + "/"), false);
-			Blog info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo();
+            var blogRequest = new BlogRequest("example.com", subfolder, new Uri("http://example.com/" + subfolder + "/"), false);
+            Blog info = UrlBasedBlogInfoProvider.Instance.GetBlogInfo(blogRequest);
 			
 			Assert.IsNotNull(info, "Expected to find a blog.");
 			Assert.AreEqual(subfolder, info.Subfolder, "The subfolder should not have changed.");

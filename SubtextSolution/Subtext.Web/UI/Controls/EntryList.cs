@@ -106,7 +106,7 @@ namespace Subtext.Web.UI.Controls
 			Label commentCount = e.Item.FindControl("commentCount") as Label;
 			if(commentCount != null)
 			{
-				if(Config.CurrentBlog.CommentsEnabled && entry.AllowComments)
+				if(Blog.CommentsEnabled && entry.AllowComments)
 				{
                     //TODO: Consider a specific url helper method for link to feedback section.
                     string entryUrl = Url.EntryUrl(entry);

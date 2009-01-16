@@ -294,10 +294,10 @@ namespace Subtext.Web.UI.Controls
 				this.tbComment.Text = string.Empty;
 
 			if (this.tbEmail != null)
-				this.tbEmail.Text = SecurityHelper.IsAdmin ? Config.CurrentBlog.Email : string.Empty;
+				this.tbEmail.Text = SecurityHelper.IsAdmin ? Blog.Email : string.Empty;
 
 			if (this.tbName != null)
-				this.tbName.Text = SecurityHelper.IsAdmin ? Config.CurrentBlog.UserName : string.Empty;
+				this.tbName.Text = SecurityHelper.IsAdmin ? Blog.UserName : string.Empty;
 			
 			if(entry == null)
 				entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, SubtextContext);
@@ -306,7 +306,7 @@ namespace Subtext.Web.UI.Controls
 				this.tbTitle.Text = "re: " + HttpUtility.HtmlDecode(entry.Title);
 			
 			if (this.tbUrl != null)
-				this.tbUrl.Text = SecurityHelper.IsAdmin ? Config.CurrentBlog.HomeFullyQualifiedUrl.ToString() : string.Empty;
+				this.tbUrl.Text = SecurityHelper.IsAdmin ? Blog.HomeFullyQualifiedUrl.ToString() : string.Empty;
 
 			HttpCookie user = Request.Cookies["CommentUser"];
 			if (user != null)

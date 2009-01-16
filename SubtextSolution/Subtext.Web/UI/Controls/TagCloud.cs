@@ -50,7 +50,7 @@ namespace Subtext.Web.UI.Controls
                 Tag tag = (Tag)e.Item.DataItem;
                 HyperLink tagLink = e.Item.FindControl("TagUrl") as HyperLink;
 				if(tagLink != null)
-					tagLink.NavigateUrl = string.Format("{0}Tags/{1}/default.aspx", Config.CurrentBlog.RootUrl, tag.TagName);
+					tagLink.NavigateUrl = string.Format("{0}Tags/{1}/default.aspx", Blog.RootUrl, tag.TagName);
             }
         }
 
@@ -81,7 +81,7 @@ namespace Subtext.Web.UI.Controls
                 HyperLink hlDefault = ControlHelper.FindControlRecursively(this, "DefaultTagLink") as HyperLink;
                 if (hlDefault != null)
                 {
-                    hlDefault.NavigateUrl = string.Format("{0}Tags/default.aspx", Config.CurrentBlog.RootUrl);
+                    hlDefault.NavigateUrl = string.Format("{0}Tags/default.aspx", Blog.RootUrl);
                 }
             }
         }

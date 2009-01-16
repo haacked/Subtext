@@ -41,7 +41,6 @@ namespace Subtext.Web.Admin.Pages
 	public class AdminPage : RoutablePage
 	{
         private HtmlGenericControl body;
-		private ConfirmCommand _command;
 		
 		protected override void OnLoad(EventArgs e)
 		{
@@ -66,7 +65,7 @@ namespace Subtext.Web.Admin.Pages
                 ControlHelper.AddCssClass(this.body, this.TabSectionId);
             }
 	    }
-	    
+
 	    protected AdminPageTemplate AdminMasterPage
 	    {
 	        get
@@ -110,8 +109,8 @@ namespace Subtext.Web.Admin.Pages
 	    
 		public ConfirmCommand Command
 		{
-			get { return _command; }
-			set { _command = value; }
+			get;
+			set;
 		}
 
         [Category("Page")]

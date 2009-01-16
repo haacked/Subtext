@@ -47,6 +47,7 @@ namespace Subtext.Framework
             Id = NullValue.NullInt32;
             ItemCount = 25;
             Author = "Subtext Weblog";
+            Flag = ConfigurationFlags.None;
         }
 
         /// <summary>
@@ -945,30 +946,6 @@ namespace Subtext.Framework
         }
 
         /// <summary>
-        /// Gets virtual URL to the admin home page.
-        /// </summary>
-        /// <value>The admin virtual URL.</value>
-        public string AdminHomeVirtualUrl
-        {
-            get
-            {
-                return string.Format(CultureInfo.InvariantCulture, "{0}Default.aspx", AdminDirectoryVirtualUrl);
-            }
-        }
-
-        /// <summary>
-        /// Gets virtual URL to the admin section.
-        /// </summary>
-        /// <value>The admin virtual URL.</value>
-        public string AdminDirectoryVirtualUrl
-        {
-            get
-            {
-                return string.Format(CultureInfo.InvariantCulture, "{0}Admin/", VirtualUrl);
-            }
-        }
-
-        /// <summary>
         /// Gets the fully qualified blog home URL.  This is the URL to the blog's home page. 
         /// Until we integrate with IIS better, we have to append the "Default.aspx" 
         /// to the end.
@@ -1006,20 +983,7 @@ namespace Subtext.Framework
             }
         }
         Uri hostFullyQualifiedUrl;
-
-        /// <summary>
-        /// Gets the blog home virtual URL.  For example, "/default.aspx" or "/Blog/Default.aspx".
-        /// </summary>
-        /// <value>The blog home virtual URL.</value>
-        public string HomeVirtualUrl
-        {
-            get
-            {
-                return VirtualUrl + "Default.aspx";
-            }
-        }
-
-        private ConfigurationFlags _flag = ConfigurationFlags.None;
+        
         /// <summary>
         /// Gets or sets the flags pertaining to this blog.  
         /// This is a bitmask of <see cref="ConfigurationFlag"/>s.
@@ -1027,8 +991,8 @@ namespace Subtext.Framework
         /// <value></value>
         public ConfigurationFlags Flag
         {
-            get { return _flag; }
-            set { _flag = value; }
+            get;
+            set;
         }
 
         /// <summary>

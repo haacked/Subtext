@@ -34,7 +34,7 @@ namespace Subtext.Web.UI.Controls
 			if(entry != null)
 			{
 				//Sent entry properties
-				MainLink.NavigateUrl = Blog.HomeVirtualUrl;
+				MainLink.NavigateUrl = Url.BlogUrl();
 
 				ICollection<Entry> entries = ObjectProvider.Instance().GetPreviousAndNextEntries(entry.Id, PostType.BlogPost);
 

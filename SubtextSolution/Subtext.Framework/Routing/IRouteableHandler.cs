@@ -3,7 +3,7 @@ using System.Web.Routing;
 
 namespace Subtext.Framework.Routing
 {
-    public interface IRouteableHandler : IHttpHandler
+    public interface IRoutableHandler : IHttpHandler
     {
         RequestContext RequestContext {
             get;
