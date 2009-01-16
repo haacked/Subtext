@@ -11,28 +11,15 @@ namespace Subtext.Web.Admin.WebUI
 	/// <summary>
 	/// Code behind for the admin master template.
 	/// </summary>
-	public partial class AdminPageTemplate : MasterPage
+	public partial class AdminPageTemplate : AdminMasterPage
 	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
-		}
-
-        public UrlHelper Url 
-        {
-            get 
-            {
-                return _urlHelper;
-            }
-        }
-        UrlHelper _urlHelper = new UrlHelper(null, null);
-
 		/// <summary>
 		/// Adds a link button to the list of possible actions.
 		/// </summary>
 		/// <param name="button"></param>
 		public void AddToActions(LinkButton button)
 		{
-			AddToActions(button, "");
+			AddToActions(button, string.Empty);
 		}
 
 		public void AddToActions(LinkButton button, string rssFeed)
@@ -64,7 +51,7 @@ namespace Subtext.Web.Admin.WebUI
 		/// <param name="link"></param>
 		public void AddToActions(HyperLink link)
 		{
-			AddToActions(link, "");
+			AddToActions(link, string.Empty);
 		}
 
 		public void AddToActions(HyperLink link, string rssFeed)
@@ -118,7 +105,7 @@ namespace Subtext.Web.Admin.WebUI
 		void OnLogoutClick(object sender, EventArgs e)
 		{
 			SecurityHelper.LogOut();
-			HttpContext.Current.Response.Redirect(Config.CurrentBlog.HomeVirtualUrl);
+			HttpContext.Current.Response.Redirect(Url.BlogUrl());
 		}
 	}
 }

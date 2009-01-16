@@ -14,14 +14,14 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Web.Controls;
-using System.Web;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -40,9 +40,7 @@ namespace Subtext.Web.UI.Controls
 		public RecentComments()
 		{
             int commentCount = Config.CurrentBlog.NumberOfRecentComments > 0 ? Config.CurrentBlog.NumberOfRecentComments : DefaultRecentPostCount;
-			
 		    comments = FeedbackItem.GetRecentComments(commentCount);
-
             comments = (from c in comments where c.EntryId > 0 select c).ToList();
 		}
 
@@ -66,7 +64,6 @@ namespace Subtext.Web.UI.Controls
 				this.Controls.Clear();
 				this.Visible = false;
 			}
-
 		}
 
 		protected void EntryCreated(object sender,  RepeaterItemEventArgs e)

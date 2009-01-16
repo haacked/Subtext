@@ -44,7 +44,7 @@ namespace Subtext.Web.UI.Controls
 		    
 		    if(currentYear != null)
 		    {
-				currentYear.Text = Config.CurrentBlog.TimeZone.Now.Year.ToString(CultureInfo.InvariantCulture);
+				currentYear.Text = Blog.TimeZone.Now.Year.ToString(CultureInfo.InvariantCulture);
 		    }
 		}
 	}

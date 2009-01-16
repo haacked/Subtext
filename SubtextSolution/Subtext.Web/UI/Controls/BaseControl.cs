@@ -32,13 +32,26 @@ namespace Subtext.Web.UI.Controls
 	{
         public UrlHelper Url {
             get {
-                var subtextPage = SubtextPage;
-                if (subtextPage != null) {
-                    return subtextPage.SubtextContext.UrlHelper;
+                var routableHandler = Page as IRoutableHandler;
+                if (routableHandler != null) {
+                    return routableHandler.Url;
                 }
-                return new UrlHelper(null, null);
+                return null;
             }
         }
+
+        public AdminUrlHelper AdminUrl
+        {
+            get
+            {
+                if (_adminUrlHelper == null)
+                {
+                    _adminUrlHelper = new AdminUrlHelper(Url);
+                }
+                return _adminUrlHelper;
+            }
+        }
+        AdminUrlHelper _adminUrlHelper;
 
         public Blog Blog {
             get

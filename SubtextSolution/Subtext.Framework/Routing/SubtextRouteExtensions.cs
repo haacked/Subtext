@@ -42,7 +42,7 @@ namespace Subtext.Framework.Routing
 
         public static void MapPageToControl(this RouteCollection routes, string controlName)
         {
-            routes.MapControls(controlName + ".aspx", new string[] { controlName });
+            routes.MapControls(controlName, controlName + ".aspx", null, new string[] { controlName });
         }
 
         /// <summary>
@@ -59,6 +59,17 @@ namespace Subtext.Framework.Routing
             aggEnabledConstraints.Add("", new AggregateEnabledConstraint(true));
             routes.Add(new SubtextRoute("Default.aspx", new PageRouteHandler("~/AggDefault.aspx")) { Constraints = aggEnabledConstraints });
             routes.Add(new SubtextRoute(string.Empty, new PageRouteHandler("~/AggDefault.aspx")) { Constraints = aggEnabledConstraints });
+        }
+
+        public static void MapPage(this RouteCollection routes, string name)
+        {
+            string url = name + ".aspx";
+            routes.Add(name, new SubtextRoute(url, new PageRouteHandler("~/" + url)));
+        }
+
+        public static void MapPage(this RouteCollection routes, string name, string url, string virtualPath)
+        {
+            routes.Add(name, new SubtextRoute(url, new PageRouteHandler(virtualPath)));
         }
 
         public static void MapPage(this RouteCollection routes, string url, string virtualPath)

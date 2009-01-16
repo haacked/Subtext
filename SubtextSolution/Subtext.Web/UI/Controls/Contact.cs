@@ -91,7 +91,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			if(Page.IsValid)
 			{
-				Blog info = Config.CurrentBlog;
+				Blog info = Blog;
 
 				if(SendContactMessageToFeedback || String.IsNullOrEmpty(info.Email))
 				{

@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Globalization;
-using System.Web.UI;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Web.Admin.Pages;
-using Subtext.Web.Admin.WebUI.Controls;
+using Subtext.Web.UI.Controls;
 
 namespace Subtext.Web.Admin.UserControls {
-    public partial class EntriesList : BaseUserControl {
+    public partial class EntriesList : BaseControl {
         private int categoryId = NullValue.NullInt32;
         private int pageIndex = 0;
 
@@ -56,6 +55,18 @@ namespace Subtext.Web.Admin.UserControls {
                 page.Command.RedirectUrl = Request.Url.ToString();
             }
             Server.Transfer("../" + Constants.URL_CONFIRM);
+        }
+
+        public string PostsEditUrl(object item)
+        {
+            var entry = (Entry)item;
+            return AdminUrl.PostsEdit(entry.Id);
+        }
+
+        public string ReferrersUrl(object item)
+        {
+            var entry = (Entry)item;
+            return AdminUrl.Referrers(entry.Id);
         }
 
         protected string IsActiveText(object entryObject) 

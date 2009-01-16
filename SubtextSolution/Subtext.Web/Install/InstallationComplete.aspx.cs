@@ -36,19 +36,19 @@ namespace Subtext.Web.Install
 				if(lnkBlog != null && paraBlogLink != null)
 				{
 					paraBlogLink.Visible = true;
-					lnkBlog.HRef = Config.CurrentBlog.HomeVirtualUrl;
+					lnkBlog.HRef = Url.BlogUrl();
 				}
 				
 				if(lnkBlogAdmin != null && paraBlogAdminLink != null)
 				{
 					paraBlogAdminLink.Visible = true;
-					lnkBlogAdmin.HRef = Config.CurrentBlog.AdminHomeVirtualUrl;
+                    lnkBlogAdmin.HRef = AdminUrl.Home();
 				}
 				
 				if(lnkBlogMl != null && paraBlogmlImport != null)
 				{
 					paraBlogmlImport.Visible = true;
-					lnkBlogMl.HRef = Config.CurrentBlog.AdminDirectoryVirtualUrl + "ImportExport.aspx";
+                    lnkBlogMl.HRef = AdminUrl.ImportExport();
 				}
 			}
 			

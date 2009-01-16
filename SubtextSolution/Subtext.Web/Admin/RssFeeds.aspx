@@ -8,11 +8,12 @@
 
 <asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
 </asp:Content>
+
 <asp:Content ID="referrersContent" ContentPlaceHolderID="pageContent" runat="server">   
 <script type="text/javascript">
 	function UpdateForm()
 	{
-		var page = '<%=Subtext.Framework.Configuration.Config.CurrentUrlHelper.AdminUrl("AdminRss.axd") %>';
+		var page = '<%= AdminUrl.Rss() %>';
 		var type = document.getElementById("selType").value;
 		var count = document.getElementById("txtCount").value;
 		var title = document.getElementById("txtTitle").value;
@@ -45,7 +46,8 @@
 		    
 		page += filter;
 		document.getElementById('urlText').innerHTML = page;
-	}
+}
+	
 	function AddFilter(filter, value)
 	{
 		if(filter.length==0)
@@ -59,6 +61,7 @@
 		return filter;
 	}
 </script>
+
 	Feed Url:<br />
 	<div id="urlText" >Select a feed type.</div>
 	<hr />

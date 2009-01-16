@@ -193,8 +193,8 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="dt"></param>
 		/// <returns></returns>
-		protected static DateTime ConvertLastUpdatedDate(DateTime dateTime) {
-            DateTime utc = Config.CurrentBlog.TimeZone.ToUniversalTime(dateTime);
+		protected DateTime ConvertLastUpdatedDate(DateTime dateTime) {
+            DateTime utc = Blog.TimeZone.ToUniversalTime(dateTime);
 			return TimeZone.CurrentTimeZone.ToLocalTime(utc);
 		}
 
@@ -405,7 +405,7 @@ namespace Subtext.Framework.Syndication
 		private bool RedirectToFeedBurnerIfNecessary()
 		{
 			//If we are using FeedBurner, only allow them to get our feed...
-			if (!String.IsNullOrEmpty(Config.CurrentBlog.RssProxyUrl))
+			if (!String.IsNullOrEmpty(Blog.RssProxyUrl))
 			{
 				string userAgent = HttpContext.Request.UserAgent;
 				if (!String.IsNullOrEmpty(userAgent))

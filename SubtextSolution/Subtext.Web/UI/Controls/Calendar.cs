@@ -118,7 +118,7 @@ namespace Subtext.Web.UI.Controls
 				}
 			}
 			// If all else fails set the cal to today.
-			return Config.CurrentBlog.TimeZone.Now;
+			return Blog.TimeZone.Now;
 		}
 
 
@@ -137,7 +137,7 @@ namespace Subtext.Web.UI.Controls
 			}
 			catch (FormatException)
 			{
-				parsedDate = Config.CurrentBlog.TimeZone.Now;
+				parsedDate = Blog.TimeZone.Now;
 				return false;
 			}
 		}

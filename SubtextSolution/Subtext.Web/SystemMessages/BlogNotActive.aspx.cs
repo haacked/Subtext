@@ -16,17 +16,18 @@
 using System;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web
 {
 	/// <summary>
 	/// Displays the blog not active message.
 	/// </summary>
-	public partial class BlogNotActive : System.Web.UI.Page
+	public partial class BlogNotActive : RoutablePage
 	{
-
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected override void OnLoad(EventArgs e)
 		{
+            base.OnLoad(e);
 			try
 			{
 				if(!Config.CurrentBlog.IsActive)
@@ -36,7 +37,7 @@ namespace Subtext.Web
 				}
 				else
 				{
-					lnkBlog.HRef = Config.CurrentBlog.HomeVirtualUrl;
+                    lnkBlog.HRef = Url.BlogUrl();
 				}
 			}
 			catch(BlogDoesNotExistException)
@@ -45,25 +46,5 @@ namespace Subtext.Web
 				plcNothingToSeeHere.Visible = false;
 			}
 		}
-
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-
-		}
-		#endregion
 	}
 }

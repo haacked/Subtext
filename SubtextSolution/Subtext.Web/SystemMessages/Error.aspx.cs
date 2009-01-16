@@ -25,10 +25,11 @@ using log4net;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.Pages
 {
-	public partial class Error : Page
+	public partial class Error : RoutablePage
 	{
 		private readonly static ILog log = new Log();
 
@@ -45,9 +46,9 @@ namespace Subtext.Web.Pages
 			    Response.StatusDescription = "500 Internal Server Error";
 
 				try
-				{				
-					if (null != Config.CurrentBlog)
-						HomeLink.NavigateUrl = Config.CurrentBlog.HomeVirtualUrl;
+				{
+                    if (null != Config.CurrentBlog)
+                        HomeLink.NavigateUrl = Url.BlogUrl();
 				}
 				catch
 				{

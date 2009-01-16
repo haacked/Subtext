@@ -62,7 +62,7 @@ namespace Subtext.Framework.Tracking
 		[XmlRpcMethod("pingback.ping", Description="Pingback server implementation")] 
 		public string pingBack(string sourceURI, string targetURI)
 		{
-			if (!Config.CurrentBlog.TrackbacksEnabled)
+			if (!Blog.TrackbacksEnabled)
 				return "Pingbacks are not enabled for this site.";
 			
 			int postId;

@@ -24,8 +24,7 @@ namespace Subtext.Web.Admin.WebUI
 	{
 		LinkControlCollection _items = new LinkControlCollection();
 		
-		public LinkControlCollection Items
-		{
+		public LinkControlCollection Items {
 			get { return _items; }
 		}
 

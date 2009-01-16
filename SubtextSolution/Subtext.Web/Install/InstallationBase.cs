@@ -18,13 +18,14 @@ using System.Web;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.Install
 {
 	/// <summary>
 	/// Summary description for InstallationBase.
 	/// </summary>
-	public class InstallationBase : System.Web.UI.Page
+	public class InstallationBase : RoutablePage
 	{
 		/// <summary>
 		/// Ons the load.
@@ -60,8 +61,7 @@ namespace Subtext.Web.Install
 		}
 
 		//Make sure we're on this page.
-		void EnsureInstallStep(string page)
-		{
+		void EnsureInstallStep(string page) {
 			EnsureInstallStep(page, "");
 		}
 

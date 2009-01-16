@@ -159,6 +159,8 @@ namespace Subtext.Web.Admin.UserControls
             chkComments.Checked = Config.CurrentBlog.CommentsEnabled;
         }
 
+        
+
         private void BindPostEdit()
 		{
             if (PostID == null)

@@ -31,7 +31,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 			
-			HomePageDays.Days = Entries.GetHomePageEntries(Config.CurrentBlog.ItemCount);
+			HomePageDays.Days = Entries.GetHomePageEntries(Blog.ItemCount);
 		}
 	}
 }
