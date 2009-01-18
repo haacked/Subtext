@@ -460,7 +460,7 @@
     <Compile Include="Routing\DirectoryRouteHandler.cs" />
     <Compile Include="Routing\HttpRouteHandler.cs" />
     <Compile Include="Routing\IgnoreRoute.cs" />
-    <Compile Include="Routing\IRouteableHandler.cs" />
+    <Compile Include="Routing\IRoutableHandler.cs" />
     <Compile Include="Routing\ISubtextPageBuilder.cs" />
     <Compile Include="Routing\ISubtextPage.cs" />
     <Compile Include="Routing\RoutablePage.cs">
