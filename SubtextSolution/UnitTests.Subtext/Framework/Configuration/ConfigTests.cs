@@ -92,6 +92,22 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.IsNull(info, "Hmm... Looks like found a blog using too generic of search criteria.");
         }
 
+
+        [Test]
+        [RollBack2]
+        public void SettingShowEmailAddressInRssFlagDoesntChangeOtherFlags()
+        {
+            Config.CreateBlog("title", "username", "password", hostName, string.Empty);
+            BlogInfo info = Config.GetBlogInfo(hostName, string.Empty);
+            bool test = info.IsAggregated;
+            info.ShowEmailAddressInRss = false;
+            Config.UpdateConfigData(info);
+            info = Config.GetBlogInfo(hostName, string.Empty);
+
+            Assert.AreEqual(test, info.IsAggregated);
+        }
+
+
         [Test]
         [RollBack2]
         public void GetBlogInfoLoadsOpenIDSettings()
