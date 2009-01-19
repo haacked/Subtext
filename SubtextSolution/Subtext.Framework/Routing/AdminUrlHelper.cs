@@ -18,12 +18,12 @@ namespace Subtext.Framework.Routing
         }
 
         public VirtualPath Home() {
-            return Url.AdminUrl("Default.aspx");
+            return Url.AdminUrl("default.aspx");
         }
 
         public VirtualPath Rss()
         {
-            return Url.AdminUrl("AdminRss.axd");
+            return Url.AdminUrl("adminRss.axd");
         }
 
         public VirtualPath ImportExport() {
@@ -31,37 +31,37 @@ namespace Subtext.Framework.Routing
         }
 
         public VirtualPath PostsList() {
-            return Url.AdminUrl("Posts");
+            return Url.AdminUrl("posts");
         }
 
         public VirtualPath PostsEdit()
         {
-            return Url.AdminUrl("Posts/Edit.aspx");
+            return Url.AdminUrl("posts/edit.aspx");
         }
 
         public VirtualPath PostsEdit(int id)
         {
-            return Url.AdminUrl("Posts/Edit.aspx", new {PostId = id });
+            return Url.AdminUrl("posts/edit.aspx", new {PostId = id });
         }
 
         public VirtualPath ArticlesList()
         {
-            return Url.AdminUrl("Articles");
+            return Url.AdminUrl("articles");
         }
 
         public VirtualPath ArticlesEdit()
         {
-            return Url.AdminUrl("Articles/Edit.aspx");
+            return Url.AdminUrl("articles/edit.aspx");
         }
 
         public VirtualPath FeedbackList()
         {
-            return Url.AdminUrl("Feedback");
+            return Url.AdminUrl("feedback");
         }
 
         public VirtualPath FeedbackEdit()
         {
-            return Url.AdminUrl("Feedback/Edit.aspx");
+            return Url.AdminUrl("feedback/edit.aspx");
         }
 
         public VirtualPath LinksEdit()

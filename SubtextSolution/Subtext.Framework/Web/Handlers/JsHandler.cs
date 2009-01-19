@@ -26,11 +26,9 @@ namespace Subtext.Framework.Web.Handlers
 {
     public class JsHandler : BaseHttpHandler
     {
-
         private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinTemplateCollection());
 
-        public override void HandleRequest(HttpContext context)
-        {
+        protected override void HandleRequest(HttpContext context) {
             context.Response.ContentEncoding = Encoding.UTF8;
 
             string skinName = context.Request.Params["name"];
@@ -65,10 +63,8 @@ namespace Subtext.Framework.Web.Handlers
         }
 
 
-        private static void SetHeaders(List<string> styles, HttpContext context)
-        {
-            foreach (string style in styles)
-            {
+        private static void SetHeaders(List<string> styles, HttpContext context) {
+            foreach (string style in styles) {
                 context.Response.AddFileDependency(context.Server.MapPath(style));
             }
 
@@ -81,20 +77,18 @@ namespace Subtext.Framework.Web.Handlers
         }
 
 
-        public override void SetResponseCachePolicy(HttpCachePolicy cache)
-        {
+        protected override void SetResponseCachePolicy(HttpCachePolicy cache) {
             return;
         }
 
-        public new bool IsReusable
+        public override bool IsReusable
         {
-            get
-            {
+            get {
                 return false;
             }
         }
 
-        public override bool ValidateParameters(HttpContext context)
+        protected override bool ValidateParameters(HttpContext context)
         {
             string skinName = context.Request.Params["name"];
             if (String.IsNullOrEmpty(skinName))
@@ -103,12 +97,12 @@ namespace Subtext.Framework.Web.Handlers
                 return true;
         }
 
-        public override bool RequiresAuthentication
+        protected override bool RequiresAuthentication
         {
             get { return false; }
         }
 
-        public override string ContentMimeType
+        protected override string ContentMimeType
         {
             get { return "text/javascript"; }
         }

@@ -30,19 +30,16 @@ namespace Subtext.Extensibility.Web
 		/// Processs the incoming HTTP request.
 		/// </summary>
 		/// <param name="context">Context.</param>
-		public void ProcessRequest(HttpContext context)
+		void IHttpHandler.ProcessRequest(HttpContext context)
 		{
 			SetResponseCachePolicy(context.Response.Cache);
 
-			if (!ValidateParameters(context))
-			{
+			if (!ValidateParameters(context)) {
 				RespondInternalError(context);
 				return;
 			}
 
-			if (RequiresAuthentication
-				&& !context.User.Identity.IsAuthenticated)
-			{
+			if (RequiresAuthentication && !context.User.Identity.IsAuthenticated) {
 				RespondForbidden(context);
 				return;
 			}
@@ -61,13 +58,18 @@ namespace Subtext.Extensibility.Web
 		/// any state (generally a good practice).  Otherwise
 		/// returns false.
 		/// </remarks>
-		public bool IsReusable
+		bool IHttpHandler.IsReusable
 		{
-			get
-			{
-				return true;
+			get {
+				return IsReusable;
 			}
 		}
+
+        public virtual bool IsReusable {
+            get {
+                return false;
+            }
+        }
 
 		/// <summary>
 		/// Handles the request.  This is where you put your
@@ -97,7 +99,7 @@ namespace Subtext.Extensibility.Web
 		/// </p>
 		/// </remarks>
 		/// <param name="context">Context.</param>
-		public abstract void HandleRequest(HttpContext context);
+		protected abstract void HandleRequest(HttpContext context);
 
 		/// <summary>
 		/// Validates the parameters.  Inheriting classes must
@@ -107,7 +109,7 @@ namespace Subtext.Extensibility.Web
 		/// <param name="context">Context.</param>
 		/// <returns><c>true</c> if the parameters are valid,
 		/// otherwise <c>false</c></returns>
-		public abstract bool ValidateParameters(HttpContext context);
+		protected abstract bool ValidateParameters(HttpContext context);
 
 		/// <summary>
 		/// Gets a value indicating whether this handler
@@ -117,13 +119,17 @@ namespace Subtext.Extensibility.Web
 		///    <c>true</c> if authentication is required
 		///    otherwise, <c>false</c>.
 		/// </value>
-		public abstract bool RequiresAuthentication { get;}
+		protected abstract bool RequiresAuthentication { 
+            get;
+        }
 
 		/// <summary>
 		/// Gets the content MIME type.
 		/// </summary>
 		/// <value></value>
-		public abstract string ContentMimeType { get;}
+		protected abstract string ContentMimeType { 
+            get;
+        }
 
 		/// <summary>
 		/// Sets the cache policy.  Unless a handler overrides
@@ -131,8 +137,7 @@ namespace Subtext.Extensibility.Web
 		/// cached.
 		/// </summary>
 		/// <param name="cache">Cache.</param>
-		public virtual void SetResponseCachePolicy
-			(HttpCachePolicy cache)
+		protected virtual void SetResponseCachePolicy(HttpCachePolicy cache)
 		{
 			cache.SetCacheability(HttpCacheability.NoCache);
 			cache.SetNoStore();
@@ -146,8 +151,7 @@ namespace Subtext.Extensibility.Web
 		/// <param name="context">Context.</param>
 		protected void RespondFileNotFound(HttpContext context)
 		{
-			context.Response.StatusCode
-				= (int)HttpStatusCode.NotFound;
+			context.Response.StatusCode = (int)HttpStatusCode.NotFound;
 			context.Response.End();
 		}
 
@@ -158,10 +162,7 @@ namespace Subtext.Extensibility.Web
 		/// <param name="context">Context.</param>
 		protected void RespondInternalError(HttpContext context)
 		{
-			// It's really too bad that StatusCode property
-			// is not of type HttpStatusCode.
-			context.Response.StatusCode =
-				(int)HttpStatusCode.InternalServerError;
+			context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 			context.Response.End();
 		}
 
@@ -173,8 +174,7 @@ namespace Subtext.Extensibility.Web
 		/// <param name="context">Context.</param>
 		protected void RespondForbidden(HttpContext context)
 		{
-			context.Response.StatusCode
-				= (int)HttpStatusCode.Forbidden;
+			context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
 			context.Response.End();
 		}
 	}

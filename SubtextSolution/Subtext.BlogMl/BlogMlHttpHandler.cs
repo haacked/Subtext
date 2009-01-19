@@ -37,7 +37,7 @@ namespace Subtext.BlogML
 		/// </p>
 		/// </remarks>
 		/// <param name="context">Context.</param>
-		public override void HandleRequest(HttpContext context)
+		protected override void HandleRequest(HttpContext context)
 		{
 			context.Response.AddHeader("content-disposition", "attachment; filename=BlogMLExport.xml");
 
@@ -73,7 +73,7 @@ namespace Subtext.BlogML
 		/// <param name="context">Context.</param>
 		/// <returns><c>true</c> if the parameters are valid,
 		/// otherwise <c>false</c></returns>
-		public override bool ValidateParameters(HttpContext context)
+		protected override bool ValidateParameters(HttpContext context)
 		{
 			return true;
 		}
@@ -86,7 +86,7 @@ namespace Subtext.BlogML
 		///    <c>true</c> if authentication is required
 		///    otherwise, <c>false</c>.
 		/// </value>
-		public override bool RequiresAuthentication
+		protected override bool RequiresAuthentication
 		{
 			get {
 				return false;
@@ -97,7 +97,7 @@ namespace Subtext.BlogML
 		/// Gets the content MIME type.
 		/// </summary>
 		/// <value></value>
-		public override string ContentMimeType
+		protected override string ContentMimeType
 		{
 			get {
 				return "text/xml";

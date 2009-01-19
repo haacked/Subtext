@@ -275,20 +275,6 @@ namespace UnitTests.Subtext.Framework
 			Assert.AreEqual(expectedUrl, Config.CurrentBlog.RootUrl.ToString(), "Did not set the Virtual Dir correctly.");
 		}
 
-		[RowTest]
-		[Row("", "", "Default.aspx")]
-		[Row("Blog", "", "Blog/Default.aspx")]
-		[Row("Blog", "Subtext.Web", "Subtext.Web/Blog/Default.aspx")]
-		[Row("", "Subtext.Web", "Subtext.Web/Default.aspx")]
-		[RollBack2]
-		public void TestBlogHomeFullyQualifiedUrlPropertySetCorrectly(string subfolder, string virtualDir, string expected)
-		{
-			UnitTestHelper.SetupBlog(subfolder, virtualDir);
-			string expectedUrl = string.Format("http://{0}/{1}", Config.CurrentBlog.Host, expected);
-			
-			Assert.AreEqual(expectedUrl, Config.CurrentBlog.HomeFullyQualifiedUrl.ToString(), "Did not set the BlogHomeUrl correctly.");
-		}
-
 		/// <summary>
 		/// Tests the virtual directory root property set correctly.
 		/// </summary>

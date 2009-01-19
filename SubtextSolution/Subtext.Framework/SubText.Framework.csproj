@@ -461,6 +461,7 @@
     <Compile Include="Routing\HttpRouteHandler.cs" />
     <Compile Include="Routing\IgnoreRoute.cs" />
     <Compile Include="Routing\IRoutableHandler.cs" />
+    <Compile Include="Routing\ISubtextHandler.cs" />
     <Compile Include="Routing\ISubtextPageBuilder.cs" />
     <Compile Include="Routing\ISubtextPage.cs" />
     <Compile Include="Routing\RoutablePage.cs">
@@ -638,6 +639,7 @@
     <Compile Include="Web\Handlers\CssHandler.cs" />
     <Compile Include="Web\Handlers\JsHandler.cs" />
     <Compile Include="Web\Handlers\RsdHandler.cs" />
+    <Compile Include="Web\Handlers\SubtextHttpHandlerBase.cs" />
     <Compile Include="Web\HttpHelper.cs">
       <SubType>Code</SubType>
     </Compile>

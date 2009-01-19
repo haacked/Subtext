@@ -564,6 +564,22 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/contact.aspx", url);
         }
 
+        [Test]
+        public void MetaweblogApiUrl_WithSubfolderAndApp_ReturnsFullyQualifiedUrl()
+        {
+            //arrange
+            var blog = new Blog { Host = "example.com", Subfolder="sub"};
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            var url = helper.MetaweblogApiUrl(blog);
+
+            //assert
+            Assert.AreEqual("http://example.com/Subtext.Web/sub/services/metablogapi.aspx", url.ToString());
+        }
+
         private static UrlHelper SetupUrlHelper(string appPath) {
             return SetupUrlHelper(appPath, new RouteData());
         }

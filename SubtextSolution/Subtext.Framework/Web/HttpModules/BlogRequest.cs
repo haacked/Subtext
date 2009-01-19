@@ -45,8 +45,7 @@ namespace Subtext.Framework.Web.HttpModules
 
         private static string SubfolderFromRequest(HttpRequestBase request) {
             string subfolder = UrlFormats.GetBlogSubfolderFromRequest(request.RawUrl, request.ApplicationPath) ?? string.Empty;
-            if (!Config.IsValidSubfolderName(subfolder))
-            {
+            if (!Config.IsValidSubfolderName(subfolder)) {
                 subfolder = string.Empty;
             }
             return subfolder;
@@ -54,15 +53,13 @@ namespace Subtext.Framework.Web.HttpModules
 
         private static string HostFromRequest(HttpRequestBase request) {
             string host = request.Params["HTTP_HOST"];
-            if (String.IsNullOrEmpty(host))
-            {
+            if (String.IsNullOrEmpty(host)) {
                 host = request.Url.Authority;
             }
             return host;
         }
 
-		public bool IsLocal
-		{
+		public bool IsLocal {
 			get;
             private set;
 		}
@@ -71,8 +68,7 @@ namespace Subtext.Framework.Web.HttpModules
 		/// Gets the host.
 		/// </summary>
 		/// <value>The host.</value>
-		public string Host
-		{
+		public string Host {
 			get;
             private set;
 		}
@@ -81,14 +77,12 @@ namespace Subtext.Framework.Web.HttpModules
 		/// Gets the host.
 		/// </summary>
 		/// <value>The host.</value>
-		public string Subfolder
-		{
+		public string Subfolder {
 			get;
             private set;
 		}
 
-		public Uri RawUrl
-		{
+		public Uri RawUrl {
 			get;
 			private set;
 		}

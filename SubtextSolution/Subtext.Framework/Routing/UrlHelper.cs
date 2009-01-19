@@ -219,5 +219,10 @@ namespace Subtext.Framework.Routing
             routeValuesDict.Add("pathinfo", path);
             return GetVirtualPath("admin", routeValuesDict);
         }
+
+        public virtual Uri MetaweblogApiUrl(Blog blog) {
+            var vp = GetVirtualPath("metaweblogapi", null);
+            return vp.ToFullyQualifiedUrl(blog);
+        }
     }
 }
