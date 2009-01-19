@@ -2,8 +2,6 @@
 using System.Web;
 using System.Web.Routing;
 using System.Web.UI;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Routing
 {
@@ -36,7 +34,6 @@ namespace Subtext.Framework.Routing
                         //Todo: Temporary hack to append .ascx
                         subtextPage.SetControls(controls.Select(s => s += ".ascx"));
                     }
-                    subtextPage.SubtextContext = new SubtextContext(Config.CurrentBlog, requestContext, new UrlHelper(requestContext, RouteTable.Routes), ObjectProvider.Instance());
                 }
             }
             return page;

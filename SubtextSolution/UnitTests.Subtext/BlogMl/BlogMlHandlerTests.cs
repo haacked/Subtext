@@ -26,7 +26,7 @@ namespace UnitTests.Subtext.BlogML
 
             HttpContext.Current.Response.Clear();
 
-            BlogMLHttpHandler handler = new SubtextBlogMlHttpHandler();
+            IHttpHandler handler = new SubtextBlogMlHttpHandler();
             Assert.AreEqual(0, sb.Length);
             handler.ProcessRequest(HttpContext.Current);
             string result = sb.ToString();

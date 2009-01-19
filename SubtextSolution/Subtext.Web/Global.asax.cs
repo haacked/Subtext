@@ -120,7 +120,7 @@ namespace Subtext.Web
 
             routes.MapHttpHandler<TrackBackHandler>("trackbacks", "services/trackbacks/{id}.aspx", new { id = @"\d+" });
             routes.MapXmlRpcHandler<PingBackService>("services/pingback/{id}.aspx", new { id = @"\d+" });
-            routes.MapXmlRpcHandler<MetaWeblog>("services/metablogapi.aspx");
+            routes.MapXmlRpcHandler<MetaWeblog>("metaweblogapi", "services/metablogapi.aspx", null);
             
             routes.Add(new Route("images/IdenticonHandler.ashx", new HttpRouteHandler<IdenticonHandler>()));
             routes.Add(new Route("images/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>()));

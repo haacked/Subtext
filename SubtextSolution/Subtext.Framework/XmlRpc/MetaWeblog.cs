@@ -160,7 +160,7 @@ namespace Subtext.Framework.XmlRpc
 			BlogInfo b = new BlogInfo();
 			b.blogid = info.Id.ToString(CultureInfo.InvariantCulture);
 			b.blogName = info.Title;
-			b.url = info.HomeFullyQualifiedUrl.ToString();
+			b.url = Url.BlogUrl().ToFullyQualifiedUrl(info).ToString();
 			bi[0] = b;
 			return bi;
 

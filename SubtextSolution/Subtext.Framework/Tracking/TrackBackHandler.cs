@@ -52,7 +52,7 @@ namespace Subtext.Framework.Tracking
 	/// <summary>
 	/// Service used to receive trackbacks from remote clients.
 	/// </summary>
-    public class TrackBackHandler : IRoutableHandler
+    public class TrackBackHandler : ISubtextHandler
 	{
 		static Log Log = new Log();
 
@@ -64,8 +64,7 @@ namespace Subtext.Framework.Tracking
 		/// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, <see langword="Request"/>, <see langword="Response"/>, <see langword="Session"/>, and <see langword="Server"/>)<see langword=""/> used to service HTTP requests.</param>
 		void IHttpHandler.ProcessRequest(HttpContext context)
 		{
-            var subtextContext = new SubtextContext(Config.CurrentBlog, RequestContext, new UrlHelper(RequestContext, RouteTable.Routes), ObjectProvider.Instance());
-            ProcessRequest(subtextContext);
+            ProcessRequest(SubtextContext);
 		}
 
         public void ProcessRequest(ISubtextContext subtextContext) {
@@ -84,14 +83,17 @@ namespace Subtext.Framework.Tracking
 
         public RequestContext RequestContext
         {
-            get;
-            set;
+            get {
+                return SubtextContext.RequestContext;
+            }
+            set {
+            }
         }
 
         public UrlHelper Url
         {
-            get { 
-                throw new NotImplementedException(); 
+            get {
+                return SubtextContext.UrlHelper;
             }
         }
 
@@ -190,7 +192,7 @@ namespace Subtext.Framework.Tracking
 		/// <value></value>
 		public bool IsReusable
 		{
-			get { return true; }
+			get { return false; }
 		}
 
 		private static void SendTrackbackResponse(HttpContextBase context, int errorNumber, string errorMessage)
@@ -236,5 +238,11 @@ namespace Subtext.Framework.Tracking
 				return Verifier.SourceContainsTarget(sourceUrl, entryUrl);
 			}
 		}
+
+        public ISubtextContext SubtextContext
+        {
+            get;
+            set;
+        }
     }
 }

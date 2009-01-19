@@ -16,9 +16,11 @@
 using System.Globalization;
 using System.Text;
 using System.Web;
+using System.Web.Routing;
 using System.Xml;
 using Subtext.Extensibility.Web;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Web.Handlers
 {
@@ -28,7 +30,7 @@ namespace Subtext.Framework.Web.Handlers
 	/// <remarks>
 	/// The specs for RSD can be found here. http://cyber.law.harvard.edu/blogs/gems/tech/rsd.html
 	/// </remarks>
-	public class RsdHandler : BaseHttpHandler
+	public class RsdHandler : SubtextHttpHandlerBase
 	{
 		/// <summary>
 		/// Handles the request.  This is where you put your
@@ -58,27 +60,31 @@ namespace Subtext.Framework.Web.Handlers
 		/// </p>
 		/// </remarks>
 		/// <param name="context">Context.</param>
-		public override void HandleRequest(HttpContext context)
+        protected override void HandleRequest(ISubtextContext context)
 		{
-			if(Config.CurrentBlog == null)
-				return;
-
-			context.Response.Charset = "utf-8";
-			
-			XmlWriterSettings settings = new XmlWriterSettings();
-			settings.Indent = true;
-			settings.IndentChars = "  ";
-			settings.Encoding = Encoding.UTF8;
-			XmlWriter writer = XmlWriter.Create(context.Response.OutputStream, settings);
-			WriteRsd(writer, Config.CurrentBlog);
+            HandleRequest(context.Blog, context.RequestContext.HttpContext.Response, context.UrlHelper);
 		}
+
+        public void HandleRequest(Blog blog, HttpResponseBase response, UrlHelper urlHelper) {
+            if (blog == null) {
+                return;
+            }
+
+            response.Charset = "utf-8";
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.IndentChars = "  ";
+            settings.Encoding = Encoding.UTF8;
+            XmlWriter writer = XmlWriter.Create(response.OutputStream, settings);
+            WriteRsd(writer, blog, urlHelper);
+        }
 		
 		/// <summary>
 		/// Writes the RSD for the specified blog into the XmlWriter.
 		/// </summary>
 		/// <param name="writer"></param>
 		/// <param name="blog"></param>
-		public void WriteRsd(XmlWriter writer, Blog blog)
+        public void WriteRsd(XmlWriter writer, Blog blog, UrlHelper urlHelper)
 		{
 			writer.WriteStartDocument();
 			writer.WriteStartElement("rsd", "http://archipelago.phrasewise.com/rsd");
@@ -86,7 +92,7 @@ namespace Subtext.Framework.Web.Handlers
 			writer.WriteStartElement("service");
 			writer.WriteElementString("engineName", "Subtext");
 			writer.WriteElementString("engineLink", "http://subtextproject.com/");
-			writer.WriteElementString("homePageLink", blog.HomeFullyQualifiedUrl.ToString());
+            writer.WriteElementString("homePageLink", urlHelper.BlogUrl().ToFullyQualifiedUrl(blog).ToString());
 			
 			writer.WriteStartElement("apis");
 			
@@ -94,8 +100,8 @@ namespace Subtext.Framework.Web.Handlers
 			writer.WriteStartElement("api");
 			writer.WriteAttributeString("name", "MetaWeblog");
 			writer.WriteAttributeString("preferred", "true");
-			writer.WriteAttributeString("apiLink", blog.RootUrl + "services/metablogapi.aspx");
-			writer.WriteAttributeString("blogID", Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
+            writer.WriteAttributeString("apiLink", urlHelper.MetaweblogApiUrl(blog).ToString());
+			writer.WriteAttributeString("blogID", blog.Id.ToString(CultureInfo.InvariantCulture));
 			writer.WriteEndElement(); // </api>
 			
 			writer.WriteEndElement(); // </apis>
@@ -114,7 +120,7 @@ namespace Subtext.Framework.Web.Handlers
 		/// <param name="context">Context.</param>
 		/// <returns><c>true</c> if the parameters are valid,
 		/// otherwise <c>false</c></returns>
-		public override bool ValidateParameters(HttpContext context)
+		protected override bool ValidateParameters(HttpContext context)
 		{
 			return true;
 		}
@@ -127,21 +133,22 @@ namespace Subtext.Framework.Web.Handlers
 		///    <c>true</c> if authentication is required
 		///    otherwise, <c>false</c>.
 		/// </value>
-		public override bool RequiresAuthentication
+		protected override bool RequiresAuthentication
 		{
-			get { return false; }
+			get { 
+                return false; 
+            }
 		}
 
 		/// <summary>
 		/// Gets the content MIME type.
 		/// </summary>
 		/// <value></value>
-		public override string ContentMimeType
+		protected override string ContentMimeType
 		{
-			get
-			{
+			get {
 				return "text/xml";
 			}
 		}
-	}
+    }
 }

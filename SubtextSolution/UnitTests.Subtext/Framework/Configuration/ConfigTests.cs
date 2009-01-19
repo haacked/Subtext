@@ -98,11 +98,11 @@ namespace UnitTests.Subtext.Framework.Configuration
         public void SettingShowEmailAddressInRssFlagDoesntChangeOtherFlags()
         {
             Config.CreateBlog("title", "username", "password", hostName, string.Empty);
-            BlogInfo info = Config.GetBlogInfo(hostName, string.Empty);
+            Blog info = Config.GetBlog(hostName, string.Empty);
             bool test = info.IsAggregated;
             info.ShowEmailAddressInRss = false;
             Config.UpdateConfigData(info);
-            info = Config.GetBlogInfo(hostName, string.Empty);
+            info = Config.GetBlog(hostName, string.Empty);
 
             Assert.AreEqual(test, info.IsAggregated);
         }

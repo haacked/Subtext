@@ -5,34 +5,35 @@ using System.Xml;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Web.Handlers;
+using Moq;
+using Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Web
 {
 	[TestFixture]
 	public class RsdHandlerTests
 	{
-		[RowTest]
-		[Row("localhost", "", "blog", "http://localhost/blog/services/metablogapi.aspx")]
-		[Row("localhost", "Subtext.Web", "blog", "http://localhost/Subtext.Web/blog/services/metablogapi.aspx")]
-		[Row("localhost", "Subtext.Web", "", "http://localhost/Subtext.Web/services/metablogapi.aspx")]
-		[Row("localhost", "", "", "http://localhost/services/metablogapi.aspx")]
-		public void WriteRsdWritesTheCorrectRSD(string host, string application, string subfolder, string expected)
+		[Test]
+		public void WriteRsdWritesTheCorrectRSD()
 		{
+            //arrange
+            Blog blog = new Blog();
+            blog.Id = 8675309;
+            blog.Subfolder = "sub";
+            blog.Host = "example.com";
+
+            var urlHelper = new Mock<UrlHelper>();
+            urlHelper.Expect(u => u.BlogUrl()).Returns("/");
+            urlHelper.Expect(u => u.MetaweblogApiUrl(blog)).Returns(new Uri("http://example.com/sub/services/metablogapi.aspx"));
+
 			StringBuilder builder = new StringBuilder();
 			XmlWriter writer = XmlWriter.Create(builder);
 			RsdHandler handler = new RsdHandler();
 
-			Blog blog = new Blog();
-			blog.Id = 8675309;
-			blog.Subfolder = subfolder;
-			blog.Host = host;
-			UnitTestHelper.SetHttpContextWithBlogRequest(host, subfolder, application);
-
-			HttpContext.Current.Cache["BlogInfo-" + host + "/" + subfolder] = blog;
+            //act
+			handler.WriteRsd(writer, blog, urlHelper.Object);
 			
-			handler.WriteRsd(writer, blog);
-			
-			//Now lets assert some things.
+			//assert
 			XmlDocument xml = new XmlDocument();
 			Console.WriteLine(builder);
 			xml.LoadXml(builder.ToString());
@@ -49,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Web
 			Assert.AreEqual(engineNameNode.InnerText, "Subtext");
 			XmlNode node = xml.SelectSingleNode("/rsd:rsd/rsd:service/rsd:apis/rsd:api[@name='MetaWeblog']", nsmgr);
 			Assert.IsNotNull(node, "Could not find the metaweblog node.");
-			Assert.AreEqual(expected, node.Attributes["apiLink"].Value, "Api link is wrong");
+            Assert.AreEqual("http://example.com/sub/services/metablogapi.aspx", node.Attributes["apiLink"].Value, "Api link is wrong");
 
 			Assert.AreEqual("8675309", node.Attributes["blogID"].Value, "Blog Id is not set.");
 		}

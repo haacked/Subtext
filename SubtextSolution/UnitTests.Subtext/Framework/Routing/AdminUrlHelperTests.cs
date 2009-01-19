@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.PostsEdit();
 
             //assert
-            Assert.AreEqual("/sub/admin/posts/Edit.aspx", url);
+            Assert.AreEqual("/sub/admin/posts/edit.aspx", url);
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.ArticlesList();
 
             //assert
-            Assert.AreEqual("/sub/admin/Articles", url);
+            Assert.AreEqual("/sub/admin/articles", url);
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.ArticlesEdit();
 
             //assert
-            Assert.AreEqual("/sub/admin/Articles/Edit.aspx", url);
+            Assert.AreEqual("/sub/admin/articles/edit.aspx", url);
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.FeedbackList();
 
             //assert
-            Assert.AreEqual("/sub/admin/Feedback", url);
+            Assert.AreEqual("/sub/admin/feedback", url);
         }
         
         [Test]
@@ -98,7 +98,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.FeedbackEdit();
 
             //assert
-            Assert.AreEqual("/sub/admin/Feedback/Edit.aspx", url);
+            Assert.AreEqual("/sub/admin/feedback/edit.aspx", url);
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.Home();
 
             //assert
-            Assert.AreEqual("/sub/admin/Default.aspx", url);
+            Assert.AreEqual("/sub/admin/default.aspx", url);
         }
 
         [Test]

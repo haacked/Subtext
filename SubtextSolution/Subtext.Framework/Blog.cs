@@ -946,20 +946,6 @@ namespace Subtext.Framework
         }
 
         /// <summary>
-        /// Gets the fully qualified blog home URL.  This is the URL to the blog's home page. 
-        /// Until we integrate with IIS better, we have to append the "Default.aspx" 
-        /// to the end.
-        /// </summary>
-        /// <value></value>
-        public Uri HomeFullyQualifiedUrl
-        {
-            get
-            {
-                return new Uri(RootUrl, "Default.aspx");
-            }
-        }
-
-        /// <summary>
         /// Gets the fully qualified url to the blog engine host.  This is the 
         /// blog URL without the subfolder, but with the virtual directory 
         /// path, if any.

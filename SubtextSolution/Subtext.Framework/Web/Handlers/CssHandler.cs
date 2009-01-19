@@ -27,7 +27,7 @@ namespace Subtext.Framework.Web.Handlers
 	{
         private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(new SkinTemplateCollection());
 
-		public override void HandleRequest(HttpContext context)
+		protected override void HandleRequest(HttpContext context)
 		{
 			context.Response.ContentEncoding = Encoding.UTF8;
 
@@ -94,12 +94,12 @@ namespace Subtext.Framework.Web.Handlers
             context.Response.Cache.SetCacheability(HttpCacheability.Public);
         }
 
-        public override void SetResponseCachePolicy(HttpCachePolicy cache)
+        protected override void SetResponseCachePolicy(HttpCachePolicy cache)
         {
             return;
         }
 
-        public new bool IsReusable
+        protected new bool IsReusable
         {
             get
             {
@@ -107,7 +107,7 @@ namespace Subtext.Framework.Web.Handlers
             }
         }
 
-		public override bool ValidateParameters(HttpContext context)
+		protected override bool ValidateParameters(HttpContext context)
 		{
             string skinName = context.Request.Params["name"];
             if (String.IsNullOrEmpty(skinName))
@@ -116,12 +116,12 @@ namespace Subtext.Framework.Web.Handlers
                 return true;
 		}
 
-		public override bool RequiresAuthentication
+		protected override bool RequiresAuthentication
 		{
 			get { return false; }
 		}
 
-		public override string ContentMimeType
+		protected override string ContentMimeType
 		{
 			get { return "text/css"; }
 		}

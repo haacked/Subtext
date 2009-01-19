@@ -62,12 +62,10 @@ namespace Subtext.Framework.Configuration
 		/// <returns></returns>
 		static protected string GetFormattedHost(string host, bool useWWW)
 		{
-			if(useWWW)
-			{
+			if(useWWW) {
 				return HttpContext.Current.Request.Url.Scheme + "://www." +  host;
 			}
-			else
-			{
+			else {
                 return HttpContext.Current.Request.Url.Scheme + "://" + host;
 			}
 		}
@@ -121,8 +119,7 @@ namespace Subtext.Framework.Configuration
 			//check the application cache.
 			info = GetApplicationCache<Blog>(mCacheKey);
 
-			if (info != null)
-			{
+			if (info != null) {
 				SetRequestCache(cacheKey, info);
 				return info;
 			}
@@ -130,7 +127,7 @@ namespace Subtext.Framework.Configuration
 			//Not found in the cache
 			log.DebugFormat("Attempting to get blog info. Host: {0}, Subfolder: {1}", blogRequest.Host, blogRequest.Subfolder);
 			
-            info = Config.GetBlog(blogRequest.Host, blogRequest.Subfolder, false);
+            info = Config.GetBlog(blogRequest.Host, blogRequest.Subfolder, false /* strict */);
 
 			if (info == null)
 			{
@@ -196,13 +193,11 @@ namespace Subtext.Framework.Configuration
 
 		private static void SetBlogIdContextForLogging(Blog info)
 		{
-			if(!InstallationManager.IsInHostAdminDirectory)
-			{
+			if(!InstallationManager.IsInHostAdminDirectory) {
 				// Set the BlogId context for the current request.
 				Log.SetBlogIdContext(info.Id);
 			}
-			else
-			{
+			else {
 				Log.ResetBlogIdContext();
 			}
 		}

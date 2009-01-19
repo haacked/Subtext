@@ -306,7 +306,7 @@ namespace Subtext.Web.UI.Controls
 				this.tbTitle.Text = "re: " + HttpUtility.HtmlDecode(entry.Title);
 			
 			if (this.tbUrl != null)
-				this.tbUrl.Text = SecurityHelper.IsAdmin ? Blog.HomeFullyQualifiedUrl.ToString() : string.Empty;
+				this.tbUrl.Text = SecurityHelper.IsAdmin ? Url.BlogUrl().ToFullyQualifiedUrl(Blog).ToString() : string.Empty;
 
 			HttpCookie user = Request.Cookies["CommentUser"];
 			if (user != null)

@@ -98,6 +98,12 @@ namespace Subtext.Framework.Routing
             routes.Add(new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>()));
         }
 
+        public static void MapXmlRpcHandler<TXmlRpcHandler>(this RouteCollection routes, string name, string url, object constraints)
+            where TXmlRpcHandler : SubtextXmlRpcService
+        {
+            routes.Add(name, new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>()));
+        }
+
         public static void MapHttpHandler<THttpHandler>(this RouteCollection routes, string name, string url, object constraints) where THttpHandler : IHttpHandler, new() {
             var route = new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(new THttpHandler()));
             route.Constraints = new RouteValueDictionary(constraints);

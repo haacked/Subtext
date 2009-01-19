@@ -10,71 +10,71 @@ namespace UnitTests.Subtext.Framework.Configuration
 	[TestFixture]
 	public class UrlBasedBlogInfoProviderTests
 	{
-		/// <summary>
-		/// If the user specifies "www.example.com" as the primary host and 
-		/// a request comes in for "example.com", make sure we redirect to 
-		/// the primary.
-		/// </summary>
-		[Test]
-		[RollBack2]
-		public void AlternateHostNameRequestRedirectsToPrimaryHost()
-		{
-			Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
-			Config.CreateBlog("title", "username", "password", "www.example.com", string.Empty);
-			UnitTestHelper.SetHttpContextWithBlogRequest("example.com", string.Empty);
-			var blogRequest = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/2007/01/23/some-post.aspx"), false);
-            Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(blogRequest), "Should return null");
-			Assert.AreEqual(301, HttpContext.Current.Response.StatusCode, "Expected a 301 status code");
-			Assert.AreEqual("http://www.example.com:80/2007/01/23/some-post.aspx", HttpContext.Current.Response.RedirectLocation, "Expected the url to change");
-		}
+        ///// <summary>
+        ///// If the user specifies "www.example.com" as the primary host and 
+        ///// a request comes in for "example.com", make sure we redirect to 
+        ///// the primary.
+        ///// </summary>
+        //[Test]
+        //[RollBack2]
+        //public void AlternateHostNameRequestRedirectsToPrimaryHost()
+        //{
+        //    Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
+        //    Config.CreateBlog("title", "username", "password", "www.example.com", string.Empty);
+        //    UnitTestHelper.SetHttpContextWithBlogRequest("example.com", string.Empty);
+        //    var blogRequest = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/2007/01/23/some-post.aspx"), false);
+        //    Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(blogRequest), "Should return null");
+        //    Assert.AreEqual(301, HttpContext.Current.Response.StatusCode, "Expected a 301 status code");
+        //    Assert.AreEqual("http://www.example.com:80/2007/01/23/some-post.aspx", HttpContext.Current.Response.RedirectLocation, "Expected the url to change");
+        //}
 
-		/// <summary>
-		/// A request for a domain alias will redirect to the primary host.
-		/// </summary>
-		[Test]
-		[RollBack2]
-		public void RequestForAliasRedirectsToPrimaryHost()
-		{
-			Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
-			Config.CreateBlog("title", "username", "password", "example.com", string.Empty);
-			BlogAlias alias = new BlogAlias();
-			alias.BlogId = Config.GetBlog("example.com", string.Empty).Id;
-			alias.Host = "alias.example.com";
-			alias.IsActive = true;
-			Config.AddBlogAlias(alias);
-			UnitTestHelper.SetHttpContextWithBlogRequest("alias.example.com", string.Empty);
-			var blogRequest = new BlogRequest("alias.example.com", string.Empty, new Uri("http://alias.example.com/2007/01/23/some-post.aspx"), false);
-            Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(blogRequest), "Should return null");
-			Assert.AreEqual(301, HttpContext.Current.Response.StatusCode, "Expected a 301 status code");
-			Assert.AreEqual("http://example.com:80/2007/01/23/some-post.aspx", HttpContext.Current.Response.RedirectLocation, "Expected the url to change");
-		}
+        ///// <summary>
+        ///// A request for a domain alias will redirect to the primary host.
+        ///// </summary>
+        //[Test]
+        //[RollBack2]
+        //public void RequestForAliasRedirectsToPrimaryHost()
+        //{
+        //    Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
+        //    Config.CreateBlog("title", "username", "password", "example.com", string.Empty);
+        //    BlogAlias alias = new BlogAlias();
+        //    alias.BlogId = Config.GetBlog("example.com", string.Empty).Id;
+        //    alias.Host = "alias.example.com";
+        //    alias.IsActive = true;
+        //    Config.AddBlogAlias(alias);
+        //    UnitTestHelper.SetHttpContextWithBlogRequest("alias.example.com", string.Empty);
+        //    var blogRequest = new BlogRequest("alias.example.com", string.Empty, new Uri("http://alias.example.com/2007/01/23/some-post.aspx"), false);
+        //    Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(blogRequest), "Should return null");
+        //    Assert.AreEqual(301, HttpContext.Current.Response.StatusCode, "Expected a 301 status code");
+        //    Assert.AreEqual("http://example.com:80/2007/01/23/some-post.aspx", HttpContext.Current.Response.RedirectLocation, "Expected the url to change");
+        //}
 
-		/// <summary>
-		/// A request for a domain alias will redirect to the primary host.
-		/// </summary>
-		[Test]
-		[RollBack2]
-		public void AliasRedirectHandlesSubfolder()
-		{
-            // arrange
-			Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
-			Config.CreateBlog("title", "username", "password", "example.com", string.Empty);
-			BlogAlias alias = new BlogAlias();
-			alias.BlogId = Config.GetBlog("example.com", string.Empty).Id;
-			alias.Host = "alias.example.com";
-			alias.Subfolder = "blog";
-			alias.IsActive = true;
+        ///// <summary>
+        ///// A request for a domain alias will redirect to the primary host.
+        ///// </summary>
+        //[Test]
+        //[RollBack2]
+        //public void AliasRedirectHandlesSubfolder()
+        //{
+        //    // arrange
+        //    Config.CreateBlog("title", "username", "password", "subtextproject.com", string.Empty);
+        //    Config.CreateBlog("title", "username", "password", "example.com", string.Empty);
+        //    BlogAlias alias = new BlogAlias();
+        //    alias.BlogId = Config.GetBlog("example.com", string.Empty).Id;
+        //    alias.Host = "alias.example.com";
+        //    alias.Subfolder = "blog";
+        //    alias.IsActive = true;
 			
-            // act
-            Config.AddBlogAlias(alias);
-			UnitTestHelper.SetHttpContextWithBlogRequest("alias.example.com", "blog");
-			var blogRequest = new BlogRequest("alias.example.com", "blog", new Uri("http://alias.example.com/blog/2007/01/23/some-post.aspx"), false);
+        //    // act
+        //    Config.AddBlogAlias(alias);
+        //    UnitTestHelper.SetHttpContextWithBlogRequest("alias.example.com", "blog");
+        //    var blogRequest = new BlogRequest("alias.example.com", "blog", new Uri("http://alias.example.com/blog/2007/01/23/some-post.aspx"), false);
 			
-            // assert
-            Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(blogRequest), "Should return null");
-			Assert.AreEqual(301, HttpContext.Current.Response.StatusCode, "Expected a 301 status code");
-			Assert.AreEqual("http://example.com:80/2007/01/23/some-post.aspx", HttpContext.Current.Response.RedirectLocation, "Expected the url to change");
-		}
+        //    // assert
+        //    Assert.IsNull(UrlBasedBlogInfoProvider.Instance.GetBlogInfo(blogRequest), "Should return null");
+        //    Assert.AreEqual(301, HttpContext.Current.Response.StatusCode, "Expected a 301 status code");
+        //    Assert.AreEqual("http://example.com:80/2007/01/23/some-post.aspx", HttpContext.Current.Response.RedirectLocation, "Expected the url to change");
+        //}
 
 		[Test]
 		[RollBack2]
