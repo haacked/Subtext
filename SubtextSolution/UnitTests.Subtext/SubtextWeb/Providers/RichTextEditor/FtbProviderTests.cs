@@ -19,6 +19,7 @@ using System.Web.UI.WebControls;
 using FreeTextBoxControls;
 using Subtext.Framework.Configuration;
 using Subtext.Web.Providers.BlogEntryEditor.FTB;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 {
@@ -54,6 +55,8 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void SetText() 
 		{
 			Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
+
 			string test="Lorem Ipsum";
 			frtep.InitializeControl();
 			frtep.Text=test;
@@ -66,6 +69,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void SetWidth() 
 		{
             Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
 
 			Unit test=200;
 			frtep.InitializeControl();
@@ -78,6 +82,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void SetHeight() 
 		{
             Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);    
 
 			Unit test=100;
 			frtep.InitializeControl();
@@ -111,6 +116,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void TestInitialization() 
 		{
             Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
 
 			System.Collections.Specialized.NameValueCollection coll=GetNameValueCollection();
 			frtep.Initialize("FTBProvider", coll);

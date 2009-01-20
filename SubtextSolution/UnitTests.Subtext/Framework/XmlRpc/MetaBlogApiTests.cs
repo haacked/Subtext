@@ -14,6 +14,7 @@ using Subtext.Framework.XmlRpc;
 using Subtext.Web;
 using Enclosure = Subtext.Framework.XmlRpc.Enclosure;
 using FrameworkEnclosure = Subtext.Framework.Components.Enclosure;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.XmlRpc
 {
@@ -25,8 +26,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         public void getCategories_ReturnsCategoriesInRepository() {
             //arrange
             string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, "");
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            Config.CreateBlog("", "username", "password", hostname, string.Empty);
+            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
             Blog blog = Config.CurrentBlog;
             Config.CurrentBlog.AllowServiceAccess = true;
 
@@ -44,11 +46,11 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var routes = new RouteCollection();
             Global.RegisterRoutes(routes);
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(u => u.CategoryUrl(It.IsAny<LinkCategory>())).Returns("/Category/" + categoryId + ".aspx");
-            urlHelper.Expect(u => u.CategoryRssUrl(It.IsAny<LinkCategory>())).Returns("/rss.aspx?catId=" + categoryId);
+            urlHelper.Setup(u => u.CategoryUrl(It.IsAny<LinkCategory>())).Returns("/Category/" + categoryId + ".aspx");
+            urlHelper.Setup(u => u.CategoryRssUrl(It.IsAny<LinkCategory>())).Returns("/rss.aspx?catId=" + categoryId);
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(blog);
-            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+            subtextContext.Setup(c => c.Blog).Returns(blog);
+            subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             
@@ -69,6 +71,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
 			Config.CurrentBlog.AllowServiceAccess = true;
 
 			LinkCategory category = new LinkCategory();
@@ -78,7 +81,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 			Links.CreateLinkCategory(category);
 
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
 
 			MetaWeblog api = new MetaWeblog(subtextContext.Object);
 			Post post = new Post();
@@ -105,10 +108,11 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
 			Config.CurrentBlog.AllowServiceAccess = true;
 
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
 
 			MetaWeblog api = new MetaWeblog(subtextContext.Object);
 			Post post = new Post();
@@ -131,10 +135,11 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -160,10 +165,11 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -196,10 +202,11 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -223,6 +230,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             Entry entry = new Entry(PostType.BlogPost);
@@ -243,7 +251,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.IsNotNull(entry.Enclosure, "There should be a enclosure here.");
 
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -272,6 +280,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             Entry entry = new Entry(PostType.BlogPost);
@@ -284,7 +293,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.IsNull(entry.Enclosure, "There should not be any enclosure here.");
 
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -316,6 +325,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             Entry entry = new Entry(PostType.BlogPost);
@@ -336,7 +346,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.IsNotNull(entry.Enclosure, "There should be a enclosure here.");
 
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -358,6 +368,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             string category1Name = UnitTestHelper.GenerateUniqueString();
@@ -374,7 +385,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             int entryId = Entries.Create(entry);
 
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -397,6 +408,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             string category1Name = UnitTestHelper.GenerateUniqueString();
@@ -411,7 +423,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             int entryId = Entries.Create(entry);
 
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -433,13 +445,14 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
-            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post[] posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
@@ -515,13 +528,14 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
-            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post[] posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
@@ -596,13 +610,14 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
-            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             string category1Name = UnitTestHelper.GenerateUniqueString();
@@ -646,13 +661,14 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
-            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             string category1Name = UnitTestHelper.GenerateUniqueString();

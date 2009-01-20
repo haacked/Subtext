@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             var context = new Mock<ISubtextContext>();
             context.FakeSyndicationContext(blogInfo, "/", null);
             var urlHelper = Mock.Get<UrlHelper>(context.Object.UrlHelper);
-            urlHelper.Expect(url => url.EntryUrl(It.IsAny<Entry>())).Returns("/blog/archive/2006/04/01/titleofthepost.aspx");
+            urlHelper.Setup(url => url.EntryUrl(It.IsAny<Entry>())).Returns("/blog/archive/2006/04/01/titleofthepost.aspx");
 
 			CommentRssWriter writer = new CommentRssWriter(new StringWriter(), new List<FeedbackItem>(), entry, context.Object);
 			
@@ -113,10 +113,10 @@ namespace UnitTests.Subtext.Framework.Syndication
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/Subtext.Web/Whatever", "Subtext.Web", null);
             var httpContext = Mock.Get<HttpContextBase>(subtextContext.Object.RequestContext.HttpContext);
-            httpContext.Expect(c => c.Request.ApplicationPath).Returns("/Subtext.Web");
+            httpContext.Setup(c => c.Request.ApplicationPath).Returns("/Subtext.Web");
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
-            urlHelper.Expect(u => u.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/Subtext.Web/archive/2006/02/01/titleofthepost.aspx#" + comment.Id);
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/Subtext.Web/archive/2006/02/01/titleofthepost.aspx");
+            urlHelper.Setup(u => u.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/Subtext.Web/archive/2006/02/01/titleofthepost.aspx#" + comment.Id);
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/Subtext.Web/archive/2006/02/01/titleofthepost.aspx");
 
             CommentRssWriter writer = new CommentRssWriter(new StringWriter(), comments, entry, subtextContext.Object);
 

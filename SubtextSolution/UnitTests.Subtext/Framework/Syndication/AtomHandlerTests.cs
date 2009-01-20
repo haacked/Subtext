@@ -9,6 +9,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Syndication;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -29,7 +30,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Config.CreateBlog("Test", "username", "password", hostName, string.Empty);
 
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
-
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
 			Config.CurrentBlog.Email = "Subtext@example.com";
 			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 
@@ -44,8 +45,8 @@ namespace UnitTests.Subtext.Framework.Syndication
             string rssOutput = null;
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
-            urlHelper.Expect(u => u.BlogUrl()).Returns("/");
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/2008/01/23/testtitle.aspx");
+            urlHelper.Setup(u => u.BlogUrl()).Returns("/");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/2008/01/23/testtitle.aspx");
 
 			handler.ProcessRequest(subtextContext.Object);
 			HttpContext.Current.Response.Flush();

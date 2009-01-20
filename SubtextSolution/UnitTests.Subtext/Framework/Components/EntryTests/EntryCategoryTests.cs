@@ -5,6 +5,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -19,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Config.CreateBlog("empty title", "username", "password", hostname, string.Empty);
 
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, "/");
-
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Unit Test Entry", "Body");
 			int id = Entries.Create(entry);
 

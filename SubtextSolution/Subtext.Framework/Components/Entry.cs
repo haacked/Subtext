@@ -326,8 +326,9 @@ namespace Subtext.Framework.Components
 			set
 			{
 				// Closing By Age overrides explicit closing
-				if (CommentingClosedByAge == false)
-					PostConfigSetter(PostConfig.CommentsClosed, value);
+                if (CommentingClosedByAge == false) {
+                    PostConfigSetter(PostConfig.CommentsClosed, value);
+                }
 			}
 		}
 

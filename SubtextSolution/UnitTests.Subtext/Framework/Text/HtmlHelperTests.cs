@@ -23,6 +23,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Text
 {
@@ -359,7 +360,7 @@ namespace UnitTests.Subtext.Framework.Text
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "MyBlog";
 
-			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
+            BlogRequest.Current.Blog = blogInfo;
 		}
 
 		[TearDown]

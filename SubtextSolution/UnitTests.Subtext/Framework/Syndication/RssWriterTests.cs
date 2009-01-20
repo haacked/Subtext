@@ -27,6 +27,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -48,6 +49,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subfolder, application);
 			Blog blogInfo = new Blog();
+            BlogRequest.Current.Blog = blogInfo;
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = subfolder;
 			blogInfo.Title = "My Blog Is Better Than Yours";
@@ -58,7 +60,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/", application, null);
             var httpContext = Mock.Get<HttpContextBase>(subtextContext.Object.RequestContext.HttpContext);
-            httpContext.Expect(h => h.Request.ApplicationPath).Returns(application);
+            httpContext.Setup(h => h.Request.ApplicationPath).Returns(application);
 
 			RssWriter writer = new RssWriter(new StringWriter(), new List<Entry>(), DateTime.Now, false, subtextContext.Object);
 			Uri rssImageUrl = writer.GetRssImage();
@@ -75,6 +77,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
 
 			Blog blogInfo = new Blog();
+            BlogRequest.Current.Blog = blogInfo;
 			blogInfo.Host = "localhost";
 			blogInfo.Title = "My Blog Is Better Than Yours";
 			blogInfo.Email = "Subtext@example.com";
@@ -112,8 +115,8 @@ namespace UnitTests.Subtext.Framework.Syndication
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/", "Subtext.Web", null);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
-            urlHelper.Expect(u => u.BlogUrl()).Returns("/Subtext.Web/");
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns<Entry>(e => "/Subtext.Web/whatever/" + e.Id + ".aspx");
+            urlHelper.Setup(u => u.BlogUrl()).Returns("/Subtext.Web/");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns<Entry>(e => "/Subtext.Web/whatever/" + e.Id + ".aspx");
 
 			RssWriter writer = new RssWriter(new StringWriter(), entries, NullValue.NullDateTime, false, subtextContext.Object);
 
@@ -207,6 +210,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
 
 			Blog blogInfo = new Blog();
+            BlogRequest.Current.Blog = blogInfo;
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "";
 			blogInfo.Email = "Subtext@example.com";
@@ -219,8 +223,8 @@ namespace UnitTests.Subtext.Framework.Syndication
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/", "Subtext.Web", null);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
-            urlHelper.Expect(u => u.BlogUrl()).Returns("/Subtext.Web/");
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/Subtext.Web/whatever");
+            urlHelper.Setup(u => u.BlogUrl()).Returns("/Subtext.Web/");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/Subtext.Web/whatever");
             
             // Tell the write we already received 1002 published 6/25/1976.
 			RssWriter writer = new RssWriter(new StringWriter(), entries, DateTime.ParseExact("06/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture), true, subtextContext.Object);
@@ -282,6 +286,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
 
 			Blog blogInfo = new Blog();
+            BlogRequest.Current.Blog = blogInfo;
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "";
 			blogInfo.Email = "Subtext@example.com";
@@ -294,8 +299,8 @@ namespace UnitTests.Subtext.Framework.Syndication
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/Subtext.Web/", "Subtext.Web", null);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
-            urlHelper.Expect(u => u.BlogUrl()).Returns("/Subtext.Web/");
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns<Entry>(e => "/Subtext.Web/whatever/" + e.Id);
+            urlHelper.Setup(u => u.BlogUrl()).Returns("/Subtext.Web/");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns<Entry>(e => "/Subtext.Web/whatever/" + e.Id);
             
 			RssWriter writer = new RssWriter(new StringWriter(), entries, DateTime.ParseExact("07/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture), false, subtextContext.Object);
 

@@ -34,13 +34,14 @@ namespace UnitTests.Subtext.BlogML
 		public void CanWritePostWithCategoryAndImportTheOutput()
 		{
 			CreateBlogAndSetupContext();
+            string host = Config.CurrentBlog.Host;
 
 			// Shortcut to creating a blog post with a category.
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
-            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             SubtextBlogMLProvider provider = new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object);
 			BlogMLReader reader = BlogMLReader.Create(provider);
@@ -70,8 +71,10 @@ namespace UnitTests.Subtext.BlogML
 				writer.Write(xmlWriter);
 
 				// Create a new blog.
-				Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "2", "");
-				UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "2", "");
+                string newHost = host + "2";
+                Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", newHost, "");
+                UnitTestHelper.SetHttpContextWithBlogRequest(newHost, "");
+                BlogRequest.Current.Blog = Config.GetBlog(newHost, string.Empty);
 				Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("2"), "Looks like we've cached our old blog.");
 
 				// Now read it back in to a new blog.
@@ -101,10 +104,10 @@ namespace UnitTests.Subtext.BlogML
 
 			// Not using BlogMlProvider.Instance() because we need to reset the state.
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
-            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
 			var provider = new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object);
 			
@@ -163,10 +166,10 @@ namespace UnitTests.Subtext.BlogML
 			//setup provider
 			// Not using BlogMlProvider.Instance() because we need to reset the state.
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(Config.CurrentBlog);
-            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
 			SubtextBlogMLProvider provider = new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object);
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
@@ -204,9 +207,10 @@ namespace UnitTests.Subtext.BlogML
 		private static void CreateBlogAndSetupContext()
 		{
 			string hostName = UnitTestHelper.GenerateUniqueString();
-			Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, "");
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
+			Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, string.Empty);
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, string.Empty);
 			BlogRequest.Current = new BlogRequest(hostName, string.Empty, new Uri(string.Format("http://{0}/", hostName)), false);
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
 			Assert.IsNotNull(Config.CurrentBlog);
 
 			Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");

@@ -15,9 +15,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
+using System.Data.SqlClient;
 using System.IO;
+using System.Net;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security;
 using System.Security.Principal;
 using System.Text;
@@ -38,10 +42,6 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Security;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
-using System.Collections.Specialized;
-using System.Net;
-using System.Data.SqlClient;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace UnitTests.Subtext
 {
@@ -249,29 +249,7 @@ namespace UnitTests.Subtext
 
             SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(applicationPath, appPhysicalDir, appPhysicalDir + page, page, query, output, host, port, httpVerb);
 			HttpContext.Current = new HttpContext(workerRequest);
-			HttpContext.Current.Items.Clear();
-			HttpContext.Current.Cache.Remove("BlogInfo-");
-			HttpContext.Current.Cache.Remove("BlogInfo-" + subfolder);
-			
 			BlogRequest.Current = new BlogRequest(host, subfolder, HttpContext.Current.Request.Url, host == "localhost");
-
-			#region Console Debug INfo
-			/*
-			Console.WriteLine("host: " + host);
-			Console.WriteLine("blogName: " + subfolder);
-			Console.WriteLine("virtualDir: " + applicationPath);
-			Console.WriteLine("page: " + page);
-			Console.WriteLine("appPhysicalDir: " + appPhysicalDir);
-			Console.WriteLine("Request.Url.Host: " + HttpContext.Current.Request.Url.Host);
-			Console.WriteLine("Request.FilePath: " + HttpContext.Current.Request.FilePath);
-			Console.WriteLine("Request.Path: " + HttpContext.Current.Request.Path);
-			Console.WriteLine("Request.RawUrl: " + HttpContext.Current.Request.RawUrl);
-			Console.WriteLine("Request.Url: " + HttpContext.Current.Request.Url);
-            Console.WriteLine("Request.Url.Port: " + HttpContext.Current.Request.Url.Port);
-			Console.WriteLine("Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
-			Console.WriteLine("Request.PhysicalPath: " + HttpContext.Current.Request.PhysicalPath);
-			*/
-			#endregion
 
 			return workerRequest;
 		}
@@ -778,8 +756,10 @@ namespace UnitTests.Subtext
 	    public static Blog CreateBlogAndSetupContext()
 	    {
 	        string hostName = GenerateUniqueString();
-	        Config.CreateBlog("Just A Test Blog", "test", "test", hostName, "");
-	        SetHttpContextWithBlogRequest(hostName, "");
+	        int blogId = Config.CreateBlog("Just A Test Blog", "test", "test", hostName, string.Empty /* subfolder */);
+            Blog blog = Config.GetBlog(hostName, string.Empty);
+            SetHttpContextWithBlogRequest(hostName, string.Empty);
+            BlogRequest.Current.Blog = blog;
 	        Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
 
 	        Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
@@ -1117,11 +1097,14 @@ namespace UnitTests.Subtext
             string host = GenerateUniqueString();
 
             HttpContext.Current = null;
-            Assert.IsNotNull(Config.CreateBlog("Unit Test Blog", userName, password, host, subfolder), "Could Not Create Blog");
+            //I wish this returned the blog it created.
+            Config.CreateBlog("Unit Test Blog", userName, password, host, subfolder);
+            Blog blog = Config.GetBlog(host, subfolder);
 
             StringBuilder sb = new StringBuilder();
             TextWriter output = new StringWriter(sb);
             SimulatedHttpRequest request = SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, page, output, "GET");
+            BlogRequest.Current.Blog = blog;
 
             if (Config.CurrentBlog != null)
             {

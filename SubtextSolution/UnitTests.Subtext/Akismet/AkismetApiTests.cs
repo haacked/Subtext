@@ -70,7 +70,7 @@ namespace UnitTests.Subtext.Akismet
 			string parameters = "key=" + HttpUtility.UrlEncode("fake-key") + "&blog=" + HttpUtility.UrlEncode("http://haacked.com/");
 
             var httpClient = new Mock<HttpClient>();
-			httpClient.Expect(hc => hc.PostRequest(verifyUrl, userAgent, 5000, parameters)).Returns("valid");
+			httpClient.Setup(hc => hc.PostRequest(verifyUrl, userAgent, 5000, parameters)).Returns("valid");
 			
 			AkismetClient client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), httpClient.Object);
 			Assert.IsTrue(client.VerifyApiKey(), "If the request returns 'valid' we should return true.");
@@ -84,7 +84,7 @@ namespace UnitTests.Subtext.Akismet
 			string parameters = "key=" + HttpUtility.UrlEncode("wrong-key") + "&blog=" + HttpUtility.UrlEncode("http://haacked.com/");
 
             var httpClient = new Mock<HttpClient>();
-            httpClient.Expect(hc => hc.PostRequest(verifyUrl, userAgent, 5000, parameters)).Returns("invalid");
+            httpClient.Setup(hc => hc.PostRequest(verifyUrl, userAgent, 5000, parameters)).Returns("invalid");
 
 			AkismetClient client = new AkismetClient("wrong-key", new Uri("http://haacked.com/"), httpClient.Object);
 			Assert.IsFalse(client.VerifyApiKey(), "If the request returns 'invalid' then we should return false!");
@@ -121,7 +121,7 @@ namespace UnitTests.Subtext.Akismet
 			                    , "This is my rifle. There are many like it, but this one is MINE."
 								, null);
 
-			httpClient.Expect(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("true");
+			httpClient.Setup(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("true");
 
 			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient.Object);
 			Assert.IsTrue(client.CheckCommentForSpam(comment.Object), "If the request returns 'false' then we should return false!");
@@ -153,7 +153,7 @@ namespace UnitTests.Subtext.Akismet
 								, string.Empty
 								, null);
 			
-			httpClient.Expect(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("true");
+			httpClient.Setup(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("true");
 			
 
 			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient.Object);
@@ -194,7 +194,7 @@ namespace UnitTests.Subtext.Akismet
 								, extendedProps);
 			
 			
-			httpClient.Expect(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("false");
+			httpClient.Setup(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("false");
 			
 
 			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient.Object);
@@ -229,7 +229,7 @@ namespace UnitTests.Subtext.Akismet
 								, string.Empty
 								, null);
 
-			httpClient.Expect(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns(string.Empty);
+			httpClient.Setup(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns(string.Empty);
 			
 
 			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient.Object);
@@ -270,7 +270,7 @@ namespace UnitTests.Subtext.Akismet
 								, string.Empty
 								, null);
 
-			httpClient.Expect(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("invalid");
+			httpClient.Setup(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("invalid");
 			
 
 			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient.Object);
@@ -279,16 +279,16 @@ namespace UnitTests.Subtext.Akismet
 
 		private static void SetupCallsAnComment(Mock<IComment> comment, string author, string email, IPAddress ip, string userAgent, string referer, Uri permalink, string commentType, Uri authorUrl, string content, NameValueCollection extendedProperties)
 		{
-            comment.Expect(c => c.Author).Returns(author);
-			comment.Expect(c => c.AuthorEmail).Returns(email);
-			comment.Expect(c => c.IpAddress).Returns(ip);
-			comment.Expect(c => c.UserAgent).Returns(userAgent);
-			comment.Expect(c => c.Referer).Returns(referer);
-			comment.Expect(c => c.Permalink).Returns(permalink);
-			comment.Expect(c => c.CommentType).Returns(commentType);
-			comment.Expect(c => c.AuthorUrl).Returns(authorUrl);
-			comment.Expect(c => c.Content).Returns(content);
-			comment.Expect(c => c.ServerEnvironmentVariables).Returns(extendedProperties);
+            comment.Setup(c => c.Author).Returns(author);
+			comment.Setup(c => c.AuthorEmail).Returns(email);
+			comment.Setup(c => c.IpAddress).Returns(ip);
+			comment.Setup(c => c.UserAgent).Returns(userAgent);
+			comment.Setup(c => c.Referer).Returns(referer);
+			comment.Setup(c => c.Permalink).Returns(permalink);
+			comment.Setup(c => c.CommentType).Returns(commentType);
+			comment.Setup(c => c.AuthorUrl).Returns(authorUrl);
+			comment.Setup(c => c.Content).Returns(content);
+			comment.Setup(c => c.ServerEnvironmentVariables).Returns(extendedProperties);
 		}
 
 		static string GetExpectedUserAgent()

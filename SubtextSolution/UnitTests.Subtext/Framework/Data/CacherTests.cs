@@ -13,6 +13,7 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Extensibility;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Data
 {
@@ -31,7 +32,7 @@ namespace UnitTests.Subtext.Framework.Data
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Expect(r => r.GetEntry(123, true, true)).Returns(new Entry(PostType.BlogPost) { Id = 123, Title = "Testing 123" });
+            repository.Setup(r => r.GetEntry(123, true, true)).Returns(new Entry(PostType.BlogPost) { Id = 123, Title = "Testing 123" });
             UnitTestHelper.SetupBlog();
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/123.aspx");
@@ -39,8 +40,8 @@ namespace UnitTests.Subtext.Framework.Data
             routeData.Values.Add("id", "123");
             var requestContext = new RequestContext(httpContext.Object, routeData);
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.RequestContext).Returns(requestContext);
-            subtextContext.Expect(c => c.Repository).Returns(repository.Object);
+            subtextContext.Setup(c => c.RequestContext).Returns(requestContext);
+            subtextContext.Setup(c => c.Repository).Returns(repository.Object);
 
             //act
             Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, subtextContext.Object);
@@ -61,30 +62,32 @@ namespace UnitTests.Subtext.Framework.Data
             var repository = new Mock<ObjectProvider>();
             
             Entry entry = new Entry(PostType.BlogPost) { Id = 123, EntryName = "testing-slug", Title = "Testing 123" };
-            repository.Expect(r => r.GetEntry(123, true, true)).Returns(entry);
+            repository.Setup(r => r.GetEntry(123, true, true)).Returns(entry);
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/testing-slug.aspx");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/testing-slug.aspx");
             UnitTestHelper.SetupBlog();
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/testing-slug.aspx");
-            httpContext.Expect(c => c.Response.End());
-            httpContext.ExpectSet(c => c.Response.StatusCode, 302).Verifiable();
-            httpContext.ExpectSet(c => c.Response.Status, "301 Moved Permanently").Verifiable();
+            httpContext.Setup(c => c.Response.End());
+            httpContext.SetupSet(c => c.Response.StatusCode, 301);
+            httpContext.SetupSet(c => c.Response.Status, "301 Moved Permanently");
             string redirectLocation = null;
-            httpContext.ExpectSet(c => c.Response.RedirectLocation).Callback(s => redirectLocation = s);
+            httpContext.SetupSet(c => c.Response.RedirectLocation).Callback(s => redirectLocation = s);
             var routeData = new RouteData();
             routeData.Values.Add("id", "123");
             var requestContext = new RequestContext(httpContext.Object, routeData);
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
-            subtextContext.Expect(c => c.RequestContext).Returns(requestContext);
-            subtextContext.Expect(c => c.Repository).Returns(repository.Object);
-            subtextContext.Expect(c => c.Blog).Returns(new Blog { Host = "localhost" });
+            subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
+            subtextContext.Setup(c => c.RequestContext).Returns(requestContext);
+            subtextContext.Setup(c => c.Repository).Returns(repository.Object);
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Host = "localhost" });
 
             //act
             Entry cachedEntry = Cacher.GetEntryFromRequest(CacheDuration.Short, true /* allowRedirect */, subtextContext.Object);
 
             //assert
+            httpContext.VerifySet(c => c.Response.StatusCode, 301);
+            httpContext.VerifySet(c => c.Response.Status, "301 Moved Permanently");
             Assert.AreEqual(123, cachedEntry.Id);
             Assert.AreEqual("Testing 123", cachedEntry.Title);
             Assert.AreEqual("http://localhost/archive/testing-slug.aspx", redirectLocation);
@@ -99,7 +102,7 @@ namespace UnitTests.Subtext.Framework.Data
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Expect(r => r.GetEntry("the-slug", true, true)).Returns(new Entry(PostType.BlogPost) { Id = 123, EntryName = "the-slug", Title = "Testing 123" });
+            repository.Setup(r => r.GetEntry("the-slug", true, true)).Returns(new Entry(PostType.BlogPost) { Id = 123, EntryName = "the-slug", Title = "Testing 123" });
             UnitTestHelper.SetupBlog();
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/the-slug.aspx");
@@ -107,9 +110,9 @@ namespace UnitTests.Subtext.Framework.Data
             routeData.Values.Add("slug", "the-slug");
             var requestContext = new RequestContext(httpContext.Object, routeData);
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.RequestContext).Returns(requestContext);
-            subtextContext.Expect(c => c.Repository).Returns(repository.Object);
-            subtextContext.Expect(c => c.Blog).Returns(new Blog { Id = 1, TimeZoneId = -2037797565 /* pacific */ });
+            subtextContext.Setup(c => c.RequestContext).Returns(requestContext);
+            subtextContext.Setup(c => c.Repository).Returns(repository.Object);
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Id = 1, TimeZoneId = -2037797565 /* pacific */ });
 
             //act
             Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, subtextContext.Object);
@@ -129,7 +132,7 @@ namespace UnitTests.Subtext.Framework.Data
 		{
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Expect(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns((Entry)null);
+            repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns((Entry)null);
 
             UnitTestHelper.SetupBlog();
             var httpContext = new Mock<HttpContextBase>();
@@ -138,8 +141,8 @@ namespace UnitTests.Subtext.Framework.Data
             routeData.Values.Add("id", "999999");
             var requestContext = new RequestContext(httpContext.Object, routeData);
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.RequestContext).Returns(requestContext);
-            subtextContext.Expect(c => c.Repository).Returns(repository.Object);
+            subtextContext.Setup(c => c.RequestContext).Returns(requestContext);
+            subtextContext.Setup(c => c.Repository).Returns(repository.Object);
             
             //act
             Cacher.GetEntryFromRequest(CacheDuration.Short, true, subtextContext.Object);
@@ -163,6 +166,7 @@ namespace UnitTests.Subtext.Framework.Data
 			string host = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/99.aspx");
+            BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
 			Assert.IsNull(Cacher.SingleCategory(CacheDuration.Short));
 		}
 
@@ -173,9 +177,10 @@ namespace UnitTests.Subtext.Framework.Data
 			string host = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/");
+            BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
 			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "This Is a Test");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/" + categoryId + ".aspx");
-
+            BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
 			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short);
 			Assert.AreEqual("This Is a Test", category.Title);
 		}
@@ -187,6 +192,7 @@ namespace UnitTests.Subtext.Framework.Data
 			string host = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/This Is a Test.aspx");
+            BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
 			UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "This Is a Test");
 
 			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short);
@@ -200,6 +206,7 @@ namespace UnitTests.Subtext.Framework.Data
 			string host = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/This_Is_a_Test.aspx");
+            BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
 			UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "This Is a Test");
 
 			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short);
@@ -217,6 +224,7 @@ namespace UnitTests.Subtext.Framework.Data
 			string hostName = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
 			Config.CreateBlog("", "username", "thePassword", hostName, "");
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
 
 			//Start with en-US
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");

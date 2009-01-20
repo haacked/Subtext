@@ -25,10 +25,10 @@ namespace UnitTests.Subtext.SubtextWeb
             var entries = new List<Entry>();
             entries.Add(new Entry(PostType.BlogPost) { Id = 123, DateModified = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture)});
             var repository = new Mock<ObjectProvider>();
-            repository.Expect(r => r.GetPostCountsByMonth()).Returns(new List<ArchiveCount>());
-            repository.Expect(r => r.GetEntries(It.IsAny<int>(), PostType.BlogPost, It.IsAny<PostConfig>(), It.IsAny<bool>())).Returns(entries);
-            repository.Expect(r => r.GetEntries(It.IsAny<int>(), PostType.Story, It.IsAny<PostConfig>(), It.IsAny<bool>())).Returns(new List<Entry>());
-            repository.Expect(r => r.GetCategories(CategoryType.PostCollection, true)).Returns(new List<LinkCategory>());
+            repository.Setup(r => r.GetPostCountsByMonth()).Returns(new List<ArchiveCount>());
+            repository.Setup(r => r.GetEntries(It.IsAny<int>(), PostType.BlogPost, It.IsAny<PostConfig>(), It.IsAny<bool>())).Returns(entries);
+            repository.Setup(r => r.GetEntries(It.IsAny<int>(), PostType.Story, It.IsAny<PostConfig>(), It.IsAny<bool>())).Returns(new List<Entry>());
+            repository.Setup(r => r.GetCategories(CategoryType.PostCollection, true)).Returns(new List<LinkCategory>());
 
             Mock<ISubtextContext> subtextContext = new Mock<ISubtextContext>();
             StringWriter writer = subtextContext.FakeSitemapHandlerRequest(repository);
@@ -53,10 +53,10 @@ namespace UnitTests.Subtext.SubtextWeb
             var entries = new List<Entry>();
             entries.Add(new Entry(PostType.Story) { Id = 321, DateModified = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture) });
             var repository = new Mock<ObjectProvider>();
-            repository.Expect(r => r.GetPostCountsByMonth()).Returns(new List<ArchiveCount>());
-            repository.Expect(r => r.GetEntries(It.IsAny<int>(), PostType.BlogPost, It.IsAny<PostConfig>(), It.IsAny<bool>())).Returns(new List<Entry>());
-            repository.Expect(r => r.GetEntries(It.IsAny<int>(), PostType.Story, It.IsAny<PostConfig>(), It.IsAny<bool>())).Returns(entries);
-            repository.Expect(r => r.GetCategories(CategoryType.PostCollection, true)).Returns(new List<LinkCategory>());
+            repository.Setup(r => r.GetPostCountsByMonth()).Returns(new List<ArchiveCount>());
+            repository.Setup(r => r.GetEntries(It.IsAny<int>(), PostType.BlogPost, It.IsAny<PostConfig>(), It.IsAny<bool>())).Returns(new List<Entry>());
+            repository.Setup(r => r.GetEntries(It.IsAny<int>(), PostType.Story, It.IsAny<PostConfig>(), It.IsAny<bool>())).Returns(entries);
+            repository.Setup(r => r.GetCategories(CategoryType.PostCollection, true)).Returns(new List<LinkCategory>());
 
             Mock<ISubtextContext> subtextContext = new Mock<ISubtextContext>();
             StringWriter writer = subtextContext.FakeSitemapHandlerRequest(repository);

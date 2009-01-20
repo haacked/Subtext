@@ -23,6 +23,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Format
 {
@@ -59,6 +60,7 @@ namespace UnitTests.Subtext.Framework.Format
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "");
 			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
 
 			Entry postEntry = new Entry(PostType.BlogPost);
 			postEntry.Id = 123;

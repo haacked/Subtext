@@ -1080,43 +1080,11 @@ namespace Subtext.Framework
             return (this.Host ?? string.Empty).GetHashCode() ^ (this.Subfolder ?? string.Empty).GetHashCode() ^ this.Id.GetHashCode();
         }
 
-        private static readonly Blog aggregateBlog = InitAggregateBlog();
-
-        private static Blog InitAggregateBlog()
-        {
-            HostInfo hostInfo = HostInfo.Instance;
-            string aggregateHost = ConfigurationManager.AppSettings["AggregateUrl"];
-            if (aggregateHost == null)
-                return null;
-
-            Regex regex = new Regex(@"^(https?://)?(?<host>.+?)(/.*)?$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            Match match = regex.Match(aggregateHost);
-
-            if (match.Success)
-                aggregateHost = match.Groups["host"].Value;
-
-            Blog blog = new Blog();
-            blog.Title = ConfigurationManager.AppSettings["AggregateTitle"];
-            blog.Skin = SkinConfig.GetDefaultSkin();
-            //TODO: blog.MobileSkin = ...
-            blog.Host = aggregateHost;
-            blog.Subfolder = string.Empty;
-
-            // When running on the build server there are no Host records in the system
-            // so HostInfo.Instance returns NULL, meaning a NullRefernce on the server.
-            if (hostInfo == null)
-                Log.Warn("There is no Host record in for this installation.");
-            else
-                blog.UserName = hostInfo.HostUserName;
-
-            return blog;
-        }
-
         public static Blog AggregateBlog
         {
             get
             {
-                return aggregateBlog;
+                return HostInfo.Instance.AggregateBlog;
             }
         }
 

@@ -23,6 +23,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -45,6 +46,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void CannotCreateMoreThanOneCommentWithinDelay()
 		{
 			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
 			Blog blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 1;
 
@@ -74,6 +76,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void CannotCreateDuplicateComments()
 		{
 			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
 			Blog blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 0;
 
@@ -96,6 +99,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	    public void CommentsFromAdminNotFiltered()
 	    {
             Config.CreateBlog("", "username", "some-password", _hostName, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
             Blog blog = Config.CurrentBlog;
             blog.CommentDelayInMinutes = 0;
 	        

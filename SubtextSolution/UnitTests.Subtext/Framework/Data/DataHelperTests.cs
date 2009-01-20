@@ -31,9 +31,9 @@ namespace UnitTests.Subtext.Framework.Data
         {
             //arrange
             var reader = new Mock<IDataReader>();
-            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
-            reader.ExpectGet(r => r["ComplexObject"]).Throws(new IndexOutOfRangeException());
-            reader.Expect(r => r.Read()).Returns(false);
+            reader.Setup(r => r.Read()).Returns(true).AtMostOnce();
+            reader.SetupGet(r => r["ComplexObject"]).Throws(new IndexOutOfRangeException());
+            reader.Setup(r => r.Read()).Returns(false);
 
             //act
             var result = reader.Object.LoadObject<ObjectWithProperties>();
@@ -47,9 +47,9 @@ namespace UnitTests.Subtext.Framework.Data
         {
             //arrange
             var reader = new Mock<IDataReader>();
-            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
-            reader.ExpectGet(r => r["ReadOnlyBoolean"]).Throws(new IndexOutOfRangeException());
-            reader.Expect(r => r.Read()).Returns(false);
+            reader.Setup(r => r.Read()).Returns(true).AtMostOnce();
+            reader.SetupGet(r => r["ReadOnlyBoolean"]).Throws(new IndexOutOfRangeException());
+            reader.Setup(r => r.Read()).Returns(false);
 
             //act
             var result = reader.Object.LoadObject<ObjectWithProperties>();
@@ -62,9 +62,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void IDataReader_WithIntColumnHavingSameNameAsProperty_PopulatesObjectWithPropertySetCorrectly() { 
             //arrange
             var reader = new Mock<IDataReader>();
-            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
-            reader.ExpectGet(r => r["IntProperty"]).Returns(42);
-            reader.Expect(r => r.Read()).Returns(false);
+            reader.Setup(r => r.Read()).Returns(true).AtMostOnce();
+            reader.SetupGet(r => r["IntProperty"]).Returns(42);
+            reader.Setup(r => r.Read()).Returns(false);
 
             //act
             var result = reader.Object.LoadObject<ObjectWithProperties>();
@@ -78,9 +78,9 @@ namespace UnitTests.Subtext.Framework.Data
         {
             //arrange
             var reader = new Mock<IDataReader>();
-            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
-            reader.ExpectGet(r => r["StringProperty"]).Returns("Hello world");
-            reader.Expect(r => r.Read()).Returns(false);
+            reader.Setup(r => r.Read()).Returns(true).AtMostOnce();
+            reader.SetupGet(r => r["StringProperty"]).Returns("Hello world");
+            reader.Setup(r => r.Read()).Returns(false);
 
             //act
             var result = reader.Object.LoadObject<ObjectWithProperties>();
@@ -95,9 +95,9 @@ namespace UnitTests.Subtext.Framework.Data
             //arrange
             DateTime now = DateTime.Now;
             var reader = new Mock<IDataReader>();
-            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
-            reader.ExpectGet(r => r["DateProperty"]).Returns(now);
-            reader.Expect(r => r.Read()).Returns(false);
+            reader.Setup(r => r.Read()).Returns(true).AtMostOnce();
+            reader.SetupGet(r => r["DateProperty"]).Returns(now);
+            reader.Setup(r => r.Read()).Returns(false);
 
             //act
             var result = reader.Object.LoadObject<ObjectWithProperties>();
@@ -111,9 +111,9 @@ namespace UnitTests.Subtext.Framework.Data
         {
             //arrange
             var reader = new Mock<IDataReader>();
-            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
-            reader.ExpectGet(r => r["NullableIntProperty"]).Returns(DBNull.Value);
-            reader.Expect(r => r.Read()).Returns(false);
+            reader.Setup(r => r.Read()).Returns(true).AtMostOnce();
+            reader.SetupGet(r => r["NullableIntProperty"]).Returns(DBNull.Value);
+            reader.Setup(r => r.Read()).Returns(false);
 
             //act
             var result = reader.Object.LoadObject<ObjectWithProperties>();
@@ -127,9 +127,9 @@ namespace UnitTests.Subtext.Framework.Data
         {
             //arrange
             var reader = new Mock<IDataReader>();
-            reader.Expect(r => r.Read()).Returns(true).AtMostOnce();
-            reader.ExpectGet(r => r["NullableIntProperty"]).Returns(23);
-            reader.Expect(r => r.Read()).Returns(false);
+            reader.Setup(r => r.Read()).Returns(true).AtMostOnce();
+            reader.SetupGet(r => r["NullableIntProperty"]).Returns(23);
+            reader.Setup(r => r.Read()).Returns(false);
 
             //act
             var result = reader.Object.LoadObject<ObjectWithProperties>();

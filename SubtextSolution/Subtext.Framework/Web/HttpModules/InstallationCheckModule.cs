@@ -22,15 +22,14 @@ using Subtext.Framework.Web;
 namespace Subtext.Framework.Web.HttpModules
 {
     /// <summary>
-    /// Maps an incoming URL to a blog.
+    /// Checks to see if the blog needs an upgrade.
     /// </summary>
     public class InstallationCheckModule : IHttpModule
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InstallationCheckModule"/> class.
         /// </summary>
-        public InstallationCheckModule()
-        {
+        public InstallationCheckModule() {
         }
 
         /// <summary>

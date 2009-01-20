@@ -22,12 +22,12 @@ namespace UnitTests.Subtext.Framework.Email
             var blog = new Blog { Email = "cody@example.com", UserName = "cody" };
             var emailProvider = new Mock<EmailProvider>();
             var context = new Mock<ISubtextContext>();
-            context.Expect(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
-            context.Expect(c => c.Blog).Returns(blog);
-            context.Expect(c => c.User.Identity.Name).Returns("cody");
-            context.Expect(c => c.User.IsInRole("Admins")).Returns(true);
+            context.Setup(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
+            context.Setup(c => c.Blog).Returns(blog);
+            context.Setup(c => c.User.Identity.Name).Returns("cody");
+            context.Setup(c => c.User.IsInRole("Admins")).Returns(true);
             var emailService = new EmailService(emailProvider.Object, new Mock<ITemplateEngine>().Object, context.Object);
-            emailProvider.Expect(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Never();
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Never();
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -41,10 +41,10 @@ namespace UnitTests.Subtext.Framework.Email
             var blog = new Blog { Email = string.Empty };
             var emailProvider = new Mock<EmailProvider>();
             var context = new Mock<ISubtextContext>();
-            context.Expect(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
-            context.Expect(c => c.Blog).Returns(blog);
+            context.Setup(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
+            context.Setup(c => c.Blog).Returns(blog);
             var emailService = new EmailService(emailProvider.Object, new Mock<ITemplateEngine>().Object, context.Object);
-            emailProvider.Expect(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Never();
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Never();
             
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -57,11 +57,11 @@ namespace UnitTests.Subtext.Framework.Email
             var comment = new FeedbackItem(FeedbackType.PingTrack) { };
             var blog = new Blog { Email = "foo@example.com" };
             var context = new Mock<ISubtextContext>();
-            context.Expect(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
-            context.Expect(c => c.Blog).Returns(blog);
+            context.Setup(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
+            context.Setup(c => c.Blog).Returns(blog);
             var emailProvider = new Mock<EmailProvider>();
             var emailService = new EmailService(emailProvider.Object, new Mock<ITemplateEngine>().Object, context.Object);
-            emailProvider.Expect(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Never();
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Never();
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -74,7 +74,7 @@ namespace UnitTests.Subtext.Framework.Email
             var emailProvider = new Mock<EmailProvider>();
             var emailService = SetupEmailService(comment, emailProvider);
             string subject = null;
-            emailProvider.Expect(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => subject = title);
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => subject = title);
             //act
             emailService.EmailCommentToBlogAuthor(comment);
 
@@ -90,7 +90,7 @@ namespace UnitTests.Subtext.Framework.Email
             var emailProvider = new Mock<EmailProvider>();
             var emailService = SetupEmailService(comment, emailProvider);
             string subject = null;
-            emailProvider.Expect(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => subject = title);
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => subject = title);
             //act
             emailService.EmailCommentToBlogAuthor(comment);
 
@@ -106,7 +106,7 @@ namespace UnitTests.Subtext.Framework.Email
             var emailProvider = new Mock<EmailProvider>();
             var emailService = SetupEmailService(comment, emailProvider);
             string fromEmail = null;
-            emailProvider.Expect(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => fromEmail = from);
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => fromEmail = from);
             //act
             emailService.EmailCommentToBlogAuthor(comment);
 
@@ -123,7 +123,7 @@ namespace UnitTests.Subtext.Framework.Email
             emailProvider.Object.AdminEmail = "admin@example.com";
             var emailService = SetupEmailService(comment, emailProvider);
             string fromEmail = null;
-            emailProvider.Expect(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => fromEmail = from);
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => fromEmail = from);
             //act
             emailService.EmailCommentToBlogAuthor(comment);
 
@@ -135,13 +135,13 @@ namespace UnitTests.Subtext.Framework.Email
         {
             var templateEngine = new Mock<ITemplateEngine>();
             var template = new Mock<ITextTemplate>();
-            templateEngine.Expect(t => t.GetTemplate(It.IsAny<string>())).Returns(template.Object);
-            template.Expect(t => t.Format(It.IsAny<object>())).Returns("message");
+            templateEngine.Setup(t => t.GetTemplate(It.IsAny<string>())).Returns(template.Object);
+            template.Setup(t => t.Format(It.IsAny<object>())).Returns("message");
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(u => u.FeedbackUrl(comment)).Returns("/");
+            urlHelper.Setup(u => u.FeedbackUrl(comment)).Returns("/");
             var context = new Mock<ISubtextContext>();
-            context.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
-            context.Expect(c => c.Blog).Returns(new Blog { Email = "test@test.com", Author = "to", Host = "localhost", Title = "the blog" });
+            context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
+            context.Setup(c => c.Blog).Returns(new Blog { Email = "test@test.com", Author = "to", Host = "localhost", Title = "the blog" });
 
             var emailService = new EmailService(emailProvider.Object, templateEngine.Object, context.Object);
             return emailService;
@@ -155,16 +155,16 @@ namespace UnitTests.Subtext.Framework.Email
             var emailProvider = new Mock<EmailProvider>();
             var templateEngine = new Mock<ITemplateEngine>();
             var template = new Mock<ITextTemplate>();
-            templateEngine.Expect(t => t.GetTemplate(It.IsAny<string>())).Returns(template.Object);
-            template.Expect(t => t.Format(It.IsAny<object>())).Returns("message");
+            templateEngine.Setup(t => t.GetTemplate(It.IsAny<string>())).Returns(template.Object);
+            template.Setup(t => t.Format(It.IsAny<object>())).Returns("message");
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(u => u.FeedbackUrl(comment)).Returns("/");
+            urlHelper.Setup(u => u.FeedbackUrl(comment)).Returns("/");
             var context = new Mock<ISubtextContext>();
-            context.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
-            context.Expect(c => c.Blog).Returns(new Blog { Email = "test@test.com", Author = "to", Host = "localhost", Title = "the blog" });
+            context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
+            context.Setup(c => c.Blog).Returns(new Blog { Email = "test@test.com", Author = "to", Host = "localhost", Title = "the blog" });
 
             string toEmail = null;
-            emailProvider.Expect(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => toEmail = to);
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => toEmail = to);
             var emailService = new EmailService(emailProvider.Object, templateEngine.Object, context.Object);
 
             //act
@@ -300,12 +300,12 @@ namespace UnitTests.Subtext.Framework.Email
             var template = new NamedFormatTextTemplate(templateText);
             var urlHelper = new Mock<UrlHelper>();
             var context = new Mock<ISubtextContext>();
-            context.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
-            context.Expect(c => c.Blog).Returns(new Blog { Email = "foo@example.com", Author = "to", Host = "localhost" });
+            context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
+            context.Setup(c => c.Blog).Returns(new Blog { Email = "foo@example.com", Author = "to", Host = "localhost" });
             
-            urlHelper.Expect(u => u.FeedbackUrl(comment)).Returns<FeedbackItem>(f => "/comment#" + f.Id);
-            templateEngine.Expect(t => t.GetTemplate("CommentReceived")).Returns(template);
-            emailProvider.Expect(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => messageCallback(message));
+            urlHelper.Setup(u => u.FeedbackUrl(comment)).Returns<FeedbackItem>(f => "/comment#" + f.Id);
+            templateEngine.Setup(t => t.GetTemplate("CommentReceived")).Returns(template);
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => messageCallback(message));
             
             return new EmailService(emailProvider.Object, templateEngine.Object, context.Object);
         }

@@ -23,6 +23,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using System.Collections.ObjectModel;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -35,6 +36,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             string hostname = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
         }
 
         [Test]

@@ -22,6 +22,7 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.SecurityHandling
 {
@@ -42,6 +43,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		{
 			Config.Settings.UseHashedPasswords = true;
 			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
 			string password = SecurityHelper.HashPassword("newPass");
 
 			SecurityHelper.UpdatePassword("newPass");
@@ -57,6 +59,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		public void HashPasswordReturnsProperHash()
 		{
 			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
 			string password = "myPassword";
 			string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
 			Assert.AreEqual(hashedPassword, SecurityHelper.HashPassword(password));
@@ -92,6 +95,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		public void OldBitConverterPasswordUnderstood()
 		{
 			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
 			string password = "myPassword";
 			Byte[] clearBytes = new UnicodeEncoding().GetBytes(password);
 			Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(clearBytes);
@@ -108,6 +112,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		public void CanSetAuthenticationCookie()
 		{
 			Config.CreateBlog("", "the-username", "thePassword", _hostName, "MyBlog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
 			SecurityHelper.SetAuthenticationTicket("the-username", false, "Admins");
 			HttpCookie cookie = SecurityHelper.SelectAuthenticationCookie();
 			Assert.IsNotNull(cookie, "Could not get authentication cookie.");
@@ -118,6 +123,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		public void CanAuthenticateAdmin()
 		{
 			Config.CreateBlog("", "the-username", "thePassword", _hostName, "MyBlog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
 			Assert.IsTrue(SecurityHelper.Authenticate("the-username", "thePassword", true), "We should be able to login.");
 			HttpCookie cookie = SecurityHelper.SelectAuthenticationCookie();
 			Assert.IsNotNull(cookie, "Could not get authentication cookie.");

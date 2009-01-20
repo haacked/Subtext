@@ -77,8 +77,7 @@ namespace Subtext.Framework.Data
             Blog info = null;
             using (IDataReader reader = _procedures.GetBlogByDomainAlias(host, subfolder, strict))
             {
-                if (reader.Read())
-                {
+                if (reader.Read()) {
                     info = DataHelper.LoadBlog(reader);
                 }
                 reader.Close();
@@ -94,7 +93,7 @@ namespace Subtext.Framework.Data
         /// <param name="pageSize">Size of the page.</param>
         /// <returns></returns>
         /// <param name="flags"></param>
-        public override PagedCollection<Blog> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
+        public override IPagedCollection<Blog> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
         {
             using (IDataReader reader = _procedures.GetPagedBlogs(host, pageIndex, pageSize, flags))
             {
@@ -102,7 +101,7 @@ namespace Subtext.Framework.Data
             }
         }
 
-        public override PagedCollection<BlogAlias> GetPagedBlogDomainAlias(Blog blog, int pageIndex, int pageSize)
+        public override IPagedCollection<BlogAlias> GetPagedBlogDomainAlias(Blog blog, int pageIndex, int pageSize)
         {
             using (IDataReader reader = _procedures.GetPageableDomainAliases(pageIndex, pageSize, blog.Id))
             {

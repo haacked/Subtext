@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.Framework.Routing
             routeData.Values.Add("pathinfo", "foo.aspx");
             var pageBuilder = new Mock<ISubtextPageBuilder>();
             var httpHandler = new Mock<IHttpHandler>();
-            pageBuilder.Expect(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(httpHandler.Object).Callback<string, Type>((vpath, type) => virtualPath = vpath);
+            pageBuilder.Setup(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(httpHandler.Object).Callback<string, Type>((vpath, type) => virtualPath = vpath);
             IRouteHandler routeHandler = new DirectoryRouteHandler(pageBuilder.Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/admin/foo.aspx");
@@ -71,7 +71,7 @@ namespace UnitTests.Subtext.Framework.Routing
             routeData.Values.Add("pathinfo", "foo.ashx");
             var pageBuilder = new Mock<ISubtextPageBuilder>();
             var httpHandler = new Mock<IHttpHandler>();
-            pageBuilder.Expect(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(httpHandler.Object).Callback<string, Type>((vpath, type) => virtualPath = vpath);
+            pageBuilder.Setup(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(httpHandler.Object).Callback<string, Type>((vpath, type) => virtualPath = vpath);
             IRouteHandler routeHandler = new DirectoryRouteHandler(pageBuilder.Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/admin/foo.ashx");
@@ -95,7 +95,7 @@ namespace UnitTests.Subtext.Framework.Routing
             routeData.Values.Add("pathinfo", "posts");
             var pageBuilder = new Mock<ISubtextPageBuilder>();
             var httpHandler = new Mock<IHttpHandler>();
-            pageBuilder.Expect(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(httpHandler.Object).Callback<string, Type>((vpath, type) => virtualPath = vpath);
+            pageBuilder.Setup(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(httpHandler.Object).Callback<string, Type>((vpath, type) => virtualPath = vpath);
             IRouteHandler routeHandler = new DirectoryRouteHandler(pageBuilder.Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/admin/posts/");
@@ -118,7 +118,7 @@ namespace UnitTests.Subtext.Framework.Routing
             routeData.Values.Add("pathinfo", "posts");
             var pageBuilder = new Mock<ISubtextPageBuilder>();
             var httpHandler = new Mock<IHttpHandler>();
-            pageBuilder.Expect(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(httpHandler.Object).Callback<string, Type>((vpath, type) => virtualPath = vpath);
+            pageBuilder.Setup(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(httpHandler.Object).Callback<string, Type>((vpath, type) => virtualPath = vpath);
             IRouteHandler routeHandler = new DirectoryRouteHandler(pageBuilder.Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/admin/posts");
@@ -141,7 +141,7 @@ namespace UnitTests.Subtext.Framework.Routing
             routeData.Values.Add("pathinfo", "foo.aspx");
             var pageBuilder = new Mock<ISubtextPageBuilder>();
             var httpHandler = new Mock<IHttpHandler>();
-            pageBuilder.Expect(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(httpHandler.Object).Callback<string, Type>((vpath, type) => virtualPath = vpath);
+            pageBuilder.Setup(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(httpHandler.Object).Callback<string, Type>((vpath, type) => virtualPath = vpath);
             IRouteHandler routeHandler = new DirectoryRouteHandler(pageBuilder.Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/blogsubfolder/admin/foo.aspx", "blogsubfolder");

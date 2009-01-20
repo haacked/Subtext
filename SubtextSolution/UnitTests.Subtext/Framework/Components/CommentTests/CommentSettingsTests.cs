@@ -4,6 +4,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
@@ -17,7 +18,8 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		public void CommentModerationDisabledCausesNewCommentsToBeActive()
 		{
 			Config.CreateBlog("", "username", "thePassword", this.hostName, "MyBlog1");
-			
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, "MyBlog1");
+
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "test entry", "the body of the entry");
@@ -36,6 +38,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		public void CommentModerationEnabledCausesNewCommentsToBeInactive()
 		{
 			Config.CreateBlog("", "username", "thePassword", this.hostName, "MyBlog1");
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, "MyBlog1");
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = true;
 			
