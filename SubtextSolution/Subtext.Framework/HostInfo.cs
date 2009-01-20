@@ -139,7 +139,7 @@ namespace Subtext.Framework
 			host.HostUserName = hostUserName;
 
 			SetHostPassword(host, hostPassword);
-
+            _instance = host;
 		    return UpdateHost(host);
 		}
 

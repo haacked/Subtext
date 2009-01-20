@@ -62,7 +62,11 @@ namespace Subtext.Framework.Web.HttpModules
             //Bypass for static files.
             if (HttpHelper.IsStaticFileRequest())
                 return;
-			
+
+            if (HostInfo.Instance == null && !InstallationManager.IsInInstallDirectory) {
+                HttpContext.Current.Response.Redirect("~/Install/", true);
+            }
+
             // Want to redirect to install if installation is required, 
             // or if we're missing a HostInfo record.
             if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded))
