@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Globalization;
 using System.Web;
-using System.Globalization;
-using Subtext.Framework.Configuration;
 using System.Web.Mobile;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Services
 {
@@ -16,7 +13,11 @@ namespace Subtext.Framework.Services
 
         private int BlogId {
             get {
-                return Config.CurrentBlog.Id;
+                if (Config.CurrentBlog != null)
+                {
+                    return Config.CurrentBlog.Id;
+                }
+                return 0;
             }
         }
 

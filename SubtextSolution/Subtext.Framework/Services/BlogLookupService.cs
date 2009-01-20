@@ -40,6 +40,10 @@ namespace Subtext.Framework.Services
 
         public BlogLookupResult Lookup(BlogRequest blogRequest)
         {
+            if (Host == null) {
+                return new BlogLookupResult(null, null);
+            }
+
             string host = blogRequest.Host;
             Blog blog = Repository.GetBlog(host, blogRequest.Subfolder, true /* strict */);
             if (blog != null) {

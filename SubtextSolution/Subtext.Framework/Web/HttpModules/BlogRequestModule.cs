@@ -68,7 +68,6 @@ namespace Subtext.Framework.Web.HttpModules
             if (blogRequest.RequestLocation == RequestLocation.Installation) {
                 return blogRequest;
             }
-            
             BlogLookupResult result = BlogLookup.Lookup(blogRequest);
 
             if (result == null) {
