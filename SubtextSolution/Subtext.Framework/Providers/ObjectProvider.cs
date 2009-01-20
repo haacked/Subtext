@@ -99,7 +99,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="pageSize">Size of the page.</param>
 		/// <returns></returns>
 		/// <param name="flags"></param>
-		public abstract PagedCollection<Blog> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags);
+		public abstract IPagedCollection<Blog> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags);
 		
 		/// <summary>
 		/// Gets the blog by id.
@@ -110,7 +110,7 @@ namespace Subtext.Framework.Providers
 
 		public abstract Blog GetBlogByDomainAlias(string host, string subfolder, bool strict);
 
-		public abstract PagedCollection<BlogAlias> GetPagedBlogDomainAlias(Blog blog, int pageIndex, int pageSize);
+		public abstract IPagedCollection<BlogAlias> GetPagedBlogDomainAlias(Blog blog, int pageIndex, int pageSize);
 
 		#endregion Blogs
 

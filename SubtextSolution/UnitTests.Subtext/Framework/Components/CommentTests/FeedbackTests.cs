@@ -9,6 +9,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
@@ -337,7 +338,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		public void CreateFeedbackHasContentHash()
 		{
 			Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
-
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
 			FeedbackItem trackback = new FeedbackItem(FeedbackType.PingTrack);
 			trackback.DateCreated = DateTime.Now;
 			trackback.SourceUrl = new Uri("http://" + UnitTestHelper.GenerateUniqueString() + "/ThisUrl/");
@@ -357,6 +358,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 	    public void CreateFeedbackWithSpecifiedDateCreated()
 	    {
 	        Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
             DateTime dateCreated = DateTime.ParseExact("2005/01/23 05:05:05", "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
 	        
             FeedbackItem savedComment = CreateFeedbackWithSpecifiedDates(dateCreated, NullValue.NullDateTime);
@@ -372,6 +374,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         public void CreateFeedbackWithSpecifiedDateModified()
         {
             Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
             DateTime dateCreated = DateTime.ParseExact("2005/01/23 05:05:05", "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
             DateTime dateModified = dateCreated.AddDays(5);
 
@@ -412,7 +415,8 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         Entry SetupBlogForCommentsAndCreateEntry()
         {
             Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
-            Blog info = Config.CurrentBlog;
+            Blog info = Config.GetBlog(_hostName, string.Empty);
+            BlogRequest.Current.Blog = info;
             info.Email = "test@example.com";
             info.Title = "You've been haacked";
             info.CommentsEnabled = true;

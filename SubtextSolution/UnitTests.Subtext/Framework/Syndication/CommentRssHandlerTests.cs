@@ -8,6 +8,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -39,6 +40,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             //};
             int blogId = Config.CreateBlog("Test", "username", "password", hostName, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
             Blog blog = Config.CurrentBlog;
             blog.Host = hostName;
             blog.Email = "Subtext@example.com";
@@ -48,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			DateTime dateCreated = DateTime.Now;
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blog, "Author", "Best post EVER", "testbody", null, dateCreated);
 			var repository = new Mock<ObjectProvider>();
-            repository.Expect(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
+            repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
 
             int id = Entries.Create(entry); //persist to db.
 
@@ -57,10 +59,10 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blog, "/" + id + ".aspx", s => rssOutput = s);
-            subtextContext.Expect(c => c.Repository).Returns(repository.Object);
+            subtextContext.Setup(c => c.Repository).Returns(repository.Object);
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
 
 			handler.ProcessRequest(subtextContext.Object);
 

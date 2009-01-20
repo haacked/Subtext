@@ -589,8 +589,8 @@ namespace UnitTests.Subtext.Framework.Routing
             var routes = new RouteCollection();
             Global.RegisterRoutes(routes);
             var httpContext = new Mock<HttpContextBase>();
-            httpContext.Expect(c => c.Request.ApplicationPath).Returns(appPath);
-            httpContext.Expect(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
+            httpContext.Setup(c => c.Request.ApplicationPath).Returns(appPath);
+            httpContext.Setup(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
             var requestContext = new RequestContext(httpContext.Object, routeData);
             UrlHelper helper = new UrlHelper(requestContext, routes);
             return helper;

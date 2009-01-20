@@ -45,13 +45,13 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
 			entry.PostType = PostType.None;
 
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(url => url.ResolveUrl(It.IsAny<string>())).Returns("/images/RSS2Image.gif");
-            urlHelper.Expect(url => url.GetVirtualPath(It.IsAny<string>(), It.IsAny<object>())).Returns("/blog/Admin/Feedback.aspx?status=2");
-            urlHelper.Expect(url => url.EntryUrl(It.IsAny<Entry>())).Returns("/blog/Admin/Feedback.aspx?status=2");
-            urlHelper.Expect(url => url.AdminUrl(It.IsAny<string>(), It.IsAny<object>())).Returns("/blog/Admin/Feedback.aspx?status=2");
+            urlHelper.Setup(url => url.ResolveUrl(It.IsAny<string>())).Returns("/images/RSS2Image.gif");
+            urlHelper.Setup(url => url.GetVirtualPath(It.IsAny<string>(), It.IsAny<object>())).Returns("/blog/Admin/Feedback.aspx?status=2");
+            urlHelper.Setup(url => url.EntryUrl(It.IsAny<Entry>())).Returns("/blog/Admin/Feedback.aspx?status=2");
+            urlHelper.Setup(url => url.AdminUrl(It.IsAny<string>(), It.IsAny<object>())).Returns("/blog/Admin/Feedback.aspx?status=2");
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Expect(c => c.Blog).Returns(blogInfo);
-            subtextContext.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
+            subtextContext.Setup(c => c.Blog).Returns(blogInfo);
+            subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 			ModeratedCommentRssWriter writer = new ModeratedCommentRssWriter(new StringWriter(), new List<FeedbackItem>(), entry, subtextContext.Object);
 
 			string expected = @"<rss version=""2.0"" "
@@ -128,13 +128,13 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
             comments.Add(comment);
 
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(url => url.EntryUrl(It.IsAny<Entry>())).Returns("/Subtext.Web/archive/2006/02/01/titleofthepost.aspx");
-            urlHelper.Expect(url => url.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/Subtext.Web/archive/2006/02/01/titleofthepost.aspx#1002");
-            urlHelper.Expect(url => url.ResolveUrl(It.IsAny<string>())).Returns("/Subtext.Web/images/RSS2Image.gif");
-            urlHelper.Expect(url => url.AdminUrl(It.IsAny<string>(), It.IsAny<object>())).Returns("/Subtext.Web/Admin/Feedback.aspx?status=2");
+            urlHelper.Setup(url => url.EntryUrl(It.IsAny<Entry>())).Returns("/Subtext.Web/archive/2006/02/01/titleofthepost.aspx");
+            urlHelper.Setup(url => url.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/Subtext.Web/archive/2006/02/01/titleofthepost.aspx#1002");
+            urlHelper.Setup(url => url.ResolveUrl(It.IsAny<string>())).Returns("/Subtext.Web/images/RSS2Image.gif");
+            urlHelper.Setup(url => url.AdminUrl(It.IsAny<string>(), It.IsAny<object>())).Returns("/Subtext.Web/Admin/Feedback.aspx?status=2");
             var context = new Mock<ISubtextContext>();
-            context.Expect(c => c.UrlHelper).Returns(urlHelper.Object);
-            context.Expect(c => c.Blog).Returns(blogInfo);
+            context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
+            context.Setup(c => c.Blog).Returns(blogInfo);
 
             ModeratedCommentRssWriter writer = new ModeratedCommentRssWriter(new StringWriter(), comments, rootEntry, context.Object);
 

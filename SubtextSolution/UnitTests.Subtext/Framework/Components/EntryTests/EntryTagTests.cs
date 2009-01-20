@@ -6,6 +6,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -19,6 +20,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
 			entry.IsActive = false;
 			Entries.Create(entry);
@@ -35,6 +38,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
 			Entries.Create(entry);
 
@@ -53,6 +58,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
 			Entries.Create(entry);
 			entry.Body = "<a title=\"title-bar!\" " + Environment.NewLine + " href=\"http://blah/yourtag\" " + Environment.NewLine + "rel=\"tag\">nothing</a>";
@@ -77,6 +84,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
 			Entries.Create(entry);
 			entry.Body = "<a href=\"" + url + "\" rel=\"tag\">nothing</a>";
@@ -94,6 +103,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
 			Entries.Create(entry);
 			entry.Body = "<a href=\"http://blah/yourtag\" rel=\"tag friend\">nothing</a>";
@@ -111,6 +122,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
 			Entries.Create(entry);
 			entry.Body = "<a href	  =  \"http://blah/sometag\" rel	=  \"tag friend\">nothing</a>";
@@ -128,6 +141,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
 			Entries.Create(entry);
 			entry.Body = "<a href= \"http://blah/sometag\" rel= \"tag Friend\">nothing</a><a href= \"http://blah/sometag\" rel= \"tag friend\">something</a>";

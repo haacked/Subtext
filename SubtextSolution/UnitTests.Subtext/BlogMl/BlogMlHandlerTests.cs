@@ -6,6 +6,7 @@ using MbUnit.Framework;
 using Subtext.BlogML;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.ImportExport;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.BlogML
 {
@@ -21,6 +22,7 @@ namespace UnitTests.Subtext.BlogML
             StringBuilder sb = new StringBuilder();
             StringWriter writer = new StringWriter(sb);
             UnitTestHelper.SetHttpContextWithBlogRequest(host, string.Empty, "/", "Export.aspx", writer);
+            BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
             Config.CurrentBlog.Author = "MasterChief";
             Config.UpdateConfigData(Config.CurrentBlog);
 

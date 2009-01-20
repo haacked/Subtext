@@ -4083,11 +4083,16 @@ one record.
 */
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetHost]
 AS
+
+DECLARE @blogAggregationEnabled bit
+SET @blogAggregationEnabled = 0
+
 SELECT 
 	[HostUserName]
 	, [Password]
 	, [Salt]
 	, [DateCreated]
+	, [BlogAggregationEnabled] = @blogAggregationEnabled /* Will put this column in DB */
 FROM [<dbUser,varchar,dbo>].[subtext_Host]
 
 GO

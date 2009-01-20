@@ -10,6 +10,7 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Services;
 using UnitTests.Subtext;
 using Subtext.Framework.Security;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
@@ -29,6 +30,8 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		public void FeedbackCreateCallsCommentService(bool isSpam, bool isAdmin)
 		{
 			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
+
 			MockRepository mocks = new MockRepository();
 			IFeedbackSpamService service = (IFeedbackSpamService)mocks.CreateMock(typeof(IFeedbackSpamService));
 			Config.CurrentBlog.FeedbackSpamService = service;

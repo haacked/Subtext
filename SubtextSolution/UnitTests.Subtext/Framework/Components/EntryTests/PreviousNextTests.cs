@@ -23,6 +23,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 {
@@ -42,6 +43,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
 
 			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-1));
 			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now);
@@ -64,6 +66,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
 
 			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-1));
 			Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now);
@@ -86,6 +89,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
 
 			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-2));
 			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-1));
@@ -115,6 +119,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
 
 			Entry firstEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-3));
 			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-2));
@@ -148,6 +153,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
 
 			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");
 			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");

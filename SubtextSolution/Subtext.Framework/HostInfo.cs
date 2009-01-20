@@ -14,7 +14,9 @@
 #endregion
 
 using System;
+using System.Configuration;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
@@ -23,14 +25,13 @@ using Subtext.Framework.Security;
 namespace Subtext.Framework
 {
 	/// <summary>
-	/// Represents the system that hosts the blogs within this 
-	/// Subtext installation.  This is a Singleton.
+	/// Represents the system, and its settings, that hosts the blogs within this Subtext installation.
 	/// </summary>
 	public sealed class HostInfo
 	{
-		static HostInfo _instance = LoadHost(true);
+		private static HostInfo _instance = null;
 		
-	    private HostInfo()
+	    public HostInfo()
 	    {
 	    }
 	    
@@ -41,8 +42,16 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static HostInfo Instance
 		{
-			get
-			{
+			get {
+                // no lock singleton.
+                HostInfo instance = _instance;
+                if (instance == null) {
+                    instance = LoadHost(true);
+                    // the next line might overwrite a HostInfo created by another thread,
+                    // but if it does, it'll only happen once and it's not so bad. I'll measure it to be sure. 
+                    // -phil Jan 18, 2009
+                    _instance = instance;
+                }
 				return _instance;
 			}
 		}
@@ -55,15 +64,12 @@ namespace Subtext.Framework
 		/// </value>
 		public static bool HostInfoTableExists
 		{
-			get
-			{
-				try
-				{
+			get {
+				try {
 					LoadHost(false);
 					return true;
 				}
-				catch(HostDataDoesNotExistException)
-				{
+				catch(HostDataDoesNotExistException) {
 					return false;
 				}
 			}
@@ -81,6 +87,13 @@ namespace Subtext.Framework
 			try
 			{
                 _instance = ObjectProvider.Instance().LoadHostInfo(new HostInfo());
+                if (_instance != null) {
+                    _instance.BlogAggregationEnabled = String.Equals(ConfigurationManager.AppSettings["AggregateEnabled"], "true", StringComparison.OrdinalIgnoreCase);
+                    if (_instance.BlogAggregationEnabled)
+                    {
+                        InitAggregateBlog(_instance);
+                    }
+                }
 			    return _instance;
 			}
 			catch(SqlException e)
@@ -146,8 +159,7 @@ namespace Subtext.Framework
 		/// Gets or sets the name of the host user.
 		/// </summary>
 		/// <value></value>
-		public string HostUserName
-		{
+		public string HostUserName {
 			get;
 			set;
 		}
@@ -156,8 +168,7 @@ namespace Subtext.Framework
 		/// Gets or sets the host password.
 		/// </summary>
 		/// <value></value>
-		public string Password
-		{
+		public string Password {
 			get;
 			set;
 		}
@@ -166,8 +177,7 @@ namespace Subtext.Framework
 		/// Gets or sets the salt.
 		/// </summary>
 		/// <value></value>
-		public string Salt
-		{
+		public string Salt {
 			get;
 			set;
 		}
@@ -178,10 +188,47 @@ namespace Subtext.Framework
 		/// installed.
 		/// </summary>
 		/// <value></value>
-		public DateTime DateCreated
-		{
+		public DateTime DateCreated {
 			get;
 			set;
 		}
+
+        public bool BlogAggregationEnabled {
+            get;
+            set;
+        }
+
+        public Blog AggregateBlog {
+            get;
+            set;
+        }
+
+        private static void InitAggregateBlog(HostInfo hostInfo)
+        {
+            string aggregateHost = ConfigurationManager.AppSettings["AggregateUrl"];
+            if (aggregateHost == null) {
+                return;
+            }
+
+            // validate host.
+            Regex regex = new Regex(@"^(https?://)?(?<host>.+?)(/.*)?$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            Match match = regex.Match(aggregateHost);
+
+            if (match.Success) {
+                aggregateHost = match.Groups["host"].Value;
+            }
+
+            Blog blog = new Blog();
+            blog.Title = ConfigurationManager.AppSettings["AggregateTitle"];
+            blog.Skin = SkinConfig.GetDefaultSkin();
+            //TODO: blog.MobileSkin = ...
+            blog.Host = aggregateHost;
+            blog.Subfolder = string.Empty;
+
+            if (hostInfo != null) {
+                blog.UserName = hostInfo.HostUserName;
+            }
+            hostInfo.AggregateBlog = blog;
+        }
 	}
 }

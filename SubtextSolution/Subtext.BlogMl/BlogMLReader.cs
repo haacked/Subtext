@@ -121,8 +121,9 @@ namespace Subtext.BlogML
 				
 				if(!String.IsNullOrEmpty(assetDirPath) && !String.IsNullOrEmpty(assetDirUrl))
 				{
-					if (!Directory.Exists(assetDirPath))
-						Directory.CreateDirectory(assetDirPath);
+                    if (!Directory.Exists(assetDirPath)) {
+                        Directory.CreateDirectory(assetDirPath);
+                    }
 					postContent = CreateFileFromAttachment(bmlAttachment, assetDirPath, assetDirUrl, postContent);
 				}
 			}

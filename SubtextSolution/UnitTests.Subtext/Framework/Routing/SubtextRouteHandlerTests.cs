@@ -22,9 +22,9 @@ namespace UnitTests.Subtext.Framework.Routing
             var httpContext = new Mock<HttpContextBase>();
             var requestContext = new RequestContext(httpContext.Object, routeData);
             var subtextPage = new Mock<ISubtextPage>();
-            subtextPage.Expect(p => p.SetControls(It.IsAny<IEnumerable<string>>())).Callback<IEnumerable<string>>(c => controlNames = c);
+            subtextPage.Setup(p => p.SetControls(It.IsAny<IEnumerable<string>>())).Callback<IEnumerable<string>>(c => controlNames = c);
             var pageBuilder = new Mock<ISubtextPageBuilder>();
-            pageBuilder.Expect(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(subtextPage.Object);
+            pageBuilder.Setup(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(subtextPage.Object);
             IRouteHandler subtextRouteHandler = new PageRouteHandler("~/Dtp.aspx", pageBuilder.Object);
 
             //act
@@ -44,9 +44,9 @@ namespace UnitTests.Subtext.Framework.Routing
             var requestContext = new RequestContext(httpContext.Object, routeData);
             var routableHandler = new Mock<IRoutableHandler>();
             RequestContext setContext = null;
-            routableHandler.ExpectSet(h => h.RequestContext).Callback(context => setContext = context);
+            routableHandler.SetupSet(h => h.RequestContext).Callback(context => setContext = context);
             var pageBuilder = new Mock<ISubtextPageBuilder>();
-            pageBuilder.Expect(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(routableHandler.Object);
+            pageBuilder.Setup(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(routableHandler.Object);
             IRouteHandler subtextRouteHandler = new PageRouteHandler("~/Dtp.aspx", pageBuilder.Object);
 
             //act

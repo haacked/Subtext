@@ -5,6 +5,7 @@ using System.Reflection;
 using MbUnit.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Util;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Util
 {
@@ -32,6 +33,7 @@ namespace UnitTests.Subtext.Framework.Util
 			string host = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("title", "somebody", "something", host, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
 			UnitTestHelper.UnpackEmbeddedResource("Web.emoticons.txt", emoticonsPath);
 			string result = Transform.EmoticonsTransforms("[:'(]", emoticonsPath);
 			Assert.AreEqual(string.Format(@"<img src=""http://{0}/Images/emotions/smiley-cry.gif"" border=""0"" alt=""Cry"" /> ", host), result);

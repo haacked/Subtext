@@ -481,8 +481,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\AkismetSpamService.cs" />
+    <Compile Include="Services\BlogLookupResult.cs" />
+    <Compile Include="Services\BlogLookupService.cs" />
     <Compile Include="Services\BrowserDetectionService.cs" />
     <Compile Include="Services\BrowserInfo.cs" />
+    <Compile Include="Services\IBlogLookupService.cs" />
     <Compile Include="Services\IFeedbackSpamService.cs" />
     <Compile Include="Stats.cs">
       <SubType>Code</SubType>
@@ -655,6 +658,7 @@
     <Compile Include="Web\HttpModules\InstallationCheckModule.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Web\HttpModules\RequestLocation.cs" />
     <Compile Include="XmlRpc\IWordPressAPI.cs" />
     <Compile Include="XmlRpc\MetaWeblog.cs">
       <SubType>Code</SubType>

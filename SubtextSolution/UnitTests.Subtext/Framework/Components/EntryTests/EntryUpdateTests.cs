@@ -5,6 +5,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -21,6 +22,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void CanDeleteEntry()
 		{
 			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
 			Entries.Create(entry);
@@ -43,6 +45,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		{
             //arrange
 			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
 			Entries.Create(entry);
@@ -70,6 +73,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void UpdateEntryCorrectsNumericEntryName()
         {
             Config.CreateBlog("", "username", "password", _hostName, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
+
             Blog info = Config.CurrentBlog;
             Config.UpdateConfigData(info);
 

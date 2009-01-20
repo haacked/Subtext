@@ -67,10 +67,10 @@ namespace UnitTests.Subtext.Framework.Tracking
 
             var subtextContext = new Mock<ISubtextContext>();
             var writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
-            subtextContext.Expect(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
-            urlHelper.Expect(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
+            urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
 
 			//act
             handler.ProcessRequest(subtextContext.Object);
@@ -94,10 +94,10 @@ namespace UnitTests.Subtext.Framework.Tracking
 
             var subtextContext = new Mock<ISubtextContext>();
             var writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
-            subtextContext.Expect(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", int.MaxValue.ToString());
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
-            urlHelper.Expect(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
+            urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
 
             //act
             handler.ProcessRequest(subtextContext.Object);
@@ -121,9 +121,9 @@ namespace UnitTests.Subtext.Framework.Tracking
 
             var subtextContext = new Mock<ISubtextContext>();
             var writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
-            subtextContext.Expect(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
-            urlHelper.Expect(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
+            urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
 
             //act
             handler.ProcessRequest(subtextContext.Object);
@@ -155,13 +155,13 @@ namespace UnitTests.Subtext.Framework.Tracking
 
             var subtextContext = new Mock<ISubtextContext>();
             var writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
-            subtextContext.Expect(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
-            urlHelper.Expect(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
+            urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
             var httpContext = Mock.Get<HttpContextBase>(subtextContext.Object.RequestContext.HttpContext);
-            httpContext.Expect(c => c.Request.HttpMethod).Returns("POST");
+            httpContext.Setup(c => c.Request.HttpMethod).Returns("POST");
 
             var form = new NameValueCollection();
             form["title"] = entry.Title;
@@ -169,7 +169,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             form["url"] = "http://myblog.example.com/";
             form["blog_name"] = "Random Blog";
             
-            httpContext.Expect(c => c.Request.Form).Returns(form);
+            httpContext.Setup(c => c.Request.Form).Returns(form);
 
             //act
             handler.ProcessRequest(subtextContext.Object);

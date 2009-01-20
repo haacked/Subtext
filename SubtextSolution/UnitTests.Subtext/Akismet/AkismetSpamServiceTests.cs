@@ -23,10 +23,10 @@ namespace UnitTests.Subtext.Akismet
             //arrange
             var akismetClient = new Mock<AkismetClient>();
             IComment submittedSpam = null;
-            akismetClient.Expect(c => c.SubmitSpam(It.IsAny<IComment>())).Callback<IComment>(comment => submittedSpam = comment);
+            akismetClient.Setup(c => c.SubmitSpam(It.IsAny<IComment>())).Callback<IComment>(comment => submittedSpam = comment);
 
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(helper => helper.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/feedback-item");
+            urlHelper.Setup(helper => helper.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/feedback-item");
             var service = new AkismetSpamService("apikey"
                 , new Blog { Host = "localhost" }
                 , akismetClient.Object

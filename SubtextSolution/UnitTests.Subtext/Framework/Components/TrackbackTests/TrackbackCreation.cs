@@ -6,6 +6,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using MbUnit.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 {
@@ -27,7 +28,8 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
-			
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			int parentId = Entries.Create(entry);
 			
@@ -49,6 +51,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, "blog");
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "blog", string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(hostname, "blog");
 			
 			Entry parentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("philsath aeuoa asoeuhtoensth", "sntoehu title aoeuao eu", "snaot hu aensaoehtu body");
 			int parentId = Entries.Create(parentEntry);

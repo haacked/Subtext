@@ -21,6 +21,7 @@ using System.Web.UI.WebControls;
 using Rhino.Mocks;
 using Subtext.Framework.Configuration;
 using Subtext.Providers.BlogEntryEditor.FCKeditor;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 {
@@ -67,7 +68,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void SetText() 
 		{
 			Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
-
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
 			string test="Lorem Ipsum";
 			frtep.InitializeControl();
 			frtep.Text=test;
@@ -80,6 +81,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void SetWidth() 
 		{
             Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
 
 			Unit test=200;
 			frtep.InitializeControl();
@@ -92,6 +94,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void SetHeight() 
 		{
             Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
 
 			Unit test=100;
 			frtep.InitializeControl();

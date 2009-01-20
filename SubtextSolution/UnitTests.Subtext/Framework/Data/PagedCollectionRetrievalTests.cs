@@ -14,6 +14,7 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Util;
 using UnitTests.Subtext;
 using UnitTests.Subtext.Framework.Data;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Data
 {
@@ -37,6 +38,7 @@ namespace UnitTests.Subtext.Framework.Data
 		public void GetPagedEntriesHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
 		{
 			Config.CreateBlog("", "username", "password", this.hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
 			AssertPagedCollection(new PagedEntryCollectionTester(), expectedPageCount, itemsCountOnLastPage, pageSize, total);
 		}
 
@@ -55,6 +57,7 @@ namespace UnitTests.Subtext.Framework.Data
 		public void GetPagedEntriesByCategoryHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
 		{
 			Config.CreateBlog("", "username", "password", this.hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
 			AssertPagedCollection(new PagedEntryByCategoryCollectionTester(), expectedPageCount, itemsCountOnLastPage, pageSize, total);
 		}
 
@@ -73,6 +76,7 @@ namespace UnitTests.Subtext.Framework.Data
 		public void GetPagedFeedbackHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
 		{
 			Config.CreateBlog("", "username", "password", this.hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
 			AssertPagedCollection(new FeedbackCollectionTester(), expectedPageCount, itemsCountOnLastPage, pageSize, total);
 		}
 
@@ -86,6 +90,7 @@ namespace UnitTests.Subtext.Framework.Data
 		public void GetPagedLinksHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
 		{
 			Config.CreateBlog("", "username", "password", this.hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
 			IPagedCollectionTester tester = new LinkCollectionTester();
 			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
 		}
@@ -100,6 +105,7 @@ namespace UnitTests.Subtext.Framework.Data
 		public void GetPagedLogEntriesHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
 		{
 			Config.CreateBlog("", "username", "password", this.hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
 			IPagedCollectionTester tester = new LogEntryCollectionTester();
 			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
 		}
@@ -114,6 +120,7 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedMetaTagsHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
         {
             Config.CreateBlog("", "username", "password", this.hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
             IPagedCollectionTester tester = new MetaTagCollectionTester();
             AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
         }
@@ -128,6 +135,7 @@ namespace UnitTests.Subtext.Framework.Data
 		public void GetPagedKeywordsHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
 		{
 			Config.CreateBlog("", "username", "password", this.hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
 			IPagedCollectionTester tester = new KeyWordCollectionTester();
 			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
 		}
@@ -159,6 +167,7 @@ namespace UnitTests.Subtext.Framework.Data
                 string host = this.hostName = UnitTestHelper.GenerateUniqueString();
                 UnitTestHelper.SetHttpContextWithBlogRequest(host, "blog");
                 Config.CreateBlog("", "username", "password", host, "blog");
+                BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
                 IPagedCollectionTester tester = new ReferralsCollectionTester();
                 AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
             }

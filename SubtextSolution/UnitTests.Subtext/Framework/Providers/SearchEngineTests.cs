@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Providers
             Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("author", "whatever 1", "body"));
             Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("author", "whatever 2", "the body has some words"));
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Expect(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
             var search = new SearchEngine(Config.CurrentBlog, urlHelper.Object, Config.ConnectionString);
 
             //act

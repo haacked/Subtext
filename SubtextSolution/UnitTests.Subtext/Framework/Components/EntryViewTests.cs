@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MbUnit.Framework;
+﻿using MbUnit.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components
 {
@@ -24,6 +22,7 @@ namespace UnitTests.Subtext.Framework.Components
             string host = UnitTestHelper.GenerateUniqueString();
             Config.CreateBlog("title", "blah", "blah", host, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(host, string.Empty);
+            BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
             EntryStatsView view = new EntryStatsView();
             UnitTestHelper.AssertSimpleProperties(view);
         }
