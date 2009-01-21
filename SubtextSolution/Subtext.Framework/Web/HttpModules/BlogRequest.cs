@@ -21,7 +21,7 @@ using Subtext.Framework.Format;
 namespace Subtext.Framework.Web.HttpModules
 {
 	/// <summary>
-	/// Represents the current blog request.
+	/// Represents the state of the current blog request.
 	/// </summary>
 	public class BlogRequest
 	{
@@ -81,6 +81,9 @@ namespace Subtext.Framework.Web.HttpModules
         }
 
         private static RequestLocation DetermineRequestLocation(HttpRequestBase request) {
+            if (IsStaticFileRequest(request)) {
+                return RequestLocation.StaticFile;
+            }
             if (IsLogin(request)) {
                 return RequestLocation.LoginPage;
             }
@@ -96,6 +99,25 @@ namespace Subtext.Framework.Web.HttpModules
             return RequestLocation.Blog;
         }
 
+        /// <summary>
+        /// Determines whether the request is for a static file.
+        /// </summary>
+        /// <returns>
+        /// 	<c>true</c> if [is static file request]; otherwise, <c>false</c>.
+        /// </returns>
+        private static bool IsStaticFileRequest(HttpRequestBase request) {
+            string filePath = request.FilePath;
+
+            return filePath.EndsWith(".css", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".gif", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".xml", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".txt", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".html", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".htm", StringComparison.OrdinalIgnoreCase);
+        }
 
         private static bool IsInSpecialDirectory(HttpRequestBase request, string folderName) {
             string appPath = request.ApplicationPath ?? string.Empty;
