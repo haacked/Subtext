@@ -21,6 +21,7 @@ namespace Subtext.Framework.Web.HttpModules
         HostAdmin,
         LoginPage,
         SystemMessages,
-        Installation
+        Installation,
+        StaticFile,
     }
 }

@@ -87,11 +87,24 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual(RequestLocation.Installation, blogRequest.RequestLocation);
         }
 
+        [Test]
+        public void Ctor_WithRequestForStaticFile_SetsRequestLocationToStaticFile() {
+            //arrange
+            var request = CreateRequest("example.com", "/", "/Install/anything.css", true);
+
+            //act
+            var blogRequest = new BlogRequest(request.Object);
+
+            //assert
+            Assert.AreEqual(RequestLocation.StaticFile, blogRequest.RequestLocation);
+        }
+
         private static Mock<HttpRequestBase> CreateRequest(string host, string applicationPath, string rawUrl, bool useParametersForHost)
         {
             var request = new Mock<HttpRequestBase>();
             request.Setup(r => r.RawUrl).Returns(rawUrl);
             request.Setup(r => r.Path).Returns(rawUrl);
+            request.Setup(r => r.FilePath).Returns(rawUrl);
             request.Setup(r => r.ApplicationPath).Returns(applicationPath);
             request.Setup(r => r.IsLocal).Returns(true);
             request.Setup(r => r.Url).Returns(new Uri("http://" + host + rawUrl));
