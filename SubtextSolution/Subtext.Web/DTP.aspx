@@ -17,7 +17,7 @@
 		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>" ></script>
 		<script type="text/javascript">
 			<%= AllowedHtmlJavascriptDeclaration %>
-			var subtextBlogInfo = new blogInfo('<%= Blog.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>');
+			var subtextBlogInfo = new blogInfo('<%= Blog.VirtualDirectoryRoot %>', '<%= Url.BlogUrl() %>');
 		</script>
 		<asp:Literal ID="scripts" runat="server" />
 		<asp:PlaceHolder ID="coCommentPlaceholder" runat="server" />

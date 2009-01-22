@@ -116,7 +116,11 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-                if (HttpContext.Current == null || InstallationManager.IsInHostAdminDirectory) {
+                if (HttpContext.Current == null) {
+                    return null;
+                }
+                BlogRequest blogRequest = BlogRequest.Current;
+                if (blogRequest == null || blogRequest.IsHostAdminRequest) {
                     return null;
                 }
 				
@@ -420,7 +424,7 @@ namespace Subtext.Framework.Configuration
 
 			foreach(string invalidSubFolder in _invalidSubfolders)
 			{
-				if (String.Equals(invalidSubFolder, subfolder, StringComparison.InvariantCultureIgnoreCase))
+				if (String.Equals(invalidSubFolder, subfolder, StringComparison.OrdinalIgnoreCase))
 					return false;
 			}
 			return true;

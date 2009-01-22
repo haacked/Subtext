@@ -103,7 +103,8 @@ namespace Subtext.Web.Install
 					}
 					else
 					{
-						InstallationManager.ResetInstallationStatusCache();
+                        InstallationManager installManager = new InstallationManager(Subtext.Extensibility.Providers.Installation.Provider);
+                        installManager.ResetInstallationStatusCache();
 						Response.Redirect("InstallationComplete.aspx");
 					}
 				}

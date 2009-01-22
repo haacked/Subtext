@@ -13,18 +13,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-namespace Subtext.Framework.Web.HttpModules
+using System;
+
+namespace Subtext.Framework
 {
-    public enum RequestLocation
+    public interface IInstallationManager
     {
-        Blog,
-        HostAdmin,
-        LoginPage,
-        SystemMessages,
-        Installation,
-        Upgrade,
-        Skins,
-        StaticFile,
-        EmbeddedResource,
+        bool IsInstallationActionRequired(Version assemblyVersion);
+        bool InstallationActionRequired(Exception unhandledException, Version assemblyVersion);
     }
 }

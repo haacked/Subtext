@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Configuration;
@@ -49,14 +50,14 @@ namespace Subtext.Framework.Services
             if (blog != null) {
                 return new BlogLookupResult(blog, null);
             }
-                
+
             string alternateHost = GetAlternateHostAlias(host);
             blog = Repository.GetBlog(alternateHost, blogRequest.Subfolder, true /* strict */);
             if (blog != null) {
                 Uri alternateUrl = ReplaceHost(blogRequest.RawUrl, alternateHost).Uri;
                 return new BlogLookupResult(null, alternateUrl);
             }
-            
+
             blog = Repository.GetBlogByDomainAlias(host, blogRequest.Subfolder, true /* strict */);
             if (blog != null) {
                 UriBuilder alternateUrl = ReplaceHost(blogRequest.RawUrl, blog.Host);
@@ -64,24 +65,36 @@ namespace Subtext.Framework.Services
                 return new BlogLookupResult(null, alternateUrl.Uri);
             }
 
-            int totalBlogCount = GetBlogCount();
+            IPagedCollection<Blog> pagedBlogs = Repository.GetPagedBlogs(null, 0, 10, ConfigurationFlags.None);
+            int totalBlogCount = pagedBlogs.MaxItems;
             if (Host.BlogAggregationEnabled && totalBlogCount > 0) {
                 return new BlogLookupResult(Host.AggregateBlog, null);
             }
 
-            // Special case. If there's only one blog in the system, we'll return it.
-            // Makes it easier for development.
             if (totalBlogCount == 1) {
-                blog = Repository.GetBlog(host, blogRequest.Subfolder, false /* strict */);
-                //Extra special case to deal with a common deployment problem where dev uses "localhost" on 
-                //dev machine. But deploys to real domain.
-                if (!String.Equals("localhost", host, StringComparison.OrdinalIgnoreCase) 
-                    && String.Equals("localhost", blog.Host, StringComparison.OrdinalIgnoreCase)) {
-                    blog.Host = host;
-                    Repository.UpdateBlog(blog);
+                Blog onlyBlog = pagedBlogs.First();
+                if (onlyBlog.Host == blogRequest.Host) {
+                    Uri onlyBlogUrl = ReplaceSubfolder(new UriBuilder(blogRequest.RawUrl), blogRequest, onlyBlog.Subfolder).Uri;
+                    return new BlogLookupResult(null, onlyBlogUrl);
                 }
 
-                return new BlogLookupResult(blog, null);
+                //Extra special case to deal with a common deployment problem where dev uses "localhost" on 
+                //dev machine. But deploys to real domain.
+
+                if (!String.Equals("localhost", host, StringComparison.OrdinalIgnoreCase)
+                    && String.Equals("localhost", onlyBlog.Host, StringComparison.OrdinalIgnoreCase))
+                {
+                    onlyBlog.Host = host;
+                    Repository.UpdateBlog(onlyBlog);
+
+                    if (onlyBlog.Subfolder != blogRequest.Subfolder) {
+                        Uri onlyBlogUrl = ReplaceSubfolder(new UriBuilder(blogRequest.RawUrl), blogRequest, onlyBlog.Subfolder).Uri;
+                        return new BlogLookupResult(null, onlyBlogUrl);
+                    }
+                    return new BlogLookupResult(onlyBlog, null);
+                }
+
+                //return new BlogLookupResult(blog, null);
             }
 
             return null;
@@ -100,11 +113,17 @@ namespace Subtext.Framework.Services
 
         private UriBuilder ReplaceSubfolder(UriBuilder originalUrl, BlogRequest blogRequest, string newSubfolder) {
             if (!String.Equals(blogRequest.Subfolder, newSubfolder, StringComparison.OrdinalIgnoreCase)) {
+                string appPath = blogRequest.ApplicationPath;
+                if (!appPath.EndsWith("/")) {
+                    appPath += "/";
+                }
+                
+                int indexAfterAppPath = appPath.Length;
                 if (!String.IsNullOrEmpty(blogRequest.Subfolder)) {
-                    originalUrl.Path = originalUrl.Path.Remove(0, blogRequest.Subfolder.Length + 1);
+                    originalUrl.Path = originalUrl.Path.Remove(indexAfterAppPath, blogRequest.Subfolder.Length + 1);
                 }
                 if (!String.IsNullOrEmpty(newSubfolder)) {
-                    originalUrl.Path = "/" + newSubfolder + originalUrl.Path;
+                    originalUrl.Path = originalUrl.Path.Substring(0, indexAfterAppPath) + newSubfolder + "/" + originalUrl.Path.Substring(indexAfterAppPath);
                 }
             }
             return originalUrl;

@@ -18,8 +18,10 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
+using Moq;
+using Subtext.Extensibility.Providers;
 
-namespace UnitTests.Subtext.Installation
+namespace UnitTests.Subtext.InstallationTests
 {
 	/// <summary>
 	/// Tests of the InstallationManager class.
@@ -27,70 +29,64 @@ namespace UnitTests.Subtext.Installation
 	[TestFixture]
 	public class InstallationManagerTests
 	{
-		/// <summary>
-		/// Determines whether [is in host admin directory returns true result].
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void IsInHostAdminDirectoryReturnsTrueResult()
-		{
-			string host = System.Guid.NewGuid().ToString().Replace("-", "");
-			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "Subtext.Web", "HostAdmin/Import/BlahBlah.aspx");
-			Assert.IsTrue(InstallationManager.IsInHostAdminDirectory, "This request should be within the hostadmin/import directory.");	
-		}
+        [Test]
+        public void IsInstallationActionRequired_WithProviderReturningInstallRequired_ReturnsTrue()
+        {
+            //arrange
+            var installProvider = new Mock<Installation>();
+            installProvider.Setup(p => p.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.NeedsInstallation);
+            InstallationManager manager = new InstallationManager(installProvider.Object);
 
-		/// <summary>
-		/// Makes sure that a <see cref="BlogDoesNotExistException"/> indicates that 
-		/// an installation action is required.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void IsInstallationActionRequiredReturnsTrueForBlogDoesNotExistException()
-		{
-			Assert.IsTrue(InstallationManager.InstallationActionRequired(new BlogDoesNotExistException("host", "app", false), VersionInfo.FrameworkVersion));
-		}
+            //act
+            bool result = manager.IsInstallationActionRequired(new Version());
 
-		/// <summary>
-		/// Determines whether [is in install directory reports correct result].
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void IsInInstallDirectoryReportsTrueCorrectly()
-		{
-			AssertIsInInstallDirectory("VirtDir", System.Guid.NewGuid().ToString().Replace("-", ""));
-			AssertIsInInstallDirectory("", System.Guid.NewGuid().ToString().Replace("-", ""));
-			AssertIsInInstallDirectory("", "");
-		}
+            //assert
+            Assert.IsTrue(result);
+        }
 
-		/// <summary>
-		/// Determines whether [is in install directory reports correct result].
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void IsInInstallDirectoryReportsFalseCorrectly()
-		{
-			AssertNotInInstallDirectory(System.Guid.NewGuid().ToString().Replace("-", ""), "");
-			AssertNotInInstallDirectory(System.Guid.NewGuid().ToString().Replace("-", ""), "VirtDir");
-			AssertNotInInstallDirectory("", "");
-		}
+        [Test]
+        public void IsInstallationActionRequired_WithProviderReturningComplete_ReturnsFalse()
+        {
+            //arrange
+            var installProvider = new Mock<Installation>();
+            installProvider.Setup(p => p.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.Complete);
+            InstallationManager installManager = new InstallationManager(installProvider.Object);
 
-		void AssertIsInInstallDirectory(string virtualDirectory, string blogName)
-		{
-			string host = System.Guid.NewGuid().ToString().Replace("-", "");
-			Config.CreateBlog("AssertIsInInstallDirectory", "username", "thePassword", host, blogName);
-			UnitTestHelper.SetHttpContextWithBlogRequest(host, blogName, virtualDirectory, "Install/InstallationComplete.aspx");
-			Assert.IsTrue(InstallationManager.IsInInstallDirectory, "This request should be within the installation directory.");	
-		}
+            //act
+            bool result = installManager.IsInstallationActionRequired(new Version());
 
-		void AssertNotInInstallDirectory(string virtualDirectory, string blogName)
-		{
-			string host = System.Guid.NewGuid().ToString().Replace("-", "");
-			Config.CreateBlog("Title", "username", "thePassword", host, blogName);
+            //assert
+            Assert.IsFalse(result);
+        }
 
-			UnitTestHelper.SetHttpContextWithBlogRequest(host, blogName, virtualDirectory, "Admin/InstallationComplete.aspx");
-			Assert.IsFalse(InstallationManager.IsInInstallDirectory, "This request is indeed within the installation directory.");	
-		}
-	
+        [Test]
+        public void IsInstallationActionRequired_WithBlogDoesNotExistException_ReturnsTrue()
+        {
+            //arrange
+            var installProvider = new Mock<Installation>();
+            InstallationManager installManager = new InstallationManager(installProvider.Object);
+
+            //act
+            bool result = installManager.InstallationActionRequired(new BlogDoesNotExistException(123), new Version());
+
+            //assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void IsInstallationActionRequired_WithHostDataDoesNotExistException_ReturnsTrue()
+        {
+            //arrange
+            var installProvider = new Mock<Installation>();
+            InstallationManager installManager = new InstallationManager(installProvider.Object);
+
+            //act
+            bool result = installManager.InstallationActionRequired(new HostDataDoesNotExistException(), new Version());
+
+            //assert
+            Assert.IsTrue(result);
+        }
+
 		/// <summary>
 		/// Called before each unit test.
 		/// </summary>

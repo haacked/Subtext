@@ -36,6 +36,7 @@ namespace UnitTests.Subtext
             httpContextMock.Setup(h => h.Request.HttpMethod).Returns("GET");
             httpContextMock.Setup(context => context.Request.AppRelativeCurrentExecutionFilePath).Returns(virtualPath);
             httpContextMock.Setup(context => context.Request.Path).Returns(virtualPath);
+            httpContextMock.Setup(context => context.Request.FilePath).Returns(virtualPath);
             httpContextMock.SetupGet(c => c.Items[BlogRequest.BlogRequestKey]).Returns(new BlogRequest("localhost", subfolder, new Uri("http://localhost/"), true));
             var writer = new StringWriter();
             httpContextMock.Setup(c => c.Response.Output).Returns(writer);
@@ -97,6 +98,7 @@ namespace UnitTests.Subtext
             headers.Add("If-Modified-Since", null);
             httpContextMock.Setup(c => c.Request.AppRelativeCurrentExecutionFilePath).Returns(virtualPath);
             httpContextMock.Setup(c => c.Request.Path).Returns(virtualPath);
+            httpContextMock.Setup(c => c.Request.FilePath).Returns(virtualPath);
             httpContextMock.Setup(c => c.Request.ApplicationPath).Returns(applicationPath);
             httpContextMock.Setup(c => c.Response.Output).Returns(new StringWriter());
             httpContextMock.Setup(c => c.Request.Headers).Returns(headers);

@@ -55,7 +55,7 @@ namespace Subtext.Framework.UrlManager
 		/// </returns>
 		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
-			if (IsRequestForAggregateBlog && !InstallationManager.IsOnLoginPage) //This line calls the db.
+			if (IsRequestForAggregateBlog && BlogRequest.Current.RequestLocation != RequestLocation.LoginPage) //This line calls the db.
 			{
 				string handlerUrl = context.Request.ApplicationPath;
 				if (!handlerUrl.EndsWith("/"))

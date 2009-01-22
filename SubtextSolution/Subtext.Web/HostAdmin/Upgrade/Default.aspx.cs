@@ -31,7 +31,7 @@ namespace Subtext.Web.HostAdmin.Upgrade
 	{
         protected override void OnLoad(EventArgs e)
         {
-            if (InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion) == InstallationState.Complete)
+            if (Subtext.Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion) == InstallationState.Complete)
             {
                 Response.Redirect("UpgradeComplete.aspx");
             }

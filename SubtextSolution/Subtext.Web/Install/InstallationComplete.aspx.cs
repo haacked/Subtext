@@ -26,8 +26,10 @@ namespace Subtext.Web.Install
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			InstallationManager.ResetInstallationStatusCache();
-			if(paraBlogLink != null) paraBlogLink.Visible = false;
+            InstallationManager installManager = new InstallationManager(Subtext.Extensibility.Providers.Installation.Provider);
+            installManager.ResetInstallationStatusCache();
+
+            if(paraBlogLink != null) paraBlogLink.Visible = false;
 			if(paraBlogAdminLink != null) paraBlogAdminLink.Visible = false;
 			if(paraBlogmlImport != null) paraBlogmlImport.Visible = false;
 			

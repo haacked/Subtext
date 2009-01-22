@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Mock<ISubtextContext> subtextContext = new Mock<ISubtextContext>();
             StringWriter writer = subtextContext.FakeSitemapHandlerRequest(repository);
             var handler = new SiteMapHttpHandler();
-            handler.RequestContext = subtextContext.Object.RequestContext;
+            handler.SubtextContext = subtextContext.Object;
 
             //act
             handler.ProcessRequest(subtextContext.Object);
@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Mock<ISubtextContext> subtextContext = new Mock<ISubtextContext>();
             StringWriter writer = subtextContext.FakeSitemapHandlerRequest(repository);
             var handler = new SiteMapHttpHandler();
-            handler.RequestContext = subtextContext.Object.RequestContext;
+            handler.SubtextContext = subtextContext.Object;
 
             //act
             handler.ProcessRequest(subtextContext.Object);

@@ -17,6 +17,7 @@ using System;
 using System.Web;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Web.HttpModules
 {
@@ -50,13 +51,14 @@ namespace Subtext.Framework.Web.HttpModules
 		/// <param name="url">The raw requested URL</param>
 		/// <param name="isLocal">True if this request is a local machine request.</param>
         /// <param name="requestLocation">Defines which type of request this is.</param>
-        public BlogRequest(string host, string subfolder, Uri url, bool isLocal, RequestLocation requestLocation)
+        public BlogRequest(string host, string subfolder, Uri url, bool isLocal, RequestLocation requestLocation, string applicationPath)
 		{
 			Host = host;
 			Subfolder = subfolder;
 			RawUrl = url;
 			IsLocal = isLocal;
             RequestLocation = requestLocation;
+            ApplicationPath = applicationPath;
 		}
 
         /// <summary>
@@ -67,8 +69,9 @@ namespace Subtext.Framework.Web.HttpModules
         /// <param name="url">The raw requested URL</param>
         /// <param name="isLocal">True if this request is a local machine request.</param>
         public BlogRequest(string host, string subfolder, Uri url, bool isLocal) 
-            : this(host, subfolder, url, isLocal, RequestLocation.Blog)
+            : this(host, subfolder, url, isLocal, RequestLocation.Blog, "/")
         {
+            
         }
 
         public BlogRequest(HttpRequestBase request)
@@ -76,7 +79,9 @@ namespace Subtext.Framework.Web.HttpModules
                 , SubfolderFromRequest(request)
                 , request.Url
                 , request.IsLocal
-                , DetermineRequestLocation(request))
+                , DetermineRequestLocation(request)
+                , request.ApplicationPath
+            )
         {
         }
 
@@ -90,21 +95,24 @@ namespace Subtext.Framework.Web.HttpModules
             if (IsSystemMessage(request)) {
                 return RequestLocation.SystemMessages;
             }
+            if (IsUpgrade(request)) {
+                return RequestLocation.Upgrade;
+            }
             if (IsHostAdmin(request)) {
                 return RequestLocation.HostAdmin;
             }
             if (IsInstallation(request)) {
                 return RequestLocation.Installation;
             }
+            if (IsSkins(request)) {
+                return RequestLocation.Skins;
+            }
+            if (IsEmbeddedResource(request)) {
+                return RequestLocation.EmbeddedResource;
+            }
             return RequestLocation.Blog;
         }
 
-        /// <summary>
-        /// Determines whether the request is for a static file.
-        /// </summary>
-        /// <returns>
-        /// 	<c>true</c> if [is static file request]; otherwise, <c>false</c>.
-        /// </returns>
         private static bool IsStaticFileRequest(HttpRequestBase request) {
             string filePath = request.FilePath;
 
@@ -117,6 +125,14 @@ namespace Subtext.Framework.Web.HttpModules
                     || filePath.EndsWith(".txt", StringComparison.OrdinalIgnoreCase)
                     || filePath.EndsWith(".html", StringComparison.OrdinalIgnoreCase)
                     || filePath.EndsWith(".htm", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsEmbeddedResource(HttpRequestBase request)
+        {
+            string filePath = request.FilePath;
+
+            return filePath.EndsWith("ScriptResource.axd", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith("WebResource.axd", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsInSpecialDirectory(HttpRequestBase request, string folderName) {
@@ -138,8 +154,17 @@ namespace Subtext.Framework.Web.HttpModules
             return IsInSpecialDirectory(request, "SystemMessages");
         }
 
+        private static bool IsSkins(HttpRequestBase request)
+        {
+            return IsInSpecialDirectory(request, "Skins");
+        }
+
         private static bool IsHostAdmin(HttpRequestBase request) {
             return IsInSpecialDirectory(request, "HostAdmin");
+        }
+
+        private static bool IsUpgrade(HttpRequestBase request) {
+            return IsInSpecialDirectory(request, "HostAdmin/Upgrade");
         }
 
         private static bool IsInstallation(HttpRequestBase request)
@@ -160,6 +185,9 @@ namespace Subtext.Framework.Web.HttpModules
             if (String.IsNullOrEmpty(host)) {
                 host = request.Url.Authority;
             }
+
+            host = host.LeftBefore(":", StringComparison.OrdinalIgnoreCase);
+
             return host;
         }
 
@@ -196,9 +224,29 @@ namespace Subtext.Framework.Web.HttpModules
             private set;
 		}
 
+        public string ApplicationPath {
+            get;
+            private set;
+        }
+
 		public Uri RawUrl {
 			get;
 			private set;
 		}
+
+        public bool IsHostAdminRequest {
+            get {
+                return RequestLocation == RequestLocation.HostAdmin || RequestLocation == RequestLocation.Upgrade;
+            }
+        }
+
+        // The request is for a location in which a blog is required.
+        public bool BlogNotRequired {
+            get {
+                return RequestLocation != RequestLocation.Blog 
+                    && RequestLocation != RequestLocation.LoginPage
+                    /* && RequestLocation != EmbeddedResource */;
+            }
+        }
 	}
 }

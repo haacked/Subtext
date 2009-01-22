@@ -239,11 +239,11 @@ namespace Subtext.Framework.Components
 		/// <value><c>true</c> if this instance is active; otherwise, <c>false</c>.</value>
 		public bool IsActive
 		{
-			get { return EntryPropertyCheck(PostConfig.IsActive); }
-			set
-			{
-                if (value && NullValue.IsNull(DateSyndicated))
-                {
+			get { 
+                return EntryPropertyCheck(PostConfig.IsActive);
+            }
+			set {
+                if (value && NullValue.IsNull(DateSyndicated)) {
                     DateSyndicated = Config.CurrentBlog.TimeZone.Now;
                 }
 			    PostConfigSetter(PostConfig.IsActive, value);

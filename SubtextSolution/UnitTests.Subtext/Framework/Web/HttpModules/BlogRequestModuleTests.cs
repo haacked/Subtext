@@ -174,6 +174,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             var request = new Mock<HttpRequestBase>();
             request.Setup(r => r.RawUrl).Returns(rawUrl);
             request.Setup(r => r.Path).Returns(rawUrl);
+            request.Setup(r => r.FilePath).Returns(rawUrl);
             request.Setup(r => r.ApplicationPath).Returns(applicationPath);
             request.Setup(r => r.IsLocal).Returns(true);
             request.Setup(r => r.Url).Returns(new Uri("http://" + host + rawUrl));
