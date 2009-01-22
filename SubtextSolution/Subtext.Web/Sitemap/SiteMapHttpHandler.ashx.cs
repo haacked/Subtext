@@ -19,10 +19,10 @@ namespace Subtext.Web.SiteMap
     /// <summary>
     /// Your blog sitemap that search engines can use to decide how to index your site.
     /// </summary>    
-    public class SiteMapHttpHandler : IRoutableHandler
+    public class SiteMapHttpHandler : ISubtextHandler
     {
         void IHttpHandler.ProcessRequest(HttpContext context) {
-            ProcessRequest(_subtextContext);
+            ProcessRequest(SubtextContext);
         }
 
         public void ProcessRequest(ISubtextContext subtextContext)
@@ -129,18 +129,22 @@ namespace Subtext.Web.SiteMap
         public RequestContext RequestContext
         {
             get {
-                return _subtextContext.RequestContext;
+                return SubtextContext.RequestContext;
             }
             set {
-                _subtextContext = new SubtextContext(Config.CurrentBlog, value, new UrlHelper(value, RouteTable.Routes), ObjectProvider.Instance());
             }
         }
-        ISubtextContext _subtextContext;
 
         public UrlHelper Url
         {
             get;
             private set;
+        }
+
+        public ISubtextContext SubtextContext
+        {
+            get;
+            set;
         }
     }
 

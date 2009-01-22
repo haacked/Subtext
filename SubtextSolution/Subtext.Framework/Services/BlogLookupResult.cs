@@ -39,5 +39,10 @@ namespace Subtext.Framework.Services
             get;
             private set;
         }
+
+        public int TotalBlogCount {
+            get;
+            private set;
+        }
     }
 }

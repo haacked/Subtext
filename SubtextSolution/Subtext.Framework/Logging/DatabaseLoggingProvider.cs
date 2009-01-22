@@ -20,6 +20,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Data;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework.Logging
 {
@@ -34,7 +35,7 @@ namespace Subtext.Framework.Logging
         {
             get
             {
-                if (InstallationManager.IsInHostAdminDirectory)
+                if (BlogRequest.Current.IsHostAdminRequest)
                     return NullValue.NullInt32;
                 else
                     return Config.CurrentBlog.Id;

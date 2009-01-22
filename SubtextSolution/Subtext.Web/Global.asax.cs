@@ -34,6 +34,7 @@ using Subtext.Framework.XmlRpc;
 using Subtext.Web.Controls.Captcha;
 using Subtext.Web.SiteMap;
 using Subtext.Web.UI.Handlers;
+using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Web
 {
@@ -41,7 +42,7 @@ namespace Subtext.Web
     {
         public static void RegisterRoutes(RouteCollection routes) {
             routes.Ignore("{resource}.axd/{*pathInfo}");
-            
+            routes.Ignore("skins/{*pathInfo}");
             routes.Ignore("hostadmin/{*pathinfo}");
             routes.Ignore("install/{*pathinfo}");
             routes.Ignore("SystemMessages/{*pathinfo}");
@@ -254,9 +255,10 @@ namespace Subtext.Web
                 }
             }
 
-            if (!InstallationManager.IsInInstallDirectory && !InstallationManager.IsInUpgradeDirectory)
-            {
-                if (InstallationManager.InstallationActionRequired(exception, VersionInfo.FrameworkVersion))
+            InstallationManager installManager = new InstallationManager(Subtext.Extensibility.Providers.Installation.Provider);
+            BlogRequest blogRequest = BlogRequest.Current;
+            if (blogRequest.RequestLocation != RequestLocation.Installation && blogRequest.RequestLocation != RequestLocation.Upgrade) {
+                if (installManager.InstallationActionRequired(exception, VersionInfo.FrameworkVersion))
                 {
                     Response.Redirect("~/Install/", true);
                     return;
@@ -270,7 +272,7 @@ namespace Subtext.Web
                 }
             }
 
-            if(!InstallationManager.IsInSystemMessageDirectory)
+            if(blogRequest.RequestLocation != RequestLocation.SystemMessages)
             {
                 if(exception.GetType() == typeof(BlogInactiveException))
                 {

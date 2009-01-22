@@ -63,16 +63,22 @@ namespace Subtext.Framework.Web.HttpModules
             if (HttpHelper.IsStaticFileRequest())
                 return;
 
-            if (HostInfo.Instance == null && !InstallationManager.IsInInstallDirectory) {
+            BlogRequest blogRequest = BlogRequest.Current;
+
+            if (HostInfo.Instance == null && blogRequest.RequestLocation != RequestLocation.Installation) {
                 HttpContext.Current.Response.Redirect("~/Install/", true);
             }
 
+            InstallationManager installationManager = new InstallationManager(Installation.Provider);
+
             // Want to redirect to install if installation is required, 
             // or if we're missing a HostInfo record.
-            if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded))
+            if ((installationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || HostInfo.Instance == null))
             {
-                InstallationState state = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
-                if(state == InstallationState.NeedsInstallation && !InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory)
+                InstallationState state = Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
+                if(state == InstallationState.NeedsInstallation 
+                    && !blogRequest.IsHostAdminRequest
+                    && blogRequest.RequestLocation != RequestLocation.Installation)
                 {
                     HttpContext.Current.Response.Redirect("~/Install/", true);
                     return;
@@ -80,7 +86,9 @@ namespace Subtext.Framework.Web.HttpModules
 
                 if(state == InstallationState.NeedsUpgrade || state == InstallationState.NeedsRepair)
                 {
-                    if(!InstallationManager.IsInUpgradeDirectory && !InstallationManager.IsOnLoginPage && !InstallationManager.IsInSystemMessageDirectory)
+                    if (blogRequest.RequestLocation != RequestLocation.Upgrade 
+                        && blogRequest.RequestLocation != RequestLocation.LoginPage 
+                        && blogRequest.RequestLocation == RequestLocation.SystemMessages)
                     {
                         HttpContext.Current.Response.Redirect("~/SystemMessages/UpgradeInProgress.aspx", true);
                         return;

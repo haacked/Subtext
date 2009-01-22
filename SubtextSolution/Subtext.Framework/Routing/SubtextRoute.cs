@@ -38,8 +38,8 @@ namespace Subtext.Framework.Routing
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
-            if (String.IsNullOrEmpty(requestContext.RouteData.Values["subfolder"] as string))
-            {
+            if (String.IsNullOrEmpty(requestContext.RouteData.Values["subfolder"] as string)) {
+                values["subfolder"] = requestContext.RouteData.Values["subfolder"];
                 return base.GetVirtualPath(requestContext, values);
             }
             else {

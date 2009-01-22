@@ -107,25 +107,26 @@ namespace Subtext.Framework.Configuration
 
             if (info != null) {
                 // look here for issues with gallery images not showing up.
-                MapImageDirectory(info, blogRequest);
-                SetBlogIdContextForLogging(info);
+                MapImageDirectory(blogRequest);
+                SetBlogIdContextForLogging(blogRequest);
             }
 			return info;
 		}
 
-		private static void SetBlogIdContextForLogging(Blog info)
+		private static void SetBlogIdContextForLogging(BlogRequest blogRequest)
 		{
-			if(!InstallationManager.IsInHostAdminDirectory) {
+            if (!blogRequest.IsHostAdminRequest) {
 				// Set the BlogId context for the current request.
-				Log.SetBlogIdContext(info.Id);
+                Log.SetBlogIdContext(blogRequest.Blog.Id);
 			}
 			else {
 				Log.ResetBlogIdContext();
 			}
 		}
 
-		private static void MapImageDirectory(Blog info, BlogRequest blogRequest)
+		private static void MapImageDirectory(BlogRequest blogRequest)
 		{
+            Blog info = blogRequest.Blog;
 			BlogConfigurationSettings settings = Config.Settings;
 			string webApp = HttpContext.Current.Request.ApplicationPath;
 

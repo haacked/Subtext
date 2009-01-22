@@ -65,7 +65,7 @@ namespace Subtext.Framework.Web.HttpModules
             // REVIEW: Maybe the BlogLookup.Lookup should take in an HttpContextBase 
             // and return the BlogRequest as part of the result.
             var blogRequest = new BlogRequest(httpContext.Request);
-            if (blogRequest.RequestLocation == RequestLocation.Installation) {
+            if (blogRequest.BlogNotRequired) {
                 return blogRequest;
             }
             BlogLookupResult result = BlogLookup.Lookup(blogRequest);

@@ -387,9 +387,6 @@
     <Compile Include="Exceptions\HostDataDoesNotExistException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Exceptions\HostNotConfiguredException.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Exceptions\InvalidSubfolderNameException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -399,6 +396,7 @@
     <Compile Include="HostInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IInstallationManager.cs" />
     <Compile Include="Images.cs">
       <SubType>Code</SubType>
     </Compile>

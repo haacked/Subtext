@@ -23,6 +23,19 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         }
 
         [Test]
+        public void Ctor_WithHostHavingPort_StripsPort()
+        {
+            //arrange
+            var request = CreateRequest("example.com:1234", "/", "/foo/bar", true);
+
+            //act
+            var blogRequest = new BlogRequest(request.Object);
+
+            //assert
+            Assert.AreEqual("example.com", blogRequest.Host);
+        }
+
+        [Test]
         public void Ctor_WithRequestHavingNoHostInParameters_CreatesBlogRequestWithHostAuthority()
         {
             //arrange
@@ -97,6 +110,86 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
 
             //assert
             Assert.AreEqual(RequestLocation.StaticFile, blogRequest.RequestLocation);
+        }
+
+        [Test]
+        public void Ctor_WithRequestForBlog_SetsBlogNotRequiredFalse()
+        {
+            //arrange, act
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.Blog, "/");
+
+            //assert
+            Assert.IsFalse(blogRequest.BlogNotRequired);
+        }
+
+        [Test]
+        public void Ctor_WithRequestForHostAdmin_SetsBlogNotRequiredTrue()
+        {
+            //arrange, act
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.HostAdmin, "/");
+
+            //assert
+            Assert.IsTrue(blogRequest.BlogNotRequired);
+        }
+
+        [Test]
+        public void Ctor_WithRequestForUpgrade_SetsBlogNotRequiredTrue()
+        {
+            //arrange, act
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.Upgrade, "/");
+
+            //assert
+            Assert.IsTrue(blogRequest.BlogNotRequired);
+        }
+
+        [Test]
+        public void Ctor_WithRequestForSkins_SetsBlogNotRequiredTrue()
+        {
+            //arrange, act
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.Skins, "/");
+
+            //assert
+            Assert.IsTrue(blogRequest.BlogNotRequired);
+        }
+
+        [Test]
+        public void Ctor_WithRequestForStaticFile_SetsBlogNotRequiredTrue()
+        {
+            //arrange, act
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.StaticFile, "/");
+
+            //assert
+            Assert.IsTrue(blogRequest.BlogNotRequired);
+        }
+
+        [Test]
+        public void Ctor_WithRequestForSystemMessages_SetsBlogNotRequiredTrue()
+        {
+            //arrange, act
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.SystemMessages, "/");
+
+            //assert
+            Assert.IsTrue(blogRequest.BlogNotRequired);
+        }
+
+        [Test]
+        public void Ctor_WithRequestForLoginPage_SetsBlogNotRequiredFalse()
+        {
+            //arrange, act
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.LoginPage, "/");
+
+            //assert
+            Assert.IsFalse(blogRequest.BlogNotRequired);
+        }
+
+        [Test]
+        public void Ctor_WithRequestForInstallation_SetsBlogNotRequiredTrue()
+        {
+            //arrange, act
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.Installation, "/");
+
+            //assert
+            Assert.IsTrue(blogRequest.BlogNotRequired);
         }
 
         private static Mock<HttpRequestBase> CreateRequest(string host, string applicationPath, string rawUrl, bool useParametersForHost)

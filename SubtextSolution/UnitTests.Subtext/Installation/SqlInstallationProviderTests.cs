@@ -17,7 +17,7 @@ using System;
 using MbUnit.Framework;
 using Subtext.Installation;
 
-namespace UnitTests.Subtext.Installation
+namespace UnitTests.Subtext.InstallationTests
 {
 	/// <summary>
 	/// Tests of the <see cref="SqlInstallationProvider"/> class.

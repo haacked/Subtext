@@ -419,6 +419,7 @@
     </Compile>
     <Compile Include="Framework\Web\HttpModules\BlogRequestModuleTests.cs" />
     <Compile Include="Framework\Web\HttpModules\BlogRequestTests.cs" />
+    <Compile Include="Framework\Web\HttpModules\InstallationCheckModuleTests.cs" />
     <Compile Include="Framework\Web\RsdHandlerTests.cs" />
     <Compile Include="Framework\XmlRpc\MetaBlogApiTests.cs" />
     <Compile Include="HttpSimulator.cs" />

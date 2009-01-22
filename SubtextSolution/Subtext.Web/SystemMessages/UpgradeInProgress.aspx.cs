@@ -33,7 +33,7 @@ namespace Subtext.Web
             base.OnLoad(e);
 			try
 			{
-				InstallationState state = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
+                InstallationState state = Subtext.Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
 				if(state == InstallationState.NeedsUpgrade || state == InstallationState.NeedsRepair)
 				{
 					plcUpgradeInProgressMessage.Visible = true;

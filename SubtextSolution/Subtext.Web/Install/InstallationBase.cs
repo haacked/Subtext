@@ -32,8 +32,8 @@ namespace Subtext.Web.Install
 		/// </summary>
 		/// <param name="e">E.</param>
 		protected override void OnLoad(EventArgs e)
-		{		
-			InstallationState status = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
+		{
+            InstallationState status = Subtext.Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
 
 			switch(status)
 			{
@@ -44,16 +44,17 @@ namespace Subtext.Web.Install
 					break;
 				
 				default:
-					HostInfo info = HostInfo.LoadHost(true);
+					HostInfo info = HostInfo.LoadHost(true /* suppressException */);
 
-					if(info == null)
-						EnsureInstallStep("Step02_ConfigureHost.aspx");
-
-					if(info != null && Config.BlogCount == 0)
-						EnsureInstallStep("Step03_CreateBlog.aspx");
-		
-					if(info != null && Config.BlogCount > 0)
-						EnsureInstallStep("InstallationComplete.aspx");
+                    if (info == null) {
+                        EnsureInstallStep("Step02_ConfigureHost.aspx");
+                    }
+                    if (info != null && Config.BlogCount == 0) {
+                        EnsureInstallStep("Step03_CreateBlog.aspx");
+                    }
+                    if (info != null && Config.BlogCount > 0) {
+                        EnsureInstallStep("InstallationComplete.aspx");
+                    }
 					break;
 			}
 			

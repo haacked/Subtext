@@ -132,8 +132,9 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool CreateHost(string hostUserName, string hostPassword)
 		{
-			if(!InstallationManager.HostInfoRecordNeeded)
-				throw new InvalidOperationException("Cannot create a Host record.  One already exists.");
+            if (HostInfo.Instance != null) {
+                throw new InvalidOperationException("Cannot create a Host record.  One already exists.");
+            }
 
 			HostInfo host = new HostInfo();
 			host.HostUserName = hostUserName;
