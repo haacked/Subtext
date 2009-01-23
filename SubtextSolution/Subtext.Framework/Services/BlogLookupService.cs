@@ -80,7 +80,6 @@ namespace Subtext.Framework.Services
 
                 //Extra special case to deal with a common deployment problem where dev uses "localhost" on 
                 //dev machine. But deploys to real domain.
-
                 if (!String.Equals("localhost", host, StringComparison.OrdinalIgnoreCase)
                     && String.Equals("localhost", onlyBlog.Host, StringComparison.OrdinalIgnoreCase))
                 {

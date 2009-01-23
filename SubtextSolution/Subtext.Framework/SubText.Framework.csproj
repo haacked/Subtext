@@ -458,15 +458,18 @@
     <Compile Include="Routing\DirectoryRouteHandler.cs" />
     <Compile Include="Routing\HttpRouteHandler.cs" />
     <Compile Include="Routing\IgnoreRoute.cs" />
+    <Compile Include="Routing\IPageWithControls.cs" />
     <Compile Include="Routing\IRoutableHandler.cs" />
     <Compile Include="Routing\ISubtextHandler.cs" />
     <Compile Include="Routing\ISubtextPageBuilder.cs" />
-    <Compile Include="Routing\ISubtextPage.cs" />
     <Compile Include="Routing\RoutablePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Routing\RouteHandlerBase.cs" />
     <Compile Include="Routing\SubfolderRoute.cs" />
+    <Compile Include="Web\SubtextPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Routing\SubtextPageBuilder.cs" />
     <Compile Include="Routing\PageRoute.cs" />
     <Compile Include="Routing\SubtextRoute.cs" />

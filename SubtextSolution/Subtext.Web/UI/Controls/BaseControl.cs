@@ -64,9 +64,10 @@ namespace Subtext.Web.UI.Controls
             }
         }
 
-        protected ISubtextPage SubtextPage {
+        protected ISubtextHandler SubtextPage
+        {
             get {
-                return Page as ISubtextPage;
+                return Page as ISubtextHandler;
             }
         }
 
