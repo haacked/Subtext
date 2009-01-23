@@ -13,12 +13,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
+using System.Collections.Generic;
+using System.Web;
 
 namespace Subtext.Framework.Routing
 {
-    public interface ISubtextPageBuilder
-    {
-        object CreateInstanceFromVirtualPath(string virtualPath, Type type);
+    public interface IPageWithControls : IHttpHandler {
+        void SetControls(IEnumerable<string> controls);
     }
 }

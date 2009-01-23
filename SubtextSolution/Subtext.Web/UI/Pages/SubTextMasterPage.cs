@@ -23,10 +23,11 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 using Subtext.Framework.UI.Skinning;
+using Subtext.Framework.Web;
 using Subtext.Web.UI.Controls;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.UI.Pages
 {
@@ -36,7 +37,7 @@ namespace Subtext.Web.UI.Pages
     /// a PlaceHolder in which the PageTemplate.ascx control within 
     /// each skin is loaded.
     /// </summary>
-    public class SubtextMasterPage : RoutablePage, ISubtextPage
+    public class SubtextMasterPage : SubtextPage, IPageWithControls
     {
         #region Declared Controls in DTP.aspx
         private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinTemplateCollection());
@@ -60,7 +61,6 @@ namespace Subtext.Web.UI.Pages
         protected PlaceHolder metaTagsPlaceHolder;
         #endregion
 
-        
         protected Comments commentsControl;
         protected PostComment postCommentControl;
         protected const string TemplateLocation = "~/Skins/{0}/{1}";
@@ -268,13 +268,7 @@ namespace Subtext.Web.UI.Pages
         {
             _controls = controls;
         }
+
         IEnumerable<string> _controls;
-
-
-        public ISubtextContext SubtextContext
-        {
-            get;
-            set;
-        }
     }
 }

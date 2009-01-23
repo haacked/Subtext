@@ -225,6 +225,7 @@ namespace Subtext.Framework
             //TODO: blog.MobileSkin = ...
             blog.Host = aggregateHost;
             blog.Subfolder = string.Empty;
+            blog.IsActive = true;
 
             if (hostInfo != null) {
                 blog.UserName = hostInfo.HostUserName;

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
+﻿using System.Collections.Generic;
+using Subtext.Framework.Web;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.UI.Controls.Aggregate
 {
-    public class AggregatePage : Page
+    public class AggregatePage : SubtextPage
     {
         public int? GetGroupIdFromQueryString()
         {
