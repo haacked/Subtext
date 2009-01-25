@@ -441,22 +441,6 @@ namespace Subtext.Framework.Providers
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
-		/// <param name="hostname">Hostname.</param>
-		/// <param name="subfolder">Subfolder Name.</param>
-		/// <returns></returns>
-		/// <param name="hostname">Hostname.</param>
-		/// <param name="subfolder">Subfolder.</param>
-		/// <returns></returns>
-		public Blog GetBlog(string hostname, string subfolder)
-		{
-			return GetBlog(hostname, subfolder, true);
-		}
-
-		/// <summary>
-		/// Returns a <see cref="Blog"/> instance containing 
-		/// the configuration settings for the blog specified by the 
-		/// Hostname and Application.
-		/// </summary>
 		/// <remarks>
 		/// Until Subtext supports multiple blogs again (if ever), 
 		/// this will always return the same instance.
