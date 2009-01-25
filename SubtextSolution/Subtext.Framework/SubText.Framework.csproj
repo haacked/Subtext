@@ -352,9 +352,6 @@
     <Compile Include="Exceptions\BaseCommentException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Exceptions\BlogApplicationDirectoryCreateException.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Exceptions\BlogDoesNotExistException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -371,9 +368,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Exceptions\BlogRequiresSubfolderException.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Exceptions\CommentBlacklistException.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Exceptions\CommentDuplicateException.cs">

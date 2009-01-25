@@ -213,52 +213,6 @@ namespace Subtext.Framework.Format
 		}
 
 		/// <summary>
-		/// Determines whether the current request is in the specified directory.
-		/// </summary>
-		/// <param name="rootFolderName">Name of the root folder.</param>
-		/// <returns>
-		/// 	<c>true</c> if [is in directory] [the specified rootFolderName]; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool IsInDirectory(String rootFolderName)
-		{
-			String appPath = StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
-				
-			String installPath = appPath;							// ex... "Subtext.Web" or ""
-			if(installPath.Length > 0)
-				installPath = "/" + installPath;
-			String blogAppName = Config.CurrentBlog.Subfolder;
-
-			if(blogAppName.Length > 0)
-				installPath = installPath + "/" + blogAppName;		// ex... "/Subtext.Web/MyBlog" or "/MyBlog"
-
-			installPath += "/" + StripSurroundingSlashes(rootFolderName) + "/";		// ex...  "Subtext.Web/MyBlog/Install/" or "/MyBlog/Install/" or "/Install/"
-
-			return HttpContext.Current.Request.Path.IndexOf(installPath, StringComparison.InvariantCultureIgnoreCase) >= 0;
-		}
-
-		/// <summary>
-		/// Determines whether the current request is a request within a special directory.
-		/// </summary>
-		/// <param name="folderName">Name of the folder.</param>
-		/// <returns>
-		/// 	<c>true</c> if [is in special directory] [the specified folderName]; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool IsInSpecialDirectory(string folderName)
-		{
-			// Either "" or "Subtext.Web" for ex...
-			String appPath = StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
-			if(appPath == null)
-				appPath = string.Empty;
-
-			if(appPath.Length == 0)
-				appPath = "/" + folderName + "/";
-			else
-				appPath = "/" + appPath + "/" + folderName + "/";
-				
-			return HttpContext.Current.Request.Path.IndexOf(appPath, StringComparison.InvariantCultureIgnoreCase) >= 0;
-		}
-
-		/// <summary>
 		/// Strips the surrounding slashes from the specified string.
 		/// </summary>
 		/// <param name="target">The target.</param>
@@ -276,36 +230,6 @@ namespace Subtext.Framework.Format
 			return target;
 		}
 
-		/// <summary>
-		/// Get the fully qualified url for an image for a given url to the image. 
-		/// The given url could be fully qualified, or some type of local url.
-		/// </summary>
-		/// <param name="imageUrl">url to an image</param>
-		/// <returns>fully qualified url to the image</returns>
-		public static string GetImageFullUrl(string imageUrl) 
-		{
-			/// Examples of some fully qualified URLs: 
-			/// http://somehost.com/Subtext.Web/images/somehost_com/Subtext_Web/blog/8/pic.jpg
-			/// http://thathost.net/Subtext.Web/images/thathost_net/Subtext_Web/4/picture.jpg
-			/// http://fooHost.org/images/fooHost_org/myBlog/2/bar.jpg
-			/// http://barHost.edu/images/
-			/// 
-			/// Examples of some local URLs:
-			///		/Subtext.Web/images/somehost_com/Subtext_Web/blog/8/pic.jpg
-			///		/Subtext.Web/images/thathost_net/Subtext_Web/4/picture.jpg
-			///		/images/fooHost_org/myBlog/2/bar.jpg
-			///		/images/barHost_edu/7/that.jpg
-
-			// First see if already have a full url 
-			if(!imageUrl.StartsWith("http")) 
-			{
-				// it's not a full url, so it must by some type of local url 		
-				// so add the siteRoot in front of it.
-				imageUrl = StripSurroundingSlashes(imageUrl);
-				imageUrl = string.Format("http://{0}/{1}", Config.CurrentBlog.Host, imageUrl) ;
-			}
-			return imageUrl ;
-		}
 		/// <summary>
 		/// Return the url with the http://host stripped off the front. The given url
 		/// may or maynot have the http://host on it.
