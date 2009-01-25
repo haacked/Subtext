@@ -87,7 +87,6 @@ namespace Subtext.Web.Admin.UserControls {
             return active;
         }
 
-
         private void BindList() 
         {
             if (categoryId != NullValue.NullInt32) 

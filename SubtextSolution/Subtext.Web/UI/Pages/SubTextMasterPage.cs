@@ -116,9 +116,8 @@ namespace Subtext.Web.UI.Pages
                 }
             }
 
-            if (CurrentSkin.HasCustomCssText)
-            {
-                CustomCss.Attributes.Add("href", Blog.RootUrl + "customcss.aspx");
+            if (CurrentSkin.HasCustomCssText) {
+                CustomCss.Attributes.Add("href", Url.CustomCssUrl());
             }
             else
             {
@@ -126,13 +125,11 @@ namespace Subtext.Web.UI.Pages
                 CustomCss.Visible = false;
             }
 
-            if (Rsd != null)
-            {
-                Rsd.Attributes.Add("href", Blog.RootUrl + "rsd.xml.ashx");
+            if (Rsd != null) {
+                Rsd.Attributes.Add("href", Url.RsdUrl(Blog).ToString());
             }
 
-            if (RSSLink != null)
-            {
+            if (RSSLink != null) {
                 RSSLink.Attributes.Add("href", Url.RssUrl(Blog).ToString());
             }
 

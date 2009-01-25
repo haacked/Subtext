@@ -106,12 +106,10 @@ namespace Subtext.Web.Admin.Pages
 
 					Advanced.Collapsed = Preferences.AlwaysExpandAdvanced;
 
-					if(AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
+					if(AdminMasterPage != null)
 					{	
 						string title = string.Format(CultureInfo.InvariantCulture, "Editing Image \"{0}\"", Image.Title);
-
-						AdminMasterPage.BreadCrumb.AddLastItem(title);
-						AdminMasterPage.Title = title;
+                        AdminMasterPage.Title = title;
 					}
 				}
 				else

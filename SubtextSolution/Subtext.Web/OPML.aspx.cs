@@ -34,7 +34,7 @@ namespace Subtext.Web
 		private void Page_Load(object sender, EventArgs e)
 		{
             int? groupId = GetGroupIdFromQueryString();
-            var blogStats = ObjectProvider.Instance().GetBlogsByGroup(Blog.AggregateBlog.Host, groupId);
+            var blogStats = ObjectProvider.Instance().GetBlogsByGroup(HostInfo.Instance.AggregateBlog.Host, groupId);
 			Response.ContentType = "text/xml";
 			Response.Write(Write(blogStats, Request.ApplicationPath));
 		}

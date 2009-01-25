@@ -49,7 +49,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
 			Assert.IsTrue(comment.Approved, "should be approved");
 
-			FeedbackItem.ConfirmSpam(comment);
+			FeedbackItem.ConfirmSpam(comment, null);
 			comment = FeedbackItem.Get(comment.Id);
 			Assert.IsFalse(comment.Approved, "Should not be approved now.");
 			Assert.IsTrue(comment.Deleted, "Should be moved to deleted folder now.");	
@@ -64,7 +64,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
 			Assert.IsTrue(comment.Approved, "should be approved");
 
-			FeedbackItem.Delete(comment);
+			FeedbackItem.Delete(comment, null);
 			comment = FeedbackItem.Get(comment.Id);
 			Assert.IsFalse(comment.Approved, "Should not be approved now.");
 			Assert.IsTrue(comment.Deleted, "Should be moved to deleted folder now.");
@@ -81,10 +81,10 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			CreateDeletedComments(3, entry);
 
 			FeedbackItem newComment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
-			FeedbackItem.ConfirmSpam(newComment);
+			FeedbackItem.ConfirmSpam(newComment, null);
 			newComment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FlaggedAsSpam);
 			Assert.IsFalse(newComment.Approved, "should not be approved");
-			FeedbackItem.Delete(newComment); //Move it to trash.
+			FeedbackItem.Delete(newComment, null); //Move it to trash.
 
 			FeedbackCounts counts = FeedbackItem.GetFeedbackCounts();
 			Assert.AreEqual(3, counts.ApprovedCount, "Expected three approved still");
@@ -210,7 +210,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			comment.Approved = false;
 			FeedbackItem.Update(comment);
 
-			FeedbackItem.Destroy(comment);
+			FeedbackItem.Destroy(comment, null);
 			comment = FeedbackItem.Get(comment.Id);
 			Assert.IsNull(comment);
 		}
@@ -225,7 +225,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
 			Assert.IsTrue(comment.Approved, "should be approved");
 
-			FeedbackItem.Destroy(comment);
+			FeedbackItem.Destroy(comment, null);
 		}
 
 		[Test]
@@ -239,7 +239,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			Assert.IsTrue(comment.Deleted, "should be deleted");
 			Assert.IsTrue(comment.ConfirmedSpam, "should be confirmed spam");
 
-			FeedbackItem.Approve(comment);
+			FeedbackItem.Approve(comment, null);
 			comment = FeedbackItem.Get(comment.Id);
 			Assert.IsTrue(comment.Approved, "Should be approved now.");
 			Assert.IsFalse(comment.Deleted, "Should not be deleted.");
@@ -259,7 +259,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			FeedbackItem commentOne = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
 			FeedbackItem commentTwo = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.ApprovedByModerator);
 			FeedbackItem commentThree = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.ConfirmedSpam);
-			FeedbackItem.ConfirmSpam(commentThree);
+			FeedbackItem.ConfirmSpam(commentThree, null);
 			FeedbackItem commentFour = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FalsePositive);
 			
 			//We expect three of the four.
@@ -297,7 +297,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			entry = Entries.GetEntry(entryId, PostConfig.None, false);
 			Assert.AreEqual(1, entry.FeedBackCount, "After un-approving the second comment, expected one approved feedback entry.");
 			
-			FeedbackItem.Delete(comment);
+			FeedbackItem.Delete(comment, null);
 			entry = Entries.GetEntry(entryId, PostConfig.None, false);
 			Assert.AreEqual(1, entry.FeedBackCount, "After un-approving the second comment, expected one approved feedback entry.");
 		}
@@ -441,28 +441,28 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[ExpectedArgumentNullException]
 		public void ApproveThrowsArgumentNull()
 		{
-			FeedbackItem.Approve(null);
+			FeedbackItem.Approve(null, null);
 		}
 
 		[Test]
 		[ExpectedArgumentNullException]
 		public void ConfirmSpamThrowsArgumentNull()
 		{
-			FeedbackItem.ConfirmSpam(null);
+			FeedbackItem.ConfirmSpam(null, null);
 		}
 
 		[Test]
 		[ExpectedArgumentNullException]
 		public void DeleteNullCommentThrowsArgumentNull()
 		{
-			FeedbackItem.Delete(null);
+			FeedbackItem.Delete(null, null);
 		}
 
 		[Test]
 		[ExpectedArgumentNullException]
 		public void DestroyNullCommentThrowsArgumentNull()
 		{
-			FeedbackItem.Destroy(null);
+			FeedbackItem.Destroy(null, null);
 		}
 		#endregion
 

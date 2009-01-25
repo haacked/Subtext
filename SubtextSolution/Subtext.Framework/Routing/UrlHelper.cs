@@ -40,6 +40,18 @@ namespace Subtext.Framework.Routing
             private set;
         }
 
+        public virtual VirtualPath AppRoot() {
+            string appRoot = _requestContext.HttpContext.Request.ApplicationPath;
+            if (!appRoot.EndsWith("/")) {
+                appRoot += "/";
+            }
+
+            if (!appRoot.StartsWith("/")) {
+                throw new InvalidOperationException("Whoa! An assumption was broken.");
+            }
+            return appRoot;
+        }
+        
         public virtual VirtualPath FeedbackUrl(FeedbackItem comment) {
             if (comment == null) {
                 throw new ArgumentNullException("comment");
@@ -110,8 +122,18 @@ namespace Subtext.Framework.Routing
         }
 
         public virtual VirtualPath BlogUrl() {
-            string vp = GetVirtualPath("root", new { });
+            string vp = GetVirtualPath("root", new {});
             if (!vp.EndsWith("/")) {
+                vp += "/";
+            }
+            return vp;
+        }
+
+        public virtual VirtualPath BlogUrl(Blog blog)
+        {
+            string vp = GetVirtualPath("root", new { subfolder = blog.Subfolder });
+            if (!vp.EndsWith("/"))
+            {
                 vp += "/";
             }
             return vp;
@@ -214,18 +236,15 @@ namespace Subtext.Framework.Routing
             return GetVirtualPath("login", new { });
         }
 
-        public virtual VirtualPath LogoutUrl()
-        {
+        public virtual VirtualPath LogoutUrl() {
             return GetVirtualPath("logout", new { });
         }
 
-        public virtual VirtualPath ArchivesUrl()
-        {
+        public virtual VirtualPath ArchivesUrl() {
             return GetVirtualPath("archives", new { });
         }
         
-        public virtual VirtualPath AdminUrl(string path)
-        {
+        public virtual VirtualPath AdminUrl(string path) {
             return AdminUrl(path, null);
         }
                 
@@ -235,9 +254,35 @@ namespace Subtext.Framework.Routing
             return GetVirtualPath("admin", routeValuesDict);
         }
 
-        public virtual Uri MetaweblogApiUrl(Blog blog) {
+        public virtual VirtualPath AdminRssUrl(string feedName)
+        {
+            return GetVirtualPath("admin-rss", new { feedName = feedName });
+        }
+
+        public virtual Uri MetaWeblogApiUrl(Blog blog) {
             var vp = GetVirtualPath("metaweblogapi", null);
             return vp.ToFullyQualifiedUrl(blog);
+        }
+
+        public virtual Uri RsdUrl(Blog blog) {
+            var vp = GetVirtualPath("rsd", null);
+            return vp.ToFullyQualifiedUrl(blog);
+        }
+
+        public virtual VirtualPath CustomCssUrl() {
+            return GetVirtualPath("customcss", null);
+        }
+
+        public virtual VirtualPath EditIconUrl() {
+            return AppRoot() + "images/edit.gif";
+        }
+
+        public virtual VirtualPath TagUrl(string tagName) {
+            return GetVirtualPath("tag", new { tag = tagName });
+        }
+
+        public virtual VirtualPath TagCloudUrl() {
+            return GetVirtualPath("tag-cloud", null);
         }
     }
 }

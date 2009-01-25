@@ -23,5 +23,5 @@
 </div>
 <div id="credits">
     <div class="alignleft"><a href="http://www.ndesign-studio.com/resources/wp-themes/">WP Theme</a> &amp;<a href="http://www.ndesign-studio.com/stock-icons/">Icons</a> by <a href="http://www.ndesign-studio.com">N.Design Studio</a> adapted by <a href="http://timheuer.com">timheuer</a></div>
-    <div class="alignright"><uc1:Syn id="links" runat="server" /><span class="loginout"><a href="<%# Config.CurrentBlog.RootUrl %>admin" title="Login">Login</a></span></div>
+    <div class="alignright"><uc1:Syn id="links" runat="server" /><span class="loginout"><a href="<%# Url.AdminUrl(string.Empty) %>" title="Login">Login</a></span></div>
 </div>

@@ -14,13 +14,14 @@
 #endregion
 
 using System;
-using System.Threading;
-using System.Web;
+using System.Collections.Specialized;
 using MbUnit.Framework;
+using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
 using Subtext.Framework.Web.HttpModules;
@@ -49,22 +50,20 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
 			Blog blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 1;
-
-			FeedbackItem trackback = new FeedbackItem(FeedbackType.PingTrack);
+            FeedbackItem trackback = new FeedbackItem(FeedbackType.PingTrack);
 			trackback.DateCreated = DateTime.Now;
 			trackback.SourceUrl = new Uri("http://localhost/ThisUrl/");
 			trackback.Title = "Some Title";
 			trackback.Body = "Some Body Some Body";
-			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
+            var cache = new TestCache();
+            FeedbackItem.Create(trackback, new CommentFilter(cache, null));
 			
-			Thread.Sleep(100);
-
 			FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
 			comment.DateCreated = DateTime.Now;
 			comment.SourceUrl = new Uri("http://localhost/ThisUrl/");
 			comment.Title = "Some Title";
 			comment.Body = "Some Body Else";
-			FeedbackItem.Create(comment, new CommentFilter(HttpContext.Current.Cache));
+            FeedbackItem.Create(comment, new CommentFilter(cache, null));
 		}
 
 		/// <summary>
@@ -79,15 +78,46 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
 			Blog blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 0;
-
+            var cache = new TestCache();
+            
 			FeedbackItem feedbackItem = new FeedbackItem(FeedbackType.Comment);
 			feedbackItem.DateCreated = DateTime.Now;
 			feedbackItem.SourceUrl = new Uri("http://localhost/ThisUrl/");
 			feedbackItem.Title = "Some Title";
 			feedbackItem.Body = "Some Body";
-			FeedbackItem.Create(feedbackItem, new CommentFilter(HttpContext.Current.Cache));
-			FeedbackItem.Create(feedbackItem, new CommentFilter(HttpContext.Current.Cache));
+			FeedbackItem.Create(feedbackItem, new CommentFilter(cache, null));
+			FeedbackItem.Create(feedbackItem, new CommentFilter(cache, null));
 		}
+
+        private class TestCache : NameObjectCollectionBase, ICache
+        {
+            public object this[string key]
+            {
+                get
+                {
+                    return BaseGet(key);
+                }
+                set
+                {
+                    BaseSet(key, value);
+                }
+            }
+
+            public void Insert(string key, object value, System.Web.Caching.CacheDependency dependency)
+            {
+                this[key] = value;
+            }
+
+            public void Insert(string key, object value, System.Web.Caching.CacheDependency dependency, DateTime absoluteExpiration, TimeSpan slidingExpiration)
+            {
+                this[key] = value;
+            }
+
+            public void Remove(string key)
+            {
+                BaseRemove(key);
+            }
+        }
 	    
 	    /// <summary>
 	    /// Make sure that comments and Track/Pingbacks generated 
@@ -102,6 +132,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
             Blog blog = Config.CurrentBlog;
             blog.CommentDelayInMinutes = 0;
+            var cache = new Mock<ICache>();
 	        
 	        /*
              * Need to add the authentication ticket to the context (cookie), and then 
@@ -116,8 +147,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             trackback.SourceUrl = new Uri("http://localhost/ThisUrl/");
             trackback.Title = "Some Title";
             trackback.Body = "Some Body";
-			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
-			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
+			FeedbackItem.Create(trackback, new CommentFilter(cache.Object, null));
+			FeedbackItem.Create(trackback, new CommentFilter(cache.Object, null));
 	    }
 
 	    /// <summary>
@@ -136,7 +167,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		{
 			_hostName = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
-			new CommentFilter(HttpContext.Current.Cache).ClearCommentCache();
+            var cache = new Mock<ICache>();
+			new CommentFilter(cache.Object, null).ClearCommentCache();
 		}
 
 		[TearDown]

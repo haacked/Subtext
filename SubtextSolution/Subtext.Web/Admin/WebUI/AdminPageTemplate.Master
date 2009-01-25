@@ -12,7 +12,7 @@
     <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery.hotkeys.min.js") %>" ></script>
     <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>" ></script>
     <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/json.js") %>" ></script>
-    <script type="text/javascript" src="<%= Config.CurrentBlog.RootUrl + "Admin/Services/Ajax/AjaxServices.ashx?proxy" %>" ></script>
+    <script type="text/javascript" src="<%= Url.BlogUrl().ToFullyQualifiedUrl(Config.CurrentBlog) + "Admin/Services/Ajax/AjaxServices.ashx?proxy" %>" ></script>
     <script type="text/javascript">
         var ajaxServices = new AjaxServices();
     </script>

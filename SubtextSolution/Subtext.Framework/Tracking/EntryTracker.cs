@@ -15,9 +15,7 @@
 
 using System;
 using System.Text.RegularExpressions;
-using System.Web;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Properties;
@@ -25,36 +23,40 @@ using Subtext.Framework.Properties;
 namespace Subtext.Framework.Tracking
 {
 	/// <summary>
-	/// Summary description for TrackEntry.
+	/// Class used to record requests for an entry.
 	/// </summary>
-	public static class EntryTracker
+	public class EntryTracker
 	{
-		static Log Log = new Log();
+        static Log Log = new Log();
 
-		static EntryTracker()
-		{
-			Configuration.Tracking tracking = Config.Settings.Tracking;
-			WebTrack = tracking.EnableWebStats;
-			QueueStats = tracking.QueueStats;
-		}
-		
-		private static bool WebTrack = false;
-		private static bool QueueStats = false;
-		
+        public EntryTracker(StatsRepository statsRecorder) {
+            Settings = statsRecorder.Settings;
+            StatsRecorder = statsRecorder;
+        }
+
+
+        protected Subtext.Framework.Configuration.Tracking Settings {
+            get;
+            private set;
+        }
+
+        protected StatsRepository StatsRecorder {
+            get;
+            private set;
+        }
+
 		/// <summary>
 		/// Records the request in the database for statistics/tracking purposes.
 		/// </summary>
 		/// <param name="ev">The ev.</param>
 		/// <returns></returns>
-		public static void Track(EntryView ev)
+		public void Track(EntryView ev)
 		{
-			if(QueueStats)
-			{
-				Stats.AddQuedStats(ev);
+			if(Settings.QueueStats) {
+				StatsRecorder.AddQuedStats(ev);
 			}
-			else
-			{
-				Stats.TrackEntry(ev);
+			else {
+				StatsRecorder.TrackEntry(ev);
 			}
 		}
 
@@ -65,45 +67,47 @@ namespace Subtext.Framework.Tracking
 		/// <param name="EntryID">The entry ID.</param>
 		/// <param name="BlogId">The blog ID.</param>
 		/// <returns></returns>
-        public static void Track(HttpContext context, int EntryID, int BlogId)
+        public void Track(ISubtextContext context, int EntryID, int BlogId)
         {
-            if (context == null)
-            {
+            if (context == null) {
                 throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
             }
 
-			if (!WebTrack || !FilterUserAgent(context.Request.UserAgent) || context.Request.HttpMethod == "POST")
+            var request = context.RequestContext.HttpContext.Request;
+
+			if (!Settings.EnableWebStats || !FilterUserAgent(request.UserAgent) || request.HttpMethod == "POST")
 				return;
             
-            string refUrl = GetReferral(context.Request);
+            string refUrl = GetReferral(context);
             EntryView ev = new EntryView();
             ev.EntryId = EntryID;
             ev.BlogId = BlogId;
             ev.ReferralUrl = refUrl;
             ev.PageViewType = PageViewType.WebView;
+
             Track(ev);
         }
 
 		//TODO: Unit test this method. Also clean it up and make it more self-descriptive.
-		private static string GetReferral(HttpRequest Request)
+		private string GetReferral(ISubtextContext context)
 		{
-			Uri uri = UrlFormats.GetUriReferrerSafe(Request);
-			
-			if(uri == null)
-				return null;
+            var request = context.RequestContext.HttpContext.Request;
+			Uri uri = UrlFormats.GetUriReferrerSafe(request);
+
+            if (uri == null) {
+                return null;
+            }
 
 			string url = uri.ToString();
 
 			url = Blog.StripWwwPrefixFromHost(url.ToString());
-			string fqu = Blog.StripWwwPrefixFromHost(Config.CurrentBlog.RootUrl.ToString());
+			string fqu = Blog.StripWwwPrefixFromHost(context.UrlHelper.BlogUrl().ToFullyQualifiedUrl(context.Blog).ToString());
 			
-			if(Regex.IsMatch(url, fqu, RegexOptions.IgnoreCase))
-			{
+			if(String.Equals(url, fqu, StringComparison.OrdinalIgnoreCase)) {
 				return null;
 			}
 			
-			if(url.Length == 0)
-			{
+			if(url.Length == 0) {
 				Log.Warn("Somehow the referral was an empty string and not null.");	
 				return null;
 			}
@@ -113,7 +117,7 @@ namespace Subtext.Framework.Tracking
 
 		private static bool FilterUserAgent(string agent)
 		{
-			return (agent != null && agent.Length > 0 && Regex.IsMatch(agent,"msie|mozilla|opera",RegexOptions.IgnoreCase));
+			return (agent != null && agent.Length > 0 && Regex.IsMatch(agent, "msie|mozilla|opera", RegexOptions.IgnoreCase));
 		}
 	}
 }

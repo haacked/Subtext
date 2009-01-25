@@ -112,11 +112,9 @@ namespace Subtext.Web.Admin.Pages
 
 			ShowImages();
 
-			if(AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
+			if(AdminMasterPage != null)
             {
 				string title = string.Format(CultureInfo.InvariantCulture, "Viewing Gallery \"{0}\"", selectedGallery.Title);
-
-				AdminMasterPage.BreadCrumb.AddLastItem(title);
 				AdminMasterPage.Title = title;
 			}
 

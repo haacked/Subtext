@@ -63,7 +63,6 @@ namespace Subtext.Framework.Syndication
 
 		protected override void Cache(CachedFeed feed)
 		{
-
 		}
 
 

@@ -27,6 +27,7 @@ using Subtext.Web.Admin;
 using Subtext.Framework.Security;
 using Subtext.Framework.Providers;
 using System.Data.SqlClient;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.HostAdmin.UserControls
 {
@@ -68,6 +69,21 @@ namespace Subtext.Web.HostAdmin.UserControls
 			}
 			BindList();
 		}
+
+        public string GetBlogUrl(object dataItem) {
+            Blog blog = dataItem as Blog;
+            return Url.BlogUrl(blog);
+        }
+
+        public UrlHelper Url {
+            get {
+                if (_urlHelper == null) {
+                    _urlHelper = new UrlHelper(null, null);
+                }
+                return _urlHelper;
+            }
+        }
+        UrlHelper _urlHelper = null;
 
         private void BindGroups()
         {

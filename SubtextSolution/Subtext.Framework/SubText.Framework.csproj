@@ -302,6 +302,7 @@
       <SubType>Code</SubType>
       <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\ICache.cs" />
     <Compile Include="Data\LinkRepository.cs">
       <SubType>Code</SubType>
       <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
@@ -310,6 +311,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\StoredProcedures.cs" />
+    <Compile Include="Data\SubtextCache.cs" />
     <Compile Include="Data\TagRepository.cs">
       <SubType>Code</SubType>
       <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
@@ -462,6 +464,7 @@
     <Compile Include="Routing\IRoutableHandler.cs" />
     <Compile Include="Routing\ISubtextHandler.cs" />
     <Compile Include="Routing\ISubtextPageBuilder.cs" />
+    <Compile Include="Routing\RootRoute.cs" />
     <Compile Include="Routing\RoutablePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -609,11 +612,6 @@
     </Compile>
     <Compile Include="UI\Skinning\StyleDefinition.cs" />
     <Compile Include="UI\Skinning\StyleSheetElementCollectionRenderer.cs" />
-    <Compile Include="UrlManager\HandlerConfiguration.cs" />
-    <Compile Include="UrlManager\HandlerType.cs" />
-    <Compile Include="UrlManager\HttpHandler.cs" />
-    <Compile Include="UrlManager\PageHandlerFactory.cs" />
-    <Compile Include="UrlManager\UrlReWriteHandlerFactory.cs" />
     <Compile Include="Util\Keywords.cs">
       <SubType>Code</SubType>
     </Compile>

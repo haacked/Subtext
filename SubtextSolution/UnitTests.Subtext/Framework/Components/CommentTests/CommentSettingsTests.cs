@@ -27,7 +27,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			//create comment.
 			FeedbackItem comment = UnitTestHelper.CreateCommentInstance(entryId, "joe schmoe", "blah blah.", "I have nothing to say.", DateTime.Now);
 			Assert.IsFalse(SecurityHelper.IsAdmin, "Comment moderation would not affect admins");
-			int commentId = FeedbackItem.Create(comment, new CommentFilter(null));
+			int commentId = FeedbackItem.Create(comment, new CommentFilter(null, null));
 			FeedbackItem commentFromDb = FeedbackItem.Get(commentId);
 			Assert.IsTrue(commentFromDb.Approved, "Because comment moderation is turned off, we expect that a new comment should be active.");
 			Assert.IsFalse(commentFromDb.NeedsModeratorApproval, "Because comment moderation is turned off, we expect that a new comment should not need moderator approval.");
@@ -47,13 +47,13 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			
 			//create comment.
 			FeedbackItem comment = UnitTestHelper.CreateCommentInstance(entryId, "joe schmoe", "blah xsatho setnuh blah.", "I have nothing interesting to say at all.", DateTime.Now);
-			int commentId = FeedbackItem.Create(comment, new CommentFilter(null));
+			int commentId = FeedbackItem.Create(comment, new CommentFilter(null, null));
 			FeedbackItem commentFromDb = FeedbackItem.Get(commentId);
 			Assert.IsFalse(commentFromDb.Approved, "Because comment moderation is turned on, we expect that a new comment should note be approved.");
 			Assert.IsTrue(commentFromDb.NeedsModeratorApproval, "Because comment moderation is turned on, we expect that a new comment should need moderator approval.");
 			
 			//Let's approve it.
-			FeedbackItem.Approve(commentFromDb);
+			FeedbackItem.Approve(commentFromDb, null);
 			commentFromDb = FeedbackItem.Get(commentId);
 			Assert.IsTrue(commentFromDb.Approved, "The comment should have the status of approved.");
 			Assert.IsTrue(commentFromDb.ApprovedByModerator, "Since this was approved by a moderator, that extra bit of info should be present.");
@@ -66,7 +66,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		public void ApproveThrowsArgumentNullException()
 		{
 			Config.CreateBlog("", "username", "thePassword", this.hostName, "MyBlog1");
-			FeedbackItem.Approve(null);
+			FeedbackItem.Approve(null, null);
 		}
 
 		[SetUp]

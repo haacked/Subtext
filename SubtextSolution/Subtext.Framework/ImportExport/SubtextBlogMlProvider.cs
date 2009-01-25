@@ -17,16 +17,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Data;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
 using BlogML;
 using BlogML.Xml;
-using Microsoft.ApplicationBlocks.Data;
 using Subtext.BlogML;
 using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
@@ -37,6 +34,8 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Format;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Routing;
 using Subtext.ImportExport.Conversion;
 
 namespace Subtext.ImportExport
@@ -52,6 +51,24 @@ namespace Subtext.ImportExport
         public ISubtextContext SubtextContext {
             get;
             private set;
+        }
+
+        protected Blog Blog {
+            get {
+                return SubtextContext.Blog;
+            }
+        }
+
+        protected UrlHelper Url {
+            get {
+                return SubtextContext.UrlHelper;
+            }
+        }
+
+        protected ObjectProvider Repository {
+            get {
+                return SubtextContext.Repository;
+            }
         }
 
         StoredProcedures _procedures = null;
@@ -101,7 +118,7 @@ namespace Subtext.ImportExport
 			return bmlPosts;
 		}
 
-        private static IList GetPostAttachments(BlogMLPost bmlPost, IBlogMLContext bmlContext)
+        private IList GetPostAttachments(BlogMLPost bmlPost, IBlogMLContext bmlContext)
         {
             IList attachments = new ArrayList();
             string[] attachmentUrls = BlogMLWriterBase.SgmlUtil.GetAttributeValues(bmlPost.Content.Text, "img", "src");
@@ -112,7 +129,7 @@ namespace Subtext.ImportExport
                 
                 foreach (string attachmentUrl in attachmentUrls)
                 {
-                    string blogHostUrl = Config.CurrentBlog.HostFullyQualifiedUrl.ToString().ToLower(CultureInfo.InvariantCulture);
+                    string blogHostUrl = Url.AppRoot().ToFullyQualifiedUrl(Blog).ToString().ToLower(CultureInfo.InvariantCulture);
                     
                     // If the URL for the attachment is local then we'll want to build a new BlogMLAttachment 
                     // add add it to the list of attchements for this post.
@@ -123,8 +140,7 @@ namespace Subtext.ImportExport
 
                         // If we are embedding attachements then we need to get the data stream 
                         // for the attachment, else the datastream can be null.
-                        if (embed)
-                        {
+                        if (embed) {
                             string attachPhysicalPath = HttpUtility.UrlDecode(HttpContext.Current.Server.MapPath(attachVirtualPath));
                             
                             //using (Stream attachStream = new StreamReader(attachPhysicalPath).BaseStream)
@@ -242,11 +258,11 @@ namespace Subtext.ImportExport
 			int blogIdentifier;
 			if (int.TryParse(blogId, out blogIdentifier))
 			{
-				Blog blog = Blog.GetBlogById(blogIdentifier);
+				Blog blog = Repository.GetBlogById(blogIdentifier);
 				BlogMLBlog bmlBlog = new BlogMLBlog();
 				bmlBlog.Title = blog.Title;
 				bmlBlog.SubTitle = blog.SubTitle;
-				bmlBlog.RootUrl = blog.RootUrl.ToString();
+				bmlBlog.RootUrl = Url.BlogUrl().ToFullyQualifiedUrl(blog).ToString();
 				bmlBlog.DateCreated = blog.TimeZone.Now;
 
 			    // TODO: in Subtext 2.0 we need to account for multiple authors.
@@ -289,7 +305,7 @@ namespace Subtext.ImportExport
 		/// <returns></returns>
 		public override ICollection<BlogMLCategory> GetAllCategories(string blogId)
 		{
-			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            ICollection<LinkCategory> categories = Repository.GetCategories(CategoryType.PostCollection, false /* activeOnly */);
 			ICollection<BlogMLCategory> bmlCategories = new Collection<BlogMLCategory>();
 			
 			foreach(LinkCategory category in categories)
@@ -300,8 +316,9 @@ namespace Subtext.ImportExport
 				bmlCategory.Approved = category.IsActive;
 				bmlCategory.DateCreated = DateTime.Now;
 				bmlCategory.DateModified = DateTime.Now;
-			    if (category.HasDescription)
+                if (category.HasDescription) {
                     bmlCategory.Description = category.Description;
+                }
 				
 				bmlCategories.Add(bmlCategory);
 			}
@@ -318,7 +335,7 @@ namespace Subtext.ImportExport
 			if(HttpContext.Current != null && HttpContext.Current.Request != null)
 				embedValue = String.Equals(HttpContext.Current.Request.QueryString["embed"], "true", StringComparison.InvariantCultureIgnoreCase);
 
-			return new BlogMLContext(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), embedValue);
+			return new BlogMLContext(Blog.Id.ToString(CultureInfo.InvariantCulture), embedValue);
 		}
 
 		/// <summary>
@@ -341,12 +358,12 @@ namespace Subtext.ImportExport
 		/// </summary>
 		public override void PreImport()
 		{
-			duplicateCommentsEnabled = Config.CurrentBlog.DuplicateCommentsEnabled;
+			duplicateCommentsEnabled = Blog.DuplicateCommentsEnabled;
 			if (!duplicateCommentsEnabled)
 			{
 				// Allow duplicate comments temporarily.
-				Config.CurrentBlog.DuplicateCommentsEnabled = true;
-				Config.UpdateConfigData(Config.CurrentBlog);
+				Blog.DuplicateCommentsEnabled = true;
+				Config.UpdateConfigData(Blog);
 			}
 		}
 		
@@ -354,10 +371,10 @@ namespace Subtext.ImportExport
 		/// Method called when an import is complete.
 		public override void ImportComplete()
 		{
-			if (Config.CurrentBlog.DuplicateCommentsEnabled != duplicateCommentsEnabled)
+			if (Blog.DuplicateCommentsEnabled != duplicateCommentsEnabled)
 			{
-				Config.CurrentBlog.DuplicateCommentsEnabled = duplicateCommentsEnabled;
-				Config.UpdateConfigData(Config.CurrentBlog);
+				Blog.DuplicateCommentsEnabled = duplicateCommentsEnabled;
+				Config.UpdateConfigData(Blog);
 			}
 		}
 
@@ -374,7 +391,7 @@ namespace Subtext.ImportExport
 			foreach (BlogMLCategory bmlCategory in blog.Categories)
 			{
 				LinkCategory category = new LinkCategory();
-				category.BlogId = Config.CurrentBlog.Id;
+				category.BlogId = Blog.Id;
 				category.Title = bmlCategory.Title;
 				category.Description = bmlCategory.Description;
 				category.IsActive = bmlCategory.Approved;
@@ -395,7 +412,7 @@ namespace Subtext.ImportExport
 		/// </remarks>
 		public override string GetAttachmentDirectoryPath(BlogMLAttachment attachment)
 		{
-			return Config.CurrentBlog.ImageDirectory;
+			return Blog.ImageDirectory;
 		}
 
 		/// <summary>
@@ -408,7 +425,7 @@ namespace Subtext.ImportExport
 		/// </remarks>
 		public override string GetAttachmentDirectoryUrl(BlogMLAttachment attachment)
 		{
-			return Config.CurrentBlog.ImagePath;
+			return Blog.ImagePath;
 		}
 
 		/// <summary>
@@ -422,7 +439,7 @@ namespace Subtext.ImportExport
 		public override string CreateBlogPost(BlogMLBlog blog, BlogMLPost post, string content, IDictionary<string, string> categoryIdMap)
 		{
             Entry newEntry = new Entry((post.PostType == BlogPostTypes.Article) ? PostType.Story : PostType.BlogPost);
-			newEntry.BlogId = Config.CurrentBlog.Id;
+			newEntry.BlogId = Blog.Id;
 			newEntry.Title = post.Title;
 			newEntry.DateCreated = post.DateCreated;
 			newEntry.DateModified = post.DateModified;
@@ -469,7 +486,7 @@ namespace Subtext.ImportExport
 		public override void CreatePostComment(BlogMLComment bmlComment, string newPostId)
 		{
 			FeedbackItem newComment = new FeedbackItem(FeedbackType.Comment);
-			newComment.BlogId = Config.CurrentBlog.Id;
+			newComment.BlogId = Blog.Id;
 			newComment.EntryId = int.Parse(newPostId);
 			newComment.Title = bmlComment.Title ?? string.Empty;
 			newComment.DateCreated = bmlComment.DateCreated;
@@ -494,7 +511,7 @@ namespace Subtext.ImportExport
 		/// <param name="newPostId"></param>
 		public override void CreatePostTrackback(BlogMLTrackback trackback, string newPostId) {
 			FeedbackItem newPingTrack = new FeedbackItem(FeedbackType.PingTrack);
-			newPingTrack.BlogId = Config.CurrentBlog.Id;
+			newPingTrack.BlogId = Blog.Id;
 			newPingTrack.EntryId = int.Parse(newPostId);
 			newPingTrack.Title = trackback.Title;
 			newPingTrack.SourceUrl = new Uri(trackback.Url);
@@ -513,7 +530,7 @@ namespace Subtext.ImportExport
 	    public override void SetBlogMlExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties) {
             if (extendedProperties != null && extendedProperties.Count > 0)
             {
-                Blog info = Config.CurrentBlog;
+                Blog info = Blog;
                 
                 foreach (Pair<string, string> extProp in extendedProperties)
                 {

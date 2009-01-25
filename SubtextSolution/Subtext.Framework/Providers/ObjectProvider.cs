@@ -17,6 +17,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration.Provider;
+using BlogML.Xml;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
@@ -58,7 +59,6 @@ namespace Subtext.Framework.Providers
 		}
 
         #region ObjectProvider Specific methods
-		#region Host
 
 		/// <summary>
 		/// Returns the <see cref="HostInfo"/> for the Subtext installation.
@@ -88,9 +88,7 @@ namespace Subtext.Framework.Providers
         public abstract bool UpdateBlogGroup(BlogGroup blogGroup);
 
         public abstract bool DeleteBlogGroup(int blogGroupId);
-		#endregion Host
 
-		#region Blogs
 		/// <summary>
 		/// Gets a pageable <see cref="ICollection"/> of <see cref="Blog"/> instances.
 		/// </summary>
@@ -112,9 +110,6 @@ namespace Subtext.Framework.Providers
 
 		public abstract IPagedCollection<BlogAlias> GetPagedBlogDomainAlias(Blog blog, int pageIndex, int pageSize);
 
-		#endregion Blogs
-
-		#region Blog Groups
 		/// <summary>
 		/// Gets the blog group by id.
 		/// </summary>
@@ -129,9 +124,6 @@ namespace Subtext.Framework.Providers
 		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
 		/// <returns></returns>
 		public abstract ICollection<BlogGroup> ListBlogGroups(bool activeOnly);
-		#endregion
-
-		#region BlogAlias
 
 		public abstract bool CreateBlogAlias(BlogAlias alias);
 
@@ -139,11 +131,8 @@ namespace Subtext.Framework.Providers
 
 		public abstract bool DeleteBlogAlias(BlogAlias alias);
 
-		#endregion
-
 		#region Entries
 
-		#region Paged Posts
 
 		/// <summary>
 		/// Returns a pageable collection of entries ordered by the id descending.
@@ -167,8 +156,6 @@ namespace Subtext.Framework.Providers
 		/// <returns></returns>
 		public abstract IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackStatusFlag excludeStatusMask, FeedbackType type);
 		
-		#endregion
-
 		#region EntryDays
 
 		public abstract EntryDay GetEntryDay(DateTime dt);
@@ -415,9 +402,7 @@ namespace Subtext.Framework.Providers
 
 		#endregion
 
-		#region  Configuration
-
-        /// <summary>
+		/// <summary>
         /// Adds the initial blog configuration.  This is a convenience method for 
         /// allowing a user with a freshly installed blog to immediately gain access 
         /// to the admin section to edit the blog.
@@ -482,10 +467,7 @@ namespace Subtext.Framework.Providers
 		/// there is only one blog record, regardless if the subfolder and hostname match.</param>
 		/// <returns></returns>
 		public abstract Blog GetBlog(string hostname, string subfolder, bool strict);
-		#endregion
-
-        #region Tags
-
+		
         /// <summary>
         /// Gets the top tags from the database sorted by tag name.
         /// </summary>
@@ -496,37 +478,29 @@ namespace Subtext.Framework.Providers
         /// </returns>
         public abstract IDictionary<string, int> GetTopTags(int ItemCount);
 
-        #endregion
-
-		#region MetaTags
-
         /// <summary>
         /// Adds the given MetaTag to the data store.
         /// </summary>
         /// <param name="metaTag"></param>
         /// <returns></returns>
 	    public abstract int Create(MetaTag metaTag);
-
         /// <summary>
         /// Updates the given MetaTag in the data store.
         /// </summary>
         /// <param name="metaTag"></param>
         /// <returns></returns>
 	    public abstract bool Update(MetaTag metaTag);
-
         /// <summary>
 		/// Gets a collection of MetaTags for the given Blog.
 		/// </summary>
 		/// <returns></returns>
         public abstract IPagedCollection<MetaTag> GetMetaTagsForBlog(Blog blog, int pageIndex, int pageSize);
-
         /// <summary>
         /// Gets a collection of MetaTags for the given Entry
         /// </summary>
         /// <param name="entry"></param>
         /// <returns></returns>
 	    public abstract IPagedCollection<MetaTag> GetMetaTagsForEntry(Entry entry, int pageIndex, int pageSize);
-
         /// <summary>
         /// Deletes the MetaTag with the given metaTagId.
         /// </summary>
@@ -534,24 +508,14 @@ namespace Subtext.Framework.Providers
         /// <returns></returns>
         public abstract bool DeleteMetaTag(int metaTagId);
 
-		#endregion
-
-        #region Enclosures
-
         /// <summary>
         /// Adds the given enclosure to the data store
         /// </summary>
         /// <param name="enclosure"></param>
         /// <returns>Id of the enclosure created</returns>
 	    public abstract int Create(Enclosure enclosure);
-
         public abstract bool Update(Enclosure metaTag);
-
         public abstract bool DeleteEnclosure(int enclosureId);
-
-        #endregion
-
-        #region KeyWords
 
         public abstract KeyWord GetKeyWord(int KeyWordID);
         public abstract ICollection<KeyWord> GetKeyWords();
@@ -560,23 +524,15 @@ namespace Subtext.Framework.Providers
 		public abstract int InsertKeyWord(KeyWord keyWord);
 		public abstract bool DeleteKeyWord(int id);
 
-		#endregion
-
-		#region Images
-
-        public abstract ImageCollection GetImagesByCategoryID(int catID, bool activeOnly);
+		public abstract ImageCollection GetImagesByCategoryID(int catID, bool activeOnly);
 		public abstract Image GetImage(int imageID, bool activeOnly);
 		public abstract int InsertImage(Image image);
 		public abstract bool UpdateImage(Image image);
 		public abstract bool DeleteImage(int ImageID);
 
-		#endregion
-
-		#region Archives
-        public abstract ICollection<ArchiveCount> GetPostCountsByYear();
+		public abstract ICollection<ArchiveCount> GetPostCountsByYear();
         public abstract ICollection<ArchiveCount> GetPostCountsByMonth();
         public abstract ICollection<ArchiveCount> GetPostCountsByCategory();
-		#endregion
 		#endregion
 
 		public abstract BlogAlias GetBlogAliasById(int aliasId);

@@ -289,7 +289,7 @@ namespace Subtext.Web.UI.Controls
 					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
 					{
 						//We'll slap on our little pencil icon.
-						editLink.ImageUrl = Blog.VirtualDirectoryRoot + "Images/edit.gif";
+                        editLink.ImageUrl = Url.EditIconUrl();
 						ControlHelper.SetTitleIfNone(editLink, "Click to edit this entry.");
                         editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
 					}

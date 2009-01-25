@@ -111,11 +111,9 @@ namespace Subtext.Web.Admin.Pages
 			chkFirstOnly.Checked = kw.ReplaceFirstTimeOnly;
 			chkCaseSensitive.Checked = kw.CaseSensitive;
 
-            if(AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
+            if(AdminMasterPage != null)
 			{	
 				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing KeyWord \"{0}\"", kw.Title);
-
-				AdminMasterPage.BreadCrumb.AddLastItem(title);
 				AdminMasterPage.Title = title;
 			}
 		}

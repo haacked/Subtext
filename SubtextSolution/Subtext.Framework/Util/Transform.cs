@@ -20,8 +20,9 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
 using log4net;
-using Subtext.Framework.Logging;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
+using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Util
 {
@@ -39,11 +40,11 @@ namespace Subtext.Framework.Util
 		/// </summary>
 		/// <param name="formattedPost">The formatted post.</param>
 		/// <returns></returns>
-		public static string EmoticonTransforms(string formattedPost) 
+        public static string EmoticonTransforms(ICache cache, string rootUrl, string formattedPost) 
 		{
 			try
 			{
-				return EmoticonsTransforms(formattedPost, GetTransformFilePath("emoticons.txt"));
+				return EmoticonsTransforms(cache, rootUrl, formattedPost, GetTransformFilePath("emoticons.txt"));
 			}
 			catch(IOException ioe)
 			{
@@ -57,7 +58,7 @@ namespace Subtext.Framework.Util
 			}
 		}
 
-		public static string EmoticonsTransforms(string formattedPost, string emoticonsFilePath)
+        public static string EmoticonsTransforms(ICache cache, string rootUrl, string formattedPost, string emoticonsFilePath)
 		{
 			if (formattedPost == null)
 				throw new ArgumentNullException("formattedPost", "Cannot transform a null post");
@@ -71,21 +72,20 @@ namespace Subtext.Framework.Util
 				return formattedPost;
 			}
 
-			List<string> emoticonTxTable = LoadTransformFile(emoticonsFilePath);
-			return PerformUserTransforms(formattedPost, emoticonTxTable);
+			IList<string> emoticonTxTable = LoadTransformFile(cache, emoticonsFilePath);
+			return PerformUserTransforms(rootUrl, formattedPost, emoticonTxTable);
 		}
 
-		static string PerformUserTransforms(string stringToTransform, List<string> userDefinedTransforms) 
+		static string PerformUserTransforms(string rootUrl, string stringToTransform, IList<string> userDefinedTransforms) 
 		{
 			if(userDefinedTransforms == null)
 				return stringToTransform;
 
-			int iLoop = 0;	
-			string host = Config.CurrentBlog.RootUrl.ToString();
+			int iLoop = 0;
 			while (iLoop < userDefinedTransforms.Count) 
 			{		
 				// Special work for anchors
-				stringToTransform = Regex.Replace(stringToTransform, userDefinedTransforms[iLoop].ToString(), string.Format(userDefinedTransforms[iLoop+1], host), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+				stringToTransform = Regex.Replace(stringToTransform, userDefinedTransforms[iLoop].ToString(), string.Format(userDefinedTransforms[iLoop+1], rootUrl), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
 				iLoop += 2;
 			}
@@ -107,32 +107,27 @@ namespace Subtext.Framework.Util
 			return HttpContext.Current.Request.MapPath("~/" + filename);
 		}
 
-		public static List<string> LoadTransformFile(string filePath) 
+        public static IList<string> LoadTransformFile(ICache cache, string filePath) 
 		{
+            if (cache == null) {
+                throw new ArgumentNullException("cache");
+            }
+
             if (filePath == null)
                 throw new ArgumentNullException("filePath", "The transform filePath is null.");
 			
 			string cacheKey = "transformTable-" + Path.GetFileName(filePath);
-
-			HttpContext context = HttpContext.Current;
-			if(context == null)
-				return null;
-
+            
 			// read the transformation hashtable from the cache
 			//
-			List<string> tranforms = (List<string>)context.Cache[cacheKey];
+			var tranforms = cache[cacheKey] as IList<string>;
 
 			if (tranforms == null) 
 			{
 				tranforms = new List<string>();
 
-				// Grab the transform file
-				if(context.Request == null)
-					return null;
-
 				if (filePath.Length > 0) 
 				{
-
 					using (StreamReader sr = File.OpenText(filePath))
 					{
 						// Read through each set of lines in the text file
@@ -162,18 +157,14 @@ namespace Subtext.Framework.Util
 
 							line = sr.ReadLine();
 						}
-
-						// close the streamreader
-						//
-						sr.Close();
 					}
 
 					// slap the ArrayList into the cache and set its dependency to the transform file.
-					HttpContext.Current.Cache.Insert(cacheKey, tranforms, new CacheDependency(filePath));
+                    cache.Insert(cacheKey, tranforms, new CacheDependency(filePath));
 				}
 			}
-  
-			return (List<string>)HttpContext.Current.Cache[cacheKey];
+
+            return tranforms;
 		}
 	}
 }

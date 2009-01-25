@@ -16,6 +16,40 @@ namespace UnitTests.Subtext.Framework.Routing
     public class RoutesTests
     {
         [Test]
+        public void RequestWithSubfolderForBlogRoot_WithAggregateEnabled_Matches()
+        {
+            //arrange
+            var routes = new RouteCollection();
+            Global.RegisterRoutes(routes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/subfolder/admin/foo.aspx", "subfolder");
+
+            //act
+            var routeData = routes.GetRouteData(httpContext.Object);
+            var routeHandler = routeData.RouteHandler as DirectoryRouteHandler;
+
+            //assert.
+            Assert.IsNotNull(routeHandler);
+            Assert.AreEqual("foo.aspx", routeData.Values["pathInfo"]);
+        }
+
+        [Test]
+        public void RequestWithSubfolderForBlogRoot_WithBlogHavingDifferentSubfolder_DoesNotMatch()
+        {
+            //arrange
+            var routes = new RouteCollection();
+            Global.RegisterRoutes(routes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/subfolder/admin/foo.aspx", "not-subfolder");
+
+            //act
+            var routeData = routes.GetRouteData(httpContext.Object);
+
+            //assert.
+            Assert.IsNull(routeData);
+        }
+
+        [Test]
         public void RequestWithSubfolder_ForAdminDirectory_UsesDirectoryRouteHandler() {
             //arrange
             var routes = new RouteCollection();

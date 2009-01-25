@@ -11,6 +11,8 @@ using Subtext.Framework.Services;
 using UnitTests.Subtext;
 using Subtext.Framework.Security;
 using Subtext.Framework.Web.HttpModules;
+using Moq;
+using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
@@ -29,26 +31,24 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void FeedbackCreateCallsCommentService(bool isSpam, bool isAdmin)
 		{
-			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
+            Config.CreateBlog("", "username", "password", _hostName, string.Empty);
+            BlogRequest.Current = new BlogRequest(_hostName, string.Empty, new Uri("http://example.com/"), false);
             BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
-
-			MockRepository mocks = new MockRepository();
-			IFeedbackSpamService service = (IFeedbackSpamService)mocks.CreateMock(typeof(IFeedbackSpamService));
-			Config.CurrentBlog.FeedbackSpamService = service;
-			Config.CurrentBlog.DuplicateCommentsEnabled = true;
+            Config.CurrentBlog.DuplicateCommentsEnabled = true;
 			Config.CurrentBlog.FeedbackSpamServiceKey = "my-secret-key";
 			Config.CurrentBlog.ModerationEnabled = false;
+			
+            var service = new Mock<IFeedbackSpamService>();
+            var cache = new Mock<ICache>();
+            service.Setup(s => s.IsSpam(It.IsAny<FeedbackItem>())).Returns(isSpam);
 			FeedbackItem feedback = new FeedbackItem(FeedbackType.Comment);
-			Expect.Call(service.IsSpam(feedback)).Return(isSpam);
 			feedback.Title = "blah";
 			feedback.Body = UnitTestHelper.GenerateUniqueString();
-			mocks.ReplayAll();
 
 			Assert.AreEqual(isAdmin, SecurityHelper.IsAdmin);
 
-			try
-			{
-				FeedbackItem.Create(feedback, new CommentFilter(new Cache()));
+			try {
+				FeedbackItem.Create(feedback, new CommentFilter(cache.Object, service.Object));
 			}
 			catch(BaseCommentException)
 			{

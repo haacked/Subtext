@@ -44,9 +44,9 @@ namespace Subtext.Framework.Syndication
 		/// <param name="feed">Feed.</param>
 		protected override void Cache(CachedFeed feed)
 		{
-            if (HttpContext.Cache != null)
+            if (SubtextContext.RequestContext.HttpContext.Cache != null)
             {
-                HttpContext.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished),
+                SubtextContext.RequestContext.HttpContext.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished),
                     feed,
                     null,
                     DateTime.Now.AddSeconds((double)CacheDuration.Medium),

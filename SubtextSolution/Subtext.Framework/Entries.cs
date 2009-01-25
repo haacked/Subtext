@@ -169,18 +169,6 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Returns an active entry by the id regardless of which blog it is 
-		/// located in.
-		/// </summary>
-		/// <param name="entryId">The ID of the entry.</param>
-		/// <param name="includeCategories">Whether the returned entry should have its categories collection populated.</param>
-		/// <returns></returns>
-		public static Entry GetEntry(int entryId, bool includeCategories)
-		{
-			return ObjectProvider.Instance().GetEntry(entryId, true, includeCategories);
-		}
-
-		/// <summary>
 		/// Gets the entry from the data store by id. Only returns an entry if it is 
 		/// within the current blog (Config.CurrentBlog).
 		/// </summary>
@@ -230,8 +218,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static int Create(Entry entry)
 		{
-            if (entry == null)
-            {
+            if (entry == null) {
                 throw new ArgumentNullException("entry");//Resources.ArgumentNull_Generic);
             }
 
@@ -543,8 +530,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static void Update(Entry entry, params int[] categoryIds)
 		{
-            if (entry == null)
-            {
+            if (entry == null) {
                 throw new ArgumentNullException("entry", "entry cannot be null");//Resources.ArgumentNull_Generic);
             }
 

@@ -335,6 +335,7 @@
     <Compile Include="Framework\Data\PagedCollectionRetrievalTests.cs" />
     <Compile Include="Framework\Email\EmailServiceTests.cs" />
     <Compile Include="Framework\Email\EmbeddedTemplateEngineTests.cs" />
+    <Compile Include="Framework\EntryTrackerTests.cs" />
     <Compile Include="Framework\Format\UrlFormatTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -356,6 +357,7 @@
     <Compile Include="Framework\Routing\DirectoryRouteTests.cs" />
     <Compile Include="Framework\Routing\HttpRouteHandlerTests.cs" />
     <Compile Include="Framework\Routing\IgnoreRouteTests.cs" />
+    <Compile Include="Framework\Routing\RootRouteTests.cs" />
     <Compile Include="Framework\Routing\RoutablePageTests.cs" />
     <Compile Include="Framework\Routing\RouteExtensionsTests.cs" />
     <Compile Include="Framework\Routing\RoutesTests.cs" />

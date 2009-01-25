@@ -150,11 +150,9 @@ namespace Subtext.Web.Admin.Pages
 			BindLinkCategories();
 			ddlCategories.Items.FindByValue(currentLink.CategoryID.ToString(CultureInfo.InvariantCulture)).Selected = true;
 
-			if(AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
+			if(AdminMasterPage != null)
 			{	
 				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Link \"{0}\"", currentLink.Title);
-
-				AdminMasterPage.BreadCrumb.AddLastItem(title);
                 AdminMasterPage.Title = title;
 			}
 		}

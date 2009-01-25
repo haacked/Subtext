@@ -30,7 +30,7 @@ namespace Subtext.Framework.Syndication
 	/// Abstract base class used to respond to requests for 
 	/// syndicated feeds such as RSS and ATOM.
 	/// </summary>
-	public abstract class BaseSyndicationHandler<T> : IHttpHandler
+	public abstract class BaseSyndicationHandler<T> : ISubtextHandler
 	{
 		const int HTTP_IM_USED = 226;
 		const int HTTP_MOVED_PERMANENTLY = 301;
@@ -39,17 +39,6 @@ namespace Subtext.Framework.Syndication
         {
             get {
                 return SubtextContext.Blog;
-            }
-        }
-
-        protected ISubtextContext SubtextContext {
-            get;
-            private set;
-        }
-
-		protected HttpContextBase HttpContext {
-            get {
-                return SubtextContext.RequestContext.HttpContext;
             }
         }
 
@@ -70,6 +59,12 @@ namespace Subtext.Framework.Syndication
             private set;
         }
 
+        protected HttpContextBase HttpContext {
+            get {
+                return SubtextContext.RequestContext.HttpContext;
+            }
+        }
+
 		/// <summary>
 		/// Returns the "If-Modified-Since" HTTP header.  This indicates 
 		/// the last time the client requested data and is used to 
@@ -78,8 +73,7 @@ namespace Subtext.Framework.Syndication
 		/// <value></value>
 		protected string LastModifiedHeader
 		{
-			get
-			{
+			get {
 				return HttpContext.Request.Headers["If-Modified-Since"];
 			}
 		}
@@ -427,5 +421,27 @@ namespace Subtext.Framework.Syndication
 		/// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
 		/// </summary>
 		protected abstract bool IsMainfeed { get;}
-	}
+
+        public ISubtextContext SubtextContext
+        {
+            get;
+            set;
+        }
+
+        RequestContext IRoutableHandler.RequestContext
+        {
+            get {
+                return SubtextContext.RequestContext;
+            }
+            set {
+            }
+        }
+
+        public UrlHelper Url
+        {
+            get {
+                return SubtextContext.UrlHelper;
+            }
+        }
+    }
 }

@@ -24,8 +24,14 @@ namespace Subtext.Framework.Routing
     /// </summary>
     public class AggregateEnabledConstraint : IRouteConstraint
     {
-        public AggregateEnabledConstraint(bool matchWhenAggregateBlogsEnabled) {
+        public AggregateEnabledConstraint(HostInfo host, bool matchWhenAggregateBlogsEnabled) {
             MatchWhenAggregateBlogsEnabled = matchWhenAggregateBlogsEnabled;
+            Host = host;
+        }
+
+        protected HostInfo Host {
+            get;
+            private set;
         }
 
         public bool MatchWhenAggregateBlogsEnabled {
@@ -33,15 +39,16 @@ namespace Subtext.Framework.Routing
             private set;
         }
 
-        public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
-        {
+        //Should always return true for non root requests...
+        public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection) {
             if (routeDirection == RouteDirection.UrlGeneration) {
                 return true;
             }
-            return Match(ConfigurationManager.AppSettings["AggregateEnabled"] == "true");
-        }
 
-        public bool Match(bool aggregateBlogsEnabled) { 
+            return Match(Host.BlogAggregationEnabled);
+        }
+        
+        public bool Match(bool aggregateBlogsEnabled) {
             return (aggregateBlogsEnabled == MatchWhenAggregateBlogsEnabled);
         }
     }

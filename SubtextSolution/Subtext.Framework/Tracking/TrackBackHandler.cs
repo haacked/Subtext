@@ -46,6 +46,8 @@ using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Email;
+using Subtext.Framework.Services;
+using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Tracking
 {
@@ -73,6 +75,7 @@ namespace Subtext.Framework.Tracking
             }
 
             try {
+                SubtextContext = subtextContext;
                 HandleTrackback(subtextContext);
             }
             catch (BaseCommentException e)
@@ -90,10 +93,15 @@ namespace Subtext.Framework.Tracking
             }
         }
 
-        public UrlHelper Url
-        {
+        public UrlHelper Url {
             get {
                 return SubtextContext.UrlHelper;
+            }
+        }
+
+        public Blog Blog {
+            get {
+                return SubtextContext.Blog;
             }
         }
 
@@ -177,8 +185,12 @@ namespace Subtext.Framework.Tracking
 			}
 
 			Trackback trackback = new Trackback(entryId, title, url, blog_name, excerpt);
-
-			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
+            IFeedbackSpamService feedbackService = null;
+            Blog blog = subtextContext.Blog;
+            if (blog.FeedbackSpamServiceEnabled) {
+                feedbackService = new AkismetSpamService(blog.FeedbackSpamServiceKey, blog, null, Url);
+            }
+			FeedbackItem.Create(trackback, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService));
             //TODO: Create this using IoC container
             var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), subtextContext);
             emailService.EmailCommentToBlogAuthor(trackback);

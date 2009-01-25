@@ -245,12 +245,10 @@ namespace Subtext.Web.Admin.UserControls
 			Advanced.Collapsed = !Preferences.AlwaysExpandAdvanced;
 
             AdminPageTemplate adminMasterPage = Page.Master as AdminPageTemplate;
-            if (adminMasterPage != null && adminMasterPage.BreadCrumb != null)
+            if (adminMasterPage != null)
 			{	
 				string title = string.Format(CultureInfo.InvariantCulture, "Editing {0} \"{1}\"", 
 					CategoryType == CategoryType.StoryCollection ? "Article" : "Post", entry.Title);
-
-                adminMasterPage.BreadCrumb.AddLastItem(title);
                 adminMasterPage.Title = title;
 			}
 

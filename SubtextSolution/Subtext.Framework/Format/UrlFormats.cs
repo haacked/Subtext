@@ -153,6 +153,18 @@ namespace Subtext.Framework.Format
 			}
     	}
 
+        public static Uri GetUriReferrerSafe(HttpRequestBase request)
+        {
+            try
+            {
+                return request.UrlReferrer;
+            }
+            catch (UriFormatException)
+            {
+                return null;
+            }
+        }
+
 		/// <summary>
 		/// Builds the <see cref="HyperLink"/>.NavigateUrl for an EditPost Link by determining
 		/// the current Subfolder and adding it to the URL if necessary.

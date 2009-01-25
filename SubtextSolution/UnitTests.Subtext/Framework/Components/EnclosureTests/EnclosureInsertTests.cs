@@ -17,6 +17,7 @@ using System;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 {
@@ -42,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 
             Enclosures.Create(enc);
 
-            Entry newEntry = Entries.GetEntry(entryId, false);
+            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, false);
 
             Assert.IsNotNull(newEntry.Enclosure,errMsg);
 
@@ -57,7 +58,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures", "Listen to my great podcast");
             int entryId = Entries.Create(e);
 
-            Entry newEntry = Entries.GetEntry(entryId, false);
+            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, false);
 
             Assert.IsNull(newEntry.Enclosure, "Enclusure must be null");
         }

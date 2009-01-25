@@ -24,6 +24,7 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Security;
 using Subtext.Framework.Tracking;
 using Subtext.Web.Controls;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -68,7 +69,8 @@ namespace Subtext.Web.UI.Controls
 				DisplayEditLink(entry);
 
 				//Track this entry
-				EntryTracker.Track(Context, entry.Id, Blog.Id);
+                var entryTracker = new EntryTracker(new StatsRepository(SubtextContext.Repository, Config.Settings.Tracking));
+				entryTracker.Track(SubtextContext, entry.Id, Blog.Id);
 
 				//Set the page title
 				Globals.SetTitle(entry.Title, Context);
@@ -177,7 +179,7 @@ namespace Subtext.Web.UI.Controls
 					if(String.IsNullOrEmpty(editLink.Text) && String.IsNullOrEmpty(editLink.ImageUrl))
 					{
 						//We'll slap on our little pencil icon.
-						editLink.ImageUrl = Blog.VirtualDirectoryRoot + "Images/edit.gif";
+						editLink.ImageUrl = Url.EditIconUrl();
 					}
 				}
 				else

@@ -30,6 +30,7 @@ using Subtext.Framework.Security;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Web.UI.Pages;
+using Subtext.Framework.Services;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -203,7 +204,11 @@ namespace Subtext.Web.UI.Controls
 					if(IsCommentAllowed)
 					{
 						FeedbackItem feedbackItem = CreateFeedbackInstanceFromFormInput(currentEntry);
-						FeedbackItem.Create(feedbackItem, new CommentFilter(HttpContext.Current.Cache));
+                        IFeedbackSpamService feedbackService = null;
+                        if (Blog.FeedbackSpamServiceEnabled) {
+                            feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
+                        }
+						FeedbackItem.Create(feedbackItem, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService));
                         var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
                         emailService.EmailCommentToBlogAuthor(feedbackItem);
 						

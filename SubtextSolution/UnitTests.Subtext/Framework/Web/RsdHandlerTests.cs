@@ -24,7 +24,7 @@ namespace UnitTests.Subtext.Framework.Web
 
             var urlHelper = new Mock<UrlHelper>();
             urlHelper.Setup(u => u.BlogUrl()).Returns("/");
-            urlHelper.Setup(u => u.MetaweblogApiUrl(blog)).Returns(new Uri("http://example.com/sub/services/metablogapi.aspx"));
+            urlHelper.Setup(u => u.MetaWeblogApiUrl(blog)).Returns(new Uri("http://example.com/sub/services/metablogapi.aspx"));
 
 			StringBuilder builder = new StringBuilder();
 			XmlWriter writer = XmlWriter.Create(builder);

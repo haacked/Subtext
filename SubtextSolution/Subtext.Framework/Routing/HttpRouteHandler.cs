@@ -18,7 +18,7 @@ using System.Web.Routing;
 
 namespace Subtext.Framework.Routing
 {
-    public class HttpRouteHandler<THandler> : IRouteHandler where THandler : IHttpHandler, new()
+    public class HttpRouteHandler<THandler> : RouteHandlerBase where THandler : IHttpHandler, new()
     {
         public HttpRouteHandler(THandler handler) {
             HttpHandler = handler;
@@ -34,12 +34,8 @@ namespace Subtext.Framework.Routing
             private set; 
         }
 
-        public IHttpHandler GetHttpHandler(RequestContext requestContext) {
-            IRoutableHandler routableHandler = HttpHandler as IRoutableHandler;
-            if (routableHandler != null) {
-                routableHandler.RequestContext = requestContext;
-            }
-
+        protected override IHttpHandler GetHandler(RequestContext requestContext)
+        {
             return HttpHandler;
         }
     }

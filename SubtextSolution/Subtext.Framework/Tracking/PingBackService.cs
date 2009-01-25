@@ -42,6 +42,8 @@ using Subtext.Framework.Email;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 using Subtext.Framework.XmlRpc;
+using Subtext.Framework.Services;
+using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Tracking
 {
@@ -83,7 +85,11 @@ namespace Subtext.Framework.Tracking
 
 			//PTR = Pingback - TrackBack - Referral
 			Trackback trackback = new Trackback(postId, HtmlHelper.SafeFormat(pageTitle), new Uri(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle));
-			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
+            IFeedbackSpamService feedbackService = null;
+            if (Blog.FeedbackSpamServiceEnabled) {
+                feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
+            }
+            FeedbackItem.Create(trackback, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService));
 
             //TODO: Create this using IoC container
             var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);

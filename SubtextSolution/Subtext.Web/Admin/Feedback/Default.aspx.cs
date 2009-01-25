@@ -10,6 +10,8 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Web.Admin.Pages;
+using Subtext.Framework.Services;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Feedback
 {
@@ -229,8 +231,7 @@ namespace Subtext.Web.Admin.Feedback
         /// <param name="e"></param>
         protected void OnDeleteClick(object sender, EventArgs e)
         {
-            if (ApplyActionToCheckedFeedback(FeedbackItem.Delete) == 0)
-            {
+            if (ApplyActionToCheckedFeedback(FeedbackItem.Delete) == 0) {
                 Messages.ShowMessage("Nothing was selected to be deleted.", true);
                 return;
             }
@@ -244,8 +245,7 @@ namespace Subtext.Web.Admin.Feedback
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void OnConfirmSpam(object sender, EventArgs e)
         {
-            if (ApplyActionToCheckedFeedback(FeedbackItem.ConfirmSpam) == 0)
-            {
+            if (ApplyActionToCheckedFeedback(FeedbackItem.ConfirmSpam) == 0) {
                 Messages.ShowMessage("Nothing was selected as spam.", true);
                 return;
             }
@@ -260,23 +260,26 @@ namespace Subtext.Web.Admin.Feedback
         /// <param name="e"></param>
         protected void OnDestroyClick(object sender, EventArgs e)
         {
-            if (ApplyActionToCheckedFeedback(FeedbackItem.Destroy) == 0)
-            {
+            if (ApplyActionToCheckedFeedback(FeedbackItem.Destroy) == 0) {
                 Messages.ShowMessage("Nothing was selected to be destroyed.", true);
                 return;
             }
             BindList();
         }
 
-        private int ApplyActionToCheckedFeedback(FeedbackAction action)
+        private int ApplyActionToCheckedFeedback(Action<FeedbackItem, IFeedbackSpamService> action)
         {
+            IFeedbackSpamService feedbackService = null;
+            if (Config.CurrentBlog.FeedbackSpamServiceEnabled) {
+                feedbackService = new AkismetSpamService(Config.CurrentBlog.FeedbackSpamServiceKey, Config.CurrentBlog, null, Url);
+            }
+
             int actionsApplied = 0;
             foreach (RepeaterItem item in feedbackRepeater.Items)
             {
                 // Get the checkbox from the item or the alternating item.
                 CheckBox deleteCheck = item.FindControl("chkDelete") as CheckBox;
-                if (deleteCheck == null)
-                {
+                if (deleteCheck == null) {
                     deleteCheck = item.FindControl("chkDeleteAlt") as CheckBox;
                 }
 
@@ -290,13 +293,12 @@ namespace Subtext.Web.Admin.Feedback
                     }
 
                     int id;
-                    if (feedbackId != null && int.TryParse(feedbackId.Value, out id))
-                    {
+                    if (feedbackId != null && int.TryParse(feedbackId.Value, out id)) {
                         FeedbackItem feedbackItem = FeedbackItem.Get(id);
-                        if (feedbackItem != null)
-                        {
+                        if (feedbackItem != null) {
                             actionsApplied++;
-                            action(feedbackItem);
+
+                            action(feedbackItem, feedbackService);
                         }
                     }
                 }

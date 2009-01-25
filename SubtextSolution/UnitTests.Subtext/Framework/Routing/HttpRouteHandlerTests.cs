@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeHandler = new HttpRouteHandler<FakeHttpHandler>(httpHandler);
             
             //act
-            var returnedHandler = routeHandler.GetHttpHandler(null);
+            var returnedHandler = routeHandler.HttpHandler;
 
             //assert
             Assert.AreEqual(httpHandler, returnedHandler);
@@ -33,29 +33,11 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeHandler = new HttpRouteHandler<FakeHttpHandler>();
 
             //act
-            var returnedHandler = routeHandler.GetHttpHandler(null);
+            var returnedHandler = routeHandler.HttpHandler;
 
             //assert
             Assert.AreEqual(typeof(FakeHttpHandler), returnedHandler.GetType());
         }
-
-        [Test]
-        public void GetHandler_WithRoutableHandler_SetsRequestContext()
-        {
-            //arrange
-            var routeData = new RouteData();
-            var httpContext = new Mock<HttpContextBase>();
-            var requestContext = new RequestContext(httpContext.Object, routeData);
-            var handler = new FakeRoutableHttpHandler();
-            var routeHandler = new HttpRouteHandler<FakeRoutableHttpHandler>(handler);
-
-            //act
-            var returnedHandler = routeHandler.GetHttpHandler(requestContext) as IRoutableHandler;
-
-            //assert
-            Assert.AreEqual(requestContext, returnedHandler.RequestContext);
-        }
-
     }
 
     internal class FakeHttpHandler : IHttpHandler {

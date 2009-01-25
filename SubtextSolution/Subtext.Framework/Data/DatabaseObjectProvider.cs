@@ -23,6 +23,8 @@ using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 using Subtext.Framework.Web.HttpModules;
+using System.Web;
+using System.Web.Caching;
 
 namespace Subtext.Framework.Data
 {
@@ -43,7 +45,7 @@ namespace Subtext.Framework.Data
                 }
                 else
                 {
-                    return Config.CurrentBlog.Id;
+                    return BlogRequest.Current.Blog.Id;
                 }
             }
         }
@@ -54,45 +56,34 @@ namespace Subtext.Framework.Data
             }
         }
 
-        private static bool FormatEntry(Entry e, bool useKeyWords)
-		{
-			//Do this before we validate the text
-			if(useKeyWords)
-			{
-				KeyWords.Format(e);
-			}
-
-			//TODO: Make this a configuration option.
-			e.Body = Transform.EmoticonTransforms(e.Body);
-
+        private static bool ValidateEntry(Entry e) {
             //TODO: The following doesn't belong here. It's verification code.
-			if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body)) {
-				throw new IllegalPostCharactersException("Illegal Characters Found");
-			}
+            if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body)) {
+                throw new IllegalPostCharactersException("Illegal Characters Found");
+            }
 
-			//Never allow scripts in the title.
-			if(HtmlHelper.HasIllegalContent(e.Title)) {
-				throw new IllegalPostCharactersException("Illegal Characters Found");
-			}
+            //Never allow scripts in the title.
+            if (HtmlHelper.HasIllegalContent(e.Title)) {
+                throw new IllegalPostCharactersException("Illegal Characters Found");
+            }
 
-			if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Description)) {
-				throw new IllegalPostCharactersException("Illegal Characters Found");
-			}
+            if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Description)) {
+                throw new IllegalPostCharactersException("Illegal Characters Found");
+            }
 
-			//never allow scripts in the url.
-			if(HtmlHelper.HasIllegalContent(e.EntryName)) {
-				throw new IllegalPostCharactersException("Illegal Characters Found");
-			}
+            //never allow scripts in the url.
+            if (HtmlHelper.HasIllegalContent(e.EntryName)) {
+                throw new IllegalPostCharactersException("Illegal Characters Found");
+            }
 
-			if(!HtmlHelper.ConvertHtmlToXHtml(e)) {
-				return false;
-			}
+            if (!HtmlHelper.ConvertHtmlToXHtml(e)) {
+                return false;
+            }
 
-			return true;
-		}
+            return true;
+        }
 
-        public override bool TrackEntry(EntryView entryView)
-        {
+        public override bool TrackEntry(EntryView entryView) {
             return _procedures.TrackEntry(entryView.EntryId, entryView.BlogId, entryView.ReferralUrl, entryView.PageViewType == PageViewType.WebView);
         }
 

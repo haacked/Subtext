@@ -12,6 +12,8 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
 using Subtext.Framework.Web;
 using Subtext.Web.Controls.Captcha;
+using Subtext.Framework.Services;
+using Subtext.Framework.Data;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +145,11 @@ namespace Subtext.Web.UI.Controls
 
 			try
 			{
-				FeedbackItem.Create(contactMessage, new CommentFilter(HttpContext.Current.Cache));
+                IFeedbackSpamService feedbackService = null;
+                if (Blog.FeedbackSpamServiceEnabled) {
+                    feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
+                }
+				FeedbackItem.Create(contactMessage, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService));
                 var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
                 emailService.EmailCommentToBlogAuthor(contactMessage);
 				lblMessage.Text = "Your message was sent.";

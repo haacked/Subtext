@@ -28,18 +28,15 @@ namespace Subtext.Framework.Routing
         public virtual RouteData GetRouteData(HttpContextBase httpContext, BlogRequest blogRequest)
         {
             RouteData routeData = null;
-            if (String.IsNullOrEmpty(blogRequest.Subfolder))
-            {
+            if (String.IsNullOrEmpty(blogRequest.Subfolder)) {
                 routeData = base.GetRouteData(httpContext);
-                if (routeData != null)
-                {
+                if (routeData != null) {
                     //Add current subfolder info.
                     routeData.Values.Add("subfolder", string.Empty);
                 }
             }
-            else
-            {
-                routeData = RouteForSubfolder.GetRouteData(httpContext);
+            else {
+                routeData = RouteForSubfolder.GetRouteData(httpContext, blogRequest.Subfolder);
             }
 
             return routeData;

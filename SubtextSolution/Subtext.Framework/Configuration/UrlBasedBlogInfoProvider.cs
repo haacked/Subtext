@@ -80,21 +80,6 @@ namespace Subtext.Framework.Configuration
 			set;
 		}
 
-		static T GetRequestCache<T>(string key)
-		{
-			return (T)HttpContext.Current.Items[key];
-		}
-
-		static void SetRequestCache<T>(string key, T value)
-		{
-			HttpContext.Current.Items[key] = value;
-		}
-
-		static T GetApplicationCache<T>(string key)
-		{
-			return (T) HttpContext.Current.Cache[key];
-		}
-
 		/// <summary>
 		/// Returns a <see cref="Blog"/> instance for the current blog. 
 		/// The object first checks the context for an existing object. 
@@ -158,51 +143,6 @@ namespace Subtext.Framework.Configuration
 			{
 				log.Warn("Could not map the image directory.", nullException);
 			}
-		}
-
-		private Blog GetAggregateBlog(string mCacheKey)
-		{
-			Blog info;
-			info = Blog.AggregateBlog;
-			CacheConfig(HttpContext.Current.Cache, info, mCacheKey);
-			HttpContext.Current.Items.Add(cacheKey, info);
-			return info;
-		}
-
-		/// <summary>
-		/// Gets the current host, stripping off the initial "www." if 
-		/// found.
-		/// </summary>
-		/// <param name="Request">Request.</param>
-		/// <returns></returns>
-		protected static string GetCurrentHost(HttpRequest Request)
-		{
-			string host = Request.Url.Host;
-			if(!Request.Url.IsDefaultPort)
-			{
-				host  += ":" + Request.Url.Port.ToString(CultureInfo.InvariantCulture);
-			}
-
-			if (host.StartsWith("www.", StringComparison.InvariantCultureIgnoreCase))
-			{
-				host = host.Substring(4);
-			}
-			return host;
-		}
-
-		/// <summary>
-		/// Stores the blog configuration in the cache using the specified cache key.
-		/// </summary>
-		/// <remarks>
-		/// The config is stored with a high <see cref="CacheItemPriority"/>.
-		/// No callback is registered for the removal of the blog item.
-		/// </remarks>
-		/// <param name="cache">Cache.</param>
-		/// <param name="info">Config.</param>
-		/// <param name="cacheKEY">Cache KEY.</param>
-		protected void CacheConfig(Cache cache, Blog info, string cacheKey)
-		{
-			cache.Insert(cacheKey, info, null, DateTime.Now.AddSeconds(CacheTime), TimeSpan.Zero, CacheItemPriority.High, null);
 		}
 	}
 }

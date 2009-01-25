@@ -31,7 +31,7 @@ namespace Subtext.Web.UI.Controls
             base.OnLoad(e);
             int? groupId = GetGroupIdFromQueryString();
 
-            var images = ObjectProvider.Instance().GetImages(Blog.AggregateBlog.Host, groupId, Count);
+            var images = ObjectProvider.Instance().GetImages(HostInfo.Instance.AggregateBlog.Host, groupId, Count);
             RecentImages.DataSource = images;
             RecentImages.DataBind();
         }

@@ -72,18 +72,6 @@ namespace Subtext.Web.Admin.WebUI
 		}
 
 		/// <summary>
-		/// The breadcrumb control that shows the user where 
-		/// in the admin he or she is.
-		/// </summary>
-		public BreadCrumbs BreadCrumb
-		{
-			get
-			{
-				return null;
-			}
-		}
-
-		/// <summary>
 		/// The title of the page.
 		/// </summary>
 		public string Title

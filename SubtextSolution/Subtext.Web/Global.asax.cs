@@ -25,16 +25,18 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.ImportExport;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Syndication.Admin;
 using Subtext.Framework.Tracking;
+using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.XmlRpc;
 using Subtext.Web.Controls.Captcha;
 using Subtext.Web.SiteMap;
 using Subtext.Web.UI.Handlers;
-using Subtext.Framework.Web.HttpModules;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web
 {
@@ -52,7 +54,7 @@ namespace Subtext.Web
             routes.MapPage("logout");
             
             routes.MapHttpHandler<SubtextBlogMlHttpHandler>("admin/handlers/BlogMLExport.ashx");
-            routes.MapHttpHandler<RssAdminHandler>("admin/{adminRss}Rss.axd");
+            routes.MapHttpHandler<RssAdminHandler>("admin-rss", "admin/{feedName}Rss.axd");
             routes.MapDirectory("admin");
             routes.MapDirectory("providers");
 
@@ -66,10 +68,11 @@ namespace Subtext.Web
             routes.MapHttpHandler<AtomHandler>("atom", "atom.aspx");
             routes.MapHttpHandler<RssCommentHandler>("comment-rss", "comments/commentRss/{id}.aspx");
             routes.MapHttpHandler<CommentHandler>("comment-api", "comments/{id}.aspx", new { id = @"\d+" });
-
+            routes.MapHttpHandler<RsdHandler>("rsd", "rsd.xml.ashx");
             routes.MapHttpHandler<AggBugHandler>("aggbug", "aggbug/{id}.aspx");
-            routes.MapHttpHandler<BlogSecondaryCssHandler>("customcss.aspx");
+            routes.MapHttpHandler<BlogSecondaryCssHandler>("customcss", "customcss.aspx");
             routes.MapHttpHandler<RssCategoryHandler>("category/{categoryName}.aspx/rss", new {categoryName=@"[-\w\s\d]+"});
+            
             routes.MapPageToControl("contact");
             routes.MapPageToControl("ArchivePostPage");
             routes.MapPageToControl("ArticleCategories");
@@ -114,10 +117,9 @@ namespace Subtext.Web
                 , new { categoryType = @"category|stories" }
                 , new[] { "CategoryEntryList" });
 
-            routes.MapControls("tags/{tag}/default.aspx", new[] { "TagEntryList" });
-            routes.MapControls("tags/default.aspx", new[] { "FullTagCloud" });
-            routes.MapControls("tags/default.aspx", new[] { "FullTagCloud" });
-            routes.MapHttpHandler<RssTagHandler>("tags/{tag}/rss.aspx");
+            routes.MapControls("tag", "tags/{tag}/default.aspx", null, new[] { "TagEntryList" });
+            routes.MapControls("tag-cloud", "tags/default.aspx", null, new[] { "FullTagCloud" });
+            routes.MapHttpHandler<RssTagHandler>("tag-rss", "tags/{tag}/rss.aspx");
 
             routes.MapHttpHandler<TrackBackHandler>("trackbacks", "services/trackbacks/{id}.aspx", new { id = @"\d+" });
             routes.MapXmlRpcHandler<PingBackService>("services/pingback/{id}.aspx", new { id = @"\d+" });
@@ -326,7 +328,8 @@ namespace Subtext.Web
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void Application_End(Object sender, EventArgs e)
         {
-            Stats.ClearQueue(true);
+            StatsRepository stats = new StatsRepository(ObjectProvider.Instance(), Config.Settings.Tracking);
+            stats.ClearQueue(true);
             _logInitialized = false;
         }
     }
