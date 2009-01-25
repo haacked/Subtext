@@ -1,28 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Configuration;
-using System.Data;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Components;
 using Subtext.Extensibility;
 using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Feedback {
-    public partial class FeedbackMaster : System.Web.UI.MasterPage 
+    public partial class FeedbackMaster : AdminMasterPage 
     {
-        protected string CreateAdminRssUrl(string pageName) 
-        {
-            return String.Format("{0}Admin/{1}", Config.CurrentBlog.RootUrl, pageName);
-        }
-
-        public string ListUrl() 
-        {
+        public string ListUrl() {
             return ListUrl(PageIndex, FeedbackStatus, FeedbackType);
         }
 

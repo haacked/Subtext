@@ -2,6 +2,7 @@ using System;
 using System.Web.UI;
 using Subtext.Framework.Configuration;
 using Subtext.Web.Controls;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -17,6 +18,13 @@ namespace Subtext.Web.UI.Controls
 		{
 		}
 
+        public UrlHelper Url { 
+            get {
+                var page = this.Page as IRoutableHandler;
+                return page.Url;
+            }
+        }
+
 		/// <summary>
 		/// Raises the <see cref="E:System.Web.UI.Control.Load"/>
 		/// event.
@@ -26,7 +34,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			this.BlogTitle = Config.CurrentBlog.Title;
 			this.BlogTool = "Subtext";
-			this.BlogUrl = Config.CurrentBlog.RootUrl.ToString();
+            this.BlogUrl = Url.BlogUrl().ToFullyQualifiedUrl(Config.CurrentBlog).ToString();
 			
 			this.CommentAuthorFieldName = GetControlUniqueId("tbName");
 			this.CommentButtonId = GetControlUniqueId("btnSubmit");

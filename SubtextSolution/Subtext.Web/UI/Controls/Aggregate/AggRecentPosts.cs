@@ -27,7 +27,7 @@ namespace Subtext.Web.UI.Controls
 
             int? groupId = GetGroupIdFromQueryString();
 
-            var entries = ObjectProvider.Instance().GetRecentEntries(Blog.AggregateBlog.Host, groupId, Count);
+            var entries = ObjectProvider.Instance().GetRecentEntries(HostInfo.Instance.AggregateBlog.Host, groupId, Count);
             RecentPosts.DataSource = entries;
             RecentPosts.DataBind();
         }

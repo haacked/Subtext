@@ -293,6 +293,20 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
+        public void BlogUrlWithExplicitBlogHavingSubfolder_WithoutSubfolderInRouteData_ReturnsSubfolder()
+        {
+            //arrange
+            var routeData = new RouteData();
+            UrlHelper helper = SetupUrlHelper("/", routeData);
+
+            //act
+            string url = helper.BlogUrl(new Blog { Subfolder = "subfolder" });
+
+            //assert
+            Assert.AreEqual("/subfolder/", url);
+        }
+
+        [Test]
         public void BlogUrl_WithSubfolderAndAppPath_ReturnsSubfolder()
         {
             //arrange
@@ -505,6 +519,22 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
+        public void AdminRssUrl_WithFeednameAndSubfolderAndApp_ReturnsAdminRssUrl()
+        {
+            //arrange
+            var blog = new Blog { Host = "example.com", Subfolder = "sub" };
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            var url = helper.AdminRssUrl("Referrers");
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/sub/admin/ReferrersRss.axd", url.ToString());
+        }
+
+        [Test]
         public void LoginUrl_WithSubfolderAndApp_ReturnsLoginUrlInSubfolder()
         {
             //arrange
@@ -565,7 +595,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void MetaweblogApiUrl_WithSubfolderAndApp_ReturnsFullyQualifiedUrl()
+        public void MetaWeblogApiUrl_WithSubfolderAndApp_ReturnsFullyQualifiedUrl()
         {
             //arrange
             var blog = new Blog { Host = "example.com", Subfolder="sub"};
@@ -574,10 +604,119 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
 
             //act
-            var url = helper.MetaweblogApiUrl(blog);
+            var url = helper.MetaWeblogApiUrl(blog);
 
             //assert
             Assert.AreEqual("http://example.com/Subtext.Web/sub/services/metablogapi.aspx", url.ToString());
+        }
+
+        [Test]
+        public void RsdUrl_WithSubfolderAndApp_ReturnsFullyQualifiedUrl()
+        {
+            //arrange
+            var blog = new Blog { Host = "example.com", Subfolder = "sub" };
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            var url = helper.RsdUrl(blog);
+
+            //assert
+            Assert.AreEqual("http://example.com/Subtext.Web/sub/rsd.xml.ashx", url.ToString());
+        }
+        
+        [Test]
+        public void CustomCssUrl_WithSubfolderAndApp_ReturnsFullyQualifiedUrl()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            var url = helper.CustomCssUrl();
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/sub/customcss.aspx", url.ToString());
+        }
+
+        [Test]
+        public void TagUrl_WithSubfolderAndApp_ReturnsTagUrl()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            var url = helper.TagUrl("tagName");
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/sub/tags/tagName/default.aspx", url.ToString());
+        }
+
+        [Test]
+        public void TagCloudUrl_WithSubfolderAndApp_ReturnsTagCloudUrl()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            var url = helper.TagCloudUrl();
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/sub/tags/default.aspx", url.ToString());
+        }
+
+        [Test]
+        public void AppRootUrl_WithSubfolder_ReturnsAppRootAndIgnoresSubfolder()
+        {
+            //arrange
+            var blog = new Blog { Host = "example.com", Subfolder = "sub" };
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/", routeData);
+
+            //act
+            var url = helper.AppRoot();
+
+            //assert
+            Assert.AreEqual("/", url.ToString());
+        }
+
+        [Test]
+        public void AppRootUrl_WithSubfolderAndApp_ReturnsAppRootAndIgnoresSubfolder()
+        {
+            //arrange
+            var blog = new Blog { Host = "example.com", Subfolder = "sub" };
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            var url = helper.AppRoot();
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/", url.ToString());
+        }
+
+        [Test]
+        public void EditIcon_WithSubfolderAndApp_ReturnsAppRootAndIgnoresSubfolder()
+        {
+            //arrange
+            var blog = new Blog { Host = "example.com", Subfolder = "sub" };
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            var url = helper.EditIconUrl();
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/images/edit.gif", url.ToString());
         }
 
         private static UrlHelper SetupUrlHelper(string appPath) {

@@ -10,6 +10,8 @@ namespace Subtext.BlogML
 {
 	public abstract class BlogMLHttpHandler : BaseHttpHandler
 	{
+        public abstract IBlogMLProvider GetBlogMlProvider();
+
 		/// <summary>
 		/// Http handler used to export BlogML.
 		/// </summary>
@@ -42,13 +44,11 @@ namespace Subtext.BlogML
 			context.Response.AddHeader("content-disposition", "attachment; filename=BlogMLExport.xml");
 
 			context.Response.Clear();
-			WriteBlogML(context.Response.OutputStream);
+			WriteBlogML(context.Response.Output);
 			context.Response.End();
 		}
 
-        public abstract IBlogMLProvider GetBlogMlProvider();
-
-		private void WriteBlogML(Stream outStream)
+		private void WriteBlogML(TextWriter outputWriter)
 		{
 			IBlogMLProvider provider = GetBlogMlProvider();
 
@@ -58,7 +58,7 @@ namespace Subtext.BlogML
 
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
 
-			using(XmlTextWriter xmlWriter = new XmlTextWriter(outStream, Encoding.UTF8)) {
+            using (XmlTextWriter xmlWriter = new XmlTextWriter(outputWriter)) {
                 xmlWriter.Formatting = Formatting.Indented;
 				writer.Write(xmlWriter);
 				xmlWriter.Flush();

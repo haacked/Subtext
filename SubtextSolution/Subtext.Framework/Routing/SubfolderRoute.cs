@@ -15,6 +15,7 @@
 
 using System.Web;
 using System.Web.Routing;
+using System;
 
 namespace Subtext.Framework.Routing
 {
@@ -28,6 +29,16 @@ namespace Subtext.Framework.Routing
         }
 
         Route _parent;
+
+        public RouteData GetRouteData(HttpContextBase httpContext, string subfolder) {
+            var routeData = GetRouteData(httpContext);
+            if (routeData != null) {
+                if (!String.Equals(subfolder, routeData.Values["subfolder"] as string, StringComparison.OrdinalIgnoreCase)) {
+                    return null;
+                }
+            }
+            return routeData;
+        }
 
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {

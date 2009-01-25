@@ -47,9 +47,8 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				if(writer == null)
-				{
-					writer = new AtomWriter(HttpContext.Response.Output, Entries.GetMainSyndicationEntries(Blog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding, SubtextContext);
+				if(writer == null) {
+					writer = new AtomWriter(SubtextContext.RequestContext.HttpContext.Response.Output, Entries.GetMainSyndicationEntries(Blog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding, SubtextContext);
 				}
 				return writer;
 			}

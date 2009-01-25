@@ -102,11 +102,6 @@ namespace Subtext.Web.Admin.Pages
             }
         }
 
-		protected static string CreateAdminRssUrl(string pageName)
-		{
-			return String.Format("{0}Admin/{1}", Config.CurrentBlog.RootUrl, pageName);
-		}
-	    
 		public ConfirmCommand Command
 		{
 			get;

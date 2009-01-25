@@ -100,7 +100,7 @@ namespace Subtext.Framework.Web.Handlers
 			writer.WriteStartElement("api");
 			writer.WriteAttributeString("name", "MetaWeblog");
 			writer.WriteAttributeString("preferred", "true");
-            writer.WriteAttributeString("apiLink", urlHelper.MetaweblogApiUrl(blog).ToString());
+            writer.WriteAttributeString("apiLink", urlHelper.MetaWeblogApiUrl(blog).ToString());
 			writer.WriteAttributeString("blogID", blog.Id.ToString(CultureInfo.InvariantCulture));
 			writer.WriteEndElement(); // </api>
 			

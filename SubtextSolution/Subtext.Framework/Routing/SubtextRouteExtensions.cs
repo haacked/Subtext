@@ -14,9 +14,12 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Routing;
 using Subtext.Framework.XmlRpc;
+using System;
+using System.Configuration;
 
 namespace Subtext.Framework.Routing
 {
@@ -48,7 +51,12 @@ namespace Subtext.Framework.Routing
         }
 
         public static void MapControls(this RouteCollection routes, string name, string url, RouteValueDictionary constraints, IEnumerable<string> controls) {
-            routes.Add(name, new PageRoute(url, "~/Dtp.aspx", controls) { Constraints = constraints });
+            routes.MapControls(name, url, constraints, controls, null);
+        }
+
+        public static void MapControls(this RouteCollection routes, string name, string url, RouteValueDictionary constraints, IEnumerable<string> controls, object defaults) {
+        
+            routes.Add(name, new PageRoute(url, "~/Dtp.aspx", controls) { Constraints = constraints, Defaults = new RouteValueDictionary(defaults) });
         }
 
         public static void MapControls(this RouteCollection routes, string url, IEnumerable<string> controls) {
@@ -65,31 +73,13 @@ namespace Subtext.Framework.Routing
         /// </summary>
         /// <param name="routes"></param>
         public static void MapRoot(this RouteCollection routes) {
-            var aggDisabledConstraints = new RouteValueDictionary();
-            aggDisabledConstraints.Add("", new AggregateEnabledConstraint(false));
-            routes.MapControls("Default.aspx", aggDisabledConstraints, new[] { "homepage" });
-            routes.MapControls("root", string.Empty, aggDisabledConstraints, new[] { "homepage" });
-
-            var aggEnabledConstraints = new RouteValueDictionary();
-            aggEnabledConstraints.Add("", new AggregateEnabledConstraint(true));
-            routes.Add(new SubtextRoute("Default.aspx", new PageRouteHandler("~/AggDefault.aspx")) { Constraints = aggEnabledConstraints });
-            routes.Add(new SubtextRoute(string.Empty, new PageRouteHandler("~/AggDefault.aspx")) { Constraints = aggEnabledConstraints });
+            routes.Add("root", new RootRoute(String.Equals(ConfigurationManager.AppSettings["AggregateEnabled"], "true", StringComparison.OrdinalIgnoreCase)));
         }
 
         public static void MapPage(this RouteCollection routes, string name)
         {
             string url = name + ".aspx";
             routes.Add(name, new SubtextRoute(url, new PageRouteHandler("~/" + url)));
-        }
-
-        public static void MapPage(this RouteCollection routes, string name, string url, string virtualPath)
-        {
-            routes.Add(name, new SubtextRoute(url, new PageRouteHandler(virtualPath)));
-        }
-
-        public static void MapPage(this RouteCollection routes, string url, string virtualPath)
-        {
-            routes.Add(new SubtextRoute(url, new PageRouteHandler(virtualPath)));
         }
 
         public static void MapHttpHandler<THttpHandler>(this RouteCollection routes, string name, string url) where THttpHandler : IHttpHandler, new() {
@@ -99,12 +89,6 @@ namespace Subtext.Framework.Routing
         public static void MapHttpHandler<THttpHandler>(this RouteCollection routes, string url) 
             where THttpHandler : IHttpHandler, new() {
                 routes.MapHttpHandler<THttpHandler>(null, url);
-        }
-
-        public static void MapXmlRpcHandler<TXmlRpcHandler>(this RouteCollection routes, string url)
-            where TXmlRpcHandler : SubtextXmlRpcService
-        {
-            routes.Add(new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>()));
         }
 
         public static void MapXmlRpcHandler<TXmlRpcHandler>(this RouteCollection routes, string url, object constraints)

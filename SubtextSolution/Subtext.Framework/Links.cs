@@ -26,8 +26,6 @@ namespace Subtext.Framework
 	/// </summary>
 	public static class Links
 	{
-		#region Paged Links
-
 		/// <summary>
 		/// Returns a pageable collection of Link instances for the specified category.
 		/// </summary>
@@ -41,25 +39,15 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetPagedLinks(categoryId, pageIndex, pageSize, sortDescending);
 		}
 
-		#endregion
-
-		#region LinkCollection
-
         public static ICollection<Link> GetLinkCollectionByPostID(int PostID)
 		{
 			return ObjectProvider.Instance().GetLinkCollectionByPostID(PostID);
 		}
 
-		#endregion
-
-		#region Single Link
-
 		public static Link GetSingleLink(int linkID)
 		{
 			return ObjectProvider.Instance().GetLink(linkID);
 		}
-
-		#endregion
 
         #region ICollection<LinkCategory>
 

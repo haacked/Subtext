@@ -20,6 +20,8 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
+using Subtext.Framework.Services;
+using Subtext.Framework.Data;
 
 namespace Subtext.Framework
 {
@@ -32,15 +34,24 @@ namespace Subtext.Framework
 	{
 		private const string FILTER_CACHE_KEY = "COMMENT FILTER:";
 
-		Cache cache;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CommentFilter"/> class.
 		/// </summary>
-		public CommentFilter(Cache cache)
+		public CommentFilter(ICache cache, IFeedbackSpamService spamService)
 		{
-			this.cache = cache;
+			Cache = cache;
+            SpamService = spamService;
 		}
+
+        protected ICache Cache {
+            get;
+            private set;
+        }
+
+        protected IFeedbackSpamService SpamService {
+            get;
+            private set;
+        }
 		
 		/// <summary>
 		/// Validates the feedback before it has been persisted.
@@ -82,9 +93,8 @@ namespace Subtext.Framework
 				if (!Config.CurrentBlog.ModerationEnabled)
 				{
 					//Akismet Check...
-					if (Config.CurrentBlog.FeedbackSpamServiceEnabled)
-					{
-						if (Config.CurrentBlog.FeedbackSpamService.IsSpam(feedbackItem))
+					if (Config.CurrentBlog.FeedbackSpamServiceEnabled && SpamService != null) {
+						if (SpamService.IsSpam(feedbackItem))
 						{
 							FlagAsSpam(feedbackItem);
 							return;
@@ -124,7 +134,7 @@ namespace Subtext.Framework
 			if(Config.CurrentBlog.CommentDelayInMinutes <= 0)
 				return true;
 
-			object lastComment = cache.Get(FILTER_CACHE_KEY + feedbackItem.IpAddress);
+			object lastComment = Cache[FILTER_CACHE_KEY + feedbackItem.IpAddress];
 			
 			if(lastComment != null)
 			{
@@ -133,7 +143,7 @@ namespace Subtext.Framework
 			}
 
 			//Add to cache.
-            this.cache.Insert(FILTER_CACHE_KEY + feedbackItem.IpAddress, string.Empty, null, DateTime.Now.AddMinutes(Config.CurrentBlog.CommentDelayInMinutes), TimeSpan.Zero);
+            Cache.Insert(FILTER_CACHE_KEY + feedbackItem.IpAddress, string.Empty, null, DateTime.Now.AddMinutes(Config.CurrentBlog.CommentDelayInMinutes), TimeSpan.Zero);
 			return true;
 		}
 
@@ -142,14 +152,14 @@ namespace Subtext.Framework
 		{
 			const int RECENT_ENTRY_CAPACITY = 10;
 
-			if(cache == null)
+			if(Cache == null)
 				return false;
 			
 			// Check the cache for the last 10 comments
 			// Chances are, if a spam attack is occurring, then 
 			// this entry will be a duplicate of a recent entry.
 			// This checks in memory before going to the database (or other persistent store).
-			Queue<string> recentComments = this.cache.Get(FILTER_CACHE_KEY + ".RECENT_COMMENTS") as Queue<string>;
+			Queue<string> recentComments = Cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] as Queue<string>;
 			if(recentComments != null)
 			{
 				if (recentComments.Contains(feedbackItem.ChecksumHash))
@@ -158,7 +168,7 @@ namespace Subtext.Framework
 			else
 			{
 				recentComments = new Queue<string>(RECENT_ENTRY_CAPACITY);	
-				this.cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] = recentComments;
+				Cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] = recentComments;
 			}
 
 			// Check the database
@@ -179,7 +189,7 @@ namespace Subtext.Framework
 		/// </summary>
 		public void ClearCommentCache()
 		{
-			this.cache.Remove(FILTER_CACHE_KEY + ".RECENT_COMMENTS");
+			Cache.Remove(FILTER_CACHE_KEY + ".RECENT_COMMENTS");
 		}
 	}
 }

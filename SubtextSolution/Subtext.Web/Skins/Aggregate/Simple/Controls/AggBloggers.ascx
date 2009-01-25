@@ -1,7 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" Inherits="Subtext.Web.UI.Controls.AggBloggers" %>
 <%@ Import Namespace="Subtext.Framework.Providers" %>
 <%
-    var blogs = ObjectProvider.Instance().GetBlogsByGroup(Blog.AggregateBlog.Host, BlogGroup);
+    var blogs = ObjectProvider.Instance().GetBlogsByGroup(HostInfo.Instance.AggregateBlog.Host, BlogGroup);
     System.Collections.Generic.ICollection<BlogGroup> groups;
     if (ShowGroups)
     {

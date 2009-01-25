@@ -17,7 +17,7 @@
 		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>" ></script>
 		<script type="text/javascript">
 			<%= AllowedHtmlJavascriptDeclaration %>
-			var subtextBlogInfo = new blogInfo('<%= Blog.VirtualDirectoryRoot %>', '<%= Url.BlogUrl() %>');
+			var subtextBlogInfo = new blogInfo('<%= Url.AppRoot() %>', '<%= Url.BlogUrl() %>');
 		</script>
 		<asp:Literal ID="scripts" runat="server" />
 		<asp:PlaceHolder ID="coCommentPlaceholder" runat="server" />
@@ -36,5 +36,6 @@
 			</st:MasterPage>
 		</form>
 	<asp:Literal ID="customTrackingCode" Runat="server" />
+	<div id="stylesheetTest"></div>
 	</body>
 </html>

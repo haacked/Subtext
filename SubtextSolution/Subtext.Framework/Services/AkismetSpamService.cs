@@ -43,7 +43,7 @@ namespace Subtext.Framework.Services
 
         public AkismetSpamService(string apiKey, Blog blog, AkismetClient akismetClient, UrlHelper urlHelper) {
             _blog = blog;
-            _akismet = akismetClient ?? new AkismetClient(apiKey, blog.RootUrl);
+            _akismet = akismetClient ?? new AkismetClient(apiKey, urlHelper.BlogUrl().ToFullyQualifiedUrl(blog));
             IWebProxy proxy = HttpHelper.GetProxy();
             if (proxy != null) {
                 _akismet.Proxy = proxy;

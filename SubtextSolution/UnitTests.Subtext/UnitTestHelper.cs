@@ -439,19 +439,23 @@ namespace UnitTests.Subtext
 		/// <returns></returns>
 		public static FeedbackItem CreateCommentInstance(int parentEntryId, string author, string title, string body, DateTime dateCreated)
 		{
-			FeedbackItem entry = new FeedbackItem(FeedbackType.Comment);
-			entry.SourceUrl = new Uri("http://subtextproject.com/blah/");
-			entry.BlogId = Config.CurrentBlog.Id;
-			entry.EntryId = parentEntryId;
-			entry.DateCreated = dateCreated;
-			entry.DateModified = entry.DateCreated;
-			entry.Title = title;
-			entry.Author = author;
-			entry.Body = body;
-			entry.Approved = true;
-
-			return entry;
+            return CreateCommentInstance(Config.CurrentBlog, parentEntryId, author, title, body, dateCreated);	
 		}
+
+        public static FeedbackItem CreateCommentInstance(Blog blog, int parentEntryId, string author, string title, string body, DateTime dateCreated) {
+            FeedbackItem entry = new FeedbackItem(FeedbackType.Comment);
+            entry.SourceUrl = new Uri("http://subtextproject.com/blah/");
+            entry.BlogId = blog.Id;
+            entry.EntryId = parentEntryId;
+            entry.DateCreated = dateCreated;
+            entry.DateModified = entry.DateCreated;
+            entry.Title = title;
+            entry.Author = author;
+            entry.Body = body;
+            entry.Approved = true;
+
+            return entry;
+        }
 	    
 	    /// <summary>
 	    /// Creates a blog post link category.

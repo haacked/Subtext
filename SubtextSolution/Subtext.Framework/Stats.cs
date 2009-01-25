@@ -29,18 +29,33 @@ namespace Subtext.Framework
 	/// <remarks>
 	/// Currently, we only track referrers to specific entries.
 	/// </remarks>
-	public static class Stats
-	{
-		static List<EntryView> queuedStatsList = null;
+	public class StatsRepository {
+
+        public StatsRepository(ObjectProvider repository, Subtext.Framework.Configuration.Tracking trackingSettings) {
+            Repository = repository;
+            Settings = trackingSettings;
+        }
+
+        protected ObjectProvider Repository {
+            get;
+            private set;
+        }
+
+        public Subtext.Framework.Configuration.Tracking Settings {
+            get;
+            private set;
+        }
+
+		static List<EntryView> _queuedStatsList = null;
 
 		/// <summary>
 		/// Static Constructor.
 		/// </summary>
-		static Stats()
+		static StatsRepository()
 		{
 			if(Config.Settings.Tracking.QueueStats)
 			{
-				queuedStatsList = new List<EntryView>();
+				_queuedStatsList = new List<EntryView>();
 			}
 		}
 
@@ -49,9 +64,8 @@ namespace Subtext.Framework
 		/// </summary>
 		public static int QueueCount
 		{
-			get
-			{
-				return queuedStatsList.Count;
+			get {
+				return _queuedStatsList.Count;
 			}
 		}
 
@@ -61,18 +75,16 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="save">Save.</param>
 		/// <returns></returns>
-		public static void ClearQueue(bool save)
+		public void ClearQueue(bool save)
 		{
-			using(TimedLock.Lock(queuedStatsList))
-			{
-				if(save)
-				{
-					EntryView[] entryViews = new EntryView[queuedStatsList.Count];
-					queuedStatsList.CopyTo(entryViews, 0);
+			using(TimedLock.Lock(_queuedStatsList)) {
+				if(save) {
+					EntryView[] entryViews = new EntryView[_queuedStatsList.Count];
+					_queuedStatsList.CopyTo(entryViews, 0);
 
 					ClearTrackEntryQueue(new List<EntryView>(entryViews));
 				}
-				queuedStatsList.Clear();	
+				_queuedStatsList.Clear();	
 			}
 		}
 
@@ -81,42 +93,49 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="entryView">Ev.</param>
 		/// <returns></returns>
-		public static void AddQuedStats(EntryView entryView)
+		public void AddQuedStats(EntryView entryView)
 		{
 			//Check for the limit
-			if (queuedStatsList.Count >= Config.Settings.Tracking.QueueStatsCount)
+			if (_queuedStatsList.Count >= Settings.QueueStatsCount)
 			{
 				//aquire the lock
-				using(TimedLock.Lock(queuedStatsList))
+				using(TimedLock.Lock(_queuedStatsList))
 				{
 					//make sure the pool queue was not cleared during a wait for the lock
-					if(queuedStatsList.Count >= Config.Settings.Tracking.QueueStatsCount)
+					if(_queuedStatsList.Count >= Settings.QueueStatsCount)
 					{
-						EntryView[] entryViewCopies = new EntryView[queuedStatsList.Count];
-						queuedStatsList.CopyTo(entryViewCopies, 0);
+						EntryView[] entryViewCopies = new EntryView[_queuedStatsList.Count];
+						_queuedStatsList.CopyTo(entryViewCopies, 0);
 
 						ClearTrackEntryQueue(new List<EntryView>(entryViewCopies));
-						queuedStatsList.Clear();	
+						_queuedStatsList.Clear();	
 					
 					}
 				}
 			}
-			queuedStatsList.Add(entryView);
+			_queuedStatsList.Add(entryView);
 		}
 
-		private static void ClearTrackEntryQueue(IEnumerable<EntryView> evc)
+		private void ClearTrackEntryQueue(IEnumerable<EntryView> evc)
 		{
-			ProcessStats ps = new ProcessStats(evc);
+			ProcessStats ps = new ProcessStats(evc, this);
 			ps.Enqueue();
 		}
 
 		//Class to encapsulate asynch processing of stats.
 		private class ProcessStats
 		{
-			public ProcessStats(IEnumerable<EntryView> evc)
+			public ProcessStats(IEnumerable<EntryView> evc, StatsRepository stats)
 			{
+                Stats = stats;
 				entryViews = evc;
 			}
+
+            StatsRepository Stats {
+                get;
+                set;
+            }
+
 			protected IEnumerable<EntryView> entryViews;
 
 			public void Enqueue()
@@ -126,18 +145,17 @@ namespace Subtext.Framework
 
 			private void Process(object state)
 			{
-				TrackEntry(entryViews);
+				Stats.TrackEntry(entryViews);
 			}
 		}
 
-		#region Data
 		/// <summary>
 		/// Returns a pageable collection of the referrers for the specified entry.
 		/// </summary>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <returns></returns>
-        public static IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize)
+        public IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize)
 		{
 			return GetPagedReferrers(pageIndex, pageSize, NullValue.NullInt32 /* entryId */);
 		}
@@ -149,13 +167,10 @@ namespace Subtext.Framework
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="entryId">The entry id.</param>
 		/// <returns></returns>
-        public static IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId)
+        public IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId)
 		{
-			return ObjectProvider.Instance().GetPagedReferrers(pageIndex, pageSize, entryId);
+			return Repository.GetPagedReferrers(pageIndex, pageSize, entryId);
 		}
-
-		#endregion
-		
 
 		/// <summary>
 		/// Calls out to the data provider to track the specified 
@@ -163,9 +178,9 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="ev">Ev.</param>
 		/// <returns></returns>
-		public static void TrackEntry(EntryView ev)
+		public void TrackEntry(EntryView ev)
 		{
-			ObjectProvider.Instance().TrackEntry(ev);
+            Repository.TrackEntry(ev);
 		}
 
 		/// <summary>
@@ -174,9 +189,9 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="evc">Evc.</param>
 		/// <returns></returns>
-		public static bool TrackEntry(IEnumerable<EntryView> evc)
+		public bool TrackEntry(IEnumerable<EntryView> evc)
 		{
-			return ObjectProvider.Instance().TrackEntry(evc);
+            return Repository.TrackEntry(evc);
 		}
 	}
 }

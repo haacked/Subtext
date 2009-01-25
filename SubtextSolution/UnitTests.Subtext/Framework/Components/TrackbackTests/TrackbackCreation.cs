@@ -62,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body");
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
 			int trackbackId = FeedbackItem.Create(trackback, null);
-			FeedbackItem.Approve(trackback);
+			FeedbackItem.Approve(trackback, null);
 			
 			entries = Entries.GetFeedBack(parentEntry);
 			Assert.AreEqual(1, entries.Count, "Expected a trackback.");

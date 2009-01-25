@@ -390,7 +390,6 @@
     <Compile Include="Admin\WebUI\Controls\BaseUserControl.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\WebUI\Controls\BreadCrumbs.cs" />
     <Compile Include="Admin\WebUI\Controls\ContentRegion.cs" />
     <Compile Include="Admin\WebUI\Controls\HeaderBase.cs" />
     <Compile Include="Admin\WebUI\Controls\HeaderLink.cs" />
@@ -1551,6 +1550,7 @@
     <Content Include="Scripts\lightbox.js" />
     <Content Include="Scripts\LiveCommentPreview.js" />
     <Content Include="Scripts\flash.js" />
+    <Content Include="Scripts\niceforms.js" />
     <Content Include="Scripts\prototype.js" />
     <Content Include="Scripts\scriptaculous.js" />
     <Content Include="Scripts\tableEffects.js" />
@@ -2423,6 +2423,10 @@
     <Content Include="wlwmanifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
+      <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
+      <Name>Subtext.Akismet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
       <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
       <Name>Subtext.BlogML</Name>

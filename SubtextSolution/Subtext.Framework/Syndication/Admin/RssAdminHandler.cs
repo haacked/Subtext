@@ -8,6 +8,7 @@ using Subtext.Extensibility;
 using System.Text.RegularExpressions;
 using System.Collections;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Syndication.Admin
 {
@@ -131,7 +132,9 @@ namespace Subtext.Framework.Syndication.Admin
 					ICollection<FeedbackItem> moderatedFeedback = FeedbackItem.GetPagedFeedback(0, count, flags, FeedbackType.None);
 					return (IList)moderatedFeedback;
 				case "Referral":
-					ICollection<Referrer> referrers = Stats.GetPagedReferrers(0, count);
+                    var statsRecorder = new StatsRepository(ObjectProvider.Instance(), Config.Settings.Tracking);
+
+                    ICollection<Referrer> referrers = statsRecorder.GetPagedReferrers(0, count);
 					return (IList)referrers;
 				case "Log":
 					ICollection<LogEntry> entries = LoggingProvider.Instance().GetPagedLogEntries(0, count);

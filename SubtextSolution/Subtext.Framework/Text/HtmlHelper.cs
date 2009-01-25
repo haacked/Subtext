@@ -280,7 +280,6 @@ namespace Subtext.Framework.Text
         public static bool ConvertHtmlToXHtml(Entry entry)
         {
             SgmlReader reader = new SgmlReader();
-            reader.SetBaseUri(Config.CurrentBlog.RootUrl.ToString());
 			entry.Body = ConvertHtmlToXHtml(reader, entry.Body, null);
             return true;
         }

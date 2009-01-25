@@ -18,6 +18,7 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 {
@@ -52,7 +53,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 
             Assert.IsTrue(Enclosures.Update(enc),"Should have updated the Enclosure");
 
-            Entry newEntry = Entries.GetEntry(entryId, false);
+            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, false);
 
             UnitTestHelper.AssertEnclosures(enc, newEntry.Enclosure);
         }

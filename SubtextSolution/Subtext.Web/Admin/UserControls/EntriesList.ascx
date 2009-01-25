@@ -44,7 +44,7 @@
 	<AlternatingItemTemplate>
 		<tr class="alt">
 			<td>
-				<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "FullyQualifiedUrl") %>' ToolTip="View Entry" >
+				<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# Url.EntryUrl((Entry)Container.DataItem) %>' ToolTip="View Entry" >
 			        <%# DataBinder.Eval(Container.DataItem, "Title") %></asp:HyperLink>
 			</td>
 			<td>

@@ -127,7 +127,7 @@ namespace Subtext.Web.UI.Controls
             FeedbackItem feedback = FeedbackItem.Get(feedbackId);
             if (feedback != null)
             {
-                FeedbackItem.Delete(feedback);
+                FeedbackItem.Delete(feedback, null);
                 Cacher.ClearCommentCache(feedback.EntryId);
                 BindFeedback(false);
             }
@@ -262,7 +262,7 @@ namespace Subtext.Web.UI.Controls
                             editCommentImgLink.NavigateUrl = UrlFormats.GetFeedbackEditLink(feedbackItem);
                             if (String.IsNullOrEmpty(editCommentImgLink.ImageUrl))
                             {
-                                editCommentImgLink.ImageUrl = Blog.VirtualDirectoryRoot + "Images/edit.gif";
+                                editCommentImgLink.ImageUrl = Url.EditIconUrl();
                             }
                             ControlHelper.SetTitleIfNone(editCommentImgLink, "Click to edit comment " + feedbackItem.Id.ToString(CultureInfo.InstalledUICulture));
                         }

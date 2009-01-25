@@ -31,6 +31,7 @@ using Subtext.Framework.Threading;
 using Subtext.Framework.Web;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Email;
+using Subtext.Framework.Services;
 
 namespace Subtext.Framework.Components
 {
@@ -174,16 +175,15 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		/// <param name="feedback"></param>
 		/// <returns></returns>
-		public static void Approve(FeedbackItem feedback)
+        public static void Approve(FeedbackItem feedback, IFeedbackSpamService spamService)
 		{
 			if (feedback == null)
 				throw new ArgumentNullException("feedback", "Cannot approve a null comment.");
 
 			feedback.SetStatus(FeedbackStatusFlag.Approved, true);
 			feedback.SetStatus(FeedbackStatusFlag.Deleted, false);
-			if(Config.CurrentBlog.FeedbackSpamService != null)
-			{
-				Config.CurrentBlog.FeedbackSpamService.SubmitGoodFeedback(feedback);
+			if(spamService != null) {
+				spamService.SubmitGoodFeedback(feedback);
 			}
 
 			Update(feedback);
@@ -193,7 +193,7 @@ namespace Subtext.Framework.Components
 		/// Confirms the feedback as spam and moves it to the trash.
 		/// </summary>
 		/// <param name="feedback">The feedback.</param>
-		public static void ConfirmSpam(FeedbackItem feedback)
+		public static void ConfirmSpam(FeedbackItem feedback, IFeedbackSpamService spamService)
 		{
 			if (feedback == null)
 				throw new ArgumentNullException("feedback", "Cannot approve a null comment.");
@@ -201,9 +201,8 @@ namespace Subtext.Framework.Components
 			feedback.SetStatus(FeedbackStatusFlag.Approved, false);
 			feedback.SetStatus(FeedbackStatusFlag.ConfirmedSpam, true);
 
-			if (Config.CurrentBlog.FeedbackSpamService != null)
-			{
-				Config.CurrentBlog.FeedbackSpamService.SubmitGoodFeedback(feedback);
+			if (spamService != null) {
+                spamService.SubmitGoodFeedback(feedback);
 			}
 
 			Update(feedback);
@@ -213,7 +212,7 @@ namespace Subtext.Framework.Components
 		/// Confirms the feedback as spam and moves it to the trash.
 		/// </summary>
 		/// <param name="feedback">The feedback.</param>
-		public static void Delete(FeedbackItem feedback)
+		public static void Delete(FeedbackItem feedback, IFeedbackSpamService service)
 		{
 			if (feedback == null)
 				throw new ArgumentNullException("feedback", "Cannot delete a null comment.");
@@ -228,7 +227,7 @@ namespace Subtext.Framework.Components
 		/// Confirms the feedback as spam and moves it to the trash.
 		/// </summary>
 		/// <param name="feedback">The feedback.</param>
-		public static void Destroy(FeedbackItem feedback)
+        public static void Destroy(FeedbackItem feedback, IFeedbackSpamService service)
 		{
 			if (feedback == null)
 				throw new ArgumentNullException("feedback", "Cannot destroy a null comment.");

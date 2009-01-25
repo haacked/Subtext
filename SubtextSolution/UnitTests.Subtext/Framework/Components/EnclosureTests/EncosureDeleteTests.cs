@@ -17,6 +17,7 @@ using System;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 {
@@ -37,13 +38,13 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryId, 12345678, true, true);
             Enclosures.Create(enc);
 
-            Entry newEntry = Entries.GetEntry(entryId, false);
+            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, false);
 
             Assert.IsNotNull(newEntry.Enclosure, "Did not create enclosure.");
 
             Enclosures.Delete(enc.Id);
 
-            Entry newEntry1 = Entries.GetEntry(entryId, false);
+            Entry newEntry1 = ObjectProvider.Instance().GetEntry(entryId, false);
 
             Assert.IsNull(newEntry1.Enclosure, "Did not delete enclosure.");
         }

@@ -1,8 +1,6 @@
 using System;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Threading;
 using MbUnit.Framework;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility;
@@ -12,8 +10,6 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Util;
-using UnitTests.Subtext;
-using UnitTests.Subtext.Framework.Data;
 using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Data
@@ -153,30 +149,6 @@ namespace UnitTests.Subtext.Framework.Data
 			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
 		}
 
-		[RowTest]
-		[Row(11, 10, 2, 1)]
-		[Row(11, 5, 3, 1)]
-		[Row(12, 5, 3, 2)]
-		[Row(10, 5, 2, 5)]
-		[Row(10, 20, 1, 10)]
-		[Ignore("This test fails when run within a Transaction via the RollBack attribute, but succeeds without it.")]
-		public void GetPagedReferralsHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
-		{
-            try
-            {
-                string host = this.hostName = UnitTestHelper.GenerateUniqueString();
-                UnitTestHelper.SetHttpContextWithBlogRequest(host, "blog");
-                Config.CreateBlog("", "username", "password", host, "blog");
-                BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
-                IPagedCollectionTester tester = new ReferralsCollectionTester();
-                AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
-            }
-            finally
-            {
-                //DELETE
-            }
-		}
-
 		private static void AssertPagedCollection(IPagedCollectionTester pagedCollectionTester, int expectedPageCount, int itemsCountOnLastPage, int pageSize, int total)
 		{
 			//Create entries
@@ -292,7 +264,7 @@ namespace UnitTests.Subtext.Framework.Data
 
 			feedbackItem.SourceUrl = new Uri("http://blah/");
 			FeedbackItem.Create(feedbackItem, null);
-			FeedbackItem.Approve(feedbackItem);
+			FeedbackItem.Approve(feedbackItem, null);
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
@@ -423,38 +395,6 @@ namespace UnitTests.Subtext.Framework.Data
 		public int GetCount(IPagedCollection collection)
 		{
 			return ((IPagedCollection<Blog>)collection).Count;
-		}
-	}
-
-	internal class ReferralsCollectionTester : IPagedCollectionTester
-	{
-		int entryId;
-		public ReferralsCollectionTester()
-		{
-			Config.Settings.Tracking.QueueStatsCount = 0;
-			entryId = Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "title", "body"));
-		}
-
-		public void Create(int index)
-		{
-			EntryView view = new EntryView();
-			view.EntryId = entryId;
-			view.BlogId = Config.CurrentBlog.Id;
-			view.PageViewType = PageViewType.WebView;
-			view.ReferralUrl = string.Format("http://localhost:{0}/{1}/", index, UnitTestHelper.GenerateUniqueString());
-			Stats.AddQuedStats(view);
-			Stats.ClearQueue(true);
-			Thread.Sleep(100); //There's no way to fully wait for the worker processes.
-		}
-
-		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
-		{
-			return Stats.GetPagedReferrers(pageIndex, pageSize);
-		}
-
-		public int GetCount(IPagedCollection collection)
-		{
-			return ((IPagedCollection<Referrer>)collection).Count;
 		}
 	}
 

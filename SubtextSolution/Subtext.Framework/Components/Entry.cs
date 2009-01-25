@@ -14,13 +14,13 @@
 #endregion
 
 using System;
-using System.Collections.Specialized;
-using System.Web;
+using System.Collections.Generic;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Properties;
-using System.Collections.Generic;
+using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Components
 {
@@ -68,20 +68,6 @@ namespace Subtext.Framework.Components
 		{
 			get;
 			set;
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether this instance is updated.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if this instance is updated; otherwise, <c>false</c>.
-		/// </value>
-		public bool IsUpdated
-		{
-			get
-			{
-				return DateCreated != DateModified;
-			}
 		}
 
 		/// <summary>
@@ -171,6 +157,16 @@ namespace Subtext.Framework.Components
 			get;
 			set;
 		}
+
+        public void PrepareBodyForPublishing(ICache cache, string rootUrl, bool useKeyWords) {
+            //Do this before we validate the text
+            if (useKeyWords) {
+                KeyWords.Format(this);
+            }
+
+            //TODO: Make this a configuration option.
+            Body = Transform.EmoticonTransforms(cache, rootUrl, Body);
+        }
 
 		/// <summary>
 		/// Gets or sets the author name of the entry.  

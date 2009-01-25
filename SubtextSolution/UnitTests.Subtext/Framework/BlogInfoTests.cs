@@ -183,32 +183,7 @@ namespace UnitTests.Subtext.Framework
 			Assert.AreEqual("fr-FR", blog.Language, "The language should have changed.");
 			Assert.AreEqual("fr", blog.LanguageCode);
 		}
-
-		[Test]
-		public void DefaultPortIs80()
-		{
-			HttpContext.Current = null;
-			Assert.IsNull(HttpContext.Current);
-			Assert.AreEqual(80, Blog.Port);
-		}
-
-		[Test]
-		public void CanSetupFeedbackSpamService()
-		{
-			using (new HttpSimulator().SimulateRequest())
-			{
-				Blog blog = new Blog();
-				blog.Host = "http://subtextproject.com/";
-				blog.FeedbackSpamServiceKey = null;
-				Assert.IsNull(blog.FeedbackSpamService);
-				Assert.IsFalse(blog.FeedbackSpamServiceEnabled);
-
-				blog.FeedbackSpamServiceKey = "abc123";
-				Assert.IsNotNull(blog.FeedbackSpamService);
-				Assert.IsTrue(blog.FeedbackSpamServiceEnabled);
-			}
-		}
-
+		
 		[Test]
 		public void HasNewsReturnsProperResult()
 		{
@@ -237,61 +212,6 @@ namespace UnitTests.Subtext.Framework
 
 			blog.RssProxyUrl = "Subtext";
 			Assert.IsTrue(blog.RssProxyEnabled);
-		}
-	    
-		/// <summary>
-		/// Test makes sure that the port number is included in fully qualified 
-		/// urls.
-		/// </summary>
-		/// <param name="subfolder"></param>
-		/// <param name="virtualDir"></param>
-		/// <param name="port"></param>
-		/// <param name="expected"></param>
-		[RowTest]
-		[Row("", "", 8080, ":8080/")]
-		[Row("", "", 80, "/")]
-		[Row("", "Subtext.Web", 8080, ":8080/Subtext.Web/")]
-		[Row("blog", "Subtext.Web", 8080, ":8080/Subtext.Web/")]
-		[Row("blog", "", 8080, ":8080/")]
-		[RollBack2]
-		public void HostFullyQualifiedUrlPropertySetCorrectly(string subfolder, string virtualDir, int port, string expected)
-		{
-			UnitTestHelper.SetupBlog(subfolder, virtualDir, port);
-			
-			Assert.AreEqual("http://" + Config.CurrentBlog.Host + expected, Config.CurrentBlog.HostFullyQualifiedUrl.ToString(), "Did not set the HostFullyQualifiedUrl correctly.");
-		}
-
-		[RowTest]
-		[Row("", "Subtext.Web", "Subtext.Web/")]
-		[Row("", "", "")]
-		[Row("Blog", "", "Blog/")]
-		[Row("Blog", "Subtext.Web", "Subtext.Web/Blog/")]
-		[RollBack2]
-		public void RootUrlPropertyReturnsCorrectValue(string subfolder, string virtualDir, string expected)
-		{
-			UnitTestHelper.SetupBlog(subfolder, virtualDir);
-			
-			string expectedUrl = string.Format("http://{0}/{1}", Config.CurrentBlog.Host, expected);
-			Assert.AreEqual(expectedUrl, Config.CurrentBlog.RootUrl.ToString(), "Did not set the Virtual Dir correctly.");
-		}
-
-		/// <summary>
-		/// Tests the virtual directory root property set correctly.
-		/// </summary>
-		/// <param name="subfolder">The subfolder.</param>
-		/// <param name="virtualDir">The virtual dir.</param>
-		/// <param name="expected">The expected.</param>
-		[RowTest]
-		[Row("", "", "/")]
-		[Row("Blog", "", "/")]
-		[Row("Blog", "Subtext.Web", "/Subtext.Web/")]
-		[Row("", "Subtext.Web", "/Subtext.Web/")]
-		[RollBack2]
-		public void TestVirtualDirectoryRootPropertySetCorrectly(string subfolder, string virtualDir, string expected)
-		{
-			UnitTestHelper.SetupBlog(subfolder, virtualDir);
-
-			Assert.AreEqual(expected, Blog.VirtualDirectoryRoot, "Did not set the VirtualDirectoryRoot correctly.");
 		}
 
 		[Test]

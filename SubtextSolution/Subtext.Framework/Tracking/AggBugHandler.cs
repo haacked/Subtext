@@ -22,6 +22,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Web;
 using Subtext.Framework.Properties;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Tracking
 {
@@ -53,8 +54,7 @@ namespace Subtext.Framework.Tracking
 		/// <see langword=""/> used to service HTTP requests.</param>
 		public void ProcessRequest(HttpContext context)
 		{
-            if (context == null)
-            {
+            if (context == null) {
                 throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
             }
 
@@ -78,7 +78,9 @@ namespace Subtext.Framework.Tracking
 					ev.BlogId = Config.CurrentBlog.Id;
 					ev.EntryId = EntryID;
 					ev.PageViewType = PageViewType.AggView;
-					EntryTracker.Track(ev);
+
+                    EntryTracker tracker = new EntryTracker(new StatsRepository(ObjectProvider.Instance(), Config.Settings.Tracking));
+                    tracker.Track(ev);
 				}
 
 				//Change ContentType to gif, sent length, Set Modified date to Now. 

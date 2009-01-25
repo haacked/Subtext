@@ -1,5 +1,6 @@
 ﻿using MbUnit.Framework;
 using Subtext.Framework.Routing;
+using Subtext.Framework;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -9,7 +10,7 @@ namespace UnitTests.Subtext.Framework.Routing
         [Test]
         public void ConstraintWithTrue_WithSettingSetToTrue_ReturnsTrue() { 
             //arrange
-            var constraint = new AggregateEnabledConstraint(true);
+            var constraint = new AggregateEnabledConstraint(null, true);
 
             //act
             bool result = constraint.Match(true);
@@ -22,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void ConstraintWithFalse_WithSettingSetToTrue_ReturnsFalse()
         {
             //arrange
-            var constraint = new AggregateEnabledConstraint(false);
+            var constraint = new AggregateEnabledConstraint(null, false);
 
             //act
             bool result = constraint.Match(true);
@@ -35,7 +36,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void ConstraintWithTrue_WithSettingSetToFalse_ReturnsFalse()
         {
             //arrange
-            var constraint = new AggregateEnabledConstraint(true);
+            var constraint = new AggregateEnabledConstraint(null, true);
 
             //act
             bool result = constraint.Match(false);
@@ -48,7 +49,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void ConstraintWithFalse_WithSettingSetToFalse_ReturnsTrue()
         {
             //arrange
-            var constraint = new AggregateEnabledConstraint(false);
+            var constraint = new AggregateEnabledConstraint(null, false);
 
             //act
             bool result = constraint.Match(false);

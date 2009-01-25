@@ -317,21 +317,6 @@ namespace Subtext.Framework
         private string _host;
 
         /// <summary>
-        /// The port the blog is listening on.
-        /// </summary>
-        public static int Port
-        {
-            get
-            {
-                if (HttpContext.Current != null)
-                {
-                    return HttpContext.Current.Request.Url.Port;
-                }
-                return 80;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether this site can 
         /// be accessed via MetaBlogAPI, XML Web Services, etc..
         /// </summary>
@@ -813,28 +798,6 @@ namespace Subtext.Framework
         }
 
         /// <summary>
-        /// Gets the comment spam service.
-        /// </summary>
-        /// <value>The comment spam service.</value>
-        public IFeedbackSpamService FeedbackSpamService
-        {
-            get
-            {
-                if (this.feedbackService == null && FeedbackSpamServiceEnabled)
-                {
-                    this.feedbackService = new AkismetSpamService(this.feedbackSpamServiceKey, this);
-                }
-                return this.feedbackService;
-            }
-            set
-            {
-                this.feedbackService = value;
-            }
-        }
-
-        IFeedbackSpamService feedbackService;
-
-        /// <summary>
         /// Gets a value indicating whether an RSS Proxy such as FeedBurner is enabled.
         /// </summary>
         public bool RssProxyEnabled
@@ -858,8 +821,7 @@ namespace Subtext.Framework
             }
             set
             {
-                if (!String.IsNullOrEmpty(value))
-                {
+                if (!String.IsNullOrEmpty(value)) {
                     if (value.Contains("\\"))
                         throw new InvalidOperationException("Backslashes are not allowed in the rss proxy name.");
                 }
@@ -869,107 +831,6 @@ namespace Subtext.Framework
 
         string _rssProxyUrl;
 
-        /// <summary>
-        /// Gets the root URL for this blog.  For example, "http://example.com/" or "http://example.com/blog/".
-        /// </summary>
-        /// <value></value>
-        public Uri RootUrl
-        {
-            get
-            {
-                if (this.rootUrl == null)
-                {
-                    this.rootUrl = HostFullyQualifiedUrl;
-                    if (this.Subfolder != null && this.Subfolder.Length > 0)
-                    {
-                        this.rootUrl = new Uri(this.rootUrl, this.Subfolder + "/");
-                    }
-                }
-                return this.rootUrl;
-            }
-        }
-        Uri rootUrl = null;
-
-        /// <summary>
-        /// Gets the virtual URL for the site with preceding and trailing slash.  For example, "/" or "/Subtext.Web/" or "/Blog/".
-        /// </summary>
-        /// <value>The virtual URL.</value>
-        public string VirtualUrl
-        {
-            get
-            {
-                if (this.virtualUrl == null)
-                {
-                    this.virtualUrl = "/";
-                    string appPath = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
-                    if (appPath.Length > 0)
-                    {
-                        this.virtualUrl += appPath + "/";
-                    }
-
-                    if (this.Subfolder != null && this.Subfolder.Length > 0)
-                    {
-                        this.virtualUrl += this.Subfolder + "/";
-                    }
-                }
-                return this.virtualUrl;
-            }
-        }
-        string virtualUrl;
-
-        /// <summary>
-        /// Gets the virtual directory/application root for the site.  
-        /// This is really just a formatted version of the 
-        /// HttpContext.Current.Request.ApplicationPath property that always ends with a slash.
-        /// </summary>
-        /// <value>The virtual URL.</value>
-        public static string VirtualDirectoryRoot
-        {
-            get
-            {
-                string virtualDirectory = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
-                if (virtualDirectory.Length == 0)
-                {
-                    return "/";
-                }
-                if (!virtualDirectory.EndsWith("/"))
-                {
-                    virtualDirectory += "/";
-                }
-
-                if (!virtualDirectory.StartsWith("/"))
-                {
-                    virtualDirectory = "/" + virtualDirectory;
-                }
-                return virtualDirectory;
-            }
-        }
-
-        /// <summary>
-        /// Gets the fully qualified url to the blog engine host.  This is the 
-        /// blog URL without the subfolder, but with the virtual directory 
-        /// path, if any.
-        /// </summary>
-        /// <value></value>
-        public Uri HostFullyQualifiedUrl
-        {
-            get
-            {
-                if (this.hostFullyQualifiedUrl == null)
-                {
-                    string host = HttpContext.Current.Request.Url.Scheme + "://" + this._host;
-                    if (Blog.Port != BlogRequest.DefaultPort)
-                    {
-                        host += ":" + Blog.Port;
-                    }
-                    host += VirtualDirectoryRoot;
-                    hostFullyQualifiedUrl = new Uri(host);
-                }
-                return hostFullyQualifiedUrl;
-            }
-        }
-        Uri hostFullyQualifiedUrl;
-        
         /// <summary>
         /// Gets or sets the flags pertaining to this blog.  
         /// This is a bitmask of <see cref="ConfigurationFlag"/>s.
@@ -982,51 +843,34 @@ namespace Subtext.Framework
         }
 
         /// <summary>
-        /// Returns the Subfolder name without any dashes.
-        /// </summary>
-        /// <value></value>
-        public string CleanSubfolder
-        {
-            get { return this.Subfolder.Replace("/", string.Empty).Trim(); }
-        }
-
-        #region Counts
-
-        //TODO: These might need to go somewhere else.
-        private int _postCount;
-        /// <summary>
         /// Gets or sets the total number of posts.
         /// </summary>
         /// <value></value>
         public int PostCount
         {
-            get { return this._postCount; }
-            set { this._postCount = value; }
+            get;
+            set;
         }
 
-        private int _commentCount;
         /// <summary>
         /// Gets or sets the comment count.
         /// </summary>
         /// <value></value>
         public int CommentCount
         {
-            get { return this._commentCount; }
-            set { this._commentCount = value; }
+            get;
+            set;
         }
 
-        private int _pingTrackCount;
         /// <summary>
         /// Gets or sets the ping track count.
         /// </summary>
         /// <value></value>
         public int PingTrackCount
         {
-            get { return this._pingTrackCount; }
-            set { this._pingTrackCount = value; }
+            get;
+            set;
         }
-
-        #endregion
 
         /// <summary>
         /// Adds or removes a <see cref="ConfigurationFlag"/> to the 
@@ -1078,14 +922,6 @@ namespace Subtext.Framework
         public override int GetHashCode()
         {
             return (this.Host ?? string.Empty).GetHashCode() ^ (this.Subfolder ?? string.Empty).GetHashCode() ^ this.Id.GetHashCode();
-        }
-
-        public static Blog AggregateBlog
-        {
-            get
-            {
-                return HostInfo.Instance.AggregateBlog;
-            }
         }
 
         public static void ClearBlogContent(int blogId)

@@ -10,7 +10,7 @@
         <% if (Config.CurrentBlog.ModerationEnabled) { %>
         <li>
             <a href="<%= GetListUrl(FeedbackStatusFlag.NeedsModeration) %>" title="Comments in need of moderation">Moderate</a> 
-            (<%= Counts.NeedsModerationCount%>) (<em><a href="<%= CreateAdminRssUrl("ModeratedCommentRss.axd") %>" title="RSS Feed for moderated comments">rss</a></em>)
+            (<%= Counts.NeedsModerationCount%>) (<em><a href="<%= Url.AdminRssUrl("ModeratedComment") %>" title="RSS Feed for moderated comments">rss</a></em>)
         </li>
         <% } %>
         <li>

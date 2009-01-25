@@ -9,6 +9,9 @@ using Subtext.Framework.Configuration;
 using System.Globalization;
 using Subtext.Framework;
 using System.Linq;
+using BlogML.Xml;
+using Subtext.BlogML.Interfaces;
+using Subtext.ImportExport;
 
 namespace Subtext.Framework.Data
 {
@@ -248,7 +251,7 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override int Create(Entry entry, int[] categoryIds)
         {
-            if (!FormatEntry(entry, true)) {
+            if (!ValidateEntry(entry)) {
                 throw new BlogFailedPostException("Failed post exception");
             }
 
@@ -327,7 +330,7 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override bool Update(Entry entry, params int[] categoryIds)
         {
-            if (!FormatEntry(entry, false)) {
+            if (!ValidateEntry(entry)) {
                 throw new BlogFailedPostException("Failed post exception");
             }
 
@@ -394,6 +397,5 @@ namespace Subtext.Framework.Data
                 return acc;
             }
         }
-
     }
 }

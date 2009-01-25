@@ -31,9 +31,14 @@ namespace UnitTests.Subtext
             return writer;
         }
 
-        public static StringWriter FakeRequest(this Mock<HttpContextBase> httpContextMock, string virtualPath, string subfolder)
+        public static StringWriter FakeRequest(this Mock<HttpContextBase> httpContextMock, string virtualPath, string subfolder) {
+            return httpContextMock.FakeRequest(virtualPath, subfolder, "~/");
+        }
+
+        public static StringWriter FakeRequest(this Mock<HttpContextBase> httpContextMock, string virtualPath, string subfolder, string applicationPath)
         {
             httpContextMock.Setup(h => h.Request.HttpMethod).Returns("GET");
+            httpContextMock.Setup(context => context.Request.ApplicationPath).Returns(applicationPath);
             httpContextMock.Setup(context => context.Request.AppRelativeCurrentExecutionFilePath).Returns(virtualPath);
             httpContextMock.Setup(context => context.Request.Path).Returns(virtualPath);
             httpContextMock.Setup(context => context.Request.FilePath).Returns(virtualPath);

@@ -24,6 +24,9 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Email;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Services;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Syndication
 {
@@ -70,7 +73,8 @@ namespace Subtext.Framework.Syndication
 
 				// [ 1644691 ] Closing comments didn't stop the CommentAPI
                 if (!Cacher.GetEntry(comment.EntryId, CacheDuration.Medium, ObjectProvider.Instance()).CommentingClosed) {
-                    FeedbackItem.Create(comment, new CommentFilter(HttpContext.Current.Cache));
+                    var feedbackService = new AkismetSpamService(Config.CurrentBlog.FeedbackSpamServiceKey, Config.CurrentBlog, null, new UrlHelper(null, null));
+                    FeedbackItem.Create(comment, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService));
                 }
 			}
 		}

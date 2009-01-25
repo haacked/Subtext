@@ -39,7 +39,7 @@ namespace Subtext.Web.UI.Controls
 
 			}
 
-            HostStats stats = ObjectProvider.Instance().GetTotalBlogStats(Blog.AggregateBlog.Host, GroupID);
+            HostStats stats = ObjectProvider.Instance().GetTotalBlogStats(HostInfo.Instance.AggregateBlog.Host, GroupID);
             if (stats != null)
             {
                 BlogCount.Text = stats.BlogCount.ToString();

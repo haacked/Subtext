@@ -25,6 +25,9 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
 using Subtext.Web.Admin.WebUI;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Services;
+using Subtext.Framework.Data;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -64,13 +67,10 @@ namespace Subtext.Web.Admin.Pages
 		
 		protected override void BindLocalUI()
 		{
-			if(_entryID == NullValue.NullInt32)
-			{
-
+			if(_entryID == NullValue.NullInt32) {
 				//SetReferalDesc("Referrals");
 			}
-			else
-			{
+			else {
 				SetReferalDesc("Entry", _entryID.ToString(CultureInfo.InvariantCulture));
 			}
             base.BindLocalUI();
@@ -79,16 +79,15 @@ namespace Subtext.Web.Admin.Pages
 		private void BindList()
 		{
             IPagedCollection<Referrer> referrers;
+            StatsRepository stats = new StatsRepository(ObjectProvider.Instance(), Config.Settings.Tracking);
 
-			if(_entryID == NullValue.NullInt32)
-			{
-				referrers = Stats.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize);
+			if(_entryID == NullValue.NullInt32) {
+                referrers = stats.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize);
 			}
 			else
 			{
-				this.resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", "EntryID", 
-					_entryID);
-				referrers = Stats.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize, _entryID);
+				this.resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", "EntryID", _entryID);
+                referrers = stats.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize, _entryID);
 			}
 
 			if (referrers != null && referrers.Count > 0)
@@ -97,16 +96,13 @@ namespace Subtext.Web.Admin.Pages
 				rprSelectionList.DataSource = referrers;
 				rprSelectionList.DataBind();
 			}
-
 		}
 
 		private void SetReferalDesc(string selection, string title)
 		{
-		    if(AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
+		    if(AdminMasterPage != null)
 			{
-				string bctitle= string.Format(CultureInfo.InvariantCulture, "Viewing {0}:{1}", selection,title);
-
-				AdminMasterPage.BreadCrumb.AddLastItem(bctitle);
+				string bctitle = string.Format(CultureInfo.InvariantCulture, "Viewing {0}:{1}", selection,title);
                 AdminMasterPage.Title = bctitle;
 			}
 		}
@@ -226,7 +222,11 @@ namespace Subtext.Web.Admin.Pages
 
 				if(FeedbackItem.Create(entry, null) > 0)
 				{
-					CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
+                    IFeedbackSpamService feedbackService = null;
+                    if (Config.CurrentBlog.FeedbackSpamServiceEnabled) {
+                        feedbackService = new AkismetSpamService(Config.CurrentBlog.FeedbackSpamServiceKey, Config.CurrentBlog, null, Url);
+                    }
+					CommentFilter filter = new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService);
 					filter.FilterAfterPersist(entry);
 					this.Messages.ShowMessage(Constants.RES_SUCCESSNEW);
 					this.Edit.Visible = false;
