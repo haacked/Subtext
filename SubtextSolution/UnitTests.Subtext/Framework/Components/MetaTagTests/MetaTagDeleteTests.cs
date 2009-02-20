@@ -51,7 +51,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             Entry entry =
                 UnitTestHelper.CreateEntryInstanceForSyndication("Steven Harman", "Sweet arse entry!",
                                                                  "Giddy, giddy, goo!");
-            Entries.Create(entry);
+            UnitTestHelper.Create(entry);
 
             MetaTag tag = UnitTestHelper.BuildMetaTag("Foo, bar, zaa?", "author", null, blog.Id, entry.Id, DateTime.Now);
             MetaTags.Create(tag);

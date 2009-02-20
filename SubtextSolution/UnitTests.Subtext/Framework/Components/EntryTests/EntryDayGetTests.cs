@@ -51,9 +51,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
-            Entries.Create(entryTwo);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
+            UnitTestHelper.Create(entryTwo);
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
@@ -93,13 +93,13 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             entryThree.DateSyndicated = DateTime.Now.AddDays(10);
 
             //Persist entries.
-            Entries.Create(entryZero);
+            UnitTestHelper.Create(entryZero);
             Thread.Sleep(500);
-            Entries.Create(entryOne);
+            UnitTestHelper.Create(entryOne);
             Thread.Sleep(500);
-            Entries.Create(entryTwo);
+            UnitTestHelper.Create(entryTwo);
             Thread.Sleep(500);
-            Entries.Create(entryThree);
+            UnitTestHelper.Create(entryThree);
 
             Assert.IsTrue(entryThree.DateSyndicated > DateTime.Now);
 
@@ -130,13 +130,13 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             entryThree.DateSyndicated = DateTime.Now.AddDays(10);
 
             //Persist entries.
-            Entries.Create(entryZero);
+            UnitTestHelper.Create(entryZero);
             Thread.Sleep(500);
-            Entries.Create(entryOne);
+            UnitTestHelper.Create(entryOne);
             Thread.Sleep(500);
-            Entries.Create(entryTwo);
+            UnitTestHelper.Create(entryTwo);
             Thread.Sleep(500);
-            Entries.Create(entryThree);
+            UnitTestHelper.Create(entryThree);
 
             Assert.IsTrue(entryThree.DateSyndicated > DateTime.Now);
 
@@ -164,10 +164,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entry entryThree = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-three", "body-three");
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
-            Entries.Create(entryTwo);
-            Entries.Create(entryThree);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
+            UnitTestHelper.Create(entryTwo);
+            UnitTestHelper.Create(entryThree);
 
             Assert.IsTrue(entryZero.DateCreated < entryOne.DateCreated);
             Assert.IsTrue(entryOne.DateCreated < entryTwo.DateCreated);
@@ -208,10 +208,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             entryThree.DateCreated = DateTime.Now.AddDays(1);
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
-            Entries.Create(entryTwo);
-            Entries.Create(entryThree);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
+            UnitTestHelper.Create(entryTwo);
+            UnitTestHelper.Create(entryThree);
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
@@ -262,10 +262,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
-            Entries.Create(entryTwo);
-            Entries.Create(entryThree);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
+            UnitTestHelper.Create(entryTwo);
+            UnitTestHelper.Create(entryThree);
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
@@ -306,10 +306,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             entryThree.DateCreated = DateTime.Now.AddDays(1);
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
-            Entries.Create(entryTwo);
-            Entries.Create(entryThree);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
+            UnitTestHelper.Create(entryTwo);
+            UnitTestHelper.Create(entryThree);
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);

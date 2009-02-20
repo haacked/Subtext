@@ -15,6 +15,7 @@ using Subtext.Web;
 using Enclosure = Subtext.Framework.XmlRpc.Enclosure;
 using FrameworkEnclosure = Subtext.Framework.Components.Enclosure;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.XmlRpc
 {
@@ -50,6 +51,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             urlHelper.Setup(u => u.CategoryRssUrl(It.IsAny<LinkCategory>())).Returns("/rss.aspx?catId=" + categoryId);
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
@@ -82,6 +86,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
 
 			MetaWeblog api = new MetaWeblog(subtextContext.Object);
 			Post post = new Post();
@@ -113,6 +120,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
 
 			MetaWeblog api = new MetaWeblog(subtextContext.Object);
 			Post post = new Post();
@@ -140,6 +150,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -170,6 +183,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -207,6 +223,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -238,7 +257,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Body = "Blah";
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            int entryId = Entries.Create(entry);
+            int entryId = UnitTestHelper.Create(entry);
 
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
             string enclosureMimeType = "audio/mp3";
@@ -252,6 +271,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -288,12 +310,15 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Body = "Blah";
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            int entryId = Entries.Create(entry);
+            int entryId = UnitTestHelper.Create(entry);
 
             Assert.IsNull(entry.Enclosure, "There should not be any enclosure here.");
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -333,7 +358,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Body = "Blah";
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            int entryId = Entries.Create(entry);
+            int entryId = UnitTestHelper.Create(entry);
 
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
             string enclosureMimeType = "audio/mp3";
@@ -347,6 +372,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -382,10 +410,13 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             entry.Categories.Add(category1Name);
-            int entryId = Entries.Create(entry);
+            int entryId = UnitTestHelper.Create(entry);
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -420,10 +451,12 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             entry.Categories.Add(category1Name);
-            int entryId = Entries.Create(entry);
+            int entryId = UnitTestHelper.Create(entry);
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
             Post post = new Post();
@@ -452,6 +485,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
@@ -470,7 +506,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.IncludeInMainSyndication = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Categories.Add(category1Name);
-        	Entries.Create(entry);
+        	UnitTestHelper.Create(entry);
 
             entry = new Entry(PostType.BlogPost);
             entry.IncludeInMainSyndication = true;
@@ -480,7 +516,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1976/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Categories.Add(category1Name);
 			entry.Categories.Add(category2Name);
-            Entries.Create(entry);
+            UnitTestHelper.Create(entry);
 
             entry = new Entry(PostType.BlogPost);
             entry.Title = "Title 3";
@@ -488,7 +524,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Body = "Blah2";
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1979/09/16", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            Entries.Create(entry);
+            UnitTestHelper.Create(entry);
 
             entry = new Entry(PostType.BlogPost);
             entry.Title = "Title 4";
@@ -497,7 +533,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/01/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Categories.Add(category2Name);
-        	int entryId = Entries.Create(entry);
+        	int entryId = UnitTestHelper.Create(entry);
 
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
             string enclosureMimeType = "audio/mp3";
@@ -535,6 +571,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
@@ -552,7 +591,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.IsActive = true;
             entry.IncludeInMainSyndication = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            Entries.Create(entry);
+            UnitTestHelper.Create(entry);
 
             entry = new Entry(PostType.Story);
             entry.IncludeInMainSyndication = true;
@@ -560,7 +599,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Body = "Blah1";
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1976/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            Entries.Create(entry);
+            UnitTestHelper.Create(entry);
 
             entry = new Entry(PostType.Story);
             entry.Categories.Add(category1Name);
@@ -570,7 +609,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Body = "Blah2";
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1979/09/16", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            Entries.Create(entry);
+            UnitTestHelper.Create(entry);
 
             entry = new Entry(PostType.Story);
             entry.Title = "Title 4";
@@ -579,7 +618,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/01/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             entry.Categories.Add(category2Name);
-            int entryId = Entries.Create(entry);
+            int entryId = UnitTestHelper.Create(entry);
 
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
             string enclosureMimeType = "audio/mp3";
@@ -617,6 +656,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
@@ -632,7 +674,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.IncludeInMainSyndication = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             entry.Categories.Add(category1Name);
-            int entryId = Entries.Create(entry);
+            int entryId = UnitTestHelper.Create(entry);
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
             string enclosureMimeType = "audio/mp3";
             long enclosureSize = 26707573;
@@ -668,6 +710,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);
@@ -683,7 +728,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.IncludeInMainSyndication = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             entry.Categories.Add(category1Name);
-            int entryId = Entries.Create(entry);
+            int entryId = UnitTestHelper.Create(entry);
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
             string enclosureMimeType = "audio/mp3";
             long enclosureSize = 26707573;

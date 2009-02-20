@@ -124,7 +124,7 @@ namespace Subtext.Framework.Configuration
                     return null;
                 }
 				
-				Blog currentBlog = ConfigurationProvider.GetBlogInfo(BlogRequest.Current);
+				Blog currentBlog = BlogRequest.Current.Blog;
 				return currentBlog;
 			}
 		}

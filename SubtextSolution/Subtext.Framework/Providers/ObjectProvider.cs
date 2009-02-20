@@ -299,7 +299,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="entry">Entry.</param>
 		/// <param name="categoryIds">Category Ids.</param>
 		/// <returns></returns>
-		public abstract int Create(Entry entry, int[] categoryIds);
+        public abstract int Create(Entry entry, IEnumerable<int> categoryIds);
 
         /// <summary>
         /// Saves changes to the specified entry attaching the specified categories.

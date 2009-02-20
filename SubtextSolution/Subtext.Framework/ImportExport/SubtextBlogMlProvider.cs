@@ -36,6 +36,7 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Services;
 using Subtext.ImportExport.Conversion;
 
 namespace Subtext.ImportExport
@@ -423,8 +424,7 @@ namespace Subtext.ImportExport
 		/// the opportunity to use attachment specific directories 
 		/// (ex. based on mime type) should it choose.
 		/// </remarks>
-		public override string GetAttachmentDirectoryUrl(BlogMLAttachment attachment)
-		{
+		public override string GetAttachmentDirectoryUrl(BlogMLAttachment attachment) {
 			return Blog.ImagePath;
 		}
 
@@ -454,10 +454,8 @@ namespace Subtext.ImportExport
 			newEntry.AllowComments = true;
             if (post.Authors.Count > 0)
             {
-                foreach (BlogMLAuthor author in blog.Authors)
-                {
-                    if (author.ID == post.Authors[0].Ref)
-                    {
+                foreach (BlogMLAuthor author in blog.Authors) {
+                    if (author.ID == post.Authors[0].Ref) {
                         newEntry.Author = author.Title;
                         newEntry.Email = author.Email;
                         break;
@@ -465,17 +463,18 @@ namespace Subtext.ImportExport
                 }
             }
 
-            if (!string.IsNullOrEmpty(post.PostName))
+            if (!string.IsNullOrEmpty(post.PostName)) {
                 newEntry.EntryName = Entries.AutoGenerateFriendlyUrl(post.PostName, newEntry.Id);
+            }
 			
-			foreach(BlogMLCategoryReference categoryRef in post.Categories)
-			{
+			foreach(BlogMLCategoryReference categoryRef in post.Categories) {
 				string categoryTitle;
 				if(categoryIdMap.TryGetValue(categoryRef.Ref, out categoryTitle))
 					newEntry.Categories.Add(categoryTitle);
 			}
-			
-			return Entries.Create(newEntry).ToString(CultureInfo.InvariantCulture);
+
+            var entryPublisher = new EntryPublisher(SubtextContext, false);
+            return entryPublisher.Publish(newEntry).ToString(CultureInfo.InvariantCulture);
 		}
 
 		/// <summary>

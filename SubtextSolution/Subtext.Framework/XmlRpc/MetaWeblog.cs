@@ -26,6 +26,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Security;
 using Subtext.Framework.Tracking;
+using Subtext.Framework.Services;
 
 //Need to find a method that has access to context, so we can terminate the request if AllowServiceAccess == false.
 //Users will be able to access the metablogapi page, but will not be able to make a request, but the page should not be visible
@@ -92,8 +93,7 @@ namespace Subtext.Framework.XmlRpc
             entry.PostType = postType;
 
             entry.IsActive = publish;
-            if (publish) 
-            { 
+            if (publish) { 
                 entry.DateSyndicated = entry.DateCreated;
             }
             entry.AllowComments = true;
@@ -105,7 +105,9 @@ namespace Subtext.Framework.XmlRpc
             int postID;
             try
             {
-                postID = Entries.Create(entry);
+                //TODO: Review whether keywords should be true.
+                var entryPublisher = new EntryPublisher(SubtextContext);
+                postID = entryPublisher.Publish(entry);
                 if (Blog.TrackbacksEnabled) {
                     NotificationServices.Run(entry, Blog, Url);
                 }
@@ -215,9 +217,8 @@ namespace Subtext.Framework.XmlRpc
                 
 
                 entry.DateModified = Blog.TimeZone.Now;
-                int[] categoryIds = { };
-                if (entry.Categories.Count > 0)
-                {
+                IEnumerable<int> categoryIds = null;
+                if (entry.Categories.Count > 0) {
                     categoryIds = Entries.GetCategoryIdsFromCategoryTitles(entry);
                 }
 

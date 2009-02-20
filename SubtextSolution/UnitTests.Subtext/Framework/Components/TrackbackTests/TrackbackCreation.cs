@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
             BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
-			int parentId = Entries.Create(entry);
+			int parentId = UnitTestHelper.Create(entry);
 			
 			Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body");
 			int id = FeedbackItem.Create(trackback, null);
@@ -54,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
             BlogRequest.Current.Blog = Config.GetBlog(hostname, "blog");
 			
 			Entry parentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("philsath aeuoa asoeuhtoensth", "sntoehu title aoeuao eu", "snaot hu aensaoehtu body");
-			int parentId = Entries.Create(parentEntry);
+			int parentId = UnitTestHelper.Create(parentEntry);
 
             ICollection<FeedbackItem> entries = Entries.GetFeedBack(parentEntry);
 			Assert.AreEqual(0, entries.Count, "Did not expect any feedback yet.");

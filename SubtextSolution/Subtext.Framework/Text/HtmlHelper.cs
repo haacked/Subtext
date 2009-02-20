@@ -27,6 +27,7 @@ using Sgml;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Velocit.RegularExpressions;
+using Subtext.Framework.Services;
 
 namespace Subtext.Framework.Text
 {
@@ -271,134 +272,10 @@ namespace Subtext.Framework.Text
             return ('a' <= nextChar && nextChar <= 'z') || ('A' <= nextChar && nextChar <= 'Z');
         }
         
-        /// <summary>
-        /// Converts the entry body into XHTML compliant text. 
-        /// Returns false if it encounters a problem in doing so.
-        /// </summary>
-        /// <param name="entry">Entry.</param>
-        /// <returns></returns>
-        public static bool ConvertHtmlToXHtml(Entry entry)
-        {
-            SgmlReader reader = new SgmlReader();
-			entry.Body = ConvertHtmlToXHtml(reader, entry.Body, null);
-            return true;
-        }
-
-		/// <summary>
-		/// Converts the specified html into XHTML compliant text.
-		/// </summary>
-		/// <param name="html">html to convert.</param>
-		/// <param name="converter">The converter.</param>
-		/// <returns></returns>
-        public static string ConvertHtmlToXHtml(string html, Converter<string, string> converter)
-        {
-            SgmlReader reader = new SgmlReader();
-            return ConvertHtmlToXHtml(reader, html, converter);
-        }
-
-		/// <summary>
-		/// Converts the specified html into XHTML compliant text.
-		/// </summary>
-		/// <param name="reader">sgml reader.</param>
-		/// <param name="html">html to convert.</param>
-		/// <param name="converter">The converter.</param>
-		/// <returns></returns>
-		/// ///
-        private static string ConvertHtmlToXHtml(SgmlReader reader, string html, Converter<string, string> converter)
-        {
-            reader.DocType = "html";
-            reader.WhitespaceHandling = WhitespaceHandling.All;
-            // Hack to fix SF bug #1678030
-            html = RemoveNewLineBeforeCDATA(html);
-            reader.InputStream = new StringReader("<html>" + html + "</html>");
-            reader.CaseFolding = CaseFolding.ToLower;
-            StringWriter writer = new StringWriter();
-            XmlWriter xmlWriter = null;
-            try
-            {
-                xmlWriter = new XmlTextWriter(writer);
-
-            	bool insideAnchor = false;
-            	bool skipRead = false;
-            	while ((skipRead || reader.Read()) && !reader.EOF)
-                {
-                	skipRead = false;
-					switch(reader.NodeType)
-					{
-						case XmlNodeType.Element:
-							//Special case for anchor tags for the time being. 
-							//We need some way to communicate which elements the current node is nested within 
-							if (reader.IsEmptyElement)
-							{
-								xmlWriter.WriteStartElement(reader.LocalName);
-								xmlWriter.WriteAttributes(reader, true);
-								if (reader.LocalName == "a" || reader.LocalName == "script" || reader.LocalName == "iframe" || reader.LocalName == "object")
-									xmlWriter.WriteFullEndElement();
-								else
-									xmlWriter.WriteEndElement();
-							}
-							else
-							{
-								if (reader.LocalName == "a")
-									insideAnchor = true;
-								xmlWriter.WriteStartElement(reader.LocalName);
-								xmlWriter.WriteAttributes(reader, true);
-							}
-							break;
-						
-						case XmlNodeType.Text:
-							string text = reader.Value;
-
-							if (converter != null && !insideAnchor)
-								xmlWriter.WriteRaw(converter(HttpUtility.HtmlEncode(text)));
-							else
-								xmlWriter.WriteString(text);
-							break;
-
-						case XmlNodeType.EndElement:
-							if (reader.LocalName == "a")
-								insideAnchor = false;
-
-                            if (reader.LocalName == "a" || reader.LocalName == "script" || reader.LocalName == "iframe" || reader.LocalName == "object")
-								xmlWriter.WriteFullEndElement();
-							else
-								xmlWriter.WriteEndElement();
-							break;
-
-						default:
-							xmlWriter.WriteNode(reader, true);
-							skipRead = true;
-							break;
-					}
-                }
-            }
-            finally
-            {
-                if (xmlWriter != null)
-                {
-                    xmlWriter.Close();
-                }
-            }
-
-            string xml = writer.ToString();
-            return xml.Substring("<html>".Length, xml.Length - "<html></html>".Length);
-        }
+		
 
 
-        // Ugly hack to remove any new line that sits between a tag end
-        // and the beginning of a CDATA section.
-        // This to make sure the Xhtml is well formatted before processing it
-        private static string RemoveNewLineBeforeCDATA(string text)
-        {
-            if (!String.IsNullOrEmpty(text))
-            {
-                string regex = @">(\r\n)+<!\[CDATA\[";
-                Regex newLineStripper = new Regex(regex);
-
-                return newLineStripper.Replace(text, "><![CDATA[");
-            }
-            return text;
-        }
+        
 
         /// <summary>
         /// Tests the specified string looking for illegal characters 
@@ -436,30 +313,31 @@ namespace Subtext.Framework.Text
 			if (html.Length == 0)
 				return string.Empty;
 
-        	return ConvertHtmlToXHtml(html, delegate(string text)
-    		{
-    			string pattern =
-    				@"((https?|ftp)://|www\.)[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
-    			MatchCollection matches =
-    				Regex.Matches(text, pattern,
-    							  RegexOptions.
-    			              		IgnoreCase |
-    							  RegexOptions.Compiled);
-    			foreach (Match m in matches)
-    			{
-    				string httpPortion = string.Empty;
-					if (!m.Value.Contains("://"))
-					{
-						httpPortion = "http://";
-					}
+            XhtmlConverter xhtmlConverter = new XhtmlConverter(text => {
+                string pattern =
+                    @"((https?|ftp)://|www\.)[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
+                MatchCollection matches =
+                    Regex.Matches(text, pattern,
+                                  RegexOptions.
+                                    IgnoreCase |
+                                  RegexOptions.Compiled);
+                foreach (Match m in matches)
+                {
+                    string httpPortion = string.Empty;
+                    if (!m.Value.Contains("://"))
+                    {
+                        httpPortion = "http://";
+                    }
 
-    				text =
-    					text.Replace(m.Value,
-							string.Format("<a rel=\"nofollow external\" href=\"{0}{1}\" title=\"{1}\">{2}</a>", httpPortion, m.Value, ShortenUrl(m.Value, 50))
-						);
-    			}
-    			return text;
-    		});
+                    text =
+                        text.Replace(m.Value,
+                            string.Format("<a rel=\"nofollow external\" href=\"{0}{1}\" title=\"{1}\">{2}</a>", httpPortion, m.Value, ShortenUrl(m.Value, 50))
+                        );
+                }
+                return text;
+            });
+
+            return xhtmlConverter.Transform(html);
         }
 
 		/// <summary>
@@ -674,7 +552,8 @@ namespace Subtext.Framework.Text
                     sb.Append(HtmlSafe(text.Substring(currentIndex)));
                 }
 
-				return ConvertHtmlToXHtml(sb.ToString(), null);
+                XhtmlConverter converter = new XhtmlConverter();
+                return converter.Transform(sb.ToString());
             }
         }
 
@@ -848,6 +727,10 @@ namespace Subtext.Framework.Text
             }
         }
 
+        static Regex _relRegex = new Regex(@"\s+rel\s*=\s*(""[^""]*?\btag\b.*?""|'[^']*?\btag\b.*?')", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        static Regex _hrefRegex = new Regex(@"\s+href\s*=\s*(""(?<url>[^""]*?)""|'(?<url>[^']*?)')", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        static Regex _anchorRegex = new Regex(@"<a(\s+\w+\s*=\s*(?:""[^""]*?""|'[^']*?')(?!\w))+\s*>.*?</a>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+
         /// <summary>
         /// Parses some html and returns a string collection of the tag names contained 
         /// within the HTML.
@@ -856,20 +739,20 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static List<string> ParseTags(string html)
         {
-            Regex relRegex = new Regex(@"\s+rel\s*=\s*(""[^""]*?\btag\b.*?""|'[^']*?\btag\b.*?')", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            Regex hrefRegex = new Regex(@"\s+href\s*=\s*(""(?<url>[^""]*?)""|'(?<url>[^']*?)')", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            Regex anchorRegex = new Regex(@"<a(\s+\w+\s*=\s*(?:""[^""]*?""|'[^']*?')(?!\w))+\s*>.*?</a>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
             List<string> tags = new List<string>();
+            if (String.IsNullOrEmpty(html)) {
+                return tags;
+            }
+            
             List<string> loweredTags = new List<string>();
 
-            foreach (Match m in anchorRegex.Matches(html))
+            foreach (Match m in _anchorRegex.Matches(html))
             {
                 string anchorHtml = m.Value;
-                if (!relRegex.IsMatch(anchorHtml))
+                if (!_relRegex.IsMatch(anchorHtml))
                     continue;
 
-                Match urlMatch = hrefRegex.Match(anchorHtml);
+                Match urlMatch = _hrefRegex.Match(anchorHtml);
                 if (urlMatch.Success)
                 {
                     string urlStr = urlMatch.Groups["url"].Value;

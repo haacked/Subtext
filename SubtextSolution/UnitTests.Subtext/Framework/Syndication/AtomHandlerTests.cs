@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             var dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, dateCreated);
             
-			int id = Entries.Create(entry); //persist to db.
+			int id = UnitTestHelper.Create(entry); //persist to db.
 
 			AtomHandler handler = new AtomHandler();
 

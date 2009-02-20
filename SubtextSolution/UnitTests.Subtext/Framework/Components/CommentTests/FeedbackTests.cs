@@ -171,7 +171,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
             Entry entry2 = UnitTestHelper.CreateEntryInstanceForSyndication("johnny b goode", "foo-bar", "zaa zaa zoo.");
-            Entries.Create(entry2);
+            UnitTestHelper.Create(entry2);
             info = Config.GetBlog(info.Host, info.Subfolder); // pull back the updated info from the datastore
 
             Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
@@ -425,7 +425,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Config.UpdateConfigData(info);
 
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("blah", "blah", "blah");
-            Entries.Create(entry);
+            UnitTestHelper.Create(entry);
             return entry;
         }
 

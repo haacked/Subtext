@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             UnitTestHelper.SetupBlog();
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-			int id = Entries.Create(entry);
+			int id = UnitTestHelper.Create(entry);
 
             Blog blog = Config.CurrentBlog;
 			blog.TrackbacksEnabled = false;
@@ -59,7 +59,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             UnitTestHelper.SetupBlog();
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "this is the title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-			int id = Entries.Create(entry);
+			int id = UnitTestHelper.Create(entry);
 
             Blog blog = Config.CurrentBlog;
             blog.TrackbacksEnabled = true;
@@ -144,7 +144,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             UnitTestHelper.SetupBlog();
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "this is the title", "body");
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            int id = Entries.Create(entry);
+            int id = UnitTestHelper.Create(entry);
 
             Blog blog = Config.CurrentBlog;
             blog.TrackbacksEnabled = true;

@@ -20,7 +20,11 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Properties;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Services;
 using Subtext.Framework.Util;
+using Subtext.Framework.Emoticons;
+using System.Web;
 
 namespace Subtext.Framework.Components
 {
@@ -158,14 +162,9 @@ namespace Subtext.Framework.Components
 			set;
 		}
 
-        public void PrepareBodyForPublishing(ICache cache, string rootUrl, bool useKeyWords) {
-            //Do this before we validate the text
-            if (useKeyWords) {
-                KeyWords.Format(this);
-            }
-
-            //TODO: Make this a configuration option.
-            Body = Transform.EmoticonTransforms(cache, rootUrl, Body);
+        public void Publish(IEntryPublisher publisher, int[] categoryIds)
+        {
+            publisher.Publish(this);
         }
 
 		/// <summary>
@@ -239,9 +238,6 @@ namespace Subtext.Framework.Components
                 return EntryPropertyCheck(PostConfig.IsActive);
             }
 			set {
-                if (value && NullValue.IsNull(DateSyndicated)) {
-                    DateSyndicated = Config.CurrentBlog.TimeZone.Now;
-                }
 			    PostConfigSetter(PostConfig.IsActive, value);
 			}
 		}

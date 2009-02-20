@@ -895,11 +895,11 @@
              <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-05-10 07:31:04Z">
               <Issue>
                <Item>'entry'</Item>
-               <Item>Entries.Create(Entry, Int32[]):Int32</Item>
+               <Item>UnitTestHelper.Create(Entry, Int32[]):Int32</Item>
               </Issue>
               <Issue>
                <Item>'entry'</Item>
-               <Item>Entries.Create(Entry, Int32[]):Int32</Item>
+               <Item>UnitTestHelper.Create(Entry, Int32[]):Int32</Item>
               </Issue>
              </Message>
             </Messages>

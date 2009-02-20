@@ -22,7 +22,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, "/");
             BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Me", "Unit Test Entry", "Body");
-			int id = Entries.Create(entry);
+			int id = UnitTestHelper.Create(entry);
 
 			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "My Subtext UnitTest Category");
 

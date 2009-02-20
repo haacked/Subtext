@@ -81,68 +81,19 @@ namespace Subtext.Framework.Text
 			return new string(newString, 0, i);
 		}
 
-		/// <summary>
-		/// Parses a camel cased or pascal cased string and returns an array 
-		/// of the words within the string.
-		/// </summary>
-		/// <example>
-		/// The string "PascalCasing" will return an array with two 
-		/// elements, "Pascal" and "Casing".
-		/// </example>
-		/// <param name="source"></param>
-		/// <returns></returns>
-		public static string[] SplitUppercase(this string source)
-		{
-			if(source == null)
-				return new string[] {}; //Return empty array.
+		public static IEnumerable<string> SplitIntoWords(this string source)
+        {
+            return _splitWordsRegex.Split(source.Trim());
+        }
 
-			if(source.Length == 0)
-				return new string[] {""};
+        private static Regex _splitWordsRegex = new Regex(@"\W+", RegexOptions.Compiled);
 
-			var words = new List<string>();
-			int wordStartIndex = 0;
-
-			char[] letters = source.ToCharArray();
-			// Skip the first letter. we don't care what case it is.
-			for(int i = 1; i < letters.Length; i++)
-			{
-				if(char.IsUpper(letters[i]))
-				{
-					//Grab everything before the current index.
-					words.Add(new String(letters, wordStartIndex, i - wordStartIndex));
-					wordStartIndex = i;
-				}
-			}
-			//We need to have the last word.
-			words.Add(new String(letters, wordStartIndex, letters.Length - wordStartIndex)); 
-
-			//Copy to a string array.
-			string[] wordArray = new string[words.Count];
-			words.CopyTo(wordArray, 0);
-			return wordArray;
-		}
-
-		/// <summary>
-		/// Parses a camel cased or pascal cased string and returns a new 
-		/// string with spaces between the words in the string.
-		/// </summary>
-		/// <example>
-		/// The string "PascalCasing" will return an array with two 
-		/// elements, "Pascal" and "Casing".
-		/// </example>
-		/// <param name="source"></param>
-		/// <returns></returns>
-		public static string SplitUppercaseToString(this string source)
-		{
-			return string.Join(" ", source.SplitUppercase());
-		}
-
-		/// <summary>
-		/// Converts text to pascal case...
-		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public static string ToPascalCase(this string text)
+        /// <summary>
+        /// Converts text to pascal case...
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string ToPascalCase(this string text)
 		{
 			if(text == null)
 				throw new ArgumentNullException("text", "Cannot PascalCase null text.");
@@ -371,8 +322,9 @@ namespace Subtext.Framework.Text
 		/// </returns>
 		public static bool IsNumeric(this string text)
 		{
-			return Regex.IsMatch(text, "^\\d+$");
+			return _numericRegex.IsMatch(text);
 		}
+        static Regex _numericRegex = new Regex(@"^\d+$", RegexOptions.Compiled);
 
         public static string MailToEncode(string s)
         {
@@ -461,26 +413,21 @@ namespace Subtext.Framework.Text
         static int IndexOfExpressionEnd(this string format, int startIndex)
         {
             int endBraceIndex = format.IndexOf('}', startIndex);
-            if (endBraceIndex == -1)
-            {
+            if (endBraceIndex == -1) {
                 return endBraceIndex;
             }
             //start peeking ahead until there are no more braces...
             // }}}}
             int braceCount = 0;
-            for (int i = endBraceIndex + 1; i < format.Length; i++)
-            {
-                if (format[i] == '}')
-                {
+            for (int i = endBraceIndex + 1; i < format.Length; i++) {
+                if (format[i] == '}') {
                     braceCount++;
                 }
-                else
-                {
+                else {
                     break;
                 }
             }
-            if (braceCount % 2 == 1)
-            {
+            if (braceCount % 2 == 1) {
                 return IndexOfExpressionEnd(format, endBraceIndex + braceCount + 1);
             }
 

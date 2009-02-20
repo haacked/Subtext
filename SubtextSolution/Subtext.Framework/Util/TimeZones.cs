@@ -157,7 +157,7 @@ namespace Subtext.Framework.Util
 		/// Gets the current time in this timezone.
 		/// </summary>
 		/// <value>The now.</value>
-		public DateTime Now
+		public virtual DateTime Now
 		{
 			get
 			{

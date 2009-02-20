@@ -63,9 +63,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             entryTwo.Categories.Add("cat8");
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
-            Entries.Create(entryTwo);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
+            UnitTestHelper.Create(entryTwo);
 
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
@@ -98,8 +98,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Thread.Sleep(100);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one");
 
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
 
 
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
@@ -145,9 +145,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             entryTwo.Categories.Add("Test Category");
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
-            Entries.Create(entryTwo);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
+            UnitTestHelper.Create(entryTwo);
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
@@ -184,9 +184,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
-            Entries.Create(entryTwo);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
+            UnitTestHelper.Create(entryTwo);
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
@@ -224,9 +224,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
-            Entries.Create(entryTwo);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
+            UnitTestHelper.Create(entryTwo);
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);

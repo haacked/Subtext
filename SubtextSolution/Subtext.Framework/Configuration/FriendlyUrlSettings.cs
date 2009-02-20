@@ -34,7 +34,9 @@ namespace Subtext.Configuration
 
 		public static FriendlyUrlSettings Settings
 		{
-			get { return settings; }
+			get { 
+                return settings; 
+            }
 		}
 
 		/// <summary>

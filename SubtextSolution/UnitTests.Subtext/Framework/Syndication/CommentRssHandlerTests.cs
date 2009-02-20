@@ -52,7 +52,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
 
-            int id = Entries.Create(entry); //persist to db.
+            int id = UnitTestHelper.Create(entry); //persist to db.
 
 			RssCommentHandler handler = new RssCommentHandler();
             string rssOutput = null;

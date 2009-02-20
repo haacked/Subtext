@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -26,12 +27,13 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
-using Subtext.Framework.Tracking;
-using System.Data.SqlClient;
-using Subtext.Framework.Exceptions;
+using Subtext.Framework.Services;
+using System.Data.Common;
 
 namespace Subtext.Framework
 {
@@ -211,73 +213,7 @@ namespace Subtext.Framework
 		#endregion
 
 		#region Create
-		/// <summary>
-		/// Creates the specified entry and returns its ID.
-		/// </summary>
-		/// <param name="entry">Entry.</param>
-		/// <returns></returns>
-		public static int Create(Entry entry)
-		{
-            if (entry == null) {
-                throw new ArgumentNullException("entry");//Resources.ArgumentNull_Generic);
-            }
-
-            Debug.Assert(entry.PostType != PostType.None, "Posttype should never be null.");
-
-			if (Config.CurrentBlog.AutoFriendlyUrlEnabled
-				&& String.IsNullOrEmpty(entry.EntryName)
-				&& !String.IsNullOrEmpty(entry.Title))
-			{
-				entry.EntryName = AutoGenerateFriendlyUrl(entry.Title, entry.Id);
-			}
-            else if (!String.IsNullOrEmpty(entry.EntryName))
-            {
-				entry.EntryName = AutoGenerateFriendlyUrl(entry.EntryName, entry.Id);
-            }
-			
-			if(NullValue.IsNull(entry.DateCreated))
-			{
-				entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
-			}
-
-            if (entry.IsActive)
-            {
-                if (NullValue.IsNull(entry.DateSyndicated))
-                {
-                    entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
-                }
-            }
-            else
-            {
-                entry.DateSyndicated = NullValue.NullDateTime;
-            }
-
-			int[] categoryIds = {};
-			if(entry.Categories.Count > 0)
-			{
-				categoryIds = GetCategoryIdsFromCategoryTitles(entry);
-			}
-
-			try
-			{
-				entry.Id = ObjectProvider.Instance().Create(entry, categoryIds);
-			}
-			catch(SqlException e)
-			{
-				if(e.Message.Contains("pick a unique EntryName"))
-				{
-					throw new DuplicateEntryException("An entry with that EntryName already exists.", e);
-				}
-				throw;
-			}
-			Tags.SetTagsOnEntry(entry);
-
-			log.Debug("Created entry, running notification services.");
-			
-			return entry.Id;
-		}
-
-		public static int[] GetCategoryIdsFromCategoryTitles(Entry entry)
+        public static IEnumerable<int> GetCategoryIdsFromCategoryTitles(Entry entry)
 		{
 			int[] categoryIds;
 			Collection<int> catIds = new Collection<int>();
@@ -555,7 +491,7 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="entryId">The entry id.</param>
 		/// <param name="categories">The categories.</param>
-		public static void SetEntryCategoryList(int entryId, params int[] categories)
+        public static void SetEntryCategoryList(int entryId, IEnumerable<int> categories)
 		{
 			ObjectProvider.Instance().SetEntryCategoryList(entryId, categories);
 		}

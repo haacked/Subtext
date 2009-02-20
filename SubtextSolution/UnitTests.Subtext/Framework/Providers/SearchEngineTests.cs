@@ -17,8 +17,8 @@ namespace UnitTests.Subtext.Framework.Providers
         public void Search_WithMultipleMatchingEntries_FindsThoseEntries() {
             //arrange
             UnitTestHelper.SetupBlog();
-            Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("author", "whatever 1", "body"));
-            Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("author", "whatever 2", "the body has some words"));
+            UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("author", "whatever 1", "body"));
+            UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("author", "whatever 2", "the body has some words"));
             var urlHelper = new Mock<UrlHelper>();
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
             var search = new SearchEngine(Config.CurrentBlog, urlHelper.Object, Config.ConnectionString);

@@ -207,7 +207,7 @@ namespace UnitTests.Subtext.Framework.Data
 	{
 		public void Create(int index)
 		{
-			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "Title" + index, "Who rocks the party that rocks the party?"));
+			UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "Title" + index, "Who rocks the party that rocks the party?"));
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
@@ -239,7 +239,7 @@ namespace UnitTests.Subtext.Framework.Data
 		{
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "Title" + index, "Who rocks the party that rocks the party?");
 			entry.Categories.Add("Foobar");
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
@@ -323,7 +323,7 @@ namespace UnitTests.Subtext.Framework.Data
 			
 			//Create a couple links that should be ignored because postId is not null.
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "title", "in great shape");
-			int entryId = Entries.Create(entry);
+			int entryId = UnitTestHelper.Create(entry);
 			UnitTestHelper.CreateLinkInDb(this.categoryId, "A Forgettable Link", entryId, String.Empty);
             UnitTestHelper.CreateLinkInDb(this.categoryId, "Another Forgettable Link", entryId, String.Empty);
             UnitTestHelper.CreateLinkInDb(this.categoryId, "Another Forgettable Link", entryId, String.Empty);

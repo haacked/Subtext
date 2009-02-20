@@ -274,4 +274,7 @@
    &lt;/rdf:RDF&gt;
 --&gt;</value>
   </data>
+  <data name="InvalidOperation_PostTypeIsNone" xml:space="preserve">
+    <value>PostType must not be set to PostType.None</value>
+  </data>
 </root>

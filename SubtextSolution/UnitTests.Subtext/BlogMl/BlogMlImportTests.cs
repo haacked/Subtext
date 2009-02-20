@@ -1,20 +1,21 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using MbUnit.Framework;
+using Moq;
 using Subtext.BlogML;
 using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.ImportExport;
-using Moq;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.Framework.Import
 {
@@ -34,6 +35,8 @@ namespace UnitTests.Subtext.Framework.Import
             //Test BlogML reader.
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object));
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.FieldsTooLong.xml");
             reader.ReadBlog(stream);
@@ -55,6 +58,9 @@ namespace UnitTests.Subtext.Framework.Import
             //Test BlogML reader.
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
             BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object));
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.PostWithAuthor.xml");
             reader.ReadBlog(stream);
@@ -74,6 +80,9 @@ namespace UnitTests.Subtext.Framework.Import
         	
             //Test BlogML reader.
             var subtextContext = new Mock<ISubtextContext>();
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object));
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml");
@@ -94,6 +103,9 @@ namespace UnitTests.Subtext.Framework.Import
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+
 			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object));
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.TwoCategories.xml");
 			reader.ReadBlog(stream);
@@ -134,6 +146,8 @@ namespace UnitTests.Subtext.Framework.Import
 			UnitTestHelper.CreateBlogAndSetupContext();
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
 
 			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object));
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithBadCategoryRef.xml");
