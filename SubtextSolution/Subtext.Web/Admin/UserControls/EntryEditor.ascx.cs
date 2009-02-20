@@ -30,6 +30,7 @@ using Subtext.Web.Admin.Pages;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
 using Subtext.Web.UI.Controls;
+using Subtext.Framework.Services;
 
 namespace Subtext.Web.Admin.UserControls
 {
@@ -427,7 +428,8 @@ namespace Subtext.Web.Admin.UserControls
 					}
 					else
 					{
-						_postId = Entries.Create(entry);
+                        var entryPublisher = new EntryPublisher(SubtextContext);
+                        _postId = entryPublisher.Publish(entry);
                         NotificationServices.Run(entry, Blog, Url);
 
                         if(entry.Enclosure != null)

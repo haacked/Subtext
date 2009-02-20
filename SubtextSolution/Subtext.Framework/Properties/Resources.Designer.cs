@@ -11,7 +11,6 @@
 namespace Subtext.Framework.Properties {
     using System;
     
-    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -435,6 +434,17 @@ namespace Subtext.Framework.Properties {
         internal static string InvalidOperation_WaitTimeLessThanZero {
             get {
                 return ResourceManager.GetString("InvalidOperation_WaitTimeLessThanZero", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to We&apos;d all like to be able to go back in time, but this is not allowed. Please choose a positive wait time..
+        /// </summary>
+        internal static string InvalidOperation_PostTypeIsNone
+        {
+            get
+            {
+                return ResourceManager.GetString("InvalidOperation_PostTypeIsNone", resourceCulture);
             }
         }
         

@@ -42,6 +42,11 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Security;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Framework.Services;
+using Subtext.Framework.Providers;
+using System.Web.Routing;
+using Subtext.Framework.Routing;
+using Subtext.Web;
 
 namespace UnitTests.Subtext
 {
@@ -1121,5 +1126,14 @@ namespace UnitTests.Subtext
             return new SimulatedRequestContext(request, sb, output, host);
         }
 
+        public static int Create(Entry entry) {
+            var requestContext = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
+            var routes = new RouteCollection();
+            Global.RegisterRoutes(routes);
+            var urlHelper = new UrlHelper(requestContext, routes);
+            var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper, ObjectProvider.Instance());
+            var entryPublisher = new EntryPublisher(subtextContext, false);
+            return entryPublisher.Publish(entry);
+        }
 	}
 }

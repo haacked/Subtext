@@ -23,6 +23,9 @@ using Subtext.Framework.Configuration;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
 using Subtext.Framework.Routing;
+using Subtext.Framework;
+using Subtext.Framework.Providers;
+using System.Web.Routing;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -38,7 +41,7 @@ namespace Subtext.Web.Admin.Pages
 	/// Base Page class for all pages in the admin tool.
 	/// </summary>
 	[PrincipalPermission(SecurityAction.Demand, Role = "Admins")]
-	public class AdminPage : RoutablePage
+	public class AdminPage : RoutablePage, ISubtextHandler
 	{
         private HtmlGenericControl body;
 		
@@ -118,6 +121,21 @@ namespace Subtext.Web.Admin.Pages
         }
         string tabSectionId;
 
-	}
+        ISubtextContext _subtextContext;
+        public ISubtextContext SubtextContext
+        {
+            get
+            {
+                if (_subtextContext == null) {
+                    _subtextContext = new SubtextContext(Config.CurrentBlog, RequestContext, new UrlHelper(RequestContext, RouteTable.Routes), ObjectProvider.Instance());
+                }
+                return _subtextContext;
+            }
+            set
+            {
+                
+            }
+        }
+    }
 }
 

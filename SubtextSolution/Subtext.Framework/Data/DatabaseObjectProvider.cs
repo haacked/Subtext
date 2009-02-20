@@ -52,7 +52,7 @@ namespace Subtext.Framework.Data
 
         public DateTime CurrentDateTime {
             get {
-                return Config.CurrentBlog.TimeZone.Now;
+                return BlogRequest.Current.Blog.TimeZone.Now;
             }
         }
 
@@ -74,10 +74,6 @@ namespace Subtext.Framework.Data
             //never allow scripts in the url.
             if (HtmlHelper.HasIllegalContent(e.EntryName)) {
                 throw new IllegalPostCharactersException("Illegal Characters Found");
-            }
-
-            if (!HtmlHelper.ConvertHtmlToXHtml(e)) {
-                return false;
             }
 
             return true;

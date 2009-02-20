@@ -56,10 +56,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two", null, NullValue.NullDateTime);
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
             entryTwo.DateSyndicated = Config.CurrentBlog.TimeZone.Now.AddMinutes(20);
-            Entries.Create(entryTwo);
+            UnitTestHelper.Create(entryTwo);
 
             //Get Entries
             ICollection<Entry> entries = Entries.GetRecentPosts(3, PostType.BlogPost, PostConfig.IsActive, true);
@@ -95,10 +95,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two", null, NullValue.NullDateTime);
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
             entryTwo.DateSyndicated = Config.CurrentBlog.TimeZone.Now.AddMinutes(20);
-            Entries.Create(entryTwo);
+            UnitTestHelper.Create(entryTwo);
 
 
             List<string> tags = new List<string>(new string[] { "Tag1", "Tag2" });
@@ -147,10 +147,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             entryTwo.Categories.Add("Test Category");
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
             entryTwo.DateSyndicated = Config.CurrentBlog.TimeZone.Now.AddMinutes(20);
-            Entries.Create(entryTwo);
+            UnitTestHelper.Create(entryTwo);
 
 
             //Get Entries
@@ -187,10 +187,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
             entryTwo.DateSyndicated = Config.CurrentBlog.TimeZone.Now.AddMinutes(20);
-            Entries.Create(entryTwo);
+            UnitTestHelper.Create(entryTwo);
 
 
 
@@ -227,10 +227,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 
             //Persist entries.
-            Entries.Create(entryZero);
-            Entries.Create(entryOne);
+            UnitTestHelper.Create(entryZero);
+            UnitTestHelper.Create(entryOne);
             entryTwo.DateSyndicated = Config.CurrentBlog.TimeZone.Now.AddMinutes(20);
-            Entries.Create(entryTwo);
+            UnitTestHelper.Create(entryTwo);
 
 
             //Get Entries

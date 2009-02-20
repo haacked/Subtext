@@ -48,8 +48,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-1));
 			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now);
 
-			int previousId = Entries.Create(previousEntry);
-			int currentId = Entries.Create(currentEntry);
+			int previousId = UnitTestHelper.Create(previousEntry);
+			int currentId = UnitTestHelper.Create(currentEntry);
 
 			ICollection<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
 			Assert.AreEqual(1, entries.Count, "Since there is no next entry, should return only 1");
@@ -71,8 +71,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-1));
 			Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now);
 
-			int currentId = Entries.Create(currentEntry);
-			int nextId = Entries.Create(nextEntry);
+			int currentId = UnitTestHelper.Create(currentEntry);
+			int nextId = UnitTestHelper.Create(nextEntry);
 
 			ICollection<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
 			Assert.AreEqual(1, entries.Count, "Since there is no previous entry, should return only next");
@@ -95,11 +95,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(-1));
 			Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now);
 
-			int previousId = Entries.Create(previousEntry);
+			int previousId = UnitTestHelper.Create(previousEntry);
 			Thread.Sleep(100);
-			int currentId = Entries.Create(currentEntry);
+			int currentId = UnitTestHelper.Create(currentEntry);
 			Thread.Sleep(100);
-			int nextId = Entries.Create(nextEntry);
+			int nextId = UnitTestHelper.Create(nextEntry);
 
 			ICollection<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
 			Assert.AreEqual(2, entries.Count, "Expected both previous and next.");
@@ -128,11 +128,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 			Entry lastEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateUniqueString(), DateTime.Now.AddDays(1));
 
 			Thread.Sleep(100);
-			int previousId = Entries.Create(previousEntry);
+			int previousId = UnitTestHelper.Create(previousEntry);
 			Thread.Sleep(100);
-			int currentId = Entries.Create(currentEntry);
+			int currentId = UnitTestHelper.Create(currentEntry);
 			Thread.Sleep(100);
-			int nextId = Entries.Create(nextEntry);
+			int nextId = UnitTestHelper.Create(nextEntry);
 			Thread.Sleep(100);
 
 			ICollection<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
@@ -164,9 +164,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
             nextEntry.IsActive = false;
 
 			//Create out of order.
-			int currentId = Entries.Create(currentEntry);
-			int nextId = Entries.Create(nextEntry);
-			int previousId = Entries.Create(previousEntry);
+			int currentId = UnitTestHelper.Create(currentEntry);
+			int nextId = UnitTestHelper.Create(nextEntry);
+			int previousId = UnitTestHelper.Create(previousEntry);
 			
 			//Now syndicate.
             previousEntry.IsActive = true;

@@ -289,9 +289,6 @@
     </Compile>
     <Compile Include="Framework\Components\EntryTests\FutureEntriesGetTests.cs" />
     <Compile Include="Framework\Components\EntryTests\EntryCategoryTests.cs" />
-    <Compile Include="Framework\Components\EntryTests\EntryCreationTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Framework\Components\EntryTests\EntryDayGetTests.cs" />
     <Compile Include="Framework\Components\EntryTests\EntryFilterTests.cs">
       <SubType>Code</SubType>
@@ -370,6 +367,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Services\BlogLookupServiceTests.cs" />
+    <Compile Include="Framework\Services\EntryPublisherTests.cs" />
+    <Compile Include="Framework\Services\SlugGeneratorTests.cs" />
+    <Compile Include="Framework\Services\XhtmlConverterTests.cs" />
     <Compile Include="Framework\Skinning\SkinScriptsTests.cs" />
     <Compile Include="Framework\Skinning\SkinStylesTests.cs" />
     <Compile Include="Framework\Skinning\SkinTests.cs" />
@@ -395,10 +395,15 @@
     <Compile Include="Framework\Text\ConvertToAllowedHtmlTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Services\Emoticons\EmoticonsFileSourceTests.cs" />
+    <Compile Include="Framework\Services\Emoticons\EmoticonTests.cs" />
+    <Compile Include="Framework\Text\HtmlToXhtmlTransformationTests.cs" />
+    <Compile Include="Framework\Services\Emoticons\EmoticonsTransformationTests.cs" />
     <Compile Include="Framework\Text\FormatExpressionTests.cs" />
     <Compile Include="Framework\Text\HtmlHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Services\KeywordExpanderTests.cs" />
     <Compile Include="Framework\Text\LiteralFormatTests.cs" />
     <Compile Include="Framework\Text\RemoveHtmlTests.cs">
       <SubType>Code</SubType>

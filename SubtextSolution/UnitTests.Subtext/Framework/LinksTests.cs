@@ -42,8 +42,8 @@ namespace UnitTests.Subtext.Framework
 			Links.CreateLinkCategory(CreateCategory("Post Category 3", "Cody roolz and again!", CategoryType.PostCollection, true));
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
-			int entryId = Entries.Create(entry);
-			Entries.SetEntryCategoryList(entryId, category1Id, category2Id);
+			int entryId = UnitTestHelper.Create(entry);
+			Entries.SetEntryCategoryList(entryId, new int[]{ category1Id, category2Id});
 
             ICollection<LinkCategory> categories = Links.GetLinkCategoriesByPostID(entryId);
 			Assert.AreEqual(2, categories.Count, "Expected two of the three categories");

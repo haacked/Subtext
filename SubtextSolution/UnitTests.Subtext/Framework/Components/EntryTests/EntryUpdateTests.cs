@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 
 			Entry savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
 			Assert.IsNotNull(savedEntry);
@@ -48,7 +48,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 
 			Assert.IsTrue(entry.IncludeInMainSyndication, "Failed to setup this test properly.  This entry should be included in the main syndication.");
 			Assert.IsFalse(NullValue.IsNull(entry.DateSyndicated), "Failed to setup this test properly. DateSyndicated should be null.");
@@ -83,7 +83,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             entry.Title = "My Title";
             entry.Body = "My Post Body";
 
-            Entries.Create(entry);
+            UnitTestHelper.Create(entry);
             entry = Entries.GetEntry(entry.Id, PostConfig.None, false);
 
             entry.EntryName = "4321";

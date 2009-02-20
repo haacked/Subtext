@@ -37,11 +37,11 @@ namespace UnitTests.Subtext.Framework
 			UnitTestHelper.SetupBlog();
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "the title for this post", "test");
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 			Tags.SetTagsOnEntry(entry.Id, new List<string>(new string[] {"tag1", "tag2", "tag3"}));
 
 			entry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "the title for this post", @"<a href=""http://blah/tag3/"" rel=""tag"">test</a>");
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 
 			ICollection<Tag> topTags = Tags.GetTopTags(1);
             Assert.AreEqual("tag3", topTags.First().TagName);

@@ -15,20 +15,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Web;
 using log4net;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
-using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
-using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework
 {
@@ -193,7 +188,7 @@ namespace Subtext.Framework
         /// Gets the time zone.
         /// </summary>
         /// <value>The time zone.</value>
-        public WindowsTimeZone TimeZone
+        public virtual WindowsTimeZone TimeZone
         {
             get
             {

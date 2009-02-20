@@ -19,7 +19,7 @@ namespace UnitTests.Subtext.Framework
 			Assert.AreEqual(0, counts.Count);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title", "body");
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 			counts = Archives.GetPostCountByMonth();
 			Assert.AreEqual(1, counts.Count);
 			
@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title", "body");
             entry.DateSyndicated = DateTime.Now.AddDays(-1);
-            Entries.Create(entry);
+            UnitTestHelper.Create(entry);
 			counts = Archives.GetPostCountByYear();
 			Assert.AreEqual(1, counts.Count);
 
@@ -67,7 +67,7 @@ namespace UnitTests.Subtext.Framework
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title", "body");
 			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "Test");
-			int entryId = Entries.Create(entry);
+			int entryId = UnitTestHelper.Create(entry);
 			Entries.SetEntryCategoryList(entryId, new int[] { categoryId });
 			counts = Archives.GetPostCountByCategory();
 			Assert.AreEqual(1, counts.Count);

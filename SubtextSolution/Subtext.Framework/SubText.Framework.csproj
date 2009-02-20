@@ -464,6 +464,17 @@
     </Compile>
     <Compile Include="Routing\RouteHandlerBase.cs" />
     <Compile Include="Routing\SubfolderRoute.cs" />
+    <Compile Include="Services\EntryPublisher.cs" />
+    <Compile Include="Services\IEntryPublisher.cs" />
+    <Compile Include="Services\ISlugGenerator.cs" />
+    <Compile Include="Services\ITextTransformation.cs" />
+    <Compile Include="Services\Emoticons\Emoticon.cs" />
+    <Compile Include="Services\Emoticons\EmoticonsFileSource.cs" />
+    <Compile Include="Services\Emoticons\EmoticonsTransformation.cs" />
+    <Compile Include="Services\SlugGenerator.cs" />
+    <Compile Include="Services\XhtmlConverter.cs" />
+    <Compile Include="Services\Emoticons\EmoticonsSource.cs" />
+    <Compile Include="Services\KeywordExpander.cs" />
     <Compile Include="Web\SubtextPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -536,7 +547,6 @@
     <Compile Include="Syndication\RssWriter.cs" />
     <Compile Include="Tags.cs" />
     <Compile Include="Text\FormatExpression.cs" />
-    <Compile Include="Text\HaackFormatter.cs" />
     <Compile Include="Text\HtmlHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -663,6 +673,7 @@
     <EmbeddedResource Include="Email\Templates\CommentReceived.template" />
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Data\CodeGen\StoredProcedures.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>StoredProcedures.cs</LastGenOutput>

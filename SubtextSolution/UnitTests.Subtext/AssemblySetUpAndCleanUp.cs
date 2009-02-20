@@ -15,24 +15,24 @@ namespace UnitTests.Subtext
         [CoverageExclude]
 		public static void SetUp()
 		{
-			Console.WriteLine("Assembly Setup beginning...");
-			if (ConfigurationManager.AppSettings["connectionStringName"] == "subtextExpress")
-			{
-				//For use with SQL Express. If you use "subtextData", we assume you already have the database created.
-				DatabaseHelper.CreateAndInstallDatabase(Config.ConnectionString, Config.ConnectionString.Database, "App_Data");
-			}
-			else
-			{
-				using (SqlConnection connection = new SqlConnection(Config.ConnectionString))
-				{
-					connection.Open();
-					using (SqlTransaction transaction = connection.BeginTransaction())
-					{
-						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
-						transaction.Commit();
-					}
-				}
-			}
+            Console.WriteLine("Assembly Setup beginning...");
+            if (ConfigurationManager.AppSettings["connectionStringName"] == "subtextExpress")
+            {
+                //For use with SQL Express. If you use "subtextData", we assume you already have the database created.
+                DatabaseHelper.CreateAndInstallDatabase(Config.ConnectionString, Config.ConnectionString.Database, "App_Data");
+            }
+            else
+            {
+                using (SqlConnection connection = new SqlConnection(Config.ConnectionString))
+                {
+                    connection.Open();
+                    using (SqlTransaction transaction = connection.BeginTransaction())
+                    {
+                        ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
+                        transaction.Commit();
+                    }
+                }
+            }
 		}
 
         [TearDown]

@@ -24,7 +24,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
 			entry.IsActive = false;
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 			List<string> tags = new List<string>(new string[] { "Tag1", "Tag2" });
 			new DatabaseObjectProvider().SetEntryTagList(entry.Id, tags);
 			ICollection<Entry> entries = Entries.GetEntriesByTag(1, "Tag1");
@@ -41,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 
 			List<string> tags = new List<string>(new string[] {"Tag1", "Tag2"});
 			new DatabaseObjectProvider().SetEntryTagList(entry.Id, tags);
@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 			entry.Body = "<a title=\"title-bar!\" " + Environment.NewLine + " href=\"http://blah/yourtag\" " + Environment.NewLine + "rel=\"tag\">nothing</a>";
 			Entries.Update(entry);
 
@@ -87,7 +87,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 			entry.Body = "<a href=\"" + url + "\" rel=\"tag\">nothing</a>";
 			Entries.Update(entry);
 
@@ -106,7 +106,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 			entry.Body = "<a href=\"http://blah/yourtag\" rel=\"tag friend\">nothing</a>";
 			Entries.Update(entry);
 
@@ -125,7 +125,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 			entry.Body = "<a href	  =  \"http://blah/sometag\" rel	=  \"tag friend\">nothing</a>";
 			Entries.Update(entry);
 
@@ -144,7 +144,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
-			Entries.Create(entry);
+			UnitTestHelper.Create(entry);
 			entry.Body = "<a href= \"http://blah/sometag\" rel= \"tag Friend\">nothing</a><a href= \"http://blah/sometag\" rel= \"tag friend\">something</a>";
 			Entries.Update(entry);
 

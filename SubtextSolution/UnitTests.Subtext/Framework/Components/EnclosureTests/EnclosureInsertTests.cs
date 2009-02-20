@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         {
             this.blog = UnitTestHelper.CreateBlogAndSetupContext();
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures", "Listen to my great podcast");
-            int entryId = Entries.Create(e);
+            int entryId = UnitTestHelper.Create(e);
             Enclosure enc = UnitTestHelper.BuildEnclosure(title, url, mimetype, entryId, size, addToFeed, showWithPost);
 
             Enclosures.Create(enc);
@@ -56,7 +56,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         {
             this.blog = UnitTestHelper.CreateBlogAndSetupContext();
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures", "Listen to my great podcast");
-            int entryId = Entries.Create(e);
+            int entryId = UnitTestHelper.Create(e);
 
             Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, false);
 

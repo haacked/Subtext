@@ -48,7 +48,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 
             Entry e =
                 UnitTestHelper.CreateEntryInstanceForSyndication("Steve Harman", "Loves Subtexting!", "Roses are red...");
-            Entries.Create(e);
+            UnitTestHelper.Create(e);
 
             Assert.AreEqual(0, MetaTags.GetMetaTagsForEntry(e, 0, 100).Count, "Shouldn't have found any MetaTags for this entry.");
         }
@@ -74,7 +74,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             this.blog = UnitTestHelper.CreateBlogAndSetupContext();
 
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Steve-o", "Bar", "Steve is still rockin it... or is he?");
-            Entries.Create(e);
+            UnitTestHelper.Create(e);
 
             InsertNewMetaTag("Adding description meta tag", "description", null, DateTime.Now, blog.Id, null);
             InsertNewMetaTag("no-cache", null, "cache-control", DateTime.Now, blog.Id, null);

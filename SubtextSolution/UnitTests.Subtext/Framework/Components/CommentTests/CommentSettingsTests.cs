@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "test entry", "the body of the entry");
-			int entryId = Entries.Create(entry);
+			int entryId = UnitTestHelper.Create(entry);
 			//create comment.
 			FeedbackItem comment = UnitTestHelper.CreateCommentInstance(entryId, "joe schmoe", "blah blah.", "I have nothing to say.", DateTime.Now);
 			Assert.IsFalse(SecurityHelper.IsAdmin, "Comment moderation would not affect admins");
@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			Config.CurrentBlog.ModerationEnabled = true;
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "test entry", "the body of the entry");
-			int entryId = Entries.Create(entry);
+			int entryId = UnitTestHelper.Create(entry);
 			
 			//create comment.
 			FeedbackItem comment = UnitTestHelper.CreateCommentInstance(entryId, "joe schmoe", "blah xsatho setnuh blah.", "I have nothing interesting to say at all.", DateTime.Now);

@@ -249,7 +249,7 @@ namespace Subtext.Framework.Data
         /// <param name="entry">Entry.</param>
         /// <param name="categoryIds">Category I ds.</param>
         /// <returns></returns>
-        public override int Create(Entry entry, int[] categoryIds)
+        public override int Create(Entry entry, IEnumerable<int> categoryIds)
         {
             if (!ValidateEntry(entry)) {
                 throw new BlogFailedPostException("Failed post exception");

@@ -1,5 +1,6 @@
 ﻿using System.Security.Principal;
 using System.Web.Routing;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 
@@ -13,6 +14,7 @@ namespace Subtext.Framework
             UrlHelper = urlHelper;
             Repository = repository;
             User = requestContext.HttpContext.User;
+            Cache = new SubtextCache(requestContext.HttpContext.Cache);
         }
 
         public Blog Blog
@@ -37,6 +39,11 @@ namespace Subtext.Framework
         }
 
         public IPrincipal User {
+            get;
+            private set;
+        }
+
+        public ICache Cache {
             get;
             private set;
         }

@@ -47,7 +47,7 @@ namespace UnitTests.Subtext.Framework.Syndication
                 NullValue.NullDateTime);
             entry.DateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             entry.DateSyndicated = entry.DateCreated;
-			Entries.Create(entry); //persist to db.
+			UnitTestHelper.Create(entry); //persist to db.
 
             string rssOutput = null;
             var subtextContext = new Mock<ISubtextContext>();
@@ -83,7 +83,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, NullValue.NullDateTime);
             entry.DateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             entry.DateSyndicated = entry.DateCreated;
-            int entryId = Entries.Create(entry); //persist to db.
+            int entryId = UnitTestHelper.Create(entry); //persist to db.
 
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
             string enclosureMimeType = "audio/mp3";
@@ -126,9 +126,9 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Config.CreateBlog("", "username", "password", hostName, string.Empty);
             BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
 
-			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
+			UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
 			Thread.Sleep(50);
-			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
+			UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
 
             var subtextContext = new Mock<ISubtextContext>();
             string rssOutput = null;
@@ -162,9 +162,9 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			//Create two entries, but only include one in main syndication.
             var entryForSyndication = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
-            Entries.Create(entryForSyndication);
+            UnitTestHelper.Create(entryForSyndication);
             var entryTwoForSyndication = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2");
-            int id = Entries.Create(entryTwoForSyndication);
+            int id = UnitTestHelper.Create(entryTwoForSyndication);
             Entry entry = Entries.GetEntry(id, PostConfig.None, false);
 		    DateTime date = entry.DateSyndicated;
 			entry.IncludeInMainSyndication = false;
@@ -214,9 +214,9 @@ namespace UnitTests.Subtext.Framework.Syndication
             BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
 
 			//Create two entries.
-			int firstId = Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
+			int firstId = UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
 			Thread.Sleep(1000);
-			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
+			UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
 
             var subtextContext = new Mock<ISubtextContext>();
             string rssOutput = null;
@@ -283,10 +283,10 @@ namespace UnitTests.Subtext.Framework.Syndication
             Config.CurrentBlog.TimeZoneId = HawaiiTimeZoneId;
 
             //Create two entries, but only include one in main syndication.
-            Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking",null, NullValue.NullDateTime));
+            UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking",null, NullValue.NullDateTime));
             Entry futureEntry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2", null, NullValue.NullDateTime);
             futureEntry.DateSyndicated = Config.CurrentBlog.TimeZone.Now.AddMinutes(20);
-            Entries.Create(futureEntry);
+            UnitTestHelper.Create(futureEntry);
 
             string rssOutput = null;
             var subtextContext = new Mock<ISubtextContext>();
@@ -349,9 +349,9 @@ namespace UnitTests.Subtext.Framework.Syndication
             //Config.CreateBlog("", "username", "password", hostName, string.Empty);
             //Config.CurrentBlog.UseSyndicationCompression = true;
 
-            //Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
+            //UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
             //Thread.Sleep(50);
-            //Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
+            //UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
 
             //RssHandler handler = new RssHandler();
             //Assert.IsNotNull(HttpContext.Current.Request.Headers, "Headers collection is null! Not Good.");

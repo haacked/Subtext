@@ -1,6 +1,9 @@
 using System;
+using System.Linq;
 using MbUnit.Framework;
 using Subtext.Framework.Text;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace UnitTests.Subtext.Framework.Text
 {
@@ -94,5 +97,32 @@ namespace UnitTests.Subtext.Framework.Text
 		{
 			Assert.AreEqual(expected, StringHelper.LeftBefore(source, search, comparison), "Truncating did not return the correct result.");
 		}
+
+        [Test]
+        public void SplitIntoWords_WithStringContainingSpaces_SplitsIntoWords() { 
+            //arrange, act
+            IEnumerable<string> words = "this is a test".SplitIntoWords().ToList();
+            
+            //assert
+            Assert.AreEqual(4, words.Count());
+            Assert.AreEqual("this", words.First());
+            Assert.AreEqual("is", words.ElementAt(1));
+            Assert.AreEqual("a", words.ElementAt(2));
+            Assert.AreEqual("test", words.ElementAt(3));
+        }
+
+        [Test]
+        public void SplitIntoWords_WithStringContainingTabsAndDoubleSpaces_SplitsIntoWords()
+        {
+            //arrange, act
+            IEnumerable<string> words = "  this \t is\ta  test  \t".SplitIntoWords().ToList();
+
+            //assert
+            Assert.AreEqual(4, words.Count());
+            Assert.AreEqual("this", words.First());
+            Assert.AreEqual("is", words.ElementAt(1));
+            Assert.AreEqual("a", words.ElementAt(2));
+            Assert.AreEqual("test", words.ElementAt(3));
+        }
 	}
 }
