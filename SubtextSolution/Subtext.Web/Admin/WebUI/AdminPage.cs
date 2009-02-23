@@ -26,6 +26,7 @@ using Subtext.Framework.Routing;
 using Subtext.Framework;
 using Subtext.Framework.Providers;
 using System.Web.Routing;
+using Subtext.Web.Admin.Commands;
 
 namespace Subtext.Web.Admin.Pages
 {

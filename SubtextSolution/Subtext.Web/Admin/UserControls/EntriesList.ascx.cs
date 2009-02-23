@@ -7,6 +7,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.UI.Controls;
+using Subtext.Web.Admin.Commands;
 
 namespace Subtext.Web.Admin.UserControls {
     public partial class EntriesList : BaseControl {
@@ -51,7 +52,7 @@ namespace Subtext.Web.Admin.UserControls {
         private void ConfirmDelete(int postID) {
             AdminPage page = (AdminPage)Page;
             if (page != null) {
-                page.Command = new DeletePostCommand(postID);
+                page.Command = new DeletePostCommand(Repository, postID);
                 page.Command.RedirectUrl = Request.Url.ToString();
             }
             Server.Transfer("../" + Constants.URL_CONFIRM);

@@ -6,6 +6,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -30,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entry savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
 			Assert.IsNotNull(savedEntry);
 
-			Entries.Delete(entry.Id);
+			ObjectProvider.Instance().DeleteEntry(entry.Id);
 
 			savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
 			Assert.IsNull(savedEntry, "Entry should now be null.");

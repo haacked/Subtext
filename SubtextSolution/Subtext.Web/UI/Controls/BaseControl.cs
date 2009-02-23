@@ -19,6 +19,7 @@ using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Web.Controls;
 using Subtext.Web.Controls.Captcha;
@@ -75,6 +76,12 @@ namespace Subtext.Web.UI.Controls
         {
             get {
                 return SubtextPage.SubtextContext;
+            }
+        }
+
+        protected ObjectProvider Repository {
+            get {
+                return SubtextContext.Repository;
             }
         }
 

@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using Subtext.Web.Admin.Commands;
 
 namespace Subtext.Web.Admin.Pages
 {

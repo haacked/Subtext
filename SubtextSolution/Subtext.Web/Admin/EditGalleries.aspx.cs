@@ -24,6 +24,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Image=Subtext.Framework.Components.Image;
+using Subtext.Web.Admin.Commands;
 
 namespace Subtext.Web.Admin.Pages
 {

@@ -21,6 +21,7 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Web.Admin.Commands;
 
 namespace Subtext.Web.Admin.Pages
 {
