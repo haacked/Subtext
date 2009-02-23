@@ -413,6 +413,10 @@
     <Compile Include="AggDefault.aspx.designer.cs">
       <DependentUpon>AggDefault.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="ForgotPassword.aspx.cs">
       <DependentUpon>ForgotPassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1118,6 +1122,7 @@
     <Content Include="AggDefault.aspx" />
     <Content Include="App_Data\Subtext2.1.mdf">
     </Content>
+    <Content Include="Default.aspx" />
     <Content Include="DTP.aspx" />
     <Content Include="ForgotPassword.aspx" />
     <Content Include="HostAdmin\ChangePassword.aspx" />
