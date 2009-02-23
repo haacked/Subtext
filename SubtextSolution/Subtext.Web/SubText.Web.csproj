@@ -374,11 +374,20 @@
     <Compile Include="Admin\WebUI\AdminPageTemplate.Master.designer.cs">
       <DependentUpon>AdminPageTemplate.Master</DependentUpon>
     </Compile>
+    <Compile Include="Admin\WebUI\Commands\ConfirmCommand.cs" />
+    <Compile Include="Admin\WebUI\Commands\DeleteCategoryCommand.cs" />
+    <Compile Include="Admin\WebUI\Commands\DeleteGalleryCommand.cs" />
+    <Compile Include="Admin\WebUI\Commands\DeleteImageCommand.cs" />
+    <Compile Include="Admin\WebUI\Commands\DeleteKeyWordCommand.cs" />
+    <Compile Include="Admin\WebUI\Commands\DeleteLinkCommand.cs" />
+    <Compile Include="Admin\WebUI\Commands\DeletePostCommand.cs" />
+    <Compile Include="Admin\WebUI\Commands\DeleteTargetCommand.cs" />
+    <Compile Include="Admin\WebUI\Commands\DeleteTitledTargetCommand.cs" />
+    <Compile Include="Admin\WebUI\Commands\ImportLinksCommand.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\IOpmlItemCollection.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\IPageLocationCollection.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\OpmlItemCollection.cs" />
     <Compile Include="Admin\WebUI\Components\Collections\PageLocationCollection.cs" />
-    <Compile Include="Admin\WebUI\Components\ConfirmCommands.cs" />
     <Compile Include="Admin\WebUI\Components\OpmlProvider.cs" />
     <Compile Include="Admin\WebUI\Components\PageLocation.cs" />
     <Compile Include="Admin\WebUI\Components\Preferences.cs" />

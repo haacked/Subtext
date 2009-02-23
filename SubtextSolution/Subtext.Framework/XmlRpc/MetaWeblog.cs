@@ -174,7 +174,7 @@ namespace Subtext.Framework.XmlRpc
 			
 			try
 			{
-				Entries.Delete(Int32.Parse(postid));
+                Repository.DeleteEntry(Int32.Parse(postid));
 				return true;
 			}
 			catch
@@ -676,7 +676,7 @@ namespace Subtext.Framework.XmlRpc
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
             try {
-                Entries.Delete(Int32.Parse(page_id));
+                Repository.DeleteEntry(Int32.Parse(page_id));
                 return true;
             }
             catch {

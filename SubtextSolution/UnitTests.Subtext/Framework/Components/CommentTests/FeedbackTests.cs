@@ -10,6 +10,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
@@ -192,7 +193,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
             Assert.AreEqual(1, info.PingTrackCount, "Blog Ping/Trackback count should be 1");
 
-            Entries.Delete(entry.Id);
+            ObjectProvider.Instance().DeleteEntry(entry.Id);
             info = Config.GetBlog(info.Host, info.Subfolder);
 
             Assert.AreEqual(0, info.CommentCount, "Blog CommentCount should be 0");

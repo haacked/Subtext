@@ -19,6 +19,7 @@ using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using CategoryTypeEnum = Subtext.Framework.Components.CategoryType;
+using Subtext.Web.Admin.Commands;
 
 namespace Subtext.Web.Admin.Pages
 {

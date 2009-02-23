@@ -199,19 +199,6 @@ namespace Subtext.Framework
 		}
 		#endregion
 
-		#region Delete
-	
-		/// <summary>
-		/// Deletes the entry with the specified entryId.
-		/// </summary>
-		/// <param name="entryId"></param>
-		/// <returns></returns>
-		public static bool Delete(int entryId)
-		{
-			return ObjectProvider.Instance().DeleteEntry(entryId);
-		}
-		#endregion
-
 		#region Create
         public static IEnumerable<int> GetCategoryIdsFromCategoryTitles(Entry entry)
 		{

@@ -18,6 +18,7 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Util;
+using Subtext.Web.Admin.Commands;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -186,9 +187,9 @@ namespace Subtext.Web.Admin.Pages
 			chkCaseSensitive.Checked = false;
 		}
 
-		private void ConfirmDelete(int kwID, string kwWord)
+		private void ConfirmDelete(int keywordId, string keyword)
 		{
-			this.Command = new DeleteKeyWordCommand(kwID, kwWord);
+			this.Command = new DeleteKeyWordCommand(keywordId, keyword);
 			this.Command.RedirectUrl = Request.Url.ToString();
 			Server.Transfer(Constants.URL_CONFIRM);
 		}

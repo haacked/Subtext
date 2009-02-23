@@ -1,4 +1,5 @@
 ﻿using CookComputing.XmlRpc;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.XmlRpc
@@ -24,6 +25,12 @@ namespace Subtext.Framework.XmlRpc
         {
             get {
                 return SubtextContext.UrlHelper;
+            }
+        }
+
+        protected ObjectProvider Repository {
+            get {
+                return SubtextContext.Repository;
             }
         }
     }
