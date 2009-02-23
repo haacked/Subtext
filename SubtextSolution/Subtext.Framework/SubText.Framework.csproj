@@ -673,7 +673,6 @@
     <EmbeddedResource Include="Email\Templates\CommentReceived.template" />
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Data\CodeGen\StoredProcedures.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>StoredProcedures.cs</LastGenOutput>
