@@ -131,9 +131,8 @@ namespace Subtext.Web.Admin.Pages
                 }
                 return _subtextContext;
             }
-            set
-            {
-                
+            set {
+                 
             }
         }
     }
