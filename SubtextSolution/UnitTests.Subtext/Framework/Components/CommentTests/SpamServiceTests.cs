@@ -33,10 +33,11 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		{
             Config.CreateBlog("", "username", "password", _hostName, string.Empty);
             BlogRequest.Current = new BlogRequest(_hostName, string.Empty, new Uri("http://example.com/"), false);
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
-            Config.CurrentBlog.DuplicateCommentsEnabled = true;
-			Config.CurrentBlog.FeedbackSpamServiceKey = "my-secret-key";
-			Config.CurrentBlog.ModerationEnabled = false;
+            Blog blog = Config.GetBlog(_hostName, string.Empty);
+            BlogRequest.Current.Blog = blog;
+            blog.DuplicateCommentsEnabled = true;
+            blog.FeedbackSpamServiceKey = "my-secret-key";
+            blog.ModerationEnabled = false;
 			
             var service = new Mock<IFeedbackSpamService>();
             var cache = new Mock<ICache>();
@@ -48,7 +49,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			Assert.AreEqual(isAdmin, SecurityHelper.IsAdmin);
 
 			try {
-				FeedbackItem.Create(feedback, new CommentFilter(cache.Object, service.Object));
+                FeedbackItem.Create(feedback, new CommentFilter(cache.Object, service.Object, blog), blog);
 			}
 			catch(BaseCommentException)
 			{

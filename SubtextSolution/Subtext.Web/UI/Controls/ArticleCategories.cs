@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Web.UI;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -19,14 +19,14 @@ namespace Subtext.Web.UI.Controls
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
-			Categories.LinkCategories = GetArchiveCategories();
+			Categories.LinkCategories = GetArchiveCategories(SubtextContext.Blog);
 		}
 
-		protected ICollection<LinkCategory> GetArchiveCategories()
+		protected ICollection<LinkCategory> GetArchiveCategories(Blog blog)
 		{
             List<LinkCategory> lcc = new List<LinkCategory>();
 
-			lcc.Add(UIData.Links(CategoryType.StoryCollection));			
+			lcc.Add(UIData.Links(CategoryType.StoryCollection, blog));			
 
 			return lcc;
 		}

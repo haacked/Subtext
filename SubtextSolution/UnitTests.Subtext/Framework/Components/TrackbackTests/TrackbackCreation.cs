@@ -28,13 +28,14 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, string.Empty);
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+            Blog blog = Config.GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = blog;
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			int parentId = UnitTestHelper.Create(entry);
-			
-			Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body");
-			int id = FeedbackItem.Create(trackback, null);
+
+            Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body", blog.TimeZone.Now);
+			int id = FeedbackItem.Create(trackback, null, blog);
 
 			FeedbackItem loadedTrackback = FeedbackItem.Get(id);
 			Assert.IsNotNull(loadedTrackback, "Was not able to load trackback from storage.");
@@ -51,7 +52,8 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, "blog");
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "blog", string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, "blog");
+            Blog blog = Config.GetBlog(hostname, "blog");
+            BlogRequest.Current.Blog = blog;
 			
 			Entry parentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("philsath aeuoa asoeuhtoensth", "sntoehu title aoeuao eu", "snaot hu aensaoehtu body");
 			int parentId = UnitTestHelper.Create(parentEntry);
@@ -59,9 +61,9 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
             ICollection<FeedbackItem> entries = Entries.GetFeedBack(parentEntry);
 			Assert.AreEqual(0, entries.Count, "Did not expect any feedback yet.");
 			
-			Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body");
+			Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body", blog.TimeZone.Now);
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
-			int trackbackId = FeedbackItem.Create(trackback, null);
+			int trackbackId = FeedbackItem.Create(trackback, null, blog);
 			FeedbackItem.Approve(trackback, null);
 			
 			entries = Entries.GetFeedBack(parentEntry);

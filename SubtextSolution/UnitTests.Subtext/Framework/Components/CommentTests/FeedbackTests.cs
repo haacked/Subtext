@@ -339,13 +339,14 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		public void CreateFeedbackHasContentHash()
 		{
 			Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
+            Blog blog = Config.GetBlog(_hostName, string.Empty);
+            BlogRequest.Current.Blog = blog;
 			FeedbackItem trackback = new FeedbackItem(FeedbackType.PingTrack);
 			trackback.DateCreated = DateTime.Now;
 			trackback.SourceUrl = new Uri("http://" + UnitTestHelper.GenerateUniqueString() + "/ThisUrl/");
 			trackback.Title = "Some Title";
 			trackback.Body = "Some Body";
-			int id = FeedbackItem.Create(trackback, null);
+			int id = FeedbackItem.Create(trackback, null, blog);
 
 			FeedbackItem savedEntry = FeedbackItem.Get(id);
 			Assert.IsTrue(savedEntry.ChecksumHash.Length > 0, "The Content Checksum should be larger than 0.");
@@ -393,7 +394,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             comment.DateCreated = created;
             comment.DateModified = modified;
 
-            int feedbackId = FeedbackItem.Create(comment, null);
+            int feedbackId = FeedbackItem.Create(comment, null, Config.CurrentBlog);
             return FeedbackItem.Get(feedbackId);
         }
 	    
@@ -404,7 +405,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			feedback.Body = UnitTestHelper.GenerateUniqueString();
 			feedback.EntryId = entry.Id;
             feedback.Author = "TestAuthor";
-			int id = FeedbackItem.Create(feedback, null);
+			int id = FeedbackItem.Create(feedback, null, Config.CurrentBlog);
 
 			feedback = FeedbackItem.Get(id);
 			feedback.Status = status;

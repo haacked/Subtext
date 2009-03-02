@@ -33,11 +33,10 @@ namespace Subtext.Web.UI.Controls
 
 		protected EntryList EntryStoryList;
 
-        private int count;
         public int Count
         {
-            get { return count; }
-            set { count = value; }
+            get;
+            set;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -48,7 +47,7 @@ namespace Subtext.Web.UI.Controls
                 Uri url = HttpContext.Current.Request.Url;
                 string tagName = HttpUtility.UrlDecode(url.Segments[url.Segments.Length - 2].Replace("/", ""));
 
-                ICollection<Entry> et = Cacher.GetEntriesByTag(Count, CacheDuration.Short, tagName);
+                ICollection<Entry> et = Cacher.GetEntriesByTag(Count, CacheDuration.Short, tagName, Blog);
                 EntryStoryList.EntryListItems = et;
                 EntryStoryList.EntryListTitle = tagName;
                 EntryStoryList.EntryListDescription = string.Format("There are {0} entries for the tag <em>{1}</em>", et.Count, tagName);

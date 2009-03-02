@@ -84,12 +84,12 @@ namespace Subtext.Framework.Tracking
 				throw new XmlRpcFaultException(17, "Not a valid link.");
 
 			//PTR = Pingback - TrackBack - Referral
-			Trackback trackback = new Trackback(postId, HtmlHelper.SafeFormat(pageTitle), new Uri(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle));
+            Trackback trackback = new Trackback(postId, HtmlHelper.SafeFormat(pageTitle), new Uri(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle), Blog.TimeZone.Now);
             IFeedbackSpamService feedbackService = null;
             if (Blog.FeedbackSpamServiceEnabled) {
                 feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
             }
-            FeedbackItem.Create(trackback, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService));
+            FeedbackItem.Create(trackback, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService, SubtextContext.Blog), SubtextContext.Blog);
 
             //TODO: Create this using IoC container
             var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);

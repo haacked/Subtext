@@ -107,7 +107,7 @@ namespace Subtext.Framework.Data
         public override IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId)
 		{
             using (IDataReader reader = _procedures.GetPageableReferrers(BlogId, entryId.NullIfMinValue(), pageIndex, pageSize)) {
-                return reader.GetPagedCollection(r => DataHelper.LoadReferrer(r));
+                return reader.GetPagedCollection(r => DataHelper.LoadReferrer(r, Config.CurrentBlog));
             }
 		}
 	    

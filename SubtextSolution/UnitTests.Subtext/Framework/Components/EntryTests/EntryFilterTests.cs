@@ -56,14 +56,14 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			trackback.Title = "Some Title";
 			trackback.Body = "Some Body Some Body";
             var cache = new TestCache();
-            FeedbackItem.Create(trackback, new CommentFilter(cache, null));
+            FeedbackItem.Create(trackback, new CommentFilter(cache, null, blog), blog);
 			
 			FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
 			comment.DateCreated = DateTime.Now;
 			comment.SourceUrl = new Uri("http://localhost/ThisUrl/");
 			comment.Title = "Some Title";
 			comment.Body = "Some Body Else";
-            FeedbackItem.Create(comment, new CommentFilter(cache, null));
+            FeedbackItem.Create(comment, new CommentFilter(cache, null, blog), blog);
 		}
 
 		/// <summary>
@@ -85,8 +85,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			feedbackItem.SourceUrl = new Uri("http://localhost/ThisUrl/");
 			feedbackItem.Title = "Some Title";
 			feedbackItem.Body = "Some Body";
-			FeedbackItem.Create(feedbackItem, new CommentFilter(cache, null));
-			FeedbackItem.Create(feedbackItem, new CommentFilter(cache, null));
+            FeedbackItem.Create(feedbackItem, new CommentFilter(cache, null, blog), blog);
+            FeedbackItem.Create(feedbackItem, new CommentFilter(cache, null, blog), blog);
 		}
 
         private class TestCache : NameObjectCollectionBase, ICache
@@ -147,8 +147,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             trackback.SourceUrl = new Uri("http://localhost/ThisUrl/");
             trackback.Title = "Some Title";
             trackback.Body = "Some Body";
-			FeedbackItem.Create(trackback, new CommentFilter(cache.Object, null));
-			FeedbackItem.Create(trackback, new CommentFilter(cache.Object, null));
+            FeedbackItem.Create(trackback, new CommentFilter(cache.Object, null, blog), blog);
+            FeedbackItem.Create(trackback, new CommentFilter(cache.Object, null, blog), blog);
 	    }
 
 	    /// <summary>
@@ -168,7 +168,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			_hostName = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
             var cache = new Mock<ICache>();
-			new CommentFilter(cache.Object, null).ClearCommentCache();
+			new CommentFilter(cache.Object, null, Config.CurrentBlog).ClearCommentCache();
 		}
 
 		[TearDown]

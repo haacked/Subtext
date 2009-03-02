@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Subtext.Framework.Components;
+using Subtext.Framework;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,31 +30,31 @@ namespace Subtext.Web.UI.Controls
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
-			Categories.LinkCategories = GetArchiveCategories();
+			Categories.LinkCategories = GetArchiveCategories(SubtextContext.Blog);
 		}
 
-		protected ICollection<LinkCategory> GetArchiveCategories()
+		protected ICollection<LinkCategory> GetArchiveCategories(Blog blog)
 		{
             List<LinkCategory> lcc = new List<LinkCategory>();
 		    LinkCategory lc;
 		    
             // we want to make sure that the LinkCategory is NOT null before we add it to the collection.
-            lc = UIData.Links(CategoryType.PostCollection);
+            lc = UIData.Links(CategoryType.PostCollection, blog);
 		    if (lc != null)
 		    {
 		        lcc.Add(lc);
 		    }
-            lc = UIData.Links(CategoryType.StoryCollection);
+            lc = UIData.Links(CategoryType.StoryCollection, blog);
 		    if (lc != null)
 		    {
 		        lcc.Add(lc);
 		    }
-			lc = UIData.ArchiveMonth(Url);
+			lc = UIData.ArchiveMonth(Url, blog);
             if (lc != null)
             {
                 lcc.Add(lc);
             }
-			lc = UIData.Links(CategoryType.ImageCollection);
+			lc = UIData.Links(CategoryType.ImageCollection, blog);
             if (lc != null)
             {
                 lcc.Add(lc);

@@ -42,18 +42,18 @@ namespace Subtext.Web.UI.Controls
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
-			Categories.LinkCategories = GetArchiveCategories();
+			Categories.LinkCategories = GetArchiveCategories(SubtextContext.Blog);
 		}
 
-		protected ICollection<LinkCategory> GetArchiveCategories()
+		protected ICollection<LinkCategory> GetArchiveCategories(Blog blog)
 		{
             List<LinkCategory> lcc = new List<LinkCategory>();
 
-			LinkCategory storyCollection = UIData.Links(CategoryType.StoryCollection);
+			LinkCategory storyCollection = UIData.Links(CategoryType.StoryCollection, blog);
 			if(storyCollection != null)
 				lcc.Add(storyCollection);
 
-			LinkCategory archiveMonth = UIData.ArchiveMonth(Url);
+			LinkCategory archiveMonth = UIData.ArchiveMonth(Url, blog);
 			if (archiveMonth != null)
 				lcc.Add(archiveMonth);
 
@@ -67,11 +67,11 @@ namespace Subtext.Web.UI.Controls
             //    lcc.Add(archiveCategories);
             
 
-			LinkCategory postCollection = UIData.Links(CategoryType.PostCollection);
+			LinkCategory postCollection = UIData.Links(CategoryType.PostCollection, blog);
 			if (postCollection != null)
                 lcc.Add(postCollection);
 
-			LinkCategory imageCollection = UIData.Links(CategoryType.ImageCollection);
+			LinkCategory imageCollection = UIData.Links(CategoryType.ImageCollection, blog);
 			if (imageCollection != null)
                 lcc.Add(imageCollection);
 			

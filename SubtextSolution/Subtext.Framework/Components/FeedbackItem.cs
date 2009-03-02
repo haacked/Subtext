@@ -110,7 +110,7 @@ namespace Subtext.Framework.Components
 		/// <param name="feedback">The feedback.</param>
 		/// <param name="filter">Spam filter.</param>
 		/// <returns></returns>
-		public static int Create(FeedbackItem feedback, CommentFilter filter)
+		public static int Create(FeedbackItem feedback, CommentFilter filter, Blog blog)
 		{
 			if (HttpContext.Current != null && HttpContext.Current.Request != null) {
 				feedback.UserAgent = HttpContext.Current.Request.UserAgent;
@@ -125,7 +125,7 @@ namespace Subtext.Framework.Components
 		    // If we are creating this feedback item as part of an import, we want to 
 		    // be sure to use the item's datetime, and not set it to the current time.
             if (NullValue.NullDateTime.Equals(feedback.DateCreated)) {
-                feedback.DateCreated = Config.CurrentBlog.TimeZone.Now;
+                feedback.DateCreated = blog.TimeZone.Now;
                 feedback.DateModified = feedback.DateCreated;
             }
             else if (NullValue.NullDateTime.Equals(feedback.DateModified)) {

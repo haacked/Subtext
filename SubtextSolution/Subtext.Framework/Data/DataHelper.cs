@@ -48,10 +48,10 @@ namespace Subtext.Framework.Data
             return dateTime;
         }
 
-		public static Referrer LoadReferrer(IDataReader reader)
+		public static Referrer LoadReferrer(IDataReader reader, Blog blog)
 		{
             Referrer refer = reader.LoadObject<Referrer>();
-            refer.BlogId = Config.CurrentBlog.Id;
+            refer.BlogId = blog.Id;
 			return refer;
 		}
 
