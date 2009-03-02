@@ -208,7 +208,7 @@ namespace Subtext.Web.UI.Controls
                         if (Blog.FeedbackSpamServiceEnabled) {
                             feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
                         }
-						FeedbackItem.Create(feedbackItem, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService));
+                        FeedbackItem.Create(feedbackItem, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService, Blog), Blog);
                         var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
                         emailService.EmailCommentToBlogAuthor(feedbackItem);
 						
@@ -261,7 +261,7 @@ namespace Subtext.Web.UI.Controls
 				Message.Text = "Thanks for your comment!";
 				Message.CssClass = "success";
 				this.Controls.Add(Message);	//This needs to be here for ajax calls.
-				Cacher.ClearCommentCache(feedbackItem.EntryId);
+				Cacher.ClearCommentCache(feedbackItem.EntryId, Blog);
 				OnCommentApproved(feedbackItem);
 				return;
 			}

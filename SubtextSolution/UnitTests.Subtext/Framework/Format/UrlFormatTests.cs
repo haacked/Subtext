@@ -60,17 +60,18 @@ namespace UnitTests.Subtext.Framework.Format
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "");
 			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
+            Blog blog = Config.GetBlog(_hostName, string.Empty);
+            BlogRequest.Current.Blog = blog;
 
 			Entry postEntry = new Entry(PostType.BlogPost);
 			postEntry.Id = 123;
 
-			string editPostUrl = UrlFormats.GetEditLink(postEntry);
+			string editPostUrl = UrlFormats.GetEditLink(postEntry, blog);
 			Assert.AreEqual("~/Admin/Posts/Edit.aspx?PostID=123&return-to-post=true", editPostUrl, "Expected blog post to go to Posts/Edit.aspx");
 
 			Entry articleEntry = new Entry(PostType.Story);
 			articleEntry.Id = 456;
-			string editArticleUrl = UrlFormats.GetEditLink(articleEntry);
+			string editArticleUrl = UrlFormats.GetEditLink(articleEntry, blog);
 			Assert.AreEqual("~/Admin/Articles/Edit.aspx?PostID=456&return-to-post=true", editArticleUrl, "Expected blog post to go to EditArticles.aspx");
 		}
 

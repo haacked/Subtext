@@ -38,12 +38,12 @@ namespace Subtext.Framework.Syndication
 		{
 			if(Category == null)
 			{
-				Category = Cacher.SingleCategory(CacheDuration.Short);
+				Category = Cacher.SingleCategory(CacheDuration.Short, Blog);
 			}
 
 			if(Category != null && posts == null)
 			{
-				posts = Cacher.GetEntriesByCategory(10, CacheDuration.Short, Category.Id);
+				posts = Cacher.GetEntriesByCategory(10, CacheDuration.Short, Category.Id, Blog);
 			}
 
 			return posts;

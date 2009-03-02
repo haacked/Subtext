@@ -149,7 +149,7 @@ namespace Subtext.Web.UI.Controls
                 if (Blog.FeedbackSpamServiceEnabled) {
                     feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
                 }
-				FeedbackItem.Create(contactMessage, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService));
+				FeedbackItem.Create(contactMessage, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService, Blog), Blog);
                 var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
                 emailService.EmailCommentToBlogAuthor(contactMessage);
 				lblMessage.Text = "Your message was sent.";

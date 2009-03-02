@@ -36,10 +36,10 @@ namespace Subtext.Framework.Data
 		/// <param name="catType">Type of Categories to transform</param>
 		/// <param name="formats">Determines how the Urls are formated</param>
 		/// <returns></returns>
-		public static LinkCategory BuildLinks(string title, CategoryType catType)
+		public static LinkCategory BuildLinks(string title, CategoryType catType, Blog blog)
 		{
             ICollection<LinkCategory> links = Links.GetCategories(catType, ActiveFilter.ActiveOnly);
-            return MergeLinkCategoriesIntoSingleLinkCategory(title, catType, links, new UrlHelper(null, null), Config.CurrentBlog);
+            return MergeLinkCategoriesIntoSingleLinkCategory(title, catType, links, new UrlHelper(null, null), blog);
 		}
 
         /// <summary>
@@ -92,10 +92,10 @@ namespace Subtext.Framework.Data
 		/// <param name="title">title for the Category</param>
 		/// <param name="formats">Determines how the Urls are formated</param>
 		/// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
-		public static LinkCategory BuildMonthLinks(string title, UrlHelper urlHelper)
+		public static LinkCategory BuildMonthLinks(string title, UrlHelper urlHelper, Blog blog)
 		{
             ICollection<ArchiveCount> archiveCounts = ObjectProvider.Instance().GetPostCountsByMonth();
-            return MergeArchiveCountsIntoLinkCategory(title, archiveCounts, urlHelper, Config.CurrentBlog);
+            return MergeArchiveCountsIntoLinkCategory(title, archiveCounts, urlHelper, blog);
 		}
 
         public static LinkCategory MergeArchiveCountsIntoLinkCategory(string title, IEnumerable<ArchiveCount> archiveCounts, UrlHelper urlHelper, Blog blog)

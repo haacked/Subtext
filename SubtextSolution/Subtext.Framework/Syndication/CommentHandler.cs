@@ -13,20 +13,17 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Web;
 using System.Xml;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
-using Subtext.Framework.Format;
-using Subtext.Framework.Text;
-using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Email;
-using Subtext.Extensibility.Providers;
-using Subtext.Framework.Services;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
+using Subtext.Framework.Format;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Services;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Syndication
 {
@@ -71,10 +68,12 @@ namespace Subtext.Framework.Syndication
 				comment.SourceUrl = HtmlHelper.CheckForUrl(doc.SelectSingleNode("//item/link").InnerText);
 				comment.EntryId = UrlFormats.GetPostIDFromUrl(Request.Path);
 
+                Blog blog = Config.CurrentBlog;
+
 				// [ 1644691 ] Closing comments didn't stop the CommentAPI
-                if (!Cacher.GetEntry(comment.EntryId, CacheDuration.Medium, ObjectProvider.Instance()).CommentingClosed) {
-                    var feedbackService = new AkismetSpamService(Config.CurrentBlog.FeedbackSpamServiceKey, Config.CurrentBlog, null, new UrlHelper(null, null));
-                    FeedbackItem.Create(comment, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService));
+                if (!Cacher.GetEntry(comment.EntryId, CacheDuration.Medium, ObjectProvider.Instance(), blog).CommentingClosed) {
+                    var feedbackService = new AkismetSpamService(Config.CurrentBlog.FeedbackSpamServiceKey, blog, null, new UrlHelper(null, null));
+                    FeedbackItem.Create(comment, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService, blog), blog);
                 }
 			}
 		}

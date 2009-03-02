@@ -500,7 +500,7 @@ namespace Subtext.ImportExport
 		        newComment.SourceUrl = new Uri(bmlComment.UserUrl);
 		    }
 
-			FeedbackItem.Create(newComment, null);
+            FeedbackItem.Create(newComment, null, Blog);
 		}
 
 		/// <summary>
@@ -523,7 +523,7 @@ namespace Subtext.ImportExport
 			// so the duplicate Comment Filter doesn't break when computing the checksum
 			newPingTrack.Body = string.Empty;
 
-			FeedbackItem.Create(newPingTrack, null);
+			FeedbackItem.Create(newPingTrack, null, Blog);
 		}
 
 	    public override void SetBlogMlExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties) {

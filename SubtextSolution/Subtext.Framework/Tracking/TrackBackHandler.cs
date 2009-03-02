@@ -184,13 +184,13 @@ namespace Subtext.Framework.Tracking
 				return;
 			}
 
-			Trackback trackback = new Trackback(entryId, title, url, blog_name, excerpt);
+            Trackback trackback = new Trackback(entryId, title, url, blog_name, excerpt, Blog.TimeZone.Now);
             IFeedbackSpamService feedbackService = null;
             Blog blog = subtextContext.Blog;
             if (blog.FeedbackSpamServiceEnabled) {
                 feedbackService = new AkismetSpamService(blog.FeedbackSpamServiceKey, blog, null, Url);
             }
-			FeedbackItem.Create(trackback, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService));
+            FeedbackItem.Create(trackback, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService, subtextContext.Blog), subtextContext.Blog);
             //TODO: Create this using IoC container
             var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), subtextContext);
             emailService.EmailCommentToBlogAuthor(trackback);

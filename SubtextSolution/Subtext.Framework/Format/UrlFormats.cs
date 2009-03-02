@@ -171,12 +171,12 @@ namespace Subtext.Framework.Format
 		/// </summary>
 		/// <param name="entry">The entry to be edited</param>
 		/// <returns></returns>
-		public static string GetEditLink(Entry entry)
+		public static string GetEditLink(Entry entry, Blog blog)
 		{
 			//This is too small a concatenation to create a  
 			//the overhead of a StringBuilder. If perf is really a hit here, 
 			//we can pass in a string builder.
-			String app = Config.CurrentBlog.Subfolder;
+			String app = blog.Subfolder;
 			
 			string url = (String.IsNullOrEmpty(app)) ? "~" : "~/" + app;
 			if(entry.PostType == PostType.BlogPost)

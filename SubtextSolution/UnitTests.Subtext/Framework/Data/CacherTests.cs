@@ -156,7 +156,7 @@ namespace UnitTests.Subtext.Framework.Data
 		public void SingleCategoryThrowsExceptionIfContextNull()
 		{
 			HttpContext.Current = null;
-			Cacher.SingleCategory(CacheDuration.Short);
+			Cacher.SingleCategory(CacheDuration.Short, Config.CurrentBlog);
 		}
 
 		[Test]
@@ -167,7 +167,7 @@ namespace UnitTests.Subtext.Framework.Data
 			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/99.aspx");
             BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
-			Assert.IsNull(Cacher.SingleCategory(CacheDuration.Short));
+            Assert.IsNull(Cacher.SingleCategory(CacheDuration.Short, Config.CurrentBlog));
 		}
 
 		[Test]
@@ -177,11 +177,13 @@ namespace UnitTests.Subtext.Framework.Data
 			string host = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/");
-            BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
-			int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "This Is a Test");
+            Blog blog = Config.GetBlog(host, string.Empty);
+            BlogRequest.Current.Blog = blog;
+			int categoryId = UnitTestHelper.CreateCategory(blog.Id, "This Is a Test");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/" + categoryId + ".aspx");
-            BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
-			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short);
+            blog = Config.GetBlog(host, string.Empty);
+            BlogRequest.Current.Blog = blog;
+			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short, blog);
 			Assert.AreEqual("This Is a Test", category.Title);
 		}
 
@@ -192,10 +194,11 @@ namespace UnitTests.Subtext.Framework.Data
 			string host = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/This Is a Test.aspx");
-            BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
-			UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "This Is a Test");
+            Blog blog = Config.GetBlog(host, string.Empty);
+            BlogRequest.Current.Blog = blog;
+			UnitTestHelper.CreateCategory(blog.Id, "This Is a Test");
 
-			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short);
+			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short, blog);
 			Assert.AreEqual("This Is a Test", category.Title);
 		}
 
@@ -206,10 +209,11 @@ namespace UnitTests.Subtext.Framework.Data
 			string host = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("test", UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), host, "");
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "", "/category/This_Is_a_Test.aspx");
-            BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
-			UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "This Is a Test");
+            Blog blog = Config.GetBlog(host, string.Empty);
+            BlogRequest.Current.Blog = blog;
+			UnitTestHelper.CreateCategory(blog.Id, "This Is a Test");
 
-			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short);
+			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short, blog);
 			Assert.AreEqual("This Is a Test", category.Title);
 		}
 
@@ -224,7 +228,8 @@ namespace UnitTests.Subtext.Framework.Data
 			string hostName = UnitTestHelper.GenerateUniqueString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
 			Config.CreateBlog("", "username", "thePassword", hostName, "");
-            BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
+            Blog blog = Config.GetBlog(hostName, string.Empty);
+            BlogRequest.Current.Blog = blog;
 
 			//Start with en-US
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
@@ -236,11 +241,11 @@ namespace UnitTests.Subtext.Framework.Data
 
 			//Note, this corresponds to a private var in Cacher.
 			string ActiveLCCKey = "ActiveLinkCategoryCollection:Blog{0}";
-			ActiveLCCKey = String.Format(ActiveLCCKey, Config.CurrentBlog.Id);
+            ActiveLCCKey = String.Format(ActiveLCCKey, blog.Id);
 			ContentCache cache = ContentCache.Instantiate();
 			cache[ActiveLCCKey] = cachedCategories;
 
-			ICollection<LinkCategory> categories = Cacher.GetActiveCategories(CacheDuration.Short);
+            ICollection<LinkCategory> categories = Cacher.GetActiveCategories(CacheDuration.Short, blog);
 			Assert.AreEqual(2, categories.Count, "Expected to get the cached categories.");
 			Assert.AreSame(cachedCategories, categories, "Categories should have been pulled from cache.");
 
@@ -250,7 +255,7 @@ namespace UnitTests.Subtext.Framework.Data
 			spanishCachedCategories.Add(new LinkCategory(1, "prueba numero uno"));
 			cache[ActiveLCCKey] = spanishCachedCategories;
 
-            ICollection<LinkCategory> spanishCategories = Cacher.GetActiveCategories(CacheDuration.Short);
+            ICollection<LinkCategory> spanishCategories = Cacher.GetActiveCategories(CacheDuration.Short, blog);
 			Assert.AreEqual(1, spanishCategories.Count, "Only expected one category for spanish.");
 		}
 	}

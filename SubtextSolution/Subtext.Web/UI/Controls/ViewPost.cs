@@ -173,7 +173,7 @@ namespace Subtext.Web.UI.Controls
 				if(SecurityHelper.IsAdmin)
 				{
 					editLink.Visible = true;
-					editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
+					editLink.NavigateUrl = UrlFormats.GetEditLink(entry, Blog);
 					ControlHelper.SetTitleIfNone(editLink, "Edit this entry.");
 
 					if(String.IsNullOrEmpty(editLink.Text) && String.IsNullOrEmpty(editLink.ImageUrl))

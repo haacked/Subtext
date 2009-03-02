@@ -128,7 +128,7 @@ namespace Subtext.Web.UI.Controls
             if (feedback != null)
             {
                 FeedbackItem.Delete(feedback, null);
-                Cacher.ClearCommentCache(feedback.EntryId);
+                Cacher.ClearCommentCache(feedback.EntryId, Blog);
                 BindFeedback(false);
             }
             //Response.Redirect(string.Format(CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
@@ -337,7 +337,7 @@ namespace Subtext.Web.UI.Controls
         {
             try
             {
-                CommentList.DataSource = Cacher.GetFeedback(entry, CacheDuration.Short, fromCache);
+                CommentList.DataSource = Cacher.GetFeedback(entry, CacheDuration.Short, fromCache, Blog);
                 CommentList.DataBind();
 
                 if (CommentList.Items.Count == 0)

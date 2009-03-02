@@ -34,14 +34,15 @@ namespace Subtext.Framework
 	{
 		private const string FILTER_CACHE_KEY = "COMMENT FILTER:";
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CommentFilter"/> class.
-		/// </summary>
-		public CommentFilter(ICache cache, IFeedbackSpamService spamService)
-		{
-			Cache = cache;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentFilter"/> class.
+        /// </summary>
+        public CommentFilter(ICache cache, IFeedbackSpamService spamService, Blog blog)
+        {
+            Cache = cache;
             SpamService = spamService;
-		}
+            Blog = blog;
+        }
 
         protected ICache Cache {
             get;
@@ -49,6 +50,11 @@ namespace Subtext.Framework
         }
 
         protected IFeedbackSpamService SpamService {
+            get;
+            private set;
+        }
+
+        protected Blog Blog {
             get;
             private set;
         }
@@ -66,7 +72,7 @@ namespace Subtext.Framework
 				if (!SourceFrequencyIsValid(feedback))
 					throw new CommentFrequencyException();
 
-				if (!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(feedback))
+				if (!Blog.DuplicateCommentsEnabled && IsDuplicateComment(feedback))
 					throw new CommentDuplicateException();
 			}
 		}
@@ -90,10 +96,10 @@ namespace Subtext.Framework
 		{
 			if (!SecurityHelper.IsAdmin)
 			{
-				if (!Config.CurrentBlog.ModerationEnabled)
+				if (!Blog.ModerationEnabled)
 				{
 					//Akismet Check...
-					if (Config.CurrentBlog.FeedbackSpamServiceEnabled && SpamService != null) {
+					if (Blog.FeedbackSpamServiceEnabled && SpamService != null) {
 						if (SpamService.IsSpam(feedbackItem))
 						{
 							FlagAsSpam(feedbackItem);
@@ -131,7 +137,7 @@ namespace Subtext.Framework
 		// posting too many.
 		bool SourceFrequencyIsValid(FeedbackItem feedbackItem)
 		{
-			if(Config.CurrentBlog.CommentDelayInMinutes <= 0)
+			if(Blog.CommentDelayInMinutes <= 0)
 				return true;
 
 			object lastComment = Cache[FILTER_CACHE_KEY + feedbackItem.IpAddress];
@@ -143,7 +149,7 @@ namespace Subtext.Framework
 			}
 
 			//Add to cache.
-            Cache.Insert(FILTER_CACHE_KEY + feedbackItem.IpAddress, string.Empty, null, DateTime.Now.AddMinutes(Config.CurrentBlog.CommentDelayInMinutes), TimeSpan.Zero);
+            Cache.Insert(FILTER_CACHE_KEY + feedbackItem.IpAddress, string.Empty, null, DateTime.Now.AddMinutes(Blog.CommentDelayInMinutes), TimeSpan.Zero);
 			return true;
 		}
 

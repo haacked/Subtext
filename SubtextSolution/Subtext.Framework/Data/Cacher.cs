@@ -20,12 +20,10 @@ using System.IO;
 using System.Web;
 using System.Web.Caching;
 using Subtext.Configuration;
-using Subtext.Extensibility;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
-using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Data
 {
@@ -34,8 +32,6 @@ namespace Subtext.Framework.Data
 	/// </summary>
 	public static class Cacher
 	{
-		#region LinkCategoryCollection
-
 		private static readonly string ActiveLCCKey = "ActiveLinkCategoryCollection:Blog{0}";
 		/// <summary>
 		/// Gets the active categories from the cache. 
@@ -44,9 +40,9 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-        public static ICollection<LinkCategory> GetActiveCategories(CacheDuration cacheDuration)
+        public static ICollection<LinkCategory> GetActiveCategories(CacheDuration cacheDuration, Blog blog)
 		{
-			string key = string.Format(ActiveLCCKey, Config.CurrentBlog.Id);
+            string key = string.Format(ActiveLCCKey, blog.Id);
 
 			ContentCache cache = ContentCache.Instantiate();
 
@@ -62,10 +58,6 @@ namespace Subtext.Framework.Data
 			return categories;
 		}
 
-		#endregion
-
-		#region Month
-
 		private static readonly string EntryMonthKey = "EntryMonth:Date{0:yyyyMM}Blog{1}";
 		/// <summary>
 		/// Gets the entries for the specified month.
@@ -73,9 +65,9 @@ namespace Subtext.Framework.Data
 		/// <param name="dt">The dt.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static ICollection<Entry> GetMonth(DateTime dt, CacheDuration cacheDuration)
+		public static ICollection<Entry> GetMonth(DateTime dt, CacheDuration cacheDuration, Blog blog)
 		{
-			string key = string.Format(CultureInfo.InvariantCulture, EntryMonthKey, dt, Config.CurrentBlog.Id);
+            string key = string.Format(CultureInfo.InvariantCulture, EntryMonthKey, dt, blog.Id);
 			ContentCache cache = ContentCache.Instantiate();
             ICollection<Entry> month = (ICollection<Entry>)cache[key];
 			if(month == null)
@@ -89,14 +81,10 @@ namespace Subtext.Framework.Data
 			return month;
 		}
 
-		#endregion
-		
-		#region EntryDay
-
 		private static readonly string EntryDayKey = "EntryDay:Date{0:yyyyMMdd}Blog{1}";
-		public static EntryDay GetDay(DateTime dt, CacheDuration cacheDuration)
+		public static EntryDay GetDay(DateTime dt, CacheDuration cacheDuration, Blog blog)
 		{
-			string key = string.Format(CultureInfo.InvariantCulture, EntryDayKey, dt, Config.CurrentBlog.Id);
+            string key = string.Format(CultureInfo.InvariantCulture, EntryDayKey, dt, blog.Id);
 			
 			ContentCache cache = ContentCache.Instantiate();
 			
@@ -113,18 +101,10 @@ namespace Subtext.Framework.Data
 
 		}
 
-		#endregion
-		
-		#region Helpers
-
-
-		#endregion
-
-		#region EntriesByCategory
-		private static readonly string ECKey="EC:Count{0}Category{1}BlogId{2}";
-        public static ICollection<Entry> GetEntriesByCategory(int count, CacheDuration cacheDuration, int categoryID)
+		private const string ECKey="EC:Count{0}Category{1}BlogId{2}";
+        public static ICollection<Entry> GetEntriesByCategory(int count, CacheDuration cacheDuration, int categoryID, Blog blog)
 		{
-			string key = string.Format(ECKey, count, categoryID, Config.CurrentBlog.Id);
+            string key = string.Format(ECKey, count, categoryID, blog.Id);
 			ContentCache cache = ContentCache.Instantiate();
             ICollection<Entry> ec = (ICollection<Entry>)cache[key];
 			if(ec == null)
@@ -138,13 +118,11 @@ namespace Subtext.Framework.Data
 			}
 			return ec;
 		}
-		#endregion
 
-        #region EntriesByTag
         private static readonly string ETKey = "ET:Count{0}Tag{1}BlogId{2}";
-        public static ICollection<Entry> GetEntriesByTag(int count, CacheDuration cacheDuration, string tag)
+        public static ICollection<Entry> GetEntriesByTag(int count, CacheDuration cacheDuration, string tag, Blog blog)
         {
-            string key = string.Format(ETKey, count, tag, Config.CurrentBlog.Id);
+            string key = string.Format(ETKey, count, tag, blog.Id);
             ContentCache cache = ContentCache.Instantiate();
             ICollection<Entry> et = (ICollection<Entry>)cache[key];
             if (et == null)
@@ -158,16 +136,13 @@ namespace Subtext.Framework.Data
             }
             return et;
         }
-        #endregion 
-
-        #region LinkCategory
 
         /// <summary>
 		/// Returns a LinkCategory for a single category based on the request url.
 		/// </summary>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static LinkCategory SingleCategory(CacheDuration cacheDuration)
+		public static LinkCategory SingleCategory(CacheDuration cacheDuration, Blog blog)
 		{
 			if (HttpContext.Current == null)
 				throw new InvalidOperationException("This method requires the HttpContext. Argue all you want about whether that is good design. That's just the way it is for now.");
@@ -177,43 +152,43 @@ namespace Subtext.Framework.Data
 			if(categoryName.IsNumeric())
 			{
 				int categoryID = Int32.Parse(categoryName);
-				return SingleCategory(cacheDuration, categoryID, true);
+				return SingleCategory(cacheDuration, categoryID, true, blog);
 			}
 			else
 			{
-				return SingleCategory(cacheDuration, categoryName, true);
+                return SingleCategory(cacheDuration, categoryName, true, blog);
 			}
 		}
 
 		private static readonly string LCKey="LC{0}BlogId{1}";
 
-        public static LinkCategory SingleCategory(CacheDuration cacheDuration, int categoryId, bool isActive)
+        public static LinkCategory SingleCategory(CacheDuration cacheDuration, int categoryId, bool isActive, Blog blog)
         {
 			LinkCategoryRetrieval retrieval = delegate { return Links.GetLinkCategory(categoryId, isActive); };
-			return SingleCategory(retrieval, cacheDuration, categoryId);
+            return SingleCategory(retrieval, cacheDuration, categoryId, blog);
         }
 
-		public static LinkCategory SingleCategory(CacheDuration cacheDuration, string categoryName, bool isActive)
+		public static LinkCategory SingleCategory(CacheDuration cacheDuration, string categoryName, bool isActive, Blog blog)
         {
         	LinkCategoryRetrieval retrieval = delegate { return Links.GetLinkCategory(categoryName, isActive); }; 
-            LinkCategory category = SingleCategory(retrieval, cacheDuration, categoryName);
+            LinkCategory category = SingleCategory(retrieval, cacheDuration, categoryName, blog);
 			if(category != null)
 				return category;
-			
-			if(Config.CurrentBlog.AutoFriendlyUrlEnabled)
+
+            if (blog.AutoFriendlyUrlEnabled)
 			{
 				categoryName = categoryName.Replace(FriendlyUrlSettings.Settings.SeparatingCharacter, " ");
 				retrieval = delegate { return Links.GetLinkCategory(categoryName, isActive); };
-				return SingleCategory(retrieval, cacheDuration, categoryName);
+				return SingleCategory(retrieval, cacheDuration, categoryName, blog);
 			}
 			
 			return null; //couldn't find category
         }
 
-		private static LinkCategory SingleCategory<T>(LinkCategoryRetrieval retrievalDelegate, CacheDuration cacheDuration, T categoryKey)
+		private static LinkCategory SingleCategory<T>(LinkCategoryRetrieval retrievalDelegate, CacheDuration cacheDuration, T categoryKey, Blog blog)
 		{
 			ContentCache cache = ContentCache.Instantiate();
-			string key = string.Format(LCKey, categoryKey, Config.CurrentBlog.Id);
+            string key = string.Format(LCKey, categoryKey, blog.Id);
 			LinkCategory lc = (LinkCategory)cache[key];
 			if(lc == null)
 			{
@@ -225,9 +200,7 @@ namespace Subtext.Framework.Data
 		}
 
 		delegate LinkCategory LinkCategoryRetrieval();
-		#endregion
 
-		#region Entry
         //TODO: This should only be called in one place total. And it needs to be tested.
         public static Entry GetEntryFromRequest(CacheDuration cacheDuration, bool allowRedirectToEntryName, ISubtextContext context)
         {
@@ -242,7 +215,7 @@ namespace Subtext.Framework.Data
 
             if (int.TryParse((string)routeValues["id"], out id))
             {
-                Entry entry = GetEntry(id, cacheDuration, context.Repository);
+                Entry entry = GetEntry(id, cacheDuration, context.Repository, context.Blog);
                 if (entry == null) {
                     return null;
                 }
@@ -312,10 +285,10 @@ namespace Subtext.Framework.Data
 		/// <param name="entryID">The entry ID.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static Entry GetEntry(int entryId, CacheDuration cacheDuration, ObjectProvider repository)
+		public static Entry GetEntry(int entryId, CacheDuration cacheDuration, ObjectProvider repository, Blog blog)
 		{
 			ContentCache cache = ContentCache.Instantiate();
-			string key = string.Format(EntryKeyID, entryId, Config.CurrentBlog.Id);
+            string key = string.Format(EntryKeyID, entryId, blog.Id);
 			
 			Entry entry = (Entry)cache[key];
 			if(entry == null)
@@ -328,10 +301,7 @@ namespace Subtext.Framework.Data
 			}
 			return entry;
 		}
-		#endregion
-
-        #region Tags
-
+		
         private static readonly string TagsKey = "TagsCount{0}BlogId{1}";
         /// <summary>
         /// Retrieves the current tags from the cache based on the ItemCount and
@@ -341,10 +311,10 @@ namespace Subtext.Framework.Data
         /// <param name="ItemCount">The item count</param>
         /// <param name="cacheDuration">The cache duration.</param>
         /// <returns></returns>
-        public static IEnumerable<Tag> GetTopTags(int ItemCount, CacheDuration cacheDuration)
+        public static IEnumerable<Tag> GetTopTags(int ItemCount, CacheDuration cacheDuration, Blog blog)
         {
             ContentCache cache = ContentCache.Instantiate();
-            string key = string.Format(TagsKey, ItemCount, Config.CurrentBlog.Id);
+            string key = string.Format(TagsKey, ItemCount, blog.Id);
 
             IEnumerable<Tag> tags = (IEnumerable<Tag>)cache[key];
             if (tags == null)
@@ -358,17 +328,13 @@ namespace Subtext.Framework.Data
             return tags;
         }
 
-        #endregion
-
-        #region Comments/FeedBack
-
         /// <summary>
 		/// Clears the comment cache.
 		/// </summary>
 		/// <param name="entryID">The entry ID.</param>
-		public static void ClearCommentCache(int entryID)
+		public static void ClearCommentCache(int entryId, Blog blog)
 		{
-			string key = string.Format(ParentCommentEntryKey, entryID, Config.CurrentBlog.Id);
+            string key = string.Format(ParentCommentEntryKey, entryId, blog.Id);
 			ContentCache cache = ContentCache.Instantiate();
 			cache.Remove(key);
 		}
@@ -382,14 +348,14 @@ namespace Subtext.Framework.Data
 		/// <param name="cacheDuration"></param>
 		/// <returns></returns>
         /// <param name="fromCache"></param>
-        public static ICollection<FeedbackItem> GetFeedback(Entry parentEntry, CacheDuration cacheDuration, bool fromCache)
+        public static ICollection<FeedbackItem> GetFeedback(Entry parentEntry, CacheDuration cacheDuration, bool fromCache, Blog blog)
 		{
 			ICollection<FeedbackItem> comments = null;
 			ContentCache cache = null;
 			string key = null;
 			if (fromCache)
 			{
-				key = string.Format(ParentCommentEntryKey, parentEntry.Id, Config.CurrentBlog.Id);
+                key = string.Format(ParentCommentEntryKey, parentEntry.Id, blog.Id);
 				cache = ContentCache.Instantiate();
 				comments = (ICollection<FeedbackItem>)cache[key];
 			}
@@ -403,8 +369,5 @@ namespace Subtext.Framework.Data
 			}
 			return comments;
 		}		
-
-		#endregion
-		
 	}
 }

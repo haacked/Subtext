@@ -291,7 +291,7 @@ namespace Subtext.Web.UI.Controls
 						//We'll slap on our little pencil icon.
                         editLink.ImageUrl = Url.EditIconUrl();
 						ControlHelper.SetTitleIfNone(editLink, "Click to edit this entry.");
-                        editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
+                        editLink.NavigateUrl = UrlFormats.GetEditLink(entry, Blog);
 					}
 				}
 				else
@@ -367,14 +367,14 @@ namespace Subtext.Web.UI.Controls
                 if (Category.IsNumeric())
                 {
                     int categoryID = Int32.Parse(Category);
-                    lc = Cacher.SingleCategory(CacheDuration.Short, categoryID, false);
+                    lc = Cacher.SingleCategory(CacheDuration.Short, categoryID, false, Blog);
                 }
                 else
                 {
-                    lc = Cacher.SingleCategory(CacheDuration.Short, Category, false);
+                    lc = Cacher.SingleCategory(CacheDuration.Short, Category, false, Blog);
                 }
                 EntryListTitle = lc.Title;
-                EntryListItems = Cacher.GetEntriesByCategory(0, CacheDuration.Short, lc.Id);
+                EntryListItems = Cacher.GetEntriesByCategory(0, CacheDuration.Short, lc.Id, Blog);
             }
 
 			if(EntryListItems != null)

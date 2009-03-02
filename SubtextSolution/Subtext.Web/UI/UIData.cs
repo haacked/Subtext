@@ -18,6 +18,7 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 using Subtext.Framework.Routing;
+using Subtext.Framework;
 
 namespace Subtext.Web.UI
 {
@@ -26,18 +27,18 @@ namespace Subtext.Web.UI
 	/// </summary>
 	public static class UIData
 	{
-		public static LinkCategory Links(CategoryType catType)
+		public static LinkCategory Links(CategoryType catType, Blog blog)
 		{
 			switch(catType)
 			{
 				case CategoryType.PostCollection:
-					return Transformer.BuildLinks(UIText.PostCollection, CategoryType.PostCollection);
+					return Transformer.BuildLinks(UIText.PostCollection, CategoryType.PostCollection, blog);
 				
 				case CategoryType.ImageCollection:
-					return Transformer.BuildLinks(UIText.ImageCollection, CategoryType.ImageCollection);
+					return Transformer.BuildLinks(UIText.ImageCollection, CategoryType.ImageCollection, blog);
 				
 				case CategoryType.StoryCollection:
-					return Transformer.BuildLinks(UIText.ArticleCollection, CategoryType.StoryCollection);
+					return Transformer.BuildLinks(UIText.ArticleCollection, CategoryType.StoryCollection, blog);
 				
 				default:
 					throw new InvalidOperationException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Invalid CategoryType: {0} via Subtext.Web.UI.UIData.Links",catType));
@@ -50,9 +51,9 @@ namespace Subtext.Web.UI
 		/// </summary>
 		/// <param name="formats">Determines how the links are formatted.</param>
 		/// <returns></returns>
-		public static LinkCategory ArchiveMonth(UrlHelper urlHelper)
+		public static LinkCategory ArchiveMonth(UrlHelper urlHelper, Blog blog)
 		{
-            return Transformer.BuildMonthLinks(UIText.Archives, urlHelper);
+            return Transformer.BuildMonthLinks(UIText.Archives, urlHelper, blog);
 		}
 	}
 }

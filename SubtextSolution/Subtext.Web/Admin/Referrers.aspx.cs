@@ -220,13 +220,13 @@ namespace Subtext.Web.Admin.Pages
 			{
 				Trackback entry = new Trackback(EntryID, txbTitle.Text, HtmlHelper.CheckForUrl(txbUrl.Text), string.Empty, txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text, Config.CurrentBlog.TimeZone.Now);
 
-				if(FeedbackItem.Create(entry, null) > 0)
+                if (FeedbackItem.Create(entry, null, SubtextContext.Blog) > 0)
 				{
                     IFeedbackSpamService feedbackService = null;
                     if (Config.CurrentBlog.FeedbackSpamServiceEnabled) {
                         feedbackService = new AkismetSpamService(Config.CurrentBlog.FeedbackSpamServiceKey, Config.CurrentBlog, null, Url);
                     }
-					CommentFilter filter = new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService);
+					CommentFilter filter = new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService, SubtextContext.Blog);
 					filter.FilterAfterPersist(entry);
 					this.Messages.ShowMessage(Constants.RES_SUCCESSNEW);
 					this.Edit.Visible = false;
