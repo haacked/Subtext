@@ -97,7 +97,9 @@ namespace Subtext.Framework.Services
             if (String.IsNullOrEmpty(entry.EntryName)) {
                 entry.EntryName = SlugGenerator.GetSlugFromTitle(entry);
             }
-            entry.DateCreated = SubtextContext.Blog.TimeZone.Now;
+            if (NullValue.IsNull(entry.DateCreated)) {
+                entry.DateCreated = SubtextContext.Blog.TimeZone.Now;
+            }
             if (entry.IsActive) {
                 if (NullValue.IsNull(entry.DateSyndicated)) {
                     entry.DateSyndicated = SubtextContext.Blog.TimeZone.Now;
