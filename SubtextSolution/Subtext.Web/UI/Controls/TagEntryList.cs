@@ -47,7 +47,7 @@ namespace Subtext.Web.UI.Controls
                 Uri url = HttpContext.Current.Request.Url;
                 string tagName = HttpUtility.UrlDecode(url.Segments[url.Segments.Length - 2].Replace("/", ""));
 
-                ICollection<Entry> et = Cacher.GetEntriesByTag(Count, CacheDuration.Short, tagName, Blog);
+                ICollection<Entry> et = Cacher.GetEntriesByTag(Count, CacheDuration.Short, tagName, SubtextContext);
                 EntryStoryList.EntryListItems = et;
                 EntryStoryList.EntryListTitle = tagName;
                 EntryStoryList.EntryListDescription = string.Format("There are {0} entries for the tag <em>{1}</em>", et.Count, tagName);

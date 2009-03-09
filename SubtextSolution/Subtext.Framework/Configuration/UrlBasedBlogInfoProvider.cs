@@ -109,7 +109,7 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
-		private static void MapImageDirectory(BlogRequest blogRequest)
+		public static void MapImageDirectory(BlogRequest blogRequest)
 		{
             Blog info = blogRequest.Blog;
 			BlogConfigurationSettings settings = Config.Settings;

@@ -32,6 +32,7 @@ namespace UnitTests.Subtext.SubtextWeb
 
             Mock<ISubtextContext> subtextContext = new Mock<ISubtextContext>();
             StringWriter writer = subtextContext.FakeSitemapHandlerRequest(repository);
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Host = "localhost" });
             var handler = new SiteMapHttpHandler();
             handler.SubtextContext = subtextContext.Object;
 
@@ -59,9 +60,11 @@ namespace UnitTests.Subtext.SubtextWeb
             repository.Setup(r => r.GetCategories(CategoryType.PostCollection, true)).Returns(new List<LinkCategory>());
 
             Mock<ISubtextContext> subtextContext = new Mock<ISubtextContext>();
+            
             StringWriter writer = subtextContext.FakeSitemapHandlerRequest(repository);
             var handler = new SiteMapHttpHandler();
             handler.SubtextContext = subtextContext.Object;
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Host = "localhost" });
 
             //act
             handler.ProcessRequest(subtextContext.Object);

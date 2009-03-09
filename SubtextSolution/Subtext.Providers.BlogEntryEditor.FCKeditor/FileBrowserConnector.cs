@@ -53,6 +53,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 
 namespace Subtext.Providers.BlogEntryEditor.FCKeditor
@@ -353,7 +354,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			else
 			{
 				string categoryName=currentFolder.Substring(1,currentFolder.Length-2);
-				LinkCategory cat = Links.GetLinkCategory(categoryName,false);
+                LinkCategory cat = ObjectProvider.Instance().GetLinkCategory(categoryName, false);
 				posts= Entries.GetPagedEntries(PostType.BlogPost, cat.Id, 0, 1000);
 			}
 

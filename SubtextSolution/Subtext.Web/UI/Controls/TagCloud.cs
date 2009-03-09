@@ -58,7 +58,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            TagItems = Cacher.GetTopTags(ItemCount, CacheDuration.Short, Blog);
+            TagItems = Cacher.GetTopTags(ItemCount, CacheDuration.Short, SubtextContext);
             int tagCount = TagItems.Count();
 
             if (tagCount == 0) {

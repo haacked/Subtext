@@ -101,7 +101,7 @@ namespace Subtext.Web.Admin.Pages
 		private void BindGallery(int galleryID)
 		{
 			CategoryID = galleryID;
-			LinkCategory selectedGallery = Links.GetLinkCategory(galleryID,false);
+			LinkCategory selectedGallery = SubtextContext.Repository.GetLinkCategory(galleryID,false);
 			ICollection<Image> imageList = Images.GetImagesByCategoryID(galleryID, false);
 
 			plhImageHeader.Controls.Clear();
@@ -487,7 +487,7 @@ namespace Subtext.Web.Admin.Pages
 			{
 				int id = Convert.ToInt32(dgrSelectionList.DataKeys[e.Item.ItemIndex]);
 				
-				LinkCategory existingCategory = Links.GetLinkCategory(id,false);
+				LinkCategory existingCategory = SubtextContext.Repository.GetLinkCategory(id,false);
 				existingCategory.Title = title.Text;
 				existingCategory.IsActive = isActive.Checked;
 				if(desc != null)
@@ -504,7 +504,7 @@ namespace Subtext.Web.Admin.Pages
 		private void dgrSelectionList_DeleteCommand(object source, DataGridCommandEventArgs e)
 		{
 			int id = Convert.ToInt32(dgrSelectionList.DataKeys[e.Item.ItemIndex]);
-			LinkCategory lc = Links.GetLinkCategory(id,false);
+			LinkCategory lc = SubtextContext.Repository.GetLinkCategory(id,false);
 			ConfirmDeleteGallery(id, lc.Title);		
 		}
 

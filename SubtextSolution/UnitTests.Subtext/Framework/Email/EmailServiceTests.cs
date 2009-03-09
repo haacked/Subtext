@@ -27,7 +27,7 @@ namespace UnitTests.Subtext.Framework.Email
             context.Setup(c => c.User.Identity.Name).Returns("cody");
             context.Setup(c => c.User.IsInRole("Admins")).Returns(true);
             var emailService = new EmailService(emailProvider.Object, new Mock<ITemplateEngine>().Object, context.Object);
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Never();
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.Framework.Email
             context.Setup(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
             context.Setup(c => c.Blog).Returns(blog);
             var emailService = new EmailService(emailProvider.Object, new Mock<ITemplateEngine>().Object, context.Object);
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Never();
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
             
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -61,7 +61,8 @@ namespace UnitTests.Subtext.Framework.Email
             context.Setup(c => c.Blog).Returns(blog);
             var emailProvider = new Mock<EmailProvider>();
             var emailService = new EmailService(emailProvider.Object, new Mock<ITemplateEngine>().Object, context.Object);
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Never();
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
+            
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);

@@ -66,6 +66,7 @@ namespace UnitTests.Subtext.Framework
 		public void CanGetLocalGalleryFilePath()
 		{
 			UnitTestHelper.SetupBlog();
+            
 			Assert.AreEqual(Path.Combine(Environment.CurrentDirectory, @"image\42\"), Images.LocalGalleryFilePath(42));
 		}
 
@@ -74,8 +75,8 @@ namespace UnitTests.Subtext.Framework
 		public void CanGetGalleryVirtualUrl()
 		{
 			UnitTestHelper.SetupBlog();
-            string expected = "http://" + BlogRequest.Current.Host + "/images/" + BlogRequest.Current.Host + "/1/";
-
+            UrlBasedBlogInfoProvider.MapImageDirectory(BlogRequest.Current);
+            string expected = string.Format("http://{0}/images/{0}/1/", BlogRequest.Current.Host);
 			Assert.AreEqual(expected, Images.GalleryVirtualUrl(1));
 		}
 

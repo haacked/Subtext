@@ -261,7 +261,7 @@ namespace Subtext.Web.UI.Controls
 				Message.Text = "Thanks for your comment!";
 				Message.CssClass = "success";
 				this.Controls.Add(Message);	//This needs to be here for ajax calls.
-				Cacher.ClearCommentCache(feedbackItem.EntryId, Blog);
+				Cacher.ClearCommentCache(feedbackItem.EntryId, SubtextContext);
 				OnCommentApproved(feedbackItem);
 				return;
 			}

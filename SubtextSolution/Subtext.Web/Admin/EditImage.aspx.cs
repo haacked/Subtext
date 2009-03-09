@@ -127,7 +127,7 @@ namespace Subtext.Web.Admin.Pages
 
 		protected void SetGalleryInfo(Image image)
 		{
-			_galleryTitle = Links.GetLinkCategory(image.CategoryID,false).Title;
+			_galleryTitle = this.SubtextContext.Repository.GetLinkCategory(image.CategoryID,false).Title;
 		}
 
 		protected string EvalImageUrl(object imageObject)

@@ -14,6 +14,7 @@
 #endregion
 
 using System.Web;
+using System.Web.Routing;
 using System.Xml;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
@@ -71,7 +72,10 @@ namespace Subtext.Framework.Syndication
                 Blog blog = Config.CurrentBlog;
 
 				// [ 1644691 ] Closing comments didn't stop the CommentAPI
-                if (!Cacher.GetEntry(comment.EntryId, CacheDuration.Medium, ObjectProvider.Instance(), blog).CommentingClosed) {
+                var requestContext = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
+                var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, new UrlHelper(requestContext, RouteTable.Routes), ObjectProvider.Instance());
+
+                if (!Cacher.GetEntry(comment.EntryId, CacheDuration.Medium, subtextContext).CommentingClosed) {
                     var feedbackService = new AkismetSpamService(Config.CurrentBlog.FeedbackSpamServiceKey, blog, null, new UrlHelper(null, null));
                     FeedbackItem.Create(comment, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService, blog), blog);
                 }

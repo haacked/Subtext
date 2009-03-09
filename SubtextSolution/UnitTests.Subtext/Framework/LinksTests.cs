@@ -22,6 +22,7 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -65,7 +66,7 @@ namespace UnitTests.Subtext.Framework
 			CreateLink("Link two", categoryIds[0], null);
 			CreateLink("Link one-two", categoryIds[1], null);
 
-			ICollection<LinkCategory> linkCollections = Links.GetActiveCategories();
+			ICollection<LinkCategory> linkCollections = ObjectProvider.Instance().GetActiveCategories();
 			
 			//Test ordering by title
 			Assert.AreEqual("Google Blogs", linkCollections.First().Title);
@@ -134,7 +135,7 @@ namespace UnitTests.Subtext.Framework
 			// Create some categories
 			int categoryId = Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds", CategoryType.LinkCollection, true));
 
-			LinkCategory category = Links.GetLinkCategory(categoryId, true);
+            LinkCategory category = ObjectProvider.Instance().GetLinkCategory(categoryId, true);
 			Assert.AreEqual(Config.CurrentBlog.Id, category.BlogId);
 			Assert.AreEqual("My Favorite Feeds", category.Title);
 			Assert.AreEqual("Some of my favorite RSS feeds", category.Description);
@@ -146,7 +147,7 @@ namespace UnitTests.Subtext.Framework
 			Assert.IsNotNull(category);
 
 			Links.DeleteLinkCategory(categoryId);
-			Assert.IsNull(Links.GetLinkCategory(categoryId, true));
+			Assert.IsNull(ObjectProvider.Instance().GetLinkCategory(categoryId, true));
 		}
 
 		/// <summary>

@@ -44,7 +44,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				Blog info = Blog;
 
-				LinkCategory lc = Cacher.SingleCategory(CacheDuration.Short, Blog);
+				LinkCategory lc = Cacher.SingleCategory(CacheDuration.Short, SubtextContext);
 				
 				int count = Request.QueryString["Show"] != null ? 0 : info.CategoryListPostCount;//as of 3sep2006, this is a configurable option. 
 				//However, we retain the ability to overide the CategoryListPostCount setting via the query string, as usual.
@@ -55,7 +55,7 @@ namespace Subtext.Web.UI.Controls
 					return;
 				}
 				
-				ICollection<Entry> ec = Cacher.GetEntriesByCategory(count, CacheDuration.Short, lc.Id, info);
+				ICollection<Entry> ec = Cacher.GetEntriesByCategory(count, CacheDuration.Short, lc.Id, SubtextContext);
 				EntryStoryList.EntryListItems = ec;
 
 				EntryStoryList.EntryListTitle = lc.Title;

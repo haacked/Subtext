@@ -24,7 +24,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
             List<LinkCategory> lcc = new List<LinkCategory>();
-			lcc.AddRange(Links.GetActiveCategories());
+			lcc.AddRange(Repository.GetActiveCategories());
 			CatList.DataSource = lcc;
 			CatList.DataBind();
 		}

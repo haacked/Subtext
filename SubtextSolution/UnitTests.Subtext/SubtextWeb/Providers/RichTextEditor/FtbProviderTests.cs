@@ -14,12 +14,13 @@
 #endregion
 
 using System;
-using MbUnit.Framework;
 using System.Web.UI.WebControls;
 using FreeTextBoxControls;
+using MbUnit.Framework;
+using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Web.Providers.BlogEntryEditor.FTB;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Web.Providers.BlogEntryEditor.FTB;
 
 namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 {
@@ -55,7 +56,9 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void SetText() 
 		{
 			Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
+            Blog blog = Config.GetBlog(_hostName, string.Empty);
+            blog.ImagePath = "/images/";
+            BlogRequest.Current.Blog = blog;
 
 			string test="Lorem Ipsum";
 			frtep.InitializeControl();
@@ -69,7 +72,9 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void SetWidth() 
 		{
             Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
+            Blog blog = Config.GetBlog(_hostName, string.Empty);
+            blog.ImagePath = "/images/";
+            BlogRequest.Current.Blog = blog;
 
 			Unit test=200;
 			frtep.InitializeControl();
@@ -82,7 +87,9 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void SetHeight() 
 		{
             Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);    
+            Blog blog = Config.GetBlog(_hostName, string.Empty);
+            blog.ImagePath = "/images/";
+            BlogRequest.Current.Blog = blog;
 
 			Unit test=100;
 			frtep.InitializeControl();
@@ -116,7 +123,9 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void TestInitialization() 
 		{
             Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
+            Blog blog = Config.GetBlog(_hostName, string.Empty);
+            blog.ImagePath = "/images/";
+            BlogRequest.Current.Blog = blog;
 
 			System.Collections.Specialized.NameValueCollection coll=GetNameValueCollection();
 			frtep.Initialize("FTBProvider", coll);
