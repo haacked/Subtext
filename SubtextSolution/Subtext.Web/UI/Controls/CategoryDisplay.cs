@@ -31,11 +31,8 @@ namespace Subtext.Web.UI.Controls
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
-			
-			Categories.LinkCategories = Links.GetActiveCategories(); //Cacher.GetActiveCategories(CacheTime.Medium,Context);
+			Categories.LinkCategories = this.Repository.GetActiveCategories();
 		}
-
-
 	}
 }
 

@@ -202,7 +202,7 @@ namespace Subtext.Web.Admin.Pages
 
 				int id = Convert.ToInt32(dgrItems.DataKeys[e.Item.ItemIndex]);
 				
-				LinkCategory existingCategory = Links.GetLinkCategory(id,false);
+				LinkCategory existingCategory = SubtextContext.Repository.GetLinkCategory(id,false);
 				existingCategory.Description = txbDescription.Text;
 				existingCategory.Title = title.Text;
 				existingCategory.IsActive = isActive.Checked;
@@ -219,7 +219,7 @@ namespace Subtext.Web.Admin.Pages
 		private void dgrCategories_DeleteCommand(object source, DataGridCommandEventArgs e)
 		{
 			int id = Convert.ToInt32(dgrItems.DataKeys[e.Item.ItemIndex]);
-			LinkCategory lc = Links.GetLinkCategory(id,false);
+			LinkCategory lc = SubtextContext.Repository.GetLinkCategory(id,false);
 			ConfirmDelete(id, lc.Title);
 		}
 

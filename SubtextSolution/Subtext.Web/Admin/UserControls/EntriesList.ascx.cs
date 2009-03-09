@@ -92,7 +92,7 @@ namespace Subtext.Web.Admin.UserControls {
         {
             if (categoryId != NullValue.NullInt32) 
             {
-                LinkCategory category = Links.GetLinkCategory(categoryId, false);
+                LinkCategory category = Repository.GetLinkCategory(categoryId, false);
                 if (category != null) {
                     HeaderText = "POSTS (" + category.Title + ")";
                 }

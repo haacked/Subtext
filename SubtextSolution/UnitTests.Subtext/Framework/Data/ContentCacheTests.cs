@@ -5,6 +5,7 @@ using System.Threading;
 using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework;
+using Moq;
 
 namespace UnitTests.Subtext.Framework.Data
 {
@@ -22,17 +23,16 @@ namespace UnitTests.Subtext.Framework.Data
 		[Test]
 		public void InstantiationOfContentCacheUsesRequestCaching()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateUniqueString(), "");
-			Assert.IsNotNull(HttpContext.Current, "We did not set up the http context correctly.");
-			Assert.AreEqual(1, HttpContext.Current.Items.Count, "Did not expect the request cache to have any items.");
-			
-			ContentCache cache = ContentCache.Instantiate();
+            //arrange
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.SetupRequestContext();
 
-			Assert.AreEqual(2, HttpContext.Current.Items.Count, "Expected two item in the request cache.");
+            //act
+            ContentCache cache = ContentCache.Instantiate(subtextContext.Object);
 
-			Assert.AreSame(cache, ContentCache.Instantiate(), "Expected second call to instantiate to return cached ContentCache.");
-
-			HttpContext.Current = null;
+            //assert
+			Assert.AreEqual(1, subtextContext.Object.RequestContext.HttpContext.Items.Count);
+			Assert.AreSame(cache, ContentCache.Instantiate(subtextContext.Object), "Expected second call to instantiate to return cached ContentCache.");
 		}
 
 		/// <summary>
@@ -42,11 +42,12 @@ namespace UnitTests.Subtext.Framework.Data
 		[Test]
 		public void ContentCacheCachesByLanguage()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateUniqueString(), "");
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.SetupRequestContext();
 
 			//Start with en-US
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-			ContentCache cache = ContentCache.Instantiate();
+			ContentCache cache = ContentCache.Instantiate(subtextContext.Object);
 			cache["test"] = "English";
 			Assert.AreEqual("English", cache["test"], "Did not store the value in the cache properly.");
 
@@ -60,40 +61,53 @@ namespace UnitTests.Subtext.Framework.Data
 			Assert.AreEqual("English", cache["test"], "Should have changed the value based on language code.");
 
 			int stringCount = 0;
-			foreach(DictionaryEntry item in cache)
+			foreach(string key in cache)
 			{
-				if(item.Value.ToString() == "English" || item.Value.ToString() == "Espanol")
+                //Get rid of colon in key...
+                string rootKey = key.Split(':')[0];
+
+                string itemValue = cache.Get(rootKey) as string;
+
+				if(itemValue == "English" || itemValue == "Espanol")
 				{
 					stringCount++;
 				}
 			}
 			Assert.AreEqual(2, stringCount, "Expected two items in the cache.");
-
-			HttpContext.Current = null;
 		}
 
 		/// <summary>
 		/// Make sure passing in a null value for caching throws an exception.
 		/// </summary>
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void CannotInsertNullTest()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateUniqueString(), "");
-			ContentCache cache = ContentCache.Instantiate();
-			cache.Insert("test", null);
+            //arrange
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.SetupRequestContext();
+			ContentCache cache = ContentCache.Instantiate(subtextContext.Object);
+			
+            //act, assert
+            UnitTestHelper.AssertThrows<ArgumentNullException>(
+                () => cache.Insert("test", null)
+            );
 		}
 
 		/// <summary>
 		/// Make sure passing in a null value for caching throws an exception.
 		/// </summary>
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void CannotInsertNullWithCacheDurationTest()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateUniqueString(), "");
-			ContentCache cache = ContentCache.Instantiate();
-			cache.Insert("test", null, CacheDuration.Short);
+            //arrange
+			var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.SetupRequestContext();
+			ContentCache cache = ContentCache.Instantiate(subtextContext.Object);
+
+            //act, assert
+            UnitTestHelper.AssertThrows<ArgumentNullException>(
+                () => cache.Insert("test", null, CacheDuration.Short)
+            );
 		}
 	}
 }

@@ -201,8 +201,9 @@ namespace Subtext.Framework.XmlRpc
                 entry.IncludeInMainSyndication = true;
 
                 entry.Categories.Clear();
-                if (post.categories != null)
+                if (post.categories != null) {
                     entry.Categories.AddRange(post.categories);
+                }
 
                 entry.PostType = PostType.BlogPost;
                 //User trying to change future dating.

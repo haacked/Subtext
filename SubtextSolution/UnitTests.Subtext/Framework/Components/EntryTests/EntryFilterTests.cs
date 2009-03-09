@@ -25,6 +25,7 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
 using Subtext.Framework.Web.HttpModules;
+using System.Web.Caching;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -88,36 +89,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             FeedbackItem.Create(feedbackItem, new CommentFilter(cache, null, blog), blog);
             FeedbackItem.Create(feedbackItem, new CommentFilter(cache, null, blog), blog);
 		}
-
-        private class TestCache : NameObjectCollectionBase, ICache
-        {
-            public object this[string key]
-            {
-                get
-                {
-                    return BaseGet(key);
-                }
-                set
-                {
-                    BaseSet(key, value);
-                }
-            }
-
-            public void Insert(string key, object value, System.Web.Caching.CacheDependency dependency)
-            {
-                this[key] = value;
-            }
-
-            public void Insert(string key, object value, System.Web.Caching.CacheDependency dependency, DateTime absoluteExpiration, TimeSpan slidingExpiration)
-            {
-                this[key] = value;
-            }
-
-            public void Remove(string key)
-            {
-                BaseRemove(key);
-            }
-        }
 	    
 	    /// <summary>
 	    /// Make sure that comments and Track/Pingbacks generated 
@@ -177,4 +148,44 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Config.ConfigurationProvider = null;
 		}
 	}
+
+    internal class TestCache : NameObjectCollectionBase, ICache
+    {
+        public object this[string key]
+        {
+            get
+            {
+                return BaseGet(key);
+            }
+            set
+            {
+                BaseSet(key, value);
+            }
+        }
+
+        public void Insert(string key, object value, System.Web.Caching.CacheDependency dependency)
+        {
+            this[key] = value;
+        }
+
+        public void Insert(string key, object value, System.Web.Caching.CacheDependency dependency, DateTime absoluteExpiration, TimeSpan slidingExpiration)
+        {
+            this[key] = value;
+        }
+
+        public void Remove(string key)
+        {
+            BaseRemove(key);
+        }
+
+        public void Insert(string key, object value)
+        {
+            this[key] = value;
+        }
+
+        public void Insert(string key, object value, CacheDependency dependencies, DateTime absoluteExpiration, TimeSpan slidingExpiration, System.Web.Caching.CacheItemPriority priority, System.Web.Caching.CacheItemRemovedCallback onRemoveCallback)
+        {
+            this[key] = value;
+        }
+    }
 }

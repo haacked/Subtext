@@ -75,7 +75,7 @@ namespace Subtext.Web.UI.Controls
 			if (imageCollection != null)
                 lcc.Add(imageCollection);
 			
-			lcc.AddRange(Links.GetActiveCategories());
+			lcc.AddRange(Repository.GetActiveCategories());
 			return lcc;
 		}
 	}

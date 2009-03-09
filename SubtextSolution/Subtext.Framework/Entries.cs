@@ -208,7 +208,7 @@ namespace Subtext.Framework
 			//We need to do something.
 			foreach(string category in entry.Categories)
 			{
-				LinkCategory cat = Links.GetLinkCategory(category, true);
+				LinkCategory cat = ObjectProvider.Instance().GetLinkCategory(category, true);
 				if(cat != null)
 				{
 					catIds.Add(cat.Id);

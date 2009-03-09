@@ -288,7 +288,7 @@ namespace Subtext.Framework.Data
         public override bool SetEntryCategoryList(int entryId, IEnumerable<int> categoryIds)
         {
             if (categoryIds == null)
-                return false;
+                return _procedures.InsertLinkCategoryList(string.Empty, entryId, BlogId); ;
 
             var idsAsStrings = categoryIds.Select(id => id.ToString(CultureInfo.InvariantCulture));
             string catList = string.Join(",", idsAsStrings.ToArray());

@@ -478,8 +478,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string hostname = UnitTestHelper.GenerateUniqueString();
 			Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
-            Config.CurrentBlog.AllowServiceAccess = true;
+            Blog blog = Config.GetBlog(hostname, "");
+            BlogRequest.Current.Blog = blog;
+            blog.AllowServiceAccess = true;
 
             var urlHelper = new Mock<UrlHelper>();
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
@@ -487,7 +488,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             //TODO: FIX!!!
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
-
+            subtextContext.SetupBlog(blog);
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             MetaWeblog api = new MetaWeblog(subtextContext.Object);

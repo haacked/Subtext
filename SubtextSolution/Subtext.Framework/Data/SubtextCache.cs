@@ -1,4 +1,6 @@
-﻿using System.Web.Caching;
+﻿using System;
+using System.Collections;
+using System.Web.Caching;
 
 namespace Subtext.Framework.Data
 {
@@ -22,12 +24,14 @@ namespace Subtext.Framework.Data
                 Cache[key] = value;
             }
         }
-        
-        public void Insert(string key, object value, CacheDependency dependency) {
-            Cache.Insert(key, value, dependency);
-            
+
+        public void Insert(string key, object value) {
+            Cache.Insert(key, value);
         }
 
+        public void Insert(string key, object value, CacheDependency dependency) {
+            Cache.Insert(key, value, dependency);
+        }
 
         public void Insert(string key, object value, CacheDependency dependency, System.DateTime absoluteExpiration, System.TimeSpan slidingExpiration) {
             Cache.Insert(key, value, dependency, absoluteExpiration, slidingExpiration);
@@ -35,6 +39,17 @@ namespace Subtext.Framework.Data
 
         public void Remove(string key) {
             Cache.Remove(key);
+        }
+
+
+        public void Insert(string key, object value, CacheDependency dependencies, DateTime absoluteExpiration, TimeSpan slidingExpiration, CacheItemPriority priority, CacheItemRemovedCallback onRemoveCallback)
+        {
+            Cache.Insert(key, value, dependencies, absoluteExpiration, slidingExpiration, priority, onRemoveCallback);
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return Cache.GetEnumerator();
         }
     }
 }

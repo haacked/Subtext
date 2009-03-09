@@ -4,6 +4,11 @@ using System.Globalization;
 using System.Threading;
 using System.Web;
 using System.Web.Caching;
+using System.Web.Routing;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework
 {
@@ -14,25 +19,19 @@ namespace Subtext.Framework
 	/// </summary>
 	public class ContentCache : IEnumerable
 	{
-		Cache cache;
+		ICache cache;
 
-		/// <summary>
-		/// Instantiates the specified content cache from the specific <see cref="HttpContext"/>. 
-		/// At some point, we might consider replacing HttpContext with a type we can extend.
-		/// </summary>
-		/// <returns></returns>
-		public static ContentCache Instantiate()
-		{
-			//Check per-request cache.
-			ContentCache cache = HttpContext.Current.Items["ContentCache"] as ContentCache;
-			if(cache != null)
-				return cache;
+        public static ContentCache Instantiate(ISubtextContext context) {
+            //Check per-request cache.
+            ContentCache cache = context.RequestContext.HttpContext.Items["ContentCache"] as ContentCache;
+            if (cache != null)
+                return cache;
 
-			cache = new ContentCache(HttpContext.Current.Cache);
-			//Per-Request Cache.
-			HttpContext.Current.Items["ContentCache"] = cache;
-			return cache;
-		}
+            cache = new ContentCache(context.Cache);
+            //Per-Request Cache.
+            context.RequestContext.HttpContext.Items["ContentCache"] = cache;
+            return cache;
+        }
 
 		private ContentCache() {}
 
@@ -41,7 +40,7 @@ namespace Subtext.Framework
 		/// The specified <see cref="Cache"/> instance is wrapped by this instance.
 		/// </summary>
 		/// <param name="cache">The cache.</param>
-		private ContentCache(Cache cache)
+		private ContentCache(ICache cache)
 		{
 			this.cache = cache;
 		}
@@ -129,7 +128,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public object Get(string key)
 		{
-			return this.cache.Get(GetCacheKey(key));
+			return this.cache[GetCacheKey(key)];
 		}
 
 		/// <summary>
@@ -137,23 +136,16 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns></returns>
-		public object Remove(string key)
+		public void Remove(string key)
 		{
-			return this.cache.Remove(GetCacheKey(key));
+			this.cache.Remove(GetCacheKey(key));
 		}
 
-		/// <summary>
-		/// Returns an enumerator that can iterate through a collection.
-		/// </summary>
-		/// <returns>
-		/// An <see cref="T:System.Collections.IEnumerator"/>
-		/// that can be used to iterate through the collection.
-		/// </returns>
-		public IEnumerator GetEnumerator()
-		{
-			return this.cache.GetEnumerator();
-		}
-	}
+        public IEnumerator GetEnumerator()
+        {
+            return this.cache.GetEnumerator();
+        }
+    }
 
 	/// <summary>
 	/// Low granularity Cache Duration.
