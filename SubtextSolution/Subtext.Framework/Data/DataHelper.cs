@@ -68,10 +68,11 @@ namespace Subtext.Framework.Data
 
 			while(reader.Read())
 			{
-				if(IsNewDay(dt, (DateTime)reader["DateCreated"]))
+                DateTime dateCreated = (DateTime)reader["DateCreated"];
+				if(IsNewDay(dt, dateCreated))
 				{
-					dt = (DateTime)reader["DateCreated"];
-					day = new EntryDay(dt);
+                    dt = dateCreated;
+                    day = new EntryDay(dateCreated);
 					edc.Add(day);
 				}
 				day.Add(LoadEntry(reader));
