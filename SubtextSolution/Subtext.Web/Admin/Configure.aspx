@@ -57,14 +57,6 @@
                 Owner's <u>E</u>mail</label>
             <asp:TextBox ID="txbAuthorEmail" runat="server" CssClass="textbox" />            
             <asp:CheckBox ID="ckbShowEmailonRssFeed" runat="server" CssClass="checkbox" AccessKey="r" Text="Show email address on <u>R</u>SS Feed" /><br />
-            <label accesskey="s" for="Edit_ddlSkin">
-                Display <u>S</u>kin</label>
-            <asp:DropDownList ID="ddlSkin" runat="server" DataSource="<%# Skins %>" DataTextField="Name"
-                DataValueField="SkinKey" />
-            <label accesskey="s" for="Edit_mobileSkinDropDown">
-                Mobile <u>S</u>kin</label>
-            <asp:DropDownList ID="mobileSkinDropDown" runat="server" DataSource="<%# MobileSkins %>"
-                DataTextField="Name" DataValueField="SkinKey" />
             <div>
                 <asp:CheckBox ID="ckbAllowServiceAccess" runat="server" CssClass="checkbox" AccessKey="w"
                     Text="Allow <u>W</u>eb Service Access" />

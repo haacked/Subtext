@@ -1149,3 +1149,41 @@ body #entry-editor table.checkbox label
 	margin: 10px 0 0 0;
 	-moz-border-radius: 10px;
 }
+
+#skin-selector hr {
+    clear: both;
+}
+
+#skin-selector div.skinOption {
+    float: left;
+}
+
+#skin-selector div.skinOption label img {
+    display: block;
+}
+
+div.skinOption {
+    width: 350px;
+    height: 300px;
+    margin: 8px;
+    border: solid 1px;
+    position: relative;
+}
+
+div.skinOption.selected {
+    border: solid 4px khaki;
+    background-color: #ffe
+    ;
+    margin: 4px;
+}
+
+div.skin-selection {
+    display:block;
+    position: absolute;
+    bottom: 0;
+    padding: 4px;
+}
+
+div.skin-selection label {
+    font-size: 2em;
+}

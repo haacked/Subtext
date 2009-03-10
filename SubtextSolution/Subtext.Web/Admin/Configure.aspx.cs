@@ -116,12 +116,6 @@ namespace Subtext.Web.Admin.Pages
             }
 
             //TODO: Move to a general DataBind() call.
-            ddlSkin.DataBind();
-            mobileSkinDropDown.DataBind();
-
-            SetSelectedSkin(ddlSkin, info.Skin.SkinKey);
-            SetSelectedSkin(mobileSkinDropDown, info.MobileSkin.SkinKey);
-
             int count = Config.Settings.ItemCount;
             int increment = 1;
             for (int i = 1; i <= count; i = i + increment)
@@ -174,18 +168,6 @@ namespace Subtext.Web.Admin.Pages
             base.BindLocalUI();
         }
 
-        private void SetSelectedSkin(ListControl skinDropDown, string skinKey)
-        {
-            if (string.IsNullOrEmpty(skinKey))
-                return;
-
-            ListItem skinItem = skinDropDown.Items.FindByValue(skinKey.ToUpper(CultureInfo.InvariantCulture));
-            if (skinItem != null)
-            {
-                skinItem.Selected = true;
-            }
-        }
-
         private void BindPost()
         {
             try
@@ -216,15 +198,6 @@ namespace Subtext.Web.Admin.Pages
                 info.OpenIDServer = tbOpenIDServer.Text;
                 info.OpenIDDelegate = tbOpenIDDelegate.Text;
 
-                SkinTemplate skinTemplate = new SkinTemplateCollection().GetTemplate(ddlSkin.SelectedItem.Value);
-                info.Skin.TemplateFolder = skinTemplate.TemplateFolder;
-                info.Skin.SkinStyleSheet = skinTemplate.StyleSheet;
-
-                SkinTemplate mobileSkinTemplate =
-                    new SkinTemplateCollection(true).GetTemplate(mobileSkinDropDown.SelectedItem.Value) ??
-                    SkinTemplate.Empty;
-                info.MobileSkin.TemplateFolder = mobileSkinTemplate.TemplateFolder;
-                info.MobileSkin.SkinStyleSheet = mobileSkinTemplate.StyleSheet;
                 Config.UpdateConfigData(info);
 
                 Messages.ShowMessage(RES_SUCCESS);
