@@ -14,6 +14,9 @@
 	    <dt><a href="Configure.aspx" title="Configure your blog">Configure</a>:</dt>
 	    <dd>Manage your blog</dd>
         
+        <dt><a href="Skins.aspx" title="Choose a Skin">Skins</a>:</dt>
+	    <dd>Choose a Skin</dd>
+        
         <dt><a href="Customize.aspx" title="Customize your blog">Customize</a>:</dt>
 	    <dd>Customize your blog</dd>
 	   

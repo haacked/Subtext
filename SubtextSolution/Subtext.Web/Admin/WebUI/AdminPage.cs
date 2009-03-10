@@ -64,7 +64,7 @@ namespace Subtext.Web.Admin.Pages
 	    
 	    protected override void OnPreRender(EventArgs e)
 	    {
-	        if(this.body != null)
+	        if(this.body != null && !String.IsNullOrEmpty(this.TabSectionId))
             {
                 ControlHelper.AddCssClass(this.body, this.TabSectionId);
             }

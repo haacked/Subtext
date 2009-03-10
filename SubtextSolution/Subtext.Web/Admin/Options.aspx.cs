@@ -37,6 +37,7 @@ namespace Subtext.Web.Admin.Pages
 		protected virtual void BindActionsListUI()
 		{
 		    HyperLink lnkConfigure = Utilities.CreateHyperLink("Configure", "Configure.aspx");
+            HyperLink lnkSkins = Utilities.CreateHyperLink("Skins", "Skins.aspx");
 		    HyperLink lnkCustomize = Utilities.CreateHyperLink("Customize", "Customize.aspx");
             HyperLink lnkPreferences = Utilities.CreateHyperLink("Preferences", "Preferences.aspx");
 			HyperLink lnkSyndication = Utilities.CreateHyperLink("Syndication", "Syndication.aspx");
@@ -48,6 +49,7 @@ namespace Subtext.Web.Admin.Pages
 			// Add the buttons to the PageContainer.
 			AdminMasterPage.ClearActions();
             AdminMasterPage.AddToActions(lnkConfigure);
+            AdminMasterPage.AddToActions(lnkSkins);
             AdminMasterPage.AddToActions(lnkCustomize);
             AdminMasterPage.AddToActions(lnkPreferences);
             AdminMasterPage.AddToActions(lnkSyndication);
