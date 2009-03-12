@@ -42,9 +42,13 @@ namespace Subtext.Web.Admin.UserControls
                     baseUrl = "EditGalleries.aspx";
                     this.categoryLinks.Add(new LinkCategoryLink("All Galleries", "EditGalleries.aspx"));
                 }
-                else 
+                else if (this.CategoryType == CategoryType.LinkCollection)
                 {
                     this.categoryLinks.Add(new LinkCategoryLink("All Categories", "EditLinks.aspx"));
+                }
+                else if (this.CategoryType == CategoryType.PostCollection)
+                {
+                    this.categoryLinks.Add(new LinkCategoryLink("All Categories", "Default.aspx"));
                 }
 
                 if (this.CategoryType != CategoryType.None)
