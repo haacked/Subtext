@@ -19,7 +19,7 @@ namespace Subtext.Web.Skins._System
         }
 
         protected void OnForgotButtonClick(object sender, EventArgs args) {
-            BlogInfo currentBlog = Config.CurrentBlog;
+            Blog currentBlog = Config.CurrentBlog;
             if (currentBlog == null)
             {
                 FailureText.Text = "Sorry, but forgot password does not work for Host admins. Please read <a href=\"http://subtextproject.com/Home/FAQ/tabid/113/Default.aspx\" title=\"Subtext FAQ\">the FAQ</a> to reset your password.";
@@ -30,7 +30,7 @@ namespace Subtext.Web.Skins._System
             }
         }
 
-        private void ResetAdminPassword(BlogInfo currentBlog)
+        private void ResetAdminPassword(Blog currentBlog)
         {
             if (String.IsNullOrEmpty(currentBlog.Email) || currentBlog.Email != emailTextBox.Text || currentBlog.UserName != usernameTextBox.Text)
             {
