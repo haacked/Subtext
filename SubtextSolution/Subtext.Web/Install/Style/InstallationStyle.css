@@ -194,3 +194,8 @@ div.summary dd
 {
 	clear: both;
 }
+
+.note {
+    color: #777;
+    font-style: italic;
+}
