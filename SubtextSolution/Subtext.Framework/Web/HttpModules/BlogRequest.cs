@@ -92,6 +92,9 @@ namespace Subtext.Framework.Web.HttpModules
             if (IsLogin(request)) {
                 return RequestLocation.LoginPage;
             }
+            if (IsForgotPassword(request)) {
+                return RequestLocation.LoginPage;
+            }
             if (IsSystemMessage(request)) {
                 return RequestLocation.SystemMessages;
             }
@@ -148,6 +151,11 @@ namespace Subtext.Framework.Web.HttpModules
 
         private static bool IsLogin(HttpRequestBase request) {
             return (request.Path ?? string.Empty).EndsWith("Login.aspx", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsForgotPassword(HttpRequestBase request)
+        {
+            return (request.Path ?? string.Empty).EndsWith("ForgotPassword.aspx", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsSystemMessage(HttpRequestBase request) {

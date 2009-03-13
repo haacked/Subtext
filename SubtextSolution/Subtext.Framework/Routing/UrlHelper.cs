@@ -123,7 +123,7 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath BlogUrl() {
             string vp = GetVirtualPath("root", new {});
-            if (!vp.EndsWith("/")) {
+            if (!(vp ?? string.Empty).EndsWith("/")) {
                 vp += "/";
             }
             return vp;
@@ -132,8 +132,7 @@ namespace Subtext.Framework.Routing
         public virtual VirtualPath BlogUrl(Blog blog)
         {
             string vp = GetVirtualPath("root", new { subfolder = blog.Subfolder });
-            if (!vp.EndsWith("/"))
-            {
+            if (!(vp ?? string.Empty).EndsWith("/")) {
                 vp += "/";
             }
             return vp;

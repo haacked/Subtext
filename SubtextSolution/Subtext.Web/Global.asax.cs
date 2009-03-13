@@ -50,6 +50,7 @@ namespace Subtext.Web
             routes.Ignore("SystemMessages/{*pathinfo}");
 
             //TODO: Consider making this a single route with a constraint of the allowed pages.
+            routes.MapPage("forgotpassword");
             routes.MapPage("login");
             routes.MapPage("logout");
             
