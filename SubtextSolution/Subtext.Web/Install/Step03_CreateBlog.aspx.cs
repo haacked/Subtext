@@ -84,6 +84,11 @@ namespace Subtext.Web.Install
 
 			if(Config.CreateBlog("TEMPORARY BLOG NAME", HostInfo.Instance.HostUserName, HostInfo.Instance.Password, Request.Url.Host, string.Empty, passwordAlreadyHashed) > -1)
 			{
+                if (!String.IsNullOrEmpty(Request.QueryString["email"])) {
+                    Blog blog = Config.GetBlog(Request.Url.Host, string.Empty);
+                    blog.Email = Request.QueryString["email"];
+                    Config.UpdateConfigData(blog);
+                }
 				//We probably should have creating the blog authenticate the user 
 				//automatically so this redirect doesn't require a login.
                 InstallationManager installManager = new InstallationManager(Subtext.Extensibility.Providers.Installation.Provider);
