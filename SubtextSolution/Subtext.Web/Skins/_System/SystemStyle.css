@@ -131,6 +131,11 @@ span.ErrorMessage
     color: #c00;
 }
 
+.success {
+    font-weight: bold;
+    color: #0c0;
+}
+
 p.Small
 {
 	margin-top: 12px;

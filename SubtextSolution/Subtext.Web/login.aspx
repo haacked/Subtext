@@ -29,10 +29,11 @@
 				    
 				    <asp:CheckBox ID="chkRememberMe" runat="server" Text="Remember me" TabIndex="3" CssClass="rememberMe" />
 				    <asp:Button id="btnLogin" runat="server" Text="Login" CssClass="button" onclick="btnLogin_Click" TabIndex="4" />
-				    
+				    <% if (Config.CurrentBlog != null) { %>
 				    <p class="forgotPassword">
 					    <a href="ForgotPassword.aspx" title="Click to reset your password" tabindex="5">Forgot Your Password?</a>
 				    </p>
+				    <% } %>
 				</fieldset>
 				
 				<fieldset>
