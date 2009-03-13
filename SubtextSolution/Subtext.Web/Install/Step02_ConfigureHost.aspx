@@ -32,7 +32,7 @@
 			<asp:TextBox ID="txtUserName" runat="server" CssClass="textbox" ValidationGroup="HostAdministration" />
 			<asp:RequiredFieldValidator ID="vldHostUsernameRequired" runat="server" ControlToValidate="txtUserName" ValidationGroup="HostAdministration" Text="*" Display="Dynamic" />
 			
-			<label for="txtEmail">Email</label> 
+			<label for="txtEmail">Email <span class="note">(Optional, but useful if you forget your Password)</span></label>
 			<asp:TextBox ID="txtEmail" runat="server" CssClass="textbox" />
 			<asp:RequiredFieldValidator ID="vldHostEmailRequired" runat="server" ControlToValidate="txtEmail" ValidationGroup="HostAdministration" Text="*" Display="Dynamic" />
 			<asp:RegularExpressionValidator ID="vldHostEmail" runat="server" ControlToValidate="txtEmail" ValidationGroup="HostAdministration" Text="*" ValidationExpression="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" ErrorMessage="Email address is not valid" Display="Dynamic" />
