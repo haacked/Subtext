@@ -2,8 +2,8 @@
 <#@ output extension=".config" #>
 <#
 var releases = new Release[] {
-	new Release {	Name = "trunk",			Branch = "trunk",				VersionPrefix = "2.1.1."},
-	new Release {	Name = "Release2.1",	Branch="branches/Release2.1",	VersionPrefix ="2.1.0." }
+	new Release {	Name = "trunk",			Branch = "trunk",				VersionPrefix = "2.2.0."},
+	new Release {	Name = "Release2.1",	Branch="branches/Release2.1",	VersionPrefix ="2.1.1." }
 };
 #>
 <cruisecontrol>
