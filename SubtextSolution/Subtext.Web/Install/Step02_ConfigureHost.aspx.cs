@@ -17,6 +17,7 @@ using System;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
+using System.Web;
 
 namespace Subtext.Web.Install
 {
@@ -99,7 +100,8 @@ namespace Subtext.Web.Install
 					{
 						//Changed the following method to public so all authentication tickets are handled by the same code.
 						SecurityHelper.SetAuthenticationTicket("HostAdmin", false, "HostAdmin");
-						Response.Redirect(NextStepUrl);
+                        string queryString = !String.IsNullOrEmpty(this.txtEmail.Text) ? "?email=" + HttpUtility.UrlEncode(txtEmail.Text) : string.Empty;
+                        Response.Redirect(NextStepUrl + queryString);
 					}
 					else
 					{
