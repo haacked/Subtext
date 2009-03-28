@@ -1066,7 +1066,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="OPML.aspx" />
-    <Content Include="ReleaseNotes.txt" />
     <Content Include="transform.txt" />
   </ItemGroup>
   <ItemGroup>
