@@ -164,7 +164,6 @@
     <EmbeddedResource Include="Scripts\StoredProcedures.sql" />
     <EmbeddedResource Include="Scripts\Installation.01.09.00.sql" />
     <EmbeddedResource Include="Scripts\Installation.01.09.02.sql" />
-    <Content Include="Scripts\Migration_Notes.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Installation.01.09.03.sql" />
