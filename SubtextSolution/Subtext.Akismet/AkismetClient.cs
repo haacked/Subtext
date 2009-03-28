@@ -157,7 +157,7 @@ namespace Subtext.Akismet
 		public bool VerifyApiKey()
 		{
 			string parameters = "key=" + HttpUtility.UrlEncode(this.ApiKey) + "&blog=" + HttpUtility.UrlEncode(this.BlogUrl.ToString());
-			string result = this.httpClient.PostRequest(verifyUrl, this.UserAgent, this.Timeout, parameters);
+			string result = this.httpClient.PostRequest(verifyUrl, this.UserAgent, this.Timeout, parameters, Proxy);
 
 			if (String.IsNullOrEmpty(result))
 				throw new InvalidResponseException("Akismet returned an empty response");
