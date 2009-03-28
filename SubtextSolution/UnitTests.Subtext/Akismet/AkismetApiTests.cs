@@ -3,13 +3,8 @@ using System.Collections.Specialized;
 using System.Net;
 using System.Web;
 using MbUnit.Framework;
-using Rhino.Mocks;
-using Subtext.Akismet;
-using System.IO;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Reflection;
 using Moq;
+using Subtext.Akismet;
 
 namespace UnitTests.Subtext.Akismet
 {
@@ -65,29 +60,37 @@ namespace UnitTests.Subtext.Akismet
 		[Test]
 		public void CanVerifyApiKey()
 		{
+            //arrange
 			string userAgent = GetExpectedUserAgent();
 			Uri verifyUrl = new Uri("http://rest.akismet.com/1.1/verify-key");
 			string parameters = "key=" + HttpUtility.UrlEncode("fake-key") + "&blog=" + HttpUtility.UrlEncode("http://haacked.com/");
-
             var httpClient = new Mock<HttpClient>();
-			httpClient.Setup(hc => hc.PostRequest(verifyUrl, userAgent, 5000, parameters)).Returns("valid");
-			
+			httpClient.Setup(hc => hc.PostRequest(verifyUrl, userAgent, 5000, parameters, null)).Returns("valid");
 			AkismetClient client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), httpClient.Object);
-			Assert.IsTrue(client.VerifyApiKey(), "If the request returns 'valid' we should return true.");
+
+            //act
+            bool isVerified = client.VerifyApiKey();
+
+            //assert
+            Assert.IsTrue(isVerified, "If the request returns 'valid' we should return true.");
 		}
 
 		[Test]
 		public void CanVerifyApiKeyIsWrong()
 		{
+            //act
 			string userAgent = GetExpectedUserAgent();
 			Uri verifyUrl = new Uri("http://rest.akismet.com/1.1/verify-key");
 			string parameters = "key=" + HttpUtility.UrlEncode("wrong-key") + "&blog=" + HttpUtility.UrlEncode("http://haacked.com/");
-
             var httpClient = new Mock<HttpClient>();
-            httpClient.Setup(hc => hc.PostRequest(verifyUrl, userAgent, 5000, parameters)).Returns("invalid");
+            httpClient.Setup(hc => hc.PostRequest(verifyUrl, userAgent, 5000, parameters, null)).Returns("invalid");
+            AkismetClient client = new AkismetClient("wrong-key", new Uri("http://haacked.com/"), httpClient.Object);
 
-			AkismetClient client = new AkismetClient("wrong-key", new Uri("http://haacked.com/"), httpClient.Object);
-			Assert.IsFalse(client.VerifyApiKey(), "If the request returns 'invalid' then we should return false!");
+            //act
+            bool isVerified = client.VerifyApiKey();
+
+            //assert
+			Assert.IsFalse(isVerified, "If the request returns 'invalid' then we should return false!");
 		}
 		
 		[Test]
