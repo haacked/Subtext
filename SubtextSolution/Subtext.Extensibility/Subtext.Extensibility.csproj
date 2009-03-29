@@ -185,9 +185,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\GenericProviderCollection.cs" />
-    <Compile Include="Providers\ImportProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Providers\InstallationProvider.cs">
       <SubType>Code</SubType>
     </Compile>

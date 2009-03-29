@@ -400,9 +400,6 @@
     <Compile Include="ImportExport\SubtextBlogMlHttpHandler.cs" />
     <Compile Include="ImportExport\SubtextBlogMlProvider.cs" />
     <Compile Include="ImportExport\SubtextConversionStrategy.cs" />
-    <Compile Include="ImportManager.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="InstallationManager.cs">
       <SubType>Code</SubType>
     </Compile>

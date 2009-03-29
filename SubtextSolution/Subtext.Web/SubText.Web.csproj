@@ -467,34 +467,6 @@
     <Compile Include="HostAdmin\HostAdminTemplate.Master.designer.cs">
       <DependentUpon>HostAdminTemplate.Master</DependentUpon>
     </Compile>
-    <Compile Include="HostAdmin\Import\ImportComplete.aspx.cs">
-      <DependentUpon>ImportComplete.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\Import\ImportComplete.aspx.designer.cs">
-      <DependentUpon>ImportComplete.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\Import\ImportStart.aspx.cs">
-      <DependentUpon>ImportStart.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\Import\ImportStart.aspx.designer.cs">
-      <DependentUpon>ImportStart.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\Import\Step01_SelectImportProvider.aspx.cs">
-      <DependentUpon>Step01_SelectImportProvider.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\Import\Step01_SelectImportProvider.aspx.designer.cs">
-      <DependentUpon>Step01_SelectImportProvider.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\Import\Step02_GatherInfo.aspx.cs">
-      <DependentUpon>Step02_GatherInfo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\Import\Step02_GatherInfo.aspx.designer.cs">
-      <DependentUpon>Step02_GatherInfo.aspx</DependentUpon>
-    </Compile>
     <Compile Include="HostAdmin\Queue.aspx.cs">
       <DependentUpon>Queue.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -849,7 +821,6 @@
     <Content Include="Admin\Navigation.config" />
     <Content Include="Admin\Skins.config" />
     <Content Include="Admin\Web.config" />
-    <Content Include="HostAdmin\Import\Web.config" />
     <Content Include="HostAdmin\Web.config" />
     <None Include="Web.config" />
   </ItemGroup>
@@ -955,22 +926,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HostAdmin\ErrorLog.aspx.resx">
       <DependentUpon>ErrorLog.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\Import\ImportComplete.aspx.resx">
-      <DependentUpon>ImportComplete.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\Import\ImportStart.aspx.resx">
-      <DependentUpon>ImportStart.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\Import\Step01_SelectImportProvider.aspx.resx">
-      <DependentUpon>Step01_SelectImportProvider.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\Import\Step02_GatherInfo.aspx.resx">
-      <DependentUpon>Step02_GatherInfo.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HostAdmin\Queue.aspx.resx">
@@ -1140,10 +1095,6 @@
     <Content Include="HostAdmin\images\shadow.gif" />
     <Content Include="HostAdmin\images\shadowAlpha.png" />
     <Content Include="HostAdmin\images\sidesbg.jpg" />
-    <Content Include="HostAdmin\Import\ImportComplete.aspx" />
-    <Content Include="HostAdmin\Import\ImportStart.aspx" />
-    <Content Include="HostAdmin\Import\Step01_SelectImportProvider.aspx" />
-    <Content Include="HostAdmin\Import\Step02_GatherInfo.aspx" />
     <Content Include="HostAdmin\Queue.aspx" />
     <Content Include="HostAdmin\Scripts\helptip.css" />
     <Content Include="HostAdmin\Scripts\helptip.js" />

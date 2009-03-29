@@ -105,12 +105,5 @@ namespace Subtext.Web.Install
 				throw new InvalidOperationException(errorMessage);
 			}
 		}
-
-		protected void btnImportBlog_Click(object sender, EventArgs e)
-		{
-			// We need to get over to the Import pages... 
-			// So we automatically authenticate here.
-			Response.Redirect("~/HostAdmin/Import/ImportStart.aspx");
-		}
 	}
 }

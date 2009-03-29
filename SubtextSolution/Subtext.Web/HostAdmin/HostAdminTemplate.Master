@@ -26,8 +26,6 @@
 				runat="server">Installed Blogs</st:MenuItem>
 			<st:MenuItem ID="mnuManageGroups" href="~/HostAdmin/ManageGroups.aspx" title="Manage the blog groups"
 				runat="server">Blog Groups</st:MenuItem>
-			<st:MenuItem ID="mnuImportStart" href="~/HostAdmin/Import/ImportStart.aspx" title="Import .TEXT Data"
-				runat="server">Import .TEXT</st:MenuItem>
 			<st:MenuItem ID="mnuChangePassword" href="~/HostAdmin/ChangePassword.aspx" title="Change HostAdmin Password."
 				runat="server">Change Password</st:MenuItem>
 			<st:MenuItem ID="mnuErrorLog" href="~/HostAdmin/ErrorLog.aspx" title="Error Log."

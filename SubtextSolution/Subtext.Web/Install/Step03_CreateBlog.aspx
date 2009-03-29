@@ -22,10 +22,6 @@
 			having one blog, then click on the quick create button.
 			</p>
 		    <asp:Button id="btnQuickCreate" runat="server" Text="Create!" CssClass="big-button" onclick="btnQuickCreate_Click" />
-			<p class="footnote">
-			If you have a .TEXT database, you can import it 
-			using our <asp:HyperLink ID="importLink" runat="server" NavigateUrl="~/HostAdmin/Import/ImportStart.aspx" Text=".TEXT importer" />.
-			</p>
 		</div>
 	</fieldset>
 </asp:Content>
