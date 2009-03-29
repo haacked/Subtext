@@ -73,7 +73,8 @@ namespace Subtext.Web
             routes.MapHttpHandler<AggBugHandler>("aggbug", "aggbug/{id}.aspx");
             routes.MapHttpHandler<BlogSecondaryCssHandler>("customcss", "customcss.aspx");
             routes.MapHttpHandler<RssCategoryHandler>("category/{categoryName}.aspx/rss", new {categoryName=@"[-\w\s\d]+"});
-            
+            routes.MapHttpHandler<OpmlHandler>("opml", "opml.ashx");
+
             routes.MapPageToControl("contact");
             routes.MapPageToControl("ArchivePostPage");
             routes.MapPageToControl("ArticleCategories");

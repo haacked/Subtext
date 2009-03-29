@@ -12,6 +12,7 @@ UI changes
       from MyLinks.ascx/Syndication.ascx in all the skins
       If you want to use Atom instead of Rss, just change the route with the name "rss" 
       to point to the AtomHandler.
+  3. Delete Opml.aspx
   
 Database changes
   1. No Schema changes

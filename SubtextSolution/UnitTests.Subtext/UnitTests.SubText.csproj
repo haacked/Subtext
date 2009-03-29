@@ -384,6 +384,8 @@
     <Compile Include="Framework\Syndication\CommentRssWriterTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Syndication\OpmlHandlerTests.cs" />
+    <Compile Include="Framework\Syndication\OpmlWriterTests.cs" />
     <Compile Include="Framework\Syndication\RssHandlerTests.cs">
       <SubType>Code</SubType>
     </Compile>
