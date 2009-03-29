@@ -150,7 +150,6 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Import\DotText095ImportProvider.cs" />
     <Compile Include="ScriptHelper.cs">
       <SubType>Code</SubType>
     </Compile>

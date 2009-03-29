@@ -21,11 +21,6 @@ namespace Subtext.Web.HostAdmin
 			{
 				hostAdminName.Text = HostInfo.Instance.HostUserName;
 			}
-
-			if (this.mnuImportStart != null)
-			{
-				this.mnuImportStart.Visible = (Config.ActiveBlogCount <= 0);
-			}
 		}
 		
 		/// <summary>

@@ -338,14 +338,10 @@
     </Compile>
     <Compile Include="Framework\HostInfoTests.cs" />
     <Compile Include="Framework\ImageTests.cs" />
-    <Compile Include="Framework\ImportManagerTests.cs" />
     <Compile Include="Framework\LinksTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\NullValueTests.cs" />
-    <Compile Include="Framework\Providers\ImportProviderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Framework\Providers\ProviderConfigurationHelperTests.cs" />
     <Compile Include="Framework\Providers\SearchEngineTests.cs" />
     <Compile Include="Framework\Routing\AdminUrlHelperTests.cs" />
@@ -480,9 +476,6 @@
     </Compile>
     <Compile Include="UnitTestEmailProvider.cs" />
     <Compile Include="UnitTestHelper.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UnitTestImportProvider.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XmlHelper.cs" />
