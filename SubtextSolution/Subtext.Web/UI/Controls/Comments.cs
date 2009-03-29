@@ -325,7 +325,7 @@ namespace Subtext.Web.UI.Controls
             }
             else if (gravatarEmailFormat.Equals("MD5"))
             {
-                processedEmail = FormsAuthentication.HashPasswordForStoringInConfigFile(email, "md5").ToLower();
+                processedEmail = FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant(), "md5").ToLowerInvariant();
             }
             if (processedEmail.Length != 0)
                 return String.Format(gravatarUrlFormatString, processedEmail, defaultGravatar);
