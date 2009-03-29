@@ -475,6 +475,8 @@
     <Compile Include="Services\XhtmlConverter.cs" />
     <Compile Include="Services\Emoticons\EmoticonsSource.cs" />
     <Compile Include="Services\KeywordExpander.cs" />
+    <Compile Include="Syndication\OpmlHandler.cs" />
+    <Compile Include="Syndication\OpmlWriter.cs" />
     <Compile Include="Web\SubtextPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

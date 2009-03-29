@@ -591,10 +591,6 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NamespaceDocumentation.cs" />
-    <Compile Include="OPML.aspx.cs">
-      <DependentUpon>OPML.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -1029,10 +1025,6 @@
       <DependentUpon>MainFeed.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="OPML.aspx.resx">
-      <DependentUpon>OPML.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Providers\BlogEntryEditor\FTB\ftb.imagegallery.aspx.resx">
       <DependentUpon>ftb.imagegallery.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1065,7 +1057,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="OPML.aspx" />
     <Content Include="transform.txt" />
   </ItemGroup>
   <ItemGroup>
