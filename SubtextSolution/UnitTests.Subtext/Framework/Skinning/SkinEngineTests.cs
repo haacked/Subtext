@@ -68,12 +68,13 @@ namespace UnitTests.Subtext.Framework.Skinning
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
             Stream stream = @"<?xml version=""1.0""?>
-    <SkinTemplate xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
-       Name=""Skinny"" StyleMergeMode=""MergedAfter"" ScriptMergeMode=""Merge"">
+<SkinTemplates xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+    <SkinTemplate Name=""Skinny"" StyleMergeMode=""MergedAfter"" ScriptMergeMode=""Merge"">
       <Styles>
         <Style href=""~/skins/_System/commonstyle.css"" />
       </Styles>
-    </SkinTemplate>".ToStream();
+    </SkinTemplate>
+</SkinTemplates>".ToStream();
             virtualFile.Setup(vf => vf.Open()).Returns(stream);
 
             var directories = new List<VirtualDirectory>();
@@ -107,12 +108,13 @@ namespace UnitTests.Subtext.Framework.Skinning
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
             Stream stream = @"<?xml version=""1.0""?>
-    <SkinTemplate xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
-       Name=""Mobile"" MobileSupport=""MobileOnly"">
+<SkinTemplates xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+    <SkinTemplate Name=""Mobile"" MobileSupport=""MobileOnly"">
       <Styles>
         <Style href=""~/skins/_System/commonstyle.css"" />
       </Styles>
-    </SkinTemplate>".ToStream();
+    </SkinTemplate>
+</SkinTemplates>".ToStream();
             virtualFile.Setup(vf => vf.Open()).Returns(stream);
             
             var directories = new List<VirtualDirectory>();
@@ -142,12 +144,13 @@ namespace UnitTests.Subtext.Framework.Skinning
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
             Stream stream = @"<?xml version=""1.0""?>
-    <SkinTemplate xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
-       Name=""Mobile"" MobileSupport=""Supported"">
+<SkinTemplates xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+    <SkinTemplate Name=""Mobile"" MobileSupport=""Supported"">
       <Styles>
         <Style href=""~/skins/_System/commonstyle.css"" />
       </Styles>
-    </SkinTemplate>".ToStream();
+    </SkinTemplate>
+</SkinTemplates>".ToStream();
             virtualFile.Setup(vf => vf.Open()).Returns(stream);
 
             var directories = new List<VirtualDirectory>();
@@ -177,12 +180,13 @@ namespace UnitTests.Subtext.Framework.Skinning
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
             Stream stream = @"<?xml version=""1.0""?>
-    <SkinTemplate xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
-       Name=""Mobile"" MobileSupport=""Supported"">
+<SkinTemplates xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+    <SkinTemplate Name=""Mobile"" MobileSupport=""Supported"">
       <Styles>
         <Style href=""~/skins/_System/commonstyle.css"" />
       </Styles>
-    </SkinTemplate>".ToStream();
+    </SkinTemplate>
+</SkinTemplates>".ToStream();
             virtualFile.Setup(vf => vf.Open()).Returns(stream);
 
             var directories = new List<VirtualDirectory>();
@@ -212,12 +216,13 @@ namespace UnitTests.Subtext.Framework.Skinning
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
             Stream stream = @"<?xml version=""1.0""?>
-    <SkinTemplate xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
-       Name=""Skinny"" MobileSupported=""None"">
-      <Styles>
-        <Style href=""~/skins/_System/commonstyle.css"" />
-      </Styles>
-    </SkinTemplate>".ToStream();
+    <SkinTemplates xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+        <SkinTemplate Name=""Skinny"" MobileSupported=""None"">
+          <Styles>
+            <Style href=""~/skins/_System/commonstyle.css"" />
+          </Styles>
+        </SkinTemplate>
+    </SkinTemplates>".ToStream();
             virtualFile.Setup(vf => vf.Open()).Returns(stream);
 
             var directories = new List<VirtualDirectory>();

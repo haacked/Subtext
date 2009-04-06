@@ -30,16 +30,17 @@ namespace Subtext.Web.Admin
             mobileSkinRepeater.DataSource = MobileSkinTemplates;
             DataBind();
         }
-        private SkinTemplateCollection skins;
-        private SkinTemplateCollection mobileSkins;
+        private ICollection<SkinTemplate> skins;
+        private ICollection<SkinTemplate> mobileSkins;
 
-        protected SkinTemplateCollection SkinTemplates
+        protected ICollection<SkinTemplate> SkinTemplates
         {
             get
             {
                 if (skins == null)
                 {
-                    skins = new SkinTemplateCollection();
+                    SkinEngine skinEngine = new SkinEngine();
+                    skins = skinEngine.GetSkinTemplates(false /* mobile */).Values;
                     foreach (SkinTemplate template in skins)
                     {
                         if (template.MobileSupport == MobileSupport.Supported)
@@ -50,14 +51,16 @@ namespace Subtext.Web.Admin
             }
         }
 
-        protected SkinTemplateCollection MobileSkinTemplates
+        protected ICollection<SkinTemplate> MobileSkinTemplates
         {
             get
             {
                 if (mobileSkins == null)
                 {
-                    mobileSkins = new SkinTemplateCollection(true);
-                    mobileSkins.Insert(0, SkinTemplate.Empty);
+                    SkinEngine skinEngine = new SkinEngine();
+                    List<SkinTemplate> skins = new List<SkinTemplate>(skinEngine.GetSkinTemplates(true /* mobile */).Values);
+                    skins.Insert(0, SkinTemplate.Empty);
+                    mobileSkins = skins;
                 }
                 return mobileSkins;
             }
@@ -116,7 +119,8 @@ namespace Subtext.Web.Admin
 
         protected void OnSaveSkinClicked(object o, EventArgs args) {
             Blog blog = SubtextContext.Blog;
-            SkinTemplate skinTemplate = new SkinTemplateCollection().GetTemplate(Request.Form["SkinKey"]);
+            SkinEngine skinEngine = new SkinEngine();
+            SkinTemplate skinTemplate = skinEngine.GetSkinTemplates(false /* mobile */).ItemOrNull(Request.Form["SkinKey"]);
             blog.Skin.TemplateFolder = skinTemplate.TemplateFolder;
             blog.Skin.SkinStyleSheet = skinTemplate.StyleSheet;
             Config.UpdateConfigData(blog);

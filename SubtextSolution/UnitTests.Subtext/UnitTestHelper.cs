@@ -1135,5 +1135,14 @@ namespace UnitTests.Subtext
             var entryPublisher = new EntryPublisher(subtextContext, false);
             return entryPublisher.Publish(entry);
         }
+
+        public static Stream ToStream(this string text) {
+            MemoryStream stream = new MemoryStream();
+            StreamWriter writer = new StreamWriter(stream);
+            writer.Write(text);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
+        }
 	}
 }

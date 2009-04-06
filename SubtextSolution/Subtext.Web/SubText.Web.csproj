@@ -2157,6 +2157,17 @@
     <Content Include="SiteMap\SiteMapHttpHandler.ashx" />
     <Content Include="Providers\Web.config" />
     <Content Include="Admin\Services\Ajax\AjaxServices.ashx" />
+    <Content Include="Skins\Piyo\skin.config" />
+    <Content Include="Skins\AnotherEon001\skin.config" />
+    <Content Include="Skins\Colors\skins.config" />
+    <Content Include="Skins\GlossyBlue\skin.config" />
+    <Content Include="Skins\Gradient\skin.config" />
+    <Content Include="Skins\KeyWest\skin.config" />
+    <Content Include="Skins\Lightz\skin.config" />
+    <Content Include="Skins\Mobile\skin.config" />
+    <Content Include="Skins\Naked\skin.config" />
+    <Content Include="Skins\Nature\skin.config" />
+    <Content Include="Skins\origami\skin.config" />
     <None Include="Skins\RedBook\Controls\EntryList.ascx" />
     <Content Include="Skins\RedBook\Controls\Footer.ascx" />
     <Content Include="Skins\Naked\Controls\FullTagCloud.ascx" />
@@ -2379,6 +2390,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Skins\WPSkin\skin.config" />
+    <Content Include="Skins\Submarine\skin.config" />
+    <Content Include="Skins\Semagogy\skin.config" />
+    <Content Include="Skins\RedBook\skin.config" />
     <Content Include="Skins\_System\ForgotPassword.Master" />
     <Content Include="SystemMessages\SystemMessageTemplate.Master" />
     <Content Include="UI\WebControls\ContentRegion.bmp" />

@@ -6,7 +6,7 @@
 // weblog system.
 //
 // For updated news and information please visit http://subtextproject.com/
-// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// Subtext is hosted at SourceForge at http://sourceforge.net/projects/subtext
 // The development mailing list is at subtext-devs@lists.sourceforge.net 
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
+using Subtext.Framework;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.UI.Skinning
@@ -26,11 +27,11 @@ namespace Subtext.Framework.UI.Skinning
     /// </summary>
     public class StyleSheetElementCollectionRenderer
     {
-        readonly SkinTemplateCollection templates;
+        readonly IDictionary<string, SkinTemplate> templates;
 		
-        public StyleSheetElementCollectionRenderer(SkinTemplateCollection templates)
+        public StyleSheetElementCollectionRenderer(SkinEngine skinEngine)
         {
-            this.templates = templates;
+            this.templates = skinEngine.GetSkinTemplates(false /* mobile */);
         }
 		
         private static string RenderStyleAttribute(string attributeName, string attributeValue)
@@ -149,7 +150,7 @@ namespace Subtext.Framework.UI.Skinning
             StringBuilder templateDefinedStyles = new StringBuilder();
             string finalStyleDefinition = string.Empty;
 
-            SkinTemplate skinTemplate = templates.GetTemplate(skinName);
+            SkinTemplate skinTemplate = templates.ItemOrNull(skinName);
 			
             List<string> addedStyle = new List<string>();
 
@@ -231,7 +232,7 @@ namespace Subtext.Framework.UI.Skinning
             bool normalCss = false;
             List<StyleDefinition> styles = new List<StyleDefinition>();
 
-            SkinTemplate skinTemplate = templates.GetTemplate(skinName);
+            SkinTemplate skinTemplate = templates.ItemOrNull(skinName);
 
             if((string.IsNullOrEmpty(media)) && string.IsNullOrEmpty(title) && string.IsNullOrEmpty(conditional))
                 normalCss = true;

@@ -6,7 +6,7 @@
 // weblog system.
 //
 // For updated news and information please visit http://subtextproject.com/
-// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// Subtext is hosted at SourceForge at http://sourceforge.net/projects/subtext
 // The development mailing list is at subtext-devs@lists.sourceforge.net 
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
@@ -26,11 +26,11 @@ namespace Subtext.Framework.UI.Skinning
     /// </summary>
     public class ScriptElementCollectionRenderer
     {
-        SkinTemplateCollection templates;
+        IDictionary<string, SkinTemplate> templates;
 			
-        public ScriptElementCollectionRenderer(SkinTemplateCollection templates)
+        public ScriptElementCollectionRenderer(SkinEngine skinEngine)
         {
-            this.templates = templates;
+            this.templates = skinEngine.GetSkinTemplates(false /* mobile */);
         }
 			
         private static string RenderScriptAttribute(string attributeName, string attributeValue)
@@ -91,7 +91,7 @@ namespace Subtext.Framework.UI.Skinning
         {
             StringBuilder result = new StringBuilder();
 
-            SkinTemplate skinTemplate = templates.GetTemplate(skinKey);
+            SkinTemplate skinTemplate = templates.ItemOrNull(skinKey);
             if (skinTemplate != null && skinTemplate.Scripts != null)
             {
                 string skinPath = GetSkinPath(skinTemplate.TemplateFolder);
@@ -112,7 +112,7 @@ namespace Subtext.Framework.UI.Skinning
 
         public ScriptMergeMode GetScriptMergeMode(string skinName)
         {
-            SkinTemplate skinTemplate = templates.GetTemplate(skinName);
+            SkinTemplate skinTemplate = templates.ItemOrNull(skinName);
             return skinTemplate.ScriptMergeMode;
         }
 
@@ -120,7 +120,7 @@ namespace Subtext.Framework.UI.Skinning
         {
             List<string> scripts = new List<string>();
 
-            SkinTemplate skinTemplate = templates.GetTemplate(skinName);
+            SkinTemplate skinTemplate = templates.ItemOrNull(skinName);
 
             if (skinTemplate != null && skinTemplate.Scripts!=null)
             {
