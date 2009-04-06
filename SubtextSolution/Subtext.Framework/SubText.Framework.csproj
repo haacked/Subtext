@@ -330,6 +330,7 @@
     <Compile Include="DateTimeHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="Email\EmailService.cs" />
     <Compile Include="Email\EmbeddedTemplateEngine.cs" />
     <Compile Include="Email\IEmailService.cs" />
@@ -474,6 +475,7 @@
     <Compile Include="Services\KeywordExpander.cs" />
     <Compile Include="Syndication\OpmlHandler.cs" />
     <Compile Include="Syndication\OpmlWriter.cs" />
+    <Compile Include="UI\Skinning\SkinEngine.cs" />
     <Compile Include="Web\SubtextPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -609,7 +611,6 @@
     <Compile Include="UI\Skinning\SkinTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\Skinning\SkinTemplateCollection.cs" />
     <Compile Include="UI\Skinning\Style.cs">
       <SubType>Code</SubType>
     </Compile>

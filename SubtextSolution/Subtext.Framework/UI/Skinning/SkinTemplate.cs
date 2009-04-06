@@ -6,7 +6,7 @@
 // weblog system.
 //
 // For updated news and information please visit http://subtextproject.com/
-// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// Subtext is hosted at SourceForge at http://sourceforge.net/projects/subtext
 // The development mailing list is at subtext-devs@lists.sourceforge.net 
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
@@ -25,7 +25,8 @@ namespace Subtext.Framework.UI.Skinning
 	[Serializable]
 	public class SkinTemplate
 	{
-        public SkinTemplate() {
+        public SkinTemplate() 
+        {
             MobileSupport = MobileSupport.None;
         }
 

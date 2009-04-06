@@ -26,7 +26,7 @@ namespace Subtext.Framework.Web.Handlers
 {
     public class JsHandler : BaseHttpHandler
     {
-        private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinTemplateCollection());
+        private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinEngine());
 
         protected override void HandleRequest(HttpContext context) {
             context.Response.ContentEncoding = Encoding.UTF8;

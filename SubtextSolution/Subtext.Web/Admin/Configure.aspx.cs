@@ -47,7 +47,9 @@ namespace Subtext.Web.Admin.Pages
             {
                 if (skins == null)
                 {
-                    skins = new SkinTemplateCollection();
+                    SkinEngine engine = new SkinEngine();
+                    var templates = engine.GetSkinTemplates(false /* mobile */);
+                    skins = templates.Values;
                     foreach (SkinTemplate template in skins)
                     {
                         if (template.MobileSupport == MobileSupport.Supported)
@@ -64,7 +66,9 @@ namespace Subtext.Web.Admin.Pages
             {
                 if (mobileSkins == null)
                 {
-                    mobileSkins = new List<SkinTemplate>(new SkinTemplateCollection(true));
+                    SkinEngine engine = new SkinEngine();
+                    var templates = engine.GetSkinTemplates(true /* mobile */);
+                    mobileSkins = new List<SkinTemplate>(templates.Values);
                     mobileSkins.Insert(0, SkinTemplate.Empty);
                 }
                 return mobileSkins;

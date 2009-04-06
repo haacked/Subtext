@@ -40,8 +40,8 @@ namespace Subtext.Web.UI.Pages
     public class SubtextMasterPage : SubtextPage, IPageWithControls
     {
         #region Declared Controls in DTP.aspx
-        private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinTemplateCollection());
-        private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(new SkinTemplateCollection());
+        private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinEngine());
+        private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(new SkinEngine());
         protected Literal pageTitle;
         protected Literal docTypeDeclaration;
         protected HtmlLink CustomCss;

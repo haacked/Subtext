@@ -366,9 +366,10 @@
     <Compile Include="Framework\Services\EntryPublisherTests.cs" />
     <Compile Include="Framework\Services\SlugGeneratorTests.cs" />
     <Compile Include="Framework\Services\XhtmlConverterTests.cs" />
+    <Compile Include="Framework\Skinning\SkinEngineTests.cs" />
     <Compile Include="Framework\Skinning\SkinScriptsTests.cs" />
     <Compile Include="Framework\Skinning\SkinStylesTests.cs" />
-    <Compile Include="Framework\Skinning\SkinTests.cs" />
+    <Compile Include="Framework\Skinning\SkinTestExtensions.cs" />
     <Compile Include="Framework\StatsTests.cs" />
     <Compile Include="Framework\Syndication\Admin\ModeratedCommentRssWriterTests.cs" />
     <Compile Include="Framework\Syndication\AtomHandlerTests.cs">
@@ -487,8 +488,6 @@
     <EmbeddedResource Include="Resources\BlogMl\TwoCategories.xml" />
     <EmbeddedResource Include="Resources\BlogMl\SimpleBlogMl.xml" />
     <None Include="App.config" />
-    <EmbeddedResource Include="Resources\Skins\Skins.User.config" />
-    <EmbeddedResource Include="Resources\Skins\Skins.config" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScript.txt" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScriptExpectedChanges.txt" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScriptExpectedDefault.txt" />
