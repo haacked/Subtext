@@ -11,10 +11,6 @@
 	<p>
 		<a id="lnkHostAdmin" href="~/HostAdmin/Default.aspx" runat="server" title="Host Admin Tool">Visit</a> the Host Admin tool.
 	</p>
-	<p>
-		If you need to import data from a .TEXT database, try 
-		the <a href="~/HostAdmin/Import/ImportStart.aspx" runat="server" id="importWizardAnchor" title=".TEXT Bulk Import">Bulk Import Wizard</a>.
-	</p>
 	<p id="paraBlogmlImport" runat="server">
 		If you need to import data from another blogging engine (using <a id="lnkBlogMl" href="" title="BlogML Import Tool" runat="server">BlogML</a>), try 
 		Import Wizard in your admin section.

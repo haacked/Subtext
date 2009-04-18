@@ -88,7 +88,7 @@ namespace Subtext.Framework.Web.HttpModules
                 {
                     if (blogRequest.RequestLocation != RequestLocation.Upgrade 
                         && blogRequest.RequestLocation != RequestLocation.LoginPage 
-                        && blogRequest.RequestLocation == RequestLocation.SystemMessages)
+                        && blogRequest.RequestLocation != RequestLocation.SystemMessages)
                     {
                         HttpContext.Current.Response.Redirect("~/SystemMessages/UpgradeInProgress.aspx", true);
                         return;

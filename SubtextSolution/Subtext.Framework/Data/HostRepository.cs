@@ -19,12 +19,20 @@ namespace Subtext.Framework.Data
         /// <returns>A <see cref="HostInfo"/> instance.</returns>
         public override HostInfo LoadHostInfo(HostInfo hostInfo)
         {
-            using (IDataReader reader = _procedures.GetHost())
+            try
             {
-                if (reader.Read())
+                using (IDataReader reader = _procedures.GetHost())
                 {
-                    return reader.LoadObject<HostInfo>(hostInfo);
+                    if (reader.Read())
+                    {
+                        return reader.LoadObject<HostInfo>(hostInfo);
+                    }
                 }
+            }
+            catch (IndexOutOfRangeException) { 
+                //When upgrading, this may occur because the old version of the 
+                //database schema doesn't know about new properties.
+                return new HostInfo();
             }
             return null;
         }
