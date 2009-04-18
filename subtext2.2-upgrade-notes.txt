@@ -11,6 +11,7 @@ UI changes
       from MyLinks.ascx/Syndication.ascx in all the skins
       If you want to use Atom instead of Rss, just change the route with the name "rss" 
       to point to the AtomHandler.
+  2. Any skins that call Entry.Url or Comment.DisplayUrl will need to use Url.EntryUrl(Entry) or Url.FeedbackUrl(Comment)
 
 File/Folder Deletions
   1. HostAdmin/Import directory
@@ -19,3 +20,5 @@ File/Folder Deletions
 Database changes
   1. No Schema changes
   2. Stored Proc changes
+  
+  
