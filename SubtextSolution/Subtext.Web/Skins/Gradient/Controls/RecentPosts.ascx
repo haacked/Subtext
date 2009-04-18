@@ -4,7 +4,7 @@
 			<ul>
 	</HeaderTemplate>
 	<ItemTemplate>
-			<li><a href="<%# Entry.Url %>" title="Recent post"><%# Entry.Title %></a></li>
+			<li><a href="<%# Url.EntryUrl(Entry) %>" title="Recent post"><%# Entry.Title %></a></li>
 	</ItemTemplate>
 	<FooterTemplate>
 			</ul>
