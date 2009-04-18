@@ -25,13 +25,13 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
+using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Security;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Web.Controls;
 using Image = System.Web.UI.WebControls.Image;
-using Subtext.Framework.Security;
-using Subtext.Framework.Format;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -51,7 +51,10 @@ namespace Subtext.Web.UI.Controls
 
         public FeedbackItem Comment
         {
-            get { return comment; }
+            get 
+            { 
+                return comment; 
+            }
         }
 
         public bool IsEditEnabled
