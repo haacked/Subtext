@@ -775,6 +775,9 @@
     <Compile Include="UI\Controls\SingleColumn.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\Controls\StaticPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="UI\Controls\StoryList.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

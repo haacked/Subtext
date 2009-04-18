@@ -14,6 +14,7 @@ using System.Web.UI.WebControls;
 using Subtext.Web.UI.Controls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using System.Collections.Generic;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -32,8 +33,8 @@ namespace Subtext.Web.UI.Controls
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
-			LinkCategoryCollection lcc = new LinkCategoryCollection();
-			lcc.AddRange(Links.GetActiveCategories());
+			List<LinkCategory> lcc = new List<LinkCategory>();
+			lcc.AddRange(Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.ActiveOnly));
 			CatList.DataSource = lcc;
 			CatList.DataBind();
 		}
