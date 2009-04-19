@@ -104,7 +104,7 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		/// <value>The description.</value>
 		public string Description
-		{
+		{   //todo: let's rename this property to excerpt.
 			get;
 			set;
 		}
