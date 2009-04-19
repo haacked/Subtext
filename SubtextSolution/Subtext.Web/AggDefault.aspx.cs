@@ -64,7 +64,7 @@ namespace Subtext.Web
 			const string style = "<link href=\"{0}{1}\" type=\"text/css\" rel=\"stylesheet\">";
 			string apppath = HttpContext.Current.Request.ApplicationPath.EndsWith("/") ? HttpContext.Current.Request.ApplicationPath : HttpContext.Current.Request.ApplicationPath + "/";
             //TODO: This is hard-coded to look in the simple skin for aggregate blogs. We should change this later.
-            Style.Text = string.Format(style, apppath, "Skins/Aggregate/Simple/Style.css") + "\n" + string.Format(style, apppath, "Skins/Aggregate/Simple/blue.css") + "\n" + string.Format(style, apppath, "Scripts/Lightbox.css");
+            Style.Text = string.Format(style, apppath, "Skins/Aggregate/Simple/Style.css") + "\n" + string.Format(style, apppath, "Skins/Aggregate/Simple/blue.css") + "\n" + string.Format(style, apppath, "Scripts/jquery.lightbox-0.5.css");
 		}
 
 		#region Web Form Designer generated code
