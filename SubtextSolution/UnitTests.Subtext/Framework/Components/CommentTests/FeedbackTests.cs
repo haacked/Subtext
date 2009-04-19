@@ -323,7 +323,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			FeedbackItem includedToo = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FlaggedAsSpam | FeedbackStatusFlag.NeedsModeration);
 
 			//We expect 2 of the four.
-			IPagedCollection<FeedbackItem> feedback = FeedbackItem.GetPagedFeedback(0, 10, FeedbackStatusFlag.FlaggedAsSpam, FeedbackStatusFlag.Approved | FeedbackStatusFlag.Deleted, FeedbackType.Comment);
+			IPagedCollection<FeedbackItem> feedback = ObjectProvider.Instance().GetPagedFeedback(0, 10, FeedbackStatusFlag.FlaggedAsSpam, FeedbackStatusFlag.Approved | FeedbackStatusFlag.Deleted, FeedbackType.Comment);
 			Assert.AreEqual(2, feedback.Count, "We expected two to match.");
 
 			//Expect reverse order

@@ -91,20 +91,6 @@ namespace Subtext.Framework.Components
 		}
 
 		/// <summary>
-		/// Returns a pageable collection of comments.
-		/// </summary>
-		/// <param name="pageIndex"></param>
-		/// <param name="pageSize"></param>
-		/// <param name="status">A flag for the status types to return.</param>
-		/// <param name="excludeStatusMask">A flag for the statuses to exclude.</param>
-		/// <param name="type">The type of feedback to return.</param>
-		/// <returns></returns>
-		public static IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackStatusFlag excludeStatusMask, FeedbackType type)
-		{
-			return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize, status, excludeStatusMask, type);
-		}
-
-		/// <summary>
 		/// Creates a feedback item in the database.
 		/// </summary>
 		/// <param name="feedback">The feedback.</param>

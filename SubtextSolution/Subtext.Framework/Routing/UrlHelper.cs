@@ -56,6 +56,9 @@ namespace Subtext.Framework.Routing
             if (comment == null) {
                 throw new ArgumentNullException("comment");
             }
+            if (comment.FeedbackType == FeedbackType.ContactPage || comment.Entry == null) {
+                return null;
+            }
             string entryUrl = EntryUrl(comment.Entry);
             if (string.IsNullOrEmpty(entryUrl)) {
                 return null;

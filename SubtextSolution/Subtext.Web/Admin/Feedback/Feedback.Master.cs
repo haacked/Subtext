@@ -2,8 +2,8 @@
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Web.Admin.WebUI;
+using Subtext.Web.UI.Controls;
 
 namespace Subtext.Web.Admin.Feedback {
     public partial class FeedbackMaster : AdminMasterPage 
@@ -76,6 +76,9 @@ namespace Subtext.Web.Admin.Feedback {
                     try 
                     {
                         feedbackType = (FeedbackType)Enum.Parse(typeof(FeedbackType), typeText);
+                        if (feedbackType == FeedbackType.ContactPage && !Contact.SendContactMessageToFeedback) {
+                            feedbackType = FeedbackType.None;
+                        }
                     }
                     catch (ArgumentException) 
                     {
