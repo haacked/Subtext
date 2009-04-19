@@ -822,7 +822,6 @@
     <Content Include="logout.aspx" />
     <Content Include="MainFeed.aspx" />
     <Content Include="Admin\Navigation.config" />
-    <Content Include="Admin\Skins.config" />
     <Content Include="Admin\Web.config" />
     <Content Include="HostAdmin\Web.config" />
     <None Include="Web.config" />
