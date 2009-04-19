@@ -136,6 +136,12 @@ namespace Subtext.Web.Admin.Pages
                  
             }
         }
+
+        public ObjectProvider Repository {
+            get {
+                return SubtextContext.Repository;
+            }
+        }
     }
 }
 

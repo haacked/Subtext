@@ -13,6 +13,9 @@
             }
             else if(index == 2) {
                 self.location.href = '<%= Master.ListUrl(FeedbackType.PingTrack) %>';
+            }
+            else if (index == 3) {
+                self.location.href = '<%= Master.ListUrl(FeedbackType.ContactPage) %>';
             }  
         }
     </script>
@@ -22,6 +25,7 @@
                 <asp:ListItem Selected="True" Value="None">All</asp:ListItem>
                 <asp:ListItem Value="Comment">Comments Only</asp:ListItem>
                 <asp:ListItem Value="PingTrack">PingTracks Only</asp:ListItem>
+                <asp:ListItem Value="ContactPage">Contact Only</asp:ListItem>
             </asp:DropDownList>
         </div>
         

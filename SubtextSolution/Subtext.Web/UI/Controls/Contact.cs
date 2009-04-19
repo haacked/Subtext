@@ -32,7 +32,7 @@ using Subtext.Framework.Data;
 
 namespace Subtext.Web.UI.Controls
 {
-	public  class Contact : BaseControl
+	public class Contact : BaseControl
 	{
 		protected ValidationSummary ValidationSummary1;
 		protected Label lblMessage;
@@ -165,7 +165,8 @@ namespace Subtext.Web.UI.Controls
 			tbMessage.Text = string.Empty;
 		}
 
-		static bool SendContactMessageToFeedback
+        //todo: move this to an appropriate place.
+		public static bool SendContactMessageToFeedback
 		{
 			get
 			{

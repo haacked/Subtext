@@ -5,13 +5,13 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
-using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Web.Admin.Pages;
-using Subtext.Framework.Services;
-using Subtext.Framework.Configuration;
+using Subtext.Web.UI.Controls;
 
 namespace Subtext.Web.Admin.Feedback
 {
@@ -35,6 +35,11 @@ namespace Subtext.Web.Admin.Feedback
             BindUserInterface();
             if (!IsPostBack)
             {
+                if (!Contact.SendContactMessageToFeedback)
+                {
+                    filterTypeDropDown.Items.RemoveAt(3);
+                }
+
                 BindList();
             }
             base.OnLoad(e);
@@ -75,7 +80,7 @@ namespace Subtext.Web.Admin.Feedback
             if (feedbackStatusFilter == FeedbackStatusFlag.Deleted)
                 excludeFilter = FeedbackStatusFlag.Approved;
 
-            IPagedCollection<FeedbackItem> selectionList = FeedbackItem.GetPagedFeedback(this.pageIndex
+            IPagedCollection<FeedbackItem> selectionList = Repository.GetPagedFeedback(this.pageIndex
                 , this.resultsPager.PageSize
                 , feedbackStatusFilter
                 , excludeFilter

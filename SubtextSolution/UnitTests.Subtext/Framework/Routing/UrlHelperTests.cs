@@ -184,6 +184,42 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
+        public void FeedbackUrl_WithContactPageFeedback_ReturnsNullUrl()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            FeedbackItem comment = new FeedbackItem(FeedbackType.ContactPage)
+            {
+                Id = 321,
+                Entry = new Entry(PostType.BlogPost)
+            };
+
+            //act
+            string url = helper.FeedbackUrl(comment);
+
+            //assert
+            Assert.IsNull(url);
+        }
+
+        [Test]
+        public void FeedbackUrl_WithNullEntry_ReturnsNullUrl()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            FeedbackItem comment = new FeedbackItem(FeedbackType.ContactPage)
+            {
+                Id = 321,
+                Entry = null
+            };
+
+            //act
+            string url = helper.FeedbackUrl(comment);
+
+            //assert
+            Assert.IsNull(url);
+        }
+
+        [Test]
         public void FeedbackUrl_WithEntryIdEqualToIntMinValue_ReturnsNull()
         {
             //arrange
