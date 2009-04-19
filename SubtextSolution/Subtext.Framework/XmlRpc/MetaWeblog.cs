@@ -65,7 +65,7 @@ namespace Subtext.Framework.XmlRpc
             entry.Email = Blog.Email;
             entry.Body = post.description;
             entry.Title = post.title;
-            entry.Description = string.Empty;
+            entry.Description = post.excerpt ?? string.Empty;
 
             //TODO: Figure out why this is here.
             //		Probably means the poster forgot to set the date.
@@ -197,7 +197,7 @@ namespace Subtext.Framework.XmlRpc
                 entry.Email = Blog.Email;
                 entry.Body = post.description;
                 entry.Title = post.title;
-                entry.Description = string.Empty;
+                entry.Description = post.excerpt ?? string.Empty;
                 entry.IncludeInMainSyndication = true;
 
                 entry.Categories.Clear();
@@ -273,6 +273,7 @@ namespace Subtext.Framework.XmlRpc
             Post post = new Post();
             post.link = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString();
             post.description = entry.Body;
+            post.excerpt = entry.Description ?? string.Empty;
             post.dateCreated = entry.DateCreated;
             post.postid = entry.Id;
             post.title = entry.Title;
@@ -306,6 +307,7 @@ namespace Subtext.Framework.XmlRpc
                         select new Post {
                              dateCreated = entry.DateCreated,
                              description = entry.Body,
+                             excerpt = entry.Description,
                              link = Url.EntryUrl(entry),
                              permalink = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
                              title = entry.Title,
@@ -596,7 +598,7 @@ namespace Subtext.Framework.XmlRpc
                 entry.Email = Blog.Email;
                 entry.Body = content.description;
                 entry.Title = content.title;
-                entry.Description = string.Empty;
+                entry.Description = content.excerpt ?? string.Empty;
                 entry.IncludeInMainSyndication = true;
 
                 if (content.categories != null) {
@@ -626,6 +628,7 @@ namespace Subtext.Framework.XmlRpc
                         {
                             dateCreated = entry.DateCreated,
                             description = entry.Body,
+                            excerpt = entry.Description ?? string.Empty,
                             link = Url.EntryUrl(entry),
                             permalink = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
                             title = entry.Title,
@@ -653,6 +656,7 @@ namespace Subtext.Framework.XmlRpc
             Post post = new Post();
             post.link = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString();
             post.description = entry.Body;
+            post.excerpt = entry.Description ?? string.Empty;
             post.dateCreated = entry.DateCreated;
             post.postid = entry.Id;
             post.title = entry.Title;

@@ -61,6 +61,10 @@ namespace Subtext.Framework.XmlRpc
     public string link;
     public string permalink;
     public string wp_slug;
+
+    // WLW Excerpt support
+    [XmlRpcMember("mt_excerpt")]
+    public string excerpt;
     [XmlRpcMember(
       Description="Not required when posting. Depending on server may "
       + "be either string or integer. "

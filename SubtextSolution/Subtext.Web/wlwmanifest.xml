@@ -9,6 +9,7 @@
     <futurePublishDateWarning>No</futurePublishDateWarning>
     <supportsScripts>No</supportsScripts>
     <supportsPages>Yes</supportsPages>
+    <supportsExtendedEntries>Yes</supportsExtendedEntries>
   </options>
   <weblog>
     <homepageLinkText>View your blog</homepageLinkText>
