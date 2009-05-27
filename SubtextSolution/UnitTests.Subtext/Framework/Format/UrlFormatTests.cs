@@ -51,30 +51,6 @@ namespace UnitTests.Subtext.Framework.Format
 			Assert.AreEqual(expected, UrlFormats.GetBlogSubfolderFromRequest(rawUrl, subfolder));
 		}
 
-		/// <summary>
-		/// Makes sure the method GetEditLink distringuishes between a post and article.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void GetEditLinkDistringuishesBetweenPostAndArticle()
-		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "");
-			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
-            Blog blog = Config.GetBlog(_hostName, string.Empty);
-            BlogRequest.Current.Blog = blog;
-
-			Entry postEntry = new Entry(PostType.BlogPost);
-			postEntry.Id = 123;
-
-			string editPostUrl = UrlFormats.GetEditLink(postEntry, blog);
-			Assert.AreEqual("~/Admin/Posts/Edit.aspx?PostID=123&return-to-post=true", editPostUrl, "Expected blog post to go to Posts/Edit.aspx");
-
-			Entry articleEntry = new Entry(PostType.Story);
-			articleEntry.Id = 456;
-			string editArticleUrl = UrlFormats.GetEditLink(articleEntry, blog);
-			Assert.AreEqual("~/Admin/Articles/Edit.aspx?PostID=456&return-to-post=true", editArticleUrl, "Expected blog post to go to EditArticles.aspx");
-		}
-
 		[RowTest]
 		[Row("http://localhost/Subtext.Web/MyBlog/archive/2006/01.aspx", 50, "localhost/Subtext.Web/MyBlog/archive/2006/01.aspx")]
 		[Row("http://localhost/Subtext.Web/MyBlog/archive/2006/01.aspx", 20, "localhost/.../01.aspx")]
