@@ -5695,7 +5695,6 @@ AS
 SELECT TOP 10
         Id = EntryId,
         EntryName,
-        DateCreated = DateAdded,
         DateUpdated,
         DateSyndicated,
         PostType,
@@ -5713,7 +5712,7 @@ FROM    [<dbUser,varchar,dbo>].subtext_EntryViewCount,
           WHERE     FeedbackType = 1
           GROUP BY  [<dbUser,varchar,dbo>].subtext_Content.Id
         ) Comments,
-        Subtext_Content
+        [<dbUser,varchar,dbo>].Subtext_Content
 WHERE   Comments.Id = EntryId
         AND [<dbUser,varchar,dbo>].Subtext_Content.Id = EntryId
 		AND [<dbUser,varchar,dbo>].Subtext_Content.BlogId = @BlogId
