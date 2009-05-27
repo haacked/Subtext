@@ -84,17 +84,7 @@ namespace Subtext.Web.UI.WebControls
 			{
 				throw new InvalidOperationException("TemplateFile Property for MasterPage must be Defined");
 			}
-			try
-			{
-				this.template = this.Page.LoadControl(this.TemplateFile);
-			}
-			catch(HttpException e)
-			{
-				log.Warn("The configured skin '" + Globals.CurrentSkin.TemplateFolder + "' does not exist.  Reverting to a default skin.", e);
-				Config.CurrentBlog.Skin = SkinConfig.GetDefaultSkin();
-				this.templateFile = null;
-				this.template = this.Page.LoadControl(this.TemplateFile);
-			}
+			this.template = this.Page.LoadControl(this.TemplateFile);
 			this.template.ID = this.ID + "_Template";
 			
 			int count = this.template.Controls.Count;
