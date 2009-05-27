@@ -95,10 +95,10 @@ namespace UnitTests.Subtext.Framework.Routing
             AdminUrlHelper helper = SetupUrlHelper("/", routeData);
 
             //act
-            string url = helper.FeedbackEdit();
+            string url = helper.FeedbackEdit(123);
 
             //assert
-            Assert.AreEqual("/sub/admin/feedback/edit.aspx", url);
+            Assert.AreEqual("/sub/admin/feedback/edit.aspx?return-to-post=true&FeedbackID=123", url);
         }
 
         [Test]

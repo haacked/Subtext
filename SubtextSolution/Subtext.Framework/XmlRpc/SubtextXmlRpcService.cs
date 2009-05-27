@@ -1,6 +1,7 @@
 ﻿using CookComputing.XmlRpc;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using System.Web.Routing;
 
 namespace Subtext.Framework.XmlRpc
 {
@@ -31,6 +32,12 @@ namespace Subtext.Framework.XmlRpc
         protected ObjectProvider Repository {
             get {
                 return SubtextContext.Repository;
+            }
+        }
+
+        protected RouteValueDictionary RouteValues {
+            get {
+                return SubtextContext.RequestContext.RouteData.Values;
             }
         }
     }
