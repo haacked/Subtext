@@ -5716,7 +5716,7 @@ FROM    [<dbUser,varchar,dbo>].subtext_EntryViewCount,
 WHERE   Comments.Id = EntryId
         AND [<dbUser,varchar,dbo>].Subtext_Content.Id = EntryId
 		AND [<dbUser,varchar,dbo>].Subtext_Content.BlogId = @BlogId
-		AND (@MinDate IS NULL OR [<dbUser,varchar,dbo>].Subtext_Content.DateAdded >= @MinDate)
+		/*AND (@MinDate IS NULL OR [<dbUser,varchar,dbo>].subtext_Content.DateAdded >= @MinDate)*/
 ORDER BY ( WebCount * 15 ) + ( AggCount * 10 ) + ( CommentCount * 35 ) DESC
 
 GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_GetPopularPosts] TO [public]
