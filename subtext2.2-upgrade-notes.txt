@@ -12,6 +12,7 @@ UI changes
       If you want to use Atom instead of Rss, just change the route with the name "rss" 
       to point to the AtomHandler.
   2. Any skins that call Entry.Url or Comment.DisplayUrl will need to use Url.EntryUrl(Entry) or Url.FeedbackUrl(Comment)
+  3. Any skins that call Entry.FullyQualifiedUrl will need to replace that with Url.EntryUrl(Entry).ToFullyQualifiedUrl(Blog)
 
 File/Folder Deletions
   1. HostAdmin/Import directory
