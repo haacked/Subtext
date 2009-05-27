@@ -49,10 +49,11 @@ namespace Subtext.Web.UI.Controls
 			// Put user code to initialize the page here
 			if(Context != null)
 			{
-				int catID = UrlFormats.GetPostIDFromUrl(Request.Path);
-				baseImagePath = Images.GalleryVirtualUrl(catID);
+				int categoryId;
+                int.TryParse((string)RouteValues["id"], out categoryId);
+				baseImagePath = Images.GalleryVirtualUrl(categoryId);
 
-				ImageCollection ic = Images.GetImagesByCategoryID(catID, true);
+				ImageCollection ic = Images.GetImagesByCategoryID(categoryId, true);
 				if(ic != null)
 				{
 					GalleryTitle.Text = ic.Category.Title;

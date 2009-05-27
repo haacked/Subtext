@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Subtext.Framework.Components;
+using System.Web.Routing;
 
 namespace Subtext.Framework.Routing
 {
@@ -54,6 +55,7 @@ namespace Subtext.Framework.Routing
             return Url.AdminUrl("posts/edit.aspx");
         }
 
+        //TODO: Unit test
         public VirtualPath PostsEdit(int id)
         {
             return Url.AdminUrl("posts/edit.aspx", new {PostId = id });
@@ -74,9 +76,13 @@ namespace Subtext.Framework.Routing
             return Url.AdminUrl("feedback");
         }
 
-        public VirtualPath FeedbackEdit()
+        //TODO: Unit test
+        public VirtualPath FeedbackEdit(int id)
         {
-            return Url.AdminUrl("feedback/edit.aspx");
+            RouteValueDictionary routeValues = new RouteValueDictionary();
+            routeValues.Add("return-to-post", "true");
+            routeValues.Add("FeedbackID", id);
+            return Url.AdminUrl("feedback/edit.aspx", routeValues);
         }
 
         public VirtualPath LinksEdit()

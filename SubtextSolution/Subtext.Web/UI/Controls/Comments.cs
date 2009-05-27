@@ -62,8 +62,7 @@ namespace Subtext.Web.UI.Controls
 
         public string EditUrl(FeedbackItem feedback)
         {
-            //TODO - There's GOT to be a better way to do this. Perhaps change UrlFormats to return absolute?
-            string url = UrlFormats.GetFeedbackEditLink(feedback);
+            string url = AdminUrl.FeedbackEdit(feedback.Id);
 
             return VirtualPathUtility.ToAbsolute(StringHelper.LeftBefore(url, "?")) + "?" + StringHelper.RightAfter(url, "?");
         }
@@ -246,7 +245,7 @@ namespace Subtext.Web.UI.Controls
                         HyperLink editCommentTextLink = (HyperLink)(e.Item.FindControl("EditCommentTextLink"));
                         if (editCommentTextLink != null)
                         {
-                            editCommentTextLink.NavigateUrl = UrlFormats.GetFeedbackEditLink(feedbackItem);
+                            editCommentTextLink.NavigateUrl = AdminUrl.FeedbackEdit(feedbackItem.Id);
                             if (String.IsNullOrEmpty(editCommentTextLink.Text))
                             {
                                 editCommentTextLink.Text = "Edit Comment " + feedbackItem.Id.ToString(CultureInfo.InstalledUICulture);
@@ -256,7 +255,7 @@ namespace Subtext.Web.UI.Controls
                         HyperLink editCommentImgLink = (HyperLink)(e.Item.FindControl("EditCommentImgLink"));
                         if (editCommentImgLink != null)
                         {
-                            editCommentImgLink.NavigateUrl = UrlFormats.GetFeedbackEditLink(feedbackItem);
+                            editCommentImgLink.NavigateUrl = AdminUrl.FeedbackEdit(feedbackItem.Id);
                             if (String.IsNullOrEmpty(editCommentImgLink.ImageUrl))
                             {
                                 editCommentImgLink.ImageUrl = Url.EditIconUrl();

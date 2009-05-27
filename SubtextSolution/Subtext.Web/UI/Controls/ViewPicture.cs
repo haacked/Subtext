@@ -42,8 +42,9 @@ namespace Subtext.Web.UI.Controls
 
 			if(Context != null)
 			{
-				int imageID = UrlFormats.GetPostIDFromUrl(Request.Path);
-				Subtext.Framework.Components.Image _image = Images.GetSingleImage(imageID,true);
+                int imageId;
+                int.TryParse((string)RouteValues["id"], out imageId);
+				Subtext.Framework.Components.Image _image = Images.GetSingleImage(imageId, true);
 				_baseImagePath = Images.GalleryVirtualUrl(_image.CategoryID);
 
 				Title.Text = _image.Title;

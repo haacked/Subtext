@@ -251,9 +251,14 @@ namespace Subtext.Framework.Routing
         }
                 
         public virtual VirtualPath AdminUrl(string path, object routeValues) {
-            var routeValuesDict = new RouteValueDictionary(routeValues);
-            routeValuesDict.Add("pathinfo", path);
-            return GetVirtualPath("admin", routeValuesDict);
+            var routeValueDict = (routeValues as RouteValueDictionary) ?? new RouteValueDictionary(routeValues);
+            return AdminUrl(path, routeValueDict);
+        }
+
+        public virtual VirtualPath AdminUrl(string path, RouteValueDictionary routeValues) {
+            routeValues = routeValues ?? new RouteValueDictionary();
+            routeValues.Add("pathinfo", path);
+            return GetVirtualPath("admin", routeValues);
         }
 
         public virtual VirtualPath AdminRssUrl(string feedName)

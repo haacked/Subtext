@@ -5641,8 +5641,28 @@ SELECT ActivePostCount = (
 				  GROUP BY  [<dbUser,varchar,dbo>].subtext_Content.Id
 				) commentsPerPost
 	),	
-	AveragePostsPerMonth = 0,
-	AveragePostsPerWeek =0,
+	AveragePostsPerMonth = (
+		SELECT AVG(PostsPerMonth)
+		FROM    ( SELECT    DATEADD(year, YEAR(DateAdded) - 1900,
+									DATEADD(month, MONTH(DateAdded)-1, 0)) Date,
+							COUNT(*) PostsPerMonth
+				  FROM      subtext_Content
+				  WHERE		BlogId = @BlogId
+				  GROUP BY  MONTH(DateAdded),
+							YEAR(DateAdded)
+				) postsPerMonth
+	),
+	AveragePostsPerWeek = (
+		SELECT  AVG(postsPerWeek)
+		FROM    ( SELECT    DATEPART(week, dateadded) weekNum,
+							YEAR(dateadded) [year],
+							COUNT(*) postsPerWeek
+				  FROM      subtext_Content
+				  WHERE		BlogId = @BlogId
+				  GROUP BY  DATEPART(week, dateadded),
+							YEAR(DateAdded)
+				) postsPerWeek
+	),
 	AverageCommentsPerMonth = (
 		SELECT  AVG(CommentsPerMonth)
 		FROM	(
@@ -5675,6 +5695,7 @@ AS
 SELECT TOP 10
         Id = EntryId,
         EntryName,
+        DateCreated = [<dbUser,varchar,dbo>].subtext_Content.DateAdded,
         DateUpdated,
         DateSyndicated,
         PostType,
@@ -5685,14 +5706,14 @@ SELECT TOP 10
         FeedBackCount = CommentCount,
         WeightedScore = ( WebCount * 15 ) + ( AggCount * 10 ) + ( CommentCount * 35 )
 FROM    [<dbUser,varchar,dbo>].subtext_EntryViewCount,
-        ( SELECT    COUNT([<dbUser,varchar,dbo>]..subtext_Feedback.Id) CommentCount,
+        ( SELECT    COUNT([<dbUser,varchar,dbo>].subtext_Feedback.Id) CommentCount,
                     [<dbUser,varchar,dbo>].subtext_Content.Id
           FROM      [<dbUser,varchar,dbo>].subtext_Feedback
                     RIGHT JOIN [<dbUser,varchar,dbo>].subtext_Content ON [<dbUser,varchar,dbo>].subtext_Content.Id = [<dbUser,varchar,dbo>].subtext_Feedback.EntryId
           WHERE     FeedbackType = 1
           GROUP BY  [<dbUser,varchar,dbo>].subtext_Content.Id
         ) Comments,
-        [<dbUser,varchar,dbo>].Subtext_Content
+        subtext_Content
 WHERE   Comments.Id = EntryId
         AND [<dbUser,varchar,dbo>].Subtext_Content.Id = EntryId
 		AND [<dbUser,varchar,dbo>].Subtext_Content.BlogId = @BlogId

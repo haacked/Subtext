@@ -15,6 +15,7 @@
 
 using System;
 using System.Web;
+using System.Web.Routing;
 using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -31,6 +32,12 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class BaseControl : UserControl
 	{
+        public RouteValueDictionary RouteValues {
+            get {
+                return SubtextContext.RequestContext.RouteData.Values;
+            }
+        }
+
         public UrlHelper Url {
             get {
                 var routableHandler = Page as IRoutableHandler;

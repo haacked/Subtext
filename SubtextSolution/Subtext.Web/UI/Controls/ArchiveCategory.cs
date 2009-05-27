@@ -35,8 +35,9 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 
-			int catID = UrlFormats.GetPostIDFromUrl(Request.Path);
-			Days.Days = Entries.GetPostsByCategoryID(Blog.ItemCount, catID);
+			int categoryId;
+            int.TryParse((string)RouteValues["id"], out categoryId);
+			Days.Days = Entries.GetPostsByCategoryID(Blog.ItemCount, categoryId);
 
 		}
 	}

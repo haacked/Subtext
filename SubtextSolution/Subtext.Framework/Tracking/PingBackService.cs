@@ -67,14 +67,13 @@ namespace Subtext.Framework.Tracking
 			if (!Blog.TrackbacksEnabled)
 				return "Pingbacks are not enabled for this site.";
 			
-			int postId;
 			string pageTitle;
 
 			// GetPostIDFromUrl returns the postID
-			postId = UrlFormats.GetPostIDFromUrl(targetURI);
-
-			if (postId == NullValue.NullInt32)
-				throw new XmlRpcFaultException(33, "You did not link to a permalink");
+			int postId;
+            if (!int.TryParse((string)RouteValues["id"], out postId) || postId == NullValue.NullInt32) { 
+            	throw new XmlRpcFaultException(33, "You did not link to a permalink");
+            }
 
 			Uri sourceUrl = HtmlHelper.ParseUri(sourceURI);
 			Uri targetUrl = HtmlHelper.ParseUri(targetURI);
