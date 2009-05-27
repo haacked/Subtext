@@ -130,6 +130,15 @@ namespace Subtext.Web.UI.Controls
             return HttpUtility.UrlDecode(s);
         }
 
+        protected string H(string value) {
+            return HttpUtility.HtmlEncode(value);
+        }
+
+        protected string H(object value)
+        {
+            return HttpUtility.HtmlEncode(value.ToString());
+        }
+
         protected static string UrlDecode(object s)
         {
             return HttpUtility.UrlDecode(s.ToString());

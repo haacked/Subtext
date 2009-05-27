@@ -14,7 +14,8 @@
 #endregion
 
 using System;
-using Subtext.Framework.Configuration;
+using Subtext.Framework;
+using Subtext.Framework.Components;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -23,10 +24,28 @@ namespace Subtext.Web.Admin.Pages
 	/// </summary>
 	public class HomePageDefault : AdminPage
 	{
-		protected override void OnLoad(EventArgs e)
+        public HomePageDefault() {
+            this.TabSectionId = "dashboard";
+        }
+        
+
+        protected BlogStatistics Statistics
         {
-            Response.Redirect(AdminUrl.PostsList());
-		}
+            get;
+            private set;
+        }
+
+        public int CategoryCount {
+            get {
+                return Repository.GetActiveCategories().Count;
+            }
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            Statistics = Repository.GetBlogStatistics(Blog.Id);
+            base.OnLoad(e);
+        }
 	}
 }
 

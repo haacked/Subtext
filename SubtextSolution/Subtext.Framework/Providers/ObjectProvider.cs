@@ -1,4 +1,4 @@
-#region Disclaimer/Info
+#region 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -17,7 +17,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration.Provider;
-using BlogML.Xml;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
@@ -57,8 +56,6 @@ namespace Subtext.Framework.Providers
 				return providers;
 			}
 		}
-
-        #region ObjectProvider Specific methods
 
 		/// <summary>
 		/// Returns the <see cref="HostInfo"/> for the Subtext installation.
@@ -131,9 +128,6 @@ namespace Subtext.Framework.Providers
 
 		public abstract bool DeleteBlogAlias(BlogAlias alias);
 
-		#region Entries
-
-
 		/// <summary>
 		/// Returns a pageable collection of entries ordered by the id descending.
 		/// This is used in the admin section.
@@ -156,7 +150,7 @@ namespace Subtext.Framework.Providers
 		/// <returns></returns>
 		public abstract IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackStatusFlag excludeStatusMask, FeedbackType type);
 		
-		#region EntryDays
+		
 
 		public abstract EntryDay GetEntryDay(DateTime dt);
         public abstract ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
@@ -170,10 +164,7 @@ namespace Subtext.Framework.Providers
 		/// <returns></returns>
         public abstract ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc);
 
-		#endregion
-
-		#region EntryCollections
-		/// <summary>
+        /// <summary>
 		/// Returns the previous and next entry to the specified entry.
 		/// </summary>
 		/// <param name="entryId"></param>
@@ -191,8 +182,9 @@ namespace Subtext.Framework.Providers
         /// <param name="includeCategories">Whether or not to include categories</param>
 		/// <returns></returns>
 		public abstract ICollection<Entry> GetEntries(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories);
+        public abstract ICollection<EntryStatsView> GetPopularEntries(int blogId, DateFilter filter);
 		
-		/// <summary>
+        /// <summary>
 		/// Gets the <see cref="FeedbackItem" /> items for the specified entry.
 		/// </summary>
 		/// <param name="parentEntry">The parent entry.</param>
@@ -219,10 +211,6 @@ namespace Subtext.Framework.Providers
 		public abstract ICollection<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
 		public abstract ICollection<Entry> GetEntriesByCategory(int ItemCount,int catID,bool ActiveOnly);
         public abstract ICollection<Entry> GetEntriesByTag(int itemCount, string tagName);
-
-		#endregion
-
-		#region Single Entry
 
 		/// <summary>
 		/// Searches the data store for the first comment with a 
@@ -261,10 +249,6 @@ namespace Subtext.Framework.Providers
         /// <returns></returns>
         public abstract Entry GetEntry(string entryName, bool activeOnly, bool includeCategories);
 
-		#endregion
-
-		#region Delete
-
 		/// <summary>
 		/// Deletes the specified entry.
 		/// </summary>
@@ -284,8 +268,7 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="status">The status.</param>
 		public abstract void DestroyFeedback(FeedbackStatusFlag status);
-		#endregion
-
+		
 		/// <summary>
 		/// Creates a feedback record and returs the id of the newly created item.
 		/// </summary>
@@ -315,14 +298,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="feedbackItem">The feedback item.</param>
 		/// <returns></returns>
 		public abstract bool Update(FeedbackItem feedbackItem);
-
-		#region Entry Category List
-
 		public abstract bool SetEntryCategoryList(int entryId, IEnumerable<int> categoryIds);
-
-		#endregion
-
-        #region Entry Tag List
 
 		/// <summary>
 		/// Sets the tags for the entry.
@@ -331,39 +307,12 @@ namespace Subtext.Framework.Providers
 		/// <param name="tags"></param>
 		/// <returns></returns>
 		public abstract bool SetEntryTagList(int entryId, IEnumerable<string> tags);
-
-        #endregion
-
-        #endregion
-
-        #region Links/Categories
-
-        #region Paged Links
-
         public abstract IPagedCollection<Link> GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending);
-
-		#endregion
-
-		#region LinkCollection
-
         public abstract ICollection<Link> GetLinkCollectionByPostID(int PostID);
-
-		#endregion
-
-		#region Single Link
-
 		public abstract Link GetLink(int linkID);
-		
-		#endregion
-
-		#region LinkCategoryCollection
-
         public abstract ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly);
         public abstract ICollection<LinkCategory> GetActiveCategories();
-
-		#endregion
-
-		#region LinkCategory
+		
 		/// <summary>
 		/// Gets the link category for the specified category id.
 		/// </summary>
@@ -379,29 +328,17 @@ namespace Subtext.Framework.Providers
 		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
 		/// <returns></returns>
 		public abstract LinkCategory GetLinkCategory(string categoryName, bool activeOnly);
-		#endregion
-
-		#region Edit Links/Categories
-
+		
 		public abstract bool UpdateLink(Link link);
 		public abstract int CreateLink(Link link);
 		public abstract bool UpdateLinkCategory(LinkCategory lc);
 		public abstract int CreateLinkCategory(LinkCategory lc);
 		public abstract bool DeleteLinkCategory(int CategoryID);
 		public abstract bool DeleteLink(int LinkID);
-
-		#endregion
-
-		#endregion
-
-        #region Stats
-
+		
         public abstract IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId);
 		public abstract bool TrackEntry(EntryView ev);
 		public abstract bool TrackEntry(IEnumerable<EntryView> evc);
-
-		#endregion
-
 		/// <summary>
         /// Adds the initial blog configuration.  This is a convenience method for 
         /// allowing a user with a freshly installed blog to immediately gain access 
@@ -514,11 +451,11 @@ namespace Subtext.Framework.Providers
 		public abstract bool UpdateImage(Image image);
 		public abstract bool DeleteImage(int ImageID);
 
-		public abstract ICollection<ArchiveCount> GetPostCountsByYear();
+        public abstract ICollection<ArchiveCount> GetPostCountsByYear();
         public abstract ICollection<ArchiveCount> GetPostCountsByMonth();
         public abstract ICollection<ArchiveCount> GetPostCountsByCategory();
-		#endregion
 
+        public abstract BlogStatistics GetBlogStatistics(int blogId);
 		public abstract BlogAlias GetBlogAliasById(int aliasId);
         public abstract ICollection<Blog> GetBlogsByGroup(string host, int? groupId);
         public abstract ICollection<BlogGroup> GroupBlogs(IEnumerable<Blog> blogs);

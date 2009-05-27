@@ -17,7 +17,6 @@ using System;
 using System.Configuration;
 using System.Globalization;
 using System.Web;
-using System.Web.Security;
 using System.Web.UI.WebControls;
 using Docuverse.Identicon;
 using log4net;
@@ -28,6 +27,7 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Security;
+using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Web.Controls;
@@ -45,9 +45,7 @@ namespace Subtext.Web.UI.Controls
         protected Repeater CommentList;
         protected Literal NoCommentMessage;
         private FeedbackItem comment;
-        private bool gravatarEnabled;
-        private string gravatarUrlFormatString;
-        private string gravatarEmailFormat;
+        private GravatarService gravatarService = null; 
 
         public FeedbackItem Comment
         {
@@ -64,7 +62,7 @@ namespace Subtext.Web.UI.Controls
 
         public string EditUrl(FeedbackItem feedback)
         {
-            //TODO - Hs GOT to be a better way to do this. Perhaps change UrlFormats to return absolute?
+            //TODO - There's GOT to be a better way to do this. Perhaps change UrlFormats to return absolute?
             string url = UrlFormats.GetFeedbackEditLink(feedback);
 
             return VirtualPathUtility.ToAbsolute(StringHelper.LeftBefore(url, "?")) + "?" + StringHelper.RightAfter(url, "?");
@@ -74,20 +72,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            try
-            {
-                gravatarEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings["GravatarEnabled"]);
-            }
-            catch (Exception)
-            {
-                gravatarEnabled = false;
-            }
-
-            if (gravatarEnabled)
-            {
-                gravatarUrlFormatString = ConfigurationManager.AppSettings["GravatarUrlFormatString"];
-                gravatarEmailFormat = ConfigurationManager.AppSettings["GravatarEmailFormat"];
-            }
+            this.gravatarService = new GravatarService(ConfigurationManager.AppSettings);
 
             if (Blog.CommentsEnabled)
             {
@@ -97,7 +82,6 @@ namespace Subtext.Web.UI.Controls
             {
                 Visible = false;
             }
-
         }
 
         /// <summary>
@@ -199,7 +183,7 @@ namespace Subtext.Web.UI.Controls
                         }
                     }
 
-                    if (gravatarEnabled)
+                    if (gravatarService.Enabled)
                     {
                         Image gravatarImage = e.Item.FindControl("GravatarImg") as Image;
                         if (gravatarImage != null)
@@ -216,8 +200,18 @@ namespace Subtext.Web.UI.Controls
                             //This allows a host-wide setting of the default gravatar image.
                             string gravatarUrl = null;
                             if (!String.IsNullOrEmpty(feedbackItem.Email))
-                                gravatarUrl = BuildGravatarUrl(feedbackItem.Email, defaultGravatarImage);
-
+                            {
+                                if(!String.IsNullOrEmpty(defaultGravatarImage)) 
+                                {
+                                    string host = Request.Url.Host;
+                                    string scheme = Request.Url.Scheme;
+                                    string port = Request.Url.Port == 80 ? string.Empty : ":" + Request.Url.Port;
+                                    string defaultImagePath = HttpHelper.ExpandTildePath(defaultGravatarImage);
+                                    defaultGravatarImage = string.Format("{0}://{1}{2}{3}", scheme, host, port, defaultImagePath);
+                                    defaultGravatarImage = HttpUtility.UrlEncode(defaultGravatarImage);
+                                }
+                                gravatarUrl = gravatarService.GenerateUrl(feedbackItem.Email, defaultGravatarImage);
+                            }
                             if (!String.IsNullOrEmpty(gravatarUrl))
                             {
                                 gravatarImage.Attributes.Remove("PlaceHolderImage");
@@ -300,40 +294,6 @@ namespace Subtext.Web.UI.Controls
         private static string Anchor(int id)
         {
             return string.Format(anchortag, id);
-        }
-
-        private string BuildGravatarUrl(string email, string defaultGravatar)
-        {
-            if (email == null)
-                throw new ArgumentNullException("email", "Email should not be null.");
-
-            if (defaultGravatar == null)
-            {
-                defaultGravatar = "identicon"; //Leverage Gravatar's support for Identicons
-            }
-            else
-            {
-                if (Request.Url.Port != 80)
-                    defaultGravatar = string.Format("{0}://{1}:{2}{3}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, HttpHelper.ExpandTildePath(defaultGravatar));
-                else
-                    defaultGravatar = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, HttpHelper.ExpandTildePath(defaultGravatar));
-
-                defaultGravatar = Server.UrlEncode(defaultGravatar);
-            }
-
-            string processedEmail = string.Empty;
-            if (gravatarEmailFormat.Equals("plain"))
-            {
-                processedEmail = email;
-            }
-            else if (gravatarEmailFormat.Equals("MD5"))
-            {
-                processedEmail = FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant(), "md5").ToLowerInvariant();
-            }
-            if (processedEmail.Length != 0)
-                return String.Format(gravatarUrlFormatString, processedEmail, defaultGravatar);
-            else
-                return string.Empty;
         }
 
         internal void BindFeedback(Entry entry, bool fromCache)

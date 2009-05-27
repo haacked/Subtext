@@ -32,6 +32,7 @@
     <link type="text/css" rel="stylesheet" runat="server" href="~/Admin/Resources/ie7admin.css" />
     <![endif]-->
     <link type="text/css" rel="stylesheet" runat="server" href="~/Admin/Resources/mobile.css" media="handheld" />
+    <asp:ContentPlaceHolder runat="server" ID="head" />
 </head>
 <body id="AdminSection" runat="server" class="admin">
     <form id="frmMain" runat="server">
@@ -52,6 +53,7 @@
 	    </div>
 
 	    <ul id="tabs">
+		    <li id="dashboardTab"><a href="<%= Url.AdminUrl("") %>" id="Tabdashboard" title="dashboard">Dashboard</a></li>
 		    <li id="PostsTab"><a href="<%= AdminUrl.PostsList() %>" id="TabPosts" title="Posts">Posts</a></li>
 		    <li id="ArticlesTab"><a href="<%= AdminUrl.ArticlesList() %>" id="TabArticles" title="Articles">Articles</a></li>
 		    <li id="FeedbackTab"><a href="<%= AdminUrl.FeedbackList() %>" id="TabFeedback" title="Feedback">Feedback</a></li>
@@ -65,32 +67,25 @@
 		    <li id="OptionsTab">
 			    <a href="<%= AdminUrl.Options() %>" id="TabOptions" title="Options">Options</a>
 		    </li>
-		    <li id="ImportExportTab">
-			    <a href="<%= AdminUrl.ImportExport() %>" id="TabImportExport" title="Import/Export">Import/Export</a>
-		    </li>
-		    <li id="CreditTab">
-			    <a href="<%= AdminUrl.Credits() %>" id="TabCredit" title="Credits">Credits</a>
-		    </li>									
 	    </ul>
 	    
 	    <div id="main">
-	        <div id="sidebar">
-                
-                <asp:ContentPlaceHolder ID="actionsHeading" runat="server">Actions</asp:ContentPlaceHolder>
-                
-		        <div>
-			        <st:LinkList id="LinksActions" runat="server" />
-		        </div>
-		        <asp:ContentPlaceHolder ID="categoryListHeading" runat="server" />
-		        <div>
-			        <asp:ContentPlaceHolder ID="categoryListLinks" runat="server" />
-		        </div>
-	        </div>
+	        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+	            <div id="sidebar">
+                    <asp:ContentPlaceHolder ID="actionsHeading" runat="server">Actions</asp:ContentPlaceHolder>
+		            <div>
+			            <st:LinkList id="LinksActions" runat="server" />
+		            </div>
+		            <asp:ContentPlaceHolder ID="categoryListHeading" runat="server" />
+		            <div>
+			            <asp:ContentPlaceHolder ID="categoryListLinks" runat="server" />
+		            </div>
+	            </div>
 
-	        <div id="content">
-	            <asp:ContentPlaceHolder ID="pageContent" runat="server">Default Page Content Goes Here</asp:ContentPlaceHolder>
-	        </div>
-
+	            <div id="content">
+	                <asp:ContentPlaceHolder ID="pageContent" runat="server">Default Page Content Goes Here</asp:ContentPlaceHolder>
+	            </div>
+            </asp:ContentPlaceHolder>
 	    </div>
 	    <div id="stylesheetTest"></div>
     </div> <!-- #container -->
@@ -100,7 +95,7 @@
 	    <div id="copyright">Subtext Copyright &copy; <a href="http://haacked.com/" title="Founder of Subtext">Phil Haack</a>, 2005-<%= DateTime.Now.Year %>. All rights 
 	    reserved. 
 	    .TEXT Copyright &copy; <a href="http://scottwater.com/blog" title="Creator of .TEXT">Scott Watermasysk</a>, 2003. 
-	    All rights reserved.
+	    All rights reserved. (<a href="<%= AdminUrl.Credits() %>" title="Credits">CREDITS</a>)
 	    </div>
     </div>
     </form>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace Subtext.Framework
 {
@@ -13,6 +14,19 @@ namespace Subtext.Framework
             foreach (var item in source) {
                 action(item);
             }
+        }
+
+        public static bool GetBoolean(this NameValueCollection source, string name) {
+            bool result;
+            if(bool.TryParse(source[name], out result)) {
+                return result;
+            }
+            return false;
+        }
+
+        public static EnumType GetEnum<EnumType>(this NameValueCollection source, string name)
+        {
+            return (EnumType)Enum.Parse(typeof(EnumType), source[name], true /* ignoreCase */);
         }
     }
 }

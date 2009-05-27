@@ -1,0 +1,153 @@
+﻿body.dashboard #main {
+    margin-left: 0;
+}
+
+body.dashboard #content .column {
+    padding-left: 10px;
+}
+
+#content .column {
+    float: left;
+    padding-right: 0.5%;
+}
+
+#content .column .container {
+    min-height: 300px;
+    margin: 0 5px 0 5px;
+}
+
+.section 
+{
+    border: solid 1px #aaa;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+#content .section h3 {
+    padding: 5px 0 0 10px;
+}
+
+.section ul 
+{
+    list-style-type: none;
+}
+
+#content .column fieldset legend {
+    color: #333;
+}
+
+.section .body {
+    margin: 10px;
+    position: relative;
+    min-width: 400px;
+}
+
+.section .body .table {
+    margin: 0 -9px;
+    padding: 0 10px;
+    background-color: #f9f9f9;
+    border: solid 1px #ececec;
+}
+
+.section .body table {  
+    width: 100%;
+}
+
+.section .body table td {
+    padding: 5px 5px 5px 0;
+}
+
+.section .body table tr {
+    background-color: #f9f9f9;
+    border-bottom: solid 1px #ececec;
+}
+
+#recent-comments img.gravatar {
+    float: left;
+}
+
+#recent-comments {
+}
+
+#recent-comments ul.comments {
+    margin-bottom: 10px;
+}
+
+#recent-comments li.recent-comment {
+    clear: both;
+    border: solid 1px #fff;
+    border-bottom: solid 1px #999;
+    background-color: #fff;
+}
+
+#recent-comments li.recent-comment.alt {
+    background-color: #ffe;
+}
+
+#recent-comments {
+    clear: both;
+    padding: 0;
+}
+
+#recent-comments div.body {
+    margin: 0;  
+}
+
+.meta {
+    color: #777;
+}
+
+img.gravatar {
+    display: block;
+    clear: left;
+    width: 40px;
+    margin: 5px;
+}
+
+#recent-comments div.info {
+    display: inline-block;
+    margin: 5px 0 5px 0;
+    width: 85%;
+}
+
+#recent-comments .comment {
+    font-size: .8em;
+    color: #000;
+}   
+
+ul.inline {
+    margin-left: 4px;
+}
+
+ul.inline li {
+    display: inline;
+    font-size: .8em;
+}
+
+ul.inline li:before {
+    content: "| ";
+}
+
+ul.inline li:first-child:before {
+    content: "";
+}
+
+#recent-comments div.actions a {
+    font-weight: normal;
+    font-size: 1.1  em;
+}
+
+#recent-comments .footer {
+    text-align: right;
+    padding: 4px;
+}
+
+.stat {
+    font-weight: bold;
+}
+
+tr.highlight td {
+    background-color: #ffe;
+}

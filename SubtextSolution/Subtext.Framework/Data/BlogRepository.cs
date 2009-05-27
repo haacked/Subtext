@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using Subtext.Extensibility.Interfaces;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
@@ -74,15 +72,24 @@ namespace Subtext.Framework.Data
 
         public override Blog GetBlogByDomainAlias(string host, string subfolder, bool strict)
         {
-            Blog info = null;
             using (IDataReader reader = _procedures.GetBlogByDomainAlias(host, subfolder, strict))
             {
                 if (reader.Read()) {
-                    info = DataHelper.LoadBlog(reader);
+                    return DataHelper.LoadBlog(reader);
                 }
-                reader.Close();
             }
-            return info;
+            return null;
+        }
+
+        public override BlogStatistics GetBlogStatistics(int blogId)
+        {
+            BlogStatistics stats = null;
+            using (IDataReader reader = _procedures.GetBlogStats(blogId)) {
+                if (reader.Read()) {
+                    stats = reader.LoadObject<BlogStatistics>();
+                }
+            }
+            return stats;
         }
 
         /// <summary>

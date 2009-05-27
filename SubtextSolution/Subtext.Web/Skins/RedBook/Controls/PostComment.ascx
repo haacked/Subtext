@@ -2,7 +2,7 @@
 <%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls.Captcha" Assembly="Subtext.Web.Controls" %>
 
-    <div id="CommentForm">
+    <div id="commentform">
     <fieldset>
 	    <legend>Post a comment</legend>
 	    <p>

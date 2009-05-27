@@ -44,6 +44,7 @@ namespace Subtext.Web.Admin.Pages
 			HyperLink lnkComments = Utilities.CreateHyperLink("Comments", "Comments.aspx");
 			HyperLink linkKeyWords = Utilities.CreateHyperLink("Key Words", "EditKeyWords.aspx");
 			HyperLink lnkSecurity = Utilities.CreateHyperLink("Security", "Security.aspx");
+            HyperLink lnkImportExport = Utilities.CreateHyperLink("Import/Export", "ImportExport.aspx");
 			
 
 			// Add the buttons to the PageContainer.
@@ -56,31 +57,12 @@ namespace Subtext.Web.Admin.Pages
             AdminMasterPage.AddToActions(lnkComments);
             AdminMasterPage.AddToActions(linkKeyWords);
             AdminMasterPage.AddToActions(lnkSecurity);
+            AdminMasterPage.AddToActions(lnkImportExport);
 		}
 
         protected virtual void BindLocalUI()
         {
         }
-
-	    #region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-
-		}
-		#endregion
 	}
 }
 

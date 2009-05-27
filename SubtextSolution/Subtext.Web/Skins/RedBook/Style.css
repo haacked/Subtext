@@ -302,11 +302,12 @@ hr
 	padding:0;
 }
 
-#CommentForm input
+#commentform input
 {
 	margin: 2px;
 }
-#CommentForm label
+
+#commentform label
 {
 	display:block;
 }
@@ -369,7 +370,7 @@ hr
 	padding:0;
 }
 
-#CommentForm .postbutton
+#commentform .postbutton
 {
 	margin:0;
 	padding: 2px;

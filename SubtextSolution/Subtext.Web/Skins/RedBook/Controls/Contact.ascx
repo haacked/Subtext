@@ -7,7 +7,7 @@
 	suggestions.
 </p>
 
-<div id="CommentForm">
+<div id="commentform">
 	<fieldset>
 		<legend>Contact Form</legend>
 		<p>
