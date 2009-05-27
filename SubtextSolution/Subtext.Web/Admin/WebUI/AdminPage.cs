@@ -16,17 +16,17 @@
 using System;
 using System.ComponentModel;
 using System.Security.Permissions;
+using System.Web.Routing;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Configuration;
-using Subtext.Web.Admin.WebUI;
-using Subtext.Web.Controls;
-using Subtext.Framework.Routing;
 using Subtext.Framework;
 using Subtext.Framework.Providers;
-using System.Web.Routing;
+using Subtext.Framework.Routing;
+using Subtext.Framework.Web.HttpModules;
 using Subtext.Web.Admin.Commands;
+using Subtext.Web.Admin.WebUI;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -117,10 +117,9 @@ namespace Subtext.Web.Admin.Pages
         [Browsable(true)]
         public string TabSectionId
         {
-            get { return tabSectionId; }
-            protected set { tabSectionId = value;}
+            get;
+            protected set;
         }
-        string tabSectionId;
 
         ISubtextContext _subtextContext;
         public ISubtextContext SubtextContext
@@ -128,7 +127,7 @@ namespace Subtext.Web.Admin.Pages
             get
             {
                 if (_subtextContext == null) {
-                    _subtextContext = new SubtextContext(Config.CurrentBlog, RequestContext, new UrlHelper(RequestContext, RouteTable.Routes), ObjectProvider.Instance());
+                    _subtextContext = new SubtextContext(BlogRequest.Current.Blog, RequestContext, new UrlHelper(RequestContext, RouteTable.Routes), ObjectProvider.Instance());
                 }
                 return _subtextContext;
             }
@@ -140,6 +139,12 @@ namespace Subtext.Web.Admin.Pages
         public ObjectProvider Repository {
             get {
                 return SubtextContext.Repository;
+            }
+        }
+
+        public Blog Blog {
+            get {
+                return SubtextContext.Blog;
             }
         }
     }

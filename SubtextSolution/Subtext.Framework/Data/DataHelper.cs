@@ -110,83 +110,27 @@ namespace Subtext.Framework.Data
         }
 
 		//Crappy. Need to clean up all of the entry references
-		public static EntryStatsView LoadEntryStatsView(IDataReader reader)
+		public static EntryStatsView LoadEntryStatsView(this IDataReader reader)
 		{
 			EntryStatsView entry = new EntryStatsView();
 
 			entry.PostType = ((PostType)ReadInt32(reader, "PostType"));
-
-			if(reader["WebCount"] != DBNull.Value)
-			{
-				entry.WebCount = ReadInt32(reader, "WebCount");	
-			}
-
-			if(reader["AggCount"] != DBNull.Value)
-			{
-				entry.AggCount = ReadInt32(reader, "AggCount");	
-			}
-
-			if(reader["WebLastUpdated"] != DBNull.Value)
-			{
-				entry.WebLastUpdated = (DateTime)reader["WebLastUpdated"];	
-			}
-			
-			if(reader["AggLastUpdated"] != DBNull.Value)
-			{
-				entry.AggLastUpdated = (DateTime)reader["AggLastUpdated"];	
-			}
-
-			if(reader["Author"] != DBNull.Value)
-			{
-				entry.Author = ReadString(reader, "Author");
-			}
-			if(reader["Email"] != DBNull.Value)
-			{
-				entry.Email = ReadString(reader, "Email");
-			}
-			entry.DateCreated = (DateTime)reader["DateCreated"];
-			
-			if(reader["DateUpdated"] != DBNull.Value)
-			{
-				entry.DateModified = (DateTime)reader["DateUpdated"];
-			}
-
-			entry.Id = ReadInt32(reader, "ID");
-
-			if(reader["Description"] != DBNull.Value)
-			{
-				entry.Description = ReadString(reader, "Description");
-			}
-
-			if(reader["EntryName"] != DBNull.Value)
-			{
-				entry.EntryName = ReadString(reader, "EntryName");
-			}
-
-			if(reader["FeedBackCount"] != DBNull.Value)
-			{
-				entry.FeedBackCount = ReadInt32(reader, "FeedBackCount");
-			}
-
-			if(reader["Text"] != DBNull.Value)
-			{
-				entry.Body = ReadString(reader, "Text");
-			}
-
-			if(reader["Title"] != DBNull.Value)
-			{
-				entry.Title =ReadString(reader, "Title");
-			}
-
-			if(reader["PostConfig"] != DBNull.Value)
-			{
-				entry.PostConfig = (PostConfig)(ReadInt32(reader, "PostConfig"));
-			}
-
-			if(reader["DateSyndicated"] != DBNull.Value)
-			{
-				entry.DateSyndicated = (DateTime)reader["DateSyndicated"];
-			}
+			entry.WebCount = reader.ReadInt32("WebCount");	
+		    entry.AggCount = reader.ReadInt32("AggCount");	
+		    entry.WebLastUpdated = reader.ReadDate("WebLastUpdated");	
+			entry.AggLastUpdated = reader.ReadDate("AggLastUpdated");	
+			entry.Author = reader.ReadString("Author");
+			entry.Email = reader.ReadString("Email");
+			entry.DateCreated = reader.ReadDate("DateCreated");
+            entry.DateModified = reader.ReadDate("DateUpdated");
+			entry.Id = reader.ReadInt32("ID");
+            entry.Description = reader.ReadString("Description");
+			entry.EntryName = reader.ReadString("EntryName");
+			entry.FeedBackCount = reader.ReadInt32("FeedBackCount");
+			entry.Body = reader.ReadString("Text");
+            entry.Title = reader.ReadString("Title");
+			entry.PostConfig = (PostConfig)(reader.ReadInt32("PostConfig"));
+            entry.DateSyndicated = reader.ReadDate("DateSyndicated");
 
 			return entry;
 		}

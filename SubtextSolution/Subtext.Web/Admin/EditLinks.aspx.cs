@@ -55,7 +55,6 @@ namespace Subtext.Web.Admin.Pages
 
 		protected System.Web.UI.WebControls.CheckBoxList cklCategories;
 	
-		#region Accessors
 		public int LinkID
 		{
 			get
@@ -67,8 +66,6 @@ namespace Subtext.Web.Admin.Pages
 			}
 			set { ViewState[VSKEY_LINKID] = value; }
 		}
-	
-		#endregion
 	    
 	    public EditLinks()
 	    {

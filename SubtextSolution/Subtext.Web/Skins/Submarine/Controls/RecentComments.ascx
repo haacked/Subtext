@@ -6,7 +6,7 @@
 				<ul>
 		</HeaderTemplate>
 		<ItemTemplate>
-				<li><asp:HyperLink Runat="server" id="Link" /><br /><asp:Literal runat="server" id="Author" /></li>
+				    <li><asp:HyperLink Runat="server" id="Link" /><br /><asp:Literal runat="server" id="Author" /></li>
 		</ItemTemplate>
 		<FooterTemplate>
 				</ul>

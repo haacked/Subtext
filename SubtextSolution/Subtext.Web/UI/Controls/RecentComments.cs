@@ -22,6 +22,9 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Web.Controls;
+using Subtext.Framework.Services;
+using System.Configuration;
+using Subtext.Framework.Format;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -32,7 +35,6 @@ namespace Subtext.Web.UI.Controls
 	{
 		private const int DefaultRecentPostCount = 5;
 		protected Repeater feedList;
-        private ICollection<FeedbackItem> comments;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RecentComments"/> class.
@@ -40,8 +42,9 @@ namespace Subtext.Web.UI.Controls
 		public RecentComments()
 		{
             int commentCount = Config.CurrentBlog.NumberOfRecentComments > 0 ? Config.CurrentBlog.NumberOfRecentComments : DefaultRecentPostCount;
-		    comments = FeedbackItem.GetRecentComments(commentCount);
-            comments = (from c in comments where c.EntryId > 0 select c).ToList();
+		    var comments = FeedbackItem.GetRecentComments(commentCount);
+            Comments = (from c in comments where c.EntryId > 0 select c).ToList();
+            Gravatar = new GravatarService(ConfigurationManager.AppSettings);
 		}
 
 		/// <summary>
@@ -54,9 +57,9 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 
-			if(comments != null)
+            if (Comments != null && feedList != null)
 			{
-				feedList.DataSource = comments;
+				feedList.DataSource = Comments;
 				feedList.DataBind();
 			}
 			else
@@ -66,46 +69,80 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
+        protected GravatarService Gravatar
+        {
+            get;
+            private set;
+        }
+
+        protected IEnumerable<FeedbackItem> Comments {
+            get;
+            private set;
+        }
+
+        protected FeedbackItem Comment
+        {
+            get;
+            set;
+        }
+
+        public string EditUrl(FeedbackItem feedback)
+        {
+            //TODO - There's GOT to be a better way to do this. Perhaps change UrlFormats to return absolute?
+            string url = UrlFormats.GetFeedbackEditLink(feedback);
+
+            return VirtualPathUtility.ToAbsolute(StringHelper.LeftBefore(url, "?")) + "?" + StringHelper.RightAfter(url, "?");
+        }
+
+        protected string SafeCommentBody {
+            get {
+                if (Comment != null) {
+                    string commentBody = HttpUtility.HtmlEncode(HtmlHelper.RemoveHtml(Comment.Body));
+                    if (Blog.RecentCommentsLength > 0) {
+                        if (commentBody.Length > Blog.RecentCommentsLength)
+                        {
+                            commentBody = commentBody.Substring(0, Blog.RecentCommentsLength) + "...";
+                        }
+                    }
+                    return commentBody;
+                }
+                return string.Empty;
+            }
+        }
+
+        protected string AlternatingCssClass {
+            get;
+            set;
+        }
+
 		protected void EntryCreated(object sender,  RepeaterItemEventArgs e)
 		{
 			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
-				FeedbackItem comment = (FeedbackItem)e.Item.DataItem;
-				
+                Comment = (FeedbackItem)e.Item.DataItem;
+
 				HyperLink title = (HyperLink)e.Item.FindControl("Link");
 				if(title != null)
 				{
-					int commentLength = Blog.RecentCommentsLength;
-					if (comment.Body.Length > commentLength) 
-					{
-						string truncatedText = string.Empty;
-						if (commentLength > 0)
-						{
-                            //the html encode is for extra safety.
-							truncatedText = HttpUtility.HtmlEncode(HtmlHelper.RemoveHtml(comment.Body));
-							if (truncatedText.Length > commentLength)
-							{
-								truncatedText = truncatedText.Substring(0, commentLength);
-							}
-						}
-
-						title.Text = truncatedText + "...";
-						title.NavigateUrl = Url.FeedbackUrl(comment);
-					} 
-					else
-					{
-                        //the html encode is for extra safety.
-						title.Text = HttpUtility.HtmlEncode(HtmlHelper.RemoveHtml(comment.Body));
-						title.NavigateUrl = Url.FeedbackUrl(comment);
-					}
+                    title.Text = SafeCommentBody;
+                    title.NavigateUrl = Url.FeedbackUrl(Comment);
 					ControlHelper.SetTitleIfNone(title, "Reader Comment.");
 				}
 				Literal author = (Literal)e.Item.FindControl("Author");
 				if(author != null)
 				{
-					author.Text = "by " + comment.Author;                    
+					author.Text = HttpUtility.HtmlEncode(Comment.Author);                    
 				}
 			}
 		}
+
+        protected void OnItemBound(object sender, RepeaterItemEventArgs e) {
+            if (e.Item.ItemType != ListItemType.Item) {
+                AlternatingCssClass = " alt";
+            }
+            else {
+                AlternatingCssClass = string.Empty;
+            }
+        }
 	}
 }

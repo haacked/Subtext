@@ -198,6 +198,7 @@
     <Compile Include="Components\ArchiveCount.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\BlogStatistics.cs" />
     <Compile Include="Components\Category.cs" />
     <Compile Include="Components\CategoryType.cs">
       <SubType>Code</SubType>
@@ -317,16 +318,6 @@
       <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\Transformer.cs" />
-    <Compile Include="Data\CodeGen\_Settings.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>_Settings.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\CodeGen\_Utility.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>_Utility.tt</DependentUpon>
-    </Compile>
     <Compile Include="DateTimeHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -463,6 +454,9 @@
     <Compile Include="Routing\RouteHandlerBase.cs" />
     <Compile Include="Routing\SubfolderRoute.cs" />
     <Compile Include="Services\EntryPublisher.cs" />
+    <Compile Include="Services\GravatarEmailFormat.cs" />
+    <Compile Include="Services\GravatarService.cs" />
+    <Compile Include="Services\GravatarSettings.cs" />
     <Compile Include="Services\IEntryPublisher.cs" />
     <Compile Include="Services\ISlugGenerator.cs" />
     <Compile Include="Services\ITextTransformation.cs" />
@@ -680,12 +674,8 @@
     <None Include="Web References\com.community-credit.www\affiliateservices.disco" />
     <None Include="app.config" />
     <None Include="Data\CodeGen\_Settings.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>_Settings.cs</LastGenOutput>
     </None>
     <None Include="Data\CodeGen\_Utility.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>_Utility.cs</LastGenOutput>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

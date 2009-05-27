@@ -262,6 +262,14 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetBlogKeyWords", p);
 		}
 		
+		public IDataReader GetBlogStats(int blogId) {
+			SqlParameter[] p = {
+				DataHelper.MakeInParam("@BlogId", blogId),		
+			};
+			
+			return GetReader("subtext_GetBlogStats", p);
+		}
+		
 		public IDataReader GetCategory(string categoryName, int? categoryId, bool isActive, int? blogId, int? categoryType) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@CategoryName", categoryName),		
@@ -546,6 +554,15 @@ namespace Subtext.Framework.Data {
 			};
 			
 			return GetReader("subtext_GetPageableReferrers", p);
+		}
+		
+		public IDataReader GetPopularPosts(int blogId, DateTime? minDate) {
+			SqlParameter[] p = {
+				DataHelper.MakeInParam("@BlogId", blogId),		
+				DataHelper.MakeInParam("@MinDate", minDate),		
+			};
+			
+			return GetReader("subtext_GetPopularPosts", p);
 		}
 		
 		public IDataReader GetPostsByCategoriesArchive(int? blogId) {
@@ -899,6 +916,31 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
+		public int InsertPingTrackEntry(string title, string titleUrl, string text, string sourceUrl, int postType, string author, string email, string sourceName, string description, int blogId, DateTime dateAdded, int? parentId, int postConfig, string entryName, string contentChecksumHash) {
+			var outParam0 = DataHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
+			SqlParameter[] p = {
+				DataHelper.MakeInParam("@Title", title),		
+				DataHelper.MakeInParam("@TitleUrl", titleUrl),		
+				DataHelper.MakeInParam("@Text", text),		
+				DataHelper.MakeInParam("@SourceUrl", sourceUrl),		
+				DataHelper.MakeInParam("@PostType", postType),		
+				DataHelper.MakeInParam("@Author", author),		
+				DataHelper.MakeInParam("@Email", email),		
+				DataHelper.MakeInParam("@SourceName", sourceName),		
+				DataHelper.MakeInParam("@Description", description),		
+				DataHelper.MakeInParam("@BlogId", blogId),		
+				DataHelper.MakeInParam("@DateAdded", dateAdded),		
+				DataHelper.MakeInParam("@ParentID", parentId),		
+				DataHelper.MakeInParam("@PostConfig", postConfig),		
+				DataHelper.MakeInParam("@EntryName", entryName),		
+				DataHelper.MakeInParam("@ContentChecksumHash", contentChecksumHash),		
+				outParam0,
+			};
+			
+			NonQueryInt("subtext_InsertPingTrackEntry", p);
+			return (int)outParam0.Value;
+		}
+		
 		public bool InsertReferral(int entryId, int blogId, string url) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@EntryID", entryId),		
@@ -937,6 +979,14 @@ namespace Subtext.Framework.Data {
 			
 	
 			return NonQueryBool("subtext_LogClear", p);
+		}
+		
+		public bool Maintenance() {
+			return NonQueryBool("subtext_Maintenance", null);
+		}
+		
+		public bool RefererCleanup() {
+			return NonQueryBool("subtext_RefererCleanup", null);
 		}
 		
 		public IDataReader SearchEntries(int blogId, string searchStr, DateTime currentDateTime) {

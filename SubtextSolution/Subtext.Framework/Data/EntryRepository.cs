@@ -42,6 +42,27 @@ namespace Subtext.Framework.Data
             }
         }
 
+        public override ICollection<EntryStatsView> GetPopularEntries(int blogId, DateFilter filter)
+        {
+            DateTime? minDate = null;
+            if (filter == DateFilter.LastMonth) {
+                minDate = this.CurrentDateTime.AddMonths(-1);
+            }
+            else if (filter == DateFilter.LastWeek) {
+                minDate = this.CurrentDateTime.AddDays(-7);
+            }
+
+            List<EntryStatsView> entries = new List<EntryStatsView>();
+            using (IDataReader reader = _procedures.GetPopularPosts(BlogId, minDate)) {
+                while (reader.Read()) {
+                    EntryStatsView entry = reader.LoadEntryStatsView();
+                    entry.PostType = PostType.BlogPost;
+                    entries.Add(entry);
+                }
+            }
+            return entries;
+        }
+
         /// <summary>
         /// Returns a pageable collection of entries ordered by the id descending.
         /// This is used in the admin section.

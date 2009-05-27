@@ -17,6 +17,11 @@ REPLACE: IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_
 	The statements will only drop the procs if they exist as a form of cleanup.
 */
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetBlogStats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetBlogStats]
+GO
+
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRelatedLinks]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetRelatedLinks]
 GO
@@ -5485,4 +5490,232 @@ AS
 GO
 
 GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_DeleteEnclosure] TO [public]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetBlogStats] 
+(
+	@BlogId int
+)
+AS
+
+SELECT ActivePostCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Content
+		WHERE BlogId = @BlogId
+			AND PostType = 1 /* BlogPost */
+			AND PostConfig & 1 = 1
+	),
+	DraftPostCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Content
+		WHERE BlogId = @BlogId
+			AND PostType = 1 /* BlogPost */
+			AND PostConfig & 1 != 1
+	),
+	ActiveArticleCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Content
+		WHERE BlogId = @BlogId
+			AND PostType = 2 /* Story */
+			AND PostConfig & 1 = 1
+	),
+	DraftArticleCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Content
+		WHERE BlogId = @BlogId
+			AND PostType = 2 /* Story */
+			AND PostConfig & 1 != 1
+	),
+	FeedbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 1 /* Comment */
+	),
+	ApprovedFeedbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 1 /* Comment */
+			AND StatusFlag & 1 = 1
+	),
+	ApprovedTrackbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 2 /* PingTrack */
+			AND StatusFlag & 1 = 1
+	),
+	SpamFalsePositiveFeedbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 1 /* Comment */
+			AND StatusFlag & 1 = 1
+			AND StatusFlag & 4 = 4
+	),
+	SpamFalsePositiveTrackbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 2 /* PingTrack */
+			AND StatusFlag & 1 = 1
+			AND StatusFlag & 4 = 4
+	),
+	AwaitingModerationFeedbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 1 /* Comment */
+			AND StatusFlag & 2 = 2
+	),
+	AwaitingModerationTrackbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 2 /* PingTrack */
+			AND StatusFlag & 2 = 2
+	),
+	FlaggedAsSpamFeedbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 1 /* Comment */
+			AND StatusFlag = 4
+	),
+	FlaggedAsSpamTrackbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 2 /* PingTrack */
+			AND StatusFlag = 4
+	),
+	DeletedFeedbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 1 /* Comment */
+			AND StatusFlag & 8 = 8
+			AND StatusFlag & 4 != 4
+	),
+	DeletedTrackbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 2 /* PingTrack */
+			AND StatusFlag & 8 = 8
+			AND StatusFlag & 4 != 4
+	),
+	DeletedSpamFeedbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 1 /* Comment */
+			AND StatusFlag & 4 = 4 
+			AND StatusFlag & 8 = 8
+	),
+	DeletedSpamTrackbackCount = (
+		SELECT COUNT(1) 
+		FROM subtext_Feedback
+		WHERE BlogId = @BlogId
+			AND FeedbackType = 2 /* PingTrack */
+			AND StatusFlag & 4 = 4 
+			AND StatusFlag & 8 = 8
+	),
+	AverageCommentsPerPost = (
+		SELECT  AVG(CommentsPerPost)
+		FROM    ( SELECT    COUNT([<dbUser,varchar,dbo>].subtext_Feedback.Id) CommentsPerPost,
+							[<dbUser,varchar,dbo>].subtext_Content.Id
+				  FROM      [<dbUser,varchar,dbo>].subtext_Feedback
+							RIGHT JOIN [<dbUser,varchar,dbo>].subtext_Content
+								ON [<dbUser,varchar,dbo>].subtext_Content.Id = [<dbUser,varchar,dbo>].subtext_Feedback.EntryId
+				  WHERE     FeedbackType = 1
+							AND subtext_Feedback.BlogId = @BlogId
+				  GROUP BY  [<dbUser,varchar,dbo>].subtext_Content.Id
+				) commentsPerPost
+	),	
+	AveragePostsPerMonth = (
+		SELECT AVG(PostsPerMonth)
+		FROM    ( SELECT    DATEADD(year, YEAR(DateAdded) - 1900,
+									DATEADD(month, MONTH(DateAdded)-1, 0)) Date,
+							COUNT(*) PostsPerMonth
+				  FROM      subtext_Content
+				  WHERE		BlogId = @BlogId
+				  GROUP BY  MONTH(DateAdded),
+							YEAR(DateAdded)
+				) postsPerMonth
+	),
+	AveragePostsPerWeek = (
+		SELECT  AVG(postsPerWeek)
+		FROM    ( SELECT    DATEPART(week, dateadded) weekNum,
+							YEAR(dateadded) [year],
+							COUNT(*) postsPerWeek
+				  FROM      subtext_Content
+				  WHERE		BlogId = @BlogId
+				  GROUP BY  DATEPART(week, dateadded),
+							YEAR(DateAdded)
+				) postsPerWeek
+	),
+	AverageCommentsPerMonth = (
+		SELECT  AVG(CommentsPerMonth)
+		FROM	(
+					SELECT	[month] = DATEPART(month, DateCreated),
+							[Year] = YEAR(DateCreated),	
+							CommentsPerMonth = COUNT(*)
+					FROM    subtext_Feedback
+					WHERE   feedbacktype = 1
+						AND BlogId = @BlogId
+					GROUP BY	DATEPART(month, DateCreated),
+								YEAR(DateCreated)
+				 ) CommentsPerMonth
+	)
+
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_GetBlogStats] TO [public]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPopularPosts] 
+(
+	@BlogId int, 
+	@MinDate datetime = NULL
+)
+AS
+
+/* Most Popular Posts */
+SELECT TOP 10
+        Id = EntryId,
+        EntryName,
+        DateCreated = DateAdded,
+        DateUpdated,
+        DateSyndicated,
+        PostType,
+        PostConfig,
+        Title,
+        WebCount,
+        AggCount,
+        FeedBackCount = CommentCount,
+        WeightedScore = ( WebCount * 15 ) + ( AggCount * 10 ) + ( CommentCount * 35 )
+FROM    [<dbUser,varchar,dbo>].subtext_EntryViewCount,
+        ( SELECT    COUNT([<dbUser,varchar,dbo>]..subtext_Feedback.Id) CommentCount,
+                    [<dbUser,varchar,dbo>].subtext_Content.Id
+          FROM      [<dbUser,varchar,dbo>].subtext_Feedback
+                    RIGHT JOIN [<dbUser,varchar,dbo>].subtext_Content ON [<dbUser,varchar,dbo>].subtext_Content.Id = [<dbUser,varchar,dbo>].subtext_Feedback.EntryId
+          WHERE     FeedbackType = 1
+          GROUP BY  [<dbUser,varchar,dbo>].subtext_Content.Id
+        ) Comments,
+        Subtext_Content
+WHERE   Comments.Id = EntryId
+        AND [<dbUser,varchar,dbo>].Subtext_Content.Id = EntryId
+		AND [<dbUser,varchar,dbo>].Subtext_Content.BlogId = @BlogId
+		AND (@MinDate IS NULL OR [<dbUser,varchar,dbo>].Subtext_Content.DateAdded >= @MinDate)
+ORDER BY ( WebCount * 15 ) + ( AggCount * 10 ) + ( CommentCount * 35 ) DESC
+
+GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_GetPopularPosts] TO [public]
 GO

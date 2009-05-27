@@ -11,7 +11,7 @@ body, #Form1 #centercontent, .singlepost
 	width: 100%;
 }
 
-#leftcontent, #CommentForm, a.printIcon, #rightcontent
+#leftcontent, #commentform, a.printIcon, #rightcontent
 {
 	display: none;
 }

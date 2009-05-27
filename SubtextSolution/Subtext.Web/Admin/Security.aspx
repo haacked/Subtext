@@ -4,11 +4,8 @@
     <h2>Options</h2>
 </asp:Content>
 
-<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
-</asp:Content>
-
-<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
-</asp:Content>
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server" />
+<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server" />
 
 <asp:Content ID="passwordContent" ContentPlaceHolderID="pageContent" runat="server">
     <st:MessagePanel id="Messages" runat="server"></st:MessagePanel>

@@ -27,10 +27,10 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Email;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
+using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Web.UI.Pages;
-using Subtext.Framework.Services;
 
 namespace Subtext.Web.UI.Controls
 {

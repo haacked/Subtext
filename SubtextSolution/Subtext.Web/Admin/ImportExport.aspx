@@ -1,13 +1,11 @@
 <%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Import Export" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ImportExport.aspx.cs" AutoEventWireup="false" MaintainScrollPositionOnPostback="true" Inherits="Subtext.Web.Admin.Pages.ImportExportPage" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+    <h2>Options</h2>
 </asp:Content>
 
-<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
-</asp:Content>
-
-<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
-</asp:Content>
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server" />
+<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server" />
 
 <asp:Content ID="importExportContent" ContentPlaceHolderID="pageContent" runat="server">
 	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
@@ -23,7 +21,7 @@
 			</p>
 			<asp:CheckBox id="chkEmbedAttach" runat="server" Text="Embed Attachments?" Checked="True" CssClass="checkbox" />
 			<p>
-				<asp:Button id="btnSave" runat="server" Text="Save" CssClass="buttonSubmit" CausesValidation="false"></asp:Button>&nbsp;&nbsp;
+				<asp:Button id="btnSave" runat="server" Text="Save" CssClass="buttonSubmit" CausesValidation="false" OnClick="btnSave_Click" />&nbsp;&nbsp;
 				<asp:HyperLink id="hypBlogMLFile" runat="server" Visible="False">Download BlogML File</asp:HyperLink>
 			</p>
 			<hr />
@@ -40,7 +38,7 @@
 				<asp:RequiredFieldValidator ID="fileRequired" runat="server" ControlToValidate="importBlogMLFile" ErrorMessage="Please specify a BlogML File" ValidationGroup="importGroup" />
 			</p>
 			<p>
-				<asp:Button id="btnLoad" runat="server" Text="Load!" CssClass="buttonSubmit" ValidationGroup="importGroup"></asp:Button>
+				<asp:Button id="btnLoad" runat="server" Text="Load!" CssClass="buttonSubmit" ValidationGroup="importGroup" OnClick="btnLoad_Click" />
 			</p>
 			<hr />
 			<h4>Clear Blog Content</h4>

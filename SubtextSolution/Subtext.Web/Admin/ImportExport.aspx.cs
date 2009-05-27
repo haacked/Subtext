@@ -14,17 +14,17 @@
 #endregion
 
 using System;
+using System.Web;
+using System.Web.Routing;
 using log4net;
 using Subtext.BlogML;
+using Subtext.Framework;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
-using Subtext.Framework;
-using Subtext.Framework.Configuration;
-using Subtext.ImportExport;
-using System.Web;
-using System.Web.Routing;
 using Subtext.Framework.Routing;
+using Subtext.ImportExport;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -33,39 +33,15 @@ namespace Subtext.Web.Admin.Pages
 	/// the BlogML format proposed in 
 	/// <see href="http://markitup.com/Posts/PostsByCategory.aspx?categoryId=5751cee9-5b20-4db1-93bd-7e7c66208236">this blog</see>
 	/// </summary>
-	public partial class ImportExportPage : AdminPage
+    public partial class ImportExportPage : AdminOptionsPage
 	{
 		private readonly static ILog log = new Log();
-	
-	    public ImportExportPage()
-	    {
-            TabSectionId = "ImportExport";
-	    }
-	    
-		protected void Page_Load(object sender, EventArgs e)
-		{
-		}
 
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
-			this.btnSave.Click += btnSave_Click;
-			this.btnLoad.Click += btnLoad_Click;
-		}
-		#endregion
+        protected override void OnInit(EventArgs e)
+        {
+            this.Load += this.Page_Load;
+            base.OnInit(e);
+        }
 
 		protected void btnSave_Click(object sender, EventArgs e)
 		{

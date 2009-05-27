@@ -751,6 +751,9 @@
     <Compile Include="UI\Controls\PageTemplate.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\Controls\PopularPosts.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="UI\Controls\PostCategoryList.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -1040,6 +1043,7 @@
     <Content Include="Admin\ImportExport.aspx" />
     <Content Include="Admin\license.txt" />
     <Content Include="Admin\Options.aspx" />
+    <Content Include="Admin\Resources\dashboard.css" />
     <Content Include="Admin\Resources\mobile.css" />
     <Content Include="Admin\Security.aspx" />
     <Content Include="Admin\Posts\Default.aspx" />
@@ -1080,9 +1084,12 @@
       <SubType>Form</SubType>
     </Content>
     <Content Include="Admin\UserControls\CategoryLinkList.ascx" />
+    <Content Include="Admin\UserControls\PopularPosts.ascx" />
     <Content Include="Admin\UserControls\EntriesList.ascx" />
     <Content Include="Admin\UserControls\EntryEditor.ascx" />
     <Content Include="Admin\Credits.aspx" />
+    <Content Include="Admin\UserControls\RecentComments.ascx" />
+    <Content Include="Admin\UserControls\RecentPosts.ascx" />
     <Content Include="AggDefault.aspx" />
     <Content Include="App_Data\Subtext2.1.mdf">
     </Content>
