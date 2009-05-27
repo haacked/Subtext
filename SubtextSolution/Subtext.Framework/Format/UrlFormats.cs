@@ -165,29 +165,6 @@ namespace Subtext.Framework.Format
             }
         }
 
-		/// <summary>
-		/// Builds the <see cref="HyperLink"/>.NavigateUrl for an EditPost Link by determining
-		/// the current Subfolder and adding it to the URL if necessary.
-		/// </summary>
-		/// <param name="entry">The entry to be edited</param>
-		/// <returns></returns>
-		public static string GetEditLink(Entry entry, Blog blog)
-		{
-			//This is too small a concatenation to create a  
-			//the overhead of a StringBuilder. If perf is really a hit here, 
-			//we can pass in a string builder.
-			String app = blog.Subfolder;
-			
-			string url = (String.IsNullOrEmpty(app)) ? "~" : "~/" + app;
-			if(entry.PostType == PostType.BlogPost)
-				url += "/Admin/Posts/Edit.aspx?PostID=" + entry.Id + "&return-to-post=true";
-			else if(entry.PostType == PostType.Story)
-				url += "/Admin/Articles/Edit.aspx?PostID=" + entry.Id + "&return-to-post=true";
-			else
-				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Post type {0} not expected to have an edit link.", entry.PostType));
-			return url;
-		}
-
 		public static string GetFeedbackEditLink(FeedbackItem feedback)
 		{
 			if (feedback == null) {

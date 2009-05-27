@@ -291,7 +291,7 @@ namespace Subtext.Web.UI.Controls
 						//We'll slap on our little pencil icon.
                         editLink.ImageUrl = Url.EditIconUrl();
 						ControlHelper.SetTitleIfNone(editLink, "Click to edit this entry.");
-                        editLink.NavigateUrl = UrlFormats.GetEditLink(entry, Blog);
+                        editLink.NavigateUrl = AdminUrl.PostsEdit(entry.Id);
 					}
 				}
 				else
