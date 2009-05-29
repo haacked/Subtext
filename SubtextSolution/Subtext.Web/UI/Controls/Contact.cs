@@ -14,6 +14,7 @@ using Subtext.Framework.Web;
 using Subtext.Web.Controls.Captcha;
 using Subtext.Framework.Services;
 using Subtext.Framework.Data;
+using Subtext.Infrastructure;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////

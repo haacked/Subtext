@@ -29,7 +29,7 @@ public class Dependencies : Module
         Bind<IPrincipal>().ToMethod(c => c.Kernel.Get<RequestContext>().HttpContext.User);
         Bind<Blog>().ToMethod(c => BlogRequest.Current.Blog);
         Bind<ObjectProvider>().ToMethod(c => new DatabaseObjectProvider()).InRequestScope();
-        Bind<Subtext.Framework.Data.ICache>().To<SubtextCache>().InRequestScope();
+        Bind<Subtext.Infrastructure.ICache>().To<SubtextCache>().InRequestScope();
         Bind<System.Web.Caching.Cache>().ToMethod(c => HttpContext.Current.Cache).InRequestScope();
         
         Bind<RouteCollection>().ToConstant(RouteTable.Routes);

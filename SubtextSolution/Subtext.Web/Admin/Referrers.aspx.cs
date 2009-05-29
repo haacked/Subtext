@@ -28,6 +28,7 @@ using Subtext.Web.Admin.WebUI;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 using Subtext.Framework.Data;
+using Subtext.Infrastructure;
 
 namespace Subtext.Web.Admin.Pages
 {
