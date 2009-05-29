@@ -9,6 +9,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework
 {
