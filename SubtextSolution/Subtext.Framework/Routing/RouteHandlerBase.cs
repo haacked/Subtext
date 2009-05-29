@@ -15,20 +15,29 @@
 
 using System.Web;
 using System.Web.Routing;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
+using Ninject;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public abstract class RouteHandlerBase : IRouteHandler
     {
+        public RouteHandlerBase() : this(Bootstrapper.Kernel) { 
+        }
+
+        public RouteHandlerBase(IKernel kernel) {
+            Kernel = kernel;
+        }
+
         protected abstract IHttpHandler GetHandler(RequestContext requestContext);
 
         IHttpHandler IRouteHandler.GetHttpHandler(RequestContext requestContext) {
+            Bootstrapper.RequestContext = requestContext;
+
             IHttpHandler handler = GetHandler(requestContext);
             var subtextHandler = handler as ISubtextHandler;
             if (subtextHandler != null) {
-                subtextHandler.SubtextContext = new SubtextContext(Config.CurrentBlog, requestContext, new UrlHelper(requestContext, RouteTable.Routes), ObjectProvider.Instance());
+                subtextHandler.SubtextContext = Bootstrapper.Kernel.Get<ISubtextContext>();
             }
             else {
                 var routableHandler = handler as IRoutableHandler;
@@ -38,6 +47,11 @@ namespace Subtext.Framework.Routing
             }
 
             return handler;
+        }
+
+        public IKernel Kernel {
+            get;
+            private set;
         }
     }
 }

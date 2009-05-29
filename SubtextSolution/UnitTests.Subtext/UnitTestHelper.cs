@@ -47,6 +47,7 @@ using Subtext.Framework.Providers;
 using System.Web.Routing;
 using Subtext.Framework.Routing;
 using Subtext.Web;
+using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext
 {
@@ -1129,9 +1130,9 @@ namespace UnitTests.Subtext
         public static int Create(Entry entry) {
             var requestContext = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
             var routes = new RouteCollection();
-            Global.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes);
             var urlHelper = new UrlHelper(requestContext, routes);
-            var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper, ObjectProvider.Instance());
+            var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper, ObjectProvider.Instance(), requestContext.HttpContext.User, new SubtextCache(requestContext.HttpContext.Cache));
             var entryPublisher = new EntryPublisher(subtextContext, false);
             return entryPublisher.Publish(entry);
         }

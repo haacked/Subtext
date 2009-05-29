@@ -80,9 +80,7 @@ namespace Subtext.Framework.Services
 
                 //Extra special case to deal with a common deployment problem where dev uses "localhost" on 
                 //dev machine. But deploys to real domain.
-                if (!String.Equals("localhost", host, StringComparison.OrdinalIgnoreCase)
-                    && String.Equals("localhost", onlyBlog.Host, StringComparison.OrdinalIgnoreCase))
-                {
+                if (OnlyBlogIsLocalHostNotCurrentHost(host, onlyBlog)) {
                     onlyBlog.Host = host;
                     Repository.UpdateBlog(onlyBlog);
 
@@ -97,6 +95,18 @@ namespace Subtext.Framework.Services
             }
 
             return null;
+        }
+
+        private static bool OnlyBlogIsLocalHostNotCurrentHost(string host, Blog onlyBlog)
+        {
+            return (
+                !String.Equals("localhost", host, StringComparison.OrdinalIgnoreCase)
+                && String.Equals("localhost", onlyBlog.Host, StringComparison.OrdinalIgnoreCase)
+            )
+            || (
+               !String.Equals("127.0.0.1", host, StringComparison.OrdinalIgnoreCase)
+               && String.Equals("127.0.0.1", onlyBlog.Host, StringComparison.OrdinalIgnoreCase)
+            );
         }
 
         private int GetBlogCount() {

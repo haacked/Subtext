@@ -9,6 +9,7 @@ using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework;
 using Subtext.Framework.Routing;
 using UnitTests.Subtext;
+using System.Web.Mvc;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -20,7 +21,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            Global.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/admin/foo.aspx", "subfolder");
 
@@ -38,7 +39,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            Global.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/admin/foo.aspx", "not-subfolder");
 
@@ -53,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RequestWithSubfolder_ForAdminDirectory_UsesDirectoryRouteHandler() {
             //arrange
             var routes = new RouteCollection();
-            Global.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/admin/foo.aspx", "subfolder");
 
@@ -71,7 +72,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            Global.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/providers/foo.aspx");
 
@@ -88,7 +89,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void Request_ForBlogPost_ContainsControlsForBlogPost() {
             //arrange
             var routes = new RouteCollection();
-            Global.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/2008/12/10/blog-post.aspx");
 
@@ -108,7 +109,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            Global.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/2008/1/10/blog-post.aspx");
 
@@ -124,7 +125,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            Global.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/archive/2008/12/10/blog-post.aspx", "subfolder");
 
@@ -151,7 +152,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void Request_ForDirectHttpHandlers_Matches(string url, string subfolder) {
             //arrange
             var routes = new RouteCollection();
-            Global.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest(url, subfolder);
 
@@ -160,6 +161,25 @@ namespace UnitTests.Subtext.Framework.Routing
             
             //assert
             Assert.IsNotNull(routeData);
+        }
+
+        [Test]
+        public void RequestWithSubfolderForCommentApiController_WithBlogHavingSubfolder_Matches()
+        {
+            //arrange
+            var routes = new RouteCollection();
+            Routes.RegisterRoutes(routes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/subfolder/comments/123.aspx", "subfolder");
+
+            //act
+            var routeData = routes.GetRouteData(httpContext.Object);
+
+            //assert.
+            Assert.IsNotNull(routeData);
+            Assert.AreEqual("CommentApi", routeData.Values["controller"]);
+            Assert.AreEqual("Create", routeData.Values["action"]);
+            Assert.AreEqual(routeData.RouteHandler.GetType(), typeof(MvcRouteHandler));
         }
     }
 }

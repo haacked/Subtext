@@ -16,6 +16,8 @@
 using System.Web;
 using System.Web.Routing;
 using System.Web.UI;
+using Ninject;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
@@ -37,11 +39,15 @@ namespace Subtext.Framework.Routing
             get {
                 if (_requestContext == null) {
                     _requestContext = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
+                    Bootstrapper.RequestContext = _requestContext;
                 }
                 return _requestContext;
             }
             set {
                 _requestContext = value;
+                if (value != null) {
+                    Bootstrapper.RequestContext = value;
+                }
             }
         }
 

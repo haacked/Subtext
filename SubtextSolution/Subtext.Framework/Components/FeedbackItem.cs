@@ -323,7 +323,7 @@ namespace Subtext.Framework.Components
 		/// <value>
 		/// 	<c>true</c> if [created via comment API]; otherwise, <c>false</c>.
 		/// </value>
-		internal bool CreatedViaCommentAPI
+		public bool CreatedViaCommentAPI
 		{
 			get;
 			set;

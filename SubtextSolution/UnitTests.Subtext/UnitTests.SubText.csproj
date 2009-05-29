@@ -193,6 +193,10 @@
       <HintPath>..\Dependencies\System.Web.Abstractions.dll</HintPath>
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\System.Web.Routing.dll</HintPath>
@@ -341,6 +345,7 @@
     <Compile Include="Framework\LinksTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\ModelBinders\XmlModelBinderTests.cs" />
     <Compile Include="Framework\NullValueTests.cs" />
     <Compile Include="Framework\Providers\ProviderConfigurationHelperTests.cs" />
     <Compile Include="Framework\Providers\SearchEngineTests.cs" />
@@ -458,6 +463,7 @@
     <Compile Include="SimulatedRequestContext.cs" />
     <Compile Include="SubtextWeb\Admin\AdminPageTests.cs" />
     <Compile Include="SubtextWeb\Admin\FeedbackTests.cs" />
+    <Compile Include="SubtextWeb\Controllers\CommentApiControllerTests.cs" />
     <Compile Include="SubtextWeb\Controls\CaptchaTests.cs" />
     <Compile Include="SubtextWeb\Controls\ControlHelperTests.cs" />
     <Compile Include="SubtextWeb\Controls\InvisibleCaptchaTests.cs" />

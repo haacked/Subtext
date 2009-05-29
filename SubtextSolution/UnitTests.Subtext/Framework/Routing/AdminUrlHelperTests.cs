@@ -244,7 +244,7 @@ namespace UnitTests.Subtext.Framework.Routing
         private static AdminUrlHelper SetupUrlHelper(string appPath, RouteData routeData)
         {
             var routes = new RouteCollection();
-            Global.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Setup(c => c.Request.ApplicationPath).Returns(appPath);
             httpContext.Setup(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);

@@ -16,14 +16,14 @@
 using System;
 using System.ComponentModel;
 using System.Security.Permissions;
-using System.Web.Routing;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
-using Subtext.Framework.Web.HttpModules;
+using Subtext.Infrastructure;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
@@ -127,7 +127,9 @@ namespace Subtext.Web.Admin.Pages
             get
             {
                 if (_subtextContext == null) {
-                    _subtextContext = new SubtextContext(BlogRequest.Current.Blog, RequestContext, new UrlHelper(RequestContext, RouteTable.Routes), ObjectProvider.Instance());
+                    if (RequestContext != null) {
+                        _subtextContext = Bootstrapper.Kernel.Get<ISubtextContext>();
+                    }
                 }
                 return _subtextContext;
             }

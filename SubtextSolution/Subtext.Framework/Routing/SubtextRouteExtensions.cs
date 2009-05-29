@@ -13,13 +13,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Configuration;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Subtext.Framework.XmlRpc;
-using System;
-using System.Configuration;
 
 namespace Subtext.Framework.Routing
 {
@@ -113,6 +113,14 @@ namespace Subtext.Framework.Routing
             where THttpHandler : IHttpHandler, new()
         {
             routes.MapHttpHandler<THttpHandler>(null, url, constraints);
+        }
+
+        public static void MapRoute(this RouteCollection routes, string url, object defaults, object constraints) {
+            routes.Add(new SubtextRoute(url, new MvcRouteHandler())
+            {
+                Defaults = new RouteValueDictionary(defaults),
+                Constraints = new RouteValueDictionary(constraints)
+            });
         }
 
         public static void Ignore(this RouteCollection routes, string url)

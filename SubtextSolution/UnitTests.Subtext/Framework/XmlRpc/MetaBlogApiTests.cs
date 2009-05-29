@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var requestContext = new RequestContext(httpContext.Object, new RouteData());
 
             var routes = new RouteCollection();
-            Global.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes);
             var urlHelper = new Mock<UrlHelper>();
             urlHelper.Setup(u => u.CategoryUrl(It.IsAny<LinkCategory>())).Returns("/Category/" + categoryId + ".aspx");
             urlHelper.Setup(u => u.CategoryRssUrl(It.IsAny<LinkCategory>())).Returns("/rss.aspx?catId=" + categoryId);

@@ -67,10 +67,7 @@ namespace Subtext.Web.Admin.Pages
 		}
 
 		private void LoadBlogML() {
-            var httpContext = new HttpContextWrapper(HttpContext.Current);
-            var requestContext = new RequestContext(httpContext, new RouteData());
-            var urlHelper = new UrlHelper(requestContext, RouteTable.Routes);
-            ISubtextContext context = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper, ObjectProvider.Instance());
+            ISubtextContext context = SubtextContext;
 
             var provider = new SubtextBlogMLProvider(Config.ConnectionString, context);
 
