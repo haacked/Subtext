@@ -29,7 +29,7 @@ namespace Subtext.Web.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public string Create(int id, [ModelBinder(typeof(XmlModelBinder))]XmlDocument xml) {
+        public void Create(int id, [ModelBinder(typeof(XmlModelBinder))]XmlDocument xml) {
             if (xml == null) {
                 throw new ArgumentNullException("xml");
             }
@@ -47,9 +47,6 @@ namespace Subtext.Web.Controllers
             comment.SourceUrl = Subtext.Framework.Text.HtmlHelper.CheckForUrl((xml.SelectSingleNode("//item/link") ?? Empty).InnerText);
             comment.EntryId = id;
             CommentService.Create(comment, SubtextContext);
-
-            //TODO: What am I supposed to return?
-            return string.Empty;
         }
 
         private static XmlNode Empty = new XmlDocument();
