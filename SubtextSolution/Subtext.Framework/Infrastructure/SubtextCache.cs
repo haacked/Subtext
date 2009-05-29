@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Web.Caching;
 
-namespace Subtext.Framework.Data
+namespace Subtext.Infrastructure
 {
     public class SubtextCache : ICache
     {

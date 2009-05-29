@@ -1,8 +1,8 @@
 ﻿using System.Security.Principal;
 using System.Web.Routing;
-using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework
 {

@@ -23,6 +23,7 @@ using log4net;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Data;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Util
 {

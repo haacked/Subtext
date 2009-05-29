@@ -44,6 +44,7 @@ using Subtext.Framework.Text;
 using Subtext.Framework.XmlRpc;
 using Subtext.Framework.Services;
 using Subtext.Framework.Data;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Tracking
 {

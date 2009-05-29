@@ -311,7 +311,6 @@
       <SubType>Code</SubType>
       <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\ICache.cs" />
     <Compile Include="Data\LinkRepository.cs">
       <SubType>Code</SubType>
       <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
@@ -320,7 +319,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\StoredProcedures.cs" />
-    <Compile Include="Data\SubtextCache.cs" />
     <Compile Include="Data\TagRepository.cs">
       <SubType>Code</SubType>
       <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
@@ -401,6 +399,8 @@
     <Compile Include="ImportExport\SubtextBlogMlProvider.cs" />
     <Compile Include="ImportExport\SubtextConversionStrategy.cs" />
     <Compile Include="Infrastructure\ComponentProvider.cs" />
+    <Compile Include="Infrastructure\ICache.cs" />
+    <Compile Include="Infrastructure\SubtextCache.cs" />
     <Compile Include="InstallationManager.cs">
       <SubType>Code</SubType>
     </Compile>

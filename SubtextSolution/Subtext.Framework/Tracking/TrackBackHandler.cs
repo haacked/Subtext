@@ -37,17 +37,15 @@ using System.Globalization;
 using System.Web;
 using System.Web.Routing;
 using System.Xml;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
+using Subtext.Framework.Email;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
-using Subtext.Framework.Text;
-using Subtext.Extensibility.Providers;
-using Subtext.Framework.Email;
 using Subtext.Framework.Services;
-using Subtext.Framework.Data;
+using Subtext.Framework.Text;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Tracking
 {
