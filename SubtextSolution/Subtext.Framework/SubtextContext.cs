@@ -6,15 +6,20 @@ using Subtext.Framework.Routing;
 
 namespace Subtext.Framework
 {
-    public class SubtextContext : Subtext.Framework.ISubtextContext
+    public class SubtextContext : ISubtextContext
     {
-        public SubtextContext(Blog blog, RequestContext requestContext, UrlHelper urlHelper, ObjectProvider repository) {
+        public SubtextContext(Blog blog, RequestContext requestContext, UrlHelper urlHelper, ObjectProvider repository, IPrincipal user, ICache cache) {
             Blog = blog;
             RequestContext = requestContext;
             UrlHelper = urlHelper;
             Repository = repository;
-            User = requestContext.HttpContext.User;
-            Cache = new SubtextCache(requestContext.HttpContext.Cache);
+            User = user ?? requestContext.HttpContext.User;
+            Cache = cache ?? new SubtextCache(requestContext.HttpContext.Cache);
+        }
+
+        public SubtextContext(Blog blog, RequestContext requestContext, UrlHelper urlHelper, ObjectProvider repository)
+            : this(blog, requestContext, urlHelper, repository, null, null)
+        {
         }
 
         public Blog Blog

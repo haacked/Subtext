@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Web.Caching;
 
+//todo: Move to Infrastructure
 namespace Subtext.Framework.Data
 {
     public interface ICache : IEnumerable

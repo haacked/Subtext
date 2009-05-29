@@ -116,6 +116,10 @@
       <HintPath>..\Dependencies\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
+    <Reference Include="Ninject, Version=2.0.0.152, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SgmlReaderDll.dll</HintPath>
@@ -143,6 +147,10 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web.Mobile" />
+    <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\System.Web.Routing.dll</HintPath>
@@ -392,6 +400,7 @@
     <Compile Include="ImportExport\SubtextBlogMlHttpHandler.cs" />
     <Compile Include="ImportExport\SubtextBlogMlProvider.cs" />
     <Compile Include="ImportExport\SubtextConversionStrategy.cs" />
+    <Compile Include="Infrastructure\ComponentProvider.cs" />
     <Compile Include="InstallationManager.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -418,6 +427,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MetaTags.cs" />
+    <Compile Include="ModelBinders\XmlModelBinder.cs" />
     <Compile Include="NamespaceDocumentation.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -453,10 +463,12 @@
     </Compile>
     <Compile Include="Routing\RouteHandlerBase.cs" />
     <Compile Include="Routing\SubfolderRoute.cs" />
+    <Compile Include="Services\CommentService.cs" />
     <Compile Include="Services\EntryPublisher.cs" />
     <Compile Include="Services\GravatarEmailFormat.cs" />
     <Compile Include="Services\GravatarService.cs" />
     <Compile Include="Services\GravatarSettings.cs" />
+    <Compile Include="Services\ICommentService.cs" />
     <Compile Include="Services\IEntryPublisher.cs" />
     <Compile Include="Services\ISlugGenerator.cs" />
     <Compile Include="Services\ITextTransformation.cs" />
@@ -518,7 +530,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Syndication\CategoryWriter.cs" />
-    <Compile Include="Syndication\CommentHandler.cs" />
     <Compile Include="Syndication\CommentRssWriter.cs" />
     <Compile Include="Syndication\Compression\SyndicationCompressionFilter.cs">
       <SubType>Code</SubType>

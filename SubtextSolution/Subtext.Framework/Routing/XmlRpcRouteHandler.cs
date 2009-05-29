@@ -13,22 +13,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Web;
 using System.Web.Routing;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
+using Ninject;
 using Subtext.Framework.XmlRpc;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class XmlRpcRouteHandler<THandler> : IRouteHandler where THandler : SubtextXmlRpcService {
         public IHttpHandler GetHttpHandler(RequestContext requestContext) {
-            ISubtextContext context = new SubtextContext(Config.CurrentBlog, requestContext, new UrlHelper(requestContext, RouteTable.Routes), ObjectProvider.Instance());
-
-            var ctor = typeof(THandler).GetConstructor(new Type[] { typeof(ISubtextContext) });
-            var service = ctor.Invoke(new object[] { context }) as IHttpHandler;
-            return service;
+            Bootstrapper.RequestContext = requestContext;
+            return Bootstrapper.Kernel.Get<THandler>();
         }
     }
 }

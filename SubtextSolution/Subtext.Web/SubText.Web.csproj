@@ -76,6 +76,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=2.0.0.152, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="PostBackRitalin, Version=0.9.2952.29277, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\PostBackRitalin.dll</HintPath>
@@ -102,6 +106,10 @@
     </Reference>
     <Reference Include="System.Web.Extensions.Design, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -429,6 +437,8 @@
     <Compile Include="AggDefault.aspx.designer.cs">
       <DependentUpon>AggDefault.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Dependencies.cs" />
+    <Compile Include="Controllers\CommentApiController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -502,6 +512,8 @@
     <Compile Include="HostAdmin\UserControls\GroupsEditor.ascx.designer.cs">
       <DependentUpon>GroupsEditor.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\EmptyTempDataProvider.cs" />
+    <Compile Include="Infrastructure\SubtextControllerFactory.cs" />
     <Compile Include="Install\BlogNotConfiguredError.aspx.cs">
       <DependentUpon>BlogNotConfiguredError.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -579,6 +591,7 @@
       <DependentUpon>AjaxServices.ashx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Routes.cs" />
     <Compile Include="SiteMap\ChangeFrequency.cs" />
     <Compile Include="SiteMap\SiteMapHttpHandler.ashx.cs">
       <DependentUpon>SiteMapHttpHandler.ashx</DependentUpon>
