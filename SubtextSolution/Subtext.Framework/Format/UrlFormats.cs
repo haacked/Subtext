@@ -61,22 +61,7 @@ namespace Subtext.Framework.Format
 		{
 			return Path.GetFileNameWithoutExtension(uri);
 		}
-
-		/// <summary>
-		/// Parses out the post ID from URL.
-		/// </summary>
-		/// <param name="uri">The URI.</param>
-		/// <returns></returns>
-		public static int GetPostIDFromUrl(string uri)
-		{
-			try	{
-				return Int32.Parse(GetRequestedFileName(uri));
-			}
-			catch (FormatException) {
-				throw new ArgumentException("Invalid Post ID.");
-			}			
-		}
-
+		
 		/// <summary>
 		/// Parses out the subfolder of the blog from the requested URL.  It 
 		/// simply searches for the first "folder" after the host and 
@@ -156,8 +141,7 @@ namespace Subtext.Framework.Format
 
         public static Uri GetUriReferrerSafe(HttpRequestBase request)
         {
-            try
-            {
+            try {
                 return request.UrlReferrer;
             }
             catch (UriFormatException)

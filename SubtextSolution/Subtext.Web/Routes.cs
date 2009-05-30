@@ -44,10 +44,9 @@ public static class Routes
         routes.MapHttpHandler<RssHandler>("rss", "rss.aspx");
         routes.MapHttpHandler<AtomHandler>("atom", "atom.aspx");
         routes.MapHttpHandler<RssCommentHandler>("comment-rss", "comments/commentRss/{id}.aspx");
-        routes.MapRoute("comments/{id}.aspx", new { controller = "CommentApi", action = "Create" }, new { id = @"\d+" });
-        routes.MapRoute("comments/{action}.aspx", new { controller = "CommentApi" }, new { });
+        routes.MapRoute("comment-api", "comments/{id}.aspx", new { controller = "CommentApi", action = "Create" }, new { id = @"\d+" });
+        routes.MapRoute("aggbug", "aggbug/{id}.aspx", new { controller = "Statistics", action = "RecordAggregatorView" }, new { id = @"\d+" });
         routes.MapHttpHandler<RsdHandler>("rsd", "rsd.xml.ashx");
-        routes.MapHttpHandler<AggBugHandler>("aggbug", "aggbug/{id}.aspx");
         routes.MapHttpHandler<BlogSecondaryCssHandler>("customcss", "customcss.aspx");
         routes.MapHttpHandler<RssCategoryHandler>("category/{categoryName}.aspx/rss", new { categoryName = @"[-\w\s\d]+" });
         routes.MapHttpHandler<OpmlHandler>("opml", "opml.ashx");

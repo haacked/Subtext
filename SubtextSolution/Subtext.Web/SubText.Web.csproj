@@ -437,6 +437,7 @@
     <Compile Include="AggDefault.aspx.designer.cs">
       <DependentUpon>AggDefault.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Dependencies.cs" />
     <Compile Include="Controllers\CommentApiController.cs" />
     <Compile Include="Default.aspx.cs">

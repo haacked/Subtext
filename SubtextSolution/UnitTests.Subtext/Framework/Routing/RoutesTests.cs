@@ -1,15 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
-using Subtext.Web;
-using Subtext.Framework.Web.HttpModules;
-using Subtext.Framework;
 using Subtext.Framework.Routing;
-using UnitTests.Subtext;
-using System.Web.Mvc;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -181,5 +177,25 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("Create", routeData.Values["action"]);
             Assert.AreEqual(routeData.RouteHandler.GetType(), typeof(MvcRouteHandler));
         }
+
+        [Test]
+        public void RequestWithSubfolderForAggregatorBug_WithBlogHavingSubfolder_Matches()
+        {
+            //arrange
+            var routes = new RouteCollection();
+            Routes.RegisterRoutes(routes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/subfolder/aggbug/123.aspx", "subfolder");
+
+            //act
+            var routeData = routes.GetRouteData(httpContext.Object);
+
+            //assert.
+            Assert.IsNotNull(routeData);
+            Assert.AreEqual("Statistics", routeData.Values["controller"]);
+            Assert.AreEqual("RecordAggregatorView", routeData.Values["action"]);
+            Assert.AreEqual(routeData.RouteHandler.GetType(), typeof(MvcRouteHandler));
+        }
+
     }
 }

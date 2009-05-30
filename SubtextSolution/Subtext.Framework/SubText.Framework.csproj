@@ -398,6 +398,8 @@
     <Compile Include="ImportExport\SubtextBlogMlHttpHandler.cs" />
     <Compile Include="ImportExport\SubtextBlogMlProvider.cs" />
     <Compile Include="ImportExport\SubtextConversionStrategy.cs" />
+    <Compile Include="Infrastructure\ActionResults\CacheableFileContentResult.cs" />
+    <Compile Include="Infrastructure\ActionResults\NotModifiedResult.cs" />
     <Compile Include="Infrastructure\ComponentProvider.cs" />
     <Compile Include="Infrastructure\ICache.cs" />
     <Compile Include="Infrastructure\SubtextCache.cs" />
@@ -471,11 +473,13 @@
     <Compile Include="Services\ICommentService.cs" />
     <Compile Include="Services\IEntryPublisher.cs" />
     <Compile Include="Services\ISlugGenerator.cs" />
+    <Compile Include="Services\IStatisticsService.cs" />
     <Compile Include="Services\ITextTransformation.cs" />
     <Compile Include="Services\Emoticons\Emoticon.cs" />
     <Compile Include="Services\Emoticons\EmoticonsFileSource.cs" />
     <Compile Include="Services\Emoticons\EmoticonsTransformation.cs" />
     <Compile Include="Services\SlugGenerator.cs" />
+    <Compile Include="Services\StatisticsService.cs" />
     <Compile Include="Services\XhtmlConverter.cs" />
     <Compile Include="Services\Emoticons\EmoticonsSource.cs" />
     <Compile Include="Services\KeywordExpander.cs" />
@@ -503,9 +507,6 @@
     <Compile Include="Services\BrowserInfo.cs" />
     <Compile Include="Services\IBlogLookupService.cs" />
     <Compile Include="Services\IFeedbackSpamService.cs" />
-    <Compile Include="Stats.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="SubtextContext.cs" />
     <Compile Include="Syndication\Admin\LogRssWriter.cs" />
     <Compile Include="Syndication\Admin\RssAdminHandler.cs" />
@@ -568,14 +569,8 @@
     <Compile Include="Threading\TimedLock.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tracking\AggBugHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Tracking\CommunityCreditNotification.cs" />
     <Compile Include="Tracking\CommunityCreditNotificationException.cs" />
-    <Compile Include="Tracking\EntryTracker.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Tracking\Notification.cs">
       <SubType>Code</SubType>
     </Compile>

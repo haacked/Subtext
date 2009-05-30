@@ -115,8 +115,8 @@ namespace Subtext.Framework.Routing
             routes.MapHttpHandler<THttpHandler>(null, url, constraints);
         }
 
-        public static void MapRoute(this RouteCollection routes, string url, object defaults, object constraints) {
-            routes.Add(new SubtextRoute(url, new MvcRouteHandler())
+        public static void MapRoute(this RouteCollection routes, string routeName, string url, object defaults, object constraints) {
+            routes.Add(routeName, new SubtextRoute(url, new MvcRouteHandler())
             {
                 Defaults = new RouteValueDictionary(defaults),
                 Constraints = new RouteValueDictionary(constraints)

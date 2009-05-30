@@ -48,6 +48,7 @@ using System.Web.Routing;
 using Subtext.Framework.Routing;
 using Subtext.Web;
 using Subtext.Framework.Data;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext
 {

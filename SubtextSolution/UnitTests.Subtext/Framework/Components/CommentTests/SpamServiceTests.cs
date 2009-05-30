@@ -13,6 +13,7 @@ using Subtext.Framework.Security;
 using Subtext.Framework.Web.HttpModules;
 using Moq;
 using Subtext.Framework.Data;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {

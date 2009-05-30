@@ -26,6 +26,7 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
 using Subtext.Framework.Web.HttpModules;
 using System.Web.Caching;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {

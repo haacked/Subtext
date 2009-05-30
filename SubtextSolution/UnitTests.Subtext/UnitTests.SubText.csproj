@@ -273,6 +273,8 @@
     <Compile Include="Extensibility\EmailProviderInstantiationTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\ActionResults\CacheableFileResultTests.cs" />
+    <Compile Include="Framework\ActionResults\NotModifiedResultTests.cs" />
     <Compile Include="Framework\ArchiveTests.cs" />
     <Compile Include="Framework\BlogInfoTests.cs">
       <SubType>Code</SubType>
@@ -371,12 +373,12 @@
     <Compile Include="Framework\Services\EntryPublisherTests.cs" />
     <Compile Include="Framework\Services\GravatarServiceTests.cs" />
     <Compile Include="Framework\Services\SlugGeneratorTests.cs" />
+    <Compile Include="Framework\Services\StatisticsServiceTests.cs" />
     <Compile Include="Framework\Services\XhtmlConverterTests.cs" />
     <Compile Include="Framework\Skinning\SkinEngineTests.cs" />
     <Compile Include="Framework\Skinning\SkinScriptsTests.cs" />
     <Compile Include="Framework\Skinning\SkinStylesTests.cs" />
     <Compile Include="Framework\Skinning\SkinTestExtensions.cs" />
-    <Compile Include="Framework\StatsTests.cs" />
     <Compile Include="Framework\Syndication\Admin\ModeratedCommentRssWriterTests.cs" />
     <Compile Include="Framework\Syndication\AtomHandlerTests.cs">
       <SubType>Code</SubType>
@@ -463,6 +465,7 @@
     <Compile Include="SimulatedRequestContext.cs" />
     <Compile Include="SubtextWeb\Admin\AdminPageTests.cs" />
     <Compile Include="SubtextWeb\Admin\FeedbackTests.cs" />
+    <Compile Include="SubtextWeb\Controllers\StatisticsControllerTests.cs" />
     <Compile Include="SubtextWeb\Controllers\CommentApiControllerTests.cs" />
     <Compile Include="SubtextWeb\Controls\CaptchaTests.cs" />
     <Compile Include="SubtextWeb\Controls\ControlHelperTests.cs" />

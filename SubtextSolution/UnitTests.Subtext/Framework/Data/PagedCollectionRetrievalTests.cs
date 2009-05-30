@@ -9,6 +9,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Util;
 using Subtext.Framework.Web.HttpModules;
 
@@ -269,7 +270,7 @@ namespace UnitTests.Subtext.Framework.Data
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
 		{
-			return FeedbackItem.GetPagedFeedback(pageIndex, pageSize, FeedbackStatusFlag.Approved, FeedbackType.None);
+            return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize, FeedbackStatusFlag.Approved, FeedbackStatusFlag.None, FeedbackType.None);
 		}
 
 		public int GetCount(IPagedCollection collection)

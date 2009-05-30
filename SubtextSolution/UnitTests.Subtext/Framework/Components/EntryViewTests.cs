@@ -2,12 +2,21 @@
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Framework;
 
 namespace UnitTests.Subtext.Framework.Components
 {
     [TestFixture]
     public class EntryViewTests
     {
+        [Test]
+        public void CtorInitializesIdsToNullValue()
+        {
+            EntryView view = new EntryView();
+            Assert.AreEqual(NullValue.NullInt32, view.EntryId);
+            Assert.AreEqual(NullValue.NullInt32, view.BlogId);
+        }
+
         [Test]
         public void CanSetAndGetSimpleProperties()
         {
