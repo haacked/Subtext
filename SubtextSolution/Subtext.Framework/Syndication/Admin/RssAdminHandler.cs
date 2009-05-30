@@ -1,12 +1,11 @@
 using System;
-using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Text.RegularExpressions;
+using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Extensibility;
-using System.Text.RegularExpressions;
-using System.Collections;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 
@@ -18,7 +17,6 @@ namespace Subtext.Framework.Syndication.Admin
 		string rssType = "";
 		string[] filters;
 		int count;
-		Enum filterFlags;
 
 		protected override bool IsLocalCacheOK()
 		{
@@ -114,6 +112,7 @@ namespace Subtext.Framework.Syndication.Admin
 			if(String.IsNullOrEmpty(rssType))
 				throw new Exception("Rss Type must be specified.");
 
+            var repository = ObjectProvider.Instance();
 
 			switch(rssType)
 			{
@@ -128,13 +127,12 @@ namespace Subtext.Framework.Syndication.Admin
 						}
 					}
 
-					filterFlags = flags;
-					ICollection<FeedbackItem> moderatedFeedback = FeedbackItem.GetPagedFeedback(0, count, flags, FeedbackType.None);
+                    ICollection<FeedbackItem> moderatedFeedback = repository.GetPagedFeedback(0, count, flags, FeedbackStatusFlag.None, FeedbackType.None);
 					return (IList)moderatedFeedback;
-				case "Referral":
-                    var statsRecorder = new StatsRepository(ObjectProvider.Instance(), Config.Settings.Tracking);
 
-                    ICollection<Referrer> referrers = statsRecorder.GetPagedReferrers(0, count);
+				case "Referral":
+                    //TODO: Fix!
+                    ICollection<Referrer> referrers = repository.GetPagedReferrers(0, count, NullValue.NullInt32);
 					return (IList)referrers;
 				case "Log":
 					ICollection<LogEntry> entries = LoggingProvider.Instance().GetPagedLogEntries(0, count);

@@ -264,7 +264,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			FeedbackItem commentFour = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FalsePositive);
 			
 			//We expect three of the four.
-			IPagedCollection<FeedbackItem> feedback = FeedbackItem.GetPagedFeedback(0, 10, FeedbackStatusFlag.Approved, FeedbackType.Comment);
+            IPagedCollection<FeedbackItem> feedback = ObjectProvider.Instance().GetPagedFeedback(0, 10, FeedbackStatusFlag.Approved, FeedbackStatusFlag.None, FeedbackType.Comment);
 			Assert.AreEqual(3, feedback.Count, "We expected three to match.");
 			
 			//Expect reverse order

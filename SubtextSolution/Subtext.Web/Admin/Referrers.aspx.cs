@@ -23,12 +23,10 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Text;
-using Subtext.Web.Admin.WebUI;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
-using Subtext.Framework.Data;
+using Subtext.Framework.Text;
 using Subtext.Infrastructure;
+using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -80,15 +78,14 @@ namespace Subtext.Web.Admin.Pages
 		private void BindList()
 		{
             IPagedCollection<Referrer> referrers;
-            StatsRepository stats = new StatsRepository(ObjectProvider.Instance(), Config.Settings.Tracking);
 
 			if(_entryID == NullValue.NullInt32) {
-                referrers = stats.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize);
+                referrers = Repository.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize, NullValue.NullInt32);
 			}
 			else
 			{
 				this.resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", "EntryID", _entryID);
-                referrers = stats.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize, _entryID);
+                referrers = Repository.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize, _entryID);
 			}
 
 			if (referrers != null && referrers.Count > 0)

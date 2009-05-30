@@ -11,30 +11,35 @@ using Subtext.Framework.Web.HttpModules;
 using Subtext.Infrastructure;
 using Ninject.Activation.Caching;
 
-public class Dependencies : Module
+namespace Subtext
 {
-    public override void Load()
+    public class Dependencies : Module
     {
-        // Main Services
-        Bind<ICommentService>().To<CommentService>().InRequestScope();
-        Bind<IFeedbackSpamService>().To<AkismetSpamService>().InRequestScope()
-            .WithConstructorArgument("apiKey", c => c.Kernel.Get<Blog>().FeedbackSpamServiceKey)
-            .WithConstructorArgument("akismetClient", c => null);
-        
-        // Dependencies you're less likely to change.
-        LoadCoreDependencies();
-    }
+        public override void Load()
+        {
+            // Main Services
+            Bind<ICommentService>().To<CommentService>().InRequestScope();
+            Bind<IStatisticsService>().To<StatisticsService>().InRequestScope();
+            Bind<IFeedbackSpamService>().To<AkismetSpamService>().InRequestScope()
+                .WithConstructorArgument("apiKey", c => c.Kernel.Get<Blog>().FeedbackSpamServiceKey)
+                .WithConstructorArgument("akismetClient", c => null);
 
-    private void LoadCoreDependencies() {
-        Bind<IPrincipal>().ToMethod(c => c.Kernel.Get<RequestContext>().HttpContext.User);
-        Bind<Blog>().ToMethod(c => BlogRequest.Current.Blog);
-        Bind<ObjectProvider>().ToMethod(c => new DatabaseObjectProvider()).InRequestScope();
-        Bind<Subtext.Infrastructure.ICache>().To<SubtextCache>().InRequestScope();
-        Bind<System.Web.Caching.Cache>().ToMethod(c => HttpContext.Current.Cache).InRequestScope();
-        
-        Bind<RouteCollection>().ToConstant(RouteTable.Routes);
-        Bind<HttpContext>().ToMethod(c => HttpContext.Current).InRequestScope();
-        Bind<ISubtextContext>().To<SubtextContext>().InRequestScope();
-        Bind<RequestContext>().ToMethod(c => Bootstrapper.RequestContext).InRequestScope();
+            // Dependencies you're less likely to change.
+            LoadCoreDependencies();
+        }
+
+        private void LoadCoreDependencies()
+        {
+            Bind<IPrincipal>().ToMethod(c => c.Kernel.Get<RequestContext>().HttpContext.User);
+            Bind<Blog>().ToMethod(c => BlogRequest.Current.Blog);
+            Bind<ObjectProvider>().ToMethod(c => new DatabaseObjectProvider()).InRequestScope();
+            Bind<Subtext.Infrastructure.ICache>().To<SubtextCache>().InRequestScope();
+            Bind<System.Web.Caching.Cache>().ToMethod(c => HttpContext.Current.Cache).InRequestScope();
+
+            Bind<RouteCollection>().ToConstant(RouteTable.Routes);
+            Bind<HttpContext>().ToMethod(c => HttpContext.Current).InRequestScope();
+            Bind<ISubtextContext>().To<SubtextContext>().InRequestScope();
+            Bind<RequestContext>().ToMethod(c => Bootstrapper.RequestContext).InRequestScope();
+        }
     }
 }

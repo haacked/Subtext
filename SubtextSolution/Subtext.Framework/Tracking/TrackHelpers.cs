@@ -33,7 +33,6 @@
 using System;
 using System.Globalization;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Routing;
 

@@ -38,11 +38,11 @@ namespace Subtext.Framework.Web
 		/// Gets if modified since date.
 		/// </summary>
 		/// <returns></returns>
-		public static DateTime GetIfModifiedSinceDateUTC()
+		public static DateTime GetIfModifiedSinceDateUTC(HttpRequestBase request)
 		{
-			if(HttpContext.Current != null && HttpContext.Current.Request != null)
+            if (request != null)
 			{
-				string ifModified = HttpContext.Current.Request.Headers["If-Modified-Since"];
+				string ifModified = request.Headers["If-Modified-Since"];
 				if(ifModified != null && ifModified.Length > 0)
 				{
 					return DateTimeHelper.ParseUnknownFormatUTC(ifModified);

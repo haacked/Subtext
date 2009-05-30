@@ -5,6 +5,7 @@ using MbUnit.Framework;
 using Moq;
 using Subtext.Framework.Data;
 using Subtext.Framework.Util;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Util
 {

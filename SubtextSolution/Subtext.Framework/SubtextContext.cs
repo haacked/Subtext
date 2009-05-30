@@ -3,6 +3,7 @@ using System.Web.Routing;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Infrastructure;
+using System.Web;
 
 namespace Subtext.Framework
 {
@@ -31,6 +32,13 @@ namespace Subtext.Framework
         public RequestContext RequestContext {
             get;
             private set;
+        }
+
+        public HttpContextBase HttpContext
+        {
+            get {
+                return RequestContext.HttpContext;
+            }
         }
 
         public UrlHelper UrlHelper {

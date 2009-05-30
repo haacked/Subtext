@@ -4,6 +4,9 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Util;
 using Subtext.Framework.Web;
+using Moq;
+using System.Web;
+using System.Collections.Specialized;
 
 namespace UnitTests.Subtext.Framework.Web
 {
@@ -36,13 +39,15 @@ namespace UnitTests.Subtext.Framework.Web
 		[Row("Wed, 12 Apr 2006 06:59:33 GMT", "04-11-2006 23:59:33")]
 		public void TestIfModifiedSinceExtraction(string received, string expected)
 		{
-			SimulatedHttpRequest workerRequest = UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "");
-            workerRequest.Headers.Add("If-Modified-Since", received);
+            var headers = new NameValueCollection();
+            headers.Add("If-Modified-Since", received);
+            var httpRequest = new Mock<HttpRequestBase>();
+            httpRequest.Setup(r => r.Headers).Returns(headers);
 
 			DateTime expectedDate = DateTimeHelper.ParseUnknownFormatUTC(expected);
 			Console.WriteLine("{0}\t{1}\t{2}", received, expected, expectedDate.ToUniversalTime());
 
-			DateTime result = HttpHelper.GetIfModifiedSinceDateUTC();
+            DateTime result = HttpHelper.GetIfModifiedSinceDateUTC(httpRequest.Object);
 			//Convert to PST:
 			const int PacificTimeZoneId = -2037797565;
 			WindowsTimeZone timeZone = WindowsTimeZone.GetById(PacificTimeZoneId);

@@ -228,8 +228,6 @@ namespace Subtext.Web
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void Application_End(Object sender, EventArgs e)
         {
-            StatsRepository stats = new StatsRepository(ObjectProvider.Instance(), Config.Settings.Tracking);
-            stats.ClearQueue(true);
             _logInitialized = false;
         }
     }

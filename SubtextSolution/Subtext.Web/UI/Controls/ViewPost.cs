@@ -25,6 +25,9 @@ using Subtext.Framework.Security;
 using Subtext.Framework.Tracking;
 using Subtext.Web.Controls;
 using Subtext.Framework.Configuration;
+using Ninject;
+using Subtext.Infrastructure;
+using Subtext.Framework.Services;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -68,9 +71,10 @@ namespace Subtext.Web.UI.Controls
 				
 				DisplayEditLink(entry);
 
-				//Track this entry
-                var entryTracker = new EntryTracker(new StatsRepository(SubtextContext.Repository, Config.Settings.Tracking));
-				entryTracker.Track(SubtextContext, entry.Id, Blog.Id);
+                //todo: consider whether we should use an agg bug for web views too.
+                Bootstrapper.RequestContext = SubtextContext.RequestContext;
+                var statistics = Bootstrapper.Kernel.Get<IStatisticsService>();
+                statistics.RecordWebView(new EntryView { EntryId = entry.Id, BlogId = Blog.Id });
 
 				//Set the page title
 				Globals.SetTitle(entry.Title, Context);
