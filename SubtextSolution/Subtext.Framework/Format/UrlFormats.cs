@@ -39,7 +39,7 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public static DateTime DateFromUrl(string url)
 		{
-			string date = GetRequestedFileName(url);
+            string date = Path.GetFileNameWithoutExtension(url);
 			CultureInfo en = new CultureInfo("en-US");
 			switch(date.Length)
 			{
@@ -52,16 +52,6 @@ namespace Subtext.Framework.Format
 			}
 		}
 
-		/// <summary>
-		/// Gets the name of the requested file.
-		/// </summary>
-		/// <param name="uri">The URI.</param>
-		/// <returns></returns>
-		public static string GetRequestedFileName(string uri)
-		{
-			return Path.GetFileNameWithoutExtension(uri);
-		}
-		
 		/// <summary>
 		/// Parses out the subfolder of the blog from the requested URL.  It 
 		/// simply searches for the first "folder" after the host and 
@@ -128,17 +118,6 @@ namespace Subtext.Framework.Format
 		/// </summary>
 		/// <param name="request"></param>
 		/// <returns></returns>
-		public static Uri GetUriReferrerSafe(HttpRequest request)
-		{
-			try {
-				return request.UrlReferrer;
-			}
-			catch(UriFormatException)
-			{
-				return null;
-			}
-    	}
-
         public static Uri GetUriReferrerSafe(HttpRequestBase request)
         {
             try {

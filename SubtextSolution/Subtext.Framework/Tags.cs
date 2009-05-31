@@ -36,15 +36,6 @@ namespace Subtext.Framework
     public static class Tags
     {
 		/// <summary>
-		/// Parses and sets set of tags on the entry.
-		/// </summary>
-		/// <param name="entry"></param>
-		public static void SetTagsOnEntry(Entry entry)
-		{
-			ObjectProvider.Instance().SetEntryTagList(entry.Id, HtmlHelper.ParseTags(entry.Body));
-		}
-
-		/// <summary>
 		/// Sets the tags on entry.
 		/// </summary>
 		/// <param name="entryId">The entry id.</param>

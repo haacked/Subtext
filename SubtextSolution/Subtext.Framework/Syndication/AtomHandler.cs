@@ -15,6 +15,7 @@
 
 using System;
 using Subtext.Framework;
+using Subtext.Framework.Data;
 using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
 using DTCF = Subtext.Framework.Configuration;
@@ -64,8 +65,9 @@ namespace Subtext.Framework.Syndication
 
 		protected override void Cache(CachedFeed feed)
 		{
-            if (HttpContext.Cache != null) {
-                HttpContext.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, null, DateTime.Now.AddSeconds((double)CacheDuration.Medium), TimeSpan.Zero);
+            var cache = SubtextContext.Cache;
+            if (cache != null) {
+                cache.InsertDuration(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, Cacher.MediumDuration);
             }
 		}
 	}

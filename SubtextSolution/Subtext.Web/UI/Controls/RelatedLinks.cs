@@ -17,7 +17,7 @@ namespace Subtext.Web.UI.Controls
 			ArrayList myRelLinks = new ArrayList();
 			int blogId = Blog.Id >= 1 ? Blog.Id : 0;
 
-			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, SubtextContext);
+			Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
             var relatedEntries = ObjectProvider.Instance().GetRelatedEntries(blogId, entry.Id, 10);
 
 			foreach(var relatedEntry in relatedEntries)

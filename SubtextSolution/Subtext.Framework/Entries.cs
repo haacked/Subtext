@@ -16,8 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -27,13 +25,9 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
-using Subtext.Framework.Services;
-using System.Data.Common;
 
 namespace Subtext.Framework
 {
@@ -151,6 +145,7 @@ namespace Subtext.Framework
 		{
 			return ObjectProvider.Instance().GetEntriesByCategory(itemCount,catID, activeOnly);
 		}
+
         public static ICollection<Entry> GetEntriesByTag(int itemCount, string tagName)
         {
             return ObjectProvider.Instance().GetEntriesByTag(itemCount, tagName);
@@ -183,20 +178,6 @@ namespace Subtext.Framework
             bool isActive = ((postConfig & PostConfig.IsActive) == PostConfig.IsActive);
             return ObjectProvider.Instance().GetEntry(entryId, isActive, includeCategories);
 		}
-
-		/// <summary>
-		/// Gets the entry from the data store by entry name. Only returns an entry if it is 
-		/// within the current blog (Config.CurrentBlog).
-		/// </summary>
-		/// <param name="EntryName">Name of the entry.</param>
-		/// <param name="postConfig">The entry option used to constrain the search.</param>
-        /// <param name="includeCategories">Whether the returned entry should have its categories collection populated.</param>
-		/// <returns></returns>
-        public static Entry GetEntry(string EntryName, PostConfig postConfig, bool includeCategories)
-		{
-            bool isActive = ((postConfig & PostConfig.IsActive) == PostConfig.IsActive);
-            return ObjectProvider.Instance().GetEntry(EntryName, isActive, includeCategories);
-		}
 		#endregion
 
 		#region Create
@@ -220,19 +201,6 @@ namespace Subtext.Framework
         }
 
         #endregion
-
-
-		/// <summary>
-		/// Converts a title of a blog post into a friendly, but URL safe string.
-		/// Defaults entryId to 0 as if it was a new entry
-		/// </summary>
-		/// <param name="title">The original title of the blog post.</param>
-		/// <returns></returns>
-		public static string AutoGenerateFriendlyUrl(string title)
-		{
-			return AutoGenerateFriendlyUrl(title, 0);
-		}
-
 
         /// <summary>
 		/// Converts a title of a blog post into a friendly, but URL safe string.
@@ -288,31 +256,6 @@ namespace Subtext.Framework
 				return AutoGenerateFriendlyUrl(title, char.MinValue, entryId, textTransform);
 			}
 
-		}
-
-		/// <summary>
-		/// Converts a title of a blog post into a friendly, but URL safe string.
-		/// Defaults entryId to 0 as if it was a new entry
-		/// </summary>
-		/// <param name="title">The original title of the blog post.</param>
-		/// <param name="wordSeparator">The string used to separate words in the title.</param>
-		/// <returns></returns>
-		public static string AutoGenerateFriendlyUrl(string title, char wordSeparator)
-		{
-			return AutoGenerateFriendlyUrl(title, wordSeparator, 0, TextTransform.None);
-		}
-
-		/// <summary>
-		/// Converts a title of a blog post into a friendly, but URL safe string.
-		/// Defaults entryId to 0 as if it was a new entry
-		/// </summary>
-		/// <param name="title">The original title of the blog post.</param>
-		/// <param name="wordSeparator">The string used to separate words in the title.</param>
-		/// <param name="textTransform">Used to specify a change to the casing of the string.</param>
-		/// <returns></returns>
-		public static string AutoGenerateFriendlyUrl(string title, char wordSeparator, TextTransform textTransform)
-		{
-			return AutoGenerateFriendlyUrl(title, wordSeparator, 0, textTransform);
 		}
 
 		private static string ReplaceUnicodeCharacters(string text)

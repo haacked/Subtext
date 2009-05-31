@@ -367,14 +367,14 @@ namespace Subtext.Web.UI.Controls
                 if (Category.IsNumeric())
                 {
                     int categoryID = Int32.Parse(Category);
-                    lc = Cacher.SingleCategory(CacheDuration.Short, categoryID, false, SubtextContext);
+                    lc = Cacher.SingleCategory(categoryID, false, SubtextContext);
                 }
                 else
                 {
-                    lc = Cacher.SingleCategory(CacheDuration.Short, Category, false, SubtextContext);
+                    lc = Cacher.SingleCategory(Category, false, SubtextContext);
                 }
                 EntryListTitle = lc.Title;
-                EntryListItems = Cacher.GetEntriesByCategory(0, CacheDuration.Short, lc.Id, SubtextContext);
+                EntryListItems = Cacher.GetEntriesByCategory(0, lc.Id, SubtextContext);
             }
 
 			if(EntryListItems != null)

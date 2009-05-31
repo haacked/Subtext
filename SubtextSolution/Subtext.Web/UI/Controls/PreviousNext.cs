@@ -28,7 +28,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			
 			//Get the entry
-			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, SubtextContext);			
+			Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);			
 			
 			//if found
 			if(entry != null)
