@@ -17,13 +17,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Web;
 using System.Web.Caching;
 using Subtext.Configuration;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Data
 {
@@ -33,109 +33,86 @@ namespace Subtext.Framework.Data
 	/// </summary>
 	public static class Cacher
 	{
-		private static readonly string ActiveLCCKey = "ActiveLinkCategoryCollection:Blog{0}";
-		/// <summary>
-		/// Gets the active categories from the cache. 
-		/// If they aren't in the cache, queries the database and puts the 
-		/// result in the cache.
-		/// </summary>
-		/// <param name="cacheDuration">The cache duration.</param>
-		/// <returns></returns>
-        public static ICollection<LinkCategory> GetActiveCategories(CacheDuration cacheDuration, ISubtextContext context)
-		{
-            string key = string.Format(ActiveLCCKey, context.Blog.Id);
-
-            ContentCache cache = ContentCache.Instantiate(context);
-
-            ICollection<LinkCategory> categories = (ICollection<LinkCategory>)cache[key];
-			if(categories == null)
-			{
-				categories = context.Repository.GetActiveCategories();
-				if(categories != null)
-				{
-					cache.Insert(key, categories, cacheDuration);
-				}
-			}
-			return categories;
-		}
-
+        public const int ShortDuration = 10;
+        public const int MediumDuration = 20;
+        public const int LongDuration = 30;
 		private static readonly string EntryMonthKey = "EntryMonth:Date{0:yyyyMM}Blog{1}";
-		/// <summary>
+
+        /// <summary>
 		/// Gets the entries for the specified month.
 		/// </summary>
 		/// <param name="dt">The dt.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static ICollection<Entry> GetMonth(DateTime dt, CacheDuration cacheDuration, ISubtextContext context)
+		public static ICollection<Entry> GetMonth(DateTime dt, ISubtextContext context)
 		{
             string key = string.Format(CultureInfo.InvariantCulture, EntryMonthKey, dt, context.Blog.Id);
-            ContentCache cache = ContentCache.Instantiate(context);
+            ICache cache = context.Cache;
             ICollection<Entry> month = (ICollection<Entry>)cache[key];
 			if(month == null)
 			{
-				month = Entries.GetPostsByMonth(dt.Month,dt.Year);
+                month = context.Repository.GetPostsByMonth(dt.Month, dt.Year);
 				if(month != null)
 				{
-					cache.Insert(key, month, cacheDuration);
+					cache.InsertDuration(key, month, LongDuration);
 				}
 			}
 			return month;
 		}
 
 		private static readonly string EntryDayKey = "EntryDay:Date{0:yyyyMMdd}Blog{1}";
-		public static EntryDay GetDay(DateTime dt, CacheDuration cacheDuration, ISubtextContext context)
+		public static EntryDay GetDay(DateTime day, ISubtextContext context)
 		{
-            string key = string.Format(CultureInfo.InvariantCulture, EntryDayKey, dt, context.Blog.Id);
-
-            ContentCache cache = ContentCache.Instantiate(context);
+            string key = string.Format(CultureInfo.InvariantCulture, EntryDayKey, day, context.Blog.Id);
+            ICache cache = context.Cache;
 			
-			EntryDay day = (EntryDay)cache[key];
-			if(day == null)
+			EntryDay entryDay = (EntryDay)cache[key];
+			if(entryDay == null)
 			{
-				day = Entries.GetSingleDay(dt);
-				if(day != null)
+                entryDay = context.Repository.GetEntryDay(day);
+				if(entryDay != null)
 				{
-					cache.Insert(key, day, cacheDuration);
+					cache.InsertDuration(key, entryDay, LongDuration);
 				}
 			}
-			return day;
+			return entryDay;
 
 		}
 
 		private const string ECKey="EC:Count{0}Category{1}BlogId{2}";
-        public static ICollection<Entry> GetEntriesByCategory(int count, CacheDuration cacheDuration, int categoryID, ISubtextContext context)
+        public static ICollection<Entry> GetEntriesByCategory(int count, int categoryID, ISubtextContext context)
 		{
             string key = string.Format(ECKey, count, categoryID, context.Blog.Id);
-            ContentCache cache = ContentCache.Instantiate(context);
-            ICollection<Entry> ec = (ICollection<Entry>)cache[key];
-			if(ec == null)
+            var cache = context.Cache;
+            var entryCollection = (ICollection<Entry>)cache[key];
+			if(entryCollection == null)
 			{
-				ec = Entries.GetEntriesByCategory(count, categoryID, true);
+                entryCollection = context.Repository.GetEntriesByCategory(count, categoryID, true /* activeOnly */);
 				
-				if(ec != null)
+				if(entryCollection != null)
 				{
-					cache.Insert(key, ec, cacheDuration);
+                    cache.InsertDuration(key, entryCollection, ShortDuration);
 				}
 			}
-			return ec;
+			return entryCollection;
 		}
 
         private static readonly string ETKey = "ET:Count{0}Tag{1}BlogId{2}";
-        public static ICollection<Entry> GetEntriesByTag(int count, CacheDuration cacheDuration, string tag, ISubtextContext context)
+        public static ICollection<Entry> GetEntriesByTag(int count, string tag, ISubtextContext context)
         {
             string key = string.Format(ETKey, count, tag, context.Blog.Id);
-            ContentCache cache = ContentCache.Instantiate(context);
-            ICollection<Entry> et = (ICollection<Entry>)cache[key];
-            if (et == null)
+            ICache cache = context.Cache;
+            var entries = (ICollection<Entry>)cache[key];
+            if (entries == null)
             {
-                et = Entries.GetEntriesByTag(count, tag);
+                entries = context.Repository.GetEntriesByTag(count, tag);
 
-                if (et != null)
+                if (entries != null)
                 {
-                    cache.Insert(key, et, cacheDuration);
+                    cache.InsertDuration(key, entries, ShortDuration);
                 }
             }
-            return et;
+            return entries;
         }
 
         /// <summary>
@@ -143,7 +120,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static LinkCategory SingleCategory(CacheDuration cacheDuration, ISubtextContext context)
+		public static LinkCategory SingleCategory(ISubtextContext context)
 		{
 			if (context == null)
 				throw new ArgumentNullException("context", "This method requires the HttpContext. Argue all you want about whether that is good design. That's just the way it is for now.");
@@ -153,26 +130,26 @@ namespace Subtext.Framework.Data
 			if(categoryName.IsNumeric())
 			{
 				int categoryID = Int32.Parse(categoryName);
-                return SingleCategory(cacheDuration, categoryID, true, context);
+                return SingleCategory(categoryID, true, context);
 			}
 			else
 			{
-                return SingleCategory(cacheDuration, categoryName, true, context);
+                return SingleCategory(categoryName, true, context);
 			}
 		}
 
 		private static readonly string LCKey="LC{0}BlogId{1}";
 
-        public static LinkCategory SingleCategory(CacheDuration cacheDuration, int categoryId, bool isActive, ISubtextContext context)
+        public static LinkCategory SingleCategory(int categoryId, bool isActive, ISubtextContext context)
         {
             LinkCategoryRetrieval retrieval = delegate { return context.Repository.GetLinkCategory(categoryId, isActive); };
-            return SingleCategory(retrieval, cacheDuration, categoryId, context);
+            return SingleCategory(retrieval, categoryId, context);
         }
 
-		public static LinkCategory SingleCategory(CacheDuration cacheDuration, string categoryName, bool isActive, ISubtextContext context)
+		public static LinkCategory SingleCategory(string categoryName, bool isActive, ISubtextContext context)
         {
         	LinkCategoryRetrieval retrieval = delegate { return context.Repository.GetLinkCategory(categoryName, isActive); };
-            LinkCategory category = SingleCategory(retrieval, cacheDuration, categoryName, context);
+            LinkCategory category = SingleCategory(retrieval, categoryName, context);
 			if(category != null)
 				return category;
 
@@ -180,22 +157,22 @@ namespace Subtext.Framework.Data
 			{
 				categoryName = categoryName.Replace(FriendlyUrlSettings.Settings.SeparatingCharacter, " ");
                 retrieval = delegate { return context.Repository.GetLinkCategory(categoryName, isActive); };
-                return SingleCategory(retrieval, cacheDuration, categoryName, context);
+                return SingleCategory(retrieval, categoryName, context);
 			}
 			
 			return null; //couldn't find category
         }
 
-		private static LinkCategory SingleCategory<T>(LinkCategoryRetrieval retrievalDelegate, CacheDuration cacheDuration, T categoryKey, ISubtextContext context)
+		private static LinkCategory SingleCategory<T>(LinkCategoryRetrieval retrievalDelegate, T categoryKey, ISubtextContext context)
 		{
-			ContentCache cache = ContentCache.Instantiate(context);
+            ICache cache = context.Cache;
             string key = string.Format(LCKey, categoryKey, context.Blog.Id);
 			LinkCategory lc = (LinkCategory)cache[key];
 			if(lc == null)
 			{
 				lc = retrievalDelegate();
 				if (lc != null)
-					cache.Insert(key, lc, cacheDuration);
+					cache.InsertDuration(key, lc, ShortDuration);
 			}
 			return lc;
 		}
@@ -203,20 +180,20 @@ namespace Subtext.Framework.Data
 		delegate LinkCategory LinkCategoryRetrieval();
 
         //TODO: This should only be called in one place total. And it needs to be tested.
-        public static Entry GetEntryFromRequest(CacheDuration cacheDuration, bool allowRedirectToEntryName, ISubtextContext context)
+        public static Entry GetEntryFromRequest(bool allowRedirectToEntryName, ISubtextContext context)
         {
             var routeValues = context.RequestContext.RouteData.Values;
 
             if (routeValues.ContainsKey("slug")) {
                 string slug = (string)routeValues["slug"];
-                return GetEntry(slug, cacheDuration, context);
+                return GetEntry(slug, context);
             }
             
             int id;
 
             if (int.TryParse((string)routeValues["id"], out id))
             {
-                Entry entry = GetEntry(id, cacheDuration, context);
+                Entry entry = GetEntry(id, context);
                 if (entry == null) {
                     return null;
                 }
@@ -248,13 +225,13 @@ namespace Subtext.Framework.Data
 		/// <param name="EntryName">Name of the entry.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static Entry GetEntry(string entryName, CacheDuration cacheDuration, ISubtextContext context)
+		public static Entry GetEntry(string entryName, ISubtextContext context)
 		{
             Blog blog = context.Blog;
             ObjectProvider repository = context.Repository;
             int blogId = blog.Id;
 
-			ContentCache cache = ContentCache.Instantiate(context);
+            ICache cache = context.Cache;
 			string key = string.Format(EntryKeyName, entryName, blogId);
 			
 			Entry entry = (Entry)cache[key];
@@ -268,7 +245,7 @@ namespace Subtext.Framework.Data
                         return null;
                     }
 
-					cache.Insert(key, entry, cacheDuration);
+					cache.InsertDuration(key, entry, MediumDuration);
 
 					//Most other page items will use the entryID. Add entry to cache for id key as well.
 					//Bind them together with a cache dependency.
@@ -288,13 +265,13 @@ namespace Subtext.Framework.Data
 		/// <param name="entryID">The entry ID.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static Entry GetEntry(int entryId, CacheDuration cacheDuration, ISubtextContext context)
+		public static Entry GetEntry(int entryId, ISubtextContext context)
 		{
             Blog blog = context.Blog;
             ObjectProvider repository = context.Repository;
             int blogId = blog.Id;
 
-			ContentCache cache = ContentCache.Instantiate(context);
+            ICache cache = context.Cache;
             string key = string.Format(EntryKeyID, entryId, blog.Id);
 			
 			Entry entry = (Entry)cache[key];
@@ -303,7 +280,7 @@ namespace Subtext.Framework.Data
 				entry = repository.GetEntry(entryId, true /* activeOnly */, true /* includeCategories */);
 				if(entry != null)
 				{
-					cache.Insert(key, entry, cacheDuration);
+					cache.InsertDuration(key, entry, MediumDuration);
 				}
 			}
 			return entry;
@@ -318,9 +295,9 @@ namespace Subtext.Framework.Data
         /// <param name="ItemCount">The item count</param>
         /// <param name="cacheDuration">The cache duration.</param>
         /// <returns></returns>
-        public static IEnumerable<Tag> GetTopTags(int ItemCount, CacheDuration cacheDuration, ISubtextContext context)
+        public static IEnumerable<Tag> GetTopTags(int ItemCount, ISubtextContext context)
         {
-            ContentCache cache = ContentCache.Instantiate(context);
+            ICache cache = context.Cache;
             string key = string.Format(TagsKey, ItemCount, context.Blog.Id);
 
             IEnumerable<Tag> tags = (IEnumerable<Tag>)cache[key];
@@ -329,7 +306,7 @@ namespace Subtext.Framework.Data
                 tags = Tags.GetTopTags(ItemCount);
                 if (tags != null)
                 {
-                    cache.Insert(key, tags, cacheDuration);
+                    cache.InsertDuration(key, tags, LongDuration);
                 }
             }
             return tags;
@@ -342,8 +319,7 @@ namespace Subtext.Framework.Data
 		public static void ClearCommentCache(int entryId, ISubtextContext context)
 		{
             string key = string.Format(ParentCommentEntryKey, entryId, context.Blog.Id);
-            ContentCache cache = ContentCache.Instantiate(context);
-			cache.Remove(key);
+            context.Cache.Remove(key);
 		}
 		
 		private static readonly string ParentCommentEntryKey = "ParentEntry:Comments:EntryID{0}:BlogId{1}";
@@ -355,26 +331,29 @@ namespace Subtext.Framework.Data
 		/// <param name="cacheDuration"></param>
 		/// <returns></returns>
         /// <param name="fromCache"></param>
-        public static ICollection<FeedbackItem> GetFeedback(Entry parentEntry, CacheDuration cacheDuration, bool fromCache, ISubtextContext context)
+        public static ICollection<FeedbackItem> GetFeedback(Entry parentEntry, bool fromCache, ISubtextContext context)
 		{
 			ICollection<FeedbackItem> comments = null;
-			ContentCache cache = null;
+            ICache cache = context.Cache;
 			string key = null;
 			if (fromCache)
 			{
                 key = string.Format(ParentCommentEntryKey, parentEntry.Id, context.Blog.Id);
-                cache = ContentCache.Instantiate(context);
 				comments = (ICollection<FeedbackItem>)cache[key];
 			}
 			if(comments == null)
 			{
-				comments = Entries.GetFeedBack(parentEntry);
+                comments = context.Repository.GetFeedbackForEntry(parentEntry);
 				if(comments != null && fromCache)
 				{
-					cache.Insert(key, comments, cacheDuration);
+					cache.InsertDuration(key, comments, ShortDuration);
 				}
 			}
 			return comments;
-		}		
+		}
+
+        public static void InsertDuration(this ICache cache, string key, object value, int duration) {
+            cache.Insert(key, value, null, DateTime.Now.AddSeconds(duration), TimeSpan.Zero, CacheItemPriority.Normal, null);
+        }
 	}
 }

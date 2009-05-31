@@ -325,9 +325,6 @@
     <Compile Include="Framework\Data\CacherTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Framework\Data\ContentCacheTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Framework\Data\DataHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -280,9 +280,6 @@
     <Compile Include="Configuration\UrlBasedBlogInfoProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ContentCache.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Data\BlogRepository.cs">
       <SubType>Code</SubType>
       <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>

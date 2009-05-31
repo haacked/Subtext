@@ -17,6 +17,7 @@ using System;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using System.Web;
 using System.Web.Security;
@@ -27,7 +28,6 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
-using System.Security.Principal;
 
 namespace Subtext.Framework.Security
 {

@@ -41,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Data
                 .Setup(c => c.Repository.GetEntry(123, true, true)).Returns(new Entry(PostType.BlogPost) { Id = 123, Title = "Testing 123" });
 
             //act
-            Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, subtextContext.Object);
+            Entry entry = Cacher.GetEntryFromRequest(true, subtextContext.Object);
 
             //assert
             Assert.AreEqual(123, entry.Id);
@@ -79,7 +79,7 @@ namespace UnitTests.Subtext.Framework.Data
                 .SetupBlog(new Blog { Host = "localhost" });
 
             //act
-            Entry cachedEntry = Cacher.GetEntryFromRequest(CacheDuration.Short, true /* allowRedirect */, subtextContext.Object);
+            Entry cachedEntry = Cacher.GetEntryFromRequest(true /* allowRedirect */, subtextContext.Object);
 
             //assert
             httpContext.VerifySet(c => c.Response.StatusCode, 301);
@@ -106,7 +106,7 @@ namespace UnitTests.Subtext.Framework.Data
                 .Setup(c => c.Repository.GetEntry("the-slug", true, true)).Returns(new Entry(PostType.BlogPost) { Id = 123, EntryName = "the-slug", Title = "Testing 123" });
 
             //act
-            Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, subtextContext.Object);
+            Entry entry = Cacher.GetEntryFromRequest(true, subtextContext.Object);
 
             //assert
             Assert.AreEqual(123, entry.Id);
@@ -130,7 +130,7 @@ namespace UnitTests.Subtext.Framework.Data
                 .Setup(c => c.Repository.GetEntry(It.IsAny<int>(), true, true)).Returns((Entry)null);
     
             //act
-            Cacher.GetEntryFromRequest(CacheDuration.Short, true, subtextContext.Object);
+            Cacher.GetEntryFromRequest(true, subtextContext.Object);
             
             //assert
             //None needed.
@@ -140,7 +140,7 @@ namespace UnitTests.Subtext.Framework.Data
 		public void SingleCategoryThrowsExceptionIfContextNull()
 		{
             UnitTestHelper.AssertThrows<ArgumentNullException>(
-                () => Cacher.SingleCategory(CacheDuration.Short, null)
+                () => Cacher.SingleCategory(null)
             );
 		}
 
@@ -155,7 +155,7 @@ namespace UnitTests.Subtext.Framework.Data
                 .Setup(c => c.Repository.GetLinkCategory(It.IsAny<int>(), true)).Returns((LinkCategory)null);
             
             //act
-            LinkCategory category = Cacher.SingleCategory(CacheDuration.Short, subtextContext.Object);
+            LinkCategory category = Cacher.SingleCategory(subtextContext.Object);
 
             //assert
             Assert.IsNull(category);
@@ -172,7 +172,7 @@ namespace UnitTests.Subtext.Framework.Data
                 .Setup(c => c.Repository.GetLinkCategory(99, true)).Returns(new LinkCategory { Id = 99, Title = "this is a test"});
 			
             //act
-            LinkCategory category = Cacher.SingleCategory(CacheDuration.Short, subtextContext.Object);
+            LinkCategory category = Cacher.SingleCategory(subtextContext.Object);
 			     
             //assert
             Assert.AreEqual("this is a test", category.Title);
@@ -189,51 +189,10 @@ namespace UnitTests.Subtext.Framework.Data
                 .Setup(c => c.Repository.GetLinkCategory("this-is-a-test", true)).Returns(new LinkCategory { Id = 99, Title = "this is a test" });
 
             //act
-			LinkCategory category = Cacher.SingleCategory(CacheDuration.Short, subtextContext.Object);
+			LinkCategory category = Cacher.SingleCategory(subtextContext.Object);
 
             //assert
 			Assert.AreEqual(99, category.Id);
-		}
-
-		/// <summary>
-		/// Makes sure that the GetActiveCategories method handles user 
-		/// Locale correctly.
-		/// </summary>
-		[Test]
-		public void GetActiveCategoriesHandlesLocale()
-		{
-            //arrange
-            int blogId = 123;
-			var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.SetupRequestContext();
-            subtextContext.SetupBlog(new Blog { Id = blogId });
-
-			//Start with en-US
-			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-
-			// Add categories to cache.
-			ICollection<LinkCategory> cachedCategories = new List<LinkCategory>();
-			cachedCategories.Add(new LinkCategory(1, "Test 1"));
-			cachedCategories.Add(new LinkCategory(2, "Test 2"));
-
-			//Note, this corresponds to a private var in Cacher.
-			string ActiveLCCKey = "ActiveLinkCategoryCollection:Blog{0}";
-            ActiveLCCKey = String.Format(ActiveLCCKey, blogId);
-			ContentCache cache = ContentCache.Instantiate(subtextContext.Object);
-			cache[ActiveLCCKey] = cachedCategories;
-
-            ICollection<LinkCategory> categories = Cacher.GetActiveCategories(CacheDuration.Short, subtextContext.Object);
-			Assert.AreEqual(2, categories.Count, "Expected to get the cached categories.");
-			Assert.AreSame(cachedCategories, categories, "Categories should have been pulled from cache.");
-
-			//Change to spanish
-			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("es");
-			ICollection<LinkCategory> spanishCachedCategories = new List<LinkCategory>();
-			spanishCachedCategories.Add(new LinkCategory(1, "prueba numero uno"));
-			cache[ActiveLCCKey] = spanishCachedCategories;
-
-            ICollection<LinkCategory> spanishCategories = Cacher.GetActiveCategories(CacheDuration.Short, subtextContext.Object);
-			Assert.AreEqual(1, spanishCategories.Count, "Only expected one category for spanish.");
 		}
 	}
 }

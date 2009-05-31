@@ -16,6 +16,7 @@
 using System;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
 using Subtext.Framework.Syndication;
 
 namespace Subtext.Framework.Syndication
@@ -44,13 +45,9 @@ namespace Subtext.Framework.Syndication
 		/// <param name="feed">Feed.</param>
 		protected override void Cache(CachedFeed feed)
 		{
-            if (SubtextContext.RequestContext.HttpContext.Cache != null)
-            {
-                SubtextContext.RequestContext.HttpContext.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished),
-                    feed,
-                    null,
-                    DateTime.Now.AddSeconds((double)CacheDuration.Medium),
-                    TimeSpan.Zero);
+            var cache = SubtextContext.Cache;
+            if (cache != null) {
+                cache.InsertDuration(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, Cacher.MediumDuration);
             }
 		}
 

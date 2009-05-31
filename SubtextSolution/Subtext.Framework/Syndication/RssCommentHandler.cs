@@ -40,7 +40,7 @@ namespace Subtext.Framework.Syndication
         protected override ICollection<FeedbackItem> GetFeedEntries()
 		{
 			if(ParentEntry == null) {
-				ParentEntry = Cacher.GetEntryFromRequest(CacheDuration.Short, false, SubtextContext);
+				ParentEntry = Cacher.GetEntryFromRequest(false, SubtextContext);
 			}
 
             if (ParentEntry == null) {
@@ -50,7 +50,7 @@ namespace Subtext.Framework.Syndication
 
 			if(ParentEntry != null && Comments == null)
 			{
-				Comments = Cacher.GetFeedback(ParentEntry, CacheDuration.Short, true, SubtextContext);
+				Comments = Cacher.GetFeedback(ParentEntry, true, SubtextContext);
 			}
 
 			return Comments;

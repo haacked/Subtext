@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Extensibility;
@@ -7,7 +7,6 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
-using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Services
 {
@@ -18,7 +17,6 @@ namespace UnitTests.Subtext.Framework.Services
         [Test]
         public void CreateSetsDateCreatedToBlogTime() {
             //arrange
-            var cache = new Mock<ICache>();
             var blog = new Mock<Blog>();
             var dateCreated = DateTime.Now;
             blog.Object.Id = 1;
@@ -26,12 +24,11 @@ namespace UnitTests.Subtext.Framework.Services
             var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
-            var items = new Dictionary<string, object>();
             var context = new Mock<ISubtextContext>();
             context.SetupGet(c => c.Repository).Returns(repository.Object);
             context.SetupGet(c => c.Blog).Returns(blog.Object);
-            context.SetupGet(c => c.HttpContext.Items).Returns(items);
-            context.SetupGet(c => c.Cache).Returns(cache.Object);
+            context.SetupGet(c => c.HttpContext.Items).Returns(new Hashtable());
+            context.SetupGet(c => c.Cache).Returns(new TestCache());
 
             CommentService service = new CommentService(context.Object, null);
             var comment = new FeedbackItem(FeedbackType.Comment) { EntryId = 123, BlogId = 1, Body = "test", Title = "title" };
@@ -47,7 +44,6 @@ namespace UnitTests.Subtext.Framework.Services
         public void CreateDoesNotChangeDateCreatedAndDateModifiedIfAlreadySpecified()
         {
             //arrange
-            var cache = new Mock<ICache>();
             var blog = new Mock<Blog>();
             var dateCreated = DateTime.Now;
             blog.Object.Id = 1;
@@ -55,12 +51,11 @@ namespace UnitTests.Subtext.Framework.Services
             var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
-            var items = new Dictionary<string, object>();
             var context = new Mock<ISubtextContext>();
             context.SetupGet(c => c.Repository).Returns(repository.Object);
             context.SetupGet(c => c.Blog).Returns(blog.Object);
-            context.SetupGet(c => c.HttpContext.Items).Returns(items);
-            context.SetupGet(c => c.Cache).Returns(cache.Object);
+            context.SetupGet(c => c.HttpContext.Items).Returns(new Hashtable());
+            context.SetupGet(c => c.Cache).Returns(new TestCache());
 
             CommentService service = new CommentService(context.Object, null);
             var comment = new FeedbackItem(FeedbackType.Comment) { 
@@ -79,7 +74,6 @@ namespace UnitTests.Subtext.Framework.Services
         public void CreateCallsIntoCommentService()
         {
             //arrange
-            var cache = new Mock<ICache>();
             var blog = new Mock<Blog>();
             var dateCreated = DateTime.Now;
             blog.Object.Id = 1;
@@ -87,12 +81,11 @@ namespace UnitTests.Subtext.Framework.Services
             var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
-            var items = new Dictionary<string, object>();
             var context = new Mock<ISubtextContext>();
             context.SetupGet(c => c.Repository).Returns(repository.Object);
             context.SetupGet(c => c.Blog).Returns(blog.Object);
-            context.SetupGet(c => c.HttpContext.Items).Returns(items);
-            context.SetupGet(c => c.Cache).Returns(cache.Object);
+            context.SetupGet(c => c.HttpContext.Items).Returns(new Hashtable());
+            context.SetupGet(c => c.Cache).Returns(new TestCache());
 
             var commentFilter = new Mock<ICommentFilter>();
             bool wasBeforeCalled = false;

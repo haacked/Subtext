@@ -161,11 +161,6 @@ namespace Subtext.Framework.Components
 			set;
 		}
 
-        public void Publish(IEntryPublisher publisher, int[] categoryIds)
-        {
-            publisher.Publish(this);
-        }
-
 		/// <summary>
 		/// Gets or sets the author name of the entry.  
 		/// For comments, this is the name given by the commenter. 

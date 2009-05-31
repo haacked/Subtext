@@ -47,7 +47,7 @@ namespace Subtext.Web.UI.Controls
 			get
 			{
 				if(this.entry == null) {
-					this.entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, SubtextContext);
+					this.entry = Cacher.GetEntryFromRequest(true, SubtextContext);
 				}
 				return this.entry;
 			}
@@ -201,7 +201,7 @@ namespace Subtext.Web.UI.Controls
 				LastDitchValidation();
 				try
 				{
-                    Entry currentEntry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, SubtextContext);
+                    Entry currentEntry = Cacher.GetEntryFromRequest(true, SubtextContext);
 					if(IsCommentAllowed)
 					{
 						FeedbackItem feedbackItem = CreateFeedbackInstanceFromFormInput(currentEntry);
@@ -307,7 +307,7 @@ namespace Subtext.Web.UI.Controls
 				this.tbName.Text = SecurityHelper.IsAdmin ? Blog.UserName : string.Empty;
 			
 			if(entry == null)
-				entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, SubtextContext);
+				entry = Cacher.GetEntryFromRequest(true, SubtextContext);
 			
 			if (this.tbTitle != null)
 				this.tbTitle.Text = "re: " + HttpUtility.HtmlDecode(entry.Title);

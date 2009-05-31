@@ -132,11 +132,12 @@ namespace Subtext.Framework
             SubtextContext.Repository.Update(feedbackItem);
 		}
 
-		private static void FlagAsSpam(FeedbackItem feedbackItem)
+		private void FlagAsSpam(FeedbackItem feedbackItem)
 		{
 			feedbackItem.FlaggedAsSpam = true;
 			feedbackItem.Approved = false;
-			FeedbackItem.Update(feedbackItem);
+            feedbackItem.DateModified = Blog.TimeZone.Now;
+            SubtextContext.Repository.Update(feedbackItem);
 		}
 
 		// Returns true if the source of the entry is not 
@@ -193,14 +194,6 @@ namespace Subtext.Framework
 
 			recentCommentChecksums.Enqueue(feedbackItem.ChecksumHash);
 			return false;
-		}
-
-		/// <summary>
-		/// Clears the comment cache.
-		/// </summary>
-		public void ClearCommentCache()
-		{
-			Cache.Remove(FILTER_CACHE_KEY + ".RECENT_COMMENTS");
 		}
 	}
 }

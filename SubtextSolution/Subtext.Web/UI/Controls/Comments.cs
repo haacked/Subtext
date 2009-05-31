@@ -95,7 +95,7 @@ namespace Subtext.Web.UI.Controls
 
         internal void BindFeedback(bool fromCache)
         {
-            Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short, true, SubtextContext);
+            Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
 
             if (entry != null && entry.AllowComments)
             {
@@ -299,7 +299,7 @@ namespace Subtext.Web.UI.Controls
         {
             try
             {
-                CommentList.DataSource = Cacher.GetFeedback(entry, CacheDuration.Short, fromCache, SubtextContext);
+                CommentList.DataSource = Cacher.GetFeedback(entry, fromCache, SubtextContext);
                 CommentList.DataBind();
 
                 if (CommentList.Items.Count == 0)

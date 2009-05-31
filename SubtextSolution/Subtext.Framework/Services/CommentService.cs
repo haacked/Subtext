@@ -33,7 +33,7 @@ namespace Subtext.Framework.Services
 
         public int Create(FeedbackItem comment) {
             //TODO: Make this a comment filter.
-            var entry = Cacher.GetEntry(comment.EntryId, CacheDuration.Medium, SubtextContext);
+            var entry = Cacher.GetEntry(comment.EntryId, SubtextContext);
             if (entry == null || entry.CommentingClosed) {
                 return NullValue.NullInt32;
             }
