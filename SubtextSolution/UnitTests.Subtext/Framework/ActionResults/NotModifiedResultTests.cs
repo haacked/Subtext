@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using MbUnit.Framework;
 using Moq;
 using Moq.Stub;
-using Subtext.Framework.Infrastructure.ActionResults;
+using Subtext.Infrastructure.ActionResults;
 
 namespace UnitTests.Subtext.Framework.ActionResults
 {

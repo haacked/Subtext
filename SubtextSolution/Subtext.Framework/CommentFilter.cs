@@ -31,26 +31,26 @@ namespace Subtext.Framework
 	/// with a plugin once the plugin architecture is complete, but the 
 	/// logic will probably get ported.
 	/// </summary>
-	public class CommentFilter
+	public class CommentFilter : ICommentFilter
 	{
 		private const string FILTER_CACHE_KEY = "COMMENT FILTER:";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentFilter"/> class.
         /// </summary>
-        public CommentFilter(ICache cache, IFeedbackSpamService spamService, Blog blog)
-        {
-            Cache = cache;
+        public CommentFilter(ISubtextContext context, ICommentSpamService spamService) {
+            SubtextContext = context;
             SpamService = spamService;
-            Blog = blog;
+            Blog = context.Blog;
+            Cache = context.Cache;
         }
 
-        protected ICache Cache {
-            get;
-            private set;
+        public ISubtextContext SubtextContext { 
+            get; 
+            private set; 
         }
 
-        protected IFeedbackSpamService SpamService {
+        protected ICommentSpamService SpamService {
             get;
             private set;
         }
@@ -59,7 +59,12 @@ namespace Subtext.Framework
             get;
             private set;
         }
-		
+
+        protected ICache Cache {
+            get;
+            private set;
+        }
+
 		/// <summary>
 		/// Validates the feedback before it has been persisted.
 		/// </summary>
@@ -68,8 +73,7 @@ namespace Subtext.Framework
 		/// <exception type="CommentDuplicateException">Thrown if the blog does not allow duplicate comments and too many are received in a short period of time.</exception>
 		public void FilterBeforePersist(FeedbackItem feedback)
 		{
-			if (!SecurityHelper.IsAdmin)
-			{
+			if (!SubtextContext.User.IsInAdminRole()) {
 				if (!SourceFrequencyIsValid(feedback))
 					throw new CommentFrequencyException();
 
@@ -95,7 +99,7 @@ namespace Subtext.Framework
 		/// <param name="feedbackItem">Entry.</param>
 		public void FilterAfterPersist(FeedbackItem feedbackItem)
 		{
-			if (!SecurityHelper.IsAdmin)
+			if (!SubtextContext.User.IsInAdminRole())
 			{
 				if (!Blog.ModerationEnabled)
 				{
@@ -124,7 +128,8 @@ namespace Subtext.Framework
 				//Just setting Approved = true would not reset any other bits in the flag that may be set.
 				feedbackItem.Status = FeedbackStatusFlag.Approved;
 			}
-			FeedbackItem.Update(feedbackItem);
+            feedbackItem.DateModified = Blog.TimeZone.Now;
+            SubtextContext.Repository.Update(feedbackItem);
 		}
 
 		private static void FlagAsSpam(FeedbackItem feedbackItem)
@@ -143,8 +148,7 @@ namespace Subtext.Framework
 
 			object lastComment = Cache[FILTER_CACHE_KEY + feedbackItem.IpAddress];
 			
-			if(lastComment != null)
-			{
+			if(lastComment != null) {
 				//Comment was made too frequently.
 				return false;
 			}
@@ -166,16 +170,16 @@ namespace Subtext.Framework
 			// Chances are, if a spam attack is occurring, then 
 			// this entry will be a duplicate of a recent entry.
 			// This checks in memory before going to the database (or other persistent store).
-			Queue<string> recentComments = Cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] as Queue<string>;
-			if(recentComments != null)
+			Queue<string> recentCommentChecksums = Cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] as Queue<string>;
+			if(recentCommentChecksums != null)
 			{
-				if (recentComments.Contains(feedbackItem.ChecksumHash))
+				if (recentCommentChecksums.Contains(feedbackItem.ChecksumHash))
 					return true;
 			}
 			else
 			{
-				recentComments = new Queue<string>(RECENT_ENTRY_CAPACITY);	
-				Cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] = recentComments;
+				recentCommentChecksums = new Queue<string>(RECENT_ENTRY_CAPACITY);	
+				Cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] = recentCommentChecksums;
 			}
 
 			// Check the database
@@ -184,10 +188,10 @@ namespace Subtext.Framework
 				return true;
 
 			//Ok, this is not a duplicate... Update recent comments.
-            if(recentComments.Count == RECENT_ENTRY_CAPACITY)
-				recentComments.Dequeue();
+            if(recentCommentChecksums.Count == RECENT_ENTRY_CAPACITY)
+				recentCommentChecksums.Dequeue();
 
-			recentComments.Enqueue(feedbackItem.ChecksumHash);
+			recentCommentChecksums.Enqueue(feedbackItem.ChecksumHash);
 			return false;
 		}
 

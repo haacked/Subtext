@@ -44,7 +44,7 @@ namespace Subtext.Framework.Email
         public void EmailCommentToBlogAuthor(FeedbackItem comment) {
             if (String.IsNullOrEmpty(Blog.Email) 
                 || comment.FeedbackType == Subtext.Extensibility.FeedbackType.PingTrack
-                || Context.User.IsInAdminRole(Blog)) {
+                || Context.User.IsInAdminRole()) {
                 return;
             }
 

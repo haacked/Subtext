@@ -18,13 +18,8 @@ using System.Collections.Generic;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Framework.Properties;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
-using Subtext.Framework.Util;
-using Subtext.Framework.Emoticons;
-using System.Web;
 
 namespace Subtext.Framework.Components
 {
@@ -38,15 +33,19 @@ namespace Subtext.Framework.Components
 		/// Creates a new <see cref="Entry"/> instance.
 		/// </summary>
 		/// <param name="ptype">Ptype.</param>
-		public Entry(PostType ptype)
+		public Entry(PostType postType, Blog blog)
 		{
             Categories = new List<string>();
             PostConfig = PostConfig.None;
             DateModified = NullValue.NullDateTime;
             DateCreated = NullValue.NullDateTime;
-			PostType = ptype;
+			PostType = postType;
+            Blog = blog;
             Id = NullValue.NullInt32;
 		}
+
+        public Entry(PostType postType) : this(postType, Config.CurrentBlog) { 
+        }
 
 		/// <summary>
 		/// Gets or sets the blog ID.
@@ -318,7 +317,7 @@ namespace Subtext.Framework.Components
 			set
 			{
 				// Closing By Age overrides explicit closing
-                if (CommentingClosedByAge == false) {
+                if (!CommentingClosedByAge) {
                     PostConfigSetter(PostConfig.CommentsClosed, value);
                 }
 			}
@@ -332,10 +331,10 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				if (Config.CurrentBlog.DaysTillCommentsClose == int.MaxValue)
+				if (Blog.DaysTillCommentsClose == int.MaxValue)
 					return false;
 
-				return Config.CurrentBlog.TimeZone.Now > this.DateSyndicated.AddDays(Config.CurrentBlog.DaysTillCommentsClose);
+				return Blog.TimeZone.Now > this.DateSyndicated.AddDays(Config.CurrentBlog.DaysTillCommentsClose);
 			}
 		}
 

@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Data
             ContentCache cache = ContentCache.Instantiate(subtextContext.Object);
 
             //assert
-			Assert.AreEqual(1, subtextContext.Object.RequestContext.HttpContext.Items.Count);
+			Assert.AreEqual(1, subtextContext.Object.HttpContext.Items.Count);
 			Assert.AreSame(cache, ContentCache.Instantiate(subtextContext.Object), "Expected second call to instantiate to return cached ContentCache.");
 		}
 

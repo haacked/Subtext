@@ -205,11 +205,12 @@ namespace Subtext.Web.UI.Controls
 					if(IsCommentAllowed)
 					{
 						FeedbackItem feedbackItem = CreateFeedbackInstanceFromFormInput(currentEntry);
-                        IFeedbackSpamService feedbackService = null;
+                        ICommentSpamService feedbackService = null;
                         if (Blog.FeedbackSpamServiceEnabled) {
                             feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
                         }
-                        FeedbackItem.Create(feedbackItem, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService, Blog), Blog);
+                        CommentService commentService = new CommentService(SubtextContext, new CommentFilter(SubtextContext, feedbackService));
+                        commentService.Create(feedbackItem);
                         var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
                         emailService.EmailCommentToBlogAuthor(feedbackItem);
 						
@@ -289,7 +290,7 @@ namespace Subtext.Web.UI.Controls
 			feedbackItem.Body = this.tbComment.Text;
 			feedbackItem.Title = this.tbTitle.Text;
 			feedbackItem.EntryId = currentEntry.Id;
-			feedbackItem.IpAddress = HttpHelper.GetUserIpAddress(Context);
+            feedbackItem.IpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext);
 			feedbackItem.IsBlogAuthor = SecurityHelper.IsAdmin;
 			return feedbackItem;
 		}

@@ -2,13 +2,7 @@ using System;
 using System.Collections;
 using System.Globalization;
 using System.Threading;
-using System.Web;
 using System.Web.Caching;
-using System.Web.Routing;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Routing;
 using Subtext.Infrastructure;
 
 namespace Subtext.Framework
@@ -24,13 +18,13 @@ namespace Subtext.Framework
 
         public static ContentCache Instantiate(ISubtextContext context) {
             //Check per-request cache.
-            ContentCache cache = context.RequestContext.HttpContext.Items["ContentCache"] as ContentCache;
+            ContentCache cache = context.HttpContext.Items["ContentCache"] as ContentCache;
             if (cache != null)
                 return cache;
 
             cache = new ContentCache(context.Cache);
             //Per-Request Cache.
-            context.RequestContext.HttpContext.Items["ContentCache"] = cache;
+            context.HttpContext.Items["ContentCache"] = cache;
             return cache;
         }
 

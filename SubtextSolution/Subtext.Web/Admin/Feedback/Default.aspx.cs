@@ -272,9 +272,9 @@ namespace Subtext.Web.Admin.Feedback
             BindList();
         }
 
-        private int ApplyActionToCheckedFeedback(Action<FeedbackItem, IFeedbackSpamService> action)
+        private int ApplyActionToCheckedFeedback(Action<FeedbackItem, ICommentSpamService> action)
         {
-            IFeedbackSpamService feedbackService = null;
+            ICommentSpamService feedbackService = null;
             if (Config.CurrentBlog.FeedbackSpamServiceEnabled) {
                 feedbackService = new AkismetSpamService(Config.CurrentBlog.FeedbackSpamServiceKey, Config.CurrentBlog, null, Url);
             }

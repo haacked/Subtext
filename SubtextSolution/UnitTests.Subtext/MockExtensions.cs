@@ -59,12 +59,15 @@ namespace UnitTests.Subtext
             var httpContext = new Mock<HttpContextBase>();
             var writer = httpContext.FakeRequest(virtualPath, subfolder);
             httpContext.SetupApplicationPath(applicationPath);
-
+            var hashTable = new Hashtable();
+            httpContext.Setup(c => c.Items).Returns(hashTable);
             var urlHelper = new Mock<UrlHelper>();
             
             var routeData = new RouteData();
             routeData.Values.Add("subfolder", subfolder);
-           
+
+            subtextContextMock.Setup(c => c.HttpContext).Returns(httpContext.Object);
+
             subtextContextMock.SetupBlog(blog)
                 .SetupUrlHelper(urlHelper)
                 .SetupRequestContext(httpContext, routeData);
@@ -118,6 +121,7 @@ namespace UnitTests.Subtext
             context.SetupRequestContext(requestContext);
             context.Setup(c => c.Cache).Returns(new TestCache());
             context.Setup(c => c.Blog).Returns(blog ?? new Blog());
+            context.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
             return context;
         }
 
@@ -134,7 +138,10 @@ namespace UnitTests.Subtext
             var urlHelper = new Mock<UrlHelper>();
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeSyndicationRequest(virtualPath, applicationPath, callback);
-            httpContext.Setup(c => c.Items).Returns(new Hashtable());
+            var hashTable = new Hashtable();
+            httpContext.Setup(c => c.Items).Returns(hashTable);
+            subtextContextMock.Setup(c => c.Cache).Returns(new TestCache());
+            subtextContextMock.Setup(c => c.HttpContext).Returns(httpContext.Object);
 
             string imagePath = "/images/RSS2Image.gif";
             if (applicationPath != "/") {

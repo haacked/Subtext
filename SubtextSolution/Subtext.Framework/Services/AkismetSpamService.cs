@@ -25,7 +25,7 @@ using Subtext.Framework.Web;
 namespace Subtext.Framework.Services
 {
 	[Serializable]
-	public class AkismetSpamService : IFeedbackSpamService
+	public class AkismetSpamService : ICommentSpamService
 	{
 		private readonly static ILog log = new Subtext.Framework.Logging.Log();
 		AkismetClient _akismet;

@@ -78,47 +78,6 @@ namespace Subtext.Framework.Components
 		}
 
 		/// <summary>
-		/// Creates a feedback item in the database.
-		/// </summary>
-		/// <param name="feedback">The feedback.</param>
-		/// <param name="filter">Spam filter.</param>
-		/// <returns></returns>
-		public static int Create(FeedbackItem feedback, CommentFilter filter, Blog blog)
-		{
-			if (HttpContext.Current != null && HttpContext.Current.Request != null) {
-				feedback.UserAgent = HttpContext.Current.Request.UserAgent;
-				feedback.IpAddress = HttpHelper.GetUserIpAddress(HttpContext.Current);
-			}
-			
-			feedback.FlaggedAsSpam = true; //We're going to start with this assumption.
-			feedback.Author = HtmlHelper.SafeFormat(feedback.Author);
-			feedback.Body = HtmlHelper.ConvertUrlsToHyperLinks(HtmlHelper.ConvertToAllowedHtml(feedback.Body));
-			feedback.Title = HtmlHelper.SafeFormat(feedback.Title);
-		    
-		    // If we are creating this feedback item as part of an import, we want to 
-		    // be sure to use the item's datetime, and not set it to the current time.
-            if (NullValue.NullDateTime.Equals(feedback.DateCreated)) {
-                feedback.DateCreated = blog.TimeZone.Now;
-                feedback.DateModified = feedback.DateCreated;
-            }
-            else if (NullValue.NullDateTime.Equals(feedback.DateModified)) {
-                feedback.DateModified = feedback.DateCreated;
-            }
-
-            if (filter != null) {
-                filter.FilterBeforePersist(feedback);
-            }
-			
-			feedback.Id = ObjectProvider.Instance().Create(feedback);
-
-            if (filter != null) {
-                filter.FilterAfterPersist(feedback);
-            }
-
-			return feedback.Id;
-		}
-
-		/// <summary>
 		/// Returns the itemCount most recent active comments.
 		/// </summary>
 		/// <param name="itemCount"></param>
@@ -148,7 +107,7 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		/// <param name="feedback"></param>
 		/// <returns></returns>
-        public static void Approve(FeedbackItem feedback, IFeedbackSpamService spamService)
+        public static void Approve(FeedbackItem feedback, ICommentSpamService spamService)
 		{
 			if (feedback == null)
 				throw new ArgumentNullException("feedback", "Cannot approve a null comment.");
@@ -166,7 +125,7 @@ namespace Subtext.Framework.Components
 		/// Confirms the feedback as spam and moves it to the trash.
 		/// </summary>
 		/// <param name="feedback">The feedback.</param>
-		public static void ConfirmSpam(FeedbackItem feedback, IFeedbackSpamService spamService)
+		public static void ConfirmSpam(FeedbackItem feedback, ICommentSpamService spamService)
 		{
 			if (feedback == null)
 				throw new ArgumentNullException("feedback", "Cannot approve a null comment.");
@@ -185,7 +144,7 @@ namespace Subtext.Framework.Components
 		/// Confirms the feedback as spam and moves it to the trash.
 		/// </summary>
 		/// <param name="feedback">The feedback.</param>
-		public static void Delete(FeedbackItem feedback, IFeedbackSpamService service)
+		public static void Delete(FeedbackItem feedback, ICommentSpamService service)
 		{
 			if (feedback == null)
 				throw new ArgumentNullException("feedback", "Cannot delete a null comment.");
@@ -200,7 +159,7 @@ namespace Subtext.Framework.Components
 		/// Confirms the feedback as spam and moves it to the trash.
 		/// </summary>
 		/// <param name="feedback">The feedback.</param>
-        public static void Destroy(FeedbackItem feedback, IFeedbackSpamService service)
+        public static void Destroy(FeedbackItem feedback, ICommentSpamService service)
 		{
 			if (feedback == null)
 				throw new ArgumentNullException("feedback", "Cannot destroy a null comment.");
@@ -505,13 +464,14 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				if (String.IsNullOrEmpty(this._feedbackChecksumHash))
-				{
+				if (String.IsNullOrEmpty(this._feedbackChecksumHash)) {
 					this._feedbackChecksumHash = CalculateChecksum(this.Body) + "." + SecurityHelper.HashPassword(this.Body);
 				}
 				return this._feedbackChecksumHash;
 			}
-			set { this._feedbackChecksumHash = value; }
+			set { 
+                this._feedbackChecksumHash = value; 
+            }
 		}
 
 		string _feedbackChecksumHash = string.Empty;
@@ -552,8 +512,9 @@ namespace Subtext.Framework.Components
 		/// <returns></returns>
 		public static int CalculateChecksum(string text)
 		{
-			if (text == null)
-				throw new ArgumentNullException("text", "Cannot calculate checksum for null string.");
+            if (text == null) {
+                throw new ArgumentNullException("text", "Cannot calculate checksum for null string.");
+            }
 			int checksum = 0;
 			foreach (char c in text)
 			{

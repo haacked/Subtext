@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             var subtextContext = new Mock<ISubtextContext>();
 
             FeedbackItem comment = null;
-            service.Setup(s => s.Create(It.IsAny<FeedbackItem>(), It.IsAny<ISubtextContext>())).Callback<FeedbackItem, ISubtextContext>((f, c) => comment = f);
+            service.Setup(s => s.Create(It.IsAny<FeedbackItem>())).Callback<FeedbackItem>(f => comment = f);
             var controller = new CommentApiController(subtextContext.Object, service.Object);
             var xmlText = @"<?xml version=""1.0""?>
                             <item>
@@ -76,7 +76,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             var subtextContext = new Mock<ISubtextContext>();
 
             FeedbackItem comment = null;
-            service.Setup(s => s.Create(It.IsAny<FeedbackItem>(), It.IsAny<ISubtextContext>())).Callback<FeedbackItem, ISubtextContext>((f, c) => comment = f);
+            service.Setup(s => s.Create(It.IsAny<FeedbackItem>())).Callback<FeedbackItem>(f => comment = f);
             var controller = new CommentApiController(subtextContext.Object, service.Object);
             var xmlText = @"<?xml version=""1.0""?>
                             <item>

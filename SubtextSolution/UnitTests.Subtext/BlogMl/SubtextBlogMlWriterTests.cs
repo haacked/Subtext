@@ -18,6 +18,7 @@ using Subtext.Framework.Web.HttpModules;
 using Subtext.ImportExport;
 using System.Collections.ObjectModel;
 using Subtext.Extensibility.Interfaces;
+using Subtext.Framework.Services;
 
 namespace UnitTests.Subtext.BlogML
 {
@@ -146,7 +147,7 @@ namespace UnitTests.Subtext.BlogML
 
         //Temporary hack to get this test to pass while we refactor.
         internal class TestBlogMlProvider : SubtextBlogMLProvider {
-            public TestBlogMlProvider(ISubtextContext context) : base("connection string", context) {
+            public TestBlogMlProvider(ISubtextContext context) : base("connection string", context, new CommentService(context, null)) {
                 BlogMLPosts = new PagedCollection<BlogMLPost>();
             }
 

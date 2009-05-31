@@ -6,7 +6,7 @@ using MbUnit.Framework;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Infrastructure.ActionResults;
+using Subtext.Infrastructure.ActionResults;
 using Subtext.Framework.Services;
 using Subtext.Web.Controllers;
 

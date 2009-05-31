@@ -493,14 +493,8 @@ namespace Subtext.Framework.Security
 			return Guid.NewGuid().ToString().Substring(0,8);
 		}
 
-        public static bool IsInAdminRole(this IPrincipal user, Blog blog) {
+        public static bool IsInAdminRole(this IPrincipal user) { 
             if (user == null) {
-                return false;
-            }
-            string userName = user.Identity.Name;
-            // Should be able to remove following if block.
-            // Need to review security code to be sure.
-            if (!String.Equals(userName, blog.UserName, StringComparison.OrdinalIgnoreCase)) {
                 return false;
             }
             return user.IsInRole("Admins");
@@ -517,15 +511,7 @@ namespace Subtext.Framework.Security
 		{
 			get
 			{
-				bool areNamesEqual = String.Equals(CurrentUserName, Config.CurrentBlog.UserName, StringComparison.InvariantCultureIgnoreCase);
-				#region temp logging code
-				if (!areNamesEqual)
-				{
-					log.DebugFormat("CurrentUserName '{0}'is not equal to Config.CurrentBlog.UserName '{1}'", CurrentUserName, Config.CurrentBlog.UserName);
-				}
-				#endregion
-				//TODO: Eventually just check for admin role.
-				return IsInRole("Admins") && areNamesEqual;
+				return IsInRole("Admins");
 			}
 		}
 
@@ -540,7 +526,6 @@ namespace Subtext.Framework.Security
 		{
 			get
 			{
-				//TODO: Remove the second check when we have better security model.
 				return IsInRole("HostAdmins");
 			}
 		}
@@ -574,17 +559,10 @@ namespace Subtext.Framework.Security
 		/// <returns></returns>
 		public static bool IsInRole(string role)
 		{
-			if (HttpContext.Current.User == null)
-			{
-				log.Debug("HttpContext.Current.User == null");
+			if (HttpContext.Current.User == null) {
                 return false;
 			}
-			bool isInRole = HttpContext.Current.User.IsInRole(role);
-			if (!isInRole)
-			{
-				log.Debug(HttpContext.Current.User.Identity.Name + " is not in role " + role);
-			}
-			return isInRole;
+			return HttpContext.Current.User.IsInRole(role);
 		}
 
 		/// <summary>
@@ -596,9 +574,10 @@ namespace Subtext.Framework.Security
 		{
 			get
 			{
-				return String.Equals(HttpContext.Current.Request.Url.Host, "localhost", StringComparison.InvariantCultureIgnoreCase)
-					&& HttpHelper.GetUserIpAddress(HttpContext.Current).ToString() == HttpContext.Current.Request.ServerVariables["LOCAL_ADDR"]
-					&& HttpHelper.GetUserIpAddress(HttpContext.Current).ToString() == "127.0.0.1";
+                var httpContext = new HttpContextWrapper(HttpContext.Current);
+                return String.Equals(httpContext.Request.Url.Host, "localhost", StringComparison.InvariantCultureIgnoreCase)
+                    && HttpHelper.GetUserIpAddress(httpContext).ToString() == HttpContext.Current.Request.ServerVariables["LOCAL_ADDR"]
+                    && HttpHelper.GetUserIpAddress(httpContext).ToString() == "127.0.0.1";
 			}
 		}
 

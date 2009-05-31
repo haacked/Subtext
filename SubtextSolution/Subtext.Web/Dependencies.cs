@@ -19,8 +19,9 @@ namespace Subtext
         {
             // Main Services
             Bind<ICommentService>().To<CommentService>().InRequestScope();
+            Bind<ICommentFilter>().To<CommentFilter>().InRequestScope();
             Bind<IStatisticsService>().To<StatisticsService>().InRequestScope();
-            Bind<IFeedbackSpamService>().To<AkismetSpamService>().InRequestScope()
+            Bind<ICommentSpamService>().To<AkismetSpamService>().InRequestScope()
                 .WithConstructorArgument("apiKey", c => c.Kernel.Get<Blog>().FeedbackSpamServiceKey)
                 .WithConstructorArgument("akismetClient", c => null);
 

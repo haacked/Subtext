@@ -1,16 +1,16 @@
 using System;
-using System.Globalization;
-using System.Threading;
+using System.Collections;
+using System.Web;
 using MbUnit.Framework;
+using Moq;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Routing;
-using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Services;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
@@ -335,77 +335,30 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		/// Makes sure that the content checksum hash is being created correctly.
 		/// </summary>
 		[Test]
-		[RollBack]
-		public void CreateFeedbackHasContentHash()
-		{
-			Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
-            Blog blog = Config.GetBlog(_hostName, string.Empty);
-            BlogRequest.Current.Blog = blog;
-			FeedbackItem trackback = new FeedbackItem(FeedbackType.PingTrack);
-			trackback.DateCreated = DateTime.Now;
-			trackback.SourceUrl = new Uri("http://" + UnitTestHelper.GenerateUniqueString() + "/ThisUrl/");
-			trackback.Title = "Some Title";
-			trackback.Body = "Some Body";
-			int id = FeedbackItem.Create(trackback, null, blog);
-
-			FeedbackItem savedEntry = FeedbackItem.Get(id);
-			Assert.IsTrue(savedEntry.ChecksumHash.Length > 0, "The Content Checksum should be larger than 0.");
+		public void ChecksumHashReturnsChecksumOfCommentBody() {
+			FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
+			comment.Body = "Some Body";
+            Console.WriteLine(comment.ChecksumHash);
+			Assert.AreEqual("834.5baPHSvKBNtABZePE+OpeQ==", comment.ChecksumHash);
 		}
-
-	    /// <summary>
-	    /// Make sure that we can create Feedback items with specific dates, needed for Import functionality.
-	    /// </summary>
-	    [Test]
-	    [RollBack]
-	    public void CreateFeedbackWithSpecifiedDateCreated()
-	    {
-	        Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
-            DateTime dateCreated = DateTime.ParseExact("2005/01/23 05:05:05", "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
-	        
-            FeedbackItem savedComment = CreateFeedbackWithSpecifiedDates(dateCreated, NullValue.NullDateTime);
-            Assert.IsTrue(dateCreated.CompareTo(savedComment.DateCreated) == 0, "The Comment's Date Created was not saved correctly.");
-            Assert.IsTrue(dateCreated.CompareTo(savedComment.DateModified) == 0, "The Comment's Date Modified was not saved correctly.");
-	    }
-
-        /// <summary>
-        /// Make sure that we can create Feedback items with specific dates, needed for Import functionality.
-        /// </summary>
-        [Test]
-        [RollBack]
-        public void CreateFeedbackWithSpecifiedDateModified()
-        {
-            Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
-            DateTime dateCreated = DateTime.ParseExact("2005/01/23 05:05:05", "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
-            DateTime dateModified = dateCreated.AddDays(5);
-
-            FeedbackItem savedComment = CreateFeedbackWithSpecifiedDates(dateCreated, dateModified);
-            Assert.IsTrue(dateCreated.CompareTo(savedComment.DateCreated) == 0, "The Comment's Date Created was not saved correctly.");
-            Assert.IsTrue(dateModified.CompareTo(savedComment.DateModified) == 0, "The Comment's Date Modified was not saved correctly.");
-        }
-	    
-        static FeedbackItem CreateFeedbackWithSpecifiedDates(DateTime created, DateTime modified)
-        {
-            FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
-            comment.SourceUrl = new Uri("http://" + UnitTestHelper.GenerateUniqueString() + "/ThisUrl/");
-            comment.Title = UnitTestHelper.GenerateUniqueString();
-            comment.Body = UnitTestHelper.GenerateUniqueString();
-            comment.DateCreated = created;
-            comment.DateModified = modified;
-
-            int feedbackId = FeedbackItem.Create(comment, null, Config.CurrentBlog);
-            return FeedbackItem.Get(feedbackId);
-        }
-	    
-		static FeedbackItem CreateAndUpdateFeedbackWithExactStatus(Entry entry, FeedbackType type, FeedbackStatusFlag status)
+    
+       	static FeedbackItem CreateAndUpdateFeedbackWithExactStatus(Entry entry, FeedbackType type, FeedbackStatusFlag status)
 		{
 			FeedbackItem feedback = new FeedbackItem(type);
 			feedback.Title = UnitTestHelper.GenerateUniqueString();
 			feedback.Body = UnitTestHelper.GenerateUniqueString();
 			feedback.EntryId = entry.Id;
             feedback.Author = "TestAuthor";
-			int id = FeedbackItem.Create(feedback, null, Config.CurrentBlog);
+
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Cache).Returns(new TestCache());
+            subtextContext.SetupBlog(Config.CurrentBlog);
+            subtextContext.SetupRepository(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
+            subtextContext.Setup(c => c.HttpContext).Returns(new HttpContextWrapper(HttpContext.Current));
+
+            CommentService service = new CommentService(subtextContext.Object, null);
+            int id = service.Create(feedback);
 
 			feedback = FeedbackItem.Get(id);
 			feedback.Status = status;
