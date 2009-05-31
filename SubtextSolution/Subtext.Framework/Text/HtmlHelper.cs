@@ -422,14 +422,13 @@ namespace Subtext.Framework.Text
         /// </summary>
         /// <param name="stringToTransform"></param>
         /// <returns></returns>
-        public static string SafeFormat(string stringToTransform)
+        public static string SafeFormat(string stringToTransform, HttpServerUtilityBase server)
         {
             if (stringToTransform == null)
                 throw new ArgumentNullException("stringToTransform", "Cannot transform a null string.");
 
-            stringToTransform = HttpContext.Current.Server.HtmlEncode(stringToTransform);
-            string brTag = "<br />";
-            return stringToTransform.Replace(Environment.NewLine, brTag);
+            stringToTransform = HttpUtility.HtmlEncode(stringToTransform);
+            return stringToTransform.Replace(Environment.NewLine, "<br />");
         }
 
         /// <summary>

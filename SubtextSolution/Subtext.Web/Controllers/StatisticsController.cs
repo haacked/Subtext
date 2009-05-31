@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Infrastructure.ActionResults;
+using Subtext.Infrastructure.ActionResults;
 using Subtext.Framework.Services;
 using Subtext.Framework.Web;
 

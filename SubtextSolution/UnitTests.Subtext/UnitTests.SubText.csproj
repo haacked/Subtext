@@ -284,7 +284,6 @@
     <Compile Include="Framework\Components\CollectionBookTests.cs" />
     <Compile Include="Framework\Components\CommentTests\CommentSettingsTests.cs" />
     <Compile Include="Framework\Components\CommentTests\FeedbackTests.cs" />
-    <Compile Include="Framework\Components\CommentTests\SpamServiceTests.cs" />
     <Compile Include="Framework\Components\EnclosureTests\EnclosureGenericTests.cs" />
     <Compile Include="Framework\Components\EnclosureTests\EnclosureInsertTests.cs" />
     <Compile Include="Framework\Components\EnclosureTests\EnclosureUpdateTests.cs" />
@@ -296,9 +295,6 @@
     <Compile Include="Framework\Components\EntryTests\FutureEntriesGetTests.cs" />
     <Compile Include="Framework\Components\EntryTests\EntryCategoryTests.cs" />
     <Compile Include="Framework\Components\EntryTests\EntryDayGetTests.cs" />
-    <Compile Include="Framework\Components\EntryTests\EntryFilterTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Framework\Components\EntryTests\EntriesGetTests.cs" />
     <Compile Include="Framework\Components\EntryTests\EntryTagTests.cs" />
     <Compile Include="Framework\Components\EntryTests\EntryUpdateTests.cs">
@@ -370,6 +366,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Services\BlogLookupServiceTests.cs" />
+    <Compile Include="Framework\Services\CommentFilterTests.cs" />
+    <Compile Include="Framework\Services\CommentServiceTests.cs" />
     <Compile Include="Framework\Services\EntryPublisherTests.cs" />
     <Compile Include="Framework\Services\GravatarServiceTests.cs" />
     <Compile Include="Framework\Services\SlugGeneratorTests.cs" />
@@ -485,6 +483,7 @@
     <Compile Include="SubtextWeb\SubtextMasterPageTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestCache.cs" />
     <Compile Include="UnitTestEmailProvider.cs" />
     <Compile Include="UnitTestHelper.cs">
       <SubType>Code</SubType>

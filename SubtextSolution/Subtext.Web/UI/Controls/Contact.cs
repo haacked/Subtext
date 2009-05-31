@@ -109,7 +109,7 @@ namespace Subtext.Web.UI.Controls
 				string subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} (via {1})", tbSubject.Text, 
 				                               info.Title);
 
-				string sendersIpAddress = HttpHelper.GetUserIpAddress(Context).ToString();
+				string sendersIpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext).ToString();
 
 				// \n by itself has issues with qmail (unix via openSmtp), \r\n should work on unix + wintel
 				string body = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Mail from {0}:\r\n\r\nSender: {1}\r\nEmail: {2}\r\nIP Address: {3}\r\n=====================================\r\n{4}", 
@@ -142,15 +142,16 @@ namespace Subtext.Web.UI.Controls
 			contactMessage.Email = tbEmail.Text;
 			contactMessage.Body = tbMessage.Text;
 			contactMessage.Title = "CONTACT: " + tbSubject.Text;
-			contactMessage.IpAddress = HttpHelper.GetUserIpAddress(Context);
+            contactMessage.IpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext);
 
 			try
 			{
-                IFeedbackSpamService feedbackService = null;
+                ICommentSpamService feedbackService = null;
                 if (Blog.FeedbackSpamServiceEnabled) {
                     feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
                 }
-				FeedbackItem.Create(contactMessage, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService, Blog), Blog);
+                CommentService commentService = new CommentService(SubtextContext, new CommentFilter(SubtextContext, feedbackService));
+				commentService.Create(contactMessage);
                 var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
                 emailService.EmailCommentToBlogAuthor(contactMessage);
 				lblMessage.Text = "Your message was sent.";

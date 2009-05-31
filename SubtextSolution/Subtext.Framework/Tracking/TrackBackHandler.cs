@@ -45,7 +45,6 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Tracking
 {
@@ -183,12 +182,13 @@ namespace Subtext.Framework.Tracking
 			}
 
             Trackback trackback = new Trackback(entryId, title, url, blog_name, excerpt, Blog.TimeZone.Now);
-            IFeedbackSpamService feedbackService = null;
+            ICommentSpamService feedbackService = null;
             Blog blog = subtextContext.Blog;
             if (blog.FeedbackSpamServiceEnabled) {
                 feedbackService = new AkismetSpamService(blog.FeedbackSpamServiceKey, blog, null, Url);
             }
-            FeedbackItem.Create(trackback, new CommentFilter(new SubtextCache(HttpContext.Current.Cache), feedbackService, subtextContext.Blog), subtextContext.Blog);
+            CommentService commentService = new CommentService(SubtextContext, new CommentFilter(SubtextContext, feedbackService));
+            commentService.Create(trackback);
             //TODO: Create this using IoC container
             var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), subtextContext);
             emailService.EmailCommentToBlogAuthor(trackback);
@@ -226,7 +226,7 @@ namespace Subtext.Framework.Tracking
 		private static string SafeParam(HttpContextBase context, string pName)
 		{
 			if (context.Request.Form[pName] != null)
-				return HtmlHelper.SafeFormat(context.Request.Form[pName]);
+				return HtmlHelper.SafeFormat(context.Request.Form[pName], context.Server);
 			return string.Empty;
 		}
 

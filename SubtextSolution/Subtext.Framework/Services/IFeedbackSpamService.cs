@@ -20,7 +20,7 @@ namespace Subtext.Framework.Services
 	/// <summary>
 	/// Base interface for comment spam services such as Akismet.
 	/// </summary>
-	public interface IFeedbackSpamService
+	public interface ICommentSpamService
 	{
 		/// <summary>
 		/// Examines the item and determines whether or not it is spam.

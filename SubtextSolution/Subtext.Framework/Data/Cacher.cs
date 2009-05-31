@@ -27,6 +27,7 @@ using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Data
 {
+    //TODO: Refactor. Static classes like this are a pain!
 	/// <summary>
 	/// Encapsulates obtaining content from the cache.
 	/// </summary>

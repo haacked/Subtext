@@ -43,13 +43,19 @@ namespace Subtext.ImportExport
 {
 	public class SubtextBlogMLProvider : BlogMLProvider
 	{
-        public SubtextBlogMLProvider(string connectionString, ISubtextContext context) {
+        public SubtextBlogMLProvider(string connectionString, ISubtextContext context, ICommentService commentService) {
             _procedures = new StoredProcedures(connectionString);
             SubtextContext = context;
+            CommentService = commentService;
             PageSize = 100;
         }
 
         public ISubtextContext SubtextContext {
+            get;
+            private set;
+        }
+
+        public ICommentService CommentService {
             get;
             private set;
         }
@@ -500,7 +506,7 @@ namespace Subtext.ImportExport
 		        newComment.SourceUrl = new Uri(bmlComment.UserUrl);
 		    }
 
-            FeedbackItem.Create(newComment, null, Blog);
+            CommentService.Create(newComment);
 		}
 
 		/// <summary>
@@ -523,7 +529,7 @@ namespace Subtext.ImportExport
 			// so the duplicate Comment Filter doesn't break when computing the checksum
 			newPingTrack.Body = string.Empty;
 
-			FeedbackItem.Create(newPingTrack, null, Blog);
+            CommentService.Create(newPingTrack);
 		}
 
 	    public override void SetBlogMlExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties) {

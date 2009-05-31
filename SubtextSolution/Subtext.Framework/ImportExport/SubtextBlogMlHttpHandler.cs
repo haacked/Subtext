@@ -5,12 +5,13 @@ using Subtext.BlogML.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
 using Subtext.ImportExport;
+using Subtext.Framework.Services;
 
 namespace Subtext.Framework.ImportExport
 {
     public class SubtextBlogMlHttpHandler : BlogMLHttpHandler, ISubtextHandler {
         public override IBlogMLProvider GetBlogMlProvider() {
-            var handler = new SubtextBlogMLProvider(Config.ConnectionString, SubtextContext);
+            var handler = new SubtextBlogMLProvider(Config.ConnectionString, SubtextContext, new CommentService(SubtextContext, null));
             handler.PageSize = 100;
             return handler;
         }

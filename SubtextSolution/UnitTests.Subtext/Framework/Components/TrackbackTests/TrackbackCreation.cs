@@ -1,11 +1,15 @@
 using System;
-using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using MbUnit.Framework;
+using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using MbUnit.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.TrackbackTests
@@ -35,7 +39,14 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			int parentId = UnitTestHelper.Create(entry);
 
             Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body", blog.TimeZone.Now);
-			int id = FeedbackItem.Create(trackback, null, blog);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            //TODO: FIX!!!
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Cache).Returns(new TestCache());
+            subtextContext.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
+            var commentService = new CommentService(subtextContext.Object, null);
+            int id = commentService.Create(trackback);
 
 			FeedbackItem loadedTrackback = FeedbackItem.Get(id);
 			Assert.IsNotNull(loadedTrackback, "Was not able to load trackback from storage.");
@@ -63,7 +74,13 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			
 			Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body", blog.TimeZone.Now);
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
-			int trackbackId = FeedbackItem.Create(trackback, null, blog);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Cache).Returns(new TestCache());
+            subtextContext.SetupBlog(Config.CurrentBlog);
+            subtextContext.SetupRepository(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
+            var commentService = new CommentService(subtextContext.Object, null);
+            int trackbackId = commentService.Create(trackback);
 			FeedbackItem.Approve(trackback, null);
 			
 			entries = Entries.GetFeedBack(parentEntry);

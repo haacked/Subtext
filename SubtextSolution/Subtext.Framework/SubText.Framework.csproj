@@ -390,6 +390,7 @@
     <Compile Include="HostInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Services\ICommentFilter.cs" />
     <Compile Include="IInstallationManager.cs" />
     <Compile Include="Images.cs">
       <SubType>Code</SubType>

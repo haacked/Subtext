@@ -25,6 +25,7 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.ImportExport;
+using Subtext.Framework.Services;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -68,8 +69,8 @@ namespace Subtext.Web.Admin.Pages
 
 		private void LoadBlogML() {
             ISubtextContext context = SubtextContext;
-
-            var provider = new SubtextBlogMLProvider(Config.ConnectionString, context);
+            var commentService = new CommentService(context, null);
+            var provider = new SubtextBlogMLProvider(Config.ConnectionString, context, commentService);
 
 			BlogMLReader bmlReader = BlogMLReader.Create(provider);
 			

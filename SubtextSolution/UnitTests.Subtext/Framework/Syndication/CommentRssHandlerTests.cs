@@ -9,6 +9,8 @@ using Subtext.Framework.Syndication;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Web.HttpModules;
+using System.Collections.Specialized;
+using System.Collections.Generic;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {

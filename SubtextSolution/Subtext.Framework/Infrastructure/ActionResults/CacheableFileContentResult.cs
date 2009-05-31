@@ -2,7 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 
-namespace Subtext.Framework.Infrastructure.ActionResults
+namespace Subtext.Infrastructure.ActionResults
 {
     /// <summary>
     /// Just like a FileContentResult, but allows for setting cache parameters.

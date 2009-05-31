@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Subtext.Framework.Infrastructure.ActionResults
+namespace Subtext.Infrastructure.ActionResults
 {
     public class NotModifiedResult : ActionResult
     {

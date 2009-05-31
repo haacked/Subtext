@@ -114,7 +114,7 @@ namespace Subtext.Framework.Web
 		/// </summary>
 		/// <param name="context">The context.</param>
 		/// <returns></returns>
-		public static IPAddress GetUserIpAddress(HttpContext context)
+		public static IPAddress GetUserIpAddress(HttpContextBase context)
 		{
 			if (context == null) return IPAddress.None;
 
