@@ -192,10 +192,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             entryTwo.DateSyndicated = Config.CurrentBlog.TimeZone.Now.AddMinutes(20);
             UnitTestHelper.Create(entryTwo);
 
-
-
             //Get Entries
-            DateTime beginningOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            var now = Config.CurrentBlog.TimeZone.Now;
+            DateTime beginningOfMonth = new DateTime(now.Year, now.Month, 1);
             ICollection<Entry> entries = Entries.GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1), PostType.BlogPost, true);
 
             //Test outcome
@@ -225,17 +224,15 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Thread.Sleep(100);
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two", null, NullValue.NullDateTime);
 
-
             //Persist entries.
             UnitTestHelper.Create(entryZero);
             UnitTestHelper.Create(entryOne);
-            entryTwo.DateSyndicated = Config.CurrentBlog.TimeZone.Now.AddMinutes(20);
+            DateTime now = Config.CurrentBlog.TimeZone.Now;
+            entryTwo.DateSyndicated = now.AddMinutes(20);
             UnitTestHelper.Create(entryTwo);
 
-
             //Get Entries
-            ICollection<Entry> entries = Entries.GetPostsByMonth(DateTime.Now.Month, DateTime.Now.Year);
-
+            ICollection<Entry> entries = Entries.GetPostsByMonth(now.Month, now.Year);
 
             //Test outcome
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
@@ -244,7 +241,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
 
             Config.CurrentBlog.TimeZoneId = PacificTimeZoneId;
-            entries = Entries.GetPostsByMonth(DateTime.Now.Month, DateTime.Now.Year);
+            entries = Entries.GetPostsByMonth(now.Month, now.Year);
 
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
             Assert.AreEqual(entries.ElementAt(1).Id, entryOne.Id, "Ordering is off.");

@@ -18,11 +18,6 @@ namespace Subtext.Framework
             Cache = cache ?? new SubtextCache(requestContext.HttpContext.Cache);
         }
 
-        public SubtextContext(Blog blog, RequestContext requestContext, UrlHelper urlHelper, ObjectProvider repository)
-            : this(blog, requestContext, urlHelper, repository, null, null)
-        {
-        }
-
         public Blog Blog
         {
             get;
