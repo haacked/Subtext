@@ -1133,6 +1133,7 @@ namespace UnitTests.Subtext
         public static int Create(Entry entry) {
             var requestContext = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
             var routes = new RouteCollection();
+            Bootstrapper.RequestContext = requestContext;
             Bootstrapper.Kernel = new Mock<IKernel>().Object;
             Routes.RegisterRoutes(routes);
             var urlHelper = new UrlHelper(requestContext, routes);
