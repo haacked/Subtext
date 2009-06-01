@@ -48,7 +48,8 @@ namespace UnitTests.Subtext.Framework.Syndication
             urlHelper.Setup(u => u.BlogUrl()).Returns("/");
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/2008/01/23/testtitle.aspx");
 
-			handler.ProcessRequest(subtextContext.Object);
+            handler.SubtextContext = subtextContext.Object;
+			handler.ProcessRequest();
 			HttpContext.Current.Response.Flush();
 
 			XmlDocument doc = new XmlDocument();

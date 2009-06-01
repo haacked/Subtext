@@ -15,11 +15,7 @@
 
 using System.Globalization;
 using System.Text;
-using System.Web;
-using System.Web.Routing;
 using System.Xml;
-using Subtext.Extensibility.Web;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Web.Handlers
@@ -30,7 +26,7 @@ namespace Subtext.Framework.Web.Handlers
 	/// <remarks>
 	/// The specs for RSD can be found here. http://cyber.law.harvard.edu/blogs/gems/tech/rsd.html
 	/// </remarks>
-	public class RsdHandler : SubtextHttpHandlerBase
+	public class RsdHandler : SubtextHttpHandler
 	{
 		/// <summary>
 		/// Handles the request.  This is where you put your
@@ -60,23 +56,20 @@ namespace Subtext.Framework.Web.Handlers
 		/// </p>
 		/// </remarks>
 		/// <param name="context">Context.</param>
-        protected override void HandleRequest(ISubtextContext context)
+        public override void ProcessRequest()
 		{
-            HandleRequest(context.Blog, context.RequestContext.HttpContext.Response, context.UrlHelper);
-		}
-
-        public void HandleRequest(Blog blog, HttpResponseBase response, UrlHelper urlHelper) {
-            if (blog == null) {
+            if (Blog == null) {
                 return;
             }
-
+            var response = SubtextContext.HttpContext.Response;
             response.Charset = "utf-8";
+            response.ContentType = "text/xml";
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.IndentChars = "  ";
             settings.Encoding = Encoding.UTF8;
             XmlWriter writer = XmlWriter.Create(response.OutputStream, settings);
-            WriteRsd(writer, blog, urlHelper);
+            WriteRsd(writer, Blog, Url);
         }
 		
 		/// <summary>
@@ -110,45 +103,6 @@ namespace Subtext.Framework.Web.Handlers
 			writer.WriteEndElement(); // </rsd>
 			writer.WriteEndDocument();
 			writer.Flush();
-		}
-
-		/// <summary>
-		/// Validates the parameters.  Inheriting classes must
-		/// implement this and return true if the parameters are
-		/// valid, otherwise false.
-		/// </summary>
-		/// <param name="context">Context.</param>
-		/// <returns><c>true</c> if the parameters are valid,
-		/// otherwise <c>false</c></returns>
-		protected override bool ValidateParameters(HttpContext context)
-		{
-			return true;
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether this handler
-		/// requires users to be authenticated.
-		/// </summary>
-		/// <value>
-		///    <c>true</c> if authentication is required
-		///    otherwise, <c>false</c>.
-		/// </value>
-		protected override bool RequiresAuthentication
-		{
-			get { 
-                return false; 
-            }
-		}
-
-		/// <summary>
-		/// Gets the content MIME type.
-		/// </summary>
-		/// <value></value>
-		protected override string ContentMimeType
-		{
-			get {
-				return "text/xml";
-			}
 		}
     }
 }

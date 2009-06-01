@@ -49,6 +49,8 @@ using Subtext.Framework.Routing;
 using Subtext.Web;
 using Subtext.Framework.Data;
 using Subtext.Infrastructure;
+using Moq;
+using Ninject;
 
 namespace UnitTests.Subtext
 {
@@ -1131,6 +1133,7 @@ namespace UnitTests.Subtext
         public static int Create(Entry entry) {
             var requestContext = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
             var routes = new RouteCollection();
+            Bootstrapper.Kernel = new Mock<IKernel>().Object;
             Routes.RegisterRoutes(routes);
             var urlHelper = new UrlHelper(requestContext, routes);
             var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper, ObjectProvider.Instance(), requestContext.HttpContext.User, new SubtextCache(requestContext.HttpContext.Cache));

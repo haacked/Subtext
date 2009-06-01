@@ -1,22 +1,10 @@
-﻿using Ninject;
-using Subtext.BlogML;
-using Subtext.BlogML.Interfaces;
-using Subtext.Framework.Configuration;
+﻿using System.Web;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
-using Subtext.Framework.Services;
-using Subtext.ImportExport;
 
-namespace Subtext.Framework.ImportExport
+namespace Subtext.Framework.Web.Handlers
 {
-    //TODO: Fix this. We need to pull BlogMLHttpHandler into Subtext.Framework
-    public class SubtextBlogMlHttpHandler : BlogMLHttpHandler, ISubtextHandler {
-        public override IBlogMLProvider GetBlogMlProvider() {
-            var handler = new SubtextBlogMLProvider(Config.ConnectionString, SubtextContext, new CommentService(SubtextContext, null));
-            handler.PageSize = 100;
-            return handler;
-        }
-
+    public abstract class SubtextHttpHandler : ISubtextHandler {
         public Blog Blog {
             get {
                 return SubtextContext.Blog;
@@ -35,8 +23,7 @@ namespace Subtext.Framework.ImportExport
             }
         }
 
-        public AdminUrlHelper AdminUrl
-        {
+        public AdminUrlHelper AdminUrl {
             get {
                 if (_adminUrlHelper == null) {
                     _adminUrlHelper = new AdminUrlHelper(Url);
@@ -46,10 +33,22 @@ namespace Subtext.Framework.ImportExport
         }
         AdminUrlHelper _adminUrlHelper;
 
-        [Inject]
+
         public ISubtextContext SubtextContext {
             get;
             set;
         }
+
+        public bool IsReusable {
+            get {
+                return false;
+            }
+        }
+
+        public void ProcessRequest(HttpContext context) {
+            ProcessRequest();
+        }
+
+        public abstract void ProcessRequest();
     }
 }

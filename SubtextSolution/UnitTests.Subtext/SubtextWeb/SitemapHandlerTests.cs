@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Xml;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
-using Subtext.Framework.Routing;
 using Subtext.Web.SiteMap;
-using System;
-using System.Xml;
-using System.Globalization;
-using UnitTests.Subtext;
 
 namespace UnitTests.Subtext.SubtextWeb
 {
@@ -19,8 +17,7 @@ namespace UnitTests.Subtext.SubtextWeb
     public class SitemapHandlerTests
     {
         [Test]
-        public void ProcessRequest_WithSingleBlogPost_ProducesSitemapWithBlogPostNode()
-        {
+        public void ProcessRequest_WithSingleBlogPost_ProducesSitemapWithBlogPostNode() {
             //arrange
             var entries = new List<Entry>();
             entries.Add(new Entry(PostType.BlogPost) { Id = 123, DateModified = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture)});
@@ -30,14 +27,15 @@ namespace UnitTests.Subtext.SubtextWeb
             repository.Setup(r => r.GetEntries(It.IsAny<int>(), PostType.Story, It.IsAny<PostConfig>(), It.IsAny<bool>())).Returns(new List<Entry>());
             repository.Setup(r => r.GetCategories(CategoryType.PostCollection, true)).Returns(new List<LinkCategory>());
 
-            Mock<ISubtextContext> subtextContext = new Mock<ISubtextContext>();
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.SetupSet(c => c.HttpContext.Response.ContentType, It.IsAny<string>());
             StringWriter writer = subtextContext.FakeSitemapHandlerRequest(repository);
             subtextContext.Setup(c => c.Blog).Returns(new Blog { Host = "localhost" });
             var handler = new SiteMapHttpHandler();
             handler.SubtextContext = subtextContext.Object;
 
             //act
-            handler.ProcessRequest(subtextContext.Object);
+            handler.ProcessRequest();
             
             //assert
             XmlDocument doc = new XmlDocument();
@@ -48,8 +46,7 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [Test]
-        public void ProcessRequest_WithSingleArticle_ProducesSitemapWithArticleNode()
-        {
+        public void ProcessRequest_WithSingleArticle_ProducesSitemapWithArticleNode() {
             //arrange
             var entries = new List<Entry>();
             entries.Add(new Entry(PostType.Story) { Id = 321, DateModified = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture) });
@@ -59,7 +56,8 @@ namespace UnitTests.Subtext.SubtextWeb
             repository.Setup(r => r.GetEntries(It.IsAny<int>(), PostType.Story, It.IsAny<PostConfig>(), It.IsAny<bool>())).Returns(entries);
             repository.Setup(r => r.GetCategories(CategoryType.PostCollection, true)).Returns(new List<LinkCategory>());
 
-            Mock<ISubtextContext> subtextContext = new Mock<ISubtextContext>();
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.SetupSet(c => c.HttpContext.Response.ContentType, It.IsAny<string>());
             
             StringWriter writer = subtextContext.FakeSitemapHandlerRequest(repository);
             var handler = new SiteMapHttpHandler();
@@ -67,7 +65,8 @@ namespace UnitTests.Subtext.SubtextWeb
             subtextContext.Setup(c => c.Blog).Returns(new Blog { Host = "localhost" });
 
             //act
-            handler.ProcessRequest(subtextContext.Object);
+            handler.SubtextContext = subtextContext.Object;
+            handler.ProcessRequest();
 
             //assert
             XmlDocument doc = new XmlDocument();

@@ -16,6 +16,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
+using Ninject;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
@@ -24,7 +26,7 @@ namespace Subtext.Framework.Routing
         public const string ControlNamesKey = "controls";
 
         public PageRoute(string url, string virtualPath, IEnumerable<string> controls)
-            : base(url, new PageRouteHandler(virtualPath))
+            : base(url, new PageRouteHandler(virtualPath, Bootstrapper.Kernel.Get<ISubtextPageBuilder>()))
         {
             DataTokens = new RouteValueDictionary();
             DataTokens.Add(ControlNamesKey, controls.AsEnumerable());

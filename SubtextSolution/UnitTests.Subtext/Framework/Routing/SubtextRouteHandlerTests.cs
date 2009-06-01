@@ -33,27 +33,5 @@ namespace UnitTests.Subtext.Framework.Routing
             //assert.
             Assert.AreEqual("SomeControl.ascx", controlNames.First());
         }
-
-        [Test]
-        public void GetHandler_WithRoutableHandler_SetsRequestContext()
-        {
-            //arrange
-            var routeData = new RouteData();
-            routeData.DataTokens.Add("controls", new string[] { "SomeControl" });
-            var httpContext = new Mock<HttpContextBase>();
-            var requestContext = new RequestContext(httpContext.Object, routeData);
-            var routableHandler = new Mock<IRoutableHandler>();
-            RequestContext setContext = null;
-            routableHandler.SetupSet(h => h.RequestContext).Callback(context => setContext = context);
-            var pageBuilder = new Mock<ISubtextPageBuilder>();
-            pageBuilder.Setup(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(routableHandler.Object);
-            IRouteHandler subtextRouteHandler = new PageRouteHandler("~/Dtp.aspx", pageBuilder.Object);
-
-            //act
-            var handler = subtextRouteHandler.GetHttpHandler(requestContext) as ISubtextHandler;
-
-            //assert.
-            Assert.AreEqual(setContext, requestContext);
-        }
     }
 }

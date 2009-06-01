@@ -19,7 +19,9 @@ using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Ninject;
 using Subtext.Framework.XmlRpc;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
@@ -79,7 +81,7 @@ namespace Subtext.Framework.Routing
         public static void MapPage(this RouteCollection routes, string name)
         {
             string url = name + ".aspx";
-            routes.Add(name, new SubtextRoute(url, new PageRouteHandler("~/" + url)));
+            routes.Add(name, new SubtextRoute(url, new PageRouteHandler("~/" + url, Bootstrapper.Kernel.Get<ISubtextPageBuilder>())));
         }
 
         public static void MapHttpHandler<THttpHandler>(this RouteCollection routes, string name, string url) where THttpHandler : IHttpHandler, new() {

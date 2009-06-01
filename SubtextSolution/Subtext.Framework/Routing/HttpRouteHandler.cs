@@ -24,8 +24,7 @@ namespace Subtext.Framework.Routing
             HttpHandler = handler;
         }
 
-        public HttpRouteHandler()
-        {
+        public HttpRouteHandler() {
             HttpHandler = new THandler();
         }
 
@@ -34,8 +33,7 @@ namespace Subtext.Framework.Routing
             private set; 
         }
 
-        protected override IHttpHandler GetHandler(RequestContext requestContext)
-        {
+        protected override IHttpHandler GetHandler(RequestContext requestContext) {
             return HttpHandler;
         }
     }

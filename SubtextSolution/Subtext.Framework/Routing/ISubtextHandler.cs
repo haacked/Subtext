@@ -13,12 +13,28 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-namespace Subtext.Framework.Routing
-{
-    public interface ISubtextHandler : IRoutableHandler {
+using System.Web;
+using Ninject;
+using Subtext.Framework.Providers;
+
+namespace Subtext.Framework.Routing {
+    public interface ISubtextHandler : IHttpHandler {
+        [Inject]
         ISubtextContext SubtextContext {
             get;
             set;
+        }
+
+        UrlHelper Url {
+            get;
+        }
+
+        ObjectProvider Repository {
+            get;
+        }
+
+        AdminUrlHelper AdminUrl {
+            get;
         }
     }
 }

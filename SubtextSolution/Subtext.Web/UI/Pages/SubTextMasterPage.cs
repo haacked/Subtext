@@ -23,11 +23,11 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 using Subtext.Framework.UI.Skinning;
-using Subtext.Framework.Web;
+using Subtext.Framework.Web.Handlers;
 using Subtext.Web.UI.Controls;
-using Subtext.Framework.Routing;
 
 namespace Subtext.Web.UI.Pages
 {
@@ -71,12 +71,6 @@ namespace Subtext.Web.UI.Pages
         protected SkinConfig CurrentSkin = Globals.CurrentSkin;
 
         public static readonly string CommentsPanelId = "commentsUpdatePanelWrapper";
-
-        public Blog Blog {
-            get {
-                return SubtextContext.Blog;
-            }
-        }
 
         private void InitializeBlogPage()
         {

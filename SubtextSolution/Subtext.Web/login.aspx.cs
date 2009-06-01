@@ -19,60 +19,50 @@ using DotNetOpenId.RelyingParty;
 using log4net;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
 using Subtext.Framework.Text;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.Pages
 {
 	/// <summary>
 	/// Summary description for login.
 	/// </summary>
-	public partial class login : RoutablePage
-	{
+	public partial class login : SubtextPage {
 		private readonly static ILog log = new Framework.Logging.Log();
         private const string loginFailedMessage = "That&#8217;s not it<br />";
 
-		protected override void OnLoad(EventArgs e)
-		{
+		protected override void OnLoad(EventArgs e) {
             base.OnLoad(e);
-            if (!IsPostBack)
-            {
+            if (!IsPostBack) {
                 HttpCookie cookie = Request.Cookies["__OpenIdUrl__"];
-                if (cookie != null)
-                {
+                if (cookie != null) {
                     btnOpenIdLogin.Text = cookie.Value;
                 }
             }
 		}
 
-		protected void btnLogin_Click(object sender, EventArgs e)
-		{
+		protected void btnLogin_Click(object sender, EventArgs e) {
 			Blog currentBlog = Config.CurrentBlog;
 			string returnUrl = Request.QueryString["ReturnURL"];
 			if(currentBlog == null || (returnUrl != null && StringHelper.Contains(returnUrl, "HostAdmin", StringComparison.InvariantCultureIgnoreCase)))
 			{
-				if(!AuthenticateHostAdmin())
-				{
+				if(!AuthenticateHostAdmin()) {
 					log.Warn("HostAdmin login failure for " + tbUserName.Text);
 					Message.Text = loginFailedMessage;
 					return;
 				}
-				else
-				{
+				else {
 					ReturnToUrl("~/HostAdmin/Default.aspx");
 					return;
 				}
 			}
-			else
-			{
-                if (SecurityHelper.Authenticate(tbUserName.Text, tbPassword.Text, chkRememberMe.Checked))
-				{
+			else {
+                if (SecurityHelper.Authenticate(tbUserName.Text, tbPassword.Text, chkRememberMe.Checked)) {
 					ReturnToUrl(AdminUrl.Home());
 					return;
 				}
-				else
-				{
+				else {
 					log.Warn("Admin login failure for " + tbUserName.Text);
                     Message.Text = loginFailedMessage;
 				}
@@ -87,12 +77,10 @@ namespace Subtext.Web.Pages
             }
         }
 
-        protected void btnOpenIdLogin_LoggedIn(object sender, OpenIdEventArgs e)
-        {
+        protected void btnOpenIdLogin_LoggedIn(object sender, OpenIdEventArgs e) {
             e.Cancel = true;
             if (e.Response.Status == AuthenticationStatus.Authenticated &&
-                SecurityHelper.Authenticate(e.ClaimedIdentifier, btnOpenIdLogin.RememberMe))
-            {
+                SecurityHelper.Authenticate(e.ClaimedIdentifier, btnOpenIdLogin.RememberMe)) {
                 ReturnToUrl(AdminUrl.Home());
             }
             else {
@@ -102,22 +90,19 @@ namespace Subtext.Web.Pages
 
 		private void ReturnToUrl(string defaultReturnUrl)
 		{
-			if(Request.QueryString["ReturnURL"] != null && Request.QueryString["ReturnURL"].Length > 0)
-			{
+			if(Request.QueryString["ReturnURL"] != null && Request.QueryString["ReturnURL"].Length > 0) {
 				log.Debug("redirecting to " + Request.QueryString["ReturnURL"]);
 				Response.Redirect(Request.QueryString["ReturnURL"], false);
 				return;
 			}
-			else
-			{
+			else {
 				log.Debug("redirecting to " + defaultReturnUrl);
 				Response.Redirect(defaultReturnUrl, false);
 				return;
 			}
 		}
 
-		private bool AuthenticateHostAdmin()
-		{
+		private bool AuthenticateHostAdmin() {
             return SecurityHelper.AuthenticateHostAdmin(tbUserName.Text, tbPassword.Text, chkRememberMe.Checked);
 		}
 	}

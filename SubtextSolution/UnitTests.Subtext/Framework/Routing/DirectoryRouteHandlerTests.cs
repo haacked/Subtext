@@ -3,7 +3,9 @@ using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
+using Ninject;
 using Subtext.Framework.Routing;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -15,9 +17,9 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             var routeData = new RouteData();
-            routeData.Route = new Route("url", new DirectoryRouteHandler());
+            routeData.Route = new Route("url", new DirectoryRouteHandler(new Mock<ISubtextPageBuilder>().Object));
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            IRouteHandler routeHandler = new DirectoryRouteHandler();
+            IRouteHandler routeHandler = new DirectoryRouteHandler(new Mock<ISubtextPageBuilder>().Object);
             
             //act
             try
@@ -152,6 +154,11 @@ namespace UnitTests.Subtext.Framework.Routing
 
             //assert
             Assert.AreEqual("~/admin/foo.aspx", virtualPath);
+        }
+
+        [SetUp]
+        public void Setup() {
+            Bootstrapper.Kernel = new Mock<IKernel>().Object;
         }
     }
 }

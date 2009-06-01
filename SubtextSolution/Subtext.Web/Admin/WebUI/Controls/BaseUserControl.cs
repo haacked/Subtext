@@ -1,25 +1,20 @@
 ﻿using System.Web.UI;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.Admin.WebUI.Controls
 {
     public class BaseUserControl : UserControl
     {
-        public UrlHelper Url
-        {
-            get
-            {
-                var routablePage = RoutablePage;
-                if (routablePage != null) {
-                    return routablePage.Url;
-                }
-                return null;
+        public UrlHelper Url {
+            get {
+                return SubtextPage.Url;
             }
         }
 
-        public IRoutableHandler RoutablePage {
+        public SubtextPage SubtextPage {
             get {
-                return Page as IRoutableHandler;
+                return Page as SubtextPage;
             }
         }
     }

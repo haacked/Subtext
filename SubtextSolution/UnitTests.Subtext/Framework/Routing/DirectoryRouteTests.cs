@@ -1,10 +1,12 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
+using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
+using Ninject;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
-using System.Web.Routing;
-using System;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -85,6 +87,11 @@ namespace UnitTests.Subtext.Framework.Routing
 
             //assert
             Assert.AreEqual(route, routeData.Route);
+        }
+
+        [SetUp]
+        public void Setup() {
+            Bootstrapper.Kernel = new Mock<IKernel>().Object;
         }
     }
 }

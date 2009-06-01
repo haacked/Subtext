@@ -1,10 +1,12 @@
 ﻿using System;
+using Ninject;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Routing;
 using System.Web;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
@@ -12,8 +14,8 @@ namespace Subtext.Framework.Routing
     // to the whole aggregate blog situation.
     public class RootRoute : RouteBase
     {
-        static IRouteHandler _aggRouteHandler = new PageRouteHandler("~/AggDefault.aspx");
-        static IRouteHandler _normalRouteHandler = new PageRouteHandler("~/Dtp.aspx");
+        static IRouteHandler _aggRouteHandler = new PageRouteHandler("~/AggDefault.aspx", Bootstrapper.Kernel.Get<ISubtextPageBuilder>());
+        static IRouteHandler _normalRouteHandler = new PageRouteHandler("~/Dtp.aspx", Bootstrapper.Kernel.Get<ISubtextPageBuilder>());
         static Route subfolderAppRootRoute = new Route("{subfolder}", _normalRouteHandler) { DataTokens = new RouteValueDictionary { { PageRoute.ControlNamesKey, new[] { "homepage" }.AsEnumerable() } } };
         static Route subfolderDefaultRoute = new Route("{subfolder}/default.aspx", _normalRouteHandler) { DataTokens = new RouteValueDictionary { { PageRoute.ControlNamesKey, new[] { "homepage" }.AsEnumerable() } } };
 

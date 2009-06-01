@@ -38,7 +38,6 @@ namespace Subtext.Web.Admin.UserControls
 	{
 		private const string VSKEY_CATEGORYTYPE = "CategoryType";
 
-		#region Accessors
 		/// <summary>
 		/// Gets or sets the type of the entry.
 		/// </summary>
@@ -89,7 +88,6 @@ namespace Subtext.Web.Admin.UserControls
 				ViewState[VSKEY_CATEGORYTYPE] = value; 
 			}
 		}
-		#endregion
 
         protected override void OnLoad(EventArgs e) 
         {
@@ -583,7 +581,7 @@ namespace Subtext.Web.Admin.UserControls
 			if(PostID != null && ReturnToOriginalPost)
 			{
 				// We came from outside the post, let's go there.
-				Entry updatedEntry = Entries.GetEntry(PostID.Value, PostConfig.IsActive, false);
+				Entry updatedEntry = this.Repository.GetEntry(PostID.Value, true /* activeOnly */, false /* includeCategories */);
 				if(updatedEntry != null)
 				{
 					Response.Redirect(Url.EntryUrl(updatedEntry));

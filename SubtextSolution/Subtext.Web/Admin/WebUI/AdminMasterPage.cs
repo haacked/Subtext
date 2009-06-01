@@ -1,31 +1,27 @@
 ﻿using System.Web.UI;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.Admin.WebUI
 {
     public class AdminMasterPage : MasterPage
     {
-        public UrlHelper Url
-        {
-            get
-            {
-                var page = this.Page as IRoutableHandler;
-                if (page != null)
-                {
-                    return page.Url;
-                }
-                return null;
+        public UrlHelper Url {
+            get {
+                return SubtextPage.Url;
             }
         }
 
         public AdminUrlHelper AdminUrl {
             get {
-                if (_adminUrlHelper == null) {
-                    _adminUrlHelper = new AdminUrlHelper(Url);
-                }
-                return _adminUrlHelper;
+                return SubtextPage.AdminUrl;
             }
         }
-        AdminUrlHelper _adminUrlHelper;
+
+        public SubtextPage SubtextPage {
+            get {
+                return Page as SubtextPage;
+            }
+        }
     }
 }

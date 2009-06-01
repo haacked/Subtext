@@ -51,28 +51,4 @@ namespace UnitTests.Subtext.Framework.Routing
             throw new NotImplementedException();
         }
     }
-
-    internal class FakeRoutableHttpHandler : IHttpHandler, IRoutableHandler
-    {
-        public bool IsReusable
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public void ProcessRequest(HttpContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public RequestContext RequestContext
-        {
-            get;
-            set;
-        }
-
-        public UrlHelper Url
-        {
-            get { throw new NotImplementedException(); }
-        }
-    }
 }

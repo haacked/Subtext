@@ -17,6 +17,7 @@ using System;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using log4net;
 using Subtext.Framework;
@@ -24,11 +25,9 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Web.HttpModules;
-using System.Web.Mvc;
-using Subtext.Web.Infrastructure;
 using Subtext.Infrastructure;
+using Subtext.Web.Infrastructure;
 
 namespace Subtext.Web
 {
@@ -40,6 +39,10 @@ namespace Subtext.Web
 
         bool _logInitialized = false;
 
+        public Global() {
+            Bootstrapper.InitializeKernel(new Dependencies());
+        }
+
         /// <summary>
         /// Method called by the application on startup.  
         /// </summary>
@@ -49,7 +52,6 @@ namespace Subtext.Web
         {
             _logInitialized = true;
             Routes.RegisterRoutes(RouteTable.Routes);
-            Bootstrapper.InitializeKernel(new Dependencies());
             var factory = new SubtextControllerFactory(Bootstrapper.Kernel);
             ControllerBuilder.Current.SetControllerFactory(factory);
         }

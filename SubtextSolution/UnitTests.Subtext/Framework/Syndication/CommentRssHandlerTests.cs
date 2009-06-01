@@ -5,12 +5,10 @@ using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Syndication;
-using Subtext.Framework.Routing;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Routing;
+using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
-using System.Collections.Specialized;
-using System.Collections.Generic;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -66,7 +64,8 @@ namespace UnitTests.Subtext.Framework.Syndication
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
 
-			handler.ProcessRequest(subtextContext.Object);
+            handler.SubtextContext = subtextContext.Object;
+			handler.ProcessRequest();
 
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(rssOutput);

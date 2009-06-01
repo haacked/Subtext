@@ -15,14 +15,25 @@
 
 using System;
 using System.Web.Compilation;
+using Ninject;
 
 namespace Subtext.Framework.Routing
 {
     public class SubtextPageBuilder : ISubtextPageBuilder
     {
-        public object CreateInstanceFromVirtualPath(string virtualPath, Type type)
-        {
-            return BuildManager.CreateInstanceFromVirtualPath(virtualPath, type);
+        public SubtextPageBuilder(IKernel kernel) {
+            Kernel = kernel;
+        }
+
+        public IKernel Kernel {
+            get;
+            private set;
+        }
+
+        public object CreateInstanceFromVirtualPath(string virtualPath, Type type) {
+            var instance = BuildManager.CreateInstanceFromVirtualPath(virtualPath, type);
+            Kernel.Inject(instance);
+            return instance;
         }
     }
 }

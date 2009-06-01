@@ -163,6 +163,10 @@
       <Name>NGraphviz.Layout</Name>
       <HintPath>..\Dependencies\NGraphviz.Layout.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=2.0.0.152, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="Rhino.Mocks, Version=3.1.0.584, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Rhino.Mocks.dll</HintPath>
@@ -351,10 +355,10 @@
     <Compile Include="Framework\Routing\HttpRouteHandlerTests.cs" />
     <Compile Include="Framework\Routing\IgnoreRouteTests.cs" />
     <Compile Include="Framework\Routing\RootRouteTests.cs" />
-    <Compile Include="Framework\Routing\RoutablePageTests.cs" />
     <Compile Include="Framework\Routing\RouteExtensionsTests.cs" />
     <Compile Include="Framework\Routing\RoutesTests.cs" />
     <Compile Include="Framework\Routing\SubtextContextTests.cs" />
+    <Compile Include="Framework\Routing\SubtextPageBuilderTests.cs" />
     <Compile Include="Framework\Routing\SubtextRouteHandlerTests.cs" />
     <Compile Include="Framework\Routing\PageRouteTests.cs" />
     <Compile Include="Framework\Routing\UrlHelperTests.cs" />
@@ -430,6 +434,7 @@
     <Compile Include="Framework\Web\HttpModules\BlogRequestTests.cs" />
     <Compile Include="Framework\Web\HttpModules\InstallationCheckModuleTests.cs" />
     <Compile Include="Framework\Web\RsdHandlerTests.cs" />
+    <Compile Include="Framework\Web\SubtextPageTests.cs" />
     <Compile Include="Framework\XmlRpc\MetaBlogApiTests.cs" />
     <Compile Include="HttpSimulator.cs" />
     <Compile Include="Installation\InstallationManagerTests.cs">

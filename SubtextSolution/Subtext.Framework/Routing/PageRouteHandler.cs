@@ -17,28 +17,30 @@ using System.Linq;
 using System.Web;
 using System.Web.Routing;
 using System.Web.UI;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class PageRouteHandler : RouteHandlerBase
     {
-        public PageRouteHandler(string virtualPath) : this(virtualPath, new SubtextPageBuilder()) { 
-        }
-
         public PageRouteHandler(string virtualPath, ISubtextPageBuilder pageBuilder) {
             VirtualPath = virtualPath;
-            _builder = pageBuilder;
+            PageBuilder = pageBuilder;
         }
 
-        private ISubtextPageBuilder _builder;
+        protected ISubtextPageBuilder PageBuilder {
+            get;
+            set;
+        }
 
         public string VirtualPath { 
             get; 
-            private set; 
+            protected set; 
         }
 
         protected override IHttpHandler GetHandler(RequestContext requestContext) {
-            var page = _builder.CreateInstanceFromVirtualPath(this.VirtualPath, typeof(Page)) as IHttpHandler;
+            Bootstrapper.RequestContext = requestContext;
+            var page = PageBuilder.CreateInstanceFromVirtualPath(this.VirtualPath, typeof(Page)) as IHttpHandler;
 
             if (page != null) {
                 var pageWithControls = page as IPageWithControls;

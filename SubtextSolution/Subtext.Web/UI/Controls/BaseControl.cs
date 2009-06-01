@@ -22,6 +22,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Web.Handlers;
 using Subtext.Web.Controls;
 using Subtext.Web.Controls.Captcha;
 
@@ -40,9 +41,8 @@ namespace Subtext.Web.UI.Controls
 
         public UrlHelper Url {
             get {
-                var routableHandler = Page as IRoutableHandler;
-                if (routableHandler != null) {
-                    return routableHandler.Url;
+                if (SubtextPage != null) {
+                    return SubtextPage.Url;
                 }
                 return null;
             }
@@ -50,10 +50,8 @@ namespace Subtext.Web.UI.Controls
 
         public AdminUrlHelper AdminUrl
         {
-            get
-            {
-                if (_adminUrlHelper == null)
-                {
+            get {
+                if (_adminUrlHelper == null) {
                     _adminUrlHelper = new AdminUrlHelper(Url);
                 }
                 return _adminUrlHelper;
@@ -62,20 +60,19 @@ namespace Subtext.Web.UI.Controls
         AdminUrlHelper _adminUrlHelper;
 
         public Blog Blog {
-            get
-            {
+            get {
                 var subtextPage = SubtextPage;
                 if (subtextPage != null) {
-                    return subtextPage.SubtextContext.Blog;
+                    return subtextPage.Blog;
                 }
-                return Config.CurrentBlog;
+                return null;
             }
         }
 
-        protected ISubtextHandler SubtextPage
+        protected SubtextPage SubtextPage
         {
             get {
-                return Page as ISubtextHandler;
+                return Page as SubtextPage;
             }
         }
 

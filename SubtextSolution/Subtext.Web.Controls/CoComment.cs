@@ -11,16 +11,14 @@ namespace Subtext.Web.Controls
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CoComment"/> class.
 		/// </summary>
-		public CoComment()
-		{
+		public CoComment() {
 		}
 
 		/// <summary>
 		/// Gets or sets the blog tool.
 		/// </summary>
 		/// <value>The blog tool.</value>
-		public string BlogTool
-		{
+		public string BlogTool {
 			get { return ViewState["BlogTool"] as string; }
 			set { ViewState["BlogTool"] = value; }
 		}
@@ -29,8 +27,7 @@ namespace Subtext.Web.Controls
 		/// Gets or sets the blog URL.
 		/// </summary>
 		/// <value>The blog URL.</value>
-		public string BlogUrl
-		{
+		public string BlogUrl {
 			get { return ViewState["BlogUrl"] as string; }
 			set { ViewState["BlogUrl"] = value; }
 		}
@@ -39,8 +36,7 @@ namespace Subtext.Web.Controls
 		/// Gets or sets the blog title.
 		/// </summary>
 		/// <value>The blog title.</value>
-		public string BlogTitle
-		{
+		public string BlogTitle {
 			get { return ViewState["BlogTitle"] as string; }
 			set { ViewState["BlogTitle"] = value; }
 		}
@@ -49,8 +45,7 @@ namespace Subtext.Web.Controls
 		/// Gets or sets the post title.
 		/// </summary>
 		/// <value>The post title.</value>
-		public string PostTitle
-		{
+		public string PostTitle {
 			get { return ViewState["PostTitle"] as string; }
 			set { ViewState["PostTitle"] = value; }
 		}
@@ -59,8 +54,7 @@ namespace Subtext.Web.Controls
 		/// Gets or sets the post URL.
 		/// </summary>
 		/// <value>The post URL.</value>
-		public string PostUrl
-		{
+		public string PostUrl {
 			get { return ViewState["PostUrl"] as string; }
 			set { ViewState["PostUrl"] = value; }
 		}
@@ -69,8 +63,7 @@ namespace Subtext.Web.Controls
 		/// Gets or sets the name of the comment author field.
 		/// </summary>
 		/// <value>The name of the comment author field.</value>
-		public string CommentAuthorFieldName
-		{
+		public string CommentAuthorFieldName {
 			get { return ViewState["CommentAuthorFieldName"] as string; }
 			set { ViewState["CommentAuthorFieldName"] = value; }
 		}
@@ -79,8 +72,7 @@ namespace Subtext.Web.Controls
 		/// Gets or sets the name of the comment text field.
 		/// </summary>
 		/// <value>The name of the comment text field.</value>
-		public string CommentTextFieldName
-		{
+		public string CommentTextFieldName {
 			get { return ViewState["CommentTextFieldName"] as string; }
 			set { ViewState["CommentTextFieldName"] = value; }
 		}
@@ -89,14 +81,12 @@ namespace Subtext.Web.Controls
 		/// Gets or sets the comment button id.
 		/// </summary>
 		/// <value>The comment button id.</value>
-		public string CommentButtonId
-		{
+		public string CommentButtonId {
 			get { return ViewState["CommentButtonId"] as string; }
 			set { ViewState["CommentButtonId"] = value; }
 		}
 
-		public string CommentFormId
-		{
+		public string CommentFormId {
 			get { return ViewState["CommentFormId"] as string; }
 			set { ViewState["CommentFormId"] = value; }
 		}
