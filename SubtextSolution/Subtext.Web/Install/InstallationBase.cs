@@ -18,15 +18,14 @@ using System.Web;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Routing;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.Install
 {
 	/// <summary>
 	/// Summary description for InstallationBase.
 	/// </summary>
-	public class InstallationBase : RoutablePage
-	{
+	public class InstallationBase : SubtextPage {
 		/// <summary>
 		/// Ons the load.
 		/// </summary>

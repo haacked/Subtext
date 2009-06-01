@@ -6,10 +6,8 @@ using System.Xml;
 using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility.Web;
 
-namespace Subtext.BlogML
-{
-	public abstract class BlogMLHttpHandler : BaseHttpHandler
-	{
+namespace Subtext.BlogML {
+	public abstract class BlogMLHttpHandler : BaseHttpHandler {
         public abstract IBlogMLProvider GetBlogMlProvider();
 
 		/// <summary>
@@ -39,8 +37,7 @@ namespace Subtext.BlogML
 		/// </p>
 		/// </remarks>
 		/// <param name="context">Context.</param>
-		protected override void HandleRequest(HttpContext context)
-		{
+		protected override void HandleRequest(HttpContext context) {
 			context.Response.AddHeader("content-disposition", "attachment; filename=BlogMLExport.xml");
 
 			context.Response.Clear();
@@ -73,8 +70,7 @@ namespace Subtext.BlogML
 		/// <param name="context">Context.</param>
 		/// <returns><c>true</c> if the parameters are valid,
 		/// otherwise <c>false</c></returns>
-		protected override bool ValidateParameters(HttpContext context)
-		{
+		protected override bool ValidateParameters(HttpContext context) {
 			return true;
 		}
 
@@ -97,8 +93,7 @@ namespace Subtext.BlogML
 		/// Gets the content MIME type.
 		/// </summary>
 		/// <value></value>
-		protected override string ContentMimeType
-		{
+		protected override string ContentMimeType {
 			get {
 				return "text/xml";
 			}

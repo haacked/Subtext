@@ -17,12 +17,9 @@ using System;
 using System.Globalization;
 using System.Net;
 using System.Web;
-using System.Web.Routing;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
 using Subtext.Framework.Syndication.Compression;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Framework.Syndication
 {
@@ -30,17 +27,9 @@ namespace Subtext.Framework.Syndication
 	/// Abstract base class used to respond to requests for 
 	/// syndicated feeds such as RSS and ATOM.
 	/// </summary>
-	public abstract class BaseSyndicationHandler<T> : ISubtextHandler
-	{
+	public abstract class BaseSyndicationHandler<T> : SubtextHttpHandler {
 		const int HTTP_IM_USED = 226;
 		const int HTTP_MOVED_PERMANENTLY = 301;
-
-        protected Blog Blog
-        {
-            get {
-                return SubtextContext.Blog;
-            }
-        }
 
         protected CachedFeed Feed {
             get;
@@ -53,15 +42,14 @@ namespace Subtext.Framework.Syndication
             private set;
         }
 
-        protected virtual bool RequiresHostAdminRole
-        {
+        protected virtual bool RequiresHostAdminRole {
             get;
             private set;
         }
 
         protected HttpContextBase HttpContext {
             get {
-                return SubtextContext.RequestContext.HttpContext;
+                return SubtextContext.HttpContext;
             }
         }
 
@@ -71,8 +59,7 @@ namespace Subtext.Framework.Syndication
 		/// determine whether new data is to be sent.
 		/// </summary>
 		/// <value></value>
-		protected string LastModifiedHeader
-		{
+		protected string LastModifiedHeader {
 			get {
 				return HttpContext.Request.Headers["If-Modified-Since"];
 			}
@@ -84,10 +71,8 @@ namespace Subtext.Framework.Syndication
 		/// <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html"/>.
 		/// </summary>
 		/// <value></value>
-		protected string IfNonMatchHeader
-		{
-			get
-			{
+		protected string IfNonMatchHeader {
+			get {
 				return HttpContext.Request.Headers["If-None-Match"];	
 			}
 		}
@@ -99,10 +84,8 @@ namespace Subtext.Framework.Syndication
 		/// We will then send just the difference.
 		/// </summary>
 		/// <value></value>
-		protected DateTime PublishDateOfLastFeedItemReceived
-		{
-			get
-			{
+		protected DateTime PublishDateOfLastFeedItemReceived {
+			get {
 				if(IfNonMatchHeader != null && IfNonMatchHeader.Length > 0) {
 					try {
 						return DateTime.Parse(IfNonMatchHeader);
@@ -134,12 +117,10 @@ namespace Subtext.Framework.Syndication
 		/// it sends a 304 HTTP header indicating such.
 		/// </summary>
 		/// <returns></returns>
-		protected virtual bool IsLocalCacheOK()
-		{
+		protected virtual bool IsLocalCacheOK() {
 			string dt = LastModifiedHeader;
 			if(dt != null) {
-				try
-				{
+				try {
 					DateTime feedDT = DateTime.Parse(dt);
 					DateTime lastUpdated = ConvertLastUpdatedDate(Blog.LastUpdated); 
 					TimeSpan ts = feedDT - lastUpdated;
@@ -250,19 +231,16 @@ namespace Subtext.Framework.Syndication
 		/// <summary>
 		/// Writes the feed to the response.
 		/// </summary>
-		protected virtual void WriteFeed()
-		{
+		protected virtual void WriteFeed() {
 			string encoding = null;
 
 			if(Feed != null)
 			{
-				if(Blog.UseSyndicationCompression && this.AcceptGzipCompression)
-				{
+				if(Blog.UseSyndicationCompression && this.AcceptGzipCompression) {
 					// We're GZip Encoding!
 					SyndicationCompressionFilter filter = SyndicationCompressionHelper.GetFilterForScheme(this.AcceptEncoding, HttpContext.Response.Filter);
 	
-					if(filter != null)
-					{
+					if(filter != null) {
 						encoding = filter.ContentEncoding;
 						HttpContext.Response.Filter = filter.Filter;
 					}
@@ -277,12 +255,10 @@ namespace Subtext.Framework.Syndication
 				HttpContext.Response.Cache.SetLastModified(Feed.LastModified);
 				HttpContext.Response.Cache.SetETag(Feed.Etag);
 				
-                if(AcceptGzipCompression)
-				{
+                if(AcceptGzipCompression) {
 					HttpContext.Response.AddHeader("IM", "feed, gzip");
 				}
-				else
-				{
+				else {
 					HttpContext.Response.AddHeader("IM", "feed");
 				}
 				if(this.UseDeltaEncoding)
@@ -298,34 +274,13 @@ namespace Subtext.Framework.Syndication
 		/// Processs the request and sends the feed to the response.
 		/// </summary>
 		/// <param name="context">Context.</param>
-		void IHttpHandler.ProcessRequest(HttpContext context)
+		public override void ProcessRequest()
 		{
             if ((RequiresAdminRole && !SecurityHelper.IsAdmin) || (RequiresHostAdminRole && !SecurityHelper.IsHostAdmin)) {
                 System.Web.Security.FormsAuthentication.RedirectToLoginPage();
                 return;
             }
-
-            var httpContext = new HttpContextWrapper(context);
-            var requestContext = new RequestContext(httpContext, new RouteData());
-            var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, new UrlHelper(requestContext, null), ObjectProvider.Instance());
-			ProcessRequest(subtextContext);
-		}
-
-        public virtual void ProcessRequest(ISubtextContext context) {
-            SubtextContext = context;
             ProcessFeed();
-        }
-
-		/// <summary>
-		/// Gets a value indicating whether this handler is reusable.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if it is reusable; otherwise, <c>false</c>.
-		/// </value>
-		public bool IsReusable
-		{
-			get;
-            private set;
 		}
 
 		/// <summary>
@@ -336,10 +291,8 @@ namespace Subtext.Framework.Syndication
 		/// Specifically we're looking for gzip.
 		/// </remarks>
 		/// <value></value>
-		protected string AcceptEncoding
-		{
-			get
-			{
+		protected string AcceptEncoding {
+			get {
 				string header = HttpContext.Request.Headers["Accept-Encoding"];
 				if(header != null)
 					return header;
@@ -352,10 +305,8 @@ namespace Subtext.Framework.Syndication
 		/// Gets the accept IM header from the request.
 		/// </summary>
 		/// <value></value>
-		protected string AcceptIMHeader
-		{
-			get
-			{
+		protected string AcceptIMHeader {
+			get {
 				string header = HttpContext.Request.Headers["A-IM"];
 				if(header != null)
 					return header;
@@ -372,10 +323,8 @@ namespace Subtext.Framework.Syndication
 		/// <value>
 		/// 	<c>true</c> if [accepts delta encoding]; otherwise, <c>false</c>.
 		/// </value>
-		protected bool AcceptDeltaEncoding
-		{
-			get
-			{
+		protected bool AcceptDeltaEncoding {
+			get {
 				return AcceptIMHeader.IndexOf("feed") >= 0;
 			}
 		}
@@ -386,27 +335,21 @@ namespace Subtext.Framework.Syndication
 		/// <value>
 		/// 	<c>true</c> if accepts gzip compression; otherwise, <c>false</c>.
 		/// </value>
-		protected bool AcceptGzipCompression
-		{
-			get
-			{
+		protected bool AcceptGzipCompression {
+			get {
 				return AcceptEncoding.IndexOf("gzip") >= 0 || 
 					AcceptIMHeader.IndexOf("gzip") >= 0;
 			}
 		}
 		
 		// Adapted from DasBlog
-		private bool RedirectToFeedBurnerIfNecessary()
-		{
+		private bool RedirectToFeedBurnerIfNecessary() {
 			//If we are using FeedBurner, only allow them to get our feed...
-			if (!String.IsNullOrEmpty(Blog.RssProxyUrl))
-			{
+			if (!String.IsNullOrEmpty(Blog.RssProxyUrl)) {
 				string userAgent = HttpContext.Request.UserAgent;
-				if (!String.IsNullOrEmpty(userAgent))
-				{
+				if (!String.IsNullOrEmpty(userAgent)) {
 					// If they aren't FeedBurner and they aren't asking for a category or comment rss, redirect them!
-					if (!userAgent.StartsWith("FeedBurner") && IsMainfeed)
-					{
+					if (!userAgent.StartsWith("FeedBurner") && IsMainfeed) {
                         HttpContext.Response.StatusCode = HTTP_MOVED_PERMANENTLY;
                         HttpContext.Response.Status = HTTP_MOVED_PERMANENTLY + " Moved Permanently";
                         HttpContext.Response.RedirectLocation = SubtextContext.UrlHelper.RssProxyUrl(SubtextContext.Blog).ToString();
@@ -420,28 +363,8 @@ namespace Subtext.Framework.Syndication
 		/// <summary>
 		/// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
 		/// </summary>
-		protected abstract bool IsMainfeed { get;}
-
-        public ISubtextContext SubtextContext
-        {
+		protected abstract bool IsMainfeed { 
             get;
-            set;
-        }
-
-        RequestContext IRoutableHandler.RequestContext
-        {
-            get {
-                return SubtextContext.RequestContext;
-            }
-            set {
-            }
-        }
-
-        public UrlHelper Url
-        {
-            get {
-                return SubtextContext.UrlHelper;
-            }
         }
     }
 }

@@ -16,38 +16,30 @@
 using System;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Routing;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web
 {
 	/// <summary>
 	/// Displays the blog not active message.
 	/// </summary>
-	public partial class UpgradeInProgress : RoutablePage
-	{
-
-		protected override void OnLoad(EventArgs e)
-		{
+	public partial class UpgradeInProgress : SubtextPage {
+		protected override void OnLoad(EventArgs e) {
             base.OnLoad(e);
-			try
-			{
+			try {
                 InstallationState state = Subtext.Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
-				if(state == InstallationState.NeedsUpgrade || state == InstallationState.NeedsRepair)
-				{
+				if(state == InstallationState.NeedsUpgrade || state == InstallationState.NeedsRepair) {
 					plcUpgradeInProgressMessage.Visible = true;
 					plcNothingToSeeHere.Visible = false;
 				}
-				else
-				{
+				else {
 					plcUpgradeInProgressMessage.Visible = true;
 					plcNothingToSeeHere.Visible = false;
 					lnkBlog.HRef = Url.BlogUrl();
 				}
 			}
-			catch(BlogDoesNotExistException)
-			{
+			catch(BlogDoesNotExistException) {
 				plcUpgradeInProgressMessage.Visible = true;
 				plcNothingToSeeHere.Visible = false;
 			}

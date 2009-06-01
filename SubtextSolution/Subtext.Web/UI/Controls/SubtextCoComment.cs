@@ -1,8 +1,9 @@
 using System;
 using System.Web.UI;
 using Subtext.Framework.Configuration;
-using Subtext.Web.Controls;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Web.Handlers;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -20,7 +21,7 @@ namespace Subtext.Web.UI.Controls
 
         public UrlHelper Url { 
             get {
-                var page = this.Page as IRoutableHandler;
+                var page = this.Page as SubtextPage;
                 return page.Url;
             }
         }
@@ -30,8 +31,7 @@ namespace Subtext.Web.UI.Controls
 		/// event.
 		/// </summary>
 		/// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
-		protected override void OnLoad(EventArgs e)
-		{
+		protected override void OnLoad(EventArgs e) {
 			this.BlogTitle = Config.CurrentBlog.Title;
 			this.BlogTool = "Subtext";
             this.BlogUrl = Url.BlogUrl().ToFullyQualifiedUrl(Config.CurrentBlog).ToString();
@@ -46,11 +46,9 @@ namespace Subtext.Web.UI.Controls
             this.CommentFormId = ControlHelper.GetPageFormClientId(this.Page);
 		}
 
-		private string GetControlUniqueId(string controlId)
-		{
+		private string GetControlUniqueId(string controlId) {
 			Control control = ControlHelper.FindControlRecursively(this.Page, controlId);
-			if(control != null)
-			{
+			if(control != null) {
 				return control.UniqueID;
 			}
 		

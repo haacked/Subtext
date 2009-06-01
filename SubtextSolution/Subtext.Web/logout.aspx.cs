@@ -14,23 +14,19 @@
 #endregion
 
 using System;
-using System.Web;
-using Subtext.Framework;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
-using Subtext.Framework.Routing;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.Pages
 {
 	/// <summary>
 	/// Logs a user out of the system.
 	/// </summary>
-	public class logout : RoutablePage
+	public class logout : SubtextPage
 	{
-		protected override void OnLoad(EventArgs e)
-		{
+		protected override void OnLoad(EventArgs e) {
 			SecurityHelper.LogOut();
-			HttpContext.Current.Response.Redirect(Url.BlogUrl());
+			base.SubtextContext.HttpContext.Response.Redirect(Url.BlogUrl());
 		}
 	}
 }

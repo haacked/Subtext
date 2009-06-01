@@ -28,7 +28,7 @@ namespace Subtext.Framework.Routing
             Url = urlHelper;
         }
 
-        protected UrlHelper Url {
+        public UrlHelper Url {
             get;
             private set;
         }

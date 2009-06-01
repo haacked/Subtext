@@ -19,30 +19,18 @@ using System.Security.Permissions;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using Ninject;
-using Subtext.Framework;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Routing;
-using Subtext.Infrastructure;
+using Subtext.Framework.Web.Handlers;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
 
 namespace Subtext.Web.Admin.Pages
 {
-	internal enum CookieSupportType
-	{
-		Untested,
-		Testing,
-		Allowed,
-		NotAllowed
-	}
-
 	/// <summary>
 	/// Base Page class for all pages in the admin tool.
 	/// </summary>
 	[PrincipalPermission(SecurityAction.Demand, Role = "Admins")]
-	public class AdminPage : RoutablePage, ISubtextHandler
+	public class AdminPage : SubtextPage
 	{
         private HtmlGenericControl body;
 		
@@ -119,35 +107,6 @@ namespace Subtext.Web.Admin.Pages
         {
             get;
             protected set;
-        }
-
-        ISubtextContext _subtextContext;
-        public ISubtextContext SubtextContext
-        {
-            get
-            {
-                if (_subtextContext == null) {
-                    if (RequestContext != null) {
-                        _subtextContext = Bootstrapper.Kernel.Get<ISubtextContext>();
-                    }
-                }
-                return _subtextContext;
-            }
-            set {
-                 
-            }
-        }
-
-        public ObjectProvider Repository {
-            get {
-                return SubtextContext.Repository;
-            }
-        }
-
-        public Blog Blog {
-            get {
-                return SubtextContext.Blog;
-            }
         }
     }
 }

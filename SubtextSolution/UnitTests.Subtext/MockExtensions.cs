@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Caching;
 using System.Web.Routing;
 using Moq;
+using Moq.Stub;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -59,6 +60,7 @@ namespace UnitTests.Subtext
             var httpContext = new Mock<HttpContextBase>();
             var writer = httpContext.FakeRequest(virtualPath, subfolder);
             httpContext.SetupApplicationPath(applicationPath);
+            httpContext.Stub(h => h.Response.ContentType);
             var hashTable = new Hashtable();
             httpContext.Setup(c => c.Items).Returns(hashTable);
             var urlHelper = new Mock<UrlHelper>();

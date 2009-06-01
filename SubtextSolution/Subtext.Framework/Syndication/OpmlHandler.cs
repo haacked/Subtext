@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Web;
-using System.Web.Routing;
-using Subtext.Framework.Routing;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Framework.Syndication
 {
-    public class OpmlHandler : ISubtextHandler
-    {
+    public class OpmlHandler : SubtextHttpHandler {
         public OpmlHandler() { 
         }
 
@@ -20,34 +18,7 @@ namespace Subtext.Framework.Syndication
             private set;
         }
 
-        public ISubtextContext SubtextContext
-        {
-            get;
-            set;
-        }
-
-        public RequestContext RequestContext
-        {
-            get;
-            set;
-        }
-
-        public UrlHelper Url
-        {
-            get { 
-                return SubtextContext.UrlHelper; 
-            }
-        }
-
-        public bool IsReusable
-        {
-            get { 
-                return false; 
-            }
-        }
-
-        public void ProcessRequest(HttpContext context)
-        {
+        public override void ProcessRequest() {
             ProcessRequest(HostInfo.Instance);
         }
 
@@ -73,8 +44,7 @@ namespace Subtext.Framework.Syndication
             OpmlWriter.Write(blogs, response.Output, SubtextContext.UrlHelper);
         }
 
-        public int? GetGroupIdFromQueryString(HttpRequestBase request)
-        {
+        public int? GetGroupIdFromQueryString(HttpRequestBase request) {
             int? groupId = null;
             string groupIdText = request.QueryString["GroupID"];
             if (groupIdText != null)

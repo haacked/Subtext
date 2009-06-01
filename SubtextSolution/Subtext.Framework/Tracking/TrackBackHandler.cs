@@ -35,45 +35,32 @@
 using System;
 using System.Globalization;
 using System.Web;
-using System.Web.Routing;
 using System.Xml;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Email;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Framework.Tracking
 {
 	/// <summary>
 	/// Service used to receive trackbacks from remote clients.
 	/// </summary>
-    public class TrackBackHandler : ISubtextHandler
+    public class TrackBackHandler : SubtextHttpHandler
 	{
 		static Log Log = new Log();
 
-		/// <summary>
-		/// Enables processing of HTTP Web requests by a custom
-		/// <see langword="HttpHandler "/>
-		/// that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
-		/// </summary>
-		/// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, <see langword="Request"/>, <see langword="Response"/>, <see langword="Session"/>, and <see langword="Server"/>)<see langword=""/> used to service HTTP requests.</param>
-		void IHttpHandler.ProcessRequest(HttpContext context)
-		{
-            ProcessRequest(SubtextContext);
-		}
-
-        public void ProcessRequest(ISubtextContext subtextContext) {
-            if (!subtextContext.Blog.TrackbacksEnabled) {
+        public override void ProcessRequest() {
+            if (!SubtextContext.Blog.TrackbacksEnabled) {
                 return;
             }
 
             try {
-                SubtextContext = subtextContext;
-                HandleTrackback(subtextContext);
+                HandleTrackback(SubtextContext);
             }
             catch (BaseCommentException e)
             {
@@ -81,29 +68,7 @@ namespace Subtext.Framework.Tracking
             }
         }
 
-        public RequestContext RequestContext
-        {
-            get {
-                return SubtextContext.RequestContext;
-            }
-            set {
-            }
-        }
-
-        public UrlHelper Url {
-            get {
-                return SubtextContext.UrlHelper;
-            }
-        }
-
-        public Blog Blog {
-            get {
-                return SubtextContext.Blog;
-            }
-        }
-
-		private void HandleTrackback(ISubtextContext subtextContext)
-		{
+		private void HandleTrackback(ISubtextContext subtextContext) {
             var httpContext = subtextContext.RequestContext.HttpContext;
             httpContext.Response.ContentType = "text/xml";
 
@@ -136,8 +101,7 @@ namespace Subtext.Framework.Tracking
 			}
 		}
 
-		private static void SendTrackbackRss(ISubtextContext context, Entry entry, int postId)
-		{
+		private static void SendTrackbackRss(ISubtextContext context, Entry entry, int postId) {
 			XmlTextWriter w = new XmlTextWriter(context.RequestContext.HttpContext.Response.Output);
 			w.Formatting = Formatting.Indented;
 
@@ -160,8 +124,7 @@ namespace Subtext.Framework.Tracking
 			w.WriteEndDocument();
 		}
 
-		private void CreateTrackbackAndSendResponse(ISubtextContext subtextContext, Entry entry, int entryId)
-		{
+		private void CreateTrackbackAndSendResponse(ISubtextContext subtextContext, Entry entry, int entryId) {
             var context = subtextContext.RequestContext.HttpContext;
 			string title = SafeParam(context, "title");
 			string excerpt = SafeParam(context, "excerpt");
@@ -194,19 +157,7 @@ namespace Subtext.Framework.Tracking
             emailService.EmailCommentToBlogAuthor(trackback);
 		}
 
-		/// <summary>
-		/// Gets a value indicating whether another request can use
-		/// the <see cref="T:System.Web.IHttpHandler"/>
-		/// instance.
-		/// </summary>
-		/// <value></value>
-		public bool IsReusable
-		{
-			get { return false; }
-		}
-
-		private static void SendTrackbackResponse(HttpContextBase context, int errorNumber, string errorMessage)
-		{
+		private static void SendTrackbackResponse(HttpContextBase context, int errorNumber, string errorMessage) {
 			XmlDocument d = new XmlDocument();
 			XmlElement root = d.CreateElement("response");
 			d.AppendChild(root);
@@ -223,8 +174,7 @@ namespace Subtext.Framework.Tracking
 			context.Response.Output.Flush();
 		}
 
-		private static string SafeParam(HttpContextBase context, string pName)
-		{
+		private static string SafeParam(HttpContextBase context, string pName) {
 			if (context.Request.Form[pName] != null)
 				return HtmlHelper.SafeFormat(context.Request.Form[pName], context.Server);
 			return string.Empty;
@@ -234,25 +184,16 @@ namespace Subtext.Framework.Tracking
 
 		public event SourceVerificationEventHandler SourceVerification;
 
-		private bool IsSourceVerification(Uri sourceUrl, Uri entryUrl)
-		{
+		private bool IsSourceVerification(Uri sourceUrl, Uri entryUrl) {
 			SourceVerificationEventHandler handler = SourceVerification;
-			if (handler != null)
-			{
+			if (handler != null) {
 				SourceVerificationEventArgs args = new SourceVerificationEventArgs(sourceUrl, entryUrl);
 				handler(this, args);
 				return args.Verified;
 			}
-			else
-			{
+			else {
 				return Verifier.SourceContainsTarget(sourceUrl, entryUrl);
 			}
 		}
-
-        public ISubtextContext SubtextContext
-        {
-            get;
-            set;
-        }
     }
 }

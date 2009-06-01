@@ -22,8 +22,7 @@ using Subtext.Extensibility.Web;
 using Subtext.Framework.UI.Skinning;
 
 
-namespace Subtext.Framework.Web.Handlers
-{
+namespace Subtext.Framework.Web.Handlers {
     public class JsHandler : BaseHttpHandler
     {
         private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinEngine());

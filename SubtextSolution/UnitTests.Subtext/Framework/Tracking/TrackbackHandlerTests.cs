@@ -40,7 +40,8 @@ namespace UnitTests.Subtext.Framework.Tracking
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
 
             //act
-            handler.ProcessRequest(subtextContext.Object);
+            handler.SubtextContext = subtextContext.Object;
+            handler.ProcessRequest();
 
             //assert
             Assert.AreEqual(string.Empty, writer.ToString());
@@ -72,7 +73,8 @@ namespace UnitTests.Subtext.Framework.Tracking
             subtextContext.SetupBlog(blog);
 
 			//act
-            handler.ProcessRequest(subtextContext.Object);
+            handler.SubtextContext = subtextContext.Object;
+            handler.ProcessRequest();
 
             //assert
             Assert.IsTrue(writer.ToString().Contains("this is the title"));
@@ -100,7 +102,8 @@ namespace UnitTests.Subtext.Framework.Tracking
             subtextContext.SetupBlog(blog);
 
             //act
-            handler.ProcessRequest(subtextContext.Object);
+            handler.SubtextContext = subtextContext.Object;
+            handler.ProcessRequest();
 
             //assert
             Assert.IsTrue(writer.ToString().Contains("EntryID is invalid or missing"));
@@ -127,7 +130,8 @@ namespace UnitTests.Subtext.Framework.Tracking
             subtextContext.SetupBlog(blog);
 
             //act
-            handler.ProcessRequest(subtextContext.Object);
+            handler.SubtextContext = subtextContext.Object;
+            handler.ProcessRequest();
 
             //assert
 			Assert.IsTrue(writer.ToString().Contains("EntryID is invalid or missing"));
@@ -174,7 +178,8 @@ namespace UnitTests.Subtext.Framework.Tracking
             httpContext.Setup(c => c.Request.Form).Returns(form);
 
             //act
-            handler.ProcessRequest(subtextContext.Object);
+            handler.SubtextContext = subtextContext.Object;
+            handler.ProcessRequest();
 
             //assert
             ICollection<FeedbackItem> trackbacks = Entries.GetFeedBack(entry);

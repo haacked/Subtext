@@ -33,19 +33,8 @@ namespace Subtext.Framework.Routing
 
         IHttpHandler IRouteHandler.GetHttpHandler(RequestContext requestContext) {
             Bootstrapper.RequestContext = requestContext;
-
             IHttpHandler handler = GetHandler(requestContext);
-            var subtextHandler = handler as ISubtextHandler;
-            if (subtextHandler != null) {
-                subtextHandler.SubtextContext = Bootstrapper.Kernel.Get<ISubtextContext>();
-            }
-            else {
-                var routableHandler = handler as IRoutableHandler;
-                if (routableHandler != null) {
-                    routableHandler.RequestContext = requestContext;
-                }
-            }
-
+            Kernel.Inject(handler);
             return handler;
         }
 

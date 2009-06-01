@@ -14,34 +14,28 @@
 #endregion
 
 using System;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Routing;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web
 {
 	/// <summary>
 	/// Displays the blog not active message.
 	/// </summary>
-	public partial class BlogNotActive : RoutablePage
+	public partial class BlogNotActive : SubtextPage
 	{
-		protected override void OnLoad(EventArgs e)
-		{
+		protected override void OnLoad(EventArgs e) {
             base.OnLoad(e);
-			try
-			{
-				if(!Config.CurrentBlog.IsActive)
-				{
+			try {
+				if(!Blog.IsActive) {
 					plcInactiveBlogMessage.Visible = true;
 					plcNothingToSeeHere.Visible = false;
 				}
-				else
-				{
+				else {
                     lnkBlog.HRef = Url.BlogUrl();
 				}
 			}
-			catch(BlogDoesNotExistException)
-			{
+			catch(BlogDoesNotExistException) {
 				plcInactiveBlogMessage.Visible = true;
 				plcNothingToSeeHere.Visible = false;
 			}
