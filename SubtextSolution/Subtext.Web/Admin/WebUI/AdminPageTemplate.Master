@@ -32,6 +32,7 @@
     <link type="text/css" rel="stylesheet" runat="server" href="~/Admin/Resources/ie7admin.css" />
     <![endif]-->
     <link type="text/css" rel="stylesheet" runat="server" href="~/Admin/Resources/mobile.css" media="handheld" />
+    <link rel="apple-touch-icon" runat="server" href="~/Admin/Resources/iPhoneIcon.png"/>
     <asp:ContentPlaceHolder runat="server" ID="head" />
 </head>
 <body id="AdminSection" runat="server" class="admin">
