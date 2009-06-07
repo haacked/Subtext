@@ -281,7 +281,27 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        public void Publish_WithScriptTag_ThrowsException()
+        public void Publish_WithRepositoryThrowingException_PropagatesException()
+        {
+            //arrange
+            var repository = new Mock<ObjectProvider>();
+            var exception = new Mock<DbException>();
+            exception.Setup(e => e.Message).Returns("unknown");
+            repository.Setup(r => r.Create(It.IsAny<Entry>(), null)).Throws(exception.Object);
+            var context = new Mock<ISubtextContext>();
+            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
+            context.Setup(c => c.Repository).Returns(repository.Object);
+            var publisher = new EntryPublisher(context.Object, null);
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", EntryName = "test" };
+
+            //act, assert
+            UnitTestHelper.AssertThrows<DbException>(() =>
+                publisher.Publish(entry)
+            );
+        }
+
+        [Test]
+        public void Publish_WithScriptTagInBody_ThrowsException()
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
@@ -291,6 +311,63 @@ namespace UnitTests.Subtext.Framework.Services
             context.Setup(c => c.Repository).Returns(repository.Object);
             var publisher = new EntryPublisher(context.Object, null);
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body = "Some <script></script> Body" };
+            Config.Settings.AllowScriptsInPosts = false;
+
+            //act, assert
+            UnitTestHelper.AssertThrows<IllegalPostCharactersException>(() =>
+                publisher.Publish(entry)
+            );
+        }
+
+        [Test]
+        public void Publish_WithScriptTagInTitle_ThrowsException()
+        {
+            //arrange
+            var repository = new Mock<ObjectProvider>();
+            repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
+            var context = new Mock<ISubtextContext>();
+            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
+            context.Setup(c => c.Repository).Returns(repository.Object);
+            var publisher = new EntryPublisher(context.Object, null);
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test<script></script>", Body = "Some Body" };
+            Config.Settings.AllowScriptsInPosts = false;
+
+            //act, assert
+            UnitTestHelper.AssertThrows<IllegalPostCharactersException>(() =>
+                publisher.Publish(entry)
+            );
+        }
+        
+        [Test]
+        public void Publish_WithScriptTagInSlug_ThrowsException()
+        {
+            //arrange
+            var repository = new Mock<ObjectProvider>();
+            repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
+            var context = new Mock<ISubtextContext>();
+            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
+            context.Setup(c => c.Repository).Returns(repository.Object);
+            var publisher = new EntryPublisher(context.Object, null);
+            var entry = new Entry(PostType.BlogPost) { Title="stuff", EntryName = "<script></script>", Body = "Some Body" };
+            Config.Settings.AllowScriptsInPosts = false;
+
+            //act, assert
+            UnitTestHelper.AssertThrows<IllegalPostCharactersException>(() =>
+                publisher.Publish(entry)
+            );
+        }
+
+        [Test]
+        public void Publish_WithScriptTagInDescription_ThrowsException()
+        {
+            //arrange
+            var repository = new Mock<ObjectProvider>();
+            repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
+            var context = new Mock<ISubtextContext>();
+            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
+            context.Setup(c => c.Repository).Returns(repository.Object);
+            var publisher = new EntryPublisher(context.Object, null);
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body="Whatever", Description = "Some <script></script> Body" };
             Config.Settings.AllowScriptsInPosts = false;
 
             //act, assert
