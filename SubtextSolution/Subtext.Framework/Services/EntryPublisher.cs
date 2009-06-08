@@ -20,11 +20,11 @@ using System.Linq;
 using Subtext.Configuration;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Emoticons;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Text;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Services
 {
@@ -119,7 +119,7 @@ namespace Subtext.Framework.Services
             }
             catch (DbException e) {
                 if (e.Message.Contains("pick a unique EntryName")) {
-                    throw new DuplicateEntryException("An entry with that EntryName already exists.", e);
+                    throw new DuplicateEntryException(Resources.DuplicateEntryException_EntryNameAlreadyExists, e);
                 }
                 throw;
             }
@@ -133,21 +133,21 @@ namespace Subtext.Framework.Services
         {
             //TODO: The following doesn't belong here. It's verification code.
             if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body)) {
-                throw new IllegalPostCharactersException("Illegal Characters Found");
+                throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             //Never allow scripts in the title.
             if (HtmlHelper.HasIllegalContent(e.Title)) {
-                throw new IllegalPostCharactersException("Illegal Characters Found");
+                throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Description)) {
-                throw new IllegalPostCharactersException("Illegal Characters Found");
+                throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             //never allow scripts in the url.
             if (HtmlHelper.HasIllegalContent(e.EntryName)) {
-                throw new IllegalPostCharactersException("Illegal Characters Found");
+                throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             return true;

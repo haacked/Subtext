@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Web.Hosting;
 using Moq;
@@ -9,13 +10,13 @@ namespace UnitTests.Subtext.Framework.Skinning
     {
         public static void SetupSkin(this Mock<VirtualPathProvider> vppMock, IList<VirtualDirectory> directories, string skinName, string skinConfigContents)
         {
-            string skinConfigPath = string.Format("~/skins/{0}/skin.config", skinName);
+            string skinConfigPath = string.Format(CultureInfo.InvariantCulture, "~/skins/{0}/skin.config", skinName);
             var virtualFile = new Mock<VirtualFile>(skinConfigPath);
             Stream stream = skinConfigContents.ToStream();
             virtualFile.Setup(vf => vf.Open()).Returns(stream);
             vppMock.Setup(v => v.FileExists(skinConfigPath)).Returns(true);
             vppMock.Setup(v => v.GetFile(skinConfigPath)).Returns(virtualFile.Object);
-            var skinDir = new Mock<VirtualDirectory>(string.Format("~/skins/{0}", skinName));
+            var skinDir = new Mock<VirtualDirectory>(string.Format(CultureInfo.InvariantCulture, "~/skins/{0}", skinName));
             skinDir.Setup(d => d.Name).Returns(skinName);
             directories.Add(skinDir.Object);
         }

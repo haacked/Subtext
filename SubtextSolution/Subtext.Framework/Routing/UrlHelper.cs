@@ -15,11 +15,13 @@
 
 using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Web;
 using System.Web.Routing;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Routing
@@ -46,9 +48,7 @@ namespace Subtext.Framework.Routing
                 appRoot += "/";
             }
 
-            if (!appRoot.StartsWith("/")) {
-                throw new InvalidOperationException("Whoa! An assumption was broken.");
-            }
+            Debug.Assert(appRoot.StartsWith("/"), "AppRoot should start with '/' but was '" + appRoot + "'");
             return appRoot;
         }
         
@@ -72,7 +72,7 @@ namespace Subtext.Framework.Routing
                 throw new ArgumentNullException("entry");
             }
             if (entry.PostType == PostType.None) {
-                throw new ArgumentException("Entry must have a valid PostType", "entry");
+                throw new ArgumentException(Resources.Argument_EntryMustHaveValidPostType, "entry");
             }
 
             if (NullValue.IsNull(entry.Id)) {

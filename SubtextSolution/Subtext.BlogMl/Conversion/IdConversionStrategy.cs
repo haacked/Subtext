@@ -5,7 +5,8 @@ namespace Subtext.BlogML.Conversion
 {
 	public abstract class IdConversionStrategy
 	{
-		public static IdConversionStrategy Empty = new NullConversionStrategy();
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes")]
+        public static readonly IdConversionStrategy Empty = new NullConversionStrategy();
 		Dictionary<ScopedId, string> idMap = new Dictionary<ScopedId, string>();
 
 		/// <summary>

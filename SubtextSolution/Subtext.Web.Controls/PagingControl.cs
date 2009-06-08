@@ -44,11 +44,11 @@ namespace Subtext.Web.Controls
 		protected const int MinDisplayPageCount = 3;
 		protected const int DefaultDisplayPageCount = 9;
 
-		protected const string SPACER_DEFAULT = "&nbsp;";
+		protected const string SpacerDefault = "&nbsp;";
 		protected const string DefaultFirstPageText = "First";
 		protected const string DefaultLastPageText = "Last";
 		protected const string DefaultGoToPageText = "Goto page&nbsp;";
-		protected const string SUFFIXTEXT_DEFAULT = "";
+		protected const string DefaultSuffixText = "";
 		protected const string DefaultPageUrlFormat = "/?pageid={0}";
 		protected const string DefaultLinkFormat = @"<a href=""{0}"" title=""Page"">{1}</a>";
 		protected const string DefaultActiveLinkFormat = @"<a href=""{0}"" title=""page"" class=""Current"">&#187;{1}&#171;</a>";
@@ -68,7 +68,7 @@ namespace Subtext.Web.Controls
 
 		protected bool _usePrefixSuffix = true;
 		protected string _prefixText = DefaultGoToPageText;
-		protected string _suffixText = SUFFIXTEXT_DEFAULT;
+		protected string _suffixText = DefaultSuffixText;
 
 		/// <summary>
 		/// Constructs an instance of this control.
@@ -279,8 +279,8 @@ namespace Subtext.Web.Controls
 		/// <returns></returns>
 		protected string RenderLink(int pageIndex, string display, bool isCurrent)
 		{
-			string url = String.Format(_urlFormat, pageIndex);
-			return String.Format(isCurrent ? _linkFormatActive : _linkFormat, url, display);
+            string url = String.Format(CultureInfo.InvariantCulture, _urlFormat, pageIndex);
+            return String.Format(CultureInfo.InvariantCulture, isCurrent ? _linkFormatActive : _linkFormat, url, display);
 		}
 
 		protected virtual void WriteConditional(HtmlTextWriter writer, string value, bool condition)

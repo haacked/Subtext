@@ -60,12 +60,12 @@ namespace Subtext.Framework.Tracking
 		{
 			if (sourceURI == null)
 			{
-				throw new ArgumentNullException("sourceURI", Resources.ArgumentNull_Uri);
+				throw new ArgumentNullException("sourceURI");
 			}
 
 			if (targetURI == null)
 			{
-				throw new ArgumentNullException("targetURI", Resources.ArgumentNull_Uri);
+				throw new ArgumentNullException("targetURI");
 			}
 
 			string pingbackURL = GetPingBackURL(pageText, sourceURI);

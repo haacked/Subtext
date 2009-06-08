@@ -19,7 +19,6 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
-using Subtext.Framework.Services;
 
 namespace Subtext.Framework.Components
 {
@@ -252,8 +251,8 @@ namespace Subtext.Framework.Components
 		/// <value><c>true</c> if [display on home page]; otherwise, <c>false</c>.</value>
 		public bool DisplayOnHomePage
 		{
-			get { return EntryPropertyCheck(PostConfig.DisplayOnHomePage); }
-			set { PostConfigSetter(PostConfig.DisplayOnHomePage, value); }
+			get { return EntryPropertyCheck(PostConfig.DisplayOnHomepage); }
+			set { PostConfigSetter(PostConfig.DisplayOnHomepage, value); }
 		}
 
 		/// <summary>
@@ -372,7 +371,7 @@ namespace Subtext.Framework.Components
 		public static int CalculateChecksum(string text)
 		{
 			if (text == null)
-				throw new ArgumentNullException("text", Resources.ArgumentNull_String);
+				throw new ArgumentNullException("text");
 			int checksum = 0;
 			foreach (char c in text)
 			{

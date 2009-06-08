@@ -15,22 +15,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Net;
-using System.Web;
 using log4net;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
-using Subtext.Framework.Text;
-using Subtext.Framework.Threading;
-using Subtext.Framework.Web;
-using Subtext.Framework.Routing;
-using Subtext.Framework.Email;
 using Subtext.Framework.Services;
 
 namespace Subtext.Framework.Components
@@ -95,7 +88,7 @@ namespace Subtext.Framework.Components
 		public static bool Update(FeedbackItem feedbackItem)
 		{
 			if (feedbackItem == null)
-				throw new ArgumentNullException("feedbackItem", "Cannot update a null feedback");
+				throw new ArgumentNullException("feedbackItem");
     
 			feedbackItem.DateModified = Config.CurrentBlog.TimeZone.Now;
 			return ObjectProvider.Instance().Update(feedbackItem);
@@ -110,7 +103,7 @@ namespace Subtext.Framework.Components
         public static void Approve(FeedbackItem feedback, ICommentSpamService spamService)
 		{
 			if (feedback == null)
-				throw new ArgumentNullException("feedback", "Cannot approve a null comment.");
+				throw new ArgumentNullException("feedback");
 
 			feedback.SetStatus(FeedbackStatusFlag.Approved, true);
 			feedback.SetStatus(FeedbackStatusFlag.Deleted, false);
@@ -128,7 +121,7 @@ namespace Subtext.Framework.Components
 		public static void ConfirmSpam(FeedbackItem feedback, ICommentSpamService spamService)
 		{
 			if (feedback == null)
-				throw new ArgumentNullException("feedback", "Cannot approve a null comment.");
+				throw new ArgumentNullException("feedback");
 
 			feedback.SetStatus(FeedbackStatusFlag.Approved, false);
 			feedback.SetStatus(FeedbackStatusFlag.ConfirmedSpam, true);
@@ -147,7 +140,7 @@ namespace Subtext.Framework.Components
 		public static void Delete(FeedbackItem feedback, ICommentSpamService service)
 		{
 			if (feedback == null)
-				throw new ArgumentNullException("feedback", "Cannot delete a null comment.");
+				throw new ArgumentNullException("feedback");
 
 			feedback.SetStatus(FeedbackStatusFlag.Approved, false);
 			feedback.SetStatus(FeedbackStatusFlag.Deleted, true);
@@ -162,10 +155,10 @@ namespace Subtext.Framework.Components
         public static void Destroy(FeedbackItem feedback, ICommentSpamService service)
 		{
 			if (feedback == null)
-				throw new ArgumentNullException("feedback", "Cannot destroy a null comment.");
+				throw new ArgumentNullException("feedback");
 
 			if (feedback.Approved)
-				throw new InvalidOperationException("Cannot destroy an approved comment. Please flag it as spam or trash it first.");
+				throw new InvalidOperationException(Resources.InvalidOperation_CannotDestroyApprovedComment);
 			
 			ObjectProvider.Instance().DestroyFeedback(feedback.Id);
 		}
@@ -176,8 +169,8 @@ namespace Subtext.Framework.Components
 		/// <param name="feedbackStatus">The feedback.</param>
 		public static void Destroy(FeedbackStatusFlag feedbackStatus)
 		{
-			if ((feedbackStatus & FeedbackStatusFlag.Approved) == FeedbackStatusFlag.Approved)
-				throw new InvalidOperationException("Cannot destroy an active comment.");
+            if ((feedbackStatus & FeedbackStatusFlag.Approved) == FeedbackStatusFlag.Approved)
+                throw new InvalidOperationException(Resources.InvalidOperation_DestroyActiveComment);
 
 			ObjectProvider.Instance().DestroyFeedback(feedbackStatus);
 		}
@@ -513,7 +506,7 @@ namespace Subtext.Framework.Components
 		public static int CalculateChecksum(string text)
 		{
             if (text == null) {
-                throw new ArgumentNullException("text", "Cannot calculate checksum for null string.");
+                throw new ArgumentNullException("text");
             }
 			int checksum = 0;
 			foreach (char c in text)

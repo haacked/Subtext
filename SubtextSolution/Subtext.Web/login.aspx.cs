@@ -22,6 +22,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.Handlers;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Pages
 {
@@ -30,7 +31,7 @@ namespace Subtext.Web.Pages
 	/// </summary>
 	public partial class login : SubtextPage {
 		private readonly static ILog log = new Framework.Logging.Log();
-        private const string loginFailedMessage = "That&#8217;s not it<br />";
+        private static readonly string loginFailedMessage = Resources.Login_Failed + "<br />";
 
 		protected override void OnLoad(EventArgs e) {
             base.OnLoad(e);
@@ -84,7 +85,7 @@ namespace Subtext.Web.Pages
                 ReturnToUrl(AdminUrl.Home());
             }
             else {
-                openIdMessage.Text = "Authentication failed.";
+                openIdMessage.Text = Resources.Login_AuthenticationFailed;
             }
         } 
 

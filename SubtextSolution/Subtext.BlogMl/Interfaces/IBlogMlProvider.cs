@@ -43,7 +43,7 @@ namespace Subtext.BlogML.Interfaces
 		/// happens to be running in.
 		/// </summary>
 		/// <returns></returns>
-		IBlogMLContext GetBlogMlContext();
+		IBlogMLContext GetBlogMLContext();
 
 		/// <summary>
 		/// Returns a strategy object responsible for handling Id conversions 
@@ -107,25 +107,26 @@ namespace Subtext.BlogML.Interfaces
 		/// </summary>
 		/// <param name="bmlComment"></param>
 		/// <param name="newPostId"></param>
-		void CreatePostComment(BlogMLComment bmlComment, string newPostId);
+		void CreatePostComment(BlogMLComment comment, string newPostId);
 
 		/// <summary>
 		/// Creates a trackback for the post.
 		/// </summary>
 		/// <param name="trackback"></param>
-		void CreatePostTrackback(BlogMLTrackback trackback, string newPostId);
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "trackback")]
+        void CreatePostTrackback(BlogMLTrackback trackback, string newPostId);
 
 	    /// <summary>
 	    /// Sets the extended properties for the blog.
 	    /// </summary>
 	    /// <param name="extendedProperties"></param>
-        void SetBlogMlExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties);
+        void SetBlogMLExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties);
 		
 		/// <summary>
 		/// Lets the provider decide how to log errors.
 		/// </summary>
 		/// <param name="message"></param>
 		/// <param name="e"></param>
-		void LogError(string message, Exception e);
+		void LogError(string message, Exception exception);
 	}
 }

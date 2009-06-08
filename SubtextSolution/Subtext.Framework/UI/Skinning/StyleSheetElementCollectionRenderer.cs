@@ -15,9 +15,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Web;
-using Subtext.Framework;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.UI.Skinning
@@ -63,7 +63,7 @@ namespace Subtext.Framework.UI.Skinning
 
             if (!String.IsNullOrEmpty(style.Conditional))
             {
-                element = string.Format("<!--[{0}]>{1}", style.Conditional, Environment.NewLine);
+                element = string.Format(CultureInfo.InvariantCulture, "<!--[{0}]>{1}", style.Conditional, Environment.NewLine);
             }
 		    
             element += "<link";

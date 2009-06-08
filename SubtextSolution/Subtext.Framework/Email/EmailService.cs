@@ -2,6 +2,7 @@
 using System.Globalization;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
 
@@ -68,7 +69,7 @@ namespace Subtext.Framework.Email
                 spamFlag = comment.FlaggedAsSpam ? "Spam Flagged " : ""
             };
             string message = template.Format(commentForTemplate);
-            string subject = String.Format(CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, Blog.Title);
+            string subject = String.Format(CultureInfo.InvariantCulture, Resources.Email_CommentVia, comment.Title, Blog.Title);
             if (comment.FlaggedAsSpam) {
                 subject = "[SPAM Flagged] " + subject;
             }

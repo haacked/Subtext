@@ -27,16 +27,6 @@ namespace Subtext.Framework.Util
 	/// </summary>
 	public static class WebPathStripper
 	{
-		/// <summary>
-		/// Parses out the year from the request.
-		/// </summary>
-		/// <param name="uri">The URI.</param>
-		/// <returns></returns>
-		public static int YearFromRequest(string uri)
-		{
-			return GetEntryIDFromUrl(uri);
-		}
-
 		public static DateTime GetDateFromRequest(string uri, string archiveText)
 		{
 			uri = uri.ToLower(CultureInfo.InvariantCulture);
@@ -80,28 +70,6 @@ namespace Subtext.Framework.Util
 			if (url.EndsWith("/"))
 				url = url.Substring(0,url.Length - 1);
 			return Regex.Replace(url, "/rss$", string.Empty);
-		}
-
-		/// <summary>
-		/// Gets the entry ID from URL.
-		/// </summary>
-		/// <exception type="ArgumentNullException">Thrown if the specified url is null.</exception>
-		/// <exception type="ArgumentException">Thrown if the specified url does not have an entry id.</exception>
-		/// <param name="url">The URI.</param>
-		/// <returns></returns>
-		public static int GetEntryIDFromUrl(string url)
-		{
-			if(url == null)
-				throw new ArgumentNullException("uri", "Cannot get entry id from a null url.");
-			
-			try
-			{
-				return Int32.Parse(Path.GetFileNameWithoutExtension(url));
-			}
-			catch(FormatException e)
-			{
-				throw new ArgumentException("The specified URL does not contain an entry id.", "url", e);
-			}
 		}
 	}
 }

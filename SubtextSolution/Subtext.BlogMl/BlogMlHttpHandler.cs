@@ -1,14 +1,14 @@
 using System;
 using System.IO;
-using System.Text;
 using System.Web;
 using System.Xml;
 using Subtext.BlogML.Interfaces;
+using Subtext.BlogML.Properties;
 using Subtext.Extensibility.Web;
 
 namespace Subtext.BlogML {
 	public abstract class BlogMLHttpHandler : BaseHttpHandler {
-        public abstract IBlogMLProvider GetBlogMlProvider();
+        public abstract IBlogMLProvider GetBlogMLProvider();
 
 		/// <summary>
 		/// Http handler used to export BlogML.
@@ -47,10 +47,10 @@ namespace Subtext.BlogML {
 
 		private void WriteBlogML(TextWriter outputWriter)
 		{
-			IBlogMLProvider provider = GetBlogMlProvider();
+			IBlogMLProvider provider = GetBlogMLProvider();
 
-            if (provider.GetBlogMlContext() == null) {
-                throw new InvalidOperationException("The BlogMl provider did not set the context.");
+            if (provider.GetBlogMLContext() == null) {
+                throw new InvalidOperationException(Resources.InvalidOperation_BlogMLNullContext);
             }
 
 			BlogMLWriter writer = BlogMLWriter.Create(provider);

@@ -15,6 +15,8 @@
 
 using System;
 using System.Runtime.Serialization;
+using System.Security.Permissions;
+using System.Globalization;
 
 namespace Subtext.Scripting.Exceptions
 {
@@ -94,6 +96,7 @@ namespace Subtext.Scripting.Exceptions
 		/// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
 		/// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
 		/// <exception 
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
 		void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("Script", _script);
@@ -127,7 +130,7 @@ namespace Subtext.Scripting.Exceptions
 			{
 				string message = base.Message;
 				if (this.Script != null)
-					message += string.Format("{0}ScriptName: {1}", Environment.NewLine, _script);
+					message += string.Format(CultureInfo.InvariantCulture, "{0}ScriptName: {1}", Environment.NewLine, _script);
 				message+= "Return Value: " + ReturnValue;
 				return message;
 			}

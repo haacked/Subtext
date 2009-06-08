@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Data;
-using System.Configuration;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using Subtext.Framework.Components;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Web.Admin.Feedback
 {
@@ -32,27 +25,27 @@ namespace Subtext.Web.Admin.Feedback
                     return new DeletedState();
 
                 default:
-                    throw new InvalidOperationException("Invalid Feedback Status supplied '" + status + "'");
+                    throw new InvalidOperationException(String.Format(Resources.InvalidOperation_InvalidFeedbackStatus, status));
             }    
         }
 
         public string HeaderText = string.Empty ;
         public bool Approvable = true;
-        public string ApproveText = "Approve";
+        public string ApproveText = Resources.Label_Approve;
         public bool Destroyable = false;
         public bool Deletable = true;
         public string DeleteToolTip = string.Empty;
         public bool Spammable = true;
         public bool Emptyable = false;
         public string EmptyToolTip = string.Empty;
-        public string NoCommentsHtml = "<em>There are no approved comments to display.</em>";
+        public string NoCommentsHtml = Resources.Label_NoApprovedComments;
     }
 
     public class ApprovedFeedbackState : FeedbackState
     {
         public ApprovedFeedbackState()
         {
-            HeaderText = "Comments";
+            HeaderText = Resources.Label_Comments;
             Approvable = false;
         }
     }
@@ -61,8 +54,8 @@ namespace Subtext.Web.Admin.Feedback
     {
         public NeedsModerationState() : base()
         {
-            HeaderText = "Comments Pending Moderator Approval";
-            NoCommentsHtml = "<em>No Entries Need Moderation.</em>";
+            HeaderText = Resources.Label_CommentsPendingModeratorApproval;
+            NoCommentsHtml = Resources.Label_NoCommentsNeedModeration;
         }
     }
 
@@ -70,12 +63,12 @@ namespace Subtext.Web.Admin.Feedback
     {
         public FlaggedAsSpamState()
         {
-            HeaderText = "Comments Flagged as SPAM";
-            DeleteToolTip = "Trashes checked spam";
+            HeaderText = Resources.Label_CommentsFlaggedAsSpam;
+            DeleteToolTip = Resources.Label_TrashesSpam;
             Spammable = false;
             Emptyable = true;
-            EmptyToolTip = "Destroy all spam, not just checked";
-            NoCommentsHtml = "<em>No Entries Flagged as SPAM.</em>";
+            EmptyToolTip = Resources.Label_DestroySpamTooltip;
+            NoCommentsHtml = Resources.Label_NoCommentsFlaggedAsSpam;
         }
     }
 
@@ -83,15 +76,15 @@ namespace Subtext.Web.Admin.Feedback
     {
         public DeletedState()
         {
-            HeaderText = "Comments In The Trash Bin";
+            HeaderText = Resources.Label_CommentsInTrash;
             Spammable = false;
             Deletable = false;
-            DeleteToolTip = "Trashes checked spam";
+            DeleteToolTip = Resources.Label_TrashesSpam;
             Destroyable = true;
             Emptyable = true;
-            EmptyToolTip = "Destroy all trash, not just checked";
-            ApproveText = "Undelete";
-            NoCommentsHtml = "<em>No Entries in the Trash.</em>";
+            EmptyToolTip = Resources.Label_DestroyTrashTooltip;
+            ApproveText = Resources.Label_Undelete;
+            NoCommentsHtml = Resources.Label_NoCommentsInTrash;
         }
     }
 }

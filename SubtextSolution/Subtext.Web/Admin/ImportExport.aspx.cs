@@ -14,18 +14,15 @@
 #endregion
 
 using System;
-using System.Web;
-using System.Web.Routing;
 using log4net;
 using Subtext.BlogML;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Routing;
-using Subtext.ImportExport;
 using Subtext.Framework.Services;
+using Subtext.ImportExport;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -62,7 +59,7 @@ namespace Subtext.Web.Admin.Pages
 				}
 				catch(InvalidOperationException)
 				{
-					Messages.ShowError("The file you specified does not appear to be a valid BlogML file.", true);
+					Messages.ShowError(Resources.ImportExport_InvalidBlogMLFile, true);
 				}
 			}
 		}
@@ -80,7 +77,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 			catch(BlogImportException bie)
 			{
-				log.Error("Import of BlogML file failed.", bie);
+				log.Error(Resources.ImportExport_ImportFailed, bie);
 				Messages.ShowError(bie.Message, true);
 			}
 		    finally
@@ -88,7 +85,7 @@ namespace Subtext.Web.Admin.Pages
 			    importBlogMLFile.PostedFile.InputStream.Close();
 			}
 
-			Messages.ShowMessage("The BlogML file was successfully imported!");
+			Messages.ShowMessage(Resources.ImportExport_ImportSuccess);
 		}
 
         protected void btnClearContent_Click(object sender, EventArgs e)
@@ -100,10 +97,10 @@ namespace Subtext.Web.Admin.Pages
                 btnClearContent.Visible = false;
                 
                 Blog.ClearBlogContent(Config.CurrentBlog.Id);
-                msgpnlClearContent.ShowMessage("Success! The content has been obliterated!");
+                msgpnlClearContent.ShowMessage(Resources.ImportExport_ContentObliterated);
             }
             else
-                msgpnlClearContent.ShowError(@"You need to check the ""Clear Content"" checkbox to continue.");
+                msgpnlClearContent.ShowError(Resources.ImportExport_CheckContinueToClearContent);
         }
 	}
 }

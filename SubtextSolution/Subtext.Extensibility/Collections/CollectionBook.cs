@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Subtext.Extensibility.Interfaces;
+using Subtext.Extensibility.Properties;
 
 namespace Subtext.Extensibility.Collections
 {
@@ -30,7 +31,7 @@ namespace Subtext.Extensibility.Collections
 		public IEnumerator<IPagedCollection<T>> GetEnumerator()
 		{
 			if (this.pageSize <= 0)
-				throw new InvalidOperationException("Cannot iterate a page of size zero or less");
+                throw new InvalidOperationException(Resources.InvalidOperation_PageSizeLessThanZero);
 						
 			int pageIndex = 0;
 			int pageCount = 0;

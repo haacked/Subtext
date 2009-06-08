@@ -38,10 +38,10 @@ namespace Subtext.Framework.Syndication
 		public CommentRssWriter(TextWriter writer, ICollection<FeedbackItem> commentEntries, Entry entry, ISubtextContext context) : base(writer, NullValue.NullDateTime, false, context)
 		{
 			if(commentEntries == null)
-				throw new ArgumentNullException("commentEntries", "Cannot generate a comment rss feed for a null collection of entries.");
+				throw new ArgumentNullException("commentEntries");
 			
 			if(entry == null)
-				throw new ArgumentNullException("entry", "Comment RSS feed must be associated to an entry.");
+				throw new ArgumentNullException("entry");
 			
 			this.Items = commentEntries;
 			this.CommentEntry = entry;

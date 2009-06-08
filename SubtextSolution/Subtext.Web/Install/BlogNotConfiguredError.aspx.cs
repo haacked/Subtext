@@ -19,7 +19,7 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Web;
-using Subtext.Web.Controls;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web
 {
@@ -55,7 +55,7 @@ namespace Subtext.Web
 			if(blogConfigured || info != null)
 			{
 				// Ok, someone shouldn't be here. Redirect to the error page.
-				throw new SecurityException("That page is forbidden.");
+                throw new SecurityException(Resources.Security_PageForbidden);
 			}
 
 			if(_anyBlogsExist)

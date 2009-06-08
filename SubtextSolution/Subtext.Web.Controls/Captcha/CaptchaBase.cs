@@ -8,12 +8,14 @@ using System.Web.UI.WebControls;
 using log4net;
 using Subtext.Framework.Logging;
 using Subtext.Web.Controls.Captcha;
+using Subtext.Web.Controls.Properties;
 
 namespace Subtext.Web.Controls
 {
 	/// <summary>
 	/// </summary>
-	public abstract class CaptchaBase : BaseValidator
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha")]
+    public abstract class CaptchaBase : BaseValidator
 	{
 		private readonly static ILog log = new Log();
 		static readonly SymmetricAlgorithm encryptionAlgorithm = InitializeEncryptionAlgorithm();
@@ -57,11 +59,11 @@ namespace Subtext.Web.Controls
 			}
 			catch (FormatException fe)
 			{
-				throw new CaptchaExpiredException("Encrypted encoded text '" + encryptedEncodedText + "' was not valid.", fe);
+				throw new CaptchaExpiredException(String.Format(CultureInfo.InvariantCulture, Resources.CaptchaExpired_EncryptedTextNotValid, encryptedEncodedText), fe);
 			}
 			catch (CryptographicException e)
 			{
-				throw new CaptchaExpiredException("Captcha image expired, probably due to recompile making the key out of synch.", e);
+				throw new CaptchaExpiredException(Resources.CaptchaExpired_KeyOutOfSynch, e);
 			}
 		}
 
@@ -117,12 +119,12 @@ namespace Subtext.Web.Controls
 			{
 				if (e.InnerException != null)
 				{
-					string warning = "CaptchaExpired Exception thrown.";
+					string warning = Resources.Warning_CaptchaExpired;
 					if (HttpContext.Current != null && HttpContext.Current.Request != null)
 						warning += " User Agent: " + HttpContext.Current.Request.UserAgent;
 					log.Warn(warning, e.InnerException);
 				}
-				this.ErrorMessage = "Sorry, but this form has expired. Please try again.";
+				this.ErrorMessage = Resources.Message_FormExpired;
 				return false;
 			}
 		}
@@ -134,7 +136,7 @@ namespace Subtext.Web.Controls
 			
 			string expectedAnswer = answerAndDate.Answer;
 			bool isValid = !String.IsNullOrEmpty(answer) 
-                && String.Equals(answer, expectedAnswer, StringComparison.InvariantCultureIgnoreCase);
+                && String.Equals(answer, expectedAnswer, StringComparison.OrdinalIgnoreCase);
 			return isValid;
 		}
 
@@ -155,7 +157,7 @@ namespace Subtext.Web.Controls
 			string formValue = Page.Request.Form[this.HiddenEncryptedAnswerFieldName];
 			AnswerAndDate answerAndDate = AnswerAndDate.ParseAnswerAndDate(formValue, CaptchaTimeout);
 			if (answerAndDate.Expired)
-				throw new CaptchaExpiredException("User waited too long to submit captcha");
+				throw new CaptchaExpiredException(Resources.CaptchaExpired_WaitedTooLong);
 			return answerAndDate;
 		}
 
@@ -171,8 +173,8 @@ namespace Subtext.Web.Controls
 			}
 		}
 
-        private int timeoutInSeconds = 0;
-		[DefaultValue(0), Description("Number of seconds this CAPTCHA is valid after it is generated. Zero means valid forever."), Category("Captcha")]
+        private int timeoutInSeconds;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha"), DefaultValue(0), Description("Number of seconds this CAPTCHA is valid after it is generated. Zero means valid forever."), Category("Captcha")]
 		public int CaptchaTimeout
 		{
 			get
@@ -216,7 +218,7 @@ namespace Subtext.Web.Controls
 			answerAndDate.date = DateTime.ParseExact(answerParts[1], "yyyy/MM/dd HH:mm", CultureInfo.InvariantCulture);
 
 			if (timeoutInSeconds != 0 && (DateTime.Now - answerAndDate.date).TotalSeconds >= timeoutInSeconds)
-				throw new CaptchaExpiredException("User took too long to submit captcha.");
+				throw new CaptchaExpiredException(Resources.CaptchaExpired_WaitedTooLong);
 
 			return answerAndDate;
 		}

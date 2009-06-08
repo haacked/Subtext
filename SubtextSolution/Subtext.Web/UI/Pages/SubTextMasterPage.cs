@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -244,7 +245,7 @@ namespace Subtext.Web.UI.Pages
                 for (int i = 0; i < Config.Settings.AllowedHtmlTags.Count; i++)
                 {
                     string tagname = Config.Settings.AllowedHtmlTags.Keys[i];
-                    declaration += string.Format("'{0}', ", tagname);
+                    declaration += string.Format(CultureInfo.InvariantCulture, "'{0}', ", tagname);
                 }
                 if (Config.Settings.AllowedHtmlTags.Count > 0)
                 {

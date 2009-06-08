@@ -55,11 +55,11 @@ namespace Subtext.Web.Controls
 			if(ImageUrl.Length > 0)
 			{
 				string imageUrl = HttpHelper.ExpandTildePath(ImageUrl);
-				writer.Write(String.Format("<img src=\"{0}\" ", imageUrl));
+                writer.Write(String.Format(CultureInfo.InvariantCulture, "<img src=\"{0}\" ", imageUrl));
 				if(ImageWidth > 0)
-					writer.Write(string.Format("width=\"{0}\" ", ImageWidth));
+                    writer.Write(string.Format(CultureInfo.InvariantCulture, "width=\"{0}\" ", ImageWidth));
 				if (ImageHeight > 0)
-					writer.Write(string.Format("height=\"{0}\" ", ImageHeight));
+                    writer.Write(string.Format(CultureInfo.InvariantCulture, "height=\"{0}\" ", ImageHeight));
 				writer.Write("/>");
 			}
 			writer.Write("</a>");

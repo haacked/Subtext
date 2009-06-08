@@ -11,7 +11,7 @@ namespace Subtext.Framework.ImportExport
 {
     //TODO: Fix this. We need to pull BlogMLHttpHandler into Subtext.Framework
     public class SubtextBlogMlHttpHandler : BlogMLHttpHandler, ISubtextHandler {
-        public override IBlogMLProvider GetBlogMlProvider() {
+        public override IBlogMLProvider GetBlogMLProvider() {
             var handler = new SubtextBlogMLProvider(Config.ConnectionString, SubtextContext, new CommentService(SubtextContext, null));
             handler.PageSize = 100;
             return handler;

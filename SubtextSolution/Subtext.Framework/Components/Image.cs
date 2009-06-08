@@ -16,6 +16,7 @@
 using System;
 using System.IO;
 using System.Xml.Serialization;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Components
 {
@@ -92,7 +93,7 @@ namespace Subtext.Framework.Components
             get
             {
                 if (this.localDirectoryPath == null)
-                    throw new InvalidOperationException("Image.LocalFilePath has not been set yet.");
+                    throw new InvalidOperationException(Resources.InvalidOperation_LocalDirectoryPathNotSet);
 
                 return this.localDirectoryPath;
             }

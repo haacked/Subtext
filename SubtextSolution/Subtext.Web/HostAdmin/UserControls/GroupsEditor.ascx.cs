@@ -23,8 +23,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
-using System.Data.SqlClient;
-using Subtext.Framework.Data;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.HostAdmin.UserControls
 {
@@ -44,7 +43,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             this.btnAddNewGroup.Click += btnAddNewGroup_Click;
 			
 			btnAddNewGroup.CssClass = "button";
-			btnAddNewGroup.Text = "New Blog Group";
+            btnAddNewGroup.Text = Resources.Label_NewBlogGroup;
 			((HostAdminTemplate)this.Page.Master).AddSidebarControl(btnAddNewGroup);
             
             if (!IsPostBack)
@@ -99,12 +98,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		// Contains the various help strings
 		void BindEditHelp()
 		{
-			#region Help Tool Tip Text
-			this.blogEditorHelp.HelpText = "<p>Use this page to manage the blogs groups for this server. " 
-				+ "For more information on configuring blogs, see the <a href=\'http://www.subtextproject.com/Home/Docs/Configuration/tabid/112/Default.aspx\' target=\'_blank\'>configuration docs</a> (opens a new window)."
-				+ "</p>";
-			
-			#endregion
+			this.blogEditorHelp.HelpText = Resources.GroupsEditor_HelpTip;
 		}
 
 		/// <summary>
@@ -123,11 +117,10 @@ namespace Subtext.Web.HostAdmin.UserControls
 			set { ViewState[VSKEY_GROUPID] = value; }
 		}
 
-        private bool _isActive;
         public bool IsActive
         {
-            get { return _isActive; }
-            set { _isActive = value; }
+            get;
+            set;
         }
 
         bool CreatingGroup
@@ -253,11 +246,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             if (ObjectProvider.Instance().InsertBlogGroup(blogGroup) > 0)
 			{
-				this.messagePanel.ShowMessage("Blog Group Created.");
+				this.messagePanel.ShowMessage(Resources.GroupsEditor_BlogGroupCreated);
 			}
 			else
 			{
-				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
+				this.messagePanel.ShowError(Resources.Message_UnexpectedError);
 			}		
 		}
 
@@ -282,20 +275,20 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             if (ObjectProvider.Instance().UpdateBlogGroup(blogGroup))
 			{
-				this.messagePanel.ShowMessage("Blog Group Saved.");
+                this.messagePanel.ShowMessage(Resources.GroupsEditor_BlogGroupSaved);
 			}
 			else
 			{
-				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
+				this.messagePanel.ShowError(Resources.Message_UnexpectedError);
 			}
 		}
         
 		protected static string ToggleActiveString(bool active)
 		{
 			if(active)
-				return "Deactivate";
+				return Resources.Label_Deactivate;
 			else
-				return "Activate";
+				return Resources.Label_Activate;
 		}
 
 		void ToggleActive()
@@ -324,12 +317,8 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 		protected void btnCancel_Click(object sender, EventArgs e)
 		{
-			this.messagePanel.ShowMessage("Blog Group Update Cancelled. Nothing to see here.");
+            this.messagePanel.ShowMessage(Resources.GroupsEditor_UpdateCancelled);
 			BindList();
 		}
-
-		
-			
-		
 	}
 }

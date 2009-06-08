@@ -1,4 +1,4 @@
 ﻿using System;
 
-[AttributeUsage(AttributeTargets.All)]
-public class CoverageExcludeAttribute : Attribute { }
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1050:DeclareTypesInNamespaces"), AttributeUsage(AttributeTargets.All)]
+public sealed class CoverageExcludeAttribute : Attribute { }

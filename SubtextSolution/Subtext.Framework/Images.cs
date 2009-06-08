@@ -128,10 +128,10 @@ namespace Subtext.Framework
 		public static bool SaveImage(byte[] buffer, string fileName)
 		{
 			if (buffer == null)
-				throw new ArgumentNullException("buffer", Resources.ArgumentNull_Array);
+				throw new ArgumentNullException("buffer");
 
 			if (fileName == null)
-				throw new ArgumentNullException("fileName", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("fileName");
 
 			if (fileName.Length == 0)
 			{
@@ -157,7 +157,7 @@ namespace Subtext.Framework
 		public static void MakeAlbumImages(Image image)
 		{
 			if (image == null)
-				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("image");
 
 			System.Drawing.Image originalImage = System.Drawing.Image.FromFile(image.OriginalFilePath);
 
@@ -220,7 +220,7 @@ namespace Subtext.Framework
 		public static void EnsureDirectory(string directoryPath)
 		{
 			if (directoryPath == null)
-                throw new ArgumentNullException("directoryPath", Resources.ArgumentNull_String);
+                throw new ArgumentNullException("directoryPath");
 
 			if (directoryPath.Length == 0)
                 throw new ArgumentException(Resources.Argument_StringZeroLength, "directoryPath");
@@ -253,7 +253,7 @@ namespace Subtext.Framework
 		public static int InsertImage(Image image, byte[] Buffer)
 		{
 			if (image == null)
-				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("image");
 
 			if (!File.Exists(image.OriginalFilePath) && SaveImage(Buffer, image.OriginalFilePath))
 			{
@@ -270,7 +270,7 @@ namespace Subtext.Framework
 		public static void UpdateImage(Image image)
 		{
 			if (image == null)
-				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("image");
 			ObjectProvider.Instance().UpdateImage(image);
 		}
 
@@ -278,10 +278,10 @@ namespace Subtext.Framework
 		public static void Update(Image image, byte[] buffer)
 		{
 			if (image == null)
-				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("image");
 			
 			if (buffer == null)
-				throw new ArgumentNullException("buffer", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("buffer");
 
 
 			if (SaveImage(buffer, image.OriginalFilePath))
@@ -294,7 +294,7 @@ namespace Subtext.Framework
 		public static void DeleteImage(Image image)
 		{
 			if (image == null)
-				throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("image");
 
 			ObjectProvider.Instance().DeleteImage(image.ImageID);
 		}

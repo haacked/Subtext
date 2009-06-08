@@ -104,13 +104,13 @@ namespace Subtext.Framework.Syndication.Admin
 		}
 		protected override ICollection<object> GetFeedEntries()
 		{
-			throw new Exception("The method or operation is not implemented.");
+			throw new NotImplementedException();
 		}
 		
 		protected IList GetFeedEntriesSimple()
 		{
 			if(String.IsNullOrEmpty(rssType))
-				throw new Exception("Rss Type must be specified.");
+				throw new ArgumentNullException("rssType");
 
             var repository = ObjectProvider.Instance();
 

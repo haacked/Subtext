@@ -20,6 +20,7 @@ using BlogML;
 using BlogML.Xml;
 using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
+using Subtext.BlogML.Properties;
 using Subtext.Extensibility.Collections;
 using Subtext.Extensibility.Interfaces;
 
@@ -39,11 +40,11 @@ namespace Subtext.BlogML
 		public static BlogMLWriter Create(IBlogMLProvider provider)
 		{
 			if (provider == null)
-				throw new ArgumentNullException("provider", "provider cannot be null");
+				throw new ArgumentNullException("provider");
 
-			IBlogMLContext context = provider.GetBlogMlContext();
+			IBlogMLContext context = provider.GetBlogMLContext();
 			if (context == null)
-				throw new InvalidOperationException("The BlogMl provider did not set the context.");
+                throw new InvalidOperationException(Resources.InvalidOperation_BlogMLNullContext);
 
 			return new BlogMLWriter(provider, context);
 		}
@@ -282,19 +283,19 @@ namespace Subtext.BlogML
 
 			extension = extension.TrimStart(new char[] { '.' });
 
-			switch (extension.ToLower())
+			switch (extension.ToUpperInvariant())
 			{
-				case "png":
+				case "PNG":
                     retVal = "image/png";
 					break;
-				case "jpg":
-				case "jpeg":
+				case "JPG":
+				case "JPEG":
                     retVal = "image/jpeg";
 					break;
-				case "bmp":
+				case "BMP":
                     retVal = "image/bmp";
 					break;
-			    case "gif":
+			    case "GIF":
 			        retVal = "image/gif";
 			        break;
 				default:

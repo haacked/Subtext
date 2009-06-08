@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Subtext.Scripting
@@ -115,18 +116,18 @@ namespace Subtext.Scripting
 		{
 			get
 			{
-				return String.Compare(_securityType, "sspi", true) == 0 
-					|| String.Compare(_securityType, "true", true) == 0;
+				return String.Equals(_securityType, "sspi", StringComparison.OrdinalIgnoreCase)
+                    || String.Equals(_securityType, "true", StringComparison.OrdinalIgnoreCase);
 			}
 
 			set
 			{
 				if(value)
 				{
-					_securityType="true";
-					_securityTypeText="Trusted_Connection=true";
+					_securityType = "true";
+					_securityTypeText = "Trusted_Connection=true";
 				}
-				else _securityType=_securityTypeText=String.Empty;
+				else _securityType=_securityTypeText = String.Empty;
 			}
 		}
 
@@ -139,9 +140,9 @@ namespace Subtext.Scripting
 		public override string ToString()
 		{
 			if(TrustedConnection)
-				return string.Format(_trustedConnectionFormatString, _serverFieldName, Server, _databaseFieldName, Database, _securityTypeText);
+				return string.Format(CultureInfo.InvariantCulture, _trustedConnectionFormatString, _serverFieldName, Server, _databaseFieldName, Database, _securityTypeText);
 			else
-				return string.Format(_connectionFormatString, _serverFieldName, Server, _databaseFieldName, Database, UserId, Password, _securityTypeText);
+                return string.Format(CultureInfo.InvariantCulture, _connectionFormatString, _serverFieldName, Server, _databaseFieldName, Database, UserId, Password, _securityTypeText);
 		}
 
 		private ConnectionString(string connectionString)

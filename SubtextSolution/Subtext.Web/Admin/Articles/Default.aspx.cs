@@ -1,4 +1,5 @@
 ﻿using Subtext.Web.Admin.Pages;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Articles {
     public partial class Default : AdminPage 
@@ -10,7 +11,7 @@ namespace Subtext.Web.Admin.Articles {
 
         protected override void OnLoad(System.EventArgs e) 
         {
-            entries.HeaderText = "Articles";
+            entries.HeaderText = Resources.Label_Articles;
             string message = Request.QueryString["message"];
             if (!string.IsNullOrEmpty(message)) 
             {

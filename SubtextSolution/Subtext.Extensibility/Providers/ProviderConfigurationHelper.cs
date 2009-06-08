@@ -15,10 +15,10 @@
 
 using System;
 using System.Collections.Specialized;
-using System.Configuration.Provider;
 using System.Configuration;
+using System.Configuration.Provider;
 using System.Web.Configuration;
-using System.Globalization;
+using Subtext.Extensibility.Properties;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -42,7 +42,7 @@ namespace Subtext.Extensibility.Providers
 
 			provider = providers[section.DefaultProvider];
 			if (provider == null)
-				throw new ProviderException(string.Format("Unable to load default '{0}' provider", sectionName));
+				throw new ProviderException(string.Format(Resources.Provider_UnableToLoadDefaultProvider, sectionName));
 
 			return providers;
 		}
@@ -56,10 +56,10 @@ namespace Subtext.Extensibility.Providers
         public static string GetConnectionStringSettingValue(string settingKey, NameValueCollection configValue)
         {
             if (settingKey == null)
-                throw new ArgumentNullException("settingKey", "The setting key is null. The provider may not be configured correctly.");
+                throw new ArgumentNullException("settingKey");
 
             if (configValue == null)
-                throw new ArgumentNullException("configValue", "The config values collection is null. The provider for the setting '" + settingKey + "' may not be configured correctly.");
+                throw new ArgumentNullException("configValue");
 
             string settingValue = configValue[settingKey];
 
@@ -69,7 +69,7 @@ namespace Subtext.Extensibility.Providers
 					settingValue = ConfigurationManager.AppSettings["connectionStringName"];
                 ConnectionStringSettings setting = ConfigurationManager.ConnectionStrings[settingValue];
                 if (setting == null)
-                    throw new ArgumentException("The Connection String '" + settingValue + "' was not found in the ConnectionStrings section.", "settingKey");
+                    throw new ArgumentException(Resources.InvalidOperationException_ConnectionStringNotFound, "settingKey");
 
                 return setting.ConnectionString;
             }

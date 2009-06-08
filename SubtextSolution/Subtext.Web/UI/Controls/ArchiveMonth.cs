@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 using Subtext.Framework;
 using Subtext.Framework.Data;
@@ -23,6 +22,7 @@ using Subtext.Framework.Web;
 namespace Subtext.Web.UI.Controls
 {
 	using System;
+    using Subtext.Web.Properties;
 
 	/// <summary>
 	///		Summary description for ArchiveMonth.
@@ -39,8 +39,8 @@ namespace Subtext.Web.UI.Controls
 			{
 				DateTime dt = WebPathStripper.GetDateFromRequest(Request.Path,"archive");
 				Days.EntryListItems = Cacher.GetMonth(dt, SubtextContext);
-				Days.EntryListTitle = string.Format(CultureInfo.InvariantCulture, "{0} Entries", dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture));
-				Globals.SetTitle(string.Format(CultureInfo.InvariantCulture, "{0} - {1} Entries", Blog.Title, dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture)),Context);
+				Days.EntryListTitle = string.Format(CultureInfo.InvariantCulture, "{0} " + Resources.Label_Entries, dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture));
+				Globals.SetTitle(string.Format(CultureInfo.InvariantCulture, "{0} - {1} " + Resources.Label_Entries, Blog.Title, dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture)),Context);
 			}
 			catch(FormatException)
 			{

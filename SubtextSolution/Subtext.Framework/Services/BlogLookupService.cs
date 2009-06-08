@@ -19,6 +19,7 @@ using Subtext.Framework.Providers;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Configuration;
 using Subtext.Extensibility.Interfaces;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Services
 {
@@ -147,7 +148,7 @@ namespace Subtext.Framework.Services
         private string GetAlternateHostAlias(string host)
         {
             if (String.IsNullOrEmpty(host))
-                throw new ArgumentException("Cannot get an alternative alias to a null host", "host");
+                throw new ArgumentNullException("host");
 
             if (host.StartsWith("www.", StringComparison.OrdinalIgnoreCase))
                 return host.Substring(4);

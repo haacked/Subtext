@@ -15,6 +15,7 @@
 
 using System;
 using System.Configuration.Provider;
+using Subtext.Extensibility.Properties;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -44,8 +45,7 @@ namespace Subtext.Extensibility.Providers
 				throw new ArgumentNullException("provider");
 
 			if (!(provider is T))
-				throw new ArgumentException
-					("Invalid provider type", "provider");
+				throw new ArgumentException(Resources.Argument_InvalidProviderType, "provider");
 
 			base.Add(provider);
 		}

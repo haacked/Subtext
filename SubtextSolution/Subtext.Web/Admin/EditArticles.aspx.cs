@@ -15,6 +15,7 @@
 
 using System;
 using System.Web.UI.WebControls;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -40,7 +41,7 @@ namespace Subtext.Web.Admin.Pages
             base.AdminMasterPage.AddToActions(lkbNewPost);
 
 			// REFACTOR: Structural issue btw Page and Container.
-			HyperLink lnkEditCategories = Utilities.CreateHyperLink("Edit Categories",
+            HyperLink lnkEditCategories = Utilities.CreateHyperLink(Resources.Label_EditCategories,
                 string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITCATEGORIES, Keys.QRYSTR_CATEGORYTYPE, categoryLinks.CategoryType));
             base.AdminMasterPage.AddToActions(lnkEditCategories);
 		}

@@ -23,11 +23,10 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
-using Subtext.Web.Admin;
-using Subtext.Framework.Security;
-using Subtext.Framework.Providers;
-using System.Data.SqlClient;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Security;
+using Subtext.Web.Admin;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.HostAdmin.UserControls
 {
@@ -53,7 +52,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			this.btnAddNewBlog.Click += btnAddNewBlog_Click;
 			
 			btnAddNewBlog.CssClass = "button";
-			btnAddNewBlog.Text = "New Blog";
+			btnAddNewBlog.Text = Resources.BlogsEditor_NewBlogLabel;
 			((HostAdminTemplate)this.Page.Master).AddSidebarControl(btnAddNewBlog);
 
             //Paging...
@@ -178,45 +177,9 @@ namespace Subtext.Web.HostAdmin.UserControls
 		// Contains the various help strings
 		void BindEditHelp()
 		{
-			#region Help Tool Tip Text
-			this.blogEditorHelp.HelpText = "<p>Use this page to manage the blogs installed on this server. " 
-				+ "For more information on configuring blogs, see the <a href=\'http://www.subtextproject.com/Home/Docs/Configuration/tabid/112/Default.aspx\' target=\'_blank\'>configuration docs</a> (opens a new window)."
-				+ "</p>";
-
-			this.hostDomainHelpTip.HelpText = "<p><strong>Host Domain</strong> is the domain name for this blog. "
-				+ "If you never plan on setting up another blog on this server, then you do not have " 
-				+ "to worry about this setting.  However, if you decide to add another blog at a later "
-				+ "time, it&#8217;s important to update this setting for your initial blog.</p>"
-				+ "<p>For example, if you are hosting this blog at http://www.example.com/, the Host Domain "
-				+ "would be &#8220;www.example.com&#8221;.</p><p>If you are trying to set this up on your " 
-				+ "own machine for testing purposes (i.e. it&#8217;s not publicly viewable, you might try " 
-				+ "&#8220;localhost&#8221; for the host domain.</p>" 
-				+ "<p><strong>Important:</strong>If you are setting up multiple blogs on the same server, "
-				+ "multiple blogs may have the same Host Domain name if they don&#8217;t also have the same " 
-				+ "Subfolder name.  However, two blogs with different Host Domains may have the same Subfolder "
-				+ "name (though that&#8217;s not recommended)."
-				+ "</p><p>Also, if there are multiple blogs with the same Host Domain Name, they must all "
-				+ "have a non-empty Subfolder name defined.  For more detailed coverage " 
-				+ ", please visit <a href=\'http://www.subtextproject.com/Developer/UrlToBlogMappings/tabid/119/Default.aspx\' target=\'_blank\'>the multiple blog configuration docs</a> (opens a new window)."
-				+ "</p>";
-
-			this.applicationHelpTip.HelpText = "<p>"
-				+ "<strong>This sets the subfolder of the host domain that the blog will appear to be located in.</strong>"
-				+ "</p>"
-				+ "<p>For example, if you enter &#8220;MyBlog&#8221; " 
-				+ "(sans quotes of course) for the application, then the root URL to your blog "
-				+ "would be <em>http://[HOSTDOMAIN]/MyBlog/Default.aspx</em>"
-				+ "</p>"
-				+ "<p>"
-				+ "Leave this value blank if you wish to host your blog in the root of your website."
-				+ "</p>"
-				+ "<p><strong>NOTE:</strong> If you specify a sub-folder, you do not need to set up a virtual directory "
-				+ "corresponding to the subfolder. But not doing so will require that the blog url include the trailing " 
-				+ "&#8220;Default.aspx&#8221; or you will have to <a href=\'http://www.subtextproject.com/Configuration/ConfiguringACustom404Page/tabid/121/Default.aspx\' target=\'_blank\'>configure a Custom 404 page</a> (opens a new window).</p>" 
-				+ "<p>In the above example, if you want the URL to be <em>http://[HOSTDOMAIN]/MyBlog/</em> then you "
-				+ "would simply set up a virtual directory (not application) named &#8220;MyBlog&#8221; pointing to the same location as the webroot.</p>" 
-				+ "<p>For more information, please view <a href=\'http://www.subtextproject.com/Home/Docs/Configuration/tabid/112/Default.aspx\' target=\'_blank\'>the configuration docs</a> (opens a new window).</p>";
-			#endregion
+            this.blogEditorHelp.HelpText = Resources.BlogsEditor_HelpText;
+            this.hostDomainHelpTip.HelpText = Resources.BlogsEditor_HostDomainHelpText;
+            this.applicationHelpTip.HelpText = Resources.BlogsEditor_ApplicationHelpTip;
 		}
 
 		/// <summary>
@@ -364,11 +327,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 		{
 			if(Config.CreateBlog(this.txtTitle.Text, this.txtUsername.Text, this.txtPassword.Text, this.txtHost.Text, this.txtApplication.Text, Int32.Parse(ddlGroups.SelectedValue)) > 0)
 			{
-				this.messagePanel.ShowMessage("Blog Created.");
+				this.messagePanel.ShowMessage(Resources.BlogsEditor_BlogCreated);
 			}
 			else
 			{
-				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
+                this.messagePanel.ShowError(Resources.Message_UnexpectedError);
 			}		
 		}
 
@@ -378,7 +341,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			Blog blog = Blog.GetBlogById(BlogId);
 			
 			if(blog == null)
-				throw new ArgumentNullException("BlogId", "Ok, somehow the blog you were editing is now null.  This is very odd.");
+				throw new ArgumentNullException("BlogId");
 
 			blog.Title = this.txtTitle.Text;
 			blog.Host = this.txtHost.Text;
@@ -394,11 +357,11 @@ namespace Subtext.Web.HostAdmin.UserControls
             try
             {
 			    Config.UpdateConfigData(blog);
-		        this.messagePanel.ShowMessage("Blog Saved.");
+                this.messagePanel.ShowMessage(Resources.BlogsEditor_BlogSaved);
 			}
             catch(Exception)
             {
-				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
+				this.messagePanel.ShowError(Resources.Message_UnexpectedError);
 			}
 		}
 
@@ -413,7 +376,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 					if(IsTextBoxEmpty(this.txtPassword))
 					{
 						isValidSoFar = false;
-						this.messagePanel.ShowError("A  password is required when creating a blog.  Pick a good one.<br />", true);
+						this.messagePanel.ShowError(Resources.BlogsEditor_PasswordRequired + "<br />", true);
 					}
 					isValidSoFar = isValidSoFar && ValidateRequiredField(this.txtTitle, "Title");
 				}
@@ -421,7 +384,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 				if(this.txtPassword.Text != this.txtPasswordConfirm.Text)
 				{
 					isValidSoFar = false;
-					this.messagePanel.ShowError("The Password and Confirmation do not match.  Try retyping your password in both fields.<br />", false);	
+					this.messagePanel.ShowError(Resources.BlogsEditor_PasswordsDoNotMatch + "<br />", false);	
 				}
 
 				// Use of single & is intentional to stop short cirtuited evaluation.
@@ -445,7 +408,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		{
 			if(IsTextBoxEmpty(textbox))
 			{
-				this.messagePanel.ShowError("Emptiness is quite Zen. Still, please enter a value for " + fieldName + ".<br />", false);
+				this.messagePanel.ShowError(String.Format(CultureInfo.InvariantCulture, Resources.BlogsEditor_FieldRequired, fieldName) + "<br />", false);
 				return false;
 			}
 			return true;
@@ -455,7 +418,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		{
 			if(textbox.Text.Length > maxLength)
 			{
-				this.messagePanel.ShowError("Brevity is rewarded.  " + fieldName + " may only have " + maxLength + " characters.<br />", false);
+				this.messagePanel.ShowError(String.Format(Resources.BlogsEditor_ValueTooLong, fieldName, maxLength) + "<br />", false);
 				return false;
 			}
 			return true;
@@ -464,9 +427,9 @@ namespace Subtext.Web.HostAdmin.UserControls
 		protected static string ToggleActiveString(bool active)
 		{
 			if(active)
-				return "Deactivate";
+				return Resources.Label_Deactivate;
 			else
-				return "Activate";
+				return Resources.Label_Activate;
 		}
 
 		void ToggleActive()
@@ -476,13 +439,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 			try
 			{
 				Config.UpdateConfigData(blog);
-				if(blog.IsActive)
-				{
-					this.messagePanel.ShowMessage("Blog Activated and ready to go.");
+				if(blog.IsActive) {
+					this.messagePanel.ShowMessage(Resources.BlogsEditor_BlogActivated);
 				}
-				else
-				{
-					this.messagePanel.ShowMessage("Blog Inactivated and sent to a retirement community.");
+				else {
+					this.messagePanel.ShowMessage(Resources.BlogsEditor_BlogDeactivated);
 				}
 			}
 			catch(BaseBlogConfigurationException e)
@@ -495,7 +456,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 		protected void btnCancel_Click(object sender, EventArgs e)
 		{
-			this.messagePanel.ShowMessage("Blog Update Cancelled. Nothing to see here.");
+			this.messagePanel.ShowMessage(Resources.BlogsEditor_UpdateCancelled);
 			BindList();
 		}
 
@@ -522,8 +483,8 @@ namespace Subtext.Web.HostAdmin.UserControls
 		protected void lbAddAlias_OnClick(object sender, EventArgs e)
 		{
 			BindEdit();
-			txtAliasApplication.Text = "";
-			txtAliasHost.Text = "";
+            txtAliasApplication.Text = string.Empty;
+			txtAliasHost.Text = string.Empty;
 			cbAliasActive.Checked = true;
 			SetAliasEdit(true);
 		}

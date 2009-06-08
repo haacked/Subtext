@@ -132,6 +132,7 @@
     <Compile Include="Exceptions\SqlScriptExecutionException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IScript.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -139,6 +140,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ParameterValueChangedEventArgs.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Script.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -155,6 +161,12 @@
     <Compile Include="TemplateParameterCollection.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

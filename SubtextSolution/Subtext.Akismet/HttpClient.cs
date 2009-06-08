@@ -1,7 +1,9 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
+using Subtext.Akismet.Properties;
 
 namespace Subtext.Akismet
 {
@@ -66,7 +68,7 @@ namespace Subtext.Akismet
 			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             if (response.StatusCode < HttpStatusCode.OK && response.StatusCode >= HttpStatusCode.Ambiguous)
             {
-                throw new InvalidResponseException(string.Format("The service was not able to handle our request. Http Status '{0}'.", response.StatusCode), response.StatusCode);
+                throw new InvalidResponseException(string.Format(CultureInfo.InvariantCulture, Resources.InvalidResponse_ServiceUnableToHandleRequest, response.StatusCode), response.StatusCode);
             }
 
 			string responseText;

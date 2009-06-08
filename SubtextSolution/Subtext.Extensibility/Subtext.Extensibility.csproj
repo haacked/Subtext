@@ -138,41 +138,12 @@
     <Compile Include="Collections\CollectionBook.cs" />
     <Compile Include="CoverageExcludeAttribute.cs" />
     <Compile Include="DateFilter.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Interfaces\IEntryIdentity.cs" />
     <Compile Include="Interfaces\IIdentifiable.cs" />
     <Compile Include="Interfaces\ICollectionBook.cs" />
     <Compile Include="Interfaces\IPagedCollection.cs" />
     <Compile Include="NamespaceDocumentation.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\IImplementationInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\IModuleIdentifier.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\IPlugin.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\IPluginContext.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\IPluginFactory.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\IPluginIdentifier.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\IPluginIdentifierCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\ITarget.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\ITargetIdentifier.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\ITargetIdentifierCollection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PostConfig.cs">
@@ -193,7 +164,18 @@
     <Compile Include="Providers\ProviderSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Web\BaseHttpHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -26,10 +26,15 @@ namespace Subtext.Framework.Routing
         public const string ControlNamesKey = "controls";
 
         public PageRoute(string url, string virtualPath, IEnumerable<string> controls)
-            : base(url, new PageRouteHandler(virtualPath, Bootstrapper.Kernel.Get<ISubtextPageBuilder>()))
+            : this(url, virtualPath, controls, Bootstrapper.Kernel.Get<ISubtextPageBuilder>())
         {
+        }
+
+        public PageRoute(string url, string virtualPath, IEnumerable<string> controls, ISubtextPageBuilder pageBuilder)
+            : base(url, new PageRouteHandler(virtualPath, pageBuilder)) {
             DataTokens = new RouteValueDictionary();
             DataTokens.Add(ControlNamesKey, controls.AsEnumerable());
         }
+        
     }
 }

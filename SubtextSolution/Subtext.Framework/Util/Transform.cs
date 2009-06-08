@@ -62,10 +62,10 @@ namespace Subtext.Framework.Util
         public static string EmoticonsTransforms(ICache cache, string rootUrl, string formattedPost, string emoticonsFilePath)
 		{
 			if (formattedPost == null)
-				throw new ArgumentNullException("formattedPost", "Cannot transform a null post");
+				throw new ArgumentNullException("formattedPost");
 
 			if (emoticonsFilePath == null)
-				throw new ArgumentNullException("emoticonsFilePath", "Must specify a non-null emoticons file path.");
+				throw new ArgumentNullException("emoticonsFilePath");
 
 			if (!File.Exists(emoticonsFilePath))
 			{
@@ -96,14 +96,8 @@ namespace Subtext.Framework.Util
 
 		private static string GetTransformFilePath(string filename)
 		{
-			if (filename == null)
-				throw new ArgumentNullException("filename", "The transform filename is null.");
-
-			if (filename.Length == 0)
-				throw new ArgumentException("filename", "The transform filename is empty.");
-
-			if (HttpContext.Current == null)
-				throw new InvalidOperationException("The HttpContext is null. Cannot get the path to the emoticons transform file.");
+			if (String.IsNullOrEmpty(filename))
+				throw new ArgumentNullException("filename");
 
 			return HttpContext.Current.Request.MapPath("~/" + filename);
 		}
@@ -115,7 +109,7 @@ namespace Subtext.Framework.Util
             }
 
             if (filePath == null)
-                throw new ArgumentNullException("filePath", "The transform filePath is null.");
+                throw new ArgumentNullException("filePath");
 			
 			string cacheKey = "transformTable-" + Path.GetFileName(filePath);
             

@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
-using Subtext.Extensibility;
-using Subtext.Framework.Components;
-using Subtext.Extensibility.Interfaces;
-using System;
-using Subtext.Framework.Text;
-using Subtext.Framework.Configuration;
 using System.Globalization;
-using Subtext.Framework;
 using System.Linq;
-using BlogML.Xml;
-using Subtext.BlogML.Interfaces;
-using Subtext.ImportExport;
+using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Properties;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Data
 {
@@ -272,9 +269,7 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override int Create(Entry entry, IEnumerable<int> categoryIds)
         {
-            if (!ValidateEntry(entry)) {
-                throw new BlogFailedPostException("Failed post exception");
-            }
+            ValidateEntry(entry);
 
             entry.Id = _procedures.InsertEntry(entry.Title
                 , entry.Body.NullIfEmpty()
@@ -330,7 +325,7 @@ namespace Subtext.Framework.Data
         public override bool SetEntryTagList(int postId, IEnumerable<string> tags)
         {
             if (tags == null)
-                throw new ArgumentNullException("tags", "Tags cannot be null.");
+                throw new ArgumentNullException("tags");
 
             string tagList = "";
             foreach (string tag in tags)
@@ -351,9 +346,7 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override bool Update(Entry entry, params int[] categoryIds)
         {
-            if (!ValidateEntry(entry)) {
-                throw new BlogFailedPostException("Failed post exception");
-            }
+            ValidateEntry(entry);
 
             if (entry.IsActive && NullValue.IsNull(entry.DateSyndicated)) {
                 entry.DateSyndicated = CurrentDateTime;

@@ -19,6 +19,7 @@ using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
 
@@ -133,7 +134,7 @@ namespace Subtext.Framework
 		public static bool CreateHost(string hostUserName, string hostPassword)
 		{
             if (HostInfo.Instance != null) {
-                throw new InvalidOperationException("Cannot create a Host record.  One already exists.");
+                throw new InvalidOperationException(Resources.InvalidOperation_HostRecordAlreadyExists);
             }
 
 			HostInfo host = new HostInfo();

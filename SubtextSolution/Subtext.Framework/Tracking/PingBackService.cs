@@ -33,18 +33,15 @@
  ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 using System;
-using System.Web;
+using System.Globalization;
 using CookComputing.XmlRpc;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Email;
-using Subtext.Framework.Format;
+using Subtext.Framework.Properties;
+using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.XmlRpc;
-using Subtext.Framework.Services;
-using Subtext.Framework.Data;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Tracking
 {
@@ -73,7 +70,7 @@ namespace Subtext.Framework.Tracking
 			// GetPostIDFromUrl returns the postID
 			int postId;
             if (!int.TryParse((string)RouteValues["id"], out postId) || postId == NullValue.NullInt32) { 
-            	throw new XmlRpcFaultException(33, "You did not link to a permalink");
+            	throw new XmlRpcFaultException(33, Resources.XmlRcpFault_DidNotLinkToPermalink);
             }
 
 			Uri sourceUrl = HtmlHelper.ParseUri(sourceURI);
@@ -81,7 +78,7 @@ namespace Subtext.Framework.Tracking
 
 			// does the sourceURI actually contain the permalink ?
 			if (sourceUrl == null || targetUrl == null || !Verifier.SourceContainsTarget(sourceUrl, targetUrl, out pageTitle))
-				throw new XmlRpcFaultException(17, "Not a valid link.");
+				throw new XmlRpcFaultException(17, Resources.XmlRcpFault_InvalidLink);
 
 			//PTR = Pingback - TrackBack - Referral
             Trackback trackback = new Trackback(postId, HtmlHelper.SafeFormat(pageTitle, this.SubtextContext.HttpContext.Server), new Uri(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle, this.SubtextContext.HttpContext.Server), Blog.TimeZone.Now);
@@ -96,7 +93,7 @@ namespace Subtext.Framework.Tracking
             var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
             emailService.EmailCommentToBlogAuthor(trackback);
 
-			return "thanks for the pingback on " + sourceURI ;
+			return String.Format(CultureInfo.InvariantCulture, Resources.XmlRpcMessage_ThanksForThePingback, sourceURI);
 		}
 	}
 }

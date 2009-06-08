@@ -123,7 +123,7 @@ namespace Subtext.Framework.Services
 			if (feedback.SourceUrl != null)
 				comment.AuthorUrl = feedback.SourceUrl;
 			comment.Content = feedback.Body;
-			comment.Referer = feedback.Referrer;
+			comment.Referrer = feedback.Referrer;
 
             Uri permalink = _urlHelper.FeedbackUrl(feedback).ToFullyQualifiedUrl(_blog);
             if (permalink != null)

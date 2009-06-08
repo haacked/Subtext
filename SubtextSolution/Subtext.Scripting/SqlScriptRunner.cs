@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Subtext.Scripting.Exceptions;
+using Subtext.Scripting.Properties;
 
 namespace Subtext.Scripting
 {
@@ -159,7 +160,7 @@ namespace Subtext.Scripting
                     }
                     else
                     {
-						throw new SqlScriptExecutionException("An error occurred while executing the script.", script, returnValue);
+						throw new SqlScriptExecutionException(Resources.SqlScriptExecutionError_ErrorOccurred, script, returnValue);
                     }
 				}
 			}
@@ -168,7 +169,8 @@ namespace Subtext.Scripting
 
         private static bool IsCrudScript(Script script)
         {
-            return script.ScriptText.IndexOf("TRIGGER") == -1 && script.ScriptText.IndexOf("PROC") == -1;
+            return script.ScriptText.IndexOf("TRIGGER", StringComparison.OrdinalIgnoreCase) == -1 
+                && script.ScriptText.IndexOf("PROC", StringComparison.OrdinalIgnoreCase) == -1;
         }
 
         /// <summary>
@@ -183,7 +185,6 @@ namespace Subtext.Scripting
             noCount.Execute(transaction);
         }
 
-		#region ... Methods for unpacking embedded resources and reading from streams ...
 		static string ReadStream(Stream stream, Encoding encoding)
 		{
 			using(StreamReader reader = new StreamReader(stream, encoding))
@@ -207,7 +208,6 @@ namespace Subtext.Scripting
 		{
 			return assembly.GetManifestResourceStream(fullScriptName);
 		}
-		#endregion
 
 		/// <summary>
 		/// Gets the template parameters embedded in the script.

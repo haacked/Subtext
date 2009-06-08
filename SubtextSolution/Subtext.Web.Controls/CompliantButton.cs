@@ -57,7 +57,7 @@ namespace Subtext.Web.Controls
 			/// <param name="value"></param>
 			public override void AddAttribute(string name, string value)
 			{
-				if(String.Compare(name, "language", true, CultureInfo.InvariantCulture) == 0)
+				if(String.Equals(name, "language", StringComparison.OrdinalIgnoreCase))
 					return;
 				base.AddAttribute(name, value);
 			}
@@ -74,7 +74,7 @@ namespace Subtext.Web.Controls
 			/// <param name="fEndode"></param>
 			public override void AddAttribute(string name, string value, bool fEndode)
 			{
-				if(String.Compare(name, "language", true, CultureInfo.InvariantCulture) == 0)
+				if(String.Equals(name, "language", StringComparison.OrdinalIgnoreCase))
 					return;
 				base.AddAttribute (name, value, fEndode);
 			}

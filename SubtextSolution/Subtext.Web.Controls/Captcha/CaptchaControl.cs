@@ -9,10 +9,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Web;
+using Subtext.Web.Controls.Properties;
 
 namespace Subtext.Web.Controls.Captcha
 {
-    [DefaultProperty("Text")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha"), DefaultProperty("Text")]
     public class CaptchaControl : CaptchaBase, INamingContainer, IPostBackDataHandler
     {
 		/// <summary>
@@ -21,7 +22,7 @@ namespace Subtext.Web.Controls.Captcha
         public CaptchaControl()
         {
 			this.LayoutStyle = Layout.CssBased;
-			this.ErrorMessage = "Please enter the correct word";
+			this.ErrorMessage = Resources.Message_PleaseEnterCorrectWord;
 			this.Display = ValidatorDisplay.Dynamic;
 		}
 
@@ -40,7 +41,7 @@ namespace Subtext.Web.Controls.Captcha
 		/// <param name="PostDataKey">The post data key.</param>
 		/// <param name="Values">The values.</param>
 		/// <returns></returns>
-        public bool LoadPostData(string PostDataKey, NameValueCollection Values)
+        public bool LoadPostData(string postDataKey, NameValueCollection Values)
         {
             return false;
         }
@@ -135,7 +136,7 @@ namespace Subtext.Web.Controls.Captcha
             }
 			
 			writer.Write("<input name=\"{0}\" type=\"text\" size=\"", this.AnswerFormFieldName);
-            writer.Write(this.captcha.TextLength.ToString());
+            writer.Write(this.captcha.TextLength.ToString(CultureInfo.InvariantCulture));
             writer.Write("\" maxlength=\"{0}\"", this.captcha.TextLength);
             if (this.AccessKey.Length > 0)
             {
@@ -156,8 +157,8 @@ namespace Subtext.Web.Controls.Captcha
 				
             writer.Write("</div>");
         }
-    	
-    	[DefaultValue(""), Description("Characters used to render CAPTCHA text. A character will be picked randomly from the string."), Category("Captcha")]
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha"), DefaultValue(""), Description("Characters used to render CAPTCHA text. A character will be picked randomly from the string."), Category("Captcha")]
         public string CaptchaChars
         {
             get
@@ -170,7 +171,7 @@ namespace Subtext.Web.Controls.Captcha
             }
         }
 
-        [Description("Font used to render CAPTCHA text. If font name is blankd, a random font will be chosen."), DefaultValue(""), Category("Captcha")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha"), Description("Font used to render CAPTCHA text. If font name is blankd, a random font will be chosen."), DefaultValue(""), Category("Captcha")]
         public string CaptchaFont
         {
             get
@@ -183,7 +184,7 @@ namespace Subtext.Web.Controls.Captcha
             }
         }
 
-        [Category("Captcha"), Description("Amount of random font warping used on the CAPTCHA text"), DefaultValue(typeof(CaptchaImage.FontWarpFactor), "Low")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha"), Category("Captcha"), Description("Amount of random font warping used on the CAPTCHA text"), DefaultValue(typeof(CaptchaImage.FontWarpFactor), "Low")]
         public CaptchaImage.FontWarpFactor CaptchaFontWarping
         {
             get
@@ -196,7 +197,7 @@ namespace Subtext.Web.Controls.Captcha
             }
         }
 
-        [Category("Captcha"), Description("Number of CaptchaChars used in the CAPTCHA text"), DefaultValue(5)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha"), Category("Captcha"), Description("Number of CaptchaChars used in the CAPTCHA text"), DefaultValue(5)]
         public int CaptchaLength
         {
             get
@@ -255,8 +256,8 @@ namespace Subtext.Web.Controls.Captcha
         	CssBased
         }
     }
-	
-	[Serializable]
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha"), Serializable]
 	public struct CaptchaInfo
 	{
 		/// <summary>
@@ -285,9 +286,9 @@ namespace Subtext.Web.Controls.Captcha
 			InstalledFontCollection collection1 = new InstalledFontCollection();
 			FontFamily[] familyArray1 = collection1.Families;
 			string fontFamily = "bogus";
-			while (goodFontList.IndexOf(fontFamily) == -1)
+			while (goodFontList.IndexOf(fontFamily, StringComparison.OrdinalIgnoreCase) == -1)
 			{
-				fontFamily = familyArray1[random.Next(0, collection1.Families.Length)].Name.ToLower();
+				fontFamily = familyArray1[random.Next(0, collection1.Families.Length)].Name.ToLowerInvariant();
 			}
 			return fontFamily;
 		}
@@ -317,8 +318,8 @@ namespace Subtext.Web.Controls.Captcha
 			string[] values = decrypted.Split('|');
 
 			CaptchaInfo info = new CaptchaInfo();
-			info.Width = int.Parse(values[0]);
-			info.Height = int.Parse(values[1]);
+			info.Width = int.Parse(values[0], CultureInfo.InvariantCulture);
+			info.Height = int.Parse(values[1], CultureInfo.InvariantCulture);
 			info.WarpFactor = (CaptchaImage.FontWarpFactor)Enum.Parse(typeof(CaptchaImage.FontWarpFactor), values[2]);
 			info.FontFamily = values[3];
 			info.Text = values[4];
@@ -402,7 +403,7 @@ namespace Subtext.Web.Controls.Captcha
 		/// </returns>
 		public override string ToString()
 		{
-			return String.Format("{0}|{1}|{2}|{3}|{4}|{5}"
+            return String.Format(CultureInfo.InvariantCulture, "{0}|{1}|{2}|{3}|{4}|{5}"
 			                     , this.Width
 			                     , this.Height
 			                     , this.WarpFactor

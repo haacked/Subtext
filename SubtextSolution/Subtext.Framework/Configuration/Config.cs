@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
@@ -25,6 +26,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
 using Subtext.Framework.Web.HttpModules;
@@ -71,7 +73,7 @@ namespace Subtext.Framework.Configuration
 				{
 					string connectionStringName = ConfigurationManager.AppSettings["connectionStringName"];
 					if (ConfigurationManager.ConnectionStrings[connectionStringName] == null)
-						throw new ConfigurationErrorsException(String.Format("There is no connectionString entry associated with the connectionStringName '{0}'.", connectionStringName));
+                        throw new ConfigurationErrorsException(String.Format(CultureInfo.InvariantCulture, Resources.ConfigurationErrros_NoConnectionString, connectionStringName));
 					string connectionStringText = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
 					connectionString = ConnectionString.Parse(connectionStringText);
 				}
@@ -316,8 +318,7 @@ namespace Subtext.Framework.Configuration
             }
 			
 			subfolder = UrlFormats.StripSurroundingSlashes(subfolder);
-			Log.Debug(string.Format("Creating a blog with subfolder '{0}'", subfolder));
-
+			
 			if(subfolder == null || subfolder.Length == 0)
 			{
 				//Check to see if this blog requires a Subfolder value
@@ -409,7 +410,7 @@ namespace Subtext.Framework.Configuration
 		public static bool IsValidSubfolderName(string subfolder)
 		{
 			if(subfolder == null)
-				throw new ArgumentNullException("subfolder", "Subfolder cannot be null.");
+				throw new ArgumentNullException("subfolder");
 
 			if (subfolder.EndsWith("."))
 				return false;

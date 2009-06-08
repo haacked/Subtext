@@ -1,7 +1,6 @@
 using System;
-using System.Data;
-using System.Web;
 using System.Xml.Serialization;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.SiteMap
 {
@@ -79,7 +78,7 @@ namespace Subtext.Web.SiteMap
             {
                 if (value < 0.0M || value > 1.0M)
                 {
-                    throw new ArgumentOutOfRangeException("Priority must be in range from 0.0 to 1.0!");
+                    throw new ArgumentOutOfRangeException(Resources.ArgumentOutOfRange_Priority);
                 }
                 priority = value;
             }

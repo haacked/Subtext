@@ -1,8 +1,10 @@
 using System;
+using System.Globalization;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Skins._System
 {
@@ -13,7 +15,7 @@ namespace Subtext.Web.Skins._System
             defaultInstructions.Visible = true;
             if (Config.CurrentBlog == null) {
                 ResetForm.Visible = defaultInstructions.Visible = false;
-                FailureText.Text = "Sorry, but forgot password does not work for Host admins. Please read <a href=\"http://subtextproject.com/Home/FAQ/tabid/113/Default.aspx\" title=\"Subtext FAQ\">the FAQ</a> to reset your password.";
+                FailureText.Text = Resources.ForgotPasswordMaster_DoesNotWorkForHostAdmins;
             }
             base.OnLoad(e);
         }
@@ -22,7 +24,7 @@ namespace Subtext.Web.Skins._System
             Blog currentBlog = Config.CurrentBlog;
             if (currentBlog == null)
             {
-                FailureText.Text = "Sorry, but forgot password does not work for Host admins. Please read <a href=\"http://subtextproject.com/Home/FAQ/tabid/113/Default.aspx\" title=\"Subtext FAQ\">the FAQ</a> to reset your password.";
+                FailureText.Text = Resources.ForgotPasswordMaster_DoesNotWorkForHostAdmins;
             }
             else
             {
@@ -36,7 +38,7 @@ namespace Subtext.Web.Skins._System
             {
                 Message.Visible = false;
                 FailureText.Visible = true;
-                FailureText.Text = "Sorry, but the username and email provided did not match our records";
+                FailureText.Text = Resources.ForgotPassword_UsernameAndPasswordDoNotMatch;
             }
             else
             {
@@ -45,10 +47,10 @@ namespace Subtext.Web.Skins._System
                 FailureText.Visible = false;
 
                 string newPassword = SecurityHelper.ResetPassword();
-                EmailProvider.Instance().Send(currentBlog.Email, currentBlog.Email, "Your new password", "I've been told that you forgot your password. Here it is" +
-                    Environment.NewLine + "\t" + newPassword);
+                EmailProvider.Instance().Send(currentBlog.Email, currentBlog.Email, Resources.ForgotPassword_NewPassword
+                    , String.Format(CultureInfo.InvariantCulture, Resources.ForgotPaswword_HereIsNewPassword, newPassword));
                 
-                Message.Text = "Password was reset and sent to your email address.";
+                Message.Text = Resources.ForgotPassword_NewPasswordSent;
             }
         }
 	}

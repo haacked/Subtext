@@ -20,6 +20,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using CategoryTypeEnum = Subtext.Framework.Components.CategoryType;
 using Subtext.Web.Admin.Commands;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -190,19 +191,19 @@ namespace Subtext.Web.Admin.Pages
 			TextBox txbDescription = e.Item.FindControl("txbDescription") as TextBox;
 
 			if (null == title || null == isActive)
-				throw new ApplicationException("Update failed, could not located either the item Title or IsActive");			
+				throw new InvalidOperationException(Resources.InvalidOperation_EditCategoriesControlsNotFound);
 
 			if (Page.IsValid)
 			{
 				if (Utilities.IsNullorEmpty(title.Text))
 				{
-					Messages.ShowError("You cannot have a category with a blank Title");
+					Messages.ShowError(Resources.Message_CategoryMustHaveTitle);
 					return;
 				}
 
 				int id = Convert.ToInt32(dgrItems.DataKeys[e.Item.ItemIndex]);
 				
-				LinkCategory existingCategory = SubtextContext.Repository.GetLinkCategory(id,false);
+				LinkCategory existingCategory = SubtextContext.Repository.GetLinkCategory(id, false);
 				existingCategory.Description = txbDescription.Text;
 				existingCategory.Title = title.Text;
 				existingCategory.IsActive = isActive.Checked;

@@ -20,6 +20,7 @@ using System.IO;
 using System.Web.Caching;
 using Subtext.Configuration;
 using Subtext.Framework.Components;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
@@ -123,7 +124,7 @@ namespace Subtext.Framework.Data
 		public static LinkCategory SingleCategory(ISubtextContext context)
 		{
 			if (context == null)
-				throw new ArgumentNullException("context", "This method requires the HttpContext. Argue all you want about whether that is good design. That's just the way it is for now.");
+				throw new ArgumentNullException("context");
 
 			string path = WebPathStripper.RemoveRssSlash(context.RequestContext.HttpContext.Request.Path);
 			string categoryName = Path.GetFileNameWithoutExtension(path);

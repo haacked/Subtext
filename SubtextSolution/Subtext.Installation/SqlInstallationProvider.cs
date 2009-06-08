@@ -55,7 +55,7 @@ namespace Subtext.Installation
 
 			this.installer = new SqlInstaller(_connectionString);
 			if (!String.IsNullOrEmpty(configValue["dbUser"]))
-				this.installer.DbUser = configValue["dbUser"];
+				this.installer.DBUser = configValue["dbUser"];
             base.Initialize(name, configValue);
 		}
 		
@@ -287,7 +287,7 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public override void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
 		{
-			this.installer.UpdateInstallationVersionNumber(newVersion, transaction);
+			UpdateInstallationVersionNumber(newVersion, transaction);
 		}
 	}
 }

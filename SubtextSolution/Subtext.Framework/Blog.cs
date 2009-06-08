@@ -21,6 +21,7 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
@@ -53,7 +54,7 @@ namespace Subtext.Framework
         public static string StripPortFromHost(string host)
         {
             if (String.IsNullOrEmpty(host))
-                throw new ArgumentException("Cannot strip the port from a null host", "host");
+                throw new ArgumentNullException("host");
 
             return Regex.Replace(host, @":.*$", string.Empty);
         }
@@ -66,7 +67,7 @@ namespace Subtext.Framework
         public static string StripWwwPrefixFromHost(string host)
         {
             if (String.IsNullOrEmpty(host))
-                throw new ArgumentException("Cannot strip the www prefix from a null host", "host");
+                throw new ArgumentNullException("host");
 
             return Regex.Replace(host, @"^www.", string.Empty, RegexOptions.IgnoreCase);
         }
@@ -80,7 +81,7 @@ namespace Subtext.Framework
         public static string GetAlternateHostAlias(string host)
         {
             if (String.IsNullOrEmpty(host))
-                throw new ArgumentException("Cannot get an alternative alias to a null host", "host");
+                throw new ArgumentNullException("host");
 
             if (host.StartsWith("www.", StringComparison.CurrentCultureIgnoreCase))
                 return StripWwwPrefixFromHost(host);
@@ -99,7 +100,7 @@ namespace Subtext.Framework
         public static IPagedCollection<Blog> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
         {
             if (String.IsNullOrEmpty(host))
-                throw new ArgumentNullException("host", "Host must not be null or empty.");
+                throw new ArgumentNullException("host");
 
             return ObjectProvider.Instance().GetPagedBlogs(host, pageIndex, pageSize, flags);
         }
@@ -583,14 +584,11 @@ namespace Subtext.Framework
         {
             get
             {
-                if (_password == null)
-                {
-                    //TODO: Throw a specific exception.
-                    throw new Exception("Invalid Password Setting");
-                }
                 return _password;
             }
-            set { _password = value; }
+            set { 
+                _password = value ?? string.Empty;
+            }
         }
 
         /// <summary>
@@ -640,14 +638,11 @@ namespace Subtext.Framework
         {
             get
             {
-                if (_username == null)
-                {
-                    //TODO: Throw a specific exception.
-                    throw new Exception("Invalid UserName Setting");
-                }
                 return _username;
             }
-            set { _username = value; }
+            set { 
+                _username = value ?? string.Empty; 
+            }
         }
 
         /// <summary>
@@ -818,7 +813,7 @@ namespace Subtext.Framework
             {
                 if (!String.IsNullOrEmpty(value)) {
                     if (value.Contains("\\"))
-                        throw new InvalidOperationException("Backslashes are not allowed in the rss proxy name.");
+                        throw new InvalidOperationException(Resources.InvalidOperation_BackslashesInRssProxyName);
                 }
                 _rssProxyUrl = value;
             }

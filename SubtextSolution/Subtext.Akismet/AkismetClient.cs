@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Net;
 using System.Web;
+using Subtext.Akismet.Properties;
 
 namespace Subtext.Akismet
 {
@@ -9,7 +10,7 @@ namespace Subtext.Akismet
 	/// The client class used to communicate with the 
 	/// <see href="http://akismet.com/">Akismet</see> service.
 	/// </summary>
-	[Serializable]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Akismet"), Serializable]
 	public class AkismetClient
 	{
         static readonly string version = typeof(HttpClient).Assembly.GetName().Version.ToString();
@@ -46,13 +47,13 @@ namespace Subtext.Akismet
         public AkismetClient(string apiKey, Uri blogUrl, HttpClient httpClient)
         {
             if (apiKey == null)
-                throw new ArgumentNullException("The akismet Api Key must be specified");
+                throw new ArgumentNullException("apiKey");
 
             if (blogUrl == null)
-                throw new ArgumentNullException("The blog's url must be specified");
+                throw new ArgumentNullException("blogUrl");
 
             if (httpClient == null)
-                throw new ArgumentNullException("Must supply an http client");
+                throw new ArgumentNullException("httpClient");
 
             this.apiKey = apiKey;
             BlogUrl = blogUrl;
@@ -68,11 +69,10 @@ namespace Subtext.Akismet
 		Uri submitHamUrl;
 		Uri checkUrl;
 			
-		void SetServiceUrls()
-		{
-			this.submitHamUrl = new Uri(String.Format(submitHamUrlFormat, this.apiKey));
-			this.submitSpamUrl = new Uri(String.Format(submitSpamUrlFormat, this.apiKey));
-			this.checkUrl = new Uri(String.Format(checkUrlFormat, this.apiKey));
+		void SetServiceUrls() {
+			this.submitHamUrl = new Uri(String.Format(CultureInfo.InvariantCulture, submitHamUrlFormat, this.apiKey));
+            this.submitSpamUrl = new Uri(String.Format(CultureInfo.InvariantCulture, submitSpamUrlFormat, this.apiKey));
+            this.checkUrl = new Uri(String.Format(CultureInfo.InvariantCulture, checkUrlFormat, this.apiKey));
 		}
 
 		/// <summary>
@@ -114,7 +114,8 @@ namespace Subtext.Akismet
 		/// <returns></returns>
 		public static string BuildUserAgent(string applicationName, string appVersion)
 		{
-			return string.Format("{0}/{1} | Akismet/1.11", applicationName, version);
+
+            return string.Format(CultureInfo.InvariantCulture, "{0}/{1} | Akismet/1.11", applicationName, appVersion);
 		}
 
 		/// <summary>
@@ -160,9 +161,9 @@ namespace Subtext.Akismet
 			string result = this.httpClient.PostRequest(verifyUrl, this.UserAgent, this.Timeout, parameters, Proxy);
 
 			if (String.IsNullOrEmpty(result))
-				throw new InvalidResponseException("Akismet returned an empty response");
+				throw new InvalidResponseException(Resources.InvalidResponse_EmptyResponse);
 			
-			return String.Equals("valid", result, StringComparison.InvariantCultureIgnoreCase);
+			return String.Equals("valid", result, StringComparison.OrdinalIgnoreCase);
 		}
 		
 		/// <summary>
@@ -175,10 +176,10 @@ namespace Subtext.Akismet
 			string result = SubmitComment(comment, this.checkUrl);
 
 			if (String.IsNullOrEmpty(result))
-				throw new InvalidResponseException("Akismet returned an empty response");
+				throw new InvalidResponseException(Resources.InvalidResponse_EmptyResponse);
 			
 			if (result != "true" && result != "false")
-				throw new InvalidResponseException(string.Format("Received the response '{0}' from Akismet. Probably a bad API key.", result));
+				throw new InvalidResponseException(string.Format(CultureInfo.InvariantCulture, Resources.InvalidResponse_PossiblyBadApiKey, result));
 			
 			return bool.Parse(result);
 		}
@@ -204,16 +205,17 @@ namespace Subtext.Akismet
 		{
 			SubmitComment(comment, this.submitHamUrl);
 		}
-		
-		string SubmitComment(IComment comment, Uri url)
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
+        string SubmitComment(IComment comment, Uri url)
 		{
 			//Not too many concatenations.  Might not need a string builder.
 			string parameters = "blog=" + HttpUtility.UrlEncode(BlogUrl.ToString())
-								+ "&user_ip=" + comment.IpAddress.ToString()
+								+ "&user_ip=" + comment.IPAddress.ToString()
 								+ "&user_agent=" + HttpUtility.UrlEncode(comment.UserAgent);
 
-			if (!String.IsNullOrEmpty(comment.Referer))
-				parameters += "&referer=" + HttpUtility.UrlEncode(comment.Referer);
+			if (!String.IsNullOrEmpty(comment.Referrer))
+				parameters += "&referer=" + HttpUtility.UrlEncode(comment.Referrer);
 
 			if (comment.Permalink != null)
 				parameters += "&permalink=" + HttpUtility.UrlEncode(comment.Permalink.ToString());
@@ -241,7 +243,7 @@ namespace Subtext.Akismet
 				}
 			}
 
-			return this.httpClient.PostRequest(url, this.UserAgent, this.Timeout, parameters).ToLower(CultureInfo.InvariantCulture);
+			return this.httpClient.PostRequest(url, this.UserAgent, this.Timeout, parameters).ToLowerInvariant();
 		}
 	}
 }

@@ -14,6 +14,8 @@
 #endregion
 
 using System;
+using Subtext.Framework.Properties;
+using System.Globalization;
 
 namespace Subtext.Framework.Exceptions
 {
@@ -31,8 +33,6 @@ namespace Subtext.Framework.Exceptions
 	[Serializable]
 	public class BlogRequiresSubfolderException : BaseBlogConfigurationException
 	{
-		int _blogsWithSameHostCount;
-		int _blogId = NullValue.NullInt32;
 		string _host;
 
 		/// <summary>
@@ -44,8 +44,8 @@ namespace Subtext.Framework.Exceptions
 		public BlogRequiresSubfolderException(string hostName, int blogsWithSameHostCount, int blogId) : base()
 		{
 			_host = hostName;
-			_blogsWithSameHostCount = blogsWithSameHostCount;
-			_blogId = blogId;
+			BlogsWithSameHostCount = blogsWithSameHostCount;
+            BlogId = blogId;
 		}
 
 		/// <summary>
@@ -60,19 +60,21 @@ namespace Subtext.Framework.Exceptions
 		/// Gets the blogs with same host count.
 		/// </summary>
 		/// <value></value>
-		public int BlogsWithSameHostCount
-		{
-			get { return _blogsWithSameHostCount; }
-		}
+        public int BlogsWithSameHostCount
+        {
+            get;
+            private set;
+        }
 
 		/// <summary>
 		/// Gets the blog id.
 		/// </summary>
 		/// <value></value>
-		public int BlogId
-		{
-			get { return _blogId; }
-		}
+        public int BlogId
+        {
+            get;
+            private set;
+        }
 
 		/// <summary>
 		/// Gets a message that describes the current exception.
@@ -82,14 +84,12 @@ namespace Subtext.Framework.Exceptions
 		{
 			get
 			{
-				string blogCountClause = "is another blog";
-				if(_blogsWithSameHostCount >= 1)
-					blogCountClause = "are " + _blogsWithSameHostCount + " blogs";
+				string blogCountClause = Resources.IsAnotherBlog;
+				if(BlogsWithSameHostCount >= 1)
+					blogCountClause = String.Format(CultureInfo.InvariantCulture, Resources.BlogCountClause, BlogsWithSameHostCount);
 
-				return String.Format("Sorry, but there {0} with the specified hostname '{1}'.  To set up another blog with the same hostname, you must provide an subfolder name.  Please click on 'Host Domain' below for more information.", blogCountClause, _host);
+                return String.Format(CultureInfo.InvariantCulture, Resources.BlogRequiresSubfolder_ThereAreBlogsWithSameHostName, blogCountClause, _host);
 			}
 		}
-
-
 	}
 }

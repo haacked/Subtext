@@ -18,6 +18,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Threading;
+using Subtext.Framework.Properties;
 
 // Adapted from - namespace Haack.Threading
 namespace Subtext.Framework.Threading
@@ -157,7 +158,7 @@ namespace Subtext.Framework.Threading
 				// call Dispose, which means we've failed to leave
 				// a monitor!
 				//System.Diagnostics.Debug.Fail("Undisposed lock");
-				throw new UndisposedLockException("Undisposed Lock");
+				throw new UndisposedLockException(Resources.UndisposedLock);
 			}
 		}
 		private Sentinel leakDetector;
@@ -226,7 +227,7 @@ namespace Subtext.Framework.Threading
 		public StackTrace GetBlockingStackTrace(int timeout)
 		{
 			if(timeout < 0)
-				throw new InvalidOperationException("We'd all like to be able to go back in time, but this is not allowed. Please choose a positive wait time.");
+                throw new ArgumentOutOfRangeException("timeout", timeout, Resources.ArgumentOutOfRange_StackTraceTimeout);
 			
 			ManualResetEvent waitHandle;
 			lock(_failedLockTargets)

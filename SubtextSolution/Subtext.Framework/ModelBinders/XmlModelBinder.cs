@@ -1,6 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using System.Xml;
-using System;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.ModelBinders
 {
@@ -10,7 +11,7 @@ namespace Subtext.Framework.ModelBinders
         {
             var request = controllerContext.HttpContext.Request;
             if (request.ContentType != "text/xml") {
-                throw new InvalidOperationException("Content Type must be text/xml");
+                throw new InvalidOperationException(Resources.InvalidOperation_ContentTypeMustBeXml);
             }
 
             XmlDocument doc = new XmlDocument();

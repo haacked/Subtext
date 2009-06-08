@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Subtext.Scripting.Exceptions;
+using Subtext.Scripting.Properties;
 
 namespace Subtext.Scripting
 {
@@ -12,8 +13,8 @@ namespace Subtext.Scripting
 		private ScriptReader scriptReader = null;
 		private StringBuilder builder = new StringBuilder();
 		private readonly TextReader reader;
-		private char current = char.MinValue;
-		private char lastChar = char.MinValue;
+		private char current;
+		private char lastChar;
 
 		public ScriptSplitter(string script)
 		{
@@ -298,7 +299,7 @@ namespace Subtext.Scripting
 		protected override void ReadSlashStarComment()
 		{
 			if (foundGo)
-				throw new SqlParseException("Incorrect syntax was encountered while parsing GO. Cannot have a slash star /* comment */ after a GO statement.");
+				throw new SqlParseException(Resources.SqlParseException_IncorrectSyntaxNearGo);
 			base.ReadSlashStarComment();
 		}
 

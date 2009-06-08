@@ -17,15 +17,12 @@
 
 #endregion
 
-#region Using
 using System;
 using System.Collections.Generic;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Components;
-using Subtext.Framework.Text;
+using Subtext.Framework.Properties;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Util;
-
-#endregion
 
 namespace Subtext.Framework
 {
@@ -53,7 +50,7 @@ namespace Subtext.Framework
         public static ICollection<Tag> GetTopTags(int itemCount)
         {
 			if (itemCount < 0)
-				throw new ArgumentNullException("itemCount", "Cannot request negative tags. Pass in 0 to get all tags.");
+                throw new ArgumentOutOfRangeException("itemCount", itemCount, Resources.ArgumentOutOfRange_NegativeTagItemCount);
             IDictionary<string, int> topTags = ObjectProvider.Instance().GetTopTags(itemCount);
 
             double mean;

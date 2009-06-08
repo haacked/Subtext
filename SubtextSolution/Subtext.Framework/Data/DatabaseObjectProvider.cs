@@ -19,6 +19,7 @@ using System.Data;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
@@ -53,27 +54,25 @@ namespace Subtext.Framework.Data
             }
         }
 
-        private static bool ValidateEntry(Entry e) {
+        private static void ValidateEntry(Entry e) {
             //TODO: The following doesn't belong here. It's verification code.
             if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body)) {
-                throw new IllegalPostCharactersException("Illegal Characters Found");
+                throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             //Never allow scripts in the title.
             if (HtmlHelper.HasIllegalContent(e.Title)) {
-                throw new IllegalPostCharactersException("Illegal Characters Found");
+                throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Description)) {
-                throw new IllegalPostCharactersException("Illegal Characters Found");
+                throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             //never allow scripts in the url.
             if (HtmlHelper.HasIllegalContent(e.EntryName)) {
-                throw new IllegalPostCharactersException("Illegal Characters Found");
+                throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
-
-            return true;
         }
 
         public override bool TrackEntry(EntryView entryView) {

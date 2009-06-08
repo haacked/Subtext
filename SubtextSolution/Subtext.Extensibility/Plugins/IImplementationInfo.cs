@@ -45,7 +45,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Homepage Url
 		/// </summary>
-		Uri HomePageUrl {get;}
+		Uri HomepageUrl {get;}
 
 		/// <summary>
 		/// Version information

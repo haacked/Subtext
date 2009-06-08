@@ -9,7 +9,7 @@ namespace Subtext.Web.Controls.Captcha
 	/// This exception does not have any custom properties, 
 	/// thus it does not implement ISerializable.
 	/// </remarks>
-	[Serializable]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha"), Serializable]
 	public sealed class CaptchaExpiredException : Exception
 	{
 		/// <summary>

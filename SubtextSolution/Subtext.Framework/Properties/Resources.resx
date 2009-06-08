@@ -120,122 +120,29 @@
   <data name="Argument_StringZeroLength" xml:space="preserve">
     <value>String cannot be of zero length.</value>
   </data>
-  <data name="ArgumentNull_Array" xml:space="preserve">
-    <value>Array cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_ArrayElement" xml:space="preserve">
-    <value>At least one element in the specified array was null.</value>
-  </data>
-  <data name="ArgumentNull_ArrayValue" xml:space="preserve">
-    <value>Found a null value within an array.</value>
-  </data>
-  <data name="ArgumentNull_Assembly" xml:space="preserve">
-    <value>Assembly cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_AssemblyName" xml:space="preserve">
-    <value>AssemblyName cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_AssemblyNameName" xml:space="preserve">
-    <value>AssemblyName.Name cannot be null or an empty string.</value>
-  </data>
-  <data name="ArgumentNull_Buffer" xml:space="preserve">
-    <value>Buffer cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_Collection" xml:space="preserve">
-    <value>Collection cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_Dictionary" xml:space="preserve">
-    <value>Dictionary cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_FileName" xml:space="preserve">
-    <value>File name cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_Generic" xml:space="preserve">
-    <value>Value cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_Graph" xml:space="preserve">
-    <value>Object Graph cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_GUID" xml:space="preserve">
-    <value>GUID cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_Key" xml:space="preserve">
-    <value>Key cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_NullMember" xml:space="preserve">
-    <value>Member at position {0} was null.</value>
-  </data>
-  <data name="ArgumentNull_Obj" xml:space="preserve">
-    <value>Object cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_Path" xml:space="preserve">
-    <value>Path cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_Provider" xml:space="preserve">
-    <value>Provider cannot be null</value>
-  </data>
-  <data name="ArgumentNull_Stream" xml:space="preserve">
-    <value>Stream cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_String" xml:space="preserve">
-    <value>String reference not set to an instance of a String.</value>
-  </data>
-  <data name="ArgumentNull_Type" xml:space="preserve">
-    <value>Type cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_Uri" xml:space="preserve">
-    <value>URI cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_WithParamName" xml:space="preserve">
-    <value>Parameter '{0}' cannot be null.</value>
-  </data>
   <data name="InvalidOperation_DestroyActiveComment" xml:space="preserve">
     <value>Cannot destroy an active comment.</value>
-  </data>
-  <data name="InvalidOperation_DestroyApprovedComment" xml:space="preserve">
-    <value>Cannot destroy an approved comment. Please flag it as spam or trash it first.</value>
-  </data>
-  <data name="Argument_SemaphoreCountLessThanZero" xml:space="preserve">
-    <value>Semaphore must have a count of at least 0.</value>
   </data>
   <data name="TimeoutWaitingForLock" xml:space="preserve">
     <value>Timeout waiting for lock</value>
   </data>
-  <data name="InvalidOperation_WaitTimeLessThanZero" xml:space="preserve">
-    <value>We'd all like to be able to go back in time, but this is not allowed. Please choose a positive wait time.</value>
-  </data>
   <data name="InvalidOperation_HostRecordExists" xml:space="preserve">
     <value>Cannot create a Host record.  One already exists.</value>
-  </data>
-  <data name="Format_InvalidFeedburnerName" xml:space="preserve">
-    <value>Cannot specify a feedburner name with invalid characters.</value>
   </data>
   <data name="ExtendedPropertiesOverflow_Generic" xml:space="preserve">
     <value>ExtendedProperties bytes overflow. The ExtendedProperties is limited to 7800 bytes</value>
   </data>
-  <data name="BlogRequiresSubfolder_Generic" xml:space="preserve">
+  <data name="BlogRequiresSubfolder_ThereAreBlogsWithSameHostName" xml:space="preserve">
     <value>Sorry, but there {0} with the specified hostname '{1}'.  To set up another blog with the same hostname, you must provide an subfolder name.  Please click on 'Host Domain' below for more information.</value>
   </data>
   <data name="IsAnotherBlog" xml:space="preserve">
     <value>is another blog</value>
   </data>
-  <data name="AreBlogs" xml:space="preserve">
-    <value>are {0} blogs</value>
-  </data>
   <data name="Format_BadDateTime" xml:space="preserve">
     <value>String was not recognized as a valid DateTime.</value>
   </data>
-  <data name="NotImplementedException_Generic" xml:space="preserve">
-    <value>The method or operation is not implemented.</value>
-  </data>
-  <data name="ApplicationException_UnknownHandlerType" xml:space="preserve">
-    <value>Invalid HandlerType: Unknown</value>
-  </data>
   <data name="Format_InvalidBlogId" xml:space="preserve">
     <value>Invalid blog id '{0}' specified</value>
-  </data>
-  <data name="TotalRecords" xml:space="preserve">
-    <value>TotalRecords</value>
   </data>
   <data name="Format_InvalidPostId" xml:space="preserve">
     <value>Invalid Post ID.</value>
@@ -245,12 +152,6 @@
   </data>
   <data name="HttpException_MissingAttribute" xml:space="preserve">
     <value>Missing attribute '{0}'.</value>
-  </data>
-  <data name="SecurityException_RoleExists" xml:space="preserve">
-    <value>Role exists</value>
-  </data>
-  <data name="ArgumentOutOfRange_IndexLength" xml:space="preserve">
-    <value>Index and length must refer to a location within the string.</value>
   </data>
   <data name="ArgumentOutOfRange_StartIndex" xml:space="preserve">
     <value>StartIndex cannot be less than zero.</value>
@@ -276,5 +177,185 @@
   </data>
   <data name="InvalidOperation_PostTypeIsNone" xml:space="preserve">
     <value>PostType must not be set to PostType.None</value>
+  </data>
+  <data name="DuplicateEntryException_EntryNameAlreadyExists" xml:space="preserve">
+    <value>An entry with that EntryName already exists.</value>
+  </data>
+  <data name="ArgumentException_TooShortUrl" xml:space="preserve">
+    <value>We will not shorten a URL to less than 5 characters. Come on now!</value>
+  </data>
+  <data name="ArgumentOutOfRange_NegativeTagItemCount" xml:space="preserve">
+    <value>Cannot request negative tags. Pass in 0 to get all tags.</value>
+  </data>
+  <data name="ArgumentOutOfRange_StackTraceTimeout" xml:space="preserve">
+    <value>We'd all like to be able to go back in time, but this is not allowed. Please choose a positive timeout</value>
+  </data>
+  <data name="Argument_EntryMustHaveValidPostType" xml:space="preserve">
+    <value>Entry must have a valid PostType</value>
+  </data>
+  <data name="Format_CouldNotFormatExpression" xml:space="preserve">
+    <value>Could not format '{0}:{1}'</value>
+  </data>
+  <data name="Format_InvalidExpression" xml:space="preserve">
+    <value>Invalid Expression</value>
+  </data>
+  <data name="IllegalPostCharacters" xml:space="preserve">
+    <value>Illegal Characters Found</value>
+  </data>
+  <data name="InvalidOperation_BackslashesInRssProxyName" xml:space="preserve">
+    <value>Backslashes are not allowed in the rss proxy name.</value>
+  </data>
+  <data name="InvalidOperation_CannotDestroyApprovedComment" xml:space="preserve">
+    <value>Cannot destroy an approved comment. Please flag it as spam or trash it first.</value>
+  </data>
+  <data name="InvalidOperation_ContentTypeMustBeXml" xml:space="preserve">
+    <value>Content Type must be text/xml</value>
+  </data>
+  <data name="InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes" xml:space="preserve">
+    <value>DirectoryRouteHandler only works with DirectoryRoutes</value>
+  </data>
+  <data name="InvalidOperation_HostRecordAlreadyExists" xml:space="preserve">
+    <value>A Host record already exists</value>
+  </data>
+  <data name="InvalidOperation_InvalidDateFormat" xml:space="preserve">
+    <value>Invalid Date Format</value>
+  </data>
+  <data name="InvalidOperation_InvalidFeedbackStatus" xml:space="preserve">
+    <value>Invalid Feedback Status supplied '{0}'</value>
+  </data>
+  <data name="InvalidOperation_LocalDirectoryPathNotSet" xml:space="preserve">
+    <value>The LocalDirectoryPath has not been set yet.</value>
+  </data>
+  <data name="InvalidOperation_TemplateFileIsNull" xml:space="preserve">
+    <value>TemplateFile Property for MasterPage must be Defined</value>
+  </data>
+  <data name="ArgumentOutOfRange_SemaphoreCount" xml:space="preserve">
+    <value>Semaphore must have a count of at least 0.</value>
+  </data>
+  <data name="InvalidOperation_ContentRegionNotFound" xml:space="preserve">
+    <value>ContentRegion with ID '{0}' must be Defined</value>
+  </data>
+  <data name="ArgumentOutOfRange_LengthMustNotBeNegative" xml:space="preserve">
+    <value>Length must not be negative.</value>
+  </data>
+  <data name="Argument_EntryHasNoTitle" xml:space="preserve">
+    <value>Entry must have a title</value>
+  </data>
+  <data name="BlogCountClause" xml:space="preserve">
+    <value>are {0} blogs</value>
+  </data>
+  <data name="ReflectionArgument_CouldNotFindInstanceField" xml:space="preserve">
+    <value>Could not find the private instance field '{0}'</value>
+  </data>
+  <data name="ReflectionArgument_CouldNotFindMethod" xml:space="preserve">
+    <value>Could not find a method with the name '{0}'</value>
+  </data>
+  <data name="ReflectionArgument_CouldNotFindProperty" xml:space="preserve">
+    <value>Could not find a property with the name '{0}'</value>
+  </data>
+  <data name="ReflectionArgument_CouldNotFindsStaticField" xml:space="preserve">
+    <value>Could not find the static field '{0}'</value>
+  </data>
+  <data name="UndisposedLock" xml:space="preserve">
+    <value>Undisposed Lock</value>
+  </data>
+  <data name="XmlRcpFault_DidNotLinkToPermalink" xml:space="preserve">
+    <value>You did not link to a permalink</value>
+  </data>
+  <data name="XmlRcpFault_InvalidLink" xml:space="preserve">
+    <value>Not a valid link</value>
+  </data>
+  <data name="XmlRpcError_CommunityCredits" xml:space="preserve">
+    <value>Error while connecting to the Community Credit webservice</value>
+  </data>
+  <data name="XmlRpcFault_AddPostFailed" xml:space="preserve">
+    <value>The post could not be added</value>
+  </data>
+  <data name="XmlRpcFault_CannotDeletePage" xml:space="preserve">
+    <value>Could not delete page:{0}</value>
+  </data>
+  <data name="XmlRpcFault_CannotDeletePost" xml:space="preserve">
+    <value>Could not delete post: {0}</value>
+  </data>
+  <data name="XmlRpcFault_CouldNotFindEntry" xml:space="preserve">
+    <value>The entry could not be found</value>
+  </data>
+  <data name="XmlRpcFault_ErrorSavingFile" xml:space="preserve">
+    <value>Error saving file.</value>
+  </data>
+  <data name="XmlRpcFault_NoCategories" xml:space="preserve">
+    <value>No categories exist</value>
+  </data>
+  <data name="XmlRpcFault_UsernameAndPasswordInvalid" xml:space="preserve">
+    <value>Username and password denied.</value>
+  </data>
+  <data name="XmlRpcFault_WebServiceNotEnabled" xml:space="preserve">
+    <value>Web Service Access is not enabled.</value>
+  </data>
+  <data name="XmlRpcMessage_ThanksForThePingback" xml:space="preserve">
+    <value>thanks for the pingback on {0}</value>
+  </data>
+  <data name="XmlRpcWarn_CommunityCredits" xml:space="preserve">
+    <value>Community Credit ws returned the following response while notifying for the url {0}: {1}</value>
+  </data>
+  <data name="ConfigurationErrros_NoConnectionString" xml:space="preserve">
+    <value>There is no connectionString entry associated with the connectionStringName '{0}'.</value>
+  </data>
+  <data name="Log_CouldNotExtractEntryId" xml:space="preserve">
+    <value>Could not extract entry id from incoming URL '{0}</value>
+  </data>
+  <data name="Message_ReferrersForm" xml:space="preserve">
+    <value>{1} referrals from &lt;a href=\"{0}\"&gt;{0}&lt;/a&gt;</value>
+  </data>
+  <data name="TrackbackResponse_EntryIdMissing" xml:space="preserve">
+    <value>EntryID is invalid or missing</value>
+  </data>
+  <data name="TrackbackResponse_NoRelevantLink" xml:space="preserve">
+    <value>Sorry couldn't find a relevant link in {0}</value>
+  </data>
+  <data name="TrackbackResponse_NoUrl" xml:space="preserve">
+    <value>no url parameter found, please try harder!</value>
+  </data>
+  <data name="Email_CommentVia" xml:space="preserve">
+    <value>Comment: {0} (via {1})</value>
+  </data>
+  <data name="Label_Approve" xml:space="preserve">
+    <value>Approve</value>
+  </data>
+  <data name="Label_Comments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="Label_CommentsFlaggedAsSpam" xml:space="preserve">
+    <value>Comments Flagged as SPAM</value>
+  </data>
+  <data name="Label_CommentsInTrash" xml:space="preserve">
+    <value>Comments In The Trash Bin</value>
+  </data>
+  <data name="Label_CommentsPendingModeratorApproval" xml:space="preserve">
+    <value>Comments Pending Moderator Approval</value>
+  </data>
+  <data name="Label_DestroySpamTooltip" xml:space="preserve">
+    <value>Destroy all spam, not just checked</value>
+  </data>
+  <data name="Label_NoApprovedComments" xml:space="preserve">
+    <value>&lt;em&gt;There are no approved comments to display.&lt;/em&gt;</value>
+  </data>
+  <data name="Label_NoCommentsFlaggedAsSpam" xml:space="preserve">
+    <value>&lt;em&gt;No Entries Flagged as SPAM.&lt;/em&gt;</value>
+  </data>
+  <data name="Label_NoCommentsInTrash" xml:space="preserve">
+    <value>&lt;em&gt;No Entries in the Trash.&lt;/em&gt;</value>
+  </data>
+  <data name="Label_NoCommentsNeedModeration" xml:space="preserve">
+    <value>&lt;em&gt;No Entries Need Moderation.&lt;/em&gt;</value>
+  </data>
+  <data name="Label_TrashesSpam" xml:space="preserve">
+    <value>Trashes checked spam</value>
+  </data>
+  <data name="Label_Undelete" xml:space="preserve">
+    <value>Undelete</value>
+  </data>
+  <data name="Label_DestroyTrashTooltip" xml:space="preserve">
+    <value>Destroy all trash, not just checked</value>
   </data>
 </root>

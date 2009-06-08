@@ -41,6 +41,9 @@ namespace Subtext.Framework.Services
 
         public string Transform(string original)
         {
+            if (string.IsNullOrEmpty(original)) {
+                return string.Empty;
+            }
             return ConvertHtmlToXHtml(original, _innerTextConverter);
         }
 
@@ -135,10 +138,10 @@ namespace Subtext.Framework.Services
         // This to make sure the Xhtml is well formatted before processing it
         private static string RemoveNewLineBeforeCDATA(string text)
         {
-            if (!String.IsNullOrEmpty(text)) {
-                return _newLineStripperRegex.Replace(text, "><![CDATA[");
+            if (String.IsNullOrEmpty(text)) {
+                return string.Empty;
             }
-            return text;
+            return _newLineStripperRegex.Replace(text, "><![CDATA[");
         }
 
         static Regex _newLineStripperRegex = new Regex(@">(\r\n)+<!\[CDATA\[", RegexOptions.Compiled);

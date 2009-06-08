@@ -31,7 +31,7 @@ using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Web.UI.Pages;
-using Subtext.Infrastructure;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -239,7 +239,7 @@ namespace Subtext.Web.UI.Controls
 				|| this.tbEmail.Text.Length > 128
 				|| this.tbName.Text.Length > 32
 				|| this.tbUrl.Text.Length > 256)
-				throw new InvalidOperationException("Sorry, but we cannot accept this comment.");
+				throw new InvalidOperationException(Resources.InvalidOperation_CommentNotValid);
 		}
 
 		private void SetRememberedUserCookie()
@@ -260,7 +260,7 @@ namespace Subtext.Web.UI.Controls
 			
 			if (feedbackItem.Approved)
 			{
-				Message.Text = "Thanks for your comment!";
+                Message.Text = Resources.PostComment_ThanksForComment;
 				Message.CssClass = "success";
 				this.Controls.Add(Message);	//This needs to be here for ajax calls.
 				Cacher.ClearCommentCache(feedbackItem.EntryId, SubtextContext);
@@ -269,7 +269,7 @@ namespace Subtext.Web.UI.Controls
 			}
 			else if(feedbackItem.NeedsModeratorApproval)
 			{
-				Message.Text = "Thank you for your comment.  It will be displayed soon.";
+				Message.Text = Resources.PostComment_ThanksForComment + " It will be displayed soon.";
 				Message.CssClass = "error moderation";
 			}
 			else

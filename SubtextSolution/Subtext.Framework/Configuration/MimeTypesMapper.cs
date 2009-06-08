@@ -17,6 +17,7 @@ using System;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Configuration
 {
@@ -60,7 +61,7 @@ namespace Subtext.Framework.Configuration
         public string GetMimeType(string ext)
         {
             if(ext==null)
-                throw new ArgumentNullException("ext","The file extension cannot be null.");
+                throw new ArgumentNullException("ext");
             if (List[ext] != null)
                 return List[ext];
             return null;
@@ -74,7 +75,7 @@ namespace Subtext.Framework.Configuration
         public string ParseUrl(string url)
         {
             if (url == null)
-                throw new ArgumentNullException("url", "The url cannot be null.");
+                throw new ArgumentNullException("url");
             Uri uri;
 
             if (!Uri.TryCreate(url,UriKind.Absolute,out uri))

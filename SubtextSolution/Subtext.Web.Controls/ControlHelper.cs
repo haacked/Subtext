@@ -160,10 +160,10 @@ namespace Subtext.Web.Controls
 		/// to save the trade blotter grid as an Excel file named 
 		/// TradeBlotter.xls.
 		/// </remarks>
-		public static void ExportToExcel(Control control, string filename)
+		public static void ExportToExcel(Control control, string fileName)
 		{
 			// Set the content type to Excel
-			HttpContext.Current.Response.AddHeader( "Content-Disposition", "filename=" + filename); 
+			HttpContext.Current.Response.AddHeader( "Content-Disposition", "filename=" + fileName); 
 			HttpContext.Current.Response.ContentType = "application/vnd.ms-excel";
 
 			control.Page.EnableViewState = false;
@@ -199,7 +199,7 @@ namespace Subtext.Web.Controls
 		private static void SetTitleIfNoneInternal(WebControl link, string title)
 		{
 			if(link == null)
-				throw new ArgumentNullException("link", "Cannot set the title for a null Hyperlink.");
+				throw new ArgumentNullException("link");
 
 			// Use the ToolTip propety since that is rendered as the title attribute.
 			if (link.ToolTip.Length == 0)

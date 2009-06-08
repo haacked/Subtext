@@ -19,7 +19,7 @@ using System.Globalization;
 using System.IO;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -54,7 +54,7 @@ namespace Subtext.Web.Admin.Pages
                 }
 
 			    if (_image == null)
-                    throw new Exception("Image not defined.");
+                    throw new InvalidOperationException(Resources.InvalidOperation_ImageUndefined);
 			    
 			    return _image;
 			}
@@ -107,21 +107,21 @@ namespace Subtext.Web.Admin.Pages
 					Advanced.Collapsed = Preferences.AlwaysExpandAdvanced;
 
 					if(AdminMasterPage != null)
-					{	
-						string title = string.Format(CultureInfo.InvariantCulture, "Editing Image \"{0}\"", Image.Title);
+					{
+                        string title = string.Format(CultureInfo.InvariantCulture, Resources.EditGalleries_EditImage, Image.Title);
                         AdminMasterPage.Title = title;
 					}
 				}
 				else
 				{
 					ImageDetails.Visible = false;
-					this.Messages.ShowError("You must have at least one valid Gallery before working with individual images.");
+                    this.Messages.ShowError(Resources.EditGalleries_MustHaveOneGallery);
 				}
 			}
 			else
 			{	
 				ImageDetails.Visible = false;
-				this.Messages.ShowError("An image identifier was not available, could not load your image.");
+                this.Messages.ShowError(Resources.EditGalleries_ImageIdentifierMissing);
 			}
 		}
 
@@ -175,7 +175,7 @@ namespace Subtext.Web.Admin.Pages
 					// would need to also move files for this to work here. should happen
 					// in the provider though.
 
-					this.Messages.ShowMessage("The image was successfully updated.");
+                    this.Messages.ShowMessage(Resources.EditGalleries_ImageUpdated);
 					BindImage();
 				}
 				catch(Exception ex)
@@ -198,9 +198,9 @@ namespace Subtext.Web.Admin.Pages
 				{
 					_image.FileName = Path.GetFileName(ImageFile.PostedFile.FileName);
 					_image.LocalDirectoryPath = Images.LocalGalleryFilePath(_image.CategoryID);
-					Images.Update(_image, Images.GetFileStream(ImageFile.PostedFile));				
+					Images.Update(_image, Images.GetFileStream(ImageFile.PostedFile));
 
-					this.Messages.ShowMessage("The image was successfully updated.");
+                    this.Messages.ShowMessage(Resources.EditGalleries_ImageUpdated);
 					BindImage();
 				}
 				catch (Exception ex)

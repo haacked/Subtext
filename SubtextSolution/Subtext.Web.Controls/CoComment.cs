@@ -1,12 +1,14 @@
 using System;
 using System.Web.UI;
+using System.Globalization;
 
 namespace Subtext.Web.Controls
 {
 	/// <summary>
 	/// Summary description for CoComment.
 	/// </summary>
-	public class CoComment : Control
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Co")]
+    public class CoComment : Control
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CoComment"/> class.
@@ -99,7 +101,7 @@ namespace Subtext.Web.Controls
 		/// <param name="writer">The <see langword="HtmlTextWriter"/> object that receives the server control content.</param>
 		protected override void Render(HtmlTextWriter writer)
 		{
-			writer.Write(string.Format(ScriptHelper.UnpackScript("CoCommentScript.js"), this.BlogTool, this.BlogUrl, this.BlogTitle, this.PostTitle, this.PostUrl, this.CommentAuthorFieldName, this.CommentTextFieldName, this.CommentButtonId, this.CommentFormId));
+			writer.Write(string.Format(CultureInfo.InvariantCulture, ScriptHelper.UnpackScript("CoCommentScript.js"), this.BlogTool, this.BlogUrl, this.BlogTitle, this.PostTitle, this.PostUrl, this.CommentAuthorFieldName, this.CommentTextFieldName, this.CommentButtonId, this.CommentFormId));
 		}
 	}
 }

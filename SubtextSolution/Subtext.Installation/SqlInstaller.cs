@@ -7,6 +7,7 @@ using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework;
 using Subtext.Framework.Data;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Subtext.Installation
 {
@@ -19,7 +20,7 @@ namespace Subtext.Installation
 			this.connectionString = connectionString;
 		}
 
-		public string DbUser
+		public string DBUser
 		{
 			get;
 			set;
@@ -34,13 +35,13 @@ namespace Subtext.Installation
 				{
 					try
 					{
-						string[] scripts = ListInstallationScripts(this.GetCurrentInstallationVersion(), VersionInfo.FrameworkVersion);
+						var scripts = ListInstallationScripts(this.GetCurrentInstallationVersion(), VersionInfo.FrameworkVersion);
 						foreach (string scriptName in scripts)
 						{
-                            ScriptHelper.ExecuteScript(scriptName, transaction, DbUser);
+                            ScriptHelper.ExecuteScript(scriptName, transaction, DBUser);
 						}
 
-						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, DbUser);
+						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, DBUser);
 						UpdateInstallationVersionNumber(assemblyVersion, transaction);
 						transaction.Commit();
 					}
@@ -74,12 +75,12 @@ namespace Subtext.Installation
 							//into the database.
 							installationVersion = new Version(1, 0, 0, 0);
 						}
-						string[] scripts = ListInstallationScripts(installationVersion, VersionInfo.FrameworkVersion);
+						var scripts = ListInstallationScripts(installationVersion, VersionInfo.FrameworkVersion);
 						foreach (string scriptName in scripts)
 						{
-							ScriptHelper.ExecuteScript(scriptName, transaction, DbUser);
+							ScriptHelper.ExecuteScript(scriptName, transaction, DBUser);
 						}
-						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, DbUser);
+						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, DBUser);
 
 						UpdateInstallationVersionNumber(VersionInfo.FrameworkVersion, transaction);
 						transaction.Commit();
@@ -100,7 +101,7 @@ namespace Subtext.Installation
 		/// <param name="minVersionExclusive">The min verison exclusive.</param>
 		/// <param name="maxVersionInclusive">The max version inclusive.</param>
 		/// <returns></returns>
-		public string[] ListInstallationScripts(Version minVersionExclusive, Version maxVersionInclusive)
+		public static ReadOnlyCollection<string> ListInstallationScripts(Version minVersionExclusive, Version maxVersionInclusive)
 		{
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			string[] resourceNames = assembly.GetManifestResourceNames();
@@ -121,7 +122,7 @@ namespace Subtext.Installation
 			collection.CopyTo(scripts, 0);
 			Array.Sort(scripts);
 
-			return scripts;
+			return new ReadOnlyCollection<string>(new List<string>(scripts));
 		}
 
 		/// <summary>
@@ -129,7 +130,7 @@ namespace Subtext.Installation
 		/// </summary>
 		/// <param name="newVersion">New version.</param>
 		/// <param name="transaction">The transaction to perform this action within.</param>
-		public void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
+		public static void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
 		{
 			string sql = "subtext_VersionAdd";
 			SqlParameter[] p =
@@ -200,8 +201,8 @@ namespace Subtext.Installation
 				//into the database.
 				installationVersion = new Version(1, 0, 0, 0);
 			}
-			string[] scripts = ListInstallationScripts(installationVersion, VersionInfo.FrameworkVersion);
-			return scripts.Length > 0;
+			var scripts = ListInstallationScripts(installationVersion, VersionInfo.FrameworkVersion);
+			return scripts.Count > 0;
 		}
 	}
 }
