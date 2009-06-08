@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Subtext.Scripting
@@ -49,7 +50,7 @@ namespace Subtext.Scripting
 			{
 				foreach(TemplateParameter parameter in this.List)
 				{
-					if(String.Compare(parameter.Name, name, true) == 0)
+                    if (String.Equals(parameter.Name, name, StringComparison.OrdinalIgnoreCase))
 					{
 						return parameter;
 					}
@@ -78,7 +79,7 @@ namespace Subtext.Scripting
 		public TemplateParameter Add(Match match)
 		{
 			if(match == null)
-				throw new ArgumentNullException("match", "Cannot create a template parameter from a null match.");
+				throw new ArgumentNullException("match");
 			
 			if(this[match.Groups["name"].Value] != null)
 				return this[match.Groups["name"].Value];
@@ -97,7 +98,7 @@ namespace Subtext.Scripting
 		public TemplateParameter Add(TemplateParameter value) 
 		{
 			if(value == null)
-				throw new ArgumentNullException("value", "Cannot add a null template parameter.");
+				throw new ArgumentNullException("value");
 			
 			if(Contains(value))
 				return this[value.Name];
@@ -135,12 +136,12 @@ namespace Subtext.Scripting
 		/// </summary>
 		/// <param name="value">The <see cref="TemplateParameter">Script</see> to search for in the collection.</param>
 		/// <returns><b>true</b> if the collection contains the specified object; otherwise, <b>false</b>.</returns>
-		public bool Contains(TemplateParameter value) 
+		public bool Contains(TemplateParameter item) 
 		{
-			if(value == null)
-				throw new ArgumentNullException("value", "Cannot test whether or not it contains null.");
+			if(item == null)
+				throw new ArgumentNullException("item");
 			
-			return Contains(value.Name);
+			return Contains(item.Name);
 		}
 
 	    public void CopyTo(TemplateParameter[] array, int arrayIndex)
@@ -174,9 +175,9 @@ namespace Subtext.Scripting
 		/// Removes the specified value.
 		/// </summary>
 		/// <param name="value">Value.</param>
-		public bool Remove(TemplateParameter value) 
+		public bool Remove(TemplateParameter item) 
 		{
-			return List.Remove(value);
+			return List.Remove(item);
 		}
 
 		/// <summary>

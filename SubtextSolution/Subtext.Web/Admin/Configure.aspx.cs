@@ -230,7 +230,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void UpdateTime()
         {
-            lblServerTimeZone.Text = string.Format("{0} ({1})", TimeZone.CurrentTimeZone.StandardName,
+            lblServerTimeZone.Text = string.Format(CultureInfo.InvariantCulture, "{0} ({1})", TimeZone.CurrentTimeZone.StandardName,
                                                    TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now));
             lblServerTime.Text = DateTime.Now.ToString("yyyy/MM/dd hh:mm tt");
             lblUtcTime.Text = DateTime.UtcNow.ToString("yyyy/MM/dd hh:mm tt");

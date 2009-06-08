@@ -9,11 +9,11 @@ namespace Subtext.Akismet
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Comment"/> class.
 		/// </summary>
-		/// <param name="authorIpAddress">The author ip address.</param>
+		/// <param name="authorIPAddress">The author IP address.</param>
 		/// <param name="authorUserAgent">The author user agent.</param>
-		public Comment(IPAddress authorIpAddress, string authorUserAgent)
+		public Comment(IPAddress authorIPAddress, string authorUserAgent)
 		{
-			IpAddress = authorIpAddress;
+			IPAddress = authorIPAddress;
 			UserAgent = authorUserAgent;
 		}
 		
@@ -57,7 +57,7 @@ namespace Subtext.Akismet
 		/// The HTTP_REFERER header value of the 
 		/// originating comment.
 		/// </summary>
-		public string Referer
+		public string Referrer
 		{
 			get;
 			set;
@@ -95,7 +95,7 @@ namespace Subtext.Akismet
 		/// <summary>
 		/// IPAddress of the submitter
 		/// </summary>
-        public IPAddress IpAddress
+        public IPAddress IPAddress
         {
             get;
             private set;

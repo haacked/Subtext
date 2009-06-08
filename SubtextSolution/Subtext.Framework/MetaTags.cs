@@ -14,10 +14,10 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using Subtext.Framework.Components;
-using Subtext.Framework.Providers;
 using Subtext.Extensibility.Interfaces;
+using Subtext.Framework.Components;
+using Subtext.Framework.Properties;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Framework
 {
@@ -30,7 +30,7 @@ namespace Subtext.Framework
 		public static int Create(MetaTag metaTag)
 		{
             if (metaTag == null)
-                throw new ArgumentNullException("metaTag", "The meta tag can not be NULL.");
+                throw new ArgumentNullException("metaTag");
 
             if (!metaTag.IsValid)
                 throw new ArgumentException(metaTag.ValidationMessage);
@@ -42,7 +42,7 @@ namespace Subtext.Framework
 		public static bool Update(MetaTag metaTag)
 		{
             if (metaTag == null)
-                throw new ArgumentNullException("metaTag", "The meta tag can not be NULL.");
+                throw new ArgumentNullException("metaTag");
 
             if (!metaTag.IsValid)
                 throw new ArgumentException(metaTag.ValidationMessage);

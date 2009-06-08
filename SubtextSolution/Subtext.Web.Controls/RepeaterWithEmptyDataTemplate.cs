@@ -52,11 +52,11 @@ namespace Subtext.Web.Controls
 		/// (empty) then it adds the EmptyDataTemplate to the containting control.
 		/// </summary>
 		/// <param name="ea">E.</param>
-		protected override void OnItemCreated(RepeaterItemEventArgs ea) 
+		protected override void OnItemCreated(RepeaterItemEventArgs e) 
 		{ 
-			if (ea.Item.ItemType == ListItemType.Footer && this.Items.Count == 0) 
+			if (e.Item.ItemType == ListItemType.Footer && this.Items.Count == 0) 
 				Controls.Add(EmptyDataTemplate); 
-			base.OnItemCreated(ea); 
+			base.OnItemCreated(e); 
 		}
 	}
 }

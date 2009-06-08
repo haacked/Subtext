@@ -15,7 +15,8 @@ namespace Subtext.Web.Controls.Captcha
 	/// small numbers, unless the <see cref="Accessible" />  property is set to false.
 	/// </para>
 	/// </summary>
-	public class InvisibleCaptcha : CaptchaBase
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha")]
+    public class InvisibleCaptcha : CaptchaBase
 	{
 		string directions = string.Empty;
 		Random rnd = new Random();
@@ -80,19 +81,19 @@ namespace Subtext.Web.Controls.Captcha
 			int first = rnd.Next(1, 9);
 			int second = rnd.Next(1, 9);
 
-			directions = string.Format("Please add {0} and {1} and type the answer here: ", first, second);
+            directions = string.Format(CultureInfo.InvariantCulture, "Please add {0} and {1} and type the answer here: ", first, second);
 			Display = ValidatorDisplay.Dynamic;
 
 			string answer = (first + second).ToString(CultureInfo.InvariantCulture);
 
 			// We store the answer encrypted so it can't be tampered with.
 			Page.ClientScript.RegisterHiddenField(this.HiddenEncryptedAnswerFieldName, EncryptAnswer(answer));
-			Page.ClientScript.RegisterStartupScript(typeof(InvisibleCaptcha), "MakeCaptchaInvisible", string.Format("<script type=\"text/javascript\">\r\nsubtext_invisible_captcha_hideFromJavascriptEnabledBrowsers('{0}');\r\n</script>", this.CaptchaInputClientId));
+            Page.ClientScript.RegisterStartupScript(typeof(InvisibleCaptcha), "MakeCaptchaInvisible", string.Format(CultureInfo.InvariantCulture, "<script type=\"text/javascript\">\r\nsubtext_invisible_captcha_hideFromJavascriptEnabledBrowsers('{0}');\r\n</script>", this.CaptchaInputClientId));
 
 			Page.ClientScript.RegisterClientScriptInclude("InvisibleCaptcha",
 				 Page.ClientScript.GetWebResourceUrl(this.GetType(), "Subtext.Web.Controls.Resources.InvisibleCaptcha.js"));
 
-			Page.ClientScript.RegisterStartupScript(typeof(InvisibleCaptcha), "ComputeCaptchaAnswer", string.Format("<script type=\"text/javascript\">\r\nsubtext_invisible_captcha_setAnswer({0}, {1}, '{2}');\r\n</script>", first, second, this.AnswerFormFieldName));
+            Page.ClientScript.RegisterStartupScript(typeof(InvisibleCaptcha), "ComputeCaptchaAnswer", string.Format(CultureInfo.InvariantCulture, "<script type=\"text/javascript\">\r\nsubtext_invisible_captcha_setAnswer({0}, {1}, '{2}');\r\n</script>", first, second, this.AnswerFormFieldName));
 			base.OnPreRender(e);
 		}
 

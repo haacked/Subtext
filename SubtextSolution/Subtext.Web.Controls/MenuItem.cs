@@ -141,7 +141,7 @@ namespace Subtext.Web.Controls
 		{
 			get
 			{
-				return StringHelper.LeftBefore(Context.Request.Path, "Default.aspx", StringComparison.InvariantCultureIgnoreCase);
+				return StringHelper.LeftBefore(Context.Request.Path, "Default.aspx", StringComparison.OrdinalIgnoreCase);
 			}
 		}
 
@@ -194,7 +194,7 @@ namespace Subtext.Web.Controls
 				bool referenceLongEnough = Href.Length > ParentPath.Length;
 				
 				// Make sure the reference is part of the request path now.
-				bool referenceInRequestPath = CurrentRequestPath.IndexOf(Href, StringComparison.InvariantCultureIgnoreCase) > -1;
+				bool referenceInRequestPath = CurrentRequestPath.IndexOf(Href, StringComparison.OrdinalIgnoreCase) > -1;
 
 				return referenceLongEnough && referenceInRequestPath;
 			}

@@ -17,17 +17,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
-using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI.WebControls;
-using System.Xml;
-using Sgml;
-using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Velocit.RegularExpressions;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Services;
+using Velocit.RegularExpressions;
 
 namespace Subtext.Framework.Text
 {
@@ -55,10 +52,10 @@ namespace Subtext.Framework.Text
         public static void AppendCssClass(WebControl control, string newClass)
         {
             if (control == null)
-                throw new ArgumentNullException("control", "Cannot add a css class to a null control");
+                throw new ArgumentNullException("control");
 
             if (newClass == null)
-                throw new ArgumentNullException("newClass", "Cannot add a null css class to a control");
+                throw new ArgumentNullException("newClass");
 
             string existingClasses = control.CssClass;
             if (String.IsNullOrEmpty(existingClasses))
@@ -87,10 +84,10 @@ namespace Subtext.Framework.Text
         public static void RemoveCssClass(WebControl control, string classToRemove)
         {
             if (control == null)
-                throw new ArgumentNullException("control", "Cannot remove a css class from a null control");
+                throw new ArgumentNullException("control");
 
             if (classToRemove == null)
-                throw new ArgumentNullException("classToRemove", "Cannot remove a null css class from a control");
+                throw new ArgumentNullException("classToRemove");
 
             string existingClasses = control.CssClass;
             if (String.IsNullOrEmpty(existingClasses))
@@ -331,7 +328,7 @@ namespace Subtext.Framework.Text
 
                     text =
                         text.Replace(m.Value,
-                            string.Format("<a rel=\"nofollow external\" href=\"{0}{1}\" title=\"{1}\">{2}</a>", httpPortion, m.Value, ShortenUrl(m.Value, 50))
+                            string.Format(CultureInfo.InvariantCulture, "<a rel=\"nofollow external\" href=\"{0}{1}\" title=\"{1}\">{2}</a>", httpPortion, m.Value, ShortenUrl(m.Value, 50))
                         );
                 }
                 return text;
@@ -352,7 +349,7 @@ namespace Subtext.Framework.Text
 				throw new ArgumentNullException("url");
 
 			if (max < 5)
-				throw new ArgumentException("We will not shorten a URL to less than 5 characters. Come on now!", "max");
+                throw new ArgumentOutOfRangeException("max", max, Resources.ArgumentException_TooShortUrl);
 
 			if (url.Length <= max)
 				return url;
@@ -425,7 +422,7 @@ namespace Subtext.Framework.Text
         public static string SafeFormat(string stringToTransform, HttpServerUtilityBase server)
         {
             if (stringToTransform == null)
-                throw new ArgumentNullException("stringToTransform", "Cannot transform a null string.");
+                throw new ArgumentNullException("stringToTransform");
 
             stringToTransform = HttpUtility.HtmlEncode(stringToTransform);
             return stringToTransform.Replace(Environment.NewLine, "<br />");
@@ -474,17 +471,9 @@ namespace Subtext.Framework.Text
 		public static string ConvertToAllowedHtml(string text)
         {
             if (text == null)
-                throw new ArgumentNullException("text", "Cannot convert null to allowed html.");
+                throw new ArgumentNullException("text");
 
             NameValueCollection allowedHtmlTags = Config.Settings.AllowedHtmlTags;
-
-#if DEBUG
-            //Assert that the NameValueCollection is case insensitive!
-            if (allowedHtmlTags != null && allowedHtmlTags.Get("strong") != null && allowedHtmlTags.Get("STRONG") == null)
-            {
-                throw new InvalidOperationException("Darn it, it's case sensitive!" + allowedHtmlTags.Get("STRONG"));
-            }
-#endif
             return ConvertToAllowedHtml(allowedHtmlTags, text);
         }
 

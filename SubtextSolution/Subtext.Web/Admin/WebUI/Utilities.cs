@@ -22,6 +22,7 @@ using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework.Web;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin
 {
@@ -185,13 +186,13 @@ namespace Subtext.Web.Admin
 		internal const string URL_EDITCATEGORIES = "EditCategories.aspx";
 		internal const string URL_EDITGALLERIES = "EditGalleries.aspx";
 
-		internal const string RES_SUCCESSNEW = "Posted successfully.";
-		internal const string RES_SUCCESSEDIT = "Updated successfully.";
-		internal const string RES_FAILUREEDIT = "Post operation failed.";
-		internal const string RES_EXCEPTION = "{0} The error message related to this problem was as follows: {1}";
+		internal static string RES_SUCCESSNEW = Resources.Message_PostedSuccessful;
+		internal static string RES_SUCCESSEDIT = Resources.Message_UpdateSuccessful;
+        internal static readonly string RES_FAILUREEDIT = Resources.Message_PostOperationFailed;
+        internal static readonly string RES_EXCEPTION = Resources.Message_GenericError;
 
-		internal const string RES_SUCCESSCATEGORYUPDATE = "Categories updated successfully.";
-		internal const string RES_FAILURECATEGORYUPDATE = "Category Update failed.";
+        internal static readonly string RES_SUCCESSCATEGORYUPDATE = Resources.Message_CategoriesUpdatedSuccessful;
+		internal static readonly string RES_FAILURECATEGORYUPDATE = Resources.Message_CategoryUpdateFailed;
 	}
 }
 

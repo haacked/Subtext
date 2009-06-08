@@ -68,7 +68,7 @@ namespace Subtext.BlogML
 		/// happens to be running in.
 		/// </summary>
 		/// <returns></returns>
-		public abstract IBlogMLContext GetBlogMlContext();
+		public abstract IBlogMLContext GetBlogMLContext();
 
 		/// <summary>
 		/// Returns a strategy object responsible for handling Id conversions 
@@ -128,7 +128,7 @@ namespace Subtext.BlogML
 		/// Creates a comment in the system.
 		/// </summary>
 		/// <param name="bmlComment"></param>
-		public abstract void CreatePostComment(BlogMLComment bmlComment, string newPostId);
+		public abstract void CreatePostComment(BlogMLComment comment, string newPostId);
 
 		/// <summary>
 		/// Creates a trackback for the post.
@@ -140,13 +140,13 @@ namespace Subtext.BlogML
         /// Sets the extended properties for the blog.
         /// </summary>
         /// <param name="extendedProperties"></param>
-        public abstract void SetBlogMlExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties);
+        public abstract void SetBlogMLExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties);
 
 	    /// <summary>
 		/// Lets the provider decide how to log errors.
 		/// </summary>
 		/// <param name="message"></param>
 		/// <param name="e"></param>
-		public abstract void LogError(string message, Exception e);
+		public abstract void LogError(string message, Exception exception);
 	}
 }

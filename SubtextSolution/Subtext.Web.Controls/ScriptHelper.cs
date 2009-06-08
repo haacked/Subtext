@@ -45,7 +45,7 @@ namespace Subtext.Web.Controls
 			string language = "javascript";
 			string extension = Path.GetExtension(scriptName);
 		
-			if(String.Equals(extension, ".vbs", StringComparison.InvariantCultureIgnoreCase))
+			if(String.Equals(extension, ".vbs", StringComparison.OrdinalIgnoreCase))
 			{
 				language = "vbscript";
 			}

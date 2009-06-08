@@ -10,11 +10,11 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
-using Subtext.Web.UI.Controls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using System.Collections.Generic;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -81,7 +81,7 @@ namespace Subtext.Web.UI.Controls
 						{
 							RssLink.NavigateUrl = link.Rss;
 							RssLink.Visible = true;
-							RssLink.ToolTip = string.Format("Subscribe to {0}",link.Title);
+							RssLink.ToolTip = string.Format(Resources.LinkPage_Subscribe, link.Title);
 						}
 					}
 				}

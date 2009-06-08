@@ -1,12 +1,11 @@
-﻿using System.Data;
-using Subtext.Framework.Components;
-using Subtext.Framework.Providers;
-using Subtext.Extensibility;
-using Subtext.Framework;
-using Subtext.Framework.Text;
-using Subtext.Extensibility.Interfaces;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using System.Data;
+using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
+using Subtext.Framework.Components;
+using Subtext.Framework.Properties;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Data
 {
@@ -112,7 +111,7 @@ namespace Subtext.Framework.Data
         public override int Create(FeedbackItem feedbackItem)
         {
             if (feedbackItem == null)
-                throw new ArgumentNullException("feedbackItem", "Cannot insert a null feedback item.");
+                throw new ArgumentNullException("feedbackItem");
 
             string ipAddress = null;
             if (feedbackItem.IpAddress != null)

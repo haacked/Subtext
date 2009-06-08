@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Subtext.Framework.Components;
-using System.Collections.Specialized;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
-using Subtext.Extensibility;
+using System.Globalization;
 using System.IO;
+using Subtext.Framework.Components;
+using Subtext.Framework.Format;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Syndication.Admin
 {
@@ -42,7 +40,7 @@ namespace Subtext.Framework.Syndication.Admin
 
 		protected override string GetBodyFromItem(Referrer item)
 		{
-			return String.Format("{1} referrals from <a href=\"{0}\">{0}</a> ", item.ReferrerURL, item.Count);
+			return String.Format(CultureInfo.InvariantCulture, Resources.Message_ReferrersForm, item.ReferrerURL, item.Count);
 		}
 
 		protected override string GetAuthorFromItem(Referrer item)

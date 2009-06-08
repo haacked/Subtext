@@ -15,6 +15,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -22,7 +23,6 @@ using System.Web;
 using System.Web.Security;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
-using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Web.HttpModules
 {
@@ -61,7 +61,7 @@ namespace Subtext.Framework.Web.HttpModules
             Debug.WriteLine("Auth");
             context.Response.StatusCode = 401;
 
-            context.Response.AddHeader("WWW-Authenticate", String.Format("Basic realm=\"{0}\"", Config.CurrentBlog.Title));
+            context.Response.AddHeader("WWW-Authenticate", String.Format(CultureInfo.InvariantCulture, "Basic realm=\"{0}\"", Config.CurrentBlog.Title));
 //			context.ApplicationInstance.CompleteRequest();
         }
 

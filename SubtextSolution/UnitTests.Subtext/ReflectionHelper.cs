@@ -14,7 +14,9 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Reflection;
+using Subtext.Framework.Properties;
 
 namespace UnitTests.Subtext
 {
@@ -66,7 +68,7 @@ namespace UnitTests.Subtext
         {
             FieldInfo field = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Static);
             if (field == null)
-                throw new ArgumentException(string.Format("Could not find the private instance field '{0}'", fieldName));
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindsStaticField, fieldName));
 
             field.SetValue(null, value);
         }
@@ -82,7 +84,7 @@ namespace UnitTests.Subtext
             Type type = Type.GetType(typeName, true);
             FieldInfo field = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Static);
             if (field == null)
-                throw new ArgumentException(string.Format("Could not find the private instance field '{0}'", fieldName));
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindsStaticField, fieldName));
 
             field.SetValue(null, value);
         }
@@ -112,7 +114,7 @@ namespace UnitTests.Subtext
         {
             FieldInfo field = source.GetType().GetField(memberName, BindingFlags.GetField | BindingFlags.NonPublic | BindingFlags.Instance);
             if (field == null)
-                throw new ArgumentException(string.Format("Could not find the private instance field '{0}'", memberName));
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindInstanceField, memberName));
 
             field.SetValue(source, value);
         }
@@ -147,7 +149,7 @@ namespace UnitTests.Subtext
 
             MethodInfo method = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static, null, paramTypes, null);
             if (method == null)
-                throw new ArgumentException(string.Format("Could not find a method with the name '{0}'", methodName), "method");
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindMethod, methodName), "method");
 
             return (TReturn)method.Invoke(null, parameters);
         }
@@ -158,7 +160,7 @@ namespace UnitTests.Subtext
 
             MethodInfo method = source.GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance, null, paramTypes, null);
             if (method == null)
-                throw new ArgumentException(string.Format("Could not find a method with the name '{0}'", methodName), "method");
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindMethod, methodName), "method");
 
             return (TReturn)method.Invoke(source, parameters);
         }
@@ -167,7 +169,7 @@ namespace UnitTests.Subtext
         {
             PropertyInfo propertyInfo = source.GetType().GetProperty(propertyName);
             if (propertyInfo == null)
-                throw new ArgumentException(string.Format("Could not find a propertyName with the name '{0}'", propertyName), "propertyName");
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindProperty, propertyName), "propertyName");
 
             return (TReturn)propertyInfo.GetValue(source, null);
         }
@@ -176,7 +178,7 @@ namespace UnitTests.Subtext
         {
             PropertyInfo propertyInfo = source.GetType().GetProperty(propertyName, BindingFlags.NonPublic | BindingFlags.Instance, null, typeof(TReturn), new Type[0], null);
             if (propertyInfo == null)
-                throw new ArgumentException(string.Format("Could not find a propertyName with the name '{0}'", propertyName), "propertyName");
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindProperty, propertyName), "propertyName");
 
             return (TReturn)propertyInfo.GetValue(source, null);
         }
@@ -185,7 +187,7 @@ namespace UnitTests.Subtext
         {
             PropertyInfo propertyInfo = source.GetType().GetProperty(propertyName, BindingFlags.NonPublic | BindingFlags.Instance);
             if (propertyInfo == null)
-                throw new ArgumentException(string.Format("Could not find a propertyName with the name '{0}'", propertyName), "propertyName");
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindProperty, propertyName), "propertyName");
 
             return propertyInfo.GetValue(source, null);
         }

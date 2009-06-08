@@ -215,10 +215,10 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		[ExpectedArgumentNullException]
 		public void GetBlogsByHostThrowsArgumentNullException()
 		{
-			Blog.GetBlogsByHost(null, 0, 10, ConfigurationFlags.IsActive);
+            UnitTestHelper.AssertThrows<ArgumentNullException>(() =>
+            Blog.GetBlogsByHost(null, 0, 10, ConfigurationFlags.IsActive));
 		}
 
 		[Test]

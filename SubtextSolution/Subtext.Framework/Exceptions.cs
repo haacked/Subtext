@@ -22,10 +22,4 @@ namespace Subtext.Framework
 		public IllegalPostCharactersException(String s) : base(s) {}
 		public IllegalPostCharactersException(String s, Exception inner) : base(s, inner) {}
 	}
-    
-    public class BlogFailedPostException : Exception 
-	{
-		public BlogFailedPostException(String s) : base(s) {}
-		public BlogFailedPostException(String s, Exception inner) : base(s, inner) {}		
-	}
 }

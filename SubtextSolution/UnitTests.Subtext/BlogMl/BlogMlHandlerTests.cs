@@ -22,7 +22,7 @@ namespace UnitTests.Subtext.BlogML
             handler.SubtextContext = subtextContext.Object;
             
             //act
-            var provider = handler.GetBlogMlProvider() as SubtextBlogMLProvider;
+            var provider = handler.GetBlogMLProvider() as SubtextBlogMLProvider;
             
             //assert
             Assert.IsNotNull(provider);

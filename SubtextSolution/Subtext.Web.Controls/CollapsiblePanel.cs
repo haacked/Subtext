@@ -435,12 +435,12 @@ public bool WillSucceed
 			return img;
 		}
 
-		protected virtual WebControl SetCssClass(WebControl ctl, string css)
+		protected virtual WebControl SetCssClass(WebControl webControl, string css)
 		{
 			if (null != css && css.Length > 0)
-				ctl.CssClass = css;
+				webControl.CssClass = css;
 
-			return ctl;
+			return webControl;
 		}
 	}
 }

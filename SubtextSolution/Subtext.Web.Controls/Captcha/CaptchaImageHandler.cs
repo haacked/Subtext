@@ -9,6 +9,7 @@ namespace Subtext.Web.Controls.Captcha
 	/// pass the specs for the image via an encrypted serialized instance 
 	/// of <see cref="CaptchaInfo" />.
 	/// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha")]
     public class CaptchaImageHandler : IHttpHandler
     {
 		/// <summary>

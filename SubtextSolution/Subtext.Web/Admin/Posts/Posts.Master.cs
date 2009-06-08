@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Configuration;
-using System.Data;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using Subtext.Framework;
 using Subtext.Web.Admin.WebUI;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Posts {
     public partial class Posts : AdminMasterPage 
@@ -23,15 +16,15 @@ namespace Subtext.Web.Admin.Posts {
         private void BindLocalUI() 
         {
             HyperLink newPostLink = new HyperLink();
-            newPostLink.Text = "New Post";
+            newPostLink.Text = Resources.Label_NewPost;
             newPostLink.NavigateUrl = AdminUrl.PostsEdit();
             AdminMasterPage.AddToActions(newPostLink);
 
-            HyperLink lnkEditCategories = Utilities.CreateHyperLink("Edit Categories",
+            HyperLink lnkEditCategories = Utilities.CreateHyperLink(Resources.Label_EditCategories,
                 AdminUrl.EditCategories(categoryLinks.CategoryType));
             AdminMasterPage.AddToActions(lnkEditCategories);
 
-            LinkButton lkbRebuildTags = Utilities.CreateLinkButton("Rebuild All Tags");
+            LinkButton lkbRebuildTags = Utilities.CreateLinkButton(Resources.Label_RebuildAllTags);
             lkbRebuildTags.CausesValidation = false;
             lkbRebuildTags.Click += OnRebuildTagsClick;
             AdminMasterPage.AddToActions(lkbRebuildTags);

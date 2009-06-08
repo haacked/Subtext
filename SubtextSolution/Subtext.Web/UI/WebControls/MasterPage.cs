@@ -16,15 +16,15 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.Design;
 using System.Web.UI.HtmlControls;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Web.UI.WebControls
 {
+    //TODO: Get rid of this
 	/// <summary>
 	/// <p>Serves as the master template for the Subtext site.</p>
 	/// <p>
@@ -64,25 +64,21 @@ namespace Subtext.Web.UI.WebControls
 			set { this.templateFile = value; }
 		}
 
-		protected override void AddParsedSubObject(object obj) 
-		{
+		protected override void AddParsedSubObject(object obj) {
 			if (obj is ContentRegion) {
 				this.contents.Add(obj);
 			}
 		}
 
-		protected override void OnInit(EventArgs e) 
-		{
+		protected override void OnInit(EventArgs e) {
 			this.BuildMasterPage();
 			this.BuildContents();
 			base.OnInit(e);
 		}
 
-		private void BuildMasterPage() 
-		{
-			if (this.TemplateFile == null || this.TemplateFile.Length == 0) 
-			{
-				throw new InvalidOperationException("TemplateFile Property for MasterPage must be Defined");
+		private void BuildMasterPage() {
+			if (String.IsNullOrEmpty(TemplateFile)) {
+				throw new InvalidOperationException(Resources.InvalidOperation_TemplateFileIsNull);
 			}
 			this.template = this.Page.LoadControl(this.TemplateFile);
 			this.template.ID = this.ID + "_Template";
@@ -98,25 +94,16 @@ namespace Subtext.Web.UI.WebControls
 			this.Controls.AddAt(0, this.template);
 		}
 
-		private void BuildContents() 
-		{
-//			if (this.defaults.HasControls()) {
-//				this.defaults.ID = this.defaultContent;
-//				this.contents.Add(this.defaults);
-//			}
-
-			foreach (ContentRegion content in this.contents) 
-			{
+		private void BuildContents() {
+			foreach (ContentRegion content in this.contents) {
 				Control region = this.FindControl(content.ID);
-				if (region == null || !(region is ContentRegion)) 
-				{
-					throw new Exception("ContentRegion with ID '" + content.ID + "' must be Defined");
+				if (region == null || !(region is ContentRegion))  {
+					throw new InvalidOperationException(String.Format(Resources.InvalidOperation_ContentRegionNotFound, content.ID));
 				}
 				region.Controls.Clear();
 				
 				int count = content.Controls.Count;
-				for (int index = 0; index < count; index++) 
-				{
+				for (int index = 0; index < count; index++) {
 					Control control = content.Controls[0];
 					content.Controls.Remove(control);
 					region.Controls.Add(control);

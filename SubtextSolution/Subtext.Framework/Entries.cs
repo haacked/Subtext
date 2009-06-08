@@ -26,6 +26,7 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 
@@ -67,7 +68,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
         public static ICollection<EntryDay> GetHomePageEntries(int itemCount)
 		{
-			return GetBlogPosts(itemCount, PostConfig.DisplayOnHomePage | PostConfig.IsActive);
+			return GetBlogPosts(itemCount, PostConfig.DisplayOnHomepage | PostConfig.IsActive);
 		}
 
 		/// <summary>
@@ -211,7 +212,7 @@ namespace Subtext.Framework
 		public static string AutoGenerateFriendlyUrl(string title, int entryId)
 		{
 			if(title == null)
-				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
+				throw new ArgumentNullException("title");
 
         	FriendlyUrlSettings friendlyUrlSettings = FriendlyUrlSettings.Settings;
 			if(friendlyUrlSettings == null)
@@ -278,7 +279,7 @@ namespace Subtext.Framework
 		{
             if (title == null)
             {
-                throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
+                throw new ArgumentNullException("title");
             }
 			
 			string entryName = RemoveNonWordCharacters(title);
@@ -379,7 +380,7 @@ namespace Subtext.Framework
 		public static void Update(Entry entry)
 		{
             if (entry == null)
-                throw new ArgumentNullException("entry", "Entry cannot be null.");//Resources.ArgumentNull_Generic);
+                throw new ArgumentNullException("entry");
 
 			if (NullValue.IsNull(entry.DateSyndicated) && entry.IsActive && entry.IncludeInMainSyndication)
 				entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
@@ -397,7 +398,7 @@ namespace Subtext.Framework
 		public static void Update(Entry entry, params int[] categoryIds)
 		{
             if (entry == null) {
-                throw new ArgumentNullException("entry", "entry cannot be null");//Resources.ArgumentNull_Generic);
+                throw new ArgumentNullException("entry");
             }
 
             entry.DateModified = Config.CurrentBlog.TimeZone.Now;

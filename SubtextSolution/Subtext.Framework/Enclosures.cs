@@ -14,8 +14,8 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using Subtext.Framework.Components;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Framework
@@ -25,7 +25,7 @@ namespace Subtext.Framework
         public static int Create(Enclosure enclosure)
         {
             if (enclosure == null)
-                throw new ArgumentNullException("enclosure", "The enclosure cannot be NULL");
+                throw new ArgumentNullException("enclosure");
 
             if(!enclosure.IsValid)
                 throw new ArgumentException(enclosure.ValidationMessage);
@@ -38,7 +38,7 @@ namespace Subtext.Framework
         public static bool Update(Enclosure enclosure)
         {
             if (enclosure == null)
-                throw new ArgumentNullException("enclosure", "The enclosure can not be NULL.");
+                throw new ArgumentNullException("enclosure");
 
             if (!enclosure.IsValid)
                 throw new ArgumentException(enclosure.ValidationMessage);

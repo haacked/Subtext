@@ -2,9 +2,12 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Globalization;
+using Subtext.Web.Controls.Properties;
 
 namespace Subtext.Web.Controls.Captcha
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha")]
     public class CaptchaImage : IDisposable
     {
 		/// <summary>
@@ -109,7 +112,7 @@ namespace Subtext.Web.Controls.Captcha
 				if (this.FontWarp != FontWarpFactor.None)
 				{
 					int warpDivisor = 0;
-					switch (this._fontWarp)
+					switch (this.FontWarp)
 					{
 						case FontWarpFactor.Low:
 							warpDivisor = 6;
@@ -187,15 +190,11 @@ namespace Subtext.Web.Controls.Captcha
 		/// <value>The font warp.</value>
         public FontWarpFactor FontWarp
         {
-            get
-            {
-                return this._fontWarp;
-            }
-            set
-            {
-                this._fontWarp = value;
-            }
+            get;
+            set;
         }
+
+        const int MinHeight = 30;
 
 		/// <summary>
 		/// Height of the Captcha image in pixels.
@@ -208,9 +207,9 @@ namespace Subtext.Web.Controls.Captcha
             }
             set
             {
-                if (value <= 30)
+                if (value <= MinHeight)
                 {
-                    throw new ArgumentOutOfRangeException("height", value, "height must be greater than 30.");
+                    throw new ArgumentOutOfRangeException("height", value, String.Format(CultureInfo.InvariantCulture, Resources.ArgumentOutOfRange_Height, MinHeight));
                 }
                 this.height = value;
             }
@@ -233,6 +232,8 @@ namespace Subtext.Web.Controls.Captcha
             }
         }
 
+        const int MinWidth = 60;
+
     	/// <summary>
     	/// Width of the Captcha image in pixels.
     	/// </summary>
@@ -244,9 +245,9 @@ namespace Subtext.Web.Controls.Captcha
             }
             set
             {
-                if (value <= 60)
+                if (value <= MinWidth)
                 {
-                    throw new ArgumentOutOfRangeException("width", value, "width must be greater than 60.");
+                    throw new ArgumentOutOfRangeException("width", value, String.Format(Resources.ArgumentOutOfRange_Width, MinWidth));
                 }
                 this.width = value;
             }
@@ -258,13 +259,10 @@ namespace Subtext.Web.Controls.Captcha
 		/// <value>The text.</value>
     	public string Text
     	{
-    		get { return this.text; }
-    		set { this.text = value; }
+    		get;
+    		set;
     	}
 
-    	string text;
-
-        private FontWarpFactor _fontWarp;
         private Bitmap image;
         private int height;
         private int width;

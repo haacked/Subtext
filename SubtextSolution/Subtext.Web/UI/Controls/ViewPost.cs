@@ -28,6 +28,7 @@ using Subtext.Framework.Configuration;
 using Ninject;
 using Subtext.Infrastructure;
 using Subtext.Framework.Services;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -99,11 +100,11 @@ namespace Subtext.Web.UI.Controls
 				{
                     string entryUrl = Url.EntryUrl(entry);
 					if(date.Attributes["Format"] != null) {
-						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entryUrl, entry.DateSyndicated.ToString(date.Attributes["Format"]));
+                        date.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>", entryUrl, entry.DateSyndicated.ToString(date.Attributes["Format"]), Resources.EntryList_PermanentLink);
 						date.Attributes.Remove("Format");
 					}
 					else {
-                        date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entryUrl, entry.DateSyndicated.ToString("f"));
+                        date.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>", entryUrl, entry.DateSyndicated.ToString("f"), Resources.EntryList_PermanentLink);
 					}
 				}
 
@@ -113,13 +114,13 @@ namespace Subtext.Web.UI.Controls
 					{
                         string entryUrl = Url.EntryUrl(entry);
 						if(entry.FeedBackCount == 0) {
-							commentCount.Text = string.Format(linkToComments, entryUrl, "Add Comment", "");
+							commentCount.Text = string.Format(linkToComments, entryUrl, Resources.EntryList_AddComment, string.Empty);
 						}
 						else if(entry.FeedBackCount == 1) {
-							commentCount.Text = string.Format(linkToComments, entryUrl, "One Comment", "");
+							commentCount.Text = string.Format(linkToComments, entryUrl, Resources.EntryList_OneComment, string.Empty);
 						}
 						else if(entry.FeedBackCount > 1) {
-							commentCount.Text = string.Format(linkToComments, entryUrl, entry.FeedBackCount, " Comments");
+							commentCount.Text = string.Format(linkToComments, entryUrl, entry.FeedBackCount, Resources.EntryList_CommentsPlural);
 						}
 					}
 				}
@@ -145,7 +146,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				//No post? Deleted? Help :)
 				this.Controls.Clear();
-				this.Controls.Add(new LiteralControl("<p><strong>The entry could not be found or has been removed</strong></p>"));
+				this.Controls.Add(new LiteralControl(Resources.ViewPost_EntryNotFound));
 			}
 		}
 
@@ -178,7 +179,7 @@ namespace Subtext.Web.UI.Controls
 				{
 					editLink.Visible = true;
                     editLink.NavigateUrl = AdminUrl.PostsEdit(entry.Id);
-					ControlHelper.SetTitleIfNone(editLink, "Edit this entry.");
+					ControlHelper.SetTitleIfNone(editLink, Resources.ViewPost_EditThisEntry);
 
 					if(String.IsNullOrEmpty(editLink.Text) && String.IsNullOrEmpty(editLink.ImageUrl))
 					{

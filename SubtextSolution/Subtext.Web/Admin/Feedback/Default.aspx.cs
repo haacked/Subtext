@@ -11,6 +11,7 @@ using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Web.Admin.Pages;
+using Subtext.Web.Properties;
 using Subtext.Web.UI.Controls;
 
 namespace Subtext.Web.Admin.Feedback
@@ -137,7 +138,7 @@ namespace Subtext.Web.Admin.Feedback
             {
                 return feedbackItem.Body;
             }
-            return string.Format(CultureInfo.InvariantCulture, "{0}<br /><a target=\"_blank\" title=\"view: {1}\"  href=\"{2}\">Pingback/TrackBack</a>", feedbackItem.Body, feedbackItem.Title, feedbackItem.SourceUrl);
+            return string.Format(CultureInfo.InvariantCulture, "{0}<br /><a target=\"_blank\" title=\"{3}: {1}\"  href=\"{2}\">Pingback/TrackBack</a>", feedbackItem.Body, feedbackItem.Title, feedbackItem.SourceUrl, Resources.Label_View);
         }
 
         /// <summary>
@@ -221,7 +222,7 @@ namespace Subtext.Web.Admin.Feedback
         {
             if (ApplyActionToCheckedFeedback(FeedbackItem.Approve) == 0)
             {
-                Messages.ShowMessage("Nothing was selected to be approved.", true);
+                Messages.ShowMessage(Resources.Feedback_NothingToApprove, true);
                 return;
             }
 
@@ -237,7 +238,7 @@ namespace Subtext.Web.Admin.Feedback
         protected void OnDeleteClick(object sender, EventArgs e)
         {
             if (ApplyActionToCheckedFeedback(FeedbackItem.Delete) == 0) {
-                Messages.ShowMessage("Nothing was selected to be deleted.", true);
+                Messages.ShowMessage(Resources.Feedback_NothingToDelete, true);
                 return;
             }
             BindList();
@@ -251,7 +252,7 @@ namespace Subtext.Web.Admin.Feedback
         protected void OnConfirmSpam(object sender, EventArgs e)
         {
             if (ApplyActionToCheckedFeedback(FeedbackItem.ConfirmSpam) == 0) {
-                Messages.ShowMessage("Nothing was selected as spam.", true);
+                Messages.ShowMessage(Resources.Feedback_NothingFlaggedAsSpam, true);
                 return;
             }
             BindList();
@@ -266,7 +267,7 @@ namespace Subtext.Web.Admin.Feedback
         protected void OnDestroyClick(object sender, EventArgs e)
         {
             if (ApplyActionToCheckedFeedback(FeedbackItem.Destroy) == 0) {
-                Messages.ShowMessage("Nothing was selected to be destroyed.", true);
+                Messages.ShowMessage(Resources.Feedback_NothingToDestroy, true);
                 return;
             }
             BindList();

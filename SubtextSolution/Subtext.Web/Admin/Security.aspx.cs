@@ -16,8 +16,9 @@
 using System;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
-using Subtext.Framework.Security;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Security;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -44,7 +45,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected void btnChangePassword_Click(object sender, EventArgs e)
 		{
-			const string failureMessage = "Your password can not be updated";
+			string failureMessage = Resources.Security_PasswordNotUpdated;
 			if(Page.IsValid)
 			{
 				if(SecurityHelper.IsValidPassword(tbCurrent.Text))
@@ -53,7 +54,7 @@ namespace Subtext.Web.Admin.Pages
 					{
 						SecurityHelper.UpdatePassword(tbPassword.Text);
 
-						Messages.ShowMessage("Your password has been updated");
+						Messages.ShowMessage(Resources.Security_PasswordUpdated);
 					}
 					else
 					{

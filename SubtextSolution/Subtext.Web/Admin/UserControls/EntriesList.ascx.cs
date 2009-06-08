@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Web.Admin.Pages;
-using Subtext.Web.UI.Controls;
 using Subtext.Web.Admin.Commands;
+using Subtext.Web.Admin.Pages;
+using Subtext.Web.Properties;
+using Subtext.Web.UI.Controls;
 
 namespace Subtext.Web.Admin.UserControls {
     public partial class EntriesList : BaseControl {
@@ -73,9 +75,9 @@ namespace Subtext.Web.Admin.UserControls {
         protected string IsActiveText(object entryObject) 
         {
             Entry entry = entryObject as Entry;
-            if (entry == null)
-                throw new InvalidOperationException("Entry was null when it shouldn't be.");
-
+            
+            Debug.Assert(entry != null, "Entry should never be null here");
+            
             string active = "False";
             if (entry.IsActive) 
             {
@@ -94,7 +96,7 @@ namespace Subtext.Web.Admin.UserControls {
             {
                 LinkCategory category = Repository.GetLinkCategory(categoryId, false);
                 if (category != null) {
-                    HeaderText = "POSTS (" + category.Title + ")";
+                    HeaderText = Resources.Label_Posts.ToUpper(CultureInfo.CurrentCulture) + " (" + category.Title + ")";
                 }
             }
 

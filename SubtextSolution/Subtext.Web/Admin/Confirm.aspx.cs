@@ -15,6 +15,7 @@
 
 using System;
 using Subtext.Web.Admin.Commands;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -44,7 +45,7 @@ namespace Subtext.Web.Admin.Pages
 				{
 					// could throw here but we'll eat it for now
 					// throw new NotImplementedException("ConfirmCommand was not set upon transfer.");
-					this.Messages.ShowError("ConfirmCommand was not set upon transfer.");
+					this.Messages.ShowError(Resources.Confirm_CommandNotSet);
 					return null;
 				}
 			}

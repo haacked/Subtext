@@ -50,24 +50,24 @@ namespace UnitTests.Subtext.InstallationTests
 		public void ListInstallationScriptsReturnsCorrectScripts()
 		{
 			SqlInstaller installer = new SqlInstaller("null");
-			string[] scripts = installer.ListInstallationScripts(null, new Version(1, 5, 0, 0));
-			Assert.AreEqual(2, scripts.Length, "We expected to see two scripts.");
+            var scripts = SqlInstaller.ListInstallationScripts(null, new Version(1, 5, 0, 0));
+			Assert.AreEqual(2, scripts.Count, "We expected to see two scripts.");
 			Assert.AreEqual("Installation.01.00.00.sql", scripts[0], "Expected the initial 1.0 installation file.");
 			Assert.AreEqual("Installation.01.05.00.sql", scripts[1], "Expected the bugfix 1.5 installation file.");
 
-			scripts = installer.ListInstallationScripts(null, new Version(1, 0, 3, 0));
-			Assert.AreEqual(1, scripts.Length, "We expected to see one script.");
+            scripts = SqlInstaller.ListInstallationScripts(null, new Version(1, 0, 3, 0));
+			Assert.AreEqual(1, scripts.Count, "We expected to see one script.");
 			Assert.AreEqual("Installation.01.00.00.sql", scripts[0], "Expected the initial 1.0 installation file.");
 
-			scripts = installer.ListInstallationScripts(null, new Version(0, 0, 3, 0));
-			Assert.AreEqual(0, scripts.Length, "We expected to see no scripts.");
-			
-			scripts = installer.ListInstallationScripts(new Version(1, 1, 0, 0), new Version(1, 5, 0, 0));
-			Assert.AreEqual(1, scripts.Length, "We expected to see one script.");
+            scripts = SqlInstaller.ListInstallationScripts(null, new Version(0, 0, 3, 0));
+			Assert.AreEqual(0, scripts.Count, "We expected to see no scripts.");
+
+            scripts = SqlInstaller.ListInstallationScripts(new Version(1, 1, 0, 0), new Version(1, 5, 0, 0));
+			Assert.AreEqual(1, scripts.Count, "We expected to see one script.");
 			Assert.AreEqual("Installation.01.05.00.sql", scripts[0], "Expected the bugfix 1.5.0 installation file.");
 
-			scripts = installer.ListInstallationScripts(new Version(1, 1, 0, 0), new Version(1, 9, 0, 0));
-			Assert.AreEqual(2, scripts.Length, "We expected to see two script.");
+            scripts = SqlInstaller.ListInstallationScripts(new Version(1, 1, 0, 0), new Version(1, 9, 0, 0));
+			Assert.AreEqual(2, scripts.Count, "We expected to see two script.");
 			Assert.AreEqual("Installation.01.09.00.sql", scripts[1], "Expected the 1.9.0 installation file.");
 		}
 

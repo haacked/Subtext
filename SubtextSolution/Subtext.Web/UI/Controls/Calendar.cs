@@ -22,6 +22,7 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Components;
+using Subtext.Web.Properties;
 
 #region Disclaimer/Info
 // Calendar created 11/07/2005 by:
@@ -72,9 +73,9 @@ namespace Subtext.Web.UI.Controls
 				// setup prev/next months
 				DateTime tempDate;
 				tempDate = selectedDate.AddMonths(-1);
-				entryCal.PrevMonthText = string.Format("<a href=\"{0}\" title=\"previous month\">&laquo;</a>", Url.MonthUrl(tempDate));
+				entryCal.PrevMonthText = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{1}\">&laquo;</a>", Url.MonthUrl(tempDate), Resources.Calendar_PreviousMonth);
 				tempDate = selectedDate.AddMonths(1);
-                entryCal.NextMonthText = string.Format("<a href=\"{0}\" title=\"next month\">&raquo;</a>", Url.MonthUrl(tempDate));
+                entryCal.NextMonthText = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{1}\">&raquo;</a>", Url.MonthUrl(tempDate), Resources.Calendar_NextMonth);
 	
 				// fix the selected date if we're in "month mode"
 				//		if (_isUrlMonthMode)
@@ -177,7 +178,7 @@ namespace Subtext.Web.UI.Controls
 	
 			if (IsSameDay(calDate,entryDate))
 			{
-				e.Cell.Text = string.Format("<a href=\"{0}\">{1}</a>", Url.DayUrl(e.Day.Date), e.Day.Date.Day);
+                e.Cell.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a>", Url.DayUrl(e.Day.Date), e.Day.Date.Day);
 		
 				// Go through the rest of the entries. (_monthEntries should always be sorted by DateCreated in descending order)
 				do

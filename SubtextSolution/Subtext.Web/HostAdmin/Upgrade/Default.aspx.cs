@@ -17,6 +17,7 @@ using System;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Scripting.Exceptions;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.HostAdmin.Upgrade
 {
@@ -55,14 +56,11 @@ namespace Subtext.Web.HostAdmin.Upgrade
 				
 				if (Extensibility.Providers.Installation.Provider.IsPermissionDeniedException(ex))
 				{
-					messageLiteral.Text = "<p class=\"error\">The database user specified in web.config does not have enough "
-						+ "permission to perform the installation.  Please give the user database owner (dbo) rights and try again. "
-						+ "You may remove them later.</p>";
-					
+                    messageLiteral.Text = Resources.Upgrade_UserDoesNotHavePermission;
 					return;
 				}
 
-				messageLiteral.Text = "<p>Uh oh. Something went wrong with the installation.</p><p>" + ex.Message + "</p><p>" + ex.GetType().FullName + "</p>";
+				messageLiteral.Text = Resources.Upgrade_SomethingWentWrongWithInstall + "<p>" + ex.Message + "</p><p>" + ex.GetType().FullName + "</p>";
 				messageLiteral.Text += "<p>" + ex.StackTrace + "</p>";
 				
 				return;

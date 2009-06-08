@@ -1,5 +1,7 @@
 using System;
 using System.Net;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 namespace Subtext.Akismet
 {
@@ -45,6 +47,17 @@ namespace Subtext.Akismet
 		{
 			HttpStatus = status;
 		}
+
+        private InvalidResponseException(SerializationInfo info, StreamingContext context) : base(info, context) {
+            this.HttpStatus = (HttpStatusCode)info.GetInt32("HttpStatus");
+        }
+
+        [SecurityPermission(SecurityAction.LinkDemand, Flags=SecurityPermissionFlag.SerializationFormatter)]
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("HttpStatus", (int)HttpStatus);
+            base.GetObjectData(info, context);
+        }
 
 		/// <summary>
 		/// Gets the HTTP status returned by the service.

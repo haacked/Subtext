@@ -23,8 +23,9 @@ using ICSharpCode.SharpZipLib.Zip;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Image=Subtext.Framework.Components.Image;
 using Subtext.Web.Admin.Commands;
+using Subtext.Web.Properties;
+using Image = Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -105,7 +106,7 @@ namespace Subtext.Web.Admin.Pages
 			ICollection<Image> imageList = Images.GetImagesByCategoryID(galleryID, false);
 
 			plhImageHeader.Controls.Clear();
-			string galleryTitle = string.Format(CultureInfo.InvariantCulture, "{0} - {1} images", selectedGallery.Title, imageList.Count);
+			string galleryTitle = string.Format(CultureInfo.InvariantCulture, "{0} - {1} " + Resources.Label_Images, selectedGallery.Title, imageList.Count);
 			plhImageHeader.Controls.Add(new LiteralControl(galleryTitle));
 
 			rprImages.DataSource = imageList;
@@ -115,7 +116,7 @@ namespace Subtext.Web.Admin.Pages
 
 			if(AdminMasterPage != null)
             {
-				string title = string.Format(CultureInfo.InvariantCulture, "Viewing Gallery \"{0}\"", selectedGallery.Title);
+                string title = string.Format(CultureInfo.InvariantCulture, Resources.EditGalleries_ViewingGallery, selectedGallery.Title);
 				AdminMasterPage.Title = title;
 			}
 
@@ -199,12 +200,12 @@ namespace Subtext.Web.Admin.Pages
 				if (category.Id > 0)
 				{
 					Links.UpdateLinkCategory(category);
-					Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, "Category \"{0}\" was updated.", category.Title));
+					Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, Resources.Message_CategoryUpdated, category.Title));
 				}
 				else
 				{
 					category.Id = Links.CreateLinkCategory(category);
-					Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, "Category \"{0}\" was added.", category.Title));
+					Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, Resources.Message_CategoryAdded, category.Title));
 				}					
 			}
 			catch(Exception ex)
@@ -319,11 +320,11 @@ namespace Subtext.Web.Admin.Pages
             }
             
             // Construct and display the status message of added/updated/deleted images
-            string status = string.Format(
-                @"The archive has been processed.<br />
-                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportAddDetails'))"">Adds ({0})</a></b><span id=""ImportAddDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{1}</span><br />
-                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportUpdateDetails'))"">Updates ({2})</a></b><span id=""ImportUpdateDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{3}</span><br />
-                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportErrorDetails'))"">Errors ({4})</a></b><span id=""ImportErrorDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{5}</span>", 
+            string status = string.Format(CultureInfo.InvariantCulture, 
+                Resources.EditGalleries_ArchiveProcessed + @"<br />
+                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportAddDetails'))"">" + Resources.Label_Adds + @" ({0})</a></b><span id=""ImportAddDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{1}</span><br />
+                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportUpdateDetails'))"">" + Resources.Label_Updates + @"  ({2})</a></b><span id=""ImportUpdateDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{3}</span><br />
+                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportErrorDetails'))"">" + Resources.Label_Errors + @" ({4})</a></b><span id=""ImportErrorDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{5}</span>", 
                 
                 goodFiles.Count,
                 (goodFiles.Count > 0 ? string.Join("<br />&nbsp;&nbsp;", goodFiles.ToArray()) : "none"), 
@@ -350,7 +351,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			if (TextBoxImageFileName.Text.Length == 0)
 			{
-				Messages.ShowError("Valid file name for server image is required.");
+                Messages.ShowError(Resources.EditGalleries_ValidFilenameRequired);
 				return;
 			}
 
@@ -378,7 +379,7 @@ namespace Subtext.Web.Admin.Pages
 					if (File.Exists(image.OriginalFilePath))
 					{
 						// tell the user we can't accept this file.
-						Messages.ShowError("This file already exists on the server. Please provide a name for the file.");
+						Messages.ShowError(Resources.EditGalleries_FileAlreadyExists);
 
 						// switch around our GUI.
 						PanelSuggestNewName.Visible = true;
@@ -394,11 +395,11 @@ namespace Subtext.Web.Admin.Pages
 					int imageID = Images.InsertImage(image,Images.GetFileStream(ImageFile.PostedFile));				
 					if (imageID > 0)
 					{
-						this.Messages.ShowMessage("The image was successfully added to the gallery.");
+                        this.Messages.ShowMessage(Resources.EditGalleries_ImageAdded);
 						txbImageTitle.Text = String.Empty;
 					}
 					else
-						this.Messages.ShowError(Constants.RES_FAILUREEDIT + " There was a baseline problem posting your entry.");
+                        this.Messages.ShowError(Constants.RES_FAILUREEDIT + " " + Resources.EditGalleries_ProblemPosting);
 				}
 				catch(Exception ex)
 				{

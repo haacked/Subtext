@@ -206,7 +206,7 @@ namespace Subtext.Web.UI.Controls
                                     string scheme = Request.Url.Scheme;
                                     string port = Request.Url.Port == 80 ? string.Empty : ":" + Request.Url.Port;
                                     string defaultImagePath = HttpHelper.ExpandTildePath(defaultGravatarImage);
-                                    defaultGravatarImage = string.Format("{0}://{1}{2}{3}", scheme, host, port, defaultImagePath);
+                                    defaultGravatarImage = string.Format(CultureInfo.InvariantCulture, "{0}://{1}{2}{3}", scheme, host, port, defaultImagePath);
                                     defaultGravatarImage = HttpUtility.UrlEncode(defaultGravatarImage);
                                 }
                                 gravatarUrl = gravatarService.GenerateUrl(feedbackItem.Email, defaultGravatarImage);
@@ -230,7 +230,7 @@ namespace Subtext.Web.UI.Controls
                                 {
                                     int.TryParse(identiconSizeSetting, out identiconSize);
                                 }
-                                identiconUrl = string.Format("~/images/IdenticonHandler.ashx?size={0}&code={1}"
+                                identiconUrl = string.Format(CultureInfo.InvariantCulture, "~/images/IdenticonHandler.ashx?size={0}&code={1}"
                                     , identiconSize
                                     , IdenticonUtil.Code(ip));
 

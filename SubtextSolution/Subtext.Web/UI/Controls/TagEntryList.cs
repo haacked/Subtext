@@ -15,11 +15,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Globalization;
 using System.Web;
-using Subtext.Framework.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -50,7 +51,7 @@ namespace Subtext.Web.UI.Controls
                 ICollection<Entry> et = Cacher.GetEntriesByTag(Count, tagName, SubtextContext);
                 EntryStoryList.EntryListItems = et;
                 EntryStoryList.EntryListTitle = tagName;
-                EntryStoryList.EntryListDescription = string.Format("There are {0} entries for the tag <em>{1}</em>", et.Count, tagName);
+                EntryStoryList.EntryListDescription = string.Format(CultureInfo.InvariantCulture, Resources.TagEntryList_NoEntriesForTag, et.Count, tagName);
 
                 Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1}", Blog.Title, tagName), Context);
             }

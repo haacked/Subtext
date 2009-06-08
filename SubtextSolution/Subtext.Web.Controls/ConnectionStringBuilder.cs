@@ -57,7 +57,8 @@ namespace Subtext.Web.Controls
 		protected DropDownList databaseName= new DropDownList();
 		protected Button testConnection=new Button();
 		protected TextBox password=new TextBox();
-		protected Label connResult=new Label();
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "conn")]
+        protected Label connResult=new Label();
 		protected LinkButton refreshDatabase=new LinkButton();
 
 

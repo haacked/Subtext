@@ -45,7 +45,7 @@ namespace Subtext.Scripting
 		public void AddRange(IEnumerable<Script> value) 
 		{
 			if(value == null)
-				throw new ArgumentNullException("value", "Cannot add a range from null.");
+				throw new ArgumentNullException("value");
 			
 			foreach(Script script in value)
 			{

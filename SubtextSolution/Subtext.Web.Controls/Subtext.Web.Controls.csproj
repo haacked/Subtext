@@ -177,6 +177,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Designers\HelpToolTipDesigner.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HelpToolTip.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -187,6 +188,11 @@
     <Compile Include="PagingControl.cs" />
     <Compile Include="RepeaterWithEmptyDataTemplate.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RichTextEditor.cs">
       <SubType>Code</SubType>
@@ -205,6 +211,10 @@
     <EmbeddedResource Include="Resources\ScrollPositionSaver.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\InvisibleCaptcha.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

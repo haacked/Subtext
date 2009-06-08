@@ -18,6 +18,7 @@ using System.Globalization;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Services;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -26,9 +27,6 @@ namespace Subtext.Web.Admin.Pages
 	/// </summary>
 	public partial class Comments : AdminOptionsPage
 	{
-		private const string RES_SUCCESS = "Your comment settings were successfully updated.";
-		private const string RES_FAILURE = "Comment settings update failed.";
-	    
 		protected override void Page_Load(object sender, EventArgs e)
 		{
 			base.Page_Load(sender, e);
@@ -104,7 +102,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 			catch(Exception ex)
 			{
-				this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, RES_FAILURE, ex.Message));
+				this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, Resources.Comments_SettingsFailed, ex.Message));
 			}
 		}
 
@@ -132,7 +130,7 @@ namespace Subtext.Web.Admin.Pages
 
 				if(this.txtDaysTillCommentsClosed.Text.Length > 0)
 				{
-					info.DaysTillCommentsClose = ValidateInteger("Days Till Comments Close", txtDaysTillCommentsClosed.Text, 0, int.MaxValue);
+					info.DaysTillCommentsClose = ValidateInteger(Resources.CommentValidation_DaysTillClose, txtDaysTillCommentsClosed.Text, 0, int.MaxValue);
 				}
 				else
 				{
@@ -141,7 +139,7 @@ namespace Subtext.Web.Admin.Pages
 
 				if(this.txtNumberOfRecentComments.Text.Length > 0)
 				{
-					info.NumberOfRecentComments = ValidateInteger("Number of Recent Comments to Display", txtNumberOfRecentComments.Text, 0, int.MaxValue);
+                    info.NumberOfRecentComments = ValidateInteger(Resources.CommentValidation_RecentCommentsCount, txtNumberOfRecentComments.Text, 0, int.MaxValue);
 				}
 				else
 				{
@@ -150,7 +148,7 @@ namespace Subtext.Web.Admin.Pages
 
 				if(this.txtRecentCommentsLength.Text.Length > 0)
 				{
-					info.RecentCommentsLength = ValidateInteger("Length of Recent Comments to Display (Number of characters)", txtRecentCommentsLength.Text, 0, int.MaxValue);
+					info.RecentCommentsLength = ValidateInteger(Resources.CommentValidation_LengthOfRecentComment, txtRecentCommentsLength.Text, 0, int.MaxValue);
 				}
 				else
 				{
@@ -159,7 +157,7 @@ namespace Subtext.Web.Admin.Pages
 
 				info.FeedbackSpamServiceKey = this.txtAkismetAPIKey.Text;
 				Config.UpdateConfigData(info);
-				this.Messages.ShowMessage(RES_SUCCESS);
+				this.Messages.ShowMessage(Resources.Comments_SettingsUpdated);
 			}
 		}
 
@@ -168,16 +166,16 @@ namespace Subtext.Web.Admin.Pages
 			get
 			{
 				if (this.txtCommentDelayIntervalMinutes.Text.Length > 0)
-					ValidateIntegerRange("Comment Delay", this.txtCommentDelayIntervalMinutes.Text, 0, 3600, @"""{0}"" should larger than {1}. You can't go back in time.", @"""{0}"" of {1} would block an IP for a really long time. Let's be reasonable.");
+					ValidateIntegerRange(Resources.CommentValidation_CommentDelay, this.txtCommentDelayIntervalMinutes.Text, 0, 3600, Resources.CommentValidation_CommentDelayTooSmall, Resources.CommentValidation_CommentDelayTooBig);
 				
 				if(this.txtDaysTillCommentsClosed.Text.Length > 0)
-					ValidateInteger("Days Till Comments Close", this.txtDaysTillCommentsClosed.Text, 0, int.MaxValue);
+					ValidateInteger(Resources.CommentValidation_DaysTillClose, this.txtDaysTillCommentsClosed.Text, 0, int.MaxValue);
 
 				if (this.txtNumberOfRecentComments.Text.Length > 0)
-					ValidateInteger("Number Of Recent Comments", this.txtNumberOfRecentComments.Text, 0, int.MaxValue);
+					ValidateInteger(Resources.CommentValidation_RecentCommentsCount, this.txtNumberOfRecentComments.Text, 0, int.MaxValue);
 
 				if (this.txtRecentCommentsLength.Text.Length > 0)
-					ValidateInteger("Recent Comments Length", this.txtRecentCommentsLength.Text, 0, int.MaxValue);
+					ValidateInteger(Resources.CommentValidation_LengthOfRecentComment, this.txtRecentCommentsLength.Text, 0, int.MaxValue);
 				
 				if(!String.IsNullOrEmpty(this.txtAkismetAPIKey.Text))
 				{
@@ -186,13 +184,13 @@ namespace Subtext.Web.Admin.Pages
 					{
 						if (!akismet.VerifyApiKey())
 						{
-							this.Messages.ShowError("Sorry, could not verify that Akismet API key.");
+							this.Messages.ShowError(Resources.Comments_CouldNotVerifyAkismetKey);
 							return false;
 						}
 					}
 					catch(System.Security.SecurityException e)
 					{
-						this.Messages.ShowError(string.Format("Akismet requires <code>{0}</code> in order to make web requests. Please ask your hosting provider to <a href=\"http://weblogs.asp.net/hosterposter/archive/2006/03/22/440886.aspx\" title=\"Enabling WebPermission in Medium Trust\">enable this permission</a>.", e.PermissionType));
+                        this.Messages.ShowError(string.Format(CultureInfo.InvariantCulture, Resources.Comments_AkismetRequiresPermissionType, e.PermissionType));
 						return false;
 					}
 				}
@@ -230,7 +228,7 @@ namespace Subtext.Web.Admin.Pages
 
 		int ValidateInteger(string fieldName, string value, int minAllowedValue, int maxAllowedValue)
 		{
-			return ValidateIntegerRange(fieldName, value, minAllowedValue, maxAllowedValue, @"""{0}"" should be larger than or equal to {1}", @"""{0}"" should be less than or equal to {1}");
+            return ValidateIntegerRange(fieldName, value, minAllowedValue, maxAllowedValue, Resources.Message_ValueTooSmall, Resources.Message_ValueTooBig);
 		}
 
 		int ValidateIntegerRange(string fieldName, string value, int minAllowedValue, int maxAllowedValue, string tooSmallFormatMessage, string tooBigFormatMessage)
@@ -250,7 +248,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 			catch (FormatException)
 			{
-				throw new ArgumentException(string.Format("Please enter a valid positive number for the field \"{0}\"", fieldName), fieldName);
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.Message_ValueMustBePositive, fieldName), fieldName);
 			}
 		}
 	}

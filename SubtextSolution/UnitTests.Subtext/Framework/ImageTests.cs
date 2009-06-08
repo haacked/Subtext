@@ -1,12 +1,13 @@
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Image=Subtext.Framework.Components.Image;
 using Subtext.Framework.Web.HttpModules;
+using Image = Subtext.Framework.Components.Image;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -76,7 +77,7 @@ namespace UnitTests.Subtext.Framework
 		{
 			UnitTestHelper.SetupBlog();
             UrlBasedBlogInfoProvider.MapImageDirectory(BlogRequest.Current);
-            string expected = string.Format("http://{0}/images/{0}/1/", BlogRequest.Current.Host);
+            string expected = string.Format(CultureInfo.InvariantCulture, "http://{0}/images/{0}/1/", BlogRequest.Current.Host);
 			Assert.AreEqual(expected, Images.GalleryVirtualUrl(1));
 		}
 

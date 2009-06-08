@@ -41,6 +41,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Email;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.Handlers;
@@ -87,8 +88,8 @@ namespace Subtext.Framework.Tracking
 			}
 
 			if (entry == null) {
-                Log.Info(string.Format("Could not extract entry id from incoming URL '{0}' .", httpContext.Request.Path));
-				SendTrackbackResponse(httpContext, 1, "EntryID is invalid or missing");
+                Log.Info(string.Format(CultureInfo.InvariantCulture, Resources.Log_CouldNotExtractEntryId, httpContext.Request.Path));
+				SendTrackbackResponse(httpContext, 1, Resources.TrackbackResponse_EntryIdMissing);
 				return;
 			}
 
@@ -134,13 +135,13 @@ namespace Subtext.Framework.Tracking
 			Uri url = HtmlHelper.ParseUri(urlText);
 			if (url == null)
 			{
-				SendTrackbackResponse(context, 1, "no url parameter found, please try harder!");
+				SendTrackbackResponse(context, 1, Resources.TrackbackResponse_NoUrl);
 				return;
 			}
 
 			if (entry == null || !IsSourceVerification(url, subtextContext.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(subtextContext.Blog)))
 			{
-				SendTrackbackResponse(context, 2, "Sorry couldn't find a relevant link in " + url);
+				SendTrackbackResponse(context, 2, String.Format(CultureInfo.InvariantCulture, Resources.TrackbackResponse_NoRelevantLink, url));
 				return;
 			}
 

@@ -38,6 +38,7 @@ using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.ImportExport.Conversion;
+using Subtext.Framework.Properties;
 
 namespace Subtext.ImportExport
 {
@@ -96,7 +97,7 @@ namespace Subtext.ImportExport
 			IPagedCollection<BlogMLPost> bmlPosts = new PagedCollection<BlogMLPost>();
 			using (IDataReader reader = GetPostsAndArticlesReader(blogId, pageIndex, pageSize))
 			{
-                IBlogMLContext bmlContext = this.GetBlogMlContext();
+                IBlogMLContext bmlContext = this.GetBlogMLContext();
 				while (reader.Read()) {
                     BlogMLPost bmlPost = ObjectHydrator.LoadPostFromDataReader(SubtextContext, reader);
                     bmlPost.Attachments.AddRange(GetPostAttachments(bmlPost, bmlContext));
@@ -250,7 +251,7 @@ namespace Subtext.ImportExport
 		{
             int blogIdValue;
             if (!int.TryParse(blogId, out blogIdValue))
-                throw new ArgumentException(string.Format("Invalid blog id '{0}' specified", blogId), "blogId");
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.Format_InvalidBlogId, blogId), "blogId");
 
             return _procedures.GetEntriesForBlogMl(blogIdValue, pageIndex, pageSize);
 		}
@@ -336,7 +337,7 @@ namespace Subtext.ImportExport
 		/// Returns the context under which blogml import or export is running under.
 		/// </summary>
 		/// <returns></returns>
-		public override IBlogMLContext GetBlogMlContext()
+		public override IBlogMLContext GetBlogMLContext()
 		{
 			bool embedValue = false;
 			if(HttpContext.Current != null && HttpContext.Current.Request != null)
@@ -532,7 +533,7 @@ namespace Subtext.ImportExport
             CommentService.Create(newPingTrack);
 		}
 
-	    public override void SetBlogMlExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties) {
+	    public override void SetBlogMLExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties) {
             if (extendedProperties != null && extendedProperties.Count > 0)
             {
                 Blog info = Blog;

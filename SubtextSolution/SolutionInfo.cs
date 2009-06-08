@@ -14,6 +14,7 @@
 #endregion
 
 using System.Reflection;
+using System.Resources;
 [assembly: AssemblyCompany("Subtext")]
 [assembly: AssemblyProduct("Subtext Blog Engine")]
 [assembly: AssemblyCopyright("Copyright © Scott Watermasysk 2003. Copyright © Phil Haack. 2005-2008 - BSD License")]
@@ -52,3 +53,4 @@ using System.Reflection;
 //       documentation for more information on this.
 //
 [assembly: AssemblyDelaySign(false)]
+[assembly: NeutralResourcesLanguage("en-US")]

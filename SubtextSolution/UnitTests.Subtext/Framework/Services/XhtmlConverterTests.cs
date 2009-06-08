@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Globalization;
 using MbUnit.Framework;
 using Subtext.Framework.Services;
 
@@ -11,6 +8,7 @@ namespace UnitTests.Subtext.Framework.Services
     public class XhtmlConverterTests
     {
         [RowTest]
+        [Row("", "")]
         [Row("This is some text", "This is some text")]
         [Row("<span>This is some text</span>", "<span>This is some text</span>")]
         [Row("<img src=\"blah\" />", "<img src=\"blah\" />")]
@@ -105,8 +103,8 @@ namespace UnitTests.Subtext.Framework.Services
         public void ConvertHtmlToXhtmlEnsuresSomeTagsMustBeSelfClosed(string tag)
         {
             //arrange
-            string html = string.Format("<{0} src=\"blah-blah\"></{0}>", tag);
-            string expected = string.Format("<{0} src=\"blah-blah\" />", tag);
+            string html = string.Format(CultureInfo.InvariantCulture, "<{0} src=\"blah-blah\"></{0}>", tag);
+            string expected = string.Format(CultureInfo.InvariantCulture, "<{0} src=\"blah-blah\" />", tag);
             var converter = new XhtmlConverter();
 
             //act

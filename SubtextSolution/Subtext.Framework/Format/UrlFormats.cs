@@ -14,16 +14,12 @@
 #endregion
 
 using System;
-using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.UI.WebControls;
-using Subtext.Extensibility;
-using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using System.Web.Routing;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Format
 {
@@ -48,7 +44,7 @@ namespace Subtext.Framework.Format
 				case 6:
 					return DateTime.ParseExact(date, "MMyyyy", en);
 				default:
-					throw new Exception("Invalid Date Format");
+                    throw new InvalidOperationException(Resources.InvalidOperation_InvalidDateFormat);
 			}
 		}
 
@@ -75,10 +71,10 @@ namespace Subtext.Framework.Format
 		public static string GetBlogSubfolderFromRequest(string rawUrl, string applicationPath)
 		{
 			if(rawUrl == null)
-				throw new ArgumentNullException("rawUrl", "The path cannot be null.");
+				throw new ArgumentNullException("rawUrl");
 
 			if(applicationPath == null)
-				throw new ArgumentNullException("applicationPath", "The app should not be null.");
+                throw new ArgumentNullException("applicationPath");
 
 			// The {0} represents a potential virtual directory
 			string urlPatternFormat = "{0}/(?<app>.*?)/";
@@ -137,7 +133,7 @@ namespace Subtext.Framework.Format
 		public static string StripSurroundingSlashes(string target)
 		{
 			if(target == null)
-				throw new ArgumentNullException("target", "The target to strip slashes from is null.");
+                throw new ArgumentNullException("target");
 
 			if(target.EndsWith("/"))
 				target = target.Remove(target.Length - 1, 1);
@@ -155,7 +151,7 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public static string StripHostFromUrl(string url)
 		{
-			string fullHost = string.Format("{0}://{1}", HttpContext.Current.Request.Url.Scheme, Config.CurrentBlog.Host);
+            string fullHost = string.Format(CultureInfo.InvariantCulture, "{0}://{1}", HttpContext.Current.Request.Url.Scheme, Config.CurrentBlog.Host);
 			
 			if(url.StartsWith(fullHost))
 			{

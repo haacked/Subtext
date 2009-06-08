@@ -67,7 +67,7 @@ namespace Subtext.Framework.Services
                 throw new ArgumentNullException("entry");
             }
             if (String.IsNullOrEmpty(entry.Title)) {
-                throw new ArgumentException(Resources.ArgumentNull_String, "title");
+                throw new ArgumentException(Resources.Argument_EntryHasNoTitle, "title");
             }
 
             string separator = SlugSettings.SeparatingCharacter;

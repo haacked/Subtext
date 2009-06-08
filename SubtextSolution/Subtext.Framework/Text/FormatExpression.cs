@@ -16,6 +16,7 @@
 using System;
 using System.Web;
 using System.Web.UI;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Text
 {
@@ -61,7 +62,7 @@ namespace Subtext.Framework.Text
         public string Eval(object o)
         {
             if (_invalidExpression) {
-                throw new FormatException("Invalid expression");
+                throw new FormatException(Resources.Format_InvalidExpression);
             }
             
             try {
@@ -71,7 +72,7 @@ namespace Subtext.Framework.Text
                 return (DataBinder.Eval(o, Expression, "{0:" + Format + "}") ?? string.Empty).ToString();
             }
             catch (HttpException e) {
-                throw new FormatException("Could not format '" + Expression + ":" + Format + "'", e);
+                throw new FormatException(String.Format(Resources.Format_CouldNotFormatExpression, Expression, Format), e);
             }
         }
     }

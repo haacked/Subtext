@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Components {
@@ -23,7 +24,7 @@ namespace Subtext.Framework.Components {
         }
         
         public ServerTimeZoneInfo(WindowsTimeZone timeZone) {
-            ServerTimeZone = string.Format("{0} ({1})",
+            ServerTimeZone = string.Format(CultureInfo.InvariantCulture, "{0} ({1})",
                     TimeZone.CurrentTimeZone.StandardName,
                     TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now));
             ServerTime = DateTime.Now.ToString("yyyy/MM/dd hh:mm tt");

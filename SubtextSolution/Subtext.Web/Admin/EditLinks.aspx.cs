@@ -22,6 +22,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Web.Admin.Commands;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -103,7 +104,7 @@ namespace Subtext.Web.Admin.Pages
 			lkbNewLink.Click += new System.EventHandler(lkbNewLink_Click);
 			lkbNewLink.CausesValidation =false;
 			AdminMasterPage.AddToActions(lkbNewLink);
-            HyperLink lnkEditCategories = Utilities.CreateHyperLink("Edit Categories",
+            HyperLink lnkEditCategories = Utilities.CreateHyperLink(Resources.Label_EditCategories,
                 string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITCATEGORIES, Keys.QRYSTR_CATEGORYTYPE, CategoryType.LinkCollection));
             AdminMasterPage.AddToActions(lnkEditCategories);
 		}
@@ -167,7 +168,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 			else
 			{
-				this.Messages.ShowError("You need to add a category before you can add links! Click \"Edit Categories\"");
+                this.Messages.ShowError(Resources.EditLinks_NeedToAddCategoryFirst);
 				Edit.Visible = false;
 			}
 

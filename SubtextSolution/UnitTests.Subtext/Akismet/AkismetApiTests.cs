@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Net;
 using System.Web;
 using MbUnit.Framework;
@@ -40,7 +41,7 @@ namespace UnitTests.Subtext.Akismet
         {
             Comment comment = new Comment(IPAddress.Loopback, "Test");
             Assert.AreEqual("Test", comment.UserAgent);
-            Assert.AreEqual(IPAddress.Loopback, comment.IpAddress);
+            Assert.AreEqual(IPAddress.Loopback, comment.IPAddress);
 
             UnitTestHelper.AssertSimpleProperties(comment);
             
@@ -284,9 +285,9 @@ namespace UnitTests.Subtext.Akismet
 		{
             comment.Setup(c => c.Author).Returns(author);
 			comment.Setup(c => c.AuthorEmail).Returns(email);
-			comment.Setup(c => c.IpAddress).Returns(ip);
+			comment.Setup(c => c.IPAddress).Returns(ip);
 			comment.Setup(c => c.UserAgent).Returns(userAgent);
-			comment.Setup(c => c.Referer).Returns(referer);
+			comment.Setup(c => c.Referrer).Returns(referer);
 			comment.Setup(c => c.Permalink).Returns(permalink);
 			comment.Setup(c => c.CommentType).Returns(commentType);
 			comment.Setup(c => c.AuthorUrl).Returns(authorUrl);
@@ -296,7 +297,7 @@ namespace UnitTests.Subtext.Akismet
 
 		static string GetExpectedUserAgent()
 		{
-			return string.Format("Subtext/{0} | Akismet/1.11", typeof(HttpClient).Assembly.GetName().Version.ToString());
+            return string.Format(CultureInfo.InvariantCulture, "Subtext/{0} | Akismet/1.11", typeof(HttpClient).Assembly.GetName().Version.ToString());
 		}
 	}
 }

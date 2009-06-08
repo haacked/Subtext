@@ -14,10 +14,11 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using Subtext.Framework.Properties;
 
 // adapted from namespace Haack.Text
 namespace Subtext.Framework.Text
@@ -96,7 +97,7 @@ namespace Subtext.Framework.Text
         public static string ToPascalCase(this string text)
 		{
 			if(text == null)
-				throw new ArgumentNullException("text", "Cannot PascalCase null text.");
+				throw new ArgumentNullException("text");
 			
 			if(text.Length == 0)
 				return text;
@@ -147,10 +148,10 @@ namespace Subtext.Framework.Text
 		public static string Right(this string original, int length)
 		{
 			if(original == null)
-				throw new ArgumentNullException("original", "Right cannot be evaluated on a null string.");
+				throw new ArgumentNullException("original");
 
 			if(length < 0)
-				throw new ArgumentOutOfRangeException("length", length, "Length must not be negative.");
+                throw new ArgumentOutOfRangeException("length", length, Resources.ArgumentOutOfRange_LengthMustNotBeNegative);
 			
 			if(original.Length == 0 || length == 0)
 				return String.Empty;
@@ -190,10 +191,10 @@ namespace Subtext.Framework.Text
 		public static string RightAfter(this string original, string search, StringComparison comparisonType)
 		{
 			if(original == null)
-				throw new ArgumentNullException("original", "The original string may not be null.");
+				throw new ArgumentNullException("original");
 			
             if(search == null)
-				throw new ArgumentNullException("search", "The searchString string may not be null.");
+				throw new ArgumentNullException("search");
 
 			//Shortcut.
 			if(search.Length > original.Length || search.Length == 0)
@@ -237,9 +238,9 @@ namespace Subtext.Framework.Text
 		public static string RightAfterLast(this string original, string search, int startIndex, StringComparison comparisonType)
 		{
 			if (original == null)
-				throw new ArgumentNullException("original", "The original string may not be null.");
+				throw new ArgumentNullException("original");
 			if (search == null)
-				throw new ArgumentNullException("search", "The searchString string may not be null.");
+				throw new ArgumentNullException("search");
 
 			//Shortcut.
 			if (search.Length > original.Length || search.Length == 0)
@@ -282,10 +283,10 @@ namespace Subtext.Framework.Text
 		public static string LeftBefore(this string original, string search, StringComparison comparisonType)
 		{
 			if(original == null)
-				throw new ArgumentNullException("original", "The original string may not be null.");
+				throw new ArgumentNullException("original");
 
 			if(search == null)
-				throw new ArgumentNullException("search", "Search string may not be null.");
+				throw new ArgumentNullException("search");
 
 			//Shortcut.
 			if(search.Length > original.Length || search.Length == 0)

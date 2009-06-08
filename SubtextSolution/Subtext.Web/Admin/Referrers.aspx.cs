@@ -25,8 +25,8 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
-using Subtext.Infrastructure;
 using Subtext.Web.Admin.WebUI;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -100,7 +100,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 		    if(AdminMasterPage != null)
 			{
-				string bctitle = string.Format(CultureInfo.InvariantCulture, "Viewing {0}:{1}", selection,title);
+				string bctitle = string.Format(CultureInfo.InvariantCulture, Resources.Label_Viewing + " {0}:{1}", selection, title);
                 AdminMasterPage.Title = bctitle;
 			}
 		}

@@ -53,7 +53,7 @@ namespace Subtext.Framework.Tracking
 		public static string TrackBackTag(Entry entry, Blog blog, UrlHelper urlHelper)
 		{
 			if (entry == null) {
-				throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("entry");
 			}
 
             Uri entryUrl = urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(blog);

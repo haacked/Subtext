@@ -3,6 +3,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Web.Admin.WebUI;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Articles {
     public partial class Articles : MasterPage 
@@ -16,11 +17,11 @@ namespace Subtext.Web.Admin.Articles {
         private void BindLocalUI() 
         {
             HyperLink newPostLink = new HyperLink();
-            newPostLink.Text = "New Article";
+            newPostLink.Text = Resources.Label_NewArticle;
             newPostLink.NavigateUrl = "Edit.aspx";
             AdminMasterPage.AddToActions(newPostLink);
 
-            HyperLink lnkEditCategories = Utilities.CreateHyperLink("Edit Categories",
+            HyperLink lnkEditCategories = Utilities.CreateHyperLink(Resources.Label_EditCategories,
                 string.Format(System.Globalization.CultureInfo.InvariantCulture
                 , "{0}?{1}={2}"
                 , "../" + Constants.URL_EDITCATEGORIES
@@ -28,7 +29,7 @@ namespace Subtext.Web.Admin.Articles {
                 , categoryLinks.CategoryType));
             AdminMasterPage.AddToActions(lnkEditCategories);
 
-            LinkButton lkbRebuildTags = Utilities.CreateLinkButton("Rebuild All Tags");
+            LinkButton lkbRebuildTags = Utilities.CreateLinkButton(Resources.Label_RebuildAllTags);
             lkbRebuildTags.CausesValidation = false;
             lkbRebuildTags.Click += OnRebuildTagsClick;
             AdminMasterPage.AddToActions(lkbRebuildTags);

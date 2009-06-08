@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Web.Hosting;
@@ -46,14 +47,11 @@ namespace UnitTests.Subtext
         /// <param name="verb">The HTTP Verb to use.</param>
 	    public SimulatedHttpRequest(string applicationPath, string physicalAppPath, string physicalFilePath, string page, string query, TextWriter output, string host, int port, string verb) : base(applicationPath, physicalAppPath, page, query, output)
 	    {
-            if (host == null)
-                throw new ArgumentNullException("host", "Host cannot be null.");
-
-            if(host.Length == 0)
-                throw new ArgumentException("Host cannot be empty.", "host");
+            if (String.IsNullOrEmpty(host))
+                throw new ArgumentNullException("host");
 
             if (applicationPath == null)
-                throw new ArgumentNullException("applicationPath", "Can't create a request with a null application path. Try empty string.");
+                throw new ArgumentNullException("applicationPath");
 
             _host = host;
             _verb = verb;
@@ -190,7 +188,7 @@ namespace UnitTests.Subtext
 			
 			foreach(string key in this.formVariables.Keys)
 			{
-				formText += string.Format("{0}={1}&", key, this.formVariables[key]);
+                formText += string.Format(CultureInfo.InvariantCulture, "{0}={1}&", key, this.formVariables[key]);
 			}
 			
 			return Encoding.UTF8.GetBytes(formText);

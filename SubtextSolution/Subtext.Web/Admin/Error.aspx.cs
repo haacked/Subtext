@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -34,7 +35,7 @@ namespace Subtext.Web.Admin.Pages
 				}
 				else
 				{
-					ErrorMessageLabel.Text = "No error message available.";
+					ErrorMessageLabel.Text = Resources.ErrorPage_NoErrorMessage;
 				}
 			}
 		}

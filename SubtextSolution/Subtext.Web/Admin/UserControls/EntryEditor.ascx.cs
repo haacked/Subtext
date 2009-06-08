@@ -16,6 +16,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Web;
 using System.Web.UI;
@@ -24,13 +25,14 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
+using Subtext.Web.Properties;
 using Subtext.Web.UI.Controls;
-using Subtext.Framework.Services;
 
 namespace Subtext.Web.Admin.UserControls
 {
@@ -81,7 +83,7 @@ namespace Subtext.Web.Admin.UserControls
 				if(ViewState[VSKEY_CATEGORYTYPE] != null)
 					return (CategoryType)ViewState[VSKEY_CATEGORYTYPE];
 				else
-					throw new InvalidOperationException("CategoryType was not set");
+					throw new InvalidOperationException(Resources.InvalidOperation_CategoryTypeNotSet);
 			}
 			set 
 			{ 
@@ -96,12 +98,10 @@ namespace Subtext.Web.Admin.UserControls
 				BindCategoryList();
 				SetEditorMode();
 
-                if (PostID != null) 
-                {
+                if (PostID != null) {
                     BindPostEdit();
                 }
-                else 
-                {
+                else {
                     BindPostCreate();
                 }
 			}
@@ -130,7 +130,7 @@ namespace Subtext.Web.Admin.UserControls
 		{
 			ConfirmationPage confirmPage = (ConfirmationPage)this.Page;
 			confirmPage.IsInEdit = true;
-			confirmPage.Message = "You will lose any unsaved content";
+            confirmPage.Message = Resources.Message_YouWillLoseUnsavedContent;
 
 			this.lkbPost.Attributes.Add("OnClick", ConfirmationPage.BypassFunctionName);
 			this.lkUpdateCategories.Attributes.Add("OnClick", ConfirmationPage.BypassFunctionName);
@@ -139,8 +139,7 @@ namespace Subtext.Web.Admin.UserControls
 
         private void BindPostCreate() 
         {
-            if (PostID != null)
-                throw new InvalidOperationException("Cannot create a post when we have an id.");
+            Debug.Assert(PostID != null, "PostID should never be null when this is called.");
 
             this.txbTitle.Text = string.Empty;
             this.richTextEditor.Text = string.Empty;
@@ -162,8 +161,7 @@ namespace Subtext.Web.Admin.UserControls
 
         private void BindPostEdit()
 		{
-            if (PostID == null)
-                throw new InvalidOperationException("Cannot edit a null post");
+            Debug.Assert(PostID == null, "PostID Should be null when we call this");
 
 			SetConfirmation();
 			
@@ -235,7 +233,7 @@ namespace Subtext.Web.Admin.UserControls
 				{
 					ListItem categoryItem = cklCategories.Items.FindByValue(postCategory.CategoryID.ToString(CultureInfo.InvariantCulture));
 					if(categoryItem == null)
-						throw new InvalidOperationException(string.Format("Could not find category id {0} in the Checkbox list which has {1} items.", postCategory.CategoryID, cklCategories.Items.Count));
+                        throw new InvalidOperationException(string.Format(Resources.EntryEditor_CouldNotFindCategoryInList, postCategory.CategoryID, cklCategories.Items.Count));
 					categoryItem.Selected = true;
 				}
 			}
@@ -245,9 +243,9 @@ namespace Subtext.Web.Admin.UserControls
 
             AdminPageTemplate adminMasterPage = Page.Master as AdminPageTemplate;
             if (adminMasterPage != null)
-			{	
-				string title = string.Format(CultureInfo.InvariantCulture, "Editing {0} \"{1}\"", 
-					CategoryType == CategoryType.StoryCollection ? "Article" : "Post", entry.Title);
+			{
+                string title = string.Format(CultureInfo.InvariantCulture, Resources.EntryEditor_EditingTitle, 
+					CategoryType == CategoryType.StoryCollection ? Resources.Label_Article : Resources.Label_Post, entry.Title);
                 adminMasterPage.Title = title;
 			}
 
@@ -260,12 +258,12 @@ namespace Subtext.Web.Admin.UserControls
 
 	    private void PopulateMimeTypeDropDown()
 	    {
-            ddlMimeType.Items.Add(new ListItem("Choose...", "none"));
+            ddlMimeType.Items.Add(new ListItem(Resources.Label_Choose));
             foreach (string key in MimeTypesMapper.Mappings.List)
 	        {
                 ddlMimeType.Items.Add(new ListItem(MimeTypesMapper.Mappings.List[key], MimeTypesMapper.Mappings.List[key]));
 	        }
-            ddlMimeType.Items.Add(new ListItem("Other", "other"));
+            ddlMimeType.Items.Add(new ListItem(Resources.Label_Other, "other"));
 	    }
 
 	    private void SetCommentControls()
@@ -326,13 +324,11 @@ namespace Subtext.Web.Admin.UserControls
 				try
 				{
 					Entry entry;
-					if (PostID == null)
-					{
+					if (PostID == null) {
                         ValidateEntryTypeIsNotNone(EntryType);
 						entry = new Entry(EntryType);
 					}
-					else
-					{
+					else {
 						entry = Entries.GetEntry(PostID.Value, PostConfig.None, false);
 						if(entry.PostType != EntryType)
 						{
@@ -458,10 +454,7 @@ namespace Subtext.Web.Admin.UserControls
         [CoverageExclude]
         private static void ValidateEntryTypeIsNotNone(PostType entryType)
         {
-            if (entryType == PostType.None)
-            {
-                throw new InvalidOperationException("The entry type is None. Impossible!");
-            }
+            Debug.Assert(entryType == PostType.None, "The entry type is none. This should be impossible!");
         }
 
         private bool EnclosureEnabled()
@@ -532,7 +525,7 @@ namespace Subtext.Web.Admin.UserControls
 				else
 				{
 					this.Messages.ShowError(Constants.RES_FAILURECATEGORYUPDATE
-						+ " There was a baseline problem updating the post categories.");  
+						+ Resources.EntryEditor_ProblemEditingPostCategories);  
 				}
 			}
 			catch(Exception ex)
@@ -621,11 +614,11 @@ namespace Subtext.Web.Admin.UserControls
          }
          catch (CommunityCreditNotificationException ex)
          {
-            this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "Error during Community Credits submission (your post has been saved)", ex.Message));
+            this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, Resources.EntryEditor_ErrorSendingToCommunityCredits, ex.Message));
          }
          catch (Exception ex)
          {
-            this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "Error during Community Credits submission (your post has been saved)", ex.Message));
+             this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, Resources.EntryEditor_ErrorSendingToCommunityCredits, ex.Message));
          }
 		}
 	}

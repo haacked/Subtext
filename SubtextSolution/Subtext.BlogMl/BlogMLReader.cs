@@ -20,6 +20,7 @@ using System.Web;
 using BlogML;
 using BlogML.Xml;
 using Subtext.BlogML.Interfaces;
+using Subtext.BlogML.Properties;
 
 namespace Subtext.BlogML
 {
@@ -30,7 +31,7 @@ namespace Subtext.BlogML
 		public static BlogMLReader Create(IBlogMLProvider provider)
 		{
 			if (provider == null)
-				throw new ArgumentNullException("provider", "provider cannot be null");
+				throw new ArgumentNullException("provider");
 
 			return new BlogMLReader(provider);
 		}
@@ -42,7 +43,7 @@ namespace Subtext.BlogML
 			this.provider = provider;
 		}
 
-		BlogMLBlog DeserializeBlogMlStream(Stream stream)
+		private static BlogMLBlog DeserializeBlogMlStream(Stream stream)
 		{
 			return BlogMLSerializer.Deserialize(stream);
 		}
@@ -51,16 +52,16 @@ namespace Subtext.BlogML
 	    /// Reads in a BlogML Stream and creates the appropriate blog posts, 
 	    /// </summary>
 	    /// <param name="blogMlStream"></param>
-        public void ReadBlog(Stream blogMlStream)
+        public void ReadBlog(Stream blogMLStream)
 	    {
-			if (blogMlStream == null)
-				throw new ArgumentNullException("blogMlStream", "Cannot read a null stream");
+			if (blogMLStream == null)
+				throw new ArgumentNullException("blogMLStream");
 
-            BlogMLBlog blog = DeserializeBlogMlStream(blogMlStream);
+            BlogMLBlog blog = DeserializeBlogMlStream(blogMLStream);
 
             this.provider.PreImport();
 
-	        this.provider.SetBlogMlExtendedProperties(blog.ExtendedProperties);
+	        this.provider.SetBlogMLExtendedProperties(blog.ExtendedProperties);
 
 	        IDictionary<string, string> categoryIdMap = this.provider.CreateCategories(blog);
 
@@ -86,7 +87,7 @@ namespace Subtext.BlogML
 						}
                     	catch(Exception e)
                     	{
-                    		provider.LogError("An exception occured while importing a comment.", e);
+                    		provider.LogError(Resources.Log_ErrorWhileImportingComment, e);
                     	}
                     }
                 }
@@ -101,7 +102,7 @@ namespace Subtext.BlogML
 						}
 						catch (Exception e)
 						{
-							provider.LogError("An exception occured while importing a trackback. Continuing forward.", e);
+							provider.LogError(Resources.Log_ErrorWhileImportingComment, e);
 						}
                     }
                 }

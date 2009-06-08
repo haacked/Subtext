@@ -14,11 +14,12 @@
 #endregion
 
 using System;
-using Subtext.Framework.Data;
-using Subtext.Framework.Components;
-using Subtext.Framework.Format;
-using Subtext.Framework.Routing;
+using System.Diagnostics;
+using System.Globalization;
 using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Data;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.UI
 {
@@ -41,7 +42,8 @@ namespace Subtext.Web.UI
 					return Transformer.BuildLinks(UIText.ArticleCollection, CategoryType.StoryCollection, blog);
 				
 				default:
-					throw new InvalidOperationException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Invalid CategoryType: {0} via Subtext.Web.UI.UIData.Links",catType));
+                    Debug.Fail(String.Format(CultureInfo.InvariantCulture, "Invalid CategoryType: {0} via Subtext.Web.UI.UIData.Links", catType));
+                    return null;
 			}
 		}
 

@@ -17,6 +17,7 @@ using System;
 using System.IO;
 using System.Web;
 using System.Web.Routing;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Routing
 {
@@ -28,7 +29,7 @@ namespace Subtext.Framework.Routing
             var routeData = requestContext.RouteData;
             var route = routeData.Route as DirectoryRoute;
             if (route == null) {
-                throw new InvalidOperationException("DirectoryRouteHandler only works with DirectoryRoutes");
+                throw new InvalidOperationException(Resources.InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes);
             }
 
             string virtualPath = "~/" + route.DirectoryName + "/" + routeData.Values["pathinfo"];

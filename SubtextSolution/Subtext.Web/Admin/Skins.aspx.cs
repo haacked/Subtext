@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Subtext.Web.Admin.Pages;
-using Subtext.Framework.UI.Skinning;
+using System.Globalization;
 using System.IO;
-using Subtext.Web.Controls;
-using Subtext.Framework.Web;
+using System.Linq;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.UI.Skinning;
+using Subtext.Framework.Web;
+using Subtext.Web.Admin.Pages;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin
 {
@@ -44,7 +42,7 @@ namespace Subtext.Web.Admin
                     foreach (SkinTemplate template in skins)
                     {
                         if (template.MobileSupport == MobileSupport.Supported)
-                            template.Name += " (mobile ready)";
+                            template.Name += Resources.Skins_MobileReady;
                     }
                 }
                 return skins;
@@ -108,8 +106,8 @@ namespace Subtext.Web.Admin
             var skin = o as SkinTemplate;
 
             string[] imageUrls = new[] { 
-                string.Format("~/skins/{0}/SkinIcon.png", skin.TemplateFolder),
-                string.Format("~/skins/{0}/{1}-SkinIcon.png", skin.TemplateFolder, skin.Name),
+                string.Format(CultureInfo.InvariantCulture, "~/skins/{0}/SkinIcon.png", skin.TemplateFolder),
+                string.Format(CultureInfo.InvariantCulture, "~/skins/{0}/{1}-SkinIcon.png", skin.TemplateFolder, skin.Name),
                 "~/skins/_System/SkinIcon.png"
             };
 
@@ -125,7 +123,7 @@ namespace Subtext.Web.Admin
             blog.Skin.SkinStyleSheet = skinTemplate.StyleSheet;
             Config.UpdateConfigData(blog);
             
-            Messages.ShowMessage("Skin Saved!");
+            Messages.ShowMessage(Resources.Skins_SkinSaved);
             BindLocalUI();
         }
     }

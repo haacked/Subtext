@@ -20,12 +20,11 @@ using System.Text;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
-using Subtext.Framework.Format;
 using Subtext.Framework.Security;
 using Subtext.Framework.Text;
 using Subtext.Web.Controls;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -33,17 +32,20 @@ namespace Subtext.Web.UI.Controls
 	/// Control used to display a list of entries.
 	/// </summary>
 	public class EntryList : BaseControl
-	{	
-		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\" class=\"comments\">{1}{2}</a>";
-		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\" class=\"comments\">Feedback ({3})</a>";
-		const string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>";
+	{
+        public EntryList() {
+            DescriptionOnly = true;
+        }
+
+		static readonly string linkToComments = "<a href=\"{0}#feedback\" title=\"" + Resources.EntryList_ViewAndAddComments + "\" class=\"comments\">{1}{2}</a>";
+		static readonly string postdescWithComments = "posted @ <a href=\"{0}\" title = \"" + Resources.EntryList_PermanentLink + "\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\" class=\"comments\">Feedback ({3})</a>";
+        static readonly string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"" + Resources.EntryList_PermanentLink + "\">{1}</a>";
         const string linkToEnclosure = "<a href=\"{0}\" title = \"{1}\" class=\"enclosure-link\">{2}</a>{3}";
 
-        private string category;
         public string Category
         {
-            get { return category; }
-            set { category = value; }
+            get;
+            set;
         }
 
 		protected virtual void PostCreated(object sender,  RepeaterItemEventArgs e)
@@ -111,13 +113,13 @@ namespace Subtext.Web.UI.Controls
                     //TODO: Consider a specific url helper method for link to feedback section.
                     string entryUrl = Url.EntryUrl(entry);
                     if(entry.FeedBackCount == 0) {
-						commentCount.Text = string.Format(linkToComments, entryUrl, "Add Comment", string.Empty);
+						commentCount.Text = string.Format(CultureInfo.InvariantCulture, linkToComments, entryUrl, Resources.EntryList_AddComment, string.Empty);
 					}
 					else if(entry.FeedBackCount == 1) {
-                        commentCount.Text = string.Format(linkToComments, entryUrl, "One Comment", string.Empty);
+                        commentCount.Text = string.Format(CultureInfo.InvariantCulture, linkToComments, entryUrl, Resources.EntryList_OneComment, string.Empty);
 					}
 					else if(entry.FeedBackCount > 1) {
-                        commentCount.Text = string.Format(linkToComments, entryUrl, entry.FeedBackCount, " Comments");
+                        commentCount.Text = string.Format(linkToComments, entryUrl, entry.FeedBackCount, Resources.EntryList_CommentsPlural);
 					}
 				}
 			}
@@ -147,11 +149,11 @@ namespace Subtext.Web.UI.Controls
 			{
                 string entryUrl = Url.EntryUrl(entry);
 				if(permalink.Attributes["Format"] != null) {
-                    permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entryUrl, entry.DateSyndicated.ToString(permalink.Attributes["Format"]));
+                    permalink.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>", entryUrl, entry.DateSyndicated.ToString(permalink.Attributes["Format"]), Resources.EntryList_PermanentLink);
 					permalink.Attributes.Remove("Format");
 				}
 				else {
-					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entryUrl, entry.DateSyndicated.ToString("f"));
+                    permalink.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>", entryUrl, entry.DateSyndicated.ToString("f"), Resources.EntryList_PermanentLink);
 				}
 			}
 		}
@@ -270,7 +272,7 @@ namespace Subtext.Web.UI.Controls
 			if(title != null)
 			{
 				title.Text = entry.Title;
-				ControlHelper.SetTitleIfNone(title, "Click To View Entry.");
+				ControlHelper.SetTitleIfNone(title, Resources.EntryList_ClickToView);
 				title.NavigateUrl = Url.EntryUrl(entry);
 			}
 		}
@@ -290,7 +292,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						//We'll slap on our little pencil icon.
                         editLink.ImageUrl = Url.EditIconUrl();
-						ControlHelper.SetTitleIfNone(editLink, "Click to edit this entry.");
+						ControlHelper.SetTitleIfNone(editLink, Resources.EntryList_ClickToView);
                         editLink.NavigateUrl = AdminUrl.PostsEdit(entry.Id);
 					}
 				}
@@ -301,14 +303,12 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
-        private ICollection<Entry> entries;
         public ICollection<Entry> EntryListItems
 		{
-			get{return entries;}
-			set{entries = value;}
+			get;
+			set;
 		}
 
-		private bool descriptionOnly = true;
 		/// <summary>
 		/// <para>
 		/// If true, then the EntryList will only show the description 
@@ -323,36 +323,32 @@ namespace Subtext.Web.UI.Controls
 		/// </summary>
 		public bool DescriptionOnly
 		{
-			get{return descriptionOnly;}
-			set{descriptionOnly = value;}
+			get;
+			set;
 		}
 
-		private string entryListTitle;
 		public string EntryListTitle
 		{
-			get{return entryListTitle;}
-			set{entryListTitle = value;}
+			get;
+			set;
 		}
 
-		private string _entryListDescription;
 		public string EntryListDescription
 		{
-			get {return this._entryListDescription;}
-			set {this._entryListDescription = value;}
+			get;
+			set;
 		}
 
-		private string _entryListReadMoreText;
 		public string EntryListReadMoreText
 		{
-			get {return this._entryListReadMoreText;}
-			set {this._entryListReadMoreText = value;}
+			get;
+			set;
 		}
 
-		private string _entryListReadMoreUrl;
 		public string EntryListReadMoreUrl
 		{
-			get {return this._entryListReadMoreUrl;}
-			set {this._entryListReadMoreUrl = value;}
+			get;
+			set;
 		}
 		
 		protected override void OnLoad(EventArgs e)
@@ -423,5 +419,3 @@ namespace Subtext.Web.UI.Controls
 		}
 	}
 }
-
-

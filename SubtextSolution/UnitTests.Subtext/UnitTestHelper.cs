@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -27,30 +28,28 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Web;
+using System.Web.Routing;
 using System.Web.Security;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
+using Moq;
+using Ninject;
 using Rhino.Mocks;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
+using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
-using Subtext.Framework.Services;
-using Subtext.Framework.Providers;
-using System.Web.Routing;
-using Subtext.Framework.Routing;
-using Subtext.Web;
-using Subtext.Framework.Data;
 using Subtext.Infrastructure;
-using Moq;
-using Ninject;
 
 namespace UnitTests.Subtext
 {
@@ -85,7 +84,7 @@ namespace UnitTests.Subtext
                 {
                     using (SqlCommand command = conn.CreateCommand())
                     {
-                        command.CommandText = string.Format("DELETE [{0}]", tableName);
+                        command.CommandText = string.Format(CultureInfo.InvariantCulture, "DELETE [{0}]", tableName);
                         command.ExecuteNonQuery();
                     }
                 }
@@ -956,7 +955,7 @@ namespace UnitTests.Subtext
 
                     property.SetValue(o, valueToSet, null);
                     object retrievedValue = property.GetValue(o, null);
-                    Assert.AreEqual(valueToSet, retrievedValue, string.Format("Could not set and get this property '{0}'", property.Name));
+                    Assert.AreEqual(valueToSet, retrievedValue, string.Format(CultureInfo.InvariantCulture, "Could not set and get this property '{0}'", property.Name));
                 }
             }
         }

@@ -24,9 +24,10 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Security;
-using Subtext.Framework.Tracking;
 using Subtext.Framework.Services;
+using Subtext.Framework.Tracking;
 
 //Need to find a method that has access to context, so we can terminate the request if AllowServiceAccess == false.
 //Users will be able to access the metablogapi page, but will not be able to make a request, but the page should not be visible
@@ -43,16 +44,15 @@ namespace Subtext.Framework.XmlRpc
         public MetaWeblog(ISubtextContext context) : base(context) {
         }
 
-        #region Helper Methods
         private static void ValidateUser(string username, string password, bool allowServiceAccess)
         {
             if (!Config.Settings.AllowServiceAccess || !allowServiceAccess) {
-                throw new XmlRpcFaultException(0, "Web Service Access is not enabled.");
+                throw new XmlRpcFaultException(0, Resources.XmlRpcFault_WebServiceNotEnabled);
             }
 
             bool isValid = SecurityHelper.IsValidUser(username, password);
             if (!isValid) {
-                throw new XmlRpcFaultException(0, "Username and password denied.");
+                throw new XmlRpcFaultException(0, Resources.XmlRpcFault_UsernameAndPasswordInvalid);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Subtext.Framework.XmlRpc
                 throw new XmlRpcFaultException(0, e.Message + " " + e.StackTrace);
             }
             if (postID < 0) {
-                throw new XmlRpcFaultException(0, "The post could not be added");
+                throw new XmlRpcFaultException(0, Resources.XmlRpcFault_AddPostFailed);
             }
             return postID.ToString(CultureInfo.InvariantCulture);
         }
@@ -143,17 +143,15 @@ namespace Subtext.Framework.XmlRpc
             }
             catch (CommunityCreditNotificationException ex)
             {
-                Log.WarnFormat("Community Credit ws returned the following response while notifying for the url {0}: {1}", Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(), ex.Message);
+                Log.WarnFormat(Resources.XmlRpcWarn_CommunityCredits, Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(), ex.Message);
             }
             catch (Exception ex)
             {
-                Log.Error("Error while connecting to the Community Credit webservice", ex);
+                Log.Error(Resources.XmlRpcError_CommunityCredits, ex);
             }
         } 
-        #endregion
-
-		#region BlogApi Members
-		public BlogInfo[] getUsersBlogs(string appKey, string username, string password)
+        
+        public BlogInfo[] getUsersBlogs(string appKey, string username, string password)
 		{
 			Framework.Blog info = Blog;
 			ValidateUser(username, password, info.AllowServiceAccess);
@@ -179,14 +177,11 @@ namespace Subtext.Framework.XmlRpc
 			}
 			catch
 			{
-				throw new XmlRpcFaultException(1, "Could not delete post: " + postid);
+				throw new XmlRpcFaultException(1, String.Format(CultureInfo.InvariantCulture, Resources.XmlRpcFault_CannotDeletePost, postid));
 			}			
 		}
 
-		#endregion
-
-        #region MetaWeblog Members
-        public bool editPost(string postid, string username, string password, Post post, bool publish)
+		public bool editPost(string postid, string username, string password, Post post, bool publish)
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
@@ -268,7 +263,7 @@ namespace Subtext.Framework.XmlRpc
 
             Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
             if (entry == null) {
-                throw new XmlRpcFaultException(0, "The entry could not be found");
+                throw new XmlRpcFaultException(0, Resources.XmlRpcFault_CouldNotFindEntry);
             }
             Post post = new Post();
             post.link = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString();
@@ -332,7 +327,7 @@ namespace Subtext.Framework.XmlRpc
             //TODO Replace with repository access
             ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
             if (categories == null) {
-                throw new XmlRpcFaultException(0, "No categories exist");
+                throw new XmlRpcFaultException(0, Resources.XmlRpcFault_NoCategories);
             }
 
             var categoryInfos = from category in categories
@@ -378,7 +373,7 @@ namespace Subtext.Framework.XmlRpc
             //Any IO exceptions, we throw a new XmlRpcFault Exception
             catch (IOException)
             {
-                throw new XmlRpcFaultException(0, "Error saving file.");
+                throw new XmlRpcFaultException(0, Resources.XmlRpcFault_ErrorSavingFile);
             }
 
             //If all works, we return a mediaobjectinfo struct back holding the URL.
@@ -386,9 +381,8 @@ namespace Subtext.Framework.XmlRpc
             media.url = Blog.ImagePath + mediaobject.name;
             return media;
         }
-        #endregion
-
-	    #region w.bloggar workarounds/nominal MT support - HACKS
+        
+	    // w.bloggar workarounds/nominal MT support - HACKS
 		
 		// w.bloggar is not correctly implementing metaWeblogAPI on its getRecentPost call, it wants 
 		// an instance of blogger.getRecentPosts at various time. 
@@ -403,14 +397,6 @@ namespace Subtext.Framework.XmlRpc
 			public string postid;
 			public string userid;
 		} 
-
-		[XmlRpcMethod("blogger.getRecentPosts",
-			 Description="Workaround for w.bloggar errors. Exists just to throw an exception explaining issue.")]
-		public BloggerPost[] GetRecentPosts(string appKey, string blogid, string username, 
-			string password, int numberOfPosts)
-		{
-			throw new XmlRpcFaultException(0, "You are most likely getting this message because you are using w.bloggar or trying to access Blogger API support in .Text--only metaWeblog API is currently supported. If your issue is w.bloggar, read on.\n\nw.bloggar does not correctly implement the metaWeblog API.\n\nIt is trying to call blogger.getRecentPosts, which does not exist in the metaWeblog API. Contact w.bloggar and encourage them to fix this bug.\n\nIn the meantime, to workaround this, go to the Account Properties dialog and hit 'Reload Blogs List'. This should clear the issue temporarily on w.bloggars side.");
-		}		
 
 		// we'll also add a couple structs and methods to give us nominal MT API-level support.
 		// by doing this we'll allow w.bloggar to run against .Text using w.b's MT configuration.
@@ -565,9 +551,8 @@ namespace Subtext.Framework.XmlRpc
 		{
 			return new MtTextFilter[] {new MtTextFilter("test", "test"), };
 		}
-		#endregion
-
-        #region IWordPressApi Members
+		
+        // Wordpress API
 
         public int newCategory(string blogid, string username, string password, WordpressCategory category)
         {
@@ -685,10 +670,8 @@ namespace Subtext.Framework.XmlRpc
                 return true;
             }
             catch {
-                throw new XmlRpcFaultException(1, "Could not delete page: " + page_id);
+                throw new XmlRpcFaultException(1, String.Format(CultureInfo.InvariantCulture, Resources.XmlRpcFault_CannotDeletePage, page_id));
             }
         }
-
-        #endregion
     }
 }

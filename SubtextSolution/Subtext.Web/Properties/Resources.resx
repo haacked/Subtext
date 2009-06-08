@@ -1,0 +1,514 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ArgumentOutOfRange_Priority" xml:space="preserve">
+    <value>Priority must be in range from 0.0 to 1.0!</value>
+  </data>
+  <data name="Calendar_NextMonth" xml:space="preserve">
+    <value>Next Month</value>
+  </data>
+  <data name="Calendar_PreviousMonth" xml:space="preserve">
+    <value>Previous Month</value>
+  </data>
+  <data name="Comments_AkismetRequiresPermissionType" xml:space="preserve">
+    <value>Akismet requires &lt;code&gt;{0}&lt;/code&gt; in order to make web requests. Please ask your hosting provider to &lt;a href="http://weblogs.asp.net/hosterposter/archive/2006/03/22/440886.aspx" title="Enabling WebPermission in Medium Trust"&gt;enable this permission&lt;/a&gt;.</value>
+  </data>
+  <data name="Comments_CouldNotVerifyAkismetKey" xml:space="preserve">
+    <value>Sorry, could not verify that Akismet API key.</value>
+  </data>
+  <data name="Comments_SettingsFailed" xml:space="preserve">
+    <value>Comment settings update failed.</value>
+  </data>
+  <data name="Comments_SettingsUpdated" xml:space="preserve">
+    <value>Your comment settings were successfully updated.</value>
+  </data>
+  <data name="CommentValidation_CommentDelay" xml:space="preserve">
+    <value>Comment Delay</value>
+  </data>
+  <data name="CommentValidation_CommentDelayTooBig" xml:space="preserve">
+    <value>"{0}" of {1} would block an IP for a really long time. Let's be reasonable.</value>
+  </data>
+  <data name="CommentValidation_CommentDelayTooSmall" xml:space="preserve">
+    <value>"{0}" should larger than {1}. You can't go back in time.</value>
+  </data>
+  <data name="CommentValidation_DaysTillClose" xml:space="preserve">
+    <value>Days Till Comments Close</value>
+  </data>
+  <data name="CommentValidation_LengthOfRecentComment" xml:space="preserve">
+    <value>Length of Recent Comments to Display (Number of characters)</value>
+  </data>
+  <data name="CommentValidation_RecentCommentsCount" xml:space="preserve">
+    <value>Number of Recent Comments to Display</value>
+  </data>
+  <data name="EntryEditor_CouldNotFindCategoryInList" xml:space="preserve">
+    <value>Could not find category id {0} in the Checkbox list which has {1} items.</value>
+  </data>
+  <data name="EntryEditor_EditingTitle" xml:space="preserve">
+    <value>Editing {0} "{1}"</value>
+  </data>
+  <data name="EntryEditor_ErrorSendingToCommunityCredits" xml:space="preserve">
+    <value>Error during Community Credits submission (your post has been saved)</value>
+  </data>
+  <data name="EntryEditor_ProblemEditingPostCategories" xml:space="preserve">
+    <value>There was a baseline problem updating the post categories.</value>
+  </data>
+  <data name="EntryList_AddComment" xml:space="preserve">
+    <value>Add Comment</value>
+  </data>
+  <data name="EntryList_ClickToView" xml:space="preserve">
+    <value>Click To View Entry.</value>
+  </data>
+  <data name="EntryList_CommentsPlural" xml:space="preserve">
+    <value> Comments</value>
+  </data>
+  <data name="EntryList_OneComment" xml:space="preserve">
+    <value>One Comment</value>
+  </data>
+  <data name="EntryList_PermanentLink" xml:space="preserve">
+    <value>Permanent link to this post</value>
+  </data>
+  <data name="EntryList_ViewAndAddComments" xml:space="preserve">
+    <value>View and Add Comments</value>
+  </data>
+  <data name="InvalidOperation_CategoryTypeNotSet" xml:space="preserve">
+    <value>CategoryType was not set</value>
+  </data>
+  <data name="InvalidOperation_EditCategoriesControlsNotFound" xml:space="preserve">
+    <value>Update failed, could not located either the item Title or IsActive</value>
+  </data>
+  <data name="InvalidOperation_ImageUndefined" xml:space="preserve">
+    <value>Image not defined.</value>
+  </data>
+  <data name="Label_Article" xml:space="preserve">
+    <value>Article</value>
+  </data>
+  <data name="Label_Choose" xml:space="preserve">
+    <value>Choose...</value>
+  </data>
+  <data name="Label_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Label_Post" xml:space="preserve">
+    <value>Post</value>
+  </data>
+  <data name="LinkPage_Subscribe" xml:space="preserve">
+    <value>Subscribe to {0}</value>
+  </data>
+  <data name="Message_CategoriesUpdatedSuccessful" xml:space="preserve">
+    <value>Categories updated successfully.</value>
+  </data>
+  <data name="Message_CategoryMustHaveTitle" xml:space="preserve">
+    <value>A category must have a title</value>
+  </data>
+  <data name="Message_CategoryUpdateFailed" xml:space="preserve">
+    <value>Category Update failed.</value>
+  </data>
+  <data name="Message_GenericError" xml:space="preserve">
+    <value>{0} The error message related to this problem was as follows: {1}</value>
+  </data>
+  <data name="Message_PostedSuccessful" xml:space="preserve">
+    <value>Posted successfully.</value>
+  </data>
+  <data name="Message_PostOperationFailed" xml:space="preserve">
+    <value>Post operation failed.</value>
+  </data>
+  <data name="Message_UpdateSuccessful" xml:space="preserve">
+    <value>Updated successfully.</value>
+  </data>
+  <data name="Message_ValueMustBePositive" xml:space="preserve">
+    <value>Please enter a valid positive number for the field "{0}"</value>
+  </data>
+  <data name="Message_ValueTooBig" xml:space="preserve">
+    <value>"{0}" should be less than or equal to {1}</value>
+  </data>
+  <data name="Message_ValueTooSmall" xml:space="preserve">
+    <value>"{0}" should be larger than or equal to {1}</value>
+  </data>
+  <data name="Message_YouWillLoseUnsavedContent" xml:space="preserve">
+    <value>You will lose any unsaved content</value>
+  </data>
+  <data name="Security_PageForbidden" xml:space="preserve">
+    <value>That page is forbidden.</value>
+  </data>
+  <data name="TagEntryList_NoEntriesForTag" xml:space="preserve">
+    <value>There are {0} entries for the tag &lt;em&gt;{1}&lt;/em&gt;</value>
+  </data>
+  <data name="ViewPost_EditThisEntry" xml:space="preserve">
+    <value>Edit this entry.</value>
+  </data>
+  <data name="ViewPost_EntryNotFound" xml:space="preserve">
+    <value>&lt;p&gt;&lt;strong&gt;The entry could not be found or has been removed&lt;/strong&gt;&lt;/p&gt;</value>
+  </data>
+  <data name="BlogsEditor_ApplicationHelpTip" xml:space="preserve">
+    <value>&lt;p&gt;
+&lt;strong&gt;This sets the subfolder of the host domain that the blog will appear to be located in.&lt;/strong&gt;
+&lt;/p&gt;
+&lt;p&gt;For example, if you enter &amp;#8220;MyBlog&amp;#8221; 
+(sans quotes of course) for the application, then the root URL to your blog 
+would be &lt;em&gt;http://[HOSTDOMAIN]/MyBlog/Default.aspx&lt;/em&gt;
+&lt;/p&gt;
+&lt;p&gt;
+Leave this value blank if you wish to host your blog in the root of your website.
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you specify a sub-folder, you do not need to set up a virtual directory 
+corresponding to the subfolder. But not doing so will require that the blog url include the trailing 
+&amp;#8220;Default.aspx&amp;#8221; or you will have to &lt;a href='http://www.subtextproject.com/Configuration/ConfiguringACustom404Page/tabid/121/Default.aspx' target='_blank'&gt;configure a Custom 404 page&lt;/a&gt; (opens a new window).&lt;/p&gt;
+&lt;p&gt;In the above example, if you want the URL to be &lt;em&gt;http://[HOSTDOMAIN]/MyBlog/&lt;/em&gt; then you 
+would simply set up a virtual directory (not application) named &amp;#8220;MyBlog&amp;#8221; pointing to the same location as the webroot.&lt;/p&gt;
+&lt;p&gt;For more information, please view &lt;a href='http://www.subtextproject.com/Home/Docs/Configuration/tabid/112/Default.aspx' target='_blank'&gt;the configuration docs&lt;/a&gt; (opens a new window).&lt;/p&gt;</value>
+  </data>
+  <data name="BlogsEditor_BlogActivated" xml:space="preserve">
+    <value>Blog Activated and ready to go.</value>
+  </data>
+  <data name="BlogsEditor_BlogCreated" xml:space="preserve">
+    <value>Blog Created.</value>
+  </data>
+  <data name="BlogsEditor_BlogDeactivated" xml:space="preserve">
+    <value>Blog Inactivated and sent to a retirement community.</value>
+  </data>
+  <data name="BlogsEditor_BlogSaved" xml:space="preserve">
+    <value>Blog Saved</value>
+  </data>
+  <data name="BlogsEditor_FieldRequired" xml:space="preserve">
+    <value>Emptiness is quite Zen. Still, please enter a value for "{0}".</value>
+  </data>
+  <data name="BlogsEditor_HelpText" xml:space="preserve">
+    <value>&lt;p&gt;Use this page to manage the blogs installed on this server.
+For more information on configuring blogs, see the &lt;a href='http://www.subtextproject.com/Home/Docs/Configuration/tabid/112/Default.aspx' target='_blank'&gt;configuration docs&lt;/a&gt; (opens a new window).
+&lt;/p&gt;</value>
+  </data>
+  <data name="BlogsEditor_HostDomainHelpText" xml:space="preserve">
+    <value>&lt;p&gt;&lt;strong&gt;Host Domain&lt;/strong&gt; is the domain name for this blog. 
+If you never plan on setting up another blog on this server, then you do not have 
+to worry about this setting.  However, if you decide to add another blog at a later 
+time, it&amp;#8217;s important to update this setting for your initial blog.&lt;/p&gt;
+&lt;p&gt;For example, if you are hosting this blog at http://www.example.com/, the Host Domain 
+would be &amp;#8220;www.example.com&amp;#8221;.&lt;/p&gt;&lt;p&gt;If you are trying to set this up on your 
+own machine for testing purposes (i.e. it&amp;#8217;s not publicly viewable, you might try 
+&amp;#8220;localhost&amp;#8221; for the host domain.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Important:&lt;/strong&gt;If you are setting up multiple blogs on the same server, 
+multiple blogs may have the same Host Domain name if they don&amp;#8217;t also have the same 
+Subfolder name.  However, two blogs with different Host Domains may have the same Subfolder 
+name (though that&amp;#8217;s not recommended).
+&lt;/p&gt;&lt;p&gt;Also, if there are multiple blogs with the same Host Domain Name, they must all 
+have a non-empty Subfolder name defined.  For more detailed coverage 
+, please visit &lt;a href='http://www.subtextproject.com/Developer/UrlToBlogMappings/tabid/119/Default.aspx' target='_blank'&gt;the multiple blog configuration docs&lt;/a&gt; (opens a new window).
+&lt;/p&gt;</value>
+  </data>
+  <data name="BlogsEditor_NewBlogLabel" xml:space="preserve">
+    <value>New Blog</value>
+  </data>
+  <data name="BlogsEditor_PasswordRequired" xml:space="preserve">
+    <value>A password is required when creating a blog. Pick a good one.</value>
+  </data>
+  <data name="BlogsEditor_PasswordsDoNotMatch" xml:space="preserve">
+    <value>The Password and Confirmation do not match. Try retyping your password in both fields.</value>
+  </data>
+  <data name="BlogsEditor_UpdateCancelled" xml:space="preserve">
+    <value>Blog Update Cancelled. Nothing to see here.</value>
+  </data>
+  <data name="BlogsEditor_ValueTooLong" xml:space="preserve">
+    <value>Brevity is rewarded. "{0}" may only have "{1}" characters.</value>
+  </data>
+  <data name="Confirm_CommandNotSet" xml:space="preserve">
+    <value>ConfirmCommand was not set upon transfer.</value>
+  </data>
+  <data name="EditGalleries_ArchiveProcessed" xml:space="preserve">
+    <value>The archive has been processed.</value>
+  </data>
+  <data name="EditGalleries_EditImage" xml:space="preserve">
+    <value>Editing Image "{0}"</value>
+  </data>
+  <data name="EditGalleries_FileAlreadyExists" xml:space="preserve">
+    <value>This file already exists on the server. Please provide a name for the file.</value>
+  </data>
+  <data name="EditGalleries_ImageAdded" xml:space="preserve">
+    <value>The image was successfully added to the gallery.</value>
+  </data>
+  <data name="EditGalleries_ImageIdentifierMissing" xml:space="preserve">
+    <value>An image identifier was not available, could not load your image.</value>
+  </data>
+  <data name="EditGalleries_ImageUpdated" xml:space="preserve">
+    <value>The image was successfully updated.</value>
+  </data>
+  <data name="EditGalleries_MustHaveOneGallery" xml:space="preserve">
+    <value>You must have at least one valid Gallery before working with individual images.</value>
+  </data>
+  <data name="EditGalleries_ProblemPosting" xml:space="preserve">
+    <value>There was a baseline problem posting your entry.</value>
+  </data>
+  <data name="EditGalleries_ValidFilenameRequired" xml:space="preserve">
+    <value>Valid file name for server image is required.</value>
+  </data>
+  <data name="EditGalleries_ViewingGallery" xml:space="preserve">
+    <value>Viewing Gallery "{0}"</value>
+  </data>
+  <data name="EditLinks_NeedToAddCategoryFirst" xml:space="preserve">
+    <value>You need to add a category before you can add links! Click "Edit Categories"</value>
+  </data>
+  <data name="ErrorPage_NoErrorMessage" xml:space="preserve">
+    <value>No error message available.</value>
+  </data>
+  <data name="Feedback_NothingFlaggedAsSpam" xml:space="preserve">
+    <value>Nothing was selected as spam.</value>
+  </data>
+  <data name="Feedback_NothingToApprove" xml:space="preserve">
+    <value>Nothing was selected to be approved.</value>
+  </data>
+  <data name="Feedback_NothingToDelete" xml:space="preserve">
+    <value>Nothing was selected to be deleted.</value>
+  </data>
+  <data name="Feedback_NothingToDestroy" xml:space="preserve">
+    <value>Nothing was selected to be destroyed.</value>
+  </data>
+  <data name="ForgotPasswordMaster_DoesNotWorkForHostAdmins" xml:space="preserve">
+    <value>Sorry, but forgot password does not work for Host admins. Please read &lt;a href="http://subtextproject.com/Home/FAQ/tabid/113/Default.aspx" title="Subtext FAQ"&gt;the FAQ&lt;/a&gt; to reset your password.</value>
+  </data>
+  <data name="ForgotPassword_NewPassword" xml:space="preserve">
+    <value>Your new password</value>
+  </data>
+  <data name="ForgotPassword_NewPasswordSent" xml:space="preserve">
+    <value>Password was reset and sent to your email address.</value>
+  </data>
+  <data name="ForgotPassword_UsernameAndPasswordDoNotMatch" xml:space="preserve">
+    <value>Sorry, but the username and email provided did not match our records</value>
+  </data>
+  <data name="ForgotPaswword_HereIsNewPassword" xml:space="preserve">
+    <value>I've been told that you forgot your password. Here it is
+  {0}</value>
+  </data>
+  <data name="GroupsEditor_BlogGroupCreated" xml:space="preserve">
+    <value>Blog Group Created.</value>
+  </data>
+  <data name="GroupsEditor_BlogGroupSaved" xml:space="preserve">
+    <value>Blog Group Saved.</value>
+  </data>
+  <data name="GroupsEditor_HelpTip" xml:space="preserve">
+    <value>&lt;p&gt;Use this page to manage the blogs groups for this server. 
+For more information on configuring blogs, see the &lt;a href='http://www.subtextproject.com/Home/Docs/Configuration/tabid/112/Default.aspx' target='_blank'&gt;configuration docs&lt;/a&gt; (opens a new window).
+&lt;/p&gt;</value>
+  </data>
+  <data name="GroupsEditor_UpdateCancelled" xml:space="preserve">
+    <value>Blog Group Update Cancelled. Nothing to see here.</value>
+  </data>
+  <data name="ImportExport_CheckContinueToClearContent" xml:space="preserve">
+    <value>You need to check the "Clear Content" checkbox to continue.</value>
+  </data>
+  <data name="ImportExport_ContentObliterated" xml:space="preserve">
+    <value>Success! The content has been obliterated!</value>
+  </data>
+  <data name="ImportExport_ImportFailed" xml:space="preserve">
+    <value>Import of BlogML file failed.</value>
+  </data>
+  <data name="ImportExport_ImportSuccess" xml:space="preserve">
+    <value>The BlogML file was successfully imported!</value>
+  </data>
+  <data name="ImportExport_InvalidBlogMLFile" xml:space="preserve">
+    <value>The file you specified does not appear to be a valid BlogML file.</value>
+  </data>
+  <data name="Label_Activate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="Label_Adds" xml:space="preserve">
+    <value>Adds</value>
+  </data>
+  <data name="Label_Articles" xml:space="preserve">
+    <value>Articles</value>
+  </data>
+  <data name="Label_Deactivate" xml:space="preserve">
+    <value>Deactivate</value>
+  </data>
+  <data name="Label_EditCategories" xml:space="preserve">
+    <value>Edit Categories</value>
+  </data>
+  <data name="Label_Entries" xml:space="preserve">
+    <value>Entries</value>
+  </data>
+  <data name="Label_Errors" xml:space="preserve">
+    <value>Errors</value>
+  </data>
+  <data name="Label_Images" xml:space="preserve">
+    <value>images</value>
+  </data>
+  <data name="Label_NewArticle" xml:space="preserve">
+    <value>New Article</value>
+  </data>
+  <data name="Label_NewBlogGroup" xml:space="preserve">
+    <value>New Blog Group</value>
+  </data>
+  <data name="Label_NewPost" xml:space="preserve">
+    <value>New Post</value>
+  </data>
+  <data name="Label_Posts" xml:space="preserve">
+    <value>Posts</value>
+  </data>
+  <data name="Label_RebuildAllTags" xml:space="preserve">
+    <value>Rebuild All Tags</value>
+  </data>
+  <data name="Label_Updates" xml:space="preserve">
+    <value>Updates</value>
+  </data>
+  <data name="Label_View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Label_Viewing" xml:space="preserve">
+    <value>Viewing</value>
+  </data>
+  <data name="Login_AuthenticationFailed" xml:space="preserve">
+    <value>Authentication failed</value>
+  </data>
+  <data name="Login_Failed" xml:space="preserve">
+    <value>That&amp;#8217;s not it</value>
+  </data>
+  <data name="Message_CategoryAdded" xml:space="preserve">
+    <value>Category "{0}" was added.</value>
+  </data>
+  <data name="Message_CategoryUpdated" xml:space="preserve">
+    <value>Category "{0}" was updated.</value>
+  </data>
+  <data name="Message_UnexpectedError" xml:space="preserve">
+    <value>Darn! An unexpected error occurred.  Not sure what happened. Sorry.</value>
+  </data>
+  <data name="PostComment_ThanksForComment" xml:space="preserve">
+    <value>Thanks for your comment!</value>
+  </data>
+  <data name="Security_PasswordNotUpdated" xml:space="preserve">
+    <value>Your password can not be updated</value>
+  </data>
+  <data name="Security_PasswordUpdated" xml:space="preserve">
+    <value>Your password has been updated</value>
+  </data>
+  <data name="Skins_MobileReady" xml:space="preserve">
+    <value> (mobile ready)</value>
+  </data>
+  <data name="Skins_SkinSaved" xml:space="preserve">
+    <value>Skin Saved!</value>
+  </data>
+  <data name="Upgrade_SomethingWentWrongWithInstall" xml:space="preserve">
+    <value>&lt;p&gt;Uh oh. Something went wrong with the installation.&lt;/p&gt;</value>
+  </data>
+  <data name="Upgrade_UserDoesNotHavePermission" xml:space="preserve">
+    <value>&lt;p class="error"&gt;The database user specified in web.config does not have enough 
+permission to perform the installation.  Please give the user database owner (dbo) rights and try again. 
+You may remove them later.&lt;/p&gt;</value>
+  </data>
+  <data name="InvalidOperation_CommentNotValid" xml:space="preserve">
+    <value>Sorry, but we cannot accept this comment.</value>
+  </data>
+</root>

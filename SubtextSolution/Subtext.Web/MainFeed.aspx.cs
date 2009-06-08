@@ -119,7 +119,7 @@ namespace Subtext.Web
 
 				string aggText = useAggBugs ? TrackingUrls.AggBugImage(string.Format(baselink + "aggbug/{0}.aspx", entry.Id)) : string.Empty;
 
-				writer.WriteElementString("description", string.Format("{0}{1}", entry.Description, aggText));
+                writer.WriteElementString("description", string.Format(CultureInfo.InvariantCulture, "{0}{1}", entry.Description, aggText));
 				writer.WriteElementString("dc:creator", entry.Author);	
 				writer.WriteEndElement();
 			
