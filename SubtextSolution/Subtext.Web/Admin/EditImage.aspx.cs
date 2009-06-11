@@ -99,15 +99,17 @@ namespace Subtext.Web.Admin.Pages
 
 					ddlGalleries.DataBind();
 
-					ddlGalleries.Items.FindByValue(_image.CategoryID.ToString(CultureInfo.InvariantCulture)).Selected = true;
+                    var listItem = ddlGalleries.Items.FindByValue(_image.CategoryID.ToString(CultureInfo.InvariantCulture));
+                    if (listItem != null) {
+                        ddlGalleries.SelectedIndex = ddlGalleries.Items.IndexOf(listItem);
+                    }
 					// HACK: we're disabling this until we do something with/around the provider
 					// that will let us actually move the files too.
 					ddlGalleries.Enabled = false;
 
 					Advanced.Collapsed = Preferences.AlwaysExpandAdvanced;
 
-					if(AdminMasterPage != null)
-					{
+					if(AdminMasterPage != null) {
                         string title = string.Format(CultureInfo.InvariantCulture, Resources.EditGalleries_EditImage, Image.Title);
                         AdminMasterPage.Title = title;
 					}

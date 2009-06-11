@@ -26,6 +26,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Properties;
 using Image = Subtext.Framework.Components.Image;
+using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -55,10 +56,11 @@ namespace Subtext.Web.Admin.Pages
 	    
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			if(!Config.Settings.AllowImages)
-			{
+			if(!Config.Settings.AllowImages) {
 				Response.Redirect("index.aspx");
 			}
+
+            UrlBasedBlogInfoProvider.MapImageDirectory(BlogRequest.Current);
 
 			if (!IsPostBack)
 			{
@@ -375,7 +377,7 @@ namespace Subtext.Web.Admin.Pages
 				try
 				{
 					image.FileName = Path.GetFileName(targetFileName);
-					image.LocalDirectoryPath = Images.LocalGalleryFilePath(CategoryID);
+                    image.LocalDirectoryPath = Images.LocalGalleryFilePath(CategoryID);
 					if (File.Exists(image.OriginalFilePath))
 					{
 						// tell the user we can't accept this file.
