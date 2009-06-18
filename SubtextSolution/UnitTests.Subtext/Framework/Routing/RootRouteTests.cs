@@ -1,8 +1,10 @@
 ﻿using System.Web;
+using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
+using Ninject;
 using Subtext.Framework.Routing;
-using System.Web.Routing;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -276,6 +278,13 @@ namespace UnitTests.Subtext.Framework.Routing
 
             //assert
             Assert.IsNull(virtualPathInfo);
+        }
+
+        [SetUp]
+        public void SetUp() {
+            var kernel = new Mock<IKernel>();
+            var pageBuilder = new Mock<ISubtextPageBuilder>();
+            Bootstrapper.Kernel = kernel.Object;
         }
     }
 }

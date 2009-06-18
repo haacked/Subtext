@@ -6,6 +6,8 @@ using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Framework.Routing;
+using Subtext.Infrastructure;
+using Ninject;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -15,6 +17,7 @@ namespace UnitTests.Subtext.Framework.Routing
         [Test]
         public void GetHandler_WhichReturnsIPageWithControls_SetsControls() { 
             //arrange
+            Bootstrapper.Kernel = new Mock<IKernel>().Object;
             IEnumerable<string> controlNames = null;
 
             var routeData = new RouteData();
