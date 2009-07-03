@@ -4978,8 +4978,8 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetTopTags]
 	)
 AS
 SET ROWCOUNT @ItemCount
-SELECT t.[Name], COUNT(*) AS TagCount FROM [<dbUser,varchar,dbo>].subtext_Tag t, [<dbUser,varchar,dbo>].subtext_EntryTag e
-WHERE t.BlogId = @BlogId AND t.Id = e.TagId
+SELECT t.[Name], COUNT(1) AS TagCount FROM [<dbUser,varchar,dbo>].subtext_Tag t, [<dbUser,varchar,dbo>].subtext_EntryTag e , [<dbUser,varchar,dbo>].subtext_content c
+WHERE t.BlogId = @BlogId AND t.Id = e.TagId and c.id=e.entryid and c.datesyndicated <= getdate()
 GROUP BY t.[Name]
 ORDER BY Count(*) DESC
 GO 
