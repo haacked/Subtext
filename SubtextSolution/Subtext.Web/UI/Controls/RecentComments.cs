@@ -88,7 +88,6 @@ namespace Subtext.Web.UI.Controls
 
         public string EditUrl(FeedbackItem feedback)
         {
-            //TODO - There's GOT to be a better way to do this. Perhaps change UrlFormats to return absolute?
             string url = AdminUrl.FeedbackEdit(feedback.Id);
 
             return VirtualPathUtility.ToAbsolute(StringHelper.LeftBefore(url, "?")) + "?" + StringHelper.RightAfter(url, "?");

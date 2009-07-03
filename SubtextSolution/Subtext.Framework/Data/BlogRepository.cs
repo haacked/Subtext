@@ -7,7 +7,6 @@ using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Data
 {
-    //TODO change this back to Subtext.Framework.Data
     public partial class DatabaseObjectProvider
     {
         /// <summary>

@@ -114,16 +114,9 @@ namespace Subtext.Framework.Components
 		/// <value>The name of the entry.</value>
 		public string EntryName
 		{
-			get { return _entryName; }
-			set
-			{
-				//TODO: Validate the value and throw an exception if it 
-				//		doesn't validate.  Here is the regex to use.
-				//		^[a-z]*([a-z-_]+\.)*[a-z-_]+$
-				_entryName = value;
-			}
+			get;
+			set;
 		}
-		private string _entryName;
 
 		/// <summary>
 		/// Gets a value indicating whether this instance has entry name.
