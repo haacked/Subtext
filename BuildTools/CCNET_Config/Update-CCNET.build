@@ -90,7 +90,7 @@
    
    <target name="copyfiles">
       <call target="copy-server-files" />
-      <call target="copy-dashboard-files" />
+      <!-- <call target="copy-dashboard-files" /> -->
    </target>
    
 </project>
