@@ -2193,7 +2193,6 @@
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\filemanager\browser\default\connectors\aspx\Web.config" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\filemanager\browser\default\images\icons\32\Thumbs.db" />
     <Content Include="SiteMap\SiteMapHttpHandler.ashx" />
-    <Content Include="Providers\Web.config" />
     <Content Include="Admin\Services\Ajax\AjaxServices.ashx" />
     <Content Include="Skins\Piyo\skin.config" />
     <Content Include="Skins\AnotherEon001\skin.config" />
@@ -2206,6 +2205,8 @@
     <Content Include="Skins\Naked\skin.config" />
     <Content Include="Skins\Nature\skin.config" />
     <Content Include="Skins\origami\skin.config" />
+    <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\filemanager\upload\aspx\Web.config" />
+    <Content Include="Providers\BlogEntryEditor\FTB\Web.config" />
     <None Include="Skins\RedBook\Controls\EntryList.ascx" />
     <Content Include="Skins\RedBook\Controls\Footer.ascx" />
     <Content Include="Skins\Naked\Controls\FullTagCloud.ascx" />
