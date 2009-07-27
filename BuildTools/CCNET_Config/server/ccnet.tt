@@ -54,7 +54,6 @@ var releases = new Release[] {
 					<target>reporting</target>
 					<target>release</target>
 					<target>dist.source</target>
-                    <!--<target>watin</target> Removed until Simo can fix it.-->
 				</targetList>
 			</nant>
 		</tasks>
