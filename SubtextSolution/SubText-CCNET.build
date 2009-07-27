@@ -18,12 +18,9 @@
 			<fail message="CCNetLabel property not set, so can't create distribution files" />
 		</if>
 
-		<if test="${not property::exists('msbuild.exe')}">
-			<property name="msbuild.exe" value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
-		</if>
-
-		<property name="solution.dir" value="${CCNetWorkingDirectory}\SubtextSolution" />
-		<property name="buildtools.dir" value="${CCNetWorkingDirectory}\BuildTools" />
+		<property name="msbuild.exe" value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
+		<property name="solution.dir" value="SubtextSolution" />
+		<property name="buildtools.dir" value="..\BuildTools" />
 		<property name="fxcop.dir" value="${buildtools.dir}\FxCop" />
 		<property name="fxcop.exe" value="${fxcop.dir}\FxCopCmd.exe" />
 		<property name="mbunit.exe" value="${buildtools.dir}\MbUnit\MbUnit.Cons.exe" />
@@ -35,20 +32,18 @@
 		<property name="YUICompressor.dir" value="${buildtools.dir}\YUICompressor" />
 		<property name="YUICompressor.jar" value="yuicompressor.jar" />
 		<property name="subtext.web.bin" value="${solution.dir}\Subtext.Web\bin" />
-		<property name="codemetrics.output.dir" value="${CCNetWorkingDirectory}\NDependTemp" />
+		<property name="codemetrics.output.dir" value="NDependTemp" />
 
 		<!-- Directory for hosting images for specific builds -->
 		<property name="artifacts.assets.dir" value="${CCNetArtifactDirectory}\buildlogs\${CCNetLabel}"/>
 		
-		<property name="log.dir" value="${CCNetWorkingDirectory}\logs" />
+		<property name="log.dir" value="logs" />
 
 		<property name="publish.dir.latest" value="${CCNetArtifactDirectory}\builds\latest" />
 		<property name="publish.dir.archive" value="${CCNetArtifactDirectory}\builds\archive" />
 		<property name="publish.dir.latestsource" value="${CCNetArtifactDirectory}\builds\latestsource" />
 		
 		<property name="fileLabel" value="SubText-${CCNetLabel}" />
-		
-
 		
 		<loadtasks path="${buildtools.dir}\NAnt\tasks" failonerror="false" />
 	</target>
@@ -120,8 +115,9 @@
 	-->
 	<target name="testAndCover" depends="get-publishing-properties,compile-debug">
 		<mkdir dir="${log.dir}" />
-		
+        
 		<ncover
+		    failonerror="false"
 			commandLineExe="${mbunit.exe}"
 			commandLineArgs='/rnf:unittest /rt:xml /rf:"${log.dir}" UnitTests.Subtext.dll'
 			program="${ncover.exe}"
@@ -129,7 +125,7 @@
 			coverageFile="${log.dir}\ncover-temp.xml"
 			excludeAttributes="CoverageExcludeAttribute"
 		/>
-
+        
 		<call target="util.ncoverexplorer.nant" />
 	</target>
 
