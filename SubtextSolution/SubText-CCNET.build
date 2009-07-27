@@ -111,20 +111,11 @@
 			<arg value="/p:Configuration=${configuration}"/>
 		</exec>
 	</target>
-
-
-    <target name="prepare-for-testing">
-
-        <xmlpoke
-            file="UnitTests.Subtext\bin\${configuration}\UnitTests.Subtext.dll.config"
-            xpath="/configuration/appSettings/add[@key = 'connectionStringName']/@value"
-            value="subtextData" /> 
-    </target>
     
 	<!-- 
 		Compiles Subtext and runs the MbUnit tests and NCover reports.
 	-->
-	<target name="testAndCover" depends="get-publishing-properties,compile-debug,prepare-for-testing">
+	<target name="testAndCover" depends="get-publishing-properties,compile-debug">
 		<mkdir dir="${log.dir}" />
 		
 		<ncover
