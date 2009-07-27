@@ -3,7 +3,7 @@
 <#
 var releases = new Release[] {
 	new Release {	Name = "trunk",			Branch = "trunk",				VersionPrefix = "2.2.0."},
-	new Release {	Name = "Release2.1",	Branch="branches/Release2.1.2",	VersionPrefix ="2.1.2." }
+	new Release {	Name = "Release2.1.2",	Branch="branches/Release2.1.2",	VersionPrefix ="2.1.2." }
 };
 #>
 <cruisecontrol>
@@ -44,7 +44,7 @@ var releases = new Release[] {
 		<tasks>
 			<!-- Build configutation -->
 			<nant>
-				<executable>E:\CCNET-Projects\workingFolder\\<#= release.Name #>\BuildTools\Nant\NAnt.exe</executable>
+				<executable>BuildTools\Nant\NAnt.exe</executable>
 				<baseDirectory>SubtextSolution</baseDirectory>
 				<buildFile>SubText-CCNET.build</buildFile>
 				<buildArgs>-D:msbuild.exe="C:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe"</buildArgs>
