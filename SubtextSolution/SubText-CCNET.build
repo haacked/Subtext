@@ -18,9 +18,9 @@
 			<fail message="CCNetLabel property not set, so can't create distribution files" />
 		</if>
 
-		<property name="msbuild.exe" value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
-		<property name="solution.dir" value="SubtextSolution" />
-		<property name="buildtools.dir" value="..\BuildTools" />
+		<property name="msbuild.exe" value="C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\MSBuild.exe" />
+		<property name="solution.dir" value="${CCNetWorkingDirectory}\SubtextSolution" />
+		<property name="buildtools.dir" value="${CCNetWorkingDirectory}\BuildTools" />
 		<property name="fxcop.dir" value="${buildtools.dir}\FxCop" />
 		<property name="fxcop.exe" value="${fxcop.dir}\FxCopCmd.exe" />
 		<property name="mbunit.exe" value="${buildtools.dir}\MbUnit\MbUnit.Cons.exe" />
@@ -32,18 +32,20 @@
 		<property name="YUICompressor.dir" value="${buildtools.dir}\YUICompressor" />
 		<property name="YUICompressor.jar" value="yuicompressor.jar" />
 		<property name="subtext.web.bin" value="${solution.dir}\Subtext.Web\bin" />
-		<property name="codemetrics.output.dir" value="NDependTemp" />
+		<property name="codemetrics.output.dir" value="${CCNetWorkingDirectory}\NDependTemp" />
 
 		<!-- Directory for hosting images for specific builds -->
 		<property name="artifacts.assets.dir" value="${CCNetArtifactDirectory}\buildlogs\${CCNetLabel}"/>
 		
-		<property name="log.dir" value="logs" />
+		<property name="log.dir" value="${CCNetWorkingDirectory}\logs" />
 
 		<property name="publish.dir.latest" value="${CCNetArtifactDirectory}\builds\latest" />
 		<property name="publish.dir.archive" value="${CCNetArtifactDirectory}\builds\archive" />
 		<property name="publish.dir.latestsource" value="${CCNetArtifactDirectory}\builds\latestsource" />
 		
 		<property name="fileLabel" value="SubText-${CCNetLabel}" />
+		
+
 		
 		<loadtasks path="${buildtools.dir}\NAnt\tasks" failonerror="false" />
 	</target>
@@ -110,12 +112,21 @@
 		</exec>
 	</target>
 
+
+    <target name="prepare-for-testing">
+
+        <xmlpoke
+            file="UnitTests.Subtext\bin\${configuration}\UnitTests.Subtext.dll.config"
+            xpath="/configuration/appSettings/add[@key = 'connectionStringName']/@value"
+            value="subtextData" /> 
+    </target>
+    
 	<!-- 
 		Compiles Subtext and runs the MbUnit tests and NCover reports.
 	-->
-	<target name="testAndCover" depends="get-publishing-properties,compile-debug">
+	<target name="testAndCover" depends="get-publishing-properties,compile-debug,prepare-for-testing">
 		<mkdir dir="${log.dir}" />
-        
+		
 		<ncover
 			commandLineExe="${mbunit.exe}"
 			commandLineArgs='/rnf:unittest /rt:xml /rf:"${log.dir}" UnitTests.Subtext.dll'
@@ -124,7 +135,7 @@
 			coverageFile="${log.dir}\ncover-temp.xml"
 			excludeAttributes="CoverageExcludeAttribute"
 		/>
-        
+
 		<call target="util.ncoverexplorer.nant" />
 	</target>
 
