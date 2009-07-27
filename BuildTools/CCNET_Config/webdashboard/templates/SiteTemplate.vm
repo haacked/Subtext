@@ -1,8 +1,8 @@
-<HTML>
-   <HEAD>
+<html>
+   <head>
       <title>CruiseControl.NET</title>
       <link type="text/css" rel="stylesheet" href="$applicationPath/cruisecontrol.css" />
-   </HEAD>
+   </head>
    <body id="Body">
    <div id="main">
       <div id="header">
@@ -29,4 +29,4 @@
       </div>    
    </div>
    </body>
-</HTML>
+</html>
