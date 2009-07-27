@@ -20,11 +20,7 @@ var releases = new Release[] {
 			<sourceControlProvider type="svn">
 				<executable>C:\Program Files\Subversion\bin\svn.exe</executable>
 				<trunkUrl>http://subtext.googlecode.com/svn/<#= release.Branch #></trunkUrl>
-				<workingDirectory>E:\CCNET-Projects\workingFolder\\<#= release.Name #></workingDirectory>
 				<autoGetSource>true</autoGetSource>
-				<!--<webUrlBuilder type="websvn">
-					<url>http://code.google.com/p/subtext/source/browse/{0}?view=markup&amp;pathrev={1}</url>
-				</webUrlBuilder>//-->
 			</sourceControlProvider>
 			<inclusionFilters>
 				<pathFilter>
@@ -44,10 +40,9 @@ var releases = new Release[] {
 		<tasks>
 			<!-- Build configutation -->
 			<nant>
-				<executable>BuildTools\Nant\NAnt.exe</executable>
+				<executable>..\BuildTools\Nant\NAnt.exe</executable>
 				<baseDirectory>SubtextSolution</baseDirectory>
 				<buildFile>SubText-CCNET.build</buildFile>
-				<buildArgs>-D:msbuild.exe="C:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe"</buildArgs>
 				<buildTimeoutSeconds>3600</buildTimeoutSeconds>
 				<targetList>
 					<target>testAndCover</target>
@@ -77,7 +72,6 @@ var releases = new Release[] {
 					<statistic name='Code Lines' xpath='round(//coverageReport/project/@nonCommentLines)'/>
 				</statisticList>
 			</statistics>
-
 		</publishers>
 
 		<externalLinks>
