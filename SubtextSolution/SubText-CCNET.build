@@ -18,7 +18,7 @@
 			<fail message="CCNetLabel property not set, so can't create distribution files" />
 		</if>
 
-		<property name="msbuild.exe" value="C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\MSBuild.exe" />
+		<property name="msbuild.exe" value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
 		<property name="solution.dir" value="${CCNetWorkingDirectory}\SubtextSolution" />
 		<property name="buildtools.dir" value="${CCNetWorkingDirectory}\BuildTools" />
 		<property name="fxcop.dir" value="${buildtools.dir}\FxCop" />
