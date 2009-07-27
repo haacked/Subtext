@@ -40,7 +40,7 @@
          </fileset>
       </copy>
 
-      <!--<echo message="Retrieving dashboard stylesheets to ${dashboard.root}" />
+      <echo message="Retrieving dashboard stylesheets to ${dashboard.root}" />
       <copy todir="${dashboard.root}" overwrite="true">
          <fileset basedir="webdashboard">
             <include name="*.css" />
@@ -60,7 +60,7 @@
             <include name="*.*" />
             <exclude name="Thumbs.dll" />
          </fileset>
-      </copy>-->
+      </copy>
 
       <echo message="Retrieving dashboard XML Stylesheets to ${dashboard.folder.xsl}" />
       <copy todir="${dashboard.folder.xsl}" overwrite="true">
