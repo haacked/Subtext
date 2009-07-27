@@ -132,8 +132,22 @@ function refresh()
                   <td align="left" nowrap>$projectGridRow.LastBuildDate</td>
                   <td>&nbsp;</td>
                </tr>
-               #if ($projectGridRow.CurrentMessage.Length > 0)
-                  <tr class="shaded">
+                #if ($projectGridRow.BuildStage.Length > 0)
+                <tr class="shaded">
+                    <td colspan="4">&nbsp;</td>
+                    <td align="Left" colspan="7">
+                        $projectGridRow.BuildStage
+                    </td>
+                </tr>
+                <tr class="shaded divider">
+                    <td colspan="11" align="center">
+                        <hr>
+                    </td>
+                </tr>
+                #end
+
+                #if ($projectGridRow.CurrentMessage.Length > 0)
+                <tr class="shaded">
                      <td colspan="4">&nbsp;</td>
                      <td colspan="7">$projectGridRow.CurrentMessage</td>
                   </tr>  
@@ -144,7 +158,9 @@ function refresh()
                <tr class="shaded">
                   <td colspan="4">&nbsp;</td>
                   <td colspan="7" align="center">
-                     <form method="post" onsubmit="return confirm(confirmPrompt(this, '$projectGridRow.Name'))">
+                     <form method="post">
+                        <input type="hidden" name="projectName" value="$projectGridRow.Name" />
+                        <input type="hidden" name="serverName" value="$projectGridRow.ServerName" />
                         <input type="hidden" name="forcebuild" value="true" />
                         <input type="hidden" name="forceBuildProject" value="$projectGridRow.Name" />
                         <input type="hidden" name="forceBuildServer" value="$projectGridRow.ServerName" />
@@ -154,19 +170,14 @@ function refresh()
                               <td align="left" width="200"><i>Project Status:</i> $projectGridRow.Status</td>
                               <td align="left"><a href="server/$projectGridRow.ServerName/project/$projectGridRow.Name/ViewLatestBuildReport.aspx">View Latest Build</a></td>
                               <td align="right">
-                                 <font color="Black">
-                                    #if ($projectGridRow.allowForceBuild)
-                                       #if (($projectGridRow.Activity != "Sleeping") || ($forceBuildMessage.Length > 0 && $forceBuildMessage.EndsWith($projectGridRow.Name)))
-                                          <input disabled type="submit" name="$projectGridRow.ForceBuildButtonName" value="Force" style="cursor:default"/>
-                                       #else
-                                          <input type="submit" name="$projectGridRow.ForceBuildButtonName" value="Force" onclick="this.form.action.value = this.value;"/>
-                                       #end
-                                    #end
-                                    &nbsp;&nbsp;
-                                    #if ($projectGridRow.AllowStartStopBuild)          
-                                       <input type="submit" name="$projectGridRow.StartStopButtonName" value="$projectGridRow.StartStopButtonValue" onclick="this.form.action.value = this.value;"/>
-                                    #end
-                                 </font>
+
+                                #if ($projectGridRow.allowForceBuild)
+                                <input type="submit" name="$projectGridRow.ForceAbortBuildButtonName" value="$projectGridRow.ForceAbortBuildButtonValue"/>
+                                #end
+                                #if ($projectGridRow.AllowStartStopBuild)
+                                <input type="submit" name="$projectGridRow.StartStopButtonName" value="$projectGridRow.StartStopButtonValue"/>
+                                #end
+                                 
                               </td>
                            </tr>
                         </table>
