@@ -3,7 +3,7 @@
 <#
 var releases = new Release[] {
 	new Release {	Name = "trunk",			Branch = "trunk",				VersionPrefix = "2.2.0."},
-	new Release {	Name = "Release2.1",	Branch="branches/Release2.1",	VersionPrefix ="2.1.1." }
+	new Release {	Name = "Release2.1",	Branch="branches/Release2.1.2",	VersionPrefix ="2.1.2." }
 };
 #>
 <cruisecontrol>
@@ -20,7 +20,7 @@ var releases = new Release[] {
 			<sourceControlProvider type="svn">
 				<executable>C:\Program Files\Subversion\bin\svn.exe</executable>
 				<trunkUrl>http://subtext.googlecode.com/svn/<#= release.Branch #></trunkUrl>
-				<workingDirectory>E:\CCNET-Projects\workingFolder\\<#= release.Name #> </workingDirectory>
+				<workingDirectory>E:\CCNET-Projects\workingFolder\\<#= release.Name #></workingDirectory>
 				<autoGetSource>true</autoGetSource>
 				<!--<webUrlBuilder type="websvn">
 					<url>http://code.google.com/p/subtext/source/browse/{0}?view=markup&amp;pathrev={1}</url>
@@ -79,10 +79,6 @@ var releases = new Release[] {
 				</statisticList>
 			</statistics>
 
-			<twitter>
-				<user>subtextbuild</user>
-				<password>subtext</password>
-			</twitter>
 		</publishers>
 
 		<externalLinks>
