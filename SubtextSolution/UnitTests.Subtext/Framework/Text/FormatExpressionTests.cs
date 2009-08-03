@@ -48,6 +48,7 @@ namespace UnitTests.Subtext.Framework.Text
         }
 
         [Test]
+        [MultipleCulture("en-US,en-NZ,it-IT")]
         public void Eval_WithNamedExpressionAndFormat_EvalsPropertyOfExpression()
         {
             //arrange
@@ -57,7 +58,8 @@ namespace UnitTests.Subtext.Framework.Text
             string result = expr.Eval(new { foo = 1.23456 });
 
             //assert
-            Assert.AreEqual("1.23", result);
+            float expected = 1.23f;
+            Assert.AreEqual(expected.ToString(), result);
         }
     }
 }

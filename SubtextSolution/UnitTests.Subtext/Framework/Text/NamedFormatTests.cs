@@ -3,12 +3,13 @@ using Subtext.Framework.Text;
 using MbUnit.Framework;
 using UnitTests.Subtext;
 
-namespace UnitTests
+namespace UnitTests.Subtext.Framework.Text
 {
     [TestFixture]
     public class NamedFormatTests
     {
         [Test]
+        [MultipleCulture("en-US,en-NZ,it-IT")]
         public void StringFormat_WithMultipleExpressions_FormatsThemAll()
         {
             //arrange
@@ -18,7 +19,9 @@ namespace UnitTests
             string result = "{foo} {foo} {bar}{baz}".NamedFormat(o);
 
             //assert
-            Assert.AreEqual("123.45 123.45 42hello", result);
+            float expectedNum = 123.45f;
+            string expected = String.Format("{0} {1} 42hello", expectedNum, expectedNum);
+            Assert.AreEqual(expected, result);
         }
 
         [Test]
@@ -35,6 +38,7 @@ namespace UnitTests
         }
 
         [Test]
+        [MultipleCulture("en-US,en-NZ,it-IT")]
         public void StringFormat_WithFormatSurroundedByDoubleEscapedBraces_FormatsString()
         {
             //arrange
@@ -44,10 +48,12 @@ namespace UnitTests
             string result = "{{{{{foo}}}}}".NamedFormat(o);
 
             //assert
-            Assert.AreEqual("{{123.45}}", result);
+            float expected = 123.45f;
+            Assert.AreEqual("{{" + expected.ToString() + "}}", result);
         }
 
         [Test]
+        [MultipleCulture("en-US,en-NZ,it-IT")]
         public void Format_WithEscapeSequence_EscapesInnerCurlyBraces()
         {
             var o = new { foo = 123.45 };
@@ -56,7 +62,8 @@ namespace UnitTests
             string result = "{{{foo}}}".NamedFormat(o);
 
             //assert
-            Assert.AreEqual("{123.45}", result);
+            float expected = 123.45f;
+            Assert.AreEqual("{" + expected.ToString() + "}", result);
         }
 
         [Test]
@@ -84,6 +91,7 @@ namespace UnitTests
         }
 
         [Test]
+        [MultipleCulture("en-US,en-NZ,it-IT")]
         public void Format_WithFormatType_ReturnsFormattedExpression()
         {
             var o = new { foo = 123.45 };
@@ -92,10 +100,12 @@ namespace UnitTests
             string result = "{foo:#.#}".NamedFormat(o);
 
             //assert
-            Assert.AreEqual("123.5", result);
+            float expected = 123.5f;
+            Assert.AreEqual(expected.ToString(), result);
         }
 
         [Test]
+        [MultipleCulture("en-US,en-NZ,it-IT")]
         public void Format_WithSubProperty_ReturnsValueOfSubProperty()
         {
             var o = new { foo = new { bar = 123.45 } };
@@ -104,7 +114,8 @@ namespace UnitTests
             string result = "{foo.bar:#.#}ms".NamedFormat(o);
 
             //assert
-            Assert.AreEqual("123.5ms", result);
+            float expected = 123.5f;
+            Assert.AreEqual(expected.ToString() + "ms", result);
         }
 
         [Test]
@@ -159,6 +170,7 @@ namespace UnitTests
         }
 
         [Test]
+        [MultipleCulture("en-US,en-NZ,it-IT")]
         public void Format_WithEndBraceFollowedByEscapedEndFormatBraceWhichTerminatesString_FormatsCorrectly()
         {
             var o = new { foo = 123.45 };
@@ -167,10 +179,12 @@ namespace UnitTests
             string result = "{foo}}}".NamedFormat(o);
 
             //assert
-            Assert.AreEqual("123.45}", result);
+            float expected = 123.45f;
+            Assert.AreEqual(expected.ToString() + "}", result);
         }
 
         [Test]
+        [MultipleCulture("en-US,en-NZ,it-IT")]
         public void Format_WithEndBraceFollowedByEscapedEndFormatBrace_FormatsCorrectly()
         {
             var o = new { foo = 123.45 };
@@ -179,10 +193,12 @@ namespace UnitTests
             string result = "{foo}}}bar".NamedFormat(o);
             
             //assert
-            Assert.AreEqual("123.45}bar", result);
+            float expected = 123.45f;
+            Assert.AreEqual(expected.ToString() + "}bar", result);
         }
 
         [Test]
+        [MultipleCulture("en-US,en-NZ,it-IT")]
         public void Format_WithEndBraceFollowedByDoubleEscapedEndFormatBrace_FormatsCorrectly()
         {
             var o = new { foo = 123.45 };
@@ -191,7 +207,8 @@ namespace UnitTests
             string result = "{foo}}}}}bar".NamedFormat(o);
 
             //assert
-            Assert.AreEqual("123.45}}bar", result);
+            float expected = 123.45f;
+            Assert.AreEqual(expected.ToString() + "}}bar", result);
         }
 
         [Test]
