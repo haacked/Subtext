@@ -1705,11 +1705,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-/*
-Selects a page of blog posts within the admin section.
-Updated this to use a more efficient paging technique:
-http://www.4guysfromrolla.com/webtech/041206-1.shtml
-*/
+
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 (
 	@BlogId int
@@ -1719,26 +1715,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 )
 AS
 
-DECLARE @FirstDate datetime
-DECLARE @FirstId int
-DECLARE @StartRow int
-DECLARE @StartRowIndex int
-
-SET @StartRowIndex = @PageIndex * @PageSize + 1
-
-SET ROWCOUNT @StartRowIndex
--- Get the first entry id for the current page.
-SELECT	@FirstDate = DateAdded 
-	, @FirstId = ID
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE	BlogId = @BlogId 
-	AND PostType = @PostType 
-ORDER BY DateAdded DESC, ID DESC
-
--- Now, set the row count to MaximumRows and get
--- all records >= @first_id
-SET ROWCOUNT @PageSize
-
+WITH OrderedEntries AS
+(
 SELECT	content.BlogId 
 		, content.[ID] 
 		, content.Title 
@@ -1757,14 +1735,15 @@ SELECT	content.BlogId
 		, vc.AggCount
 		, vc.WebLastUpdated
 		, vc.AggLastUpdated
-		
+		, row_number() over(order by DateAdded desc, Id desc) RowNumber
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
 WHERE 	content.BlogId = @BlogId 
-	AND content.DateAdded <= @FirstDate
-	AND content.[ID] <= @FirstId
 	AND PostType = @PostType
-ORDER BY content.DateAdded DESC, ID DESC
+)
+SELECT * 
+FROM OrderedEntries 
+WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
  
 SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
@@ -1785,45 +1764,19 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-/*
-Selects a page of blog posts within the admin section, when a category 
-is selected.
-Updated this to use a more efficient paging technique:
-http://www.4guysfromrolla.com/webtech/041206-1.shtml
-*/
+
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
 (
 	@BlogId int
 	, @CategoryID int
 	, @PageIndex int
-	, @PageSize int
 	, @PostType int
+	, @PageSize int
 )
 AS
 
-DECLARE @FirstDate datetime
-DECLARE @FirstId int
-DECLARE @StartRow int
-DECLARE @StartRowIndex int
-
-SET @StartRowIndex = @PageIndex * @PageSize + 1
-
-SET ROWCOUNT @StartRowIndex
--- Get the first entry id for the current page.
-SELECT	@FirstDate = content.DateAdded 
-	, @FirstId = ID
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = links.PostID
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
-WHERE	content.BlogId = @BlogId 
-	AND content.PostType = @PostType 
-	AND cats.CategoryID = @CategoryID
-ORDER BY content.DateAdded DESC, content.ID DESC
-
--- Now, set the row count to MaximumRows and get
--- all records >= @first_id
-SET ROWCOUNT @PageSize
-
+WITH OrderedEntries AS
+(
 SELECT	content.BlogId 
 		, content.[ID] 
 		, content.Title 
@@ -1842,18 +1795,21 @@ SELECT	content.BlogId
 		, vc.AggCount
 		, vc.WebLastUpdated
 		, vc.AggLastUpdated
-		
+		, row_number() over(order by content.DateAdded DESC, content.ID DESC) RowNumber
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] l ON content.[ID] = l.PostID
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (l.CategoryID = cats.CategoryID)
 	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
 WHERE 	content.BlogId = @BlogId
-	AND content.DateAdded <= @FirstDate 
-	AND content.[ID] <= @FirstId
 	AND content.PostType = @PostType
 	AND cats.CategoryID = @CategoryID
-ORDER BY content.DateAdded DESC, content.ID DESC
- 
+)
+
+SELECT * 
+FROM OrderedEntries 
+WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
+
+
 SELECT COUNT(content.[ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = links.PostID
@@ -1891,30 +1847,11 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]
 AS
 
 IF @ExcludeFeedbackStatusMask IS NULL
-	SET @ExcludeFeedbackStatusMask = 0
+	SET @ExcludeFeedbackStatusMask = 0;
 
-DECLARE @FirstDate datetime
-DECLARE @FirstId int
-DECLARE @StartRow int
-DECLARE @StartRowIndex int
 
-SET @StartRowIndex = @PageIndex * @PageSize + 1
-
-SET ROWCOUNT @StartRowIndex
--- Get the first entry id for the current page.
-SELECT @FirstDate = DateCreated,
-	@FirstId = f.Id
-FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
-WHERE 	f.BlogId = @BlogId 
-	AND (f.StatusFlag & @StatusFlag = @StatusFlag)
-	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
-	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
-ORDER BY DateCreated DESC, f.Id DESC
-
--- Now, set the row count to MaximumRows and get
--- all records >= @first_id
-SET ROWCOUNT @PageSize
-
+WITH OrderedFeedbacks AS
+(
 SELECT  f.Id
 		, f.Title
 		, f.Body
@@ -1935,16 +1872,20 @@ SELECT  f.Id
 		, f.DateModified
 		, ParentEntryCreateDate = c.DateAdded
 		, ParentEntryName = c.EntryName
+		, row_number() over(order by DateCreated DESC, f.Id DESC) RowNumber
 FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c 
 		ON c.Id = f.EntryId
 WHERE 	f.BlogId = @BlogId 
-	AND f.DateCreated <= @FirstDate
-	AND f.Id <= @FirstId
 	AND f.StatusFlag & @StatusFlag = @StatusFlag
 	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
 	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
-ORDER BY DateCreated DESC
+)
+
+SELECT * 
+FROM OrderedFeedbacks 
+WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
+
  
 SELECT COUNT(f.[Id]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
@@ -1967,11 +1908,6 @@ SET ANSI_NULLS ON
 GO
 
 
-/*
-Selects a page of log posts within the admin section.
-Updated this to use a more efficient paging technique:
-http://www.4guysfromrolla.com/webtech/041206-1.shtml
-*/
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLogEntries]
 (
 	@BlogId int = NULL
@@ -1980,22 +1916,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLogEntries]
 )
 AS
 
-DECLARE @FirstId int
-DECLARE @StartRow int
-DECLARE @StartRowIndex int
-
-SET @StartRowIndex = @PageIndex * @PageSize + 1
-
-SET ROWCOUNT @StartRowIndex
--- Get the first entry id for the current page.
-SELECT	@FirstId = [ID] FROM [<dbUser,varchar,dbo>].[subtext_Log] 
-WHERE	BlogId = @BlogId OR @BlogId IS NULL
-ORDER BY [ID] DESC
-
--- Now, set the row count to MaximumRows and get
--- all records >= @first_id
-SET ROWCOUNT @PageSize
-
+WITH OrderedLogs as
+( 
 SELECT	[log].[Id]
 		, [log].[BlogId]
 		, [log].[Date]
@@ -2006,11 +1928,16 @@ SELECT	[log].[Id]
 		, [log].[Message]
 		, [log].[Exception]
 		, [log].[Url]
+		, row_number() over(order by [log].[ID] DESC) RowNumber
 FROM [<dbUser,varchar,dbo>].[subtext_Log] [log]
 WHERE 	([log].BlogId = @BlogId or @BlogId IS NULL)
-	AND [log].[ID] <= @FirstId
-ORDER BY [log].[ID] DESC
- 
+)
+
+SELECT * 
+FROM OrderedLogs 
+WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
+
+
 SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Log] 
 WHERE 	BlogId = @BlogId 
@@ -2031,12 +1958,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-/*
-Selects a page of keywords within the admin section.
-Updated this to use a more efficient paging technique:
-http://www.4guysfromrolla.com/webtech/041206-1.shtml
-*/
-
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableKeyWords]
 (
 	@BlogId int
@@ -2044,22 +1965,9 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableKeyWords]
 	, @PageSize int
 )
 AS
-DECLARE @FirstWord nvarchar(100)
-DECLARE @StartRow int
-DECLARE @StartRowIndex int
 
-SET @StartRowIndex = @PageIndex * @PageSize + 1
-
-SET ROWCOUNT @StartRowIndex
--- Get the first entry id for the current page.
-SELECT	@FirstWord = [Word] FROM [<dbUser,varchar,dbo>].[subtext_KeyWords]
-WHERE	BlogId = @BlogId 
-ORDER BY [Word] ASC
-
--- Now, set the row count to MaximumRows and get
--- all records >= @first_id
-SET ROWCOUNT @PageSize
-
+WITH OrderedKeyWords as
+( 
 SELECT 	Id = words.KeyWordID
 		, words.Word
 		, words.Rel
@@ -2070,13 +1978,17 @@ SELECT 	Id = words.KeyWordID
 		, words.Url
 		, words.Title
 		, words.BlogId
+		, row_number() over(order by words.Word ASC) RowNumber
 FROM 	
 	[<dbUser,varchar,dbo>].[subtext_KeyWords] words
 WHERE 	
 		words.BlogId = @BlogId 
-	AND words.Word >= @FirstWord
-ORDER BY
-		words.Word ASC
+)
+
+SELECT * 
+FROM OrderedKeyWords 
+WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
+
  
 SELECT 	COUNT([KeywordId]) AS 'TotalRecords'
 FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
@@ -2107,25 +2019,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLinks]
 )
 AS
 
-DECLARE @FirstId int
-DECLARE @StartRow int
-DECLARE @StartRowIndex int
-
-SET @StartRowIndex = @PageIndex * @PageSize + 1
-
-SET ROWCOUNT @StartRowIndex
--- Get the first entry id for the current page.
-SELECT @FirstId = LinkID
-FROM [<dbUser,varchar,dbo>].[subtext_Links]
-WHERE 	BlogId = @BlogId 
-	AND (CategoryID = @CategoryID OR @CategoryId IS NULL)
-	AND PostID IS NULL
-ORDER BY [LinkID] DESC
-
--- Now, set the row count to MaximumRows and get
--- all records >= @first_id
-SET ROWCOUNT @PageSize
-
+WITH OrderedLinks as
+( 
 SELECT Id = links.LinkID 
 	, links.Title 
 	, links.Url
@@ -2136,13 +2031,18 @@ SELECT Id = links.LinkID
 	, Relation = links.Rel
 	, links.PostID
 	, links.BlogId
+	, row_number() over(order by links.[LinkID] DESC) RowNumber
 FROM [<dbUser,varchar,dbo>].[subtext_Links] links
 WHERE 	links.BlogId = @BlogId 
-	AND links.[LinkId] <= @FirstId
 	AND (CategoryID = @CategoryId OR @CategoryId IS NULL)
 	AND PostID IS NULL
-ORDER BY links.[LinkID] DESC
- 
+)
+
+SELECT * 
+FROM OrderedLinks 
+WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
+
+
 SELECT COUNT([LinkID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Links] 
 WHERE 	BlogId = @BlogId 
@@ -2266,25 +2166,9 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]
 )
 AS
 
-DECLARE @FirstDate DateTime
-DECLARE @FirstEntryId int
-DECLARE @FirstUrlId int
-DECLARE @StartRow int
-DECLARE @StartRowIndex int
 
-SET @StartRowIndex = @PageIndex * @PageSize + 1
-
-SET ROWCOUNT @StartRowIndex
-SELECT	@FirstDate = [LastUpdated] 
-	, @FirstEntryId = [EntryID]
-	, @FirstUrlId = [UrlID]
-FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
-WHERE	BlogId = @BlogId 
-	AND (EntryID = @EntryID OR @EntryID IS NULL)
-ORDER BY [LastUpdated] DESC, [EntryID] DESC, UrlID DESC
-
-SET ROWCOUNT @PageSize
-
+WITH OrderedReferrals AS
+(
 SELECT	
 	ReferrerURL = u.URL
 	, PostTitle = c.Title
@@ -2293,16 +2177,19 @@ SELECT
 	, [Count]
 	, LastReferDate = r.LastUpdated
 	, BlogId = @BlogId
+	, row_number() over(order by r.[LastUpdated] DESC, r.[EntryID] DESC, r.[UrlID] DESC) RowNumber
 FROM [<dbUser,varchar,dbo>].[subtext_Referrals] r
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_URLs] u ON u.UrlID = r.UrlID
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c ON c.ID = r.EntryID
 WHERE 
-		r.LastUpdated <= @FirstDate
-	AND r.EntryID <= @FirstEntryId
-	AND r.UrlID <= @FirstUrlId
-	AND (r.EntryID = @EntryID OR @EntryID IS NULL)
+	r.EntryID = @EntryID OR @EntryID IS NULL
 	AND r.BlogId = @BlogId
-ORDER BY r.[LastUpdated] DESC, r.[EntryID] DESC, r.[UrlID] DESC
+)
+
+SELECT * 
+FROM OrderedReferrals 
+WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
+
 
 SELECT COUNT([UrlID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Referrals] 
@@ -3672,20 +3559,9 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableBlogs]
 )
 AS
 
-DECLARE @FirstId int
-DECLARE @StartRow int
-DECLARE @StartRowIndex int
 
-SET @StartRowIndex = @PageIndex * @PageSize + 1
-
-SET ROWCOUNT @StartRowIndex
-SELECT	@FirstId = [BlogId] FROM [<dbUser,varchar,dbo>].[subtext_Config]
-WHERE @ConfigurationFlags & Flag = @ConfigurationFlags
-	AND (Host = @Host OR @Host IS NULL)
-ORDER BY [BlogId] ASC
-
-SET ROWCOUNT @PageSize
-
+WITH OrderedBlogs as
+(
 SELECT	blog.BlogId 
 		, blog.UserName
 		, blog.[Password]
@@ -3725,14 +3601,20 @@ SELECT	blog.BlogId
 		, blog.OpenIDServer
 		, blog.OpenIDDelegate
 		, blog.CardSpaceHash
-		
+		, row_number() over(order by blog.BlogId ASC) RowNumber
 FROM [<dbUser,varchar,dbo>].[subtext_Config] blog
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
 bgroup.Id = blog.BlogGroupId
-WHERE blog.BlogId >= @FirstId
-	AND @ConfigurationFlags & Flag = @ConfigurationFlags
+WHERE 
+	@ConfigurationFlags & Flag = @ConfigurationFlags
 	AND (Host = @Host OR @Host IS NULL)
-ORDER BY blog.BlogId ASC
+)
+
+SELECT * 
+FROM OrderedBlogs 
+WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
+
+
 
 SELECT COUNT([BlogId]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Config]
@@ -5075,36 +4957,31 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetMetaTags]
 		@PageSize int
 	)
 AS
-	DECLARE @FirstDate datetime
-	DECLARE @FirstId int
-	DECLARE @StartRow int
-	DECLARE @StartRowIndex int
 
-	SET @StartRowIndex = @PageIndex * @PageSize + 1
+WITH OrderedMetaTags as
+(
+SELECT Id
+	, [Content]
+	, [Name]
+	, HttpEquiv
+	, BlogId
+	, EntryId
+	, DateCreated 
+	, row_number() over(order by DateCreated ASC, Id ASC) RowNumber
+FROM [<dbUser,varchar,dbo>].subtext_MetaTag
+WHERE BlogId = @BlogId
+	AND (@EntryId is null OR EntryId = @EntryId)
+)
 
-	SET ROWCOUNT @StartRowIndex
-	-- Get the first id for the current page.
-	SELECT	@FirstDate = DateCreated 
-		, @FirstId = ID
-	FROM [<dbUser,varchar,dbo>].[subtext_MetaTag]
-	WHERE	BlogId = @BlogId 
-		AND (@EntryId is null OR EntryId = @EntryId)
-	ORDER BY DateCreated ASC, ID ASC
-	
-	SET ROWCOUNT @PageSize
+SELECT * 
+FROM OrderedMetaTags 
+WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
 
-	SELECT Id, [Content], [Name], HttpEquiv, BlogId, EntryId, DateCreated 
-	FROM [<dbUser,varchar,dbo>].subtext_MetaTag
-	WHERE BlogId = @BlogId
-		AND (@EntryId is null OR EntryId = @EntryId)
-		AND DateCreated >= @FirstDate
-		AND Id >= @FirstId
-	ORDER BY DateCreated ASC, Id ASC
-	 
-	SELECT COUNT([ID]) AS TotalRecords
-	FROM [<dbUser,varchar,dbo>].[subtext_MetaTag]
-	WHERE 	BlogId = @BlogId 
-		AND (@EntryId is null OR EntryId = @EntryId)
+
+SELECT COUNT([ID]) AS TotalRecords
+FROM [<dbUser,varchar,dbo>].[subtext_MetaTag]
+WHERE 	BlogId = @BlogId 
+	AND (@EntryId is null OR EntryId = @EntryId)
 
 GO 
 
@@ -5161,32 +5038,23 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableDomainAliases]
 )
 AS
 
-DECLARE @FirstId int
-DECLARE @StartRow int
-DECLARE @StartRowIndex int
-
-SET @StartRowIndex = @PageIndex * @PageSize + 1
-
-SET ROWCOUNT @StartRowIndex
--- Get the first entry id for the current page.
-SELECT	@FirstId = Id FROM [<dbUser,varchar,dbo>].[subtext_DomainAlias]
-WHERE BlogId = @BlogId
-ORDER BY [BlogId] ASC
-
--- Now, set the row count to MaximumRows and get
--- all records >= @first_id
-SET ROWCOUNT @PageSize
-
+WITH OrderedAliases as
+(
 SELECT	
 		  Id
 		, BlogId
 		, Host
 		, Subfolder = Application
 		, IsActive
+		, row_number() over(order by Id ASC) RowNumber
 FROM [<dbUser,varchar,dbo>].[subtext_DomainAlias] 
-WHERE Id >= @FirstId
-	AND BlogId = @BlogId
-ORDER BY Id ASC
+WHERE BlogId = @BlogId
+)
+
+SELECT * 
+FROM OrderedAliases 
+WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
+
 
 SELECT COUNT([BlogId]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_DomainAlias]
@@ -5194,6 +5062,7 @@ WHERE BlogId = @BlogId
 GO
 GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_GetPageableDomainAliases] TO [public]
 GO
+
 CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_CreateDomainAlias]
 	(
 		  @BlogId int
