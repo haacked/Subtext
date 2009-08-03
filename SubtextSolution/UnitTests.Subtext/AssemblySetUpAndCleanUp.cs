@@ -28,8 +28,15 @@ namespace UnitTests.Subtext
                     connection.Open();
                     using (SqlTransaction transaction = connection.BeginTransaction())
                     {
-                        ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
-                        transaction.Commit();
+                        try
+                        {
+                            ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
+                            transaction.Commit();
+                        }
+                        catch (Exception)
+                        {
+                            transaction.Rollback();
+                        }
                     }
                 }
             }
