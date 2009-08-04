@@ -374,6 +374,7 @@
     <Compile Include="Exceptions\CommentSpamException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Exceptions\DeprecatedPhysicalPathsException.cs" />
     <Compile Include="Exceptions\DuplicateEntryException.cs" />
     <Compile Include="Exceptions\HostDataDoesNotExistException.cs">
       <SubType>Code</SubType>
@@ -392,6 +393,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Routing\IDirectoryRoute.cs" />
+    <Compile Include="Routing\SystemDirectoryRoute.cs" />
     <Compile Include="Services\ICommentFilter.cs" />
     <Compile Include="IInstallationManager.cs" />
     <Compile Include="Images.cs">

@@ -589,7 +589,8 @@ namespace UnitTests.Subtext
 	    /// </summary>
         public static void AuthenticateFormsAuthenticationCookie()
         {
-			string cookieName = SecurityHelper.GetFullCookieName();
+            var request = new HttpRequestWrapper(HttpContext.Current.Request);
+			string cookieName = request.GetFullCookieName(Config.CurrentBlog);
             HttpCookie authCookie = HttpContext.Current.Request.Cookies[cookieName];
 
             FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
@@ -704,14 +705,22 @@ namespace UnitTests.Subtext
 		}
 
 		#region ...Assert.AreNotEqual replacements...
-        public static void AssertThrows<TException>(Action action) where TException : Exception {
-            try {
+        public static TException AssertThrows<TException>(Action action) where TException : Exception
+        {
+            try
+            {
                 action();
             }
-            catch (TException) {
-                return;
+            catch (TException exception)
+            {
+                return exception;
+            }
+            catch (Exception exc) {
+                Assert.Fail("Exception " + typeof(TException).Name + " not thrown. Instead " + exc.GetType().Name + " was thrown");
+                return null;
             }
             Assert.Fail("Exception " + typeof(TException).Name + " not thrown");
+            return null;
         }
 
 		/// <summary>
@@ -851,49 +860,10 @@ namespace UnitTests.Subtext
             return enc;
         }
 
-		/// <summary>
-		/// Helper method. Makes sure you can create
-		/// </summary>
-		/// <param name="allowedRoles">The allowed roles.</param>
-		/// <param name="constructorArguments">The constructor arguments.</param>
-		public static void AssertSecureCreation<T>(string[] allowedRoles, params object[] constructorArguments)
-		{
-			try
-			{
-				Activator.CreateInstance(typeof(T), constructorArguments);
-				Assert.Fail("Was able to create the instance with no security.");
-			}
-			catch(TargetInvocationException e)
-			{
-				Assert.IsInstanceOfType(typeof(SecurityException), e.InnerException, "Expected a security exception, got something else.");
-			}
-
-			MockRepository mocks = new MockRepository();
-
-			IPrincipal principal;
-			SetCurrentPrincipalRoles(mocks, out principal, allowedRoles);
-
-			using (mocks.Playback())
-			{
-				IPrincipal oldPrincipal = Thread.CurrentPrincipal;
-				try
-				{
-					Thread.CurrentPrincipal = principal;
-					Activator.CreateInstance(typeof(T), constructorArguments);
-					//Test passes if no exception is thrown.
-				}
-				finally
-				{
-					Thread.CurrentPrincipal = oldPrincipal;
-				}
-			}
-		}
-
         public static void AssertSimpleProperties(object o, params string[] excludedProperties)
         {
             StringDictionary excludes = new StringDictionary();
-            foreach (string exclude in excludedProperties)
-            {
+            foreach (string exclude in excludedProperties) {
                 excludes.Add(exclude, "");
             }
 

@@ -16,20 +16,26 @@
 using System;
 using System.Web;
 using Subtext.Extensibility.Providers;
-using Subtext.Framework;
-using Subtext.Framework.Web;
 
-namespace Subtext.Framework.Web.HttpModules
-{
+namespace Subtext.Framework.Web.HttpModules {
     /// <summary>
     /// Checks to see if the blog needs an upgrade.
     /// </summary>
-    public class InstallationCheckModule : IHttpModule
-    {
+    public class InstallationCheckModule : IHttpModule {
+        public InstallationCheckModule() : this(new InstallationManager(Installation.Provider)) { 
+        }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="InstallationCheckModule"/> class.
         /// </summary>
-        public InstallationCheckModule() {
+        public InstallationCheckModule(IInstallationManager installationManager) {
+            InstallationManager = installationManager;
+        }
+
+        public IInstallationManager InstallationManager
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -38,17 +44,15 @@ namespace Subtext.Framework.Web.HttpModules
         /// </summary>
         /// <param name="context">An <see cref="T:System.Web.HttpApplication"/> that provides access to the methods, properties, 
         /// and events common to all application objects within an ASP.NET application</param>
-        public void Init(HttpApplication context)
-        {
-            context.BeginRequest += CheckInstallationStatus;
+        public void Init(HttpApplication context) {
+            context.BeginRequest += HandleInstallationUpdates;
         }
 
         /// <summary>
         /// Disposes of the resources (other than memory) used by the
         /// module that implements <see langword="IHttpModule."/>
         /// </summary>
-        public void Dispose()
-        {
+        public void Dispose() {
             //Do nothing.
         }
 
@@ -57,44 +61,61 @@ namespace Subtext.Framework.Web.HttpModules
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        public void CheckInstallationStatus(object sender, EventArgs e)
+        private void HandleInstallationUpdates(object sender, EventArgs e) {
+            var context = new HttpContextWrapper(((HttpApplication)sender).Context);
+            HandleInstallationStatus(context, BlogRequest.Current, HostInfo.Instance);
+        }
+
+        public void HandleInstallationStatus(HttpContextBase context, BlogRequest blogRequest, HostInfo hostInfo)
         {
-            //Bypass for static files.
-            if (HttpHelper.IsStaticFileRequest())
-                return;
+            string redirectUrl = GetInstallationRedirectUrl(blogRequest, hostInfo);
+            if (!String.IsNullOrEmpty(redirectUrl))
+            {
+                context.Response.Redirect(redirectUrl);
+            }
+        }
 
-            BlogRequest blogRequest = BlogRequest.Current;
-
-            if (HostInfo.Instance == null && blogRequest.RequestLocation != RequestLocation.Installation) {
-                HttpContext.Current.Response.Redirect("~/Install/", true);
+        /// <summary>
+        /// Checks the installation status and redirects if necessary.
+        /// </summary>
+        /// <param name="blogRequest">The current blog request.</param>
+        public string GetInstallationRedirectUrl(BlogRequest blogRequest, HostInfo hostInfo)
+        {
+            // Bypass for static files.
+            if (blogRequest.RawUrl.IsStaticFileRequest())
+            {
+                return null;
             }
 
-            InstallationManager installationManager = new InstallationManager(Installation.Provider);
+            if (hostInfo == null && blogRequest.RequestLocation != RequestLocation.Installation)
+            {
+                return "~/Install/";
+            }
 
             // Want to redirect to install if installation is required, 
             // or if we're missing a HostInfo record.
-            if ((installationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || HostInfo.Instance == null))
+            if ((InstallationManager.InstallationActionRequired(VersionInfo.FrameworkVersion) || hostInfo == null))
             {
-                InstallationState state = Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
-                if(state == InstallationState.NeedsInstallation 
+                InstallationState state = InstallationManager.GetInstallationStatus(VersionInfo.FrameworkVersion);
+                if (state == InstallationState.NeedsInstallation
                     && !blogRequest.IsHostAdminRequest
                     && blogRequest.RequestLocation != RequestLocation.Installation)
                 {
-                    HttpContext.Current.Response.Redirect("~/Install/", true);
-                    return;
+                    return "~/Install/";
                 }
 
-                if(state == InstallationState.NeedsUpgrade || state == InstallationState.NeedsRepair)
+                if (state == InstallationState.NeedsUpgrade)
                 {
-                    if (blogRequest.RequestLocation != RequestLocation.Upgrade 
-                        && blogRequest.RequestLocation != RequestLocation.LoginPage 
-                        && blogRequest.RequestLocation != RequestLocation.SystemMessages)
+                    if (blogRequest.RequestLocation != RequestLocation.Upgrade
+                        && blogRequest.RequestLocation != RequestLocation.LoginPage
+                        && blogRequest.RequestLocation != RequestLocation.SystemMessages
+                        && blogRequest.RequestLocation != RequestLocation.HostAdmin)
                     {
-                        HttpContext.Current.Response.Redirect("~/SystemMessages/UpgradeInProgress.aspx", true);
-                        return;
+                        return "~/SystemMessages/UpgradeInProgress.aspx";
                     }
                 }
             }
+            return null;
         }
     }
 }

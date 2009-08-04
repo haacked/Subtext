@@ -19,7 +19,7 @@ using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
-    public class DirectoryRoute : SubtextRoute
+    public class DirectoryRoute : SubtextRoute, IDirectoryRoute
     {
         public DirectoryRoute(string directoryName) :
             base(directoryName + "/{*pathInfo}", new DirectoryRouteHandler(Bootstrapper.Kernel.Get<ISubtextPageBuilder>()))

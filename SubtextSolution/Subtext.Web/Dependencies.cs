@@ -43,7 +43,7 @@ namespace Subtext
             Bind<ISlugGenerator>().To<SlugGenerator>().InRequestScope();
             Bind<FriendlyUrlSettings>().To<FriendlyUrlSettings>().InRequestScope();
             Bind<IPrincipal>().ToMethod(context => context.Kernel.Get<RequestContext>().HttpContext.User).InRequestScope();
-            Bind<Blog>().ToMethod(c => BlogRequest.Current.Blog).InRequestScope();
+            Bind<Blog>().ToMethod(c => BlogRequest.Current.Blog).When(r => BlogRequest.Current.Blog != null).InRequestScope();
             Bind<ObjectProvider>().ToMethod(c => new DatabaseObjectProvider()).InRequestScope();
             Bind<Subtext.Infrastructure.ICache>().To<SubtextCache>().InRequestScope();
             Bind<System.Web.Caching.Cache>().ToMethod(c => HttpContext.Current.Cache).InRequestScope();

@@ -7,8 +7,7 @@ namespace Subtext.Infrastructure
 {
     public static class Bootstrapper
     {
-        public static void InitializeKernel(params Module[] modules)
-        {
+        public static void InitializeKernel(params Module[] modules) {
             Kernel = new StandardKernel(modules);
         }
 

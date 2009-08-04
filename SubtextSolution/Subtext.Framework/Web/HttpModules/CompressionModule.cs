@@ -21,9 +21,6 @@ namespace Subtext.Framework.Web.HttpModules
 {
     public class CompressionModule : IHttpModule
     {
-
-        #region IHttpModule Members
-
         /// <summary>
         /// Disposes of the resources (other than memory) used by the module 
         /// that implements <see cref="T:System.Web.IHttpModule"></see>.
@@ -44,8 +41,6 @@ namespace Subtext.Framework.Web.HttpModules
         {
             context.PostReleaseRequestState += context_PostReleaseRequestState;
         }
-
-        #endregion
 
         private const string GZIP = "gzip";
         private const string DEFLATE = "deflate";
@@ -94,6 +89,5 @@ namespace Subtext.Framework.Web.HttpModules
         {
             HttpContext.Current.Response.AppendHeader("Content-encoding", encoding);
         }
-
     }
 }

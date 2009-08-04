@@ -136,13 +136,6 @@
       <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <COMReference Include="SQLDMO">
-      <Guid>{10010001-E260-11CF-AE68-00AA004A34D5}</Guid>
-      <VersionMajor>8</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">

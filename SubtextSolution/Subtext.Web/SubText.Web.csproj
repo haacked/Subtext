@@ -5,7 +5,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8C11B428-9C4A-46C3-B7F0-48215276BFA5}</ProjectGuid>
-    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectTypeGuids>{603c0e0b-db56-11dc-be95-000d561079b0};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Subtext.Web</RootNamespace>
@@ -44,9 +44,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\CookComputing.XmlRpcV2.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetOpenId, Version=2.2.0.8121, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+    <Reference Include="DotNetOpenAuth, Version=3.2.0.9177, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DotNetOpenId.dll</HintPath>
+      <HintPath>..\Dependencies\DotNetOpenAuth.dll</HintPath>
     </Reference>
     <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87">
       <SpecificVersion>False</SpecificVersion>
@@ -131,312 +131,6 @@
     <Compile Include="..\VersionInfo.Designer.cs">
       <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
-    <Compile Include="Admin\Articles\Articles.Master.cs">
-      <DependentUpon>Articles.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Articles\Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Articles\Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Articles\Edit.aspx.cs">
-      <DependentUpon>Edit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Articles\Edit.aspx.designer.cs">
-      <DependentUpon>Edit.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Articles\Articles.Master.designer.cs" />
-    <Compile Include="Admin\Comments.aspx.cs">
-      <DependentUpon>Comments.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Comments.aspx.designer.cs">
-      <DependentUpon>Comments.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Configure.aspx.cs">
-      <DependentUpon>Configure.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Configure.aspx.designer.cs">
-      <DependentUpon>Configure.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Confirm.aspx.cs">
-      <DependentUpon>Confirm.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Confirm.aspx.designer.cs">
-      <DependentUpon>Confirm.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Customize.aspx.cs">
-      <DependentUpon>Customize.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Customize.aspx.designer.cs">
-      <DependentUpon>Customize.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\default.aspx.cs">
-      <DependentUpon>default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\EditArticles.aspx.cs">
-      <DependentUpon>EditArticles.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\EditArticles.aspx.designer.cs">
-      <DependentUpon>EditArticles.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\EditCategories.aspx.cs">
-      <DependentUpon>EditCategories.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\EditCategories.aspx.designer.cs">
-      <DependentUpon>EditCategories.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\EditGalleries.aspx.cs">
-      <DependentUpon>EditGalleries.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\EditGalleries.aspx.designer.cs">
-      <DependentUpon>EditGalleries.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\EditImage.aspx.cs">
-      <DependentUpon>EditImage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\EditImage.aspx.designer.cs">
-      <DependentUpon>EditImage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\EditKeyWords.aspx.cs">
-      <DependentUpon>EditKeyWords.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\EditKeyWords.aspx.designer.cs">
-      <DependentUpon>EditKeyWords.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\EditLinks.aspx.cs">
-      <DependentUpon>EditLinks.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\EditLinks.aspx.designer.cs">
-      <DependentUpon>EditLinks.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Error.aspx.cs">
-      <DependentUpon>Error.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Error.aspx.designer.cs">
-      <DependentUpon>Error.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\ErrorLog.aspx.cs">
-      <DependentUpon>ErrorLog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\ErrorLog.aspx.designer.cs">
-      <DependentUpon>ErrorLog.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Export.aspx.cs">
-      <DependentUpon>Export.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Feedback\Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Feedback\Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Feedback\Edit.aspx.cs">
-      <DependentUpon>Edit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Feedback\Edit.aspx.designer.cs">
-      <DependentUpon>Edit.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Feedback\Feedback.Master.cs">
-      <DependentUpon>Feedback.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Feedback\Feedback.Master.designer.cs">
-      <DependentUpon>Feedback.Master</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Feedback\FeedbackState.cs" />
-    <Compile Include="Admin\ImportExport.aspx.cs">
-      <DependentUpon>ImportExport.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\ImportExport.aspx.designer.cs">
-      <DependentUpon>ImportExport.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Options.aspx.cs">
-      <DependentUpon>Options.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Options.aspx.designer.cs">
-      <DependentUpon>Options.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Security.aspx.cs">
-      <DependentUpon>Security.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Security.aspx.designer.cs">
-      <DependentUpon>Security.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Posts\Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Posts\Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Posts\Edit.aspx.cs">
-      <DependentUpon>Edit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Posts\Edit.aspx.designer.cs">
-      <DependentUpon>Edit.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Posts\Posts.Master.cs">
-      <DependentUpon>Posts.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Posts\Posts.Master.designer.cs">
-      <DependentUpon>Posts.Master</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Preferences.aspx.cs">
-      <DependentUpon>Preferences.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Preferences.aspx.designer.cs">
-      <DependentUpon>Preferences.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Referrers.aspx.cs">
-      <DependentUpon>Referrers.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Referrers.aspx.designer.cs">
-      <DependentUpon>Referrers.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\RssFeeds.aspx.cs">
-      <DependentUpon>RssFeeds.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\RssFeeds.aspx.designer.cs">
-      <DependentUpon>RssFeeds.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Skins.aspx.cs">
-      <DependentUpon>Skins.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Skins.aspx.designer.cs">
-      <DependentUpon>Skins.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Statistics.aspx.cs">
-      <DependentUpon>Statistics.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Statistics.aspx.designer.cs">
-      <DependentUpon>Statistics.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\StatsView.aspx.cs">
-      <DependentUpon>StatsView.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\StatsView.aspx.designer.cs">
-      <DependentUpon>StatsView.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Syndication.aspx.cs">
-      <DependentUpon>Syndication.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Syndication.aspx.designer.cs">
-      <DependentUpon>Syndication.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\UserControls\CategoryLinkList.ascx.cs">
-      <DependentUpon>CategoryLinkList.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\UserControls\CategoryLinkList.ascx.designer.cs">
-      <DependentUpon>CategoryLinkList.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\UserControls\EntriesList.ascx.cs">
-      <DependentUpon>EntriesList.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\UserControls\EntriesList.ascx.designer.cs">
-      <DependentUpon>EntriesList.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\UserControls\EntryEditor.ascx.cs">
-      <DependentUpon>EntryEditor.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\UserControls\EntryEditor.ascx.designer.cs">
-      <DependentUpon>EntryEditor.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\WebUI\AdminMasterPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\WebUI\AdminPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\WebUI\AdminPageTemplate.Master.cs">
-      <DependentUpon>AdminPageTemplate.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\WebUI\AdminPageTemplate.Master.designer.cs">
-      <DependentUpon>AdminPageTemplate.Master</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\WebUI\Commands\ConfirmCommand.cs" />
-    <Compile Include="Admin\WebUI\Commands\DeleteCategoryCommand.cs" />
-    <Compile Include="Admin\WebUI\Commands\DeleteGalleryCommand.cs" />
-    <Compile Include="Admin\WebUI\Commands\DeleteImageCommand.cs" />
-    <Compile Include="Admin\WebUI\Commands\DeleteKeyWordCommand.cs" />
-    <Compile Include="Admin\WebUI\Commands\DeleteLinkCommand.cs" />
-    <Compile Include="Admin\WebUI\Commands\DeletePostCommand.cs" />
-    <Compile Include="Admin\WebUI\Commands\DeleteTargetCommand.cs" />
-    <Compile Include="Admin\WebUI\Commands\DeleteTitledTargetCommand.cs" />
-    <Compile Include="Admin\WebUI\Commands\ImportLinksCommand.cs" />
-    <Compile Include="Admin\WebUI\Components\Collections\IOpmlItemCollection.cs" />
-    <Compile Include="Admin\WebUI\Components\Collections\IPageLocationCollection.cs" />
-    <Compile Include="Admin\WebUI\Components\Collections\OpmlItemCollection.cs" />
-    <Compile Include="Admin\WebUI\Components\Collections\PageLocationCollection.cs" />
-    <Compile Include="Admin\WebUI\Components\OpmlProvider.cs" />
-    <Compile Include="Admin\WebUI\Components\PageLocation.cs" />
-    <Compile Include="Admin\WebUI\Components\Preferences.cs" />
-    <Compile Include="Admin\WebUI\Components\SiteMap.cs" />
-    <Compile Include="Admin\WebUI\ConfirmationPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\WebUI\Controls\AdvancedPanel.cs" />
-    <Compile Include="Admin\WebUI\Controls\BaseUserControl.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\WebUI\Controls\ContentRegion.cs" />
-    <Compile Include="Admin\WebUI\Controls\HeaderBase.cs" />
-    <Compile Include="Admin\WebUI\Controls\HeaderLink.cs" />
-    <Compile Include="Admin\WebUI\Controls\LinkList.cs" />
-    <Compile Include="Admin\WebUI\Controls\MessagePanel.cs" />
-    <Compile Include="Admin\Credits.aspx.cs">
-      <DependentUpon>Credits.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Credits.aspx.designer.cs">
-      <DependentUpon>Credits.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\WebUI\StatsPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\WebUI\Utilities.cs" />
-    <Compile Include="AggDefault.aspx.cs">
-      <DependentUpon>AggDefault.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="AggDefault.aspx.designer.cs">
-      <DependentUpon>AggDefault.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Dependencies.cs" />
     <Compile Include="Controllers\CommentApiController.cs" />
@@ -444,138 +138,497 @@
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ForgotPassword.aspx.cs">
-      <DependentUpon>ForgotPassword.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ForgotPassword.aspx.designer.cs">
-      <DependentUpon>ForgotPassword.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="HostAdmin\ChangePassword.aspx.cs">
-      <DependentUpon>ChangePassword.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\ChangePassword.aspx.designer.cs">
-      <DependentUpon>ChangePassword.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\ErrorLog.aspx.cs">
-      <DependentUpon>ErrorLog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\ErrorLog.aspx.designer.cs">
-      <DependentUpon>ErrorLog.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\HostAdminPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\HostAdminTemplate.Master.cs">
-      <DependentUpon>HostAdminTemplate.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\HostAdminTemplate.Master.designer.cs">
-      <DependentUpon>HostAdminTemplate.Master</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\Queue.aspx.cs">
-      <DependentUpon>Queue.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\Queue.aspx.designer.cs">
-      <DependentUpon>Queue.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\Upgrade\Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\Upgrade\Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\Upgrade\UpgradeComplete.aspx.cs">
-      <DependentUpon>UpgradeComplete.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\Upgrade\UpgradeComplete.aspx.designer.cs">
-      <DependentUpon>UpgradeComplete.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\UserControls\BlogsEditor.ascx.cs">
-      <DependentUpon>BlogsEditor.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\UserControls\BlogsEditor.ascx.designer.cs">
-      <DependentUpon>BlogsEditor.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="HostAdmin\UserControls\GroupsEditor.ascx.cs">
-      <DependentUpon>GroupsEditor.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="HostAdmin\UserControls\GroupsEditor.ascx.designer.cs">
-      <DependentUpon>GroupsEditor.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Infrastructure\EmptyTempDataProvider.cs" />
     <Compile Include="Infrastructure\SubtextControllerFactory.cs" />
-    <Compile Include="Install\BlogNotConfiguredError.aspx.cs">
-      <DependentUpon>BlogNotConfiguredError.aspx</DependentUpon>
+    <Compile Include="NamespaceDocumentation.cs" />
+    <Compile Include="pages\Admin\Articles\Articles.Master.cs">
+      <DependentUpon>Articles.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Install\BlogNotConfiguredError.aspx.designer.cs">
-      <DependentUpon>BlogNotConfiguredError.aspx</DependentUpon>
+    <Compile Include="pages\Admin\Articles\Articles.Master.designer.cs">
+      <DependentUpon>Articles.Master</DependentUpon>
     </Compile>
-    <Compile Include="Install\Default.aspx.cs">
+    <Compile Include="pages\Admin\Articles\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Install\Default.aspx.designer.cs">
+    <Compile Include="pages\Admin\Articles\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Install\InstallationBase.cs">
+    <Compile Include="pages\Admin\Articles\Edit.aspx.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Install\InstallationComplete.aspx.cs">
+    <Compile Include="pages\Admin\Articles\Edit.aspx.designer.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Comments.aspx.cs">
+      <DependentUpon>Comments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Comments.aspx.designer.cs">
+      <DependentUpon>Comments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Configure.aspx.cs">
+      <DependentUpon>Configure.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Configure.aspx.designer.cs">
+      <DependentUpon>Configure.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Confirm.aspx.cs">
+      <DependentUpon>Confirm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Confirm.aspx.designer.cs">
+      <DependentUpon>Confirm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Credits.aspx.cs">
+      <DependentUpon>Credits.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Credits.aspx.designer.cs">
+      <DependentUpon>Credits.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Customize.aspx.cs">
+      <DependentUpon>Customize.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Customize.aspx.designer.cs">
+      <DependentUpon>Customize.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\EditArticles.aspx.cs">
+      <DependentUpon>EditArticles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\EditArticles.aspx.designer.cs">
+      <DependentUpon>EditArticles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\EditCategories.aspx.cs">
+      <DependentUpon>EditCategories.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\EditCategories.aspx.designer.cs">
+      <DependentUpon>EditCategories.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\EditGalleries.aspx.cs">
+      <DependentUpon>EditGalleries.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\EditGalleries.aspx.designer.cs">
+      <DependentUpon>EditGalleries.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\EditImage.aspx.cs">
+      <DependentUpon>EditImage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\EditImage.aspx.designer.cs">
+      <DependentUpon>EditImage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\EditKeyWords.aspx.cs">
+      <DependentUpon>EditKeyWords.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\EditKeyWords.aspx.designer.cs">
+      <DependentUpon>EditKeyWords.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\EditLinks.aspx.cs">
+      <DependentUpon>EditLinks.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\EditLinks.aspx.designer.cs">
+      <DependentUpon>EditLinks.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\ErrorLog.aspx.cs">
+      <DependentUpon>ErrorLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\ErrorLog.aspx.designer.cs">
+      <DependentUpon>ErrorLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Export.aspx.cs">
+      <DependentUpon>Export.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Feedback\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Feedback\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Feedback\Edit.aspx.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Feedback\Edit.aspx.designer.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Feedback\Feedback.Master.cs">
+      <DependentUpon>Feedback.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Feedback\Feedback.Master.designer.cs">
+      <DependentUpon>Feedback.Master</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Feedback\FeedbackState.cs" />
+    <Compile Include="pages\Admin\ImportExport.aspx.cs">
+      <DependentUpon>ImportExport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\ImportExport.aspx.designer.cs">
+      <DependentUpon>ImportExport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Options.aspx.cs">
+      <DependentUpon>Options.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Options.aspx.designer.cs">
+      <DependentUpon>Options.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Posts\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Posts\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Posts\Edit.aspx.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Posts\Edit.aspx.designer.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Posts\Posts.Master.cs">
+      <DependentUpon>Posts.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Posts\Posts.Master.designer.cs">
+      <DependentUpon>Posts.Master</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Preferences.aspx.cs">
+      <DependentUpon>Preferences.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Preferences.aspx.designer.cs">
+      <DependentUpon>Preferences.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Referrers.aspx.cs">
+      <DependentUpon>Referrers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Referrers.aspx.designer.cs">
+      <DependentUpon>Referrers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\RssFeeds.aspx.cs">
+      <DependentUpon>RssFeeds.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\RssFeeds.aspx.designer.cs">
+      <DependentUpon>RssFeeds.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Security.aspx.cs">
+      <DependentUpon>Security.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Security.aspx.designer.cs">
+      <DependentUpon>Security.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Services\Ajax\AjaxServices.ashx.cs">
+      <DependentUpon>AjaxServices.ashx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Skins.aspx.cs">
+      <DependentUpon>Skins.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Skins.aspx.designer.cs">
+      <DependentUpon>Skins.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Statistics.aspx.cs">
+      <DependentUpon>Statistics.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Statistics.aspx.designer.cs">
+      <DependentUpon>Statistics.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\StatsView.aspx.cs">
+      <DependentUpon>StatsView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\StatsView.aspx.designer.cs">
+      <DependentUpon>StatsView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\Syndication.aspx.cs">
+      <DependentUpon>Syndication.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\Syndication.aspx.designer.cs">
+      <DependentUpon>Syndication.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\UserControls\CategoryLinkList.ascx.cs">
+      <DependentUpon>CategoryLinkList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\UserControls\CategoryLinkList.ascx.designer.cs">
+      <DependentUpon>CategoryLinkList.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\UserControls\EntriesList.ascx.cs">
+      <DependentUpon>EntriesList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\UserControls\EntriesList.ascx.designer.cs">
+      <DependentUpon>EntriesList.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\UserControls\EntryEditor.ascx.cs">
+      <DependentUpon>EntryEditor.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\UserControls\EntryEditor.ascx.designer.cs">
+      <DependentUpon>EntryEditor.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\WebUI\AdminMasterPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\WebUI\AdminPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\WebUI\AdminPageTemplate.Master.cs">
+      <DependentUpon>AdminPageTemplate.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\WebUI\AdminPageTemplate.Master.designer.cs">
+      <DependentUpon>AdminPageTemplate.Master</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\WebUI\Commands\ConfirmCommand.cs" />
+    <Compile Include="pages\Admin\WebUI\Commands\DeleteCategoryCommand.cs" />
+    <Compile Include="pages\Admin\WebUI\Commands\DeleteGalleryCommand.cs" />
+    <Compile Include="pages\Admin\WebUI\Commands\DeleteImageCommand.cs" />
+    <Compile Include="pages\Admin\WebUI\Commands\DeleteKeyWordCommand.cs" />
+    <Compile Include="pages\Admin\WebUI\Commands\DeleteLinkCommand.cs" />
+    <Compile Include="pages\Admin\WebUI\Commands\DeletePostCommand.cs" />
+    <Compile Include="pages\Admin\WebUI\Commands\DeleteTargetCommand.cs" />
+    <Compile Include="pages\Admin\WebUI\Commands\DeleteTitledTargetCommand.cs" />
+    <Compile Include="pages\Admin\WebUI\Commands\ImportLinksCommand.cs" />
+    <Compile Include="pages\Admin\WebUI\Components\Collections\OpmlItemCollection.cs" />
+    <Compile Include="pages\Admin\WebUI\Components\Collections\PageLocationCollection.cs" />
+    <Compile Include="pages\Admin\WebUI\Components\OpmlProvider.cs" />
+    <Compile Include="pages\Admin\WebUI\Components\PageLocation.cs" />
+    <Compile Include="pages\Admin\WebUI\Components\Preferences.cs" />
+    <Compile Include="pages\Admin\WebUI\Components\SiteMap.cs" />
+    <Compile Include="pages\Admin\WebUI\ConfirmationPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\WebUI\Controls\AdvancedPanel.cs" />
+    <Compile Include="pages\Admin\WebUI\Controls\BaseUserControl.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\WebUI\Controls\ContentRegion.cs" />
+    <Compile Include="pages\Admin\WebUI\Controls\HeaderBase.cs" />
+    <Compile Include="pages\Admin\WebUI\Controls\HeaderLink.cs" />
+    <Compile Include="pages\Admin\WebUI\Controls\LinkList.cs" />
+    <Compile Include="pages\Admin\WebUI\Controls\MessagePanel.cs" />
+    <Compile Include="pages\Admin\WebUI\StatsPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\WebUI\Utilities.cs" />
+    <Compile Include="pages\AggDefault.aspx.cs">
+      <DependentUpon>AggDefault.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\AggDefault.aspx.designer.cs">
+      <DependentUpon>AggDefault.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\ForgotPassword.aspx.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\ForgotPassword.aspx.designer.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\HostAdmin\ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\HostAdmin\ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\HostAdmin\ErrorLog.aspx.cs">
+      <DependentUpon>ErrorLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\HostAdmin\ErrorLog.aspx.designer.cs">
+      <DependentUpon>ErrorLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\HostAdmin\HostAdminPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\HostAdmin\HostAdminTemplate.Master.cs">
+      <DependentUpon>HostAdminTemplate.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\HostAdmin\HostAdminTemplate.Master.designer.cs">
+      <DependentUpon>HostAdminTemplate.Master</DependentUpon>
+    </Compile>
+    <Compile Include="pages\HostAdmin\Queue.aspx.cs">
+      <DependentUpon>Queue.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\HostAdmin\Queue.aspx.designer.cs">
+      <DependentUpon>Queue.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\HostAdmin\Upgrade\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\HostAdmin\Upgrade\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\HostAdmin\Upgrade\UpgradeComplete.aspx.cs">
+      <DependentUpon>UpgradeComplete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\HostAdmin\Upgrade\UpgradeComplete.aspx.designer.cs">
+      <DependentUpon>UpgradeComplete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\HostAdmin\UserControls\BlogsEditor.ascx.cs">
+      <DependentUpon>BlogsEditor.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\HostAdmin\UserControls\BlogsEditor.ascx.designer.cs">
+      <DependentUpon>BlogsEditor.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\HostAdmin\UserControls\GroupsEditor.ascx.cs">
+      <DependentUpon>GroupsEditor.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\HostAdmin\UserControls\GroupsEditor.ascx.designer.cs">
+      <DependentUpon>GroupsEditor.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Install\BlogNotConfiguredError.aspx.cs">
+      <DependentUpon>BlogNotConfiguredError.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Install\BlogNotConfiguredError.aspx.designer.cs">
+      <DependentUpon>BlogNotConfiguredError.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Install\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Install\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Install\InstallationBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Install\InstallationComplete.aspx.cs">
       <DependentUpon>InstallationComplete.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Install\InstallationComplete.aspx.designer.cs">
+    <Compile Include="pages\Install\InstallationComplete.aspx.designer.cs">
       <DependentUpon>InstallationComplete.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Install\InstallTemplate.Master.cs">
+    <Compile Include="pages\Install\InstallTemplate.Master.cs">
       <DependentUpon>InstallTemplate.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Install\InstallTemplate.Master.designer.cs">
+    <Compile Include="pages\Install\InstallTemplate.Master.designer.cs">
       <DependentUpon>InstallTemplate.Master</DependentUpon>
     </Compile>
-    <Compile Include="Install\Step02_ConfigureHost.aspx.cs">
+    <Compile Include="pages\Install\Step02_ConfigureHost.aspx.cs">
       <DependentUpon>Step02_ConfigureHost.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Install\Step02_ConfigureHost.aspx.designer.cs">
+    <Compile Include="pages\Install\Step02_ConfigureHost.aspx.designer.cs">
       <DependentUpon>Step02_ConfigureHost.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Install\Step03_CreateBlog.aspx.cs">
+    <Compile Include="pages\Install\Step03_CreateBlog.aspx.cs">
       <DependentUpon>Step03_CreateBlog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Install\Step03_CreateBlog.aspx.designer.cs">
+    <Compile Include="pages\Install\Step03_CreateBlog.aspx.designer.cs">
       <DependentUpon>Step03_CreateBlog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="login.aspx.cs">
+    <Compile Include="pages\login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="login.aspx.designer.cs">
+    <Compile Include="pages\login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="logout.aspx.cs">
+    <Compile Include="pages\logout.aspx.cs">
       <DependentUpon>logout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="MainFeed.aspx.cs">
+    <Compile Include="pages\MainFeed.aspx.cs">
       <DependentUpon>MainFeed.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="NamespaceDocumentation.cs" />
+    <Compile Include="pages\SystemMessages\BlogNotActive.aspx.cs">
+      <DependentUpon>BlogNotActive.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\SystemMessages\BlogNotActive.aspx.designer.cs">
+      <DependentUpon>BlogNotActive.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\SystemMessages\CheckYourConnectionString.aspx.cs">
+      <DependentUpon>CheckYourConnectionString.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\SystemMessages\CheckYourConnectionString.aspx.designer.cs">
+      <DependentUpon>CheckYourConnectionString.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\SystemMessages\DatabaseLoginFailed.aspx.cs">
+      <DependentUpon>DatabaseLoginFailed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\SystemMessages\DatabaseLoginFailed.aspx.designer.cs">
+      <DependentUpon>DatabaseLoginFailed.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\SystemMessages\DeprecatedPhysicalPaths.aspx.cs">
+      <DependentUpon>DeprecatedPhysicalPaths.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\SystemMessages\DeprecatedPhysicalPaths.aspx.designer.cs">
+      <DependentUpon>DeprecatedPhysicalPaths.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\SystemMessages\Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\SystemMessages\Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\SystemMessages\FileNotFound.aspx.cs">
+      <DependentUpon>FileNotFound.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\SystemMessages\FileNotFound.aspx.designer.cs">
+      <DependentUpon>FileNotFound.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\SystemMessages\SystemMessageTemplate.Master.cs">
+      <DependentUpon>SystemMessageTemplate.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\SystemMessages\SystemMessageTemplate.Master.designer.cs">
+      <DependentUpon>SystemMessageTemplate.Master</DependentUpon>
+    </Compile>
+    <Compile Include="pages\SystemMessages\UpgradeInProgress.aspx.cs">
+      <DependentUpon>UpgradeInProgress.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\SystemMessages\UpgradeInProgress.aspx.designer.cs">
+      <DependentUpon>UpgradeInProgress.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -588,10 +641,6 @@
     </Compile>
     <Compile Include="Providers\BlogEntryEditor\FTB\FtbBlogEntryEditorProvider.cs" />
     <Compile Include="Providers\BlogEntryEditor\PlainText\PlainTextBlogEntryEditorProvider.cs" />
-    <Compile Include="Admin\Services\Ajax\AjaxServices.ashx.cs">
-      <DependentUpon>AjaxServices.ashx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -610,55 +659,6 @@
     </Compile>
     <Compile Include="Skins\_System\ForgotPassword.Master.designer.cs">
       <DependentUpon>ForgotPassword.Master</DependentUpon>
-    </Compile>
-    <Compile Include="SystemMessages\BlogNotActive.aspx.cs">
-      <DependentUpon>BlogNotActive.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemMessages\BlogNotActive.aspx.designer.cs">
-      <DependentUpon>BlogNotActive.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SystemMessages\CheckYourConnectionString.aspx.cs">
-      <DependentUpon>CheckYourConnectionString.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemMessages\CheckYourConnectionString.aspx.designer.cs">
-      <DependentUpon>CheckYourConnectionString.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SystemMessages\DatabaseLoginFailed.aspx.cs">
-      <DependentUpon>DatabaseLoginFailed.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemMessages\DatabaseLoginFailed.aspx.designer.cs">
-      <DependentUpon>DatabaseLoginFailed.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SystemMessages\Error.aspx.cs">
-      <DependentUpon>Error.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemMessages\Error.aspx.designer.cs">
-      <DependentUpon>Error.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SystemMessages\FileNotFound.aspx.cs">
-      <DependentUpon>FileNotFound.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemMessages\FileNotFound.aspx.designer.cs">
-      <DependentUpon>FileNotFound.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SystemMessages\SystemMessageTemplate.Master.cs">
-      <DependentUpon>SystemMessageTemplate.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemMessages\SystemMessageTemplate.Master.designer.cs">
-      <DependentUpon>SystemMessageTemplate.Master</DependentUpon>
-    </Compile>
-    <Compile Include="SystemMessages\UpgradeInProgress.aspx.cs">
-      <DependentUpon>UpgradeInProgress.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemMessages\UpgradeInProgress.aspx.designer.cs">
-      <DependentUpon>UpgradeInProgress.aspx</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\Aggregate\AggBloggers.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -840,169 +840,138 @@
     <Content Include="emoticons.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="login.aspx" />
-    <Content Include="logout.aspx" />
-    <Content Include="MainFeed.aspx" />
-    <Content Include="Admin\Navigation.config" />
-    <Content Include="Admin\Web.config" />
-    <Content Include="HostAdmin\Web.config" />
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Admin\Comments.aspx.resx">
-      <DependentUpon>Comments.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Configure.aspx.resx">
-      <DependentUpon>Configure.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Confirm.aspx.resx">
-      <DependentUpon>Confirm.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\default.aspx.resx">
-      <DependentUpon>default.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\EditArticles.aspx.resx">
-      <DependentUpon>EditArticles.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\EditCategories.aspx.resx">
-      <DependentUpon>EditCategories.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\EditGalleries.aspx.resx">
-      <DependentUpon>EditGalleries.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\EditImage.aspx.resx">
-      <DependentUpon>EditImage.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\EditKeyWords.aspx.resx">
-      <DependentUpon>EditKeyWords.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\EditLinks.aspx.resx">
-      <DependentUpon>EditLinks.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Error.aspx.resx">
-      <DependentUpon>Error.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\ErrorLog.aspx.resx">
-      <DependentUpon>ErrorLog.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Export.aspx.resx">
-      <DependentUpon>Export.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\ImportExport.aspx.resx">
-      <DependentUpon>ImportExport.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Options.aspx.resx">
-      <DependentUpon>Options.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Security.aspx.resx">
-      <DependentUpon>Security.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Preferences.aspx.resx">
-      <DependentUpon>Preferences.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Referrers.aspx.resx">
-      <DependentUpon>Referrers.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Statistics.aspx.resx">
-      <DependentUpon>Statistics.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\StatsView.aspx.resx">
-      <DependentUpon>StatsView.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Syndication.aspx.resx">
-      <DependentUpon>Syndication.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin\UserControls\EntryEditor.ascx.resx">
-      <DependentUpon>EntryEditor.ascx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AggDefault.aspx.resx">
-      <DependentUpon>AggDefault.aspx.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Global.asax.resx">
       <DependentUpon>Global.asax.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\ChangePassword.aspx.resx">
-      <DependentUpon>ChangePassword.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="pages\Admin\Comments.aspx.resx">
+      <DependentUpon>Comments.aspx.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\ErrorLog.aspx.resx">
+    <EmbeddedResource Include="pages\Admin\Configure.aspx.resx">
+      <DependentUpon>Configure.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\Confirm.aspx.resx">
+      <DependentUpon>Confirm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\default.aspx.resx">
+      <DependentUpon>default.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\EditArticles.aspx.resx">
+      <DependentUpon>EditArticles.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\EditCategories.aspx.resx">
+      <DependentUpon>EditCategories.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\EditGalleries.aspx.resx">
+      <DependentUpon>EditGalleries.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\EditImage.aspx.resx">
+      <DependentUpon>EditImage.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\EditKeyWords.aspx.resx">
+      <DependentUpon>EditKeyWords.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\EditLinks.aspx.resx">
+      <DependentUpon>EditLinks.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\ErrorLog.aspx.resx">
       <DependentUpon>ErrorLog.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\Queue.aspx.resx">
+    <EmbeddedResource Include="pages\Admin\Export.aspx.resx">
+      <DependentUpon>Export.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\ImportExport.aspx.resx">
+      <DependentUpon>ImportExport.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\Options.aspx.resx">
+      <DependentUpon>Options.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\Preferences.aspx.resx">
+      <DependentUpon>Preferences.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\Referrers.aspx.resx">
+      <DependentUpon>Referrers.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\Security.aspx.resx">
+      <DependentUpon>Security.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\Statistics.aspx.resx">
+      <DependentUpon>Statistics.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\StatsView.aspx.resx">
+      <DependentUpon>StatsView.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\Syndication.aspx.resx">
+      <DependentUpon>Syndication.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\Admin\UserControls\EntryEditor.ascx.resx">
+      <DependentUpon>EntryEditor.ascx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\AggDefault.aspx.resx">
+      <DependentUpon>AggDefault.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\HostAdmin\ChangePassword.aspx.resx">
+      <DependentUpon>ChangePassword.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\HostAdmin\ErrorLog.aspx.resx">
+      <DependentUpon>ErrorLog.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\HostAdmin\Queue.aspx.resx">
       <DependentUpon>Queue.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\Upgrade\Default.aspx.resx">
+    <EmbeddedResource Include="pages\HostAdmin\Upgrade\Default.aspx.resx">
       <DependentUpon>Default.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\Upgrade\UpgradeComplete.aspx.resx">
+    <EmbeddedResource Include="pages\HostAdmin\Upgrade\UpgradeComplete.aspx.resx">
       <DependentUpon>UpgradeComplete.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\UserControls\BlogsEditor.ascx.resx">
+    <EmbeddedResource Include="pages\HostAdmin\UserControls\BlogsEditor.ascx.resx">
       <DependentUpon>BlogsEditor.ascx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HostAdmin\UserControls\GroupsEditor.ascx.resx">
+    <EmbeddedResource Include="pages\HostAdmin\UserControls\GroupsEditor.ascx.resx">
       <DependentUpon>GroupsEditor.ascx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Install\BlogNotConfiguredError.aspx.resx">
+    <EmbeddedResource Include="pages\Install\BlogNotConfiguredError.aspx.resx">
       <DependentUpon>BlogNotConfiguredError.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Install\Default.aspx.resx">
+    <EmbeddedResource Include="pages\Install\Default.aspx.resx">
       <DependentUpon>Default.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Install\InstallationComplete.aspx.resx">
+    <EmbeddedResource Include="pages\Install\InstallationComplete.aspx.resx">
       <DependentUpon>InstallationComplete.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Install\Step02_ConfigureHost.aspx.resx">
+    <EmbeddedResource Include="pages\Install\Step02_ConfigureHost.aspx.resx">
       <DependentUpon>Step02_ConfigureHost.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Install\Step03_CreateBlog.aspx.resx">
+    <EmbeddedResource Include="pages\Install\Step03_CreateBlog.aspx.resx">
       <DependentUpon>Step03_CreateBlog.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="login.aspx.resx">
+    <EmbeddedResource Include="pages\login.aspx.resx">
       <DependentUpon>login.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="logout.aspx.resx">
+    <EmbeddedResource Include="pages\logout.aspx.resx">
       <DependentUpon>logout.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainFeed.aspx.resx">
+    <EmbeddedResource Include="pages\MainFeed.aspx.resx">
       <DependentUpon>MainFeed.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\SystemMessages\BlogNotActive.aspx.resx">
+      <DependentUpon>BlogNotActive.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\SystemMessages\CheckYourConnectionString.aspx.resx">
+      <DependentUpon>CheckYourConnectionString.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\SystemMessages\Error.aspx.resx">
+      <DependentUpon>Error.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\SystemMessages\FileNotFound.aspx.resx">
+      <DependentUpon>FileNotFound.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\SystemMessages\UpgradeInProgress.aspx.resx">
+      <DependentUpon>UpgradeInProgress.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\BlogEntryEditor\FTB\ftb.imagegallery.aspx.resx">
       <DependentUpon>ftb.imagegallery.aspx.cs</DependentUpon>
@@ -1018,132 +987,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SystemMessages\BlogNotActive.aspx.resx">
-      <DependentUpon>BlogNotActive.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SystemMessages\CheckYourConnectionString.aspx.resx">
-      <DependentUpon>CheckYourConnectionString.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SystemMessages\Error.aspx.resx">
-      <DependentUpon>Error.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SystemMessages\FileNotFound.aspx.resx">
-      <DependentUpon>FileNotFound.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SystemMessages\UpgradeInProgress.aspx.resx">
-      <DependentUpon>UpgradeInProgress.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="transform.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Admin\Articles\Default.aspx" />
-    <Content Include="Admin\Articles\Edit.aspx" />
-    <Content Include="Admin\Comments.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="Admin\Configure.aspx" />
-    <Content Include="Admin\Confirm.aspx" />
-    <Content Include="Admin\Customize.aspx" />
-    <Content Include="Admin\default.aspx" />
-    <Content Include="Admin\EditArticles.aspx" />
-    <Content Include="Admin\EditCategories.aspx" />
-    <Content Include="Admin\EditGalleries.aspx" />
-    <Content Include="Admin\EditImage.aspx" />
-    <Content Include="Admin\EditKeyWords.aspx" />
-    <Content Include="Admin\EditLinks.aspx" />
-    <Content Include="Admin\Error.aspx" />
-    <Content Include="Admin\ErrorLog.aspx" />
-    <Content Include="Admin\Export.aspx" />
-    <Content Include="Admin\Feedback\Default.aspx" />
-    <Content Include="Admin\Feedback\Edit.aspx" />
-    <Content Include="Admin\ImportExport.aspx" />
-    <Content Include="Admin\license.txt" />
-    <Content Include="Admin\Options.aspx" />
-    <Content Include="Admin\Resources\dashboard.css" />
-    <Content Include="Admin\Resources\iPhoneIcon.png" />
-    <Content Include="Admin\Resources\mobile.css" />
-    <Content Include="Admin\Security.aspx" />
-    <Content Include="Admin\Posts\Default.aspx" />
-    <Content Include="Admin\Posts\Edit.aspx" />
-    <Content Include="Admin\Preferences.aspx" />
-    <Content Include="Admin\Referrers.aspx" />
-    <Content Include="Admin\Resources\admin.css" />
-    <Content Include="Admin\Resources\bg.gif" />
-    <Content Include="Admin\Resources\bg_body.gif" />
-    <Content Include="Admin\Resources\bg_tabs.gif" />
-    <Content Include="Admin\Resources\ie6admin.css" />
-    <Content Include="Admin\Resources\ie7admin.css" />
-    <Content Include="Admin\Resources\poweredbydotnet.gif" />
-    <Content Include="Admin\Resources\Scripts\Admin.js" />
-    <Content Include="Admin\Resources\Scripts\autoTab.js" />
-    <Content Include="Admin\Resources\Scripts\comboBox.js" />
-    <Content Include="Admin\Resources\Scripts\helptip.css" />
-    <Content Include="Admin\Resources\Scripts\helptip.js" />
-    <Content Include="Admin\Resources\Scripts\Images\bottom.gif" />
-    <Content Include="Admin\Resources\Scripts\Images\button.gif" />
-    <Content Include="Admin\Resources\Scripts\Images\checkbox.gif" />
-    <Content Include="Admin\Resources\Scripts\Images\input.gif" />
-    <Content Include="Admin\Resources\Scripts\Images\ms_information_small.gif" />
-    <Content Include="Admin\Resources\Scripts\Images\radio.gif" />
-    <Content Include="Admin\Resources\Scripts\Images\select_bg.gif" />
-    <Content Include="Admin\Resources\Scripts\Images\select_left.gif" />
-    <Content Include="Admin\Resources\Scripts\Images\select_right.gif" />
-    <Content Include="Admin\Resources\Scripts\Images\sidesbg.jpg" />
-    <Content Include="Admin\Resources\Scripts\Images\textarea.gif" />
-    <Content Include="Admin\Resources\Scripts\labelFocus.js" />
-    <Content Include="Admin\Resources\toggle_gray_down.gif" />
-    <Content Include="Admin\Resources\toggle_gray_up.gif" />
-    <Content Include="Admin\RssFeeds.aspx" />
-    <Content Include="Admin\Skins.aspx" />
-    <Content Include="Admin\Statistics.aspx" />
-    <Content Include="Admin\StatsView.aspx" />
-    <Content Include="Admin\Syndication.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="Admin\UserControls\CategoryLinkList.ascx" />
-    <Content Include="Admin\UserControls\PopularPosts.ascx" />
-    <Content Include="Admin\UserControls\EntriesList.ascx" />
-    <Content Include="Admin\UserControls\EntryEditor.ascx" />
-    <Content Include="Admin\Credits.aspx" />
-    <Content Include="Admin\UserControls\RecentComments.ascx" />
-    <Content Include="Admin\UserControls\RecentPosts.ascx" />
-    <Content Include="AggDefault.aspx" />
-    <Content Include="App_Data\Subtext2.1.mdf">
+    <Content Include="App_Data\Subtext2.2.mdf">
     </Content>
     <Content Include="Default.aspx" />
-    <Content Include="DTP.aspx" />
-    <Content Include="ForgotPassword.aspx" />
-    <Content Include="HostAdmin\ChangePassword.aspx" />
-    <Content Include="HostAdmin\ManageGroups.aspx" />
-    <Content Include="HostAdmin\Default.aspx" />
-    <Content Include="HostAdmin\ErrorLog.aspx" />
-    <Content Include="HostAdmin\images\bottom.gif" />
-    <Content Include="HostAdmin\images\shadow.gif" />
-    <Content Include="HostAdmin\images\shadowAlpha.png" />
-    <Content Include="HostAdmin\images\sidesbg.jpg" />
-    <Content Include="HostAdmin\Queue.aspx" />
-    <Content Include="HostAdmin\Scripts\helptip.css" />
-    <Content Include="HostAdmin\Scripts\helptip.js" />
-    <Content Include="HostAdmin\styles\Style.css" />
-    <Content Include="HostAdmin\Upgrade\Default.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="HostAdmin\Upgrade\UpgradeComplete.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="HostAdmin\UserControls\BlogsEditor.ascx">
-      <SubType>UserControl</SubType>
-    </Content>
-    <Content Include="HostAdmin\UserControls\GroupsEditor.ascx">
-      <SubType>UserControl</SubType>
-    </Content>
     <Content Include="Images\accept.png" />
     <Content Include="Images\admin.gif" />
     <Content Include="Images\administration_icon.gif" />
@@ -1241,16 +1092,109 @@
     <Content Include="Images\xfn-sweetheart.png" />
     <Content Include="Images\xfn.png" />
     <Content Include="Images\xml.gif" />
-    <Content Include="Install\BlogNotConfiguredError.aspx" />
-    <Content Include="Install\Default.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="Install\InstallationComplete.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="Install\Step02_ConfigureHost.aspx" />
-    <Content Include="Install\Step03_CreateBlog.aspx" />
-    <Content Include="Install\Style\InstallationStyle.css" />
+    <Content Include="pages\Admin\Articles\Default.aspx" />
+    <Content Include="pages\Admin\Articles\Edit.aspx" />
+    <Content Include="pages\Admin\Comments.aspx" />
+    <Content Include="pages\Admin\Configure.aspx" />
+    <Content Include="pages\Admin\Confirm.aspx" />
+    <Content Include="pages\Admin\Credits.aspx" />
+    <Content Include="pages\Admin\Customize.aspx" />
+    <Content Include="pages\Admin\default.aspx" />
+    <Content Include="pages\Admin\EditArticles.aspx" />
+    <Content Include="pages\Admin\EditCategories.aspx" />
+    <Content Include="pages\Admin\EditGalleries.aspx" />
+    <Content Include="pages\Admin\EditImage.aspx" />
+    <Content Include="pages\Admin\EditKeyWords.aspx" />
+    <Content Include="pages\Admin\EditLinks.aspx" />
+    <Content Include="pages\Admin\ErrorLog.aspx" />
+    <Content Include="pages\Admin\Export.aspx" />
+    <Content Include="pages\Admin\Feedback\Default.aspx" />
+    <Content Include="pages\Admin\Feedback\Edit.aspx" />
+    <Content Include="pages\Admin\ImportExport.aspx" />
+    <Content Include="pages\Admin\license.txt" />
+    <Content Include="pages\Admin\Options.aspx" />
+    <Content Include="pages\Admin\Posts\Default.aspx" />
+    <Content Include="pages\Admin\Posts\Edit.aspx" />
+    <Content Include="pages\Admin\Preferences.aspx" />
+    <Content Include="pages\Admin\Referrers.aspx" />
+    <Content Include="pages\Admin\Resources\admin.css" />
+    <Content Include="pages\Admin\Resources\bg.gif" />
+    <Content Include="pages\Admin\Resources\bg_body.gif" />
+    <Content Include="pages\Admin\Resources\bg_tabs.gif" />
+    <Content Include="pages\Admin\Resources\dashboard.css" />
+    <Content Include="pages\Admin\Resources\ie6admin.css" />
+    <Content Include="pages\Admin\Resources\ie7admin.css" />
+    <Content Include="pages\Admin\Resources\iPhoneIcon.png" />
+    <Content Include="pages\Admin\Resources\mobile.css" />
+    <Content Include="pages\Admin\Resources\poweredbydotnet.gif" />
+    <Content Include="pages\Admin\Resources\Scripts\Admin.js" />
+    <Content Include="pages\Admin\Resources\Scripts\autoTab.js" />
+    <Content Include="pages\Admin\Resources\Scripts\comboBox.js" />
+    <Content Include="pages\Admin\Resources\Scripts\helptip.css" />
+    <Content Include="pages\Admin\Resources\Scripts\helptip.js" />
+    <Content Include="pages\Admin\Resources\Scripts\Images\bottom.gif" />
+    <Content Include="pages\Admin\Resources\Scripts\Images\button.gif" />
+    <Content Include="pages\Admin\Resources\Scripts\Images\checkbox.gif" />
+    <Content Include="pages\Admin\Resources\Scripts\Images\input.gif" />
+    <Content Include="pages\Admin\Resources\Scripts\Images\ms_information_small.gif" />
+    <Content Include="pages\Admin\Resources\Scripts\Images\radio.gif" />
+    <Content Include="pages\Admin\Resources\Scripts\Images\select_bg.gif" />
+    <Content Include="pages\Admin\Resources\Scripts\Images\select_left.gif" />
+    <Content Include="pages\Admin\Resources\Scripts\Images\select_right.gif" />
+    <Content Include="pages\Admin\Resources\Scripts\Images\sidesbg.jpg" />
+    <Content Include="pages\Admin\Resources\Scripts\Images\textarea.gif" />
+    <Content Include="pages\Admin\Resources\Scripts\labelFocus.js" />
+    <Content Include="pages\Admin\Resources\toggle_gray_down.gif" />
+    <Content Include="pages\Admin\Resources\toggle_gray_up.gif" />
+    <Content Include="pages\Admin\RssFeeds.aspx" />
+    <Content Include="pages\Admin\Security.aspx" />
+    <Content Include="pages\Admin\Skins.aspx" />
+    <Content Include="pages\Admin\Statistics.aspx" />
+    <Content Include="pages\Admin\StatsView.aspx" />
+    <Content Include="pages\Admin\Syndication.aspx" />
+    <Content Include="pages\Admin\UserControls\CategoryLinkList.ascx" />
+    <Content Include="pages\Admin\UserControls\EntriesList.ascx" />
+    <Content Include="pages\Admin\UserControls\EntryEditor.ascx" />
+    <Content Include="pages\Admin\UserControls\PopularPosts.ascx" />
+    <Content Include="pages\Admin\UserControls\RecentComments.ascx" />
+    <Content Include="pages\Admin\UserControls\RecentPosts.ascx" />
+    <Content Include="pages\AggDefault.aspx" />
+    <Content Include="pages\DTP.aspx" />
+    <Content Include="pages\ForgotPassword.aspx" />
+    <Content Include="pages\HostAdmin\ChangePassword.aspx" />
+    <Content Include="pages\HostAdmin\Default.aspx" />
+    <Content Include="pages\HostAdmin\ErrorLog.aspx" />
+    <Content Include="pages\HostAdmin\images\bottom.gif" />
+    <Content Include="pages\HostAdmin\images\shadow.gif" />
+    <Content Include="pages\HostAdmin\images\shadowAlpha.png" />
+    <Content Include="pages\HostAdmin\images\sidesbg.jpg" />
+    <Content Include="pages\HostAdmin\ManageGroups.aspx" />
+    <Content Include="pages\HostAdmin\Queue.aspx" />
+    <Content Include="pages\HostAdmin\Scripts\helptip.css" />
+    <Content Include="pages\HostAdmin\Scripts\helptip.js" />
+    <Content Include="pages\HostAdmin\styles\Style.css" />
+    <Content Include="pages\HostAdmin\Upgrade\Default.aspx" />
+    <Content Include="pages\HostAdmin\Upgrade\UpgradeComplete.aspx" />
+    <Content Include="pages\HostAdmin\UserControls\BlogsEditor.ascx" />
+    <Content Include="pages\HostAdmin\UserControls\GroupsEditor.ascx" />
+    <Content Include="pages\HostAdmin\Web.config" />
+    <Content Include="pages\Install\BlogNotConfiguredError.aspx" />
+    <Content Include="pages\Install\Default.aspx" />
+    <Content Include="pages\Install\InstallationComplete.aspx" />
+    <Content Include="pages\Install\Step02_ConfigureHost.aspx" />
+    <Content Include="pages\Install\Step03_CreateBlog.aspx" />
+    <Content Include="pages\Install\Style\InstallationStyle.css" />
+    <Content Include="pages\login.aspx" />
+    <Content Include="pages\logout.aspx" />
+    <Content Include="pages\MainFeed.aspx" />
+    <Content Include="pages\SystemMessages\BlogNotActive.aspx" />
+    <Content Include="pages\SystemMessages\CheckYourConnectionString.aspx" />
+    <Content Include="pages\SystemMessages\DatabaseLoginFailed.aspx" />
+    <Content Include="pages\SystemMessages\DeprecatedPhysicalPaths.aspx" />
+    <Content Include="pages\SystemMessages\Error.aspx" />
+    <Content Include="pages\SystemMessages\FileNotFound.aspx" />
+    <Content Include="pages\SystemMessages\Style\SystemMessageStyle.css" />
+    <Content Include="pages\SystemMessages\UpgradeInProgress.aspx" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\customConfiguration\subtextconfig.js" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\css\behaviors\disablehandles.htc" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\css\behaviors\hiddenfield.gif" />
@@ -2180,20 +2124,25 @@
     <Content Include="Skins\RedBook\Controls\Contact.ascx" />
     <Content Include="Skins\RedBook\Controls\Day.ascx" />
     <Content Include="Skins\RedBook\Controls\DayCollection.ascx" />
-    <Content Include="HostAdmin\HostAdminTemplate.Master" />
     <Content Include="Log4Net.config" />
-    <Content Include="Install\InstallTemplate.Master" />
     <Content Include="Images\IdenticonHandler.ashx" />
-    <Content Include="Admin\Posts\Posts.Master" />
-    <Content Include="Admin\Articles\Articles.Master" />
-    <Content Include="Admin\Feedback\Feedback.Master" />
+    <Content Include="pages\Admin\Articles\Articles.Master" />
+    <Content Include="pages\Admin\Feedback\Feedback.Master" />
+    <Content Include="pages\Admin\Navigation.config" />
+    <Content Include="pages\Admin\Posts\Posts.Master" />
+    <Content Include="pages\Admin\Services\Ajax\AjaxServices.ashx" />
+    <Content Include="pages\Admin\Web.config" />
+    <Content Include="pages\Admin\WebUI\AdminPageTemplate.Master" />
+    <Content Include="pages\Install\InstallTemplate.Master" />
+    <Content Include="pages\HostAdmin\HostAdminTemplate.Master" />
+    <Content Include="pages\SystemMessages\SystemMessageTemplate.Master" />
+    <Content Include="pages\Web.config" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\filemanager\browser\default\connectors\aspx\Web.config" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\filemanager\browser\default\images\icons\32\Thumbs.db" />
     <Content Include="SiteMap\SiteMapHttpHandler.ashx" />
-    <Content Include="Admin\Services\Ajax\AjaxServices.ashx" />
     <Content Include="Skins\Piyo\skin.config" />
     <Content Include="Skins\AnotherEon001\skin.config" />
     <Content Include="Skins\Colors\skins.config" />
@@ -2407,24 +2356,6 @@
     <Content Include="Skins\_System\forms.css" />
     <Content Include="Skins\_System\login.css" />
     <Content Include="Skins\_System\SystemStyle.css" />
-    <Content Include="SystemMessages\BlogNotActive.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="SystemMessages\CheckYourConnectionString.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="SystemMessages\DatabaseLoginFailed.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="SystemMessages\Error.aspx" />
-    <Content Include="SystemMessages\FileNotFound.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="SystemMessages\Style\SystemMessageStyle.css" />
-    <Content Include="SystemMessages\UpgradeInProgress.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="Admin\WebUI\AdminPageTemplate.Master" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -2434,7 +2365,6 @@
     <Content Include="Skins\Semagogy\skin.config" />
     <Content Include="Skins\RedBook\skin.config" />
     <Content Include="Skins\_System\ForgotPassword.Master" />
-    <Content Include="SystemMessages\SystemMessageTemplate.Master" />
     <Content Include="UI\WebControls\ContentRegion.bmp" />
     <Content Include="UI\WebControls\MasterPage.bmp" />
     <Content Include="wlwmanifest.xml" />

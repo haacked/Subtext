@@ -65,7 +65,7 @@ namespace Subtext.Web.UI.Controls
 
 		private void btnLogin_Click(object sender, System.EventArgs e)
 		{
-			if(SecurityHelper.Authenticate(tbUserName.Text,tbPassword.Text,RememberMe.Checked))
+			if(SubtextContext.HttpContext.Authenticate(Blog, tbUserName.Text,tbPassword.Text,RememberMe.Checked))
 			{
 				Response.Redirect(Request.Path);
 			}

@@ -14,11 +14,13 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using MbUnit.Framework;
+using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
@@ -32,8 +34,6 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 	[TestFixture]
 	public class SecurityTests
 	{
-		string _hostName;
-
 		/// <summary>
 		/// Makes sure that the UpdatePassword method hashes the password.
 		/// </summary>
@@ -41,43 +41,69 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		[RollBack]
 		public void UpdatePasswordHashesPassword()
 		{
+            string hostName = UnitTestHelper.GenerateUniqueString();
+            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "MyBlog");
+
 			Config.Settings.UseHashedPasswords = true;
-			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
+			Config.CreateBlog("", "username", "thePassword", hostName, "MyBlog");
+            BlogRequest.Current.Blog = Config.GetBlog(hostName, "MyBlog");
 			string password = SecurityHelper.HashPassword("newPass");
 
 			SecurityHelper.UpdatePassword("newPass");
-			Blog info = Config.GetBlog(_hostName, "MyBlog");
+			Blog info = Config.GetBlog(hostName, "MyBlog");
 			Assert.AreEqual(password, info.Password);
 		}
 
-		/// <summary>
-		/// Basically a regression test of the HashPasswordMethod.
-		/// </summary>
 		[Test]
-		[RollBack]
-		public void HashPasswordReturnsProperHash()
+		public void IsValidPassword_WithBlogHavingHashedPasswordMatchingGivenClearTextPassword_ReturnsTrue()
 		{
-			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
-			string password = "myPassword";
+            // arrange
+            string password = "myPassword";
 			string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
 			Assert.AreEqual(hashedPassword, SecurityHelper.HashPassword(password));
-		
-			Config.CurrentBlog.IsPasswordHashed = true;
-			Config.CurrentBlog.Password = hashedPassword;
-			Assert.IsTrue(SecurityHelper.IsValidPassword(password));
+            Blog blog = new Blog { UserName = "username", Password = hashedPassword, IsPasswordHashed = true };
+            
+            // act
+            bool isValidPassword = SecurityHelper.IsValidPassword(blog, password);
 
-			Config.CurrentBlog.IsPasswordHashed = false;
-			Config.CurrentBlog.Password = password;
-			Assert.IsTrue(SecurityHelper.IsValidPassword(password));
+            // assert
+            Assert.IsTrue(isValidPassword);
 		}
+
+        [Test]
+        public void IsValidPassword_WithPasswordHashingEnabledAndGivenTheHashedPassword_ReturnsFalse()
+        {
+            // arrange
+            string password = "myPassword";
+            string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
+            Assert.AreEqual(hashedPassword, SecurityHelper.HashPassword(password));
+            Blog blog = new Blog { UserName = "username", Password = hashedPassword, IsPasswordHashed = true };
+
+            // act
+            bool isValidPassword = SecurityHelper.IsValidPassword(blog, hashedPassword);
+
+            // assert
+            Assert.IsFalse(isValidPassword);
+        }
+
+        [Test]
+        public void IsValidPassword_WithClearTextPasswordMatchingBlogPassword_ReturnsTrue()
+        {
+            // arrange
+            string password = "myPassword";
+            Blog blog = new Blog { UserName = "username", Password = password, IsPasswordHashed = false };
+
+            // act
+            bool isValidPassword = SecurityHelper.IsValidPassword(blog, password);
+
+            // assert
+            Assert.IsTrue(isValidPassword);
+        }
 
 		/// <summary>
 		/// Ensures HashesPassword is case sensitive.
 		/// </summary>
 		[Test]
-		[RollBack]
 		public void HashPasswordIsCaseSensitive()
 		{
 			string lowercase = "password";
@@ -91,42 +117,110 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		/// bitconverter created password.
 		/// </summary>
 		[Test]
-		[RollBack]
-		public void OldBitConverterPasswordUnderstood()
+		public void IsValidPassword_GivenValidPasswordHashedUsingOldBitConverterStyleHash_ReturnsTrue()
 		{
-			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
+            // arrange
 			string password = "myPassword";
 			Byte[] clearBytes = new UnicodeEncoding().GetBytes(password);
 			Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(clearBytes);
 			string bitConvertedPassword = BitConverter.ToString(hashedBytes);
-		
-			Config.CurrentBlog.IsPasswordHashed = true;
-			Config.CurrentBlog.Password = bitConvertedPassword;
-			
-			Assert.IsTrue(SecurityHelper.IsValidPassword(password));
+            Blog blog = new Blog { UserName = "username", Password = bitConvertedPassword, IsPasswordHashed = true };
+
+            // act
+            bool isValid = SecurityHelper.IsValidPassword(blog, password);
+            
+            // assert
+            Assert.IsTrue(isValid);
 		}
 		
 		[Test]
-		[RollBack]
-		public void CanSetAuthenticationCookie()
+        public void SelectAuthenticationCookie_WithCookieNameMatchingBlog_ReturnsThatCookie()
 		{
-			Config.CreateBlog("", "the-username", "thePassword", _hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
-			SecurityHelper.SetAuthenticationTicket("the-username", false, "Admins");
-			HttpCookie cookie = SecurityHelper.SelectAuthenticationCookie();
-			Assert.IsNotNull(cookie, "Could not get authentication cookie.");
+            // arrange
+            var cookies = new HttpCookieCollection();
+            cookies.Add(new HttpCookie("This Is Not The Cookie You're Looking For"));
+            cookies.Add(new HttpCookie(".ASPXAUTH.42") { Path="/Subtext.Web" });
+            cookies.Add(new HttpCookie("Awful Cookie"));
+            var request = new Mock<HttpRequestBase>();
+            request.Setup(r => r.QueryString).Returns(new NameValueCollection());
+            request.Setup(r => r.Cookies).Returns(cookies);
+
+            // act
+            HttpCookie cookie = request.Object.SelectAuthenticationCookie(new Blog {Id=42});
+			
+			// assert
+            Assert.IsNotNull(cookie);
+            Assert.AreEqual(".ASPXAUTH.42", cookie.Name);
+            Assert.AreEqual("/Subtext.Web", cookie.Path);
 		}
 
+        [Test]
+        public void GetFullCookieName_WithBlog_ReturnsCookieNameWithBlogId()
+        {
+            // arrange
+            var request = new Mock<HttpRequestBase>();
+            request.Setup(r => r.QueryString).Returns(new NameValueCollection());
+            var blog = new Blog { Id = 42 };
+
+            // act
+            string cookieName = request.Object.GetFullCookieName(blog);
+
+            // assert
+            Assert.AreEqual(".ASPXAUTH.42", cookieName);
+        }
+
+        [Test]
+        public void GetFullCookieName_WithReturnUrlPointingToHostAdmin_ReturnsCookieNameWithBlogIdAndHostAdminInitials()
+        {
+            // arrange
+            var request = new Mock<HttpRequestBase>();
+            var queryStringParams = new NameValueCollection();
+            queryStringParams.Add("ReturnUrl", "/HostAdmin");
+            request.Setup(r => r.QueryString).Returns(queryStringParams);
+            var blog = new Blog { Id = 42 };
+
+            // act
+            string cookieName = request.Object.GetFullCookieName(blog, false);
+
+            // assert
+            Assert.AreEqual(".ASPXAUTH.HA.42", cookieName);
+        }
+
+        [Test]
+        public void GetFullCookieName_WithForceHostAdminTrueAndNullBlog_ReturnsCookieNameWithHostAdminInitials()
+        {
+            // arrange
+            var request = new Mock<HttpRequestBase>();
+            request.Setup(r => r.QueryString).Returns(new NameValueCollection());
+
+            // act
+            string cookieName = request.Object.GetFullCookieName(null, true);
+
+            // assert
+            Assert.AreEqual(".ASPXAUTH.HA.null", cookieName);
+        }
+
 		[Test]
-		[RollBack]
 		public void CanAuthenticateAdmin()
-		{
-			Config.CreateBlog("", "the-username", "thePassword", _hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
-			Assert.IsTrue(SecurityHelper.Authenticate("the-username", "thePassword", true), "We should be able to login.");
-			HttpCookie cookie = SecurityHelper.SelectAuthenticationCookie();
-			Assert.IsNotNull(cookie, "Could not get authentication cookie.");
+        {
+            // arrange
+            var cookies = new HttpCookieCollection();
+            var request = new Mock<HttpRequestBase>();
+            request.Setup(r => r.Path).Returns("/whatever");
+            request.Setup(r => r.Cookies).Returns(cookies);
+            request.Setup(r => r.QueryString).Returns(new NameValueCollection());
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.Setup(c => c.Request).Returns(request.Object);
+            httpContext.Setup(c => c.Response.Cookies).Returns(cookies);
+            Blog blog = new Blog { UserName = "the-username", Password = "thePassword", IsPasswordHashed = false };
+
+            // act
+            bool authenticated = httpContext.Object.Authenticate(blog, "the-username", "thePassword", true);
+
+            // assert
+			Assert.IsTrue(authenticated);
+            HttpCookie cookie = request.Object.SelectAuthenticationCookie(blog);
+			Assert.IsNotNull(cookie);
 		}
 		
 		[Test]
@@ -137,7 +231,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		}
 		
 		[Test]
-		public void CanSymmetcricallyEncryptAndDecryptText()
+		public void CanSymmetricallyEncryptAndDecryptText()
 		{
 			string clearText = "Hello world!";
 			byte[] key = SecurityHelper.GenerateSymmetricKey();
@@ -158,18 +252,6 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		{
 			//Confirm app settings
             UnitTestHelper.AssertAppSettings();
-		}
-		
-		[SetUp]
-		public void SetUp()
-		{
-			_hostName = UnitTestHelper.GenerateUniqueString();
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog");
-		}
-
-		[TearDown]
-		public void TearDown()
-		{
 		}
 	}
 }

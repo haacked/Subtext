@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.InstallationTests
             InstallationManager manager = new InstallationManager(installProvider.Object);
 
             //act
-            bool result = manager.IsInstallationActionRequired(new Version());
+            bool result = manager.InstallationActionRequired(new Version());
 
             //assert
             Assert.IsTrue(result);
@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.InstallationTests
             InstallationManager installManager = new InstallationManager(installProvider.Object);
 
             //act
-            bool result = installManager.IsInstallationActionRequired(new Version());
+            bool result = installManager.InstallationActionRequired(new Version());
 
             //assert
             Assert.IsFalse(result);
@@ -67,7 +67,7 @@ namespace UnitTests.Subtext.InstallationTests
             InstallationManager installManager = new InstallationManager(installProvider.Object);
 
             //act
-            bool result = installManager.InstallationActionRequired(new BlogDoesNotExistException(123), new Version());
+            bool result = installManager.InstallationActionRequired(new Version(), new BlogDoesNotExistException(123));
 
             //assert
             Assert.IsTrue(result);
@@ -81,7 +81,7 @@ namespace UnitTests.Subtext.InstallationTests
             InstallationManager installManager = new InstallationManager(installProvider.Object);
 
             //act
-            bool result = installManager.InstallationActionRequired(new HostDataDoesNotExistException(), new Version());
+            bool result = installManager.InstallationActionRequired(new Version(), new HostDataDoesNotExistException());
 
             //assert
             Assert.IsTrue(result);

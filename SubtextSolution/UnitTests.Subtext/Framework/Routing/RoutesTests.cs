@@ -5,7 +5,9 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
+using Ninject;
 using Subtext.Framework.Routing;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -197,5 +199,39 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual(routeData.RouteHandler.GetType(), typeof(MvcRouteHandler));
         }
 
+        [Test]
+        public void RequestWithSubfolderForInstallDirectory_DoesNotMatch() {
+            //arrange
+            var routes = new RouteCollection();
+            Routes.RegisterRoutes(routes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/subfolder/install/default.aspx", "subfolder");
+
+            //act
+            var routeData = routes.GetRouteData(httpContext.Object);
+
+            //assert.
+            Assert.IsNull(routeData);
+        }
+
+        [Test]
+        public void RequestWithoutSubfolderForInstallDirectory_Matches() {
+            //arrange
+            var routes = new RouteCollection();
+            Routes.RegisterRoutes(routes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/install/default.aspx", "");
+
+            //act
+            var routeData = routes.GetRouteData(httpContext.Object);
+
+            //assert.
+            Assert.IsNotNull(routeData);
+        }
+
+        [SetUp]
+        public void SetUp() {
+            Bootstrapper.Kernel = new Mock<IKernel>().Object;
+        }
     }
 }

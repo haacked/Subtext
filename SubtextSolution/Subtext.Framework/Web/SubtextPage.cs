@@ -13,27 +13,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
-using System.Web;
-using System.Web.Routing;
 using System.Web.UI;
 using Ninject;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Web.Handlers
 {
     public class SubtextPage : Page, ISubtextHandler {
-        protected override void OnInit(EventArgs e) {
-            //TODO: Remove the necessity for this code.
-            if (SubtextContext == null) {
-                Bootstrapper.RequestContext = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
-                Bootstrapper.Kernel.Inject(this);
-            }
-            base.OnInit(e);
-        }
-
         [Inject]
         public ISubtextContext SubtextContext {
             get;

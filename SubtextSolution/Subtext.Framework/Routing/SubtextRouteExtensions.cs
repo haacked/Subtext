@@ -38,13 +38,17 @@ namespace Subtext.Framework.Routing
             routes.Add(directoryName, new DirectoryRoute(directoryName));
         }
 
+        public static void MapSystemDirectory(this RouteCollection routes, string directoryName) {
+            routes.Add(directoryName, new SystemDirectoryRoute(directoryName));
+        }
+
         public static void MapControls(this RouteCollection routes, string url, object constraints, IEnumerable<string> controls) {
             routes.MapControls(url, new RouteValueDictionary(constraints), controls);
         }
 
         public static void MapControls(this RouteCollection routes, string url, RouteValueDictionary constraints, IEnumerable<string> controls)
         {
-            routes.Add(new PageRoute(url, "~/Dtp.aspx", controls) { Constraints = constraints });
+            routes.MapControls(null, url, constraints, controls, null);
         }
 
         public static void MapControls(this RouteCollection routes, string name, string url, object constraints, IEnumerable<string> controls)
@@ -58,7 +62,7 @@ namespace Subtext.Framework.Routing
 
         public static void MapControls(this RouteCollection routes, string name, string url, RouteValueDictionary constraints, IEnumerable<string> controls, object defaults) {
         
-            routes.Add(name, new PageRoute(url, "~/Dtp.aspx", controls) { Constraints = constraints, Defaults = new RouteValueDictionary(defaults) });
+            routes.Add(name, new PageRoute(url, "~/pages/Dtp.aspx", controls) { Constraints = constraints, Defaults = new RouteValueDictionary(defaults) });
         }
 
         public static void MapControls(this RouteCollection routes, string url, IEnumerable<string> controls) {
@@ -78,10 +82,14 @@ namespace Subtext.Framework.Routing
             routes.Add("root", new RootRoute(String.Equals(ConfigurationManager.AppSettings["AggregateEnabled"], "true", StringComparison.OrdinalIgnoreCase)));
         }
 
-        public static void MapPage(this RouteCollection routes, string name)
-        {
+        public static void MapPage(this RouteCollection routes, string name) {
             string url = name + ".aspx";
-            routes.Add(name, new SubtextRoute(url, new PageRouteHandler("~/" + url, Bootstrapper.Kernel.Get<ISubtextPageBuilder>())));
+            routes.Add(name, new SubtextRoute(url, new PageRouteHandler("~/pages/" + url, Bootstrapper.Kernel.Get<ISubtextPageBuilder>())));
+        }
+
+        public static void MapSystemPage(this RouteCollection routes, string name) {
+            string url = name + ".aspx";
+            routes.Add(name, new Route(url, new PageRouteHandler("~/pages/" + url, Bootstrapper.Kernel.Get<ISubtextPageBuilder>())));
         }
 
         public static void MapHttpHandler<THttpHandler>(this RouteCollection routes, string name, string url) where THttpHandler : IHttpHandler, new() {

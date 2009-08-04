@@ -20,7 +20,7 @@ namespace Subtext.Web
             RequestContext requestContext = new RequestContext(httpContext, routeData);
             string originalPath = Request.Path;
             HttpContext.Current.RewritePath(Request.ApplicationPath, false);
-            IRouteHandler routeHandler = new PageRouteHandler(HostInfo.Instance.BlogAggregationEnabled ? "~/AggDefault.aspx" : "~/Dtp.aspx", Bootstrapper.Kernel.Get<ISubtextPageBuilder>());
+            IRouteHandler routeHandler = new PageRouteHandler(HostInfo.Instance.BlogAggregationEnabled ? "~/pages/AggDefault.aspx" : "~/pages/Dtp.aspx", Bootstrapper.Kernel.Get<ISubtextPageBuilder>());
             IHttpHandler httpHandler = routeHandler.GetHttpHandler(requestContext);
             httpHandler.ProcessRequest(HttpContext.Current);
             HttpContext.Current.RewritePath(originalPath);

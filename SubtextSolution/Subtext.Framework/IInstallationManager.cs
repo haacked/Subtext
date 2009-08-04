@@ -14,12 +14,14 @@
 #endregion
 
 using System;
+using Subtext.Extensibility.Providers;
 
 namespace Subtext.Framework
 {
     public interface IInstallationManager
     {
-        bool IsInstallationActionRequired(Version assemblyVersion);
-        bool InstallationActionRequired(Exception unhandledException, Version assemblyVersion);
+        bool InstallationActionRequired(Version assemblyVersion);
+        bool InstallationActionRequired(Version assemblyVersion, Exception unhandledException);
+        InstallationState GetInstallationStatus(Version currentAssemblyVersion);
     }
 }

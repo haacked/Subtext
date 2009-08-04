@@ -49,6 +49,21 @@ namespace UnitTests.Subtext.Scripting
 		}
 
         [Test]
+        public void Parse_WithSqlExpressAttachConnectionString_DoesNotLoseAttach()
+        {
+            // arrange
+            string connectionString = @"Server=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\Subtext2.1.mdf;Database=Subtext2.1;Trusted_Connection=True;";
+            
+            // act
+            ConnectionString connectionInfo = ConnectionString.Parse(connectionString);
+            
+            // assert
+            Assert.AreEqual(@"Subtext2.1", connectionInfo.Database);
+            Assert.AreEqual(@".\SQLEXPRESS", connectionInfo.Server);
+            Assert.AreEqual(connectionString, connectionInfo.ToString());
+        }
+
+        [Test]
         public void CanParseSqlExpressConnectionString()
         {
             string connectionString = @"Data Source=.\SQLExpress;Integrated Security=true;AttachDbFilename=|DataDirectory|\Subtext3.0.mdf;User Instance=true;";
@@ -63,7 +78,7 @@ namespace UnitTests.Subtext.Scripting
 		{
 			ConnectionString connection = ConnectionString.Parse("Data Source=TEST;Initial Catalog=pubs;User Id=sa;Password=asdasd;");
 			string s = connection;
-			Assert.AreEqual("Data Source=TEST;Initial Catalog=pubs;User ID=sa;Password=asdasd;", s, "Strings are still equal.");
+            Assert.AreEqual("Data Source=TEST;Initial Catalog=pubs;User Id=sa;Password=asdasd;", s);
 		}
 	}
 }
