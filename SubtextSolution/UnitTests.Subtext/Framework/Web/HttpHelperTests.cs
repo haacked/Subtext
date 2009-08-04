@@ -71,8 +71,11 @@ namespace UnitTests.Subtext.Framework.Web
 		[Row("test.ashx", false)]
 		public void CanDeterimineIsStaticFileRequest(string filename, bool expected)
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "", filename);
-			Assert.AreEqual(expected, HttpHelper.IsStaticFileRequest());
+			// arrange
+            var request = new Mock<HttpRequestBase>();
+            request.Setup(r => r.Url).Returns(new Uri("http://localhost:1234/whatever/" + filename));
+
+			Assert.AreEqual(expected, request.Object.IsStaticFileRequest());
 		}
 	}
 }

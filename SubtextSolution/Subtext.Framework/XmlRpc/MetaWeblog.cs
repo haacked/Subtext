@@ -50,7 +50,7 @@ namespace Subtext.Framework.XmlRpc
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_WebServiceNotEnabled);
             }
 
-            bool isValid = SecurityHelper.IsValidUser(username, password);
+            bool isValid = SecurityHelper.IsValidUser(Config.CurrentBlog, username, password);
             if (!isValid) {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_UsernameAndPasswordInvalid);
             }

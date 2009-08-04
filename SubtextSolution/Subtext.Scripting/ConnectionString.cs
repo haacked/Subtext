@@ -30,13 +30,13 @@ namespace Subtext.Scripting
 	{
 		private static readonly ConnectionString _emptyConnectionString = new ConnectionString();
 
-		readonly string _connectionFormatString = "{0}={1};{2}={3};User ID={4};Password={5};{6}";
-		readonly string _trustedConnectionFormatString = "{0}={1};{2}={3};{4}";
-		string _databaseFieldName="Database";
+        //readonly string _connectionFormatString = "{0}={1};{2}={3};User ID={4};Password={5};{6}";
+        //readonly string _trustedConnectionFormatString = "{0}={1};{2}={3};{4}";
+        string _databaseFieldName="Database";
 		string _serverFieldName="Server";
 		string _securityType;
 		string _securityTypeText;
-		
+
 		/// <summary>
 		/// Return an empty instance of connection string
 		/// </summary>
@@ -139,10 +139,11 @@ namespace Subtext.Scripting
 		/// </returns>
 		public override string ToString()
 		{
-			if(TrustedConnection)
-				return string.Format(CultureInfo.InvariantCulture, _trustedConnectionFormatString, _serverFieldName, Server, _databaseFieldName, Database, _securityTypeText);
-			else
-                return string.Format(CultureInfo.InvariantCulture, _connectionFormatString, _serverFieldName, Server, _databaseFieldName, Database, UserId, Password, _securityTypeText);
+            return RawOriginal;
+            //if(TrustedConnection)
+            //    return string.Format(CultureInfo.InvariantCulture, _trustedConnectionFormatString, _serverFieldName, Server, _databaseFieldName, Database, _securityTypeText);
+            //else
+            //    return string.Format(CultureInfo.InvariantCulture, _connectionFormatString, _serverFieldName, Server, _databaseFieldName, Database, UserId, Password, _securityTypeText);
 		}
 
 		private ConnectionString(string connectionString)

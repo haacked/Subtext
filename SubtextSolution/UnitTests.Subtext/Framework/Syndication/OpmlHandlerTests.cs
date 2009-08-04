@@ -4,6 +4,7 @@ using System.IO;
 using System.Web;
 using MbUnit.Framework;
 using Moq;
+using Moq.Stub;
 using Subtext.Framework;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
@@ -19,8 +20,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             //arrange
             var context = new Mock<ISubtextContext>();
             var httpContext = new Mock<HttpContextBase>();
-            string contentType = null;
-            httpContext.SetupSet(h => h.Response.ContentType).Callback(s => contentType = s);
+            httpContext.Stub(h => h.Response.ContentType);
             httpContext.Setup(h => h.Response.Output).Returns(new StringWriter());
             context.SetupRequestContext(httpContext);
             context.SetupUrlHelper(new Mock<UrlHelper>());
@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             handler.ProcessRequest(new HostInfo());
 
             //assert
-            Assert.AreEqual("text/xml", contentType);
+            Assert.AreEqual("text/xml", httpContext.Object.Response.ContentType);
         }
 
         [Test]
@@ -45,8 +45,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             
             var context = new Mock<ISubtextContext>();
             var httpContext = new Mock<HttpContextBase>();
-            string contentType = null;
-            httpContext.SetupSet(h => h.Response.ContentType).Callback(s => contentType = s);
+            httpContext.Stub(h => h.Response.ContentType);
             httpContext.Setup(h => h.Response.Output).Returns(new StringWriter());
             httpContext.Setup(h => h.Request.QueryString).Returns(queryString);
             context.SetupRequestContext(httpContext);

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Web.Routing;
 using MbUnit.Framework;
-using System.Web.Routing;
+using Moq;
+using Ninject;
 using Subtext.Framework.Routing;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -47,6 +46,21 @@ namespace UnitTests.Subtext.Framework.Routing
 
             //assert
             Assert.AreEqual("url", ((PageRoute)routes[0]).Url);
+        }
+
+        [Test]
+        public void MapSystemDirectory_SetsDirectoryRouteHandlerAndAddsPathInfoToRouteUrl() {
+            //arrange
+            Bootstrapper.Kernel = new Mock<IKernel>().Object;
+            var routes = new RouteCollection();
+
+            //act
+            routes.MapSystemDirectory("install");
+
+            //assert
+            var route = routes[0] as Route;
+            Assert.AreEqual("install/{*pathInfo}", route.Url);
+            Assert.AreEqual(typeof(DirectoryRouteHandler), route.RouteHandler.GetType());
         }
     }
 }

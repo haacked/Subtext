@@ -159,23 +159,34 @@ namespace Subtext.Framework.Web
 		/// <returns>
 		/// 	<c>true</c> if [is static file request]; otherwise, <c>false</c>.
 		/// </returns>
-		public static bool IsStaticFileRequest()
+		public static bool IsStaticFileRequest(this HttpRequestBase request)
 		{
-			if(HttpContext.Current == null)
-				return true;
+            if (request == null) {
+                throw new ArgumentNullException("request");
+            }
 
-			string filePath = HttpContext.Current.Request.Url.AbsolutePath;
-
-			return filePath.EndsWith(".css", StringComparison.InvariantCultureIgnoreCase)
-					|| filePath.EndsWith(".jpg", StringComparison.InvariantCultureIgnoreCase)
-					|| filePath.EndsWith(".js", StringComparison.InvariantCultureIgnoreCase)
-					|| filePath.EndsWith(".gif", StringComparison.InvariantCultureIgnoreCase)
-					|| filePath.EndsWith(".png", StringComparison.InvariantCultureIgnoreCase)
-					|| filePath.EndsWith(".xml", StringComparison.InvariantCultureIgnoreCase)
-					|| filePath.EndsWith(".txt", StringComparison.InvariantCultureIgnoreCase)
-					|| filePath.EndsWith(".html", StringComparison.InvariantCultureIgnoreCase)
-					|| filePath.EndsWith(".htm", StringComparison.InvariantCultureIgnoreCase);
+            return request.Url.IsStaticFileRequest();
 		}
+
+        /// <summary>
+        /// Determines whether the request is for a static file.
+        /// </summary>
+        /// <returns>
+        /// 	<c>true</c> if [is static file request]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsStaticFileRequest(this Uri url) {
+            string filePath = url.AbsolutePath;
+
+            return filePath.EndsWith(".css", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".gif", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".xml", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".txt", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".html", StringComparison.OrdinalIgnoreCase)
+                    || filePath.EndsWith(".htm", StringComparison.OrdinalIgnoreCase);
+        }
 		
 		/// <summary>
 		/// Sets the proxy on the request if a proxy is configured in Web.config.

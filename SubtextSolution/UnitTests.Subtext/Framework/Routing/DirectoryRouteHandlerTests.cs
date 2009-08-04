@@ -54,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var handler = routeHandler.GetHttpHandler(requestContext);
 
             //assert
-            Assert.AreEqual("~/admin/foo.aspx", virtualPath);
+            Assert.AreEqual("~/pages/admin/foo.aspx", virtualPath);
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var handler = routeHandler.GetHttpHandler(requestContext);
 
             //assert
-            Assert.AreEqual("~/admin/foo.ashx", virtualPath);
+            Assert.AreEqual("~/pages/admin/foo.ashx", virtualPath);
         }
 
         //TODO: Simplify this test.
@@ -107,7 +107,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var handler = routeHandler.GetHttpHandler(requestContext);
 
             //assert
-            Assert.AreEqual("~/admin/posts/Default.aspx", virtualPath);
+            Assert.AreEqual("~/pages/admin/posts/Default.aspx", virtualPath);
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var handler = routeHandler.GetHttpHandler(requestContext);
 
             //assert
-            Assert.AreEqual("~/admin/posts/Default.aspx", virtualPath);
+            Assert.AreEqual("~/pages/admin/posts/Default.aspx", virtualPath);
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var handler = routeHandler.GetHttpHandler(requestContext);
 
             //assert
-            Assert.AreEqual("~/admin/foo.aspx", virtualPath);
+            Assert.AreEqual("~/pages/admin/foo.aspx", virtualPath);
         }
 
         [SetUp]

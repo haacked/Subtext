@@ -24,7 +24,7 @@ using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Web.HttpModules
 {
-    /// <summary>
+    /// <summary>pa
     /// Handles the AuthenticateRequest event of a request.  Decrypts the authentication 
     /// token and sets up the current user as a GeneralPrinciple, attaching its roles.  
     /// </summary>
@@ -37,12 +37,11 @@ namespace Subtext.Framework.Web.HttpModules
             context.AuthenticateRequest += OnAuthenticateRequest;
         }
 
-        void OnAuthenticateRequest(object sender, EventArgs e)
-        {
-            if(HttpHelper.IsStaticFileRequest())
+        public void AuthenticateRequest(HttpContextBase httpContext, BlogRequest blogRequest) {
+            if (blogRequest.RequestLocation == RequestLocation.StaticFile)
                 return;
-        	
-            HttpCookie authCookie = SecurityHelper.SelectAuthenticationCookie();
+
+            HttpCookie authCookie = httpContext.Request.SelectAuthenticationCookie(blogRequest.Blog);
 
             if (null == authCookie)
             {
@@ -58,21 +57,21 @@ namespace Subtext.Framework.Web.HttpModules
             catch (Exception ex)
             {
                 log.Error("Could not decrypt the authentication cookie.", ex);
-                HttpContext.Current.Response.Cookies.Add(SecurityHelper.GetExpiredCookie());			
+                httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
                 return;
             }
 
             if (null == authTicket)
             {
                 log.Warn("Could not decrypt the authentication cookie. No exception was thrown.");
-                HttpContext.Current.Response.Cookies.Add(SecurityHelper.GetExpiredCookie());			
+                httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
                 return;
             }
 
             if (authTicket.Expired)
             {
                 log.Debug("Authentication ticket expired.");
-                HttpContext.Current.Response.Cookies.Add(SecurityHelper.GetExpiredCookie());
+                httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
                 return;
             }
 
@@ -90,8 +89,14 @@ namespace Subtext.Framework.Web.HttpModules
             // This principal will flow throughout the request.
             GenericPrincipal principal = new GenericPrincipal(id, roles);
             // Attach the new principal object to the current HttpContext object
-            HttpContext.Current.User = principal;
+            httpContext.User = principal;
             log.Debug("Authentication succeeded. Current.User=" + id.Name + "; " + authTicket.UserData);
+        }
+
+        void OnAuthenticateRequest(object sender, EventArgs e)
+        {
+            var context = new HttpContextWrapper(((HttpApplication)sender).Context);
+            AuthenticateRequest(context, BlogRequest.Current);
         }
 
         public void Dispose()

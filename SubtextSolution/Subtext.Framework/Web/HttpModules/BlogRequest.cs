@@ -144,17 +144,20 @@ namespace Subtext.Framework.Web.HttpModules
             if (!appPath.EndsWith("/")) {
                 appPath += "/";
             }
+            string path = request.Path;
+            if (!path.EndsWith("/")) {
+                path += "/";
+            }
             appPath += folderName + "/";
 
-            return request.Path.StartsWith(appPath, StringComparison.OrdinalIgnoreCase);
+            return path.StartsWith(appPath, StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsLogin(HttpRequestBase request) {
             return (request.Path ?? string.Empty).EndsWith("Login.aspx", StringComparison.OrdinalIgnoreCase);
         }
 
-        private static bool IsForgotPassword(HttpRequestBase request)
-        {
+        private static bool IsForgotPassword(HttpRequestBase request) {
             return (request.Path ?? string.Empty).EndsWith("ForgotPassword.aspx", StringComparison.OrdinalIgnoreCase);
         }
 
@@ -162,8 +165,7 @@ namespace Subtext.Framework.Web.HttpModules
             return IsInSpecialDirectory(request, "SystemMessages");
         }
 
-        private static bool IsSkins(HttpRequestBase request)
-        {
+        private static bool IsSkins(HttpRequestBase request) {
             return IsInSpecialDirectory(request, "Skins");
         }
 
@@ -175,8 +177,7 @@ namespace Subtext.Framework.Web.HttpModules
             return IsInSpecialDirectory(request, "HostAdmin/Upgrade");
         }
 
-        private static bool IsInstallation(HttpRequestBase request)
-        {
+        private static bool IsInstallation(HttpRequestBase request) {
             return IsInSpecialDirectory(request, "Install");
         }
 
@@ -189,12 +190,10 @@ namespace Subtext.Framework.Web.HttpModules
         }
 
         private static string HostFromRequest(HttpRequestBase request) {
-            string host = request.Params["HTTP_HOST"];
+            string host = request.Url.Host;
             if (String.IsNullOrEmpty(host)) {
-                host = request.Url.Authority;
+                host = request.Params["HTTP_HOST"].LeftBefore(":", StringComparison.OrdinalIgnoreCase);
             }
-
-            host = host.LeftBefore(":", StringComparison.OrdinalIgnoreCase);
 
             return host;
         }

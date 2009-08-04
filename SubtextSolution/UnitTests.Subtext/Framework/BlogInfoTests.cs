@@ -69,8 +69,7 @@ namespace UnitTests.Subtext.Framework
 
 	    }
 		[Test]
-		public void PropertyGetSetTests()
-		{
+		public void PropertyGetSetTests() {
 			Blog blog = new Blog();
 
 			Assert.AreEqual("Subtext Weblog", blog.Author, "Expected the default author name.");
@@ -133,6 +132,8 @@ namespace UnitTests.Subtext.Framework
 
 			blog.StoryCount = 1975;
 			Assert.AreEqual(1975, blog.StoryCount);
+
+            UnitTestHelper.AssertSimpleProperties(blog);
 		}
 
 		[Test]

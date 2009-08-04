@@ -20,8 +20,8 @@ namespace Subtext.Framework.Routing
 
         public RootRoute(bool blogAggregationEnabled, IRouteHandler normalRouteHandler, IRouteHandler aggRouteHandler) {
             BlogAggregationEnabled = blogAggregationEnabled;
-            NormalRouteHandler = normalRouteHandler ?? new PageRouteHandler("~/Dtp.aspx", Bootstrapper.Kernel.Get<ISubtextPageBuilder>());
-            AggregateRouteHandler = aggRouteHandler ?? new PageRouteHandler("~/AggDefault.aspx", Bootstrapper.Kernel.Get<ISubtextPageBuilder>());
+            NormalRouteHandler = normalRouteHandler ?? new PageRouteHandler("~/pages/Dtp.aspx", Bootstrapper.Kernel.Get<ISubtextPageBuilder>());
+            AggregateRouteHandler = aggRouteHandler ?? new PageRouteHandler("~/pages/AggDefault.aspx", Bootstrapper.Kernel.Get<ISubtextPageBuilder>());
         }
 
         protected bool BlogAggregationEnabled {

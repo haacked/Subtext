@@ -8,6 +8,7 @@ using System.Web.Caching;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
+using Moq.Stub;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -68,8 +69,7 @@ namespace UnitTests.Subtext.Framework.Data
             httpContext.Setup(c => c.Response.End());
             httpContext.SetupSet(c => c.Response.StatusCode, 301);
             httpContext.SetupSet(c => c.Response.Status, "301 Moved Permanently");
-            string redirectLocation = null;
-            httpContext.SetupSet(c => c.Response.RedirectLocation).Callback(s => redirectLocation = s);
+            httpContext.Stub(c => c.Response.RedirectLocation);
             var routeData = new RouteData();
             routeData.Values.Add("id", "123");
             var subtextContext = new Mock<ISubtextContext>();
@@ -86,7 +86,7 @@ namespace UnitTests.Subtext.Framework.Data
             httpContext.VerifySet(c => c.Response.Status, "301 Moved Permanently");
             Assert.AreEqual(123, cachedEntry.Id);
             Assert.AreEqual("Testing 123", cachedEntry.Title);
-            Assert.AreEqual("http://localhost/archive/testing-slug.aspx", redirectLocation);
+            Assert.AreEqual("http://localhost/archive/testing-slug.aspx", httpContext.Object.Response.RedirectLocation);
         }
 
         /// <summary>

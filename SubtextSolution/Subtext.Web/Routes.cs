@@ -7,25 +7,26 @@ using Subtext.Framework.Syndication.Admin;
 using Subtext.Framework.Tracking;
 using Subtext.Framework.Web.Handlers;
 using Subtext.Framework.XmlRpc;
+using Subtext.Web.Admin.Services.Ajax;
 using Subtext.Web.Controls.Captcha;
 using Subtext.Web.SiteMap;
 using Subtext.Web.UI.Handlers;
 
-public static class Routes
-{
-    public static void RegisterRoutes(RouteCollection routes)
-    {
+public static class Routes {
+    public static void RegisterRoutes(RouteCollection routes) {
         routes.Ignore("{resource}.axd/{*pathInfo}");
         routes.Ignore("skins/{*pathInfo}");
-        routes.Ignore("hostadmin/{*pathinfo}");
-        routes.Ignore("install/{*pathinfo}");
-        routes.Ignore("SystemMessages/{*pathinfo}");
+        routes.MapSystemPage("MainFeed");
+        routes.MapSystemDirectory("hostadmin");
+        routes.MapSystemDirectory("install");
+        routes.MapSystemDirectory("SystemMessages");
 
         //TODO: Consider making this a single route with a constraint of the allowed pages.
         routes.MapPage("forgotpassword");
         routes.MapPage("login");
         routes.MapPage("logout");
 
+        routes.MapHttpHandler<AjaxServices>("admin/Services/Ajax/AjaxServices.ashx");
         routes.MapHttpHandler<SubtextBlogMlHttpHandler>("admin/handlers/BlogMLExport.ashx");
         routes.MapHttpHandler<RssAdminHandler>("admin-rss", "admin/{feedName}Rss.axd");
         routes.MapDirectory("admin");

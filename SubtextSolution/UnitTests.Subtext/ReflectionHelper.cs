@@ -154,6 +154,17 @@ namespace UnitTests.Subtext
             return (TReturn)method.Invoke(null, parameters);
         }
 
+        public static void InvokeNonPublicMethod(object source, string methodName, params object[] parameters)
+        {
+            Type[] paramTypes = Array.ConvertAll(parameters, new Converter<object, Type>(delegate(object o) { return o.GetType(); }));
+
+            MethodInfo method = source.GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance, null, paramTypes, null);
+            if (method == null)
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindMethod, methodName), "method");
+
+            method.Invoke(source, parameters);
+        }
+
         public static TReturn InvokeNonPublicMethod<TReturn>(object source, string methodName, params object[] parameters)
         {
             Type[] paramTypes = Array.ConvertAll(parameters, new Converter<object, Type>(delegate(object o) { return o.GetType(); }));

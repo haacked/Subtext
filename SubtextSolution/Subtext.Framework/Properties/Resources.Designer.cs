@@ -322,7 +322,7 @@ namespace Subtext.Framework.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DirectoryRouteHandler only works with DirectoryRoutes.
+        ///   Looks up a localized string similar to DirectoryRouteHandler only works with IDirectoryRoutes.
         /// </summary>
         public static string InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes {
             get {

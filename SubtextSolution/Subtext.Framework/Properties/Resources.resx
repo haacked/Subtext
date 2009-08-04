@@ -212,7 +212,7 @@
     <value>Content Type must be text/xml</value>
   </data>
   <data name="InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes" xml:space="preserve">
-    <value>DirectoryRouteHandler only works with DirectoryRoutes</value>
+    <value>DirectoryRouteHandler only works with IDirectoryRoutes</value>
   </data>
   <data name="InvalidOperation_HostRecordAlreadyExists" xml:space="preserve">
     <value>A Host record already exists</value>

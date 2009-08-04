@@ -22,7 +22,11 @@ namespace Subtext.Framework.Routing
 {
     public class SubtextRoute : Route
     {
-        public SubtextRoute(string url, IRouteHandler routeHandler) : base(url, routeHandler) { 
+        public SubtextRoute(string url, IRouteHandler routeHandler) : this(url, routeHandler, false) { 
+        }
+
+        public SubtextRoute(string url, IRouteHandler routeHandler, bool ignoreSubfolder) : base(url, routeHandler) { 
+        
         }
 
         public virtual RouteData GetRouteData(HttpContextBase httpContext, BlogRequest blogRequest)
@@ -50,8 +54,9 @@ namespace Subtext.Framework.Routing
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
-            if (String.IsNullOrEmpty(requestContext.RouteData.Values["subfolder"] as string)) {
-                values["subfolder"] = requestContext.RouteData.Values["subfolder"];
+            var subfolderInRouteData = requestContext.RouteData.Values["subfolder"] as string;
+            if (String.IsNullOrEmpty(subfolderInRouteData)) {
+                //values["subfolder"] = subfolderInRouteData;
                 return base.GetVirtualPath(requestContext, values);
             }
             else {

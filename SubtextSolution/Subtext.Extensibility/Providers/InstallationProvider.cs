@@ -50,7 +50,6 @@ namespace Subtext.Extensibility.Providers
 			}
 		}
 
-        #region InstallationProvider methods
         /// <summary>
         /// <p>
         /// This method is called by the installation engine in order to ask the 
@@ -140,7 +139,6 @@ namespace Subtext.Extensibility.Providers
         /// <param name="transaction">The transaction to perform this upgrade within.</param>
         /// <returns></returns>
         public abstract void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction); 
-        #endregion
 	}
 
 	/// <summary>
@@ -152,8 +150,6 @@ namespace Subtext.Extensibility.Providers
 		None = 0,
 		/// <summary>Subtext is installed, but needs to be upgraded.</summary>
 		NeedsUpgrade = 1,
-		/// <summary>Subtext is installed, but needs to be repaired.</summary>
-		NeedsRepair = 2,
 		/// <summary>Subtext needs to be installed.</summary>
 		NeedsInstallation = 3,
 		/// <summary>Subtext is installed and seems to be working properly.</summary>

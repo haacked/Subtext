@@ -47,15 +47,14 @@ namespace Subtext.Framework.Security
 		/// <param name="password">Supplied Password</param>
 		/// <param name="persist">If valid, should we persist the login</param>
 		/// <returns>bool indicating successful login</returns>
-		public static bool Authenticate(string username, string password, bool persist)
+		public static bool Authenticate(this HttpContextBase httpContext, Blog blog, string username, string password, bool persist)
 		{
-			if (!IsValidUser(username, password))
+			if (!IsValidUser(blog, username, password))
 			{
 				return false;
 			}
 
-			log.Debug("SetAuthenticationTicket-Admins for " + username);
-			SetAuthenticationTicket(username, persist, "Admins");
+            httpContext.SetAuthenticationTicket(blog, username, persist, "Admins");
 			return true;
 		}
 
@@ -94,7 +93,8 @@ namespace Subtext.Framework.Security
                 return false;
 
             log.Debug("SetAuthenticationTicket-Admins via OpenID for " + currentBlog.UserName);
-            SetAuthenticationTicket(currentBlog.UserName, persist, "Admins");
+            HttpContextBase httpContext = new HttpContextWrapper(HttpContext.Current);
+            httpContext.SetAuthenticationTicket(currentBlog, currentBlog.UserName, persist, "Admins");
             return true;
         }
 
@@ -123,7 +123,8 @@ namespace Subtext.Framework.Security
 			}
 			
 			log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
-			SetAuthenticationTicket(username, persist, true, "HostAdmins");
+            HttpContextBase httpContext = new HttpContextWrapper(HttpContext.Current);
+			httpContext.SetAuthenticationTicket(Config.CurrentBlog, username, persist, true, "HostAdmins");
 			
 			return true;
 		}
@@ -132,9 +133,9 @@ namespace Subtext.Framework.Security
 		/// Used to remove a cookie from the client.
 		/// </summary>
 		/// <returns>a correctly named cookie with Expires date set 30 years ago</returns>
-		public static HttpCookie GetExpiredCookie()
+		public static HttpCookie GetExpiredCookie(this HttpRequestBase request, Blog blog)
 		{
-			HttpCookie expiredCookie = new HttpCookie(GetFullCookieName());
+			HttpCookie expiredCookie = new HttpCookie(request.GetFullCookieName(blog));
 			expiredCookie.Expires = DateTime.Now.AddYears(-30);
 			return expiredCookie;
 		}
@@ -143,49 +144,20 @@ namespace Subtext.Framework.Security
 		/// Obtains the correct cookie for the current blog
 		/// </summary>
 		/// <returns>null if correct cookie was not found</returns>
-		public static HttpCookie SelectAuthenticationCookie()
+		public static HttpCookie SelectAuthenticationCookie(this HttpRequestBase request, Blog blog)
 		{
 			HttpCookie authCookie = null;
             HttpCookie c;
-		    int count = HttpContext.Current.Request.Cookies.Count;
+		    int count = request.Cookies.Count;
 		    
-			log.Debug("cookie count = " + count);
 		    for (int i = 0; i < count; i++)
 			{
-                c = HttpContext.Current.Request.Cookies[i];
-				#region Logging
-				if (log.IsDebugEnabled)
-				{
-					if (c == null)
-					{
-						log.Debug("cookie was null");
-						continue;
-					}
-					if (c.Value == null)
-					{
-						log.Debug("cookie value was null");
-					}
-					else if (c.Value == "")
-					{
-						log.Debug("cookie value was empty string");
-					}
-					if (c.Name == null)
-					{
-						log.Debug("cookie name was null");//not a valid Subtext cookie
-						continue;
-					}
-					log.DebugFormat("Cookie named '{0}' found", c.Name);
-				}
-				#endregion
-
-				if (c.Name == GetFullCookieName())
+                c = request.Cookies[i];
+				
+				if (c.Name == request.GetFullCookieName(blog))
 				{
 					authCookie = c;
-					log.Debug("Cookie selected = " + authCookie.Name);
-#if !DEBUG
-					//if in DEBUG, the loop does not break so all cookies can be logged
 					break;
-#endif
 				}
 			}
 			return authCookie;
@@ -196,9 +168,9 @@ namespace Subtext.Framework.Security
 		/// name for all cookies in multiblog setups as the old code did).
 		/// </summary>
 		/// <returns></returns>
-		public static string GetFullCookieName()
+		public static string GetFullCookieName(this HttpRequestBase request, Blog blog)
 		{
-			return GetFullCookieName(false);
+			return request.GetFullCookieName(blog, false);
 		}
 
 		/// <summary>
@@ -206,54 +178,34 @@ namespace Subtext.Framework.Security
 		/// </summary>
 		/// <param name="forceHostAdmin">true if the name shall be forced to comply with the HostAdmin cookie</param>
 		/// <returns></returns>
-		private static string GetFullCookieName(bool forceHostAdmin)
+		public static string GetFullCookieName(this HttpRequestBase request, Blog blog, bool forceHostAdmin)
 		{
 			StringBuilder name = new StringBuilder(FormsAuthentication.FormsCookieName);
 			name.Append(".");
 			
 			//See if we need to authenticate the HostAdmin
-			string path = HttpContext.Current.Request.Path;
-			string returnUrl = HttpContext.Current.Request.QueryString.ToString(); //["ReturnURL"];
+			string path = request.Path;
+			string returnUrl = request.QueryString["ReturnURL"];
 			if (forceHostAdmin
-				|| StringHelper.Contains(path + returnUrl, "HostAdmin", 
-			    StringComparison.InvariantCultureIgnoreCase))
+				|| (path + returnUrl).Contains("HostAdmin", StringComparison.OrdinalIgnoreCase))
 			{
 			    name.Append("HA.");
 			}
 
-		    try
-		    {
-		    	try 
-		    	{
-		    		//Need to clean this up. Either this should return null, or throw an exception,
-		    		//but not both.
-					if (!forceHostAdmin && Config.CurrentBlog != null)
-						name.Append(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
-		    		else
-						name.Append("null");
-		    	}
-		    	catch(BlogDoesNotExistException)
-		    	{
-					name.Append("null");
-		    	}
-		    }
-            catch (SqlException sqlExc)
-		    {
-                if (sqlExc.Number == (int)SqlErrorMessage.CouldNotFindStoredProcedure 
-                    && sqlExc.Message.IndexOf("'subtext_GetConfig'") > 0)
-                {
-                    // must not have the db installed.
-                    log.Debug("The database must not be installed.");
-                }
-                else throw;
-		    }
+	        if (!forceHostAdmin && blog != null) {
+			    name.Append(blog.Id.ToString(CultureInfo.InvariantCulture));
+            }
+		    else {
+			    name.Append("null");
+            }
+            
 			log.Debug("GetFullCookieName selected cookie named " + name.ToString());
 			return name.ToString();           
 		}
 
-        public static void SetAuthenticationTicket(string username, bool persist, params string[] roles)
+        public static void SetAuthenticationTicket(this HttpContextBase httpContext, Blog blog, string username, bool persist, params string[] roles)
         {
-            SetAuthenticationTicket(username, persist, false, roles);
+            httpContext.SetAuthenticationTicket(blog, username, persist, false, roles);
         }
 		
 		/// <summary>
@@ -261,7 +213,7 @@ namespace Subtext.Framework.Security
 		/// </summary>
 		/// <param name="username">Username for the ticket</param>
 		/// <param name="persist">Should this ticket be persisted</param>
-        public static void SetAuthenticationTicket(string username, bool persist, bool forceHostAdmin, params string[] roles)
+        public static void SetAuthenticationTicket(this HttpContextBase httpContext, Blog blog, string username, bool persist, bool forceHostAdmin, params string[] roles)
 		{
 			//Getting a cookie this way and using a temp auth ticket 
 			//allows us to access the timeout value from web.config in partial trust.
@@ -278,17 +230,9 @@ namespace Subtext.Framework.Security
 				userData,//roles
 				tempTicket.CookiePath);
 			authCookie.Value = FormsAuthentication.Encrypt(authTicket);
-			authCookie.Name = GetFullCookieName(forceHostAdmin);//prevents login problems with some multiblog setups
+            authCookie.Name = httpContext.Request.GetFullCookieName(blog, forceHostAdmin);//prevents login problems with some multiblog setups
 
-			HttpContext.Current.Response.Cookies.Add(authCookie);
-			#region Logging
-			if (log.IsDebugEnabled)
-			{
-				log.Debug("the code must call a redirect after this");
-				log.DebugFormat("cookie '{3}' added to response for '{0}'; expires {1} and contains roles: {2}",
-					username, authCookie.Expires, authTicket.UserData, authCookie.Name);
-			} 
-			#endregion
+			httpContext.Response.Cookies.Add(authCookie);
 		}
 
 				
@@ -297,7 +241,8 @@ namespace Subtext.Framework.Security
 		/// </summary>
 		public static void LogOut()
 		{
-			HttpCookie authCookie = new HttpCookie(GetFullCookieName());
+            var request = new HttpRequestWrapper(HttpContext.Current.Request);
+			HttpCookie authCookie = new HttpCookie(request.GetFullCookieName(Config.CurrentBlog));
 			authCookie.Expires = DateTime.Now.AddYears(-30); //setting an expired cookie forces client to remove it
 			HttpContext.Current.Response.Cookies.Add(authCookie);
 			#region Logging
@@ -376,15 +321,15 @@ namespace Subtext.Framework.Security
 		/// <param name="username">Supplied Username</param>
 		/// <param name="password">Supplied Password</param>
 		/// <returns>bool value indicating if the user is valid.</returns>
-		public static bool IsValidUser(string username, string password)
+		public static bool IsValidUser(Blog blog, string username, string password)
 		{
-			if (String.Equals(username, Config.CurrentBlog.UserName, StringComparison.InvariantCultureIgnoreCase))
+			if (String.Equals(username, blog.UserName, StringComparison.OrdinalIgnoreCase))
 			{
-				return IsValidPassword(password);
+				return IsValidPassword(blog, password);
 			}
 			else
 			{
-				log.DebugFormat("The supplied username '{0}' does not equal the configured username of '{1}'.", username, Config.CurrentBlog.UserName);
+				log.DebugFormat("The supplied username '{0}' does not equal the configured username of '{1}'.", username, blog.UserName);
 			}
 			return false;
 		}
@@ -397,18 +342,18 @@ namespace Subtext.Framework.Security
 		/// </summary>
 		/// <param name="password">Supplied Password</param>
 		/// <returns>bool value indicating if the supplied password matches the current blog's password</returns>
-		public static bool IsValidPassword(string password)
+		public static bool IsValidPassword(Blog blog, string password)
 		{
-			if(Config.CurrentBlog.IsPasswordHashed)
+			if(blog.IsPasswordHashed)
 			{
 				password = HashPassword(password);
 			}
-			string storedPassword = Config.CurrentBlog.Password;
+			string storedPassword = blog.Password;
 			
 			if(storedPassword.IndexOf('-') > 0)
 			{
 				// NOTE: This is necessary because I want to change how 
-				// we store the password.  Mayb changing the password 
+				// we store the password.  Maybe changing the password 
 				// storage is dumb.  Let me know. -Phil
 				//	This is an old password created from BitConverter 
 				// string.  Converting to a Base64 hash.
@@ -421,12 +366,7 @@ namespace Subtext.Framework.Security
 				}
 			}
 			
-			bool areEqual = String.Equals(password, storedPassword, StringComparison.InvariantCulture);
-			if (!areEqual)
-			{
-				log.Debug("The supplied password is incorrect.");
-			}
-			return areEqual;
+			return String.Equals(password, storedPassword, StringComparison.Ordinal);
 		}
 
 		/// <summary>

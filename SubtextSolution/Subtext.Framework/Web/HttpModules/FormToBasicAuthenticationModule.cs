@@ -31,22 +31,27 @@ namespace Subtext.Framework.Web.HttpModules
     /// </summary>
     public class FormToBasicAuthenticationModule : IHttpModule
     {
-        public void Dispose()
+        public void Init(HttpApplication app)
         {
-            // throw new Exception("The method or operation is not implemented.");
+            app.AuthenticateRequest += OnAuthenticateRequest;
+            app.EndRequest += OnEndRequest;
         }
 
-        public void EndRequest(Object sender, EventArgs e)
+        private void OnEndRequest(Object sender, EventArgs e)
         {
-            HttpContext context = ((HttpApplication)sender).Context;
+            var context = new HttpContextWrapper(((HttpApplication)sender).Context);
+            HandleEndRequest(context);
+        }
 
+        public void HandleEndRequest(HttpContextBase context)
+        {
             if (!String.IsNullOrEmpty(SecurityHelper.CurrentUserName)
-                ||HttpHelper.IsStaticFileRequest()
-                ||!(context.Response.StatusCode == 302
+                || context.Request.IsStaticFileRequest()
+                || !(context.Response.StatusCode == 302
                     && context.Response.RedirectLocation.IndexOf(FormsAuthentication.LoginUrl) == 0))
                 return;
 
-            if(!Regex.IsMatch(context.Request.Path,@"Rss\.axd"))
+            if (!Regex.IsMatch(context.Request.Path, @"Rss\.axd"))
                 return;
 
             string authHeader = context.Request.Headers["Authorization"];
@@ -56,7 +61,7 @@ namespace Subtext.Framework.Web.HttpModules
             }
         }
 
-        private static void SendAuthRequest(HttpContext context)
+        private static void SendAuthRequest(HttpContextBase context)
         {
             Debug.WriteLine("Auth");
             context.Response.StatusCode = 401;
@@ -65,35 +70,41 @@ namespace Subtext.Framework.Web.HttpModules
 //			context.ApplicationInstance.CompleteRequest();
         }
 
-        public void Init(HttpApplication app)
+        public void AuthenticateRequest(Blog blog, HttpContextBase context)
         {
-        	app.AuthenticateRequest += AuthenticateRequest;
-            app.EndRequest += EndRequest;
+            string authHeader = context.Request.Headers["Authorization"];
+            if (String.IsNullOrEmpty(authHeader))
+                return;
+
+            if (authHeader.IndexOf("Basic ") == 0)
+            {
+                byte[] bytes = Convert.FromBase64String(authHeader.Remove(0, 6));
+
+                string authString = Encoding.Default.GetString(bytes);
+                string[] usernamepassword = authString.Split(':');
+
+                if (context.Authenticate(blog, usernamepassword[0], usernamepassword[1], false))
+                {
+                    context.User = new GenericPrincipal(new GenericIdentity(usernamepassword[0]), null);
+
+                }
+                else
+                {
+                    SendAuthRequest(context);
+                }
+            }
         }
 
-    	private void AuthenticateRequest(object sender, EventArgs e)
-    	{
-			HttpContext context = ((HttpApplication)sender).Context;
-			string authHeader = context.Request.Headers["Authorization"];
-			if(String.IsNullOrEmpty(authHeader))
-				return;
-			if (authHeader.IndexOf("Basic ") == 0)
-			{
-				byte[] bytes = Convert.FromBase64String(authHeader.Remove(0, 6));
+        private void OnAuthenticateRequest(object sender, EventArgs e)
+        {
+            var context = new HttpContextWrapper(((HttpApplication)sender).Context);
+            AuthenticateRequest(Config.CurrentBlog, context);
+        }
 
-				string authString = Encoding.Default.GetString(bytes);
-				string[] usernamepassword = authString.Split(':');
+        public void Dispose()
+        {
+            // do nothing
+        }
 
-				if (SecurityHelper.Authenticate(usernamepassword[0], usernamepassword[1], false))
-				{
-					context.User = new GenericPrincipal(new GenericIdentity(usernamepassword[0]), null); 
-
-				}
-				else
-				{
-					SendAuthRequest(context);
-				}
-			}
-		}
     }
 }

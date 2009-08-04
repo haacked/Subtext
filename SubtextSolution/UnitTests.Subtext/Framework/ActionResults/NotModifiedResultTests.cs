@@ -15,9 +15,7 @@ namespace UnitTests.Subtext.Framework.ActionResults
             // arrange
             var result = new NotModifiedResult();
             var httpContext = new Mock<HttpContextBase>();
-            int statusCode = 0;
             
-            httpContext.SetupSet(h => h.Response.StatusCode, It.IsAny<int>()).Callback(status => statusCode = status);
             httpContext.Stub(h => h.Response.StatusCode);
             httpContext.Stub(h => h.Response.SuppressContent);
             var controllerContext = new ControllerContext();

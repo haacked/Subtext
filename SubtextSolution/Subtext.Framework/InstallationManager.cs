@@ -41,24 +41,19 @@ namespace Subtext.Framework
 		/// <value>
 		/// 	<c>true</c> if this instance is installation action required; otherwise, <c>false</c>.
 		/// </value>
-		public bool IsInstallationActionRequired(Version assemblyVersion)
+		public virtual bool InstallationActionRequired(Version assemblyVersion)
 		{
-            //if (HttpContext.Current != null && HttpContext.Current.Application["NeedsInstallation"] != null)
-            //{
-            //    return (bool)HttpContext.Current.Application["NeedsInstallation"];
-            //}
-			
 			InstallationState currentState = InstallationProvider.GetInstallationStatus(assemblyVersion);
-			bool needsUpgrade = (currentState == InstallationState.NeedsInstallation 
-				|| currentState  == InstallationState.NeedsUpgrade
-				|| currentState  == InstallationState.NeedsRepair);
-
-            //if(HttpContext.Current != null)
-            //{
-            //    HttpContext.Current.Application["NeedsInstallation"] = needsUpgrade;
-            //}
-			return needsUpgrade;
+            return InstallationActionRequired(currentState);
 		}
+
+        public bool InstallationActionRequired(InstallationState currentState)
+        {
+            bool needsUpgrade = (currentState == InstallationState.NeedsInstallation
+                         || currentState == InstallationState.NeedsUpgrade);
+
+            return needsUpgrade;
+        }
 
 		public void ResetInstallationStatusCache()
 		{
@@ -75,7 +70,7 @@ namespace Subtext.Framework
 		/// <returns>
 		/// 	<c>true</c> if an installation action is required; otherwise, <c>false</c>.
 		/// </returns>
-		public bool InstallationActionRequired(Exception unhandledException, Version assemblyVersion)
+        public bool InstallationActionRequired(Version assemblyVersion, Exception unhandledException)
 		{
             if (unhandledException is BlogDoesNotExistException) {
                 return true;
@@ -92,7 +87,6 @@ namespace Subtext.Framework
 			switch(status)
 			{
 				case InstallationState.NeedsInstallation:
-				case InstallationState.NeedsRepair:
 				case InstallationState.NeedsUpgrade:
 				{
 					return true;		
@@ -101,5 +95,10 @@ namespace Subtext.Framework
 
 			return false;
 		}
-	}
+
+        public virtual InstallationState GetInstallationStatus(Version currentAssemblyVersion)
+        {
+            return InstallationProvider.GetInstallationStatus(currentAssemblyVersion);
+        }
+    }
 }

@@ -18,6 +18,8 @@ using System.IO;
 using System.Web;
 using System.Web.Routing;
 using Subtext.Framework.Properties;
+using System.Web.Security;
+using System.Web.Configuration;
 
 namespace Subtext.Framework.Routing
 {
@@ -27,12 +29,12 @@ namespace Subtext.Framework.Routing
         
         protected override IHttpHandler GetHandler(RequestContext requestContext) {
             var routeData = requestContext.RouteData;
-            var route = routeData.Route as DirectoryRoute;
+            var route = routeData.Route as IDirectoryRoute;
             if (route == null) {
                 throw new InvalidOperationException(Resources.InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes);
             }
 
-            string virtualPath = "~/" + route.DirectoryName + "/" + routeData.Values["pathinfo"];
+            string virtualPath = "~/pages/" + route.DirectoryName + "/" + routeData.Values["pathinfo"];
             if (String.IsNullOrEmpty(Path.GetExtension(virtualPath))) {
                 if (!virtualPath.EndsWith("/")) {
                     virtualPath += "/";

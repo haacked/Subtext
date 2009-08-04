@@ -14,21 +14,17 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Runtime.InteropServices;
-using System.Security;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using SQLDMO;
 using Subtext.Scripting;
 
 namespace Subtext.Web.Controls
-{
+{   //TODO: Review.
 	/// <summary>
 	/// Control used to specify a connection string.
 	/// </summary>
@@ -117,19 +113,11 @@ namespace Subtext.Web.Controls
 			row.VAlign = "top";
 			HtmlTableCell questionCell = new HtmlTableCell();
 
-			if (CheckSQLDMO()) 
-			{
-				//Build advanced control
-				HtmlTable connBuilderTable=BuildAdvancedBuilder();
-				questionCell.Controls.Add(connBuilderTable);
-			}
-			else 
-			{
-				//Build low-level Textbox
-				TextBox textbox = new TextBox();
-				textbox.ID = ConnectionStringControlId;
-				questionCell.Controls.Add(textbox);
-			}
+			
+			//Build low-level Textbox
+			TextBox textbox = new TextBox();
+			textbox.ID = ConnectionStringControlId;
+			questionCell.Controls.Add(textbox);
 			row.Cells.Add(questionCell);
 
 			//Checkbox to use connection string in web.config
@@ -153,29 +141,7 @@ namespace Subtext.Web.Controls
 			table.Rows.Add(row);
 			this.Controls.Add(table);
 
-			if (CheckSQLDMO()) 
-			{
-				LoadData();
-			}
-
 			base.CreateChildControls();
-		}
-
-		private bool CheckSQLDMO() 
-		{
-			try 
-			{
-				new ApplicationClass();			
-			}
-			catch(COMException) 
-			{
-				return false;
-			}
-		    catch (SecurityException)
-		    {
-                return false;
-		    }
-			return true;
 		}
 
 		/// <summary>
@@ -325,68 +291,6 @@ namespace Subtext.Web.Controls
 
 		#endregion // UI Builder
 
-		/// <summary>
-		/// Uses SQL-DMO to retrieve all servers available on the network
-		/// </summary>
-		private void PopulateServerNameCmb() 
-		{
-			ArrayList serverNames = new ArrayList();
-			Application dmo = new ApplicationClass();
-			try
-			{
-				NameList instances = dmo.ListAvailableSQLServers();
-				foreach(string instance in instances) 
-				{
-					serverNames.Add(instance);
-				}
-			}
-			catch(InvalidCastException)
-			{
-				serverNames.Add("localhost");
-			}
-			machineName.DataSource=serverNames;
-			machineName.DataBind();
-		}
-
-		/// <summary>
-		/// Populate the databases dropdown list with the DBs found on the specified server
-		/// </summary>
-		private void PopulateDatabaseNamesCmb()
-		{
-			ArrayList dbNames = new ArrayList();
-			SQLServer sqlInstance = new SQLServerClass();
-			try
-			{
-				if (_connStr.TrustedConnection) 
-				{
-					sqlInstance.LoginSecure=true;
-					sqlInstance.Connect(_connStr.Server,null,null);
-				}
-				else
-					sqlInstance.Connect(_connStr.Server,_connStr.UserId,_connStr.Password);
-				foreach(Database db in sqlInstance.Databases) 
-				{
-					dbNames.Add(db.Name);
-				}
-				databaseName.DataSource=dbNames;
-				databaseName.DataBind();
-
-				if (databaseName.Items.FindByValue(_connStr.Database)!=null) 
-					databaseName.SelectedValue=_connStr.Database;
-			}
-			catch(Exception) 
-			{
-				connResult.Text="Error retrieving database list";
-				databaseName.Items.Clear();
-				databaseName.Items.Add(new ListItem("-- Error retrieving database list --","0"));
-			}
-			finally
-			{
-				sqlInstance.DisConnect();
-			}
-		}
-
-		
 		private void SetConnectionString()
 		{
 			_connStr.TrustedConnection = authMode.SelectedValue.Equals("win");
@@ -394,7 +298,8 @@ namespace Subtext.Web.Controls
 				_connStr.Server = machineName.SelectedValue;
 			else
 				_connStr.Server = otherMachineName.Text;
-			_connStr.Database = databaseName.SelectedValue;
+		
+            _connStr.Database = databaseName.SelectedValue;
 			
 			if (!_connStr.TrustedConnection)
 			{
@@ -415,7 +320,6 @@ namespace Subtext.Web.Controls
 				username.Enabled=false;
 				password.Enabled=false;
 				SetConnectionString();
-				PopulateDatabaseNamesCmb();
 			}
 			else if (authMode.SelectedValue.Equals("sql")) 
 			{
@@ -423,10 +327,6 @@ namespace Subtext.Web.Controls
 				password.Enabled=true;
 				username.Text=_connStr.UserId;
 				password.Text=_connStr.Password;
-				if (!String.IsNullOrEmpty(username.Text.Trim()))
-				{
-					PopulateDatabaseNamesCmb();
-				}
 			}
 		}
 
@@ -434,7 +334,6 @@ namespace Subtext.Web.Controls
 		{
 			SetConnectionString();
 			connResult.Text="";
-			PopulateDatabaseNamesCmb();
 		}
 
 		private void testConnection_Click(object sender, EventArgs e)
@@ -498,13 +397,7 @@ namespace Subtext.Web.Controls
 			{
 				if (UseWebConfigCheckBox != null && UseWebConfigCheckBox.Checked)
                     return ConfigurationManager.AppSettings["ConnectionString"];
-				if (CheckSQLDMO()) 
-				{
-					SetConnectionString();
-					return _connStr.ToString();
-				}
-				else
-					return ConnectionStringTextBox.Text;
+			    return ConnectionStringTextBox.Text;
 			}
 			set
 			{
@@ -604,7 +497,6 @@ namespace Subtext.Web.Controls
 			connResult.Text="";
 			if (!Page.IsPostBack) 
 			{
-				PopulateServerNameCmb();
 				if (_connStr!=null) 
 				{
 					if (machineName.Items.FindByValue(_connStr.Server)!=null)
@@ -626,8 +518,6 @@ namespace Subtext.Web.Controls
 						username.Text=_connStr.UserId;
 						password.Text=_connStr.Password;
 					}
-
-					PopulateDatabaseNamesCmb();
 				}
 			}
 		}

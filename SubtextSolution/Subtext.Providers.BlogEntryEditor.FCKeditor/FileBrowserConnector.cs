@@ -39,12 +39,11 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Security;
-using System.Security.Permissions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.UI;
 using System.Xml;
 using FredCK.FCKeditorV2;
 using Subtext.Extensibility;
@@ -55,15 +54,24 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 {
 	/// <summary>
 	/// Used to provide file management functionality for FCKEditor.
 	/// </summary>
-	[PrincipalPermission(SecurityAction.Demand, Role = "Admins")]
-	public class FileBrowserConnector : Page
+	public class FileBrowserConnector : SubtextPage
 	{
+        protected override void OnInit(EventArgs e) {
+            if (!SubtextContext.User.IsInRole("Admins"))
+            {
+                SubtextContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                SubtextContext.HttpContext.Response.End();
+            }
+            base.OnInit(e);
+        }
+
 		protected override void OnLoad(EventArgs e)
 		{
 			// Get the main request informaiton.
