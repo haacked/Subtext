@@ -105,6 +105,8 @@ namespace UnitTests.Subtext.Framework.Email
             //arrange
             var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Email="from@example.com", Author = "me", Title = "the subject", FlaggedAsSpam = true };
             var emailProvider = new Mock<EmailProvider>();
+            emailProvider.Object.UseCommentersEmailAsFromAddress = true;
+            emailProvider.Object.AdminEmail = "admin@example.com";
             var emailService = SetupEmailService(comment, emailProvider);
             string fromEmail = null;
             emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => fromEmail = from);
@@ -113,6 +115,24 @@ namespace UnitTests.Subtext.Framework.Email
 
             //assert
             Assert.AreEqual("from@example.com", fromEmail);
+        }
+
+        [Test]
+        public void EmailCommentToBlogAuthor_WithCommentHavingEmailButUseCommentersEmailAsFromAddressSetToFalse_UsesAdminEmailAsFromEmail()
+        {
+            //arrange
+            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Email = "from@example.com", Author = "me", Title = "the subject", FlaggedAsSpam = true };
+            var emailProvider = new Mock<EmailProvider>();
+            emailProvider.Object.UseCommentersEmailAsFromAddress = false;
+            emailProvider.Object.AdminEmail = "admin@example.com";
+            var emailService = SetupEmailService(comment, emailProvider);
+            string fromEmail = null;
+            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => fromEmail = from);
+            //act
+            emailService.EmailCommentToBlogAuthor(comment);
+
+            //assert
+            Assert.AreEqual("admin@example.com", fromEmail);
         }
 
         [Test]
