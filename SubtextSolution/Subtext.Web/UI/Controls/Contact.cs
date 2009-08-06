@@ -104,7 +104,7 @@ namespace Subtext.Web.UI.Controls
 
 				EmailProvider email = EmailProvider.Instance();
 				string toEmail = info.Email;
-				string fromEmail = tbEmail.Text;
+                string fromEmail = email.UseCommentersEmailAsFromAddress ? tbEmail.Text ?? email.AdminEmail : email.AdminEmail;
 				
 				string subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} (via {1})", tbSubject.Text, 
 				                               info.Title);
