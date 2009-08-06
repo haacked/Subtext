@@ -10,15 +10,22 @@ namespace Subtext.Web.UI.Controls
 {
 	public class RelatedLinks : BaseControl
 	{
-		protected Repeater urlRelatedLinks;
+        private int rowCount = 5;
+        public int RowCount
+        {
+            get {return rowCount; }
+            set { rowCount = value;}
+        }
+
+        
 
 		private void Page_Load(object sender, EventArgs e)
 		{
 			ArrayList myRelLinks = new ArrayList();
 			int blogId = Blog.Id >= 1 ? Blog.Id : 0;
-
+            Repeater urlRelatedLinks = this.FindControl("Links") as Repeater;
 			Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
-            var relatedEntries = ObjectProvider.Instance().GetRelatedEntries(blogId, entry.Id, 10);
+            var relatedEntries = ObjectProvider.Instance().GetRelatedEntries(blogId, entry.Id, RowCount);
 
 			foreach(var relatedEntry in relatedEntries)
 			{
@@ -29,6 +36,27 @@ namespace Subtext.Web.UI.Controls
 			urlRelatedLinks.DataSource = myRelLinks;
 			urlRelatedLinks.DataBind();
 		}
+
+        protected virtual void MoreReadingCreated(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+               PositionItems pi = (PositionItems)e.Item.DataItem;
+                BindLink(e,pi);
+             
+            }
+        }
+
+        private void BindLink(RepeaterItemEventArgs e, PositionItems pi)
+        {
+            HyperLink relatedLink = (HyperLink)e.Item.FindControl("Link");
+            if (relatedLink != null)
+            {
+                relatedLink.Text = pi.Title;
+                relatedLink.NavigateUrl = pi.Url;
+                relatedLink.Attributes.Add("rel", "me");
+            }
+        }
 
 		#region Web Form Designer generated code
 
