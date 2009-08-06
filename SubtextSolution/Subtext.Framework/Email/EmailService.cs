@@ -73,7 +73,8 @@ namespace Subtext.Framework.Email
             if (comment.FlaggedAsSpam) {
                 subject = "[SPAM Flagged] " + subject;
             }
-            string from = fromEmail ?? EmailProvider.AdminEmail;
+            string from = EmailProvider.UseCommentersEmailAsFromAddress ? (fromEmail ?? EmailProvider.AdminEmail) : EmailProvider.AdminEmail;
+
             EmailProvider.Send(Blog.Email, from, subject, message);
         }
     }

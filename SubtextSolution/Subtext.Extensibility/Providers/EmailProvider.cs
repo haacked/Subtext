@@ -50,14 +50,10 @@ namespace Subtext.Extensibility.Providers
                     Port = DefaultSmtpPort;
                 }
 			}
-			
-            if (configValue["sslEnabled"] != null)
-			{
-                bool sslEnabled;
-                if (bool.TryParse(configValue["sslEnabled"], out sslEnabled)) {
-                    SslEnabled = sslEnabled;
-                }
-			}
+
+            SslEnabled = GetBoolean(configValue, "sslEnabled", true /* defaultValue */);
+
+            UseCommentersEmailAsFromAddress = GetBoolean(configValue, "commentersEmailAsFromAddress", true /* defaultValue */);
 		}
 
 		/// <summary>
@@ -129,6 +125,17 @@ namespace Subtext.Extensibility.Providers
             set;
 		}
 
+        /// <summary>
+        /// Gets and sets whether to use the Commenter's email as email notification's From address
+        /// </summary>
+        /// <value>true or false.</value>
+        public bool UseCommentersEmailAsFromAddress
+        {
+            get;
+            set;
+        }
+
+
 		/// <summary>
 		/// Gets or sets the password used for SMTP servers that 
 		/// require authentication.
@@ -160,7 +167,20 @@ namespace Subtext.Extensibility.Providers
             }
 		}
         private string _name;
-		
+
+        private static bool GetBoolean(NameValueCollection source, string name, bool defaultValue)
+        {
+            if (source[name] != null)
+            {
+                bool result;
+                if (bool.TryParse(source[name], out result))
+                {
+                    return result;
+                }
+            }
+            return defaultValue;
+        }
+
 		/// <summary>
 		/// Sends an email.
 		/// </summary>
