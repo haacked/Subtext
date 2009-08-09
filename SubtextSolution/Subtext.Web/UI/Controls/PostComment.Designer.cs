@@ -1,4 +1,3 @@
-using System;
 using Subtext.Web.Controls.Captcha;
 
 namespace Subtext.Web.UI.Controls

@@ -13,8 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
-using Subtext.Framework.Components;
+using Subtext.Web.UI.ViewModels;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -27,13 +26,13 @@ namespace Subtext.Web.UI.Controls
 	public class CurrentEntryControl : BaseControl, IEntryControl
 	{
 		bool dataBound;
-		Entry currentEntry;
+		EntryViewModel currentEntry;
 		
 		/// <summary>
 		/// Gets the current entry.
 		/// </summary>
 		/// <value>The current entry.</value>
-		public Entry Entry
+		public EntryViewModel Entry
 		{
 			get
 			{

@@ -1,10 +1,9 @@
-using System;
-using Subtext.Framework.Components;
+using Subtext.Web.UI.ViewModels;
 
 namespace Subtext.Web.UI.Controls
 {
 	public interface IEntryControl
 	{
-		Entry Entry {get;}
+		EntryViewModel Entry {get;}
 	}
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" EnableTheming="false" AutoEventWireup="false" Inherits="Subtext.Web.UI.Pages.SubtextMasterPage" %>
+﻿<%@ Page Language="C#" Inherits="Subtext.Web.UI.Pages.SubtextMasterPage" %>
 <%@ Import namespace="Subtext.Framework.Components"%>
 <%@ Import namespace="Subtext.Framework.Configuration"%>
 

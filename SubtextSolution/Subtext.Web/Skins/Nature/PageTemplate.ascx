@@ -6,9 +6,9 @@
 <%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="CategoryDisplay" Src="Controls/CategoryDisplay.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="BlogStats" Src="Controls/BlogStats.ascx" %>
-<%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Search" Src="Controls/SubtextSearch.ascx" %>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
+
 <div id="main">
 	<div id="header">
 		<uc1:Header id="Header1" runat="server"></uc1:Header>
@@ -20,7 +20,7 @@
 		<DT:ContentRegion id="MPRightColumn" runat="server">
 			<uc1:News id="News" runat="server" />
 			<uc1:Search ID="Search" runat="server" />
-			<uc1:TagCloud ID="tagCloud" runat="server" ItemCount="20" />
+			<st:TagCloud ID="tagCloud" runat="server" ItemCount="20" />
 			<uc1:CategoryDisplay id="CategoryDisplay" runat="server" />
 			<uc1:ArchiveLinks id="ArchiveLinks" runat="server" />
 			<uc1:BlogStats id="BlogStats" runat="server" />

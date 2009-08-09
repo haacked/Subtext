@@ -17,17 +17,15 @@ using System;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
-using Subtext.Framework.Format;
 using Subtext.Framework.Security;
-using Subtext.Framework.Tracking;
-using Subtext.Web.Controls;
-using Subtext.Framework.Configuration;
-using Ninject;
-using Subtext.Infrastructure;
 using Subtext.Framework.Services;
+using Subtext.Framework.Tracking;
+using Subtext.Infrastructure;
+using Subtext.Web.Controls;
 using Subtext.Web.Properties;
 
 namespace Subtext.Web.UI.Controls
@@ -35,19 +33,8 @@ namespace Subtext.Web.UI.Controls
 	/// <summary>
 	///	Control used to view a single blog post.
 	/// </summary>
-	public class ViewPost : BaseControl
+	public partial class ViewPost : BaseControl
 	{
-		protected HyperLink editLink;
-		protected HyperLink TitleUrl;
-		protected Label date;
-		protected Label commentCount;
-		protected Literal Body;
-		protected Literal PostDescription;
-		protected PostCategoryList Categories;
-		protected Literal PingBack;
-		protected Literal TrackBack;
-        protected Label Enclosure;
-
 		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
         const string linkToEnclosure = "<a href=\"{0}\" title = \"{1}\">{2}</a>{3}";
 
