@@ -74,7 +74,7 @@ namespace Subtext.Framework.Web.HttpModules
                 if (blogRequest.RequestLocation != RequestLocation.LoginPage) {
                     httpContext.Response.Redirect("~/Install/BlogNotConfiguredError.aspx", true);
                 }
-                return null;
+                return blogRequest;
             }
 
             if (result.Blog == null && result.AlternateUrl != null) {

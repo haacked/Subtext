@@ -541,10 +541,18 @@ namespace Subtext.Framework.Data
                     continue;
                 }
 
-                var value = reader[property.Name];
-                if (value != DBNull.Value)
+                // We need to catch this exception in cases when we're upgrading and the column might not exist yet.
+                // It'd be nice to have a cleaner way of doing this.
+                try
                 {
-                    property.SetValue(item, value);
+                    var value = reader[property.Name];
+                    if (value != DBNull.Value)
+                    {
+                        property.SetValue(item, value);
+                    }
+                }
+                catch (IndexOutOfRangeException) { 
+                    
                 }
             }
             return item;
