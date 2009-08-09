@@ -30,8 +30,9 @@ using Subtext.Framework.Security;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
-using Subtext.Web.UI.Pages;
 using Subtext.Web.Properties;
+using Subtext.Web.UI.Pages;
+using Subtext.Web.UI.ViewModels;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -40,16 +41,20 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public partial class PostComment : BaseControl, IEntryControl
 	{
-		private Entry entry;
+        private Entry entry;
+        private EntryViewModel entryViewModel;
 
-		public Entry Entry
+		public EntryViewModel Entry
 		{
 			get
 			{
 				if(this.entry == null) {
 					this.entry = Cacher.GetEntryFromRequest(true, SubtextContext);
 				}
-				return this.entry;
+                if (this.entryViewModel == null) {
+                    this.entryViewModel = new EntryViewModel(this.entry, SubtextContext);
+                }
+				return this.entryViewModel;
 			}
 		}
 
@@ -297,23 +302,39 @@ namespace Subtext.Web.UI.Controls
 
 		private void ResetCommentFields()
 		{
-			if (this.tbComment != null)
-				this.tbComment.Text = string.Empty;
+            if (this.tbComment != null)
+            {
+                this.tbComment.Text = string.Empty;
+            }
 
-			if (this.tbEmail != null)
-				this.tbEmail.Text = SecurityHelper.IsAdmin ? Blog.Email : string.Empty;
+            if (this.tbEmail != null)
+            {
+                this.tbEmail.Text = SecurityHelper.IsAdmin ? Blog.Email : string.Empty;
+            }
 
-			if (this.tbName != null)
-				this.tbName.Text = SecurityHelper.IsAdmin ? Blog.UserName : string.Empty;
-			
-			if(entry == null)
-				entry = Cacher.GetEntryFromRequest(true, SubtextContext);
-			
-			if (this.tbTitle != null)
-				this.tbTitle.Text = "re: " + HttpUtility.HtmlDecode(entry.Title);
-			
-			if (this.tbUrl != null)
-				this.tbUrl.Text = SecurityHelper.IsAdmin ? Url.BlogUrl().ToFullyQualifiedUrl(Blog).ToString() : string.Empty;
+            if (this.tbName != null)
+            {
+                this.tbName.Text = SecurityHelper.IsAdmin ? Blog.UserName : string.Empty;
+            }
+
+            if (entry == null)
+            {
+                entry = Cacher.GetEntryFromRequest(true, SubtextContext);
+            }
+
+            if (entryViewModel == null) {
+                entryViewModel = new EntryViewModel(entry, SubtextContext);
+            }
+
+            if (this.tbTitle != null)
+            {
+                this.tbTitle.Text = "re: " + HttpUtility.HtmlDecode(entry.Title);
+            }
+
+            if (this.tbUrl != null)
+            {
+                this.tbUrl.Text = SecurityHelper.IsAdmin ? Url.BlogUrl().ToFullyQualifiedUrl(Blog).ToString() : string.Empty;
+            }
 
 			HttpCookie user = Request.Cookies["CommentUser"];
 			if (user != null)

@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -38,32 +39,11 @@ namespace Subtext.Web.UI.Pages
     /// a PlaceHolder in which the PageTemplate.ascx control within 
     /// each skin is loaded.
     /// </summary>
-    public class SubtextMasterPage : SubtextPage, IPageWithControls
+    public partial class SubtextMasterPage : SubtextPage, IPageWithControls
     {
-        #region Declared Controls in DTP.aspx
         private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinEngine());
         private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(new SkinEngine());
-        protected Literal pageTitle;
-        protected Literal docTypeDeclaration;
-        protected HtmlLink CustomCss;
-        protected HtmlLink RSSLink;
-        protected HtmlLink Rsd;
-        protected HtmlLink AtomLink;
-        protected PlaceHolder CenterBodyControl;
-        protected Literal versionMetaTag;
-        protected Literal authorMetaTag;
-        protected Literal scripts;
-        protected Literal styles;
-        protected Literal virtualRoot;
-        protected Literal virtualBlogRoot;
-        protected Literal customTrackingCode;
-        protected Literal openIDServer;
-        protected Literal openIDDelegate;
-        protected PlaceHolder metaTagsPlaceHolder;
-        #endregion
 
-        protected Comments commentsControl;
-        protected PostComment postCommentControl;
         protected const string TemplateLocation = "~/Skins/{0}/{1}";
         protected const string ControlLocation = "~/Skins/{0}/Controls/{1}";
         protected const string OpenIDServerLocation = "<link rel=\"openid.server\" href=\"{0}\" />";
@@ -88,7 +68,16 @@ namespace Subtext.Web.UI.Pages
 
                 foreach (string controlId in controls)
                 {
-                    Control control = LoadControl(string.Format(ControlLocation, skinFolder, controlId));
+                    Control control = null;
+                    try
+                    {
+                        control = LoadControl(string.Format(ControlLocation, skinFolder, controlId));
+                    }
+                    catch (HttpException) {
+                        // fallback behavior
+                        // todo: cache that we found it here.
+                        control = LoadControl(string.Format(ControlLocation, "_System", controlId));
+                    }
                     control.ID = controlId.Replace(".", "_");
 
                     if (controlId.Equals("Comments.ascx"))

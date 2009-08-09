@@ -25,6 +25,7 @@ using Subtext.Framework.Routing;
 using Subtext.Framework.Web.Handlers;
 using Subtext.Web.Controls;
 using Subtext.Web.Controls.Captcha;
+using Subtext.Web.UI.ViewModels;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -162,14 +163,14 @@ namespace Subtext.Web.UI.Controls
 			set;
 		}
 		
-		protected static void BindCurrentEntryControls(Entry entry, Control root)
+		protected void BindCurrentEntryControls(Entry entry, Control root)
 		{
 			foreach(Control control in root.Controls)
 			{
 				CurrentEntryControl currentEntryControl = control as CurrentEntryControl;
 				if(currentEntryControl != null)
 				{
-					currentEntryControl.Entry = entry;
+					currentEntryControl.Entry = new EntryViewModel(entry, SubtextContext);
 					currentEntryControl.DataBind();
 				}
 			}

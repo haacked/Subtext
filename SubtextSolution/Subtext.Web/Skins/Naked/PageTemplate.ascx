@@ -8,7 +8,7 @@
 <%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="RecentComments" Src="Controls/RecentComments.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="RecentPosts" Src="Controls/RecentPosts.ascx" %>
-<%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
+
 <div id="container">
 	<div id="header">
 		<uc1:header id="Header1" runat="server" />
@@ -20,7 +20,7 @@
 		<uc1:RecentComments id="RecentComments1" runat="server" />
 		<uc1:RecentPosts id="RecentPosts1" runat="server" />
 		<uc1:singlecolumn id="SingleColumn1" runat="server" />
-		<uc1:TagCloud ID="tagCloud" runat="server" ItemCount="20" />
+		<st:TagCloud ID="tagCloud" runat="server" ItemCount="20" />
 	</div>
 	<div id="content">
 		<dt:contentregion id="MPMain" runat="server" />

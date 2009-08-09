@@ -55,6 +55,9 @@
 
 	    <ul id="tabs">
 		    <li id="dashboardTab"><a href="<%= Url.AdminUrl("") %>" id="Tabdashboard" title="dashboard">Dashboard</a></li>
+		    <li id="OptionsTab">
+			    <a href="<%= AdminUrl.Options() %>" id="TabOptions" title="Options">Options</a>
+		    </li>
 		    <li id="PostsTab"><a href="<%= AdminUrl.PostsList() %>" id="TabPosts" title="Posts">Posts</a></li>
 		    <li id="ArticlesTab"><a href="<%= AdminUrl.ArticlesList() %>" id="TabArticles" title="Articles">Articles</a></li>
 		    <li id="FeedbackTab"><a href="<%= AdminUrl.FeedbackList() %>" id="TabFeedback" title="Feedback">Feedback</a></li>
@@ -64,9 +67,6 @@
 		    </li>
 		    <li id="StatsTab">
 			    <a href="<%= AdminUrl.Statistics() %>" id="TabStats" title="Stats">Stats</a>
-		    </li>
-		    <li id="OptionsTab">
-			    <a href="<%= AdminUrl.Options() %>" id="TabOptions" title="Options">Options</a>
 		    </li>
 	    </ul>
 	    

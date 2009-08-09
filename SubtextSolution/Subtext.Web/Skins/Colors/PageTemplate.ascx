@@ -7,7 +7,7 @@
 <%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="News" Src="Controls/News.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="ArchiveLinks" Src="Controls/ArchiveLinks.ascx" %>
-<%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
+
 <div id="main">
 	<uc1:Header id="Header1" runat="server"></uc1:Header>	
 	
@@ -16,7 +16,7 @@
 			<DT:contentregion id="MPLeftColumn" runat="server">
 				<uc1:MyLinks id="MyLinks1" runat="server"></uc1:MyLinks>
 				<uc1:News id="News1" runat="server"></uc1:News>
-				<uc1:TagCloud ID="TagCloud" runat="server" ItemCount="20" />
+				<st:TagCloud ID="TagCloud" runat="server" ItemCount="20" />
 				<uc1:ArchiveLinks id="ArchiveLinks1" runat="server"></uc1:ArchiveLinks>
 				<uc1:CategoryDisplay id="CategoryDisplay" runat="server"></uc1:CategoryDisplay>
 			</DT:contentregion>

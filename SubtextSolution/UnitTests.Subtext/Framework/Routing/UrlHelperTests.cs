@@ -770,6 +770,5 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = new UrlHelper(requestContext, routes);
             return helper;
         }
-
     }
 }

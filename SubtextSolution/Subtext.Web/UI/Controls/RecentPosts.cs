@@ -16,12 +16,13 @@
 using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
+using Subtext.Extensibility;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Web.Controls;
-using Subtext.Framework;
-using Subtext.Extensibility;
+using Subtext.Web.UI.ViewModels;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -69,19 +70,19 @@ namespace Subtext.Web.UI.Controls
 
         }
 
-    	public Entry Entry
+    	public EntryViewModel Entry
     	{
     		get { return this.currentEntry; }
     	}
 
-    	private Entry currentEntry;
+    	private EntryViewModel currentEntry;
 
         protected void PostCreated(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 Entry post = (Entry)e.Item.DataItem;
-            	this.currentEntry = post;
+            	this.currentEntry = new EntryViewModel(post, SubtextContext);
                 HyperLink lnkPost = (HyperLink)e.Item.FindControl("Link");
                 if (lnkPost != null) {
                     // display whole title, (up to 255 chars), no truncation

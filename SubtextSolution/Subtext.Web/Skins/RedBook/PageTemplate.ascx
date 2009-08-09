@@ -6,9 +6,9 @@
 <%@ Register TagPrefix="uc1" TagName="News" Src="Controls/News.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="BlogStats" Src="Controls/BlogStats.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Footer" Src="Controls/Footer.ascx" %>
-<%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Search" Src="Controls/SubtextSearch.ascx" %>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
+
 		<div id="rondo"><p>&nbsp;</p></div>
 		<div id="all">
 			
@@ -25,7 +25,7 @@
 					<uc1:Search ID="search" runat="server" />
 					<uc1:News id="News" runat="server" />
 					<uc1:RecentComments id="RecentComments" runat="server" />
-					<uc1:TagCloud runat="server" ItemCount="20" />
+					<st:TagCloud runat="server" ItemCount="20" />
 					<uc1:SingleColumn id="SingleColumn" runat="server" />
 					<div>
 						<h2>Hosted by</h2>
