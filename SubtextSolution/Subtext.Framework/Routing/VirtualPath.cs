@@ -23,7 +23,7 @@ namespace Subtext.Framework.Routing
             if (virtualPath == null) {
                 throw new ArgumentNullException("virtualPath");
             }
-
+            virtualPath = virtualPath.Replace("%7B:#:%7D", "%23");
             _virtualPath = new Uri(virtualPath, UriKind.Relative);
         }
 
@@ -31,13 +31,16 @@ namespace Subtext.Framework.Routing
 
         public static implicit operator String(VirtualPath vp) {
             if (vp == null)
+            {
                 return null;
+            }
             return vp.ToString();
         }
 
         public static implicit operator VirtualPath(string virtualPath)
         {
-            if (String.IsNullOrEmpty(virtualPath)) {
+            if (String.IsNullOrEmpty(virtualPath)) 
+            {
                 return null;
             }
             return new VirtualPath(virtualPath);

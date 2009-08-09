@@ -48,7 +48,8 @@ namespace Subtext.Web.UI.Controls
             {
                 Tag tag = (Tag)e.Item.DataItem;
                 HyperLink tagLink = e.Item.FindControl("TagUrl") as HyperLink;
-                if (tagLink != null) {
+                if (tagLink != null) 
+                {
                     tagLink.NavigateUrl = Url.TagUrl(tag.TagName);
                 }
             }
@@ -61,22 +62,23 @@ namespace Subtext.Web.UI.Controls
             TagItems = Cacher.GetTopTags(ItemCount, SubtextContext);
             int tagCount = TagItems.Count();
 
-            if (tagCount == 0) {
+            if (tagCount == 0) 
+            {
                 this.Visible = false;
             }
-            else {
-
+            else
+            {
                 Repeater tagRepeater = this.FindControl("Tags") as Repeater;
                 if (tagRepeater != null)
                 {
                     tagRepeater.DataSource = TagItems;
                     tagRepeater.DataBind();
-
                 }
 
-                HyperLink hlDefault = ControlHelper.FindControlRecursively(this, "DefaultTagLink") as HyperLink;
-                if (hlDefault != null) {
-                    hlDefault.NavigateUrl = Url.TagCloudUrl();
+                HyperLink defaultTagLink = ControlHelper.FindControlRecursively(this, "DefaultTagLink") as HyperLink;
+                if (defaultTagLink != null) 
+                {
+                    defaultTagLink.NavigateUrl = Url.TagCloudUrl();
                 }
             }
         }

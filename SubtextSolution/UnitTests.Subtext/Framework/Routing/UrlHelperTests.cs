@@ -4,17 +4,22 @@ using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
+using Ninject;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Routing;
-using Subtext.Web;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
     [TestFixture]
     public class UrlHelperTests
     {
+        public UrlHelperTests() {
+            Bootstrapper.Kernel = new Mock<IKernel>().Object;
+        }
+
         [Test]
         public void EntryUrl_WithSubfolderAndEntryHavingEntryName_RendersVirtualPathToEntryWithDateAndSlugInUrl()
         {
@@ -690,6 +695,21 @@ namespace UnitTests.Subtext.Framework.Routing
 
             //assert
             Assert.AreEqual("/Subtext.Web/sub/tags/tagName/default.aspx", url.ToString());
+        }
+
+        [Test]
+        public void TagUrl_CorrectlyEncodesPoundCharacter()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            var url = helper.TagUrl("C#");
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/sub/tags/C%23/default.aspx", url.ToString());
         }
 
         [Test]

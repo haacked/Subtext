@@ -39,6 +39,16 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
+        public void VirtualPath_WithSpecialPoundSequence_ReplacesSequenceWithEncodedPoundSign()
+        {
+            //arrange
+            VirtualPath vp = new VirtualPath("/foo%7B:#:%7Dbar/");
+
+            //assert
+            Assert.AreEqual("/foo%23bar/", vp.ToString());
+        }
+
+        [Test]
         public void VirtualPathHasImplicitConversionToString() { 
             //arrange
             VirtualPath vp = new VirtualPath("/foo");

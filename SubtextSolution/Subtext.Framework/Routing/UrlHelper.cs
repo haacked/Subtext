@@ -285,7 +285,7 @@ namespace Subtext.Framework.Routing
         }
 
         public virtual VirtualPath TagUrl(string tagName) {
-            return GetVirtualPath("tag", new { tag = tagName });
+            return GetVirtualPath("tag", new { tag = tagName.Replace("#", "{:#:}") });
         }
 
         public virtual VirtualPath TagCloudUrl() {
