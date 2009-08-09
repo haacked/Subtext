@@ -34,7 +34,7 @@ namespace Subtext.Web.HostAdmin.Upgrade
         {
             if (Subtext.Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion) == InstallationState.Complete)
             {
-                Response.Redirect("UpgradeComplete.aspx");
+                Response.Redirect("~/HostAdmin/Upgrade/UpgradeComplete.aspx");
             }
 
             btnUpgrade.Attributes["onclick"] = "this.disabled=true;"
@@ -48,7 +48,7 @@ namespace Subtext.Web.HostAdmin.Upgrade
 			try
 			{
 				Extensibility.Providers.Installation.Provider.Upgrade();
-				Response.Redirect("UpgradeComplete.aspx");
+                Response.Redirect("~/HostAdmin/Upgrade/UpgradeComplete.aspx");
 			}
 			catch (SqlScriptExecutionException ex)
 			{

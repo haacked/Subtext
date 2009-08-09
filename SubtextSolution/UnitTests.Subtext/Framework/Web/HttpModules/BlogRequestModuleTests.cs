@@ -78,7 +78,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             BlogRequest request = module.ConvertRequestToBlogRequest(httpContext.Object);
 
             //assert
-            Assert.IsNull(request);
+            Assert.IsNull(request.Blog);
             httpResponse.Verify(r => r.Redirect("~/Install/BlogNotConfiguredError.aspx", true));
         }
 
@@ -126,7 +126,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         }
 
         [Test]
-        public void ConvertRequestToBlogRequest_WithNoMatchingBlogButWithRequestForLoginPage_SetsBlogRequestToNull()
+        public void ConvertRequestToBlogRequest_WithNoMatchingBlogButWithRequestForLoginPage_SetsBlogRequestBlogToNull()
         {
             //arrange
             var service = new Mock<IBlogLookupService>();
@@ -144,7 +144,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             BlogRequest request = module.ConvertRequestToBlogRequest(httpContext.Object);
 
             //assert
-            Assert.IsNull(request);
+            Assert.IsNull(request.Blog);
         }
 
         [Test]
