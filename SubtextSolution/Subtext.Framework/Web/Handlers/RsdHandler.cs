@@ -28,6 +28,10 @@ namespace Subtext.Framework.Web.Handlers
 	/// </remarks>
 	public class RsdHandler : SubtextHttpHandler
 	{
+        public RsdHandler(ISubtextContext subtextContext) : base(subtextContext) 
+        { 
+        }
+
 		/// <summary>
 		/// Handles the request.  This is where you put your
 		/// business logic.

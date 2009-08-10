@@ -29,6 +29,10 @@ namespace Subtext.Framework.Syndication
 	{
 		BaseSyndicationWriter<Entry> writer;
 
+        public AtomHandler(ISubtextContext subtextContext) : base(subtextContext)
+        {
+        }
+
 		/// <summary>
 		/// Returns the key used to cache this feed.
 		/// </summary>

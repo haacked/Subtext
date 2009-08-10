@@ -4,28 +4,42 @@ using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Web.Handlers
 {
-    public abstract class SubtextHttpHandler : ISubtextHandler {
-        public Blog Blog {
-            get {
+    public abstract class SubtextHttpHandler : ISubtextHandler
+    {
+        public SubtextHttpHandler(ISubtextContext subtextContext) {
+            SubtextContext = subtextContext;
+        }
+
+        public Blog Blog
+        {
+            get
+            {
                 return SubtextContext.Blog;
             }
         }
 
-        public UrlHelper Url {
-            get {
+        public UrlHelper Url
+        {
+            get
+            {
                 return SubtextContext.UrlHelper;
             }
         }
 
-        public ObjectProvider Repository {
-            get {
+        public ObjectProvider Repository
+        {
+            get
+            {
                 return SubtextContext.Repository;
             }
         }
 
-        public AdminUrlHelper AdminUrl {
-            get {
-                if (_adminUrlHelper == null) {
+        public AdminUrlHelper AdminUrl
+        {
+            get
+            {
+                if (_adminUrlHelper == null)
+                {
                     _adminUrlHelper = new AdminUrlHelper(Url);
                 }
                 return _adminUrlHelper;
@@ -33,19 +47,22 @@ namespace Subtext.Framework.Web.Handlers
         }
         AdminUrlHelper _adminUrlHelper;
 
-
-        public ISubtextContext SubtextContext {
+        public ISubtextContext SubtextContext
+        {
             get;
-            set;
+            protected set;
         }
 
-        public bool IsReusable {
-            get {
+        public bool IsReusable
+        {
+            get
+            {
                 return false;
             }
         }
 
-        public void ProcessRequest(HttpContext context) {
+        public void ProcessRequest(HttpContext context)
+        {
             ProcessRequest();
         }
 

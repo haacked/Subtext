@@ -22,7 +22,6 @@ namespace Subtext.Framework.Routing {
         [Inject]
         ISubtextContext SubtextContext {
             get;
-            set;
         }
 
         UrlHelper Url {

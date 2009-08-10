@@ -31,8 +31,7 @@ namespace UnitTests.Subtext.SubtextWeb
             subtextContext.SetupSet(c => c.HttpContext.Response.ContentType, It.IsAny<string>());
             StringWriter writer = subtextContext.FakeSitemapHandlerRequest(repository);
             subtextContext.Setup(c => c.Blog).Returns(new Blog { Host = "localhost" });
-            var handler = new SiteMapHttpHandler();
-            handler.SubtextContext = subtextContext.Object;
+            var handler = new SiteMapHttpHandler(subtextContext.Object);
 
             //act
             handler.ProcessRequest();
@@ -60,12 +59,10 @@ namespace UnitTests.Subtext.SubtextWeb
             subtextContext.SetupSet(c => c.HttpContext.Response.ContentType, It.IsAny<string>());
             
             StringWriter writer = subtextContext.FakeSitemapHandlerRequest(repository);
-            var handler = new SiteMapHttpHandler();
-            handler.SubtextContext = subtextContext.Object;
+            var handler = new SiteMapHttpHandler(subtextContext.Object);
             subtextContext.Setup(c => c.Blog).Returns(new Blog { Host = "localhost" });
 
             //act
-            handler.SubtextContext = subtextContext.Object;
             handler.ProcessRequest();
 
             //assert

@@ -39,16 +39,14 @@ namespace UnitTests.Subtext.Framework.Syndication
             
 			int id = UnitTestHelper.Create(entry); //persist to db.
 
-			AtomHandler handler = new AtomHandler();
-
             var subtextContext = new Mock<ISubtextContext>();
             string rssOutput = null;
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/");
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/2008/01/23/testtitle.aspx");
-
-            handler.SubtextContext = subtextContext.Object;
+            AtomHandler handler = new AtomHandler(subtextContext.Object);
+            
 			handler.ProcessRequest();
 			HttpContext.Current.Response.Flush();
 

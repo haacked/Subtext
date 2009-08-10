@@ -28,7 +28,7 @@ namespace UnitTests.Subtext.Framework.Web
 
 			StringBuilder builder = new StringBuilder();
 			XmlWriter writer = XmlWriter.Create(builder);
-			RsdHandler handler = new RsdHandler();
+			RsdHandler handler = new RsdHandler(null);
 
             //act
 			handler.WriteRsd(writer, blog, urlHelper.Object);

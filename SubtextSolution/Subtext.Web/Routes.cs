@@ -11,6 +11,7 @@ using Subtext.Web.Admin.Services.Ajax;
 using Subtext.Web.Controls.Captcha;
 using Subtext.Web.SiteMap;
 using Subtext.Web.UI.Handlers;
+using Subtext.Infrastructure;
 
 public static class Routes {
     public static void RegisterRoutes(RouteCollection routes) {
@@ -100,8 +101,8 @@ public static class Routes {
         routes.MapXmlRpcHandler<PingBackService>("services/pingback/{id}.aspx", new { id = @"\d+" });
         routes.MapXmlRpcHandler<MetaWeblog>("metaweblogapi", "services/metablogapi.aspx", null);
 
-        routes.Add(new Route("images/IdenticonHandler.ashx", new HttpRouteHandler<IdenticonHandler>()));
-        routes.Add(new Route("images/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>()));
+        routes.Add(new Route("images/IdenticonHandler.ashx", new HttpRouteHandler<IdenticonHandler>(Bootstrapper.Kernel)));
+        routes.Add(new Route("images/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>(Bootstrapper.Kernel)));
 
         routes.MapRoot();
     }

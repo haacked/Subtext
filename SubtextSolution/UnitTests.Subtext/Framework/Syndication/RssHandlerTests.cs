@@ -317,8 +317,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         }
 
         private static XmlNodeList GetRssHandlerItemNodes(ISubtextContext context, ref string rssOutput) {
-            RssHandler handler = new RssHandler();
-            handler.SubtextContext = context;
+            RssHandler handler = new RssHandler(context);
             handler.ProcessRequest();
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(rssOutput);
