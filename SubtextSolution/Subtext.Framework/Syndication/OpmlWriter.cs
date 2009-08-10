@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Subtext.Framework.Providers;
+﻿using System.Collections.Generic;
 using System.IO;
-using Subtext.Framework.Routing;
 using System.Xml;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Syndication
 {
     public class OpmlWriter
     {
-        public OpmlWriter() { 
+        public OpmlWriter()
+        {
         }
 
-        public virtual void Write(IEnumerable<Blog> blogs, TextWriter writer, UrlHelper urlHelper) {
+        public virtual void Write(IEnumerable<Blog> blogs, TextWriter writer, UrlHelper urlHelper)
+        {
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Encoding = System.Text.Encoding.UTF8;
             settings.OmitXmlDeclaration = true;

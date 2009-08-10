@@ -30,17 +30,14 @@ namespace UnitTests.Subtext.Framework.Tracking
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = UnitTestHelper.Create(entry);
-
             Blog blog = Config.CurrentBlog;
 			blog.TrackbacksEnabled = false;
-            var handler = new TrackBackHandler();
-
             var subtextContext = new Mock<ISubtextContext>();
             var writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
+            var handler = new TrackBackHandler(subtextContext.Object);
 
             //act
-            handler.SubtextContext = subtextContext.Object;
             handler.ProcessRequest();
 
             //assert
@@ -62,7 +59,6 @@ namespace UnitTests.Subtext.Framework.Tracking
 
             Blog blog = Config.CurrentBlog;
             blog.TrackbacksEnabled = true;
-            var handler = new TrackBackHandler();
 
             var subtextContext = new Mock<ISubtextContext>();
             var writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
@@ -71,9 +67,9 @@ namespace UnitTests.Subtext.Framework.Tracking
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
             subtextContext.SetupBlog(blog);
-
-			//act
-            handler.SubtextContext = subtextContext.Object;
+            var handler = new TrackBackHandler(subtextContext.Object);
+			
+            //act
             handler.ProcessRequest();
 
             //assert
@@ -91,8 +87,6 @@ namespace UnitTests.Subtext.Framework.Tracking
             UnitTestHelper.SetupBlog();
             Blog blog = Config.CurrentBlog;
             blog.TrackbacksEnabled = true;
-            var handler = new TrackBackHandler();
-
             var subtextContext = new Mock<ISubtextContext>();
             var writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
@@ -100,9 +94,9 @@ namespace UnitTests.Subtext.Framework.Tracking
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
             subtextContext.SetupBlog(blog);
+            var handler = new TrackBackHandler(subtextContext.Object);
 
             //act
-            handler.SubtextContext = subtextContext.Object;
             handler.ProcessRequest();
 
             //assert
@@ -120,17 +114,15 @@ namespace UnitTests.Subtext.Framework.Tracking
             UnitTestHelper.SetupBlog();
             Blog blog = Config.CurrentBlog;
             blog.TrackbacksEnabled = true;
-            var handler = new TrackBackHandler();
-
             var subtextContext = new Mock<ISubtextContext>();
             var writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
             subtextContext.SetupBlog(blog);
+            var handler = new TrackBackHandler(subtextContext.Object);
 
             //act
-            handler.SubtextContext = subtextContext.Object;
             handler.ProcessRequest();
 
             //assert
@@ -150,19 +142,18 @@ namespace UnitTests.Subtext.Framework.Tracking
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "this is the title", "body");
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             int id = UnitTestHelper.Create(entry);
-
             Blog blog = Config.CurrentBlog;
             blog.TrackbacksEnabled = true;
-            var handler = new TrackBackHandler();
-            handler.SourceVerification += delegate(object sender, SourceVerificationEventArgs e) {
-                e.Verified = true;
-            };
-
             var subtextContext = new Mock<ISubtextContext>();
             var writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
             subtextContext.SetupBlog(blog);
+            var handler = new TrackBackHandler(subtextContext.Object);
+            handler.SourceVerification += delegate(object sender, SourceVerificationEventArgs e)
+            {
+                e.Verified = true;
+            };
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
             urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
@@ -178,7 +169,6 @@ namespace UnitTests.Subtext.Framework.Tracking
             httpContext.Setup(c => c.Request.Form).Returns(form);
 
             //act
-            handler.SubtextContext = subtextContext.Object;
             handler.ProcessRequest();
 
             //assert

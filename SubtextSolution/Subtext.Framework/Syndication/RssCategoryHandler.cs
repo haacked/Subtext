@@ -24,78 +24,82 @@ using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Syndication
 {
-	/// <summary>
-	/// RssCommentHandler is a proposed extention to the CommentApi. This is still beta/etc.
-	/// The Main Rss feed now contains an element for each entry, which will generate a rss feed 
-	/// containing the comments for each post.
-	/// </summary>
-	public class RssCategoryHandler : EntryCollectionHandler<Entry>
-	{
-		protected LinkCategory Category;
+    /// <summary>
+    /// RssCommentHandler is a proposed extention to the CommentApi. This is still beta/etc.
+    /// The Main Rss feed now contains an element for each entry, which will generate a rss feed 
+    /// containing the comments for each post.
+    /// </summary>
+    public class RssCategoryHandler : EntryCollectionHandler<Entry>
+    {
+        protected LinkCategory Category;
         ICollection<Entry> posts;
 
+        public RssCategoryHandler(ISubtextContext subtextContext) : base(subtextContext)
+        {
+        }
+
         protected override ICollection<Entry> GetFeedEntries()
-		{
-			if(Category == null)
-			{
-				Category = Cacher.SingleCategory(SubtextContext);
-			}
+        {
+            if (Category == null)
+            {
+                Category = Cacher.SingleCategory(SubtextContext);
+            }
 
-			if(Category != null && posts == null)
-			{
-				posts = Cacher.GetEntriesByCategory(10, Category.Id, SubtextContext);
-			}
+            if (Category != null && posts == null)
+            {
+                posts = Cacher.GetEntriesByCategory(10, Category.Id, SubtextContext);
+            }
 
-			return posts;
-		}
-
-
-		/// <summary>
-		/// Builds the feed using delta encoding if it's true.
-		/// </summary>
-		/// <returns></returns>
-		protected override CachedFeed BuildFeed()
-		{
-			CachedFeed feed =null;
-
-			posts = GetFeedEntries();
-
-			if(posts != null && posts.Count > 0)
-			{
-				feed = new CachedFeed();
-				CategoryWriter cw = new CategoryWriter(HttpContext.Response.Output, posts, Category,WebPathStripper.RemoveRssSlash(HttpContext.Request.Url.ToString()), SubtextContext);
-				feed.LastModified = ConvertLastUpdatedDate(posts.First().DateCreated);
-				feed.Xml = cw.Xml;
-			}
-			return feed;
-		}
-
-		protected override BaseSyndicationWriter SyndicationWriter
-		{
-			get
-			{
-				return new CategoryWriter(HttpContext.Response.Output, posts, Category,WebPathStripper.RemoveRssSlash(HttpContext.Request.Url.ToString()), SubtextContext);
-			}
-		}
-
-		/// <summary>
-		/// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
-		/// </summary>
-		protected override bool IsMainfeed
-		{
-			get { return false; }
-		}
+            return posts;
+        }
 
 
-		/// <summary>
-		/// Gets the item created date.
-		/// </summary>
-		/// <param name="item">The item.</param>
-		/// <returns></returns>
-		protected override DateTime GetItemCreatedDate(Entry item)
-		{
-			return item.DateCreated;
-		}
-	}
+        /// <summary>
+        /// Builds the feed using delta encoding if it's true.
+        /// </summary>
+        /// <returns></returns>
+        protected override CachedFeed BuildFeed()
+        {
+            CachedFeed feed = null;
+
+            posts = GetFeedEntries();
+
+            if (posts != null && posts.Count > 0)
+            {
+                feed = new CachedFeed();
+                CategoryWriter cw = new CategoryWriter(HttpContext.Response.Output, posts, Category, WebPathStripper.RemoveRssSlash(HttpContext.Request.Url.ToString()), SubtextContext);
+                feed.LastModified = ConvertLastUpdatedDate(posts.First().DateCreated);
+                feed.Xml = cw.Xml;
+            }
+            return feed;
+        }
+
+        protected override BaseSyndicationWriter SyndicationWriter
+        {
+            get
+            {
+                return new CategoryWriter(HttpContext.Response.Output, posts, Category, WebPathStripper.RemoveRssSlash(HttpContext.Request.Url.ToString()), SubtextContext);
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
+        /// </summary>
+        protected override bool IsMainfeed
+        {
+            get { return false; }
+        }
+
+
+        /// <summary>
+        /// Gets the item created date.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <returns></returns>
+        protected override DateTime GetItemCreatedDate(Entry item)
+        {
+            return item.DateCreated;
+        }
+    }
 }
 

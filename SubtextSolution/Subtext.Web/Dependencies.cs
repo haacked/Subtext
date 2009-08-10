@@ -13,6 +13,7 @@ using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Infrastructure;
+using Subtext.Framework.Syndication;
 
 namespace Subtext
 {
@@ -47,6 +48,7 @@ namespace Subtext
             Bind<ObjectProvider>().ToMethod(c => new DatabaseObjectProvider()).InRequestScope();
             Bind<Subtext.Infrastructure.ICache>().To<SubtextCache>().InRequestScope();
             Bind<System.Web.Caching.Cache>().ToMethod(c => HttpContext.Current.Cache).InRequestScope();
+            Bind<OpmlWriter>().To<OpmlWriter>().InRequestScope();
             Bind<IKernel>().ToMethod(context => context.Kernel).InSingletonScope();
 
             Bind<RouteCollection>().ToConstant(RouteTable.Routes).InSingletonScope();

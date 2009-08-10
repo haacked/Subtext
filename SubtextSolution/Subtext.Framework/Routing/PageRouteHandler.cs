@@ -23,7 +23,7 @@ namespace Subtext.Framework.Routing
 {
     public class PageRouteHandler : RouteHandlerBase
     {
-        public PageRouteHandler(string virtualPath, ISubtextPageBuilder pageBuilder) {
+        public PageRouteHandler(string virtualPath, ISubtextPageBuilder pageBuilder) : base(Bootstrapper.Kernel) {
             VirtualPath = virtualPath;
             PageBuilder = pageBuilder;
         }

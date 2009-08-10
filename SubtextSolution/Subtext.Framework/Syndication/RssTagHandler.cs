@@ -28,6 +28,10 @@ namespace Subtext.Framework.Syndication
     {
         BaseSyndicationWriter<Entry> writer;
 
+        public RssTagHandler(ISubtextContext subtextContext) : base(subtextContext)
+        {
+        }
+
         /// <summary>
         /// Returns the key used to cache this feed.
         /// </summary>
@@ -51,7 +55,7 @@ namespace Subtext.Framework.Syndication
             // Checks our cache against last modified header.
             if (!base.IsHttpCacheOK())
             {
-              base.Feed = base.BuildFeed();
+                base.Feed = base.BuildFeed();
                 if (base.Feed != null)
                 {
                     if (base.UseDeltaEncoding && base.Feed.ClientHasAllFeedItems)

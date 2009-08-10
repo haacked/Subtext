@@ -5,10 +5,7 @@ using Subtext.Framework.Web.Handlers;
 namespace Subtext.Framework.Syndication
 {
     public class OpmlHandler : SubtextHttpHandler {
-        public OpmlHandler() { 
-        }
-
-        public OpmlHandler(OpmlWriter writer) {
+        public OpmlHandler(ISubtextContext subtextContext, OpmlWriter writer) : base(subtextContext) {
             OpmlWriter = writer;
         }
 
@@ -23,6 +20,9 @@ namespace Subtext.Framework.Syndication
         }
 
         public virtual void ProcessRequest(HostInfo hostInfo) {
+            HttpResponseBase response = SubtextContext.HttpContext.Response;
+            response.ContentType = "text/xml";
+
             IEnumerable<Blog> blogs = null;
             if (!hostInfo.BlogAggregationEnabled)
             {
@@ -34,13 +34,10 @@ namespace Subtext.Framework.Syndication
             }
             else
             {
-                int? groupId = GetGroupIdFromQueryString(SubtextContext.RequestContext.HttpContext.Request);
+                int? groupId = GetGroupIdFromQueryString(SubtextContext.HttpContext.Request);
                 blogs = this.SubtextContext.Repository.GetBlogsByGroup(hostInfo.AggregateBlog.Host, groupId);
             }
-
-            HttpResponseBase response = SubtextContext.RequestContext.HttpContext.Response;
-            response.ContentType = "text/xml";
-
+            
             OpmlWriter.Write(blogs, response.Output, SubtextContext.UrlHelper);
         }
 

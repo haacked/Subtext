@@ -48,19 +48,26 @@ using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Framework.Tracking
 {
-	/// <summary>
-	/// Service used to receive trackbacks from remote clients.
-	/// </summary>
+    /// <summary>
+    /// Service used to receive trackbacks from remote clients.
+    /// </summary>
     public class TrackBackHandler : SubtextHttpHandler
-	{
-		static Log Log = new Log();
+    {
+        static Log Log = new Log();
 
-        public override void ProcessRequest() {
-            if (!SubtextContext.Blog.TrackbacksEnabled) {
+        public TrackBackHandler(ISubtextContext subtextContext) : base(subtextContext)
+        {
+        }
+
+        public override void ProcessRequest()
+        {
+            if (!SubtextContext.Blog.TrackbacksEnabled)
+            {
                 return;
             }
 
-            try {
+            try
+            {
                 HandleTrackback(SubtextContext);
             }
             catch (BaseCommentException e)
@@ -69,86 +76,93 @@ namespace Subtext.Framework.Tracking
             }
         }
 
-		private void HandleTrackback(ISubtextContext subtextContext) {
+        private void HandleTrackback(ISubtextContext subtextContext)
+        {
             var httpContext = subtextContext.RequestContext.HttpContext;
             httpContext.Response.ContentType = "text/xml";
 
-			Entry entry;
+            Entry entry;
 
-			int postId;
+            int postId;
 
             string entryIdentifier = (string)subtextContext.RequestContext.RouteData.Values["id"];
-			if (int.TryParse(entryIdentifier, out postId)) {
+            if (int.TryParse(entryIdentifier, out postId))
+            {
                 entry = subtextContext.Repository.GetEntry(postId, true /* activeOnly */, false /* includeCategories */);
-			}
-			else
-			{
+            }
+            else
+            {
                 string slug = (string)subtextContext.RequestContext.RouteData.Values["slug"];
                 entry = subtextContext.Repository.GetEntry(slug, true /* activeOnly */, false /* includeCategories */);
-			}
+            }
 
-			if (entry == null) {
+            if (entry == null)
+            {
                 Log.Info(string.Format(CultureInfo.InvariantCulture, Resources.Log_CouldNotExtractEntryId, httpContext.Request.Path));
-				SendTrackbackResponse(httpContext, 1, Resources.TrackbackResponse_EntryIdMissing);
-				return;
-			}
+                SendTrackbackResponse(httpContext, 1, Resources.TrackbackResponse_EntryIdMissing);
+                return;
+            }
 
-			if (httpContext.Request.HttpMethod == "POST") {
+            if (httpContext.Request.HttpMethod == "POST")
+            {
                 CreateTrackbackAndSendResponse(subtextContext, entry, entry.Id);
-			}
-			else
-			{
+            }
+            else
+            {
                 SendTrackbackRss(subtextContext, entry, entry.Id);
-			}
-		}
+            }
+        }
 
-		private static void SendTrackbackRss(ISubtextContext context, Entry entry, int postId) {
-			XmlTextWriter w = new XmlTextWriter(context.RequestContext.HttpContext.Response.Output);
-			w.Formatting = Formatting.Indented;
+        private static void SendTrackbackRss(ISubtextContext context, Entry entry, int postId)
+        {
+            XmlTextWriter w = new XmlTextWriter(context.RequestContext.HttpContext.Response.Output);
+            w.Formatting = Formatting.Indented;
 
             string url = context.UrlHelper.TrackbacksUrl(postId).ToFullyQualifiedUrl(context.Blog).ToString();
 
-			w.WriteStartDocument();
-			w.WriteStartElement("response");
-			w.WriteElementString("error", "0");
-			w.WriteStartElement("rss");
-			w.WriteAttributeString("version", "0.91");
-			w.WriteStartElement("channel");
-			w.WriteElementString("title", entry.Title);
-			w.WriteElementString("link", url);
-			w.WriteElementString("description", string.Empty);
-			w.WriteElementString("language", "en-us");
+            w.WriteStartDocument();
+            w.WriteStartElement("response");
+            w.WriteElementString("error", "0");
+            w.WriteStartElement("rss");
+            w.WriteAttributeString("version", "0.91");
+            w.WriteStartElement("channel");
+            w.WriteElementString("title", entry.Title);
+            w.WriteElementString("link", url);
+            w.WriteElementString("description", string.Empty);
+            w.WriteElementString("language", "en-us");
 
-			w.WriteEndElement(); // channel
-			w.WriteEndElement(); // rss 
-			w.WriteEndElement(); // response
-			w.WriteEndDocument();
-		}
+            w.WriteEndElement(); // channel
+            w.WriteEndElement(); // rss 
+            w.WriteEndElement(); // response
+            w.WriteEndDocument();
+        }
 
-		private void CreateTrackbackAndSendResponse(ISubtextContext subtextContext, Entry entry, int entryId) {
+        private void CreateTrackbackAndSendResponse(ISubtextContext subtextContext, Entry entry, int entryId)
+        {
             var context = subtextContext.RequestContext.HttpContext;
-			string title = SafeParam(context, "title");
-			string excerpt = SafeParam(context, "excerpt");
-			string urlText = SafeParam(context, "url");
-			string blog_name = SafeParam(context, "blog_name");
+            string title = SafeParam(context, "title");
+            string excerpt = SafeParam(context, "excerpt");
+            string urlText = SafeParam(context, "url");
+            string blog_name = SafeParam(context, "blog_name");
 
-			Uri url = HtmlHelper.ParseUri(urlText);
-			if (url == null)
-			{
-				SendTrackbackResponse(context, 1, Resources.TrackbackResponse_NoUrl);
-				return;
-			}
+            Uri url = HtmlHelper.ParseUri(urlText);
+            if (url == null)
+            {
+                SendTrackbackResponse(context, 1, Resources.TrackbackResponse_NoUrl);
+                return;
+            }
 
-			if (entry == null || !IsSourceVerification(url, subtextContext.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(subtextContext.Blog)))
-			{
-				SendTrackbackResponse(context, 2, String.Format(CultureInfo.InvariantCulture, Resources.TrackbackResponse_NoRelevantLink, url));
-				return;
-			}
+            if (entry == null || !IsSourceVerification(url, subtextContext.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(subtextContext.Blog)))
+            {
+                SendTrackbackResponse(context, 2, String.Format(CultureInfo.InvariantCulture, Resources.TrackbackResponse_NoRelevantLink, url));
+                return;
+            }
 
             Trackback trackback = new Trackback(entryId, title, url, blog_name, excerpt, Blog.TimeZone.Now);
             ICommentSpamService feedbackService = null;
             Blog blog = subtextContext.Blog;
-            if (blog.FeedbackSpamServiceEnabled) {
+            if (blog.FeedbackSpamServiceEnabled)
+            {
                 feedbackService = new AkismetSpamService(blog.FeedbackSpamServiceKey, blog, null, Url);
             }
             CommentService commentService = new CommentService(SubtextContext, new CommentFilter(SubtextContext, feedbackService));
@@ -156,45 +170,50 @@ namespace Subtext.Framework.Tracking
             //TODO: Create this using IoC container
             var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), subtextContext);
             emailService.EmailCommentToBlogAuthor(trackback);
-		}
+        }
 
-		private static void SendTrackbackResponse(HttpContextBase context, int errorNumber, string errorMessage) {
-			XmlDocument d = new XmlDocument();
-			XmlElement root = d.CreateElement("response");
-			d.AppendChild(root);
-			XmlElement er = d.CreateElement("error");
-			root.AppendChild(er);
-			er.AppendChild(d.CreateTextNode(errorNumber.ToString(CultureInfo.InvariantCulture)));
-			if (errorMessage.Length > 0)
-			{
-				XmlElement msg = d.CreateElement("message");
-				root.AppendChild(msg);
-				msg.AppendChild(d.CreateTextNode(errorMessage));
-			}
-			d.Save(context.Response.Output);
-			context.Response.Output.Flush();
-		}
+        private static void SendTrackbackResponse(HttpContextBase context, int errorNumber, string errorMessage)
+        {
+            XmlDocument d = new XmlDocument();
+            XmlElement root = d.CreateElement("response");
+            d.AppendChild(root);
+            XmlElement er = d.CreateElement("error");
+            root.AppendChild(er);
+            er.AppendChild(d.CreateTextNode(errorNumber.ToString(CultureInfo.InvariantCulture)));
+            if (errorMessage.Length > 0)
+            {
+                XmlElement msg = d.CreateElement("message");
+                root.AppendChild(msg);
+                msg.AppendChild(d.CreateTextNode(errorMessage));
+            }
+            d.Save(context.Response.Output);
+            context.Response.Output.Flush();
+        }
 
-		private static string SafeParam(HttpContextBase context, string pName) {
-			if (context.Request.Form[pName] != null)
-				return HtmlHelper.SafeFormat(context.Request.Form[pName], context.Server);
-			return string.Empty;
-		}
+        private static string SafeParam(HttpContextBase context, string pName)
+        {
+            if (context.Request.Form[pName] != null)
+                return HtmlHelper.SafeFormat(context.Request.Form[pName], context.Server);
+            return string.Empty;
+        }
 
-		public delegate void SourceVerificationEventHandler(object sender, SourceVerificationEventArgs e);
+        public delegate void SourceVerificationEventHandler(object sender, SourceVerificationEventArgs e);
 
-		public event SourceVerificationEventHandler SourceVerification;
+        public event SourceVerificationEventHandler SourceVerification;
 
-		private bool IsSourceVerification(Uri sourceUrl, Uri entryUrl) {
-			SourceVerificationEventHandler handler = SourceVerification;
-			if (handler != null) {
-				SourceVerificationEventArgs args = new SourceVerificationEventArgs(sourceUrl, entryUrl);
-				handler(this, args);
-				return args.Verified;
-			}
-			else {
-				return Verifier.SourceContainsTarget(sourceUrl, entryUrl);
-			}
-		}
+        private bool IsSourceVerification(Uri sourceUrl, Uri entryUrl)
+        {
+            SourceVerificationEventHandler handler = SourceVerification;
+            if (handler != null)
+            {
+                SourceVerificationEventArgs args = new SourceVerificationEventArgs(sourceUrl, entryUrl);
+                handler(this, args);
+                return args.Verified;
+            }
+            else
+            {
+                return Verifier.SourceContainsTarget(sourceUrl, entryUrl);
+            }
+        }
     }
 }

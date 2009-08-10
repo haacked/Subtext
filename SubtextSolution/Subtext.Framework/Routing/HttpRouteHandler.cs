@@ -15,26 +15,28 @@
 
 using System.Web;
 using System.Web.Routing;
+using Ninject;
+using Subtext.Infrastructure;
+using System;
 
 namespace Subtext.Framework.Routing
 {
-    public class HttpRouteHandler<THandler> : RouteHandlerBase where THandler : IHttpHandler, new()
+    public class HttpRouteHandler<THandler> : RouteHandlerBase where THandler : IHttpHandler
     {
-        public HttpRouteHandler(THandler handler) {
-            HttpHandler = handler;
-        }
-
-        public HttpRouteHandler() {
-            HttpHandler = new THandler();
-        }
-
-        public IHttpHandler HttpHandler { 
-            get; 
-            private set; 
+        public HttpRouteHandler(IKernel kernel) : base(kernel)
+        {
         }
 
         protected override IHttpHandler GetHandler(RequestContext requestContext) {
-            return HttpHandler;
+            Bootstrapper.RequestContext = requestContext;
+            IHttpHandler handler = null;
+            using (var block = Kernel.BeginBlock())
+            {
+                handler = block.Get<THandler>() as IHttpHandler;
+            }
+            return handler;
         }
+
+        public static IHttpHandler lastHandler;
     }
 }

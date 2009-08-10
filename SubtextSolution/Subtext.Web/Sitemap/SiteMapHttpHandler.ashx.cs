@@ -16,6 +16,10 @@ namespace Subtext.Web.SiteMap
     /// </summary>    
     public class SiteMapHttpHandler : SubtextHttpHandler
     {
+        public SiteMapHttpHandler(ISubtextContext subtextContext) : base(subtextContext)
+        {
+        }
+
         public override void ProcessRequest()
         {
             HttpContextBase context = SubtextContext.HttpContext;
@@ -49,7 +53,7 @@ namespace Subtext.Web.SiteMap
                 {
                     ChangeFrequency frequency = CalculateFrequency(story);
                     urlCollection.Add(
-                        new UrlElement(Url.EntryUrl(story).ToFullyQualifiedUrl(Blog), 
+                        new UrlElement(Url.EntryUrl(story).ToFullyQualifiedUrl(Blog),
                             story.DateModified,
                             frequency, 0.8M));
                 }
@@ -63,7 +67,7 @@ namespace Subtext.Web.SiteMap
                 foreach (Link category in categories.Links)
                 {
                     urlCollection.Add(
-                        new UrlElement(new Uri(Url.BlogUrl().ToFullyQualifiedUrl(Blog).ToString() + category.Url), 
+                        new UrlElement(new Uri(Url.BlogUrl().ToFullyQualifiedUrl(Blog).ToString() + category.Url),
                             DateTime.Today,
                             ChangeFrequency.Weekly, 0.6M));
                 }
@@ -90,18 +94,23 @@ namespace Subtext.Web.SiteMap
             serializer.Serialize(xmlTextWriter, urlCollection);
         }
 
-        private static ChangeFrequency CalculateFrequency(Entry entry) {
+        private static ChangeFrequency CalculateFrequency(Entry entry)
+        {
             ChangeFrequency frequency = ChangeFrequency.Hourly;
-            if (entry.DateModified < DateTime.Now.AddMonths(-12)) {
+            if (entry.DateModified < DateTime.Now.AddMonths(-12))
+            {
                 frequency = ChangeFrequency.Yearly;
             }
-            else if (entry.DateModified < DateTime.Now.AddDays(-60)) {
+            else if (entry.DateModified < DateTime.Now.AddDays(-60))
+            {
                 frequency = ChangeFrequency.Monthly;
             }
-            else if (entry.DateModified < DateTime.Now.AddDays(-14)) {
+            else if (entry.DateModified < DateTime.Now.AddDays(-14))
+            {
                 frequency = ChangeFrequency.Weekly;
             }
-            else if (entry.DateModified < DateTime.Now.AddDays(-2)) {
+            else if (entry.DateModified < DateTime.Now.AddDays(-2))
+            {
                 frequency = ChangeFrequency.Daily;
             }
             return frequency;

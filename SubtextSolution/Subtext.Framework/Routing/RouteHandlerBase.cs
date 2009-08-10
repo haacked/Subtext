@@ -22,9 +22,6 @@ namespace Subtext.Framework.Routing
 {
     public abstract class RouteHandlerBase : IRouteHandler
     {
-        public RouteHandlerBase() : this(Bootstrapper.Kernel) { 
-        }
-
         public RouteHandlerBase(IKernel kernel) {
             Kernel = kernel;
         }
@@ -33,9 +30,7 @@ namespace Subtext.Framework.Routing
 
         IHttpHandler IRouteHandler.GetHttpHandler(RequestContext requestContext) {
             Bootstrapper.RequestContext = requestContext;
-            IHttpHandler handler = GetHandler(requestContext);
-            Kernel.Inject(handler);
-            return handler;
+            return GetHandler(requestContext);
         }
 
         public IKernel Kernel {

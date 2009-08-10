@@ -19,58 +19,63 @@ using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Syndication
 {
-	/// <summary>
-	/// Class used to handle requests for an RSS feed.
-	/// </summary>
-	public class RssHandler : BaseSyndicationHandler<Entry>
-	{
-		BaseSyndicationWriter<Entry> writer;
+    /// <summary>
+    /// Class used to handle requests for an RSS feed.
+    /// </summary>
+    public class RssHandler : BaseSyndicationHandler<Entry>
+    {
+        BaseSyndicationWriter<Entry> writer;
 
-		/// <summary>
-		/// Returns the key used to cache this feed.
-		/// </summary>
-		/// <param name="dateLastViewedFeedItemPublished">Date last viewed feed item published.</param>
-		/// <returns></returns>
-		protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
-		{
-			const string key = "RSS;IndividualMainFeed;BlogId:{0};LastViewed:{1}";
-			return string.Format(key, Blog.Id, dateLastViewedFeedItemPublished);
-		}
+        public RssHandler(ISubtextContext subtextContext) : base(subtextContext)
+        {
+        }
 
-		/// <summary>
-		/// Caches the specified RSS feed.
-		/// </summary>
-		/// <param name="feed">Feed.</param>
-		protected override void Cache(CachedFeed feed)
-		{
+        /// <summary>
+        /// Returns the key used to cache this feed.
+        /// </summary>
+        /// <param name="dateLastViewedFeedItemPublished">Date last viewed feed item published.</param>
+        /// <returns></returns>
+        protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
+        {
+            const string key = "RSS;IndividualMainFeed;BlogId:{0};LastViewed:{1}";
+            return string.Format(key, Blog.Id, dateLastViewedFeedItemPublished);
+        }
+
+        /// <summary>
+        /// Caches the specified RSS feed.
+        /// </summary>
+        /// <param name="feed">Feed.</param>
+        protected override void Cache(CachedFeed feed)
+        {
             var cache = SubtextContext.Cache;
-            if (cache != null) {
+            if (cache != null)
+            {
                 cache.InsertDuration(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, Cacher.MediumDuration);
             }
-		}
+        }
 
-		/// <summary>
-		/// Gets the syndication writer.
-		/// </summary>
-		/// <returns></returns>
-		protected override BaseSyndicationWriter SyndicationWriter
-		{
-			get
-			{
-				if(writer == null)
-				{
-					writer = new RssWriter(HttpContext.Response.Output, Entries.GetMainSyndicationEntries(Blog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding, SubtextContext);
-				}
-				return writer;
-			}
-		}
+        /// <summary>
+        /// Gets the syndication writer.
+        /// </summary>
+        /// <returns></returns>
+        protected override BaseSyndicationWriter SyndicationWriter
+        {
+            get
+            {
+                if (writer == null)
+                {
+                    writer = new RssWriter(HttpContext.Response.Output, Entries.GetMainSyndicationEntries(Blog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding, SubtextContext);
+                }
+                return writer;
+            }
+        }
 
-		/// <summary>
-		/// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
-		/// </summary>
-		protected override bool IsMainfeed
-		{
-			get { return true; }
-		}
-	}
+        /// <summary>
+        /// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
+        /// </summary>
+        protected override bool IsMainfeed
+        {
+            get { return true; }
+        }
+    }
 }

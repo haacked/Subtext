@@ -53,8 +53,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
 
             int id = UnitTestHelper.Create(entry); //persist to db.
-
-			RssCommentHandler handler = new RssCommentHandler();
+			
             string rssOutput = null;
 
             var subtextContext = new Mock<ISubtextContext>();
@@ -64,7 +63,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
 
-            handler.SubtextContext = subtextContext.Object;
+            RssCommentHandler handler = new RssCommentHandler(subtextContext.Object);
 			handler.ProcessRequest();
 
 			XmlDocument doc = new XmlDocument();

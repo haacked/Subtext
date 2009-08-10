@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Subtext.Framework.Routing;
-using MbUnit.Framework;
 using System.Web;
-using Moq;
 using System.Web.Routing;
+using MbUnit.Framework;
+using Moq;
+using Ninject;
+using Ninject.Activation;
+using Ninject.Parameters;
+using Ninject.Planning.Bindings;
+using Subtext.Framework.Routing;
+using Ninject.Activation.Blocks;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -14,29 +17,27 @@ namespace UnitTests.Subtext.Framework.Routing
     public class HttpRouteHandlerTests
     {
         [Test]
-        public void RouteHandler_ConstructedWithHttpHandler_ReturnsHttpHandler() { 
-            //arrange
-            var httpHandler = new FakeHttpHandler();
-            var routeHandler = new HttpRouteHandler<FakeHttpHandler>(httpHandler);
-            
-            //act
-            var returnedHandler = routeHandler.HttpHandler;
-
-            //assert
-            Assert.AreEqual(httpHandler, returnedHandler);
-        }
-
-        [Test]
-        public void RouteHandler_ConstructedWithTypeArgument_ReturnsHandlerOfSaidType()
+        public void RouteHandler_ConstructedWithType_InstantiatesNewHandlerEveryTime() 
         {
-            //arrange
-            var routeHandler = new HttpRouteHandler<FakeHttpHandler>();
+            // arrange
+            var hook = new Hook(() => new FakeHttpHandler());
+            var hooks = new[] { hook };
+            var request = new Mock<IRequest>();
+            var activationBlock = new Mock<IActivationBlock>();
+            activationBlock.Setup(a => a.CreateRequest(It.IsAny<Type>(), It.IsAny<Func<IBindingMetadata, bool>>(), It.IsAny<IEnumerable<IParameter>>(), It.IsAny<bool>())).Returns(request.Object);
+            activationBlock.Setup(a => a.Resolve(It.IsAny<IRequest>())).Returns(hooks);
+            var kernel = new Mock<IKernel>();
+            kernel.Setup(k => k.BeginBlock()).Returns(activationBlock.Object);
+            
+            var requestContext = new RequestContext(new Mock<HttpContextBase>().Object, new RouteData());
+            IRouteHandler routeHandler = new HttpRouteHandler<FakeHttpHandler>(kernel.Object);
 
-            //act
-            var returnedHandler = routeHandler.HttpHandler;
+            // act
+            var returnedHandler = routeHandler.GetHttpHandler(requestContext);
+            var secondHandler = routeHandler.GetHttpHandler(requestContext);
 
-            //assert
-            Assert.AreEqual(typeof(FakeHttpHandler), returnedHandler.GetType());
+            // assert
+            Assert.AreNotSame(returnedHandler, secondHandler);
         }
     }
 
