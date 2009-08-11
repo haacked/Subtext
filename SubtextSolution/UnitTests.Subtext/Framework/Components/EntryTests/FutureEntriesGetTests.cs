@@ -24,15 +24,13 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Web.HttpModules;
+using UnitTests.Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
     [TestFixture]
     public class FutureEntriesGetTests
     {
-        const int PacificTimeZoneId = -2037797565;
-        const int HawaiiTimeZoneId = 1106595067;
-
         [SetUp]
         public void Setup()
         {
@@ -40,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Config.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "", "");
             BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
-            Config.CurrentBlog.TimeZoneId = HawaiiTimeZoneId;
+            Config.CurrentBlog.TimeZoneId = TimeZonesTest.HawaiiTimeZoneId;
         }
 
         [Test]
@@ -70,7 +68,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(entries.First().Id, entryOne.Id, "Ordering is off.");
             Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
 
-            Config.CurrentBlog.TimeZoneId = PacificTimeZoneId;
+            Config.CurrentBlog.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
             //Get Entries
             entries = Entries.GetRecentPosts(3, PostType.BlogPost, PostConfig.IsActive, true);
@@ -115,7 +113,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(entries.First().Id, entryOne.Id, "Ordering is off.");
             Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
 
-            Config.CurrentBlog.TimeZoneId = PacificTimeZoneId;
+            Config.CurrentBlog.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
             //Test outcome
             entries = Entries.GetEntriesByTag(3, "Tag1");
@@ -163,7 +161,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(entries.First().Id, entryOne.Id, "Ordering is off.");
             Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
 
-            Config.CurrentBlog.TimeZoneId = PacificTimeZoneId;
+            Config.CurrentBlog.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
             //Test outcome
             entries = Entries.GetEntriesByCategory(3, categoryId, true);
@@ -203,7 +201,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(entries.First().Id, entryOne.Id, "Ordering is off.");
             Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
 
-            Config.CurrentBlog.TimeZoneId = PacificTimeZoneId;
+            Config.CurrentBlog.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
             entries = Entries.GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1), PostType.BlogPost, true);
 
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
@@ -240,15 +238,13 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(entries.First().Id, entryOne.Id, "Ordering is off.");
             Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
 
-            Config.CurrentBlog.TimeZoneId = PacificTimeZoneId;
+            Config.CurrentBlog.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
             entries = Entries.GetPostsByMonth(now.Month, now.Year);
 
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
             Assert.AreEqual(entries.ElementAt(1).Id, entryOne.Id, "Ordering is off.");
             Assert.AreEqual(entries.ElementAt(2).Id, entryZero.Id, "Ordering is off.");
             Assert.AreEqual(entries.First().Id, entryTwo.Id, "Ordering is off.");
-
-
         }
     }
 }
