@@ -3,17 +3,18 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
-using Subtext.Framework.Util;
 using MbUnit.Framework;
+using Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Util
 {
 	[TestFixture]
 	public class TimeZonesTest
 	{
-		const int PacificTimeZoneId = -2037797565;
-        const int NewZealandZoneId = -695818228;
-        const int CentralEuropeZoneId = -798214753;
+        public const int PacificTimeZoneId = -667686747;
+        const int NewZealandZoneId = 742740495;
+        const int CentralEuropeZoneId = -460310079;
+        public const int HawaiiTimeZoneId = 2091460006;
 
 		[Test]
 		public void GenerateUpdateScript()
@@ -56,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Util
 			
 			foreach(WindowsTimeZone timeZone in WindowsTimeZone.TimeZones)
 			{
-				Console.WriteLine(timeZone.ZoneIndex + "\t" + timeZone.DisplayName + "\t" + timeZone.GetUtcOffset(DateTime.Now));
+                Console.WriteLine(timeZone.Id + " " + timeZone.ZoneIndex + "\t" + timeZone.DisplayName + "\t" +timeZone.StandardName + "\t" + timeZone.GetUtcOffset(DateTime.Now));
 			}
 
 			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId);

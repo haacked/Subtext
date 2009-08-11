@@ -201,7 +201,7 @@ namespace UnitTests.Subtext.Framework
 			blog.Host = "http://subtextproject.com";
 			blog.Subfolder = "blog";
 
-            Assert.AreEqual(158795427, blog.GetHashCode());
+            Assert.AreEqual(771510576, blog.GetHashCode());
 		}
 
 		[Test]

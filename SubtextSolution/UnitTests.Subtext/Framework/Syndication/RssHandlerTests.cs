@@ -12,6 +12,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
+using UnitTests.Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -21,9 +22,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 	[TestFixture]
 	public class RssHandlerTests
 	{
-        const int PacificTimeZoneId = -2037797565;
-        const int HawaiiTimeZoneId = 1106595067;
-
 		/// <summary>
 		/// Tests writing a simple RSS feed from some database entries.
 		/// </summary>
@@ -280,7 +278,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
             Config.CreateBlog("", "username", "password", hostName, string.Empty);
             BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
-            Config.CurrentBlog.TimeZoneId = HawaiiTimeZoneId;
+            Config.CurrentBlog.TimeZoneId = TimeZonesTest.HawaiiTimeZoneId;
 
             //Create two entries, but only include one in main syndication.
             UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking",null, NullValue.NullDateTime));
@@ -301,7 +299,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             Assert.AreEqual("Title Test", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");
             Assert.AreEqual("Body Rocking", itemNodes[0].SelectSingleNode("description").InnerText.Substring(0, "Body Rocking".Length), "Not what we expected for the first body.");
 
-            Config.CurrentBlog.TimeZoneId = PacificTimeZoneId;
+            Config.CurrentBlog.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
             BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);

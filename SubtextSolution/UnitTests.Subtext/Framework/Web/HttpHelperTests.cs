@@ -1,12 +1,13 @@
 using System;
+using System.Collections.Specialized;
 using System.Net;
+using System.Web;
 using MbUnit.Framework;
+using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Util;
 using Subtext.Framework.Web;
-using Moq;
-using System.Web;
-using System.Collections.Specialized;
+using UnitTests.Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Web
 {
@@ -49,8 +50,7 @@ namespace UnitTests.Subtext.Framework.Web
 
             DateTime result = HttpHelper.GetIfModifiedSinceDateUTC(httpRequest.Object);
 			//Convert to PST:
-			const int PacificTimeZoneId = -2037797565;
-			WindowsTimeZone timeZone = WindowsTimeZone.GetById(PacificTimeZoneId);
+            WindowsTimeZone timeZone = WindowsTimeZone.GetById(TimeZonesTest.PacificTimeZoneId);
 			result = timeZone.ToLocalTime(result);
 
 			Assert.AreEqual(expectedDate, result);
