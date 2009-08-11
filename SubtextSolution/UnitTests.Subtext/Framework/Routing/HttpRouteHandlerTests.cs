@@ -9,7 +9,6 @@ using Ninject.Activation;
 using Ninject.Parameters;
 using Ninject.Planning.Bindings;
 using Subtext.Framework.Routing;
-using Ninject.Activation.Blocks;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -20,15 +19,11 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RouteHandler_ConstructedWithType_InstantiatesNewHandlerEveryTime() 
         {
             // arrange
-            var hook = new Hook(() => new FakeHttpHandler());
-            var hooks = new[] { hook };
             var request = new Mock<IRequest>();
-            var activationBlock = new Mock<IActivationBlock>();
-            activationBlock.Setup(a => a.CreateRequest(It.IsAny<Type>(), It.IsAny<Func<IBindingMetadata, bool>>(), It.IsAny<IEnumerable<IParameter>>(), It.IsAny<bool>())).Returns(request.Object);
-            activationBlock.Setup(a => a.Resolve(It.IsAny<IRequest>())).Returns(hooks);
             var kernel = new Mock<IKernel>();
-            kernel.Setup(k => k.BeginBlock()).Returns(activationBlock.Object);
-            
+            kernel.Setup(k => k.CreateRequest(It.IsAny<Type>(), It.IsAny<Func<IBindingMetadata, bool>>(), It.IsAny<IEnumerable<IParameter>>(), It.IsAny<bool>())).Returns(request.Object);
+            kernel.Setup(k => k.Resolve(It.IsAny<IRequest>())).Returns(() => new [] {new FakeHttpHandler()});
+
             var requestContext = new RequestContext(new Mock<HttpContextBase>().Object, new RouteData());
             IRouteHandler routeHandler = new HttpRouteHandler<FakeHttpHandler>(kernel.Object);
 
@@ -42,6 +37,12 @@ namespace UnitTests.Subtext.Framework.Routing
     }
 
     internal class FakeHttpHandler : IHttpHandler {
+        public FakeHttpHandler() { 
+            InstanceId = ++_instanceId;
+        }
+
+        private static int _instanceId = 0;
+        public int InstanceId { get; private set; }
         public bool IsReusable
         {
             get { throw new NotImplementedException(); }

@@ -29,12 +29,7 @@ namespace Subtext.Framework.Routing
 
         protected override IHttpHandler GetHandler(RequestContext requestContext) {
             Bootstrapper.RequestContext = requestContext;
-            IHttpHandler handler = null;
-            using (var block = Kernel.BeginBlock())
-            {
-                handler = block.Get<THandler>() as IHttpHandler;
-            }
-            return handler;
+            return Kernel.Get<THandler>() as IHttpHandler;
         }
 
         public static IHttpHandler lastHandler;
