@@ -53,7 +53,7 @@ namespace Subtext.Web
         {
         }
 
-        public SubtextApplication(Module module)
+        public SubtextApplication(INinjectModule module)
         {
             if (module != null)
             {

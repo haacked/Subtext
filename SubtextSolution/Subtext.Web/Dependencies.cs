@@ -17,7 +17,7 @@ using Subtext.Framework.Syndication;
 
 namespace Subtext
 {
-    public class Dependencies : Module
+    public class Dependencies : NinjectModule
     {
         public override void Load()
         {

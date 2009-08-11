@@ -551,8 +551,10 @@ namespace Subtext.Framework.Data
                         property.SetValue(item, value);
                     }
                 }
-                catch (IndexOutOfRangeException) { 
-                    
+                catch (IndexOutOfRangeException) {
+                    if (typeof(T) != typeof(HostInfo)) {
+                        throw;
+                    }
                 }
             }
             return item;
