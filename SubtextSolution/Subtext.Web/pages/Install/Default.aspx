@@ -6,24 +6,24 @@
 	    <legend>Install Database</legend>
 	    <ol>
 		    <li><strong>Step 1: Install Database</strong></li>
-		    <li>Step 2: Configure the Admin</li>
+		    <li>Step 2: Configure the Admin Account</li>
 		    <li>Step 3: Create or Import a Blog</li>
 	    </ol>
-		<p>
-		Subtext will be installed to the <strong><asp:Literal id="litDatabaseName" Runat="server" /></strong> database. 
-		If this is not correct, please update the connection string in web.config and 
-		refresh this page when you are done.
+		<p class="emphasis">
+		    Database: <strong><asp:Literal id="litDatabaseName" Runat="server" /></strong>
+		</p>
+		<p> 
+		    If this is not correct, please correct the connection string in web.config and then refresh this page.
 		</p>
 
 		<p>
-		Make sure that the database user specified in the connection string temporarily  
-		has <strong>db owner rights to the database</strong>.  After the installation 
-		process, you should remove the db owner rights.
+		    Make sure that the database user specified in the connection string temporarily  
+		    has <strong>db owner rights to the database</strong>.  After the installation 
+		    process, you should remove the db owner rights.
 		</p>
-	    <p><asp:Button id="btnInstallClick" runat="server" text="Install Now!" OnClick="OnInstallClick" /></p>
-	    <p class="footnote">* Please note that the current version of Subtext only supports 
-		    Microsoft SQL Server 2000 and above and SQL Server Express 2005. Future versions 
-		    of Subtext may add support for other databases and file system storage.
+	    <p><asp:Button id="btnInstallClick" runat="server" text="Install Now!" OnClick="OnInstallClick" CssClass="big-button" /></p>
+	    <p class="footnote">
+	        * Please note that this version of Subtext only supports Microsoft SQL Server 2005 and above (including Express editions).
 	    </p>
 	</fieldset>
 </asp:Content>

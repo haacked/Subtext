@@ -9,7 +9,7 @@
 		<link rel="stylesheet" id="installStyle" type="text/css" href="~/pages/Install/Style/InstallationStyle.css" runat="server" />
 		<link rel="shortcut icon" id="installFavicon"  href="~/favicon.ico" type="image/x-icon" runat="server" />
 	</head>
-	<body>
+	<body class="installation">
 		<form id="frmMain" method="post" runat="server">
 			<div id="main">
 				<div id="logo"></div>
