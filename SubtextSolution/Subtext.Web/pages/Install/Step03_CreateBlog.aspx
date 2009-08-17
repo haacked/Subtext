@@ -5,7 +5,7 @@
         <legend>Create a Blog</legend>
         <ol>
 		    <li>Step 1: Install Database</li>
-		    <li>Step 2: Configure the Admin</li>
+		    <li>Step 2: Configure the Admin Account</li>
 		    <li><strong>Step 3: Create A Blog</strong></li>
 	    </ol>
 

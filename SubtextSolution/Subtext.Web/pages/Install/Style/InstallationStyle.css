@@ -195,7 +195,14 @@ div.summary dd
 	clear: both;
 }
 
-.note {
+.note 
+{
     color: #777;
     font-style: italic;
+}
+
+.emphasis 
+{
+	font-size: 1.2em;
+	color: #A52A2A;
 }

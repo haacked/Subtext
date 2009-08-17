@@ -39,15 +39,8 @@ namespace Subtext.Web.Install
 			{
 				ltlMessage.Text = 
 					"<p>" 
-					+ "At this point, you may <strong>remove the database owner rights</strong> from " 
-					+ "the database user account used to connect to the database.</p><p>"
-					+ "In this step, you will set up a Host Administrative account. "
-					+ "This account has permission to create and manage blogs. "
-					+ "</p>"
-					+ "<p>" 
-					+ "To get you started quickly, just specify a username and password "
-					+ "for the special Host Administrator account. " 
-					+ "</p>";
+					+ "At this point, you may <strong>remove the database owner rights</strong> (dbo) from " 
+					+ "the database user account used to connect to the database.</p>";
 			}
 			else
 			{

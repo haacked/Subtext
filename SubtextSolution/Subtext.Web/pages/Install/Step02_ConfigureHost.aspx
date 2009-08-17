@@ -5,21 +5,21 @@
 		<legend>Host Administration Account</legend>
 	    <ol>
 		    <li>Step 1: Install Database</li>
-		    <li><strong>Step 2: Configure the Admin</strong></li>
+		    <li><strong>Step 2: Configure the Admin Account</strong></li>
 		    <li>Step 3: Create or Import a Blog</li>
 	    </ol>
 
 		<p>
-			Please enter information for the default Host Administrator.
+			Please enter information for the default <strong>Host Administrator</strong>.
 		</p>
 		<p>
-			A Host Administrator is a user with the ability to maintain a 
+			A <em>Host Administrator</em> is a user with the ability to maintain a 
 			Subtext <em>installation</em>. This user is not an administrator 
 			of any specific blog, but can add, edit, and delete blogs and 
 			users.
 		</p>
 		<p>
-			The first Host Administrator you create here will be flagged 
+			The Host Administrator you create here will be flagged 
 			as the <em>owner</em> of the installation and cannot be deleted. 
 		</p>
 	
