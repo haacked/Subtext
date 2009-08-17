@@ -1,7 +1,3 @@
-using System;
-using System.Globalization;
-using Subtext.Framework.Configuration;
-
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
@@ -16,6 +12,10 @@ using Subtext.Framework.Configuration;
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
+
+using System;
+using System.Globalization;
+using Subtext.Framework.Util;
 
 namespace Subtext.Web.UI.Controls
 {

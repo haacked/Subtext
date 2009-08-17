@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Globalization;
-using log4net;
-using Microsoft.ApplicationBlocks.Data;
-using Subtext.Extensibility;
-using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Logging;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Data {
 	public partial class StoredProcedures {
@@ -1056,7 +1046,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateCategory", p);
 		}
 		
-		public bool UpdateConfig(string userName, string password, string email, string title, string subTitle, string skin, string application, string host, string author, string language, int? timeZone, int itemCount, int categoryListPostCount, string news, string trackingCode, DateTime? lastUpdated, string secondaryCss, string skinCssFile, int? flag, int blogId, string licenseUrl, int? daysTillCommentsClose, int? commentDelayInMinutes, int? numberOfRecentComments, int? recentCommentsLength, string akismetAPIKey, string feedBurnerName, int blogGroupId, string mobileSkin, string mobileSkinCssFile, string openIDUrl, string cardSpaceHash, string openIDServer, string openIDDelegate) {
+		public bool UpdateConfig(string userName, string password, string email, string title, string subTitle, string skin, string application, string host, string author, string language, string timeZoneId, int itemCount, int categoryListPostCount, string news, string trackingCode, DateTime? lastUpdated, string secondaryCss, string skinCssFile, int? flag, int blogId, string licenseUrl, int? daysTillCommentsClose, int? commentDelayInMinutes, int? numberOfRecentComments, int? recentCommentsLength, string akismetAPIKey, string feedBurnerName, int blogGroupId, string mobileSkin, string mobileSkinCssFile, string openIDUrl, string cardSpaceHash, string openIDServer, string openIDDelegate) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@UserName", userName),		
 				DataHelper.MakeInParam("@Password", password),		
@@ -1068,7 +1058,7 @@ namespace Subtext.Framework.Data {
 				DataHelper.MakeInParam("@Host", host),		
 				DataHelper.MakeInParam("@Author", author),		
 				DataHelper.MakeInParam("@Language", language),		
-				DataHelper.MakeInParam("@TimeZone", timeZone),		
+				DataHelper.MakeInParam("@TimeZoneId", timeZoneId),		
 				DataHelper.MakeInParam("@ItemCount", itemCount),		
 				DataHelper.MakeInParam("@CategoryListPostCount", categoryListPostCount),		
 				DataHelper.MakeInParam("@News", news),		

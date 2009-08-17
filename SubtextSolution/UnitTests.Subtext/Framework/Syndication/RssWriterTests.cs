@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Web;
 using MbUnit.Framework;
 using Moq;
@@ -25,9 +24,10 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Syndication;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
+using UnitTests.Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -37,8 +37,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 	[TestFixture]
 	public class RssWriterTests : SyndicationTestBase
 	{
-		const int PacificTimeZoneId = -2037797565;
-		
 		[RowTest]
 		[Row("Subtext.Web", "", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
 		[Row("Subtext.Web", "blog", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
@@ -82,7 +80,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Title = "My Blog Is Better Than Yours";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
-			blogInfo.TimeZoneId = PacificTimeZoneId;
+			blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
             blogInfo.ShowEmailAddressInRss = true;
             blogInfo.TrackbacksEnabled = true;
 			
@@ -215,7 +213,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Subfolder = "";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
-			blogInfo.TimeZoneId = PacificTimeZoneId;
+			blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
@@ -291,7 +289,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Subfolder = "";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = false;
-			blogInfo.TimeZoneId = PacificTimeZoneId;
+			blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 			
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 

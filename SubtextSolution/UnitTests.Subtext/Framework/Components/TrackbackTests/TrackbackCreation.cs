@@ -10,6 +10,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
+using Subtext.Framework.Util;
 using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.TrackbackTests

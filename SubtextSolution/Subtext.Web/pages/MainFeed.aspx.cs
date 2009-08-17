@@ -94,10 +94,8 @@ namespace Subtext.Web
 				writer.WriteElementString("link",link);
 
 				DateTime entryTime = entry.DateCreated;
-				int entryTimeZoneId = entry.Blog.TimeZoneId;
-                int offset = GetTimeZoneOffset(serverTimeZone, entryTimeZoneId, entryTime);
 				
-				writer.WriteElementString("pubDate", (entryTime.AddHours(offset)).ToUniversalTime().ToString("r"));
+				writer.WriteElementString("pubDate", entry.Blog.TimeZone.ToUtc(entryTime).ToString("r"));
 				writer.WriteStartElement("guid");
 				writer.WriteAttributeString("isPermaLink", "true");
 				writer.WriteString(link);
@@ -130,23 +128,6 @@ namespace Subtext.Web
 			sw.Close();
 			return sw.ToString();
 		}
-
-        private static int GetTimeZoneOffset(int serverTimeZone, int currentTimeZoneId, DateTime time)
-        {
-            // determine the time offset based on the data's timezone Id hash.
-            foreach (WindowsTimeZone wtz in WindowsTimeZone.TimeZones)
-            {
-                if (wtz.Id == currentTimeZoneId)
-                {
-                    return (serverTimeZone -
-                              (wtz.IsDaylightSavingTime(time) ? wtz.DaylightBias.Hours : wtz.BaseBias.Hours));
-                }
-            }
-
-            // if we made it this far, we couldn't find the currentTimeZoneId. This can happen if the datastore
-            // has an actual timeZone offset, rather than a TimeZoneId. Just return the serverTZ - currentTimeZoneId.
-            return serverTimeZone - currentTimeZoneId;
-        }
 
 		/// <summary>
 		/// Returns the "Accept-Encoding" value from the HTTP Request header. 

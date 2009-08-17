@@ -15,10 +15,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using System.IO;
+using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Syndication
 {
@@ -108,7 +106,7 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected override DateTime GetPublishedDateUtc(Entry item)
 		{
-			return Blog.TimeZone.ToUniversalTime(item.DateSyndicated);
+            return Blog.TimeZone.ToUtc(item.DateSyndicated);
 		}
 
 		/// <summary>

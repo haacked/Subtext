@@ -15,12 +15,12 @@
 
 using System;
 using System.Globalization;
+using System.IO;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
+using Subtext.Framework.Infrastructure;
 using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
-using System.IO;
 
 namespace Subtext.Framework.Syndication
 {
@@ -187,7 +187,7 @@ namespace Subtext.Framework.Syndication
 			}
 		}
 
-		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, TimeZone timezone)
+		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, ITimeZone timezone)
 		{
 				this.WriteElementString("title",entry.Title);
 						

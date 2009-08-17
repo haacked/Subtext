@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Linq;
 using MbUnit.Framework;
 using Moq;
+using Subtext.Configuration;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -18,42 +19,30 @@ namespace UnitTests.Subtext.Framework.Services
     public class EntryPublisherTests
     {
         [Test]
-        public void Ctor_WithContexts_InitializesNecessaryTransformations() {
-            //arrange
-            var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
-            var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
-            context.Setup(c => c.Repository).Returns(repository.Object);
-            
-            //act
-            var publisher = new EntryPublisher(context.Object);
-
-            //assert
-            var transformations = publisher.Transformations;
-            Assert.AreEqual(3, transformations.Count());
+        public void Ctor_WithNullContext_ThrowsArgumentNullException()
+        {
+            UnitTestHelper.AssertThrows<ArgumentNullException>(
+                () => new EntryPublisher(null, EmptyTextTransformation.Instance, new SlugGenerator(FriendlyUrlSettings.Settings)));
         }
 
         [Test]
-        public void Publish_WithTransformations_RunsEachTransformationAgainstEntryBody() {
+        public void Publish_WithTransformations_RunsTransformationAgainstEntryBody() {
             //arrange
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var transform1 = new Mock<ITextTransformation>();
-            transform1.Setup(t => t.Transform(It.IsAny<string>())).Returns<string>(s => s + "t1");
-            var transform2 = new Mock<ITextTransformation>();
-            transform2.Setup(t => t.Transform(It.IsAny<string>())).Returns<string>(s => s + "t2");
-            var publisher = new EntryPublisher(context.Object, new[] { transform1.Object, transform2.Object });
+            var transform = new Mock<ITextTransformation>();
+            transform.Setup(t => t.Transform(It.IsAny<string>())).Returns<string>(s => s + "t1");
+            var publisher = new EntryPublisher(context.Object, transform.Object, null);
             var entry = new Entry(PostType.BlogPost) { Title="Test", Body = "test" };
 
             //act
             publisher.Publish(entry);
             
             //assert
-            Assert.AreEqual("testt1t2", entry.Body);
+            Assert.AreEqual("testt1", entry.Body);
         }
 
         [Test]
@@ -107,7 +96,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, null);
+            var publisher = new EntryPublisher(context.Object, null, null);
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test" };
 
             //act
@@ -127,7 +116,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(currentTime);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, null);
+            var publisher = new EntryPublisher(context.Object, null, null);
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test" };
 
             //act
@@ -149,7 +138,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(currentTime);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, null);
+            var publisher = new EntryPublisher(context.Object, null, null);
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test", IsActive = true };
 
             //act
@@ -173,7 +162,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(currentTime);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, null);
+            var publisher = new EntryPublisher(context.Object, null, null);
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test" };
             entry.Categories.Add("category1");
             entry.Categories.Add("category2");
@@ -200,7 +189,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, null);
+            var publisher = new EntryPublisher(context.Object, null, null);
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body = "" };
 
             //act
@@ -219,7 +208,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, null);
+            var publisher = new EntryPublisher(context.Object, null, null);
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body = "Some <script></script> Body" };
             Config.Settings.AllowScriptsInPosts = true;
 
@@ -239,7 +228,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, (IEnumerable<ITextTransformation>)null);
+            var publisher = new EntryPublisher(context.Object, null, null);
 
             //act, assert
             UnitTestHelper.AssertThrows<ArgumentNullException>(() => publisher.Publish(null));
@@ -254,7 +243,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, (IEnumerable<ITextTransformation>)null);
+            var publisher = new EntryPublisher(context.Object, null, null);
 
             //act, assert
             UnitTestHelper.AssertThrows<ArgumentException>(() => publisher.Publish(new Entry(PostType.None)));
@@ -271,7 +260,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, null);
+            var publisher = new EntryPublisher(context.Object, null, null);
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test", EntryName = "test" };
 
             //act, assert
@@ -291,7 +280,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, null);
+            var publisher = new EntryPublisher(context.Object, null, null);
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test", EntryName = "test" };
 
             //act, assert
@@ -309,7 +298,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, null);
+            var publisher = new EntryPublisher(context.Object, null, null);
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body = "Some <script></script> Body" };
             Config.Settings.AllowScriptsInPosts = false;
 
@@ -328,7 +317,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, null);
+            var publisher = new EntryPublisher(context.Object, null, null);
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test<script></script>", Body = "Some Body" };
             Config.Settings.AllowScriptsInPosts = false;
 
@@ -347,7 +336,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, null);
+            var publisher = new EntryPublisher(context.Object, null, null);
             var entry = new Entry(PostType.BlogPost) { Title="stuff", EntryName = "<script></script>", Body = "Some Body" };
             Config.Settings.AllowScriptsInPosts = false;
 
@@ -366,7 +355,7 @@ namespace UnitTests.Subtext.Framework.Services
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var publisher = new EntryPublisher(context.Object, null);
+            var publisher = new EntryPublisher(context.Object, null, null);
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body="Whatever", Description = "Some <script></script> Body" };
             Config.Settings.AllowScriptsInPosts = false;
 

@@ -11,6 +11,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Syndication;
+using UnitTests.Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -20,8 +21,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 	[TestFixture]
 	public class CommentRssWriterTests : SyndicationTestBase
 	{
-		const int PacificTimeZoneId = -2037797565;
-		
 		/// <summary>
 		/// Tests that a valid feed is produced even if a post has no comments.
 		/// </summary>
@@ -34,7 +33,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 			blogInfo.Title = "My Blog Rulz";
-			blogInfo.TimeZoneId = PacificTimeZoneId;
+			blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blogInfo, "haacked", "title of the post", "Body of the post.");
 			entry.EntryName = "titleofthepost";
@@ -89,7 +88,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 			blogInfo.Title = "My Blog Rulz";
-			blogInfo.TimeZoneId = PacificTimeZoneId;
+			blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blogInfo, "haacked", "title of the post", "Body of the post.");
 			entry.EntryName = "titleofthepost";
@@ -175,11 +174,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 		}
 		#endregion
 		
-		[SetUp]
-		public void SetUp()
-		{
-		}
-
 		[TearDown]
 		public void TearDown()
 		{

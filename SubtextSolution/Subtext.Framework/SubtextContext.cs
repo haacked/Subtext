@@ -4,6 +4,7 @@ using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Infrastructure;
 using System.Web;
+using Ninject;
 
 namespace Subtext.Framework
 {
@@ -54,6 +55,11 @@ namespace Subtext.Framework
         public ICache Cache {
             get;
             private set;
+        }
+
+        public TService GetService<TService>()
+        {
+            return Bootstrapper.Kernel.Get<TService>();
         }
     }
 }

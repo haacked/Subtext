@@ -11,6 +11,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Syndication;
+using Subtext.Framework.Util;
 using Subtext.Framework.Web.HttpModules;
 using UnitTests.Subtext.Framework.Util;
 

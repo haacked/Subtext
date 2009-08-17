@@ -14,8 +14,8 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using MbUnit.Framework;
 using Subtext.Extensibility;
@@ -23,6 +23,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
+using Subtext.Framework.Util;
 using Subtext.Framework.Web.HttpModules;
 using UnitTests.Subtext.Framework.Util;
 
@@ -45,7 +46,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [RollBack2]
         public void GetRecentPostsDoesNotIncludeFuturePosts()
         {
-
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero", null, NullValue.NullDateTime);
             Thread.Sleep(100);

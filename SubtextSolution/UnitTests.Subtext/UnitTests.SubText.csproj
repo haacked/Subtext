@@ -323,6 +323,7 @@
     <Compile Include="Framework\Components\MetaTagTests\MetaTagIsValidTests.cs" />
     <Compile Include="Framework\Components\MetaTagTests\MetaTagUpdateTests.cs" />
     <Compile Include="Framework\Components\ReferrerTests.cs" />
+    <Compile Include="Framework\Components\ServerTimeZoneInfoTests.cs" />
     <Compile Include="Framework\Components\TagTests.cs" />
     <Compile Include="Framework\Components\TrackbackTests\TrackbackCreation.cs">
       <SubType>Code</SubType>
@@ -349,6 +350,7 @@
     </Compile>
     <Compile Include="Framework\HostInfoTests.cs" />
     <Compile Include="Framework\ImageTests.cs" />
+    <Compile Include="Framework\Infrastructure\TimeZoneWrapperTests.cs" />
     <Compile Include="Framework\LinksTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -377,6 +379,7 @@
     <Compile Include="Framework\Services\BlogLookupServiceTests.cs" />
     <Compile Include="Framework\Services\CommentFilterTests.cs" />
     <Compile Include="Framework\Services\CommentServiceTests.cs" />
+    <Compile Include="Framework\Services\CompositeTextTransformationTests.cs" />
     <Compile Include="Framework\Services\EntryPublisherTests.cs" />
     <Compile Include="Framework\Services\GravatarServiceTests.cs" />
     <Compile Include="Framework\Services\SlugGeneratorTests.cs" />

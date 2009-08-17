@@ -1,10 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
 using System.Web;
-using System.Web.Caching;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
@@ -12,11 +7,10 @@ using Moq.Stub;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
-using Subtext.Framework.Web.HttpModules;
+using UnitTests.Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Data
 {
@@ -102,7 +96,7 @@ namespace UnitTests.Subtext.Framework.Data
             routeData.Values.Add("slug", "the-slug");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.SetupRequestContext(httpContext, routeData)
-                .SetupBlog(new Blog { Id = 1, TimeZoneId = -2037797565 /* pacific */ })
+                .SetupBlog(new Blog { Id = 1, TimeZoneId = TimeZonesTest.PacificTimeZoneId /* pacific */ })
                 .Setup(c => c.Repository.GetEntry("the-slug", true, true)).Returns(new Entry(PostType.BlogPost) { Id = 123, EntryName = "the-slug", Title = "Testing 123" });
 
             //act

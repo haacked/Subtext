@@ -28,11 +28,13 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
+using Subtext.Framework.Util;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
 using Subtext.Web.Properties;
 using Subtext.Web.UI.Controls;
+using Subtext.Infrastructure;
 
 namespace Subtext.Web.Admin.UserControls
 {
@@ -422,7 +424,7 @@ namespace Subtext.Web.Admin.UserControls
 					}
 					else
 					{
-                        var entryPublisher = new EntryPublisher(SubtextContext);
+                        var entryPublisher = SubtextContext.GetService<IEntryPublisher>();
                         _postId = entryPublisher.Publish(entry);
                         NotificationServices.Run(entry, Blog, Url);
 

@@ -23,10 +23,8 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security;
 using System.Security.Principal;
 using System.Text;
-using System.Threading;
 using System.Web;
 using System.Web.Routing;
 using System.Web.Security;
@@ -38,10 +36,12 @@ using MbUnit.Framework;
 using Moq;
 using Ninject;
 using Rhino.Mocks;
+using Subtext.Configuration;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Emoticons;
 using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
@@ -1107,8 +1107,17 @@ namespace UnitTests.Subtext
             Routes.RegisterRoutes(routes);
             var urlHelper = new UrlHelper(requestContext, routes);
             var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper, ObjectProvider.Instance(), requestContext.HttpContext.User, new SubtextCache(requestContext.HttpContext.Cache));
-            var entryPublisher = new EntryPublisher(subtextContext, false);
+            var entryPublisher = CreateEntryPublisher(subtextContext);
             return entryPublisher.Publish(entry);
+        }
+
+        public static IEntryPublisher CreateEntryPublisher(ISubtextContext subtextContext) 
+        {
+            var slugGenerator = new SlugGenerator(FriendlyUrlSettings.Settings, subtextContext.Repository);
+            var transformations = new CompositeTextTransformation();
+            transformations.Add(new XhtmlConverter());
+            transformations.Add(new EmoticonsTransformation(subtextContext));
+            return new EntryPublisher(subtextContext, transformations, slugGenerator);
         }
 
         public static Stream ToStream(this string text) {

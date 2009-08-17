@@ -1,13 +1,12 @@
 using System;
-using System.Collections.Specialized;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework;
 using Subtext.Framework.Data;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace Subtext.Installation
 {

@@ -194,7 +194,7 @@ namespace Subtext.Framework.Data
                 info.Host,
                 info.Author,
                 info.Language,
-                info.TimeZoneId.NullIfMinValue() /*nullable*/,
+                info.TimeZoneId,
                 info.ItemCount,
                 info.CategoryListPostCount,
                 info.News.NullIfEmpty(),

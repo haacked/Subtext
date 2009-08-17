@@ -18,6 +18,7 @@ using System.Data;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Providers
 {

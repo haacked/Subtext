@@ -8,17 +8,16 @@ using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Syndication.Admin;
-using Subtext.Framework.Routing;
+using UnitTests.Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Syndication.Admin
 {
 	[TestFixture]
 	public class ModeratedCommentRssWriterTests : SyndicationTestBase
 	{
-		const int PacificTimeZoneId = -2037797565;
-
 		/// <summary>
 		/// Tests that a valid feed is produced even if a post has no comments.
 		/// </summary>
@@ -34,7 +33,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 			blogInfo.Title = "My Blog Rulz";
-			blogInfo.TimeZoneId = PacificTimeZoneId;
+			blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
@@ -97,7 +96,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
             blogInfo.Email = "Subtext@example.com";
             blogInfo.RFC3229DeltaEncodingEnabled = true;
             blogInfo.Title = "My Blog Rulz";
-            blogInfo.TimeZoneId = PacificTimeZoneId;
+            blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
             HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 

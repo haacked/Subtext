@@ -1250,7 +1250,7 @@ BEGIN
 		, [Application]
 		, Host
 		, Author
-		, TimeZone
+		, TimeZoneId
 		, ItemCount
 		, CategoryListPostCount
 		, [Language]
@@ -1294,7 +1294,7 @@ BEGIN
 		, [Application]
 		, Host
 		, Author
-		, TimeZone
+		, TimeZoneId
 		, ItemCount
 		, CategoryListPostCount
 		, [Language]
@@ -1340,7 +1340,7 @@ BEGIN
 		, [Application]
 		, Host
 		, Author
-		, TimeZone
+		, TimeZoneId
 		, ItemCount
 		, CategoryListPostCount
 		, [Language]
@@ -3111,7 +3111,7 @@ INSERT subtext_Config
 	, Application
 	, Host
 	, Author
-	, TimeZone
+	, TimeZoneId
 	, [Language]
 	, ItemCount
 	, Flag
@@ -3205,7 +3205,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 	, @Host nvarchar(100)
 	, @Author nvarchar(100)
 	, @Language nvarchar(10)
-	, @TimeZone int = NULL
+	, @TimeZoneId nvarchar(128)
 	, @ItemCount int
 	, @CategoryListPostCount int
 	, @News nText = NULL
@@ -3243,7 +3243,7 @@ Set
 	, Host	  =    @Host         
 	, Author	   =   @Author
 	, [Language] = @Language
-	, TimeZone   = @TimeZone
+	, TimeZoneId   = @TimeZoneId
 	, ItemCount = @ItemCount
 	, CategoryListPostCount = @CategoryListPostCount
 	, News      = @News
@@ -3572,7 +3572,7 @@ SELECT	blog.BlogId
 		, blog.Application
 		, blog.Host
 		, blog.Author
-		, blog.TimeZone
+		, blog.TimeZoneId
 		, blog.ItemCount
 		, blog.CategoryListPostCount
 		, blog.[Language]
@@ -3650,7 +3650,7 @@ SELECT	blog.BlogId
 		, blog.Application
 		, blog.Host
 		, blog.Author
-		, blog.TimeZone
+		, blog.TimeZoneId
 		, blog.CategoryListPostCount
 		, blog.ItemCount
 		, blog.[Language]
@@ -4069,7 +4069,7 @@ SELECT
 	, [IsXHTML] = Convert(bit,CASE WHEN content.PostConfig & 2 = 2 THEN 1 else 0 END) 
 	, [BlogTitle] = content.Title
 	, content.PostConfig
-	, config.TimeZone
+	, config.TimeZoneId
 	, [Description] = IsNull(CASE WHEN PostConfig & 32 = 32 THEN content.[Description] else content.[Text] END, '')
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 INNER JOIN	[<dbUser,varchar,dbo>].[subtext_Config] config ON content.BlogId = config.BlogId
@@ -5267,7 +5267,7 @@ SELECT [Blog.Host] = Host
 	, FileName = images.[File]
 	, images.Width
 	, images.Height
-	, [Blog.TimeZone] = config.TimeZone
+	, [Blog.TimeZoneId] = config.TimeZoneId
 	, [Blog.Title] = config.Title
 	, [Category.Title] = categories.Title
 	, images.CategoryID

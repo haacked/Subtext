@@ -34,11 +34,12 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Format;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
+using Subtext.Framework.Util;
 using Subtext.ImportExport.Conversion;
-using Subtext.Framework.Properties;
 
 namespace Subtext.ImportExport
 {
@@ -271,7 +272,7 @@ namespace Subtext.ImportExport
 				bmlBlog.Title = blog.Title;
 				bmlBlog.SubTitle = blog.SubTitle;
 				bmlBlog.RootUrl = Url.BlogUrl().ToFullyQualifiedUrl(blog).ToString();
-				bmlBlog.DateCreated = blog.TimeZone.Now;
+				bmlBlog.DateCreated = Blog.TimeZone.Now;
 
 			    // TODO: in Subtext 2.0 we need to account for multiple authors.
                 BlogMLAuthor bmlAuthor = new BlogMLAuthor();
@@ -480,7 +481,17 @@ namespace Subtext.ImportExport
 					newEntry.Categories.Add(categoryTitle);
 			}
 
-            var entryPublisher = new EntryPublisher(SubtextContext, false);
+            var entryPublisher = SubtextContext.GetService<IEntryPublisher>();
+            var publisher = entryPublisher as EntryPublisher;
+            if (publisher != null)
+            {
+                var transform = publisher.Transformation as CompositeTextTransformation;
+                if (transform != null)
+                {
+                    transform.Remove<KeywordExpander>();
+                }
+            }
+            
             return entryPublisher.Publish(newEntry).ToString(CultureInfo.InvariantCulture);
 		}
 

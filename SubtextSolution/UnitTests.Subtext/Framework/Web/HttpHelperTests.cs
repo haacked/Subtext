@@ -50,8 +50,8 @@ namespace UnitTests.Subtext.Framework.Web
 
             DateTime result = HttpHelper.GetIfModifiedSinceDateUTC(httpRequest.Object);
 			//Convert to PST:
-            WindowsTimeZone timeZone = WindowsTimeZone.GetById(TimeZonesTest.PacificTimeZoneId);
-			result = timeZone.ToLocalTime(result);
+            TimeZoneInfo timeZone = TimeZones.GetTimeZones().GetById(TimeZonesTest.PacificTimeZoneId);
+			result = TimeZoneInfo.ConvertTimeFromUtc(result, timeZone);
 
 			Assert.AreEqual(expectedDate, result);
 		}

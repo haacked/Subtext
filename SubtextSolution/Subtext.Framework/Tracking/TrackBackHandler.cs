@@ -13,25 +13,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-#region Notes
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// The code in this file is freely distributable.
-// 
-// ASPNetWeblog is not responsible for, shall have no liability for 
-// and disclaims all warranties whatsoever, expressed or implied, related to this code,
-// including without limitation any warranties related to performance, security, stability,
-// or non-infringement of title of the control.
-// 
-// If you have any questions, comments or concerns, please contact
-// Scott Watermasysk, Scott@TripleASP.Net.
-// 
-// For more information on this control, updates, and other tools to integrate blogging 
-// into your existing applications, please visit, http://aspnetweblog.com
-// 
-// Based off of code by Simon Fell http://www.pocketsoap.com/weblog/ 
-// 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#endregion
 using System;
 using System.Globalization;
 using System.Web;
@@ -44,6 +25,7 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
+using Subtext.Framework.Util;
 using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Framework.Tracking

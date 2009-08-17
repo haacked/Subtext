@@ -41,6 +41,7 @@ using Subtext.Framework.Email;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
+using Subtext.Framework.Util;
 using Subtext.Framework.XmlRpc;
 
 namespace Subtext.Framework.Tracking
