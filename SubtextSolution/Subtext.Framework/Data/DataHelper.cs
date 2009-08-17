@@ -24,7 +24,6 @@ using System.Net;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Logging;
 
 //Need to remove Global.X calls ...just seems unclean
 //Maybe create a another class formatter ...Format.Entry(ref Entry entry) 
@@ -284,7 +283,7 @@ namespace Subtext.Framework.Data
 			info.SubTitle = reader.ReadString(prefix + "SubTitle");
 			info.Title = reader.ReadString(prefix + "Title");
             info.UserName = reader.ReadString(prefix + "UserName");
-            info.TimeZoneId = reader.ReadInt32(prefix + "TimeZone");
+            info.TimeZoneId = reader.ReadString(prefix + "TimeZoneId");
 			info.ItemCount = reader.ReadInt32(prefix + "ItemCount");
 			info.CategoryListPostCount = reader.ReadInt32(prefix + "CategoryListPostCount");
 			info.Language = reader.ReadString(prefix + "Language");

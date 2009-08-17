@@ -15,10 +15,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.Xml;
 using Subtext.Framework.Components;
+using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Syndication
 {
@@ -176,7 +176,7 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected override DateTime GetPublishedDateUtc(FeedbackItem item)
 		{
-			return Blog.TimeZone.ToUniversalTime(item.DateCreated);
+			return Blog.TimeZone.ToUtc(item.DateCreated);
 		}
 
         protected override EnclosureItem GetEnclosureFromItem(FeedbackItem item)

@@ -25,6 +25,7 @@ using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
+using Subtext.Framework.Infrastructure;
 
 namespace Subtext.Framework
 {
@@ -189,26 +190,44 @@ namespace Subtext.Framework
         /// Gets the time zone.
         /// </summary>
         /// <value>The time zone.</value>
-        public virtual WindowsTimeZone TimeZone
+        public virtual ITimeZone TimeZone
         {
             get
             {
-                WindowsTimeZone timezone = WindowsTimeZone.GetById(TimeZoneId);
-                if (timezone == null)
-                    return WindowsTimeZone.GetById(System.TimeZone.CurrentTimeZone.StandardName.GetHashCode());
-                return timezone;
+                if (_timeZone == null) 
+                {
+                    var timeZone = TimeZones.GetTimeZones().GetById(TimeZoneId);
+                    if (timeZone == null)
+                    {
+                        timeZone = System.TimeZoneInfo.Local;
+                    }
+                    _timeZone = new TimeZoneWrapper(timeZone);
+                }
+                return _timeZone;
             }
         }
+        ITimeZone _timeZone;
 
         /// <summary>
         /// Gets or sets the time zone for the blogger.  
         /// </summary>
         /// <value></value>
-        public int TimeZoneId
+        public string TimeZoneId
         {
-            get;
-            set;
+            get 
+            {
+                return _timeZoneId;
+            }
+            set 
+            {
+                if (_timeZoneId != value)
+                {
+                    _timeZone = null;
+                    _timeZoneId = value;
+                }
+            }
         }
+        string _timeZoneId;
 
         /// <summary>
         /// Gets or sets the count of posts displayed on the front page 

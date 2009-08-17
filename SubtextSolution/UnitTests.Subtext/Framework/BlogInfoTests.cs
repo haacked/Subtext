@@ -1,12 +1,9 @@
 using System;
 using System.Web;
 using MbUnit.Framework;
-using Subtext.Extensibility;
-using Subtext.Framework;
-using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using System.Globalization;
 using Subtext.Extensibility.Interfaces;
+using Subtext.Framework;
+using Subtext.Framework.Configuration;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -168,7 +165,7 @@ namespace UnitTests.Subtext.Framework
 		public void CanGetDefaultTimeZone()
 		{
 			Blog blog = new Blog();
-			blog.TimeZoneId = int.MinValue;
+			blog.TimeZoneId = null;
 			Assert.IsNotNull(blog.TimeZone);
 		}
 

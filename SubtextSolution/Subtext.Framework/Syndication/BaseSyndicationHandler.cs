@@ -19,6 +19,7 @@ using System.Net;
 using System.Web;
 using Subtext.Framework.Security;
 using Subtext.Framework.Syndication.Compression;
+using Subtext.Framework.Util;
 using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Framework.Syndication
@@ -197,8 +198,7 @@ namespace Subtext.Framework.Syndication
         /// <returns></returns>
         protected DateTime ConvertLastUpdatedDate(DateTime dateTime)
         {
-            DateTime utc = Blog.TimeZone.ToUniversalTime(dateTime);
-            return TimeZone.CurrentTimeZone.ToLocalTime(utc);
+            return Blog.TimeZone.ToServerDateTime(dateTime);
         }
 
         /// <summary>

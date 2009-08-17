@@ -2,6 +2,7 @@
 using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
+using Subtext.Framework.Util;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Services

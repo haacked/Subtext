@@ -17,11 +17,10 @@ using System;
 using System.Collections.Generic;
 using System.Web.Caching;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
 using Subtext.Framework.Services;
-using Subtext.Framework.Data;
+using Subtext.Framework.Util;
 using Subtext.Infrastructure;
 
 namespace Subtext.Framework

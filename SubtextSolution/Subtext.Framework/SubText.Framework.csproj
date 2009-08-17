@@ -388,6 +388,9 @@
     <Compile Include="HostInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Infrastructure\IServiceLocator.cs" />
+    <Compile Include="Infrastructure\ITimeZone.cs" />
+    <Compile Include="Infrastructure\TimeZoneWrapper.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -395,6 +398,8 @@
     </Compile>
     <Compile Include="Routing\IDirectoryRoute.cs" />
     <Compile Include="Routing\SystemDirectoryRoute.cs" />
+    <Compile Include="Services\CompositeTextTransformation.cs" />
+    <Compile Include="Services\EmptyTextTransformation.cs" />
     <Compile Include="Services\ICommentFilter.cs" />
     <Compile Include="IInstallationManager.cs" />
     <Compile Include="Images.cs">
@@ -663,17 +668,25 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Web\HttpModules\RequestLocation.cs" />
+    <Compile Include="XmlRpc\BlogInfo.cs" />
+    <Compile Include="XmlRpc\Category.cs" />
+    <Compile Include="XmlRpc\CategoryInfo.cs" />
+    <Compile Include="XmlRpc\Enclosure.cs" />
+    <Compile Include="XmlRpc\IMetaWeblog.cs" />
     <Compile Include="XmlRpc\IWordPressAPI.cs" />
+    <Compile Include="XmlRpc\mediaObject.cs" />
+    <Compile Include="XmlRpc\mediaObjectInfo.cs" />
     <Compile Include="XmlRpc\MetaWeblog.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XmlRpc\MetaWeblogAPI.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="XmlRpc\MetaWeblogExtensions.cs" />
+    <Compile Include="XmlRpc\Post.cs" />
+    <Compile Include="XmlRpc\Source.cs" />
     <Compile Include="XmlRpc\SubtextXmlRpcService.cs" />
     <EmbeddedResource Include="Email\Templates\CommentReceived.template" />
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
+    <EmbeddedResource Include="Util\TimeZones.txt" />
     <None Include="Data\CodeGen\StoredProcedures.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>StoredProcedures.cs</LastGenOutput>
@@ -698,7 +711,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Util\WindowsTimeZoneCollection.xml" />
     <EmbeddedResource Include="Tracking\PingBackNotificatinProxy.resx">
       <DependentUpon>PingBackNotificatinProxy.cs</DependentUpon>
       <SubType>Designer</SubType>

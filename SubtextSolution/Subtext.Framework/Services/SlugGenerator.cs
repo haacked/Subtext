@@ -26,6 +26,7 @@ using Subtext.Framework.Text;
 using System.Text;
 using System.Web;
 using Subtext.Framework.Providers;
+using Ninject;
 
 namespace Subtext.Framework.Services
 {
@@ -45,6 +46,7 @@ namespace Subtext.Framework.Services
         public SlugGenerator(FriendlyUrlSettings slugSettings) : this(slugSettings, null) {
         }
 
+        [Inject]
         public SlugGenerator(FriendlyUrlSettings slugSettings, ObjectProvider repository)
         {
             SlugSettings = slugSettings ?? _defaultSettings;

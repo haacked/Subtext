@@ -1,4 +1,18 @@
-﻿using System.Collections.Generic;
+﻿#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
 using System.Security.Principal;
 using System.Web;
 using System.Web.Routing;
@@ -11,9 +25,9 @@ using Subtext.Framework.Emoticons;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
+using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Infrastructure;
-using Subtext.Framework.Syndication;
 
 namespace Subtext
 {
@@ -22,10 +36,13 @@ namespace Subtext
         public override void Load()
         {
             // Main Services
-            Bind<IEnumerable<ITextTransformation>>().ToMethod(context => new ITextTransformation[] {
-                context.Kernel.Get<XhtmlConverter>(),
-                context.Kernel.Get<EmoticonsTransformation>(),
-                context.Kernel.Get<KeywordExpander>()
+            Bind<ITextTransformation>().ToMethod(context => {
+                var transform = new CompositeTextTransformation();
+                transform.Add(context.Kernel.Get<XhtmlConverter>());
+                transform.Add(context.Kernel.Get<EmoticonsTransformation>());
+                //TODO: Maybe use a INinjectParameter to control this.
+                transform.Add(context.Kernel.Get<KeywordExpander>());
+                return transform;
             } ).InRequestScope();
             Bind<ICommentService>().To<CommentService>().InRequestScope();
             Bind<ICommentFilter>().To<CommentFilter>().InRequestScope();
@@ -40,6 +57,8 @@ namespace Subtext
 
         private void LoadCoreDependencies()
         {
+            Bind<IEntryPublisher>().To<EntryPublisher>().InRequestScope();
+            Bind<FriendlyUrlSettings>().ToMethod(context => FriendlyUrlSettings.Settings).InRequestScope();
             Bind<ISubtextPageBuilder>().To<SubtextPageBuilder>().InSingletonScope();
             Bind<ISlugGenerator>().To<SlugGenerator>().InRequestScope();
             Bind<FriendlyUrlSettings>().To<FriendlyUrlSettings>().InRequestScope();

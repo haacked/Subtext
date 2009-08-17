@@ -24,6 +24,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.UI.Skinning;
 using Subtext.Framework.Util;
+using Subtext.Framework.Infrastructure;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -75,16 +76,15 @@ namespace Subtext.Web.Admin.Pages
             }
         }
 
-        private WindowsTimeZone SelectedTimeZone
+        private ITimeZone SelectedTimeZone
         {
             get
             {
-                string timeZoneText = ddlTimezone.SelectedValue;
-                int timeZoneId = String.IsNullOrEmpty(timeZoneText)
-                                     ? TimeZone.CurrentTimeZone.StandardName.GetHashCode()
-                                     : int.Parse(timeZoneText);
+                string timeZoneId = String.IsNullOrEmpty(ddlTimezone.SelectedValue)
+                                     ? TimeZone.CurrentTimeZone.StandardName
+                                     : ddlTimezone.SelectedValue;
 
-                return WindowsTimeZone.GetById(timeZoneId);
+                return new TimeZoneWrapper(TimeZones.GetTimeZones().GetById(timeZoneId));
             }
         }
 
@@ -100,7 +100,7 @@ namespace Subtext.Web.Admin.Pages
             ckbShowEmailonRssFeed.Checked = info.ShowEmailAddressInRss;
             txbGenericTrackingCode.Text = info.TrackingCode;
             ckbAllowServiceAccess.Checked = info.AllowServiceAccess;
-            ddlTimezone.DataSource = WindowsTimeZone.TimeZones;
+            ddlTimezone.DataSource = TimeZones.GetTimeZones();
             ddlTimezone.DataTextField = "DisplayName";
             ddlTimezone.DataValueField = "Id";
             ddlTimezone.DataBind();
@@ -183,7 +183,7 @@ namespace Subtext.Web.Admin.Pages
                 info.Email = txbAuthorEmail.Text;
                 info.UserName = txbUser.Text;
                 info.ShowEmailAddressInRss = ckbShowEmailonRssFeed.Checked;
-                info.TimeZoneId = Int32.Parse(ddlTimezone.SelectedItem.Value);
+                info.TimeZoneId = ddlTimezone.SelectedItem.Value;
                 info.Subfolder = Config.CurrentBlog.Subfolder;
                 info.Host = Config.CurrentBlog.Host;
                 info.Id = Config.CurrentBlog.Id;

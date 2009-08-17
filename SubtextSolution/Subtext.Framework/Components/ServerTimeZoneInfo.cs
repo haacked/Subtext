@@ -20,19 +20,21 @@ using Subtext.Framework.Util;
 namespace Subtext.Framework.Components {
     [Serializable]
     public class ServerTimeZoneInfo {
-        public ServerTimeZoneInfo() { 
-        }
-        
-        public ServerTimeZoneInfo(WindowsTimeZone timeZone) {
-            ServerTimeZone = string.Format(CultureInfo.InvariantCulture, "{0} ({1})",
-                    TimeZone.CurrentTimeZone.StandardName,
-                    TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now));
-            ServerTime = DateTime.Now.ToString("yyyy/MM/dd hh:mm tt");
-            ServerUtcTime = DateTime.UtcNow.ToString("yyyy/MM/dd hh:mm tt");
-            CurrentTime = timeZone.Now.ToString("yyyy/MM/dd hh:mm tt");
+        public ServerTimeZoneInfo() {
         }
 
-        public ServerTimeZoneInfo(string timeZoneText) : this(GetTimeZoneFromText(timeZoneText)) {
+        public ServerTimeZoneInfo(string timeZoneText)
+            : this(TimeZones.GetTimeZones().GetById(timeZoneText), TimeZoneInfo.Local, DateTime.Now, DateTime.UtcNow)
+        {
+        }
+
+        public ServerTimeZoneInfo(TimeZoneInfo timeZone, TimeZoneInfo localTimeZone, DateTime now, DateTime utcNow) {
+            ServerTimeZone = string.Format(CultureInfo.InvariantCulture, "{0} ({1})",
+                    TimeZoneInfo.Local.StandardName,
+                    TimeZoneInfo.Local.GetUtcOffset(now));
+            ServerTime = now.ToString("yyyy/MM/dd hh:mm tt");
+            ServerUtcTime = utcNow.ToString("yyyy/MM/dd hh:mm tt");
+            CurrentTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone).ToString("yyyy/MM/dd hh:mm tt");
         }
 
         public string ServerTimeZone {
@@ -54,14 +56,6 @@ namespace Subtext.Framework.Components {
         {
             get;
             set;
-        }
-
-        private static WindowsTimeZone GetTimeZoneFromText(string timeZoneText) {
-            int timeZoneId = String.IsNullOrEmpty(timeZoneText)
-                                     ? TimeZone.CurrentTimeZone.StandardName.GetHashCode()
-                                     : int.Parse(timeZoneText);
-
-            return WindowsTimeZone.GetById(timeZoneId);
         }
     }
 }

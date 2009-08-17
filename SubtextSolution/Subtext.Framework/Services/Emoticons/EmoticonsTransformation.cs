@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Subtext.Framework.Services;
+using Ninject;
 
 namespace Subtext.Framework.Emoticons
 {
@@ -25,6 +26,7 @@ namespace Subtext.Framework.Emoticons
     /// </summary>
     public class EmoticonsTransformation : ITextTransformation
     {
+        [Inject]
         public EmoticonsTransformation(ISubtextContext context)
             : this(new EmoticonsFileSource(context), null)
         {
