@@ -9,10 +9,18 @@
 		    <p class="Label"><asp:HyperLink id="hlEntryLink" Runat="server" /></p>
 		<% } %>
 		
-		<label for="Editor_Edit_txbTitle" accesskey="t">Post <u>T</u>itle&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title" /></label>
+		<asp:Label AssociatedControlID="txbTitle" AccessKey="t" runat="server">
+		    Post <u>T</u>itle&nbsp;
+		    <asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title" />
+		</asp:Label>
 		<asp:TextBox id="txbTitle" runat="server" MaxLength="250" />
-		<label for="Editor_Edit_richTextEditor" accesskey="b">Post <u>B</u>ody&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="richTextEditor" ForeColor="#990066" ErrorMessage="Your post must have a body" /></label>
+		
+		<asp:Label AssociatedControlID="richTextEditor" AccessKey="b" runat="server">
+		    Post <u>B</u>ody&nbsp;
+		    <asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="richTextEditor" ForeColor="#990066" ErrorMessage="Your post must have a body" />
+		</asp:Label>
 		<st:RichTextEditor id="richTextEditor" runat="server" onerror="richTextEditor_Error" />
+		
 		<label>Categories</label>
 		<p><asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal" CssClass="checkbox" /></p>
 		<div>
@@ -39,11 +47,21 @@
 			</tr>
 		</table>
 		<div id="advanced-options">
-		    <label for="Editor_Edit_txtPostDate" accesskey="d">Post <u>D</u>ate <asp:CustomValidator ID="vCustomPostDate" runat="server" Text="Invalid PostDate format. Must be a valid date/time expression" ControlToValidate="txtPostDate" /></label> 
+		    <asp:Label AssociatedControlID="txtPostDate" AccessKey="d" runat="server">
+		        Post <u>D</u>ate 
+		        <asp:CustomValidator ID="vCustomPostDate" runat="server" Text="Invalid PostDate format. Must be a valid date/time expression" ControlToValidate="txtPostDate" />
+		    </asp:Label>
 		    <asp:TextBox ID="txtPostDate" runat="server" CssClass="date" MaxLength="25" />
-		    <label for="Editor_Edit_txbEntryName" accesskey="n">Entry <u>N</u>ame (page name) <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate="txbEntryName" ValidationExpression="^([a-zA-Z0-9-\.]*([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9-_]+)$" Text = "Invalid EntryName Format. Must only contain characters allowable in an URL." runat="server"/></label>
+		    
+		    <asp:Label AssociatedControlID="txbEntryName" AccessKey="n" runat="server">
+		        Entry <u>N</u>ame (page name) 
+		        <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate="txbEntryName" ValidationExpression="^([a-zA-Z0-9-\.]*([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9-_]+)$" Text = "Invalid EntryName Format. Must only contain characters allowable in an URL." runat="server"/>
+		    </asp:Label>
 		    <asp:TextBox id="txbEntryName" runat="server" MaxLength="150" />
-		    <label for="Editor_Edit_txbExcerpt" accesskey="e"><u>E</u>xcerpt</label>
+		    
+		    <asp:Label AssociatedControlID="txbExcerpt" AccessKey="e" runat="server">
+		        <u>E</u>xcerpt
+		    </asp:Label>
 		    <asp:TextBox id="txbExcerpt" runat="server" rows="5" textmode="MultiLine" MaxLength="500" />
 		</div>
 	</st:AdvancedPanel>
@@ -56,28 +74,50 @@
             </div>
         </div>
         <div id="enclosure-editor">
-	    <fieldset title="Enclosure">
-		    <legend>Basic Enclosure</legend>
-	        <label for="Editor_Enclosure_txbEnclosureTitle" accesskey="e"><u>E</u>nclosure Title</label>
-            <asp:TextBox id="txbEnclosureTitle" runat="server" MaxLength="250" />
-            <label for="Editor_Enclosure_txbEnclosureUrl" accesskey="u">Enclosure <u>U</u>rl&nbsp;<asp:RequiredFieldValidator id="valEncUrlRequired" runat="server" ControlToValidate="txbEnclosureUrl" ForeColor="#990066" ErrorMessage="Url is required" Display="Dynamic" /> <asp:RegularExpressionValidator ControlToValidate="txbEnclosureUrl" id="valEncUrlFormat" runat="server" ForeColor="#990066" ErrorMessage="Not a valid Url." ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$"></asp:RegularExpressionValidator> </label>
-            <asp:TextBox id="txbEnclosureUrl" runat="server" MaxLength="250" />
-            <label for="Editor_Enclosure_txbEnclosureSize" accesskey="s">Enclosure <u>S</u>ize (in bytes) &nbsp;<asp:RequiredFieldValidator id="valEncSizeRequired" runat="server" ControlToValidate="txbEnclosureSize" ForeColor="#990066" ErrorMessage="Size is required" Display="Dynamic" /><asp:RangeValidator ControlToValidate="txbEnclosureSize" MinimumValue="0" MaximumValue="999999999" id="valEncSizeFormat" runat="server" ForeColor="#990066"  Type="Integer" ErrorMessage="Not a valid size." ></asp:RangeValidator></label>
-            <asp:TextBox id="txbEnclosureSize" runat="server" MaxLength="250" />
-            <label for="Editor_Enclosure_ddlMimeType" accesskey="m">Enclosure <u>M</u>imetype&nbsp;<asp:CompareValidator Operator="NotEqual" ValueToCompare="none" id="valEncMimeTypeRequired" runat="server" ControlToValidate="ddlMimeType" ForeColor="#990066" ErrorMessage="MimeType is required." /></label>
-            <asp:DropDownList ID="ddlMimeType" runat="server">
-            </asp:DropDownList> <asp:TextBox id="txbEnclosureOtherMimetype" CssClass="othertype" runat="server" MaxLength="25" />&nbsp;<asp:RequiredFieldValidator id="valEncOtherMimetypeRequired" runat="server" ControlToValidate="txbEnclosureOtherMimetype" ForeColor="#990066" ErrorMessage="You have to specify a custom mimetype." />
-            <label for="Editor_Enclosure_ddlDisplayOnPost" accesskey="p">Display with <u>P</u>ost on website</label>
-            <asp:DropDownList ID="ddlDisplayOnPost" runat="server">
-                <asp:ListItem Value="true">Yes</asp:ListItem>
-                <asp:ListItem Value="false">No</asp:ListItem>
-            </asp:DropDownList>
-            <label for="Editor_Enclosure_ddlAddToFeed" accesskey="f">Add to <u>F</u>eed</label>
-            <asp:DropDownList ID="ddlAddToFeed" runat="server">
-                <asp:ListItem Value="true">Yes</asp:ListItem>
-                <asp:ListItem Value="false">No</asp:ListItem>
-            </asp:DropDownList>
-        </fieldset>
+	        <fieldset title="Enclosure">
+		        <legend>Basic Enclosure</legend>
+	            <asp:Label AssociatedControlID="txbEnclosureTitle" accesskey="e" runat="server">
+	                <u>E</u>nclosure Title
+	            </asp:Label>
+                <asp:TextBox id="txbEnclosureTitle" runat="server" MaxLength="250" />
+                
+                <asp:Label for="txbEnclosureUrl" AccessKey="u" runat="server">
+                    Enclosure <u>U</u>rl 
+                    <asp:RequiredFieldValidator id="valEncUrlRequired" runat="server" ControlToValidate="txbEnclosureUrl" ForeColor="#990066" ErrorMessage="Url is required" Display="Dynamic" /> <asp:RegularExpressionValidator ControlToValidate="txbEnclosureUrl" id="valEncUrlFormat" runat="server" ForeColor="#990066" ErrorMessage="Not a valid Url." ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$" /> 
+                </asp:Label>
+                <asp:TextBox id="txbEnclosureUrl" runat="server" MaxLength="250" />
+                
+                <asp:Label AssociatedControlID="txbEnclosureSize" AccessKey="s" runat="server">
+                    Enclosure <u>S</u>ize (in bytes) &nbsp;
+                    <asp:RequiredFieldValidator id="valEncSizeRequired" runat="server" ControlToValidate="txbEnclosureSize" ForeColor="#990066" ErrorMessage="Size is required" Display="Dynamic" /><asp:RangeValidator ControlToValidate="txbEnclosureSize" MinimumValue="0" MaximumValue="999999999" id="valEncSizeFormat" runat="server" ForeColor="#990066"  Type="Integer" ErrorMessage="Not a valid size."/>
+                </asp:Label>
+                <asp:TextBox id="txbEnclosureSize" runat="server" MaxLength="250" />
+                
+                <asp:Label AssociatedControlID="ddlMimeType" AccessKey="m" runat="server">
+                    Enclosure <u>M</u>imetype&nbsp;
+                    <asp:CompareValidator Operator="NotEqual" ValueToCompare="none" id="valEncMimeTypeRequired" runat="server" ControlToValidate="ddlMimeType" ForeColor="#990066" ErrorMessage="MimeType is required." />
+                </asp:Label>
+                <asp:DropDownList ID="ddlMimeType" runat="server" />
+                
+                <asp:TextBox id="txbEnclosureOtherMimetype" CssClass="othertype" runat="server" MaxLength="25" />&nbsp;<asp:RequiredFieldValidator id="valEncOtherMimetypeRequired" runat="server" ControlToValidate="txbEnclosureOtherMimetype" ForeColor="#990066" ErrorMessage="You have to specify a custom mimetype." />
+                
+                <asp:Label AssociatedControlID="ddlDisplayOnPost" AccessKey="p" runat="server">
+                    Display with <u>P</u>ost on website
+                </asp:Label>
+                
+                <asp:DropDownList ID="ddlDisplayOnPost" runat="server">
+                    <asp:ListItem Value="true">Yes</asp:ListItem>
+                    <asp:ListItem Value="false">No</asp:ListItem>
+                </asp:DropDownList>
+                
+                <asp:Label AssociatedControlID="ddlAddToFeed" AccessKey="f" runat="server">
+                    Add to <u>F</u>eed
+                </asp:Label>
+                <asp:DropDownList ID="ddlAddToFeed" runat="server">
+                    <asp:ListItem Value="true">Yes</asp:ListItem>
+                    <asp:ListItem Value="false">No</asp:ListItem>
+                </asp:DropDownList>
+            </fieldset>
         </div>
 	</st:AdvancedPanel>
 
