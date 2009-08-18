@@ -141,8 +141,6 @@ namespace Subtext.Web.Admin.UserControls
 
         private void BindPostCreate() 
         {
-            Debug.Assert(PostID != null, "PostID should never be null when this is called.");
-
             this.txbTitle.Text = string.Empty;
             this.richTextEditor.Text = string.Empty;
 
@@ -158,8 +156,6 @@ namespace Subtext.Web.Admin.UserControls
             chkDisplayHomePage.Checked = true;
             chkComments.Checked = Config.CurrentBlog.CommentsEnabled;
         }
-
-        
 
         private void BindPostEdit()
 		{
