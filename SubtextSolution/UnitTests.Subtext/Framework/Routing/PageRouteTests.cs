@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Web;
+using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
+using Ninject;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
-using System.Web.Routing;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -12,9 +13,10 @@ namespace UnitTests.Subtext.Framework.Routing
     public class PageRouteTests
     {
         [Test]
-        public void GetVirtualPath_WithoutSubolder_ReturnsUrlWithoutSubfolder() {
+        public void GetVirtualPath_WithoutSubolder_ReturnsUrlWithoutSubfolder()
+        {
             //arrange
-            var route = new PageRoute("archive/{slug}.aspx", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object);
+            var route = new PageRoute("archive/{slug}.aspx", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/slug.aspx");
             var blogRequest = new BlogRequest("localhost", null, new Uri("http://localhost"), true);
@@ -33,7 +35,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void GetVirtualPath_WithSubolder_ReturnsUrlWithSubfolder()
         {
             //arrange
-            var route = new PageRoute("archive/{slug}.aspx", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object);
+            var route = new PageRoute("archive/{slug}.aspx", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/slug.aspx");
             var blogRequest = new BlogRequest("localhost", "subfolder", new Uri("http://localhost"), true);
@@ -50,14 +52,15 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void Request_ForPageRouteWithConstraints_MatchesWhenConstraintsAreSatisfied() { 
+        public void Request_ForPageRouteWithConstraints_MatchesWhenConstraintsAreSatisfied()
+        {
             //arrange
-            var route = new PageRoute("archive/{year}/{month}/{day}/{slug}.aspx", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object);
-            route.Constraints = new RouteValueDictionary(new {year = @"\d{4}" });
+            var route = new PageRoute("archive/{year}/{month}/{day}/{slug}.aspx", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object, new Mock<IKernel>().Object);
+            route.Constraints = new RouteValueDictionary(new { year = @"\d{4}" });
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/2008/01/23/slug.aspx");
             var blogRequest = new BlogRequest("localhost", null, new Uri("http://localhost"), false);
-            
+
             //act
             var routeData = route.GetRouteData(httpContext.Object, blogRequest);
 
@@ -69,7 +72,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RequestWithSubfolder_ForBlogPostWithSubfolder_Matches()
         {
             //arrange
-            var subtextRoute = new PageRoute("archive/{slug}", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object);
+            var subtextRoute = new PageRoute("archive/{slug}", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/blogsubfolder/archive/blog-post");
             //This info is provided by the BlogRequestModule.
@@ -88,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RequestWithoutSubfolder_ForBlogPostWithSubfolder_DoesNotMatch()
         {
             //arrange
-            var subtextRoute = new PageRoute("archive/{slug}", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object);
+            var subtextRoute = new PageRoute("archive/{slug}", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/blog-post");
             //This info is provided by the BlogRequestModule.
@@ -105,7 +108,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RequestWithoutSubfolder_ForBlogPostWithoutSubfolder_Matches()
         {
             //arrange
-            var subtextRoute = new PageRoute("archive/{slug}", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object);
+            var subtextRoute = new PageRoute("archive/{slug}", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/blog-post");
             //This info is provided by the BlogRequestModule.
@@ -124,7 +127,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RequestWithSubfolder_ForBlogPostWithoutSubfolder_DoesNotMatch()
         {
             //arrange
-            var subtextRoute = new PageRoute("archive/{slug}", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object);
+            var subtextRoute = new PageRoute("archive/{slug}", "~/pages/Dtp.aspx", null, new Mock<ISubtextPageBuilder>().Object, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/archive/blog-post");
             //This info is provided by the BlogRequestModule.
@@ -141,7 +144,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void GetRouteData_MatchingTheImplicitSubfolderRoute_ReturnsParentDirectoryRoute()
         {
             //arrange
-            var route = new PageRoute("url", "~/pages/Dtp.aspx", new[] {"foo"}, new Mock<ISubtextPageBuilder>().Object);
+            var route = new PageRoute("url", "~/pages/Dtp.aspx", new[] { "foo" }, new Mock<ISubtextPageBuilder>().Object, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/url");
             var blogRequest = new BlogRequest("localhost", "subfolder", new Uri("http://localhost"), false);

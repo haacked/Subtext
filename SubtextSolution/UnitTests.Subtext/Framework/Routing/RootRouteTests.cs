@@ -4,7 +4,6 @@ using MbUnit.Framework;
 using Moq;
 using Ninject;
 using Subtext.Framework.Routing;
-using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -12,11 +11,12 @@ namespace UnitTests.Subtext.Framework.Routing
     public class RootRouteTests
     {
         [Test]
-        public void GetRouteDataWithRequestForAppRoot_WhenAggregationEnabled_MatchesAndReturnsAggDefault() { 
+        public void GetRouteDataWithRequestForAppRoot_WhenAggregationEnabled_MatchesAndReturnsAggDefault()
+        {
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/", string.Empty /* subfolder */, "~/");
-            var route = new RootRoute(true);
+            var route = new RootRoute(true, new Mock<IKernel>().Object);
 
             //act
             var routeData = route.GetRouteData(httpContext.Object);
@@ -34,7 +34,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/", string.Empty /* subfolder */, "~/");
-            var route = new RootRoute(false);
+            var route = new RootRoute(false, new Mock<IKernel>().Object);
 
             //act
             var routeData = route.GetRouteData(httpContext.Object);
@@ -47,11 +47,12 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void GetRouteDataWithRequestForSubfolder_WhenAggregationEnabled_MatchesRequestAndReturnsDtp() {
+        public void GetRouteDataWithRequestForSubfolder_WhenAggregationEnabled_MatchesRequestAndReturnsDtp()
+        {
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder", "subfolder" /* subfolder */, "~/");
-            var route = new RootRoute(true);
+            var route = new RootRoute(true, new Mock<IKernel>().Object);
 
             //act
             var routeData = route.GetRouteData(httpContext.Object);
@@ -68,7 +69,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder", "subfolder" /* subfolder */, "~/");
-            var route = new RootRoute(false);
+            var route = new RootRoute(false, new Mock<IKernel>().Object);
 
             //act
             var routeData = route.GetRouteData(httpContext.Object);
@@ -85,7 +86,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/foo", string.Empty /* subfolder */, "~/");
-            var route = new RootRoute(true);
+            var route = new RootRoute(true, new Mock<IKernel>().Object);
 
             //act
             var routeData = route.GetRouteData(httpContext.Object);
@@ -100,7 +101,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/foo", string.Empty /* subfolder */, "~/");
-            var route = new RootRoute(false);
+            var route = new RootRoute(false, new Mock<IKernel>().Object);
 
             //act
             var routeData = route.GetRouteData(httpContext.Object);
@@ -115,7 +116,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/foo", "bar" /* subfolder */, "~/");
-            var route = new RootRoute(true);
+            var route = new RootRoute(true, new Mock<IKernel>().Object);
 
             //act
             var routeData = route.GetRouteData(httpContext.Object);
@@ -130,7 +131,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/foo", "bar" /* subfolder */, "~/");
-            var route = new RootRoute(false);
+            var route = new RootRoute(false, new Mock<IKernel>().Object);
 
             //act
             var routeData = route.GetRouteData(httpContext.Object);
@@ -145,7 +146,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/Default.aspx", string.Empty /* subfolder */, "~/");
-            var route = new RootRoute(true);
+            var route = new RootRoute(true, new Mock<IKernel>().Object);
 
             //act
             var routeData = route.GetRouteData(httpContext.Object);
@@ -162,7 +163,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/Default.aspx", string.Empty /* subfolder */, "~/");
-            var route = new RootRoute(false);
+            var route = new RootRoute(false, new Mock<IKernel>().Object);
 
             //act
             var routeData = route.GetRouteData(httpContext.Object);
@@ -179,7 +180,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/default.aspx", "subfolder" /* subfolder */, "~/");
-            var route = new RootRoute(true);
+            var route = new RootRoute(true, new Mock<IKernel>().Object);
 
             //act
             var routeData = route.GetRouteData(httpContext.Object);
@@ -196,7 +197,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/default.aspx", "subfolder" /* subfolder */, "~/");
-            var route = new RootRoute(false);
+            var route = new RootRoute(false, new Mock<IKernel>().Object);
 
             //act
             var routeData = route.GetRouteData(httpContext.Object);
@@ -215,7 +216,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/default.aspx", string.Empty /* subfolder */, "~/");
             var routeData = new RouteData();
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            var route = new RootRoute(true);
+            var route = new RootRoute(true, new Mock<IKernel>().Object);
             var routeValues = new RouteValueDictionary();
 
             //act
@@ -234,7 +235,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeData = new RouteData();
             routeData.Values.Add("subfolder", "subfolder");
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            var route = new RootRoute(true);
+            var route = new RootRoute(true, new Mock<IKernel>().Object);
             var routeValues = new RouteValueDictionary();
 
             //act
@@ -252,8 +253,8 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/subfolder/default.aspx", "subfolder" /* subfolder */, "~/");
             var routeData = new RouteData();
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            var route = new RootRoute(true);
-            var routeValues = new RouteValueDictionary(new { subfolder = "subfolder"});
+            var route = new RootRoute(true, new Mock<IKernel>().Object);
+            var routeValues = new RouteValueDictionary(new { subfolder = "subfolder" });
 
             //act
             var virtualPathInfo = route.GetVirtualPath(requestContext, routeValues);
@@ -270,7 +271,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/subfolder/default.aspx", string.Empty /* subfolder */, "~/");
             var routeData = new RouteData();
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            var route = new RootRoute(true);
+            var route = new RootRoute(true, new Mock<IKernel>().Object);
             var routeValues = new RouteValueDictionary(new { foo = "bar" });
 
             //act
@@ -278,13 +279,6 @@ namespace UnitTests.Subtext.Framework.Routing
 
             //assert
             Assert.IsNull(virtualPathInfo);
-        }
-
-        [SetUp]
-        public void SetUp() {
-            var kernel = new Mock<IKernel>();
-            var pageBuilder = new Mock<ISubtextPageBuilder>();
-            Bootstrapper.Kernel = kernel.Object;
         }
     }
 }

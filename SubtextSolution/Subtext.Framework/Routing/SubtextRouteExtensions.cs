@@ -21,7 +21,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Ninject;
 using Subtext.Framework.XmlRpc;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
@@ -36,48 +35,47 @@ namespace Subtext.Framework.Routing
             return routeData.DataTokens[PageRoute.ControlNamesKey] as IEnumerable<string>;
         }
 
-        public static void MapDirectory(this RouteCollection routes, string directoryName)
+        public static void MapDirectory(this SubtextRouteMapper routes, string directoryName)
         {
-            routes.Add(directoryName, new DirectoryRoute(directoryName));
+            routes.Add(directoryName, new DirectoryRoute(directoryName, routes.Kernel));
         }
 
-        public static void MapSystemDirectory(this RouteCollection routes, string directoryName)
+        public static void MapSystemDirectory(this SubtextRouteMapper routes, string directoryName)
         {
-            routes.Add(directoryName, new SystemDirectoryRoute(directoryName));
+            routes.Add(directoryName, new SystemDirectoryRoute(directoryName, routes.Kernel));
         }
 
-        public static void MapControls(this RouteCollection routes, string url, object constraints, IEnumerable<string> controls)
+        public static void MapControls(this SubtextRouteMapper routes, string url, object constraints, IEnumerable<string> controls)
         {
             routes.MapControls(url, new RouteValueDictionary(constraints), controls);
         }
 
-        public static void MapControls(this RouteCollection routes, string url, RouteValueDictionary constraints, IEnumerable<string> controls)
+        public static void MapControls(this SubtextRouteMapper routes, string url, RouteValueDictionary constraints, IEnumerable<string> controls)
         {
             routes.MapControls(null, url, constraints, controls, null);
         }
 
-        public static void MapControls(this RouteCollection routes, string name, string url, object constraints, IEnumerable<string> controls)
+        public static void MapControls(this SubtextRouteMapper routes, string name, string url, object constraints, IEnumerable<string> controls)
         {
             routes.MapControls(name, url, new RouteValueDictionary(constraints), controls);
         }
 
-        public static void MapControls(this RouteCollection routes, string name, string url, RouteValueDictionary constraints, IEnumerable<string> controls)
+        public static void MapControls(this SubtextRouteMapper routes, string name, string url, RouteValueDictionary constraints, IEnumerable<string> controls)
         {
             routes.MapControls(name, url, constraints, controls, null);
         }
 
-        public static void MapControls(this RouteCollection routes, string name, string url, RouteValueDictionary constraints, IEnumerable<string> controls, object defaults)
+        public static void MapControls(this SubtextRouteMapper routes, string name, string url, RouteValueDictionary constraints, IEnumerable<string> controls, object defaults)
         {
-
-            routes.Add(name, new PageRoute(url, "~/pages/Dtp.aspx", controls) { Constraints = constraints, Defaults = new RouteValueDictionary(defaults) });
+            routes.Add(name, new PageRoute(url, "~/pages/Dtp.aspx", controls, routes.Kernel) { Constraints = constraints, Defaults = new RouteValueDictionary(defaults) });
         }
 
-        public static void MapControls(this RouteCollection routes, string url, IEnumerable<string> controls)
+        public static void MapControls(this SubtextRouteMapper routes, string url, IEnumerable<string> controls)
         {
             routes.MapControls(url, new { }, controls);
         }
 
-        public static void MapPageToControl(this RouteCollection routes, string controlName)
+        public static void MapPageToControl(this SubtextRouteMapper routes, string controlName)
         {
             routes.MapControls(controlName, controlName + ".aspx", null, new string[] { controlName });
         }
@@ -86,59 +84,59 @@ namespace Subtext.Framework.Routing
         /// We need special handling here because of Aggregate blogs.
         /// </summary>
         /// <param name="routes"></param>
-        public static void MapRoot(this RouteCollection routes)
+        public static void MapRoot(this SubtextRouteMapper routes)
         {
-            routes.Add("root", new RootRoute(String.Equals(ConfigurationManager.AppSettings["AggregateEnabled"], "true", StringComparison.OrdinalIgnoreCase)));
+            routes.Add("root", new RootRoute(String.Equals(ConfigurationManager.AppSettings["AggregateEnabled"], "true", StringComparison.OrdinalIgnoreCase), routes.Kernel));
         }
 
-        public static void MapPage(this RouteCollection routes, string name)
-        {
-            string url = name + ".aspx";
-            routes.Add(name, new SubtextRoute(url, new PageRouteHandler("~/pages/" + url, Bootstrapper.Kernel.Get<ISubtextPageBuilder>())));
-        }
-
-        public static void MapSystemPage(this RouteCollection routes, string name)
+        public static void MapPage(this SubtextRouteMapper routes, string name)
         {
             string url = name + ".aspx";
-            routes.Add(name, new Route(url, new PageRouteHandler("~/pages/" + url, Bootstrapper.Kernel.Get<ISubtextPageBuilder>())));
+            routes.Add(name, new SubtextRoute(url, new PageRouteHandler("~/pages/" + url, routes.Kernel.Get<ISubtextPageBuilder>(), routes.Kernel)));
         }
 
-        public static void MapHttpHandler<THttpHandler>(this RouteCollection routes, string name, string url) where THttpHandler : IHttpHandler
+        public static void MapSystemPage(this SubtextRouteMapper routes, string name)
         {
-            routes.Add(name, new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(Bootstrapper.Kernel)));
+            string url = name + ".aspx";
+            routes.Add(name, new Route(url, new PageRouteHandler("~/pages/" + url, routes.Kernel.Get<ISubtextPageBuilder>(), routes.Kernel)));
         }
 
-        public static void MapHttpHandler<THttpHandler>(this RouteCollection routes, string url) where THttpHandler : IHttpHandler
+        public static void MapHttpHandler<THttpHandler>(this SubtextRouteMapper routes, string name, string url) where THttpHandler : IHttpHandler
+        {
+            routes.Add(name, new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(routes.Kernel)));
+        }
+
+        public static void MapHttpHandler<THttpHandler>(this SubtextRouteMapper routes, string url) where THttpHandler : IHttpHandler
         {
             routes.MapHttpHandler<THttpHandler>(null, url);
         }
 
-        public static void MapXmlRpcHandler<TXmlRpcHandler>(this RouteCollection routes, string url, object constraints)
+        public static void MapXmlRpcHandler<TXmlRpcHandler>(this SubtextRouteMapper routes, string url, object constraints)
             where TXmlRpcHandler : SubtextXmlRpcService
         {
-            routes.Add(new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>()));
+            routes.Add(new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>(routes.Kernel)));
         }
 
-        public static void MapXmlRpcHandler<TXmlRpcHandler>(this RouteCollection routes, string name, string url, object constraints)
+        public static void MapXmlRpcHandler<TXmlRpcHandler>(this SubtextRouteMapper routes, string name, string url, object constraints)
             where TXmlRpcHandler : SubtextXmlRpcService
         {
-            routes.Add(name, new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>()));
+            routes.Add(name, new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>(routes.Kernel)));
         }
 
-        public static void MapHttpHandler<THttpHandler>(this RouteCollection routes, string name, string url, object constraints) where THttpHandler : IHttpHandler
+        public static void MapHttpHandler<THttpHandler>(this SubtextRouteMapper routes, string name, string url, object constraints) where THttpHandler : IHttpHandler
         {
-            var route = new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(Bootstrapper.Kernel));
+            var route = new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(routes.Kernel));
             route.Constraints = new RouteValueDictionary(constraints);
             routes.Add(name, route);
         }
 
-        public static void MapHttpHandler<THttpHandler>(this RouteCollection routes, string url, object constraints)
+        public static void MapHttpHandler<THttpHandler>(this SubtextRouteMapper routes, string url, object constraints)
             where THttpHandler : IHttpHandler
         {
             routes.MapHttpHandler<THttpHandler>(null, url, constraints);
         }
 
-        public static void MapRoute(this RouteCollection routes, string routeName, string url, object defaults, object constraints)
+        public static void MapRoute(this SubtextRouteMapper routes, string routeName, string url, object defaults, object constraints)
         {
             routes.Add(routeName, new SubtextRoute(url, new MvcRouteHandler())
             {
@@ -147,7 +145,7 @@ namespace Subtext.Framework.Routing
             });
         }
 
-        public static void Ignore(this RouteCollection routes, string url)
+        public static void Ignore(this SubtextRouteMapper routes, string url)
         {
             routes.Add(new IgnoreRoute(url));
         }

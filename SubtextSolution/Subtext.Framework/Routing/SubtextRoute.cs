@@ -22,24 +22,31 @@ namespace Subtext.Framework.Routing
 {
     public class SubtextRoute : Route
     {
-        public SubtextRoute(string url, IRouteHandler routeHandler) : this(url, routeHandler, false) { 
+        public SubtextRoute(string url, IRouteHandler routeHandler)
+            : this(url, routeHandler, false)
+        {
         }
 
-        public SubtextRoute(string url, IRouteHandler routeHandler, bool ignoreSubfolder) : base(url, routeHandler) { 
-        
+        public SubtextRoute(string url, IRouteHandler routeHandler, bool ignoreSubfolder)
+            : base(url, routeHandler)
+        {
+
         }
 
         public virtual RouteData GetRouteData(HttpContextBase httpContext, BlogRequest blogRequest)
         {
             RouteData routeData = null;
-            if (String.IsNullOrEmpty(blogRequest.Subfolder)) {
+            if (String.IsNullOrEmpty(blogRequest.Subfolder))
+            {
                 routeData = base.GetRouteData(httpContext);
-                if (routeData != null) {
+                if (routeData != null)
+                {
                     //Add current subfolder info.
                     routeData.Values.Add("subfolder", string.Empty);
                 }
             }
-            else {
+            else
+            {
                 routeData = RouteForSubfolder.GetRouteData(httpContext, blogRequest.Subfolder);
             }
 
@@ -55,11 +62,13 @@ namespace Subtext.Framework.Routing
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
             var subfolderInRouteData = requestContext.RouteData.Values["subfolder"] as string;
-            if (String.IsNullOrEmpty(subfolderInRouteData)) {
+            if (String.IsNullOrEmpty(subfolderInRouteData))
+            {
                 //values["subfolder"] = subfolderInRouteData;
                 return base.GetVirtualPath(requestContext, values);
             }
-            else {
+            else
+            {
                 return RouteForSubfolder.GetVirtualPath(requestContext, values);
             }
         }

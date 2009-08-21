@@ -17,26 +17,32 @@ using System;
 using System.IO;
 using System.Web;
 using System.Web.Routing;
+using Ninject;
 using Subtext.Framework.Properties;
-using System.Web.Security;
-using System.Web.Configuration;
 
 namespace Subtext.Framework.Routing
 {
-    public class DirectoryRouteHandler : PageRouteHandler {
-        public DirectoryRouteHandler(ISubtextPageBuilder pageBuilder) : base(null, pageBuilder) {
+    public class DirectoryRouteHandler : PageRouteHandler
+    {
+        public DirectoryRouteHandler(ISubtextPageBuilder pageBuilder, IKernel kernel)
+            : base(null, pageBuilder, kernel)
+        {
         }
-        
-        protected override IHttpHandler GetHandler(RequestContext requestContext) {
+
+        protected override IHttpHandler GetHandler(RequestContext requestContext)
+        {
             var routeData = requestContext.RouteData;
             var route = routeData.Route as IDirectoryRoute;
-            if (route == null) {
+            if (route == null)
+            {
                 throw new InvalidOperationException(Resources.InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes);
             }
 
             string virtualPath = "~/pages/" + route.DirectoryName + "/" + routeData.Values["pathinfo"];
-            if (String.IsNullOrEmpty(Path.GetExtension(virtualPath))) {
-                if (!virtualPath.EndsWith("/")) {
+            if (String.IsNullOrEmpty(Path.GetExtension(virtualPath)))
+            {
+                if (!virtualPath.EndsWith("/"))
+                {
                     virtualPath += "/";
                 }
                 virtualPath += "Default.aspx";

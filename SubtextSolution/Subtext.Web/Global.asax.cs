@@ -23,13 +23,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using log4net;
-using Ninject;
 using Ninject.Modules;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Infrastructure;
 using Subtext.Web.Infrastructure;
@@ -68,14 +68,15 @@ namespace Subtext.Web
         /// <param name="e"></param>
         protected void Application_Start(object sender, EventArgs e)
         {
-            StartApplication(RouteTable.Routes, Bootstrapper.Kernel, new HttpServerUtilityWrapper(Server));
+            SubtextRouteMapper routes = new SubtextRouteMapper(RouteTable.Routes, Bootstrapper.Kernel);
+            StartApplication(routes, new HttpServerUtilityWrapper(Server));
             this.Application["DeprecatedPhysicalPaths"] = DeprecatedPhysicalPaths;
         }
 
-        public virtual void StartApplication(RouteCollection routes, IKernel kernel, HttpServerUtilityBase server)
+        public virtual void StartApplication(SubtextRouteMapper routes, HttpServerUtilityBase server)
         {
-            Routes.RegisterRoutes(routes, kernel);
-            var factory = new SubtextControllerFactory(kernel);
+            Routes.RegisterRoutes(routes);
+            var factory = new SubtextControllerFactory(routes.Kernel);
             ControllerBuilder.Current.SetControllerFactory(factory);
 
             var deprecatedPaths = new string[] { "~/Admin", "~/HostAdmin", "~/Install", 
@@ -183,7 +184,7 @@ namespace Subtext.Web
                 return;
             }
 
-            if (HandleDeprecatedFilePathsException(exception, server, this)) 
+            if (HandleDeprecatedFilePathsException(exception, server, this))
             {
                 return;
             }
@@ -236,7 +237,8 @@ namespace Subtext.Web
         public static bool HandleDeprecatedFilePathsException(Exception exception, HttpServerUtilityBase server, SubtextApplication application)
         {
             var depecratedException = exception as DeprecatedPhysicalPathsException;
-            if (depecratedException != null) {
+            if (depecratedException != null)
+            {
                 server.Execute(DeprecatedPhysicalPathsPage, false);
                 server.ClearError();
                 application.FinishRequest();
@@ -246,7 +248,8 @@ namespace Subtext.Web
             return false;
         }
 
-        public virtual void FinishRequest() {
+        public virtual void FinishRequest()
+        {
             this.CompleteRequest();
         }
 

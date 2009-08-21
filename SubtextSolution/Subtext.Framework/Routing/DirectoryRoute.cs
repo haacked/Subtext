@@ -14,14 +14,13 @@
 #endregion
 
 using Ninject;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class DirectoryRoute : SubtextRoute, IDirectoryRoute
     {
-        public DirectoryRoute(string directoryName) :
-            base(directoryName + "/{*pathInfo}", new DirectoryRouteHandler(Bootstrapper.Kernel.Get<ISubtextPageBuilder>()))
+        public DirectoryRoute(string directoryName, IKernel kernel) :
+            base(directoryName + "/{*pathInfo}", new DirectoryRouteHandler(kernel.Get<ISubtextPageBuilder>(), kernel))
         {
             this.DirectoryName = directoryName;
         }

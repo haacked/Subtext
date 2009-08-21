@@ -17,35 +17,44 @@ using System.Linq;
 using System.Web;
 using System.Web.Routing;
 using System.Web.UI;
+using Ninject;
 using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class PageRouteHandler : RouteHandlerBase
     {
-        public PageRouteHandler(string virtualPath, ISubtextPageBuilder pageBuilder) : base(Bootstrapper.Kernel) {
+        public PageRouteHandler(string virtualPath, ISubtextPageBuilder pageBuilder, IKernel kernel)
+            : base(kernel)
+        {
             VirtualPath = virtualPath;
             PageBuilder = pageBuilder;
         }
 
-        protected ISubtextPageBuilder PageBuilder {
+        protected ISubtextPageBuilder PageBuilder
+        {
             get;
             set;
         }
 
-        public string VirtualPath { 
-            get; 
-            protected set; 
+        public string VirtualPath
+        {
+            get;
+            protected set;
         }
 
-        protected override IHttpHandler GetHandler(RequestContext requestContext) {
+        protected override IHttpHandler GetHandler(RequestContext requestContext)
+        {
             Bootstrapper.RequestContext = requestContext;
             var page = PageBuilder.CreateInstanceFromVirtualPath(this.VirtualPath, typeof(Page)) as IHttpHandler;
 
-            if (page != null) {
+            if (page != null)
+            {
                 var pageWithControls = page as IPageWithControls;
-                if (pageWithControls != null) {
-                    if (requestContext.RouteData.DataTokens != null) {
+                if (pageWithControls != null)
+                {
+                    if (requestContext.RouteData.DataTokens != null)
+                    {
                         var controls = requestContext.RouteData.GetControlNames();
                         //TODO: Temporary hack to append .ascx
                         pageWithControls.SetControls(controls.Select(s => s += ".ascx"));
