@@ -22,6 +22,7 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
+using System.Diagnostics;
 
 namespace Subtext.Framework
 {

@@ -17,7 +17,6 @@ using System.Web;
 using System.Web.Routing;
 using Ninject;
 using Subtext.Infrastructure;
-using System;
 
 namespace Subtext.Framework.Routing
 {
