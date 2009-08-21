@@ -309,7 +309,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void BlogUrl_WithoutSubfolder_ReturnsSlash()
+        public void BlogUrl_WithoutSubfolder_ReturnsVirtualPathToBlog()
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
@@ -318,11 +318,11 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.BlogUrl();
 
             //assert
-            Assert.AreEqual("/", url);
+            Assert.AreEqual("/default.aspx", url);
         }
 
         [Test]
-        public void BlogUrl_WithSubfolder_ReturnsSubfolder()
+        public void BlogUrl_WithSubfolder_ReturnsVirtualPathToBlogWithSubfolder()
         {
             //arrange
             var routeData = new RouteData();
@@ -333,7 +333,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.BlogUrl();
 
             //assert
-            Assert.AreEqual("/subfolder/", url);
+            Assert.AreEqual("/subfolder/default.aspx", url);
         }
 
         [Test]
@@ -347,7 +347,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.BlogUrl(new Blog { Subfolder = "subfolder" });
 
             //assert
-            Assert.AreEqual("/subfolder/", url);
+            Assert.AreEqual("/subfolder/default.aspx", url);
         }
 
         [Test]
@@ -362,7 +362,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.BlogUrl();
 
             //assert
-            Assert.AreEqual("/App/subfolder/", url);
+            Assert.AreEqual("/App/subfolder/default.aspx", url);
         }
 
         [Test]

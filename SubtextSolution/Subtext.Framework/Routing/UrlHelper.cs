@@ -149,21 +149,24 @@ namespace Subtext.Framework.Routing
         public virtual VirtualPath BlogUrl()
         {
             string vp = GetVirtualPath("root", new { });
-            if (!(vp ?? string.Empty).EndsWith("/"))
-            {
-                vp += "/";
-            }
-            return vp;
+            return BlogUrl(vp);
         }
 
         public virtual VirtualPath BlogUrl(Blog blog)
         {
             string vp = GetVirtualPath("root", new { subfolder = blog.Subfolder });
-            if (!(vp ?? string.Empty).EndsWith("/"))
+            return BlogUrl(vp);
+        }
+
+        private VirtualPath BlogUrl(string virtualPath) 
+        {
+            if (!(virtualPath ?? string.Empty).EndsWith("/"))
             {
-                vp += "/";
+                virtualPath += "/";
             }
-            return vp;
+            //TODO: Make this an option.
+            virtualPath += "default.aspx";
+            return virtualPath;
         }
 
         public virtual VirtualPath ContactFormUrl()

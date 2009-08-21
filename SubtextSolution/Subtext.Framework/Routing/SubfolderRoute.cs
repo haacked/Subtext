@@ -33,7 +33,7 @@ namespace Subtext.Framework.Routing
         public RouteData GetRouteData(HttpContextBase httpContext, string subfolder) {
             var routeData = GetRouteData(httpContext);
             if (routeData != null) {
-                if (!String.Equals(subfolder, routeData.Values["subfolder"] as string, StringComparison.OrdinalIgnoreCase)) {
+                if (!String.Equals(subfolder, routeData.GetSubfolder(), StringComparison.OrdinalIgnoreCase)) {
                     return null;
                 }
             }
