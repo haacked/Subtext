@@ -1,99 +1,110 @@
+#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
 using System;
 using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
-using Subtext.Framework.Routing;
 
 namespace Subtext.Web.Admin.WebUI
 {
-	/// <summary>
-	/// Code behind for the admin master template.
-	/// </summary>
-	public partial class AdminPageTemplate : AdminMasterPage
-	{
-		/// <summary>
-		/// Adds a link button to the list of possible actions.
-		/// </summary>
-		/// <param name="button"></param>
-		public void AddToActions(LinkButton button)
-		{
-			AddToActions(button, string.Empty);
-		}
+    /// <summary>
+    /// Code behind for the admin master template.
+    /// </summary>
+    public partial class AdminPageTemplate : AdminMasterPage
+    {
+        /// <summary>
+        /// Adds a link button to the list of possible actions.
+        /// </summary>
+        /// <param name="button"></param>
+        public void AddToActions(LinkButton button)
+        {
+            AddToActions(button, string.Empty);
+        }
 
-		public void AddToActions(LinkButton button, string rssFeed)
-		{
-			// HACK: one without the other doesn't seem to work. If I don't add this
-			// to Items it doesn't render, if I don't add to controls it doesn't get
-			// wired up. 
-			LinksActions.Items.Add(button);
-			LinksActions.Controls.Add(button);
-			if (!String.IsNullOrEmpty(rssFeed))
-			{
-				HyperLink rssLink = CreateAdminRssHyperlink(rssFeed);
-				LinksActions.Items.Add(rssLink);
-				LinksActions.Controls.Add(rssLink);
-			}
+        public void AddToActions(LinkButton button, string rssFeed)
+        {
+            // HACK: one without the other doesn't seem to work. If I don't add this
+            // to Items it doesn't render, if I don't add to controls it doesn't get
+            // wired up. 
+            LinksActions.Items.Add(button);
+            LinksActions.Controls.Add(button);
+            if (!String.IsNullOrEmpty(rssFeed))
+            {
+                HyperLink rssLink = CreateAdminRssHyperlink(rssFeed);
+                LinksActions.Items.Add(rssLink);
+                LinksActions.Controls.Add(rssLink);
+            }
+        }
 
-		}
+        private HyperLink CreateAdminRssHyperlink(string rssFeed)
+        {
+            HyperLink rssLink = new HyperLink();
+            rssLink.NavigateUrl = rssFeed;
+            rssLink.Text = "(rss)";
+            return rssLink;
+        }
+        /// <summary>
+        /// Adds a hyperlink to the list of possible actions.
+        /// </summary>
+        /// <param name="link"></param>
+        public void AddToActions(HyperLink link)
+        {
+            AddToActions(link, string.Empty);
+        }
 
-		private HyperLink CreateAdminRssHyperlink(string rssFeed)
-		{
-				HyperLink rssLink = new HyperLink();
-				rssLink.NavigateUrl = rssFeed;
-				rssLink.Text = "(rss)";
-				return rssLink;
-		}
-		/// <summary>
-		/// Adds a hyperlink to the list of possible actions.
-		/// </summary>
-		/// <param name="link"></param>
-		public void AddToActions(HyperLink link)
-		{
-			AddToActions(link, string.Empty);
-		}
+        public void AddToActions(HyperLink link, string rssFeed)
+        {
+            LinksActions.Items.Add(link);
+            if (!String.IsNullOrEmpty(rssFeed))
+            {
+                LinksActions.Items.Add(CreateAdminRssHyperlink(rssFeed));
+            }
+        }
 
-		public void AddToActions(HyperLink link, string rssFeed)
-		{
-			LinksActions.Items.Add(link);
-			if(!String.IsNullOrEmpty(rssFeed))
-			{
-				LinksActions.Items.Add(CreateAdminRssHyperlink(rssFeed));
-			}
-		}
+        /// <summary>
+        /// Clears the actions.
+        /// </summary>
+        public void ClearActions()
+        {
+            LinksActions.Items.Clear();
+        }
 
-		/// <summary>
-		/// Clears the actions.
-		/// </summary>
-		public void ClearActions()
-		{
-			LinksActions.Items.Clear();
-		}
+        /// <summary>
+        /// The title of the page.
+        /// </summary>
+        public string Title
+        {
+            get { return this.Page.Title; }
+            set { this.Page.Title = value; }
+        }
 
-		/// <summary>
-		/// The title of the page.
-		/// </summary>
-		public string Title
-		{
-			get { return this.Page.Title; }
-			set { this.Page.Title = value; }
-		}
+        /// <summary>
+        /// Attaches the logout button event.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnInit(EventArgs e)
+        {
+            this.LogoutLink.Click += OnLogoutClick;
+            base.OnInit(e);
+        }
 
-		/// <summary>
-		/// Attaches the logout button event.
-		/// </summary>
-		/// <param name="e"></param>
-		protected override void OnInit(EventArgs e)
-		{
-			this.LogoutLink.Click += OnLogoutClick;
-			base.OnInit(e);
-		}
-
-		void OnLogoutClick(object sender, EventArgs e)
-		{
-			SecurityHelper.LogOut();
-			HttpContext.Current.Response.Redirect(Url.BlogUrl());
-		}
-	}
+        void OnLogoutClick(object sender, EventArgs e)
+        {
+            SecurityHelper.LogOut();
+            HttpContext.Current.Response.Redirect(Url.BlogUrl());
+        }
+    }
 }

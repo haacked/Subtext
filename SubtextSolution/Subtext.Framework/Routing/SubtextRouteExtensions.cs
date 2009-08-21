@@ -149,5 +149,10 @@ namespace Subtext.Framework.Routing
         {
             routes.Add(new IgnoreRoute(url));
         }
+
+        public static string GetSubfolder(this RouteData routeData) 
+        {
+            return routeData.Values["subfolder"] as string;
+        }
     }
 }

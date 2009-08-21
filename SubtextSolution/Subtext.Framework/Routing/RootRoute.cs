@@ -101,7 +101,7 @@ namespace Subtext.Framework.Routing
             if (routeData != null)
             {
                 routeData.Route = this;
-                if (!String.Equals(blogRequest.Subfolder, routeData.Values["subfolder"] as string, StringComparison.OrdinalIgnoreCase))
+                if (!String.Equals(blogRequest.Subfolder, routeData.GetSubfolder(), StringComparison.OrdinalIgnoreCase))
                 {
                     return null;
                 }
