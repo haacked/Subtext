@@ -3,7 +3,6 @@ using MbUnit.Framework;
 using Moq;
 using Ninject;
 using Subtext.Framework.Routing;
-using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -15,21 +14,24 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
 
             //act
-            routes.Ignore("url");
+            subtextRoutes.Ignore("url");
 
             //assert
             Assert.AreEqual(typeof(IgnoreRoute), routes[0].GetType());
         }
 
         [Test]
-        public void MapControls_WithConstraints_AddsPageRouteWithConstraintsToCollection() { 
+        public void MapControls_WithConstraints_AddsPageRouteWithConstraintsToCollection()
+        {
             //arrange
             var routes = new RouteCollection();
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
 
             //act
-            routes.MapControls("url", new { constraint = "constraintvalue" }, new string[] { "controls" });
+            subtextRoutes.MapControls("url", new { constraint = "constraintvalue" }, new string[] { "controls" });
 
             //assert
             Assert.AreEqual("constraintvalue", ((PageRoute)routes[0]).Constraints["constraint"]);
@@ -40,22 +42,24 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
 
             //act
-            routes.MapControls("url", new string[] { "controls" });
+            subtextRoutes.MapControls("url", new string[] { "controls" });
 
             //assert
             Assert.AreEqual("url", ((PageRoute)routes[0]).Url);
         }
 
         [Test]
-        public void MapSystemDirectory_SetsDirectoryRouteHandlerAndAddsPathInfoToRouteUrl() {
+        public void MapSystemDirectory_SetsDirectoryRouteHandlerAndAddsPathInfoToRouteUrl()
+        {
             //arrange
-            Bootstrapper.Kernel = new Mock<IKernel>().Object;
             var routes = new RouteCollection();
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
 
             //act
-            routes.MapSystemDirectory("install");
+            subtextRoutes.MapSystemDirectory("install");
 
             //assert
             var route = routes[0] as Route;

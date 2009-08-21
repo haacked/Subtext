@@ -13,28 +13,27 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Subtext.Framework.Components;
 using System.Web.Routing;
+using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Routing
 {
     public class AdminUrlHelper
     {
-        public AdminUrlHelper(UrlHelper urlHelper) {
+        public AdminUrlHelper(UrlHelper urlHelper)
+        {
             Url = urlHelper;
         }
 
-        public UrlHelper Url {
+        public UrlHelper Url
+        {
             get;
             private set;
         }
 
-        public VirtualPath Home() {
-            return Url.AdminUrl("default.aspx");
+        public VirtualPath Home()
+        {
+            return Url.AdminUrl("");
         }
 
         public VirtualPath Rss()
@@ -42,11 +41,13 @@ namespace Subtext.Framework.Routing
             return Url.AdminUrl("adminRss.axd");
         }
 
-        public VirtualPath ImportExport() {
+        public VirtualPath ImportExport()
+        {
             return Url.AdminUrl("ImportExport.aspx");
         }
 
-        public VirtualPath PostsList() {
+        public VirtualPath PostsList()
+        {
             return Url.AdminUrl("posts");
         }
 
@@ -58,7 +59,7 @@ namespace Subtext.Framework.Routing
         //TODO: Unit test
         public VirtualPath PostsEdit(int id)
         {
-            return Url.AdminUrl("posts/edit.aspx", new {PostId = id });
+            return Url.AdminUrl("posts/edit.aspx", new { PostId = id });
         }
 
         public VirtualPath ArticlesList()
@@ -115,11 +116,13 @@ namespace Subtext.Framework.Routing
             return Url.AdminUrl("Credits.aspx");
         }
 
-        public VirtualPath EditCategories(CategoryType categoryType) {
-            return Url.AdminUrl("EditCategories.aspx", new {catType = categoryType });
+        public VirtualPath EditCategories(CategoryType categoryType)
+        {
+            return Url.AdminUrl("EditCategories.aspx", new { catType = categoryType });
         }
 
-        public VirtualPath ErrorLog() {
+        public VirtualPath ErrorLog()
+        {
             return Url.AdminUrl("ErrorLog.aspx");
         }
     }

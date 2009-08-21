@@ -21,10 +21,23 @@ using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
-    public class XmlRpcRouteHandler<THandler> : IRouteHandler where THandler : SubtextXmlRpcService {
-        public IHttpHandler GetHttpHandler(RequestContext requestContext) {
+    public class XmlRpcRouteHandler<THandler> : IRouteHandler where THandler : SubtextXmlRpcService
+    {
+        public XmlRpcRouteHandler(IKernel kernel)
+        {
+            Kernel = kernel;
+        }
+
+        protected IKernel Kernel
+        {
+            get;
+            private set;
+        }
+
+        public IHttpHandler GetHttpHandler(RequestContext requestContext)
+        {
             Bootstrapper.RequestContext = requestContext;
-            return Bootstrapper.Kernel.Get<THandler>();
+            return Kernel.Get<THandler>();
         }
     }
 }

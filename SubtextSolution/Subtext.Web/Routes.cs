@@ -14,7 +14,6 @@
 #endregion
 
 using System.Web.Routing;
-using Ninject;
 using Subtext.Framework.ImportExport;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
@@ -28,8 +27,10 @@ using Subtext.Web.Controls.Captcha;
 using Subtext.Web.SiteMap;
 using Subtext.Web.UI.Handlers;
 
-public static class Routes {
-    public static void RegisterRoutes(RouteCollection routes, IKernel kernel) {
+public static class Routes
+{
+    public static void RegisterRoutes(SubtextRouteMapper routes)
+    {
         routes.Ignore("{resource}.axd/{*pathInfo}");
         routes.Ignore("skins/{*pathInfo}");
         routes.MapSystemPage("MainFeed");
@@ -116,8 +117,8 @@ public static class Routes {
         routes.MapXmlRpcHandler<PingBackService>("services/pingback/{id}.aspx", new { id = @"\d+" });
         routes.MapXmlRpcHandler<MetaWeblog>("metaweblogapi", "services/metablogapi.aspx", null);
 
-        routes.Add(new Route("images/IdenticonHandler.ashx", new HttpRouteHandler<IdenticonHandler>(kernel)));
-        routes.Add(new Route("images/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>(kernel)));
+        routes.Add(new Route("images/IdenticonHandler.ashx", new HttpRouteHandler<IdenticonHandler>(routes.Kernel)));
+        routes.Add(new Route("images/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>(routes.Kernel)));
 
         routes.MapRoot();
     }

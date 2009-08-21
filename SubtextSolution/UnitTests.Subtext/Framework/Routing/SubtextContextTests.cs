@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var blog = new Blog();
 
             //act
-            var subtextContext = new SubtextContext(blog, requestContext, urlHelper, objectRepository, null, null);
+            var subtextContext = new SubtextContext(blog, requestContext, urlHelper, objectRepository, null, null, null);
 
             //assert
             Assert.AreEqual(blog, subtextContext.Blog);

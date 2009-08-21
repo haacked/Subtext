@@ -11,7 +11,7 @@ namespace UnitTests.Subtext.Framework.Routing
     [TestFixture]
     public class AdminUrlHelperTests
     {
-        [Test]  
+        [Test]
         public void PostsList_WithBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange
@@ -23,9 +23,9 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.PostsList();
 
             //assert
-            Assert.AreEqual("/sub/admin/posts", url);
+            Assert.AreEqual("/sub/admin/posts/default.aspx", url);
         }
-        
+
         [Test]
         public void PostsEdit_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.ArticlesList();
 
             //assert
-            Assert.AreEqual("/sub/admin/articles", url);
+            Assert.AreEqual("/sub/admin/articles/default.aspx", url);
         }
 
         [Test]
@@ -83,9 +83,9 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.FeedbackList();
 
             //assert
-            Assert.AreEqual("/sub/admin/feedback", url);
+            Assert.AreEqual("/sub/admin/feedback/default.aspx", url);
         }
-        
+
         [Test]
         public void FeedbackEdit_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToFeedbackListPage()
         {
@@ -244,7 +244,8 @@ namespace UnitTests.Subtext.Framework.Routing
         private static AdminUrlHelper SetupUrlHelper(string appPath, RouteData routeData)
         {
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
+            Routes.RegisterRoutes(subtextRoutes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Setup(c => c.Request.ApplicationPath).Returns(appPath);
             httpContext.Setup(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);

@@ -30,112 +30,118 @@ using Subtext.Web.Properties;
 
 namespace Subtext.Web.UI.Controls
 {
-	/// <summary>
-	///	Control used to view a single blog post.
-	/// </summary>
-	public partial class ViewPost : BaseControl
-	{
-		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
+    /// <summary>
+    ///	Control used to view a single blog post.
+    /// </summary>
+    public partial class ViewPost : BaseControl
+    {
+        const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
         const string linkToEnclosure = "<a href=\"{0}\" title = \"{1}\">{2}</a>{3}";
 
-		/// <summary>
-		/// Loads the entry specified by the URL.  If the user is an 
-		/// admin and the skin supports it, will also display an edit 
-		/// link that navigates to the admin section and allows the 
-		/// admin to edit the post.
-		/// </summary>
-		/// <param name="e"></param>
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad (e);
-			
-			//Get the entry
+        /// <summary>
+        /// Loads the entry specified by the URL.  If the user is an 
+        /// admin and the skin supports it, will also display an edit 
+        /// link that navigates to the admin section and allows the 
+        /// admin to edit the post.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            //Get the entry
             Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
-			
-			//if found
-			if(entry != null)
-			{
-				BindCurrentEntryControls(entry, this);
-				
-				DisplayEditLink(entry);
+
+            //if found
+            if (entry != null)
+            {
+                BindCurrentEntryControls(entry, this);
+
+                DisplayEditLink(entry);
 
                 //todo: consider whether we should use an agg bug for web views too.
                 Bootstrapper.RequestContext = SubtextContext.RequestContext;
                 var statistics = Bootstrapper.Kernel.Get<IStatisticsService>();
                 statistics.RecordWebView(new EntryView { EntryId = entry.Id, BlogId = Blog.Id });
 
-				//Set the page title
-				Globals.SetTitle(entry.Title, Context);
+                //Set the page title
+                Globals.SetTitle(entry.Title, Context);
 
-				//Sent entry properties
-				TitleUrl.Text = entry.Title;
-				ControlHelper.SetTitleIfNone(TitleUrl, "Title of this entry.");
-				TitleUrl.NavigateUrl = Url.EntryUrl(entry);
-				Body.Text = entry.Body;
-				if(PostDescription != null)
-				{
+                //Sent entry properties
+                TitleUrl.Text = entry.Title;
+                ControlHelper.SetTitleIfNone(TitleUrl, "Title of this entry.");
+                TitleUrl.NavigateUrl = Url.EntryUrl(entry);
+                Body.Text = entry.Body;
+                if (PostDescription != null)
+                {
                     PostDescription.Text = string.Format(CultureInfo.InvariantCulture, "{0} {1}", entry.DateSyndicated.ToLongDateString(), entry.DateSyndicated.ToShortTimeString());
-				}
+                }
                 Trace.Write("loading categories");
-				if(Categories != null)
-				{
+                if (Categories != null)
+                {
                     Categories.LinkCategories = Links.GetLinkCategoriesByPostID(entry.Id);
                     Categories.DataBind();
-				}
+                }
 
-				if(date != null)
-				{
+                if (date != null)
+                {
                     string entryUrl = Url.EntryUrl(entry);
-					if(date.Attributes["Format"] != null) {
+                    if (date.Attributes["Format"] != null)
+                    {
                         date.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>", entryUrl, entry.DateSyndicated.ToString(date.Attributes["Format"]), Resources.EntryList_PermanentLink);
-						date.Attributes.Remove("Format");
-					}
-					else {
+                        date.Attributes.Remove("Format");
+                    }
+                    else
+                    {
                         date.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>", entryUrl, entry.DateSyndicated.ToString("f"), Resources.EntryList_PermanentLink);
-					}
-				}
+                    }
+                }
 
-				if(commentCount != null)
-				{
-					if(Blog.CommentsEnabled && entry.AllowComments)
-					{
+                if (commentCount != null)
+                {
+                    if (Blog.CommentsEnabled && entry.AllowComments)
+                    {
                         string entryUrl = Url.EntryUrl(entry);
-						if(entry.FeedBackCount == 0) {
-							commentCount.Text = string.Format(linkToComments, entryUrl, Resources.EntryList_AddComment, string.Empty);
-						}
-						else if(entry.FeedBackCount == 1) {
-							commentCount.Text = string.Format(linkToComments, entryUrl, Resources.EntryList_OneComment, string.Empty);
-						}
-						else if(entry.FeedBackCount > 1) {
-							commentCount.Text = string.Format(linkToComments, entryUrl, entry.FeedBackCount, Resources.EntryList_CommentsPlural);
-						}
-					}
-				}
-				
+                        if (entry.FeedBackCount == 0)
+                        {
+                            commentCount.Text = string.Format(linkToComments, entryUrl, Resources.EntryList_AddComment, string.Empty);
+                        }
+                        else if (entry.FeedBackCount == 1)
+                        {
+                            commentCount.Text = string.Format(linkToComments, entryUrl, Resources.EntryList_OneComment, string.Empty);
+                        }
+                        else if (entry.FeedBackCount > 1)
+                        {
+                            commentCount.Text = string.Format(linkToComments, entryUrl, entry.FeedBackCount, Resources.EntryList_CommentsPlural);
+                        }
+                    }
+                }
+
                 BindEnclosure(entry);
 
-				//Set Pingback/Trackback 
-				if(PingBack == null)
-				{
-					PingBack = Page.FindControl("pinbackLinkTag") as Literal;
-				}
-				
-				if(PingBack != null){
-					PingBack.Text = TrackHelpers.GetPingPackTag(Url);
-				}
-				
-				if(TrackBack != null)
-				{
-					TrackBack.Text = TrackHelpers.TrackBackTag(entry, Blog, Url);
-				}
-			}
-			else 
-			{
-				//No post? Deleted? Help :)
-				this.Controls.Clear();
-				this.Controls.Add(new LiteralControl(Resources.ViewPost_EntryNotFound));
-			}
-		}
+                //Set Pingback/Trackback 
+                if (PingBack == null)
+                {
+                    PingBack = Page.FindControl("pinbackLinkTag") as Literal;
+                }
+
+                if (PingBack != null)
+                {
+                    PingBack.Text = TrackHelpers.GetPingPackTag(Url);
+                }
+
+                if (TrackBack != null)
+                {
+                    TrackBack.Text = TrackHelpers.TrackBackTag(entry, Blog, Url);
+                }
+            }
+            else
+            {
+                //No post? Deleted? Help :)
+                this.Controls.Clear();
+                this.Controls.Add(new LiteralControl(Resources.ViewPost_EntryNotFound));
+            }
+        }
 
         private void BindEnclosure(Entry entry)
         {
@@ -155,32 +161,32 @@ namespace Subtext.Web.UI.Controls
             }
         }
 
-		// If the user is an admin AND the the skin 
-		// contains an edit Hyperlink control, this 
-		// will display the edit control.
-		private void DisplayEditLink(Entry entry)
-		{
-			if(editLink != null)
-			{
-				if(SecurityHelper.IsAdmin)
-				{
-					editLink.Visible = true;
+        // If the user is an admin AND the the skin 
+        // contains an edit Hyperlink control, this 
+        // will display the edit control.
+        private void DisplayEditLink(Entry entry)
+        {
+            if (editLink != null)
+            {
+                if (SecurityHelper.IsAdmin)
+                {
+                    editLink.Visible = true;
                     editLink.NavigateUrl = AdminUrl.PostsEdit(entry.Id);
-					ControlHelper.SetTitleIfNone(editLink, Resources.ViewPost_EditThisEntry);
+                    ControlHelper.SetTitleIfNone(editLink, Resources.ViewPost_EditThisEntry);
 
-					if(String.IsNullOrEmpty(editLink.Text) && String.IsNullOrEmpty(editLink.ImageUrl))
-					{
-						//We'll slap on our little pencil icon.
-						editLink.ImageUrl = Url.EditIconUrl();
-					}
-				}
-				else
-				{
-					editLink.Visible = false;
-				}
-			}
-		}
-	}
+                    if (String.IsNullOrEmpty(editLink.Text) && String.IsNullOrEmpty(editLink.ImageUrl))
+                    {
+                        //We'll slap on our little pencil icon.
+                        editLink.ImageUrl = Url.EditIconUrl();
+                    }
+                }
+                else
+                {
+                    editLink.Visible = false;
+                }
+            }
+        }
+    }
 }
 
 

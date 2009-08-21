@@ -2430,7 +2430,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>2732</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2732/</IISUrl>
+          <IISUrl>http://localhost/Subtext.Web</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -9,24 +9,24 @@ using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
-using Subtext.Infrastructure;
 using Subtext.Web;
 
 namespace UnitTests.Subtext.SubtextWeb
 {
     [TestFixture]
-    public class SubtextApplicationTests {
+    public class SubtextApplicationTests
+    {
         [Test]
         public void StartApplication_SetsLogInitializedToFalse()
-        { 
+        {
             // arrange
-            Bootstrapper.Kernel = new Mock<IKernel>().Object;
             var app = new SubtextApplication(null);
             var server = new Mock<HttpServerUtilityBase>();
 
             // act
-            app.StartApplication(new RouteCollection(), Bootstrapper.Kernel, server.Object);
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object), server.Object);
 
             // assert
             Assert.IsFalse(app.LogInitialized);
@@ -36,13 +36,12 @@ namespace UnitTests.Subtext.SubtextWeb
         public void StartApplication_AddsAdminDirectoryToInvalidPaths_IfAdminDirectoryExistsInWrongPlace()
         {
             // arrange
-            Bootstrapper.Kernel = new Mock<IKernel>().Object;
             var app = new SubtextApplication(null);
             var server = new Mock<HttpServerUtilityBase>();
             server.Setup(s => s.MapPath("~/Admin")).Returns(Directory.CreateDirectory("Admin").FullName);
 
             // act
-            app.StartApplication(new RouteCollection(), Bootstrapper.Kernel, server.Object);
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object), server.Object);
 
             // assert
             Assert.AreEqual("~/Admin", app.DeprecatedPhysicalPaths[0]);
@@ -52,16 +51,16 @@ namespace UnitTests.Subtext.SubtextWeb
         public void StartApplication_AddsLoginFileToInvalidPaths_IfLoginFileExistsInWrongPlace()
         {
             // arrange
-            Bootstrapper.Kernel = new Mock<IKernel>().Object;
             var app = new SubtextApplication(null);
             var server = new Mock<HttpServerUtilityBase>();
-            using(var writer = File.CreateText("login.aspx")){
+            using (var writer = File.CreateText("login.aspx"))
+            {
                 writer.Write("test");
             }
             server.Setup(s => s.MapPath("~/login.aspx")).Returns(Path.GetFullPath("login.aspx"));
 
             // act
-            app.StartApplication(new RouteCollection(), Bootstrapper.Kernel, server.Object);
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object), server.Object);
 
             // assert
             Assert.AreEqual("~/login.aspx", app.DeprecatedPhysicalPaths[0]);
@@ -71,13 +70,12 @@ namespace UnitTests.Subtext.SubtextWeb
         public void StartApplication_AddsHostAdminDirectoryToInvalidPaths_IfHostAdminDirectoryExistsInWrongPlace()
         {
             // arrange
-            Bootstrapper.Kernel = new Mock<IKernel>().Object;
             var app = new SubtextApplication(null);
             var server = new Mock<HttpServerUtilityBase>();
             server.Setup(s => s.MapPath("~/HostAdmin")).Returns(Directory.CreateDirectory("HostAdmin").FullName);
 
             // act
-            app.StartApplication(new RouteCollection(), Bootstrapper.Kernel, server.Object);
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object), server.Object);
 
             // assert
             Assert.AreEqual("~/HostAdmin", app.DeprecatedPhysicalPaths[0]);
@@ -87,7 +85,6 @@ namespace UnitTests.Subtext.SubtextWeb
         public void BeginApplicationRequest_LogsThatTheApplicationHasStartedAndSetsLogInitializedTrue()
         {
             // arrange
-            Bootstrapper.Kernel = new Mock<IKernel>().Object;
             var app = new SubtextApplication(null);
             Assert.IsFalse(app.LogInitialized);
             var log = new Mock<ILog>();
@@ -106,12 +103,11 @@ namespace UnitTests.Subtext.SubtextWeb
         public void BeginApplicationRequest_WithOldAdminDirectory_ThrowsDeprecatedFileExistsException()
         {
             // arrange
-            Bootstrapper.Kernel = new Mock<IKernel>().Object;
             var app = new SubtextApplication(null);
             var server = new Mock<HttpServerUtilityBase>();
             server.Setup(s => s.MapPath("~/Admin")).Returns(Directory.CreateDirectory("Admin").FullName);
-            app.StartApplication(new RouteCollection(), Bootstrapper.Kernel, server.Object);
-            
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object), server.Object);
+
             // act, assert
             var exception = UnitTestHelper.AssertThrows<DeprecatedPhysicalPathsException>(() =>
                 app.BeginApplicationRequest(new Mock<ILog>().Object));
@@ -165,7 +161,7 @@ namespace UnitTests.Subtext.SubtextWeb
             var app = new SubtextApplication(null);
             var log = new Mock<ILog>();
             string logMessage = null;
-            log.Setup(l => l.Error(It.IsAny<object>(), It.IsAny<Exception>())).Callback<object, Exception>((s,e) => logMessage = s.ToString());
+            log.Setup(l => l.Error(It.IsAny<object>(), It.IsAny<Exception>())).Callback<object, Exception>((s, e) => logMessage = s.ToString());
 
             // act
             SubtextApplication.HandleUnhandledException(new Exception(), null, false /* customErrorEnabled */, log.Object);
@@ -191,7 +187,8 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [Test]
-        public void LogIfCommentException_LogsCommentException() {
+        public void LogIfCommentException_LogsCommentException()
+        {
             // arrange
             var exception = new CommentDuplicateException();
             var log = new Mock<ILog>();
@@ -236,11 +233,11 @@ namespace UnitTests.Subtext.SubtextWeb
         public void HandleDeprecatedFilePathsException_WithDepecatedPhysicalPathsException_ReturnsFalse()
         {
             // arrange
-            var exception = new DeprecatedPhysicalPathsException(new string[]{"~/Admin"});
+            var exception = new DeprecatedPhysicalPathsException(new string[] { "~/Admin" });
             var log = new Mock<ILog>();
             var server = new Mock<HttpServerUtilityBase>();
             string transferLocation = null;
-            server.Setup(s => s.Execute(It.IsAny<string>(), false)).Callback<string, bool>((s,b) => transferLocation = s);
+            server.Setup(s => s.Execute(It.IsAny<string>(), false)).Callback<string, bool>((s, b) => transferLocation = s);
             var application = new Mock<SubtextApplication>();
             application.Setup(a => a.FinishRequest());
 
@@ -253,7 +250,8 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [Test]
-        public void HandleSqlException_ReturnsFalseForNonSqlException() {
+        public void HandleSqlException_ReturnsFalseForNonSqlException()
+        {
             // arrange
             var exception = new Exception();
 
@@ -272,7 +270,7 @@ namespace UnitTests.Subtext.SubtextWeb
             var server = new Mock<HttpServerUtilityBase>();
             string transferLocation = null;
             server.Setup(s => s.Transfer(It.IsAny<string>())).Callback<string>(s => transferLocation = s);
-            
+
             // act
             var handled = SubtextApplication.HandleSqlExceptionNumber((int)SqlErrorMessage.SqlServerDoesNotExistOrAccessDenied, "", server.Object);
 
@@ -300,7 +298,7 @@ namespace UnitTests.Subtext.SubtextWeb
 
         [Test]
         public void HandleRequestLocationException_HandlesInstallationRequired()
-        { 
+        {
             // arrange
             var exception = new BlogDoesNotExistException(1);
             var response = new Mock<HttpResponseBase>();
@@ -388,13 +386,14 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [Test]
-        public void HandleBadConnectionStringException_WithInvalidOperationExceptionMentioningConnectionString_TransfersToBadConnectionStringPage() { 
+        public void HandleBadConnectionStringException_WithInvalidOperationExceptionMentioningConnectionString_TransfersToBadConnectionStringPage()
+        {
             // arrange
             var exception = new InvalidOperationException("No ConnectionString Found");
             var server = new Mock<HttpServerUtilityBase>();
             string transferLocation = null;
             server.Setup(s => s.Transfer(It.IsAny<string>())).Callback<string>(s => transferLocation = s);
-            
+
             // act
             bool handled = SubtextApplication.HandleBadConnectionStringException(exception, server.Object);
 
@@ -483,7 +482,8 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [SetUp]
-        public void SetUp() {
+        public void SetUp()
+        {
             CleanupDirectories();
         }
 

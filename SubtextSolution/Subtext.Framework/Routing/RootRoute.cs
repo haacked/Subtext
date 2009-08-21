@@ -4,7 +4,6 @@ using System.Web;
 using System.Web.Routing;
 using Ninject;
 using Subtext.Framework.Web.HttpModules;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
@@ -15,78 +14,97 @@ namespace Subtext.Framework.Routing
         Route _subfolderAppRootRoute = null;
         Route _subfolderDefaultRoute = null;
 
-        public RootRoute(bool blogAggregationEnabled) : this(blogAggregationEnabled, null, null) { 
+        public RootRoute(bool blogAggregationEnabled, IKernel kernel)
+            : this(blogAggregationEnabled, null, null, kernel)
+        {
         }
 
-        public RootRoute(bool blogAggregationEnabled, IRouteHandler normalRouteHandler, IRouteHandler aggRouteHandler) {
+        public RootRoute(bool blogAggregationEnabled, IRouteHandler normalRouteHandler, IRouteHandler aggRouteHandler, IKernel kernel)
+        {
             BlogAggregationEnabled = blogAggregationEnabled;
-            NormalRouteHandler = normalRouteHandler ?? new PageRouteHandler("~/pages/Dtp.aspx", Bootstrapper.Kernel.Get<ISubtextPageBuilder>());
-            AggregateRouteHandler = aggRouteHandler ?? new PageRouteHandler("~/pages/AggDefault.aspx", Bootstrapper.Kernel.Get<ISubtextPageBuilder>());
+            NormalRouteHandler = normalRouteHandler ?? new PageRouteHandler("~/pages/Dtp.aspx", kernel.Get<ISubtextPageBuilder>(), kernel);
+            AggregateRouteHandler = aggRouteHandler ?? new PageRouteHandler("~/pages/AggDefault.aspx", kernel.Get<ISubtextPageBuilder>(), kernel);
         }
 
-        protected bool BlogAggregationEnabled {
+        protected bool BlogAggregationEnabled
+        {
             get;
             private set;
         }
 
-        private IRouteHandler GetHandler() {
+        private IRouteHandler GetHandler()
+        {
             return BlogAggregationEnabled ? AggregateRouteHandler : NormalRouteHandler;
         }
 
-        private Route SubfolderDefaultRoute {
-            get {
-                if (_subfolderDefaultRoute == null) {
+        private Route SubfolderDefaultRoute
+        {
+            get
+            {
+                if (_subfolderDefaultRoute == null)
+                {
                     _subfolderDefaultRoute = new Route("{subfolder}/default.aspx", NormalRouteHandler) { DataTokens = new RouteValueDictionary { { PageRoute.ControlNamesKey, new[] { "homepage" }.AsEnumerable() } } };
                 }
                 return _subfolderDefaultRoute;
             }
         }
 
-        private Route SubfolderAppRootRoute {
-            get {
-                if (_subfolderAppRootRoute == null) {
+        private Route SubfolderAppRootRoute
+        {
+            get
+            {
+                if (_subfolderAppRootRoute == null)
+                {
                     _subfolderAppRootRoute = new Route("{subfolder}", NormalRouteHandler) { DataTokens = new RouteValueDictionary { { PageRoute.ControlNamesKey, new[] { "homepage" }.AsEnumerable() } } };
                 }
                 return _subfolderAppRootRoute;
             }
         }
 
-        public IRouteHandler AggregateRouteHandler {
-            get;
-            private set;
-        }
-        
-        public IRouteHandler NormalRouteHandler {
+        public IRouteHandler AggregateRouteHandler
+        {
             get;
             private set;
         }
 
-        public override RouteData GetRouteData(HttpContextBase httpContext) {
+        public IRouteHandler NormalRouteHandler
+        {
+            get;
+            private set;
+        }
+
+        public override RouteData GetRouteData(HttpContextBase httpContext)
+        {
             string appExecutionPath = httpContext.Request.AppRelativeCurrentExecutionFilePath;
 
             if (appExecutionPath == "~/" || String.Equals(appExecutionPath, "~/default.aspx", StringComparison.OrdinalIgnoreCase))
             {
-                var appRootRouteData = new RouteData {
+                var appRootRouteData = new RouteData
+                {
                     Route = this,
-                    RouteHandler = GetHandler(), 
+                    RouteHandler = GetHandler(),
                 };
-                if (!BlogAggregationEnabled) {
+                if (!BlogAggregationEnabled)
+                {
                     appRootRouteData.DataTokens.Add(PageRoute.ControlNamesKey, new[] { "homepage" }.AsEnumerable());
                 }
                 return appRootRouteData;
             }
 
             var blogRequest = httpContext.Items[BlogRequest.BlogRequestKey] as BlogRequest;
-            if (blogRequest == null || String.IsNullOrEmpty(blogRequest.Subfolder)) {
+            if (blogRequest == null || String.IsNullOrEmpty(blogRequest.Subfolder))
+            {
                 return null;
             }
 
             var routeData = SubfolderAppRootRoute.GetRouteData(httpContext) ?? SubfolderDefaultRoute.GetRouteData(httpContext);
-            if (routeData != null) {
+            if (routeData != null)
+            {
                 routeData.Route = this;
-                if (!String.Equals(blogRequest.Subfolder, routeData.Values["subfolder"] as string, StringComparison.OrdinalIgnoreCase)) {
+                if (!String.Equals(blogRequest.Subfolder, routeData.Values["subfolder"] as string, StringComparison.OrdinalIgnoreCase))
+                {
                     return null;
-                } 
+                }
             }
             return routeData;
         }
@@ -94,19 +112,22 @@ namespace Subtext.Framework.Routing
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
             object subfolderValue = null;
-            if (!values.TryGetValue("subfolder", out subfolderValue)) {
+            if (!values.TryGetValue("subfolder", out subfolderValue))
+            {
                 requestContext.RouteData.Values.TryGetValue("subfolder", out subfolderValue);
             }
 
             string subfolder = subfolderValue as string;
 
-            if (!String.IsNullOrEmpty(subfolder)) {
-                var vpd = SubfolderAppRootRoute.GetVirtualPath(requestContext, new RouteValueDictionary(new { subfolder = subfolder}));
+            if (!String.IsNullOrEmpty(subfolder))
+            {
+                var vpd = SubfolderAppRootRoute.GetVirtualPath(requestContext, new RouteValueDictionary(new { subfolder = subfolder }));
                 vpd.Route = this;
                 return vpd;
             }
 
-            if (values.Count == 0) {
+            if (values.Count == 0)
+            {
                 return new VirtualPathData(this, string.Empty);
             }
             return null;
