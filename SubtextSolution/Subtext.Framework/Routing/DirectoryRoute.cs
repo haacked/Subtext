@@ -14,7 +14,6 @@
 #endregion
 
 using Ninject;
-using System.Web.Routing;
 using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
@@ -24,12 +23,13 @@ namespace Subtext.Framework.Routing
         public DirectoryRoute(string directoryName) :
             base(directoryName + "/{*pathInfo}", new DirectoryRouteHandler(Bootstrapper.Kernel.Get<ISubtextPageBuilder>()))
         {
-                this.DirectoryName = directoryName;
+            this.DirectoryName = directoryName;
         }
 
-        public string DirectoryName { 
-            get; 
-            private set; 
+        public string DirectoryName
+        {
+            get;
+            private set;
         }
     }
 }

@@ -782,7 +782,7 @@ namespace UnitTests.Subtext.Framework.Routing
         private static UrlHelper SetupUrlHelper(string appPath, RouteData routeData)
         {
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Setup(c => c.Request.ApplicationPath).Returns(appPath);
             httpContext.Setup(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);

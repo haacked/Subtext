@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
-using Ninject;
-using Ninject.Activation;
-using Ninject.Parameters;
-using Ninject.Planning.Bindings;
 using Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Routing
@@ -16,16 +11,12 @@ namespace UnitTests.Subtext.Framework.Routing
     public class HttpRouteHandlerTests
     {
         [Test]
-        public void RouteHandler_ConstructedWithType_InstantiatesNewHandlerEveryTime() 
+        public void RouteHandler_ConstructedWithType_InstantiatesNewHandlerEveryTime()
         {
             // arrange
-            var request = new Mock<IRequest>();
-            var kernel = new Mock<IKernel>();
-            kernel.Setup(k => k.CreateRequest(It.IsAny<Type>(), It.IsAny<Func<IBindingMetadata, bool>>(), It.IsAny<IEnumerable<IParameter>>(), It.IsAny<bool>())).Returns(request.Object);
-            kernel.Setup(k => k.Resolve(It.IsAny<IRequest>())).Returns(() => new [] {new FakeHttpHandler()});
-
+            var kernel = UnitTestHelper.MockKernel(() => new[]{ new FakeHttpHandler()});
             var requestContext = new RequestContext(new Mock<HttpContextBase>().Object, new RouteData());
-            IRouteHandler routeHandler = new HttpRouteHandler<FakeHttpHandler>(kernel.Object);
+            IRouteHandler routeHandler = new HttpRouteHandler<FakeHttpHandler>(kernel);
 
             // act
             var returnedHandler = routeHandler.GetHttpHandler(requestContext);

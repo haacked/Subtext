@@ -7,7 +7,6 @@ using MbUnit.Framework;
 using Moq;
 using Ninject;
 using Subtext.Framework.Routing;
-using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -19,7 +18,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/admin/foo.aspx", "subfolder");
 
@@ -37,7 +36,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/admin/foo.aspx", "not-subfolder");
 
@@ -52,7 +51,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RequestWithSubfolder_ForAdminDirectory_UsesDirectoryRouteHandler() {
             //arrange
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/admin/foo.aspx", "subfolder");
 
@@ -70,7 +69,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/providers/foo.aspx");
 
@@ -87,7 +86,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void Request_ForBlogPost_ContainsControlsForBlogPost() {
             //arrange
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/2008/12/10/blog-post.aspx");
 
@@ -107,7 +106,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/2008/1/10/blog-post.aspx");
 
@@ -123,7 +122,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/archive/2008/12/10/blog-post.aspx", "subfolder");
 
@@ -150,7 +149,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void Request_ForDirectHttpHandlers_Matches(string url, string subfolder) {
             //arrange
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest(url, subfolder);
 
@@ -166,7 +165,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/comments/123.aspx", "subfolder");
 
@@ -185,7 +184,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/aggbug/123.aspx", "subfolder");
 
@@ -203,7 +202,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RequestWithSubfolderForInstallDirectory_DoesNotMatch() {
             //arrange
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/install/default.aspx", "subfolder");
 
@@ -218,7 +217,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RequestWithoutSubfolderForInstallDirectory_Matches() {
             //arrange
             var routes = new RouteCollection();
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/install/default.aspx", "");
 
@@ -227,11 +226,6 @@ namespace UnitTests.Subtext.Framework.Routing
 
             //assert.
             Assert.IsNotNull(routeData);
-        }
-
-        [SetUp]
-        public void SetUp() {
-            Bootstrapper.Kernel = new Mock<IKernel>().Object;
         }
     }
 }

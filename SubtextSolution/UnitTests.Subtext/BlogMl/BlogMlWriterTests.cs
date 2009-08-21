@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Xml;
-using MbUnit.Framework;
 using BlogML.Xml;
-using Rhino.Mocks;
+using MbUnit.Framework;
+using Moq;
 using Subtext.BlogML;
 using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
@@ -21,36 +21,32 @@ namespace UnitTests.Subtext.BlogML
 	public class BlogMlWriterTests
 	{
 		[Test]
-		[ExpectedArgumentNullException]
 		public void CreateRequiresProvider()
 		{
-			BlogMLWriter.Create(null);
+            UnitTestHelper.AssertThrows<ArgumentNullException>(() => BlogMLWriter.Create(null));
 		}
 
 		[Test]
-		[ExpectedException(typeof(InvalidOperationException))]
 		public void CreateRequiresContext()
 		{
-			MockRepository mocks = new MockRepository();
-			IBlogMLProvider provider = (IBlogMLProvider)mocks.DynamicMock(typeof(IBlogMLProvider));
-			mocks.ReplayAll();
-			BlogMLWriter.Create(provider);
-			mocks.VerifyAll();
+			var provider = new Mock<IBlogMLProvider>();
+            UnitTestHelper.AssertThrows<InvalidOperationException>(() => BlogMLWriter.Create(provider.Object));
 		}
 		
 		[Test]
 		public void CreateWithProperContextReturnsWriter()
 		{
+            // arrange
 			BlogMLContext context = new BlogMLContext("8675309", false);
+			var provider = new Mock<IBlogMLProvider>();
+            provider.Setup(p => p.GetBlogMLContext()).Returns(context);
+			provider.Setup(p => p.IdConversion).Returns(IdConversionStrategy.Empty);
+
+			// act
+            BlogMLWriter writer = BlogMLWriter.Create(provider.Object);
 			
-			MockRepository mocks = new MockRepository();
-			IBlogMLProvider provider = (IBlogMLProvider)mocks.CreateMock(typeof(IBlogMLProvider));
-			Expect.Call(provider.GetBlogMLContext()).Return(context);
-			Expect.Call(provider.IdConversion).Return(IdConversionStrategy.Empty);
-			mocks.ReplayAll();
-			BlogMLWriter writer = BlogMLWriter.Create(provider);
-			Assert.IsNotNull(writer);
-			mocks.VerifyAll();
+            // assert
+            Assert.IsNotNull(writer);
 		}
 		
 		[Test]
@@ -91,27 +87,23 @@ namespace UnitTests.Subtext.BlogML
 			#endregion
 
 			//Now setup expectations.
-			MockRepository mocks = new MockRepository();
-			IBlogMLProvider provider = (IBlogMLProvider)mocks.CreateMock(typeof(IBlogMLProvider));
-			Expect.Call(provider.GetBlogMLContext()).Return(context);
-			Expect.Call(provider.IdConversion).Return(IdConversionStrategy.Empty);
-			Expect.Call(provider.GetBlog(blogId)).Return(blog);
-			Expect.Call(provider.GetAllCategories(blogId)).Return(categories);
-			Expect.Call(provider.PageSize).Return(pageSize);
-			Expect.Call(provider.GetBlogPosts(blogId, 0, pageSize)).Return(firstPage);
-			Expect.Call(provider.GetBlogPosts(blogId, 1, pageSize)).Return(secondPage);
-			mocks.ReplayAll();
+			var provider = new Mock<IBlogMLProvider>();
+			provider.Setup(p => p.GetBlogMLContext()).Returns(context);
+            provider.Setup(p => p.IdConversion).Returns(IdConversionStrategy.Empty);
+            provider.Setup(p => p.GetBlog(blogId)).Returns(blog);
+			provider.Setup(p => p.GetAllCategories(blogId)).Returns(categories);
+			provider.Setup(p => p.PageSize).Returns(pageSize);
+			provider.Setup(p => p.GetBlogPosts(blogId, 0, pageSize)).Returns(firstPage);
+            provider.Setup(p => p.GetBlogPosts(blogId, 1, pageSize)).Returns(secondPage);
 
 			//TODO: simplify when BlogML bug is fixed.
 			StringBuilder builder = new StringBuilder();
 			StringWriter stringWriter = new StringWriter(builder);
 			XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
 
-			BlogMLWriter writer = BlogMLWriter.Create(provider);
+			BlogMLWriter writer = BlogMLWriter.Create(provider.Object);
 			writer.Write(xmlWriter);
 
-			mocks.VerifyAll();
-		
 			//Verify blog.
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(builder.ToString());
@@ -191,26 +183,22 @@ namespace UnitTests.Subtext.BlogML
 			#endregion
 
 			//Now setup expectations.
-			MockRepository mocks = new MockRepository();
-			IBlogMLProvider provider = (IBlogMLProvider)mocks.CreateMock(typeof(IBlogMLProvider));
-			Expect.Call(provider.GetBlogMLContext()).Return(context);
-			Expect.Call(provider.IdConversion).Return(conversion);
-			Expect.Call(provider.GetBlog(blogId)).Return(blog);
-			Expect.Call(provider.GetAllCategories(blogId)).Return(categories);
-			Expect.Call(provider.PageSize).Return(pageSize);
-			Expect.Call(provider.GetBlogPosts(blogId, 0, pageSize)).Return(firstPage);
-			Expect.Call(provider.GetBlogPosts(blogId, 1, pageSize)).Return(secondPage);
-			mocks.ReplayAll();
+            var provider = new Mock<IBlogMLProvider>();
+            provider.Setup(p => p.GetBlogMLContext()).Returns(context);
+            provider.Setup(p => p.IdConversion).Returns(conversion);
+            provider.Setup(p => p.GetBlog(blogId)).Returns(blog);
+            provider.Setup(p => p.GetAllCategories(blogId)).Returns(categories);
+            provider.Setup(p => p.PageSize).Returns(pageSize);
+            provider.Setup(p => p.GetBlogPosts(blogId, 0, pageSize)).Returns(firstPage);
+            provider.Setup(p => p.GetBlogPosts(blogId, 1, pageSize)).Returns(secondPage);
 
 			//TODO: simplify when BlogML bug is fixed.
 			StringBuilder builder = new StringBuilder();
 			StringWriter stringWriter = new StringWriter(builder);
 			XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
 
-			BlogMLWriter writer = BlogMLWriter.Create(provider);
+			BlogMLWriter writer = BlogMLWriter.Create(provider.Object);
 			writer.Write(xmlWriter);
-
-			mocks.VerifyAll();
 
 			//Verify blog.
 			XmlDocument doc = new XmlDocument();
@@ -240,7 +228,7 @@ namespace UnitTests.Subtext.BlogML
 		/// <summary>
 		/// We expect this test to convert ids to ints.
 		/// </summary>
-		[Test]
+		[Test, Ignore("Need to implement")]
 		public void WritesProperBlogMlUsingIntStrategy()
 		{
 

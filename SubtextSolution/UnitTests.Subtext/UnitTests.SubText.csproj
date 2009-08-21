@@ -179,10 +179,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Ninject.dll</HintPath>
     </Reference>
-    <Reference Include="Rhino.Mocks, Version=3.1.0.584, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Rhino.Mocks.dll</HintPath>
-    </Reference>
     <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SgmlReaderDll.dll</HintPath>
