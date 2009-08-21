@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using MbUnit.Framework;
-using Rhino.Mocks;
+using Moq;
 using Subtext.BlogML;
 using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
@@ -19,45 +19,44 @@ namespace UnitTests.Subtext.BlogML
 		}
 
 		[Test]
-		[ExpectedArgumentNullException]
 		public void ReadBlogWithNullStreamThrowsException()
 		{
-			MockRepository mocks = new MockRepository();
-			IBlogMLProvider provider = (IBlogMLProvider)mocks.CreateMock(typeof(IBlogMLProvider));
-			mocks.ReplayAll();
-			BlogMLReader reader = BlogMLReader.Create(provider);
-			reader.ReadBlog(null);
-			mocks.VerifyAll();
+            // arrange
+			var provider = new Mock<IBlogMLProvider>();
+			BlogMLReader reader = BlogMLReader.Create(provider.Object);
+			
+            // act, assert
+            UnitTestHelper.AssertThrows<ArgumentNullException>(() => reader.ReadBlog(null));
 		}
 		
 		[Test]
 		public void CanCreateReaderWithProvider()
 		{
-			MockRepository mocks = new MockRepository();
-			IBlogMLProvider provider = (IBlogMLProvider)mocks.CreateMock(typeof(IBlogMLProvider));
-			mocks.ReplayAll();
-			BlogMLReader.Create(provider);
-			mocks.VerifyAll();
+            var provider = new Mock<IBlogMLProvider>(); 
+            BlogMLReader.Create(provider.Object);
 		}
 
 		[Test]
 		public void ImportCallsPreAndCompleteMethods()
 		{
-			MockRepository mocks = new MockRepository();
-			IBlogMLProvider provider = (IBlogMLProvider)mocks.DynamicMock(typeof(IBlogMLProvider));
-			provider.PreImport();
-			LastCall.On(provider).IgnoreArguments();
-			SetupResult.For(provider.IdConversion).Return(IdConversionStrategy.Empty);
-			provider.ImportComplete();
-			LastCall.On(provider).IgnoreArguments();
+            // arrange
+            var provider = new Mock<IBlogMLProvider>();
+            bool preImportCalled = false;
+            bool importCompleteCalled = false;
+            provider.Setup(p => p.PreImport()).Callback(() => preImportCalled = true);
+			provider.Setup(p => p.IdConversion).Returns(IdConversionStrategy.Empty);
+            provider.Setup(p => p.ImportComplete()).Callback(() => importCompleteCalled = true);
+			BlogMLReader reader = BlogMLReader.Create(provider.Object);
 			
-			mocks.ReplayAll();
-			BlogMLReader reader = BlogMLReader.Create(provider);
-			using (Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml"))
+            // act
+            using (Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml"))
 			{
 				reader.ReadBlog(stream);
 			}
-			mocks.VerifyAll();
+
+            //assert
+            Assert.IsTrue(preImportCalled);
+            Assert.IsTrue(importCompleteCalled);
 		}
 	}
 }

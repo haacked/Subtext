@@ -35,7 +35,9 @@ using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
 using Moq;
 using Ninject;
-using Rhino.Mocks;
+using Ninject.Activation;
+using Ninject.Parameters;
+using Ninject.Planning.Bindings;
 using Subtext.Configuration;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -930,21 +932,13 @@ namespace UnitTests.Subtext
             }
         }
 
-		public static void SetCurrentPrincipalRoles(MockRepository mocks, out IPrincipal principal, params string[] roles)
+		public static IPrincipal MockPrincipalWithRoles(params string[] roles)
 		{
-			using (mocks.Record())
-			{
-				
-				IIdentity identity = mocks.CreateMock<IIdentity>();
-				SetupResult.For(identity.IsAuthenticated).Return(true);
-				IPrincipal user = mocks.CreateMock<IPrincipal>();
-				SetupResult.For(user.Identity).Return(identity);
-				Array.ForEach(roles, delegate(string role)
-             	{
-					SetupResult.For(user.IsInRole(role)).Return(true);		
-             	});
-				principal = user;
-			}
+            var principal = new Mock<IPrincipal>();
+			principal.Setup(p => p.Identity.IsAuthenticated).Returns(true);
+            principal.Setup(p => p.Identity.Name).Returns("Username");
+			Array.ForEach(roles, role => principal.Setup(p => p.IsInRole(role)).Returns(true));		
+			return principal.Object;
 		}
 
 	    public static void AssertEnclosures(Enclosure expected, Enclosure result)
@@ -1104,7 +1098,7 @@ namespace UnitTests.Subtext
             var routes = new RouteCollection();
             Bootstrapper.RequestContext = requestContext;
             Bootstrapper.Kernel = new Mock<IKernel>().Object;
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, new Mock<IKernel>().Object);
             var urlHelper = new UrlHelper(requestContext, routes);
             var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper, ObjectProvider.Instance(), requestContext.HttpContext.User, new SubtextCache(requestContext.HttpContext.Cache));
             var entryPublisher = CreateEntryPublisher(subtextContext);
@@ -1127,6 +1121,15 @@ namespace UnitTests.Subtext
             writer.Flush();
             stream.Position = 0;
             return stream;
+        }
+
+        public static IKernel MockKernel(Func<IEnumerable<object>> returnFunc)
+        {
+            var request = new Mock<IRequest>();
+            var kernel = new Mock<IKernel>();
+            kernel.Setup(k => k.CreateRequest(It.IsAny<Type>(), It.IsAny<Func<IBindingMetadata, bool>>(), It.IsAny<IEnumerable<IParameter>>(), It.IsAny<bool>())).Returns(request.Object);
+            kernel.Setup(k => k.Resolve(It.IsAny<IRequest>())).Returns(returnFunc);
+            return kernel.Object;
         }
 	}
 }

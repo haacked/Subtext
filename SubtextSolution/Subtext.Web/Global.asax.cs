@@ -74,7 +74,7 @@ namespace Subtext.Web
 
         public virtual void StartApplication(RouteCollection routes, IKernel kernel, HttpServerUtilityBase server)
         {
-            Routes.RegisterRoutes(routes);
+            Routes.RegisterRoutes(routes, kernel);
             var factory = new SubtextControllerFactory(kernel);
             ControllerBuilder.Current.SetControllerFactory(factory);
 

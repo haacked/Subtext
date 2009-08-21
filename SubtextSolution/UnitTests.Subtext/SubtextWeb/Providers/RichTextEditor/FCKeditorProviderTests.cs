@@ -16,12 +16,11 @@
 using System;
 using System.Security.Principal;
 using System.Threading;
-using MbUnit.Framework;
 using System.Web.UI.WebControls;
-using Rhino.Mocks;
+using MbUnit.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Providers.BlogEntryEditor.FCKeditor;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Providers.BlogEntryEditor.FCKeditor;
 
 namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 {
@@ -33,16 +32,13 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 	{
         string _hostName;
 		FckBlogEntryEditorProvider frtep;
-		readonly MockRepository mocks = new MockRepository();
 
 		[SetUp]
 		public void SetUp()
 		{
             _hostName = UnitTestHelper.GenerateUniqueHostname();
 
-			IPrincipal principal;
-			UnitTestHelper.SetCurrentPrincipalRoles(mocks, out principal, "Admins");
-			mocks.ReplayAll();
+			IPrincipal principal = UnitTestHelper.MockPrincipalWithRoles("Admins");
 			Thread.CurrentPrincipal = principal;
 			frtep = new FckBlogEntryEditorProvider();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "Subtext.Web");
@@ -52,7 +48,6 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void TearDown()
 		{
 			Thread.CurrentPrincipal = null;
-			mocks.VerifyAll();
 		}
 
 		[Test]
