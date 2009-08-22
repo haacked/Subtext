@@ -1,12 +1,3 @@
-using System;
-using System.Globalization;
-using System.Web.UI.WebControls;
-using Subtext.Framework;
-using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
-using Image=Subtext.Framework.Components.Image;
-
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
@@ -22,44 +13,39 @@ using Image=Subtext.Framework.Components.Image;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
+using System.Globalization;
+using System.Web.UI.WebControls;
+using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
+using Subtext.Framework.Routing;
+using Image=Subtext.Framework.Components.Image;
+using System.Web;
+
 namespace Subtext.Web.UI.Controls
 {
     /// <summary>
 	///		Summary description for GalleryThumbNailViewer.
 	/// </summary>
-	public class GalleryThumbNailViewer : BaseControl
+	public partial class GalleryThumbNailViewer : BaseControl
 	{
-		protected Literal GalleryTitle;
-		protected DataList ThumbNails;
-		protected Literal Description;
-
-		private string baseImagePath;
-
-		protected string BaseImagePath
-		{
-			get 
-			{
-				return baseImagePath;
-			}
-		}
-
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
 			// Put user code to initialize the page here
 			if(Context != null)
 			{
-				int categoryId;
-                int.TryParse((string)RouteValues["id"], out categoryId);
-				baseImagePath = Images.GalleryVirtualUrl(categoryId);
+                int categoryId = RouteValues.GetId();
 
-				ImageCollection ic = Images.GetImagesByCategoryID(categoryId, true);
+                ImageCollection ic = Repository.GetImagesByCategoryID(categoryId, true /* activeOnly */);
 				if(ic != null)
 				{
 					GalleryTitle.Text = ic.Category.Title;
 					if(ic.Category.HasDescription)
 					{
-						Description.Text = string.Format(CultureInfo.InvariantCulture, "{0}",ic.Category.Description);
+						Description.Text = string.Format(CultureInfo.InvariantCulture, "{0}", HttpUtility.HtmlEncode(ic.Category.Description));
 					}
 					ThumbNails.DataSource = ic;
 					ThumbNails.DataBind();
@@ -74,11 +60,12 @@ namespace Subtext.Web.UI.Controls
 				Image image = (Image)e.Item.DataItem;
 				if(image != null)
 				{
+                    image.Blog = Blog;
 					HyperLink ThumbNailImage = (HyperLink)e.Item.FindControl("ThumbNailImage");
 					if(ThumbNailImage != null)
 					{
-						ThumbNailImage.ImageUrl = BaseImagePath + image.ThumbNailFile;
-						ThumbNailImage.NavigateUrl = Url.ImageUrl(image);
+						ThumbNailImage.ImageUrl = Url.ImageUrl(image, image.ThumbNailFile);
+						ThumbNailImage.NavigateUrl = Url.GalleryImageUrl(image);
 						ThumbNailImage.ToolTip = image.Title;
 					}
 				}

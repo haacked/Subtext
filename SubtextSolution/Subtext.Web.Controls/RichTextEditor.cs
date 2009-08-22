@@ -17,6 +17,7 @@ using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.Controls
 {
@@ -94,9 +95,9 @@ namespace Subtext.Web.Controls
 		{
 			try 
 			{
-				provider=BlogEntryEditorProvider.Instance();
-				provider.ControlId=this.ID;
-				provider.InitializeControl();
+				provider = BlogEntryEditorProvider.Instance();
+				provider.ControlId = this.ID;
+				provider.InitializeControl((Page as SubtextPage).SubtextContext);
 				
 				if(_height != Unit.Empty)
 					provider.Height = _height;

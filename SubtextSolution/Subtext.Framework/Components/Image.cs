@@ -20,17 +20,17 @@ using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Components
 {
-	/// <summary>
-	/// Summary description for Link.
-	/// </summary>
-	[Serializable]
-	public class Image
-	{
-		public int BlogId
-		{
-			get;
-			set;
-		}
+    /// <summary>
+    /// Summary description for Link.
+    /// </summary>
+    [Serializable]
+    public class Image
+    {
+        public int BlogId
+        {
+            get;
+            set;
+        }
 
         public Blog Blog
         {
@@ -38,31 +38,32 @@ namespace Subtext.Framework.Components
             set;
         }
 
-		[XmlAttribute]
-		public int ImageID
-		{
-			get;
-			set;
-		}
+        [XmlAttribute]
+        public int ImageID
+        {
+            get;
+            set;
+        }
 
-		public int CategoryID
-		{
-			get;
-			set;
-		}
+        public int CategoryID
+        {
+            get;
+            set;
+        }
 
         //TODO: This is pure laziness and a band-aid for 
         //      aggregate blogs. Will fix later.
-        public string CategoryTitle { 
-            get; 
-            set; 
+        public string CategoryTitle
+        {
+            get;
+            set;
         }
 
-		public bool IsActive
-		{
-			get;
-			set;
-		}
+        public bool IsActive
+        {
+            get;
+            set;
+        }
 
         public string FileName
         {
@@ -70,105 +71,109 @@ namespace Subtext.Framework.Components
             set;
         }
 
-		/// <summary>
-		/// Gets the filepath on the local server.
-		/// </summary>
-		public virtual string FilePath
-		{
-			get
-			{
-				return Path.Combine(LocalDirectoryPath, FileName);
-			}
-		}
+        /// <summary>
+        /// Gets the filepath on the local server.
+        /// </summary>
+        public virtual string FilePath
+        {
+            get
+            {
+                return Path.Combine(LocalDirectoryPath, FileName);
+            }
+        }
 
-		private string localDirectoryPath;
-		/// <summary>
-		/// The directory on the local server where the image will be saved.
-		/// </summary>
-		/// <remarks>
-		/// Assumes the specified path is a directory path!
-		/// </remarks>
+        private string localDirectoryPath;
+        /// <summary>
+        /// The directory on the local server where the image will be saved.
+        /// </summary>
+        /// <remarks>
+        /// Assumes the specified path is a directory path!
+        /// </remarks>
         public virtual string LocalDirectoryPath
         {
             get
             {
                 if (this.localDirectoryPath == null)
+                {
                     throw new InvalidOperationException(Resources.InvalidOperation_LocalDirectoryPathNotSet);
+                }
 
                 return this.localDirectoryPath;
             }
             set
             {
-				if (value != null)
-					value = Path.GetFullPath(value);
-				this.localDirectoryPath = value;
+                if (value != null)
+                {
+                    value = Path.GetFullPath(value);
+                }
+                this.localDirectoryPath = value;
             }
         }
 
-		public string Title
-		{
-			get;
-			set;
-		}
+        public string Title
+        {
+            get;
+            set;
+        }
 
-		public int Width
-		{
-			get;
-			set;
-		}
-	
-		public int Height
-		{
-			get;
-			set;
-		}
+        public int Width
+        {
+            get;
+            set;
+        }
 
-		public string OriginalFile
-		{
-			get
-			{
-				return "o_" + FileName;
-			}
-		}
+        public int Height
+        {
+            get;
+            set;
+        }
 
-		public string ThumbNailFile
-		{
-			get
-			{
-				return "t_" + FileName;
-			}
-		}
+        public string OriginalFile
+        {
+            get
+            {
+                return "o_" + FileName;
+            }
+        }
 
-		public string ResizedFile
-		{
-			get
-			{
-				return "r_" + FileName;
-			}
-		}
+        public string ThumbNailFile
+        {
+            get
+            {
+                return "t_" + FileName;
+            }
+        }
 
-		public string OriginalFilePath
-		{
-			get
-			{
-				return Path.Combine(LocalDirectoryPath, OriginalFile);
-			}
-		}
+        public string ResizedFile
+        {
+            get
+            {
+                return "r_" + FileName;
+            }
+        }
 
-		public string ThumbNailFilePath
-		{
-			get
-			{
-				return Path.Combine(LocalDirectoryPath, ThumbNailFile);
-			}
-		}
+        public string OriginalFilePath
+        {
+            get
+            {
+                return Path.Combine(LocalDirectoryPath, OriginalFile);
+            }
+        }
 
-		public string ResizedFilePath
-		{
-			get
-			{
-				return Path.Combine(LocalDirectoryPath, ResizedFile);
-			}
-		}
-	}
+        public string ThumbNailFilePath
+        {
+            get
+            {
+                return Path.Combine(LocalDirectoryPath, ThumbNailFile);
+            }
+        }
+
+        public string ResizedFilePath
+        {
+            get
+            {
+                return Path.Combine(LocalDirectoryPath, ResizedFile);
+            }
+        }
+    }
 }

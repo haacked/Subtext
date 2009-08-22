@@ -341,14 +341,14 @@ namespace Subtext.Framework.XmlRpc
         public mediaObjectInfo newMediaObject(object blogid, string username, string password, mediaObject mediaobject)
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
-
+            string imageDirectory = Url.ImageDirectoryPath(Blog);
             try
             {
                 //We don't validate the file because newMediaObject allows file to be overwritten
                 //But we do check the directory and create if necessary
                 //The media object's name can have extra folders appended so we check for this here too.
-                Images.EnsureDirectory(Path.Combine(Blog.ImageDirectory, mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1).Replace("/", "\\")));
-                FileStream fStream = new FileStream(Path.Combine(Blog.ImageDirectory, mediaobject.name), FileMode.Create);
+                Images.EnsureDirectory(Path.Combine(imageDirectory, mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1).Replace("/", "\\")));
+                FileStream fStream = new FileStream(Path.Combine(imageDirectory, mediaobject.name), FileMode.Create);
                 BinaryWriter bw = new BinaryWriter(fStream);
                 bw.Write(mediaobject.bits);
             }
@@ -360,7 +360,7 @@ namespace Subtext.Framework.XmlRpc
 
             //If all works, we return a mediaobjectinfo struct back holding the URL.
             mediaObjectInfo media;
-            media.url = Blog.ImagePath + mediaobject.name;
+            media.url = imageDirectory + mediaobject.name;
             return media;
         }
 

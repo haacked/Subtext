@@ -128,21 +128,6 @@ namespace Subtext.Framework.Configuration
             if (subfolder.Length > 1) {
                 subfolder = "/" + subfolder;
             }
-					
-			string virtualPath = string.Format(CultureInfo.InvariantCulture
-                , "images/{0}{1}"
-                , Regex.Replace(blogRequest.Host + webApp, @"\:|\." , "_")
-                , subfolder);
-
-			// now put together the host + / + virtual path (url) to images
-			info.ImagePath = string.Format(CultureInfo.InvariantCulture, "{0}/{1}", formattedHost, virtualPath);
-			try {
-				info.ImageDirectory = HttpContext.Current.Request.MapPath("~/" + virtualPath);
-			}
-			catch(ArgumentNullException nullException)
-			{
-				log.Warn("Could not map the image directory.", nullException);
-			}
 		}
 	}
 }

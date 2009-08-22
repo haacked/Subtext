@@ -18,31 +18,33 @@ using System.Globalization;
 using System.IO;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Commands
 {
     [Serializable]
     public class DeleteImageCommand : DeleteTitledTargetCommand
     {
-        public DeleteImageCommand(int imageId)
+        public DeleteImageCommand(Image image, string galleryDirectoryPath)
+            : this(galleryDirectoryPath, image, "Image " + image.ImageID.ToString(CultureInfo.InvariantCulture))
         {
-            _targetName = "Image";
-            _targetID = imageId;
-            itemTitle = "Image " + imageId.ToString(CultureInfo.InvariantCulture);
         }
 
-        public DeleteImageCommand(int imageID, string imageTitle)
+        public DeleteImageCommand(string galleryDirectoryPath, Image image, string imageTitle)
         {
             _targetName = "Image";
-            _targetID = imageID;
             itemTitle = imageTitle;
+            Image = image;
         }
+
+        public string GalleryDirectoryPath { get; private set; }
+        public Image Image { get; private set; }
 
         public override string Execute()
         {
             try
             {
-                Image currentImage = Images.GetSingleImage(_targetID, false);
+                Image currentImage = Image;
 
                 // The following line should be fully encapsulated and handle files + data
                 // For now, I commented out the file trys in the the object so it can do just
@@ -52,7 +54,7 @@ namespace Subtext.Web.Admin.Commands
                 Images.DeleteImage(currentImage);
 
                 // now delete the associated files if they exist
-                string galleryFolder = Images.LocalGalleryFilePath(currentImage.CategoryID);
+                string galleryFolder = GalleryDirectoryPath;
                 if (Directory.Exists(galleryFolder))
                 {
                     DeleteFile(galleryFolder, currentImage.OriginalFile);
@@ -64,7 +66,7 @@ namespace Subtext.Web.Admin.Commands
             }
             catch (Exception ex)
             {
-                return FormatMessage(ExecuteFailureMessage, _targetName, _targetID, ex.Message);
+                return FormatMessage(ExecuteFailureMessage, _targetName, Image.ImageID, ex.Message);
             }
         }
 

@@ -23,6 +23,8 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Web;
+using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace Subtext.Framework.Routing
 {
@@ -34,11 +36,23 @@ namespace Subtext.Framework.Routing
 
         public UrlHelper(RequestContext context, RouteCollection routes)
         {
-            _requestContext = context ?? new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
+            RequestContext = context ?? new RequestContext(new HttpContextWrapper(System.Web.HttpContext.Current), new RouteData());
             Routes = routes ?? RouteTable.Routes;
         }
 
-        RequestContext _requestContext;
+        public HttpContextBase HttpContext
+        {
+            get
+            {
+                return RequestContext.HttpContext;
+            }
+        }
+
+        protected RequestContext RequestContext
+        {
+            get;
+            private set;
+        }
 
         public RouteCollection Routes
         {
@@ -48,7 +62,7 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath AppRoot()
         {
-            string appRoot = _requestContext.HttpContext.Request.ApplicationPath;
+            string appRoot = RequestContext.HttpContext.Request.ApplicationPath;
             if (!appRoot.EndsWith("/"))
             {
                 appRoot += "/";
@@ -118,7 +132,7 @@ namespace Subtext.Framework.Routing
                 routeName += "by-slug";
             }
 
-            var virtualPath = Routes.GetVirtualPath(_requestContext, routeName, routeValues);
+            var virtualPath = Routes.GetVirtualPath(RequestContext, routeName, routeValues);
             if (virtualPath != null)
             {
                 return virtualPath.VirtualPath;
@@ -126,9 +140,86 @@ namespace Subtext.Framework.Routing
             return null;
         }
 
-        public virtual VirtualPath ImageUrl(Image image)
+        public virtual VirtualPath ImageDirectoryUrl(Blog blog)
+        {
+            return ImageUrl(blog, string.Empty, string.Empty) + "/";
+        }
+
+        public virtual VirtualPath GalleryImageUrl(Image image)
         {
             return GetVirtualPath("gallery-image", new { id = image.ImageID });
+        }
+
+        public virtual VirtualPath ImageUrl(Image image, string fileName)
+        {
+            return ImageUrl(image.Blog, image.CategoryID.ToString(CultureInfo.InvariantCulture), fileName);
+        }
+
+        public virtual VirtualPath ImageUrl(Image image)
+        {
+            return ImageUrl(image, image.OriginalFile);
+        }
+
+        private VirtualPath ImageUrl(Blog blog, string id, string fileName)
+        {
+            string appPath = RequestContext.HttpContext.Request.ApplicationPath;
+            if (appPath.StartsWith("/"))
+            {
+                appPath = appPath.Substring(1);
+            }
+            if (appPath.EndsWith("/"))
+            {
+                appPath = appPath.Substring(0, appPath.Length - 1);
+            }
+
+            RouteValueDictionary routeValues = new RouteValueDictionary();
+            routeValues.Add("id", id);
+            routeValues.Add("host", Regex.Replace(blog.Host, @"\:|\.", "_"));
+            routeValues.Add("filename", fileName);
+            string routeName = "image-";
+            if (String.IsNullOrEmpty(appPath))
+            {
+                routeName += "without-apppath";
+            }
+            else
+            {
+                appPath = Regex.Replace(appPath, @"\:|\.", "_");
+                routeName += "with-apppath";
+                routeValues.Add("appPath", appPath);
+            }
+            if (string.IsNullOrEmpty(blog.Subfolder))
+            {
+                routeName += "-without-subfolder";
+            }
+            else
+            {
+                routeName += "-with-subfolder";
+                routeValues.Add("subfolder", blog.Subfolder);
+            }
+
+            return GetVirtualPath(routeName, routeValues);
+        }
+
+        public virtual VirtualPath ImageDirectoryUrl(Blog blog, int galleryId)
+        {
+            Image image = new Image { Blog = blog, CategoryID = galleryId };
+            string imageUrl = ImageUrl(image, string.Empty);
+            if (!imageUrl.EndsWith("/"))
+            {
+                imageUrl += "/";
+            }
+            return imageUrl;
+        }
+
+        public virtual VirtualPath ImageGalleryDirectoryUrl(Blog blog, int galleryId)
+        {
+            Image image = new Image { Blog = blog, CategoryID = galleryId };
+            string imageUrl = ImageUrl(image, string.Empty);
+            if (!imageUrl.EndsWith("/"))
+            {
+                imageUrl += "/";
+            }
+            return imageUrl;
         }
 
         public virtual VirtualPath GalleryUrl(int id)
@@ -143,7 +234,7 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath ResolveUrl(string virtualPath)
         {
-            return _requestContext.HttpContext.ExpandTildePath(virtualPath);
+            return RequestContext.HttpContext.ExpandTildePath(virtualPath);
         }
 
         public virtual VirtualPath BlogUrl()
@@ -158,7 +249,7 @@ namespace Subtext.Framework.Routing
             return BlogUrl(vp);
         }
 
-        private VirtualPath BlogUrl(string virtualPath) 
+        private VirtualPath BlogUrl(string virtualPath)
         {
             if (!(virtualPath ?? string.Empty).EndsWith("/"))
             {
@@ -271,7 +362,7 @@ namespace Subtext.Framework.Routing
                 routeValueDictionary = new RouteValueDictionary(routeValues);
             }
 
-            var virtualPath = Routes.GetVirtualPath(_requestContext, routeName, routeValueDictionary);
+            var virtualPath = Routes.GetVirtualPath(RequestContext, routeName, routeValueDictionary);
             if (virtualPath == null)
             {
                 return null;

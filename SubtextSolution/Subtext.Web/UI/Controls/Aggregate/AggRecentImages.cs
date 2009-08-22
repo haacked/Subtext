@@ -1,20 +1,15 @@
 using System;
-using System.Data;
 using System.Web;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Providers;
-using System.Globalization;
 using Subtext.Framework;
-using System.Text.RegularExpressions;
-using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
 {
     public partial class AggRecentImages : BaseControl
     {
-        protected Repeater RecentImages;
+        protected Repeater recentImagesRepeater;
 
-        private string _appPath;
         private string _fullUrl = HttpContext.Current.Request.Url.Scheme + "://{0}{1}{2}/";
 
         /// <summary>
@@ -32,8 +27,13 @@ namespace Subtext.Web.UI.Controls
             int? groupId = GetGroupIdFromQueryString();
 
             var images = ObjectProvider.Instance().GetImages(HostInfo.Instance.AggregateBlog.Host, groupId, Count);
-            RecentImages.DataSource = images;
-            RecentImages.DataBind();
+            recentImagesRepeater.DataSource = images;
+            recentImagesRepeater.DataBind();
+        }
+
+        protected Subtext.Framework.Components.Image GetImage(object dataItem)
+        {
+            return dataItem as Subtext.Framework.Components.Image;
         }
 
         private int? GetGroupIdFromQueryString()
@@ -51,62 +51,19 @@ namespace Subtext.Web.UI.Controls
             return groupId;
         }
 
-        protected string GetEntryUrl(string host, string app, string entryName, DateTime dt)
+        protected string ImageUrl(object image)
         {
-            return String.Format(CultureInfo.InvariantCulture, "{0}archive/{1:yyyy/MM/dd}/{2}.aspx", GetFullUrl(host, app), dt, entryName);
-        }
-         
-        protected string GetFullUrl(string host, string app)
-        {
-            if (_appPath == null)
-            {
-                _appPath = HttpContext.Current.Request.ApplicationPath;
-                if (!_appPath.ToLower(CultureInfo.InvariantCulture).EndsWith("/"))
-                {
-                    _appPath += "/";
-                }
-            }
-
-            if (Request.Url.Port != 80)
-            {
-                host += ":" + Request.Url.Port;
-            }
-
-            return string.Format(_fullUrl, host, _appPath, app);
+            return Url.ImageUrl(GetImage(image));
         }
 
-
-        protected string GetImageUrl(string catID, string host, string app, string imageFile)
+        protected string GalleryImageUrl(object image)
         {
-            if (!String.IsNullOrEmpty(app))
-            {
-                app = "/" + app;
-            }
-            string baseImagePath = Images.GalleryVirtualUrl(Int32.Parse(catID));
-            string virtualPath = "http://" + host + string.Format(CultureInfo.InvariantCulture, "/images/{0}{1}/", Regex.Replace(host, @"\:|\.", "_"), app);
-            return virtualPath + baseImagePath + "t_" + imageFile;
+            return Url.GalleryImageUrl(GetImage(image));
         }
 
-        protected string GetAlbumUrl(string catID, string host, string app, string imageFile)
+        protected string GalleryUrl(object image)
         {
-            if (!String.IsNullOrEmpty(app))
-            {
-                app = "/" + app;
-            }
-            string baseImagePath = Images.GalleryVirtualUrl(Int32.Parse(catID)).Replace("/", "");
-            return "http://" + host + app + "/Gallery/" + baseImagePath + ".aspx";
+            return Url.GalleryUrl(GetImage(image).CategoryID);
         }
-
-        protected string GetImageLink(string catID, string host, string app, string imageFile)
-        {
-            if (!String.IsNullOrEmpty(app))
-            {
-                app = "/" + app;
-            }
-            string baseImagePath = Images.GalleryVirtualUrl(Int32.Parse(catID));
-            string virtualPath = "http://" + host + string.Format(CultureInfo.InvariantCulture, "/images/{0}{1}/", Regex.Replace(host, @"\:|\.", "_"), app);
-            return virtualPath + baseImagePath + "r_" + imageFile;
-        }
-
     }
 }

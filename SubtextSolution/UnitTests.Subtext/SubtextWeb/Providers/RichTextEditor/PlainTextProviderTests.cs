@@ -14,8 +14,10 @@
 #endregion
 
 using System;
-using MbUnit.Framework;
 using System.Web.UI.WebControls;
+using MbUnit.Framework;
+using Moq;
+using Subtext.Framework;
 using Subtext.Web.Providers.BlogEntryEditor.PlainText;
 
 namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
@@ -26,85 +28,85 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 	[TestFixture]
 	public class PlainTextProviderTests
 	{
-		PlainTextBlogEntryEditorProvider ptrtep;
-
-		[SetUp]
-		public void SetUp()
-		{
-            ptrtep = new PlainTextBlogEntryEditorProvider();
-		}
-
 		[Test]
 		public void SetControlID() 
 		{
-			string test="MyTestControlID";
-			ptrtep.ControlId=test;
-			Assert.AreEqual(test,ptrtep.ControlId);
+			string test = "MyTestControlID";
+            PlainTextBlogEntryEditorProvider provider = new PlainTextBlogEntryEditorProvider();
+            provider.ControlId = test;
+			Assert.AreEqual(test, provider.ControlId);
 		}
 
 		[Test]
 		public void SetText() 
 		{
-			string test="Lorem Ipsum";
-			ptrtep.InitializeControl();
-			ptrtep.Text=test;
-			Assert.AreEqual(test,ptrtep.Text);
-			Assert.AreEqual(test,ptrtep.Xhtml);
+			string test = "Lorem Ipsum";
+            PlainTextBlogEntryEditorProvider provider = new PlainTextBlogEntryEditorProvider();
+			provider.InitializeControl(new Mock<ISubtextContext>().Object);
+			provider.Text=test;
+			Assert.AreEqual(test, provider.Text);
+			Assert.AreEqual(test, provider.Xhtml);
 		}
 
 		[Test]
 		public void SetWidth() 
 		{
-			Unit test=200;
-			ptrtep.InitializeControl();
-			ptrtep.Width=test;
-			Assert.AreEqual(test,ptrtep.Width);
+			Unit test = 200;
+            PlainTextBlogEntryEditorProvider provider = new PlainTextBlogEntryEditorProvider();
+            provider.InitializeControl(new Mock<ISubtextContext>().Object);
+			provider.Width = test;
+			Assert.AreEqual(test, provider.Width);
 		}
 
 		[Test]
 		public void SetHeight() 
 		{
 			Unit test=100;
-			ptrtep.InitializeControl();
-			ptrtep.Height=test;
-			Assert.AreEqual(test,ptrtep.Height);
+            PlainTextBlogEntryEditorProvider provider = new PlainTextBlogEntryEditorProvider();
+            provider.InitializeControl(new Mock<ISubtextContext>().Object);
+			provider.Height=test;
+			Assert.AreEqual(test, provider.Height);
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void TestInitializationWithNullName() 
 		{
-			ptrtep.Initialize(null,null);
+            PlainTextBlogEntryEditorProvider provider = new PlainTextBlogEntryEditorProvider();
+            UnitTestHelper.AssertThrows<ArgumentNullException>(() =>
+                provider.Initialize(null,null)
+            );
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void TestInitializationWithNullConfigValue() 
 		{
-			ptrtep.Initialize("PlainTextProvider",null);
+            PlainTextBlogEntryEditorProvider provider = new PlainTextBlogEntryEditorProvider();
+            UnitTestHelper.AssertThrows<ArgumentNullException>(() =>
+                provider.Initialize("PlainTextProvider", null)
+            );
 		}
-
 
 		[Test]
 		public void TestInitialization() 
 		{
-			System.Collections.Specialized.NameValueCollection coll=GetNameValueCollection();
-			ptrtep.Initialize("PlainTextProvider", coll);
-			ptrtep.InitializeControl();
-			Assert.IsTrue(ptrtep.RichTextEditorControl.GetType()==typeof(TextBox));
-			TextBox txt = ptrtep.RichTextEditorControl as TextBox;
-			Assert.AreEqual(ptrtep.Name,"PlainTextProvider");
-			Assert.AreEqual(txt.Rows,10);
-			Assert.AreEqual(txt.Columns,70);
-			Assert.AreEqual(txt.CssClass,"myCssClass");
+            PlainTextBlogEntryEditorProvider provider = new PlainTextBlogEntryEditorProvider();
+			System.Collections.Specialized.NameValueCollection coll = GetNameValueCollection();
+			provider.Initialize("PlainTextProvider", coll);
+            provider.InitializeControl(new Mock<ISubtextContext>().Object);
+			Assert.IsTrue(provider.RichTextEditorControl.GetType() == typeof(TextBox));
+			TextBox txt = provider.RichTextEditorControl as TextBox;
+			Assert.AreEqual(provider.Name, "PlainTextProvider");
+			Assert.AreEqual(txt.Rows, 10);
+			Assert.AreEqual(txt.Columns, 70);
+			Assert.AreEqual(txt.CssClass, "myCssClass");
 		}
 
 		private System.Collections.Specialized.NameValueCollection GetNameValueCollection() 
 		{
-			System.Collections.Specialized.NameValueCollection ret=new System.Collections.Specialized.NameValueCollection(3);
-			ret.Add("rows","10");
-			ret.Add("cols","70");
-			ret.Add("cssClass","myCssClass");
+			System.Collections.Specialized.NameValueCollection ret = new System.Collections.Specialized.NameValueCollection(3);
+			ret.Add("rows", "10");
+			ret.Add("cols", "70");
+			ret.Add("cssClass", "myCssClass");
 			return ret;
 		}
 	}

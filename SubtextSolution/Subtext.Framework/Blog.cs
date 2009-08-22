@@ -135,26 +135,6 @@ namespace Subtext.Framework
         }
 
         /// <summary>
-        /// Gets or sets the physical path to the image directory.
-        /// </summary>
-        /// <value></value>
-        public string ImageDirectory
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the path (url) to the image directory.
-        /// </summary>
-        /// <value></value>
-        public string ImagePath
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets or sets the date that the blog's configuration 
         /// was last updated.
         /// </summary>

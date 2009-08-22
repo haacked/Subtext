@@ -142,7 +142,7 @@ namespace Subtext.Extensibility.Providers
         /// <summary>
         /// Initializes the Control to be displayed
         /// </summary>
-		public abstract void InitializeControl();
+		public abstract void InitializeControl(object subtextContext);
 
 	}
 }

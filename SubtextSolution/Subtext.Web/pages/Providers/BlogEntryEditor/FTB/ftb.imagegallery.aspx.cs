@@ -15,40 +15,35 @@
 
 using System;
 using System.IO;
+using Subtext.Framework;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.Admin
 {
 	/// <summary>
 	/// Implements the FreeTextBox image gallery.
 	/// </summary>
-	public class ftb_imagegallery : System.Web.UI.Page
+	public class ftb_imagegallery : SubtextPage
 	{
 		protected FreeTextBoxControls.ImageGallery imageGallery;
         protected System.Web.UI.WebControls.PlaceHolder errorMsg;
         protected System.Web.UI.WebControls.Label folderName;
 
-		/// <summary>
-		/// Method called when the page loads.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		private void Page_Load(object sender, System.EventArgs e)
-		{
-            string blogImageRootPath = Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
-
-            string phisicalImageRootPath = Server.MapPath(blogImageRootPath);
+        protected override void OnLoad(EventArgs e)
+        {
+            string imageDirectoryPath = Url.ImageDirectoryPath(Blog);
             try
             {
-                if (!Directory.Exists(phisicalImageRootPath))
+                if (!Directory.Exists(imageDirectoryPath))
                 {
-                    Directory.CreateDirectory(phisicalImageRootPath);
+                    Directory.CreateDirectory(imageDirectoryPath);
                 }
             }
             catch (Exception)
             {
                 imageGallery.Visible = false;
                 errorMsg.Visible = true;
-                folderName.Text = phisicalImageRootPath;
+                folderName.Text = imageDirectoryPath;
             }
 
 			//TODO: Fix this up....
@@ -86,26 +81,7 @@ namespace Subtext.Web.Admin
 				imageGallery.CurrentImages = customImages;
 			}	
 			*/
+            base.OnLoad(e);
 		}
-
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-			this.Load += new System.EventHandler(this.Page_Load);
-		}
-		#endregion
 	}
 }
