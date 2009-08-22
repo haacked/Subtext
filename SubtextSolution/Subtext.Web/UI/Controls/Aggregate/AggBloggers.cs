@@ -1,63 +1,57 @@
 using System;
-using System.Globalization;
-using System.Web;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Web.UI.WebControls;
+using Subtext.Framework;
+using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
 {
-    public class AggBloggers : BaseControl
+    public class AggBloggers : AggregateUserControl
     {
         protected Repeater Bloggers;
 
-        public int BlogGroup
+        public int? BlogGroupId
         {
             get;
-            set;
+            private set;
         }
 
         public bool ShowGroups
         {
             get;
-            set;
+            private set;
+        }
+
+        public IEnumerable<Blog> Blogs
+        {
+            get;
+            private set;
+        }
+
+        public IEnumerable<BlogGroup> BlogGroups
+        {
+            get;
+            private set;
         }
 
         protected override void OnLoad(EventArgs e)
         {
+            BlogGroupId = GetGroupIdFromQueryString();
+            Blogs = Repository.GetBlogsByGroup(HostInfo.Instance.AggregateBlog.Host, BlogGroupId);
+
+            if (ShowGroups)
+            {
+                BlogGroups = Repository.GroupBlogs(Blogs);
+            }
+            else
+            {
+                var groups = new Collection<BlogGroup>();
+                groups.Add(new BlogGroup { Blogs = Blogs.ToList() });
+                BlogGroups = groups;
+            }
             base.OnLoad(e);
-
-            if (Request.QueryString["GroupID"] != null)
-            {
-            	int blogGroupId;
-                if (Int32.TryParse(Request.QueryString["GroupID"], out blogGroupId))
-                {
-                    BlogGroup = blogGroupId;
-                }
-                else {
-                    BlogGroup = 0;
-                }
-            }
-        }
-
-        private string appPath;
-        readonly string fullUrl = HttpContext.Current.Request.Url.Scheme + "://{0}{1}{2}/";
-        protected string GetFullUrl(string host, string app)
-        {
-            if (appPath == null)
-            {
-                appPath = HttpContext.Current.Request.ApplicationPath;
-                if (!appPath.ToLower(CultureInfo.InvariantCulture).EndsWith("/"))
-                {
-                    appPath += "/";
-                }
-            }
-
-            if (Request.Url.Port != 80)
-            {
-                host += ":" + Request.Url.Port;
-            }
-
-            return string.Format(fullUrl, host, appPath, app);
-
         }
     }
 }

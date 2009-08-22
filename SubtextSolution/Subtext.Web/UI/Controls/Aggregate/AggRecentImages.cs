@@ -6,7 +6,7 @@ using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
 {
-    public partial class AggRecentImages : BaseControl
+    public partial class AggRecentImages : AggregateUserControl
     {
         protected Repeater recentImagesRepeater;
         
@@ -32,21 +32,6 @@ namespace Subtext.Web.UI.Controls
         protected Subtext.Framework.Components.Image GetImage(object dataItem)
         {
             return dataItem as Subtext.Framework.Components.Image;
-        }
-
-        private int? GetGroupIdFromQueryString()
-        {
-            int? groupId = null;
-            string groupIdText = Request.QueryString["GroupID"];
-            if (groupIdText != null)
-            {
-                int parsedGroupId;
-                if (int.TryParse(groupIdText, out parsedGroupId))
-                {
-                    groupId = parsedGroupId;
-                }
-            }
-            return groupId;
         }
 
         protected string ImageUrl(object image)
