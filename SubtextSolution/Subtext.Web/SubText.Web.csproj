@@ -681,6 +681,9 @@
     <Compile Include="UI\Controls\Aggregate\AggregatePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\Controls\Aggregate\AggregateUserControl.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="UI\Controls\Aggregate\AggSyndication.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
