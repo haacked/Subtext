@@ -18,6 +18,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
+using Ninject;
 using Sgml;
 
 namespace Subtext.Framework.Services
@@ -27,6 +28,7 @@ namespace Subtext.Framework.Services
         private Converter<string, string> _innerTextConverter = null;
         private SgmlReader _reader;
 
+        [Inject]
         public XhtmlConverter() : this(null, new SgmlReader()) { 
         }
 
