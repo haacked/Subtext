@@ -147,7 +147,7 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath GalleryImageUrl(Image image)
         {
-            return GetVirtualPath("gallery-image", new { id = image.ImageID });
+            return GetVirtualPath("gallery-image", new { id = image.ImageID, subfolder = image.Blog.Subfolder });
         }
 
         public virtual VirtualPath ImageUrl(Image image, string fileName)
@@ -225,6 +225,11 @@ namespace Subtext.Framework.Routing
         public virtual VirtualPath GalleryUrl(int id)
         {
             return GetVirtualPath("gallery", new { id = id });
+        }
+
+        public virtual VirtualPath GalleryUrl(Image image)
+        {
+            return GetVirtualPath("gallery", new { id = image.CategoryID, subfolder = image.Blog.Subfolder });
         }
 
         public virtual VirtualPath AggBugUrl(int id)

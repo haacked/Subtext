@@ -235,11 +235,6 @@ namespace Subtext.Framework
             return ObjectProvider.Instance().GetImagesByCategoryID(catID, activeOnly);
         }
 
-        public static Image GetSingleImage(int imageId, bool activeOnly)
-        {
-            return ObjectProvider.Instance().GetImage(imageId, activeOnly);
-        }
-
         /// <summary>
         /// Inserts the image.
         /// </summary>

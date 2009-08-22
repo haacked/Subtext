@@ -13,10 +13,12 @@
 	<head>
 		<title><asp:Literal id="title" runat="server" Text="<%$ AppSettings:AggregateTitle %>" /></title>
 		<asp:Literal id="Style" runat="Server" />
-		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>" ></script>
+		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>"></script>
         <script type="text/javascript">
             var subtextBlogInfo = new blogInfo('<%= Url.AppRoot() %>', '<%= Url.BlogUrl() %>');
 		</script>
+
+        <link href="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery.lightbox-0.5.css") %>" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<form id="Form1" method="post" runat="server">
@@ -51,18 +53,5 @@
                 <uc1:AggRecentImages ID="AggRecentImages1" runat="server" Count="20" />
             </div>
 		</form>
-		
-		<script type="text/javascript" src="/scripts/jquery.lightbox-0.5.min.js"></script>
-        <script type="text/javascript">
-            $(function() {
-                var imagesDir = subtextBlogInfo.getImagesVirtualRoot();
-                $("a[rel=lightbox]").lightBox({
-                    imageLoading: imagesDir + 'lightbox/loading.gif',
-                    imageBtnClose: imagesDir + 'lightbox/close.gif',
-                    imageBtnPrev: imagesDir + 'lightbox/prev.gif',
-                    imageBtnNext: imagesDir + 'lightbox/next.gif'
-                });
-            });
-        </script>
 	</body>
 </html>
