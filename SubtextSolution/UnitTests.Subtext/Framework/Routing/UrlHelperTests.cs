@@ -283,16 +283,44 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
+        public void GalleryUrl_WithImageAndBlogWithSubfolder_ReturnsGalleryUrlWithSubfolder()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            var image = new Image { CategoryID = 1234, Blog = new Blog { Subfolder = "subfolder"} };
+
+            //act
+            string url = helper.GalleryUrl(image);
+
+            //assert
+            Assert.AreEqual("/subfolder/gallery/1234.aspx", url);
+        }
+
+
+        [Test]
         public void GalleryImageUrl_WithId_ReturnsGalleryUrlWithId()
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
 
             //act
-            string url = helper.GalleryImageUrl(new Image { ImageID = 1234 });
+            string url = helper.GalleryImageUrl(new Image { ImageID = 1234, Blog = new Blog { } });
 
             //assert
             Assert.AreEqual("/gallery/image/1234.aspx", url);
+        }
+
+        [Test]
+        public void GalleryImageUrl_WithImageInBlogWithSubfolder_ReturnsGalleryUrlWithId()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+
+            //act
+            string url = helper.GalleryImageUrl(new Image { ImageID = 1234, Blog = new Blog { Subfolder="subfolder" } });
+
+            //assert
+            Assert.AreEqual("/subfolder/gallery/image/1234.aspx", url);
         }
 
         [Test]

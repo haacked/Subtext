@@ -64,6 +64,10 @@ namespace Subtext.Framework.Routing
             var subfolderInRouteData = requestContext.RouteData.Values["subfolder"] as string;
             if (String.IsNullOrEmpty(subfolderInRouteData))
             {
+                subfolderInRouteData = values["subfolder"] as string;
+            }
+            if (String.IsNullOrEmpty(subfolderInRouteData))
+            {
                 //values["subfolder"] = subfolderInRouteData;
                 return base.GetVirtualPath(requestContext, values);
             }

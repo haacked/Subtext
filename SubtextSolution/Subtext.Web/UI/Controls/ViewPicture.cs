@@ -33,7 +33,7 @@ namespace Subtext.Web.UI.Controls
 			if(Context != null)
 			{
                 int imageId = RouteValues.GetId();
-				Subtext.Framework.Components.Image image = Images.GetSingleImage(imageId, true);
+				var image = Repository.GetImage(imageId, true /* activeOnly */);
                 image.Blog = Blog;
 
 				Title.Text = image.Title;

@@ -11,6 +11,7 @@ using Image = Subtext.Framework.Components.Image;
 using Subtext.Framework.Routing;
 using Moq;
 using System.Web;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -49,7 +50,7 @@ namespace UnitTests.Subtext.Framework
 			Assert.AreEqual(Config.CurrentBlog.Id, image.BlogId);
 			int imageId = Images.InsertImage(image, singlePixelBytes);
 
-			Image saved = Images.GetSingleImage(imageId, true);
+            Image saved = ObjectProvider.Instance().GetImage(imageId, true/* activeOnly */);
 			Assert.AreEqual(Config.CurrentBlog.Id, saved.BlogId, "The blog id for the image does not match!");
 			saved.LocalDirectoryPath = Path.GetFullPath(TestDirectory);
 			Assert.AreEqual("Test Image", saved.Title);
@@ -57,7 +58,7 @@ namespace UnitTests.Subtext.Framework
 			saved.Title = "A Better Title";
 			Images.Update(saved, singlePixelBytes);
 
-			Image loaded = Images.GetSingleImage(imageId, true);
+            Image loaded = ObjectProvider.Instance().GetImage(imageId, true/* activeOnly */);
 			Assert.AreEqual(Config.CurrentBlog.Id, loaded.BlogId, "The blog id for the image does not match!");
 			loaded.LocalDirectoryPath = Path.GetFullPath(TestDirectory);
 
@@ -147,7 +148,7 @@ namespace UnitTests.Subtext.Framework
 			try
 			{
 				imageId = Images.InsertImage(image, singlePixelBytes);
-				loadedImage = Images.GetSingleImage(imageId, false);
+                loadedImage = ObjectProvider.Instance().GetImage(imageId, false/* activeOnly */);
 				Assert.IsNotNull(loadedImage);
 				Assert.AreEqual(image.CategoryID, loadedImage.CategoryID);
 			}
@@ -155,7 +156,7 @@ namespace UnitTests.Subtext.Framework
 			{
 				if(loadedImage != null)
 					Images.DeleteImage(loadedImage);
-				Assert.IsNull(Images.GetSingleImage(imageId, false));
+                Assert.IsNull(ObjectProvider.Instance().GetImage(imageId, false/* activeOnly */));
 			}
 		}
 		

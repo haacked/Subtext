@@ -38,7 +38,6 @@ namespace Subtext.Web
             DataBind();
         }
 
-        private string aggregateUrl = null;
         /// <summary>
         /// Url to the aggregate page.
         /// </summary>
@@ -46,17 +45,7 @@ namespace Subtext.Web
         {
             get
             {
-                if (this.aggregateUrl == null)
-                {
-                    this.aggregateUrl = ConfigurationManager.AppSettings["AggregateUrl"];
-                    if (Request.Url.Port != 80)
-                    {
-                        UriBuilder url = new UriBuilder(aggregateUrl);
-                        url.Port = Request.Url.Port;
-                        this.aggregateUrl = url.ToString();
-                    }
-                }
-                return aggregateUrl;
+                return Url.AppRoot();
             }
         }
 

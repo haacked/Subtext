@@ -425,7 +425,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void ConfirmDeleteImage(int imageID)
 		{
-            var image = Images.GetSingleImage(imageID, false);
+            var image = Repository.GetImage(imageID, false /* activeOnly */);
 			this.Command = new DeleteImageCommand(image, Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID));
 			this.Command.RedirectUrl = Request.Url.ToString();
 			Server.Transfer(Constants.URL_CONFIRM);

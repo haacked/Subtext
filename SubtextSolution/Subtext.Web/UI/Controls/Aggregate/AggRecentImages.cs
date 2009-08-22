@@ -9,9 +9,7 @@ namespace Subtext.Web.UI.Controls
     public partial class AggRecentImages : BaseControl
     {
         protected Repeater recentImagesRepeater;
-
-        private string _fullUrl = HttpContext.Current.Request.Url.Scheme + "://{0}{1}{2}/";
-
+        
         /// <summary>
         /// Prroperty to limit the number of images displayed. Default is 35.
         /// </summary>
@@ -26,7 +24,7 @@ namespace Subtext.Web.UI.Controls
             base.OnLoad(e);
             int? groupId = GetGroupIdFromQueryString();
 
-            var images = ObjectProvider.Instance().GetImages(HostInfo.Instance.AggregateBlog.Host, groupId, Count);
+            var images = Repository.GetImages(HostInfo.Instance.AggregateBlog.Host, groupId, Count);
             recentImagesRepeater.DataSource = images;
             recentImagesRepeater.DataBind();
         }
@@ -63,7 +61,7 @@ namespace Subtext.Web.UI.Controls
 
         protected string GalleryUrl(object image)
         {
-            return Url.GalleryUrl(GetImage(image).CategoryID);
+            return Url.GalleryUrl(GetImage(image));
         }
     }
 }

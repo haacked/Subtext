@@ -50,7 +50,7 @@ namespace Subtext.Web.Admin.Pages
 			{
                 if (_image == null)
                 {
-                    _image = Images.GetSingleImage(ImageId, false);
+                    _image = Repository.GetImage(ImageId, false /* activeOnly */);
                 }
 
 			    if (_image == null)
@@ -162,7 +162,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			if (Page.IsValid)
 			{
-				_image = Images.GetSingleImage(this.ImageId, false);
+				_image = Repository.GetImage(this.ImageId, false /* activeOnly */);
 				_image.CategoryID = Convert.ToInt32(ddlGalleries.SelectedItem.Value);
 				_image.Title = txbTitle.Text;
 				_image.IsActive = ckbPublished.Checked;
@@ -188,7 +188,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			if (Page.IsValid)
 			{
-				_image = Images.GetSingleImage(this.ImageId, false);
+				_image = Repository.GetImage(this.ImageId, false /* activeOnly */);
 				_image.CategoryID = Convert.ToInt32(ddlGalleries.SelectedItem.Value);
 				_image.Title = txbTitle.Text;
 				_image.IsActive = ckbPublished.Checked;

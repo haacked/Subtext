@@ -29,7 +29,8 @@ namespace Subtext.Framework.Data
                     }
                 }
             }
-            catch (IndexOutOfRangeException) { 
+            catch (IndexOutOfRangeException)
+            {
                 //When upgrading, this may occur because the old version of the 
                 //database schema doesn't know about new properties.
                 return new HostInfo();
@@ -65,7 +66,7 @@ namespace Subtext.Framework.Data
         /// </summary>
         /// <param name="blogGroup">The group to insert.</param>
         /// <returns>The blog group id</returns>
-        public override int InsertBlogGroup(BlogGroup blogGroup) 
+        public override int InsertBlogGroup(BlogGroup blogGroup)
         {
             return _procedures.InsertBlogGroup(blogGroup.Title,
                 blogGroup.IsActive,
@@ -95,7 +96,8 @@ namespace Subtext.Framework.Data
         public override ICollection<Blog> GetBlogsByGroup(string host, int? groupId)
         {
             List<Blog> blogs = new List<Blog>();
-            using (var reader = _procedures.Stats(host, groupId)) {
+            using (var reader = _procedures.Stats(host, groupId))
+            {
                 while (reader.Read())
                 {
                     blogs.Add(DataHelper.LoadBlog(reader));
@@ -120,19 +122,25 @@ namespace Subtext.Framework.Data
                 .ToList();
         }
 
-        public override HostStats GetTotalBlogStats(string host, int groupId) {
-            using (IDataReader reader = _procedures.TotalStats(host, groupId)) {
-                if (!reader.Read()) {
+        public override HostStats GetTotalBlogStats(string host, int groupId)
+        {
+            using (IDataReader reader = _procedures.TotalStats(host, groupId))
+            {
+                if (!reader.Read())
+                {
                     return null;
                 }
                 return reader.LoadObject<HostStats>();
             }
         }
 
-        public override ICollection<Entry> GetRecentEntries(string host, int? groupId, int rowCount) { 
+        public override ICollection<Entry> GetRecentEntries(string host, int? groupId, int rowCount)
+        {
             var entries = new List<Entry>();
-            using(IDataReader reader = _procedures.GetRecentPosts(host, groupId, CurrentDateTime, rowCount)) {
-                while(reader.Read()) {
+            using (IDataReader reader = _procedures.GetRecentPosts(host, groupId, CurrentDateTime, rowCount))
+            {
+                while (reader.Read())
+                {
                     entries.Add(reader.LoadEntry(new Entry(PostType.BlogPost), false /* buildLinks */, true /* includeBlog */));
                 }
             }
@@ -152,6 +160,6 @@ namespace Subtext.Framework.Data
             return images;
         }
 
-        
+
     }
 }
