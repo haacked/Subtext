@@ -29,10 +29,14 @@ namespace Subtext.Framework.Services
         private SgmlReader _reader;
 
         [Inject]
-        public XhtmlConverter() : this(null, new SgmlReader()) { 
+        public XhtmlConverter()
+            : this(null, new SgmlReader())
+        {
         }
 
-        public XhtmlConverter(Converter<string, string> innerTextConverter) : this(innerTextConverter, new SgmlReader()) {
+        public XhtmlConverter(Converter<string, string> innerTextConverter)
+            : this(innerTextConverter, new SgmlReader())
+        {
         }
 
         public XhtmlConverter(Converter<string, string> innerTextConverter, SgmlReader sgmlReader)
@@ -43,7 +47,8 @@ namespace Subtext.Framework.Services
 
         public string Transform(string original)
         {
-            if (string.IsNullOrEmpty(original)) {
+            if (string.IsNullOrEmpty(original))
+            {
                 return string.Empty;
             }
             return ConvertHtmlToXHtml(original, _innerTextConverter);
@@ -140,7 +145,8 @@ namespace Subtext.Framework.Services
         // This to make sure the Xhtml is well formatted before processing it
         private static string RemoveNewLineBeforeCDATA(string text)
         {
-            if (String.IsNullOrEmpty(text)) {
+            if (String.IsNullOrEmpty(text))
+            {
                 return string.Empty;
             }
             return _newLineStripperRegex.Replace(text, "><![CDATA[");
