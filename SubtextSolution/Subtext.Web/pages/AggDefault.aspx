@@ -36,8 +36,7 @@
 				</p>
 				<p>
 					Powered By:<br />
-					<asp:HyperLink NavigateUrl="http://subtextproject.com/" ImageUrl="~/images/PoweredBySubtext85x33.png" ToolTip="Powered By Subtext"
-						Runat="server" BorderWidth="0" id="HyperLink1" />
+					<a href="http://subtextproject.com/"><img src="<%= ImageUrl("PoweredBySubtext85x33.png") %>" alt="Powered by Subtext" /></a>
 				</p>
                 <uc1:AggSyndication ID="AggSyndication1" runat="server" />				
                 <uc1:AggBlogStats ID="AggBlogStats1" runat="server" />				
