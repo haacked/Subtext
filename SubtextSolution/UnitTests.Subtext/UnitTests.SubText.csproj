@@ -364,6 +364,7 @@
     <Compile Include="Framework\Routing\DirectoryRouteTests.cs" />
     <Compile Include="Framework\Routing\HttpRouteHandlerTests.cs" />
     <Compile Include="Framework\Routing\IgnoreRouteTests.cs" />
+    <Compile Include="Framework\Routing\ImageRouteTests.cs" />
     <Compile Include="Framework\Routing\RootRouteTests.cs" />
     <Compile Include="Framework\Routing\RouteExtensionsTests.cs" />
     <Compile Include="Framework\Routing\RoutesTests.cs" />

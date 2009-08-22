@@ -397,6 +397,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Routing\IDirectoryRoute.cs" />
+    <Compile Include="Routing\ImageRoute.cs" />
     <Compile Include="Routing\SubtextRouteCollection.cs" />
     <Compile Include="Routing\SystemDirectoryRoute.cs" />
     <Compile Include="Services\CompositeTextTransformation.cs" />

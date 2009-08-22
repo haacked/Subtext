@@ -15,11 +15,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Providers;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Commands
 {
@@ -28,10 +27,17 @@ namespace Subtext.Web.Admin.Commands
     [Serializable]
     public class DeleteGalleryCommand : DeleteTitledTargetCommand
     {
-        public DeleteGalleryCommand(int galleryId, string galleryTitle)
+        public DeleteGalleryCommand(string galleryDirectoryPath, int galleryId, string galleryTitle)
         {
             _targetID = galleryId;
             itemTitle = galleryTitle;
+            GalleryDirectoryPath = galleryDirectoryPath;
+        }
+
+        public string GalleryDirectoryPath
+        {
+            get;
+            private set;
         }
 
         public override string Execute()
@@ -41,7 +47,7 @@ namespace Subtext.Web.Admin.Commands
                 ICollection<Image> imageList = Images.GetImagesByCategoryID(_targetID, false);
 
                 // delete the folder
-                string galleryFolder = Images.LocalGalleryFilePath(_targetID);
+                string galleryFolder = GalleryDirectoryPath;
                 if (Directory.Exists(galleryFolder))
                     Directory.Delete(galleryFolder, true);
 

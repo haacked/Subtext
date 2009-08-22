@@ -134,14 +134,12 @@ namespace Subtext.Web.Admin.Pages
 
 		protected string EvalImageUrl(object imageObject)
 		{
-			if (imageObject is Image)
-			{
-				Image image = (Image)imageObject;
-				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.GalleryVirtualUrl(image.CategoryID), 
-					image.ThumbNailFile);
-			}
-			else
-				return String.Empty;
+            if (imageObject is Image)
+            {
+                Image image = (Image)imageObject;
+                return Url.ImageUrl(image);
+            }
+            return String.Empty;
 		}
 
 		protected string EvalImageNavigateUrl(object imageObject)
@@ -149,10 +147,9 @@ namespace Subtext.Web.Admin.Pages
 			if (imageObject is Image)
 			{
 				Image image = (Image)imageObject;
-				return Url.ImageUrl(image);
+				return Url.GalleryImageUrl(image);
 			}
-			else
-				return String.Empty;
+			return String.Empty;
 		}
 
 		protected string GetImageGalleryUrl()
@@ -199,7 +196,7 @@ namespace Subtext.Web.Admin.Pages
 				try
 				{
 					_image.FileName = Path.GetFileName(ImageFile.PostedFile.FileName);
-					_image.LocalDirectoryPath = Images.LocalGalleryFilePath(_image.CategoryID);
+                    _image.LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, _image.CategoryID);
 					Images.Update(_image, Images.GetFileStream(ImageFile.PostedFile));
 
                     this.Messages.ShowMessage(Resources.EditGalleries_ImageUpdated);

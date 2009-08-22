@@ -92,21 +92,21 @@ function LoadResources( resourceType, folderPath )
 	oListManager.Clear() ;
 	oConnector.ResourceType = resourceType ;
 	oConnector.CurrentFolder = folderPath
-	oConnector.SendCommand( 'GetFoldersAndFiles', null, GetFoldersAndFilesCallBack ) ;
+	oConnector.SendCommand('GetFoldersAndFiles', null, GetFoldersAndFilesCallBack) ;
 }
 
 function Refresh()
 {
-	LoadResources( oConnector.ResourceType, oConnector.CurrentFolder ) ;
+	LoadResources(oConnector.ResourceType, oConnector.CurrentFolder) ;
 }
 
-function GetFoldersAndFilesCallBack( fckXml )
+function GetFoldersAndFilesCallBack(fckXml)
 {
-	if ( oConnector.CheckError( fckXml ) != 0 )
+	if ( oConnector.CheckError(fckXml) != 0)
 		return ;
 
 	// Get the current folder path.
-	var oNode = fckXml.SelectSingleNode( 'Connector/CurrentFolder' ) ;
+	var oNode = fckXml.SelectSingleNode('Connector/CurrentFolder') ;
 	var sCurrentFolderPath	= oNode.attributes.getNamedItem('path').value ;
 	var sCurrentFolderUrl	= oNode.attributes.getNamedItem('url').value ;
 

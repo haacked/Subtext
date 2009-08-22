@@ -136,6 +136,11 @@ namespace Subtext.Framework.Routing
             routes.MapHttpHandler<THttpHandler>(null, url, constraints);
         }
 
+        public static void MapImageRoute(this SubtextRouteMapper routes, string routeName, string url)
+        {
+            routes.Add(routeName, new ImageRoute(url));
+        }
+
         public static void MapRoute(this SubtextRouteMapper routes, string routeName, string url, object defaults, object constraints)
         {
             routes.Add(routeName, new SubtextRoute(url, new MvcRouteHandler())
@@ -150,9 +155,14 @@ namespace Subtext.Framework.Routing
             routes.Add(new IgnoreRoute(url));
         }
 
-        public static string GetSubfolder(this RouteData routeData) 
+        public static string GetSubfolder(this RouteData routeData)
         {
             return routeData.Values["subfolder"] as string;
+        }
+
+        public static int GetId(this RouteValueDictionary routeValues)
+        {
+            return Convert.ToInt32(routeValues["id"]);
         }
     }
 }

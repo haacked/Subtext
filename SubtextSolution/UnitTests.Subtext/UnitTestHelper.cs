@@ -790,9 +790,6 @@ namespace UnitTests.Subtext
             BlogRequest.Current.Blog = blog;
             Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
 
-            Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
-            Config.CurrentBlog.ImagePath = "/image/";
-
             // NOTE- is this OK?
             return Config.CurrentBlog;
         }
@@ -1091,8 +1088,6 @@ namespace UnitTests.Subtext
             if (Config.CurrentBlog != null)
             {
                 Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
-                Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "image") + Path.DirectorySeparatorChar;
-                Config.CurrentBlog.ImagePath = "/image/";
             }
             HttpContext.Current.User = new GenericPrincipal(new GenericIdentity(userName), new string[] { "Administrators" });
 
@@ -1140,6 +1135,24 @@ namespace UnitTests.Subtext
             kernel.Setup(k => k.CreateRequest(It.IsAny<Type>(), It.IsAny<Func<IBindingMetadata, bool>>(), It.IsAny<IEnumerable<IParameter>>(), It.IsAny<bool>())).Returns(request.Object);
             kernel.Setup(k => k.Resolve(It.IsAny<IRequest>())).Returns(returnFunc);
             return kernel.Object;
+        }
+
+        public static UrlHelper SetupUrlHelper(string appPath)
+        {
+            return SetupUrlHelper(appPath, new RouteData());
+        }
+
+        public static UrlHelper SetupUrlHelper(string appPath, RouteData routeData)
+        {
+            var routes = new RouteCollection();
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
+            Routes.RegisterRoutes(subtextRoutes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.Setup(c => c.Request.ApplicationPath).Returns(appPath);
+            httpContext.Setup(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
+            var requestContext = new RequestContext(httpContext.Object, routeData);
+            UrlHelper helper = new UrlHelper(requestContext, routes);
+            return helper;
         }
     }
 }

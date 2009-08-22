@@ -18,8 +18,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Web;
-
+using Subtext.Framework;
 using FreeTextBoxControls;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 {
@@ -34,7 +35,7 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 		bool _formatHtmlTagsToXhtml;
 		bool _removeServerNamefromUrls;
 
-        private static System.Resources.ResourceManager rm = new System.Resources.ResourceManager("Subtext.Web.Providers.BlogEntryEditor.FTB.resources.ErrorMessages", System.Reflection.Assembly.GetExecutingAssembly());
+        private static System.Resources.ResourceManager rm = new System.Resources.ResourceManager("Subtext.Web.Pages.Providers.BlogEntryEditor.FTB.resources.ErrorMessages", System.Reflection.Assembly.GetExecutingAssembly());
 
 		public override Control RichTextEditorControl
 		{
@@ -67,7 +68,7 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 			base.Initialize(name, configValue);
 		}
 
-		public override void InitializeControl() 
+		public override void InitializeControl(object context) 
 		{
 			_ftbCtl = new FreeTextBox();
 			_ftbCtl.ID = this.ControlId;
@@ -83,12 +84,13 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 			_ftbCtl.FormatHtmlTagsToXhtml=_formatHtmlTagsToXhtml;
 			_ftbCtl.RemoveServerNameFromUrls=_removeServerNamefromUrls;
 
-			if(_webFormFolder!=null && _webFormFolder.Length!=0)
-				_ftbCtl.ImageGalleryUrl=HttpHelper.ExpandTildePath(_webFormFolder+"ftb.imagegallery.aspx?rif={0}&cif={0}");
-
-			string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
-
-			_ftbCtl.ImageGalleryPath=blogImageRootPath;
+            if (_webFormFolder != null && _webFormFolder.Length != 0)
+            {
+                _ftbCtl.ImageGalleryUrl = HttpHelper.ExpandTildePath(_webFormFolder + "ftb.imagegallery.aspx?rif={0}&cif={0}");
+            }
+            var subtextContext = context as ISubtextContext;
+            string blogImageRootPath = subtextContext.UrlHelper.ImageDirectoryUrl(subtextContext.Blog);
+			_ftbCtl.ImageGalleryPath = blogImageRootPath;
 		}
 
 		public override String Text

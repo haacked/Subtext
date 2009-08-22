@@ -18,104 +18,103 @@ using System.Security.Principal;
 using System.Threading;
 using System.Web.UI.WebControls;
 using MbUnit.Framework;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Web.HttpModules;
+using Moq;
+using Subtext.Framework;
 using Subtext.Providers.BlogEntryEditor.FCKeditor;
 
 namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 {
-	/// <summary>
-	/// Summary description for FCKeditorProviderTests.
-	/// </summary>
-	[TestFixture]
-	public class FCKeditorProviderTests
-	{
+    /// <summary>
+    /// Summary description for FCKeditorProviderTests.
+    /// </summary>
+    [TestFixture]
+    public class FCKeditorProviderTests
+    {
         string _hostName;
-		FckBlogEntryEditorProvider frtep;
+        FckBlogEntryEditorProvider frtep;
 
-		[SetUp]
-		public void SetUp()
-		{
+        [SetUp]
+        public void SetUp()
+        {
             _hostName = UnitTestHelper.GenerateUniqueHostname();
 
-			IPrincipal principal = UnitTestHelper.MockPrincipalWithRoles("Admins");
-			Thread.CurrentPrincipal = principal;
-			frtep = new FckBlogEntryEditorProvider();
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "Subtext.Web");
-		}
+            IPrincipal principal = UnitTestHelper.MockPrincipalWithRoles("Admins");
+            Thread.CurrentPrincipal = principal;
+            frtep = new FckBlogEntryEditorProvider();
+            UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "Subtext.Web");
+        }
 
-		[TearDown]
-		public void TearDown()
-		{
-			Thread.CurrentPrincipal = null;
-		}
+        [TearDown]
+        public void TearDown()
+        {
+            Thread.CurrentPrincipal = null;
+        }
 
-		[Test]
-		public void SetControlID() 
-		{
-			string test="MyTestControlID";
-			frtep.ControlId=test;
-			Assert.AreEqual(test,frtep.ControlId);
-		}
+        [Test]
+        public void SetControlID()
+        {
+            string test = "MyTestControlID";
+            frtep.ControlId = test;
+            Assert.AreEqual(test, frtep.ControlId);
+        }
 
-		[Test]
-		[RollBack]
-		public void SetText() 
-		{
-			Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
-			string test="Lorem Ipsum";
-			frtep.InitializeControl();
-			frtep.Text=test;
-			Assert.AreEqual(test,frtep.Text);
-			Assert.AreEqual(test,frtep.Xhtml);
-		}
+        [Test]
+        public void SetText()
+        {
+            Blog blog = new Blog { Host = "localhost", Subfolder = "subfolder" };
+            string test = "Lorem Ipsum";
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Blog).Returns(blog);
+            frtep.InitializeControl(subtextContext.Object);
+            frtep.Text = test;
+            Assert.AreEqual(test, frtep.Text);
+            Assert.AreEqual(test, frtep.Xhtml);
+        }
 
-		[Test]
-        [RollBack]
-		public void SetWidth() 
-		{
-            Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
+        [Test]
+        public void SetWidth()
+        {
+            Unit test = 200;
+            Blog blog = new Blog { Host = "localhost", Subfolder = "subfolder" };
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Blog).Returns(blog);
+            frtep.InitializeControl(subtextContext.Object);
 
-			Unit test=200;
-			frtep.InitializeControl();
-			frtep.Width=test;
-			Assert.AreEqual(test,frtep.Width);
-		}
+            frtep.Width = test;
+            Assert.AreEqual(test, frtep.Width);
+        }
 
-		[Test]
-        [RollBack]
-		public void SetHeight() 
-		{
-            Config.CreateBlog("", "username", "password", _hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "MyBlog");
+        [Test]
+        public void SetHeight()
+        {
+            Unit test = 100;
+            Blog blog = new Blog { Host = "localhost", Subfolder = "subfolder" };
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Blog).Returns(blog);
+            frtep.InitializeControl(subtextContext.Object);
+            frtep.Height = test;
+            Assert.AreEqual(test, frtep.Height);
+        }
 
-			Unit test=100;
-			frtep.InitializeControl();
-			frtep.Height=test;
-			Assert.AreEqual(test,frtep.Height);
-		}
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestInitializationWithNullName()
+        {
+            frtep.Initialize(null, null);
+        }
 
-		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void TestInitializationWithNullName() 
-		{
-			frtep.Initialize(null, null);
-		}
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestInitializationWithNullConfigValue()
+        {
+            frtep.Initialize("FCKProvider", null);
+        }
 
-		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void TestInitializationWithNullConfigValue() 
-		{
-			frtep.Initialize("FCKProvider", null);
-		}
-
-		[Test]
-		[ExpectedException(typeof(InvalidOperationException))]
-		public void TestInitializationWithEmptyWebFolder() 
-		{
-			frtep.Initialize("FCKProvider", new System.Collections.Specialized.NameValueCollection());
-		}
-	}
+        [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestInitializationWithEmptyWebFolder()
+        {
+            frtep.Initialize("FCKProvider", new System.Collections.Specialized.NameValueCollection());
+        }
+    }
 }

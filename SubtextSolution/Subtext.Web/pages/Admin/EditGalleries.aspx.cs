@@ -152,11 +152,10 @@ namespace Subtext.Web.Admin.Pages
 			Image image = potentialImage as Image;
 			if (image != null)
 			{
-				return string.Format(CultureInfo.InvariantCulture, "{0}{1}", Images.GalleryVirtualUrl(image.CategoryID), 
-					image.ThumbNailFile);
+                image.Blog = Blog;
+                return Url.ImageUrl(image, image.ThumbNailFile);
 			}
-			else
-				return String.Empty;
+		    return String.Empty;
 		}
 
 		protected string EvalImageNavigateUrl(object potentialImage)
@@ -164,7 +163,7 @@ namespace Subtext.Web.Admin.Pages
 			Image image = potentialImage as Image;
 			if (image != null)
 			{
-				return Url.ImageUrl(image);
+				return Url.GalleryImageUrl(image);
 			}
 			else
 				return String.Empty;
@@ -270,7 +269,7 @@ namespace Subtext.Web.Admin.Pages
                         image.Title = fileName;
                         image.IsActive = ckbIsActiveImage.Checked;
                         image.FileName = Path.GetFileName(fileName);
-                        image.LocalDirectoryPath = Images.LocalGalleryFilePath(CategoryID);
+                        image.LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryID);
 
                         // Read the next file from the Zip stream
                         using (MemoryStream currentFileData = new MemoryStream((int)theEntry.Size))
@@ -377,7 +376,7 @@ namespace Subtext.Web.Admin.Pages
 				try
 				{
 					image.FileName = Path.GetFileName(targetFileName);
-                    image.LocalDirectoryPath = Images.LocalGalleryFilePath(CategoryID);
+                    image.LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryID);
 					if (File.Exists(image.OriginalFilePath))
 					{
 						// tell the user we can't accept this file.
@@ -419,14 +418,15 @@ namespace Subtext.Web.Admin.Pages
 
 		private void ConfirmDeleteGallery(int categoryID, string categoryTitle)
 		{
-			this.Command = new DeleteGalleryCommand(categoryID, categoryTitle);
+			this.Command = new DeleteGalleryCommand(Url.ImageGalleryDirectoryUrl(Blog, categoryID), categoryID, categoryTitle);
 			this.Command.RedirectUrl = Request.Url.ToString();
 			Server.Transfer(Constants.URL_CONFIRM);
 		}
 
 		private void ConfirmDeleteImage(int imageID)
 		{
-			this.Command = new DeleteImageCommand(imageID);
+            var image = Images.GetSingleImage(imageID, false);
+			this.Command = new DeleteImageCommand(image, Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID));
 			this.Command.RedirectUrl = Request.Url.ToString();
 			Server.Transfer(Constants.URL_CONFIRM);
 		}

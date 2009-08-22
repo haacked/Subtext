@@ -30,7 +30,7 @@ namespace Subtext.Web.Providers.BlogEntryEditor.PlainText
 		int _cols;
 		string _cssClass;
 
-        private static System.Resources.ResourceManager rm = new System.Resources.ResourceManager("Subtext.Web.Providers.BlogEntryEditor.PlainText.resources.ErrorMessages", System.Reflection.Assembly.GetExecutingAssembly());
+        private static System.Resources.ResourceManager rm = new System.Resources.ResourceManager("Subtext.Web.Pages.Providers.BlogEntryEditor.PlainText.resources.ErrorMessages", System.Reflection.Assembly.GetExecutingAssembly());
 
         public override Control RichTextEditorControl
 		{
@@ -42,12 +42,14 @@ namespace Subtext.Web.Providers.BlogEntryEditor.PlainText
 
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
-			if(name == null)
-				throw new ArgumentNullException("name", rm.GetString("nameNeeded"));
-			
-			if(configValue == null)
-				throw new ArgumentNullException("configValue", rm.GetString("configNeeded"));
-
+            if (name == null)
+            {
+                throw new ArgumentNullException("name", rm.GetString("nameNeeded"));
+            }
+            if (configValue == null)
+            {
+                throw new ArgumentNullException("configValue", rm.GetString("configNeeded"));
+            }
 			if(configValue["rows"]!=null)
 				_rows=Convert.ToInt32(configValue["rows"]);
 			if(configValue["cols"]!=null)
@@ -58,20 +60,24 @@ namespace Subtext.Web.Providers.BlogEntryEditor.PlainText
 			base.Initialize(name, configValue);
 		}
 
-		public override void InitializeControl() 
+		public override void InitializeControl(object context) 
 		{
 			_txtCtl = new TextBox();
 			_txtCtl.ID = this.ControlId;
-			if(_cssClass != null && _cssClass.Trim().Length != 0)
-				_txtCtl.CssClass = _cssClass;
+            if (_cssClass != null && _cssClass.Trim().Length != 0)
+            {
+                _txtCtl.CssClass = _cssClass;
+            }
 
-			if (this.Width != Unit.Empty)
-				_txtCtl.Width = this.Width;
-
-			if (this.Height != Unit.Empty)
-				_txtCtl.Height = this.Height;
-			
-			_txtCtl.TextMode=TextBoxMode.MultiLine;
+            if (this.Width != Unit.Empty)
+            {
+                _txtCtl.Width = this.Width;
+            }
+            if (this.Height != Unit.Empty)
+            {
+                _txtCtl.Height = this.Height;
+            }
+			_txtCtl.TextMode = TextBoxMode.MultiLine;
 			_txtCtl.Rows = _rows;
 			_txtCtl.Columns = _cols;
 		}

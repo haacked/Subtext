@@ -8,6 +8,9 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Web.HttpModules;
 using Image = Subtext.Framework.Components.Image;
+using Subtext.Framework.Routing;
+using Moq;
+using System.Web;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -59,26 +62,6 @@ namespace UnitTests.Subtext.Framework
 			loaded.LocalDirectoryPath = Path.GetFullPath(TestDirectory);
 
 			Assert.AreEqual("A Better Title", loaded.Title, "The title was not updated");
-		}
-
-		[Test]
-		[RollBack2]
-        [Ignore("Need to rewrite this test")]
-		public void CanGetLocalGalleryFilePath()
-		{
-			UnitTestHelper.SetupBlog();
-            
-			Assert.AreEqual(Path.Combine(Environment.CurrentDirectory, @"image\42\"), Images.LocalGalleryFilePath(42));
-		}
-
-		[Test]
-		[RollBack2]
-		public void CanGetGalleryVirtualUrl()
-		{
-			UnitTestHelper.SetupBlog();
-            UrlBasedBlogInfoProvider.MapImageDirectory(BlogRequest.Current);
-            string expected = string.Format(CultureInfo.InvariantCulture, "http://{0}/images/{0}/1/", BlogRequest.Current.Host);
-			Assert.AreEqual(expected, Images.GalleryVirtualUrl(1));
 		}
 
 		[Test]
@@ -216,6 +199,22 @@ namespace UnitTests.Subtext.Framework
 		{
 			Assert.IsFalse(Images.SaveImage(singlePixelBytes, "!"));
 		}
+
+        [Test]
+        public void GalleryDirectoryPath_WithBlogAndCategoryId_ReturnPhysicalDirectoryPath() 
+        {
+            // arrange
+            UrlHelper helper = UnitTestHelper.SetupUrlHelper("/Subtext.Web");
+            var httpContext = Mock.Get(helper.HttpContext);
+            httpContext.Setup(c => c.Server.MapPath("/Subtext.Web/images/localhost/Subtext_Web/123/")).Returns(@"c:\123\");
+            Blog blog = new Blog { Host = "localhost", Subfolder = "" };
+
+            // act
+            string path = helper.GalleryDirectoryPath(blog, 123);
+
+            // assert
+            Assert.AreEqual(@"c:\123\", path);
+        }
 
 		#region ExceptionTests
 		[Test]
