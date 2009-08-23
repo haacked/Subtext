@@ -1,16 +1,27 @@
+#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
 using System;
-using System.Data;
-using System.Web;
-using System.Web.UI.WebControls;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Configuration;
 using System.Collections.Generic;
+using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
-using System.Globalization;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.UI.Controls
 {
-    public class AggSyndication : BaseControl
+    public class AggSyndication : AggregateUserControl
     {
         protected Repeater blogGroupRepeater;
 

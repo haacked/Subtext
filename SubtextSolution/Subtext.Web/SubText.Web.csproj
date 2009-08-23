@@ -675,9 +675,6 @@
     <Compile Include="UI\Controls\Aggregate\AggRecentPosts.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UI\Controls\Aggregate\AggregateControl.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="UI\Controls\Aggregate\AggregatePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

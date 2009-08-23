@@ -459,7 +459,7 @@ namespace Subtext.Framework.Providers
 		public abstract BlogAlias GetBlogAliasById(int aliasId);
         public abstract ICollection<Blog> GetBlogsByGroup(string host, int? groupId);
         public abstract ICollection<BlogGroup> GroupBlogs(IEnumerable<Blog> blogs);
-        public abstract HostStats GetTotalBlogStats(string host, int groupId);
+        public abstract HostStats GetTotalBlogStats(string host, int? groupId);
         public abstract ICollection<Entry> GetRecentEntries(string host, int? groupId, int rowCount);
         public abstract ICollection<Image> GetImages(string host, int? groupId, int rowCount);
         public abstract ICollection<EntrySummary> GetTopEntrySummaries(int blogId, int rowCount);

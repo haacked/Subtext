@@ -5,7 +5,7 @@
 	<ItemTemplate>
 		<div class="post">
 			<h3>
-				<asp:HyperLink Runat = "server" NavigateUrl = '<%# GetEntryUrl(Eval("Blog.Host").ToString(), Eval("Blog.Subfolder").ToString(), Eval("EntryName").ToString(), (DateTime)Eval("DateCreated")) %>' Text = '<%# Eval("Title") %>' ID="Hyperlink2"/></h3>
+				<asp:HyperLink Runat="server" NavigateUrl='<%# GetEntryUrl(Eval("Blog.Host").ToString(), Eval("Blog.Subfolder").ToString(), Eval("EntryName").ToString(), (DateTime)Eval("DateCreated")) %>' Text = '<%# Eval("Title") %>' ID="Hyperlink2"/></h3>
 			<asp:Literal runat = "server" Text = '<%# Eval("Description") %>' ID="Label4"/>
 			<p class="postfoot">
 				posted @

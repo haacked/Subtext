@@ -23,7 +23,7 @@ namespace Subtext.Web.UI.Controls
 	/// <summary>
 	///	Control used to view a single blog post.
 	/// </summary>
-    public class AggPinnedPost : BaseControl
+    public class AggPinnedPost : AggregateUserControl
 	{
 		protected Literal PinnedTitle;
         protected Literal PinnedPost;

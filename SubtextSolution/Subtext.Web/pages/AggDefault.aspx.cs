@@ -17,8 +17,8 @@ using System;
 using System.Configuration;
 using System.Web;
 using System.Web.UI.WebControls;
-using Subtext.Web.UI.Controls.Aggregate;
 using Subtext.Framework.Routing;
+using Subtext.Web.UI.Controls;
 
 namespace Subtext.Web
 {
