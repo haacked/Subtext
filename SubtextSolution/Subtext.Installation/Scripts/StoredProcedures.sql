@@ -4277,8 +4277,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_AddLogEntry]
 	 , @Context varchar(512)
 	 , @Level varchar(20)
 	 , @Logger nvarchar(256)
-	 , @Message nvarchar(2000)
-	 , @Exception nvarchar(1000)
+	 , @Message nvarchar(255)
+	 , @Exception nvarchar(2745)
 	 , @Url varchar(255)
 )
 AS
