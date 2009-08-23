@@ -37,5 +37,10 @@ namespace Subtext.Web.UI.Controls
                 return base.Page as AggregatePage;
             }
         }
+
+        public T Get<T>(object item) where T : class
+        {
+            return item as T;
+        }
     }
 }

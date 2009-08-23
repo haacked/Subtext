@@ -106,5 +106,10 @@ namespace Subtext.Web.Admin.WebUI
             SecurityHelper.LogOut();
             HttpContext.Current.Response.Redirect(Url.BlogUrl());
         }
+
+        public string AjaxServicesUrl()
+        {
+            return AdminUrl.AjaxServices() + "?proxy";
+        }
     }
 }

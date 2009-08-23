@@ -19,6 +19,7 @@ using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -45,9 +46,10 @@ namespace Subtext.Web.UI.Controls
             base.OnLoad(e);
         }
 
-        protected string GetEntryUrl(string host, string app, string entryName, DateTime dt)
+        protected string EntryUrl(object item)
         {
-            return string.Format(CultureInfo.InvariantCulture, "{0}archive/{1:yyyy/MM/dd}/{2}.aspx", GetFullUrl(host, app), dt, entryName);
+            Entry entry = item as Entry;
+            return Url.EntryUrl(entry, entry.Blog);
         }
 
         private string appPath;

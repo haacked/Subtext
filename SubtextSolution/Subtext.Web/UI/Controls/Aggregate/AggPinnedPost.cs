@@ -28,24 +28,22 @@ namespace Subtext.Web.UI.Controls
 		protected Literal PinnedTitle;
         protected Literal PinnedPost;
 
-        private int _ContentID;
         /// <summary>
         /// Property to set the ID of the post to display.
         /// </summary>
         public int ContentID
         {
-            get { return _ContentID; }
-            set { _ContentID = value; }
+            get;
+            set;
         }
 
-        private string _EntryTitle = "";
         /// <summary>
         /// Property to override the post title to display.
         /// </summary>
         public string EntryTitle
         {
-            get { return _EntryTitle; }
-            set { _EntryTitle = value; }
+            get;
+            set;
         }
 
 		/// <summary>
@@ -57,7 +55,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			
 			//Get the entry
-			Entry entry = SubtextContext.Repository.GetEntry(ContentID, false /* includeCategories */);
+			Entry entry = Repository.GetEntry(ContentID, false /* includeCategories */);
 			if(entry != null)
 			{
 				PinnedPost.Text = entry.Body;

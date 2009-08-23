@@ -15,6 +15,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -31,7 +32,17 @@ namespace Subtext.Web.Admin.Pages
 	public class AdminPage : SubtextPage
 	{
         private HtmlGenericControl body;
-		
+
+        protected override void OnInit(EventArgs e)
+        {
+            if (!User.IsInRole("Admins"))
+            {
+                FormsAuthentication.RedirectToLoginPage();
+                return;
+            }
+            base.OnInit(e);
+        }
+	
 		protected override void OnLoad(EventArgs e)
 		{
             if (this.Page.Master != null)

@@ -43,7 +43,7 @@ public static class Routes
         routes.MapPage("login");
         routes.MapPage("logout");
 
-        routes.MapHttpHandler<AjaxServices>("admin/Services/Ajax/AjaxServices.ashx");
+        routes.MapHttpHandler<AjaxServices>("ajax-services", "admin/Services/Ajax/AjaxServices.ashx");
         routes.MapHttpHandler<SubtextBlogMlHttpHandler>("admin/handlers/BlogMLExport.ashx");
         routes.MapHttpHandler<RssAdminHandler>("admin-rss", "admin/{feedName}Rss.axd");
         routes.MapDirectory("admin");
