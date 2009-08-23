@@ -106,6 +106,10 @@
       <Name>FredCK.FCKeditorV2</Name>
       <HintPath>..\Dependencies\FredCK.FCKeditorV2.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -164,6 +168,9 @@
     </Compile>
     <Compile Include="FckBlogEntryEditorProvider.cs" />
     <Compile Include="FileBrowserConnector.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Uploader.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="XmlUtil.cs">
