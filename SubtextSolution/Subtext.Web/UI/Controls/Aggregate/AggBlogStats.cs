@@ -1,21 +1,27 @@
+#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
 using System;
-using System.Data;
-using System.Configuration;
-using System.Collections;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
 {
-    public partial class AggBlogStats : BaseControl
+    public partial class AggBlogStats : AggregateUserControl
     {
         protected Literal BlogCount;
         protected Literal PostCount;
@@ -27,19 +33,8 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            int GroupID = 0;
-
-			if(Request.QueryString["GroupID"] !=null)
-			{
-				try
-				{
-					GroupID = Int32.Parse(Request.QueryString["GroupID"]);
-				}
-				catch{}
-
-			}
-
-            HostStats stats = ObjectProvider.Instance().GetTotalBlogStats(HostInfo.Instance.AggregateBlog.Host, GroupID);
+            int? groupId = base.GetGroupIdFromQueryString();
+            HostStats stats = Repository.GetTotalBlogStats(HostInfo.Instance.AggregateBlog.Host, groupId);
             if (stats != null)
             {
                 BlogCount.Text = stats.BlogCount.ToString();

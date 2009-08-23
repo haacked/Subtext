@@ -122,7 +122,7 @@ namespace Subtext.Framework.Data
                 .ToList();
         }
 
-        public override HostStats GetTotalBlogStats(string host, int groupId)
+        public override HostStats GetTotalBlogStats(string host, int? groupId)
         {
             using (IDataReader reader = _procedures.TotalStats(host, groupId))
             {

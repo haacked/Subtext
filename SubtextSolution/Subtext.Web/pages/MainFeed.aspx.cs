@@ -25,8 +25,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Tracking;
-using Subtext.Framework.Util;
-using Subtext.Web.UI.Controls.Aggregate;
+using Subtext.Web.UI.Controls;
 
 namespace Subtext.Web
 {

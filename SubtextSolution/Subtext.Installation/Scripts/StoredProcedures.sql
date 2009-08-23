@@ -4125,8 +4125,7 @@ WHERE blog.Flag & 2 = 2
 	AND blog.Host = @Host
 	AND bgroup.Active = 1
 	AND blog.IsActive = 1
-	AND (blog.BlogGroupId = @GroupID
-	OR @GroupID is null)
+	AND (blog.BlogGroupId = @GroupID OR @GroupID is null)
 ORDER BY bgroup.DisplayOrder, bgroup.Id,  blog.PostCount DESC
 
 
@@ -4148,7 +4147,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[DNW_Total_Stats]
 (
 	@Host nvarchar(100),
-	@GroupID int
+	@GroupID int = NULL
 )
 AS
 SELECT Count(*) AS [BlogCount]
@@ -4159,7 +4158,7 @@ SELECT Count(*) AS [BlogCount]
 FROM [<dbUser,varchar,dbo>].[subtext_Config] 
 	WHERE subtext_Config.Flag & 2 = 2 
 		AND Host = @Host 
-		AND (BlogGroupId = @GroupID OR @GroupID = 0)
+		AND (BlogGroupId = @GroupID OR @GroupID is NULL)
 
 SET QUOTED_IDENTIFIER ON
 

@@ -34,7 +34,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("DNW_Stats", p);
 		}
 		
-		public IDataReader TotalStats(string host, int groupId) {
+		public IDataReader TotalStats(string host, int? groupId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Host", host),		
 				DataHelper.MakeInParam("@GroupID", groupId),		
