@@ -31,11 +31,12 @@ namespace Subtext.Web
         protected HyperLink Hyperlink6;
         protected HyperLink Hyperlink7;
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
             //No postbacks on this page. It is output cached.
             SetStyle();
             DataBind();
+            base.OnLoad(e);
         }
 
         /// <summary>
@@ -61,27 +62,6 @@ namespace Subtext.Web
             //TODO: This is hard-coded to look in the simple skin for aggregate blogs. We should change this later.
             Style.Text = string.Format(style, apppath, "Skins/Aggregate/Simple/Style.css") + "\n" + string.Format(style, apppath, "Skins/Aggregate/Simple/blue.css") + "\n" + string.Format(style, apppath, "Scripts/jquery.lightbox-0.5.css");
         }
-
-        #region Web Form Designer generated code
-        override protected void OnInit(EventArgs e)
-        {
-            //
-            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
-            //
-            InitializeComponent();
-            base.OnInit(e);
-        }
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.Load += new EventHandler(this.Page_Load);
-
-        }
-        #endregion
     }
 }
 

@@ -5,13 +5,14 @@
 	<ItemTemplate>
 		<div class="post">
 			<h3>
-				<asp:HyperLink Runat="server" NavigateUrl='<%# GetEntryUrl(Eval("Blog.Host").ToString(), Eval("Blog.Subfolder").ToString(), Eval("EntryName").ToString(), (DateTime)Eval("DateCreated")) %>' Text = '<%# Eval("Title") %>' ID="Hyperlink2"/></h3>
-			<asp:Literal runat = "server" Text = '<%# Eval("Description") %>' ID="Label4"/>
+				<asp:HyperLink Runat="server" NavigateUrl='<%# EntryUrl(Container.DataItem) %>' Text='<%# H(Get<Entry>(Container.DataItem).Title) %>' ID="Hyperlink2"/>
+	        </h3>
+			<asp:Literal runat="server" Text='<%# H(Get<Entry>(Container.DataItem).Description) %>' ID="Label4"/>
 			<p class="postfoot">
 				posted @
-				<asp:Literal runat = "server" Text = '<%# (DateTime.Parse(Eval("DateCreated").ToString())).ToShortDateString() + " " + (DateTime.Parse(Eval("DateCreated").ToString())).ToShortTimeString() %>' ID="Label5" />
+				<asp:Literal runat = "server" Text = '<%# Get<Entry>(Container.DataItem).DateCreated.ToShortDateString() + " " + Get<Entry>(Container.DataItem).DateCreated.ToShortTimeString() %>' ID="Label5" />
 				by
-				<asp:HyperLink Runat = "server" CssClass = "clsSubtext" NavigateUrl = '<%# GetFullUrl(Eval("Blog.Host").ToString(), Eval("Blog.Subfolder").ToString())  %>' Text = '<%# Eval("Author") %>' ID="Hyperlink3"/>
+				<asp:HyperLink Runat = "server" CssClass = "clsSubtext" NavigateUrl='<%# BlogUrl(Get<Entry>(Container.DataItem).Blog) %>' Text='<%# Get<Entry>(Container.DataItem).Author %>' ID="Hyperlink3"/>
 			</p>
 		</div>
 	</ItemTemplate>

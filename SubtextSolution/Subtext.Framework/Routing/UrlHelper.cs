@@ -92,6 +92,11 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath EntryUrl(IEntryIdentity entry)
         {
+            return EntryUrl(entry, null);
+        }
+
+        public virtual VirtualPath EntryUrl(IEntryIdentity entry, Blog entryBlog)
+        {
             if (entry == null)
             {
                 throw new ArgumentNullException("entry");
@@ -130,6 +135,10 @@ namespace Subtext.Framework.Routing
             {
                 routeValues.Add("slug", entry.EntryName);
                 routeName += "by-slug";
+            }
+            if (entryBlog != null)
+            {
+                routeValues.Add("subfolder", entryBlog.Subfolder);
             }
 
             var virtualPath = Routes.GetVirtualPath(RequestContext, routeName, routeValues);

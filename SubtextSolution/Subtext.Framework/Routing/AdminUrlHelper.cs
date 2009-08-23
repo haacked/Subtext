@@ -125,5 +125,10 @@ namespace Subtext.Framework.Routing
         {
             return Url.AdminUrl("ErrorLog.aspx");
         }
+        
+        public VirtualPath AjaxServices() 
+        {
+            return Url.GetVirtualPath("ajax-services", null);
+        }
     }
 }
