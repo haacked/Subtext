@@ -27,26 +27,6 @@ namespace Subtext.Framework.Util
 	/// </summary>
 	public static class WebPathStripper
 	{
-		public static DateTime GetDateFromRequest(string uri, string archiveText)
-		{
-			uri = uri.ToLower(CultureInfo.InvariantCulture);
-			uri = CleanStartDateString(uri,archiveText);
-			uri = CleanEndDateString(uri);
-			return DateTime.ParseExact(uri,dateFormats,new CultureInfo("en-US"),DateTimeStyles.None);
-		}
-
-		private static string CleanStartDateString(string uri, string archiveText)
-		{
-			return uri.Remove(0,uri.LastIndexOf(archiveText) + archiveText.Length+1);
-		}
-
-		private static string CleanEndDateString(string uri)
-		{
-			return Regex.Replace(uri,@"(/|\.aspx)$",string.Empty,RegexOptions.IgnoreCase);
-		}
-
-		private static readonly string[] dateFormats = {"yyyy/MM/d","yyyy/MM/dd","yyyy/M/dd","yyyy/M/d","yyyy/MM","yyyy/M"};
-
 		/// <summary>
 		/// Return the value of a url between /category/ and /rss
 		/// </summary>
