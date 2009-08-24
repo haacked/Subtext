@@ -32,5 +32,22 @@ namespace Subtext.Framework.Util
 
             return new DateTime(year, month, day);
         }
+
+        public static string GetSlugFromRequest(this RequestContext requestContext)
+        {
+            return requestContext.RouteData.Values["slug"] as string;
+        }
+
+        public static int? GetIdFromRequest(this RequestContext requestContext)
+        {
+            var routeValues = requestContext.RouteData.Values;
+            int id;
+            if (!routeValues.ContainsKey("id") || 
+                !int.TryParse((string)routeValues["id"], out id)) 
+            {
+                return null;
+            }
+            return id;
+        }
     }
 }

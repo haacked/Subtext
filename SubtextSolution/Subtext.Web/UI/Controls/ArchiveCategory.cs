@@ -1,6 +1,8 @@
 using System;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
+using Subtext.Framework.Util;
+
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 
@@ -35,10 +37,11 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 
-			int categoryId;
-            int.TryParse((string)RouteValues["id"], out categoryId);
-			Days.Days = Entries.GetPostsByCategoryID(Blog.ItemCount, categoryId);
-
+		    int? categoryId = SubtextContext.RequestContext.GetIdFromRequest();
+            if (categoryId != null)
+            {
+                Days.Days = Entries.GetPostsByCategoryID(Blog.ItemCount, categoryId.Value);
+            }
 		}
 	}
 }

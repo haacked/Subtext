@@ -32,7 +32,7 @@ namespace Subtext.Framework.Syndication
 			set;
 		}
 
-		public string Url
+		public Uri Url
 		{
 			get;
 			set;
@@ -46,7 +46,7 @@ namespace Subtext.Framework.Syndication
 		/// <param name="ec">Ec.</param>
 		/// <param name="lc">Lc.</param>
 		/// <param name="url">URL.</param>
-		public CategoryWriter(TextWriter writer, ICollection<Entry> ec, LinkCategory lc, string url, ISubtextContext context) : base(writer, ec, NullValue.NullDateTime, false, context)
+		public CategoryWriter(TextWriter writer, ICollection<Entry> ec, LinkCategory lc, Uri url, ISubtextContext context) : base(writer, ec, NullValue.NullDateTime, false, context)
 		{
 			this.Category = lc;
 			this.Url = url;
@@ -60,7 +60,7 @@ namespace Subtext.Framework.Syndication
 			}
 			else
 			{
-				this.BuildChannel(Category.Title,  Url,  Blog.Email,  Category.HasDescription ? Category.Description : Category.Title, Blog.Language, Blog.Author, Blog.LicenseUrl);
+				this.BuildChannel(Category.Title, Url, Blog.Email, Category.HasDescription ? Category.Description : Category.Title, Blog.Language, Blog.Author, Blog.LicenseUrl);
 			}
 		}
 	}

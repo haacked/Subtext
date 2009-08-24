@@ -17,6 +17,7 @@ using System;
 using System.Drawing;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
+using Subtext.Framework.Util;
 using Subtext.Framework.Routing;
 
 namespace Subtext.Web.UI.Controls
@@ -32,8 +33,8 @@ namespace Subtext.Web.UI.Controls
 
 			if(Context != null)
 			{
-                int imageId = RouteValues.GetId();
-				var image = Repository.GetImage(imageId, true /* activeOnly */);
+                int? imageId = SubtextContext.RequestContext.GetIdFromRequest();
+				var image = Repository.GetImage(imageId.Value, true /* activeOnly */);
                 image.Blog = Blog;
 
 				Title.Text = image.Title;

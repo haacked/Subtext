@@ -14,23 +14,23 @@
 #endregion
 
 #region Notes
- ///////////////////////////////////////////////////////////////////////////////////////////////////
- // The code in this file is freely distributable.
- // 
- // ASPNetWeblog isnot responsible for, shall have no liability for 
- // and disclaims all warranties whatsoever, expressed or implied, related to this code,
- // including without limitation any warranties related to performance, security, stability,
- // or non-infringement of title of the control.
- // 
- // If you have any questions, comments or concerns, please contact
- // Scott Watermasysk, Scott@TripleASP.Net.
- // 
- // For more information on this control, updates, and other tools to integrate blogging 
- // into your existing applications, please visit, http://aspnetweblog.com
- // 
- // Originally based off of code by Simon Fell http://www.pocketsoap.com/weblog/ 
- // 
- ///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// The code in this file is freely distributable.
+// 
+// ASPNetWeblog isnot responsible for, shall have no liability for 
+// and disclaims all warranties whatsoever, expressed or implied, related to this code,
+// including without limitation any warranties related to performance, security, stability,
+// or non-infringement of title of the control.
+// 
+// If you have any questions, comments or concerns, please contact
+// Scott Watermasysk, Scott@TripleASP.Net.
+// 
+// For more information on this control, updates, and other tools to integrate blogging 
+// into your existing applications, please visit, http://aspnetweblog.com
+// 
+// Originally based off of code by Simon Fell http://www.pocketsoap.com/weblog/ 
+// 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 using System;
 using System.Globalization;
@@ -47,44 +47,48 @@ using Subtext.Framework.XmlRpc;
 namespace Subtext.Framework.Tracking
 {
     /// <summary>
-	/// Service used to receive pingbacks from remote clients.
-	/// </summary>
-	public class PingBackService : SubtextXmlRpcService
-	{
-        public PingBackService(ISubtextContext context) : base(context){
+    /// Service used to receive pingbacks from remote clients.
+    /// </summary>
+    public class PingBackService : SubtextXmlRpcService
+    {
+        public PingBackService(ISubtextContext context)
+            : base(context)
+        {
         }
 
-		/// <summary>
-		/// Method called by a remote client to ping this server.
-		/// </summary>
-		/// <param name="sourceURI">Source URI.</param>
-		/// <param name="targetURI">Target URI.</param>
-		/// <returns></returns>
-		[XmlRpcMethod("pingback.ping", Description="Pingback server implementation")] 
-		public string pingBack(string sourceURI, string targetURI)
-		{
-			if (!Blog.TrackbacksEnabled)
-				return "Pingbacks are not enabled for this site.";
-			
-			string pageTitle;
+        /// <summary>
+        /// Method called by a remote client to ping this server.
+        /// </summary>
+        /// <param name="sourceURI">Source URI.</param>
+        /// <param name="targetURI">Target URI.</param>
+        /// <returns></returns>
+        [XmlRpcMethod("pingback.ping", Description = "Pingback server implementation")]
+        public string pingBack(string sourceURI, string targetURI)
+        {
+            if (!Blog.TrackbacksEnabled)
+                return "Pingbacks are not enabled for this site.";
 
-			// GetPostIDFromUrl returns the postID
-			int postId;
-            if (!int.TryParse((string)RouteValues["id"], out postId) || postId == NullValue.NullInt32) { 
-            	throw new XmlRpcFaultException(33, Resources.XmlRcpFault_DidNotLinkToPermalink);
+            string pageTitle;
+
+            // GetPostIDFromUrl returns the postID
+            int? id = SubtextContext.RequestContext.GetIdFromRequest();
+            if (id == null)
+            {
+                throw new XmlRpcFaultException(33, Resources.XmlRcpFault_DidNotLinkToPermalink);
             }
 
-			Uri sourceUrl = HtmlHelper.ParseUri(sourceURI);
-			Uri targetUrl = HtmlHelper.ParseUri(targetURI);
+            Uri sourceUrl = HtmlHelper.ParseUri(sourceURI);
+            Uri targetUrl = HtmlHelper.ParseUri(targetURI);
 
-			// does the sourceURI actually contain the permalink ?
-			if (sourceUrl == null || targetUrl == null || !Verifier.SourceContainsTarget(sourceUrl, targetUrl, out pageTitle))
-				throw new XmlRpcFaultException(17, Resources.XmlRcpFault_InvalidLink);
+            // does the sourceURI actually contain the permalink ?
+            if (sourceUrl == null || targetUrl == null || !Verifier.SourceContainsTarget(sourceUrl, targetUrl, out pageTitle))
+                throw new XmlRpcFaultException(17, Resources.XmlRcpFault_InvalidLink);
 
-			//PTR = Pingback - TrackBack - Referral
-            Trackback trackback = new Trackback(postId, HtmlHelper.SafeFormat(pageTitle, this.SubtextContext.HttpContext.Server), new Uri(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle, this.SubtextContext.HttpContext.Server), Blog.TimeZone.Now);
+            //PTR = Pingback - TrackBack - Referral
+            Trackback trackback = new Trackback(id.Value, HtmlHelper.SafeFormat(pageTitle, this.SubtextContext.HttpContext.Server), new Uri(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle, this.SubtextContext.HttpContext.Server), Blog.TimeZone.Now);
             ICommentSpamService feedbackService = null;
-            if (Blog.FeedbackSpamServiceEnabled) {
+            if (Blog.FeedbackSpamServiceEnabled)
+            {
                 feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
             }
             CommentService commentService = new CommentService(SubtextContext, new CommentFilter(SubtextContext, feedbackService));
@@ -94,8 +98,8 @@ namespace Subtext.Framework.Tracking
             var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
             emailService.EmailCommentToBlogAuthor(trackback);
 
-			return String.Format(CultureInfo.InvariantCulture, Resources.XmlRpcMessage_ThanksForThePingback, sourceURI);
-		}
-	}
+            return String.Format(CultureInfo.InvariantCulture, Resources.XmlRpcMessage_ThanksForThePingback, sourceURI);
+        }
+    }
 }
 

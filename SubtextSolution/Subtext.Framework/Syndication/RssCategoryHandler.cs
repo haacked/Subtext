@@ -14,27 +14,21 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using Subtext.Framework;
+using System.Linq;
 using Subtext.Framework.Components;
-using Subtext.Framework.Syndication;
-using Subtext.Framework.Util;
 using Subtext.Framework.Data;
+using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Syndication
 {
-    /// <summary>
-    /// RssCommentHandler is a proposed extention to the CommentApi. This is still beta/etc.
-    /// The Main Rss feed now contains an element for each entry, which will generate a rss feed 
-    /// containing the comments for each post.
-    /// </summary>
     public class RssCategoryHandler : EntryCollectionHandler<Entry>
     {
         protected LinkCategory Category;
         ICollection<Entry> posts;
 
-        public RssCategoryHandler(ISubtextContext subtextContext) : base(subtextContext)
+        public RssCategoryHandler(ISubtextContext subtextContext)
+            : base(subtextContext)
         {
         }
 
@@ -53,7 +47,6 @@ namespace Subtext.Framework.Syndication
             return posts;
         }
 
-
         /// <summary>
         /// Builds the feed using delta encoding if it's true.
         /// </summary>
@@ -67,7 +60,7 @@ namespace Subtext.Framework.Syndication
             if (posts != null && posts.Count > 0)
             {
                 feed = new CachedFeed();
-                CategoryWriter cw = new CategoryWriter(HttpContext.Response.Output, posts, Category, WebPathStripper.RemoveRssSlash(HttpContext.Request.Url.ToString()), SubtextContext);
+                CategoryWriter cw = new CategoryWriter(HttpContext.Response.Output, posts, Category, Url.CategoryUrl(Category).ToFullyQualifiedUrl(Blog), SubtextContext);
                 feed.LastModified = ConvertLastUpdatedDate(posts.First().DateCreated);
                 feed.Xml = cw.Xml;
             }
@@ -78,7 +71,7 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                return new CategoryWriter(HttpContext.Response.Output, posts, Category, WebPathStripper.RemoveRssSlash(HttpContext.Request.Url.ToString()), SubtextContext);
+                return new CategoryWriter(HttpContext.Response.Output, posts, Category, Url.CategoryUrl(Category).ToFullyQualifiedUrl(Blog), SubtextContext);
             }
         }
 
@@ -87,9 +80,11 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         protected override bool IsMainfeed
         {
-            get { return false; }
+            get
+            {
+                return false;
+            }
         }
-
 
         /// <summary>
         /// Gets the item created date.

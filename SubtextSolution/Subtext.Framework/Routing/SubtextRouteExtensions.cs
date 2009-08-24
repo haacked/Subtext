@@ -159,10 +159,5 @@ namespace Subtext.Framework.Routing
         {
             return routeData.Values["subfolder"] as string;
         }
-
-        public static int GetId(this RouteValueDictionary routeValues)
-        {
-            return Convert.ToInt32(routeValues["id"]);
-        }
     }
 }
