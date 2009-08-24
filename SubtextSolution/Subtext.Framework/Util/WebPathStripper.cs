@@ -13,12 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
-using System.Globalization;
-using System.IO;
 using System.Text.RegularExpressions;
-
-//This might need to somehow be provider based. Or even Globalized. Not all dates will be US :)
 
 namespace Subtext.Framework.Util
 {
@@ -27,19 +22,6 @@ namespace Subtext.Framework.Util
 	/// </summary>
 	public static class WebPathStripper
 	{
-		/// <summary>
-		/// Return the value of a url between /category/ and /rss
-		/// </summary>
-		/// <param name="url"></param>
-		/// <returns></returns>
-		public static string GetCategryFromRss(string url)
-		{
-			url = url.ToLower(CultureInfo.InvariantCulture);
-			int start = url.IndexOf("/category/");
-			int stop = url.IndexOf("/rss");
-			return url.Substring(start+10,stop-(start+10)).Replace(".aspx",string.Empty);			
-		}
-
 		/// <summary>
 		/// Removes the trailing RSS slash if there.
 		/// </summary>
