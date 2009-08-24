@@ -37,7 +37,7 @@ namespace Subtext.Web.UI.Controls
 			
 			try
 			{
-				DateTime dt = WebPathStripper.GetDateFromRequest(Request.Path,"archive");
+                DateTime dt = SubtextContext.RequestContext.GetDateFromRequest();
 				Days.EntryListItems = Cacher.GetMonth(dt, SubtextContext);
 				Days.EntryListTitle = string.Format(CultureInfo.InvariantCulture, "{0} " + Resources.Label_Entries, dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture));
 				Globals.SetTitle(string.Format(CultureInfo.InvariantCulture, "{0} - {1} " + Resources.Label_Entries, Blog.Title, dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture)),Context);

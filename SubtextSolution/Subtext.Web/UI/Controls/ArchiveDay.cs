@@ -36,7 +36,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				try
 				{
-                    DateTime dayDate = WebPathStripper.GetDateFromRequest(Request.Path, "archive");
+                    DateTime dayDate = SubtextContext.RequestContext.GetDateFromRequest();
 					SingleDay.CurrentDay = Cacher.GetDay(dayDate, SubtextContext);
                     Subtext.Web.UI.Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1} Entries", Blog.Title, dayDate.ToString("D", CultureInfo.CurrentCulture)), Context);
 				}

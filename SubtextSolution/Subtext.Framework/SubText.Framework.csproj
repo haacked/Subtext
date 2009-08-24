@@ -494,6 +494,7 @@
     <Compile Include="Syndication\OpmlHandler.cs" />
     <Compile Include="Syndication\OpmlWriter.cs" />
     <Compile Include="UI\Skinning\SkinEngine.cs" />
+    <Compile Include="Util\RequestExtensions.cs" />
     <Compile Include="Web\Handlers\SubtextHttpHandler.cs" />
     <Compile Include="Web\SubtextPage.cs">
       <SubType>ASPXCodeBehind</SubType>

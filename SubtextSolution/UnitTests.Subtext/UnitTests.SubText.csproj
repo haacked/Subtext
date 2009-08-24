@@ -436,6 +436,7 @@
     <Compile Include="Framework\Util\KeywordsTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Util\RequestExtensionsTests.cs" />
     <Compile Include="Framework\Util\SerializationHelperTests.cs" />
     <Compile Include="Framework\Util\TimeZonesTest.cs" />
     <Compile Include="Framework\Util\TransformTests.cs" />
