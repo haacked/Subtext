@@ -142,12 +142,15 @@ namespace UnitTests.Subtext.Framework.Data
 		public void SingleCategoryReturnsNullForNonExistentCategory()
 		{
             //arrange
-            var httpContext = new Mock<HttpContextBase>();
-            httpContext.FakeRequest("/category/99.aspx");
+            var routeData = new RouteData();
+            routeData.Values.Add("slug", "99");
+            var requestContext = new RequestContext(new Mock<HttpContextBase>().Object, routeData);
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.SetupRequestContext(httpContext)
-                .Setup(c => c.Repository.GetLinkCategory(It.IsAny<int>(), true)).Returns((LinkCategory)null);
-            
+            subtextContext.Setup(c => c.RequestContext).Returns(requestContext);
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Id = 123 });
+            subtextContext.Setup(c => c.Repository.GetLinkCategory(99, true)).Returns((LinkCategory)null);
+            subtextContext.Setup(c => c.Cache[It.IsAny<string>()]).Returns(null);
+
             //act
             LinkCategory category = Cacher.SingleCategory(subtextContext.Object);
 
@@ -159,11 +162,15 @@ namespace UnitTests.Subtext.Framework.Data
 		public void CanGetCategoryByIdRequest()
 		{
             //arrange
-            var httpContext = new Mock<HttpContextBase>();
-            httpContext.FakeRequest("/category/99.aspx");
+            var routeData = new RouteData();
+            routeData.Values.Add("slug", "99");
+            var requestContext = new RequestContext(new Mock<HttpContextBase>().Object, routeData);
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.SetupRequestContext(httpContext)
-                .Setup(c => c.Repository.GetLinkCategory(99, true)).Returns(new LinkCategory { Id = 99, Title = "this is a test"});
+            subtextContext.Setup(c => c.RequestContext).Returns(requestContext);
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Id = 123 });
+            subtextContext.Setup(c => c.Repository.GetLinkCategory(99, true))
+                .Returns(new LinkCategory { Id = 99, Title = "this is a test"});
+            subtextContext.Setup(c => c.Cache[It.IsAny<string>()]).Returns(null);
 			
             //act
             LinkCategory category = Cacher.SingleCategory(subtextContext.Object);
@@ -176,11 +183,15 @@ namespace UnitTests.Subtext.Framework.Data
 		public void CanGetCategoryByNameRequest()
 		{
             //arrange
-            var httpContext = new Mock<HttpContextBase>();
-            httpContext.FakeRequest("/category/this-is-a-test.aspx");
+            var routeData = new RouteData();
+            routeData.Values.Add("slug", "this-is-a-test");
+            var requestContext = new RequestContext(new Mock<HttpContextBase>().Object, routeData);
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.SetupRequestContext(httpContext)
-                .Setup(c => c.Repository.GetLinkCategory("this-is-a-test", true)).Returns(new LinkCategory { Id = 99, Title = "this is a test" });
+            subtextContext.Setup(c => c.RequestContext).Returns(requestContext);
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Id = 123 });
+            subtextContext.Setup(c => c.Repository.GetLinkCategory("this-is-a-test", true))
+                .Returns(new LinkCategory { Id = 99, Title = "this is a test" });
+            subtextContext.Setup(c => c.Cache[It.IsAny<string>()]).Returns(null);
 
             //act
 			LinkCategory category = Cacher.SingleCategory(subtextContext.Object);

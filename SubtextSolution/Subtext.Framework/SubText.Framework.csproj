@@ -637,9 +637,6 @@
     <Compile Include="Util\Transform.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Util\WebPathStripper.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Util\XmlSerializerSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>

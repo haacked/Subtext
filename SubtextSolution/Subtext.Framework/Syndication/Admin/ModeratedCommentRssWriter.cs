@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using System;
 
 namespace Subtext.Framework.Syndication.Admin
 {
@@ -21,8 +22,7 @@ namespace Subtext.Framework.Syndication.Admin
                 60, 
                 null);
 
-            string url = UrlHelper.AdminUrl("Feedback.aspx", new {status = 2 }).ToFullyQualifiedUrl(Blog).ToString();
-
+            Uri url = UrlHelper.AdminUrl("Feedback.aspx", new {status = 2 }).ToFullyQualifiedUrl(Blog);
             this.BuildChannel(CommentEntry.Title, url, CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, Blog.Language, Blog.Author, Blog.LicenseUrl, image);			
 		}
 

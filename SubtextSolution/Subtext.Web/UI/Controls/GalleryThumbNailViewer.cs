@@ -15,14 +15,12 @@
 
 using System;
 using System.Globalization;
+using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
-using Subtext.Framework.Routing;
-using Image=Subtext.Framework.Components.Image;
-using System.Web;
+using Subtext.Framework.Util;
+using Image = Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -37,9 +35,9 @@ namespace Subtext.Web.UI.Controls
 			// Put user code to initialize the page here
 			if(Context != null)
 			{
-                int categoryId = RouteValues.GetId();
+                int? categoryId = SubtextContext.RequestContext.GetIdFromRequest();
 
-                ImageCollection ic = Repository.GetImagesByCategoryID(categoryId, true /* activeOnly */);
+                ImageCollection ic = Repository.GetImagesByCategoryID(categoryId.Value, true /* activeOnly */);
 				if(ic != null)
 				{
 					GalleryTitle.Text = ic.Category.Title;

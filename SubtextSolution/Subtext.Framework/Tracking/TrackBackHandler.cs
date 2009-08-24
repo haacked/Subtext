@@ -65,16 +65,14 @@ namespace Subtext.Framework.Tracking
 
             Entry entry;
 
-            int postId;
-
-            string entryIdentifier = (string)subtextContext.RequestContext.RouteData.Values["id"];
-            if (int.TryParse(entryIdentifier, out postId))
+            int? id = subtextContext.RequestContext.GetIdFromRequest();
+            if (id != null)
             {
-                entry = subtextContext.Repository.GetEntry(postId, true /* activeOnly */, false /* includeCategories */);
+                entry = subtextContext.Repository.GetEntry(id.Value, true /* activeOnly */, false /* includeCategories */);
             }
             else
             {
-                string slug = (string)subtextContext.RequestContext.RouteData.Values["slug"];
+                string slug = subtextContext.RequestContext.GetSlugFromRequest();
                 entry = subtextContext.Repository.GetEntry(slug, true /* activeOnly */, false /* includeCategories */);
             }
 

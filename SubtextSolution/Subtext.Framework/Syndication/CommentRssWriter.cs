@@ -58,7 +58,7 @@ namespace Subtext.Framework.Syndication
             RssImageElement image = new RssImageElement(GetRssImage(), CommentEntry.Title, entryUrl, 77, 60, null);
             
             this.BuildChannel(CommentEntry.Title, 
-                entryUrl.ToString(), 
+                entryUrl, 
                 CommentEntry.Email, 
                 CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, 
                 Blog.Language, 
