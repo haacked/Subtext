@@ -6,7 +6,7 @@
 	    <ol>
 		    <li>Step 1: Install Database</li>
 		    <li><strong>Step 2: Configure the Admin Account</strong></li>
-		    <li>Step 3: Create or Import a Blog</li>
+		    <li>Step 3: Create A Blog</li>
 	    </ol>
 
 		<p>
