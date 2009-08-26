@@ -7,7 +7,7 @@
 	    <ol>
 		    <li><strong>Step 1: Install Database</strong></li>
 		    <li>Step 2: Configure the Admin Account</li>
-		    <li>Step 3: Create or Import a Blog</li>
+		    <li>Step 3: Create A Blog</li>
 	    </ol>
 		<p class="emphasis">
 		    Database: <strong><asp:Literal id="litDatabaseName" Runat="server" /></strong>
