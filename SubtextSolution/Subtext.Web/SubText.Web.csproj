@@ -1555,7 +1555,18 @@
     <Content Include="Skins\AnotherEon001\License.txt" />
     <Content Include="Skins\AnotherEon001\PageTemplate.ascx" />
     <Content Include="Skins\AnotherEon001\print.css" />
+    <Content Include="Skins\AnotherEon001\SkinIcon.png" />
     <Content Include="Skins\AnotherEon001\style.css" />
+    <Content Include="Skins\Colors\Blue-SkinIcon.png" />
+    <Content Include="Skins\Colors\Orange-SkinIcon.png" />
+    <Content Include="Skins\Colors\ScarletAndGrey-SkinIcon.png" />
+    <Content Include="Skins\GlossyBlue\SkinIcon.png" />
+    <Content Include="Skins\Gradient\Images\bg-stripe.gif" />
+    <Content Include="Skins\Gradient\Images\CommentIcon.gif" />
+    <Content Include="Skins\Gradient\SkinIcon.png" />
+    <Content Include="Skins\KeyWest\Images\CommentAuthorGradient.gif" />
+    <Content Include="Skins\KeyWest\SkinIcon.png" />
+    <Content Include="Skins\Lightz\SkinIcon.png" />
     <Content Include="Skins\Mobile\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\Mobile\Controls\ArchiveDay.ascx" />
     <Content Include="Skins\Mobile\Controls\ArchiveLinks.ascx" />
@@ -1647,8 +1658,6 @@
     <Content Include="Skins\GlossyBlue\PageTemplate.ascx" />
     <Content Include="Skins\GlossyBlue\Styles\glossyblue-main.css" />
     <Content Include="Skins\GlossyBlue\Styles\glossyblue-print.css" />
-    <Content Include="Skins\Lightz\Scripts\cityNight.js" />
-    <Content Include="Skins\Lightz\Scripts\tableEffects.js" />
     <Content Include="Skins\Colors\Blue.css" />
     <Content Include="Skins\Colors\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\Colors\Controls\ArchiveDay.ascx" />
@@ -1911,9 +1920,11 @@
     <Content Include="Skins\Nature\images\rain\link.jpg" />
     <Content Include="Skins\Nature\images\rain\mainbg.jpg" />
     <Content Include="Skins\Nature\images\rain\waterdrop.jpg" />
+    <Content Include="Skins\Nature\Leafy-SkinIcon.png" />
     <Content Include="Skins\Nature\leafy.css" />
     <Content Include="Skins\Nature\PageTemplate.ascx" />
     <Content Include="Skins\Nature\print.css" />
+    <Content Include="Skins\Nature\Rain-SkinIcon.png" />
     <Content Include="Skins\Nature\rain.css" />
     <Content Include="Skins\Nature\style.css" />
     <Content Include="Skins\origami\Controls\ArchiveDay.ascx" />
@@ -2044,6 +2055,7 @@
     <Content Include="Skins\origami\Scripts\searchResults.js" />
     <Content Include="Skins\origami\Scripts\styleSwitcher.js" />
     <Content Include="Skins\origami\Scripts\typo.js" />
+    <Content Include="Skins\origami\SkinIcon.png" />
     <Content Include="Skins\origami\style.css" />
     <Content Include="Skins\origami\alternateStyles.css" />
     <Content Include="Skins\origami\core-IE.css" />
@@ -2104,14 +2116,17 @@
     <Content Include="Skins\Piyo\Images\asual-search.jpg" />
     <Content Include="Skins\Piyo\Images\asual-trackbacks.jpg" />
     <Content Include="Skins\Piyo\Images\asual-trackbackslink.jpg" />
+    <Content Include="Skins\Piyo\Images\CommentAuthorGradient.gif" />
     <Content Include="Skins\Piyo\PageTemplate.ascx" />
     <Content Include="Skins\Piyo\piyo-elastic.css" />
     <Content Include="Skins\Piyo\piyo-fixed.css" />
     <Content Include="Skins\Piyo\print.css" />
     <Content Include="Skins\Piyo\README.txt" />
     <Content Include="Skins\Piyo\Scripts\piyo.js" />
+    <Content Include="Skins\Piyo\SkinIcon.png" />
     <Content Include="Skins\Piyo\style.css" />
     <Content Include="Skins\RedBook\Blue.css" />
+    <Content Include="Skins\RedBook\BlueBook-SkinIcon.png" />
     <Content Include="Skins\RedBook\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\RedBook\Controls\ArchiveDay.ascx" />
     <Content Include="Skins\RedBook\Controls\ArchiveLinks.ascx" />
@@ -2140,7 +2155,6 @@
     <Content Include="SiteMap\SiteMapHttpHandler.ashx" />
     <Content Include="Skins\Piyo\skin.config" />
     <Content Include="Skins\AnotherEon001\skin.config" />
-    <Content Include="Skins\Colors\skins.config" />
     <Content Include="Skins\GlossyBlue\skin.config" />
     <Content Include="Skins\Gradient\skin.config" />
     <Content Include="Skins\KeyWest\skin.config" />
@@ -2156,6 +2170,7 @@
     <None Include="pages\Providers\BlogEntryEditor\FCKeditor\editor\filemanager\browser\default\images\icons\32\Thumbs.db" />
     <Content Include="pages\Providers\BlogEntryEditor\FCKeditor\editor\filemanager\upload\aspx\Web.config" />
     <Content Include="pages\Providers\BlogEntryEditor\FTB\Web.config" />
+    <Content Include="Skins\Colors\skin.config" />
     <None Include="Skins\RedBook\Controls\EntryList.ascx" />
     <Content Include="Skins\RedBook\Controls\Footer.ascx" />
     <Content Include="Skins\RedBook\Controls\GalleryThumbNailViewer.ascx" />
@@ -2176,6 +2191,7 @@
     <Content Include="Skins\RedBook\Controls\ViewPicture.ascx" />
     <Content Include="Skins\RedBook\Controls\ViewPost.ascx" />
     <Content Include="Skins\RedBook\Green.css" />
+    <Content Include="Skins\RedBook\GreenBook-SkinIcon.png" />
     <Content Include="Skins\RedBook\IE6Patches.css" />
     <Content Include="Skins\RedBook\IE7Patches.css" />
     <Content Include="Skins\RedBook\Images\Blue\back.jpg" />
@@ -2208,6 +2224,7 @@
     <Content Include="Skins\RedBook\PageTemplate.ascx" />
     <Content Include="Skins\RedBook\print.css" />
     <Content Include="Skins\RedBook\Red.css" />
+    <Content Include="Skins\RedBook\RedBook-SkinIcon.png" />
     <Content Include="Skins\RedBook\Style.css" />
     <Content Include="Skins\Semagogy\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\Semagogy\Controls\ArchiveDay.ascx" />
@@ -2258,6 +2275,7 @@
     <Content Include="Skins\Semagogy\PageTemplate.ascx" />
     <Content Include="Skins\Semagogy\print.css" />
     <Content Include="Skins\Semagogy\Scripts\DarkHorseLayoutEngine.js" />
+    <Content Include="Skins\Semagogy\SkinIcon.png" />
     <Content Include="Skins\Semagogy\style.css" />
     <Content Include="Skins\Submarine\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\Submarine\Controls\ArchiveDay.ascx" />
@@ -2301,6 +2319,7 @@
     <Content Include="Skins\Submarine\images\poweredby.gif" />
     <Content Include="Skins\Submarine\PageTemplate.ascx" />
     <Content Include="Skins\Submarine\print.css" />
+    <Content Include="Skins\Submarine\SkinIcon.png" />
     <Content Include="Skins\Submarine\style.css" />
     <Content Include="Skins\WPSkin\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\WPSkin\Controls\ArchiveDay.ascx" />
@@ -2342,6 +2361,7 @@
     <Content Include="Skins\WPSkin\images\kubrickheader.jpg" />
     <Content Include="Skins\WPSkin\PageTemplate.ascx" />
     <Content Include="Skins\WPSkin\print.css" />
+    <Content Include="Skins\WPSkin\SkinIcon.png" />
     <Content Include="Skins\WPSkin\style.css" />
     <Content Include="Skins\_System\commonlayout.css" />
     <Content Include="Skins\_System\commonstyle.css" />
@@ -2352,6 +2372,7 @@
     <Content Include="Skins\_System\forgotpassword.css" />
     <Content Include="Skins\_System\forms.css" />
     <Content Include="Skins\_System\login.css" />
+    <Content Include="Skins\_System\SkinIcon.png" />
     <Content Include="Skins\_System\SystemStyle.css" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
