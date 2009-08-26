@@ -360,6 +360,7 @@ div.DialogBody
 
 #content .section
 {
+    float: left;
     position: relative;   
     min-width: 255px;
     width: 99.5%;
