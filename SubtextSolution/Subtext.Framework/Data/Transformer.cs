@@ -38,7 +38,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public static LinkCategory BuildLinks(string title, CategoryType catType, Blog blog)
 		{
-            ICollection<LinkCategory> links = Links.GetCategories(catType, ActiveFilter.ActiveOnly);
+            ICollection<LinkCategory> links = ObjectProvider.Instance().GetCategories(catType, true /* activeOnly */);
             return MergeLinkCategoriesIntoSingleLinkCategory(title, catType, links, new UrlHelper(null, null), blog);
 		}
 

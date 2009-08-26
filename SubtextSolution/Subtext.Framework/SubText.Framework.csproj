@@ -693,10 +693,8 @@
     </None>
     <None Include="Web References\com.community-credit.www\affiliateservices.disco" />
     <None Include="app.config" />
-    <None Include="Data\CodeGen\_Settings.tt">
-    </None>
-    <None Include="Data\CodeGen\_Utility.tt">
-    </None>
+    <None Include="Data\CodeGen\_Settings.tt" />
+    <None Include="Data\CodeGen\_Utility.tt" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

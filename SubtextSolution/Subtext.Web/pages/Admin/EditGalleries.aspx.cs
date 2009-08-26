@@ -23,213 +23,217 @@ using ICSharpCode.SharpZipLib.Zip;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Web.HttpModules;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Properties;
 using Image = Subtext.Framework.Components.Image;
-using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public partial class EditGalleries : AdminPage
-	{
-		protected bool _isListHidden;
-		// jsbright added to support prompting for new file name
+    public partial class EditGalleries : AdminPage
+    {
+        protected bool _isListHidden;
+        // jsbright added to support prompting for new file name
 
-		#region Accessors
-		private int CategoryID
-		{
-			get
-			{
-				if (null != ViewState["CategoryID"])
-					return (int)ViewState["CategoryID"];
-				else
-					return NullValue.NullInt32;
-			}
-			set { ViewState["CategoryID"] = value; }
-		}
-		#endregion
+        private int CategoryID
+        {
+            get
+            {
+                if (null != ViewState["CategoryID"])
+                {
+                    return (int)ViewState["CategoryID"];
+                }
+                else
+                {
+                    return NullValue.NullInt32;
+                }
+            }
+            set { ViewState["CategoryID"] = value; }
+        }
 
-	    protected EditGalleries() : base()
-	    {
+        protected EditGalleries()
+            : base()
+        {
             this.TabSectionId = "Galleries";
-	    }
-	    
-		protected void Page_Load(object sender, EventArgs e)
-		{
-			if(!Config.Settings.AllowImages) {
-				Response.Redirect("index.aspx");
-			}
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!Config.Settings.AllowImages)
+            {
+                Response.Redirect(AdminUrl.Home());
+            }
 
             UrlBasedBlogInfoProvider.MapImageDirectory(BlogRequest.Current);
 
-			if (!IsPostBack)
-			{
-				HideImages();
-				ShowResults(false);	
-				BindList();
-				ckbIsActiveImage.Checked = Preferences.AlwaysCreateIsActive;
-				ckbNewIsActive.Checked = Preferences.AlwaysCreateIsActive;
+            if (!IsPostBack)
+            {
+                HideImages();
+                ShowResults(false);
+                BindList();
+                ckbIsActiveImage.Checked = Preferences.AlwaysCreateIsActive;
+                ckbNewIsActive.Checked = Preferences.AlwaysCreateIsActive;
 
-				if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
-				{
-					CategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
-					BindGallery(CategoryID);
-				}					
-			}			
-		}
+                if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
+                {
+                    CategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
+                    BindGallery(CategoryID);
+                }
+            }
+        }
 
-		private void BindList()
-		{
-			// TODO: possibly, later on, add paging support a la other cat editors
+        private void BindList()
+        {
+            // TODO: possibly, later on, add paging support a la other cat editors
             ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, ActiveFilter.None);
 
-			if (selectionList.Count > 0)
-			{
-				dgrSelectionList.DataSource = selectionList;
-				dgrSelectionList.DataKeyField = "Id";
-				dgrSelectionList.DataBind();
-			}
-			else
-			{
-				// TODO: no existing items handling. add label and indicate no existing items. pop open edit.
-			}
-		}
+            if (selectionList.Count > 0)
+            {
+                dgrSelectionList.DataSource = selectionList;
+                dgrSelectionList.DataKeyField = "Id";
+                dgrSelectionList.DataBind();
+            }
+            else
+            {
+                // TODO: no existing items handling. add label and indicate no existing items. pop open edit.
+            }
+        }
 
-		private void BindGallery()
-		{
-			// HACK: reverse the call order with the overloaded version
-			BindGallery(CategoryID);
-		}
+        private void BindGallery()
+        {
+            // HACK: reverse the call order with the overloaded version
+            BindGallery(CategoryID);
+        }
 
-		private void BindGallery(int galleryID)
-		{
-			CategoryID = galleryID;
-			LinkCategory selectedGallery = SubtextContext.Repository.GetLinkCategory(galleryID,false);
-			ICollection<Image> imageList = Images.GetImagesByCategoryID(galleryID, false);
+        private void BindGallery(int galleryID)
+        {
+            CategoryID = galleryID;
+            LinkCategory selectedGallery = SubtextContext.Repository.GetLinkCategory(galleryID, false);
+            ICollection<Image> imageList = Images.GetImagesByCategoryID(galleryID, false);
 
-			plhImageHeader.Controls.Clear();
-			string galleryTitle = string.Format(CultureInfo.InvariantCulture, "{0} - {1} " + Resources.Label_Images, selectedGallery.Title, imageList.Count);
-			plhImageHeader.Controls.Add(new LiteralControl(galleryTitle));
+            plhImageHeader.Controls.Clear();
+            string galleryTitle = string.Format(CultureInfo.InvariantCulture, "{0} - {1} " + Resources.Label_Images, selectedGallery.Title, imageList.Count);
+            plhImageHeader.Controls.Add(new LiteralControl(galleryTitle));
 
-			rprImages.DataSource = imageList;
-			rprImages.DataBind();
+            rprImages.DataSource = imageList;
+            rprImages.DataBind();
 
-			ShowImages();
+            ShowImages();
 
-			if(AdminMasterPage != null)
+            if (AdminMasterPage != null)
             {
                 string title = string.Format(CultureInfo.InvariantCulture, Resources.EditGalleries_ViewingGallery, selectedGallery.Title);
-				AdminMasterPage.Title = title;
-			}
+                AdminMasterPage.Title = title;
+            }
 
-			AddImages.Collapsed = !Preferences.AlwaysExpandAdvanced;
-		}
+            AddImages.Collapsed = !Preferences.AlwaysExpandAdvanced;
+        }
 
-		private void ShowResults(bool collapsible)
-		{
-			Results.Visible = true;
-		}
+        private void ShowResults(bool collapsible)
+        {
+            Results.Visible = true;
+        }
 
-		private void HideResults()
-		{
-			Results.Visible = false;
-		}
+        private void HideResults()
+        {
+            Results.Visible = false;
+        }
 
-		private void ShowImages()
-		{
-			HideResults();			
-			ImagesDiv.Visible = true;
-		}
+        private void ShowImages()
+        {
+            HideResults();
+            ImagesDiv.Visible = true;
+        }
 
-		private void HideImages()
-		{
-			ShowResults(false);
-			ImagesDiv.Visible = false;
-		}
+        private void HideImages()
+        {
+            ShowResults(false);
+            ImagesDiv.Visible = false;
+        }
 
-		protected string EvalImageUrl(object potentialImage)
-		{
-			Image image = potentialImage as Image;
-			if (image != null)
-			{
+        protected string EvalImageUrl(object potentialImage)
+        {
+            Image image = potentialImage as Image;
+            if (image != null)
+            {
                 image.Blog = Blog;
                 return Url.ImageUrl(image, image.ThumbNailFile);
-			}
-		    return String.Empty;
-		}
+            }
+            return String.Empty;
+        }
 
-		protected string EvalImageNavigateUrl(object potentialImage)
-		{
-			Image image = potentialImage as Image;
-			if (image != null)
-			{
-				return Url.GalleryImageUrl(image);
-			}
-			else
-				return String.Empty;
-		}
+        protected string EvalImageNavigateUrl(object potentialImage)
+        {
+            Image image = potentialImage as Image;
+            if (image != null)
+            {
+                return Url.GalleryImageUrl(image);
+            }
+            else
+                return String.Empty;
+        }
 
-		protected string EvalImageTitle(object potentialImage)
-		{
-			const int TARGET_HEIGHT = 138;
-			const int MAX_IMAGE_HEIGHT = 120;
-			const int CHAR_PER_LINE = 19;
-			const int LINE_HEIGHT_PIXELS = 16;
+        protected string EvalImageTitle(object potentialImage)
+        {
+            const int TARGET_HEIGHT = 138;
+            const int MAX_IMAGE_HEIGHT = 120;
+            const int CHAR_PER_LINE = 19;
+            const int LINE_HEIGHT_PIXELS = 16;
 
-			Image image = potentialImage as Image;
-			if (image != null)
-			{
-				// do a rough calculation of how many chars we can shoehorn into the title space
-				// we have to back into an estimated thumbnail height right now with aspect * max
-				double aspectRatio = (double)image.Height / image.Width;
-				if (aspectRatio > 1 || aspectRatio <= 0)
-					aspectRatio = 1;
-				int allowedChars = (int)((TARGET_HEIGHT - MAX_IMAGE_HEIGHT * aspectRatio) 
-					/ LINE_HEIGHT_PIXELS * CHAR_PER_LINE);
+            Image image = potentialImage as Image;
+            if (image != null)
+            {
+                // do a rough calculation of how many chars we can shoehorn into the title space
+                // we have to back into an estimated thumbnail height right now with aspect * max
+                double aspectRatio = (double)image.Height / image.Width;
+                if (aspectRatio > 1 || aspectRatio <= 0)
+                    aspectRatio = 1;
+                int allowedChars = (int)((TARGET_HEIGHT - MAX_IMAGE_HEIGHT * aspectRatio)
+                    / LINE_HEIGHT_PIXELS * CHAR_PER_LINE);
 
-				return Utilities.Truncate(image.Title, allowedChars);
-			}
-			else
-				return String.Empty;
-		}
+                return Utilities.Truncate(image.Title, allowedChars);
+            }
+            else
+                return String.Empty;
+        }
 
-		// REFACTOR: duplicate from category editor; generalize a la EntryEditor
-		private void PersistCategory(LinkCategory category)
-		{
-			try
-			{
-				if (category.Id > 0)
-				{
-					Links.UpdateLinkCategory(category);
-					Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, Resources.Message_CategoryUpdated, category.Title));
-				}
-				else
-				{
-					category.Id = Links.CreateLinkCategory(category);
-					Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, Resources.Message_CategoryAdded, category.Title));
-				}					
-			}
-			catch(Exception ex)
-			{
-				Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
-			}
-		}
-		/// <summary>
-		/// We're being asked to upload and store an image on the server (re-sizing and
-		/// all of that). Ideally this will work. It may not. We may have to ask
-		/// the user for an alternative file name. 
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void OnAddImage(object sender, EventArgs e)
-		{
+        // REFACTOR: duplicate from category editor; generalize a la EntryEditor
+        private void PersistCategory(LinkCategory category)
+        {
+            try
+            {
+                if (category.Id > 0)
+                {
+                    Links.UpdateLinkCategory(category);
+                    Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, Resources.Message_CategoryUpdated, category.Title));
+                }
+                else
+                {
+                    category.Id = Links.CreateLinkCategory(category);
+                    Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, Resources.Message_CategoryAdded, category.Title));
+                }
+            }
+            catch (Exception ex)
+            {
+                Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
+            }
+        }
+        /// <summary>
+        /// We're being asked to upload and store an image on the server (re-sizing and
+        /// all of that). Ideally this will work. It may not. We may have to ask
+        /// the user for an alternative file name. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnAddImage(object sender, EventArgs e)
+        {
             string fileName = ImageFile.PostedFile.FileName;
 
             int lastDot = fileName.LastIndexOf(".");
             if (lastDot > -1)
             {
                 string ext = fileName.Substring(lastDot + 1);
-                if ( String.Compare(ext, "zip", true, CultureInfo.InvariantCulture) == 0 )
+                if (String.Compare(ext, "zip", true, CultureInfo.InvariantCulture) == 0)
                 {
                     // Handle as an archive
                     PersistImageArchive();
@@ -238,8 +242,8 @@ namespace Subtext.Web.Admin.Pages
             }
 
             // If there was no dot, or extension wasn't ZIP, then treat as a single image
-			PersistImage(fileName);
-		}
+            PersistImage(fileName);
+        }
 
 
         private void PersistImageArchive()
@@ -248,7 +252,7 @@ namespace Subtext.Web.Admin.Pages
                 badFiles = new List<string>(),
                 updatedFiles = new List<string>();
 
-        	byte[] archiveData = Images.GetFileStream(ImageFile.PostedFile);
+            byte[] archiveData = Images.GetFileStream(ImageFile.PostedFile);
 
             MemoryStream ms = new MemoryStream(archiveData);
 
@@ -262,9 +266,9 @@ namespace Subtext.Web.Admin.Pages
                     // TODO: Filter for image types?
                     if (!String.IsNullOrEmpty(fileName))
                     {
-                    	byte[] fileData;
+                        byte[] fileData;
 
-						Image image = new Image();
+                        Image image = new Image();
                         image.CategoryID = CategoryID;
                         image.Title = fileName;
                         image.IsActive = ckbIsActiveImage.Checked;
@@ -312,25 +316,25 @@ namespace Subtext.Web.Admin.Pages
                                 }
                             }
                         }
-                        catch( Exception ex )
+                        catch (Exception ex)
                         {
                             badFiles.Add(theEntry.Name + " (" + ex.Message + ")");
                         }
                     }
                 }
             }
-            
+
             // Construct and display the status message of added/updated/deleted images
-            string status = string.Format(CultureInfo.InvariantCulture, 
+            string status = string.Format(CultureInfo.InvariantCulture,
                 Resources.EditGalleries_ArchiveProcessed + @"<br />
                 <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportAddDetails'))"">" + Resources.Label_Adds + @" ({0})</a></b><span id=""ImportAddDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{1}</span><br />
                 <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportUpdateDetails'))"">" + Resources.Label_Updates + @"  ({2})</a></b><span id=""ImportUpdateDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{3}</span><br />
-                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportErrorDetails'))"">" + Resources.Label_Errors + @" ({4})</a></b><span id=""ImportErrorDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{5}</span>", 
-                
+                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportErrorDetails'))"">" + Resources.Label_Errors + @" ({4})</a></b><span id=""ImportErrorDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{5}</span>",
+
                 goodFiles.Count,
-                (goodFiles.Count > 0 ? string.Join("<br />&nbsp;&nbsp;", goodFiles.ToArray()) : "none"), 
+                (goodFiles.Count > 0 ? string.Join("<br />&nbsp;&nbsp;", goodFiles.ToArray()) : "none"),
                 updatedFiles.Count,
-                (updatedFiles.Count > 0 ? string.Join("<br />&nbsp;&nbsp;", updatedFiles.ToArray()) : "none"), 
+                (updatedFiles.Count > 0 ? string.Join("<br />&nbsp;&nbsp;", updatedFiles.ToArray()) : "none"),
                 badFiles.Count,
                 (badFiles.Count > 0 ? string.Join("<br />&nbsp;&nbsp;", badFiles.ToArray()) : "none"));
 
@@ -345,204 +349,204 @@ namespace Subtext.Web.Admin.Pages
             BindGallery();
         }
 
-		/// <summary>
-		/// The user is providing the file name here. 
-		/// </summary>
-		protected void OnAddImageUserProvidedName(object sender, EventArgs e)
-		{
-			if (TextBoxImageFileName.Text.Length == 0)
-			{
+        /// <summary>
+        /// The user is providing the file name here. 
+        /// </summary>
+        protected void OnAddImageUserProvidedName(object sender, EventArgs e)
+        {
+            if (TextBoxImageFileName.Text.Length == 0)
+            {
                 Messages.ShowError(Resources.EditGalleries_ValidFilenameRequired);
-				return;
-			}
+                return;
+            }
 
-			PersistImage(TextBoxImageFileName.Text);
-		}
+            PersistImage(TextBoxImageFileName.Text);
+        }
 
-		/// <summary>
-		/// A fancy term for saving the image to disk :-). We'll take the image and try to save
-		/// it. This currently puts all images in the same directory which can cause a conflict
-		/// if the file already exists. So we'll add in a way to take a new file name. 
-		/// </summary>
-		private void PersistImage(string targetFileName)
-		{
-			if (Page.IsValid)
-			{
-				Image image = new Image();
-				image.CategoryID = CategoryID;
-				image.Title = txbImageTitle.Text;
-				image.IsActive = ckbIsActiveImage.Checked;
-				
-				try
-				{
-					image.FileName = Path.GetFileName(targetFileName);
+        /// <summary>
+        /// A fancy term for saving the image to disk :-). We'll take the image and try to save
+        /// it. This currently puts all images in the same directory which can cause a conflict
+        /// if the file already exists. So we'll add in a way to take a new file name. 
+        /// </summary>
+        private void PersistImage(string targetFileName)
+        {
+            if (Page.IsValid)
+            {
+                Image image = new Image();
+                image.CategoryID = CategoryID;
+                image.Title = txbImageTitle.Text;
+                image.IsActive = ckbIsActiveImage.Checked;
+
+                try
+                {
+                    image.FileName = Path.GetFileName(targetFileName);
                     image.LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryID);
-					if (File.Exists(image.OriginalFilePath))
-					{
-						// tell the user we can't accept this file.
-						Messages.ShowError(Resources.EditGalleries_FileAlreadyExists);
+                    if (File.Exists(image.OriginalFilePath))
+                    {
+                        // tell the user we can't accept this file.
+                        Messages.ShowError(Resources.EditGalleries_FileAlreadyExists);
 
-						// switch around our GUI.
-						PanelSuggestNewName.Visible = true;
-						PanelDefaultName.Visible = false;
+                        // switch around our GUI.
+                        PanelSuggestNewName.Visible = true;
+                        PanelDefaultName.Visible = false;
 
-						AddImages.Collapsed = false;
-						// Unfortunately you can't set ImageFile.PostedFile.FileName. At least suggest
-						// a name for the new file.
-						TextBoxImageFileName.Text = image.FileName;
-						return;
-					}
+                        AddImages.Collapsed = false;
+                        // Unfortunately you can't set ImageFile.PostedFile.FileName. At least suggest
+                        // a name for the new file.
+                        TextBoxImageFileName.Text = image.FileName;
+                        return;
+                    }
 
-					int imageID = Images.InsertImage(image,Images.GetFileStream(ImageFile.PostedFile));				
-					if (imageID > 0)
-					{
+                    int imageID = Images.InsertImage(image, Images.GetFileStream(ImageFile.PostedFile));
+                    if (imageID > 0)
+                    {
                         this.Messages.ShowMessage(Resources.EditGalleries_ImageAdded);
-						txbImageTitle.Text = String.Empty;
-					}
-					else
+                        txbImageTitle.Text = String.Empty;
+                    }
+                    else
                         this.Messages.ShowError(Constants.RES_FAILUREEDIT + " " + Resources.EditGalleries_ProblemPosting);
-				}
-				catch(Exception ex)
-				{
-					this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
-				}
-			}
+                }
+                catch (Exception ex)
+                {
+                    this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
+                }
+            }
 
-			// if we're successful we need to revert back to our standard view
-			PanelSuggestNewName.Visible = false;
-			PanelDefaultName.Visible = true;
+            // if we're successful we need to revert back to our standard view
+            PanelSuggestNewName.Visible = false;
+            PanelDefaultName.Visible = true;
 
-			// re-bind the gallery; note we'll skip this step if a correctable error occurs.
-			BindGallery();
-		}
+            // re-bind the gallery; note we'll skip this step if a correctable error occurs.
+            BindGallery();
+        }
 
-		private void ConfirmDeleteGallery(int categoryID, string categoryTitle)
-		{
-			this.Command = new DeleteGalleryCommand(Url.ImageGalleryDirectoryUrl(Blog, categoryID), categoryID, categoryTitle);
-			this.Command.RedirectUrl = Request.Url.ToString();
-			Server.Transfer(Constants.URL_CONFIRM);
-		}
+        private void ConfirmDeleteGallery(int categoryID, string categoryTitle)
+        {
+            this.Command = new DeleteGalleryCommand(Url.ImageGalleryDirectoryUrl(Blog, categoryID), categoryID, categoryTitle);
+            this.Command.RedirectUrl = Request.Url.ToString();
+            Server.Transfer(Constants.URL_CONFIRM);
+        }
 
-		private void ConfirmDeleteImage(int imageID)
-		{
+        private void ConfirmDeleteImage(int imageID)
+        {
             var image = Repository.GetImage(imageID, false /* activeOnly */);
-			this.Command = new DeleteImageCommand(image, Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID));
-			this.Command.RedirectUrl = Request.Url.ToString();
-			Server.Transfer(Constants.URL_CONFIRM);
-		}
+            this.Command = new DeleteImageCommand(image, Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID));
+            this.Command.RedirectUrl = Request.Url.ToString();
+            Server.Transfer(Constants.URL_CONFIRM);
+        }
 
 
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-			this.dgrSelectionList.ItemCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_ItemCommand);
-			this.dgrSelectionList.CancelCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_CancelCommand);
-			this.dgrSelectionList.EditCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_EditCommand);
-			this.dgrSelectionList.UpdateCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_UpdateCommand);
-			this.dgrSelectionList.DeleteCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_DeleteCommand);
-			this.rprImages.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprImages_ItemCommand);
+        #region Web Form Designer generated code
+        override protected void OnInit(EventArgs e)
+        {
+            //
+            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
+            //
+            InitializeComponent();
+            base.OnInit(e);
+        }
 
-		}
-		#endregion
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.dgrSelectionList.ItemCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_ItemCommand);
+            this.dgrSelectionList.CancelCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_CancelCommand);
+            this.dgrSelectionList.EditCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_EditCommand);
+            this.dgrSelectionList.UpdateCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_UpdateCommand);
+            this.dgrSelectionList.DeleteCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_DeleteCommand);
+            this.rprImages.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprImages_ItemCommand);
 
-		private void dgrSelectionList_ItemCommand(object source, DataGridCommandEventArgs e)
-		{
-			switch (e.CommandName.ToLower(CultureInfo.InvariantCulture)) 
-			{
-				case "view" :
-					int galleryID = Convert.ToInt32(e.CommandArgument);
-					BindGallery(galleryID);
-					break;
-				default:
-					break;
-			}		
-		}
+        }
+        #endregion
 
-		private void dgrSelectionList_EditCommand(object source, DataGridCommandEventArgs e)
-		{
-			HideImages();
-			dgrSelectionList.EditItemIndex = e.Item.ItemIndex;
-			BindList();
-			this.Messages.Clear();
-		}
+        private void dgrSelectionList_ItemCommand(object source, DataGridCommandEventArgs e)
+        {
+            switch (e.CommandName.ToLower(CultureInfo.InvariantCulture))
+            {
+                case "view":
+                    int galleryID = Convert.ToInt32(e.CommandArgument);
+                    BindGallery(galleryID);
+                    break;
+                default:
+                    break;
+            }
+        }
 
-		private void dgrSelectionList_UpdateCommand(object source, DataGridCommandEventArgs e)
-		{
-			TextBox title = e.Item.FindControl("txbTitle") as TextBox;
-			TextBox desc = e.Item.FindControl("txbDescription") as TextBox;
+        private void dgrSelectionList_EditCommand(object source, DataGridCommandEventArgs e)
+        {
+            HideImages();
+            dgrSelectionList.EditItemIndex = e.Item.ItemIndex;
+            BindList();
+            this.Messages.Clear();
+        }
 
-			CheckBox isActive = e.Item.FindControl("ckbIsActive") as CheckBox;
+        private void dgrSelectionList_UpdateCommand(object source, DataGridCommandEventArgs e)
+        {
+            TextBox title = e.Item.FindControl("txbTitle") as TextBox;
+            TextBox desc = e.Item.FindControl("txbDescription") as TextBox;
 
-			if(Page.IsValid && null != title && null != isActive)
-			{
-				int id = Convert.ToInt32(dgrSelectionList.DataKeys[e.Item.ItemIndex]);
-				
-				LinkCategory existingCategory = SubtextContext.Repository.GetLinkCategory(id,false);
-				existingCategory.Title = title.Text;
-				existingCategory.IsActive = isActive.Checked;
-				if(desc != null)
-					existingCategory.Description = desc.Text;
-		
-				if (id != 0) 
-					PersistCategory(existingCategory);
+            CheckBox isActive = e.Item.FindControl("ckbIsActive") as CheckBox;
 
-				dgrSelectionList.EditItemIndex = -1;
-				BindList();
-			}		
-		}
+            if (Page.IsValid && null != title && null != isActive)
+            {
+                int id = Convert.ToInt32(dgrSelectionList.DataKeys[e.Item.ItemIndex]);
 
-		private void dgrSelectionList_DeleteCommand(object source, DataGridCommandEventArgs e)
-		{
-			int id = Convert.ToInt32(dgrSelectionList.DataKeys[e.Item.ItemIndex]);
-			LinkCategory lc = SubtextContext.Repository.GetLinkCategory(id,false);
-			ConfirmDeleteGallery(id, lc.Title);		
-		}
+                LinkCategory existingCategory = SubtextContext.Repository.GetLinkCategory(id, false);
+                existingCategory.Title = title.Text;
+                existingCategory.IsActive = isActive.Checked;
+                if (desc != null)
+                    existingCategory.Description = desc.Text;
 
-		private void dgrSelectionList_CancelCommand(object source, DataGridCommandEventArgs e)
-		{
-			dgrSelectionList.EditItemIndex = -1;			
-			BindList();
-			Messages.Clear();
-		}
+                if (id != 0)
+                    PersistCategory(existingCategory);
 
-		protected void lkbPost_Click(object sender, EventArgs e)
-		{
-			LinkCategory newCategory = new LinkCategory();
-			newCategory.CategoryType = CategoryType.ImageCollection;
-			newCategory.Title = txbNewTitle.Text;
-			newCategory.IsActive = ckbNewIsActive.Checked;
-			newCategory.Description = txbNewDescription.Text;
-			PersistCategory(newCategory);
+                dgrSelectionList.EditItemIndex = -1;
+                BindList();
+            }
+        }
 
-			BindList();	
-			txbNewTitle.Text = String.Empty;
-			ckbNewIsActive.Checked = Preferences.AlwaysCreateIsActive;
-		}
+        private void dgrSelectionList_DeleteCommand(object source, DataGridCommandEventArgs e)
+        {
+            int id = Convert.ToInt32(dgrSelectionList.DataKeys[e.Item.ItemIndex]);
+            LinkCategory lc = SubtextContext.Repository.GetLinkCategory(id, false);
+            ConfirmDeleteGallery(id, lc.Title);
+        }
 
-		private void rprImages_ItemCommand(object source, RepeaterCommandEventArgs e)
-		{
-			switch (e.CommandName.ToLower(CultureInfo.InvariantCulture)) 
-			{
-				case "deleteimage" :
-					ConfirmDeleteImage(Convert.ToInt32(e.CommandArgument));
-					break;
-				default:
-					break;
-			}			
-		}
-	}
+        private void dgrSelectionList_CancelCommand(object source, DataGridCommandEventArgs e)
+        {
+            dgrSelectionList.EditItemIndex = -1;
+            BindList();
+            Messages.Clear();
+        }
+
+        protected void lkbPost_Click(object sender, EventArgs e)
+        {
+            LinkCategory newCategory = new LinkCategory();
+            newCategory.CategoryType = CategoryType.ImageCollection;
+            newCategory.Title = txbNewTitle.Text;
+            newCategory.IsActive = ckbNewIsActive.Checked;
+            newCategory.Description = txbNewDescription.Text;
+            PersistCategory(newCategory);
+
+            BindList();
+            txbNewTitle.Text = String.Empty;
+            ckbNewIsActive.Checked = Preferences.AlwaysCreateIsActive;
+        }
+
+        private void rprImages_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            switch (e.CommandName.ToLower(CultureInfo.InvariantCulture))
+            {
+                case "deleteimage":
+                    ConfirmDeleteImage(Convert.ToInt32(e.CommandArgument));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 

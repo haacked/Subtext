@@ -1,17 +1,28 @@
-﻿using System;
+﻿#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using Subtext.Framework.Text;
-using Subtext.Framework.Components;
 using Subtext.Extensibility.Interfaces;
+using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Data
 {
     public partial class DatabaseObjectProvider
     {
-        public override IPagedCollection<Link> GetPagedLinks(int categoryId, int pageIndex, int pageSize, bool sortDescending)
+        public override IPagedCollection<Link> GetPagedLinks(int? categoryId, int pageIndex, int pageSize, bool sortDescending)
         {
             //TODO: Update proc to allow for sort parameter.
             using (IDataReader reader = _procedures.GetPageableLinks(BlogId, categoryId, pageIndex, pageSize))

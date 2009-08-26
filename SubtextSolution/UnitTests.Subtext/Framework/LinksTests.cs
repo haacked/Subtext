@@ -89,7 +89,7 @@ namespace UnitTests.Subtext.Framework
 			Link link = CreateLink("Test", categoryId, null);
 			int linkId = link.Id;
 			
-			Link loaded = Links.GetSingleLink(linkId);
+			Link loaded = ObjectProvider.Instance().GetLink(linkId);
 			Assert.AreEqual("Test", loaded.Title);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "test");
@@ -99,7 +99,7 @@ namespace UnitTests.Subtext.Framework
 			link.Title = "Another title";
 			link.NewWindow = true;
 			Links.UpdateLink(link);
-			loaded = Links.GetSingleLink(linkId);
+			loaded = ObjectProvider.Instance().GetLink(linkId);
 			Assert.AreEqual("Another title", loaded.Title);
 			Assert.IsTrue(loaded.NewWindow);
 			Assert.AreEqual(entry.Id, loaded.PostID);
@@ -116,14 +116,14 @@ namespace UnitTests.Subtext.Framework
 			Link link = CreateLink("Title", categoryId, null);
 			int linkId = link.Id;
 
-			Link loaded = Links.GetSingleLink(linkId);
+			Link loaded = ObjectProvider.Instance().GetLink(linkId);
 			Assert.AreEqual("Title", loaded.Title);
 			Assert.AreEqual(NullValue.NullInt32, loaded.PostID);
             Assert.AreEqual(Config.CurrentBlog.Id, loaded.BlogId);
 			
 			Links.DeleteLink(linkId);
 
-			Assert.IsNull(Links.GetSingleLink(linkId));
+			Assert.IsNull(ObjectProvider.Instance().GetLink(linkId));
 		}
 		
 		[Test]

@@ -26,31 +26,6 @@ namespace Subtext.Framework
 	/// </summary>
 	public static class Links
 	{
-		/// <summary>
-		/// Returns a pageable collection of Link instances for the specified category.
-		/// </summary>
-		/// <param name="categoryId"></param>
-		/// <param name="pageIndex"></param>
-		/// <param name="pageSize"></param>
-		/// <param name="sortDescending"></param>
-		/// <returns></returns>
-        public static IPagedCollection<Link> GetPagedLinks(int categoryId, int pageIndex, int pageSize, bool sortDescending)
-		{
-			return ObjectProvider.Instance().GetPagedLinks(categoryId, pageIndex, pageSize, sortDescending);
-		}
-
-        public static ICollection<Link> GetLinkCollectionByPostID(int PostID)
-		{
-			return ObjectProvider.Instance().GetLinkCollectionByPostID(PostID);
-		}
-
-		public static Link GetSingleLink(int linkID)
-		{
-			return ObjectProvider.Instance().GetLink(linkID);
-		}
-
-        #region ICollection<LinkCategory>
-
         public static ICollection<LinkCategory> GetCategories(CategoryType catType, ActiveFilter status)
 		{
             return ObjectProvider.Instance().GetCategories(catType, status == ActiveFilter.ActiveOnly);
@@ -58,8 +33,8 @@ namespace Subtext.Framework
 
         public static ICollection<LinkCategory> GetLinkCategoriesByPostID(int postId)
         {
-            List<Link> links = new List<Link>(GetLinkCollectionByPostID(postId));
-            ICollection<LinkCategory> postCategories = GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            List<Link> links = new List<Link>(ObjectProvider.Instance().GetLinkCollectionByPostID(postId));
+            ICollection<LinkCategory> postCategories = ObjectProvider.Instance().GetCategories(CategoryType.PostCollection, true /* activeOnly */);
             LinkCategory[] categories = new LinkCategory[postCategories.Count];
             postCategories.CopyTo(categories, 0);
 
@@ -77,9 +52,6 @@ namespace Subtext.Framework
             }
             return postCategories;
         }
-
-		#endregion
-
 
 		#region Edit Links/Categories
 

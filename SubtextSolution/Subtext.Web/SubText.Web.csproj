@@ -842,6 +842,7 @@
     <Compile Include="UI\UIData.cs" />
     <Compile Include="UI\UIText.cs" />
     <Compile Include="UI\ViewModels\EntryViewModel.cs" />
+    <Compile Include="UI\ViewModels\LinkCategoryLink.cs" />
     <Compile Include="UI\WebControls\ContentRegion.cs">
       <SubType>Code</SubType>
     </Compile>

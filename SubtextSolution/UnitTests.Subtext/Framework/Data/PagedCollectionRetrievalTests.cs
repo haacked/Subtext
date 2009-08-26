@@ -347,7 +347,7 @@ namespace UnitTests.Subtext.Framework.Data
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
 		{
-			return Links.GetPagedLinks(categoryId, pageIndex, pageSize, true);
+			return ObjectProvider.Instance().GetPagedLinks(categoryId, pageIndex, pageSize, true);
 		}
 
 		public int GetCount(IPagedCollection collection)
