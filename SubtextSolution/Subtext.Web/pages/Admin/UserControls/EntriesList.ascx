@@ -19,16 +19,17 @@
 		<tr>
 			<td>
 			    <asp:HyperLink runat="server" NavigateUrl='<%# Url.EntryUrl((Entry)Container.DataItem) %>' ToolTip="View Entry" >
-			        <%# Eval("Title") %></asp:HyperLink>
+			        <%# GetEntry(Container.DataItem).Title %>
+			    </asp:HyperLink>
 			</td>
 			<td>
 				<%# IsActiveText(Container.DataItem)%>
 			</td>												
 			<td>
-				<%# Eval("WebCount") %>
+				<%# GetEntry(Container.DataItem).WebCount %>
 			</td>
 			<td>
-				<%# Eval("AggCount") %>
+				<%# GetEntry(Container.DataItem).AggCount %>
 			</td>				
 			<td>
 				<a href="<%# ReferrersUrl(Container.DataItem) %>" title="View Referrals">View</a>
@@ -37,7 +38,7 @@
 				<a href="<%# PostsEditUrl(Container.DataItem) %>" title="Edit Post">Edit</a>
 			</td>
 			<td>
-				<asp:LinkButton id="lnkDelete" CausesValidation="False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
+				<asp:LinkButton id="lnkDelete" CausesValidation="False" CommandName="Delete" CommandArgument='<%# GetEntry(Container.DataItem).Id %>' Text="Delete" runat="server" />
 			</td>
 		</tr>
 	</ItemTemplate>
@@ -45,19 +46,20 @@
 		<tr class="alt">
 			<td>
 				<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# Url.EntryUrl((Entry)Container.DataItem) %>' ToolTip="View Entry" >
-			        <%# DataBinder.Eval(Container.DataItem, "Title") %></asp:HyperLink>
+			        <%# GetEntry(Container.DataItem).Title %>
+			    </asp:HyperLink>
 			</td>
 			<td>
 				<%# IsActiveText(Container.DataItem)%>
 			</td>
 			<td>
-				<%# DataBinder.Eval(Container.DataItem, "WebCount") %>
+				<%# GetEntry(Container.DataItem).WebCount %>
 			</td>
 			<td>
-				<%# DataBinder.Eval(Container.DataItem, "AggCount") %>
+				<%# GetEntry(Container.DataItem).AggCount %>
 			</td>					
 			<td>
-				<a href="../Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "Id") %>" title="View Referrals">View</a>
+				<a href="../Referrers.aspx?EntryID=<%# GetEntry(Container.DataItem).Id %>" title="View Referrals">View</a>
 			</td>				
 			<td>
 				<a href="Edit.aspx?PostId=<%# Eval("Id") %>" title="Edit Post">Edit</a>

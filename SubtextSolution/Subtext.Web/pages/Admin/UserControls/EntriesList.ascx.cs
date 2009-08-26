@@ -1,45 +1,66 @@
-﻿using System;
+﻿#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Util;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Properties;
 using Subtext.Web.UI.Controls;
 
-namespace Subtext.Web.Admin.UserControls {
-    public partial class EntriesList : BaseControl {
-        private int categoryId = NullValue.NullInt32;
+namespace Subtext.Web.Admin.UserControls
+{
+    public partial class EntriesList : BaseControl
+    {
+        private int? categoryId = null;
         private int pageIndex = 0;
 
-        protected override void OnInit(EventArgs e) {
+        protected override void OnInit(EventArgs e)
+        {
             this.rprSelectionList.ItemCommand += OnItemCommand;
             base.OnInit(e);
         }
 
-        protected override void OnLoad(EventArgs e) 
+        protected override void OnLoad(EventArgs e)
         {
-            if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
+            if (Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
+            {
                 this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+            }
 
-            if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
+            if (Request.QueryString[Keys.QRYSTR_CATEGORYID] != null)
+            {
                 this.categoryId = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
+            }
 
             this.resultsPager.PageSize = Preferences.ListingItemCount;
             this.resultsPager.PageIndex = this.pageIndex;
 
-            if (NullValue.NullInt32 != this.categoryId) {
+            if (this.categoryId != null)
+            {
                 string catIdQueryString = string.Format(CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, this.categoryId);
                 if (!this.resultsPager.UrlFormat.EndsWith(catIdQueryString))
                     this.resultsPager.UrlFormat += catIdQueryString;
             }
 
-            if (!IsPostBack) 
+            if (!IsPostBack)
             {
                 BindList();
             }
@@ -47,14 +68,16 @@ namespace Subtext.Web.Admin.UserControls {
             base.OnLoad(e);
         }
 
-        void OnItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e) 
+        void OnItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
         {
             ConfirmDelete(Convert.ToInt32(e.CommandArgument));
         }
 
-        private void ConfirmDelete(int postID) {
+        private void ConfirmDelete(int postID)
+        {
             AdminPage page = (AdminPage)Page;
-            if (page != null) {
+            if (page != null)
+            {
                 page.Command = new DeletePostCommand(Repository, postID);
                 page.Command.RedirectUrl = Request.Url.ToString();
             }
@@ -73,17 +96,17 @@ namespace Subtext.Web.Admin.UserControls {
             return AdminUrl.Referrers(entry.Id);
         }
 
-        protected string IsActiveText(object entryObject) 
+        protected string IsActiveText(object entryObject)
         {
             Entry entry = entryObject as Entry;
-            
+
             Debug.Assert(entry != null, "Entry should never be null here");
-            
+
             string active = "False";
-            if (entry.IsActive) 
+            if (entry.IsActive)
             {
                 active = "True";
-                if (entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now) 
+                if (entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now)
                 {
                     active += "<em> on " + entry.DateSyndicated.ToShortDateString() + "</em>";
                 }
@@ -91,19 +114,20 @@ namespace Subtext.Web.Admin.UserControls {
             return active;
         }
 
-        private void BindList() 
+        private void BindList()
         {
-            if (categoryId != NullValue.NullInt32) 
+            if (categoryId != null)
             {
                 LinkCategory category = Repository.GetLinkCategory(categoryId, false);
-                if (category != null) {
+                if (category != null)
+                {
                     HeaderText = Resources.Label_Posts.ToUpper(CultureInfo.CurrentCulture) + " (" + category.Title + ")";
                 }
             }
 
-            IPagedCollection<Entry> selectionList = Entries.GetPagedEntries(this.EntryType, this.categoryId, this.pageIndex, this.resultsPager.PageSize);
+            IPagedCollection<EntryStatsView> selectionList = Repository.GetPagedEntries(this.EntryType, this.categoryId, this.pageIndex, this.resultsPager.PageSize);
 
-            if (selectionList.Count > 0) 
+            if (selectionList.Count > 0)
             {
                 resultsPager.ItemCount = selectionList.MaxItems;
                 rprSelectionList.DataSource = selectionList;
@@ -115,25 +139,25 @@ namespace Subtext.Web.Admin.UserControls {
             resultsPager.Visible = rprSelectionList.Visible = selectionList.Count > 0;
         }
 
-        protected override void OnPreRender(EventArgs e) 
+        protected override void OnPreRender(EventArgs e)
         {
             this.title.InnerText = HeaderText;
             base.OnPreRender(e);
         }
 
-        public string HeaderText 
+        public string HeaderText
         {
             get { return (string)ViewState["HeaderText"] ?? string.Empty; }
             set { ViewState["HeaderText"] = value; }
         }
 
-        public string ResultsUrlFormat 
+        public string ResultsUrlFormat
         {
-            get 
+            get
             {
                 return this.resultsPager.UrlFormat;
             }
-            set 
+            set
             {
                 this.resultsPager.UrlFormat = value;
             }
@@ -143,15 +167,23 @@ namespace Subtext.Web.Admin.UserControls {
         /// Gets or sets the type of the entry.
         /// </summary>
         /// <value>The type of the entry.</value>
-        public PostType EntryType {
-            get {
+        public PostType EntryType
+        {
+            get
+            {
                 if (ViewState["PostType"] != null)
                     return (PostType)ViewState["PostType"];
                 return PostType.None;
             }
-            set {
+            set
+            {
                 ViewState["PostType"] = value;
             }
+        }
+
+        protected EntryStatsView GetEntry(object o) 
+        {
+            return o as EntryStatsView;
         }
     }
 }

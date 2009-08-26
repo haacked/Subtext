@@ -29,20 +29,25 @@ using Subtext.Web.UI.ViewModels;
 
 namespace Subtext.Web.UI.Controls
 {
-	/// <summary>
-	/// Summary description for BaseControl.
-	/// </summary>
-	public class BaseControl : UserControl
-	{
-        public RouteValueDictionary RouteValues {
-            get {
+    /// <summary>
+    /// Summary description for BaseControl.
+    /// </summary>
+    public class BaseControl : UserControl
+    {
+        public RouteValueDictionary RouteValues
+        {
+            get
+            {
                 return SubtextContext.RequestContext.RouteData.Values;
             }
         }
 
-        public UrlHelper Url {
-            get {
-                if (SubtextPage != null) {
+        public UrlHelper Url
+        {
+            get
+            {
+                if (SubtextPage != null)
+                {
                     return SubtextPage.Url;
                 }
                 return null;
@@ -51,8 +56,10 @@ namespace Subtext.Web.UI.Controls
 
         public AdminUrlHelper AdminUrl
         {
-            get {
-                if (_adminUrlHelper == null) {
+            get
+            {
+                if (_adminUrlHelper == null)
+                {
                     _adminUrlHelper = new AdminUrlHelper(Url);
                 }
                 return _adminUrlHelper;
@@ -60,10 +67,13 @@ namespace Subtext.Web.UI.Controls
         }
         AdminUrlHelper _adminUrlHelper;
 
-        public Blog Blog {
-            get {
+        public Blog Blog
+        {
+            get
+            {
                 var subtextPage = SubtextPage;
-                if (subtextPage != null) {
+                if (subtextPage != null)
+                {
                     return subtextPage.Blog;
                 }
                 return null;
@@ -72,58 +82,62 @@ namespace Subtext.Web.UI.Controls
 
         protected SubtextPage SubtextPage
         {
-            get {
+            get
+            {
                 return Page as SubtextPage;
             }
         }
 
         protected ISubtextContext SubtextContext
         {
-            get {
+            get
+            {
                 return SubtextPage.SubtextContext;
             }
         }
 
-        protected ObjectProvider Repository {
-            get {
+        protected ObjectProvider Repository
+        {
+            get
+            {
                 return SubtextContext.Repository;
             }
         }
 
-		protected static string Format(string format, params object[] arguments)
-		{
-			return String.Format(format, arguments);
-		}
+        protected static string Format(string format, params object[] arguments)
+        {
+            return String.Format(format, arguments);
+        }
 
-		/// <summary>
-		/// Url encodes the string.
-		/// </summary>
-		/// <param name="s">The s.</param>
-		/// <returns></returns>
-		protected static string UrlEncode(string s)
-		{
-			return HttpUtility.UrlEncode(s);
-		}
+        /// <summary>
+        /// Url encodes the string.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns></returns>
+        protected static string UrlEncode(string s)
+        {
+            return HttpUtility.UrlEncode(s);
+        }
 
-		/// <summary>
-		/// Url encodes the string.
-		/// </summary>
-		/// <param name="s">The s.</param>
-		/// <returns></returns>
-		protected static string UrlEncode(Uri s)
-		{
-			return HttpUtility.UrlEncode(s.ToString());
-		}
+        /// <summary>
+        /// Url encodes the string.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns></returns>
+        protected static string UrlEncode(Uri s)
+        {
+            return HttpUtility.UrlEncode(s.ToString());
+        }
 
-		/// <summary>
-		/// Url encodes the string.
-		/// </summary>
-		/// <param name="s">The s.</param>
-		/// <returns></returns>
-		protected static string UrlEncode(object s)
-		{
-			return HttpUtility.UrlEncode(s.ToString());
-		}
+        /// <summary>
+        /// Url encodes the string.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns></returns>
+        protected static string UrlEncode(object s)
+        {
+            return HttpUtility.UrlEncode(s.ToString());
+        }
 
         /// <summary>
         /// Url decodes the string.
@@ -135,7 +149,8 @@ namespace Subtext.Web.UI.Controls
             return HttpUtility.UrlDecode(s);
         }
 
-        protected string H(string value) {
+        protected string H(string value)
+        {
             return HttpUtility.HtmlEncode(value);
         }
 
@@ -149,77 +164,77 @@ namespace Subtext.Web.UI.Controls
             return HttpUtility.UrlDecode(s.ToString());
         }
 
-		protected virtual string ControlCacheKey
-		{
-			get
-			{
-				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}:{1}", this.GetType(), Blog.Id);
-			}
-		}
+        protected virtual string ControlCacheKey
+        {
+            get
+            {
+                return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}:{1}", this.GetType(), Blog.Id);
+            }
+        }
 
-		public string SkinFilePath
-		{
-			get;
-			set;
-		}
-		
-		protected void BindCurrentEntryControls(Entry entry, Control root)
-		{
-			foreach(Control control in root.Controls)
-			{
-				CurrentEntryControl currentEntryControl = control as CurrentEntryControl;
-				if(currentEntryControl != null)
-				{
-					currentEntryControl.Entry = new EntryViewModel(entry, SubtextContext);
-					currentEntryControl.DataBind();
-				}
-			}
-		}
+        public string SkinFilePath
+        {
+            get;
+            set;
+        }
 
-		/// <summary>
-		/// Adds the captcha if necessary.
-		/// </summary>
-		/// <param name="captcha">The captcha.</param>
-		/// <param name="invisibleCaptchaValidator">The invisible captcha validator.</param>
-		/// <param name="btnIndex">Index of the BTN.</param>
-		protected void AddCaptchaIfNecessary(ref CaptchaControl captcha, ref InvisibleCaptcha invisibleCaptchaValidator, int btnIndex)
-		{				
-			if (Config.CurrentBlog.CaptchaEnabled)
-			{
-				captcha = new CaptchaControl();
-				captcha.ID = "captcha";
-				Control preExisting = ControlHelper.FindControlRecursively(this, "captcha");
-				if (preExisting == null) // && !Config.CurrentBlog.FeedbackSpamServiceEnabled) Experimental code for improved UI. Will put back in later. - Phil Haack 10/09/2006
-				{
-					Controls.AddAt(btnIndex, captcha);
-				}
-			}
-			else
-			{
-				RemoveCaptcha();
-			}
+        protected void BindCurrentEntryControls(Entry entry, Control root)
+        {
+            foreach (Control control in root.Controls)
+            {
+                CurrentEntryControl currentEntryControl = control as CurrentEntryControl;
+                if (currentEntryControl != null)
+                {
+                    currentEntryControl.Entry = new EntryViewModel(entry, SubtextContext);
+                    currentEntryControl.DataBind();
+                }
+            }
+        }
 
-			if (Config.Settings.InvisibleCaptchaEnabled)
-			{
-				invisibleCaptchaValidator = new InvisibleCaptcha();
-				invisibleCaptchaValidator.ErrorMessage = "Please enter the answer to the supplied question.";
+        /// <summary>
+        /// Adds the captcha if necessary.
+        /// </summary>
+        /// <param name="captcha">The captcha.</param>
+        /// <param name="invisibleCaptchaValidator">The invisible captcha validator.</param>
+        /// <param name="btnIndex">Index of the BTN.</param>
+        protected void AddCaptchaIfNecessary(ref CaptchaControl captcha, ref InvisibleCaptcha invisibleCaptchaValidator, int btnIndex)
+        {
+            if (Config.CurrentBlog.CaptchaEnabled)
+            {
+                captcha = new CaptchaControl();
+                captcha.ID = "captcha";
+                Control preExisting = ControlHelper.FindControlRecursively(this, "captcha");
+                if (preExisting == null) // && !Config.CurrentBlog.FeedbackSpamServiceEnabled) Experimental code for improved UI. Will put back in later. - Phil Haack 10/09/2006
+                {
+                    Controls.AddAt(btnIndex, captcha);
+                }
+            }
+            else
+            {
+                RemoveCaptcha();
+            }
 
-				Controls.AddAt(btnIndex, invisibleCaptchaValidator);
-			}
-		}
+            if (Config.Settings.InvisibleCaptchaEnabled)
+            {
+                invisibleCaptchaValidator = new InvisibleCaptcha();
+                invisibleCaptchaValidator.ErrorMessage = "Please enter the answer to the supplied question.";
 
-		/// <summary>
-		/// Removes the captcha if necessary.
-		/// </summary>
-		protected void RemoveCaptcha()
-		{
-			Control preExisting = ControlHelper.FindControlRecursively(this, "captcha");
-			if (preExisting != null)
-			{
-				Controls.Remove(preExisting);
-			}
-		}
-	}
+                Controls.AddAt(btnIndex, invisibleCaptchaValidator);
+            }
+        }
+
+        /// <summary>
+        /// Removes the captcha if necessary.
+        /// </summary>
+        protected void RemoveCaptcha()
+        {
+            Control preExisting = ControlHelper.FindControlRecursively(this, "captcha");
+            if (preExisting != null)
+            {
+                Controls.Remove(preExisting);
+            }
+        }
+    }
 }
 
 

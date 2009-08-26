@@ -1731,8 +1731,8 @@ SELECT	content.BlogId
 		, content.PostConfig
 		, content.EntryName
 		, content.DateSyndicated
-		, vc.WebCount
-		, vc.AggCount
+		, WebCount = ISNULL(vc.WebCount, 0)
+		, AggCount = ISNULL(vc.AggCount, 0)
 		, vc.WebLastUpdated
 		, vc.AggLastUpdated
 		, row_number() over(order by DateAdded desc, Id desc) RowNumber
@@ -1764,7 +1764,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
 (
 	@BlogId int
@@ -1777,32 +1776,32 @@ AS
 
 WITH OrderedEntries AS
 (
-SELECT	content.BlogId 
-		, content.[ID] 
-		, content.Title 
-		, DateCreated = content.DateAdded 
-		, content.[Text] 
-		, content.[Description]
-		, content.PostType 
-		, content.Author 
-		, content.Email 
-		, content.DateUpdated 
-		, FeedbackCount = ISNULL(content.FeedbackCount, 0)
-		, content.PostConfig
-		, content.EntryName
-		, content.DateSyndicated
-		, vc.WebCount
-		, vc.AggCount
-		, vc.WebLastUpdated
-		, vc.AggLastUpdated
-		, row_number() over(order by content.DateAdded DESC, content.ID DESC) RowNumber
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] l ON content.[ID] = l.PostID
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (l.CategoryID = cats.CategoryID)
-	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
-WHERE 	content.BlogId = @BlogId
-	AND content.PostType = @PostType
-	AND cats.CategoryID = @CategoryID
+	SELECT	content.BlogId 
+			, content.[ID] 
+			, content.Title 
+			, DateCreated = content.DateAdded 
+			, content.[Text] 
+			, content.[Description]
+			, content.PostType 
+			, content.Author 
+			, content.Email 
+			, content.DateUpdated 
+			, FeedbackCount = ISNULL(content.FeedbackCount, 0)
+			, content.PostConfig
+			, content.EntryName
+			, content.DateSyndicated
+			, WebCount = ISNULL(vc.WebCount, 0)
+			, AggCount = ISNULL(vc.AggCount, 0)
+			, vc.WebLastUpdated
+			, vc.AggLastUpdated
+			, row_number() over(order by content.DateAdded DESC, content.ID DESC) RowNumber
+	FROM [<dbUser,varchar,dbo>].[subtext_Content] content
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] l ON content.[ID] = l.PostID
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (l.CategoryID = cats.CategoryID)
+		LEFT JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
+	WHERE 	content.BlogId = @BlogId
+		AND content.PostType = @PostType
+		AND cats.CategoryID = @CategoryID
 )
 
 SELECT * 
@@ -2730,13 +2729,13 @@ BEGIN
 	BEGIN
 		if(@IsWeb = 1) -- Is this a web view
 		BEGIN
-			Insert subtext_EntryViewCount (EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
-		       values (@EntryID, @BlogId, 1, 0, getdate(), NULL)
+			INSERT subtext_EntryViewCount (EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
+		       VALUES (@EntryID, @BlogId, 1, 0, getdate(), NULL)
 		END
 		else
 		BEGIN
-			Insert subtext_EntryViewCount (EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
-		       values (@EntryID, @BlogId, 0, 1, NULL, getdate())
+			INSERT subtext_EntryViewCount (EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
+		       VALUES (@EntryID, @BlogId, 0, 1, NULL, getdate())
 		END
 	END
 

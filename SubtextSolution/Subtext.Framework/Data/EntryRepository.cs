@@ -69,19 +69,19 @@ namespace Subtext.Framework.Data
         /// <param name="pageIndex">Index of the page.</param>
         /// <param name="pageSize">Size of the page.</param>
         /// <returns></returns>
-        public override IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize)
+        public override IPagedCollection<EntryStatsView> GetPagedEntries(PostType postType, int? categoryID, int pageIndex, int pageSize)
         {
             using (IDataReader reader = GetPagedEntriesReader(postType, categoryID, pageIndex, pageSize))
             {
-                return reader.GetPagedCollection<Entry>(r => DataHelper.LoadEntryStatsView(reader));
+                return reader.GetPagedCollection<EntryStatsView>(r => DataHelper.LoadEntryStatsView(reader));
             }
         }
 
-        private IDataReader GetPagedEntriesReader(PostType postType, int categoryID, int pageIndex, int pageSize)
+        private IDataReader GetPagedEntriesReader(PostType postType, int? categoryID, int pageIndex, int pageSize)
         {
-            if (categoryID > 0)
+            if (categoryID != null)
             {
-                return _procedures.GetPageableEntriesByCategoryID(BlogId, categoryID, pageIndex, pageSize, (int)postType);
+                return _procedures.GetPageableEntriesByCategoryID(BlogId, categoryID.Value, pageIndex, pageSize, (int)postType);
             }
             else
             {

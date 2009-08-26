@@ -83,9 +83,9 @@ namespace Subtext.Framework.Data
         /// <param name="categoryId">The category id.</param>
         /// <param name="activeOnly">if set to <c>true</c> [active only].</param>
         /// <returns></returns>
-        public override LinkCategory GetLinkCategory(int categoryId, bool activeOnly)
+        public override LinkCategory GetLinkCategory(int? categoryId, bool activeOnly)
         {
-            using (IDataReader reader = _procedures.GetCategory(null, categoryId.NullIfMinValue(), activeOnly, BlogId, null))
+            using (IDataReader reader = _procedures.GetCategory(null, categoryId, activeOnly, BlogId, null))
             {
                 return reader.LoadLinkCategoryFromReader();
             }

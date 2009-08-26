@@ -137,7 +137,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <returns></returns>
-        public abstract IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize);
+        public abstract IPagedCollection<EntryStatsView> GetPagedEntries(PostType postType, int? categoryID, int pageIndex, int pageSize);
 
 		/// <summary>
 		/// Gets the paged feedback.
@@ -319,7 +319,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="categoryId">The category id.</param>
 		/// <param name="activeOnly">if set to <c>true</c> [active only].</param>
 		/// <returns></returns>
-		public abstract LinkCategory GetLinkCategory(int categoryId, bool activeOnly);
+		public abstract LinkCategory GetLinkCategory(int? categoryId, bool activeOnly);
 
 		/// <summary>
 		/// Gets the link category for the specified category name.
