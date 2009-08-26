@@ -4714,15 +4714,20 @@ GO
 CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]
 	@BlogId int
 AS
+DELETE FROM [<dbUser,varchar,dbo>].subtext_Links WHERE BlogId = @BlogId
+DELETE FROM [<dbUser,varchar,dbo>].subtext_MetaTag WHERE BlogId = @BlogId
+DELETE FROM [<dbUser,varchar,dbo>].subtext_EntryTag WHERE BlogId = @BlogId
+DELETE FROM [<dbUser,varchar,dbo>].subtext_EntryViewCount WHERE BlogId = @BlogId
 DELETE FROM [<dbUser,varchar,dbo>].subtext_Referrals WHERE BlogId = @BlogId
 DELETE FROM [<dbUser,varchar,dbo>].subtext_Log WHERE BlogId = @BlogId
-DELETE FROM [<dbUser,varchar,dbo>].subtext_Links WHERE BlogId = @BlogId
---DELETE FROM [<dbUser,varchar,dbo>].subtext_Images WHERE BlogId = @BlogId  -- Don't want to wipe out the images this way b/c that would leave them on the disk.
+DELETE FROM [<dbUser,varchar,dbo>].subtext_Images WHERE BlogId = @BlogId
 DELETE FROM [<dbUser,varchar,dbo>].subtext_LinkCategories WHERE BlogId = @BlogId AND CategoryType <> 3 -- We're not doing Image Galleries.
 DELETE FROM [<dbUser,varchar,dbo>].subtext_KeyWords WHERE BlogId = @BlogId
 DELETE FROM [<dbUser,varchar,dbo>].subtext_EntryViewCount WHERE BlogId = @BlogId
 DELETE FROM [<dbUser,varchar,dbo>].subtext_FeedBack WHERE BlogId = @BlogId
+DELETE FROM [<dbUser,varchar,dbo>].subtext_Tag WHERE BlogId = @BlogId
 DELETE FROM [<dbUser,varchar,dbo>].subtext_Content WHERE BlogId = @BlogId
+DELETE FROM [<dbUser,varchar,dbo>].subtext_URLs WHERE UrlID NOT IN (SELECT UrlId FROM subtext_Referrals)
 
 DECLARE @Now datetime
 set @Now = getdate()
