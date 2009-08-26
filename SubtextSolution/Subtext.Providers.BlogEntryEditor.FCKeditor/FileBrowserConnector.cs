@@ -354,7 +354,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 
         private static void GetPosts(XmlNode connectorNode, string currentFolder)
         {
-            IPagedCollection<Entry> posts;
+            IPagedCollection<EntryStatsView> posts;
             if (currentFolder.Equals("/"))
             {
                 posts = Entries.GetPagedEntries(PostType.BlogPost, -1, 0, 1000);

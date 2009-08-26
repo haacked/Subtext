@@ -40,8 +40,6 @@ namespace Subtext.Framework
 	{
 		private readonly static ILog log = new Log();		
 	
-		#region Paged Posts
-
 		/// <summary>
 		/// Returns a collection of Posts for a give page and index size.
 		/// </summary>
@@ -50,11 +48,10 @@ namespace Subtext.Framework
 		/// <param name="pageIndex"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-        public static IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize)
+        public static IPagedCollection<EntryStatsView> GetPagedEntries(PostType postType, int? categoryID, int pageIndex, int pageSize)
 		{
 			return ObjectProvider.Instance().GetPagedEntries(postType, categoryID, pageIndex, pageSize);
 		}
-		#endregion
 
 		public static EntryDay GetSingleDay(DateTime dt)
 		{
