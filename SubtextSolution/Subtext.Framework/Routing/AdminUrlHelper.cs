@@ -116,9 +116,24 @@ namespace Subtext.Framework.Routing
             return Url.AdminUrl("Credits.aspx");
         }
 
+        public VirtualPath EditCategories()
+        {
+            return Url.AdminUrl("EditCategories.aspx");
+        }
+
         public VirtualPath EditCategories(CategoryType categoryType)
         {
             return Url.AdminUrl("EditCategories.aspx", new { catType = categoryType });
+        }
+
+        public VirtualPath EditGalleries()
+        {
+            return Url.AdminUrl("EditGalleries.aspx");
+        }
+
+        public VirtualPath EditLinks()
+        {
+            return Url.AdminUrl("EditLinks.aspx");
         }
 
         public VirtualPath ErrorLog()

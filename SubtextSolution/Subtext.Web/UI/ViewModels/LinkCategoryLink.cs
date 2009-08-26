@@ -13,37 +13,26 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System.Web.UI;
-using Subtext.Framework.Routing;
-using Subtext.Framework.Web.Handlers;
-
-namespace Subtext.Web.Admin.WebUI.Controls
+namespace Subtext.Web.UI.ViewModels
 {
-    public class BaseUserControl : UserControl
+    public class LinkCategoryLink
     {
-        public UrlHelper Url
+        public LinkCategoryLink(string title, string url)
         {
-            get
-            {
-                return SubtextPage.Url;
-            }
+            Title = title;
+            Url = url;
         }
 
-        public AdminUrlHelper AdminUrl {
-            get 
-            {
-                _adminUrl = _adminUrl ?? new AdminUrlHelper(Url);
-                return _adminUrl;
-            }
-        }
-        AdminUrlHelper _adminUrl = null;
-
-        public SubtextPage SubtextPage
+        public string Url
         {
-            get
-            {
-                return Page as SubtextPage;
-            }
+            get;
+            private set;
+        }
+
+        public string Title
+        {
+            get;
+            private set;
         }
     }
 }

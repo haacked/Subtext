@@ -492,7 +492,7 @@ namespace Subtext.Framework.XmlRpc
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
             int postID = Int32.Parse(postid);
-            ICollection<Link> postCategories = Links.GetLinkCollectionByPostID(postID);
+            ICollection<Link> postCategories = Repository.GetLinkCollectionByPostID(postID);
             MtCategory[] categories = new MtCategory[postCategories.Count];
             if (postCategories.Count > 0)
             {

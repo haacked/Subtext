@@ -8,10 +8,9 @@
 <#@ import namespace="System.Data" #>
 <#@ import namespace="System.Data.SqlClient" #>
 <#@ import namespace="System.Data.Common" #>
-<#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#+
-const string ConnectionString=@"Server=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\Subtext2.1.mdf;Database=Subtext2.1;Trusted_Connection=Yes;";
+const string ConnectionString=@"Server=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\Subtext2.2.mdf;Database=Subtext2.2;Trusted_Connection=Yes;";
 const string Namespace = "Subtext.Framework.Data";
 const string ProviderName="subtextData";
 string[] ExcludeTables= new string[]{"sysdiagrams"};

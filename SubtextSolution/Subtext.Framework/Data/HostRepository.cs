@@ -1,13 +1,25 @@
-﻿using System;
+﻿#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using Subtext.Framework.Data;
-using Subtext.Framework;
-using Subtext.Framework.Text;
-using Subtext.Framework.Components;
+using System.Linq;
 using Subtext.Extensibility;
+using Subtext.Framework.Components;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Data
 {

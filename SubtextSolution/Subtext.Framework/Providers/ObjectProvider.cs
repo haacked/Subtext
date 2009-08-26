@@ -1,4 +1,4 @@
-#region 
+#region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -307,7 +307,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="tags"></param>
 		/// <returns></returns>
 		public abstract bool SetEntryTagList(int entryId, IEnumerable<string> tags);
-        public abstract IPagedCollection<Link> GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending);
+        public abstract IPagedCollection<Link> GetPagedLinks(int? categoryTypeID, int pageIndex, int pageSize, bool sortDescending);
         public abstract ICollection<Link> GetLinkCollectionByPostID(int PostID);
 		public abstract Link GetLink(int linkID);
         public abstract ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly);

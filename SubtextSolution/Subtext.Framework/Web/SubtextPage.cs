@@ -20,34 +20,45 @@ using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Web.Handlers
 {
-    public class SubtextPage : Page, ISubtextHandler {
+    public class SubtextPage : Page, ISubtextHandler
+    {
         [Inject]
-        public ISubtextContext SubtextContext {
+        public ISubtextContext SubtextContext
+        {
             get;
             set;
         }
 
-        public Blog Blog {
-            get {
+        public Blog Blog
+        {
+            get
+            {
                 return SubtextContext.Blog;
             }
         }
 
-        public UrlHelper Url {
-            get {
+        public UrlHelper Url
+        {
+            get
+            {
                 return SubtextContext.UrlHelper;
             }
         }
 
-        public ObjectProvider Repository {
-            get {
+        public ObjectProvider Repository
+        {
+            get
+            {
                 return SubtextContext.Repository;
             }
         }
 
-        public AdminUrlHelper AdminUrl {
-            get {
-                if (_adminUrlHelper == null) {
+        public AdminUrlHelper AdminUrl
+        {
+            get
+            {
+                if (_adminUrlHelper == null)
+                {
                     _adminUrlHelper = new AdminUrlHelper(Url);
                 }
                 return _adminUrlHelper;

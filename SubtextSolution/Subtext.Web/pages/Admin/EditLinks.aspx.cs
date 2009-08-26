@@ -26,317 +26,314 @@ using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
-	// TODO: import - reconcile duplicates
-	// TODO: CheckAll client-side, confirm bulk delete (add cmd)
+    // TODO: import - reconcile duplicates
+    // TODO: CheckAll client-side, confirm bulk delete (add cmd)
 
-	public partial class EditLinks : AdminPage
-	{
-		private const string VSKEY_LINKID = "LinkID";
+    public partial class EditLinks : AdminPage
+    {
+        private const string VSKEY_LINKID = "LinkID";
 
-		private int filterCategoryID
-		{
-			get
-			{
-				if(ViewState["filterCategoryID"] == null)
-				{
-					return NullValue.NullInt32;
-				}
-				else
-				{
-					return (int)ViewState["filterCategoryID"];
-				}
-			}
-			set
-			{
-				ViewState["filterCategoryID"] = value;
-			}
-		}
-		private int resultsPageNumber = 0;
-		private bool _isListHidden = false;
+        private int? filterCategoryID
+        {
+            get
+            {
+                if (ViewState["filterCategoryID"] == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return (int)ViewState["filterCategoryID"];
+                }
+            }
+            set
+            {
+                ViewState["filterCategoryID"] = value;
+            }
+        }
+        private int resultsPageNumber = 0;
+        private bool _isListHidden = false;
 
-		protected System.Web.UI.WebControls.CheckBoxList cklCategories;
-	
-		public int LinkID
-		{
-			get
-			{
-				if(ViewState[VSKEY_LINKID] != null)
-					return (int)ViewState[VSKEY_LINKID];
-				else
-					return NullValue.NullInt32;
-			}
-			set { ViewState[VSKEY_LINKID] = value; }
-		}
-	    
-	    public EditLinks()
-	    {
+        protected CheckBoxList cklCategories;
+
+        public int LinkID
+        {
+            get
+            {
+                if (ViewState[VSKEY_LINKID] != null)
+                    return (int)ViewState[VSKEY_LINKID];
+                else
+                    return NullValue.NullInt32;
+            }
+            set { ViewState[VSKEY_LINKID] = value; }
+        }
+
+        public EditLinks()
+        {
             this.TabSectionId = "Links";
-	    }
+        }
 
-		protected void Page_Load(object sender, System.EventArgs e)
-		{
+        protected void Page_Load(object sender, System.EventArgs e)
+        {
             this.rprSelectionList.Visible = true;
             this.headerLiteral.Visible = true;
-			BindLocalUI();
+            BindLocalUI();
 
-			if (!IsPostBack)
-			{
-				if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
-					this.resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+            if (!IsPostBack)
+            {
+                if (Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
+                {
+                    this.resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+                }
 
-				if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
-					this.filterCategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
+                if (Request.QueryString[Keys.QRYSTR_CATEGORYID] != null)
+                {
+                    this.filterCategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
+                }
 
-				this.resultsPager.PageSize = Preferences.ListingItemCount;
-				this.resultsPager.PageIndex = this.resultsPageNumber;
+                this.resultsPager.PageSize = Preferences.ListingItemCount;
+                this.resultsPager.PageIndex = this.resultsPageNumber;
 
-				if (NullValue.NullInt32 != this.filterCategoryID)
-					this.resultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, 
-						this.filterCategoryID);
-				
-				BindList();
-			}
-		}
+                if (this.filterCategoryID != null)
+                {
+                    this.resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, this.filterCategoryID);
+                }
 
-		private void BindLocalUI()
-		{
-			LinkButton lkbNewLink = Utilities.CreateLinkButton("New Link");
-			lkbNewLink.Click += new System.EventHandler(lkbNewLink_Click);
-			lkbNewLink.CausesValidation =false;
-			AdminMasterPage.AddToActions(lkbNewLink);
+                BindList();
+            }
+        }
+
+        private void BindLocalUI()
+        {
+            LinkButton lkbNewLink = Utilities.CreateLinkButton("New Link");
+            lkbNewLink.Click += lkbNewLink_Click;
+            lkbNewLink.CausesValidation = false;
+            AdminMasterPage.AddToActions(lkbNewLink);
             HyperLink lnkEditCategories = Utilities.CreateHyperLink(Resources.Label_EditCategories,
                 string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITCATEGORIES, Keys.QRYSTR_CATEGORYTYPE, CategoryType.LinkCollection));
             AdminMasterPage.AddToActions(lnkEditCategories);
-		}
+        }
 
-		private void BindList()
-		{
-			Edit.Visible = false;
+        private void BindList()
+        {
+            Edit.Visible = false;
 
-            IPagedCollection<Link> selectionList = Links.GetPagedLinks(this.filterCategoryID, this.resultsPageNumber,
-				this.resultsPager.PageSize,true);
-			
-			if (selectionList.Count > 0)
-			{
-				this.resultsPager.ItemCount = selectionList.MaxItems;
-				rprSelectionList.DataSource = selectionList;
-				rprSelectionList.DataBind();
-			}
-			else
-			{
-				// TODO: no existing items handling. add label and indicate no existing items. pop open edit.
-			}
-		}
+            IPagedCollection<Link> selectionList = Repository.GetPagedLinks(this.filterCategoryID, this.resultsPageNumber, this.resultsPager.PageSize, true);
 
-		private void BindLinkEdit()
-		{
-			Link currentLink = Links.GetSingleLink(LinkID);
+            if (selectionList.Count > 0)
+            {
+                this.resultsPager.ItemCount = selectionList.MaxItems;
+                rprSelectionList.DataSource = selectionList;
+                rprSelectionList.DataBind();
+            }
+            else
+            {
+                // TODO: no existing items handling. add label and indicate no existing items. pop open edit.
+            }
+        }
+
+        private void BindLinkEdit()
+        {
+            Link currentLink = Repository.GetLink(LinkID);
 
             this.rprSelectionList.Visible = false;
             this.headerLiteral.Visible = false;
-//			ImportExport.Visible = false;
-			Edit.Visible = true;
+            //			ImportExport.Visible = false;
+            Edit.Visible = true;
 
-			lblEntryID.Text = currentLink.Id.ToString(CultureInfo.InvariantCulture);
-			txbTitle.Text = currentLink.Title;
-			txbUrl.Text = currentLink.Url;
-			txbRss.Text = currentLink.Rss;
+            lblEntryID.Text = currentLink.Id.ToString(CultureInfo.InvariantCulture);
+            txbTitle.Text = currentLink.Title;
+            txbUrl.Text = currentLink.Url;
+            txbRss.Text = currentLink.Rss;
             txtXfn.Text = currentLink.Relation;
-		
-			chkNewWindow.Checked = currentLink.NewWindow;
-			ckbIsActive.Checked = currentLink.IsActive;
 
-			BindLinkCategories();
-			ddlCategories.Items.FindByValue(currentLink.CategoryID.ToString(CultureInfo.InvariantCulture)).Selected = true;
+            chkNewWindow.Checked = currentLink.NewWindow;
+            ckbIsActive.Checked = currentLink.IsActive;
 
-			if(AdminMasterPage != null)
-			{	
-				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Link \"{0}\"", currentLink.Title);
+            BindLinkCategories();
+            ddlCategories.Items.FindByValue(currentLink.CategoryID.ToString(CultureInfo.InvariantCulture)).Selected = true;
+
+            if (AdminMasterPage != null)
+            {
+                string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Link \"{0}\"", currentLink.Title);
                 AdminMasterPage.Title = title;
-			}
-		}
+            }
+        }
 
-		public void BindLinkCategories()
-		{
+        public void BindLinkCategories()
+        {
             ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
-			if(selectionList != null && selectionList.Count != 0)
-			{
-				ddlCategories.DataSource = selectionList;
-				ddlCategories.DataValueField = "Id";
-				ddlCategories.DataTextField = "Title";
-				ddlCategories.DataBind();
-			}
-			else
-			{
+            if (selectionList != null && selectionList.Count != 0)
+            {
+                ddlCategories.DataSource = selectionList;
+                ddlCategories.DataValueField = "Id";
+                ddlCategories.DataTextField = "Title";
+                ddlCategories.DataBind();
+            }
+            else
+            {
                 this.Messages.ShowError(Resources.EditLinks_NeedToAddCategoryFirst);
-				Edit.Visible = false;
-			}
+                Edit.Visible = false;
+            }
 
-		}
+        }
 
-		private void UpdateLink()
-		{					
-			string successMessage = Constants.RES_SUCCESSNEW;
+        private void UpdateLink()
+        {
+            string successMessage = Constants.RES_SUCCESSNEW;
 
-			try
-			{
-				Link link = new Link();
+            try
+            {
+                Link link = new Link();
 
-				link.Title = txbTitle.Text;				
-				link.Url = txbUrl.Text;
-				link.Rss = txbRss.Text;
-				link.IsActive = ckbIsActive.Checked;
-				link.CategoryID = Convert.ToInt32(ddlCategories.SelectedItem.Value);
-				link.NewWindow = chkNewWindow.Checked;
-				link.Id = Config.CurrentBlog.Id;
+                link.Title = txbTitle.Text;
+                link.Url = txbUrl.Text;
+                link.Rss = txbRss.Text;
+                link.IsActive = ckbIsActive.Checked;
+                link.CategoryID = Convert.ToInt32(ddlCategories.SelectedItem.Value);
+                link.NewWindow = chkNewWindow.Checked;
+                link.Id = Config.CurrentBlog.Id;
                 link.Relation = txtXfn.Text;
-				
-				if (LinkID > 0)
-				{
-					successMessage = Constants.RES_SUCCESSEDIT;
-					link.Id = LinkID;
-					Links.UpdateLink(link);
-				}
-				else
-				{
-					LinkID = Links.CreateLink(link);
-				}
 
-				if (LinkID > 0)
-				{			
-					BindList();
-					this.Messages.ShowMessage(successMessage);
-				}
-				else
-					this.Messages.ShowError(Constants.RES_FAILUREEDIT 
-						+ " There was a baseline problem posting your link.");
-			}
-			catch(Exception ex)
-			{
-				this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, 
-					Constants.RES_FAILUREEDIT, ex.Message));
-			}
-			finally
-			{
+                if (LinkID > 0)
+                {
+                    successMessage = Constants.RES_SUCCESSEDIT;
+                    link.Id = LinkID;
+                    Links.UpdateLink(link);
+                }
+                else
+                {
+                    LinkID = Links.CreateLink(link);
+                }
+
+                if (LinkID > 0)
+                {
+                    BindList();
+                    this.Messages.ShowMessage(successMessage);
+                }
+                else
+                    this.Messages.ShowError(Constants.RES_FAILUREEDIT
+                        + " There was a baseline problem posting your link.");
+            }
+            catch (Exception ex)
+            {
+                this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
+                    Constants.RES_FAILUREEDIT, ex.Message));
+            }
+            finally
+            {
                 this.rprSelectionList.Visible = true;
                 this.headerLiteral.Visible = true;
-			}
-		}
+            }
+        }
 
-		private void ResetPostEdit(bool showEdit)
-		{
-			LinkID = NullValue.NullInt32;
+        private void ResetPostEdit(bool showEdit)
+        {
+            LinkID = NullValue.NullInt32;
 
             this.rprSelectionList.Visible = !showEdit;
             this.headerLiteral.Visible = !showEdit;
-			Edit.Visible = showEdit;
+            Edit.Visible = showEdit;
 
-			lblEntryID.Text = String.Empty;
-			txbTitle.Text = String.Empty;
-			txbUrl.Text = String.Empty;
-			txbRss.Text = String.Empty;
-			chkNewWindow.Checked = false;
+            lblEntryID.Text = String.Empty;
+            txbTitle.Text = String.Empty;
+            txbUrl.Text = String.Empty;
+            txbRss.Text = String.Empty;
+            chkNewWindow.Checked = false;
 
-			ckbIsActive.Checked = Preferences.AlwaysCreateIsActive;
+            ckbIsActive.Checked = Preferences.AlwaysCreateIsActive;
 
-			if (showEdit)
-				BindLinkCategories();
-	
-			ddlCategories.SelectedIndex = -1;
-		}
+            if (showEdit)
+            {
+                BindLinkCategories();
+            }
 
-		private void ConfirmDelete(int linkID, string linkTitle)
-		{
-			this.Command = new DeleteLinkCommand(linkID, linkTitle);
-			this.Command.RedirectUrl = Request.Url.ToString();
-			Server.Transfer(Constants.URL_CONFIRM);
-		}
+            ddlCategories.SelectedIndex = -1;
+        }
 
-		private void ImportOpml()
-		{
-			if(OpmlImportFile.PostedFile.FileName.Trim().Length > 0)
-			{
-				OpmlItemCollection importedLinks = OpmlProvider.Import(OpmlImportFile.PostedFile.InputStream);
-				
-				if (importedLinks.Count > 0)
-				{
-					this.Command = new ImportLinksCommand(importedLinks,Int32.Parse(this.ddlImportExportCategories.SelectedItem.Value));
-					this.Command.RedirectUrl = Request.Url.ToString();
-					Server.Transfer(Constants.URL_CONFIRM);
-				}
+        private void ConfirmDelete(int linkID, string linkTitle)
+        {
+            this.Command = new DeleteLinkCommand(linkID, linkTitle);
+            this.Command.RedirectUrl = Request.Url.ToString();
+            Server.Transfer(Constants.URL_CONFIRM);
+        }
 
-				BindList();
-			}
-		}
+        private void ImportOpml()
+        {
+            if (OpmlImportFile.PostedFile.FileName.Trim().Length > 0)
+            {
+                OpmlItemCollection importedLinks = OpmlProvider.Import(OpmlImportFile.PostedFile.InputStream);
 
-		// REFACTOR
-		public string CheckHiddenStyle()
-		{
-			if (_isListHidden)
-				return Constants.CSSSTYLE_HIDDEN;
-			else
-				return String.Empty;
-		}
+                if (importedLinks.Count > 0)
+                {
+                    this.Command = new ImportLinksCommand(importedLinks, Int32.Parse(this.ddlImportExportCategories.SelectedItem.Value));
+                    this.Command.RedirectUrl = Request.Url.ToString();
+                    Server.Transfer(Constants.URL_CONFIRM);
+                }
 
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{   
-			this.rprSelectionList.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprSelectionList_ItemCommand);
+                BindList();
+            }
+        }
 
-		}
-		#endregion 
+        // REFACTOR
+        public string CheckHiddenStyle()
+        {
+            if (_isListHidden)
+            {
+                return Constants.CSSSTYLE_HIDDEN;
+            }
+            else
+            {
+                return String.Empty;
+            }
+        }
 
-		protected void lkbImportOpml_Click(object sender, System.EventArgs e)
-		{
-			if (Page.IsValid) ImportOpml();
-		}
+        override protected void OnInit(EventArgs e)
+        {
+            this.rprSelectionList.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprSelectionList_ItemCommand);
+            base.OnInit(e);
+        }
 
-		private void rprSelectionList_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
-		{
-			switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture)) 
-			{
-				case "edit" :
-					LinkID = Convert.ToInt32(e.CommandArgument);
-					BindLinkEdit();
-					break;
-				case "delete" :
-					int id = Convert.ToInt32(e.CommandArgument);
-					Link link = Links.GetSingleLink(id);
-					ConfirmDelete(id, link.Title);
-					break;
-				default:
-					break;
-			}			
-		}
+        protected void lkbImportOpml_Click(object sender, System.EventArgs e)
+        {
+            if (Page.IsValid) ImportOpml();
+        }
 
-		protected void lkbCancel_Click(object sender, System.EventArgs e)
-		{
-			ResetPostEdit(false);
-		}
+        private void rprSelectionList_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
+        {
+            switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture))
+            {
+                case "edit":
+                    LinkID = Convert.ToInt32(e.CommandArgument);
+                    BindLinkEdit();
+                    break;
 
-		protected void lkbPost_Click(object sender, System.EventArgs e)
-		{
-			UpdateLink();
-		}
+                case "delete":
+                    int id = Convert.ToInt32(e.CommandArgument);
+                    Link link = Repository.GetLink(id);
+                    ConfirmDelete(id, link.Title);
+                    break;
 
-		private void lkbNewLink_Click(object sender, System.EventArgs e)
-		{
-			ResetPostEdit(true);
-		}
-	}
+                default:
+                    break;
+            }
+        }
+
+        protected void lkbCancel_Click(object sender, System.EventArgs e)
+        {
+            ResetPostEdit(false);
+        }
+
+        protected void lkbPost_Click(object sender, System.EventArgs e)
+        {
+            UpdateLink();
+        }
+
+        private void lkbNewLink_Click(object sender, System.EventArgs e)
+        {
+            ResetPostEdit(true);
+        }
+    }
 }
 
 
