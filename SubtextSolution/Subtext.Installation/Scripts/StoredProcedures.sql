@@ -2637,7 +2637,7 @@ END
 Else
 BEGIN
 	IF(@Url != '' AND NOT @Url IS NULL)
-		INSERT INTO subtext_Urls VALUES (@Url)
+		INSERT INTO subtext_Urls (Url) VALUES (@Url)
 		SELECT @UrlID = SCOPE_IDENTITY()
 END
 
@@ -2766,7 +2766,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertImage]
 	@ImageID int OUTPUT
 )
 AS
-Insert subtext_Images
+INSERT subtext_Images
 (
 	Title, CategoryID, Width, Height, [File], Active, BlogId
 )
@@ -2806,7 +2806,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertKeyWord]
 
 AS
 
-Insert [<dbUser,varchar,dbo>].[subtext_KeyWords]
+INSERT [<dbUser,varchar,dbo>].[subtext_KeyWords]
 	(Word,Rel,[Text],ReplaceFirstTimeOnly,OpenInNewWindow, CaseSensitive,Url,Title,BlogId)
 Values
 	(@Word,@Rel,@Text,@ReplaceFirstTimeOnly,@OpenInNewWindow, @CaseSensitive,@Url,@Title,@BlogId)
@@ -2990,7 +2990,7 @@ BEGIN
 END
 Else
 BEGIN
-	Insert subtext_ViewStats (BlogId, PageType, PostID, [Day], UrlID, [Count])
+	INSERT subtext_ViewStats (BlogId, PageType, PostID, [Day], UrlID, [Count])
 	Values (@BlogId, @PageType, @PostID, @Day, @UrlID, 1)
 END
 
@@ -4219,8 +4219,8 @@ AS
 IF @DateCreated IS NULL
 	SET @DateCreated = getdate()
 
-INSERT [<dbUser,varchar,dbo>].[subtext_Version]
-SELECT	@Major, @Minor, @Build, @DateCreated
+INSERT INTO [<dbUser,varchar,dbo>].[subtext_Version] (Major, Minor, Build, DateCreated)  
+VALUES (@Major, @Minor, @Build, @DateCreated)
 
 SELECT @Id = SCOPE_IDENTITY()
 
@@ -4283,8 +4283,30 @@ AS
 if @BlogId < 0
 	SET @BlogId = NULL
 
-INSERT [<dbUser,varchar,dbo>].[subtext_Log]
-SELECT	@BlogId, @Date, @Thread, @Context, @Level, @Logger, @Message, @Exception, @Url
+INSERT [<dbUser,varchar,dbo>].[subtext_Log] 
+(
+	BlogId, 
+	[Date], 
+	Thread, 
+	Context, 
+	[Level], 
+	Logger, 
+	Message, 
+	Exception, 
+	Url
+)
+VALUES 
+(
+	@BlogId, 
+	@Date, 
+	@Thread, 
+	@Context, 
+	@Level, 
+	@Logger, 
+	@Message, 
+	@Exception, 
+	@Url
+)
 
 GO
 SET QUOTED_IDENTIFIER OFF 
