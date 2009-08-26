@@ -159,7 +159,7 @@ namespace Subtext.Web.Admin.UserControls
 
         private void BindPostEdit()
 		{
-            Debug.Assert(PostID == null, "PostID Should be null when we call this");
+            Debug.Assert(PostID != null, "PostID Should not be null when we call this");
 
 			SetConfirmation();
 			
@@ -256,7 +256,7 @@ namespace Subtext.Web.Admin.UserControls
 
 	    private void PopulateMimeTypeDropDown()
 	    {
-            ddlMimeType.Items.Add(new ListItem(Resources.Label_Choose));
+            ddlMimeType.Items.Add(new ListItem(Resources.Label_Choose, "none"));
             foreach (string key in MimeTypesMapper.Mappings.List)
 	        {
                 ddlMimeType.Items.Add(new ListItem(MimeTypesMapper.Mappings.List[key], MimeTypesMapper.Mappings.List[key]));
@@ -452,7 +452,7 @@ namespace Subtext.Web.Admin.UserControls
         [CoverageExclude]
         private static void ValidateEntryTypeIsNotNone(PostType entryType)
         {
-            Debug.Assert(entryType == PostType.None, "The entry type is none. This should be impossible!");
+            Debug.Assert(entryType != PostType.None, "The entry type is none. This should be impossible!");
         }
 
         private bool EnclosureEnabled()

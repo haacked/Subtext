@@ -21,5 +21,6 @@ File/Folder Deletions
 Database changes
   1. No Schema changes
   2. Stored Proc changes
+  3. Removed support for SQL Server 2000
   
   
