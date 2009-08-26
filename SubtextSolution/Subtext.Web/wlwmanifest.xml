@@ -16,7 +16,7 @@
     <adminLinkText>Administer your blog</adminLinkText>
     <adminUrl>
       <![CDATA[
-        {blog-homepage-url}admin
+        {blog-homepage-url}admin/default.aspx
     ]]>
     </adminUrl>
     <postEditingUrl>
