@@ -876,18 +876,6 @@ namespace Subtext.Framework.Data
             return NonQueryBool("subtext_InsertEntryTagList", p);
         }
 
-        public bool InsertEntryViewCount(int entryId, int blogId, bool isWeb)
-        {
-            SqlParameter[] p = {
-				DataHelper.MakeInParam("@EntryID", entryId),		
-				DataHelper.MakeInParam("@BlogId", blogId),		
-				DataHelper.MakeInParam("@IsWeb", isWeb),		
-			};
-
-
-            return NonQueryBool("subtext_InsertEntryViewCount", p);
-        }
-
         public int InsertFeedback(string title, string body, int blogId, int? entryId, string author, bool isBlogAuthor, string email, string url, int feedbackType, int statusFlag, bool commentAPI, string referrer, string ipAddress, string userAgent, string feedbackChecksumHash, DateTime dateCreated, DateTime? dateModified, DateTime currentDateTime)
         {
             var outParam0 = DataHelper.MakeOutParam("@Id", SqlDbType.Int, 4);
@@ -1112,7 +1100,6 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@Url", url),		
 				DataHelper.MakeInParam("@IsWeb", isWeb),		
 			};
-
 
             return NonQueryBool("subtext_TrackEntry", p);
         }

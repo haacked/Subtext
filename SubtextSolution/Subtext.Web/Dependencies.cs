@@ -28,6 +28,7 @@ using Subtext.Framework.Services;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Infrastructure;
+using Subtext.Framework.Configuration;
 
 namespace Subtext
 {
@@ -69,6 +70,7 @@ namespace Subtext
             Bind<System.Web.Caching.Cache>().ToMethod(c => HttpContext.Current.Cache).InRequestScope();
             Bind<OpmlWriter>().To<OpmlWriter>().InRequestScope();
             Bind<IKernel>().ToMethod(context => context.Kernel).InSingletonScope();
+            Bind<Tracking>().ToMethod(context => Config.Settings.Tracking).InSingletonScope();
 
             Bind<RouteCollection>().ToConstant(RouteTable.Routes).InSingletonScope();
             Bind<HttpContext>().ToMethod(c => HttpContext.Current).InRequestScope();
