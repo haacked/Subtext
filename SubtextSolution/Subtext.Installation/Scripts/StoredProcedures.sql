@@ -2721,7 +2721,7 @@ BEGIN
 		else
 		BEGIN
 			UPDATE [<dbUser,varchar,dbo>].[subtext_EntryViewCount]
-			Set [AggCount] = [AggCount] + 1, AggLastUpdated = getdate()
+			SET [AggCount] = [AggCount] + 1, AggLastUpdated = getdate()
 			WHERE EntryID = @EntryID AND BlogId = @BlogId
 		END
 	END
@@ -2738,8 +2738,6 @@ BEGIN
 		       VALUES (@EntryID, @BlogId, 0, 1, NULL, getdate())
 		END
 	END
-
-
 END
 
 GO
