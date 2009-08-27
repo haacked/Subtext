@@ -116,8 +116,8 @@ namespace Subtext.Framework.Data
             EntryStatsView entry = new EntryStatsView();
 
             entry.PostType = ((PostType)ReadInt32(reader, "PostType"));
-            entry.WebCount = reader.ReadInt32("WebCount",0);
-            entry.AggCount = reader.ReadInt32("AggCount",0);
+            entry.WebCount = reader.ReadInt32("WebCount", 0);
+            entry.AggCount = reader.ReadInt32("AggCount", 0);
             entry.WebLastUpdated = reader.ReadDate("WebLastUpdated");
             entry.AggLastUpdated = reader.ReadDate("AggLastUpdated");
             entry.Author = reader.ReadString("Author");
