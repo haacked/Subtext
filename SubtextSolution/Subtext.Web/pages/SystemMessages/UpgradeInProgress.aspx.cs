@@ -18,6 +18,7 @@ using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Web.Handlers;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web
 {
@@ -26,23 +27,17 @@ namespace Subtext.Web
 	/// </summary>
 	public partial class UpgradeInProgress : SubtextPage {
 		protected override void OnLoad(EventArgs e) {
-            base.OnLoad(e);
-			try {
-                InstallationState state = Subtext.Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
-				if(state == InstallationState.NeedsUpgrade) {
-					plcUpgradeInProgressMessage.Visible = true;
-					plcNothingToSeeHere.Visible = false;
-				}
-				else {
-					plcUpgradeInProgressMessage.Visible = true;
-					plcNothingToSeeHere.Visible = false;
-					lnkBlog.HRef = Url.BlogUrl();
-				}
-			}
-			catch(BlogDoesNotExistException) {
+            InstallationState state = Subtext.Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
+			if(state == InstallationState.NeedsUpgrade) {
 				plcUpgradeInProgressMessage.Visible = true;
 				plcNothingToSeeHere.Visible = false;
 			}
+			else {
+				plcUpgradeInProgressMessage.Visible = true;
+				plcNothingToSeeHere.Visible = false;
+				lnkBlog.HRef = Url.BlogUrl();
+			}
+            base.OnLoad(e);
 		}
 	}
 }

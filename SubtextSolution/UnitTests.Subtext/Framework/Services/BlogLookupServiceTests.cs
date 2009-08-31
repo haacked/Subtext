@@ -18,7 +18,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Request_WithMatchingHost_ReturnsCorrespondingBlog() {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>(), true)).Returns(new Blog());
+            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns(new Blog { Host = "example.com"});
             var service = new BlogLookupService(repository.Object, new HostInfo());
             
             //act
@@ -34,8 +34,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>(), true)).Returns((Blog)null);
-            repository.Setup(r => r.GetBlog("www.example.com", It.IsAny<string>(), true)).Returns(new Blog { });
+            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns(new Blog { Host = "www.example.com" });
             var service = new BlogLookupService(repository.Object, new HostInfo());
 
             //act
@@ -51,9 +50,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("blog.example.com", It.IsAny<string>(), true)).Returns((Blog)null);
-            repository.Setup(r => r.GetBlog("www.example.com", It.IsAny<string>(), true)).Returns(new Blog { });
-            repository.Setup(r => r.GetBlogByDomainAlias("blog.example.com", It.IsAny<string>(), It.IsAny<bool>())).Returns(new Blog { Host = "www.example.com" });
+            repository.Setup(r => r.GetBlog("blog.example.com", It.IsAny<string>())).Returns(new Blog { Host="www.example.com" });
             var service = new BlogLookupService(repository.Object, new HostInfo());
 
             //act
@@ -69,9 +66,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("blog.example.com", "sub", true)).Returns((Blog)null);
-            repository.Setup(r => r.GetBlog("www.example.com", string.Empty, true)).Returns(new Blog { });
-            repository.Setup(r => r.GetBlogByDomainAlias("blog.example.com", "sub", It.IsAny<bool>())).Returns(new Blog { Host = "www.example.com", Subfolder = string.Empty });
+            repository.Setup(r => r.GetBlog("blog.example.com", "sub")).Returns(new Blog { Host = "www.example.com", Subfolder = "" });
             var service = new BlogLookupService(repository.Object, new HostInfo());
 
             //act
@@ -87,9 +82,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("blog.example.com", string.Empty, true)).Returns((Blog)null);
-            repository.Setup(r => r.GetBlog("www.example.com", "sub", true)).Returns(new Blog { });
-            repository.Setup(r => r.GetBlogByDomainAlias("blog.example.com", string.Empty, It.IsAny<bool>())).Returns(new Blog { Host = "www.example.com", Subfolder = "sub" });
+            repository.Setup(r => r.GetBlog("blog.example.com", string.Empty)).Returns(new Blog { Host = "www.example.com", Subfolder = "sub" });
             var service = new BlogLookupService(repository.Object, new HostInfo());
 
             //act
@@ -105,8 +98,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("blog.example.com", "notsub", true)).Returns((Blog)null);
-            repository.Setup(r => r.GetBlog("www.example.com", "sub", true)).Returns(new Blog { });
+            repository.Setup(r => r.GetBlog("blog.example.com", "notsub")).Returns(new Blog { Host = "www.example.com", Subfolder = "sub" });
             repository.Setup(r => r.GetBlogByDomainAlias("blog.example.com", "notsub", It.IsAny<bool>())).Returns(new Blog { Host = "www.example.com", Subfolder = "sub" });
             var service = new BlogLookupService(repository.Object, new HostInfo());
 
@@ -123,7 +115,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>(), true)).Returns((Blog)null);
+            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             var pagedCollection = new Mock<IPagedCollection<Blog>>();
             pagedCollection.Setup(p => p.MaxItems).Returns(0);
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(pagedCollection.Object); ;
@@ -141,7 +133,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>(), true)).Returns((Blog)null);
+            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             var onlyBlog = new Blog { Host = "example.com", Subfolder = "not-sub" };
             var pagedCollection = new PagedCollection<Blog>();
             pagedCollection.Add(onlyBlog);
@@ -174,8 +166,8 @@ namespace UnitTests.Subtext.Framework.Services
             pagedCollection.MaxItems = 1;
 
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("example.com", "sub", true /* strict */)).Returns((Blog)null);
-            repository.Setup(r => r.GetBlog("example.com", "not-sub", false /* strict */)).Returns(onlyBlog);
+            repository.Setup(r => r.GetBlog("example.com", "sub")).Returns((Blog)null);
+            repository.Setup(r => r.GetBlog("example.com", "not-sub")).Returns(onlyBlog);
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(pagedCollection);
             var service = new BlogLookupService(repository.Object, new HostInfo { BlogAggregationEnabled = false });
             var blogRequest = new BlogRequest("example.com", "sub", new Uri("http://example.com/Subtext.Web/sub/bar"), false, RequestLocation.Blog, "/Subtext.Web");
@@ -204,8 +196,7 @@ namespace UnitTests.Subtext.Framework.Services
             pagedCollection.MaxItems = 1;
 
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>(), true)).Returns((Blog)null);
-            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>(), false)).Returns(onlyBlog);
+            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(pagedCollection);
             var service = new BlogLookupService(repository.Object, new HostInfo { BlogAggregationEnabled = false });
             var blogRequest = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false);
@@ -237,8 +228,7 @@ namespace UnitTests.Subtext.Framework.Services
             pagedCollection.MaxItems = 1;
 
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>(), true)).Returns((Blog)null);
-            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>(), false)).Returns(onlyBlog);
+            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(pagedCollection);
             var service = new BlogLookupService(repository.Object, new HostInfo { BlogAggregationEnabled = false });
             var blogRequest = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false);

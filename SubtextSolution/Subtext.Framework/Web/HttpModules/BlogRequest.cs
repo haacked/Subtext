@@ -216,11 +216,13 @@ namespace Subtext.Framework.Web.HttpModules
 
         private static string HostFromRequest(HttpRequestBase request)
         {
-            if (request.IsLocal)
+            string host = request.Url.Host; 
+
+            if (request.IsLocal && request.Url.Host == "127.0.0.1") // For testing.
             {
                 return "localhost";
             }
-            string host = request.Url.Host;
+            
             if (String.IsNullOrEmpty(host))
             {
                 host = request.Params["HTTP_HOST"].LeftBefore(":", StringComparison.OrdinalIgnoreCase);

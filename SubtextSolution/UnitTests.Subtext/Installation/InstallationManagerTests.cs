@@ -60,20 +60,6 @@ namespace UnitTests.Subtext.InstallationTests
         }
 
         [Test]
-        public void IsInstallationActionRequired_WithBlogDoesNotExistException_ReturnsTrue()
-        {
-            //arrange
-            var installProvider = new Mock<Installation>();
-            InstallationManager installManager = new InstallationManager(installProvider.Object);
-
-            //act
-            bool result = installManager.InstallationActionRequired(new Version(), new BlogDoesNotExistException(123));
-
-            //assert
-            Assert.IsTrue(result);
-        }
-
-        [Test]
         public void IsInstallationActionRequired_WithHostDataDoesNotExistException_ReturnsTrue()
         {
             //arrange

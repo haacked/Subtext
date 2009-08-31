@@ -20,6 +20,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Web;
 using Subtext.Web.Properties;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web
 {
@@ -30,35 +31,13 @@ namespace Subtext.Web
 	/// This page will ONLY be displayed if there are no 
 	/// blog configurations within the database.
 	/// </remarks>
-	public partial class BlogNotConfiguredError : System.Web.UI.Page
+	public partial class BlogNotConfiguredError : SubtextPage
 	{
-        bool _anyBlogsExist;
-		
-		protected void Page_Load(object sender, EventArgs e)
-		{
-			//We need to make sure that the form is ONLY displayed 
-			//when an actual error has happened AND the user is a 
-			//local user.
-			
-			bool blogConfigured = true;
-			Blog info = null;
-			try
-			{
-				info = Config.CurrentBlog;
-			}
-			catch(BlogDoesNotExistException exception)
-			{
-				blogConfigured = false;
-				_anyBlogsExist = exception.AnyBlogsExist;
-			}
+        protected override void OnLoad(EventArgs e)
+        {
+            var blogs = Repository.GetPagedBlogs(null, 0, 1, ConfigurationFlags.None);
 
-			if(blogConfigured || info != null)
-			{
-				// Ok, someone shouldn't be here. Redirect to the error page.
-                throw new SecurityException(Resources.Security_PageForbidden);
-			}
-
-			if(_anyBlogsExist)
+			if(blogs.Count > 0)
 			{
 				ltlMessage.Text = 
 					"<p>" 
@@ -71,7 +50,7 @@ namespace Subtext.Web
 					+ "or the requesting URL does not match an existing blog." 
 					+ "</p>" 
 					+ "<p>"
-					+ "If you are the Host Admin, visit the <a href=\"" + HttpHelper.ExpandTildePath("~/HostAdmin/") + "\">Host Admin</a> " 
+					+ "If you are the Host Admin, visit the <a href=\"" + HttpHelper.ExpandTildePath("~/HostAdmin/default.aspx") + "\">Host Admin</a> " 
 					+ "Tool to view existing blogs and if necessary, correct settings."
 					+ "</p>"
 					+ "<p>If you are trying to set up an aggregate blog, make sure aggregate blogs are enabled via "
@@ -85,29 +64,11 @@ namespace Subtext.Web
 					+ "but there are currently no blogs created on this system."
 					+ "</p>"
 					+ "<p>"
-					+ "If you are the Host Admin, visit the <a href=\"" + HttpHelper.ExpandTildePath("~/HostAdmin/") + "\">Host Admin</a> " 
+					+ "If you are the Host Admin, visit the <a href=\"" + HttpHelper.ExpandTildePath("~/HostAdmin/default.aspx") + "\">Host Admin</a> " 
 					+ "Tool to view existing blogs and if necessary, correct settings."
 					+ "</p>";
 			}
+            base.OnLoad(e);
 		}
-
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-		}
-		#endregion
 	}
 }

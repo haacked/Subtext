@@ -154,6 +154,16 @@ namespace Subtext.Framework.Routing
             return ImageUrl(blog, string.Empty, string.Empty) + "/";
         }
 
+        // Use this for the URL when uploading images.
+        public virtual VirtualPath ImageDirectoryUrl(Blog blog, string filePath)
+        {
+            string imageUrl = ImageUrl(blog, string.Empty, string.Empty);
+            if (!filePath.StartsWith("/")) {
+                imageUrl += "/";
+            }
+            return imageUrl + filePath;
+        }
+
         public virtual VirtualPath GalleryImageUrl(Image image)
         {
             return GetVirtualPath("gallery-image", new { id = image.ImageID, subfolder = image.Blog.Subfolder });

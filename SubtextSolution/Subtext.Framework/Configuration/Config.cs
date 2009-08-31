@@ -182,19 +182,6 @@ namespace Subtext.Framework.Configuration
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
-		/// <param name="hostName">Hostname.</param>
-		/// <param name="subfolder">Subfolder Name.</param>
-		/// <returns></returns>
-		public static Blog GetBlog(string hostName, string subfolder)
-		{
-			return GetBlog(hostName, subfolder, false);
-		}
-
-		/// <summary>
-		/// Returns a <see cref="Blog"/> instance containing 
-		/// the configuration settings for the blog specified by the 
-		/// Hostname and Application.
-		/// </summary>
 		/// <remarks>
 		/// Until Subtext supports multiple blogs again (if ever), 
 		/// this will always return the same instance.
@@ -204,25 +191,10 @@ namespace Subtext.Framework.Configuration
 		/// <param name="strict">If false, then this will return a blog record if 
 		/// there is only one blog record, regardless if the subfolder and hostname match.</param>
 		/// <returns></returns>
-		public static Blog GetBlog(string hostName, string subfolder, bool strict)
+		public static Blog GetBlog(string hostName, string subfolder)
 		{
 			hostName = Blog.StripPortFromHost(hostName);
-			return ObjectProvider.Instance().GetBlog(hostName, subfolder, strict);
-		}
-
-		/// <summary>
-		/// Returns a <see cref="Blog"/> instance containing 
-		/// the configuration settings for the blog specified by the 
-		/// Domain Alias.
-		/// </summary>
-		/// <param name="domainAlias">Domain alias</param>
-		/// <param name="subfolder">Sub Folder</param>
-		/// <param name="strict">Strict</param>
-		/// <returns></returns>
-		public static Blog GetBlogFromDomainAlias(string domainAlias, string subfolder, bool strict)
-		{
-			domainAlias = Blog.StripPortFromHost(domainAlias);
-			return ObjectProvider.Instance().GetBlogByDomainAlias(domainAlias, subfolder, strict);
+			return ObjectProvider.Instance().GetBlog(hostName, subfolder);
 		}
 
         /// <summary>
@@ -297,7 +269,7 @@ namespace Subtext.Framework.Configuration
 			host = Blog.StripPortFromHost(host);
 
 			//Check for duplicate
-			Blog potentialDuplicate = GetBlog(host, subfolder, true);
+			Blog potentialDuplicate = GetBlog(host, subfolder);
 			if(potentialDuplicate != null)
 			{
 				//we found a duplicate!
@@ -309,7 +281,7 @@ namespace Subtext.Framework.Configuration
 			if (subfolder != null && subfolder.Length > 0)
             {
                 //Check to see if we're going to end up hiding another blog.
-                Blog potentialHidden = GetBlog(host, string.Empty, true);
+                Blog potentialHidden = GetBlog(host, string.Empty);
                 if (potentialHidden != null)
                 {
                     //We found a blog that would be hidden by this one.
@@ -352,7 +324,7 @@ namespace Subtext.Framework.Configuration
 		public static void UpdateConfigData(Blog info)
 		{
 			//Check for duplicate
-			Blog potentialDuplicate = GetBlog(info.Host, info.Subfolder, true);
+			Blog potentialDuplicate = GetBlog(info.Host, info.Subfolder);
 			if (potentialDuplicate != null && !potentialDuplicate.Equals(info))
 			{
 				//we found a duplicate!
@@ -360,7 +332,7 @@ namespace Subtext.Framework.Configuration
 			}
 
 			//Check to see if we're going to end up hiding another blog.
-			Blog potentialHidden = GetBlog(info.Host, string.Empty, true);
+			Blog potentialHidden = GetBlog(info.Host, string.Empty);
 			if (potentialHidden != null && !potentialHidden.Equals(info) && potentialHidden.IsActive)
 			{
 				//We found a blog that would be hidden by this one.

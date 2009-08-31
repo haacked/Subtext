@@ -384,10 +384,8 @@ namespace Subtext.Framework.Providers
 		/// </remarks>
 		/// <param name="hostname">Hostname.</param>
 		/// <param name="subfolder">Subfolder Name.</param>
-		/// <param name="strict">If false, then this will return a blog record if 
-		/// there is only one blog record, regardless if the subfolder and hostname match.</param>
 		/// <returns></returns>
-		public abstract Blog GetBlog(string hostname, string subfolder, bool strict);
+		public abstract Blog GetBlog(string hostname, string subfolder);
 		
         /// <summary>
         /// Gets the top tags from the database sorted by tag name.

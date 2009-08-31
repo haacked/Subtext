@@ -541,12 +541,6 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[DNW_GetRecentImages]
 GO
 
-
-
-
-
-
-
 SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS OFF 
@@ -1232,149 +1226,30 @@ Returns the blog that matches the given host/application combination.
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetConfig]
 (
 	@Host nvarchar(100)
-	, @Application nvarchar(50)
-	, @Strict bit = 1 
+	, @Application nvarchar(50) = ''
 )
 AS
 
-IF (@Strict = 0) AND (1 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Config]))
-BEGIN
-		SELECT
-		BlogId
-		, UserName
-		, [Password]
-		, Email
-		, Title
-		, SubTitle
-		, Skin
-		, [Application]
-		, Host
-		, Author
-		, TimeZoneId
-		, ItemCount
-		, CategoryListPostCount
-		, [Language]
-		, News
-		, TrackingCode
-		, SecondaryCss
-		, LastUpdated
-		, PostCount
-		, StoryCount
-		, PingTrackCount
-		, CommentCount
-		, Flag
-		, SkinCssFile 
-		, LicenseUrl
-		, DaysTillCommentsClose
-		, CommentDelayInMinutes
-		, NumberOfRecentComments
-		, RecentCommentsLength
-		, AkismetAPIKey
-		, FeedBurnerName
-		, BlogGroupId
-		, Title AS BlogGroupTitle
-		, MobileSkin
-		, MobileSkinCssFile
-		, OpenIDUrl
-		, OpenIDServer
-		, OpenIDDelegate
-		, CardSpaceHash
-	FROM [<dbUser,varchar,dbo>].[subtext_Config]
-END
-ELSE IF (@Strict = 0) AND (1 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Config] WHERE Host = @Host))
-BEGIN
-	 SELECT
-		BlogId
-		, UserName
-		, [Password]
-		, Email
-		, [subtext_Config].Title
-		, SubTitle
-		, Skin
-		, [Application]
-		, Host
-		, Author
-		, TimeZoneId
-		, ItemCount
-		, CategoryListPostCount
-		, [Language]
-		, News
-		, TrackingCode
-		, SecondaryCss
-		, LastUpdated
-		, PostCount
-		, StoryCount
-		, PingTrackCount
-		, CommentCount
-		, Flag
-		, SkinCssFile 
-		, LicenseUrl
-		, DaysTillCommentsClose
-		, CommentDelayInMinutes
-		, NumberOfRecentComments
-		, RecentCommentsLength
-		, AkismetAPIKey
-		, FeedBurnerName
-		, BlogGroupId
-		, bgroup.Title AS BlogGroupTitle
-		, MobileSkin
-		, MobileSkinCssFile
-		, OpenIDUrl
-		, OpenIDServer
-		, OpenIDDelegate
-		, CardSpaceHash
-	FROM [<dbUser,varchar,dbo>].[subtext_Config]
-		LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON bgroup.Id = [subtext_Config].BlogGroupId
-	WHERE	Host = @Host
-END 
-ELSE
-BEGIN
-	SELECT
-		BlogId
-		, UserName
-		, [Password]
-		, Email
-		, [subtext_Config].Title
-		, SubTitle
-		, Skin
-		, [Application]
-		, Host
-		, Author
-		, TimeZoneId
-		, ItemCount
-		, CategoryListPostCount
-		, [Language]
-		, News
-		, TrackingCode
-		, SecondaryCss
-		, LastUpdated
-		, PostCount
-		, StoryCount
-		, PingTrackCount
-		, CommentCount
-		, Flag
-		, SkinCssFile 
-		, LicenseUrl
-		, DaysTillCommentsClose
-		, CommentDelayInMinutes
-		, NumberOfRecentComments
-		, RecentCommentsLength
-		, AkismetAPIKey
-		, FeedBurnerName
-		, BlogGroupId
-		, bgroup.Title AS BlogGroupTitle
-		, MobileSkin
-		, MobileSkinCssFile
-		, OpenIDUrl
-		, OpenIDServer
-		, OpenIDDelegate
-		, CardSpaceHash
-	FROM [<dbUser,varchar,dbo>].[subtext_Config]
-		LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
-bgroup.Id = [subtext_Config].BlogGroupId
-	WHERE	Host = @Host
-		AND [Application] = @Application
-END
+DECLARE @BlogId int
+
+SET @BlogId = (
+	SELECT BlogId 
+	FROM [<dbUser,varchar,dbo>].[subtext_Config] 
+	WHERE Host = @Host 
+		AND Application = @Application
+)
+
+IF @BlogId IS NULL
+	BEGIN
+		SET @BlogId = (
+			SELECT BlogId 
+			FROM [<dbUser,varchar,dbo>].[subtext_DomainAlias] 
+			WHERE Host = @Host 
+				AND Application = @Application
+		)
+	END
+
+EXEC [<dbUser,varchar,dbo>].[subtext_GetBlogById] @BlogId = @BlogId
 
 GO
 SET QUOTED_IDENTIFIER OFF 

@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using Subtext.Framework.Exceptions;
 using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web
@@ -25,20 +24,14 @@ namespace Subtext.Web
 	public partial class BlogNotActive : SubtextPage
 	{
 		protected override void OnLoad(EventArgs e) {
-            base.OnLoad(e);
-			try {
-				if(!Blog.IsActive) {
-					plcInactiveBlogMessage.Visible = true;
-					plcNothingToSeeHere.Visible = false;
-				}
-				else {
-                    lnkBlog.HRef = Url.BlogUrl();
-				}
-			}
-			catch(BlogDoesNotExistException) {
+    		if(!Blog.IsActive) {
 				plcInactiveBlogMessage.Visible = true;
 				plcNothingToSeeHere.Visible = false;
 			}
+			else {
+                lnkBlog.HRef = Url.BlogUrl();
+			}
+            base.OnLoad(e);
 		}
 	}
 }

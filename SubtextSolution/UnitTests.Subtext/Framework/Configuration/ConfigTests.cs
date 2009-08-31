@@ -28,35 +28,6 @@ namespace UnitTests.Subtext.Framework.Configuration
     {
         string hostName;
 
-		/// <summary>
-        /// If we have two or more blogs in the system we want to be sure that 
-        /// we can find a blog if it has a unique HostName in the system, despite 
-        /// what it's subfolder is.
-        /// </summary>
-        /// <remarks>
-        /// Basically, we need to be able support the following setup:
-        /// Blog1 has a HostName "mydomain.com" and any (or no) subfolder name.
-        /// Blog2 has a HostName "example.com" and any (or no) subfolder name.
-        /// 
-        /// When a request comes in for "http://mydomain.com/" we want to make sure 
-        /// that we find Blog1 because it is the ONLY blog in the system with the 
-        /// hostName "mydomain.com".
-        /// </remarks>
-        [Test]
-        [RollBack2]
-        public void GetBlogInfoFindsBlogWithUniqueHostName()
-        {
-            string anotherHost = UnitTestHelper.GenerateUniqueString();
-            string subfolder = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("title", "username", "password", hostName, subfolder);
-            Config.CreateBlog("title", "username", "password", anotherHost, string.Empty);
-
-            Blog info = Config.GetBlog(hostName, string.Empty);
-            Assert.IsNotNull(info, "Could not find the blog with the unique hostName.");
-            Assert.AreEqual(info.Host, hostName, "Oops! Looks like we found the wrong Blog!");
-            Assert.AreEqual(info.Subfolder, subfolder, "Oops! Looks like we found the wrong Blog!");
-        }
-        
         /// <summary>
         /// Make sure we can correctly find a blog based on it's HostName and
         /// subfolder when the system has multiple blogs with the same Host.

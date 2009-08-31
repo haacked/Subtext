@@ -563,11 +563,11 @@ namespace Subtext.Framework
         {
             get
             {
-                return this.subfolder;
+                return this.subfolder ?? string.Empty;
             }
             set
             {
-                if (value != null)
+                if (!String.IsNullOrEmpty(value))
                     value = UrlFormats.StripSurroundingSlashes(value);
 
                 this.subfolder = value;

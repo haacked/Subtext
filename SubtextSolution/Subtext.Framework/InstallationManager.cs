@@ -72,10 +72,6 @@ namespace Subtext.Framework
 		/// </returns>
         public bool InstallationActionRequired(Version assemblyVersion, Exception unhandledException)
 		{
-            if (unhandledException is BlogDoesNotExistException) {
-                return true;
-            }
-
             if (unhandledException is HostDataDoesNotExistException) {
                 return true;
             }
