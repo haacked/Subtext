@@ -340,12 +340,11 @@ namespace Subtext.Framework.Data
             return GetReader("subtext_GetConditionalEntries", p);
         }
 
-        public IDataReader GetConfig(string host, string application, bool? strict)
+        public IDataReader GetConfig(string host, string application)
         {
             SqlParameter[] p = {
 				DataHelper.MakeInParam("@Host", host),		
 				DataHelper.MakeInParam("@Application", application),		
-				DataHelper.MakeInParam("@Strict", strict),		
 			};
 
             return GetReader("subtext_GetConfig", p);

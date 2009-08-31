@@ -347,9 +347,6 @@
     <Compile Include="Exceptions\BaseCommentException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Exceptions\BlogDoesNotExistException.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Exceptions\BlogDuplicationException.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -38,12 +38,10 @@ namespace Subtext.Framework.Data
         /// </remarks>
         /// <param name="hostname">Hostname.</param>
         /// <param name="subfolder">Subfolder.</param>
-        /// <param name="strict">If false, then this will return a blog record if 
-        /// there is only one blog record, regardless if the subfolder and hostname match.</param>
         /// <returns></returns>
-        public override Blog GetBlog(string hostname, string subfolder, bool strict)
+        public override Blog GetBlog(string hostname, string subfolder)
         {
-            using(IDataReader reader = _procedures.GetConfig(hostname, subfolder, strict))
+            using(IDataReader reader = _procedures.GetConfig(hostname, subfolder ?? string.Empty))
             {
                 Blog info = null;
                 while (reader.Read())
@@ -155,7 +153,7 @@ namespace Subtext.Framework.Data
                                      | ConfigurationFlags.RFC3229DeltaEncodingEnabled
                                      | ConfigurationFlags.CaptchaEnabled;
 
-            return _procedures.UTILITYAddBlog(title, userName, password, string.Empty, host, subfolder, (int)flag, blogGroupId);
+            return _procedures.UTILITYAddBlog(title, userName, password, string.Empty, host, subfolder ?? string.Empty, (int)flag, blogGroupId);
         }
 
         public override bool UpdateBlog(Blog info)

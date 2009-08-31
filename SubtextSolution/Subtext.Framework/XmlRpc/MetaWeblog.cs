@@ -360,7 +360,7 @@ namespace Subtext.Framework.XmlRpc
 
             //If all works, we return a mediaobjectinfo struct back holding the URL.
             mediaObjectInfo media;
-            media.url = imageDirectory + mediaobject.name;
+            media.url = Url.ImageDirectoryUrl(Blog, mediaobject.name);
             return media;
         }
 

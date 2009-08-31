@@ -300,7 +300,7 @@ namespace UnitTests.Subtext.SubtextWeb
         public void HandleRequestLocationException_HandlesInstallationRequired()
         {
             // arrange
-            var exception = new BlogDoesNotExistException(1);
+            var exception = new HostDataDoesNotExistException();
             var response = new Mock<HttpResponseBase>();
             string redirectLocation = null;
             response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Callback<string, bool>((s, endRequest) => redirectLocation = s);
@@ -319,7 +319,7 @@ namespace UnitTests.Subtext.SubtextWeb
         public void HandleRequestLocationException_IgnoresInstallationLocation()
         {
             // arrange
-            var exception = new BlogDoesNotExistException(1);
+            var exception = new HostDataDoesNotExistException();
             var response = new Mock<HttpResponseBase>();
             response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(new Exception("Test Failed. Should not have redirected"));
             var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false, RequestLocation.Installation, "/");
@@ -333,10 +333,10 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [Test]
-        public void HandleRequestLocationException_IgnoresUpgaredLocation()
+        public void HandleRequestLocationException_IgnoresUpgradeLocation()
         {
             // arrange
-            var exception = new BlogDoesNotExistException(1);
+            var exception = new HostDataDoesNotExistException();
             var response = new Mock<HttpResponseBase>();
             response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(new Exception("Test Failed. Should not have redirected"));
             var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false, RequestLocation.Upgrade, "/");

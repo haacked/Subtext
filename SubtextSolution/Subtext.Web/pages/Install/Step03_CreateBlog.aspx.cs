@@ -32,47 +32,13 @@ namespace Subtext.Web.Install
 	public partial class Step03_CreateBlog : InstallationBase
 	{
 		static ILog log = new Log();
-		
-		protected void Page_Load(object sender, EventArgs e)
-		{
-			bool _anyBlogsExist = true;
-			try
-			{
-				log.Debug("Current Blog Is Null " + (null != Config.CurrentBlog));
-			}
-			catch(BlogDoesNotExistException exception)
-			{
-				_anyBlogsExist = exception.AnyBlogsExist;
-			}
 
+        protected override void OnLoad(EventArgs e)
+        {
             this.btnQuickCreate.Attributes["onclick"] = "this.disabled=true;"
                 + ClientScript.GetPostBackEventReference(this.btnQuickCreate, "").ToString();
-
-			if(!_anyBlogsExist)
-			{
-				//TODO:
-			}
-		}
-
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-
-		}
-		#endregion
+            base.OnLoad(e);
+        }
 
 		protected void btnQuickCreate_Click(object sender, EventArgs e)
 		{

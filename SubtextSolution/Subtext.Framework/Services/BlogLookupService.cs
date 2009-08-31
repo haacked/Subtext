@@ -57,29 +57,20 @@ namespace Subtext.Framework.Services
             }
 
             string host = blogRequest.Host;
-            Blog blog = Repository.GetBlog(host, blogRequest.Subfolder, true /* strict */);
+            Blog blog = Repository.GetBlog(host, blogRequest.Subfolder);
             if (blog != null)
             {
+                if (!String.Equals(host, blog.Host, StringComparison.OrdinalIgnoreCase)
+                    || !String.Equals(blogRequest.Subfolder, blog.Subfolder, StringComparison.OrdinalIgnoreCase))
+                {
+                    UriBuilder alternateUrl = ReplaceHost(blogRequest.RawUrl, blog.Host);
+                    alternateUrl = ReplaceSubfolder(alternateUrl, blogRequest, blog.Subfolder);
+                    return new BlogLookupResult(null, alternateUrl.Uri);
+                }
                 return new BlogLookupResult(blog, null);
             }
 
-            string alternateHost = GetAlternateHostAlias(host);
-            blog = Repository.GetBlog(alternateHost, blogRequest.Subfolder, true /* strict */);
-            if (blog != null)
-            {
-                Uri alternateUrl = ReplaceHost(blogRequest.RawUrl, alternateHost).Uri;
-                return new BlogLookupResult(null, alternateUrl);
-            }
-
-            blog = Repository.GetBlogByDomainAlias(host, blogRequest.Subfolder, true /* strict */);
-            if (blog != null)
-            {
-                UriBuilder alternateUrl = ReplaceHost(blogRequest.RawUrl, blog.Host);
-                alternateUrl = ReplaceSubfolder(alternateUrl, blogRequest, blog.Subfolder);
-                return new BlogLookupResult(null, alternateUrl.Uri);
-            }
-
-            IPagedCollection<Blog> pagedBlogs = Repository.GetPagedBlogs(null, 0, 10, ConfigurationFlags.None);
+            var pagedBlogs = Repository.GetPagedBlogs(null, 0, 10, ConfigurationFlags.None);
             int totalBlogCount = pagedBlogs.MaxItems;
             if (Host.BlogAggregationEnabled && totalBlogCount > 0)
             {
@@ -162,23 +153,6 @@ namespace Subtext.Framework.Services
                 }
             }
             return originalUrl;
-        }
-
-        /// <summary>
-        /// If the host starts with www., gets the host without the www. If it 
-        /// doesn't start with www., returns the host with www.
-        /// </summary>
-        /// <param name="host">Host.</param>
-        /// <returns></returns>
-        private string GetAlternateHostAlias(string host)
-        {
-            if (String.IsNullOrEmpty(host))
-                throw new ArgumentNullException("host");
-
-            if (host.StartsWith("www.", StringComparison.OrdinalIgnoreCase))
-                return host.Substring(4);
-            else
-                return "www." + host;
         }
     }
 }

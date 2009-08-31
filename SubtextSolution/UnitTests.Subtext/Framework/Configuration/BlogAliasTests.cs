@@ -1,8 +1,8 @@
-using System;
 using MbUnit.Framework;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Configuration
 {
@@ -22,7 +22,6 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.AreNotEqual(alias.Id, NullValue.NullInt32);
         }
 
-
         [Test]
         [RollBack2]
         public void GetBlogByAliasNoSubfolder()
@@ -31,10 +30,9 @@ namespace UnitTests.Subtext.Framework.Configuration
             BlogAlias alias = UnitTestHelper.CreateBlogAlias(blog, UnitTestHelper.GenerateUniqueString(), "");
 
             Config.AddBlogAlias(alias);
-            Blog testBlog = Config.GetBlogFromDomainAlias(alias.Host, alias.Subfolder, false);
+            Blog testBlog = ObjectProvider.Instance().GetBlogByDomainAlias(alias.Host, alias.Subfolder, false);
             Assert.AreEqual(blog.Id, testBlog.Id, "Found the wrong blog.");
         }
-
 
         [Test]
         [RollBack2]
@@ -49,13 +47,12 @@ namespace UnitTests.Subtext.Framework.Configuration
             Config.AddBlogAlias(alias1);
             Config.AddBlogAlias(alias2);
 
-            Blog testBlog1 = Config.GetBlogFromDomainAlias(alias1.Host, alias1.Subfolder, false);
-            Blog testBlog2 = Config.GetBlogFromDomainAlias(alias2.Host, alias2.Subfolder, false);
+            Blog testBlog1 = ObjectProvider.Instance().GetBlogByDomainAlias(alias1.Host, alias1.Subfolder, false);
+            Blog testBlog2 = ObjectProvider.Instance().GetBlogByDomainAlias(alias2.Host, alias2.Subfolder, false);
 
             Assert.AreEqual(blog1.Id, testBlog1.Id, "Found the wrong blog.");
             Assert.AreEqual(blog2.Id, testBlog2.Id, "Found the wrong blog.");
         }
-
 
         [Test]
         [RollBack2]
@@ -66,10 +63,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 
             Config.AddBlogAlias(alias);
 
-            Blog testBlog = Config.GetBlogFromDomainAlias(blog.Host, "", false);
+            Blog testBlog = ObjectProvider.Instance().GetBlogByDomainAlias(blog.Host, "", false);
             Assert.IsNull(testBlog, "Should not have found a blog, alias is on same host.");
         }
-
 
         [Test]
         [RollBack2]
@@ -84,7 +80,6 @@ namespace UnitTests.Subtext.Framework.Configuration
 
             Assert.AreEqual(alias.Id, testAlias.Id, "Found the wrong alias.");
         }
-
 
         [Test]
         [RollBack2]
@@ -111,18 +106,16 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.IsEmpty(alias1.Subfolder);
         }
 
-
         [Test]
         [RollBack2]
         public void CheckBlogNotReturnedWithoutAlias()
         {
             UnitTestHelper.CreateBlogAndSetupContext();
 
-            Blog testBlog = Config.GetBlogFromDomainAlias(UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), false);
+            Blog testBlog = ObjectProvider.Instance().GetBlogByDomainAlias(UnitTestHelper.GenerateUniqueString(), UnitTestHelper.GenerateUniqueString(), false);
 
             Assert.IsNull(testBlog);
         }
-
 
         [Test]
         [RollBack2]
@@ -132,14 +125,13 @@ namespace UnitTests.Subtext.Framework.Configuration
             BlogAlias alias = UnitTestHelper.CreateBlogAlias(blog, UnitTestHelper.GenerateUniqueString(), "", false);
 
             BlogAlias testAlias = Config.GetBlogAlias(alias.Id);
-            Blog testBlog = Config.GetBlogFromDomainAlias(alias.Host, alias.Subfolder, false);
+            Blog testBlog = ObjectProvider.Instance().GetBlogByDomainAlias(alias.Host, alias.Subfolder, false);
 
             Assert.AreNotEqual(NullValue.NullInt32, alias.Id, "Alias was not saved.");
             Assert.AreEqual(alias.Id, testAlias.Id, "The test alias is not the alias saved.");
             Assert.IsFalse(testAlias.IsActive, "This alias is active.");
             Assert.IsNull(testBlog, "Should not have found a blog");
         }
-
 
         [Test]
         [RollBack2]
