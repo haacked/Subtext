@@ -51,12 +51,12 @@ namespace Subtext.Web.UI.Controls
 
         protected string ImageUrl(object image)
         {
-            return Url.ImageUrl(GetImage(image));
+            return Url.GalleryImageUrl(GetImage(image));
         }
 
         protected string GalleryImageUrl(object image)
         {
-            return Url.GalleryImageUrl(GetImage(image));
+            return Url.GalleryImagePageUrl(GetImage(image));
         }
 
         protected string GalleryUrl(object image)

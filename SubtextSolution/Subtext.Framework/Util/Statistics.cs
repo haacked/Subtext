@@ -25,12 +25,12 @@ namespace Subtext.Framework.Util
 	/// </summary>
 	public static class Statistics
 	{
-		public static double Mean(IEnumerable<double> values)
+		public static double Mean(this IEnumerable<double> values)
 		{
 			double sum = 0;
 			int count = 0;
 
-			foreach (double d in values)
+			foreach(double d in values)
 			{
 				sum += d;
 				count++;
@@ -39,13 +39,13 @@ namespace Subtext.Framework.Util
 			return sum / count;
 		}
 		
-		public static double StdDev(IEnumerable<double> values, out double mean)
+		public static double StandardDeviation(this IEnumerable<double> values, out double mean)
 		{
-			mean = Statistics.Mean(values);
+			mean = values.Mean();
 			double sumOfDiffSquares = 0;
 			int count = 0;
 
-			foreach (double d in values)
+			foreach(double d in values)
 			{
 				double diff = (d - mean);
 				sumOfDiffSquares += diff * diff;
@@ -55,20 +55,14 @@ namespace Subtext.Framework.Util
 			return Math.Sqrt(sumOfDiffSquares / count);
 		}
 
-        public static double StdDev<TValue>(IEnumerable<TValue> values, out double mean)
+        public static double StandardDeviation<TValue>(this IEnumerable<TValue> values, out double mean)
         {
             List<double> converted = new List<double>();
-            foreach (TValue value in values)
+            foreach(TValue value in values)
             {
                 converted.Add(Convert.ToDouble(value));
             }
-            return StdDev(converted, out mean);
+            return StandardDeviation(converted, out mean);
         }
-
-		public static double StdDev(IEnumerable<double> values)
-		{
-			double mean;
-			return StdDev(values, out mean);
-		}	
 	}
 }

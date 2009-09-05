@@ -1,17 +1,13 @@
 using System;
-using System.Drawing;
-using System.Globalization;
 using System.IO;
 using MbUnit.Framework;
+using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Web.HttpModules;
-using Image = Subtext.Framework.Components.Image;
-using Subtext.Framework.Routing;
-using Moq;
-using System.Web;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Routing;
+using Image = Subtext.Framework.Components.Image;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -29,22 +25,11 @@ namespace UnitTests.Subtext.Framework
 		static Byte[] singlePixelBytes = Convert.FromBase64String("R0lGODlhAQABAIAAANvf7wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
 
 		[Test]
-		public void CanResizeImage()
-		{
-			CreateStandaloneImageInstance();
-			Size newSize = Images.ResizeImage(7, 5, 2, 3);
-			Assert.AreEqual(2, newSize.Width);
-			Assert.AreEqual(1, newSize.Height);
-
-			newSize = Images.ResizeImage(6, 7, 3, 2);
-			Assert.AreEqual(3, newSize.Width);
-			Assert.AreEqual(3, newSize.Height);
-		}
-
-		[Test]
 		[RollBack2]
 		public void CanUpdate()
 		{
+            UnitTestHelper.SetupBlog();
+
 			Image image = CreateImageInstance();
 			Assert.GreaterEqualThan(Config.CurrentBlog.Id, 0);
 			Assert.AreEqual(Config.CurrentBlog.Id, image.BlogId);
@@ -66,12 +51,6 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		public void GetFileStreamReturnsNullForNullPostedFile()
-		{
-			Assert.IsNull(Images.GetFileStream(null), "Should return null and not throw exception");
-		}
-
-		[Test]
 		[RollBack2]
 		public void CanGetImagesByCategoryId()
 		{
@@ -88,14 +67,6 @@ namespace UnitTests.Subtext.Framework
 			ImageCollection images = Images.GetImagesByCategoryID(categoryId, true);
 			Assert.AreEqual(1, images.Count, "Expected to get our one image.");
 			Assert.AreEqual(imageId, images[0].ImageID);
-		}
-
-		[RowTest]
-		[Row(@"z:\abc-ae323340-eghe-23423423.jpg", true)]
-		[Row(@"z:\abc-ae323340-eghe-23423423.txt", false)]
-		public void ValidateFileReturnsCorrectAnswer(string fileName, bool expected)
-		{
-			Assert.AreEqual(expected, Images.ValidateFile(fileName));
 		}
 
 		[Test]
@@ -188,14 +159,6 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[Test]
-		public void CanCheckDirectory()
-		{
-			string dir = Path.GetFullPath(TestDirectory);
-			Images.EnsureDirectory(dir);
-			Assert.IsTrue(Directory.Exists(dir));
-		}
-
-		[Test]
 		public void SaveImageReturnsFalseForInvalidImageName()
 		{
 			Assert.IsFalse(Images.SaveImage(singlePixelBytes, "!"));
@@ -216,21 +179,6 @@ namespace UnitTests.Subtext.Framework
             // assert
             Assert.AreEqual(@"c:\123\", path);
         }
-
-		#region ExceptionTests
-		[Test]
-		[ExpectedArgumentNullException]
-		public void CheckDirectoryThrowsArgumentNullException()
-		{
-			Images.EnsureDirectory(null);
-		}
-
-		[Test]
-		[ExpectedArgumentException]
-		public void CheckDirectoryThrowsArgumentException()
-		{
-			Images.EnsureDirectory("");
-		}
 
 		[Test]
 		[ExpectedArgumentNullException]
@@ -294,24 +242,24 @@ namespace UnitTests.Subtext.Framework
 		{
 			Images.UpdateImage(null);
 		}
-		#endregion
 
 		[SetUp]
 		public void SetUp()
 		{
-			if (Directory.Exists(TestDirectory))
-				Directory.Delete(TestDirectory, true);
-			if (Directory.Exists("image"))
-				Directory.Delete("image", true);
+            if (Directory.Exists(TestDirectory))
+            {
+                Directory.Delete(TestDirectory, true);
+            }
+            if (Directory.Exists("image"))
+            {
+                Directory.Delete("image", true);
+            }
 		}
 
 		[TearDown]
 		public void TearDown()
 		{
-			if (Directory.Exists(TestDirectory))
-				Directory.Delete(TestDirectory, true);
-			if (Directory.Exists("image"))
-				Directory.Delete("image", true);
+            SetUp();
 		}
 	}
 }

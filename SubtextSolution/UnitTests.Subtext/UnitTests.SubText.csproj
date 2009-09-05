@@ -433,9 +433,12 @@
     <Compile Include="Framework\Tracking\TrackbackHandlerTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Util\FileHelperTests.cs" />
+    <Compile Include="Framework\Util\GraphicsHelperTests.cs" />
     <Compile Include="Framework\Util\KeywordsTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Util\MathHelperTests.cs" />
     <Compile Include="Framework\Util\RequestExtensionsTests.cs" />
     <Compile Include="Framework\Util\SerializationHelperTests.cs" />
     <Compile Include="Framework\Util\TimeZonesTest.cs" />
@@ -535,6 +538,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Framework\pb.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

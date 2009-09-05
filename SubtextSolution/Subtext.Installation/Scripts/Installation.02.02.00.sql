@@ -3,6 +3,20 @@
 IF NOT EXISTS 
 (
     SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+    WHERE   TABLE_NAME = 'subtext_Images' 
+    AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+    AND COLUMN_NAME = 'Url'
+)
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Images]
+		ADD [Url] [nvarchar] (512) NULL
+END
+GO
+
+
+IF NOT EXISTS 
+(
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
     WHERE   TABLE_NAME = 'subtext_Config' 
     AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
     AND COLUMN_NAME = 'TimeZoneId'

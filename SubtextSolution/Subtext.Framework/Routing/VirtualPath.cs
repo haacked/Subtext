@@ -19,8 +19,10 @@ namespace Subtext.Framework.Routing
 {
     public class VirtualPath
     {
-        public VirtualPath(string virtualPath) {
-            if (virtualPath == null) {
+        public VirtualPath(string virtualPath)
+        {
+            if (virtualPath == null)
+            {
                 throw new ArgumentNullException("virtualPath");
             }
             virtualPath = virtualPath.Replace("%7B:#:%7D", "%23");
@@ -29,7 +31,8 @@ namespace Subtext.Framework.Routing
 
         Uri _virtualPath;
 
-        public static implicit operator String(VirtualPath vp) {
+        public static implicit operator String(VirtualPath vp)
+        {
             if (vp == null)
             {
                 return null;
@@ -39,7 +42,7 @@ namespace Subtext.Framework.Routing
 
         public static implicit operator VirtualPath(string virtualPath)
         {
-            if (String.IsNullOrEmpty(virtualPath)) 
+            if (String.IsNullOrEmpty(virtualPath))
             {
                 return null;
             }
@@ -51,11 +54,13 @@ namespace Subtext.Framework.Routing
             return _virtualPath.ToString();
         }
 
-        public Uri ToUri() {
+        public Uri ToUri()
+        {
             return _virtualPath;
         }
 
-        public virtual Uri ToFullyQualifiedUrl(Blog blog) {
+        public virtual Uri ToFullyQualifiedUrl(Blog blog)
+        {
             UriBuilder builder = new UriBuilder();
             builder.Scheme = "http";
             builder.Host = blog.Host;

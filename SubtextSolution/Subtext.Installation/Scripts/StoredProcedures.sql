@@ -1437,6 +1437,7 @@ SELECT	Title
 		, IsActive = Active
 		, ImageID 
 		, BlogId
+		, Url
 FROM [<dbUser,varchar,dbo>].[subtext_Images]  
 WHERE CategoryID = @CategoryID 
 	AND BlogId = @BlogId 
@@ -2443,6 +2444,7 @@ SELECT Title
 	, IsActive = Active
 	, ImageID
 	, BlogId
+	, Url
 FROM [<dbUser,varchar,dbo>].[subtext_Images]  
 WHERE ImageID = @ImageID 
 	AND BlogId = @BlogId 
@@ -2638,16 +2640,17 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertImage]
 	@File nvarchar(50),
 	@Active bit,
 	@BlogId int,
+	@Url nvarchar(512) = NULL,
 	@ImageID int OUTPUT
 )
 AS
 INSERT subtext_Images
 (
-	Title, CategoryID, Width, Height, [File], Active, BlogId
+	Title, CategoryID, Width, Height, [File], Active, BlogId, Url
 )
 Values
 (
-	@Title, @CategoryID, @Width, @Height, @File, @Active, @BlogId
+	@Title, @CategoryID, @Width, @Height, @File, @Active, @BlogId, @Url
 )
 Set @ImageID = SCOPE_IDENTITY()
 
@@ -3254,7 +3257,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateImage]
 	@File nvarchar(50),
 	@Active bit,
 	@BlogId int,
-	@ImageID int
+	@ImageID int,
+	@Url nvarchar(512) = null
 )
 AS
 UPDATE [<dbUser,varchar,dbo>].[subtext_Images]
@@ -3264,7 +3268,8 @@ Set
 	Width = @Width,
 	Height = @Height,
 	[File] = @File,
-	Active = @Active
+	Active = @Active,
+	Url = @Url
 	
 WHERE
 	ImageID = @ImageID AND BlogId = @BlogId
@@ -5170,6 +5175,7 @@ SELECT [Blog.Host] = Host
 	, [Category.Title] = categories.Title
 	, images.CategoryID
 	, IsActive = images.Active
+	, Url = images.Url
 FROM [<dbUser,varchar,dbo>].[subtext_Images] images
 INNER JOIN	[<dbUser,varchar,dbo>].[subtext_Config] config ON images.BlogId = config.BlogId
 INNER JOIN  [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories ON categories.CategoryID = images.CategoryID

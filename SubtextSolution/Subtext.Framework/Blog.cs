@@ -40,7 +40,8 @@ namespace Subtext.Framework
         private readonly static ILog Log = new Log();
         const int DefaultRecentCommentsLength = 50;
 
-        public Blog() {
+        public Blog()
+        {
             Id = NullValue.NullInt32;
             ItemCount = 25;
             Author = "Subtext Weblog";
@@ -174,7 +175,7 @@ namespace Subtext.Framework
         {
             get
             {
-                if (_timeZone == null) 
+                if (_timeZone == null)
                 {
                     var timeZone = TimeZones.GetTimeZones().GetById(TimeZoneId);
                     if (timeZone == null)
@@ -194,11 +195,11 @@ namespace Subtext.Framework
         /// <value></value>
         public string TimeZoneId
         {
-            get 
+            get
             {
                 return _timeZoneId;
             }
-            set 
+            set
             {
                 if (_timeZoneId != value)
                 {
@@ -257,8 +258,8 @@ namespace Subtext.Framework
         public string Language
         {
             get { return _language; }
-            set 
-            { 
+            set
+            {
                 _language = value ?? DefaultLanguage;
                 _languageCode = null;
             }
@@ -302,10 +303,12 @@ namespace Subtext.Framework
         /// <value></value>
         public string Host
         {
-            get {
+            get
+            {
                 return _host;
             }
-            set {
+            set
+            {
                 _host = StripPortFromHost(value);
             }
         }
@@ -585,7 +588,8 @@ namespace Subtext.Framework
             {
                 return _password;
             }
-            set { 
+            set
+            {
                 _password = value ?? string.Empty;
             }
         }
@@ -639,8 +643,9 @@ namespace Subtext.Framework
             {
                 return _username;
             }
-            set { 
-                _username = value ?? string.Empty; 
+            set
+            {
+                _username = value ?? string.Empty;
             }
         }
 
@@ -805,12 +810,14 @@ namespace Subtext.Framework
         /// <value>The name of the feed burner.</value>
         public string RssProxyUrl
         {
-            get { 
-                return _rssProxyUrl; 
+            get
+            {
+                return _rssProxyUrl;
             }
             set
             {
-                if (!String.IsNullOrEmpty(value)) {
+                if (!String.IsNullOrEmpty(value))
+                {
                     if (value.Contains("\\"))
                         throw new InvalidOperationException(Resources.InvalidOperation_BackslashesInRssProxyName);
                 }

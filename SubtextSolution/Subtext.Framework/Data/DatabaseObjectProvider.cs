@@ -282,7 +282,8 @@ namespace Subtext.Framework.Data
                 image.Height,
                 image.FileName,
                 image.IsActive,
-                BlogId);
+                BlogId,
+                image.Url);
 		}
 
 		public override bool UpdateImage(Image image)
@@ -294,7 +295,8 @@ namespace Subtext.Framework.Data
                 image.FileName,
                 image.IsActive,
                 BlogId,
-                image.ImageID);
+                image.ImageID,
+                image.Url);
 		}
 
 		public override bool DeleteImage(int imageId)

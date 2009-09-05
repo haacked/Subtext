@@ -4,7 +4,6 @@ using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
-using Ninject;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -296,6 +295,15 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/subfolder/gallery/1234.aspx", url);
         }
 
+        [Test]
+        public void GalleryImageUrl_WithNullImage_ThrowsArgumentNullException()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+
+            //act, assert
+            UnitTestHelper.AssertThrows<ArgumentNullException>(() => helper.GalleryImagePageUrl(null));
+        }
 
         [Test]
         public void GalleryImageUrl_WithId_ReturnsGalleryUrlWithId()
@@ -304,7 +312,7 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/");
 
             //act
-            string url = helper.GalleryImageUrl(new Image { ImageID = 1234, Blog = new Blog { } });
+            string url = helper.GalleryImagePageUrl(new Image { ImageID = 1234, Blog = new Blog { } });
 
             //assert
             Assert.AreEqual("/gallery/image/1234.aspx", url);
@@ -317,10 +325,69 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/");
 
             //act
-            string url = helper.GalleryImageUrl(new Image { ImageID = 1234, Blog = new Blog { Subfolder="subfolder" } });
+            string url = helper.GalleryImagePageUrl(new Image { ImageID = 1234, Blog = new Blog { Subfolder="subfolder" } });
 
             //assert
             Assert.AreEqual("/subfolder/gallery/image/1234.aspx", url);
+        }
+
+        [Test]
+        public void ImageUrl_WithImageHavingUrlAndFileName_ReturnsUrlToImage()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web");
+            Image image = new Image { Url = "~/images/localhost/blog1/1234/", FileName="close.gif"};
+            
+            //act
+            string url = helper.GalleryImageUrl(image, image.OriginalFile);
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/images/localhost/blog1/1234/o_close.gif", url);
+        }
+
+        [Test]
+        public void ImageUrl_WithBlogHavingSubfolderAndVirtualPathAndImageHavingNullUrlAndFileName_ReturnsUrlToImage()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web");
+            Blog blog = new Blog { Host = "localhost", Subfolder = "blog1" };
+            Image image = new Image { Blog = blog, Url = null, FileName = "open.gif", CategoryID = 1234 };
+
+            //act
+            string url = helper.GalleryImageUrl(image, image.OriginalFile);
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/images/localhost/Subtext_Web/blog1/1234/o_open.gif", url);
+        }
+
+        [Test]
+        public void ImageUrl_WithBlogHavingSubfolderAndImageHavingNullUrlAndFileName_ReturnsUrlToImage()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            Blog blog = new Blog { Host = "localhost", Subfolder = "blog1" };
+            Image image = new Image { Blog = blog, Url = null, FileName = "open.gif", CategoryID = 1234 };
+
+            //act
+            string url = helper.GalleryImageUrl(image, image.OriginalFile);
+
+            //assert
+            Assert.AreEqual("/images/localhost/blog1/1234/o_open.gif", url);
+        }
+
+        [Test]
+        public void ImageUrl_WithBlogHavingNoSubfolderAndImageHavingNullUrlAndFileName_ReturnsUrlToImage()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            Blog blog = new Blog { Host = "localhost", Subfolder = "" };
+            Image image = new Image { Blog = blog, Url = null, FileName = "open.gif", CategoryID = 1234 };
+
+            //act
+            string url = helper.GalleryImageUrl(image, image.OriginalFile);
+
+            //assert
+            Assert.AreEqual("/images/localhost/1234/o_open.gif", url);
         }
 
         [Test]
@@ -331,7 +398,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Blog blog = new Blog { Host = "localhost", Subfolder = "blog1" };
             Image image = new Image { CategoryID = 1234, FileName = "close.gif", Blog = blog };
             //act
-            string url = helper.ImageUrl(image);
+            string url = helper.GalleryImageUrl(image);
 
             //assert
             Assert.AreEqual("/Subtext.Web/images/localhost/Subtext_Web/blog1/1234/o_close.gif", url);
@@ -344,8 +411,9 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/");
             Blog blog = new Blog { Host = "localhost", Subfolder = "blog1" };
             Image image = new Image { CategoryID = 1234, FileName = "close.gif", Blog = blog };
+            
             //act
-            string url = helper.ImageUrl(image);
+            string url = helper.GalleryImageUrl(image);
 
             //assert
             Assert.AreEqual("/images/localhost/blog1/1234/o_close.gif", url);
@@ -358,8 +426,9 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
             Blog blog = new Blog { Host = "localhost", Subfolder = "" };
             Image image = new Image { CategoryID = 1234, FileName = "close.gif", Blog = blog };
+            
             //act
-            string url = helper.ImageUrl(image);
+            string url = helper.GalleryImageUrl(image);
 
             //assert
             Assert.AreEqual("/Subtext.Web/images/localhost/Subtext_Web/1234/o_close.gif", url);
@@ -373,7 +442,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Blog blog = new Blog { Host = "localhost", Subfolder = "" };
             Image image = new Image { CategoryID = 1234, FileName = "close.gif", Blog = blog };
             //act
-            string url = helper.ImageUrl(image);
+            string url = helper.GalleryImageUrl(image);
 
             //assert
             Assert.AreEqual("/images/localhost/1234/o_close.gif", url);
@@ -977,6 +1046,8 @@ namespace UnitTests.Subtext.Framework.Routing
             //assert
             Assert.AreEqual("/Subtext.Web/images/edit.gif", url.ToString());
         }
+
+        
 
         private static UrlHelper SetupUrlHelper(string appPath)
         {

@@ -68,8 +68,6 @@ namespace Subtext.Framework.Services
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
 
-        #region IHttpHandler Members
-
         public bool IsReusable
         {
             get { return false; }
@@ -94,7 +92,5 @@ namespace Subtext.Framework.Services
                 returnUrl = "~/";
             context.Response.Redirect(returnUrl);
         }
-
-        #endregion
     }
 }

@@ -23,6 +23,7 @@ using ICSharpCode.SharpZipLib.Zip;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Web;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Properties;
@@ -157,7 +158,7 @@ namespace Subtext.Web.Admin.Pages
             if (image != null)
             {
                 image.Blog = Blog;
-                return Url.ImageUrl(image, image.ThumbNailFile);
+                return Url.GalleryImageUrl(image, image.ThumbNailFile);
             }
             return String.Empty;
         }
@@ -167,7 +168,7 @@ namespace Subtext.Web.Admin.Pages
             Image image = potentialImage as Image;
             if (image != null)
             {
-                return Url.GalleryImageUrl(image);
+                return Url.GalleryImagePageUrl(image);
             }
             else
                 return String.Empty;
@@ -229,16 +230,12 @@ namespace Subtext.Web.Admin.Pages
         {
             string fileName = ImageFile.PostedFile.FileName;
 
-            int lastDot = fileName.LastIndexOf(".");
-            if (lastDot > -1)
+            string extension = Path.GetExtension(fileName);
+            if (extension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
             {
-                string ext = fileName.Substring(lastDot + 1);
-                if (String.Compare(ext, "zip", true, CultureInfo.InvariantCulture) == 0)
-                {
-                    // Handle as an archive
-                    PersistImageArchive();
-                    return;
-                }
+                // Handle as an archive
+                PersistImageArchive();
+                return;
             }
 
             // If there was no dot, or extension wasn't ZIP, then treat as a single image
@@ -252,73 +249,80 @@ namespace Subtext.Web.Admin.Pages
                 badFiles = new List<string>(),
                 updatedFiles = new List<string>();
 
-            byte[] archiveData = Images.GetFileStream(ImageFile.PostedFile);
+            byte[] archiveData = ImageFile.PostedFile.GetFileStream();
 
-            MemoryStream ms = new MemoryStream(archiveData);
-
-            using (ZipInputStream zip = new ZipInputStream(ms))
+            using (MemoryStream memoryStream = new MemoryStream(archiveData))
             {
-                ZipEntry theEntry;
-                while ((theEntry = zip.GetNextEntry()) != null)
+                using (ZipInputStream zip = new ZipInputStream(memoryStream))
                 {
-                    string fileName = Path.GetFileName(theEntry.Name);
-
-                    // TODO: Filter for image types?
-                    if (!String.IsNullOrEmpty(fileName))
+                    ZipEntry theEntry;
+                    while ((theEntry = zip.GetNextEntry()) != null)
                     {
-                        byte[] fileData;
+                        string fileName = Path.GetFileName(theEntry.Name);
 
-                        Image image = new Image();
-                        image.CategoryID = CategoryID;
-                        image.Title = fileName;
-                        image.IsActive = ckbIsActiveImage.Checked;
-                        image.FileName = Path.GetFileName(fileName);
-                        image.LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryID);
-
-                        // Read the next file from the Zip stream
-                        using (MemoryStream currentFileData = new MemoryStream((int)theEntry.Size))
+                        // TODO: Filter for image types?
+                        if (!String.IsNullOrEmpty(fileName))
                         {
-                            int size = 2048;
-                            byte[] data = new byte[size];
-                            while (true)
+                            byte[] fileData;
+
+                            Image image = new Image
                             {
-                                size = zip.Read(data, 0, data.Length);
-                                if (size > 0)
+                                Blog = this.Blog,
+                                CategoryID = CategoryID,
+                                Title = fileName,
+                                IsActive = ckbIsActiveImage.Checked,
+                                FileName = Path.GetFileName(fileName),
+                                Url = Url.ImageGalleryDirectoryUrl(Blog, CategoryID),
+                                LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryID)
+                            };
+
+                            // Read the next file from the Zip stream
+                            using (MemoryStream currentFileData = new MemoryStream((int)theEntry.Size))
+                            {
+                                int size = 2048;
+                                byte[] data = new byte[size];
+                                while (true)
                                 {
-                                    currentFileData.Write(data, 0, size);
+                                    size = zip.Read(data, 0, data.Length);
+                                    if (size > 0)
+                                    {
+                                        currentFileData.Write(data, 0, size);
+                                    }
+                                    else break;
                                 }
-                                else break;
+
+                                fileData = currentFileData.ToArray();
                             }
 
-                            fileData = currentFileData.ToArray();
-                        }
-
-                        try
-                        {
-                            // If it exists, update it
-                            if (File.Exists(image.OriginalFilePath))
+                            try
                             {
-                                Images.Update(image, fileData);
-                                updatedFiles.Add(theEntry.Name);
-                            }
-                            else
-                            {
-                                // Attempt insertion as a new image
-                                int imageID = Images.InsertImage(image, fileData);
-                                if (imageID > 0)
+                                // If it exists, update it
+                                if (File.Exists(image.OriginalFilePath))
                                 {
-                                    goodFiles.Add(theEntry.Name);
+                                    Images.Update(image, fileData);
+                                    updatedFiles.Add(theEntry.Name);
                                 }
                                 else
                                 {
-                                    // Wrong format, perhaps?
-                                    badFiles.Add(theEntry.Name);
+                                    // Attempt insertion as a new image
+                                    string url = Url.ImageDirectoryUrl(Blog);
+                                    image.Url = url;
+                                    int imageID = Images.InsertImage(image, fileData);
+                                    if (imageID > 0)
+                                    {
+                                        goodFiles.Add(theEntry.Name);
+                                    }
+                                    else
+                                    {
+                                        // Wrong format, perhaps?
+                                        badFiles.Add(theEntry.Name);
+                                    }
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            badFiles.Add(theEntry.Name + " (" + ex.Message + ")");
+                            catch (Exception ex)
+                            {
+                                badFiles.Add(theEntry.Name + " (" + ex.Message + ")");
+                            }
                         }
                     }
                 }
@@ -368,19 +372,23 @@ namespace Subtext.Web.Admin.Pages
         /// it. This currently puts all images in the same directory which can cause a conflict
         /// if the file already exists. So we'll add in a way to take a new file name. 
         /// </summary>
-        private void PersistImage(string targetFileName)
+        private void PersistImage(string fileName)
         {
             if (Page.IsValid)
             {
-                Image image = new Image();
-                image.CategoryID = CategoryID;
-                image.Title = txbImageTitle.Text;
-                image.IsActive = ckbIsActiveImage.Checked;
+                Image image = new Image
+                {
+                    Blog = this.Blog,
+                    CategoryID = CategoryID,
+                    Title = txbImageTitle.Text,
+                    IsActive = ckbIsActiveImage.Checked,
+                    FileName = Path.GetFileName(fileName),
+                    Url = Url.ImageGalleryDirectoryUrl(Blog, CategoryID),
+                    LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryID)
+                };
 
                 try
                 {
-                    image.FileName = Path.GetFileName(targetFileName);
-                    image.LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryID);
                     if (File.Exists(image.OriginalFilePath))
                     {
                         // tell the user we can't accept this file.
@@ -397,7 +405,7 @@ namespace Subtext.Web.Admin.Pages
                         return;
                     }
 
-                    int imageID = Images.InsertImage(image, Images.GetFileStream(ImageFile.PostedFile));
+                    int imageID = Images.InsertImage(image, ImageFile.PostedFile.GetFileStream());
                     if (imageID > 0)
                     {
                         this.Messages.ShowMessage(Resources.EditGalleries_ImageAdded);
@@ -435,32 +443,16 @@ namespace Subtext.Web.Admin.Pages
             Server.Transfer(Constants.URL_CONFIRM);
         }
 
-
-        #region Web Form Designer generated code
         override protected void OnInit(EventArgs e)
         {
-            //
-            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
-            //
-            InitializeComponent();
+            this.dgrSelectionList.ItemCommand += this.dgrSelectionList_ItemCommand;
+            this.dgrSelectionList.CancelCommand += this.dgrSelectionList_CancelCommand;
+            this.dgrSelectionList.EditCommand += this.dgrSelectionList_EditCommand;
+            this.dgrSelectionList.UpdateCommand += this.dgrSelectionList_UpdateCommand;
+            this.dgrSelectionList.DeleteCommand += this.dgrSelectionList_DeleteCommand;
+            this.rprImages.ItemCommand += this.rprImages_ItemCommand;
             base.OnInit(e);
         }
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.dgrSelectionList.ItemCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_ItemCommand);
-            this.dgrSelectionList.CancelCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_CancelCommand);
-            this.dgrSelectionList.EditCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_EditCommand);
-            this.dgrSelectionList.UpdateCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_UpdateCommand);
-            this.dgrSelectionList.DeleteCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_DeleteCommand);
-            this.rprImages.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprImages_ItemCommand);
-
-        }
-        #endregion
 
         private void dgrSelectionList_ItemCommand(object source, DataGridCommandEventArgs e)
         {

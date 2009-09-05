@@ -54,10 +54,10 @@ namespace Subtext.Framework
             IDictionary<string, int> topTags = ObjectProvider.Instance().GetTopTags(itemCount);
 
             double mean;
-            double stdDev = Statistics.StdDev(topTags.Values, out mean);
+            double stdDev = topTags.Values.StandardDeviation(out mean);
 
             ICollection<Tag> tags = new List<Tag>();
-            foreach (KeyValuePair<string, int> tag in topTags)
+            foreach(var tag in topTags)
             {
                 Tag t = new Tag(tag);
                 t.Factor = (t.Count - mean) / stdDev;

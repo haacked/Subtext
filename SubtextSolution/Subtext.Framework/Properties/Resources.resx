@@ -358,4 +358,7 @@
   <data name="Label_DestroyTrashTooltip" xml:space="preserve">
     <value>Destroy all trash, not just checked</value>
   </data>
+  <data name="InvalidOperation_InvalidCharactersInFileName" xml:space="preserve">
+    <value>There were invalid characetres in the file name '{0}'</value>
+  </data>
 </root>

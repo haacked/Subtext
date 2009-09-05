@@ -138,18 +138,33 @@ namespace UnitTests.Subtext
         /// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
         /// resource name.</remarks>
         /// <param name="resourceName"></param>
-        /// <param name="outputPath">The path to write the file as.</param>
-        public static void UnpackEmbeddedBinaryResource(string resourceName, string outputPath)
+        /// <param name="fileName">The file to write the resourcce.</param>
+        public static string UnpackEmbeddedBinaryResource(string resourceName, string fileName)
         {
             using (Stream stream = UnpackEmbeddedResource(resourceName))
             {
                 byte[] buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
-                using (FileStream outStream = File.Create(outputPath))
+                string filePath;
+                if (!Path.IsPathRooted(fileName))
+                {
+                    filePath = GetPathInExecutingAssemblyLocation(fileName);
+                }
+                else 
+                {
+                    filePath = Path.GetFullPath(fileName);
+                }
+                using (FileStream outStream = File.Create(filePath))
                 {
                     outStream.Write(buffer, 0, buffer.Length);
                 }
+                return filePath;
             }
+        }
+
+        public static string GetPathInExecutingAssemblyLocation(string fileName) 
+        {
+            return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), fileName);
         }
 
         /// <summary>
