@@ -12,7 +12,7 @@ namespace UnitTests.Subtext.Framework.Util
 	[TestFixture]
 	public class TransformTests
 	{
-		string emoticonsPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "emoticons.txt");
+		string emoticonsPath = UnitTestHelper.GetPathInExecutingAssemblyLocation("emoticons.txt");
 
 		[Test]
 		public void CanLoadEmoticonsFile()

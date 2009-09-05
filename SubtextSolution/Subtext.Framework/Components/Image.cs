@@ -82,7 +82,12 @@ namespace Subtext.Framework.Components
             }
         }
 
-        private string localDirectoryPath;
+        public string GetImageDirectoryUrlFromBlog(Blog blog) {
+            string urlFormat = "~/images/{0}/{1}";
+            string subfolder = String.IsNullOrEmpty(blog.Subfolder) ? String.Empty : blog.Subfolder + "/";
+            return String.Format(urlFormat, blog.Host, subfolder);
+        }
+        
         /// <summary>
         /// The directory on the local server where the image will be saved.
         /// </summary>
@@ -109,6 +114,7 @@ namespace Subtext.Framework.Components
                 this.localDirectoryPath = value;
             }
         }
+        private string localDirectoryPath;
 
         public string Title
         {
@@ -126,6 +132,12 @@ namespace Subtext.Framework.Components
         {
             get;
             set;
+        }
+
+        public string Url 
+        { 
+            get; 
+            set; 
         }
 
         public string OriginalFile

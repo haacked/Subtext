@@ -904,7 +904,7 @@ namespace Subtext.Framework.Data
             return (int)outParam0.Value;
         }
 
-        public int InsertImage(string title, int categoryId, int width, int height, string file, bool active, int blogId)
+        public int InsertImage(string title, int categoryId, int width, int height, string file, bool active, int blogId, string url)
         {
             var outParam0 = DataHelper.MakeOutParam("@ImageID", SqlDbType.Int, 4);
             SqlParameter[] p = {
@@ -914,7 +914,8 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@Height", height),		
 				DataHelper.MakeInParam("@File", file),		
 				DataHelper.MakeInParam("@Active", active),		
-				DataHelper.MakeInParam("@BlogId", blogId),		
+				DataHelper.MakeInParam("@BlogId", blogId),	
+	            DataHelper.MakeInParam("@Url", url),	
 				outParam0,
 			};
 
@@ -1304,7 +1305,7 @@ namespace Subtext.Framework.Data
             return NonQueryBool("subtext_UpdateHost", p);
         }
 
-        public bool UpdateImage(string title, int categoryId, int width, int height, string file, bool active, int blogId, int imageId)
+        public bool UpdateImage(string title, int categoryId, int width, int height, string file, bool active, int blogId, int imageId, string url)
         {
             SqlParameter[] p = {
 				DataHelper.MakeInParam("@Title", title),		
@@ -1313,8 +1314,9 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@Height", height),		
 				DataHelper.MakeInParam("@File", file),		
 				DataHelper.MakeInParam("@Active", active),		
-				DataHelper.MakeInParam("@BlogId", blogId),		
-				DataHelper.MakeInParam("@ImageID", imageId),		
+				DataHelper.MakeInParam("@BlogId", blogId),	
+                DataHelper.MakeInParam("@Url", url),
+				DataHelper.MakeInParam("@ImageID", imageId),	
 			};
 
 

@@ -40,7 +40,7 @@ namespace UnitTests.Subtext.Framework.Emoticons
         public void GetEmoticons_WithFileSource_LoadsEmoticonsFromFile()
         {
             //arrange
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "emoticons.txt");
+            string path = UnitTestHelper.GetPathInExecutingAssemblyLocation("emoticons.txt");
             UnitTestHelper.UnpackEmbeddedResource("Web.emoticons.txt", path);
             var emoticonsSource = new EmoticonsFileSource(path);
 

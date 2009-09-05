@@ -38,14 +38,14 @@ namespace Subtext.Web.UI.Controls
                 image.Blog = Blog;
 
 				Title.Text = image.Title;
-				GalleryImage.ImageUrl = Url.ImageUrl(image, image.ResizedFile);
+				GalleryImage.ImageUrl = Url.GalleryImageUrl(image, image.ResizedFile);
 				GalleryImage.Height = image.Height;
 				GalleryImage.Width = image.Width;
 				GalleryImage.AlternateText = image.Title;
 				GalleryImage.BorderColor = Color.Black;
 				GalleryImage.BorderWidth = 2;
 
-				OriginalImage.NavigateUrl = Url.ImageUrl(image, image.OriginalFile);
+				OriginalImage.NavigateUrl = Url.GalleryImageUrl(image, image.OriginalFile);
 				ReturnUrl.NavigateUrl = Url.GalleryUrl(image.CategoryID);
 			}
 		}
@@ -61,8 +61,8 @@ namespace Subtext.Web.UI.Controls
 					if(ThumbNailImage != null)
 					{
 						
-						ThumbNailImage.ImageUrl = Url.ImageUrl(image, image.ThumbNailFile);
-						ThumbNailImage.NavigateUrl = Url.GalleryImageUrl(image);
+						ThumbNailImage.ImageUrl = Url.GalleryImageUrl(image, image.ThumbNailFile);
+						ThumbNailImage.NavigateUrl = Url.GalleryImagePageUrl(image);
 						ThumbNailImage.ToolTip = image.Title;
 
 					}

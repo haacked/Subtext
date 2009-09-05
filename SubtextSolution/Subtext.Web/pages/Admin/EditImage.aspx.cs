@@ -19,6 +19,7 @@ using System.Globalization;
 using System.IO;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Web;
 using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
@@ -67,10 +68,6 @@ namespace Subtext.Web.Admin.Pages
             this.TabSectionId = "Galleries";
 	    }
 
-		protected void Page_Load(object sender, EventArgs e)
-		{
-		}
-	    
 	    public override void DataBind()
 	    {
             BindImage();
@@ -137,7 +134,8 @@ namespace Subtext.Web.Admin.Pages
             if (imageObject is Image)
             {
                 Image image = (Image)imageObject;
-                return Url.ImageUrl(image);
+                image.Blog = Blog;
+                return Url.GalleryImageUrl(image);
             }
             return String.Empty;
 		}
@@ -147,7 +145,7 @@ namespace Subtext.Web.Admin.Pages
 			if (imageObject is Image)
 			{
 				Image image = (Image)imageObject;
-				return Url.GalleryImageUrl(image);
+				return Url.GalleryImagePageUrl(image);
 			}
 			return String.Empty;
 		}
@@ -197,7 +195,7 @@ namespace Subtext.Web.Admin.Pages
 				{
 					_image.FileName = Path.GetFileName(ImageFile.PostedFile.FileName);
                     _image.LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, _image.CategoryID);
-					Images.Update(_image, Images.GetFileStream(ImageFile.PostedFile));
+					Images.Update(_image, ImageFile.PostedFile.GetFileStream());
 
                     this.Messages.ShowMessage(Resources.EditGalleries_ImageUpdated);
 					BindImage();
@@ -209,28 +207,11 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-
 			ViewState[VSKEY_IMAGEID] = NullValue.NullInt32;
 		}
 		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-
-		}
-		#endregion
-
 		protected void lbkReplaceImage_Click(object sender, EventArgs e)
 		{
 			ReplaceImage();

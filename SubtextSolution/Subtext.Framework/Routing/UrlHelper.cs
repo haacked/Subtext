@@ -15,7 +15,6 @@
 
 using System;
 using System.Configuration;
-using System.Diagnostics;
 using System.Web;
 using System.Web.Routing;
 using Subtext.Extensibility;
@@ -23,8 +22,6 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Web;
-using System.Text.RegularExpressions;
-using System.Globalization;
 
 namespace Subtext.Framework.Routing
 {
@@ -62,13 +59,15 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath AppRoot()
         {
-            string appRoot = RequestContext.HttpContext.Request.ApplicationPath;
+            return new VirtualPath(GetNormalizedAppPath());
+        }
+
+        private string GetNormalizedAppPath() {
+            string appRoot = HttpContext.Request.ApplicationPath;
             if (!appRoot.EndsWith("/"))
             {
                 appRoot += "/";
             }
-
-            Debug.Assert(appRoot.StartsWith("/"), "AppRoot should start with '/' but was '" + appRoot + "'");
             return appRoot;
         }
 
@@ -149,91 +148,108 @@ namespace Subtext.Framework.Routing
             return null;
         }
 
-        public virtual VirtualPath ImageDirectoryUrl(Blog blog)
+        private string NormalizeFileName(string filename)
         {
-            return ImageUrl(blog, string.Empty, string.Empty) + "/";
-        }
-
-        // Use this for the URL when uploading images.
-        public virtual VirtualPath ImageDirectoryUrl(Blog blog, string filePath)
-        {
-            string imageUrl = ImageUrl(blog, string.Empty, string.Empty);
-            if (!filePath.StartsWith("/")) {
-                imageUrl += "/";
+            if (filename.StartsWith("/"))
+            {
+                return filename.Substring(1);
             }
-            return imageUrl + filePath;
+            return filename;
         }
 
+        private string GetImageDirectoryTildePath(Blog blog) 
+        {
+            string host = blog.Host.Replace(":", "_").Replace(".", "_");
+            string appPath = GetNormalizedAppPath().Replace(".", "_");
+            string subfolder = String.IsNullOrEmpty(blog.Subfolder) ? String.Empty : blog.Subfolder + "/";
+            return "~/images/" + host + appPath + subfolder;
+        }
+
+        private string GetImageTildePath(Blog blog, string filename)
+        {
+            return GetImageDirectoryTildePath(blog) + NormalizeFileName(filename);
+        }
+
+        private string GetGalleryImageTildePath(Image image, string filename)
+        {
+            return GetImageDirectoryTildePath(image.Blog) + image.CategoryID + "/" + filename;
+        }
+
+        /// <summary>
+        /// Returns the URL for an image that was uploaded to a blog via MetaWeblog API. The image 
+        /// is not associated with an image gallery.
+        /// </summary>
+        /// <param name="blog"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public virtual VirtualPath ImageUrl(Blog blog, string filename)
+        {
+            return ResolveUrl(GetImageTildePath(blog, filename));
+        }
+
+        /// <summary>
+        /// Returns the direct URL to an image within a gallery.
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
         public virtual VirtualPath GalleryImageUrl(Image image)
         {
+            return GalleryImageUrl(image, image.OriginalFile);
+        }
+
+        public VirtualPath GalleryImageUrl(Image image, string fileName)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException("image");
+            }
+
+            if (!String.IsNullOrEmpty(image.Url))
+            {
+                return ResolveUrl(image.Url + fileName);
+            }
+            return ResolveUrl(GetGalleryImageTildePath(image, fileName));
+        }
+
+        public virtual VirtualPath ImageDirectoryUrl(Blog blog)
+        {
+            return ResolveUrl(GetImageDirectoryTildePath(blog));
+        }
+
+        /// <summary>
+        /// Returns the physical gallery path for the specified category.
+        /// </summary>
+        /// <param name="categoryid">The categoryid.</param>
+        /// <returns></returns>
+        public virtual string GalleryDirectoryPath(Blog blog, int categoryId)
+        {
+            string path = ImageGalleryDirectoryUrl(blog, categoryId);
+            return HttpContext.Server.MapPath(path);
+        }
+
+        public virtual string ImageDirectoryPath(Blog blog)
+        {
+            return HttpContext.Server.MapPath(ImageDirectoryUrl(blog));
+        }
+
+        /// <summary>
+        /// Returns the URL to a page that displays an image within a gallery.
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public virtual VirtualPath GalleryImagePageUrl(Image image)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException("image");
+            }
             return GetVirtualPath("gallery-image", new { id = image.ImageID, subfolder = image.Blog.Subfolder });
-        }
-
-        public virtual VirtualPath ImageUrl(Image image, string fileName)
-        {
-            return ImageUrl(image.Blog, image.CategoryID.ToString(CultureInfo.InvariantCulture), fileName);
-        }
-
-        public virtual VirtualPath ImageUrl(Image image)
-        {
-            return ImageUrl(image, image.OriginalFile);
-        }
-
-        private VirtualPath ImageUrl(Blog blog, string id, string fileName)
-        {
-            string appPath = RequestContext.HttpContext.Request.ApplicationPath;
-            if (appPath.StartsWith("/"))
-            {
-                appPath = appPath.Substring(1);
-            }
-            if (appPath.EndsWith("/"))
-            {
-                appPath = appPath.Substring(0, appPath.Length - 1);
-            }
-
-            RouteValueDictionary routeValues = new RouteValueDictionary();
-            routeValues.Add("id", id);
-            routeValues.Add("host", Regex.Replace(blog.Host, @"\:|\.", "_"));
-            routeValues.Add("filename", fileName);
-            string routeName = "image-";
-            if (String.IsNullOrEmpty(appPath))
-            {
-                routeName += "without-apppath";
-            }
-            else
-            {
-                appPath = Regex.Replace(appPath, @"\:|\.", "_");
-                routeName += "with-apppath";
-                routeValues.Add("appPath", appPath);
-            }
-            if (string.IsNullOrEmpty(blog.Subfolder))
-            {
-                routeName += "-without-subfolder";
-            }
-            else
-            {
-                routeName += "-with-subfolder";
-                routeValues.Add("subfolder", blog.Subfolder);
-            }
-
-            return GetVirtualPath(routeName, routeValues);
-        }
-
-        public virtual VirtualPath ImageDirectoryUrl(Blog blog, int galleryId)
-        {
-            Image image = new Image { Blog = blog, CategoryID = galleryId };
-            string imageUrl = ImageUrl(image, string.Empty);
-            if (!imageUrl.EndsWith("/"))
-            {
-                imageUrl += "/";
-            }
-            return imageUrl;
         }
 
         public virtual VirtualPath ImageGalleryDirectoryUrl(Blog blog, int galleryId)
         {
             Image image = new Image { Blog = blog, CategoryID = galleryId };
-            string imageUrl = ImageUrl(image, string.Empty);
+            string imageUrl = GalleryImageUrl(image, string.Empty);
             if (!imageUrl.EndsWith("/"))
             {
                 imageUrl += "/";

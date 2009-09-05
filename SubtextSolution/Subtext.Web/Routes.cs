@@ -106,12 +106,6 @@ public static class Routes
             , new { id = @"\d+" }
             , new[] { "ViewPicture" });
 
-        // TODO: Consider putting this logic in the ImageRoute.
-        routes.MapImageRoute("image-with-apppath-with-subfolder", "images/{host}/{appPath}/{subfolder}/{id}/{filename}");
-        routes.MapImageRoute("image-with-apppath-without-subfolder", "images/{host}/{appPath}/{id}/{filename}");
-        routes.MapImageRoute("image-without-apppath-with-subfolder", "images/{host}/{subfolder}/{id}/{filename}");
-        routes.MapImageRoute("image-without-apppath-without-subfolder", "images/{host}/{id}/{filename}");
-
         routes.MapControls("category", "{categoryType}/{slug}.aspx"
             , new { categoryType = @"category|stories" }
             , new[] { "CategoryEntryList" });

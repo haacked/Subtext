@@ -62,8 +62,8 @@ namespace Subtext.Web.UI.Controls
 					HyperLink ThumbNailImage = (HyperLink)e.Item.FindControl("ThumbNailImage");
 					if(ThumbNailImage != null)
 					{
-						ThumbNailImage.ImageUrl = Url.ImageUrl(image, image.ThumbNailFile);
-						ThumbNailImage.NavigateUrl = Url.GalleryImageUrl(image);
+						ThumbNailImage.ImageUrl = Url.GalleryImageUrl(image, image.ThumbNailFile);
+						ThumbNailImage.NavigateUrl = Url.GalleryImagePageUrl(image);
 						ThumbNailImage.ToolTip = image.Title;
 					}
 				}

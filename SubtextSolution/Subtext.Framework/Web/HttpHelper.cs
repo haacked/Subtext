@@ -1,3 +1,18 @@
+#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
 using System;
 using System.Configuration;
 using System.IO;
@@ -272,6 +287,24 @@ namespace Subtext.Framework.Web
                 return appPath + reference.Substring(1);
             }
             return path;
+        }
+
+        /// <summary>
+        /// gets the bytes for the posted file
+        /// </summary>
+        /// <param name="objFile">The obj file.</param>
+        /// <returns></returns>
+        public static byte[] GetFileStream(this HttpPostedFile httpPostedFile)
+        {
+            if (httpPostedFile != null)
+            {
+                int contentLength = httpPostedFile.ContentLength;
+                byte[] input = new byte[contentLength];
+                Stream file = httpPostedFile.InputStream;
+                file.Read(input, 0, contentLength);
+                return input;
+            }
+            return null;
         }
 	}
 }

@@ -28,6 +28,7 @@ using Subtext.Framework.Properties;
 using Subtext.Framework.Security;
 using Subtext.Framework.Services;
 using Subtext.Framework.Tracking;
+using Subtext.Framework.Util;
 
 //Need to find a method that has access to context, so we can terminate the request if AllowServiceAccess == false.
 //Users will be able to access the metablogapi page, but will not be able to make a request, but the page should not be visible
@@ -344,23 +345,19 @@ namespace Subtext.Framework.XmlRpc
             string imageDirectory = Url.ImageDirectoryPath(Blog);
             try
             {
-                //We don't validate the file because newMediaObject allows file to be overwritten
-                //But we do check the directory and create if necessary
-                //The media object's name can have extra folders appended so we check for this here too.
-                Images.EnsureDirectory(Path.Combine(imageDirectory, mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1).Replace("/", "\\")));
-                FileStream fStream = new FileStream(Path.Combine(imageDirectory, mediaobject.name), FileMode.Create);
-                BinaryWriter bw = new BinaryWriter(fStream);
-                bw.Write(mediaobject.bits);
+                // newMediaObject allows files to be overwritten
+                // The media object's name can have extra folders appended so we check for this here too.
+                FileHelper.EnsureDirectory(Path.Combine(imageDirectory, mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1).Replace("/", "\\")));
+                string imageFilePhysicalPath = Path.Combine(imageDirectory, mediaobject.name);
+                FileHelper.WriteBytesToFile(imageFilePhysicalPath, mediaobject.bits);
             }
-            //Any IO exceptions, we throw a new XmlRpcFault Exception
             catch (IOException)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_ErrorSavingFile);
             }
 
-            //If all works, we return a mediaobjectinfo struct back holding the URL.
             mediaObjectInfo media;
-            media.url = Url.ImageDirectoryUrl(Blog, mediaobject.name);
+            media.url = Url.ImageUrl(Blog, mediaobject.name);
             return media;
         }
 

@@ -119,12 +119,6 @@ namespace Subtext.Framework.Services
             );
         }
 
-        private int GetBlogCount()
-        {
-            IPagedCollection pagedBlogs = Repository.GetPagedBlogs(null, 0, 10, ConfigurationFlags.None);
-            return pagedBlogs.MaxItems;
-        }
-
         private UriBuilder ReplaceHost(Uri originalUrl, string newHost)
         {
             UriBuilder builder = new UriBuilder(originalUrl);
