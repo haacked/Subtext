@@ -145,7 +145,8 @@ namespace Subtext.Framework.Text
         public static string RemoveHtml(string html)
         {
             //Yeah, this is ugly, but it's perf optimized! ;)
-            if (html == null) {
+            if (html == null)
+            {
                 return string.Empty;
             }
 
@@ -184,7 +185,8 @@ namespace Subtext.Framework.Text
                                 strippedHtml[cleanCount++] = current;
                                 inHtmlTag = false;
                             }
-                            else {
+                            else
+                            {
                                 continue;
                             }
                         }
@@ -268,11 +270,11 @@ namespace Subtext.Framework.Text
         {
             return ('a' <= nextChar && nextChar <= 'z') || ('A' <= nextChar && nextChar <= 'Z');
         }
-        
-		
 
 
-        
+
+
+
 
         /// <summary>
         /// Tests the specified string looking for illegal characters 
@@ -287,11 +289,11 @@ namespace Subtext.Framework.Text
                 return false;
             }
             if (s.IndexOf("<script", StringComparison.InvariantCultureIgnoreCase) > -1
-				|| s.IndexOf("&#60script", StringComparison.InvariantCultureIgnoreCase) > -1
-				|| s.IndexOf("&60script", StringComparison.InvariantCultureIgnoreCase) > -1
-				|| s.IndexOf("%60script", StringComparison.InvariantCultureIgnoreCase) > -1)
+                || s.IndexOf("&#60script", StringComparison.InvariantCultureIgnoreCase) > -1
+                || s.IndexOf("&60script", StringComparison.InvariantCultureIgnoreCase) > -1
+                || s.IndexOf("%60script", StringComparison.InvariantCultureIgnoreCase) > -1)
             {
-            	return true;
+                return true;
             }
             return false;
         }
@@ -302,15 +304,16 @@ namespace Subtext.Framework.Text
         /// </summary>
         /// <param name="html">Html containing urls to convert.</param>
         /// <returns></returns>
-		public static string ConvertUrlsToHyperLinks(string html)
+        public static string ConvertUrlsToHyperLinks(string html)
         {
-			if (html == null)
-				throw new ArgumentNullException("html");
+            if (html == null)
+                throw new ArgumentNullException("html");
 
-			if (html.Length == 0)
-				return string.Empty;
+            if (html.Length == 0)
+                return string.Empty;
 
-            XhtmlConverter xhtmlConverter = new XhtmlConverter(text => {
+            XhtmlConverter xhtmlConverter = new XhtmlConverter(text =>
+            {
                 string pattern =
                     @"((https?|ftp)://|www\.)[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
                 MatchCollection matches =
@@ -337,82 +340,114 @@ namespace Subtext.Framework.Text
             return xhtmlConverter.Transform(html);
         }
 
-		/// <summary>
-		/// Shortens a url for display.
-		/// </summary>
-		/// <param name="url">The URL.</param>
-		/// <param name="max">Maximum size for the url. Anything longer gets shortened.</param>
-		/// <returns></returns>
-		public static string ShortenUrl(string url, int max)
-		{
-			if (url == null)
-				throw new ArgumentNullException("url");
+        private static IEnumerable<Func<string, string>> GetShorteners(int max)
+        {
+            yield return url => url; // identity
+            yield return url => url.RightAfter("://");
+            yield return url => ReplacePathSegmentsWithElipses(url);
+            yield return url => url.LeftBefore("#", StringComparison.Ordinal);
+            yield return url => url.LeftBefore("?", StringComparison.Ordinal);
+            yield return url => ChopLastSegment(url);
+            yield return url => url.Chomp("/", StringComparison.Ordinal);
+            yield return url => {
+                if (url.Length > 8)
+                {
+                    url = url.Substring(0, max - 3) + "...";
+                }
+                else
+                {
+                    url = url.Substring(0, max);
+                }
+                return url;
+            };
+        }
 
-			if (max < 5)
+        private static string ReplacePathSegmentsWithElipses(string urlAfterProtocol)
+        {
+            // examples:
+            //  example.com/foo/bar/baz/ => example.com/.../baz/
+            //  example.com/foo/bar/baz => example.com/.../baz
+            //  example.com/foo/bar#baz => example.com/.../bar#baz
+            //  example.com/foo/bar/baz/?beels => example.com/.../baz/?beels
+            //  example.com/foobeels.txt => example.com/foobeels.txt
+
+            int lastIndex = urlAfterProtocol.IndexOf('?');
+            if (lastIndex < 0)
+            {
+                lastIndex = urlAfterProtocol.IndexOf('#');
+            }
+            if (lastIndex < 0) 
+            {
+                lastIndex = urlAfterProtocol.Length;
+            }
+            
+            // First slash after domain name
+            int firstSlashIndex = urlAfterProtocol.IndexOf('/');
+            if (firstSlashIndex < 0)
+            {
+                return urlAfterProtocol;
+            }
+
+            // ignore query and fragment
+            string urlWithoutTrailingStuff = urlAfterProtocol.Substring(0, lastIndex);
+            urlWithoutTrailingStuff = urlWithoutTrailingStuff.Chomp("/", StringComparison.Ordinal);
+
+            int lastSlashIndex = urlWithoutTrailingStuff.LastIndexOf('/');
+            if (lastSlashIndex < 0)
+            {
+                return urlAfterProtocol;
+            }
+
+            if (lastSlashIndex < firstSlashIndex + 5)
+            {
+                return urlAfterProtocol;
+            }
+            return urlAfterProtocol.Substring(0, firstSlashIndex) + "/..." + urlAfterProtocol.Substring(lastSlashIndex);
+        }
+
+        private static string ChopLastSegment(string urlWithoutProtocolNorQuery)
+        {
+            urlWithoutProtocolNorQuery = urlWithoutProtocolNorQuery.Chomp("/", StringComparison.OrdinalIgnoreCase);
+            int lastIndex = urlWithoutProtocolNorQuery.LastIndexOf('/');
+            if (lastIndex > -1)
+            {
+                urlWithoutProtocolNorQuery = urlWithoutProtocolNorQuery.Substring(0, lastIndex);
+            }
+            return urlWithoutProtocolNorQuery;
+        }
+
+        
+        /// <summary>
+        /// Shortens a url for display.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="max">Maximum size for the url. Anything longer gets shortened.</param>
+        /// <returns></returns>
+        public static string ShortenUrl(this string url, int max)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException("url");
+            }
+
+            if (max < 5)
+            {
                 throw new ArgumentOutOfRangeException("max", max, Resources.ArgumentException_TooShortUrl);
+            }
 
-			if (url.Length <= max)
-				return url;
+            foreach (var shortener in GetShorteners(max))
+            {
+                url = shortener(url);
+                if (url.Length <= max)
+                {
+                    return url;
+                }
+            }
 
-			// Remove the protocal
-			url = StringHelper.RightAfter(url, "://");
+            return url;
+        }
 
-			if (url.Length <= max)
-				return url;
-
-			// Remove the folder structure, except for the last folder.
-			int firstIndex = url.IndexOf("/") + 1;
-			int startIndexForLastSlash = url.Length - 1;
-			if (url.EndsWith("/"))
-				startIndexForLastSlash--;
-
-			int lastIndex = url.LastIndexOf("/", startIndexForLastSlash);
-			
-			if (firstIndex < lastIndex)
-				url = StringHelper.LeftBefore(url, "/") + "/.../" + StringHelper.RightAfterLast(url, "/", startIndexForLastSlash, StringComparison.Ordinal);
-
-			if (url.Length <= max)
-				return url;
-
-			// Remove URL parameters
-			url = StringHelper.LeftBefore(url, "?");
-
-			if (url.Length <= max)
-				return url;
-
-			// Remove URL fragment
-			url = StringHelper.LeftBefore(url, "#");
-
-			if (url.Length <= max)
-				return url;
-
-			// Shorten page
-			firstIndex = url.LastIndexOf("/") + 1;
-			lastIndex = url.LastIndexOf(".");
-			if (lastIndex - firstIndex > 10)
-			{
-				string page = url.Substring(firstIndex, lastIndex - firstIndex);
-				int length = url.Length - max + 3;
-				url = url.Replace(page, "..." + page.Substring(length));
-			}
-
-			if (url.Length <= max)
-				return url;
-
-			//Trim of trailing slash if any.
-			if (url.Length > max && url.EndsWith("/"))
-				url = url.Substring(0, url.Length - 1);
-
-			if (url.Length <= max)
-				return url;
-
-			if (url.Length > max)
-				url = url.Substring(0, max - 3) + "...";
-
-			return url;
-		}
-
-    	/// <summary>
+        /// <summary>
         /// The only HTML we will allow is hyperlinks. 
         /// We will however, check for line breaks and replace 
         /// them with <br />
@@ -445,15 +480,19 @@ namespace Subtext.Framework.Text
         /// </summary>
         /// <param name="text">Text.</param>
         /// <returns></returns>
-        public static Uri CheckForUrl(string text)
+        public static Uri EnsureUrl(this string text)
         {
             if (text == null)
+            {
                 return null;
+            }
 
             text = text.Trim();
 
             if (String.IsNullOrEmpty(text))
+            {
                 return null;
+            }
 
             if (!text.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -463,12 +502,12 @@ namespace Subtext.Framework.Text
             return new Uri(text);
         }
 
-		/// <summary>
-		/// Filters text to only allow defined HTML.
-		/// </summary>
-		/// <param name="text">Text.</param>
-		/// <returns></returns>
-		public static string ConvertToAllowedHtml(string text)
+        /// <summary>
+        /// Filters text to only allow defined HTML.
+        /// </summary>
+        /// <param name="text">Text.</param>
+        /// <returns></returns>
+        public static string ConvertToAllowedHtml(string text)
         {
             if (text == null)
                 throw new ArgumentNullException("text");
@@ -477,12 +516,12 @@ namespace Subtext.Framework.Text
             return ConvertToAllowedHtml(allowedHtmlTags, text);
         }
 
-    	/// <summary>
-		/// Filters text to only allow defined HTML.
-		/// </summary>
-		/// <param name="allowedHtmlTags">The allowed html tags.</param>
-		/// <param name="text">Text.</param>
-		/// <returns></returns>
+        /// <summary>
+        /// Filters text to only allow defined HTML.
+        /// </summary>
+        /// <param name="allowedHtmlTags">The allowed html tags.</param>
+        /// <param name="text">Text.</param>
+        /// <returns></returns>
         public static string ConvertToAllowedHtml(NameValueCollection allowedHtmlTags, string text)
         {
             if (allowedHtmlTags == null || allowedHtmlTags.Count == 0)
@@ -725,27 +764,32 @@ namespace Subtext.Framework.Text
         /// </summary>
         /// <param name="html"></param>
         /// <returns></returns>
-        public static List<string> ParseTags(string html)
+        public static List<string> ParseTags(this string html)
         {
             List<string> tags = new List<string>();
-            if (String.IsNullOrEmpty(html)) {
+            if (String.IsNullOrEmpty(html))
+            {
                 return tags;
             }
-            
+
             List<string> loweredTags = new List<string>();
 
             foreach (Match m in _anchorRegex.Matches(html))
             {
                 string anchorHtml = m.Value;
                 if (!_relRegex.IsMatch(anchorHtml))
+                {
                     continue;
+                }
 
                 Match urlMatch = _hrefRegex.Match(anchorHtml);
                 if (urlMatch.Success)
                 {
                     string urlStr = urlMatch.Groups["url"].Value;
                     if (urlStr.EndsWith("/default.aspx", StringComparison.InvariantCultureIgnoreCase))
+                    {
                         urlStr = urlStr.Substring(0, urlStr.Length - 13);
+                    }
                     Uri url;
                     if (Uri.TryCreate(urlStr, UriKind.RelativeOrAbsolute, out url))
                     {

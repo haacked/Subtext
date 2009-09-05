@@ -37,8 +37,7 @@ namespace UnitTests.Subtext.Framework.Text
 		[Row(null, 10, null, ExpectedException = typeof(ArgumentNullException))]
 		[Row("", 10, "")]
 		[Row("http://example.com/", 50, "http://example.com/")]
-		[Row("http://example.com/test/testagain/", 26, "example.com/.../testagain/")]
-		[Row("http://example.com/test/test.aspx", 25, "example.com/.../test.aspx")]
+		[Row("http://example.com/testxtest.aspx", 25, "example.com")]
 		[Row("http://example.com/", 10, "example...")]
 		[Row("http://example.com/", 11, "example.com")]
 		[Row("http://example.com", 11, "example.com")]
@@ -47,6 +46,49 @@ namespace UnitTests.Subtext.Framework.Text
 		{
 			Assert.AreEqual(expected, HtmlHelper.ShortenUrl(url, max));
 		}
+
+        [Test]
+        public void ShortenUrl_WithTwoSegmentsEndingWithFileName_OnlyCompressesMiddleSegment()
+        {
+            string url = "http://example.com/test/test.aspx";
+
+            string shorty = url.ShortenUrl(25);
+
+            Assert.AreEqual("example.com/.../test.aspx", shorty);
+        }
+
+        [Test]
+        public void ShortenUrl_WithTwoSegmentsAndTrailingSlash_OnlyCompressesMiddleSegment()
+        {
+            string url = "http://example.com/test/testagain/";
+
+            string shorty = url.ShortenUrl(26);
+
+            Assert.AreEqual("example.com/.../testagain/", shorty);
+        }
+
+        [Test]
+        public void ShortenUrl_WithMaxLessThanFive_ThrowsArgumentOutOfRangeException()
+        {
+            // arrange
+            string url = "http://subtextproject.com/";
+
+            // act, assert
+            UnitTestHelper.AssertThrows<ArgumentOutOfRangeException>(() => url.ShortenUrl(4));
+        }
+
+        [Test]
+        public void ShortenUrl_WithQueryParamsMakingUrlTooLong_RemovesQueryParams()
+        {
+            // arrange
+            string url = "http://do.com/?foo=bar";
+
+            // act
+            string shorty = url.ShortenUrl(6);
+
+            // assert
+            Assert.AreEqual("do.com", shorty);
+        }
 
 		[RowTest]
 		[Row("http://example.com", "www.example.com", "http://www.example.com")]
@@ -226,6 +268,20 @@ namespace UnitTests.Subtext.Framework.Text
 			Assert.AreEqual("Programming", tags[0]);
 		}
 
+        [Test]
+        public void ParseTags_WithUrlEndingWithDefaultAspx_WeirdWhiteSpace()
+        {
+            // arrange
+            string html = "<a title=\"Programmer's Bill of Rights\" href=\"http://www.codinghorror.com/blog/archives/000666.html\">Programmer&rsquo;s Bill of Rights</a> that <a rel=\"friend met\" href=\"http://www.codinghorror.com/blog/\">Jeff Atwood</a>" + Environment.NewLine + "<div class=\"tags\">Technorati tags: <a rel=\"tag\" href=\"http://technorati.com/tag/Programming/default.aspx\">Programming</a>";
+
+            // act
+            var tags = html.ParseTags();
+            
+            // assert
+            Assert.AreEqual(1, tags.Count, "The attributes contain whitespace but should be recognized as valid");
+            Assert.AreEqual("Programming", tags[0]);
+        }
+
 		[RowTest]
 		[Row(" rel = \"tag\" ", " rel = \"tag\"", true)]
 		[Row(" xrel = \"tag\" ", null, false)]
@@ -268,6 +324,19 @@ namespace UnitTests.Subtext.Framework.Text
 		}
 
         [Test]
+        public void ParseUri_WithValidUri_ReturnsNull()
+        {
+            // arrange
+            string notUri = "http://haacked.com/";
+
+            // act
+            Uri parsed = notUri.ParseUri();
+
+            // assert
+            Assert.AreEqual("haacked.com", parsed.Host);
+        }
+
+        [Test]
         public void ParseUri_WithInvalidUri_ReturnsNull()
         { 
             // arrange
@@ -278,6 +347,46 @@ namespace UnitTests.Subtext.Framework.Text
 
             // assert
             Assert.IsNull(parsed);
+        }
+
+        [Test]
+        public void EnsureUrl_WithoutHttp_PrependsHttp()
+        {
+            // arrange
+            string text = "subtextproject.com";
+
+            // act
+            var url = text.EnsureUrl();
+
+            // assert
+            Assert.IsNotNull(url);
+            Assert.AreEqual("subtextproject.com", url.Host);
+        }
+
+        [Test]
+        public void EnsureUrl_WithNull_ReturnsNull()
+        {
+            // arrange
+            string text = null;
+
+            // act
+            var url = text.EnsureUrl();
+
+            // assert
+            Assert.IsNull(url);
+        }
+
+        [Test]
+        public void EnsureUrl_WithStringHavingOnlyWhitespace_ReturnsNull()
+        {
+            // arrange
+            string text = "     ";
+
+            // act
+            var url = text.EnsureUrl();
+
+            // assert
+            Assert.IsNull(url);
         }
 
 		[TestFixtureSetUp]

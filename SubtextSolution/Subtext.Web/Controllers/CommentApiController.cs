@@ -44,7 +44,7 @@ namespace Subtext.Web.Controllers
             comment.Author = name.Trim();
             comment.Body = (xml.SelectSingleNode("//item/description") ?? Empty).InnerText;
             comment.Title = (xml.SelectSingleNode("//item/title") ?? Empty).InnerText;
-            comment.SourceUrl = Subtext.Framework.Text.HtmlHelper.CheckForUrl((xml.SelectSingleNode("//item/link") ?? Empty).InnerText);
+            comment.SourceUrl = Subtext.Framework.Text.HtmlHelper.EnsureUrl((xml.SelectSingleNode("//item/link") ?? Empty).InnerText);
             comment.EntryId = id;
             CommentService.Create(comment);
         }

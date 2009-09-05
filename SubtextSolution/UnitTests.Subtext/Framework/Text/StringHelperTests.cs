@@ -1,9 +1,9 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using MbUnit.Framework;
 using Subtext.Framework.Text;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace UnitTests.Subtext.Framework.Text
 {
@@ -123,6 +123,95 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual("is", words.ElementAt(1));
             Assert.AreEqual("a", words.ElementAt(2));
             Assert.AreEqual("test", words.ElementAt(3));
+        }
+
+
+        /*
+               "string\r\n".chop   #=> "string"
+               "string\n\r".chop   #=> "string\n"
+               "string\n".chop     #=> "string"
+               "string".chop       #=> "strin"
+               "x".chop.chop       #=> ""
+             */
+        [Test]
+        public void Chop_WithStringEndingWithWindowsNewLine_ReturnsStringWithoutNewline()
+        {
+            Assert.AreEqual("string", "string\r\n".Chop());
+        }
+
+        [Test]
+        public void Chop_WithStringEndingWithSlashR_OnlyChopsSlashR()
+        {
+            Assert.AreEqual("string\n", "string\n\r".Chop());
+        }
+
+        [Test]
+        public void Chop_WithStringEndingWithNewline_ChopsNewline()
+        {
+            Assert.AreEqual("string", "string\n".Chop());
+        }
+
+        [Test]
+        public void Chop_WithStringEndingWithLetter_ReturnsStringWithoutLastLetter()
+        {
+            Assert.AreEqual("strin", "string".Chop());
+        }
+
+        [Test]
+        public void Chop_WithOneLetter_ReturnsEmptyString()
+        {
+            Assert.AreEqual(string.Empty, "x".Chop());
+        }
+
+        /*
+         "hello".chomp            #=> "hello"
+         "hello\n".chomp          #=> "hello"
+         "hello\r\n".chomp        #=> "hello"
+         "hello\n\r".chomp        #=> "hello\n"
+         "hello\r".chomp          #=> "hello"
+         "hello \n there".chomp   #=> "hello \n there"
+         "hello".chomp("llo")     #=> "he"
+         */
+        [Test]
+        public void Chomp_WithStringNotEndingWithDefaultSeparator_ReturnsString()
+        {
+            Assert.AreEqual("hello", "hello".Chomp());
+        }
+
+        [Test]
+        public void Chomp_WithStringEndingWithNewline_ChopsNewline()
+        {
+            Assert.AreEqual("hello", "hello\n".Chop());
+        }
+        
+        [Test]
+        public void Chomp_WithStringEndingWithWindowsNewLine_ReturnsStringWithoutNewline()
+        {
+            Assert.AreEqual("hello", "hello\r\n".Chomp());
+        }
+
+        [Test]
+        public void Chomp_WithStringEndingWithSlashNSlashR_OnlyChopsSlashR()
+        {
+            Assert.AreEqual("hello\n", "hello\n\r".Chop());
+        }
+        
+        [Test]
+        public void Chomp_WithStringEndingWithSlashR_OnlyChopsSlashR()
+        {
+            Assert.AreEqual("hello", "hello\r".Chop());
+        }
+
+        [Test]
+        public void Chomp_WithSeparator_ChopsSeparator()
+        {
+            Assert.AreEqual("he", "hello".Chomp("llo", StringComparison.Ordinal));
+        }
+
+        [Test]
+        public void Chomp_WithSeparatorButStringNotEndingWithSeparator_LeavesStringAlone()
+        {
+            Assert.AreEqual("hello world", "hello world".Chomp("llo", StringComparison.Ordinal));
         }
 	}
 }
