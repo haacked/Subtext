@@ -31,7 +31,6 @@ namespace Subtext.Web.Admin.Pages
 		protected Image _image;
 		protected string _galleryTitle;
 
-		#region Accessors
 		private int ImageId
 		{
 			get
@@ -60,8 +59,6 @@ namespace Subtext.Web.Admin.Pages
 			    return _image;
 			}
 		}
-
-		#endregion
 	    
 	    public EditImage()
 	    {
@@ -74,53 +71,40 @@ namespace Subtext.Web.Admin.Pages
             base.DataBind();
 	    }
 	    
-
 		private void BindImage()
 		{
-			if (NullValue.NullInt32 != ImageId)
+			
+            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, ActiveFilter.None);
+			if (selectionList.Count > 0)
 			{
-                ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, ActiveFilter.None);
-				if (selectionList.Count > 0)
-				{
-					ddlGalleries.DataSource = selectionList;
-					ddlGalleries.DataValueField = "Id";
-					ddlGalleries.DataTextField = "Title";
-					
-					lnkThumbnail.ImageUrl = EvalImageUrl(Image);
-					lnkThumbnail.NavigateUrl = EvalImageNavigateUrl(Image);
-					lnkThumbnail.Visible = true;
+				ddlGalleries.DataSource = selectionList;
+				ddlGalleries.DataValueField = "Id";
+				ddlGalleries.DataTextField = "Title";
+				
+				lnkThumbnail.ImageUrl = EvalImageUrl(Image);
+				lnkThumbnail.NavigateUrl = EvalImageNavigateUrl(Image);
+				lnkThumbnail.Visible = true;
 
-					ckbPublished.Checked = Image.IsActive;
+				ckbPublished.Checked = Image.IsActive;
 
-					SetGalleryInfo(Image);
+				SetGalleryInfo(Image);
 
-					ddlGalleries.DataBind();
+				ddlGalleries.DataBind();
 
-                    var listItem = ddlGalleries.Items.FindByValue(_image.CategoryID.ToString(CultureInfo.InvariantCulture));
-                    if (listItem != null) {
-                        ddlGalleries.SelectedIndex = ddlGalleries.Items.IndexOf(listItem);
-                    }
-					// HACK: we're disabling this until we do something with/around the provider
-					// that will let us actually move the files too.
-					ddlGalleries.Enabled = false;
+                var listItem = ddlGalleries.Items.FindByValue(_image.CategoryID.ToString(CultureInfo.InvariantCulture));
+                if (listItem != null) {
+                    ddlGalleries.SelectedIndex = ddlGalleries.Items.IndexOf(listItem);
+                }
+				// HACK: we're disabling this until we do something with/around the provider
+				// that will let us actually move the files too.
+				ddlGalleries.Enabled = false;
 
-					Advanced.Collapsed = Preferences.AlwaysExpandAdvanced;
+				Advanced.Collapsed = Preferences.AlwaysExpandAdvanced;
 
-					if(AdminMasterPage != null) {
-                        string title = string.Format(CultureInfo.InvariantCulture, Resources.EditGalleries_EditImage, Image.Title);
-                        AdminMasterPage.Title = title;
-					}
+				if(AdminMasterPage != null) {
+                    string title = string.Format(CultureInfo.InvariantCulture, Resources.EditGalleries_EditImage, Image.Title);
+                    AdminMasterPage.Title = title;
 				}
-				else
-				{
-					ImageDetails.Visible = false;
-                    this.Messages.ShowError(Resources.EditGalleries_MustHaveOneGallery);
-				}
-			}
-			else
-			{	
-				ImageDetails.Visible = false;
-                this.Messages.ShowError(Resources.EditGalleries_ImageIdentifierMissing);
 			}
 		}
 
@@ -224,4 +208,3 @@ namespace Subtext.Web.Admin.Pages
 		}
 	}
 }
-
