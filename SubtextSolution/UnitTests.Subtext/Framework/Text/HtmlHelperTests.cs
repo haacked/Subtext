@@ -267,6 +267,19 @@ namespace UnitTests.Subtext.Framework.Text
 			}
 		}
 
+        [Test]
+        public void ParseUri_WithInvalidUri_ReturnsNull()
+        { 
+            // arrange
+            string notUri = "blah@example.com";
+
+            // act
+            Uri parsed = notUri.ParseUri();
+
+            // assert
+            Assert.IsNull(parsed);
+        }
+
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{

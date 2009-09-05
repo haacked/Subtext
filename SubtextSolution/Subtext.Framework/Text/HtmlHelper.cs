@@ -700,7 +700,7 @@ namespace Subtext.Framework.Text
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns></returns>
-        public static Uri ParseUri(string uri)
+        public static Uri ParseUri(this string uri)
         {
             if (uri == null)
                 return null;

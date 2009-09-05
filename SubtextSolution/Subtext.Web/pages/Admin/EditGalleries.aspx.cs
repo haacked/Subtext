@@ -426,19 +426,21 @@ namespace Subtext.Web.Admin.Pages
             BindGallery();
         }
 
-        private void ConfirmDeleteGallery(int categoryID, string categoryTitle)
+        private void DeleteGallery(int categoryID, string categoryTitle)
         {
             this.Command = new DeleteGalleryCommand(Url.ImageGalleryDirectoryUrl(Blog, categoryID), categoryID, categoryTitle);
-            this.Command.RedirectUrl = Request.Url.ToString();
-            Server.Transfer(Constants.URL_CONFIRM);
+            string message = this.Command.Execute();
+            this.Messages.ShowMessage(message);
+            BindGallery();
         }
 
-        private void ConfirmDeleteImage(int imageID)
+        private void DeleteImage(int imageID)
         {
             var image = Repository.GetImage(imageID, false /* activeOnly */);
             this.Command = new DeleteImageCommand(image, Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID));
-            this.Command.RedirectUrl = Request.Url.ToString();
-            Server.Transfer(Constants.URL_CONFIRM);
+            string message = this.Command.Execute();
+            this.Messages.ShowMessage(message);
+            BindGallery();
         }
 
         override protected void OnInit(EventArgs e)
@@ -502,7 +504,7 @@ namespace Subtext.Web.Admin.Pages
         {
             int id = Convert.ToInt32(dgrSelectionList.DataKeys[e.Item.ItemIndex]);
             LinkCategory lc = SubtextContext.Repository.GetLinkCategory(id, false);
-            ConfirmDeleteGallery(id, lc.Title);
+            DeleteGallery(id, lc.Title);
         }
 
         private void dgrSelectionList_CancelCommand(object source, DataGridCommandEventArgs e)
@@ -531,7 +533,7 @@ namespace Subtext.Web.Admin.Pages
             switch (e.CommandName.ToLower(CultureInfo.InvariantCulture))
             {
                 case "deleteimage":
-                    ConfirmDeleteImage(Convert.ToInt32(e.CommandArgument));
+                    DeleteImage(Convert.ToInt32(e.CommandArgument));
                     break;
                 default:
                     break;
