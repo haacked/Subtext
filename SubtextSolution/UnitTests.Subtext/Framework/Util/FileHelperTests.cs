@@ -87,7 +87,7 @@ namespace UnitTests.Subtext.Framework.Util
         [Test]
         public void WriteBytesToFile_WithInvalidFilePath_ThrowsInvailidOperationException()
         {
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() => FileHelper.WriteBytesToFile("c:\\foo\\#$3211|.jpg", new byte[0]));
+            UnitTestHelper.AssertThrows<InvalidOperationException>(() => FileHelper.WriteBytesToFile("c:\\foo\\#$3211|.jpg", new byte[0]));
         }
 
         [SetUp]
