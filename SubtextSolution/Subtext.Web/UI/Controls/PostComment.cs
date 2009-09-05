@@ -291,7 +291,7 @@ namespace Subtext.Web.UI.Controls
 			feedbackItem.Author = this.tbName.Text;
 			if(this.tbEmail != null)
 				feedbackItem.Email = this.tbEmail.Text;
-			feedbackItem.SourceUrl =  HtmlHelper.CheckForUrl(this.tbUrl.Text);
+			feedbackItem.SourceUrl =  HtmlHelper.EnsureUrl(this.tbUrl.Text);
 			feedbackItem.Body = this.tbComment.Text;
 			feedbackItem.Title = this.tbTitle.Text;
 			feedbackItem.EntryId = currentEntry.Id;

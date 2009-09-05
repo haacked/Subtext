@@ -217,7 +217,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			try
 			{
-				Trackback entry = new Trackback(EntryID, txbTitle.Text, HtmlHelper.CheckForUrl(txbUrl.Text), string.Empty, txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text, Config.CurrentBlog.TimeZone.Now);
+				Trackback entry = new Trackback(EntryID, txbTitle.Text, HtmlHelper.EnsureUrl(txbUrl.Text), string.Empty, txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text, Config.CurrentBlog.TimeZone.Now);
                 CommentService commentService = new CommentService(SubtextContext, null);
 
                 if (commentService.Create(entry) > 0)
