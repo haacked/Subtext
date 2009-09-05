@@ -305,8 +305,6 @@ namespace Subtext.Web.Admin.Pages
                                 else
                                 {
                                     // Attempt insertion as a new image
-                                    string url = Url.ImageDirectoryUrl(Blog);
-                                    image.Url = url;
                                     int imageID = Images.InsertImage(image, fileData);
                                     if (imageID > 0)
                                     {

@@ -194,6 +194,7 @@ namespace Subtext.Web.Admin.Pages
 				try
 				{
 					_image.FileName = Path.GetFileName(ImageFile.PostedFile.FileName);
+                    _image.Url = Url.ImageGalleryDirectoryUrl(Blog, _image.CategoryID);
                     _image.LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, _image.CategoryID);
 					Images.Update(_image, ImageFile.PostedFile.GetFileStream());
 
