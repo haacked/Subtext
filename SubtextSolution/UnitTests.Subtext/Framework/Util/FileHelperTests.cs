@@ -77,6 +77,19 @@ namespace UnitTests.Subtext.Framework.Util
             UnitTestHelper.AssertThrows<ArgumentNullException>(() => FileHelper.EnsureDirectory(string.Empty));
         }
 
+        [Test]
+        public void WriteBytesToFile_WithNullDestination_ThrowsArgumentNullException()
+        {
+            UnitTestHelper.AssertThrows<ArgumentNullException>(() => FileHelper.WriteBytesToFile(null, new byte[0]));
+            UnitTestHelper.AssertThrows<ArgumentNullException>(() => FileHelper.WriteBytesToFile(string.Empty, new byte[0]));
+        }
+
+        [Test]
+        public void WriteBytesToFile_WithInvalidFilePath_ThrowsInvailidOperationException()
+        {
+            UnitTestHelper.AssertThrows<ArgumentNullException>(() => FileHelper.WriteBytesToFile("c:\\foo\\#$3211|.jpg", new byte[0]));
+        }
+
         [SetUp]
         public void SetUp()
         {

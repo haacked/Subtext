@@ -1,4 +1,4 @@
-<%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Edit Image" Codebehind="EditImage.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditImage" %>
+<%@ Page Language="C#" Title="Subtext Admin - Edit Image" Codebehind="EditImage.aspx.cs" Inherits="Subtext.Web.Admin.Pages.EditImage" %>
 <%@ Register TagPrefix="st" TagName="CategoryLinks" Src="~/pages/Admin/UserControls/CategoryLinkList.ascx" %>
 
 <asp:Content ContentPlaceHolderID="actionsHeading" runat="server">
@@ -15,33 +15,37 @@
 <asp:Content ID="imageContent" ContentPlaceHolderID="pageContent" runat="server">
 	<st:MessagePanel id="Messages" runat="server" />
 
-	<st:AdvancedPanel id="ImageDetails" runat="server" Collapsible="false" HeaderText="Image Details" HeaderCssClass="CollapsibleHeader" BodyCssClass="Edit" DisplayHeader="True">
-		
-		<ASP:HyperLink id="lnkThumbnail" runat="server" Visible="false" CssClass="Thumbnail"></ASP:HyperLink>
-		<p class="ThumbnailTitle">
-			<%# Image.Title %>
-			<br />
-			<span><%# Image.Width.ToString() %>W x <%# Image.Height.ToString() %>H</span><br />
-			<span><a href='<%# GetImageGalleryUrl() %>'><%# _galleryTitle %></a></span><br />
-		</p>
+	<h2 id="headerLiteral" runat="server">Edit Image</h2>
+	<fieldset>
+	    <legend>Update Image Details</legend>
+	    
+	    <asp:HyperLink id="lnkThumbnail" runat="server" Visible="false" CssClass="Thumbnail" />
+	    
+	    <p class="ThumbnailTitle">
+		    <%# Image.Title %>
+		    <div><%# Image.Width.ToString() %>W x <%# Image.Height.ToString() %>H</div>
+		    <div><a href='<%# GetImageGalleryUrl() %>'><%# _galleryTitle %></a></div>
+	    </p>
 		<br class="clear" />
-		<label>Title</label>
-		<ASP:TextBox id="txbTitle" runat="server" Text='<%# Image.Title %>' columns="255" width="98%" />
-		<label>Gallery</label>
-		<ASP:DropDownList id="ddlGalleries" runat="server" />
-		<div class="button-div"><label>Visible</label><asp:checkbox id="ckbPublished" runat="server" /></div>
-		<div class="button-div">
-			<asp:linkbutton id="lkbUpdateImage" runat="server" CssClass="Button" Text="Update" onclick="lkbUpdateImage_Click" />
-		</div>
-		<p class="InlineSubtitle">Replace File</p>
-		<label>Local File Location</label>
-		<input id="ImageFile" class="FileUpload" type="file" size="82" runat="server" name="ImageFile" />
-		<br class="clear" />		
-		<div class="button-div">
-			<asp:Button id="lbkAddImage" runat="server" CssClass="buttonSubmit" Text="Replace" onclick="lbkReplaceImage_Click" />
-		</div>		
-	</st:AdvancedPanel>	
-	
+	    <asp:Label runat="server" AssociatedControlID="txbTitle">Title</asp:Label>
+	    <asp:TextBox id="txbTitle" runat="server" Text='<%# Image.Title %>' columns="255" width="98%" />
+	    <asp:Label runat="server" AssociatedControlID="ddlGalleries">Gallery</asp:Label>
+	    <asp:DropDownList id="ddlGalleries" runat="server" />
+	    <div class="button-div">
+	        <asp:CheckBox id="ckbPublished" runat="server" Text="Visible" />
+        </div>
+	    <div class="button-div">
+		    <asp:Button id="lkbUpdateImage" runat="server" CssClass="buttonSubmit" Text="Update" onclick="lkbUpdateImage_Click" />
+	    </div>
+	</fieldset>
+	<fieldset>
+	    <legend>Replace File</legend>
+	    <asp:Label runat="server" AssociatedControlID="ImageFile">Local File Location</asp:Label>
+	    <input id="ImageFile" class="FileUpload" type="file" size="82" runat="server" name="ImageFile" />
+	    <div class="button-div">
+		    <asp:Button id="lbkAddImage" runat="server" CssClass="buttonSubmit" Text="Replace" onclick="lbkReplaceImage_Click" />
+	    </div>		
+	</fieldset>
 	<st:AdvancedPanel id="Advanced" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleTitle" LinkText="[toggle]" Collapsible="True" HeaderText="Advanced Options" BodyCssClass="Edit" Collapsed="true" HeaderTextCssClass="CollapsibleTitle">	
 		<label>Original Image</label>
 		<%# Image.OriginalFile %>
