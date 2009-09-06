@@ -35,7 +35,8 @@ namespace Subtext.Framework.Services
         private const string DefaultWordSeparator = "-";
 
         private static FriendlyUrlSettings _defaultSettings = GetDefaultSettings();
-        private static FriendlyUrlSettings GetDefaultSettings() {
+        private static FriendlyUrlSettings GetDefaultSettings()
+        {
             var config = new NameValueCollection();
             config.Add("textTransform", "LowerCase");
             config.Add("separatingCharacter", DefaultWordSeparator);
@@ -43,7 +44,9 @@ namespace Subtext.Framework.Services
             return new FriendlyUrlSettings(config);
         }
 
-        public SlugGenerator(FriendlyUrlSettings slugSettings) : this(slugSettings, null) {
+        public SlugGenerator(FriendlyUrlSettings slugSettings)
+            : this(slugSettings, null)
+        {
         }
 
         [Inject]
@@ -53,57 +56,68 @@ namespace Subtext.Framework.Services
             Repository = repository;
         }
 
-        public FriendlyUrlSettings SlugSettings {
+        public FriendlyUrlSettings SlugSettings
+        {
             get;
             private set;
         }
 
-        protected ObjectProvider Repository {
+        protected ObjectProvider Repository
+        {
             get;
             private set;
         }
 
         public string GetSlugFromTitle(Entry entry)
         {
-            if (entry == null) {
+            if (entry == null)
+            {
                 throw new ArgumentNullException("entry");
             }
-            if (String.IsNullOrEmpty(entry.Title)) {
+            if (String.IsNullOrEmpty(entry.Title))
+            {
                 throw new ArgumentException(Resources.Argument_EntryHasNoTitle, "title");
             }
 
             string separator = SlugSettings.SeparatingCharacter;
-            if (separator != "_" && separator != "." && separator != "-" && separator != string.Empty) {
+            if (separator != "_" && separator != "." && separator != "-" && separator != string.Empty)
+            {
                 separator = DefaultWordSeparator;
             }
 
             string slug = RemoveNonWordCharacters(entry.Title);
             slug = RemoveTrailingPeriods(slug);
 
-            if (SlugSettings.WordCountLimit > 0) {
+            if (SlugSettings.WordCountLimit > 0)
+            {
                 IEnumerable<string> words = slug.SplitIntoWords().Take(SlugSettings.WordCountLimit);
                 var encodedWords = words.Select(word => ReplaceUnicodeCharacters(word));
-                if (!String.IsNullOrEmpty(separator)) {
+                if (!String.IsNullOrEmpty(separator))
+                {
                     slug = String.Join(separator, encodedWords.ToArray());
                     slug = slug.Trim(new char[] { SlugSettings.SeparatingCharacter[0] });
                 }
-                else {
+                else
+                {
                     //special case for back compati
                     slug = slug.ToPascalCase();
                 }
             }
 
-            if (slug.IsNumeric()) {
+            if (slug.IsNumeric())
+            {
                 slug = "n_" + slug;
             }
             slug = EnsureUniqueness(slug, SlugSettings.SeparatingCharacter);
             slug = FriendlyUrlSettings.TransformString(slug, SlugSettings.TextTransformation);
-            
+
             return slug;
         }
 
-        string EnsureUniqueness(string originalSlug, string separator) {
-            if (Repository == null) { 
+        string EnsureUniqueness(string originalSlug, string separator)
+        {
+            if (Repository == null)
+            {
                 return originalSlug;
             }
             string[] suffixFormats = new[] { 
@@ -114,18 +128,21 @@ namespace Subtext.Framework.Services
         }
 
         static Regex _wordCharRegex = new Regex(@"[^\w\d\.\- ]+", RegexOptions.Compiled);
-        
-        private static string RemoveNonWordCharacters(string text) {
+
+        private static string RemoveNonWordCharacters(string text)
+        {
             return _wordCharRegex.Replace(text, string.Empty);
         }
 
         private static string ReplaceSpacesWithSeparator(string text, char wordSeparator)
         {
-            if (wordSeparator == char.MinValue) {
+            if (wordSeparator == char.MinValue)
+            {
                 //Special case if we are just removing spaces.
                 return text.ToPascalCase();
-            } 
-            else {
+            }
+            else
+            {
                 return text.Replace(' ', wordSeparator);
             }
         }
@@ -133,13 +150,14 @@ namespace Subtext.Framework.Services
         private static string ReplaceUnicodeCharacters(string text)
         {
             string normalized = text.Normalize(NormalizationForm.FormKD);
-            Encoding removal = Encoding.GetEncoding(Encoding.ASCII.CodePage, 
-                new EncoderReplacementFallback(string.Empty), 
+            Encoding removal = Encoding.GetEncoding(Encoding.ASCII.CodePage,
+                new EncoderReplacementFallback(string.Empty),
                 new DecoderReplacementFallback(string.Empty));
             byte[] bytes = removal.GetBytes(normalized);
-            
+
             string encoded = Encoding.ASCII.GetString(bytes);
-            if (String.IsNullOrEmpty(encoded)) {
+            if (String.IsNullOrEmpty(encoded))
+            {
                 return HttpUtility.UrlEncode(text);
             }
             return encoded;

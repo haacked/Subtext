@@ -30,7 +30,6 @@ using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
-using Subtext.Framework.Text;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
@@ -39,22 +38,29 @@ using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
-using Subtext.Framework.Util;
+using Subtext.Framework.Text;
 using Subtext.ImportExport.Conversion;
 
 namespace Subtext.ImportExport
 {
     public class SubtextBlogMLProvider : BlogMLProvider
     {
-        public SubtextBlogMLProvider(string connectionString, ISubtextContext context, ICommentService commentService)
+        public SubtextBlogMLProvider(string connectionString, ISubtextContext context, ICommentService commentService, IEntryPublisher entryPublisher)
         {
             _procedures = new StoredProcedures(connectionString);
             SubtextContext = context;
             CommentService = commentService;
+            EntryPublisher = entryPublisher;
             PageSize = 100;
         }
 
         public ISubtextContext SubtextContext
+        {
+            get;
+            private set;
+        }
+
+        public IEntryPublisher EntryPublisher
         {
             get;
             private set;
@@ -499,8 +505,7 @@ namespace Subtext.ImportExport
                     newEntry.Categories.Add(categoryTitle);
             }
 
-            var entryPublisher = SubtextContext.GetService<IEntryPublisher>();
-            var publisher = entryPublisher as EntryPublisher;
+            var publisher = EntryPublisher as EntryPublisher;
             if (publisher != null)
             {
                 var transform = publisher.Transformation as CompositeTextTransformation;
@@ -510,7 +515,7 @@ namespace Subtext.ImportExport
                 }
             }
 
-            return entryPublisher.Publish(newEntry).ToString(CultureInfo.InvariantCulture);
+            return EntryPublisher.Publish(newEntry).ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>

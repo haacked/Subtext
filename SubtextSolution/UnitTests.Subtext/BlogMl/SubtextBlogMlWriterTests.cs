@@ -22,18 +22,19 @@ using Subtext.Framework.Services;
 
 namespace UnitTests.Subtext.BlogML
 {
-	/// <summary>
-	/// Unit tests of the BlogImportExport functionality.
-	/// </summary>
-	[TestFixture]
-	public class SubtextBlogMlWriterTests
-	{
-		/// <summary>
-		/// Make sure that when we export a post with a category, that we retain 
-		/// the mapping between the post and category.
-		/// </summary>
-		[Test]
-		public void CanWritePostWithCategory() {
+    /// <summary>
+    /// Unit tests of the BlogImportExport functionality.
+    /// </summary>
+    [TestFixture]
+    public class SubtextBlogMlWriterTests
+    {
+        /// <summary>
+        /// Make sure that when we export a post with a category, that we retain 
+        /// the mapping between the post and category.
+        /// </summary>
+        [Test]
+        public void CanWritePostWithCategory()
+        {
             //arrange
             Blog blog = new Blog
             {
@@ -44,10 +45,12 @@ namespace UnitTests.Subtext.BlogML
             };
 
             var categories = new Collection<LinkCategory>();
-            categories.Add(new LinkCategory { Id = 123, 
+            categories.Add(new LinkCategory
+            {
+                Id = 123,
                 BlogId = 1975,
                 CategoryType = CategoryType.PostCollection,
-                IsActive = true, 
+                IsActive = true,
                 Description = "description of category",
                 Title = "Test Category"
             });
@@ -59,15 +62,15 @@ namespace UnitTests.Subtext.BlogML
             subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
             subtextContext.Setup(c => c.Blog).Returns(blog);
             TestBlogMlProvider provider = new TestBlogMlProvider(subtextContext.Object);
-			BlogMLWriter writer = BlogMLWriter.Create(provider);
+            BlogMLWriter writer = BlogMLWriter.Create(provider);
             StringWriter stringWriter = new StringWriter();
 
             //act
             using (XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter))
-			{
-				writer.Write(xmlWriter);
+            {
+                writer.Write(xmlWriter);
             }
-            
+
             //assert
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(stringWriter.ToString());
@@ -77,7 +80,7 @@ namespace UnitTests.Subtext.BlogML
 
             Assert.AreEqual("1", xml.SelectSingleNode("/bml:blog/bml:categories/bml:category/@id", nsmgr).InnerText);
             Assert.AreEqual("Test Category", xml.SelectSingleNode("/bml:blog/bml:categories/bml:category/bml:title", nsmgr).InnerText);
-		}
+        }
 
         //[Test]
         //public void WritingBlogMLWithEverythingWorks() {
@@ -124,7 +127,7 @@ namespace UnitTests.Subtext.BlogML
         //    using (XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter)) {
         //        writer.Write(xmlWriter);
         //    }
-            
+
         //    //assert
         //    XmlDocument doc = new XmlDocument();
         //    doc.LoadXml(stringWriter.ToString());
@@ -146,19 +149,24 @@ namespace UnitTests.Subtext.BlogML
 
 
         //Temporary hack to get this test to pass while we refactor.
-        internal class TestBlogMlProvider : SubtextBlogMLProvider {
-            public TestBlogMlProvider(ISubtextContext context) : base("connection string", context, new CommentService(context, null)) {
+        internal class TestBlogMlProvider : SubtextBlogMLProvider
+        {
+            public TestBlogMlProvider(ISubtextContext context)
+                : base("connection string", context, new CommentService(context, null), context.GetService<IEntryPublisher>())
+            {
                 BlogMLPosts = new PagedCollection<BlogMLPost>();
             }
 
-            public override IPagedCollection<BlogMLPost> GetBlogPosts(string blogId, int pageIndex, int pageSize) {
-                return BlogMLPosts;   
+            public override IPagedCollection<BlogMLPost> GetBlogPosts(string blogId, int pageIndex, int pageSize)
+            {
+                return BlogMLPosts;
             }
 
-            public IPagedCollection<BlogMLPost> BlogMLPosts {
+            public IPagedCollection<BlogMLPost> BlogMLPosts
+            {
                 get;
                 private set;
             }
         }
-	}
+    }
 }
