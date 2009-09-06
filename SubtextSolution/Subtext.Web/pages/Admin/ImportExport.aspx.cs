@@ -26,14 +26,14 @@ using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
-	/// <summary>
-	/// Renders the page used to import and export blog data using 
-	/// the BlogML format proposed in 
-	/// <see href="http://markitup.com/Posts/PostsByCategory.aspx?categoryId=5751cee9-5b20-4db1-93bd-7e7c66208236">this blog</see>
-	/// </summary>
+    /// <summary>
+    /// Renders the page used to import and export blog data using 
+    /// the BlogML format proposed in 
+    /// <see href="http://markitup.com/Posts/PostsByCategory.aspx?categoryId=5751cee9-5b20-4db1-93bd-7e7c66208236">this blog</see>
+    /// </summary>
     public partial class ImportExportPage : AdminOptionsPage
-	{
-		private readonly static ILog log = new Log();
+    {
+        private readonly static ILog log = new Log();
 
         protected override void OnInit(EventArgs e)
         {
@@ -41,52 +41,53 @@ namespace Subtext.Web.Admin.Pages
             base.OnInit(e);
         }
 
-		protected void btnSave_Click(object sender, EventArgs e)
-		{
-			Response.Redirect("Handlers/BlogMLExport.ashx?embed=" + chkEmbedAttach.Checked);
-		}
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Handlers/BlogMLExport.ashx?embed=" + chkEmbedAttach.Checked);
+        }
 
-		protected void btnLoad_Click(object sender, EventArgs e)
-		{
-			if (Page.IsValid)
-			{
-				try
-				{
+        protected void btnLoad_Click(object sender, EventArgs e)
+        {
+            if (Page.IsValid)
+            {
+                try
+                {
                     //Temporarily extend script timeout for large BlogML imports
-                    if(Server.ScriptTimeout < 3600)
+                    if (Server.ScriptTimeout < 3600)
                         Server.ScriptTimeout = 3600;
                     LoadBlogML();
-				}
-				catch(InvalidOperationException)
-				{
-					Messages.ShowError(Resources.ImportExport_InvalidBlogMLFile, true);
-				}
-			}
-		}
+                }
+                catch (InvalidOperationException)
+                {
+                    Messages.ShowError(Resources.ImportExport_InvalidBlogMLFile, true);
+                }
+            }
+        }
 
-		private void LoadBlogML() {
+        private void LoadBlogML()
+        {
             ISubtextContext context = SubtextContext;
             var commentService = new CommentService(context, null);
-            var provider = new SubtextBlogMLProvider(Config.ConnectionString, context, commentService);
+            var provider = new SubtextBlogMLProvider(Config.ConnectionString, context, commentService, context.GetService<IEntryPublisher>());
 
-			BlogMLReader bmlReader = BlogMLReader.Create(provider);
-			
-			try
-			{
+            BlogMLReader bmlReader = BlogMLReader.Create(provider);
+
+            try
+            {
                 bmlReader.ReadBlog(importBlogMLFile.PostedFile.InputStream);
-			}
-			catch(BlogImportException bie)
-			{
-				log.Error(Resources.ImportExport_ImportFailed, bie);
-				Messages.ShowError(bie.Message, true);
-			}
-		    finally
-			{
-			    importBlogMLFile.PostedFile.InputStream.Close();
-			}
+            }
+            catch (BlogImportException bie)
+            {
+                log.Error(Resources.ImportExport_ImportFailed, bie);
+                Messages.ShowError(bie.Message, true);
+            }
+            finally
+            {
+                importBlogMLFile.PostedFile.InputStream.Close();
+            }
 
-			Messages.ShowMessage(Resources.ImportExport_ImportSuccess);
-		}
+            Messages.ShowMessage(Resources.ImportExport_ImportSuccess);
+        }
 
         protected void btnClearContent_Click(object sender, EventArgs e)
         {
@@ -95,14 +96,14 @@ namespace Subtext.Web.Admin.Pages
                 chkClearContent.Checked = false;
                 chkClearContent.Visible = false;
                 btnClearContent.Visible = false;
-                
+
                 Blog.ClearBlogContent(Config.CurrentBlog.Id);
                 msgpnlClearContent.ShowMessage(Resources.ImportExport_ContentObliterated);
             }
             else
                 msgpnlClearContent.ShowError(Resources.ImportExport_CheckContinueToClearContent);
         }
-	}
+    }
 }
 
 
