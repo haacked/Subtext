@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls;
 using MbUnit.Framework;
@@ -387,6 +388,60 @@ namespace UnitTests.Subtext.Framework.Text
 
             // assert
             Assert.IsNull(url);
+        }
+
+        [Test]
+        public void GetAttributeValues_WithHtmlContainingAttributeValues_ReturnsAttributeValues()
+        { 
+            // arrange
+            string html = @"<html>
+                <img src=""test.jpg"" />
+                <img src=""test2.jpg""></img>
+            </html>";
+
+            // act
+            var imageSources = html.GetAttributeValues("img", "src");
+
+            // assert
+            Assert.AreEqual(2, imageSources.Count());
+            Assert.AreEqual("test.jpg", imageSources.First());
+            Assert.AreEqual("test2.jpg", imageSources.ElementAt(1));
+        }
+
+        [Test]
+        public void GetAttributeValues_WithNonBalancedQuoteInMiddle_ReturnsAttributeValuesContainingQuoteCharacter()
+        {
+            // arrange
+            string html = @"<html>
+                <img src=""test's.jpg"" />
+                <img src='test2"".jpg'></img>
+            </html>";
+
+            // act
+            var imageSources = html.GetAttributeValues("img", "src");
+
+            // assert
+            Assert.AreEqual(2, imageSources.Count());
+            Assert.AreEqual("test's.jpg", imageSources.First());
+            Assert.AreEqual("test2\".jpg", imageSources.ElementAt(1));
+        }
+
+        [Test]
+        public void GetAttributeValues_WithHtmlHavingDuplicateHtmlTagsAndContainingAttributeValues_ReturnsAttributeValues()
+        {
+            // arrange
+            string html = @"<html><html>
+                <img src=""test.jpg"" />
+                <img src=""test2.jpg""></img>
+            </html></html>";
+
+            // act
+            var imageSources = html.GetAttributeValues("img", "src");
+
+            // assert
+            Assert.AreEqual(2, imageSources.Count());
+            Assert.AreEqual("test.jpg", imageSources.First());
+            Assert.AreEqual("test2.jpg", imageSources.ElementAt(1));
         }
 
 		[TestFixtureSetUp]

@@ -25,6 +25,10 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Services;
 using Velocit.RegularExpressions;
+using System.Collections;
+using Sgml;
+using System.Xml;
+using System.IO;
 
 namespace Subtext.Framework.Text
 {
@@ -637,6 +641,21 @@ namespace Subtext.Framework.Text
                 return attrSB.ToString();
             }
             return string.Empty;
+        }
+
+        public static IEnumerable<string> GetAttributeValues(this string html, string tagName, string attributeName)
+        {
+            var reader = new SgmlReader();
+            reader.DocType = "html";
+            reader.WhitespaceHandling = WhitespaceHandling.All;
+            reader.InputStream = new StringReader("<html>" + html + "</html>");
+            while (reader.Read() && !reader.EOF)
+            {
+                if (reader.NodeType == XmlNodeType.Element && reader.LocalName == tagName)
+                {
+                    yield return reader.GetAttribute(attributeName);
+                }
+            }
         }
 
         private static NameValueCollection GetAttributeNameValues(Match match)

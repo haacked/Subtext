@@ -30,6 +30,7 @@ using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
+using Subtext.Framework.Text;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
@@ -144,47 +145,43 @@ namespace Subtext.ImportExport
         private IList GetPostAttachments(BlogMLPost bmlPost, IBlogMLContext bmlContext)
         {
             IList attachments = new ArrayList();
-            string[] attachmentUrls = BlogMLWriterBase.SgmlUtil.GetAttributeValues(bmlPost.Content.Text, "img", "src");
+            var attachmentUrls = bmlPost.Content.Text.GetAttributeValues("img", "src");
+            bool embed = bmlContext.EmbedAttachments;
 
-            if (attachmentUrls.Length > 0)
+            foreach (string attachmentUrl in attachmentUrls)
             {
-                bool embed = bmlContext.EmbedAttachments;
+                string blogHostUrl = Url.AppRoot().ToFullyQualifiedUrl(Blog).ToString().ToLower(CultureInfo.InvariantCulture);
 
-                foreach (string attachmentUrl in attachmentUrls)
+                // If the URL for the attachment is local then we'll want to build a new BlogMLAttachment 
+                // add add it to the list of attachments for this post.
+                if (BlogMLWriterBase.SgmlUtil.IsRootUrlOf(blogHostUrl, attachmentUrl.ToLower(CultureInfo.InvariantCulture)))
                 {
-                    string blogHostUrl = Url.AppRoot().ToFullyQualifiedUrl(Blog).ToString().ToLower(CultureInfo.InvariantCulture);
+                    BlogMLAttachment attachment = new BlogMLAttachment();
+                    string attachVirtualPath = attachmentUrl.Replace(blogHostUrl, "/");
 
-                    // If the URL for the attachment is local then we'll want to build a new BlogMLAttachment 
-                    // add add it to the list of attchements for this post.
-                    if (BlogMLWriterBase.SgmlUtil.IsRootUrlOf(blogHostUrl, attachmentUrl.ToLower(CultureInfo.InvariantCulture)))
+                    // If we are embedding attachements then we need to get the data stream 
+                    // for the attachment, else the datastream can be null.
+                    if (embed)
                     {
-                        BlogMLAttachment attachment = new BlogMLAttachment();
-                        string attachVirtualPath = attachmentUrl.Replace(blogHostUrl, "/");
+                        string attachPhysicalPath = HttpUtility.UrlDecode(HttpContext.Current.Server.MapPath(attachVirtualPath));
 
-                        // If we are embedding attachements then we need to get the data stream 
-                        // for the attachment, else the datastream can be null.
-                        if (embed)
+                        //using (Stream attachStream = new StreamReader(attachPhysicalPath).BaseStream)
+                        using (FileStream attachStream = File.OpenRead(attachPhysicalPath))
                         {
-                            string attachPhysicalPath = HttpUtility.UrlDecode(HttpContext.Current.Server.MapPath(attachVirtualPath));
-
-                            //using (Stream attachStream = new StreamReader(attachPhysicalPath).BaseStream)
-                            using (FileStream attachStream = File.OpenRead(attachPhysicalPath))
+                            using (BinaryReader reader = new BinaryReader(attachStream))
                             {
-                                using (BinaryReader reader = new BinaryReader(attachStream))
-                                {
-                                    reader.BaseStream.Position = 0;
-                                    byte[] data = reader.ReadBytes((int)attachStream.Length);
-                                    attachment.Data = data;
-                                }
+                                reader.BaseStream.Position = 0;
+                                byte[] data = reader.ReadBytes((int)attachStream.Length);
+                                attachment.Data = data;
                             }
                         }
-
-                        attachment.Embedded = embed;
-                        attachment.MimeType = BlogMLWriter.GetMimeType(attachmentUrl);
-                        attachment.Path = attachVirtualPath;
-                        attachment.Url = attachmentUrl;
-                        attachments.Add(attachment);
                     }
+
+                    attachment.Embedded = embed;
+                    attachment.MimeType = BlogMLWriter.GetMimeType(attachmentUrl);
+                    attachment.Path = attachVirtualPath;
+                    attachment.Url = attachmentUrl;
+                    attachments.Add(attachment);
                 }
             }
             return attachments;
