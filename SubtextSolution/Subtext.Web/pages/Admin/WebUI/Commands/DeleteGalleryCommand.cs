@@ -49,8 +49,9 @@ namespace Subtext.Web.Admin.Commands
                 // delete the folder
                 string galleryFolder = GalleryDirectoryPath;
                 if (Directory.Exists(galleryFolder))
+                {
                     Directory.Delete(galleryFolder, true);
-
+                }
                 if (imageList.Count > 0)
                 {
                     // delete from data provider

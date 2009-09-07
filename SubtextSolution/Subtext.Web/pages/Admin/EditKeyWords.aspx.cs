@@ -19,6 +19,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Util;
 using Subtext.Web.Admin.Commands;
+using System.Globalization;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -119,7 +120,6 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-
 		private void UpdateLink()
 		{					
 			string successMessage = Constants.RES_SUCCESSNEW;
@@ -127,9 +127,6 @@ namespace Subtext.Web.Admin.Pages
 			try
 			{
 				KeyWord kw = new KeyWord();
-
-				
-
 				kw.Title = txbTitle.Text;				
 				kw.Url = txbUrl.Text;
 				kw.Text = txbText.Text;
@@ -189,9 +186,10 @@ namespace Subtext.Web.Admin.Pages
 
 		private void ConfirmDelete(int keywordId, string keyword)
 		{
-			this.Command = new DeleteKeyWordCommand(keywordId, keyword);
-			this.Command.RedirectUrl = Request.Url.ToString();
-			Server.Transfer(Constants.URL_CONFIRM);
+			var command = new DeleteKeyWordCommand(keywordId, keyword);
+            command.ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Keyword '{0}' deleted", keyword);
+            Messages.ShowMessage(command.Execute());
+            BindList();
 		}
 
 		// REFACTOR

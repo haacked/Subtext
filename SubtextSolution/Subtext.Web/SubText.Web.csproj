@@ -179,13 +179,6 @@
     <Compile Include="pages\Admin\Configure.aspx.designer.cs">
       <DependentUpon>Configure.aspx</DependentUpon>
     </Compile>
-    <Compile Include="pages\Admin\Confirm.aspx.cs">
-      <DependentUpon>Confirm.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="pages\Admin\Confirm.aspx.designer.cs">
-      <DependentUpon>Confirm.aspx</DependentUpon>
-    </Compile>
     <Compile Include="pages\Admin\Credits.aspx.cs">
       <DependentUpon>Credits.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -867,9 +860,6 @@
     <EmbeddedResource Include="pages\Admin\Configure.aspx.resx">
       <DependentUpon>Configure.aspx.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pages\Admin\Confirm.aspx.resx">
-      <DependentUpon>Confirm.aspx.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="pages\Admin\default.aspx.resx">
       <DependentUpon>default.aspx.cs</DependentUpon>
     </EmbeddedResource>
@@ -1105,7 +1095,6 @@
     <Content Include="pages\Admin\Articles\Edit.aspx" />
     <Content Include="pages\Admin\Comments.aspx" />
     <Content Include="pages\Admin\Configure.aspx" />
-    <Content Include="pages\Admin\Confirm.aspx" />
     <Content Include="pages\Admin\Credits.aspx" />
     <Content Include="pages\Admin\Customize.aspx" />
     <Content Include="pages\Admin\default.aspx" />

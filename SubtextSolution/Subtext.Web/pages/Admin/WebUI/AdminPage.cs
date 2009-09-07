@@ -103,12 +103,6 @@ namespace Subtext.Web.Admin.Pages
             }
         }
 
-		public ConfirmCommand Command
-		{
-			get;
-			set;
-		}
-
         [Category("Page")]
         [Description("Page tab section identifier")]
         [Browsable(true)]
