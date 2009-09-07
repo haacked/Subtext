@@ -150,10 +150,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
             subtextContext.SetupBlog(blog);
             var handler = new TrackBackHandler(subtextContext.Object);
-            handler.SourceVerification += delegate(object sender, SourceVerificationEventArgs e)
-            {
-                e.Verified = true;
-            };
+            handler.SourceVerification += (sender, e) => e.Verified = true;
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
             urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");

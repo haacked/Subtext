@@ -74,9 +74,7 @@ namespace Subtext.Framework.Email
                 //Swallow as this was on an async thread.
             }
             
-        }
-        
-        delegate void SendEmailDelegate(string to, string from, string subject, string body);
+        }        
 	}
 }
 

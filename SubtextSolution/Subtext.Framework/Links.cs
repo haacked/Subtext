@@ -40,12 +40,7 @@ namespace Subtext.Framework
 
             foreach (LinkCategory category in categories)
             {
-                if (!links.Exists(
-                    delegate(Link link)
-                    {
-                        return (category.Id == link.CategoryID);
-                    }
-                    ))
+                if (!links.Exists(link => category.Id == link.CategoryID))
                 {
                     postCategories.Remove(category);
                 }

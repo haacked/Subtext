@@ -95,7 +95,7 @@ namespace Subtext.Web.Controls
 		/// </summary>
 		/// <param name="controlAction">The control action.</param>
 		/// <param name="root">The root control.</param>
-		public static void ApplyRecursively(ControlAction controlAction, Control root)
+		public static void ApplyRecursively(Action<Control> controlAction, Control root)
 		{
 			foreach(Control control in root.Controls)
 			{
@@ -208,6 +208,4 @@ namespace Subtext.Web.Controls
 			}
 		}
 	}
-
-	public delegate void ControlAction(Control control);
 }

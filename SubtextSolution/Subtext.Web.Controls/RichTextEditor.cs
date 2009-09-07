@@ -27,24 +27,19 @@ namespace Subtext.Web.Controls
 	[ValidationProperty("Text")]
 	public class RichTextEditor: WebControl, INamingContainer
 	{
-		#region EventHandlers
-		public delegate void ErrorEventHandler(object sender, RichTextEditorErrorEventArgs e);
-		public event ErrorEventHandler Error;
+		public event EventHandler<RichTextEditorErrorEventArgs> Error;
 
 		public void OnError(Exception ex) 
 		{
-			if(Error!=null) 
+            var error = Error;
+			if(error != null) 
 			{
-				Error(this,new RichTextEditorErrorEventArgs(ex));
+				error(this, new RichTextEditorErrorEventArgs(ex));
 			}
 		}
-		#endregion
 
 		private Control editor;
 		private BlogEntryEditorProvider provider; 
-
-		private Unit _height = Unit.Empty;
-		private Unit _width = Unit.Empty;
 		
 		public string Text 
 		{
@@ -54,32 +49,20 @@ namespace Subtext.Web.Controls
 			}
 			set 
 			{
-				provider.Text=value;
+				provider.Text = value;
 			}
 		}
 
 		public override Unit Height
 		{
-			get
-			{
-				return _height;
-			}
-			set
-			{
-				_height=value;
-			}
+			get;
+			set;
 		}
 
 		public override Unit Width
 		{
-			get
-			{
-				return _width;
-			}
-			set
-			{
-				_width = value;
-			}
+			get;
+			set;
 		}
 
 
@@ -98,12 +81,16 @@ namespace Subtext.Web.Controls
 				provider = BlogEntryEditorProvider.Instance();
 				provider.ControlId = this.ID;
 				provider.InitializeControl((Page as SubtextPage).SubtextContext);
-				
-				if(_height != Unit.Empty)
-					provider.Height = _height;
-				if(_width != Unit.Empty)
-					provider.Width=_width;
-				
+
+                if (Height != Unit.Empty)
+                {
+                    provider.Height = Height;
+                }
+                if (Width != Unit.Empty)
+                {
+                    provider.Width = Width;
+                }
+
 				editor = provider.RichTextEditorControl;
 				this.Controls.Add(editor);
 				base.OnInit (e);
@@ -123,24 +110,17 @@ namespace Subtext.Web.Controls
 		}
 	}
 
-	public class RichTextEditorErrorEventArgs:EventArgs 
+	public class RichTextEditorErrorEventArgs : EventArgs 
 	{
-		private Exception _ex;
-		public RichTextEditorErrorEventArgs( Exception ex) 
+		public RichTextEditorErrorEventArgs(Exception ex) 
 		{
-			_ex=ex;
+            Exception = ex;
 		}
 
 		public Exception Exception 
 		{
-			get 
-			{
-				return _ex;
-			}
-			set 
-			{
-				_ex=value;
-			}
+			get;
+			private set;
 		}
 	}
 }

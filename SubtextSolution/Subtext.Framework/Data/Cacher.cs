@@ -16,11 +16,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Web.Caching;
 using Subtext.Configuration;
 using Subtext.Framework.Components;
-using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
@@ -142,28 +140,25 @@ namespace Subtext.Framework.Data
 
         public static LinkCategory SingleCategory(int categoryId, bool isActive, ISubtextContext context)
         {
-            LinkCategoryRetrieval retrieval = delegate { return context.Repository.GetLinkCategory(categoryId, isActive); };
-            return SingleCategory(retrieval, categoryId, context);
+            return SingleCategory(() => context.Repository.GetLinkCategory(categoryId, isActive), categoryId, context);
         }
 
         public static LinkCategory SingleCategory(string categoryName, bool isActive, ISubtextContext context)
         {
-            LinkCategoryRetrieval retrieval = delegate { return context.Repository.GetLinkCategory(categoryName, isActive); };
-            LinkCategory category = SingleCategory(retrieval, categoryName, context);
+            LinkCategory category = SingleCategory(() => context.Repository.GetLinkCategory(categoryName, isActive), categoryName, context);
             if (category != null)
                 return category;
 
             if (context.Blog.AutoFriendlyUrlEnabled)
             {
                 categoryName = categoryName.Replace(FriendlyUrlSettings.Settings.SeparatingCharacter, " ");
-                retrieval = delegate { return context.Repository.GetLinkCategory(categoryName, isActive); };
-                return SingleCategory(retrieval, categoryName, context);
+                return SingleCategory(() => context.Repository.GetLinkCategory(categoryName, isActive), categoryName, context);
             }
 
             return null; //couldn't find category
         }
 
-        private static LinkCategory SingleCategory<T>(LinkCategoryRetrieval retrievalDelegate, T categoryKey, ISubtextContext context)
+        private static LinkCategory SingleCategory<T>(Func<LinkCategory> retrievalDelegate, T categoryKey, ISubtextContext context)
         {
             ICache cache = context.Cache;
             string key = string.Format(LCKey, categoryKey, context.Blog.Id);
@@ -176,8 +171,6 @@ namespace Subtext.Framework.Data
             }
             return lc;
         }
-
-        delegate LinkCategory LinkCategoryRetrieval();
 
         //TODO: This should only be called in one place total. And it needs to be tested.
         public static Entry GetEntryFromRequest(bool allowRedirectToEntryName, ISubtextContext context)
