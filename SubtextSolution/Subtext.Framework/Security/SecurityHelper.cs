@@ -361,7 +361,7 @@ namespace Subtext.Framework.Security
 				byte[] hashedBytes = new byte[hashBytesStrings.Length];
 				for(int i = 0; i < hashBytesStrings.Length; i++)
 				{
-					hashedBytes[i] = byte.Parse(hashBytesStrings[i].ToString(CultureInfo.InvariantCulture), NumberStyles.HexNumber);
+					hashedBytes[i] = byte.Parse(hashBytesStrings[i].ToString(CultureInfo.InvariantCulture), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 					storedPassword = Convert.ToBase64String(hashedBytes);
 				}
 			}

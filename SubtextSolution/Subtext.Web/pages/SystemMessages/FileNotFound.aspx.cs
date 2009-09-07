@@ -26,7 +26,6 @@ namespace Subtext.Web.SystemMessages
 	/// </summary>
 	public partial class FileNotFound : System.Web.UI.Page
 	{
-
 		protected override void OnLoad(EventArgs e)
 		{
 			//TODO: Refactor this into a method and unit test it.
@@ -62,7 +61,7 @@ namespace Subtext.Web.SystemMessages
 						{
 							uriAbsolutePath += "/";
 						}
-						string subfolder = UrlFormats.GetBlogSubfolderFromRequest(uriAbsolutePath, Request.ApplicationPath);
+						string subfolder =  UrlFormats.GetBlogSubfolderFromRequest(uriAbsolutePath, Request.ApplicationPath);
 						Blog info = Subtext.Framework.Configuration.Config.GetBlog(uri.Host, subfolder);
 						if (info != null)
 						{
@@ -75,7 +74,5 @@ namespace Subtext.Web.SystemMessages
 
 			base.OnLoad(e);
 		}
-
-
 	}
 }

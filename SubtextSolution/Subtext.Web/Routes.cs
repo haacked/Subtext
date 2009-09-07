@@ -44,7 +44,7 @@ public static class Routes
         routes.MapPage("logout");
 
         routes.MapHttpHandler<AjaxServices>("ajax-services", "admin/Services/Ajax/AjaxServices.ashx");
-        routes.MapHttpHandler<SubtextBlogMlHttpHandler>("admin/handlers/BlogMLExport.ashx");
+        routes.MapHttpHandler<SubtextBlogMLHttpHandler>("admin/handlers/BlogMLExport.ashx");
         routes.MapHttpHandler<RssAdminHandler>("admin-rss", "admin/{feedName}Rss.axd");
         routes.MapDirectory("admin");
         routes.MapDirectory("providers");

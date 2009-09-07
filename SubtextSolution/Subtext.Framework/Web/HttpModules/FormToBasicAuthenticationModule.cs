@@ -48,7 +48,7 @@ namespace Subtext.Framework.Web.HttpModules
             if (!String.IsNullOrEmpty(SecurityHelper.CurrentUserName)
                 || context.Request.IsStaticFileRequest()
                 || !(context.Response.StatusCode == 302
-                    && context.Response.RedirectLocation.IndexOf(FormsAuthentication.LoginUrl) == 0))
+                    && context.Response.RedirectLocation.IndexOf(FormsAuthentication.LoginUrl, StringComparison.OrdinalIgnoreCase) == 0))
                 return;
 
             if (!Regex.IsMatch(context.Request.Path, @"Rss\.axd"))

@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Xml.Serialization;
 using Subtext.Framework.Properties;
@@ -85,7 +86,7 @@ namespace Subtext.Framework.Components
         public string GetImageDirectoryUrlFromBlog(Blog blog) {
             string urlFormat = "~/images/{0}/{1}";
             string subfolder = String.IsNullOrEmpty(blog.Subfolder) ? String.Empty : blog.Subfolder + "/";
-            return String.Format(urlFormat, blog.Host, subfolder);
+            return String.Format(CultureInfo.InvariantCulture, urlFormat, blog.Host, subfolder);
         }
         
         /// <summary>

@@ -815,7 +815,7 @@ namespace Subtext.Framework.Text
                         string tag = HttpUtility.UrlDecode(seg[seg.Length - 1].Replace("/", ""));
 
                         //Keep a list of lowered tags so we can prevent duplicates without modifying capitalization
-                        string loweredTag = tag.ToLower();
+                        string loweredTag = tag.ToLower(CultureInfo.InvariantCulture);
                         if (!loweredTags.Contains(loweredTag))
                         {
                             loweredTags.Add(loweredTag);

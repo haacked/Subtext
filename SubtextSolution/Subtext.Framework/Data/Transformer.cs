@@ -106,7 +106,7 @@ namespace Subtext.Framework.Data
             {
                 Link link = new Link();
                 link.NewWindow = false;
-                link.Title = archiveCount.Date.ToString("y") + " (" + archiveCount.Count.ToString(CultureInfo.InvariantCulture) + ")";
+                link.Title = archiveCount.Date.ToString("y", CultureInfo.InvariantCulture) + " (" + archiveCount.Count.ToString(CultureInfo.InvariantCulture) + ")";
                 link.Url = urlHelper.MonthUrl(archiveCount.Date);
                 link.NewWindow = false;
                 link.IsActive = true;

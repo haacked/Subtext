@@ -36,10 +36,10 @@ namespace Subtext.Framework.Syndication
 			TimeSpan timeZone = tz.GetUtcOffset(dt);
 			if (timeZone.TotalHours >= 0) {
 				return dt.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture) + ":00+" + timeZone.TotalHours +
-					":" + ((timeZone.Minutes > 0) ? timeZone.Minutes.ToString() : "00");
+					":" + ((timeZone.Minutes > 0) ? timeZone.Minutes.ToString(CultureInfo.InvariantCulture) : "00");
 			}
 			return dt.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture) + ":00" + timeZone.TotalHours +
-				":" + ((timeZone.Minutes > 0) ? timeZone.Minutes.ToString() : "00");
+				":" + ((timeZone.Minutes > 0) ? timeZone.Minutes.ToString(CultureInfo.InvariantCulture) : "00");
 		}
 
 		private static string W3UTCZ(IFormattable dt)
@@ -224,7 +224,7 @@ namespace Subtext.Framework.Syndication
 				this.WriteString
 				(
 					string.Format
-					("{0}{1}", //tag def
+					(CultureInfo.InvariantCulture, "{0}{1}", //tag def
 						entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
 						(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(UrlHelper.AggBugUrl(entry.Id)) : null //use aggbugs
 					)

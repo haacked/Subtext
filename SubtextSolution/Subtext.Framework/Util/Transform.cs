@@ -15,14 +15,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
 using log4net;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Data;
 using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Util
@@ -86,7 +85,7 @@ namespace Subtext.Framework.Util
 			while (iLoop < userDefinedTransforms.Count) 
 			{		
 				// Special work for anchors
-				stringToTransform = Regex.Replace(stringToTransform, userDefinedTransforms[iLoop].ToString(), string.Format(userDefinedTransforms[iLoop+1], rootUrl), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+				stringToTransform = Regex.Replace(stringToTransform, userDefinedTransforms[iLoop].ToString(), string.Format(CultureInfo.InvariantCulture, userDefinedTransforms[iLoop+1], rootUrl), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
 				iLoop += 2;
 			}

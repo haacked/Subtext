@@ -51,23 +51,6 @@ namespace UnitTests.Subtext.Framework.Format
 			Assert.AreEqual(expected, UrlFormats.GetBlogSubfolderFromRequest(rawUrl, subfolder));
 		}
 
-		[RowTest]
-		[Row("http://localhost/Subtext.Web/MyBlog/archive/2006/01.aspx", 50, "localhost/Subtext.Web/MyBlog/archive/2006/01.aspx")]
-		[Row("http://localhost/Subtext.Web/MyBlog/archive/2006/01.aspx", 20, "localhost/.../01.aspx")]
-		public void CheckUrlShortener(string source, int maxLength, string expected)
-		{
-			string actual = UrlFormats.ShortenUrlForDisplay(source, maxLength);
-			Assert.AreEqual(expected,actual,"Shortened Url is not correct.");
-		}
-
-		[RowTest]
-		[Row("Test url to shorten http://localhost/Subtext.Web/MyBlog/archive/2006/01.aspx with shortener", "Test url to shorten <a href=\"http://localhost/Subtext.Web/MyBlog/archive/2006/01.aspx\">localhost/Subtext.Web/MyBlog/archive/2006/01.aspx</a> with shortener")]
-		public void CheckUrlShortenerInText(string source, string expected)
-		{
-			string actual = UrlFormats.ResolveLinks(source);
-			Assert.AreEqual(expected, actual, "Did not properly shorten url");
-		}
-
 		[Test]
 		[RollBack]
 		public void GetBlogNameReturnsBlogNameForEmptyVirtualDir()

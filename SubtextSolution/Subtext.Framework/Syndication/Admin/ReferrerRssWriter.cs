@@ -1,10 +1,25 @@
+#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using Subtext.Framework.Components;
-using Subtext.Framework.Format;
 using Subtext.Framework.Properties;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Syndication.Admin
 {
@@ -25,12 +40,12 @@ namespace Subtext.Framework.Syndication.Admin
 		}
 		protected override string GetGuid(Referrer item)
 		{
-			return item.BlogId.ToString() + item.EntryID.ToString() + item.ReferrerURL;
+			return item.BlogId.ToString(CultureInfo.InvariantCulture) + item.EntryID.ToString(CultureInfo.InvariantCulture) + item.ReferrerURL;
 		}
 
 		protected override string GetTitleFromItem(Referrer item)
 		{
-			return item.PostTitle + " - " + UrlFormats.ShortenUrlForDisplay(item.ReferrerURL,20) ;
+			return item.PostTitle + " - " + item.ReferrerURL.ShortenUrl(20);
 		}
 
 		protected override string GetLinkFromItem(Referrer item)

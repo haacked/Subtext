@@ -32,9 +32,9 @@ namespace Subtext.Framework.Components {
             ServerTimeZone = string.Format(CultureInfo.InvariantCulture, "{0} ({1})",
                     TimeZoneInfo.Local.StandardName,
                     TimeZoneInfo.Local.GetUtcOffset(now));
-            ServerTime = now.ToString("yyyy/MM/dd hh:mm tt");
-            ServerUtcTime = utcNow.ToString("yyyy/MM/dd hh:mm tt");
-            CurrentTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone).ToString("yyyy/MM/dd hh:mm tt");
+            ServerTime = now.ToString("yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture);
+            ServerUtcTime = utcNow.ToString("yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture);
+            CurrentTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone).ToString("yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture);
         }
 
         public string ServerTimeZone {

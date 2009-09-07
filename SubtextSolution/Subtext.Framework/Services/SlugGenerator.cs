@@ -17,6 +17,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -122,7 +123,7 @@ namespace Subtext.Framework.Services
             }
             string[] suffixFormats = new[] { 
                 string.Empty, "{0}Again", "{0}Yet{0}Again", "{0}And{0}Again", "{0}Once{0}Again", "{0}Once{0}More", "{0}To{0}Beat{0}A{0}Dead{0}Horse" };
-            var slugs = suffixFormats.Select(s => originalSlug + String.Format(s, separator));
+            var slugs = suffixFormats.Select(s => originalSlug + String.Format(CultureInfo.InvariantCulture, s, separator));
             string uniqueSlug = slugs.First(slug => Repository.GetEntry(slug, false, false) == null);
             return uniqueSlug;
         }

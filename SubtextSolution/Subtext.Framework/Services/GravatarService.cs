@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Web;
 using System.Web.Security;
 
@@ -48,7 +49,7 @@ namespace Subtext.Framework.Services
 
             emailForUrl = HttpUtility.UrlEncode(emailForUrl);
 
-            return String.Format(UrlFormatString, emailForUrl, defaultImage);
+            return String.Format(CultureInfo.InvariantCulture, UrlFormatString, emailForUrl, defaultImage);
         }
     }
 }

@@ -127,7 +127,7 @@ namespace Subtext.Framework.Data
             string categorySlug = context.RequestContext.GetSlugFromRequest();
             if (categorySlug.IsNumeric())
             {
-                int categoryID = Int32.Parse(categorySlug);
+                int categoryID = Int32.Parse(categorySlug, CultureInfo.InvariantCulture);
                 return SingleCategory(categoryID, true, context);
             }
             else
@@ -161,7 +161,7 @@ namespace Subtext.Framework.Data
         private static LinkCategory SingleCategory<T>(Func<LinkCategory> retrievalDelegate, T categoryKey, ISubtextContext context)
         {
             ICache cache = context.Cache;
-            string key = string.Format(LCKey, categoryKey, context.Blog.Id);
+            string key = string.Format(CultureInfo.InvariantCulture, LCKey, categoryKey, context.Blog.Id);
             LinkCategory lc = (LinkCategory)cache[key];
             if (lc == null)
             {
@@ -224,7 +224,7 @@ namespace Subtext.Framework.Data
             int blogId = blog.Id;
 
             ICache cache = context.Cache;
-            string key = string.Format(EntryKeyName, entryName, blogId);
+            string key = string.Format(CultureInfo.InvariantCulture, EntryKeyName, entryName, blogId);
 
             Entry entry = (Entry)cache[key];
             if (entry == null)
@@ -242,7 +242,7 @@ namespace Subtext.Framework.Data
 
                     //Most other page items will use the entryID. Add entry to cache for id key as well.
                     //Bind them together with a cache dependency.
-                    string entryIDKey = string.Format(EntryKeyID, entry.Id, blogId);
+                    string entryIDKey = string.Format(CultureInfo.InvariantCulture, EntryKeyID, entry.Id, blogId);
                     CacheDependency cd = new CacheDependency(null, new string[] { key });
                     cache.Insert(entryIDKey, entry, cd);
                 }
@@ -265,7 +265,7 @@ namespace Subtext.Framework.Data
             int blogId = blog.Id;
 
             ICache cache = context.Cache;
-            string key = string.Format(EntryKeyID, entryId, blog.Id);
+            string key = string.Format(CultureInfo.InvariantCulture, EntryKeyID, entryId, blog.Id);
 
             Entry entry = (Entry)cache[key];
             if (entry == null)
@@ -291,7 +291,7 @@ namespace Subtext.Framework.Data
         public static IEnumerable<Tag> GetTopTags(int ItemCount, ISubtextContext context)
         {
             ICache cache = context.Cache;
-            string key = string.Format(TagsKey, ItemCount, context.Blog.Id);
+            string key = string.Format(CultureInfo.InvariantCulture, TagsKey, ItemCount, context.Blog.Id);
 
             IEnumerable<Tag> tags = (IEnumerable<Tag>)cache[key];
             if (tags == null)
@@ -311,7 +311,7 @@ namespace Subtext.Framework.Data
         /// <param name="entryID">The entry ID.</param>
         public static void ClearCommentCache(int entryId, ISubtextContext context)
         {
-            string key = string.Format(ParentCommentEntryKey, entryId, context.Blog.Id);
+            string key = string.Format(CultureInfo.InvariantCulture, ParentCommentEntryKey, entryId, context.Blog.Id);
             context.Cache.Remove(key);
         }
 
@@ -331,7 +331,7 @@ namespace Subtext.Framework.Data
             string key = null;
             if (fromCache)
             {
-                key = string.Format(ParentCommentEntryKey, parentEntry.Id, context.Blog.Id);
+                key = string.Format(CultureInfo.InvariantCulture, ParentCommentEntryKey, parentEntry.Id, context.Blog.Id);
                 comments = (ICollection<FeedbackItem>)cache[key];
             }
             if (comments == null)

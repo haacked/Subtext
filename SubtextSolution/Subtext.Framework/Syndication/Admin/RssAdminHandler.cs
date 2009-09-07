@@ -1,6 +1,22 @@
+#region Disclaimer/Info
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Subtext.Extensibility;
@@ -40,7 +56,7 @@ namespace Subtext.Framework.Syndication.Admin
                         entry = en;
                         break;
                     }
-                    return DateTime.Compare(DateTime.Parse(dt), ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
+                    return DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture), ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
                 }
             }
             return false;

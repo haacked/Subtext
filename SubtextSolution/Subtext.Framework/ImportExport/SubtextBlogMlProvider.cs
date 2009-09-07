@@ -223,7 +223,7 @@ namespace Subtext.ImportExport
             for (int i = 0; i < bmlPosts.Count; i++)
             {
                 BlogMLPost post = bmlPosts.ElementAt(i);
-                int postId = int.Parse(post.ID);
+                int postId = int.Parse(post.ID, CultureInfo.InvariantCulture);
                 // We are going to make use of the fact that everything is ordered by Post Id ASC
                 // to optimize this...
                 while (reader.Read())
@@ -236,7 +236,7 @@ namespace Subtext.ImportExport
                         {
                             i++;
                             post = bmlPosts.ElementAt(i);
-                            postId = int.Parse(post.ID);
+                            postId = int.Parse(post.ID, CultureInfo.InvariantCulture);
                         }
                     }
 
@@ -277,7 +277,7 @@ namespace Subtext.ImportExport
 
                 // TODO: in Subtext 2.0 we need to account for multiple authors.
                 BlogMLAuthor bmlAuthor = new BlogMLAuthor();
-                bmlAuthor.ID = blog.Id.ToString();
+                bmlAuthor.ID = blog.Id.ToString(CultureInfo.InvariantCulture);
                 bmlAuthor.Title = blog.Author;
                 bmlAuthor.Approved = true;
                 bmlAuthor.Email = blog.Email;
@@ -321,7 +321,7 @@ namespace Subtext.ImportExport
             foreach (LinkCategory category in categories)
             {
                 BlogMLCategory bmlCategory = new BlogMLCategory();
-                bmlCategory.ID = category.Id.ToString();
+                bmlCategory.ID = category.Id.ToString(CultureInfo.InvariantCulture);
                 bmlCategory.Title = category.Title;
                 bmlCategory.Approved = category.IsActive;
                 bmlCategory.DateCreated = DateTime.Now;
@@ -344,7 +344,7 @@ namespace Subtext.ImportExport
         {
             bool embedValue = false;
             if (HttpContext.Current != null && HttpContext.Current.Request != null)
-                embedValue = String.Equals(HttpContext.Current.Request.QueryString["embed"], "true", StringComparison.InvariantCultureIgnoreCase);
+                embedValue = String.Equals(HttpContext.Current.Request.QueryString["embed"], "true", StringComparison.OrdinalIgnoreCase);
 
             return new BlogMLContext(Blog.Id.ToString(CultureInfo.InvariantCulture), embedValue);
         }
@@ -545,22 +545,22 @@ namespace Subtext.ImportExport
         /// </summary>
         /// <param name="bmlComment"></param>
         /// <param name="newPostId"></param>
-        public override void CreatePostComment(BlogMLComment bmlComment, string newPostId)
+        public override void CreatePostComment(BlogMLComment comment, string newPostId)
         {
             FeedbackItem newComment = new FeedbackItem(FeedbackType.Comment);
             newComment.BlogId = Blog.Id;
-            newComment.EntryId = int.Parse(newPostId);
-            newComment.Title = bmlComment.Title ?? string.Empty;
-            newComment.DateCreated = bmlComment.DateCreated;
-            newComment.DateModified = bmlComment.DateModified;
-            newComment.Body = bmlComment.Content.UncodedText ?? string.Empty;
-            newComment.Approved = bmlComment.Approved;
-            newComment.Author = bmlComment.UserName ?? string.Empty;
-            newComment.Email = bmlComment.UserEMail;
+            newComment.EntryId = int.Parse(newPostId, CultureInfo.InvariantCulture);
+            newComment.Title = comment.Title ?? string.Empty;
+            newComment.DateCreated = comment.DateCreated;
+            newComment.DateModified = comment.DateModified;
+            newComment.Body = comment.Content.UncodedText ?? string.Empty;
+            newComment.Approved = comment.Approved;
+            newComment.Author = comment.UserName ?? string.Empty;
+            newComment.Email = comment.UserEMail;
 
-            if (!string.IsNullOrEmpty(bmlComment.UserUrl))
+            if (!string.IsNullOrEmpty(comment.UserUrl))
             {
-                newComment.SourceUrl = new Uri(bmlComment.UserUrl);
+                newComment.SourceUrl = new Uri(comment.UserUrl);
             }
 
             CommentService.Create(newComment);
@@ -575,7 +575,7 @@ namespace Subtext.ImportExport
         {
             FeedbackItem newPingTrack = new FeedbackItem(FeedbackType.PingTrack);
             newPingTrack.BlogId = Blog.Id;
-            newPingTrack.EntryId = int.Parse(newPostId);
+            newPingTrack.EntryId = int.Parse(newPostId, CultureInfo.InvariantCulture);
             newPingTrack.Title = trackback.Title;
             newPingTrack.SourceUrl = new Uri(trackback.Url);
             newPingTrack.Approved = trackback.Approved;
@@ -632,7 +632,7 @@ namespace Subtext.ImportExport
         /// </summary>
         /// <param name="message"></param>
         /// <param name="e"></param>
-        public override void LogError(string message, Exception e)
+        public override void LogError(string message, Exception exception)
         {
             //TODO:
         }

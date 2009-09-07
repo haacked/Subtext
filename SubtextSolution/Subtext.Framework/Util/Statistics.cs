@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Subtext.Framework.Util
 {
@@ -60,7 +61,7 @@ namespace Subtext.Framework.Util
             List<double> converted = new List<double>();
             foreach(TValue value in values)
             {
-                converted.Add(Convert.ToDouble(value));
+                converted.Add(Convert.ToDouble(value, CultureInfo.InvariantCulture));
             }
             return StandardDeviation(converted, out mean);
         }

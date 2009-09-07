@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -116,7 +117,7 @@ namespace Subtext.Framework.Text
                 if (words[i].Length > 0)
                 {
                     string word = words[i];
-                    char firstChar = char.ToUpper(word[0]);
+                    char firstChar = char.ToUpper(word[0], CultureInfo.InvariantCulture);
                     words[i] = firstChar + word.Substring(1);
                 }
             }

@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Web;
 using System.Web.UI;
 using Subtext.Framework.Properties;
@@ -61,18 +62,22 @@ namespace Subtext.Framework.Text
 
         public string Eval(object o)
         {
-            if (_invalidExpression) {
+            if (_invalidExpression)
+            {
                 throw new FormatException(Resources.Format_InvalidExpression);
             }
-            
-            try {
-                if (String.IsNullOrEmpty(Format)) {
+
+            try
+            {
+                if (String.IsNullOrEmpty(Format))
+                {
                     return (DataBinder.Eval(o, Expression) ?? string.Empty).ToString();
                 }
                 return (DataBinder.Eval(o, Expression, "{0:" + Format + "}") ?? string.Empty).ToString();
             }
-            catch (HttpException e) {
-                throw new FormatException(String.Format(Resources.Format_CouldNotFormatExpression, Expression, Format), e);
+            catch (HttpException e)
+            {
+                throw new FormatException(String.Format(CultureInfo.InvariantCulture, Resources.Format_CouldNotFormatExpression, Expression, Format), e);
             }
         }
     }
