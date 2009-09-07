@@ -253,9 +253,10 @@ namespace Subtext.Web.Admin.Pages
 
         private void ConfirmDelete(int linkID, string linkTitle)
         {
-            this.Command = new DeleteLinkCommand(linkID, linkTitle);
-            this.Command.RedirectUrl = Request.Url.ToString();
-            Server.Transfer(Constants.URL_CONFIRM);
+            var command = new DeleteLinkCommand(linkID, linkTitle);
+            command.ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Link '{0}' deleted", linkTitle);
+            Messages.ShowMessage(command.Execute());
+            BindList();
         }
 
         private void ImportOpml()
@@ -266,9 +267,8 @@ namespace Subtext.Web.Admin.Pages
 
                 if (importedLinks.Count > 0)
                 {
-                    this.Command = new ImportLinksCommand(importedLinks, Int32.Parse(this.ddlImportExportCategories.SelectedItem.Value));
-                    this.Command.RedirectUrl = Request.Url.ToString();
-                    Server.Transfer(Constants.URL_CONFIRM);
+                    var command = new ImportLinksCommand(importedLinks, Int32.Parse(this.ddlImportExportCategories.SelectedItem.Value));
+                    Messages.ShowMessage(command.Execute());
                 }
 
                 BindList();

@@ -26,12 +26,8 @@ namespace Subtext.Web.Admin.Pages
 {
 	public partial class EditCategories : AdminPage
 	{
-        public EditCategories() : base()
-	    {
-	    }
-	    
-		protected void Page_Load(object sender, EventArgs e)
-		{
+        protected override void OnLoad(EventArgs e)
+        {
 			if (!IsPostBack)
 			{
                 if (null != Request.QueryString[Keys.QRYSTR_CATEGORYTYPE])
@@ -60,6 +56,7 @@ namespace Subtext.Web.Admin.Pages
 					this.TabSectionId = "Links";
 				}
 			}
+            base.OnLoad(e);
 		}
 
         protected CategoryTypeEnum CategoryType
@@ -146,35 +143,20 @@ namespace Subtext.Web.Admin.Pages
 
 		private void ConfirmDelete(int categoryID, string categoryTitle)
 		{
-			this.Command = new DeleteCategoryCommand(categoryID, categoryTitle);
-			this.Command.RedirectUrl = Request.Url.ToString();
-			Server.Transfer(Constants.URL_CONFIRM);
+			var command = new DeleteCategoryCommand(categoryID, categoryTitle);
+            command.ExecuteSuccessMessage = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Category \"{0}\" was deleted.", categoryTitle);
+            this.Messages.ShowMessage(command.Execute());
+            BindList();
 		}
 
-
-		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
+			this.dgrItems.CancelCommand += this.dgrCategories_CancelCommand;
+			this.dgrItems.EditCommand += this.dgrCategories_EditCommand;
+			this.dgrItems.UpdateCommand += this.dgrCategories_UpdateCommand;
+			this.dgrItems.DeleteCommand += this.dgrCategories_DeleteCommand;
+            base.OnInit(e);
 		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-			this.dgrItems.CancelCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrCategories_CancelCommand);
-			this.dgrItems.EditCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrCategories_EditCommand);
-			this.dgrItems.UpdateCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrCategories_UpdateCommand);
-			this.dgrItems.DeleteCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrCategories_DeleteCommand);
-
-		}
-		#endregion
 
 		private void dgrCategories_EditCommand(object source, DataGridCommandEventArgs e)
 		{

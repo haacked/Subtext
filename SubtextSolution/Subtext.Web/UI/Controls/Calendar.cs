@@ -21,19 +21,7 @@ using System.Text.RegularExpressions;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
-using Subtext.Framework.Util;
 using Subtext.Web.Properties;
-
-#region Disclaimer/Info
-// Calendar created 11/07/2005 by:
-//*Simone Chiaretta (http://blogs.ugidotnet.org/piyo/)
-//
-//With inspiration and guidance from:
-// DottextBlogCalendar created on 2/14/2004 by:
-//*Scott Willeke (http://blogs.pingpoet.com/overflow)
-//*Scott Mitchell (http://scottonwriting.net/sowblog/posts/708.aspx)
-//*Scott Watermasysk (http://scottwater.com/blog/archive/2004/02/13/CalendarControl.aspx)
-#endregion
 
 namespace Subtext.Web.UI.Controls
 {
@@ -187,7 +175,6 @@ namespace Subtext.Web.UI.Controls
 				} while (_currentDateIndex > -1 && IsSameDay(e.Day.Date, _monthEntries.ElementAt(_currentDateIndex).DateCreated));
 			}		   
 		}
-
 
 		/// <summary>
 		/// Returns true if the two dates fall on the same day.

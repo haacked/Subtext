@@ -428,18 +428,18 @@ namespace Subtext.Web.Admin.Pages
 
         private void DeleteGallery(int categoryID, string categoryTitle)
         {
-            this.Command = new DeleteGalleryCommand(Url.ImageGalleryDirectoryUrl(Blog, categoryID), categoryID, categoryTitle);
-            string message = this.Command.Execute();
-            this.Messages.ShowMessage(message);
+            var command = new DeleteGalleryCommand(Url.ImageGalleryDirectoryUrl(Blog, categoryID), categoryID, categoryTitle);
+            command.ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Gallery '{0}' deleted", categoryTitle);
+            this.Messages.ShowMessage(command.Execute());
             BindGallery();
         }
 
         private void DeleteImage(int imageID)
         {
             var image = Repository.GetImage(imageID, false /* activeOnly */);
-            this.Command = new DeleteImageCommand(image, Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID));
-            string message = this.Command.Execute();
-            this.Messages.ShowMessage(message);
+            var command = new DeleteImageCommand(image, Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID));
+            command.ExecuteSuccessMessage = string.Format(CultureInfo.CurrentCulture, "Image '{0}' deleted", image.OriginalFile);
+            this.Messages.ShowMessage(command.Execute());
             BindGallery();
         }
 

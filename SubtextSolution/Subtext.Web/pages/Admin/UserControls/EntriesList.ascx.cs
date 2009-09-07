@@ -78,10 +78,10 @@ namespace Subtext.Web.Admin.UserControls
             AdminPage page = (AdminPage)Page;
             if (page != null)
             {
-                page.Command = new DeletePostCommand(Repository, postID);
-                page.Command.RedirectUrl = Request.Url.ToString();
+                var command = new DeletePostCommand(Repository, postID);
+                command.Execute();
+                BindList();
             }
-            Server.Transfer("../" + Constants.URL_CONFIRM);
         }
 
         public string PostsEditUrl(object item)
