@@ -16,6 +16,7 @@
 using System;
 using System.Collections;
 using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace Subtext.Web.Admin
 {	
@@ -157,14 +158,14 @@ namespace Subtext.Web.Admin
 			_parent = parentPage;
 		}
 
-		public PageLocation[] GetAncestors()
+		public IEnumerable<PageLocation> GetAncestors()
 		{
 			return GetAncestors(false);
 		}
 
-		public PageLocation[] GetAncestors(bool includeSelf)
+		public IEnumerable<PageLocation> GetAncestors(bool includeSelf)
 		{			
-			ArrayList ancestors = new ArrayList();
+			var ancestors = new List<PageLocation>();
 		
 			if (includeSelf) ancestors.Add(this);
 
@@ -175,10 +176,8 @@ namespace Subtext.Web.Admin
 				if (currentAncestor.IsRoot) break;
 				currentAncestor = currentAncestor.Parent;
 			}
-
-			PageLocation[] results = new PageLocation[ancestors.Count];
-			ancestors.CopyTo(results);
-			return results;
+			
+			return ancestors;
 		}
 
 		// RemoveChild

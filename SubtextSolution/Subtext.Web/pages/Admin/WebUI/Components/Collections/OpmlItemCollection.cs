@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Subtext.Web.Admin
@@ -22,11 +21,7 @@ namespace Subtext.Web.Admin
 	/// <summary>
 	/// Implements a strongly typed collection of <see cref="OpmlItem"/> elements.
 	/// </summary>
-	/// <remarks>
-	/// <b>OpmlItemCollection</b> provides an <see cref="ArrayList"/> 
-	/// that is strongly typed for <see cref="OpmlItem"/> elements.
-	/// </remarks>
-    [Serializable]
+	[Serializable]
     public class OpmlItemCollection : List<OpmlItem>
     {
     }

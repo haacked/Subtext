@@ -5,9 +5,9 @@ using System.Data;
 using System.Globalization;
 using MbUnit.Framework;
 using Moq;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
-using Subtext.Framework;
 
 namespace UnitTests.Subtext.Framework.Data
 {

@@ -21,99 +21,112 @@ using System.Web.UI.Design;
 using System.Web.UI.HtmlControls;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Properties;
+using System.Collections.Generic;
 
 namespace Subtext.Web.UI.WebControls
 {
     //TODO: Get rid of this
-	/// <summary>
-	/// <p>Serves as the master template for the Subtext site.</p>
-	/// <p>
-	/// The MasterPage controls (MasterPage and ContentRegion) are almost entirely based off 
-	/// of Paul Wilson's excellent demo found
-	/// here: http://authors.aspalliance.com/paulwilson/Articles/?id=14
-	/// Very MINOR changes were made here. Thanks Paul.
-	/// </p>
-	/// </summary>
-	[ToolboxData("<{0}:MasterPage runat=server></{0}:MasterPage>"),
-		ToolboxItem(typeof(WebControlToolboxItem)),
-		Designer(typeof(ContainerControlDesigner))]
-	public class MasterPage : HtmlContainerControl
-	{
-		Log log = new Log();
-		private string templateFile;
-		private Control template = null;
+    /// <summary>
+    /// <p>Serves as the master template for the Subtext site.</p>
+    /// <p>
+    /// The MasterPage controls (MasterPage and ContentRegion) are almost entirely based off 
+    /// of Paul Wilson's excellent demo found
+    /// here: http://authors.aspalliance.com/paulwilson/Articles/?id=14
+    /// Very MINOR changes were made here. Thanks Paul.
+    /// </p>
+    /// </summary>
+    [ToolboxData("<{0}:MasterPage runat=server></{0}:MasterPage>"),
+        ToolboxItem(typeof(WebControlToolboxItem)),
+        Designer(typeof(ContainerControlDesigner))]
+    public class MasterPage : HtmlContainerControl
+    {
+        Log log = new Log();
+        private string templateFile;
+        private Control template = null;
 
-		private ArrayList contents = new ArrayList();
-		private const string skinPath = "~/Skins/{0}/PageTemplate.ascx";
+        private List<ContentRegion> contents = new List<ContentRegion>();
+        private const string skinPath = "~/Skins/{0}/PageTemplate.ascx";
 
-		/// <summary>
-		/// Gets or sets the template file from the Skins directory.
-		/// </summary>
-		/// <value></value>
-		[Category("MasterPage"), Description("Path of Template User Control")] 
-		public string TemplateFile 
-		{
-			get 
-			{ 
-				if(this.templateFile == null)
-				{
-					this.templateFile = string.Format(skinPath, Globals.CurrentSkin.TemplateFolder);
-				}
-				return this.templateFile;
-			}
-			set { this.templateFile = value; }
-		}
+        /// <summary>
+        /// Gets or sets the template file from the Skins directory.
+        /// </summary>
+        /// <value></value>
+        [Category("MasterPage"), Description("Path of Template User Control")]
+        public string TemplateFile
+        {
+            get
+            {
+                if (this.templateFile == null)
+                {
+                    this.templateFile = string.Format(skinPath, Globals.CurrentSkin.TemplateFolder);
+                }
+                return this.templateFile;
+            }
+            set { this.templateFile = value; }
+        }
 
-		protected override void AddParsedSubObject(object obj) {
-			if (obj is ContentRegion) {
-				this.contents.Add(obj);
-			}
-		}
+        protected override void AddParsedSubObject(object obj)
+        {
+            var contentRegion = obj as ContentRegion;
+            if(contentRegion != null)
+            {
+                this.contents.Add(contentRegion);
+            }
+        }
 
-		protected override void OnInit(EventArgs e) {
-			this.BuildMasterPage();
-			this.BuildContents();
-			base.OnInit(e);
-		}
+        protected override void OnInit(EventArgs e)
+        {
+            this.BuildMasterPage();
+            this.BuildContents();
+            base.OnInit(e);
+        }
 
-		private void BuildMasterPage() {
-			if (String.IsNullOrEmpty(TemplateFile)) {
-				throw new InvalidOperationException(Resources.InvalidOperation_TemplateFileIsNull);
-			}
-			this.template = this.Page.LoadControl(this.TemplateFile);
-			this.template.ID = this.ID + "_Template";
-			
-			int count = this.template.Controls.Count;
-			for (int index = 0; index < count; index++) {
-				Control control = this.template.Controls[0];
-				this.template.Controls.Remove(control);
-				if (control.Visible) {
-					this.Controls.Add(control);
-				}
-			}
-			this.Controls.AddAt(0, this.template);
-		}
+        private void BuildMasterPage()
+        {
+            if (String.IsNullOrEmpty(TemplateFile))
+            {
+                throw new InvalidOperationException(Resources.InvalidOperation_TemplateFileIsNull);
+            }
+            this.template = this.Page.LoadControl(this.TemplateFile);
+            this.template.ID = this.ID + "_Template";
 
-		private void BuildContents() {
-			foreach (ContentRegion content in this.contents) {
-				Control region = this.FindControl(content.ID);
-				if (region == null || !(region is ContentRegion))  {
-					throw new InvalidOperationException(String.Format(Resources.InvalidOperation_ContentRegionNotFound, content.ID));
-				}
-				region.Controls.Clear();
-				
-				int count = content.Controls.Count;
-				for (int index = 0; index < count; index++) {
-					Control control = content.Controls[0];
-					content.Controls.Remove(control);
-					region.Controls.Add(control);
-				}
-			}
-		}
+            int count = this.template.Controls.Count;
+            for (int index = 0; index < count; index++)
+            {
+                Control control = this.template.Controls[0];
+                this.template.Controls.Remove(control);
+                if (control.Visible)
+                {
+                    this.Controls.Add(control);
+                }
+            }
+            this.Controls.AddAt(0, this.template);
+        }
 
-		//removes this controls ability to render its own start tag
-		protected override void RenderBeginTag(HtmlTextWriter writer) {}
-		//removes this controls ability to render its own end tag
-		protected override void RenderEndTag(HtmlTextWriter writer) {}
-	}
+        private void BuildContents()
+        {
+            foreach (var content in this.contents)
+            {
+                Control region = this.FindControl(content.ID);
+                if (region == null)
+                {
+                    throw new InvalidOperationException(String.Format(Resources.InvalidOperation_ContentRegionNotFound, content.ID));
+                }
+                region.Controls.Clear();
+
+                int count = content.Controls.Count;
+                for (int index = 0; index < count; index++)
+                {
+                    Control control = content.Controls[0];
+                    content.Controls.Remove(control);
+                    region.Controls.Add(control);
+                }
+            }
+        }
+
+        //removes this controls ability to render its own start tag
+        protected override void RenderBeginTag(HtmlTextWriter writer) { }
+        //removes this controls ability to render its own end tag
+        protected override void RenderEndTag(HtmlTextWriter writer) { }
+    }
 }

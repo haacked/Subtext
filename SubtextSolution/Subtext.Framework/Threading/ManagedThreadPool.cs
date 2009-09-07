@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using Subtext.Framework.Configuration;
@@ -58,7 +59,7 @@ namespace Subtext.Framework.Threading
 		/// </summary>
 		static Semaphore _workerThreadNeeded;
 		/// <summary>List of all worker threads at the disposal of the thread pool.</summary>
-		static ArrayList _workerThreads;
+		static List<Thread> _workerThreads;
 		/// <summary>Number of threads currently active.</summary>
 		static int _inUseThreads;
 
@@ -72,7 +73,7 @@ namespace Subtext.Framework.Threading
 			// We keep track of the threads we've created just for good measure; not actually
 			// needed for any core functionality.
 			_waitingCallbacks = new Queue();
-			_workerThreads = new ArrayList();
+			_workerThreads = new List<Thread>();
 			_inUseThreads = 0;
 
 			// Create our "thread needed" event

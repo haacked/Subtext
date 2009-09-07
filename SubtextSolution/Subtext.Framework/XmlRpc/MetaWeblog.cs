@@ -465,17 +465,12 @@ namespace Subtext.Framework.XmlRpc
             {
                 int postID = Int32.Parse(postid);
 
-                ArrayList al = new ArrayList();
+                var categoryIds = from category in categories
+                                  select int.Parse(category.categoryId);
 
-
-                for (int i = 0; i < categories.Length; i++)
+                if (categoryIds.Count() > 0)
                 {
-                    al.Add(Int32.Parse(categories[i].categoryId));
-                }
-
-                if (al.Count > 0)
-                {
-                    Entries.SetEntryCategoryList(postID, (int[])al.ToArray(typeof(int)));
+                    Entries.SetEntryCategoryList(postID, categoryIds);
                 }
             }
 

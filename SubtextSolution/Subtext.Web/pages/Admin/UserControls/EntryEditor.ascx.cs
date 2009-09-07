@@ -28,118 +28,118 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
-using Subtext.Framework.Util;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
 using Subtext.Web.Properties;
 using Subtext.Web.UI.Controls;
-using Subtext.Infrastructure;
 
 namespace Subtext.Web.Admin.UserControls
 {
     public partial class EntryEditor : BaseControl
-	{
-		private const string VSKEY_CATEGORYTYPE = "CategoryType";
+    {
+        private const string VSKEY_CATEGORYTYPE = "CategoryType";
 
-		/// <summary>
-		/// Gets or sets the type of the entry.
-		/// </summary>
-		/// <value>The type of the entry.</value>
-		public PostType EntryType
-		{
-			get
-			{
-				if(ViewState["PostType"] != null)
-					return (PostType)ViewState["PostType"];
-				return PostType.None;
-			}
-			set
-			{
-				ViewState["PostType"] = value;
-			}
-		}
+        /// <summary>
+        /// Gets or sets the type of the entry.
+        /// </summary>
+        /// <value>The type of the entry.</value>
+        public PostType EntryType
+        {
+            get
+            {
+                if (ViewState["PostType"] != null)
+                    return (PostType)ViewState["PostType"];
+                return PostType.None;
+            }
+            set
+            {
+                ViewState["PostType"] = value;
+            }
+        }
 
-		public int? PostID
-		{
-			get
-			{
-                if (_postId == null) 
+        public int? PostID
+        {
+            get
+            {
+                if (_postId == null)
                 {
                     string postIdText = Request.QueryString["PostID"];
                     int postId;
-                    if (int.TryParse(postIdText, out postId)) 
+                    if (int.TryParse(postIdText, out postId))
                     {
                         _postId = postId;
                     }
                 }
                 return _postId;
-		    }
-		}
+            }
+        }
         int? _postId = null;
 
-		public CategoryType CategoryType
-		{
-			get
-			{
-				if(ViewState[VSKEY_CATEGORYTYPE] != null)
-					return (CategoryType)ViewState[VSKEY_CATEGORYTYPE];
-				else
-					throw new InvalidOperationException(Resources.InvalidOperation_CategoryTypeNotSet);
-			}
-			set 
-			{ 
-				ViewState[VSKEY_CATEGORYTYPE] = value; 
-			}
-		}
-
-        protected override void OnLoad(EventArgs e) 
+        public CategoryType CategoryType
         {
-			if (!IsPostBack)
-			{
-				BindCategoryList();
-				SetEditorMode();
+            get
+            {
+                if (ViewState[VSKEY_CATEGORYTYPE] != null)
+                    return (CategoryType)ViewState[VSKEY_CATEGORYTYPE];
+                else
+                    throw new InvalidOperationException(Resources.InvalidOperation_CategoryTypeNotSet);
+            }
+            set
+            {
+                ViewState[VSKEY_CATEGORYTYPE] = value;
+            }
+        }
 
-                if (PostID != null) {
+        protected override void OnLoad(EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                BindCategoryList();
+                SetEditorMode();
+
+                if (PostID != null)
+                {
                     BindPostEdit();
                 }
-                else {
+                else
+                {
                     BindPostCreate();
                 }
-			}
+            }
             base.OnLoad(e);
-		}
+        }
 
-		//This is true if we came from a pencil edit link while viewing the post 
-		//from outside the admin tool.
-		private bool ReturnToOriginalPost
-		{
-			get
-			{
+        //This is true if we came from a pencil edit link while viewing the post 
+        //from outside the admin tool.
+        private bool ReturnToOriginalPost
+        {
+            get
+            {
                 return (Request.QueryString["return-to-post"] == "true");
-			}
-		}
-		
-		private void BindCategoryList()
-		{
-            cklCategories.DataSource = Links.GetCategories(CategoryType, ActiveFilter.None);
-			cklCategories.DataValueField = "Id";
-			cklCategories.DataTextField = "Title";
-			cklCategories.DataBind();
-		}
+            }
+        }
 
-		private void SetConfirmation()
-		{
-			ConfirmationPage confirmPage = (ConfirmationPage)this.Page;
-			confirmPage.IsInEdit = true;
+        private void BindCategoryList()
+        {
+            cklCategories.DataSource = Links.GetCategories(CategoryType, ActiveFilter.None);
+            cklCategories.DataValueField = "Id";
+            cklCategories.DataTextField = "Title";
+            cklCategories.DataBind();
+        }
+
+        private void SetConfirmation()
+        {
+            ConfirmationPage confirmPage = (ConfirmationPage)this.Page;
+            confirmPage.IsInEdit = true;
             confirmPage.Message = Resources.Message_YouWillLoseUnsavedContent;
 
-			this.lkbPost.Attributes.Add("OnClick", ConfirmationPage.BypassFunctionName);
-			this.lkUpdateCategories.Attributes.Add("OnClick", ConfirmationPage.BypassFunctionName);
-			this.lkbCancel.Attributes.Add("OnClick", ConfirmationPage.BypassFunctionName);
-		}
+            this.lkbPost.Attributes.Add("OnClick", ConfirmationPage.BypassFunctionName);
+            this.lkUpdateCategories.Attributes.Add("OnClick", ConfirmationPage.BypassFunctionName);
+            this.lkbCancel.Attributes.Add("OnClick", ConfirmationPage.BypassFunctionName);
+        }
 
-        private void BindPostCreate() 
+        private void BindPostCreate()
         {
             this.txbTitle.Text = string.Empty;
             this.richTextEditor.Text = string.Empty;
@@ -149,7 +149,7 @@ namespace Subtext.Web.Admin.UserControls
             PopulateMimeTypeDropDown();
         }
 
-        private void SetDefaultPublishOptions() 
+        private void SetDefaultPublishOptions()
         {
             chkMainSyndication.Checked = true;
             ckbPublished.Checked = true;
@@ -158,31 +158,32 @@ namespace Subtext.Web.Admin.UserControls
         }
 
         private void BindPostEdit()
-		{
+        {
             Debug.Assert(PostID != null, "PostID Should not be null when we call this");
 
-			SetConfirmation();
-			
-			Entry entry = Entries.GetEntry(PostID.Value, PostConfig.None, false);
-			if(entry == null)
-			{
+            SetConfirmation();
+
+            Entry entry = Entries.GetEntry(PostID.Value, PostConfig.None, false);
+            if (entry == null)
+            {
                 ReturnToOrigin(null);
-				return;
-			}
-		
-			txbTitle.Text = entry.Title;
-            if (!NullValue.IsNull(entry.DateSyndicated) && entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now) {
+                return;
+            }
+
+            txbTitle.Text = entry.Title;
+            if (!NullValue.IsNull(entry.DateSyndicated) && entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now)
+            {
                 txtPostDate.Text = entry.DateSyndicated.ToString(CultureInfo.CurrentCulture);
             }
 
             var entryUrl = Url.EntryUrl(entry);
-			hlEntryLink.NavigateUrl = entryUrl;
+            hlEntryLink.NavigateUrl = entryUrl;
             hlEntryLink.Text = entryUrl.ToFullyQualifiedUrl(Config.CurrentBlog).ToString();
-			hlEntryLink.Attributes.Add("title", "view: " + entry.Title);
+            hlEntryLink.Attributes.Add("title", "view: " + entry.Title);
 
-		    PopulateMimeTypeDropDown();
-		    //Enclosures
-            if(entry.Enclosure != null)
+            PopulateMimeTypeDropDown();
+            //Enclosures
+            if (entry.Enclosure != null)
             {
                 Enclosure.Collapsed = false;
                 txbEnclosureTitle.Text = entry.Enclosure.Title;
@@ -199,24 +200,24 @@ namespace Subtext.Web.Admin.UserControls
                 ddlDisplayOnPost.SelectedValue = entry.Enclosure.ShowWithPost.ToString().ToLower();
             }
 
-			chkComments.Checked                    = entry.AllowComments;	
-			chkCommentsClosed.Checked			   = entry.CommentingClosed;
-			SetCommentControls();
-			if (entry.CommentingClosedByAge)
-				chkCommentsClosed.Enabled = false;
+            chkComments.Checked = entry.AllowComments;
+            chkCommentsClosed.Checked = entry.CommentingClosed;
+            SetCommentControls();
+            if (entry.CommentingClosedByAge)
+                chkCommentsClosed.Enabled = false;
 
-			chkDisplayHomePage.Checked             = entry.DisplayOnHomePage;
-			chkMainSyndication.Checked             = entry.IncludeInMainSyndication;  
-			chkSyndicateDescriptionOnly.Checked    = entry.SyndicateDescriptionOnly;
-			chkIsAggregated.Checked                = entry.IsAggregated;
+            chkDisplayHomePage.Checked = entry.DisplayOnHomePage;
+            chkMainSyndication.Checked = entry.IncludeInMainSyndication;
+            chkSyndicateDescriptionOnly.Checked = entry.SyndicateDescriptionOnly;
+            chkIsAggregated.Checked = entry.IsAggregated;
 
-			// Advanced Options
-			this.txbEntryName.Text = entry.EntryName;
-			this.txbExcerpt.Text = entry.Description;
-			
-			SetEditorText(entry.Body);
+            // Advanced Options
+            this.txbEntryName.Text = entry.EntryName;
+            this.txbExcerpt.Text = entry.Description;
 
-			ckbPublished.Checked = entry.IsActive;
+            SetEditorText(entry.Body);
+
+            ckbPublished.Checked = entry.IsActive;
 
             BindCategoryList();
             for (int i = 0; i < cklCategories.Items.Count; i++)
@@ -224,84 +225,84 @@ namespace Subtext.Web.Admin.UserControls
                 cklCategories.Items[i].Selected = false;
             }
 
-			ICollection<Link> postCategories = Repository.GetLinkCollectionByPostID(PostID.Value);
-			if (postCategories.Count > 0)
-			{
-				foreach(Link postCategory in postCategories)
-				{
-					ListItem categoryItem = cklCategories.Items.FindByValue(postCategory.CategoryID.ToString(CultureInfo.InvariantCulture));
-					if(categoryItem == null)
+            ICollection<Link> postCategories = Repository.GetLinkCollectionByPostID(PostID.Value);
+            if (postCategories.Count > 0)
+            {
+                foreach (Link postCategory in postCategories)
+                {
+                    ListItem categoryItem = cklCategories.Items.FindByValue(postCategory.CategoryID.ToString(CultureInfo.InvariantCulture));
+                    if (categoryItem == null)
                         throw new InvalidOperationException(string.Format(Resources.EntryEditor_CouldNotFindCategoryInList, postCategory.CategoryID, cklCategories.Items.Count));
-					categoryItem.Selected = true;
-				}
-			}
+                    categoryItem.Selected = true;
+                }
+            }
 
-			SetEditorMode();
-			Advanced.Collapsed = !Preferences.AlwaysExpandAdvanced;
+            SetEditorMode();
+            Advanced.Collapsed = !Preferences.AlwaysExpandAdvanced;
 
             AdminPageTemplate adminMasterPage = Page.Master as AdminPageTemplate;
             if (adminMasterPage != null)
-			{
-                string title = string.Format(CultureInfo.InvariantCulture, Resources.EntryEditor_EditingTitle, 
-					CategoryType == CategoryType.StoryCollection ? Resources.Label_Article : Resources.Label_Post, entry.Title);
+            {
+                string title = string.Format(CultureInfo.InvariantCulture, Resources.EntryEditor_EditingTitle,
+                    CategoryType == CategoryType.StoryCollection ? Resources.Label_Article : Resources.Label_Post, entry.Title);
                 adminMasterPage.Title = title;
-			}
+            }
 
-			if(entry.HasEntryName)
-			{
-				this.Advanced.Collapsed = false;
-				txbEntryName.Text = entry.EntryName;
-			}
-		}
+            if (entry.HasEntryName)
+            {
+                this.Advanced.Collapsed = false;
+                txbEntryName.Text = entry.EntryName;
+            }
+        }
 
-	    private void PopulateMimeTypeDropDown()
-	    {
+        private void PopulateMimeTypeDropDown()
+        {
             ddlMimeType.Items.Add(new ListItem(Resources.Label_Choose, "none"));
             foreach (string key in MimeTypesMapper.Mappings.List)
-	        {
+            {
                 ddlMimeType.Items.Add(new ListItem(MimeTypesMapper.Mappings.List[key], MimeTypesMapper.Mappings.List[key]));
-	        }
+            }
             ddlMimeType.Items.Add(new ListItem(Resources.Label_Other, "other"));
-	    }
+        }
 
-	    private void SetCommentControls()
-		{
-			if (!Config.CurrentBlog.CommentsEnabled)
-			{
-				chkComments.Enabled = false;
-				chkCommentsClosed.Enabled = false;
-			}
-		}
+        private void SetCommentControls()
+        {
+            if (!Config.CurrentBlog.CommentsEnabled)
+            {
+                chkComments.Enabled = false;
+                chkCommentsClosed.Enabled = false;
+            }
+        }
 
-		public void EditNewEntry()
-		{
-			SetConfirmation();
-		}
+        public void EditNewEntry()
+        {
+            SetConfirmation();
+        }
 
         private void ReturnToOrigin(string message)
-		{
-            if (ReturnToOriginalPost && PostID != null) 
+        {
+            if (ReturnToOriginalPost && PostID != null)
             {
                 // We came from outside the post, let's go there.
                 Entry updatedEntry = Entries.GetEntry(PostID.Value, PostConfig.IsActive, false);
-                if (updatedEntry != null) 
+                if (updatedEntry != null)
                 {
                     Response.Redirect(Url.EntryUrl(updatedEntry));
                 }
             }
-            else 
+            else
             {
                 string url = "Default.aspx";
-                if (!String.IsNullOrEmpty(message)) 
+                if (!String.IsNullOrEmpty(message))
                 {
                     url += "?message=" + HttpUtility.UrlEncode(message);
                 }
                 Response.Redirect(url);
             }
-		}
-	
-		private void UpdatePost()
-		{
+        }
+
+        private void UpdatePost()
+        {
             DateTime postDate = NullValue.NullDateTime;
 
             if (string.IsNullOrEmpty(txtPostDate.Text))
@@ -315,33 +316,35 @@ namespace Subtext.Web.Admin.UserControls
 
             EnableEnclosureValidation(EnclosureEnabled());
 
-            if(Page.IsValid)
-			{
-				string successMessage = Constants.RES_SUCCESSNEW;
+            if (Page.IsValid)
+            {
+                string successMessage = Constants.RES_SUCCESSNEW;
 
-				try
-				{
-					Entry entry;
-					if (PostID == null) {
+                try
+                {
+                    Entry entry;
+                    if (PostID == null)
+                    {
                         ValidateEntryTypeIsNotNone(EntryType);
-						entry = new Entry(EntryType);
-					}
-					else {
-						entry = Entries.GetEntry(PostID.Value, PostConfig.None, false);
-						if(entry.PostType != EntryType)
-						{
-							this.EntryType = entry.PostType;
-						}
-					}
-					
-					entry.Title = txbTitle.Text;
-					entry.Body = HtmlHelper.StripRTB(richTextEditor.Xhtml, Request.Url.Host);
-					entry.Author = Config.CurrentBlog.Author;
-					entry.Email = Config.CurrentBlog.Email;
-					entry.BlogId = Config.CurrentBlog.Id;
+                        entry = new Entry(EntryType);
+                    }
+                    else
+                    {
+                        entry = Entries.GetEntry(PostID.Value, PostConfig.None, false);
+                        if (entry.PostType != EntryType)
+                        {
+                            this.EntryType = entry.PostType;
+                        }
+                    }
+
+                    entry.Title = txbTitle.Text;
+                    entry.Body = HtmlHelper.StripRTB(richTextEditor.Xhtml, Request.Url.Host);
+                    entry.Author = Config.CurrentBlog.Author;
+                    entry.Email = Config.CurrentBlog.Email;
+                    entry.BlogId = Config.CurrentBlog.Id;
 
                     //Enclosure
-				    int enclosureId = 0;
+                    int enclosureId = 0;
                     if (entry.Enclosure != null)
                     {
                         enclosureId = entry.Enclosure.Id;
@@ -376,16 +379,16 @@ namespace Subtext.Web.Admin.UserControls
                         entry.Enclosure = null;
                     }
 
-					// Advanced options
-					entry.IsActive = ckbPublished.Checked;
-					entry.AllowComments = chkComments.Checked;
-					entry.CommentingClosed = chkCommentsClosed.Checked;
-					entry.DisplayOnHomePage = chkDisplayHomePage.Checked;
-					entry.IncludeInMainSyndication = chkMainSyndication.Checked;
-					entry.SyndicateDescriptionOnly = chkSyndicateDescriptionOnly.Checked;
-					entry.IsAggregated = chkIsAggregated.Checked;
-					entry.EntryName = txbEntryName.Text.NullIfEmpty();
-					entry.Description = txbExcerpt.Text.NullIfEmpty();
+                    // Advanced options
+                    entry.IsActive = ckbPublished.Checked;
+                    entry.AllowComments = chkComments.Checked;
+                    entry.CommentingClosed = chkCommentsClosed.Checked;
+                    entry.DisplayOnHomePage = chkDisplayHomePage.Checked;
+                    entry.IncludeInMainSyndication = chkMainSyndication.Checked;
+                    entry.SyndicateDescriptionOnly = chkSyndicateDescriptionOnly.Checked;
+                    entry.IsAggregated = chkIsAggregated.Checked;
+                    entry.EntryName = txbEntryName.Text.NullIfEmpty();
+                    entry.Description = txbExcerpt.Text.NullIfEmpty();
                     entry.Categories.Clear();
                     ReplaceSelectedCategoryNames(entry.Categories);
 
@@ -394,13 +397,13 @@ namespace Subtext.Web.Admin.UserControls
                         entry.DateSyndicated = postDate;
                     }
 
-					if (PostID != null)
-					{
-						successMessage = Constants.RES_SUCCESSEDIT;
-						entry.DateModified = Config.CurrentBlog.TimeZone.Now;
-						entry.Id = PostID.Value;
-						
-						Entries.Update(entry);
+                    if (PostID != null)
+                    {
+                        successMessage = Constants.RES_SUCCESSEDIT;
+                        entry.DateModified = Config.CurrentBlog.TimeZone.Now;
+                        entry.Id = PostID.Value;
+
+                        Entries.Update(entry);
 
                         if (entry.Enclosure == null && enclosureId != 0)
                         {
@@ -416,38 +419,38 @@ namespace Subtext.Web.Admin.UserControls
                             Enclosures.Create(entry.Enclosure);
                         }
 
-						UpdateCategories();
-					}
-					else
-					{
+                        UpdateCategories();
+                    }
+                    else
+                    {
                         var entryPublisher = SubtextContext.GetService<IEntryPublisher>();
                         _postId = entryPublisher.Publish(entry);
                         NotificationServices.Run(entry, Blog, Url);
 
-                        if(entry.Enclosure != null)
+                        if (entry.Enclosure != null)
                         {
                             entry.Enclosure.EntryId = PostID.Value;
                             Enclosures.Create(entry.Enclosure);
                         }
 
-						UpdateCategories();
-						AddCommunityCredits(entry);
-					}
-				}
-				catch(Exception ex)
-				{
-					this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, 
-						Constants.RES_FAILUREEDIT, ex.Message));
+                        UpdateCategories();
+                        AddCommunityCredits(entry);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
+                        Constants.RES_FAILUREEDIT, ex.Message));
                     successMessage = string.Empty;
-				}
+                }
 
                 //Prepared success messages were reset in the catch block because of some error on posting the content
                 if (!String.IsNullOrEmpty(successMessage))
                 {
                     ReturnToOrigin(successMessage);
                 }
-			}
-		}
+            }
+        }
 
         [CoverageExclude]
         private static void ValidateEntryTypeIsNotNone(PostType entryType)
@@ -475,7 +478,7 @@ namespace Subtext.Web.Admin.UserControls
             valEncUrlRequired.Enabled = enabled;
             valEncMimeTypeRequired.Enabled = enabled;
 
-            if(!enabled)
+            if (!enabled)
                 valEncOtherMimetypeRequired.Enabled = false;
             else
             {
@@ -498,126 +501,123 @@ namespace Subtext.Web.Admin.UserControls
             }
         }
 
-		private string UpdateCategories()
-		{ 
-			try
-			{
-				if (PostID != null)
-				{
-					string successMessage = Constants.RES_SUCCESSCATEGORYUPDATE;
-					ArrayList al = new ArrayList();
+        private string UpdateCategories()
+        {
+            try
+            {
+                if (PostID != null)
+                {
+                    string successMessage = Constants.RES_SUCCESSCATEGORYUPDATE;
+                    var al = new List<int>();
 
-					foreach(ListItem item in cklCategories.Items)
-					{
-						if(item.Selected)
-						{
-							al.Add(int.Parse(item.Value));
-						}
-					}					
-
-					int[] Categories = (int[])al.ToArray(typeof(int));
-					Entries.SetEntryCategoryList(PostID.Value, Categories);
-
+                    foreach (ListItem item in cklCategories.Items)
+                    {
+                        if (item.Selected)
+                        {
+                            al.Add(int.Parse(item.Value));
+                        }
+                    }
+                    Entries.SetEntryCategoryList(PostID.Value, al);
                     return successMessage;
-				}
-				else
-				{
-					this.Messages.ShowError(Constants.RES_FAILURECATEGORYUPDATE
-						+ Resources.EntryEditor_ProblemEditingPostCategories);  
-				}
-			}
-			catch(Exception ex)
-			{
-				this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
-					Constants.RES_FAILUREEDIT, ex.Message));
-			}
+                }
+                else
+                {
+                    this.Messages.ShowError(Constants.RES_FAILURECATEGORYUPDATE
+                        + Resources.EntryEditor_ProblemEditingPostCategories);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
+                    Constants.RES_FAILUREEDIT, ex.Message));
+            }
             return null;
-		}
-	
-		private void SetEditorMode()
-		{
-			if(CategoryType == CategoryType.StoryCollection)
-			{
-				this.chkDisplayHomePage.Visible = false;
-				this.chkIsAggregated.Visible = false;
-				this.chkMainSyndication.Visible = false;
-				this.chkSyndicateDescriptionOnly.Visible = false;
-			}
-		}
+        }
 
-		private void SetEditorText(string bodyValue)
-		{
-			richTextEditor.Text = bodyValue;
-		}
+        private void SetEditorMode()
+        {
+            if (CategoryType == CategoryType.StoryCollection)
+            {
+                this.chkDisplayHomePage.Visible = false;
+                this.chkIsAggregated.Visible = false;
+                this.chkMainSyndication.Visible = false;
+                this.chkSyndicateDescriptionOnly.Visible = false;
+            }
+        }
+
+        private void SetEditorText(string bodyValue)
+        {
+            richTextEditor.Text = bodyValue;
+        }
 
         override protected void OnInit(EventArgs e)
-		{
-			InitializeComponent();			
-			base.OnInit(e);			
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    			
-			this.lkbPost.Click += OnUpdatePostClick;
-			this.lkUpdateCategories.Click += OnUpdateCategoriesClick;
-			this.lkbCancel.Click += this.OnCancelClick;
-		}
+        {
+            InitializeComponent();
+            base.OnInit(e);
+        }
 
-		private void OnCancelClick(object sender, EventArgs e)
-		{
-			if(PostID != null && ReturnToOriginalPost)
-			{
-				// We came from outside the post, let's go there.
-				Entry updatedEntry = this.Repository.GetEntry(PostID.Value, true /* activeOnly */, false /* includeCategories */);
-				if(updatedEntry != null)
-				{
-					Response.Redirect(Url.EntryUrl(updatedEntry));
-					return;
-				}
-			}
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.lkbPost.Click += OnUpdatePostClick;
+            this.lkUpdateCategories.Click += OnUpdateCategoriesClick;
+            this.lkbCancel.Click += this.OnCancelClick;
+        }
+
+        private void OnCancelClick(object sender, EventArgs e)
+        {
+            if (PostID != null && ReturnToOriginalPost)
+            {
+                // We came from outside the post, let's go there.
+                Entry updatedEntry = this.Repository.GetEntry(PostID.Value, true /* activeOnly */, false /* includeCategories */);
+                if (updatedEntry != null)
+                {
+                    Response.Redirect(Url.EntryUrl(updatedEntry));
+                    return;
+                }
+            }
 
             ReturnToOrigin(null);
-		}
+        }
 
-		private void OnUpdatePostClick(object sender, EventArgs e)
-		{
-			UpdatePost();
-		}
+        private void OnUpdatePostClick(object sender, EventArgs e)
+        {
+            UpdatePost();
+        }
 
-		private void OnUpdateCategoriesClick(object sender, EventArgs e)
-		{
-			string successMessage = UpdateCategories();
-            if (successMessage != null) 
+        private void OnUpdateCategoriesClick(object sender, EventArgs e)
+        {
+            string successMessage = UpdateCategories();
+            if (successMessage != null)
             {
                 ReturnToOrigin(successMessage);
             }
-		}
+        }
 
-		protected void richTextEditor_Error(object sender, RichTextEditorErrorEventArgs e)
-		{
-			this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", e.Exception.Message));
-		}
+        protected void richTextEditor_Error(object sender, RichTextEditorErrorEventArgs e)
+        {
+            this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", e.Exception.Message));
+        }
 
-		private void AddCommunityCredits(Entry entry) 
-		{
-			string result=string.Empty;
+        private void AddCommunityCredits(Entry entry)
+        {
+            string result = string.Empty;
 
-         try
-         {
-            CommunityCreditNotification.AddCommunityCredits(entry, Url, Blog);
-         }
-         catch (CommunityCreditNotificationException ex)
-         {
-            this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, Resources.EntryEditor_ErrorSendingToCommunityCredits, ex.Message));
-         }
-         catch (Exception ex)
-         {
-             this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, Resources.EntryEditor_ErrorSendingToCommunityCredits, ex.Message));
-         }
-		}
-	}
+            try
+            {
+                CommunityCreditNotification.AddCommunityCredits(entry, Url, Blog);
+            }
+            catch (CommunityCreditNotificationException ex)
+            {
+                this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, Resources.EntryEditor_ErrorSendingToCommunityCredits, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, Resources.EntryEditor_ErrorSendingToCommunityCredits, ex.Message));
+            }
+        }
+    }
 }

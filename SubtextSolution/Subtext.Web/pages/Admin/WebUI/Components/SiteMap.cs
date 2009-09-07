@@ -13,8 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using System.Xml;
@@ -22,122 +21,130 @@ using System.Xml.Serialization;
 
 namespace Subtext.Web.Admin
 {
-	public class SiteMap
-	{
-		protected const string DEFAULT_FILENAME = "navigation.config";
+    public class SiteMap
+    {
+        protected const string DEFAULT_FILENAME = "navigation.config";
 
-		private static SiteMap _instance = new SiteMap();		
-		private Hashtable _pages;
-		private PageLocation _root;
-		private bool _isConfigured;
-		
-		protected SiteMap()
-		{			
-			_pages = new Hashtable();
-		}
+        private static SiteMap _instance = new SiteMap();
+        private Dictionary<string, PageLocation> _pages;
 
-		public static SiteMap Instance
-		{
-			get { return _instance; }
-		}
+        protected SiteMap()
+        {
+            _pages = new Dictionary<string, PageLocation>();
+        }
 
-		public PageLocation this[string index]
-		{
-			get { return (PageLocation)_pages[index]; }
-			set { _pages[index] = value; }
-		}
+        public static SiteMap Instance
+        {
+            get { return _instance; }
+        }
 
-		public PageLocation Root
-		{
-			get { return _root; }
-		}
+        public PageLocation this[string index]
+        {
+            get
+            {
+                PageLocation location = null;
+                _pages.TryGetValue(index, out location);
+                return location;
+            }
+            set
+            {
+                _pages[index] = value;
+            }
+        }
 
-		public bool IsConfigured
-		{
-			get { return _isConfigured; }
-		}
+        public PageLocation Root
+        {
+            get;
+            private set;
+        }
 
-		public static void LoadConfiguration()
-		{
-			LoadConfiguration(DEFAULT_FILENAME);
-		}
+        public bool IsConfigured
+        {
+            get;
+            private set;
+        }
 
-		// Change to ConfigHandler?
-		public static void LoadConfiguration(string filePath)
-		{
-			string filepath = HttpContext.Current.Request.MapPath(filePath);
+        public static void LoadConfiguration()
+        {
+            LoadConfiguration(DEFAULT_FILENAME);
+        }
 
-			XmlDocument doc = new XmlDocument();
-			doc.Load(filepath);
-			
-			XmlNode pageLocations = doc.SelectSingleNode("/Navigation/RootPage");
-			if (null != pageLocations)
-			{
-				System.Text.Encoding encoding = Utilities.GetEncoding(filepath);				
-				byte[] buffer = encoding.GetBytes(pageLocations.OuterXml);
-				MemoryStream stream = new MemoryStream(buffer);
-				stream.Position = 0;
-				XmlSerializer serializer = new XmlSerializer(typeof(PageLocation));	
-				PageLocation newRoot = (PageLocation)serializer.Deserialize(stream);
-				_instance.SetRoot(PageLocation.GetRootPage(newRoot));		
-				_instance.PopulateLookupList();
-			}
+        // Change to ConfigHandler?
+        public static void LoadConfiguration(string filePath)
+        {
+            string filepath = HttpContext.Current.Request.MapPath(filePath);
 
-			_instance._isConfigured = true;
-		}
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filepath);
 
-		public bool ContainsID(string id)
-		{
-			return _pages.ContainsKey(id);
-		}
+            XmlNode pageLocations = doc.SelectSingleNode("/Navigation/RootPage");
+            if (null != pageLocations)
+            {
+                System.Text.Encoding encoding = Utilities.GetEncoding(filepath);
+                byte[] buffer = encoding.GetBytes(pageLocations.OuterXml);
+                MemoryStream stream = new MemoryStream(buffer);
+                stream.Position = 0;
+                XmlSerializer serializer = new XmlSerializer(typeof(PageLocation));
+                PageLocation newRoot = (PageLocation)serializer.Deserialize(stream);
+                _instance.SetRoot(PageLocation.GetRootPage(newRoot));
+                _instance.PopulateLookupList();
+            }
 
-		public PageLocation[] GetAncestors(string id)
-		{
-			return GetAncestors(id, true);
-		}
+            _instance.IsConfigured = true;
+        }
 
-		public PageLocation[] GetAncestors(string id, bool includeSelf)
-		{
-			if (_pages.ContainsKey(id))	
-				return (_pages[id] as PageLocation).GetAncestors(includeSelf);
-			else
-				return null;
-		}
+        public bool ContainsID(string id)
+        {
+            return _pages.ContainsKey(id);
+        }
 
-		public void AddPage(PageLocation value)
-		{
-			_pages.Add(value.ID, value);
-		}
+        public IEnumerable<PageLocation> GetAncestors(string id)
+        {
+            return GetAncestors(id, true);
+        }
 
-		protected void ClearPages()
-		{
-			_pages.Clear();
-		}
+        public IEnumerable<PageLocation> GetAncestors(string id, bool includeSelf)
+        {
+            if (_pages.ContainsKey(id))
+                return _pages[id].GetAncestors(includeSelf);
+            else
+                return null;
+        }
 
-		protected void SetRoot(PageLocation root)
-		{
-			_root = root;
-		}
+        public void AddPage(PageLocation value)
+        {
+            _pages.Add(value.ID, value);
+        }
 
-		protected void PopulateLookupList()
-		{
-			ClearPages();
-			RecursePageLocations(_root);
-		}
+        protected void ClearPages()
+        {
+            _pages.Clear();
+        }
 
-		protected void RecursePageLocations(PageLocation currentLocation)
-		{
-			if (currentLocation.HasChildren)
-			{
-				foreach (PageLocation childLocation in currentLocation.ChildLocations)
-				{
-					childLocation.SetParent(currentLocation);
-					RecursePageLocations(childLocation);
-				}
-			}
+        protected void SetRoot(PageLocation root)
+        {
+            Root = root;
+        }
 
-			AddPage(currentLocation);
-		}
-	}
+        protected void PopulateLookupList()
+        {
+            ClearPages();
+            RecursePageLocations(Root);
+        }
+
+        protected void RecursePageLocations(PageLocation currentLocation)
+        {
+            if (currentLocation.HasChildren)
+            {
+                foreach (PageLocation childLocation in currentLocation.ChildLocations)
+                {
+                    childLocation.SetParent(currentLocation);
+                    RecursePageLocations(childLocation);
+                }
+            }
+
+            AddPage(currentLocation);
+        }
+    }
 }
 

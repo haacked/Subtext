@@ -783,7 +783,7 @@ namespace Subtext.Framework.Text
         /// </summary>
         /// <param name="html"></param>
         /// <returns></returns>
-        public static List<string> ParseTags(this string html)
+        public static IList<string> ParseTags(this string html)
         {
             List<string> tags = new List<string>();
             if (String.IsNullOrEmpty(html))
