@@ -15,8 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-using Subtext.Framework.Syndication;
-using DTCF = Subtext.Framework.Configuration;
+using System.Globalization;
 
 namespace Subtext.Framework.Syndication
 {
@@ -48,7 +47,7 @@ namespace Subtext.Framework.Syndication
                         entry = en;
                         break;
                     }
-                    return DateTime.Compare(DateTime.Parse(dt), ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
+                    return DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture), ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
                 }
             }
             return false;

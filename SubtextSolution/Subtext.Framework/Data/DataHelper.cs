@@ -702,9 +702,9 @@ namespace Subtext.Framework.Data
         /// <param name="DbType">Param type.</param>
         /// <param name="Size">Param size.</param>
         /// <returns>New parameter.</returns>
-        public static SqlParameter MakeOutParam(string ParamName, SqlDbType DbType, int Size)
+        public static SqlParameter MakeOutParam(string paramName, SqlDbType dbType, int size)
         {
-            return MakeParam(ParamName, DbType, Size, ParameterDirection.Output, null);
+            return MakeParam(paramName, dbType, size, ParameterDirection.Output, null);
         }
 
         /// <summary>
@@ -716,18 +716,18 @@ namespace Subtext.Framework.Data
         /// <param name="Direction">Parm direction.</param>
         /// <param name="Value">Param value.</param>
         /// <returns>New parameter.</returns>
-        public static SqlParameter MakeParam(string ParamName, SqlDbType DbType, Int32 Size, ParameterDirection Direction, object Value)
+        public static SqlParameter MakeParam(string paramName, SqlDbType dbType, Int32 size, ParameterDirection direction, object value)
         {
             SqlParameter param;
 
-            if (Size > 0)
-                param = new SqlParameter(ParamName, DbType, Size);
+            if (size > 0)
+                param = new SqlParameter(paramName, dbType, size);
             else
-                param = new SqlParameter(ParamName, DbType);
+                param = new SqlParameter(paramName, dbType);
 
-            param.Direction = Direction;
-            if (!(Direction == ParameterDirection.Output && Value == null))
-                param.Value = Value;
+            param.Direction = direction;
+            if (!(direction == ParameterDirection.Output && value == null))
+                param.Value = value;
 
             return param;
         }

@@ -106,7 +106,7 @@ namespace Subtext.Framework.Syndication
                 {
                     try
                     {
-                        return DateTime.Parse(IfNonMatchHeader);
+                        return DateTime.Parse(IfNonMatchHeader, CultureInfo.InvariantCulture);
                     }
                     catch (FormatException)
                     {
@@ -144,7 +144,7 @@ namespace Subtext.Framework.Syndication
             {
                 try
                 {
-                    DateTime feedDT = DateTime.Parse(dt);
+                    DateTime feedDT = DateTime.Parse(dt, CultureInfo.InvariantCulture);
                     DateTime lastUpdated = ConvertLastUpdatedDate(Blog.LastUpdated);
                     TimeSpan ts = feedDT - lastUpdated;
 

@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Web.Routing;
 
 namespace Subtext.Framework.Util
@@ -26,9 +27,9 @@ namespace Subtext.Framework.Util
             string monthText = requestContext.RouteData.Values["month"] as string;
             string dayText = requestContext.RouteData.Values["day"] as string ?? "1";
 
-            int year = Convert.ToInt32(yearText);
-            int month = Convert.ToInt32(monthText);
-            int day = Convert.ToInt32(dayText);
+            int year = Convert.ToInt32(yearText, CultureInfo.InvariantCulture);
+            int month = Convert.ToInt32(monthText, CultureInfo.InvariantCulture);
+            int day = Convert.ToInt32(dayText, CultureInfo.InvariantCulture);
 
             return new DateTime(year, month, day);
         }

@@ -67,7 +67,7 @@ namespace Subtext.Framework.UI.Skinning
             }
 		    
             element += "<link";
-            if (style.Media != null && style.Media.Length > 0 && !style.Media.ToLower().Equals("all"))
+            if (style.Media != null && style.Media.Length > 0 && !style.Media.Equals("all", StringComparison.OrdinalIgnoreCase))
                 element += RenderStyleAttribute("media", style.Media);
 
             element +=
@@ -208,7 +208,7 @@ namespace Subtext.Framework.UI.Skinning
         private static string BuildStyleKey(Style style)
         {
             StringBuilder keyBuilder = new StringBuilder();
-            if (!String.IsNullOrEmpty(style.Media) && !style.Media.ToLower().Equals("all"))
+            if (!String.IsNullOrEmpty(style.Media) && !style.Media.Equals("all", StringComparison.OrdinalIgnoreCase))
                 keyBuilder.Append("media=" + style.Media + "&");
             if (!String.IsNullOrEmpty(style.Title))
                 keyBuilder.Append("title=" + style.Title + "&");
@@ -311,7 +311,7 @@ namespace Subtext.Framework.UI.Skinning
 
         private static bool IsStyleRemote(Style style)
         {
-            if (style.Href.StartsWith("http://") || style.Href.StartsWith("https://"))
+            if (style.Href.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || style.Href.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 return true;
             else
                 return false;

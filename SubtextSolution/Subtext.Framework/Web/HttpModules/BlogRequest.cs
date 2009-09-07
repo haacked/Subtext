@@ -155,12 +155,12 @@ namespace Subtext.Framework.Web.HttpModules
         {
             string appPath = request.ApplicationPath ?? string.Empty;
 
-            if (!appPath.EndsWith("/"))
+            if (!appPath.EndsWith("/", StringComparison.Ordinal))
             {
                 appPath += "/";
             }
             string path = request.Path;
-            if (!path.EndsWith("/"))
+            if (!path.EndsWith("/", StringComparison.Ordinal))
             {
                 path += "/";
             }

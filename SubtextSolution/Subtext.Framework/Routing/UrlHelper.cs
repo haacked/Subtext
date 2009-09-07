@@ -15,6 +15,7 @@
 
 using System;
 using System.Configuration;
+using System.Globalization;
 using System.Web;
 using System.Web.Routing;
 using Subtext.Extensibility;
@@ -115,9 +116,9 @@ namespace Subtext.Framework.Routing
 
             if (entry.PostType == PostType.BlogPost)
             {
-                routeValues.Add("year", entry.DateCreated.ToString("yyyy"));
-                routeValues.Add("month", entry.DateCreated.ToString("MM"));
-                routeValues.Add("day", entry.DateCreated.ToString("dd"));
+                routeValues.Add("year", entry.DateCreated.ToString("yyyy", CultureInfo.InvariantCulture));
+                routeValues.Add("month", entry.DateCreated.ToString("MM", CultureInfo.InvariantCulture));
+                routeValues.Add("day", entry.DateCreated.ToString("dd", CultureInfo.InvariantCulture));
                 routeName = "entry-";
             }
             else
@@ -307,7 +308,7 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath MonthUrl(DateTime dateTime)
         {
-            return GetVirtualPath("entries-by-month", new { year = dateTime.ToString("yyyy"), month = dateTime.ToString("MM") });
+            return GetVirtualPath("entries-by-month", new { year = dateTime.ToString("yyyy", CultureInfo.InvariantCulture), month = dateTime.ToString("MM", CultureInfo.InvariantCulture) });
         }
 
         public virtual VirtualPath CommentApiUrl(int entryId)
@@ -345,9 +346,9 @@ namespace Subtext.Framework.Routing
             return GetVirtualPath("entries-by-day",
                 new
                 {
-                    year = date.ToString("yyyy"),
-                    month = date.ToString("MM"),
-                    day = date.ToString("dd")
+                    year = date.ToString("yyyy", CultureInfo.InvariantCulture),
+                    month = date.ToString("MM", CultureInfo.InvariantCulture),
+                    day = date.ToString("dd", CultureInfo.InvariantCulture)
                 });
         }
 

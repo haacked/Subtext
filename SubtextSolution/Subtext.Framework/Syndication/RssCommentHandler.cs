@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
@@ -102,7 +103,7 @@ namespace Subtext.Framework.Syndication
 
                 if (comments != null && comments.Count > 0)
                 {
-                    return DateTime.Compare(DateTime.Parse(dt), ConvertLastUpdatedDate(comments.Last().DateCreated)) == 0;
+                    return DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture), ConvertLastUpdatedDate(comments.Last().DateCreated)) == 0;
                 }
             }
             return false;

@@ -266,6 +266,7 @@ namespace Subtext.Framework.Syndication
                 "description", //Tag
                 string.Format
                 (
+                    CultureInfo.InvariantCulture, 
                     "{0}{1}", //tag def
                     GetBodyFromItem(item), (UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(GetAggBugUrl(item)) : null //use aggbugs
                 )
@@ -278,7 +279,7 @@ namespace Subtext.Framework.Syndication
             }
 
             this.WriteElementString("guid", GetGuid(item));
-            this.WriteElementString("pubDate", GetPublishedDateUtc(item).ToString("r"));
+            this.WriteElementString("pubDate", GetPublishedDateUtc(item).ToString("r", CultureInfo.InvariantCulture));
 
             if (ItemCouldContainComments(item))
             {
@@ -304,7 +305,7 @@ namespace Subtext.Framework.Syndication
             {
                 this.WriteStartElement("enclosure");
                 this.WriteAttributeString("url", encItem.Url);
-                this.WriteAttributeString("length", encItem.Size.ToString());
+                this.WriteAttributeString("length", encItem.Size.ToString(CultureInfo.InvariantCulture));
                 this.WriteAttributeString("type", encItem.MimeType);
                 this.WriteEndElement();
             }

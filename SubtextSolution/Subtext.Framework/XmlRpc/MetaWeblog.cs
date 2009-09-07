@@ -166,7 +166,7 @@ namespace Subtext.Framework.XmlRpc
 
             try
             {
-                Repository.DeleteEntry(Int32.Parse(postid));
+                Repository.DeleteEntry(Int32.Parse(postid, CultureInfo.InvariantCulture));
                 return true;
             }
             catch
@@ -179,7 +179,7 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
+            Entry entry = Entries.GetEntry(Int32.Parse(postid, CultureInfo.InvariantCulture), PostConfig.None, true);
             if (entry != null)
             {
                 entry.Author = Blog.Author;
@@ -236,7 +236,7 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
+            Entry entry = Entries.GetEntry(Int32.Parse(postid, CultureInfo.InvariantCulture), PostConfig.None, true);
             if (entry == null)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_CouldNotFindEntry);
@@ -347,7 +347,7 @@ namespace Subtext.Framework.XmlRpc
             {
                 // newMediaObject allows files to be overwritten
                 // The media object's name can have extra folders appended so we check for this here too.
-                FileHelper.EnsureDirectory(Path.Combine(imageDirectory, mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1).Replace("/", "\\")));
+                FileHelper.EnsureDirectory(Path.Combine(imageDirectory, mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/", StringComparison.Ordinal) + 1).Replace("/", "\\")));
                 string imageFilePhysicalPath = Path.Combine(imageDirectory, mediaobject.name);
                 FileHelper.WriteBytesToFile(imageFilePhysicalPath, mediaobject.bits);
             }
@@ -463,10 +463,10 @@ namespace Subtext.Framework.XmlRpc
 
             if (categories != null && categories.Length > 0)
             {
-                int postID = Int32.Parse(postid);
+                int postID = Int32.Parse(postid, CultureInfo.InvariantCulture);
 
                 var categoryIds = from category in categories
-                                  select int.Parse(category.categoryId);
+                                  select int.Parse(category.categoryId, CultureInfo.InvariantCulture);
 
                 if (categoryIds.Count() > 0)
                 {
@@ -479,11 +479,11 @@ namespace Subtext.Framework.XmlRpc
 
         [XmlRpcMethod("mt.getPostCategories",
              Description = "Sets the categories for a given post.")]
-        public MtCategory[] GetPostCategories(string postid, string username, string password)
+        public MtCategory[] GetPostCategories(string postid, string userName, string password)
         {
-            ValidateUser(username, password, Blog.AllowServiceAccess);
+            ValidateUser(userName, password, Blog.AllowServiceAccess);
 
-            int postID = Int32.Parse(postid);
+            int postID = Int32.Parse(postid, CultureInfo.InvariantCulture);
             ICollection<Link> postCategories = Repository.GetLinkCollectionByPostID(postID);
             MtCategory[] categories = new MtCategory[postCategories.Count];
             if (postCategories.Count > 0)
@@ -543,14 +543,14 @@ namespace Subtext.Framework.XmlRpc
 
         public int newPage(string blog_id, string username, string password, Post content, bool publish)
         {
-            return Convert.ToInt32(PostContent(username, password, ref content, publish, PostType.Story));
+            return Convert.ToInt32(PostContent(username, password, ref content, publish, PostType.Story), CultureInfo.InvariantCulture);
         }
 
         public int editPage(string blog_id, string page_id, string username, string password, Post content, bool publish)
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            Entry entry = Entries.GetEntry(Int32.Parse(page_id), PostConfig.None, true);
+            Entry entry = Entries.GetEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture), PostConfig.None, true);
             if (entry != null)
             {
                 entry.Author = Blog.Author;
@@ -576,7 +576,7 @@ namespace Subtext.Framework.XmlRpc
                 entry.DateModified = Blog.TimeZone.Now;
                 Entries.Update(entry);
             }
-            return Convert.ToInt32(page_id);
+            return Convert.ToInt32(page_id, CultureInfo.InvariantCulture);
         }
 
         public Post[] getPages(string blog_id, string username, string password, int numberOfPosts)
@@ -613,7 +613,7 @@ namespace Subtext.Framework.XmlRpc
             Framework.Blog info = Blog;
             ValidateUser(username, password, info.AllowServiceAccess);
 
-            Entry entry = Entries.GetEntry(Int32.Parse(page_id), PostConfig.None, true);
+            Entry entry = Entries.GetEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture), PostConfig.None, true);
             Post post = new Post();
             post.link = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString();
             post.description = entry.Body;
@@ -647,7 +647,7 @@ namespace Subtext.Framework.XmlRpc
 
             try
             {
-                Repository.DeleteEntry(Int32.Parse(page_id));
+                Repository.DeleteEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture));
                 return true;
             }
             catch

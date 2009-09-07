@@ -142,7 +142,7 @@ namespace Subtext.Framework.Web
 			{
 				// Requests behind a proxy might contain multiple IP 
 				// addresses in the forwarding header.
-				if (result.IndexOf(',') > 0)
+				if (result.IndexOf(",", StringComparison.Ordinal) > 0)
 				{
 					result = StringHelper.LeftBefore(result, ",");
 				}
@@ -254,7 +254,7 @@ namespace Subtext.Framework.Web
 	            string appPath = HttpContext.Current.Request.ApplicationPath;
 	            if(appPath == null)
 	                appPath = string.Empty;
-	            if(appPath.EndsWith("/"))
+	            if(appPath.EndsWith("/", StringComparison.Ordinal))
 	            {
 	                appPath = appPath.Left(appPath.Length - 1);
 	            }
@@ -280,7 +280,7 @@ namespace Subtext.Framework.Web
                 if (appPath == null)
                     appPath = string.Empty;
 
-                if (appPath.EndsWith("/"))
+                if (appPath.EndsWith("/", StringComparison.Ordinal))
                 {
                     appPath = appPath.Left(appPath.Length - 1);
                 }

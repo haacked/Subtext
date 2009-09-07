@@ -15,6 +15,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Web;
 using log4net;
@@ -287,7 +288,7 @@ namespace Subtext.Framework.Logging
 		public void ErrorFormat(string format, params object[] args)
 		{
 			SetUrlContext();
-			_log.ErrorFormat(format, args);
+			_log.ErrorFormat(CultureInfo.InvariantCulture, format, args);
 		}
 
 		/// <summary>
@@ -507,7 +508,7 @@ namespace Subtext.Framework.Logging
 		public void WarnFormat(string format, params object[] args)
 		{
 			SetUrlContext();
-			_log.WarnFormat(format, args);
+			_log.WarnFormat(CultureInfo.InvariantCulture, format, args);
 		}
 
 		/// <summary>
@@ -643,7 +644,7 @@ namespace Subtext.Framework.Logging
 		public void InfoFormat(string format, params object[] args)
 		{
 			SetUrlContext();
-			_log.InfoFormat(format, args);
+			_log.InfoFormat(CultureInfo.InvariantCulture, format, args);
 		}
 
 		/// <summary>
@@ -689,7 +690,7 @@ namespace Subtext.Framework.Logging
 		public void FatalFormat(string format, params object[] args)
 		{
 			SetUrlContext();
-			_log.FatalFormat(format, args);
+			_log.FatalFormat(CultureInfo.InvariantCulture, format, args);
 		}
 
 		/// <summary>
@@ -739,7 +740,7 @@ namespace Subtext.Framework.Logging
 		public void DebugFormat(string format, params object[] args)
 		{
 			SetUrlContext();
-			_log.DebugFormat(format, args);
+			_log.DebugFormat(CultureInfo.InvariantCulture, format, args);
 		}
 
 		public ILogger Logger

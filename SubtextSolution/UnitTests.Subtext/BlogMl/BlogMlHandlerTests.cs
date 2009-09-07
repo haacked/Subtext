@@ -17,7 +17,7 @@ namespace UnitTests.Subtext.BlogML
         public void GetBlogMlProvider_ReturnsSubtextBLogMLProviderWithDefaultPageSize() {
             //arrange
             var subtextContext = new Mock<ISubtextContext>();
-            var handler = new SubtextBlogMlHttpHandler();
+            var handler = new SubtextBlogMLHttpHandler();
             handler.SubtextContext = subtextContext.Object;
             
             //act
@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.BlogML
             subtextContext.Setup(c => c.Repository.GetBlogById(1975)).Returns(blog);
             subtextContext.Setup(c => c.Repository.GetCategories(CategoryType.PostCollection, false)).Returns(new Collection<LinkCategory>());
             subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
-            var handler = new SubtextBlogMlHttpHandler();
+            var handler = new SubtextBlogMLHttpHandler();
             handler.SubtextContext = subtextContext.Object;
             var httpHandler = handler as IHttpHandler;
             var writer = new StringWriter();

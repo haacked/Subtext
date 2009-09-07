@@ -25,7 +25,7 @@ using Subtext.Framework.Services;
 namespace Subtext.ImportExport
 {
     //TODO: Fix this. We need to pull BlogMLHttpHandler into Subtext.Framework
-    public class SubtextBlogMlHttpHandler : BlogMLHttpHandler, ISubtextHandler
+    public class SubtextBlogMLHttpHandler : BlogMLHttpHandler, ISubtextHandler
     {
         public override IBlogMLProvider GetBlogMLProvider()
         {

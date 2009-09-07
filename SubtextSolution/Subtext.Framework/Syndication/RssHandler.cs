@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 
@@ -38,7 +39,7 @@ namespace Subtext.Framework.Syndication
         protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
         {
             const string key = "RSS;IndividualMainFeed;BlogId:{0};LastViewed:{1}";
-            return string.Format(key, Blog.Id, dateLastViewedFeedItemPublished);
+            return string.Format(CultureInfo.InvariantCulture, key, Blog.Id, dateLastViewedFeedItemPublished);
         }
 
         /// <summary>
