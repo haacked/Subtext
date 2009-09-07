@@ -86,5 +86,19 @@ namespace UnitTests.Subtext.BlogMl
             // assert
             Assert.AreEqual("the last segment", entry.Title);
         }
+
+        [Test]
+        public void CreateEntryFromBlogMLBlogPost_WithPostHavingExcerpt_SetsEntryDescription()
+        {
+            // arrange
+            var post = new BlogMLPost { HasExcerpt = true, Excerpt = new BlogMLContent { Text = "This is a story about a 3 hour voyage" } };
+            var blog = new BlogMLBlog();
+
+            // act
+            var entry = SubtextBlogMLProvider.CreateEntryFromBlogMLBlogPost(blog, post, new Dictionary<string, string>());
+
+            // assert
+            Assert.AreEqual("This is a story about a 3 hour voyage", entry.Description);
+        }
     }
 }

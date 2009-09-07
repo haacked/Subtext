@@ -145,7 +145,7 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public static TReturn InvokeNonPublicMethod<TReturn>(Type type, string methodName, params object[] parameters)
         {
-            Type[] paramTypes = Array.ConvertAll(parameters, new Converter<object, Type>(delegate(object o) { return o.GetType(); }));
+            Type[] paramTypes = Array.ConvertAll(parameters, o => o.GetType());
 
             MethodInfo method = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static, null, paramTypes, null);
             if (method == null)
@@ -156,7 +156,7 @@ namespace UnitTests.Subtext
 
         public static void InvokeNonPublicMethod(object source, string methodName, params object[] parameters)
         {
-            Type[] paramTypes = Array.ConvertAll(parameters, new Converter<object, Type>(delegate(object o) { return o.GetType(); }));
+            Type[] paramTypes = Array.ConvertAll(parameters, o => o.GetType());
 
             MethodInfo method = source.GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance, null, paramTypes, null);
             if (method == null)
@@ -167,7 +167,7 @@ namespace UnitTests.Subtext
 
         public static TReturn InvokeNonPublicMethod<TReturn>(object source, string methodName, params object[] parameters)
         {
-            Type[] paramTypes = Array.ConvertAll(parameters, new Converter<object, Type>(delegate(object o) { return o.GetType(); }));
+            Type[] paramTypes = Array.ConvertAll(parameters, o => o.GetType());
 
             MethodInfo method = source.GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance, null, paramTypes, null);
             if (method == null)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 using MbUnit.Framework;
 using Subtext.Extensibility.Collections;
@@ -34,11 +33,7 @@ namespace UnitTests.Subtext.Framework.Components
 			pageTwo.Add("seven");
 			pages.Add(pageTwo);
 
-			CollectionBook<string> book = new CollectionBook<string>(
-				delegate(int pageIndex, int pageSize)
-				{
-					return pages[pageIndex];
-				}, 3);
+			CollectionBook<string> book = new CollectionBook<string>((pageIndex, pageSize) => pages[pageIndex], 3);
 
 			string concatenation = string.Empty;
 			int currentPageIndex = 0;

@@ -123,26 +123,31 @@ namespace Subtext.ImportExport
                 }
 
                 if (reader.NextResult() && reader.Read())
+                {
                     bmlPosts.MaxItems = DataHelper.ReadInt32(reader, "TotalRecords");
-
-                if (bmlPosts.Count > 0 && reader.NextResult())
-                {
-                    PopulateCategories(bmlPosts, reader);
                 }
 
-                if (bmlPosts.Count > 0 && reader.NextResult())
+                if (bmlPosts.Count > 0)
                 {
-                    PopulateComments(bmlPosts, reader);
-                }
+                    if (reader.NextResult())
+                    {
+                        PopulateCategories(bmlPosts, reader);
+                    }
 
-                if (bmlPosts.Count > 0 && reader.NextResult())
-                {
-                    PopulateTrackbacks(bmlPosts, reader);
-                }
+                    if (reader.NextResult())
+                    {
+                        PopulateComments(bmlPosts, reader);
+                    }
 
-                if (bmlPosts.Count > 0 && reader.NextResult())
-                {
-                    PopulateAuthors(bmlPosts, reader);
+                    if (reader.NextResult())
+                    {
+                        PopulateTrackbacks(bmlPosts, reader);
+                    }
+
+                    if (reader.NextResult())
+                    {
+                        PopulateAuthors(bmlPosts, reader);
+                    }
                 }
             }
             return bmlPosts;
@@ -195,45 +200,25 @@ namespace Subtext.ImportExport
 
         private static void PopulateAuthors(IPagedCollection<BlogMLPost> posts, IDataReader reader)
         {
-            PostChildrenPopulator populator = delegate(BlogMLPost bmlPost)
-            {
-                bmlPost.Authors.Add(DataHelper.ReadInt32(reader, "AuthorId").ToString(CultureInfo.InvariantCulture));
-            };
-
-            ReadAndPopulatePostChildren(posts, reader, "Id", populator);
+            ReadAndPopulatePostChildren(posts, reader, "Id", post => post.Authors.Add(DataHelper.ReadInt32(reader, "AuthorId").ToString(CultureInfo.InvariantCulture)));
         }
 
         private static void PopulateCategories(IPagedCollection<BlogMLPost> posts, IDataReader reader)
         {
-            PostChildrenPopulator populator = delegate(BlogMLPost bmlPost)
-            {
-                bmlPost.Categories.Add(DataHelper.ReadInt32(reader, "CategoryId").ToString(CultureInfo.InvariantCulture));
-            };
-
-            ReadAndPopulatePostChildren(posts, reader, "Id", populator);
+            ReadAndPopulatePostChildren(posts, reader, "Id", post => post.Categories.Add(DataHelper.ReadInt32(reader, "CategoryId").ToString(CultureInfo.InvariantCulture)));
         }
 
         private static void PopulateComments(IPagedCollection<BlogMLPost> bmlPosts, IDataReader reader)
         {
-            PostChildrenPopulator populator = delegate(BlogMLPost bmlPost)
-            {
-                bmlPost.Comments.Add(ObjectHydrator.LoadCommentFromDataReader(reader));
-            };
-
-            ReadAndPopulatePostChildren(bmlPosts, reader, "EntryId", populator);
+            ReadAndPopulatePostChildren(bmlPosts, reader, "EntryId", post => post.Comments.Add(ObjectHydrator.LoadCommentFromDataReader(reader)));
         }
 
         private static void PopulateTrackbacks(IPagedCollection<BlogMLPost> bmlPosts, IDataReader reader)
         {
-            PostChildrenPopulator populator = delegate(BlogMLPost bmlPost)
-            {
-                bmlPost.Trackbacks.Add(ObjectHydrator.LoadTrackbackFromDataReader(reader));
-            };
-
-            ReadAndPopulatePostChildren(bmlPosts, reader, "EntryId", populator);
+            ReadAndPopulatePostChildren(bmlPosts, reader, "EntryId", post => post.Trackbacks.Add(ObjectHydrator.LoadTrackbackFromDataReader(reader)));
         }
 
-        private static void ReadAndPopulatePostChildren(IPagedCollection<BlogMLPost> bmlPosts, IDataReader reader, string foreignKey, PostChildrenPopulator populatePostChildren)
+        private static void ReadAndPopulatePostChildren(IPagedCollection<BlogMLPost> bmlPosts, IDataReader reader, string foreignKey, Action<BlogMLPost> populatePostChildrenAction)
         {
             for (int i = 0; i < bmlPosts.Count; i++)
             {
@@ -259,13 +244,11 @@ namespace Subtext.ImportExport
                         continue;
 
                     if (postId == postIdForeignKey)
-                        populatePostChildren(post);
+                        populatePostChildrenAction(post);
                 }
             }
         }
-
-        private delegate void PostChildrenPopulator(BlogMLPost post);
-
+        
         private IDataReader GetPostsAndArticlesReader(string blogId, int pageIndex, int pageSize)
         {
             int blogIdValue;

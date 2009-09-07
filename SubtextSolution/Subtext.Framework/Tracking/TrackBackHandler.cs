@@ -177,13 +177,11 @@ namespace Subtext.Framework.Tracking
             return string.Empty;
         }
 
-        public delegate void SourceVerificationEventHandler(object sender, SourceVerificationEventArgs e);
-
-        public event SourceVerificationEventHandler SourceVerification;
+        public event EventHandler<SourceVerificationEventArgs> SourceVerification;
 
         private bool IsSourceVerification(Uri sourceUrl, Uri entryUrl)
         {
-            SourceVerificationEventHandler handler = SourceVerification;
+            var handler = SourceVerification;
             if (handler != null)
             {
                 SourceVerificationEventArgs args = new SourceVerificationEventArgs(sourceUrl, entryUrl);
