@@ -16,13 +16,13 @@
 using Ninject;
 using Subtext.BlogML;
 using Subtext.BlogML.Interfaces;
+using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
-using Subtext.ImportExport;
 
-namespace Subtext.Framework.ImportExport
+namespace Subtext.ImportExport
 {
     //TODO: Fix this. We need to pull BlogMLHttpHandler into Subtext.Framework
     public class SubtextBlogMlHttpHandler : BlogMLHttpHandler, ISubtextHandler

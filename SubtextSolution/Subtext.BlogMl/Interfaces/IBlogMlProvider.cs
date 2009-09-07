@@ -97,10 +97,9 @@ namespace Subtext.BlogML.Interfaces
 		/// </summary>
         /// <param name="blog">The imported blog</param>
 		/// <param name="post">The imported post</param>
-		/// <param name="content">The rewritten content of the post.</param>
 		/// <param name="categoryIdMap">A dictionary used to map the blogml category id to the internal category id.</param>
 		/// <returns></returns>
-		string CreateBlogPost(BlogMLBlog blog, BlogMLPost post, string content, IDictionary<string, string> categoryIdMap);
+		string CreateBlogPost(BlogMLBlog blog, BlogMLPost post, IDictionary<string, string> categoryIdMap);
 
 		/// <summary>
 		/// Creates a comment for the specified post.
