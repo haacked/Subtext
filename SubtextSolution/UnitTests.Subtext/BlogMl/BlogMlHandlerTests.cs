@@ -6,7 +6,6 @@ using MbUnit.Framework;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.ImportExport;
 using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogML

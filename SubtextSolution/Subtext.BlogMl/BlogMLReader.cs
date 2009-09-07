@@ -67,15 +67,13 @@ namespace Subtext.BlogML
 
             foreach (BlogMLPost bmlPost in blog.Posts)
             {
-                string postContent = bmlPost.Content.Text;
-
                 if (bmlPost.Attachments.Count > 0)
                 {
                     //Updates the post content with new attachment urls.
-                    postContent = CreateFilesFromAttachments(bmlPost, postContent);
+                    bmlPost.Content.Text = CreateFilesFromAttachments(bmlPost, bmlPost.Content.Text);
                 }
 
-				string newEntryID = provider.CreateBlogPost(blog, bmlPost, postContent, categoryIdMap);
+				string newEntryID = provider.CreateBlogPost(blog, bmlPost, categoryIdMap);
 				
                 if (bmlPost.Comments.Count > 0)
                 {

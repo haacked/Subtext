@@ -464,17 +464,19 @@ namespace Subtext.ImportExport
         /// <param name="content"></param>
         /// <param name="categoryIdMap">A dictionary used to map the blogml category id to the internal category id.</param>
         /// <returns></returns>
-        public override string CreateBlogPost(BlogMLBlog blog, BlogMLPost post, string content, IDictionary<string, string> categoryIdMap)
+        public override string CreateBlogPost(BlogMLBlog blog, BlogMLPost post, IDictionary<string, string> categoryIdMap)
         {
             Entry newEntry = new Entry((post.PostType == BlogPostTypes.Article) ? PostType.Story : PostType.BlogPost);
             newEntry.BlogId = Blog.Id;
-            newEntry.Title = post.Title;
+            newEntry.Title = GetTitleFromPost(post);
             newEntry.DateCreated = post.DateCreated;
             newEntry.DateModified = post.DateModified;
             newEntry.DateSyndicated = post.DateModified;  // is this really the best thing to do?
-            newEntry.Body = content;
+            newEntry.Body = post.Content.Text;
             if (post.HasExcerpt)
+            {
                 newEntry.Description = post.Excerpt.Text;
+            }
             newEntry.IsActive = post.Approved;
             newEntry.DisplayOnHomePage = post.Approved;
             newEntry.IncludeInMainSyndication = post.Approved;
@@ -516,6 +518,20 @@ namespace Subtext.ImportExport
             }
 
             return EntryPublisher.Publish(newEntry).ToString(CultureInfo.InvariantCulture);
+        }
+
+        public static string GetTitleFromPost(BlogMLPost blogPost)
+        {
+            if (!String.IsNullOrEmpty(blogPost.Title))
+            {
+                return blogPost.Title;
+            }
+            if (!String.IsNullOrEmpty(blogPost.PostName)) 
+            {
+                return blogPost.PostName;
+            }
+            
+            return "Post #" + blogPost.ID;
         }
 
         /// <summary>

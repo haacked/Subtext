@@ -1,14 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using BlogML.Xml;
 using MbUnit.Framework;
+using Moq;
+using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Services;
+using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogMl
 {
     [TestFixture]
     public class SubtextBlogMlProviderTests
     {
-        
+        [Test]
+        public void GetTitleFromEntry_WithPostHavingNoTitle_CreatesUsesPostNameIfAvailable()
+        {
+            // arrange
+            BlogMLPost post = new BlogMLPost { Title = null, PostName = "Hello World"};
+
+            // act
+            string title = SubtextBlogMLProvider.GetTitleFromPost(post);
+
+            // assert
+            Assert.AreEqual("Hello World", title);
+        }
+
+        [Test]
+        public void GetTitleFromEntry_WithPostHavingNoTitleAndNoPostName_UsesPostId()
+        {
+            // arrange
+            BlogMLPost post = new BlogMLPost { Title = null, PostName = null, ID = "87618298" };
+
+            // act
+            string title = SubtextBlogMLProvider.GetTitleFromPost(post);
+
+            // assert
+            Assert.AreEqual("Post #87618298", title);
+        }
+
+        [Test]
+        public void CreateBlogPost_WithNoContent_UsesId()
+        {
+            // arrange
+            var context = new Mock<ISubtextContext>();
+            context.Setup(c => c.Blog).Returns(new Blog { Id = 123 });
+            var commentService = new Mock<ICommentService>();
+            var entryPublisher = new Mock<IEntryPublisher>();
+            Entry publishedEntry = null;
+            entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>())).Callback<Entry>(e => publishedEntry = e);
+            var provider = new SubtextBlogMLProvider("test", context.Object, commentService.Object, entryPublisher.Object);
+            var blog = new BlogMLBlog();
+            blog.Posts.Add(new BlogMLPost { Title = null, PostName = null, ID = "123", Content = new BlogMLContent { Text = "" } });
+
+            // act
+            provider.CreateBlogPost(blog, blog.Posts[0], null);
+
+            // assert
+            Assert.AreEqual("Post #123", publishedEntry.Title);
+        }
     }
 }
