@@ -17,6 +17,7 @@ using System;
 
 namespace Subtext.Framework
 {
+    [Serializable]
 	public class IllegalPostCharactersException : Exception
 	{
 		public IllegalPostCharactersException(String s) : base(s) {}

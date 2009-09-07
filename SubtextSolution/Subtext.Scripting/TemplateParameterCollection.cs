@@ -11,7 +11,7 @@ namespace Subtext.Scripting
 	/// </summary>
 	public class TemplateParameterCollection : IEnumerable<TemplateParameter>, ICollection<TemplateParameter>
 	{
-	    List<TemplateParameter> list = new List<TemplateParameter>();
+	    List<TemplateParameter> List = new List<TemplateParameter>();
 
 	    /// <summary>
 		/// Initializes a new instance of the <see cref="TemplateParameterCollection"/> class.
@@ -20,14 +20,6 @@ namespace Subtext.Scripting
 		{
 		}
 	    
-	    private List<TemplateParameter> List
-	    {
-	        get
-	        {
-	            return list;
-	        }
-	    }
-
 		/// <summary>
 		/// Gets the <see cref="TemplateParameter"/> at the specified index.
 		/// </summary>

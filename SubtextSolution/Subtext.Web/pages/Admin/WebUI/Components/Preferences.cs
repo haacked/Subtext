@@ -23,7 +23,7 @@ using Subtext.Framework.Components;
 namespace Subtext.Web.Admin
 {
 	// This is sort of experimental right now. Not sure it's clean enough/performant enough.
-	internal sealed class Preferences
+	internal static class Preferences
 	{
 		private readonly static ILog log = new Log();
 
@@ -35,10 +35,6 @@ namespace Subtext.Web.Admin
 
 		const int COOKIE_EXPIRY_MONTHS = 6;
 
-		private Preferences()
-		{
-		}
-		
 		internal static int ListingItemCount 
 		{
 			get 

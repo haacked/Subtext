@@ -423,12 +423,6 @@
     <Compile Include="Logging\DatabaseLoggingProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logging\IConfigurationDeclaration.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logging\IConfigurationFactory.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Logging\Log.cs">
       <SubType>Code</SubType>
     </Compile>
