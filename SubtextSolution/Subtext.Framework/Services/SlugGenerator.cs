@@ -18,15 +18,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
+using Ninject;
 using Subtext.Configuration;
 using Subtext.Framework.Components;
 using Subtext.Framework.Properties;
-using Subtext.Framework.Text;
-using System.Text;
-using System.Web;
 using Subtext.Framework.Providers;
-using Ninject;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Services
 {

@@ -155,7 +155,7 @@ namespace Subtext.ImportExport
 
         private IList GetPostAttachments(BlogMLPost bmlPost, IBlogMLContext bmlContext)
         {
-            IList attachments = new ArrayList();
+            var attachments = new ArrayList();
             var attachmentUrls = bmlPost.Content.Text.GetAttributeValues("img", "src");
             bool embed = bmlContext.EmbedAttachments;
 

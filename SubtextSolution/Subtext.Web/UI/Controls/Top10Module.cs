@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
@@ -21,7 +17,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad(e);
 
             int blogId = Blog.Id >= 1 ? Blog.Id : 0;
-			ArrayList myLastItems = new ArrayList();
+			var myLastItems = new List<PositionItems>();
 
 			var entrySummaries = ObjectProvider.Instance().GetTopEntrySummaries(blogId, 10);
 

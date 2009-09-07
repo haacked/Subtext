@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -26,42 +25,8 @@ namespace Subtext.Web.Admin
 {
 	public static class OpmlProvider
 	{
-		public static XmlDocument Export(ICollection<Link> items)
+        public static IXPathNavigable Export(ICollection<Link> items)
 		{
-			#region	DEP: writer		
-//			StringWriter sw = new StringWriter();
-//
-//			XmlWriter writer = new XmlTextWriter(sw);
-//
-//			writer.WriteStartDocument();
-////			writer.WriteAttributeString("encoding", "utf-8");		
-//
-//			writer.WriteStartElement("opml");
-//			writer.WriteElementString("head", String.Empty);
-//			writer.WriteStartElement("body");
-//
-////			foreach (OpmlItem currentItem in items)
-////			{				
-////				WriteOpmlItem(currentItem, writer);
-////			}
-//
-//			foreach (Link currentItem in items)
-//			{				
-//				writer.WriteStartElement("outline");
-//				writer.WriteAttributeString("title", currentItem.Title);
-//				writer.WriteAttributeString("description", currentItem.Title);
-//				writer.WriteAttributeString("htmlurl", currentItem.Url);
-//				writer.WriteAttributeString("xmlurl", currentItem.Rss);
-//				writer.WriteEndElement();
-//			}
-//
-//			writer.WriteEndElement(); // body
-//			writer.WriteEndElement(); // opml
-//			writer.WriteEndDocument();
-//			
-//			writer.Close();
-			#endregion
-
 			XmlDocument doc = new XmlDocument();
 			XmlDeclaration declaration = doc.CreateXmlDeclaration("1.0", "utf-8", null);
 			doc.AppendChild(declaration);
@@ -130,9 +95,9 @@ namespace Subtext.Web.Admin
 			return _currentBatch;
 		}
 
-		public static OpmlItem[] DeserializeItem(XPathNavigator nav)
+		public static IEnumerable<OpmlItem> DeserializeItem(XPathNavigator nav)
 		{
-			ArrayList items = new ArrayList();
+			var items = new List<OpmlItem>();
 
 			if (nav.HasAttributes)
 			{
@@ -162,15 +127,13 @@ namespace Subtext.Web.Admin
 				XPathNodeIterator childItems = nav.SelectChildren("outline", "");
 				while (childItems.MoveNext())
 				{
-					OpmlItem[] children = DeserializeItem(childItems.Current);
+					var children = DeserializeItem(childItems.Current);
 					if (null != children)
 						items.InsertRange(items.Count, children);
 				}
 			}
 
-			OpmlItem[] result = new OpmlItem[items.Count];
-			items.CopyTo(result);
-			return result;
+			return items;
 		}
 	}
 

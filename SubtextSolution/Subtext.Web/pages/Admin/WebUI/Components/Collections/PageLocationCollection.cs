@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Subtext.Web.Admin
@@ -22,10 +21,6 @@ namespace Subtext.Web.Admin
 	/// <summary>
 	/// Implements a strongly typed collection of <see cref="PageLocation"/> elements.
 	/// </summary>
-	/// <remarks>
-	/// <b>PageLocationCollection</b> provides an <see cref="ArrayList"/> 
-	/// that is strongly typed for <see cref="PageLocation"/> elements.
-	/// </remarks>
     [Serializable]
     public class PageLocationCollection : List<PageLocation>
     {
