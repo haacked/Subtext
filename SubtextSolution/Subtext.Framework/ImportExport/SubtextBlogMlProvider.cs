@@ -466,8 +466,24 @@ namespace Subtext.ImportExport
         /// <returns></returns>
         public override string CreateBlogPost(BlogMLBlog blog, BlogMLPost post, IDictionary<string, string> categoryIdMap)
         {
-            Entry newEntry = new Entry((post.PostType == BlogPostTypes.Article) ? PostType.Story : PostType.BlogPost);
+            Entry newEntry = CreateEntryFromBlogMLBlogPost(blog, post, categoryIdMap);
             newEntry.BlogId = Blog.Id;
+            var publisher = EntryPublisher as EntryPublisher;
+            if (publisher != null)
+            {
+                var transform = publisher.Transformation as CompositeTextTransformation;
+                if (transform != null)
+                {
+                    transform.Remove<KeywordExpander>();
+                }
+            }
+
+            return EntryPublisher.Publish(newEntry).ToString(CultureInfo.InvariantCulture);
+        }
+
+        public static Entry CreateEntryFromBlogMLBlogPost(BlogMLBlog blog, BlogMLPost post, IDictionary<string, string> categoryIdMap)
+        {
+            Entry newEntry = new Entry((post.PostType == BlogPostTypes.Article) ? PostType.Story : PostType.BlogPost);
             newEntry.Title = GetTitleFromPost(post);
             newEntry.DateCreated = post.DateCreated;
             newEntry.DateModified = post.DateModified;
@@ -482,6 +498,15 @@ namespace Subtext.ImportExport
             newEntry.IncludeInMainSyndication = post.Approved;
             newEntry.IsAggregated = post.Approved;
             newEntry.AllowComments = true;
+            if (!string.IsNullOrEmpty(post.PostName))
+            {
+                newEntry.EntryName = post.PostName;
+            }
+            else 
+            {
+                SetEntryNameForBlogspotImport(post, newEntry);
+            }
+
             if (post.Authors.Count > 0)
             {
                 foreach (BlogMLAuthor author in blog.Authors)
@@ -495,29 +520,27 @@ namespace Subtext.ImportExport
                 }
             }
 
-            if (!string.IsNullOrEmpty(post.PostName))
-            {
-                newEntry.EntryName = Entries.AutoGenerateFriendlyUrl(post.PostName, newEntry.Id);
-            }
-
             foreach (BlogMLCategoryReference categoryRef in post.Categories)
             {
                 string categoryTitle;
                 if (categoryIdMap.TryGetValue(categoryRef.Ref, out categoryTitle))
                     newEntry.Categories.Add(categoryTitle);
             }
+            return newEntry;
+        }
 
-            var publisher = EntryPublisher as EntryPublisher;
-            if (publisher != null)
+        private static void SetEntryNameForBlogspotImport(BlogMLPost post, Entry newEntry)
+        {
+            if (!String.IsNullOrEmpty(post.PostUrl) && post.PostUrl.Contains("blogspot.com/", StringComparison.OrdinalIgnoreCase))
             {
-                var transform = publisher.Transformation as CompositeTextTransformation;
-                if (transform != null)
+                Uri postUrl = post.PostUrl.ParseUri();
+                string fileName = postUrl.Segments.Last();
+                newEntry.EntryName = Path.GetFileNameWithoutExtension(fileName);
+                if (String.IsNullOrEmpty(post.Title) && String.IsNullOrEmpty(post.PostName))
                 {
-                    transform.Remove<KeywordExpander>();
+                    newEntry.Title = newEntry.EntryName.Replace("-", " ").Replace("+", " ").Replace("_", " ");
                 }
             }
-
-            return EntryPublisher.Publish(newEntry).ToString(CultureInfo.InvariantCulture);
         }
 
         public static string GetTitleFromPost(BlogMLPost blogPost)

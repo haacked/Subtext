@@ -253,7 +253,6 @@ namespace Subtext.Framework
 				//invalid separator or none defined.
 				return AutoGenerateFriendlyUrl(title, char.MinValue, entryId, textTransform);
 			}
-
 		}
 
 		private static string ReplaceUnicodeCharacters(string text)
