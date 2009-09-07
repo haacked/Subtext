@@ -1,4 +1,5 @@
-﻿using BlogML.Xml;
+﻿using System.Collections.Generic;
+using BlogML.Xml;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Framework;
@@ -56,6 +57,34 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             Assert.AreEqual("Post #123", publishedEntry.Title);
+        }
+
+        [Test]
+        public void CreateEntryFromBlogMLBlogPost_WithNullPostNameButWithPostUrlContainingBlogSpotDotCom_UsesLastSegmentAsEntryName()
+        {
+            // arrange
+            var post = new BlogMLPost { PostUrl = "http://example.blogspot.com/2003/07/the-last-segment.html" };
+            var blog = new BlogMLBlog();
+
+            // act
+            var entry = SubtextBlogMLProvider.CreateEntryFromBlogMLBlogPost(blog, post, new Dictionary<string, string>());
+
+            // assert
+            Assert.AreEqual("the-last-segment", entry.EntryName);
+        }
+
+        [Test]
+        public void CreateEntryFromBlogMLBlogPost_WithNullTitleNameButWithPostUrlContainingBlogSpotDotCom_UsesLastSegmentAsTitle()
+        {
+            // arrange
+            var post = new BlogMLPost { PostUrl = "http://example.blogspot.com/2003/07/the-last-segment.html" };
+            var blog = new BlogMLBlog();
+
+            // act
+            var entry = SubtextBlogMLProvider.CreateEntryFromBlogMLBlogPost(blog, post, new Dictionary<string, string>());
+
+            // assert
+            Assert.AreEqual("the last segment", entry.Title);
         }
     }
 }
