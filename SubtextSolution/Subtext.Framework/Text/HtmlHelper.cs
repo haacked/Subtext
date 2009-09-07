@@ -738,8 +738,7 @@ namespace Subtext.Framework.Text
                 @"(.*?)(?:[\s>""'])";
 
             Regex r = new Regex(sPattern, RegexOptions.IgnoreCase);
-            Match m;
-            for (m = r.Match(text); m.Success; m = m.NextMatch())
+            for (Match m = r.Match(text); m.Success; m = m.NextMatch())
             {
                 if (m.Groups.ToString().Length > 0)
                 {

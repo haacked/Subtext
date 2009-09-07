@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Specialized;
 using System.IO;
 using System.Text;
@@ -157,10 +156,8 @@ namespace Subtext.Web.Admin
 
 	}
 
-	internal sealed class Keys 
+	internal static class Keys 
 	{
-		private Keys() {}
-
 		internal const string SESSION_COOKIETEST = "AdminPageCookieTest";
 
 		internal const string QRYSTR_PAGEINDEX = "pg";
@@ -169,10 +166,8 @@ namespace Subtext.Web.Admin
 		internal const string QRYSTR_IMAGEID = "imgid";
 	}
 
-	internal sealed class Constants
+	internal static class Constants
 	{
-		private Constants() {}
-
 		internal const string TRUNCATE_SUFFIX = "...";
 		internal const string CSSSTYLE_HIDDEN = "display: none;";
 
@@ -195,4 +190,3 @@ namespace Subtext.Web.Admin
 		internal static readonly string RES_FAILURECATEGORYUPDATE = Resources.Message_CategoryUpdateFailed;
 	}
 }
-
