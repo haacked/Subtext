@@ -1,12 +1,12 @@
 using System;
-using System.Threading;
 using MbUnit.Framework;
+using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -61,13 +61,15 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Assert.IsFalse(entry.IncludeInMainSyndication, "Setting the DateSyndicated to a null date should have reset 'IncludeInMainSyndication'.");
 
             //save it
-			Entries.Update(entry);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+			Entries.Update(entry, subtextContext.Object);
             Entry savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
 			
             //assert again
             Assert.IsFalse(savedEntry.IncludeInMainSyndication, "This item should still not be included in main syndication.");
 		}
-
 
         [Test]
         [RollBack]
@@ -88,7 +90,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             entry = Entries.GetEntry(entry.Id, PostConfig.None, false);
 
             entry.EntryName = "4321";
-            Entries.Update(entry);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            Entries.Update(entry, subtextContext.Object);
             Entry updatedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
 
             Assert.AreEqual("n_4321", updatedEntry.EntryName, "Expected entryName = 'n_4321'");

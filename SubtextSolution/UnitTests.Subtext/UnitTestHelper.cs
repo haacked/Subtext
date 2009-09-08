@@ -1121,7 +1121,9 @@ namespace UnitTests.Subtext
             var urlHelper = new UrlHelper(requestContext, routes);
             var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper, ObjectProvider.Instance(), requestContext.HttpContext.User, new SubtextCache(requestContext.HttpContext.Cache), kernel);
             var entryPublisher = CreateEntryPublisher(subtextContext);
-            return entryPublisher.Publish(entry);
+            int id = entryPublisher.Publish(entry);
+            entry.Id = id;
+            return id;
         }
 
         public static IEntryPublisher CreateEntryPublisher(ISubtextContext subtextContext)
