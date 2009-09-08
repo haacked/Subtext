@@ -35,6 +35,5 @@ namespace Subtext.Framework.Exceptions
 				return "Sorry, but there is a delay between allowing comments originating from the same source. Please wait for " + Config.CurrentBlog.CommentDelayInMinutes  + " minutes and try again.";
 			}
 		}
-
 	}
 }

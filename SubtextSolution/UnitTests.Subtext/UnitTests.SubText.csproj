@@ -302,9 +302,6 @@
     <Compile Include="Framework\Components\EnclosureTests\EnclosureUpdateTests.cs" />
     <Compile Include="Framework\Components\EnclosureTests\EncosureDeleteTests.cs" />
     <Compile Include="Framework\Components\EnclosureTests\MimetypeDetectionTests.cs" />
-    <Compile Include="Framework\Components\EntryTests\AutoGenerateFriendlyUrlTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Framework\Components\EntryTests\FutureEntriesGetTests.cs" />
     <Compile Include="Framework\Components\EntryTests\EntryCategoryTests.cs" />
     <Compile Include="Framework\Components\EntryTests\EntryDayGetTests.cs" />
