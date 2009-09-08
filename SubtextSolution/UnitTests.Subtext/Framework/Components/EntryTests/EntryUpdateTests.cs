@@ -71,34 +71,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.IsFalse(savedEntry.IncludeInMainSyndication, "This item should still not be included in main syndication.");
 		}
 
-        [Test]
-        [RollBack]
-        public void UpdateEntryCorrectsNumericEntryName()
-        {
-            Config.CreateBlog("", "username", "password", _hostName, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
-
-            Blog info = Config.CurrentBlog;
-            Config.UpdateConfigData(info);
-
-            Entry entry = new Entry(PostType.BlogPost);
-            entry.DateCreated = DateTime.Now;
-            entry.Title = "My Title";
-            entry.Body = "My Post Body";
-
-            UnitTestHelper.Create(entry);
-            entry = Entries.GetEntry(entry.Id, PostConfig.None, false);
-
-            entry.EntryName = "4321";
-            var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
-            Entries.Update(entry, subtextContext.Object);
-            Entry updatedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
-
-            Assert.AreEqual("n_4321", updatedEntry.EntryName, "Expected entryName = 'n_4321'");
-        }
-
 		[SetUp]
 		public void SetUp()
 		{
