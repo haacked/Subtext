@@ -28,6 +28,8 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
+using Subtext.Framework.Services;
+using Subtext.Framework.Emoticons;
 
 namespace Subtext.Framework
 {
@@ -372,7 +374,7 @@ namespace Subtext.Framework
         /// </summary>
         /// <param name="entry">Entry.</param>
         /// <returns></returns>
-        public static void Update(Entry entry)
+        public static void Update(Entry entry, ISubtextContext context)
         {
             if (entry == null)
                 throw new ArgumentNullException("entry");
@@ -380,7 +382,7 @@ namespace Subtext.Framework
             if (NullValue.IsNull(entry.DateSyndicated) && entry.IsActive && entry.IncludeInMainSyndication)
                 entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
 
-            Update(entry, null /* categoryIds */);
+            Update(entry, context, null /* categoryIds */);
         }
 
         /// <summary>
@@ -390,24 +392,22 @@ namespace Subtext.Framework
         /// <param name="entry">Entry.</param>
         /// <param name="categoryIDs">Category Ids this entry belongs to.</param>
         /// <returns></returns>
-        public static void Update(Entry entry, params int[] categoryIds)
+        public static void Update(Entry entry, ISubtextContext context, IEnumerable<int> categoryIds)
         {
             if (entry == null)
             {
                 throw new ArgumentNullException("entry");
             }
+            var repository = ObjectProvider.Instance();
+            var transform = new CompositeTextTransformation();
+            transform.Add(new XhtmlConverter());
+            transform.Add(new EmoticonsTransformation(context));
+            //TODO: Maybe use a INinjectParameter to control this.
+            transform.Add(new KeywordExpander(repository));
+            EntryPublisher publisher = new EntryPublisher(context, null, new SlugGenerator(FriendlyUrlSettings.Settings));
+            publisher.Publish(entry);
 
-            entry.DateModified = Config.CurrentBlog.TimeZone.Now;
-
-            if (!string.IsNullOrEmpty(entry.EntryName))
-            {
-                entry.EntryName = AutoGenerateFriendlyUrl(entry.EntryName, entry.Id);
-            }
-
-            ObjectProvider.Instance().Update(entry, categoryIds);
-
-            ICollection<string> tags = HtmlHelper.ParseTags(entry.Body);
-            ObjectProvider.Instance().SetEntryTagList(entry.Id, tags);
+            //ObjectProvider.Instance().Update(entry, categoryIds);
         }
 
         #endregion

@@ -203,7 +203,7 @@ namespace Subtext.Framework.XmlRpc
                     categoryIds = Entries.GetCategoryIdsFromCategoryTitles(entry);
                 }
 
-                Entries.Update(entry);
+                Entries.Update(entry, SubtextContext);
                 Entries.SetEntryCategoryList(entry.Id, categoryIds);
 
                 if (entry.Enclosure == null)
@@ -574,7 +574,7 @@ namespace Subtext.Framework.XmlRpc
                 }
 
                 entry.DateModified = Blog.TimeZone.Now;
-                Entries.Update(entry);
+                Entries.Update(entry, SubtextContext);
             }
             return Convert.ToInt32(page_id, CultureInfo.InvariantCulture);
         }

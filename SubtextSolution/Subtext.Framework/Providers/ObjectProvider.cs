@@ -290,7 +290,7 @@ namespace Subtext.Framework.Providers
         /// <param name="entry">Entry.</param>
         /// <param name="categoryIds">Category Ids.</param>
         /// <returns></returns>
-		public abstract bool Update(Entry entry, int[] categoryIds);
+		public abstract bool Update(Entry entry, IEnumerable<int> categoryIds);
 
 		/// <summary>
 		/// Saves changes to the specified feedback.

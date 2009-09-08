@@ -26,7 +26,8 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        public void Publish_WithTransformations_RunsTransformationAgainstEntryBody() {
+        public void Publish_WithTransformations_RunsTransformationAgainstEntryBody()
+        {
             //arrange
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
@@ -36,17 +37,18 @@ namespace UnitTests.Subtext.Framework.Services
             var transform = new Mock<ITextTransformation>();
             transform.Setup(t => t.Transform(It.IsAny<string>())).Returns<string>(s => s + "t1");
             var publisher = new EntryPublisher(context.Object, transform.Object, null);
-            var entry = new Entry(PostType.BlogPost) { Title="Test", Body = "test" };
+            var entry = new Entry(PostType.BlogPost) { Title = "Test", Body = "test" };
 
             //act
             publisher.Publish(entry);
-            
+
             //assert
             Assert.AreEqual("testt1", entry.Body);
         }
 
         [Test]
-        public void Publish_WithEntryTitleButNoSlug_CreatesSlug() {
+        public void Publish_WithEntryTitleButNoSlug_CreatesSlug()
+        {
             //arrange
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test" };
             var slugGenerator = new Mock<ISlugGenerator>();
@@ -60,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Services
 
             //act
             publisher.Publish(entry);
-            
+
             //assert
             Assert.AreEqual("this-is-a-test", entry.EntryName);
         }
@@ -264,7 +266,7 @@ namespace UnitTests.Subtext.Framework.Services
             var entry = new Entry(PostType.BlogPost) { Title = "this is a test", EntryName = "test" };
 
             //act, assert
-            UnitTestHelper.AssertThrows<DuplicateEntryException>( () => 
+            UnitTestHelper.AssertThrows<DuplicateEntryException>(() =>
                 publisher.Publish(entry)
             );
         }
@@ -326,7 +328,7 @@ namespace UnitTests.Subtext.Framework.Services
                 publisher.Publish(entry)
             );
         }
-        
+
         [Test]
         public void Publish_WithScriptTagInSlug_ThrowsException()
         {
@@ -337,7 +339,7 @@ namespace UnitTests.Subtext.Framework.Services
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var publisher = new EntryPublisher(context.Object, null, null);
-            var entry = new Entry(PostType.BlogPost) { Title="stuff", EntryName = "<script></script>", Body = "Some Body" };
+            var entry = new Entry(PostType.BlogPost) { Title = "stuff", EntryName = "<script></script>", Body = "Some Body" };
             Config.Settings.AllowScriptsInPosts = false;
 
             //act, assert
@@ -356,13 +358,55 @@ namespace UnitTests.Subtext.Framework.Services
             context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var publisher = new EntryPublisher(context.Object, null, null);
-            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body="Whatever", Description = "Some <script></script> Body" };
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body = "Whatever", Description = "Some <script></script> Body" };
             Config.Settings.AllowScriptsInPosts = false;
 
             //act, assert
             UnitTestHelper.AssertThrows<IllegalPostCharactersException>(() =>
                 publisher.Publish(entry)
             );
+        }
+
+        [Test]
+        public void Publish_WithEntryHavingValidEntryName_DoesNotChangeEntryName()
+        {
+            //arrange
+            var repository = new Mock<ObjectProvider>();
+            repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
+            var context = new Mock<ISubtextContext>();
+            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
+            context.Setup(c => c.Repository).Returns(repository.Object);
+            var transform = new Mock<ITextTransformation>();
+            transform.Setup(t => t.Transform(It.IsAny<string>())).Returns<string>(s => s);
+            var publisher = new EntryPublisher(context.Object, transform.Object, null);
+            var entry = new Entry(PostType.BlogPost) { Title = "Test", Body = "test", EntryName = "original-entry-name" };
+
+            //act
+            publisher.Publish(entry);
+
+            //assert
+            Assert.AreEqual("original-entry-name", entry.EntryName);
+        }
+
+        [Test]
+        public void Publish_WithEntryHavingNumericIntegerEntryName_PrependsNUnderscore()
+        {
+            //arrange
+            var repository = new Mock<ObjectProvider>();
+            repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
+            var context = new Mock<ISubtextContext>();
+            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
+            context.Setup(c => c.Repository).Returns(repository.Object);
+            var transform = new Mock<ITextTransformation>();
+            transform.Setup(t => t.Transform(It.IsAny<string>())).Returns<string>(s => s);
+            var publisher = new EntryPublisher(context.Object, transform.Object, null);
+            var entry = new Entry(PostType.BlogPost) { Title = "Test", Body = "test", EntryName = "4321" };
+
+            //act
+            publisher.Publish(entry);
+
+            //assert
+            Assert.AreEqual("n_4321", entry.EntryName);
         }
     }
 }

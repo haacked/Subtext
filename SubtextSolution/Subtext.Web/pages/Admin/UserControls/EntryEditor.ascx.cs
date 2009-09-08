@@ -403,7 +403,7 @@ namespace Subtext.Web.Admin.UserControls
                         entry.DateModified = Config.CurrentBlog.TimeZone.Now;
                         entry.Id = PostID.Value;
 
-                        Entries.Update(entry);
+                        Entries.Update(entry, SubtextContext);
 
                         if (entry.Enclosure == null && enclosureId != 0)
                         {

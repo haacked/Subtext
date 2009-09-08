@@ -31,7 +31,7 @@ namespace Subtext.Framework.Services
     {
         public EntryPublisher(ISubtextContext context, ITextTransformation transformation, ISlugGenerator slugGenerator)
         {
-            if (context == null)
+            if(context == null)
             {
                 throw new ArgumentNullException("context");
             }
@@ -60,29 +60,37 @@ namespace Subtext.Framework.Services
 
         public int Publish(Entry entry)
         {
-            if (entry == null)
+            if(entry == null)
             {
                 throw new ArgumentNullException("entry");
             }
 
-            if (entry.PostType == PostType.None)
+            if(entry.PostType == PostType.None)
             {
                 throw new ArgumentException(Resources.InvalidOperation_PostTypeIsNone, "entry");
             }
 
             entry.Body = Transformation.Transform(entry.Body);
 
-            if (String.IsNullOrEmpty(entry.EntryName))
+            if(String.IsNullOrEmpty(entry.EntryName))
             {
                 entry.EntryName = SlugGenerator.GetSlugFromTitle(entry);
             }
-            if (NullValue.IsNull(entry.DateCreated))
+            if(entry.EntryName.IsNumeric())
+            {
+                entry.EntryName = "n_" + entry.EntryName;
+            }
+            if(NullValue.IsNull(entry.DateCreated))
             {
                 entry.DateCreated = SubtextContext.Blog.TimeZone.Now;
             }
-            if (entry.IsActive)
+            if(NullValue.IsNull(entry.DateModified))
             {
-                if (NullValue.IsNull(entry.DateSyndicated))
+                entry.DateModified = SubtextContext.Blog.TimeZone.Now;
+            }
+            if(entry.IsActive)
+            {
+                if(NullValue.IsNull(entry.DateSyndicated))
                 {
                     entry.DateSyndicated = SubtextContext.Blog.TimeZone.Now;
                 }
@@ -93,18 +101,25 @@ namespace Subtext.Framework.Services
             }
 
             IEnumerable<int> categoryIds = null;
-            if (entry.Categories.Count > 0)
+            if(entry.Categories.Count > 0)
             {
                 categoryIds = GetCategoryIdsFromCategoryTitles(entry);
             }
 
             try
             {
-                SubtextContext.Repository.Create(entry, categoryIds);
+                if(NullValue.IsNull(entry.Id))
+                {
+                    SubtextContext.Repository.Create(entry, categoryIds);
+                }
+                else
+                {
+                    SubtextContext.Repository.Update(entry, categoryIds);
+                }
             }
-            catch (DbException e)
+            catch(DbException e)
             {
-                if (e.Message.Contains("pick a unique EntryName"))
+                if(e.Message.Contains("pick a unique EntryName"))
                 {
                     throw new DuplicateEntryException(Resources.DuplicateEntryException_EntryNameAlreadyExists, e);
                 }
@@ -119,24 +134,24 @@ namespace Subtext.Framework.Services
         private bool ValidateEntry(Entry e)
         {
             //TODO: The following doesn't belong here. It's verification code.
-            if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body))
+            if(!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body))
             {
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             //Never allow scripts in the title.
-            if (HtmlHelper.HasIllegalContent(e.Title))
+            if(HtmlHelper.HasIllegalContent(e.Title))
             {
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
-            if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Description))
+            if(!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Description))
             {
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             //never allow scripts in the url.
-            if (HtmlHelper.HasIllegalContent(e.EntryName))
+            if(HtmlHelper.HasIllegalContent(e.EntryName))
             {
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }

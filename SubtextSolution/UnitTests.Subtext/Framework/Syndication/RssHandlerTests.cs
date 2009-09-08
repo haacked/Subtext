@@ -9,9 +9,9 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Syndication;
-using Subtext.Framework.Util;
 using Subtext.Framework.Web.HttpModules;
 using UnitTests.Subtext.Framework.Util;
 
@@ -167,10 +167,12 @@ namespace UnitTests.Subtext.Framework.Syndication
             Entry entry = Entries.GetEntry(id, PostConfig.None, false);
 		    DateTime date = entry.DateSyndicated;
 			entry.IncludeInMainSyndication = false;
-			Entries.Update(entry);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            Entries.Update(entry, subtextContext.Object);
             Assert.AreEqual(date, entry.DateSyndicated);
 
-            var subtextContext = new Mock<ISubtextContext>();
             string rssOutput = null;
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
@@ -185,7 +187,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			
 			//Include the second entry back in the syndication.
 			entry.IncludeInMainSyndication = true;
-			Entries.Update(entry);
+			Entries.Update(entry, subtextContext.Object);
 			
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "");
             BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
@@ -218,6 +220,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
 
             var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             string rssOutput = null;
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
@@ -233,11 +236,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 			//Remove first entry from syndication.
 			Entry firstEntry = Entries.GetEntry(firstId, PostConfig.None, false);
 			firstEntry.IncludeInMainSyndication = false;
-			Entries.Update(firstEntry);
+			Entries.Update(firstEntry, subtextContext.Object);
 
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, string.Empty);
             BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
             subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            
             rssOutput = null;
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
@@ -251,11 +256,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 			//Now add it back in changing the DateSyndicated
 			firstEntry.IncludeInMainSyndication = true;
 		    firstEntry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
-			Entries.Update(firstEntry);
+			Entries.Update(firstEntry, subtextContext.Object);
 			
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
             BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
             subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            
             rssOutput = null;
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);

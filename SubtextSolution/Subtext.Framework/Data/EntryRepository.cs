@@ -7,7 +7,6 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Properties;
 using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Data
@@ -304,7 +303,9 @@ namespace Subtext.Framework.Data
         public override bool SetEntryCategoryList(int entryId, IEnumerable<int> categoryIds)
         {
             if (categoryIds == null)
+            {
                 return _procedures.InsertLinkCategoryList(string.Empty, entryId, BlogId); ;
+            }
 
             var idsAsStrings = categoryIds.Select(id => id.ToString(CultureInfo.InvariantCulture));
             string catList = string.Join(",", idsAsStrings.ToArray());
@@ -344,7 +345,7 @@ namespace Subtext.Framework.Data
         /// <param name="entry">Entry.</param>
         /// <param name="categoryIds">Category Ids.</param>
         /// <returns></returns>
-        public override bool Update(Entry entry, params int[] categoryIds)
+        public override bool Update(Entry entry, IEnumerable<int> categoryIds)
         {
             ValidateEntry(entry);
 
@@ -372,7 +373,7 @@ namespace Subtext.Framework.Data
                 return false;
             }
 
-            if (categoryIds != null && categoryIds.Length > 0)
+            if (categoryIds != null && categoryIds.Count() > 0)
             {
                 SetEntryCategoryList(entry.Id, categoryIds);
             }

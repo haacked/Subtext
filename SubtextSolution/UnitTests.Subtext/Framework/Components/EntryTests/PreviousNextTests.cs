@@ -24,6 +24,8 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Web.HttpModules;
+using Moq;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 {
@@ -170,13 +172,16 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 			
 			//Now syndicate.
             previousEntry.IsActive = true;
-			Entries.Update(previousEntry);
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+			Entries.Update(previousEntry, subtextContext.Object);
 			Thread.Sleep(100);
             currentEntry.IsActive = true;
-			Entries.Update(currentEntry);
+			Entries.Update(currentEntry, subtextContext.Object);
 			Thread.Sleep(100);
             nextEntry.IsActive = true;
-			Entries.Update(nextEntry);
+			Entries.Update(nextEntry, subtextContext.Object);
 			
 			Assert.IsTrue(previousId > currentId, "Ids are out of order.");
 

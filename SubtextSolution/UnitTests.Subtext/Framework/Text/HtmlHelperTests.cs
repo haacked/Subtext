@@ -239,7 +239,7 @@ namespace UnitTests.Subtext.Framework.Text
 		}
 
 		[Test]
-		public void ParseTagsDoesNotParseDuplicates()
+		public void ParseTags_WithDuplicateTags_DoesNotParseDuplicate()
 		{
 			var tags = HtmlHelper.ParseTags("<a href=\"http://blah.com/subdir/mytag/\" rel=\"tag\">test1</a><a href=\"http://blah.com/another-dir/mytag/\" rel=\"tag\">test2</a>");
 			Assert.AreEqual(1, tags.Count, "The same tag exists twice, should only count as one.");
@@ -254,7 +254,7 @@ namespace UnitTests.Subtext.Framework.Text
 		}
 
         [Test]
-        public void ParseTagsWithWhitespaceAttributes()
+        public void ParseTags_WithWhitespaceBetweenAttributes_ParsesTagCorrectly()
         {
             var tags = HtmlHelper.ParseTags("<a title=\"blah\" href = " + Environment.NewLine + " \"http://blah.com/subdir/mytag1/\" rel = " + Environment.NewLine + " \"tag\">mytag1</a>");
             Assert.AreEqual(1, tags.Count, "The attributes contain whitespace but should be recognized as valid");
@@ -262,7 +262,7 @@ namespace UnitTests.Subtext.Framework.Text
         }
 
 		[Test]
-		public void ParseTagsWithWeirdWhiteSpace()
+		public void ParseTags_WithWeirdWhiteSpace_ParsesTagCorrectly()
 		{
 			var tags = HtmlHelper.ParseTags("<a title=\"Programmer's Bill of Rights\" href=\"http://www.codinghorror.com/blog/archives/000666.html\">Programmer&rsquo;s Bill of Rights</a> that <a rel=\"friend met\" href=\"http://www.codinghorror.com/blog/\">Jeff Atwood</a>" + Environment.NewLine + "<div class=\"tags\">Technorati tags: <a rel=\"tag\" href=\"http://technorati.com/tag/Programming\">Programming</a>");
 			Assert.AreEqual(1, tags.Count, "The attributes contain whitespace but should be recognized as valid");
@@ -281,6 +281,40 @@ namespace UnitTests.Subtext.Framework.Text
             // assert
             Assert.AreEqual(1, tags.Count, "The attributes contain whitespace but should be recognized as valid");
             Assert.AreEqual("Programming", tags[0]);
+        }
+
+        [Test]
+        public void ParseTags_WithMultipleRelAttributeValues_ParsesTag()
+        { 
+            // arrange
+            var html = "<a href=\"http://blah/yourtag\" rel=\"tag friend\">nothing</a>";
+
+            // act
+            var tags = html.ParseTags();
+            
+            // assert
+            Assert.AreEqual("yourtag", tags.First());
+        }
+
+        [RowTest]
+        [Row("http://blah.com/blah/", "blah")]
+        [Row("http://blah.com/foo-bar", "foo-bar")]
+        [Row("http://blah.com/query?someparm=somevalue", "query")]
+        [Row("http://blah.com/query/?someparm=somevalue", "query")]
+        [Row("http://blah.com/decode+test", "decode test")]
+        [Row("http://blah.com/decode%20test2", "decode test2")]
+        [Row("http://blah.com/another+decode%20test", "another decode test")]
+        public void CanParseEntryTags(string url, string expectedTag)
+        {
+            // arrange
+            string html = "<a href=\"" + url + "\" rel=\"tag\">nothing</a>";
+
+            // act
+            var tags = html.ParseTags();
+
+            // assert;
+            Assert.AreEqual(1, tags.Count);
+            Assert.AreEqual(expectedTag, tags.First());
         }
 
 		[RowTest]
