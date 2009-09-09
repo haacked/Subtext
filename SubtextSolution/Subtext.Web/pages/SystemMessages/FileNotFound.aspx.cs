@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,68 +12,74 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.IO;
+using System.Web.UI;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 
 namespace Subtext.Web.SystemMessages
 {
-	/// <summary>
-	/// Displays a file not found message to the user.
-	/// </summary>
-	public partial class FileNotFound : System.Web.UI.Page
-	{
-		protected override void OnLoad(EventArgs e)
-		{
-			//TODO: Refactor this into a method and unit test it.
-			//Multiple blog handling.
+    /// <summary>
+    /// Displays a file not found message to the user.
+    /// </summary>
+    public partial class FileNotFound : Page
+    {
+        protected override void OnLoad(EventArgs e)
+        {
+            //TODO: Refactor this into a method and unit test it.
+            //Multiple blog handling.
 
-			//Since we were redirected here, 
-			// we want to make sure we send back a 404 and not a 200   -DF
-			Response.StatusCode = 404;
-			Response.Status = "404 Not Found";
+            //Since we were redirected here, 
+            // we want to make sure we send back a 404 and not a 200   -DF
+            Response.StatusCode = 404;
+            Response.Status = "404 Not Found";
 
-			string queryString;
-			if (Request.QueryString.Count == 0)
-			{
-				return;
-			}
+            string queryString;
+            if(Request.QueryString.Count == 0)
+            {
+                return;
+            }
 
-			queryString = Request.QueryString[0];
+            queryString = Request.QueryString[0];
 
-			if (queryString != null && queryString.Length > 0)
-			{
-				string urlText = StringHelper.RightAfter(queryString, ";");
-				if (urlText != null && urlText.Length > 0)
-				{
-					Uri uri = HtmlHelper.ParseUri(urlText);
-					if (uri == null)
-						return;
+            if(queryString != null && queryString.Length > 0)
+            {
+                string urlText = queryString.RightAfter(";");
+                if(urlText != null && urlText.Length > 0)
+                {
+                    Uri uri = urlText.ParseUri();
+                    if(uri == null)
+                    {
+                        return;
+                    }
 
-					string extension = Path.GetExtension(uri.AbsolutePath);
-					if (extension == null || extension.Length == 0)
-					{
-						string uriAbsolutePath = uri.AbsolutePath;
-						if (!uriAbsolutePath.EndsWith("/"))
-						{
-							uriAbsolutePath += "/";
-						}
-						string subfolder =  UrlFormats.GetBlogSubfolderFromRequest(uriAbsolutePath, Request.ApplicationPath);
-						Blog info = Subtext.Framework.Configuration.Config.GetBlog(uri.Host, subfolder);
-						if (info != null)
-						{
-							Response.Redirect(uriAbsolutePath + "Default.aspx");
-							return;
-						}
-					}
-				}
-			}
+                    string extension = Path.GetExtension(uri.AbsolutePath);
+                    if(extension == null || extension.Length == 0)
+                    {
+                        string uriAbsolutePath = uri.AbsolutePath;
+                        if(!uriAbsolutePath.EndsWith("/"))
+                        {
+                            uriAbsolutePath += "/";
+                        }
+                        string subfolder = UrlFormats.GetBlogSubfolderFromRequest(uriAbsolutePath,
+                                                                                  Request.ApplicationPath);
+                        Blog info = Config.GetBlog(uri.Host, subfolder);
+                        if(info != null)
+                        {
+                            Response.Redirect(uriAbsolutePath + "Default.aspx");
+                            return;
+                        }
+                    }
+                }
+            }
 
-			base.OnLoad(e);
-		}
-	}
+            base.OnLoad(e);
+        }
+    }
 }

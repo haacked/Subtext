@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -27,43 +29,27 @@ namespace Subtext.Web.UI.Controls
     {
         protected Repeater Bloggers;
 
-        public int? BlogGroupId
-        {
-            get;
-            private set;
-        }
+        public int? BlogGroupId { get; private set; }
 
-        public bool ShowGroups
-        {
-            get;
-            private set;
-        }
+        public bool ShowGroups { get; private set; }
 
-        public IEnumerable<Blog> Blogs
-        {
-            get;
-            private set;
-        }
+        public IEnumerable<Blog> Blogs { get; private set; }
 
-        public IEnumerable<BlogGroup> BlogGroups
-        {
-            get;
-            private set;
-        }
+        public IEnumerable<BlogGroup> BlogGroups { get; private set; }
 
         protected override void OnLoad(EventArgs e)
         {
             BlogGroupId = GetGroupIdFromQueryString();
             Blogs = Repository.GetBlogsByGroup(HostInfo.Instance.AggregateBlog.Host, BlogGroupId);
 
-            if (ShowGroups)
+            if(ShowGroups)
             {
                 BlogGroups = Repository.GroupBlogs(Blogs);
             }
             else
             {
                 var groups = new Collection<BlogGroup>();
-                groups.Add(new BlogGroup { Blogs = Blogs.ToList() });
+                groups.Add(new BlogGroup {Blogs = Blogs.ToList()});
                 BlogGroups = groups;
             }
             base.OnLoad(e);

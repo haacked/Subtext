@@ -1,4 +1,3 @@
-﻿using System;
 using MbUnit.Framework;
 using Moq;
 using Ninject;
@@ -10,9 +9,10 @@ namespace UnitTests.Subtext.Framework.Routing
     public class SubtextPageBuilderTests
     {
         [Test]
-        public void CtorSetsKernel() { 
+        public void CtorSetsKernel()
+        {
             //arrange
-            var kernel = new Mock<IKernel>().Object;
+            IKernel kernel = new Mock<IKernel>().Object;
 
             //act
             var builder = new SubtextPageBuilder(kernel);

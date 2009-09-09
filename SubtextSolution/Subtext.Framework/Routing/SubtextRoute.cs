@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -22,6 +24,8 @@ namespace Subtext.Framework.Routing
 {
     public class SubtextRoute : Route
     {
+        SubfolderRoute _subfolderRoute;
+
         public SubtextRoute(string url, IRouteHandler routeHandler)
             : this(url, routeHandler, false)
         {
@@ -30,16 +34,30 @@ namespace Subtext.Framework.Routing
         public SubtextRoute(string url, IRouteHandler routeHandler, bool ignoreSubfolder)
             : base(url, routeHandler)
         {
+        }
 
+        private SubfolderRoute RouteForSubfolder
+        {
+            get
+            {
+                SubfolderRoute subfolderRoute = _subfolderRoute;
+                //Not going to lock...
+                if(subfolderRoute == null)
+                {
+                    subfolderRoute = new SubfolderRoute(this);
+                    _subfolderRoute = subfolderRoute;
+                }
+                return subfolderRoute;
+            }
         }
 
         public virtual RouteData GetRouteData(HttpContextBase httpContext, BlogRequest blogRequest)
         {
             RouteData routeData = null;
-            if (String.IsNullOrEmpty(blogRequest.Subfolder))
+            if(String.IsNullOrEmpty(blogRequest.Subfolder))
             {
                 routeData = base.GetRouteData(httpContext);
-                if (routeData != null)
+                if(routeData != null)
                 {
                     //Add current subfolder info.
                     routeData.Values.Add("subfolder", string.Empty);
@@ -55,18 +73,18 @@ namespace Subtext.Framework.Routing
 
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
-            BlogRequest request = (BlogRequest)httpContext.Items[BlogRequest.BlogRequestKey];
+            var request = (BlogRequest)httpContext.Items[BlogRequest.BlogRequestKey];
             return GetRouteData(httpContext, request);
         }
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
             var subfolderInRouteData = requestContext.RouteData.Values["subfolder"] as string;
-            if (String.IsNullOrEmpty(subfolderInRouteData))
+            if(String.IsNullOrEmpty(subfolderInRouteData))
             {
                 subfolderInRouteData = values["subfolder"] as string;
             }
-            if (String.IsNullOrEmpty(subfolderInRouteData))
+            if(String.IsNullOrEmpty(subfolderInRouteData))
             {
                 //values["subfolder"] = subfolderInRouteData;
                 return base.GetVirtualPath(requestContext, values);
@@ -76,21 +94,5 @@ namespace Subtext.Framework.Routing
                 return RouteForSubfolder.GetVirtualPath(requestContext, values);
             }
         }
-
-        private SubfolderRoute RouteForSubfolder
-        {
-            get
-            {
-                var subfolderRoute = _subfolderRoute;
-                //Not going to lock...
-                if (subfolderRoute == null)
-                {
-                    subfolderRoute = new SubfolderRoute(this);
-                    _subfolderRoute = subfolderRoute;
-                }
-                return subfolderRoute;
-            }
-        }
-        SubfolderRoute _subfolderRoute;
     }
 }

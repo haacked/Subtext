@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Web;
@@ -28,16 +30,16 @@ namespace Subtext.Framework.Routing
             Kernel = kernel;
         }
 
-        protected IKernel Kernel
-        {
-            get;
-            private set;
-        }
+        protected IKernel Kernel { get; private set; }
+
+        #region IRouteHandler Members
 
         public IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
             Bootstrapper.RequestContext = requestContext;
             return Kernel.Get<THandler>();
         }
+
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,19 +12,17 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-#endregion
 
-using System;
-using CookComputing.XmlRpc;
+#endregion
 
 namespace Subtext.Framework.XmlRpc
 {
     public struct CategoryInfo
     {
+        public string categoryid;
         public string description;
         public string htmlUrl;
         public string rssUrl;
         public string title;
-        public string categoryid;
     }
 }

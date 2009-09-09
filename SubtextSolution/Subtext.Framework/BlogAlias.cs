@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,12 +12,13 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Framework
 {
-	public class BlogAlias
-	{
+    public class BlogAlias
+    {
         public BlogAlias()
         {
             Id = NullValue.NullInt32;
@@ -27,34 +29,14 @@ namespace Subtext.Framework
             IsActive = true;
         }
 
-		public int Id
-		{
-			get;
-			set;
-		}
+        public int Id { get; set; }
 
-		public bool IsActive
-		{
-			get;
-			set;
-		}
+        public bool IsActive { get; set; }
 
-		public string Host
-		{
-			get;
-			set;
-		}
+        public string Host { get; set; }
 
-		public string Subfolder
-		{
-			get;
-			set;
-		}
+        public string Subfolder { get; set; }
 
-		public int BlogId
-		{
-			get;
-			set;
-		}
-	}
+        public int BlogId { get; set; }
+    }
 }

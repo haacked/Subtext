@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Collections.Generic;
@@ -18,15 +20,14 @@ using System.Data;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Routing;
-using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Providers
 {
-	public class SearchEngine
-	{
-        StoredProcedures _procedures = null;
-        UrlHelper _urlHelper;
-        Blog _blog;
+    public class SearchEngine
+    {
+        readonly Blog _blog;
+        readonly StoredProcedures _procedures;
+        readonly UrlHelper _urlHelper;
 
         public SearchEngine(Blog blog, UrlHelper urlHelper, string connectionString)
         {
@@ -35,29 +36,27 @@ namespace Subtext.Framework.Providers
             _urlHelper = urlHelper;
         }
 
-        protected string ConnectionString {
-            get;
-            private set;
-        }
+        protected string ConnectionString { get; private set; }
 
-		/// <summary>
-		/// Searches the specified blog for items that match the search term.
-		/// </summary>
-		/// <param name="blogId"></param>
-		/// <param name="searchTerm"></param>
-		/// <returns></returns>
-		public virtual ICollection<SearchResult> Search(int blogId, string searchTerm)
-		{
+        /// <summary>
+        /// Searches the specified blog for items that match the search term.
+        /// </summary>
+        /// <param name="blogId"></param>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
+        public virtual ICollection<SearchResult> Search(int blogId, string searchTerm)
+        {
             ICollection<SearchResult> results = new List<SearchResult>();
 
-            using (IDataReader reader = _procedures.SearchEntries(blogId, searchTerm, _blog.TimeZone.Now)) {
-                while (reader.Read())
+            using(IDataReader reader = _procedures.SearchEntries(blogId, searchTerm, _blog.TimeZone.Now))
+            {
+                while(reader.Read())
                 {
-                    Entry foundEntry = DataHelper.LoadEntry(reader, true);
+                    Entry foundEntry = reader.LoadEntry(true);
                     results.Add(new SearchResult(foundEntry.Title, _urlHelper.EntryUrl(foundEntry).ToUri()));
                 }
             }
             return results;
-		}
-	}
+        }
+    }
 }

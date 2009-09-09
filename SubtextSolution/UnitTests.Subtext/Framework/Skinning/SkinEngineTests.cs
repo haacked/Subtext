@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Hosting;
@@ -16,7 +16,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         {
             //arrange
             var directories = new List<VirtualDirectory>();
-            for (int i = 0; i < 3; i++) 
+            for(int i = 0; i < 3; i++)
             {
                 var skinDir = new Mock<VirtualDirectory>("~/skins/skin" + i);
                 skinDir.Setup(d => d.Name).Returns("Skin" + i);
@@ -26,11 +26,11 @@ namespace UnitTests.Subtext.Framework.Skinning
             skinsDir.Setup(s => s.Directories).Returns(directories);
             var vpp = new Mock<VirtualPathProvider>();
             vpp.Setup(v => v.GetDirectory("~/skins")).Returns(skinsDir.Object);
-            SkinEngine skins = new SkinEngine(vpp.Object);
+            var skins = new SkinEngine(vpp.Object);
 
             //act
-            var skinTemplates = skins.GetSkinTemplates(false /* mobile */);
-            
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(false /* mobile */);
+
             //assert
             Assert.AreEqual(3, skinTemplates.Count);
             Assert.AreEqual("Skin0", skinTemplates.Values.First().Name);
@@ -52,10 +52,10 @@ namespace UnitTests.Subtext.Framework.Skinning
             skinsDir.Setup(s => s.Directories).Returns(directories);
             var vpp = new Mock<VirtualPathProvider>();
             vpp.Setup(v => v.GetDirectory("~/skins")).Returns(skinsDir.Object);
-            SkinEngine skins = new SkinEngine(vpp.Object);
+            var skins = new SkinEngine(vpp.Object);
 
             //act
-            var skinTemplates = skins.GetSkinTemplates(false /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(false /* mobile */);
 
             //assert
             Assert.AreEqual(1, skinTemplates.Count);
@@ -67,14 +67,16 @@ namespace UnitTests.Subtext.Framework.Skinning
         {
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
-            Stream stream = @"<?xml version=""1.0""?>
+            Stream stream =
+                @"<?xml version=""1.0""?>
 <SkinTemplates xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
     <SkinTemplate Name=""Skinny"" StyleMergeMode=""MergedAfter"" ScriptMergeMode=""Merge"">
       <Styles>
         <Style href=""~/skins/_System/commonstyle.css"" />
       </Styles>
     </SkinTemplate>
-</SkinTemplates>".ToStream();
+</SkinTemplates>"
+                    .ToStream();
             virtualFile.Setup(vf => vf.Open()).Returns(stream);
 
             var directories = new List<VirtualDirectory>();
@@ -87,10 +89,10 @@ namespace UnitTests.Subtext.Framework.Skinning
             vpp.Setup(v => v.GetDirectory("~/skins")).Returns(skinsDir.Object);
             vpp.Setup(v => v.FileExists("~/skins/Skin1/skin.config")).Returns(true);
             vpp.Setup(v => v.GetFile("~/skins/Skin1/skin.config")).Returns(virtualFile.Object);
-            SkinEngine skins = new SkinEngine(vpp.Object);
+            var skins = new SkinEngine(vpp.Object);
 
             //act
-            var skinTemplates = skins.GetSkinTemplates(false /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(false /* mobile */);
 
             //assert
             Assert.AreEqual(1, skinTemplates.Count);
@@ -107,16 +109,18 @@ namespace UnitTests.Subtext.Framework.Skinning
         {
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
-            Stream stream = @"<?xml version=""1.0""?>
+            Stream stream =
+                @"<?xml version=""1.0""?>
 <SkinTemplates xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
     <SkinTemplate Name=""Mobile"" MobileSupport=""MobileOnly"">
       <Styles>
         <Style href=""~/skins/_System/commonstyle.css"" />
       </Styles>
     </SkinTemplate>
-</SkinTemplates>".ToStream();
+</SkinTemplates>"
+                    .ToStream();
             virtualFile.Setup(vf => vf.Open()).Returns(stream);
-            
+
             var directories = new List<VirtualDirectory>();
             var skinDir = new Mock<VirtualDirectory>("~/skins/skin1");
             skinDir.Setup(d => d.Name).Returns("Skin1");
@@ -127,10 +131,10 @@ namespace UnitTests.Subtext.Framework.Skinning
             vpp.Setup(v => v.GetDirectory("~/skins")).Returns(skinsDir.Object);
             vpp.Setup(v => v.FileExists("~/skins/Skin1/skin.config")).Returns(true);
             vpp.Setup(v => v.GetFile("~/skins/Skin1/skin.config")).Returns(virtualFile.Object);
-            SkinEngine skins = new SkinEngine(vpp.Object);
+            var skins = new SkinEngine(vpp.Object);
 
             //act
-            var skinTemplates = skins.GetSkinTemplates(true /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(true /* mobile */);
 
             //assert
             Assert.AreEqual(1, skinTemplates.Count);
@@ -143,14 +147,16 @@ namespace UnitTests.Subtext.Framework.Skinning
         {
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
-            Stream stream = @"<?xml version=""1.0""?>
+            Stream stream =
+                @"<?xml version=""1.0""?>
 <SkinTemplates xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
     <SkinTemplate Name=""Mobile"" MobileSupport=""Supported"">
       <Styles>
         <Style href=""~/skins/_System/commonstyle.css"" />
       </Styles>
     </SkinTemplate>
-</SkinTemplates>".ToStream();
+</SkinTemplates>"
+                    .ToStream();
             virtualFile.Setup(vf => vf.Open()).Returns(stream);
 
             var directories = new List<VirtualDirectory>();
@@ -163,10 +169,10 @@ namespace UnitTests.Subtext.Framework.Skinning
             vpp.Setup(v => v.GetDirectory("~/skins")).Returns(skinsDir.Object);
             vpp.Setup(v => v.FileExists("~/skins/Skin1/skin.config")).Returns(true);
             vpp.Setup(v => v.GetFile("~/skins/Skin1/skin.config")).Returns(virtualFile.Object);
-            SkinEngine skins = new SkinEngine(vpp.Object);
+            var skins = new SkinEngine(vpp.Object);
 
             //act
-            var skinTemplates = skins.GetSkinTemplates(true /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(true /* mobile */);
 
             //assert
             Assert.AreEqual(1, skinTemplates.Count);
@@ -179,14 +185,16 @@ namespace UnitTests.Subtext.Framework.Skinning
         {
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
-            Stream stream = @"<?xml version=""1.0""?>
+            Stream stream =
+                @"<?xml version=""1.0""?>
 <SkinTemplates xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
     <SkinTemplate Name=""Mobile"" MobileSupport=""Supported"">
       <Styles>
         <Style href=""~/skins/_System/commonstyle.css"" />
       </Styles>
     </SkinTemplate>
-</SkinTemplates>".ToStream();
+</SkinTemplates>"
+                    .ToStream();
             virtualFile.Setup(vf => vf.Open()).Returns(stream);
 
             var directories = new List<VirtualDirectory>();
@@ -199,10 +207,10 @@ namespace UnitTests.Subtext.Framework.Skinning
             vpp.Setup(v => v.GetDirectory("~/skins")).Returns(skinsDir.Object);
             vpp.Setup(v => v.FileExists("~/skins/Skin1/skin.config")).Returns(true);
             vpp.Setup(v => v.GetFile("~/skins/Skin1/skin.config")).Returns(virtualFile.Object);
-            SkinEngine skins = new SkinEngine(vpp.Object);
+            var skins = new SkinEngine(vpp.Object);
 
             //act
-            var skinTemplates = skins.GetSkinTemplates(false /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(false /* mobile */);
 
             //assert
             Assert.AreEqual(1, skinTemplates.Count);
@@ -215,14 +223,16 @@ namespace UnitTests.Subtext.Framework.Skinning
         {
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
-            Stream stream = @"<?xml version=""1.0""?>
+            Stream stream =
+                @"<?xml version=""1.0""?>
     <SkinTemplates xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
         <SkinTemplate Name=""Skinny"" MobileSupported=""None"">
           <Styles>
             <Style href=""~/skins/_System/commonstyle.css"" />
           </Styles>
         </SkinTemplate>
-    </SkinTemplates>".ToStream();
+    </SkinTemplates>"
+                    .ToStream();
             virtualFile.Setup(vf => vf.Open()).Returns(stream);
 
             var directories = new List<VirtualDirectory>();
@@ -235,10 +245,10 @@ namespace UnitTests.Subtext.Framework.Skinning
             vpp.Setup(v => v.GetDirectory("~/skins")).Returns(skinsDir.Object);
             vpp.Setup(v => v.FileExists("~/skins/Skin1/skin.config")).Returns(true);
             vpp.Setup(v => v.GetFile("~/skins/Skin1/skin.config")).Returns(virtualFile.Object);
-            SkinEngine skins = new SkinEngine(vpp.Object);
+            var skins = new SkinEngine(vpp.Object);
 
             //act
-            var skinTemplates = skins.GetSkinTemplates(true /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(true /* mobile */);
 
             //assert
             Assert.AreEqual(0, skinTemplates.Count);

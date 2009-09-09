@@ -13,58 +13,62 @@ using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
-	/// <summary>
-	/// Summary description for AtomHandlerTests.
-	/// </summary>
-	[TestFixture]
-	public class AtomHandlerTests
-	{
-		/// <summary>
-		/// Tests writing a simple RSS feed from some database entries.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void AtomWriterProducesValidFeedFromDatabase()
-		{
-			string hostName = UnitTestHelper.GenerateUniqueString();
-			Config.CreateBlog("Test", "username", "password", hostName, string.Empty);
+    /// <summary>
+    /// Summary description for AtomHandlerTests.
+    /// </summary>
+    [TestFixture]
+    public class AtomHandlerTests
+    {
+        /// <summary>
+        /// Tests writing a simple RSS feed from some database entries.
+        /// </summary>
+        [Test]
+        [RollBack]
+        public void AtomWriterProducesValidFeedFromDatabase()
+        {
+            string hostName = UnitTestHelper.GenerateUniqueString();
+            Config.CreateBlog("Test", "username", "password", hostName, string.Empty);
 
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
+            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
             BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
-			Config.CurrentBlog.Email = "Subtext@example.com";
-			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
+            Config.CurrentBlog.Email = "Subtext@example.com";
+            Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 
-            var dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, dateCreated);
-            
-			int id = UnitTestHelper.Create(entry); //persist to db.
+            DateTime dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null,
+                                                                           dateCreated);
+
+            int id = UnitTestHelper.Create(entry); //persist to db.
 
             var subtextContext = new Mock<ISubtextContext>();
             string rssOutput = null;
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
-            var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
+            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/");
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/2008/01/23/testtitle.aspx");
-            AtomHandler handler = new AtomHandler(subtextContext.Object);
-            
-			handler.ProcessRequest();
-			HttpContext.Current.Response.Flush();
+            var handler = new AtomHandler(subtextContext.Object);
 
-			XmlDocument doc = new XmlDocument();
-			doc.LoadXml(rssOutput);
-			XmlNamespaceManager nsmanager = new XmlNamespaceManager(doc.NameTable);
-			nsmanager.AddNamespace("atom", "http://www.w3.org/2005/Atom");
+            handler.ProcessRequest();
+            HttpContext.Current.Response.Flush();
 
-			XmlNodeList itemNodes = doc.SelectNodes("/atom:feed/atom:entry", nsmanager);
-			Assert.AreEqual(1, itemNodes.Count, "expected one entry node.");
+            var doc = new XmlDocument();
+            doc.LoadXml(rssOutput);
+            var nsmanager = new XmlNamespaceManager(doc.NameTable);
+            nsmanager.AddNamespace("atom", "http://www.w3.org/2005/Atom");
 
-			Assert.AreEqual("testtitle", itemNodes[0].SelectSingleNode("atom:title", nsmanager).InnerText, "Not what we expected for the title.");
-			string urlFormat = "http://{0}/archive/2008/01/23/{1}.aspx";
+            XmlNodeList itemNodes = doc.SelectNodes("/atom:feed/atom:entry", nsmanager);
+            Assert.AreEqual(1, itemNodes.Count, "expected one entry node.");
 
-			string expectedUrl = string.Format(urlFormat, hostName, "testtitle");
+            Assert.AreEqual("testtitle", itemNodes[0].SelectSingleNode("atom:title", nsmanager).InnerText,
+                            "Not what we expected for the title.");
+            string urlFormat = "http://{0}/archive/2008/01/23/{1}.aspx";
 
-			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("atom:id", nsmanager).InnerText, "Not what we expected for the link.");
-			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("atom:link/@href", nsmanager).InnerText, "Not what we expected for the link.");
-		}
-	}
+            string expectedUrl = string.Format(urlFormat, hostName, "testtitle");
+
+            Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("atom:id", nsmanager).InnerText,
+                            "Not what we expected for the link.");
+            Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("atom:link/@href", nsmanager).InnerText,
+                            "Not what we expected for the link.");
+        }
+    }
 }

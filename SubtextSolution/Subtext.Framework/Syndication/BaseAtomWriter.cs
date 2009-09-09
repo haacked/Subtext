@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,11 +12,13 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Globalization;
 using System.IO;
+using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Infrastructure;
@@ -24,230 +27,235 @@ using Subtext.Framework.Tracking;
 
 namespace Subtext.Framework.Syndication
 {
-	/// <summary>
-	/// Generates an Atom feed.
-	/// </summary>
-	public abstract class BaseAtomWriter : BaseSyndicationWriter<Entry>
-	{
-		#region TimeHelpers
-		
-		private static string W3UTC(DateTime dt, TimeZone tz)
-		{
-			TimeSpan timeZone = tz.GetUtcOffset(dt);
-			if (timeZone.TotalHours >= 0) {
-				return dt.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture) + ":00+" + timeZone.TotalHours +
-					":" + ((timeZone.Minutes > 0) ? timeZone.Minutes.ToString(CultureInfo.InvariantCulture) : "00");
-			}
-			return dt.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture) + ":00" + timeZone.TotalHours +
-				":" + ((timeZone.Minutes > 0) ? timeZone.Minutes.ToString(CultureInfo.InvariantCulture) : "00");
-		}
+    /// <summary>
+    /// Generates an Atom feed.
+    /// </summary>
+    public abstract class BaseAtomWriter : BaseSyndicationWriter<Entry>
+    {
+        #region TimeHelpers
 
-		private static string W3UTCZ(IFormattable dt)
-		{
-			return dt.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
-		}
-		#endregion
+        private static string W3UTC(DateTime dt, TimeZone tz)
+        {
+            TimeSpan timeZone = tz.GetUtcOffset(dt);
+            if(timeZone.TotalHours >= 0)
+            {
+                return dt.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture) + ":00+" + timeZone.TotalHours +
+                       ":" + ((timeZone.Minutes > 0) ? timeZone.Minutes.ToString(CultureInfo.InvariantCulture) : "00");
+            }
+            return dt.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture) + ":00" + timeZone.TotalHours +
+                   ":" + ((timeZone.Minutes > 0) ? timeZone.Minutes.ToString(CultureInfo.InvariantCulture) : "00");
+        }
 
-		private bool isBuilt = false;
+        private static string W3UTCZ(IFormattable dt)
+        {
+            return dt.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+        }
 
-		/// <summary>
-		/// Bases the syndication writer.
-		/// </summary>
-		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-		/// <param name="useDeltaEncoding">if set to <c>true</c> [use delta encoding].</param>
-		protected BaseAtomWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context) : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
-		{
-		}
+        #endregion
 
-		protected override void Build()
-		{
-			if(!isBuilt)
-			{
-				Build(this.DateLastViewedFeedItemPublished);
-			}
-		}
+        private bool isBuilt = false;
 
-		/// <summary>
-		/// Builds the specified last id viewed.
-		/// </summary>
-		/// <param name="dateLastViewedFeedItemPublished">Last id viewed.</param>
-		protected override void Build(DateTime dateLastViewedFeedItemPublished)
-		{
-			if(!isBuilt)
-			{
-				StartDocument();
-				SetNamespaces();
-				WriteChannel();
-				WriteEntries();
-				EndDocument();
-				isBuilt = true;
-			}
-		}
+        /// <summary>
+        /// Bases the syndication writer.
+        /// </summary>
+        /// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
+        /// <param name="useDeltaEncoding">if set to <c>true</c> [use delta encoding].</param>
+        protected BaseAtomWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding,
+                                 ISubtextContext context)
+            : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
+        {
+        }
 
-		protected virtual void SetNamespaces()
-		{
-			this.WriteAttributeString("xmlns:dc","http://purl.org/dc/elements/1.1/");
-			this.WriteAttributeString("xmlns:trackback","http://madskills.com/public/xml/rss/module/trackback/");
-			this.WriteAttributeString("xmlns:wfw","http://wellformedweb.org/CommentAPI/");
-			this.WriteAttributeString("xmlns:slash","http://purl.org/rss/1.0/modules/slash/");
-			//(Duncanma 11/13/2005, changing atom namespace for 1.0 feed)
-			this.WriteAttributeString("xmlns","http://www.w3.org/2005/Atom");
-			this.WriteAttributeString("xml:lang",Blog.Language);
-		}
+        protected override void Build()
+        {
+            if(!isBuilt)
+            {
+                Build(DateLastViewedFeedItemPublished);
+            }
+        }
 
-		protected virtual void StartDocument()
-		{
-			this.WriteStartElement("feed");
-			//(Duncanma 11/13/2005, removing version attribute for 1.0 feed)
-			//this.WriteAttributeString("version","0.3");
-		}
+        /// <summary>
+        /// Builds the specified last id viewed.
+        /// </summary>
+        /// <param name="dateLastViewedFeedItemPublished">Last id viewed.</param>
+        protected override void Build(DateTime dateLastViewedFeedItemPublished)
+        {
+            if(!isBuilt)
+            {
+                StartDocument();
+                SetNamespaces();
+                WriteChannel();
+                WriteEntries();
+                EndDocument();
+                isBuilt = true;
+            }
+        }
 
-		protected void EndDocument()
-		{
-			this.WriteEndElement();
-		}
+        protected virtual void SetNamespaces()
+        {
+            WriteAttributeString("xmlns:dc", "http://purl.org/dc/elements/1.1/");
+            WriteAttributeString("xmlns:trackback", "http://madskills.com/public/xml/rss/module/trackback/");
+            WriteAttributeString("xmlns:wfw", "http://wellformedweb.org/CommentAPI/");
+            WriteAttributeString("xmlns:slash", "http://purl.org/rss/1.0/modules/slash/");
+            //(Duncanma 11/13/2005, changing atom namespace for 1.0 feed)
+            WriteAttributeString("xmlns", "http://www.w3.org/2005/Atom");
+            WriteAttributeString("xml:lang", Blog.Language);
+        }
 
-		protected virtual void WriteChannel()
-		{
-            Uri blogUrl = new Uri(UrlHelper.BlogUrl().ToFullyQualifiedUrl(Blog), "Default.aspx");
-			BuildChannel(Blog.Title, blogUrl.ToString(), Blog.SubTitle);
-		}
+        protected virtual void StartDocument()
+        {
+            WriteStartElement("feed");
+            //(Duncanma 11/13/2005, removing version attribute for 1.0 feed)
+            //this.WriteAttributeString("version","0.3");
+        }
 
-		protected void BuildChannel(string title, string link, string description)
-		{
-            this.WriteElementString("title", HtmlHelper.RemoveHtml(title));
+        protected void EndDocument()
+        {
+            WriteEndElement();
+        }
+
+        protected virtual void WriteChannel()
+        {
+            var blogUrl = new Uri(UrlHelper.BlogUrl().ToFullyQualifiedUrl(Blog), "Default.aspx");
+            BuildChannel(Blog.Title, blogUrl.ToString(), Blog.SubTitle);
+        }
+
+        protected void BuildChannel(string title, string link, string description)
+        {
+            WriteElementString("title", HtmlHelper.RemoveHtml(title));
 
             //(Duncanma 11/13/2005, changing link rel and href for 1.0 feed)
-            this.WriteStartElement("link");
+            WriteStartElement("link");
             //(Duncanma 12/28/2005, changing again... Atom vs atom was causing feed validation errors
-            this.WriteAttributeString("rel", "self");
-            this.WriteAttributeString("type", "application/atom+xml");
+            WriteAttributeString("rel", "self");
+            WriteAttributeString("type", "application/atom+xml");
             string currentURL = link + "Atom.aspx";
-            if (System.Web.HttpContext.Current.Request != null)
-                currentURL = System.Web.HttpContext.Current.Request.Url.ToString();
-            this.WriteAttributeString("href", currentURL);
+            if(HttpContext.Current.Request != null)
+            {
+                currentURL = HttpContext.Current.Request.Url.ToString();
+            }
+            WriteAttributeString("href", currentURL);
 
             // this.WriteAttributeString("rel","self");
             // this.WriteAttributeString("type","application/xml");
             // this.WriteAttributeString("href",info.RootUrl + "atom.aspx");
-            this.WriteEndElement();
+            WriteEndElement();
 
             //(Duncanma 11/13/2005, changing tagline to subtitle for 1.0 feed)
-            this.WriteStartElement("subtitle");
-            this.WriteAttributeString("type", "html");
-            this.WriteString(HtmlHelper.RemoveHtml(description));
-            this.WriteEndElement();
+            WriteStartElement("subtitle");
+            WriteAttributeString("type", "html");
+            WriteString(HtmlHelper.RemoveHtml(description));
+            WriteEndElement();
 
-            this.WriteElementString("id", link);
+            WriteElementString("id", link);
 
-            this.WriteStartElement("author");
-            this.WriteElementString("name", Blog.Author);
+            WriteStartElement("author");
+            WriteElementString("name", Blog.Author);
 
-            Uri blogUrl = new Uri(UrlHelper.BlogUrl().ToFullyQualifiedUrl(Blog), "Default.aspx");
-            this.WriteElementString("uri", blogUrl.ToString());
-            this.WriteEndElement();
+            var blogUrl = new Uri(UrlHelper.BlogUrl().ToFullyQualifiedUrl(Blog), "Default.aspx");
+            WriteElementString("uri", blogUrl.ToString());
+            WriteEndElement();
 
             //(Duncanma 11/13/05) updated generator to reflect project name change to Subtext
-            this.WriteStartElement("generator");
+            WriteStartElement("generator");
             //(Duncanma 11/13/2005, changing url to uri for 1.0 feed)
-            this.WriteAttributeString("uri", "http://subtextproject.com");
-            this.WriteAttributeString("version", VersionInfo.VersionDisplayText);
-            this.WriteString("Subtext");
-            this.WriteEndElement();
+            WriteAttributeString("uri", "http://subtextproject.com");
+            WriteAttributeString("version", VersionInfo.VersionDisplayText);
+            WriteString("Subtext");
+            WriteEndElement();
 
             //(Duncanma 11/13/2005, changing modified to updated for 1.0 feed)
-            this.WriteElementString("updated", W3UTCZ(Blog.LastUpdated));
-		}
+            WriteElementString("updated", W3UTCZ(Blog.LastUpdated));
+        }
 
-		private void WriteEntries()
-		{
-			BlogConfigurationSettings settings = Config.Settings;
+        private void WriteEntries()
+        {
+            BlogConfigurationSettings settings = Config.Settings;
 
-			ClientHasAllFeedItems = true;
-			LatestPublishDate = this.DateLastViewedFeedItemPublished;
+            ClientHasAllFeedItems = true;
+            LatestPublishDate = DateLastViewedFeedItemPublished;
 
-			foreach(Entry entry in this.Items)
-			{
-				// We'll show every entry if RFC3229 is not enabled.
-				//TODO: This is wrong.  What if a post is not published 
-				// and then gets published later. It will not be displayed.
-				if(!UseDeltaEncoding || entry.DateSyndicated > this.DateLastViewedFeedItemPublished)
-				{
-					this.WriteStartElement("entry");
-					EntryXml(entry, settings, Blog.TimeZone);
-					this.WriteEndElement();
-					ClientHasAllFeedItems = false;
-					
-					//Update the latest publish date.
-					if(entry.DateSyndicated > LatestPublishDate)
-					{
-						LatestPublishDate = entry.DateSyndicated;
-					}
-				}
-			}
-		}
+            foreach(Entry entry in Items)
+            {
+                // We'll show every entry if RFC3229 is not enabled.
+                //TODO: This is wrong.  What if a post is not published 
+                // and then gets published later. It will not be displayed.
+                if(!UseDeltaEncoding || entry.DateSyndicated > DateLastViewedFeedItemPublished)
+                {
+                    WriteStartElement("entry");
+                    EntryXml(entry, settings, Blog.TimeZone);
+                    WriteEndElement();
+                    ClientHasAllFeedItems = false;
 
-		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, ITimeZone timezone)
-		{
-				this.WriteElementString("title",entry.Title);
-						
-				this.WriteStartElement("link");
-				//(Duncanma 11/13/2005, changing alternate to self for 1.0 feed)
-				this.WriteAttributeString("rel", "alternate");
-				this.WriteAttributeString("type", "text/html");
-				this.WriteAttributeString("href", UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString());
-				this.WriteEndElement();
+                    //Update the latest publish date.
+                    if(entry.DateSyndicated > LatestPublishDate)
+                    {
+                        LatestPublishDate = entry.DateSyndicated;
+                    }
+                }
+            }
+        }
 
-				this.WriteElementString("id", UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString());
+        protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, ITimeZone timezone)
+        {
+            WriteElementString("title", entry.Title);
 
-				//(Duncanma 11/13/2005, hiding created, change issued to
-			    //published and modified to updated for 1.0 feed)
-				//this.WriteElementString("created",W3UTCZ(entry.DateCreated));
-				this.WriteElementString("published", W3UTCZ(entry.DateCreated));
-				this.WriteElementString("updated", W3UTCZ(entry.DateModified));
+            WriteStartElement("link");
+            //(Duncanma 11/13/2005, changing alternate to self for 1.0 feed)
+            WriteAttributeString("rel", "alternate");
+            WriteAttributeString("type", "text/html");
+            WriteAttributeString("href", UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString());
+            WriteEndElement();
 
-				if(entry.HasDescription)
-				{
-					this.WriteStartElement("summary");
-					//(Duncanma 11/13/2005, changing text/html to html for 1.0 feed)
-					this.WriteAttributeString("type", "html");
-					this.WriteString(entry.Description);
-					this.WriteEndElement();
-				}
+            WriteElementString("id", UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString());
 
-				this.WriteStartElement("content");
-				//(Duncanma 11/13/2005, changing text/html to html for 1.0 feed)
-				this.WriteAttributeString("type","html");
-				//(Duncanma 11/13/2005, hiding mode for 1.0 feed)
-				//this.WriteAttributeString("mode","escaped");
-							
-				this.WriteString
-				(
-					string.Format
-					(CultureInfo.InvariantCulture, "{0}{1}", //tag def
-						entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
-						(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(UrlHelper.AggBugUrl(entry.Id)) : null //use aggbugs
-					)
-				);		
-				this.WriteEndElement();
+            //(Duncanma 11/13/2005, hiding created, change issued to
+            //published and modified to updated for 1.0 feed)
+            //this.WriteElementString("created",W3UTCZ(entry.DateCreated));
+            WriteElementString("published", W3UTCZ(entry.DateCreated));
+            WriteElementString("updated", W3UTCZ(entry.DateModified));
 
-			if(AllowComments && Blog.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
-			{
-				//optional for CommentApi Post location
-				this.WriteElementString("wfw:comment", UrlHelper.CommentApiUrl(entry.Id));
-				//optional url for comments
-				//this.WriteElementString("comments",entry.Link + "#feedback");
-				//optional comment count
-				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
-				//optional commentRss feed location
-				this.WriteElementString("wfw:commentRss", UrlHelper.CommentRssUrl(entry.Id));
-				//optional trackback location
-				this.WriteElementString("trackback:ping", UrlHelper.TrackbacksUrl(entry.Id));
-				//core 
-			}
-		}
-	}
+            if(entry.HasDescription)
+            {
+                WriteStartElement("summary");
+                //(Duncanma 11/13/2005, changing text/html to html for 1.0 feed)
+                WriteAttributeString("type", "html");
+                WriteString(entry.Description);
+                WriteEndElement();
+            }
+
+            WriteStartElement("content");
+            //(Duncanma 11/13/2005, changing text/html to html for 1.0 feed)
+            WriteAttributeString("type", "html");
+            //(Duncanma 11/13/2005, hiding mode for 1.0 feed)
+            //this.WriteAttributeString("mode","escaped");
+
+            WriteString
+                (
+                string.Format
+                    (CultureInfo.InvariantCulture, "{0}{1}", //tag def
+                     entry.SyndicateDescriptionOnly ? entry.Description : entry.Body, //use desc or full post
+                     (UseAggBugs && settings.Tracking.EnableAggBugs)
+                         ? TrackingUrls.AggBugImage(UrlHelper.AggBugUrl(entry.Id))
+                         : null //use aggbugs
+                    )
+                );
+            WriteEndElement();
+
+            if(AllowComments && Blog.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
+            {
+                //optional for CommentApi Post location
+                WriteElementString("wfw:comment", UrlHelper.CommentApiUrl(entry.Id));
+                //optional url for comments
+                //this.WriteElementString("comments",entry.Link + "#feedback");
+                //optional comment count
+                WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
+                //optional commentRss feed location
+                WriteElementString("wfw:commentRss", UrlHelper.CommentRssUrl(entry.Id));
+                //optional trackback location
+                WriteElementString("trackback:ping", UrlHelper.TrackbacksUrl(entry.Id));
+                //core 
+            }
+        }
+    }
 }
-
-
-

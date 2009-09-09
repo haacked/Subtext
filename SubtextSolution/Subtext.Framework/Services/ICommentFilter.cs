@@ -1,4 +1,3 @@
-﻿using System;
 using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Services

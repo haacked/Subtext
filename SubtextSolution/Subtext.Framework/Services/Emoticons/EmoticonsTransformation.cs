@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,13 +12,13 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using Subtext.Framework.Services;
 using Ninject;
+using Subtext.Framework.Services;
 
 namespace Subtext.Framework.Emoticons
 {
@@ -26,6 +27,10 @@ namespace Subtext.Framework.Emoticons
     /// </summary>
     public class EmoticonsTransformation : ITextTransformation
     {
+        readonly ISubtextContext _subtextContext;
+
+        string _appRootUrl;
+
         [Inject]
         public EmoticonsTransformation(ISubtextContext context)
             : this(new EmoticonsFileSource(context), null)
@@ -33,28 +38,26 @@ namespace Subtext.Framework.Emoticons
             _subtextContext = context;
         }
 
-        ISubtextContext _subtextContext;
-
         public EmoticonsTransformation(IEmoticonsSource emoticonsSource, string appRootUrl)
         {
             EmoticonsTable = emoticonsSource.GetEmoticons();
             _appRootUrl = appRootUrl;
         }
 
-        string _appRootUrl;
+        protected IEnumerable<Emoticon> EmoticonsTable { get; private set; }
 
-        protected IEnumerable<Emoticon> EmoticonsTable
+        #region ITextTransformation Members
+
+        public string Transform(string original)
         {
-            get;
-            private set;
-        }
-
-        public string Transform(string original) {
-            if (_appRootUrl == null && _subtextContext != null && _subtextContext.UrlHelper != null) {
+            if(_appRootUrl == null && _subtextContext != null && _subtextContext.UrlHelper != null)
+            {
                 //TODO: Temporary Hack.
                 _appRootUrl = _subtextContext.UrlHelper.AppRoot();
             }
             return EmoticonsTable.Aggregate(original, (input, transform) => transform.Replace(input, _appRootUrl));
         }
+
+        #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Specialized;
 using System.Web;
 using MbUnit.Framework;
@@ -11,9 +11,10 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
     public class BlogRequestTests
     {
         [Test]
-        public void Ctor_WithRequestWithSubfolder_CreatesBlogRequestWithSubfolder() {
+        public void Ctor_WithRequestWithSubfolder_CreatesBlogRequestWithSubfolder()
+        {
             //arrange
-            var request = CreateRequest("example.com", "/", "/foo/bar", true);
+            Mock<HttpRequestBase> request = CreateRequest("example.com", "/", "/foo/bar", true);
 
             //act
             var blogRequest = new BlogRequest(request.Object);
@@ -26,7 +27,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithHostHavingPort_StripsPort()
         {
             //arrange
-            var request = CreateRequest("example.com:1234", "/", "/foo/bar", true);
+            Mock<HttpRequestBase> request = CreateRequest("example.com:1234", "/", "/foo/bar", true);
 
             //act
             var blogRequest = new BlogRequest(request.Object);
@@ -39,7 +40,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestHavingNoHostInParameters_CreatesBlogRequestWithHostAuthority()
         {
             //arrange
-            var request = CreateRequest("example.com", "/", "/foo/bar", true);
+            Mock<HttpRequestBase> request = CreateRequest("example.com", "/", "/foo/bar", true);
 
             //act
             var blogRequest = new BlogRequest(request.Object);
@@ -52,7 +53,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForLoginPage_SetsRequestLocationToLogin()
         {
             //arrange
-            var request = CreateRequest("example.com", "/", "/login.aspx", true);
+            Mock<HttpRequestBase> request = CreateRequest("example.com", "/", "/login.aspx", true);
 
             //act
             var blogRequest = new BlogRequest(request.Object);
@@ -65,7 +66,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForSystemMessage_SetsRequestLocationToSystemMessages()
         {
             //arrange
-            var request = CreateRequest("example.com", "/", "/SystemMessages/anything.aspx", true);
+            Mock<HttpRequestBase> request = CreateRequest("example.com", "/", "/SystemMessages/anything.aspx", true);
 
             //act
             var blogRequest = new BlogRequest(request.Object);
@@ -78,7 +79,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForHostAdmin_SetsRequestLocationToHostAdmin()
         {
             //arrange
-            var request = CreateRequest("example.com", "/", "/HostAdmin/anything.aspx", true);
+            Mock<HttpRequestBase> request = CreateRequest("example.com", "/", "/HostAdmin/anything.aspx", true);
 
             //act
             var blogRequest = new BlogRequest(request.Object);
@@ -90,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForInstallDirectoryRoot_SetsRequestLocationToInstallDirectory()
         {
             //arrange
-            var request = CreateRequest("example.com", "/", "/Install", true);
+            Mock<HttpRequestBase> request = CreateRequest("example.com", "/", "/Install", true);
 
             //act
             var blogRequest = new BlogRequest(request.Object);
@@ -103,7 +104,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForInstallDirectory_SetsRequestLocationToInstallDirectory()
         {
             //arrange
-            var request = CreateRequest("example.com", "/", "/Install/anything.aspx", true);
+            Mock<HttpRequestBase> request = CreateRequest("example.com", "/", "/Install/anything.aspx", true);
 
             //act
             var blogRequest = new BlogRequest(request.Object);
@@ -113,9 +114,10 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         }
 
         [Test]
-        public void Ctor_WithRequestForStaticFile_SetsRequestLocationToStaticFile() {
+        public void Ctor_WithRequestForStaticFile_SetsRequestLocationToStaticFile()
+        {
             //arrange
-            var request = CreateRequest("example.com", "/", "/Install/anything.css", true);
+            Mock<HttpRequestBase> request = CreateRequest("example.com", "/", "/Install/anything.css", true);
 
             //act
             var blogRequest = new BlogRequest(request.Object);
@@ -128,7 +130,8 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForBlog_SetsBlogNotRequiredFalse()
         {
             //arrange, act
-            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.Blog, "/");
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.Blog,
+                                              "/");
 
             //assert
             Assert.IsFalse(blogRequest.BlogNotRequired);
@@ -138,7 +141,8 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForHostAdmin_SetsBlogNotRequiredTrue()
         {
             //arrange, act
-            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.HostAdmin, "/");
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false,
+                                              RequestLocation.HostAdmin, "/");
 
             //assert
             Assert.IsTrue(blogRequest.BlogNotRequired);
@@ -148,7 +152,8 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForUpgrade_SetsBlogNotRequiredTrue()
         {
             //arrange, act
-            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.Upgrade, "/");
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.Upgrade,
+                                              "/");
 
             //assert
             Assert.IsTrue(blogRequest.BlogNotRequired);
@@ -158,7 +163,8 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForSkins_SetsBlogNotRequiredTrue()
         {
             //arrange, act
-            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.Skins, "/");
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.Skins,
+                                              "/");
 
             //assert
             Assert.IsTrue(blogRequest.BlogNotRequired);
@@ -168,7 +174,8 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForStaticFile_SetsBlogNotRequiredTrue()
         {
             //arrange, act
-            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.StaticFile, "/");
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false,
+                                              RequestLocation.StaticFile, "/");
 
             //assert
             Assert.IsTrue(blogRequest.BlogNotRequired);
@@ -178,7 +185,8 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForSystemMessages_SetsBlogNotRequiredTrue()
         {
             //arrange, act
-            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.SystemMessages, "/");
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false,
+                                              RequestLocation.SystemMessages, "/");
 
             //assert
             Assert.IsTrue(blogRequest.BlogNotRequired);
@@ -188,7 +196,8 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForLoginPage_SetsBlogNotRequiredFalse()
         {
             //arrange, act
-            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.LoginPage, "/");
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false,
+                                              RequestLocation.LoginPage, "/");
 
             //assert
             Assert.IsFalse(blogRequest.BlogNotRequired);
@@ -198,13 +207,15 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void Ctor_WithRequestForInstallation_SetsBlogNotRequiredTrue()
         {
             //arrange, act
-            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false, RequestLocation.Installation, "/");
+            var blogRequest = new BlogRequest(null, null, new Uri("http://example.com"), false,
+                                              RequestLocation.Installation, "/");
 
             //assert
             Assert.IsTrue(blogRequest.BlogNotRequired);
         }
 
-        private static Mock<HttpRequestBase> CreateRequest(string host, string applicationPath, string rawUrl, bool useParametersForHost)
+        private static Mock<HttpRequestBase> CreateRequest(string host, string applicationPath, string rawUrl,
+                                                           bool useParametersForHost)
         {
             var request = new Mock<HttpRequestBase>();
             request.Setup(r => r.RawUrl).Returns(rawUrl);

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,23 +12,23 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
 {
-    public partial class AggBlogStats : AggregateUserControl
+    public class AggBlogStats : AggregateUserControl
     {
         protected Literal BlogCount;
-        protected Literal PostCount;
-        protected Literal StoryCount;
         protected Literal CommentCount;
         protected Literal PingtrackCount;
+        protected Literal PostCount;
+        protected Literal StoryCount;
 
         protected override void OnLoad(EventArgs e)
         {
@@ -35,7 +36,7 @@ namespace Subtext.Web.UI.Controls
 
             int? groupId = base.GetGroupIdFromQueryString();
             HostStats stats = Repository.GetTotalBlogStats(HostInfo.Instance.AggregateBlog.Host, groupId);
-            if (stats != null)
+            if(stats != null)
             {
                 BlogCount.Text = stats.BlogCount.ToString();
                 PostCount.Text = stats.PostCount.ToString();

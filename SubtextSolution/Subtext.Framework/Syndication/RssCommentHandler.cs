@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -30,12 +32,25 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public class RssCommentHandler : EntryCollectionHandler<FeedbackItem>
     {
-        protected Entry ParentEntry;
-        protected ICollection<FeedbackItem> Comments;
         ICollection<FeedbackItem> comments;
+        protected ICollection<FeedbackItem> Comments;
+        protected Entry ParentEntry;
 
-        public RssCommentHandler(ISubtextContext subtextContext) : base(subtextContext) 
+        public RssCommentHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
+        }
+
+        protected override BaseSyndicationWriter SyndicationWriter
+        {
+            get { return new CommentRssWriter(HttpContext.Response.Output, comments, ParentEntry, SubtextContext); }
+        }
+
+        /// <summary>
+        /// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
+        /// </summary>
+        protected override bool IsMainfeed
+        {
+            get { return false; }
         }
 
         /// <summary>
@@ -44,18 +59,18 @@ namespace Subtext.Framework.Syndication
         /// <returns></returns>
         protected override ICollection<FeedbackItem> GetFeedEntries()
         {
-            if (ParentEntry == null)
+            if(ParentEntry == null)
             {
                 ParentEntry = Cacher.GetEntryFromRequest(false, SubtextContext);
             }
 
-            if (ParentEntry == null)
+            if(ParentEntry == null)
             {
                 // bad news... we couldn't find the entry the request is looking for - return 404.
                 HttpHelper.SetFileNotFoundResponse();
             }
 
-            if (ParentEntry != null && Comments == null)
+            if(ParentEntry != null && Comments == null)
             {
                 Comments = Cacher.GetFeedback(ParentEntry, true, SubtextContext);
             }
@@ -77,18 +92,20 @@ namespace Subtext.Framework.Syndication
             CachedFeed feed;
 
             comments = GetFeedEntries();
-            if (comments == null)
+            if(comments == null)
+            {
                 comments = new List<FeedbackItem>();
+            }
 
             feed = new CachedFeed();
             CommentRssWriter crw = GetCommentWriter(comments, ParentEntry);
-            if (comments.Count > 0)
+            if(comments.Count > 0)
             {
                 feed.LastModified = ConvertLastUpdatedDate(comments.Last().DateCreated);
             }
             else
             {
-                feed.LastModified = this.ParentEntry.DateCreated;
+                feed.LastModified = ParentEntry.DateCreated;
             }
             feed.Xml = crw.Xml;
             return feed;
@@ -97,32 +114,18 @@ namespace Subtext.Framework.Syndication
         protected override bool IsLocalCacheOK()
         {
             string dt = LastModifiedHeader;
-            if (dt != null)
+            if(dt != null)
             {
                 comments = GetFeedEntries();
 
-                if (comments != null && comments.Count > 0)
+                if(comments != null && comments.Count > 0)
                 {
-                    return DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture), ConvertLastUpdatedDate(comments.Last().DateCreated)) == 0;
+                    return
+                        DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture),
+                                         ConvertLastUpdatedDate(comments.Last().DateCreated)) == 0;
                 }
             }
             return false;
-        }
-
-        protected override BaseSyndicationWriter SyndicationWriter
-        {
-            get
-            {
-                return new CommentRssWriter(HttpContext.Response.Output, comments, ParentEntry, SubtextContext);
-            }
-        }
-
-        /// <summary>
-        /// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
-        /// </summary>
-        protected override bool IsMainfeed
-        {
-            get { return false; }
         }
 
         /// <summary>
@@ -136,4 +139,3 @@ namespace Subtext.Framework.Syndication
         }
     }
 }
-

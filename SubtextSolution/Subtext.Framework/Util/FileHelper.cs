@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -24,15 +26,17 @@ namespace Subtext.Framework.Util
 {
     public static class FileHelper
     {
+        static readonly string[] _imageExtensions = {".jpg", ".jpeg", ".gif", ".png", ".bmp"};
+
         public static void EnsureDirectory(string directoryPath)
         {
-            if (String.IsNullOrEmpty(directoryPath))
+            if(String.IsNullOrEmpty(directoryPath))
             {
                 throw new ArgumentNullException("directoryPath");
             }
 
             string dir = Path.GetFullPath(directoryPath);
-            if (!Directory.Exists(dir))
+            if(!Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
             }
@@ -40,26 +44,27 @@ namespace Subtext.Framework.Util
 
         public static void WriteBytesToFile(string destinationFilePath, byte[] data)
         {
-            if (String.IsNullOrEmpty(destinationFilePath))
+            if(String.IsNullOrEmpty(destinationFilePath))
             {
                 throw new ArgumentNullException("destinationFilePath");
             }
 
-            if (!IsValidFilePath(destinationFilePath)) 
+            if(!IsValidFilePath(destinationFilePath))
             {
-                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, Resources.InvalidOperation_InvalidCharactersInFileName, destinationFilePath));
+                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture,
+                                                                  Resources.InvalidOperation_InvalidCharactersInFileName,
+                                                                  destinationFilePath));
             }
 
-            using (FileStream stream = new FileStream(destinationFilePath, FileMode.Create))
+            using(var stream = new FileStream(destinationFilePath, FileMode.Create))
             {
-                using (BinaryWriter writer = new BinaryWriter(stream))
+                using(var writer = new BinaryWriter(stream))
                 {
                     writer.Write(data);
                 }
             }
         }
 
-        static string[] _imageExtensions = { ".jpg", ".jpeg", ".gif", ".png", ".bmp" };
         public static bool IsValidImageFilePath(string filePath)
         {
             return IsValidFilePath(filePath, _imageExtensions);
@@ -67,14 +72,14 @@ namespace Subtext.Framework.Util
 
         public static bool IsValidFilePath(string filePath)
         {
-            var invalidChars = Path.GetInvalidPathChars();
+            char[] invalidChars = Path.GetInvalidPathChars();
             return !invalidChars.Any(c => filePath.Contains(c));
         }
 
         public static bool IsValidFilePath(string filePath, IEnumerable<string> extensions)
         {
             return IsValidFilePath(filePath) &&
-                extensions.Any(extension => filePath.EndsWith(extension, StringComparison.OrdinalIgnoreCase));
+                   extensions.Any(extension => filePath.EndsWith(extension, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

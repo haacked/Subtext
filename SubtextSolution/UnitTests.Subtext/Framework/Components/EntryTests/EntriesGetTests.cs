@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,11 +12,12 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using MbUnit.Framework;
 using Subtext.Extensibility;
@@ -44,8 +46,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void GetRecentPostsIncludesEnclosure()
         {
             int blogId = Config.CurrentBlog.Id;
-            for (int i = 0; i < 10; i++)
+            for(int i = 0; i < 10; i++)
+            {
                 UnitTestHelper.CreateCategory(blogId, "cat" + i);
+            }
 
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
@@ -55,7 +59,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
 
             //Associate categories.
-            for (int i = 0; i < 5; i++)
+            for(int i = 0; i < 5; i++)
             {
                 entryZero.Categories.Add("cat" + (i + 1));
                 entryOne.Categories.Add("cat" + i);
@@ -67,7 +71,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryOne);
             UnitTestHelper.Create(entryTwo);
 
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
+                                                          entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get Entries
@@ -102,10 +107,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryOne);
 
 
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
+                                                          entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
-            List<string> tags = new List<string>(new string[] { "Tag1", "Tag2" });
+            var tags = new List<string>(new[] {"Tag1", "Tag2"});
             new DatabaseObjectProvider().SetEntryTagList(entryZero.Id, tags);
             new DatabaseObjectProvider().SetEntryTagList(entryOne.Id, tags);
 
@@ -150,7 +156,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryTwo);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
+                                                          entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get Entries
@@ -189,13 +196,15 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryTwo);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
+                                                          entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
 
             //Get Entries
-            DateTime beginningOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            ICollection<Entry> entries = Entries.GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1), PostType.BlogPost, true);
+            var beginningOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            ICollection<Entry> entries = Entries.GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1),
+                                                                    PostType.BlogPost, true);
 
 
             //Test outcome
@@ -229,7 +238,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryTwo);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
+                                                          entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get Entries

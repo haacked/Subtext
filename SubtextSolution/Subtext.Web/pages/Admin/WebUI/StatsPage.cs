@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -23,21 +25,21 @@ namespace Subtext.Web.Admin.WebUI
     {
         public StatsPage()
         {
-            this.TabSectionId = "Stats";
+            TabSectionId = "Stats";
         }
 
         protected virtual void BindLocalUI()
         {
-			HyperLink lnkReferrals = Utilities.CreateHyperLink("Referrals", "Referrers.aspx");
+            HyperLink lnkReferrals = Utilities.CreateHyperLink("Referrals", "Referrers.aspx");
             HyperLink lnkViews = Utilities.CreateHyperLink("Views", "StatsView.aspx");
-			HyperLink lnkErrorLog = Utilities.CreateHyperLink("Error Log", "ErrorLog.aspx");
-			HyperLink lnkRssFeed = Utilities.CreateHyperLink("Custom Feed", "RssFeeds.aspx");
+            HyperLink lnkErrorLog = Utilities.CreateHyperLink("Error Log", "ErrorLog.aspx");
+            HyperLink lnkRssFeed = Utilities.CreateHyperLink("Custom Feed", "RssFeeds.aspx");
 
             // Add the buttons to the PageContainer.
             AdminMasterPage.AddToActions(lnkReferrals, Url.AdminRssUrl("Referrers"));
             AdminMasterPage.AddToActions(lnkViews);
             AdminMasterPage.AddToActions(lnkErrorLog, Url.AdminRssUrl("Errors"));
-			AdminMasterPage.AddToActions(lnkRssFeed);
+            AdminMasterPage.AddToActions(lnkRssFeed);
         }
 
         protected override void OnLoad(EventArgs e)

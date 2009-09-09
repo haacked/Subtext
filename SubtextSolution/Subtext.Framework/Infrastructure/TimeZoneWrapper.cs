@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,18 +12,18 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Subtext.Framework.Infrastructure
 {
     // TimeZoneInfo is sealed. :(
     public class TimeZoneWrapper : ITimeZone
     {
+        readonly Func<DateTime> _utcNowFactory;
+
         public TimeZoneWrapper(TimeZoneInfo timeZone)
             : this(timeZone, TimeZoneInfo.Local, () => DateTime.UtcNow)
         {
@@ -34,34 +35,21 @@ namespace Subtext.Framework.Infrastructure
             ServerTimeZoneInfo = serverTimeZone;
             _utcNowFactory = utcNowFactory;
         }
-        Func<DateTime> _utcNowFactory;
+
+        protected TimeZoneInfo TimeZoneInfo { get; private set; }
+
+        protected TimeZoneInfo ServerTimeZoneInfo { get; private set; }
+
+        #region ITimeZone Members
 
         public DateTime UtcNow
         {
-            get 
-            {
-                return _utcNowFactory();
-            }
-        }
-
-        protected TimeZoneInfo TimeZoneInfo
-        {
-            get;
-            private set;
-        }
-
-        protected TimeZoneInfo ServerTimeZoneInfo
-        {
-            get;
-            private set;
+            get { return _utcNowFactory(); }
         }
 
         public DateTime Now
         {
-            get
-            {
-                return TimeZoneInfo.ConvertTimeFromUtc(UtcNow, TimeZoneInfo);
-            }
+            get { return TimeZoneInfo.ConvertTimeFromUtc(UtcNow, TimeZoneInfo); }
         }
 
         public DateTime ServerNow
@@ -98,5 +86,7 @@ namespace Subtext.Framework.Infrastructure
         {
             return FromTimeZone(dateTime, sourceTimeZone) > Now;
         }
+
+        #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Web;
 using System.Web.Routing;
@@ -26,7 +26,8 @@ namespace UnitTests.Subtext.SubtextWeb
             var server = new Mock<HttpServerUtilityBase>();
 
             // act
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object), server.Object);
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object),
+                                 server.Object);
 
             // assert
             Assert.IsFalse(app.LogInitialized);
@@ -41,7 +42,8 @@ namespace UnitTests.Subtext.SubtextWeb
             server.Setup(s => s.MapPath("~/Admin")).Returns(Directory.CreateDirectory("Admin").FullName);
 
             // act
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object), server.Object);
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object),
+                                 server.Object);
 
             // assert
             Assert.AreEqual("~/Admin", app.DeprecatedPhysicalPaths[0]);
@@ -53,14 +55,15 @@ namespace UnitTests.Subtext.SubtextWeb
             // arrange
             var app = new SubtextApplication(null);
             var server = new Mock<HttpServerUtilityBase>();
-            using (var writer = File.CreateText("login.aspx"))
+            using(StreamWriter writer = File.CreateText("login.aspx"))
             {
                 writer.Write("test");
             }
             server.Setup(s => s.MapPath("~/login.aspx")).Returns(Path.GetFullPath("login.aspx"));
 
             // act
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object), server.Object);
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object),
+                                 server.Object);
 
             // assert
             Assert.AreEqual("~/login.aspx", app.DeprecatedPhysicalPaths[0]);
@@ -75,7 +78,8 @@ namespace UnitTests.Subtext.SubtextWeb
             server.Setup(s => s.MapPath("~/HostAdmin")).Returns(Directory.CreateDirectory("HostAdmin").FullName);
 
             // act
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object), server.Object);
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object),
+                                 server.Object);
 
             // assert
             Assert.AreEqual("~/HostAdmin", app.DeprecatedPhysicalPaths[0]);
@@ -106,11 +110,13 @@ namespace UnitTests.Subtext.SubtextWeb
             var app = new SubtextApplication(null);
             var server = new Mock<HttpServerUtilityBase>();
             server.Setup(s => s.MapPath("~/Admin")).Returns(Directory.CreateDirectory("Admin").FullName);
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object), server.Object);
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object),
+                                 server.Object);
 
             // act, assert
             var exception = UnitTestHelper.AssertThrows<DeprecatedPhysicalPathsException>(() =>
-                app.BeginApplicationRequest(new Mock<ILog>().Object));
+                                                                                          app.BeginApplicationRequest(
+                                                                                              new Mock<ILog>().Object));
 
             Assert.AreEqual("~/Admin", exception.InvalidPhysicalPaths[0]);
         }
@@ -119,20 +125,22 @@ namespace UnitTests.Subtext.SubtextWeb
         public void UnwrapHttpUnhandledException_WithHttpUnhandledExceptionContainingNoInnerException_ReturnsNull()
         {
             // act
-            var exception = SubtextApplication.UnwrapHttpUnhandledException(new HttpUnhandledException());
+            Exception exception = SubtextApplication.UnwrapHttpUnhandledException(new HttpUnhandledException());
 
             // assert
             Assert.IsNull(exception);
         }
 
         [Test]
-        public void UnwrapHttpUnhandledException_WithHttpUnhandledExceptionContainingInnerException_ReturnsInnerException()
+        public void
+            UnwrapHttpUnhandledException_WithHttpUnhandledExceptionContainingInnerException_ReturnsInnerException()
         {
             // arrange
             var innerException = new Exception();
 
             // act
-            var exception = SubtextApplication.UnwrapHttpUnhandledException(new HttpUnhandledException("whatever", innerException));
+            Exception exception =
+                SubtextApplication.UnwrapHttpUnhandledException(new HttpUnhandledException("whatever", innerException));
 
             // assert
             Assert.AreEqual(innerException, exception);
@@ -148,7 +156,8 @@ namespace UnitTests.Subtext.SubtextWeb
             server.Setup(s => s.Transfer(It.IsAny<string>())).Callback<string>(s => transferLocation = s);
 
             // act
-            SubtextApplication.HandleUnhandledException(new Exception(), server.Object, true /* customErrorEnabled */, new Mock<ILog>().Object);
+            SubtextApplication.HandleUnhandledException(new Exception(), server.Object, true /* customErrorEnabled */,
+                                                        new Mock<ILog>().Object);
 
             // assert
             Assert.AreEqual("~/SystemMessages/error.aspx", transferLocation);
@@ -161,10 +170,12 @@ namespace UnitTests.Subtext.SubtextWeb
             var app = new SubtextApplication(null);
             var log = new Mock<ILog>();
             string logMessage = null;
-            log.Setup(l => l.Error(It.IsAny<object>(), It.IsAny<Exception>())).Callback<object, Exception>((s, e) => logMessage = s.ToString());
+            log.Setup(l => l.Error(It.IsAny<object>(), It.IsAny<Exception>())).Callback<object, Exception>(
+                (s, e) => logMessage = s.ToString());
 
             // act
-            SubtextApplication.HandleUnhandledException(new Exception(), null, false /* customErrorEnabled */, log.Object);
+            SubtextApplication.HandleUnhandledException(new Exception(), null, false /* customErrorEnabled */,
+                                                        log.Object);
 
             // assert
             Assert.AreEqual("Unhandled Exception trapped in Global.asax", logMessage);
@@ -193,7 +204,8 @@ namespace UnitTests.Subtext.SubtextWeb
             var exception = new CommentDuplicateException();
             var log = new Mock<ILog>();
             string logMessage = null;
-            log.Setup(l => l.Info(It.IsAny<string>(), exception)).Callback<object, Exception>((o, e) => logMessage = o.ToString());
+            log.Setup(l => l.Info(It.IsAny<string>(), exception)).Callback<object, Exception>(
+                (o, e) => logMessage = o.ToString());
 
             // act
             SubtextApplication.LogIfCommentException(exception, log.Object);
@@ -223,7 +235,7 @@ namespace UnitTests.Subtext.SubtextWeb
             application.Setup(a => a.FinishRequest());
 
             // act
-            var handled = SubtextApplication.HandleDeprecatedFilePathsException(exception, null, application.Object);
+            bool handled = SubtextApplication.HandleDeprecatedFilePathsException(exception, null, application.Object);
 
             // assert
             Assert.IsFalse(handled);
@@ -233,16 +245,18 @@ namespace UnitTests.Subtext.SubtextWeb
         public void HandleDeprecatedFilePathsException_WithDepecatedPhysicalPathsException_ReturnsFalse()
         {
             // arrange
-            var exception = new DeprecatedPhysicalPathsException(new string[] { "~/Admin" });
+            var exception = new DeprecatedPhysicalPathsException(new[] {"~/Admin"});
             var log = new Mock<ILog>();
             var server = new Mock<HttpServerUtilityBase>();
             string transferLocation = null;
-            server.Setup(s => s.Execute(It.IsAny<string>(), false)).Callback<string, bool>((s, b) => transferLocation = s);
+            server.Setup(s => s.Execute(It.IsAny<string>(), false)).Callback<string, bool>(
+                (s, b) => transferLocation = s);
             var application = new Mock<SubtextApplication>();
             application.Setup(a => a.FinishRequest());
 
             // act
-            var handled = SubtextApplication.HandleDeprecatedFilePathsException(exception, server.Object, application.Object);
+            bool handled = SubtextApplication.HandleDeprecatedFilePathsException(exception, server.Object,
+                                                                                 application.Object);
 
             // assert
             Assert.AreEqual("~/pages/SystemMessages/DeprecatedPhysicalPaths.aspx", transferLocation);
@@ -256,14 +270,16 @@ namespace UnitTests.Subtext.SubtextWeb
             var exception = new Exception();
 
             // act
-            var handled = SubtextApplication.HandleSqlException(exception, null);
+            bool handled = SubtextApplication.HandleSqlException(exception, null);
 
             // assert
             Assert.IsFalse(handled);
         }
 
         [Test]
-        public void HandleSqlException_WithSqlServerDoesNotExistOrAccessDeniedError_TransfersToBadConnectionStringPageAndReturnsTrue()
+        public void
+            HandleSqlException_WithSqlServerDoesNotExistOrAccessDeniedError_TransfersToBadConnectionStringPageAndReturnsTrue
+            ()
         {
             // arrange
             var log = new Mock<ILog>();
@@ -272,7 +288,9 @@ namespace UnitTests.Subtext.SubtextWeb
             server.Setup(s => s.Transfer(It.IsAny<string>())).Callback<string>(s => transferLocation = s);
 
             // act
-            var handled = SubtextApplication.HandleSqlExceptionNumber((int)SqlErrorMessage.SqlServerDoesNotExistOrAccessDenied, "", server.Object);
+            bool handled =
+                SubtextApplication.HandleSqlExceptionNumber((int)SqlErrorMessage.SqlServerDoesNotExistOrAccessDenied, "",
+                                                            server.Object);
 
             // assert
             Assert.AreEqual("~/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
@@ -280,7 +298,9 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [Test]
-        public void HandleSqlException_WithSqlServerCouldNotFindStoredProcedureAndProcNameIsBlog_GetConfig_TransfersToBadConnectionStringPageAndReturnsTrue()
+        public void
+            HandleSqlException_WithSqlServerCouldNotFindStoredProcedureAndProcNameIsBlog_GetConfig_TransfersToBadConnectionStringPageAndReturnsTrue
+            ()
         {
             // arrange
             var log = new Mock<ILog>();
@@ -289,7 +309,8 @@ namespace UnitTests.Subtext.SubtextWeb
             server.Setup(s => s.Transfer(It.IsAny<string>())).Callback<string>(s => transferLocation = s);
 
             // act
-            var handled = SubtextApplication.HandleSqlExceptionNumber((int)SqlErrorMessage.CouldNotFindStoredProcedure, "'blog_GetConfig'", server.Object);
+            bool handled = SubtextApplication.HandleSqlExceptionNumber(
+                (int)SqlErrorMessage.CouldNotFindStoredProcedure, "'blog_GetConfig'", server.Object);
 
             // assert
             Assert.AreEqual("~/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
@@ -303,12 +324,14 @@ namespace UnitTests.Subtext.SubtextWeb
             var exception = new HostDataDoesNotExistException();
             var response = new Mock<HttpResponseBase>();
             string redirectLocation = null;
-            response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Callback<string, bool>((s, endRequest) => redirectLocation = s);
+            response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Callback<string, bool>(
+                (s, endRequest) => redirectLocation = s);
             var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false);
             var installManager = new InstallationManager(null);
 
             // act
-            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager, response.Object);
+            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager,
+                                                                             response.Object);
 
             // assert
             Assert.AreEqual("~/Install/", redirectLocation);
@@ -321,12 +344,15 @@ namespace UnitTests.Subtext.SubtextWeb
             // arrange
             var exception = new HostDataDoesNotExistException();
             var response = new Mock<HttpResponseBase>();
-            response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(new Exception("Test Failed. Should not have redirected"));
-            var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false, RequestLocation.Installation, "/");
+            response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(
+                new Exception("Test Failed. Should not have redirected"));
+            var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false,
+                                              RequestLocation.Installation, "/");
             var installManager = new InstallationManager(null);
 
             // act
-            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager, response.Object);
+            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager,
+                                                                             response.Object);
 
             // assert
             Assert.IsFalse(handled);
@@ -338,12 +364,15 @@ namespace UnitTests.Subtext.SubtextWeb
             // arrange
             var exception = new HostDataDoesNotExistException();
             var response = new Mock<HttpResponseBase>();
-            response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(new Exception("Test Failed. Should not have redirected"));
-            var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false, RequestLocation.Upgrade, "/");
+            response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(
+                new Exception("Test Failed. Should not have redirected"));
+            var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false, RequestLocation.Upgrade,
+                                              "/");
             var installManager = new InstallationManager(null);
 
             // act
-            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager, response.Object);
+            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager,
+                                                                             response.Object);
 
             // assert
             Assert.IsFalse(handled);
@@ -356,12 +385,14 @@ namespace UnitTests.Subtext.SubtextWeb
             var exception = new BlogInactiveException();
             var response = new Mock<HttpResponseBase>();
             string redirectLocation = null;
-            response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Callback<string, bool>((s, endRequest) => redirectLocation = s);
+            response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Callback<string, bool>(
+                (s, endRequest) => redirectLocation = s);
             var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false);
             var installManager = new InstallationManager(null);
 
             // act
-            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager, response.Object);
+            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager,
+                                                                             response.Object);
 
             // assert
             Assert.AreEqual("~/SystemMessages/BlogNotActive.aspx", redirectLocation);
@@ -375,18 +406,22 @@ namespace UnitTests.Subtext.SubtextWeb
             var exception = new BlogInactiveException();
             var response = new Mock<HttpResponseBase>();
             response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(new Exception("Should not have redirected"));
-            var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false, RequestLocation.SystemMessages, "/");
+            var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false,
+                                              RequestLocation.SystemMessages, "/");
             var installManager = new InstallationManager(null);
 
             // act
-            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager, response.Object);
+            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager,
+                                                                             response.Object);
 
             // assert
             Assert.IsFalse(handled);
         }
 
         [Test]
-        public void HandleBadConnectionStringException_WithInvalidOperationExceptionMentioningConnectionString_TransfersToBadConnectionStringPage()
+        public void
+            HandleBadConnectionStringException_WithInvalidOperationExceptionMentioningConnectionString_TransfersToBadConnectionStringPage
+            ()
         {
             // arrange
             var exception = new InvalidOperationException("No ConnectionString Found");
@@ -403,7 +438,8 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [Test]
-        public void HandleBadConnectionStringException_WithInvalidOperationExceptionContainingOtherMessages_IgnoresException()
+        public void
+            HandleBadConnectionStringException_WithInvalidOperationExceptionContainingOtherMessages_IgnoresException()
         {
             // arrange
             var exception = new InvalidOperationException("Something or other");
@@ -418,7 +454,9 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [Test]
-        public void HandleBadConnectionStringException_WithArgumentExceptionContainingKeywordNotSupported_TransfersToBadConnectionStringPage()
+        public void
+            HandleBadConnectionStringException_WithArgumentExceptionContainingKeywordNotSupported_TransfersToBadConnectionStringPage
+            ()
         {
             // arrange
             var exception = new ArgumentException("Keyword not supported");
@@ -435,7 +473,9 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [Test]
-        public void HandleBadConnectionStringException_WithArgumentExceptionContainingInvalidValueForKey_TransfersToBadConnectionStringPage()
+        public void
+            HandleBadConnectionStringException_WithArgumentExceptionContainingInvalidValueForKey_TransfersToBadConnectionStringPage
+            ()
         {
             // arrange
             var exception = new ArgumentException("Invalid value for key");
@@ -496,14 +536,14 @@ namespace UnitTests.Subtext.SubtextWeb
 
         private static void CleanupDirectories()
         {
-            var directories = new string[] { "Admin", "HostAdmin" };
+            var directories = new[] {"Admin", "HostAdmin"};
             Array.ForEach(directories, directory =>
-            {
-                if (Directory.Exists(directory))
                 {
-                    Directory.Delete(directory, true);
-                }
-            });
+                    if(Directory.Exists(directory))
+                    {
+                        Directory.Delete(directory, true);
+                    }
+                });
         }
     }
 }

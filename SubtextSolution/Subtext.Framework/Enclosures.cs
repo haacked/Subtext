@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,11 +12,11 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using Subtext.Framework.Components;
-using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Framework
@@ -24,11 +25,15 @@ namespace Subtext.Framework
     {
         public static int Create(Enclosure enclosure)
         {
-            if (enclosure == null)
+            if(enclosure == null)
+            {
                 throw new ArgumentNullException("enclosure");
+            }
 
             if(!enclosure.IsValid)
+            {
                 throw new ArgumentException(enclosure.ValidationMessage);
+            }
 
             enclosure.Id = ObjectProvider.Instance().Create(enclosure);
 
@@ -37,11 +42,15 @@ namespace Subtext.Framework
 
         public static bool Update(Enclosure enclosure)
         {
-            if (enclosure == null)
+            if(enclosure == null)
+            {
                 throw new ArgumentNullException("enclosure");
+            }
 
-            if (!enclosure.IsValid)
+            if(!enclosure.IsValid)
+            {
                 throw new ArgumentException(enclosure.ValidationMessage);
+            }
 
             return ObjectProvider.Instance().Update(enclosure);
         }

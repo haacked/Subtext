@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -18,9 +20,14 @@ using System;
 namespace Subtext.Framework
 {
     [Serializable]
-	public class IllegalPostCharactersException : Exception
-	{
-		public IllegalPostCharactersException(String s) : base(s) {}
-		public IllegalPostCharactersException(String s, Exception inner) : base(s, inner) {}
-	}
+    public class IllegalPostCharactersException : Exception
+    {
+        public IllegalPostCharactersException(String s) : base(s)
+        {
+        }
+
+        public IllegalPostCharactersException(String s, Exception inner) : base(s, inner)
+        {
+        }
+    }
 }

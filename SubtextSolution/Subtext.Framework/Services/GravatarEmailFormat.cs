@@ -1,4 +1,4 @@
-﻿namespace Subtext.Framework.Services
+namespace Subtext.Framework.Services
 {
     public enum GravatarEmailFormat
     {

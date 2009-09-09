@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using MbUnit.Framework;
 using Moq;
@@ -23,18 +23,20 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var subtextContext = new Mock<ISubtextContext>();
-            TestCache cache = new TestCache();
+            var cache = new TestCache();
             cache["COMMENT FILTER:127.0.0.1"] = new FeedbackItem(FeedbackType.Comment);
             subtextContext.Setup(c => c.Cache).Returns(cache);
             subtextContext.Setup(c => c.User.IsInRole("Admins")).Returns(false); // change to true.
-            subtextContext.Setup(c => c.Blog).Returns(new Blog { CommentDelayInMinutes = 100 });
+            subtextContext.Setup(c => c.Blog).Returns(new Blog {CommentDelayInMinutes = 100});
             var commentSpamFilter = new Mock<ICommentSpamService>();
             var commentFilter = new CommentFilter(subtextContext.Object, commentSpamFilter.Object);
 
             //act, assert (no throw)
             UnitTestHelper.AssertThrows<CommentFrequencyException>(() =>
-                commentFilter.FilterBeforePersist(new FeedbackItem(FeedbackType.Comment) { IpAddress = IPAddress.Parse("127.0.0.1") })
-            );
+                                                                   commentFilter.FilterBeforePersist(
+                                                                       new FeedbackItem(FeedbackType.Comment)
+                                                                       {IpAddress = IPAddress.Parse("127.0.0.1")})
+                );
         }
 
         /// <summary>
@@ -47,37 +49,41 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var subtextContext = new Mock<ISubtextContext>();
-            TestCache cache = new TestCache();
+            var cache = new TestCache();
             cache["COMMENT FILTER:127.0.0.1"] = new FeedbackItem(FeedbackType.Comment);
             subtextContext.Setup(c => c.Cache).Returns(cache);
             subtextContext.Setup(c => c.User.IsInRole("Admins")).Returns(true);
-            subtextContext.Setup(c => c.Blog).Returns(new Blog { CommentDelayInMinutes = 1 });
+            subtextContext.Setup(c => c.Blog).Returns(new Blog {CommentDelayInMinutes = 1});
             var commentSpamFilter = new Mock<ICommentSpamService>();
             var commentFilter = new CommentFilter(subtextContext.Object, commentSpamFilter.Object);
 
             //act, assert (no throw)
-            commentFilter.FilterBeforePersist(new FeedbackItem(FeedbackType.PingTrack) { IpAddress = IPAddress.Parse("127.0.0.1") });
+            commentFilter.FilterBeforePersist(new FeedbackItem(FeedbackType.PingTrack)
+            {IpAddress = IPAddress.Parse("127.0.0.1")});
         }
 
         [Test]
         public void FilterBeforePersistDoesNotAllowDuplicateComments()
         {
             //arrange
-            Queue<string> recentCommentChecksums = new Queue<string>();
+            var recentCommentChecksums = new Queue<string>();
             recentCommentChecksums.Enqueue("TestChecksum");
             var subtextContext = new Mock<ISubtextContext>();
-            TestCache cache = new TestCache();
+            var cache = new TestCache();
             cache["COMMENT FILTER:.RECENT_COMMENTS"] = recentCommentChecksums;
             subtextContext.Setup(c => c.Cache).Returns(cache);
             subtextContext.Setup(c => c.User.IsInRole("Admins")).Returns(false);
-            subtextContext.Setup(c => c.Blog).Returns(new Blog { CommentDelayInMinutes = 0, DuplicateCommentsEnabled = false });
+            subtextContext.Setup(c => c.Blog).Returns(new Blog
+            {CommentDelayInMinutes = 0, DuplicateCommentsEnabled = false});
             var commentSpamFilter = new Mock<ICommentSpamService>();
             var commentFilter = new CommentFilter(subtextContext.Object, commentSpamFilter.Object);
 
             //act, assert
             UnitTestHelper.AssertThrows<CommentDuplicateException>(() =>
-                commentFilter.FilterBeforePersist(new FeedbackItem(FeedbackType.Comment) { ChecksumHash = "TestChecksum" })
-            );
+                                                                   commentFilter.FilterBeforePersist(
+                                                                       new FeedbackItem(FeedbackType.Comment)
+                                                                       {ChecksumHash = "TestChecksum"})
+                );
         }
 
         [Test]
@@ -86,16 +92,17 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var subtextContext = new Mock<ISubtextContext>();
-            TestCache cache = new TestCache();
+            var cache = new TestCache();
             subtextContext.Setup(c => c.Cache).Returns(cache);
             subtextContext.Setup(c => c.User.IsInRole("Admins")).Returns(false);
-            subtextContext.Setup(c => c.Blog).Returns(new Blog { ModerationEnabled = false });
+            subtextContext.Setup(c => c.Blog).Returns(new Blog {ModerationEnabled = false});
             FeedbackItem savedFeedback = null;
-            subtextContext.Setup(c => c.Repository.Update(It.IsAny<FeedbackItem>())).Callback<FeedbackItem>(f => savedFeedback = f);
+            subtextContext.Setup(c => c.Repository.Update(It.IsAny<FeedbackItem>())).Callback<FeedbackItem>(
+                f => savedFeedback = f);
 
             var commentSpamFilter = new Mock<ICommentSpamService>();
             var commentFilter = new CommentFilter(subtextContext.Object, commentSpamFilter.Object);
-            var feedback = new FeedbackItem(FeedbackType.Comment) { };
+            var feedback = new FeedbackItem(FeedbackType.Comment) {};
             Assert.IsFalse(feedback.Approved);
 
             //act
@@ -111,16 +118,17 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var subtextContext = new Mock<ISubtextContext>();
-            TestCache cache = new TestCache();
+            var cache = new TestCache();
             subtextContext.Setup(c => c.Cache).Returns(cache);
             subtextContext.Setup(c => c.User.IsInRole("Admins")).Returns(false);
-            subtextContext.Setup(c => c.Blog).Returns(new Blog { ModerationEnabled = true });
+            subtextContext.Setup(c => c.Blog).Returns(new Blog {ModerationEnabled = true});
             FeedbackItem savedFeedback = null;
-            subtextContext.Setup(c => c.Repository.Update(It.IsAny<FeedbackItem>())).Callback<FeedbackItem>(f => savedFeedback = f);
+            subtextContext.Setup(c => c.Repository.Update(It.IsAny<FeedbackItem>())).Callback<FeedbackItem>(
+                f => savedFeedback = f);
 
             var commentSpamFilter = new Mock<ICommentSpamService>();
             var commentFilter = new CommentFilter(subtextContext.Object, commentSpamFilter.Object);
-            var feedback = new FeedbackItem(FeedbackType.Comment) { };
+            var feedback = new FeedbackItem(FeedbackType.Comment) {};
             Assert.IsFalse(feedback.NeedsModeratorApproval);
 
             //act

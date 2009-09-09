@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -40,10 +42,7 @@ namespace Subtext.Framework.Configuration
         /// </value>
         public bool UseTrackingServices
         {
-            get
-            {
-                return this.PingWeblogs || this.EnablePingBacks || this.EnableTrackBacks;
-            }
+            get { return PingWeblogs || EnablePingBacks || EnableTrackBacks; }
         }
 
         /// <summary>
@@ -52,11 +51,7 @@ namespace Subtext.Framework.Configuration
         /// </summary>
         /// <value></value>
         [XmlAttribute("queueStatsCount")]
-        public int QueueStatsCount
-        {
-            get;
-            set;
-        }
+        public int QueueStatsCount { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to queue stats. 
@@ -67,11 +62,7 @@ namespace Subtext.Framework.Configuration
         /// 	<c>true</c> if queueing stats asynchronously; otherwise, <c>false</c>.
         /// </value>
         [XmlAttribute("queueStats")]
-        public bool QueueStats
-        {
-            get;
-            set;
-        }
+        public bool QueueStats { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether trackbaks are enabled.
@@ -80,11 +71,7 @@ namespace Subtext.Framework.Configuration
         /// 	<c>true</c> if track backs are enabled; otherwise, <c>false</c>.
         /// </value>
         [XmlAttribute("enableTrackBacks")]
-        public bool EnableTrackBacks
-        {
-            get;
-            set;
-        }
+        public bool EnableTrackBacks { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether ping backs are enabled.
@@ -93,11 +80,7 @@ namespace Subtext.Framework.Configuration
         /// 	<c>true</c> if ping backs are enabled; otherwise, <c>false</c>.
         /// </value>
         [XmlAttribute("enablePingBacks")]
-        public bool EnablePingBacks
-        {
-            get;
-            set;
-        }
+        public bool EnablePingBacks { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to ping weblogs.
@@ -106,11 +89,7 @@ namespace Subtext.Framework.Configuration
         /// 	<c>true</c> if weblogs are pinged; otherwise, <c>false</c>.
         /// </value>
         [XmlAttribute("pingWeblogs")]
-        public bool PingWeblogs
-        {
-            get;
-            set;
-        }
+        public bool PingWeblogs { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to enable web stats in general.
@@ -119,11 +98,7 @@ namespace Subtext.Framework.Configuration
         /// 	<c>true</c> if web stats are enabled; otherwise, <c>false</c>.
         /// </value>
         [XmlAttribute("enableWebStats")]
-        public bool EnableWebStats
-        {
-            get;
-            set;
-        }
+        public bool EnableWebStats { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether aggregator bugs are enabled. 
@@ -134,10 +109,6 @@ namespace Subtext.Framework.Configuration
         /// 	<c>true</c> if agg bugs are enabled; otherwise, <c>false</c>.
         /// </value>
         [XmlAttribute("enableAggBugs")]
-        public bool EnableAggBugs
-        {
-            get;
-            set;
-        }
+        public bool EnableAggBugs { get; set; }
     }
 }

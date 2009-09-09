@@ -1,10 +1,10 @@
 using System;
 using System.Globalization;
 using Subtext.Framework.Data;
-using Subtext.Framework;
 using Subtext.Framework.Util;
 
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -17,38 +17,38 @@ using Subtext.Framework.Util;
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Web.UI.Controls
 {
-	using System;
+    /// <summary>
+    ///		Summary description for ArchiveDay.
+    /// </summary>
+    public class ArchiveDay : BaseControl
+    {
+        protected Day SingleDay;
 
-	/// <summary>
-	///		Summary description for ArchiveDay.
-	/// </summary>
-	public  class ArchiveDay : BaseControl
-	{
-		protected Subtext.Web.UI.Controls.Day SingleDay;
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad (e);
-			if(Context != null)
-			{
-				try
-				{
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if(Context != null)
+            {
+                try
+                {
                     DateTime dayDate = SubtextContext.RequestContext.GetDateFromRequest();
-					SingleDay.CurrentDay = Cacher.GetDay(dayDate, SubtextContext);
-                    Subtext.Web.UI.Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1} Entries", Blog.Title, dayDate.ToString("D", CultureInfo.CurrentCulture)), Context);
-				}
-				catch(System.FormatException)
-				{
-					//Somebody probably is messing with the url.
+                    SingleDay.CurrentDay = Cacher.GetDay(dayDate, SubtextContext);
+                    Globals.SetTitle(
+                        string.Format(CultureInfo.InvariantCulture, "{0} - {1} Entries", Blog.Title,
+                                      dayDate.ToString("D", CultureInfo.CurrentCulture)), Context);
+                }
+                catch(FormatException)
+                {
+                    //Somebody probably is messing with the url.
                     //404 is set in filenotfound - DF
-					Response.Redirect("~/SystemMessages/FileNotFound.aspx");
-				}
-			}
-		}
-	}
+                    Response.Redirect("~/SystemMessages/FileNotFound.aspx");
+                }
+            }
+        }
+    }
 }
-
-

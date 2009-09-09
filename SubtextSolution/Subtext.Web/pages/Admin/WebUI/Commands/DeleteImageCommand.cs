@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -18,7 +20,6 @@ using System.Globalization;
 using System.IO;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Commands
 {
@@ -55,7 +56,7 @@ namespace Subtext.Web.Admin.Commands
 
                 // now delete the associated files if they exist
                 string galleryFolder = GalleryDirectoryPath;
-                if (Directory.Exists(galleryFolder))
+                if(Directory.Exists(galleryFolder))
                 {
                     DeleteFile(galleryFolder, currentImage.OriginalFile);
                     DeleteFile(galleryFolder, currentImage.ResizedFile);
@@ -64,7 +65,7 @@ namespace Subtext.Web.Admin.Commands
 
                 return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return FormatMessage(ExecuteFailureMessage, _targetName, Image.ImageID, ex.Message);
             }
@@ -73,7 +74,7 @@ namespace Subtext.Web.Admin.Commands
         private void DeleteFile(string path, string filename)
         {
             string localPath = Path.Combine(path, filename);
-            if (File.Exists(localPath))
+            if(File.Exists(localPath))
             {
                 File.Delete(localPath);
             }

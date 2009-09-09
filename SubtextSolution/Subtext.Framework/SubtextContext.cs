@@ -1,4 +1,4 @@
-﻿using System.Security.Principal;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Routing;
 using Ninject;
@@ -10,7 +10,8 @@ namespace Subtext.Framework
 {
     public class SubtextContext : ISubtextContext
     {
-        public SubtextContext(Blog blog, RequestContext requestContext, UrlHelper urlHelper, ObjectProvider repository, IPrincipal user, ICache cache, IKernel kernel)
+        public SubtextContext(Blog blog, RequestContext requestContext, UrlHelper urlHelper, ObjectProvider repository,
+                              IPrincipal user, ICache cache, IKernel kernel)
         {
             Blog = blog;
             RequestContext = requestContext;
@@ -21,59 +22,32 @@ namespace Subtext.Framework
             Kernel = kernel;
         }
 
-        public Blog Blog
-        {
-            get;
-            private set;
-        }
+        protected IKernel Kernel { get; private set; }
 
-        public RequestContext RequestContext
-        {
-            get;
-            private set;
-        }
+        #region ISubtextContext Members
+
+        public Blog Blog { get; private set; }
+
+        public RequestContext RequestContext { get; private set; }
 
         public HttpContextBase HttpContext
         {
-            get
-            {
-                return RequestContext.HttpContext;
-            }
+            get { return RequestContext.HttpContext; }
         }
 
-        public UrlHelper UrlHelper
-        {
-            get;
-            private set;
-        }
+        public UrlHelper UrlHelper { get; private set; }
 
-        public ObjectProvider Repository
-        {
-            get;
-            private set;
-        }
+        public ObjectProvider Repository { get; private set; }
 
-        public IPrincipal User
-        {
-            get;
-            private set;
-        }
+        public IPrincipal User { get; private set; }
 
-        public ICache Cache
-        {
-            get;
-            private set;
-        }
-
-        protected IKernel Kernel
-        {
-            get;
-            private set;
-        }
+        public ICache Cache { get; private set; }
 
         public TService GetService<TService>()
         {
             return Kernel.Get<TService>();
         }
+
+        #endregion
     }
 }

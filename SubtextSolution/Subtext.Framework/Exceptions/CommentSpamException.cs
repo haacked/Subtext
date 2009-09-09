@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,54 +12,56 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 
 namespace Subtext.Framework.Exceptions
 {
-	/// <summary>
-	/// Exception thrown when a comment is identified as comment spam.
-	/// </summary>
-	/// <summary>
-	/// Exception thrown when DESCRIPTION
-	/// </summary>
-	/// <remarks>
-	/// Contains a custom property, thus it Implements ISerializable 
-	/// and the special serialization constructor.
-	/// </remarks>
-	[Serializable]
-	public sealed class CommentSpamException : BaseCommentException
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CommentSpamException"/> class.
-		/// </summary>
-		public CommentSpamException() : base()
-		{
-		}
+    /// <summary>
+    /// Exception thrown when a comment is identified as comment spam.
+    /// </summary>
+    /// <summary>
+    /// Exception thrown when DESCRIPTION
+    /// </summary>
+    /// <remarks>
+    /// Contains a custom property, thus it Implements ISerializable 
+    /// and the special serialization constructor.
+    /// </remarks>
+    [Serializable]
+    public sealed class CommentSpamException : BaseCommentException
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentSpamException"/> class.
+        /// </summary>
+        public CommentSpamException()
+        {
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CommentSpamException"/> class.
-		/// </summary>
-		/// <param name="message">The message.</param>
-		public CommentSpamException(string message) : base(message)
-		{
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentSpamException"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public CommentSpamException(string message) : base(message)
+        {
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CommentSpamException"/> class.
-		/// </summary>
-		/// <param name="innerException">The inner exception.</param>
-		public CommentSpamException(Exception innerException) : base(null, innerException)
-		{}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentSpamException"/> class.
+        /// </summary>
+        /// <param name="innerException">The inner exception.</param>
+        public CommentSpamException(Exception innerException) : base(null, innerException)
+        {
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CommentSpamException"/> class.
-		/// </summary>
-		/// <param name="message">The message.</param>
-		/// <param name="innerException">The inner exception.</param>
-		public CommentSpamException(string message, Exception innerException) : base(message, innerException)
-		{
-		}
-	}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentSpamException"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="innerException">The inner exception.</param>
+        public CommentSpamException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+    }
 }

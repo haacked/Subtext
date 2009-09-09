@@ -4,30 +4,30 @@ using Subtext.Framework.Configuration;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
-	[TestFixture]
-	public class CommentSettingsTests
-	{
-		string hostName;
-		
-		[Test]
-		[RollBack]
-		[ExpectedArgumentNullException]
-		public void ApproveThrowsArgumentNullException()
-		{
-			Config.CreateBlog("", "username", "thePassword", this.hostName, "MyBlog1");
-			FeedbackItem.Approve(null, null);
-		}
+    [TestFixture]
+    public class CommentSettingsTests
+    {
+        string hostName;
 
-		[SetUp]
-		public void SetUp()
-		{
-			this.hostName = UnitTestHelper.GenerateUniqueString();
-			UnitTestHelper.SetHttpContextWithBlogRequest(this.hostName, "MyBlog1");
-		}
+        [Test]
+        [RollBack]
+        [ExpectedArgumentNullException]
+        public void ApproveThrowsArgumentNullException()
+        {
+            Config.CreateBlog("", "username", "thePassword", hostName, "MyBlog1");
+            FeedbackItem.Approve(null, null);
+        }
 
-		[TearDown]
-		public void TearDown()
-		{
-		}
-	}
+        [SetUp]
+        public void SetUp()
+        {
+            hostName = UnitTestHelper.GenerateUniqueString();
+            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "MyBlog1");
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+        }
+    }
 }

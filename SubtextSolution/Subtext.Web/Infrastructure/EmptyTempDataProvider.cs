@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Collections.Generic;
@@ -22,13 +24,17 @@ namespace Subtext.Web.Infrastructure
     {
         static readonly Dictionary<string, object> tempData = new Dictionary<string, object>();
 
+        #region ITempDataProvider Members
+
         public IDictionary<string, object> LoadTempData(ControllerContext controllerContext)
         {
-            return tempData;    
+            return tempData;
         }
 
         public void SaveTempData(ControllerContext controllerContext, IDictionary<string, object> values)
         {
         }
+
+        #endregion
     }
 }

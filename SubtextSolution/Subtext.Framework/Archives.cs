@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Collections.Generic;
@@ -19,29 +21,29 @@ using Subtext.Framework.Providers;
 
 namespace Subtext.Framework
 {
-	/// <summary>
-	/// Static class used to get collections of archived posts 
-	/// (by month and year and category) from the data provider.
-	/// </summary>
-	public static class Archives
-	{
-		/// <summary>
-		/// Gets archived posts by month.
-		/// </summary>
-		/// <returns></returns>
-		public static ICollection<ArchiveCount> GetPostCountByMonth()
-		{
-			return ObjectProvider.Instance().GetPostCountsByMonth();
-		}
+    /// <summary>
+    /// Static class used to get collections of archived posts 
+    /// (by month and year and category) from the data provider.
+    /// </summary>
+    public static class Archives
+    {
+        /// <summary>
+        /// Gets archived posts by month.
+        /// </summary>
+        /// <returns></returns>
+        public static ICollection<ArchiveCount> GetPostCountByMonth()
+        {
+            return ObjectProvider.Instance().GetPostCountsByMonth();
+        }
 
-		/// <summary>
-		/// Gets archived posts by year.
-		/// </summary>
-		/// <returns></returns>
+        /// <summary>
+        /// Gets archived posts by year.
+        /// </summary>
+        /// <returns></returns>
         public static ICollection<ArchiveCount> GetPostCountByYear()
-		{
-			return ObjectProvider.Instance().GetPostCountsByYear();
-		}
+        {
+            return ObjectProvider.Instance().GetPostCountsByYear();
+        }
 
         /// <summary>
         /// Gets archived posts by category.
@@ -51,5 +53,5 @@ namespace Subtext.Framework
         {
             return ObjectProvider.Instance().GetPostCountsByCategory();
         }
-	}
+    }
 }

@@ -1,4 +1,4 @@
-﻿using System.Web.Routing;
+using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
 using Ninject;
@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
 
             //act
-            subtextRoutes.MapControls("url", new { constraint = "constraintvalue" }, new string[] { "controls" });
+            subtextRoutes.MapControls("url", new {constraint = "constraintvalue"}, new[] {"controls"});
 
             //assert
             Assert.AreEqual("constraintvalue", ((PageRoute)routes[0]).Constraints["constraint"]);
@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
 
             //act
-            subtextRoutes.MapControls("url", new string[] { "controls" });
+            subtextRoutes.MapControls("url", new[] {"controls"});
 
             //assert
             Assert.AreEqual("url", ((PageRoute)routes[0]).Url);

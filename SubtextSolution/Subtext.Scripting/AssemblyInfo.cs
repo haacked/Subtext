@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,21 +12,25 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
+
 //
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("Subtext.Scripting")]
-[assembly: AssemblyDescription("Standalone class library for executing SQL Scripts ala Query Analyzer. Supports template parameters.")]
-[assembly: AssemblyCulture("")]
 
-[assembly: ComVisible(false)]	
+[assembly: AssemblyTitle("Subtext.Scripting")]
+[assembly:
+    AssemblyDescription(
+        "Standalone class library for executing SQL Scripts ala Query Analyzer. Supports template parameters.")]
+[assembly: AssemblyCulture("")]
+[assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution = true)]

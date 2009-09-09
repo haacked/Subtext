@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Web.UI.ViewModels
@@ -23,16 +25,8 @@ namespace Subtext.Web.UI.ViewModels
             Url = url;
         }
 
-        public string Url
-        {
-            get;
-            private set;
-        }
+        public string Url { get; private set; }
 
-        public string Title
-        {
-            get;
-            private set;
-        }
+        public string Title { get; private set; }
     }
 }

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -28,7 +30,7 @@ namespace Subtext.Web.Admin.Services.Ajax
     {
         public override void ProcessRequest()
         {
-            if (!User.IsInRole("Admins")) 
+            if(!User.IsInRole("Admins"))
             {
                 throw new SecurityException();
             }
@@ -38,7 +40,7 @@ namespace Subtext.Web.Admin.Services.Ajax
         [JsonRpcMethod("addMetaTagForBlog")]
         public MetaTag AddMetaTagForBlog(string content, string name, string httpEquiv)
         {
-            MetaTag newTag = new MetaTag(content);
+            var newTag = new MetaTag(content);
             newTag.Name = name;
             newTag.HttpEquiv = httpEquiv;
             newTag.BlogId = Config.CurrentBlog.Id;

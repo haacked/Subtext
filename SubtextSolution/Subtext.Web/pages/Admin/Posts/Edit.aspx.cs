@@ -1,12 +1,13 @@
-﻿using Subtext.Web.Admin.Pages;
+using Subtext.Web.Admin.Pages;
 
-namespace Subtext.Web.Admin.Posts {
-    public partial class Edit : ConfirmationPage 
+namespace Subtext.Web.Admin.Posts
+{
+    public partial class Edit : ConfirmationPage
     {
-        public Edit() 
+        public Edit()
         {
             TabSectionId = "Posts";
-            this.IsInEdit = true;
+            IsInEdit = true;
         }
     }
 }

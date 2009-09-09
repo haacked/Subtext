@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -20,82 +22,88 @@ using blowery.Web.HttpCompress;
 
 namespace Subtext.Framework.Syndication.Compression
 {
-	public class SyndicationCompressionSettings
-	{
-		private Algorithms _type;
-		private CompressionLevels _level;
-		private static readonly SyndicationCompressionSettings DefaultSettings = new SyndicationCompressionSettings();
-		
-		/*-- Constructors --*/
+    public class SyndicationCompressionSettings
+    {
+        private static readonly SyndicationCompressionSettings DefaultSettings = new SyndicationCompressionSettings();
+        private CompressionLevels _level;
+        private Algorithms _type;
 
-		#region -- Constructor(XmlNode) --
-		public SyndicationCompressionSettings(XmlNode node) : this()
-		{
-			if(node == null)
-			{
-				return;
-			}
+        #region -- Constructor(XmlNode) --
 
-			_type = (Algorithms)this.RetrieveEnumFromAttribute(node.Attributes["type"], typeof(Algorithms));
-			_level = (CompressionLevels)this.RetrieveEnumFromAttribute(node.Attributes["level"], typeof(CompressionLevels));
-		}
-		#endregion
+        public SyndicationCompressionSettings(XmlNode node) : this()
+        {
+            if(node == null)
+            {
+                return;
+            }
 
-		#region -- Constructor() --
-		private SyndicationCompressionSettings()
-		{
-			_type = Algorithms.Deflate;
-			_level = CompressionLevels.Normal;
-		}
-		#endregion
+            _type = (Algorithms)RetrieveEnumFromAttribute(node.Attributes["type"], typeof(Algorithms));
+            _level = (CompressionLevels)RetrieveEnumFromAttribute(node.Attributes["level"], typeof(CompressionLevels));
+        }
 
-		/*-- Properties --*/
+        #endregion
 
-		#region -- CompressionLevel Property --
-		public CompressionLevels CompressionLevel
-		{
-			get
-			{
-				return _level;
-			}
-		}
-		#endregion
+        #region -- Constructor() --
 
-		#region -- CompressionType Property --
-		public Algorithms CompressionType
-		{
-			get
-			{
-				return _type;
-			}
-		}
-		#endregion
+        private SyndicationCompressionSettings()
+        {
+            _type = Algorithms.Deflate;
+            _level = CompressionLevels.Normal;
+        }
 
-		/*-- Methods --*/
+        #endregion
 
-		#region -- RetrieveEnumFromAttribute(XmlAttribute, Type) Method --
-		protected Enum RetrieveEnumFromAttribute(XmlAttribute attribute, System.Type type)
-		{
-			return (Enum)Enum.Parse(type, attribute.Value, true);
-		}
-		#endregion
+        #region -- CompressionLevel Property --
 
-		/*-- Static Methods --*/
+        public CompressionLevels CompressionLevel
+        {
+            get { return _level; }
+        }
 
-		#region -- GetSettings() Method --
-		public static SyndicationCompressionSettings GetSettings()
-		{
-			SyndicationCompressionSettings settings;
+        #endregion
+
+        #region -- CompressionType Property --
+
+        public Algorithms CompressionType
+        {
+            get { return _type; }
+        }
+
+        #endregion
+
+        #region -- RetrieveEnumFromAttribute(XmlAttribute, Type) Method --
+
+        protected Enum RetrieveEnumFromAttribute(XmlAttribute attribute, Type type)
+        {
+            return (Enum)Enum.Parse(type, attribute.Value, true);
+        }
+
+        #endregion
+
+        #region -- GetSettings() Method --
+
+        public static SyndicationCompressionSettings GetSettings()
+        {
+            SyndicationCompressionSettings settings;
 
             settings = (SyndicationCompressionSettings)ConfigurationManager.GetSection("SyndicationCompression");
 
-			if(settings == null)
-			{
-				settings = SyndicationCompressionSettings.DefaultSettings;
-			}
-			
-			return settings;
-		}
-		#endregion
-	}
+            if(settings == null)
+            {
+                settings = DefaultSettings;
+            }
+
+            return settings;
+        }
+
+        #endregion
+
+        /*-- Constructors --*/
+
+        /*-- Properties --*/
+
+        /*-- Methods --*/
+
+        /*-- Static Methods --*/
+    }
 }

@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,21 +12,26 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Web.Routing;
 
-namespace Subtext.Framework.Routing {
+namespace Subtext.Framework.Routing
+{
     /// <summary>
     /// When ignoring routes, we also want to ignore for rendering 
     /// the virtual path. Unfortunately, routing doesn't do this 
     /// yet.
     /// </summary>
-    public class IgnoreRoute : Route {
-        public IgnoreRoute(string url) : base(url, new StopRoutingHandler()) {
+    public class IgnoreRoute : Route
+    {
+        public IgnoreRoute(string url) : base(url, new StopRoutingHandler())
+        {
         }
 
-        public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
+        public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
+        {
             return null;
         }
     }

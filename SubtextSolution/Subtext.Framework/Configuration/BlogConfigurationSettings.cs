@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,160 +12,126 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Xml.Serialization;
-using Subtext.Scripting;
 
 namespace Subtext.Framework.Configuration
 {
-	/// <summary>
-	/// Contains various configuration settings stored in the 
-	/// web.config file.
-	/// </summary>
-	[Serializable]
-	public class BlogConfigurationSettings 
-	{
-        public BlogConfigurationSettings() {
+    /// <summary>
+    /// Contains various configuration settings stored in the 
+    /// web.config file.
+    /// </summary>
+    [Serializable]
+    public class BlogConfigurationSettings
+    {
+        private Tracking _tracking;
+        private NameValueCollection allowedHtmlTags;
+
+        public BlogConfigurationSettings()
+        {
             QueuedThreads = 5;
             ItemCount = 15;
             CategoryListPostCount = 10;
             ServerTimeZone = -2037797565; //PST
         }
 
-		public Tracking Tracking
-		{
-			get 
-			{
+        public Tracking Tracking
+        {
+            get
+            {
                 _tracking = _tracking ?? new Tracking();
-				return _tracking;
-			}
-			set {
-                _tracking = value;
+                return _tracking;
             }
-		}
-        private Tracking _tracking;
+            set { _tracking = value; }
+        }
 
-		public bool UseWWW
-		{
-			get;
-			set;
-		}
+        public bool UseWWW { get; set; }
 
-		public int QueuedThreads
-		{
-			get;
-			set;
-		}
+        public int QueuedThreads { get; set; }
 
-		public bool AllowServiceAccess
-		{
-			get;
-			set;
-		}
+        public bool AllowServiceAccess { get; set; }
 
-		public bool AllowScriptsInPosts
-		{
-			get;
-			set;
-		}
+        public bool AllowScriptsInPosts { get; set; }
 
-		public bool UseHashedPasswords
-		{
-			get;
-			set;
-		}
+        public bool UseHashedPasswords { get; set; }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to allow images.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if [allow images]; otherwise, <c>false</c>.
-		/// </value>
-		public bool AllowImages
-		{
-			get;
-			set;
-		}
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to allow images.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if [allow images]; otherwise, <c>false</c>.
+        /// </value>
+        public bool AllowImages { get; set; }
 
-		/// <summary>
-		/// Gets or sets the default number of items to display 
-		/// for syndication feeds.
-		/// </summary>
-		/// <value></value>
-		public int ItemCount
-		{
-			get;
-			set;
-		}
+        /// <summary>
+        /// Gets or sets the default number of items to display 
+        /// for syndication feeds.
+        /// </summary>
+        /// <value></value>
+        public int ItemCount { get; set; }
 
-		/// <summary>
-		/// Gets or sets the number of posts to display 
-		/// on the category list pages.
-		/// </summary>
-		/// <value></value>
-		public int CategoryListPostCount
-		{
-			get;
-			set;
-		}
+        /// <summary>
+        /// Gets or sets the number of posts to display 
+        /// on the category list pages.
+        /// </summary>
+        /// <value></value>
+        public int CategoryListPostCount { get; set; }
 
-		/// <summary>
-		/// Gets or sets the server time zone.
-		/// </summary>
-		/// <value></value>
-		public int ServerTimeZone
-		{
-			get;
-			set;
-		}
+        /// <summary>
+        /// Gets or sets the server time zone.
+        /// </summary>
+        /// <value></value>
+        public int ServerTimeZone { get; set; }
 
-		/// <summary>
-		/// Gets a value indicating whether invisible captcha enabled.  This is 
-		/// configured within the "InvisibleCaptchaEnabled" app setting. It is not 
-		/// set per blog, but system-wide. This gives hosters a way to opt-out of 
-		/// this feature in case it ends up being problematci.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if [invisible captcha enabled]; otherwise, <c>false</c>.
-		/// </value>
-		public bool InvisibleCaptchaEnabled
-		{
-			get
-			{
-				if (String.IsNullOrEmpty(ConfigurationManager.AppSettings["InvisibleCaptchaEnabled"]))
-					return true;
-				
-				bool enabled;
-				if (bool.TryParse(ConfigurationManager.AppSettings["InvisibleCaptchaEnabled"], out enabled))
-					return enabled;
-				return true;
-			}
-		}
+        /// <summary>
+        /// Gets a value indicating whether invisible captcha enabled.  This is 
+        /// configured within the "InvisibleCaptchaEnabled" app setting. It is not 
+        /// set per blog, but system-wide. This gives hosters a way to opt-out of 
+        /// this feature in case it ends up being problematci.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if [invisible captcha enabled]; otherwise, <c>false</c>.
+        /// </value>
+        public bool InvisibleCaptchaEnabled
+        {
+            get
+            {
+                if(String.IsNullOrEmpty(ConfigurationManager.AppSettings["InvisibleCaptchaEnabled"]))
+                {
+                    return true;
+                }
 
-		/// <summary>
-		/// Returns a <see cref="NameValueCollection"/> containing the allowed 
-		/// HTML tags within a user comment.  The value contains a comma 
-		/// separated list of allowed attributes.
-		/// </summary>
-		/// <value>The allowed HTML tags.</value>
-		[XmlIgnore]
-		public NameValueCollection AllowedHtmlTags
-		{
-			get
-			{
-				if(this.allowedHtmlTags == null)
-				{
-                    this.allowedHtmlTags = ((NameValueCollection)(ConfigurationManager.GetSection("AllowableCommentHtml")));
-				}
-				return this.allowedHtmlTags;
-			}
-		}
+                bool enabled;
+                if(bool.TryParse(ConfigurationManager.AppSettings["InvisibleCaptchaEnabled"], out enabled))
+                {
+                    return enabled;
+                }
+                return true;
+            }
+        }
 
-		private NameValueCollection allowedHtmlTags = null;
-	}
+        /// <summary>
+        /// Returns a <see cref="NameValueCollection"/> containing the allowed 
+        /// HTML tags within a user comment.  The value contains a comma 
+        /// separated list of allowed attributes.
+        /// </summary>
+        /// <value>The allowed HTML tags.</value>
+        [XmlIgnore]
+        public NameValueCollection AllowedHtmlTags
+        {
+            get
+            {
+                if(allowedHtmlTags == null)
+                {
+                    allowedHtmlTags = ((NameValueCollection)(ConfigurationManager.GetSection("AllowableCommentHtml")));
+                }
+                return allowedHtmlTags;
+            }
+        }
+    }
 }
-

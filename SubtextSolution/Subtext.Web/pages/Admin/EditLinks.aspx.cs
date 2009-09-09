@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -33,11 +35,21 @@ namespace Subtext.Web.Admin.Pages
     {
         private const string VSKEY_LINKID = "LinkID";
 
+        private bool _isListHidden = false;
+
+        protected CheckBoxList cklCategories;
+        private int resultsPageNumber = 0;
+
+        public EditLinks()
+        {
+            TabSectionId = "Links";
+        }
+
         private int? filterCategoryID
         {
             get
             {
-                if (ViewState["filterCategoryID"] == null)
+                if(ViewState["filterCategoryID"] == null)
                 {
                     return null;
                 }
@@ -46,57 +58,50 @@ namespace Subtext.Web.Admin.Pages
                     return (int)ViewState["filterCategoryID"];
                 }
             }
-            set
-            {
-                ViewState["filterCategoryID"] = value;
-            }
+            set { ViewState["filterCategoryID"] = value; }
         }
-        private int resultsPageNumber = 0;
-        private bool _isListHidden = false;
-
-        protected CheckBoxList cklCategories;
 
         public int LinkID
         {
             get
             {
-                if (ViewState[VSKEY_LINKID] != null)
+                if(ViewState[VSKEY_LINKID] != null)
+                {
                     return (int)ViewState[VSKEY_LINKID];
+                }
                 else
+                {
                     return NullValue.NullInt32;
+                }
             }
             set { ViewState[VSKEY_LINKID] = value; }
         }
 
-        public EditLinks()
+        protected void Page_Load(object sender, EventArgs e)
         {
-            this.TabSectionId = "Links";
-        }
-
-        protected void Page_Load(object sender, System.EventArgs e)
-        {
-            this.rprSelectionList.Visible = true;
-            this.headerLiteral.Visible = true;
+            rprSelectionList.Visible = true;
+            headerLiteral.Visible = true;
             BindLocalUI();
 
-            if (!IsPostBack)
+            if(!IsPostBack)
             {
-                if (Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
+                if(Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
                 {
-                    this.resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+                    resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
                 }
 
-                if (Request.QueryString[Keys.QRYSTR_CATEGORYID] != null)
+                if(Request.QueryString[Keys.QRYSTR_CATEGORYID] != null)
                 {
-                    this.filterCategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
+                    filterCategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
                 }
 
-                this.resultsPager.PageSize = Preferences.ListingItemCount;
-                this.resultsPager.PageIndex = this.resultsPageNumber;
+                resultsPager.PageSize = Preferences.ListingItemCount;
+                resultsPager.PageIndex = resultsPageNumber;
 
-                if (this.filterCategoryID != null)
+                if(filterCategoryID != null)
                 {
-                    this.resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, this.filterCategoryID);
+                    resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}",
+                                                            Keys.QRYSTR_CATEGORYID, filterCategoryID);
                 }
 
                 BindList();
@@ -110,7 +115,11 @@ namespace Subtext.Web.Admin.Pages
             lkbNewLink.CausesValidation = false;
             AdminMasterPage.AddToActions(lkbNewLink);
             HyperLink lnkEditCategories = Utilities.CreateHyperLink(Resources.Label_EditCategories,
-                string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITCATEGORIES, Keys.QRYSTR_CATEGORYTYPE, CategoryType.LinkCollection));
+                                                                    string.Format(CultureInfo.InvariantCulture,
+                                                                                  "{0}?{1}={2}",
+                                                                                  Constants.URL_EDITCATEGORIES,
+                                                                                  Keys.QRYSTR_CATEGORYTYPE,
+                                                                                  CategoryType.LinkCollection));
             AdminMasterPage.AddToActions(lnkEditCategories);
         }
 
@@ -118,11 +127,12 @@ namespace Subtext.Web.Admin.Pages
         {
             Edit.Visible = false;
 
-            IPagedCollection<Link> selectionList = Repository.GetPagedLinks(this.filterCategoryID, this.resultsPageNumber, this.resultsPager.PageSize, true);
+            IPagedCollection<Link> selectionList = Repository.GetPagedLinks(filterCategoryID, resultsPageNumber,
+                                                                            resultsPager.PageSize, true);
 
-            if (selectionList.Count > 0)
+            if(selectionList.Count > 0)
             {
-                this.resultsPager.ItemCount = selectionList.MaxItems;
+                resultsPager.ItemCount = selectionList.MaxItems;
                 rprSelectionList.DataSource = selectionList;
                 rprSelectionList.DataBind();
             }
@@ -136,8 +146,8 @@ namespace Subtext.Web.Admin.Pages
         {
             Link currentLink = Repository.GetLink(LinkID);
 
-            this.rprSelectionList.Visible = false;
-            this.headerLiteral.Visible = false;
+            rprSelectionList.Visible = false;
+            headerLiteral.Visible = false;
             //			ImportExport.Visible = false;
             Edit.Visible = true;
 
@@ -151,11 +161,12 @@ namespace Subtext.Web.Admin.Pages
             ckbIsActive.Checked = currentLink.IsActive;
 
             BindLinkCategories();
-            ddlCategories.Items.FindByValue(currentLink.CategoryID.ToString(CultureInfo.InvariantCulture)).Selected = true;
+            ddlCategories.Items.FindByValue(currentLink.CategoryID.ToString(CultureInfo.InvariantCulture)).Selected =
+                true;
 
-            if (AdminMasterPage != null)
+            if(AdminMasterPage != null)
             {
-                string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Link \"{0}\"", currentLink.Title);
+                string title = string.Format(CultureInfo.InvariantCulture, "Editing Link \"{0}\"", currentLink.Title);
                 AdminMasterPage.Title = title;
             }
         }
@@ -163,7 +174,7 @@ namespace Subtext.Web.Admin.Pages
         public void BindLinkCategories()
         {
             ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
-            if (selectionList != null && selectionList.Count != 0)
+            if(selectionList != null && selectionList.Count != 0)
             {
                 ddlCategories.DataSource = selectionList;
                 ddlCategories.DataValueField = "Id";
@@ -172,10 +183,9 @@ namespace Subtext.Web.Admin.Pages
             }
             else
             {
-                this.Messages.ShowError(Resources.EditLinks_NeedToAddCategoryFirst);
+                Messages.ShowError(Resources.EditLinks_NeedToAddCategoryFirst);
                 Edit.Visible = false;
             }
-
         }
 
         private void UpdateLink()
@@ -184,7 +194,7 @@ namespace Subtext.Web.Admin.Pages
 
             try
             {
-                Link link = new Link();
+                var link = new Link();
 
                 link.Title = txbTitle.Text;
                 link.Url = txbUrl.Text;
@@ -195,7 +205,7 @@ namespace Subtext.Web.Admin.Pages
                 link.Id = Config.CurrentBlog.Id;
                 link.Relation = txtXfn.Text;
 
-                if (LinkID > 0)
+                if(LinkID > 0)
                 {
                     successMessage = Constants.RES_SUCCESSEDIT;
                     link.Id = LinkID;
@@ -206,24 +216,26 @@ namespace Subtext.Web.Admin.Pages
                     LinkID = Links.CreateLink(link);
                 }
 
-                if (LinkID > 0)
+                if(LinkID > 0)
                 {
                     BindList();
-                    this.Messages.ShowMessage(successMessage);
+                    Messages.ShowMessage(successMessage);
                 }
                 else
-                    this.Messages.ShowError(Constants.RES_FAILUREEDIT
-                        + " There was a baseline problem posting your link.");
+                {
+                    Messages.ShowError(Constants.RES_FAILUREEDIT
+                                       + " There was a baseline problem posting your link.");
+                }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
-                    Constants.RES_FAILUREEDIT, ex.Message));
+                Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
+                                                 Constants.RES_FAILUREEDIT, ex.Message));
             }
             finally
             {
-                this.rprSelectionList.Visible = true;
-                this.headerLiteral.Visible = true;
+                rprSelectionList.Visible = true;
+                headerLiteral.Visible = true;
             }
         }
 
@@ -231,8 +243,8 @@ namespace Subtext.Web.Admin.Pages
         {
             LinkID = NullValue.NullInt32;
 
-            this.rprSelectionList.Visible = !showEdit;
-            this.headerLiteral.Visible = !showEdit;
+            rprSelectionList.Visible = !showEdit;
+            headerLiteral.Visible = !showEdit;
             Edit.Visible = showEdit;
 
             lblEntryID.Text = String.Empty;
@@ -243,7 +255,7 @@ namespace Subtext.Web.Admin.Pages
 
             ckbIsActive.Checked = Preferences.AlwaysCreateIsActive;
 
-            if (showEdit)
+            if(showEdit)
             {
                 BindLinkCategories();
             }
@@ -261,13 +273,14 @@ namespace Subtext.Web.Admin.Pages
 
         private void ImportOpml()
         {
-            if (OpmlImportFile.PostedFile.FileName.Trim().Length > 0)
+            if(OpmlImportFile.PostedFile.FileName.Trim().Length > 0)
             {
                 OpmlItemCollection importedLinks = OpmlProvider.Import(OpmlImportFile.PostedFile.InputStream);
 
-                if (importedLinks.Count > 0)
+                if(importedLinks.Count > 0)
                 {
-                    var command = new ImportLinksCommand(importedLinks, Int32.Parse(this.ddlImportExportCategories.SelectedItem.Value));
+                    var command = new ImportLinksCommand(importedLinks,
+                                                         Int32.Parse(ddlImportExportCategories.SelectedItem.Value));
                     Messages.ShowMessage(command.Execute());
                 }
 
@@ -278,7 +291,7 @@ namespace Subtext.Web.Admin.Pages
         // REFACTOR
         public string CheckHiddenStyle()
         {
-            if (_isListHidden)
+            if(_isListHidden)
             {
                 return Constants.CSSSTYLE_HIDDEN;
             }
@@ -290,18 +303,21 @@ namespace Subtext.Web.Admin.Pages
 
         override protected void OnInit(EventArgs e)
         {
-            this.rprSelectionList.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprSelectionList_ItemCommand);
+            rprSelectionList.ItemCommand += new RepeaterCommandEventHandler(rprSelectionList_ItemCommand);
             base.OnInit(e);
         }
 
-        protected void lkbImportOpml_Click(object sender, System.EventArgs e)
+        protected void lkbImportOpml_Click(object sender, EventArgs e)
         {
-            if (Page.IsValid) ImportOpml();
+            if(Page.IsValid)
+            {
+                ImportOpml();
+            }
         }
 
-        private void rprSelectionList_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
+        private void rprSelectionList_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture))
+            switch(e.CommandName.ToLower(CultureInfo.InvariantCulture))
             {
                 case "edit":
                     LinkID = Convert.ToInt32(e.CommandArgument);
@@ -319,21 +335,19 @@ namespace Subtext.Web.Admin.Pages
             }
         }
 
-        protected void lkbCancel_Click(object sender, System.EventArgs e)
+        protected void lkbCancel_Click(object sender, EventArgs e)
         {
             ResetPostEdit(false);
         }
 
-        protected void lkbPost_Click(object sender, System.EventArgs e)
+        protected void lkbPost_Click(object sender, EventArgs e)
         {
             UpdateLink();
         }
 
-        private void lkbNewLink_Click(object sender, System.EventArgs e)
+        private void lkbNewLink_Click(object sender, EventArgs e)
         {
             ResetPostEdit(true);
         }
     }
 }
-
-

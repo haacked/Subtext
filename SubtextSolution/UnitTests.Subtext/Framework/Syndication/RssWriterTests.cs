@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -31,76 +33,76 @@ using UnitTests.Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
-	/// <summary>
-	/// Unit tests for the RSSWriter classes.
-	/// </summary>
-	[TestFixture]
-	public class RssWriterTests : SyndicationTestBase
-	{
-		[RowTest]
-		[Row("Subtext.Web", "", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
-		[Row("Subtext.Web", "blog", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
-		[Row("", "", "http://localhost/images/RSS2Image.gif")]
-		[Row("", "blog", "http://localhost/images/RSS2Image.gif")]
-		[RollBack]
-		public void RssImageUrlConcatenatedProperly(string application, string subfolder, string expected)
-		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subfolder, application);
-			Blog blogInfo = new Blog();
+    /// <summary>
+    /// Unit tests for the RSSWriter classes.
+    /// </summary>
+    [TestFixture]
+    public class RssWriterTests : SyndicationTestBase
+    {
+        [RowTest]
+        [Row("Subtext.Web", "", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
+        [Row("Subtext.Web", "blog", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
+        [Row("", "", "http://localhost/images/RSS2Image.gif")]
+        [Row("", "blog", "http://localhost/images/RSS2Image.gif")]
+        [RollBack]
+        public void RssImageUrlConcatenatedProperly(string application, string subfolder, string expected)
+        {
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subfolder, application);
+            var blogInfo = new Blog();
             BlogRequest.Current.Blog = blogInfo;
-			blogInfo.Host = "localhost";
-			blogInfo.Subfolder = subfolder;
-			blogInfo.Title = "My Blog Is Better Than Yours";
-			blogInfo.Email = "Subtext@example.com";
-			blogInfo.RFC3229DeltaEncodingEnabled = true;
+            blogInfo.Host = "localhost";
+            blogInfo.Subfolder = subfolder;
+            blogInfo.Title = "My Blog Is Better Than Yours";
+            blogInfo.Email = "Subtext@example.com";
+            blogInfo.RFC3229DeltaEncodingEnabled = true;
 
-			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
+            HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/", application, null);
-            var httpContext = Mock.Get<HttpContextBase>(subtextContext.Object.RequestContext.HttpContext);
+            Mock<HttpContextBase> httpContext = Mock.Get(subtextContext.Object.RequestContext.HttpContext);
             httpContext.Setup(h => h.Request.ApplicationPath).Returns(application);
 
-			RssWriter writer = new RssWriter(new StringWriter(), new List<Entry>(), DateTime.Now, false, subtextContext.Object);
-			Uri rssImageUrl = writer.GetRssImage();
-			Assert.AreEqual(expected, rssImageUrl.ToString(), "not the expected url.");			
-		}
-		
-		/// <summary>
-		/// Tests writing a simple RSS feed.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void RssWriterProducesValidFeed()
-		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
+            var writer = new RssWriter(new StringWriter(), new List<Entry>(), DateTime.Now, false, subtextContext.Object);
+            Uri rssImageUrl = writer.GetRssImage();
+            Assert.AreEqual(expected, rssImageUrl.ToString(), "not the expected url.");
+        }
 
-			Blog blogInfo = new Blog();
+        /// <summary>
+        /// Tests writing a simple RSS feed.
+        /// </summary>
+        [Test]
+        [RollBack]
+        public void RssWriterProducesValidFeed()
+        {
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
+
+            var blogInfo = new Blog();
             BlogRequest.Current.Blog = blogInfo;
-			blogInfo.Host = "localhost";
-			blogInfo.Title = "My Blog Is Better Than Yours";
-			blogInfo.Email = "Subtext@example.com";
-			blogInfo.RFC3229DeltaEncodingEnabled = true;
-			blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
+            blogInfo.Host = "localhost";
+            blogInfo.Title = "My Blog Is Better Than Yours";
+            blogInfo.Email = "Subtext@example.com";
+            blogInfo.RFC3229DeltaEncodingEnabled = true;
+            blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
             blogInfo.ShowEmailAddressInRss = true;
             blogInfo.TrackbacksEnabled = true;
-			
-			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
-		    List<Entry> entries = new List<Entry>(CreateSomeEntries());
-            entries[0].Categories.AddRange(new string[] { "Category1", "Category2" });
-			entries[0].Email = "nobody@example.com";
+            HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
+
+            var entries = new List<Entry>(CreateSomeEntries());
+            entries[0].Categories.AddRange(new[] {"Category1", "Category2"});
+            entries[0].Email = "nobody@example.com";
             entries[2].Categories.Add("Category 3");
 
-            Enclosure enc = new Enclosure();
+            var enc = new Enclosure();
 
-		    enc.Url = "http://perseus.franklins.net/hanselminutes_0107.mp3";
-		    enc.Title = "<Digital Photography Explained (for Geeks) with Aaron Hockley/>";
-		    enc.Size = 26707573;
-		    enc.MimeType = "audio/mp3";
-		    enc.AddToFeed = true;
-		    entries[2].Enclosure = enc;
+            enc.Url = "http://perseus.franklins.net/hanselminutes_0107.mp3";
+            enc.Title = "<Digital Photography Explained (for Geeks) with Aaron Hockley/>";
+            enc.Size = 26707573;
+            enc.MimeType = "audio/mp3";
+            enc.AddToFeed = true;
+            entries[2].Enclosure = enc;
 
-            Enclosure enc1 = new Enclosure();
+            var enc1 = new Enclosure();
 
             enc1.Url = "http://perseus.franklins.net/hanselminutes_0107.mp3";
             enc1.Title = "<Digital Photography Explained (for Geeks) with Aaron Hockley/>";
@@ -108,327 +110,428 @@ namespace UnitTests.Subtext.Framework.Syndication
             enc1.MimeType = "audio/mp3";
             enc1.AddToFeed = false;
 
-		    entries[3].Enclosure = enc1;
+            entries[3].Enclosure = enc1;
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/", "Subtext.Web", null);
-            var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
+            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/Subtext.Web/");
-            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns<Entry>(e => "/Subtext.Web/whatever/" + e.Id + ".aspx");
+            urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns<Entry>(
+                e => "/Subtext.Web/whatever/" + e.Id + ".aspx");
 
-			RssWriter writer = new RssWriter(new StringWriter(), entries, NullValue.NullDateTime, false, subtextContext.Object);
+            var writer = new RssWriter(new StringWriter(), entries, NullValue.NullDateTime, false, subtextContext.Object);
 
-			string expected = @"<rss version=""2.0"" "
-									+ @"xmlns:dc=""http://purl.org/dc/elements/1.1/"" "
-									+ @"xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" "
-									+ @"xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" "
-									+ @"xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" "
-									+ @"xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" "
-									+ @"xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" + Environment.NewLine
-								+ indent() + @"<channel>" + Environment.NewLine
-										+ indent(2) + @"<title>My Blog Is Better Than Yours</title>" + Environment.NewLine
-										+ indent(2) + @"<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
-										+ indent(2) + @"<description />" + Environment.NewLine
-										+ indent(2) + @"<language>en-US</language>" + Environment.NewLine
-										+ indent(2) + @"<copyright>Subtext Weblog</copyright>" + Environment.NewLine
-										+ indent(2) + @"<managingEditor>Subtext@example.com</managingEditor>" + Environment.NewLine
-										+ indent(2) + @"<generator>{0}</generator>" + Environment.NewLine
-										+ indent(2) + @"<image>" + Environment.NewLine
-											+ indent(3) + @"<title>My Blog Is Better Than Yours</title>" + Environment.NewLine
-											+ indent(3) + @"<url>http://localhost/Subtext.Web/images/RSS2Image.gif</url>" + Environment.NewLine
-											+ indent(3) + @"<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
-											+ indent(3) + @"<width>77</width>" + Environment.NewLine
-											+ indent(3) + @"<height>60</height>" + Environment.NewLine
-										+ indent(2) + @"</image>" + Environment.NewLine
-										+ indent(2) + @"<item>" + Environment.NewLine
-											+ indent(3) + @"<title>Title of 1001.</title>" + Environment.NewLine
-											+ indent(3) + @"<category>Category1</category>" + Environment.NewLine
-											+ indent(3) + @"<category>Category2</category>" + Environment.NewLine
-											+ indent(3) + @"<link>http://localhost/Subtext.Web/whatever/1001.aspx</link>" + Environment.NewLine
-											+ indent(3) + @"<description>Body of 1001&lt;img src=""http://localhost/Subtext.Web/aggbug/1001.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
-											+ indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
-                                            + indent(3) + @"<guid>http://localhost/Subtext.Web/whatever/1001.aspx</guid>" + Environment.NewLine
-											+ indent(3) + @"<pubDate>Sun, 23 Feb 1975 08:00:00 GMT</pubDate>" + Environment.NewLine
-                                            + indent(3) + @"<comments>http://localhost/Subtext.Web/whatever/1001.aspx#feedback</comments>" + Environment.NewLine
-											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1001.aspx</wfw:commentRss>" + Environment.NewLine
-                                            + indent(3) + @"<trackback:ping>http://localhost/Subtext.Web/services/trackbacks/1001.aspx</trackback:ping>" + Environment.NewLine
-										+ indent(2) + @"</item>" + Environment.NewLine
-										+ indent(2) + @"<item>" + Environment.NewLine
-											+ indent(3) + @"<title>Title of 1002.</title>" + Environment.NewLine
-                                            + indent(3) + @"<link>http://localhost/Subtext.Web/whatever/1002.aspx</link>" + Environment.NewLine
-											+ indent(3) + @"<description>Body of 1002&lt;img src=""http://localhost/Subtext.Web/aggbug/1002.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
-											+ indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
-                                            + indent(3) + @"<guid>http://localhost/Subtext.Web/whatever/1002.aspx</guid>" + Environment.NewLine
-											+ indent(3) + @"<pubDate>Fri, 25 Jun 1976 07:00:00 GMT</pubDate>" + Environment.NewLine
-                                            + indent(3) + @"<comments>http://localhost/Subtext.Web/whatever/1002.aspx#feedback</comments>" + Environment.NewLine
-											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1002.aspx</wfw:commentRss>" + Environment.NewLine
-                                            + indent(3) + @"<trackback:ping>http://localhost/Subtext.Web/services/trackbacks/1002.aspx</trackback:ping>" + Environment.NewLine
-										+ indent(2) + @"</item>" + Environment.NewLine
-										+ indent(2) + @"<item>" + Environment.NewLine
-											+ indent(3) + @"<title>Title of 1003.</title>" + Environment.NewLine
-											+ indent(3) + @"<category>Category 3</category>" + Environment.NewLine
-                                            + indent(3) + @"<link>http://localhost/Subtext.Web/whatever/1003.aspx</link>" + Environment.NewLine
-											+ indent(3) + @"<description>Body of 1003&lt;img src=""http://localhost/Subtext.Web/aggbug/1003.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
-											+ indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
-                                            + indent(3) + @"<guid>http://localhost/Subtext.Web/whatever/1003.aspx</guid>" + Environment.NewLine
-											+ indent(3) + @"<pubDate>Tue, 16 Oct 1979 07:00:00 GMT</pubDate>" + Environment.NewLine
-                                            + indent(3) + @"<comments>http://localhost/Subtext.Web/whatever/1003.aspx#feedback</comments>" + Environment.NewLine
-											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1003.aspx</wfw:commentRss>" + Environment.NewLine
-                                            + indent(3) + @"<trackback:ping>http://localhost/Subtext.Web/services/trackbacks/1003.aspx</trackback:ping>" + Environment.NewLine
-                                            + indent(3) + @"<enclosure url=""http://perseus.franklins.net/hanselminutes_0107.mp3"" length=""26707573"" type=""audio/mp3"" />" + Environment.NewLine
-										+ indent(2) + @"</item>" + Environment.NewLine
-										+ indent(2) + @"<item>" + Environment.NewLine
-											+ indent(3) + @"<title>Title of 1004.</title>" + Environment.NewLine
-                                            + indent(3) + @"<link>http://localhost/Subtext.Web/whatever/1004.aspx</link>" + Environment.NewLine
-											+ indent(3) + @"<description>Body of 1004&lt;img src=""http://localhost/Subtext.Web/aggbug/1004.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
-											+ indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
-                                            + indent(3) + @"<guid>http://localhost/Subtext.Web/whatever/1004.aspx</guid>" + Environment.NewLine
-											+ indent(3) + @"<pubDate>Mon, 14 Jul 2003 07:00:00 GMT</pubDate>" + Environment.NewLine
-                                            + indent(3) + @"<comments>http://localhost/Subtext.Web/whatever/1004.aspx#feedback</comments>" + Environment.NewLine
-											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss>" + Environment.NewLine
-                                            + indent(3) + @"<trackback:ping>http://localhost/Subtext.Web/services/trackbacks/1004.aspx</trackback:ping>" + Environment.NewLine
-										+ indent(2) + @"</item>" + Environment.NewLine
-								+ indent() + @"</channel>" + Environment.NewLine
-							  + @"</rss>";
+            string expected = @"<rss version=""2.0"" "
+                              + @"xmlns:dc=""http://purl.org/dc/elements/1.1/"" "
+                              + @"xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" "
+                              + @"xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" "
+                              + @"xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" "
+                              + @"xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" "
+                              + @"xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" + Environment.NewLine
+                              + indent() + @"<channel>" + Environment.NewLine
+                              + indent(2) + @"<title>My Blog Is Better Than Yours</title>" + Environment.NewLine
+                              + indent(2) + @"<link>http://localhost/Subtext.Web/Default.aspx</link>" +
+                              Environment.NewLine
+                              + indent(2) + @"<description />" + Environment.NewLine
+                              + indent(2) + @"<language>en-US</language>" + Environment.NewLine
+                              + indent(2) + @"<copyright>Subtext Weblog</copyright>" + Environment.NewLine
+                              + indent(2) + @"<managingEditor>Subtext@example.com</managingEditor>" +
+                              Environment.NewLine
+                              + indent(2) + @"<generator>{0}</generator>" + Environment.NewLine
+                              + indent(2) + @"<image>" + Environment.NewLine
+                              + indent(3) + @"<title>My Blog Is Better Than Yours</title>" + Environment.NewLine
+                              + indent(3) + @"<url>http://localhost/Subtext.Web/images/RSS2Image.gif</url>" +
+                              Environment.NewLine
+                              + indent(3) + @"<link>http://localhost/Subtext.Web/Default.aspx</link>" +
+                              Environment.NewLine
+                              + indent(3) + @"<width>77</width>" + Environment.NewLine
+                              + indent(3) + @"<height>60</height>" + Environment.NewLine
+                              + indent(2) + @"</image>" + Environment.NewLine
+                              + indent(2) + @"<item>" + Environment.NewLine
+                              + indent(3) + @"<title>Title of 1001.</title>" + Environment.NewLine
+                              + indent(3) + @"<category>Category1</category>" + Environment.NewLine
+                              + indent(3) + @"<category>Category2</category>" + Environment.NewLine
+                              + indent(3) + @"<link>http://localhost/Subtext.Web/whatever/1001.aspx</link>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<description>Body of 1001&lt;img src=""http://localhost/Subtext.Web/aggbug/1001.aspx"" width=""1"" height=""1"" /&gt;</description>" +
+                              Environment.NewLine
+                              + indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
+                              + indent(3) + @"<guid>http://localhost/Subtext.Web/whatever/1001.aspx</guid>" +
+                              Environment.NewLine
+                              + indent(3) + @"<pubDate>Sun, 23 Feb 1975 08:00:00 GMT</pubDate>" + Environment.NewLine
+                              + indent(3) +
+                              @"<comments>http://localhost/Subtext.Web/whatever/1001.aspx#feedback</comments>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1001.aspx</wfw:commentRss>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<trackback:ping>http://localhost/Subtext.Web/services/trackbacks/1001.aspx</trackback:ping>" +
+                              Environment.NewLine
+                              + indent(2) + @"</item>" + Environment.NewLine
+                              + indent(2) + @"<item>" + Environment.NewLine
+                              + indent(3) + @"<title>Title of 1002.</title>" + Environment.NewLine
+                              + indent(3) + @"<link>http://localhost/Subtext.Web/whatever/1002.aspx</link>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<description>Body of 1002&lt;img src=""http://localhost/Subtext.Web/aggbug/1002.aspx"" width=""1"" height=""1"" /&gt;</description>" +
+                              Environment.NewLine
+                              + indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
+                              + indent(3) + @"<guid>http://localhost/Subtext.Web/whatever/1002.aspx</guid>" +
+                              Environment.NewLine
+                              + indent(3) + @"<pubDate>Fri, 25 Jun 1976 07:00:00 GMT</pubDate>" + Environment.NewLine
+                              + indent(3) +
+                              @"<comments>http://localhost/Subtext.Web/whatever/1002.aspx#feedback</comments>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1002.aspx</wfw:commentRss>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<trackback:ping>http://localhost/Subtext.Web/services/trackbacks/1002.aspx</trackback:ping>" +
+                              Environment.NewLine
+                              + indent(2) + @"</item>" + Environment.NewLine
+                              + indent(2) + @"<item>" + Environment.NewLine
+                              + indent(3) + @"<title>Title of 1003.</title>" + Environment.NewLine
+                              + indent(3) + @"<category>Category 3</category>" + Environment.NewLine
+                              + indent(3) + @"<link>http://localhost/Subtext.Web/whatever/1003.aspx</link>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<description>Body of 1003&lt;img src=""http://localhost/Subtext.Web/aggbug/1003.aspx"" width=""1"" height=""1"" /&gt;</description>" +
+                              Environment.NewLine
+                              + indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
+                              + indent(3) + @"<guid>http://localhost/Subtext.Web/whatever/1003.aspx</guid>" +
+                              Environment.NewLine
+                              + indent(3) + @"<pubDate>Tue, 16 Oct 1979 07:00:00 GMT</pubDate>" + Environment.NewLine
+                              + indent(3) +
+                              @"<comments>http://localhost/Subtext.Web/whatever/1003.aspx#feedback</comments>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1003.aspx</wfw:commentRss>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<trackback:ping>http://localhost/Subtext.Web/services/trackbacks/1003.aspx</trackback:ping>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<enclosure url=""http://perseus.franklins.net/hanselminutes_0107.mp3"" length=""26707573"" type=""audio/mp3"" />" +
+                              Environment.NewLine
+                              + indent(2) + @"</item>" + Environment.NewLine
+                              + indent(2) + @"<item>" + Environment.NewLine
+                              + indent(3) + @"<title>Title of 1004.</title>" + Environment.NewLine
+                              + indent(3) + @"<link>http://localhost/Subtext.Web/whatever/1004.aspx</link>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<description>Body of 1004&lt;img src=""http://localhost/Subtext.Web/aggbug/1004.aspx"" width=""1"" height=""1"" /&gt;</description>" +
+                              Environment.NewLine
+                              + indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
+                              + indent(3) + @"<guid>http://localhost/Subtext.Web/whatever/1004.aspx</guid>" +
+                              Environment.NewLine
+                              + indent(3) + @"<pubDate>Mon, 14 Jul 2003 07:00:00 GMT</pubDate>" + Environment.NewLine
+                              + indent(3) +
+                              @"<comments>http://localhost/Subtext.Web/whatever/1004.aspx#feedback</comments>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss>" +
+                              Environment.NewLine
+                              + indent(3) +
+                              @"<trackback:ping>http://localhost/Subtext.Web/services/trackbacks/1004.aspx</trackback:ping>" +
+                              Environment.NewLine
+                              + indent(2) + @"</item>" + Environment.NewLine
+                              + indent() + @"</channel>" + Environment.NewLine
+                              + @"</rss>";
 
-			expected = string.Format(expected, VersionInfo.VersionDisplayText);
-			
-			UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, writer.Xml);
-		}
+            expected = string.Format(expected, VersionInfo.VersionDisplayText);
 
-		/// <summary>
-		/// Makes sure the RSS Writer can write the delta of a feed based 
-		/// on the RFC3229 with feeds 
-		/// <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html"/>.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void RssWriterHandlesRFC3229DeltaEncoding()
-		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
+            UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, writer.Xml);
+        }
 
-			Blog blogInfo = new Blog();
+        /// <summary>
+        /// Makes sure the RSS Writer can write the delta of a feed based 
+        /// on the RFC3229 with feeds 
+        /// <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html"/>.
+        /// </summary>
+        [Test]
+        [RollBack]
+        public void RssWriterHandlesRFC3229DeltaEncoding()
+        {
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
+
+            var blogInfo = new Blog();
             BlogRequest.Current.Blog = blogInfo;
-			blogInfo.Host = "localhost";
-			blogInfo.Subfolder = "";
-			blogInfo.Email = "Subtext@example.com";
-			blogInfo.RFC3229DeltaEncodingEnabled = true;
-			blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
+            blogInfo.Host = "localhost";
+            blogInfo.Subfolder = "";
+            blogInfo.Email = "Subtext@example.com";
+            blogInfo.RFC3229DeltaEncodingEnabled = true;
+            blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
-			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
+            HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
-            List<Entry> entries = new List<Entry>(CreateSomeEntriesDescending());
+            var entries = new List<Entry>(CreateSomeEntriesDescending());
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/", "Subtext.Web", null);
-            var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
+            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/Subtext.Web/");
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/Subtext.Web/whatever");
-            
+
             // Tell the write we already received 1002 published 6/25/1976.
-			RssWriter writer = new RssWriter(new StringWriter(), entries, DateTime.ParseExact("06/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture), true, subtextContext.Object);
+            var writer = new RssWriter(new StringWriter(), entries,
+                                       DateTime.ParseExact("06/25/1976", "MM/dd/yyyy", CultureInfo.InvariantCulture),
+                                       true, subtextContext.Object);
 
-			// We only expect 1003 and 1004
-			string expected = @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" + Environment.NewLine
-								+ indent() + "<channel>" + Environment.NewLine
-									+ indent(2) + "<title />" + Environment.NewLine
-									+ indent(2) + "<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
-									+ indent(2) + "<description />" + Environment.NewLine
-									+ indent(2) + "<language>en-US</language>" + Environment.NewLine
-									+ indent(2) + "<copyright>Subtext Weblog</copyright>" + Environment.NewLine
-									+ indent(2) + "<generator>{0}</generator>" + Environment.NewLine
-									+ indent(2) + "<image>" + Environment.NewLine
-										+ indent(3) + "<title />" + Environment.NewLine
-										+ indent(3) + "<url>http://localhost/Subtext.Web/images/RSS2Image.gif</url>" + Environment.NewLine
-										+ indent(3) + "<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
-										+ indent(3) + "<width>77</width>" + Environment.NewLine
-										+ indent(3) + "<height>60</height>" + Environment.NewLine
-									+ indent(2) + "</image>" + Environment.NewLine
-									+ indent(2) + @"<item>" + Environment.NewLine
-										+ indent(3) + @"<title>Title of 1004.</title>" + Environment.NewLine
-										+ indent(3) + @"<link>http://localhost/Subtext.Web/whatever</link>" + Environment.NewLine
-										+ indent(3) + @"<description>Body of 1004&lt;img src=""http://localhost/Subtext.Web/aggbug/1004.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
-										+ indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
-                                        + indent(3) + @"<guid>http://localhost/Subtext.Web/whatever</guid>" + Environment.NewLine
-										+ indent(3) + @"<pubDate>Mon, 14 Jul 2003 07:00:00 GMT</pubDate>" + Environment.NewLine
-										+ indent(3) + @"<comments>http://localhost/Subtext.Web/whatever#feedback</comments>" + Environment.NewLine
-										+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss>" + Environment.NewLine
-									+ indent(2) + @"</item>" + Environment.NewLine
-									+ indent(2) + @"<item>" + Environment.NewLine
-										+ indent(3) + "<title>Title of 1003.</title>" + Environment.NewLine
-										+ indent(3) + "<link>http://localhost/Subtext.Web/whatever</link>" + Environment.NewLine
-										+ indent(3) + @"<description>Body of 1003&lt;img src=""http://localhost/Subtext.Web/aggbug/1003.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
-										+ indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
-                                        + indent(3) + @"<guid>http://localhost/Subtext.Web/whatever</guid>" + Environment.NewLine
-										+ indent(3) + @"<pubDate>Tue, 16 Oct 1979 07:00:00 GMT</pubDate>" + Environment.NewLine
-                                        + indent(3) + @"<comments>http://localhost/Subtext.Web/whatever#feedback</comments>" + Environment.NewLine
-										+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1003.aspx</wfw:commentRss>" + Environment.NewLine
-									+ indent(2) + "</item>" + Environment.NewLine
-								+ indent() + "</channel>" + Environment.NewLine
-			                  + "</rss>";
-			
-			expected = string.Format(expected, VersionInfo.VersionDisplayText);
+            // We only expect 1003 and 1004
+            string expected =
+                @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" +
+                Environment.NewLine
+                + indent() + "<channel>" + Environment.NewLine
+                + indent(2) + "<title />" + Environment.NewLine
+                + indent(2) + "<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
+                + indent(2) + "<description />" + Environment.NewLine
+                + indent(2) + "<language>en-US</language>" + Environment.NewLine
+                + indent(2) + "<copyright>Subtext Weblog</copyright>" + Environment.NewLine
+                + indent(2) + "<generator>{0}</generator>" + Environment.NewLine
+                + indent(2) + "<image>" + Environment.NewLine
+                + indent(3) + "<title />" + Environment.NewLine
+                + indent(3) + "<url>http://localhost/Subtext.Web/images/RSS2Image.gif</url>" + Environment.NewLine
+                + indent(3) + "<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
+                + indent(3) + "<width>77</width>" + Environment.NewLine
+                + indent(3) + "<height>60</height>" + Environment.NewLine
+                + indent(2) + "</image>" + Environment.NewLine
+                + indent(2) + @"<item>" + Environment.NewLine
+                + indent(3) + @"<title>Title of 1004.</title>" + Environment.NewLine
+                + indent(3) + @"<link>http://localhost/Subtext.Web/whatever</link>" + Environment.NewLine
+                + indent(3) +
+                @"<description>Body of 1004&lt;img src=""http://localhost/Subtext.Web/aggbug/1004.aspx"" width=""1"" height=""1"" /&gt;</description>" +
+                Environment.NewLine
+                + indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
+                + indent(3) + @"<guid>http://localhost/Subtext.Web/whatever</guid>" + Environment.NewLine
+                + indent(3) + @"<pubDate>Mon, 14 Jul 2003 07:00:00 GMT</pubDate>" + Environment.NewLine
+                + indent(3) + @"<comments>http://localhost/Subtext.Web/whatever#feedback</comments>" +
+                Environment.NewLine
+                + indent(3) +
+                @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss>" +
+                Environment.NewLine
+                + indent(2) + @"</item>" + Environment.NewLine
+                + indent(2) + @"<item>" + Environment.NewLine
+                + indent(3) + "<title>Title of 1003.</title>" + Environment.NewLine
+                + indent(3) + "<link>http://localhost/Subtext.Web/whatever</link>" + Environment.NewLine
+                + indent(3) +
+                @"<description>Body of 1003&lt;img src=""http://localhost/Subtext.Web/aggbug/1003.aspx"" width=""1"" height=""1"" /&gt;</description>" +
+                Environment.NewLine
+                + indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
+                + indent(3) + @"<guid>http://localhost/Subtext.Web/whatever</guid>" + Environment.NewLine
+                + indent(3) + @"<pubDate>Tue, 16 Oct 1979 07:00:00 GMT</pubDate>" + Environment.NewLine
+                + indent(3) + @"<comments>http://localhost/Subtext.Web/whatever#feedback</comments>" +
+                Environment.NewLine
+                + indent(3) +
+                @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1003.aspx</wfw:commentRss>" +
+                Environment.NewLine
+                + indent(2) + "</item>" + Environment.NewLine
+                + indent() + "</channel>" + Environment.NewLine
+                + "</rss>";
 
-			Assert.AreEqual(expected, writer.Xml);
+            expected = string.Format(expected, VersionInfo.VersionDisplayText);
 
-			Assert.AreEqual(DateTime.ParseExact("06/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture), writer.DateLastViewedFeedItemPublished, "The Item ID Last Viewed (according to If-None-Since is wrong.");
-			Assert.AreEqual(DateTime.ParseExact("07/14/2003","MM/dd/yyyy",CultureInfo.InvariantCulture), writer.LatestPublishDate, "The Latest Feed Item ID sent to the client is wrong.");
-		}
+            Assert.AreEqual(expected, writer.Xml);
 
-		/// <summary>
-		/// Tests writing a simple RSS feed.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void RssWriterSendsWholeFeedWhenRFC3229Disabled()
-		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
+            Assert.AreEqual(DateTime.ParseExact("06/25/1976", "MM/dd/yyyy", CultureInfo.InvariantCulture),
+                            writer.DateLastViewedFeedItemPublished,
+                            "The Item ID Last Viewed (according to If-None-Since is wrong.");
+            Assert.AreEqual(DateTime.ParseExact("07/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture),
+                            writer.LatestPublishDate, "The Latest Feed Item ID sent to the client is wrong.");
+        }
 
-			Blog blogInfo = new Blog();
+        /// <summary>
+        /// Tests writing a simple RSS feed.
+        /// </summary>
+        [Test]
+        [RollBack]
+        public void RssWriterSendsWholeFeedWhenRFC3229Disabled()
+        {
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
+
+            var blogInfo = new Blog();
             BlogRequest.Current.Blog = blogInfo;
-			blogInfo.Host = "localhost";
-			blogInfo.Subfolder = "";
-			blogInfo.Email = "Subtext@example.com";
-			blogInfo.RFC3229DeltaEncodingEnabled = false;
-			blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
-			
-			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
+            blogInfo.Host = "localhost";
+            blogInfo.Subfolder = "";
+            blogInfo.Email = "Subtext@example.com";
+            blogInfo.RFC3229DeltaEncodingEnabled = false;
+            blogInfo.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
-            List<Entry> entries = new List<Entry>(CreateSomeEntriesDescending());
+            HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
+
+            var entries = new List<Entry>(CreateSomeEntriesDescending());
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/Subtext.Web/", "Subtext.Web", null);
-            var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
+            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/Subtext.Web/");
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns<Entry>(e => "/Subtext.Web/whatever/" + e.Id);
-            
-			RssWriter writer = new RssWriter(new StringWriter(), entries, DateTime.ParseExact("07/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture), false, subtextContext.Object);
 
-			string expected = @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" + Environment.NewLine 
-								+ indent() + "<channel>" + Environment.NewLine
-									+ indent(2) + "<title />" + Environment.NewLine
-									+ indent(2) + "<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
-									+ indent(2) + "<description />" + Environment.NewLine
-									+ indent(2) + "<language>en-US</language>" + Environment.NewLine
-									+ indent(2) + "<copyright>Subtext Weblog</copyright>" + Environment.NewLine
-									+ indent(2) + "<generator>{0}</generator>" + Environment.NewLine
-									+ indent(2) + "<image>" + Environment.NewLine
-										+ indent(3) + "<title />" + Environment.NewLine
-										+ indent(3) + "<url>http://localhost/Subtext.Web/images/RSS2Image.gif</url>" + Environment.NewLine
-										+ indent(3) + "<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
-										+ indent(3) + "<width>77</width>" + Environment.NewLine
-										+ indent(3) + "<height>60</height>" + Environment.NewLine
-									+ indent(2) + "</image>" + Environment.NewLine
-									+ indent(2) + @"<item>" + Environment.NewLine
-										+ indent(3) + "<title>Title of 1004.</title>" + Environment.NewLine
-										+ indent(3) + "<link>http://localhost/Subtext.Web/whatever/1004</link>" + Environment.NewLine
-										+ indent(3) + @"<description>Body of 1004&lt;img src=""http://localhost/Subtext.Web/aggbug/1004.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
-										+ indent(3) + "<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
-                                        + indent(3) + "<guid>http://localhost/Subtext.Web/whatever/1004</guid>" + Environment.NewLine
-										+ indent(3) + "<pubDate>Mon, 14 Jul 2003 07:00:00 GMT</pubDate>" + Environment.NewLine
-										+ indent(3) + "<comments>http://localhost/Subtext.Web/whatever/1004#feedback</comments>" + Environment.NewLine
-										+ indent(3) + "<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss>" + Environment.NewLine
-									+ indent(2) + "</item>" + Environment.NewLine
-									+ indent(2) + "<item>" + Environment.NewLine
-										+ indent(3) + "<title>Title of 1003.</title>" + Environment.NewLine
-                                        + indent(3) + @"<link>http://localhost/Subtext.Web/whatever/1003</link>" + Environment.NewLine
-										+ indent(3) + @"<description>Body of 1003&lt;img src=""http://localhost/Subtext.Web/aggbug/1003.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
-										+ indent(3) + "<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
-                                        + indent(3) + "<guid>http://localhost/Subtext.Web/whatever/1003</guid>" + Environment.NewLine
-										+ indent(3) + "<pubDate>Tue, 16 Oct 1979 07:00:00 GMT</pubDate>" + Environment.NewLine
-                                        + indent(3) + "<comments>http://localhost/Subtext.Web/whatever/1003#feedback</comments>" + Environment.NewLine
-										+ indent(3) + "<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1003.aspx</wfw:commentRss>" + Environment.NewLine
-									+ indent(2) + "</item>" + Environment.NewLine
-									+ indent(2) + @"<item>" + Environment.NewLine
-										+ indent(3) + "<title>Title of 1002.</title>" + Environment.NewLine
-                                        + indent(3) + "<link>http://localhost/Subtext.Web/whatever/1002</link>" + Environment.NewLine
-										+ indent(3) + @"<description>Body of 1002&lt;img src=""http://localhost/Subtext.Web/aggbug/1002.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
-										+ indent(3) + "<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
-                                        + indent(3) + "<guid>http://localhost/Subtext.Web/whatever/1002</guid>" + Environment.NewLine
-										+ indent(3) + "<pubDate>Fri, 25 Jun 1976 07:00:00 GMT</pubDate>" + Environment.NewLine
-                                        + indent(3) + "<comments>http://localhost/Subtext.Web/whatever/1002#feedback</comments>" + Environment.NewLine
-										+ indent(3) + "<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1002.aspx</wfw:commentRss>" + Environment.NewLine
-									+ indent(2) + "</item>" + Environment.NewLine
-									+ indent(2) + @"<item>" + Environment.NewLine
-										+ indent(3) + "<title>Title of 1001.</title>" + Environment.NewLine
-                                        + indent(3) + "<link>http://localhost/Subtext.Web/whatever/1001</link>" + Environment.NewLine
-										+ indent(3) + @"<description>Body of 1001&lt;img src=""http://localhost/Subtext.Web/aggbug/1001.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
-										+ indent(3) + "<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
-                                        + indent(3) + "<guid>http://localhost/Subtext.Web/whatever/1001</guid>" + Environment.NewLine
-										+ indent(3) + "<pubDate>Sun, 23 Feb 1975 08:00:00 GMT</pubDate>" + Environment.NewLine
-                                        + indent(3) + "<comments>http://localhost/Subtext.Web/whatever/1001#feedback</comments>" + Environment.NewLine
-										+ indent(3) + "<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1001.aspx</wfw:commentRss>" + Environment.NewLine
-									+ indent(2) + "</item>" + Environment.NewLine
-								+ indent() + "</channel>" + Environment.NewLine
-			                  + "</rss>";
-			expected = string.Format(expected, VersionInfo.VersionDisplayText);
-		    UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, writer.Xml);
-		}
+            var writer = new RssWriter(new StringWriter(), entries,
+                                       DateTime.ParseExact("07/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture),
+                                       false, subtextContext.Object);
 
-		Entry[] CreateSomeEntries()
-		{
-			return new Entry[]
-			{
-				CreateEntry(1001, "Title of 1001.", "Body of 1001", DateTime.ParseExact("01/23/1975", "MM/dd/yyyy", CultureInfo.InvariantCulture))
-				,CreateEntry(1002, "Title of 1002.", "Body of 1002", DateTime.ParseExact("05/25/1976", "MM/dd/yyyy", CultureInfo.InvariantCulture))
-				,CreateEntry(1003, "Title of 1003.", "Body of 1003", DateTime.ParseExact("09/16/1979", "MM/dd/yyyy", CultureInfo.InvariantCulture))
-				,CreateEntry(1004, "Title of 1004.", "Body of 1004", DateTime.ParseExact("06/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture))
-			};
-		}
+            string expected =
+                @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" +
+                Environment.NewLine
+                + indent() + "<channel>" + Environment.NewLine
+                + indent(2) + "<title />" + Environment.NewLine
+                + indent(2) + "<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
+                + indent(2) + "<description />" + Environment.NewLine
+                + indent(2) + "<language>en-US</language>" + Environment.NewLine
+                + indent(2) + "<copyright>Subtext Weblog</copyright>" + Environment.NewLine
+                + indent(2) + "<generator>{0}</generator>" + Environment.NewLine
+                + indent(2) + "<image>" + Environment.NewLine
+                + indent(3) + "<title />" + Environment.NewLine
+                + indent(3) + "<url>http://localhost/Subtext.Web/images/RSS2Image.gif</url>" + Environment.NewLine
+                + indent(3) + "<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
+                + indent(3) + "<width>77</width>" + Environment.NewLine
+                + indent(3) + "<height>60</height>" + Environment.NewLine
+                + indent(2) + "</image>" + Environment.NewLine
+                + indent(2) + @"<item>" + Environment.NewLine
+                + indent(3) + "<title>Title of 1004.</title>" + Environment.NewLine
+                + indent(3) + "<link>http://localhost/Subtext.Web/whatever/1004</link>" + Environment.NewLine
+                + indent(3) +
+                @"<description>Body of 1004&lt;img src=""http://localhost/Subtext.Web/aggbug/1004.aspx"" width=""1"" height=""1"" /&gt;</description>" +
+                Environment.NewLine
+                + indent(3) + "<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
+                + indent(3) + "<guid>http://localhost/Subtext.Web/whatever/1004</guid>" + Environment.NewLine
+                + indent(3) + "<pubDate>Mon, 14 Jul 2003 07:00:00 GMT</pubDate>" + Environment.NewLine
+                + indent(3) + "<comments>http://localhost/Subtext.Web/whatever/1004#feedback</comments>" +
+                Environment.NewLine
+                + indent(3) +
+                "<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss>" +
+                Environment.NewLine
+                + indent(2) + "</item>" + Environment.NewLine
+                + indent(2) + "<item>" + Environment.NewLine
+                + indent(3) + "<title>Title of 1003.</title>" + Environment.NewLine
+                + indent(3) + @"<link>http://localhost/Subtext.Web/whatever/1003</link>" + Environment.NewLine
+                + indent(3) +
+                @"<description>Body of 1003&lt;img src=""http://localhost/Subtext.Web/aggbug/1003.aspx"" width=""1"" height=""1"" /&gt;</description>" +
+                Environment.NewLine
+                + indent(3) + "<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
+                + indent(3) + "<guid>http://localhost/Subtext.Web/whatever/1003</guid>" + Environment.NewLine
+                + indent(3) + "<pubDate>Tue, 16 Oct 1979 07:00:00 GMT</pubDate>" + Environment.NewLine
+                + indent(3) + "<comments>http://localhost/Subtext.Web/whatever/1003#feedback</comments>" +
+                Environment.NewLine
+                + indent(3) +
+                "<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1003.aspx</wfw:commentRss>" +
+                Environment.NewLine
+                + indent(2) + "</item>" + Environment.NewLine
+                + indent(2) + @"<item>" + Environment.NewLine
+                + indent(3) + "<title>Title of 1002.</title>" + Environment.NewLine
+                + indent(3) + "<link>http://localhost/Subtext.Web/whatever/1002</link>" + Environment.NewLine
+                + indent(3) +
+                @"<description>Body of 1002&lt;img src=""http://localhost/Subtext.Web/aggbug/1002.aspx"" width=""1"" height=""1"" /&gt;</description>" +
+                Environment.NewLine
+                + indent(3) + "<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
+                + indent(3) + "<guid>http://localhost/Subtext.Web/whatever/1002</guid>" + Environment.NewLine
+                + indent(3) + "<pubDate>Fri, 25 Jun 1976 07:00:00 GMT</pubDate>" + Environment.NewLine
+                + indent(3) + "<comments>http://localhost/Subtext.Web/whatever/1002#feedback</comments>" +
+                Environment.NewLine
+                + indent(3) +
+                "<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1002.aspx</wfw:commentRss>" +
+                Environment.NewLine
+                + indent(2) + "</item>" + Environment.NewLine
+                + indent(2) + @"<item>" + Environment.NewLine
+                + indent(3) + "<title>Title of 1001.</title>" + Environment.NewLine
+                + indent(3) + "<link>http://localhost/Subtext.Web/whatever/1001</link>" + Environment.NewLine
+                + indent(3) +
+                @"<description>Body of 1001&lt;img src=""http://localhost/Subtext.Web/aggbug/1001.aspx"" width=""1"" height=""1"" /&gt;</description>" +
+                Environment.NewLine
+                + indent(3) + "<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
+                + indent(3) + "<guid>http://localhost/Subtext.Web/whatever/1001</guid>" + Environment.NewLine
+                + indent(3) + "<pubDate>Sun, 23 Feb 1975 08:00:00 GMT</pubDate>" + Environment.NewLine
+                + indent(3) + "<comments>http://localhost/Subtext.Web/whatever/1001#feedback</comments>" +
+                Environment.NewLine
+                + indent(3) +
+                "<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1001.aspx</wfw:commentRss>" +
+                Environment.NewLine
+                + indent(2) + "</item>" + Environment.NewLine
+                + indent() + "</channel>" + Environment.NewLine
+                + "</rss>";
+            expected = string.Format(expected, VersionInfo.VersionDisplayText);
+            UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, writer.Xml);
+        }
 
-		Entry[] CreateSomeEntriesDescending()
-		{
-			return new Entry[]
-			{
-				CreateEntry(1004, "Title of 1004.", "Body of 1004", DateTime.ParseExact("06/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture))
-				,CreateEntry(1003, "Title of 1003.", "Body of 1003", DateTime.ParseExact("09/16/1979", "MM/dd/yyyy", CultureInfo.InvariantCulture))
-				,CreateEntry(1002, "Title of 1002.", "Body of 1002", DateTime.ParseExact("05/25/1976", "MM/dd/yyyy", CultureInfo.InvariantCulture))
-				,CreateEntry(1001, "Title of 1001.", "Body of 1001", DateTime.ParseExact("01/23/1975", "MM/dd/yyyy", CultureInfo.InvariantCulture))
-				
-			};
-		}
+        Entry[] CreateSomeEntries()
+        {
+            return new[]
+            {
+                CreateEntry(1001, "Title of 1001.", "Body of 1001",
+                            DateTime.ParseExact("01/23/1975", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                ,
+                CreateEntry(1002, "Title of 1002.", "Body of 1002",
+                            DateTime.ParseExact("05/25/1976", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                ,
+                CreateEntry(1003, "Title of 1003.", "Body of 1003",
+                            DateTime.ParseExact("09/16/1979", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                ,
+                CreateEntry(1004, "Title of 1004.", "Body of 1004",
+                            DateTime.ParseExact("06/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+            };
+        }
 
-		Entry CreateEntry(int id, string title, string body, DateTime dateCreated)
-		{
-			return CreateEntry(id, title, body, null, dateCreated);
-		}
+        Entry[] CreateSomeEntriesDescending()
+        {
+            return new[]
+            {
+                CreateEntry(1004, "Title of 1004.", "Body of 1004",
+                            DateTime.ParseExact("06/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                ,
+                CreateEntry(1003, "Title of 1003.", "Body of 1003",
+                            DateTime.ParseExact("09/16/1979", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                ,
+                CreateEntry(1002, "Title of 1002.", "Body of 1002",
+                            DateTime.ParseExact("05/25/1976", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                ,
+                CreateEntry(1001, "Title of 1001.", "Body of 1001",
+                            DateTime.ParseExact("01/23/1975", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+            };
+        }
 
-		Entry CreateEntry(int id, string title, string body, string entryName, DateTime dateCreated)
-		{
-			Entry entry = new Entry(PostType.BlogPost);
-			if(entryName != null)
-			{
-				entry.EntryName = entryName;
-			}
-			entry.DateCreated = dateCreated;
-			entry.DateModified = entry.DateCreated;
-			entry.Title = title;
-			entry.Author = "Phil Haack";
-			entry.Body = body;
-			entry.Id = id;
+        Entry CreateEntry(int id, string title, string body, DateTime dateCreated)
+        {
+            return CreateEntry(id, title, body, null, dateCreated);
+        }
+
+        Entry CreateEntry(int id, string title, string body, string entryName, DateTime dateCreated)
+        {
+            var entry = new Entry(PostType.BlogPost);
+            if(entryName != null)
+            {
+                entry.EntryName = entryName;
+            }
+            entry.DateCreated = dateCreated;
+            entry.DateModified = entry.DateCreated;
+            entry.Title = title;
+            entry.Author = "Phil Haack";
+            entry.Body = body;
+            entry.Id = id;
             entry.DateSyndicated = entry.DateCreated.AddMonths(1);
-            
-			return entry;
-		}
 
-		/// <summary>
-		/// Sets the up test fixture.  This is called once for 
-		/// this test fixture before all the tests run.
-		/// </summary>
-		[TestFixtureSetUp]
-		public void SetUpTestFixture()
-		{
-			//Confirm app settings
+            return entry;
+        }
+
+        /// <summary>
+        /// Sets the up test fixture.  This is called once for 
+        /// this test fixture before all the tests run.
+        /// </summary>
+        [TestFixtureSetUp]
+        public void SetUpTestFixture()
+        {
+            //Confirm app settings
             UnitTestHelper.AssertAppSettings();
-		}
+        }
 
-		[SetUp]
-		public void SetUp()
-		{
-		}
+        [SetUp]
+        public void SetUp()
+        {
+        }
 
-		[TearDown]
-		public void TearDown()
-		{
-			Config.ConfigurationProvider = null;
-		}
-	}
+        [TearDown]
+        public void TearDown()
+        {
+            Config.ConfigurationProvider = null;
+        }
+    }
 }

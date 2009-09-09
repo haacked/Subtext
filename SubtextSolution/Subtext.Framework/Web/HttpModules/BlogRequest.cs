@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -26,24 +28,8 @@ namespace Subtext.Framework.Web.HttpModules
     /// </summary>
     public class BlogRequest
     {
-        public const int DefaultPort = 80;
         public const string BlogRequestKey = "Subtext__CurrentRequest";
-
-        /// <summary>
-        /// Gets or sets the current blog request.
-        /// </summary>
-        /// <value>The current.</value>
-        public static BlogRequest Current
-        {
-            get
-            {
-                return (BlogRequest)HttpContext.Current.Items[BlogRequestKey];
-            }
-            set
-            {
-                HttpContext.Current.Items[BlogRequestKey] = value;
-            }
-        }
+        public const int DefaultPort = 80;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BlogRequest"/> class.
@@ -53,7 +39,8 @@ namespace Subtext.Framework.Web.HttpModules
         /// <param name="url">The raw requested URL</param>
         /// <param name="isLocal">True if this request is a local machine request.</param>
         /// <param name="requestLocation">Defines which type of request this is.</param>
-        public BlogRequest(string host, string subfolder, Uri url, bool isLocal, RequestLocation requestLocation, string applicationPath)
+        public BlogRequest(string host, string subfolder, Uri url, bool isLocal, RequestLocation requestLocation,
+                           string applicationPath)
         {
             Host = host;
             Subfolder = subfolder;
@@ -73,55 +60,102 @@ namespace Subtext.Framework.Web.HttpModules
         public BlogRequest(string host, string subfolder, Uri url, bool isLocal)
             : this(host, subfolder, url, isLocal, RequestLocation.Blog, "/")
         {
-
         }
 
         public BlogRequest(HttpRequestBase request)
             : this(HostFromRequest(request)
-                , SubfolderFromRequest(request)
-                , request.Url
-                , request.IsLocal
-                , DetermineRequestLocation(request)
-                , request.ApplicationPath
-            )
+                   , SubfolderFromRequest(request)
+                   , request.Url
+                   , request.IsLocal
+                   , DetermineRequestLocation(request)
+                   , request.ApplicationPath
+                )
         {
+        }
+
+        /// <summary>
+        /// Gets or sets the current blog request.
+        /// </summary>
+        /// <value>The current.</value>
+        public static BlogRequest Current
+        {
+            get { return (BlogRequest)HttpContext.Current.Items[BlogRequestKey]; }
+            set { HttpContext.Current.Items[BlogRequestKey] = value; }
+        }
+
+        public RequestLocation RequestLocation { get; private set; }
+
+        public bool IsLocal { get; private set; }
+
+        public Blog Blog { get; set; }
+
+        /// <summary>
+        /// Gets the host.
+        /// </summary>
+        /// <value>The host.</value>
+        public string Host { get; private set; }
+
+        /// <summary>
+        /// Gets the host.
+        /// </summary>
+        /// <value>The host.</value>
+        public string Subfolder { get; private set; }
+
+        public string ApplicationPath { get; private set; }
+
+        public Uri RawUrl { get; private set; }
+
+        public bool IsHostAdminRequest
+        {
+            get { return RequestLocation == RequestLocation.HostAdmin || RequestLocation == RequestLocation.Upgrade; }
+        }
+
+        // The request is for a location in which a blog is required.
+        public bool BlogNotRequired
+        {
+            get
+            {
+                return RequestLocation != RequestLocation.Blog
+                       && RequestLocation != RequestLocation.LoginPage
+                    /* && RequestLocation != EmbeddedResource */;
+            }
         }
 
         private static RequestLocation DetermineRequestLocation(HttpRequestBase request)
         {
-            if (IsStaticFileRequest(request))
+            if(IsStaticFileRequest(request))
             {
                 return RequestLocation.StaticFile;
             }
-            if (IsLogin(request))
+            if(IsLogin(request))
             {
                 return RequestLocation.LoginPage;
             }
-            if (IsForgotPassword(request))
+            if(IsForgotPassword(request))
             {
                 return RequestLocation.LoginPage;
             }
-            if (IsSystemMessage(request))
+            if(IsSystemMessage(request))
             {
                 return RequestLocation.SystemMessages;
             }
-            if (IsUpgrade(request))
+            if(IsUpgrade(request))
             {
                 return RequestLocation.Upgrade;
             }
-            if (IsHostAdmin(request))
+            if(IsHostAdmin(request))
             {
                 return RequestLocation.HostAdmin;
             }
-            if (IsInstallation(request))
+            if(IsInstallation(request))
             {
                 return RequestLocation.Installation;
             }
-            if (IsSkins(request))
+            if(IsSkins(request))
             {
                 return RequestLocation.Skins;
             }
-            if (IsEmbeddedResource(request))
+            if(IsEmbeddedResource(request))
             {
                 return RequestLocation.EmbeddedResource;
             }
@@ -133,14 +167,14 @@ namespace Subtext.Framework.Web.HttpModules
             string filePath = request.FilePath;
 
             return filePath.EndsWith(".css", StringComparison.OrdinalIgnoreCase)
-                    || filePath.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
-                    || filePath.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
-                    || filePath.EndsWith(".gif", StringComparison.OrdinalIgnoreCase)
-                    || filePath.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
-                    || filePath.EndsWith(".xml", StringComparison.OrdinalIgnoreCase)
-                    || filePath.EndsWith(".txt", StringComparison.OrdinalIgnoreCase)
-                    || filePath.EndsWith(".html", StringComparison.OrdinalIgnoreCase)
-                    || filePath.EndsWith(".htm", StringComparison.OrdinalIgnoreCase);
+                   || filePath.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+                   || filePath.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
+                   || filePath.EndsWith(".gif", StringComparison.OrdinalIgnoreCase)
+                   || filePath.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
+                   || filePath.EndsWith(".xml", StringComparison.OrdinalIgnoreCase)
+                   || filePath.EndsWith(".txt", StringComparison.OrdinalIgnoreCase)
+                   || filePath.EndsWith(".html", StringComparison.OrdinalIgnoreCase)
+                   || filePath.EndsWith(".htm", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsEmbeddedResource(HttpRequestBase request)
@@ -148,19 +182,19 @@ namespace Subtext.Framework.Web.HttpModules
             string filePath = request.FilePath;
 
             return filePath.EndsWith("ScriptResource.axd", StringComparison.OrdinalIgnoreCase)
-                    || filePath.EndsWith("WebResource.axd", StringComparison.OrdinalIgnoreCase);
+                   || filePath.EndsWith("WebResource.axd", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsInSpecialDirectory(HttpRequestBase request, string folderName)
         {
             string appPath = request.ApplicationPath ?? string.Empty;
 
-            if (!appPath.EndsWith("/", StringComparison.Ordinal))
+            if(!appPath.EndsWith("/", StringComparison.Ordinal))
             {
                 appPath += "/";
             }
             string path = request.Path;
-            if (!path.EndsWith("/", StringComparison.Ordinal))
+            if(!path.EndsWith("/", StringComparison.Ordinal))
             {
                 path += "/";
             }
@@ -206,8 +240,9 @@ namespace Subtext.Framework.Web.HttpModules
 
         private static string SubfolderFromRequest(HttpRequestBase request)
         {
-            string subfolder = UrlFormats.GetBlogSubfolderFromRequest(request.RawUrl, request.ApplicationPath) ?? string.Empty;
-            if (!Config.IsValidSubfolderName(subfolder))
+            string subfolder = UrlFormats.GetBlogSubfolderFromRequest(request.RawUrl, request.ApplicationPath) ??
+                               string.Empty;
+            if(!Config.IsValidSubfolderName(subfolder))
             {
                 subfolder = string.Empty;
             }
@@ -216,88 +251,19 @@ namespace Subtext.Framework.Web.HttpModules
 
         private static string HostFromRequest(HttpRequestBase request)
         {
-            string host = request.Url.Host; 
+            string host = request.Url.Host;
 
-            if (request.IsLocal && request.Url.Host == "127.0.0.1") // For testing.
+            if(request.IsLocal && request.Url.Host == "127.0.0.1") // For testing.
             {
                 return "localhost";
             }
-            
-            if (String.IsNullOrEmpty(host))
+
+            if(String.IsNullOrEmpty(host))
             {
                 host = request.Params["HTTP_HOST"].LeftBefore(":", StringComparison.OrdinalIgnoreCase);
             }
 
             return host;
-        }
-
-        public RequestLocation RequestLocation
-        {
-            get;
-            private set;
-        }
-
-        public bool IsLocal
-        {
-            get;
-            private set;
-        }
-
-        public Blog Blog
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets the host.
-        /// </summary>
-        /// <value>The host.</value>
-        public string Host
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets the host.
-        /// </summary>
-        /// <value>The host.</value>
-        public string Subfolder
-        {
-            get;
-            private set;
-        }
-
-        public string ApplicationPath
-        {
-            get;
-            private set;
-        }
-
-        public Uri RawUrl
-        {
-            get;
-            private set;
-        }
-
-        public bool IsHostAdminRequest
-        {
-            get
-            {
-                return RequestLocation == RequestLocation.HostAdmin || RequestLocation == RequestLocation.Upgrade;
-            }
-        }
-
-        // The request is for a location in which a blog is required.
-        public bool BlogNotRequired
-        {
-            get
-            {
-                return RequestLocation != RequestLocation.Blog
-                    && RequestLocation != RequestLocation.LoginPage
-                    /* && RequestLocation != EmbeddedResource */;
-            }
         }
     }
 }

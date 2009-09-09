@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using MbUnit.Framework;
 using Subtext.Framework.Components;
@@ -10,12 +10,14 @@ namespace UnitTests.Subtext.Framework.Components
     public class ServerTimeZoneInfoTests
     {
         [Test]
-        public void ctor_WhenServerAndLocalTimeZonesAreSame_ShowsSameTime() { 
+        public void ctor_WhenServerAndLocalTimeZonesAreSame_ShowsSameTime()
+        {
             //arrange
-            var pacificTimeZone = TimeZones.GetTimeZones().GetById("Pacific Standard Time");
-            var serverTimeZone = TimeZones.GetTimeZones().GetById("Pacific Standard Time");
-            var now = DateTime.ParseExact("2009/08/11 11:50 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture);
-            var utcNow = now.ToUniversalTime();
+            TimeZoneInfo pacificTimeZone = TimeZones.GetTimeZones().GetById("Pacific Standard Time");
+            TimeZoneInfo serverTimeZone = TimeZones.GetTimeZones().GetById("Pacific Standard Time");
+            DateTime now = DateTime.ParseExact("2009/08/11 11:50 PM", "yyyy/MM/dd hh:mm tt",
+                                               CultureInfo.InvariantCulture);
+            DateTime utcNow = now.ToUniversalTime();
 
             //act
             var info = new ServerTimeZoneInfo(pacificTimeZone, serverTimeZone, now, utcNow);
@@ -31,10 +33,11 @@ namespace UnitTests.Subtext.Framework.Components
         public void ctor_WhenServerAndLocalTimeZonesAreDifferent_ShowsDifferentTimes()
         {
             //arrange
-            var pacificTimeZone = TimeZones.GetTimeZones().GetById("Tokyo Standard Time");
-            var serverTimeZone = TimeZones.GetTimeZones().GetById("Pacific Standard Time");
-            var now = DateTime.ParseExact("2009/08/12 12:03 AM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture);
-            var utcNow = now.ToUniversalTime();
+            TimeZoneInfo pacificTimeZone = TimeZones.GetTimeZones().GetById("Tokyo Standard Time");
+            TimeZoneInfo serverTimeZone = TimeZones.GetTimeZones().GetById("Pacific Standard Time");
+            DateTime now = DateTime.ParseExact("2009/08/12 12:03 AM", "yyyy/MM/dd hh:mm tt",
+                                               CultureInfo.InvariantCulture);
+            DateTime utcNow = now.ToUniversalTime();
 
             //act
             var info = new ServerTimeZoneInfo(pacificTimeZone, serverTimeZone, now, utcNow);

@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.IO;
@@ -45,7 +47,7 @@ namespace Subtext.Framework.Resource
         public static string UnpackEmbeddedResource(string resourceName, Encoding encoding)
         {
             Stream stream = UnpackEmbeddedResource(resourceName);
-            using (StreamReader reader = new StreamReader(stream))
+            using(var reader = new StreamReader(stream))
             {
                 return reader.ReadToEnd();
             }

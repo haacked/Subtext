@@ -1,8 +1,8 @@
-﻿using MbUnit.Framework;
+using MbUnit.Framework;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Web.HttpModules;
-using Subtext.Framework;
 
 namespace UnitTests.Subtext.Framework.Components
 {
@@ -12,7 +12,7 @@ namespace UnitTests.Subtext.Framework.Components
         [Test]
         public void CtorInitializesIdsToNullValue()
         {
-            EntryView view = new EntryView();
+            var view = new EntryView();
             Assert.AreEqual(NullValue.NullInt32, view.EntryId);
             Assert.AreEqual(NullValue.NullInt32, view.BlogId);
         }
@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Components
         [Test]
         public void CanSetAndGetSimpleProperties()
         {
-            EntryView view = new EntryView();
+            var view = new EntryView();
             UnitTestHelper.AssertSimpleProperties(view);
         }
 
@@ -32,14 +32,14 @@ namespace UnitTests.Subtext.Framework.Components
             Config.CreateBlog("title", "blah", "blah", host, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(host, string.Empty);
             BlogRequest.Current.Blog = Config.GetBlog(host, string.Empty);
-            EntryStatsView view = new EntryStatsView();
+            var view = new EntryStatsView();
             UnitTestHelper.AssertSimpleProperties(view);
         }
 
         [Test]
         public void CanSetAndGetSimpleEntryDayProperties()
         {
-            EntryDay day = new EntryDay();
+            var day = new EntryDay();
             UnitTestHelper.AssertSimpleProperties(day);
         }
     }

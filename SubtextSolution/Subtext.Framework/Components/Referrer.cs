@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -23,11 +25,13 @@ namespace Subtext.Framework.Components
     [Serializable]
     public class Referrer
     {
+        private string _referrerURL;
+
         public string ReferrerURL
         {
             get
             {
-                if (!_referrerURL.StartsWith("http://"))
+                if(!_referrerURL.StartsWith("http://"))
                 {
                     return "http://" + _referrerURL;
                 }
@@ -35,36 +39,15 @@ namespace Subtext.Framework.Components
             }
             set { _referrerURL = value; }
         }
-        private string _referrerURL;
 
-        public int Count
-        {
-            get;
-            set;
-        }
+        public int Count { get; set; }
 
-        public int EntryID
-        {
-            get;
-            set;
-        }
+        public int EntryID { get; set; }
 
-        public string PostTitle
-        {
-            get;
-            set;
-        }
+        public string PostTitle { get; set; }
 
-        public DateTime LastReferDate
-        {
-            get;
-            set;
-        }
+        public DateTime LastReferDate { get; set; }
 
-        public int BlogId
-        {
-            get;
-            set;
-        }
+        public int BlogId { get; set; }
     }
 }

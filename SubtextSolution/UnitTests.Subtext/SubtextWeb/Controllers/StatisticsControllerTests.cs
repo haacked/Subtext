@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Web;
@@ -6,8 +6,8 @@ using MbUnit.Framework;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Infrastructure.ActionResults;
 using Subtext.Framework.Services;
+using Subtext.Infrastructure.ActionResults;
 using Subtext.Web.Controllers;
 
 namespace UnitTests.Subtext.SubtextWeb.Controllers
@@ -19,8 +19,8 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
         public void CtorSetsStatisticsService()
         {
             // arrange
-            var service = new Mock<IStatisticsService>().Object;
-            var subtextContext = new Mock<ISubtextContext>().Object;
+            IStatisticsService service = new Mock<IStatisticsService>().Object;
+            ISubtextContext subtextContext = new Mock<ISubtextContext>().Object;
 
             // act
             var controller = new StatisticsController(subtextContext, service);
@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
         public void TwoRequestsWithinTimeoutGetsNotModifiedResult()
         {
             // arrange
-            var service = new Mock<IStatisticsService>().Object;
+            IStatisticsService service = new Mock<IStatisticsService>().Object;
             var subtextContext = new Mock<ISubtextContext>();
             var headers = new NameValueCollection();
             headers.Add("If-Modified-Since", DateTime.UtcNow.ToString(CultureInfo.InvariantCulture));
@@ -53,10 +53,11 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             // arrange
             EntryView entryView = null;
             var service = new Mock<IStatisticsService>();
-            service.Setup(s => s.RecordAggregatorView(It.IsAny<EntryView>())).Callback<EntryView>(view => entryView = view);
+            service.Setup(s => s.RecordAggregatorView(It.IsAny<EntryView>())).Callback<EntryView>(
+                view => entryView = view);
             var headers = new NameValueCollection();
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(new Blog { Id = 99 });
+            subtextContext.Setup(c => c.Blog).Returns(new Blog {Id = 99});
             subtextContext.Setup(c => c.HttpContext.Request.Headers).Returns(headers);
             var controller = new StatisticsController(subtextContext.Object, service.Object);
 
@@ -75,10 +76,11 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
         {
             // arrange
             var service = new Mock<IStatisticsService>();
-            service.Setup(s => s.RecordAggregatorView(It.IsAny<EntryView>())).Throws(new InvalidOperationException("RecordAggregatorView should not be called"));
+            service.Setup(s => s.RecordAggregatorView(It.IsAny<EntryView>())).Throws(
+                new InvalidOperationException("RecordAggregatorView should not be called"));
             var headers = new NameValueCollection();
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(new Blog { Id = 99 });
+            subtextContext.Setup(c => c.Blog).Returns(new Blog {Id = 99});
             subtextContext.Setup(c => c.HttpContext.Request.Headers).Returns(headers);
             var controller = new StatisticsController(subtextContext.Object, service.Object);
 
@@ -93,7 +95,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             var service = new Mock<IStatisticsService>();
             var headers = new NameValueCollection();
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(new Blog { Id = 99 });
+            subtextContext.Setup(c => c.Blog).Returns(new Blog {Id = 99});
             subtextContext.Setup(c => c.HttpContext.Request.Headers).Returns(headers);
             var controller = new StatisticsController(subtextContext.Object, service.Object);
 
@@ -105,6 +107,5 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             Assert.AreEqual(HttpCacheability.Public, result.Cacheability);
             Assert.AreEqual("image/gif", result.ContentType);
         }
-
     }
 }

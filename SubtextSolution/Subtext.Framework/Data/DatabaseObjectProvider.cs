@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -26,19 +28,21 @@ using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework.Data
 {
-	/// <summary>
-	/// Concrete implementation of <see cref="ObjectProvider"/>. This 
-	/// provides objects persisted to a database.
-	/// </summary>
-	public partial class DatabaseObjectProvider : ObjectProvider
-	{
-        StoredProcedures _procedures = new StoredProcedures(Config.ConnectionString);
+    /// <summary>
+    /// Concrete implementation of <see cref="ObjectProvider"/>. This 
+    /// provides objects persisted to a database.
+    /// </summary>
+    public partial class DatabaseObjectProvider : ObjectProvider
+    {
+        readonly StoredProcedures _procedures = new StoredProcedures(Config.ConnectionString);
 
-        public int BlogId {
+        public int BlogId
+        {
             get
             {
                 //Fix this up...
-                if (BlogRequest.Current.IsHostAdminRequest) {
+                if(BlogRequest.Current.IsHostAdminRequest)
+                {
                     return NullValue.NullInt32;
                 }
                 else
@@ -48,42 +52,48 @@ namespace Subtext.Framework.Data
             }
         }
 
-        public DateTime CurrentDateTime {
-            get {
-                return BlogRequest.Current.Blog.TimeZone.Now;
-            }
+        public DateTime CurrentDateTime
+        {
+            get { return BlogRequest.Current.Blog.TimeZone.Now; }
         }
 
-        private static void ValidateEntry(Entry e) {
+        private static void ValidateEntry(Entry e)
+        {
             //TODO: The following doesn't belong here. It's verification code.
-            if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body)) {
+            if(!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body))
+            {
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             //Never allow scripts in the title.
-            if (HtmlHelper.HasIllegalContent(e.Title)) {
+            if(HtmlHelper.HasIllegalContent(e.Title))
+            {
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
-            if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Description)) {
+            if(!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Description))
+            {
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             //never allow scripts in the url.
-            if (HtmlHelper.HasIllegalContent(e.EntryName)) {
+            if(HtmlHelper.HasIllegalContent(e.EntryName))
+            {
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
         }
 
-        public override bool TrackEntry(EntryView entryView) {
-            return _procedures.TrackEntry(entryView.EntryId, entryView.BlogId, entryView.ReferralUrl, entryView.PageViewType == PageViewType.WebView);
+        public override bool TrackEntry(EntryView entryView)
+        {
+            return _procedures.TrackEntry(entryView.EntryId, entryView.BlogId, entryView.ReferralUrl,
+                                          entryView.PageViewType == PageViewType.WebView);
         }
 
         public override bool TrackEntry(IEnumerable<EntryView> entryViews)
         {
-            if (entryViews != null)
+            if(entryViews != null)
             {
-                foreach (EntryView ev in entryViews)
+                foreach(EntryView ev in entryViews)
                 {
                     TrackEntry(ev);
                 }
@@ -94,81 +104,85 @@ namespace Subtext.Framework.Data
         }
 
         public override ICollection<LinkCategory> GetActiveCategories()
-		{
-            using (IDataReader reader = _procedures.GetActiveCategoriesWithLinkCollection(BlogId.NullIfMinValue())) {
+        {
+            using(IDataReader reader = _procedures.GetActiveCategoriesWithLinkCollection(BlogId.NullIfMinValue()))
+            {
                 return reader.LoadLinkCategories(true);
             }
-		}
+        }
 
         public override IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId)
-		{
-            using (IDataReader reader = _procedures.GetPageableReferrers(BlogId, entryId.NullIfMinValue(), pageIndex, pageSize)) {
+        {
+            using(
+                IDataReader reader = _procedures.GetPageableReferrers(BlogId, entryId.NullIfMinValue(), pageIndex,
+                                                                      pageSize))
+            {
                 return reader.GetPagedCollection(r => DataHelper.LoadReferrer(r, Config.CurrentBlog));
             }
-		}
-	    
-	    public override int Create(MetaTag metaTag)
-	    {
+        }
+
+        public override int Create(MetaTag metaTag)
+        {
             return _procedures.InsertMetaTag(metaTag.Content,
-                metaTag.Name.NullIfEmpty(),
-                metaTag.HttpEquiv.NullIfEmpty(),
-                BlogId,
-                metaTag.EntryId,
-                metaTag.DateCreated);
-	    }
+                                             metaTag.Name.NullIfEmpty(),
+                                             metaTag.HttpEquiv.NullIfEmpty(),
+                                             BlogId,
+                                             metaTag.EntryId,
+                                             metaTag.DateCreated);
+        }
 
-	    public override bool Update(MetaTag metaTag)
-	    {
+        public override bool Update(MetaTag metaTag)
+        {
             return _procedures.UpdateMetaTag(metaTag.Id,
-                metaTag.Content,
-                metaTag.Name.NullIfEmpty(),
-                metaTag.HttpEquiv.NullIfEmpty(),
-                BlogId,
-                metaTag.EntryId);
-	    }
+                                             metaTag.Content,
+                                             metaTag.Name.NullIfEmpty(),
+                                             metaTag.HttpEquiv.NullIfEmpty(),
+                                             BlogId,
+                                             metaTag.EntryId);
+        }
 
-	    public override IPagedCollection<MetaTag> GetMetaTagsForBlog(Blog blog, int pageIndex, int pageSize)
-		{
-			using (IDataReader reader = _procedures.GetMetaTags(blog.Id, null, pageIndex, pageSize))
-			{
-                return reader.GetPagedCollection(r => DataHelper.LoadObject<MetaTag>(r));
-			}
-		}
+        public override IPagedCollection<MetaTag> GetMetaTagsForBlog(Blog blog, int pageIndex, int pageSize)
+        {
+            using(IDataReader reader = _procedures.GetMetaTags(blog.Id, null, pageIndex, pageSize))
+            {
+                return reader.GetPagedCollection(r => r.LoadObject<MetaTag>());
+            }
+        }
 
         public override IPagedCollection<MetaTag> GetMetaTagsForEntry(Entry entry, int pageIndex, int pageSize)
-	    {
-            using (IDataReader reader = _procedures.GetMetaTags(entry.BlogId, entry.Id, pageIndex, pageSize))
-	        {
-                return reader.GetPagedCollection(r => DataHelper.LoadObject<MetaTag>(r));
-	        }
-	    }
+        {
+            using(IDataReader reader = _procedures.GetMetaTags(entry.BlogId, entry.Id, pageIndex, pageSize))
+            {
+                return reader.GetPagedCollection(r => r.LoadObject<MetaTag>());
+            }
+        }
 
-	    public override bool DeleteMetaTag(int metaTagId)
-	    {
+        public override bool DeleteMetaTag(int metaTagId)
+        {
             return _procedures.DeleteMetaTag(metaTagId);
-	    }
+        }
 
         public override int Create(Enclosure enclosure)
         {
             return _procedures.InsertEnclosure(enclosure.Title ?? string.Empty,
-                enclosure.Url,
-                enclosure.MimeType,
-                enclosure.Size,
-                enclosure.AddToFeed,
-                enclosure.ShowWithPost,
-                enclosure.EntryId);
+                                               enclosure.Url,
+                                               enclosure.MimeType,
+                                               enclosure.Size,
+                                               enclosure.AddToFeed,
+                                               enclosure.ShowWithPost,
+                                               enclosure.EntryId);
         }
 
         public override bool Update(Enclosure enclosure)
         {
             return _procedures.UpdateEnclosure(enclosure.Title,
-                enclosure.Url,
-                enclosure.MimeType,
-                enclosure.Size,
-                enclosure.AddToFeed,
-                enclosure.ShowWithPost,
-                enclosure.EntryId,
-                enclosure.Id);
+                                               enclosure.Url,
+                                               enclosure.MimeType,
+                                               enclosure.Size,
+                                               enclosure.AddToFeed,
+                                               enclosure.ShowWithPost,
+                                               enclosure.EntryId,
+                                               enclosure.Id);
         }
 
         public override bool DeleteEnclosure(int enclosureId)
@@ -177,131 +191,132 @@ namespace Subtext.Framework.Data
         }
 
         public override KeyWord GetKeyWord(int keyWordId)
-		{
+        {
             using(IDataReader reader = _procedures.GetKeyWord(keyWordId, BlogId))
-			{
-				KeyWord kw = null;
-				while(reader.Read())
-				{
-					kw = DataHelper.LoadObject<KeyWord>(reader);
-					break;
-				}
-				return kw;
-			}
-		}
-		
-		public override ICollection<KeyWord> GetKeyWords()
-		{
-			using(IDataReader reader = _procedures.GetBlogKeyWords(BlogId)) 
             {
-				List<KeyWord> kwc = new List<KeyWord>();
-				while(reader.Read())
-				{
-					kwc.Add(DataHelper.LoadObject<KeyWord>(reader));
-				}
-				return kwc;
-			}
-		}
-
-		public override IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize)
-		{
-            using (IDataReader reader = _procedures.GetPageableKeyWords(BlogId, pageIndex, pageSize)) {
-                return reader.GetPagedCollection(r => DataHelper.LoadObject<KeyWord>(r));
+                KeyWord kw = null;
+                while(reader.Read())
+                {
+                    kw = reader.LoadObject<KeyWord>();
+                    break;
+                }
+                return kw;
             }
-		}
-		
-		public override bool UpdateKeyWord(KeyWord keyWord)
-		{
+        }
+
+        public override ICollection<KeyWord> GetKeyWords()
+        {
+            using(IDataReader reader = _procedures.GetBlogKeyWords(BlogId))
+            {
+                var kwc = new List<KeyWord>();
+                while(reader.Read())
+                {
+                    kwc.Add(reader.LoadObject<KeyWord>());
+                }
+                return kwc;
+            }
+        }
+
+        public override IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize)
+        {
+            using(IDataReader reader = _procedures.GetPageableKeyWords(BlogId, pageIndex, pageSize))
+            {
+                return reader.GetPagedCollection(r => r.LoadObject<KeyWord>());
+            }
+        }
+
+        public override bool UpdateKeyWord(KeyWord keyWord)
+        {
             return _procedures.UpdateKeyWord(keyWord.Id,
-                keyWord.Word,
-                keyWord.Rel,
-                keyWord.Text,
-                keyWord.ReplaceFirstTimeOnly,
-                keyWord.OpenInNewWindow,
-                keyWord.CaseSensitive,
-                keyWord.Url,
-                keyWord.Title,
-                BlogId);
-		}
+                                             keyWord.Word,
+                                             keyWord.Rel,
+                                             keyWord.Text,
+                                             keyWord.ReplaceFirstTimeOnly,
+                                             keyWord.OpenInNewWindow,
+                                             keyWord.CaseSensitive,
+                                             keyWord.Url,
+                                             keyWord.Title,
+                                             BlogId);
+        }
 
-		public override int InsertKeyWord(KeyWord keyWord)
-		{
+        public override int InsertKeyWord(KeyWord keyWord)
+        {
             return _procedures.InsertKeyWord(keyWord.Word,
-                keyWord.Rel,
-                keyWord.Text,
-                keyWord.ReplaceFirstTimeOnly,
-                keyWord.OpenInNewWindow,
-                keyWord.CaseSensitive,
-                keyWord.Url,
-                keyWord.Title,
-                BlogId);
-		}
+                                             keyWord.Rel,
+                                             keyWord.Text,
+                                             keyWord.ReplaceFirstTimeOnly,
+                                             keyWord.OpenInNewWindow,
+                                             keyWord.CaseSensitive,
+                                             keyWord.Url,
+                                             keyWord.Title,
+                                             BlogId);
+        }
 
-		public override bool DeleteKeyWord(int id)
-		{
+        public override bool DeleteKeyWord(int id)
+        {
             return _procedures.DeleteKeyWord(id, BlogId);
-		}
+        }
 
-		public override ImageCollection GetImagesByCategoryID(int categoryId, bool activeOnly)
-		{
+        public override ImageCollection GetImagesByCategoryID(int categoryId, bool activeOnly)
+        {
             using(IDataReader reader = _procedures.GetImageCategory(categoryId, activeOnly, BlogId))
-			{
-				ImageCollection ic = new ImageCollection();
-				while(reader.Read())
-				{
-					ic.Category = DataHelper.LoadLinkCategory(reader);
-					break;
-				}
-				reader.NextResult();
-				while(reader.Read())
-				{
-					ic.Add(DataHelper.LoadImage(reader));
-				}
-				return ic;
-			}
-		}
+            {
+                var ic = new ImageCollection();
+                while(reader.Read())
+                {
+                    ic.Category = reader.LoadLinkCategory();
+                    break;
+                }
+                reader.NextResult();
+                while(reader.Read())
+                {
+                    ic.Add(reader.LoadImage());
+                }
+                return ic;
+            }
+        }
 
-		public override Image GetImage(int imageId, bool activeOnly)
-		{
+        public override Image GetImage(int imageId, bool activeOnly)
+        {
             using(IDataReader reader = _procedures.GetSingleImage(imageId, activeOnly, BlogId))
-			{
-				Image image = null;
-				while(reader.Read())
-				{
-					image = DataHelper.LoadImage(reader);
-				}
-				return image;
-			}
-		}
+            {
+                Image image = null;
+                while(reader.Read())
+                {
+                    image = reader.LoadImage();
+                }
+                return image;
+            }
+        }
 
-		public override int InsertImage(Image image)
-		{
+        public override int InsertImage(Image image)
+        {
             return _procedures.InsertImage(image.Title,
-                image.CategoryID,
-                image.Width,
-                image.Height,
-                image.FileName,
-                image.IsActive,
-                BlogId,
-                image.Url);
-		}
+                                           image.CategoryID,
+                                           image.Width,
+                                           image.Height,
+                                           image.FileName,
+                                           image.IsActive,
+                                           BlogId,
+                                           image.Url);
+        }
 
-		public override bool UpdateImage(Image image)
-		{
+        public override bool UpdateImage(Image image)
+        {
             return _procedures.UpdateImage(image.Title,
-                image.CategoryID,
-                image.Width,
-                image.Height,
-                image.FileName,
-                image.IsActive,
-                BlogId,
-                image.ImageID,
-                image.Url);
-		}
+                                           image.CategoryID,
+                                           image.Width,
+                                           image.Height,
+                                           image.FileName,
+                                           image.IsActive,
+                                           BlogId,
+                                           image.ImageID,
+                                           image.Url);
+        }
 
-		public override bool DeleteImage(int imageId)
-		{
+        public override bool DeleteImage(int imageId)
+        {
             return _procedures.DeleteImage(BlogId, imageId);
-		}
-	}
+        }
+    }
 }

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -28,169 +30,216 @@ using Subtext.Web.Properties;
 
 namespace Subtext.Web.UI.Controls
 {
-	/// <summary>
-	/// Control used to display a list of entries.
-	/// </summary>
-	public class EntryList : BaseControl
-	{
-        public EntryList() {
+    /// <summary>
+    /// Control used to display a list of entries.
+    /// </summary>
+    public class EntryList : BaseControl
+    {
+        const string linkToEnclosure = "<a href=\"{0}\" title = \"{1}\" class=\"enclosure-link\">{2}</a>{3}";
+
+        static readonly string linkToComments = "<a href=\"{0}#feedback\" title=\"" +
+                                                Resources.EntryList_ViewAndAddComments +
+                                                "\" class=\"comments\">{1}{2}</a>";
+
+        static readonly string postdescWithComments = "posted @ <a href=\"{0}\" title = \"" +
+                                                      Resources.EntryList_PermanentLink +
+                                                      "\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\" class=\"comments\">Feedback ({3})</a>";
+
+        static readonly string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"" +
+                                                        Resources.EntryList_PermanentLink + "\">{1}</a>";
+
+        public EntryList()
+        {
             DescriptionOnly = true;
         }
 
-		static readonly string linkToComments = "<a href=\"{0}#feedback\" title=\"" + Resources.EntryList_ViewAndAddComments + "\" class=\"comments\">{1}{2}</a>";
-		static readonly string postdescWithComments = "posted @ <a href=\"{0}\" title = \"" + Resources.EntryList_PermanentLink + "\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\" class=\"comments\">Feedback ({3})</a>";
-        static readonly string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"" + Resources.EntryList_PermanentLink + "\">{1}</a>";
-        const string linkToEnclosure = "<a href=\"{0}\" title = \"{1}\" class=\"enclosure-link\">{2}</a>{3}";
+        public string Category { get; set; }
+        public ICollection<Entry> EntryListItems { get; set; }
 
-        public string Category
+        /// <summary>
+        /// <para>
+        /// If true, then the EntryList will only show the description 
+        /// for an entry, if a description exists.
+        /// If a description does NOT exist, then show the first 100 words of the post 
+        /// followed by ...  TODO: make the number of words configurable.
+        /// </para>
+        /// <para>
+        /// If false, then the description is show. But if the description 
+        /// does not exist, the full text will be shown.
+        /// </para>
+        /// </summary>
+        public bool DescriptionOnly { get; set; }
+
+        public string EntryListTitle { get; set; }
+
+        public string EntryListDescription { get; set; }
+
+        public string EntryListReadMoreText { get; set; }
+
+        public string EntryListReadMoreUrl { get; set; }
+
+        protected virtual void PostCreated(object sender, RepeaterItemEventArgs e)
         {
-            get;
-            set;
-        }
-
-		protected virtual void PostCreated(object sender,  RepeaterItemEventArgs e)
-		{
-			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-			{
-				Entry entry = (Entry)e.Item.DataItem;
-				if(entry != null)
-				{
-					// Each of these methods make sure to check that the 
-					// control to bind actually exists on the skin.
-					BindTitle(e, entry);
-					BindEditLink(entry, e);
-					BindPostText(e, entry);
-					BindPostDescription(e, entry);
-					BindPostCategories(e, entry);
-					BindPermalink(e, entry);
-					BindPostDate(e, entry);
-					BindCommentCount(e, entry);
-					BindAuthor(e, entry);
-					BindCurrentEntryControls(entry, e.Item);
+            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                var entry = (Entry)e.Item.DataItem;
+                if(entry != null)
+                {
+                    // Each of these methods make sure to check that the 
+                    // control to bind actually exists on the skin.
+                    BindTitle(e, entry);
+                    BindEditLink(entry, e);
+                    BindPostText(e, entry);
+                    BindPostDescription(e, entry);
+                    BindPostCategories(e, entry);
+                    BindPermalink(e, entry);
+                    BindPostDate(e, entry);
+                    BindCommentCount(e, entry);
+                    BindAuthor(e, entry);
+                    BindCurrentEntryControls(entry, e.Item);
                     BindEnclosure(e, entry);
-				}
-			}
-		}
+                }
+            }
+        }
 
         private static void BindEnclosure(RepeaterItemEventArgs e, Entry entry)
         {
-            Label enclosure = (Label)e.Item.FindControl("Enclosure");
-            if (enclosure != null)
+            var enclosure = (Label)e.Item.FindControl("Enclosure");
+            if(enclosure != null)
             {
-                if (entry.Enclosure != null && entry.Enclosure.ShowWithPost)
+                if(entry.Enclosure != null && entry.Enclosure.ShowWithPost)
                 {
                     bool displaySize = false;
                     Boolean.TryParse(enclosure.Attributes["DisplaySize"], out displaySize);
 
                     string sizeStr = "";
                     if(displaySize)
+                    {
                         sizeStr = " (" + entry.Enclosure.FormattedSize + ")";
-                    enclosure.Text = string.Format(linkToEnclosure, entry.Enclosure.Url, entry.Enclosure.Title, entry.Enclosure.Title, sizeStr);
+                    }
+                    enclosure.Text = string.Format(linkToEnclosure, entry.Enclosure.Url, entry.Enclosure.Title,
+                                                   entry.Enclosure.Title, sizeStr);
                 }
             }
         }
 
 
-		private static void BindAuthor(RepeaterItemEventArgs e, Entry entry)
-		{
-			Label author = e.Item.FindControl("author") as Label;
-			if(author != null)
-			{
-				if(!String.IsNullOrEmpty(entry.Author))
-				{
-					author.Text = entry.Author;
-				}
-			}
-		}
+        private static void BindAuthor(RepeaterItemEventArgs e, Entry entry)
+        {
+            var author = e.Item.FindControl("author") as Label;
+            if(author != null)
+            {
+                if(!String.IsNullOrEmpty(entry.Author))
+                {
+                    author.Text = entry.Author;
+                }
+            }
+        }
 
-		private void BindCommentCount(RepeaterItemEventArgs e, Entry entry)
-		{
-			Label commentCount = e.Item.FindControl("commentCount") as Label;
-			if(commentCount != null)
-			{
-				if(Blog.CommentsEnabled && entry.AllowComments)
-				{
+        private void BindCommentCount(RepeaterItemEventArgs e, Entry entry)
+        {
+            var commentCount = e.Item.FindControl("commentCount") as Label;
+            if(commentCount != null)
+            {
+                if(Blog.CommentsEnabled && entry.AllowComments)
+                {
                     //TODO: Consider a specific url helper method for link to feedback section.
                     string entryUrl = Url.EntryUrl(entry);
-                    if(entry.FeedBackCount == 0) {
-						commentCount.Text = string.Format(CultureInfo.InvariantCulture, linkToComments, entryUrl, Resources.EntryList_AddComment, string.Empty);
-					}
-					else if(entry.FeedBackCount == 1) {
-                        commentCount.Text = string.Format(CultureInfo.InvariantCulture, linkToComments, entryUrl, Resources.EntryList_OneComment, string.Empty);
-					}
-					else if(entry.FeedBackCount > 1) {
-                        commentCount.Text = string.Format(linkToComments, entryUrl, entry.FeedBackCount, Resources.EntryList_CommentsPlural);
-					}
-				}
-			}
-		}
+                    if(entry.FeedBackCount == 0)
+                    {
+                        commentCount.Text = string.Format(CultureInfo.InvariantCulture, linkToComments, entryUrl,
+                                                          Resources.EntryList_AddComment, string.Empty);
+                    }
+                    else if(entry.FeedBackCount == 1)
+                    {
+                        commentCount.Text = string.Format(CultureInfo.InvariantCulture, linkToComments, entryUrl,
+                                                          Resources.EntryList_OneComment, string.Empty);
+                    }
+                    else if(entry.FeedBackCount > 1)
+                    {
+                        commentCount.Text = string.Format(linkToComments, entryUrl, entry.FeedBackCount,
+                                                          Resources.EntryList_CommentsPlural);
+                    }
+                }
+            }
+        }
 
-		private static void BindPostDate(RepeaterItemEventArgs e, Entry entry)
-		{
-			Label postDate = e.Item.FindControl("postDate") as Label;
-			if(postDate != null)
-			{
-				if(postDate.Attributes["Format"] != null)
-				{
-					postDate.Text = entry.DateSyndicated.ToString(postDate.Attributes["Format"]);
-					postDate.Attributes.Remove("Format");
-				}
-				else
-				{
-					postDate.Text = entry.DateSyndicated.ToString("f");
-				}
-			}
-		}
-
-		private void BindPermalink(RepeaterItemEventArgs e, Entry entry)
-		{
-			Label permalink = e.Item.FindControl("permalink") as Label;
-			if(permalink != null)
-			{
-                string entryUrl = Url.EntryUrl(entry);
-				if(permalink.Attributes["Format"] != null) {
-                    permalink.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>", entryUrl, entry.DateSyndicated.ToString(permalink.Attributes["Format"]), Resources.EntryList_PermanentLink);
-					permalink.Attributes.Remove("Format");
-				}
-				else {
-                    permalink.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>", entryUrl, entry.DateSyndicated.ToString("f"), Resources.EntryList_PermanentLink);
-				}
-			}
-		}
-
-		private void BindPostDescription(RepeaterItemEventArgs e, Entry entry)
-		{
-			Literal PostDesc = (Literal)e.Item.FindControl("PostDesc");
-			if(PostDesc != null)
-			{
-                string entryUrl = Url.EntryUrl(entry);
-				if(entry.AllowComments) {
-					PostDesc.Text = string.Format(postdescWithComments, entryUrl, entry.DateSyndicated.ToString("f"), entryUrl, entry.FeedBackCount);
-				}
-				else {
-					PostDesc.Text = string.Format(postdescWithNoComments, entryUrl, entry.DateSyndicated.ToString("f"));
-				}
-			}
-		}
-
-		private static void BindPostCategories(RepeaterItemEventArgs e, Entry entry)
-		{
-			PostCategoryList postCategories = (PostCategoryList)e.Item.FindControl("Categories");
-			if (postCategories != null)
-			{
-				postCategories.LinkCategories = Links.GetLinkCategoriesByPostID(entry.Id);
-				postCategories.DataBind();
-			}
-		}
-
-        public static string ShowTruncatedBody(Entry entry,int definedwordlimit)
+        private static void BindPostDate(RepeaterItemEventArgs e, Entry entry)
         {
-            StringBuilder returnstring = new StringBuilder("<p>");
-            if (entry.Body == null)
+            var postDate = e.Item.FindControl("postDate") as Label;
+            if(postDate != null)
+            {
+                if(postDate.Attributes["Format"] != null)
+                {
+                    postDate.Text = entry.DateSyndicated.ToString(postDate.Attributes["Format"]);
+                    postDate.Attributes.Remove("Format");
+                }
+                else
+                {
+                    postDate.Text = entry.DateSyndicated.ToString("f");
+                }
+            }
+        }
+
+        private void BindPermalink(RepeaterItemEventArgs e, Entry entry)
+        {
+            var permalink = e.Item.FindControl("permalink") as Label;
+            if(permalink != null)
+            {
+                string entryUrl = Url.EntryUrl(entry);
+                if(permalink.Attributes["Format"] != null)
+                {
+                    permalink.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>",
+                                                   entryUrl,
+                                                   entry.DateSyndicated.ToString(permalink.Attributes["Format"]),
+                                                   Resources.EntryList_PermanentLink);
+                    permalink.Attributes.Remove("Format");
+                }
+                else
+                {
+                    permalink.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>",
+                                                   entryUrl, entry.DateSyndicated.ToString("f"),
+                                                   Resources.EntryList_PermanentLink);
+                }
+            }
+        }
+
+        private void BindPostDescription(RepeaterItemEventArgs e, Entry entry)
+        {
+            var PostDesc = (Literal)e.Item.FindControl("PostDesc");
+            if(PostDesc != null)
+            {
+                string entryUrl = Url.EntryUrl(entry);
+                if(entry.AllowComments)
+                {
+                    PostDesc.Text = string.Format(postdescWithComments, entryUrl, entry.DateSyndicated.ToString("f"),
+                                                  entryUrl, entry.FeedBackCount);
+                }
+                else
+                {
+                    PostDesc.Text = string.Format(postdescWithNoComments, entryUrl, entry.DateSyndicated.ToString("f"));
+                }
+            }
+        }
+
+        private static void BindPostCategories(RepeaterItemEventArgs e, Entry entry)
+        {
+            var postCategories = (PostCategoryList)e.Item.FindControl("Categories");
+            if(postCategories != null)
+            {
+                postCategories.LinkCategories = Links.GetLinkCategoriesByPostID(entry.Id);
+                postCategories.DataBind();
+            }
+        }
+
+        public static string ShowTruncatedBody(Entry entry, int definedwordlimit)
+        {
+            var returnstring = new StringBuilder("<p>");
+            if(entry.Body == null)
             {
                 returnstring.Append("");
             }
-            else if (entry.Body.Length == 0)
+            else if(entry.Body.Length == 0)
             {
                 returnstring.Append(entry.Body);
             }
@@ -200,8 +249,8 @@ namespace Subtext.Web.UI.Controls
                 //unless somebody has a better idea....
                 entry.Body = HtmlHelper.RemoveHtml(entry.Body);
 
-                string[] words = entry.Body.Split(new Char[] { ' ' });
-                if (words.GetUpperBound(0) <= 0) //Body has one or fewer words
+                string[] words = entry.Body.Split(new[] {' '});
+                if(words.GetUpperBound(0) <= 0) //Body has one or fewer words
                 {
                     returnstring.Append(entry.Body);
                     // NO need for appended ... because
@@ -212,7 +261,7 @@ namespace Subtext.Web.UI.Controls
                     int wordlimit;
                     int actualnumberofwords = words.GetUpperBound(0) + 1;
                     //First 100 words or however many there actually are, whichever is less
-                    if (actualnumberofwords < definedwordlimit)
+                    if(actualnumberofwords < definedwordlimit)
                     {
                         wordlimit = actualnumberofwords;
                     }
@@ -220,147 +269,98 @@ namespace Subtext.Web.UI.Controls
                     {
                         wordlimit = definedwordlimit; //TODO: Make this configurable
                     }
-                    for (int i = 0; i < wordlimit; i++)
+                    for(int i = 0; i < wordlimit; i++)
                     {
                         returnstring.Append(words[i] + " ");
                     }
                     //truncate trailing space
-                    returnstring.Remove(returnstring.Length -1, 1);
-                    if (actualnumberofwords > definedwordlimit) // add ... if there is more to the body
+                    returnstring.Remove(returnstring.Length - 1, 1);
+                    if(actualnumberofwords > definedwordlimit) // add ... if there is more to the body
                     {
                         returnstring.Append("...");
                     }
-
                 }
             }
             returnstring.Append("</p>");
             return string.Format(CultureInfo.InvariantCulture, "{0}", returnstring);
-        }   
+        }
 
-		private void BindPostText(RepeaterItemEventArgs e, Entry entry)
-		{
-			Literal PostText = (Literal)e.Item.FindControl("PostText");
-	
-			if(DescriptionOnly) // like on the monthly archive page
-			{
-                if (entry.HasDescription)
+        private void BindPostText(RepeaterItemEventArgs e, Entry entry)
+        {
+            var PostText = (Literal)e.Item.FindControl("PostText");
+
+            if(DescriptionOnly) // like on the monthly archive page
+            {
+                if(entry.HasDescription)
                 {
                     PostText.Text = string.Format(CultureInfo.InvariantCulture, "<p>{0}</p>", entry.Description);
                 }
-                //DF:  Description=Excerpt, if none, show first 100 words of post
+                    //DF:  Description=Excerpt, if none, show first 100 words of post
                 else
                 {
-                    PostText.Text = ShowTruncatedBody(entry,100);
+                    PostText.Text = ShowTruncatedBody(entry, 100);
                 }
-			}
-			else
-			{
-				if(entry.HasDescription)
-				{
-					PostText.Text = entry.Description;
-				}
-				else
-				{
-					PostText.Text = entry.Body;
-				}
-			}
-		}
+            }
+            else
+            {
+                if(entry.HasDescription)
+                {
+                    PostText.Text = entry.Description;
+                }
+                else
+                {
+                    PostText.Text = entry.Body;
+                }
+            }
+        }
 
-		private void BindTitle(RepeaterItemEventArgs e, Entry entry)
-		{
-			HyperLink title = e.Item.FindControl("TitleUrl") as HyperLink;
-			if(title != null)
-			{
-				title.Text = entry.Title;
-				ControlHelper.SetTitleIfNone(title, Resources.EntryList_ClickToView);
-				title.NavigateUrl = Url.EntryUrl(entry);
-			}
-		}
+        private void BindTitle(RepeaterItemEventArgs e, Entry entry)
+        {
+            var title = e.Item.FindControl("TitleUrl") as HyperLink;
+            if(title != null)
+            {
+                title.Text = entry.Title;
+                ControlHelper.SetTitleIfNone(title, Resources.EntryList_ClickToView);
+                title.NavigateUrl = Url.EntryUrl(entry);
+            }
+        }
 
-		// If the user is an admin AND the the skin 
-		// contains an edit Hyperlink control, this 
-		// will display the edit control.
-		protected virtual void BindEditLink(Entry entry, RepeaterItemEventArgs e)
-		{
-			HyperLink editLink = e.Item.FindControl("editLink") as HyperLink;
-			if(editLink != null)
-			{
-				if(SecurityHelper.IsAdmin)
-				{
-					editLink.Visible = true;
-					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
-					{
-						//We'll slap on our little pencil icon.
+        // If the user is an admin AND the the skin 
+        // contains an edit Hyperlink control, this 
+        // will display the edit control.
+        protected virtual void BindEditLink(Entry entry, RepeaterItemEventArgs e)
+        {
+            var editLink = e.Item.FindControl("editLink") as HyperLink;
+            if(editLink != null)
+            {
+                if(SecurityHelper.IsAdmin)
+                {
+                    editLink.Visible = true;
+                    if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
+                    {
+                        //We'll slap on our little pencil icon.
                         editLink.ImageUrl = Url.EditIconUrl();
-						ControlHelper.SetTitleIfNone(editLink, Resources.EntryList_ClickToView);
+                        ControlHelper.SetTitleIfNone(editLink, Resources.EntryList_ClickToView);
                         editLink.NavigateUrl = AdminUrl.PostsEdit(entry.Id);
-					}
-				}
-				else
-				{
-					editLink.Visible = false;
-				}
-			}
-		}
+                    }
+                }
+                else
+                {
+                    editLink.Visible = false;
+                }
+            }
+        }
 
-        public ICollection<Entry> EntryListItems
-		{
-			get;
-			set;
-		}
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
 
-		/// <summary>
-		/// <para>
-		/// If true, then the EntryList will only show the description 
-		/// for an entry, if a description exists.
-        /// If a description does NOT exist, then show the first 100 words of the post 
-        /// followed by ...  TODO: make the number of words configurable.
-		/// </para>
-		/// <para>
-		/// If false, then the description is show. But if the description 
-		/// does not exist, the full text will be shown.
-		/// </para>
-		/// </summary>
-		public bool DescriptionOnly
-		{
-			get;
-			set;
-		}
-
-		public string EntryListTitle
-		{
-			get;
-			set;
-		}
-
-		public string EntryListDescription
-		{
-			get;
-			set;
-		}
-
-		public string EntryListReadMoreText
-		{
-			get;
-			set;
-		}
-
-		public string EntryListReadMoreUrl
-		{
-			get;
-			set;
-		}
-		
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad (e);
-
-            if (EntryListItems == null && !string.IsNullOrEmpty(Category))
+            if(EntryListItems == null && !string.IsNullOrEmpty(Category))
             {
                 // This EntryList is independent of an outside control and needs to
                 //   populate its own EntryListItems.
                 LinkCategory lc;
-                if (Category.IsNumeric())
+                if(Category.IsNumeric())
                 {
                     int categoryID = Int32.Parse(Category);
                     lc = Cacher.SingleCategory(categoryID, false, SubtextContext);
@@ -373,15 +373,15 @@ namespace Subtext.Web.UI.Controls
                 EntryListItems = Cacher.GetEntriesByCategory(0, lc.Id, SubtextContext);
             }
 
-			if(EntryListItems != null)
-			{
-                Literal entryCollectionTitle = this.FindControl("EntryCollectionTitle") as Literal;
+            if(EntryListItems != null)
+            {
+                var entryCollectionTitle = FindControl("EntryCollectionTitle") as Literal;
                 if(entryCollectionTitle != null)
                 {
                     entryCollectionTitle.Text = EntryListTitle;
                 }
 
-                Literal entryCollectionDescription = this.FindControl("EntryCollectionDescription") as Literal;
+                var entryCollectionDescription = FindControl("EntryCollectionDescription") as Literal;
                 if(entryCollectionDescription != null)
                 {
                     if(EntryListDescription != null)
@@ -394,7 +394,7 @@ namespace Subtext.Web.UI.Controls
                     }
                 }
 
-                HyperLink entryListReadMoreUrl = this.FindControl("EntryCollectionReadMoreLink") as HyperLink;
+                var entryListReadMoreUrl = FindControl("EntryCollectionReadMoreLink") as HyperLink;
 
                 if(entryListReadMoreUrl != null)
                 {
@@ -409,13 +409,13 @@ namespace Subtext.Web.UI.Controls
                     }
                 }
 
-                Repeater entryRepeater = this.FindControl("Entries") as Repeater;
+                var entryRepeater = FindControl("Entries") as Repeater;
                 if(entryRepeater != null)
                 {
                     entryRepeater.DataSource = EntryListItems;
                     entryRepeater.DataBind();
                 }
-			}
-		}
-	}
+            }
+        }
+    }
 }

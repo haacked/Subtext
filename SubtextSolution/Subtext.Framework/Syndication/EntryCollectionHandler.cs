@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -23,31 +25,33 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public abstract class EntryCollectionHandler<T> : BaseSyndicationHandler<T>
     {
-        protected abstract ICollection<T> GetFeedEntries();
-
         public EntryCollectionHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
         }
+
+        protected abstract ICollection<T> GetFeedEntries();
 
         protected override bool IsLocalCacheOK()
         {
             string dt = LastModifiedHeader;
 
-            if (dt != null)
+            if(dt != null)
             {
                 ICollection<T> ec = GetFeedEntries();
 
-                if (ec != null && ec.Count > 0)
+                if(ec != null && ec.Count > 0)
                 {
                     //Get the first entry.
                     T entry = default(T);
                     //TODO: Probably change GetFeedEntries to return ICollection<Entry>
-                    foreach (T en in ec)
+                    foreach(T en in ec)
                     {
                         entry = en;
                         break;
                     }
-                    return DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture), ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
+                    return
+                        DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture),
+                                         ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
                 }
             }
             return false;
@@ -83,4 +87,3 @@ namespace Subtext.Framework.Syndication
         protected abstract DateTime GetItemCreatedDate(T item);
     }
 }
-

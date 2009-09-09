@@ -7,52 +7,50 @@ using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
-	/// <summary>
-	/// Implements CoComment for Subtext.
-	/// </summary>
-	public class SubtextCoComment : CoComment
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SubtextCoComment"/> class.
-		/// </summary>
-		public SubtextCoComment() : base()
-		{
-		}
-
-        public UrlHelper Url { 
-            get {
-                var page = this.Page as SubtextPage;
+    /// <summary>
+    /// Implements CoComment for Subtext.
+    /// </summary>
+    public class SubtextCoComment : CoComment
+    {
+        public UrlHelper Url
+        {
+            get
+            {
+                var page = Page as SubtextPage;
                 return page.Url;
             }
         }
 
-		/// <summary>
-		/// Raises the <see cref="E:System.Web.UI.Control.Load"/>
-		/// event.
-		/// </summary>
-		/// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
-		protected override void OnLoad(EventArgs e) {
-			this.BlogTitle = Config.CurrentBlog.Title;
-			this.BlogTool = "Subtext";
-            this.BlogUrl = Url.BlogUrl().ToFullyQualifiedUrl(Config.CurrentBlog).ToString();
-			
-			this.CommentAuthorFieldName = GetControlUniqueId("tbName");
-			this.CommentButtonId = GetControlUniqueId("btnSubmit");
-			if(this.CommentButtonId == null || this.CommentButtonId.Length == 0)
-			{
-				this.CommentButtonId = GetControlUniqueId("btnCompliantSubmit");
-			}
-			this.CommentTextFieldName = GetControlUniqueId("tbComment");
-            this.CommentFormId = ControlHelper.GetPageFormClientId(this.Page);
-		}
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load"/>
+        /// event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+        protected override void OnLoad(EventArgs e)
+        {
+            BlogTitle = Config.CurrentBlog.Title;
+            BlogTool = "Subtext";
+            BlogUrl = Url.BlogUrl().ToFullyQualifiedUrl(Config.CurrentBlog).ToString();
 
-		private string GetControlUniqueId(string controlId) {
-			Control control = ControlHelper.FindControlRecursively(this.Page, controlId);
-			if(control != null) {
-				return control.UniqueID;
-			}
-		
-			return string.Empty;
-		}
-	}
+            CommentAuthorFieldName = GetControlUniqueId("tbName");
+            CommentButtonId = GetControlUniqueId("btnSubmit");
+            if(CommentButtonId == null || CommentButtonId.Length == 0)
+            {
+                CommentButtonId = GetControlUniqueId("btnCompliantSubmit");
+            }
+            CommentTextFieldName = GetControlUniqueId("tbComment");
+            CommentFormId = ControlHelper.GetPageFormClientId(Page);
+        }
+
+        private string GetControlUniqueId(string controlId)
+        {
+            Control control = ControlHelper.FindControlRecursively(Page, controlId);
+            if(control != null)
+            {
+                return control.UniqueID;
+            }
+
+            return string.Empty;
+        }
+    }
 }

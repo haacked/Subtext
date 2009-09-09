@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
@@ -12,7 +12,7 @@ namespace UnitTests.Subtext.Framework.Util
     {
         [Test]
         public void GetDateFromRequest_WithDateValuesInRouteData_ReturnsCorrectDate()
-        { 
+        {
             // arrange
             var routeData = new RouteData();
             routeData.Values.Add("year", "2009");
@@ -34,7 +34,7 @@ namespace UnitTests.Subtext.Framework.Util
             var routeData = new RouteData();
             routeData.Values.Add("year", "2009");
             routeData.Values.Add("month", "01");
-            
+
             var requestContext = new RequestContext(new Mock<HttpContextBase>().Object, routeData);
 
             // act

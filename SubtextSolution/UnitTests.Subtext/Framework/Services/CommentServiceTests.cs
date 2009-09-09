@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using MbUnit.Framework;
 using Moq;
@@ -7,7 +7,6 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
-using Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Services
 {
@@ -15,14 +14,16 @@ namespace UnitTests.Subtext.Framework.Services
     public class CommentServiceTests
     {
         //TODO This test is RIDICULOUS! We need to refactor some code.
-        [Test, Ignore("Need to refactor")]
-        public void CreateSetsDateCreatedToBlogTime() {
+        [Test]
+        [Ignore("Need to refactor")]
+        public void CreateSetsDateCreatedToBlogTime()
+        {
             //arrange
             var blog = new Mock<Blog>();
-            var dateCreated = DateTime.Now;
+            DateTime dateCreated = DateTime.Now;
             blog.Object.Id = 1;
             blog.Setup(b => b.TimeZone.Now).Returns(dateCreated);
-            var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
+            var entry = new Entry(PostType.BlogPost, blog.Object) {Id = 123, BlogId = 1, CommentingClosed = false};
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
             var context = new Mock<ISubtextContext>();
@@ -31,9 +32,10 @@ namespace UnitTests.Subtext.Framework.Services
             context.SetupGet(c => c.HttpContext.Items).Returns(new Hashtable());
             context.SetupGet(c => c.Cache).Returns(new TestCache());
 
-            CommentService service = new CommentService(context.Object, null);
-            var comment = new FeedbackItem(FeedbackType.Comment) { EntryId = 123, BlogId = 1, Body = "test", Title = "title" };
-            
+            var service = new CommentService(context.Object, null);
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {EntryId = 123, BlogId = 1, Body = "test", Title = "title"};
+
             //act
             service.Create(comment);
 
@@ -46,10 +48,10 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var blog = new Mock<Blog>();
-            var dateCreated = DateTime.Now;
+            DateTime dateCreated = DateTime.Now;
             blog.Object.Id = 1;
             blog.Setup(b => b.TimeZone.Now).Returns(dateCreated);
-            var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
+            var entry = new Entry(PostType.BlogPost, blog.Object) {Id = 123, BlogId = 1, CommentingClosed = false};
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
             var context = new Mock<ISubtextContext>();
@@ -58,9 +60,15 @@ namespace UnitTests.Subtext.Framework.Services
             context.SetupGet(c => c.HttpContext.Items).Returns(new Hashtable());
             context.SetupGet(c => c.Cache).Returns(new TestCache());
 
-            CommentService service = new CommentService(context.Object, null);
-            var comment = new FeedbackItem(FeedbackType.Comment) { 
-                EntryId = 123, BlogId = 1, Body = "test", Title = "title", DateCreated = dateCreated.AddDays(-2), DateModified = dateCreated.AddDays(-1)
+            var service = new CommentService(context.Object, null);
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {
+                EntryId = 123,
+                BlogId = 1,
+                Body = "test",
+                Title = "title",
+                DateCreated = dateCreated.AddDays(-2),
+                DateModified = dateCreated.AddDays(-1)
             };
 
             //act
@@ -76,10 +84,10 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var blog = new Mock<Blog>();
-            var dateCreated = DateTime.Now;
+            DateTime dateCreated = DateTime.Now;
             blog.Object.Id = 1;
             blog.Setup(b => b.TimeZone.Now).Returns(dateCreated);
-            var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
+            var entry = new Entry(PostType.BlogPost, blog.Object) {Id = 123, BlogId = 1, CommentingClosed = false};
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
             var context = new Mock<ISubtextContext>();
@@ -91,9 +99,11 @@ namespace UnitTests.Subtext.Framework.Services
             var commentFilter = new Mock<ICommentFilter>();
             bool wasBeforeCalled = false;
             bool wasAfterCalled = false;
-            commentFilter.Setup(f => f.FilterBeforePersist(It.IsAny<FeedbackItem>())).Callback(() => wasBeforeCalled = true);
-            commentFilter.Setup(f => f.FilterAfterPersist(It.IsAny<FeedbackItem>())).Callback(() => wasAfterCalled = true);
-            CommentService service = new CommentService(context.Object, commentFilter.Object);
+            commentFilter.Setup(f => f.FilterBeforePersist(It.IsAny<FeedbackItem>())).Callback(
+                () => wasBeforeCalled = true);
+            commentFilter.Setup(f => f.FilterAfterPersist(It.IsAny<FeedbackItem>())).Callback(
+                () => wasAfterCalled = true);
+            var service = new CommentService(context.Object, commentFilter.Object);
             var comment = new FeedbackItem(FeedbackType.Comment)
             {
                 EntryId = 123,

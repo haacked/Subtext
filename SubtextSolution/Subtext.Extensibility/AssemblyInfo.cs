@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -23,10 +25,10 @@ using System.Security.Permissions;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
+
 [assembly: AssemblyTitle("Subtext.Extensibility")]
 [assembly: AssemblyDescription("Contains base providers and interfaces referenced to extend Subtext.")]
 [assembly: AssemblyCulture("")]
-
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution = true)]

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,35 +12,25 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 
 namespace Subtext.Framework.Components
 {
-	/// <summary>
-	/// DTO style class for representing a count of archived posts.
-	/// </summary>
-	[Serializable]
-	public class ArchiveCount {
-        public String Title {
-            get;
-            set;
-        }
-        
-        public int Id {
-            get;
-            set;
-        }
+    /// <summary>
+    /// DTO style class for representing a count of archived posts.
+    /// </summary>
+    [Serializable]
+    public class ArchiveCount
+    {
+        public String Title { get; set; }
 
-        public DateTime Date {
-            get;
-            set;
-        }
+        public int Id { get; set; }
 
-		public int Count {
-			get;
-			set;
-		}
-	}
+        public DateTime Date { get; set; }
+
+        public int Count { get; set; }
+    }
 }

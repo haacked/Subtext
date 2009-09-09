@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -42,7 +44,9 @@ namespace Subtext.Framework.XmlRpc
     {
         static Log Log = new Log();
 
-        public MetaWeblog(ISubtextContext context) : this(context, context.GetService<IEntryPublisher>()) { }
+        public MetaWeblog(ISubtextContext context) : this(context, context.GetService<IEntryPublisher>())
+        {
+        }
 
         public MetaWeblog(ISubtextContext context, IEntryPublisher entryPublisher)
             : base(context)
@@ -50,117 +54,29 @@ namespace Subtext.Framework.XmlRpc
             EntryPublisher = entryPublisher;
         }
 
-        protected IEntryPublisher EntryPublisher
-        {
-            get;
-            private set;
-        }
+        protected IEntryPublisher EntryPublisher { get; private set; }
 
-        private void ValidateUser(string username, string password, bool allowServiceAccess)
-        {
-            if (!Config.Settings.AllowServiceAccess || !allowServiceAccess)
-            {
-                throw new XmlRpcFaultException(0, Resources.XmlRpcFault_WebServiceNotEnabled);
-            }
-
-            bool isValid = SecurityHelper.IsValidUser(Blog, username, password);
-            if (!isValid)
-            {
-                throw new XmlRpcFaultException(0, Resources.XmlRpcFault_UsernameAndPasswordInvalid);
-            }
-        }
-
-        private string PostContent(string username, string password, ref Post post, bool publish, PostType postType)
-        {
-            ValidateUser(username, password, Blog.AllowServiceAccess);
-
-            Entry entry = new Entry(postType);
-            entry.PostType = postType;
-            entry.IsActive = publish;
-            entry.Author = Blog.Author;
-            entry.Email = Blog.Email;
-            post.CopyValuesTo(entry);
-            entry.AllowComments = true;
-            entry.DisplayOnHomePage = true;
-
-            DateTime dateTimeInPost = post.dateCreated != null ? post.dateCreated.Value : DateTime.UtcNow;
-            // Store in the blog's timezone
-            dateTimeInPost = Blog.TimeZone.FromUtc(dateTimeInPost);
-
-            entry.DateCreated = entry.DateModified = Blog.TimeZone.Now;
-            if (publish)
-            {
-                entry.DateSyndicated = dateTimeInPost;
-            }
-
-            entry.IncludeInMainSyndication = true;
-            entry.IsAggregated = true;
-            entry.SyndicateDescriptionOnly = false;
-
-            int postId;
-            try
-            {
-                //TODO: Review whether keywords should be true.
-                postId = EntryPublisher.Publish(entry);
-                if (Blog.TrackbacksEnabled)
-                {
-                    NotificationServices.Run(entry, Blog, Url);
-                }
-
-                if (post.enclosure != null)
-                {
-                    var enclosure = post.enclosure.Value.CopyValuesToEnclosure();
-                    enclosure.EntryId = postId;
-                    Repository.Create(enclosure);
-                }
-
-                AddCommunityCredits(entry);
-            }
-            catch (Exception e)
-            {
-                throw new XmlRpcFaultException(0, e.Message + " " + e.StackTrace);
-            }
-            if (postId < 0)
-            {
-                throw new XmlRpcFaultException(0, Resources.XmlRpcFault_AddPostFailed);
-            }
-            return postId.ToString(CultureInfo.InvariantCulture);
-        }
-
-        private void AddCommunityCredits(Entry entry)
-        {
-            string result = string.Empty;
-
-            try
-            {
-                CommunityCreditNotification.AddCommunityCredits(entry, Url, Blog);
-            }
-            catch (CommunityCreditNotificationException ex)
-            {
-                Log.WarnFormat(Resources.XmlRpcWarn_CommunityCredits, Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(), ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(Resources.XmlRpcError_CommunityCredits, ex);
-            }
-        }
+        #region IMetaWeblog Members
 
         public BlogInfo[] getUsersBlogs(string appKey, string username, string password)
         {
-            Framework.Blog info = Blog;
+            Blog info = Blog;
             ValidateUser(username, password, info.AllowServiceAccess);
 
-            BlogInfo[] bi = new BlogInfo[1];
-            BlogInfo b = new BlogInfo();
+            var bi = new BlogInfo[1];
+            var b = new BlogInfo();
             b.blogid = info.Id.ToString(CultureInfo.InvariantCulture);
             b.blogName = info.Title;
             b.url = Url.BlogUrl().ToFullyQualifiedUrl(info).ToString();
             bi[0] = b;
             return bi;
-
         }
 
-        public bool deletePost(string appKey, string postid, string username, string password, [XmlRpcParameter(Description = "Where applicable, this specifies whether the blog should be republished after the post has been deleted.")] bool publish)
+        public bool deletePost(string appKey, string postid, string username, string password,
+                               [XmlRpcParameter(
+                                   Description =
+                                   "Where applicable, this specifies whether the blog should be republished after the post has been deleted."
+                                   )] bool publish)
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
@@ -171,7 +87,9 @@ namespace Subtext.Framework.XmlRpc
             }
             catch
             {
-                throw new XmlRpcFaultException(1, String.Format(CultureInfo.InvariantCulture, Resources.XmlRpcFault_CannotDeletePost, postid));
+                throw new XmlRpcFaultException(1,
+                                               String.Format(CultureInfo.InvariantCulture,
+                                                             Resources.XmlRpcFault_CannotDeletePost, postid));
             }
         }
 
@@ -180,7 +98,7 @@ namespace Subtext.Framework.XmlRpc
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
             Entry entry = Entries.GetEntry(Int32.Parse(postid, CultureInfo.InvariantCulture), PostConfig.None, true);
-            if (entry != null)
+            if(entry != null)
             {
                 entry.Author = Blog.Author;
                 entry.Email = Blog.Email;
@@ -188,9 +106,10 @@ namespace Subtext.Framework.XmlRpc
                 post.CopyValuesTo(entry);
                 entry.IncludeInMainSyndication = true;
                 entry.PostType = PostType.BlogPost;
-                
+
                 //User trying to change future dating.
-                if (publish && post.dateCreated != null && Blog.TimeZone.IsInFuture(post.dateCreated.Value, TimeZoneInfo.Utc))
+                if(publish && post.dateCreated != null &&
+                   Blog.TimeZone.IsInFuture(post.dateCreated.Value, TimeZoneInfo.Utc))
                 {
                     entry.DateSyndicated = post.dateCreated.Value;
                 }
@@ -198,7 +117,7 @@ namespace Subtext.Framework.XmlRpc
 
                 entry.DateModified = Blog.TimeZone.Now;
                 IEnumerable<int> categoryIds = null;
-                if (entry.Categories.Count > 0)
+                if(entry.Categories.Count > 0)
                 {
                     categoryIds = Entries.GetCategoryIdsFromCategoryTitles(entry);
                 }
@@ -206,18 +125,18 @@ namespace Subtext.Framework.XmlRpc
                 Entries.Update(entry, SubtextContext);
                 Entries.SetEntryCategoryList(entry.Id, categoryIds);
 
-                if (entry.Enclosure == null)
+                if(entry.Enclosure == null)
                 {
-                    if (post.enclosure != null)
+                    if(post.enclosure != null)
                     {
-                        var enclosure = post.enclosure.Value.CopyValuesToEnclosure();
+                        Components.Enclosure enclosure = post.enclosure.Value.CopyValuesToEnclosure();
                         enclosure.EntryId = entry.Id;
                         Repository.Create(enclosure);
                     }
                 }
                 else // if(entry.Enclosure != null)
                 {
-                    if (post.enclosure != null)
+                    if(post.enclosure != null)
                     {
                         Components.Enclosure enclosure = entry.Enclosure;
                         post.enclosure.Value.CopyValuesTo(enclosure);
@@ -237,11 +156,11 @@ namespace Subtext.Framework.XmlRpc
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
             Entry entry = Entries.GetEntry(Int32.Parse(postid, CultureInfo.InvariantCulture), PostConfig.None, true);
-            if (entry == null)
+            if(entry == null)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_CouldNotFindEntry);
             }
-            Post post = new Post();
+            var post = new Post();
             post.link = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString();
             post.description = entry.Body;
             post.excerpt = entry.Description ?? string.Empty;
@@ -251,7 +170,7 @@ namespace Subtext.Framework.XmlRpc
             post.permalink = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString();
             post.categories = new string[entry.Categories.Count];
 
-            if (entry.Enclosure != null)
+            if(entry.Enclosure != null)
             {
                 post.enclosure = new Enclosure
                 {
@@ -261,7 +180,7 @@ namespace Subtext.Framework.XmlRpc
                 };
             }
 
-            if (entry.HasEntryName)
+            if(entry.HasEntryName)
             {
                 post.wp_slug = entry.EntryName;
             }
@@ -275,28 +194,31 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            ICollection<Entry> entries = Entries.GetRecentPosts(numberOfPosts, PostType.BlogPost, PostConfig.IsActive, true);
+            ICollection<Entry> entries = Entries.GetRecentPosts(numberOfPosts, PostType.BlogPost, PostConfig.IsActive,
+                                                                true);
 
-            var posts = from entry in entries
-                        select new Post
-                        {
-                            dateCreated = entry.DateCreated,
-                            description = entry.Body,
-                            excerpt = entry.Description,
-                            link = Url.EntryUrl(entry),
-                            permalink = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
-                            title = entry.Title,
-                            postid = entry.Id.ToString(CultureInfo.InvariantCulture),
-                            userid = entry.Body.GetHashCode().ToString(CultureInfo.InvariantCulture),
-                            wp_slug = (entry.HasEntryName ? entry.EntryName : null),
-                            categories = (entry.Categories ?? new string[0]).ToArray(),
-                            enclosure = (entry.Enclosure == null ? new Enclosure() : new Enclosure
-                            {
-                                length = (int)entry.Enclosure.Size,
-                                url = entry.Enclosure.Url,
-                                type = entry.Enclosure.MimeType
-                            })
-                        };
+            IEnumerable<Post> posts = from entry in entries
+                                      select new Post
+                                      {
+                                          dateCreated = entry.DateCreated,
+                                          description = entry.Body,
+                                          excerpt = entry.Description,
+                                          link = Url.EntryUrl(entry),
+                                          permalink = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
+                                          title = entry.Title,
+                                          postid = entry.Id.ToString(CultureInfo.InvariantCulture),
+                                          userid = entry.Body.GetHashCode().ToString(CultureInfo.InvariantCulture),
+                                          wp_slug = (entry.HasEntryName ? entry.EntryName : null),
+                                          categories = (entry.Categories ?? new string[0]).ToArray(),
+                                          enclosure = (entry.Enclosure == null
+                                                           ? new Enclosure()
+                                                           : new Enclosure
+                                                           {
+                                                               length = (int)entry.Enclosure.Size,
+                                                               url = entry.Enclosure.Url,
+                                                               type = entry.Enclosure.MimeType
+                                                           })
+                                      };
 
             return posts.ToArray();
         }
@@ -305,21 +227,26 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            ICollection<LinkCategory> categories = this.Repository.GetCategories(CategoryType.PostCollection, false);
-            if (categories == null)
+            ICollection<LinkCategory> categories = Repository.GetCategories(CategoryType.PostCollection, false);
+            if(categories == null)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_NoCategories);
             }
 
-            var categoryInfos = from category in categories
-                                select new CategoryInfo
-                                {
-                                    categoryid = category.Id.ToString(CultureInfo.InvariantCulture),
-                                    title = category.Title,
-                                    htmlUrl = Url.CategoryUrl(category).ToFullyQualifiedUrl(Blog).ToString(),
-                                    rssUrl = Url.CategoryRssUrl(category).ToFullyQualifiedUrl(Blog).ToString(),
-                                    description = category.Title
-                                };
+            IEnumerable<CategoryInfo> categoryInfos = from category in categories
+                                                      select new CategoryInfo
+                                                      {
+                                                          categoryid =
+                                                              category.Id.ToString(CultureInfo.InvariantCulture),
+                                                          title = category.Title,
+                                                          htmlUrl =
+                                                              Url.CategoryUrl(category).ToFullyQualifiedUrl(Blog).
+                                                              ToString(),
+                                                          rssUrl =
+                                                              Url.CategoryRssUrl(category).ToFullyQualifiedUrl(Blog).
+                                                              ToString(),
+                                                          description = category.Title
+                                                      };
 
             return categoryInfos.ToArray();
         }
@@ -347,11 +274,17 @@ namespace Subtext.Framework.XmlRpc
             {
                 // newMediaObject allows files to be overwritten
                 // The media object's name can have extra folders appended so we check for this here too.
-                FileHelper.EnsureDirectory(Path.Combine(imageDirectory, mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/", StringComparison.Ordinal) + 1).Replace("/", "\\")));
+                FileHelper.EnsureDirectory(Path.Combine(imageDirectory,
+                                                        mediaobject.name.Substring(0,
+                                                                                   mediaobject.name.LastIndexOf("/",
+                                                                                                                StringComparison
+                                                                                                                    .
+                                                                                                                    Ordinal) +
+                                                                                   1).Replace("/", "\\")));
                 string imageFilePhysicalPath = Path.Combine(imageDirectory, mediaobject.name);
                 FileHelper.WriteBytesToFile(imageFilePhysicalPath, mediaobject.bits);
             }
-            catch (IOException)
+            catch(IOException)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_ErrorSavingFile);
             }
@@ -361,6 +294,8 @@ namespace Subtext.Framework.XmlRpc
             return media;
         }
 
+        #endregion
+
         // w.bloggar workarounds/nominal MT support - HACKS
 
         // w.bloggar is not correctly implementing metaWeblogAPI on its getRecentPost call, it wants 
@@ -368,6 +303,336 @@ namespace Subtext.Framework.XmlRpc
         // 
         // What works better with w.bloggar is to tell it to use MT settings. For w.bloggar users 
         // with metaWeblog configured, we'll throw a more explanatory exception than method not found.
+
+        // Wordpress API
+
+        #region IWordPressApi Members
+
+        public int newCategory(string blogid, string username, string password, WordpressCategory category)
+        {
+            var newCategory = new LinkCategory();
+            newCategory.CategoryType = CategoryType.PostCollection;
+            newCategory.Title = category.name;
+            newCategory.IsActive = true;
+            newCategory.Description = category.name;
+
+            newCategory.Id = Links.CreateLinkCategory(newCategory);
+
+            return newCategory.Id;
+        }
+
+        public int newPage(string blog_id, string username, string password, Post content, bool publish)
+        {
+            return Convert.ToInt32(PostContent(username, password, ref content, publish, PostType.Story),
+                                   CultureInfo.InvariantCulture);
+        }
+
+        public int editPage(string blog_id, string page_id, string username, string password, Post content, bool publish)
+        {
+            ValidateUser(username, password, Blog.AllowServiceAccess);
+
+            Entry entry = Entries.GetEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture), PostConfig.None, true);
+            if(entry != null)
+            {
+                entry.Author = Blog.Author;
+                entry.Email = Blog.Email;
+                entry.Body = content.description;
+                entry.Title = content.title;
+                entry.Description = content.excerpt ?? string.Empty;
+                entry.IncludeInMainSyndication = true;
+
+                if(content.categories != null)
+                {
+                    entry.Categories.AddRange(content.categories);
+                }
+
+                entry.PostType = PostType.Story;
+                entry.IsActive = publish;
+
+                if(!string.IsNullOrEmpty(content.wp_slug))
+                {
+                    entry.EntryName = content.wp_slug;
+                }
+
+                entry.DateModified = Blog.TimeZone.Now;
+                Entries.Update(entry, SubtextContext);
+            }
+            return Convert.ToInt32(page_id, CultureInfo.InvariantCulture);
+        }
+
+        public Post[] getPages(string blog_id, string username, string password, int numberOfPosts)
+        {
+            ValidateUser(username, password, Blog.AllowServiceAccess);
+
+            ICollection<Entry> entries = Entries.GetRecentPosts(numberOfPosts, PostType.Story, PostConfig.IsActive, true);
+            IEnumerable<Post> posts = from entry in entries
+                                      select new Post
+                                      {
+                                          dateCreated = entry.DateCreated,
+                                          description = entry.Body,
+                                          excerpt = entry.Description ?? string.Empty,
+                                          link = Url.EntryUrl(entry),
+                                          permalink = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
+                                          title = entry.Title,
+                                          postid = entry.Id.ToString(CultureInfo.InvariantCulture),
+                                          userid = entry.Body.GetHashCode().ToString(CultureInfo.InvariantCulture),
+                                          wp_slug = (entry.HasEntryName ? entry.EntryName : null),
+                                          categories = (entry.Categories ?? new string[0]).ToArray(),
+                                          enclosure = (entry.Enclosure == null
+                                                           ? new Enclosure()
+                                                           : new Enclosure
+                                                           {
+                                                               length = (int)entry.Enclosure.Size,
+                                                               url = entry.Enclosure.Url,
+                                                               type = entry.Enclosure.MimeType
+                                                           })
+                                      };
+
+            return posts.ToArray();
+        }
+
+        public Post getPage(string blog_id, string page_id, string username, string password)
+        {
+            Blog info = Blog;
+            ValidateUser(username, password, info.AllowServiceAccess);
+
+            Entry entry = Entries.GetEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture), PostConfig.None, true);
+            var post = new Post();
+            post.link = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString();
+            post.description = entry.Body;
+            post.excerpt = entry.Description ?? string.Empty;
+            post.dateCreated = entry.DateCreated;
+            post.postid = entry.Id;
+            post.title = entry.Title;
+            post.permalink = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString();
+            post.categories = new string[entry.Categories.Count];
+            entry.Categories.CopyTo(post.categories, 0);
+            if(entry.HasEntryName)
+            {
+                post.wp_slug = entry.EntryName;
+            }
+            if(entry.Enclosure != null)
+            {
+                post.enclosure = new Enclosure
+                {
+                    length = (int)entry.Enclosure.Size,
+                    type = entry.Enclosure.MimeType,
+                    url = entry.Enclosure.Url
+                };
+            }
+
+            return post;
+        }
+
+        public bool deletePage(string blog_id, string username, string password, string page_id)
+        {
+            ValidateUser(username, password, Blog.AllowServiceAccess);
+
+            try
+            {
+                Repository.DeleteEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture));
+                return true;
+            }
+            catch
+            {
+                throw new XmlRpcFaultException(1,
+                                               String.Format(CultureInfo.InvariantCulture,
+                                                             Resources.XmlRpcFault_CannotDeletePage, page_id));
+            }
+        }
+
+        #endregion
+
+        private void ValidateUser(string username, string password, bool allowServiceAccess)
+        {
+            if(!Config.Settings.AllowServiceAccess || !allowServiceAccess)
+            {
+                throw new XmlRpcFaultException(0, Resources.XmlRpcFault_WebServiceNotEnabled);
+            }
+
+            bool isValid = SecurityHelper.IsValidUser(Blog, username, password);
+            if(!isValid)
+            {
+                throw new XmlRpcFaultException(0, Resources.XmlRpcFault_UsernameAndPasswordInvalid);
+            }
+        }
+
+        private string PostContent(string username, string password, ref Post post, bool publish, PostType postType)
+        {
+            ValidateUser(username, password, Blog.AllowServiceAccess);
+
+            var entry = new Entry(postType);
+            entry.PostType = postType;
+            entry.IsActive = publish;
+            entry.Author = Blog.Author;
+            entry.Email = Blog.Email;
+            post.CopyValuesTo(entry);
+            entry.AllowComments = true;
+            entry.DisplayOnHomePage = true;
+
+            DateTime dateTimeInPost = post.dateCreated != null ? post.dateCreated.Value : DateTime.UtcNow;
+            // Store in the blog's timezone
+            dateTimeInPost = Blog.TimeZone.FromUtc(dateTimeInPost);
+
+            entry.DateCreated = entry.DateModified = Blog.TimeZone.Now;
+            if(publish)
+            {
+                entry.DateSyndicated = dateTimeInPost;
+            }
+
+            entry.IncludeInMainSyndication = true;
+            entry.IsAggregated = true;
+            entry.SyndicateDescriptionOnly = false;
+
+            int postId;
+            try
+            {
+                //TODO: Review whether keywords should be true.
+                postId = EntryPublisher.Publish(entry);
+                if(Blog.TrackbacksEnabled)
+                {
+                    NotificationServices.Run(entry, Blog, Url);
+                }
+
+                if(post.enclosure != null)
+                {
+                    Components.Enclosure enclosure = post.enclosure.Value.CopyValuesToEnclosure();
+                    enclosure.EntryId = postId;
+                    Repository.Create(enclosure);
+                }
+
+                AddCommunityCredits(entry);
+            }
+            catch(Exception e)
+            {
+                throw new XmlRpcFaultException(0, e.Message + " " + e.StackTrace);
+            }
+            if(postId < 0)
+            {
+                throw new XmlRpcFaultException(0, Resources.XmlRpcFault_AddPostFailed);
+            }
+            return postId.ToString(CultureInfo.InvariantCulture);
+        }
+
+        private void AddCommunityCredits(Entry entry)
+        {
+            string result = string.Empty;
+
+            try
+            {
+                CommunityCreditNotification.AddCommunityCredits(entry, Url, Blog);
+            }
+            catch(CommunityCreditNotificationException ex)
+            {
+                Log.WarnFormat(Resources.XmlRpcWarn_CommunityCredits,
+                               Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(), ex.Message);
+            }
+            catch(Exception ex)
+            {
+                Log.Error(Resources.XmlRpcError_CommunityCredits, ex);
+            }
+        }
+
+        [XmlRpcMethod("mt.getCategoryList",
+            Description = "Gets a list of active categories for a given blog as an array of MT category struct.")]
+        public MtCategory[] GetCategoryList(string blogid, string username, string password)
+        {
+            ValidateUser(username, password, Blog.AllowServiceAccess);
+
+            ICollection<LinkCategory> lcc = Repository.GetCategories(CategoryType.PostCollection, false);
+            if(lcc == null)
+            {
+                throw new XmlRpcFaultException(0, "No categories exist");
+            }
+
+            var categories = new MtCategory[lcc.Count];
+            int i = 0;
+            foreach(LinkCategory linkCategory in lcc)
+            {
+                var _category = new MtCategory(linkCategory.Id.ToString(CultureInfo.InvariantCulture),
+                                               linkCategory.Title);
+                categories[i] = _category;
+                i++;
+            }
+            return categories;
+        }
+
+        [XmlRpcMethod("mt.setPostCategories",
+            Description = "Sets the categories for a given post.")]
+        public bool SetPostCategories(string postid, string username, string password,
+                                      MtCategory[] categories)
+        {
+            ValidateUser(username, password, Blog.AllowServiceAccess);
+
+            if(categories != null && categories.Length > 0)
+            {
+                int postID = Int32.Parse(postid, CultureInfo.InvariantCulture);
+
+                IEnumerable<int> categoryIds = from category in categories
+                                               select int.Parse(category.categoryId, CultureInfo.InvariantCulture);
+
+                if(categoryIds.Count() > 0)
+                {
+                    Entries.SetEntryCategoryList(postID, categoryIds);
+                }
+            }
+
+            return true;
+        }
+
+        [XmlRpcMethod("mt.getPostCategories",
+            Description = "Sets the categories for a given post.")]
+        public MtCategory[] GetPostCategories(string postid, string userName, string password)
+        {
+            ValidateUser(userName, password, Blog.AllowServiceAccess);
+
+            int postID = Int32.Parse(postid, CultureInfo.InvariantCulture);
+            ICollection<Link> postCategories = Repository.GetLinkCollectionByPostID(postID);
+            var categories = new MtCategory[postCategories.Count];
+            if(postCategories.Count > 0)
+            {
+                // REFACTOR: Might prefer seeing a dictionary come back straight from the provider.
+                // for now we'll build our own catid->catTitle lookup--we need it below bc collection
+                // from post is going to be null for title.
+                ICollection<LinkCategory> cats = Repository.GetCategories(CategoryType.PostCollection, false);
+                var catLookup = new Hashtable(cats.Count);
+                foreach(LinkCategory currentCat in cats)
+                {
+                    catLookup.Add(currentCat.Id, currentCat.Title);
+                }
+
+                int i = 0;
+                foreach(Link link in postCategories)
+                {
+                    var _category = new MtCategory(link.CategoryID.ToString(CultureInfo.InvariantCulture),
+                                                   (string)catLookup[link.CategoryID]);
+
+                    categories[i] = _category;
+                    i++;
+                }
+            }
+
+            return categories;
+        }
+
+        /// <summary>
+        /// Retrieve information about the text formatting plugins supported by the server.
+        /// </summary>
+        /// <returns>
+        /// an array of structs containing String key and String label. 
+        /// key is the unique string identifying a text formatting plugin, 
+        /// and label is the readable description to be displayed to a user. 
+        /// key is the value that should be passed in the mt_convert_breaks 
+        /// parameter to newPost and editPost.
+        /// </returns>
+        [XmlRpcMethod("mt.supportedTextFilters",
+            Description = "Retrieve information about the text formatting plugins supported by the server.")]
+        public MtTextFilter[] GetSupportedTextFilters()
+        {
+            return new MtTextFilter[] {new MtTextFilter("test", "test"),};
+        }
+
+        #region Nested type: BloggerPost
 
         public struct BloggerPost
         {
@@ -377,15 +642,18 @@ namespace Subtext.Framework.XmlRpc
             public string userid;
         }
 
+        #endregion
+
         // we'll also add a couple structs and methods to give us nominal MT API-level support.
         // by doing this we'll allow w.bloggar to run against .Text using w.b's MT configuration.
+
+        #region Nested type: MtCategory
+
         public struct MtCategory
         {
             public string categoryId;
-            [XmlRpcMissingMapping(MappingAction.Ignore)]
-            public string categoryName;
-            [XmlRpcMissingMapping(MappingAction.Ignore)]
-            public bool isPrimary;
+            [XmlRpcMissingMapping(MappingAction.Ignore)] public string categoryName;
+            [XmlRpcMissingMapping(MappingAction.Ignore)] public bool isPrimary;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="MtCategory"/> class.
@@ -411,12 +679,19 @@ namespace Subtext.Framework.XmlRpc
             }
         }
 
+        #endregion
+
+        #region Nested type: MtTextFilter
+
         /// <summary>
         /// Represents a text filter returned by mt.supportedTextFilters.
         /// </summary>
         [XmlRpcMissingMapping(MappingAction.Ignore)]
         public struct MtTextFilter
         {
+            public string key;
+            public string label;
+
             /// <summary>
             /// Initializes a new instance of the <see cref="MtTextFilter"/> class.
             /// </summary>
@@ -427,233 +702,8 @@ namespace Subtext.Framework.XmlRpc
                 this.key = key;
                 this.label = label;
             }
-            public string key;
-            public string label;
         }
 
-        [XmlRpcMethod("mt.getCategoryList",
-             Description = "Gets a list of active categories for a given blog as an array of MT category struct.")]
-        public MtCategory[] GetCategoryList(string blogid, string username, string password)
-        {
-            ValidateUser(username, password, Blog.AllowServiceAccess);
-
-            ICollection<LinkCategory> lcc = Repository.GetCategories(CategoryType.PostCollection, false);
-            if (lcc == null)
-            {
-                throw new XmlRpcFaultException(0, "No categories exist");
-            }
-
-            MtCategory[] categories = new MtCategory[lcc.Count];
-            int i = 0;
-            foreach (LinkCategory linkCategory in lcc)
-            {
-                MtCategory _category = new MtCategory(linkCategory.Id.ToString(CultureInfo.InvariantCulture), linkCategory.Title);
-                categories[i] = _category;
-                i++;
-            }
-            return categories;
-        }
-
-        [XmlRpcMethod("mt.setPostCategories",
-            Description = "Sets the categories for a given post.")]
-        public bool SetPostCategories(string postid, string username, string password,
-            MtCategory[] categories)
-        {
-            ValidateUser(username, password, Blog.AllowServiceAccess);
-
-            if (categories != null && categories.Length > 0)
-            {
-                int postID = Int32.Parse(postid, CultureInfo.InvariantCulture);
-
-                var categoryIds = from category in categories
-                                  select int.Parse(category.categoryId, CultureInfo.InvariantCulture);
-
-                if (categoryIds.Count() > 0)
-                {
-                    Entries.SetEntryCategoryList(postID, categoryIds);
-                }
-            }
-
-            return true;
-        }
-
-        [XmlRpcMethod("mt.getPostCategories",
-             Description = "Sets the categories for a given post.")]
-        public MtCategory[] GetPostCategories(string postid, string userName, string password)
-        {
-            ValidateUser(userName, password, Blog.AllowServiceAccess);
-
-            int postID = Int32.Parse(postid, CultureInfo.InvariantCulture);
-            ICollection<Link> postCategories = Repository.GetLinkCollectionByPostID(postID);
-            MtCategory[] categories = new MtCategory[postCategories.Count];
-            if (postCategories.Count > 0)
-            {
-                // REFACTOR: Might prefer seeing a dictionary come back straight from the provider.
-                // for now we'll build our own catid->catTitle lookup--we need it below bc collection
-                // from post is going to be null for title.
-                ICollection<LinkCategory> cats = Repository.GetCategories(CategoryType.PostCollection, false);
-                Hashtable catLookup = new Hashtable(cats.Count);
-                foreach (LinkCategory currentCat in cats)
-                    catLookup.Add(currentCat.Id, currentCat.Title);
-
-                int i = 0;
-                foreach (Link link in postCategories)
-                {
-                    MtCategory _category = new MtCategory(link.CategoryID.ToString(CultureInfo.InvariantCulture), (string)catLookup[link.CategoryID]);
-
-                    categories[i] = _category;
-                    i++;
-                }
-            }
-
-            return categories;
-        }
-
-        /// <summary>
-        /// Retrieve information about the text formatting plugins supported by the server.
-        /// </summary>
-        /// <returns>
-        /// an array of structs containing String key and String label. 
-        /// key is the unique string identifying a text formatting plugin, 
-        /// and label is the readable description to be displayed to a user. 
-        /// key is the value that should be passed in the mt_convert_breaks 
-        /// parameter to newPost and editPost.
-        /// </returns>
-        [XmlRpcMethod("mt.supportedTextFilters",
-             Description = "Retrieve information about the text formatting plugins supported by the server.")]
-        public MtTextFilter[] GetSupportedTextFilters()
-        {
-            return new MtTextFilter[] { new MtTextFilter("test", "test"), };
-        }
-
-        // Wordpress API
-
-        public int newCategory(string blogid, string username, string password, WordpressCategory category)
-        {
-            LinkCategory newCategory = new LinkCategory();
-            newCategory.CategoryType = CategoryType.PostCollection;
-            newCategory.Title = category.name;
-            newCategory.IsActive = true;
-            newCategory.Description = category.name;
-
-            newCategory.Id = Links.CreateLinkCategory(newCategory);
-
-            return newCategory.Id;
-        }
-
-        public int newPage(string blog_id, string username, string password, Post content, bool publish)
-        {
-            return Convert.ToInt32(PostContent(username, password, ref content, publish, PostType.Story), CultureInfo.InvariantCulture);
-        }
-
-        public int editPage(string blog_id, string page_id, string username, string password, Post content, bool publish)
-        {
-            ValidateUser(username, password, Blog.AllowServiceAccess);
-
-            Entry entry = Entries.GetEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture), PostConfig.None, true);
-            if (entry != null)
-            {
-                entry.Author = Blog.Author;
-                entry.Email = Blog.Email;
-                entry.Body = content.description;
-                entry.Title = content.title;
-                entry.Description = content.excerpt ?? string.Empty;
-                entry.IncludeInMainSyndication = true;
-
-                if (content.categories != null)
-                {
-                    entry.Categories.AddRange(content.categories);
-                }
-
-                entry.PostType = PostType.Story;
-                entry.IsActive = publish;
-
-                if (!string.IsNullOrEmpty(content.wp_slug))
-                {
-                    entry.EntryName = content.wp_slug;
-                }
-
-                entry.DateModified = Blog.TimeZone.Now;
-                Entries.Update(entry, SubtextContext);
-            }
-            return Convert.ToInt32(page_id, CultureInfo.InvariantCulture);
-        }
-
-        public Post[] getPages(string blog_id, string username, string password, int numberOfPosts)
-        {
-            ValidateUser(username, password, Blog.AllowServiceAccess);
-
-            ICollection<Entry> entries = Entries.GetRecentPosts(numberOfPosts, PostType.Story, PostConfig.IsActive, true);
-            var posts = from entry in entries
-                        select new Post
-                        {
-                            dateCreated = entry.DateCreated,
-                            description = entry.Body,
-                            excerpt = entry.Description ?? string.Empty,
-                            link = Url.EntryUrl(entry),
-                            permalink = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
-                            title = entry.Title,
-                            postid = entry.Id.ToString(CultureInfo.InvariantCulture),
-                            userid = entry.Body.GetHashCode().ToString(CultureInfo.InvariantCulture),
-                            wp_slug = (entry.HasEntryName ? entry.EntryName : null),
-                            categories = (entry.Categories ?? new string[0]).ToArray(),
-                            enclosure = (entry.Enclosure == null ? new Enclosure() : new Enclosure
-                            {
-                                length = (int)entry.Enclosure.Size,
-                                url = entry.Enclosure.Url,
-                                type = entry.Enclosure.MimeType
-                            })
-                        };
-
-            return posts.ToArray();
-        }
-
-        public Post getPage(string blog_id, string page_id, string username, string password)
-        {
-            Framework.Blog info = Blog;
-            ValidateUser(username, password, info.AllowServiceAccess);
-
-            Entry entry = Entries.GetEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture), PostConfig.None, true);
-            Post post = new Post();
-            post.link = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString();
-            post.description = entry.Body;
-            post.excerpt = entry.Description ?? string.Empty;
-            post.dateCreated = entry.DateCreated;
-            post.postid = entry.Id;
-            post.title = entry.Title;
-            post.permalink = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString();
-            post.categories = new string[entry.Categories.Count];
-            entry.Categories.CopyTo(post.categories, 0);
-            if (entry.HasEntryName)
-            {
-                post.wp_slug = entry.EntryName;
-            }
-            if (entry.Enclosure != null)
-            {
-                post.enclosure = new Enclosure
-                {
-                    length = (int)entry.Enclosure.Size,
-                    type = entry.Enclosure.MimeType,
-                    url = entry.Enclosure.Url
-                };
-            }
-
-            return post;
-        }
-
-        public bool deletePage(string blog_id, string username, string password, string page_id)
-        {
-            ValidateUser(username, password, Blog.AllowServiceAccess);
-
-            try
-            {
-                Repository.DeleteEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture));
-                return true;
-            }
-            catch
-            {
-                throw new XmlRpcFaultException(1, String.Format(CultureInfo.InvariantCulture, Resources.XmlRpcFault_CannotDeletePage, page_id));
-            }
-        }
+        #endregion
     }
 }

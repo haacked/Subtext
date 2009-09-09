@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using MbUnit.Framework;
 using Moq;
-using Subtext.Framework.Text;
 using Subtext.Framework.Emoticons;
 
 namespace UnitTests.Subtext.Framework.Emoticons

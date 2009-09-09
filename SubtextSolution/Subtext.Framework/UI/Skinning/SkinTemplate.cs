@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -19,82 +21,60 @@ using System.Xml.Serialization;
 
 namespace Subtext.Framework.UI.Skinning
 {
-	/// <summary>
-	/// Summary description for SkinTemplate.
-	/// </summary>
-	[Serializable]
-	public class SkinTemplate
-	{
-        public SkinTemplate() 
+    /// <summary>
+    /// Summary description for SkinTemplate.
+    /// </summary>
+    [Serializable]
+    public class SkinTemplate
+    {
+        static SkinTemplate empty = new SkinTemplate();
+
+        public SkinTemplate()
         {
             MobileSupport = MobileSupport.None;
         }
 
         public static SkinTemplate Empty
         {
-            get
-            {
-                return empty;
-            }
+            get { return empty; }
         }
-        static SkinTemplate empty = new SkinTemplate();
 
-		/// <summary>
-		/// This is the folder that contains the template files (*.ascx) 
-		/// for the current skin.
-		/// </summary>
-		[XmlAttribute]
-		public string TemplateFolder
-		{
-			get;
-			set;
-		}
+        /// <summary>
+        /// This is the folder that contains the template files (*.ascx) 
+        /// for the current skin.
+        /// </summary>
+        [XmlAttribute]
+        public string TemplateFolder { get; set; }
 
         [XmlAttribute]
-        public MobileSupport MobileSupport
-        {
-            get;
-            set;
-        }
+        public MobileSupport MobileSupport { get; set; }
 
-		/// <summary>
-		/// Gets or sets the stylesheet for this Skin.  Remember, 
-		/// every skin template folder should include a "style.css" 
+        /// <summary>
+        /// Gets or sets the stylesheet for this Skin.  Remember, 
+        /// every skin template folder should include a "style.css" 
         /// file that is rendered by default, unless ExcludeDefaultStyle is set to true.
-		/// </summary>
-		/// <remarks>
-		/// This property makes it possible to have multiple skins 
-		/// use the same template folder.
-		/// </remarks>
-		/// <value>The secondary CSS.</value>
-		[XmlAttribute]
-		public string StyleSheet
-		{
-			get;
-			set;
-		}
+        /// </summary>
+        /// <remarks>
+        /// This property makes it possible to have multiple skins 
+        /// use the same template folder.
+        /// </remarks>
+        /// <value>The secondary CSS.</value>
+        [XmlAttribute]
+        public string StyleSheet { get; set; }
 
         /// <summary>
         /// Exclude the the default style.css from being rendered in the skin.
         /// </summary>
         /// <value>Whether to exclude the default style.css or not.</value>
         [XmlAttribute]
-	    public bool ExcludeDefaultStyle
-	    {
-	        get;
-	        set;
-	    }
+        public bool ExcludeDefaultStyle { get; set; }
 
         /// <summary>
         /// Specifies the order in which the styles are rendered inside the skin.
         /// </summary>
         /// <value>The styles merge mode.</value>
         [XmlAttribute]
-	    public StyleMergeMode StyleMergeMode
-	    {
-	        get;
-	        set;
-	    }
+        public StyleMergeMode StyleMergeMode { get; set; }
 
         /// <summary>
         /// How to merge all scripts into one.
@@ -105,79 +85,65 @@ namespace Subtext.Framework.UI.Skinning
         /// </remarks>
         /// <value>The script merge mode.</value>
         [XmlAttribute]
-        public ScriptMergeMode ScriptMergeMode
-        {
-            get;
-            set;
-        }
+        public ScriptMergeMode ScriptMergeMode { get; set; }
 
         /// <summary>
         /// Whether or not to merge all scripts into one.
         /// </summary>
         [XmlIgnore]
-	    public bool MergeScripts
-	    {
-            get { return ScriptMergeMode != ScriptMergeMode.DontMerge; }
-	    }
-
-
-	    /// <summary>
-		/// Whether or not this skin template has a secondary skin css file.
-		/// </summary>
-		[XmlIgnore]
-		public bool HasSkinStylesheet
-		{
-			get{return (this.StyleSheet != null && this.StyleSheet.Trim().Length > 0);}
-		}
-
-		/// <summary>
-		/// Gets the name of the skin as will be displayed in the 
-		/// drop-down list in the admin section.
-		/// </summary>
-		[XmlAttribute]
-		public string Name
-		{
-			get;
-			set;
-		}
-		
-		/// <summary>
-		/// A key representing this particular skin.  A Skin 
-		/// is really a combination of the TemplateFolder and 
-		/// the Stylesheet specified.
-		/// </summary>
-		[XmlIgnore]
-		public string SkinKey
-		{
-			get
-			{
-				return (this.TemplateFolder + (this.StyleSheet != null && this.StyleSheet.Length > 0 ? "-" + this.StyleSheet : string.Empty)).ToUpper(CultureInfo.InvariantCulture);
-			}
-		}
-
-		/// <summary>
-		/// Collection of <code>script</code> elements, declared for the skin.
-		/// </summary>
-        [XmlArray("Scripts")]
-        public Script[] Scripts
+        public bool MergeScripts
         {
-            get;
-            set;
+            get { return ScriptMergeMode != ScriptMergeMode.DontMerge; }
         }
 
-		/// <summary>
-		/// Collection of stylesheet elements declared for the skin.
-		/// </summary>
-		[XmlArray("Styles")]
-		public Style[] Styles
-		{
-			get;
-			set;
-		}
-	}
+
+        /// <summary>
+        /// Whether or not this skin template has a secondary skin css file.
+        /// </summary>
+        [XmlIgnore]
+        public bool HasSkinStylesheet
+        {
+            get { return (StyleSheet != null && StyleSheet.Trim().Length > 0); }
+        }
+
+        /// <summary>
+        /// Gets the name of the skin as will be displayed in the 
+        /// drop-down list in the admin section.
+        /// </summary>
+        [XmlAttribute]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// A key representing this particular skin.  A Skin 
+        /// is really a combination of the TemplateFolder and 
+        /// the Stylesheet specified.
+        /// </summary>
+        [XmlIgnore]
+        public string SkinKey
+        {
+            get
+            {
+                return
+                    (TemplateFolder + (StyleSheet != null && StyleSheet.Length > 0 ? "-" + StyleSheet : string.Empty)).
+                        ToUpper(CultureInfo.InvariantCulture);
+            }
+        }
+
+        /// <summary>
+        /// Collection of <code>script</code> elements, declared for the skin.
+        /// </summary>
+        [XmlArray("Scripts")]
+        public Script[] Scripts { get; set; }
+
+        /// <summary>
+        /// Collection of stylesheet elements declared for the skin.
+        /// </summary>
+        [XmlArray("Styles")]
+        public Style[] Styles { get; set; }
+    }
 
     public enum MobileSupport
-    { 
+    {
         /// <summary>This skin does not work on mobile devices</summary>
         None = 0,
         /// <summary>This skin works for both browsers and mobile devices</summary>
@@ -234,4 +200,3 @@ namespace Subtext.Framework.UI.Skinning
         MergedFirst = 2
     }
 }
-

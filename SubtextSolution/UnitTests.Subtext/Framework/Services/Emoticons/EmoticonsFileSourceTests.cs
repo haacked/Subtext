@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using MbUnit.Framework;
 using Subtext.Framework.Emoticons;
 
@@ -15,7 +15,7 @@ namespace UnitTests.Subtext.Framework.Emoticons
         {
             //arrange
             var memoryStream = new MemoryStream();
-            StreamWriter writer = new StreamWriter(memoryStream);
+            var writer = new StreamWriter(memoryStream);
             writer.WriteLine("[:)]");
             writer.WriteLine("<img src=\"{0}\" title=\"happy\" />");
             writer.WriteLine("[:(]");
@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Emoticons
             var emoticonsSource = new EmoticonsFileSource(new StreamReader(memoryStream));
 
             //act
-            var emoticons = emoticonsSource.GetEmoticons();
+            IEnumerable<Emoticon> emoticons = emoticonsSource.GetEmoticons();
 
             //assert
             Assert.AreEqual(2, emoticons.Count());
@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework.Emoticons
             var emoticonsSource = new EmoticonsFileSource(path);
 
             //act
-            var emoticons = emoticonsSource.GetEmoticons();
+            IEnumerable<Emoticon> emoticons = emoticonsSource.GetEmoticons();
 
             //assert
             Assert.AreEqual(24, emoticons.Count());

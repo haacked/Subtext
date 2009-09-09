@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,14 +12,13 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
-using MbUnit.Framework;
-using Subtext.Framework;
-using Subtext.Framework.Components;
-using System.Threading;
 using System.Globalization;
+using System.Threading;
+using MbUnit.Framework;
+using Subtext.Framework.Components;
 
 namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 {
@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         [MultipleCulture("it-IT,en-US")]
         public void SizeIsFormattedCorrectly(long size, string expected)
         {
-            Enclosure enc = new Enclosure();
+            var enc = new Enclosure();
             enc.Size = size;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
             Assert.AreEqual(expected, enc.FormattedSize, "Not the right formatting");

@@ -20,14 +20,24 @@
 // ---------------------------------------------------------------------------
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames", Scope ="assembly", Justification = "Assemblies are not currently being signed.")]
+[assembly:
+    SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames", Scope = "assembly",
+        Justification = "Assemblies are not currently being signed.")]
 
 // FxCop says that namespaces should generally have more than five types.
 // Unfortunately, not all of these namespaces currently have more than five
 // types but we still want the namespace so we can expand the library in the
 // future without moving types around. 
+
 #region CA1020:AvoidNamespacesWithFewTypes
-[assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "Subtext.BlogML.Interfaces", Justification = "Ignoring this warning...we want this namespace, but don't have enough classes to go in it right now to satisfy the rule.")]
+
+[assembly:
+    SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace",
+        Target = "Subtext.BlogML.Interfaces",
+        Justification =
+            "Ignoring this warning...we want this namespace, but don't have enough classes to go in it right now to satisfy the rule."
+        )]
+
 #endregion
 
 // We could use a CustomDictionary.xml file to handle the spelling and case
@@ -36,8 +46,18 @@ using System.Diagnostics.CodeAnalysis;
 // the location of the CustomDictionary.xml file. We don't want to modify the
 // default file that ships with the FxCop distribution either. This does make
 // more work for us, but it is the safest solution.
-#region CA1704:IdentifiersShouldBeSpelledCorrectly
-[assembly: SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Scope = "member", Target = "Subtext.BlogML.Interfaces.IBlogMLProvider.CreatePostTrackback(BlogML.Xml.BlogMLTrackback,System.String):System.Void", MessageId = "0#trackback")]
-[assembly: SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Scope = "member", Target = "Subtext.BlogML.Interfaces.IBlogMLProvider.CreatePostTrackback(BlogML.Xml.BlogMLTrackback,System.String):System.Void", MessageId = "Trackback")]
-#endregion
 
+#region CA1704:IdentifiersShouldBeSpelledCorrectly
+
+[assembly:
+    SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Scope = "member",
+        Target =
+            "Subtext.BlogML.Interfaces.IBlogMLProvider.CreatePostTrackback(BlogML.Xml.BlogMLTrackback,System.String):System.Void"
+        , MessageId = "0#trackback")]
+[assembly:
+    SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Scope = "member",
+        Target =
+            "Subtext.BlogML.Interfaces.IBlogMLProvider.CreatePostTrackback(BlogML.Xml.BlogMLTrackback,System.String):System.Void"
+        , MessageId = "Trackback")]
+
+#endregion

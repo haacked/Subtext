@@ -1,4 +1,5 @@
-﻿using System.Web;
+using System.Web;
+using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Framework.Routing;
@@ -17,7 +18,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new ImageRoute("{*anything}");
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             Assert.IsNull(routeData);

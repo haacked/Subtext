@@ -1,4 +1,4 @@
-﻿using System.Web;
+using System.Web;
 using System.Web.Mvc;
 using MbUnit.Framework;
 using Moq;
@@ -11,11 +11,12 @@ namespace UnitTests.Subtext.Framework.ActionResults
     public class NotModifiedResultTests
     {
         [Test]
-        public void NotModifiedResultSends304StatusCodeAndSuppressesContent() {
+        public void NotModifiedResultSends304StatusCodeAndSuppressesContent()
+        {
             // arrange
             var result = new NotModifiedResult();
             var httpContext = new Mock<HttpContextBase>();
-            
+
             httpContext.Stub(h => h.Response.StatusCode);
             httpContext.Stub(h => h.Response.SuppressContent);
             var controllerContext = new ControllerContext();

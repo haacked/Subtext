@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,44 +12,43 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System.Collections.Generic;
+using System;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using System;
-using Subtext.Extensibility.Interfaces;
 
 namespace Subtext.Web.Admin.Pages
 {
     public partial class Customize : AdminOptionsPage
     {
+        bool containsTags;
         private int pageIndex = 0;
 
-        protected override void OnLoad(System.EventArgs e)
+        protected bool ContainsTags
         {
-            if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
-                this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+            get { return containsTags; }
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            if(null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
+            {
+                pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+            }
 
             base.OnLoad(e);
         }
 
-        protected bool ContainsTags
-        {
-            get
-            {
-                return this.containsTags;
-            }
-        }
-        bool containsTags;
-
         protected override void BindLocalUI()
         {
             Blog blog = Config.CurrentBlog;
-            IPagedCollection<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, this.pageIndex, this.resultsPager.PageSize);
+            IPagedCollection<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, pageIndex, resultsPager.PageSize);
 
-            this.containsTags = tags.Count > 0;
+            containsTags = tags.Count > 0;
 
             // we want to databind either way so we can alter the DOM via JavaScript and AJAX requests.
             MetatagRepeater.DataSource = tags;
@@ -56,33 +56,33 @@ namespace Subtext.Web.Admin.Pages
 
             resultsPager.ItemCount = tags.MaxItems;
             resultsPager.PageSize = Preferences.ListingItemCount;
-            resultsPager.PageIndex = this.pageIndex;
+            resultsPager.PageIndex = pageIndex;
 
             base.BindLocalUI();
         }
 
         protected static MetaTag EvalTag(object dataItem)
         {
-            return (MetaTag) dataItem;
+            return (MetaTag)dataItem;
         }
 
         protected static string EvalName(object dataItem)
         {
-            MetaTag tag = dataItem as MetaTag;
+            var tag = dataItem as MetaTag;
 
             return tag == null ? string.Empty : tag.Name;
         }
 
         protected static string EvalContent(object dataItem)
         {
-            MetaTag tag = dataItem as MetaTag;
+            var tag = dataItem as MetaTag;
 
             return tag == null ? string.Empty : tag.Content;
         }
 
         protected static string EvalHttpEquiv(object dataItem)
         {
-            MetaTag tag = dataItem as MetaTag;
+            var tag = dataItem as MetaTag;
 
             return tag == null ? string.Empty : tag.HttpEquiv;
         }

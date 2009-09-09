@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,42 +12,39 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
-using System.Web;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
-using Subtext.Framework.Providers;
+using Image=Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.UI.Controls
 {
-    public partial class AggRecentImages : AggregateUserControl
+    public class AggRecentImages : AggregateUserControl
     {
         protected Repeater recentImagesRepeater;
-        
+
         /// <summary>
         /// Prroperty to limit the number of images displayed. Default is 35.
         /// </summary>
-        public int Count
-        {
-            get;
-            set;
-        }
+        public int Count { get; set; }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
             int? groupId = GetGroupIdFromQueryString();
 
-            var images = Repository.GetImages(HostInfo.Instance.AggregateBlog.Host, groupId, Count);
+            ICollection<Image> images = Repository.GetImages(HostInfo.Instance.AggregateBlog.Host, groupId, Count);
             recentImagesRepeater.DataSource = images;
             recentImagesRepeater.DataBind();
         }
 
-        protected Subtext.Framework.Components.Image GetImage(object dataItem)
+        protected Image GetImage(object dataItem)
         {
-            return dataItem as Subtext.Framework.Components.Image;
+            return dataItem as Image;
         }
 
         protected string ImageUrl(object image)

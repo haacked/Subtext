@@ -1,4 +1,4 @@
-﻿using System.Web.Routing;
+using System.Web.Routing;
 using Ninject;
 
 namespace Subtext.Framework.Routing
@@ -11,10 +11,10 @@ namespace Subtext.Framework.Routing
             DirectoryName = directoryName;
         }
 
-        public string DirectoryName
-        {
-            get;
-            private set;
-        }
+        #region IDirectoryRoute Members
+
+        public string DirectoryName { get; private set; }
+
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,25 +12,21 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
-using log4net;
 using Subtext.Configuration;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Logging;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Text;
-using Subtext.Framework.Services;
 using Subtext.Framework.Emoticons;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Services;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework
 {
@@ -39,19 +36,18 @@ namespace Subtext.Framework
     /// </summary>
     public static class Entries
     {
-        private readonly static ILog log = new Log();
-
         /// <summary>
         /// Returns a collection of Posts for a give page and index size.
         /// </summary>
         /// <param name="postType"></param>
-        /// <param name="categoryID">-1 means not to filter by a categoryID</param>
+        /// <param name="categoryId">-1 means not to filter by a categoryID</param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public static IPagedCollection<EntryStatsView> GetPagedEntries(PostType postType, int? categoryID, int pageIndex, int pageSize)
+        public static IPagedCollection<EntryStatsView> GetPagedEntries(PostType postType, int? categoryId, int pageIndex,
+                                                                       int pageSize)
         {
-            return ObjectProvider.Instance().GetPagedEntries(postType, categoryID, pageIndex, pageSize);
+            return ObjectProvider.Instance().GetPagedEntries(postType, categoryId, pageIndex, pageSize);
         }
 
         public static EntryDay GetSingleDay(DateTime dt)
@@ -84,10 +80,105 @@ namespace Subtext.Framework
             return ObjectProvider.Instance().GetBlogPosts(itemCount, pc);
         }
 
-        public static ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID)
+        public static ICollection<EntryDay> GetPostsByCategoryId(int itemCount, int categoryId)
         {
-            return ObjectProvider.Instance().GetPostsByCategoryID(itemCount, catID);
+            return ObjectProvider.Instance().GetPostsByCategoryID(itemCount, categoryId);
         }
+
+        public static IEnumerable<int> GetCategoryIdsFromCategoryTitles(Entry entry)
+        {
+            var categoryIds = new Collection<int>();
+            //Ok, we have categories specified in the entry, but not the IDs.
+            //We need to do something.
+            foreach(string category in entry.Categories)
+            {
+                LinkCategory cat = ObjectProvider.Instance().GetLinkCategory(category, true);
+                if(cat != null)
+                {
+                    categoryIds.Add(cat.Id);
+                }
+            }
+
+            return categoryIds;
+        }
+
+        /// <summary>
+        /// Updates the specified entry in the data provider.
+        /// </summary>
+        /// <param name="entry">Entry.</param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static void Update(Entry entry, ISubtextContext context)
+        {
+            if(entry == null)
+            {
+                throw new ArgumentNullException("entry");
+            }
+
+            if(NullValue.IsNull(entry.DateSyndicated) && entry.IsActive && entry.IncludeInMainSyndication)
+            {
+                entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
+            }
+
+            Update(entry, context, null /* categoryIds */);
+        }
+
+        /// <summary>
+        /// Updates the specified entry in the data provider 
+        /// and attaches the specified categories.
+        /// </summary>
+        /// <param name="entry">Entry.</param>
+        /// <param name="context"></param>
+        /// <param name="categoryIds">Category Ids this entry belongs to.</param>
+        /// <returns></returns>
+        public static void Update(Entry entry, ISubtextContext context, IEnumerable<int> categoryIds)
+        {
+            if(entry == null)
+            {
+                throw new ArgumentNullException("entry");
+            }
+            ObjectProvider repository = ObjectProvider.Instance();
+            var transform = new CompositeTextTransformation
+            {
+                new XhtmlConverter(),
+                new EmoticonsTransformation(context),
+                new KeywordExpander(repository)
+            };
+            //TODO: Maybe use a INinjectParameter to control this.
+            var publisher = new EntryPublisher(context, transform, new SlugGenerator(FriendlyUrlSettings.Settings));
+            publisher.Publish(entry);
+        }
+
+        #region Entry Category List
+
+        /// <summary>
+        /// Sets the categories for this entry.
+        /// </summary>
+        /// <param name="entryId">The entry id.</param>
+        /// <param name="categories">The categories.</param>
+        public static void SetEntryCategoryList(int entryId, IEnumerable<int> categories)
+        {
+            ObjectProvider.Instance().SetEntryCategoryList(entryId, categories);
+        }
+
+        #endregion
+
+        #region Tag Utility Functions
+
+        public static bool RebuildAllTags()
+        {
+            foreach(EntryDay day in GetBlogPosts(0, PostConfig.None))
+            {
+                foreach(Entry e in day)
+                {
+                    ObjectProvider.Instance().SetEntryTagList(e.Id, e.Body.ParseTags());
+                }
+            }
+            return true;
+        }
+
+        #endregion
+
         #region EntryCollections
 
         /// <summary>
@@ -97,7 +188,9 @@ namespace Subtext.Framework
         /// <returns></returns>
         public static ICollection<Entry> GetMainSyndicationEntries(int itemCount)
         {
-            return GetRecentPosts(itemCount, PostType.BlogPost, PostConfig.IncludeInMainSyndication | PostConfig.IsActive, true /* includeCategories */);
+            return GetRecentPosts(itemCount, PostType.BlogPost,
+                                  PostConfig.IncludeInMainSyndication | PostConfig.IsActive, true
+                /* includeCategories */);
         }
 
         /// <summary>
@@ -119,7 +212,8 @@ namespace Subtext.Framework
         /// <param name="postConfig"></param>
         /// <param name="includeCategories"></param>
         /// <returns></returns>
-        public static ICollection<Entry> GetRecentPosts(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories)
+        public static ICollection<Entry> GetRecentPosts(int itemCount, PostType postType, PostConfig postConfig,
+                                                        bool includeCategories)
         {
             return ObjectProvider.Instance().GetEntries(itemCount, postType, postConfig, includeCategories);
         }
@@ -135,20 +229,22 @@ namespace Subtext.Framework
             return ObjectProvider.Instance().GetPostsByMonth(month, year);
         }
 
-        public static ICollection<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly)
+        public static ICollection<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType,
+                                                            bool activeOnly)
         {
             return ObjectProvider.Instance().GetPostsByDayRange(start, stop, postType, activeOnly);
         }
 
-        public static ICollection<Entry> GetEntriesByCategory(int itemCount, int catID, bool activeOnly)
+        public static ICollection<Entry> GetEntriesByCategory(int itemCount, int categoryId, bool activeOnly)
         {
-            return ObjectProvider.Instance().GetEntriesByCategory(itemCount, catID, activeOnly);
+            return ObjectProvider.Instance().GetEntriesByCategory(itemCount, categoryId, activeOnly);
         }
 
         public static ICollection<Entry> GetEntriesByTag(int itemCount, string tagName)
         {
             return ObjectProvider.Instance().GetEntriesByTag(itemCount, tagName);
         }
+
         #endregion
 
         #region Single Entry
@@ -177,105 +273,7 @@ namespace Subtext.Framework
             bool isActive = ((postConfig & PostConfig.IsActive) == PostConfig.IsActive);
             return ObjectProvider.Instance().GetEntry(entryId, isActive, includeCategories);
         }
-        #endregion
-
-        #region Create
-        public static IEnumerable<int> GetCategoryIdsFromCategoryTitles(Entry entry)
-        {
-            int[] categoryIds;
-            Collection<int> catIds = new Collection<int>();
-            //Ok, we have categories specified in the entry, but not the IDs.
-            //We need to do something.
-            foreach (string category in entry.Categories)
-            {
-                LinkCategory cat = ObjectProvider.Instance().GetLinkCategory(category, true);
-                if (cat != null)
-                {
-                    catIds.Add(cat.Id);
-                }
-            }
-            categoryIds = new int[catIds.Count];
-            catIds.CopyTo(categoryIds, 0);
-            return categoryIds;
-        }
-
-        #endregion
-
-        #region Update
-
-        /// <summary>
-        /// Updates the specified entry in the data provider.
-        /// </summary>
-        /// <param name="entry">Entry.</param>
-        /// <returns></returns>
-        public static void Update(Entry entry, ISubtextContext context)
-        {
-            if (entry == null)
-                throw new ArgumentNullException("entry");
-
-            if (NullValue.IsNull(entry.DateSyndicated) && entry.IsActive && entry.IncludeInMainSyndication)
-                entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
-
-            Update(entry, context, null /* categoryIds */);
-        }
-
-        /// <summary>
-        /// Updates the specified entry in the data provider 
-        /// and attaches the specified categories.
-        /// </summary>
-        /// <param name="entry">Entry.</param>
-        /// <param name="categoryIDs">Category Ids this entry belongs to.</param>
-        /// <returns></returns>
-        public static void Update(Entry entry, ISubtextContext context, IEnumerable<int> categoryIds)
-        {
-            if (entry == null)
-            {
-                throw new ArgumentNullException("entry");
-            }
-            var repository = ObjectProvider.Instance();
-            var transform = new CompositeTextTransformation();
-            transform.Add(new XhtmlConverter());
-            transform.Add(new EmoticonsTransformation(context));
-            //TODO: Maybe use a INinjectParameter to control this.
-            transform.Add(new KeywordExpander(repository));
-            EntryPublisher publisher = new EntryPublisher(context, null, new SlugGenerator(FriendlyUrlSettings.Settings));
-            publisher.Publish(entry);
-        }
-
-        #endregion
-
-        #region Entry Category List
-
-        /// <summary>
-        /// Sets the categories for this entry.
-        /// </summary>
-        /// <param name="entryId">The entry id.</param>
-        /// <param name="categories">The categories.</param>
-        public static void SetEntryCategoryList(int entryId, IEnumerable<int> categories)
-        {
-            ObjectProvider.Instance().SetEntryCategoryList(entryId, categories);
-        }
-
-        #endregion
-
-        #region Tag Utility Functions
-
-        public static bool RebuildAllTags()
-        {
-            foreach (EntryDay day in GetBlogPosts(0, PostConfig.None))
-            {
-                foreach (Entry e in day)
-                {
-                    ObjectProvider.Instance().SetEntryTagList(e.Id, HtmlHelper.ParseTags(e.Body));
-                }
-            }
-            return true;
-        }
 
         #endregion
     }
 }
-
-
-
-

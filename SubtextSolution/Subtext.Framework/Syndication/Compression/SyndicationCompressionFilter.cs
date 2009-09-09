@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,56 +12,58 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
 using System.IO;
 
 namespace Subtext.Framework.Syndication.Compression
 {
-	public class SyndicationCompressionFilter
-	{
-		private string _encoding;
-		private Stream _stream;
+    public class SyndicationCompressionFilter
+    {
+        private readonly string _encoding;
+        private readonly Stream _stream;
 
-		/*-- Constructors --*/
+        #region -- Constructor(Stream) --
 
-		#region -- Constructor(Stream) --
-		public SyndicationCompressionFilter(Stream stream)
-		{
-			_stream = stream;
-			_encoding = null;
-		}
-		#endregion
+        public SyndicationCompressionFilter(Stream stream)
+        {
+            _stream = stream;
+            _encoding = null;
+        }
 
-		#region -- Constructor(Stream, encoding) --
-		public SyndicationCompressionFilter(Stream stream, string encoding)
-		{
-			_stream = stream;
-			_encoding = encoding;
-		}
-		#endregion
+        #endregion
 
-		/*-- Properties --*/
+        #region -- Constructor(Stream, encoding) --
 
-		#region -- ContentEncoding Property --
-		public string ContentEncoding
-		{
-			get
-			{
-				return _encoding;
-			}
-		}
-		#endregion
+        public SyndicationCompressionFilter(Stream stream, string encoding)
+        {
+            _stream = stream;
+            _encoding = encoding;
+        }
 
-		#region -- Filter Property --
-		public Stream Filter
-		{
-			get
-			{
-				return _stream;
-			}
-		}
-		#endregion
-	}
+        #endregion
+
+        #region -- ContentEncoding Property --
+
+        public string ContentEncoding
+        {
+            get { return _encoding; }
+        }
+
+        #endregion
+
+        #region -- Filter Property --
+
+        public Stream Filter
+        {
+            get { return _stream; }
+        }
+
+        #endregion
+
+        /*-- Constructors --*/
+
+        /*-- Properties --*/
+    }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
@@ -24,8 +24,10 @@ namespace UnitTests.Subtext.Framework.Routing
             var requestContext = new RequestContext(httpContext.Object, routeData);
 
             //act
-            var virtualPath = route.GetVirtualPath(requestContext
-                , new RouteValueDictionary(new { pathInfo = "posts/foo.aspx" }));
+            VirtualPathData virtualPath = route.GetVirtualPath(requestContext
+                                                               ,
+                                                               new RouteValueDictionary(
+                                                                   new {pathInfo = "posts/foo.aspx"}));
 
             //assert
             Assert.IsNotNull(virtualPath);
@@ -45,8 +47,10 @@ namespace UnitTests.Subtext.Framework.Routing
             var requestContext = new RequestContext(httpContext.Object, routeData);
 
             //act
-            var virtualPath = route.GetVirtualPath(requestContext
-                , new RouteValueDictionary(new { pathInfo = "posts/foo.aspx" }));
+            VirtualPathData virtualPath = route.GetVirtualPath(requestContext
+                                                               ,
+                                                               new RouteValueDictionary(
+                                                                   new {pathInfo = "posts/foo.aspx"}));
 
             //assert
             Assert.IsNotNull(virtualPath);
@@ -57,7 +61,8 @@ namespace UnitTests.Subtext.Framework.Routing
         public void Ctor_WithDirectoryNameArg_AppendsPathInfoCatchAll()
         {
             //arrange, act
-            DirectoryRoute route = new DirectoryRoute("dir", new Mock<IKernel>().Object); ;
+            var route = new DirectoryRoute("dir", new Mock<IKernel>().Object);
+            ;
 
             //assert
             Assert.AreEqual("dir/{*pathInfo}", route.Url);
@@ -67,7 +72,8 @@ namespace UnitTests.Subtext.Framework.Routing
         public void Ctor_WithDirectoryNameArg_SetsDirectoryName()
         {
             //arrange, act
-            DirectoryRoute route = new DirectoryRoute("dir", new Mock<IKernel>().Object); ;
+            var route = new DirectoryRoute("dir", new Mock<IKernel>().Object);
+            ;
 
             //assert
             Assert.AreEqual("dir", route.DirectoryName);
@@ -77,13 +83,14 @@ namespace UnitTests.Subtext.Framework.Routing
         public void GetRouteData_MatchingTheImplicitSubfolderRoute_ReturnsParentDirectoryRoute()
         {
             //arrange
-            var route = new DirectoryRoute("dir", new Mock<IKernel>().Object); ;
+            var route = new DirectoryRoute("dir", new Mock<IKernel>().Object);
+            ;
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/dir/foo.aspx");
             var blogRequest = new BlogRequest("localhost", "subfolder", new Uri("http://localhost"), false);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object, blogRequest);
+            RouteData routeData = route.GetRouteData(httpContext.Object, blogRequest);
 
             //assert
             Assert.AreEqual(route, routeData.Route);

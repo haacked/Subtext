@@ -3,10 +3,8 @@ using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Util;
 
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
-
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -19,30 +17,28 @@ using Subtext.Framework.Format;
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Web.UI.Controls
 {
-	using System;
+    /// <summary>
+    ///		Summary description for ArchiveMonth.
+    /// </summary>
+    public class ArchiveCategory : BaseControl
+    {
+        protected DayCollection Days;
+        protected Literal Title;
 
-	/// <summary>
-	///		Summary description for ArchiveMonth.
-	/// </summary>
-	public  class ArchiveCategory : BaseControl
-	{
-		protected Literal Title;
-		protected DayCollection Days;
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
 
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad (e);
-
-		    int? categoryId = SubtextContext.RequestContext.GetIdFromRequest();
-            if (categoryId != null)
+            int? categoryId = SubtextContext.RequestContext.GetIdFromRequest();
+            if(categoryId != null)
             {
-                Days.Days = Entries.GetPostsByCategoryID(Blog.ItemCount, categoryId.Value);
+                Days.Days = Entries.GetPostsByCategoryId(Blog.ItemCount, categoryId.Value);
             }
-		}
-	}
+        }
+    }
 }
-

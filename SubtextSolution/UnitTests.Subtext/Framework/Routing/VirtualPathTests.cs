@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 using MbUnit.Framework;
-using Subtext.Framework.Routing;
 using Subtext.Framework;
+using Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -19,7 +16,8 @@ namespace UnitTests.Subtext.Framework.Routing
             {
                 new VirtualPath(null);
             }
-            catch (ArgumentNullException) {
+            catch(ArgumentNullException)
+            {
                 return;
             }
 
@@ -31,7 +29,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void VirtualPath_WithFragment_SetsFragmentPropertyWithFragment()
         {
             //arrange
-            VirtualPath vp = new VirtualPath("/foo#bar");
+            var vp = new VirtualPath("/foo#bar");
 
             //assert
             Assert.AreEqual("/foo#bar", vp.ToString());
@@ -42,16 +40,17 @@ namespace UnitTests.Subtext.Framework.Routing
         public void VirtualPath_WithSpecialPoundSequence_ReplacesSequenceWithEncodedPoundSign()
         {
             //arrange
-            VirtualPath vp = new VirtualPath("/foo%7B:#:%7Dbar/");
+            var vp = new VirtualPath("/foo%7B:#:%7Dbar/");
 
             //assert
             Assert.AreEqual("/foo%23bar/", vp.ToString());
         }
 
         [Test]
-        public void VirtualPathHasImplicitConversionToString() { 
+        public void VirtualPathHasImplicitConversionToString()
+        {
             //arrange
-            VirtualPath vp = new VirtualPath("/foo");
+            var vp = new VirtualPath("/foo");
 
             //act
             string s = vp;
@@ -97,7 +96,7 @@ namespace UnitTests.Subtext.Framework.Routing
             VirtualPath vp = "/foo";
 
             //act
-            vp.ToFullyQualifiedUrl(new Blog { Host = "localhost" });
+            vp.ToFullyQualifiedUrl(new Blog {Host = "localhost"});
 
             //assert
             Assert.AreEqual("/foo", (string)vp);
@@ -106,13 +105,13 @@ namespace UnitTests.Subtext.Framework.Routing
         [Test]
         public void ToFullyQualifiedUrl_WithQueryString_ReturnsUriWithQueryString()
         {
-            Uri x = new Uri("/foo", UriKind.Relative);
+            var x = new Uri("/foo", UriKind.Relative);
             Console.WriteLine(x.ToString());
             //arrange
             VirtualPath vp = "/foo?a=b";
 
             //act
-            Uri uri = vp.ToFullyQualifiedUrl(new Blog { Host = "localhost" });
+            Uri uri = vp.ToFullyQualifiedUrl(new Blog {Host = "localhost"});
 
             //assert
             Assert.AreEqual("?a=b", uri.Query);

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -37,7 +39,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void OnInit(EventArgs e)
         {
-            this.Load += this.Page_Load;
+            Load += Page_Load;
             base.OnInit(e);
         }
 
@@ -48,16 +50,18 @@ namespace Subtext.Web.Admin.Pages
 
         protected void btnLoad_Click(object sender, EventArgs e)
         {
-            if (Page.IsValid)
+            if(Page.IsValid)
             {
                 try
                 {
                     //Temporarily extend script timeout for large BlogML imports
-                    if (Server.ScriptTimeout < 3600)
+                    if(Server.ScriptTimeout < 3600)
+                    {
                         Server.ScriptTimeout = 3600;
+                    }
                     LoadBlogML();
                 }
-                catch (InvalidOperationException)
+                catch(InvalidOperationException)
                 {
                     Messages.ShowError(Resources.ImportExport_InvalidBlogMLFile, true);
                 }
@@ -68,7 +72,8 @@ namespace Subtext.Web.Admin.Pages
         {
             ISubtextContext context = SubtextContext;
             var commentService = new CommentService(context, null);
-            var provider = new SubtextBlogMLProvider(Config.ConnectionString, context, commentService, context.GetService<IEntryPublisher>());
+            var provider = new SubtextBlogMLProvider(Config.ConnectionString, context, commentService,
+                                                     context.GetService<IEntryPublisher>());
 
             BlogMLReader bmlReader = BlogMLReader.Create(provider);
 
@@ -76,7 +81,7 @@ namespace Subtext.Web.Admin.Pages
             {
                 bmlReader.ReadBlog(importBlogMLFile.PostedFile.InputStream);
             }
-            catch (BlogImportException bie)
+            catch(BlogImportException bie)
             {
                 log.Error(Resources.ImportExport_ImportFailed, bie);
                 Messages.ShowError(bie.Message, true);
@@ -91,7 +96,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected void btnClearContent_Click(object sender, EventArgs e)
         {
-            if (chkClearContent.Checked)
+            if(chkClearContent.Checked)
             {
                 chkClearContent.Checked = false;
                 chkClearContent.Visible = false;
@@ -101,9 +106,9 @@ namespace Subtext.Web.Admin.Pages
                 msgpnlClearContent.ShowMessage(Resources.ImportExport_ContentObliterated);
             }
             else
+            {
                 msgpnlClearContent.ShowError(Resources.ImportExport_CheckContinueToClearContent);
+            }
         }
     }
 }
-
-

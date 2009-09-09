@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,43 +12,45 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.IO;
-using Subtext.Framework;
+using System.Web.UI.WebControls;
+using FreeTextBoxControls;
 using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.Admin
 {
-	/// <summary>
-	/// Implements the FreeTextBox image gallery.
-	/// </summary>
-	public class ftb_imagegallery : SubtextPage
-	{
-		protected FreeTextBoxControls.ImageGallery imageGallery;
-        protected System.Web.UI.WebControls.PlaceHolder errorMsg;
-        protected System.Web.UI.WebControls.Label folderName;
+    /// <summary>
+    /// Implements the FreeTextBox image gallery.
+    /// </summary>
+    public class ftb_imagegallery : SubtextPage
+    {
+        protected PlaceHolder errorMsg;
+        protected Label folderName;
+        protected ImageGallery imageGallery;
 
         protected override void OnLoad(EventArgs e)
         {
             string imageDirectoryPath = Url.ImageDirectoryPath(Blog);
             try
             {
-                if (!Directory.Exists(imageDirectoryPath))
+                if(!Directory.Exists(imageDirectoryPath))
                 {
                     Directory.CreateDirectory(imageDirectoryPath);
                 }
             }
-            catch (Exception)
+            catch(Exception)
             {
                 imageGallery.Visible = false;
                 errorMsg.Visible = true;
                 folderName.Text = imageDirectoryPath;
             }
 
-			//TODO: Fix this up....
-			/*
+            //TODO: Fix this up....
+            /*
 			string currentFolder = imageGallery.CurrentImagesFolder;
 	
 			// modify the directories allowed
@@ -82,6 +85,6 @@ namespace Subtext.Web.Admin
 			}	
 			*/
             base.OnLoad(e);
-		}
-	}
+        }
+    }
 }

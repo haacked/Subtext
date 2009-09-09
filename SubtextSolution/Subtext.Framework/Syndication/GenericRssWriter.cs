@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -35,7 +37,8 @@ namespace Subtext.Framework.Syndication
         /// Creates a new <see cref="BaseRssWriter"/> instance.
         /// </summary>
         /// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-        protected GenericRssWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context)
+        protected GenericRssWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding,
+                                   ISubtextContext context)
             : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
         {
         }
@@ -45,7 +48,7 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         protected override void Build()
         {
-            Build(this.DateLastViewedFeedItemPublished);
+            Build(DateLastViewedFeedItemPublished);
         }
 
         /// <summary>
@@ -54,7 +57,7 @@ namespace Subtext.Framework.Syndication
         /// <param name="dateLastViewedFeedItemPublished">Last id viewed.</param>
         protected override void Build(DateTime dateLastViewedFeedItemPublished)
         {
-            if (!isBuilt)
+            if(!isBuilt)
             {
                 StartDocument();
                 SetNamespaces();
@@ -72,22 +75,22 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         protected virtual void SetNamespaces()
         {
-            this.WriteAttributeString("xmlns:dc", "http://purl.org/dc/elements/1.1/");
-            this.WriteAttributeString("xmlns:trackback", "http://madskills.com/public/xml/rss/module/trackback/");
-            this.WriteAttributeString("xmlns:wfw", "http://wellformedweb.org/CommentAPI/");
-            this.WriteAttributeString("xmlns:slash", "http://purl.org/rss/1.0/modules/slash/");
+            WriteAttributeString("xmlns:dc", "http://purl.org/dc/elements/1.1/");
+            WriteAttributeString("xmlns:trackback", "http://madskills.com/public/xml/rss/module/trackback/");
+            WriteAttributeString("xmlns:wfw", "http://wellformedweb.org/CommentAPI/");
+            WriteAttributeString("xmlns:slash", "http://purl.org/rss/1.0/modules/slash/");
 
             // Copyright notice
-            this.WriteAttributeString("xmlns:copyright", "http://blogs.law.harvard.edu/tech/rss");
+            WriteAttributeString("xmlns:copyright", "http://blogs.law.harvard.edu/tech/rss");
 
-            if (Blog.LicenseUrl != null && Blog.LicenseUrl.Length > 0)
+            if(Blog.LicenseUrl != null && Blog.LicenseUrl.Length > 0)
             {
                 // Used to specify a license. Does not have to be a creative commons license.
                 // see http://backend.userland.com/creativeCommonsRssModule
-                this.WriteAttributeString("xmlns:creativeCommons", "http://backend.userland.com/creativeCommonsRssModule");
+                WriteAttributeString("xmlns:creativeCommons", "http://backend.userland.com/creativeCommonsRssModule");
             }
             // Similar to a favicon image.
-            this.WriteAttributeString("xmlns:image", "http://purl.org/rss/1.0/modules/image/");
+            WriteAttributeString("xmlns:image", "http://purl.org/rss/1.0/modules/image/");
         }
 
         /// <summary>
@@ -95,8 +98,8 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         protected virtual void StartDocument()
         {
-            this.WriteStartElement("rss");
-            this.WriteAttributeString("version", "2.0");
+            WriteStartElement("rss");
+            WriteAttributeString("version", "2.0");
         }
 
         /// <summary>
@@ -104,7 +107,7 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         protected void EndDocument()
         {
-            this.WriteEndElement();
+            WriteEndElement();
         }
 
         /// <summary>
@@ -112,7 +115,7 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         protected void StartChannel()
         {
-            this.WriteStartElement("channel");
+            WriteStartElement("channel");
         }
 
         /// <summary>
@@ -120,9 +123,10 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         protected virtual void WriteChannel()
         {
-            Uri blogUrl = new Uri(UrlHelper.BlogUrl().ToFullyQualifiedUrl(Blog), "Default.aspx");
-            RssImageElement image = new RssImageElement(GetRssImage(), Blog.Title, blogUrl, 77, 60, null);
-            BuildChannel(Blog.Title, blogUrl, Blog.Email, Blog.SubTitle, Blog.Language, Blog.Author, Blog.LicenseUrl, image);
+            var blogUrl = new Uri(UrlHelper.BlogUrl().ToFullyQualifiedUrl(Blog), "Default.aspx");
+            var image = new RssImageElement(GetRssImage(), Blog.Title, blogUrl, 77, 60, null);
+            BuildChannel(Blog.Title, blogUrl, Blog.Email, Blog.SubTitle, Blog.Language, Blog.Author, Blog.LicenseUrl,
+                         image);
         }
 
         /// <summary>
@@ -145,7 +149,8 @@ namespace Subtext.Framework.Syndication
         /// <param name="lang">The lang.</param>
         /// <param name="copyright">The copyright.</param>
         /// <param name="cclicense">The cclicense.</param>
-        protected void BuildChannel(string title, Uri url, string authorEmail, string description, string lang, string copyright, string cclicense)
+        protected void BuildChannel(string title, Uri url, string authorEmail, string description, string lang,
+                                    string copyright, string cclicense)
         {
             BuildChannel(title, url, authorEmail, description, lang, copyright, cclicense, null);
         }
@@ -161,36 +166,37 @@ namespace Subtext.Framework.Syndication
         /// <param name="copyright">The copyright.</param>
         /// <param name="cclicense">The cclicense.</param>
         /// <param name="image">An optional sub-element of channel for rendering an image for the channel.</param>
-        protected void BuildChannel(string title, Uri url, string authorEmail, string description, string lang, string copyright, string cclicense, RssImageElement image)
+        protected void BuildChannel(string title, Uri url, string authorEmail, string description, string lang,
+                                    string copyright, string cclicense, RssImageElement image)
         {
             //Required Channel Elements
-            this.WriteElementString("title", HtmlHelper.RemoveHtml(title));
-            this.WriteElementString("link", url.ToString());
-            this.WriteElementString("description", HtmlHelper.RemoveHtml(description));
+            WriteElementString("title", HtmlHelper.RemoveHtml(title));
+            WriteElementString("link", url.ToString());
+            WriteElementString("description", HtmlHelper.RemoveHtml(description));
 
             //Optional Channel Elements
-            this.WriteElementString("language", lang);
+            WriteElementString("language", lang);
             //TODO: Implement this element.
-            this.WriteElementString("copyright", copyright);
+            WriteElementString("copyright", copyright);
 
-            if (authorEmail != null
-                && authorEmail.Length > 0
-                && authorEmail.IndexOf("@") > 0
-                && authorEmail.IndexOf(".") > 0
-                && (Blog.ShowEmailAddressInRss))
+            if(authorEmail != null
+               && authorEmail.Length > 0
+               && authorEmail.IndexOf("@") > 0
+               && authorEmail.IndexOf(".") > 0
+               && (Blog.ShowEmailAddressInRss))
             {
-                this.WriteElementString("managingEditor", authorEmail);
+                WriteElementString("managingEditor", authorEmail);
             }
 
             //TODO: <category>One or more categories</category>
-            this.WriteElementString("generator", VersionInfo.VersionDisplayText);
+            WriteElementString("generator", VersionInfo.VersionDisplayText);
 
-            if (cclicense != null && cclicense.Length > 0)
+            if(cclicense != null && cclicense.Length > 0)
             {
-                this.WriteElementString("creativeCommons:license", cclicense);
+                WriteElementString("creativeCommons:license", cclicense);
             }
 
-            if (image != null)
+            if(image != null)
             {
                 image.WriteToXmlWriter(this);
             }
@@ -198,18 +204,18 @@ namespace Subtext.Framework.Syndication
 
         protected void EndChannel()
         {
-            this.WriteEndElement();
+            WriteEndElement();
         }
 
         private void WriteEntries()
         {
             BlogConfigurationSettings settings = Config.Settings;
             ClientHasAllFeedItems = true;
-            LatestPublishDate = this.DateLastViewedFeedItemPublished;
+            LatestPublishDate = DateLastViewedFeedItemPublished;
 
-            foreach (T entry in this.Items)
+            foreach(T entry in Items)
             {
-                if (UseDeltaEncoding && GetSyndicationDate(entry) <= DateLastViewedFeedItemPublished)
+                if(UseDeltaEncoding && GetSyndicationDate(entry) <= DateLastViewedFeedItemPublished)
                 {
                     // Since Entries are ordered by DatePublished descending, as soon 
                     // as we encounter one that is smaller than or equal to 
@@ -221,10 +227,10 @@ namespace Subtext.Framework.Syndication
 
                 // If we're here, we know that entry.EntryId is larger than 
                 // the LastViewedFeedItemId.  Thus we can send it.
-                this.WriteStartElement("item");
+                WriteStartElement("item");
                 EntryXml(entry, settings);
-                this.WriteEndElement();
-                if (GetSyndicationDate(entry) > LatestPublishDate)
+                WriteEndElement();
+                if(GetSyndicationDate(entry) > LatestPublishDate)
                 {
                     LatestPublishDate = GetSyndicationDate(entry);
                 }
@@ -247,67 +253,74 @@ namespace Subtext.Framework.Syndication
         protected virtual void EntryXml(T item, BlogConfigurationSettings settings)
         {
             //core
-            this.WriteElementString("title", GetTitleFromItem(item));
+            WriteElementString("title", GetTitleFromItem(item));
 
             ICollection<string> categories = GetCategoriesFromItem(item);
-            if (categories != null)
+            if(categories != null)
             {
-                foreach (string category in categories)
+                foreach(string category in categories)
                 {
-                    this.WriteElementString("category", category);
+                    WriteElementString("category", category);
                 }
             }
 
             string fullUrl = GetLinkFromItem(item);
 
-            this.WriteElementString("link", fullUrl);
-            this.WriteElementString
-            (
+            WriteElementString("link", fullUrl);
+            WriteElementString
+                (
                 "description", //Tag
                 string.Format
-                (
-                    CultureInfo.InvariantCulture, 
+                    (
+                    CultureInfo.InvariantCulture,
                     "{0}{1}", //tag def
-                    GetBodyFromItem(item), (UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(GetAggBugUrl(item)) : null //use aggbugs
-                )
-            );
+                    GetBodyFromItem(item),
+                    (UseAggBugs && settings.Tracking.EnableAggBugs)
+                        ? TrackingUrls.AggBugImage(GetAggBugUrl(item))
+                        : null //use aggbugs
+                    )
+                );
 
             string author = GetAuthorFromItem(item);
-            if (!String.IsNullOrEmpty(author))
+            if(!String.IsNullOrEmpty(author))
             {
-                this.WriteElementString("dc:creator", author);
+                WriteElementString("dc:creator", author);
             }
 
-            this.WriteElementString("guid", GetGuid(item));
-            this.WriteElementString("pubDate", GetPublishedDateUtc(item).ToString("r", CultureInfo.InvariantCulture));
+            WriteElementString("guid", GetGuid(item));
+            WriteElementString("pubDate", GetPublishedDateUtc(item).ToString("r", CultureInfo.InvariantCulture));
 
-            if (ItemCouldContainComments(item))
+            if(ItemCouldContainComments(item))
             {
-                if (AllowComments && Blog.CommentsEnabled && ItemAllowsComments(item) && !CommentsClosedOnItem(item))
+                if(AllowComments && Blog.CommentsEnabled && ItemAllowsComments(item) && !CommentsClosedOnItem(item))
                 {
                     // Comment API (http://wellformedweb.org/story/9)
-                    this.WriteElementString("wfw:comment", GetCommentApiUrl(item));
+                    WriteElementString("wfw:comment", GetCommentApiUrl(item));
                 }
 
-                this.WriteElementString("comments", fullUrl + "#feedback");
+                WriteElementString("comments", fullUrl + "#feedback");
 
-                if (GetFeedbackCount(item) > 0)
-                    this.WriteElementString("slash:comments", GetFeedbackCount(item).ToString(CultureInfo.InvariantCulture));
+                if(GetFeedbackCount(item) > 0)
+                {
+                    WriteElementString("slash:comments", GetFeedbackCount(item).ToString(CultureInfo.InvariantCulture));
+                }
 
-                this.WriteElementString("wfw:commentRss", GetCommentRssUrl(item));
+                WriteElementString("wfw:commentRss", GetCommentRssUrl(item));
 
-                if (Blog.TrackbacksEnabled)
-                    this.WriteElementString("trackback:ping", GetTrackBackUrl(item));
+                if(Blog.TrackbacksEnabled)
+                {
+                    WriteElementString("trackback:ping", GetTrackBackUrl(item));
+                }
             }
 
             EnclosureItem encItem = GetEnclosureFromItem(item);
-            if (encItem != null)
+            if(encItem != null)
             {
-                this.WriteStartElement("enclosure");
-                this.WriteAttributeString("url", encItem.Url);
-                this.WriteAttributeString("length", encItem.Size.ToString(CultureInfo.InvariantCulture));
-                this.WriteAttributeString("type", encItem.MimeType);
-                this.WriteEndElement();
+                WriteStartElement("enclosure");
+                WriteAttributeString("url", encItem.Url);
+                WriteAttributeString("length", encItem.Size.ToString(CultureInfo.InvariantCulture));
+                WriteAttributeString("type", encItem.MimeType);
+                WriteEndElement();
             }
         }
 
@@ -403,25 +416,17 @@ namespace Subtext.Framework.Syndication
         /// <returns></returns>
         protected abstract EnclosureItem GetEnclosureFromItem(T item);
 
+        #region Nested type: EnclosureItem
+
         protected class EnclosureItem
         {
-            public string MimeType
-            {
-                get;
-                set;
-            }
+            public string MimeType { get; set; }
 
-            public long Size
-            {
-                get;
-                set;
-            }
+            public long Size { get; set; }
 
-            public string Url
-            {
-                get;
-                set;
-            }
+            public string Url { get; set; }
         }
+
+        #endregion
     }
 }

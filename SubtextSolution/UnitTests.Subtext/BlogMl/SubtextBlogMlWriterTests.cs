@@ -1,24 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
+using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml;
 using BlogML.Xml;
 using MbUnit.Framework;
 using Moq;
 using Subtext.BlogML;
-using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Routing;
-using Subtext.Framework.Web.HttpModules;
-using Subtext.ImportExport;
-using System.Collections.ObjectModel;
-using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Services;
+using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogML
 {
@@ -36,7 +27,7 @@ namespace UnitTests.Subtext.BlogML
         public void CanWritePostWithCategory()
         {
             //arrange
-            Blog blog = new Blog
+            var blog = new Blog
             {
                 Id = 1975,
                 Title = "The Title Of This Blog",
@@ -61,25 +52,26 @@ namespace UnitTests.Subtext.BlogML
             subtextContext.Setup(c => c.UrlHelper.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
             subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
             subtextContext.Setup(c => c.Blog).Returns(blog);
-            TestBlogMlProvider provider = new TestBlogMlProvider(subtextContext.Object);
+            var provider = new TestBlogMlProvider(subtextContext.Object);
             BlogMLWriter writer = BlogMLWriter.Create(provider);
-            StringWriter stringWriter = new StringWriter();
+            var stringWriter = new StringWriter();
 
             //act
-            using (XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter))
+            using(var xmlWriter = new XmlTextWriter(stringWriter))
             {
                 writer.Write(xmlWriter);
             }
 
             //assert
-            XmlDocument xml = new XmlDocument();
+            var xml = new XmlDocument();
             xml.LoadXml(stringWriter.ToString());
 
-            XmlNamespaceManager nsmgr = new XmlNamespaceManager(xml.NameTable);
+            var nsmgr = new XmlNamespaceManager(xml.NameTable);
             nsmgr.AddNamespace("bml", "http://www.blogml.com/2006/09/BlogML");
 
             Assert.AreEqual("1", xml.SelectSingleNode("/bml:blog/bml:categories/bml:category/@id", nsmgr).InnerText);
-            Assert.AreEqual("Test Category", xml.SelectSingleNode("/bml:blog/bml:categories/bml:category/bml:title", nsmgr).InnerText);
+            Assert.AreEqual("Test Category",
+                            xml.SelectSingleNode("/bml:blog/bml:categories/bml:category/bml:title", nsmgr).InnerText);
         }
 
         //[Test]
@@ -149,24 +141,27 @@ namespace UnitTests.Subtext.BlogML
 
 
         //Temporary hack to get this test to pass while we refactor.
+
+        #region Nested type: TestBlogMlProvider
+
         internal class TestBlogMlProvider : SubtextBlogMLProvider
         {
             public TestBlogMlProvider(ISubtextContext context)
-                : base("connection string", context, new CommentService(context, null), context.GetService<IEntryPublisher>())
+                : base(
+                    "connection string", context, new CommentService(context, null),
+                    context.GetService<IEntryPublisher>())
             {
                 BlogMLPosts = new PagedCollection<BlogMLPost>();
             }
+
+            public IPagedCollection<BlogMLPost> BlogMLPosts { get; private set; }
 
             public override IPagedCollection<BlogMLPost> GetBlogPosts(string blogId, int pageIndex, int pageSize)
             {
                 return BlogMLPosts;
             }
-
-            public IPagedCollection<BlogMLPost> BlogMLPosts
-            {
-                get;
-                private set;
-            }
         }
+
+        #endregion
     }
 }

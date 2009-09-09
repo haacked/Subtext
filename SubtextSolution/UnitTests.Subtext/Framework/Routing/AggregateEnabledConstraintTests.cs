@@ -1,6 +1,5 @@
-﻿using MbUnit.Framework;
+using MbUnit.Framework;
 using Subtext.Framework.Routing;
-using Subtext.Framework;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -8,7 +7,8 @@ namespace UnitTests.Subtext.Framework.Routing
     public class AggregateEnabledConstraintTests
     {
         [Test]
-        public void ConstraintWithTrue_WithSettingSetToTrue_ReturnsTrue() { 
+        public void ConstraintWithTrue_WithSettingSetToTrue_ReturnsTrue()
+        {
             //arrange
             var constraint = new AggregateEnabledConstraint(null, true);
 

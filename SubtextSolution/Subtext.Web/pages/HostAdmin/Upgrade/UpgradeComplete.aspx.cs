@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,39 +12,41 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 
 namespace Subtext.Web.HostAdmin.Upgrade
 {
-	/// <summary>
-	/// Summary description for InstallationComplete.
-	/// </summary>
-	public partial class UpgradeComplete : HostAdminPage
-	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
-		}
+    /// <summary>
+    /// Summary description for InstallationComplete.
+    /// </summary>
+    public partial class UpgradeComplete : HostAdminPage
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+        }
 
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
+        #region Web Form Designer generated code
 
-		}
-		#endregion
-	}
+        override protected void OnInit(EventArgs e)
+        {
+            //
+            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
+            //
+            InitializeComponent();
+            base.OnInit(e);
+        }
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+        }
+
+        #endregion
+    }
 }

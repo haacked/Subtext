@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,76 +12,74 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
+using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
-	/// <summary>
-	/// Displays all entries for a given day.
-	/// </summary>
-	public class Day : EntryList
-	{
-		protected System.Web.UI.WebControls.Repeater DayList;
-		protected System.Web.UI.WebControls.HyperLink ImageLink;
-		protected System.Web.UI.WebControls.Literal  DateTitle;
+    /// <summary>
+    /// Displays all entries for a given day.
+    /// </summary>
+    public class Day : EntryList
+    {
+        private EntryDay bpd;
+        protected Literal DateTitle;
+        protected Repeater DayList;
+        private Entry entry;
+        protected HyperLink ImageLink;
 
-		private EntryDay bpd;
-		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Day"/> class and sets 
-		/// the DescriptionOnly property to false.
-		/// </summary>
-		public Day() : base()
-		{
-			this.DescriptionOnly = false;	
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Day"/> class and sets 
+        /// the DescriptionOnly property to false.
+        /// </summary>
+        public Day()
+        {
+            DescriptionOnly = false;
+        }
 
-		/// <summary>
-		/// Sets the current day.
-		/// </summary>
-		/// <value>The current day.</value>
-		public EntryDay CurrentDay
-		{
-			get{return bpd;}
-			set{bpd = value;}
-		}
+        /// <summary>
+        /// Sets the current day.
+        /// </summary>
+        /// <value>The current day.</value>
+        public EntryDay CurrentDay
+        {
+            get { return bpd; }
+            set { bpd = value; }
+        }
 
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad (e);
+        protected Entry Entry
+        {
+            get { return entry; }
+        }
 
-			if(bpd != null)
-			{
-				DayList.ItemDataBound += DayList_ItemDataBound;
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
 
-				ImageLink.NavigateUrl = Url.DayUrl(bpd.BlogDay);
-				ControlHelper.SetTitleIfNone(ImageLink, "Click to see entries for this day.");
-				DateTitle.Text = bpd.BlogDay.ToLongDateString();
-				DayList.DataSource = bpd;
-				DayList.DataBind();
-			}
-			else
-			{
-				this.Visible = false;
-			}
-		}
+            if(bpd != null)
+            {
+                DayList.ItemDataBound += DayList_ItemDataBound;
 
-		private Entry entry;
+                ImageLink.NavigateUrl = Url.DayUrl(bpd.BlogDay);
+                ControlHelper.SetTitleIfNone(ImageLink, "Click to see entries for this day.");
+                DateTitle.Text = bpd.BlogDay.ToLongDateString();
+                DayList.DataSource = bpd;
+                DayList.DataBind();
+            }
+            else
+            {
+                Visible = false;
+            }
+        }
 
-		protected Entry Entry
-		{
-			get { return this.entry; }
-		}
-
-		void DayList_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
-		{
-			entry = e.Item.DataItem as Entry;
-		}
-
-	}
+        void DayList_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            entry = e.Item.DataItem as Entry;
+        }
+    }
 }
-

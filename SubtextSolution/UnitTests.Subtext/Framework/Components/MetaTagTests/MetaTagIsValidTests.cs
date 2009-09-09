@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using MbUnit.Framework;
@@ -26,9 +28,10 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [Row("description", null, true, "Name should be enough")]
         [Row(null, "expires", true, "HttpEquiv should be enough")]
         [Row("description", "expires", false, "Can not have both a Name and HttpEquiv!")]
-        public void MetaTagRequiresEitherNameOrHttpEquivAttribute(string nameValue, string httpEquivValue, bool isValidResult, string errMsg)
+        public void MetaTagRequiresEitherNameOrHttpEquivAttribute(string nameValue, string httpEquivValue,
+                                                                  bool isValidResult, string errMsg)
         {
-            MetaTag tag = new MetaTag("Steve rocks it!");
+            var tag = new MetaTag("Steve rocks it!");
             tag.Name = nameValue;
             tag.HttpEquiv = httpEquivValue;
 
@@ -40,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [Row("This is some text!", true, "The Content attribute should allow a value")]
         public void MetaTagRequiresContentAttribute(string contentValue, bool isValidResult, string errMsg)
         {
-            MetaTag tag = new MetaTag(contentValue);
+            var tag = new MetaTag(contentValue);
             tag.Name = "description";
 
             Assert.AreEqual(tag.IsValid, isValidResult);

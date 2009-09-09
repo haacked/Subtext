@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -23,8 +25,8 @@ namespace Subtext.Framework.Util
     {
         public static DateTime GetDateFromRequest(this RequestContext requestContext)
         {
-            string yearText = requestContext.RouteData.Values["year"] as string;
-            string monthText = requestContext.RouteData.Values["month"] as string;
+            var yearText = requestContext.RouteData.Values["year"] as string;
+            var monthText = requestContext.RouteData.Values["month"] as string;
             string dayText = requestContext.RouteData.Values["day"] as string ?? "1";
 
             int year = Convert.ToInt32(yearText, CultureInfo.InvariantCulture);
@@ -41,10 +43,10 @@ namespace Subtext.Framework.Util
 
         public static int? GetIdFromRequest(this RequestContext requestContext)
         {
-            var routeValues = requestContext.RouteData.Values;
+            RouteValueDictionary routeValues = requestContext.RouteData.Values;
             int id;
-            if (!routeValues.ContainsKey("id") || 
-                !int.TryParse((string)routeValues["id"], out id)) 
+            if(!routeValues.ContainsKey("id") ||
+               !int.TryParse((string)routeValues["id"], out id))
             {
                 return null;
             }

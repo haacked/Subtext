@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Web.Routing;
@@ -26,19 +28,11 @@ namespace Subtext.Framework.Routing
             Kernel = kernel;
         }
 
-        public IKernel Kernel
-        {
-            get;
-            private set;
-        }
+        public IKernel Kernel { get; private set; }
 
-        protected RouteCollection Routes
-        {
-            get;
-            private set;
-        }
+        protected RouteCollection Routes { get; private set; }
 
-        public void Add(string routeName, RouteBase route) 
+        public void Add(string routeName, RouteBase route)
         {
             Routes.Add(routeName, route);
         }

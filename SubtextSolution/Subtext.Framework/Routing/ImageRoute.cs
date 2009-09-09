@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,8 +12,10 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
+using System.Web;
 using System.Web.Routing;
 
 namespace Subtext.Framework.Routing
@@ -23,9 +26,9 @@ namespace Subtext.Framework.Routing
     /// </summary>
     public class ImageRoute : Route
     {
-        public ImageRoute(string url) : base(url, null) 
+        public ImageRoute(string url) : base(url, null)
         {
-            this.Defaults = new RouteValueDictionary(new { filename = string.Empty, id = string.Empty });
+            Defaults = new RouteValueDictionary(new {filename = string.Empty, id = string.Empty});
         }
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
@@ -33,7 +36,7 @@ namespace Subtext.Framework.Routing
             return base.GetVirtualPath(requestContext, values);
         }
 
-        public override RouteData GetRouteData(System.Web.HttpContextBase httpContext)
+        public override RouteData GetRouteData(HttpContextBase httpContext)
         {
             return null;
         }

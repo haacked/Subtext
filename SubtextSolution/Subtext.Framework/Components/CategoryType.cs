@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,20 +12,18 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-#endregion
 
-using System;
+#endregion
 
 namespace Subtext.Framework.Components
 {
-	public enum CategoryType : byte
-	{
-		None = 0,
-		PostCollection = 1,
-		StoryCollection = 2,
-		ImageCollection = 3,
-		ArchiveMonthCollection = 4,
+    public enum CategoryType : byte
+    {
+        None = 0,
+        PostCollection = 1,
+        StoryCollection = 2,
+        ImageCollection = 3,
+        ArchiveMonthCollection = 4,
         LinkCollection = 5,
-	}
+    }
 }
-

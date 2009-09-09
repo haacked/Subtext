@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,15 +12,20 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using Subtext.Framework;
-using Subtext.Web.UI.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
     public class AggregateUserControl : BaseControl
     {
+        protected new AggregatePage Page
+        {
+            get { return base.Page as AggregatePage; }
+        }
+
         protected int? GetGroupIdFromQueryString()
         {
             return Page.GetGroupIdFromQueryString();
@@ -28,14 +34,6 @@ namespace Subtext.Web.UI.Controls
         protected string BlogUrl(Blog blog)
         {
             return Url.BlogUrl(blog);
-        }
-
-        protected new AggregatePage Page
-        {
-            get
-            {
-                return base.Page as AggregatePage;
-            }
         }
 
         public T Get<T>(object item) where T : class

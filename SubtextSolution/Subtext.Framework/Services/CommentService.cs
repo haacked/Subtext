@@ -1,8 +1,8 @@
-﻿using Subtext.Framework.Components;
+using System.Web;
+using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
-using Subtext.Framework.Util;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Services
@@ -15,34 +15,31 @@ namespace Subtext.Framework.Services
             Filter = filter;
         }
 
-        protected ISubtextContext SubtextContext {
-            get;
-            private set;
-        }
+        protected ISubtextContext SubtextContext { get; private set; }
 
-        protected ObjectProvider Repository {
-            get {
-                return SubtextContext.Repository;
-            }
-        }
-
-        protected ICommentFilter Filter
+        protected ObjectProvider Repository
         {
-            get;
-            private set;
+            get { return SubtextContext.Repository; }
         }
 
-        public int Create(FeedbackItem comment) {
+        protected ICommentFilter Filter { get; private set; }
+
+        #region ICommentService Members
+
+        public int Create(FeedbackItem comment)
+        {
             //TODO: Make this a comment filter.
-            var entry = Cacher.GetEntry(comment.EntryId, SubtextContext);
-            if (entry == null || entry.CommentingClosed) {
+            Entry entry = Cacher.GetEntry(comment.EntryId, SubtextContext);
+            if(entry == null || entry.CommentingClosed)
+            {
                 return NullValue.NullInt32;
             }
 
-            var context = SubtextContext;
-            var httpContext = context.HttpContext;
+            ISubtextContext context = SubtextContext;
+            HttpContextBase httpContext = context.HttpContext;
 
-            if (httpContext != null && httpContext.Request != null) {
+            if(httpContext != null && httpContext.Request != null)
+            {
                 comment.UserAgent = httpContext.Request.UserAgent;
                 comment.IpAddress = HttpHelper.GetUserIpAddress(httpContext);
             }
@@ -54,12 +51,12 @@ namespace Subtext.Framework.Services
 
             // If we are creating this feedback item as part of an import, we want to 
             // be sure to use the item's datetime, and not set it to the current time.
-            if (NullValue.NullDateTime.Equals(comment.DateCreated))
+            if(NullValue.NullDateTime.Equals(comment.DateCreated))
             {
                 comment.DateCreated = context.Blog.TimeZone.Now;
                 comment.DateModified = comment.DateCreated;
             }
-            else if (NullValue.NullDateTime.Equals(comment.DateModified))
+            else if(NullValue.NullDateTime.Equals(comment.DateModified))
             {
                 comment.DateModified = comment.DateCreated;
             }
@@ -73,14 +70,20 @@ namespace Subtext.Framework.Services
             return comment.Id;
         }
 
-        protected virtual void OnBeforeCreate(FeedbackItem feedback) {
-            if (Filter != null) {
+        #endregion
+
+        protected virtual void OnBeforeCreate(FeedbackItem feedback)
+        {
+            if(Filter != null)
+            {
                 Filter.FilterBeforePersist(feedback);
             }
         }
 
-        protected virtual void OnAfterCreate(FeedbackItem feedback) {
-            if (Filter != null) {
+        protected virtual void OnAfterCreate(FeedbackItem feedback)
+        {
+            if(Filter != null)
+            {
                 Filter.FilterAfterPersist(feedback);
             }
         }

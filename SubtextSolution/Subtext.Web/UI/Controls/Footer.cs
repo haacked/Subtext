@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,42 +12,42 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Globalization;
-using Subtext.Framework.Util;
+using System.Web.UI.WebControls;
 
 namespace Subtext.Web.UI.Controls
 {
-	/// <summary>
-	///	Footer control, displayed at the bottom of most skins. 
-	///	Contains a <see cref="System.Web.UI.WebControls.Literal"/> 
-	///	control which displays the author name.
-	/// </summary>
-	public  class Footer : BaseControl
-	{
-		protected System.Web.UI.WebControls.Literal FooterText;
-        protected System.Web.UI.WebControls.Literal currentYear;
+    /// <summary>
+    ///	Footer control, displayed at the bottom of most skins. 
+    ///	Contains a <see cref="System.Web.UI.WebControls.Literal"/> 
+    ///	control which displays the author name.
+    /// </summary>
+    public class Footer : BaseControl
+    {
+        protected Literal currentYear;
+        protected Literal FooterText;
 
-		
-		/// <summary>
-		/// Sets the FooterText.Text property to the CurrentBlog.Author
-		/// </summary>
-		/// <param name="e">E.</param>
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad (e);
-            if (FooterText != null)
+
+        /// <summary>
+        /// Sets the FooterText.Text property to the CurrentBlog.Author
+        /// </summary>
+        /// <param name="e">E.</param>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if(FooterText != null)
             {
                 FooterText.Text = Blog.Author;
             }
-		    
-		    if(currentYear != null)
-		    {
-				currentYear.Text = Blog.TimeZone.Now.Year.ToString(CultureInfo.InvariantCulture);
-		    }
-		}
-	}
-}
 
+            if(currentYear != null)
+            {
+                currentYear.Text = Blog.TimeZone.Now.Year.ToString(CultureInfo.InvariantCulture);
+            }
+        }
+    }
+}

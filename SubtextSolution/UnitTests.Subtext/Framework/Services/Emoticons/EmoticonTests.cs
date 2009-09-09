@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MbUnit.Framework;
-using Subtext.Framework.Text;
 using Subtext.Framework.Emoticons;
 
 namespace UnitTests.Subtext.Framework.Emoticons
@@ -15,7 +10,7 @@ namespace UnitTests.Subtext.Framework.Emoticons
         public void Transform_WithSmiley_TransformsSmiley()
         {
             //arrange
-            Emoticon emoticon = new Emoticon("[:'(]", "<img src=\"{0}\" />");
+            var emoticon = new Emoticon("[:'(]", "<img src=\"{0}\" />");
 
             //act
             string result = emoticon.Replace("[:'(]", "http://example.com/");
@@ -28,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Emoticons
         public void Transform_WithSmileyInText_TransformsSmiley()
         {
             //arrange
-            Emoticon emoticon = new Emoticon("[:'(]", "<img src=\"{0}\" />");
+            var emoticon = new Emoticon("[:'(]", "<img src=\"{0}\" />");
 
             //act
             string result = emoticon.Replace("abc[:'(]def", "http://example.com/");

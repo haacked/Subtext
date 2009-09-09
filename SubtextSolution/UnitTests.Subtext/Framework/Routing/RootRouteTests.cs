@@ -1,4 +1,4 @@
-﻿using System.Web;
+using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
@@ -19,7 +19,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new RootRoute(true, new Mock<IKernel>().Object);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             var routeHandler = routeData.RouteHandler as PageRouteHandler;
@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new RootRoute(false, new Mock<IKernel>().Object);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             var routeHandler = routeData.RouteHandler as PageRouteHandler;
@@ -55,7 +55,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new RootRoute(true, new Mock<IKernel>().Object);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             var routeHandler = routeData.RouteHandler as PageRouteHandler;
@@ -72,7 +72,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new RootRoute(false, new Mock<IKernel>().Object);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             var routeHandler = routeData.RouteHandler as PageRouteHandler;
@@ -89,14 +89,15 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new RootRoute(true, new Mock<IKernel>().Object);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             Assert.IsNull(routeData);
         }
 
         [Test]
-        public void GetRouteDataWithRequestWithSubfolder_WhenAggregationDisabledAndBlogDoesNotHaveSubfolder_DoesNotMatch()
+        public void GetRouteDataWithRequestWithSubfolder_WhenAggregationDisabledAndBlogDoesNotHaveSubfolder_DoesNotMatch
+            ()
         {
             //arrange
             var httpContext = new Mock<HttpContextBase>();
@@ -104,14 +105,16 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new RootRoute(false, new Mock<IKernel>().Object);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             Assert.IsNull(routeData);
         }
 
         [Test]
-        public void GetRouteDataWithRequestWithSubfolder_WhenAggregationEnabledAndSubfolderDoesNotMatchBlogSubfolder_DoesNotMatch()
+        public void
+            GetRouteDataWithRequestWithSubfolder_WhenAggregationEnabledAndSubfolderDoesNotMatchBlogSubfolder_DoesNotMatch
+            ()
         {
             //arrange
             var httpContext = new Mock<HttpContextBase>();
@@ -119,14 +122,16 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new RootRoute(true, new Mock<IKernel>().Object);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             Assert.IsNull(routeData);
         }
 
         [Test]
-        public void GetRouteDataWithRequestWithSubfolder_WhenAggregationDisabledAndSubfolderDoesNotMatchBlogSubfolder_DoesNotMatch()
+        public void
+            GetRouteDataWithRequestWithSubfolder_WhenAggregationDisabledAndSubfolderDoesNotMatchBlogSubfolder_DoesNotMatch
+            ()
         {
             //arrange
             var httpContext = new Mock<HttpContextBase>();
@@ -134,7 +139,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new RootRoute(false, new Mock<IKernel>().Object);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             Assert.IsNull(routeData);
@@ -149,7 +154,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new RootRoute(true, new Mock<IKernel>().Object);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             var routeHandler = routeData.RouteHandler as PageRouteHandler;
@@ -166,7 +171,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new RootRoute(false, new Mock<IKernel>().Object);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             var routeHandler = routeData.RouteHandler as PageRouteHandler;
@@ -183,7 +188,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new RootRoute(true, new Mock<IKernel>().Object);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             var routeHandler = routeData.RouteHandler as PageRouteHandler;
@@ -200,7 +205,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var route = new RootRoute(false, new Mock<IKernel>().Object);
 
             //act
-            var routeData = route.GetRouteData(httpContext.Object);
+            RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
             var routeHandler = routeData.RouteHandler as PageRouteHandler;
@@ -220,7 +225,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeValues = new RouteValueDictionary();
 
             //act
-            var virtualPathInfo = route.GetVirtualPath(requestContext, routeValues);
+            VirtualPathData virtualPathInfo = route.GetVirtualPath(requestContext, routeValues);
 
             //assert
             Assert.AreEqual(string.Empty, virtualPathInfo.VirtualPath);
@@ -239,7 +244,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeValues = new RouteValueDictionary();
 
             //act
-            var virtualPathInfo = route.GetVirtualPath(requestContext, routeValues);
+            VirtualPathData virtualPathInfo = route.GetVirtualPath(requestContext, routeValues);
 
             //assert
             Assert.AreEqual("subfolder", virtualPathInfo.VirtualPath);
@@ -254,10 +259,10 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeData = new RouteData();
             var requestContext = new RequestContext(httpContext.Object, routeData);
             var route = new RootRoute(true, new Mock<IKernel>().Object);
-            var routeValues = new RouteValueDictionary(new { subfolder = "subfolder" });
+            var routeValues = new RouteValueDictionary(new {subfolder = "subfolder"});
 
             //act
-            var virtualPathInfo = route.GetVirtualPath(requestContext, routeValues);
+            VirtualPathData virtualPathInfo = route.GetVirtualPath(requestContext, routeValues);
 
             //assert
             Assert.AreEqual("subfolder", virtualPathInfo.VirtualPath);
@@ -272,10 +277,10 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeData = new RouteData();
             var requestContext = new RequestContext(httpContext.Object, routeData);
             var route = new RootRoute(true, new Mock<IKernel>().Object);
-            var routeValues = new RouteValueDictionary(new { foo = "bar" });
+            var routeValues = new RouteValueDictionary(new {foo = "bar"});
 
             //act
-            var virtualPathInfo = route.GetVirtualPath(requestContext, routeValues);
+            VirtualPathData virtualPathInfo = route.GetVirtualPath(requestContext, routeValues);
 
             //assert
             Assert.IsNull(virtualPathInfo);

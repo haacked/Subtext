@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -22,14 +24,14 @@ using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
 {
-	/// <summary>
-	/// Summary description for Password.
-	/// </summary>
-	public partial class Security : AdminOptionsPage
-	{
-		protected Label Message;
-		protected ValidationSummary ValidationSummary1;
-	
+    /// <summary>
+    /// Summary description for Password.
+    /// </summary>
+    public partial class Security : AdminOptionsPage
+    {
+        protected Label Message;
+        protected ValidationSummary ValidationSummary1;
+
         protected override void BindLocalUI()
         {
             tbOpenIDURL.Text = Config.CurrentBlog.OpenIDUrl;
@@ -44,33 +46,32 @@ namespace Subtext.Web.Admin.Pages
         }
 
         protected void btnChangePassword_Click(object sender, EventArgs e)
-		{
-			string failureMessage = Resources.Security_PasswordNotUpdated;
-			if(Page.IsValid)
-			{
-				if(SecurityHelper.IsValidPassword(SubtextContext.Blog, tbCurrent.Text))
-				{
-					if(tbPassword.Text == tbPasswordConfirm.Text)
-					{
-						SecurityHelper.UpdatePassword(tbPassword.Text);
+        {
+            string failureMessage = Resources.Security_PasswordNotUpdated;
+            if(Page.IsValid)
+            {
+                if(SecurityHelper.IsValidPassword(SubtextContext.Blog, tbCurrent.Text))
+                {
+                    if(tbPassword.Text == tbPasswordConfirm.Text)
+                    {
+                        SecurityHelper.UpdatePassword(tbPassword.Text);
 
-						Messages.ShowMessage(Resources.Security_PasswordUpdated);
-					}
-					else
-					{
-						Messages.ShowError(failureMessage);
-					}
-				}
-				else
-				{
-					Messages.ShowError(failureMessage);
-				}
-			}
-			else
-			{
-				Messages.ShowError(failureMessage);
-			}
-		}
-	}
+                        Messages.ShowMessage(Resources.Security_PasswordUpdated);
+                    }
+                    else
+                    {
+                        Messages.ShowError(failureMessage);
+                    }
+                }
+                else
+                {
+                    Messages.ShowError(failureMessage);
+                }
+            }
+            else
+            {
+                Messages.ShowError(failureMessage);
+            }
+        }
+    }
 }
-

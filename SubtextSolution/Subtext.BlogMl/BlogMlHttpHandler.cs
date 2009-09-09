@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -25,6 +27,28 @@ namespace Subtext.BlogML
 {
     public abstract class BlogMLHttpHandler : BaseHttpHandler
     {
+        /// <summary>
+        /// Gets a value indicating whether this handler
+        /// requires users to be authenticated.
+        /// </summary>
+        /// <value>
+        ///    <c>true</c> if authentication is required
+        ///    otherwise, <c>false</c>.
+        /// </value>
+        protected override bool RequiresAuthentication
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        /// Gets the content MIME type.
+        /// </summary>
+        /// <value></value>
+        protected override string ContentMimeType
+        {
+            get { return "text/xml"; }
+        }
+
         public abstract IBlogMLProvider GetBlogMLProvider();
 
         /// <summary>
@@ -67,14 +91,14 @@ namespace Subtext.BlogML
         {
             IBlogMLProvider provider = GetBlogMLProvider();
 
-            if (provider.GetBlogMLContext() == null)
+            if(provider.GetBlogMLContext() == null)
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_BlogMLNullContext);
             }
 
             BlogMLWriter writer = BlogMLWriter.Create(provider);
 
-            using (XmlTextWriter xmlWriter = new XmlTextWriter(outputWriter))
+            using(var xmlWriter = new XmlTextWriter(outputWriter))
             {
                 xmlWriter.Formatting = Formatting.Indented;
                 writer.Write(xmlWriter);
@@ -93,34 +117,6 @@ namespace Subtext.BlogML
         protected override bool ValidateParameters(HttpContext context)
         {
             return true;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this handler
-        /// requires users to be authenticated.
-        /// </summary>
-        /// <value>
-        ///    <c>true</c> if authentication is required
-        ///    otherwise, <c>false</c>.
-        /// </value>
-        protected override bool RequiresAuthentication
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Gets the content MIME type.
-        /// </summary>
-        /// <value></value>
-        protected override string ContentMimeType
-        {
-            get
-            {
-                return "text/xml";
-            }
         }
     }
 }

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,17 +12,18 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 
 namespace Subtext.Framework.Exceptions
 {
-	/// <summary>
-	/// Exception thrown when attempting to visit a blog that is no longer active.
-	/// </summary>
-	[Serializable]
-	public class BlogInactiveException : BaseBlogConfigurationException
-	{
-	}
+    /// <summary>
+    /// Exception thrown when attempting to visit a blog that is no longer active.
+    /// </summary>
+    [Serializable]
+    public class BlogInactiveException : BaseBlogConfigurationException
+    {
+    }
 }

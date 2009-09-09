@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Subtext.Scripting
 {
@@ -24,30 +24,18 @@ namespace Subtext.Scripting
         /// Gets the name of the parameter.
         /// </summary>
         /// <value>The name of the parameter.</value>
-        public string ParameterName
-        {
-            get;
-            private set;
-        }
+        public string ParameterName { get; private set; }
 
         /// <summary>
         /// Gets the old value.
         /// </summary>
         /// <value>The old value.</value>
-        public string OldValue
-        {
-            get;
-            private set;
-        }
+        public string OldValue { get; private set; }
 
         /// <summary>
         /// Gets the new value.
         /// </summary>
         /// <value>The new value.</value>
-        public string NewValue
-        {
-            get;
-            private set;
-        }
+        public string NewValue { get; private set; }
     }
 }

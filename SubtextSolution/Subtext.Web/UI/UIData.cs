@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -23,39 +25,40 @@ using Subtext.Framework.Routing;
 
 namespace Subtext.Web.UI
 {
-	/// <summary>
-	/// Summary description for UIData.
-	/// </summary>
-	public static class UIData
-	{
-		public static LinkCategory Links(CategoryType catType, Blog blog)
-		{
-			switch(catType)
-			{
-				case CategoryType.PostCollection:
-					return Transformer.BuildLinks(UIText.PostCollection, CategoryType.PostCollection, blog);
-				
-				case CategoryType.ImageCollection:
-					return Transformer.BuildLinks(UIText.ImageCollection, CategoryType.ImageCollection, blog);
-				
-				case CategoryType.StoryCollection:
-					return Transformer.BuildLinks(UIText.ArticleCollection, CategoryType.StoryCollection, blog);
-				
-				default:
-                    Debug.Fail(String.Format(CultureInfo.InvariantCulture, "Invalid CategoryType: {0} via Subtext.Web.UI.UIData.Links", catType));
-                    return null;
-			}
-		}
+    /// <summary>
+    /// Summary description for UIData.
+    /// </summary>
+    public static class UIData
+    {
+        public static LinkCategory Links(CategoryType catType, Blog blog)
+        {
+            switch(catType)
+            {
+                case CategoryType.PostCollection:
+                    return Transformer.BuildLinks(UIText.PostCollection, CategoryType.PostCollection, blog);
 
-		/// <summary>
-		/// Builds a <see cref="LinkCategory"/> using the specified url formats. 
-		/// A LinkCategory is a common item to databind to a web control.
-		/// </summary>
-		/// <param name="formats">Determines how the links are formatted.</param>
-		/// <returns></returns>
-		public static LinkCategory ArchiveMonth(UrlHelper urlHelper, Blog blog)
-		{
+                case CategoryType.ImageCollection:
+                    return Transformer.BuildLinks(UIText.ImageCollection, CategoryType.ImageCollection, blog);
+
+                case CategoryType.StoryCollection:
+                    return Transformer.BuildLinks(UIText.ArticleCollection, CategoryType.StoryCollection, blog);
+
+                default:
+                    Debug.Fail(String.Format(CultureInfo.InvariantCulture,
+                                             "Invalid CategoryType: {0} via Subtext.Web.UI.UIData.Links", catType));
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Builds a <see cref="LinkCategory"/> using the specified url formats. 
+        /// A LinkCategory is a common item to databind to a web control.
+        /// </summary>
+        /// <param name="formats">Determines how the links are formatted.</param>
+        /// <returns></returns>
+        public static LinkCategory ArchiveMonth(UrlHelper urlHelper, Blog blog)
+        {
             return Transformer.BuildMonthLinks(UIText.Archives, urlHelper, blog);
-		}
-	}
+        }
+    }
 }

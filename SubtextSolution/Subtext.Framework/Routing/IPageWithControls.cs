@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Collections.Generic;
@@ -18,7 +20,8 @@ using System.Web;
 
 namespace Subtext.Framework.Routing
 {
-    public interface IPageWithControls : IHttpHandler {
+    public interface IPageWithControls : IHttpHandler
+    {
         void SetControls(IEnumerable<string> controls);
     }
 }

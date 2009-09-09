@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using MbUnit.Framework;
 using Subtext.Framework.Components;
 
@@ -12,7 +9,7 @@ namespace UnitTests.Subtext.Framework.Components
         [Test]
         public void CanSetAndGetSimpleProperties()
         {
-            ViewStat stat = new ViewStat();
+            var stat = new ViewStat();
             UnitTestHelper.AssertSimpleProperties(stat);
         }
     }

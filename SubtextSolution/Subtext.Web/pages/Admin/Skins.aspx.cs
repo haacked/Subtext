@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -14,35 +14,23 @@ namespace Subtext.Web.Admin
 {
     public partial class Skins : AdminOptionsPage
     {
-        protected override void OnLoad(EventArgs e)
-        {
-            if (!IsPostBack) {
-                BindLocalUI();
-            }
-            base.OnLoad(e);
-        }
-
-        protected override void BindLocalUI()
-        {
-            skinRepeater.DataSource = SkinTemplates;
-            mobileSkinRepeater.DataSource = MobileSkinTemplates;
-            DataBind();
-        }
-        private ICollection<SkinTemplate> skins;
         private ICollection<SkinTemplate> mobileSkins;
+        private ICollection<SkinTemplate> skins;
 
         protected ICollection<SkinTemplate> SkinTemplates
         {
             get
             {
-                if (skins == null)
+                if(skins == null)
                 {
-                    SkinEngine skinEngine = new SkinEngine();
+                    var skinEngine = new SkinEngine();
                     skins = skinEngine.GetSkinTemplates(false /* mobile */).Values;
-                    foreach (SkinTemplate template in skins)
+                    foreach(SkinTemplate template in skins)
                     {
-                        if (template.MobileSupport == MobileSupport.Supported)
+                        if(template.MobileSupport == MobileSupport.Supported)
+                        {
                             template.Name += Resources.Skins_MobileReady;
+                        }
                     }
                 }
                 return skins;
@@ -53,15 +41,31 @@ namespace Subtext.Web.Admin
         {
             get
             {
-                if (mobileSkins == null)
+                if(mobileSkins == null)
                 {
-                    SkinEngine skinEngine = new SkinEngine();
-                    List<SkinTemplate> skins = new List<SkinTemplate>(skinEngine.GetSkinTemplates(true /* mobile */).Values);
+                    var skinEngine = new SkinEngine();
+                    var skins = new List<SkinTemplate>(skinEngine.GetSkinTemplates(true /* mobile */).Values);
                     skins.Insert(0, SkinTemplate.Empty);
                     mobileSkins = skins;
                 }
                 return mobileSkins;
             }
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            if(!IsPostBack)
+            {
+                BindLocalUI();
+            }
+            base.OnLoad(e);
+        }
+
+        protected override void BindLocalUI()
+        {
+            skinRepeater.DataSource = SkinTemplates;
+            mobileSkinRepeater.DataSource = MobileSkinTemplates;
+            DataBind();
         }
 
         protected SkinTemplate EvalSkin(object o)
@@ -74,19 +78,21 @@ namespace Subtext.Web.Admin
             return (o as SkinTemplate).SkinKey.Replace(".", "_");
         }
 
-        protected string EvalChecked(object o) {
-            if (IsSelectedSkin(o))
+        protected string EvalChecked(object o)
+        {
+            if(IsSelectedSkin(o))
             {
                 return "checked=\"checked\"";
             }
-            else {
+            else
+            {
                 return "";
             }
         }
 
         protected string EvalSelected(object o)
         {
-            if (IsSelectedSkin(o))
+            if(IsSelectedSkin(o))
             {
                 return " selected";
             }
@@ -96,18 +102,22 @@ namespace Subtext.Web.Admin
             }
         }
 
-        private bool IsSelectedSkin(object o) { 
+        private bool IsSelectedSkin(object o)
+        {
             string currentSkin = (o as SkinTemplate).SkinKey;
             string blogSkin = SubtextContext.Blog.Skin.SkinKey;
             return String.Equals(currentSkin, blogSkin, StringComparison.OrdinalIgnoreCase);
         }
 
-        protected string GetSkinIconImage(object o) {
+        protected string GetSkinIconImage(object o)
+        {
             var skin = o as SkinTemplate;
 
-            string[] imageUrls = new[] { 
+            var imageUrls = new[]
+            {
                 string.Format(CultureInfo.InvariantCulture, "~/skins/{0}/SkinIcon.png", skin.TemplateFolder),
-                string.Format(CultureInfo.InvariantCulture, "~/skins/{0}/{1}-SkinIcon.png", skin.TemplateFolder, skin.Name),
+                string.Format(CultureInfo.InvariantCulture, "~/skins/{0}/{1}-SkinIcon.png", skin.TemplateFolder,
+                              skin.Name),
                 "~/skins/_System/SkinIcon.png"
             };
 
@@ -115,14 +125,16 @@ namespace Subtext.Web.Admin
             return HttpHelper.ExpandTildePath(imageUrl);
         }
 
-        protected void OnSaveSkinClicked(object o, EventArgs args) {
+        protected void OnSaveSkinClicked(object o, EventArgs args)
+        {
             Blog blog = SubtextContext.Blog;
-            SkinEngine skinEngine = new SkinEngine();
-            SkinTemplate skinTemplate = skinEngine.GetSkinTemplates(false /* mobile */).ItemOrNull(Request.Form["SkinKey"]);
+            var skinEngine = new SkinEngine();
+            SkinTemplate skinTemplate =
+                skinEngine.GetSkinTemplates(false /* mobile */).ItemOrNull(Request.Form["SkinKey"]);
             blog.Skin.TemplateFolder = skinTemplate.TemplateFolder;
             blog.Skin.SkinStyleSheet = skinTemplate.StyleSheet;
             Config.UpdateConfigData(blog);
-            
+
             Messages.ShowMessage(Resources.Skins_SkinSaved);
             BindLocalUI();
         }

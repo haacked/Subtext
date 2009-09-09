@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,18 +12,14 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using MbUnit.Framework;
-using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Components.MetaTagTests
@@ -36,28 +33,30 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [RollBack2]
         public void GetReturnsZeroWhenNoMetaTagsExistForBlog()
         {
-            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
-            Assert.AreEqual(0, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count, "Shouldn't have found any MetaTags for this blog.");
+            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            Assert.AreEqual(0, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count,
+                            "Shouldn't have found any MetaTags for this blog.");
         }
 
         [Test]
         [RollBack2]
         public void GetReturnsZeroWhenNoMetaTagsExistForEntry()
         {
-            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
+            blog = UnitTestHelper.CreateBlogAndSetupContext();
 
             Entry e =
                 UnitTestHelper.CreateEntryInstanceForSyndication("Steve Harman", "Loves Subtexting!", "Roses are red...");
             UnitTestHelper.Create(e);
 
-            Assert.AreEqual(0, MetaTags.GetMetaTagsForEntry(e, 0, 100).Count, "Shouldn't have found any MetaTags for this entry.");
+            Assert.AreEqual(0, MetaTags.GetMetaTagsForEntry(e, 0, 100).Count,
+                            "Shouldn't have found any MetaTags for this entry.");
         }
 
         [Test]
         [RollBack2]
         public void CanGetMetaTagsForBlog()
         {
-            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
+            blog = UnitTestHelper.CreateBlogAndSetupContext();
 
             InsertNewMetaTag("Adding description meta tag", "description", null, DateTime.Now, blog.Id, null);
             InsertNewMetaTag("no-cache", null, "cache-control", DateTime.Now, blog.Id, null);
@@ -71,9 +70,10 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [RollBack2]
         public void CanGetMetaTagsForEntry()
         {
-            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
+            blog = UnitTestHelper.CreateBlogAndSetupContext();
 
-            Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Steve-o", "Bar", "Steve is still rockin it... or is he?");
+            Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Steve-o", "Bar",
+                                                                       "Steve is still rockin it... or is he?");
             UnitTestHelper.Create(e);
 
             InsertNewMetaTag("Adding description meta tag", "description", null, DateTime.Now, blog.Id, null);
@@ -90,9 +90,10 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             Assert.AreEqual(4, tags.Count, "Should have found 4 MetaTags for this entry.");
         }
 
-        private static void InsertNewMetaTag(string content, string nameValue, string httpEquivValue, DateTime created, int blogId, int? entryId)
+        private static void InsertNewMetaTag(string content, string nameValue, string httpEquivValue, DateTime created,
+                                             int blogId, int? entryId)
         {
-            MetaTag metaTag = new MetaTag();
+            var metaTag = new MetaTag();
             metaTag.Content = content;
             metaTag.Name = nameValue;
             metaTag.HttpEquiv = httpEquivValue;

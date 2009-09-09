@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -19,15 +21,15 @@ using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.Pages
 {
-	/// <summary>
-	/// Logs a user out of the system.
-	/// </summary>
-	public class logout : SubtextPage
-	{
-		protected override void OnLoad(EventArgs e) {
-			SecurityHelper.LogOut();
-			base.SubtextContext.HttpContext.Response.Redirect(Url.BlogUrl());
-		}
-	}
+    /// <summary>
+    /// Logs a user out of the system.
+    /// </summary>
+    public class logout : SubtextPage
+    {
+        protected override void OnLoad(EventArgs e)
+        {
+            SecurityHelper.LogOut();
+            base.SubtextContext.HttpContext.Response.Redirect(Url.BlogUrl());
+        }
+    }
 }
-

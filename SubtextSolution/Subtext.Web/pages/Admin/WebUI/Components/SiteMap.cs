@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,10 +12,12 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
@@ -25,8 +28,8 @@ namespace Subtext.Web.Admin
     {
         protected const string DEFAULT_FILENAME = "navigation.config";
 
-        private static SiteMap _instance = new SiteMap();
-        private Dictionary<string, PageLocation> _pages;
+        private static readonly SiteMap _instance = new SiteMap();
+        private readonly Dictionary<string, PageLocation> _pages;
 
         protected SiteMap()
         {
@@ -46,23 +49,12 @@ namespace Subtext.Web.Admin
                 _pages.TryGetValue(index, out location);
                 return location;
             }
-            set
-            {
-                _pages[index] = value;
-            }
+            set { _pages[index] = value; }
         }
 
-        public PageLocation Root
-        {
-            get;
-            private set;
-        }
+        public PageLocation Root { get; private set; }
 
-        public bool IsConfigured
-        {
-            get;
-            private set;
-        }
+        public bool IsConfigured { get; private set; }
 
         public static void LoadConfiguration()
         {
@@ -74,18 +66,18 @@ namespace Subtext.Web.Admin
         {
             string filepath = HttpContext.Current.Request.MapPath(filePath);
 
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.Load(filepath);
 
             XmlNode pageLocations = doc.SelectSingleNode("/Navigation/RootPage");
-            if (null != pageLocations)
+            if(null != pageLocations)
             {
-                System.Text.Encoding encoding = Utilities.GetEncoding(filepath);
+                Encoding encoding = Utilities.GetEncoding(filepath);
                 byte[] buffer = encoding.GetBytes(pageLocations.OuterXml);
-                MemoryStream stream = new MemoryStream(buffer);
+                var stream = new MemoryStream(buffer);
                 stream.Position = 0;
-                XmlSerializer serializer = new XmlSerializer(typeof(PageLocation));
-                PageLocation newRoot = (PageLocation)serializer.Deserialize(stream);
+                var serializer = new XmlSerializer(typeof(PageLocation));
+                var newRoot = (PageLocation)serializer.Deserialize(stream);
                 _instance.SetRoot(PageLocation.GetRootPage(newRoot));
                 _instance.PopulateLookupList();
             }
@@ -105,10 +97,14 @@ namespace Subtext.Web.Admin
 
         public IEnumerable<PageLocation> GetAncestors(string id, bool includeSelf)
         {
-            if (_pages.ContainsKey(id))
+            if(_pages.ContainsKey(id))
+            {
                 return _pages[id].GetAncestors(includeSelf);
+            }
             else
+            {
                 return null;
+            }
         }
 
         public void AddPage(PageLocation value)
@@ -134,9 +130,9 @@ namespace Subtext.Web.Admin
 
         protected void RecursePageLocations(PageLocation currentLocation)
         {
-            if (currentLocation.HasChildren)
+            if(currentLocation.HasChildren)
             {
-                foreach (PageLocation childLocation in currentLocation.ChildLocations)
+                foreach(PageLocation childLocation in currentLocation.ChildLocations)
                 {
                     childLocation.SetParent(currentLocation);
                     RecursePageLocations(childLocation);
@@ -147,4 +143,3 @@ namespace Subtext.Web.Admin
         }
     }
 }
-

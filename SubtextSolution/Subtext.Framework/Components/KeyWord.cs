@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,105 +12,72 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
+using System.Globalization;
 using System.Xml.Serialization;
 
 namespace Subtext.Framework.Components
 {
-	/// <summary>
-	/// Summary description for KeyWord.
-	/// </summary>
-	[Serializable]
-	public class KeyWord
-	{
-		/// <summary>
-		/// The word or words to look for. Could also be short hand. ie, ScottW would end up <a href = "http://scottwater.com/blog">Scott Watermasysk</a>
-		/// </summary>
-		public string Word
-		{
-			get;
-			set;
-		}
+    /// <summary>
+    /// Summary description for KeyWord.
+    /// </summary>
+    [Serializable]
+    public class KeyWord
+    {
+        private string _format;
 
-		/// <summary>
-		/// The text value of an anchor tag: <a href="#">TEXT</a>
-		/// </summary>
-		public string Text
-		{
-			get;
-			set;
-		}
+        /// <summary>
+        /// Gets or sets the word or words to look for. Could also be short hand. ie, ScottW would end up <a href = "http://scottwater.com/blog">Scott Watermasysk</a>
+        /// </summary>
+        public string Word { get; set; }
 
-		public bool ReplaceFirstTimeOnly
-		{
-			get;
-			set;
-		}
+        /// <summary>
+        /// The text value of an anchor tag: <a href="#">TEXT</a>
+        /// </summary>
+        public string Text { get; set; }
 
-		public bool CaseSensitive
-		{
-			get;
-			set;
-		}
+        public bool ReplaceFirstTimeOnly { get; set; }
 
-		public bool OpenInNewWindow
-		{
-			get;
-			set;
-		}
+        public bool CaseSensitive { get; set; }
 
-		public string Url
-		{
-			get;
-			set;
-		}
+        public bool OpenInNewWindow { get; set; }
 
-		public string Title
-		{
-			get;
-			set;
-		}
+        public string Url { get; set; }
 
-		/// <summary>
-		/// Rel entries for a keyword. For instance, you could add "Friend" to a keyword, and XFN would pick it up as a Friend link
-		/// </summary>
-		public string Rel
-		{
-			get;
-			set;
-		}
+        public string Title { get; set; }
 
-		public int BlogId
-		{
-			get;
-			set;
-		}
+        /// <summary>
+        /// Rel entries for a keyword. For instance, you could add "Friend" to a keyword, and XFN would pick it up as a Friend link
+        /// </summary>
+        public string Rel { get; set; }
 
-		[XmlAttribute]
-		public int Id
-		{
-			get;
-			set;
-		}
+        public int BlogId { get; set; }
 
-		private string _format;
-		public string GetFormat
-		{
-			get
-			{
-				if(_format == null)
-				{
-					ProcessFormat();
-				}
-				return _format;
-			}
-		}
+        [XmlAttribute]
+        public int Id { get; set; }
 
-		private void ProcessFormat()
-		{
-            _format = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<a href=\"{1}\"{0}{2}{3}>{4}</a>", this.Title != null ? " title=\"" + Title + "\"" : String.Empty, Url, this.Rel != null ? " rel=\"" + Rel + "\"" : string.Empty, this.OpenInNewWindow ? " target=\"_blank\"" : string.Empty, Text);
-		}
-	}
+        public string GetFormat
+        {
+            get
+            {
+                if(_format == null)
+                {
+                    ProcessFormat();
+                }
+
+                return _format;
+            }
+        }
+
+        private void ProcessFormat()
+        {
+            _format = string.Format(CultureInfo.InvariantCulture, "<a href=\"{1}\"{0}{2}{3}>{4}</a>",
+                                    Title != null ? " title=\"" + Title + "\"" : String.Empty, Url,
+                                    Rel != null ? " rel=\"" + Rel + "\"" : string.Empty,
+                                    OpenInNewWindow ? " target=\"_blank\"" : string.Empty, Text);
+        }
+    }
 }

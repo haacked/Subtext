@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,10 +12,10 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -35,15 +36,9 @@ namespace Subtext.Framework.Services
     {
         private const string DefaultWordSeparator = "-";
 
-        private static FriendlyUrlSettings _defaultSettings = GetDefaultSettings();
-        private static FriendlyUrlSettings GetDefaultSettings()
-        {
-            var config = new NameValueCollection();
-            config.Add("textTransform", "LowerCase");
-            config.Add("separatingCharacter", DefaultWordSeparator);
-            config.Add("limitWordCount", "10");
-            return new FriendlyUrlSettings(config);
-        }
+        private static readonly FriendlyUrlSettings _defaultSettings = GetDefaultSettings();
+        static readonly Regex _trailingPeriodRegex = new Regex(@"\.+$", RegexOptions.Compiled);
+        static readonly Regex _wordCharRegex = new Regex(@"[^\w\d\.\- ]+", RegexOptions.Compiled);
 
         public SlugGenerator(FriendlyUrlSettings slugSettings)
             : this(slugSettings, null)
@@ -57,31 +52,25 @@ namespace Subtext.Framework.Services
             Repository = repository;
         }
 
-        public FriendlyUrlSettings SlugSettings
-        {
-            get;
-            private set;
-        }
+        public FriendlyUrlSettings SlugSettings { get; private set; }
 
-        protected ObjectProvider Repository
-        {
-            get;
-            private set;
-        }
+        protected ObjectProvider Repository { get; private set; }
+
+        #region ISlugGenerator Members
 
         public string GetSlugFromTitle(Entry entry)
         {
-            if (entry == null)
+            if(entry == null)
             {
                 throw new ArgumentNullException("entry");
             }
-            if (String.IsNullOrEmpty(entry.Title))
+            if(String.IsNullOrEmpty(entry.Title))
             {
                 throw new ArgumentException(Resources.Argument_EntryHasNoTitle, "title");
             }
 
             string separator = SlugSettings.SeparatingCharacter;
-            if (separator != "_" && separator != "." && separator != "-" && separator != string.Empty)
+            if(separator != "_" && separator != "." && separator != "-" && separator != string.Empty)
             {
                 separator = DefaultWordSeparator;
             }
@@ -89,14 +78,14 @@ namespace Subtext.Framework.Services
             string slug = RemoveNonWordCharacters(entry.Title);
             slug = RemoveTrailingPeriods(slug);
 
-            if (SlugSettings.WordCountLimit > 0)
+            if(SlugSettings.WordCountLimit > 0)
             {
                 IEnumerable<string> words = slug.SplitIntoWords().Take(SlugSettings.WordCountLimit);
-                var encodedWords = words.Select(word => ReplaceUnicodeCharacters(word));
-                if (!String.IsNullOrEmpty(separator))
+                IEnumerable<string> encodedWords = words.Select(word => ReplaceUnicodeCharacters(word));
+                if(!String.IsNullOrEmpty(separator))
                 {
                     slug = String.Join(separator, encodedWords.ToArray());
-                    slug = slug.Trim(new char[] { SlugSettings.SeparatingCharacter[0] });
+                    slug = slug.Trim(new[] {SlugSettings.SeparatingCharacter[0]});
                 }
                 else
                 {
@@ -105,7 +94,7 @@ namespace Subtext.Framework.Services
                 }
             }
 
-            if (slug.IsNumeric())
+            if(slug.IsNumeric())
             {
                 slug = "n_" + slug;
             }
@@ -115,20 +104,33 @@ namespace Subtext.Framework.Services
             return slug;
         }
 
+        #endregion
+
+        private static FriendlyUrlSettings GetDefaultSettings()
+        {
+            var config = new NameValueCollection();
+            config.Add("textTransform", "LowerCase");
+            config.Add("separatingCharacter", DefaultWordSeparator);
+            config.Add("limitWordCount", "10");
+            return new FriendlyUrlSettings(config);
+        }
+
         string EnsureUniqueness(string originalSlug, string separator)
         {
-            if (Repository == null)
+            if(Repository == null)
             {
                 return originalSlug;
             }
-            string[] suffixFormats = new[] { 
-                string.Empty, "{0}Again", "{0}Yet{0}Again", "{0}And{0}Again", "{0}Once{0}Again", "{0}Once{0}More", "{0}To{0}Beat{0}A{0}Dead{0}Horse" };
-            var slugs = suffixFormats.Select(s => originalSlug + String.Format(CultureInfo.InvariantCulture, s, separator));
+            var suffixFormats = new[]
+            {
+                string.Empty, "{0}Again", "{0}Yet{0}Again", "{0}And{0}Again", "{0}Once{0}Again", "{0}Once{0}More",
+                "{0}To{0}Beat{0}A{0}Dead{0}Horse"
+            };
+            IEnumerable<string> slugs =
+                suffixFormats.Select(s => originalSlug + String.Format(CultureInfo.InvariantCulture, s, separator));
             string uniqueSlug = slugs.First(slug => Repository.GetEntry(slug, false, false) == null);
             return uniqueSlug;
         }
-
-        static Regex _wordCharRegex = new Regex(@"[^\w\d\.\- ]+", RegexOptions.Compiled);
 
         private static string RemoveNonWordCharacters(string text)
         {
@@ -137,7 +139,7 @@ namespace Subtext.Framework.Services
 
         private static string ReplaceSpacesWithSeparator(string text, char wordSeparator)
         {
-            if (wordSeparator == char.MinValue)
+            if(wordSeparator == char.MinValue)
             {
                 //Special case if we are just removing spaces.
                 return text.ToPascalCase();
@@ -152,19 +154,18 @@ namespace Subtext.Framework.Services
         {
             string normalized = text.Normalize(NormalizationForm.FormKD);
             Encoding removal = Encoding.GetEncoding(Encoding.ASCII.CodePage,
-                new EncoderReplacementFallback(string.Empty),
-                new DecoderReplacementFallback(string.Empty));
+                                                    new EncoderReplacementFallback(string.Empty),
+                                                    new DecoderReplacementFallback(string.Empty));
             byte[] bytes = removal.GetBytes(normalized);
 
             string encoded = Encoding.ASCII.GetString(bytes);
-            if (String.IsNullOrEmpty(encoded))
+            if(String.IsNullOrEmpty(encoded))
             {
                 return HttpUtility.UrlEncode(text);
             }
             return encoded;
         }
 
-        static Regex _trailingPeriodRegex = new Regex(@"\.+$", RegexOptions.Compiled);
         private static string RemoveTrailingPeriods(string text)
         {
             return _trailingPeriodRegex.Replace(text, string.Empty);

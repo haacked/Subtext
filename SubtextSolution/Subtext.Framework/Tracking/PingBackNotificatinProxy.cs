@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,9 +12,11 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 #region Notes
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // The code in this file is freely distributable.
 // 
@@ -31,77 +34,75 @@
 // Originally based off of code by Simon Fell http://www.pocketsoap.com/weblog/ 
 // 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
+
 using System;
 using System.Text.RegularExpressions;
 using CookComputing.XmlRpc;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Tracking
 {
-	/// <summary>
-	/// Summary description for WeblogsNotificatinProxy.
-	/// </summary>
-	
-	public class PingBackNotificatinProxy : XmlRpcClientProtocol
-	{
-		public PingBackNotificatinProxy()
-		{
-			
-		}
+    /// <summary>
+    /// Summary description for WeblogsNotificatinProxy.
+    /// </summary>
+    public class PingBackNotificatinProxy : XmlRpcClientProtocol
+    {
+        private string errormessage = "No Error";
 
-		private string errormessage = "No Error";
-		public string ErrorMessage
-		{
-			get { return errormessage; }
-		}
+        public PingBackNotificatinProxy()
+        {
+        }
 
-		public bool Ping(string pageText, Uri sourceURI, Uri targetURI)
-		{
-			if (sourceURI == null)
-			{
-				throw new ArgumentNullException("sourceURI");
-			}
+        public string ErrorMessage
+        {
+            get { return errormessage; }
+        }
 
-			if (targetURI == null)
-			{
-				throw new ArgumentNullException("targetURI");
-			}
+        public bool Ping(string pageText, Uri sourceURI, Uri targetURI)
+        {
+            if(sourceURI == null)
+            {
+                throw new ArgumentNullException("sourceURI");
+            }
 
-			string pingbackURL = GetPingBackURL(pageText, sourceURI);
-			if (pingbackURL != null)
-			{
-				this.Url = pingbackURL;
-				Notify(sourceURI.ToString(), targetURI.ToString());
-				return true;
-			}
-			return false;
-		}
+            if(targetURI == null)
+            {
+                throw new ArgumentNullException("targetURI");
+            }
 
-		private static string GetPingBackURL(string pageText, Uri postUrl)
-		{
-			if (!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase | RegexOptions.Singleline))
-			{
-				if (pageText != null)
-				{
-					string pat = "<link rel=\"pingback\" href=\"([^\"]+)\" ?/?>";
-					Regex reg = new Regex(pat, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-					Match m = reg.Match(pageText);
-					if (m.Success)
-					{
-						return m.Result("$1");
-					}
-				}
-			}
-			return null;
-		}
+            string pingbackURL = GetPingBackURL(pageText, sourceURI);
+            if(pingbackURL != null)
+            {
+                Url = pingbackURL;
+                Notify(sourceURI.ToString(), targetURI.ToString());
+                return true;
+            }
+            return false;
+        }
 
-		[XmlRpcMethod("pingback.ping")]
-		public void Notify(string sourceURI, string targetURI)
-		{
-			Invoke("Notifiy", new object[] { sourceURI, targetURI });
-		}
+        private static string GetPingBackURL(string pageText, Uri postUrl)
+        {
+            if(!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase | RegexOptions.Singleline))
+            {
+                if(pageText != null)
+                {
+                    string pat = "<link rel=\"pingback\" href=\"([^\"]+)\" ?/?>";
+                    var reg = new Regex(pat, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                    Match m = reg.Match(pageText);
+                    if(m.Success)
+                    {
+                        return m.Result("$1");
+                    }
+                }
+            }
+            return null;
+        }
 
-	}
+        [XmlRpcMethod("pingback.ping")]
+        public void Notify(string sourceURI, string targetURI)
+        {
+            Invoke("Notifiy", new object[] {sourceURI, targetURI});
+        }
+    }
 }
-

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,30 +12,32 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Generic;
-using Subtext.Framework.Components;
 using System.IO;
+using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Syndication
 {
-	/// <summary>
-	/// Generates RSS
-	/// </summary>
-	public class AtomWriter : Subtext.Framework.Syndication.BaseAtomWriter
-	{
-		/// <summary>
-		/// Creates a new <see cref="AtomWriter"/> instance.
-		/// </summary>
-		/// <param name="entries">Entries.</param>
-		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-        public AtomWriter(TextWriter writer, ICollection<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context) : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
-		{
-			this.Items = entries;
-			this.UseAggBugs = true;
-		}
-	}
+    /// <summary>
+    /// Generates RSS
+    /// </summary>
+    public class AtomWriter : BaseAtomWriter
+    {
+        /// <summary>
+        /// Creates a new <see cref="AtomWriter"/> instance.
+        /// </summary>
+        /// <param name="entries">Entries.</param>
+        /// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
+        public AtomWriter(TextWriter writer, ICollection<Entry> entries, DateTime dateLastViewedFeedItemPublished,
+                          bool useDeltaEncoding, ISubtextContext context)
+            : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
+        {
+            Items = entries;
+            UseAggBugs = true;
+        }
+    }
 }
-

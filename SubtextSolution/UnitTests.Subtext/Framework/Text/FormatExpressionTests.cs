@@ -1,5 +1,5 @@
-﻿using Subtext.Framework.Text;
 using MbUnit.Framework;
+using Subtext.Framework.Text;
 
 namespace UnitTests.Subtext.Framework.Text
 {
@@ -17,7 +17,8 @@ namespace UnitTests.Subtext.Framework.Text
         }
 
         [Test]
-        public void Format_WithoutColon_ReadsWholeExpression() { 
+        public void Format_WithoutColon_ReadsWholeExpression()
+        {
             //arrange
             var expr = new FormatExpression("{foo}");
 
@@ -26,7 +27,7 @@ namespace UnitTests.Subtext.Framework.Text
         }
 
         [Test]
-        public void Format_WithColon_ParsesoutFormat    ()
+        public void Format_WithColon_ParsesoutFormat()
         {
             //arrange
             var expr = new FormatExpression("{foo:#.##}");
@@ -36,13 +37,14 @@ namespace UnitTests.Subtext.Framework.Text
         }
 
         [Test]
-        public void Eval_WithNamedExpression_EvalsPropertyOfExpression() {
+        public void Eval_WithNamedExpression_EvalsPropertyOfExpression()
+        {
             //arrange
             var expr = new FormatExpression("{foo}");
 
             //act
-            string result = expr.Eval(new { foo = 123 });
-            
+            string result = expr.Eval(new {foo = 123});
+
             //assert
             Assert.AreEqual("123", result);
         }
@@ -55,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Text
             var expr = new FormatExpression("{foo:#.##}");
 
             //act
-            string result = expr.Eval(new { foo = 1.23456 });
+            string result = expr.Eval(new {foo = 1.23456});
 
             //assert
             float expected = 1.23f;

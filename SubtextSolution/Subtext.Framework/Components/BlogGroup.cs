@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -19,74 +21,47 @@ using System.Xml.Serialization;
 
 namespace Subtext.Framework.Components
 {
-	/// <summary>
-	/// Summary description for BlogGroup.
-	/// </summary>
-	[Serializable]
-	public class BlogGroup
-	{
-		/// <summary>
-		/// Creates a new <see cref="BlogGroup"/> instance.
-		/// </summary>
-		public BlogGroup()
-		{}
+    /// <summary>
+    /// Summary description for BlogGroup.
+    /// </summary>
+    [Serializable]
+    public class BlogGroup
+    {
+        /// <summary>
+        /// Creates a new <see cref="BlogGroup"/> instance.
+        /// </summary>
+        public BlogGroup()
+        {
+        }
 
-		/// <summary>
-		/// Creates a new <see cref="BlogGroup"/> instance.
-		/// </summary>
-		/// <param name="id">Blog Group ID.</param>
-		/// <param name="title">Title.</param>
+        /// <summary>
+        /// Creates a new <see cref="BlogGroup"/> instance.
+        /// </summary>
+        /// <param name="id">Blog Group ID.</param>
+        /// <param name="title">Title.</param>
         public BlogGroup(int id, string title)
-		{
-			Title = title;
-            this.Id = id;
-		}
+        {
+            Title = title;
+            Id = id;
+        }
 
-		public string Title
-		{
-			get;
-			set;
-		}
+        public string Title { get; set; }
 
-		public bool HasDescription
-		{
-			get
-			{
-				return Description != null && Description.Trim().Length > 0;
-			}
-		}
+        public bool HasDescription
+        {
+            get { return Description != null && Description.Trim().Length > 0; }
+        }
 
-		public string Description
-		{
-			get;
-			set;
-		}
+        public string Description { get; set; }
 
 
-		public int DisplayOrder
-		{
-			get;
-			set;
-		}
+        public int DisplayOrder { get; set; }
 
         [XmlAttribute("BlogGroupID")]
-		public int Id
-		{
-			get;
-			set;
-		}
+        public int Id { get; set; }
 
-		public bool IsActive
-		{
-			get;
-			set;
-		}
+        public bool IsActive { get; set; }
 
-        public ICollection<Blog> Blogs
-		{
-            get;
-            set;
-		}
-	}
+        public ICollection<Blog> Blogs { get; set; }
+    }
 }
-

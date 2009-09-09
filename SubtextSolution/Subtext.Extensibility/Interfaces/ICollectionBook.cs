@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,13 +12,14 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Collections.Generic;
 
 namespace Subtext.Extensibility.Interfaces
 {
-	public interface ICollectionBook<T> : IEnumerable<IPagedCollection<T>>
-	{
-	}
+    public interface ICollectionBook<T> : IEnumerable<IPagedCollection<T>>
+    {
+    }
 }

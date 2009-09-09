@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -19,61 +21,70 @@ using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Install
 {
-	/// <summary>
-	/// Summary description for InstallationComplete.
-	/// </summary>
-	public partial class InstallationComplete : InstallationBase
-	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
-            InstallationManager installManager = new InstallationManager(Subtext.Extensibility.Providers.Installation.Provider);
+    /// <summary>
+    /// Summary description for InstallationComplete.
+    /// </summary>
+    public partial class InstallationComplete : InstallationBase
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            var installManager = new InstallationManager(Extensibility.Providers.Installation.Provider);
             installManager.ResetInstallationStatusCache();
 
-            if(paraBlogLink != null) paraBlogLink.Visible = false;
-			if(paraBlogAdminLink != null) paraBlogAdminLink.Visible = false;
-			if(paraBlogmlImport != null) paraBlogmlImport.Visible = false;
-			
-			if(Config.CurrentBlog != null)
-			{
-				if(lnkBlog != null && paraBlogLink != null)
-				{
-					paraBlogLink.Visible = true;
-					lnkBlog.HRef = Url.BlogUrl();
-				}
-				
-				if(lnkBlogAdmin != null && paraBlogAdminLink != null)
-				{
-					paraBlogAdminLink.Visible = true;
-                    lnkBlogAdmin.HRef = AdminUrl.Home();
-				}
-				
-				if(lnkBlogMl != null && paraBlogmlImport != null)
-				{
-					paraBlogmlImport.Visible = true;
-                    lnkBlogMl.HRef = AdminUrl.ImportExport();
-				}
-			}
-			
-		}
-		
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
+            if(paraBlogLink != null)
+            {
+                paraBlogLink.Visible = false;
+            }
+            if(paraBlogAdminLink != null)
+            {
+                paraBlogAdminLink.Visible = false;
+            }
+            if(paraBlogmlImport != null)
+            {
+                paraBlogmlImport.Visible = false;
+            }
 
-		}
-		#endregion
-	}
+            if(Config.CurrentBlog != null)
+            {
+                if(lnkBlog != null && paraBlogLink != null)
+                {
+                    paraBlogLink.Visible = true;
+                    lnkBlog.HRef = Url.BlogUrl();
+                }
+
+                if(lnkBlogAdmin != null && paraBlogAdminLink != null)
+                {
+                    paraBlogAdminLink.Visible = true;
+                    lnkBlogAdmin.HRef = AdminUrl.Home();
+                }
+
+                if(lnkBlogMl != null && paraBlogmlImport != null)
+                {
+                    paraBlogmlImport.Visible = true;
+                    lnkBlogMl.HRef = AdminUrl.ImportExport();
+                }
+            }
+        }
+
+        #region Web Form Designer generated code
+
+        override protected void OnInit(EventArgs e)
+        {
+            //
+            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
+            //
+            InitializeComponent();
+            base.OnInit(e);
+        }
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+        }
+
+        #endregion
+    }
 }

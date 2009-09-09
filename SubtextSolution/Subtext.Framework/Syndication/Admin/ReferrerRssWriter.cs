@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -23,98 +25,104 @@ using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Syndication.Admin
 {
-	public class ReferrerRssWriter : GenericRssWriter<Referrer>
-	{
-		public ReferrerRssWriter(TextWriter writer, ICollection<Referrer> referrers, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context)
+    public class ReferrerRssWriter : GenericRssWriter<Referrer>
+    {
+        public ReferrerRssWriter(TextWriter writer, ICollection<Referrer> referrers,
+                                 DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding,
+                                 ISubtextContext context)
             : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
-		{
-			this.Items = referrers;
-		}
+        {
+            Items = referrers;
+        }
 
-		protected override ICollection<string> GetCategoriesFromItem(Referrer item)
-		{
-			var strings = new List<string>();
-			strings.Add(item.PostTitle);
-			strings.Add(new Uri(item.ReferrerURL).Host);
-			return strings;
-		}
-		protected override string GetGuid(Referrer item)
-		{
-			return item.BlogId.ToString(CultureInfo.InvariantCulture) + item.EntryID.ToString(CultureInfo.InvariantCulture) + item.ReferrerURL;
-		}
+        protected override ICollection<string> GetCategoriesFromItem(Referrer item)
+        {
+            var strings = new List<string>();
+            strings.Add(item.PostTitle);
+            strings.Add(new Uri(item.ReferrerURL).Host);
+            return strings;
+        }
 
-		protected override string GetTitleFromItem(Referrer item)
-		{
-			return item.PostTitle + " - " + item.ReferrerURL.ShortenUrl(20);
-		}
+        protected override string GetGuid(Referrer item)
+        {
+            return item.BlogId.ToString(CultureInfo.InvariantCulture) +
+                   item.EntryID.ToString(CultureInfo.InvariantCulture) + item.ReferrerURL;
+        }
 
-		protected override string GetLinkFromItem(Referrer item)
-		{
-			return UrlHelper.AdminUrl("Referrers.aspx");
-		}
+        protected override string GetTitleFromItem(Referrer item)
+        {
+            return item.PostTitle + " - " + item.ReferrerURL.ShortenUrl(20);
+        }
 
-		protected override string GetBodyFromItem(Referrer item)
-		{
-			return String.Format(CultureInfo.InvariantCulture, Resources.Message_ReferrersForm, item.ReferrerURL, item.Count);
-		}
+        protected override string GetLinkFromItem(Referrer item)
+        {
+            return UrlHelper.AdminUrl("Referrers.aspx");
+        }
 
-		protected override string GetAuthorFromItem(Referrer item)
-		{
-			return "";
-		}
+        protected override string GetBodyFromItem(Referrer item)
+        {
+            return String.Format(CultureInfo.InvariantCulture, Resources.Message_ReferrersForm, item.ReferrerURL,
+                                 item.Count);
+        }
 
-		protected override DateTime GetPublishedDateUtc(Referrer item)
-		{
-			return item.LastReferDate;
-		}
+        protected override string GetAuthorFromItem(Referrer item)
+        {
+            return "";
+        }
 
-		protected override bool ItemCouldContainComments(Referrer item)
-		{
-			return false;
-		}
+        protected override DateTime GetPublishedDateUtc(Referrer item)
+        {
+            return item.LastReferDate;
+        }
 
-		protected override bool ItemAllowsComments(Referrer item)
-		{
-			return false;
-		}
+        protected override bool ItemCouldContainComments(Referrer item)
+        {
+            return false;
+        }
 
-		protected override bool CommentsClosedOnItem(Referrer item)
-		{
-			return true;
-		}
+        protected override bool ItemAllowsComments(Referrer item)
+        {
+            return false;
+        }
 
-		protected override int GetFeedbackCount(Referrer item)
-		{
-			return item.Count;
-		}
+        protected override bool CommentsClosedOnItem(Referrer item)
+        {
+            return true;
+        }
 
-		protected override DateTime GetSyndicationDate(Referrer item)
-		{
-			return item.LastReferDate;
-		}
+        protected override int GetFeedbackCount(Referrer item)
+        {
+            return item.Count;
+        }
 
-		protected override string GetAggBugUrl(Referrer item)
-		{
-			return string.Empty;
-		}
+        protected override DateTime GetSyndicationDate(Referrer item)
+        {
+            return item.LastReferDate;
+        }
 
-		protected override string GetCommentApiUrl(Referrer item)
-		{
+        protected override string GetAggBugUrl(Referrer item)
+        {
             return string.Empty;
-		}
+        }
 
-		protected override string GetCommentRssUrl(Referrer item)
-		{
+        protected override string GetCommentApiUrl(Referrer item)
+        {
             return string.Empty;
-		}
+        }
 
-		protected override string GetTrackBackUrl(Referrer item)
-		{
+        protected override string GetCommentRssUrl(Referrer item)
+        {
             return string.Empty;
-		}
+        }
+
+        protected override string GetTrackBackUrl(Referrer item)
+        {
+            return string.Empty;
+        }
+
         protected override EnclosureItem GetEnclosureFromItem(Referrer item)
         {
             return null;
         }
-	}
+    }
 }

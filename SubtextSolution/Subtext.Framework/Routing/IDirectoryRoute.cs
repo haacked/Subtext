@@ -1,4 +1,3 @@
-﻿
 namespace Subtext.Framework.Routing
 {
     public interface IDirectoryRoute

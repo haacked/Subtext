@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -18,7 +20,6 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Format
@@ -36,8 +37,8 @@ namespace Subtext.Framework.Format
         public static DateTime DateFromUrl(string url)
         {
             string date = Path.GetFileNameWithoutExtension(url);
-            CultureInfo en = new CultureInfo("en-US");
-            switch (date.Length)
+            var en = new CultureInfo("en-US");
+            switch(date.Length)
             {
                 case 8:
                     return DateTime.ParseExact(date, "MMddyyyy", en);
@@ -70,26 +71,32 @@ namespace Subtext.Framework.Format
         /// <returns></returns>
         public static string GetBlogSubfolderFromRequest(string rawUrl, string applicationPath)
         {
-            if (rawUrl == null)
+            if(rawUrl == null)
+            {
                 throw new ArgumentNullException("rawUrl");
+            }
 
-            if (applicationPath == null)
+            if(applicationPath == null)
+            {
                 throw new ArgumentNullException("applicationPath");
+            }
 
             // The {0} represents a potential virtual directory
             string urlPatternFormat = "{0}/(?<app>.*?)/";
 
             //Remove any / from App.
             string cleanApp = "/" + StripSurroundingSlashes(applicationPath);
-            if (cleanApp == "/")
+            if(cleanApp == "/")
+            {
                 cleanApp = string.Empty;
+            }
             string appRegex = Regex.Escape(cleanApp);
 
             string urlRegexPattern = string.Format(CultureInfo.InvariantCulture, urlPatternFormat, appRegex);
 
-            Regex urlRegex = new Regex(urlRegexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            var urlRegex = new Regex(urlRegexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
             Match match = urlRegex.Match(rawUrl);
-            if (match.Success)
+            if(match.Success)
             {
                 return match.Groups["app"].Value;
             }
@@ -120,7 +127,7 @@ namespace Subtext.Framework.Format
             {
                 return request.UrlReferrer;
             }
-            catch (UriFormatException)
+            catch(UriFormatException)
             {
                 return null;
             }
@@ -133,13 +140,19 @@ namespace Subtext.Framework.Format
         /// <returns></returns>
         public static string StripSurroundingSlashes(string target)
         {
-            if (target == null)
+            if(target == null)
+            {
                 throw new ArgumentNullException("target");
+            }
 
-            if (target.EndsWith("/"))
+            if(target.EndsWith("/"))
+            {
                 target = target.Remove(target.Length - 1, 1);
-            if (target.StartsWith("/"))
+            }
+            if(target.StartsWith("/"))
+            {
                 target = target.Remove(0, 1);
+            }
 
             return target;
         }

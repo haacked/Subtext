@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,57 +12,53 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Generic;
-using Subtext.Framework;
-using Subtext.Framework.Components;
 using System.IO;
+using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Syndication
 {
-	/// <summary>
-	/// Summary description for CategoryWriter.
-	/// </summary>
-	public class CategoryWriter : RssWriter
-	{
-		public LinkCategory Category
-		{
-			get;
-			set;
-		}
+    /// <summary>
+    /// Summary description for CategoryWriter.
+    /// </summary>
+    public class CategoryWriter : RssWriter
+    {
+        /// <summary>
+        /// Creates a new <see cref="CategoryWriter"/> instance.
+        /// </summary>
+        /// <param name="ec">Ec.</param>
+        /// <param name="lc">Lc.</param>
+        /// <param name="url">URL.</param>
+        public CategoryWriter(TextWriter writer, ICollection<Entry> ec, LinkCategory lc, Uri url,
+                              ISubtextContext context) : base(writer, ec, NullValue.NullDateTime, false, context)
+        {
+            Category = lc;
+            Url = url;
+        }
 
-		public Uri Url
-		{
-			get;
-			set;
-		}
+        public LinkCategory Category { get; set; }
 
-		//TODO: implement dateLastViewedFeedItemPublished
-		//TODO: Implement useDeltaEncoding
-		/// <summary>
-		/// Creates a new <see cref="CategoryWriter"/> instance.
-		/// </summary>
-		/// <param name="ec">Ec.</param>
-		/// <param name="lc">Lc.</param>
-		/// <param name="url">URL.</param>
-		public CategoryWriter(TextWriter writer, ICollection<Entry> ec, LinkCategory lc, Uri url, ISubtextContext context) : base(writer, ec, NullValue.NullDateTime, false, context)
-		{
-			this.Category = lc;
-			this.Url = url;
-		}
+        public Uri Url { get; set; }
 
-		protected override void WriteChannel()
-		{
-			if(this.Category == null)
-			{
-				base.WriteChannel();
-			}
-			else
-			{
-				this.BuildChannel(Category.Title, Url, Blog.Email, Category.HasDescription ? Category.Description : Category.Title, Blog.Language, Blog.Author, Blog.LicenseUrl);
-			}
-		}
-	}
+        //TODO: implement dateLastViewedFeedItemPublished
+        //TODO: Implement useDeltaEncoding
+
+        protected override void WriteChannel()
+        {
+            if(Category == null)
+            {
+                base.WriteChannel();
+            }
+            else
+            {
+                BuildChannel(Category.Title, Url, Blog.Email,
+                             Category.HasDescription ? Category.Description : Category.Title, Blog.Language, Blog.Author,
+                             Blog.LicenseUrl);
+            }
+        }
+    }
 }

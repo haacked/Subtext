@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,36 +12,36 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
 using System.Collections.Generic;
-using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Framework
-{ 
-	/// <summary>
-	/// Summary description for Links.
-	/// </summary>
-	public static class Links
-	{
+{
+    /// <summary>
+    /// Summary description for Links.
+    /// </summary>
+    public static class Links
+    {
         public static ICollection<LinkCategory> GetCategories(CategoryType catType, ActiveFilter status)
-		{
+        {
             return ObjectProvider.Instance().GetCategories(catType, status == ActiveFilter.ActiveOnly);
-		}
+        }
 
         public static ICollection<LinkCategory> GetLinkCategoriesByPostID(int postId)
         {
-            List<Link> links = new List<Link>(ObjectProvider.Instance().GetLinkCollectionByPostID(postId));
-            ICollection<LinkCategory> postCategories = ObjectProvider.Instance().GetCategories(CategoryType.PostCollection, true /* activeOnly */);
-            LinkCategory[] categories = new LinkCategory[postCategories.Count];
+            var links = new List<Link>(ObjectProvider.Instance().GetLinkCollectionByPostID(postId));
+            ICollection<LinkCategory> postCategories =
+                ObjectProvider.Instance().GetCategories(CategoryType.PostCollection, true /* activeOnly */);
+            var categories = new LinkCategory[postCategories.Count];
             postCategories.CopyTo(categories, 0);
 
-            foreach (LinkCategory category in categories)
+            foreach(LinkCategory category in categories)
             {
-                if (!links.Exists(link => category.Id == link.CategoryID))
+                if(!links.Exists(link => category.Id == link.CategoryID))
                 {
                     postCategories.Remove(category);
                 }
@@ -48,42 +49,42 @@ namespace Subtext.Framework
             return postCategories;
         }
 
-		#region Edit Links/Categories
+        #region Edit Links/Categories
 
-		public static bool UpdateLink(Link link)
-		{
-			return ObjectProvider.Instance().UpdateLink(link);
-		}
+        public static bool UpdateLink(Link link)
+        {
+            return ObjectProvider.Instance().UpdateLink(link);
+        }
 
-		public static int CreateLink(Link link)
-		{
-			return ObjectProvider.Instance().CreateLink(link);
-		}
+        public static int CreateLink(Link link)
+        {
+            return ObjectProvider.Instance().CreateLink(link);
+        }
 
-		public static bool UpdateLinkCategory(LinkCategory lc)
-		{
-			return ObjectProvider.Instance().UpdateLinkCategory(lc);
-		}
-		
-		public static int CreateLinkCategory(LinkCategory lc)
-		{
-			lc.Id = ObjectProvider.Instance().CreateLinkCategory(lc);
+        public static bool UpdateLinkCategory(LinkCategory lc)
+        {
+            return ObjectProvider.Instance().UpdateLinkCategory(lc);
+        }
+
+        public static int CreateLinkCategory(LinkCategory lc)
+        {
+            lc.Id = ObjectProvider.Instance().CreateLinkCategory(lc);
             return lc.Id;
-		}
+        }
 
-		public static bool DeleteLinkCategory(int CategoryID)
-		{
-			return ObjectProvider.Instance().DeleteLinkCategory(CategoryID);
-		}
+        public static bool DeleteLinkCategory(int CategoryID)
+        {
+            return ObjectProvider.Instance().DeleteLinkCategory(CategoryID);
+        }
 
-		public static bool DeleteLink(int LinkID)
-		{
-			return ObjectProvider.Instance().DeleteLink(LinkID);
-		}
+        public static bool DeleteLink(int LinkID)
+        {
+            return ObjectProvider.Instance().DeleteLink(LinkID);
+        }
 
-		#endregion	
-	}
-    
+        #endregion
+    }
+
     public enum ActiveFilter
     {
         None,
@@ -91,6 +92,3 @@ namespace Subtext.Framework
         InactiveOnly,
     }
 }
-
-
-

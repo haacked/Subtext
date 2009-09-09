@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using MbUnit.Framework;
 using Subtext.Framework.Util;
@@ -81,23 +81,25 @@ namespace UnitTests.Subtext.Framework.Util
         public void WriteBytesToFile_WithNullDestination_ThrowsArgumentNullException()
         {
             UnitTestHelper.AssertThrows<ArgumentNullException>(() => FileHelper.WriteBytesToFile(null, new byte[0]));
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() => FileHelper.WriteBytesToFile(string.Empty, new byte[0]));
+            UnitTestHelper.AssertThrows<ArgumentNullException>(
+                () => FileHelper.WriteBytesToFile(string.Empty, new byte[0]));
         }
 
         [Test]
         public void WriteBytesToFile_WithInvalidFilePath_ThrowsInvailidOperationException()
         {
-            UnitTestHelper.AssertThrows<InvalidOperationException>(() => FileHelper.WriteBytesToFile("c:\\foo\\#$3211|.jpg", new byte[0]));
+            UnitTestHelper.AssertThrows<InvalidOperationException>(
+                () => FileHelper.WriteBytesToFile("c:\\foo\\#$3211|.jpg", new byte[0]));
         }
 
         [SetUp]
         public void SetUp()
         {
-            if (Directory.Exists(TestDirectory))
+            if(Directory.Exists(TestDirectory))
             {
                 Directory.Delete(TestDirectory, true);
             }
-            if (Directory.Exists("image"))
+            if(Directory.Exists("image"))
             {
                 Directory.Delete("image", true);
             }

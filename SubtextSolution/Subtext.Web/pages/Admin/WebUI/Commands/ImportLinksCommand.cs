@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -23,13 +25,14 @@ namespace Subtext.Web.Admin.Commands
     [Serializable]
     public class ImportLinksCommand : ConfirmCommand
     {
-        protected OpmlItemCollection _linksToImport;
         protected ICollection<Link> _allLinks;
         protected int _categoryID = NullValue.NullInt32;
+        protected OpmlItemCollection _linksToImport;
 
         protected ImportLinksCommand()
         {
-            _promptMessage = "A total of {0} links were found in your file.<p/>Any existing links with the same url will be overwritten.<p/>Are you sure you want to import these links?";
+            _promptMessage =
+                "A total of {0} links were found in your file.<p/>Any existing links with the same url will be overwritten.<p/>Are you sure you want to import these links?";
             _executeSuccessMessage = "A total of {0} links were successfully imported.";
             _executeFailureMessage = "The import failed. Details: {0}";
             _cancelSuccessMessage = "These link import operation was canceled.";
@@ -41,17 +44,20 @@ namespace Subtext.Web.Admin.Commands
         {
             _linksToImport = links;
             _categoryID = catID;
-
         }
 
         public override string PromptMessage
         {
             get
             {
-                if (!Utilities.IsNullorEmpty(_promptMessage))
+                if(!Utilities.IsNullorEmpty(_promptMessage))
+                {
                     return FormatMessage(_promptMessage, _linksToImport.Count);
+                }
                 else
+                {
                     return base.PromptMessage;
+                }
             }
             set { _promptMessage = value; }
         }
@@ -65,12 +71,14 @@ namespace Subtext.Web.Admin.Commands
                 //				_allLinks = Links.GetPagedLinks(1, allLinks.MaxItems);
 
                 // process import collection
-                foreach (OpmlItem item in _linksToImport)
+                foreach(OpmlItem item in _linksToImport)
+                {
                     ImportOpmlItem(item);
+                }
 
                 return FormatMessage(ExecuteSuccessMessage, _linksToImport.Count);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return FormatMessage(ExecuteFailureMessage, ex.Message);
             }
@@ -84,10 +92,12 @@ namespace Subtext.Web.Admin.Commands
 
         private void ImportOpmlItem(OpmlItem item)
         {
-            foreach (OpmlItem childItem in item.ChildItems)
+            foreach(OpmlItem childItem in item.ChildItems)
+            {
                 ImportOpmlItem(childItem);
+            }
 
-            Link newLink = new Link();
+            var newLink = new Link();
             newLink.Title = item.Title;
             newLink.Url = item.HtmlUrl;
             newLink.Rss = item.XmlUrl;
@@ -98,8 +108,10 @@ namespace Subtext.Web.Admin.Commands
             newLink.NewWindow = false;
 
             // this isn't a valid collision test really
-            if (!_allLinks.Contains(newLink))
+            if(!_allLinks.Contains(newLink))
+            {
                 Links.CreateLink(newLink);
+            }
         }
     }
 }

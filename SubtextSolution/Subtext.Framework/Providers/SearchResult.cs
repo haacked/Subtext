@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,7 +12,9 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
+
 using System;
 
 namespace Subtext.Framework.Providers
@@ -24,16 +27,8 @@ namespace Subtext.Framework.Providers
             Url = url;
         }
 
-        public string Title
-        {
-            get;
-            private set;
-        }
+        public string Title { get; private set; }
 
-        public Uri Url
-        {
-            get;
-            private set;
-        }
+        public Uri Url { get; private set; }
     }
 }

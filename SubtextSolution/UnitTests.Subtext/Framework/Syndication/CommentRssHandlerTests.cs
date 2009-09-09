@@ -12,27 +12,27 @@ using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
-	/// <summary>
-	/// Tests the CommentRSS HttpHandler.
-	/// </summary>
-	[TestFixture]
-	public class CommentRssHandlerTests
-	{
-		/// <summary>
-		/// <para>
-		/// Makes sure that the CommentRssHandler produces a valid RSS feed even if 
-		/// the entry has no feed items.
-		/// This test is in response to case [1446934] 
-		/// </para>
-		/// <para>
-		/// https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1446934&amp;group_id=137896&amp;atid=739979"
-		/// </para>
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void CommentRssHandlerProducesValidEmptyFeed()
-		{
-			string hostName = UnitTestHelper.GenerateUniqueHostname();
+    /// <summary>
+    /// Tests the CommentRSS HttpHandler.
+    /// </summary>
+    [TestFixture]
+    public class CommentRssHandlerTests
+    {
+        /// <summary>
+        /// <para>
+        /// Makes sure that the CommentRssHandler produces a valid RSS feed even if 
+        /// the entry has no feed items.
+        /// This test is in response to case [1446934] 
+        /// </para>
+        /// <para>
+        /// https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1446934&amp;group_id=137896&amp;atid=739979"
+        /// </para>
+        /// </summary>
+        [Test]
+        [RollBack]
+        public void CommentRssHandlerProducesValidEmptyFeed()
+        {
+            string hostName = UnitTestHelper.GenerateUniqueHostname();
             //BlogInfo blog = new BlogInfo {
             //    Host = hostName,
             //    Email = "Subtext@example.com",
@@ -46,32 +46,34 @@ namespace UnitTests.Subtext.Framework.Syndication
             blog.Email = "Subtext@example.com";
             blog.RFC3229DeltaEncodingEnabled = false;
 
-            
-			DateTime dateCreated = DateTime.Now;
-			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blog, "Author", "Best post EVER", "testbody", null, dateCreated);
-			var repository = new Mock<ObjectProvider>();
+
+            DateTime dateCreated = DateTime.Now;
+            Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blog, "Author", "Best post EVER", "testbody",
+                                                                           null, dateCreated);
+            var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
 
             int id = UnitTestHelper.Create(entry); //persist to db.
-			
+
             string rssOutput = null;
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blog, "/" + id + ".aspx", s => rssOutput = s);
             subtextContext.Setup(c => c.Repository).Returns(repository.Object);
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
-            var urlHelper = Mock.Get<UrlHelper>(subtextContext.Object.UrlHelper);
+            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
 
-            RssCommentHandler handler = new RssCommentHandler(subtextContext.Object);
-			handler.ProcessRequest();
+            var handler = new RssCommentHandler(subtextContext.Object);
+            handler.ProcessRequest();
 
-			XmlDocument doc = new XmlDocument();
-			doc.LoadXml(rssOutput);
-			
-			XmlNodeList titleNodes = doc.SelectNodes("/rss/channel/title");
-			Assert.IsNotNull(titleNodes, "The title node should not be null.");
-			Assert.AreEqual("Best post EVER", titleNodes[0].InnerText, "Did not get the expected value of the title node.");
-		}
-	}
+            var doc = new XmlDocument();
+            doc.LoadXml(rssOutput);
+
+            XmlNodeList titleNodes = doc.SelectNodes("/rss/channel/title");
+            Assert.IsNotNull(titleNodes, "The title node should not be null.");
+            Assert.AreEqual("Best post EVER", titleNodes[0].InnerText,
+                            "Did not get the expected value of the title node.");
+        }
+    }
 }

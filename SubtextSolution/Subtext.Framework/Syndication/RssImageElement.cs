@@ -5,127 +5,128 @@ using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Syndication
 {
-	/// <summary>
-	/// &lt;image&gt; is an optional sub-element of &lt;channel&gt;, which contains three required and three optional sub-elements.
-	/// </summary>
-	public class RssImageElement
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="RssImageElement"/> class.
-		/// </summary>
-		/// <param name="url">The URL.</param>
-		/// <param name="title">The title.</param>
-		/// <param name="link">The link.</param>
-		public RssImageElement(Uri url, string title, Uri link) : this(url, title, link, null, null, null)
-		{
-		}
+    /// <summary>
+    /// &lt;image&gt; is an optional sub-element of &lt;channel&gt;, which contains three required and three optional sub-elements.
+    /// </summary>
+    public class RssImageElement
+    {
+        string description;
+        int? height;
+        Uri link;
+        string title;
+        Uri url;
+        int? width;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="RssImageElement"/> class.
-		/// </summary>
-		/// <param name="url">The URL.</param>
-		/// <param name="title">The title.</param>
-		/// <param name="link">The link.</param>
-		/// <param name="width">The width.</param>
-		/// <param name="height">The height.</param>
-		/// <param name="description">The description.</param>
-		public RssImageElement(Uri url, string title, Uri link, int? width, int? height, string description)
-		{
-			this.url = url;
-			this.title = HtmlHelper.RemoveHtml(title);
-			this.link = link;
-			this.width = width;
-			this.height = height;
-			this.description = description;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RssImageElement"/> class.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="title">The title.</param>
+        /// <param name="link">The link.</param>
+        public RssImageElement(Uri url, string title, Uri link) : this(url, title, link, null, null, null)
+        {
+        }
 
-		/// <summary>
-		/// The URL of a GIF, JPEG or PNG image that represents the channel. 
-		/// </summary>
-		/// <value>The URL.</value>
-		public Uri Url
-		{
-			get { return this.url; }
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RssImageElement"/> class.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="title">The title.</param>
+        /// <param name="link">The link.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <param name="description">The description.</param>
+        public RssImageElement(Uri url, string title, Uri link, int? width, int? height, string description)
+        {
+            this.url = url;
+            this.title = HtmlHelper.RemoveHtml(title);
+            this.link = link;
+            this.width = width;
+            this.height = height;
+            this.description = description;
+        }
 
-		Uri url;
+        /// <summary>
+        /// The URL of a GIF, JPEG or PNG image that represents the channel. 
+        /// </summary>
+        /// <value>The URL.</value>
+        public Uri Url
+        {
+            get { return url; }
+        }
 
-		/// <summary>
-		/// Describes the image, it's used in the ALT attribute of the HTML &lt;img&gt; tag when the channel is rendered in HTML.
-		/// </summary>
-		/// <value>The title.</value>
-		public string Title
-		{
-			get { return this.title; }
-		}
+        /// <summary>
+        /// Describes the image, it's used in the ALT attribute of the HTML &lt;img&gt; tag when the channel is rendered in HTML.
+        /// </summary>
+        /// <value>The title.</value>
+        public string Title
+        {
+            get { return title; }
+        }
 
-		string title;
+        /// <summary>
+        /// The URL of the site, when the channel is rendered, the image is a link to the site. 
+        /// (Note, in practice the image &lt;title&gt; and &lt;link&gt; should have the same value as the channel's &lt;title&gt; and &lt;link&gt;.
+        /// </summary>
+        /// <value>The link.</value>
+        public Uri Link
+        {
+            get { return link; }
+        }
 
-		/// <summary>
-		/// The URL of the site, when the channel is rendered, the image is a link to the site. 
-		/// (Note, in practice the image &lt;title&gt; and &lt;link&gt; should have the same value as the channel's &lt;title&gt; and &lt;link&gt;.
-		/// </summary>
-		/// <value>The link.</value>
-		public Uri Link
-		{
-			get { return this.link; }
-		}
+        /// <summary>
+        /// Gets the width.
+        /// </summary>
+        /// <value>The width.</value>
+        public int? Width
+        {
+            get { return width; }
+        }
 
-		Uri link;
+        /// <summary>
+        /// Gets the height.
+        /// </summary>
+        /// <value>The height.</value>
+        public int? Height
+        {
+            get { return Height; }
+        }
 
-		/// <summary>
-		/// Gets the width.
-		/// </summary>
-		/// <value>The width.</value>
-		public int? Width
-		{
-			get { return this.width; }
-		}
+        /// <summary>
+        /// Gets the description.
+        /// </summary>
+        /// <value>The description.</value>
+        public string Description
+        {
+            get { return description; }
+        }
 
-		int? width;
+        /// <summary>
+        /// Writes this RssImage element to the specified XmlWriter.
+        /// </summary>
+        /// <param name="writer"></param>
+        public void WriteToXmlWriter(XmlWriter writer)
+        {
+            writer.WriteStartElement("image");
+            writer.WriteElementString("title", title);
+            writer.WriteElementString("url", url.ToString());
+            writer.WriteElementString("link", link.ToString());
 
-		/// <summary>
-		/// Gets the height.
-		/// </summary>
-		/// <value>The height.</value>
-		public int? Height
-		{
-			get { return this.Height; }
-		}
+            if(width != null)
+            {
+                writer.WriteElementString("width", width.Value.ToString(CultureInfo.InvariantCulture));
+            }
 
-		int? height;
+            if(height != null)
+            {
+                writer.WriteElementString("height", height.Value.ToString(CultureInfo.InvariantCulture));
+            }
 
-		/// <summary>
-		/// Gets the description.
-		/// </summary>
-		/// <value>The description.</value>
-		public string Description
-		{
-			get { return this.description; }
-		}
-
-		string description;
-		
-		/// <summary>
-		/// Writes this RssImage element to the specified XmlWriter.
-		/// </summary>
-		/// <param name="writer"></param>
-		public void WriteToXmlWriter(XmlWriter writer)
-		{
-			writer.WriteStartElement("image");
-			writer.WriteElementString("title", title);
-			writer.WriteElementString("url", this.url.ToString());
-			writer.WriteElementString("link", this.link.ToString());
-			
-			if (this.width != null)
-				writer.WriteElementString("width", this.width.Value.ToString(CultureInfo.InvariantCulture));
-			
-			if(this.height != null)
-				writer.WriteElementString("height", this.height.Value.ToString(CultureInfo.InvariantCulture));
-			
-			if(description != null)
-				writer.WriteElementString("description", description); //Used in the alt tag.
-			writer.WriteEndElement();
-		}
-	}
+            if(description != null)
+            {
+                writer.WriteElementString("description", description); //Used in the alt tag.
+            }
+            writer.WriteEndElement();
+        }
+    }
 }

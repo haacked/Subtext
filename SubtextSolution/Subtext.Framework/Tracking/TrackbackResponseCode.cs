@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,9 +12,11 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 #region Notes
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // The code in this file is freely distributable.
 // 
@@ -31,24 +34,24 @@
 // Based off of code by Simon Fell http://www.pocketsoap.com/weblog/ 
 // 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
-using System;
 
 namespace Subtext.Framework.Tracking
 {
-	/// <summary>
-	/// Defines the allowable Trackback response codes.
-	/// </summary>
-	public enum TrackbackResponseCode : int
-	{
-		/// <summary>
-		/// The trackback ping was succesful.
-		/// </summary>
-		Success = 0,
+    /// <summary>
+    /// Defines the allowable Trackback response codes.
+    /// </summary>
+    public enum TrackbackResponseCode
+    {
+        /// <summary>
+        /// The trackback ping was succesful.
+        /// </summary>
+        Success = 0,
 
-		/// <summary>
-		/// The trackback ping was unsuccesful.
-		/// </summary>
-		Error = 1,
-	}
+        /// <summary>
+        /// The trackback ping was unsuccesful.
+        /// </summary>
+        Error = 1,
+    }
 }

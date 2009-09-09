@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -20,33 +22,36 @@ using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Install
 {
-	/// <summary>
-	/// Page used to create an initial configuration for the blog.
-	/// </summary>
-	/// <remarks>
-	/// This page will ONLY be displayed if there are no 
-	/// blog configurations within the database.
-	/// </remarks>
-	public partial class Default : InstallationBase
-	{		
-		protected override void OnLoad(EventArgs e)
-		{
-            if (Subtext.Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion) == InstallationState.Complete)
-			{
-				Response.Redirect("InstallationComplete.aspx");
-			}
+    /// <summary>
+    /// Page used to create an initial configuration for the blog.
+    /// </summary>
+    /// <remarks>
+    /// This page will ONLY be displayed if there are no 
+    /// blog configurations within the database.
+    /// </remarks>
+    public partial class Default : InstallationBase
+    {
+        protected override void OnLoad(EventArgs e)
+        {
+            if(Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion) ==
+               InstallationState.Complete)
+            {
+                Response.Redirect("InstallationComplete.aspx");
+            }
 
-            this.btnInstallClick.Attributes["onclick"] = "this.disabled=true;" 
-                + ClientScript.GetPostBackEventReference(this.btnInstallClick, null).ToString();
+            btnInstallClick.Attributes["onclick"] = "this.disabled=true;"
+                                                    +
+                                                    ClientScript.GetPostBackEventReference(btnInstallClick, null).
+                                                        ToString();
 
-		
-			litDatabaseName.Text = Config.ConnectionString.Database;
-		}
 
-		protected virtual void OnInstallClick(object sender, EventArgs e)
-		{
-			Extensibility.Providers.Installation.Provider.Install(VersionInfo.FrameworkVersion);
-			Response.Redirect(NextStepUrl);
-		}
+            litDatabaseName.Text = Config.ConnectionString.Database;
+        }
+
+        protected virtual void OnInstallClick(object sender, EventArgs e)
+        {
+            Extensibility.Providers.Installation.Provider.Install(VersionInfo.FrameworkVersion);
+            Response.Redirect(NextStepUrl);
+        }
     }
 }

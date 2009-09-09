@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,21 +12,19 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-#endregion
 
-using System;
+#endregion
 
 namespace Subtext.Framework.UI.Skinning
 {
-	/// <summary>
-	/// Summary description for CacheKey.
-	/// </summary>
-	public enum CacheKey
-	{
-		None = 0,
-		Control =1,
-		ControlPage =2,
-		Page= 3,
-	};
+    /// <summary>
+    /// Summary description for CacheKey.
+    /// </summary>
+    public enum CacheKey
+    {
+        None = 0,
+        Control = 1,
+        ControlPage = 2,
+        Page = 3,
+    } ;
 }
-

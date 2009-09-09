@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,31 +12,32 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using MbUnit.Framework;
-using Subtext.Framework;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Exceptions;
 using Moq;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework;
+using Subtext.Framework.Exceptions;
 
 namespace UnitTests.Subtext.InstallationTests
 {
-	/// <summary>
-	/// Tests of the InstallationManager class.
-	/// </summary>
-	[TestFixture]
-	public class InstallationManagerTests
-	{
+    /// <summary>
+    /// Tests of the InstallationManager class.
+    /// </summary>
+    [TestFixture]
+    public class InstallationManagerTests
+    {
         [Test]
         public void IsInstallationActionRequired_WithProviderReturningInstallRequired_ReturnsTrue()
         {
             //arrange
             var installProvider = new Mock<Installation>();
-            installProvider.Setup(p => p.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.NeedsInstallation);
-            InstallationManager manager = new InstallationManager(installProvider.Object);
+            installProvider.Setup(p => p.GetInstallationStatus(It.IsAny<Version>())).Returns(
+                InstallationState.NeedsInstallation);
+            var manager = new InstallationManager(installProvider.Object);
 
             //act
             bool result = manager.InstallationActionRequired(new Version());
@@ -50,7 +52,7 @@ namespace UnitTests.Subtext.InstallationTests
             //arrange
             var installProvider = new Mock<Installation>();
             installProvider.Setup(p => p.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.Complete);
-            InstallationManager installManager = new InstallationManager(installProvider.Object);
+            var installManager = new InstallationManager(installProvider.Object);
 
             //act
             bool result = installManager.InstallationActionRequired(new Version());
@@ -64,7 +66,7 @@ namespace UnitTests.Subtext.InstallationTests
         {
             //arrange
             var installProvider = new Mock<Installation>();
-            InstallationManager installManager = new InstallationManager(installProvider.Object);
+            var installManager = new InstallationManager(installProvider.Object);
 
             //act
             bool result = installManager.InstallationActionRequired(new Version(), new HostDataDoesNotExistException());
@@ -73,14 +75,14 @@ namespace UnitTests.Subtext.InstallationTests
             Assert.IsTrue(result);
         }
 
-		/// <summary>
-		/// Called before each unit test.
-		/// </summary>
-		[TestFixtureSetUp]
-		public void TestFixtureSetUp()
-		{
-			//Confirm app settings
-			UnitTestHelper.AssertAppSettings();
-		}
-	}
+        /// <summary>
+        /// Called before each unit test.
+        /// </summary>
+        [TestFixtureSetUp]
+        public void TestFixtureSetUp()
+        {
+            //Confirm app settings
+            UnitTestHelper.AssertAppSettings();
+        }
+    }
 }

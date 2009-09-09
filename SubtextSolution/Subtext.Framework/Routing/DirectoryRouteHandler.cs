@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -31,17 +33,18 @@ namespace Subtext.Framework.Routing
 
         protected override IHttpHandler GetHandler(RequestContext requestContext)
         {
-            var routeData = requestContext.RouteData;
+            RouteData routeData = requestContext.RouteData;
             var route = routeData.Route as IDirectoryRoute;
-            if (route == null)
+            if(route == null)
             {
-                throw new InvalidOperationException(Resources.InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes);
+                throw new InvalidOperationException(
+                    Resources.InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes);
             }
 
             string virtualPath = "~/pages/" + route.DirectoryName + "/" + routeData.Values["pathinfo"];
-            if (String.IsNullOrEmpty(Path.GetExtension(virtualPath)))
+            if(String.IsNullOrEmpty(Path.GetExtension(virtualPath)))
             {
-                if (!virtualPath.EndsWith("/"))
+                if(!virtualPath.EndsWith("/"))
                 {
                     virtualPath += "/";
                 }

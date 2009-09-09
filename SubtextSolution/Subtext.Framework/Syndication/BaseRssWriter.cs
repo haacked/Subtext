@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -19,31 +21,39 @@ using Subtext.Extensibility.Interfaces;
 
 namespace Subtext.Framework.Syndication
 {
-	/// <summary>
-	/// Abstract base class used to write RSS feeds.
-	/// </summary>
-	public abstract class BaseRssWriter<T> : GenericRssWriter<T> where T : IIdentifiable {
-		/// <summary>
-		/// Creates a new <see cref="BaseRssWriter"/> instance.
-		/// </summary>
-		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-		protected BaseRssWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding, ISubtextContext context) : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context) {
-		}
+    /// <summary>
+    /// Abstract base class used to write RSS feeds.
+    /// </summary>
+    public abstract class BaseRssWriter<T> : GenericRssWriter<T> where T : IIdentifiable
+    {
+        /// <summary>
+        /// Creates a new <see cref="BaseRssWriter"/> instance.
+        /// </summary>
+        /// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
+        protected BaseRssWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding,
+                                ISubtextContext context)
+            : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
+        {
+        }
 
-		protected override string GetAggBugUrl(T item) {
+        protected override string GetAggBugUrl(T item)
+        {
             return UrlHelper.AggBugUrl(item.Id).ToFullyQualifiedUrl(Blog).ToString();
-		}
+        }
 
-		protected override string GetCommentApiUrl(T item) {
- 			return UrlHelper.CommentApiUrl(item.Id).ToFullyQualifiedUrl(Blog).ToString();
-		}
+        protected override string GetCommentApiUrl(T item)
+        {
+            return UrlHelper.CommentApiUrl(item.Id).ToFullyQualifiedUrl(Blog).ToString();
+        }
 
-		protected override string GetCommentRssUrl(T item) {
+        protected override string GetCommentRssUrl(T item)
+        {
             return UrlHelper.CommentRssUrl(item.Id).ToFullyQualifiedUrl(Blog).ToString();
-		}
+        }
 
-		protected override string GetTrackBackUrl(T item) {
+        protected override string GetTrackBackUrl(T item)
+        {
             return UrlHelper.TrackbacksUrl(item.Id).ToFullyQualifiedUrl(Blog).ToString();
-		}
-	}
+        }
+    }
 }

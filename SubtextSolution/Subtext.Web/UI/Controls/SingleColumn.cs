@@ -4,6 +4,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -16,68 +17,76 @@ using Subtext.Framework.Components;
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Web.UI.Controls
 {
-	/// <summary>
-	///	<para>
-	///	This control displays links by categories.  Categories 
-	///	include "Archives", "Image Galleries", And custom link Categories.
-	///	</para>
-	///	<para>
-	///	Makes use of the <see cref="CategoryList"/> control.
-	///	</para>
-	/// </summary>
-	public class SingleColumn : CachedColumnControl
-	{
-		protected Subtext.Web.UI.Controls.CategoryList Categories;
+    /// <summary>
+    ///	<para>
+    ///	This control displays links by categories.  Categories 
+    ///	include "Archives", "Image Galleries", And custom link Categories.
+    ///	</para>
+    ///	<para>
+    ///	Makes use of the <see cref="CategoryList"/> control.
+    ///	</para>
+    /// </summary>
+    public class SingleColumn : CachedColumnControl
+    {
+        protected CategoryList Categories;
 
-		/// <summary>
-		/// Raises the <see cref="E:System.Web.UI.Control.Load"/>
-		/// event.  Then calls <see cref="GetArchiveCategories"/> to 
-		/// populate the <see cref="CategoryList"/> control.
-		/// </summary>
-		/// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad (e);
-			Categories.LinkCategories = GetArchiveCategories(SubtextContext.Blog);
-		}
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load"/>
+        /// event.  Then calls <see cref="GetArchiveCategories"/> to 
+        /// populate the <see cref="CategoryList"/> control.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            Categories.LinkCategories = GetArchiveCategories(SubtextContext.Blog);
+        }
 
-		protected ICollection<LinkCategory> GetArchiveCategories(Blog blog)
-		{
-            List<LinkCategory> lcc = new List<LinkCategory>();
+        protected ICollection<LinkCategory> GetArchiveCategories(Blog blog)
+        {
+            var lcc = new List<LinkCategory>();
 
-			LinkCategory storyCollection = UIData.Links(CategoryType.StoryCollection, blog);
-			if(storyCollection != null)
-				lcc.Add(storyCollection);
+            LinkCategory storyCollection = UIData.Links(CategoryType.StoryCollection, blog);
+            if(storyCollection != null)
+            {
+                lcc.Add(storyCollection);
+            }
 
-			LinkCategory archiveMonth = UIData.ArchiveMonth(Url, blog);
-			if (archiveMonth != null)
-				lcc.Add(archiveMonth);
+            LinkCategory archiveMonth = UIData.ArchiveMonth(Url, blog);
+            if(archiveMonth != null)
+            {
+                lcc.Add(archiveMonth);
+            }
 
             /*   
              * Uncomment this to test the Category Archive with post count
              * and comment to following block of code 
-             */ 
+             */
 
             //LinkCategory archiveCategories = UIData.ArchiveCategory(CurrentBlog.UrlFormats);
             //if (archiveCategories != null)
             //    lcc.Add(archiveCategories);
-            
 
-			LinkCategory postCollection = UIData.Links(CategoryType.PostCollection, blog);
-			if (postCollection != null)
+
+            LinkCategory postCollection = UIData.Links(CategoryType.PostCollection, blog);
+            if(postCollection != null)
+            {
                 lcc.Add(postCollection);
+            }
 
-			LinkCategory imageCollection = UIData.Links(CategoryType.ImageCollection, blog);
-			if (imageCollection != null)
+            LinkCategory imageCollection = UIData.Links(CategoryType.ImageCollection, blog);
+            if(imageCollection != null)
+            {
                 lcc.Add(imageCollection);
-			
-			lcc.AddRange(Repository.GetActiveCategories());
-			return lcc;
-		}
-	}
-}
+            }
 
+            lcc.AddRange(Repository.GetActiveCategories());
+            return lcc;
+        }
+    }
+}

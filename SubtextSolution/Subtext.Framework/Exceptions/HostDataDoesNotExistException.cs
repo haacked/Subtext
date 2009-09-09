@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,29 +12,27 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 
 namespace Subtext.Framework.Exceptions
 {
-	/// <summary>
-	/// Exception thrown when the HostInfo table (or other backing store 
-	/// depending on the data provider) does not exist.
-	/// </summary>
-	[Serializable]
-	public class HostDataDoesNotExistException : Exception
-	{
-		/// <summary>
-		/// Gets the message.
-		/// </summary>
-		/// <value></value>
-		public override string Message
-		{
-			get
-			{
-				return "The HostInfo table does not exist.";
-			}
-		}
-	}
+    /// <summary>
+    /// Exception thrown when the HostInfo table (or other backing store 
+    /// depending on the data provider) does not exist.
+    /// </summary>
+    [Serializable]
+    public class HostDataDoesNotExistException : Exception
+    {
+        /// <summary>
+        /// Gets the message.
+        /// </summary>
+        /// <value></value>
+        public override string Message
+        {
+            get { return "The HostInfo table does not exist."; }
+        }
+    }
 }

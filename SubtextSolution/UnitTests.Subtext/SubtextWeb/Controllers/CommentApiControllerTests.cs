@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Xml;
 using MbUnit.Framework;
 using Moq;
@@ -13,10 +13,11 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
     public class CommentApiControllerTests
     {
         [Test]
-        public void CtorSetsCommentService() { 
+        public void CtorSetsCommentService()
+        {
             // arrange
-            var service = new Mock<ICommentService>().Object;
-            var subtextContext = new Mock<ISubtextContext>().Object;
+            ICommentService service = new Mock<ICommentService>().Object;
+            ISubtextContext subtextContext = new Mock<ISubtextContext>().Object;
 
             // act
             var controller = new CommentApiController(subtextContext, service);
@@ -29,8 +30,8 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
         public void CreateWithNullXmlThrowsInvalidOperationException()
         {
             // arrange
-            var service = new Mock<ICommentService>().Object;
-            var subtextContext = new Mock<ISubtextContext>().Object;
+            ICommentService service = new Mock<ICommentService>().Object;
+            ISubtextContext subtextContext = new Mock<ISubtextContext>().Object;
             var controller = new CommentApiController(subtextContext, service);
 
             // act, assert
@@ -47,14 +48,15 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             FeedbackItem comment = null;
             service.Setup(s => s.Create(It.IsAny<FeedbackItem>())).Callback<FeedbackItem>(f => comment = f);
             var controller = new CommentApiController(subtextContext.Object, service.Object);
-            var xmlText = @"<?xml version=""1.0""?>
+            string xmlText =
+                @"<?xml version=""1.0""?>
                             <item>
                                 <title>Haack's Wild Ride</title>
                                 <description>This tests the CommentAPI</description>
                                 <author>Me</author>
                                 <link>http://subtextproject.com/</link>
                             </item>";
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.LoadXml(xmlText);
 
             // act
@@ -78,13 +80,14 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             FeedbackItem comment = null;
             service.Setup(s => s.Create(It.IsAny<FeedbackItem>())).Callback<FeedbackItem>(f => comment = f);
             var controller = new CommentApiController(subtextContext.Object, service.Object);
-            var xmlText = @"<?xml version=""1.0""?>
+            string xmlText =
+                @"<?xml version=""1.0""?>
                             <item>
                                 <title>Haack's Wild Ride</title>
                                 <description>This tests the CommentAPI</description>
                                 <link>http://subtextproject.com/</link>
                             </item>";
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.LoadXml(xmlText);
 
             // act

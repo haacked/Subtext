@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,29 +12,26 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 
 namespace Subtext.Framework.Exceptions
 {
-	/// <summary>
-	/// Exception thrown when a duplicate comment occurs, but duplicates are not allowed.
-	/// </summary>
-	[Serializable]
-	public class CommentDuplicateException : BaseCommentException
-	{
-		/// <summary>
-		/// Gets the message.
-		/// </summary>
-		/// <value></value>
-		public override string Message
-		{
-			get
-			{
-				return "Sorry, but this comment is a duplicate of another comment.  Duplicate comments are not allowed.";
-			}
-		}
-
-	}
+    /// <summary>
+    /// Exception thrown when a duplicate comment occurs, but duplicates are not allowed.
+    /// </summary>
+    [Serializable]
+    public class CommentDuplicateException : BaseCommentException
+    {
+        /// <summary>
+        /// Gets the message.
+        /// </summary>
+        /// <value></value>
+        public override string Message
+        {
+            get { return "Sorry, but this comment is a duplicate of another comment.  Duplicate comments are not allowed."; }
+        }
+    }
 }

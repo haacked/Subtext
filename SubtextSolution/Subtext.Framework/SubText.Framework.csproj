@@ -642,6 +642,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Web\Handlers\CssHandler.cs" />
     <Compile Include="Web\Handlers\JsHandler.cs" />

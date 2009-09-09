@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Globalization;
+using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Properties;
@@ -8,8 +9,10 @@ using Subtext.Framework.Security;
 
 namespace Subtext.Framework.Email
 {
-    public class EmailService : IEmailService {
-        public EmailService(EmailProvider provider, ITemplateEngine templateEngine, ISubtextContext context) {
+    public class EmailService : IEmailService
+    {
+        public EmailService(EmailProvider provider, ITemplateEngine templateEngine, ISubtextContext context)
+        {
             EmailProvider = provider;
             TemplateEngine = templateEngine;
             Url = context.UrlHelper;
@@ -17,46 +20,39 @@ namespace Subtext.Framework.Email
             Context = context;
         }
 
-        protected EmailProvider EmailProvider {
-            get;
-            private set;
-        }
+        protected EmailProvider EmailProvider { get; private set; }
 
-        protected ITemplateEngine TemplateEngine {
-            get;
-            private set;
-        }
+        protected ITemplateEngine TemplateEngine { get; private set; }
 
-        protected Blog Blog {
-            get;
-            private set;
-        }
+        protected Blog Blog { get; private set; }
 
-        protected UrlHelper Url {
-            get;
-            private set;
-        }
+        protected UrlHelper Url { get; private set; }
 
-        protected ISubtextContext Context {
-            get;
-            private set;
-        }
+        protected ISubtextContext Context { get; private set; }
 
-        public void EmailCommentToBlogAuthor(FeedbackItem comment) {
-            if (String.IsNullOrEmpty(Blog.Email) 
-                || comment.FeedbackType == Subtext.Extensibility.FeedbackType.PingTrack
-                || Context.User.IsInAdminRole()) {
+        #region IEmailService Members
+
+        public void EmailCommentToBlogAuthor(FeedbackItem comment)
+        {
+            if(String.IsNullOrEmpty(Blog.Email)
+               || comment.FeedbackType == FeedbackType.PingTrack
+               || Context.User.IsInAdminRole())
+            {
                 return;
             }
 
             string fromEmail = comment.Email;
-            if (String.IsNullOrEmpty(fromEmail))
+            if(String.IsNullOrEmpty(fromEmail))
+            {
                 fromEmail = null;
-            
-            var template = TemplateEngine.GetTemplate("CommentReceived");
-            var commentForTemplate = new {
+            }
+
+            ITextTemplate template = TemplateEngine.GetTemplate("CommentReceived");
+            var commentForTemplate = new
+            {
                 blog = Blog,
-                comment = new { 
+                comment = new
+                {
                     author = comment.Author,
                     title = comment.Title,
                     source = Url.FeedbackUrl(comment).ToFullyQualifiedUrl(Blog),
@@ -64,18 +60,27 @@ namespace Subtext.Framework.Email
                     authorUrl = comment.SourceUrl,
                     ip = comment.IpAddress,
                     // we're sending plain text email by default, but body includes <br />s for crlf
-                    body = (comment.Body ?? string.Empty).Replace("<br />", Environment.NewLine).Replace("&lt;br /&gt;", Environment.NewLine)
+                    body =
+                        (comment.Body ?? string.Empty).Replace("<br />", Environment.NewLine).Replace("&lt;br /&gt;",
+                                                                                                      Environment.
+                                                                                                          NewLine)
                 },
                 spamFlag = comment.FlaggedAsSpam ? "Spam Flagged " : ""
             };
             string message = template.Format(commentForTemplate);
-            string subject = String.Format(CultureInfo.InvariantCulture, Resources.Email_CommentVia, comment.Title, Blog.Title);
-            if (comment.FlaggedAsSpam) {
+            string subject = String.Format(CultureInfo.InvariantCulture, Resources.Email_CommentVia, comment.Title,
+                                           Blog.Title);
+            if(comment.FlaggedAsSpam)
+            {
                 subject = "[SPAM Flagged] " + subject;
             }
-            string from = EmailProvider.UseCommentersEmailAsFromAddress ? (fromEmail ?? EmailProvider.AdminEmail) : EmailProvider.AdminEmail;
+            string from = EmailProvider.UseCommentersEmailAsFromAddress
+                              ? (fromEmail ?? EmailProvider.AdminEmail)
+                              : EmailProvider.AdminEmail;
 
             EmailProvider.Send(Blog.Email, from, subject, message);
         }
+
+        #endregion
     }
 }

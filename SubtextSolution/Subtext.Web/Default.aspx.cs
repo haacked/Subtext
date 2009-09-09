@@ -1,4 +1,5 @@
-﻿using System.Web;
+using System;
+using System.Web;
 using System.Web.Routing;
 using System.Web.UI;
 using Ninject;
@@ -8,9 +9,9 @@ using Subtext.Infrastructure;
 
 namespace Subtext.Web
 {
-    public partial class _Default : Page
+    public class _Default : Page
     {
-        public void Page_Load(object sender, System.EventArgs e)
+        public void Page_Load(object sender, EventArgs e)
         {
             //Workaround for Cassini issue with request to /
             //In IIS7, Default.aspx can be deleted.
@@ -18,10 +19,13 @@ namespace Subtext.Web
             var route = new RootRoute(HostInfo.Instance.BlogAggregationEnabled, kernel);
             var httpContext = new HttpContextWrapper(HttpContext.Current);
             RouteData routeData = route.GetRouteData(httpContext);
-            RequestContext requestContext = new RequestContext(httpContext, routeData);
+            var requestContext = new RequestContext(httpContext, routeData);
             string originalPath = Request.Path;
             HttpContext.Current.RewritePath(Request.ApplicationPath, false);
-            IRouteHandler routeHandler = new PageRouteHandler(HostInfo.Instance.BlogAggregationEnabled ? "~/pages/AggDefault.aspx" : "~/pages/Dtp.aspx", kernel.Get<ISubtextPageBuilder>(), kernel);
+            IRouteHandler routeHandler =
+                new PageRouteHandler(
+                    HostInfo.Instance.BlogAggregationEnabled ? "~/pages/AggDefault.aspx" : "~/pages/Dtp.aspx",
+                    kernel.Get<ISubtextPageBuilder>(), kernel);
             IHttpHandler httpHandler = routeHandler.GetHttpHandler(requestContext);
             httpHandler.ProcessRequest(HttpContext.Current);
             HttpContext.Current.RewritePath(originalPath);

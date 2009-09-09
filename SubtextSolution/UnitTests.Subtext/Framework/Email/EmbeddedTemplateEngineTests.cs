@@ -1,4 +1,4 @@
-﻿using MbUnit.Framework;
+using MbUnit.Framework;
 using Subtext.Framework.Email;
 
 namespace UnitTests.Subtext.Framework.Email
@@ -7,12 +7,13 @@ namespace UnitTests.Subtext.Framework.Email
     public class EmbeddedTemplateEngineTests
     {
         [Test]
-        public void GetTemplate_WithCommentReceveid_ReturnsPropertTemplate() { 
+        public void GetTemplate_WithCommentReceveid_ReturnsPropertTemplate()
+        {
             //arrange
             var templateEngine = new EmbeddedTemplateEngine();
-            
+
             //act
-            var template = templateEngine.GetTemplate("CommentReceived");
+            ITextTemplate template = templateEngine.GetTemplate("CommentReceived");
 
             //assert
             Assert.IsTrue(template.ToString().StartsWith("{spamflag}"));

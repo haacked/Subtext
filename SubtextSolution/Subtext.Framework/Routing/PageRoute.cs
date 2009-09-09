@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Collections.Generic;
@@ -29,12 +31,12 @@ namespace Subtext.Framework.Routing
         {
         }
 
-        public PageRoute(string url, string virtualPath, IEnumerable<string> controls, ISubtextPageBuilder pageBuilder, IKernel kernel)
+        public PageRoute(string url, string virtualPath, IEnumerable<string> controls, ISubtextPageBuilder pageBuilder,
+                         IKernel kernel)
             : base(url, new PageRouteHandler(virtualPath, pageBuilder, kernel))
         {
             DataTokens = new RouteValueDictionary();
             DataTokens.Add(ControlNamesKey, controls.AsEnumerable());
         }
-
     }
 }

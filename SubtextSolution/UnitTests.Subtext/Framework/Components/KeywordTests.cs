@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using MbUnit.Framework;
 using Subtext.Framework.Components;
 
@@ -12,9 +9,8 @@ namespace UnitTests.Subtext.Framework.Components
         [Test]
         public void CanSetAndGetSimpleProperties()
         {
-            KeyWord keyword = new KeyWord();
+            var keyword = new KeyWord();
             UnitTestHelper.AssertSimpleProperties(keyword);
         }
-
     }
 }

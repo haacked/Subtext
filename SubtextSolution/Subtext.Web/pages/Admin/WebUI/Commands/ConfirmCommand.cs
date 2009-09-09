@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -24,36 +26,25 @@ namespace Subtext.Web.Admin.Commands
     [Serializable]
     public abstract class ConfirmCommand
     {
-        protected const string DEFAULT_PROMPT = "Are you sure you want to do this?";
-        protected const string DEFAULT_EXECUTE_SUCCESS = "Operation succeeded.";
-        protected const string DEFAULT_EXECUTE_FAILURE = "Operation failed. Details: {1}";
-        protected const string DEFAULT_CANCEL_SUCCESS = "Operation canceled.";
         protected const string DEFAULT_CANCEL_FAILURE = "Could not cancel operation. Details: {1}";
+        protected const string DEFAULT_CANCEL_SUCCESS = "Operation canceled.";
+        protected const string DEFAULT_EXECUTE_FAILURE = "Operation failed. Details: {1}";
+        protected const string DEFAULT_EXECUTE_SUCCESS = "Operation succeeded.";
+        protected const string DEFAULT_PROMPT = "Are you sure you want to do this?";
 
-        protected string _promptMessage;
-        protected string _executeSuccessMessage;
-        protected string _executeFailureMessage;
-        protected string _cancelSuccessMessage;
         protected string _cancelFailureMessage;
+        protected string _cancelSuccessMessage;
+        protected string _executeFailureMessage;
+        protected string _executeSuccessMessage;
+        protected string _promptMessage;
 
-        public virtual bool AutoRedirect
-        {
-            get;
-            set;
-        }
+        public virtual bool AutoRedirect { get; set; }
 
-        public virtual string RedirectUrl
-        {
-            get;
-            set;
-        }
+        public virtual string RedirectUrl { get; set; }
 
         public virtual string PromptMessage
         {
-            get
-            {
-                return _promptMessage ?? DEFAULT_PROMPT;
-            }
+            get { return _promptMessage ?? DEFAULT_PROMPT; }
             set { _promptMessage = value ?? DEFAULT_PROMPT; }
         }
 
@@ -61,10 +52,14 @@ namespace Subtext.Web.Admin.Commands
         {
             get
             {
-                if (!Utilities.IsNullorEmpty(_executeSuccessMessage))
+                if(!Utilities.IsNullorEmpty(_executeSuccessMessage))
+                {
                     return _executeSuccessMessage;
+                }
                 else
+                {
                     return DEFAULT_EXECUTE_SUCCESS;
+                }
             }
             set { _executeSuccessMessage = value; }
         }
@@ -73,10 +68,14 @@ namespace Subtext.Web.Admin.Commands
         {
             get
             {
-                if (!Utilities.IsNullorEmpty(_executeFailureMessage))
+                if(!Utilities.IsNullorEmpty(_executeFailureMessage))
+                {
                     return _executeFailureMessage;
+                }
                 else
+                {
                     return DEFAULT_EXECUTE_FAILURE;
+                }
             }
             set { _executeFailureMessage = value; }
         }
@@ -85,10 +84,14 @@ namespace Subtext.Web.Admin.Commands
         {
             get
             {
-                if (!Utilities.IsNullorEmpty(_cancelSuccessMessage))
+                if(!Utilities.IsNullorEmpty(_cancelSuccessMessage))
+                {
                     return _cancelSuccessMessage;
+                }
                 else
+                {
                     return DEFAULT_CANCEL_SUCCESS;
+                }
             }
             set { _cancelSuccessMessage = value; }
         }
@@ -97,10 +100,14 @@ namespace Subtext.Web.Admin.Commands
         {
             get
             {
-                if (!Utilities.IsNullorEmpty(_cancelFailureMessage))
+                if(!Utilities.IsNullorEmpty(_cancelFailureMessage))
+                {
                     return _cancelFailureMessage;
+                }
                 else
+                {
                     return DEFAULT_CANCEL_FAILURE;
+                }
             }
             set { _cancelFailureMessage = value; }
         }
@@ -122,7 +129,7 @@ namespace Subtext.Web.Admin.Commands
             {
                 return string.Format(CultureInfo.InvariantCulture, format, args);
             }
-            catch (ArgumentNullException)
+            catch(ArgumentNullException)
             {
                 return format;
             }
@@ -136,16 +143,18 @@ namespace Subtext.Web.Admin.Commands
         /// <returns></returns>
         protected string GetDisplayTextFromIntArray(ICollection<int> integers)
         {
-            if (integers == null || integers.Count == 0)
+            if(integers == null || integers.Count == 0)
+            {
                 return string.Empty;
+            }
 
-            if (integers.Count == 2)
+            if(integers.Count == 2)
             {
                 return integers.First() + " and " + integers.ElementAt(1);
             }
 
             string display = string.Empty;
-            foreach (int integer in integers)
+            foreach(int integer in integers)
             {
                 display += integer + ", ";
             }

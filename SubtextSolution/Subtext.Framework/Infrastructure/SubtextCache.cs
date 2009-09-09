@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Web.Caching;
 
@@ -6,43 +6,46 @@ namespace Subtext.Infrastructure
 {
     public class SubtextCache : ICache
     {
-        public SubtextCache(Cache cache) { 
+        public SubtextCache(Cache cache)
+        {
             Cache = cache;
         }
 
-        protected Cache Cache {
-            get;
-            set;
-        }
+        protected Cache Cache { get; set; }
+
+        #region ICache Members
 
         public object this[string key]
         {
-            get {
-                return Cache[key];
-            }
-            set {
-                Cache[key] = value;
-            }
+            get { return Cache[key]; }
+            set { Cache[key] = value; }
         }
 
-        public void Insert(string key, object value) {
+        public void Insert(string key, object value)
+        {
             Cache.Insert(key, value);
         }
 
-        public void Insert(string key, object value, CacheDependency dependency) {
+        public void Insert(string key, object value, CacheDependency dependency)
+        {
             Cache.Insert(key, value, dependency);
         }
 
-        public void Insert(string key, object value, CacheDependency dependency, System.DateTime absoluteExpiration, System.TimeSpan slidingExpiration) {
+        public void Insert(string key, object value, CacheDependency dependency, DateTime absoluteExpiration,
+                           TimeSpan slidingExpiration)
+        {
             Cache.Insert(key, value, dependency, absoluteExpiration, slidingExpiration);
         }
 
-        public void Remove(string key) {
+        public void Remove(string key)
+        {
             Cache.Remove(key);
         }
 
 
-        public void Insert(string key, object value, CacheDependency dependencies, DateTime absoluteExpiration, TimeSpan slidingExpiration, CacheItemPriority priority, CacheItemRemovedCallback onRemoveCallback)
+        public void Insert(string key, object value, CacheDependency dependencies, DateTime absoluteExpiration,
+                           TimeSpan slidingExpiration, CacheItemPriority priority,
+                           CacheItemRemovedCallback onRemoveCallback)
         {
             Cache.Insert(key, value, dependencies, absoluteExpiration, slidingExpiration, priority, onRemoveCallback);
         }
@@ -51,5 +54,7 @@ namespace Subtext.Infrastructure
         {
             return Cache.GetEnumerator();
         }
+
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,44 +12,46 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
+using System.Web.UI;
 using Subtext.Framework.Security;
 
 namespace Subtext.Web
 {
-	/// <summary>
-	/// This page presents useful information to users connecting 
-	/// to the blog via "localhost".  In otherwords, on a local 
-	/// installation.
-	/// </summary>
-	public partial class CheckYourConnectionString : System.Web.UI.Page
-	{
-		protected void Page_Load(object sender, System.EventArgs e)
-		{
-			// Remote users do not get the extra information.
-			if(SecurityHelper.UserIsConnectingLocally)
-			{
-				plcDiagnosticInfo.Visible = true;
+    /// <summary>
+    /// This page presents useful information to users connecting 
+    /// to the blog via "localhost".  In otherwords, on a local 
+    /// installation.
+    /// </summary>
+    public partial class CheckYourConnectionString : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            // Remote users do not get the extra information.
+            if(SecurityHelper.UserIsConnectingLocally)
+            {
+                plcDiagnosticInfo.Visible = true;
 
-				Exception exception = Server.GetLastError();
-				Exception baseException = null;
-				if(exception != null)
-				{
-					baseException = exception.GetBaseException();
-				}
+                Exception exception = Server.GetLastError();
+                Exception baseException = null;
+                if(exception != null)
+                {
+                    baseException = exception.GetBaseException();
+                }
 
-				if(baseException != null)
-				{
-					lblErrorMessage.Text = baseException.Message;
-					lblStackTrace.Text = baseException.StackTrace;
-				}
-				else
-				{
-					lblErrorMessage.Text = "Nothing to report. There was no error.";
-				}
-			}
-		}
-	}
+                if(baseException != null)
+                {
+                    lblErrorMessage.Text = baseException.Message;
+                    lblStackTrace.Text = baseException.StackTrace;
+                }
+                else
+                {
+                    lblErrorMessage.Text = "Nothing to report. There was no error.";
+                }
+            }
+        }
+    }
 }

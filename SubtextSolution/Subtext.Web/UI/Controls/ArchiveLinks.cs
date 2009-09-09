@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Subtext.Framework.Components;
 using Subtext.Framework;
+using Subtext.Framework.Components;
 
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -16,71 +17,71 @@ using Subtext.Framework;
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Web.UI.Controls
 {
     /// <summary>
-	///		Summary description for CategoryDisplayByColumn.
-	/// </summary>
-	public class ArchiveLinks : CachedColumnControl
-	{
-		protected CategoryList Categories;
+    ///		Summary description for CategoryDisplayByColumn.
+    /// </summary>
+    public class ArchiveLinks : CachedColumnControl
+    {
+        protected CategoryList Categories;
 
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad (e);
-			Categories.LinkCategories = GetArchiveCategories(SubtextContext.Blog);
-		}
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            Categories.LinkCategories = GetArchiveCategories(SubtextContext.Blog);
+        }
 
-		protected ICollection<LinkCategory> GetArchiveCategories(Blog blog)
-		{
-            List<LinkCategory> lcc = new List<LinkCategory>();
-		    LinkCategory lc;
-		    
+        protected ICollection<LinkCategory> GetArchiveCategories(Blog blog)
+        {
+            var lcc = new List<LinkCategory>();
+            LinkCategory lc;
+
             // we want to make sure that the LinkCategory is NOT null before we add it to the collection.
             lc = UIData.Links(CategoryType.PostCollection, blog);
-		    if (lc != null)
-		    {
-		        lcc.Add(lc);
-		    }
+            if(lc != null)
+            {
+                lcc.Add(lc);
+            }
             lc = UIData.Links(CategoryType.StoryCollection, blog);
-		    if (lc != null)
-		    {
-		        lcc.Add(lc);
-		    }
-			lc = UIData.ArchiveMonth(Url, blog);
-            if (lc != null)
+            if(lc != null)
             {
                 lcc.Add(lc);
             }
-			lc = UIData.Links(CategoryType.ImageCollection, blog);
-            if (lc != null)
+            lc = UIData.ArchiveMonth(Url, blog);
+            if(lc != null)
             {
                 lcc.Add(lc);
             }
-			return lcc;
-		}
+            lc = UIData.Links(CategoryType.ImageCollection, blog);
+            if(lc != null)
+            {
+                lcc.Add(lc);
+            }
+            return lcc;
+        }
 
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		///		Required method for Designer support - do not modify
-		///		the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
-			
+        #region Web Form Designer generated code
 
-		}
-		#endregion
-	}
+        override protected void OnInit(EventArgs e)
+        {
+            //
+            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
+            //
+            InitializeComponent();
+            base.OnInit(e);
+        }
+
+        ///		Required method for Designer support - do not modify
+        ///		the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+        }
+
+        #endregion
+    }
 }
-

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,24 +12,24 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI.WebControls;
+using System.Xml;
+using Sgml;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Services;
 using Velocit.RegularExpressions;
-using System.Collections;
-using Sgml;
-using System.Xml;
-using System.IO;
 
 namespace Subtext.Framework.Text
 {
@@ -37,6 +38,18 @@ namespace Subtext.Framework.Text
     /// </summary>
     public static class HtmlHelper
     {
+        static readonly Regex _anchorRegex = new Regex(@"<a(\s+\w+\s*=\s*(?:""[^""]*?""|'[^']*?')(?!\w))+\s*>.*?</a>",
+                                                       RegexOptions.IgnoreCase | RegexOptions.Singleline |
+                                                       RegexOptions.Compiled);
+
+        static readonly Regex _hrefRegex = new Regex(@"\s+href\s*=\s*(""(?<url>[^""]*?)""|'(?<url>[^']*?)')",
+                                                     RegexOptions.IgnoreCase | RegexOptions.Singleline |
+                                                     RegexOptions.Compiled);
+
+        static readonly Regex _relRegex = new Regex(@"\s+rel\s*=\s*(""[^""]*?\btag\b.*?""|'[^']*?\btag\b.*?')",
+                                                    RegexOptions.IgnoreCase | RegexOptions.Singleline |
+                                                    RegexOptions.Compiled);
+
         /// <summary>
         /// Replaces the host in the given url with the new host.
         /// </summary>
@@ -45,7 +58,8 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static string ReplaceHost(string originalUrl, string newHost)
         {
-            return Regex.Replace(originalUrl, @"(https?://).*?((:\d+)?/.*)?$", "$1" + newHost + "$2", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            return Regex.Replace(originalUrl, @"(https?://).*?((:\d+)?/.*)?$", "$1" + newHost + "$2",
+                                 RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
         /// <summary>
@@ -55,23 +69,27 @@ namespace Subtext.Framework.Text
         /// <param name="newClass">The new class.</param>
         public static void AppendCssClass(WebControl control, string newClass)
         {
-            if (control == null)
+            if(control == null)
+            {
                 throw new ArgumentNullException("control");
+            }
 
-            if (newClass == null)
+            if(newClass == null)
+            {
                 throw new ArgumentNullException("newClass");
+            }
 
             string existingClasses = control.CssClass;
-            if (String.IsNullOrEmpty(existingClasses))
+            if(String.IsNullOrEmpty(existingClasses))
             {
                 control.CssClass = newClass;
                 return;
             }
 
             string[] classes = existingClasses.Split(' ');
-            foreach (string attributeValue in classes)
+            foreach(string attributeValue in classes)
             {
-                if (String.Equals(attributeValue, newClass, StringComparison.Ordinal))
+                if(String.Equals(attributeValue, newClass, StringComparison.Ordinal))
                 {
                     //value's already in there.
                     return;
@@ -87,28 +105,37 @@ namespace Subtext.Framework.Text
         /// <param name="classToRemove">The new class.</param>
         public static void RemoveCssClass(WebControl control, string classToRemove)
         {
-            if (control == null)
+            if(control == null)
+            {
                 throw new ArgumentNullException("control");
+            }
 
-            if (classToRemove == null)
+            if(classToRemove == null)
+            {
                 throw new ArgumentNullException("classToRemove");
+            }
 
             string existingClasses = control.CssClass;
-            if (String.IsNullOrEmpty(existingClasses))
-                return; //nothing to remove
-
-            string[] classes = existingClasses.Split(new string[] { " ", "\t", "\r\n", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-            string newClasses = string.Empty;
-            foreach (string cssClass in classes)
+            if(String.IsNullOrEmpty(existingClasses))
             {
-                if (!String.Equals(cssClass, classToRemove, StringComparison.Ordinal))
+                return; //nothing to remove
+            }
+
+            string[] classes = existingClasses.Split(new[] {" ", "\t", "\r\n", "\n", "\r"},
+                                                     StringSplitOptions.RemoveEmptyEntries);
+            string newClasses = string.Empty;
+            foreach(string cssClass in classes)
+            {
+                if(!String.Equals(cssClass, classToRemove, StringComparison.Ordinal))
                 {
                     newClasses += cssClass + " ";
                 }
             }
 
-            if (newClasses.EndsWith(" "))
+            if(newClasses.EndsWith(" "))
+            {
                 newClasses = newClasses.Substring(0, newClasses.Length - 1);
+            }
             control.CssClass = newClasses;
         }
 
@@ -121,7 +148,7 @@ namespace Subtext.Framework.Text
         public static void AppendAttributeValue(WebControl control, string name, string value)
         {
             string existingValue = control.Attributes[name];
-            if (String.IsNullOrEmpty(existingValue))
+            if(String.IsNullOrEmpty(existingValue))
             {
                 control.Attributes[name] = value;
                 return;
@@ -129,9 +156,9 @@ namespace Subtext.Framework.Text
             else
             {
                 string[] attributeValues = control.Attributes[name].Split(' ');
-                foreach (string attributeValue in attributeValues)
+                foreach(string attributeValue in attributeValues)
                 {
-                    if (String.Equals(attributeValue, value, StringComparison.Ordinal))
+                    if(String.Equals(attributeValue, value, StringComparison.Ordinal))
                     {
                         //value's already in there.
                         return;
@@ -149,25 +176,25 @@ namespace Subtext.Framework.Text
         public static string RemoveHtml(string html)
         {
             //Yeah, this is ugly, but it's perf optimized! ;)
-            if (html == null)
+            if(html == null)
             {
                 return string.Empty;
             }
 
-            char[] strippedHtml = new char[html.Length];
+            var strippedHtml = new char[html.Length];
             bool inHtmlTag = false;
             bool inHtmlAttribute = false;
             int cleanCount = 0;
 
-            for (int i = 0; i < html.Length; i++)
+            for(int i = 0; i < html.Length; i++)
             {
                 char current = html[i];
 
-                if (!inHtmlTag)
+                if(!inHtmlTag)
                 {
-                    if (current == '<')
+                    if(current == '<')
                     {
-                        if (NextCharBeginsHtmlTag(html, i))
+                        if(NextCharBeginsHtmlTag(html, i))
                         {
                             inHtmlTag = true;
                             continue;
@@ -175,16 +202,17 @@ namespace Subtext.Framework.Text
                     }
                 }
                 else
-                { //in html tag
-                    if (!inHtmlAttribute)
+                {
+                    //in html tag
+                    if(!inHtmlAttribute)
                     {
-                        if (current == '>')
+                        if(current == '>')
                         {
                             inHtmlTag = false;
                         }
-                        if (current == '<')
+                        if(current == '<')
                         {
-                            if (!NextCharBeginsHtmlTag(html, i))
+                            if(!NextCharBeginsHtmlTag(html, i))
                             {
                                 strippedHtml[cleanCount++] = current;
                                 inHtmlTag = false;
@@ -194,7 +222,7 @@ namespace Subtext.Framework.Text
                                 continue;
                             }
                         }
-                        if (current == '=')
+                        if(current == '=')
                         {
                             //Potentially in attribute value...
                             i++;
@@ -203,14 +231,14 @@ namespace Subtext.Framework.Text
                             char currentAttrChar;
 
                             // We'll just "eat" the attribute here:
-                            while (i < html.Length)
+                            while(i < html.Length)
                             {
                                 currentAttrChar = html[i];
 
                                 //Find start delimiter...
-                                if (!foundAttrStart)
+                                if(!foundAttrStart)
                                 {
-                                    if (IsAttributeValueStartCharacter(currentAttrChar))
+                                    if(IsAttributeValueStartCharacter(currentAttrChar))
                                     {
                                         attrStartDelimiter = currentAttrChar;
                                         foundAttrStart = true;
@@ -219,13 +247,14 @@ namespace Subtext.Framework.Text
                                     }
                                 }
                                 else
-                                { //Find end delimiter...
-                                    if (IsAttributeValueEndCharacter(currentAttrChar, attrStartDelimiter))
+                                {
+                                    //Find end delimiter...
+                                    if(IsAttributeValueEndCharacter(currentAttrChar, attrStartDelimiter))
                                     {
                                         inHtmlAttribute = false;
                                         //Special case. The '>' ended the attr value and the tag
                                         //in the case of unquoted attr value
-                                        if (currentAttrChar == '>')
+                                        if(currentAttrChar == '>')
                                         {
                                             inHtmlTag = false;
                                         }
@@ -257,7 +286,7 @@ namespace Subtext.Framework.Text
 
         private static bool IsAttributeValueEndCharacter(char c, char attributeStartChar)
         {
-            if (attributeStartChar == '\'' || attributeStartChar == '"')
+            if(attributeStartChar == '\'' || attributeStartChar == '"')
             {
                 return c == attributeStartChar;
             }
@@ -276,10 +305,6 @@ namespace Subtext.Framework.Text
         }
 
 
-
-
-
-
         /// <summary>
         /// Tests the specified string looking for illegal characters 
         /// or html tags.
@@ -288,14 +313,14 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static bool HasIllegalContent(string s)
         {
-            if (String.IsNullOrEmpty(s))
+            if(String.IsNullOrEmpty(s))
             {
                 return false;
             }
-            if (s.IndexOf("<script", StringComparison.InvariantCultureIgnoreCase) > -1
-                || s.IndexOf("&#60script", StringComparison.InvariantCultureIgnoreCase) > -1
-                || s.IndexOf("&60script", StringComparison.InvariantCultureIgnoreCase) > -1
-                || s.IndexOf("%60script", StringComparison.InvariantCultureIgnoreCase) > -1)
+            if(s.IndexOf("<script", StringComparison.InvariantCultureIgnoreCase) > -1
+               || s.IndexOf("&#60script", StringComparison.InvariantCultureIgnoreCase) > -1
+               || s.IndexOf("&60script", StringComparison.InvariantCultureIgnoreCase) > -1
+               || s.IndexOf("%60script", StringComparison.InvariantCultureIgnoreCase) > -1)
             {
                 return true;
             }
@@ -310,36 +335,42 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static string ConvertUrlsToHyperLinks(string html)
         {
-            if (html == null)
-                throw new ArgumentNullException("html");
-
-            if (html.Length == 0)
-                return string.Empty;
-
-            XhtmlConverter xhtmlConverter = new XhtmlConverter(text =>
+            if(html == null)
             {
-                string pattern =
-                    @"((https?|ftp)://|www\.)[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
-                MatchCollection matches =
-                    Regex.Matches(text, pattern,
-                                  RegexOptions.
-                                    IgnoreCase |
-                                  RegexOptions.Compiled);
-                foreach (Match m in matches)
-                {
-                    string httpPortion = string.Empty;
-                    if (!m.Value.Contains("://"))
-                    {
-                        httpPortion = "http://";
-                    }
+                throw new ArgumentNullException("html");
+            }
 
-                    text =
-                        text.Replace(m.Value,
-                            string.Format(CultureInfo.InvariantCulture, "<a rel=\"nofollow external\" href=\"{0}{1}\" title=\"{1}\">{2}</a>", httpPortion, m.Value, ShortenUrl(m.Value, 50))
-                        );
-                }
-                return text;
-            });
+            if(html.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            var xhtmlConverter = new XhtmlConverter(text =>
+                {
+                    string pattern =
+                        @"((https?|ftp)://|www\.)[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
+                    MatchCollection matches =
+                        Regex.Matches(text, pattern,
+                                      RegexOptions.
+                                          IgnoreCase |
+                                      RegexOptions.Compiled);
+                    foreach(Match m in matches)
+                    {
+                        string httpPortion = string.Empty;
+                        if(!m.Value.Contains("://"))
+                        {
+                            httpPortion = "http://";
+                        }
+
+                        text =
+                            text.Replace(m.Value,
+                                         string.Format(CultureInfo.InvariantCulture,
+                                                       "<a rel=\"nofollow external\" href=\"{0}{1}\" title=\"{1}\">{2}</a>",
+                                                       httpPortion, m.Value, ShortenUrl(m.Value, 50))
+                                );
+                    }
+                    return text;
+                });
 
             return xhtmlConverter.Transform(html);
         }
@@ -353,17 +384,18 @@ namespace Subtext.Framework.Text
             yield return url => url.LeftBefore("?", StringComparison.Ordinal);
             yield return url => ChopLastSegment(url);
             yield return url => url.Chomp("/", StringComparison.Ordinal);
-            yield return url => {
-                if (url.Length > 8)
+            yield return url =>
                 {
-                    url = url.Substring(0, max - 3) + "...";
-                }
-                else
-                {
-                    url = url.Substring(0, max);
-                }
-                return url;
-            };
+                    if(url.Length > 8)
+                    {
+                        url = url.Substring(0, max - 3) + "...";
+                    }
+                    else
+                    {
+                        url = url.Substring(0, max);
+                    }
+                    return url;
+                };
         }
 
         private static string ReplacePathSegmentsWithElipses(string urlAfterProtocol)
@@ -376,18 +408,18 @@ namespace Subtext.Framework.Text
             //  example.com/foobeels.txt => example.com/foobeels.txt
 
             int lastIndex = urlAfterProtocol.IndexOf('?');
-            if (lastIndex < 0)
+            if(lastIndex < 0)
             {
                 lastIndex = urlAfterProtocol.IndexOf('#');
             }
-            if (lastIndex < 0) 
+            if(lastIndex < 0)
             {
                 lastIndex = urlAfterProtocol.Length;
             }
-            
+
             // First slash after domain name
             int firstSlashIndex = urlAfterProtocol.IndexOf('/');
-            if (firstSlashIndex < 0)
+            if(firstSlashIndex < 0)
             {
                 return urlAfterProtocol;
             }
@@ -397,12 +429,12 @@ namespace Subtext.Framework.Text
             urlWithoutTrailingStuff = urlWithoutTrailingStuff.Chomp("/", StringComparison.Ordinal);
 
             int lastSlashIndex = urlWithoutTrailingStuff.LastIndexOf('/');
-            if (lastSlashIndex < 0)
+            if(lastSlashIndex < 0)
             {
                 return urlAfterProtocol;
             }
 
-            if (lastSlashIndex < firstSlashIndex + 5)
+            if(lastSlashIndex < firstSlashIndex + 5)
             {
                 return urlAfterProtocol;
             }
@@ -413,14 +445,14 @@ namespace Subtext.Framework.Text
         {
             urlWithoutProtocolNorQuery = urlWithoutProtocolNorQuery.Chomp("/", StringComparison.OrdinalIgnoreCase);
             int lastIndex = urlWithoutProtocolNorQuery.LastIndexOf('/');
-            if (lastIndex > -1)
+            if(lastIndex > -1)
             {
                 urlWithoutProtocolNorQuery = urlWithoutProtocolNorQuery.Substring(0, lastIndex);
             }
             return urlWithoutProtocolNorQuery;
         }
 
-        
+
         /// <summary>
         /// Shortens a url for display.
         /// </summary>
@@ -429,20 +461,20 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static string ShortenUrl(this string url, int max)
         {
-            if (url == null)
+            if(url == null)
             {
                 throw new ArgumentNullException("url");
             }
 
-            if (max < 5)
+            if(max < 5)
             {
                 throw new ArgumentOutOfRangeException("max", max, Resources.ArgumentException_TooShortUrl);
             }
 
-            foreach (var shortener in GetShorteners(max))
+            foreach(var shortener in GetShorteners(max))
             {
                 url = shortener(url);
-                if (url.Length <= max)
+                if(url.Length <= max)
                 {
                     return url;
                 }
@@ -460,8 +492,10 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static string SafeFormat(string stringToTransform, HttpServerUtilityBase server)
         {
-            if (stringToTransform == null)
+            if(stringToTransform == null)
+            {
                 throw new ArgumentNullException("stringToTransform");
+            }
 
             stringToTransform = HttpUtility.HtmlEncode(stringToTransform);
             return stringToTransform.Replace(Environment.NewLine, "<br />");
@@ -486,19 +520,19 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static Uri EnsureUrl(this string text)
         {
-            if (text == null)
+            if(text == null)
             {
                 return null;
             }
 
             text = text.Trim();
 
-            if (String.IsNullOrEmpty(text))
+            if(String.IsNullOrEmpty(text))
             {
                 return null;
             }
 
-            if (!text.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase))
+            if(!text.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase))
             {
                 text = "http://" + text;
             }
@@ -513,8 +547,10 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static string ConvertToAllowedHtml(string text)
         {
-            if (text == null)
+            if(text == null)
+            {
                 throw new ArgumentNullException("text");
+            }
 
             NameValueCollection allowedHtmlTags = Config.Settings.AllowedHtmlTags;
             return ConvertToAllowedHtml(allowedHtmlTags, text);
@@ -528,7 +564,7 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static string ConvertToAllowedHtml(NameValueCollection allowedHtmlTags, string text)
         {
-            if (allowedHtmlTags == null || allowedHtmlTags.Count == 0)
+            if(allowedHtmlTags == null || allowedHtmlTags.Count == 0)
             {
                 //This indicates that the AllowableCommentHtml configuration is either missing or
                 //has no values, therefore just strip the text as normal.
@@ -536,21 +572,21 @@ namespace Subtext.Framework.Text
             }
             else
             {
-                HtmlTagRegex regex = new HtmlTagRegex();
+                var regex = new HtmlTagRegex();
                 MatchCollection matches = regex.Matches(text);
 
-                if (matches.Count == 0)
+                if(matches.Count == 0)
                 {
                     return HtmlSafe(text);
                 }
 
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
 
                 int currentIndex = 0;
-                foreach (Match match in matches)
+                foreach(Match match in matches)
                 {
                     //Append text before the match.
-                    if (currentIndex < match.Index)
+                    if(currentIndex < match.Index)
                     {
                         sb.Append(HtmlSafe(text.Substring(currentIndex, match.Index - currentIndex)));
                     }
@@ -558,14 +594,14 @@ namespace Subtext.Framework.Text
                     string tagName = match.Groups["tagname"].Value.ToLower(CultureInfo.InvariantCulture);
 
                     //check each match against the list of allowable tags.
-                    if (allowedHtmlTags.Get(tagName) == null)
+                    if(allowedHtmlTags.Get(tagName) == null)
                     {
                         sb.Append(HtmlSafe(match.Value));
                     }
                     else
                     {
                         bool isEndTag = match.Groups["endTag"].Value.Length > 0;
-                        if (isEndTag)
+                        if(isEndTag)
                         {
                             sb.Append("</" + tagName + ">");
                         }
@@ -578,12 +614,12 @@ namespace Subtext.Framework.Text
                     currentIndex = match.Index + match.Length;
                 }
                 //add the remaining text.
-                if (currentIndex < text.Length)
+                if(currentIndex < text.Length)
                 {
                     sb.Append(HtmlSafe(text.Substring(currentIndex)));
                 }
 
-                XhtmlConverter converter = new XhtmlConverter();
+                var converter = new XhtmlConverter();
                 return converter.Transform(sb.ToString());
             }
         }
@@ -612,29 +648,30 @@ namespace Subtext.Framework.Text
         {
             string allowedAttributesText = allowedHtml[tagName];
 
-            if (allowedAttributesText != null && allowedAttributesText.Length > 0)
+            if(allowedAttributesText != null && allowedAttributesText.Length > 0)
             {
-                StringBuilder attrSB = new StringBuilder();
+                var attrSB = new StringBuilder();
 
                 //look to see which tag's attributes we are matching
-                char[] splitter = { ',' };
+                char[] splitter = {','};
 
                 NameValueCollection attributes = GetAttributeNameValues(match);
 
                 string[] allowedAttrs = allowedHtml[tagName].ToLower(CultureInfo.InvariantCulture).Split(splitter);
 
                 // go thru each matched attribute, and determine if it's allowed
-                foreach (string attributeName in attributes.Keys)
+                foreach(string attributeName in attributes.Keys)
                 {
-                    foreach (string allowedAttr in allowedAttrs)
+                    foreach(string allowedAttr in allowedAttrs)
                     {
-                        if (String.Equals(allowedAttr.Trim(), attributeName, StringComparison.InvariantCultureIgnoreCase))
+                        if(String.Equals(allowedAttr.Trim(), attributeName, StringComparison.InvariantCultureIgnoreCase))
                         {
                             // found an allowed attribute, so get the attribute value
                             string attrValue = attributes[attributeName];
 
                             // and now add the full attribute (key=value) to be returned
-                            attrSB.Append(" " + attributeName.ToLower(CultureInfo.InvariantCulture) + "=\"" + attrValue + "\"");
+                            attrSB.Append(" " + attributeName.ToLower(CultureInfo.InvariantCulture) + "=\"" + attrValue +
+                                          "\"");
                         }
                     }
                 }
@@ -649,9 +686,9 @@ namespace Subtext.Framework.Text
             reader.DocType = "html";
             reader.WhitespaceHandling = WhitespaceHandling.All;
             reader.InputStream = new StringReader("<html>" + html + "</html>");
-            while (reader.Read() && !reader.EOF)
+            while(reader.Read() && !reader.EOF)
             {
-                if (reader.NodeType == XmlNodeType.Element && reader.LocalName == tagName)
+                if(reader.NodeType == XmlNodeType.Element && reader.LocalName == tagName)
                 {
                     yield return reader.GetAttribute(attributeName);
                 }
@@ -663,18 +700,18 @@ namespace Subtext.Framework.Text
             CaptureCollection nameCaptures = match.Groups["attName"].Captures;
             CaptureCollection valueCaptures = match.Groups["attVal"].Captures;
 
-            NameValueCollection attributes = new NameValueCollection();
+            var attributes = new NameValueCollection();
 
-            if (nameCaptures.Count == valueCaptures.Count)
+            if(nameCaptures.Count == valueCaptures.Count)
             {
-                for (int i = 0; i < nameCaptures.Count; i++)
+                for(int i = 0; i < nameCaptures.Count; i++)
                 {
                     attributes.Add(nameCaptures[i].Value, valueCaptures[i].Value);
                 }
                 return attributes;
             }
 
-            if (valueCaptures.Count == 0)
+            if(valueCaptures.Count == 0)
             {
                 return attributes;
             }
@@ -683,13 +720,13 @@ namespace Subtext.Framework.Text
             //One of the attribute names doesn't have a value.
             //so we need to match them up somehow.
             int valueIndex = 0;
-            for (int i = 0; i < nameCaptures.Count; i++)
+            for(int i = 0; i < nameCaptures.Count; i++)
             {
                 Capture currentNameCapture = nameCaptures[i];
                 Capture currentValueCapture;
                 string name = currentNameCapture.Value;
 
-                if (valueIndex == valueCaptures.Count)
+                if(valueIndex == valueCaptures.Count)
                 {
                     //No more values to worry about.
                     continue;
@@ -698,10 +735,11 @@ namespace Subtext.Framework.Text
                 currentValueCapture = valueCaptures[valueIndex];
 
                 //Peek ahead.
-                if (i < nameCaptures.Count - 1)
+                if(i < nameCaptures.Count - 1)
                 {
                     Capture peekAhead = nameCaptures[i + 1];
-                    if (peekAhead.Index > currentValueCapture.Index && currentValueCapture.Index > currentNameCapture.Index)
+                    if(peekAhead.Index > currentValueCapture.Index &&
+                       currentValueCapture.Index > currentNameCapture.Index)
                     {
                         attributes.Add(name, currentValueCapture.Value);
                         //We are on the right value.
@@ -712,7 +750,7 @@ namespace Subtext.Framework.Text
                 else
                 {
                     //we're on the last item.
-                    if (currentValueCapture.Index > currentNameCapture.Index)
+                    if(currentValueCapture.Index > currentNameCapture.Index)
                     {
                         attributes.Add(name, currentValueCapture.Value);
                         //We are on the right value.
@@ -734,16 +772,16 @@ namespace Subtext.Framework.Text
         {
             var links = new List<string>();
             string sPattern = @"(?:[hH][rR][eE][fF]\s*=)" +
-                @"(?:[\s""']*)(?!#|[Mm]ailto|[lL]ocation.|[jJ]avascript|.*css|.*this\.)" +
-                @"(.*?)(?:[\s>""'])";
+                              @"(?:[\s""']*)(?!#|[Mm]ailto|[lL]ocation.|[jJ]avascript|.*css|.*this\.)" +
+                              @"(.*?)(?:[\s>""'])";
 
-            Regex r = new Regex(sPattern, RegexOptions.IgnoreCase);
-            for (Match m = r.Match(text); m.Success; m = m.NextMatch())
+            var r = new Regex(sPattern, RegexOptions.IgnoreCase);
+            for(Match m = r.Match(text); m.Success; m = m.NextMatch())
             {
-                if (m.Groups.ToString().Length > 0)
+                if(m.Groups.ToString().Length > 0)
                 {
                     string link = m.Groups[1].ToString();
-                    if (!links.Contains(link))
+                    if(!links.Contains(link))
                     {
                         links.Add(link);
                     }
@@ -759,22 +797,20 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static Uri ParseUri(this string uri)
         {
-            if (uri == null)
+            if(uri == null)
+            {
                 return null;
+            }
 
             try
             {
                 return new Uri(uri);
             }
-            catch (UriFormatException)
+            catch(UriFormatException)
             {
                 return null;
             }
         }
-
-        static Regex _relRegex = new Regex(@"\s+rel\s*=\s*(""[^""]*?\btag\b.*?""|'[^']*?\btag\b.*?')", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
-        static Regex _hrefRegex = new Regex(@"\s+href\s*=\s*(""(?<url>[^""]*?)""|'(?<url>[^']*?)')", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
-        static Regex _anchorRegex = new Regex(@"<a(\s+\w+\s*=\s*(?:""[^""]*?""|'[^']*?')(?!\w))+\s*>.*?</a>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Parses some html and returns a string collection of the tag names contained 
@@ -784,39 +820,39 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static IList<string> ParseTags(this string html)
         {
-            List<string> tags = new List<string>();
-            if (String.IsNullOrEmpty(html))
+            var tags = new List<string>();
+            if(String.IsNullOrEmpty(html))
             {
                 return tags;
             }
 
-            List<string> loweredTags = new List<string>();
+            var loweredTags = new List<string>();
 
-            foreach (Match m in _anchorRegex.Matches(html))
+            foreach(Match m in _anchorRegex.Matches(html))
             {
                 string anchorHtml = m.Value;
-                if (!_relRegex.IsMatch(anchorHtml))
+                if(!_relRegex.IsMatch(anchorHtml))
                 {
                     continue;
                 }
 
                 Match urlMatch = _hrefRegex.Match(anchorHtml);
-                if (urlMatch.Success)
+                if(urlMatch.Success)
                 {
                     string urlStr = urlMatch.Groups["url"].Value;
-                    if (urlStr.EndsWith("/default.aspx", StringComparison.InvariantCultureIgnoreCase))
+                    if(urlStr.EndsWith("/default.aspx", StringComparison.InvariantCultureIgnoreCase))
                     {
                         urlStr = urlStr.Substring(0, urlStr.Length - 13);
                     }
                     Uri url;
-                    if (Uri.TryCreate(urlStr, UriKind.RelativeOrAbsolute, out url))
+                    if(Uri.TryCreate(urlStr, UriKind.RelativeOrAbsolute, out url))
                     {
                         string[] seg = url.Segments;
                         string tag = HttpUtility.UrlDecode(seg[seg.Length - 1].Replace("/", ""));
 
                         //Keep a list of lowered tags so we can prevent duplicates without modifying capitalization
                         string loweredTag = tag.ToLower(CultureInfo.InvariantCulture);
-                        if (!loweredTags.Contains(loweredTag))
+                        if(!loweredTags.Contains(loweredTag))
                         {
                             loweredTags.Add(loweredTag);
                             tags.Add(tag);
