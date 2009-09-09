@@ -1,9 +1,9 @@
 using System;
 using System.Web.UI;
 using Subtext.Framework;
-using Subtext.Framework.Configuration;
 
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -16,23 +16,21 @@ using Subtext.Framework.Configuration;
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Web.UI.Controls
 {
-	using System;
+    [PartialCaching(45, null, null, "Blogger", false)]
+    public class HomePage : BaseControl
+    {
+        protected DayCollection HomePageDays;
 
-	[PartialCaching(45, null, null, "Blogger", false)]
-	public class HomePage : BaseControl
-	{
-		protected DayCollection HomePageDays;
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
 
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad (e);
-			
-			HomePageDays.Days = Entries.GetHomePageEntries(Blog.ItemCount);
-		}
-	}
+            HomePageDays.Days = Entries.GetHomePageEntries(Blog.ItemCount);
+        }
+    }
 }
-

@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Globalization;
@@ -20,7 +22,7 @@ namespace Subtext.Framework.Emoticons
 {
     public class Emoticon
     {
-        private Regex _regex;
+        private readonly Regex _regex;
 
         public Emoticon(string emoticonText, string imageTag)
         {
@@ -30,17 +32,9 @@ namespace Subtext.Framework.Emoticons
             _regex = new Regex(regexText, RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
         }
 
-        public string EmoticonText
-        {
-            get;
-            private set;
-        }
+        public string EmoticonText { get; private set; }
 
-        public string ImageTag
-        {
-            get;
-            set;
-        }
+        public string ImageTag { get; set; }
 
         public string Replace(string text, string appRootUrl)
         {

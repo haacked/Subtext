@@ -1,4 +1,4 @@
-﻿using System.Web;
+using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
@@ -10,14 +10,15 @@ namespace UnitTests.Subtext.Framework.Routing
     public class IgnoreRouteTests
     {
         [Test]
-        public void GetVirtualPath_WithIgnoreRoute_AlwaysReturnsNull() {
+        public void GetVirtualPath_WithIgnoreRoute_AlwaysReturnsNull()
+        {
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             var requestContext = new RequestContext(httpContext.Object, new RouteData());
             var route = new IgnoreRoute("{*catchall}");
 
             //act
-            var virtualPath = route.GetVirtualPath(requestContext, new RouteValueDictionary());
+            VirtualPathData virtualPath = route.GetVirtualPath(requestContext, new RouteValueDictionary());
 
             //assert
             Assert.IsNull(virtualPath);

@@ -1,22 +1,21 @@
 using System;
-using System.Web;
+using System.Configuration;
+using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Email;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
+using Subtext.Framework.Services;
 using Subtext.Framework.Web;
 using Subtext.Web.Controls.Captcha;
-using Subtext.Framework.Services;
-using Subtext.Framework.Data;
-using Subtext.Infrastructure;
 
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -29,162 +28,176 @@ using Subtext.Infrastructure;
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Web.UI.Controls
 {
-	public class Contact : BaseControl
-	{
-		protected ValidationSummary ValidationSummary1;
-		protected Label lblMessage;
-		protected Button btnSend;
-		protected RequiredFieldValidator RequiredFieldValidator1;
-		protected TextBox tbMessage;
-		protected TextBox tbSubject;
-		protected RegularExpressionValidator RegularExpressionValidator1;
-		protected RequiredFieldValidator RequiredFieldValidator2;
-		protected TextBox tbEmail;
-		protected TextBox tbName;
-		protected InvisibleCaptcha invisibleCaptchaValidator;
-		protected CaptchaControl captcha;
+    public class Contact : BaseControl
+    {
+        protected Button btnSend;
+        protected CaptchaControl captcha;
+        protected InvisibleCaptcha invisibleCaptchaValidator;
+        protected Label lblMessage;
+        protected RegularExpressionValidator RegularExpressionValidator1;
+        protected RequiredFieldValidator RequiredFieldValidator1;
+        protected RequiredFieldValidator RequiredFieldValidator2;
+        protected TextBox tbEmail;
+        protected TextBox tbMessage;
+        protected TextBox tbName;
+        protected TextBox tbSubject;
+        protected ValidationSummary ValidationSummary1;
 
-		/// <summary>
-		/// Initializes the control.  Sets up the send button's 
-		/// click event handler.
-		/// </summary>
-		/// <param name="e"></param>
-		override protected void OnInit(EventArgs e)
-		{
-			this.btnSend.Click += new EventHandler(this.btnSend_Click);
+        public static bool SendContactMessageToFeedback
+        {
+            get
+            {
+                string contactSetting = ConfigurationManager.AppSettings["ContactToFeedback"];
+                if(contactSetting != null)
+                {
+                    try
+                    {
+                        return bool.Parse(contactSetting);
+                    }
+                    catch(FormatException)
+                    {
+                    }
+                }
+                return false;
+            }
+        }
 
-			EnsureEmailRequired();
-			//Captcha should not be given to admin.
-			if (!SecurityHelper.IsAdmin)
-			{
-				int btnIndex = Controls.IndexOf(this.btnSend);
-				AddCaptchaIfNecessary(ref captcha, ref invisibleCaptchaValidator, btnIndex);
-			}
-			else
-			{
-				RemoveCaptcha();
-			}
-			base.OnInit(e);
-		}
-		
-		private void EnsureEmailRequired()
-		{
-			foreach(Control control in this.Controls)
-			{
-				RequiredFieldValidator validator = control as RequiredFieldValidator;
-				if (validator == null)
-					continue;
+        /// <summary>
+        /// Initializes the control.  Sets up the send button's 
+        /// click event handler.
+        /// </summary>
+        /// <param name="e"></param>
+        override protected void OnInit(EventArgs e)
+        {
+            btnSend.Click += btnSend_Click;
 
-				if (validator.ControlToValidate == tbEmail.ID)
-					return;
-			}
-			RequiredFieldValidator emailRequiredValidator = new RequiredFieldValidator();
-			emailRequiredValidator.ControlToValidate = tbEmail.ID;
-			emailRequiredValidator.ErrorMessage = "* Please enter your email address";
-			emailRequiredValidator.Display = ValidatorDisplay.Dynamic;
-			Controls.AddAt(Controls.IndexOf(tbEmail) + 1, emailRequiredValidator);
-		}
+            EnsureEmailRequired();
+            //Captcha should not be given to admin.
+            if(!SecurityHelper.IsAdmin)
+            {
+                int btnIndex = Controls.IndexOf(btnSend);
+                AddCaptchaIfNecessary(ref captcha, ref invisibleCaptchaValidator, btnIndex);
+            }
+            else
+            {
+                RemoveCaptcha();
+            }
+            base.OnInit(e);
+        }
+
+        private void EnsureEmailRequired()
+        {
+            foreach(Control control in Controls)
+            {
+                var validator = control as RequiredFieldValidator;
+                if(validator == null)
+                {
+                    continue;
+                }
+
+                if(validator.ControlToValidate == tbEmail.ID)
+                {
+                    return;
+                }
+            }
+            var emailRequiredValidator = new RequiredFieldValidator();
+            emailRequiredValidator.ControlToValidate = tbEmail.ID;
+            emailRequiredValidator.ErrorMessage = "* Please enter your email address";
+            emailRequiredValidator.Display = ValidatorDisplay.Dynamic;
+            Controls.AddAt(Controls.IndexOf(tbEmail) + 1, emailRequiredValidator);
+        }
 
 
-		private void btnSend_Click(object sender, EventArgs e)
-		{
-			if(Page.IsValid)
-			{
-				Blog info = Blog;
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+            if(Page.IsValid)
+            {
+                Blog info = Blog;
 
-				if(SendContactMessageToFeedback || String.IsNullOrEmpty(info.Email))
-				{
-					CreateCommentWithContactMessage();
-					return;
-				}
+                if(SendContactMessageToFeedback || String.IsNullOrEmpty(info.Email))
+                {
+                    CreateCommentWithContactMessage();
+                    return;
+                }
 
-				EmailProvider email = EmailProvider.Instance();
-				string toEmail = info.Email;
-                string fromEmail = email.UseCommentersEmailAsFromAddress ? tbEmail.Text ?? email.AdminEmail : email.AdminEmail;
-				
-				string subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} (via {1})", tbSubject.Text, 
-				                               info.Title);
+                EmailProvider email = EmailProvider.Instance();
+                string toEmail = info.Email;
+                string fromEmail = email.UseCommentersEmailAsFromAddress
+                                       ? tbEmail.Text ?? email.AdminEmail
+                                       : email.AdminEmail;
 
-				string sendersIpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext).ToString();
+                string subject = string.Format(CultureInfo.InvariantCulture, "{0} (via {1})", tbSubject.Text,
+                                               info.Title);
 
-				// \n by itself has issues with qmail (unix via openSmtp), \r\n should work on unix + wintel
-				string body = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Mail from {0}:\r\n\r\nSender: {1}\r\nEmail: {2}\r\nIP Address: {3}\r\n=====================================\r\n{4}", 
-				                            info.Title,
-					tbName.Text,
-					tbEmail.Text,
-					sendersIpAddress,
-					tbMessage.Text);				
+                string sendersIpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext).ToString();
 
-				try
+                // \n by itself has issues with qmail (unix via openSmtp), \r\n should work on unix + wintel
+                string body = string.Format(CultureInfo.InvariantCulture,
+                                            "Mail from {0}:\r\n\r\nSender: {1}\r\nEmail: {2}\r\nIP Address: {3}\r\n=====================================\r\n{4}",
+                                            info.Title,
+                                            tbName.Text,
+                                            tbEmail.Text,
+                                            sendersIpAddress,
+                                            tbMessage.Text);
+
+                try
                 {
                     email.Send(toEmail, fromEmail, subject, body);
-					lblMessage.Text = "Your message was sent.";
-					tbName.Text = string.Empty;
-					tbEmail.Text = string.Empty;
-					tbSubject.Text = string.Empty;
-					tbMessage.Text = string.Empty;
+                    lblMessage.Text = "Your message was sent.";
+                    tbName.Text = string.Empty;
+                    tbEmail.Text = string.Empty;
+                    tbSubject.Text = string.Empty;
+                    tbMessage.Text = string.Empty;
                 }
-                catch(Exception) {
-					lblMessage.Text = "Your message could not be sent, most likely due to a problem with the mail server.";
-				}
-			}
-		}
+                catch(Exception)
+                {
+                    lblMessage.Text =
+                        "Your message could not be sent, most likely due to a problem with the mail server.";
+                }
+            }
+        }
 
-		private void CreateCommentWithContactMessage()
-		{
-			FeedbackItem contactMessage = new FeedbackItem(FeedbackType.None);
+        private void CreateCommentWithContactMessage()
+        {
+            var contactMessage = new FeedbackItem(FeedbackType.None);
 
-			contactMessage.Author = tbName.Text;
-			contactMessage.Email = tbEmail.Text;
-			contactMessage.Body = tbMessage.Text;
-			contactMessage.Title = "CONTACT: " + tbSubject.Text;
+            contactMessage.Author = tbName.Text;
+            contactMessage.Email = tbEmail.Text;
+            contactMessage.Body = tbMessage.Text;
+            contactMessage.Title = "CONTACT: " + tbSubject.Text;
             contactMessage.IpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext);
 
-			try
-			{
+            try
+            {
                 ICommentSpamService feedbackService = null;
-                if (Blog.FeedbackSpamServiceEnabled) {
+                if(Blog.FeedbackSpamServiceEnabled)
+                {
                     feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
                 }
-                CommentService commentService = new CommentService(SubtextContext, new CommentFilter(SubtextContext, feedbackService));
-				commentService.Create(contactMessage);
-                var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
+                var commentService = new CommentService(SubtextContext,
+                                                        new CommentFilter(SubtextContext, feedbackService));
+                commentService.Create(contactMessage);
+                var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(),
+                                                    SubtextContext);
                 emailService.EmailCommentToBlogAuthor(contactMessage);
-				lblMessage.Text = "Your message was sent.";
-			}
-			catch (BaseCommentException exc)
-			{
-				lblMessage.Text = exc.Message;
-			}
+                lblMessage.Text = "Your message was sent.";
+            }
+            catch(BaseCommentException exc)
+            {
+                lblMessage.Text = exc.Message;
+            }
 
-			tbName.Text = string.Empty;
-			tbEmail.Text = string.Empty;
-			tbSubject.Text = string.Empty;
-			tbMessage.Text = string.Empty;
-		}
+            tbName.Text = string.Empty;
+            tbEmail.Text = string.Empty;
+            tbSubject.Text = string.Empty;
+            tbMessage.Text = string.Empty;
+        }
 
         //todo: move this to an appropriate place.
-		public static bool SendContactMessageToFeedback
-		{
-			get
-			{
-                string contactSetting = System.Configuration.ConfigurationManager.AppSettings["ContactToFeedback"];
-				if(contactSetting != null)
-					try
-					{
-						return bool.Parse(contactSetting);
-					}
-					catch(FormatException)
-					{
-						
-					}
-				return false;
-			}
-		}
-	}
+    }
 }
-

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,79 +12,82 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 
 namespace Subtext.Framework.Exceptions
 {
-	/// <summary>
-	/// Exception thrown when trying to add a blog that 
-	/// duplicates another blog in both host and application.
-	/// </summary>
-	[Serializable]
-	public class BlogDuplicationException : BaseBlogConfigurationException
-	{
-		/// <summary>
-		/// Creates a new <see cref="BlogDuplicationException"/> instance.
-		/// </summary>
-		/// <param name="duplicate">Duplicate.</param>
-		public BlogDuplicationException(Blog duplicate) : this(duplicate, NullValue.NullInt32)
-		{
-		}
+    /// <summary>
+    /// Exception thrown when trying to add a blog that 
+    /// duplicates another blog in both host and application.
+    /// </summary>
+    [Serializable]
+    public class BlogDuplicationException : BaseBlogConfigurationException
+    {
+        readonly int _blogId = NullValue.NullInt32;
 
-		/// <summary>
-		/// Creates a new <see cref="BlogDuplicationException"/> instance.
-		/// </summary>
-		/// <param name="duplicate">Duplicate.</param>
-		/// <param name="blogId">Blog id of the blog we were updating.  If this is .</param>
-		public BlogDuplicationException(Blog duplicate, int blogId) : base()
-		{
-			_duplicateBlog = duplicate;
-			_blogId = blogId;
-		}
+        readonly Blog _duplicateBlog;
 
-		/// <summary>
-		/// Gets the message.
-		/// </summary>
-		/// <value></value>
-		public override string Message
-		{
-			get
-			{
-				if(_blogId == NullValue.NullInt32)
-				{
-					return "Oooh. A blog with the same host '" + _duplicateBlog.Host + "' and subfolder '" + _duplicateBlog.Subfolder + "' already exists.";
-				}
-				else
-				{
-                    return "Sorry, but changing this blog to use that host '" + _duplicateBlog.Host + "' and subfolder '" + _duplicateBlog.Subfolder + "' would conflict with another blog.";
-				}
-			}
-		}
+        /// <summary>
+        /// Creates a new <see cref="BlogDuplicationException"/> instance.
+        /// </summary>
+        /// <param name="duplicate">Duplicate.</param>
+        public BlogDuplicationException(Blog duplicate) : this(duplicate, NullValue.NullInt32)
+        {
+        }
 
-		/// <summary>
-		/// Gets the duplicate blog.
-		/// </summary>
-		/// <value></value>
-		public Blog DuplicateBlog
-		{
-			get { return _duplicateBlog; }
-		}
+        /// <summary>
+        /// Creates a new <see cref="BlogDuplicationException"/> instance.
+        /// </summary>
+        /// <param name="duplicate">Duplicate.</param>
+        /// <param name="blogId">Blog id of the blog we were updating.  If this is .</param>
+        public BlogDuplicationException(Blog duplicate, int blogId)
+        {
+            _duplicateBlog = duplicate;
+            _blogId = blogId;
+        }
 
-		/// <summary>
-		/// Id of the blog being updated that caused this exception.  This 
-		/// would be populated if updating a blog to have the same host and 
-		/// subfolder as another blog.  Otherwise this is equal to NullValue.NullInt32.
-		/// </summary>
-		/// <value></value>
-		public int BlogId
-		{
-			get { return _blogId; }
-		}
+        /// <summary>
+        /// Gets the message.
+        /// </summary>
+        /// <value></value>
+        public override string Message
+        {
+            get
+            {
+                if(_blogId == NullValue.NullInt32)
+                {
+                    return "Oooh. A blog with the same host '" + _duplicateBlog.Host + "' and subfolder '" +
+                           _duplicateBlog.Subfolder + "' already exists.";
+                }
+                else
+                {
+                    return "Sorry, but changing this blog to use that host '" + _duplicateBlog.Host +
+                           "' and subfolder '" + _duplicateBlog.Subfolder + "' would conflict with another blog.";
+                }
+            }
+        }
 
-		int _blogId = NullValue.NullInt32;
+        /// <summary>
+        /// Gets the duplicate blog.
+        /// </summary>
+        /// <value></value>
+        public Blog DuplicateBlog
+        {
+            get { return _duplicateBlog; }
+        }
 
-		Blog _duplicateBlog;
-	}
+        /// <summary>
+        /// Id of the blog being updated that caused this exception.  This 
+        /// would be populated if updating a blog to have the same host and 
+        /// subfolder as another blog.  Otherwise this is equal to NullValue.NullInt32.
+        /// </summary>
+        /// <value></value>
+        public int BlogId
+        {
+            get { return _blogId; }
+        }
+    }
 }

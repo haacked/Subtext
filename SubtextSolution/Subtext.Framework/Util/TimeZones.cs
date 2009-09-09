@@ -1,5 +1,7 @@
 #region Timezone code from DasBlog
+
 /*This code was contributed by the DasBlog team */
+
 #endregion
 
 using System;
@@ -13,13 +15,16 @@ namespace Subtext.Framework.Util
     public static class TimeZones
     {
         private static readonly ReadOnlyCollection<TimeZoneInfo> _timeZones = ReadTimeZonesFromEmbeddedResource();
+
         private static ReadOnlyCollection<TimeZoneInfo> ReadTimeZonesFromEmbeddedResource()
         {
             Type timeZoneType = typeof(TimeZones);
             var timeZones = new List<TimeZoneInfo>();
-            using (StreamReader rs = new StreamReader(timeZoneType.Assembly.GetManifestResourceStream(timeZoneType.FullName + ".txt")))
+            using(
+                var rs =
+                    new StreamReader(timeZoneType.Assembly.GetManifestResourceStream(timeZoneType.FullName + ".txt")))
             {
-                while (!rs.EndOfStream)
+                while(!rs.EndOfStream)
                 {
                     timeZones.Add(TimeZoneInfo.FromSerializedString(rs.ReadLine()));
                 }
@@ -35,8 +40,8 @@ namespace Subtext.Framework.Util
         public static TimeZoneInfo GetById(this ReadOnlyCollection<TimeZoneInfo> timeZones, string timeZoneId)
         {
             return (from timeZone in timeZones
-                   where timeZone.Id == timeZoneId
-                   select timeZone).FirstOrDefault();
+                    where timeZone.Id == timeZoneId
+                    select timeZone).FirstOrDefault();
         }
     }
 }

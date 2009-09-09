@@ -1,5 +1,5 @@
-﻿using Subtext.Framework.Text;
 using MbUnit.Framework;
+using Subtext.Framework.Text;
 
 namespace UnitTests.Subtext.Framework.Text
 {
@@ -7,7 +7,8 @@ namespace UnitTests.Subtext.Framework.Text
     public class LiteralFormatTests
     {
         [Test]
-        public void Literal_WithEscapedCloseBraces_CollapsesDoubleBraces() { 
+        public void Literal_WithEscapedCloseBraces_CollapsesDoubleBraces()
+        {
             //arrange
             var literal = new LiteralFormat("hello}}world");
             //act

@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,17 +12,14 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Text;
-using Subtext.Web.Controls;
-using Subtext.Framework;
 using Subtext.Extensibility;
+using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -31,13 +29,15 @@ namespace Subtext.Web.UI.Controls
     public class PopularPosts : BaseControl
     {
         private const int DefaultRecentPostCount = 5;
+        private EntryStatsView currentEntry;
         protected Repeater postList;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RecentPosts"/> class.
-        /// </summary>
-        public PopularPosts() {
+        public EntryStatsView Entry
+        {
+            get { return currentEntry; }
         }
+
+        public DateFilter FilterType { get; set; }
 
         /// <summary>
         /// Binds the posts <see cref="List{T}"/> to the post list repeater.
@@ -48,52 +48,40 @@ namespace Subtext.Web.UI.Controls
         protected override void OnLoad(EventArgs e)
         {
             FilterType = DateFilter.None;
-            var filterTypeText = Request.QueryString["popular-posts"];
-            if (!string.IsNullOrEmpty(filterTypeText))
+            string filterTypeText = Request.QueryString["popular-posts"];
+            if(!string.IsNullOrEmpty(filterTypeText))
             {
                 try
                 {
                     FilterType = (DateFilter)Enum.Parse(typeof(DateFilter), filterTypeText, true);
                 }
-                catch {}
+                catch
+                {
+                }
             }
 
-            var posts = Repository.GetPopularEntries(this.Blog.Id, FilterType);
+            ICollection<EntryStatsView> posts = Repository.GetPopularEntries(Blog.Id, FilterType);
 
             base.OnLoad(e);
 
-            if (posts != null)
+            if(posts != null)
             {
                 postList.DataSource = posts;
                 postList.DataBind();
             }
             else
             {
-                this.Controls.Clear();
-                this.Visible = false;
+                Controls.Clear();
+                Visible = false;
             }
-
         }
-
-        public EntryStatsView Entry
-        {
-            get { return this.currentEntry; }
-        }
-
-        private EntryStatsView currentEntry;
 
         protected void PostCreated(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                this.currentEntry = (EntryStatsView)e.Item.DataItem;
+                currentEntry = (EntryStatsView)e.Item.DataItem;
             }
-        }
-
-        public DateFilter FilterType
-        {
-            get;
-            set;
         }
     }
 }

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -29,10 +31,11 @@ namespace Subtext.Web.UI.Controls
     /// <summary>
     /// Displays the titles of the most recent entries on the skin.
     /// </summary>
-	public class RecentPosts : BaseControl, IEntryControl
+    public class RecentPosts : BaseControl, IEntryControl
     {
         private const int DefaultRecentPostCount = 5;
-        private ICollection<Entry> posts;
+        private readonly ICollection<Entry> posts;
+        private EntryViewModel currentEntry;
         protected Repeater postList;
 
         /// <summary>
@@ -43,9 +46,20 @@ namespace Subtext.Web.UI.Controls
             // number of posts to show, use default if not set by user
             // use recentcomments settings here - avoid schema additions & 
             // likely most people would be happy with the same settings for both controls anyway
-            int postCount = Config.CurrentBlog.NumberOfRecentComments > 0 ? Config.CurrentBlog.NumberOfRecentComments : DefaultRecentPostCount;
+            int postCount = Config.CurrentBlog.NumberOfRecentComments > 0
+                                ? Config.CurrentBlog.NumberOfRecentComments
+                                : DefaultRecentPostCount;
             posts = Entries.GetRecentPosts(postCount, PostType.BlogPost, PostConfig.IsActive, true);
         }
+
+        #region IEntryControl Members
+
+        public EntryViewModel Entry
+        {
+            get { return currentEntry; }
+        }
+
+        #endregion
 
         /// <summary>
         /// Binds the posts <see cref="List{T}"/> to the post list repeater.
@@ -57,34 +71,27 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            if (posts != null)
+            if(posts != null)
             {
                 postList.DataSource = posts;
                 postList.DataBind();
             }
             else
             {
-                this.Controls.Clear();
-                this.Visible = false;
+                Controls.Clear();
+                Visible = false;
             }
-
         }
-
-    	public EntryViewModel Entry
-    	{
-    		get { return this.currentEntry; }
-    	}
-
-    	private EntryViewModel currentEntry;
 
         protected void PostCreated(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                Entry post = (Entry)e.Item.DataItem;
-            	this.currentEntry = new EntryViewModel(post, SubtextContext);
-                HyperLink lnkPost = (HyperLink)e.Item.FindControl("Link");
-                if (lnkPost != null) {
+                var post = (Entry)e.Item.DataItem;
+                currentEntry = new EntryViewModel(post, SubtextContext);
+                var lnkPost = (HyperLink)e.Item.FindControl("Link");
+                if(lnkPost != null)
+                {
                     // display whole title, (up to 255 chars), no truncation
                     lnkPost.Text = HtmlHelper.RemoveHtml(post.Title);
                     lnkPost.NavigateUrl = Url.EntryUrl(post);

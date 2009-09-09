@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,40 +12,46 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Web.UI.ViewModels;
 using Subtext.Web.Admin.WebUI.Controls;
-using System.Globalization;
+using Subtext.Web.UI.ViewModels;
 
 namespace Subtext.Web.Admin.UserControls
 {
     public partial class CategoryLinkList : BaseUserControl
     {
+        private const string QRYSTR_CATEGORYFILTER = "catid";
+        private const string QRYSTR_CATEGORYTYPE = "catType";
+        protected ICollection<LinkCategoryLink> categoryLinks = new List<LinkCategoryLink>();
+
         public CategoryLinkList()
         {
             CategoryType = CategoryType.None;
         }
 
-        private const string QRYSTR_CATEGORYFILTER = "catid";
-        private const string QRYSTR_CATEGORYTYPE = "catType";
-        protected ICollection<LinkCategoryLink> categoryLinks = new List<LinkCategoryLink>();
+        [Browsable(true)]
+        [Description("Sets the type of categories to load.")]
+        public CategoryType CategoryType { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if(!IsPostBack)
             {
                 //Viewstate access is lost on postback for this control, so catType defaults to PostCollection.
                 //So check if the catType is available in the query string and set this.catType's value to 
                 //the querystring's category type enumeration
-                if (!String.IsNullOrEmpty(Request.QueryString[Keys.QRYSTR_CATEGORYTYPE]))
+                if(!String.IsNullOrEmpty(Request.QueryString[Keys.QRYSTR_CATEGORYTYPE]))
                 {
-                    CategoryType = (CategoryType)Enum.Parse(typeof(CategoryType), Request.QueryString[Keys.QRYSTR_CATEGORYTYPE]);
+                    CategoryType =
+                        (CategoryType)Enum.Parse(typeof(CategoryType), Request.QueryString[Keys.QRYSTR_CATEGORYTYPE]);
                 }
                 BindCategoriesRepeater();
             }
@@ -54,44 +61,38 @@ namespace Subtext.Web.Admin.UserControls
         {
             string baseUrl = "Default.aspx";
 
-            if (this.CategoryType != CategoryType.None)
+            if(CategoryType != CategoryType.None)
             {
-                if (this.CategoryType == CategoryType.ImageCollection)
+                if(CategoryType == CategoryType.ImageCollection)
                 {
-                    this.categoryLinks.Add(new LinkCategoryLink("All Galleries", AdminUrl.EditGalleries()));
+                    categoryLinks.Add(new LinkCategoryLink("All Galleries", AdminUrl.EditGalleries()));
                     baseUrl = "EditGalleries.aspx";
                 }
-                else if (this.CategoryType == CategoryType.LinkCollection)
+                else if(CategoryType == CategoryType.LinkCollection)
                 {
-                    this.categoryLinks.Add(new LinkCategoryLink("All Categories", AdminUrl.EditLinks()));
+                    categoryLinks.Add(new LinkCategoryLink("All Categories", AdminUrl.EditLinks()));
                     baseUrl = "EditLinks.aspx";
                 }
-                else if (this.CategoryType == CategoryType.PostCollection)
+                else if(CategoryType == CategoryType.PostCollection)
                 {
-                    this.categoryLinks.Add(new LinkCategoryLink("All Categories", AdminUrl.PostsList()));
+                    categoryLinks.Add(new LinkCategoryLink("All Categories", AdminUrl.PostsList()));
                 }
-                else if (this.CategoryType == CategoryType.StoryCollection)
+                else if(CategoryType == CategoryType.StoryCollection)
                 {
-                    this.categoryLinks.Add(new LinkCategoryLink("All Categories", AdminUrl.ArticlesList()));
+                    categoryLinks.Add(new LinkCategoryLink("All Categories", AdminUrl.ArticlesList()));
                 }
 
-                var categories = Links.GetCategories(CategoryType, ActiveFilter.None);
-                foreach (LinkCategory current in categories)
+                ICollection<LinkCategory> categories = Links.GetCategories(CategoryType, ActiveFilter.None);
+                foreach(LinkCategory current in categories)
                 {
-                    string url = string.Format(CultureInfo.InvariantCulture, "{4}?{0}={1}&{2}={3}", QRYSTR_CATEGORYFILTER, current.Id, QRYSTR_CATEGORYTYPE, this.CategoryType, baseUrl);
-                    this.categoryLinks.Add(new LinkCategoryLink(current.Title, url));
+                    string url = string.Format(CultureInfo.InvariantCulture, "{4}?{0}={1}&{2}={3}",
+                                               QRYSTR_CATEGORYFILTER, current.Id, QRYSTR_CATEGORYTYPE, CategoryType,
+                                               baseUrl);
+                    categoryLinks.Add(new LinkCategoryLink(current.Title, url));
                 }
             }
-            rptCategories.DataSource = this.categoryLinks;
+            rptCategories.DataSource = categoryLinks;
             rptCategories.DataBind();
-        }
-
-        [Browsable(true)]
-        [Description("Sets the type of categories to load.")]
-        public CategoryType CategoryType
-        {
-            get;
-            set;
         }
     }
 }

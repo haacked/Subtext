@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using MbUnit.Framework;
-using Subtext.Web.Admin.Feedback;
 using Subtext.Framework.Components;
+using Subtext.Web.Admin.Feedback;
 
 namespace UnitTests.Subtext.SubtextWeb.Admin
-{   
+{
     [TestFixture]
     public class FeedbackTests
     {

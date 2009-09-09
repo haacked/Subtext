@@ -1,10 +1,10 @@
-﻿using System.Security.Principal;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Routing;
+using Subtext.Framework.Infrastructure;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Infrastructure;
-using Subtext.Framework.Infrastructure;
 
 namespace Subtext.Framework
 {

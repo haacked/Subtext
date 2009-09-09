@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,24 +12,25 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using Subtext.Framework.Web.Handlers;
-using System.Web.Security;
 using System;
+using System.Web.Security;
+using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.HostAdmin
 {
-	public class HostAdminPage : SubtextPage
-	{
+    public class HostAdminPage : SubtextPage
+    {
         protected override void OnInit(EventArgs e)
         {
-            if (!User.IsInRole("HostAdmins"))
+            if(!User.IsInRole("HostAdmins"))
             {
                 FormsAuthentication.RedirectToLoginPage();
                 return;
             }
             base.OnInit(e);
         }
-	}
+    }
 }

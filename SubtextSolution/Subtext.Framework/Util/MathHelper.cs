@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -46,14 +48,14 @@ namespace Subtext.Framework.Util
             decimal originalHeight = original.Height;
 
 
-            if (originalWidth <= maxWidth && originalHeight <= maxHeight)
+            if(originalWidth <= maxWidth && originalHeight <= maxHeight)
             {
                 return original;
             }
 
             // determine the largest factor 
             decimal factor;
-            if (original.GetAspectRatio() > aspectRatio)
+            if(original.GetAspectRatio() > aspectRatio)
             {
                 factor = originalWidth / maxWidth;
             }

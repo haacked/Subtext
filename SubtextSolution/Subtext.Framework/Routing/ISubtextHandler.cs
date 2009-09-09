@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,29 +12,24 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Web;
 using Ninject;
 using Subtext.Framework.Providers;
 
-namespace Subtext.Framework.Routing {
-    public interface ISubtextHandler : IHttpHandler {
+namespace Subtext.Framework.Routing
+{
+    public interface ISubtextHandler : IHttpHandler
+    {
         [Inject]
-        ISubtextContext SubtextContext {
-            get;
-        }
+        ISubtextContext SubtextContext { get; }
 
-        UrlHelper Url {
-            get;
-        }
+        UrlHelper Url { get; }
 
-        ObjectProvider Repository {
-            get;
-        }
+        ObjectProvider Repository { get; }
 
-        AdminUrlHelper AdminUrl {
-            get;
-        }
+        AdminUrlHelper AdminUrl { get; }
     }
 }

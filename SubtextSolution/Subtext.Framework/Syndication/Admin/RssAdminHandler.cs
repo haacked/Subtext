@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -29,84 +31,123 @@ namespace Subtext.Framework.Syndication.Admin
 {
     public class RssAdminHandler : EntryCollectionHandler<object>
     {
-        string title = "";
-        string rssType = "";
-        string[] filters;
         int count;
+        string[] filters;
+        string rssType = "";
+        string title = "";
 
         public RssAdminHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
+        }
+
+        protected override bool RequiresAdminRole
+        {
+            get { return true; }
+        }
+
+        protected override BaseSyndicationWriter SyndicationWriter
+        {
+            get
+            {
+                IList feed = GetFeedEntriesSimple();
+                if(feed is ICollection<FeedbackItem>)
+                {
+                    //TODO: Test the admin feeds
+                    var entry = new Entry(PostType.None);
+                    entry.Title = title;
+                    entry.Body = string.Empty;
+
+                    var feedback = (ICollection<FeedbackItem>)feed;
+                    return new CommentRssWriter(HttpContext.Response.Output, feedback, entry, SubtextContext);
+                }
+                if(feed is ICollection<Referrer>)
+                {
+                    var referrers = (ICollection<Referrer>)feed;
+                    DateTime lastReferrer = NullValue.NullDateTime;
+                    if(referrers.Count > 0)
+                    {
+                        lastReferrer = referrers.First().LastReferDate;
+                    }
+                    return new ReferrerRssWriter(HttpContext.Response.Output, referrers, lastReferrer, UseDeltaEncoding,
+                                                 SubtextContext);
+                }
+                if(feed is ICollection<LogEntry>)
+                {
+                    var entries = (ICollection<LogEntry>)feed;
+                    return new LogRssWriter(HttpContext.Response.Output, entries, UseDeltaEncoding, SubtextContext);
+                }
+                return null;
+            }
+        }
+
+        protected override bool IsMainfeed
+        {
+            get { return false; }
         }
 
         protected override bool IsLocalCacheOK()
         {
             string dt = LastModifiedHeader;
 
-            if (dt != null)
+            if(dt != null)
             {
                 IList ec = GetFeedEntriesSimple();
 
-                if (ec != null && ec.Count > 0)
+                if(ec != null && ec.Count > 0)
                 {
                     //Get the first entry.
                     object entry = default(object);
                     //TODO: Probably change GetFeedEntries to return ICollection<Entry>
-                    foreach (object en in ec)
+                    foreach(object en in ec)
                     {
                         entry = en;
                         break;
                     }
-                    return DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture), ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
+                    return
+                        DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture),
+                                         ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
                 }
             }
             return false;
         }
 
-        protected override bool RequiresAdminRole
-        {
-            get
-            {
-                return true;
-            }
-        }
-
         protected void SetOptions()
         {
-            if (!Int32.TryParse(HttpContext.Request.QueryString["Count"], out count))
+            if(!Int32.TryParse(HttpContext.Request.QueryString["Count"], out count))
             {
                 count = Config.Settings.ItemCount;
             }
 
             //TODO: Use route data instead.
-            if (Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ModeratedCommentRss", RegexOptions.IgnoreCase))
+            if(Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ModeratedCommentRss", RegexOptions.IgnoreCase))
             {
                 title = "Comments requiring your approval.";
-                filters = new string[] { "NeedsModeration" };
+                filters = new string[] {"NeedsModeration"};
                 rssType = "Comment";
                 return;
             }
 
-            if (Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ReferrersRss", RegexOptions.IgnoreCase))
+            if(Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ReferrersRss", RegexOptions.IgnoreCase))
             {
                 title = "Referrals";
                 rssType = "Referral";
                 return;
             }
 
-            if (Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ErrorsRss", RegexOptions.IgnoreCase))
+            if(Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ErrorsRss", RegexOptions.IgnoreCase))
             {
                 title = "Errors";
                 rssType = "Log";
                 return;
             }
 
-            title = this.HttpContext.Request["Title"];
-            rssType = this.HttpContext.Request.QueryString["Type"];
+            title = HttpContext.Request["Title"];
+            rssType = HttpContext.Request.QueryString["Type"];
 
             string qryFilters = HttpContext.Request.QueryString["Filter"];
-            if (String.IsNullOrEmpty(qryFilters))
+            if(String.IsNullOrEmpty(qryFilters))
             {
-                filters = new string[] { };
+                filters = new string[] {};
             }
             else
             {
@@ -116,12 +157,10 @@ namespace Subtext.Framework.Syndication.Admin
 
         protected override void ProcessFeed()
         {
-
             SetOptions();
             base.ProcessFeed();
-
-
         }
+
         protected override ICollection<object> GetFeedEntries()
         {
             throw new NotImplementedException();
@@ -129,25 +168,29 @@ namespace Subtext.Framework.Syndication.Admin
 
         protected IList GetFeedEntriesSimple()
         {
-            if (String.IsNullOrEmpty(rssType))
+            if(String.IsNullOrEmpty(rssType))
+            {
                 throw new ArgumentNullException("rssType");
+            }
 
-            var repository = ObjectProvider.Instance();
+            ObjectProvider repository = ObjectProvider.Instance();
 
-            switch (rssType)
+            switch(rssType)
             {
                 case "Comment":
                     FeedbackStatusFlag flags = FeedbackStatusFlag.None;
 
-                    foreach (string filter in filters)
+                    foreach(string filter in filters)
                     {
-                        if (Enum.IsDefined(typeof(FeedbackStatusFlag), filter))
+                        if(Enum.IsDefined(typeof(FeedbackStatusFlag), filter))
                         {
                             flags |= (FeedbackStatusFlag)Enum.Parse(typeof(FeedbackStatusFlag), filter, true);
                         }
                     }
 
-                    ICollection<FeedbackItem> moderatedFeedback = repository.GetPagedFeedback(0, count, flags, FeedbackStatusFlag.None, FeedbackType.None);
+                    ICollection<FeedbackItem> moderatedFeedback = repository.GetPagedFeedback(0, count, flags,
+                                                                                              FeedbackStatusFlag.None,
+                                                                                              FeedbackType.None);
                     return (IList)moderatedFeedback;
 
                 case "Referral":
@@ -161,56 +204,23 @@ namespace Subtext.Framework.Syndication.Admin
 
 
             return null;
-
         }
 
         protected override DateTime GetItemCreatedDate(object item)
         {
-            if (item is FeedbackItem)
-                return ((FeedbackItem)item).DateCreated;
-            if (item is Referrer)
-                return ((Referrer)item).LastReferDate;
-            if (item is LogEntry)
-                return ((LogEntry)item).Date;
-            return DateTime.Now;
-        }
-
-        protected override BaseSyndicationWriter SyndicationWriter
-        {
-            get
+            if(item is FeedbackItem)
             {
-                IList feed = GetFeedEntriesSimple();
-                if (feed is ICollection<FeedbackItem>)
-                {
-                    //TODO: Test the admin feeds
-                    Entry entry = new Entry(PostType.None);
-                    entry.Title = title;
-                    entry.Body = string.Empty;
-
-                    ICollection<FeedbackItem> feedback = (ICollection<FeedbackItem>)feed;
-                    return new CommentRssWriter(HttpContext.Response.Output, feedback, entry, SubtextContext);
-
-                }
-                if (feed is ICollection<Referrer>)
-                {
-                    ICollection<Referrer> referrers = (ICollection<Referrer>)feed;
-                    DateTime lastReferrer = NullValue.NullDateTime;
-                    if (referrers.Count > 0)
-                        lastReferrer = referrers.First().LastReferDate;
-                    return new ReferrerRssWriter(HttpContext.Response.Output, referrers, lastReferrer, this.UseDeltaEncoding, SubtextContext);
-                }
-                if (feed is ICollection<LogEntry>)
-                {
-                    ICollection<LogEntry> entries = (ICollection<LogEntry>)feed;
-                    return new LogRssWriter(HttpContext.Response.Output, entries, this.UseDeltaEncoding, SubtextContext);
-                }
-                return null;
+                return ((FeedbackItem)item).DateCreated;
             }
-        }
-
-        protected override bool IsMainfeed
-        {
-            get { return false; }
+            if(item is Referrer)
+            {
+                return ((Referrer)item).LastReferDate;
+            }
+            if(item is LogEntry)
+            {
+                return ((LogEntry)item).Date;
+            }
+            return DateTime.Now;
         }
     }
 }

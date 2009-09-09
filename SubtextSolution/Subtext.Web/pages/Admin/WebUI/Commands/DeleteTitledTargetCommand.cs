@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -42,10 +44,14 @@ namespace Subtext.Web.Admin.Commands
         {
             get
             {
-                if (!Utilities.IsNullorEmpty(_promptMessage))
+                if(!Utilities.IsNullorEmpty(_promptMessage))
+                {
                     return FormatMessage(_promptMessage, _targetName, itemTitle);
+                }
                 else
+                {
                     return base.PromptMessage;
+                }
             }
             set { _promptMessage = value; }
         }

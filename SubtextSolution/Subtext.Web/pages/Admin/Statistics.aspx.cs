@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,17 +12,14 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
-using Subtext.Framework;
-using Subtext.Framework.Components;
 using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public partial class Statistics : StatsPage
-	{
-	}
+    public partial class Statistics : StatsPage
+    {
+    }
 }
-

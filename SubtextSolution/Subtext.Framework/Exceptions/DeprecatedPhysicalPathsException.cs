@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -23,32 +25,29 @@ namespace Subtext.Framework.Exceptions
     [Serializable]
     public class DeprecatedPhysicalPathsException : Exception
     {
-        string message;
+        readonly string message;
+
         public DeprecatedPhysicalPathsException(ReadOnlyCollection<string> physicalPaths)
         {
             InvalidPhysicalPaths = physicalPaths;
-            message = "In order to complete the upgrade, please delete the following directories/files." + Environment.NewLine;
-            foreach (var path in physicalPaths) {
+            message = "In order to complete the upgrade, please delete the following directories/files." +
+                      Environment.NewLine;
+            foreach(string path in physicalPaths)
+            {
                 message += " " + path + Environment.NewLine;
             }
         }
 
-        public DeprecatedPhysicalPathsException(IEnumerable<string> physicalPaths) : this(new ReadOnlyCollection<string>(physicalPaths.ToList()))
+        public DeprecatedPhysicalPathsException(IEnumerable<string> physicalPaths)
+            : this(new ReadOnlyCollection<string>(physicalPaths.ToList()))
         {
         }
 
         public override string Message
         {
-            get
-            {
-                return message;
-            }
+            get { return message; }
         }
 
-        public ReadOnlyCollection<string> InvalidPhysicalPaths
-        {
-            get;
-            private set;
-        }
+        public ReadOnlyCollection<string> InvalidPhysicalPaths { get; private set; }
     }
 }

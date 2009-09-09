@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,50 +12,44 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using Subtext.Web.UI.ViewModels;
 
 namespace Subtext.Web.UI.Controls
 {
-	/// <summary>
-	/// Control that contains information about the current entry 
-	/// being displayed.  This will allow other controls to use 
-	/// data binding syntax to display information about the current 
-	/// entry.
-	/// </summary>
-	public class CurrentEntryControl : BaseControl, IEntryControl
-	{
-		bool dataBound;
-		EntryViewModel currentEntry;
-		
-		/// <summary>
-		/// Gets the current entry.
-		/// </summary>
-		/// <value>The current entry.</value>
-		public EntryViewModel Entry
-		{
-			get
-			{
-				return this.currentEntry;
-			}
-			set
-			{
-				this.currentEntry = value;
-			}
-		}
-		
-		/// <summary>
-		/// Binds a data source to the invoked server control and all its child
-		/// controls.
-		/// </summary>
-		public override void DataBind()
-		{
-			if(this.Entry != null && !dataBound)
-			{
-				dataBound = true;
-				base.DataBind();
-			}
-		}
-	}
+    /// <summary>
+    /// Control that contains information about the current entry 
+    /// being displayed.  This will allow other controls to use 
+    /// data binding syntax to display information about the current 
+    /// entry.
+    /// </summary>
+    public class CurrentEntryControl : BaseControl, IEntryControl
+    {
+        bool dataBound;
+
+        #region IEntryControl Members
+
+        /// <summary>
+        /// Gets the current entry.
+        /// </summary>
+        /// <value>The current entry.</value>
+        public EntryViewModel Entry { get; set; }
+
+        #endregion
+
+        /// <summary>
+        /// Binds a data source to the invoked server control and all its child
+        /// controls.
+        /// </summary>
+        public override void DataBind()
+        {
+            if(Entry != null && !dataBound)
+            {
+                dataBound = true;
+                base.DataBind();
+            }
+        }
+    }
 }

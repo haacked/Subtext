@@ -1,7 +1,7 @@
 using System;
-using Subtext.Framework;
 
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -14,25 +14,22 @@ using Subtext.Framework;
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Web.UI.Controls
 {
-	using System;
+    /// <summary>
+    ///		Summary description for CategoryDisplayByColumn.
+    /// </summary>
+    public class CategoryDisplay : CachedColumnControl
+    {
+        protected CategoryList Categories;
 
-
-	/// <summary>
-	///		Summary description for CategoryDisplayByColumn.
-	/// </summary>
-	public  class CategoryDisplay : CachedColumnControl
-	{
-		protected CategoryList Categories;
-
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad (e);
-			Categories.LinkCategories = this.Repository.GetActiveCategories();
-		}
-	}
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            Categories.LinkCategories = Repository.GetActiveCategories();
+        }
+    }
 }
-

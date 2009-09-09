@@ -1,20 +1,17 @@
-using System;
 using MbUnit.Framework;
-using Subtext.Web.Controls.Captcha;
+using Subtext.Web.Controls;
 
 namespace UnitTests.Subtext.SubtextWeb.Controls
 {
-	[TestFixture]
-	public class InvisibleCaptchaTests
-	{
-		[Test]
-		public void CanRoundTripEncryption()
-		{
-			string encrypted = InvisibleCaptcha.EncryptString("Hello Sucka!");
-			string decrypted = InvisibleCaptcha.DecryptString(encrypted);
-			Assert.AreEqual("Hello Sucka!", decrypted, "Round trip did not work.");
-		}
-		
-		
-	}
+    [TestFixture]
+    public class InvisibleCaptchaTests
+    {
+        [Test]
+        public void CanRoundTripEncryption()
+        {
+            string encrypted = CaptchaBase.EncryptString("Hello Sucka!");
+            string decrypted = CaptchaBase.DecryptString(encrypted);
+            Assert.AreEqual("Hello Sucka!", decrypted, "Round trip did not work.");
+        }
+    }
 }

@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
+using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
-using Subtext.Framework.Components;
 
 namespace UnitTests.Subtext.Framework.Services
 {
@@ -15,14 +15,16 @@ namespace UnitTests.Subtext.Framework.Services
     public class BlogLookupServiceTests
     {
         [Test]
-        public void Request_WithMatchingHost_ReturnsCorrespondingBlog() {
+        public void Request_WithMatchingHost_ReturnsCorrespondingBlog()
+        {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns(new Blog { Host = "example.com"});
+            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns(new Blog {Host = "example.com"});
             var service = new BlogLookupService(repository.Object, new HostInfo());
-            
+
             //act
-            BlogLookupResult result = service.Lookup(new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false));
+            BlogLookupResult result =
+                service.Lookup(new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false));
 
             //assert
             Assert.IsNotNull(result.Blog);
@@ -34,11 +36,13 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns(new Blog { Host = "www.example.com" });
+            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns(new Blog
+            {Host = "www.example.com"});
             var service = new BlogLookupService(repository.Object, new HostInfo());
 
             //act
-            BlogLookupResult result = service.Lookup(new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false));
+            BlogLookupResult result =
+                service.Lookup(new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false));
 
             //assert
             Assert.IsNull(result.Blog);
@@ -50,11 +54,14 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("blog.example.com", It.IsAny<string>())).Returns(new Blog { Host="www.example.com" });
+            repository.Setup(r => r.GetBlog("blog.example.com", It.IsAny<string>())).Returns(new Blog
+            {Host = "www.example.com"});
             var service = new BlogLookupService(repository.Object, new HostInfo());
 
             //act
-            BlogLookupResult result = service.Lookup(new BlogRequest("blog.example.com", string.Empty, new Uri("http://blog.example.com/foo/bar"), false));
+            BlogLookupResult result =
+                service.Lookup(new BlogRequest("blog.example.com", string.Empty,
+                                               new Uri("http://blog.example.com/foo/bar"), false));
 
             //assert
             Assert.IsNull(result.Blog);
@@ -66,11 +73,14 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("blog.example.com", "sub")).Returns(new Blog { Host = "www.example.com", Subfolder = "" });
+            repository.Setup(r => r.GetBlog("blog.example.com", "sub")).Returns(new Blog
+            {Host = "www.example.com", Subfolder = ""});
             var service = new BlogLookupService(repository.Object, new HostInfo());
 
             //act
-            BlogLookupResult result = service.Lookup(new BlogRequest("blog.example.com", "sub", new Uri("http://blog.example.com/sub/foo/bar"), false));
+            BlogLookupResult result =
+                service.Lookup(new BlogRequest("blog.example.com", "sub", new Uri("http://blog.example.com/sub/foo/bar"),
+                                               false));
 
             //assert
             Assert.IsNull(result.Blog);
@@ -82,11 +92,14 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("blog.example.com", string.Empty)).Returns(new Blog { Host = "www.example.com", Subfolder = "sub" });
+            repository.Setup(r => r.GetBlog("blog.example.com", string.Empty)).Returns(new Blog
+            {Host = "www.example.com", Subfolder = "sub"});
             var service = new BlogLookupService(repository.Object, new HostInfo());
 
             //act
-            BlogLookupResult result = service.Lookup(new BlogRequest("blog.example.com", string.Empty, new Uri("http://blog.example.com/foo/bar"), false));
+            BlogLookupResult result =
+                service.Lookup(new BlogRequest("blog.example.com", string.Empty,
+                                               new Uri("http://blog.example.com/foo/bar"), false));
 
             //assert
             Assert.IsNull(result.Blog);
@@ -98,12 +111,16 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
-            repository.Setup(r => r.GetBlog("blog.example.com", "notsub")).Returns(new Blog { Host = "www.example.com", Subfolder = "sub" });
-            repository.Setup(r => r.GetBlogByDomainAlias("blog.example.com", "notsub", It.IsAny<bool>())).Returns(new Blog { Host = "www.example.com", Subfolder = "sub" });
+            repository.Setup(r => r.GetBlog("blog.example.com", "notsub")).Returns(new Blog
+            {Host = "www.example.com", Subfolder = "sub"});
+            repository.Setup(r => r.GetBlogByDomainAlias("blog.example.com", "notsub", It.IsAny<bool>())).Returns(
+                new Blog {Host = "www.example.com", Subfolder = "sub"});
             var service = new BlogLookupService(repository.Object, new HostInfo());
 
             //act
-            BlogLookupResult result = service.Lookup(new BlogRequest("blog.example.com", "notsub", new Uri("http://blog.example.com/notsub/foo/bar"), false));
+            BlogLookupResult result =
+                service.Lookup(new BlogRequest("blog.example.com", "notsub",
+                                               new Uri("http://blog.example.com/notsub/foo/bar"), false));
 
             //assert
             Assert.IsNull(result.Blog);
@@ -118,29 +135,36 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             var pagedCollection = new Mock<IPagedCollection<Blog>>();
             pagedCollection.Setup(p => p.MaxItems).Returns(0);
-            repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(pagedCollection.Object); ;
-            var service = new BlogLookupService(repository.Object, new HostInfo { BlogAggregationEnabled = false });
+            repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
+                pagedCollection.Object);
+            ;
+            var service = new BlogLookupService(repository.Object, new HostInfo {BlogAggregationEnabled = false});
 
             //act
-            BlogLookupResult result = service.Lookup(new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false));
+            BlogLookupResult result =
+                service.Lookup(new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false));
 
             //assert
             Assert.IsNull(result);
         }
 
         [Test]
-        public void RequestNotMatchingAnyBlog_ButWithAggregateBlogsEnabledAndActiveBlogsInTheSystem_ReturnsAggregateBlog()
+        public void RequestNotMatchingAnyBlog_ButWithAggregateBlogsEnabledAndActiveBlogsInTheSystem_ReturnsAggregateBlog
+            ()
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
-            var onlyBlog = new Blog { Host = "example.com", Subfolder = "not-sub" };
+            var onlyBlog = new Blog {Host = "example.com", Subfolder = "not-sub"};
             var pagedCollection = new PagedCollection<Blog>();
             pagedCollection.Add(onlyBlog);
             pagedCollection.MaxItems = 1;
-            repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(pagedCollection);
-            Blog aggregateBlog = new Blog();
-            var service = new BlogLookupService(repository.Object, new HostInfo { BlogAggregationEnabled = true, AggregateBlog = aggregateBlog });
+            repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
+                pagedCollection);
+            var aggregateBlog = new Blog();
+            var service = new BlogLookupService(repository.Object,
+                                                new HostInfo
+                                                {BlogAggregationEnabled = true, AggregateBlog = aggregateBlog});
             var blogRequest = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false);
 
             //act
@@ -157,10 +181,12 @@ namespace UnitTests.Subtext.Framework.Services
         /// should be changed to the new domain.
         /// </summary>
         [Test]
-        public void RequestNotMatchingAnyBlog_ButWithASingleBlogInSystemWithMatchingHostButDifferentSubfolder_RedirectsToOnlyBlog()
+        public void
+            RequestNotMatchingAnyBlog_ButWithASingleBlogInSystemWithMatchingHostButDifferentSubfolder_RedirectsToOnlyBlog
+            ()
         {
             //arrange
-            var onlyBlog = new Blog { Host = "example.com", Subfolder = "not-sub" };
+            var onlyBlog = new Blog {Host = "example.com", Subfolder = "not-sub"};
             var pagedCollection = new PagedCollection<Blog>();
             pagedCollection.Add(onlyBlog);
             pagedCollection.MaxItems = 1;
@@ -168,9 +194,11 @@ namespace UnitTests.Subtext.Framework.Services
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetBlog("example.com", "sub")).Returns((Blog)null);
             repository.Setup(r => r.GetBlog("example.com", "not-sub")).Returns(onlyBlog);
-            repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(pagedCollection);
-            var service = new BlogLookupService(repository.Object, new HostInfo { BlogAggregationEnabled = false });
-            var blogRequest = new BlogRequest("example.com", "sub", new Uri("http://example.com/Subtext.Web/sub/bar"), false, RequestLocation.Blog, "/Subtext.Web");
+            repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
+                pagedCollection);
+            var service = new BlogLookupService(repository.Object, new HostInfo {BlogAggregationEnabled = false});
+            var blogRequest = new BlogRequest("example.com", "sub", new Uri("http://example.com/Subtext.Web/sub/bar"),
+                                              false, RequestLocation.Blog, "/Subtext.Web");
 
             //act
             BlogLookupResult result = service.Lookup(blogRequest);
@@ -190,15 +218,16 @@ namespace UnitTests.Subtext.Framework.Services
         public void RequestNotMatchingAnyBlog_ButWithASingleBlogInSystemWithLocalHost_ReturnsThatBlogAndUpdatesItsHost()
         {
             //arrange
-            var onlyBlog = new Blog { Host = "localhost", Subfolder = "" };
+            var onlyBlog = new Blog {Host = "localhost", Subfolder = ""};
             var pagedCollection = new PagedCollection<Blog>();
             pagedCollection.Add(onlyBlog);
             pagedCollection.MaxItems = 1;
 
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
-            repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(pagedCollection);
-            var service = new BlogLookupService(repository.Object, new HostInfo { BlogAggregationEnabled = false });
+            repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
+                pagedCollection);
+            var service = new BlogLookupService(repository.Object, new HostInfo {BlogAggregationEnabled = false});
             var blogRequest = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false);
 
             //act
@@ -219,18 +248,21 @@ namespace UnitTests.Subtext.Framework.Services
         /// should be changed to the new domain.
         /// </summary>
         [Test]
-        public void RequestNotMatchingAnyBlog_ButWithASingleBlogInSystemWithLocalHostButNotMatchingSubfolder_ReturnsUpdatesItsHostThenRedirectsToSubfolder()
+        public void
+            RequestNotMatchingAnyBlog_ButWithASingleBlogInSystemWithLocalHostButNotMatchingSubfolder_ReturnsUpdatesItsHostThenRedirectsToSubfolder
+            ()
         {
             //arrange
-            var onlyBlog = new Blog { Host = "localhost", Subfolder = "sub" };
+            var onlyBlog = new Blog {Host = "localhost", Subfolder = "sub"};
             var pagedCollection = new PagedCollection<Blog>();
             pagedCollection.Add(onlyBlog);
             pagedCollection.MaxItems = 1;
 
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
-            repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(pagedCollection);
-            var service = new BlogLookupService(repository.Object, new HostInfo { BlogAggregationEnabled = false });
+            repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
+                pagedCollection);
+            var service = new BlogLookupService(repository.Object, new HostInfo {BlogAggregationEnabled = false});
             var blogRequest = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false);
 
             //act

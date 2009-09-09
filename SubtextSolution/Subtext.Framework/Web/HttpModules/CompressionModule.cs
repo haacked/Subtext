@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -21,6 +23,11 @@ namespace Subtext.Framework.Web.HttpModules
 {
     public class CompressionModule : IHttpModule
     {
+        private const string DEFLATE = "deflate";
+        private const string GZIP = "gzip";
+
+        #region IHttpModule Members
+
         /// <summary>
         /// Disposes of the resources (other than memory) used by the module 
         /// that implements <see cref="T:System.Web.IHttpModule"></see>.
@@ -42,8 +49,7 @@ namespace Subtext.Framework.Web.HttpModules
             context.PostReleaseRequestState += context_PostReleaseRequestState;
         }
 
-        private const string GZIP = "gzip";
-        private const string DEFLATE = "deflate";
+        #endregion
 
         /// <summary>
         /// Handles the BeginRequest event of the context control.
@@ -52,21 +58,21 @@ namespace Subtext.Framework.Web.HttpModules
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         void context_PostReleaseRequestState(object sender, EventArgs e)
         {
-            HttpApplication app = (HttpApplication) sender;
-            if (app.Request.Path.Contains("css.axd") || app.Request.Path.Contains("js.axd"))
+            var app = (HttpApplication)sender;
+            if(app.Request.Path.Contains("css.axd") || app.Request.Path.Contains("js.axd"))
             {
-                if (IsEncodingAccepted(GZIP))
+                if(IsEncodingAccepted(GZIP))
                 {
                     app.Response.Filter = new GZipStream(app.Response.Filter, CompressionMode.Compress);
                     SetEncoding(GZIP);
                 }
-                else if (IsEncodingAccepted(DEFLATE))
+                else if(IsEncodingAccepted(DEFLATE))
                 {
                     app.Response.Filter = new DeflateStream(app.Response.Filter, CompressionMode.Compress);
                     SetEncoding(DEFLATE);
                 }
             }
-            else if (app.Request.Path.Contains("WebResource.axd"))
+            else if(app.Request.Path.Contains("WebResource.axd"))
             {
                 app.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
             }
@@ -78,7 +84,8 @@ namespace Subtext.Framework.Web.HttpModules
         /// </summary>
         private static bool IsEncodingAccepted(string encoding)
         {
-            return HttpContext.Current.Request.Headers["Accept-encoding"] != null && HttpContext.Current.Request.Headers["Accept-encoding"].Contains(encoding);
+            return HttpContext.Current.Request.Headers["Accept-encoding"] != null &&
+                   HttpContext.Current.Request.Headers["Accept-encoding"].Contains(encoding);
         }
 
         /// <summary>

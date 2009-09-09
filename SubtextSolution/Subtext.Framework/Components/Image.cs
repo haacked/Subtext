@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -27,68 +29,32 @@ namespace Subtext.Framework.Components
     [Serializable]
     public class Image
     {
-        public int BlogId
-        {
-            get;
-            set;
-        }
+        private string localDirectoryPath;
+        public int BlogId { get; set; }
 
-        public Blog Blog
-        {
-            get;
-            set;
-        }
+        public Blog Blog { get; set; }
 
         [XmlAttribute]
-        public int ImageID
-        {
-            get;
-            set;
-        }
+        public int ImageID { get; set; }
 
-        public int CategoryID
-        {
-            get;
-            set;
-        }
+        public int CategoryID { get; set; }
 
         //TODO: This is pure laziness and a band-aid for 
         //      aggregate blogs. Will fix later.
-        public string CategoryTitle
-        {
-            get;
-            set;
-        }
+        public string CategoryTitle { get; set; }
 
-        public bool IsActive
-        {
-            get;
-            set;
-        }
+        public bool IsActive { get; set; }
 
-        public string FileName
-        {
-            get;
-            set;
-        }
+        public string FileName { get; set; }
 
         /// <summary>
         /// Gets the filepath on the local server.
         /// </summary>
         public virtual string FilePath
         {
-            get
-            {
-                return Path.Combine(LocalDirectoryPath, FileName);
-            }
+            get { return Path.Combine(LocalDirectoryPath, FileName); }
         }
 
-        public string GetImageDirectoryUrlFromBlog(Blog blog) {
-            string urlFormat = "~/images/{0}/{1}";
-            string subfolder = String.IsNullOrEmpty(blog.Subfolder) ? String.Empty : blog.Subfolder + "/";
-            return String.Format(CultureInfo.InvariantCulture, urlFormat, blog.Host, subfolder);
-        }
-        
         /// <summary>
         /// The directory on the local server where the image will be saved.
         /// </summary>
@@ -99,94 +65,66 @@ namespace Subtext.Framework.Components
         {
             get
             {
-                if (this.localDirectoryPath == null)
+                if(localDirectoryPath == null)
                 {
                     throw new InvalidOperationException(Resources.InvalidOperation_LocalDirectoryPathNotSet);
                 }
 
-                return this.localDirectoryPath;
+                return localDirectoryPath;
             }
             set
             {
-                if (value != null)
+                if(value != null)
                 {
                     value = Path.GetFullPath(value);
                 }
-                this.localDirectoryPath = value;
+                localDirectoryPath = value;
             }
         }
-        private string localDirectoryPath;
 
-        public string Title
-        {
-            get;
-            set;
-        }
+        public string Title { get; set; }
 
-        public int Width
-        {
-            get;
-            set;
-        }
+        public int Width { get; set; }
 
-        public int Height
-        {
-            get;
-            set;
-        }
+        public int Height { get; set; }
 
-        public string Url 
-        { 
-            get; 
-            set; 
-        }
+        public string Url { get; set; }
 
         public string OriginalFile
         {
-            get
-            {
-                return "o_" + FileName;
-            }
+            get { return "o_" + FileName; }
         }
 
         public string ThumbNailFile
         {
-            get
-            {
-                return "t_" + FileName;
-            }
+            get { return "t_" + FileName; }
         }
 
         public string ResizedFile
         {
-            get
-            {
-                return "r_" + FileName;
-            }
+            get { return "r_" + FileName; }
         }
 
         public string OriginalFilePath
         {
-            get
-            {
-                return Path.Combine(LocalDirectoryPath, OriginalFile);
-            }
+            get { return Path.Combine(LocalDirectoryPath, OriginalFile); }
         }
 
         public string ThumbNailFilePath
         {
-            get
-            {
-                return Path.Combine(LocalDirectoryPath, ThumbNailFile);
-            }
+            get { return Path.Combine(LocalDirectoryPath, ThumbNailFile); }
         }
 
         public string ResizedFilePath
         {
-            get
-            {
-                return Path.Combine(LocalDirectoryPath, ResizedFile);
-            }
+            get { return Path.Combine(LocalDirectoryPath, ResizedFile); }
+        }
+
+        public string GetImageDirectoryUrlFromBlog(Blog blog)
+        {
+            string urlFormat = "~/images/{0}/{1}";
+            string subfolder = String.IsNullOrEmpty(blog.Subfolder) ? String.Empty : blog.Subfolder + "/";
+            return String.Format(CultureInfo.InvariantCulture, urlFormat, blog.Host, subfolder);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,16 +12,20 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Globalization;
 using Subtext.Framework.Util;
 
-namespace Subtext.Framework.Components {
+namespace Subtext.Framework.Components
+{
     [Serializable]
-    public class ServerTimeZoneInfo {
-        public ServerTimeZoneInfo() {
+    public class ServerTimeZoneInfo
+    {
+        public ServerTimeZoneInfo()
+        {
         }
 
         public ServerTimeZoneInfo(string timeZoneText)
@@ -28,34 +33,23 @@ namespace Subtext.Framework.Components {
         {
         }
 
-        public ServerTimeZoneInfo(TimeZoneInfo timeZone, TimeZoneInfo localTimeZone, DateTime now, DateTime utcNow) {
+        public ServerTimeZoneInfo(TimeZoneInfo timeZone, TimeZoneInfo localTimeZone, DateTime now, DateTime utcNow)
+        {
             ServerTimeZone = string.Format(CultureInfo.InvariantCulture, "{0} ({1})",
-                    TimeZoneInfo.Local.StandardName,
-                    TimeZoneInfo.Local.GetUtcOffset(now));
+                                           TimeZoneInfo.Local.StandardName,
+                                           TimeZoneInfo.Local.GetUtcOffset(now));
             ServerTime = now.ToString("yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture);
             ServerUtcTime = utcNow.ToString("yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture);
-            CurrentTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone).ToString("yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture);
+            CurrentTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone).ToString("yyyy/MM/dd hh:mm tt",
+                                                                                     CultureInfo.InvariantCulture);
         }
 
-        public string ServerTimeZone {
-            get;
-            set;
-        }
+        public string ServerTimeZone { get; set; }
 
-        public string ServerTime {
-            get;
-            set;
-        }
+        public string ServerTime { get; set; }
 
-        public string ServerUtcTime {
-            get;
-            set;
-        }
+        public string ServerUtcTime { get; set; }
 
-        public string CurrentTime
-        {
-            get;
-            set;
-        }
+        public string CurrentTime { get; set; }
     }
 }

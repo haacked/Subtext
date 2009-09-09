@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,25 +12,53 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
-using Subtext.Framework;
+using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
-using Subtext.Framework.Syndication;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Syndication
 {
     /// <summary>
     /// Class used to handle requests for an RSS feed.
     /// </summary>
-    public class RssTagHandler : Subtext.Framework.Syndication.BaseSyndicationHandler<Entry>
+    public class RssTagHandler : BaseSyndicationHandler<Entry>
     {
         BaseSyndicationWriter<Entry> writer;
 
         public RssTagHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
+        }
+
+        /// <summary>
+        /// Gets the syndication writer.
+        /// </summary>
+        /// <returns></returns>
+        protected override BaseSyndicationWriter SyndicationWriter
+        {
+            get
+            {
+                if(writer == null)
+                {
+                    // timheuer: changed this to GetEntriesByTag
+                    writer = new RssWriter(HttpContext.Response.Output,
+                                           Entries.GetEntriesByTag(Blog.ItemCount, _getTagName()),
+                                           PublishDateOfLastFeedItemReceived, UseDeltaEncoding, SubtextContext);
+                }
+                return writer;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
+        /// </summary>
+        protected override bool IsMainfeed
+        {
+            get { return true; }
         }
 
         /// <summary>
@@ -46,19 +75,19 @@ namespace Subtext.Framework.Syndication
         // timheuer - overridden method to bypass the feedburner check
         protected override void ProcessFeed()
         {
-            if (base.IsLocalCacheOK())
+            if(base.IsLocalCacheOK())
             {
                 base.HttpContext.Response.StatusCode = 304;
                 return;
             }
 
             // Checks our cache against last modified header.
-            if (!base.IsHttpCacheOK())
+            if(!base.IsHttpCacheOK())
             {
                 base.Feed = base.BuildFeed();
-                if (base.Feed != null)
+                if(base.Feed != null)
                 {
-                    if (base.UseDeltaEncoding && base.Feed.ClientHasAllFeedItems)
+                    if(base.UseDeltaEncoding && base.Feed.ClientHasAllFeedItems)
                     {
                         base.HttpContext.Response.StatusCode = 304;
                         return;
@@ -74,7 +103,7 @@ namespace Subtext.Framework.Syndication
         private string _getTagName()
         {
             Uri url = base.HttpContext.Request.Url;
-            string tagName = System.Web.HttpUtility.UrlDecode(url.Segments[url.Segments.Length - 2].Replace("/", ""));
+            string tagName = HttpUtility.UrlDecode(url.Segments[url.Segments.Length - 2].Replace("/", ""));
             return tagName;
         }
 
@@ -84,36 +113,12 @@ namespace Subtext.Framework.Syndication
         /// <param name="feed">Feed.</param>
         protected override void Cache(CachedFeed feed)
         {
-            var cache = SubtextContext.Cache;
-            if (cache != null)
+            ICache cache = SubtextContext.Cache;
+            if(cache != null)
             {
-                cache.InsertDuration(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, Cacher.MediumDuration);
+                cache.InsertDuration(CacheKey(SyndicationWriter.DateLastViewedFeedItemPublished), feed,
+                                     Cacher.MediumDuration);
             }
-        }
-
-        /// <summary>
-        /// Gets the syndication writer.
-        /// </summary>
-        /// <returns></returns>
-        protected override BaseSyndicationWriter SyndicationWriter
-        {
-            get
-            {
-                if (writer == null)
-                {
-                    // timheuer: changed this to GetEntriesByTag
-                    writer = new RssWriter(HttpContext.Response.Output, Entries.GetEntriesByTag(Blog.ItemCount, _getTagName()), PublishDateOfLastFeedItemReceived, UseDeltaEncoding, SubtextContext);
-                }
-                return writer;
-            }
-        }
-
-        /// <summary>
-        /// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
-        /// </summary>
-        protected override bool IsMainfeed
-        {
-            get { return true; }
         }
     }
 }

@@ -8,177 +8,185 @@ using Subtext.Scripting.Properties;
 
 namespace Subtext.Scripting
 {
-	public class ScriptSplitter : IEnumerable<string>
-	{
-		private ScriptReader scriptReader = null;
-		private StringBuilder builder = new StringBuilder();
-		private readonly TextReader reader;
-		private char current;
-		private char lastChar;
+    public class ScriptSplitter : IEnumerable<string>
+    {
+        private readonly TextReader reader;
+        private StringBuilder builder = new StringBuilder();
+        private char current;
+        private char lastChar;
+        private ScriptReader scriptReader = null;
 
-		public ScriptSplitter(string script)
-		{
-			this.reader = new StringReader(script);
-			this.scriptReader = new SeparatorLineReader(this);
-		}
+        public ScriptSplitter(string script)
+        {
+            reader = new StringReader(script);
+            scriptReader = new SeparatorLineReader(this);
+        }
 
-		internal bool Next()
-		{
-			if (!HasNext)
-			{
-				return false;
-			}
+        internal bool HasNext
+        {
+            get { return reader.Peek() != -1; }
+        }
 
-			this.lastChar = this.current;
-			this.current = (char)reader.Read();
-			return true;
-		}
+        internal char Current
+        {
+            get { return current; }
+        }
 
-		internal bool HasNext
-		{
-			get { return reader.Peek() != -1; }
-		}
+        internal char LastChar
+        {
+            get { return lastChar; }
+        }
 
-		internal int Peek()
-		{
-			return reader.Peek();
-		}
+        #region IEnumerable<string> Members
 
-		internal char Current
-		{
-			get { return this.current; }
-		}
+        public IEnumerator<string> GetEnumerator()
+        {
+            while(Next())
+            {
+                if(Split())
+                {
+                    string script = builder.ToString().Trim();
+                    if(script.Length > 0)
+                    {
+                        yield return (script);
+                    }
+                    Reset();
+                }
+            }
+            if(builder.Length > 0)
+            {
+                string scriptRemains = builder.ToString().Trim();
+                if(scriptRemains.Length > 0)
+                {
+                    yield return (scriptRemains);
+                }
+            }
+        }
 
-		internal char LastChar
-		{
-			get { return this.lastChar; }
-		}
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
-		private bool Split()
-		{
-			return this.scriptReader.ReadNextSection();
-		}
+        #endregion
 
-		internal void SetParser(ScriptReader newReader)
-		{
-			this.scriptReader = newReader;
-		}
+        internal bool Next()
+        {
+            if(!HasNext)
+            {
+                return false;
+            }
 
-		internal void Append(string text)
-		{
-			builder.Append(text);
-		}
+            lastChar = current;
+            current = (char)reader.Read();
+            return true;
+        }
 
-		internal void Append(char c)
-		{
-			builder.Append(c);
-		}
+        internal int Peek()
+        {
+            return reader.Peek();
+        }
 
-		void Reset()
-		{
-			current = lastChar = char.MinValue;
-			builder = new StringBuilder();
-		}
+        private bool Split()
+        {
+            return scriptReader.ReadNextSection();
+        }
 
-		public IEnumerator<string> GetEnumerator()
-		{
-			while (Next())
-			{
-				if (Split())
-				{
-					string script = builder.ToString().Trim();
-					if (script.Length > 0)
-						yield return (script);
-					Reset();
-				}
-			}
-			if (builder.Length > 0)
-			{
-				string scriptRemains = builder.ToString().Trim();
-				if (scriptRemains.Length > 0)
-					yield return (scriptRemains);
-			}
-		}
+        internal void SetParser(ScriptReader newReader)
+        {
+            scriptReader = newReader;
+        }
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
-	}
+        internal void Append(string text)
+        {
+            builder.Append(text);
+        }
 
-	abstract class ScriptReader
-	{
-		protected readonly ScriptSplitter splitter;
-		
-		public ScriptReader(ScriptSplitter splitter)
-		{
-			this.splitter = splitter;
-		}
-		
-		/// <summary>
-		/// This acts as a template method. Specific Reader instances 
-		/// override the component methods.
-		/// </summary>
-		public bool ReadNextSection()
-		{
-			if (IsQuote)
-			{
-				ReadQuotedString();
-				return false;
-			}
+        internal void Append(char c)
+        {
+            builder.Append(c);
+        }
 
-			if (BeginDashDashComment)
-			{
-				return ReadDashDashComment();
-			}
+        void Reset()
+        {
+            current = lastChar = char.MinValue;
+            builder = new StringBuilder();
+        }
+    }
 
-			if (BeginSlashStarComment)
-			{
-				ReadSlashStarComment();
-				return false;
-			}
+    abstract class ScriptReader
+    {
+        protected readonly ScriptSplitter splitter;
 
-			return ReadNext();
-		}
+        public ScriptReader(ScriptSplitter splitter)
+        {
+            this.splitter = splitter;
+        }
 
-		protected virtual bool ReadDashDashComment()
-		{
-			splitter.Append(Current);
-			while (splitter.Next())
-			{
-				splitter.Append(Current);
-				if (EndOfLine)
-				{
-					break;
-				}
-			}
-			//We should be EndOfLine or EndOfScript here.
-			this.splitter.SetParser(new SeparatorLineReader(this.splitter));
-			return false;
-		}
+        /// <summary>
+        /// This acts as a template method. Specific Reader instances 
+        /// override the component methods.
+        /// </summary>
+        public bool ReadNextSection()
+        {
+            if(IsQuote)
+            {
+                ReadQuotedString();
+                return false;
+            }
 
-		protected virtual void ReadSlashStarComment()
-		{
-			if (ReadSlashStarCommentWithResult())
-			{
-				splitter.SetParser(new SeparatorLineReader(splitter));
-				return;
-			}
-		}
+            if(BeginDashDashComment)
+            {
+                return ReadDashDashComment();
+            }
+
+            if(BeginSlashStarComment)
+            {
+                ReadSlashStarComment();
+                return false;
+            }
+
+            return ReadNext();
+        }
+
+        protected virtual bool ReadDashDashComment()
+        {
+            splitter.Append(Current);
+            while(splitter.Next())
+            {
+                splitter.Append(Current);
+                if(EndOfLine)
+                {
+                    break;
+                }
+            }
+            //We should be EndOfLine or EndOfScript here.
+            splitter.SetParser(new SeparatorLineReader(splitter));
+            return false;
+        }
+
+        protected virtual void ReadSlashStarComment()
+        {
+            if(ReadSlashStarCommentWithResult())
+            {
+                splitter.SetParser(new SeparatorLineReader(splitter));
+                return;
+            }
+        }
 
         private bool ReadSlashStarCommentWithResult()
         {
             splitter.Append(Current);
-            while (splitter.Next())
+            while(splitter.Next())
             {
-                if (BeginSlashStarComment)
+                if(BeginSlashStarComment)
                 {
                     ReadSlashStarCommentWithResult();
                     continue;
                 }
                 splitter.Append(Current);
 
-                if (EndSlashStarComment)
+                if(EndSlashStarComment)
                 {
                     return true;
                 }
@@ -186,208 +194,217 @@ namespace Subtext.Scripting
             return false;
         }
 
-		protected virtual void ReadQuotedString()
-		{
-			splitter.Append(Current);
-			while (splitter.Next())
-			{
-				splitter.Append(Current);
-				if (IsQuote)
-				{
-					return;
-				}
-			}
-		}
+        protected virtual void ReadQuotedString()
+        {
+            splitter.Append(Current);
+            while(splitter.Next())
+            {
+                splitter.Append(Current);
+                if(IsQuote)
+                {
+                    return;
+                }
+            }
+        }
 
-		protected abstract bool ReadNext();
+        protected abstract bool ReadNext();
 
-		#region Helper methods and properties
-		protected static bool CharEquals(char expected, char actual)
-		{
-			return Char.ToLowerInvariant(expected) == Char.ToLowerInvariant(actual);
-		}
+        #region Helper methods and properties
 
-		protected bool CharEquals(char compare)
-		{
-			return CharEquals(this.Current, compare);
-		}
+        protected bool HasNext
+        {
+            get { return splitter.HasNext; }
+        }
 
-		protected bool HasNext
-		{
-			get { return this.splitter.HasNext; }
-		}
+        protected bool WhiteSpace
+        {
+            get { return char.IsWhiteSpace(splitter.Current); }
+        }
 
-		protected char Peek()
-		{
-			if (!HasNext)
-				return char.MinValue;
-			return (char)this.splitter.Peek();
-		}
+        protected bool EndOfLine
+        {
+            get { return '\n' == splitter.Current; }
+        }
 
-		protected bool WhiteSpace
-		{
-			get { return char.IsWhiteSpace(this.splitter.Current); }
-		}
+        protected bool IsQuote
+        {
+            get { return '\'' == splitter.Current; }
+        }
 
-		protected bool EndOfLine
-		{
-			get { return '\n' == this.splitter.Current; }
-		}
+        protected char Current
+        {
+            get { return splitter.Current; }
+        }
 
-		protected bool IsQuote
-		{
-			get { return '\'' == this.splitter.Current; }
-		}
+        protected char LastChar
+        {
+            get { return splitter.LastChar; }
+        }
 
-		protected char Current
-		{
-			get { return this.splitter.Current; }
-		}
+        bool BeginDashDashComment
+        {
+            get { return Current == '-' && Peek() == '-'; }
+        }
 
-		protected char LastChar
-		{
-			get { return this.splitter.LastChar; }
-		}
+        bool BeginSlashStarComment
+        {
+            get { return Current == '/' && Peek() == '*'; }
+        }
 
-		bool BeginDashDashComment
-		{
-			get { return this.Current == '-' && Peek() == '-'; }
-		}
+        bool EndSlashStarComment
+        {
+            get { return LastChar == '*' && Current == '/'; }
+        }
 
-		bool BeginSlashStarComment
-		{
-			get { return this.Current == '/' && Peek() == '*'; }
-		}
+        protected static bool CharEquals(char expected, char actual)
+        {
+            return Char.ToLowerInvariant(expected) == Char.ToLowerInvariant(actual);
+        }
 
-		bool EndSlashStarComment
-		{
-			get { return this.LastChar == '*' && this.Current == '/'; }
-		}
-		#endregion
-	}
+        protected bool CharEquals(char compare)
+        {
+            return CharEquals(Current, compare);
+        }
 
-	class SeparatorLineReader : ScriptReader
-	{
-		private StringBuilder builder = new StringBuilder();
-		private bool foundGo;
-		private bool gFound;
+        protected char Peek()
+        {
+            if(!HasNext)
+            {
+                return char.MinValue;
+            }
+            return (char)splitter.Peek();
+        }
 
-		public SeparatorLineReader(ScriptSplitter splitter)
-			: base(splitter)
-		{
-		}
+        #endregion
+    }
 
-		void Reset()
-		{
+    class SeparatorLineReader : ScriptReader
+    {
+        private StringBuilder builder = new StringBuilder();
+        private bool foundGo;
+        private bool gFound;
 
-			foundGo = false;
-			gFound = false;
-			builder = new StringBuilder();
-		}
+        public SeparatorLineReader(ScriptSplitter splitter)
+            : base(splitter)
+        {
+        }
 
-		protected override bool ReadDashDashComment()
-		{
-			if (!foundGo)
-			{
-				base.ReadDashDashComment();
-				return false;
-			}
-			base.ReadDashDashComment();
-			return true;
-		}
+        void Reset()
+        {
+            foundGo = false;
+            gFound = false;
+            builder = new StringBuilder();
+        }
 
-		protected override void ReadSlashStarComment()
-		{
-			if (foundGo)
-				throw new SqlParseException(Resources.SqlParseException_IncorrectSyntaxNearGo);
-			base.ReadSlashStarComment();
-		}
+        protected override bool ReadDashDashComment()
+        {
+            if(!foundGo)
+            {
+                base.ReadDashDashComment();
+                return false;
+            }
+            base.ReadDashDashComment();
+            return true;
+        }
 
-		protected override bool ReadNext()
-		{
-			if (EndOfLine) //End of line or script
-			{
-				if (!foundGo)
-				{
-					builder.Append(Current);
-					splitter.Append(builder.ToString());
-					splitter.SetParser(new SeparatorLineReader(splitter));
-					return false;
-				}
-				else
-				{
-					Reset();
-					return true;
-				}
-			}
+        protected override void ReadSlashStarComment()
+        {
+            if(foundGo)
+            {
+                throw new SqlParseException(Resources.SqlParseException_IncorrectSyntaxNearGo);
+            }
+            base.ReadSlashStarComment();
+        }
 
-			if (WhiteSpace)
-			{
-				builder.Append(Current);
-				return false;
-			}
+        protected override bool ReadNext()
+        {
+            if(EndOfLine) //End of line or script
+            {
+                if(!foundGo)
+                {
+                    builder.Append(Current);
+                    splitter.Append(builder.ToString());
+                    splitter.SetParser(new SeparatorLineReader(splitter));
+                    return false;
+                }
+                else
+                {
+                    Reset();
+                    return true;
+                }
+            }
 
-			if (!CharEquals('g') && !CharEquals('o'))
-			{
-				FoundNonEmptyCharacter(Current);
-				return false;
-			}
+            if(WhiteSpace)
+            {
+                builder.Append(Current);
+                return false;
+            }
 
-			if (CharEquals('o'))
-			{
-				if (CharEquals('g', LastChar) && !foundGo)
-					foundGo = true;
-				else
-					FoundNonEmptyCharacter(Current);
-			}
+            if(!CharEquals('g') && !CharEquals('o'))
+            {
+                FoundNonEmptyCharacter(Current);
+                return false;
+            }
 
-			if (CharEquals('g', Current))
-			{
-				if (gFound || (!Char.IsWhiteSpace(LastChar) && LastChar != char.MinValue))
-				{
-					FoundNonEmptyCharacter(Current);
-					return false;
-				}
+            if(CharEquals('o'))
+            {
+                if(CharEquals('g', LastChar) && !foundGo)
+                {
+                    foundGo = true;
+                }
+                else
+                {
+                    FoundNonEmptyCharacter(Current);
+                }
+            }
 
-				gFound = true;
-			}
+            if(CharEquals('g', Current))
+            {
+                if(gFound || (!Char.IsWhiteSpace(LastChar) && LastChar != char.MinValue))
+                {
+                    FoundNonEmptyCharacter(Current);
+                    return false;
+                }
 
-			if(!HasNext && foundGo)
-			{
-				Reset();
-				return true;
-			}
+                gFound = true;
+            }
 
-			builder.Append(Current);
-			return false;
-		}
+            if(!HasNext && foundGo)
+            {
+                Reset();
+                return true;
+            }
 
-		void FoundNonEmptyCharacter(char c)
-		{
-			builder.Append(c);
-			splitter.Append(builder.ToString());
-			splitter.SetParser(new SqlScriptReader(splitter));
-		}	
-	}
+            builder.Append(Current);
+            return false;
+        }
 
-	class SqlScriptReader : ScriptReader
-	{
-		public SqlScriptReader(ScriptSplitter splitter)
-			: base(splitter)
-		{
-		}
+        void FoundNonEmptyCharacter(char c)
+        {
+            builder.Append(c);
+            splitter.Append(builder.ToString());
+            splitter.SetParser(new SqlScriptReader(splitter));
+        }
+    }
 
-		protected override bool ReadNext()
-		{
-			if (EndOfLine) //end of line
-			{
-				splitter.Append(Current);
-				splitter.SetParser(new SeparatorLineReader(splitter));
-				return false;
-			}
+    class SqlScriptReader : ScriptReader
+    {
+        public SqlScriptReader(ScriptSplitter splitter)
+            : base(splitter)
+        {
+        }
 
-			splitter.Append(Current);
-			return false;
-		}
-	}
+        protected override bool ReadNext()
+        {
+            if(EndOfLine) //end of line
+            {
+                splitter.Append(Current);
+                splitter.SetParser(new SeparatorLineReader(splitter));
+                return false;
+            }
+
+            splitter.Append(Current);
+            return false;
+        }
+    }
 }

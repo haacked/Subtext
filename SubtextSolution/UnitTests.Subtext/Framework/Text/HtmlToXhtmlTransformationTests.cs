@@ -1,4 +1,4 @@
-﻿using MbUnit.Framework;
+using MbUnit.Framework;
 
 namespace UnitTests.Subtext.Framework.Text
 {

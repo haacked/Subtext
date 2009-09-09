@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Web.UI.WebControls;
@@ -19,28 +21,28 @@ using Subtext.Web.Controls;
 
 namespace UnitTests.Subtext.SubtextWeb.Controls
 {
-	[TestFixture]
-	public class ControlHelperTests
-	{
-		[RowTest]
-		[Row("a tooltip", "trying this title", "a tooltip")]
-		[Row((string)null, "this is my title", "this is my title")]
-		[Row("", "", "")]
-		public void OnlyAddTitleWhenNotAlreadyThere(string toolTip, string title, string expectedTitle)
-		{
-			HyperLink link = new HyperLink();
-			link.ToolTip = toolTip;
+    [TestFixture]
+    public class ControlHelperTests
+    {
+        [RowTest]
+        [Row("a tooltip", "trying this title", "a tooltip")]
+        [Row((string)null, "this is my title", "this is my title")]
+        [Row("", "", "")]
+        public void OnlyAddTitleWhenNotAlreadyThere(string toolTip, string title, string expectedTitle)
+        {
+            var link = new HyperLink();
+            link.ToolTip = toolTip;
 
-			ControlHelper.SetTitleIfNone(link, title);
+            ControlHelper.SetTitleIfNone(link, title);
 
-			Assert.AreEqual(expectedTitle, link.ToolTip, "Didn't set the tooltip correctly.");
-			Assert.IsNull(link.Attributes["title"], "Oops, looks like we set the title attribute too!");
-		}
+            Assert.AreEqual(expectedTitle, link.ToolTip, "Didn't set the tooltip correctly.");
+            Assert.IsNull(link.Attributes["title"], "Oops, looks like we set the title attribute too!");
+        }
 
         [Test]
         public void OnlyAddCssClassWhenNotAlreadyThere()
         {
-            Label label = new Label();
+            var label = new Label();
             label.CssClass = "foo bar baz quux";
 
             ControlHelper.AddCssClass(label, "baz");
@@ -61,5 +63,5 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
             ControlHelper.AddCssClass(label, "cluck");
             Assert.AreEqual("click cluck", label.CssClass);
         }
-	}
+    }
 }

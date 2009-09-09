@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Xml;
 using Subtext.Framework.Routing;
 
@@ -7,20 +8,16 @@ namespace Subtext.Framework.Syndication
 {
     public class OpmlWriter
     {
-        public OpmlWriter()
-        {
-        }
-
         public virtual void Write(IEnumerable<Blog> blogs, TextWriter writer, UrlHelper urlHelper)
         {
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Encoding = System.Text.Encoding.UTF8;
+            var settings = new XmlWriterSettings();
+            settings.Encoding = Encoding.UTF8;
             settings.OmitXmlDeclaration = true;
             settings.ConformanceLevel = ConformanceLevel.Document;
             settings.Indent = true;
             settings.IndentChars = ("\t");
 
-            using (XmlWriter xmlWriter = XmlWriter.Create(writer, settings))
+            using(XmlWriter xmlWriter = XmlWriter.Create(writer, settings))
             {
                 xmlWriter.WriteStartDocument();
 
@@ -31,7 +28,7 @@ namespace Subtext.Framework.Syndication
                 //Body
                 xmlWriter.WriteStartElement("body");
 
-                foreach (var blog in blogs)
+                foreach(Blog blog in blogs)
                 {
                     xmlWriter.WriteStartElement("outline");
 

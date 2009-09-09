@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,13 +12,12 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
-using System.Configuration;
 using System.Web;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Routing;
 using Subtext.Web.UI.Controls;
 
 namespace Subtext.Web
@@ -31,23 +31,20 @@ namespace Subtext.Web
         protected HyperLink Hyperlink6;
         protected HyperLink Hyperlink7;
 
+        /// <summary>
+        /// Url to the aggregate page.
+        /// </summary>
+        protected string AggregateUrl
+        {
+            get { return Url.AppRoot(); }
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             //No postbacks on this page. It is output cached.
             SetStyle();
             DataBind();
             base.OnLoad(e);
-        }
-
-        /// <summary>
-        /// Url to the aggregate page.
-        /// </summary>
-        protected string AggregateUrl
-        {
-            get
-            {
-                return Url.AppRoot();
-            }
         }
 
         protected string ImageUrl(string imageName)
@@ -58,12 +55,13 @@ namespace Subtext.Web
         private void SetStyle()
         {
             const string style = "<link href=\"{0}{1}\" type=\"text/css\" rel=\"stylesheet\">";
-            string apppath = HttpContext.Current.Request.ApplicationPath.EndsWith("/") ? HttpContext.Current.Request.ApplicationPath : HttpContext.Current.Request.ApplicationPath + "/";
+            string apppath = HttpContext.Current.Request.ApplicationPath.EndsWith("/")
+                                 ? HttpContext.Current.Request.ApplicationPath
+                                 : HttpContext.Current.Request.ApplicationPath + "/";
             //TODO: This is hard-coded to look in the simple skin for aggregate blogs. We should change this later.
-            Style.Text = string.Format(style, apppath, "Skins/Aggregate/Simple/Style.css") + "\n" + string.Format(style, apppath, "Skins/Aggregate/Simple/blue.css") + "\n" + string.Format(style, apppath, "Scripts/jquery.lightbox-0.5.css");
+            Style.Text = string.Format(style, apppath, "Skins/Aggregate/Simple/Style.css") + "\n" +
+                         string.Format(style, apppath, "Skins/Aggregate/Simple/blue.css") + "\n" +
+                         string.Format(style, apppath, "Scripts/jquery.lightbox-0.5.css");
         }
     }
 }
-
-
-

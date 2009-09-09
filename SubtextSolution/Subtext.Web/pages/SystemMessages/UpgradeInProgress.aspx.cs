@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,33 +12,37 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
-using Subtext.Framework.Exceptions;
 using Subtext.Framework.Web.Handlers;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Web
 {
-	/// <summary>
-	/// Displays the blog not active message.
-	/// </summary>
-	public partial class UpgradeInProgress : SubtextPage {
-		protected override void OnLoad(EventArgs e) {
-            InstallationState state = Subtext.Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
-			if(state == InstallationState.NeedsUpgrade) {
-				plcUpgradeInProgressMessage.Visible = true;
-				plcNothingToSeeHere.Visible = false;
-			}
-			else {
-				plcUpgradeInProgressMessage.Visible = true;
-				plcNothingToSeeHere.Visible = false;
-				lnkBlog.HRef = Url.BlogUrl();
-			}
+    /// <summary>
+    /// Displays the blog not active message.
+    /// </summary>
+    public partial class UpgradeInProgress : SubtextPage
+    {
+        protected override void OnLoad(EventArgs e)
+        {
+            InstallationState state =
+                Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
+            if(state == InstallationState.NeedsUpgrade)
+            {
+                plcUpgradeInProgressMessage.Visible = true;
+                plcNothingToSeeHere.Visible = false;
+            }
+            else
+            {
+                plcUpgradeInProgressMessage.Visible = true;
+                plcNothingToSeeHere.Visible = false;
+                lnkBlog.HRef = Url.BlogUrl();
+            }
             base.OnLoad(e);
-		}
-	}
+        }
+    }
 }

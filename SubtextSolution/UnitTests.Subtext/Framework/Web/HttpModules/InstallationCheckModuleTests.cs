@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Extensibility.Providers;
@@ -12,10 +12,11 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
     {
         [Test]
         public void GetInstallationRedirectUrl_ForStaticFiles_ReturnsNull()
-        { 
+        {
             // arrange
             var module = new InstallationCheckModule(null);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/whatever/foo.jpg"), true, RequestLocation.Blog, "/");
+            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/whatever/foo.jpg"),
+                                              true, RequestLocation.Blog, "/");
             // act
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, null);
 
@@ -28,8 +29,9 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             // arrange
             var module = new InstallationCheckModule(null);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/foo.aspx"), true, RequestLocation.Blog, "/");
-            
+            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/foo.aspx"), true,
+                                              RequestLocation.Blog, "/");
+
             // act
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, null);
 
@@ -44,8 +46,9 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             var installManager = new Mock<InstallationManager>(null);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>())).Returns(false);
             var module = new InstallationCheckModule(installManager.Object);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"), true, RequestLocation.Installation, "/");
-            
+            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
+                                              true, RequestLocation.Installation, "/");
+
             // act
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, null);
 
@@ -60,7 +63,8 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             var installManager = new Mock<InstallationManager>(null);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>())).Returns(true);
             var module = new InstallationCheckModule(installManager.Object);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"), true, RequestLocation.Installation, "/");
+            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
+                                              true, RequestLocation.Installation, "/");
 
             // act
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, new HostInfo());
@@ -74,10 +78,12 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             // arrange
             var installManager = new Mock<InstallationManager>(null);
-            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.NeedsInstallation);
+            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
+                InstallationState.NeedsInstallation);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>())).Returns(true);
             var module = new InstallationCheckModule(installManager.Object);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"), true, RequestLocation.HostAdmin, "/");
+            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
+                                              true, RequestLocation.HostAdmin, "/");
 
             // act
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, new HostInfo());
@@ -87,14 +93,18 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         }
 
         [Test]
-        public void GetInstallationRedirectUrl_WhenHostInfoNotNullInstallationActionRequiredAndNotInInstallDirectory_ReturnsInstallDirecotry()
+        public void
+            GetInstallationRedirectUrl_WhenHostInfoNotNullInstallationActionRequiredAndNotInInstallDirectory_ReturnsInstallDirecotry
+            ()
         {
             // arrange
             var installManager = new Mock<InstallationManager>(null);
-            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.NeedsInstallation);
+            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
+                InstallationState.NeedsInstallation);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>())).Returns(true);
             var module = new InstallationCheckModule(installManager.Object);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"), true, RequestLocation.Blog, "/");
+            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
+                                              true, RequestLocation.Blog, "/");
 
             // act
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, new HostInfo());
@@ -104,14 +114,18 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         }
 
         [Test]
-        public void GetInstallationRedirectUrl_WhenHostInfoNotNullInstallationActionRequiredAndInLoginPage_ReturnsInstallDirectory()
+        public void
+            GetInstallationRedirectUrl_WhenHostInfoNotNullInstallationActionRequiredAndInLoginPage_ReturnsInstallDirectory
+            ()
         {
             // arrange
             var installManager = new Mock<InstallationManager>(null);
-            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.NeedsInstallation);
+            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
+                InstallationState.NeedsInstallation);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>())).Returns(true);
             var module = new InstallationCheckModule(installManager.Object);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"), true, RequestLocation.LoginPage, "/");
+            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
+                                              true, RequestLocation.LoginPage, "/");
 
             // act
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, new HostInfo());
@@ -125,10 +139,12 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             // arrange
             var installManager = new Mock<InstallationManager>(null);
-            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.NeedsUpgrade);
+            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
+                InstallationState.NeedsUpgrade);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>())).Returns(true);
             var module = new InstallationCheckModule(installManager.Object);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"), true, RequestLocation.LoginPage, "/");
+            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
+                                              true, RequestLocation.LoginPage, "/");
 
             // act
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, new HostInfo());
@@ -142,10 +158,12 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             // arrange
             var installManager = new Mock<InstallationManager>(null);
-            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.NeedsUpgrade);
+            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
+                InstallationState.NeedsUpgrade);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>())).Returns(true);
             var module = new InstallationCheckModule(installManager.Object);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"), true, RequestLocation.Upgrade, "/");
+            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
+                                              true, RequestLocation.Upgrade, "/");
 
             // act
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, new HostInfo());
@@ -159,10 +177,12 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             // arrange
             var installManager = new Mock<InstallationManager>(null);
-            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.NeedsUpgrade);
+            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
+                InstallationState.NeedsUpgrade);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>())).Returns(true);
             var module = new InstallationCheckModule(installManager.Object);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"), true, RequestLocation.SystemMessages, "/");
+            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
+                                              true, RequestLocation.SystemMessages, "/");
 
             // act
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, new HostInfo());
@@ -176,10 +196,12 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             // arrange
             var installManager = new Mock<InstallationManager>(null);
-            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.NeedsUpgrade);
+            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
+                InstallationState.NeedsUpgrade);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>())).Returns(true);
             var module = new InstallationCheckModule(installManager.Object);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"), true, RequestLocation.HostAdmin, "/");
+            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
+                                              true, RequestLocation.HostAdmin, "/");
 
             // act
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, new HostInfo());
@@ -193,10 +215,12 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             // arrange
             var installManager = new Mock<InstallationManager>(null);
-            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.NeedsUpgrade);
+            installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
+                InstallationState.NeedsUpgrade);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>())).Returns(true);
             var module = new InstallationCheckModule(installManager.Object);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"), true, RequestLocation.Blog, "/");
+            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
+                                              true, RequestLocation.Blog, "/");
 
             // act
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, new HostInfo());

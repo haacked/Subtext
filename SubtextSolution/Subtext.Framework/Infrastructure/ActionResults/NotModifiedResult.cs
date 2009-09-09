@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+using System.Web;
+using System.Web.Mvc;
 
 namespace Subtext.Infrastructure.ActionResults
 {
@@ -6,7 +7,7 @@ namespace Subtext.Infrastructure.ActionResults
     {
         public override void ExecuteResult(ControllerContext context)
         {
-            var response = context.HttpContext.Response;
+            HttpResponseBase response = context.HttpContext.Response;
             response.StatusCode = 304;
             response.SuppressContent = true;
         }

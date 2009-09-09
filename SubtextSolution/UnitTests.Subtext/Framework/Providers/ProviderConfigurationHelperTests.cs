@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,9 +12,9 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
 using System.Collections.Specialized;
 using System.Configuration.Provider;
 using MbUnit.Framework;
@@ -22,27 +23,29 @@ using Subtext.Framework.Configuration;
 
 namespace UnitTests.Subtext.Framework.Providers
 {
-	/// <summary>
-	/// Tests a few methods of the <see cref="ProviderBase"/> class.
-	/// </summary>
-	[TestFixture]
+    /// <summary>
+    /// Tests a few methods of the <see cref="ProviderBase"/> class.
+    /// </summary>
+    [TestFixture]
     public class ProviderConfigurationHelperTests
-	{
-	    [Test]
-	    public void CanFindConnectionString()
-	    {
-			Assert.IsNotNull(Config.ConnectionString);
-	    }
-	    
-		/// <summary>
-		/// Makes sure that we can recognize false setting pointers.
-		/// </summary>
-		[Test]
-		public void GetConnectionStringSettingValueFindsConnectionString()
-		{
-			NameValueCollection configValue = new NameValueCollection();
-			configValue.Add("connectionStringName", "subtextData");	
-            Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True;", ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue));
-		}
-	}
+    {
+        [Test]
+        public void CanFindConnectionString()
+        {
+            Assert.IsNotNull(Config.ConnectionString);
+        }
+
+        /// <summary>
+        /// Makes sure that we can recognize false setting pointers.
+        /// </summary>
+        [Test]
+        public void GetConnectionStringSettingValueFindsConnectionString()
+        {
+            var configValue = new NameValueCollection();
+            configValue.Add("connectionStringName", "subtextData");
+            Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True;",
+                            ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName",
+                                                                                        configValue));
+        }
+    }
 }

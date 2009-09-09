@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -21,34 +23,18 @@ namespace Subtext.Framework.Components
     [Serializable]
     public class Tag
     {
-        public Tag(KeyValuePair<string,int> tag)
+        public Tag(KeyValuePair<string, int> tag)
         {
             TagName = tag.Key;
             Count = tag.Value;
         }
 
-        public string TagName
-        {
-            get;
-            set;
-        }
+        public string TagName { get; set; }
 
-        public int Count
-        {
-            get;
-            set;
-        }
+        public int Count { get; set; }
 
-        public int Weight
-        {
-            get;
-            set;
-        }
+        public int Weight { get; set; }
 
-        public double Factor
-        {
-            get;
-            set;
-        }
+        public double Factor { get; set; }
     }
 }

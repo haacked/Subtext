@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -24,7 +24,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/subfolder/admin/foo.aspx", "subfolder");
 
             //act
-            var routeData = routes.GetRouteData(httpContext.Object);
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
             var routeHandler = routeData.RouteHandler as DirectoryRouteHandler;
 
             //assert.
@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/subfolder/admin/foo.aspx", "not-subfolder");
 
             //act
-            var routeData = routes.GetRouteData(httpContext.Object);
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
 
             //assert.
             Assert.IsNull(routeData);
@@ -60,7 +60,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/subfolder/admin/foo.aspx", "subfolder");
 
             //act
-            var routeData = routes.GetRouteData(httpContext.Object);
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
             var routeHandler = routeData.RouteHandler as DirectoryRouteHandler;
 
             //assert.
@@ -79,7 +79,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/providers/foo.aspx");
 
             //act
-            var routeData = routes.GetRouteData(httpContext.Object);
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
             var routeHandler = routeData.RouteHandler as DirectoryRouteHandler;
 
             //assert.
@@ -98,7 +98,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/archive/2008/12/10/blog-post.aspx");
 
             //act
-            var routeData = routes.GetRouteData(httpContext.Object);
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
             var controls = routeData.DataTokens["controls"] as IEnumerable<string>;
             //assert.
 
@@ -119,7 +119,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/archive/2008/1/10/blog-post.aspx");
 
             //act
-            var routeData = routes.GetRouteData(httpContext.Object);
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
 
             //assert.
             Assert.IsNull(routeData);
@@ -136,7 +136,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/subfolder/archive/2008/12/10/blog-post.aspx", "subfolder");
 
             //act
-            var routeData = routes.GetRouteData(httpContext.Object);
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
             var controls = routeData.DataTokens["controls"] as IEnumerable<string>;
             //assert.
 
@@ -165,7 +165,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest(url, subfolder);
 
             //act
-            var routeData = routes.GetRouteData(httpContext.Object);
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
 
             //assert
             Assert.IsNotNull(routeData);
@@ -182,7 +182,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/subfolder/comments/123.aspx", "subfolder");
 
             //act
-            var routeData = routes.GetRouteData(httpContext.Object);
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
 
             //assert.
             Assert.IsNotNull(routeData);
@@ -202,7 +202,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/subfolder/aggbug/123.aspx", "subfolder");
 
             //act
-            var routeData = routes.GetRouteData(httpContext.Object);
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
 
             //assert.
             Assert.IsNotNull(routeData);
@@ -222,7 +222,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/subfolder/install/default.aspx", "subfolder");
 
             //act
-            var routeData = routes.GetRouteData(httpContext.Object);
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
 
             //assert.
             Assert.IsNull(routeData);
@@ -239,7 +239,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/install/default.aspx", "");
 
             //act
-            var routeData = routes.GetRouteData(httpContext.Object);
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
 
             //assert.
             Assert.IsNotNull(routeData);

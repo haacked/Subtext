@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -21,19 +23,22 @@ namespace Subtext.Framework.Routing
 {
     public class SubtextPageBuilder : ISubtextPageBuilder
     {
-        public SubtextPageBuilder(IKernel kernel) {
+        public SubtextPageBuilder(IKernel kernel)
+        {
             Kernel = kernel;
         }
 
-        public IKernel Kernel {
-            get;
-            private set;
-        }
+        public IKernel Kernel { get; private set; }
 
-        public object CreateInstanceFromVirtualPath(string virtualPath, Type type) {
-            var instance = BuildManager.CreateInstanceFromVirtualPath(virtualPath, type);
+        #region ISubtextPageBuilder Members
+
+        public object CreateInstanceFromVirtualPath(string virtualPath, Type type)
+        {
+            object instance = BuildManager.CreateInstanceFromVirtualPath(virtualPath, type);
             Kernel.Inject(instance);
             return instance;
         }
+
+        #endregion
     }
 }

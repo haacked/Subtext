@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,9 +12,11 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
+using System.Globalization;
 using System.Web;
 using System.Web.Routing;
 using System.Web.UI;
@@ -34,19 +37,18 @@ namespace Subtext.Web.UI.Controls
     /// </summary>
     public class BaseControl : UserControl
     {
+        AdminUrlHelper _adminUrlHelper;
+
         public RouteValueDictionary RouteValues
         {
-            get
-            {
-                return SubtextContext.RequestContext.RouteData.Values;
-            }
+            get { return SubtextContext.RequestContext.RouteData.Values; }
         }
 
         public UrlHelper Url
         {
             get
             {
-                if (SubtextPage != null)
+                if(SubtextPage != null)
                 {
                     return SubtextPage.Url;
                 }
@@ -58,21 +60,20 @@ namespace Subtext.Web.UI.Controls
         {
             get
             {
-                if (_adminUrlHelper == null)
+                if(_adminUrlHelper == null)
                 {
                     _adminUrlHelper = new AdminUrlHelper(Url);
                 }
                 return _adminUrlHelper;
             }
         }
-        AdminUrlHelper _adminUrlHelper;
 
         public Blog Blog
         {
             get
             {
-                var subtextPage = SubtextPage;
-                if (subtextPage != null)
+                SubtextPage subtextPage = SubtextPage;
+                if(subtextPage != null)
                 {
                     return subtextPage.Blog;
                 }
@@ -82,27 +83,25 @@ namespace Subtext.Web.UI.Controls
 
         protected SubtextPage SubtextPage
         {
-            get
-            {
-                return Page as SubtextPage;
-            }
+            get { return Page as SubtextPage; }
         }
 
         protected ISubtextContext SubtextContext
         {
-            get
-            {
-                return SubtextPage.SubtextContext;
-            }
+            get { return SubtextPage.SubtextContext; }
         }
 
         protected ObjectProvider Repository
         {
-            get
-            {
-                return SubtextContext.Repository;
-            }
+            get { return SubtextContext.Repository; }
         }
+
+        protected virtual string ControlCacheKey
+        {
+            get { return string.Format(CultureInfo.InvariantCulture, "{0}:{1}", GetType(), Blog.Id); }
+        }
+
+        public string SkinFilePath { get; set; }
 
         protected static string Format(string format, params object[] arguments)
         {
@@ -164,26 +163,12 @@ namespace Subtext.Web.UI.Controls
             return HttpUtility.UrlDecode(s.ToString());
         }
 
-        protected virtual string ControlCacheKey
-        {
-            get
-            {
-                return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}:{1}", this.GetType(), Blog.Id);
-            }
-        }
-
-        public string SkinFilePath
-        {
-            get;
-            set;
-        }
-
         protected void BindCurrentEntryControls(Entry entry, Control root)
         {
-            foreach (Control control in root.Controls)
+            foreach(Control control in root.Controls)
             {
-                CurrentEntryControl currentEntryControl = control as CurrentEntryControl;
-                if (currentEntryControl != null)
+                var currentEntryControl = control as CurrentEntryControl;
+                if(currentEntryControl != null)
                 {
                     currentEntryControl.Entry = new EntryViewModel(entry, SubtextContext);
                     currentEntryControl.DataBind();
@@ -197,14 +182,16 @@ namespace Subtext.Web.UI.Controls
         /// <param name="captcha">The captcha.</param>
         /// <param name="invisibleCaptchaValidator">The invisible captcha validator.</param>
         /// <param name="btnIndex">Index of the BTN.</param>
-        protected void AddCaptchaIfNecessary(ref CaptchaControl captcha, ref InvisibleCaptcha invisibleCaptchaValidator, int btnIndex)
+        protected void AddCaptchaIfNecessary(ref CaptchaControl captcha, ref InvisibleCaptcha invisibleCaptchaValidator,
+                                             int btnIndex)
         {
-            if (Config.CurrentBlog.CaptchaEnabled)
+            if(Config.CurrentBlog.CaptchaEnabled)
             {
                 captcha = new CaptchaControl();
                 captcha.ID = "captcha";
                 Control preExisting = ControlHelper.FindControlRecursively(this, "captcha");
-                if (preExisting == null) // && !Config.CurrentBlog.FeedbackSpamServiceEnabled) Experimental code for improved UI. Will put back in later. - Phil Haack 10/09/2006
+                if(preExisting == null)
+                    // && !Config.CurrentBlog.FeedbackSpamServiceEnabled) Experimental code for improved UI. Will put back in later. - Phil Haack 10/09/2006
                 {
                     Controls.AddAt(btnIndex, captcha);
                 }
@@ -214,7 +201,7 @@ namespace Subtext.Web.UI.Controls
                 RemoveCaptcha();
             }
 
-            if (Config.Settings.InvisibleCaptchaEnabled)
+            if(Config.Settings.InvisibleCaptchaEnabled)
             {
                 invisibleCaptchaValidator = new InvisibleCaptcha();
                 invisibleCaptchaValidator.ErrorMessage = "Please enter the answer to the supplied question.";
@@ -229,12 +216,10 @@ namespace Subtext.Web.UI.Controls
         protected void RemoveCaptcha()
         {
             Control preExisting = ControlHelper.FindControlRecursively(this, "captcha");
-            if (preExisting != null)
+            if(preExisting != null)
             {
                 Controls.Remove(preExisting);
             }
         }
     }
 }
-
-

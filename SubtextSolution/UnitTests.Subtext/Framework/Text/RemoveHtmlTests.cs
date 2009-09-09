@@ -1,16 +1,15 @@
-using System;
 using MbUnit.Framework;
 using Subtext.Framework.Text;
 
 namespace UnitTests.Subtext.Framework.Text
 {
-	/// <summary>
-	/// Unit tests of the <see cref="HtmlHelper.RemoveHtml"/> method and 
-	/// just that method.
-	/// </summary>
-	[TestFixture]
-	public class RemoveHtmlTests
-	{
+    /// <summary>
+    /// Unit tests of the <see cref="HtmlHelper.RemoveHtml"/> method and 
+    /// just that method.
+    /// </summary>
+    [TestFixture]
+    public class RemoveHtmlTests
+    {
         [Test]
         public void NullHtml_ReturnsEmptyString()
         {
@@ -207,10 +206,13 @@ namespace UnitTests.Subtext.Framework.Text
         }
 
         [Test]
-        public void Html_ThatBrokeSubtextBefore_NowDoesntPegCPU() { 
-            string html = @"Hi Friends,<br /><br />I have some different problem to validate the HTML<br /><br />html code is something like <br /><br /><html><br />.<br />.<br />.<br /><body ...><br /><br /><table ..><br /><tr ..><td><br />  <img src=""test.asp?t=123"" border=0 alt=test /><br />  ...<br /><br />  <script type='text/javascript'><br />  <!--<br />     function test(xvar){<br />        var text = xvar;<br />        .................<br />     }<br />   --><br /></td><br /></tr><br /></body><br /></html<br /><br /><br />Now i need to validate all tag attributes value should be with ""<br /><br />e.g <br />img tag alt and border attribute values are without "" <br />there are various tags like table and div has same problem <br /><br /><br />can anyone help me find attributes value without quotation mark and replace with quotation mark (please note that some javascript or URL's with query para should not should not effect)<br /><br /><br />Sincerely thanks in advance<br /><br />";
-            string expected = @"Hi Friends,I have some different problem to validate the HTMLhtml code is something like ...    ...         function test(xvar){        var text = xvar;        .................     }   -->Now i need to validate all tag attributes value should be with ""e.g img tag alt and border attribute values are without "" there are various tags like table and div has same problem can anyone help me find attributes value without quotation mark and replace with quotation mark (please note that some javascript or URL's with query para should not should not effect)Sincerely thanks in advance";
+        public void Html_ThatBrokeSubtextBefore_NowDoesntPegCPU()
+        {
+            string html =
+                @"Hi Friends,<br /><br />I have some different problem to validate the HTML<br /><br />html code is something like <br /><br /><html><br />.<br />.<br />.<br /><body ...><br /><br /><table ..><br /><tr ..><td><br />  <img src=""test.asp?t=123"" border=0 alt=test /><br />  ...<br /><br />  <script type='text/javascript'><br />  <!--<br />     function test(xvar){<br />        var text = xvar;<br />        .................<br />     }<br />   --><br /></td><br /></tr><br /></body><br /></html<br /><br /><br />Now i need to validate all tag attributes value should be with ""<br /><br />e.g <br />img tag alt and border attribute values are without "" <br />there are various tags like table and div has same problem <br /><br /><br />can anyone help me find attributes value without quotation mark and replace with quotation mark (please note that some javascript or URL's with query para should not should not effect)<br /><br /><br />Sincerely thanks in advance<br /><br />";
+            string expected =
+                @"Hi Friends,I have some different problem to validate the HTMLhtml code is something like ...    ...         function test(xvar){        var text = xvar;        .................     }   -->Now i need to validate all tag attributes value should be with ""e.g img tag alt and border attribute values are without "" there are various tags like table and div has same problem can anyone help me find attributes value without quotation mark and replace with quotation mark (please note that some javascript or URL's with query para should not should not effect)Sincerely thanks in advance";
             Assert.AreEqual(expected, HtmlHelper.RemoveHtml(html));
         }
-	}
+    }
 }

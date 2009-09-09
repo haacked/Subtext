@@ -1,4 +1,4 @@
-﻿using System.Web;
+using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
@@ -250,9 +250,8 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.Setup(c => c.Request.ApplicationPath).Returns(appPath);
             httpContext.Setup(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            UrlHelper helper = new UrlHelper(requestContext, routes);
+            var helper = new UrlHelper(requestContext, routes);
             return new AdminUrlHelper(helper);
         }
-
     }
 }

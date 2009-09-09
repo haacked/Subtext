@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Drawing;
@@ -30,12 +32,12 @@ namespace Subtext.Framework.Util
         public static Image GetResizedImage(this Image originalImage, Size newSize)
         {
             Image resizedImage = new Bitmap(newSize.Width, newSize.Height, originalImage.PixelFormat);
-            using (Graphics graphic = Graphics.FromImage(resizedImage))
+            using(Graphics graphic = Graphics.FromImage(resizedImage))
             {
                 graphic.CompositingQuality = CompositingQuality.HighQuality;
                 graphic.SmoothingMode = SmoothingMode.HighQuality;
                 graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                Rectangle thumbRectangle = new Rectangle(0, 0, newSize.Width, newSize.Height);
+                var thumbRectangle = new Rectangle(0, 0, newSize.Width, newSize.Height);
                 graphic.DrawImage(originalImage, thumbRectangle);
             }
             return resizedImage;
@@ -43,16 +45,16 @@ namespace Subtext.Framework.Util
 
         public static Image FromFilePathAsUnindexedImage(string filePath)
         {
-            Image originalImage = System.Drawing.Image.FromFile(filePath);
+            Image originalImage = Image.FromFile(filePath);
 
-            if ((originalImage.PixelFormat & PixelFormat.Indexed) == 0)
+            if((originalImage.PixelFormat & PixelFormat.Indexed) == 0)
             {
                 return originalImage;
             }
 
             // Draw the index image to a new bitmap.  It will then be unindexed.
             Image unindexedImage = new Bitmap(originalImage.Width, originalImage.Height);
-            using (Graphics graphics = Graphics.FromImage(unindexedImage))
+            using(Graphics graphics = Graphics.FromImage(unindexedImage))
             {
                 graphics.DrawImageUnscaled(originalImage, 0, 0);
             }

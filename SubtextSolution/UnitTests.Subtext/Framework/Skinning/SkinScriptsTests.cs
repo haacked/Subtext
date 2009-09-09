@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,11 +12,10 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Web.Hosting;
 using MbUnit.Framework;
 using Moq;
@@ -31,8 +31,8 @@ namespace UnitTests.Subtext.Framework.Skinning
         {
             var pathProvider = new Mock<VirtualPathProvider>();
             pathProvider.SetupSkins();
-            SkinEngine skinEngine = new SkinEngine(pathProvider.Object);
-            var templates = skinEngine.GetSkinTemplates(false /* mobile */);
+            var skinEngine = new SkinEngine(pathProvider.Object);
+            IDictionary<string, SkinTemplate> templates = skinEngine.GetSkinTemplates(false /* mobile */);
 
             SkinTemplate templateWithMergeScriptMergeMode = templates["Piyo"];
             Assert.IsTrue(templateWithMergeScriptMergeMode.MergeScripts, "ScriptMergeMode should be Merge.");
@@ -51,8 +51,8 @@ namespace UnitTests.Subtext.Framework.Skinning
 
             var pathProvider = new Mock<VirtualPathProvider>();
             pathProvider.SetupSkins();
-            SkinEngine skinEngine = new SkinEngine(pathProvider.Object);
-            ScriptElementCollectionRenderer renderer = new ScriptElementCollectionRenderer(skinEngine);
+            var skinEngine = new SkinEngine(pathProvider.Object);
+            var renderer = new ScriptElementCollectionRenderer(skinEngine);
             string scriptElements = renderer.RenderScriptElementCollection("RedBook-Green.css");
 
             string script = @"<script type=""text/javascript"" src=""/Skins/RedBook/blah.js""></script>";
@@ -70,12 +70,13 @@ namespace UnitTests.Subtext.Framework.Skinning
 
             var pathProvider = new Mock<VirtualPathProvider>();
             pathProvider.SetupSkins();
-            SkinEngine skinEngine = new SkinEngine(pathProvider.Object);
+            var skinEngine = new SkinEngine(pathProvider.Object);
 
-            ScriptElementCollectionRenderer renderer = new ScriptElementCollectionRenderer(skinEngine);
+            var renderer = new ScriptElementCollectionRenderer(skinEngine);
             string scriptElements = renderer.RenderScriptElementCollection("RedBook-Blue.css");
 
-            string script = @"<script type=""text/javascript"" src=""/Skins/RedBook/js.axd?name=RedBook-Blue.css""></script>";
+            string script =
+                @"<script type=""text/javascript"" src=""/Skins/RedBook/js.axd?name=RedBook-Blue.css""></script>";
             Assert.IsTrue(scriptElements.Contains(script), "Rendered the script improperly.");
         }
 
@@ -84,9 +85,9 @@ namespace UnitTests.Subtext.Framework.Skinning
         {
             var pathProvider = new Mock<VirtualPathProvider>();
             pathProvider.SetupSkins();
-            SkinEngine skinEngine = new SkinEngine(pathProvider.Object);
+            var skinEngine = new SkinEngine(pathProvider.Object);
 
-            var templates = skinEngine.GetSkinTemplates(false /* mobile */);
+            IDictionary<string, SkinTemplate> templates = skinEngine.GetSkinTemplates(false /* mobile */);
             SkinTemplate template = templates["Gradient"];
             bool canBeMerged = ScriptElementCollectionRenderer.CanScriptsBeMerged(template);
 
@@ -98,13 +99,13 @@ namespace UnitTests.Subtext.Framework.Skinning
         {
             var pathProvider = new Mock<VirtualPathProvider>();
             pathProvider.SetupSkins();
-            SkinEngine skinEngine = new SkinEngine(pathProvider.Object);
+            var skinEngine = new SkinEngine(pathProvider.Object);
 
-            var templates = skinEngine.GetSkinTemplates(false /* mobile */);
+            IDictionary<string, SkinTemplate> templates = skinEngine.GetSkinTemplates(false /* mobile */);
             SkinTemplate template = templates["RedBook-Red.css"];
             bool canBeMerged = ScriptElementCollectionRenderer.CanScriptsBeMerged(template);
 
-            Assert.IsFalse(canBeMerged,"Skins with remote scripts should not be mergeable.");
+            Assert.IsFalse(canBeMerged, "Skins with remote scripts should not be mergeable.");
         }
 
         [Test]
@@ -112,8 +113,8 @@ namespace UnitTests.Subtext.Framework.Skinning
         {
             var pathProvider = new Mock<VirtualPathProvider>();
             pathProvider.SetupSkins();
-            SkinEngine skinEngine = new SkinEngine(pathProvider.Object);
-            var templates = skinEngine.GetSkinTemplates(false /* mobile */);
+            var skinEngine = new SkinEngine(pathProvider.Object);
+            IDictionary<string, SkinTemplate> templates = skinEngine.GetSkinTemplates(false /* mobile */);
             SkinTemplate template = templates["Semagogy"];
             bool canBeMerged = ScriptElementCollectionRenderer.CanScriptsBeMerged(template);
 
@@ -125,8 +126,8 @@ namespace UnitTests.Subtext.Framework.Skinning
         {
             var pathProvider = new Mock<VirtualPathProvider>();
             pathProvider.SetupSkins();
-            SkinEngine skinEngine = new SkinEngine(pathProvider.Object);
-            var templates = skinEngine.GetSkinTemplates(false /* mobile */);
+            var skinEngine = new SkinEngine(pathProvider.Object);
+            IDictionary<string, SkinTemplate> templates = skinEngine.GetSkinTemplates(false /* mobile */);
             SkinTemplate template = templates["Piyo"];
             bool canBeMerged = ScriptElementCollectionRenderer.CanScriptsBeMerged(template);
 

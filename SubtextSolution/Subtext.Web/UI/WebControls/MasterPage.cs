@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,17 +12,17 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.UI;
 using System.Web.UI.Design;
 using System.Web.UI.HtmlControls;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Properties;
-using System.Collections.Generic;
 
 namespace Subtext.Web.UI.WebControls
 {
@@ -35,34 +36,34 @@ namespace Subtext.Web.UI.WebControls
     /// Very MINOR changes were made here. Thanks Paul.
     /// </p>
     /// </summary>
-    [ToolboxData("<{0}:MasterPage runat=server></{0}:MasterPage>"),
-        ToolboxItem(typeof(WebControlToolboxItem)),
-        Designer(typeof(ContainerControlDesigner))]
+    [ToolboxData("<{0}:MasterPage runat=server></{0}:MasterPage>")]
+    [ToolboxItem(typeof(WebControlToolboxItem))]
+    [Designer(typeof(ContainerControlDesigner))]
     public class MasterPage : HtmlContainerControl
     {
-        Log log = new Log();
-        private string templateFile;
-        private Control template = null;
-
-        private List<ContentRegion> contents = new List<ContentRegion>();
         private const string skinPath = "~/Skins/{0}/PageTemplate.ascx";
+        private readonly List<ContentRegion> contents = new List<ContentRegion>();
+        Log log = new Log();
+        private Control template;
+        private string templateFile;
 
         /// <summary>
         /// Gets or sets the template file from the Skins directory.
         /// </summary>
         /// <value></value>
-        [Category("MasterPage"), Description("Path of Template User Control")]
+        [Category("MasterPage")]
+        [Description("Path of Template User Control")]
         public string TemplateFile
         {
             get
             {
-                if (this.templateFile == null)
+                if(templateFile == null)
                 {
-                    this.templateFile = string.Format(skinPath, Globals.CurrentSkin.TemplateFolder);
+                    templateFile = string.Format(skinPath, Globals.CurrentSkin.TemplateFolder);
                 }
-                return this.templateFile;
+                return templateFile;
             }
-            set { this.templateFile = value; }
+            set { templateFile = value; }
         }
 
         protected override void AddParsedSubObject(object obj)
@@ -70,52 +71,53 @@ namespace Subtext.Web.UI.WebControls
             var contentRegion = obj as ContentRegion;
             if(contentRegion != null)
             {
-                this.contents.Add(contentRegion);
+                contents.Add(contentRegion);
             }
         }
 
         protected override void OnInit(EventArgs e)
         {
-            this.BuildMasterPage();
-            this.BuildContents();
+            BuildMasterPage();
+            BuildContents();
             base.OnInit(e);
         }
 
         private void BuildMasterPage()
         {
-            if (String.IsNullOrEmpty(TemplateFile))
+            if(String.IsNullOrEmpty(TemplateFile))
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_TemplateFileIsNull);
             }
-            this.template = this.Page.LoadControl(this.TemplateFile);
-            this.template.ID = this.ID + "_Template";
+            template = Page.LoadControl(TemplateFile);
+            template.ID = ID + "_Template";
 
-            int count = this.template.Controls.Count;
-            for (int index = 0; index < count; index++)
+            int count = template.Controls.Count;
+            for(int index = 0; index < count; index++)
             {
-                Control control = this.template.Controls[0];
-                this.template.Controls.Remove(control);
-                if (control.Visible)
+                Control control = template.Controls[0];
+                template.Controls.Remove(control);
+                if(control.Visible)
                 {
-                    this.Controls.Add(control);
+                    Controls.Add(control);
                 }
             }
-            this.Controls.AddAt(0, this.template);
+            Controls.AddAt(0, template);
         }
 
         private void BuildContents()
         {
-            foreach (var content in this.contents)
+            foreach(ContentRegion content in contents)
             {
-                Control region = this.FindControl(content.ID);
-                if (region == null)
+                Control region = FindControl(content.ID);
+                if(region == null)
                 {
-                    throw new InvalidOperationException(String.Format(Resources.InvalidOperation_ContentRegionNotFound, content.ID));
+                    throw new InvalidOperationException(String.Format(Resources.InvalidOperation_ContentRegionNotFound,
+                                                                      content.ID));
                 }
                 region.Controls.Clear();
 
                 int count = content.Controls.Count;
-                for (int index = 0; index < count; index++)
+                for(int index = 0; index < count; index++)
                 {
                     Control control = content.Controls[0];
                     content.Controls.Remove(control);
@@ -125,8 +127,13 @@ namespace Subtext.Web.UI.WebControls
         }
 
         //removes this controls ability to render its own start tag
-        protected override void RenderBeginTag(HtmlTextWriter writer) { }
+        protected override void RenderBeginTag(HtmlTextWriter writer)
+        {
+        }
+
         //removes this controls ability to render its own end tag
-        protected override void RenderEndTag(HtmlTextWriter writer) { }
+        protected override void RenderEndTag(HtmlTextWriter writer)
+        {
+        }
     }
 }

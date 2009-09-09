@@ -1,4 +1,4 @@
-﻿using System.Web.Routing;
+using System.Web.Routing;
 using CookComputing.XmlRpc;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
@@ -12,42 +12,26 @@ namespace Subtext.Framework.XmlRpc
             SubtextContext = context;
         }
 
-        protected ISubtextContext SubtextContext
-        {
-            get;
-            private set;
-        }
+        protected ISubtextContext SubtextContext { get; private set; }
 
         protected Blog Blog
         {
-            get
-            {
-                return SubtextContext.Blog;
-            }
+            get { return SubtextContext.Blog; }
         }
 
         protected UrlHelper Url
         {
-            get
-            {
-                return SubtextContext.UrlHelper;
-            }
+            get { return SubtextContext.UrlHelper; }
         }
 
         protected ObjectProvider Repository
         {
-            get
-            {
-                return SubtextContext.Repository;
-            }
+            get { return SubtextContext.Repository; }
         }
 
         protected RouteValueDictionary RouteValues
         {
-            get
-            {
-                return SubtextContext.RequestContext.RouteData.Values;
-            }
+            get { return SubtextContext.RequestContext.RouteData.Values; }
         }
     }
 }

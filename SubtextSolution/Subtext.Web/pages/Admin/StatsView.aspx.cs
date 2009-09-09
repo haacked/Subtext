@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,20 +12,17 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
-using Subtext.Extensibility.Interfaces;
-using Subtext.Framework;
-using Subtext.Framework.Components;
 using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Pages
 {
-	/// <summary>
-	/// Summary description for StatsViews.
-	/// </summary>
-	public partial class StatsView : StatsPage
-	{
-	}
+    /// <summary>
+    /// Summary description for StatsViews.
+    /// </summary>
+    public partial class StatsView : StatsPage
+    {
+    }
 }

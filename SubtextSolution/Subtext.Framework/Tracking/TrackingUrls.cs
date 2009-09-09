@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -18,16 +20,16 @@ using System.Globalization;
 
 namespace Subtext.Framework.Tracking
 {
-	/// <summary>
-	/// Summary description for TrackingUrls.
-	/// </summary>
-	public static class TrackingUrls
-	{
-		private const string ImagePattern = "<img src=\"{0}\" width=\"1\" height=\"1\" />";
+    /// <summary>
+    /// Summary description for TrackingUrls.
+    /// </summary>
+    public static class TrackingUrls
+    {
+        private const string ImagePattern = "<img src=\"{0}\" width=\"1\" height=\"1\" />";
 
-		public static string AggBugImage(string url)
-		{
-			return String.Format(CultureInfo.InvariantCulture, TrackingUrls.ImagePattern, url);
-		}
-	}
+        public static string AggBugImage(string url)
+        {
+            return String.Format(CultureInfo.InvariantCulture, ImagePattern, url);
+        }
+    }
 }

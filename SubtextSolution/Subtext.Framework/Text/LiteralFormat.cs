@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Framework.Text
@@ -22,11 +24,9 @@ namespace Subtext.Framework.Text
             LiteralText = literalText;
         }
 
-        public string LiteralText
-        {
-            get;
-            private set;
-        }
+        public string LiteralText { get; private set; }
+
+        #region ITextExpression Members
 
         public string Eval(object o)
         {
@@ -35,5 +35,7 @@ namespace Subtext.Framework.Text
                 .Replace("}}", "}");
             return literalText;
         }
+
+        #endregion
     }
 }

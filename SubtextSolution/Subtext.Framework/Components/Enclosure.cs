@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -19,68 +21,38 @@ namespace Subtext.Framework.Components
 {
     public class Enclosure
     {
-        public Enclosure()
-        {
-        }
+        public string Url { get; set; }
 
-        public string Url
-        {
-            get;
-            set;
-        }
+        public string Title { get; set; }
 
-        public string Title
-        {
-            get;
-            set;
-        }
+        public long Size { get; set; }
 
-        public long Size
-        {
-            get;
-            set;
-        }
+        public string MimeType { get; set; }
 
-        public string MimeType
-        {
-            get;
-            set;
-        }
+        public int Id { get; set; }
 
-        public int Id
-        {
-            get;
-            set;
-        }
+        public int EntryId { get; set; }
 
-        public int EntryId
-        {
-            get;
-            set;
-        }
+        public bool AddToFeed { get; set; }
 
-        public bool AddToFeed
-        {
-            get;
-            set;
-        }
-
-        public bool ShowWithPost
-        {
-            get;
-            set;
-        }
+        public bool ShowWithPost { get; set; }
 
         public string FormattedSize
         {
             get
             {
-                if (Size < 1024)
+                if(Size < 1024)
+                {
                     return Size + " bytes";
-                if (Size < 1024 * 1024)
+                }
+                if(Size < 1024 * 1024)
+                {
                     return Math.Round(((double)Size / 1024), 2) + " KB";
-                if (Size < 1024 * 1024 * 1024)
+                }
+                if(Size < 1024 * 1024 * 1024)
+                {
                     return Math.Round(((double)Size / (1024 * 1024)), 2) + " MB";
+                }
 
                 return Math.Round(((double)Size / (1024 * 1024 * 1024)), 2) + " GB";
             }
@@ -96,19 +68,19 @@ namespace Subtext.Framework.Components
                     return false;
                 }
 
-                if (string.IsNullOrEmpty(Url))
+                if(string.IsNullOrEmpty(Url))
                 {
                     ValidationMessage = "Enclosure requires a Url.";
                     return false;
                 }
 
-                if (string.IsNullOrEmpty(MimeType))
+                if(string.IsNullOrEmpty(MimeType))
                 {
                     ValidationMessage = "Enclosure requires a MimeType.";
                     return false;
                 }
 
-                if (Size == 0)
+                if(Size == 0)
                 {
                     ValidationMessage = "Enclosure size must be greater than zero.";
                     return false;
@@ -119,11 +91,6 @@ namespace Subtext.Framework.Components
             }
         }
 
-        public string ValidationMessage
-        {
-            get;
-            private set;
-        }
-        
+        public string ValidationMessage { get; private set; }
     }
 }

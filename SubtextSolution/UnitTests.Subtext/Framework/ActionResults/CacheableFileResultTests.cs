@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Web;
 using System.Web.Mvc;
 using MbUnit.Framework;
@@ -11,9 +11,10 @@ namespace UnitTests.Subtext.Framework.ActionResults
     public class CacheableFileResultTests
     {
         [Test]
-        public void CtorSetsLastModified() {
+        public void CtorSetsLastModified()
+        {
             // arrange
-            var dateTime = DateTime.Now;
+            DateTime dateTime = DateTime.Now;
 
             // act
             var result = new CacheableFileContentResult(new byte[] {}, "image/gif", dateTime, HttpCacheability.Public);
@@ -23,22 +24,26 @@ namespace UnitTests.Subtext.Framework.ActionResults
         }
 
         [Test]
-        public void CtorSetsCacheability() {
+        public void CtorSetsCacheability()
+        {
             // arrange, act
-            var result = new CacheableFileContentResult(new byte[] {}, "image/gif", DateTime.Now, HttpCacheability.Server);
+            var result = new CacheableFileContentResult(new byte[] {}, "image/gif", DateTime.Now,
+                                                        HttpCacheability.Server);
 
             // assert
             Assert.AreEqual(HttpCacheability.Server, result.Cacheability);
         }
 
         [Test]
-        public void ExecuteResultSetsCacheLastModified() {
+        public void ExecuteResultSetsCacheLastModified()
+        {
             // arrange
             DateTime dateTime = DateTime.Now;
             var result = new CacheableFileContentResult(new byte[] {}, "image/gif", dateTime, HttpCacheability.Server);
             var httpContext = new Mock<HttpContextBase>();
             DateTime lastModified = DateTime.MinValue;
-            httpContext.Setup(h => h.Response.Cache.SetLastModified(It.IsAny<DateTime>())).Callback<DateTime>(date => lastModified = date);
+            httpContext.Setup(h => h.Response.Cache.SetLastModified(It.IsAny<DateTime>())).Callback<DateTime>(
+                date => lastModified = date);
             httpContext.Setup(h => h.Response.OutputStream.Write(It.IsAny<byte[]>(), 0, It.IsAny<int>()));
             var controllerContext = new ControllerContext();
             controllerContext.HttpContext = httpContext.Object;
@@ -51,13 +56,15 @@ namespace UnitTests.Subtext.Framework.ActionResults
         }
 
         [Test]
-        public void ExecuteResultSetsCacheCacheability() {
+        public void ExecuteResultSetsCacheCacheability()
+        {
             // arrange
             DateTime dateTime = DateTime.Now;
-            var result = new CacheableFileContentResult(new byte[] { }, "image/gif", dateTime, HttpCacheability.Public);
+            var result = new CacheableFileContentResult(new byte[] {}, "image/gif", dateTime, HttpCacheability.Public);
             var httpContext = new Mock<HttpContextBase>();
             HttpCacheability cacheability = HttpCacheability.NoCache;
-            httpContext.Setup(h => h.Response.Cache.SetCacheability(It.IsAny<HttpCacheability>())).Callback<HttpCacheability>(cacheSetting => cacheability = cacheSetting);
+            httpContext.Setup(h => h.Response.Cache.SetCacheability(It.IsAny<HttpCacheability>())).Callback
+                <HttpCacheability>(cacheSetting => cacheability = cacheSetting);
             httpContext.Setup(h => h.Response.OutputStream.Write(It.IsAny<byte[]>(), 0, It.IsAny<int>()));
             var controllerContext = new ControllerContext();
             controllerContext.HttpContext = httpContext.Object;
@@ -74,12 +81,15 @@ namespace UnitTests.Subtext.Framework.ActionResults
         {
             // arrange
             DateTime dateTime = DateTime.Now;
-            var result = new CacheableFileContentResult(new byte[] {1,2,3,2,1}, "image/gif", dateTime, HttpCacheability.Server);
+            var result = new CacheableFileContentResult(new byte[] {1, 2, 3, 2, 1}, "image/gif", dateTime,
+                                                        HttpCacheability.Server);
             var httpContext = new Mock<HttpContextBase>();
             DateTime lastModified = DateTime.MinValue;
-            httpContext.Setup(h => h.Response.Cache.SetLastModified(It.IsAny<DateTime>())).Callback<DateTime>(date => lastModified = date);
+            httpContext.Setup(h => h.Response.Cache.SetLastModified(It.IsAny<DateTime>())).Callback<DateTime>(
+                date => lastModified = date);
             byte[] writtenBytes = null;
-            httpContext.Setup(h => h.Response.OutputStream.Write(It.IsAny<byte[]>(), 0, It.IsAny<int>())).Callback<byte[], int, int>((bytes, i, j) => writtenBytes = bytes);
+            httpContext.Setup(h => h.Response.OutputStream.Write(It.IsAny<byte[]>(), 0, It.IsAny<int>())).Callback
+                <byte[], int, int>((bytes, i, j) => writtenBytes = bytes);
             var controllerContext = new ControllerContext();
             controllerContext.HttpContext = httpContext.Object;
 
@@ -87,7 +97,7 @@ namespace UnitTests.Subtext.Framework.ActionResults
             result.ExecuteResult(controllerContext);
 
             // assert
-            Assert.AreEqual(new byte[]{1,2,3,2,1}, writtenBytes);
+            Assert.AreEqual(new byte[] {1, 2, 3, 2, 1}, writtenBytes);
         }
     }
 }

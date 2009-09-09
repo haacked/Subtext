@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,199 +12,211 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Web;
 using Subtext.Web.Properties;
+using Image=Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public partial class EditImage : AdminPage
-	{
-		protected const string VSKEY_IMAGEID = "ImageID";
-		protected int _imageID;
-		protected Image _image;
-		protected string _galleryTitle;
+    public partial class EditImage : AdminPage
+    {
+        protected const string VSKEY_IMAGEID = "ImageID";
+        protected string _galleryTitle;
+        protected Image _image;
+        protected int _imageID;
 
-		private int ImageId
-		{
-			get
-			{
-                if (ViewState[VSKEY_IMAGEID] == null || NullValue.NullInt32 == (int)ViewState[VSKEY_IMAGEID])
+        public EditImage()
+        {
+            TabSectionId = "Galleries";
+        }
+
+        private int ImageId
+        {
+            get
+            {
+                if(ViewState[VSKEY_IMAGEID] == null || NullValue.NullInt32 == (int)ViewState[VSKEY_IMAGEID])
                 {
-                    if (null != Request.QueryString[Keys.QRYSTR_IMAGEID])
+                    if(null != Request.QueryString[Keys.QRYSTR_IMAGEID])
+                    {
                         ViewState[VSKEY_IMAGEID] = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_IMAGEID]);
+                    }
                 }
-			    return (int)ViewState[VSKEY_IMAGEID];
-			}
-		}
+                return (int)ViewState[VSKEY_IMAGEID];
+            }
+        }
 
-		public Image Image
-		{
-			get 
-			{
-                if (_image == null)
+        public Image Image
+        {
+            get
+            {
+                if(_image == null)
                 {
                     _image = Repository.GetImage(ImageId, false /* activeOnly */);
                 }
 
-			    if (_image == null)
+                if(_image == null)
+                {
                     throw new InvalidOperationException(Resources.InvalidOperation_ImageUndefined);
-			    
-			    return _image;
-			}
-		}
-	    
-	    public EditImage()
-	    {
-            this.TabSectionId = "Galleries";
-	    }
+                }
 
-	    public override void DataBind()
-	    {
+                return _image;
+            }
+        }
+
+        public override void DataBind()
+        {
             BindImage();
             base.DataBind();
-	    }
-	    
-		private void BindImage()
-		{
-            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, ActiveFilter.None);
-			if (selectionList.Count > 0)
-			{
-				ddlGalleries.DataSource = selectionList;
-				ddlGalleries.DataValueField = "Id";
-				ddlGalleries.DataTextField = "Title";
-				
-				lnkThumbnail.ImageUrl = EvalImageUrl(Image);
-				lnkThumbnail.NavigateUrl = EvalImageNavigateUrl(Image);
-				lnkThumbnail.Visible = true;
+        }
 
-				ckbPublished.Checked = Image.IsActive;
+        private void BindImage()
+        {
+            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection,
+                                                                          ActiveFilter.None);
+            if(selectionList.Count > 0)
+            {
+                ddlGalleries.DataSource = selectionList;
+                ddlGalleries.DataValueField = "Id";
+                ddlGalleries.DataTextField = "Title";
 
-				SetGalleryInfo(Image);
+                lnkThumbnail.ImageUrl = EvalImageUrl(Image);
+                lnkThumbnail.NavigateUrl = EvalImageNavigateUrl(Image);
+                lnkThumbnail.Visible = true;
 
-				ddlGalleries.DataBind();
+                ckbPublished.Checked = Image.IsActive;
 
-                var listItem = ddlGalleries.Items.FindByValue(_image.CategoryID.ToString(CultureInfo.InvariantCulture));
-                if (listItem != null) {
+                SetGalleryInfo(Image);
+
+                ddlGalleries.DataBind();
+
+                ListItem listItem =
+                    ddlGalleries.Items.FindByValue(_image.CategoryID.ToString(CultureInfo.InvariantCulture));
+                if(listItem != null)
+                {
                     ddlGalleries.SelectedIndex = ddlGalleries.Items.IndexOf(listItem);
                 }
-				// HACK: we're disabling this until we do something with/around the provider
-				// that will let us actually move the files too.
-				ddlGalleries.Enabled = false;
+                // HACK: we're disabling this until we do something with/around the provider
+                // that will let us actually move the files too.
+                ddlGalleries.Enabled = false;
 
-				Advanced.Collapsed = Preferences.AlwaysExpandAdvanced;
+                Advanced.Collapsed = Preferences.AlwaysExpandAdvanced;
 
-				if(AdminMasterPage != null) {
-                    string title = string.Format(CultureInfo.InvariantCulture, Resources.EditGalleries_EditImage, Image.Title);
+                if(AdminMasterPage != null)
+                {
+                    string title = string.Format(CultureInfo.InvariantCulture, Resources.EditGalleries_EditImage,
+                                                 Image.Title);
                     AdminMasterPage.Title = title;
-				}
-			}
-		}
+                }
+            }
+        }
 
-		protected void SetGalleryInfo(Image image)
-		{
-			_galleryTitle = this.SubtextContext.Repository.GetLinkCategory(image.CategoryID,false).Title;
-		}
+        protected void SetGalleryInfo(Image image)
+        {
+            _galleryTitle = SubtextContext.Repository.GetLinkCategory(image.CategoryID, false).Title;
+        }
 
-		protected string EvalImageUrl(object imageObject)
-		{
-            if (imageObject is Image)
+        protected string EvalImageUrl(object imageObject)
+        {
+            if(imageObject is Image)
             {
-                Image image = (Image)imageObject;
+                var image = (Image)imageObject;
                 image.Blog = Blog;
                 return Url.GalleryImageUrl(image);
             }
             return String.Empty;
-		}
+        }
 
-		protected string EvalImageNavigateUrl(object imageObject)
-		{
-			if (imageObject is Image)
-			{
-				Image image = (Image)imageObject;
-				return Url.GalleryImagePageUrl(image);
-			}
-			return String.Empty;
-		}
+        protected string EvalImageNavigateUrl(object imageObject)
+        {
+            if(imageObject is Image)
+            {
+                var image = (Image)imageObject;
+                return Url.GalleryImagePageUrl(image);
+            }
+            return String.Empty;
+        }
 
-		protected string GetImageGalleryUrl()
-		{
-			return string.Format(CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITGALLERIES, 
-				Keys.QRYSTR_CATEGORYID, Image.CategoryID);
-		}
+        protected string GetImageGalleryUrl()
+        {
+            return string.Format(CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITGALLERIES,
+                                 Keys.QRYSTR_CATEGORYID, Image.CategoryID);
+        }
 
-		private void UpdateImage()
-		{
-			if (Page.IsValid)
-			{
-				_image = Repository.GetImage(this.ImageId, false /* activeOnly */);
-				_image.CategoryID = Convert.ToInt32(ddlGalleries.SelectedItem.Value);
-				_image.Title = txbTitle.Text;
-				_image.IsActive = ckbPublished.Checked;
-				
-				try
-				{
-					Images.UpdateImage(_image);
+        private void UpdateImage()
+        {
+            if(Page.IsValid)
+            {
+                _image = Repository.GetImage(ImageId, false /* activeOnly */);
+                _image.CategoryID = Convert.ToInt32(ddlGalleries.SelectedItem.Value);
+                _image.Title = txbTitle.Text;
+                _image.IsActive = ckbPublished.Checked;
 
-					// would need to also move files for this to work here. should happen
-					// in the provider though.
+                try
+                {
+                    Images.UpdateImage(_image);
 
-                    this.Messages.ShowMessage(Resources.EditGalleries_ImageUpdated);
-					BindImage();
-				}
-				catch(Exception ex)
-				{
-					this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
-				}
-			}
-		}
+                    // would need to also move files for this to work here. should happen
+                    // in the provider though.
 
-		private void ReplaceImage()
-		{
-			if (Page.IsValid)
-			{
-				_image = Repository.GetImage(this.ImageId, false /* activeOnly */);
-				_image.CategoryID = Convert.ToInt32(ddlGalleries.SelectedItem.Value);
-				_image.Title = txbTitle.Text;
-				_image.IsActive = ckbPublished.Checked;
-				
-				try
-				{
-					_image.FileName = Path.GetFileName(ImageFile.PostedFile.FileName);
+                    Messages.ShowMessage(Resources.EditGalleries_ImageUpdated);
+                    BindImage();
+                }
+                catch(Exception ex)
+                {
+                    Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
+                }
+            }
+        }
+
+        private void ReplaceImage()
+        {
+            if(Page.IsValid)
+            {
+                _image = Repository.GetImage(ImageId, false /* activeOnly */);
+                _image.CategoryID = Convert.ToInt32(ddlGalleries.SelectedItem.Value);
+                _image.Title = txbTitle.Text;
+                _image.IsActive = ckbPublished.Checked;
+
+                try
+                {
+                    _image.FileName = Path.GetFileName(ImageFile.PostedFile.FileName);
                     _image.Url = Url.ImageGalleryDirectoryUrl(Blog, _image.CategoryID);
                     _image.LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, _image.CategoryID);
-					Images.Update(_image, ImageFile.PostedFile.GetFileStream());
+                    Images.Update(_image, ImageFile.PostedFile.GetFileStream());
 
-                    this.Messages.ShowMessage(Resources.EditGalleries_ImageUpdated);
-					BindImage();
-				}
-				catch (Exception ex)
-				{
-					this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
-				}
-			}
-		}
+                    Messages.ShowMessage(Resources.EditGalleries_ImageUpdated);
+                    BindImage();
+                }
+                catch(Exception ex)
+                {
+                    Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
+                }
+            }
+        }
 
-		override protected void OnInit(EventArgs e)
-		{
-			ViewState[VSKEY_IMAGEID] = NullValue.NullInt32;
-		}
-		
-		protected void lbkReplaceImage_Click(object sender, EventArgs e)
-		{
-			ReplaceImage();
-		}
+        override protected void OnInit(EventArgs e)
+        {
+            ViewState[VSKEY_IMAGEID] = NullValue.NullInt32;
+        }
 
-		protected void lkbUpdateImage_Click(object sender, EventArgs e)
-		{
-			UpdateImage();		
-		}
-	}
+        protected void lbkReplaceImage_Click(object sender, EventArgs e)
+        {
+            ReplaceImage();
+        }
+
+        protected void lkbUpdateImage_Click(object sender, EventArgs e)
+        {
+            UpdateImage();
+        }
+    }
 }

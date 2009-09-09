@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -25,6 +27,15 @@ namespace Subtext.Web.Admin.WebUI
     /// </summary>
     public partial class AdminPageTemplate : AdminMasterPage
     {
+        /// <summary>
+        /// The title of the page.
+        /// </summary>
+        public string Title
+        {
+            get { return Page.Title; }
+            set { Page.Title = value; }
+        }
+
         /// <summary>
         /// Adds a link button to the list of possible actions.
         /// </summary>
@@ -41,7 +52,7 @@ namespace Subtext.Web.Admin.WebUI
             // wired up. 
             LinksActions.Items.Add(button);
             LinksActions.Controls.Add(button);
-            if (!String.IsNullOrEmpty(rssFeed))
+            if(!String.IsNullOrEmpty(rssFeed))
             {
                 HyperLink rssLink = CreateAdminRssHyperlink(rssFeed);
                 LinksActions.Items.Add(rssLink);
@@ -51,11 +62,12 @@ namespace Subtext.Web.Admin.WebUI
 
         private HyperLink CreateAdminRssHyperlink(string rssFeed)
         {
-            HyperLink rssLink = new HyperLink();
+            var rssLink = new HyperLink();
             rssLink.NavigateUrl = rssFeed;
             rssLink.Text = "(rss)";
             return rssLink;
         }
+
         /// <summary>
         /// Adds a hyperlink to the list of possible actions.
         /// </summary>
@@ -68,7 +80,7 @@ namespace Subtext.Web.Admin.WebUI
         public void AddToActions(HyperLink link, string rssFeed)
         {
             LinksActions.Items.Add(link);
-            if (!String.IsNullOrEmpty(rssFeed))
+            if(!String.IsNullOrEmpty(rssFeed))
             {
                 LinksActions.Items.Add(CreateAdminRssHyperlink(rssFeed));
             }
@@ -83,21 +95,12 @@ namespace Subtext.Web.Admin.WebUI
         }
 
         /// <summary>
-        /// The title of the page.
-        /// </summary>
-        public string Title
-        {
-            get { return this.Page.Title; }
-            set { this.Page.Title = value; }
-        }
-
-        /// <summary>
         /// Attaches the logout button event.
         /// </summary>
         /// <param name="e"></param>
         protected override void OnInit(EventArgs e)
         {
-            this.LogoutLink.Click += OnLogoutClick;
+            LogoutLink.Click += OnLogoutClick;
             base.OnInit(e);
         }
 

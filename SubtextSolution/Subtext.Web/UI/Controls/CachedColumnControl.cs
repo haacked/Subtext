@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,18 +12,18 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
 using System.Web.UI;
 
 namespace Subtext.Web.UI.Controls
 {
-	/// <summary>
-	/// Summary description for CachedColumnControl.
-	/// </summary>
-	[PartialCaching(30, null, null, "Blogger", true)]
-	public class CachedColumnControl : BaseControl
-	{
-	}
+    /// <summary>
+    /// Summary description for CachedColumnControl.
+    /// </summary>
+    [PartialCaching(30, null, null, "Blogger", true)]
+    public class CachedColumnControl : BaseControl
+    {
+    }
 }

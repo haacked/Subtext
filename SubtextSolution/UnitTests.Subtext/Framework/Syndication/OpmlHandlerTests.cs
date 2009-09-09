@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using MbUnit.Framework;
@@ -15,7 +15,8 @@ namespace UnitTests.Subtext.Framework.Syndication
     public class OpmlHandlerTests
     {
         [Test]
-        public void OpmlHandler_WithRequest_SetsContentTypeToXml() { 
+        public void OpmlHandler_WithRequest_SetsContentTypeToXml()
+        {
             //arrange
             var context = new Mock<ISubtextContext>();
             context.Stub(c => c.HttpContext.Response.ContentType);
@@ -23,7 +24,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             context.SetupUrlHelper(new Mock<UrlHelper>());
             var writer = new Mock<OpmlWriter>();
             writer.Setup(w => w.Write(It.IsAny<IEnumerable<Blog>>(), It.IsAny<TextWriter>(), It.IsAny<UrlHelper>()));
-            OpmlHandler handler = new OpmlHandler(context.Object, writer.Object);
+            var handler = new OpmlHandler(context.Object, writer.Object);
 
             //act
             handler.ProcessRequest(new HostInfo());
@@ -38,7 +39,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             //arrange
             var queryString = new NameValueCollection();
             queryString.Add("GroupID", "310");
-            
+
             var context = new Mock<ISubtextContext>();
             context.Stub(c => c.HttpContext.Response.ContentType);
             context.Setup(c => c.HttpContext.Response.Output).Returns(new StringWriter());
@@ -46,12 +47,13 @@ namespace UnitTests.Subtext.Framework.Syndication
             context.SetupUrlHelper(new Mock<UrlHelper>());
             var repository = new Mock<ObjectProvider>();
             int? parsedGroupId = null;
-            repository.Setup(r => r.GetBlogsByGroup(It.IsAny<string>(), It.IsAny<int?>())).Callback<string, int?>((host, groupId) => parsedGroupId = groupId);
+            repository.Setup(r => r.GetBlogsByGroup(It.IsAny<string>(), It.IsAny<int?>())).Callback<string, int?>(
+                (host, groupId) => parsedGroupId = groupId);
             context.SetupRepository(repository);
 
             var writer = new Mock<OpmlWriter>();
             writer.Setup(w => w.Write(It.IsAny<IEnumerable<Blog>>(), It.IsAny<TextWriter>(), It.IsAny<UrlHelper>()));
-            OpmlHandler handler = new OpmlHandler(context.Object, writer.Object);
+            var handler = new OpmlHandler(context.Object, writer.Object);
             var hostInfo = new HostInfo();
             hostInfo.BlogAggregationEnabled = true;
             hostInfo.AggregateBlog = new Blog();

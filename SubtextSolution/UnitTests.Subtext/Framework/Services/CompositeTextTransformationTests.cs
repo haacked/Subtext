@@ -1,4 +1,4 @@
-﻿using MbUnit.Framework;
+using MbUnit.Framework;
 using Moq;
 using Subtext.Framework.Services;
 

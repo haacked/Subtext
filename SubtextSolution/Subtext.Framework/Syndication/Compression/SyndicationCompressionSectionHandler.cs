@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,18 +12,23 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
 using System.Configuration;
+using System.Xml;
 
 namespace Subtext.Framework.Syndication.Compression
 {
-	internal class SyndicationCompressionSectionHandler :  IConfigurationSectionHandler	
-	{
-		object IConfigurationSectionHandler.Create(object parent, object configContext, System.Xml.XmlNode configurationSection) 
-		{
-			return new SyndicationCompressionSettings(configurationSection);
-		}
-	}
+    internal class SyndicationCompressionSectionHandler : IConfigurationSectionHandler
+    {
+        #region IConfigurationSectionHandler Members
+
+        object IConfigurationSectionHandler.Create(object parent, object configContext, XmlNode configurationSection)
+        {
+            return new SyndicationCompressionSettings(configurationSection);
+        }
+
+        #endregion
+    }
 }

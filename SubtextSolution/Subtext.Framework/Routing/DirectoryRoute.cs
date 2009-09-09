@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using Ninject;
@@ -22,13 +24,13 @@ namespace Subtext.Framework.Routing
         public DirectoryRoute(string directoryName, IKernel kernel) :
             base(directoryName + "/{*pathInfo}", new DirectoryRouteHandler(kernel.Get<ISubtextPageBuilder>(), kernel))
         {
-            this.DirectoryName = directoryName;
+            DirectoryName = directoryName;
         }
 
-        public string DirectoryName
-        {
-            get;
-            private set;
-        }
+        #region IDirectoryRoute Members
+
+        public string DirectoryName { get; private set; }
+
+        #endregion
     }
 }

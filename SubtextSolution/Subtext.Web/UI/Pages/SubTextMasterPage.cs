@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -41,17 +43,54 @@ namespace Subtext.Web.UI.Pages
     /// </summary>
     public partial class SubtextMasterPage : SubtextPage, IPageWithControls
     {
-        private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinEngine());
-        private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(new SkinEngine());
-
-        protected const string TemplateLocation = "~/Skins/{0}/{1}";
         protected const string ControlLocation = "~/Skins/{0}/Controls/{1}";
-        protected const string OpenIDServerLocation = "<link rel=\"openid.server\" href=\"{0}\" />";
         protected const string OpenIDDelegateLocation = "<link rel=\"openid.delegate\" href=\"{0}\" />";
-
-        protected SkinConfig CurrentSkin = Globals.CurrentSkin;
+        protected const string OpenIDServerLocation = "<link rel=\"openid.server\" href=\"{0}\" />";
+        protected const string TemplateLocation = "~/Skins/{0}/{1}";
 
         public static readonly string CommentsPanelId = "commentsUpdatePanelWrapper";
+
+        private static readonly ScriptElementCollectionRenderer scriptRenderer =
+            new ScriptElementCollectionRenderer(new SkinEngine());
+
+        private static readonly StyleSheetElementCollectionRenderer styleRenderer =
+            new StyleSheetElementCollectionRenderer(new SkinEngine());
+
+        IEnumerable<string> _controls;
+        protected SkinConfig CurrentSkin = Globals.CurrentSkin;
+
+        /// <summary>
+        /// Returns the text for a javascript array of allowed elements. 
+        /// This will be used by other scripts.
+        /// </summary>
+        /// <value>The allowed HTML javascript declaration.</value>
+        protected static string AllowedHtmlJavascriptDeclaration
+        {
+            get
+            {
+                string declaration = "var subtextAllowedHtmlTags = [";
+                for(int i = 0; i < Config.Settings.AllowedHtmlTags.Count; i++)
+                {
+                    string tagname = Config.Settings.AllowedHtmlTags.Keys[i];
+                    declaration += string.Format(CultureInfo.InvariantCulture, "'{0}', ", tagname);
+                }
+                if(Config.Settings.AllowedHtmlTags.Count > 0)
+                {
+                    declaration = declaration.Left(declaration.Length - 2);
+                }
+
+                return declaration + "];";
+            }
+        }
+
+        #region IPageWithControls Members
+
+        public void SetControls(IEnumerable<string> controls)
+        {
+            _controls = controls;
+        }
+
+        #endregion
 
         private void InitializeBlogPage()
         {
@@ -60,33 +99,34 @@ namespace Subtext.Web.UI.Pages
             string skinFolder = CurrentSkin.TemplateFolder;
 
             IEnumerable<string> controls = _controls;
-            if (controls != null)
+            if(controls != null)
             {
-                UpdatePanel apnlCommentsWrapper = new UpdatePanel();
+                var apnlCommentsWrapper = new UpdatePanel();
                 apnlCommentsWrapper.Visible = true;
                 apnlCommentsWrapper.ID = CommentsPanelId;
 
-                foreach (string controlId in controls)
+                foreach(string controlId in controls)
                 {
                     Control control = null;
                     try
                     {
                         control = LoadControl(string.Format(ControlLocation, skinFolder, controlId));
                     }
-                    catch (HttpException) {
+                    catch(HttpException)
+                    {
                         // fallback behavior
                         // todo: cache that we found it here.
                         control = LoadControl(string.Format(ControlLocation, "_System", controlId));
                     }
                     control.ID = controlId.Replace(".", "_");
 
-                    if (controlId.Equals("Comments.ascx"))
+                    if(controlId.Equals("Comments.ascx"))
                     {
                         control.Visible = true;
                         commentsControl = control as Comments;
                         apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
                     }
-                    else if (controlId.Equals("PostComment.ascx"))
+                    else if(controlId.Equals("PostComment.ascx"))
                     {
                         postCommentControl = (PostComment)control;
                         postCommentControl.CommentApproved += postCommentControl_CommentPosted;
@@ -100,7 +140,8 @@ namespace Subtext.Web.UI.Pages
                 }
             }
 
-            if (CurrentSkin.HasCustomCssText) {
+            if(CurrentSkin.HasCustomCssText)
+            {
                 CustomCss.Attributes.Add("href", Url.CustomCssUrl());
             }
             else
@@ -109,48 +150,54 @@ namespace Subtext.Web.UI.Pages
                 CustomCss.Visible = false;
             }
 
-            if (Rsd != null) {
+            if(Rsd != null)
+            {
                 Rsd.Attributes.Add("href", Url.RsdUrl(Blog).ToString());
             }
 
-            if (RSSLink != null) {
+            if(RSSLink != null)
+            {
                 RSSLink.Attributes.Add("href", Url.RssUrl(Blog).ToString());
             }
 
             // if specified, add script elements
-            if (scripts != null)
+            if(scripts != null)
             {
                 scripts.Text = scriptRenderer.RenderScriptElementCollection(CurrentSkin.SkinKey);
             }
 
-            if (styles != null)
+            if(styles != null)
             {
                 styles.Text = styleRenderer.RenderStyleElementCollection(CurrentSkin.SkinKey);
             }
 
-            if (openIDServer != null && !string.IsNullOrEmpty(Blog.OpenIDServer))
+            if(openIDServer != null && !string.IsNullOrEmpty(Blog.OpenIDServer))
             {
                 openIDServer.Text = string.Format(OpenIDServerLocation, Blog.OpenIDServer);
             }
 
-            if (openIDDelegate != null && !string.IsNullOrEmpty(Blog.OpenIDDelegate))
+            if(openIDDelegate != null && !string.IsNullOrEmpty(Blog.OpenIDDelegate))
             {
                 openIDDelegate.Text = string.Format(OpenIDDelegateLocation, Blog.OpenIDDelegate);
             }
 
             // Add the per-blog MetaTags to the page Head section.
             IPagedCollection<MetaTag> blogMetaTags = MetaTags.GetMetaTagsForBlog(Blog, 0, int.MaxValue);
-            foreach (MetaTag tag in blogMetaTags)
+            foreach(MetaTag tag in blogMetaTags)
             {
-                HtmlMeta mt = new HtmlMeta();
+                var mt = new HtmlMeta();
                 mt.Content = tag.Content;
 
-                if (!string.IsNullOrEmpty(tag.Name))
+                if(!string.IsNullOrEmpty(tag.Name))
+                {
                     mt.Name = tag.Name;
+                }
                 else
+                {
                     mt.HttpEquiv = tag.HttpEquiv;
+                }
 
-                Literal newLineLiteral = new Literal();
+                var newLineLiteral = new Literal();
                 newLineLiteral.Text = Environment.NewLine;
                 metaTagsPlaceHolder.Controls.Add(newLineLiteral);
                 metaTagsPlaceHolder.Controls.Add(mt);
@@ -176,13 +223,17 @@ namespace Subtext.Web.UI.Pages
             //Is this for extra security?
             EnableViewState = false;
             pageTitle.Text = Globals.CurrentTitle(Context);
-            if (!String.IsNullOrEmpty(Blog.Author))
+            if(!String.IsNullOrEmpty(Blog.Author))
             {
-                authorMetaTag.Text = String.Format(Environment.NewLine + "<meta name=\"author\" content=\"{0}\" />", Blog.Author);
+                authorMetaTag.Text = String.Format(Environment.NewLine + "<meta name=\"author\" content=\"{0}\" />",
+                                                   Blog.Author);
             }
-            versionMetaTag.Text = String.Format(Environment.NewLine + "<meta name=\"Generator\" content=\"{0}\" />" + Environment.NewLine, VersionInfo.VersionDisplayText);
+            versionMetaTag.Text =
+                String.Format(
+                    Environment.NewLine + "<meta name=\"Generator\" content=\"{0}\" />" + Environment.NewLine,
+                    VersionInfo.VersionDisplayText);
 
-            if (!String.IsNullOrEmpty(Blog.TrackingCode))
+            if(!String.IsNullOrEmpty(Blog.TrackingCode))
             {
                 customTrackingCode.Text = Blog.TrackingCode;
             }
@@ -215,41 +266,12 @@ namespace Subtext.Web.UI.Pages
         /// this does nothing as we are not using ViewState.
         /// </summary>
         /// <param name="viewState">State of the view.</param>
-        protected override void SavePageStateToPersistenceMedium(object viewState) { }
+        protected override void SavePageStateToPersistenceMedium(object viewState)
+        {
+        }
 
         #region private class ScriptElementCollectionRenderer
 
         #endregion
-
-        /// <summary>
-        /// Returns the text for a javascript array of allowed elements. 
-        /// This will be used by other scripts.
-        /// </summary>
-        /// <value>The allowed HTML javascript declaration.</value>
-        protected static string AllowedHtmlJavascriptDeclaration
-        {
-            get
-            {
-                string declaration = "var subtextAllowedHtmlTags = [";
-                for (int i = 0; i < Config.Settings.AllowedHtmlTags.Count; i++)
-                {
-                    string tagname = Config.Settings.AllowedHtmlTags.Keys[i];
-                    declaration += string.Format(CultureInfo.InvariantCulture, "'{0}', ", tagname);
-                }
-                if (Config.Settings.AllowedHtmlTags.Count > 0)
-                {
-                    declaration = declaration.Left(declaration.Length - 2);
-                }
-
-                return declaration + "];";
-            }
-        }
-
-        public void SetControls(IEnumerable<string> controls)
-        {
-            _controls = controls;
-        }
-
-        IEnumerable<string> _controls;
     }
 }

@@ -1,9 +1,7 @@
-﻿using System;
 using CookComputing.XmlRpc;
 
 namespace Subtext.Framework.XmlRpc
 {
-
     public struct WordpressCategory
     {
         public string name;
@@ -14,10 +12,10 @@ namespace Subtext.Framework.XmlRpc
         [XmlRpcMethod("wp.newCategory",
             Description = "Adds a new category to the blog engine.")]
         int newCategory(
-          string blogid,
-          string username,
-          string password,
-          WordpressCategory category);
+            string blogid,
+            string username,
+            string password,
+            WordpressCategory category);
 
         [XmlRpcMethod("wp.newPage", Description = "Adds a new page/article to the blog engine.")]
         int newPage(

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,64 +12,61 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Drawing;
 using System.Web.UI.WebControls;
-using Subtext.Framework;
 using Subtext.Framework.Util;
-using Subtext.Framework.Routing;
+using Image=Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.UI.Controls
 {
-	/// <summary>
-	///		Summary description for GalleryThumbNailViewer.
-	/// </summary>
-	public partial class ViewPicture : BaseControl
-	{
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad (e);
+    /// <summary>
+    ///		Summary description for GalleryThumbNailViewer.
+    /// </summary>
+    public partial class ViewPicture : BaseControl
+    {
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
 
-			if(Context != null)
-			{
+            if(Context != null)
+            {
                 int? imageId = SubtextContext.RequestContext.GetIdFromRequest();
-				var image = Repository.GetImage(imageId.Value, true /* activeOnly */);
+                Image image = Repository.GetImage(imageId.Value, true /* activeOnly */);
                 image.Blog = Blog;
 
-				Title.Text = image.Title;
-				GalleryImage.ImageUrl = Url.GalleryImageUrl(image, image.ResizedFile);
-				GalleryImage.Height = image.Height;
-				GalleryImage.Width = image.Width;
-				GalleryImage.AlternateText = image.Title;
-				GalleryImage.BorderColor = Color.Black;
-				GalleryImage.BorderWidth = 2;
+                Title.Text = image.Title;
+                GalleryImage.ImageUrl = Url.GalleryImageUrl(image, image.ResizedFile);
+                GalleryImage.Height = image.Height;
+                GalleryImage.Width = image.Width;
+                GalleryImage.AlternateText = image.Title;
+                GalleryImage.BorderColor = Color.Black;
+                GalleryImage.BorderWidth = 2;
 
-				OriginalImage.NavigateUrl = Url.GalleryImageUrl(image, image.OriginalFile);
-				ReturnUrl.NavigateUrl = Url.GalleryUrl(image.CategoryID);
-			}
-		}
+                OriginalImage.NavigateUrl = Url.GalleryImageUrl(image, image.OriginalFile);
+                ReturnUrl.NavigateUrl = Url.GalleryUrl(image.CategoryID);
+            }
+        }
 
-		protected void ImageCreated(object sender,  DataListItemEventArgs e)
-		{
-			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-			{
-				Subtext.Framework.Components.Image image = (Subtext.Framework.Components.Image)e.Item.DataItem;
-				if(image != null)
-				{
-					HyperLink ThumbNailImage = (HyperLink)e.Item.FindControl("ThumbNailImage");
-					if(ThumbNailImage != null)
-					{
-						
-						ThumbNailImage.ImageUrl = Url.GalleryImageUrl(image, image.ThumbNailFile);
-						ThumbNailImage.NavigateUrl = Url.GalleryImagePageUrl(image);
-						ThumbNailImage.ToolTip = image.Title;
-
-					}
-				}
-			}
-		}
-	}
+        protected void ImageCreated(object sender, DataListItemEventArgs e)
+        {
+            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                var image = (Image)e.Item.DataItem;
+                if(image != null)
+                {
+                    var ThumbNailImage = (HyperLink)e.Item.FindControl("ThumbNailImage");
+                    if(ThumbNailImage != null)
+                    {
+                        ThumbNailImage.ImageUrl = Url.GalleryImageUrl(image, image.ThumbNailFile);
+                        ThumbNailImage.NavigateUrl = Url.GalleryImagePageUrl(image);
+                        ThumbNailImage.ToolTip = image.Title;
+                    }
+                }
+            }
+        }
+    }
 }
-

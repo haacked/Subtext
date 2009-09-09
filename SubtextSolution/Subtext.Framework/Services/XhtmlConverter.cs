@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -25,8 +27,9 @@ namespace Subtext.Framework.Services
 {
     public class XhtmlConverter : ITextTransformation
     {
-        private Converter<string, string> _innerTextConverter = null;
-        private SgmlReader _reader;
+        static readonly Regex _newLineStripperRegex = new Regex(@">(\r\n)+<!\[CDATA\[", RegexOptions.Compiled);
+        private readonly Converter<string, string> _innerTextConverter;
+        private readonly SgmlReader _reader;
 
         [Inject]
         public XhtmlConverter()
@@ -45,14 +48,18 @@ namespace Subtext.Framework.Services
             _reader = sgmlReader;
         }
 
+        #region ITextTransformation Members
+
         public string Transform(string original)
         {
-            if (string.IsNullOrEmpty(original))
+            if(string.IsNullOrEmpty(original))
             {
                 return string.Empty;
             }
             return ConvertHtmlToXHtml(original, _innerTextConverter);
         }
+
+        #endregion
 
         /// <summary>
         /// Converts the specified html into XHTML compliant text.
@@ -68,7 +75,7 @@ namespace Subtext.Framework.Services
             html = RemoveNewLineBeforeCDATA(html);
             _reader.InputStream = new StringReader("<html>" + html + "</html>");
             _reader.CaseFolding = CaseFolding.ToLower;
-            StringWriter writer = new StringWriter();
+            var writer = new StringWriter();
             XmlWriter xmlWriter = null;
             try
             {
@@ -76,27 +83,34 @@ namespace Subtext.Framework.Services
 
                 bool insideAnchor = false;
                 bool skipRead = false;
-                while ((skipRead || _reader.Read()) && !_reader.EOF)
+                while((skipRead || _reader.Read()) && !_reader.EOF)
                 {
                     skipRead = false;
-                    switch (_reader.NodeType)
+                    switch(_reader.NodeType)
                     {
                         case XmlNodeType.Element:
                             //Special case for anchor tags for the time being. 
                             //We need some way to communicate which elements the current node is nested within 
-                            if (_reader.IsEmptyElement)
+                            if(_reader.IsEmptyElement)
                             {
                                 xmlWriter.WriteStartElement(_reader.LocalName);
                                 xmlWriter.WriteAttributes(_reader, true);
-                                if (_reader.LocalName == "a" || _reader.LocalName == "script" || _reader.LocalName == "iframe" || _reader.LocalName == "object")
+                                if(_reader.LocalName == "a" || _reader.LocalName == "script" ||
+                                   _reader.LocalName == "iframe" || _reader.LocalName == "object")
+                                {
                                     xmlWriter.WriteFullEndElement();
+                                }
                                 else
+                                {
                                     xmlWriter.WriteEndElement();
+                                }
                             }
                             else
                             {
-                                if (_reader.LocalName == "a")
+                                if(_reader.LocalName == "a")
+                                {
                                     insideAnchor = true;
+                                }
                                 xmlWriter.WriteStartElement(_reader.LocalName);
                                 xmlWriter.WriteAttributes(_reader, true);
                             }
@@ -105,20 +119,31 @@ namespace Subtext.Framework.Services
                         case XmlNodeType.Text:
                             string text = _reader.Value;
 
-                            if (converter != null && !insideAnchor)
+                            if(converter != null && !insideAnchor)
+                            {
                                 xmlWriter.WriteRaw(converter(HttpUtility.HtmlEncode(text)));
+                            }
                             else
+                            {
                                 xmlWriter.WriteString(text);
+                            }
                             break;
 
                         case XmlNodeType.EndElement:
-                            if (_reader.LocalName == "a")
+                            if(_reader.LocalName == "a")
+                            {
                                 insideAnchor = false;
+                            }
 
-                            if (_reader.LocalName == "a" || _reader.LocalName == "script" || _reader.LocalName == "iframe" || _reader.LocalName == "object")
+                            if(_reader.LocalName == "a" || _reader.LocalName == "script" ||
+                               _reader.LocalName == "iframe" || _reader.LocalName == "object")
+                            {
                                 xmlWriter.WriteFullEndElement();
+                            }
                             else
+                            {
                                 xmlWriter.WriteEndElement();
+                            }
                             break;
 
                         default:
@@ -130,7 +155,7 @@ namespace Subtext.Framework.Services
             }
             finally
             {
-                if (xmlWriter != null)
+                if(xmlWriter != null)
                 {
                     xmlWriter.Close();
                 }
@@ -145,13 +170,11 @@ namespace Subtext.Framework.Services
         // This to make sure the Xhtml is well formatted before processing it
         private static string RemoveNewLineBeforeCDATA(string text)
         {
-            if (String.IsNullOrEmpty(text))
+            if(String.IsNullOrEmpty(text))
             {
                 return string.Empty;
             }
             return _newLineStripperRegex.Replace(text, "><![CDATA[");
         }
-
-        static Regex _newLineStripperRegex = new Regex(@">(\r\n)+<!\[CDATA\[", RegexOptions.Compiled);
     }
 }

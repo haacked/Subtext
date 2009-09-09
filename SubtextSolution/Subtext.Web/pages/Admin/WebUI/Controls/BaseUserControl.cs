@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Web.UI;
@@ -21,29 +23,25 @@ namespace Subtext.Web.Admin.WebUI.Controls
 {
     public class BaseUserControl : UserControl
     {
+        AdminUrlHelper _adminUrl;
+
         public UrlHelper Url
         {
-            get
-            {
-                return SubtextPage.Url;
-            }
+            get { return SubtextPage.Url; }
         }
 
-        public AdminUrlHelper AdminUrl {
-            get 
+        public AdminUrlHelper AdminUrl
+        {
+            get
             {
                 _adminUrl = _adminUrl ?? new AdminUrlHelper(Url);
                 return _adminUrl;
             }
         }
-        AdminUrlHelper _adminUrl = null;
 
         public SubtextPage SubtextPage
         {
-            get
-            {
-                return Page as SubtextPage;
-            }
+            get { return Page as SubtextPage; }
         }
     }
 }

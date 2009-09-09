@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,32 +12,31 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-#endregion
 
-using System;
+#endregion
 
 namespace Subtext.Extensibility
 {
-	/// <summary>
-	/// Enumerates the various types of entries within the 
-	/// subtext_Content table.  A record in that table 
-	/// might be any one of the following enumerations.
-	/// </summary>
-	public enum PostType
-	{
-		None = 0,
-		BlogPost = 1,
-		Story = 2,
-	}
-	/// <summary>
-	/// Enumates the various types of comments within the subtext content table.
-	/// </summary>
-	public enum FeedbackType
-	{
-		None = 0,
-		Comment = 1,
-		PingTrack = 2,
-		ContactPage = 3, //Only applies if "ContactToFeedback" is set to true.
-	}
-}
+    /// <summary>
+    /// Enumerates the various types of entries within the 
+    /// subtext_Content table.  A record in that table 
+    /// might be any one of the following enumerations.
+    /// </summary>
+    public enum PostType
+    {
+        None = 0,
+        BlogPost = 1,
+        Story = 2,
+    }
 
+    /// <summary>
+    /// Enumates the various types of comments within the subtext content table.
+    /// </summary>
+    public enum FeedbackType
+    {
+        None = 0,
+        Comment = 1,
+        PingTrack = 2,
+        ContactPage = 3, //Only applies if "ContactToFeedback" is set to true.
+    }
+}

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -20,7 +22,6 @@ using System.Web.Security;
 using log4net;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Security;
-using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Web.HttpModules
 {
@@ -31,19 +32,31 @@ namespace Subtext.Framework.Web.HttpModules
     public class AuthenticationModule : IHttpModule
     {
         private readonly static ILog log = new Log();
-        
+
+        #region IHttpModule Members
+
         public void Init(HttpApplication context)
         {
             context.AuthenticateRequest += OnAuthenticateRequest;
         }
 
-        public void AuthenticateRequest(HttpContextBase httpContext, BlogRequest blogRequest) {
-            if (blogRequest.RequestLocation == RequestLocation.StaticFile)
+        public void Dispose()
+        {
+            //Do Nothing...
+        }
+
+        #endregion
+
+        public void AuthenticateRequest(HttpContextBase httpContext, BlogRequest blogRequest)
+        {
+            if(blogRequest.RequestLocation == RequestLocation.StaticFile)
+            {
                 return;
+            }
 
             HttpCookie authCookie = httpContext.Request.SelectAuthenticationCookie(blogRequest.Blog);
 
-            if (null == authCookie)
+            if(null == authCookie)
             {
                 log.Debug("There is no authentication cookie.");
                 return;
@@ -54,40 +67,40 @@ namespace Subtext.Framework.Web.HttpModules
             {
                 authTicket = FormsAuthentication.Decrypt(authCookie.Value);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 log.Error("Could not decrypt the authentication cookie.", ex);
                 httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
                 return;
             }
 
-            if (null == authTicket)
+            if(null == authTicket)
             {
                 log.Warn("Could not decrypt the authentication cookie. No exception was thrown.");
                 httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
                 return;
             }
 
-            if (authTicket.Expired)
+            if(authTicket.Expired)
             {
                 log.Debug("Authentication ticket expired.");
                 httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
                 return;
             }
 
-            if (FormsAuthentication.SlidingExpiration)
+            if(FormsAuthentication.SlidingExpiration)
             {
                 FormsAuthentication.RenewTicketIfOld(authTicket);
             }
 
             // When the ticket was created, the UserData property was assigned a
             // pipe delimited string of role names.
-            string[] roles = authTicket.UserData.Split(new char[] { '|' });
+            string[] roles = authTicket.UserData.Split(new[] {'|'});
             // Create an Identity object
-            FormsIdentity id = new FormsIdentity(authTicket);
+            var id = new FormsIdentity(authTicket);
 
             // This principal will flow throughout the request.
-            GenericPrincipal principal = new GenericPrincipal(id, roles);
+            var principal = new GenericPrincipal(id, roles);
             // Attach the new principal object to the current HttpContext object
             httpContext.User = principal;
             log.Debug("Authentication succeeded. Current.User=" + id.Name + "; " + authTicket.UserData);
@@ -97,11 +110,6 @@ namespace Subtext.Framework.Web.HttpModules
         {
             var context = new HttpContextWrapper(((HttpApplication)sender).Context);
             AuthenticateRequest(context, BlogRequest.Current);
-        }
-
-        public void Dispose()
-        {
-            //Do Nothing...
         }
     }
 }

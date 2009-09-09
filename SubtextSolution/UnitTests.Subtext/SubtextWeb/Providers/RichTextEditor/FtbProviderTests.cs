@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,9 +12,11 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.Web.UI.WebControls;
 using FreeTextBoxControls;
 using MbUnit.Framework;
@@ -29,8 +32,11 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
     [TestFixture]
     public class FtbProviderTests
     {
+        readonly string _testToolbarLayout =
+            "Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery";
+
         string _hostName;
-        readonly string _testToolbarLayout = "Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery";
+
         FtbBlogEntryEditorProvider frtep;
 
         [SetUp]
@@ -52,7 +58,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         [Test]
         public void SetText()
         {
-            Blog blog = new Blog { Host = "localhost", Subfolder = "subfolder" };
+            var blog = new Blog {Host = "localhost", Subfolder = "subfolder"};
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
             subtextContext.Setup(c => c.UrlHelper.ImageDirectoryUrl(blog)).Returns("/images");
@@ -67,7 +73,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         [Test]
         public void SetWidth()
         {
-            Blog blog = new Blog { Host = "localhost", Subfolder = "subfolder" };
+            var blog = new Blog {Host = "localhost", Subfolder = "subfolder"};
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
             subtextContext.Setup(c => c.UrlHelper.ImageDirectoryUrl(blog)).Returns("/images");
@@ -81,7 +87,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         [Test]
         public void SetHeight()
         {
-            Blog blog = new Blog { Host = "localhost", Subfolder = "subfolder" };
+            var blog = new Blog {Host = "localhost", Subfolder = "subfolder"};
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
             subtextContext.Setup(c => c.UrlHelper.ImageDirectoryUrl(blog)).Returns("/images");
@@ -110,31 +116,31 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestInitializationWithEmptyWebFolder()
         {
-            frtep.Initialize("FTBProvider", new System.Collections.Specialized.NameValueCollection());
+            frtep.Initialize("FTBProvider", new NameValueCollection());
         }
 
         [Test]
         public void TestInitialization()
         {
-            Blog blog = new Blog { Host = "localhost", Subfolder = "subfolder" };
+            var blog = new Blog {Host = "localhost", Subfolder = "subfolder"};
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
             subtextContext.Setup(c => c.UrlHelper.ImageDirectoryUrl(blog)).Returns("/images");
 
-            System.Collections.Specialized.NameValueCollection coll = GetNameValueCollection();
+            NameValueCollection coll = GetNameValueCollection();
             frtep.Initialize("FTBProvider", coll);
             frtep.InitializeControl(subtextContext.Object);
             Assert.IsTrue(frtep.RichTextEditorControl.GetType() == typeof(FreeTextBox));
-            FreeTextBox txt = frtep.RichTextEditorControl as FreeTextBox;
+            var txt = frtep.RichTextEditorControl as FreeTextBox;
             Assert.AreEqual(frtep.Name, "FTBProvider");
             Assert.AreEqual(txt.ToolbarLayout, _testToolbarLayout);
             Assert.AreEqual(txt.FormatHtmlTagsToXhtml, true);
             Assert.AreEqual(txt.RemoveServerNameFromUrls, false);
         }
 
-        private System.Collections.Specialized.NameValueCollection GetNameValueCollection()
+        private NameValueCollection GetNameValueCollection()
         {
-            System.Collections.Specialized.NameValueCollection ret = new System.Collections.Specialized.NameValueCollection(3);
+            var ret = new NameValueCollection(3);
             ret.Add("WebFormFolder", "~/Providers/RichTextEditor/FTB/");
             ret.Add("toolbarlayout", _testToolbarLayout);
             ret.Add("FormatHtmlTagsToXhtml", "true");

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -21,79 +23,16 @@ using System.Web;
 using Subtext.Extensibility.Web;
 using Subtext.Framework.UI.Skinning;
 
-
-namespace Subtext.Framework.Web.Handlers {
+namespace Subtext.Framework.Web.Handlers
+{
     public class JsHandler : BaseHttpHandler
     {
-        private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(new SkinEngine());
-
-        protected override void HandleRequest(HttpContext context) {
-            context.Response.ContentEncoding = Encoding.UTF8;
-
-            string skinName = context.Request.Params["name"];
-
-            List<string> scripts = (List<string>) scriptRenderer.GetScriptsToBeMerged(skinName);
-
-            //Append all styles into one file
-
-            context.Response.Write("/*" + Environment.NewLine);
-            foreach (string script in scripts)
-            {
-                context.Response.Write(script + Environment.NewLine);
-            }
-            context.Response.Write("*/" + Environment.NewLine);
-
-            foreach (string script in scripts)
-            {
-                context.Response.Write(Environment.NewLine + "/* " + script + " */" + Environment.NewLine);
-                string path = context.Server.MapPath(script);
-                if (File.Exists(path))
-                {
-                    string jsFile = File.ReadAllText(context.Server.MapPath(script));
-                    context.Response.Write(jsFile);
-                }
-                else
-                {
-                    context.Response.Write(Environment.NewLine + "/* JS file at " + path + " doesn't exist so cannot be included in the merged JS file. */" + Environment.NewLine);
-                }
-            }
-
-            SetHeaders(scripts, context);
-        }
-
-
-        private static void SetHeaders(List<string> styles, HttpContext context) {
-            foreach (string style in styles) {
-                context.Response.AddFileDependency(context.Server.MapPath(style));
-            }
-
-            context.Response.Cache.VaryByParams["name"] = true;
-
-            context.Response.Cache.SetValidUntilExpires(true);
-            // Client-side caching
-            context.Response.Cache.SetLastModifiedFromFileDependencies();
-            context.Response.Cache.SetCacheability(HttpCacheability.Public);
-        }
-
-
-        protected override void SetResponseCachePolicy(HttpCachePolicy cache) {
-            return;
-        }
+        private static readonly ScriptElementCollectionRenderer scriptRenderer =
+            new ScriptElementCollectionRenderer(new SkinEngine());
 
         public override bool IsReusable
         {
-            get {
-                return false;
-            }
-        }
-
-        protected override bool ValidateParameters(HttpContext context)
-        {
-            string skinName = context.Request.Params["name"];
-            if (String.IsNullOrEmpty(skinName))
-                return false;
-            else
-                return true;
+            get { return false; }
         }
 
         protected override bool RequiresAuthentication
@@ -106,7 +45,76 @@ namespace Subtext.Framework.Web.Handlers {
             get { return "text/javascript"; }
         }
 
+        protected override void HandleRequest(HttpContext context)
+        {
+            context.Response.ContentEncoding = Encoding.UTF8;
+
+            string skinName = context.Request.Params["name"];
+
+            var scripts = (List<string>)scriptRenderer.GetScriptsToBeMerged(skinName);
+
+            //Append all styles into one file
+
+            context.Response.Write("/*" + Environment.NewLine);
+            foreach(string script in scripts)
+            {
+                context.Response.Write(script + Environment.NewLine);
+            }
+            context.Response.Write("*/" + Environment.NewLine);
+
+            foreach(string script in scripts)
+            {
+                context.Response.Write(Environment.NewLine + "/* " + script + " */" + Environment.NewLine);
+                string path = context.Server.MapPath(script);
+                if(File.Exists(path))
+                {
+                    string jsFile = File.ReadAllText(context.Server.MapPath(script));
+                    context.Response.Write(jsFile);
+                }
+                else
+                {
+                    context.Response.Write(Environment.NewLine + "/* JS file at " + path +
+                                           " doesn't exist so cannot be included in the merged JS file. */" +
+                                           Environment.NewLine);
+                }
+            }
+
+            SetHeaders(scripts, context);
+        }
+
+
+        private static void SetHeaders(List<string> styles, HttpContext context)
+        {
+            foreach(string style in styles)
+            {
+                context.Response.AddFileDependency(context.Server.MapPath(style));
+            }
+
+            context.Response.Cache.VaryByParams["name"] = true;
+
+            context.Response.Cache.SetValidUntilExpires(true);
+            // Client-side caching
+            context.Response.Cache.SetLastModifiedFromFileDependencies();
+            context.Response.Cache.SetCacheability(HttpCacheability.Public);
+        }
+
+
+        protected override void SetResponseCachePolicy(HttpCachePolicy cache)
+        {
+            return;
+        }
+
+        protected override bool ValidateParameters(HttpContext context)
+        {
+            string skinName = context.Request.Params["name"];
+            if(String.IsNullOrEmpty(skinName))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
-
-
 }

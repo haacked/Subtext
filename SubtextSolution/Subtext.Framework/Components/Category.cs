@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Xml.Serialization;
@@ -20,20 +22,15 @@ namespace Subtext.Framework.Components
 {
     public class Category : IIdentifiable
     {
+        public string Title { get; set; }
+
+        public int BlogId { get; set; }
+
+        #region IIdentifiable Members
+
         [XmlAttribute("CategoryID")]
-        public int Id {
-            get;
-            set;
-        }
+        public int Id { get; set; }
 
-        public string Title {
-            get;
-            set;
-        }
-
-        public int BlogId {
-            get;
-            set;
-        }
+        #endregion
     }
 }

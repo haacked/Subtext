@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,16 +12,16 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
 using System.Configuration;
 
 namespace Subtext.Extensibility.Providers
 {
-	/// <summary>
-	/// Configuration Section Handler for providers.
-	/// </summary>
+    /// <summary>
+    /// Configuration Section Handler for providers.
+    /// </summary>
     public class ProviderSectionHandler : ConfigurationSection
     {
         [ConfigurationProperty("providers")]

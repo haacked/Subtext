@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -27,17 +29,25 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         private Blog blog;
 
         [RowTest]
-        [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true, true, "Did not create enclusure")]
-        [Row("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true, false, "Did not create enclusure")]
-        [Row("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, false, true, "Did not create enclusure")]
-        [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 0, true, true, "Enclosure Invalid - Requires Size", ExpectedException = typeof(ArgumentException))]
-        [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "", 123456789, true, true, "Enclosure Invalid - Requires MimeType", ExpectedException = typeof(ArgumentException))]
-        [Row("My wonderful podcast", "", "audio/mpeg", 123456789, true, true, "Enclosure Invalid - Requires Url", ExpectedException = typeof(ArgumentException))]
+        [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true,
+            true, "Did not create enclusure")]
+        [Row("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true, false,
+            "Did not create enclusure")]
+        [Row("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, false, true,
+            "Did not create enclusure")]
+        [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 0, true, true,
+            "Enclosure Invalid - Requires Size", ExpectedException = typeof(ArgumentException))]
+        [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "", 123456789, true, true,
+            "Enclosure Invalid - Requires MimeType", ExpectedException = typeof(ArgumentException))]
+        [Row("My wonderful podcast", "", "audio/mpeg", 123456789, true, true, "Enclosure Invalid - Requires Url",
+            ExpectedException = typeof(ArgumentException))]
         [RollBack2]
-        public void CanInsertEnclosure(string title, string url, string mimetype, long size, bool addToFeed, bool showWithPost, string errMsg)
+        public void CanInsertEnclosure(string title, string url, string mimetype, long size, bool addToFeed,
+                                       bool showWithPost, string errMsg)
         {
-            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
-            Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures", "Listen to my great podcast");
+            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures",
+                                                                       "Listen to my great podcast");
             int entryId = UnitTestHelper.Create(e);
             Enclosure enc = UnitTestHelper.BuildEnclosure(title, url, mimetype, entryId, size, addToFeed, showWithPost);
 
@@ -45,17 +55,18 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 
             Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, false);
 
-            Assert.IsNotNull(newEntry.Enclosure,errMsg);
+            Assert.IsNotNull(newEntry.Enclosure, errMsg);
 
-            UnitTestHelper.AssertEnclosures(enc,newEntry.Enclosure);
+            UnitTestHelper.AssertEnclosures(enc, newEntry.Enclosure);
         }
 
         [Test]
         [RollBack2]
         public void EntryWithNoEnclusureHasNullAsEnclosure()
         {
-            this.blog = UnitTestHelper.CreateBlogAndSetupContext();
-            Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures", "Listen to my great podcast");
+            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures",
+                                                                       "Listen to my great podcast");
             int entryId = UnitTestHelper.Create(e);
 
             Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, false);

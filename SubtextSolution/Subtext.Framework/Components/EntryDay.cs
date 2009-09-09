@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -18,38 +20,29 @@ using System.Collections.ObjectModel;
 
 namespace Subtext.Framework.Components
 {
-	/// <summary>
-	/// Represents a collection of <see cref="Entry">Entry</see> Components.
-	/// </summary>
-	[Serializable]
-	public class EntryDay : Collection<Entry>
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="EntryDay">EntryDay</see> class.
-		/// </summary>
-		public EntryDay() : base()
-		{
-		}
+    /// <summary>
+    /// Represents a collection of <see cref="Entry">Entry</see> Components.
+    /// </summary>
+    [Serializable]
+    public class EntryDay : Collection<Entry>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntryDay">EntryDay</see> class.
+        /// </summary>
+        public EntryDay()
+        {
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="EntryDay">EntryDay</see> class.
-		/// </summary>
-		public EntryDay(DateTime dt)
-		{
-			BlogDay = dt;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntryDay">EntryDay</see> class.
+        /// </summary>
+        public EntryDay(DateTime dt)
+        {
+            BlogDay = dt;
+        }
 
-		public DateTime BlogDay
-		{
-			get;
-			set;
-		}
+        public DateTime BlogDay { get; set; }
 
-		public string Link
-		{
-			get;
-			set;
-		}
-	}
+        public string Link { get; set; }
+    }
 }
-

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -18,72 +20,41 @@ using System.Xml.Serialization;
 
 namespace Subtext.Framework.Components
 {
-	/// <summary>
-	/// Summary description for Link.
-	/// </summary>
-	[Serializable]
-	public class Link
-	{
-        public Link() {
+    /// <summary>
+    /// Summary description for Link.
+    /// </summary>
+    [Serializable]
+    public class Link
+    {
+        public Link()
+        {
             PostID = NullValue.NullInt32;
         }
 
-		public int BlogId
-		{
-			get;
-			set;
-		}
+        public int BlogId { get; set; }
 
-		[XmlAttribute("LinkID")]
-		public int Id {
-			get;
-			set;
-		}
+        [XmlAttribute("LinkID")]
+        public int Id { get; set; }
 
-		public int PostID {
-			get;
-			set;
-		}
+        public int PostID { get; set; }
 
-		public int CategoryID {
-			get;
-			set;
-		}
+        public int CategoryID { get; set; }
 
-		public bool IsActive {
-			get;
-			set;
-		}
+        public bool IsActive { get; set; }
 
-		public bool NewWindow {
-			get;
-			set;
-		}
+        public bool NewWindow { get; set; }
 
-		public string Url {
-			get;
-			set;
-		}
+        public string Url { get; set; }
 
-		public string Rss {
-			get;
-			set;
-		}
+        public string Rss { get; set; }
 
-		public string Title	{
-			get;
-			set;
-		}
+        public string Title { get; set; }
 
-        public string Relation {
-            get;
-            set;
+        public string Relation { get; set; }
+
+        public bool HasRss
+        {
+            get { return (Rss != null && Rss.Trim().Length > 0); }
         }
-
-		public bool HasRss {
-			get{return (Rss != null && Rss.Trim().Length > 0); }
-		}
-	}
+    }
 }
-
-

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,85 +12,84 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
-using Subtext.Framework.Properties;
 using System.Globalization;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Exceptions
 {
-	/// <summary>
-	/// Exception thrown when creating a new blog, or changing an existing 
-	/// blog, without a Subfolder value specified, when another blog 
-	/// with the same Host name exists.
-	/// </summary>
-	/// <remarks>
-	/// An example of this case is where a system has a blog with the host 
-	/// "example.com" and the subfolder name "MyBlog".  Attempting to create 
-	/// a new blog with the host name "example.com" and an empty subfolder 
-	/// name will result in this exception being thrown.
-	/// </remarks>
-	[Serializable]
-	public class BlogRequiresSubfolderException : BaseBlogConfigurationException
-	{
-		string _host;
+    /// <summary>
+    /// Exception thrown when creating a new blog, or changing an existing 
+    /// blog, without a Subfolder value specified, when another blog 
+    /// with the same Host name exists.
+    /// </summary>
+    /// <remarks>
+    /// An example of this case is where a system has a blog with the host 
+    /// "example.com" and the subfolder name "MyBlog".  Attempting to create 
+    /// a new blog with the host name "example.com" and an empty subfolder 
+    /// name will result in this exception being thrown.
+    /// </remarks>
+    [Serializable]
+    public class BlogRequiresSubfolderException : BaseBlogConfigurationException
+    {
+        readonly string _host;
 
-		/// <summary>
-		/// Creates a new <see cref="BlogRequiresSubfolderException"/> instance.
-		/// </summary>
-		/// <param name="blogsWithSameHostCount">The number of blogs with this 
-		/// host name (not counting the blog being modified).</param>
-		/// <param name="blogId">The blog that is being modified and is conflicting with a pre-existing blog.</param>
-		public BlogRequiresSubfolderException(string hostName, int blogsWithSameHostCount, int blogId) : base()
-		{
-			_host = hostName;
-			BlogsWithSameHostCount = blogsWithSameHostCount;
+        /// <summary>
+        /// Creates a new <see cref="BlogRequiresSubfolderException"/> instance.
+        /// </summary>
+        /// <param name="blogsWithSameHostCount">The number of blogs with this 
+        /// host name (not counting the blog being modified).</param>
+        /// <param name="blogId">The blog that is being modified and is conflicting with a pre-existing blog.</param>
+        public BlogRequiresSubfolderException(string hostName, int blogsWithSameHostCount, int blogId)
+        {
+            _host = hostName;
+            BlogsWithSameHostCount = blogsWithSameHostCount;
             BlogId = blogId;
-		}
-
-		/// <summary>
-		/// Creates a new <see cref="BlogRequiresSubfolderException"/> instance.
-		/// </summary>
-		/// <param name="blogsWithSameHostCount">The number of blogs with this host name.</param>
-		public BlogRequiresSubfolderException(string hostName, int blogsWithSameHostCount) : this(hostName, blogsWithSameHostCount, NullValue.NullInt32)
-		{
-		}
-
-		/// <summary>
-		/// Gets the blogs with same host count.
-		/// </summary>
-		/// <value></value>
-        public int BlogsWithSameHostCount
-        {
-            get;
-            private set;
         }
 
-		/// <summary>
-		/// Gets the blog id.
-		/// </summary>
-		/// <value></value>
-        public int BlogId
+        /// <summary>
+        /// Creates a new <see cref="BlogRequiresSubfolderException"/> instance.
+        /// </summary>
+        /// <param name="blogsWithSameHostCount">The number of blogs with this host name.</param>
+        public BlogRequiresSubfolderException(string hostName, int blogsWithSameHostCount)
+            : this(hostName, blogsWithSameHostCount, NullValue.NullInt32)
         {
-            get;
-            private set;
         }
 
-		/// <summary>
-		/// Gets a message that describes the current exception.
-		/// </summary>
-		/// <value></value>
-		public override string Message
-		{
-			get
-			{
-				string blogCountClause = Resources.IsAnotherBlog;
-				if(BlogsWithSameHostCount >= 1)
-					blogCountClause = String.Format(CultureInfo.InvariantCulture, Resources.BlogCountClause, BlogsWithSameHostCount);
+        /// <summary>
+        /// Gets the blogs with same host count.
+        /// </summary>
+        /// <value></value>
+        public int BlogsWithSameHostCount { get; private set; }
 
-                return String.Format(CultureInfo.InvariantCulture, Resources.BlogRequiresSubfolder_ThereAreBlogsWithSameHostName, blogCountClause, _host);
-			}
-		}
-	}
+        /// <summary>
+        /// Gets the blog id.
+        /// </summary>
+        /// <value></value>
+        public int BlogId { get; private set; }
+
+        /// <summary>
+        /// Gets a message that describes the current exception.
+        /// </summary>
+        /// <value></value>
+        public override string Message
+        {
+            get
+            {
+                string blogCountClause = Resources.IsAnotherBlog;
+                if(BlogsWithSameHostCount >= 1)
+                {
+                    blogCountClause = String.Format(CultureInfo.InvariantCulture, Resources.BlogCountClause,
+                                                    BlogsWithSameHostCount);
+                }
+
+                return String.Format(CultureInfo.InvariantCulture,
+                                     Resources.BlogRequiresSubfolder_ThereAreBlogsWithSameHostName, blogCountClause,
+                                     _host);
+            }
+        }
+    }
 }

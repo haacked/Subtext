@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,13 +12,14 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Framework.Components
 {
-	public enum PageViewType : byte
-	{
-		AggView = 0,
-		WebView = 1
-	}
+    public enum PageViewType : byte
+    {
+        AggView = 0,
+        WebView = 1
+    }
 }

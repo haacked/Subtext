@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,9 +12,11 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 #region Notes
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // The code in this file is freely distributable.
 // 
@@ -31,7 +34,9 @@
 // Originally based off of code by Simon Fell http://www.pocketsoap.com/weblog/ 
 // 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
+
 using System;
 using System.Globalization;
 using CookComputing.XmlRpc;
@@ -65,14 +70,16 @@ namespace Subtext.Framework.Tracking
         [XmlRpcMethod("pingback.ping", Description = "Pingback server implementation")]
         public string pingBack(string sourceURI, string targetURI)
         {
-            if (!Blog.TrackbacksEnabled)
+            if(!Blog.TrackbacksEnabled)
+            {
                 return "Pingbacks are not enabled for this site.";
+            }
 
             string pageTitle;
 
             // GetPostIDFromUrl returns the postID
             int? id = SubtextContext.RequestContext.GetIdFromRequest();
-            if (id == null)
+            if(id == null)
             {
                 throw new XmlRpcFaultException(33, Resources.XmlRcpFault_DidNotLinkToPermalink);
             }
@@ -81,17 +88,23 @@ namespace Subtext.Framework.Tracking
             Uri targetUrl = HtmlHelper.ParseUri(targetURI);
 
             // does the sourceURI actually contain the permalink ?
-            if (sourceUrl == null || targetUrl == null || !Verifier.SourceContainsTarget(sourceUrl, targetUrl, out pageTitle))
+            if(sourceUrl == null || targetUrl == null ||
+               !Verifier.SourceContainsTarget(sourceUrl, targetUrl, out pageTitle))
+            {
                 throw new XmlRpcFaultException(17, Resources.XmlRcpFault_InvalidLink);
+            }
 
             //PTR = Pingback - TrackBack - Referral
-            Trackback trackback = new Trackback(id.Value, HtmlHelper.SafeFormat(pageTitle, this.SubtextContext.HttpContext.Server), new Uri(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle, this.SubtextContext.HttpContext.Server), Blog.TimeZone.Now);
+            var trackback = new Trackback(id.Value, HtmlHelper.SafeFormat(pageTitle, SubtextContext.HttpContext.Server),
+                                          new Uri(sourceURI), string.Empty,
+                                          HtmlHelper.SafeFormat(pageTitle, SubtextContext.HttpContext.Server),
+                                          Blog.TimeZone.Now);
             ICommentSpamService feedbackService = null;
-            if (Blog.FeedbackSpamServiceEnabled)
+            if(Blog.FeedbackSpamServiceEnabled)
             {
                 feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
             }
-            CommentService commentService = new CommentService(SubtextContext, new CommentFilter(SubtextContext, feedbackService));
+            var commentService = new CommentService(SubtextContext, new CommentFilter(SubtextContext, feedbackService));
             commentService.Create(trackback);
 
             //TODO: Create this using IoC container
@@ -102,4 +115,3 @@ namespace Subtext.Framework.Tracking
         }
     }
 }
-

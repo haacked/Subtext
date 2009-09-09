@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -18,12 +20,11 @@ using System.Collections.Generic;
 
 namespace Subtext.Web.Admin
 {
-	/// <summary>
-	/// Implements a strongly typed collection of <see cref="OpmlItem"/> elements.
-	/// </summary>
-	[Serializable]
+    /// <summary>
+    /// Implements a strongly typed collection of <see cref="OpmlItem"/> elements.
+    /// </summary>
+    [Serializable]
     public class OpmlItemCollection : List<OpmlItem>
     {
     }
 }
-

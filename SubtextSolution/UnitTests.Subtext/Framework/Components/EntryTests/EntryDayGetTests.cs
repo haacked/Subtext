@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,18 +12,19 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using System.Collections.ObjectModel;
 using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
@@ -56,7 +58,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryTwo);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
+                                                          entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get EntryDay
@@ -174,7 +177,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.IsTrue(entryTwo.DateCreated < entryThree.DateCreated);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
+                                                          entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get EntryDay
@@ -214,13 +218,14 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryThree);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
+                                                          entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get EntryDay
             ICollection<EntryDay> entryList = Entries.GetHomePageEntries(10);
 
-            EntryDay[] days = new EntryDay[2];
+            var days = new EntryDay[2];
             entryList.CopyTo(days, 0);
 
             //Test outcome
@@ -268,13 +273,14 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryThree);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
+                                                          entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = Entries.GetPostsByCategoryID(10, categoryId);
+            ICollection<EntryDay> entryList = Entries.GetPostsByCategoryId(10, categoryId);
 
-            EntryDay[] days = new EntryDay[2];
+            var days = new EntryDay[2];
             entryList.CopyTo(days, 0);
 
             //Test outcome
@@ -312,7 +318,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryThree);
 
             //Add Enclosure
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryZero.Id, 12345678, true, true);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
+                                                          entryZero.Id, 12345678, true, true);
             Enclosures.Create(enc);
 
             //Get EntryDay

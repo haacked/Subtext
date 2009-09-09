@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -26,13 +28,13 @@ namespace Subtext.Framework.UI.Skinning
     /// </summary>
     public class ScriptElementCollectionRenderer
     {
-        IDictionary<string, SkinTemplate> templates;
-			
+        readonly IDictionary<string, SkinTemplate> templates;
+
         public ScriptElementCollectionRenderer(SkinEngine skinEngine)
         {
-            this.templates = skinEngine.GetSkinTemplates(false /* mobile */);
+            templates = skinEngine.GetSkinTemplates(false /* mobile */);
         }
-			
+
         private static string RenderScriptAttribute(string attributeName, string attributeValue)
         {
             return attributeValue != null ? " " + attributeName + "=\"" + attributeValue + "\"" : String.Empty;
@@ -61,7 +63,7 @@ namespace Subtext.Framework.UI.Skinning
             {
                 return HttpHelper.ExpandTildePath(script.Src);
             }
-            else if (script.Src.StartsWith("/") || script.Src.StartsWith("http://") || script.Src.StartsWith("https://"))
+            else if(script.Src.StartsWith("/") || script.Src.StartsWith("http://") || script.Src.StartsWith("https://"))
             {
                 return script.Src;
             }
@@ -89,10 +91,10 @@ namespace Subtext.Framework.UI.Skinning
         /// <returns></returns>
         public string RenderScriptElementCollection(string skinKey)
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
 
             SkinTemplate skinTemplate = templates.ItemOrNull(skinKey);
-            if (skinTemplate != null && skinTemplate.Scripts != null)
+            if(skinTemplate != null && skinTemplate.Scripts != null)
             {
                 string skinPath = GetSkinPath(skinTemplate.TemplateFolder);
                 if(CanScriptsBeMerged(skinTemplate))
@@ -101,7 +103,7 @@ namespace Subtext.Framework.UI.Skinning
                 }
                 else
                 {
-                    foreach (Script script in skinTemplate.Scripts)
+                    foreach(Script script in skinTemplate.Scripts)
                     {
                         result.Append(RenderScriptElement(skinPath, script));
                     }
@@ -118,18 +120,18 @@ namespace Subtext.Framework.UI.Skinning
 
         public ICollection<string> GetScriptsToBeMerged(string skinName)
         {
-            List<string> scripts = new List<string>();
+            var scripts = new List<string>();
 
             SkinTemplate skinTemplate = templates.ItemOrNull(skinName);
 
-            if (skinTemplate != null && skinTemplate.Scripts!=null)
+            if(skinTemplate != null && skinTemplate.Scripts != null)
             {
                 if(CanScriptsBeMerged(skinTemplate))
                 {
                     string skinPath = CreateStylePath(skinTemplate.TemplateFolder);
-                    foreach (Script script in skinTemplate.Scripts)
+                    foreach(Script script in skinTemplate.Scripts)
                     {
-                        if (script.Src.StartsWith("~"))
+                        if(script.Src.StartsWith("~"))
                         {
                             scripts.Add(HttpHelper.ExpandTildePath(script.Src));
                         }
@@ -146,26 +148,35 @@ namespace Subtext.Framework.UI.Skinning
         private static string CreateStylePath(string skinTemplateFolder)
         {
             string applicationPath = HttpContext.Current.Request.ApplicationPath;
-            string path = (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinTemplateFolder + "/";
+            string path = (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinTemplateFolder +
+                          "/";
             return path;
         }
 
         public static bool CanScriptsBeMerged(SkinTemplate template)
         {
             if(!template.MergeScripts)
+            {
                 return false;
+            }
             else
             {
-                if (template.Scripts==null)
+                if(template.Scripts == null)
+                {
                     return false;
+                }
                 else
                 {
-                    foreach (Script script in template.Scripts)
+                    foreach(Script script in template.Scripts)
                     {
-                        if (script.Src.Contains("?"))
+                        if(script.Src.Contains("?"))
+                        {
                             return false;
-                        if (IsScriptRemote(script))
+                        }
+                        if(IsScriptRemote(script))
+                        {
                             return false;
+                        }
                     }
                     return true;
                 }
@@ -174,10 +185,14 @@ namespace Subtext.Framework.UI.Skinning
 
         private static bool IsScriptRemote(Script script)
         {
-            if (script.Src.StartsWith("http://") || script.Src.StartsWith("https://"))
+            if(script.Src.StartsWith("http://") || script.Src.StartsWith("https://"))
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -32,25 +33,28 @@ namespace Subtext.Framework
     /// </summary>
     public static class Tags
     {
-		/// <summary>
-		/// Sets the tags on entry.
-		/// </summary>
-		/// <param name="entryId">The entry id.</param>
-		/// <param name="tags">The tags.</param>
-		public static void SetTagsOnEntry(int entryId, ICollection<string> tags)
-		{
-			ObjectProvider.Instance().SetEntryTagList(entryId, tags);
-		}
+        /// <summary>
+        /// Sets the tags on entry.
+        /// </summary>
+        /// <param name="entryId">The entry id.</param>
+        /// <param name="tags">The tags.</param>
+        public static void SetTagsOnEntry(int entryId, ICollection<string> tags)
+        {
+            ObjectProvider.Instance().SetEntryTagList(entryId, tags);
+        }
 
-    	/// <summary>
-		/// Gets the top tags.
-		/// </summary>
-		/// <param name="itemCount">The item count.</param>
-		/// <returns></returns>
+        /// <summary>
+        /// Gets the top tags.
+        /// </summary>
+        /// <param name="itemCount">The item count.</param>
+        /// <returns></returns>
         public static ICollection<Tag> GetTopTags(int itemCount)
         {
-			if (itemCount < 0)
-                throw new ArgumentOutOfRangeException("itemCount", itemCount, Resources.ArgumentOutOfRange_NegativeTagItemCount);
+            if(itemCount < 0)
+            {
+                throw new ArgumentOutOfRangeException("itemCount", itemCount,
+                                                      Resources.ArgumentOutOfRange_NegativeTagItemCount);
+            }
             IDictionary<string, int> topTags = ObjectProvider.Instance().GetTopTags(itemCount);
 
             double mean;
@@ -59,7 +63,7 @@ namespace Subtext.Framework
             ICollection<Tag> tags = new List<Tag>();
             foreach(var tag in topTags)
             {
-                Tag t = new Tag(tag);
+                var t = new Tag(tag);
                 t.Factor = (t.Count - mean) / stdDev;
                 t.Weight = ComputeWeight(t.Factor, stdDev);
                 tags.Add(t);
@@ -70,20 +74,31 @@ namespace Subtext.Framework
 
         public static int ComputeWeight(double factor, double standardDeviation)
         {
-            if (factor <= -0.25 * standardDeviation)
+            if(factor <= -0.25 * standardDeviation)
+            {
                 return 1;
-            if (factor <= 0 * standardDeviation)
+            }
+            if(factor <= 0 * standardDeviation)
+            {
                 return 2;
-            if (factor <= 0.25 * standardDeviation)
+            }
+            if(factor <= 0.25 * standardDeviation)
+            {
                 return 3;
-            if (factor < 0.5 * standardDeviation)
+            }
+            if(factor < 0.5 * standardDeviation)
+            {
                 return 4;
-            if (factor < 1 * standardDeviation)
+            }
+            if(factor < 1 * standardDeviation)
+            {
                 return 5;
-            if (factor < 2 * standardDeviation)
+            }
+            if(factor < 2 * standardDeviation)
+            {
                 return 6;
+            }
             return 7;
         }
-        
     }
 }

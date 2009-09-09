@@ -25,96 +25,104 @@ namespace Subtext.Web.SiteMap
             HttpContextBase context = SubtextContext.HttpContext;
             context.Response.ContentType = "text/xml";
 
-            UrlCollection urlCollection = new UrlCollection();
+            var urlCollection = new UrlCollection();
 
             // Let's add home page
-            UrlElement homePage = new UrlElement(Url.BlogUrl().ToFullyQualifiedUrl(Blog), DateTime.Now, ChangeFrequency.Daily, 1.0M);
+            var homePage = new UrlElement(Url.BlogUrl().ToFullyQualifiedUrl(Blog), DateTime.Now, ChangeFrequency.Daily,
+                                          1.0M);
             urlCollection.Add(homePage);
 
             // then all the entries
 
-            ICollection<Entry> posts = Repository.GetEntries(0, PostType.BlogPost, PostConfig.IsActive, false /* includeCategories */);
-            if (posts != null)
+            ICollection<Entry> posts = Repository.GetEntries(0, PostType.BlogPost, PostConfig.IsActive, false
+                /* includeCategories */);
+            if(posts != null)
             {
-                foreach (Entry post in posts)
+                foreach(Entry post in posts)
                 {
                     ChangeFrequency frequency = CalculateFrequency(post);
                     urlCollection.Add(
                         new UrlElement(Url.EntryUrl(post).ToFullyQualifiedUrl(Blog), post.DateModified,
-                                frequency, 0.8M));
+                                       frequency, 0.8M));
                 }
             }
 
             // all articles
-            ICollection<Entry> stories = Repository.GetEntries(0, PostType.Story, PostConfig.IsActive, false /* includeCategories */);
-            if (stories != null)
+            ICollection<Entry> stories = Repository.GetEntries(0, PostType.Story, PostConfig.IsActive, false
+                /* includeCategories */);
+            if(stories != null)
             {
-                foreach (Entry story in stories)
+                foreach(Entry story in stories)
                 {
                     ChangeFrequency frequency = CalculateFrequency(story);
                     urlCollection.Add(
                         new UrlElement(Url.EntryUrl(story).ToFullyQualifiedUrl(Blog),
-                            story.DateModified,
-                            frequency, 0.8M));
+                                       story.DateModified,
+                                       frequency, 0.8M));
                 }
             }
 
             // categories
-            var links = Repository.GetCategories(CategoryType.PostCollection, true /* activeOnly */);
-            LinkCategory categories = Transformer.MergeLinkCategoriesIntoSingleLinkCategory(string.Empty /* title */, CategoryType.PostCollection, links, Url, Blog);
-            if (categories != null)
+            ICollection<LinkCategory> links = Repository.GetCategories(CategoryType.PostCollection, true
+                /* activeOnly */);
+            LinkCategory categories = Transformer.MergeLinkCategoriesIntoSingleLinkCategory(string.Empty /* title */,
+                                                                                            CategoryType.PostCollection,
+                                                                                            links, Url, Blog);
+            if(categories != null)
             {
-                foreach (Link category in categories.Links)
+                foreach(Link category in categories.Links)
                 {
                     urlCollection.Add(
-                        new UrlElement(new Uri(Url.BlogUrl().ToFullyQualifiedUrl(Blog).ToString() + category.Url),
-                            DateTime.Today,
-                            ChangeFrequency.Weekly, 0.6M));
+                        new UrlElement(new Uri(Url.BlogUrl().ToFullyQualifiedUrl(Blog) + category.Url),
+                                       DateTime.Today,
+                                       ChangeFrequency.Weekly, 0.6M));
                 }
             }
 
             // archives
             // categories            
             ICollection<ArchiveCount> archiveCounts = Repository.GetPostCountsByMonth();
-            LinkCategory archives = Transformer.MergeArchiveCountsIntoLinkCategory(string.Empty, archiveCounts, Url, Blog);
-            if (archives != null)
+            LinkCategory archives = Transformer.MergeArchiveCountsIntoLinkCategory(string.Empty, archiveCounts, Url,
+                                                                                   Blog);
+            if(archives != null)
             {
-                foreach (Link archive in archives.Links)
+                foreach(Link archive in archives.Links)
                 {
                     urlCollection.Add(
                         new UrlElement(
-                            new Uri(Url.BlogUrl().ToFullyQualifiedUrl(Blog).ToString() + archive.Url), DateTime.Today, ChangeFrequency.Weekly, 0.6M));
+                            new Uri(Url.BlogUrl().ToFullyQualifiedUrl(Blog) + archive.Url), DateTime.Today,
+                            ChangeFrequency.Weekly, 0.6M));
                 }
             }
 
             // don't index contact form
-            urlCollection.Add(new UrlElement(Url.ContactFormUrl().ToFullyQualifiedUrl(Blog), DateTime.Today, ChangeFrequency.Never, 0.0M));
-            XmlSerializer serializer = new XmlSerializer(typeof(UrlCollection));
-            XmlTextWriter xmlTextWriter = new XmlTextWriter(context.Response.Output);
+            urlCollection.Add(new UrlElement(Url.ContactFormUrl().ToFullyQualifiedUrl(Blog), DateTime.Today,
+                                             ChangeFrequency.Never, 0.0M));
+            var serializer = new XmlSerializer(typeof(UrlCollection));
+            var xmlTextWriter = new XmlTextWriter(context.Response.Output);
             serializer.Serialize(xmlTextWriter, urlCollection);
         }
 
         private static ChangeFrequency CalculateFrequency(Entry entry)
         {
             ChangeFrequency frequency = ChangeFrequency.Hourly;
-            if (entry.DateModified < DateTime.Now.AddMonths(-12))
+            if(entry.DateModified < DateTime.Now.AddMonths(-12))
             {
                 frequency = ChangeFrequency.Yearly;
             }
-            else if (entry.DateModified < DateTime.Now.AddDays(-60))
+            else if(entry.DateModified < DateTime.Now.AddDays(-60))
             {
                 frequency = ChangeFrequency.Monthly;
             }
-            else if (entry.DateModified < DateTime.Now.AddDays(-14))
+            else if(entry.DateModified < DateTime.Now.AddDays(-14))
             {
                 frequency = ChangeFrequency.Weekly;
             }
-            else if (entry.DateModified < DateTime.Now.AddDays(-2))
+            else if(entry.DateModified < DateTime.Now.AddDays(-2))
             {
                 frequency = ChangeFrequency.Daily;
             }
             return frequency;
         }
     }
-
 }

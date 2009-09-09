@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using MbUnit.Framework;
 using Subtext.Framework.Components;
 
@@ -12,7 +9,7 @@ namespace UnitTests.Subtext.Framework.Components
         [Test]
         public void CanSetAndGetSimpleProperties()
         {
-            ArchiveCount archive = new ArchiveCount();
+            var archive = new ArchiveCount();
             UnitTestHelper.AssertSimpleProperties(archive);
         }
     }

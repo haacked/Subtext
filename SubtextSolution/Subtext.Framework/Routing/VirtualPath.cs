@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -19,9 +21,11 @@ namespace Subtext.Framework.Routing
 {
     public class VirtualPath
     {
+        readonly Uri _virtualPath;
+
         public VirtualPath(string virtualPath)
         {
-            if (virtualPath == null)
+            if(virtualPath == null)
             {
                 throw new ArgumentNullException("virtualPath");
             }
@@ -29,11 +33,9 @@ namespace Subtext.Framework.Routing
             _virtualPath = new Uri(virtualPath, UriKind.Relative);
         }
 
-        Uri _virtualPath;
-
         public static implicit operator String(VirtualPath vp)
         {
-            if (vp == null)
+            if(vp == null)
             {
                 return null;
             }
@@ -42,7 +44,7 @@ namespace Subtext.Framework.Routing
 
         public static implicit operator VirtualPath(string virtualPath)
         {
-            if (String.IsNullOrEmpty(virtualPath))
+            if(String.IsNullOrEmpty(virtualPath))
             {
                 return null;
             }
@@ -61,7 +63,7 @@ namespace Subtext.Framework.Routing
 
         public virtual Uri ToFullyQualifiedUrl(Blog blog)
         {
-            UriBuilder builder = new UriBuilder();
+            var builder = new UriBuilder();
             builder.Scheme = "http";
             builder.Host = blog.Host;
             return new Uri(builder.Uri, _virtualPath);

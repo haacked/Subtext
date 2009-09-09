@@ -1,7 +1,7 @@
-﻿using System.Linq;
+using System.Collections.Generic;
+using System.Linq;
 using MbUnit.Framework;
 using Moq;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
@@ -14,17 +14,19 @@ namespace UnitTests.Subtext.Framework.Providers
     {
         [RollBack]
         [Test]
-        public void Search_WithMultipleMatchingEntries_FindsThoseEntries() {
+        public void Search_WithMultipleMatchingEntries_FindsThoseEntries()
+        {
             //arrange
             UnitTestHelper.SetupBlog();
             UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("author", "whatever 1", "body"));
-            UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("author", "whatever 2", "the body has some words"));
+            UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("author", "whatever 2",
+                                                                                   "the body has some words"));
             var urlHelper = new Mock<UrlHelper>();
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
             var search = new SearchEngine(Config.CurrentBlog, urlHelper.Object, Config.ConnectionString);
 
             //act
-            var results = search.Search(Config.CurrentBlog.Id, "words");
+            ICollection<SearchResult> results = search.Search(Config.CurrentBlog.Id, "words");
 
             //assert
             Assert.AreEqual(1, results.Count);

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -27,7 +29,7 @@ using Subtext.Framework.Web;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Properties;
-using Image = Subtext.Framework.Components.Image;
+using Image=Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -36,11 +38,17 @@ namespace Subtext.Web.Admin.Pages
         protected bool _isListHidden;
         // jsbright added to support prompting for new file name
 
+        protected EditGalleries()
+            : base()
+        {
+            TabSectionId = "Galleries";
+        }
+
         private int CategoryID
         {
             get
             {
-                if (null != ViewState["CategoryID"])
+                if(null != ViewState["CategoryID"])
                 {
                     return (int)ViewState["CategoryID"];
                 }
@@ -52,22 +60,16 @@ namespace Subtext.Web.Admin.Pages
             set { ViewState["CategoryID"] = value; }
         }
 
-        protected EditGalleries()
-            : base()
-        {
-            this.TabSectionId = "Galleries";
-        }
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Config.Settings.AllowImages)
+            if(!Config.Settings.AllowImages)
             {
                 Response.Redirect(AdminUrl.Home());
             }
 
             UrlBasedBlogInfoProvider.MapImageDirectory(BlogRequest.Current);
 
-            if (!IsPostBack)
+            if(!IsPostBack)
             {
                 HideImages();
                 ShowResults(false);
@@ -75,7 +77,7 @@ namespace Subtext.Web.Admin.Pages
                 ckbIsActiveImage.Checked = Preferences.AlwaysCreateIsActive;
                 ckbNewIsActive.Checked = Preferences.AlwaysCreateIsActive;
 
-                if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
+                if(null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
                 {
                     CategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
                     BindGallery(CategoryID);
@@ -86,9 +88,10 @@ namespace Subtext.Web.Admin.Pages
         private void BindList()
         {
             // TODO: possibly, later on, add paging support a la other cat editors
-            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, ActiveFilter.None);
+            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection,
+                                                                          ActiveFilter.None);
 
-            if (selectionList.Count > 0)
+            if(selectionList.Count > 0)
             {
                 dgrSelectionList.DataSource = selectionList;
                 dgrSelectionList.DataKeyField = "Id";
@@ -113,7 +116,8 @@ namespace Subtext.Web.Admin.Pages
             ICollection<Image> imageList = Images.GetImagesByCategoryID(galleryID, false);
 
             plhImageHeader.Controls.Clear();
-            string galleryTitle = string.Format(CultureInfo.InvariantCulture, "{0} - {1} " + Resources.Label_Images, selectedGallery.Title, imageList.Count);
+            string galleryTitle = string.Format(CultureInfo.InvariantCulture, "{0} - {1} " + Resources.Label_Images,
+                                                selectedGallery.Title, imageList.Count);
             plhImageHeader.Controls.Add(new LiteralControl(galleryTitle));
 
             rprImages.DataSource = imageList;
@@ -121,9 +125,10 @@ namespace Subtext.Web.Admin.Pages
 
             ShowImages();
 
-            if (AdminMasterPage != null)
+            if(AdminMasterPage != null)
             {
-                string title = string.Format(CultureInfo.InvariantCulture, Resources.EditGalleries_ViewingGallery, selectedGallery.Title);
+                string title = string.Format(CultureInfo.InvariantCulture, Resources.EditGalleries_ViewingGallery,
+                                             selectedGallery.Title);
                 AdminMasterPage.Title = title;
             }
 
@@ -154,8 +159,8 @@ namespace Subtext.Web.Admin.Pages
 
         protected string EvalImageUrl(object potentialImage)
         {
-            Image image = potentialImage as Image;
-            if (image != null)
+            var image = potentialImage as Image;
+            if(image != null)
             {
                 image.Blog = Blog;
                 return Url.GalleryImageUrl(image, image.ThumbNailFile);
@@ -165,13 +170,15 @@ namespace Subtext.Web.Admin.Pages
 
         protected string EvalImageNavigateUrl(object potentialImage)
         {
-            Image image = potentialImage as Image;
-            if (image != null)
+            var image = potentialImage as Image;
+            if(image != null)
             {
                 return Url.GalleryImagePageUrl(image);
             }
             else
+            {
                 return String.Empty;
+            }
         }
 
         protected string EvalImageTitle(object potentialImage)
@@ -181,21 +188,25 @@ namespace Subtext.Web.Admin.Pages
             const int CHAR_PER_LINE = 19;
             const int LINE_HEIGHT_PIXELS = 16;
 
-            Image image = potentialImage as Image;
-            if (image != null)
+            var image = potentialImage as Image;
+            if(image != null)
             {
                 // do a rough calculation of how many chars we can shoehorn into the title space
                 // we have to back into an estimated thumbnail height right now with aspect * max
                 double aspectRatio = (double)image.Height / image.Width;
-                if (aspectRatio > 1 || aspectRatio <= 0)
+                if(aspectRatio > 1 || aspectRatio <= 0)
+                {
                     aspectRatio = 1;
-                int allowedChars = (int)((TARGET_HEIGHT - MAX_IMAGE_HEIGHT * aspectRatio)
-                    / LINE_HEIGHT_PIXELS * CHAR_PER_LINE);
+                }
+                var allowedChars = (int)((TARGET_HEIGHT - MAX_IMAGE_HEIGHT * aspectRatio)
+                                         / LINE_HEIGHT_PIXELS * CHAR_PER_LINE);
 
                 return Utilities.Truncate(image.Title, allowedChars);
             }
             else
+            {
                 return String.Empty;
+            }
         }
 
         // REFACTOR: duplicate from category editor; generalize a la EntryEditor
@@ -203,22 +214,25 @@ namespace Subtext.Web.Admin.Pages
         {
             try
             {
-                if (category.Id > 0)
+                if(category.Id > 0)
                 {
                     Links.UpdateLinkCategory(category);
-                    Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, Resources.Message_CategoryUpdated, category.Title));
+                    Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, Resources.Message_CategoryUpdated,
+                                                       category.Title));
                 }
                 else
                 {
                     category.Id = Links.CreateLinkCategory(category);
-                    Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, Resources.Message_CategoryAdded, category.Title));
+                    Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, Resources.Message_CategoryAdded,
+                                                       category.Title));
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
             }
         }
+
         /// <summary>
         /// We're being asked to upload and store an image on the server (re-sizing and
         /// all of that). Ideally this will work. It may not. We may have to ask
@@ -231,7 +245,7 @@ namespace Subtext.Web.Admin.Pages
             string fileName = ImageFile.PostedFile.FileName;
 
             string extension = Path.GetExtension(fileName);
-            if (extension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+            if(extension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
             {
                 // Handle as an archive
                 PersistImageArchive();
@@ -246,28 +260,28 @@ namespace Subtext.Web.Admin.Pages
         private void PersistImageArchive()
         {
             List<string> goodFiles = new List<string>(),
-                badFiles = new List<string>(),
-                updatedFiles = new List<string>();
+                         badFiles = new List<string>(),
+                         updatedFiles = new List<string>();
 
             byte[] archiveData = ImageFile.PostedFile.GetFileStream();
 
-            using (MemoryStream memoryStream = new MemoryStream(archiveData))
+            using(var memoryStream = new MemoryStream(archiveData))
             {
-                using (ZipInputStream zip = new ZipInputStream(memoryStream))
+                using(var zip = new ZipInputStream(memoryStream))
                 {
                     ZipEntry theEntry;
-                    while ((theEntry = zip.GetNextEntry()) != null)
+                    while((theEntry = zip.GetNextEntry()) != null)
                     {
                         string fileName = Path.GetFileName(theEntry.Name);
 
                         // TODO: Filter for image types?
-                        if (!String.IsNullOrEmpty(fileName))
+                        if(!String.IsNullOrEmpty(fileName))
                         {
                             byte[] fileData;
 
-                            Image image = new Image
+                            var image = new Image
                             {
-                                Blog = this.Blog,
+                                Blog = Blog,
                                 CategoryID = CategoryID,
                                 Title = fileName,
                                 IsActive = ckbIsActiveImage.Checked,
@@ -277,18 +291,21 @@ namespace Subtext.Web.Admin.Pages
                             };
 
                             // Read the next file from the Zip stream
-                            using (MemoryStream currentFileData = new MemoryStream((int)theEntry.Size))
+                            using(var currentFileData = new MemoryStream((int)theEntry.Size))
                             {
                                 int size = 2048;
-                                byte[] data = new byte[size];
-                                while (true)
+                                var data = new byte[size];
+                                while(true)
                                 {
                                     size = zip.Read(data, 0, data.Length);
-                                    if (size > 0)
+                                    if(size > 0)
                                     {
                                         currentFileData.Write(data, 0, size);
                                     }
-                                    else break;
+                                    else
+                                    {
+                                        break;
+                                    }
                                 }
 
                                 fileData = currentFileData.ToArray();
@@ -297,7 +314,7 @@ namespace Subtext.Web.Admin.Pages
                             try
                             {
                                 // If it exists, update it
-                                if (File.Exists(image.OriginalFilePath))
+                                if(File.Exists(image.OriginalFilePath))
                                 {
                                     Images.Update(image, fileData);
                                     updatedFiles.Add(theEntry.Name);
@@ -306,7 +323,7 @@ namespace Subtext.Web.Admin.Pages
                                 {
                                     // Attempt insertion as a new image
                                     int imageID = Images.InsertImage(image, fileData);
-                                    if (imageID > 0)
+                                    if(imageID > 0)
                                     {
                                         goodFiles.Add(theEntry.Name);
                                     }
@@ -317,7 +334,7 @@ namespace Subtext.Web.Admin.Pages
                                     }
                                 }
                             }
-                            catch (Exception ex)
+                            catch(Exception ex)
                             {
                                 badFiles.Add(theEntry.Name + " (" + ex.Message + ")");
                             }
@@ -328,19 +345,31 @@ namespace Subtext.Web.Admin.Pages
 
             // Construct and display the status message of added/updated/deleted images
             string status = string.Format(CultureInfo.InvariantCulture,
-                Resources.EditGalleries_ArchiveProcessed + @"<br />
-                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportAddDetails'))"">" + Resources.Label_Adds + @" ({0})</a></b><span id=""ImportAddDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{1}</span><br />
-                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportUpdateDetails'))"">" + Resources.Label_Updates + @"  ({2})</a></b><span id=""ImportUpdateDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{3}</span><br />
-                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportErrorDetails'))"">" + Resources.Label_Errors + @" ({4})</a></b><span id=""ImportErrorDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{5}</span>",
+                                          Resources.EditGalleries_ArchiveProcessed +
+                                          @"<br />
+                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportAddDetails'))"">" +
+                                          Resources.Label_Adds +
+                                          @" ({0})</a></b><span id=""ImportAddDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{1}</span><br />
+                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportUpdateDetails'))"">" +
+                                          Resources.Label_Updates +
+                                          @"  ({2})</a></b><span id=""ImportUpdateDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{3}</span><br />
+                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportErrorDetails'))"">" +
+                                          Resources.Label_Errors +
+                                          @" ({4})</a></b><span id=""ImportErrorDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{5}</span>",
+                                          goodFiles.Count,
+                                          (goodFiles.Count > 0
+                                               ? string.Join("<br />&nbsp;&nbsp;", goodFiles.ToArray())
+                                               : "none"),
+                                          updatedFiles.Count,
+                                          (updatedFiles.Count > 0
+                                               ? string.Join("<br />&nbsp;&nbsp;", updatedFiles.ToArray())
+                                               : "none"),
+                                          badFiles.Count,
+                                          (badFiles.Count > 0
+                                               ? string.Join("<br />&nbsp;&nbsp;", badFiles.ToArray())
+                                               : "none"));
 
-                goodFiles.Count,
-                (goodFiles.Count > 0 ? string.Join("<br />&nbsp;&nbsp;", goodFiles.ToArray()) : "none"),
-                updatedFiles.Count,
-                (updatedFiles.Count > 0 ? string.Join("<br />&nbsp;&nbsp;", updatedFiles.ToArray()) : "none"),
-                badFiles.Count,
-                (badFiles.Count > 0 ? string.Join("<br />&nbsp;&nbsp;", badFiles.ToArray()) : "none"));
-
-            this.Messages.ShowMessage(status);
+            Messages.ShowMessage(status);
             txbImageTitle.Text = String.Empty;
 
             // if we're successful we need to revert back to our standard view
@@ -356,7 +385,7 @@ namespace Subtext.Web.Admin.Pages
         /// </summary>
         protected void OnAddImageUserProvidedName(object sender, EventArgs e)
         {
-            if (TextBoxImageFileName.Text.Length == 0)
+            if(TextBoxImageFileName.Text.Length == 0)
             {
                 Messages.ShowError(Resources.EditGalleries_ValidFilenameRequired);
                 return;
@@ -372,11 +401,11 @@ namespace Subtext.Web.Admin.Pages
         /// </summary>
         private void PersistImage(string fileName)
         {
-            if (Page.IsValid)
+            if(Page.IsValid)
             {
-                Image image = new Image
+                var image = new Image
                 {
-                    Blog = this.Blog,
+                    Blog = Blog,
                     CategoryID = CategoryID,
                     Title = txbImageTitle.Text,
                     IsActive = ckbIsActiveImage.Checked,
@@ -387,7 +416,7 @@ namespace Subtext.Web.Admin.Pages
 
                 try
                 {
-                    if (File.Exists(image.OriginalFilePath))
+                    if(File.Exists(image.OriginalFilePath))
                     {
                         // tell the user we can't accept this file.
                         Messages.ShowError(Resources.EditGalleries_FileAlreadyExists);
@@ -404,17 +433,19 @@ namespace Subtext.Web.Admin.Pages
                     }
 
                     int imageID = Images.InsertImage(image, ImageFile.PostedFile.GetFileStream());
-                    if (imageID > 0)
+                    if(imageID > 0)
                     {
-                        this.Messages.ShowMessage(Resources.EditGalleries_ImageAdded);
+                        Messages.ShowMessage(Resources.EditGalleries_ImageAdded);
                         txbImageTitle.Text = String.Empty;
                     }
                     else
-                        this.Messages.ShowError(Constants.RES_FAILUREEDIT + " " + Resources.EditGalleries_ProblemPosting);
+                    {
+                        Messages.ShowError(Constants.RES_FAILUREEDIT + " " + Resources.EditGalleries_ProblemPosting);
+                    }
                 }
-                catch (Exception ex)
+                catch(Exception ex)
                 {
-                    this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
+                    Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
                 }
             }
 
@@ -428,35 +459,38 @@ namespace Subtext.Web.Admin.Pages
 
         private void DeleteGallery(int categoryID, string categoryTitle)
         {
-            var command = new DeleteGalleryCommand(Url.ImageGalleryDirectoryUrl(Blog, categoryID), categoryID, categoryTitle);
-            command.ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Gallery '{0}' deleted", categoryTitle);
-            this.Messages.ShowMessage(command.Execute());
+            var command = new DeleteGalleryCommand(Url.ImageGalleryDirectoryUrl(Blog, categoryID), categoryID,
+                                                   categoryTitle);
+            command.ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Gallery '{0}' deleted",
+                                                          categoryTitle);
+            Messages.ShowMessage(command.Execute());
             BindGallery();
         }
 
         private void DeleteImage(int imageID)
         {
-            var image = Repository.GetImage(imageID, false /* activeOnly */);
+            Image image = Repository.GetImage(imageID, false /* activeOnly */);
             var command = new DeleteImageCommand(image, Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID));
-            command.ExecuteSuccessMessage = string.Format(CultureInfo.CurrentCulture, "Image '{0}' deleted", image.OriginalFile);
-            this.Messages.ShowMessage(command.Execute());
+            command.ExecuteSuccessMessage = string.Format(CultureInfo.CurrentCulture, "Image '{0}' deleted",
+                                                          image.OriginalFile);
+            Messages.ShowMessage(command.Execute());
             BindGallery();
         }
 
         override protected void OnInit(EventArgs e)
         {
-            this.dgrSelectionList.ItemCommand += this.dgrSelectionList_ItemCommand;
-            this.dgrSelectionList.CancelCommand += this.dgrSelectionList_CancelCommand;
-            this.dgrSelectionList.EditCommand += this.dgrSelectionList_EditCommand;
-            this.dgrSelectionList.UpdateCommand += this.dgrSelectionList_UpdateCommand;
-            this.dgrSelectionList.DeleteCommand += this.dgrSelectionList_DeleteCommand;
-            this.rprImages.ItemCommand += this.rprImages_ItemCommand;
+            dgrSelectionList.ItemCommand += dgrSelectionList_ItemCommand;
+            dgrSelectionList.CancelCommand += dgrSelectionList_CancelCommand;
+            dgrSelectionList.EditCommand += dgrSelectionList_EditCommand;
+            dgrSelectionList.UpdateCommand += dgrSelectionList_UpdateCommand;
+            dgrSelectionList.DeleteCommand += dgrSelectionList_DeleteCommand;
+            rprImages.ItemCommand += rprImages_ItemCommand;
             base.OnInit(e);
         }
 
         private void dgrSelectionList_ItemCommand(object source, DataGridCommandEventArgs e)
         {
-            switch (e.CommandName.ToLower(CultureInfo.InvariantCulture))
+            switch(e.CommandName.ToLower(CultureInfo.InvariantCulture))
             {
                 case "view":
                     int galleryID = Convert.ToInt32(e.CommandArgument);
@@ -472,28 +506,32 @@ namespace Subtext.Web.Admin.Pages
             HideImages();
             dgrSelectionList.EditItemIndex = e.Item.ItemIndex;
             BindList();
-            this.Messages.Clear();
+            Messages.Clear();
         }
 
         private void dgrSelectionList_UpdateCommand(object source, DataGridCommandEventArgs e)
         {
-            TextBox title = e.Item.FindControl("txbTitle") as TextBox;
-            TextBox desc = e.Item.FindControl("txbDescription") as TextBox;
+            var title = e.Item.FindControl("txbTitle") as TextBox;
+            var desc = e.Item.FindControl("txbDescription") as TextBox;
 
-            CheckBox isActive = e.Item.FindControl("ckbIsActive") as CheckBox;
+            var isActive = e.Item.FindControl("ckbIsActive") as CheckBox;
 
-            if (Page.IsValid && null != title && null != isActive)
+            if(Page.IsValid && null != title && null != isActive)
             {
                 int id = Convert.ToInt32(dgrSelectionList.DataKeys[e.Item.ItemIndex]);
 
                 LinkCategory existingCategory = SubtextContext.Repository.GetLinkCategory(id, false);
                 existingCategory.Title = title.Text;
                 existingCategory.IsActive = isActive.Checked;
-                if (desc != null)
+                if(desc != null)
+                {
                     existingCategory.Description = desc.Text;
+                }
 
-                if (id != 0)
+                if(id != 0)
+                {
                     PersistCategory(existingCategory);
+                }
 
                 dgrSelectionList.EditItemIndex = -1;
                 BindList();
@@ -516,7 +554,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected void lkbPost_Click(object sender, EventArgs e)
         {
-            LinkCategory newCategory = new LinkCategory();
+            var newCategory = new LinkCategory();
             newCategory.CategoryType = CategoryType.ImageCollection;
             newCategory.Title = txbNewTitle.Text;
             newCategory.IsActive = ckbNewIsActive.Checked;
@@ -530,7 +568,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void rprImages_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            switch (e.CommandName.ToLower(CultureInfo.InvariantCulture))
+            switch(e.CommandName.ToLower(CultureInfo.InvariantCulture))
             {
                 case "deleteimage":
                     DeleteImage(Convert.ToInt32(e.CommandArgument));
@@ -541,4 +579,3 @@ namespace Subtext.Web.Admin.Pages
         }
     }
 }
-

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Collections.Generic;
@@ -18,19 +20,19 @@ using Subtext.Extensibility.Interfaces;
 
 namespace Subtext.Framework.Components
 {
-	/// <summary>
-	/// Concrete generic base class for paged collections.
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	public class PagedCollection<T> : List<T>, IPagedCollection<T>
-	{
-		/// <summary>
-		/// Returns the max number of items to display on a page.
-		/// </summary>
-		public int MaxItems
-		{
-			get;
-			set;
-		}
-	}
+    /// <summary>
+    /// Concrete generic base class for paged collections.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class PagedCollection<T> : List<T>, IPagedCollection<T>
+    {
+        #region IPagedCollection<T> Members
+
+        /// <summary>
+        /// Returns the max number of items to display on a page.
+        /// </summary>
+        public int MaxItems { get; set; }
+
+        #endregion
+    }
 }

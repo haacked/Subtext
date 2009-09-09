@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Web.UI;
@@ -22,48 +24,40 @@ namespace Subtext.Framework.Web.Handlers
 {
     public class SubtextPage : Page, ISubtextHandler
     {
-        [Inject]
-        public ISubtextContext SubtextContext
-        {
-            get;
-            set;
-        }
+        AdminUrlHelper _adminUrlHelper;
 
         public Blog Blog
         {
-            get
-            {
-                return SubtextContext.Blog;
-            }
+            get { return SubtextContext.Blog; }
         }
+
+        #region ISubtextHandler Members
+
+        [Inject]
+        public ISubtextContext SubtextContext { get; set; }
 
         public UrlHelper Url
         {
-            get
-            {
-                return SubtextContext.UrlHelper;
-            }
+            get { return SubtextContext.UrlHelper; }
         }
 
         public ObjectProvider Repository
         {
-            get
-            {
-                return SubtextContext.Repository;
-            }
+            get { return SubtextContext.Repository; }
         }
 
         public AdminUrlHelper AdminUrl
         {
             get
             {
-                if (_adminUrlHelper == null)
+                if(_adminUrlHelper == null)
                 {
                     _adminUrlHelper = new AdminUrlHelper(Url);
                 }
                 return _adminUrlHelper;
             }
         }
-        AdminUrlHelper _adminUrlHelper;
+
+        #endregion
     }
 }

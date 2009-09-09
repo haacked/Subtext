@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Collections.ObjectModel;
@@ -20,12 +22,20 @@ namespace Subtext.Framework.Services
 {
     public class CompositeTextTransformation : Collection<ITextTransformation>, ITextTransformation
     {
-        public CompositeTextTransformation() : base() { }
+        public CompositeTextTransformation() : base()
+        {
+        }
+
+        #region ITextTransformation Members
 
         public string Transform(string original)
         {
-            return this.Aggregate(original, (resultFromLastTransform, transformation) => transformation.Transform(resultFromLastTransform));
+            return this.Aggregate(original,
+                                  (resultFromLastTransform, transformation) =>
+                                  transformation.Transform(resultFromLastTransform));
         }
+
+        #endregion
 
         /// <summary>
         /// Removes the text transformation of the given type.
@@ -33,11 +43,11 @@ namespace Subtext.Framework.Services
         /// <typeparam name="TTextTransformation"></typeparam>
         public void Remove<TTextTransformation>() where TTextTransformation : ITextTransformation
         {
-            foreach (var textTransform in this) 
+            foreach(ITextTransformation textTransform in this)
             {
-                if (textTransform.GetType() == typeof(TTextTransformation)) 
+                if(textTransform.GetType() == typeof(TTextTransformation))
                 {
-                    this.Remove(textTransform);
+                    Remove(textTransform);
                     return;
                 }
             }

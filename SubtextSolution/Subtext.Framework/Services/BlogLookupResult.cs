@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -19,30 +21,22 @@ namespace Subtext.Framework.Services
 {
     public class BlogLookupResult
     {
-        public BlogLookupResult(Blog blog, Uri alternateUrl) {
+        public BlogLookupResult(Blog blog, Uri alternateUrl)
+        {
             Blog = blog;
             AlternateUrl = alternateUrl;
-        } 
+        }
 
         /// <summary>
         /// The found blog. Null if not found.
         /// </summary>
-        public Blog Blog {
-            get;
-            private set;
-        }
+        public Blog Blog { get; private set; }
 
         /// <summary>
         /// A blog was found using an alternate host. Try this one instead.
         /// </summary>
-        public Uri AlternateUrl {
-            get;
-            private set;
-        }
+        public Uri AlternateUrl { get; private set; }
 
-        public int TotalBlogCount {
-            get;
-            private set;
-        }
+        public int TotalBlogCount { get; private set; }
     }
 }

@@ -22,9 +22,9 @@ using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Infrastructure;
 using Subtext.Framework.UI.Skinning;
 using Subtext.Framework.Util;
-using Subtext.Framework.Infrastructure;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -38,7 +38,7 @@ namespace Subtext.Web.Admin.Pages
 
         public CategoryType CategoryType
         {
-            get { return (CategoryType) ViewState["CategoryType"]; }
+            get { return (CategoryType)ViewState["CategoryType"]; }
             set { ViewState["CategoryType"] = value; }
         }
 
@@ -46,15 +46,17 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if (skins == null)
+                if(skins == null)
                 {
-                    SkinEngine engine = new SkinEngine();
-                    var templates = engine.GetSkinTemplates(false /* mobile */);
+                    var engine = new SkinEngine();
+                    IDictionary<string, SkinTemplate> templates = engine.GetSkinTemplates(false /* mobile */);
                     skins = templates.Values;
-                    foreach (SkinTemplate template in skins)
+                    foreach(SkinTemplate template in skins)
                     {
-                        if (template.MobileSupport == MobileSupport.Supported)
+                        if(template.MobileSupport == MobileSupport.Supported)
+                        {
                             template.Name += " (mobile ready)";
+                        }
                     }
                 }
                 return skins;
@@ -65,10 +67,10 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if (mobileSkins == null)
+                if(mobileSkins == null)
                 {
-                    SkinEngine engine = new SkinEngine();
-                    var templates = engine.GetSkinTemplates(true /* mobile */);
+                    var engine = new SkinEngine();
+                    IDictionary<string, SkinTemplate> templates = engine.GetSkinTemplates(true /* mobile */);
                     mobileSkins = new List<SkinTemplate>(templates.Values);
                     mobileSkins.Insert(0, SkinTemplate.Empty);
                 }
@@ -81,8 +83,8 @@ namespace Subtext.Web.Admin.Pages
             get
             {
                 string timeZoneId = String.IsNullOrEmpty(ddlTimezone.SelectedValue)
-                                     ? TimeZone.CurrentTimeZone.StandardName
-                                     : ddlTimezone.SelectedValue;
+                                        ? TimeZone.CurrentTimeZone.StandardName
+                                        : ddlTimezone.SelectedValue;
 
                 return new TimeZoneWrapper(TimeZones.GetTimeZones().GetById(timeZoneId));
             }
@@ -105,16 +107,18 @@ namespace Subtext.Web.Admin.Pages
             ddlTimezone.DataValueField = "Id";
             ddlTimezone.DataBind();
             ListItem selectedItem = ddlTimezone.Items.FindByValue(info.TimeZoneId.ToString(CultureInfo.InvariantCulture));
-            if (selectedItem != null)
+            if(selectedItem != null)
+            {
                 selectedItem.Selected = true;
+            }
 
             ListItem languageItem = ddlLangLocale.Items.FindByValue(info.Language);
-            if (languageItem != null)
+            if(languageItem != null)
             {
                 languageItem.Selected = true;
             }
 
-            if (info.Skin.HasCustomCssText)
+            if(info.Skin.HasCustomCssText)
             {
                 txbSecondaryCss.Text = info.Skin.CustomCssText;
             }
@@ -122,18 +126,18 @@ namespace Subtext.Web.Admin.Pages
             //TODO: Move to a general DataBind() call.
             int count = Config.Settings.ItemCount;
             int increment = 1;
-            for (int i = 1; i <= count; i = i + increment)
+            for(int i = 1; i <= count; i = i + increment)
                 //starting with 25, the list items increment by 5. Example: 1,2,3,...24,25,30,35,...,45,50.
             {
                 ddlItemCount.Items.Add(new ListItem(i.ToString(CultureInfo.InvariantCulture),
                                                     i.ToString(CultureInfo.InvariantCulture)));
-                if (i == 25)
+                if(i == 25)
                 {
                     increment = 5;
                 }
             }
 
-            if (info.ItemCount <= count)
+            if(info.ItemCount <= count)
             {
                 ddlItemCount.Items.FindByValue(info.ItemCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
             }
@@ -141,25 +145,25 @@ namespace Subtext.Web.Admin.Pages
             //int 0 = "All" items
             int categoryListPostCount = Config.Settings.CategoryListPostCount;
             int maxDropDownItems = categoryListPostCount;
-            if (maxDropDownItems <= 0)
+            if(maxDropDownItems <= 0)
             {
                 maxDropDownItems = 50; //since 0 represents "All", this provides some other options in the ddl.
             }
             ddlCategoryListPostCount.Items.Add(new ListItem("All".ToString(CultureInfo.InvariantCulture),
                                                             0.ToString(CultureInfo.InvariantCulture)));
             increment = 1;
-            for (int j = 1; j <= maxDropDownItems; j = j + increment)
+            for(int j = 1; j <= maxDropDownItems; j = j + increment)
                 //starting with 25, the list items increment by 5. Example: 1,2,3,...24,25,30,35,...,45,50.
             {
                 ddlCategoryListPostCount.Items.Add(new ListItem(j.ToString(CultureInfo.InvariantCulture),
                                                                 j.ToString(CultureInfo.InvariantCulture)));
-                if (j == 25)
+                if(j == 25)
                 {
                     increment = 5;
                 }
             }
 
-            if (info.CategoryListPostCount <= maxDropDownItems)
+            if(info.CategoryListPostCount <= maxDropDownItems)
             {
                 ddlCategoryListPostCount.Items.FindByValue(
                     info.CategoryListPostCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
@@ -206,7 +210,7 @@ namespace Subtext.Web.Admin.Pages
 
                 Messages.ShowMessage(RES_SUCCESS);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION, RES_FAILURE, ex.Message));
             }
@@ -230,7 +234,8 @@ namespace Subtext.Web.Admin.Pages
 
         private void UpdateTime()
         {
-            lblServerTimeZone.Text = string.Format(CultureInfo.InvariantCulture, "{0} ({1})", TimeZone.CurrentTimeZone.StandardName,
+            lblServerTimeZone.Text = string.Format(CultureInfo.InvariantCulture, "{0} ({1})",
+                                                   TimeZone.CurrentTimeZone.StandardName,
                                                    TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now));
             lblServerTime.Text = DateTime.Now.ToString("yyyy/MM/dd hh:mm tt");
             lblUtcTime.Text = DateTime.UtcNow.ToString("yyyy/MM/dd hh:mm tt");

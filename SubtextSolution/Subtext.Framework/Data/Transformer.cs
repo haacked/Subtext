@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,36 +12,35 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
-using Subtext.Framework.Routing;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Data
 {
-	/// <summary>
-	/// Common Subtext object transformations
-	/// </summary>
-	public static class Transformer
-	{
-		/// <summary>
-		/// Converts a LinkCategoryCollection into a single LinkCategory with its own LinkCollection.
-		/// </summary>
-		/// <param name="title">title for the LinkCategory</param>
-		/// <param name="catType">Type of Categories to transform</param>
-		/// <param name="formats">Determines how the Urls are formated</param>
-		/// <returns></returns>
-		public static LinkCategory BuildLinks(string title, CategoryType catType, Blog blog)
-		{
+    /// <summary>
+    /// Common Subtext object transformations
+    /// </summary>
+    public static class Transformer
+    {
+        /// <summary>
+        /// Converts a LinkCategoryCollection into a single LinkCategory with its own LinkCollection.
+        /// </summary>
+        /// <param name="title">title for the LinkCategory</param>
+        /// <param name="catType">Type of Categories to transform</param>
+        /// <param name="formats">Determines how the Urls are formated</param>
+        /// <returns></returns>
+        public static LinkCategory BuildLinks(string title, CategoryType catType, Blog blog)
+        {
             ICollection<LinkCategory> links = ObjectProvider.Instance().GetCategories(catType, true /* activeOnly */);
             return MergeLinkCategoriesIntoSingleLinkCategory(title, catType, links, new UrlHelper(null, null), blog);
-		}
+        }
 
         /// <summary>
         /// Converts a LinkCategoryCollection into a single LinkCategory with its own LinkCollection.
@@ -49,16 +49,18 @@ namespace Subtext.Framework.Data
         /// <param name="catType">Type of Categories to transform</param>
         /// <param name="formats">Determines how the Urls are formated</param>
         /// <returns></returns>
-        public static LinkCategory MergeLinkCategoriesIntoSingleLinkCategory(string title, CategoryType catType, IEnumerable<LinkCategory> links, UrlHelper urlHelper, Blog blog)
+        public static LinkCategory MergeLinkCategoriesIntoSingleLinkCategory(string title, CategoryType catType,
+                                                                             IEnumerable<LinkCategory> links,
+                                                                             UrlHelper urlHelper, Blog blog)
         {
-            if (links != null && links.Count() > 0)
+            if(links != null && links.Count() > 0)
             {
-                LinkCategory mergedLinkCategory = new LinkCategory();
+                var mergedLinkCategory = new LinkCategory();
                 mergedLinkCategory.Title = title;
-                
-                foreach (LinkCategory linkCategory in links)
+
+                foreach(LinkCategory linkCategory in links)
                 {
-                    Link link = new Link();
+                    var link = new Link();
 
                     link.Title = linkCategory.Title;
                     switch(catType)
@@ -75,7 +77,6 @@ namespace Subtext.Framework.Data
                         case CategoryType.ImageCollection:
                             link.Url = urlHelper.GalleryUrl(linkCategory.Id).ToFullyQualifiedUrl(blog).ToString();
                             break;
-
                     }
                     link.NewWindow = false;
                     mergedLinkCategory.Links.Add(link);
@@ -85,28 +86,31 @@ namespace Subtext.Framework.Data
             return null;
         }
 
-		/// <summary>
-		/// Will convert ArchiveCountCollection method from Archives.GetPostsByMonthArchive()
-		/// into a <see cref="LinkCategory"/>. LinkCategory is a common item to databind to a web control.
-		/// </summary>
-		/// <param name="title">title for the Category</param>
-		/// <param name="formats">Determines how the Urls are formated</param>
-		/// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
-		public static LinkCategory BuildMonthLinks(string title, UrlHelper urlHelper, Blog blog)
-		{
+        /// <summary>
+        /// Will convert ArchiveCountCollection method from Archives.GetPostsByMonthArchive()
+        /// into a <see cref="LinkCategory"/>. LinkCategory is a common item to databind to a web control.
+        /// </summary>
+        /// <param name="title">title for the Category</param>
+        /// <param name="formats">Determines how the Urls are formated</param>
+        /// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
+        public static LinkCategory BuildMonthLinks(string title, UrlHelper urlHelper, Blog blog)
+        {
             ICollection<ArchiveCount> archiveCounts = ObjectProvider.Instance().GetPostCountsByMonth();
             return MergeArchiveCountsIntoLinkCategory(title, archiveCounts, urlHelper, blog);
-		}
+        }
 
-        public static LinkCategory MergeArchiveCountsIntoLinkCategory(string title, IEnumerable<ArchiveCount> archiveCounts, UrlHelper urlHelper, Blog blog)
+        public static LinkCategory MergeArchiveCountsIntoLinkCategory(string title,
+                                                                      IEnumerable<ArchiveCount> archiveCounts,
+                                                                      UrlHelper urlHelper, Blog blog)
         {
-            LinkCategory linkCategory = new LinkCategory();
+            var linkCategory = new LinkCategory();
             linkCategory.Title = title;
-            foreach (ArchiveCount archiveCount in archiveCounts)
+            foreach(ArchiveCount archiveCount in archiveCounts)
             {
-                Link link = new Link();
+                var link = new Link();
                 link.NewWindow = false;
-                link.Title = archiveCount.Date.ToString("y", CultureInfo.InvariantCulture) + " (" + archiveCount.Count.ToString(CultureInfo.InvariantCulture) + ")";
+                link.Title = archiveCount.Date.ToString("y", CultureInfo.InvariantCulture) + " (" +
+                             archiveCount.Count.ToString(CultureInfo.InvariantCulture) + ")";
                 link.Url = urlHelper.MonthUrl(archiveCount.Date);
                 link.NewWindow = false;
                 link.IsActive = true;
@@ -127,15 +131,15 @@ namespace Subtext.Framework.Data
         {
             ICollection<ArchiveCount> acc = Archives.GetPostCountByCategory();
 
-            LinkCategory lc = new LinkCategory();
+            var lc = new LinkCategory();
             lc.Title = title;
-            foreach (ArchiveCount ac in acc)
+            foreach(ArchiveCount ac in acc)
             {
-                Link link = new Link();
+                var link = new Link();
                 link.NewWindow = false;
                 link.Title = ac.Title + " (" + ac.Count.ToString(CultureInfo.InvariantCulture) + ")";
                 //Ugh, I hate how categories work in Subtext. So intertwined with links.
-                link.Url = urlHelper.CategoryUrl(new Category { Id = ac.Id, Title = ac.Title });
+                link.Url = urlHelper.CategoryUrl(new Category {Id = ac.Id, Title = ac.Title});
                 link.NewWindow = false;
                 link.IsActive = true;
 
@@ -143,5 +147,5 @@ namespace Subtext.Framework.Data
             }
             return lc;
         }
-	}
+    }
 }

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,9 +12,11 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.Security.Principal;
 using System.Threading;
 using System.Web.UI.WebControls;
@@ -61,7 +64,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         [Test]
         public void SetText()
         {
-            Blog blog = new Blog { Host = "localhost", Subfolder = "subfolder" };
+            var blog = new Blog {Host = "localhost", Subfolder = "subfolder"};
             string test = "Lorem Ipsum";
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
@@ -75,7 +78,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         public void SetWidth()
         {
             Unit test = 200;
-            Blog blog = new Blog { Host = "localhost", Subfolder = "subfolder" };
+            var blog = new Blog {Host = "localhost", Subfolder = "subfolder"};
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
             frtep.InitializeControl(subtextContext.Object);
@@ -88,7 +91,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         public void SetHeight()
         {
             Unit test = 100;
-            Blog blog = new Blog { Host = "localhost", Subfolder = "subfolder" };
+            var blog = new Blog {Host = "localhost", Subfolder = "subfolder"};
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
             frtep.InitializeControl(subtextContext.Object);
@@ -114,7 +117,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestInitializationWithEmptyWebFolder()
         {
-            frtep.Initialize("FCKProvider", new System.Collections.Specialized.NameValueCollection());
+            frtep.Initialize("FCKProvider", new NameValueCollection());
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,12 +12,15 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Framework.Services
 {
     public class BrowserInfo
     {
+        bool mobile;
+
         public BrowserInfo(bool mobile)
         {
             this.mobile = mobile;
@@ -24,11 +28,7 @@ namespace Subtext.Framework.Services
 
         public bool Mobile
         {
-            get
-            {
-                return mobile;
-            }
+            get { return mobile; }
         }
-        bool mobile;
     }
 }

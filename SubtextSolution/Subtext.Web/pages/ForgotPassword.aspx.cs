@@ -1,11 +1,12 @@
 using System;
+using System.Web.UI;
 
 namespace Subtext.Web
 {
-	public partial class ForgotPassword : System.Web.UI.Page
-	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
-		}
-	}
+    public partial class ForgotPassword : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+        }
+    }
 }

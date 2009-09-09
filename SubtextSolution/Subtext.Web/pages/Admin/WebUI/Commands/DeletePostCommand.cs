@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -28,11 +30,7 @@ namespace Subtext.Web.Admin.Commands
             Repository = repository;
         }
 
-        public ObjectProvider Repository
-        {
-            get;
-            private set;
-        }
+        public ObjectProvider Repository { get; private set; }
 
         public override string Execute()
         {
@@ -41,7 +39,7 @@ namespace Subtext.Web.Admin.Commands
                 Repository.DeleteEntry(_targetID);
                 return FormatMessage(ExecuteSuccessMessage, _targetName, _targetID);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return FormatMessage(ExecuteFailureMessage, _targetName, _targetID, ex.Message);
             }

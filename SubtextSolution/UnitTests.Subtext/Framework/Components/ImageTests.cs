@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using MbUnit.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Components
 {
@@ -14,19 +12,22 @@ namespace UnitTests.Subtext.Framework.Components
     {
         [Test]
         [RollBack]
-        public void CanGetRecentImages() {
+        public void CanGetRecentImages()
+        {
             //arrange
             UnitTestHelper.SetupBlog();
             ObjectProvider provider = ObjectProvider.Instance();
-            LinkCategory category = new LinkCategory {
+            var category = new LinkCategory
+            {
                 BlogId = Config.CurrentBlog.Id,
                 Description = "Whatever",
                 IsActive = true,
                 Title = "Whatever"
             };
             int categoryId = provider.CreateLinkCategory(category);
-            
-            Image image = new Image {
+
+            var image = new Image
+            {
                 Title = "Title",
                 CategoryID = categoryId,
                 BlogId = Config.CurrentBlog.Id,
@@ -36,10 +37,10 @@ namespace UnitTests.Subtext.Framework.Components
                 IsActive = true,
             };
             int imageId = provider.InsertImage(image);
-           
+
             //act
-            var images = provider.GetImages(Config.CurrentBlog.Host, null, 10);
-            
+            ICollection<Image> images = provider.GetImages(Config.CurrentBlog.Host, null, 10);
+
             //assert
             Assert.AreEqual(1, images.Count);
             Assert.AreEqual(imageId, images.First().ImageID);
@@ -48,14 +49,14 @@ namespace UnitTests.Subtext.Framework.Components
         [Test]
         public void CanGetAndSetSimpleProperties()
         {
-            Image image = new Image();
-            
+            var image = new Image();
+
             image.BlogId = 123;
             Assert.AreEqual(123, image.BlogId);
-            
+
             image.CategoryID = 321;
             Assert.AreEqual(321, image.CategoryID);
-        
+
             image.FileName = "Test.jpg";
             Assert.AreEqual("Test.jpg", image.FileName);
 
@@ -77,11 +78,11 @@ namespace UnitTests.Subtext.Framework.Components
             image.Width = 312;
             Assert.AreEqual(312, image.Width);
         }
-        
+
         [Test]
         public void CanGetFilePath()
         {
-            Image image = new Image();
+            var image = new Image();
             image.LocalDirectoryPath = @"c:\";
             image.FileName = @"Test.jpg";
             Assert.AreEqual(@"c:\Test.jpg", image.FilePath);
@@ -90,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Components
         [Test]
         public void GetOriginalFileNamePrependsLetterOWithUnderscore()
         {
-            Image image = new Image();
+            var image = new Image();
             image.LocalDirectoryPath = @"c:\";
             image.FileName = @"Test.jpg";
             Assert.AreEqual(@"o_Test.jpg", image.OriginalFile);
@@ -100,7 +101,7 @@ namespace UnitTests.Subtext.Framework.Components
         [Test]
         public void GetOriginalThumbNailFileNamePrependsLetterTWithUnderscore()
         {
-            Image image = new Image();
+            var image = new Image();
             image.LocalDirectoryPath = @"c:\";
             image.FileName = @"Test.jpg";
             Assert.AreEqual(@"t_Test.jpg", image.ThumbNailFile);
@@ -110,12 +111,11 @@ namespace UnitTests.Subtext.Framework.Components
         [Test]
         public void GetResizedFileNamePrependsLetterTWithUnderscore()
         {
-            Image image = new Image();
+            var image = new Image();
             image.FileName = @"Test.jpg";
             image.LocalDirectoryPath = @"c:\";
             Assert.AreEqual(@"r_Test.jpg", image.ResizedFile);
             Assert.AreEqual(@"c:\r_Test.jpg", image.ResizedFilePath);
         }
-
     }
 }

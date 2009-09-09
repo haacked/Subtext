@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using Ninject;
@@ -27,55 +29,49 @@ namespace Subtext.ImportExport
     //TODO: Fix this. We need to pull BlogMLHttpHandler into Subtext.Framework
     public class SubtextBlogMLHttpHandler : BlogMLHttpHandler, ISubtextHandler
     {
-        public override IBlogMLProvider GetBlogMLProvider()
-        {
-            var handler = new SubtextBlogMLProvider(Config.ConnectionString, SubtextContext, new CommentService(SubtextContext, null), SubtextContext.GetService<IEntryPublisher>());
-            handler.PageSize = 100;
-            return handler;
-        }
+        AdminUrlHelper _adminUrlHelper;
 
         public Blog Blog
         {
-            get
-            {
-                return SubtextContext.Blog;
-            }
+            get { return SubtextContext.Blog; }
         }
+
+        #region ISubtextHandler Members
 
         public UrlHelper Url
         {
-            get
-            {
-                return SubtextContext.UrlHelper;
-            }
+            get { return SubtextContext.UrlHelper; }
         }
 
         public ObjectProvider Repository
         {
-            get
-            {
-                return SubtextContext.Repository;
-            }
+            get { return SubtextContext.Repository; }
         }
 
         public AdminUrlHelper AdminUrl
         {
             get
             {
-                if (_adminUrlHelper == null)
+                if(_adminUrlHelper == null)
                 {
                     _adminUrlHelper = new AdminUrlHelper(Url);
                 }
                 return _adminUrlHelper;
             }
         }
-        AdminUrlHelper _adminUrlHelper;
 
         [Inject]
-        public ISubtextContext SubtextContext
+        public ISubtextContext SubtextContext { get; set; }
+
+        #endregion
+
+        public override IBlogMLProvider GetBlogMLProvider()
         {
-            get;
-            set;
+            var handler = new SubtextBlogMLProvider(Config.ConnectionString, SubtextContext,
+                                                    new CommentService(SubtextContext, null),
+                                                    SubtextContext.GetService<IEntryPublisher>());
+            handler.PageSize = 100;
+            return handler;
         }
     }
 }

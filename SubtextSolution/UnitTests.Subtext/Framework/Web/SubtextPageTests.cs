@@ -1,4 +1,4 @@
-﻿using System.Web;
+using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
@@ -7,15 +7,19 @@ using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.Handlers;
 
-namespace UnitTests.Subtext.Framework.Routing {
+namespace UnitTests.Subtext.Framework.Routing
+{
     [TestFixture]
-    public class SubtextPageTests {
+    public class SubtextPageTests
+    {
         [Test]
-        public void SettingSubtextContextPopulatesOtherProperties() {
+        public void SettingSubtextContextPopulatesOtherProperties()
+        {
             //arrange
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Repository).Returns(new Mock<ObjectProvider>().Object);
-            subtextContext.Setup(c => c.UrlHelper).Returns(new UrlHelper(new RequestContext(new Mock<HttpContextBase>().Object, new RouteData()), null));
+            subtextContext.Setup(c => c.UrlHelper).Returns(
+                new UrlHelper(new RequestContext(new Mock<HttpContextBase>().Object, new RouteData()), null));
             subtextContext.Setup(c => c.Blog).Returns(new Blog());
             var subtextPage = new SubtextPage();
 

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Framework.Components;
@@ -11,13 +11,15 @@ namespace UnitTests.Subtext.Framework.Services
     public class KeywordExpanderTests
     {
         [Test]
-        public void Replace_WithStringContainingKeyword_ExpandsKeyword() { 
+        public void Replace_WithStringContainingKeyword_ExpandsKeyword()
+        {
             //arrange
             var keywords = new List<KeyWord>();
-            keywords.Add(new KeyWord { 
-                Word = "sucky example", 
-                Text = "cool example", 
-                Url = "http://example.com/", 
+            keywords.Add(new KeyWord
+            {
+                Word = "sucky example",
+                Text = "cool example",
+                Url = "http://example.com/",
             });
             var keywordExpander = new KeywordExpander(keywords);
 
@@ -192,7 +194,8 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        public void Ctor_WithRepository_GetsKeywordsFromRepository() {
+        public void Ctor_WithRepository_GetsKeywordsFromRepository()
+        {
             //arrange
             var keywords = new List<KeyWord>();
             keywords.Add(new KeyWord
@@ -203,7 +206,7 @@ namespace UnitTests.Subtext.Framework.Services
             });
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetKeyWords()).Returns(keywords);
-            
+
             //act
             var keywordExpander = new KeywordExpander(keywords);
 

@@ -1,4 +1,4 @@
-﻿namespace Subtext.Framework.Email
+namespace Subtext.Framework.Email
 {
     public interface ITextTemplate
     {

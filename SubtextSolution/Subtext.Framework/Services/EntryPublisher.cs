@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -40,23 +42,13 @@ namespace Subtext.Framework.Services
             SlugGenerator = slugGenerator ?? new SlugGenerator(FriendlyUrlSettings.Settings, context.Repository);
         }
 
-        public ITextTransformation Transformation
-        {
-            get;
-            private set;
-        }
+        public ITextTransformation Transformation { get; private set; }
 
-        public ISubtextContext SubtextContext
-        {
-            get;
-            private set;
-        }
+        public ISubtextContext SubtextContext { get; private set; }
 
-        public ISlugGenerator SlugGenerator
-        {
-            get;
-            private set;
-        }
+        public ISlugGenerator SlugGenerator { get; private set; }
+
+        #region IEntryPublisher Members
 
         public int Publish(Entry entry)
         {
@@ -127,11 +119,13 @@ namespace Subtext.Framework.Services
             }
 
             ValidateEntry(entry);
-            SubtextContext.Repository.SetEntryTagList(entry.Id, HtmlHelper.ParseTags(entry.Body));
+            SubtextContext.Repository.SetEntryTagList(entry.Id, entry.Body.ParseTags());
             return entry.Id;
         }
 
-        private bool ValidateEntry(Entry e)
+        #endregion
+
+        private static void ValidateEntry(Entry e)
         {
             //TODO: The following doesn't belong here. It's verification code.
             if(!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body))
@@ -156,15 +150,15 @@ namespace Subtext.Framework.Services
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
-            return true;
+            return;
         }
 
         private IEnumerable<int> GetCategoryIdsFromCategoryTitles(Entry entry)
         {
-            var categoryIds = from categoryName in entry.Categories
-                              let category = SubtextContext.Repository.GetLinkCategory(categoryName, true)
-                              where category != null
-                              select category.Id;
+            IEnumerable<int> categoryIds = from categoryName in entry.Categories
+                                           let category = SubtextContext.Repository.GetLinkCategory(categoryName, true)
+                                           where category != null
+                                           select category.Id;
 
             return categoryIds;
         }

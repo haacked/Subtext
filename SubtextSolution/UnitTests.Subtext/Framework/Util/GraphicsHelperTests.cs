@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.IO;
 using System.Web;
 using MbUnit.Framework;
@@ -17,7 +17,7 @@ namespace UnitTests.Subtext.Framework.Util
             HttpPostedFile postedFile = null;
 
             // act
-            var fileStream = postedFile.GetFileStream();
+            byte[] fileStream = postedFile.GetFileStream();
 
             // assert
             Assert.IsNull(fileStream);
@@ -31,11 +31,11 @@ namespace UnitTests.Subtext.Framework.Util
 
             // act
             Size imageSize;
-            using (Image image = GraphicsHelper.FromFilePathAsUnindexedImage(filePath))
+            using(Image image = GraphicsHelper.FromFilePathAsUnindexedImage(filePath))
             {
                 imageSize = image.Size;
             }
-         
+
             // assert
             Assert.AreEqual(150, imageSize.Width);
             Assert.AreEqual(113, imageSize.Height);
@@ -49,9 +49,9 @@ namespace UnitTests.Subtext.Framework.Util
 
             // act
             Size imageSize;
-            using (Image image = GraphicsHelper.FromFilePathAsUnindexedImage(filePath))
+            using(Image image = GraphicsHelper.FromFilePathAsUnindexedImage(filePath))
             {
-                using (Image resized = image.GetResizedImage(new Size(100, 50))) 
+                using(Image resized = image.GetResizedImage(new Size(100, 50)))
                 {
                     imageSize = resized.Size;
                 }
@@ -63,7 +63,7 @@ namespace UnitTests.Subtext.Framework.Util
         }
 
         [SetUp]
-        public void SetUp() 
+        public void SetUp()
         {
             TearDown();
         }
@@ -72,7 +72,7 @@ namespace UnitTests.Subtext.Framework.Util
         public void TearDown()
         {
             string imagePath = UnitTestHelper.GetPathInExecutingAssemblyLocation("pb.jpg");
-            if (File.Exists(imagePath))
+            if(File.Exists(imagePath))
             {
                 File.Delete(imagePath);
             }

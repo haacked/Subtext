@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -18,7 +20,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
-using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Syndication
 {
@@ -32,14 +33,31 @@ namespace Subtext.Framework.Syndication
         {
         }
 
+        protected override BaseSyndicationWriter SyndicationWriter
+        {
+            get
+            {
+                return new CategoryWriter(HttpContext.Response.Output, posts, Category,
+                                          Url.CategoryUrl(Category).ToFullyQualifiedUrl(Blog), SubtextContext);
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
+        /// </summary>
+        protected override bool IsMainfeed
+        {
+            get { return false; }
+        }
+
         protected override ICollection<Entry> GetFeedEntries()
         {
-            if (Category == null)
+            if(Category == null)
             {
                 Category = Cacher.SingleCategory(SubtextContext);
             }
 
-            if (Category != null && posts == null)
+            if(Category != null && posts == null)
             {
                 posts = Cacher.GetEntriesByCategory(10, Category.Id, SubtextContext);
             }
@@ -57,33 +75,15 @@ namespace Subtext.Framework.Syndication
 
             posts = GetFeedEntries();
 
-            if (posts != null && posts.Count > 0)
+            if(posts != null && posts.Count > 0)
             {
                 feed = new CachedFeed();
-                CategoryWriter cw = new CategoryWriter(HttpContext.Response.Output, posts, Category, Url.CategoryUrl(Category).ToFullyQualifiedUrl(Blog), SubtextContext);
+                var cw = new CategoryWriter(HttpContext.Response.Output, posts, Category,
+                                            Url.CategoryUrl(Category).ToFullyQualifiedUrl(Blog), SubtextContext);
                 feed.LastModified = ConvertLastUpdatedDate(posts.First().DateCreated);
                 feed.Xml = cw.Xml;
             }
             return feed;
-        }
-
-        protected override BaseSyndicationWriter SyndicationWriter
-        {
-            get
-            {
-                return new CategoryWriter(HttpContext.Response.Output, posts, Category, Url.CategoryUrl(Category).ToFullyQualifiedUrl(Blog), SubtextContext);
-            }
-        }
-
-        /// <summary>
-        /// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
-        /// </summary>
-        protected override bool IsMainfeed
-        {
-            get
-            {
-                return false;
-            }
         }
 
         /// <summary>
@@ -97,4 +97,3 @@ namespace Subtext.Framework.Syndication
         }
     }
 }
-

@@ -1,9 +1,10 @@
 using System;
 using System.Globalization;
+using System.Web.UI.WebControls;
 using Subtext.Framework;
-using Subtext.Framework.Configuration;
 
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -16,36 +17,33 @@ using Subtext.Framework.Configuration;
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Web.UI.Controls
 {
-	using System;
+    /// <summary>
+    ///		Summary description for Header.
+    /// </summary>
+    public class BlogStats : CachedColumnControl
+    {
+        protected Literal CommentCount;
+        protected Literal PingTrackCount;
+        protected Literal PostCount;
+        protected Literal StoryCount;
 
 
-	/// <summary>
-	///		Summary description for Header.
-	/// </summary>
-	public class BlogStats : CachedColumnControl
-	{
-		protected System.Web.UI.WebControls.Literal PostCount;
-		protected System.Web.UI.WebControls.Literal StoryCount;
-		protected System.Web.UI.WebControls.Literal CommentCount;
-		protected System.Web.UI.WebControls.Literal PingTrackCount;
-
-
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad (e);
-			if(Context != null)
-			{
-				Blog info = Blog;
-				PostCount.Text = info.PostCount.ToString(CultureInfo.InvariantCulture);
-				StoryCount.Text = info.StoryCount.ToString(CultureInfo.InvariantCulture);
-				CommentCount.Text = info.CommentCount.ToString(CultureInfo.InvariantCulture);
-				PingTrackCount.Text = info.PingTrackCount.ToString(CultureInfo.InvariantCulture);
-			}
-		}
-	}
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if(Context != null)
+            {
+                Blog info = Blog;
+                PostCount.Text = info.PostCount.ToString(CultureInfo.InvariantCulture);
+                StoryCount.Text = info.StoryCount.ToString(CultureInfo.InvariantCulture);
+                CommentCount.Text = info.CommentCount.ToString(CultureInfo.InvariantCulture);
+                PingTrackCount.Text = info.PingTrackCount.ToString(CultureInfo.InvariantCulture);
+            }
+        }
+    }
 }
-

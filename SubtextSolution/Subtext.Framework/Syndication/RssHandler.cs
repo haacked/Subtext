@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,12 +12,14 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Globalization;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Syndication
 {
@@ -29,6 +32,32 @@ namespace Subtext.Framework.Syndication
 
         public RssHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
+        }
+
+        /// <summary>
+        /// Gets the syndication writer.
+        /// </summary>
+        /// <returns></returns>
+        protected override BaseSyndicationWriter SyndicationWriter
+        {
+            get
+            {
+                if(writer == null)
+                {
+                    writer = new RssWriter(HttpContext.Response.Output,
+                                           Entries.GetMainSyndicationEntries(Blog.ItemCount),
+                                           PublishDateOfLastFeedItemReceived, UseDeltaEncoding, SubtextContext);
+                }
+                return writer;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
+        /// </summary>
+        protected override bool IsMainfeed
+        {
+            get { return true; }
         }
 
         /// <summary>
@@ -48,35 +77,12 @@ namespace Subtext.Framework.Syndication
         /// <param name="feed">Feed.</param>
         protected override void Cache(CachedFeed feed)
         {
-            var cache = SubtextContext.Cache;
-            if (cache != null)
+            ICache cache = SubtextContext.Cache;
+            if(cache != null)
             {
-                cache.InsertDuration(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, Cacher.MediumDuration);
+                cache.InsertDuration(CacheKey(SyndicationWriter.DateLastViewedFeedItemPublished), feed,
+                                     Cacher.MediumDuration);
             }
-        }
-
-        /// <summary>
-        /// Gets the syndication writer.
-        /// </summary>
-        /// <returns></returns>
-        protected override BaseSyndicationWriter SyndicationWriter
-        {
-            get
-            {
-                if (writer == null)
-                {
-                    writer = new RssWriter(HttpContext.Response.Output, Entries.GetMainSyndicationEntries(Blog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding, SubtextContext);
-                }
-                return writer;
-            }
-        }
-
-        /// <summary>
-        /// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
-        /// </summary>
-        protected override bool IsMainfeed
-        {
-            get { return true; }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -36,7 +38,7 @@ namespace Subtext.Web.Admin.Commands
                 Links.DeleteLink(_targetID);
                 return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return FormatMessage(ExecuteFailureMessage, _targetName, itemTitle, ex.Message);
             }

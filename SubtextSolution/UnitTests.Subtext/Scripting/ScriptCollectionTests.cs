@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using MbUnit.Framework;
 using Subtext.Scripting;
 
@@ -29,7 +26,7 @@ namespace UnitTests.Subtext.Scripting
         {
             ScriptCollection scripts = Script.ParseScripts("/* Test */");
             Assert.AreEqual(1, scripts.Count);
-            scripts.AddRange(new Script[] {new Script("test"), new Script("test2")});
+            scripts.AddRange(new[] {new Script("test"), new Script("test2")});
             Assert.AreEqual(3, scripts.Count);
         }
     }

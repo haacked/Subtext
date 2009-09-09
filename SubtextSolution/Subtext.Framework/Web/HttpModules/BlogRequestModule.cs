@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,13 +12,11 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Web;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
-using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 
@@ -39,11 +38,9 @@ namespace Subtext.Framework.Web.HttpModules
             BlogLookup = blogLookup;
         }
 
-        protected IBlogLookupService BlogLookup
-        {
-            get;
-            private set;
-        }
+        protected IBlogLookupService BlogLookup { get; private set; }
+
+        #region IHttpModule Members
 
         /// <summary>
         /// Initializes a module and prepares it to handle
@@ -54,6 +51,17 @@ namespace Subtext.Framework.Web.HttpModules
         {
             context.BeginRequest += MapUrlToBlogStatus;
         }
+
+        /// <summary>
+        /// Disposes of the resources (other than memory) used by the
+        /// module that implements <see langword="IHttpModule."/>
+        /// </summary>
+        public void Dispose()
+        {
+            //Do Nothing.
+        }
+
+        #endregion
 
         /// <summary>
         /// Maps the incoming URL to the corresponding blog. If no blog matches, then 
@@ -71,24 +79,24 @@ namespace Subtext.Framework.Web.HttpModules
             // REVIEW: Maybe the BlogLookup.Lookup should take in an HttpContextBase 
             // and return the BlogRequest as part of the result.
             var blogRequest = new BlogRequest(httpContext.Request);
-            if (blogRequest.BlogNotRequired)
+            if(blogRequest.BlogNotRequired)
             {
                 return blogRequest;
             }
             BlogLookupResult result = BlogLookup.Lookup(blogRequest);
 
-            if (result == null)
+            if(result == null)
             {
-                if (blogRequest.RequestLocation != RequestLocation.LoginPage)
+                if(blogRequest.RequestLocation != RequestLocation.LoginPage)
                 {
                     httpContext.Response.Redirect("~/Install/BlogNotConfiguredError.aspx", true);
                 }
                 return blogRequest;
             }
 
-            if (result.Blog == null && result.AlternateUrl != null)
+            if(result.Blog == null && result.AlternateUrl != null)
             {
-                var httpResponse = httpContext.Response;
+                HttpResponseBase httpResponse = httpContext.Response;
                 httpResponse.StatusCode = 301;
                 httpResponse.Status = "301 Moved Permanently";
                 httpResponse.RedirectLocation = result.AlternateUrl.ToString();
@@ -97,7 +105,7 @@ namespace Subtext.Framework.Web.HttpModules
             }
 
             //TODO: Check to see if bog is inactive.
-            if (result.Blog != null && !result.Blog.IsActive && blogRequest.RequestLocation == RequestLocation.Blog)
+            if(result.Blog != null && !result.Blog.IsActive && blogRequest.RequestLocation == RequestLocation.Blog)
             {
                 httpContext.Response.Redirect("~/SystemMessages/BlogNotActive.aspx", true);
                 return null;
@@ -105,15 +113,6 @@ namespace Subtext.Framework.Web.HttpModules
 
             blogRequest.Blog = result.Blog;
             return blogRequest;
-        }
-
-        /// <summary>
-        /// Disposes of the resources (other than memory) used by the
-        /// module that implements <see langword="IHttpModule."/>
-        /// </summary>
-        public void Dispose()
-        {
-            //Do Nothing.
         }
     }
 }

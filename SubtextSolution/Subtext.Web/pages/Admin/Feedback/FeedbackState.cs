@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Subtext.Framework.Components;
 using Subtext.Framework.Properties;
 
@@ -6,12 +6,23 @@ namespace Subtext.Web.Admin.Feedback
 {
     public class FeedbackState
     {
+        public bool Approvable = true;
+        public string ApproveText = Resources.Label_Approve;
+        public bool Deletable = true;
+        public string DeleteToolTip = string.Empty;
+        public bool Destroyable;
+        public bool Emptyable;
+        public string EmptyToolTip = string.Empty;
+        public string HeaderText = string.Empty;
+        public string NoCommentsHtml = Resources.Label_NoApprovedComments;
+        public bool Spammable = true;
+
         public static FeedbackState GetUiState(FeedbackStatusFlag status)
         {
             //We've reduced multiple switch statements to one, 
             //that's good enough in my book.
-            switch (status) 
-            { 
+            switch(status)
+            {
                 case FeedbackStatusFlag.Approved:
                     return new ApprovedFeedbackState();
 
@@ -25,20 +36,10 @@ namespace Subtext.Web.Admin.Feedback
                     return new DeletedState();
 
                 default:
-                    throw new InvalidOperationException(String.Format(Resources.InvalidOperation_InvalidFeedbackStatus, status));
-            }    
+                    throw new InvalidOperationException(String.Format(Resources.InvalidOperation_InvalidFeedbackStatus,
+                                                                      status));
+            }
         }
-
-        public string HeaderText = string.Empty ;
-        public bool Approvable = true;
-        public string ApproveText = Resources.Label_Approve;
-        public bool Destroyable = false;
-        public bool Deletable = true;
-        public string DeleteToolTip = string.Empty;
-        public bool Spammable = true;
-        public bool Emptyable = false;
-        public string EmptyToolTip = string.Empty;
-        public string NoCommentsHtml = Resources.Label_NoApprovedComments;
     }
 
     public class ApprovedFeedbackState : FeedbackState
@@ -52,7 +53,7 @@ namespace Subtext.Web.Admin.Feedback
 
     public class NeedsModerationState : FeedbackState
     {
-        public NeedsModerationState() : base()
+        public NeedsModerationState()
         {
             HeaderText = Resources.Label_CommentsPendingModeratorApproval;
             NoCommentsHtml = Resources.Label_NoCommentsNeedModeration;

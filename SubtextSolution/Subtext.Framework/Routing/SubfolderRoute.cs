@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,29 +12,34 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
+using System;
 using System.Web;
 using System.Web.Routing;
-using System;
 
 namespace Subtext.Framework.Routing
 {
     class SubfolderRoute : Route
     {
-        public SubfolderRoute(Route parent) : base("{subfolder}/" + parent.Url, parent.RouteHandler) {
-            _parent = parent;
-            this.Constraints = parent.Constraints;
-            this.Defaults = parent.Defaults;
-            this.DataTokens = parent.DataTokens;
-        }
-
         Route _parent;
 
-        public RouteData GetRouteData(HttpContextBase httpContext, string subfolder) {
-            var routeData = GetRouteData(httpContext);
-            if (routeData != null) {
-                if (!String.Equals(subfolder, routeData.GetSubfolder(), StringComparison.OrdinalIgnoreCase)) {
+        public SubfolderRoute(Route parent) : base("{subfolder}/" + parent.Url, parent.RouteHandler)
+        {
+            _parent = parent;
+            Constraints = parent.Constraints;
+            Defaults = parent.Defaults;
+            DataTokens = parent.DataTokens;
+        }
+
+        public RouteData GetRouteData(HttpContextBase httpContext, string subfolder)
+        {
+            RouteData routeData = GetRouteData(httpContext);
+            if(routeData != null)
+            {
+                if(!String.Equals(subfolder, routeData.GetSubfolder(), StringComparison.OrdinalIgnoreCase))
+                {
                     return null;
                 }
             }
@@ -42,8 +48,9 @@ namespace Subtext.Framework.Routing
 
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
-            var routeData = base.GetRouteData(httpContext);
-            if (routeData != null) {
+            RouteData routeData = base.GetRouteData(httpContext);
+            if(routeData != null)
+            {
                 routeData.Route = _parent;
             }
             return routeData;

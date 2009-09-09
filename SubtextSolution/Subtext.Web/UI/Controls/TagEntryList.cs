@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,13 +12,13 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Web.Properties;
@@ -26,24 +27,20 @@ namespace Subtext.Web.UI.Controls
 {
     public class TagEntryList : BaseControl
     {
+        protected EntryList EntryStoryList;
+
         public bool DescriptionOnly
-		{
-			get { return EntryStoryList.DescriptionOnly; }
-			set { EntryStoryList.DescriptionOnly = value; }
-		}
-
-		protected EntryList EntryStoryList;
-
-        public int Count
         {
-            get;
-            set;
+            get { return EntryStoryList.DescriptionOnly; }
+            set { EntryStoryList.DescriptionOnly = value; }
         }
+
+        public int Count { get; set; }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            if (Context != null)
+            if(Context != null)
             {
                 Uri url = HttpContext.Current.Request.Url;
                 string tagName = HttpUtility.UrlDecode(url.Segments[url.Segments.Length - 2].Replace("/", ""));
@@ -51,9 +48,11 @@ namespace Subtext.Web.UI.Controls
                 ICollection<Entry> et = Cacher.GetEntriesByTag(Count, tagName, SubtextContext);
                 EntryStoryList.EntryListItems = et;
                 EntryStoryList.EntryListTitle = tagName;
-                EntryStoryList.EntryListDescription = string.Format(CultureInfo.InvariantCulture, Resources.TagEntryList_NoEntriesForTag, et.Count, tagName);
+                EntryStoryList.EntryListDescription = string.Format(CultureInfo.InvariantCulture,
+                                                                    Resources.TagEntryList_NoEntriesForTag, et.Count,
+                                                                    tagName);
 
-                Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1}", Blog.Title, tagName), Context);
+                Globals.SetTitle(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", Blog.Title, tagName), Context);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,19 +12,26 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 namespace Subtext.Framework.Services
 {
     public class EmptyTextTransformation : ITextTransformation
     {
-        private EmptyTextTransformation() { }
-
         public static readonly ITextTransformation Instance = new EmptyTextTransformation();
+
+        private EmptyTextTransformation()
+        {
+        }
+
+        #region ITextTransformation Members
 
         public string Transform(string original)
         {
             return original;
         }
+
+        #endregion
     }
 }

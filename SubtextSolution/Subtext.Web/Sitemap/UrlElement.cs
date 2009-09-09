@@ -4,18 +4,19 @@ using Subtext.Web.Properties;
 
 namespace Subtext.Web.SiteMap
 {
-    [XmlTypeAttribute(TypeName = "url")]
+    [XmlType(TypeName = "url")]
     public class UrlElement
     {
-        private Uri pageUrl;
-        private DateTime lastModified;
         private ChangeFrequency changeFrequency;
+        private DateTime lastModified;
+        private Uri pageUrl;
         private decimal priority;
 
         /// <summary>
         /// We need this contructor if we want to serialize the class.
         /// </summary>
-        public UrlElement() {
+        public UrlElement()
+        {
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace Subtext.Web.SiteMap
             Priority = priority;
         }
 
-        [XmlElementAttribute(DataType = "anyURI", ElementName = "loc")]
+        [XmlElement(DataType = "anyURI", ElementName = "loc")]
         public string Location
         {
             get
@@ -56,14 +57,14 @@ namespace Subtext.Web.SiteMap
             set { pageUrl = new Uri(value); }
         }
 
-        [XmlElementAttribute(ElementName = "lastmod", DataType="date")]
+        [XmlElement(ElementName = "lastmod", DataType = "date")]
         public DateTime LastModified
         {
             get { return lastModified; }
             set { lastModified = value; }
         }
 
-        [XmlElementAttribute(ElementName = "changefreq")]
+        [XmlElement(ElementName = "changefreq")]
         public ChangeFrequency ChangeFrequency
         {
             get { return changeFrequency; }
@@ -76,13 +77,12 @@ namespace Subtext.Web.SiteMap
             get { return priority; }
             set
             {
-                if (value < 0.0M || value > 1.0M)
+                if(value < 0.0M || value > 1.0M)
                 {
                     throw new ArgumentOutOfRangeException(Resources.ArgumentOutOfRange_Priority);
                 }
                 priority = value;
             }
         }
-
     }
 }

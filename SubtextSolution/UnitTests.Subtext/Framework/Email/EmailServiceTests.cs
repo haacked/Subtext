@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using MbUnit.Framework;
 using Moq;
@@ -18,8 +18,8 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithCurrentUserIsAnAdmin_DoesNotSendEmail()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { };
-            var blog = new Blog { Email = "cody@example.com", UserName = "cody" };
+            var comment = new FeedbackItem(FeedbackType.Comment) {};
+            var blog = new Blog {Email = "cody@example.com", UserName = "cody"};
             var emailProvider = new Mock<EmailProvider>();
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
@@ -27,7 +27,9 @@ namespace UnitTests.Subtext.Framework.Email
             context.Setup(c => c.User.Identity.Name).Returns("cody");
             context.Setup(c => c.User.IsInRole("Admins")).Returns(true);
             var emailService = new EmailService(emailProvider.Object, new Mock<ITemplateEngine>().Object, context.Object);
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
+            emailProvider.Setup(
+                e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Throws(
+                new Exception());
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -37,15 +39,17 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithBlogHavingNullEmail_DoesNotSendEmail()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { };
-            var blog = new Blog { Email = string.Empty };
+            var comment = new FeedbackItem(FeedbackType.Comment) {};
+            var blog = new Blog {Email = string.Empty};
             var emailProvider = new Mock<EmailProvider>();
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
             context.Setup(c => c.Blog).Returns(blog);
             var emailService = new EmailService(emailProvider.Object, new Mock<ITemplateEngine>().Object, context.Object);
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
-            
+            emailProvider.Setup(
+                e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Throws(
+                new Exception());
+
             //act
             emailService.EmailCommentToBlogAuthor(comment);
         }
@@ -54,28 +58,34 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithCommentThatIsTrackback_DoesNotSendEmail()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.PingTrack) { };
-            var blog = new Blog { Email = "foo@example.com" };
+            var comment = new FeedbackItem(FeedbackType.PingTrack) {};
+            var blog = new Blog {Email = "foo@example.com"};
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
             context.Setup(c => c.Blog).Returns(blog);
             var emailProvider = new Mock<EmailProvider>();
             var emailService = new EmailService(emailProvider.Object, new Mock<ITemplateEngine>().Object, context.Object);
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
-            
+            emailProvider.Setup(
+                e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Throws(
+                new Exception());
+
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
         }
 
         [Test]
-        public void EmailCommentToBlogAuthor_WithComment_UsesTitleForSubject() {
+        public void EmailCommentToBlogAuthor_WithComment_UsesTitleForSubject()
+        {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Author = "me", Title = "the subject", FlaggedAsSpam = false };
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Author = "me", Title = "the subject", FlaggedAsSpam = false};
             var emailProvider = new Mock<EmailProvider>();
-            var emailService = SetupEmailService(comment, emailProvider);
+            EmailService emailService = SetupEmailService(comment, emailProvider);
             string subject = null;
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => subject = title);
+            emailProvider.Setup(
+                e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback
+                <string, string, string, string>((to, from, title, message) => subject = title);
             //act
             emailService.EmailCommentToBlogAuthor(comment);
 
@@ -87,11 +97,14 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithCommentFlaggedAsSpam_PrefacesSubjectWithSpamHeader()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, FlaggedAsSpam = true, Author = "me", Title = "the subject" };
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, FlaggedAsSpam = true, Author = "me", Title = "the subject"};
             var emailProvider = new Mock<EmailProvider>();
-            var emailService = SetupEmailService(comment, emailProvider);
+            EmailService emailService = SetupEmailService(comment, emailProvider);
             string subject = null;
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => subject = title);
+            emailProvider.Setup(
+                e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback
+                <string, string, string, string>((to, from, title, message) => subject = title);
             //act
             emailService.EmailCommentToBlogAuthor(comment);
 
@@ -103,13 +116,16 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithCommentHavingEmail_UsesEmailAsFromEmail()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Email="from@example.com", Author = "me", Title = "the subject", FlaggedAsSpam = true };
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Email = "from@example.com", Author = "me", Title = "the subject", FlaggedAsSpam = true};
             var emailProvider = new Mock<EmailProvider>();
             emailProvider.Object.UseCommentersEmailAsFromAddress = true;
             emailProvider.Object.AdminEmail = "admin@example.com";
-            var emailService = SetupEmailService(comment, emailProvider);
+            EmailService emailService = SetupEmailService(comment, emailProvider);
             string fromEmail = null;
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => fromEmail = from);
+            emailProvider.Setup(
+                e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback
+                <string, string, string, string>((to, from, title, message) => fromEmail = from);
             //act
             emailService.EmailCommentToBlogAuthor(comment);
 
@@ -118,16 +134,21 @@ namespace UnitTests.Subtext.Framework.Email
         }
 
         [Test]
-        public void EmailCommentToBlogAuthor_WithCommentHavingEmailButUseCommentersEmailAsFromAddressSetToFalse_UsesAdminEmailAsFromEmail()
+        public void
+            EmailCommentToBlogAuthor_WithCommentHavingEmailButUseCommentersEmailAsFromAddressSetToFalse_UsesAdminEmailAsFromEmail
+            ()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Email = "from@example.com", Author = "me", Title = "the subject", FlaggedAsSpam = true };
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Email = "from@example.com", Author = "me", Title = "the subject", FlaggedAsSpam = true};
             var emailProvider = new Mock<EmailProvider>();
             emailProvider.Object.UseCommentersEmailAsFromAddress = false;
             emailProvider.Object.AdminEmail = "admin@example.com";
-            var emailService = SetupEmailService(comment, emailProvider);
+            EmailService emailService = SetupEmailService(comment, emailProvider);
             string fromEmail = null;
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => fromEmail = from);
+            emailProvider.Setup(
+                e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback
+                <string, string, string, string>((to, from, title, message) => fromEmail = from);
             //act
             emailService.EmailCommentToBlogAuthor(comment);
 
@@ -139,12 +160,15 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithCommentHavingNullEmail_UsesProviderEmail()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Email = null, Author = "me", Title = "the subject", FlaggedAsSpam = true };
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Email = null, Author = "me", Title = "the subject", FlaggedAsSpam = true};
             var emailProvider = new Mock<EmailProvider>();
             emailProvider.Object.AdminEmail = "admin@example.com";
-            var emailService = SetupEmailService(comment, emailProvider);
+            EmailService emailService = SetupEmailService(comment, emailProvider);
             string fromEmail = null;
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => fromEmail = from);
+            emailProvider.Setup(
+                e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback
+                <string, string, string, string>((to, from, title, message) => fromEmail = from);
             //act
             emailService.EmailCommentToBlogAuthor(comment);
 
@@ -162,7 +186,8 @@ namespace UnitTests.Subtext.Framework.Email
             urlHelper.Setup(u => u.FeedbackUrl(comment)).Returns("/");
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
-            context.Setup(c => c.Blog).Returns(new Blog { Email = "test@test.com", Author = "to", Host = "localhost", Title = "the blog" });
+            context.Setup(c => c.Blog).Returns(new Blog
+            {Email = "test@test.com", Author = "to", Host = "localhost", Title = "the blog"});
 
             var emailService = new EmailService(emailProvider.Object, templateEngine.Object, context.Object);
             return emailService;
@@ -172,7 +197,8 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithBlog_UsesBlogEmailForToEmail()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Author = "me", Title = "the subject", FlaggedAsSpam = false };
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Author = "me", Title = "the subject", FlaggedAsSpam = false};
             var emailProvider = new Mock<EmailProvider>();
             var templateEngine = new Mock<ITemplateEngine>();
             var template = new Mock<ITextTemplate>();
@@ -182,10 +208,13 @@ namespace UnitTests.Subtext.Framework.Email
             urlHelper.Setup(u => u.FeedbackUrl(comment)).Returns("/");
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
-            context.Setup(c => c.Blog).Returns(new Blog { Email = "test@test.com", Author = "to", Host = "localhost", Title = "the blog" });
+            context.Setup(c => c.Blog).Returns(new Blog
+            {Email = "test@test.com", Author = "to", Host = "localhost", Title = "the blog"});
 
             string toEmail = null;
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => toEmail = to);
+            emailProvider.Setup(
+                e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback
+                <string, string, string, string>((to, from, title, message) => toEmail = to);
             var emailService = new EmailService(emailProvider.Object, templateEngine.Object, context.Object);
 
             //act
@@ -199,9 +228,10 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithCommentFlaggedAsSpam_SetsSpamField()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Author = "me", Title = "subject", FlaggedAsSpam = true };
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Author = "me", Title = "subject", FlaggedAsSpam = true};
             string sentMessage = null;
-            var emailService = SetupEmailService(comment, "{spamflag}", sent => sentMessage = sent);
+            EmailService emailService = SetupEmailService(comment, "{spamflag}", sent => sentMessage = sent);
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -214,9 +244,10 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithCommentHavingId_SetsSourceFieldWithUrlContainingId()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id=121, Author = "me", Title = "subject", FlaggedAsSpam = true };
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Author = "me", Title = "subject", FlaggedAsSpam = true};
             string sentMessage = null;
-            var emailService = SetupEmailService(comment, "{comment.source}", sent => sentMessage = sent);
+            EmailService emailService = SetupEmailService(comment, "{comment.source}", sent => sentMessage = sent);
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -229,9 +260,10 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithEmail_SetsFromEmailAccordingly()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Author = "me", Title = "subject", Email = "test@example.com"};
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Author = "me", Title = "subject", Email = "test@example.com"};
             string sentMessage = null;
-            var emailService = SetupEmailService(comment, "{comment.email}", sent => sentMessage = sent);
+            EmailService emailService = SetupEmailService(comment, "{comment.email}", sent => sentMessage = sent);
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -244,9 +276,10 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithoutEmail_SetsFromEmailToNoneProvided()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Author = "me", Title = "subject", Email = null };
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Author = "me", Title = "subject", Email = null};
             string sentMessage = null;
-            var emailService = SetupEmailService(comment, "{comment.email}", sent => sentMessage = sent);
+            EmailService emailService = SetupEmailService(comment, "{comment.email}", sent => sentMessage = sent);
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -259,9 +292,10 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithAuthor_SetsAuthorName()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Author = "me", Title = "subject", Email = null };
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Author = "me", Title = "subject", Email = null};
             string sentMessage = null;
-            var emailService = SetupEmailService(comment, "{comment.author}", sent => sentMessage = sent);
+            EmailService emailService = SetupEmailService(comment, "{comment.author}", sent => sentMessage = sent);
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -274,9 +308,10 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithSourceUrlSpecified_SetsUrl()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Author = "me", Title = "subject", SourceUrl = new Uri("http://example.com/") };
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Author = "me", Title = "subject", SourceUrl = new Uri("http://example.com/")};
             string sentMessage = null;
-            var emailService = SetupEmailService(comment, "{comment.authorUrl}", sent => sentMessage = sent);
+            EmailService emailService = SetupEmailService(comment, "{comment.authorUrl}", sent => sentMessage = sent);
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -289,9 +324,10 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithSourceIp_SetsIp()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Author = "me", Title = "subject", IpAddress = IPAddress.Parse("127.0.0.1")};
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Author = "me", Title = "subject", IpAddress = IPAddress.Parse("127.0.0.1")};
             string sentMessage = null;
-            var emailService = SetupEmailService(comment, "{comment.ip}", sent => sentMessage = sent);
+            EmailService emailService = SetupEmailService(comment, "{comment.ip}", sent => sentMessage = sent);
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -304,9 +340,10 @@ namespace UnitTests.Subtext.Framework.Email
         public void EmailCommentToBlogAuthor_WithBodyContainingHtml_CleansHtml()
         {
             //arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Author = "me", Title = "subject", Body = "This<br />is not&lt;br /&gt;right" };
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {Id = 121, Author = "me", Title = "subject", Body = "This<br />is not&lt;br /&gt;right"};
             string sentMessage = null;
-            var emailService = SetupEmailService(comment, "{comment.body}", sent => sentMessage = sent);
+            EmailService emailService = SetupEmailService(comment, "{comment.body}", sent => sentMessage = sent);
 
             //act
             emailService.EmailCommentToBlogAuthor(comment);
@@ -315,19 +352,22 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("This" + Environment.NewLine + "is not" + Environment.NewLine + "right", sentMessage);
         }
 
-        private EmailService SetupEmailService(FeedbackItem comment, string templateText, Action<string> messageCallback) { 
+        private EmailService SetupEmailService(FeedbackItem comment, string templateText, Action<string> messageCallback)
+        {
             var emailProvider = new Mock<EmailProvider>();
             var templateEngine = new Mock<ITemplateEngine>();
             var template = new NamedFormatTextTemplate(templateText);
             var urlHelper = new Mock<UrlHelper>();
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
-            context.Setup(c => c.Blog).Returns(new Blog { Email = "foo@example.com", Author = "to", Host = "localhost" });
-            
+            context.Setup(c => c.Blog).Returns(new Blog {Email = "foo@example.com", Author = "to", Host = "localhost"});
+
             urlHelper.Setup(u => u.FeedbackUrl(comment)).Returns<FeedbackItem>(f => "/comment#" + f.Id);
             templateEngine.Setup(t => t.GetTemplate("CommentReceived")).Returns(template);
-            emailProvider.Setup(e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback<string, string, string, string>((to, from, title, message) => messageCallback(message));
-            
+            emailProvider.Setup(
+                e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback
+                <string, string, string, string>((to, from, title, message) => messageCallback(message));
+
             return new EmailService(emailProvider.Object, templateEngine.Object, context.Object);
         }
     }

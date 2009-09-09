@@ -1,42 +1,42 @@
-using System;
 using Subtext.Extensibility.Providers;
 
 namespace UnitTests.Subtext
 {
-	public class UnitTestEmailProvider : EmailProvider
-	{
-		EmailProvider internalProvider;
-		
-		/// <summary>
-		/// Sends an email.
-		/// </summary>
-		/// <param name="to"></param>
-		/// <param name="from"></param>
-		/// <param name="subject"></param>
-		/// <param name="message"></param>
-		/// <returns></returns>
-		public override void Send(string to, string from, string subject, string message)
-		{
-			To = to;
-			From = from;
-			Subject = subject;
-			Message = message;
+    public class UnitTestEmailProvider : EmailProvider
+    {
+        public string From;
+        EmailProvider internalProvider;
+        public string Message;
+        public string ReplyTo;
+        public string Subject;
+        public string To;
 
-            if (internalProvider == null)
+        /// <summary>
+        /// Sends an email.
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="from"></param>
+        /// <param name="subject"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public override void Send(string to, string from, string subject, string message)
+        {
+            To = to;
+            From = from;
+            Subject = subject;
+            Message = message;
+
+            if(internalProvider == null)
+            {
                 return;
-			
-			internalProvider.Send(to, from, subject, message);
-		}
+            }
+
+            internalProvider.Send(to, from, subject, message);
+        }
 
         public void SetInternalProvider(EmailProvider provider)
-		{
-			internalProvider = provider;
-		}
-
-		public string To;
-		public string From;
-		public string Subject;
-		public string Message;
-        public string ReplyTo;
-	}
+        {
+            internalProvider = provider;
+        }
+    }
 }

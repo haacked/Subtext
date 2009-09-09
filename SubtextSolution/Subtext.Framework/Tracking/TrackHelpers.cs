@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,9 +12,11 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 #region Notes
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // The code in this file is freely distributable.
 // 
@@ -29,7 +32,9 @@
 // into your existing applications, please visit, http://aspnetweblog.com
 // 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
+
 using System;
 using System.Globalization;
 using Subtext.Framework.Components;
@@ -38,26 +43,30 @@ using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Tracking
 {
-	/// <summary>
-	/// Contains static helper methods for dealing with Trackbacks and PingBacks.
-	/// </summary>
-	public static class TrackHelpers
-	{
-		//Text to insert into a file with pinkback service location
-		public static string GetPingPackTag(UrlHelper urlHelper)
-		{
-			return string.Format(CultureInfo.InvariantCulture, "<link rel=\"pingback\" href=\"{0}Services/Pingback.aspx\"></link>", urlHelper.BlogUrl());
-		}
+    /// <summary>
+    /// Contains static helper methods for dealing with Trackbacks and PingBacks.
+    /// </summary>
+    public static class TrackHelpers
+    {
+        //Text to insert into a file with pinkback service location
+        public static string GetPingPackTag(UrlHelper urlHelper)
+        {
+            return string.Format(CultureInfo.InvariantCulture,
+                                 "<link rel=\"pingback\" href=\"{0}Services/Pingback.aspx\"></link>",
+                                 urlHelper.BlogUrl());
+        }
 
-		//Body of text to insert into a post with Trackback
-		public static string TrackBackTag(Entry entry, Blog blog, UrlHelper urlHelper)
-		{
-			if (entry == null) {
-				throw new ArgumentNullException("entry");
-			}
+        //Body of text to insert into a post with Trackback
+        public static string TrackBackTag(Entry entry, Blog blog, UrlHelper urlHelper)
+        {
+            if(entry == null)
+            {
+                throw new ArgumentNullException("entry");
+            }
 
             Uri entryUrl = urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(blog);
-            return String.Format(CultureInfo.InvariantCulture, Resources.TrackbackTag, entryUrl, entryUrl, entry.Title, urlHelper.BlogUrl(), entry.Id.ToString(CultureInfo.InvariantCulture));
-		}
-	}
+            return String.Format(CultureInfo.InvariantCulture, Resources.TrackbackTag, entryUrl, entryUrl, entry.Title,
+                                 urlHelper.BlogUrl(), entry.Id.ToString(CultureInfo.InvariantCulture));
+        }
+    }
 }

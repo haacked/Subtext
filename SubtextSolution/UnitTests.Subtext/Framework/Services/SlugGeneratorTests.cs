@@ -14,7 +14,8 @@ namespace UnitTests.Subtext.Framework.Services
     public class SlugGeneratorTests
     {
         [Test]
-        public void ConvertTitleToSlug_WithNullEntry_ThrowsArgumentNullException() {
+        public void ConvertTitleToSlug_WithNullEntry_ThrowsArgumentNullException()
+        {
             //arrange
             var generator = new SlugGenerator(null);
 
@@ -23,10 +24,11 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        public void ConvertTitleToSlug_WithNullOrEmptyTitle_ThrowsArgumentException() {
+        public void ConvertTitleToSlug_WithNullOrEmptyTitle_ThrowsArgumentException()
+        {
             //arrange
             var generator = new SlugGenerator(null);
-            var entry = new Entry(PostType.BlogPost) { Title = string.Empty };
+            var entry = new Entry(PostType.BlogPost) {Title = string.Empty};
 
             //act, assert
             UnitTestHelper.AssertThrows<ArgumentException>(() => generator.GetSlugFromTitle(entry));
@@ -37,9 +39,9 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var generator = new SlugGenerator(null);
-            
+
             //act
-            var settings = generator.SlugSettings;
+            FriendlyUrlSettings settings = generator.SlugSettings;
 
             //act
             Assert.IsTrue(settings.Enabled);
@@ -49,10 +51,11 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        public void ConvertTitleToSlug_WithSpacesInTitle_ReplacesSpacesInTitle() {
+        public void ConvertTitleToSlug_WithSpacesInTitle_ReplacesSpacesInTitle()
+        {
             //arrange
             var generator = new SlugGenerator(null);
-            var entry = new Entry(PostType.BlogPost) { Title = "this is a test" };
+            var entry = new Entry(PostType.BlogPost) {Title = "this is a test"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -70,7 +73,7 @@ namespace UnitTests.Subtext.Framework.Services
             config.Add("separatingCharacter", "");
             var settings = new FriendlyUrlSettings(config);
             var generator = new SlugGenerator(settings);
-            var entry = new Entry(PostType.BlogPost) { Title = " this is a test " };
+            var entry = new Entry(PostType.BlogPost) {Title = " this is a test "};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -89,7 +92,7 @@ namespace UnitTests.Subtext.Framework.Services
             config.Add("TextTransform", "UpperCase");
             var settings = new FriendlyUrlSettings(config);
             var generator = new SlugGenerator(settings);
-            var entry = new Entry(PostType.BlogPost) { Title = "this is a test" };
+            var entry = new Entry(PostType.BlogPost) {Title = "this is a test"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -107,7 +110,7 @@ namespace UnitTests.Subtext.Framework.Services
             config.Add("separatingCharacter", "-");
             var settings = new FriendlyUrlSettings(config);
             var generator = new SlugGenerator(settings);
-            var entry = new Entry(PostType.BlogPost) { Title = "    this  is   a test\r\n" };
+            var entry = new Entry(PostType.BlogPost) {Title = "    this  is   a test\r\n"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -125,7 +128,7 @@ namespace UnitTests.Subtext.Framework.Services
             config.Add("separatingCharacter", "_");
             var settings = new FriendlyUrlSettings(config);
             var generator = new SlugGenerator(settings);
-            var entry = new Entry(PostType.BlogPost) { Title = "this is a test" };
+            var entry = new Entry(PostType.BlogPost) {Title = "this is a test"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -143,7 +146,7 @@ namespace UnitTests.Subtext.Framework.Services
             config.Add("separatingCharacter", "*");
             var settings = new FriendlyUrlSettings(config);
             var generator = new SlugGenerator(settings);
-            var entry = new Entry(PostType.BlogPost) { Title = "this is a test" };
+            var entry = new Entry(PostType.BlogPost) {Title = "this is a test"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -161,7 +164,7 @@ namespace UnitTests.Subtext.Framework.Services
             config.Add("separatingCharacter", ".");
             var settings = new FriendlyUrlSettings(config);
             var generator = new SlugGenerator(settings);
-            var entry = new Entry(PostType.BlogPost) { Title = "this is a test" };
+            var entry = new Entry(PostType.BlogPost) {Title = "this is a test"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -175,7 +178,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var generator = new SlugGenerator(null);
-            var entry = new Entry(PostType.BlogPost) { Title = "Åñçhòr çùè Héllò wörld" };
+            var entry = new Entry(PostType.BlogPost) {Title = "Åñçhòr çùè Héllò wörld"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -188,7 +191,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var generator = new SlugGenerator(null);
-            var entry = new Entry(PostType.BlogPost) { Title = "안-녕하십니까" };
+            var entry = new Entry(PostType.BlogPost) {Title = "안-녕하십니까"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -198,10 +201,11 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        public void ConvertTitleToSlug_WithNonWordCharacters_RemoveNonWordCharacters() {
+        public void ConvertTitleToSlug_WithNonWordCharacters_RemoveNonWordCharacters()
+        {
             //arrange
             var generator = new SlugGenerator(null);
-            var entry = new Entry(PostType.BlogPost) { Title = @"[!""'`;:~@#foo$%^&-bar*(){\[}\]?+/=\\|<>_baz" };
+            var entry = new Entry(PostType.BlogPost) {Title = @"[!""'`;:~@#foo$%^&-bar*(){\[}\]?+/=\\|<>_baz"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -219,7 +223,7 @@ namespace UnitTests.Subtext.Framework.Services
             config.Add("separatingCharacter", ".");
             var settings = new FriendlyUrlSettings(config);
             var generator = new SlugGenerator(settings);
-            var entry = new Entry(PostType.BlogPost) { Title = "this. is...a test." };
+            var entry = new Entry(PostType.BlogPost) {Title = "this. is...a test."};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -237,7 +241,7 @@ namespace UnitTests.Subtext.Framework.Services
             config.Add("separatingCharacter", "-");
             var settings = new FriendlyUrlSettings(config);
             var generator = new SlugGenerator(settings);
-            var entry = new Entry(PostType.BlogPost) { Title = "-this - is - a - test-" };
+            var entry = new Entry(PostType.BlogPost) {Title = "-this - is - a - test-"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -255,7 +259,7 @@ namespace UnitTests.Subtext.Framework.Services
             config.Add("separatingCharacter", "-");
             var settings = new FriendlyUrlSettings(config);
             var generator = new SlugGenerator(settings);
-            var entry = new Entry(PostType.BlogPost) { Title = "a test." };
+            var entry = new Entry(PostType.BlogPost) {Title = "a test."};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -269,7 +273,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var generator = new SlugGenerator(null);
-            var entry = new Entry(PostType.BlogPost) { Title = @"1234" };
+            var entry = new Entry(PostType.BlogPost) {Title = @"1234"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -279,13 +283,14 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        public void ConvertTitleToSlug_WithSlugMatchingExistingEntry_AppendsAgainToSlug() {
+        public void ConvertTitleToSlug_WithSlugMatchingExistingEntry_AppendsAgainToSlug()
+        {
             //arrange
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry("foo-bar", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Again", false, false)).Returns((Entry)null);
             var generator = new SlugGenerator(null, repository.Object);
-            var entry = new Entry(PostType.BlogPost) { Title = @"foo bar" };
+            var entry = new Entry(PostType.BlogPost) {Title = @"foo bar"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -303,7 +308,7 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.GetEntry("foo-bar-Again", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Yet-Again", false, false)).Returns((Entry)null);
             var generator = new SlugGenerator(null, repository.Object);
-            var entry = new Entry(PostType.BlogPost) { Title = @"foo bar" };
+            var entry = new Entry(PostType.BlogPost) {Title = @"foo bar"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -322,7 +327,7 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.GetEntry("foo-bar-Yet-Again", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-And-Again", false, false)).Returns((Entry)null);
             var generator = new SlugGenerator(null, repository.Object);
-            var entry = new Entry(PostType.BlogPost) { Title = @"foo bar" };
+            var entry = new Entry(PostType.BlogPost) {Title = @"foo bar"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -342,7 +347,7 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.GetEntry("foo-bar-And-Again", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Once-Again", false, false)).Returns((Entry)null);
             var generator = new SlugGenerator(null, repository.Object);
-            var entry = new Entry(PostType.BlogPost) { Title = @"foo bar" };
+            var entry = new Entry(PostType.BlogPost) {Title = @"foo bar"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -363,7 +368,7 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.GetEntry("foo-bar-Once-Again", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Once-More", false, false)).Returns((Entry)null);
             var generator = new SlugGenerator(null, repository.Object);
-            var entry = new Entry(PostType.BlogPost) { Title = @"foo bar" };
+            var entry = new Entry(PostType.BlogPost) {Title = @"foo bar"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -385,7 +390,7 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.GetEntry("foo-bar-Once-More", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-To-Beat-A-Dead-Horse", false, false)).Returns((Entry)null);
             var generator = new SlugGenerator(null, repository.Object);
-            var entry = new Entry(PostType.BlogPost) { Title = @"foo bar" };
+            var entry = new Entry(PostType.BlogPost) {Title = @"foo bar"};
 
             //act
             string slug = generator.GetSlugFromTitle(entry);
@@ -402,7 +407,7 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.GetEntry(It.IsAny<string>(), false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-again", false, false)).Returns((Entry)null);
             var generator = new SlugGenerator(null, repository.Object);
-            var entry = new Entry(PostType.BlogPost) { Title = @"foo bar" };
+            var entry = new Entry(PostType.BlogPost) {Title = @"foo bar"};
 
             //act, assert
             UnitTestHelper.AssertThrows<InvalidOperationException>(() => generator.GetSlugFromTitle(entry));

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -15,6 +16,7 @@
 ///the original FredCK.FCKeditorV2, which is redistributed with the following license
 
 #region Original License
+
 /*
  * FCKeditor - The text editor for internet
  * Copyright (C) 2003-2005 Frederico Caldeira Knabben
@@ -31,7 +33,9 @@
  * File Authors:
  * 		Frederico Caldeira Knabben (fredck@fckeditor.net)
  */
+
 #endregion
+
 #endregion
 
 using System;
@@ -64,7 +68,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
     {
         protected override void OnInit(EventArgs e)
         {
-            if (!SubtextContext.User.IsInRole("Admins"))
+            if(!SubtextContext.User.IsInRole("Admins"))
             {
                 SubtextContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 SubtextContext.HttpContext.Response.End();
@@ -76,28 +80,37 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
         {
             // Get the main request informaiton.
             string sCommand = Request.QueryString["Command"];
-            if (sCommand == null) return;
+            if(sCommand == null)
+            {
+                return;
+            }
 
             string sResourceType = Request.QueryString["Type"];
-            if (sResourceType == null) return;
+            if(sResourceType == null)
+            {
+                return;
+            }
 
             string sCurrentFolder = Request.QueryString["CurrentFolder"];
-            if (sCurrentFolder == null) return;
+            if(sCurrentFolder == null)
+            {
+                return;
+            }
 
             // Check the current folder syntax (must begin and start with a slash).
-            if (!sCurrentFolder.EndsWith("/"))
+            if(!sCurrentFolder.EndsWith("/"))
             {
                 sCurrentFolder += "/";
             }
-            if (!sCurrentFolder.StartsWith("/"))
+            if(!sCurrentFolder.StartsWith("/"))
             {
                 sCurrentFolder = "/" + sCurrentFolder;
             }
 
             // File Upload doesn't have to return XML, so it must be intercepted before anything.
-            if (sCommand == "FileUpload")
+            if(sCommand == "FileUpload")
             {
-                this.FileUpload(sResourceType, sCurrentFolder);
+                FileUpload(sResourceType, sCurrentFolder);
                 return;
             }
 
@@ -109,35 +122,35 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             Response.CacheControl = "no-cache";
 
             // Set the response format.
-            Response.ContentEncoding = UTF8Encoding.UTF8;
+            Response.ContentEncoding = Encoding.UTF8;
             Response.ContentType = "text/xml";
 
-            XmlDocument oXML = new XmlDocument();
+            var oXML = new XmlDocument();
             XmlNode oConnectorNode = CreateBaseXml(oXML, sCommand, sResourceType, sCurrentFolder);
 
-            if (CreateImageFolder(oConnectorNode))
+            if(CreateImageFolder(oConnectorNode))
             {
-                if (sResourceType.Equals("Image"))
+                if(sResourceType.Equals("Image"))
                 {
                     // Execute the required command.
-                    switch (sCommand)
+                    switch(sCommand)
                     {
                         case "GetFolders":
-                            this.GetFolders(oConnectorNode, sCurrentFolder);
+                            GetFolders(oConnectorNode, sCurrentFolder);
                             break;
                         case "GetFoldersAndFiles":
-                            this.GetFolders(oConnectorNode, sCurrentFolder);
-                            this.GetFiles(oConnectorNode, sResourceType, sCurrentFolder);
+                            GetFolders(oConnectorNode, sCurrentFolder);
+                            GetFiles(oConnectorNode, sResourceType, sCurrentFolder);
                             break;
                         case "CreateFolder":
-                            this.CreateFolder(oConnectorNode, sResourceType, sCurrentFolder);
+                            CreateFolder(oConnectorNode, sResourceType, sCurrentFolder);
                             break;
                     }
                 }
-                else if (sResourceType.Equals("Posts"))
+                else if(sResourceType.Equals("Posts"))
                 {
                     // Execute the required command.
-                    switch (sCommand)
+                    switch(sCommand)
                     {
                         case "GetFolders":
                             GetCategories(oConnectorNode, sCurrentFolder);
@@ -147,24 +160,24 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
                             GetPosts(oConnectorNode, sCurrentFolder);
                             break;
                         case "CreateFolder":
-                            this.CreateFolder(oConnectorNode, sResourceType, sCurrentFolder);
+                            CreateFolder(oConnectorNode, sResourceType, sCurrentFolder);
                             break;
                     }
                 }
-                else if (sResourceType.Equals("File"))
+                else if(sResourceType.Equals("File"))
                 {
                     // Execute the required command.
-                    switch (sCommand)
+                    switch(sCommand)
                     {
                         case "GetFolders":
-                            this.GetFolders(oConnectorNode, sCurrentFolder);
+                            GetFolders(oConnectorNode, sCurrentFolder);
                             break;
                         case "GetFoldersAndFiles":
-                            this.GetFolders(oConnectorNode, sCurrentFolder);
-                            this.GetFiles(oConnectorNode, sResourceType, sCurrentFolder);
+                            GetFolders(oConnectorNode, sCurrentFolder);
+                            GetFiles(oConnectorNode, sResourceType, sCurrentFolder);
                             break;
                         case "CreateFolder":
-                            this.CreateFolder(oConnectorNode, sResourceType, sCurrentFolder);
+                            CreateFolder(oConnectorNode, sResourceType, sCurrentFolder);
                             break;
                     }
                 }
@@ -181,15 +194,15 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
         private void GetFolders(XmlNode connectorNode, string currentFolder)
         {
             // Map the virtual path to the local server path.
-            string sServerDir = this.ServerMapFolder(currentFolder, Url.ImageDirectoryUrl(Blog));
+            string sServerDir = ServerMapFolder(currentFolder, Url.ImageDirectoryUrl(Blog));
 
             // Create the "Folders" node.
             XmlNode oFoldersNode = XmlUtil.AppendElement(connectorNode, "Folders");
 
-            DirectoryInfo oDir = new DirectoryInfo(sServerDir);
+            var oDir = new DirectoryInfo(sServerDir);
             DirectoryInfo[] aSubDirs = oDir.GetDirectories();
 
-            for (int i = 0; i < aSubDirs.Length; i++)
+            for(int i = 0; i < aSubDirs.Length; i++)
             {
                 // Create the "Folders" node.
                 XmlNode oFolderNode = XmlUtil.AppendElement(oFoldersNode, "Folder");
@@ -200,21 +213,23 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
         private void GetFiles(XmlNode connectorNode, string resourceType, string currentFolder)
         {
             // Map the virtual path to the local server path.
-            string sServerDir = this.ServerMapFolder(currentFolder, Url.ImageDirectoryUrl(Blog));
+            string sServerDir = ServerMapFolder(currentFolder, Url.ImageDirectoryUrl(Blog));
 
             // Create the "Files" node.
             XmlNode oFilesNode = XmlUtil.AppendElement(connectorNode, "Files");
 
-            DirectoryInfo oDir = new DirectoryInfo(sServerDir);
+            var oDir = new DirectoryInfo(sServerDir);
             FileInfo[] aFiles = oDir.GetFiles();
 
-            for (int i = 0; i < aFiles.Length; i++)
+            for(int i = 0; i < aFiles.Length; i++)
             {
-                if (Regex.IsMatch(aFiles[i].Extension, GetAllowedExtension(resourceType), RegexOptions.IgnoreCase))
+                if(Regex.IsMatch(aFiles[i].Extension, GetAllowedExtension(resourceType), RegexOptions.IgnoreCase))
                 {
-
                     Decimal iFileSize = Math.Round((Decimal)aFiles[i].Length / 1024);
-                    if (iFileSize < 1 && aFiles[i].Length != 0) iFileSize = 1;
+                    if(iFileSize < 1 && aFiles[i].Length != 0)
+                    {
+                        iFileSize = 1;
+                    }
 
                     // Create the "File" node.
                     XmlNode oFileNode = XmlUtil.AppendElement(oFilesNode, "File");
@@ -224,12 +239,15 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             }
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The error number is used to create an error node in the XML document, so we need to catch a general exception as well.")]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+            Justification =
+                "The error number is used to create an error node in the XML document, so we need to catch a general exception as well."
+            )]
         private void CreateFolder(XmlNode connectorNode, string resourceType, string currentFolder)
         {
             string sErrorNumber = "0";
 
-            if (resourceType.Equals("Posts"))
+            if(resourceType.Equals("Posts"))
             {
                 sErrorNumber = "103";
             }
@@ -237,34 +255,36 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             {
                 string sNewFolderName = Request.QueryString["NewFolderName"];
 
-                if (sNewFolderName == null || sNewFolderName.Length == 0)
+                if(sNewFolderName == null || sNewFolderName.Length == 0)
+                {
                     sErrorNumber = "102";
+                }
                 else
                 {
                     // Map the virtual path to the local server path of the current folder.
-                    string sServerDir = this.ServerMapFolder(currentFolder, Url.ImageDirectoryUrl(Blog));
+                    string sServerDir = ServerMapFolder(currentFolder, Url.ImageDirectoryUrl(Blog));
 
                     try
                     {
                         Util.CreateDirectory(Path.Combine(sServerDir, sNewFolderName));
                     }
-                    catch (ArgumentException)
+                    catch(ArgumentException)
                     {
                         sErrorNumber = "102";
                     }
-                    catch (PathTooLongException)
+                    catch(PathTooLongException)
                     {
                         sErrorNumber = "102";
                     }
-                    catch (IOException)
+                    catch(IOException)
                     {
                         sErrorNumber = "101";
                     }
-                    catch (SecurityException)
+                    catch(SecurityException)
                     {
                         sErrorNumber = "103";
                     }
-                    catch (Exception)
+                    catch(Exception)
                     {
                         sErrorNumber = "110";
                     }
@@ -281,31 +301,31 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             string sErrorNumber = "0";
             string sFileName = "";
 
-            if (!resourceType.Equals("Posts"))
+            if(!resourceType.Equals("Posts"))
             {
                 HttpPostedFile oFile = Request.Files["NewFile"];
 
-                if (oFile != null)
+                if(oFile != null)
                 {
                     // Map the virtual path to the local server path.
-                    string sServerDir = this.ServerMapFolder(currentFolder, Url.ImageDirectoryUrl(Blog));
+                    string sServerDir = ServerMapFolder(currentFolder, Url.ImageDirectoryUrl(Blog));
 
                     // Get the uploaded file name.
                     sFileName = Path.GetFileName(oFile.FileName);
 
                     int iCounter = 0;
 
-                    while (true)
+                    while(true)
                     {
                         string sFilePath = Path.Combine(sServerDir, sFileName);
 
-                        if (File.Exists(sFilePath))
+                        if(File.Exists(sFilePath))
                         {
                             iCounter++;
                             sFileName =
                                 Path.GetFileNameWithoutExtension(oFile.FileName)
-                                    + "(" + iCounter + ")"
-                                    + Path.GetExtension(oFile.FileName);
+                                + "(" + iCounter + ")"
+                                + Path.GetExtension(oFile.FileName);
 
                             sErrorNumber = "201";
                         }
@@ -317,7 +337,9 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
                     }
                 }
                 else
+                {
                     sErrorNumber = "202";
+                }
             }
             else
             {
@@ -326,65 +348,12 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 
             Response.Clear();
             Response.Write("<script type=\"text/javascript\">");
-            Response.Write("window.parent.frames['frmUpload'].OnUploadCompleted(" + sErrorNumber + ",'" + sFileName.Replace("'", "\\'") + "') ;");
+            Response.Write("window.parent.frames['frmUpload'].OnUploadCompleted(" + sErrorNumber + ",'" +
+                           sFileName.Replace("'", "\\'") + "') ;");
             Response.Write("</script>");
 
             Response.End();
         }
-
-        #region Post Type Handler
-
-        private static void GetCategories(XmlNode connectorNode, string currentFolder)
-        {
-            if (currentFolder.Equals("/"))
-            {
-                ICollection<LinkCategory> catList = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
-
-                // Create the "Folders" node.
-                XmlNode oFoldersNode = XmlUtil.AppendElement(connectorNode, "Folders");
-
-                foreach (LinkCategory category in catList)
-                {
-                    // Create the "Folders" node.
-                    XmlNode oFolderNode = XmlUtil.AppendElement(oFoldersNode, "Folder");
-                    XmlUtil.SetAttribute(oFolderNode, "name", category.Title);
-                }
-            }
-        }
-
-        private static void GetPosts(XmlNode connectorNode, string currentFolder)
-        {
-            IPagedCollection<EntryStatsView> posts;
-            if (currentFolder.Equals("/"))
-            {
-                posts = Entries.GetPagedEntries(PostType.BlogPost, -1, 0, 1000);
-            }
-            else
-            {
-                string categoryName = currentFolder.Substring(1, currentFolder.Length - 2);
-                LinkCategory cat = ObjectProvider.Instance().GetLinkCategory(categoryName, false);
-                posts = Entries.GetPagedEntries(PostType.BlogPost, cat.Id, 0, 1000);
-            }
-
-            // Create the "Files" node.
-            XmlNode oFilesNode = XmlUtil.AppendElement(connectorNode, "Files");
-            foreach (Entry entry in posts)
-            {
-                // Create the "File" node.
-                if (entry.IsActive)
-                {
-                    XmlNode oFileNode = XmlUtil.AppendElement(oFilesNode, "File");
-
-                    //TODO: Seriously refactor.
-                    UrlHelper urlHelper = new UrlHelper(null, null);
-
-                    XmlUtil.SetAttribute(oFileNode, "name", string.Format(CultureInfo.InvariantCulture, "{0}|{1}", entry.Title, urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(Config.CurrentBlog).ToString()));
-                    XmlUtil.SetAttribute(oFileNode, "size", entry.DateModified.ToShortDateString());
-                }
-            }
-        }
-
-        #endregion
 
         private XmlNode CreateBaseXml(XmlDocument xml, string command, string resourceType, string currentFolder)
         {
@@ -397,7 +366,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             XmlUtil.SetAttribute(connectorNode, "resourceType", resourceType);
 
             // Add the current folder node.
-            if (!resourceType.Equals("Posts"))
+            if(!resourceType.Equals("Posts"))
             {
                 XmlNode oCurrentNode = XmlUtil.AppendElement(connectorNode, "CurrentFolder");
                 XmlUtil.SetAttribute(oCurrentNode, "path", currentFolder);
@@ -430,11 +399,11 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
         private static string GetAllowedExtension(string resourceType)
         {
             string extStr = string.Empty;
-            if (resourceType.Equals("File"))
+            if(resourceType.Equals("File"))
             {
                 extStr = FckBlogEntryEditorProvider.FileAllowedExtensions;
             }
-            else if (resourceType.Equals("Image"))
+            else if(resourceType.Equals("Image"))
             {
                 extStr = FckBlogEntryEditorProvider.ImageAllowedExtensions;
             }
@@ -447,21 +416,79 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             string imageDirectoryPath = Url.ImageDirectoryPath(Blog);
             try
             {
-                if (!Directory.Exists(imageDirectoryPath))
+                if(!Directory.Exists(imageDirectoryPath))
                 {
                     Directory.CreateDirectory(imageDirectoryPath);
                 }
                 retval = true;
             }
-            catch (Exception)
+            catch(Exception)
             {
                 // Create the "Error" node.
                 XmlNode errorNode = XmlUtil.AppendElement(connectorNode, "Error");
                 XmlUtil.SetAttribute(errorNode, "number", "1");
-                XmlUtil.SetAttribute(errorNode, "text", "Cannot create folder: " + imageDirectoryPath + "." + Environment.NewLine + "Write access to this folder is required to initialize the image storage");
+                XmlUtil.SetAttribute(errorNode, "text",
+                                     "Cannot create folder: " + imageDirectoryPath + "." + Environment.NewLine +
+                                     "Write access to this folder is required to initialize the image storage");
                 retval = false;
             }
             return retval;
         }
+
+        #region Post Type Handler
+
+        private static void GetCategories(XmlNode connectorNode, string currentFolder)
+        {
+            if(currentFolder.Equals("/"))
+            {
+                ICollection<LinkCategory> catList = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+
+                // Create the "Folders" node.
+                XmlNode oFoldersNode = XmlUtil.AppendElement(connectorNode, "Folders");
+
+                foreach(LinkCategory category in catList)
+                {
+                    // Create the "Folders" node.
+                    XmlNode oFolderNode = XmlUtil.AppendElement(oFoldersNode, "Folder");
+                    XmlUtil.SetAttribute(oFolderNode, "name", category.Title);
+                }
+            }
+        }
+
+        private static void GetPosts(XmlNode connectorNode, string currentFolder)
+        {
+            IPagedCollection<EntryStatsView> posts;
+            if(currentFolder.Equals("/"))
+            {
+                posts = Entries.GetPagedEntries(PostType.BlogPost, -1, 0, 1000);
+            }
+            else
+            {
+                string categoryName = currentFolder.Substring(1, currentFolder.Length - 2);
+                LinkCategory cat = ObjectProvider.Instance().GetLinkCategory(categoryName, false);
+                posts = Entries.GetPagedEntries(PostType.BlogPost, cat.Id, 0, 1000);
+            }
+
+            // Create the "Files" node.
+            XmlNode oFilesNode = XmlUtil.AppendElement(connectorNode, "Files");
+            foreach(Entry entry in posts)
+            {
+                // Create the "File" node.
+                if(entry.IsActive)
+                {
+                    XmlNode oFileNode = XmlUtil.AppendElement(oFilesNode, "File");
+
+                    //TODO: Seriously refactor.
+                    var urlHelper = new UrlHelper(null, null);
+
+                    XmlUtil.SetAttribute(oFileNode, "name",
+                                         string.Format(CultureInfo.InvariantCulture, "{0}|{1}", entry.Title,
+                                                       urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(Config.CurrentBlog)));
+                    XmlUtil.SetAttribute(oFileNode, "size", entry.DateModified.ToShortDateString());
+                }
+            }
+        }
+
+        #endregion
     }
 }

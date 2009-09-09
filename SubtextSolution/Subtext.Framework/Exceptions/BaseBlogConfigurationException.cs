@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,29 +12,32 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 
 namespace Subtext.Framework.Exceptions
 {
-	/// <summary>
-	/// Base exception class for blog configuration errors.
-	/// </summary>
+    /// <summary>
+    /// Base exception class for blog configuration errors.
+    /// </summary>
     [Serializable]
-	public abstract class BaseBlogConfigurationException : Exception
-	{	
-		/// <summary>
-		/// Creates a new <see cref="BaseBlogConfigurationException"/> instance.
-		/// </summary>
-		protected BaseBlogConfigurationException() : base()
-		{}
+    public abstract class BaseBlogConfigurationException : Exception
+    {
+        /// <summary>
+        /// Creates a new <see cref="BaseBlogConfigurationException"/> instance.
+        /// </summary>
+        protected BaseBlogConfigurationException()
+        {
+        }
 
-		/// <summary>
-		/// Creates a new <see cref="BaseBlogConfigurationException"/> instance.
-		/// </summary>
-		/// <param name="innerException">Inner exception.</param>
-		protected BaseBlogConfigurationException(Exception innerException) : base(null, innerException)
-		{}
-	}
+        /// <summary>
+        /// Creates a new <see cref="BaseBlogConfigurationException"/> instance.
+        /// </summary>
+        /// <param name="innerException">Inner exception.</param>
+        protected BaseBlogConfigurationException(Exception innerException) : base(null, innerException)
+        {
+        }
+    }
 }

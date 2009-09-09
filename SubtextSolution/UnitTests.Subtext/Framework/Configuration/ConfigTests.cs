@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,9 +12,9 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -49,8 +50,8 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.IsNotNull(info, "Could not find the blog with the unique hostName & subfolder combination.");
             Assert.AreEqual(info.Subfolder, subfolder2, "Oops! Looks like we found the wrong Blog!");
         }
-        
-		[Test]
+
+        [Test]
         [RollBack2]
         public void GetBlogInfoDoesNotFindBlogWithWrongSubfolderInMultiBlogSystem()
         {
@@ -94,7 +95,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.AreEqual("http://server.example.com/", info.OpenIDServer);
             Assert.AreEqual("http://delegate.example.com/", info.OpenIDDelegate);
         }
-        
+
         /// <summary>
         /// Sets the up test fixture.  This is called once for 
         /// this test fixture before all the tests run.

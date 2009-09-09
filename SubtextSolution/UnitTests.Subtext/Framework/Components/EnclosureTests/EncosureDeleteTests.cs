@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,9 +12,9 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -32,10 +33,12 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         {
             blog = UnitTestHelper.CreateBlogAndSetupContext();
 
-            Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures", "Listen to my great podcast");
+            Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures",
+                                                                       "Listen to my great podcast");
             int entryId = UnitTestHelper.Create(e);
 
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3", entryId, 12345678, true, true);
+            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
+                                                          entryId, 12345678, true, true);
             Enclosures.Create(enc);
 
             Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, false);

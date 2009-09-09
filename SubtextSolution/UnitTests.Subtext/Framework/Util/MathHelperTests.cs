@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using MbUnit.Framework;
 using Subtext.Framework.Util;
 
@@ -11,7 +11,7 @@ namespace UnitTests.Subtext.Framework.Util
         public void ScaleToFit_WithImageAlreadyFitting_ReturnsOriginalImage()
         {
             // arrange
-            Size original = new Size(8, 4); // aspect = 2.00
+            var original = new Size(8, 4); // aspect = 2.00
 
             // act
             Size resized = original.ScaleToFit(new Size(12, 15));
@@ -24,7 +24,7 @@ namespace UnitTests.Subtext.Framework.Util
         public void ScaleToFit_ScaledToSameAspectRatio_ScalesExactlyToMaxSize()
         {
             // arrange
-            Size original = new Size(8, 4); // aspect = 2.00
+            var original = new Size(8, 4); // aspect = 2.00
 
             // act
             Size resized = original.ScaleToFit(new Size(4, 2));
@@ -37,8 +37,8 @@ namespace UnitTests.Subtext.Framework.Util
         public void ScaleToFit_WithImageHavingAspectRatioGreaterThanOneScaledToAspectRatioLessThanOne_ScalesCorrectly()
         {
             // arrange
-            Size original = new Size(7, 5); // aspect = 1.40
-            Size maxSize = new Size(2, 3);  // aspect = 0.67
+            var original = new Size(7, 5); // aspect = 1.40
+            var maxSize = new Size(2, 3); // aspect = 0.67
 
             // act
             Size resized = original.ScaleToFit(maxSize);
@@ -51,8 +51,8 @@ namespace UnitTests.Subtext.Framework.Util
         public void ScaleToFit_WithImageHavingAspectRatioLessThanOneScaledToAspectRatioGreaterThanOne_ScalesCorrectly()
         {
             // arrange
-            Size original = new Size(5, 7); // aspect = 0.71
-            Size maxSize = new Size(4, 3);  // aspect = 1.33
+            var original = new Size(5, 7); // aspect = 0.71
+            var maxSize = new Size(4, 3); // aspect = 1.33
 
             // act
             Size resized = original.ScaleToFit(maxSize);

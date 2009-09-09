@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -22,94 +24,104 @@ using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.Install
 {
-	/// <summary>
-	/// Summary description for InstallationBase.
-	/// </summary>
-	public class InstallationBase : SubtextPage {
-		/// <summary>
-		/// Ons the load.
-		/// </summary>
-		/// <param name="e">E.</param>
-		protected override void OnLoad(EventArgs e)
-		{
-            InstallationState status = Subtext.Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
+    /// <summary>
+    /// Summary description for InstallationBase.
+    /// </summary>
+    public class InstallationBase : SubtextPage
+    {
+        static readonly string[] _wizardPages =
+            {
+                "Default.aspx"
+                , "Step02_ConfigureHost.aspx"
+                , "Step03_CreateBlog.aspx"
+            };
 
-			switch(status)
-			{
-				case InstallationState.NeedsInstallation:
-				case InstallationState.NeedsUpgrade:
-					EnsureInstallStep("Default.aspx", "Step02_ConfigureHost.aspx");
-					break;
-				
-				default:
-					HostInfo info = HostInfo.LoadHost(true /* suppressException */);
+        /// <summary>
+        /// Gets the next step URL.
+        /// </summary>
+        /// <value></value>
+        public static string NextStepUrl
+        {
+            get
+            {
+                for(int i = 0; i < _wizardPages.Length; i++)
+                {
+                    if(IsOnPage(_wizardPages[i]) && i < _wizardPages.Length - 1)
+                    {
+                        return _wizardPages[i + 1];
+                    }
+                }
+                return "InstallationComplete.aspx";
+            }
+        }
 
-                    if (info == null) {
+        /// <summary>
+        /// Ons the load.
+        /// </summary>
+        /// <param name="e">E.</param>
+        protected override void OnLoad(EventArgs e)
+        {
+            InstallationState status =
+                Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
+
+            switch(status)
+            {
+                case InstallationState.NeedsInstallation:
+                case InstallationState.NeedsUpgrade:
+                    EnsureInstallStep("Default.aspx", "Step02_ConfigureHost.aspx");
+                    break;
+
+                default:
+                    HostInfo info = HostInfo.LoadHost(true /* suppressException */);
+
+                    if(info == null)
+                    {
                         EnsureInstallStep("Step02_ConfigureHost.aspx");
                     }
-                    if (info != null && Config.BlogCount == 0) {
+                    if(info != null && Config.BlogCount == 0)
+                    {
                         EnsureInstallStep("Step03_CreateBlog.aspx");
                     }
-                    if (info != null && Config.BlogCount > 0) {
+                    if(info != null && Config.BlogCount > 0)
+                    {
                         EnsureInstallStep("InstallationComplete.aspx");
                     }
-					break;
-			}
-			
-			base.OnLoad(e);
-		}
+                    break;
+            }
 
-		//Make sure we're on this page.
-		void EnsureInstallStep(string page) {
-			EnsureInstallStep(page, "");
-		}
+            base.OnLoad(e);
+        }
 
-		void EnsureInstallStep(params string[] pages)
-		{
-			if(pages.Length == 0)
-				return;
+        //Make sure we're on this page.
+        void EnsureInstallStep(string page)
+        {
+            EnsureInstallStep(page, "");
+        }
 
-			foreach(string page in pages)
-			{
-				if(page != null && page.Length > 0)
-				{
-					if(IsOnPage(page))
-					{		
-						return;
-					}
-				}
-			}
-			
-			Response.Redirect(pages[0], true);
-		}
+        void EnsureInstallStep(params string[] pages)
+        {
+            if(pages.Length == 0)
+            {
+                return;
+            }
 
-		/// <summary>
-		/// Gets the next step URL.
-		/// </summary>
-		/// <value></value>
-		public static string NextStepUrl
-		{
-			get
-			{
-				for(int i = 0; i < _wizardPages.Length; i++)
-				{
-					if(IsOnPage(_wizardPages[i]) && i < _wizardPages.Length - 1)
-						return _wizardPages[i+1];
-				}
-				return "InstallationComplete.aspx";
-			}
-		}
+            foreach(string page in pages)
+            {
+                if(page != null && page.Length > 0)
+                {
+                    if(IsOnPage(page))
+                    {
+                        return;
+                    }
+                }
+            }
 
-		static string[] _wizardPages =
-			{
-				"Default.aspx"
-				, "Step02_ConfigureHost.aspx"
-				, "Step03_CreateBlog.aspx"
-			};
+            Response.Redirect(pages[0], true);
+        }
 
-		static bool IsOnPage(string page)
-		{
-			return HttpContext.Current.Request.Path.IndexOf(page, StringComparison.InvariantCultureIgnoreCase) >= 0;
-		}
-	}
+        static bool IsOnPage(string page)
+        {
+            return HttpContext.Current.Request.Path.IndexOf(page, StringComparison.InvariantCultureIgnoreCase) >= 0;
+        }
+    }
 }

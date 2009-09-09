@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,19 +12,30 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Configuration
 {
     public class MimeTypesMapper
     {
-        static MimeTypesMapper _mappings = new MimeTypesMapper((NameValueCollection)ConfigurationManager.GetSection("EnclosureMimetypes"));
+        static readonly MimeTypesMapper _mappings =
+            new MimeTypesMapper((NameValueCollection)ConfigurationManager.GetSection("EnclosureMimetypes"));
+
+        public MimeTypesMapper(NameValueCollection config)
+        {
+            if(config == null)
+            {
+                throw new ArgumentNullException("config");
+            }
+            List = config;
+            Count = config.Keys.Count;
+        }
 
         /// <summary>
         /// Returns the MimeTypesMapper instance.
@@ -33,25 +45,9 @@ namespace Subtext.Framework.Configuration
             get { return _mappings; }
         }
 
-        public int Count
-        {
-            get;
-            private set;
-        }
+        public int Count { get; private set; }
 
-        public NameValueCollection List
-        {
-            get;
-            private set;
-        }
-
-        public MimeTypesMapper(NameValueCollection config)
-        {
-            if (config == null)
-                throw new ArgumentNullException("config");
-            List = config;
-            Count = config.Keys.Count;
-        }
+        public NameValueCollection List { get; private set; }
 
         /// <summary>
         /// Returns the mimetype that corresponds to a file extension.
@@ -60,10 +56,14 @@ namespace Subtext.Framework.Configuration
         /// <returns>The MimeType</returns>
         public string GetMimeType(string ext)
         {
-            if(ext==null)
+            if(ext == null)
+            {
                 throw new ArgumentNullException("ext");
-            if (List[ext] != null)
+            }
+            if(List[ext] != null)
+            {
                 return List[ext];
+            }
             return null;
         }
 
@@ -74,19 +74,22 @@ namespace Subtext.Framework.Configuration
         /// <returns>The MimeType.</returns>
         public string ParseUrl(string url)
         {
-            if (url == null)
+            if(url == null)
+            {
                 throw new ArgumentNullException("url");
+            }
             Uri uri;
 
-            if (!Uri.TryCreate(url,UriKind.Absolute,out uri))
-                throw new ArgumentException("Url not valid.","url");
+            if(!Uri.TryCreate(url, UriKind.Absolute, out uri))
+            {
+                throw new ArgumentException("Url not valid.", "url");
+            }
 
-            string path = uri.GetComponents(UriComponents.Path,UriFormat.SafeUnescaped);
+            string path = uri.GetComponents(UriComponents.Path, UriFormat.SafeUnescaped);
 
             string ext = Path.GetExtension(path);
 
             return GetMimeType(ext);
-            
         }
     }
 }

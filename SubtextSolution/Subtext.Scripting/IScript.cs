@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,18 +12,18 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
 using System.Data.SqlClient;
 
 namespace Subtext.Scripting
 {
-	/// <summary>
-	/// Interface implemented by a script.
-	/// </summary>
-	public interface IScript
-	{
-		int Execute(SqlTransaction transaction);
-	}
+    /// <summary>
+    /// Interface implemented by a script.
+    /// </summary>
+    public interface IScript
+    {
+        int Execute(SqlTransaction transaction);
+    }
 }

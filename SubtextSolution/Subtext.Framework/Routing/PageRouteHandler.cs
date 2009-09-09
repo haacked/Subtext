@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,8 +12,10 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Routing;
@@ -31,31 +34,23 @@ namespace Subtext.Framework.Routing
             PageBuilder = pageBuilder;
         }
 
-        protected ISubtextPageBuilder PageBuilder
-        {
-            get;
-            set;
-        }
+        protected ISubtextPageBuilder PageBuilder { get; set; }
 
-        public string VirtualPath
-        {
-            get;
-            protected set;
-        }
+        public string VirtualPath { get; protected set; }
 
         protected override IHttpHandler GetHandler(RequestContext requestContext)
         {
             Bootstrapper.RequestContext = requestContext;
-            var page = PageBuilder.CreateInstanceFromVirtualPath(this.VirtualPath, typeof(Page)) as IHttpHandler;
+            var page = PageBuilder.CreateInstanceFromVirtualPath(VirtualPath, typeof(Page)) as IHttpHandler;
 
-            if (page != null)
+            if(page != null)
             {
                 var pageWithControls = page as IPageWithControls;
-                if (pageWithControls != null)
+                if(pageWithControls != null)
                 {
-                    if (requestContext.RouteData.DataTokens != null)
+                    if(requestContext.RouteData.DataTokens != null)
                     {
-                        var controls = requestContext.RouteData.GetControlNames();
+                        IEnumerable<string> controls = requestContext.RouteData.GetControlNames();
                         //TODO: Temporary hack to append .ascx
                         pageWithControls.SetControls(controls.Select(s => s += ".ascx"));
                     }

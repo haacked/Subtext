@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,44 +12,34 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Data;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework;
+using Subtext.Framework.Data;
 using Subtext.Web.Controls;
-using Subtext.Framework.Routing;
 
 namespace Subtext.Web.UI.Controls
 {
     public class TagCloud : BaseControl
     {
-        public IEnumerable<Tag> TagItems
-        {
-            get;
-            set;
-        }
+        public IEnumerable<Tag> TagItems { get; set; }
 
-		[DefaultValue(0)]
-        public int ItemCount
-        {
-            get;
-            set;
-        }
+        [DefaultValue(0)]
+        public int ItemCount { get; set; }
 
         protected virtual void Tags_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                Tag tag = (Tag)e.Item.DataItem;
-                HyperLink tagLink = e.Item.FindControl("TagUrl") as HyperLink;
-                if (tagLink != null) 
+                var tag = (Tag)e.Item.DataItem;
+                var tagLink = e.Item.FindControl("TagUrl") as HyperLink;
+                if(tagLink != null)
                 {
                     tagLink.NavigateUrl = Url.TagUrl(tag.TagName);
                 }
@@ -62,21 +53,21 @@ namespace Subtext.Web.UI.Controls
             TagItems = Cacher.GetTopTags(ItemCount, SubtextContext);
             int tagCount = TagItems.Count();
 
-            if (tagCount == 0) 
+            if(tagCount == 0)
             {
-                this.Visible = false;
+                Visible = false;
             }
             else
             {
-                Repeater tagRepeater = this.FindControl("Tags") as Repeater;
-                if (tagRepeater != null)
+                var tagRepeater = FindControl("Tags") as Repeater;
+                if(tagRepeater != null)
                 {
                     tagRepeater.DataSource = TagItems;
                     tagRepeater.DataBind();
                 }
 
-                HyperLink defaultTagLink = ControlHelper.FindControlRecursively(this, "DefaultTagLink") as HyperLink;
-                if (defaultTagLink != null) 
+                var defaultTagLink = ControlHelper.FindControlRecursively(this, "DefaultTagLink") as HyperLink;
+                if(defaultTagLink != null)
                 {
                     defaultTagLink.NavigateUrl = Url.TagCloudUrl();
                 }

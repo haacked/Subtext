@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
@@ -12,253 +13,249 @@ using Subtext.Web.Controls.Properties;
 
 namespace Subtext.Web.Controls
 {
-	/// <summary>
-	/// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha")]
+    /// <summary>
+    /// </summary>
+    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha")]
     public abstract class CaptchaBase : BaseValidator
-	{
-		private readonly static ILog log = new Log();
-		static readonly SymmetricAlgorithm encryptionAlgorithm = InitializeEncryptionAlgorithm();
-		
-		static SymmetricAlgorithm InitializeEncryptionAlgorithm()
-		{
-			SymmetricAlgorithm rijaendel = RijndaelManaged.Create();
-			//TODO: We should set these values in the db the very first time this code is called and load them from the db every other time.
-			rijaendel.GenerateKey();
-			rijaendel.GenerateIV();
-			return rijaendel;
-		}
+    {
+        static readonly SymmetricAlgorithm encryptionAlgorithm = InitializeEncryptionAlgorithm();
+        private readonly static ILog log = new Log();
 
-		/// <summary>
-		/// Encrypts the string and returns a base64 encoded encrypted string.
-		/// </summary>
-		/// <param name="clearText">The clear text.</param>
-		/// <returns></returns>
-		public static string EncryptString(string clearText)
-		{
-			byte[] clearTextBytes = Encoding.UTF8.GetBytes(clearText);
-			byte[] encrypted = encryptionAlgorithm.CreateEncryptor().TransformFinalBlock(clearTextBytes, 0, clearTextBytes.Length);
-			return Convert.ToBase64String(encrypted);
-		}
+        /// <summary>
+        /// Gets the name of the hidden form field in which the encrypted answer 
+        /// is located.  The answer is sent encrypted to the browser, which must 
+        /// send the answer back.
+        /// </summary>
+        /// <value>The name of the hidden encrypted answer field.</value>
+        protected string HiddenEncryptedAnswerFieldName
+        {
+            get { return ClientID + "_encrypted"; }
+        }
 
-		/// <summary>
-		/// Decrypts the base64 encrypted string and returns the cleartext.
-		/// </summary>
-		/// <param name="encryptedEncodedText">The clear text.</param>
-		/// <exception type="System.Security.Cryptography.CryptographicException">Thrown the string to be decrypted 
-		/// was encrypted using a different encryptor (for example, if we recompile and 
-		/// receive an old string).</exception>
-		/// <returns></returns>
-		public static string DecryptString(string encryptedEncodedText)
-		{
-			try
-			{
-				byte[] encryptedBytes = Convert.FromBase64String(encryptedEncodedText);
-				byte[] decryptedBytes = encryptionAlgorithm.CreateDecryptor().TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
-				return Encoding.UTF8.GetString(decryptedBytes);
-			}
-			catch (FormatException fe)
-			{
-				throw new CaptchaExpiredException(String.Format(CultureInfo.InvariantCulture, Resources.CaptchaExpired_EncryptedTextNotValid, encryptedEncodedText), fe);
-			}
-			catch (CryptographicException e)
-			{
-				throw new CaptchaExpiredException(Resources.CaptchaExpired_KeyOutOfSynch, e);
-			}
-		}
+        /// <summary>
+        /// The input field (possibly hidden) in which the client 
+        /// will specify the answer.
+        /// </summary>
+        protected string AnswerFormFieldName
+        {
+            get { return ClientID + "_answer"; }
+        }
 
-		/// <summary>Checks the properties of the control for valid values.</summary>
-		/// <returns>true if the control properties are valid; otherwise, false.</returns>
-		protected override bool ControlPropertiesValid()
-		{
-			if (!String.IsNullOrEmpty(ControlToValidate))
-			{
-				CheckControlValidationProperty(ControlToValidate, "ControlToValidate");
-			}
-			return true;
-		}
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha")]
+        [DefaultValue(0)]
+        [Description("Number of seconds this CAPTCHA is valid after it is generated. Zero means valid forever.")]
+        [Category("Captcha")]
+        public int CaptchaTimeout { get; set; }
 
-		/// <summary>
-		/// Encrypts the answer along with the current datetime.
-		/// </summary>
-		/// <param name="answer">The answer.</param>
-		/// <returns></returns>
-		protected virtual string EncryptAnswer(string answer)
-		{
-			return EncryptString(answer + "|" + DateTime.Now.ToString("yyyy/MM/dd HH:mm", CultureInfo.InvariantCulture));
-		}
+        static SymmetricAlgorithm InitializeEncryptionAlgorithm()
+        {
+            SymmetricAlgorithm rijaendel = Rijndael.Create();
+            //TODO: We should set these values in the db the very first time this code is called and load them from the db every other time.
+            rijaendel.GenerateKey();
+            rijaendel.GenerateIV();
+            return rijaendel;
+        }
 
-		/// <summary>
-		/// Gets the name of the hidden form field in which the encrypted answer 
-		/// is located.  The answer is sent encrypted to the browser, which must 
-		/// send the answer back.
-		/// </summary>
-		/// <value>The name of the hidden encrypted answer field.</value>
-		protected string HiddenEncryptedAnswerFieldName
-		{
-			get
-			{
-				return ClientID + "_encrypted";
-			}
-		}
+        /// <summary>
+        /// Encrypts the string and returns a base64 encoded encrypted string.
+        /// </summary>
+        /// <param name="clearText">The clear text.</param>
+        /// <returns></returns>
+        public static string EncryptString(string clearText)
+        {
+            byte[] clearTextBytes = Encoding.UTF8.GetBytes(clearText);
+            byte[] encrypted = encryptionAlgorithm.CreateEncryptor().TransformFinalBlock(clearTextBytes, 0,
+                                                                                         clearTextBytes.Length);
+            return Convert.ToBase64String(encrypted);
+        }
 
-		///<summary>
-		///When overridden in a derived class, this method contains the code to determine whether the value in the input control is valid.
-		///</summary>
-		///<returns>
-		///true if the value in the input control is valid; otherwise, false.
-		///</returns>
-		///
-		protected override bool EvaluateIsValid()
-		{
-			try
-			{
-				return ValidateCaptcha();
-			}
-			catch(CaptchaExpiredException e)
-			{
-				if (e.InnerException != null)
-				{
-					string warning = Resources.Warning_CaptchaExpired;
-					if (HttpContext.Current != null && HttpContext.Current.Request != null)
-						warning += " User Agent: " + HttpContext.Current.Request.UserAgent;
-					log.Warn(warning, e.InnerException);
-				}
-				this.ErrorMessage = Resources.Message_FormExpired;
-				return false;
-			}
-		}
+        /// <summary>
+        /// Decrypts the base64 encrypted string and returns the cleartext.
+        /// </summary>
+        /// <param name="encryptedEncodedText">The clear text.</param>
+        /// <exception type="System.Security.Cryptography.CryptographicException">Thrown the string to be decrypted 
+        /// was encrypted using a different encryptor (for example, if we recompile and 
+        /// receive an old string).</exception>
+        /// <returns></returns>
+        public static string DecryptString(string encryptedEncodedText)
+        {
+            try
+            {
+                byte[] encryptedBytes = Convert.FromBase64String(encryptedEncodedText);
+                byte[] decryptedBytes = encryptionAlgorithm.CreateDecryptor().TransformFinalBlock(encryptedBytes, 0,
+                                                                                                  encryptedBytes.Length);
+                return Encoding.UTF8.GetString(decryptedBytes);
+            }
+            catch(FormatException fe)
+            {
+                throw new CaptchaExpiredException(
+                    String.Format(CultureInfo.InvariantCulture, Resources.CaptchaExpired_EncryptedTextNotValid,
+                                  encryptedEncodedText), fe);
+            }
+            catch(CryptographicException e)
+            {
+                throw new CaptchaExpiredException(Resources.CaptchaExpired_KeyOutOfSynch, e);
+            }
+        }
 
-		private bool ValidateCaptcha()
-		{
-			string answer = GetClientSpecifiedAnswer();
-			AnswerAndDate answerAndDate = GetEncryptedAnswerFromForm();	
-			
-			string expectedAnswer = answerAndDate.Answer;
-			bool isValid = !String.IsNullOrEmpty(answer) 
-                && String.Equals(answer, expectedAnswer, StringComparison.OrdinalIgnoreCase);
-			return isValid;
-		}
+        /// <summary>Checks the properties of the control for valid values.</summary>
+        /// <returns>true if the control properties are valid; otherwise, false.</returns>
+        protected override bool ControlPropertiesValid()
+        {
+            if(!String.IsNullOrEmpty(ControlToValidate))
+            {
+                CheckControlValidationProperty(ControlToValidate, "ControlToValidate");
+            }
+            return true;
+        }
 
-		// Gets the answer from the client, whether entered by 
-		// javascript or by the user.
-		protected virtual string GetClientSpecifiedAnswer()
-		{
-			return Page.Request.Form[this.AnswerFormFieldName];
-		}
+        /// <summary>
+        /// Encrypts the answer along with the current datetime.
+        /// </summary>
+        /// <param name="answer">The answer.</param>
+        /// <returns></returns>
+        protected virtual string EncryptAnswer(string answer)
+        {
+            return EncryptString(answer + "|" + DateTime.Now.ToString("yyyy/MM/dd HH:mm", CultureInfo.InvariantCulture));
+        }
 
-		/// <summary>
-		/// Gets the encrypted answer from form.
-		/// </summary>
-		/// <returns></returns>
-		/// <exception type="CaptchaExpiredException">Thrown when the user takes too long to submit a captcha answer.</exception>
-		protected virtual AnswerAndDate GetEncryptedAnswerFromForm()
-		{
-			string formValue = Page.Request.Form[this.HiddenEncryptedAnswerFieldName];
-			AnswerAndDate answerAndDate = AnswerAndDate.ParseAnswerAndDate(formValue, CaptchaTimeout);
-			if (answerAndDate.Expired)
-				throw new CaptchaExpiredException(Resources.CaptchaExpired_WaitedTooLong);
-			return answerAndDate;
-		}
+        ///<summary>
+        ///When overridden in a derived class, this method contains the code to determine whether the value in the input control is valid.
+        ///</summary>
+        ///<returns>
+        ///true if the value in the input control is valid; otherwise, false.
+        ///</returns>
+        ///
+        protected override bool EvaluateIsValid()
+        {
+            try
+            {
+                return ValidateCaptcha();
+            }
+            catch(CaptchaExpiredException e)
+            {
+                if(e.InnerException != null)
+                {
+                    string warning = Resources.Warning_CaptchaExpired;
+                    if(HttpContext.Current != null && HttpContext.Current.Request != null)
+                    {
+                        warning += " User Agent: " + HttpContext.Current.Request.UserAgent;
+                    }
+                    log.Warn(warning, e.InnerException);
+                }
+                ErrorMessage = Resources.Message_FormExpired;
+                return false;
+            }
+        }
 
-		/// <summary>
-		/// The input field (possibly hidden) in which the client 
-		/// will specify the answer.
-		/// </summary>
-		protected string AnswerFormFieldName
-		{
-			get
-			{
-				return ClientID + "_answer";
-			}
-		}
+        private bool ValidateCaptcha()
+        {
+            string answer = GetClientSpecifiedAnswer();
+            AnswerAndDate answerAndDate = GetEncryptedAnswerFromForm();
 
-        private int timeoutInSeconds;
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Captcha"), DefaultValue(0), Description("Number of seconds this CAPTCHA is valid after it is generated. Zero means valid forever."), Category("Captcha")]
-		public int CaptchaTimeout
-		{
-			get
-			{
-				return this.timeoutInSeconds;
-			}
-			set
-			{
-				this.timeoutInSeconds = value;
-			}
-		}
-	}
-	
-	/// <summary>
-	/// Represents the answer and date returned by the 
-	/// client.
-	/// </summary>
-	public struct AnswerAndDate
-	{	
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AnswerAndDate"/> class.
-		/// </summary>
-		/// <param name="encryptedAnswer">The encrypted answer.</param>
+            string expectedAnswer = answerAndDate.Answer;
+            bool isValid = !String.IsNullOrEmpty(answer)
+                           && String.Equals(answer, expectedAnswer, StringComparison.OrdinalIgnoreCase);
+            return isValid;
+        }
+
+        // Gets the answer from the client, whether entered by 
+        // javascript or by the user.
+        protected virtual string GetClientSpecifiedAnswer()
+        {
+            return Page.Request.Form[AnswerFormFieldName];
+        }
+
+        /// <summary>
+        /// Gets the encrypted answer from form.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception type="CaptchaExpiredException">Thrown when the user takes too long to submit a captcha answer.</exception>
+        protected virtual AnswerAndDate GetEncryptedAnswerFromForm()
+        {
+            string formValue = Page.Request.Form[HiddenEncryptedAnswerFieldName];
+            AnswerAndDate answerAndDate = AnswerAndDate.ParseAnswerAndDate(formValue, CaptchaTimeout);
+            if(answerAndDate.Expired)
+            {
+                throw new CaptchaExpiredException(Resources.CaptchaExpired_WaitedTooLong);
+            }
+            return answerAndDate;
+        }
+    }
+
+    /// <summary>
+    /// Represents the answer and date returned by the 
+    /// client.
+    /// </summary>
+    public struct AnswerAndDate
+    {
+        string answer;
+
+        DateTime date;
+
+
+        bool expired;
+
+        /// <summary>
+        /// Gets the answer.
+        /// </summary>
+        /// <value>The answer.</value>
+        public string Answer
+        {
+            get { return answer; }
+        }
+
+        /// <summary>
+        /// Gets the date the answer was rendered.
+        /// </summary>
+        /// <value>The date.</value>
+        public DateTime Date
+        {
+            get { return date; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="AnswerAndDate"/> is expired.
+        /// </summary>
+        /// <value><c>true</c> if expired; otherwise, <c>false</c>.</value>
+        public bool Expired
+        {
+            get { return expired; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnswerAndDate"/> class.
+        /// </summary>
+        /// <param name="encryptedAnswer">The encrypted answer.</param>
         /// <param name="timeoutInSeconds">Number of seconds before captcha expires.</param>
-		public static AnswerAndDate ParseAnswerAndDate(string encryptedAnswer, int timeoutInSeconds)
-		{
-			AnswerAndDate answerAndDate;
-			answerAndDate.expired = false;
-			answerAndDate.answer = string.Empty;
-			answerAndDate.date = DateTime.MinValue;
-			
-			if(String.IsNullOrEmpty(encryptedAnswer))
-				return answerAndDate;
+        public static AnswerAndDate ParseAnswerAndDate(string encryptedAnswer, int timeoutInSeconds)
+        {
+            AnswerAndDate answerAndDate;
+            answerAndDate.expired = false;
+            answerAndDate.answer = string.Empty;
+            answerAndDate.date = DateTime.MinValue;
 
-			string decryptedAnswer = CaptchaBase.DecryptString(encryptedAnswer);
-			string[] answerParts = decryptedAnswer.Split('|');
-			if (answerParts.Length < 2)
-				return answerAndDate;
+            if(String.IsNullOrEmpty(encryptedAnswer))
+            {
+                return answerAndDate;
+            }
 
-			answerAndDate.answer = answerParts[0];
-			answerAndDate.date = DateTime.ParseExact(answerParts[1], "yyyy/MM/dd HH:mm", CultureInfo.InvariantCulture);
+            string decryptedAnswer = CaptchaBase.DecryptString(encryptedAnswer);
+            string[] answerParts = decryptedAnswer.Split('|');
+            if(answerParts.Length < 2)
+            {
+                return answerAndDate;
+            }
 
-			if (timeoutInSeconds != 0 && (DateTime.Now - answerAndDate.date).TotalSeconds >= timeoutInSeconds)
-				throw new CaptchaExpiredException(Resources.CaptchaExpired_WaitedTooLong);
+            answerAndDate.answer = answerParts[0];
+            answerAndDate.date = DateTime.ParseExact(answerParts[1], "yyyy/MM/dd HH:mm", CultureInfo.InvariantCulture);
 
-			return answerAndDate;
-		}
+            if(timeoutInSeconds != 0 && (DateTime.Now - answerAndDate.date).TotalSeconds >= timeoutInSeconds)
+            {
+                throw new CaptchaExpiredException(Resources.CaptchaExpired_WaitedTooLong);
+            }
 
-		/// <summary>
-		/// Gets the answer.
-		/// </summary>
-		/// <value>The answer.</value>
-		public string Answer
-		{
-			get { return this.answer; }
-		}
-
-		string answer;
-
-		/// <summary>
-		/// Gets the date the answer was rendered.
-		/// </summary>
-		/// <value>The date.</value>
-		public DateTime Date
-		{
-			get { return this.date; }
-		}
-
-		DateTime date;
-			
-
-		/// <summary>
-		/// Gets a value indicating whether this <see cref="AnswerAndDate"/> is expired.
-		/// </summary>
-		/// <value><c>true</c> if expired; otherwise, <c>false</c>.</value>
-		public bool Expired
-		{
-			get
-			{
-				return this.expired;
-			}
-		}
-
-		bool expired;
-	}
+            return answerAndDate;
+        }
+    }
 }
-

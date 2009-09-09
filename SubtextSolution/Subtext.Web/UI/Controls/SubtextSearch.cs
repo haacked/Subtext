@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,121 +12,132 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
-using Subtext.Extensibility.Providers;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
 {
-	/// <summary>
-	///	Implements a search control that can be added to a skin.
-	/// </summary>
-	public class SubtextSearch : BaseControl
-	{
-		protected TextBox txtSearch;
-		protected Button btnSearch;
+    /// <summary>
+    ///	Implements a search control that can be added to a skin.
+    /// </summary>
+    public class SubtextSearch : BaseControl
+    {
+        protected Button btnSearch;
 
-		protected Repeater SearchResults;
+        protected Repeater SearchResults;
+        protected TextBox txtSearch;
 
-		private void Page_Load(object sender, EventArgs e)
-		{
-			if(txtSearch != null)
-				txtSearch.ValidationGroup = "SubtextSearch";
-			
-			if(btnSearch != null)
-				btnSearch.ValidationGroup = "SubtextSearch";
-		}
+        private void Page_Load(object sender, EventArgs e)
+        {
+            if(txtSearch != null)
+            {
+                txtSearch.ValidationGroup = "SubtextSearch";
+            }
 
-		#region Web Form Designer generated code
+            if(btnSearch != null)
+            {
+                btnSearch.ValidationGroup = "SubtextSearch";
+            }
+        }
 
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			AttachCloseButton();
-			base.OnInit(e);
-		}
+        private void AttachCloseButton()
+        {
+            var closeLinkButton = FindControl("closeButton") as LinkButton;
+            if(closeLinkButton != null)
+            {
+                closeLinkButton.Click += OnCloseClick;
+                return;
+            }
 
-		/// <summary>
-		///		Required method for Designer support - do not modify
-		///		the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
-			this.Load += this.Page_Load;
-			this.btnSearch.Click += this.btnSearch_Click;
-		}
+            var closeButton = FindControl("closeButton") as Button;
+            if(closeButton != null)
+            {
+                closeButton.Click += OnCloseClick;
+                return;
+            }
+        }
 
-		#endregion
+        void OnCloseClick(object sender, EventArgs e)
+        {
+            if(SearchResults != null)
+            {
+                SearchResults.Visible = false;
+            }
+        }
 
-		private void AttachCloseButton()
-		{
-			LinkButton closeLinkButton = this.FindControl("closeButton") as LinkButton;
-			if (closeLinkButton != null)
-			{
-				closeLinkButton.Click += OnCloseClick;
-				return;
-			}
-
-			Button closeButton = this.FindControl("closeButton") as Button;
-			if (closeButton != null)
-			{
-				closeButton.Click += OnCloseClick;
-				return;
-			}
-		}
-
-		void OnCloseClick(object sender, EventArgs e)
-		{
-			if (SearchResults != null)
-				SearchResults.Visible = false;
-		}
-
-		public void btnSearch_Click(object sender, EventArgs e)
-		{
-			if (!String.IsNullOrEmpty(txtSearch.Text))
-			{
-				//fix for the blogs where only one installed
-				int blogId = 0;
-                if (Blog.Id > 0) {
+        public void btnSearch_Click(object sender, EventArgs e)
+        {
+            if(!String.IsNullOrEmpty(txtSearch.Text))
+            {
+                //fix for the blogs where only one installed
+                int blogId = 0;
+                if(Blog.Id > 0)
+                {
                     blogId = Blog.Id;
                 }
 
                 var searchEngine = new SearchEngine(Blog, Url, Config.ConnectionString);
                 ICollection<SearchResult> searchResults = searchEngine.Search(blogId, txtSearch.Text);
 
-				SearchResults.DataSource = searchResults;
-				SearchResults.DataBind();
-			}
-		}
+                SearchResults.DataSource = searchResults;
+                SearchResults.DataBind();
+            }
+        }
 
-		public class PositionItems
-		{
-			private string title;
-			private string URL;
+        #region Web Form Designer generated code
 
-			public PositionItems(string title, string URL)
-			{
-				this.title = title;
-				this.URL = URL;
-			}
+        override protected void OnInit(EventArgs e)
+        {
+            //
+            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
+            //
+            InitializeComponent();
+            AttachCloseButton();
+            base.OnInit(e);
+        }
 
-			public string Title
-			{
-				get { return title; }
-			}
+        /// <summary>
+        ///		Required method for Designer support - do not modify
+        ///		the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.Load += this.Page_Load;
+            this.btnSearch.Click += this.btnSearch_Click;
+        }
 
-			public string url
-			{
-				get { return URL; }
-			}
-		}
-	}
+        #endregion
+
+        #region Nested type: PositionItems
+
+        public class PositionItems
+        {
+            private string title;
+            private string URL;
+
+            public PositionItems(string title, string URL)
+            {
+                this.title = title;
+                this.URL = URL;
+            }
+
+            public string Title
+            {
+                get { return title; }
+            }
+
+            public string url
+            {
+                get { return URL; }
+            }
+        }
+
+        #endregion
+    }
 }

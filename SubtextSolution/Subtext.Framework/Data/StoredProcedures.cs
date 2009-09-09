@@ -1,20 +1,21 @@
-﻿using System.Data;
+using System.Data;
 using System.Data.SqlClient;
 using log4net;
 using Microsoft.ApplicationBlocks.Data;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
-using Subtext.Framework;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Data
 {
     public partial class StoredProcedures
     {
-        public StoredProcedures() { 
+        public StoredProcedures()
+        {
         }
 
-        public StoredProcedures(string connectionString) {
+        public StoredProcedures(string connectionString)
+        {
             ConnectionString = connectionString;
         }
 
@@ -50,14 +51,16 @@ namespace Subtext.Framework.Data
         {
 #if DEBUG
             string query = sql;
-            if (parameters != null)
+            if(parameters != null)
             {
-                foreach (SqlParameter parameter in parameters)
+                foreach(SqlParameter parameter in parameters)
                 {
                     query += " " + parameter.ParameterName + "=" + parameter.Value + ",";
                 }
-                if (query.EndsWith(","))
+                if(query.EndsWith(","))
+                {
                     query = query.Left(query.Length - 1);
+                }
             }
 
             Log.Debug("SQL: " + query);
@@ -68,12 +71,8 @@ namespace Subtext.Framework.Data
         /// Gets or sets the connection string.
         /// </summary>
         /// <value></value>
-        public string ConnectionString
-        {
-            //TODO: Make this protected.
-            get;
-            set;
-        }
+        public string ConnectionString { //TODO: Make this protected.
+            get; set; }
 
         /// <summary>
         /// Returns a Data Reader pointing to the entry specified by the entry name.
@@ -128,17 +127,16 @@ namespace Subtext.Framework.Data
             try
             {
                 return GetPageableBlogs(pageIndex, pageSize, host, (int)flags);
-
             }
-            catch (SqlException)
+            catch(SqlException)
             {
                 SqlParameter[] p = {
-				    DataHelper.MakeInParam("@PageIndex", pageIndex),		
-				    DataHelper.MakeInParam("@PageSize", pageSize),		
-				    DataHelper.MakeInParam("@SortDesc", 0),
-                };
+                                       DataHelper.MakeInParam("@PageIndex", pageIndex),
+                                       DataHelper.MakeInParam("@PageSize", pageSize),
+                                       DataHelper.MakeInParam("@SortDesc", 0),
+                                   };
                 return GetReader("subtext_GetPageableBlogs", p);
-			}
+            }
         }
     }
 }

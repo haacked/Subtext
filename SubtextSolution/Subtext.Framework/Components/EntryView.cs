@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,45 +12,31 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 
 namespace Subtext.Framework.Components
 {
-	/// <summary>
-	/// Represents the stats for one view of an entry.
-	/// </summary>
-	[Serializable]
-	public class EntryView
-	{
-        public EntryView() {
+    /// <summary>
+    /// Represents the stats for one view of an entry.
+    /// </summary>
+    [Serializable]
+    public class EntryView
+    {
+        public EntryView()
+        {
             BlogId = NullValue.NullInt32;
             EntryId = NullValue.NullInt32;
         }
 
-		public int BlogId
-		{
-			get;
-			set;
-		}
+        public int BlogId { get; set; }
 
-		public int EntryId
-		{
-			get;
-			set;
-		}
-		
-		public string ReferralUrl
-		{
-			get;
-			set;
-		}
+        public int EntryId { get; set; }
 
-		public PageViewType PageViewType
-		{
-			get;
-			set;
-		}
-	}
+        public string ReferralUrl { get; set; }
+
+        public PageViewType PageViewType { get; set; }
+    }
 }

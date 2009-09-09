@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,15 +12,17 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Globalization;
 using System.Net;
+using System.Text;
 using System.Web;
+using System.Web.Security;
 using Subtext.Framework.Security;
 using Subtext.Framework.Syndication.Compression;
-using Subtext.Framework.Util;
 using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Framework.Syndication
@@ -37,30 +40,15 @@ namespace Subtext.Framework.Syndication
         {
         }
 
-        protected CachedFeed Feed
-        {
-            get;
-            set;
-        }
+        protected CachedFeed Feed { get; set; }
 
-        protected virtual bool RequiresAdminRole
-        {
-            get;
-            private set;
-        }
+        protected virtual bool RequiresAdminRole { get; private set; }
 
-        protected virtual bool RequiresHostAdminRole
-        {
-            get;
-            private set;
-        }
+        protected virtual bool RequiresHostAdminRole { get; private set; }
 
         protected HttpContextBase HttpContext
         {
-            get
-            {
-                return SubtextContext.HttpContext;
-            }
+            get { return SubtextContext.HttpContext; }
         }
 
         /// <summary>
@@ -71,10 +59,7 @@ namespace Subtext.Framework.Syndication
         /// <value></value>
         protected string LastModifiedHeader
         {
-            get
-            {
-                return HttpContext.Request.Headers["If-Modified-Since"];
-            }
+            get { return HttpContext.Request.Headers["If-Modified-Since"]; }
         }
 
         /// <summary>
@@ -85,10 +70,7 @@ namespace Subtext.Framework.Syndication
         /// <value></value>
         protected string IfNonMatchHeader
         {
-            get
-            {
-                return HttpContext.Request.Headers["If-None-Match"];
-            }
+            get { return HttpContext.Request.Headers["If-None-Match"]; }
         }
 
         /// <summary>
@@ -102,13 +84,13 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                if (IfNonMatchHeader != null && IfNonMatchHeader.Length > 0)
+                if(IfNonMatchHeader != null && IfNonMatchHeader.Length > 0)
                 {
                     try
                     {
                         return DateTime.Parse(IfNonMatchHeader, CultureInfo.InvariantCulture);
                     }
-                    catch (FormatException)
+                    catch(FormatException)
                     {
                         //Swallow it.
                     }
@@ -125,11 +107,91 @@ namespace Subtext.Framework.Syndication
         /// </value>
         protected bool UseDeltaEncoding
         {
+            get { return Blog.RFC3229DeltaEncodingEnabled && AcceptDeltaEncoding; }
+        }
+
+        /// <summary>
+        /// Gets the syndication writer.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract BaseSyndicationWriter SyndicationWriter { get; }
+
+        /// <summary>
+        /// Returns the "Accept-Encoding" value from the HTTP Request header. 
+        /// This is a list of encodings that may be sent to the browser.
+        /// </summary>
+        /// <remarks>
+        /// Specifically we're looking for gzip.
+        /// </remarks>
+        /// <value></value>
+        protected string AcceptEncoding
+        {
             get
             {
-                return Blog.RFC3229DeltaEncodingEnabled && AcceptDeltaEncoding;
+                string header = HttpContext.Request.Headers["Accept-Encoding"];
+                if(header != null)
+                {
+                    return header;
+                }
+                else
+                {
+                    return string.Empty;
+                }
             }
         }
+
+        /// <summary>
+        /// Gets the accept IM header from the request.
+        /// </summary>
+        /// <value></value>
+        protected string AcceptIMHeader
+        {
+            get
+            {
+                string header = HttpContext.Request.Headers["A-IM"];
+                if(header != null)
+                {
+                    return header;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the client accepts 
+        /// <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html">RFC3229 Feed Delta 
+        /// Encoding</see>. 
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if [accepts delta encoding]; otherwise, <c>false</c>.
+        /// </value>
+        protected bool AcceptDeltaEncoding
+        {
+            get { return AcceptIMHeader.IndexOf("feed") >= 0; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the client accepts gzip compression.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if accepts gzip compression; otherwise, <c>false</c>.
+        /// </value>
+        protected bool AcceptGzipCompression
+        {
+            get
+            {
+                return AcceptEncoding.IndexOf("gzip") >= 0 ||
+                       AcceptIMHeader.IndexOf("gzip") >= 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
+        /// </summary>
+        protected abstract bool IsMainfeed { get; }
 
         /// <summary>
         /// Compares the requesting clients <see cref="LastModifiedHeader"/> against 
@@ -140,7 +202,7 @@ namespace Subtext.Framework.Syndication
         protected virtual bool IsLocalCacheOK()
         {
             string dt = LastModifiedHeader;
-            if (dt != null)
+            if(dt != null)
             {
                 try
                 {
@@ -151,14 +213,13 @@ namespace Subtext.Framework.Syndication
                     //We need to allow some margin of error.
                     return Math.Abs(ts.TotalMilliseconds) <= 500;
                 }
-                catch (FormatException)
+                catch(FormatException)
                 {
                     //TODO: Review
                     //swallow it for now.
                     //Some browsers send a funky last modified header.
                     //We don't want to throw an exception in those cases.
                 }
-
             }
             return false;
         }
@@ -169,14 +230,14 @@ namespace Subtext.Framework.Syndication
         /// <returns></returns>
         protected virtual bool IsHttpCacheOK()
         {
-            if (HttpContext.Cache == null)
+            if(HttpContext.Cache == null)
             {
                 Feed = null;
                 return false;
             }
 
-            Feed = HttpContext.Cache[this.CacheKey(this.PublishDateOfLastFeedItemReceived)] as CachedFeed;
-            if (Feed == null)
+            Feed = HttpContext.Cache[CacheKey(PublishDateOfLastFeedItemReceived)] as CachedFeed;
+            if(Feed == null)
             {
                 return false;
             }
@@ -207,23 +268,25 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         protected virtual void ProcessFeed()
         {
-            if (RedirectToFeedBurnerIfNecessary())
+            if(RedirectToFeedBurnerIfNecessary())
+            {
                 return;
+            }
 
             // Checks Last Modified Header.
-            if (IsLocalCacheOK())
+            if(IsLocalCacheOK())
             {
                 Send304();
                 return;
             }
 
             // Checks our cache against last modified header.
-            if (!IsHttpCacheOK())
+            if(!IsHttpCacheOK())
             {
                 Feed = BuildFeed();
-                if (Feed != null)
+                if(Feed != null)
                 {
-                    if (UseDeltaEncoding && Feed.ClientHasAllFeedItems)
+                    if(UseDeltaEncoding && Feed.ClientHasAllFeedItems)
                     {
                         Send304();
                         return;
@@ -241,17 +304,12 @@ namespace Subtext.Framework.Syndication
         /// <param name="dateLastViewedFeedItemPublished">Date last viewed feed item published.</param>
         /// <returns></returns>
         protected abstract string CacheKey(DateTime dateLastViewedFeedItemPublished);
-        protected abstract void Cache(CachedFeed feed);
 
-        /// <summary>
-        /// Gets the syndication writer.
-        /// </summary>
-        /// <returns></returns>
-        protected abstract BaseSyndicationWriter SyndicationWriter { get; }
+        protected abstract void Cache(CachedFeed feed);
 
         protected virtual CachedFeed BuildFeed()
         {
-            CachedFeed feed = new CachedFeed();
+            var feed = new CachedFeed();
             feed.LastModified = ConvertLastUpdatedDate(Blog.LastUpdated);
             BaseSyndicationWriter writer = SyndicationWriter;
             feed.Xml = writer.Xml;
@@ -269,23 +327,24 @@ namespace Subtext.Framework.Syndication
         {
             string encoding = null;
 
-            if (Feed != null)
+            if(Feed != null)
             {
-                if (Blog.UseSyndicationCompression && this.AcceptGzipCompression)
+                if(Blog.UseSyndicationCompression && AcceptGzipCompression)
                 {
                     // We're GZip Encoding!
-                    SyndicationCompressionFilter filter = SyndicationCompressionHelper.GetFilterForScheme(this.AcceptEncoding, HttpContext.Response.Filter);
+                    SyndicationCompressionFilter filter = SyndicationCompressionHelper.GetFilterForScheme(
+                        AcceptEncoding, HttpContext.Response.Filter);
 
-                    if (filter != null)
+                    if(filter != null)
                     {
                         encoding = filter.ContentEncoding;
                         HttpContext.Response.Filter = filter.Filter;
                     }
                 }
 
-                if (encoding == null)
+                if(encoding == null)
                 {
-                    HttpContext.Response.ContentEncoding = System.Text.Encoding.UTF8;
+                    HttpContext.Response.ContentEncoding = Encoding.UTF8;
                 }
 
                 HttpContext.Response.ContentType = "text/xml";
@@ -293,7 +352,7 @@ namespace Subtext.Framework.Syndication
                 HttpContext.Response.Cache.SetLastModified(Feed.LastModified);
                 HttpContext.Response.Cache.SetETag(Feed.Etag);
 
-                if (AcceptGzipCompression)
+                if(AcceptGzipCompression)
                 {
                     HttpContext.Response.AddHeader("IM", "feed, gzip");
                 }
@@ -301,10 +360,14 @@ namespace Subtext.Framework.Syndication
                 {
                     HttpContext.Response.AddHeader("IM", "feed");
                 }
-                if (this.UseDeltaEncoding)
+                if(UseDeltaEncoding)
+                {
                     HttpContext.Response.StatusCode = HTTP_IM_USED; //IM Used
+                }
                 else
+                {
                     HttpContext.Response.StatusCode = (int)HttpStatusCode.OK;
+                }
 
                 HttpContext.Response.Write(Feed.Xml);
             }
@@ -316,109 +379,35 @@ namespace Subtext.Framework.Syndication
         /// <param name="context">Context.</param>
         public override void ProcessRequest()
         {
-            if ((RequiresAdminRole && !SecurityHelper.IsAdmin) || (RequiresHostAdminRole && !SecurityHelper.IsHostAdmin))
+            if((RequiresAdminRole && !SecurityHelper.IsAdmin) || (RequiresHostAdminRole && !SecurityHelper.IsHostAdmin))
             {
-                System.Web.Security.FormsAuthentication.RedirectToLoginPage();
+                FormsAuthentication.RedirectToLoginPage();
                 return;
             }
             ProcessFeed();
-        }
-
-        /// <summary>
-        /// Returns the "Accept-Encoding" value from the HTTP Request header. 
-        /// This is a list of encodings that may be sent to the browser.
-        /// </summary>
-        /// <remarks>
-        /// Specifically we're looking for gzip.
-        /// </remarks>
-        /// <value></value>
-        protected string AcceptEncoding
-        {
-            get
-            {
-                string header = HttpContext.Request.Headers["Accept-Encoding"];
-                if (header != null)
-                    return header;
-                else
-                    return string.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Gets the accept IM header from the request.
-        /// </summary>
-        /// <value></value>
-        protected string AcceptIMHeader
-        {
-            get
-            {
-                string header = HttpContext.Request.Headers["A-IM"];
-                if (header != null)
-                    return header;
-                else
-                    return string.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the client accepts 
-        /// <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html">RFC3229 Feed Delta 
-        /// Encoding</see>. 
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if [accepts delta encoding]; otherwise, <c>false</c>.
-        /// </value>
-        protected bool AcceptDeltaEncoding
-        {
-            get
-            {
-                return AcceptIMHeader.IndexOf("feed") >= 0;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the client accepts gzip compression.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if accepts gzip compression; otherwise, <c>false</c>.
-        /// </value>
-        protected bool AcceptGzipCompression
-        {
-            get
-            {
-                return AcceptEncoding.IndexOf("gzip") >= 0 ||
-                    AcceptIMHeader.IndexOf("gzip") >= 0;
-            }
         }
 
         // Adapted from DasBlog
         private bool RedirectToFeedBurnerIfNecessary()
         {
             //If we are using FeedBurner, only allow them to get our feed...
-            if (!String.IsNullOrEmpty(Blog.RssProxyUrl))
+            if(!String.IsNullOrEmpty(Blog.RssProxyUrl))
             {
                 string userAgent = HttpContext.Request.UserAgent;
-                if (!String.IsNullOrEmpty(userAgent))
+                if(!String.IsNullOrEmpty(userAgent))
                 {
                     // If they aren't FeedBurner and they aren't asking for a category or comment rss, redirect them!
-                    if (!userAgent.StartsWith("FeedBurner") && IsMainfeed)
+                    if(!userAgent.StartsWith("FeedBurner") && IsMainfeed)
                     {
                         HttpContext.Response.StatusCode = HTTP_MOVED_PERMANENTLY;
                         HttpContext.Response.Status = HTTP_MOVED_PERMANENTLY + " Moved Permanently";
-                        HttpContext.Response.RedirectLocation = SubtextContext.UrlHelper.RssProxyUrl(SubtextContext.Blog).ToString();
+                        HttpContext.Response.RedirectLocation =
+                            SubtextContext.UrlHelper.RssProxyUrl(SubtextContext.Blog).ToString();
                         return true;
                     }
                 }
             }
             return false;
-        }
-
-        /// <summary>
-        /// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
-        /// </summary>
-        protected abstract bool IsMainfeed
-        {
-            get;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Web.Hosting;
@@ -8,7 +8,8 @@ namespace UnitTests.Subtext.Framework.Skinning
 {
     public static class SkinTestExtensions
     {
-        public static void SetupSkin(this Mock<VirtualPathProvider> vppMock, IList<VirtualDirectory> directories, string skinName, string skinConfigContents)
+        public static void SetupSkin(this Mock<VirtualPathProvider> vppMock, IList<VirtualDirectory> directories,
+                                     string skinName, string skinConfigContents)
         {
             string skinConfigPath = string.Format(CultureInfo.InvariantCulture, "~/skins/{0}/skin.config", skinName);
             var virtualFile = new Mock<VirtualFile>(skinConfigPath);
@@ -16,14 +17,16 @@ namespace UnitTests.Subtext.Framework.Skinning
             virtualFile.Setup(vf => vf.Open()).Returns(stream);
             vppMock.Setup(v => v.FileExists(skinConfigPath)).Returns(true);
             vppMock.Setup(v => v.GetFile(skinConfigPath)).Returns(virtualFile.Object);
-            var skinDir = new Mock<VirtualDirectory>(string.Format(CultureInfo.InvariantCulture, "~/skins/{0}", skinName));
+            var skinDir =
+                new Mock<VirtualDirectory>(string.Format(CultureInfo.InvariantCulture, "~/skins/{0}", skinName));
             skinDir.Setup(d => d.Name).Returns(skinName);
             directories.Add(skinDir.Object);
         }
 
         public static VirtualPathProvider SetupSkins(this Mock<VirtualPathProvider> vppMock)
         {
-            string piyoConfig = @"<SkinTemplates>
+            string piyoConfig =
+                @"<SkinTemplates>
     <SkinTemplate Name=""Piyo"" TemplateFolder=""Piyo"" StyleMergeMode=""MergedAfter"" ScriptMergeMode=""Merge"">
 	    <Scripts>
 		    <Script Src=""Scripts/piyo.js"" />
@@ -43,7 +46,8 @@ namespace UnitTests.Subtext.Framework.Skinning
     </SkinTemplate>
 </SkinTemplates>";
 
-            string semagogyConfig = @"<SkinTemplates>
+            string semagogyConfig =
+                @"<SkinTemplates>
     <SkinTemplate Name=""Semagogy"" TemplateFolder=""Semagogy"" ScriptMergeMode=""DontMerge"" StyleMergeMode=""MergedFirst"" >
         <Scripts>
             <Script Src=""Scripts/DarkHorseLayoutEngine.js"" />
@@ -57,7 +61,8 @@ namespace UnitTests.Subtext.Framework.Skinning
     </SkinTemplate>
 </SkinTemplates>";
 
-            string redbookConfig = @"<SkinTemplates>
+            string redbookConfig =
+                @"<SkinTemplates>
 	<SkinTemplate Name=""RedBook"" TemplateFolder=""RedBook"" StyleSheet=""Red.css"" ScriptMergeMode=""Merge"" StyleMergeMode=""None"">
 		<Scripts>
 			<Script Src=""~/scripts/niceforms.js"" />
@@ -102,7 +107,8 @@ namespace UnitTests.Subtext.Framework.Skinning
     </SkinTemplate>
 </SkinTemplates>";
 
-            string natureConfig = @"<SkinTemplates>
+            string natureConfig =
+                @"<SkinTemplates>
     <SkinTemplate Name=""Leafy"" TemplateFolder=""Nature"" StyleSheet=""leafy.css"" StyleMergeMode=""MergedAfter"">
         <Styles>
             <Style href=""~/scripts/lightbox.css"" media=""screen"" />
@@ -119,7 +125,8 @@ namespace UnitTests.Subtext.Framework.Skinning
     </SkinTemplate>
 </SkinTemplates>";
 
-            string gradientConfig = @"<SkinTemplates>
+            string gradientConfig =
+                @"<SkinTemplates>
     <SkinTemplate Name=""Gradient"" TemplateFolder=""Gradient"" ExcludeDefaultStyle=""false"" StyleMergeMode=""MergedAfter"" ScriptMergeMode=""Merge"">
 		<Styles>
 			<Style href=""~/skins/_System/csharp.css"" />
@@ -131,7 +138,8 @@ namespace UnitTests.Subtext.Framework.Skinning
 	</SkinTemplate>
 </SkinTemplates>";
 
-            string wpConfig = @"<SkinTemplates>
+            string wpConfig =
+                @"<SkinTemplates>
     <SkinTemplate Name=""WPSkin"" TemplateFolder=""WPSkin"" StyleMergeMode=""None"" ExcludeDefaultStyle=""true"" >
 		<Styles>
 			<Style href=""~/skins/_System/csharp.css"" />
@@ -142,7 +150,8 @@ namespace UnitTests.Subtext.Framework.Skinning
 	</SkinTemplate>
 </SkinTemplates>";
 
-            string submarineConfig = @"<SkinTemplates>
+            string submarineConfig =
+                @"<SkinTemplates>
     <SkinTemplate Name=""Submarine"" TemplateFolder=""Submarine"" StyleMergeMode=""MergedAfter"" ScriptMergeMode=""Merge"">
 		<Scripts>
 			<Script Src=""~/scripts/niceforms.js"" />
@@ -165,7 +174,8 @@ namespace UnitTests.Subtext.Framework.Skinning
 	</SkinTemplate>
 </SkinTemplates>";
 
-            string origamiConfig = @"<SkinTemplates>
+            string origamiConfig =
+                @"<SkinTemplates>
     <SkinTemplate Name=""Origami"" TemplateFolder=""Origami"" StyleMergeMode=""MergedAfter"" ScriptMergeMode=""Merge"">
         <Styles>
             <Style href=""~/skins/_System/csharp.css"" />
@@ -188,7 +198,8 @@ namespace UnitTests.Subtext.Framework.Skinning
     </SkinTemplate>
 </SkinTemplates>";
 
-            string anotherEonConfig = @"<SkinTemplates>
+            string anotherEonConfig =
+                @"<SkinTemplates>
     <SkinTemplate Name=""AnotherEon001"" TemplateFolder=""AnotherEon001"" StyleMergeMode=""MergedAfter"">
 	    <Styles>
 		    <Style href=""~/skins/_System/csharp.css"" />
@@ -199,7 +210,8 @@ namespace UnitTests.Subtext.Framework.Skinning
     </SkinTemplate>
 </SkinTemplates>";
 
-            string keyWestConfig = @"<SkinTemplates>
+            string keyWestConfig =
+                @"<SkinTemplates>
     <SkinTemplate Name=""KeyWest"" TemplateFolder=""KeyWest"" StyleMergeMode=""MergedFirst"">
         <Styles>
             <Style href=""~/skins/_System/csharp.css"" />
@@ -210,7 +222,8 @@ namespace UnitTests.Subtext.Framework.Skinning
     </SkinTemplate>
 </SkinTemplates>";
 
-            string lightZConfig = @"<SkinTemplates>
+            string lightZConfig =
+                @"<SkinTemplates>
     <SkinTemplate Name=""Lightz"" TemplateFolder=""Lightz"" StyleSheet=""light.css"" StyleMergeMode=""None"">
 		<Styles>
 			<Style href=""~/skins/_System/csharp.css"" />
@@ -239,6 +252,5 @@ namespace UnitTests.Subtext.Framework.Skinning
             vppMock.SetupSkin(directories, "lightz", lightZConfig);
             return vppMock.Object;
         }
-
     }
 }

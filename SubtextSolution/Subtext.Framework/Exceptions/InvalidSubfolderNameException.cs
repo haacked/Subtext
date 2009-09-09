@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,40 +12,41 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 
 namespace Subtext.Framework.Exceptions
 {
-	/// <summary>
-	/// Exception thrown when creating an application
-	/// </summary>
-	[Serializable]
-	public class InvalidSubfolderNameException : BaseBlogConfigurationException
-	{
-		string subfolder;
+    /// <summary>
+    /// Exception thrown when creating an application
+    /// </summary>
+    [Serializable]
+    public class InvalidSubfolderNameException : BaseBlogConfigurationException
+    {
+        string subfolder;
 
-		/// <summary>
-		/// Creates a new <see cref="InvalidSubfolderNameException"/> instance.
-		/// </summary>
-		/// <param name="subfolder">Subfolder.</param>
-		public InvalidSubfolderNameException(string subfolder) : base()
-		{
-			this.subfolder = subfolder;
-		}
+        /// <summary>
+        /// Creates a new <see cref="InvalidSubfolderNameException"/> instance.
+        /// </summary>
+        /// <param name="subfolder">Subfolder.</param>
+        public InvalidSubfolderNameException(string subfolder) : base()
+        {
+            this.subfolder = subfolder;
+        }
 
-		/// <summary>
-		/// Gets the message.
-		/// </summary>
-		/// <value></value>
-		public override string Message
-		{
-			get
-			{
-				return "Sorry, but the subfolder name &#8220;" + subfolder + "&#8221; you&#8217;ve chosen is not allowed.";
-			}
-		}
-
-	}
+        /// <summary>
+        /// Gets the message.
+        /// </summary>
+        /// <value></value>
+        public override string Message
+        {
+            get
+            {
+                return "Sorry, but the subfolder name &#8220;" + subfolder +
+                       "&#8221; you&#8217;ve chosen is not allowed.";
+            }
+        }
+    }
 }

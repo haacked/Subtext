@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,21 +12,20 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using log4net;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
-using Subtext.Framework.Logging;
+using Subtext.Framework.Infrastructure;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
-using Subtext.Framework.Infrastructure;
 
 namespace Subtext.Framework
 {
@@ -37,8 +37,22 @@ namespace Subtext.Framework
     [Serializable]
     public class Blog
     {
-        private readonly static ILog Log = new Log();
+        const string DefaultLanguage = "en-US";
         const int DefaultRecentCommentsLength = 50;
+        private int _categoryListPostCount = 10;
+        int _commentDelayInMinutes;
+        string _feedbackSpamServiceKey;
+        private string _host;
+        private string _language = DefaultLanguage;
+        string _languageCode;
+        int _numberOfRecentComments;
+        private string _password;
+        int _recentCommentsLength;
+        string _rssProxyUrl;
+        private string _subfolder;
+        ITimeZone _timeZone;
+        string _timeZoneId;
+        private string _username;
 
         public Blog()
         {
@@ -46,93 +60,7 @@ namespace Subtext.Framework
             ItemCount = 25;
             Author = "Subtext Weblog";
             Flag = ConfigurationFlags.None;
-        }
-
-        /// <summary>
-        /// Strips the port number from the host name.
-        /// </summary>
-        /// <param name="host">Host.</param>
-        /// <returns></returns>
-        public static string StripPortFromHost(string host)
-        {
-            if (String.IsNullOrEmpty(host))
-                throw new ArgumentNullException("host");
-
-            return Regex.Replace(host, @":.*$", string.Empty);
-        }
-
-        /// <summary>
-        /// Strips www prefix from host name.
-        /// </summary>
-        /// <param name="host">Host.</param>
-        /// <returns></returns>
-        public static string StripWwwPrefixFromHost(string host)
-        {
-            if (String.IsNullOrEmpty(host))
-                throw new ArgumentNullException("host");
-
-            return Regex.Replace(host, @"^www.", string.Empty, RegexOptions.IgnoreCase);
-        }
-
-        /// <summary>
-        /// If the host starts with www., gets the host without the www. If it 
-        /// doesn't start with www., returns the host with www.
-        /// </summary>
-        /// <param name="host">Host.</param>
-        /// <returns></returns>
-        public static string GetAlternateHostAlias(string host)
-        {
-            if (String.IsNullOrEmpty(host))
-                throw new ArgumentNullException("host");
-
-            if (host.StartsWith("www.", StringComparison.CurrentCultureIgnoreCase))
-                return StripWwwPrefixFromHost(host);
-            else
-                return "www." + host;
-        }
-
-        /// <summary>
-        /// Gets the active blog count by host.
-        /// </summary>
-        /// <param name="host">The host.</param>
-        /// <returns></returns>
-        /// <param name="pageIndex">Zero based index of the page to retrieve.</param>
-        /// <param name="pageSize">Number of records to display on the page.</param>
-        /// <param name="flags">Configuration flags to filter blogs retrieved.</param>
-        public static IPagedCollection<Blog> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
-        {
-            if (String.IsNullOrEmpty(host))
-                throw new ArgumentNullException("host");
-
-            return ObjectProvider.Instance().GetPagedBlogs(host, pageIndex, pageSize, flags);
-        }
-
-        public IPagedCollection<BlogAlias> GetBlogAliases(int pageIndex, int pageSize)
-        {
-            return ObjectProvider.Instance().GetPagedBlogDomainAlias(this, pageIndex, pageSize);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="IList{T}"/> containing ACTIVE the <see cref="Blog"/> 
-        /// instances within the specified range.
-        /// </summary>
-        /// <param name="pageIndex">Page index.</param>
-        /// <param name="pageSize">Size of the page.</param>
-        /// <param name="flags"></param>
-        /// <returns></returns>
-        public static IPagedCollection<Blog> GetBlogs(int pageIndex, int pageSize, ConfigurationFlags flags)
-        {
-            return ObjectProvider.Instance().GetPagedBlogs(null, pageIndex, pageSize, flags);
-        }
-
-        /// <summary>
-        /// Gets the blog by id.
-        /// </summary>
-        /// <param name="blogId">Blog id.</param>
-        /// <returns></returns>
-        public static Blog GetBlogById(int blogId)
-        {
-            return ObjectProvider.Instance().GetBlogById(blogId);
+            DaysTillCommentsClose = Int32.MaxValue;
         }
 
         /// <summary>
@@ -140,27 +68,18 @@ namespace Subtext.Framework
         /// was last updated.
         /// </summary>
         /// <value></value>
-        public DateTime LastUpdated
-        {
-            get;
-            set;
-        }
+        public DateTime LastUpdated { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the blog.  This is the 
         /// primary key in the blog_config table.
         /// </summary>
         /// <value></value>
-        public int Id
-        {
-            get;
-            set;
-        }
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the option to show the blog owners email address in rss feeds.
         /// </summary>
-
         public bool ShowEmailAddressInRss
         {
             get { return FlagPropertyCheck(ConfigurationFlags.ShowAuthorEmailAddressinRss); }
@@ -175,19 +94,14 @@ namespace Subtext.Framework
         {
             get
             {
-                if (_timeZone == null)
+                if(_timeZone == null)
                 {
-                    var timeZone = TimeZones.GetTimeZones().GetById(TimeZoneId);
-                    if (timeZone == null)
-                    {
-                        timeZone = System.TimeZoneInfo.Local;
-                    }
+                    TimeZoneInfo timeZone = TimeZones.GetTimeZones().GetById(TimeZoneId) ?? TimeZoneInfo.Local;
                     _timeZone = new TimeZoneWrapper(timeZone);
                 }
                 return _timeZone;
             }
         }
-        ITimeZone _timeZone;
 
         /// <summary>
         /// Gets or sets the time zone for the blogger.  
@@ -195,33 +109,24 @@ namespace Subtext.Framework
         /// <value></value>
         public string TimeZoneId
         {
-            get
-            {
-                return _timeZoneId;
-            }
+            get { return _timeZoneId; }
             set
             {
-                if (_timeZoneId != value)
+                if(_timeZoneId != value)
                 {
                     _timeZone = null;
                     _timeZoneId = value;
                 }
             }
         }
-        string _timeZoneId;
 
         /// <summary>
         /// Gets or sets the count of posts displayed on the front page 
         /// of the blog.
         /// </summary>
         /// <value></value>
-        public int ItemCount
-        {
-            get;
-            set;
-        }
+        public int ItemCount { get; set; }
 
-        private int _categoryListPostCount = 10;
         /// <summary>
         /// Gets or sets the count of posts displayed on the category pages. 
         /// </summary>
@@ -231,9 +136,10 @@ namespace Subtext.Framework
             get { return _categoryListPostCount; }
             set
             {
-                if (value < 0)
+                if(value < 0)
                 {
-                    value = 0;//needed when upgrading from versions that did not have this column ("CategoryListPostCount") in the subtext_Config table.
+                    value = 0;
+                    //needed when upgrading from versions that did not have this column ("CategoryListPostCount") in the subtext_Config table.
                 }
                 _categoryListPostCount = value;
             }
@@ -243,14 +149,8 @@ namespace Subtext.Framework
         /// Gets or sets the story count.
         /// </summary>
         /// <value></value>
-        public int StoryCount
-        {
-            get;
-            set;
-        }
+        public int StoryCount { get; set; }
 
-        const string DefaultLanguage = "en-US";
-        private string _language = DefaultLanguage;
         /// <summary>
         /// Gets or sets the language the blog is in..
         /// </summary>
@@ -273,28 +173,24 @@ namespace Subtext.Framework
         {
             get
             {
-                if (_languageCode == null || _languageCode.Length == 0)
+                if(string.IsNullOrEmpty(_languageCode))
                 {
                     //Just being paranoid in making this check.
-                    if (_language == null)
+                    if(_language == null)
+                    {
                         _language = "en-US";
+                    }
                     _languageCode = StringHelper.LeftBefore(_language, "-");
                 }
                 return _languageCode;
             }
         }
 
-        string _languageCode;
-
         /// <summary>
         /// Gets or sets the email of the blog owner.
         /// </summary>
         /// <value></value>
-        public string Email
-        {
-            get;
-            set;
-        }
+        public string Email { get; set; }
 
         /// <summary>
         /// Gets or sets the host for the blog.  For 
@@ -303,16 +199,9 @@ namespace Subtext.Framework
         /// <value></value>
         public string Host
         {
-            get
-            {
-                return _host;
-            }
-            set
-            {
-                _host = StripPortFromHost(value);
-            }
+            get { return _host; }
+            set { _host = StripPortFromHost(value); }
         }
-        private string _host;
 
         /// <summary>
         /// Gets or sets a value indicating whether this site can 
@@ -458,13 +347,7 @@ namespace Subtext.Framework
         /// The count starts when a post is created.
         /// </summary>
         /// <value></value>
-        public int DaysTillCommentsClose
-        {
-            get { return _daysTillCommentsClose; }
-            set { _daysTillCommentsClose = value; }
-        }
-
-        int _daysTillCommentsClose = int.MaxValue;
+        public int DaysTillCommentsClose { get; set; }
 
         /// <summary>
         /// Gets or sets the delay in minutes, between any two successive comments from 
@@ -475,15 +358,14 @@ namespace Subtext.Framework
         {
             get
             {
-                if (_commentDelayInMinutes < 0 || _commentDelayInMinutes == int.MaxValue)
+                if(_commentDelayInMinutes < 0 || _commentDelayInMinutes == int.MaxValue)
+                {
                     return 0;
-                else
-                    return _commentDelayInMinutes;
+                }
+                return _commentDelayInMinutes;
             }
             set { _commentDelayInMinutes = value; }
         }
-
-        int _commentDelayInMinutes;
 
         /// <summary>
         /// Gets or sets the number of recent comments to display in 
@@ -494,15 +376,14 @@ namespace Subtext.Framework
         {
             get
             {
-                if (_numberOfRecentComments < 0 || _numberOfRecentComments == int.MaxValue)
+                if(_numberOfRecentComments < 0 || _numberOfRecentComments == int.MaxValue)
+                {
                     return 0;
-                else
-                    return _numberOfRecentComments;
+                }
+                return _numberOfRecentComments;
             }
             set { _numberOfRecentComments = value; }
         }
-
-        int _numberOfRecentComments;
 
         /// <summary>
         /// Gets or sets the number of characters to use to display recent comments  
@@ -513,15 +394,14 @@ namespace Subtext.Framework
         {
             get
             {
-                if (_recentCommentsLength < 0 || _recentCommentsLength == int.MaxValue)
+                if(_recentCommentsLength < 0 || _recentCommentsLength == int.MaxValue)
+                {
                     return DefaultRecentCommentsLength;
-                else
-                    return _recentCommentsLength;
+                }
+                return _recentCommentsLength;
             }
             set { _recentCommentsLength = value; }
         }
-
-        int _recentCommentsLength;
 
         /// <summary>
         /// Gets or sets a value indicating whether this blog is active.
@@ -557,139 +437,91 @@ namespace Subtext.Framework
             set { FlagSetter(ConfigurationFlags.CaptchaEnabled, value); }
         }
 
-        private string subfolder;
         /// <summary>
-        /// Gets or sets the subfolder the blog lives in.
+        /// Gets or sets the _subfolder the blog lives in.
         /// </summary>
         /// <value></value>
         public string Subfolder
         {
-            get
-            {
-                return this.subfolder ?? string.Empty;
-            }
+            get { return _subfolder ?? string.Empty; }
             set
             {
-                if (!String.IsNullOrEmpty(value))
+                if(!String.IsNullOrEmpty(value))
+                {
                     value = UrlFormats.StripSurroundingSlashes(value);
+                }
 
-                this.subfolder = value;
+                _subfolder = value;
             }
         }
 
-        private string _password;
         /// <summary>
         /// Gets or sets the password.
         /// </summary>
         /// <value></value>
         public string Password
         {
-            get
-            {
-                return _password;
-            }
-            set
-            {
-                _password = value ?? string.Empty;
-            }
+            get { return _password; }
+            set { _password = value ?? string.Empty; }
         }
 
         /// <summary>
         /// Gets or sets the OpenIDUrl.
         /// </summary>
         /// <value></value>
-        public string OpenIDUrl
-        {
-            get;
-            set;
-        }
+        public string OpenIDUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the OpenIDServer.
         /// </summary>
-        public string OpenIDServer
-        {
-            get;
-            set;
-        }
+        public string OpenIDServer { get; set; }
 
         /// <summary>
         /// Gets or sets the OpenIDDelegate.
         /// </summary>
-        public string OpenIDDelegate
-        {
-            get;
-            set;
-        }
+        public string OpenIDDelegate { get; set; }
 
         /// <summary>
         /// Gets or sets the CardSpaceHash.
         /// </summary>
         /// <value></value>
-        public string CardSpaceHash
-        {
-            get;
-            set;
-        }
+        public string CardSpaceHash { get; set; }
 
-        private string _username;
         /// <summary>
         /// Gets or sets the user name for the owner of the blog.
         /// </summary>
         /// <value></value>
         public string UserName
         {
-            get
-            {
-                return _username;
-            }
-            set
-            {
-                _username = value ?? string.Empty;
-            }
+            get { return _username; }
+            set { _username = value ?? string.Empty; }
         }
 
         /// <summary>
         /// Gets or sets the title of the blog.
         /// </summary>
         /// <value></value>
-        public string Title
-        {
-            get;
-            set;
-        }
+        public string Title { get; set; }
 
         /// <summary>
         /// Gets or sets the sub title of the blog.
         /// </summary>
         /// <value></value>
-        public string SubTitle
-        {
-            get;
-            set;
-        }
+        public string SubTitle { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="SkinConfig"/> instance 
         /// which contains information about the specified skin.
         /// </summary>
         /// <value></value>
-        public SkinConfig Skin
-        {
-            get;
-            set;
-        }
+        public SkinConfig Skin { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="SkinConfig"/> instance 
         /// which contains information about the specified skin.
         /// </summary>
         /// <value></value>
-        public SkinConfig MobileSkin
-        {
-            get;
-            set;
-        }
+        public SkinConfig MobileSkin { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the blog has news. 
@@ -707,51 +539,31 @@ namespace Subtext.Framework
         /// Gets or sets the news.
         /// </summary>
         /// <value></value>
-        public string News
-        {
-            get;
-            set;
-        }
+        public string News { get; set; }
 
         /// <summary>
         /// Gets or sets the author of the blog.
         /// </summary>
         /// <value></value>
-        public string Author
-        {
-            get;
-            set;
-        }
+        public string Author { get; set; }
 
         /// <summary>
         /// Gets or sets blog tracking code.
         /// </summary>
         /// <value></value>
-        public string TrackingCode
-        {
-            get;
-            set;
-        }
+        public string TrackingCode { get; set; }
 
         /// <summary>
         /// Gets or sets the Blog Group ID
         /// </summary>
         /// <value></value>
-        public int BlogGroupId
-        {
-            get;
-            set;
-        }
+        public int BlogGroupId { get; set; }
 
         /// <summary>
         /// Gets or sets the Blog Group Title
         /// </summary>
         /// <value></value>
-        public string BlogGroupTitle
-        {
-            get;
-            set;
-        }
+        public string BlogGroupTitle { get; set; }
 
         /// <summary>
         /// Gets or sets the license URL.  This is used to 
@@ -760,11 +572,7 @@ namespace Subtext.Framework
         /// <see href="http://backend.userland.com/creativeCommonsRssModule" />
         /// </summary>
         /// <value></value>
-        public string LicenseUrl
-        {
-            get;
-            set;
-        }
+        public string LicenseUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the Comment Service API key. This is for a comment spam filtering 
@@ -773,11 +581,9 @@ namespace Subtext.Framework
         /// <value>The akismet API key.</value>
         public string FeedbackSpamServiceKey
         {
-            get { return this.feedbackSpamServiceKey ?? String.Empty; }
-            set { this.feedbackSpamServiceKey = (value ?? string.Empty); }
+            get { return _feedbackSpamServiceKey ?? String.Empty; }
+            set { _feedbackSpamServiceKey = (value ?? string.Empty); }
         }
-
-        string feedbackSpamServiceKey;
 
         /// <summary>
         /// Gets a value indicating whether [akismet enabled].
@@ -785,10 +591,7 @@ namespace Subtext.Framework
         /// <value><c>true</c> if [akismet enabled]; otherwise, <c>false</c>.</value>
         public bool FeedbackSpamServiceEnabled
         {
-            get
-            {
-                return !String.IsNullOrEmpty(feedbackSpamServiceKey);
-            }
+            get { return !String.IsNullOrEmpty(_feedbackSpamServiceKey); }
         }
 
         /// <summary>
@@ -796,10 +599,7 @@ namespace Subtext.Framework
         /// </summary>
         public bool RssProxyEnabled
         {
-            get
-            {
-                return !String.IsNullOrEmpty(_rssProxyUrl);
-            }
+            get { return !String.IsNullOrEmpty(_rssProxyUrl); }
         }
 
         /// <summary>
@@ -810,91 +610,149 @@ namespace Subtext.Framework
         /// <value>The name of the feed burner.</value>
         public string RssProxyUrl
         {
-            get
-            {
-                return _rssProxyUrl;
-            }
+            get { return _rssProxyUrl; }
             set
             {
-                if (!String.IsNullOrEmpty(value))
+                if(!String.IsNullOrEmpty(value))
                 {
-                    if (value.Contains("\\"))
+                    if(value.Contains("\\"))
+                    {
                         throw new InvalidOperationException(Resources.InvalidOperation_BackslashesInRssProxyName);
+                    }
                 }
                 _rssProxyUrl = value;
             }
         }
 
-        string _rssProxyUrl;
-
         /// <summary>
         /// Gets or sets the flags pertaining to this blog.  
-        /// This is a bitmask of <see cref="ConfigurationFlag"/>s.
+        /// This is a bitmask of <see cref="ConfigurationFlags"/>s.
         /// </summary>
         /// <value></value>
-        public ConfigurationFlags Flag
-        {
-            get;
-            set;
-        }
+        public ConfigurationFlags Flag { get; set; }
 
         /// <summary>
         /// Gets or sets the total number of posts.
         /// </summary>
         /// <value></value>
-        public int PostCount
-        {
-            get;
-            set;
-        }
+        public int PostCount { get; set; }
 
         /// <summary>
         /// Gets or sets the comment count.
         /// </summary>
         /// <value></value>
-        public int CommentCount
-        {
-            get;
-            set;
-        }
+        public int CommentCount { get; set; }
 
         /// <summary>
         /// Gets or sets the ping track count.
         /// </summary>
         /// <value></value>
-        public int PingTrackCount
+        public int PingTrackCount { get; set; }
+
+        /// <summary>
+        /// Strips the port number from the host name.
+        /// </summary>
+        /// <param name="host">Host.</param>
+        /// <returns></returns>
+        public static string StripPortFromHost(string host)
         {
-            get;
-            set;
+            if(String.IsNullOrEmpty(host))
+            {
+                throw new ArgumentNullException("host");
+            }
+
+            return Regex.Replace(host, @":.*$", string.Empty);
         }
 
         /// <summary>
-        /// Adds or removes a <see cref="ConfigurationFlag"/> to the 
+        /// Strips www prefix from host name.
+        /// </summary>
+        /// <param name="host">Host.</param>
+        /// <returns></returns>
+        public static string StripWwwPrefixFromHost(string host)
+        {
+            if(String.IsNullOrEmpty(host))
+            {
+                throw new ArgumentNullException("host");
+            }
+
+            return Regex.Replace(host, @"^www.", string.Empty, RegexOptions.IgnoreCase);
+        }
+
+        /// <summary>
+        /// Gets the active blog count by host.
+        /// </summary>
+        /// <param name="host">The host.</param>
+        /// <returns></returns>
+        /// <param name="pageIndex">Zero based index of the page to retrieve.</param>
+        /// <param name="pageSize">Number of records to display on the page.</param>
+        /// <param name="flags">Configuration flags to filter blogs retrieved.</param>
+        public static IPagedCollection<Blog> GetBlogsByHost(string host, int pageIndex, int pageSize,
+                                                            ConfigurationFlags flags)
+        {
+            if(String.IsNullOrEmpty(host))
+            {
+                throw new ArgumentNullException("host");
+            }
+
+            return ObjectProvider.Instance().GetPagedBlogs(host, pageIndex, pageSize, flags);
+        }
+
+        public IPagedCollection<BlogAlias> GetBlogAliases(int pageIndex, int pageSize)
+        {
+            return ObjectProvider.Instance().GetPagedBlogDomainAlias(this, pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="IList{T}"/> containing ACTIVE the <see cref="Blog"/> 
+        /// instances within the specified range.
+        /// </summary>
+        /// <param name="pageIndex">Page index.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        public static IPagedCollection<Blog> GetBlogs(int pageIndex, int pageSize, ConfigurationFlags flags)
+        {
+            return ObjectProvider.Instance().GetPagedBlogs(null, pageIndex, pageSize, flags);
+        }
+
+        /// <summary>
+        /// Gets the blog by id.
+        /// </summary>
+        /// <param name="blogId">Blog id.</param>
+        /// <returns></returns>
+        public static Blog GetBlogById(int blogId)
+        {
+            return ObjectProvider.Instance().GetBlogById(blogId);
+        }
+
+        /// <summary>
+        /// Adds or removes a <see cref="ConfigurationFlags"/> to the 
         /// flags set for this blog via bitmask operations.
         /// </summary>
         /// <param name="cf">Cf.</param>
         /// <param name="select">Select.</param>
         protected void FlagSetter(ConfigurationFlags cf, bool select)
         {
-            if (select)
+            if(select)
             {
-                this.Flag = Flag | cf;
+                Flag = Flag | cf;
             }
             else
             {
-                this.Flag = Flag & ~cf;
+                Flag = Flag & ~cf;
             }
         }
 
         /// <summary>
-        /// Checks to see if the specified <see cref="ConfigurationFlag"/> 
+        /// Checks to see if the specified <see cref="ConfigurationFlags"/> 
         /// matches a flag set for this blog.
         /// </summary>
         /// <param name="cf">Cf.</param>
         /// <returns></returns>
         protected bool FlagPropertyCheck(ConfigurationFlags cf)
         {
-            return (this.Flag & cf) == cf;
+            return (Flag & cf) == cf;
         }
 
         /// <summary>
@@ -904,20 +762,22 @@ namespace Subtext.Framework
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            if (obj == null || GetType() != obj.GetType())
+            if(obj == null || GetType() != obj.GetType())
+            {
                 return false;
+            }
 
-            return ((Blog)obj).Id == this.Id;
+            return ((Blog)obj).Id == Id;
         }
 
         /// <summary>
-        /// Serves as the hash function for the type <see cref="BlogInfo" />, 
+        /// Serves as the hash function for the type <see cref="Blog" />, 
         /// suitable for use in hashing functions.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return (this.Host ?? string.Empty).GetHashCode() ^ (this.Subfolder ?? string.Empty).GetHashCode() ^ this.Id.GetHashCode();
+            return (Host ?? string.Empty).GetHashCode() ^ (Subfolder ?? string.Empty).GetHashCode() ^ Id.GetHashCode();
         }
 
         public static void ClearBlogContent(int blogId)

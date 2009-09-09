@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -20,35 +22,34 @@ using System.Web.UI;
 
 namespace Subtext.Extensibility.Providers
 {
-	/// <summary>
-	/// Provider for classes that implement installation procedures. 
-	/// This allows new data providers to implement their own installation 
-	/// code.
-	/// </summary>
+    /// <summary>
+    /// Provider for classes that implement installation procedures. 
+    /// This allows new data providers to implement their own installation 
+    /// code.
+    /// </summary>
     public abstract class Installation : ProviderBase
-	{
-		private static Installation provider;
-		private static GenericProviderCollection<Installation> providers = ProviderConfigurationHelper.LoadProviderCollection("Installation", out provider);
+    {
+        private static readonly GenericProviderCollection<Installation> providers =
+            ProviderConfigurationHelper.LoadProviderCollection("Installation", out provider);
 
-		/// <summary>
-		/// Returns the currently configured InstallationProvider.
-		/// </summary>
-		/// <returns></returns>
+        private static Installation provider;
+
+        /// <summary>
+        /// Returns the currently configured InstallationProvider.
+        /// </summary>
+        /// <returns></returns>
         public static Installation Provider
         {
-			get { return provider; }
+            get { return provider; }
         }
 
-		/// <summary>
-		/// Returns all the configured InstallationProvider.
-		/// </summary>
-		public static GenericProviderCollection<Installation> Providers
-		{
-			get
-			{
-				return providers;
-			}
-		}
+        /// <summary>
+        /// Returns all the configured InstallationProvider.
+        /// </summary>
+        public static GenericProviderCollection<Installation> Providers
+        {
+            get { return providers; }
+        }
 
         /// <summary>
         /// <p>
@@ -118,13 +119,13 @@ namespace Subtext.Extensibility.Providers
         /// </returns>
         public abstract bool IsInstallationException(Exception exception);
 
-		/// <summary>
-		/// Determines whether the specified exception is due to a permission 
-		/// denied error.
-		/// </summary>
-		/// <param name="exception"></param>
-		/// <returns></returns>
-		public abstract bool IsPermissionDeniedException(Exception exception);
+        /// <summary>
+        /// Determines whether the specified exception is due to a permission 
+        /// denied error.
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        public abstract bool IsPermissionDeniedException(Exception exception);
 
         /// <summary>
         /// Gets the <see cref="Version"/> of the current Subtext installation.
@@ -138,21 +139,21 @@ namespace Subtext.Extensibility.Providers
         /// <param name="newVersion">The new version that is now current.</param>
         /// <param name="transaction">The transaction to perform this upgrade within.</param>
         /// <returns></returns>
-        public abstract void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction); 
-	}
+        public abstract void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction);
+    }
 
-	/// <summary>
-	/// Returns the current state of the installation.
-	/// </summary>
-	public enum InstallationState
-	{
-		/// <summary>No information available</summary>
-		None = 0,
-		/// <summary>Subtext is installed, but needs to be upgraded.</summary>
-		NeedsUpgrade = 1,
-		/// <summary>Subtext needs to be installed.</summary>
-		NeedsInstallation = 3,
-		/// <summary>Subtext is installed and seems to be working properly.</summary>
-		Complete = 4,
-	}
+    /// <summary>
+    /// Returns the current state of the installation.
+    /// </summary>
+    public enum InstallationState
+    {
+        /// <summary>No information available</summary>
+        None = 0,
+        /// <summary>Subtext is installed, but needs to be upgraded.</summary>
+        NeedsUpgrade = 1,
+        /// <summary>Subtext needs to be installed.</summary>
+        NeedsInstallation = 3,
+        /// <summary>Subtext is installed and seems to be working properly.</summary>
+        Complete = 4,
+    }
 }

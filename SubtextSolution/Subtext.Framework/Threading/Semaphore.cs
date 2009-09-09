@@ -20,29 +20,41 @@ namespace Subtext.Framework.Threading
         /// <exception cref="ArgumentException">Throws if the count argument is less than 1.</exception>
         public Semaphore(int count)
         {
-            if (count < 0) throw new ArgumentOutOfRangeException("count", count, Resources.ArgumentOutOfRange_SemaphoreCount);
+            if(count < 0)
+            {
+                throw new ArgumentOutOfRangeException("count", count, Resources.ArgumentOutOfRange_SemaphoreCount);
+            }
             _count = count;
         }
 
         /// <summary>V the semaphore (add 1 unit to it).</summary>
-        public void AddOne() { V(); }
+        public void AddOne()
+        {
+            V();
+        }
 
         /// <summary>P the semaphore (take out 1 unit from it).</summary>
-        public void WaitOne() { P(); }
+        public void WaitOne()
+        {
+            P();
+        }
 
         /// <summary>P the semaphore (take out 1 unit from it).</summary>
         public void P()
         {
             // Lock so we can work in peace.  This works because lock is actually
             // built around Monitor.
-            using (TimedLock.Lock(this))
+            using(TimedLock.Lock(this))
             {
                 // Wait until a unit becomes available.  We need to wait
                 // in a loop in case someone else wakes up before us.  This could
                 // happen if the Monitor.Pulse statements were changed to Monitor.PulseAll
                 // statements in order to introduce some randomness into the order
                 // in which threads are woken.
-                while (_count <= 0) Monitor.Wait(this, Timeout.Infinite);
+                while(_count <= 0)
+                {
+                    Monitor.Wait(this, Timeout.Infinite);
+                }
                 _count--;
             }
         }
@@ -52,7 +64,7 @@ namespace Subtext.Framework.Threading
         {
             // Lock so we can work in peace.  This works because lock is actually
             // built around Monitor.
-            using (TimedLock.Lock(this))
+            using(TimedLock.Lock(this))
             {
                 // Release our hold on the unit of control.  Then tell everyone
                 // waiting on this object that there is a unit available.
@@ -64,8 +76,9 @@ namespace Subtext.Framework.Threading
         /// <summary>Resets the semaphore to the specified count.  Should be used cautiously.</summary>
         public void Reset(int count)
         {
-            using (TimedLock.Lock(this)) { 
-                _count = count; 
+            using(TimedLock.Lock(this))
+            {
+                _count = count;
             }
         }
     }

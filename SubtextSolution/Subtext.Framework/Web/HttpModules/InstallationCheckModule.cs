@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,32 +12,35 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Web;
 using Subtext.Extensibility.Providers;
 
-namespace Subtext.Framework.Web.HttpModules {
+namespace Subtext.Framework.Web.HttpModules
+{
     /// <summary>
     /// Checks to see if the blog needs an upgrade.
     /// </summary>
-    public class InstallationCheckModule : IHttpModule {
-        public InstallationCheckModule() : this(new InstallationManager(Installation.Provider)) { 
+    public class InstallationCheckModule : IHttpModule
+    {
+        public InstallationCheckModule() : this(new InstallationManager(Installation.Provider))
+        {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InstallationCheckModule"/> class.
         /// </summary>
-        public InstallationCheckModule(IInstallationManager installationManager) {
+        public InstallationCheckModule(IInstallationManager installationManager)
+        {
             InstallationManager = installationManager;
         }
 
-        public IInstallationManager InstallationManager
-        {
-            get;
-            private set;
-        }
+        public IInstallationManager InstallationManager { get; private set; }
+
+        #region IHttpModule Members
 
         /// <summary>
         /// Initializes a module and prepares it to handle
@@ -44,7 +48,8 @@ namespace Subtext.Framework.Web.HttpModules {
         /// </summary>
         /// <param name="context">An <see cref="T:System.Web.HttpApplication"/> that provides access to the methods, properties, 
         /// and events common to all application objects within an ASP.NET application</param>
-        public void Init(HttpApplication context) {
+        public void Init(HttpApplication context)
+        {
             context.BeginRequest += HandleInstallationUpdates;
         }
 
@@ -52,16 +57,20 @@ namespace Subtext.Framework.Web.HttpModules {
         /// Disposes of the resources (other than memory) used by the
         /// module that implements <see langword="IHttpModule."/>
         /// </summary>
-        public void Dispose() {
+        public void Dispose()
+        {
             //Do nothing.
         }
+
+        #endregion
 
         /// <summary>
         /// Checks the installation status and redirects if necessary.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void HandleInstallationUpdates(object sender, EventArgs e) {
+        private void HandleInstallationUpdates(object sender, EventArgs e)
+        {
             var context = new HttpContextWrapper(((HttpApplication)sender).Context);
             HandleInstallationStatus(context, BlogRequest.Current, HostInfo.Instance);
         }
@@ -69,7 +78,7 @@ namespace Subtext.Framework.Web.HttpModules {
         public void HandleInstallationStatus(HttpContextBase context, BlogRequest blogRequest, HostInfo hostInfo)
         {
             string redirectUrl = GetInstallationRedirectUrl(blogRequest, hostInfo);
-            if (!String.IsNullOrEmpty(redirectUrl))
+            if(!String.IsNullOrEmpty(redirectUrl))
             {
                 context.Response.Redirect(redirectUrl);
             }
@@ -82,34 +91,34 @@ namespace Subtext.Framework.Web.HttpModules {
         public string GetInstallationRedirectUrl(BlogRequest blogRequest, HostInfo hostInfo)
         {
             // Bypass for static files.
-            if (blogRequest.RawUrl.IsStaticFileRequest())
+            if(blogRequest.RawUrl.IsStaticFileRequest())
             {
                 return null;
             }
 
-            if (hostInfo == null && blogRequest.RequestLocation != RequestLocation.Installation)
+            if(hostInfo == null && blogRequest.RequestLocation != RequestLocation.Installation)
             {
                 return "~/Install/";
             }
 
             // Want to redirect to install if installation is required, 
             // or if we're missing a HostInfo record.
-            if ((InstallationManager.InstallationActionRequired(VersionInfo.FrameworkVersion) || hostInfo == null))
+            if((InstallationManager.InstallationActionRequired(VersionInfo.FrameworkVersion) || hostInfo == null))
             {
                 InstallationState state = InstallationManager.GetInstallationStatus(VersionInfo.FrameworkVersion);
-                if (state == InstallationState.NeedsInstallation
-                    && !blogRequest.IsHostAdminRequest
-                    && blogRequest.RequestLocation != RequestLocation.Installation)
+                if(state == InstallationState.NeedsInstallation
+                   && !blogRequest.IsHostAdminRequest
+                   && blogRequest.RequestLocation != RequestLocation.Installation)
                 {
                     return "~/Install/";
                 }
 
-                if (state == InstallationState.NeedsUpgrade)
+                if(state == InstallationState.NeedsUpgrade)
                 {
-                    if (blogRequest.RequestLocation != RequestLocation.Upgrade
-                        && blogRequest.RequestLocation != RequestLocation.LoginPage
-                        && blogRequest.RequestLocation != RequestLocation.SystemMessages
-                        && blogRequest.RequestLocation != RequestLocation.HostAdmin)
+                    if(blogRequest.RequestLocation != RequestLocation.Upgrade
+                       && blogRequest.RequestLocation != RequestLocation.LoginPage
+                       && blogRequest.RequestLocation != RequestLocation.SystemMessages
+                       && blogRequest.RequestLocation != RequestLocation.HostAdmin)
                     {
                         return "~/SystemMessages/UpgradeInProgress.aspx";
                     }

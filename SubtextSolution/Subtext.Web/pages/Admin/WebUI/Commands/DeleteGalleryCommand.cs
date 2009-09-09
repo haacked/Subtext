@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -18,7 +20,6 @@ using System.Collections.Generic;
 using System.IO;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Commands
 {
@@ -34,11 +35,7 @@ namespace Subtext.Web.Admin.Commands
             GalleryDirectoryPath = galleryDirectoryPath;
         }
 
-        public string GalleryDirectoryPath
-        {
-            get;
-            private set;
-        }
+        public string GalleryDirectoryPath { get; private set; }
 
         public override string Execute()
         {
@@ -48,14 +45,14 @@ namespace Subtext.Web.Admin.Commands
 
                 // delete the folder
                 string galleryFolder = GalleryDirectoryPath;
-                if (Directory.Exists(galleryFolder))
+                if(Directory.Exists(galleryFolder))
                 {
                     Directory.Delete(galleryFolder, true);
                 }
-                if (imageList.Count > 0)
+                if(imageList.Count > 0)
                 {
                     // delete from data provider
-                    foreach (Image currentImage in imageList)
+                    foreach(Image currentImage in imageList)
                     {
                         Images.DeleteImage(currentImage);
                     }
@@ -65,11 +62,10 @@ namespace Subtext.Web.Admin.Commands
                 Links.DeleteLinkCategory(_targetID);
                 return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return FormatMessage(ExecuteFailureMessage, _targetName, _targetID, ex.Message);
             }
         }
     }
 }
-

@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System.Web.Routing;
@@ -25,11 +27,7 @@ namespace Subtext.Framework.Routing
             Url = urlHelper;
         }
 
-        public UrlHelper Url
-        {
-            get;
-            private set;
-        }
+        public UrlHelper Url { get; private set; }
 
         public VirtualPath Home()
         {
@@ -59,7 +57,7 @@ namespace Subtext.Framework.Routing
         //TODO: Unit test
         public VirtualPath PostsEdit(int id)
         {
-            return Url.AdminUrl("posts/edit.aspx", new { PostId = id });
+            return Url.AdminUrl("posts/edit.aspx", new {PostId = id});
         }
 
         public VirtualPath ArticlesList()
@@ -80,7 +78,7 @@ namespace Subtext.Framework.Routing
         //TODO: Unit test
         public VirtualPath FeedbackEdit(int id)
         {
-            RouteValueDictionary routeValues = new RouteValueDictionary();
+            var routeValues = new RouteValueDictionary();
             routeValues.Add("return-to-post", "true");
             routeValues.Add("FeedbackID", id);
             return Url.AdminUrl("feedback/edit.aspx", routeValues);
@@ -123,7 +121,7 @@ namespace Subtext.Framework.Routing
 
         public VirtualPath EditCategories(CategoryType categoryType)
         {
-            return Url.AdminUrl("EditCategories.aspx", new { catType = categoryType });
+            return Url.AdminUrl("EditCategories.aspx", new {catType = categoryType});
         }
 
         public VirtualPath EditGalleries()
@@ -140,8 +138,8 @@ namespace Subtext.Framework.Routing
         {
             return Url.AdminUrl("ErrorLog.aspx");
         }
-        
-        public VirtualPath AjaxServices() 
+
+        public VirtualPath AjaxServices()
         {
             return Url.GetVirtualPath("ajax-services", null);
         }

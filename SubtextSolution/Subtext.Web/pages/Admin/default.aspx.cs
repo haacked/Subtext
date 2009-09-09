@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,34 +12,30 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 
 namespace Subtext.Web.Admin.Pages
 {
-	/// <summary>
-	/// Summary description for _default.
-	/// </summary>
-	public class HomePageDefault : AdminPage
-	{
-        public HomePageDefault() {
-            this.TabSectionId = "dashboard";
-        }
-        
-
-        protected BlogStatistics Statistics
+    /// <summary>
+    /// Summary description for _default.
+    /// </summary>
+    public class HomePageDefault : AdminPage
+    {
+        public HomePageDefault()
         {
-            get;
-            private set;
+            TabSectionId = "dashboard";
         }
 
-        public int CategoryCount {
-            get {
-                return Repository.GetActiveCategories().Count;
-            }
+
+        protected BlogStatistics Statistics { get; private set; }
+
+        public int CategoryCount
+        {
+            get { return Repository.GetActiveCategories().Count; }
         }
 
         protected override void OnLoad(EventArgs e)
@@ -46,6 +43,5 @@ namespace Subtext.Web.Admin.Pages
             Statistics = Repository.GetBlogStatistics(Blog.Id);
             base.OnLoad(e);
         }
-	}
+    }
 }
-

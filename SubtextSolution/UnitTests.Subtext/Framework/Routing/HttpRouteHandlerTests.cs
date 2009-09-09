@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
+using Ninject;
 using Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Routing
@@ -14,26 +15,32 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RouteHandler_ConstructedWithType_InstantiatesNewHandlerEveryTime()
         {
             // arrange
-            var kernel = UnitTestHelper.MockKernel(() => new[]{ new FakeHttpHandler()});
+            IKernel kernel = UnitTestHelper.MockKernel(() => new[] {new FakeHttpHandler()});
             var requestContext = new RequestContext(new Mock<HttpContextBase>().Object, new RouteData());
             IRouteHandler routeHandler = new HttpRouteHandler<FakeHttpHandler>(kernel);
 
             // act
-            var returnedHandler = routeHandler.GetHttpHandler(requestContext);
-            var secondHandler = routeHandler.GetHttpHandler(requestContext);
+            IHttpHandler returnedHandler = routeHandler.GetHttpHandler(requestContext);
+            IHttpHandler secondHandler = routeHandler.GetHttpHandler(requestContext);
 
             // assert
             Assert.AreNotSame(returnedHandler, secondHandler);
         }
     }
 
-    internal class FakeHttpHandler : IHttpHandler {
-        public FakeHttpHandler() { 
+    internal class FakeHttpHandler : IHttpHandler
+    {
+        private static int _instanceId;
+
+        public FakeHttpHandler()
+        {
             InstanceId = ++_instanceId;
         }
 
-        private static int _instanceId = 0;
         public int InstanceId { get; private set; }
+
+        #region IHttpHandler Members
+
         public bool IsReusable
         {
             get { throw new NotImplementedException(); }
@@ -43,5 +50,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

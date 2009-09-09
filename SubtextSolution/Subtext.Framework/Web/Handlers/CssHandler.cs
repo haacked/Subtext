@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -23,66 +25,86 @@ using Subtext.Framework.UI.Skinning;
 
 namespace Subtext.Framework.Web.Handlers
 {
-	public class CssHandler : BaseHttpHandler
-	{
-        private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(new SkinEngine());
+    public class CssHandler : BaseHttpHandler
+    {
+        private static readonly StyleSheetElementCollectionRenderer styleRenderer =
+            new StyleSheetElementCollectionRenderer(new SkinEngine());
 
-		protected override void HandleRequest(HttpContext context)
-		{
-			context.Response.ContentEncoding = Encoding.UTF8;
+        protected new bool IsReusable
+        {
+            get { return false; }
+        }
 
-		    string skinName = context.Request.Params["name"];
+        protected override bool RequiresAuthentication
+        {
+            get { return false; }
+        }
+
+        protected override string ContentMimeType
+        {
+            get { return "text/css"; }
+        }
+
+        protected override void HandleRequest(HttpContext context)
+        {
+            context.Response.ContentEncoding = Encoding.UTF8;
+
+            string skinName = context.Request.Params["name"];
             string skinMedia = context.Request.Params["media"];
             string skinTitle = context.Request.Params["title"];
             string skinConditional = context.Request.Params["conditional"];
 
-            List<StyleDefinition> styles = (List<StyleDefinition>)styleRenderer.GetStylesToBeMerged(skinName, skinMedia, skinTitle, skinConditional);
-          
+            var styles =
+                (List<StyleDefinition>)
+                styleRenderer.GetStylesToBeMerged(skinName, skinMedia, skinTitle, skinConditional);
+
             //Append all styles into one file
 
             context.Response.Write("/*" + Environment.NewLine);
-            foreach (StyleDefinition style in styles)
+            foreach(StyleDefinition style in styles)
             {
                 context.Response.Write(style + Environment.NewLine);
             }
             context.Response.Write("*/" + Environment.NewLine);
 
-            foreach (StyleDefinition style in styles)
-		    {
+            foreach(StyleDefinition style in styles)
+            {
                 context.Response.Write(Environment.NewLine + "/* " + style + " */" + Environment.NewLine);
-		        string path = context.Server.MapPath(style.Href);
+                string path = context.Server.MapPath(style.Href);
                 if(File.Exists(path))
                 {
-                    
                     string cssFile = File.ReadAllText(path);
 
-                    if (!String.IsNullOrEmpty(style.Media) && styles.Count>1)
+                    if(!String.IsNullOrEmpty(style.Media) && styles.Count > 1)
                     {
                         context.Response.Write("@media " + style.Media + "{\r\n");
                         context.Response.Write(cssFile);
                         context.Response.Write("\r\n}");
                     }
                     else
+                    {
                         context.Response.Write(cssFile);
-                        
+                    }
                 }
                 else
                 {
-                    context.Response.Write(Environment.NewLine + "/* CSS file at " + path + " doesn't exist so cannot be included in the merged CSS file. */" + Environment.NewLine);
+                    context.Response.Write(Environment.NewLine + "/* CSS file at " + path +
+                                           " doesn't exist so cannot be included in the merged CSS file. */" +
+                                           Environment.NewLine);
                 }
-		    }
+            }
 
             SetHeaders(styles, context);
-		}
+        }
 
 
         private static void SetHeaders(List<StyleDefinition> styles, HttpContext context)
         {
-            foreach (StyleDefinition style in styles)
+            foreach(StyleDefinition style in styles)
             {
                 context.Response.AddFileDependency(context.Server.MapPath(style.Href));
             }
-            
+
             context.Response.Cache.VaryByParams["name"] = true;
             context.Response.Cache.VaryByParams["media"] = true;
             context.Response.Cache.VaryByParams["title"] = true;
@@ -99,31 +121,17 @@ namespace Subtext.Framework.Web.Handlers
             return;
         }
 
-        protected new bool IsReusable
+        protected override bool ValidateParameters(HttpContext context)
         {
-            get
+            string skinName = context.Request.Params["name"];
+            if(String.IsNullOrEmpty(skinName))
             {
                 return false;
             }
-        }
-
-		protected override bool ValidateParameters(HttpContext context)
-		{
-            string skinName = context.Request.Params["name"];
-            if (String.IsNullOrEmpty(skinName))
-                return false;
             else
+            {
                 return true;
-		}
-
-		protected override bool RequiresAuthentication
-		{
-			get { return false; }
-		}
-
-		protected override string ContentMimeType
-		{
-			get { return "text/css"; }
-		}
-	}
+            }
+        }
+    }
 }

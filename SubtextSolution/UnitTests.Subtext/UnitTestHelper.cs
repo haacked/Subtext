@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -62,29 +64,29 @@ namespace UnitTests.Subtext
     {
         public static void ClearAllBlogData()
         {
-            string[] tables = new string[]
-				{
-					"subtext_KeyWords"	
-					,"subtext_Images"	
-					,"subtext_Links"
-					,"subtext_EntryViewCount"
-					,"subtext_Log"
-					,"subtext_Feedback"
-					,"subtext_EntryTag"
-					,"subtext_Tag"
-					,"subtext_Content"
-					,"subtext_LinkCategories"
-					,"subtext_Config"
-					,"subtext_Referrals"
-					,"subtext_URLs"
-				};
+            var tables = new[]
+            {
+                "subtext_KeyWords"
+                , "subtext_Images"
+                , "subtext_Links"
+                , "subtext_EntryViewCount"
+                , "subtext_Log"
+                , "subtext_Feedback"
+                , "subtext_EntryTag"
+                , "subtext_Tag"
+                , "subtext_Content"
+                , "subtext_LinkCategories"
+                , "subtext_Config"
+                , "subtext_Referrals"
+                , "subtext_URLs"
+            };
 
-            using (SqlConnection conn = new SqlConnection(Config.ConnectionString))
+            using(var conn = new SqlConnection(Config.ConnectionString))
             {
                 conn.Open();
-                foreach (string tableName in tables)
+                foreach(string tableName in tables)
                 {
-                    using (SqlCommand command = conn.CreateCommand())
+                    using(SqlCommand command = conn.CreateCommand())
                     {
                         command.CommandText = string.Format(CultureInfo.InvariantCulture, "DELETE [{0}]", tableName);
                         command.ExecuteNonQuery();
@@ -104,9 +106,9 @@ namespace UnitTests.Subtext
         public static void UnpackEmbeddedResource(string resourceName, string outputPath)
         {
             Stream stream = UnpackEmbeddedResource(resourceName);
-            using (StreamReader reader = new StreamReader(stream))
+            using(var reader = new StreamReader(stream))
             {
-                using (StreamWriter writer = File.CreateText(outputPath))
+                using(StreamWriter writer = File.CreateText(outputPath))
                 {
                     writer.Write(reader.ReadToEnd());
                     writer.Flush();
@@ -125,7 +127,7 @@ namespace UnitTests.Subtext
         public static string UnpackEmbeddedResource(string resourceName, Encoding encoding)
         {
             Stream stream = UnpackEmbeddedResource(resourceName);
-            using (StreamReader reader = new StreamReader(stream))
+            using(var reader = new StreamReader(stream))
             {
                 return reader.ReadToEnd();
             }
@@ -141,20 +143,20 @@ namespace UnitTests.Subtext
         /// <param name="fileName">The file to write the resourcce.</param>
         public static string UnpackEmbeddedBinaryResource(string resourceName, string fileName)
         {
-            using (Stream stream = UnpackEmbeddedResource(resourceName))
+            using(Stream stream = UnpackEmbeddedResource(resourceName))
             {
-                byte[] buffer = new byte[stream.Length];
+                var buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
                 string filePath;
-                if (!Path.IsPathRooted(fileName))
+                if(!Path.IsPathRooted(fileName))
                 {
                     filePath = GetPathInExecutingAssemblyLocation(fileName);
                 }
-                else 
+                else
                 {
                     filePath = Path.GetFullPath(fileName);
                 }
-                using (FileStream outStream = File.Create(filePath))
+                using(FileStream outStream = File.Create(filePath))
                 {
                     outStream.Write(buffer, 0, buffer.Length);
                 }
@@ -162,7 +164,7 @@ namespace UnitTests.Subtext
             }
         }
 
-        public static string GetPathInExecutingAssemblyLocation(string fileName) 
+        public static string GetPathInExecutingAssemblyLocation(string fileName)
         {
             return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), fileName);
         }
@@ -216,64 +218,75 @@ namespace UnitTests.Subtext
         /// <param name="host">Host.</param>
         /// <param name="subfolder">Subfolder Name.</param>
         /// <param name="applicationPath"></param>
-        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath)
+        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder,
+                                                                         string applicationPath)
         {
             return SetHttpContextWithBlogRequest(host, subfolder, applicationPath, "default.aspx");
         }
 
-        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, int port, string subfolder, string applicationPath)
+        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, int port, string subfolder,
+                                                                         string applicationPath)
         {
             return SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, "default.aspx");
         }
 
-        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page)
+        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder,
+                                                                         string applicationPath, string page)
         {
             return SetHttpContextWithBlogRequest(host, 80, subfolder, applicationPath, page);
         }
 
-        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, int port, string subfolder, string applicationPath, string page)
+        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, int port, string subfolder,
+                                                                         string applicationPath, string page)
         {
             return SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, page, null, "GET");
         }
 
-        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page, TextWriter output)
+        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder,
+                                                                         string applicationPath, string page,
+                                                                         TextWriter output)
         {
             return SetHttpContextWithBlogRequest(host, subfolder, applicationPath, page, output, "GET");
         }
 
-        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page, TextWriter output, string httpVerb)
+        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder,
+                                                                         string applicationPath, string page,
+                                                                         TextWriter output, string httpVerb)
         {
             return SetHttpContextWithBlogRequest(host, 80, subfolder, applicationPath, page, output, httpVerb);
         }
 
-        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, int port, string subfolder, string applicationPath, string page, TextWriter output, string httpVerb)
+        public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, int port, string subfolder,
+                                                                         string applicationPath, string page,
+                                                                         TextWriter output, string httpVerb)
         {
             HttpContext.Current = null;
 
-            applicationPath = UrlFormats.StripSurroundingSlashes(applicationPath);	// Subtext.Web
-            subfolder = StripSlashes(subfolder);		// MyBlog
+            applicationPath = UrlFormats.StripSurroundingSlashes(applicationPath); // Subtext.Web
+            subfolder = StripSlashes(subfolder); // MyBlog
 
             string appPhysicalDir = @"c:\projects\SubtextSystem\";
-            if (applicationPath.Length == 0)
+            if(applicationPath.Length == 0)
             {
                 applicationPath = "/";
             }
             else
             {
-                appPhysicalDir += applicationPath + @"\";	//	c:\projects\SubtextSystem\Subtext.Web\
-                applicationPath = "/" + applicationPath;			//	/Subtext.Web
+                appPhysicalDir += applicationPath + @"\"; //	c:\projects\SubtextSystem\Subtext.Web\
+                applicationPath = "/" + applicationPath; //	/Subtext.Web
             }
 
             SetHttpRequestApplicationPath(applicationPath);
 
-            if (subfolder.Length > 0)
+            if(subfolder.Length > 0)
             {
-                page = subfolder + "/" + page;			//	MyBlog/default.aspx
+                page = subfolder + "/" + page; //	MyBlog/default.aspx
             }
 
             string query = string.Empty;
 
-            SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(applicationPath, appPhysicalDir, appPhysicalDir + page, page, query, output, host, port, httpVerb);
+            var workerRequest = new SimulatedHttpRequest(applicationPath, appPhysicalDir, appPhysicalDir + page, page,
+                                                         query, output, host, port, httpVerb);
             HttpContext.Current = new HttpContext(workerRequest);
             BlogRequest.Current = new BlogRequest(host, subfolder, HttpContext.Current.Request.Url, host == "localhost");
 
@@ -283,17 +296,24 @@ namespace UnitTests.Subtext
         static void SetHttpRequestApplicationPath(string applicationPath)
         {
             //We cheat by using reflection.
-            FieldInfo runtimeField = typeof(HttpRuntime).GetField("_theRuntime", BindingFlags.NonPublic | BindingFlags.Static);
+            FieldInfo runtimeField = typeof(HttpRuntime).GetField("_theRuntime",
+                                                                  BindingFlags.NonPublic | BindingFlags.Static);
             Assert.IsNotNull(runtimeField);
-            HttpRuntime currentRuntime = runtimeField.GetValue(null) as HttpRuntime;
+            var currentRuntime = runtimeField.GetValue(null) as HttpRuntime;
             Assert.IsNotNull(currentRuntime);
-            FieldInfo appDomainAppVPathField = typeof(HttpRuntime).GetField("_appDomainAppVPath", BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo appDomainAppVPathField = typeof(HttpRuntime).GetField("_appDomainAppVPath",
+                                                                            BindingFlags.NonPublic |
+                                                                            BindingFlags.Instance);
             Assert.IsNotNull(appDomainAppVPathField);
 
-            Type virtualPathType = Type.GetType("System.Web.VirtualPath, System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", true);
+            Type virtualPathType =
+                Type.GetType(
+                    "System.Web.VirtualPath, System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+                    true);
             Assert.IsNotNull(virtualPathType);
-            MethodInfo createMethod = virtualPathType.GetMethod("Create", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(string) }, null);
-            object virtualPath = createMethod.Invoke(null, new object[] { applicationPath });
+            MethodInfo createMethod = virtualPathType.GetMethod("Create", BindingFlags.Static | BindingFlags.Public,
+                                                                null, new[] {typeof(string)}, null);
+            object virtualPath = createMethod.Invoke(null, new object[] {applicationPath});
 
             appDomainAppVPathField.SetValue(currentRuntime, virtualPath);
         }
@@ -305,8 +325,10 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public static string StripSlashes(string target)
         {
-            if (target.Length == 0)
+            if(target.Length == 0)
+            {
                 return target;
+            }
 
             return target.Replace(@"\", string.Empty).Replace("/", string.Empty);
         }
@@ -318,19 +340,21 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public static string StripOuterSlashes(string target)
         {
-            if (target.Length == 0)
+            if(target.Length == 0)
+            {
                 return target;
+            }
 
             char firstChar = target[0];
-            if (firstChar == '\\' || firstChar == '/')
+            if(firstChar == '\\' || firstChar == '/')
             {
                 target = target.Substring(1);
             }
 
-            if (target.Length > 0)
+            if(target.Length > 0)
             {
                 char lastChar = target[target.Length - 1];
-                if (lastChar == '\\' || lastChar == '/')
+                if(lastChar == '\\' || lastChar == '/')
                 {
                     target = target.Substring(0, target.Length - 1);
                 }
@@ -345,39 +369,42 @@ namespace UnitTests.Subtext
         /// <param name="expected"></param>
         public static void AssertStringsEqualCharacterByCharacter(string expected, string result)
         {
-            if (result != expected)
+            if(result != expected)
             {
                 int unequalPos = 0;
-                for (int i = 0; i < Math.Max(result.Length, expected.Length); i++)
+                for(int i = 0; i < Math.Max(result.Length, expected.Length); i++)
                 {
-                    char originalChar = (char)0;
-                    char expectedChar = (char)0;
-                    if (i < result.Length)
+                    var originalChar = (char)0;
+                    var expectedChar = (char)0;
+                    if(i < result.Length)
                     {
                         originalChar = result[i];
                     }
 
-                    if (i < expected.Length)
+                    if(i < expected.Length)
                     {
                         expectedChar = expected[i];
                     }
 
-                    if (unequalPos == 0 && originalChar != expectedChar)
+                    if(unequalPos == 0 && originalChar != expectedChar)
+                    {
                         unequalPos = i;
+                    }
 
                     string expectedCharText = "" + originalChar;
-                    if (char.IsWhiteSpace(originalChar))
+                    if(char.IsWhiteSpace(originalChar))
                     {
                         expectedCharText = "{" + (int)originalChar + "}";
                     }
 
                     string expectedCharDisplay = "" + expectedChar;
-                    if (char.IsWhiteSpace(expectedChar))
+                    if(char.IsWhiteSpace(expectedChar))
                     {
                         expectedCharDisplay = "{" + (int)expectedChar + "}";
                     }
 
-                    Console.WriteLine("{0}:\t{1} ({2})\t{3} ({4})", i, expectedCharDisplay, (int)expectedChar, expectedCharText, (int)originalChar);
+                    Console.WriteLine("{0}:\t{1} ({2})\t{3} ({4})", i, expectedCharDisplay, (int)expectedChar,
+                                      expectedCharText, (int)originalChar);
                 }
                 Assert.AreEqual(expected, result, "Strings are not equal starting at character {0}", unequalPos);
             }
@@ -399,7 +426,8 @@ namespace UnitTests.Subtext
             return CreateEntryInstanceForSyndication(blog, author, title, body, null, DateTime.Now);
         }
 
-        public static Entry CreateEntryInstanceForSyndication(string author, string title, string body, string entryName, DateTime dateCreated)
+        public static Entry CreateEntryInstanceForSyndication(string author, string title, string body, string entryName,
+                                                              DateTime dateCreated)
         {
             return CreateEntryInstanceForSyndication(Config.CurrentBlog, author, title, body, entryName, dateCreated);
         }
@@ -413,15 +441,16 @@ namespace UnitTests.Subtext
         /// <param name="entryName">Name of the entry.</param>
         /// <param name="dateCreated">The date created.</param>
         /// <returns></returns>
-        public static Entry CreateEntryInstanceForSyndication(Blog blog, string author, string title, string body, string entryName, DateTime dateCreated)
+        public static Entry CreateEntryInstanceForSyndication(Blog blog, string author, string title, string body,
+                                                              string entryName, DateTime dateCreated)
         {
-            Entry entry = new Entry(PostType.BlogPost);
-            if (entryName != null)
+            var entry = new Entry(PostType.BlogPost);
+            if(entryName != null)
             {
                 entry.EntryName = entryName;
             }
             entry.BlogId = blog.Id;
-            if (dateCreated != NullValue.NullDateTime)
+            if(dateCreated != NullValue.NullDateTime)
             {
                 entry.DateCreated = dateCreated;
                 entry.DateModified = entry.DateCreated;
@@ -441,14 +470,14 @@ namespace UnitTests.Subtext
 
         public static Link CreateLinkInDb(int categoryId, string title, int? entryId, string rel)
         {
-            Link link = new Link();
+            var link = new Link();
             link.BlogId = Config.CurrentBlog.Id;
             link.IsActive = true;
             link.CategoryID = categoryId;
             link.Title = title;
             link.Url = "http://noneofyourbusiness.com/";
             link.Relation = rel;
-            if (entryId != null)
+            if(entryId != null)
             {
                 link.PostID = (int)entryId;
             }
@@ -465,14 +494,16 @@ namespace UnitTests.Subtext
         /// <param name="body">The body.</param>
         /// <param name="dateCreated">The date created.</param>
         /// <returns></returns>
-        public static FeedbackItem CreateCommentInstance(int parentEntryId, string author, string title, string body, DateTime dateCreated)
+        public static FeedbackItem CreateCommentInstance(int parentEntryId, string author, string title, string body,
+                                                         DateTime dateCreated)
         {
             return CreateCommentInstance(Config.CurrentBlog, parentEntryId, author, title, body, dateCreated);
         }
 
-        public static FeedbackItem CreateCommentInstance(Blog blog, int parentEntryId, string author, string title, string body, DateTime dateCreated)
+        public static FeedbackItem CreateCommentInstance(Blog blog, int parentEntryId, string author, string title,
+                                                         string body, DateTime dateCreated)
         {
-            FeedbackItem entry = new FeedbackItem(FeedbackType.Comment);
+            var entry = new FeedbackItem(FeedbackType.Comment);
             entry.SourceUrl = new Uri("http://subtextproject.com/blah/");
             entry.BlogId = blog.Id;
             entry.EntryId = parentEntryId;
@@ -494,7 +525,7 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public static int CreateCategory(int blogId, string title)
         {
-            LinkCategory category = new LinkCategory();
+            var category = new LinkCategory();
             category.BlogId = Config.CurrentBlog.Id;
             category.Title = title;
             category.CategoryType = CategoryType.PostCollection;
@@ -511,7 +542,7 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public static int CreateCategory(int blogId, string title, CategoryType categoryType)
         {
-            LinkCategory category = new LinkCategory();
+            var category = new LinkCategory();
             category.BlogId = Config.CurrentBlog.Id;
             category.Title = title;
             category.CategoryType = categoryType;
@@ -526,12 +557,12 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public static string ExtractArchiveToString(Stream compressedArchive)
         {
-            StringBuilder target = new StringBuilder();
-            using (ZipInputStream inputStream = new ZipInputStream(compressedArchive))
+            var target = new StringBuilder();
+            using(var inputStream = new ZipInputStream(compressedArchive))
             {
                 ZipEntry nextEntry = inputStream.GetNextEntry();
 
-                while (nextEntry != null)
+                while(nextEntry != null)
                 {
                     target.Append(Extract(inputStream));
                     nextEntry = inputStream.GetNextEntry();
@@ -542,11 +573,11 @@ namespace UnitTests.Subtext
 
         public static string Extract(ZipInputStream inputStream)
         {
-            MemoryStream output = new MemoryStream();
+            var output = new MemoryStream();
 
-            byte[] buffer = new byte[4096];
+            var buffer = new byte[4096];
             int count = inputStream.Read(buffer, 0, 4096);
-            while (count > 0)
+            while(count > 0)
             {
                 output.Write(buffer, 0, count);
                 count = inputStream.Read(buffer, 0, 4096);
@@ -558,24 +589,25 @@ namespace UnitTests.Subtext
 
         public static void ExtractArchive(Stream compressedArchive, string targetDirectory)
         {
-            using (ZipInputStream inputStream = new ZipInputStream(compressedArchive))
+            using(var inputStream = new ZipInputStream(compressedArchive))
             {
                 ZipEntry nextEntry = inputStream.GetNextEntry();
-                if (!Directory.Exists(targetDirectory))
+                if(!Directory.Exists(targetDirectory))
                 {
                     Directory.CreateDirectory(targetDirectory);
                 }
-                while (nextEntry != null)
+                while(nextEntry != null)
                 {
-                    if (nextEntry.IsDirectory)
+                    if(nextEntry.IsDirectory)
                     {
                         Directory.CreateDirectory(Path.Combine(targetDirectory, nextEntry.Name));
                     }
                     else
                     {
-                        if (!Directory.Exists(Path.Combine(targetDirectory, Path.GetDirectoryName(nextEntry.Name))))
+                        if(!Directory.Exists(Path.Combine(targetDirectory, Path.GetDirectoryName(nextEntry.Name))))
                         {
-                            Directory.CreateDirectory(Path.Combine(targetDirectory, Path.GetDirectoryName(nextEntry.Name)));
+                            Directory.CreateDirectory(Path.Combine(targetDirectory,
+                                                                   Path.GetDirectoryName(nextEntry.Name)));
                         }
 
                         ExtractFile(targetDirectory, nextEntry, inputStream);
@@ -587,11 +619,13 @@ namespace UnitTests.Subtext
 
         private static void ExtractFile(string targetDirectory, ZipEntry nextEntry, ZipInputStream inputStream)
         {
-            using (FileStream fileStream = new FileStream(Path.Combine(targetDirectory, nextEntry.Name), FileMode.OpenOrCreate, FileAccess.Write))
+            using(
+                var fileStream = new FileStream(Path.Combine(targetDirectory, nextEntry.Name), FileMode.OpenOrCreate,
+                                                FileAccess.Write))
             {
-                byte[] buffer = new byte[4096];
+                var buffer = new byte[4096];
                 int count = inputStream.Read(buffer, 0, 4096);
-                while (count > 0)
+                while(count > 0)
                 {
                     fileStream.Write(buffer, 0, count);
                     count = inputStream.Read(buffer, 0, 4096);
@@ -618,12 +652,12 @@ namespace UnitTests.Subtext
 
             // When the ticket was created, the UserData property was assigned a
             // pipe delimited string of role names.
-            string[] roles = authTicket.UserData.Split(new char[] { '|' });
+            string[] roles = authTicket.UserData.Split(new[] {'|'});
             // Create an Identity object
-            FormsIdentity id = new FormsIdentity(authTicket);
+            var id = new FormsIdentity(authTicket);
 
             // This principal will flow throughout the request.
-            GenericPrincipal principal = new GenericPrincipal(id, roles);
+            var principal = new GenericPrincipal(id, roles);
             // Attach the new principal object to the current HttpContext object
             HttpContext.Current.User = principal;
         }
@@ -637,8 +671,8 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public static T SerializeRoundTrip<T>(T serializableObject)
         {
-            MemoryStream stream = new MemoryStream();
-            BinaryFormatter formatter = new BinaryFormatter();
+            var stream = new MemoryStream();
+            var formatter = new BinaryFormatter();
             formatter.Serialize(stream, serializableObject);
             byte[] serialized = stream.ToArray();
 
@@ -659,39 +693,40 @@ namespace UnitTests.Subtext
         public static Stream GetDeflatedResponse(string encoding, Stream inputStream)
         {
             //BORROWED FROM RSS BANDIT.
-            const int BUFFER_SIZE = 4096;	// 4K read buffer
+            const int BUFFER_SIZE = 4096; // 4K read buffer
 
             Stream compressed = null, input = inputStream;
             bool tryAgainDeflate = true;
 
-            if (input.CanSeek)
+            if(input.CanSeek)
+            {
                 input.Seek(0, SeekOrigin.Begin);
-
-            if (encoding == "deflate")
-            {	//to solve issue "invalid checksum" exception with dasBlog and "deflate" setting:
-                //input = ResponseToMemory(input);			// need them within mem to have a seekable stream
-                compressed = new InflaterInputStream(input);	// try deflate with headers
             }
-            else if (encoding == "gzip")
+
+            if(encoding == "deflate")
+            {
+                //to solve issue "invalid checksum" exception with dasBlog and "deflate" setting:
+                //input = ResponseToMemory(input);			// need them within mem to have a seekable stream
+                compressed = new InflaterInputStream(input); // try deflate with headers
+            }
+            else if(encoding == "gzip")
             {
                 compressed = new GZipInputStream(input);
             }
 
-        retry_decompress:
-            if (compressed != null)
+            retry_decompress:
+            if(compressed != null)
             {
-
-                MemoryStream decompressed = new MemoryStream();
+                var decompressed = new MemoryStream();
 
                 try
                 {
-
                     int size = BUFFER_SIZE;
-                    byte[] writeData = new byte[BUFFER_SIZE];
-                    while (true)
+                    var writeData = new byte[BUFFER_SIZE];
+                    while(true)
                     {
                         size = compressed.Read(writeData, 0, size);
-                        if (size > 0)
+                        if(size > 0)
                         {
                             decompressed.Write(writeData, 0, size);
                         }
@@ -701,17 +736,19 @@ namespace UnitTests.Subtext
                         }
                     }
                 }
-                catch (GZipException)
+                catch(GZipException)
                 {
-                    if (tryAgainDeflate && (encoding == "deflate"))
+                    if(tryAgainDeflate && (encoding == "deflate"))
                     {
-                        input.Seek(0, SeekOrigin.Begin);	// reset position
+                        input.Seek(0, SeekOrigin.Begin); // reset position
                         compressed = new InflaterInputStream(input, new Inflater(true));
                         tryAgainDeflate = false;
                         goto retry_decompress;
                     }
                     else
+                    {
                         throw;
+                    }
                 }
 
                 //reposition to beginning of decompressed stream then return
@@ -724,77 +761,6 @@ namespace UnitTests.Subtext
                 return input;
             }
         }
-
-        #region ...Assert.AreNotEqual replacements...
-        public static TException AssertThrows<TException>(Action action) where TException : Exception
-        {
-            try
-            {
-                action();
-            }
-            catch (TException exception)
-            {
-                return exception;
-            }
-            catch (Exception exc)
-            {
-                Assert.Fail("Exception " + typeof(TException).Name + " not thrown. Instead " + exc.GetType().Name + " was thrown");
-                return null;
-            }
-            Assert.Fail("Exception " + typeof(TException).Name + " not thrown");
-            return null;
-        }
-
-        /// <summary>
-        /// Asserts that the two values are not equal.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="compare">The compare.</param>
-        public static void AssertAreNotEqual(int first, int compare)
-        {
-            AssertAreNotEqual(first, compare, "");
-        }
-
-        /// <summary>
-        /// Makes sure we can read app settings
-        /// </summary>
-        public static void AssertAppSettings()
-        {
-            Assert.AreEqual("UnitTestValue", ConfigurationManager.AppSettings["UnitTestKey"], "Cannot read app settings");
-        }
-
-        /// <summary>
-        /// Asserts that the two values are not equal.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="compare">The compare.</param>
-        /// <param name="message"></param>
-        public static void AssertAreNotEqual(int first, int compare, string message)
-        {
-            Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);
-        }
-
-        /// <summary>
-        /// Asserts that the two values are not equal.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="compare">The compare.</param>
-        public static void AssertAreNotEqual(string first, string compare)
-        {
-            AssertAreNotEqual(first, compare, "");
-        }
-
-        /// <summary>
-        /// Asserts that the two values are not equal.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="compare">The compare.</param>
-        /// <param name="message"></param>
-        public static void AssertAreNotEqual(string first, string compare, string message)
-        {
-            Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);
-        }
-        #endregion
 
         public static Blog CreateBlogAndSetupContext()
         {
@@ -813,9 +779,10 @@ namespace UnitTests.Subtext
         {
             return CreateBlogAlias(info, host, subfolder, true);
         }
+
         public static BlogAlias CreateBlogAlias(Blog info, string host, string subfolder, bool active)
         {
-            BlogAlias alias = new BlogAlias();
+            var alias = new BlogAlias();
             alias.BlogId = info.Id;
             alias.Host = host;
             alias.Subfolder = subfolder;
@@ -825,16 +792,19 @@ namespace UnitTests.Subtext
             return alias;
         }
 
-        public static MetaTag BuildMetaTag(string content, string name, string httpEquiv, int blogId, int? entryId, DateTime created)
+        public static MetaTag BuildMetaTag(string content, string name, string httpEquiv, int blogId, int? entryId,
+                                           DateTime created)
         {
-            MetaTag mt = new MetaTag();
+            var mt = new MetaTag();
             mt.Name = name;
             mt.HttpEquiv = httpEquiv;
             mt.Content = content;
             mt.BlogId = blogId;
 
-            if (entryId.HasValue)
+            if(entryId.HasValue)
+            {
                 mt.EntryId = entryId.Value;
+            }
 
             mt.DateCreated = created;
 
@@ -843,13 +813,15 @@ namespace UnitTests.Subtext
 
         public static ICollection<MetaTag> BuildMetaTagsFor(Blog blog, Entry entry, int numberOfTags)
         {
-            List<MetaTag> tags = new List<MetaTag>(numberOfTags);
+            var tags = new List<MetaTag>(numberOfTags);
 
             int? entryId = null;
-            if (entry != null)
+            if(entry != null)
+            {
                 entryId = entry.Id;
+            }
 
-            for (int i = 0; i < numberOfTags; i++)
+            for(int i = 0; i < numberOfTags; i++)
             {
                 MetaTag aTag = BuildMetaTag(
                     GenerateUniqueString().Left(50),
@@ -866,9 +838,10 @@ namespace UnitTests.Subtext
             return tags;
         }
 
-        public static Enclosure BuildEnclosure(string title, string url, string mimetype, int entryId, long size, bool addToFeed, bool showWithPost)
+        public static Enclosure BuildEnclosure(string title, string url, string mimetype, int entryId, long size,
+                                               bool addToFeed, bool showWithPost)
         {
-            Enclosure enc = new Enclosure();
+            var enc = new Enclosure();
             enc.EntryId = entryId;
             enc.Title = title;
             enc.Url = url;
@@ -881,59 +854,61 @@ namespace UnitTests.Subtext
 
         public static void AssertSimpleProperties(object o, params string[] excludedProperties)
         {
-            StringDictionary excludes = new StringDictionary();
-            foreach (string exclude in excludedProperties)
+            var excludes = new StringDictionary();
+            foreach(string exclude in excludedProperties)
             {
                 excludes.Add(exclude, "");
             }
 
             Type t = o.GetType();
             PropertyInfo[] props = t.GetProperties();
-            foreach (PropertyInfo property in props)
+            foreach(PropertyInfo property in props)
             {
-                if (excludes.ContainsKey(property.Name))
+                if(excludes.ContainsKey(property.Name))
+                {
                     continue;
+                }
 
-                if (property.CanRead && property.CanWrite)
+                if(property.CanRead && property.CanWrite)
                 {
                     object valueToSet = null;
-                    if (property.PropertyType == typeof(int)
-                        || property.PropertyType == typeof(short)
-                        || property.PropertyType == typeof(decimal)
-                        || property.PropertyType == typeof(double)
-                        || property.PropertyType == typeof(long))
+                    if(property.PropertyType == typeof(int)
+                       || property.PropertyType == typeof(short)
+                       || property.PropertyType == typeof(decimal)
+                       || property.PropertyType == typeof(double)
+                       || property.PropertyType == typeof(long))
                     {
                         valueToSet = 42;
                     }
-                    else if (property.PropertyType == typeof(string))
+                    else if(property.PropertyType == typeof(string))
                     {
                         valueToSet = "This Is a String";
                     }
-                    else if (property.PropertyType == typeof(DateTime))
+                    else if(property.PropertyType == typeof(DateTime))
                     {
                         valueToSet = DateTime.Now;
                     }
-                    else if (property.PropertyType == typeof(Uri))
+                    else if(property.PropertyType == typeof(Uri))
                     {
                         valueToSet = new Uri("http://subtextproject.com/");
                     }
-                    else if (property.PropertyType == typeof(IPAddress))
+                    else if(property.PropertyType == typeof(IPAddress))
                     {
                         valueToSet = IPAddress.Parse("127.0.0.1");
                     }
-                    else if (property.PropertyType == typeof(bool))
+                    else if(property.PropertyType == typeof(bool))
                     {
                         valueToSet = true;
                     }
-                    else if (property.PropertyType == typeof(PageType))
+                    else if(property.PropertyType == typeof(PageType))
                     {
                         valueToSet = PageType.HomePage;
                     }
-                    else if (property.PropertyType == typeof(ICollection<Link>))
+                    else if(property.PropertyType == typeof(ICollection<Link>))
                     {
                         valueToSet = new List<Link>();
                     }
-                    else if (property.PropertyType == typeof(ICollection<Image>))
+                    else if(property.PropertyType == typeof(ICollection<Image>))
                     {
                         valueToSet = new List<Image>();
                     }
@@ -945,7 +920,9 @@ namespace UnitTests.Subtext
 
                     property.SetValue(o, valueToSet, null);
                     object retrievedValue = property.GetValue(o, null);
-                    Assert.AreEqual(valueToSet, retrievedValue, string.Format(CultureInfo.InvariantCulture, "Could not set and get this property '{0}'", property.Name));
+                    Assert.AreEqual(valueToSet, retrievedValue,
+                                    string.Format(CultureInfo.InvariantCulture,
+                                                  "Could not set and get this property '{0}'", property.Name));
                 }
             }
         }
@@ -985,7 +962,9 @@ namespace UnitTests.Subtext
 
         internal static MembershipUser CreateUserInstanceForTest()
         {
-            return new MembershipUser("SubtextMembershipProvider", "Phil Haack", Guid.Empty, "test@example.com", "comment", "comment", true, false, DateTime.Now, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
+            return new MembershipUser("SubtextMembershipProvider", "Phil Haack", Guid.Empty, "test@example.com",
+                                      "comment", "comment", true, false, DateTime.Now, DateTime.MinValue,
+                                      DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
         }
 
         /// <summary>
@@ -1066,7 +1045,8 @@ namespace UnitTests.Subtext
         /// The stringbuilder will end up containing the Response of any simulated
         /// requests.
         /// </returns>
-        internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page)
+        internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port,
+                                                          string page)
         {
             return SetupBlog(subfolder, applicationPath, port, page, "username", "password");
         }
@@ -1086,7 +1066,8 @@ namespace UnitTests.Subtext
         /// The stringbuilder will end up containing the Response of any simulated
         /// requests.
         /// </returns>
-        internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page, string userName, string password)
+        internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port,
+                                                          string page, string userName, string password)
         {
             string host = GenerateUniqueString();
 
@@ -1095,16 +1076,17 @@ namespace UnitTests.Subtext
             Config.CreateBlog("Unit Test Blog", userName, password, host, subfolder);
             Blog blog = Config.GetBlog(host, subfolder);
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             TextWriter output = new StringWriter(sb);
-            SimulatedHttpRequest request = SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, page, output, "GET");
+            SimulatedHttpRequest request = SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, page,
+                                                                         output, "GET");
             BlogRequest.Current.Blog = blog;
 
-            if (Config.CurrentBlog != null)
+            if(Config.CurrentBlog != null)
             {
                 Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
             }
-            HttpContext.Current.User = new GenericPrincipal(new GenericIdentity(userName), new string[] { "Administrators" });
+            HttpContext.Current.User = new GenericPrincipal(new GenericIdentity(userName), new[] {"Administrators"});
 
             return new SimulatedRequestContext(request, sb, output, host);
         }
@@ -1113,14 +1095,16 @@ namespace UnitTests.Subtext
         {
             var requestContext = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
             Bootstrapper.RequestContext = requestContext;
-            var kernel = new Mock<IKernel>().Object;
+            IKernel kernel = new Mock<IKernel>().Object;
             Bootstrapper.Kernel = kernel;
             var routes = new RouteCollection();
             var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
             Routes.RegisterRoutes(subtextRoutes);
             var urlHelper = new UrlHelper(requestContext, routes);
-            var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper, ObjectProvider.Instance(), requestContext.HttpContext.User, new SubtextCache(requestContext.HttpContext.Cache), kernel);
-            var entryPublisher = CreateEntryPublisher(subtextContext);
+            var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper,
+                                                    ObjectProvider.Instance(), requestContext.HttpContext.User,
+                                                    new SubtextCache(requestContext.HttpContext.Cache), kernel);
+            IEntryPublisher entryPublisher = CreateEntryPublisher(subtextContext);
             int id = entryPublisher.Publish(entry);
             entry.Id = id;
             return id;
@@ -1137,8 +1121,8 @@ namespace UnitTests.Subtext
 
         public static Stream ToStream(this string text)
         {
-            MemoryStream stream = new MemoryStream();
-            StreamWriter writer = new StreamWriter(stream);
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
             writer.Write(text);
             writer.Flush();
             stream.Position = 0;
@@ -1149,7 +1133,10 @@ namespace UnitTests.Subtext
         {
             var request = new Mock<IRequest>();
             var kernel = new Mock<IKernel>();
-            kernel.Setup(k => k.CreateRequest(It.IsAny<Type>(), It.IsAny<Func<IBindingMetadata, bool>>(), It.IsAny<IEnumerable<IParameter>>(), It.IsAny<bool>())).Returns(request.Object);
+            kernel.Setup(
+                k =>
+                k.CreateRequest(It.IsAny<Type>(), It.IsAny<Func<IBindingMetadata, bool>>(),
+                                It.IsAny<IEnumerable<IParameter>>(), It.IsAny<bool>())).Returns(request.Object);
             kernel.Setup(k => k.Resolve(It.IsAny<IRequest>())).Returns(returnFunc);
             return kernel.Object;
         }
@@ -1168,8 +1155,82 @@ namespace UnitTests.Subtext
             httpContext.Setup(c => c.Request.ApplicationPath).Returns(appPath);
             httpContext.Setup(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            UrlHelper helper = new UrlHelper(requestContext, routes);
+            var helper = new UrlHelper(requestContext, routes);
             return helper;
         }
+
+        #region ...Assert.AreNotEqual replacements...
+
+        public static TException AssertThrows<TException>(Action action) where TException : Exception
+        {
+            try
+            {
+                action();
+            }
+            catch(TException exception)
+            {
+                return exception;
+            }
+            catch(Exception exc)
+            {
+                Assert.Fail("Exception " + typeof(TException).Name + " not thrown. Instead " + exc.GetType().Name +
+                            " was thrown");
+                return null;
+            }
+            Assert.Fail("Exception " + typeof(TException).Name + " not thrown");
+            return null;
+        }
+
+        /// <summary>
+        /// Asserts that the two values are not equal.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="compare">The compare.</param>
+        public static void AssertAreNotEqual(int first, int compare)
+        {
+            AssertAreNotEqual(first, compare, "");
+        }
+
+        /// <summary>
+        /// Makes sure we can read app settings
+        /// </summary>
+        public static void AssertAppSettings()
+        {
+            Assert.AreEqual("UnitTestValue", ConfigurationManager.AppSettings["UnitTestKey"], "Cannot read app settings");
+        }
+
+        /// <summary>
+        /// Asserts that the two values are not equal.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="compare">The compare.</param>
+        /// <param name="message"></param>
+        public static void AssertAreNotEqual(int first, int compare, string message)
+        {
+            Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);
+        }
+
+        /// <summary>
+        /// Asserts that the two values are not equal.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="compare">The compare.</param>
+        public static void AssertAreNotEqual(string first, string compare)
+        {
+            AssertAreNotEqual(first, compare, "");
+        }
+
+        /// <summary>
+        /// Asserts that the two values are not equal.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="compare">The compare.</param>
+        /// <param name="message"></param>
+        public static void AssertAreNotEqual(string first, string compare, string message)
+        {
+            Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);
+        }
+
+        #endregion
     }
 }

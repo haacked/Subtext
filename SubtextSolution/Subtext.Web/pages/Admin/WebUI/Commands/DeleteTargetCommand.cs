@@ -1,4 +1,5 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -47,10 +49,7 @@ namespace Subtext.Web.Admin.Commands
 
         public override string PromptMessage
         {
-            get
-            {
-                return FormatMessage(base.PromptMessage, _targetName, _targetID);
-            }
+            get { return FormatMessage(base.PromptMessage, _targetName, _targetID); }
             set { _promptMessage = value; }
         }
 
@@ -60,5 +59,4 @@ namespace Subtext.Web.Admin.Commands
             return FormatMessage(CancelSuccessMessage, _targetName, _targetID);
         }
     }
-
 }

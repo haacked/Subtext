@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,9 +12,11 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 #region Notes
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // The code in this file is freely distributable.
 // 
@@ -29,9 +32,11 @@
 // into your existing applications, please visit, http://aspnetweblog.com
 // 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
+
 using System;
-using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -41,89 +46,83 @@ using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Tracking
 {
-	/// <summary>
-	/// Summary description for TrackBackNotificationProxy.
-	/// </summary>
-	public class TrackBackNotificationProxy
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="TrackBackNotificationProxy"/> class.
-		/// </summary>
-		public TrackBackNotificationProxy()
-		{
-		}
+    /// <summary>
+    /// Summary description for TrackBackNotificationProxy.
+    /// </summary>
+    public class TrackBackNotificationProxy
+    {
+        public static bool TrackBackPing(string pageText, Uri url, string title, Uri link, string blogname,
+                                         string description)
+        {
+            string trackBackItem = GetTrackBackText(pageText, url, link);
+            if(trackBackItem != null)
+            {
+                if(!trackBackItem.ToLower(CultureInfo.InvariantCulture).StartsWith("http://"))
+                {
+                    trackBackItem = "http://" + trackBackItem;
+                }
 
-		public static bool TrackBackPing(string pageText, Uri url, string title, Uri link, string blogname, string description)
-		{
-			string trackBackItem = GetTrackBackText(pageText, url, link);
-			if (trackBackItem != null)
-			{
-				if (!trackBackItem.ToLower(System.Globalization.CultureInfo.InvariantCulture).StartsWith("http://"))
-				{
-					trackBackItem = "http://" + trackBackItem;
-				}
+                string parameters = "title=" + HttpUtility.HtmlEncode(title) + "&url=" +
+                                    HttpUtility.HtmlEncode(link.ToString()) + "&blog_name=" +
+                                    HttpUtility.HtmlEncode(blogname) + "&excerpt=" + HttpUtility.HtmlEncode(description);
 
-				string parameters = "title=" + HttpUtility.HtmlEncode(title) + "&url=" + HttpUtility.HtmlEncode(link.ToString()) + "&blog_name=" + HttpUtility.HtmlEncode(blogname) + "&excerpt=" + HttpUtility.HtmlEncode(description);
+                Uri trackBackUrl = trackBackItem.ParseUri();
+                if(trackBackUrl != null)
+                {
+                    return SendPing(trackBackUrl, parameters);
+                }
+            }
+            return true;
+        }
 
-				Uri trackBackUrl = HtmlHelper.ParseUri(trackBackItem);
-				if (trackBackUrl != null)
-				{
-					return SendPing(trackBackUrl, parameters);
-				}
-			}
-			return true;
-		}
+        private static bool SendPing(Uri trackBackItem, string parameters)
+        {
+            HttpWebRequest request = HttpHelper.CreateRequest(trackBackItem);
+            request.Method = "POST";
+            request.ContentLength = parameters.Length;
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.KeepAlive = false;
+            HttpHelper.SetProxy(request);
 
-		private static bool SendPing(Uri trackBackItem, string parameters)
-		{
-			HttpWebRequest request = HttpHelper.CreateRequest(trackBackItem);
-			request.Method = "POST";
-			request.ContentLength = parameters.Length;
-			request.ContentType = "application/x-www-form-urlencoded";
-			request.KeepAlive = false;
-			HttpHelper.SetProxy(request);
+            using(var myWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                myWriter.Write(parameters);
+            }
 
-			using (StreamWriter myWriter = new StreamWriter(request.GetRequestStream()))
-			{
-				myWriter.Write(parameters);
-			}
+            var response = (HttpWebResponse)request.GetResponse();
 
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            return (response.StatusCode == HttpStatusCode.OK);
+        }
 
-			return (response.StatusCode == HttpStatusCode.OK);
-		}
+        private static string GetTrackBackText(string pageText, Uri url, Uri postUrl)
+        {
+            if(!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase | RegexOptions.Singleline))
+            {
+                string sPattern = @"<rdf:\w+\s[^>]*?>(</rdf:rdf>)?";
+                var r = new Regex(sPattern, RegexOptions.IgnoreCase);
+                Match m;
 
-		private static string GetTrackBackText(string pageText, Uri url, Uri postUrl)
-		{
-			if (!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase | RegexOptions.Singleline))
-			{
-				string sPattern = @"<rdf:\w+\s[^>]*?>(</rdf:rdf>)?";
-				Regex r = new Regex(sPattern, RegexOptions.IgnoreCase);
-				Match m;
+                for(m = r.Match(pageText); m.Success; m = m.NextMatch())
+                {
+                    if(m.Groups.ToString().Length > 0)
+                    {
+                        string text = m.Groups[0].ToString();
+                        if(text.IndexOf(url.ToString()) > 0)
+                        {
+                            string tbPattern = "trackback:ping=\"([^\"]+)\"";
+                            var reg = new Regex(tbPattern, RegexOptions.IgnoreCase);
+                            Match m2 = reg.Match(text);
+                            if(m2.Success)
+                            {
+                                return m2.Result("$1");
+                            }
+                            return text;
+                        }
+                    }
+                }
+            }
 
-				for (m = r.Match(pageText); m.Success; m = m.NextMatch())
-				{
-					if (m.Groups.ToString().Length > 0)
-					{
-						string text = m.Groups[0].ToString();
-						if (text.IndexOf(url.ToString()) > 0)
-						{
-							string tbPattern = "trackback:ping=\"([^\"]+)\"";
-							Regex reg = new Regex(tbPattern, RegexOptions.IgnoreCase);
-							Match m2 = reg.Match(text);
-							if (m2.Success)
-							{
-								return m2.Result("$1");
-							}
-							return text;
-						}
-					}
-				}
-			}
-
-			return null;
-
-		}
-	}
+            return null;
+        }
+    }
 }
-

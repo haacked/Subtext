@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,47 +12,46 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Util
 {
-	public static class KeyWords
-	{
-		public static KeyWord GetKeyWord(int KeyWordID)
-		{
-			return ObjectProvider.Instance().GetKeyWord(KeyWordID);
-		}
+    public static class KeyWords
+    {
+        public static KeyWord GetKeyWord(int KeyWordID)
+        {
+            return ObjectProvider.Instance().GetKeyWord(KeyWordID);
+        }
 
         public static ICollection<KeyWord> GetKeyWords()
-		{
-			return ObjectProvider.Instance().GetKeyWords();
-		}
+        {
+            return ObjectProvider.Instance().GetKeyWords();
+        }
 
         public static IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize)
-		{
-			return ObjectProvider.Instance().GetPagedKeyWords(pageIndex, pageSize);
-		}
+        {
+            return ObjectProvider.Instance().GetPagedKeyWords(pageIndex, pageSize);
+        }
 
-		public static void UpdateKeyWord(KeyWord kw)
-		{
-			ObjectProvider.Instance().UpdateKeyWord(kw);
-		}
+        public static void UpdateKeyWord(KeyWord kw)
+        {
+            ObjectProvider.Instance().UpdateKeyWord(kw);
+        }
 
-		public static int CreateKeyWord(KeyWord kw)
-		{
-			return ObjectProvider.Instance().InsertKeyWord(kw);
-		}
+        public static int CreateKeyWord(KeyWord kw)
+        {
+            return ObjectProvider.Instance().InsertKeyWord(kw);
+        }
 
-		public static bool DeleteKeyWord(int KeyWordID)
-		{
-			return ObjectProvider.Instance().DeleteKeyWord(KeyWordID);
-		}
-	}
+        public static bool DeleteKeyWord(int KeyWordID)
+        {
+            return ObjectProvider.Instance().DeleteKeyWord(KeyWordID);
+        }
+    }
 }

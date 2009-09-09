@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,23 +12,26 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
+using log4net.Config;
 
 //
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("Subtext.Web")]
-[assembly: AssemblyDescription("ASP.NET Website implementation implented as a Class Library rather than a Web Project.")]
-[assembly: AssemblyCulture("")]
 
-[assembly: ComVisible(false)]	
+[assembly: AssemblyTitle("Subtext.Web")]
+[assembly: AssemblyDescription("ASP.NET Website implementation implented as a Class Library rather than a Web Project.")
+]
+[assembly: AssemblyCulture("")]
+[assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]
+[assembly: XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution = true)]

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,74 +12,68 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
-using System;
-using System.Globalization;
-using System.Threading;
 using System.Web;
 using MbUnit.Framework;
-using Subtext.Extensibility;
-using Subtext.Framework;
-using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
-using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Format
 {
-	/// <summary>
-	/// Unit tests of the <see cref="UrlFormats"/> class which 
-	/// is used to format Subtext specific urls.
-	/// </summary>
-	[TestFixture]
-	public class UrlFormatTests
-	{
-		string _hostName;
+    /// <summary>
+    /// Unit tests of the <see cref="UrlFormats"/> class which 
+    /// is used to format Subtext specific urls.
+    /// </summary>
+    [TestFixture]
+    public class UrlFormatTests
+    {
+        string _hostName;
 
-	    /// <summary>
-		/// Makes sure that UrlFormats.GetBlogAppFromRequest does the right thing.
-		/// </summary>
-		[RowTest]
-		[Row("/Subtext.Web/MyBlog/default.aspx", "/Subtext.Web", "MyBlog")]
-		[Row("/subtext.web/MyBlog/default.aspx", "/Subtext.Web", "MyBlog")]
-		[Row("/subtext.web/MyBlog/default.aspx", "Subtext.Web", "MyBlog")]
-		[Row("/subtext.web/default.aspx", "/Subtext.Web", "")]
-		[Row("/subtext.web", "/Subtext.Web", "")]
-		[Row("/subtext.web/myBLOG/", "/Subtext.Web", "myBLOG")]
-		public void GetBlogAppFromRequestDoesTheRightThing(string rawUrl, string subfolder, string expected)
-		{
-			Assert.AreEqual(expected, UrlFormats.GetBlogSubfolderFromRequest(rawUrl, subfolder));
-		}
+        /// <summary>
+        /// Makes sure that UrlFormats.GetBlogAppFromRequest does the right thing.
+        /// </summary>
+        [RowTest]
+        [Row("/Subtext.Web/MyBlog/default.aspx", "/Subtext.Web", "MyBlog")]
+        [Row("/subtext.web/MyBlog/default.aspx", "/Subtext.Web", "MyBlog")]
+        [Row("/subtext.web/MyBlog/default.aspx", "Subtext.Web", "MyBlog")]
+        [Row("/subtext.web/default.aspx", "/Subtext.Web", "")]
+        [Row("/subtext.web", "/Subtext.Web", "")]
+        [Row("/subtext.web/myBLOG/", "/Subtext.Web", "myBLOG")]
+        public void GetBlogAppFromRequestDoesTheRightThing(string rawUrl, string subfolder, string expected)
+        {
+            Assert.AreEqual(expected, UrlFormats.GetBlogSubfolderFromRequest(rawUrl, subfolder));
+        }
 
-		[Test]
-		[RollBack]
-		public void GetBlogNameReturnsBlogNameForEmptyVirtualDir()
-		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "");
-			string blogName = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
-			Assert.AreEqual("MyBlog", blogName, "Wasn't able to parse request properly.");
-		}
+        [Test]
+        [RollBack]
+        public void GetBlogNameReturnsBlogNameForEmptyVirtualDir()
+        {
+            UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "");
+            string blogName = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl,
+                                                                     HttpContext.Current.Request.ApplicationPath);
+            Assert.AreEqual("MyBlog", blogName, "Wasn't able to parse request properly.");
+        }
 
-		[Test]
-		[RollBack]
-		public void GetBlogNameReturnsBlogNameForNonEmptyVirtualDir()
-		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog2", "Subtext.Web");
-			string blogName = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
-			Assert.AreEqual("MyBlog2", blogName, "Wasn't able to parse request properly.");
-		}
+        [Test]
+        [RollBack]
+        public void GetBlogNameReturnsBlogNameForNonEmptyVirtualDir()
+        {
+            UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog2", "Subtext.Web");
+            string blogName = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl,
+                                                                     HttpContext.Current.Request.ApplicationPath);
+            Assert.AreEqual("MyBlog2", blogName, "Wasn't able to parse request properly.");
+        }
 
-		[SetUp]
-		public void SetUp()
-		{
-			_hostName = UnitTestHelper.GenerateUniqueString();
-			
-		}
+        [SetUp]
+        public void SetUp()
+        {
+            _hostName = UnitTestHelper.GenerateUniqueString();
+        }
 
-		[TearDown]
-		public void TearDown()
-		{
-		}
-	}
+        [TearDown]
+        public void TearDown()
+        {
+        }
+    }
 }

@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -23,189 +25,202 @@ using Subtext.Framework.Components;
 
 namespace Subtext.Web.Admin
 {
-	public static class OpmlProvider
-	{
+    public static class OpmlProvider
+    {
         public static IXPathNavigable Export(ICollection<Link> items)
-		{
-			XmlDocument doc = new XmlDocument();
-			XmlDeclaration declaration = doc.CreateXmlDeclaration("1.0", "utf-8", null);
-			doc.AppendChild(declaration);
+        {
+            var doc = new XmlDocument();
+            XmlDeclaration declaration = doc.CreateXmlDeclaration("1.0", "utf-8", null);
+            doc.AppendChild(declaration);
 
-			XmlNode rootNode = doc.CreateElement("opml");
-			doc.AppendChild(rootNode);
-						
-			XmlNode headNode = doc.CreateElement("head");
-			rootNode.AppendChild(headNode);
+            XmlNode rootNode = doc.CreateElement("opml");
+            doc.AppendChild(rootNode);
 
-			XmlNode bodyNode = doc.CreateElement("body");
-			rootNode.AppendChild(bodyNode);
-			
-			foreach (Link currentItem in items)
-			{				
-				XmlNode outline = doc.CreateElement("outline");
+            XmlNode headNode = doc.CreateElement("head");
+            rootNode.AppendChild(headNode);
 
-				XmlAttribute title = doc.CreateAttribute("title");
-				title.Value = currentItem.Title;
-				outline.Attributes.Append(title);
+            XmlNode bodyNode = doc.CreateElement("body");
+            rootNode.AppendChild(bodyNode);
 
-				XmlAttribute description = doc.CreateAttribute("description");
-				description.Value = currentItem.Title;
-				outline.Attributes.Append(description);
+            foreach(Link currentItem in items)
+            {
+                XmlNode outline = doc.CreateElement("outline");
 
-				XmlAttribute htmlurl = doc.CreateAttribute("htmlurl");
-				htmlurl.Value = currentItem.Url;
-				outline.Attributes.Append(htmlurl);
+                XmlAttribute title = doc.CreateAttribute("title");
+                title.Value = currentItem.Title;
+                outline.Attributes.Append(title);
 
-				XmlAttribute xmlurl = doc.CreateAttribute("xmlurl");
-				xmlurl.Value = currentItem.Rss;
-				outline.Attributes.Append(xmlurl);
+                XmlAttribute description = doc.CreateAttribute("description");
+                description.Value = currentItem.Title;
+                outline.Attributes.Append(description);
 
-				bodyNode.AppendChild(outline);
-			}			
+                XmlAttribute htmlurl = doc.CreateAttribute("htmlurl");
+                htmlurl.Value = currentItem.Url;
+                outline.Attributes.Append(htmlurl);
 
-			return doc;
+                XmlAttribute xmlurl = doc.CreateAttribute("xmlurl");
+                xmlurl.Value = currentItem.Rss;
+                outline.Attributes.Append(xmlurl);
 
-			//doc.LoadXml(sw.ToString());
-			//return doc.CreateNavigator();
-		}
+                bodyNode.AppendChild(outline);
+            }
 
-		public static void WriteOpmlItem(OpmlItem item, XmlWriter writer)
-		{
-			item.RenderOpml(writer);
-			
-			foreach (OpmlItem childItem in item.ChildItems)
-				WriteOpmlItem(childItem, writer);
-		}
+            return doc;
 
-		public static OpmlItemCollection Import(Stream fileStream)
-		{
-			OpmlItemCollection _currentBatch = new OpmlItemCollection();
+            //doc.LoadXml(sw.ToString());
+            //return doc.CreateNavigator();
+        }
 
-			XmlReader reader = new XmlTextReader(fileStream);
-			XPathDocument doc = new XPathDocument(reader);
-			XPathNavigator nav = doc.CreateNavigator();
-			
-			XPathNodeIterator outlineItems = nav.Select("/opml/body/outline");
+        public static void WriteOpmlItem(OpmlItem item, XmlWriter writer)
+        {
+            item.RenderOpml(writer);
 
-			while (outlineItems.MoveNext())
-			{
-				_currentBatch.AddRange(DeserializeItem(outlineItems.Current));
-			}
+            foreach(OpmlItem childItem in item.ChildItems)
+            {
+                WriteOpmlItem(childItem, writer);
+            }
+        }
 
-			return _currentBatch;
-		}
+        public static OpmlItemCollection Import(Stream fileStream)
+        {
+            var _currentBatch = new OpmlItemCollection();
 
-		public static IEnumerable<OpmlItem> DeserializeItem(XPathNavigator nav)
-		{
-			var items = new List<OpmlItem>();
+            XmlReader reader = new XmlTextReader(fileStream);
+            var doc = new XPathDocument(reader);
+            XPathNavigator nav = doc.CreateNavigator();
 
-			if (nav.HasAttributes)
-			{
-				string title = nav.GetAttribute("title", "");
-				if (String.IsNullOrEmpty(title))
-					title = nav.GetAttribute("text", "");
-			    
-				string htmlUrl = nav.GetAttribute("htmlurl", "");
-				if (String.IsNullOrEmpty(htmlUrl))
-				    htmlUrl = nav.GetAttribute("htmlUrl", "");
+            XPathNodeIterator outlineItems = nav.Select("/opml/body/outline");
 
-				string xmlUrl = nav.GetAttribute("xmlurl", "");
-				if (String.IsNullOrEmpty(xmlUrl))
-					xmlUrl = nav.GetAttribute("xmlUrl", "");
+            while(outlineItems.MoveNext())
+            {
+                _currentBatch.AddRange(DeserializeItem(outlineItems.Current));
+            }
 
-				OpmlItem currentItem = null;
+            return _currentBatch;
+        }
+
+        public static IEnumerable<OpmlItem> DeserializeItem(XPathNavigator nav)
+        {
+            var items = new List<OpmlItem>();
+
+            if(nav.HasAttributes)
+            {
+                string title = nav.GetAttribute("title", "");
+                if(String.IsNullOrEmpty(title))
+                {
+                    title = nav.GetAttribute("text", "");
+                }
+
+                string htmlUrl = nav.GetAttribute("htmlurl", "");
+                if(String.IsNullOrEmpty(htmlUrl))
+                {
+                    htmlUrl = nav.GetAttribute("htmlUrl", "");
+                }
+
+                string xmlUrl = nav.GetAttribute("xmlurl", "");
+                if(String.IsNullOrEmpty(xmlUrl))
+                {
+                    xmlUrl = nav.GetAttribute("xmlUrl", "");
+                }
+
+                OpmlItem currentItem = null;
                 string description = nav.GetAttribute("description", "");
-				if (!String.IsNullOrEmpty(title) && !String.IsNullOrEmpty(htmlUrl))
-					currentItem = new OpmlItem(title, description, xmlUrl, htmlUrl);
+                if(!String.IsNullOrEmpty(title) && !String.IsNullOrEmpty(htmlUrl))
+                {
+                    currentItem = new OpmlItem(title, description, xmlUrl, htmlUrl);
+                }
 
-				if (null != currentItem)
-					items.Add(currentItem);
-			}
+                if(null != currentItem)
+                {
+                    items.Add(currentItem);
+                }
+            }
 
-			if (nav.HasChildren)
-			{
-				XPathNodeIterator childItems = nav.SelectChildren("outline", "");
-				while (childItems.MoveNext())
-				{
-					var children = DeserializeItem(childItems.Current);
-					if (null != children)
-						items.InsertRange(items.Count, children);
-				}
-			}
+            if(nav.HasChildren)
+            {
+                XPathNodeIterator childItems = nav.SelectChildren("outline", "");
+                while(childItems.MoveNext())
+                {
+                    IEnumerable<OpmlItem> children = DeserializeItem(childItems.Current);
+                    if(null != children)
+                    {
+                        items.InsertRange(items.Count, children);
+                    }
+                }
+            }
 
-			return items;
-		}
-	}
+            return items;
+        }
+    }
 
-	[	
-	Serializable,
-		XmlRoot(ElementName = "outline", IsNullable=true)
-	]
-	public class OpmlItem
-	{
-		private string _title;
-		private string _description;
-		private string _xmlurl;
-		private string _htmlurl;
-		private OpmlItemCollection _childItems;
+    [
+        Serializable
+    ]
+    [XmlRoot(ElementName = "outline", IsNullable = true)]
+    public class OpmlItem
+    {
+        private OpmlItemCollection _childItems;
+        private string _description;
+        private string _htmlurl;
+        private string _title;
+        private string _xmlurl;
 
-		public OpmlItem()
-		{
-			_childItems = new OpmlItemCollection();
-		}
+        public OpmlItem()
+        {
+            _childItems = new OpmlItemCollection();
+        }
 
-		public OpmlItem(string title, string description, string xmlUrl, string htmlUrl)
-			: this()
-		{
-			_title = title;
-			_description = description;
-			_xmlurl = xmlUrl;
-			_htmlurl = htmlUrl;
-		}
+        public OpmlItem(string title, string description, string xmlUrl, string htmlUrl)
+            : this()
+        {
+            _title = title;
+            _description = description;
+            _xmlurl = xmlUrl;
+            _htmlurl = htmlUrl;
+        }
 
-		[XmlAttribute("title")]
-		public string Title
-		{
-			get { return _title; }
-			set { _title = value; }
-		}
+        [XmlAttribute("title")]
+        public string Title
+        {
+            get { return _title; }
+            set { _title = value; }
+        }
 
-		[XmlAttribute("description")]
-		public string Description
-		{
-			get { return _description; }
-			set { _description = value; }
-		}
+        [XmlAttribute("description")]
+        public string Description
+        {
+            get { return _description; }
+            set { _description = value; }
+        }
 
-		[XmlAttribute("xmlurl")]
-		public string XmlUrl
-		{
-			get { return _xmlurl; }
-			set { _xmlurl = value; }
-		}
+        [XmlAttribute("xmlurl")]
+        public string XmlUrl
+        {
+            get { return _xmlurl; }
+            set { _xmlurl = value; }
+        }
 
-		[XmlAttribute("htmlurl")]
-		public string HtmlUrl
-		{
-			get { return _htmlurl; }
-			set { _htmlurl = value; }
-		}
+        [XmlAttribute("htmlurl")]
+        public string HtmlUrl
+        {
+            get { return _htmlurl; }
+            set { _htmlurl = value; }
+        }
 
-		public OpmlItemCollection ChildItems
-		{
-			get { return _childItems; }
-			set { _childItems = value; }
-		}
+        public OpmlItemCollection ChildItems
+        {
+            get { return _childItems; }
+            set { _childItems = value; }
+        }
 
-		internal void RenderOpml(XmlWriter writer)
-		{
-			writer.WriteStartElement("outline");
-			writer.WriteAttributeString("title", this.Title);
-			writer.WriteAttributeString("description", this.Description);
-			writer.WriteAttributeString("htmlurl", this.HtmlUrl);
-			writer.WriteAttributeString("xmlurl", this.XmlUrl);
-			writer.WriteEndElement();
-		}
-	}
+        internal void RenderOpml(XmlWriter writer)
+        {
+            writer.WriteStartElement("outline");
+            writer.WriteAttributeString("title", Title);
+            writer.WriteAttributeString("description", Description);
+            writer.WriteAttributeString("htmlurl", HtmlUrl);
+            writer.WriteAttributeString("xmlurl", XmlUrl);
+            writer.WriteEndElement();
+        }
+    }
 }
-

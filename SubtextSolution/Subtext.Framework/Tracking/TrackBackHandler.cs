@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,6 +12,7 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
@@ -35,7 +37,7 @@ namespace Subtext.Framework.Tracking
     /// </summary>
     public class TrackBackHandler : SubtextHttpHandler
     {
-        static Log Log = new Log();
+        static readonly Log Log = new Log();
 
         public TrackBackHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
@@ -43,7 +45,7 @@ namespace Subtext.Framework.Tracking
 
         public override void ProcessRequest()
         {
-            if (!SubtextContext.Blog.TrackbacksEnabled)
+            if(!SubtextContext.Blog.TrackbacksEnabled)
             {
                 return;
             }
@@ -52,7 +54,7 @@ namespace Subtext.Framework.Tracking
             {
                 HandleTrackback(SubtextContext);
             }
-            catch (BaseCommentException e)
+            catch(BaseCommentException e)
             {
                 Log.Info("Comment exception occurred.", e);
             }
@@ -60,15 +62,16 @@ namespace Subtext.Framework.Tracking
 
         private void HandleTrackback(ISubtextContext subtextContext)
         {
-            var httpContext = subtextContext.RequestContext.HttpContext;
+            HttpContextBase httpContext = subtextContext.RequestContext.HttpContext;
             httpContext.Response.ContentType = "text/xml";
 
             Entry entry;
 
             int? id = subtextContext.RequestContext.GetIdFromRequest();
-            if (id != null)
+            if(id != null)
             {
-                entry = subtextContext.Repository.GetEntry(id.Value, true /* activeOnly */, false /* includeCategories */);
+                entry = subtextContext.Repository.GetEntry(id.Value, true /* activeOnly */, false
+                    /* includeCategories */);
             }
             else
             {
@@ -76,14 +79,15 @@ namespace Subtext.Framework.Tracking
                 entry = subtextContext.Repository.GetEntry(slug, true /* activeOnly */, false /* includeCategories */);
             }
 
-            if (entry == null)
+            if(entry == null)
             {
-                Log.Info(string.Format(CultureInfo.InvariantCulture, Resources.Log_CouldNotExtractEntryId, httpContext.Request.Path));
+                Log.Info(string.Format(CultureInfo.InvariantCulture, Resources.Log_CouldNotExtractEntryId,
+                                       httpContext.Request.Path));
                 SendTrackbackResponse(httpContext, 1, Resources.TrackbackResponse_EntryIdMissing);
                 return;
             }
 
-            if (httpContext.Request.HttpMethod == "POST")
+            if(httpContext.Request.HttpMethod == "POST")
             {
                 CreateTrackbackAndSendResponse(subtextContext, entry, entry.Id);
             }
@@ -95,7 +99,7 @@ namespace Subtext.Framework.Tracking
 
         private static void SendTrackbackRss(ISubtextContext context, Entry entry, int postId)
         {
-            XmlTextWriter w = new XmlTextWriter(context.RequestContext.HttpContext.Response.Output);
+            var w = new XmlTextWriter(context.RequestContext.HttpContext.Response.Output);
             w.Formatting = Formatting.Indented;
 
             string url = context.UrlHelper.TrackbacksUrl(postId).ToFullyQualifiedUrl(context.Blog).ToString();
@@ -119,33 +123,37 @@ namespace Subtext.Framework.Tracking
 
         private void CreateTrackbackAndSendResponse(ISubtextContext subtextContext, Entry entry, int entryId)
         {
-            var context = subtextContext.RequestContext.HttpContext;
+            HttpContextBase context = subtextContext.RequestContext.HttpContext;
             string title = SafeParam(context, "title");
             string excerpt = SafeParam(context, "excerpt");
             string urlText = SafeParam(context, "url");
             string blog_name = SafeParam(context, "blog_name");
 
-            Uri url = HtmlHelper.ParseUri(urlText);
-            if (url == null)
+            Uri url = urlText.ParseUri();
+            if(url == null)
             {
                 SendTrackbackResponse(context, 1, Resources.TrackbackResponse_NoUrl);
                 return;
             }
 
-            if (entry == null || !IsSourceVerification(url, subtextContext.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(subtextContext.Blog)))
+            if(entry == null ||
+               !IsSourceVerification(url,
+                                     subtextContext.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(subtextContext.Blog)))
             {
-                SendTrackbackResponse(context, 2, String.Format(CultureInfo.InvariantCulture, Resources.TrackbackResponse_NoRelevantLink, url));
+                SendTrackbackResponse(context, 2,
+                                      String.Format(CultureInfo.InvariantCulture,
+                                                    Resources.TrackbackResponse_NoRelevantLink, url));
                 return;
             }
 
-            Trackback trackback = new Trackback(entryId, title, url, blog_name, excerpt, Blog.TimeZone.Now);
+            var trackback = new Trackback(entryId, title, url, blog_name, excerpt, Blog.TimeZone.Now);
             ICommentSpamService feedbackService = null;
             Blog blog = subtextContext.Blog;
-            if (blog.FeedbackSpamServiceEnabled)
+            if(blog.FeedbackSpamServiceEnabled)
             {
                 feedbackService = new AkismetSpamService(blog.FeedbackSpamServiceKey, blog, null, Url);
             }
-            CommentService commentService = new CommentService(SubtextContext, new CommentFilter(SubtextContext, feedbackService));
+            var commentService = new CommentService(SubtextContext, new CommentFilter(SubtextContext, feedbackService));
             commentService.Create(trackback);
             //TODO: Create this using IoC container
             var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), subtextContext);
@@ -154,13 +162,13 @@ namespace Subtext.Framework.Tracking
 
         private static void SendTrackbackResponse(HttpContextBase context, int errorNumber, string errorMessage)
         {
-            XmlDocument d = new XmlDocument();
+            var d = new XmlDocument();
             XmlElement root = d.CreateElement("response");
             d.AppendChild(root);
             XmlElement er = d.CreateElement("error");
             root.AppendChild(er);
             er.AppendChild(d.CreateTextNode(errorNumber.ToString(CultureInfo.InvariantCulture)));
-            if (errorMessage.Length > 0)
+            if(errorMessage.Length > 0)
             {
                 XmlElement msg = d.CreateElement("message");
                 root.AppendChild(msg);
@@ -172,8 +180,10 @@ namespace Subtext.Framework.Tracking
 
         private static string SafeParam(HttpContextBase context, string pName)
         {
-            if (context.Request.Form[pName] != null)
+            if(context.Request.Form[pName] != null)
+            {
                 return HtmlHelper.SafeFormat(context.Request.Form[pName], context.Server);
+            }
             return string.Empty;
         }
 
@@ -181,10 +191,10 @@ namespace Subtext.Framework.Tracking
 
         private bool IsSourceVerification(Uri sourceUrl, Uri entryUrl)
         {
-            var handler = SourceVerification;
-            if (handler != null)
+            EventHandler<SourceVerificationEventArgs> handler = SourceVerification;
+            if(handler != null)
             {
-                SourceVerificationEventArgs args = new SourceVerificationEventArgs(sourceUrl, entryUrl);
+                var args = new SourceVerificationEventArgs(sourceUrl, entryUrl);
                 handler(this, args);
                 return args.Verified;
             }

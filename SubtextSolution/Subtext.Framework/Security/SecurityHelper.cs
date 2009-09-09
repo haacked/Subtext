@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,10 +12,10 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Security.Principal;
@@ -23,40 +24,104 @@ using System.Web;
 using System.Web.Security;
 using log4net;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
-using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Security
 {
-	/// <summary>
-	/// Handles blog logins/passwords/tickets
-	/// </summary>
-	public static class SecurityHelper
-	{
-		private readonly static ILog log = new Log();
+    /// <summary>
+    /// Handles blog logins/passwords/tickets
+    /// </summary>
+    public static class SecurityHelper
+    {
+        private readonly static ILog log = new Log();
 
-		/// <summary>
-		/// Check to see if the supplied credentials are valid for the current blog. If so, 
-		/// Set the user's FormsAuthentication Ticket This method will handle passwords for 
-		/// both hashed and non-hashed configurations
-		/// </summary>
-		/// <param name="username">Supplied UserName</param>
-		/// <param name="password">Supplied Password</param>
-		/// <param name="persist">If valid, should we persist the login</param>
-		/// <returns>bool indicating successful login</returns>
-		public static bool Authenticate(this HttpContextBase httpContext, Blog blog, string username, string password, bool persist)
-		{
-			if (!IsValidUser(blog, username, password))
-			{
-				return false;
-			}
+        /// <summary>
+        /// Gets a value indicating whether the current 
+        /// user is the admin for the current blog.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if [is admin]; otherwise, <c>false</c>.
+        /// </value>
+        public static bool IsAdmin
+        {
+            get { return IsInRole("Admins"); }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the current user is a 
+        /// Host Admin for the entire installation.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if [is host admin]; otherwise, <c>false</c>.
+        /// </value>
+        public static bool IsHostAdmin
+        {
+            get { return IsInRole("HostAdmins"); }
+        }
+
+        /// <summary>
+        /// Gets the name of the current user.
+        /// </summary>
+        /// <value></value>
+        public static string CurrentUserName
+        {
+            get
+            {
+                if(HttpContext.Current.Request.IsAuthenticated)
+                {
+                    try
+                    {
+                        return HttpContext.Current.User.Identity.Name;
+                    }
+                    catch
+                    {
+                    }
+                }
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// If true, then the user is connecting to the blog via "localhost" 
+        /// on the same server as this is installed.  In other words, we're 
+        /// pretty sure the user is a developer.
+        /// </summary>
+        public static bool UserIsConnectingLocally
+        {
+            get
+            {
+                var httpContext = new HttpContextWrapper(HttpContext.Current);
+                return String.Equals(httpContext.Request.Url.Host, "localhost",
+                                     StringComparison.InvariantCultureIgnoreCase)
+                       &&
+                       HttpHelper.GetUserIpAddress(httpContext).ToString() ==
+                       HttpContext.Current.Request.ServerVariables["LOCAL_ADDR"]
+                       && HttpHelper.GetUserIpAddress(httpContext).ToString() == "127.0.0.1";
+            }
+        }
+
+        /// <summary>
+        /// Check to see if the supplied credentials are valid for the current blog. If so, 
+        /// Set the user's FormsAuthentication Ticket This method will handle passwords for 
+        /// both hashed and non-hashed configurations
+        /// </summary>
+        /// <param name="username">Supplied UserName</param>
+        /// <param name="password">Supplied Password</param>
+        /// <param name="persist">If valid, should we persist the login</param>
+        /// <returns>bool indicating successful login</returns>
+        public static bool Authenticate(this HttpContextBase httpContext, Blog blog, string username, string password,
+                                        bool persist)
+        {
+            if(!IsValidUser(blog, username, password))
+            {
+                return false;
+            }
 
             httpContext.SetAuthenticationTicket(blog, username, persist, "Admins");
-			return true;
-		}
+            return true;
+        }
 
         /// <summary>
         /// Check to see if the supplied OpenID claim is valid for the current blog. If so, 
@@ -72,25 +137,32 @@ namespace Subtext.Framework.Security
         public static bool Authenticate(string claimedIdentifier, bool persist)
         {
             Blog currentBlog = Config.CurrentBlog;
-            if (currentBlog == null) {
+            if(currentBlog == null)
+            {
                 return false;
             }
 
             //If the current blog doesn't have a valid OpenID URI, must fail
             if(!Uri.IsWellFormedUriString(currentBlog.OpenIDUrl, UriKind.Absolute))
+            {
                 return false;
+            }
 
             //If the cliamed identifier isn't a valid OpenID URI, must fail
-            if (!Uri.IsWellFormedUriString(claimedIdentifier, UriKind.Absolute))
+            if(!Uri.IsWellFormedUriString(claimedIdentifier, UriKind.Absolute))
+            {
                 return false;
+            }
 
-            Uri currentBlogClaimUri = new Uri(currentBlog.OpenIDUrl);
-            Uri claimedUri = new Uri(claimedIdentifier);
+            var currentBlogClaimUri = new Uri(currentBlog.OpenIDUrl);
+            var claimedUri = new Uri(claimedIdentifier);
 
-            if (claimedUri.Host != currentBlogClaimUri.Host ||
-                claimedUri.AbsolutePath != currentBlogClaimUri.AbsolutePath ||
-                claimedUri.Query != currentBlogClaimUri.Query)
+            if(claimedUri.Host != currentBlogClaimUri.Host ||
+               claimedUri.AbsolutePath != currentBlogClaimUri.AbsolutePath ||
+               claimedUri.Query != currentBlogClaimUri.Query)
+            {
                 return false;
+            }
 
             log.Debug("SetAuthenticationTicket-Admins via OpenID for " + currentBlog.UserName);
             HttpContextBase httpContext = new HttpContextWrapper(HttpContext.Current);
@@ -98,483 +170,433 @@ namespace Subtext.Framework.Security
             return true;
         }
 
-		/// <summary>
-		/// Authenticates the host admin.
-		/// </summary>
-		/// <param name="username">The username.</param>
-		/// <param name="password">The password.</param>
-		/// <param name="persist">if set to <c>true</c> [persist].</param>
-		/// <returns></returns>
-		public static bool AuthenticateHostAdmin(string username, string password, bool persist)
-		{
-			if (!String.Equals(username, HostInfo.Instance.HostUserName, StringComparison.InvariantCultureIgnoreCase))
-			{
-				return false;
-			}
-			
-			if(Config.Settings.UseHashedPasswords)
-			{
-				password = HashPassword(password, HostInfo.Instance.Salt);
-			}
+        /// <summary>
+        /// Authenticates the host admin.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="persist">if set to <c>true</c> [persist].</param>
+        /// <returns></returns>
+        public static bool AuthenticateHostAdmin(string username, string password, bool persist)
+        {
+            if(!String.Equals(username, HostInfo.Instance.HostUserName, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return false;
+            }
 
-			if (!String.Equals(HostInfo.Instance.Password, password, StringComparison.InvariantCultureIgnoreCase))
-			{
-				return false;
-			}
-			
-			log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
+            if(Config.Settings.UseHashedPasswords)
+            {
+                password = HashPassword(password, HostInfo.Instance.Salt);
+            }
+
+            if(!String.Equals(HostInfo.Instance.Password, password, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return false;
+            }
+
+            log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
             HttpContextBase httpContext = new HttpContextWrapper(HttpContext.Current);
-			httpContext.SetAuthenticationTicket(Config.CurrentBlog, username, persist, true, "HostAdmins");
-			
-			return true;
-		}
+            httpContext.SetAuthenticationTicket(Config.CurrentBlog, username, persist, true, "HostAdmins");
 
-		/// <summary>
-		/// Used to remove a cookie from the client.
-		/// </summary>
-		/// <returns>a correctly named cookie with Expires date set 30 years ago</returns>
-		public static HttpCookie GetExpiredCookie(this HttpRequestBase request, Blog blog)
-		{
-			HttpCookie expiredCookie = new HttpCookie(request.GetFullCookieName(blog));
-			expiredCookie.Expires = DateTime.Now.AddYears(-30);
-			return expiredCookie;
-		}
+            return true;
+        }
 
-		/// <summary>
-		/// Obtains the correct cookie for the current blog
-		/// </summary>
-		/// <returns>null if correct cookie was not found</returns>
-		public static HttpCookie SelectAuthenticationCookie(this HttpRequestBase request, Blog blog)
-		{
-			HttpCookie authCookie = null;
+        /// <summary>
+        /// Used to remove a cookie from the client.
+        /// </summary>
+        /// <returns>a correctly named cookie with Expires date set 30 years ago</returns>
+        public static HttpCookie GetExpiredCookie(this HttpRequestBase request, Blog blog)
+        {
+            var expiredCookie = new HttpCookie(request.GetFullCookieName(blog));
+            expiredCookie.Expires = DateTime.Now.AddYears(-30);
+            return expiredCookie;
+        }
+
+        /// <summary>
+        /// Obtains the correct cookie for the current blog
+        /// </summary>
+        /// <returns>null if correct cookie was not found</returns>
+        public static HttpCookie SelectAuthenticationCookie(this HttpRequestBase request, Blog blog)
+        {
+            HttpCookie authCookie = null;
             HttpCookie c;
-		    int count = request.Cookies.Count;
-		    
-		    for (int i = 0; i < count; i++)
-			{
+            int count = request.Cookies.Count;
+
+            for(int i = 0; i < count; i++)
+            {
                 c = request.Cookies[i];
-				
-				if (c.Name == request.GetFullCookieName(blog))
-				{
-					authCookie = c;
-					break;
-				}
-			}
-			return authCookie;
-		}
 
-		/// <summary>
-		/// Identifies cookies by unique BlogHost names (rather than a single
-		/// name for all cookies in multiblog setups as the old code did).
-		/// </summary>
-		/// <returns></returns>
-		public static string GetFullCookieName(this HttpRequestBase request, Blog blog)
-		{
-			return request.GetFullCookieName(blog, false);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="forceHostAdmin">true if the name shall be forced to comply with the HostAdmin cookie</param>
-		/// <returns></returns>
-		public static string GetFullCookieName(this HttpRequestBase request, Blog blog, bool forceHostAdmin)
-		{
-			StringBuilder name = new StringBuilder(FormsAuthentication.FormsCookieName);
-			name.Append(".");
-			
-			//See if we need to authenticate the HostAdmin
-			string path = request.Path;
-			string returnUrl = request.QueryString["ReturnURL"];
-			if (forceHostAdmin
-				|| (path + returnUrl).Contains("HostAdmin", StringComparison.OrdinalIgnoreCase))
-			{
-			    name.Append("HA.");
-			}
-
-	        if (!forceHostAdmin && blog != null) {
-			    name.Append(blog.Id.ToString(CultureInfo.InvariantCulture));
+                if(c.Name == request.GetFullCookieName(blog))
+                {
+                    authCookie = c;
+                    break;
+                }
             }
-		    else {
-			    name.Append("null");
-            }
-            
-			log.Debug("GetFullCookieName selected cookie named " + name.ToString());
-			return name.ToString();           
-		}
+            return authCookie;
+        }
 
-        public static void SetAuthenticationTicket(this HttpContextBase httpContext, Blog blog, string username, bool persist, params string[] roles)
+        /// <summary>
+        /// Identifies cookies by unique BlogHost names (rather than a single
+        /// name for all cookies in multiblog setups as the old code did).
+        /// </summary>
+        /// <returns></returns>
+        public static string GetFullCookieName(this HttpRequestBase request, Blog blog)
+        {
+            return request.GetFullCookieName(blog, false);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="forceHostAdmin">true if the name shall be forced to comply with the HostAdmin cookie</param>
+        /// <returns></returns>
+        public static string GetFullCookieName(this HttpRequestBase request, Blog blog, bool forceHostAdmin)
+        {
+            var name = new StringBuilder(FormsAuthentication.FormsCookieName);
+            name.Append(".");
+
+            //See if we need to authenticate the HostAdmin
+            string path = request.Path;
+            string returnUrl = request.QueryString["ReturnURL"];
+            if(forceHostAdmin
+               || (path + returnUrl).Contains("HostAdmin", StringComparison.OrdinalIgnoreCase))
+            {
+                name.Append("HA.");
+            }
+
+            if(!forceHostAdmin && blog != null)
+            {
+                name.Append(blog.Id.ToString(CultureInfo.InvariantCulture));
+            }
+            else
+            {
+                name.Append("null");
+            }
+
+            log.Debug("GetFullCookieName selected cookie named " + name);
+            return name.ToString();
+        }
+
+        public static void SetAuthenticationTicket(this HttpContextBase httpContext, Blog blog, string username,
+                                                   bool persist, params string[] roles)
         {
             httpContext.SetAuthenticationTicket(blog, username, persist, false, roles);
         }
-		
-		/// <summary>
-		/// Used by methods in this class plus Install.Step02_ConfigureHost
-		/// </summary>
-		/// <param name="username">Username for the ticket</param>
-		/// <param name="persist">Should this ticket be persisted</param>
-        public static void SetAuthenticationTicket(this HttpContextBase httpContext, Blog blog, string username, bool persist, bool forceHostAdmin, params string[] roles)
-		{
-			//Getting a cookie this way and using a temp auth ticket 
-			//allows us to access the timeout value from web.config in partial trust.
-			HttpCookie authCookie = FormsAuthentication.GetAuthCookie(username, persist);
-			FormsAuthenticationTicket tempTicket = FormsAuthentication.Decrypt(authCookie.Value);
-			string userData = string.Join("|", roles);
 
-			FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
-				tempTicket.Version,
-				tempTicket.Name,
-				tempTicket.IssueDate,
-				tempTicket.Expiration,//this is how we access the configured timeout value
-				persist,//the configured persistence value in web.config is not used. We use the checkbox value on the login page.
-				userData,//roles
-				tempTicket.CookiePath);
-			authCookie.Value = FormsAuthentication.Encrypt(authTicket);
-            authCookie.Name = httpContext.Request.GetFullCookieName(blog, forceHostAdmin);//prevents login problems with some multiblog setups
+        /// <summary>
+        /// Used by methods in this class plus Install.Step02_ConfigureHost
+        /// </summary>
+        /// <param name="username">Username for the ticket</param>
+        /// <param name="persist">Should this ticket be persisted</param>
+        public static void SetAuthenticationTicket(this HttpContextBase httpContext, Blog blog, string username,
+                                                   bool persist, bool forceHostAdmin, params string[] roles)
+        {
+            //Getting a cookie this way and using a temp auth ticket 
+            //allows us to access the timeout value from web.config in partial trust.
+            HttpCookie authCookie = FormsAuthentication.GetAuthCookie(username, persist);
+            FormsAuthenticationTicket tempTicket = FormsAuthentication.Decrypt(authCookie.Value);
+            string userData = string.Join("|", roles);
 
-			httpContext.Response.Cookies.Add(authCookie);
-		}
+            var authTicket = new FormsAuthenticationTicket(
+                tempTicket.Version,
+                tempTicket.Name,
+                tempTicket.IssueDate,
+                tempTicket.Expiration, //this is how we access the configured timeout value
+                persist,
+                //the configured persistence value in web.config is not used. We use the checkbox value on the login page.
+                userData, //roles
+                tempTicket.CookiePath);
+            authCookie.Value = FormsAuthentication.Encrypt(authTicket);
+            authCookie.Name = httpContext.Request.GetFullCookieName(blog, forceHostAdmin);
+            //prevents login problems with some multiblog setups
 
-				
-		/// <summary>
-		/// Logs the user off the system.
-		/// </summary>
-		public static void LogOut()
-		{
+            httpContext.Response.Cookies.Add(authCookie);
+        }
+
+
+        /// <summary>
+        /// Logs the user off the system.
+        /// </summary>
+        public static void LogOut()
+        {
             var request = new HttpRequestWrapper(HttpContext.Current.Request);
-			HttpCookie authCookie = new HttpCookie(request.GetFullCookieName(Config.CurrentBlog));
-			authCookie.Expires = DateTime.Now.AddYears(-30); //setting an expired cookie forces client to remove it
-			HttpContext.Current.Response.Cookies.Add(authCookie);
-			#region Logging
-			if (log.IsDebugEnabled)
-			{
-				string username = HttpContext.Current.User.Identity.Name;
-				log.Debug("Logging out " + username);
-				log.Debug("the code MUST call a redirect after this");
-			} 
-			#endregion
-			FormsAuthentication.SignOut();
-		}
+            var authCookie = new HttpCookie(request.GetFullCookieName(Config.CurrentBlog));
+            authCookie.Expires = DateTime.Now.AddYears(-30); //setting an expired cookie forces client to remove it
+            HttpContext.Current.Response.Cookies.Add(authCookie);
 
-		//From Forums Source Code
-		
-		/// <summary>
-		/// Get MD5 hashed/encrypted representation of the password and 
-		/// returns a Base64 encoded string of the hash.
-		/// This is a one-way hash.
-		/// </summary>
-		/// <remarks>
-		/// Passwords are case sensitive now. Before they weren't.
-		/// </remarks>
-		/// <param name="password">Supplied Password</param>
-		/// <returns>Encrypted (Hashed) value</returns>
-		public static string HashPassword(string password) 
-		{
-			Byte[] clearBytes = new UnicodeEncoding().GetBytes(password);
-			Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(clearBytes);
-			
-			return Convert.ToBase64String(hashedBytes);
-		}
+            #region Logging
 
-		/// <summary>
-		/// Get MD5 hashed/encrypted representation of the password and a 
-		/// salt value combined in the proper manner.  
-		/// Returns a Base64 encoded string of the hash.
-		/// This is a one-way hash.
-		/// </summary>
-		/// <remarks>
-		/// Passwords are case sensitive now. Before they weren't.
-		/// </remarks>
-		/// <param name="password">Supplied Password</param>
-		/// <returns>Encrypted (Hashed) value</returns>
-		public static string HashPassword(string password, string salt)
-		{
-			string preHash = CombinePasswordAndSalt(password, salt);
-			return HashPassword(preHash);
-		}
+            if(log.IsDebugEnabled)
+            {
+                string username = HttpContext.Current.User.Identity.Name;
+                log.Debug("Logging out " + username);
+                log.Debug("the code MUST call a redirect after this");
+            }
 
-		/// <summary>
-		/// Creates a random salt value.
-		/// </summary>
-		/// <returns></returns>
-		public static string CreateRandomSalt()
-		{
-			return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-		}
+            #endregion
 
-		/// <summary>
-		/// Returns a string with a password and salt combined.
-		/// </summary>
-		/// <param name="password">Password.</param>
-		/// <param name="salt">Salt.</param>
-		/// <returns></returns>
-		public static string CombinePasswordAndSalt(string password, string salt)
-		{
-			//TODO: return salt + "." + password;
-			//We're not ready to do this yet till we do it to the blog_content table too.
-			return password;
-		}
+            FormsAuthentication.SignOut();
+        }
 
-		/// <summary>
-		/// Validates if the supplied credentials match the current blog
-		/// </summary>
-		/// <param name="username">Supplied Username</param>
-		/// <param name="password">Supplied Password</param>
-		/// <returns>bool value indicating if the user is valid.</returns>
-		public static bool IsValidUser(Blog blog, string username, string password)
-		{
-			if (String.Equals(username, blog.UserName, StringComparison.OrdinalIgnoreCase))
-			{
-				return IsValidPassword(blog, password);
-			}
-			else
-			{
-				log.DebugFormat("The supplied username '{0}' does not equal the configured username of '{1}'.", username, blog.UserName);
-			}
-			return false;
-		}
+        //From Forums Source Code
 
-		/// <summary>
-		/// Check to see if the supplied password matches the password 
-		/// for the current blog. This method will check the 
-		/// BlogConfigurationSettings to see if the password should be 
-		/// Encrypted/Hashed
-		/// </summary>
-		/// <param name="password">Supplied Password</param>
-		/// <returns>bool value indicating if the supplied password matches the current blog's password</returns>
-		public static bool IsValidPassword(Blog blog, string password)
-		{
-			if(blog.IsPasswordHashed)
-			{
-				password = HashPassword(password);
-			}
-			string storedPassword = blog.Password;
-			
-			if(storedPassword.IndexOf('-') > 0)
-			{
-				// NOTE: This is necessary because I want to change how 
-				// we store the password.  Maybe changing the password 
-				// storage is dumb.  Let me know. -Phil
-				//	This is an old password created from BitConverter 
-				// string.  Converting to a Base64 hash.
-				string[] hashBytesStrings = storedPassword.Split('-');
-				byte[] hashedBytes = new byte[hashBytesStrings.Length];
-				for(int i = 0; i < hashBytesStrings.Length; i++)
-				{
-					hashedBytes[i] = byte.Parse(hashBytesStrings[i].ToString(CultureInfo.InvariantCulture), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-					storedPassword = Convert.ToBase64String(hashedBytes);
-				}
-			}
-			
-			return String.Equals(password, storedPassword, StringComparison.Ordinal);
-		}
+        /// <summary>
+        /// Get MD5 hashed/encrypted representation of the password and 
+        /// returns a Base64 encoded string of the hash.
+        /// This is a one-way hash.
+        /// </summary>
+        /// <remarks>
+        /// Passwords are case sensitive now. Before they weren't.
+        /// </remarks>
+        /// <param name="password">Supplied Password</param>
+        /// <returns>Encrypted (Hashed) value</returns>
+        public static string HashPassword(string password)
+        {
+            Byte[] clearBytes = new UnicodeEncoding().GetBytes(password);
+            Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(clearBytes);
 
-		/// <summary>
-		/// When we Encrypt/Hash the password, we can not un-Encrypt/Hash the password. If user's need to retrieve this value, all we can
-		/// do is reset the passowrd to a new value and send it.
-		/// </summary>
-		/// <returns>A New Password</returns>
-		public static string ResetPassword()
-		{
-			string password = RandomPassword();
-			
-			UpdatePassword(password);
+            return Convert.ToBase64String(hashedBytes);
+        }
 
-			return password;
-		}
+        /// <summary>
+        /// Get MD5 hashed/encrypted representation of the password and a 
+        /// salt value combined in the proper manner.  
+        /// Returns a Base64 encoded string of the hash.
+        /// This is a one-way hash.
+        /// </summary>
+        /// <remarks>
+        /// Passwords are case sensitive now. Before they weren't.
+        /// </remarks>
+        /// <param name="password">Supplied Password</param>
+        /// <returns>Encrypted (Hashed) value</returns>
+        public static string HashPassword(string password, string salt)
+        {
+            string preHash = CombinePasswordAndSalt(password, salt);
+            return HashPassword(preHash);
+        }
 
-		/// <summary>
-		/// Updates the current users password to the supplied value. 
-		/// Handles hashing (or not hashing of the password)
-		/// </summary>
-		/// <param name="password">Supplied Password</param>
-		public static void UpdatePassword(string password)
-		{
-			Blog info = Config.CurrentBlog;
-			if(Config.CurrentBlog.IsPasswordHashed)
-			{
-				info.Password = HashPassword(password);
-			}
-			else
-			{
-				info.Password = password;
-			}
-			//Save new password.
-			Config.UpdateConfigData(info);
-		}
+        /// <summary>
+        /// Creates a random salt value.
+        /// </summary>
+        /// <returns></returns>
+        public static string CreateRandomSalt()
+        {
+            return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        }
 
-		public static void UpdateHostAdminPassword(string password)
-		{
-			HostInfo hostInfo = HostInfo.Instance;
-			if(Config.Settings.UseHashedPasswords)
-			{
-				hostInfo.Password = HashPassword(password, HostInfo.Instance.Salt);
-			}
-			else
-			{
-				hostInfo.Password = password;
-			}
-			HostInfo.UpdateHost(hostInfo);
-		}
+        /// <summary>
+        /// Returns a string with a password and salt combined.
+        /// </summary>
+        /// <param name="password">Password.</param>
+        /// <param name="salt">Salt.</param>
+        /// <returns></returns>
+        public static string CombinePasswordAndSalt(string password, string salt)
+        {
+            //TODO: return salt + "." + password;
+            //We're not ready to do this yet till we do it to the blog_content table too.
+            return password;
+        }
 
-		public static string ResetHostAdminPassword()
-		{
-			string password = RandomPassword();
-			UpdateHostAdminPassword(password);
-			return password;
-		}
+        /// <summary>
+        /// Validates if the supplied credentials match the current blog
+        /// </summary>
+        /// <param name="username">Supplied Username</param>
+        /// <param name="password">Supplied Password</param>
+        /// <returns>bool value indicating if the user is valid.</returns>
+        public static bool IsValidUser(Blog blog, string username, string password)
+        {
+            if(String.Equals(username, blog.UserName, StringComparison.OrdinalIgnoreCase))
+            {
+                return IsValidPassword(blog, password);
+            }
+            else
+            {
+                log.DebugFormat("The supplied username '{0}' does not equal the configured username of '{1}'.", username,
+                                blog.UserName);
+            }
+            return false;
+        }
 
-		/// <summary>
-		/// Generates a "Random Enough" password. :)
-		/// </summary>
-		/// <returns></returns>
-		public static string RandomPassword()
-		{
-			return Guid.NewGuid().ToString().Substring(0,8);
-		}
+        /// <summary>
+        /// Check to see if the supplied password matches the password 
+        /// for the current blog. This method will check the 
+        /// BlogConfigurationSettings to see if the password should be 
+        /// Encrypted/Hashed
+        /// </summary>
+        /// <param name="password">Supplied Password</param>
+        /// <returns>bool value indicating if the supplied password matches the current blog's password</returns>
+        public static bool IsValidPassword(Blog blog, string password)
+        {
+            if(blog.IsPasswordHashed)
+            {
+                password = HashPassword(password);
+            }
+            string storedPassword = blog.Password;
 
-        public static bool IsInAdminRole(this IPrincipal user) { 
-            if (user == null) {
+            if(storedPassword.IndexOf('-') > 0)
+            {
+                // NOTE: This is necessary because I want to change how 
+                // we store the password.  Maybe changing the password 
+                // storage is dumb.  Let me know. -Phil
+                //	This is an old password created from BitConverter 
+                // string.  Converting to a Base64 hash.
+                string[] hashBytesStrings = storedPassword.Split('-');
+                var hashedBytes = new byte[hashBytesStrings.Length];
+                for(int i = 0; i < hashBytesStrings.Length; i++)
+                {
+                    hashedBytes[i] = byte.Parse(hashBytesStrings[i].ToString(CultureInfo.InvariantCulture),
+                                                NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    storedPassword = Convert.ToBase64String(hashedBytes);
+                }
+            }
+
+            return String.Equals(password, storedPassword, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// When we Encrypt/Hash the password, we can not un-Encrypt/Hash the password. If user's need to retrieve this value, all we can
+        /// do is reset the passowrd to a new value and send it.
+        /// </summary>
+        /// <returns>A New Password</returns>
+        public static string ResetPassword()
+        {
+            string password = RandomPassword();
+
+            UpdatePassword(password);
+
+            return password;
+        }
+
+        /// <summary>
+        /// Updates the current users password to the supplied value. 
+        /// Handles hashing (or not hashing of the password)
+        /// </summary>
+        /// <param name="password">Supplied Password</param>
+        public static void UpdatePassword(string password)
+        {
+            Blog info = Config.CurrentBlog;
+            if(Config.CurrentBlog.IsPasswordHashed)
+            {
+                info.Password = HashPassword(password);
+            }
+            else
+            {
+                info.Password = password;
+            }
+            //Save new password.
+            Config.UpdateConfigData(info);
+        }
+
+        public static void UpdateHostAdminPassword(string password)
+        {
+            HostInfo hostInfo = HostInfo.Instance;
+            if(Config.Settings.UseHashedPasswords)
+            {
+                hostInfo.Password = HashPassword(password, HostInfo.Instance.Salt);
+            }
+            else
+            {
+                hostInfo.Password = password;
+            }
+            HostInfo.UpdateHost(hostInfo);
+        }
+
+        public static string ResetHostAdminPassword()
+        {
+            string password = RandomPassword();
+            UpdateHostAdminPassword(password);
+            return password;
+        }
+
+        /// <summary>
+        /// Generates a "Random Enough" password. :)
+        /// </summary>
+        /// <returns></returns>
+        public static string RandomPassword()
+        {
+            return Guid.NewGuid().ToString().Substring(0, 8);
+        }
+
+        public static bool IsInAdminRole(this IPrincipal user)
+        {
+            if(user == null)
+            {
                 return false;
             }
             return user.IsInRole("Admins");
         }
 
-		/// <summary>
-		/// Gets a value indicating whether the current 
-		/// user is the admin for the current blog.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if [is admin]; otherwise, <c>false</c>.
-		/// </value>
-		public static bool IsAdmin
-		{
-			get
-			{
-				return IsInRole("Admins");
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the current user is a 
-		/// Host Admin for the entire installation.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if [is host admin]; otherwise, <c>false</c>.
-		/// </value>
-		public static bool IsHostAdmin
-		{
-			get
-			{
-				return IsInRole("HostAdmins");
-			}
-		}
-
-		/// <summary>
-		/// Gets the name of the current user.
-		/// </summary>
-		/// <value></value>
-		public static string CurrentUserName
-		{
-			get
-			{
-				if(HttpContext.Current.Request.IsAuthenticated)
-				{
-					try
-					{
-						return HttpContext.Current.User.Identity.Name;
-					}
-					catch{}
-				}
-				return null;
-			}
-		}
-
-		/// <summary>
-		/// Returns true if the user is in the specified role.
-		/// It's a wrapper to calling the IsInRole method of 
-		/// IPrincipal.
-		/// </summary>
-		/// <param name="role">Role.</param>
-		/// <returns></returns>
-		public static bool IsInRole(string role)
-		{
-			if (HttpContext.Current.User == null) {
+        /// <summary>
+        /// Returns true if the user is in the specified role.
+        /// It's a wrapper to calling the IsInRole method of 
+        /// IPrincipal.
+        /// </summary>
+        /// <param name="role">Role.</param>
+        /// <returns></returns>
+        public static bool IsInRole(string role)
+        {
+            if(HttpContext.Current.User == null)
+            {
                 return false;
-			}
-			return HttpContext.Current.User.IsInRole(role);
-		}
+            }
+            return HttpContext.Current.User.IsInRole(role);
+        }
 
-		/// <summary>
-		/// If true, then the user is connecting to the blog via "localhost" 
-		/// on the same server as this is installed.  In other words, we're 
-		/// pretty sure the user is a developer.
-		/// </summary>
-		public static bool UserIsConnectingLocally
-		{
-			get
-			{
-                var httpContext = new HttpContextWrapper(HttpContext.Current);
-                return String.Equals(httpContext.Request.Url.Host, "localhost", StringComparison.InvariantCultureIgnoreCase)
-                    && HttpHelper.GetUserIpAddress(httpContext).ToString() == HttpContext.Current.Request.ServerVariables["LOCAL_ADDR"]
-                    && HttpHelper.GetUserIpAddress(httpContext).ToString() == "127.0.0.1";
-			}
-		}
+        /// <summary>
+        /// Generates the symmetric key.
+        /// </summary>
+        /// <returns></returns>
+        public static byte[] GenerateSymmetricKey()
+        {
+            SymmetricAlgorithm rijaendel = Rijndael.Create();
+            rijaendel.GenerateKey();
+            return rijaendel.Key;
+        }
 
-		/// <summary>
-		/// Generates the symmetric key.
-		/// </summary>
-		/// <returns></returns>
-		public static byte[] GenerateSymmetricKey()
-		{
-			SymmetricAlgorithm rijaendel = RijndaelManaged.Create();
-			rijaendel.GenerateKey();
-			return rijaendel.Key;
-		}
+        /// <summary>
+        /// Generates the symmetric key.
+        /// </summary>
+        /// <returns></returns>
+        public static byte[] GenerateInitializationVector()
+        {
+            SymmetricAlgorithm rijaendel = Rijndael.Create();
+            rijaendel.GenerateIV();
+            return rijaendel.IV;
+        }
 
-		/// <summary>
-		/// Generates the symmetric key.
-		/// </summary>
-		/// <returns></returns>
-		public static byte[] GenerateInitializationVector()
-		{
-			SymmetricAlgorithm rijaendel = RijndaelManaged.Create();
-			rijaendel.GenerateIV();
-			return rijaendel.IV;
-		}
+        /// <summary>
+        /// Generates the symmetric key.
+        /// </summary>
+        /// <param name="clearText">The clear text.</param>
+        /// <param name="encoding">The encoding.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="initializationVendor">The initialization vendor.</param>
+        /// <returns></returns>
+        public static string EncryptString(string clearText, Encoding encoding, byte[] key, byte[] initializationVendor)
+        {
+            SymmetricAlgorithm rijaendel = Rijndael.Create();
+            ICryptoTransform encryptor = rijaendel.CreateEncryptor(key, initializationVendor);
+            byte[] clearTextBytes = encoding.GetBytes(clearText);
+            byte[] encrypted = encryptor.TransformFinalBlock(clearTextBytes, 0, clearTextBytes.Length);
+            return Convert.ToBase64String(encrypted);
+        }
 
-		/// <summary>
-		/// Generates the symmetric key.
-		/// </summary>
-		/// <param name="clearText">The clear text.</param>
-		/// <param name="encoding">The encoding.</param>
-		/// <param name="key">The key.</param>
-		/// <param name="initializationVendor">The initialization vendor.</param>
-		/// <returns></returns>
-		public static string EncryptString(string clearText, Encoding encoding, byte[] key, byte[] initializationVendor)
-		{
-			SymmetricAlgorithm rijaendel = RijndaelManaged.Create();
-			ICryptoTransform encryptor = rijaendel.CreateEncryptor(key, initializationVendor);
-			byte[] clearTextBytes = encoding.GetBytes(clearText);
-			byte[] encrypted = encryptor.TransformFinalBlock(clearTextBytes, 0, clearTextBytes.Length);
-			return Convert.ToBase64String(encrypted);
-		}
-
-		/// <summary>
-		/// Decrypts the string.
-		/// </summary>
-		/// <param name="encryptedBase64EncodedString">The encrypted base64 encoded string.</param>
-		/// <param name="encoding">The encoding.</param>
-		/// <param name="key">The key.</param>
-		/// <param name="initializationVendor">The initialization vendor.</param>
-		/// <returns></returns>
-		public static string DecryptString(string encryptedBase64EncodedString, Encoding encoding, byte[] key, byte[] initializationVendor)
-		{
-			SymmetricAlgorithm rijaendel = RijndaelManaged.Create();
-			ICryptoTransform decryptor = rijaendel.CreateDecryptor(key, initializationVendor);
-			byte[] encrypted = Convert.FromBase64String(encryptedBase64EncodedString);
-			byte[] decrypted = decryptor.TransformFinalBlock(encrypted, 0, encrypted.Length);
-			return encoding.GetString(decrypted);
-		}
-	}
+        /// <summary>
+        /// Decrypts the string.
+        /// </summary>
+        /// <param name="encryptedBase64EncodedString">The encrypted base64 encoded string.</param>
+        /// <param name="encoding">The encoding.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="initializationVendor">The initialization vendor.</param>
+        /// <returns></returns>
+        public static string DecryptString(string encryptedBase64EncodedString, Encoding encoding, byte[] key,
+                                           byte[] initializationVendor)
+        {
+            SymmetricAlgorithm rijaendel = Rijndael.Create();
+            ICryptoTransform decryptor = rijaendel.CreateDecryptor(key, initializationVendor);
+            byte[] encrypted = Convert.FromBase64String(encryptedBase64EncodedString);
+            byte[] decrypted = decryptor.TransformFinalBlock(encrypted, 0, encrypted.Length);
+            return encoding.GetString(decrypted);
+        }
+    }
 }

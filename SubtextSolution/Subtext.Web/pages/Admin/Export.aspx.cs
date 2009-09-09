@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,30 +12,32 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
+using System.Globalization;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class Export : AdminPage
-	{	
-		private void Page_Load(object sender, System.EventArgs e)
-		{
-			string command = Request.QueryString["command"].ToLower(System.Globalization.CultureInfo.InvariantCulture);
+    public class Export : AdminPage
+    {
+        private void Page_Load(object sender, EventArgs e)
+        {
+            string command = Request.QueryString["command"].ToLower(CultureInfo.InvariantCulture);
 
-			switch (command) 
-			{
-				case "opml" :
-					ExportLinksToOpml();
-					break;
-				default :
-					break;
-			}
-		}
+            switch(command)
+            {
+                case "opml":
+                    ExportLinksToOpml();
+                    break;
+                default:
+                    break;
+            }
+        }
 
-		public void ExportLinksToOpml()
-		{
+        public void ExportLinksToOpml()
+        {
             //TODO: Implement
 //			PagedLinkCollection pagedAllLinks = Links.GetPagedLinks(1, 1);
 //			LinkCollection allLinks = Links.GetPagedLinks(1, pagedAllLinks.MaxItems);	
@@ -55,31 +58,28 @@ namespace Subtext.Web.Admin.Pages
 //			
 //			Response.End();
 //			writer.Close();
-		}
+        }
 
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-			this.Load += new System.EventHandler(this.Page_Load);
+        #region Web Form Designer generated code
 
-		}
-		#endregion
+        override protected void OnInit(EventArgs e)
+        {
+            //
+            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
+            //
+            InitializeComponent();
+            base.OnInit(e);
+        }
 
-		
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.Load += new System.EventHandler(this.Page_Load);
+        }
 
-	}
+        #endregion
+    }
 }
-
