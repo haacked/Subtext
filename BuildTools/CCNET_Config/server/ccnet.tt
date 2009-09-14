@@ -37,6 +37,10 @@ var releases = new Release[] {
 		<prebuild>
 		</prebuild>
 
+		<triggers>
+			<intervalTrigger />
+		</triggers>
+
 		<tasks>
 			<!-- Build configutation -->
 			<nant>
@@ -95,6 +99,10 @@ var releases = new Release[] {
 				<autoGetSource>true</autoGetSource>
 			</sourceControlProvider>
 		</sourcecontrol>
+
+		<triggers>
+			<intervalTrigger />
+		</triggers>
 
 		<tasks>
 			<nant>
