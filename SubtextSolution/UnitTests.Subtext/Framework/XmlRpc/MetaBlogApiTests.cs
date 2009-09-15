@@ -12,7 +12,7 @@ using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.XmlRpc;
-using Enclosure=Subtext.Framework.XmlRpc.Enclosure;
+using Enclosure = Subtext.Framework.XmlRpc.Enclosure;
 using FrameworkEnclosure = Subtext.Framework.Components.Enclosure;
 
 namespace UnitTests.Subtext.Framework.XmlRpc
@@ -24,22 +24,22 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         public void getCategories_ReturnsCategoriesInRepository()
         {
             //arrange
-            var blog = new Blog
-            {AllowServiceAccess = true, Host = "localhost", UserName = "username", Password = "password"};
-            var category = new LinkCategory();
-            category.BlogId = blog.Id;
-            category.IsActive = true;
-            category.Description = "Test category";
-            category.Title = "CategoryA";
-            category.CategoryType = CategoryType.PostCollection;
-            category.Id = 42;
+            var blog = new Blog { AllowServiceAccess = true, Host = "localhost", UserName = "username", Password = "password" };
+            var category = new LinkCategory
+            {
+                BlogId = blog.Id,
+                IsActive = true,
+                Description = "Test category",
+                Title = "CategoryA",
+                CategoryType = CategoryType.PostCollection,
+                Id = 42
+            };
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
             subtextContext.Setup(c => c.UrlHelper.CategoryUrl(It.IsAny<LinkCategory>())).Returns("/Category/42.aspx");
             subtextContext.Setup(c => c.UrlHelper.CategoryRssUrl(It.IsAny<LinkCategory>())).Returns("/rss.aspx?catId=42");
-            subtextContext.Setup(c => c.Repository.GetCategories(CategoryType.PostCollection, false)).Returns(new[]
-            {category});
+            subtextContext.Setup(c => c.Repository.GetCategories(CategoryType.PostCollection, false)).Returns(new[] { category });
             var api = new MetaWeblog(subtextContext.Object);
 
             //act
@@ -52,48 +52,41 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         }
 
         [Test]
-        public void NewPostWithCategoryCreatesEntryWithCategory()
+        public void newPost_WithCategory_CreatesEntryWithCategory()
         {
             //arrange
-            var blog = new Blog
-            {Id = 42, UserName = "username", Password = "password", AllowServiceAccess = true, Host = "localhost"};
-
-            var category = new LinkCategory();
-            category.IsActive = true;
-            category.Description = "Test category";
-            category.Title = "CategoryA";
+            var blog = new Blog { Id = 42, UserName = "username", Password = "password", AllowServiceAccess = true, Host = "localhost" };
 
             var entryPublisher = new Mock<IEntryPublisher>();
             Entry publishedEntry = null;
-            entryPublisher.Setup(publisher => publisher.Publish(It.IsAny<Entry>())).Callback<Entry>(
-                e => publishedEntry = e);
+            entryPublisher.Setup(publisher => publisher.Publish(It.IsAny<Entry>())).Callback<Entry>(e => publishedEntry = e);
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
 
             var api = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
-            var post = new Post();
-            post.categories = new[] {"CategoryA"};
-            post.description = "A unit test";
-            post.title = "A unit testing title";
-            post.dateCreated = DateTime.UtcNow;
+            var post = new Post
+            {
+                categories = new[] { "CategoryA" },
+                description = "A unit test",
+                title = "A unit testing title",
+                dateCreated = DateTime.UtcNow
+            };
 
             //act
             string result = api.newPost("42", "username", "password", post, true);
 
             //assert
-            int entryId = int.Parse(result);
             Assert.IsNotNull(publishedEntry);
             Assert.AreEqual(1, publishedEntry.Categories.Count);
             Assert.AreEqual("CategoryA", publishedEntry.Categories.First());
         }
 
         [Test]
-        public void NewPostAcceptsNullCategories()
+        public void NewPost_WithNullCategories_DoesNotTHrowException()
         {
             //arrange
-            var blog = new Blog
-            {Id = 42, UserName = "username", Password = "password", AllowServiceAccess = true, Host = "localhost"};
+            var blog = new Blog { Id = 42, UserName = "username", Password = "password", AllowServiceAccess = true, Host = "localhost" };
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
@@ -120,11 +113,10 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         }
 
         [Test]
-        public void NewPostWithFutureDateSyndicatesInTheFuture()
+        public void NewPost_WithFutureDate_SyndicatesInTheFuture()
         {
             //arrange
-            var blog = new Blog
-            {Id = 42, UserName = "username", Password = "password", AllowServiceAccess = true, Host = "localhost"};
+            var blog = new Blog { Id = 42, UserName = "username", Password = "password", AllowServiceAccess = true, Host = "localhost" };
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
@@ -156,8 +148,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         public void NewPostWithEnclosureCreatesEntryWithEnclosure()
         {
             //arrange
-            var blog = new Blog
-            {Id = 42, UserName = "username", Password = "password", AllowServiceAccess = true, Host = "localhost"};
+            var blog = new Blog { Id = 42, UserName = "username", Password = "password", AllowServiceAccess = true, Host = "localhost" };
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
@@ -197,8 +188,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         public void NewPostAcceptsNullEnclosure()
         {
             //arrange
-            var blog = new Blog
-            {Id = 42, UserName = "username", Password = "password", AllowServiceAccess = true, Host = "localhost"};
+            var blog = new Blog { Id = 42, UserName = "username", Password = "password", AllowServiceAccess = true, Host = "localhost" };
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
@@ -226,253 +216,156 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         }
 
         [Test]
-        [RollBack]
-        public void CanUpdatePostWithEnclosure()
+        public void editPost_WithEntryHavingEnclosure_UpdatesEntryEnclosureWithNewEncoluser()
         {
-            string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, "");
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
-            Config.CurrentBlog.AllowServiceAccess = true;
-
-            var entry = new Entry(PostType.BlogPost);
-            entry.Title = "Title 1";
-            entry.Body = "Blah";
-            entry.IsActive = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            int entryId = UnitTestHelper.Create(entry);
-
-            string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
-            string enclosureMimeType = "audio/mp3";
-            long enclosureSize = 26707573;
-
-            FrameworkEnclosure enc =
-                UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
-                                              enclosureUrl, enclosureMimeType, entryId, enclosureSize, true, true);
-            Enclosures.Create(enc);
-
-            entry = Entries.GetEntry(entryId, PostConfig.None, true);
-            Assert.IsNotNull(entry.Enclosure, "There should be a enclosure here.");
-
+            //arrange
+            var entry = new Entry(PostType.BlogPost) { Title = "Title 1", Body = "Blah", IsActive = true };
+            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.Categories.Add("TestCategory");
+            var blog = new Blog { Id = 123, Host = "localhost", AllowServiceAccess = true, UserName = "username", Password = "password" };
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
-            //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Blog).Returns(blog);
+            subtextContext.Setup(c => c.Repository.GetEntry(It.IsAny<Int32>(), false, true)).Returns(entry);
+            var entryPublisher = new Mock<IEntryPublisher>();
+            Entry publishedEntry = null;
+            entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>())).Callback<Entry>(e => publishedEntry = e);
+            FrameworkEnclosure enclosure = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
+                                              "http://perseus.franklins.net/hanselminutes_0107.mp3", "audio/mp3", 123, 26707573, true, true);
+            entry.Enclosure = enclosure;
+            var post = new Post {title = "Title 2", description = "Blah", dateCreated = DateTime.UtcNow};
 
-
-            var api = new MetaWeblog(subtextContext.Object);
-            var post = new Post();
-            post.title = "Title 2";
-            post.description = "Blah";
-            post.dateCreated = DateTime.UtcNow;
-
-            var postEnclosure = new Enclosure();
-            postEnclosure.url = "http://codeclimber.net.nz/podcast/mypodcastUpdated.mp3";
-            postEnclosure.type = "audio/mp3";
-            postEnclosure.length = 123456789;
+            var postEnclosure = new Enclosure
+            {
+                url = "http://codeclimber.net.nz/podcast/mypodcastUpdated.mp3",
+                type = "audio/mp3",
+                length = 123456789
+            };
             post.enclosure = postEnclosure;
+            var metaWeblog = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
 
-            bool result = api.editPost(entryId.ToString(CultureInfo.InvariantCulture), "username", "password", post,
-                                       true);
+            // act
+            bool result = metaWeblog.editPost("123", "username", "password", post, true);
 
-            entry = Entries.GetEntry(entryId, PostConfig.None, true);
-
-            Assert.IsNotNull(entry.Enclosure, "Should have kept the enclosure.");
-            Assert.AreEqual("http://codeclimber.net.nz/podcast/mypodcastUpdated.mp3", entry.Enclosure.Url,
-                            "Not the updated enclosure url.");
+            // assert
+            Assert.IsTrue(result);
+            Assert.IsNotNull(publishedEntry.Enclosure);
+            Assert.AreEqual("http://codeclimber.net.nz/podcast/mypodcastUpdated.mp3", entry.Enclosure.Url);
         }
 
         [Test]
-        [RollBack]
-        public void UpdatingWithEnclosureAddNewEnclosure()
+        public void editPost_WithEnclosure_AddsNewEnclosure()
         {
-            string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, "");
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
-            Config.CurrentBlog.AllowServiceAccess = true;
-
-            var entry = new Entry(PostType.BlogPost);
-            entry.Title = "Title 1";
-            entry.Body = "Blah";
-            entry.IsActive = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            int entryId = UnitTestHelper.Create(entry);
-
-            Assert.IsNull(entry.Enclosure, "There should not be any enclosure here.");
-
+            //arrange
+            FrameworkEnclosure enclosure = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
+                                              "http://example.com/foo.mp3", "audio/mp3", 123, 26707573, true, true);
+            var entry = new Entry(PostType.BlogPost) { Title = "Title 1", Body = "Blah", IsActive = true, Enclosure = enclosure};
+            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.Categories.Add("TestCategory");
+            var blog = new Blog { Id = 123, Host = "localhost", AllowServiceAccess = true, UserName = "username", Password = "password" };
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
-            //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
-
-
-            var api = new MetaWeblog(subtextContext.Object);
-            var post = new Post();
-            post.title = "Title 2";
-            post.description = "Blah";
-            post.dateCreated = DateTime.UtcNow;
-
-            var postEnclosure = new Enclosure();
-            postEnclosure.url = "http://codeclimber.net.nz/podcast/mypodcast.mp3";
-            postEnclosure.type = "audio/mp3";
-            postEnclosure.length = 123456789;
+            subtextContext.Setup(c => c.Blog).Returns(blog);
+            subtextContext.Setup(c => c.Repository.GetEntry(It.IsAny<Int32>(), false, true)).Returns(entry);
+            var entryPublisher = new Mock<IEntryPublisher>();
+            Entry publishedEntry = null;
+            entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>())).Callback<Entry>(e => publishedEntry = e);
+            var post = new Post { title = "Title 2", description = "Blah", dateCreated = DateTime.UtcNow };
+            var postEnclosure = new Enclosure
+            {
+                url = "http://example.com/bar.mp3",
+                type = "audio/mp3",
+                length = 123456789
+            };
             post.enclosure = postEnclosure;
+            var metaWeblog = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
 
-            bool result = api.editPost(entryId.ToString(CultureInfo.InvariantCulture), "username", "password", post,
-                                       true);
+            // act
+            bool result = metaWeblog.editPost("123", "username", "password", post, true);
 
-            entry = Entries.GetEntry(entryId, PostConfig.None, true);
-
-            Assert.IsNotNull(entry.Enclosure, "Should have created the enclosure as well.");
-            Assert.AreEqual("http://codeclimber.net.nz/podcast/mypodcast.mp3", entry.Enclosure.Url,
-                            "Not the expected enclosure url.");
-            Assert.AreEqual("audio/mp3", entry.Enclosure.MimeType, "Not the expected enclosure mimetype.");
-            Assert.AreEqual(123456789, entry.Enclosure.Size, "Not the expected enclosure size.");
+            // assert
+            Assert.IsNotNull(publishedEntry.Enclosure);
+            Assert.AreEqual("http://example.com/bar.mp3", entry.Enclosure.Url);
+            Assert.AreEqual("audio/mp3", entry.Enclosure.MimeType);
+            Assert.AreEqual(123456789, entry.Enclosure.Size);
+            Assert.IsTrue(result);
         }
 
-
         [Test]
-        [RollBack]
-        public void PostWithoutEnclosureRemovesEnclosureFromEntry()
+        public void EditPost_WithoutEnclosure_RemovesEnclosureFromEntry()
         {
-            string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, "");
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
-            Config.CurrentBlog.AllowServiceAccess = true;
-
-            var entry = new Entry(PostType.BlogPost);
-            entry.Title = "Title 1";
-            entry.Body = "Blah";
-            entry.IsActive = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            int entryId = UnitTestHelper.Create(entry);
-
-            string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
-            string enclosureMimeType = "audio/mp3";
-            long enclosureSize = 26707573;
-
-            FrameworkEnclosure enc =
-                UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
-                                              enclosureUrl, enclosureMimeType, entryId, enclosureSize, true, true);
-            Enclosures.Create(enc);
-
-            entry = Entries.GetEntry(entryId, PostConfig.None, true);
-            Assert.IsNotNull(entry.Enclosure, "There should be a enclosure here.");
-
+            // arrange
+            FrameworkEnclosure enclosure = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
+                                              "http://example.com/foo.mp3", "audio/mp3", 123, 2650, true, true);
+            enclosure.Id = 321;
+            var entry = new Entry(PostType.BlogPost) {Title = "Title 1", Body = "Blah", IsActive = true, Enclosure = enclosure};
+            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
-            //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            var blog = new Blog { Id = 999, Host = "localhost", AllowServiceAccess = true, UserName = "username", Password = "password" };
+            subtextContext.Setup(c => c.Blog).Returns(blog);
+            subtextContext.Setup(c => c.Repository.GetEntry(It.IsAny<Int32>(), false, true)).Returns(entry);
+            bool enclosureDeleted = false;
+            subtextContext.Setup(c => c.Repository.DeleteEnclosure(321)).Callback(() => enclosureDeleted = true);
+            var entryPublisher = new Mock<IEntryPublisher>();
+            entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>()));
+            var post = new Post {title = "Title 2", description = "Blah", dateCreated = DateTime.UtcNow};
+            var api = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
 
+            // act
+            bool result = api.editPost("999", "username", "password", post, true);
 
-            var api = new MetaWeblog(subtextContext.Object);
-            var post = new Post();
-            post.title = "Title 2";
-            post.description = "Blah";
-            post.dateCreated = DateTime.UtcNow;
-
-            bool result = api.editPost(entryId.ToString(CultureInfo.InvariantCulture), "username", "password", post,
-                                       true);
-
-            entry = Entries.GetEntry(entryId, PostConfig.None, true);
-
-            Assert.IsNull(entry.Enclosure, "Enclosure should have been removed.");
+            // assert
+            Assert.IsTrue(enclosureDeleted);
+            Assert.IsTrue(result);
         }
 
         [Test]
         [RollBack]
-        public void CanUpdatePostWithCategories()
+        public void editPost_WithPostHavingDifferentCategoryThanEntry_UpdatesCategory()
         {
-            string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, "");
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
-            Config.CurrentBlog.AllowServiceAccess = true;
-
-            string category1Name = UnitTestHelper.GenerateUniqueString();
-            string category2Name = UnitTestHelper.GenerateUniqueString();
-            UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category1Name);
-            UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category2Name);
-
-            var entry = new Entry(PostType.BlogPost);
-            entry.Title = "Title 1";
-            entry.Body = "Blah";
-            entry.IsActive = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            entry.Categories.Add(category1Name);
-            int entryId = UnitTestHelper.Create(entry);
-
+            // arrange
+            var entry = new Entry(PostType.BlogPost) {Id = 12345, Title = "Title 1", Body = "Blah", IsActive = true };
+            entry.Categories.Add("Category1");
+            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
-            //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            var blog = new Blog { Id = 999, Host = "localhost", AllowServiceAccess = true, UserName = "username", Password = "password" };
+            subtextContext.Setup(c => c.Blog).Returns(blog);
+            subtextContext.Setup(c => c.Repository.GetEntry(It.IsAny<Int32>(), false, true)).Returns(entry);
+            var entryPublisher = new Mock<IEntryPublisher>();
+            Entry publishedEntry = null;
+            entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>())).Callback<Entry>(e => publishedEntry = e);
+            var post = new Post { title = "Title 2", description = "Blah", categories = new[] { "Category2"}, dateCreated = DateTime.UtcNow };
+            var api = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
+            
+            // act
+            bool result = api.editPost("12345", "username", "password", post, true);
 
-
-            var api = new MetaWeblog(subtextContext.Object);
-            var post = new Post();
-            post.title = "Title 2";
-            post.description = "Blah";
-            post.categories = new[] {category2Name};
-            post.dateCreated = DateTime.UtcNow;
-
-            bool result = api.editPost(entryId.ToString(CultureInfo.InvariantCulture), "username", "password", post,
-                                       true);
-
-            entry = Entries.GetEntry(entryId, PostConfig.None, true);
-            Assert.AreEqual(1, entry.Categories.Count, "We expected one category. We didn't get what we expected.");
-            Assert.AreEqual(category2Name, entry.Categories.First(), "Category has not been updated correctly.");
+            // assert
+            Assert.AreEqual(1, publishedEntry.Categories.Count);
+            Assert.AreEqual("Category2", publishedEntry.Categories.First());
+            Assert.IsTrue(result);
         }
 
         [Test]
-        [RollBack]
-        public void PostWithNoCategoriesRemovesCategoriesFromEntry()
+        public void editPost_WithNoCategories_RemovesCategoriesFromEntry()
         {
-            string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, "");
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
-            Config.CurrentBlog.AllowServiceAccess = true;
-
-            string category1Name = UnitTestHelper.GenerateUniqueString();
-            UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category1Name);
-
-            var entry = new Entry(PostType.BlogPost);
-            entry.Title = "Title 1";
-            entry.Body = "Blah";
-            entry.IsActive = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            entry.Categories.Add(category1Name);
-            int entryId = UnitTestHelper.Create(entry);
-
+            //arrange
+            var entry = new Entry(PostType.BlogPost) { Title = "Title 1", Body = "Blah", IsActive = true };
+            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.Categories.Add("TestCategory");
+            var blog = new Blog { Id = 123, Host = "localhost", AllowServiceAccess = true, UserName = "username", Password = "password" };
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
-            //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Blog).Returns(blog);
+            subtextContext.Setup(c => c.Repository.GetEntry(It.IsAny<Int32>(), false, true)).Returns(entry);
+            var entryPublisher = new Mock<IEntryPublisher>();
+            Entry publishedEntry = null;
+            entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>())).Callback<Entry>(e => publishedEntry = e);
+            var post = new Post { title = "Title 2", description = "Blah", categories = null, dateCreated = DateTime.UtcNow };
+            var metaWeblog = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
 
-            var api = new MetaWeblog(subtextContext.Object);
-            var post = new Post();
-            post.title = "Title 2";
-            post.description = "Blah";
-            post.categories = null;
-            post.dateCreated = DateTime.UtcNow;
+            // act
+            metaWeblog.editPost("123", "username", "password", post, true);
 
-            bool result = api.editPost(entryId.ToString(CultureInfo.InvariantCulture), "username", "password", post,
-                                       true);
-
-            entry = Entries.GetEntry(entryId, PostConfig.None, true);
-            Assert.AreEqual(0, entry.Categories.Count, "We expected no category.");
+            // assert
+            Assert.AreEqual(0, publishedEntry.Categories.Count, "We expected no category.");
         }
 
         [Test]
@@ -670,7 +563,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
         [Test]
         [RollBack]
-        public void GetPost_ReturnsPostWithhCorrectEntrUrl()
+        public void GetPost_WithEntryId_ReturnsPostWithCorrectEntryUrl()
         {
             //arrange
             string hostname = UnitTestHelper.GenerateUniqueString();

@@ -82,7 +82,7 @@ namespace Subtext.Framework.Services
             }
             if(entry.IsActive)
             {
-                if(NullValue.IsNull(entry.DateSyndicated))
+                if(NullValue.IsNull(entry.DateSyndicated) && entry.IncludeInMainSyndication)
                 {
                     entry.DateSyndicated = SubtextContext.Blog.TimeZone.Now;
                 }

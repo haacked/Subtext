@@ -39,8 +39,8 @@ namespace Subtext.Web.Admin.UserControls
 {
     public partial class EntryEditor : BaseControl
     {
-        private const string VSKEY_CATEGORYTYPE = "CategoryType";
-        int? _postId = null;
+        private const string CategoryTypeViewStateKey = "CategoryType";
+        int? _postId;
 
         /// <summary>
         /// Gets or sets the type of the entry.
@@ -59,13 +59,13 @@ namespace Subtext.Web.Admin.UserControls
             set { ViewState["PostType"] = value; }
         }
 
-        public int? PostID
+        public int? PostId
         {
             get
             {
                 if(_postId == null)
                 {
-                    string postIdText = Request.QueryString["PostID"];
+                    string postIdText = Request.QueryString["PostId"];
                     int postId;
                     if(int.TryParse(postIdText, out postId))
                     {
@@ -80,16 +80,13 @@ namespace Subtext.Web.Admin.UserControls
         {
             get
             {
-                if(ViewState[VSKEY_CATEGORYTYPE] != null)
+                if(ViewState[CategoryTypeViewStateKey] != null)
                 {
-                    return (CategoryType)ViewState[VSKEY_CATEGORYTYPE];
+                    return (CategoryType)ViewState[CategoryTypeViewStateKey];
                 }
-                else
-                {
-                    throw new InvalidOperationException(Resources.InvalidOperation_CategoryTypeNotSet);
-                }
+                throw new InvalidOperationException(Resources.InvalidOperation_CategoryTypeNotSet);
             }
-            set { ViewState[VSKEY_CATEGORYTYPE] = value; }
+            set { ViewState[CategoryTypeViewStateKey] = value; }
         }
 
         //This is true if we came from a pencil edit link while viewing the post 
@@ -106,7 +103,7 @@ namespace Subtext.Web.Admin.UserControls
                 BindCategoryList();
                 SetEditorMode();
 
-                if(PostID != null)
+                if(PostId != null)
                 {
                     BindPostEdit();
                 }
@@ -157,11 +154,11 @@ namespace Subtext.Web.Admin.UserControls
 
         private void BindPostEdit()
         {
-            Debug.Assert(PostID != null, "PostID Should not be null when we call this");
+            Debug.Assert(PostId != null, "PostId Should not be null when we call this");
 
             SetConfirmation();
 
-            Entry entry = Entries.GetEntry(PostID.Value, PostConfig.None, false);
+            Entry entry = Entries.GetEntry(PostId.Value, PostConfig.None, false);
             if(entry == null)
             {
                 ReturnToOrigin(null);
@@ -227,7 +224,7 @@ namespace Subtext.Web.Admin.UserControls
                 cklCategories.Items[i].Selected = false;
             }
 
-            ICollection<Link> postCategories = Repository.GetLinkCollectionByPostID(PostID.Value);
+            ICollection<Link> postCategories = Repository.GetLinkCollectionByPostID(PostId.Value);
             if(postCategories.Count > 0)
             {
                 foreach(Link postCategory in postCategories)
@@ -291,10 +288,10 @@ namespace Subtext.Web.Admin.UserControls
 
         private void ReturnToOrigin(string message)
         {
-            if(ReturnToOriginalPost && PostID != null)
+            if(ReturnToOriginalPost && PostId != null)
             {
                 // We came from outside the post, let's go there.
-                Entry updatedEntry = Entries.GetEntry(PostID.Value, PostConfig.IsActive, false);
+                Entry updatedEntry = Entries.GetEntry(PostId.Value, PostConfig.IsActive, false);
                 if(updatedEntry != null)
                 {
                     Response.Redirect(Url.EntryUrl(updatedEntry));
@@ -333,14 +330,14 @@ namespace Subtext.Web.Admin.UserControls
                 try
                 {
                     Entry entry;
-                    if(PostID == null)
+                    if(PostId == null)
                     {
                         ValidateEntryTypeIsNotNone(EntryType);
                         entry = new Entry(EntryType);
                     }
                     else
                     {
-                        entry = Entries.GetEntry(PostID.Value, PostConfig.None, false);
+                        entry = Entries.GetEntry(PostId.Value, PostConfig.None, false);
                         if(entry.PostType != EntryType)
                         {
                             EntryType = entry.PostType;
@@ -407,13 +404,14 @@ namespace Subtext.Web.Admin.UserControls
                         entry.DateSyndicated = postDate;
                     }
 
-                    if(PostID != null)
+                    if(PostId != null)
                     {
                         successMessage = Constants.RES_SUCCESSEDIT;
                         entry.DateModified = Config.CurrentBlog.TimeZone.Now;
-                        entry.Id = PostID.Value;
+                        entry.Id = PostId.Value;
 
-                        Entries.Update(entry, SubtextContext);
+                        var entryPublisher = SubtextContext.GetService<IEntryPublisher>();
+                        entryPublisher.Publish(entry);
 
                         if(entry.Enclosure == null && enclosureId != 0)
                         {
@@ -439,7 +437,7 @@ namespace Subtext.Web.Admin.UserControls
 
                         if(entry.Enclosure != null)
                         {
-                            entry.Enclosure.EntryId = PostID.Value;
+                            entry.Enclosure.EntryId = PostId.Value;
                             Enclosures.Create(entry.Enclosure);
                         }
 
@@ -529,7 +527,7 @@ namespace Subtext.Web.Admin.UserControls
         {
             try
             {
-                if(PostID != null)
+                if(PostId != null)
                 {
                     string successMessage = Constants.RES_SUCCESSCATEGORYUPDATE;
                     var al = new List<int>();
@@ -541,7 +539,7 @@ namespace Subtext.Web.Admin.UserControls
                             al.Add(int.Parse(item.Value));
                         }
                     }
-                    Entries.SetEntryCategoryList(PostID.Value, al);
+                    Entries.SetEntryCategoryList(PostId.Value, al);
                     return successMessage;
                 }
                 else
@@ -593,10 +591,10 @@ namespace Subtext.Web.Admin.UserControls
 
         private void OnCancelClick(object sender, EventArgs e)
         {
-            if(PostID != null && ReturnToOriginalPost)
+            if(PostId != null && ReturnToOriginalPost)
             {
                 // We came from outside the post, let's go there.
-                Entry updatedEntry = Repository.GetEntry(PostID.Value, true /* activeOnly */, false
+                Entry updatedEntry = Repository.GetEntry(PostId.Value, true /* activeOnly */, false
                     /* includeCategories */);
                 if(updatedEntry != null)
                 {

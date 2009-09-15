@@ -17,12 +17,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Subtext.Configuration;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Emoticons;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
@@ -85,23 +83,6 @@ namespace Subtext.Framework
             return ObjectProvider.Instance().GetPostsByCategoryID(itemCount, categoryId);
         }
 
-        public static IEnumerable<int> GetCategoryIdsFromCategoryTitles(Entry entry)
-        {
-            var categoryIds = new Collection<int>();
-            //Ok, we have categories specified in the entry, but not the IDs.
-            //We need to do something.
-            foreach(string category in entry.Categories)
-            {
-                LinkCategory cat = ObjectProvider.Instance().GetLinkCategory(category, true);
-                if(cat != null)
-                {
-                    categoryIds.Add(cat.Id);
-                }
-            }
-
-            return categoryIds;
-        }
-
         /// <summary>
         /// Updates the specified entry in the data provider.
         /// </summary>
@@ -115,28 +96,6 @@ namespace Subtext.Framework
                 throw new ArgumentNullException("entry");
             }
 
-            if(NullValue.IsNull(entry.DateSyndicated) && entry.IsActive && entry.IncludeInMainSyndication)
-            {
-                entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
-            }
-
-            Update(entry, context, null /* categoryIds */);
-        }
-
-        /// <summary>
-        /// Updates the specified entry in the data provider 
-        /// and attaches the specified categories.
-        /// </summary>
-        /// <param name="entry">Entry.</param>
-        /// <param name="context"></param>
-        /// <param name="categoryIds">Category Ids this entry belongs to.</param>
-        /// <returns></returns>
-        public static void Update(Entry entry, ISubtextContext context, IEnumerable<int> categoryIds)
-        {
-            if(entry == null)
-            {
-                throw new ArgumentNullException("entry");
-            }
             ObjectProvider repository = ObjectProvider.Instance();
             var transform = new CompositeTextTransformation
             {

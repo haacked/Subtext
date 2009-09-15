@@ -134,17 +134,17 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        public void Publish_WithActiveEntry_SetsDateSyndicatedToBlogCurrentTimeZoneTime()
+        public void Publish_WithActiveEntryAndIncludeInSyndication_SetsDateSyndicatedToBlogCurrentTimeZoneTime()
         {
             //arrange
-            DateTime currentTime = DateTime.Now;
+            var currentTime = DateTime.Now;
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog.TimeZone.Now).Returns(currentTime);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var publisher = new EntryPublisher(context.Object, null, null);
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test", IsActive = true};
+            var entry = new Entry(PostType.BlogPost) {Title = "this is a test", IsActive = true, IncludeInMainSyndication = true};
 
             //act
             publisher.Publish(entry);

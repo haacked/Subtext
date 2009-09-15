@@ -184,13 +184,12 @@ namespace Subtext.Framework.Components
         /// </value>
         public bool IncludeInMainSyndication
         {
-            get { return EntryPropertyCheck(PostConfig.IncludeInMainSyndication); }
+            get
+            {
+                return EntryPropertyCheck(PostConfig.IncludeInMainSyndication);
+            }
             set
             {
-                if(value && NullValue.IsNull(DateSyndicated) && IsActive)
-                {
-                    DateSyndicated = Config.CurrentBlog.TimeZone.Now;
-                }
                 PostConfigSetter(PostConfig.IncludeInMainSyndication, value);
             }
         }
