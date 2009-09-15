@@ -3,9 +3,9 @@
 <st:MessagePanel id="Messages" runat="server" />
     
 	<div id="entry-editor" class="Edit">
-	    <h2><% if (PostID == null) {%>New<% } else { %>Edit<%} %> Post</h2>
+	    <h2><% if (PostId == null) {%>New<% } else { %>Edit<%} %> Post</h2>
 	    
-	    <% if (PostID != null) { %>
+	    <% if (PostId != null) { %>
 		    <p class="Label"><asp:HyperLink id="hlEntryLink" Runat="server" /></p>
 		<% } %>
 		

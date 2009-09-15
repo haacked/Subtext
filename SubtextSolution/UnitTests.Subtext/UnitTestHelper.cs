@@ -838,17 +838,18 @@ namespace UnitTests.Subtext
             return tags;
         }
 
-        public static Enclosure BuildEnclosure(string title, string url, string mimetype, int entryId, long size,
-                                               bool addToFeed, bool showWithPost)
+        public static Enclosure BuildEnclosure(string title, string url, string mimetype, int entryId, long size, bool addToFeed, bool showWithPost)
         {
-            var enc = new Enclosure();
-            enc.EntryId = entryId;
-            enc.Title = title;
-            enc.Url = url;
-            enc.Size = size;
-            enc.MimeType = mimetype;
-            enc.ShowWithPost = showWithPost;
-            enc.AddToFeed = addToFeed;
+            var enc = new Enclosure
+            {
+                EntryId = entryId,
+                Title = title,
+                Url = url,
+                Size = size,
+                MimeType = mimetype,
+                ShowWithPost = showWithPost,
+                AddToFeed = addToFeed
+            };
             return enc;
         }
 
