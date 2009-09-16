@@ -37,7 +37,7 @@ namespace Subtext.Web.UI.Controls
             {
                 DateTime dt = UrlFormats.DateFromUrl(Request.Path);
                 MonthListings.DescriptionOnly = true;
-                MonthListings.EntryListItems = Entries.GetPostsByDayRange(dt, dt.AddMonths(1), PostType.BlogPost, true);
+                MonthListings.EntryListItems = Repository.GetPostsByDayRange(dt, dt.AddMonths(1), PostType.BlogPost, true);
                 MonthListings.EntryListTitle = dt.ToString("y", CultureInfo.CurrentCulture);
             }
         }

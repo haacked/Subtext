@@ -37,7 +37,7 @@ namespace Subtext.Web.UI.Controls
             int? categoryId = SubtextContext.RequestContext.GetIdFromRequest();
             if(categoryId != null)
             {
-                Days.Days = Entries.GetPostsByCategoryId(Blog.ItemCount, categoryId.Value);
+                Days.Days = Repository.GetPostsByCategoryID(Blog.ItemCount, categoryId.Value);
             }
         }
     }

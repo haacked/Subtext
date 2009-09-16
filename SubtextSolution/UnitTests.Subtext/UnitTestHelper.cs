@@ -1160,6 +1160,37 @@ namespace UnitTests.Subtext
             return helper;
         }
 
+        /// <summary>
+        /// Updates the specified entry in the data provider.
+        /// </summary>
+        /// <param name="entry">Entry.</param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static void Update(Entry entry, ISubtextContext context)
+        {
+            if(entry == null)
+            {
+                throw new ArgumentNullException("entry");
+            }
+
+            ObjectProvider repository = ObjectProvider.Instance();
+            var transform = new CompositeTextTransformation
+            {
+                new XhtmlConverter(),
+                new EmoticonsTransformation(context),
+                new KeywordExpander(repository)
+            };
+            //TODO: Maybe use a INinjectParameter to control this.
+            var publisher = new EntryPublisher(context, transform, new SlugGenerator(FriendlyUrlSettings.Settings));
+            publisher.Publish(entry);
+        }
+
+        public static Entry GetEntry(int entryId, PostConfig postConfig, bool includeCategories)
+        {
+            bool isActive = ((postConfig & PostConfig.IsActive) == PostConfig.IsActive);
+            return ObjectProvider.Instance().GetEntry(entryId, isActive, includeCategories);
+        }
+
         #region ...Assert.AreNotEqual replacements...
 
         public static TException AssertThrows<TException>(Action action) where TException : Exception

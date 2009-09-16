@@ -71,7 +71,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
                                                                                  "snaot hu aensaoehtu body");
             int parentId = UnitTestHelper.Create(parentEntry);
 
-            ICollection<FeedbackItem> entries = Entries.GetFeedBack(parentEntry);
+            ICollection<FeedbackItem> entries = ObjectProvider.Instance().GetFeedbackForEntry(parentEntry);
             Assert.AreEqual(0, entries.Count, "Did not expect any feedback yet.");
 
             var trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body", blog.TimeZone.Now);
@@ -85,7 +85,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
             int trackbackId = commentService.Create(trackback);
             FeedbackItem.Approve(trackback, null);
 
-            entries = Entries.GetFeedBack(parentEntry);
+            entries = ObjectProvider.Instance().GetFeedbackForEntry(parentEntry);
             Assert.AreEqual(1, entries.Count, "Expected a trackback.");
             Assert.AreEqual(trackbackId, entries.First().Id,
                             "The feedback was not the same one we expected. The IDs do not match.");

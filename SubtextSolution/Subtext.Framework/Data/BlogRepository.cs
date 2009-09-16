@@ -90,7 +90,7 @@ namespace Subtext.Framework.Data
         }
 
         /// <summary>
-        /// Gets a pageable <see cref="ICollection"/> of <see cref="Blog"/> instances.
+        /// Gets a pageable Collection of <see cref="Blog"/> instances.
         /// </summary>
         /// <param name="host">The host filter. Set to null to return all blogs.</param>
         /// <param name="pageIndex">Page index.</param>

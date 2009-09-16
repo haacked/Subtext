@@ -7,6 +7,7 @@ using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
@@ -38,11 +39,12 @@ namespace UnitTests.Subtext.Framework.Syndication
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null,
                                                                            dateCreated);
 
-            int id = UnitTestHelper.Create(entry); //persist to db.
+            UnitTestHelper.Create(entry); //persist to db.
 
             var subtextContext = new Mock<ISubtextContext>();
             string rssOutput = null;
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
+            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/");
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/2008/01/23/testtitle.aspx");

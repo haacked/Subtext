@@ -4,6 +4,7 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -70,7 +71,7 @@ namespace UnitTests.Subtext.Framework
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title", "body");
             int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "Test");
             int entryId = UnitTestHelper.Create(entry);
-            Entries.SetEntryCategoryList(entryId, new[] {categoryId});
+            ObjectProvider.Instance().SetEntryCategoryList(entryId, new[] {categoryId});
             counts = Archives.GetPostCountByCategory();
             Assert.AreEqual(1, counts.Count);
 

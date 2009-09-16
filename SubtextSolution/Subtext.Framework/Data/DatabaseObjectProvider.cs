@@ -45,10 +45,7 @@ namespace Subtext.Framework.Data
                 {
                     return NullValue.NullInt32;
                 }
-                else
-                {
-                    return BlogRequest.Current.Blog.Id;
-                }
+                return BlogRequest.Current.Blog.Id;
             }
         }
 

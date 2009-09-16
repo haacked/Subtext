@@ -151,7 +151,7 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            Entry entry = Entries.GetEntry(Int32.Parse(postid, CultureInfo.InvariantCulture), PostConfig.None, true);
+            Entry entry = Repository.GetEntry(Int32.Parse(postid, CultureInfo.InvariantCulture), false /* activeOnly */, true /*include Categories*/);
             if(entry == null)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_CouldNotFindEntry);
@@ -192,8 +192,7 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            ICollection<Entry> entries = Entries.GetRecentPosts(numberOfPosts, PostType.BlogPost, PostConfig.IsActive,
-                                                                true);
+            ICollection<Entry> entries = Repository.GetEntries(numberOfPosts, PostType.BlogPost, PostConfig.IsActive, true);
 
             IEnumerable<Post> posts = from entry in entries
                                       select new Post
@@ -329,7 +328,7 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            Entry entry = Entries.GetEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture), PostConfig.None, true);
+            Entry entry = Repository.GetEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture), false /* activeOnly */, true /* includeCategories */);
             if(entry != null)
             {
                 entry.Author = Blog.Author;
@@ -362,7 +361,7 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            ICollection<Entry> entries = Entries.GetRecentPosts(numberOfPosts, PostType.Story, PostConfig.IsActive, true);
+            ICollection<Entry> entries = Repository.GetEntries(numberOfPosts, PostType.Story, PostConfig.IsActive, true);
             IEnumerable<Post> posts = from entry in entries
                                       select new Post
                                       {
@@ -394,7 +393,7 @@ namespace Subtext.Framework.XmlRpc
             Blog info = Blog;
             ValidateUser(username, password, info.AllowServiceAccess);
 
-            Entry entry = Entries.GetEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture), PostConfig.None, true);
+            Entry entry = Repository.GetEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture), false /*activeOnly*/, true /*includeCategories*/);
             var post = new Post
             {
                 link = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
@@ -571,7 +570,7 @@ namespace Subtext.Framework.XmlRpc
 
                 if(categoryIds.Count() > 0)
                 {
-                    Entries.SetEntryCategoryList(postId, categoryIds);
+                    Repository.SetEntryCategoryList(postId, categoryIds);
                 }
             }
 

@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.Framework.Import
             // act
             reader.ReadBlog(stream);
 
-            ICollection<Entry> entries = Entries.GetRecentPosts(10, PostType.BlogPost, PostConfig.None, true);
+            ICollection<Entry> entries = ObjectProvider.Instance().GetEntries(10, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(1, entries.Count, "Expected only one post.");
             Assert.AreEqual(255, entries.First().Title.Length, "Expected the title to be the max length");
             Assert.AreEqual(150, entries.First().Categories.First().Length,
@@ -69,7 +69,7 @@ namespace UnitTests.Subtext.Framework.Import
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.PostWithAuthor.xml");
             reader.ReadBlog(stream);
 
-            ICollection<Entry> entries = Entries.GetRecentPosts(10, PostType.BlogPost, PostConfig.None, false);
+            ICollection<Entry> entries = ObjectProvider.Instance().GetEntries(10, PostType.BlogPost, PostConfig.None, false);
             Assert.AreEqual(1, entries.Count, "Expected only one post.");
             Assert.AreEqual("The Author", entries.First().Author, "Expected the title to be the max length");
         }
@@ -95,7 +95,7 @@ namespace UnitTests.Subtext.Framework.Import
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml");
             reader.ReadBlog(stream);
 
-            ICollection<Entry> entries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);
+            ICollection<Entry> entries = ObjectProvider.Instance().GetEntries(20, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(18, entries.Count, "Did not get the expected number of entries.");
 
             //string[] attachments = Directory.GetFiles(Config.CurrentBlog.ImageDirectory, "*.png");
@@ -144,7 +144,7 @@ namespace UnitTests.Subtext.Framework.Import
             ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
             Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
 
-            ICollection<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+            ICollection<Entry> entries = ObjectProvider.Instance().GetEntries(100, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(1, entries.Count, "Expected a single entry.");
             Assert.AreEqual("Category002", entries.First().Categories.First(),
                             "Expected the catgory to be 'Category002'");
@@ -175,7 +175,7 @@ namespace UnitTests.Subtext.Framework.Import
             ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
             Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
 
-            ICollection<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+            ICollection<Entry> entries = ObjectProvider.Instance().GetEntries(100, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(1, entries.Count, "Expected a single entry.");
             Assert.AreEqual(0, entries.First().Categories.Count, "Expected this post not to have any categories.");
         }

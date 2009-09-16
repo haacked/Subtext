@@ -49,7 +49,7 @@ namespace UnitTests.Subtext.Framework
 
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
             int entryId = UnitTestHelper.Create(entry);
-            Entries.SetEntryCategoryList(entryId, new[] {category1Id, category2Id});
+            ObjectProvider.Instance().SetEntryCategoryList(entryId, new[] { category1Id, category2Id });
 
             ICollection<LinkCategory> categories = Links.GetLinkCategoriesByPostID(entryId);
             Assert.AreEqual(2, categories.Count, "Expected two of the three categories");

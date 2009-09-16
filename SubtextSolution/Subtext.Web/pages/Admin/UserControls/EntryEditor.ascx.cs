@@ -158,7 +158,7 @@ namespace Subtext.Web.Admin.UserControls
 
             SetConfirmation();
 
-            Entry entry = Entries.GetEntry(PostId.Value, PostConfig.None, false);
+            Entry entry = Repository.GetEntry(PostId.Value, false /*activeOnly*/, false /*includeCategories*/);
             if(entry == null)
             {
                 ReturnToOrigin(null);
@@ -291,7 +291,7 @@ namespace Subtext.Web.Admin.UserControls
             if(ReturnToOriginalPost && PostId != null)
             {
                 // We came from outside the post, let's go there.
-                Entry updatedEntry = Entries.GetEntry(PostId.Value, PostConfig.IsActive, false);
+                Entry updatedEntry = Repository.GetEntry(PostId.Value, true /*activeOnly*/, false /*includeCategories*/);
                 if(updatedEntry != null)
                 {
                     Response.Redirect(Url.EntryUrl(updatedEntry));
@@ -337,7 +337,7 @@ namespace Subtext.Web.Admin.UserControls
                     }
                     else
                     {
-                        entry = Entries.GetEntry(PostId.Value, PostConfig.None, false);
+                        entry = Repository.GetEntry(PostId.Value, false /*activeOnly*/, false /*includeCategories*/);
                         if(entry.PostType != EntryType)
                         {
                             EntryType = entry.PostType;
@@ -539,14 +539,11 @@ namespace Subtext.Web.Admin.UserControls
                             al.Add(int.Parse(item.Value));
                         }
                     }
-                    Entries.SetEntryCategoryList(PostId.Value, al);
+                    Repository.SetEntryCategoryList(PostId.Value, al);
                     return successMessage;
                 }
-                else
-                {
-                    Messages.ShowError(Constants.RES_FAILURECATEGORYUPDATE
-                                       + Resources.EntryEditor_ProblemEditingPostCategories);
-                }
+                
+                Messages.ShowError(Constants.RES_FAILURECATEGORYUPDATE + Resources.EntryEditor_ProblemEditingPostCategories);
             }
             catch(Exception ex)
             {

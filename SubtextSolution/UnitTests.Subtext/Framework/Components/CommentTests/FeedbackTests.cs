@@ -302,28 +302,28 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             int entryId = entry.Id;
 
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
-            entry = Entries.GetEntry(entryId, PostConfig.None, false);
+            entry = UnitTestHelper.GetEntry(entryId, PostConfig.None, false);
             Assert.AreEqual(1, entry.FeedBackCount, "Expected one approved feedback entry.");
 
             FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
                                                                           FeedbackStatusFlag.FlaggedAsSpam);
-            entry = Entries.GetEntry(entryId, PostConfig.None, false);
+            entry = UnitTestHelper.GetEntry(entryId, PostConfig.None, false);
             Assert.AreEqual(1, entry.FeedBackCount, "Expected one approved feedback entry.");
 
             comment.Approved = true;
             FeedbackItem.Update(comment);
-            entry = Entries.GetEntry(entryId, PostConfig.None, false);
+            entry = UnitTestHelper.GetEntry(entryId, PostConfig.None, false);
             Assert.AreEqual(2, entry.FeedBackCount,
                             "After approving the second comment, expected two approved feedback entry.");
 
             comment.Approved = false;
             FeedbackItem.Update(comment);
-            entry = Entries.GetEntry(entryId, PostConfig.None, false);
+            entry = UnitTestHelper.GetEntry(entryId, PostConfig.None, false);
             Assert.AreEqual(1, entry.FeedBackCount,
                             "After un-approving the second comment, expected one approved feedback entry.");
 
             FeedbackItem.Delete(comment, null);
-            entry = Entries.GetEntry(entryId, PostConfig.None, false);
+            entry = UnitTestHelper.GetEntry(entryId, PostConfig.None, false);
             Assert.AreEqual(1, entry.FeedBackCount,
                             "After un-approving the second comment, expected one approved feedback entry.");
         }

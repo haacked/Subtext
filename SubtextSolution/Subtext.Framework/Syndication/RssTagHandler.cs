@@ -46,7 +46,7 @@ namespace Subtext.Framework.Syndication
                 {
                     // timheuer: changed this to GetEntriesByTag
                     writer = new RssWriter(HttpContext.Response.Output,
-                                           Entries.GetEntriesByTag(Blog.ItemCount, _getTagName()),
+                                           Repository.GetEntriesByTag(Blog.ItemCount, _getTagName()),
                                            PublishDateOfLastFeedItemReceived, UseDeltaEncoding, SubtextContext);
                 }
                 return writer;

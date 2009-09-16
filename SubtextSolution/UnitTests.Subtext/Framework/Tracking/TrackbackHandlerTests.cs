@@ -176,7 +176,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             handler.ProcessRequest();
 
             //assert
-            ICollection<FeedbackItem> trackbacks = Entries.GetFeedBack(entry);
+            ICollection<FeedbackItem> trackbacks = ObjectProvider.Instance().GetFeedbackForEntry(entry);
             Assert.AreEqual(1, trackbacks.Count, "We expect to see the one feedback we just created.");
             Assert.AreEqual("this is the title", trackbacks.First().Title);
         }

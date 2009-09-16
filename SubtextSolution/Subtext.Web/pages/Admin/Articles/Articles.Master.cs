@@ -1,8 +1,26 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
+using Subtext.Framework.Providers;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Properties;
 
@@ -42,9 +60,9 @@ namespace Subtext.Web.Admin.Articles
             AdminMasterPage.AddToActions(lkbRebuildTags);
         }
 
-        private static void OnRebuildTagsClick(object sender, EventArgs e)
+        private void OnRebuildTagsClick(object sender, EventArgs e)
         {
-            Entries.RebuildAllTags();
+            ObjectProvider.Instance().RebuildAllTags();
         }
     }
 }

@@ -36,9 +36,9 @@ namespace Subtext.Web.Admin.Posts
             AdminMasterPage.AddToActions(lkbRebuildTags);
         }
 
-        private static void OnRebuildTagsClick(object sender, EventArgs e)
+        private void OnRebuildTagsClick(object sender, EventArgs e)
         {
-            Entries.RebuildAllTags();
+            Repository.RebuildAllTags();
         }
     }
 }
