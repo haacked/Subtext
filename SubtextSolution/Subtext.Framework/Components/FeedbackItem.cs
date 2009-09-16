@@ -91,10 +91,6 @@ namespace Subtext.Framework.Components
                             DateCreated = _parentDateCreated
                         };
                     }
-                    else
-                    {
-                        _entry = Entries.GetEntry(EntryId, PostConfig.None, false);
-                    }
                 }
                 return _entry;
             }

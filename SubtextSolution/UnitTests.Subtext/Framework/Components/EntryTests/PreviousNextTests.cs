@@ -204,18 +204,17 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
-            Entries.Update(previousEntry, subtextContext.Object);
+            UnitTestHelper.Update(previousEntry, subtextContext.Object);
             Thread.Sleep(100);
             currentEntry.IsActive = true;
-            Entries.Update(currentEntry, subtextContext.Object);
+            UnitTestHelper.Update(currentEntry, subtextContext.Object);
             Thread.Sleep(100);
             nextEntry.IsActive = true;
-            Entries.Update(nextEntry, subtextContext.Object);
+            UnitTestHelper.Update(nextEntry, subtextContext.Object);
 
             Assert.IsTrue(previousId > currentId, "Ids are out of order.");
 
-            ICollection<Entry> entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId,
-                                                                                             PostType.BlogPost);
+            var entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
             Assert.AreEqual(2, entries.Count, "Expected both previous and next.");
             //The first should be next because of descending sort.
             Assert.AreEqual(nextId, entries.First().Id, "The next entry does not match expectations.");

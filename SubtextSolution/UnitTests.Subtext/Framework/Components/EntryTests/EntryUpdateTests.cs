@@ -27,12 +27,12 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
             UnitTestHelper.Create(entry);
 
-            Entry savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
+            Entry savedEntry = UnitTestHelper.GetEntry(entry.Id, PostConfig.None, false);
             Assert.IsNotNull(savedEntry);
 
             ObjectProvider.Instance().DeleteEntry(entry.Id);
 
-            savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
+            savedEntry = UnitTestHelper.GetEntry(entry.Id, PostConfig.None, false);
             Assert.IsNull(savedEntry, "Entry should now be null.");
         }
 
@@ -66,8 +66,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
-            Entries.Update(entry, subtextContext.Object);
-            Entry savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
+            UnitTestHelper.Update(entry, subtextContext.Object);
+            Entry savedEntry = UnitTestHelper.GetEntry(entry.Id, PostConfig.None, false);
 
             //assert again
             Assert.IsFalse(savedEntry.IncludeInMainSyndication,

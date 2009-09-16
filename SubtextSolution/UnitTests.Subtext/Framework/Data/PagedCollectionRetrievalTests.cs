@@ -234,7 +234,7 @@ namespace UnitTests.Subtext.Framework.Data
 
         public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
         {
-            return Entries.GetPagedEntries(PostType.BlogPost, null, pageIndex, pageSize);
+            return ObjectProvider.Instance().GetPagedEntries(PostType.BlogPost, null, pageIndex, pageSize);
         }
 
         public int GetCount(IPagedCollection collection)
@@ -271,7 +271,7 @@ namespace UnitTests.Subtext.Framework.Data
 
         public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
         {
-            return Entries.GetPagedEntries(PostType.BlogPost, categoryId, pageIndex, pageSize);
+            return ObjectProvider.Instance().GetPagedEntries(PostType.BlogPost, categoryId, pageIndex, pageSize);
         }
 
         public int GetCount(IPagedCollection collection)

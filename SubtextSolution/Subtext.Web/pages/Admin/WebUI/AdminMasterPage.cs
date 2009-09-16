@@ -19,6 +19,7 @@ using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.Handlers;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.Admin.WebUI
 {
@@ -42,6 +43,11 @@ namespace Subtext.Web.Admin.WebUI
         public Blog Blog
         {
             get { return SubtextPage.Blog; }
+        }
+
+        public ObjectProvider Repository
+        {
+            get { return SubtextPage.Repository; }
         }
     }
 }

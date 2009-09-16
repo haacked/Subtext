@@ -25,6 +25,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
@@ -76,7 +77,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get Entries
-            ICollection<Entry> entries = Entries.GetRecentPosts(3, PostType.BlogPost, PostConfig.IsActive, true);
+            ICollection<Entry> entries = ObjectProvider.Instance().GetEntries(3, PostType.BlogPost, PostConfig.IsActive, true);
 
             //Test outcome
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
@@ -116,7 +117,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             new DatabaseObjectProvider().SetEntryTagList(entryOne.Id, tags);
 
 
-            ICollection<Entry> entries = Entries.GetEntriesByTag(3, "Tag1");
+            ICollection<Entry> entries = ObjectProvider.Instance().GetEntriesByTag(3, "Tag1");
 
             //Test outcome
             Assert.AreEqual(2, entries.Count, "Should have retrieved two entries.");
@@ -161,7 +162,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get Entries
-            ICollection<Entry> entries = Entries.GetEntriesByCategory(3, categoryId, true);
+            ICollection<Entry> entries = ObjectProvider.Instance().GetEntriesByCategory(3, categoryId, true);
 
 
             //Test outcome
@@ -203,7 +204,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
             //Get Entries
             var beginningOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            ICollection<Entry> entries = Entries.GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1),
+            ICollection<Entry> entries = ObjectProvider.Instance().GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1),
                                                                     PostType.BlogPost, true);
 
 
@@ -243,7 +244,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get Entries
-            ICollection<Entry> entries = Entries.GetPostsByMonth(DateTime.Now.Month, DateTime.Now.Year);
+            ICollection<Entry> entries = ObjectProvider.Instance().GetPostsByMonth(DateTime.Now.Month, DateTime.Now.Year);
 
             //Test outcome
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");

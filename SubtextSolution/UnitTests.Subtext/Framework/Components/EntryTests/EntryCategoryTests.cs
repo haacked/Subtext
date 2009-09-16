@@ -4,6 +4,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
@@ -25,15 +26,15 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
             int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "My Subtext UnitTest Category");
 
-            Entries.SetEntryCategoryList(id, new[] {categoryId});
+            ObjectProvider.Instance().SetEntryCategoryList(id, new[] { categoryId });
 
-            Entry loaded = Entries.GetEntry(id, PostConfig.None, true);
+            Entry loaded = UnitTestHelper.GetEntry(id, PostConfig.None, true);
             Assert.AreEqual("My Subtext UnitTest Category", loaded.Categories.First(),
                             "Expected a category for this entry");
 
-            Entries.SetEntryCategoryList(id, new int[] {});
+            ObjectProvider.Instance().SetEntryCategoryList(id, new int[] { });
 
-            loaded = Entries.GetEntry(id, PostConfig.None, true);
+            loaded = UnitTestHelper.GetEntry(id, PostConfig.None, true);
             Assert.AreEqual(0, loaded.Categories.Count, "Expected that our category would be removed.");
         }
     }

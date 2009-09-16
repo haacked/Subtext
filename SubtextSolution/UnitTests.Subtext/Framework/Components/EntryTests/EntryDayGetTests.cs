@@ -26,6 +26,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -63,7 +64,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get EntryDay
-            EntryDay entries = Entries.GetSingleDay(DateTime.Now);
+            EntryDay entries = ObjectProvider.Instance().GetEntryDay(DateTime.Now);
 
             //Test outcome
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
@@ -107,7 +108,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.IsTrue(entryThree.DateSyndicated > DateTime.Now);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = Entries.GetBlogPosts(10, PostConfig.None);
+            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPosts(10, PostConfig.None);
 
             //Test outcome
             Assert.AreEqual(2, entryList.Count, "Expected to find two entry days.");
@@ -144,7 +145,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.IsTrue(entryThree.DateSyndicated > DateTime.Now);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = Entries.GetBlogPosts(10, PostConfig.IsActive);
+            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPosts(10, PostConfig.IsActive);
 
             //Test outcome
             Assert.AreEqual(2, entryList.Count, "Expected to find two entry days.");
@@ -182,7 +183,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = Entries.GetBlogPosts(10, PostConfig.IsActive);
+            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPosts(10, PostConfig.IsActive);
 
             Collection<Entry> entries = entryList.First();
             //Test outcome
@@ -223,7 +224,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = Entries.GetHomePageEntries(10);
+            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPosts(10, PostConfig.DisplayOnHomepage | PostConfig.IsActive);
 
             var days = new EntryDay[2];
             entryList.CopyTo(days, 0);
@@ -278,7 +279,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = Entries.GetPostsByCategoryId(10, categoryId);
+            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetPostsByCategoryID(10, categoryId);
 
             var days = new EntryDay[2];
             entryList.CopyTo(days, 0);

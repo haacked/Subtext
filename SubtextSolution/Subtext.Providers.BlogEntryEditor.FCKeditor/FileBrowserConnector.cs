@@ -455,23 +455,23 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             }
         }
 
-        private static void GetPosts(XmlNode connectorNode, string currentFolder)
+        private void GetPosts(XmlNode connectorNode, string currentFolder)
         {
             IPagedCollection<EntryStatsView> posts;
             if(currentFolder.Equals("/"))
             {
-                posts = Entries.GetPagedEntries(PostType.BlogPost, -1, 0, 1000);
+                posts = Repository.GetPagedEntries(PostType.BlogPost, -1, 0, 1000);
             }
             else
             {
                 string categoryName = currentFolder.Substring(1, currentFolder.Length - 2);
                 LinkCategory cat = ObjectProvider.Instance().GetLinkCategory(categoryName, false);
-                posts = Entries.GetPagedEntries(PostType.BlogPost, cat.Id, 0, 1000);
+                posts = Repository.GetPagedEntries(PostType.BlogPost, cat.Id, 0, 1000);
             }
 
             // Create the "Files" node.
             XmlNode oFilesNode = XmlUtil.AppendElement(connectorNode, "Files");
-            foreach(Entry entry in posts)
+            foreach(var entry in posts)
             {
                 // Create the "File" node.
                 if(entry.IsActive)

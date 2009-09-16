@@ -25,6 +25,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Web.HttpModules;
 using UnitTests.Subtext.Framework.Util;
 
@@ -64,7 +65,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryTwo);
 
             //Get Entries
-            ICollection<Entry> entries = Entries.GetRecentPosts(3, PostType.BlogPost, PostConfig.IsActive, true);
+            ICollection<Entry> entries = ObjectProvider.Instance().GetEntries(3, PostType.BlogPost, PostConfig.IsActive, true);
 
             //Test outcome
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
@@ -75,7 +76,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Config.CurrentBlog.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
             //Get Entries
-            entries = Entries.GetRecentPosts(3, PostType.BlogPost, PostConfig.IsActive, true);
+            entries = ObjectProvider.Instance().GetEntries(3, PostType.BlogPost, PostConfig.IsActive, true);
 
             //Test outcome
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
@@ -112,7 +113,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             new DatabaseObjectProvider().SetEntryTagList(entryTwo.Id, tags);
 
 
-            ICollection<Entry> entries = Entries.GetEntriesByTag(3, "Tag1");
+            ICollection<Entry> entries = ObjectProvider.Instance().GetEntriesByTag(3, "Tag1");
 
             //Test outcome
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
@@ -123,7 +124,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Config.CurrentBlog.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
             //Test outcome
-            entries = Entries.GetEntriesByTag(3, "Tag1");
+            entries = ObjectProvider.Instance().GetEntriesByTag(3, "Tag1");
 
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
             Assert.AreEqual(entries.ElementAt(1).Id, entryOne.Id, "Ordering is off.");
@@ -162,7 +163,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 
             //Get Entries
-            ICollection<Entry> entries = Entries.GetEntriesByCategory(3, categoryId, true);
+            ICollection<Entry> entries = ObjectProvider.Instance().GetEntriesByCategory(3, categoryId, true);
 
 
             //Test outcome
@@ -174,7 +175,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Config.CurrentBlog.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
 
             //Test outcome
-            entries = Entries.GetEntriesByCategory(3, categoryId, true);
+            entries = ObjectProvider.Instance().GetEntriesByCategory(3, categoryId, true);
 
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
             Assert.AreEqual(entries.ElementAt(1).Id, entryOne.Id, "Ordering is off.");
@@ -206,7 +207,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             //Get Entries
             DateTime now = Config.CurrentBlog.TimeZone.Now;
             var beginningOfMonth = new DateTime(now.Year, now.Month, 1);
-            ICollection<Entry> entries = Entries.GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1),
+            ICollection<Entry> entries = ObjectProvider.Instance().GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1),
                                                                     PostType.BlogPost, true);
 
             //Test outcome
@@ -216,7 +217,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
 
             Config.CurrentBlog.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
-            entries = Entries.GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1), PostType.BlogPost,
+            entries = ObjectProvider.Instance().GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1), PostType.BlogPost,
                                                  true);
 
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
@@ -247,7 +248,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryTwo);
 
             //Get Entries
-            ICollection<Entry> entries = Entries.GetPostsByMonth(now.Month, now.Year);
+            ICollection<Entry> entries = ObjectProvider.Instance().GetPostsByMonth(now.Month, now.Year);
 
             //Test outcome
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
@@ -256,7 +257,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
 
             Config.CurrentBlog.TimeZoneId = TimeZonesTest.PacificTimeZoneId;
-            entries = Entries.GetPostsByMonth(now.Month, now.Year);
+            entries = ObjectProvider.Instance().GetPostsByMonth(now.Month, now.Year);
 
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
             Assert.AreEqual(entries.ElementAt(1).Id, entryOne.Id, "Ordering is off.");

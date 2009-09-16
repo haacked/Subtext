@@ -190,7 +190,7 @@ namespace Subtext.Framework
             }
 
             // Check the database
-            FeedbackItem duplicate = Entries.GetFeedbackByChecksumHash(feedbackItem.ChecksumHash);
+            FeedbackItem duplicate = SubtextContext.Repository.GetFeedbackByChecksumHash(feedbackItem.ChecksumHash);
             if(duplicate != null)
             {
                 return true;

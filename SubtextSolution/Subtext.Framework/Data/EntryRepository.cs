@@ -27,11 +27,11 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override ICollection<Entry> GetEntries(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories)
         {
-            using (IDataReader reader = _procedures.GetConditionalEntries(itemCount, 
-                (int)postType, 
-                (int)postConfig, 
-                (int?)BlogId,
-                includeCategories, 
+            using(IDataReader reader = _procedures.GetConditionalEntries(itemCount,
+                (int)postType,
+                (int)postConfig,
+                BlogId,
+                includeCategories,
                 CurrentDateTime))
             {
                 return reader.LoadEntryCollectionFromDataReader();
@@ -41,16 +41,20 @@ namespace Subtext.Framework.Data
         public override ICollection<EntryStatsView> GetPopularEntries(int blogId, DateFilter filter)
         {
             DateTime? minDate = null;
-            if (filter == DateFilter.LastMonth) {
-                minDate = this.CurrentDateTime.AddMonths(-1);
+            if(filter == DateFilter.LastMonth)
+            {
+                minDate = CurrentDateTime.AddMonths(-1);
             }
-            else if (filter == DateFilter.LastWeek) {
-                minDate = this.CurrentDateTime.AddDays(-7);
+            else if(filter == DateFilter.LastWeek)
+            {
+                minDate = CurrentDateTime.AddDays(-7);
             }
 
             List<EntryStatsView> entries = new List<EntryStatsView>();
-            using (IDataReader reader = _procedures.GetPopularPosts(BlogId, minDate)) {
-                while (reader.Read()) {
+            using(IDataReader reader = _procedures.GetPopularPosts(BlogId, minDate))
+            {
+                while(reader.Read())
+                {
                     EntryStatsView entry = reader.LoadEntryStatsView();
                     entry.PostType = PostType.BlogPost;
                     entries.Add(entry);
@@ -63,41 +67,33 @@ namespace Subtext.Framework.Data
         /// Returns a pageable collection of entries ordered by the id descending.
         /// This is used in the admin section.
         /// </summary>
-        /// <param name="postType">Type of the post.</param>
-        /// <param name="categoryID">The category ID.</param>
-        /// <param name="pageIndex">Index of the page.</param>
-        /// <param name="pageSize">Size of the page.</param>
-        /// <returns></returns>
-        public override IPagedCollection<EntryStatsView> GetPagedEntries(PostType postType, int? categoryID, int pageIndex, int pageSize)
+        public override IPagedCollection<EntryStatsView> GetPagedEntries(PostType postType, int? categoryId, int pageIndex, int pageSize)
         {
-            using (IDataReader reader = GetPagedEntriesReader(postType, categoryID, pageIndex, pageSize))
+            using(IDataReader reader = GetPagedEntriesReader(postType, categoryId, pageIndex, pageSize))
             {
-                return reader.GetPagedCollection<EntryStatsView>(r => DataHelper.LoadEntryStatsView(reader));
+                return reader.GetPagedCollection(r => DataHelper.LoadEntryStatsView(reader));
             }
         }
 
-        private IDataReader GetPagedEntriesReader(PostType postType, int? categoryID, int pageIndex, int pageSize)
+        private IDataReader GetPagedEntriesReader(PostType postType, int? categoryId, int pageIndex, int pageSize)
         {
-            if (categoryID != null)
+            if(categoryId != null)
             {
-                return _procedures.GetPageableEntriesByCategoryID(BlogId, categoryID.Value, pageIndex, pageSize, (int)postType);
+                return _procedures.GetPageableEntriesByCategoryID(BlogId, categoryId.Value, pageIndex, pageSize, (int)postType);
             }
-            else
-            {
-                return _procedures.GetPageableEntries(BlogId, pageIndex, pageSize, (int)postType);
-            }
+            return _procedures.GetPageableEntries(BlogId, pageIndex, pageSize, (int)postType);
         }
 
         public override EntryDay GetEntryDay(DateTime dateTime)
         {
-            using (IDataReader reader = _procedures.GetSingleDay(dateTime, BlogId, CurrentDateTime))
+            using(IDataReader reader = _procedures.GetSingleDay(dateTime, BlogId, CurrentDateTime))
             {
-                EntryDay ed = new EntryDay(dateTime);
-                while (reader.Read())
+                var entryDay = new EntryDay(dateTime);
+                while(reader.Read())
                 {
-                    ed.Add(DataHelper.LoadEntry(reader));
+                    entryDay.Add(DataHelper.LoadEntry(reader));
                 }
-                return ed;
+                return entryDay;
             }
         }
 
@@ -112,7 +108,7 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc)
         {
-            using (IDataReader reader = _procedures.GetConditionalEntries(itemCount, (int)PostType.BlogPost, (int)pc, BlogId, false, CurrentDateTime))
+            using(IDataReader reader = _procedures.GetConditionalEntries(itemCount, (int)PostType.BlogPost, (int)pc, BlogId, false, CurrentDateTime))
             {
                 ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
                 return edc;
@@ -121,7 +117,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int categoryId)
         {
-            using (IDataReader reader = _procedures.GetPostsByCategoryID(itemCount, categoryId, true, BlogId, CurrentDateTime))
+            using(IDataReader reader = _procedures.GetPostsByCategoryID(itemCount, categoryId, true, BlogId, CurrentDateTime))
             {
                 ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
                 return edc;
@@ -136,7 +132,7 @@ namespace Subtext.Framework.Data
         /// <param name="postType"></param>
         public override ICollection<Entry> GetPreviousAndNextEntries(int entryId, PostType postType)
         {
-            using (IDataReader reader = _procedures.GetEntryPreviousNext(entryId, (int)postType, BlogId, CurrentDateTime))
+            using(IDataReader reader = _procedures.GetEntryPreviousNext(entryId, (int)postType, BlogId, CurrentDateTime))
             {
                 return DataHelper.LoadEntryCollectionFromDataReader(reader);
             }
@@ -150,7 +146,7 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override ICollection<Entry> GetPostsByMonth(int month, int year)
         {
-            using (IDataReader reader = _procedures.GetPostsByMonth(month, year, BlogId, CurrentDateTime))
+            using(IDataReader reader = _procedures.GetPostsByMonth(month, year, BlogId, CurrentDateTime))
             {
                 return DataHelper.LoadEntryCollectionFromDataReader(reader);
             }
@@ -161,13 +157,13 @@ namespace Subtext.Framework.Data
             DateTime min = start;
             DateTime max = stop;
 
-            if (stop < start)
+            if(stop < start)
             {
                 min = stop;
                 max = start;
             }
 
-            using (IDataReader reader = _procedures.GetEntriesByDayRange(min, max, (int)postType, activeOnly, BlogId, CurrentDateTime))
+            using(IDataReader reader = _procedures.GetEntriesByDayRange(min, max, (int)postType, activeOnly, BlogId, CurrentDateTime))
             {
                 return DataHelper.LoadEntryCollectionFromDataReader(reader);
             }
@@ -175,7 +171,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<Entry> GetEntriesByCategory(int itemCount, int categoryId, bool activeOnly)
         {
-            using (IDataReader reader = _procedures.GetPostsByCategoryID(itemCount, categoryId, activeOnly, BlogId, CurrentDateTime))
+            using(IDataReader reader = _procedures.GetPostsByCategoryID(itemCount, categoryId, activeOnly, BlogId, CurrentDateTime))
             {
                 return DataHelper.LoadEntryCollectionFromDataReader(reader);
             }
@@ -183,7 +179,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<Entry> GetEntriesByTag(int itemCount, string tagName)
         {
-            using (IDataReader reader = _procedures.GetPostsByTag(itemCount, tagName, BlogId, true, CurrentDateTime))
+            using(IDataReader reader = _procedures.GetPostsByTag(itemCount, tagName, BlogId, true, CurrentDateTime))
             {
                 return DataHelper.LoadEntryCollectionFromDataReader(reader);
             }
@@ -198,9 +194,9 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override Entry GetEntry(int id, bool includeCategories)
         {
-            using (IDataReader reader = _procedures.GetEntryReader(id, includeCategories))
+            using(IDataReader reader = _procedures.GetEntryReader(id, includeCategories))
             {
-                if (reader.Read())
+                if(reader.Read())
                 {
                     return DataHelper.LoadEntry(reader);
                 }
@@ -217,9 +213,9 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override Entry GetEntry(int id, bool activeOnly, bool includeCategories)
         {
-            using (IDataReader reader = _procedures.GetEntryReader(BlogId, id, activeOnly, includeCategories))
+            using(IDataReader reader = _procedures.GetEntryReader(BlogId, id, activeOnly, includeCategories))
             {
-                if (reader.Read())
+                if(reader.Read())
                 {
                     return DataHelper.LoadEntryWithCategories(reader);
                 }
@@ -236,12 +232,12 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override Entry GetEntry(string entryName, bool activeOnly, bool includeCategories)
         {
-            using (IDataReader reader = _procedures.GetEntryReader(BlogId, 
-                entryName, 
-                activeOnly, 
+            using(IDataReader reader = _procedures.GetEntryReader(BlogId,
+                entryName,
+                activeOnly,
                 includeCategories))
             {
-                if (reader.Read())
+                if(reader.Read())
                 {
                     return DataHelper.LoadEntryWithCategories(reader);
                 }
@@ -283,11 +279,13 @@ namespace Subtext.Framework.Data
                 , entry.DateSyndicated.NullIfEmpty()
                 , CurrentDateTime);
 
-            if (categoryIds != null) {
+            if(categoryIds != null)
+            {
                 SetEntryCategoryList(entry.Id, categoryIds);
             }
 
-            if (entry.Id > -1) {
+            if(entry.Id > -1)
+            {
                 Config.CurrentBlog.LastUpdated = entry.DateCreated;
             }
 
@@ -297,14 +295,11 @@ namespace Subtext.Framework.Data
         /// <summary>
         /// Saves the categories for the specified post.
         /// </summary>
-        /// <param name="postId"></param>
-        /// <param name="categoryIds"></param>
-        /// <returns></returns>
         public override bool SetEntryCategoryList(int entryId, IEnumerable<int> categoryIds)
         {
-            if (categoryIds == null)
+            if(categoryIds == null)
             {
-                return _procedures.InsertLinkCategoryList(string.Empty, entryId, BlogId); ;
+                return _procedures.InsertLinkCategoryList(string.Empty, entryId, BlogId);
             }
 
             var idsAsStrings = categoryIds.Select(id => id.ToString(CultureInfo.InvariantCulture));
@@ -325,15 +320,15 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override bool SetEntryTagList(int postId, IEnumerable<string> tags)
         {
-            if (tags == null)
+            if(tags == null)
                 throw new ArgumentNullException("tags");
 
             string tagList = "";
-            foreach (string tag in tags)
+            foreach(string tag in tags)
             {
                 tagList += tag + ",";
             }
-            if (tagList.Length > 0)
+            if(tagList.Length > 0)
                 tagList = tagList.Substring(0, tagList.Length - 1);
 
             return _procedures.InsertEntryTagList(postId, BlogId, tagList);
@@ -349,7 +344,8 @@ namespace Subtext.Framework.Data
         {
             ValidateEntry(entry);
 
-            if (entry.IsActive && NullValue.IsNull(entry.DateSyndicated)) {
+            if(entry.IsActive && NullValue.IsNull(entry.DateSyndicated))
+            {
                 entry.DateSyndicated = CurrentDateTime;
             }
 
@@ -368,18 +364,20 @@ namespace Subtext.Framework.Data
                 , BlogId
                 , CurrentDateTime);
 
-            if (!updated)
+            if(!updated)
             {
                 return false;
             }
 
-            if (categoryIds != null && categoryIds.Count() > 0)
+            if(categoryIds != null && categoryIds.Count() > 0)
             {
                 SetEntryCategoryList(entry.Id, categoryIds);
             }
 
-            if (Config.Settings.Tracking.UseTrackingServices) {
-                if (entry.Id > -1) {
+            if(Config.Settings.Tracking.UseTrackingServices)
+            {
+                if(entry.Id > -1)
+                {
                     Config.CurrentBlog.LastUpdated = entry.DateModified;
                 }
             }
@@ -388,7 +386,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<ArchiveCount> GetPostCountsByMonth()
         {
-            using (IDataReader reader = _procedures.GetPostsByMonthArchive(BlogId, CurrentDateTime))
+            using(IDataReader reader = _procedures.GetPostsByMonthArchive(BlogId, CurrentDateTime))
             {
                 ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
                 return acc;
@@ -397,7 +395,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<ArchiveCount> GetPostCountsByYear()
         {
-            using (IDataReader reader = _procedures.GetPostsByYearArchive(BlogId, CurrentDateTime))
+            using(IDataReader reader = _procedures.GetPostsByYearArchive(BlogId, CurrentDateTime))
             {
                 ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
                 return acc;
@@ -406,7 +404,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<ArchiveCount> GetPostCountsByCategory()
         {
-            using (IDataReader reader = _procedures.GetPostsByCategoriesArchive(BlogId))
+            using(IDataReader reader = _procedures.GetPostsByCategoriesArchive(BlogId))
             {
                 ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
                 return acc;

@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
@@ -34,8 +33,8 @@ namespace Subtext.Web.UI.Controls
     public class RecentPosts : BaseControl, IEntryControl
     {
         private const int DefaultRecentPostCount = 5;
-        private readonly ICollection<Entry> posts;
-        private EntryViewModel currentEntry;
+        private readonly ICollection<Entry> _posts;
+        private EntryViewModel _currentEntry;
         protected Repeater postList;
 
         /// <summary>
@@ -49,14 +48,14 @@ namespace Subtext.Web.UI.Controls
             int postCount = Config.CurrentBlog.NumberOfRecentComments > 0
                                 ? Config.CurrentBlog.NumberOfRecentComments
                                 : DefaultRecentPostCount;
-            posts = Entries.GetRecentPosts(postCount, PostType.BlogPost, PostConfig.IsActive, true);
+            _posts = Repository.GetEntries(postCount, PostType.BlogPost, PostConfig.IsActive, true);
         }
 
         #region IEntryControl Members
 
         public EntryViewModel Entry
         {
-            get { return currentEntry; }
+            get { return _currentEntry; }
         }
 
         #endregion
@@ -71,9 +70,9 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            if(posts != null)
+            if(_posts != null)
             {
-                postList.DataSource = posts;
+                postList.DataSource = _posts;
                 postList.DataBind();
             }
             else
@@ -88,7 +87,7 @@ namespace Subtext.Web.UI.Controls
             if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var post = (Entry)e.Item.DataItem;
-                currentEntry = new EntryViewModel(post, SubtextContext);
+                _currentEntry = new EntryViewModel(post, SubtextContext);
                 var lnkPost = (HyperLink)e.Item.FindControl("Link");
                 if(lnkPost != null)
                 {
