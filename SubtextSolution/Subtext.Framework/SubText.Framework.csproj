@@ -385,6 +385,13 @@
     <Compile Include="HostInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ImportExport\BlogMLWriter2.cs" />
+    <Compile Include="ImportExport\IBlogMLConverter.cs" />
+    <Compile Include="ImportExport\IBlogMLSource.cs" />
+    <Compile Include="ImportExport\IBlogMLWriter.cs" />
+    <Compile Include="ImportExport\SubtextBlogMLConverter.cs" />
+    <Compile Include="ImportExport\SubtextBlogMLSource.cs" />
+    <Compile Include="Infrastructure\ActionResults\ExportActionResult.cs" />
     <Compile Include="Infrastructure\IServiceLocator.cs" />
     <Compile Include="Infrastructure\ITimeZone.cs" />
     <Compile Include="Infrastructure\TimeZoneWrapper.cs" />
