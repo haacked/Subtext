@@ -128,15 +128,9 @@ namespace Subtext.ImportExport
         public static BlogMLBlog CreateBlogInstance(string title, string subtitle, string rootUrl, string author,
                                                     string email, DateTime dateCreated)
         {
-            var blog = new BlogMLBlog();
-            var blogAuthor = new BlogMLAuthor();
-            blogAuthor.Title = author;
-            blogAuthor.Email = email;
+            var blog = new BlogMLBlog {Title = title, SubTitle = subtitle, RootUrl = rootUrl, DateCreated = dateCreated};
+            var blogAuthor = new BlogMLAuthor { Title = author, Email = email };
             blog.Authors.Add(blogAuthor);
-            blog.Title = title;
-            blog.SubTitle = subtitle;
-            blog.RootUrl = rootUrl;
-            blog.DateCreated = dateCreated;
             return blog;
         }
 

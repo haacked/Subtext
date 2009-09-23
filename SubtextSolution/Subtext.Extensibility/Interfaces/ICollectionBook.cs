@@ -21,5 +21,6 @@ namespace Subtext.Extensibility.Interfaces
 {
     public interface ICollectionBook<T> : IEnumerable<IPagedCollection<T>>
     {
+        IEnumerable<T> AsFlattenedEnumerable();
     }
 }

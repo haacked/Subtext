@@ -86,9 +86,7 @@ namespace Subtext.BlogML
             WriteCategories(categories);
 
 
-            ICollectionBook<BlogMLPost> allPosts =
-                new CollectionBook<BlogMLPost>(
-                    (pageIndex, pageSize) => provider.GetBlogPosts(blogId, pageIndex, pageSize), provider.PageSize);
+            ICollectionBook<BlogMLPost> allPosts =new CollectionBook<BlogMLPost>((pageIndex, pageSize) => provider.GetBlogPosts(blogId, pageIndex, pageSize), provider.PageSize);
             WritePosts(allPosts);
 
             WriteEndElement(); // End Blog Element

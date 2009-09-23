@@ -54,6 +54,7 @@ using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Infrastructure;
+using System.Xml;
 
 namespace UnitTests.Subtext
 {

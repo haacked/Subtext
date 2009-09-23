@@ -5,7 +5,7 @@ namespace Subtext.BlogML.Conversion
 {
     public class IntConversionStrategy : IdConversionStrategy
     {
-        readonly Dictionary<string, int> idScopeCounter = new Dictionary<string, int>();
+        readonly Dictionary<string, int> _idScopeCounter = new Dictionary<string, int>();
 
         /// <summary>
         /// Generates a new int id for the specified scope starting at 1.  The originalId is ignored.
@@ -18,14 +18,14 @@ namespace Subtext.BlogML.Conversion
         protected override string Generate(string scope, string originalId)
         {
             int currentIdForScope;
-            if(idScopeCounter.TryGetValue(scope, out currentIdForScope))
+            if(_idScopeCounter.TryGetValue(scope, out currentIdForScope))
             {
                 currentIdForScope++;
-                idScopeCounter[scope] = currentIdForScope;
+                _idScopeCounter[scope] = currentIdForScope;
                 return currentIdForScope.ToString(CultureInfo.InvariantCulture);
             }
 
-            idScopeCounter.Add(scope, 1);
+            _idScopeCounter.Add(scope, 1);
             return "1";
         }
     }
