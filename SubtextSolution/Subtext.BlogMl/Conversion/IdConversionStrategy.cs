@@ -6,7 +6,7 @@ namespace Subtext.BlogML.Conversion
     public abstract class IdConversionStrategy
     {
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes")] public static readonly IdConversionStrategy Empty = new NullConversionStrategy();
-        readonly Dictionary<ScopedId, string> _idMap = new Dictionary<ScopedId, string>();
+        readonly Dictionary<ScopedId, string> idMap = new Dictionary<ScopedId, string>();
 
         /// <summary>
         /// Converts the specified id into a new Id.  If we've already converted this id, 
@@ -23,13 +23,13 @@ namespace Subtext.BlogML.Conversion
             var scopedId = new ScopedId(scope, originalId);
 
             string convertedId;
-            if(_idMap.TryGetValue(scopedId, out convertedId))
+            if(idMap.TryGetValue(scopedId, out convertedId))
             {
                 return convertedId;
             }
 
             convertedId = Generate(scope, originalId);
-            _idMap.Add(scopedId, convertedId);
+            idMap.Add(scopedId, convertedId);
             return convertedId;
         }
 

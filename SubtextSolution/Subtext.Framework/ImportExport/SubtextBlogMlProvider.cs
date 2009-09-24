@@ -282,34 +282,28 @@ namespace Subtext.ImportExport
             if(int.TryParse(blogId, out blogIdentifier))
             {
                 Blog blog = Repository.GetBlogById(blogIdentifier);
-                var bmlBlog = new BlogMLBlog
-                {
-                    Title = blog.Title,
-                    SubTitle = blog.SubTitle,
-                    RootUrl = Url.BlogUrl().ToFullyQualifiedUrl(blog).ToString(),
-                    DateCreated = Blog.TimeZone.Now
-                };
+                var bmlBlog = new BlogMLBlog();
+                bmlBlog.Title = blog.Title;
+                bmlBlog.SubTitle = blog.SubTitle;
+                bmlBlog.RootUrl = Url.BlogUrl().ToFullyQualifiedUrl(blog).ToString();
+                bmlBlog.DateCreated = Blog.TimeZone.Now;
 
                 // TODO: in Subtext 2.0 we need to account for multiple authors.
-                var bmlAuthor = new BlogMLAuthor
-                {
-                    ID = blog.Id.ToString(CultureInfo.InvariantCulture),
-                    Title = blog.Author,
-                    Approved = true,
-                    Email = blog.Email,
-                    DateCreated = blog.LastUpdated,
-                    DateModified = blog.LastUpdated
-                };
+                var bmlAuthor = new BlogMLAuthor();
+                bmlAuthor.ID = blog.Id.ToString(CultureInfo.InvariantCulture);
+                bmlAuthor.Title = blog.Author;
+                bmlAuthor.Approved = true;
+                bmlAuthor.Email = blog.Email;
+                bmlAuthor.DateCreated = blog.LastUpdated;
+                bmlAuthor.DateModified = blog.LastUpdated;
                 bmlBlog.Authors.Add(bmlAuthor);
 
                 // Add Extended Properties
-                var bmlExtProp = new Pair<string, string>
-                {
-                    Key = BlogMLBlogExtendedProperties.CommentModeration,
-                    Value = blog.ModerationEnabled
-                                ? CommentModerationTypes.Enabled.ToString()
-                                : CommentModerationTypes.Disabled.ToString()
-                };
+                var bmlExtProp = new Pair<string, string>();
+                bmlExtProp.Key = BlogMLBlogExtendedProperties.CommentModeration;
+                bmlExtProp.Value = blog.ModerationEnabled
+                                       ? CommentModerationTypes.Enabled.ToString()
+                                       : CommentModerationTypes.Disabled.ToString();
                 bmlBlog.ExtendedProperties.Add(bmlExtProp);
 
                 /* TODO: The blog.TrackbasksEnabled determines if Subtext will ACCEPT and SEND trackbacks.

@@ -26,9 +26,13 @@ namespace Subtext.Framework.Components
     /// <typeparam name="T"></typeparam>
     public class PagedCollection<T> : List<T>, IPagedCollection<T>
     {
+        #region IPagedCollection<T> Members
+
         /// <summary>
         /// Returns the max number of items to display on a page.
         /// </summary>
         public int MaxItems { get; set; }
+
+        #endregion
     }
 }

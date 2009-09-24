@@ -25,18 +25,31 @@ namespace Subtext.Extensibility.Collections
 {
     public class CollectionBook<T> : ICollectionBook<T>
     {
-        readonly int _pageSize;
-        readonly Func<int, int, IPagedCollection<T>> _pageSource;
+        int pageSize;
+        Func<int, int, IPagedCollection<T>> pageSource;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CollectionBook<T>"/> class.
+        /// </summary>
+        /// <param name="pageSource">The page source.</param>
         public CollectionBook(Func<int, int, IPagedCollection<T>> pageSource, int pageSize)
         {
-            _pageSource = pageSource;
-            _pageSize = pageSize;
+            this.pageSource = pageSource;
+            this.pageSize = pageSize;
         }
 
+        #region ICollectionBook<T> Members
+
+        ///<summary>
+        ///Returns an enumerator that iterates through the collection.
+        ///</summary>
+        ///<returns>
+        ///A <see cref="T:System.Collections.Generic.IEnumerator`1"></see> that can be used to iterate through the collection.
+        ///</returns>
+        ///<filterpriority>1</filterpriority>
         public IEnumerator<IPagedCollection<T>> GetEnumerator()
         {
-            if(_pageSize <= 0)
+            if(pageSize <= 0)
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_PageSizeLessThanZero);
             }
@@ -46,15 +59,15 @@ namespace Subtext.Extensibility.Collections
 
             if(pageCount == 0)
             {
-                IPagedCollection<T> page = _pageSource(pageIndex, _pageSize);
-                pageCount = (int)Math.Ceiling((double)page.MaxItems / _pageSize);
+                IPagedCollection<T> page = pageSource(pageIndex, pageSize);
+                pageCount = (int)Math.Ceiling((double)page.MaxItems / pageSize);
                 yield return page;
             }
 
             //We've already yielded page 0, so start at 1
             while(++pageIndex < pageCount)
             {
-                yield return _pageSource(pageIndex, _pageSize);
+                yield return pageSource(pageIndex, pageSize);
             }
         }
 
@@ -70,15 +83,6 @@ namespace Subtext.Extensibility.Collections
             return GetEnumerator();
         }
 
-        public IEnumerable<T> AsFlattenedEnumerable()
-        {
-            foreach(var page in this)
-            {
-                foreach(var item in page)
-                {
-                    yield return item;
-                }
-            }
-        }
+        #endregion
     }
 }
