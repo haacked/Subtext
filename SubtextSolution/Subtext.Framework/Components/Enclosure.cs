@@ -16,9 +16,11 @@
 #endregion
 
 using System;
+using System.Xml.Serialization;
 
 namespace Subtext.Framework.Components
 {
+    [XmlRoot("Enclosure", Namespace = "urn-Subtext")]
     public class Enclosure
     {
         public string Url { get; set; }

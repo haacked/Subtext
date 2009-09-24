@@ -153,9 +153,7 @@ namespace Subtext.Web.Admin
         }
     }
 
-    [
-        Serializable
-    ]
+    [Serializable]
     [XmlRoot(ElementName = "outline", IsNullable = true)]
     public class OpmlItem
     {
