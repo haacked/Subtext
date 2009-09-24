@@ -3,7 +3,8 @@
 <#
 var releases = new Release[] {
 	new Release {	Name = "trunk",			Branch = "trunk",				VersionPrefix = "2.2.0."},
-	new Release {	Name = "Release2.1.2",	Branch="branches/Release2.1.2",	VersionPrefix ="2.1.2." }
+	new Release {	Name = "Release2.1.2",	Branch="branches/Release2.1.2",	VersionPrefix ="2.1.2." },
+	new Release {	Name = "haacked-blogml-refactoring",	Branch="branches/haacked-blogml-refactoring",	VersionPrefix ="2.2.0." }
 };
 #>
 <cruisecontrol>
