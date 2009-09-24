@@ -52,8 +52,10 @@ namespace Subtext.Web.Admin
             set { _pages[index] = value; }
         }
 
+        [XmlIgnore]
         public PageLocation Root { get; private set; }
 
+        [XmlIgnore]
         public bool IsConfigured { get; private set; }
 
         public static void LoadConfiguration()
