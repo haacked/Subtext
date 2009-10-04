@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -15,9 +32,9 @@ namespace Subtext.Framework.Services
         {
         }
 
-        public GravatarService(string UrlFormatString, GravatarEmailFormat emailFormat, bool enabled)
+        public GravatarService(string urlFormatString, GravatarEmailFormat emailFormat, bool enabled)
         {
-            this.UrlFormatString = UrlFormatString;
+            UrlFormatString = urlFormatString;
             EmailFormat = emailFormat;
             Enabled = enabled;
         }
@@ -38,8 +55,7 @@ namespace Subtext.Framework.Services
             string emailForUrl = email.ToLowerInvariant();
             if(EmailFormat == GravatarEmailFormat.Md5)
             {
-                emailForUrl =
-                    FormsAuthentication.HashPasswordForStoringInConfigFile(emailForUrl, "md5").ToLowerInvariant();
+                emailForUrl = FormsAuthentication.HashPasswordForStoringInConfigFile(emailForUrl, "md5").ToLowerInvariant();
             }
 
             emailForUrl = HttpUtility.UrlEncode(emailForUrl);

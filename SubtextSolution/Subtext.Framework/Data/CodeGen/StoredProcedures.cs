@@ -379,7 +379,7 @@ namespace Subtext.Framework.Data
             return GetReader("subtext_GetEntriesByDayRange", p);
         }
 
-        public IDataReader GetEntriesForBlogMl(int blogId, int pageIndex, int pageSize)
+        public IDataReader GetEntriesForExport(int blogId, int pageIndex, int pageSize)
         {
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@BlogId", blogId),
@@ -387,7 +387,7 @@ namespace Subtext.Framework.Data
                                    DataHelper.MakeInParam("@PageSize", pageSize),
                                };
 
-            return GetReader("subtext_GetEntriesForBlogMl", p);
+            return GetReader("subtext_GetEntriesForExport", p);
         }
 
         public IDataReader GetEntryPreviousNext(int id, int postType, int blogId, DateTime currentDateTime)
@@ -522,20 +522,8 @@ namespace Subtext.Framework.Data
 
             return GetReader("subtext_GetPageableDomainAliases", p);
         }
-
-        public IDataReader GetPageableEntries(int blogId, int pageIndex, int pageSize, int postType)
-        {
-            SqlParameter[] p = {
-                                   DataHelper.MakeInParam("@BlogId", blogId),
-                                   DataHelper.MakeInParam("@PageIndex", pageIndex),
-                                   DataHelper.MakeInParam("@PageSize", pageSize),
-                                   DataHelper.MakeInParam("@PostType", postType),
-                               };
-
-            return GetReader("subtext_GetPageableEntries", p);
-        }
-
-        public IDataReader GetPageableEntriesByCategoryID(int blogId, int categoryId, int pageIndex, int pageSize,
+      
+        public IDataReader GetEntries(int blogId, int? categoryId, int pageIndex, int pageSize,
                                                           int postType)
         {
             SqlParameter[] p = {
@@ -546,7 +534,7 @@ namespace Subtext.Framework.Data
                                    DataHelper.MakeInParam("@PostType", postType),
                                };
 
-            return GetReader("subtext_GetPageableEntriesByCategoryID", p);
+            return GetReader("subtext_GetEntries", p);
         }
 
         public IDataReader GetPageableFeedback(int blogId, int pageIndex, int pageSize, int statusFlag,
@@ -723,18 +711,7 @@ namespace Subtext.Framework.Data
 
             return GetReader("subtext_GetRelatedEntries", p);
         }
-
-        public IDataReader GetSingleDay(DateTime date, int blogId, DateTime currentDateTime)
-        {
-            SqlParameter[] p = {
-                                   DataHelper.MakeInParam("@Date", date),
-                                   DataHelper.MakeInParam("@BlogId", blogId),
-                                   DataHelper.MakeInParam("@CurrentDateTime", currentDateTime),
-                               };
-
-            return GetReader("subtext_GetSingleDay", p);
-        }
-
+      
         public IDataReader GetSingleEntry(int? id, string entryName, bool isActive, int? blogId, bool includeCategories)
         {
             SqlParameter[] p = {

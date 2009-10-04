@@ -225,10 +225,6 @@
       <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
       <Name>Subtext.Akismet</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
-      <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
-      <Name>Subtext.BlogML</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
       <Name>Subtext.Extensibility</Name>
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
@@ -274,12 +270,12 @@
     <Compile Include="Akismet\AkismetSpamServiceTests.cs" />
     <Compile Include="AssemblySetUpAndCleanUp.cs" />
     <Compile Include="BlogEntryProvider\FileBrowserConnectorTests.cs" />
-    <Compile Include="BlogMl\BlogMlHandlerTests.cs" />
     <Compile Include="BlogMl\BlogMlImportTests.cs" />
     <Compile Include="BlogMl\BlogMLReaderTests.cs" />
-    <Compile Include="BlogMl\BlogMlWriterTests.cs" />
+    <Compile Include="BlogMl\BlogMLWriter2Tests.cs" />
+    <Compile Include="BlogMl\SubtextBlogMLConverterTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMlProviderTests.cs" />
-    <Compile Include="BlogMl\SubtextBlogMlWriterTests.cs" />
+    <Compile Include="BlogMl\SubtextBlogMLSourceTests.cs" />
     <Compile Include="DatabaseHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -287,11 +283,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\ActionResults\CacheableFileResultTests.cs" />
+    <Compile Include="Framework\ActionResults\ExportActionResultTests.cs" />
     <Compile Include="Framework\ActionResults\NotModifiedResultTests.cs" />
     <Compile Include="Framework\ArchiveTests.cs" />
     <Compile Include="Framework\BlogInfoTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\CollectionExtensionsTests.cs" />
     <Compile Include="Framework\Components\ArchiveCountTests.cs" />
     <Compile Include="Framework\Components\BlogGroupTests.cs" />
     <Compile Include="Framework\Components\CollectionBookTests.cs" />
@@ -340,6 +338,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Data\PagedCollectionRetrievalTests.cs" />
+    <Compile Include="Framework\Data\RepositoryExtensionsTests.cs" />
     <Compile Include="Framework\Email\EmailServiceTests.cs" />
     <Compile Include="Framework\Email\EmbeddedTemplateEngineTests.cs" />
     <Compile Include="Framework\EntryTrackerTests.cs" />
@@ -480,6 +479,7 @@
     <Compile Include="SimulatedRequestContext.cs" />
     <Compile Include="SubtextWeb\Admin\AdminPageTests.cs" />
     <Compile Include="SubtextWeb\Admin\FeedbackTests.cs" />
+    <Compile Include="SubtextWeb\Controllers\ExportControllerTests.cs" />
     <Compile Include="SubtextWeb\Controllers\StatisticsControllerTests.cs" />
     <Compile Include="SubtextWeb\Controllers\CommentApiControllerTests.cs" />
     <Compile Include="SubtextWeb\Controls\CaptchaTests.cs" />
@@ -539,6 +539,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Framework\pb.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\BlogMl\blank.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

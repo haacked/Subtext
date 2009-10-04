@@ -160,7 +160,7 @@ namespace Subtext.Web.Admin.UserControls
                 }
             }
 
-            IPagedCollection<EntryStatsView> selectionList = Repository.GetPagedEntries(EntryType, categoryId, pageIndex,
+            IPagedCollection<EntryStatsView> selectionList = Repository.GetEntries(EntryType, categoryId, pageIndex,
                                                                                         resultsPager.PageSize);
 
             if(selectionList.Count > 0)

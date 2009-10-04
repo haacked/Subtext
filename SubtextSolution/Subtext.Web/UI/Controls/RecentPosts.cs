@@ -33,32 +33,10 @@ namespace Subtext.Web.UI.Controls
     public class RecentPosts : BaseControl, IEntryControl
     {
         private const int DefaultRecentPostCount = 5;
-        private readonly ICollection<Entry> _posts;
-        private EntryViewModel _currentEntry;
+        private ICollection<Entry> _posts;
         protected Repeater postList;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RecentPosts"/> class.
-        /// </summary>
-        public RecentPosts()
-        {
-            // number of posts to show, use default if not set by user
-            // use recentcomments settings here - avoid schema additions & 
-            // likely most people would be happy with the same settings for both controls anyway
-            int postCount = Config.CurrentBlog.NumberOfRecentComments > 0
-                                ? Config.CurrentBlog.NumberOfRecentComments
-                                : DefaultRecentPostCount;
-            _posts = Repository.GetEntries(postCount, PostType.BlogPost, PostConfig.IsActive, true);
-        }
-
-        #region IEntryControl Members
-
-        public EntryViewModel Entry
-        {
-            get { return _currentEntry; }
-        }
-
-        #endregion
+        public EntryViewModel Entry { get; private set; }
 
         /// <summary>
         /// Binds the posts <see cref="List{T}"/> to the post list repeater.
@@ -67,7 +45,15 @@ namespace Subtext.Web.UI.Controls
         /// </summary>
         /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
         protected override void OnLoad(EventArgs e)
-        {
+        {            
+            // number of posts to show, use default if not set by user
+            // use recentcomments settings here - avoid schema additions & 
+            // likely most people would be happy with the same settings for both controls anyway
+            int postCount = Config.CurrentBlog.NumberOfRecentComments > 0
+                                ? Config.CurrentBlog.NumberOfRecentComments
+                                : DefaultRecentPostCount;
+            _posts = Repository.GetEntries(postCount, PostType.BlogPost, PostConfig.IsActive, true);
+
             base.OnLoad(e);
 
             if(_posts != null)
@@ -87,7 +73,7 @@ namespace Subtext.Web.UI.Controls
             if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var post = (Entry)e.Item.DataItem;
-                _currentEntry = new EntryViewModel(post, SubtextContext);
+                Entry = new EntryViewModel(post, SubtextContext);
                 var lnkPost = (HyperLink)e.Item.FindControl("Link");
                 if(lnkPost != null)
                 {

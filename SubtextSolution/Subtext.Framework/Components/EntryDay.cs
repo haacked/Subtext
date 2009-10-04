@@ -17,28 +17,26 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Subtext.Framework.Components
 {
     /// <summary>
     /// Represents a collection of <see cref="Entry">Entry</see> Components.
     /// </summary>
-    [Serializable]
     public class EntryDay : Collection<Entry>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EntryDay">EntryDay</see> class.
         /// </summary>
-        public EntryDay()
+        public EntryDay(DateTime day)
         {
+            BlogDay = day.Date;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EntryDay">EntryDay</see> class.
-        /// </summary>
-        public EntryDay(DateTime dt)
+        public EntryDay(DateTime day, IList<Entry> entries) : base(entries)
         {
-            BlogDay = dt;
+            BlogDay = day.Date;
         }
 
         public DateTime BlogDay { get; set; }

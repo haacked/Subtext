@@ -37,8 +37,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Scripting", "Subtex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Providers.BlogEntryEditor.FCKeditor", "Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj", "{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.BlogML", "Subtext.BlogMl\Subtext.BlogML.csproj", "{830310DB-5D6A-453C-908A-058776D9C993}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Akismet", "Subtext.Akismet\Subtext.Akismet.csproj", "{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTools", "..\BuildTools\BuildTools.csproj", "{8A910A5B-E14B-4963-99FD-99704BB35097}"
@@ -175,21 +173,6 @@ Global
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Documentation|.NET.ActiveCfg = Documentation|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Documentation|Mixed Platforms.ActiveCfg = Documentation|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Documentation|Mixed Platforms.Build.0 = Documentation|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Release|.NET.ActiveCfg = Release|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Release|Any CPU.Build.0 = Release|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Debug|Any CPU.Build.0 = Debug|Any CPU

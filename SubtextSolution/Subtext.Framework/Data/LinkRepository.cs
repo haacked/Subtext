@@ -27,18 +27,18 @@ namespace Subtext.Framework.Data
             //TODO: Update proc to allow for sort parameter.
             using (IDataReader reader = _procedures.GetPageableLinks(BlogId, categoryId, pageIndex, pageSize))
             {
-                return reader.GetPagedCollection(r => reader.LoadObject<Link>());
+                return reader.ReadPagedCollection(r => reader.ReadObject<Link>());
             }
         }
 
-        public override ICollection<Link> GetLinkCollectionByPostID(int postId)
+        public override ICollection<Link> GetLinkCollectionByPostId(int postId)
         {
             using (IDataReader reader = _procedures.GetLinkCollectionByPostID(postId, BlogId))
             {
                 ICollection<Link> lc = new List<Link>();
                 while (reader.Read())
                 {
-                    lc.Add(reader.LoadObject<Link>());
+                    lc.Add(reader.ReadObject<Link>());
                 }
                 return lc;
             }
@@ -51,7 +51,7 @@ namespace Subtext.Framework.Data
                 Link link = null;
                 while (reader.Read())
                 {
-                    link = reader.LoadObject<Link>();
+                    link = reader.ReadObject<Link>();
                     break;
                 }
                 return link;
@@ -71,7 +71,7 @@ namespace Subtext.Framework.Data
             {
                 while (reader.Read())
                 {
-                    lcc.Add(DataHelper.LoadLinkCategory(reader));
+                    lcc.Add(reader.ReadLinkCategory());
                 }
                 return lcc;
             }
@@ -87,7 +87,7 @@ namespace Subtext.Framework.Data
         {
             using (IDataReader reader = _procedures.GetCategory(null, categoryId, activeOnly, BlogId, null))
             {
-                return reader.LoadLinkCategoryFromReader();
+                return ReadLinkCategory(reader);
             }
         }
 
@@ -101,7 +101,7 @@ namespace Subtext.Framework.Data
         {
             using (IDataReader reader = _procedures.GetCategory(categoryName, null, activeOnly, BlogId, null))
             {
-                return reader.LoadLinkCategoryFromReader();
+                return ReadLinkCategory(reader);
             }
         }
 

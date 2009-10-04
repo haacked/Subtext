@@ -21,7 +21,7 @@ namespace UnitTests.Subtext.Framework.Data
     [TestFixture]
     public class PagedCollectionRetrievalTests
     {
-        string hostName;
+        string _hostName;
 
         /// <summary>
         /// Creates some entries and makes sure that the proper 
@@ -38,10 +38,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedEntriesHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                          int itemsCountOnLastPage)
         {
-            Config.CreateBlog("", "username", "password", hostName, "blog");
-            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
-            AssertPagedCollection(new PagedEntryCollectionTester(), expectedPageCount, itemsCountOnLastPage, pageSize,
-                                  total);
+            Config.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "blog");
+            AssertPagedCollection(new PagedEntryCollectionTester(), expectedPageCount, itemsCountOnLastPage, pageSize, total);
         }
 
         /// <summary>
@@ -59,8 +58,8 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedEntriesByCategoryHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                                    int itemsCountOnLastPage)
         {
-            Config.CreateBlog("", "username", "password", hostName, "blog");
-            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
+            Config.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "blog");
             AssertPagedCollection(new PagedEntryByCategoryCollectionTester(), expectedPageCount, itemsCountOnLastPage,
                                   pageSize, total);
         }
@@ -81,8 +80,8 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedFeedbackHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                           int itemsCountOnLastPage)
         {
-            Config.CreateBlog("", "username", "password", hostName, "blog");
-            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
+            Config.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "blog");
             AssertPagedCollection(new FeedbackCollectionTester(), expectedPageCount, itemsCountOnLastPage, pageSize,
                                   total);
         }
@@ -97,9 +96,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedLinksHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                        int itemsCountOnLastPage)
         {
-            Config.CreateBlog("", "username", "password", hostName, "blog");
-            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
-            IPagedCollectionTester tester = new LinkCollectionTester();
+            Config.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "blog");
+            var tester = new LinkCollectionTester();
             AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
         }
 
@@ -113,9 +112,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedLogEntriesHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                             int itemsCountOnLastPage)
         {
-            Config.CreateBlog("", "username", "password", hostName, "blog");
-            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
-            IPagedCollectionTester tester = new LogEntryCollectionTester();
+            Config.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "blog");
+            var tester = new LogEntryCollectionTester();
             AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
         }
 
@@ -129,9 +128,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedMetaTagsHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                           int itemsCountOnLastPage)
         {
-            Config.CreateBlog("", "username", "password", hostName, "blog");
-            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
-            IPagedCollectionTester tester = new MetaTagCollectionTester();
+            Config.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "blog");
+            var tester = new MetaTagCollectionTester();
             AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
         }
 
@@ -145,9 +144,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedKeywordsHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                           int itemsCountOnLastPage)
         {
-            Config.CreateBlog("", "username", "password", hostName, "blog");
-            BlogRequest.Current.Blog = Config.GetBlog(hostName, "blog");
-            IPagedCollectionTester tester = new KeyWordCollectionTester();
+            Config.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = Config.GetBlog(_hostName, "blog");
+            var tester = new KeyWordCollectionTester();
             AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
         }
 
@@ -161,11 +160,11 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedBlogsHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                        int itemsCountOnLastPage)
         {
-            IPagedCollectionTester tester = new BlogCollectionTester();
+            var tester = new BlogCollectionTester();
             AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
         }
 
-        private static void AssertPagedCollection(IPagedCollectionTester pagedCollectionTester, int expectedPageCount,
+        private static void AssertPagedCollection<TItem>(IPagedCollectionTester<TItem> pagedCollectionTester, int expectedPageCount,
                                                   int itemsCountOnLastPage, int pageSize, int total)
         {
             //Create entries
@@ -178,7 +177,7 @@ namespace UnitTests.Subtext.Framework.Data
             int totalSeen = 0;
             for(int pageIndex = 0; pageIndex < expectedPageCount; pageIndex++)
             {
-                IPagedCollection items = pagedCollectionTester.GetPagedItems(pageIndex, pageSize);
+                var items = pagedCollectionTester.GetPagedItems(pageIndex, pageSize);
                 Assert.AreEqual(total, items.MaxItems, "The paged collection got the max items wrong)");
 
                 if(pageIndex < expectedPageCount - 1)
@@ -204,8 +203,8 @@ namespace UnitTests.Subtext.Framework.Data
         [SetUp]
         public void SetUp()
         {
-            hostName = UnitTestHelper.GenerateUniqueString();
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "blog");
+            _hostName = UnitTestHelper.GenerateUniqueString();
+            UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "blog");
         }
 
         [TearDown]
@@ -215,51 +214,41 @@ namespace UnitTests.Subtext.Framework.Data
         }
     }
 
-    internal interface IPagedCollectionTester
+    internal interface IPagedCollectionTester<TItem>
     {
         void Create(int index);
-        IPagedCollection GetPagedItems(int pageIndex, int pageSize);
-        int GetCount(IPagedCollection collection);
+        IPagedCollection<TItem> GetPagedItems(int pageIndex, int pageSize);
+        int GetCount(IPagedCollection<TItem> collection);
     }
 
-    internal class PagedEntryCollectionTester : IPagedCollectionTester
+    internal class PagedEntryCollectionTester : IPagedCollectionTester<EntryStatsView>
     {
-        #region IPagedCollectionTester Members
-
         public void Create(int index)
         {
             UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "Title" + index,
                                                                                    "Who rocks the party that rocks the party?"));
         }
 
-        public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+        public IPagedCollection<EntryStatsView> GetPagedItems(int pageIndex, int pageSize)
         {
-            return ObjectProvider.Instance().GetPagedEntries(PostType.BlogPost, null, pageIndex, pageSize);
+            return ObjectProvider.Instance().GetEntries(PostType.BlogPost, null, pageIndex, pageSize);
         }
 
-        public int GetCount(IPagedCollection collection)
+        public int GetCount(IPagedCollection<EntryStatsView> collection)
         {
-            return ((IPagedCollection<EntryStatsView>)collection).Count;
+            return collection.Count;
         }
-
-        #endregion
     }
 
-    internal class PagedEntryByCategoryCollectionTester : IPagedCollectionTester
+    internal class PagedEntryByCategoryCollectionTester : IPagedCollectionTester<EntryStatsView>
     {
-        int categoryId;
+        readonly int _categoryId;
 
         public PagedEntryByCategoryCollectionTester()
         {
-            var category = new LinkCategory();
-            category.BlogId = Config.CurrentBlog.Id;
-            category.IsActive = true;
-            category.Title = "Foobar";
-            category.Description = "Unit Test";
-            categoryId = Links.CreateLinkCategory(category);
+            var category = new LinkCategory {BlogId = Config.CurrentBlog.Id, IsActive = true, Title = "Foobar", Description = "Unit Test"};
+            _categoryId = Links.CreateLinkCategory(category);
         }
-
-        #region IPagedCollectionTester Members
 
         public void Create(int index)
         {
@@ -269,31 +258,29 @@ namespace UnitTests.Subtext.Framework.Data
             UnitTestHelper.Create(entry);
         }
 
-        public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+        public IPagedCollection<EntryStatsView> GetPagedItems(int pageIndex, int pageSize)
         {
-            return ObjectProvider.Instance().GetPagedEntries(PostType.BlogPost, categoryId, pageIndex, pageSize);
+            return ObjectProvider.Instance().GetEntries(PostType.BlogPost, _categoryId, pageIndex, pageSize);
         }
 
-        public int GetCount(IPagedCollection collection)
+        public int GetCount(IPagedCollection<EntryStatsView> collection)
         {
-            return ((IPagedCollection<EntryStatsView>)collection).Count;
+            return collection.Count;
         }
-
-        #endregion
     }
 
-    internal class FeedbackCollectionTester : IPagedCollectionTester
+    internal class FeedbackCollectionTester : IPagedCollectionTester<FeedbackItem>
     {
-        #region IPagedCollectionTester Members
-
         public void Create(int index)
         {
-            var feedbackItem = new FeedbackItem(FeedbackType.Comment);
-            feedbackItem.Author = "Phil";
-            feedbackItem.Title = "Title" + index;
-            feedbackItem.Body = "Who rocks the party that rocks the party? " + index;
+            var feedbackItem = new FeedbackItem(FeedbackType.Comment)
+            {
+                Author = "Phil",
+                Title = "Title" + index,
+                Body = "Who rocks the party that rocks the party? " + index,
+                SourceUrl = new Uri("http://blah/")
+            };
 
-            feedbackItem.SourceUrl = new Uri("http://blah/");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Cache).Returns(new TestCache());
             subtextContext.SetupBlog(BlogRequest.Current.Blog);
@@ -304,24 +291,20 @@ namespace UnitTests.Subtext.Framework.Data
             FeedbackItem.Approve(feedbackItem, null);
         }
 
-        public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+        public IPagedCollection<FeedbackItem> GetPagedItems(int pageIndex, int pageSize)
         {
             return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize, FeedbackStatusFlag.Approved,
                                                               FeedbackStatusFlag.None, FeedbackType.None);
         }
 
-        public int GetCount(IPagedCollection collection)
+        public int GetCount(IPagedCollection<FeedbackItem> collection)
         {
-            return ((IPagedCollection<FeedbackItem>)collection).Count;
+            return collection.Count;
         }
-
-        #endregion
     }
 
-    internal class LogEntryCollectionTester : IPagedCollectionTester
+    internal class LogEntryCollectionTester : IPagedCollectionTester<LogEntry>
     {
-        #region IPagedCollectionTester Members
-
         public void Create(int index)
         {
             SqlParameter[] parameters = {
@@ -341,148 +324,113 @@ namespace UnitTests.Subtext.Framework.Data
                                       parameters);
         }
 
-        public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+        public IPagedCollection<LogEntry> GetPagedItems(int pageIndex, int pageSize)
         {
             return LoggingProvider.Instance().GetPagedLogEntries(pageIndex, pageSize);
         }
 
-        public int GetCount(IPagedCollection collection)
+        public int GetCount(IPagedCollection<LogEntry> collection)
         {
-            return ((IPagedCollection<LogEntry>)collection).Count;
+            return collection.Count;
         }
-
-        #endregion
     }
 
-    internal class LinkCollectionTester : IPagedCollectionTester
+    internal class LinkCollectionTester : IPagedCollectionTester<Link>
     {
-        int categoryId;
+        readonly int _categoryId;
 
         public LinkCollectionTester()
         {
-            var category = new LinkCategory();
-            category.BlogId = Config.CurrentBlog.Id;
-            category.IsActive = true;
-            category.Title = "Foobar";
-            category.Description = "Unit Test";
-            categoryId = Links.CreateLinkCategory(category);
+            var category = new LinkCategory {BlogId = Config.CurrentBlog.Id, IsActive = true, Title = "Foobar", Description = "Unit Test"};
+            _categoryId = Links.CreateLinkCategory(category);
 
             //Create a couple links that should be ignored because postId is not null.
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "title", "in great shape");
             int entryId = UnitTestHelper.Create(entry);
-            UnitTestHelper.CreateLinkInDb(categoryId, "A Forgettable Link", entryId, String.Empty);
-            UnitTestHelper.CreateLinkInDb(categoryId, "Another Forgettable Link", entryId, String.Empty);
-            UnitTestHelper.CreateLinkInDb(categoryId, "Another Forgettable Link", entryId, String.Empty);
+            UnitTestHelper.CreateLinkInDb(_categoryId, "A Forgettable Link", entryId, String.Empty);
+            UnitTestHelper.CreateLinkInDb(_categoryId, "Another Forgettable Link", entryId, String.Empty);
+            UnitTestHelper.CreateLinkInDb(_categoryId, "Another Forgettable Link", entryId, String.Empty);
         }
-
-        #region IPagedCollectionTester Members
 
         public void Create(int index)
         {
-            UnitTestHelper.CreateLinkInDb(categoryId, "A Link To Remember Part " + index, null, String.Empty);
+            UnitTestHelper.CreateLinkInDb(_categoryId, "A Link To Remember Part " + index, null, String.Empty);
         }
 
-        public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+        public IPagedCollection<Link> GetPagedItems(int pageIndex, int pageSize)
         {
-            return ObjectProvider.Instance().GetPagedLinks(categoryId, pageIndex, pageSize, true);
+            return ObjectProvider.Instance().GetPagedLinks(_categoryId, pageIndex, pageSize, true);
         }
 
-        public int GetCount(IPagedCollection collection)
+        public int GetCount(IPagedCollection<Link> collection)
         {
-            return ((IPagedCollection<Link>)collection).Count;
+            return collection.Count;
         }
-
-        #endregion
     }
 
-    internal class KeyWordCollectionTester : IPagedCollectionTester
+    internal class KeyWordCollectionTester : IPagedCollectionTester<KeyWord>
     {
-        public KeyWordCollectionTester()
-        {
-        }
-
-        #region IPagedCollectionTester Members
-
         public void Create(int index)
         {
-            var keyword = new KeyWord();
-            keyword.BlogId = Config.CurrentBlog.Id;
-            keyword.Text = "The Keyword" + index;
-            keyword.Title = "Blah";
-            keyword.Word = "The Word " + index;
-            keyword.Rel = "Rel" + index;
-            keyword.Url = "http://localhost/";
+            var keyword = new KeyWord
+            {
+                BlogId = Config.CurrentBlog.Id,
+                Text = "The Keyword" + index,
+                Title = "Blah",
+                Word = "The Word " + index,
+                Rel = "Rel" + index,
+                Url = "http://localhost/"
+            };
             KeyWords.CreateKeyWord(keyword);
         }
 
-        public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+        public IPagedCollection<KeyWord> GetPagedItems(int pageIndex, int pageSize)
         {
             return KeyWords.GetPagedKeyWords(pageIndex, pageSize);
         }
 
-        public int GetCount(IPagedCollection collection)
+        public int GetCount(IPagedCollection<KeyWord> collection)
         {
-            return ((IPagedCollection<KeyWord>)collection).Count;
+            return collection.Count;
         }
-
-        #endregion
     }
 
-    internal class BlogCollectionTester : IPagedCollectionTester
+    internal class BlogCollectionTester : IPagedCollectionTester<Blog>
     {
-        string host = UnitTestHelper.GenerateUniqueString();
-
-        public BlogCollectionTester()
-        {
-        }
-
-        #region IPagedCollectionTester Members
+        readonly string _host = UnitTestHelper.GenerateUniqueString();
 
         public void Create(int index)
         {
-            Config.CreateBlog("title " + index, "phil", "password", host, "Subfolder" + index);
+            Config.CreateBlog("title " + index, "phil", "password", _host, "Subfolder" + index);
         }
 
-        public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+        public IPagedCollection<Blog> GetPagedItems(int pageIndex, int pageSize)
         {
-            return Blog.GetBlogsByHost(host, pageIndex, pageSize, ConfigurationFlags.IsActive);
+            return Blog.GetBlogsByHost(_host, pageIndex, pageSize, ConfigurationFlags.IsActive);
         }
 
-        public int GetCount(IPagedCollection collection)
+        public int GetCount(IPagedCollection<Blog> collection)
         {
-            return ((IPagedCollection<Blog>)collection).Count;
+            return collection.Count;
         }
-
-        #endregion
     }
 
-    internal class MetaTagCollectionTester : IPagedCollectionTester
+    internal class MetaTagCollectionTester : IPagedCollectionTester<MetaTag>
     {
-        public MetaTagCollectionTester()
+       public void Create(int index)
         {
+            var tag = new MetaTag("test" + index) {DateCreated = DateTime.Now, Name = "foo", BlogId = Config.CurrentBlog.Id};
+           MetaTags.Create(tag);
         }
 
-        #region IPagedCollectionTester Members
-
-        public void Create(int index)
-        {
-            var tag = new MetaTag("test" + index);
-            tag.DateCreated = DateTime.Now;
-            tag.Name = "foo";
-            tag.BlogId = Config.CurrentBlog.Id;
-            MetaTags.Create(tag);
-        }
-
-        public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+        public IPagedCollection<MetaTag> GetPagedItems(int pageIndex, int pageSize)
         {
             return MetaTags.GetMetaTagsForBlog(Config.CurrentBlog, pageIndex, pageSize);
         }
 
-        public int GetCount(IPagedCollection collection)
+        public int GetCount(IPagedCollection<MetaTag> collection)
         {
-            return ((IPagedCollection<MetaTag>)collection).Count;
+            return collection.Count;
         }
-
-        #endregion
     }
 }

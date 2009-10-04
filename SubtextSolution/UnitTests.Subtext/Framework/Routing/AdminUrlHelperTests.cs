@@ -192,6 +192,34 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
+        public void ExportUrl_WithEmbedFalseAndSubFolder_RendersUrlWithQueryStringParameter()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            AdminUrlHelper helper = SetupUrlHelper("/", routeData);
+
+            //act
+            string url = helper.Export(false);
+
+            //assert
+            Assert.AreEqual("/sub/admin/export.ashx?embed=False", url);
+        }
+
+        [Test]
+        public void ExportUrl_WithEmbedTrue_RendersUrlWithQueryStringParameter()
+        {
+            //arrange
+            AdminUrlHelper helper = SetupUrlHelper("/");
+
+            //act
+            string url = helper.Export(true);
+
+            //assert
+            Assert.AreEqual("/admin/export.ashx?embed=True", url);
+        }
+
+        [Test]
         public void Statistics_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange

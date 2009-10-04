@@ -152,7 +152,7 @@ namespace Subtext.Framework.Configuration
         {
             get
             {
-                IPagedCollection blogs = Blog.GetBlogs(1, 1, ConfigurationFlags.None);
+                IPagedCollection<Blog> blogs = Blog.GetBlogs(1, 1, ConfigurationFlags.None);
                 return blogs.MaxItems;
             }
         }

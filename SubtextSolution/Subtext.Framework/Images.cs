@@ -94,7 +94,7 @@ namespace Subtext.Framework
 
         public static ImageCollection GetImagesByCategoryID(int catID, bool activeOnly)
         {
-            return ObjectProvider.Instance().GetImagesByCategoryID(catID, activeOnly);
+            return ObjectProvider.Instance().GetImagesByCategoryId(catID, activeOnly);
         }
 
         /// <summary>

@@ -47,10 +47,10 @@ namespace Subtext.Web.Controllers
                                                   HttpCacheability.Public);
         }
 
-        private bool CachedVersionIsOkay(HttpRequestBase request)
+        private static bool CachedVersionIsOkay(HttpRequestBase request)
         {
             //Get header value
-            DateTime dt = HttpHelper.GetIfModifiedSinceDateUTC(request);
+            DateTime dt = HttpHelper.GetIfModifiedSinceDateUtc(request);
             if(dt == NullValue.NullDateTime)
             {
                 return false;

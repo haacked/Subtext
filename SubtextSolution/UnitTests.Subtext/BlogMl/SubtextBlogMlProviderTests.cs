@@ -48,7 +48,7 @@ namespace UnitTests.Subtext.BlogMl
             var entryPublisher = new Mock<IEntryPublisher>();
             Entry publishedEntry = null;
             entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>())).Callback<Entry>(e => publishedEntry = e);
-            var provider = new SubtextBlogMLProvider("test", context.Object, commentService.Object,
+            var provider = new SubtextBlogMLProvider(context.Object, commentService.Object,
                                                      entryPublisher.Object);
             var blog = new BlogMLBlog();
             blog.Posts.Add(new BlogMLPost

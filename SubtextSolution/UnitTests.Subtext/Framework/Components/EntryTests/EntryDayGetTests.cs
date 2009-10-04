@@ -25,6 +25,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Providers;
 
@@ -108,7 +109,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.IsTrue(entryThree.DateSyndicated > DateTime.Now);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPosts(10, PostConfig.None);
+            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsForHomePage(10, PostConfig.None).ToList();
 
             //Test outcome
             Assert.AreEqual(2, entryList.Count, "Expected to find two entry days.");
@@ -145,7 +146,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.IsTrue(entryThree.DateSyndicated > DateTime.Now);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPosts(10, PostConfig.IsActive);
+            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsForHomePage(10, PostConfig.IsActive).ToList();
 
             //Test outcome
             Assert.AreEqual(2, entryList.Count, "Expected to find two entry days.");
@@ -183,7 +184,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPosts(10, PostConfig.IsActive);
+            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsForHomePage(10, PostConfig.IsActive).ToList();
 
             Collection<Entry> entries = entryList.First();
             //Test outcome
@@ -224,7 +225,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPosts(10, PostConfig.DisplayOnHomepage | PostConfig.IsActive);
+            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsForHomePage(10, PostConfig.DisplayOnHomepage | PostConfig.IsActive).ToList();
 
             var days = new EntryDay[2];
             entryList.CopyTo(days, 0);
@@ -279,7 +280,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Enclosures.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetPostsByCategoryID(10, categoryId);
+            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsByCategoryGroupedByDay(10, categoryId).ToList();
 
             var days = new EntryDay[2];
             entryList.CopyTo(days, 0);

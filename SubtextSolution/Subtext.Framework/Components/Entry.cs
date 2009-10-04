@@ -317,5 +317,19 @@ namespace Subtext.Framework.Components
             }
             return checksum;
         }
+
+        public ICollection<FeedbackItem> Comments
+        {
+            get
+            {
+                if(_comments == null)
+                {
+                    _comments = new List<FeedbackItem>();
+                }
+                return _comments;
+            }
+        }
+
+        List<FeedbackItem> _comments;
     }
 }

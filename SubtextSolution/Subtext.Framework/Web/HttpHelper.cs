@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Configuration;
 using System.IO;
 using System.Net;
@@ -65,12 +66,12 @@ namespace Subtext.Framework.Web
         /// Gets if modified since date.
         /// </summary>
         /// <returns></returns>
-        public static DateTime GetIfModifiedSinceDateUTC(HttpRequestBase request)
+        public static DateTime GetIfModifiedSinceDateUtc(HttpRequestBase request)
         {
             if(request != null)
             {
                 string ifModified = request.Headers["If-Modified-Since"];
-                if(ifModified != null && ifModified.Length > 0)
+                if(!string.IsNullOrEmpty(ifModified))
                 {
                     return DateTimeHelper.ParseUnknownFormatUTC(ifModified);
                 }
@@ -237,18 +238,10 @@ namespace Subtext.Framework.Web
                 return null;
             }
 
-            IWebProxy proxy;
             string proxyHost = ConfigurationManager.AppSettings["ProxyHost"];
 
             int proxyPort;
-            if(int.TryParse(ConfigurationManager.AppSettings["ProxyPort"], out proxyPort))
-            {
-                proxy = new WebProxy(proxyHost, proxyPort);
-            }
-            else
-            {
-                proxy = new WebProxy(proxyHost);
-            }
+            IWebProxy proxy = int.TryParse(ConfigurationManager.AppSettings["ProxyPort"], out proxyPort) ? new WebProxy(proxyHost, proxyPort) : new WebProxy(proxyHost);
             if(!String.IsNullOrEmpty(ConfigurationManager.AppSettings["ProxyUsername"]))
             {
                 proxy.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["ProxyUsername"],
@@ -272,11 +265,7 @@ namespace Subtext.Framework.Web
             string reference = path;
             if(reference.Substring(0, 2) == "~/")
             {
-                string appPath = HttpContext.Current.Request.ApplicationPath;
-                if(appPath == null)
-                {
-                    appPath = string.Empty;
-                }
+                string appPath = HttpContext.Current.Request.ApplicationPath ?? string.Empty;
                 if(appPath.EndsWith("/", StringComparison.Ordinal))
                 {
                     appPath = appPath.Left(appPath.Length - 1);
@@ -290,7 +279,6 @@ namespace Subtext.Framework.Web
         /// If the URL is is the format ~/SomePath, this 
         /// method expands the tilde using the app path.
         /// </summary>
-        /// <param name="path"></param>
         public static VirtualPath ExpandTildePath(this HttpContextBase httpContext, string path)
         {
             if(String.IsNullOrEmpty(path))
@@ -301,11 +289,7 @@ namespace Subtext.Framework.Web
             string reference = path;
             if(reference.Substring(0, 2) == "~/")
             {
-                string appPath = httpContext.Request.ApplicationPath;
-                if(appPath == null)
-                {
-                    appPath = string.Empty;
-                }
+                string appPath = httpContext.Request.ApplicationPath ?? string.Empty;
 
                 if(appPath.EndsWith("/", StringComparison.Ordinal))
                 {
@@ -319,7 +303,6 @@ namespace Subtext.Framework.Web
         /// <summary>
         /// gets the bytes for the posted file
         /// </summary>
-        /// <param name="objFile">The obj file.</param>
         /// <returns></returns>
         public static byte[] GetFileStream(this HttpPostedFile httpPostedFile)
         {
@@ -332,6 +315,53 @@ namespace Subtext.Framework.Web
                 return input;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Returns a MimeType from a URL
+        /// </summary>
+        /// <param name="fullUrl">The URL to check for a mime type</param>
+        /// <returns>A string representation of the mimetype</returns>
+        public static string GetMimeType(this string fullUrl)
+        {
+            string extension = Path.GetExtension(fullUrl);
+
+            if(string.IsNullOrEmpty(extension))
+            {
+                return string.Empty;
+            }
+
+            switch(extension.ToUpperInvariant())
+            {
+                case ".PNG":
+                    return "image/png";
+                case ".JPG":
+                case ".JPEG":
+                    return "image/jpeg";
+                case ".BMP":
+                    return "image/bmp";
+                case ".GIF":
+                    return "image/gif";
+                default:
+                    return "none";
+            }
+        }
+
+        public static string GetSafeFileName(this string text)
+        {
+            if(string.IsNullOrEmpty(text))
+            {
+                throw new ArgumentNullException("text");
+            }
+            var badChars = Path.GetInvalidFileNameChars();
+            foreach(var badChar in badChars)
+            {
+                if(text.Contains(badChar))
+                {
+                    text = text.Replace("" + badChar, string.Empty);
+                }
+            }
+            return text;
         }
     }
 }

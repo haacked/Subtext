@@ -35,12 +35,5 @@ namespace UnitTests.Subtext.Framework.Components
             var view = new EntryStatsView();
             UnitTestHelper.AssertSimpleProperties(view);
         }
-
-        [Test]
-        public void CanSetAndGetSimpleEntryDayProperties()
-        {
-            var day = new EntryDay();
-            UnitTestHelper.AssertSimpleProperties(day);
-        }
     }
 }

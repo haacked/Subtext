@@ -52,7 +52,7 @@ namespace Subtext.Framework.Providers
             {
                 while(reader.Read())
                 {
-                    Entry foundEntry = reader.LoadEntry(true);
+                    Entry foundEntry = reader.ReadEntry(true);
                     results.Add(new SearchResult(foundEntry.Title, _urlHelper.EntryUrl(foundEntry).ToUri()));
                 }
             }

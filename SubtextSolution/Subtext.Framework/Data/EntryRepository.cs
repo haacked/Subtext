@@ -1,4 +1,21 @@
-﻿using System;
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
@@ -13,6 +30,18 @@ namespace Subtext.Framework.Data
 {
     public partial class DatabaseObjectProvider
     {
+        /// <summary>
+        /// Returns a pageable collection of entries ordered by the id descending.
+        /// This is used in the admin section.
+        /// </summary>
+        public override IPagedCollection<EntryStatsView> GetEntries(PostType postType, int? categoryId, int pageIndex, int pageSize)
+        {
+            using(IDataReader reader = _procedures.GetEntries(BlogId, categoryId, pageIndex, pageSize, (int)postType))
+            {
+                return reader.ReadPagedCollection(r => reader.ReadEntryStatsView());
+            }
+        }
+
         /// <summary>
         /// Gets the entries that meet the specific <see cref="PostType"/> 
         /// and the <see cref="PostConfig"/> flags.
@@ -34,7 +63,23 @@ namespace Subtext.Framework.Data
                 includeCategories,
                 CurrentDateTime))
             {
-                return reader.LoadEntryCollectionFromDataReader();
+                return reader.ReadEntryCollection();
+            }
+        }
+
+        public override ICollection<Entry> GetEntriesByCategory(int itemCount, int categoryId, bool activeOnly)
+        {
+            using(IDataReader reader = _procedures.GetPostsByCategoryID(itemCount, categoryId, activeOnly, BlogId, CurrentDateTime))
+            {
+                return reader.ReadEntryCollection();
+            }
+        }
+
+        public override ICollection<Entry> GetEntriesByTag(int itemCount, string tagName)
+        {
+            using(IDataReader reader = _procedures.GetPostsByTag(itemCount, tagName, BlogId, true, CurrentDateTime))
+            {
+                return reader.ReadEntryCollection();
             }
         }
 
@@ -50,12 +95,12 @@ namespace Subtext.Framework.Data
                 minDate = CurrentDateTime.AddDays(-7);
             }
 
-            List<EntryStatsView> entries = new List<EntryStatsView>();
+            var entries = new List<EntryStatsView>();
             using(IDataReader reader = _procedures.GetPopularPosts(BlogId, minDate))
             {
                 while(reader.Read())
                 {
-                    EntryStatsView entry = reader.LoadEntryStatsView();
+                    EntryStatsView entry = reader.ReadEntryStatsView();
                     entry.PostType = PostType.BlogPost;
                     entries.Add(entry);
                 }
@@ -63,64 +108,38 @@ namespace Subtext.Framework.Data
             return entries;
         }
 
-        /// <summary>
-        /// Returns a pageable collection of entries ordered by the id descending.
-        /// This is used in the admin section.
-        /// </summary>
-        public override IPagedCollection<EntryStatsView> GetPagedEntries(PostType postType, int? categoryId, int pageIndex, int pageSize)
+        public override IPagedCollection<EntryStatsView> GetEntriesForExport(int pageIndex, int pageSize)
         {
-            using(IDataReader reader = GetPagedEntriesReader(postType, categoryId, pageIndex, pageSize))
+            using(IDataReader reader = _procedures.GetEntriesForExport(BlogId, pageIndex, pageSize))
             {
-                return reader.GetPagedCollection(r => DataHelper.LoadEntryStatsView(reader));
-            }
-        }
+                var entries = reader.ReadEntryCollection<EntryStatsView, IPagedCollection<EntryStatsView>>(r => r.ReadPagedCollection(innerReader => innerReader.ReadEntryStatsView()));
+                if(reader.NextResult())
+                {
+                    var comments = reader.ReadEnumerable(r => r.ReadFeedbackItem());
+                    entries.Accumulate(comments, entry => entry.Id, comment => comment.EntryId, 
+                        (entry, comment) => { entry.Comments.Add(comment); comment.Entry = entry;});
 
-        private IDataReader GetPagedEntriesReader(PostType postType, int? categoryId, int pageIndex, int pageSize)
-        {
-            if(categoryId != null)
-            {
-                return _procedures.GetPageableEntriesByCategoryID(BlogId, categoryId.Value, pageIndex, pageSize, (int)postType);
+                    if(reader.NextResult())
+                    {
+                        var trackBacks = reader.ReadEnumerable(r => r.ReadFeedbackItem());
+                        entries.Accumulate(trackBacks, entry => entry.Id, trackback => trackback.EntryId,
+                            (entry, trackback) => { entry.Comments.Add(trackback); trackback.Entry = entry; });
+                    }
+                }
+                return entries;
             }
-            return _procedures.GetPageableEntries(BlogId, pageIndex, pageSize, (int)postType);
         }
 
         public override EntryDay GetEntryDay(DateTime dateTime)
         {
-            using(IDataReader reader = _procedures.GetSingleDay(dateTime, BlogId, CurrentDateTime))
+            using(IDataReader reader = _procedures.GetEntriesByDayRange(dateTime.Date, dateTime.Date.AddDays(1), (int)PostType.BlogPost, true, BlogId, CurrentDateTime))
             {
                 var entryDay = new EntryDay(dateTime);
                 while(reader.Read())
                 {
-                    entryDay.Add(DataHelper.LoadEntry(reader));
+                    entryDay.Add(reader.ReadEntry());
                 }
                 return entryDay;
-            }
-        }
-
-        /// <summary>
-        /// Returns blog posts that meet the criteria specified in the <see cref="PostConfig"/> flags.
-        /// </summary>
-        /// <param name="itemCount">Item count.</param>
-        /// <param name="pc">Pc.</param>
-        /// <remarks>
-        /// This is used to get the posts displayed on the home page.
-        /// </remarks>
-        /// <returns></returns>
-        public override ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc)
-        {
-            using(IDataReader reader = _procedures.GetConditionalEntries(itemCount, (int)PostType.BlogPost, (int)pc, BlogId, false, CurrentDateTime))
-            {
-                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
-                return edc;
-            }
-        }
-
-        public override ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int categoryId)
-        {
-            using(IDataReader reader = _procedures.GetPostsByCategoryID(itemCount, categoryId, true, BlogId, CurrentDateTime))
-            {
-                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
-                return edc;
             }
         }
 
@@ -134,7 +153,7 @@ namespace Subtext.Framework.Data
         {
             using(IDataReader reader = _procedures.GetEntryPreviousNext(entryId, (int)postType, BlogId, CurrentDateTime))
             {
-                return DataHelper.LoadEntryCollectionFromDataReader(reader);
+                return reader.ReadEntryCollection();
             }
         }
 
@@ -148,7 +167,7 @@ namespace Subtext.Framework.Data
         {
             using(IDataReader reader = _procedures.GetPostsByMonth(month, year, BlogId, CurrentDateTime))
             {
-                return DataHelper.LoadEntryCollectionFromDataReader(reader);
+                return reader.ReadEntryCollection();
             }
         }
 
@@ -165,23 +184,7 @@ namespace Subtext.Framework.Data
 
             using(IDataReader reader = _procedures.GetEntriesByDayRange(min, max, (int)postType, activeOnly, BlogId, CurrentDateTime))
             {
-                return DataHelper.LoadEntryCollectionFromDataReader(reader);
-            }
-        }
-
-        public override ICollection<Entry> GetEntriesByCategory(int itemCount, int categoryId, bool activeOnly)
-        {
-            using(IDataReader reader = _procedures.GetPostsByCategoryID(itemCount, categoryId, activeOnly, BlogId, CurrentDateTime))
-            {
-                return DataHelper.LoadEntryCollectionFromDataReader(reader);
-            }
-        }
-
-        public override ICollection<Entry> GetEntriesByTag(int itemCount, string tagName)
-        {
-            using(IDataReader reader = _procedures.GetPostsByTag(itemCount, tagName, BlogId, true, CurrentDateTime))
-            {
-                return DataHelper.LoadEntryCollectionFromDataReader(reader);
+                return reader.ReadEntryCollection();
             }
         }
 
@@ -198,7 +201,7 @@ namespace Subtext.Framework.Data
             {
                 if(reader.Read())
                 {
-                    return DataHelper.LoadEntry(reader);
+                    return reader.ReadEntry();
                 }
                 return null;
             }
@@ -217,7 +220,7 @@ namespace Subtext.Framework.Data
             {
                 if(reader.Read())
                 {
-                    return DataHelper.LoadEntryWithCategories(reader);
+                    return DataHelper.ReadEntryWithCategories(reader);
                 }
                 return null;
             }
@@ -239,7 +242,7 @@ namespace Subtext.Framework.Data
             {
                 if(reader.Read())
                 {
-                    return DataHelper.LoadEntryWithCategories(reader);
+                    return DataHelper.ReadEntryWithCategories(reader);
                 }
                 return null;
             }
@@ -388,7 +391,7 @@ namespace Subtext.Framework.Data
         {
             using(IDataReader reader = _procedures.GetPostsByMonthArchive(BlogId, CurrentDateTime))
             {
-                ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
+                ICollection<ArchiveCount> acc = DataHelper.ReadArchiveCount(reader);
                 return acc;
             }
         }
@@ -397,7 +400,7 @@ namespace Subtext.Framework.Data
         {
             using(IDataReader reader = _procedures.GetPostsByYearArchive(BlogId, CurrentDateTime))
             {
-                ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
+                ICollection<ArchiveCount> acc = DataHelper.ReadArchiveCount(reader);
                 return acc;
             }
         }
@@ -406,7 +409,7 @@ namespace Subtext.Framework.Data
         {
             using(IDataReader reader = _procedures.GetPostsByCategoriesArchive(BlogId))
             {
-                ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
+                ICollection<ArchiveCount> acc = DataHelper.ReadArchiveCount(reader);
                 return acc;
             }
         }
