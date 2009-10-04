@@ -45,7 +45,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Handlers/BlogMLExport.ashx?embed=" + chkEmbedAttach.Checked);
+            Response.Redirect(AdminUrl.Export(chkEmbedAttach.Checked));
         }
 
         protected void btnLoad_Click(object sender, EventArgs e)
@@ -72,7 +72,7 @@ namespace Subtext.Web.Admin.Pages
         {
             ISubtextContext context = SubtextContext;
             var commentService = new CommentService(context, null);
-            var provider = new SubtextBlogMLProvider(Config.ConnectionString, context, commentService,
+            var provider = new SubtextBlogMLProvider(context, commentService,
                                                      context.GetService<IEntryPublisher>());
 
             BlogMLReader bmlReader = BlogMLReader.Create(provider);

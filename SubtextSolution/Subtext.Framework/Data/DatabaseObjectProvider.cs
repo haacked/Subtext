@@ -41,11 +41,7 @@ namespace Subtext.Framework.Data
             get
             {
                 //Fix this up...
-                if(BlogRequest.Current.IsHostAdminRequest)
-                {
-                    return NullValue.NullInt32;
-                }
-                return BlogRequest.Current.Blog.Id;
+                return BlogRequest.Current.IsHostAdminRequest ? NullValue.NullInt32 : BlogRequest.Current.Blog.Id;
             }
         }
 
@@ -104,7 +100,7 @@ namespace Subtext.Framework.Data
         {
             using(IDataReader reader = _procedures.GetActiveCategoriesWithLinkCollection(BlogId.NullIfMinValue()))
             {
-                return reader.LoadLinkCategories(true);
+                return reader.ReadLinkCategories(true);
             }
         }
 
@@ -114,7 +110,7 @@ namespace Subtext.Framework.Data
                 IDataReader reader = _procedures.GetPageableReferrers(BlogId, entryId.NullIfMinValue(), pageIndex,
                                                                       pageSize))
             {
-                return reader.GetPagedCollection(r => DataHelper.LoadReferrer(r, Config.CurrentBlog));
+                return reader.ReadPagedCollection(r => DataHelper.ReadReferrer(r, Config.CurrentBlog));
             }
         }
 
@@ -142,7 +138,7 @@ namespace Subtext.Framework.Data
         {
             using(IDataReader reader = _procedures.GetMetaTags(blog.Id, null, pageIndex, pageSize))
             {
-                return reader.GetPagedCollection(r => r.LoadObject<MetaTag>());
+                return reader.ReadPagedCollection(r => r.ReadObject<MetaTag>());
             }
         }
 
@@ -150,7 +146,7 @@ namespace Subtext.Framework.Data
         {
             using(IDataReader reader = _procedures.GetMetaTags(entry.BlogId, entry.Id, pageIndex, pageSize))
             {
-                return reader.GetPagedCollection(r => r.LoadObject<MetaTag>());
+                return reader.ReadPagedCollection(r => r.ReadObject<MetaTag>());
             }
         }
 
@@ -194,7 +190,7 @@ namespace Subtext.Framework.Data
                 KeyWord kw = null;
                 while(reader.Read())
                 {
-                    kw = reader.LoadObject<KeyWord>();
+                    kw = reader.ReadObject<KeyWord>();
                     break;
                 }
                 return kw;
@@ -208,7 +204,7 @@ namespace Subtext.Framework.Data
                 var kwc = new List<KeyWord>();
                 while(reader.Read())
                 {
-                    kwc.Add(reader.LoadObject<KeyWord>());
+                    kwc.Add(reader.ReadObject<KeyWord>());
                 }
                 return kwc;
             }
@@ -218,7 +214,7 @@ namespace Subtext.Framework.Data
         {
             using(IDataReader reader = _procedures.GetPageableKeyWords(BlogId, pageIndex, pageSize))
             {
-                return reader.GetPagedCollection(r => r.LoadObject<KeyWord>());
+                return reader.ReadPagedCollection(r => r.ReadObject<KeyWord>());
             }
         }
 
@@ -254,20 +250,20 @@ namespace Subtext.Framework.Data
             return _procedures.DeleteKeyWord(id, BlogId);
         }
 
-        public override ImageCollection GetImagesByCategoryID(int categoryId, bool activeOnly)
+        public override ImageCollection GetImagesByCategoryId(int categoryId, bool activeOnly)
         {
             using(IDataReader reader = _procedures.GetImageCategory(categoryId, activeOnly, BlogId))
             {
                 var ic = new ImageCollection();
                 while(reader.Read())
                 {
-                    ic.Category = reader.LoadLinkCategory();
+                    ic.Category = reader.ReadLinkCategory();
                     break;
                 }
                 reader.NextResult();
                 while(reader.Read())
                 {
-                    ic.Add(reader.LoadImage());
+                    ic.Add(reader.ReadImage());
                 }
                 return ic;
             }
@@ -280,7 +276,7 @@ namespace Subtext.Framework.Data
                 Image image = null;
                 while(reader.Read())
                 {
-                    image = reader.LoadImage();
+                    image = reader.ReadImage();
                 }
                 return image;
             }
@@ -314,6 +310,11 @@ namespace Subtext.Framework.Data
         public override bool DeleteImage(int imageId)
         {
             return _procedures.DeleteImage(BlogId, imageId);
+        }
+
+        private static LinkCategory ReadLinkCategory(IDataReader reader)
+        {
+            return !reader.Read() ? null : reader.ReadLinkCategory();
         }
     }
 }

@@ -44,6 +44,11 @@ namespace Subtext.Framework.Routing
             return Url.AdminUrl("ImportExport.aspx");
         }
 
+        public VirtualPath Export(bool embedAttachments)
+        {
+            return Url.GetVirtualPath("export", new { embed = embedAttachments });
+        }
+
         public VirtualPath PostsList()
         {
             return Url.AdminUrl("posts");

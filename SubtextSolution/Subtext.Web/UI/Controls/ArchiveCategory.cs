@@ -1,6 +1,7 @@
 using System;
+using System.Linq;
 using System.Web.UI.WebControls;
-using Subtext.Framework;
+using Subtext.Framework.Data;
 using Subtext.Framework.Util;
 
 #region Disclaimer/Info
@@ -37,7 +38,7 @@ namespace Subtext.Web.UI.Controls
             int? categoryId = SubtextContext.RequestContext.GetIdFromRequest();
             if(categoryId != null)
             {
-                Days.Days = Repository.GetPostsByCategoryID(Blog.ItemCount, categoryId.Value);
+                Days.Days = Repository.GetBlogPostsByCategoryGroupedByDay(Blog.ItemCount, categoryId.Value).ToList();
             }
         }
     }

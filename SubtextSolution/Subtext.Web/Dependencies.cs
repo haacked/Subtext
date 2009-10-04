@@ -31,6 +31,7 @@ using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.ImportExport;
 using Subtext.Infrastructure;
 
 namespace Subtext
@@ -62,6 +63,8 @@ namespace Subtext
 
         private void LoadCoreDependencies()
         {
+            Bind<IBlogMLConverter>().To<SubtextBlogMLConverter>().InRequestScope();
+            Bind<IBlogMLSource>().To<SubtextBlogMLSource>().InRequestScope();
             Bind<IEntryPublisher>().To<EntryPublisher>().InRequestScope();
             Bind<FriendlyUrlSettings>().ToMethod(context => FriendlyUrlSettings.Settings).InRequestScope();
             Bind<ISubtextPageBuilder>().To<SubtextPageBuilder>().InSingletonScope();

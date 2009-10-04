@@ -37,7 +37,7 @@ namespace Subtext.Framework.Data
                 {
                     if (reader.Read())
                     {
-                        return reader.LoadObject<HostInfo>(hostInfo);
+                        return reader.ReadObject<HostInfo>(hostInfo);
                     }
                 }
             }
@@ -112,7 +112,7 @@ namespace Subtext.Framework.Data
             {
                 while (reader.Read())
                 {
-                    blogs.Add(DataHelper.LoadBlog(reader));
+                    blogs.Add(DataHelper.ReadBlog(reader));
                 }
             }
             return blogs;
@@ -142,7 +142,7 @@ namespace Subtext.Framework.Data
                 {
                     return null;
                 }
-                return reader.LoadObject<HostStats>();
+                return reader.ReadObject<HostStats>();
             }
         }
 
@@ -153,7 +153,7 @@ namespace Subtext.Framework.Data
             {
                 while (reader.Read())
                 {
-                    entries.Add(reader.LoadEntry(new Entry(PostType.BlogPost), false /* buildLinks */, true /* includeBlog */));
+                    entries.Add(reader.ReadEntry(new Entry(PostType.BlogPost), false /* buildLinks */, true /* includeBlog */));
                 }
             }
             return entries;
@@ -166,7 +166,7 @@ namespace Subtext.Framework.Data
             {
                 while (reader.Read())
                 {
-                    images.Add(reader.LoadImage(true /* includeBlog */, true/* includeCategory */));
+                    images.Add(reader.ReadImage(true /* includeBlog */, true/* includeCategory */));
                 }
             }
             return images;

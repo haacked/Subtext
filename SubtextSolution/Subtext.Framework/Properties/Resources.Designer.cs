@@ -88,6 +88,15 @@ namespace Subtext.Framework.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot convert a comment of type &apos;{0}&apos; to &apos;{1}&apos;.
+        /// </summary>
+        public static string ArgumentException_CommentTypeMismatch {
+            get {
+                return ResourceManager.GetString("ArgumentException_CommentTypeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to We will not shorten a URL to less than 5 characters. Come on now!.
         /// </summary>
         public static string ArgumentException_TooShortUrl {

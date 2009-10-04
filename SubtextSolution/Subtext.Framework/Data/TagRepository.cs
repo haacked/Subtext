@@ -12,7 +12,7 @@ namespace Subtext.Framework.Data
         {
             using (IDataReader reader = _procedures.GetTopTags(itemCount, BlogId))
             {
-                IDictionary<string, int> tags = DataHelper.LoadTags(reader);
+                IDictionary<string, int> tags = DataHelper.ReadTags(reader);
                 return tags;
             }
         }

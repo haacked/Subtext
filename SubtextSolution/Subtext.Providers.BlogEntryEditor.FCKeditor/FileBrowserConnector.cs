@@ -460,13 +460,13 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             IPagedCollection<EntryStatsView> posts;
             if(currentFolder.Equals("/"))
             {
-                posts = Repository.GetPagedEntries(PostType.BlogPost, -1, 0, 1000);
+                posts = Repository.GetEntries(PostType.BlogPost, -1, 0, 1000);
             }
             else
             {
                 string categoryName = currentFolder.Substring(1, currentFolder.Length - 2);
                 LinkCategory cat = ObjectProvider.Instance().GetLinkCategory(categoryName, false);
-                posts = Repository.GetPagedEntries(PostType.BlogPost, cat.Id, 0, 1000);
+                posts = Repository.GetEntries(PostType.BlogPost, cat.Id, 0, 1000);
             }
 
             // Create the "Files" node.

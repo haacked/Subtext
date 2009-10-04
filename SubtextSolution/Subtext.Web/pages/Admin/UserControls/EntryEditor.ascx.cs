@@ -224,7 +224,7 @@ namespace Subtext.Web.Admin.UserControls
                 cklCategories.Items[i].Selected = false;
             }
 
-            ICollection<Link> postCategories = Repository.GetLinkCollectionByPostID(PostId.Value);
+            ICollection<Link> postCategories = Repository.GetLinkCollectionByPostId(PostId.Value);
             if(postCategories.Count > 0)
             {
                 foreach(Link postCategory in postCategories)

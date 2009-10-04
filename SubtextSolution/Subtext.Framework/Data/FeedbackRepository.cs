@@ -22,7 +22,7 @@ namespace Subtext.Framework.Data
             {
                 if (reader.Read())
                 {
-                    return DataHelper.LoadFeedbackItem(reader);
+                    return DataHelper.ReadFeedbackItem(reader);
                 }
             }
             return null;
@@ -55,7 +55,7 @@ namespace Subtext.Framework.Data
             int? excludeStatus = (excludeStatusMask == FeedbackStatusFlag.None ? null : (int?)excludeStatusMask);
             using (IDataReader reader = _procedures.GetPageableFeedback(BlogId, pageIndex, pageSize, (int)status, excludeStatus, feedbackType))
             {
-                return reader.GetPagedCollection(r => DataHelper.LoadFeedbackItem(reader));
+                return reader.ReadPagedCollection(r => DataHelper.ReadFeedbackItem(reader));
             }
         }
 
@@ -72,7 +72,7 @@ namespace Subtext.Framework.Data
                 while (reader.Read())
                 {
                     //Don't build links.
-                    FeedbackItem feedbackItem = DataHelper.LoadFeedbackItem(reader, parentEntry);
+                    FeedbackItem feedbackItem = DataHelper.ReadFeedbackItem(reader, parentEntry);
                     ec.Add(feedbackItem);
                 }
                 return ec;
@@ -92,7 +92,7 @@ namespace Subtext.Framework.Data
             {
                 if (reader.Read())
                 {
-                    return DataHelper.LoadFeedbackItem(reader);
+                    return DataHelper.ReadFeedbackItem(reader);
                 }
                 return null;
             }

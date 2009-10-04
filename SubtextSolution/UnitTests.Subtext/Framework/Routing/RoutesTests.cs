@@ -244,5 +244,24 @@ namespace UnitTests.Subtext.Framework.Routing
             //assert.
             Assert.IsNotNull(routeData);
         }
+
+        [Test]
+        public void GetRouteData_ForRequestForExportController_Matches()
+        {
+            //arrange
+            var routes = new RouteCollection();
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
+            Routes.RegisterRoutes(subtextRoutes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/admin/export.ashx", "");
+
+            //act
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
+
+            //assert.
+            Assert.IsNotNull(routeData);
+            Assert.AreEqual("export", routeData.Values["controller"]);
+            Assert.AreEqual("blogml", routeData.Values["action"]);
+        }
     }
 }

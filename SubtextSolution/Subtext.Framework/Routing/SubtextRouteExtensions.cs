@@ -163,6 +163,11 @@ namespace Subtext.Framework.Routing
         {
             routes.Add(routeName, new ImageRoute(url));
         }
+        
+        public static void MapRoute(this SubtextRouteMapper routes, string routeName, string url, object defaults)
+        {
+            routes.MapRoute(routeName, url, defaults, null);
+        }
 
         public static void MapRoute(this SubtextRouteMapper routes, string routeName, string url, object defaults,
                                     object constraints)

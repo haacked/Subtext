@@ -33,7 +33,7 @@ namespace Subtext.Framework
 
         public static ICollection<LinkCategory> GetLinkCategoriesByPostID(int postId)
         {
-            var links = new List<Link>(ObjectProvider.Instance().GetLinkCollectionByPostID(postId));
+            var links = new List<Link>(ObjectProvider.Instance().GetLinkCollectionByPostId(postId));
             ICollection<LinkCategory> postCategories =
                 ObjectProvider.Instance().GetCategories(CategoryType.PostCollection, true /* activeOnly */);
             var categories = new LinkCategory[postCategories.Count];

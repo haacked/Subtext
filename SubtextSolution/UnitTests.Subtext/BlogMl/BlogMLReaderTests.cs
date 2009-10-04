@@ -3,8 +3,6 @@ using System.IO;
 using MbUnit.Framework;
 using Moq;
 using Subtext.BlogML;
-using Subtext.BlogML.Conversion;
-using Subtext.BlogML.Interfaces;
 
 namespace UnitTests.Subtext.BlogML
 {
@@ -22,7 +20,7 @@ namespace UnitTests.Subtext.BlogML
         public void ReadBlogWithNullStreamThrowsException()
         {
             // arrange
-            var provider = new Mock<IBlogMLProvider>();
+            var provider = new Mock<BlogMLProvider>();
             BlogMLReader reader = BlogMLReader.Create(provider.Object);
 
             // act, assert
@@ -32,7 +30,7 @@ namespace UnitTests.Subtext.BlogML
         [Test]
         public void CanCreateReaderWithProvider()
         {
-            var provider = new Mock<IBlogMLProvider>();
+            var provider = new Mock<BlogMLProvider>();
             BlogMLReader.Create(provider.Object);
         }
 
@@ -40,11 +38,10 @@ namespace UnitTests.Subtext.BlogML
         public void ImportCallsPreAndCompleteMethods()
         {
             // arrange
-            var provider = new Mock<IBlogMLProvider>();
+            var provider = new Mock<BlogMLProvider>();
             bool preImportCalled = false;
             bool importCompleteCalled = false;
             provider.Setup(p => p.PreImport()).Callback(() => preImportCalled = true);
-            provider.Setup(p => p.IdConversion).Returns(IdConversionStrategy.Empty);
             provider.Setup(p => p.ImportComplete()).Callback(() => importCompleteCalled = true);
             BlogMLReader reader = BlogMLReader.Create(provider.Object);
 

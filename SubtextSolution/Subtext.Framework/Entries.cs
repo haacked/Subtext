@@ -18,6 +18,7 @@
 using System.Collections.Generic;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 
@@ -31,7 +32,7 @@ namespace Subtext.Framework
     {
         public static void RebuildAllTags(this ObjectProvider repository)
         {
-            foreach(var day in repository.GetBlogPosts(0, PostConfig.None))
+            foreach(var day in repository.GetBlogPostsForHomePage(0, PostConfig.None))
             {
                 foreach(var entry in day)
                 {

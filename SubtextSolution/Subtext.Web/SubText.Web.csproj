@@ -132,6 +132,7 @@
     <Compile Include="..\VersionInfo.Designer.cs">
       <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
+    <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Dependencies.cs" />
     <Compile Include="Controllers\CommentApiController.cs" />
@@ -2382,10 +2383,6 @@
     <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
       <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
       <Name>Subtext.Akismet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
-      <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
-      <Name>Subtext.BlogML</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>

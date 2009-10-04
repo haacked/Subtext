@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -56,7 +73,7 @@ namespace Subtext.Framework.UI.Skinning
             return allTemplates;
         }
 
-        private IEnumerable<SkinTemplate> GetSkinTemplatesFromDir(VirtualDirectory virtualDirectory)
+        private IEnumerable<SkinTemplate> GetSkinTemplatesFromDir(VirtualFileBase virtualDirectory)
         {
             string skinConfigPath = RootSkinsVirtualPath + "/" + virtualDirectory.Name + "/skin.config";
 
@@ -66,13 +83,10 @@ namespace Subtext.Framework.UI.Skinning
                 deserializedTemplates.ForEach(t => t.TemplateFolder = virtualDirectory.Name);
                 return deserializedTemplates;
             }
-            else
-            {
-                return new[] {new SkinTemplate {Name = virtualDirectory.Name, TemplateFolder = virtualDirectory.Name}};
-            }
+            return new[] {new SkinTemplate {Name = virtualDirectory.Name, TemplateFolder = virtualDirectory.Name}};
         }
 
-        private IEnumerable<SkinTemplate> GetSkinTemplates(VirtualPathProvider virtualPathProvider, string path)
+        private static IEnumerable<SkinTemplate> GetSkinTemplates(VirtualPathProvider virtualPathProvider, string path)
         {
             VirtualFile virtualConfigFile = virtualPathProvider.GetFile(path);
 

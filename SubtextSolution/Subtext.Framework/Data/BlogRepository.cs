@@ -20,7 +20,7 @@ namespace Subtext.Framework.Data
             {
                 if (reader.Read())
                 {
-                    Blog info = DataHelper.LoadBlog(reader);
+                    Blog info = DataHelper.ReadBlog(reader);
                     return info;
                 }
             }
@@ -46,7 +46,7 @@ namespace Subtext.Framework.Data
                 Blog info = null;
                 while (reader.Read())
                 {
-                    info = DataHelper.LoadBlog(reader);
+                    info = DataHelper.ReadBlog(reader);
                     break;
                 }
                 return info;
@@ -60,7 +60,7 @@ namespace Subtext.Framework.Data
             {
                 if (reader.Read())
                 {
-                    alias = reader.LoadObject<BlogAlias>();
+                    alias = reader.ReadObject<BlogAlias>();
                 }
                 reader.Close();
             }
@@ -72,7 +72,7 @@ namespace Subtext.Framework.Data
             using (IDataReader reader = _procedures.GetBlogByDomainAlias(host, subfolder, strict))
             {
                 if (reader.Read()) {
-                    return DataHelper.LoadBlog(reader);
+                    return DataHelper.ReadBlog(reader);
                 }
             }
             return null;
@@ -83,7 +83,7 @@ namespace Subtext.Framework.Data
             BlogStatistics stats = null;
             using (IDataReader reader = _procedures.GetBlogStats(blogId)) {
                 if (reader.Read()) {
-                    stats = reader.LoadObject<BlogStatistics>();
+                    stats = reader.ReadObject<BlogStatistics>();
                 }
             }
             return stats;
@@ -101,7 +101,7 @@ namespace Subtext.Framework.Data
         {
             using (IDataReader reader = _procedures.GetPagedBlogs(host, pageIndex, pageSize, flags))
             {
-                return reader.GetPagedCollection(r => DataHelper.LoadBlog(r));
+                return reader.ReadPagedCollection(r => DataHelper.ReadBlog(r));
             }
         }
 
@@ -109,7 +109,7 @@ namespace Subtext.Framework.Data
         {
             using (IDataReader reader = _procedures.GetPageableDomainAliases(pageIndex, pageSize, blog.Id))
             {
-                return reader.GetPagedCollection(r => r.LoadObject<BlogAlias>());
+                return reader.ReadPagedCollection(r => r.ReadObject<BlogAlias>());
             }
         }
 
@@ -253,7 +253,7 @@ namespace Subtext.Framework.Data
                 if (!reader.Read())
                     return null;
 
-                group = reader.LoadObject<BlogGroup>();
+                group = reader.ReadObject<BlogGroup>();
             }
 
             if (group != null)
@@ -283,7 +283,7 @@ namespace Subtext.Framework.Data
                 List<BlogGroup> groups = new List<BlogGroup>();
                 while (reader.Read())
                 {
-                    groups.Add(reader.LoadObject<BlogGroup>());
+                    groups.Add(reader.ReadObject<BlogGroup>());
                 }
                 return groups;
             }
@@ -294,7 +294,7 @@ namespace Subtext.Framework.Data
             using (IDataReader reader = _procedures.GetTopEntries(blogId, rowCount)) {
                     
                 while (reader.Read()) {
-                    entries.Add(reader.LoadObject<EntrySummary>());
+                    entries.Add(reader.ReadObject<EntrySummary>());
                 }
             }
             return entries;
@@ -307,7 +307,7 @@ namespace Subtext.Framework.Data
 
                 while (reader.Read())
                 {
-                    entries.Add(reader.LoadObject<EntrySummary>());
+                    entries.Add(reader.ReadObject<EntrySummary>());
                 }
             }
             return entries;

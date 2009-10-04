@@ -1,4 +1,5 @@
 #region Disclaimer/Info
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -11,13 +12,16 @@
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endregion
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.UI;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -32,9 +36,9 @@ namespace Subtext.Web.UI.Controls
             HomePageDays.Days = GetHomePageEntries(Blog.ItemCount);
         }
 
-        private ICollection<EntryDay> GetHomePageEntries(int itemCount)
+        private IList<EntryDay> GetHomePageEntries(int itemCount)
         {
-            return Repository.GetBlogPosts(itemCount, PostConfig.DisplayOnHomepage | PostConfig.IsActive);
+            return Repository.GetBlogPostsForHomePage(itemCount, PostConfig.DisplayOnHomepage | PostConfig.IsActive).ToList();
         }
     }
 }

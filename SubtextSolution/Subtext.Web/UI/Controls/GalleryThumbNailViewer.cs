@@ -38,7 +38,7 @@ namespace Subtext.Web.UI.Controls
             {
                 int? categoryId = SubtextContext.RequestContext.GetIdFromRequest();
 
-                ImageCollection ic = Repository.GetImagesByCategoryID(categoryId.Value, true /* activeOnly */);
+                ImageCollection ic = Repository.GetImagesByCategoryId(categoryId.Value, true /* activeOnly */);
                 if(ic != null)
                 {
                     GalleryTitle.Text = ic.Category.Title;

@@ -28,16 +28,14 @@ using Subtext.Framework.Configuration;
 namespace Subtext.Framework.Providers
 {
     /// <summary>
-    /// Provides a Data Object Source for interacting with Subtext Data.  One example 
-    /// is a DataObjectProvider, which stores Subtext data in a database (which itself is 
-    /// provided via the <see cref="DbProvider"/> class).
+    /// This is the API for interacting with the data in Subtext. This is essentially the repository.
     /// </summary>
     public abstract class ObjectProvider : ProviderBase
     {
         private static readonly GenericProviderCollection<ObjectProvider> providers =
-            ProviderConfigurationHelper.LoadProviderCollection("ObjectProvider", out provider);
+            ProviderConfigurationHelper.LoadProviderCollection("ObjectProvider", out _provider);
 
-        private static ObjectProvider provider;
+        private static ObjectProvider _provider;
 
         /// <summary>
         /// Returns all the configured ObjectProvider.
@@ -53,7 +51,7 @@ namespace Subtext.Framework.Providers
         /// <returns></returns>
         public static ObjectProvider Instance()
         {
-            return provider;
+            return _provider;
         }
 
         public abstract void ClearBlogContent(int blogId);
@@ -131,18 +129,6 @@ namespace Subtext.Framework.Providers
         public abstract bool DeleteBlogAlias(BlogAlias alias);
 
         /// <summary>
-        /// Returns a pageable collection of entries ordered by the id descending.
-        /// This is used in the admin section.
-        /// </summary>
-        /// <param name="postType">Type of the post.</param>
-        /// <param name="categoryID">The category ID.</param>
-        /// <param name="pageIndex">Index of the page.</param>
-        /// <param name="pageSize">Size of the page.</param>
-        /// <returns></returns>
-        public abstract IPagedCollection<EntryStatsView> GetPagedEntries(PostType postType, int? categoryID,
-                                                                         int pageIndex, int pageSize);
-
-        /// <summary>
         /// Gets the paged feedback.
         /// </summary>
         /// <param name="pageIndex">Index of the page.</param>
@@ -158,16 +144,6 @@ namespace Subtext.Framework.Providers
 
 
         public abstract EntryDay GetEntryDay(DateTime dt);
-        public abstract ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
-
-        /// <summary>
-        /// Gets entries within the system that meet the 
-        /// <see cref="PostConfig"/> flags.
-        /// </summary>
-        /// <param name="itemCount">Item count.</param>
-        /// <param name="pc">Pc.</param>
-        /// <returns></returns>
-        public abstract ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc);
 
         /// <summary>
         /// Returns the previous and next entry to the specified entry.
@@ -178,6 +154,17 @@ namespace Subtext.Framework.Providers
         public abstract ICollection<Entry> GetPreviousAndNextEntries(int entryId, PostType postType);
 
         /// <summary>
+        /// Returns a pageable collection of entries ordered by the id descending.
+        /// This is used in the admin section.
+        /// </summary>
+        /// <param name="postType">Type of the post.</param>
+        /// <param name="categoryId">The category ID.</param>
+        /// <param name="pageIndex">Index of the page.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <returns></returns>
+        public abstract IPagedCollection<EntryStatsView> GetEntries(PostType postType, int? categoryId, int pageIndex, int pageSize);
+
+        /// <summary>
         /// Gets the entries that meet the <see cref="PostType"/> and 
         /// <see cref="PostConfig"/> flags.
         /// </summary>
@@ -186,8 +173,12 @@ namespace Subtext.Framework.Providers
         /// <param name="postConfig">Post Configuration options.</param>
         /// <param name="includeCategories">Whether or not to include categories</param>
         /// <returns></returns>
-        public abstract ICollection<Entry> GetEntries(int itemCount, PostType postType, PostConfig postConfig,
-                                                      bool includeCategories);
+        public abstract ICollection<Entry> GetEntries(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories);
+        public abstract ICollection<Entry> GetEntriesByCategory(int itemCount, int categoryId, bool activeOnly);
+        public abstract ICollection<Entry> GetEntriesByTag(int itemCount, string tagName);
+        public abstract ICollection<Entry> GetPostsByMonth(int month, int year);
+        public abstract ICollection<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
+        public abstract IPagedCollection<EntryStatsView> GetEntriesForExport(int pageIndex, int pageSize);
 
         public abstract ICollection<EntryStatsView> GetPopularEntries(int blogId, DateFilter filter);
 
@@ -214,14 +205,6 @@ namespace Subtext.Framework.Providers
         /// <param name="deleted">The deleted.</param>
         public abstract void GetFeedbackCounts(out int approved, out int needsModeration, out int flaggedAsSpam,
                                                out int deleted);
-
-        public abstract ICollection<Entry> GetPostsByMonth(int month, int year);
-
-        public abstract ICollection<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType,
-                                                              bool activeOnly);
-
-        public abstract ICollection<Entry> GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly);
-        public abstract ICollection<Entry> GetEntriesByTag(int itemCount, string tagName);
 
         /// <summary>
         /// Searches the data store for the first comment with a 
@@ -320,12 +303,12 @@ namespace Subtext.Framework.Providers
         /// <returns></returns>
         public abstract bool SetEntryTagList(int entryId, IEnumerable<string> tags);
 
-        public abstract IPagedCollection<Link> GetPagedLinks(int? categoryTypeID, int pageIndex, int pageSize,
+        public abstract IPagedCollection<Link> GetPagedLinks(int? categoryTypeId, int pageIndex, int pageSize,
                                                              bool sortDescending);
 
-        public abstract ICollection<Link> GetLinkCollectionByPostID(int PostID);
-        public abstract Link GetLink(int linkID);
-        public abstract ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly);
+        public abstract ICollection<Link> GetLinkCollectionByPostId(int postId);
+        public abstract Link GetLink(int linkId);
+        public abstract ICollection<LinkCategory> GetCategories(CategoryType categoryType, bool activeOnly);
         public abstract ICollection<LinkCategory> GetActiveCategories();
 
         /// <summary>
@@ -346,10 +329,10 @@ namespace Subtext.Framework.Providers
 
         public abstract bool UpdateLink(Link link);
         public abstract int CreateLink(Link link);
-        public abstract bool UpdateLinkCategory(LinkCategory lc);
-        public abstract int CreateLinkCategory(LinkCategory lc);
-        public abstract bool DeleteLinkCategory(int CategoryID);
-        public abstract bool DeleteLink(int LinkID);
+        public abstract bool UpdateLinkCategory(LinkCategory linkCategory);
+        public abstract int CreateLinkCategory(LinkCategory linkCategory);
+        public abstract bool DeleteLinkCategory(int categoryId);
+        public abstract bool DeleteLink(int linkId);
 
         public abstract IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId);
         public abstract bool TrackEntry(EntryView ev);
@@ -407,12 +390,12 @@ namespace Subtext.Framework.Providers
         /// <summary>
         /// Gets the top tags from the database sorted by tag name.
         /// </summary>
-        /// <param name="ItemCount">The number of tags to return.</param>
+        /// <param name="itemCount">The number of tags to return.</param>
         /// <returns>
         /// A sorted dictionary with the tag name as key and entry count
         /// as value.
         /// </returns>
-        public abstract IDictionary<string, int> GetTopTags(int ItemCount);
+        public abstract IDictionary<string, int> GetTopTags(int itemCount);
 
         /// <summary>
         /// Adds the given MetaTag to the data store.
@@ -437,7 +420,6 @@ namespace Subtext.Framework.Providers
         /// <summary>
         /// Gets a collection of MetaTags for the given Entry
         /// </summary>
-        /// <param name="entry"></param>
         /// <returns></returns>
         public abstract IPagedCollection<MetaTag> GetMetaTagsForEntry(Entry entry, int pageIndex, int pageSize);
 
@@ -458,18 +440,18 @@ namespace Subtext.Framework.Providers
         public abstract bool Update(Enclosure metaTag);
         public abstract bool DeleteEnclosure(int enclosureId);
 
-        public abstract KeyWord GetKeyWord(int KeyWordID);
+        public abstract KeyWord GetKeyWord(int id);
         public abstract ICollection<KeyWord> GetKeyWords();
         public abstract IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize);
         public abstract bool UpdateKeyWord(KeyWord keyWord);
         public abstract int InsertKeyWord(KeyWord keyWord);
         public abstract bool DeleteKeyWord(int id);
 
-        public abstract ImageCollection GetImagesByCategoryID(int catID, bool activeOnly);
-        public abstract Image GetImage(int imageID, bool activeOnly);
+        public abstract ImageCollection GetImagesByCategoryId(int categoryId, bool activeOnly);
+        public abstract Image GetImage(int imageId, bool activeOnly);
         public abstract int InsertImage(Image image);
         public abstract bool UpdateImage(Image image);
-        public abstract bool DeleteImage(int ImageID);
+        public abstract bool DeleteImage(int imageId);
 
         public abstract ICollection<ArchiveCount> GetPostCountsByYear();
         public abstract ICollection<ArchiveCount> GetPostCountsByMonth();

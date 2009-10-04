@@ -22,8 +22,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 
@@ -40,503 +42,31 @@ namespace Subtext.Framework.Data
     /// </summary>
     public static class DataHelper
     {
-        public static DateTime? NullIfEmpty(this DateTime dateTime)
+        public static IEnumerable<T> ReadEnumerable<T>(this IDataReader reader, Func<IDataReader, T> map)
         {
-            if(NullValue.IsNull(dateTime))
-            {
-                return null;
-            }
-            return dateTime;
-        }
-
-        public static Referrer LoadReferrer(IDataReader reader, Blog blog)
-        {
-            var refer = reader.LoadObject<Referrer>();
-            refer.BlogId = blog.Id;
-            return refer;
-        }
-
-        private static bool IsNewDay(DateTime dtCurrent, DateTime dtDay)
-        {
-            return !(dtCurrent.DayOfYear == dtDay.DayOfYear && dtCurrent.Year == dtDay.Year);
-        }
-
-        public static ICollection<EntryDay> LoadEntryDayCollection(IDataReader reader)
-        {
-            var dt = new DateTime(1900, 1, 1);
-            var edc = new List<EntryDay>();
-            EntryDay day = null;
-
             while(reader.Read())
             {
-                var dateCreated = (DateTime)reader["DateCreated"];
-                if(IsNewDay(dt, dateCreated))
-                {
-                    dt = dateCreated;
-                    day = new EntryDay(dateCreated);
-                    edc.Add(day);
-                }
-                day.Add(LoadEntry(reader));
+                yield return map(reader);
             }
-            return edc;
         }
 
-        internal static ICollection<Entry> LoadEntryCollectionFromDataReader(this IDataReader reader)
+        public static IPagedCollection<T> ReadPagedCollection<T>(this IDataReader reader, Func<IDataReader, T> map)
         {
-            return reader.LoadEntryCollectionFromDataReader(true /* buildLinks */);
-        }
-
-        internal static ICollection<Entry> LoadEntryCollectionFromDataReader(this IDataReader reader, bool buildLinks)
-        {
-            var entries = new Dictionary<int, Entry>();
-            while(reader.Read())
-            {
-                Entry entry = reader.LoadEntry(buildLinks);
-                entries.Add(entry.Id, entry);
-            }
-
-            if(entries.Count > 0 && reader.NextResult())
-            {
-                //Categories...
-                while(reader.Read())
-                {
-                    int entryId = ReadInt32(reader, "Id");
-                    string categoryTitle = ReadString(reader, "Title");
-                    Entry entry;
-                    if(entries.TryGetValue(entryId, out entry))
-                    {
-                        entry.Categories.Add(categoryTitle);
-                    }
-                }
-            }
-            return entries.Values;
-        }
-
-        //Crappy. Need to clean up all of the entry references
-        public static EntryStatsView LoadEntryStatsView(this IDataReader reader)
-        {
-            var entry = new EntryStatsView();
-
-            entry.PostType = ((PostType)ReadInt32(reader, "PostType"));
-            entry.WebCount = reader.ReadInt32("WebCount", 0);
-            entry.AggCount = reader.ReadInt32("AggCount", 0);
-            entry.WebLastUpdated = reader.ReadDate("WebLastUpdated");
-            entry.AggLastUpdated = reader.ReadDate("AggLastUpdated");
-            entry.Author = reader.ReadString("Author");
-            entry.Email = reader.ReadString("Email");
-            entry.DateCreated = reader.ReadDate("DateCreated");
-            entry.DateModified = reader.ReadDate("DateUpdated");
-            entry.Id = reader.ReadInt32("ID");
-            entry.Description = reader.ReadString("Description");
-            entry.EntryName = reader.ReadString("EntryName");
-            entry.FeedBackCount = reader.ReadInt32("FeedBackCount");
-            entry.Body = reader.ReadString("Text");
-            entry.Title = reader.ReadString("Title");
-            entry.PostConfig = (PostConfig)(reader.ReadInt32("PostConfig"));
-            entry.DateSyndicated = reader.ReadDate("DateSyndicated");
-
-            return entry;
-        }
-
-        public static Entry LoadEntry(this IDataReader reader)
-        {
-            return LoadEntry(reader, true);
-        }
-
-        /// <summary>
-        /// Only use this when loading a SINGLE entry from a reader.
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
-        public static Entry LoadEntryWithCategories(IDataReader reader)
-        {
-            Entry entry = LoadEntry(reader);
-            if(reader.NextResult())
-            {
-                while(reader.Read())
-                {
-                    string categoryTitle = ReadString(reader, "Title");
-                    if(!entry.Categories.Contains(categoryTitle))
-                    {
-                        entry.Categories.Add(categoryTitle);
-                    }
-                }
-            }
-            return entry;
-        }
-
-        internal static FeedbackItem LoadFeedbackItem(this IDataReader reader, Entry entry)
-        {
-            var feedbackItem = new FeedbackItem((FeedbackType)ReadInt32(reader, "FeedbackType"));
-            LoadFeedbackItem(reader, feedbackItem);
-            feedbackItem.Entry = entry;
-            return feedbackItem;
-        }
-
-        internal static FeedbackItem LoadFeedbackItem(this IDataReader reader)
-        {
-            var feedbackItem = new FeedbackItem((FeedbackType)ReadInt32(reader, "FeedbackType"));
-            LoadFeedbackItem(reader, feedbackItem);
-            return feedbackItem;
-        }
-
-        private static void LoadFeedbackItem(this IDataReader reader, FeedbackItem feedbackItem)
-        {
-            feedbackItem.Id = ReadInt32(reader, "Id");
-            feedbackItem.Title = ReadString(reader, "Title");
-            feedbackItem.Body = ReadString(reader, "Body");
-            feedbackItem.EntryId = ReadInt32(reader, "EntryId");
-            feedbackItem.Author = ReadString(reader, "Author") ?? string.Empty;
-            feedbackItem.IsBlogAuthor = ReadBoolean(reader, "IsBlogAuthor");
-            feedbackItem.Email = ReadString(reader, "Email");
-            feedbackItem.SourceUrl = ReadUri(reader, "Url");
-            feedbackItem.FeedbackType = (FeedbackType)ReadInt32(reader, "FeedbackType");
-            feedbackItem.Status = (FeedbackStatusFlag)ReadInt32(reader, "StatusFlag");
-            feedbackItem.CreatedViaCommentAPI = ReadBoolean(reader, "CommentAPI");
-            feedbackItem.Referrer = ReadString(reader, "Referrer");
-            feedbackItem.IpAddress = ReadIpAddress(reader, "IpAddress");
-            feedbackItem.UserAgent = ReadString(reader, "UserAgent");
-            feedbackItem.ChecksumHash = ReadString(reader, "FeedbackChecksumHash");
-
-            feedbackItem.DateCreated = ReadDate(reader, "DateCreated");
-            feedbackItem.DateModified = ReadDate(reader, "DateModified");
-            feedbackItem.ParentEntryName = ReadString(reader, "ParentEntryName");
-            feedbackItem.ParentDateCreated = ReadDate(reader, "ParentEntryCreateDate");
-        }
-
-        public static Entry LoadEntry(this IDataReader reader, bool buildLinks)
-        {
-            var entry = new Entry((PostType)ReadInt32(reader, "PostType"));
-            LoadEntry(reader, entry, buildLinks);
-            return entry;
-        }
-
-        public static Entry LoadEntry(this IDataReader reader, Entry entry, bool buildLinks)
-        {
-            return LoadEntry(reader, entry, buildLinks, false);
-        }
-
-        public static Entry LoadEntry(this IDataReader reader, Entry entry, bool buildLinks, bool includeBlog)
-        {
-            entry.Author = ReadString(reader, "Author");
-            entry.Email = ReadString(reader, "Email");
-            entry.DateCreated = ReadDate(reader, "DateCreated");
-            entry.DateModified = ReadDate(reader, "DateUpdated");
-
-            entry.Id = ReadInt32(reader, "ID");
-            entry.Description = ReadString(reader, "Description");
-            entry.EntryName = ReadString(reader, "EntryName");
-
-            entry.FeedBackCount = ReadInt32(reader, "FeedBackCount", 0);
-            entry.Body = ReadString(reader, "Text");
-            entry.Title = ReadString(reader, "Title");
-            entry.PostConfig = (PostConfig)(ReadInt32(reader, "PostConfig", (int)PostConfig.None));
-            entry.DateSyndicated = ReadDate(reader, "DateSyndicated");
-
-            bool withEnclosure = ReadBoolean(reader, "EnclosureEnabled");
-            if(withEnclosure)
-            {
-                entry.Enclosure = LoadEnclosure(reader);
-            }
-
-            if(includeBlog)
-            {
-                entry.Blog = LoadBlog(reader);
-            }
-            return entry;
-        }
-
-        internal static int GetMaxItems(IDataReader reader)
-        {
+            var collection = new PagedCollection<T>(reader.ReadEnumerable(map).ToList());
+            reader.NextResult();
             reader.Read();
-            return ReadInt32(reader, "TotalRecords");
+            collection.MaxItems = reader.ReadValue<int>("TotalRecords");
+            return collection;
         }
 
-        public static LinkCategory LoadLinkCategory(this IDataReader reader)
-        {
-            var lc = new LinkCategory(reader.ReadInt32("CategoryID"), reader.ReadString("Title"));
-            lc.IsActive = (bool)reader["Active"];
-            if(reader["CategoryType"] != DBNull.Value)
-            {
-                lc.CategoryType = (CategoryType)((byte)reader["CategoryType"]);
-            }
-            if(reader["Description"] != DBNull.Value)
-            {
-                lc.Description = reader.ReadString("Description");
-            }
-            if(reader["BlogId"] != DBNull.Value)
-            {
-                lc.BlogId = reader.ReadInt32("BlogId");
-            }
-            else
-            {
-                lc.BlogId = Config.CurrentBlog.Id;
-            }
-            return lc;
-        }
-
-        public static Blog LoadBlog(this IDataReader reader)
-        {
-            return reader.LoadBlog(string.Empty);
-        }
-
-        public static Blog LoadBlog(this IDataReader reader, string prefix)
-        {
-            var info = new Blog();
-            info.Author = reader.ReadString(prefix + "Author");
-            info.Id = reader.ReadInt32(prefix + "BlogId");
-            info.Email = reader.ReadString(prefix + "Email");
-            info.Password = reader.ReadString(prefix + "Password");
-            info.OpenIDUrl = reader.ReadString(prefix + "OpenIDUrl");
-            info.CardSpaceHash = reader.ReadString(prefix + "CardSpaceHash");
-
-            info.SubTitle = reader.ReadString(prefix + "SubTitle");
-            info.Title = reader.ReadString(prefix + "Title");
-            info.UserName = reader.ReadString(prefix + "UserName");
-            info.TimeZoneId = reader.ReadString(prefix + "TimeZoneId");
-            info.ItemCount = reader.ReadInt32(prefix + "ItemCount");
-            info.CategoryListPostCount = reader.ReadInt32(prefix + "CategoryListPostCount");
-            info.Language = reader.ReadString(prefix + "Language");
-
-            info.PostCount = reader.ReadInt32(prefix + "PostCount");
-            info.CommentCount = reader.ReadInt32(prefix + "CommentCount");
-            info.StoryCount = reader.ReadInt32(prefix + "StoryCount");
-            info.PingTrackCount = reader.ReadInt32(prefix + "PingTrackCount");
-            info.News = reader.ReadString(prefix + "News");
-            info.TrackingCode = reader.ReadString(prefix + "TrackingCode");
-
-            info.LastUpdated = reader.ReadDate(prefix + "LastUpdated", new DateTime(2003, 1, 1));
-            info.Host = reader.ReadString(prefix + "Host");
-            // The Subfolder property is stored in the Application column. 
-            // This is a result of the legacy schema.
-            info.Subfolder = reader.ReadString(prefix + "Application");
-
-            info.Flag = (ConfigurationFlags)(reader.ReadInt32(prefix + "Flag"));
-
-            info.Skin = new SkinConfig();
-            info.Skin.TemplateFolder = reader.ReadString(prefix + "Skin");
-            info.Skin.SkinStyleSheet = reader.ReadString(prefix + "SkinCssFile");
-            info.Skin.CustomCssText = reader.ReadString(prefix + "SecondaryCss");
-            info.MobileSkin = new SkinConfig();
-            info.MobileSkin.TemplateFolder = reader.ReadString(prefix + "MobileSkin");
-            info.MobileSkin.SkinStyleSheet = reader.ReadString(prefix + "MobileSkinCssFile");
-
-            info.OpenIDUrl = reader.ReadString(prefix + "OpenIDUrl");
-            info.OpenIDServer = reader.ReadString(prefix + "OpenIDServer");
-            info.OpenIDDelegate = reader.ReadString(prefix + "OpenIDDelegate");
-            info.CardSpaceHash = reader.ReadString(prefix + "CardSpaceHash");
-
-            info.LicenseUrl = reader.ReadString(prefix + "LicenseUrl");
-
-            info.DaysTillCommentsClose = reader.ReadInt32(prefix + "DaysTillCommentsClose", int.MaxValue);
-            info.CommentDelayInMinutes = reader.ReadInt32(prefix + "CommentDelayInMinutes");
-            info.NumberOfRecentComments = reader.ReadInt32(prefix + "NumberOfRecentComments");
-            info.RecentCommentsLength = reader.ReadInt32(prefix + "RecentCommentsLength");
-            info.FeedbackSpamServiceKey = reader.ReadString(prefix + "AkismetAPIKey");
-            info.RssProxyUrl = reader.ReadString(prefix + "FeedBurnerName");
-
-            info.BlogGroupId = reader.ReadInt32(prefix + "BlogGroupId");
-            info.BlogGroupTitle = reader.ReadString(prefix + "BlogGroupTitle");
-            return info;
-        }
-
-        public static ICollection<ArchiveCount> LoadArchiveCount(IDataReader reader)
-        {
-            const string dateformat = "{0:00}/{1:00}/{2:0000}";
-            var acc = new Collection<ArchiveCount>();
-            while(reader.Read())
-            {
-                var ac = new ArchiveCount();
-                string dt = string.Format(CultureInfo.InvariantCulture,
-                                          dateformat,
-                                          ReadInt32(reader, "Month"),
-                                          ReadInt32(reader, "Day"),
-                                          ReadInt32(reader, "Year"));
-                // FIX: BUG SF1423271 Archives Links
-                DateTime parsedDate;
-                if(
-                    !DateTime.TryParseExact(dt, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal,
-                                            out parsedDate))
-                {
-                    break;
-                }
-
-                ac.Date = parsedDate;
-                ac.Count = ReadInt32(reader, "Count");
-                //TODO: This broke the unit tests: ac.Title = ReadString(reader, "Title");
-                //TODO: This broke the unit tests: ac.Id = ReadInt32(reader, "Id");
-                acc.Add(ac);
-            }
-            return acc;
-        }
-
-        public static Image LoadImage(this IDataReader reader)
-        {
-            return LoadImage(reader, false, false);
-        }
-
-        public static Image LoadImage(this IDataReader reader, bool includeBlog, bool includeCategory)
-        {
-            var image = reader.LoadObject<Image>("CategoryTitle", "LocalDirectoryPath");
-
-            if(includeBlog)
-            {
-                image.Blog = reader.LoadBlog("Blog.");
-            }
-            if(includeCategory)
-            {
-                image.CategoryTitle = reader.ReadString("Category.Title");
-            }
-            return image;
-        }
-
-        public static IDictionary<string, int> LoadTags(IDataReader reader)
-        {
-            var tags = new SortedDictionary<string, int>();
-            while(reader.Read())
-            {
-                tags.Add(
-                    ReadString(reader, "Name"),
-                    ReadInt32(reader, "TagCount"));
-            }
-            return tags;
-        }
-
-        /// <summary>
-        /// Reads the long from the data reader.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="columnName">Name of the column.</param>
-        /// <returns></returns>
-        public static long ReadInt64(this IDataReader reader, string columnName)
-        {
-            return ReadInt64(reader, columnName, 0);
-        }
-
-        /// <summary>
-        /// Reads the long from the data reader. If the value is null, 
-        /// returns the default value.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="columnName">Name of the column.</param>
-        /// <param name="defaultValue">devault value for the field</param>
-        /// <returns></returns>
-        public static long ReadInt64(this IDataReader reader, string columnName, long defaultValue)
-        {
-            try
-            {
-                if(reader[columnName] != DBNull.Value)
-                {
-                    return (long)reader[columnName];
-                }
-                else
-                {
-                    return defaultValue;
-                }
-            }
-            catch(IndexOutOfRangeException)
-            {
-                return defaultValue;
-            }
-        }
-
-        /// <summary>
-        /// Reads the int from the data reader.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="columnName">Name of the column.</param>
-        /// <returns></returns>
-        public static int ReadInt32(this IDataReader reader, string columnName)
-        {
-            return ReadInt32(reader, columnName, NullValue.NullInt32);
-        }
-
-        /// <summary>
-        /// Reads the int from the data reader. If the value is null, 
-        /// returns the default value.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="columnName">Name of the column.</param>
-        /// <param name="defaultValue">devault value for the field</param>
-        /// <returns></returns>
-        public static int ReadInt32(this IDataReader reader, string columnName, int defaultValue)
-        {
-            try
-            {
-                if(reader[columnName] != DBNull.Value)
-                {
-                    return (int)reader[columnName];
-                }
-                else
-                {
-                    return defaultValue;
-                }
-            }
-            catch(IndexOutOfRangeException)
-            {
-                return defaultValue;
-            }
-        }
-
-        /// <summary>
-        /// Reads a boolean from the data reader. If the value is null, 
-        /// returns false.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="columnName">Name of the column.</param>
-        /// <returns></returns>
-        public static bool ReadBoolean(this IDataReader reader, string columnName)
-        {
-            try
-            {
-                if(reader[columnName] != DBNull.Value)
-                {
-                    return (bool)reader[columnName];
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch(IndexOutOfRangeException)
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Reads the string.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="columnName">Name of the coumn.</param>
-        /// <returns></returns>
-        public static string ReadString(this IDataReader reader, string columnName)
-        {
-            try
-            {
-                if(reader[columnName] != DBNull.Value)
-                {
-                    return (string)reader[columnName];
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch(IndexOutOfRangeException)
-            {
-                return null;
-            }
-        }
-
-        public static T LoadObject<T>(this IDataReader reader, params string[] exclusionList) where T : new()
+        public static T ReadObject<T>(this IDataReader reader, params string[] exclusionList) where T : new()
         {
             var item = new T();
-            reader.LoadObject(item, exclusionList);
+            reader.ReadObject(item, exclusionList);
             return item;
         }
 
-        public static T LoadObject<T>(this IDataReader reader, T item, params string[] exclusionList)
+        public static T ReadObject<T>(this IDataReader reader, T item, params string[] exclusionList)
         {
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(item);
             foreach(PropertyDescriptor property in properties)
@@ -546,12 +76,12 @@ namespace Subtext.Framework.Data
                     continue;
                 }
 
-                if(!property.PropertyType.IsLoadablePropertyType())
+                if(!property.PropertyType.IsReadablePropertyType())
                 {
                     continue;
                 }
 
-                if(exclusionList != null && IsExcluded(property.Name, exclusionList))
+                if(exclusionList != null && exclusionList.IsExcluded(property.Name))
                 {
                     continue;
                 }
@@ -577,19 +107,340 @@ namespace Subtext.Framework.Data
             return item;
         }
 
-        private static bool IsExcluded(string propertyName, string[] exclusionList)
+        public static T ReadValue<T>(this IDataReader reader, string columnName)
         {
-            foreach(string excludedProperty in exclusionList)
-            {
-                if(propertyName == excludedProperty)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return reader.ReadValue(columnName, default(T));
         }
 
-        private static bool IsLoadablePropertyType(this Type t)
+        public static T ReadValue<T>(this IDataReader reader, string columnName, T defaultValue)
+        {
+            return reader.ReadValue(columnName, value => (T)value, defaultValue);
+        }
+
+        public static T ReadValue<T>(this IDataReader reader, string columnName, Func<object, T> map, T defaultValue)
+        {
+            try
+            {
+                object value = reader[columnName];
+                if(value != null && value != DBNull.Value)
+                {
+                    return map(value);
+                }
+                return defaultValue;
+            }
+            catch(FormatException)
+            {
+                return defaultValue;
+            }
+            catch(IndexOutOfRangeException)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// Checks the value type and returns null if the 
+        /// value is "null-equivalent".
+        /// </summary>
+        public static int? NullIfMinValue(this int value)
+        {
+            if(NullValue.IsNull(value))
+            {
+                return null;
+            }
+            return value;
+        }
+
+        public static DateTime? NullIfEmpty(this DateTime dateTime)
+        {
+            if(NullValue.IsNull(dateTime))
+            {
+                return null;
+            }
+            return dateTime;
+        }
+
+        public static Referrer ReadReferrer(IDataReader reader, Blog blog)
+        {
+            var refer = reader.ReadObject<Referrer>();
+            refer.BlogId = blog.Id;
+            return refer;
+        }
+
+        internal static ICollection<Entry> ReadEntryCollection(this IDataReader reader)
+        {
+            return reader.ReadEntryCollection(true /* buildLinks */);
+        }
+
+        internal static ICollection<Entry> ReadEntryCollection(this IDataReader reader, bool buildLinks)
+        {
+            return reader.ReadEntryCollection<Entry, List<Entry>>(r => r.ReadEnumerable(innerReader => innerReader.ReadEntry(buildLinks)).ToList());
+        }
+
+        internal static TCollection ReadEntryCollection<TEntry, TCollection>(this IDataReader reader, Func<IDataReader, TCollection> collectionFunc) where TCollection : ICollection<TEntry> where TEntry : Entry
+        {
+            var entries = collectionFunc(reader);
+            if(entries.Count > 0 && reader.NextResult())
+            {
+                var categories = reader.ReadEnumerable(r => new { EntryId = r.ReadValue<int>("PostId"), Title = r.ReadValue<string>("Title") });
+                entries.Accumulate(categories, entry => entry.Id, category => category.EntryId, (entry, category) => entry.Categories.Add(category.Title));
+            }
+            return entries;
+        }
+
+        //Crappy. Need to clean up all of the entry references
+        public static EntryStatsView ReadEntryStatsView(this IDataReader reader)
+        {
+            var entry = new EntryStatsView
+            {
+                PostType = ((PostType)reader.ReadValue<int>("PostType")),
+                WebCount = reader.ReadValue("WebCount", 0),
+                AggCount = reader.ReadValue("AggCount", 0),
+                WebLastUpdated = reader.ReadValue<DateTime>("WebLastUpdated"),
+                AggLastUpdated = reader.ReadValue<DateTime>("AggLastUpdated"),
+                Author = reader.ReadValue<string>("Author"),
+                Email = reader.ReadValue<string>("Email"),
+                DateCreated = reader.ReadValue<DateTime>("DateCreated"),
+                DateModified = reader.ReadValue<DateTime>("DateUpdated"),
+                Id = reader.ReadValue<int>("ID"),
+                Description = reader.ReadValue<string>("Description"),
+                EntryName = reader.ReadValue<string>("EntryName"),
+                FeedBackCount = reader.ReadValue<int>("FeedBackCount"),
+                Body = reader.ReadValue<string>("Text"),
+                Title = reader.ReadValue<string>("Title"),
+                PostConfig = (PostConfig)(reader.ReadValue<int>("PostConfig")),
+                DateSyndicated = reader.ReadValue<DateTime>("DateSyndicated")
+            };
+
+            return entry;
+        }
+
+        public static Entry ReadEntry(this IDataReader reader)
+        {
+            return ReadEntry(reader, true);
+        }
+
+        /// <summary>
+        /// Only use this when loading a SINGLE entry from a reader.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static Entry ReadEntryWithCategories(IDataReader reader)
+        {
+            Entry entry = reader.ReadEntry();
+            if(reader.NextResult())
+            {
+                entry.Categories.AddRange(reader.ReadEnumerable(r => r.ReadValue<string>("Title")).Distinct(StringComparer.Ordinal));
+            }
+            return entry;
+        }
+
+        internal static FeedbackItem ReadFeedbackItem(this IDataReader reader, Entry entry)
+        {
+            var feedbackItem = new FeedbackItem((FeedbackType)reader.ReadValue<int>("FeedbackType"));
+            ReadFeedbackItem(reader, feedbackItem);
+            feedbackItem.Entry = entry;
+            return feedbackItem;
+        }
+
+        internal static FeedbackItem ReadFeedbackItem(this IDataReader reader)
+        {
+            var feedbackItem = new FeedbackItem((FeedbackType)reader.ReadValue<int>("FeedbackType"));
+            ReadFeedbackItem(reader, feedbackItem);
+            return feedbackItem;
+        }
+
+        private static void ReadFeedbackItem(this IDataReader reader, FeedbackItem feedbackItem)
+        {
+            feedbackItem.Id = reader.ReadValue<int>("Id");
+            feedbackItem.Title = reader.ReadValue<string>("Title");
+            feedbackItem.Body = reader.ReadValue<string>("Body");
+            feedbackItem.EntryId = reader.ReadValue<int>("EntryId");
+            feedbackItem.Author = reader.ReadValue<string>("Author") ?? string.Empty;
+            feedbackItem.IsBlogAuthor = reader.ReadValue<bool>("IsBlogAuthor");
+            feedbackItem.Email = reader.ReadValue<string>("Email");
+            feedbackItem.SourceUrl = ReadUri(reader, "Url");
+            feedbackItem.FeedbackType = (FeedbackType)reader.ReadValue<int>("FeedbackType");
+            feedbackItem.Status = (FeedbackStatusFlag)reader.ReadValue<int>("StatusFlag");
+            feedbackItem.CreatedViaCommentAPI = reader.ReadValue<bool>("CommentAPI");
+            feedbackItem.Referrer = reader.ReadValue<string>("Referrer");
+            feedbackItem.IpAddress = reader.ReadIpAddress("IpAddress");
+            feedbackItem.UserAgent = reader.ReadValue<string>("UserAgent");
+            feedbackItem.ChecksumHash = reader.ReadValue<string>("FeedbackChecksumHash");
+            feedbackItem.DateCreated = reader.ReadValue<DateTime>("DateCreated");
+            feedbackItem.DateModified = reader.ReadValue<DateTime>("DateModified");
+            feedbackItem.ParentEntryName = reader.ReadValue<string>("ParentEntryName");
+            feedbackItem.ParentDateCreated = reader.ReadValue<DateTime>("ParentEntryCreateDate");
+        }
+
+        public static Entry ReadEntry(this IDataReader reader, bool buildLinks)
+        {
+            var entry = new Entry((PostType)reader.ReadValue<int>("PostType"));
+            reader.ReadEntry(entry, buildLinks);
+            return entry;
+        }
+
+        public static Entry ReadEntry(this IDataReader reader, Entry entry, bool buildLinks)
+        {
+            return reader.ReadEntry(entry, buildLinks, false);
+        }
+
+        public static Entry ReadEntry(this IDataReader reader, Entry entry, bool buildLinks, bool includeBlog)
+        {
+            entry.Author = reader.ReadValue<string>("Author");
+            entry.Email = reader.ReadValue<string>("Email");
+            entry.DateCreated = reader.ReadValue<DateTime>("DateCreated");
+            entry.DateModified = reader.ReadValue<DateTime>("DateUpdated");
+
+            entry.Id = reader.ReadValue<int>("ID");
+            entry.Description = reader.ReadValue<string>("Description");
+            entry.EntryName = reader.ReadValue<string>("EntryName");
+
+            entry.FeedBackCount = reader.ReadValue("FeedBackCount", 0);
+            entry.Body = reader.ReadValue<string>("Text");
+            entry.Title = reader.ReadValue<string>("Title");
+            entry.PostConfig = (PostConfig)(reader.ReadValue("PostConfig", (int)PostConfig.None));
+            entry.DateSyndicated = reader.ReadValue<DateTime>("DateSyndicated");
+
+            var withEnclosure = reader.ReadValue<bool>("EnclosureEnabled");
+            if(withEnclosure)
+            {
+                entry.Enclosure = ReadEnclosure(reader);
+            }
+
+            if(includeBlog)
+            {
+                entry.Blog = ReadBlog(reader);
+            }
+            return entry;
+        }
+
+        public static Blog ReadBlog(this IDataReader reader)
+        {
+            return reader.ReadBlog(string.Empty);
+        }
+
+        public static Blog ReadBlog(this IDataReader reader, string prefix)
+        {
+            var info = new Blog
+            {
+                Author = reader.ReadValue<string>(prefix + "Author"),
+                Id = reader.ReadValue<int>(prefix + "BlogId"),
+                Email = reader.ReadValue<string>(prefix + "Email"),
+                Password = reader.ReadValue<string>(prefix + "Password"),
+                SubTitle = reader.ReadValue<string>(prefix + "SubTitle"),
+                Title = reader.ReadValue<string>(prefix + "Title"),
+                UserName = reader.ReadValue<string>(prefix + "UserName"),
+                TimeZoneId = reader.ReadValue<string>(prefix + "TimeZoneId"),
+                ItemCount = reader.ReadValue<int>(prefix + "ItemCount"),
+                CategoryListPostCount = reader.ReadValue<int>(prefix + "CategoryListPostCount"),
+                Language = reader.ReadValue<string>(prefix + "Language"),
+                PostCount = reader.ReadValue<int>(prefix + "PostCount"),
+                CommentCount = reader.ReadValue<int>(prefix + "CommentCount"),
+                StoryCount = reader.ReadValue<int>(prefix + "StoryCount"),
+                PingTrackCount = reader.ReadValue<int>(prefix + "PingTrackCount"),
+                News = reader.ReadValue<string>(prefix + "News"),
+                TrackingCode = reader.ReadValue<string>(prefix + "TrackingCode"),
+                LastUpdated = reader.ReadValue(prefix + "LastUpdated", new DateTime(2003, 1, 1)),
+                Host = reader.ReadValue<string>(prefix + "Host"),
+                Subfolder = reader.ReadValue<string>(prefix + "Application"),
+                Flag = (ConfigurationFlags)(reader.ReadValue<int>(prefix + "Flag")),
+                Skin = new SkinConfig
+                {
+                    TemplateFolder = reader.ReadValue<string>(prefix + "Skin"),
+                    SkinStyleSheet = reader.ReadValue<string>(prefix + "SkinCssFile"),
+                    CustomCssText = reader.ReadValue<string>(prefix + "SecondaryCss")
+                },
+                MobileSkin = new SkinConfig
+                {
+                    TemplateFolder = reader.ReadValue<string>(prefix + "MobileSkin"),
+                    SkinStyleSheet = reader.ReadValue<string>(prefix + "MobileSkinCssFile")
+                },
+                OpenIDUrl = reader.ReadValue<string>(prefix + "OpenIDUrl"),
+                OpenIDServer = reader.ReadValue<string>(prefix + "OpenIDServer"),
+                OpenIDDelegate = reader.ReadValue<string>(prefix + "OpenIDDelegate"),
+                CardSpaceHash = reader.ReadValue<string>(prefix + "CardSpaceHash"),
+                LicenseUrl = reader.ReadValue<string>(prefix + "LicenseUrl"),
+                DaysTillCommentsClose = reader.ReadValue(prefix + "DaysTillCommentsClose", int.MaxValue),
+                CommentDelayInMinutes = reader.ReadValue<int>(prefix + "CommentDelayInMinutes"),
+                NumberOfRecentComments = reader.ReadValue<int>(prefix + "NumberOfRecentComments"),
+                RecentCommentsLength = reader.ReadValue<int>(prefix + "RecentCommentsLength"),
+                FeedbackSpamServiceKey = reader.ReadValue<string>(prefix + "AkismetAPIKey"),
+                RssProxyUrl = reader.ReadValue<string>(prefix + "FeedBurnerName"),
+                BlogGroupId = reader.ReadValue<int>(prefix + "BlogGroupId"),
+                BlogGroupTitle = reader.ReadValue<string>(prefix + "BlogGroupTitle")
+            };
+            return info;
+        }
+
+        public static ICollection<ArchiveCount> ReadArchiveCount(IDataReader reader)
+        {
+            const string dateformat = "{0:00}/{1:00}/{2:0000}";
+            var acc = new Collection<ArchiveCount>();
+            while(reader.Read())
+            {
+                var ac = new ArchiveCount();
+                string dt = string.Format(CultureInfo.InvariantCulture,
+                                          dateformat,
+                                          reader.ReadValue<int>("Month"),
+                                          reader.ReadValue<int>("Day"),
+                                          reader.ReadValue<int>("Year"));
+                // FIX: BUG SF1423271 Archives Links
+                DateTime parsedDate;
+                if(
+                    !DateTime.TryParseExact(dt, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal,
+                                            out parsedDate))
+                {
+                    break;
+                }
+
+                ac.Date = parsedDate;
+                ac.Count = reader.ReadValue<int>("Count");
+                //TODO: This broke the unit tests: ac.Title = reader.ReadValue<string>("Title");
+                //TODO: This broke the unit tests: ac.Id = reader.ReadValue<int>("Id");
+                acc.Add(ac);
+            }
+            return acc;
+        }
+
+        public static Image ReadImage(this IDataReader reader)
+        {
+            return ReadImage(reader, false, false);
+        }
+
+        public static Image ReadImage(this IDataReader reader, bool includeBlog, bool includeCategory)
+        {
+            var image = reader.ReadObject<Image>("CategoryTitle", "LocalDirectoryPath");
+
+            if(includeBlog)
+            {
+                image.Blog = reader.ReadBlog("Blog.");
+            }
+            if(includeCategory)
+            {
+                image.CategoryTitle = reader.ReadValue<string>("Category.Title");
+            }
+            return image;
+        }
+
+        public static IDictionary<string, int> ReadTags(IDataReader reader)
+        {
+            var tags = new SortedDictionary<string, int>();
+            while(reader.Read())
+            {
+                tags.Add(
+                    reader.ReadValue<string>("Name"),
+                    reader.ReadValue<int>("TagCount"));
+            }
+            return tags;
+        }
+
+        private static bool IsExcluded(this IEnumerable<string> exclusionList, string propertyName)
+        {
+            return exclusionList.Any(excludedProperty => excludedProperty == propertyName);
+        }
+
+        private static bool IsReadablePropertyType(this Type t)
         {
             bool isLoadable = t.IsPrimitive ||
                               t == typeof(DateTime) ||
@@ -601,7 +452,7 @@ namespace Subtext.Framework.Data
                 Type underlyingType = Nullable.GetUnderlyingType(t);
                 if(underlyingType != null)
                 {
-                    return IsLoadablePropertyType(underlyingType);
+                    return IsReadablePropertyType(underlyingType);
                 }
             }
             return isLoadable;
@@ -615,25 +466,7 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public static IPAddress ReadIpAddress(this IDataReader reader, string columnName)
         {
-            try
-            {
-                if(reader[columnName] != DBNull.Value)
-                {
-                    return IPAddress.Parse((string)reader[columnName]);
-                }
-                else
-                {
-                    return IPAddress.None;
-                }
-            }
-            catch(FormatException)
-            {
-                return IPAddress.None;
-            }
-            catch(IndexOutOfRangeException)
-            {
-                return IPAddress.None;
-            }
+            return reader.ReadValue(columnName, value => IPAddress.Parse((string)value), IPAddress.None);
         }
 
         /// <summary>
@@ -644,62 +477,7 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public static Uri ReadUri(this IDataReader reader, string columnName)
         {
-            try
-            {
-                if(reader[columnName] != DBNull.Value)
-                {
-                    return new Uri((string)reader[columnName]);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch(IndexOutOfRangeException)
-            {
-                return null;
-            }
-            catch(FormatException)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Reads the date.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="columnName">Name of the column.</param>
-        /// <returns></returns>
-        public static DateTime ReadDate(this IDataReader reader, string columnName)
-        {
-            return ReadDate(reader, columnName, NullValue.NullDateTime);
-        }
-
-        /// <summary>
-        /// Reads the date.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="columnName">Name of the column.</param>
-        /// <param name="defaultValue">The default value.</param>
-        /// <returns></returns>
-        public static DateTime ReadDate(this IDataReader reader, string columnName, DateTime defaultValue)
-        {
-            try
-            {
-                if(reader[columnName] != DBNull.Value)
-                {
-                    return (DateTime)reader[columnName];
-                }
-                else
-                {
-                    return defaultValue;
-                }
-            }
-            catch(IndexOutOfRangeException)
-            {
-                return defaultValue;
-            }
+            return reader.ReadValue(columnName, value => new Uri((string)value), null);
         }
 
         public static SqlParameter MakeInParam(string paramName, object value)
@@ -710,10 +488,6 @@ namespace Subtext.Framework.Data
         /// <summary>
         /// Make input param.
         /// </summary>
-        /// <param name="ParamName">Name of param.</param>
-        /// <param name="DbType">Param type.</param>
-        /// <param name="Size">Param size.</param>
-        /// <returns>New parameter.</returns>
         public static SqlParameter MakeOutParam(string paramName, SqlDbType dbType, int size)
         {
             return MakeParam(paramName, dbType, size, ParameterDirection.Output, null);
@@ -722,25 +496,10 @@ namespace Subtext.Framework.Data
         /// <summary>
         /// Make stored procedure param.
         /// </summary>
-        /// <param name="ParamName">Name of param.</param>
-        /// <param name="DbType">Param type.</param>
-        /// <param name="Size">Param size.</param>
-        /// <param name="Direction">Parm direction.</param>
-        /// <param name="Value">Param value.</param>
-        /// <returns>New parameter.</returns>
         public static SqlParameter MakeParam(string paramName, SqlDbType dbType, Int32 size,
                                              ParameterDirection direction, object value)
         {
-            SqlParameter param;
-
-            if(size > 0)
-            {
-                param = new SqlParameter(paramName, dbType, size);
-            }
-            else
-            {
-                param = new SqlParameter(paramName, dbType);
-            }
+            SqlParameter param = size > 0 ? new SqlParameter(paramName, dbType, size) : new SqlParameter(paramName, dbType);
 
             param.Direction = direction;
             if(!(direction == ParameterDirection.Output && value == null))
@@ -751,90 +510,51 @@ namespace Subtext.Framework.Data
             return param;
         }
 
-        /// <summary>
-        /// Checks the value type and returns null if the 
-        /// value is "null-equivalent".
-        /// </summary>
-        /// <param name="obj">The obj.</param>
-        /// <returns></returns>
-        public static int? NullIfMinValue(this int value)
-        {
-            if(NullValue.IsNull(value))
-            {
-                return null;
-            }
-            return value;
-        }
-
-        public static PagedCollection<T> GetPagedCollection<T>(this IDataReader reader,
-                                                               Func<IDataReader, T> loadIndividualFunc)
-        {
-            var collection = new PagedCollection<T>();
-            while(reader.Read())
-            {
-                collection.Add(loadIndividualFunc(reader));
-            }
-            reader.NextResult();
-            collection.MaxItems = GetMaxItems(reader);
-            return collection;
-        }
-
         // Expects that the caller will dispose of the reader.
-        public static ICollection<LinkCategory> LoadLinkCategories(this IDataReader reader, bool includeLinks)
+        public static ICollection<LinkCategory> ReadLinkCategories(this IDataReader reader, bool includeLinks)
         {
-            var categories = new Dictionary<int, LinkCategory>();
-
-            while(reader.Read())
-            {
-                LinkCategory category = reader.LoadLinkCategory();
-                categories.Add(category.Id, category);
-            }
-
+            var categories = reader.ReadEnumerable(r => r.ReadLinkCategory()).ToList();
+            
             if(includeLinks && reader.NextResult())
             {
-                while(reader.Read())
-                {
-                    var link = reader.LoadObject<Link>();
-                    LinkCategory category;
-                    if(categories.TryGetValue(link.CategoryID, out category))
-                    {
-                        category.Links.Add(link);
-                    }
-                }
+                var links = reader.ReadEnumerable(r => r.ReadObject<Link>());
+                categories.Accumulate(links, category => category.Id, link => link.CategoryID, (category, link) => category.Links.Add(link));
             }
 
-            return categories.Values;
+            return categories;
         }
 
-        internal static LinkCategory LoadLinkCategoryFromReader(this IDataReader reader)
+        public static LinkCategory ReadLinkCategory(this IDataReader reader)
         {
-            if(reader.Read())
+            var lc = new LinkCategory(reader.ReadValue<int>("CategoryID"), reader.ReadValue<string>("Title")) { IsActive = (bool)reader["Active"] };
+            if(reader["CategoryType"] != DBNull.Value)
             {
-                LinkCategory lc = reader.LoadLinkCategory();
-                return lc;
+                lc.CategoryType = (CategoryType)((byte)reader["CategoryType"]);
             }
-            return null;
+            if(reader["Description"] != DBNull.Value)
+            {
+                lc.Description = reader.ReadValue<string>("Description");
+            }
+            lc.BlogId = reader["BlogId"] != DBNull.Value ? reader.ReadValue<int>("BlogId") : Config.CurrentBlog.Id;
+            return lc;
         }
 
-        #region Enclosure
-
-        public static Enclosure LoadEnclosure(IDataReader reader)
+        public static Enclosure ReadEnclosure(this IDataReader reader)
         {
-            var enclosure = new Enclosure();
-
-            enclosure.Id = ReadInt32(reader, "EnclosureId");
-            enclosure.Title = ReadString(reader, "EnclosureTitle");
-            enclosure.Url = ReadString(reader, "EnclosureUrl");
-            enclosure.MimeType = ReadString(reader, "EnclosureMimeType");
-            enclosure.Size = reader.ReadInt64("EnclosureSize");
-            enclosure.EntryId = ReadInt32(reader, "ID");
-            enclosure.AddToFeed = ReadBoolean(reader, "AddToFeed");
-            enclosure.ShowWithPost = ReadBoolean(reader, "ShowWithPost");
+            var enclosure = new Enclosure
+            {
+                Id = reader.ReadValue<int>("EnclosureId"),
+                Title = reader.ReadValue<string>("EnclosureTitle"),
+                Url = reader.ReadValue<string>("EnclosureUrl"),
+                MimeType = reader.ReadValue<string>("EnclosureMimeType"),
+                Size = reader.ReadValue<long>("EnclosureSize"),
+                EntryId = reader.ReadValue<int>("ID"),
+                AddToFeed = reader.ReadValue<bool>("AddToFeed"),
+                ShowWithPost = reader.ReadValue<bool>("ShowWithPost")
+            };
 
             return enclosure;
         }
-
-        #endregion
     }
 
     /// <summary>

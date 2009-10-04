@@ -682,10 +682,13 @@ namespace Subtext.Framework.Text
 
         public static IEnumerable<string> GetAttributeValues(this string html, string tagName, string attributeName)
         {
-            var reader = new SgmlReader();
-            reader.DocType = "html";
-            reader.WhitespaceHandling = WhitespaceHandling.All;
-            reader.InputStream = new StringReader("<html>" + html + "</html>");
+            var reader = new SgmlReader
+            {
+                DocType = "html",
+                WhitespaceHandling = WhitespaceHandling.All,
+                InputStream = new StringReader("<html>" + html + "</html>")
+            };
+
             while(reader.Read() && !reader.EOF)
             {
                 if(reader.NodeType == XmlNodeType.Element && reader.LocalName == tagName)

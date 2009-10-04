@@ -99,7 +99,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlogML, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="BlogML, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\BlogML.dll</HintPath>
+    </Reference>
     <Reference Include="blowery.Web.HttpCompress, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\blowery.Web.HttpCompress.dll</HintPath>
@@ -116,7 +119,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=2.0.0.152, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Ninject.dll</HintPath>
@@ -170,10 +176,6 @@
     <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
       <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
       <Name>Subtext.Akismet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
-      <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
-      <Name>Subtext.BlogML</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
       <Name>Subtext.Extensibility</Name>
@@ -313,6 +315,7 @@
       <SubType>Code</SubType>
       <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\RepositoryExtensions.cs" />
     <Compile Include="Data\SqlErrorMessage.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -386,6 +389,16 @@
     <Compile Include="HostInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ImportExport\BlogMlContext.cs" />
+    <Compile Include="ImportExport\BlogMlProvider.cs" />
+    <Compile Include="ImportExport\BlogMLReader.cs" />
+    <Compile Include="ImportExport\BlogMLWriter.cs" />
+    <Compile Include="ImportExport\IBlogMLConverter.cs" />
+    <Compile Include="ImportExport\IBlogMLSource.cs" />
+    <Compile Include="ImportExport\IBlogMLWriter.cs" />
+    <Compile Include="ImportExport\SubtextBlogMLConverter.cs" />
+    <Compile Include="ImportExport\SubtextBlogMLSource.cs" />
+    <Compile Include="Infrastructure\ActionResults\ExportActionResult.cs" />
     <Compile Include="Infrastructure\IServiceLocator.cs" />
     <Compile Include="Infrastructure\ITimeZone.cs" />
     <Compile Include="Infrastructure\TimeZoneWrapper.cs" />
@@ -405,10 +418,7 @@
     <Compile Include="Images.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImportExport\ObjectHydrator.cs" />
-    <Compile Include="ImportExport\SubtextBlogMlHttpHandler.cs" />
     <Compile Include="ImportExport\SubtextBlogMlProvider.cs" />
-    <Compile Include="ImportExport\SubtextConversionStrategy.cs" />
     <Compile Include="Infrastructure\ActionResults\CacheableFileContentResult.cs" />
     <Compile Include="Infrastructure\ActionResults\NotModifiedResult.cs" />
     <Compile Include="Infrastructure\ComponentProvider.cs" />

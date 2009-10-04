@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Framework;
@@ -18,6 +19,111 @@ namespace UnitTests.Subtext.Framework.Data
     public class DataHelperTests
     {
         [Test]
+        public void ReadValue_WithValueMatchingType_ReturnsValueAsType()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.SetupGet(r => r["column"]).Returns(98008);
+
+            //act
+            var result = reader.Object.ReadValue<int>("column");
+
+            //assert
+            Assert.AreEqual(98008, result);
+        }
+
+        [Test]
+        public void ReadValue_WithValueReturningDbNull_ReturnsDefaultValue()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.SetupGet(r => r["column"]).Returns(DBNull.Value);
+
+            //act
+            var result = reader.Object.ReadValue("column", 8675309);
+
+            //assert
+            Assert.AreEqual(8675309, result);
+        }
+
+        [Test]
+        public void ReadValue_WithValueReturningNull_ReturnsDefaultValue()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.SetupGet(r => r["column"]).Returns(null);
+
+            //act
+            var result = reader.Object.ReadValue("column", 8675309);
+
+            //assert
+            Assert.AreEqual(8675309, result);
+        }
+
+        [Test]
+        public void ReadValue_WithValueFuncThrowingFormatException_ReturnsDefaultValue()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.SetupGet(r => r["column"]).Returns(null);
+
+            //act
+            var result = reader.Object.ReadValue("column", value => {throw new FormatException();}, 8675309);
+
+            //assert
+            Assert.AreEqual(8675309, result);
+        }
+
+        [Test]
+        public void ReadValue_WithValueFuncThrowingIndexOutOfRangeException_ReturnsDefaultValue()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.SetupGet(r => r["column"]).Returns(null);
+
+            //act
+            var result = reader.Object.ReadValue("column", value => { throw new IndexOutOfRangeException(); }, 8675309);
+
+            //assert
+            Assert.AreEqual(8675309, result);
+        }
+
+        [Test]
+        public void AsEnumerable_WithMultipleRows_ReturnsEnumerationOfRows()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.Setup(r => r.Read()).Returns(new Queue<bool>(new[] { true, true, false }).Dequeue);
+            reader.SetupGet(r => r["column"]).Returns(new Queue<object>(new object[] {123, 456}).Dequeue);
+
+            //act
+            var result = reader.Object.ReadEnumerable(r => r.ReadValue<Int32>("column")).ToList();
+
+            //assert
+            Assert.AreEqual(123, result[0]);
+            Assert.AreEqual(456, result[1]);
+        }
+
+        [Test]
+        public void AsPagedCollection_WithMultipleRows_ReturnsPagedCollection()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.Setup(r => r.Read()).Returns(new Queue<bool>(new[] { true, true, false, true }).Dequeue);
+            reader.SetupGet(r => r["column"]).Returns(new Queue<object>(new object[] { 123, 456 }).Dequeue);
+            reader.SetupGet(r => r["TotalRecords"]).Returns(2);
+            reader.Setup(r => r.NextResult()).Returns(true);
+
+            //act
+            var result = reader.Object.ReadPagedCollection(r => r.ReadValue<int>("column"));
+
+            //assert
+            Assert.AreEqual(123, result[0]);
+            Assert.AreEqual(456, result[1]);
+            Assert.AreEqual(2, result.MaxItems);
+        }
+
+        [Test]
         public void Object_WithComplexProperty_DoesNotTryAndSetIt()
         {
             //arrange
@@ -27,7 +133,7 @@ namespace UnitTests.Subtext.Framework.Data
             reader.Setup(r => r.Read()).Returns(false);
 
             //act
-            var result = reader.Object.LoadObject<ObjectWithProperties>();
+            var result = reader.Object.ReadObject<ObjectWithProperties>();
 
             //assert
             Assert.AreEqual(null, result.ComplexObject);
@@ -43,7 +149,7 @@ namespace UnitTests.Subtext.Framework.Data
             reader.Setup(r => r.Read()).Returns(false);
 
             //act
-            var result = reader.Object.LoadObject<ObjectWithProperties>();
+            var result = reader.Object.ReadObject<ObjectWithProperties>();
 
             //assert
             Assert.AreEqual(false, result.ReadOnlyBoolean);
@@ -59,7 +165,7 @@ namespace UnitTests.Subtext.Framework.Data
             reader.Setup(r => r.Read()).Returns(false);
 
             //act
-            var result = reader.Object.LoadObject<ObjectWithProperties>();
+            var result = reader.Object.ReadObject<ObjectWithProperties>();
 
             //assert
             Assert.AreEqual(42, result.IntProperty);
@@ -75,7 +181,7 @@ namespace UnitTests.Subtext.Framework.Data
             reader.Setup(r => r.Read()).Returns(false);
 
             //act
-            var result = reader.Object.LoadObject<ObjectWithProperties>();
+            var result = reader.Object.ReadObject<ObjectWithProperties>();
 
             //assert
             Assert.AreEqual("Hello world", result.StringProperty);
@@ -93,7 +199,7 @@ namespace UnitTests.Subtext.Framework.Data
             reader.Setup(r => r.Read()).Returns(false);
 
             //act
-            var result = reader.Object.LoadObject<ObjectWithProperties>();
+            var result = reader.Object.ReadObject<ObjectWithProperties>();
 
             //assert
             Assert.AreEqual(now, result.DateProperty);
@@ -109,7 +215,7 @@ namespace UnitTests.Subtext.Framework.Data
             reader.Setup(r => r.Read()).Returns(false);
 
             //act
-            var result = reader.Object.LoadObject<ObjectWithProperties>();
+            var result = reader.Object.ReadObject<ObjectWithProperties>();
 
             //assert
             Assert.AreEqual(null, result.NullableIntProperty);
@@ -126,7 +232,7 @@ namespace UnitTests.Subtext.Framework.Data
             reader.Setup(r => r.Read()).Returns(false);
 
             //act
-            var result = reader.Object.LoadObject<ObjectWithProperties>();
+            var result = reader.Object.ReadObject<ObjectWithProperties>();
 
             //assert
             Assert.AreEqual(23, result.NullableIntProperty);
@@ -142,7 +248,7 @@ namespace UnitTests.Subtext.Framework.Data
             reader.AddRecord(1, 2, 2005, 23);
             reader.AddRecord(1, 23, 2005, 23);
 
-            ICollection<ArchiveCount> archive = DataHelper.LoadArchiveCount(reader);
+            ICollection<ArchiveCount> archive = DataHelper.ReadArchiveCount(reader);
             Assert.AreEqual(2, archive.Count, "Should only have two records.");
 
             ArchiveCount first = null;

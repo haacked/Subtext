@@ -35,7 +35,7 @@ namespace UnitTests.Subtext.Framework.Import
             IEntryPublisher entryPublisher = UnitTestHelper.CreateEntryPublisher(subtextContext.Object);
             var commentService = new CommentService(subtextContext.Object, null);
             BlogMLReader reader =
-                BlogMLReader.Create(new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object,
+                BlogMLReader.Create(new SubtextBlogMLProvider(subtextContext.Object,
                                                               commentService, entryPublisher));
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.FieldsTooLong.xml");
 
@@ -64,7 +64,7 @@ namespace UnitTests.Subtext.Framework.Import
             IEntryPublisher entryPublisher = UnitTestHelper.CreateEntryPublisher(subtextContext.Object);
             var commentService = new CommentService(subtextContext.Object, null);
             BlogMLReader reader =
-                BlogMLReader.Create(new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object,
+                BlogMLReader.Create(new SubtextBlogMLProvider(subtextContext.Object,
                                                               commentService, entryPublisher));
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.PostWithAuthor.xml");
             reader.ReadBlog(stream);
@@ -90,7 +90,7 @@ namespace UnitTests.Subtext.Framework.Import
             IEntryPublisher entryPublisher = UnitTestHelper.CreateEntryPublisher(subtextContext.Object);
             var commentService = new CommentService(subtextContext.Object, null);
             BlogMLReader reader =
-                BlogMLReader.Create(new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object,
+                BlogMLReader.Create(new SubtextBlogMLProvider(subtextContext.Object,
                                                               commentService, entryPublisher));
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml");
             reader.ReadBlog(stream);
@@ -115,7 +115,7 @@ namespace UnitTests.Subtext.Framework.Import
             IEntryPublisher entryPublisher = UnitTestHelper.CreateEntryPublisher(subtextContext.Object);
             var commentService = new CommentService(subtextContext.Object, null);
             BlogMLReader reader =
-                BlogMLReader.Create(new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object,
+                BlogMLReader.Create(new SubtextBlogMLProvider(subtextContext.Object,
                                                               commentService, entryPublisher));
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.TwoCategories.xml");
             reader.ReadBlog(stream);
@@ -136,7 +136,7 @@ namespace UnitTests.Subtext.Framework.Import
             IEntryPublisher entryPublisher = UnitTestHelper.CreateEntryPublisher(subtextContext.Object);
             var commentService = new CommentService(subtextContext.Object, null);
             BlogMLReader reader =
-                BlogMLReader.Create(new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object,
+                BlogMLReader.Create(new SubtextBlogMLProvider(subtextContext.Object,
                                                               commentService, entryPublisher));
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithCategory.xml");
             reader.ReadBlog(stream);
@@ -167,7 +167,7 @@ namespace UnitTests.Subtext.Framework.Import
             var commentService = new CommentService(subtextContext.Object, null);
 
             BlogMLReader reader =
-                BlogMLReader.Create(new SubtextBlogMLProvider(Config.ConnectionString, subtextContext.Object,
+                BlogMLReader.Create(new SubtextBlogMLProvider(subtextContext.Object,
                                                               commentService, entryPublisher));
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithBadCategoryRef.xml");
             reader.ReadBlog(stream);

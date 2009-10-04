@@ -16,6 +16,21 @@ REPLACE: IF EXISTS (SELECT * FROM [INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_
 	These are stored procs that used to be in the system but are no longer needed.
 	The statements will only drop the procs if they exist as a form of cleanup.
 */
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntriesForBlogMl]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntriesForBlogMl]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleDay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetSingleDay]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
+GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPopularPosts]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetPopularPosts]
@@ -248,16 +263,12 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetLinksByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntriesForBlogMl]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntriesForBlogMl]
-GO
-
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntriesForExport]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntriesForExport]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -298,10 +309,6 @@ GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByYearArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByYearArchive]
-GO
-
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleDay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetSingleDay]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -1028,12 +1035,12 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetActiveCategoriesWithLinkCollectio
 	@BlogId int = NULL
 )
 AS
-SELECT subtext_LinkCategories.CategoryID
-	, subtext_LinkCategories.Title
-	, subtext_LinkCategories.Active
-	, subtext_LinkCategories.CategoryType
-	, subtext_LinkCategories.[Description]
-	, subtext_LinkCategories.[BlogId]
+SELECT [CategoryID]
+	, [Title]
+	, [Active]
+	, [CategoryType]
+	, [Description]
+	, [BlogId]
 FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 WHERE	
 			subtext_LinkCategories.Active= 1 
@@ -1197,7 +1204,7 @@ IF @IncludeCategories = 1
 BEGIN
 	-- Select the category title and the associated post id
 	SELECT	c.Title  
-			, p.[Id]
+			, PostId = l.[PostId]
 	FROM [<dbUser,varchar,dbo>].[subtext_Links] l
 		INNER JOIN #IDs p ON l.[PostID] = p.[ID]  
 		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] c ON l.CategoryID = c.CategoryID
@@ -1212,6 +1219,69 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetConditionalEntries]  TO [public]
+GO
+
+/*
+Returns a single blog within the subtext_Config table by id.
+*/
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogById]
+(
+	@BlogId int
+)
+AS
+
+SELECT	blog.BlogId 
+		, blog.UserName
+		, blog.[Password]
+		, blog.Email
+		, blog.Title
+		, blog.SubTitle
+		, blog.Skin
+		, blog.Application
+		, blog.Host
+		, blog.Author
+		, blog.TimeZoneId
+		, blog.CategoryListPostCount
+		, blog.ItemCount
+		, blog.[Language]
+		, blog.News
+		, blog.TrackingCode
+		, blog.SecondaryCss
+		, blog.LastUpdated
+		, blog.PostCount
+		, blog.StoryCount
+		, blog.PingTrackCount
+		, blog.CommentCount
+		, blog.Flag
+		, blog.SkinCssFile 
+		, blog.BlogGroupId
+		, blog.LicenseUrl
+		, blog.DaysTillCommentsClose
+		, blog.CommentDelayInMinutes
+		, blog.NumberOfRecentComments
+		, blog.RecentCommentsLength
+		, blog.AkismetAPIKey
+		, blog.FeedBurnerName
+		, bgroup.Title AS BlogGroupTitle
+		, blog.MobileSkin
+		, blog.MobileSkinCssFile
+		, blog.OpenIDUrl
+		, blog.CardSpaceHash
+		, blog.OpenIDServer
+		, blog.OpenIDDelegate
+FROM [<dbUser,varchar,dbo>].[subtext_Config] blog
+	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
+bgroup.Id = blog.BlogGroupId
+WHERE	blog.BlogId = @BlogId
+GO
+
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetBlogById]  TO [public]
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -1582,68 +1652,10 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntries]
 (
 	@BlogId int
-	, @PageIndex int
-	, @PageSize int
-	, @PostType int
-)
-AS
-
-WITH OrderedEntries AS
-(
-SELECT	content.BlogId 
-		, content.[ID] 
-		, content.Title 
-		, DateCreated = content.DateAdded 
-		, content.[Text] 
-		, content.[Description]
-		, content.PostType 
-		, content.Author 
-		, content.Email 
-		, content.DateUpdated 
-		, FeedbackCount = ISNULL(content.FeedbackCount, 0)
-		, content.PostConfig
-		, content.EntryName
-		, content.DateSyndicated
-		, WebCount = ISNULL(vc.WebCount, 0)
-		, AggCount = ISNULL(vc.AggCount, 0)
-		, vc.WebLastUpdated
-		, vc.AggLastUpdated
-		, row_number() over(order by DateAdded desc, Id desc) RowNumber
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
-WHERE 	content.BlogId = @BlogId 
-	AND PostType = @PostType
-)
-SELECT * 
-FROM OrderedEntries 
-WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
- 
-SELECT COUNT([ID]) AS TotalRecords
-FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-WHERE 	BlogId = @BlogId 
-	AND PostType = @PostType 
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]  TO [public]
-GO
-
-SET QUOTED_IDENTIFIER ON 
-GO
-SET ANSI_NULLS ON 
-GO
-
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
-(
-	@BlogId int
-	, @CategoryID int
+	, @CategoryID int = NULL
 	, @PageIndex int
 	, @PostType int
 	, @PageSize int
@@ -1671,27 +1683,41 @@ WITH OrderedEntries AS
 			, vc.WebLastUpdated
 			, vc.AggLastUpdated
 			, row_number() over(order by content.DateAdded DESC, content.ID DESC) RowNumber
+			, e.Id as EnclosureId
+			, e.Title as EnclosureTitle
+			, e.Url as EnclosureUrl
+			, e.MimeType as EnclosureMimeType
+			, e.Size as EnclosureSize
+			, e.EnclosureEnabled as EnclosureEnabled
+			, e.AddToFeed
+			, e.ShowWithPost
 	FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] l ON content.[ID] = l.PostID
-		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (l.CategoryID = cats.CategoryID)
-		LEFT JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
+		LEFT JOIN [<dbUser,varchar,dbo>].[subtext_Links] l ON content.[ID] = l.PostID
+		LEFT JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (l.CategoryID = cats.CategoryID)
+		LEFT JOIN [<dbUser,varchar,dbo>].subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
+		LEFT JOIN [<dbUser,varchar,dbo>].[subtext_Enclosure] e ON content.[ID] = e.EntryId
 	WHERE 	content.BlogId = @BlogId
 		AND content.PostType = @PostType
-		AND cats.CategoryID = @CategoryID
+		AND (cats.CategoryID = @CategoryID OR @CategoryID IS NULL)
 )
 
 SELECT * 
 FROM OrderedEntries 
 WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
 
-
-SELECT COUNT(content.[ID]) AS TotalRecords
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = links.PostID
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
-WHERE 	content.BlogId = @BlogId 
-	AND content.PostType = @PostType 
-	AND cats.CategoryID = @CategoryID
+IF(@CategoryID IS NULL)
+	SELECT COUNT([ID]) AS TotalRecords
+	FROM [<dbUser,varchar,dbo>].[subtext_Content] 
+	WHERE 	BlogId = @BlogId 
+		AND PostType = @PostType 
+ELSE
+	SELECT COUNT(content.[ID]) AS TotalRecords
+	FROM [<dbUser,varchar,dbo>].[subtext_Content] content
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = links.PostID
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
+	WHERE 	content.BlogId = @BlogId 
+		AND content.PostType = @PostType 
+		AND cats.CategoryID = @CategoryID
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -1699,7 +1725,12 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetEntries]  TO [public]
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1896,19 +1927,19 @@ AS
 
 WITH OrderedLinks as
 ( 
-SELECT Id = links.LinkID 
-	, links.Title 
-	, links.Url
-	, links.Rss 
-	, IsActive = links.Active 
-	, links.NewWindow 
-	, links.CategoryID
-	, Relation = links.Rel
-	, links.PostID
-	, links.BlogId
-	, row_number() over(order by links.[LinkID] DESC) RowNumber
-FROM [<dbUser,varchar,dbo>].[subtext_Links] links
-WHERE 	links.BlogId = @BlogId 
+SELECT Id = LinkID 
+	, Title 
+	, Url
+	, Rss 
+	, IsActive = Active 
+	, NewWindow 
+	, CategoryID
+	, Relation = Rel
+	, PostID
+	, BlogId
+	, row_number() over(order by [LinkID] DESC) RowNumber
+FROM [<dbUser,varchar,dbo>].[subtext_Links]
+WHERE 	BlogId = @BlogId 
 	AND (CategoryID = @CategoryId OR @CategoryId IS NULL)
 	AND PostID IS NULL
 )
@@ -2096,8 +2127,9 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryID]
 	, @CurrentDateTime datetime
 )
 AS
-SET ROWCOUNT @ItemCount
-SELECT	content.BlogId
+
+SELECT TOP(@ItemCount) 
+	content.BlogId
 	, content.[ID]
 	, content.Title
 	, DateCreated = content.DateAdded
@@ -2311,56 +2343,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleDay]
-(
-	@Date datetime
-	,@BlogId int
-	,@CurrentDateTime datetime
-)
-AS
-SELECT	BlogId
-	, [<dbUser,varchar,dbo>].[subtext_Content].[ID]
-	, [<dbUser,varchar,dbo>].[subtext_Content].Title
-	, DateCreated = DateAdded
-	, [Text]
-	, [Description]
-	, PostType
-	, Author
-	, Email
-	, DateUpdated
-	, FeedbackCount = ISNULL(FeedbackCount, 0)
-	, PostConfig
-	, EntryName 
-	, DateSyndicated
-	, e.Id as EnclosureId
-	, e.Title as EnclosureTitle
-	, e.Url as EnclosureUrl
-	, e.MimeType as EnclosureMimeType
-	, e.Size as EnclosureSize
-	, e.EnclosureEnabled as EnclosureEnabled
-	, e.AddToFeed
-	, e.ShowWithPost
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	left join [<dbUser,varchar,dbo>].[subtext_Enclosure] e on [<dbUser,varchar,dbo>].[subtext_Content].[ID] = e.EntryId
-WHERE Year(DateSyndicated) = Year(@Date) 
-	AND Month(DateSyndicated) = Month(@Date)
-    AND Day(DateSyndicated) = Day(@Date) 
-    And PostType=1
-    AND BlogId = @BlogId 
-    AND PostConfig & 1 = 1 
-    AND DateSyndicated <= @CurrentDateTime
-ORDER BY DateSyndicated DESC;
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetSingleDay]  TO [public]
-GO
-
 SET QUOTED_IDENTIFIER ON 
 GO
 SET ANSI_NULLS ON 
@@ -2408,7 +2390,7 @@ ORDER BY [<dbUser,varchar,dbo>].[subtext_Content].[ID] DESC
 IF @IncludeCategories = 1
 BEGIN
 	SELECT c.Title
-		, PostID = l.PostID  
+		, PostId = l.PostID  
 	FROM [<dbUser,varchar,dbo>].[subtext_Links] l  
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] c ON l.CategoryID = c.CategoryID  
 	WHERE l.PostID = @Id
@@ -3508,69 +3490,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-/*
-Returns a single blog within the subtext_Config table by id.
-*/
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogById]
-(
-	@BlogId int
-)
-AS
-
-SELECT	blog.BlogId 
-		, blog.UserName
-		, blog.[Password]
-		, blog.Email
-		, blog.Title
-		, blog.SubTitle
-		, blog.Skin
-		, blog.Application
-		, blog.Host
-		, blog.Author
-		, blog.TimeZoneId
-		, blog.CategoryListPostCount
-		, blog.ItemCount
-		, blog.[Language]
-		, blog.News
-		, blog.TrackingCode
-		, blog.SecondaryCss
-		, blog.LastUpdated
-		, blog.PostCount
-		, blog.StoryCount
-		, blog.PingTrackCount
-		, blog.CommentCount
-		, blog.Flag
-		, blog.SkinCssFile 
-		, blog.BlogGroupId
-		, blog.LicenseUrl
-		, blog.DaysTillCommentsClose
-		, blog.CommentDelayInMinutes
-		, blog.NumberOfRecentComments
-		, blog.RecentCommentsLength
-		, blog.AkismetAPIKey
-		, blog.FeedBurnerName
-		, bgroup.Title AS BlogGroupTitle
-		, blog.MobileSkin
-		, blog.MobileSkinCssFile
-		, blog.OpenIDUrl
-		, blog.CardSpaceHash
-		, blog.OpenIDServer
-		, blog.OpenIDDelegate
-FROM [<dbUser,varchar,dbo>].[subtext_Config] blog
-	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_BlogGroup] bgroup ON
-bgroup.Id = blog.BlogGroupId
-WHERE	blog.BlogId = @BlogId
-GO
-
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetBlogById]  TO [public]
-GO
-
-SET QUOTED_IDENTIFIER ON 
-GO
-SET ANSI_NULLS ON 
-GO
-
 SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS ON 
@@ -4388,7 +4307,7 @@ GO
 Selects a page of blog posts for export to blogml. These are 
 sorted ascending by id to map to the database.
 */
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntriesForBlogMl]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntriesForExport]
 (
 	@BlogId int
 	, @PageIndex int
@@ -4455,8 +4374,9 @@ WHERE 	BlogId = @BlogId
 	AND PostType = 1 OR PostType = 2
 
 -- Select associated categories
-SELECT	p.[Id]
+SELECT	PostId = p.[Id]
 		, c.CategoryID
+		, c.Title
 	FROM [<dbUser,varchar,dbo>].[subtext_Links] l
 		INNER JOIN #IDs p ON l.[PostID] = p.[ID]  
 		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] c ON l.CategoryID = c.CategoryID
@@ -4522,7 +4442,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetEntriesForBlogMl] TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetEntriesForExport] TO [public]
 GO
 
 
