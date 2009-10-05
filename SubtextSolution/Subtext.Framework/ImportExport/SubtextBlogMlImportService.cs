@@ -23,11 +23,13 @@ using System.Linq;
 using System.Web;
 using BlogML;
 using BlogML.Xml;
+using log4net;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
@@ -37,6 +39,8 @@ namespace Subtext.ImportExport
 {
     public class SubtextBlogMlImportService : IBlogMlImportService
     {
+        private readonly static ILog Log = new Log();
+
         public SubtextBlogMlImportService(ISubtextContext context, ICommentService commentService,
                                      IEntryPublisher entryPublisher)
         {
@@ -354,7 +358,7 @@ namespace Subtext.ImportExport
         /// </summary>
         public void LogError(string message, Exception exception)
         {
-            //TODO:
+            Log.Error(message, exception);
         }
     }
 }

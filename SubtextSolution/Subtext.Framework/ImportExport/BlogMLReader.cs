@@ -21,6 +21,7 @@ using System.IO;
 using System.Web;
 using BlogML;
 using BlogML.Xml;
+using Subtext.Framework.Properties;
 
 namespace Subtext.ImportExport
 {
@@ -42,7 +43,11 @@ namespace Subtext.ImportExport
             }
 
             BlogMLBlog blog = DeserializeBlogMlStream(blogMLStream);
+            ImportBlog(importService, blog);
+        }
 
+        public void ImportBlog(IBlogMlImportService importService, BlogMLBlog blog)
+        {
             importService.SetBlogMLExtendedProperties(blog.ExtendedProperties);
 
             IDictionary<string, string> categoryIdMap = importService.CreateCategories(blog);
@@ -57,39 +62,33 @@ namespace Subtext.ImportExport
 
                 string newEntryId = importService.CreateBlogPost(blog, bmlPost, categoryIdMap);
 
-                if(bmlPost.Comments.Count > 0)
+                foreach(BlogMLComment bmlComment in bmlPost.Comments)
                 {
-                    foreach(BlogMLComment bmlComment in bmlPost.Comments)
+                    try
                     {
-                        try
-                        {
-                            importService.CreatePostComment(bmlComment, newEntryId);
-                        }
-                        catch(Exception)
-                        {
-                            //_provider.LogError(Resources.Log_ErrorWhileImportingComment, e);
-                        }
+                        importService.CreatePostComment(bmlComment, newEntryId);
+                    }
+                    catch(Exception e)
+                    {
+                        importService.LogError(Resources.Import_ErrorWhileImportingComment, e);
                     }
                 }
 
-                if(bmlPost.Trackbacks.Count > 0)
+                foreach(BlogMLTrackback bmlPingTrack in bmlPost.Trackbacks)
                 {
-                    foreach(BlogMLTrackback bmlPingTrack in bmlPost.Trackbacks)
+                    try
                     {
-                        try
-                        {
-                            importService.CreatePostTrackback(bmlPingTrack, newEntryId);
-                        }
-                        catch(Exception)
-                        {
-                            //_provider.LogError(Resources.Log_ErrorWhileImportingComment, e);
-                        }
+                        importService.CreatePostTrackback(bmlPingTrack, newEntryId);
+                    }
+                    catch(Exception e)
+                    {
+                        importService.LogError(Resources.Import_ErrorWhileImportingComment, e);
                     }
                 }
             } // End Posts
         }
 
-        private string CreateFilesFromAttachments(IBlogMlImportService importService, BlogMLPost bmlPost, string postContent)
+        private static string CreateFilesFromAttachments(IBlogMlImportService importService, BlogMLPost bmlPost, string postContent)
         {
             foreach(BlogMLAttachment bmlAttachment in bmlPost.Attachments)
             {

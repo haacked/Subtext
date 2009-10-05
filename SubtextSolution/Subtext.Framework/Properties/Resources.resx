@@ -364,4 +364,7 @@
   <data name="ArgumentException_CommentTypeMismatch" xml:space="preserve">
     <value>Cannot convert a comment of type '{0}' to '{1}'</value>
   </data>
+  <data name="Import_ErrorWhileImportingComment" xml:space="preserve">
+    <value>An exception occurred while importing a comment</value>
+  </data>
 </root>
