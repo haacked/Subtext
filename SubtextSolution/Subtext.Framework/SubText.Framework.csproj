@@ -397,6 +397,7 @@
     <Compile Include="ImportExport\IBlogMLSource.cs" />
     <Compile Include="ImportExport\IBlogMLWriter.cs" />
     <Compile Include="ImportExport\SubtextBlogMLConverter.cs" />
+    <Compile Include="ImportExport\SubtextBlogMlImportService.cs" />
     <Compile Include="ImportExport\SubtextBlogMLSource.cs" />
     <Compile Include="Infrastructure\ActionResults\ExportActionResult.cs" />
     <Compile Include="Infrastructure\IServiceLocator.cs" />
@@ -418,7 +419,6 @@
     <Compile Include="Images.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImportExport\SubtextBlogMlProvider.cs" />
     <Compile Include="Infrastructure\ActionResults\CacheableFileContentResult.cs" />
     <Compile Include="Infrastructure\ActionResults\NotModifiedResult.cs" />
     <Compile Include="Infrastructure\ComponentProvider.cs" />

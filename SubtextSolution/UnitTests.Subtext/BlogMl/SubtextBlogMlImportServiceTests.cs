@@ -12,7 +12,7 @@ using Subtext.ImportExport;
 namespace UnitTests.Subtext.BlogMl
 {
     [TestFixture]
-    public class SubtextBlogMlServiceTests
+    public class SubtextBlogMlImportServiceTests
     {
         [Test]
         public void GetTitleFromEntry_WithPostHavingNoTitle_CreatesUsesPostNameIfAvailable()
