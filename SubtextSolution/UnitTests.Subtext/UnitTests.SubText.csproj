@@ -274,7 +274,7 @@
     <Compile Include="BlogMl\BlogMLReaderTests.cs" />
     <Compile Include="BlogMl\BlogMLWriterTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMLConverterTests.cs" />
-    <Compile Include="BlogMl\SubtextBlogMlProviderTests.cs" />
+    <Compile Include="BlogMl\SubtextBlogMlImportServiceTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMLSourceTests.cs" />
     <Compile Include="DatabaseHelper.cs">
       <SubType>Code</SubType>
