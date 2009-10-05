@@ -25,6 +25,7 @@ using System.Web.Security;
 using log4net;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 
@@ -484,7 +485,7 @@ namespace Subtext.Framework.Security
                 info.Password = password;
             }
             //Save new password.
-            Config.UpdateConfigData(info);
+            ObjectProvider.Instance().UpdateConfigData(info);
         }
 
         public static void UpdateHostAdminPassword(string password)

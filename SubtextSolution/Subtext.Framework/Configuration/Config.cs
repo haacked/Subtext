@@ -56,7 +56,7 @@ namespace Subtext.Framework.Configuration
         private readonly static ILog Log = new Log();
 
         static UrlBasedBlogInfoProvider _configProvider;
-        static ConnectionString connectionString;
+        static ConnectionString _connectionString;
 
         /// <summary>
         /// Returns an instance of <see cref="BlogConfigurationSettings"/> which 
@@ -80,7 +80,7 @@ namespace Subtext.Framework.Configuration
         {
             get
             {
-                if(connectionString == null)
+                if(_connectionString == null)
                 {
                     string connectionStringName = ConfigurationManager.AppSettings["connectionStringName"];
                     if(ConfigurationManager.ConnectionStrings[connectionStringName] == null)
@@ -92,9 +92,9 @@ namespace Subtext.Framework.Configuration
                     }
                     string connectionStringText =
                         ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
-                    connectionString = ConnectionString.Parse(connectionStringText);
+                    _connectionString = ConnectionString.Parse(connectionStringText);
                 }
-                return connectionString;
+                return _connectionString;
             }
         }
 
@@ -202,11 +202,6 @@ namespace Subtext.Framework.Configuration
         /// Until Subtext supports multiple blogs again (if ever), 
         /// this will always return the same instance.
         /// </remarks>
-        /// <param name="hostName">Hostname.</param>
-        /// <param name="subfolder">Subfolder Name.</param>
-        /// <param name="strict">If false, then this will return a blog record if 
-        /// there is only one blog record, regardless if the subfolder and hostname match.</param>
-        /// <returns></returns>
         public static Blog GetBlog(string hostName, string subfolder)
         {
             hostName = Blog.StripPortFromHost(hostName);
@@ -299,7 +294,7 @@ namespace Subtext.Framework.Configuration
 
             //If the subfolder is null, this next check is redundant as it is 
             //equivalent to the check we just made.
-            if(subfolder != null && subfolder.Length > 0)
+            if(!string.IsNullOrEmpty(subfolder))
             {
                 //Check to see if we're going to end up hiding another blog.
                 Blog potentialHidden = GetBlog(host, string.Empty);
@@ -312,7 +307,7 @@ namespace Subtext.Framework.Configuration
 
             subfolder = UrlFormats.StripSurroundingSlashes(subfolder);
 
-            if(subfolder == null || subfolder.Length == 0)
+            if(string.IsNullOrEmpty(subfolder))
             {
                 //Check to see if this blog requires a Subfolder value
                 //This would occur if another blog has the same host already.
@@ -342,9 +337,7 @@ namespace Subtext.Framework.Configuration
         /// Updates the database with the configuration data within 
         /// the specified <see cref="Blog"/> instance.
         /// </summary>
-        /// <param name="info">Config.</param>
-        /// <returns></returns>
-        public static void UpdateConfigData(Blog info)
+        public static void UpdateConfigData(this ObjectProvider repository, Blog info)
         {
             //Check for duplicate
             Blog potentialDuplicate = GetBlog(info.Host, info.Subfolder);
@@ -390,7 +383,7 @@ namespace Subtext.Framework.Configuration
             info.IsPasswordHashed = Settings.UseHashedPasswords;
             info.AllowServiceAccess = Settings.AllowServiceAccess;
 
-            ObjectProvider.Instance().UpdateBlog(info);
+            repository.UpdateBlog(info);
         }
 
         //TODO: Is this the right place to put this list?
@@ -415,7 +408,7 @@ namespace Subtext.Framework.Configuration
                 return false;
             }
 
-            string invalidChars = @"{}[]/\ @!#$%:^&*()?+|""='<>;,";
+            const string invalidChars = @"{}[]/\ @!#$%:^&*()?+|""='<>;,";
 
             foreach(char c in invalidChars)
             {

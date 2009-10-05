@@ -206,7 +206,7 @@ namespace Subtext.Web.Admin.Pages
                 info.OpenIDServer = tbOpenIDServer.Text;
                 info.OpenIDDelegate = tbOpenIDDelegate.Text;
 
-                Config.UpdateConfigData(info);
+                Repository.UpdateConfigData(info);
 
                 Messages.ShowMessage(RES_SUCCESS);
             }

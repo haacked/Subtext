@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using MbUnit.Framework;
 using Moq;
-using Subtext.BlogML;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -34,13 +33,11 @@ namespace UnitTests.Subtext.Framework.Import
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             IEntryPublisher entryPublisher = UnitTestHelper.CreateEntryPublisher(subtextContext.Object);
             var commentService = new CommentService(subtextContext.Object, null);
-            BlogMLReader reader =
-                BlogMLReader.Create(new SubtextBlogMLProvider(subtextContext.Object,
-                                                              commentService, entryPublisher));
+            var importService = new SubtextBlogMlImportService(subtextContext.Object, commentService, entryPublisher);
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.FieldsTooLong.xml");
 
             // act
-            reader.ReadBlog(stream);
+            importService.ImportBlog(new BlogMLReader(), stream);
 
             ICollection<Entry> entries = ObjectProvider.Instance().GetEntries(10, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(1, entries.Count, "Expected only one post.");
@@ -63,12 +60,13 @@ namespace UnitTests.Subtext.Framework.Import
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             IEntryPublisher entryPublisher = UnitTestHelper.CreateEntryPublisher(subtextContext.Object);
             var commentService = new CommentService(subtextContext.Object, null);
-            BlogMLReader reader =
-                BlogMLReader.Create(new SubtextBlogMLProvider(subtextContext.Object,
-                                                              commentService, entryPublisher));
+            var importService = new SubtextBlogMlImportService(subtextContext.Object, commentService, entryPublisher);
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.PostWithAuthor.xml");
-            reader.ReadBlog(stream);
+            
+            // act
+            importService.ImportBlog(new BlogMLReader(), stream);
 
+            // assert
             ICollection<Entry> entries = ObjectProvider.Instance().GetEntries(10, PostType.BlogPost, PostConfig.None, false);
             Assert.AreEqual(1, entries.Count, "Expected only one post.");
             Assert.AreEqual("The Author", entries.First().Author, "Expected the title to be the max length");
@@ -89,11 +87,11 @@ namespace UnitTests.Subtext.Framework.Import
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             IEntryPublisher entryPublisher = UnitTestHelper.CreateEntryPublisher(subtextContext.Object);
             var commentService = new CommentService(subtextContext.Object, null);
-            BlogMLReader reader =
-                BlogMLReader.Create(new SubtextBlogMLProvider(subtextContext.Object,
-                                                              commentService, entryPublisher));
+            var importService = new SubtextBlogMlImportService(subtextContext.Object, commentService, entryPublisher);
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml");
-            reader.ReadBlog(stream);
+
+            // act
+            importService.ImportBlog(new BlogMLReader(), stream);
 
             ICollection<Entry> entries = ObjectProvider.Instance().GetEntries(20, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(18, entries.Count, "Did not get the expected number of entries.");
@@ -114,11 +112,11 @@ namespace UnitTests.Subtext.Framework.Import
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             IEntryPublisher entryPublisher = UnitTestHelper.CreateEntryPublisher(subtextContext.Object);
             var commentService = new CommentService(subtextContext.Object, null);
-            BlogMLReader reader =
-                BlogMLReader.Create(new SubtextBlogMLProvider(subtextContext.Object,
-                                                              commentService, entryPublisher));
+            var importService = new SubtextBlogMlImportService(subtextContext.Object, commentService, entryPublisher);
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.TwoCategories.xml");
-            reader.ReadBlog(stream);
+
+            // act
+            importService.ImportBlog(new BlogMLReader(), stream);
 
             ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
             Assert.AreEqual(2, categories.Count, "Expected two categories to be created");
@@ -135,11 +133,10 @@ namespace UnitTests.Subtext.Framework.Import
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             IEntryPublisher entryPublisher = UnitTestHelper.CreateEntryPublisher(subtextContext.Object);
             var commentService = new CommentService(subtextContext.Object, null);
-            BlogMLReader reader =
-                BlogMLReader.Create(new SubtextBlogMLProvider(subtextContext.Object,
-                                                              commentService, entryPublisher));
+            var importService = new SubtextBlogMlImportService(subtextContext.Object, commentService, entryPublisher);
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithCategory.xml");
-            reader.ReadBlog(stream);
+
+            importService.ImportBlog(new BlogMLReader(), stream);
 
             ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
             Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
@@ -166,11 +163,10 @@ namespace UnitTests.Subtext.Framework.Import
             IEntryPublisher entryPublisher = UnitTestHelper.CreateEntryPublisher(subtextContext.Object);
             var commentService = new CommentService(subtextContext.Object, null);
 
-            BlogMLReader reader =
-                BlogMLReader.Create(new SubtextBlogMLProvider(subtextContext.Object,
-                                                              commentService, entryPublisher));
+            var importService = new SubtextBlogMlImportService(subtextContext.Object, commentService, entryPublisher);
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithBadCategoryRef.xml");
-            reader.ReadBlog(stream);
+
+            importService.ImportBlog(new BlogMLReader(), stream);
 
             ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
             Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");

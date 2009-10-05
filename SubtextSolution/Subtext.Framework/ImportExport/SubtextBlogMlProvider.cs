@@ -23,7 +23,6 @@ using System.Linq;
 using System.Web;
 using BlogML;
 using BlogML.Xml;
-using Subtext.BlogML;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -36,17 +35,14 @@ using Subtext.Framework.Text;
 
 namespace Subtext.ImportExport
 {
-    public class SubtextBlogMLProvider : BlogMLProvider
+    public class SubtextBlogMlImportService : IBlogMlImportService
     {
-        bool _duplicateCommentsEnabled;
-
-        public SubtextBlogMLProvider(ISubtextContext context, ICommentService commentService,
+        public SubtextBlogMlImportService(ISubtextContext context, ICommentService commentService,
                                      IEntryPublisher entryPublisher)
         {
             SubtextContext = context;
             CommentService = commentService;
             EntryPublisher = entryPublisher;
-            PageSize = 100;
         }
 
         public ISubtextContext SubtextContext { get; private set; }
@@ -74,7 +70,7 @@ namespace Subtext.ImportExport
         /// Returns the context under which blogml import or export is running under.
         /// </summary>
         /// <returns></returns>
-        public override BlogMLContext GetBlogMLContext()
+        public BlogMLContext GetBlogMLContext()
         {
             bool embedValue = false;
             if(HttpContext.Current != null && HttpContext.Current.Request != null)
@@ -86,29 +82,26 @@ namespace Subtext.ImportExport
             return new BlogMLContext(Blog.Id.ToString(CultureInfo.InvariantCulture), embedValue);
         }
 
-        /// <summary>
-        /// Method called before an import begins. Allows the provider to 
-        /// initialize any state in the current blog.
-        /// </summary>
-        public override void PreImport()
+        public void ImportBlog(BlogMLReader reader, Stream stream)
         {
-            _duplicateCommentsEnabled = Blog.DuplicateCommentsEnabled;
-            if(!_duplicateCommentsEnabled)
+            bool duplicateCommentsEnabled = Blog.DuplicateCommentsEnabled;
+            try
             {
-                // Allow duplicate comments temporarily.
-                Blog.DuplicateCommentsEnabled = true;
-                Config.UpdateConfigData(Blog);
+                if(!duplicateCommentsEnabled)
+                {
+                    // Allow duplicate comments temporarily.
+                    Blog.DuplicateCommentsEnabled = true;
+                    Repository.UpdateConfigData(Blog);
+                }
+                reader.ReadBlog(this, stream);
             }
-        }
-
-        /// <summary>
-        /// Method called when an import is complete.
-        public override void ImportComplete()
-        {
-            if(Blog.DuplicateCommentsEnabled != _duplicateCommentsEnabled)
+            finally
             {
-                Blog.DuplicateCommentsEnabled = _duplicateCommentsEnabled;
-                Config.UpdateConfigData(Blog);
+                if(Blog.DuplicateCommentsEnabled != duplicateCommentsEnabled)
+                {
+                    Blog.DuplicateCommentsEnabled = duplicateCommentsEnabled;
+                    Repository.UpdateConfigData(Blog);
+                }
             }
         }
 
@@ -119,7 +112,7 @@ namespace Subtext.ImportExport
         /// At this time, we only support PostCollection link categories.
         /// </remarks>
         /// <param name="blog"></param>
-        public override IDictionary<string, string> CreateCategories(BlogMLBlog blog)
+        public IDictionary<string, string> CreateCategories(BlogMLBlog blog)
         {
             IDictionary<string, string> idMap = new Dictionary<string, string>();
             foreach(BlogMLCategory bmlCategory in blog.Categories)
@@ -146,7 +139,7 @@ namespace Subtext.ImportExport
         /// the opportunity to use attachment specific directories 
         /// (ex. based on mime type) should it choose.
         /// </remarks>
-        public override string GetAttachmentDirectoryPath(BlogMLAttachment attachment)
+        public string GetAttachmentDirectoryPath(BlogMLAttachment attachment)
         {
             return Url.ImageDirectoryPath(Blog);
         }
@@ -159,7 +152,7 @@ namespace Subtext.ImportExport
         /// the opportunity to use attachment specific directories 
         /// (ex. based on mime type) should it choose.
         /// </remarks>
-        public override string GetAttachmentDirectoryUrl(BlogMLAttachment attachment)
+        public string GetAttachmentDirectoryUrl(BlogMLAttachment attachment)
         {
             return Url.ImageDirectoryUrl(Blog);
         }
@@ -167,7 +160,7 @@ namespace Subtext.ImportExport
         /// <summary>
         /// Creates a blog post and returns the id.
         /// </summary>
-        public override string CreateBlogPost(BlogMLBlog blog, BlogMLPost post,
+        public string CreateBlogPost(BlogMLBlog blog, BlogMLPost post,
                                               IDictionary<string, string> categoryIdMap)
         {
             Entry newEntry = CreateEntryFromBlogMLBlogPost(blog, post, categoryIdMap);
@@ -270,7 +263,7 @@ namespace Subtext.ImportExport
         /// <summary>
         /// Creates a comment in the system.
         /// </summary>
-        public override void CreatePostComment(BlogMLComment comment, string newPostId)
+        public void CreatePostComment(BlogMLComment comment, string newPostId)
         {
             var newComment = new FeedbackItem(FeedbackType.Comment)
             {
@@ -298,7 +291,7 @@ namespace Subtext.ImportExport
         /// </summary>
         /// <param name="trackback"></param>
         /// <param name="newPostId"></param>
-        public override void CreatePostTrackback(BlogMLTrackback trackback, string newPostId)
+        public void CreatePostTrackback(BlogMLTrackback trackback, string newPostId)
         {
             var newPingTrack = new FeedbackItem(FeedbackType.PingTrack)
             {
@@ -319,7 +312,7 @@ namespace Subtext.ImportExport
             CommentService.Create(newPingTrack);
         }
 
-        public override void SetBlogMLExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties)
+        public void SetBlogMLExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties)
         {
             if(extendedProperties != null && extendedProperties.Count > 0)
             {
@@ -352,14 +345,14 @@ namespace Subtext.ImportExport
                     }
                 }
 
-                Config.UpdateConfigData(info);
+                Repository.UpdateConfigData(info);
             }
         }
 
         /// <summary>
         /// Lets the provider decide how to log errors.
         /// </summary>
-        public override void LogError(string message, Exception exception)
+        public void LogError(string message, Exception exception)
         {
             //TODO:
         }

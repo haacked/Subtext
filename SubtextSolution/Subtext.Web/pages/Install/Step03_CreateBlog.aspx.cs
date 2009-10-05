@@ -58,7 +58,7 @@ namespace Subtext.Web.Install
                 {
                     Blog blog = Config.GetBlog(Request.Url.Host, string.Empty);
                     blog.Email = Request.QueryString["email"];
-                    Config.UpdateConfigData(blog);
+                    Repository.UpdateConfigData(blog);
                 }
                 //We probably should have creating the blog authenticate the user 
                 //automatically so this redirect doesn't require a login.

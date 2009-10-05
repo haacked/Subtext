@@ -17,7 +17,6 @@
 
 using System;
 using log4net;
-using Subtext.BlogML;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
@@ -35,7 +34,7 @@ namespace Subtext.Web.Admin.Pages
     /// </summary>
     public partial class ImportExportPage : AdminOptionsPage
     {
-        private readonly static ILog log = new Log();
+        private readonly static ILog Log = new Log();
 
         protected override void OnInit(EventArgs e)
         {
@@ -72,19 +71,19 @@ namespace Subtext.Web.Admin.Pages
         {
             ISubtextContext context = SubtextContext;
             var commentService = new CommentService(context, null);
-            var provider = new SubtextBlogMLProvider(context, commentService,
+            var importService = new SubtextBlogMlImportService(context, commentService,
                                                      context.GetService<IEntryPublisher>());
 
-            BlogMLReader bmlReader = BlogMLReader.Create(provider);
+            var bmlReader = new BlogMLReader();
 
             try
             {
-                bmlReader.ReadBlog(importBlogMLFile.PostedFile.InputStream);
+                importService.ImportBlog(bmlReader, importBlogMLFile.PostedFile.InputStream);
             }
-            catch(BlogImportException bie)
+            catch(BlogImportException e)
             {
-                log.Error(Resources.ImportExport_ImportFailed, bie);
-                Messages.ShowError(bie.Message, true);
+                Log.Error(Resources.ImportExport_ImportFailed, e);
+                Messages.ShowError(e.Message, true);
             }
             finally
             {

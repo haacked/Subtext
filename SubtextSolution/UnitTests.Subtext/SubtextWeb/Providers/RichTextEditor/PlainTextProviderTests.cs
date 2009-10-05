@@ -75,7 +75,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         public void TestInitializationWithNullName()
         {
             var provider = new PlainTextBlogEntryEditorProvider();
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() =>
+            UnitTestHelper.AssertThrowsArgumentNullException(() =>
                                                                provider.Initialize(null, null)
                 );
         }
@@ -84,7 +84,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         public void TestInitializationWithNullConfigValue()
         {
             var provider = new PlainTextBlogEntryEditorProvider();
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() =>
+            UnitTestHelper.AssertThrowsArgumentNullException(() =>
                                                                provider.Initialize("PlainTextProvider", null)
                 );
         }

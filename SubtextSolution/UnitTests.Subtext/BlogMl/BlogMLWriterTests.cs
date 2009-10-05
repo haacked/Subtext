@@ -12,7 +12,7 @@ using Subtext.ImportExport;
 namespace UnitTests.Subtext.BlogMl
 {
     [TestFixture]
-    public class BlogMLWriter2Tests
+    public class BlogMLWriterTests
     {
         [Test]
         public void Write_WithSourceReturningBlog_WritesBlogInfoToWriter()

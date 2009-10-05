@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Services
             var generator = new SlugGenerator(null);
 
             //act, assert
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() => generator.GetSlugFromTitle(null));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => generator.GetSlugFromTitle(null));
         }
 
         [Test]

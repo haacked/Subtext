@@ -1194,7 +1194,12 @@ namespace UnitTests.Subtext
 
         #region ...Assert.AreNotEqual replacements...
 
-        public static TException AssertThrows<TException>(Action action) where TException : Exception
+        public static ArgumentNullException AssertThrowsArgumentNullException(this Action action)
+        {
+            return action.AssertThrows<ArgumentNullException>();
+        }
+
+        public static TException AssertThrows<TException>(this Action action) where TException : Exception
         {
             try
             {

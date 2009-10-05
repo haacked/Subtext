@@ -152,7 +152,7 @@ namespace UnitTests.Subtext.Framework.Web
             string text = null;
 
             // act
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() => text.GetSafeFileName());
+            UnitTestHelper.AssertThrowsArgumentNullException(() => text.GetSafeFileName());
         }
 
         [Test]
@@ -162,7 +162,7 @@ namespace UnitTests.Subtext.Framework.Web
             string text = string.Empty;
 
             // act
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() => text.GetSafeFileName());
+            UnitTestHelper.AssertThrowsArgumentNullException(() => text.GetSafeFileName());
         }
     }
 }

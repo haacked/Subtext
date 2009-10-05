@@ -73,15 +73,15 @@ namespace UnitTests.Subtext.Framework.Util
         [Test]
         public void CheckDirectoryThrowsArgumentNullException()
         {
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() => FileHelper.EnsureDirectory(null));
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() => FileHelper.EnsureDirectory(string.Empty));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => FileHelper.EnsureDirectory(null));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => FileHelper.EnsureDirectory(string.Empty));
         }
 
         [Test]
         public void WriteBytesToFile_WithNullDestination_ThrowsArgumentNullException()
         {
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() => FileHelper.WriteBytesToFile(null, new byte[0]));
-            UnitTestHelper.AssertThrows<ArgumentNullException>(
+            UnitTestHelper.AssertThrowsArgumentNullException(() => FileHelper.WriteBytesToFile(null, new byte[0]));
+            UnitTestHelper.AssertThrowsArgumentNullException(
                 () => FileHelper.WriteBytesToFile(string.Empty, new byte[0]));
         }
 

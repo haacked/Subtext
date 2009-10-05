@@ -28,6 +28,7 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
 using Subtext.Web.Admin;
+using Subtext.Web.Admin.WebUI.Controls;
 using Subtext.Web.Properties;
 
 namespace Subtext.Web.HostAdmin.UserControls
@@ -38,12 +39,10 @@ namespace Subtext.Web.HostAdmin.UserControls
     ///	For the full options, one should visit the individual 
     ///	blog's admin tool.
     /// </summary>
-    public partial class BlogsEditor : UserControl
+    public partial class BlogsEditor : BaseUserControl
     {
         const string VSKEY_ALIASID = "VSKEY_ALIAS";
         const string VSKEY_BLOGID = "VS_BLOGID";
-        UrlHelper _urlHelper = null;
-
         int pageIndex = 0;
 
         #region Declared Controls
@@ -51,18 +50,6 @@ namespace Subtext.Web.HostAdmin.UserControls
         protected Button btnAddNewBlog = new Button();
 
         #endregion
-
-        public UrlHelper Url
-        {
-            get
-            {
-                if(_urlHelper == null)
-                {
-                    _urlHelper = new UrlHelper(null, null);
-                }
-                return _urlHelper;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the blog id.
@@ -117,10 +104,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                 {
                     return (int)ViewState["VS_CurrentBlogCount"];
                 }
-                else
-                {
-                    return NullValue.NullInt32;
-                }
+                return NullValue.NullInt32;
             }
             set { ViewState["VS_CurrentBlogCount"] = value; }
         }
@@ -423,7 +407,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             try
             {
-                Config.UpdateConfigData(blog);
+                SubtextPage.Repository.UpdateConfigData(blog);
                 messagePanel.ShowMessage(Resources.BlogsEditor_BlogSaved);
             }
             catch(Exception)
@@ -478,7 +462,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             blog.IsActive = !blog.IsActive;
             try
             {
-                Config.UpdateConfigData(blog);
+                SubtextPage.Repository.UpdateConfigData(blog);
                 if(blog.IsActive)
                 {
                     messagePanel.ShowMessage(Resources.BlogsEditor_BlogActivated);

@@ -214,7 +214,7 @@ namespace UnitTests.Subtext.Framework.Text
         public void Format_WithNullFormatString_ThrowsArgumentNullException()
         {
             //arrange, act, assert
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() => ((string)null).NamedFormat(123));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => ((string)null).NamedFormat(123));
         }
     }
 }

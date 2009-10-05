@@ -272,7 +272,7 @@
     <Compile Include="BlogEntryProvider\FileBrowserConnectorTests.cs" />
     <Compile Include="BlogMl\BlogMlImportTests.cs" />
     <Compile Include="BlogMl\BlogMLReaderTests.cs" />
-    <Compile Include="BlogMl\BlogMLWriter2Tests.cs" />
+    <Compile Include="BlogMl\BlogMLWriterTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMLConverterTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMlProviderTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMLSourceTests.cs" />
