@@ -38,7 +38,7 @@ namespace Subtext.Web.UI.Controls
             try
             {
                 DateTime dt = SubtextContext.RequestContext.GetDateFromRequest();
-                Days.EntryListItems = Cacher.GetMonth(dt, SubtextContext);
+                Days.EntryListItems = Cacher.GetEntriesForMonth(dt, SubtextContext);
                 Days.EntryListTitle = string.Format(CultureInfo.InvariantCulture, "{0} " + Resources.Label_Entries,
                                                     dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture));
                 Globals.SetTitle(

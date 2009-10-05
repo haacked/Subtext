@@ -1,8 +1,3 @@
-using System;
-using System.Globalization;
-using Subtext.Framework.Data;
-using Subtext.Framework.Util;
-
 #region Disclaimer/Info
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,6 +14,11 @@ using Subtext.Framework.Util;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endregion
+
+using System;
+using System.Globalization;
+using Subtext.Framework.Data;
+using Subtext.Framework.Util;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -37,7 +37,7 @@ namespace Subtext.Web.UI.Controls
                 try
                 {
                     DateTime dayDate = SubtextContext.RequestContext.GetDateFromRequest();
-                    SingleDay.CurrentDay = Cacher.GetDay(dayDate, SubtextContext);
+                    SingleDay.CurrentDay = Cacher.GetEntriesForDay(dayDate, SubtextContext);
                     Globals.SetTitle(
                         string.Format(CultureInfo.InvariantCulture, "{0} - {1} Entries", Blog.Title,
                                       dayDate.ToString("D", CultureInfo.CurrentCulture)), Context);
