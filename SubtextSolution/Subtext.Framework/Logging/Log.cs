@@ -966,10 +966,10 @@ namespace Subtext.Framework.Logging
 
         #endregion
 
-        private ILog CreateInnerLogger(Type type)
+        private static ILog CreateInnerLogger(Type type)
         {
             ILog log = LogManager.GetLogger(type);
-            return log != null ? log : __nullLog;
+            return log ?? __nullLog;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -992,7 +992,7 @@ namespace Subtext.Framework.Logging
             ThreadContext.Properties["BlogId"] = blogId;
         }
 
-        void SetUrlContext()
+        static void SetUrlContext()
         {
             if(HttpContext.Current != null)
             {
