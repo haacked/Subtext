@@ -133,7 +133,7 @@ namespace Subtext.Web.Admin
                 skinEngine.GetSkinTemplates(false /* mobile */).ItemOrNull(Request.Form["SkinKey"]);
             blog.Skin.TemplateFolder = skinTemplate.TemplateFolder;
             blog.Skin.SkinStyleSheet = skinTemplate.StyleSheet;
-            Config.UpdateConfigData(blog);
+            Repository.UpdateConfigData(blog);
 
             Messages.ShowMessage(Resources.Skins_SkinSaved);
             BindLocalUI();

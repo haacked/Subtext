@@ -18,6 +18,7 @@
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Configuration
 {
@@ -73,7 +74,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Blog info = Config.GetBlog(hostName, string.Empty);
             bool test = info.IsAggregated;
             info.ShowEmailAddressInRss = false;
-            Config.UpdateConfigData(info);
+            ObjectProvider.Instance().UpdateConfigData(info);
             info = Config.GetBlog(hostName, string.Empty);
 
             Assert.AreEqual(test, info.IsAggregated);
@@ -89,7 +90,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Blog info = Config.GetBlog(hostName, string.Empty);
             info.OpenIDServer = "http://server.example.com/";
             info.OpenIDDelegate = "http://delegate.example.com/";
-            Config.UpdateConfigData(info);
+            ObjectProvider.Instance().UpdateConfigData(info);
             info = Config.GetBlog(hostName, string.Empty);
 
             Assert.AreEqual("http://server.example.com/", info.OpenIDServer);

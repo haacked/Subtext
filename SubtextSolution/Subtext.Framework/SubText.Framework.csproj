@@ -390,10 +390,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ImportExport\BlogMlContext.cs" />
-    <Compile Include="ImportExport\BlogMlProvider.cs" />
     <Compile Include="ImportExport\BlogMLReader.cs" />
     <Compile Include="ImportExport\BlogMLWriter.cs" />
     <Compile Include="ImportExport\IBlogMLConverter.cs" />
+    <Compile Include="ImportExport\IBlogMlImportService.cs" />
     <Compile Include="ImportExport\IBlogMLSource.cs" />
     <Compile Include="ImportExport\IBlogMLWriter.cs" />
     <Compile Include="ImportExport\SubtextBlogMLConverter.cs" />

@@ -243,7 +243,7 @@ namespace Subtext.Web.Admin.Pages
                 }
 
                 info.FeedbackSpamServiceKey = txtAkismetAPIKey.Text;
-                Config.UpdateConfigData(info);
+                Repository.UpdateConfigData(info);
                 Messages.ShowMessage(Resources.Comments_SettingsUpdated);
             }
         }

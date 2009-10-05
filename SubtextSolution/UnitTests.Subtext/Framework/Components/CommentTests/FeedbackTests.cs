@@ -414,7 +414,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             info.CommentsEnabled = true;
             info.ModerationEnabled = false;
 
-            Config.UpdateConfigData(info);
+            ObjectProvider.Instance().UpdateConfigData(info);
 
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("blah", "blah", "blah");
             UnitTestHelper.Create(entry);

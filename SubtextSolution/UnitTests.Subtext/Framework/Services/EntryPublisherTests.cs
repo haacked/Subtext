@@ -21,7 +21,7 @@ namespace UnitTests.Subtext.Framework.Services
         [Test]
         public void Ctor_WithNullContext_ThrowsArgumentNullException()
         {
-            UnitTestHelper.AssertThrows<ArgumentNullException>(
+            UnitTestHelper.AssertThrowsArgumentNullException(
                 () =>
                 new EntryPublisher(null, EmptyTextTransformation.Instance,
                                    new SlugGenerator(FriendlyUrlSettings.Settings)));
@@ -237,7 +237,7 @@ namespace UnitTests.Subtext.Framework.Services
             var publisher = new EntryPublisher(context.Object, null, null);
 
             //act, assert
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() => publisher.Publish(null));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => publisher.Publish(null));
         }
 
         [Test]

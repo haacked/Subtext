@@ -35,7 +35,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             var controller = new CommentApiController(subtextContext, service);
 
             // act, assert
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() => controller.Create(1, null));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => controller.Create(1, null));
         }
 
         [Test]

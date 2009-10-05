@@ -302,7 +302,7 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/");
 
             //act, assert
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() => helper.GalleryImagePageUrl(null));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => helper.GalleryImagePageUrl(null));
         }
 
         [Test]

@@ -507,7 +507,7 @@ namespace UnitTests.Subtext.Framework.Data
         [Test]
         public void SingleCategoryThrowsExceptionIfContextNull()
         {
-            UnitTestHelper.AssertThrows<ArgumentNullException>(
+            UnitTestHelper.AssertThrowsArgumentNullException(
                 () => Cacher.SingleCategory(null)
                 );
         }

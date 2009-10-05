@@ -42,7 +42,7 @@ namespace Subtext.Web.Admin.Pages
         {
             Blog info = Config.CurrentBlog;
             info.OpenIDUrl = tbOpenIDURL.Text;
-            Config.UpdateConfigData(info);
+            Repository.UpdateConfigData(info);
         }
 
         protected void btnChangePassword_Click(object sender, EventArgs e)

@@ -46,7 +46,7 @@ namespace Subtext.Web.Admin.Pages
 
             Blog info = Config.CurrentBlog;
             info.AutoFriendlyUrlEnabled = chkAutoGenerate.Checked;
-            Config.UpdateConfigData(info);
+            Repository.UpdateConfigData(info);
         }
 
         #region Web Form Designer generated code

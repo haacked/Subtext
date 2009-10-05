@@ -22,30 +22,10 @@ using System.Web;
 using BlogML;
 using BlogML.Xml;
 
-namespace Subtext.BlogML
+namespace Subtext.ImportExport
 {
     public class BlogMLReader
     {
-        readonly BlogMLProvider _provider;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BlogMLReader" /> class.
-        /// </summary>
-        private BlogMLReader(BlogMLProvider provider)
-        {
-            _provider = provider;
-        }
-
-        public static BlogMLReader Create(BlogMLProvider provider)
-        {
-            if(provider == null)
-            {
-                throw new ArgumentNullException("provider");
-            }
-
-            return new BlogMLReader(provider);
-        }
-
         private static BlogMLBlog DeserializeBlogMlStream(Stream stream)
         {
             return BlogMLSerializer.Deserialize(stream);
@@ -54,7 +34,7 @@ namespace Subtext.BlogML
         /// <summary>
         /// Reads in a BlogML Stream and creates the appropriate blog posts, 
         /// </summary>
-        public void ReadBlog(Stream blogMLStream)
+        public virtual void ReadBlog(IBlogMlImportService importService, Stream blogMLStream)
         {
             if(blogMLStream == null)
             {
@@ -63,21 +43,19 @@ namespace Subtext.BlogML
 
             BlogMLBlog blog = DeserializeBlogMlStream(blogMLStream);
 
-            _provider.PreImport();
+            importService.SetBlogMLExtendedProperties(blog.ExtendedProperties);
 
-            _provider.SetBlogMLExtendedProperties(blog.ExtendedProperties);
-
-            IDictionary<string, string> categoryIdMap = _provider.CreateCategories(blog);
+            IDictionary<string, string> categoryIdMap = importService.CreateCategories(blog);
 
             foreach(BlogMLPost bmlPost in blog.Posts)
             {
                 if(bmlPost.Attachments.Count > 0)
                 {
                     //Updates the post content with new attachment urls.
-                    bmlPost.Content.Text = CreateFilesFromAttachments(bmlPost, bmlPost.Content.Text);
+                    bmlPost.Content.Text = CreateFilesFromAttachments(importService, bmlPost, bmlPost.Content.Text);
                 }
 
-                string newEntryId = _provider.CreateBlogPost(blog, bmlPost, categoryIdMap);
+                string newEntryId = importService.CreateBlogPost(blog, bmlPost, categoryIdMap);
 
                 if(bmlPost.Comments.Count > 0)
                 {
@@ -85,7 +63,7 @@ namespace Subtext.BlogML
                     {
                         try
                         {
-                            _provider.CreatePostComment(bmlComment, newEntryId);
+                            importService.CreatePostComment(bmlComment, newEntryId);
                         }
                         catch(Exception)
                         {
@@ -100,7 +78,7 @@ namespace Subtext.BlogML
                     {
                         try
                         {
-                            _provider.CreatePostTrackback(bmlPingTrack, newEntryId);
+                            importService.CreatePostTrackback(bmlPingTrack, newEntryId);
                         }
                         catch(Exception)
                         {
@@ -109,17 +87,15 @@ namespace Subtext.BlogML
                     }
                 }
             } // End Posts
-
-            _provider.ImportComplete();
         }
 
-        private string CreateFilesFromAttachments(BlogMLPost bmlPost, string postContent)
+        private string CreateFilesFromAttachments(IBlogMlImportService importService, BlogMLPost bmlPost, string postContent)
         {
             foreach(BlogMLAttachment bmlAttachment in bmlPost.Attachments)
             {
-                string assetDirPath = _provider.GetAttachmentDirectoryPath(bmlAttachment);
+                string assetDirPath = importService.GetAttachmentDirectoryPath(bmlAttachment);
 
-                string assetDirUrl = _provider.GetAttachmentDirectoryUrl(bmlAttachment);
+                string assetDirUrl = importService.GetAttachmentDirectoryUrl(bmlAttachment);
 
                 if(!String.IsNullOrEmpty(assetDirPath) && !String.IsNullOrEmpty(assetDirUrl))
                 {

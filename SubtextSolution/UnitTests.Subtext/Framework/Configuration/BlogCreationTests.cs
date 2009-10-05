@@ -21,6 +21,7 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.Configuration
@@ -42,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack]
         public void CreatingBlogHashesPassword()
         {
-            string password = "MyPassword";
+            const string password = "MyPassword";
             string hashedPassword = SecurityHelper.HashPassword(password);
 
             Config.CreateBlog("", "username", password, _hostName, "MyBlog1");
@@ -67,7 +68,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Blog info = Config.GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
             string password = info.Password;
             info.LicenseUrl = "http://subtextproject.com/";
-            Config.UpdateConfigData(info);
+            ObjectProvider.Instance().UpdateConfigData(info);
 
             info = Config.GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
             Assert.AreEqual(password, info.Password);
@@ -125,10 +126,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         public void CreateBlogCannotCreateBlogWithHostThatIsDuplicateOfAnotherBlogAlias()
         {
             Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
-            var alias = new BlogAlias();
-            alias.Host = "example.com";
-            alias.IsActive = true;
-            alias.BlogId = Config.GetBlog(_hostName, string.Empty).Id;
+            var alias = new BlogAlias {Host = "example.com", IsActive = true, BlogId = Config.GetBlog(_hostName, string.Empty).Id};
             Config.AddBlogAlias(alias);
 
             try
@@ -158,10 +156,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
             Config.CreateBlog("title", "username2", "password2", "example.com", string.Empty);
 
-            var alias = new BlogAlias();
-            alias.Host = "example.com";
-            alias.IsActive = true;
-            alias.BlogId = Config.GetBlog(_hostName, string.Empty).Id;
+            var alias = new BlogAlias {Host = "example.com", IsActive = true, BlogId = Config.GetBlog(_hostName, string.Empty).Id};
             try
             {
                 Config.AddBlogAlias(alias);
@@ -205,7 +200,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Blog info = Config.GetBlog(secondHost, "MyBlog");
             info.Host = _hostName;
 
-            Config.UpdateConfigData(info);
+            ObjectProvider.Instance().UpdateConfigData(info);
         }
 
         /// <summary>
@@ -223,7 +218,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Blog info = Config.GetBlog(anotherHost, string.Empty);
             info.Host = _hostName;
 
-            Config.UpdateConfigData(info);
+            ObjectProvider.Instance().UpdateConfigData(info);
         }
 
         /// <summary>
@@ -272,7 +267,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Blog info = Config.GetBlog("www.mydomain.com", string.Empty);
             info.Host = "mydomain.com";
             info.Subfolder = "MyBlog";
-            Config.UpdateConfigData(info);
+            ObjectProvider.Instance().UpdateConfigData(info);
         }
 
         /// <summary>
@@ -291,7 +286,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Blog info = Config.GetBlog(anotherHost, string.Empty);
             info.Host = _hostName;
             info.Subfolder = string.Empty;
-            Config.UpdateConfigData(info);
+            ObjectProvider.Instance().UpdateConfigData(info);
         }
 
         /// <summary>
@@ -305,7 +300,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
             Blog info = Config.GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
             info.Author = "Phil";
-            Config.UpdateConfigData(info); //Make sure no exception is thrown.
+            ObjectProvider.Instance().UpdateConfigData(info); //Make sure no exception is thrown.
         }
 
         [Test]
@@ -314,10 +309,8 @@ namespace UnitTests.Subtext.Framework.Configuration
         {
             Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
             Blog info = Config.GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
-            info.MobileSkin = new SkinConfig();
-            info.MobileSkin.TemplateFolder = "Mobile";
-            info.MobileSkin.SkinStyleSheet = "Mobile.css";
-            Config.UpdateConfigData(info);
+            info.MobileSkin = new SkinConfig {TemplateFolder = "Mobile", SkinStyleSheet = "Mobile.css"};
+            ObjectProvider.Instance().UpdateConfigData(info);
             Blog blog = Blog.GetBlogById(info.Id);
             Assert.AreEqual("Mobile", blog.MobileSkin.TemplateFolder);
             Assert.AreEqual("Mobile.css", blog.MobileSkin.SkinStyleSheet);
@@ -411,7 +404,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Blog info = Config.GetBlog(_hostName, "Anything");
             info.Subfolder = "bin";
 
-            Config.UpdateConfigData(info);
+            ObjectProvider.Instance().UpdateConfigData(info);
         }
 
         /// <summary>
@@ -426,7 +419,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Blog info = Config.GetBlog(_hostName, "archive");
             info.Subfolder = "archive";
 
-            Config.UpdateConfigData(info);
+            ObjectProvider.Instance().UpdateConfigData(info);
         }
 
         /// <summary>

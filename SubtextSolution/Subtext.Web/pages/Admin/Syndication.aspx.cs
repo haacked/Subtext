@@ -88,7 +88,7 @@ namespace Subtext.Web.Admin.Pages
             info.RssProxyUrl = txtFeedBurnerName.Text;
             info.LicenseUrl = txtLicenseUrl.Text;
 
-            Config.UpdateConfigData(info);
+            Repository.UpdateConfigData(info);
         }
 
         protected void lkbPost_Click(object sender, EventArgs e)

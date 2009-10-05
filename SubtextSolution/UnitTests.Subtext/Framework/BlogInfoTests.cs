@@ -209,7 +209,7 @@ namespace UnitTests.Subtext.Framework
         [Test]
         public void GetBlogsByHostThrowsArgumentNullException()
         {
-            UnitTestHelper.AssertThrows<ArgumentNullException>(() =>
+            UnitTestHelper.AssertThrowsArgumentNullException(() =>
                                                                Blog.GetBlogsByHost(null, 0, 10,
                                                                                    ConfigurationFlags.IsActive));
         }

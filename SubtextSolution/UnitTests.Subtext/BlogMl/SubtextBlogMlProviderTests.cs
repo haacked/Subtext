@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using BlogML.Xml;
 using MbUnit.Framework;
 using Moq;
@@ -10,7 +12,7 @@ using Subtext.ImportExport;
 namespace UnitTests.Subtext.BlogMl
 {
     [TestFixture]
-    public class SubtextBlogMlProviderTests
+    public class SubtextBlogMlServiceTests
     {
         [Test]
         public void GetTitleFromEntry_WithPostHavingNoTitle_CreatesUsesPostNameIfAvailable()
@@ -19,7 +21,7 @@ namespace UnitTests.Subtext.BlogMl
             var post = new BlogMLPost {Title = null, PostName = "Hello World"};
 
             // act
-            string title = SubtextBlogMLProvider.GetTitleFromPost(post);
+            string title = SubtextBlogMlImportService.GetTitleFromPost(post);
 
             // assert
             Assert.AreEqual("Hello World", title);
@@ -32,7 +34,7 @@ namespace UnitTests.Subtext.BlogMl
             var post = new BlogMLPost {Title = null, PostName = null, ID = "87618298"};
 
             // act
-            string title = SubtextBlogMLProvider.GetTitleFromPost(post);
+            string title = SubtextBlogMlImportService.GetTitleFromPost(post);
 
             // assert
             Assert.AreEqual("Post #87618298", title);
@@ -48,7 +50,7 @@ namespace UnitTests.Subtext.BlogMl
             var entryPublisher = new Mock<IEntryPublisher>();
             Entry publishedEntry = null;
             entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>())).Callback<Entry>(e => publishedEntry = e);
-            var provider = new SubtextBlogMLProvider(context.Object, commentService.Object,
+            var provider = new SubtextBlogMlImportService(context.Object, commentService.Object,
                                                      entryPublisher.Object);
             var blog = new BlogMLBlog();
             blog.Posts.Add(new BlogMLPost
@@ -71,7 +73,7 @@ namespace UnitTests.Subtext.BlogMl
             var blog = new BlogMLBlog();
 
             // act
-            Entry entry = SubtextBlogMLProvider.CreateEntryFromBlogMLBlogPost(blog, post,
+            Entry entry = SubtextBlogMlImportService.CreateEntryFromBlogMLBlogPost(blog, post,
                                                                               new Dictionary<string, string>());
 
             // assert
@@ -88,7 +90,7 @@ namespace UnitTests.Subtext.BlogMl
             var blog = new BlogMLBlog();
 
             // act
-            Entry entry = SubtextBlogMLProvider.CreateEntryFromBlogMLBlogPost(blog, post,
+            Entry entry = SubtextBlogMlImportService.CreateEntryFromBlogMLBlogPost(blog, post,
                                                                               new Dictionary<string, string>());
 
             // assert
@@ -104,11 +106,34 @@ namespace UnitTests.Subtext.BlogMl
             var blog = new BlogMLBlog();
 
             // act
-            Entry entry = SubtextBlogMLProvider.CreateEntryFromBlogMLBlogPost(blog, post,
+            Entry entry = SubtextBlogMlImportService.CreateEntryFromBlogMLBlogPost(blog, post,
                                                                               new Dictionary<string, string>());
 
             // assert
             Assert.AreEqual("This is a story about a 3 hour voyage", entry.Description);
         }
+
+        [Test]
+        public void ImportBlog_WithBlogNotAllowingDuplicateComments_TurnsOffCommentsTemporarily()
+        {
+            // arrange
+            var context = new Mock<ISubtextContext>();
+            context.Setup(c => c.Blog).Returns(new Blog{Host = "localhost", DuplicateCommentsEnabled = false});
+            var duplicateCommentsEnabledValues = new List<bool>();
+            context.Setup(c => c.Repository.UpdateBlog(It.IsAny<Blog>())).Callback<Blog>(blog => duplicateCommentsEnabledValues.Add(blog.DuplicateCommentsEnabled));
+            var commentService = new Mock<ICommentService>();
+            var entryPublisher = new Mock<IEntryPublisher>();
+            var importService = new SubtextBlogMlImportService(context.Object, commentService.Object, entryPublisher.Object);
+            var reader = new Mock<BlogMLReader>();
+            reader.Setup(r => r.ReadBlog(importService, It.IsAny<Stream>()));
+
+            // act
+            importService.ImportBlog(reader.Object, new MemoryStream());
+
+            //assert
+            Assert.IsTrue(duplicateCommentsEnabledValues.First());
+            Assert.IsFalse(duplicateCommentsEnabledValues.ElementAt(1));
+        }
+
     }
 }
