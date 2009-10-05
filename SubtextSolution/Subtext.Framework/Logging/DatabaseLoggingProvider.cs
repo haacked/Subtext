@@ -32,17 +32,7 @@ namespace Subtext.Framework.Logging
 
         public int BlogId
         {
-            get
-            {
-                if(BlogRequest.Current.IsHostAdminRequest)
-                {
-                    return NullValue.NullInt32;
-                }
-                else
-                {
-                    return Config.CurrentBlog.Id;
-                }
-            }
+            get { return BlogRequest.Current.IsHostAdminRequest ? NullValue.NullInt32 : Config.CurrentBlog.Id; }
         }
 
         /// <summary>
