@@ -44,9 +44,9 @@ namespace Subtext.Web.UI.Controls
         const string linktag = "<a title=\"permalink: {0}\" href=\"{1}\">#</a>";
         static readonly ILog log = new Log();
 
-        private FeedbackItem comment;
+        private FeedbackItem _comment;
         protected Repeater CommentList;
-        private GravatarService gravatarService;
+        private GravatarService _gravatarService;
         protected Literal NoCommentMessage;
 
         public bool IsEditEnabled
@@ -68,7 +68,7 @@ namespace Subtext.Web.UI.Controls
 
         public FeedbackItem Comment
         {
-            get { return comment; }
+            get { return _comment; }
         }
 
         #endregion
@@ -85,7 +85,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            gravatarService = new GravatarService(ConfigurationManager.AppSettings);
+            _gravatarService = new GravatarService(ConfigurationManager.AppSettings);
 
             if(Blog.CommentsEnabled)
             {
@@ -111,7 +111,7 @@ namespace Subtext.Web.UI.Controls
             }
         }
 
-        protected void RemoveComment_ItemCommand(Object Sender, RepeaterCommandEventArgs e)
+        protected void RemoveComment_ItemCommand(Object sender, RepeaterCommandEventArgs e)
         {
             int feedbackId = Int32.Parse(e.CommandName);
             FeedbackItem feedback = FeedbackItem.Get(feedbackId);
@@ -130,7 +130,7 @@ namespace Subtext.Web.UI.Controls
             if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var feedbackItem = (FeedbackItem)e.Item.DataItem;
-                comment = feedbackItem;
+                _comment = feedbackItem;
                 if(feedbackItem != null)
                 {
                     var title = (Literal)(e.Item.FindControl("Title"));
@@ -173,27 +173,27 @@ namespace Subtext.Web.UI.Controls
                         }
                     }
 
-                    var PostDate = (Literal)(e.Item.FindControl("PostDate"));
-                    if(PostDate != null)
+                    var postDate = (Literal)(e.Item.FindControl("PostDate"));
+                    if(postDate != null)
                     {
-                        PostDate.Text = feedbackItem.DateCreated.ToShortDateString() + " " +
+                        postDate.Text = feedbackItem.DateCreated.ToShortDateString() + " " +
                                         feedbackItem.DateCreated.ToShortTimeString();
                     }
 
-                    var Post = e.Item.FindControl("PostText") as Literal;
-                    if(Post != null)
+                    var post = e.Item.FindControl("PostText") as Literal;
+                    if(post != null)
                     {
                         if(feedbackItem.Body.Length > 0)
                         {
-                            Post.Text = feedbackItem.Body;
+                            post.Text = feedbackItem.Body;
                             if(feedbackItem.Body.Length == 0 && feedbackItem.FeedbackType == FeedbackType.PingTrack)
                             {
-                                Post.Text = "Pingback / Trackback";
+                                post.Text = "Pingback / Trackback";
                             }
                         }
                     }
 
-                    if(gravatarService.Enabled)
+                    if(_gravatarService.Enabled)
                     {
                         var gravatarImage = e.Item.FindControl("GravatarImg") as Image;
                         if(gravatarImage != null)
@@ -225,7 +225,7 @@ namespace Subtext.Web.UI.Controls
                                                                          scheme, host, port, defaultImagePath);
                                     defaultGravatarImage = HttpUtility.UrlEncode(defaultGravatarImage);
                                 }
-                                gravatarUrl = gravatarService.GenerateUrl(feedbackItem.Email, defaultGravatarImage);
+                                gravatarUrl = _gravatarService.GenerateUrl(feedbackItem.Email, defaultGravatarImage);
                             }
                             if(!String.IsNullOrEmpty(gravatarUrl))
                             {
@@ -238,7 +238,6 @@ namespace Subtext.Web.UI.Controls
                             }
                             else
                             {
-                                string identiconUrl;
                                 string identiconSizeSetting = ConfigurationManager.AppSettings["IdenticonSize"];
 
                                 int identiconSize = 40;
@@ -246,10 +245,10 @@ namespace Subtext.Web.UI.Controls
                                 {
                                     int.TryParse(identiconSizeSetting, out identiconSize);
                                 }
-                                identiconUrl = string.Format(CultureInfo.InvariantCulture,
-                                                             "~/images/IdenticonHandler.ashx?size={0}&code={1}"
-                                                             , identiconSize
-                                                             , IdenticonUtil.Code(ip));
+                                string identiconUrl = string.Format(CultureInfo.InvariantCulture,
+                                                                    "~/images/IdenticonHandler.ashx?size={0}&code={1}"
+                                                                    , identiconSize
+                                                                    , IdenticonUtil.Code(ip));
 
                                 gravatarImage.ImageUrl = identiconUrl;
                                 gravatarImage.Visible = true;
@@ -322,7 +321,8 @@ namespace Subtext.Web.UI.Controls
         {
             try
             {
-                CommentList.DataSource = Cacher.GetFeedback(entry, fromCache, SubtextContext);
+                CommentList.DataSource = fromCache ? Cacher.GetFeedback(entry, SubtextContext) : Repository.GetFeedbackForEntry(entry);
+
                 CommentList.DataBind();
 
                 if(CommentList.Items.Count == 0)

@@ -145,7 +145,7 @@ namespace Subtext.Web.UI.Controls
         /// </summary>
         private void LoadMonthData()
         {
-            _monthEntries = Cacher.GetMonth(entryCal.SelectedDate, SubtextContext);
+            _monthEntries = Cacher.GetEntriesForMonth(entryCal.SelectedDate, SubtextContext);
             if(_monthEntries == null)
             {
                 Trace.Warn("SubTextBlogCalendar Error: Cacher.GetMonth");

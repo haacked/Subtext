@@ -46,21 +46,19 @@ namespace Subtext.Framework
         /// <summary>
         /// Gets the top tags.
         /// </summary>
-        /// <param name="itemCount">The item count.</param>
-        /// <returns></returns>
-        public static ICollection<Tag> GetTopTags(int itemCount)
+        public static ICollection<Tag> GetMostUsedTags(this ObjectProvider repository, int itemCount)
         {
             if(itemCount < 0)
             {
                 throw new ArgumentOutOfRangeException("itemCount", itemCount,
                                                       Resources.ArgumentOutOfRange_NegativeTagItemCount);
             }
-            IDictionary<string, int> topTags = ObjectProvider.Instance().GetTopTags(itemCount);
+            var topTags = repository.GetTopTags(itemCount);
 
             double mean;
             double stdDev = topTags.Values.StandardDeviation(out mean);
 
-            ICollection<Tag> tags = new List<Tag>();
+            var tags = new List<Tag>();
             foreach(var tag in topTags)
             {
                 var t = new Tag(tag);
