@@ -53,8 +53,6 @@ namespace Subtext.Framework.Configuration
                                                                   "aggbug", "Sitemap"
                                                               };
 
-        private readonly static ILog Log = new Log();
-
         static UrlBasedBlogInfoProvider _configProvider;
         static ConnectionString _connectionString;
 

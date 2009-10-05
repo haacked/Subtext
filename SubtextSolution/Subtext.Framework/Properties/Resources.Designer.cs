@@ -286,6 +286,15 @@ namespace Subtext.Framework.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An exception occurred while importing a comment.
+        /// </summary>
+        public static string Import_ErrorWhileImportingComment {
+            get {
+                return ResourceManager.GetString("Import_ErrorWhileImportingComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backslashes are not allowed in the rss proxy name..
         /// </summary>
         public static string InvalidOperation_BackslashesInRssProxyName {

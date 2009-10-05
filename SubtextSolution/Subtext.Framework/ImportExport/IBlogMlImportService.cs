@@ -15,6 +15,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using BlogML.Xml;
 
@@ -73,5 +74,7 @@ namespace Subtext.ImportExport
         /// (ex. based on mime type) should it choose.
         /// </remarks>
         string GetAttachmentDirectoryUrl(BlogMLAttachment attachment);
+
+        void LogError(string errorMessage, Exception e);
     }
 }
