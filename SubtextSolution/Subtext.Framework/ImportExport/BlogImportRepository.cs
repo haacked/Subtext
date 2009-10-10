@@ -114,7 +114,7 @@ namespace Subtext.ImportExport
 
         public IDisposable SetupBlogForImport()
         {
-            return new BlogMLImportSetup(Blog, Repository);
+            return new BlogImportSetup(Blog, Repository);
         }
 
         /// <summary>

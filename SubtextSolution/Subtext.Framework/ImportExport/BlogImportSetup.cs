@@ -24,10 +24,10 @@ namespace Subtext.ImportExport
     /// <summary>
     /// Sets up a blog for import. The Dispose method reverts blog back to its original state.
     /// </summary>
-    public class BlogMLImportSetup : IDisposable
+    public class BlogImportSetup : IDisposable
     {
         Action _revertAction;
-        public BlogMLImportSetup(Blog blog, ObjectProvider repository)
+        public BlogImportSetup(Blog blog, ObjectProvider repository)
         {
             Blog = blog;
             Repository = repository;
