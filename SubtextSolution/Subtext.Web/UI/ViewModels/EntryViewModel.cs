@@ -14,6 +14,10 @@ namespace Subtext.Web.UI.ViewModels
 
         public EntryViewModel(Entry entry, ISubtextContext context)
         {
+            if(entry == null)
+            {
+                throw new ArgumentNullException("entry");
+            }
             Entry = entry;
             SubtextContext = context;
         }

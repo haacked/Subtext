@@ -100,10 +100,7 @@ namespace Subtext.Framework.Format
             {
                 return match.Groups["app"].Value;
             }
-            else
-            {
-                return string.Empty;
-            }
+            return string.Empty;
         }
 
         /// <summary>
@@ -155,23 +152,6 @@ namespace Subtext.Framework.Format
             }
 
             return target;
-        }
-
-        /// <summary>
-        /// Parses out the host from an external URL.
-        /// </summary>
-        /// <param name="url">The URL.</param>
-        /// <returns></returns>
-        public static string GetHostFromExternalUrl(string url)
-        {
-            string hostDelim = "://";
-
-            int hostStart = url.IndexOf(hostDelim);
-            hostStart = (hostStart < 0) ? 0 : hostStart + 3;
-
-            int hostEnd = url.IndexOf("/", hostStart);
-
-            return (hostEnd < 0) ? url.Substring(hostStart) : url.Substring(hostStart, hostEnd - hostStart);
         }
     }
 }

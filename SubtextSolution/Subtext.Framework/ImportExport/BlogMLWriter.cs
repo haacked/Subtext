@@ -103,6 +103,7 @@ namespace Subtext.ImportExport
 
         private void WritePosts(IEnumerable<BlogMLPost> posts)
         {
+            WriteStartPosts();
             foreach(var post in posts)
             {
                 WriteStartPost(post.ID,
@@ -125,6 +126,7 @@ namespace Subtext.ImportExport
                 WriteEndElement(); // </post>
                 Writer.Flush();
             }
+            WriteEndElement();
         }
 
         protected void WritePostCategories(BlogMLPost.CategoryReferenceCollection categoryRefs)

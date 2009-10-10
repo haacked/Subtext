@@ -270,9 +270,10 @@
     <Compile Include="Akismet\AkismetSpamServiceTests.cs" />
     <Compile Include="AssemblySetUpAndCleanUp.cs" />
     <Compile Include="BlogEntryProvider\FileBrowserConnectorTests.cs" />
-    <Compile Include="BlogMl\BlogMlImportTests.cs" />
-    <Compile Include="BlogMl\BlogMLReaderTests.cs" />
+    <Compile Include="BlogMl\BlogMLImportMapperTests.cs" />
+    <Compile Include="BlogMl\BlogMLImportSetupTests.cs" />
     <Compile Include="BlogMl\BlogMLWriterTests.cs" />
+    <Compile Include="BlogMl\BlogImportRepositoryTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMLConverterTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMlImportServiceTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMLSourceTests.cs" />
@@ -508,13 +509,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XmlHelper.cs" />
-    <EmbeddedResource Include="Resources\BlogMl\PostWithAuthor.xml" />
-    <EmbeddedResource Include="Resources\BlogMl\FieldsTooLong.xml" />
     <EmbeddedResource Include="Resources\Web\emoticons.txt" />
-    <EmbeddedResource Include="Resources\BlogMl\SinglePostWithBadCategoryRef.xml" />
-    <EmbeddedResource Include="Resources\BlogMl\SinglePostWithCategory.xml" />
-    <EmbeddedResource Include="Resources\BlogMl\TwoCategories.xml" />
-    <EmbeddedResource Include="Resources\BlogMl\SimpleBlogMl.xml" />
     <None Include="App.config" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScript.txt" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScriptExpectedChanges.txt" />

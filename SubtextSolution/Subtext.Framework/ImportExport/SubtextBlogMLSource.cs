@@ -27,7 +27,7 @@ namespace Subtext.ImportExport
 {
     public class SubtextBlogMLSource : IBlogMLSource
     {
-        public SubtextBlogMLSource(ISubtextContext context, IBlogMLConverter blogMLConverter)
+        public SubtextBlogMLSource(ISubtextContext context, IBlogMLExportMapper blogMLConverter)
         {
             SubtextContext = context;
             BlogMLConverter = blogMLConverter;
@@ -39,7 +39,7 @@ namespace Subtext.ImportExport
             private set;
         }
 
-        protected IBlogMLConverter BlogMLConverter
+        protected IBlogMLExportMapper BlogMLConverter
         {
             get; 
             private set;

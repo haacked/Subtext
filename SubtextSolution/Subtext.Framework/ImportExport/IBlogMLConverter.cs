@@ -22,7 +22,7 @@ using Subtext.Framework.Components;
 
 namespace Subtext.ImportExport
 {
-    public interface IBlogMLConverter
+    public interface IBlogMLExportMapper
     {
         BlogMLBlog ConvertBlog(Blog blog);
         IEnumerable<BlogMLCategory> ConvertCategories(IEnumerable<LinkCategory> categories);

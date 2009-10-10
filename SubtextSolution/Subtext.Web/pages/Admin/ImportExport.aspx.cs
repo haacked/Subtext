@@ -21,7 +21,6 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Services;
 using Subtext.ImportExport;
 using Subtext.Web.Properties;
 
@@ -70,15 +69,11 @@ namespace Subtext.Web.Admin.Pages
         private void LoadBlogML()
         {
             ISubtextContext context = SubtextContext;
-            var commentService = new CommentService(context, null);
-            var importService = new SubtextBlogMlImportService(context, commentService,
-                                                     context.GetService<IEntryPublisher>());
-
-            var bmlReader = new BlogMLReader();
-
+            var importService = context.GetService<IBlogImportService>();
+            
             try
             {
-                importService.ImportBlog(bmlReader, importBlogMLFile.PostedFile.InputStream);
+                importService.ImportBlog(importBlogMLFile.PostedFile.InputStream);
             }
             catch(BlogImportException e)
             {

@@ -42,7 +42,8 @@ namespace Subtext.Framework.Components
             Id = NullValue.NullInt32;
         }
 
-        public Entry(PostType postType) : this(postType, Config.CurrentBlog)
+        public Entry(PostType postType)
+            : this(postType, Config.CurrentBlog)
         {
         }
 
@@ -70,8 +71,11 @@ namespace Subtext.Framework.Components
         /// Some blogs like to sydicate description only.
         /// </summary>
         /// <value>The description.</value>
-        public string Description { //todo: let's rename this property to excerpt.
-            get; set; }
+        public string Description
+        { //todo: let's rename this property to excerpt.
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets a value indicating whether this instance has entry name.

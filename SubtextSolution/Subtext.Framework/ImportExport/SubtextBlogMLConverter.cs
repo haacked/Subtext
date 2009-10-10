@@ -33,9 +33,9 @@ using Subtext.Framework.Web;
 
 namespace Subtext.ImportExport
 {
-    public class SubtextBlogMLConverter : IBlogMLConverter
+    public class BlogMLExportMapper : IBlogMLExportMapper
     {
-        public SubtextBlogMLConverter(ISubtextContext subtextContext)
+        public BlogMLExportMapper(ISubtextContext subtextContext)
         {
             SubtextContext = subtextContext;
             Blog = subtextContext.Blog;
@@ -86,8 +86,8 @@ namespace Subtext.ImportExport
                 Content = new BlogMLContent {Text = entry.Body},
                 HasExcerpt = entry.HasDescription,
                 Excerpt = new BlogMLContent {Text = entry.Description},
-                DateCreated = entry.DateCreated,
-                DateModified = entry.DateModified,
+                DateCreated = Blog.TimeZone.ToUtc(entry.DateCreated),
+                DateModified = Blog.TimeZone.ToUtc(entry.IsActive ? entry.DateSyndicated : entry.DateModified),
                 Views = (uint)entry.WebCount
             };
 
@@ -118,7 +118,7 @@ namespace Subtext.ImportExport
 
             foreach(string attachmentUrl in attachmentUrls)
             {
-                string blogHostUrl = Url.AppRoot().ToFullyQualifiedUrl(Blog).ToString().ToLowerInvariant();
+                string blogHostUrl = ("http://" + Blog.Host + "/").ToLowerInvariant();
                 string attachmentUrlLowerCase = attachmentUrl.ToLowerInvariant();
                 // If the URL for the attachment is local then we'll want to build a new BlogMLAttachment 
                 // add add it to the list of attachments for this post.
@@ -185,7 +185,7 @@ namespace Subtext.ImportExport
                                    : SendTrackbackTypes.No.ToString();
         }
 
-        private static void PopulateAuthors(Blog blog, BlogMLBlog bmlBlog)
+        private void PopulateAuthors(Blog blog, BlogMLBlog bmlBlog)
         {
             var bmlAuthor = new BlogMLAuthor
             {
@@ -193,8 +193,8 @@ namespace Subtext.ImportExport
                 Title = blog.Author,
                 Approved = true,
                 Email = blog.Email,
-                DateCreated = blog.LastUpdated,
-                DateModified = blog.LastUpdated
+                DateCreated = Blog.TimeZone.ToUtc(blog.LastUpdated),
+                DateModified = Blog.TimeZone.ToUtc(blog.LastUpdated)
             };
             bmlBlog.Authors.Add(bmlAuthor);
         }
@@ -220,8 +220,8 @@ namespace Subtext.ImportExport
                 UserName = feedbackItem.Author,
                 Approved = feedbackItem.Approved,
                 Content = new BlogMLContent { Text = feedbackItem.Body },
-                DateCreated = feedbackItem.DateCreated,
-                DateModified = feedbackItem.DateModified
+                DateCreated = Blog.TimeZone.ToUtc(feedbackItem.DateCreated),
+                DateModified = Blog.TimeZone.ToUtc(feedbackItem.DateModified)
             };
         }
 
@@ -242,8 +242,8 @@ namespace Subtext.ImportExport
                 Url = trackback.SourceUrl != null ? trackback.SourceUrl.ToString() : null,
                 Title = trackback.Title,
                 Approved = trackback.Approved,
-                DateCreated = trackback.DateCreated,
-                DateModified = trackback.DateModified
+                DateCreated = Blog.TimeZone.ToUtc(trackback.DateCreated),
+                DateModified = Blog.TimeZone.ToUtc(trackback.DateModified)
             };
         }
     }
