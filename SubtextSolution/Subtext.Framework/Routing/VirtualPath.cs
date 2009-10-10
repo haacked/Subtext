@@ -63,9 +63,7 @@ namespace Subtext.Framework.Routing
 
         public virtual Uri ToFullyQualifiedUrl(Blog blog)
         {
-            var builder = new UriBuilder();
-            builder.Scheme = "http";
-            builder.Host = blog.Host;
+            var builder = new UriBuilder {Scheme = "http", Host = blog.Host};
             return new Uri(builder.Uri, _virtualPath);
         }
     }

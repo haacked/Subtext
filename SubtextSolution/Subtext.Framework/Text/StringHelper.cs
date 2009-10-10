@@ -32,8 +32,8 @@ namespace Subtext.Framework.Text
     /// </summary>
     public static class StringHelper
     {
-        static readonly Regex _numericRegex = new Regex(@"^\d+$", RegexOptions.Compiled);
-        private static readonly Regex _splitWordsRegex = new Regex(@"\W+", RegexOptions.Compiled);
+        private static readonly Regex NumericRegex = new Regex(@"^\d+$", RegexOptions.Compiled);
+        private static readonly Regex SplitWordsRegex = new Regex(@"\W+", RegexOptions.Compiled);
 
         public static string NullIfEmpty(this string s)
         {
@@ -100,7 +100,7 @@ namespace Subtext.Framework.Text
 
         public static IEnumerable<string> SplitIntoWords(this string source)
         {
-            return _splitWordsRegex.Split(source.Trim());
+            return SplitWordsRegex.Split(source.Trim());
         }
 
         /// <summary>
@@ -146,6 +146,8 @@ namespace Subtext.Framework.Text
         /// <exception cref="ArgumentNullException">Thrown if str is null.</exception>
         public static string Left(this string str, int length)
         {
+            if(str == null)
+                return null;
             if(length >= str.Length)
             {
                 return str;
@@ -373,14 +375,12 @@ namespace Subtext.Framework.Text
         /// </returns>
         public static bool IsNumeric(this string text)
         {
-            return _numericRegex.IsMatch(text);
+            return NumericRegex.IsMatch(text);
         }
 
         public static string MailToEncode(string s)
         {
-            return
-                HttpUtility.UrlEncode(HttpUtility.HtmlAttributeEncode(HtmlHelper.RemoveHtml(s).Replace("\"", "'"))).
-                    Replace("+", " ");
+            return HttpUtility.UrlEncode(HttpUtility.HtmlAttributeEncode(HtmlHelper.RemoveHtml(s).Replace("\"", "'"))).Replace("+", " ");
         }
 
         public static string MailToBodyEncode(string body)

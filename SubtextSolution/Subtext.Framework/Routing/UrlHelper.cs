@@ -142,7 +142,7 @@ namespace Subtext.Framework.Routing
             return null;
         }
 
-        private string NormalizeFileName(string filename)
+        private static string NormalizeFileName(string filename)
         {
             if(filename.StartsWith("/"))
             {
@@ -213,8 +213,6 @@ namespace Subtext.Framework.Routing
         /// <summary>
         /// Returns the physical gallery path for the specified category.
         /// </summary>
-        /// <param name="categoryid">The categoryid.</param>
-        /// <returns></returns>
         public virtual string GalleryDirectoryPath(Blog blog, int categoryId)
         {
             string path = ImageGalleryDirectoryUrl(blog, categoryId);
@@ -283,7 +281,7 @@ namespace Subtext.Framework.Routing
             return BlogUrl(vp);
         }
 
-        private VirtualPath BlogUrl(string virtualPath)
+        private static VirtualPath BlogUrl(string virtualPath)
         {
             if(!(virtualPath ?? string.Empty).EndsWith("/"))
             {
@@ -353,8 +351,6 @@ namespace Subtext.Framework.Routing
         /// <summary>
         /// Returns the url for all posts on the day specified by the date
         /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
         public virtual Uri RssUrl(Blog blog)
         {
             if(blog.RssProxyEnabled)
@@ -368,8 +364,6 @@ namespace Subtext.Framework.Routing
         /// <summary>
         /// Returns the url for all posts on the day specified by the date
         /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
         public virtual Uri AtomUrl(Blog blog)
         {
             if(blog.RssProxyEnabled)

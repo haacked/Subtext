@@ -40,37 +40,20 @@ namespace Subtext.Framework.Services
 
         public IEnumerable<KeyWord> Keywords { get; private set; }
 
-        #region ITextTransformation Members
-
         public string Transform(string original)
         {
-            if(Keywords != null)
-            {
-                return Keywords.Aggregate(original, (result, keyWord) => ReplaceFormat(result, keyWord));
-            }
-            return original;
+            return Keywords != null ? Keywords.Aggregate(original, ReplaceFormat) : original;
         }
-
-        #endregion
 
         private static IEnumerable<KeyWord> GetKeywordsFromRepository(ObjectProvider repository)
         {
-            if(repository != null)
-            {
-                return repository.GetKeyWords();
-            }
-            return null;
+            return repository != null ? repository.GetKeyWords() : null;
         }
 
         /// <summary>
         /// Preforms a forward scan and replace for a given pattern. 
         /// Can specify only to match first fine and if the pattern is CaseSensitive
         /// </summary>
-        /// <param name="source">Text to search</param>
-        /// <param name="oldValue">Pattern to search for</param>
-        /// <param name="formatString">Replaced Pattern</param>
-        /// <param name="onlyFirstMatch">Match First Only</param>
-        /// <returns></returns>
         private static string ReplaceFormat(string source, KeyWord keyword)
         {
             return Scan(source, keyword.Word, keyword.GetFormat, true, keyword.ReplaceFirstTimeOnly,
@@ -107,72 +90,62 @@ namespace Subtext.Framework.Services
                             state = ScanState.InAnchor;
                             break;
                         }
-                        else
+                        if(tagOpen == nextChar)
                         {
-                            if(tagOpen == nextChar)
+                            state = ScanState.InTag;
+                            break;
+                        }
+                        if(source.Length - (i + oldValue.Length) > 0)
+                        {
+                            // peek a head the next target length chunk + 1 boundary char
+                            string matchTarget = source.Substring(i, oldValue.Length);
+
+                            //TODO: Do we want a case insensitive comparison in all cases?
+                            if(String.Equals(matchTarget, oldValue,
+                                             caseSensitive
+                                                 ? StringComparison.Ordinal
+                                                 : StringComparison.OrdinalIgnoreCase))
                             {
-                                state = ScanState.InTag;
-                                break;
-                            }
-                            else
-                            {
-                                string matchTarget;
-                                if(source.Length - (i + oldValue.Length) > 0)
+                                int index = 0 - i;
+                                if(index != 0) //Skip if we are at the start of the block
                                 {
-                                    // peek a head the next target length chunk + 1 boundary char
-                                    matchTarget = source.Substring(i, oldValue.Length);
-
-                                    //TODO: Do we want a case insensitive comparison in all cases?
-                                    if(String.Equals(matchTarget, oldValue,
-                                                     caseSensitive
-                                                         ? StringComparison.Ordinal
-                                                         : StringComparison.OrdinalIgnoreCase))
+                                    char prevBeforeMatch = source[(i) - 1];
+                                    if(prevBeforeMatch != '>' && prevBeforeMatch != '"' &&
+                                       !Char.IsWhiteSpace(prevBeforeMatch))
                                     {
-                                        int index = 0 - i;
-                                        if(index != 0) //Skip if we are at the start of the block
-                                        {
-                                            char prevBeforeMatch = source[(i) - 1];
-                                            if(prevBeforeMatch != '>' && prevBeforeMatch != '"' &&
-                                               !Char.IsWhiteSpace(prevBeforeMatch))
-                                            {
-                                                break;
-                                            }
-                                        }
-
-                                        // check for word boundary
-                                        char nextAfterMatch = source[i + oldValue.Length];
-                                        if(!CharIsWordBoundary(nextAfterMatch))
-                                        {
-                                            break;
-                                        }
-
-                                        // format old with specifier else it's a straight replace
-                                        if(isFormat)
-                                        {
-                                            outputBuffer.AppendFormat(newValue, oldValue);
-                                        }
-                                        else
-                                        {
-                                            outputBuffer.Append(newValue);
-                                        }
-
-                                        // if we're onlyFirstMatch, tack on remainder of source and return
-                                        if(onlyFirstMatch)
-                                        {
-                                            outputBuffer.AppendFormat(source.Substring(i + oldValue.Length,
-                                                                                       source.Length -
-                                                                                       (i + oldValue.Length + 1)));
-                                            return outputBuffer.ToString();
-                                        }
-                                        else // pop index ahead to end of match and continue
-                                        {
-                                            i += oldValue.Length - 1;
-                                        }
-
-                                        lastIterMatched = true;
                                         break;
                                     }
                                 }
+
+                                // check for word boundary
+                                char nextAfterMatch = source[i + oldValue.Length];
+                                if(!CharIsWordBoundary(nextAfterMatch))
+                                {
+                                    break;
+                                }
+
+                                // format old with specifier else it's a straight replace
+                                if(isFormat)
+                                {
+                                    outputBuffer.AppendFormat(newValue, oldValue);
+                                }
+                                else
+                                {
+                                    outputBuffer.Append(newValue);
+                                }
+
+                                // if we're onlyFirstMatch, tack on remainder of source and return
+                                if(onlyFirstMatch)
+                                {
+                                    outputBuffer.AppendFormat(source.Substring(i + oldValue.Length,
+                                                                               source.Length -
+                                                                               (i + oldValue.Length + 1)));
+                                    return outputBuffer.ToString();
+                                }
+                                i += oldValue.Length - 1;
+
+                                lastIterMatched = true;
+                                break;
                             }
                         }
 
@@ -228,15 +201,11 @@ namespace Subtext.Framework.Services
             }
         }
 
-        #region Nested type: ScanState
-
         private enum ScanState
         {
             Replace,
             InTag,
             InAnchor
-        } ;
-
-        #endregion
+        }
     }
 }

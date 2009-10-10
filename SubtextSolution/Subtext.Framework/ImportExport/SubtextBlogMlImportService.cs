@@ -16,340 +16,86 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Web;
 using BlogML;
 using BlogML.Xml;
 using log4net;
-using Subtext.Extensibility;
-using Subtext.Framework;
-using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Routing;
-using Subtext.Framework.Services;
-using Subtext.Framework.Text;
+using Subtext.Framework.Properties;
 
 namespace Subtext.ImportExport
 {
-    public class SubtextBlogMlImportService : IBlogMlImportService
+    public class BlogImportService : IBlogImportService
     {
         private readonly static ILog Log = new Log();
 
-        public SubtextBlogMlImportService(ISubtextContext context, ICommentService commentService,
-                                     IEntryPublisher entryPublisher)
+        public BlogImportService(IBlogImportRepository repository)
         {
-            SubtextContext = context;
-            CommentService = commentService;
-            EntryPublisher = entryPublisher;
+            Repository = repository;
         }
 
-        public ISubtextContext SubtextContext { get; private set; }
+        public IBlogImportRepository Repository { get; private set; }
 
-        public IEntryPublisher EntryPublisher { get; private set; }
-
-        public ICommentService CommentService { get; private set; }
-
-        protected Blog Blog
+        public void ImportBlog(Stream stream)
         {
-            get { return SubtextContext.Blog; }
+            var importedBlog = BlogMLSerializer.Deserialize(stream);
+            ImportBlog(importedBlog);
         }
 
-        protected UrlHelper Url
+        public void ImportBlog(BlogMLBlog blog)
         {
-            get { return SubtextContext.UrlHelper; }
-        }
-
-        protected ObjectProvider Repository
-        {
-            get { return SubtextContext.Repository; }
-        }
-
-        /// <summary>
-        /// Returns the context under which blogml import or export is running under.
-        /// </summary>
-        /// <returns></returns>
-        public BlogMLContext GetBlogMLContext()
-        {
-            bool embedValue = false;
-            if(HttpContext.Current != null && HttpContext.Current.Request != null)
+            using(Repository.SetupBlogForImport())
             {
-                embedValue = String.Equals(HttpContext.Current.Request.QueryString["embed"], "true",
-                                           StringComparison.OrdinalIgnoreCase);
+                Import(blog);
+            }
+        }
+
+        public void Import(BlogMLBlog blog)
+        {
+            Repository.SetExtendedProperties(blog.ExtendedProperties);
+
+            Repository.CreateCategories(blog);
+
+            foreach(BlogMLPost bmlPost in blog.Posts)
+            {
+                ImportBlogPost(blog, bmlPost);
             }
 
-            return new BlogMLContext(Blog.Id.ToString(CultureInfo.InvariantCulture), embedValue);
         }
 
-        public void ImportBlog(BlogMLReader reader, Stream stream)
+        private void ImportBlogPost(BlogMLBlog blog, BlogMLPost bmlPost)
         {
-            bool duplicateCommentsEnabled = Blog.DuplicateCommentsEnabled;
-            try
+            if(bmlPost.Attachments.Count > 0)
             {
-                if(!duplicateCommentsEnabled)
+                //Updates the post content with new attachment urls.
+                bmlPost.Content.Text = CreateFilesFromAttachments(bmlPost);
+            }
+
+            string newEntryId = Repository.CreateBlogPost(blog, bmlPost);
+
+            foreach(BlogMLComment bmlComment in bmlPost.Comments)
+            {
+                try
                 {
-                    // Allow duplicate comments temporarily.
-                    Blog.DuplicateCommentsEnabled = true;
-                    Repository.UpdateConfigData(Blog);
+                    Repository.CreateComment(bmlComment, newEntryId);
                 }
-                reader.ReadBlog(this, stream);
-            }
-            finally
-            {
-                if(Blog.DuplicateCommentsEnabled != duplicateCommentsEnabled)
+                catch(Exception e)
                 {
-                    Blog.DuplicateCommentsEnabled = duplicateCommentsEnabled;
-                    Repository.UpdateConfigData(Blog);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Creates categories from the blog ml.
-        /// </summary>
-        /// <remarks>
-        /// At this time, we only support PostCollection link categories.
-        /// </remarks>
-        /// <param name="blog"></param>
-        public IDictionary<string, string> CreateCategories(BlogMLBlog blog)
-        {
-            IDictionary<string, string> idMap = new Dictionary<string, string>();
-            foreach(BlogMLCategory bmlCategory in blog.Categories)
-            {
-                var category = new LinkCategory
-                {
-                    BlogId = Blog.Id,
-                    Title = bmlCategory.Title,
-                    Description = bmlCategory.Description,
-                    IsActive = bmlCategory.Approved,
-                    CategoryType = CategoryType.PostCollection
-                };
-                Links.CreateLinkCategory(category);
-                idMap.Add(bmlCategory.ID, category.Title);
-            }
-            return idMap;
-        }
-
-        /// <summary>
-        /// The physical path to the attachment directory.
-        /// </summary>
-        /// <remarks>
-        /// The attachment is passed in to give the blog engine 
-        /// the opportunity to use attachment specific directories 
-        /// (ex. based on mime type) should it choose.
-        /// </remarks>
-        public string GetAttachmentDirectoryPath(BlogMLAttachment attachment)
-        {
-            return Url.ImageDirectoryPath(Blog);
-        }
-
-        /// <summary>
-        /// The url to the attachment directory
-        /// </summary>
-        /// <remarks>
-        /// The attachment is passed in to give the blog engine 
-        /// the opportunity to use attachment specific directories 
-        /// (ex. based on mime type) should it choose.
-        /// </remarks>
-        public string GetAttachmentDirectoryUrl(BlogMLAttachment attachment)
-        {
-            return Url.ImageDirectoryUrl(Blog);
-        }
-
-        /// <summary>
-        /// Creates a blog post and returns the id.
-        /// </summary>
-        public string CreateBlogPost(BlogMLBlog blog, BlogMLPost post,
-                                              IDictionary<string, string> categoryIdMap)
-        {
-            Entry newEntry = CreateEntryFromBlogMLBlogPost(blog, post, categoryIdMap);
-            newEntry.BlogId = Blog.Id;
-            var publisher = EntryPublisher as EntryPublisher;
-            if(publisher != null)
-            {
-                var transform = publisher.Transformation as CompositeTextTransformation;
-                if(transform != null)
-                {
-                    transform.Remove<KeywordExpander>();
+                    LogError(Resources.Import_ErrorWhileImportingComment, e);
                 }
             }
 
-            return EntryPublisher.Publish(newEntry).ToString(CultureInfo.InvariantCulture);
-        }
-
-        public static Entry CreateEntryFromBlogMLBlogPost(BlogMLBlog blog, BlogMLPost post,
-                                                          IDictionary<string, string> categoryIdMap)
-        {
-            var newEntry = new Entry((post.PostType == BlogPostTypes.Article) ? PostType.Story : PostType.BlogPost)
+            foreach(BlogMLTrackback bmlPingTrack in bmlPost.Trackbacks)
             {
-                Title = GetTitleFromPost(post),
-                DateCreated = post.DateCreated,
-                DateModified = post.DateModified,
-                DateSyndicated = post.DateModified,
-                Body = post.Content.Text
-            };
-            if(post.HasExcerpt)
-            {
-                newEntry.Description = post.Excerpt.Text;
-            }
-            newEntry.IsActive = post.Approved;
-            newEntry.DisplayOnHomePage = post.Approved;
-            newEntry.IncludeInMainSyndication = post.Approved;
-            newEntry.IsAggregated = post.Approved;
-            newEntry.AllowComments = true;
-            if(!string.IsNullOrEmpty(post.PostName))
-            {
-                newEntry.EntryName = post.PostName;
-            }
-            else
-            {
-                SetEntryNameForBlogspotImport(post, newEntry);
-            }
-
-            if(post.Authors.Count > 0)
-            {
-                foreach(BlogMLAuthor author in blog.Authors)
+                try
                 {
-                    if(author.ID == post.Authors[0].Ref)
-                    {
-                        newEntry.Author = author.Title;
-                        newEntry.Email = author.Email;
-                        break;
-                    }
+                    Repository.CreateTrackback(bmlPingTrack, newEntryId);
                 }
-            }
-
-            foreach(BlogMLCategoryReference categoryRef in post.Categories)
-            {
-                string categoryTitle;
-                if(categoryIdMap.TryGetValue(categoryRef.Ref, out categoryTitle))
+                catch(Exception e)
                 {
-                    newEntry.Categories.Add(categoryTitle);
+                    LogError(Resources.Import_ErrorWhileImportingComment, e);
                 }
-            }
-            return newEntry;
-        }
-
-        private static void SetEntryNameForBlogspotImport(BlogMLPost post, Entry newEntry)
-        {
-            if(!String.IsNullOrEmpty(post.PostUrl) &&
-               post.PostUrl.Contains("blogspot.com/", StringComparison.OrdinalIgnoreCase))
-            {
-                Uri postUrl = post.PostUrl.ParseUri();
-                string fileName = postUrl.Segments.Last();
-                newEntry.EntryName = Path.GetFileNameWithoutExtension(fileName);
-                if(String.IsNullOrEmpty(post.Title) && String.IsNullOrEmpty(post.PostName))
-                {
-                    newEntry.Title = newEntry.EntryName.Replace("-", " ").Replace("+", " ").Replace("_", " ");
-                }
-            }
-        }
-
-        public static string GetTitleFromPost(BlogMLPost blogPost)
-        {
-            if(!String.IsNullOrEmpty(blogPost.Title))
-            {
-                return blogPost.Title;
-            }
-            if(!String.IsNullOrEmpty(blogPost.PostName))
-            {
-                return blogPost.PostName;
-            }
-
-            return "Post #" + blogPost.ID;
-        }
-
-        /// <summary>
-        /// Creates a comment in the system.
-        /// </summary>
-        public void CreatePostComment(BlogMLComment comment, string newPostId)
-        {
-            var newComment = new FeedbackItem(FeedbackType.Comment)
-            {
-                BlogId = Blog.Id,
-                EntryId = int.Parse(newPostId, CultureInfo.InvariantCulture),
-                Title = comment.Title ?? string.Empty,
-                DateCreated = comment.DateCreated,
-                DateModified = comment.DateModified,
-                Body = comment.Content.UncodedText ?? string.Empty,
-                Approved = comment.Approved,
-                Author = comment.UserName ?? string.Empty,
-                Email = comment.UserEMail
-            };
-
-            if(!string.IsNullOrEmpty(comment.UserUrl))
-            {
-                newComment.SourceUrl = new Uri(comment.UserUrl);
-            }
-
-            CommentService.Create(newComment);
-        }
-
-        /// <summary>
-        /// Creates a trackback for the post.
-        /// </summary>
-        /// <param name="trackback"></param>
-        /// <param name="newPostId"></param>
-        public void CreatePostTrackback(BlogMLTrackback trackback, string newPostId)
-        {
-            var newPingTrack = new FeedbackItem(FeedbackType.PingTrack)
-            {
-                BlogId = Blog.Id,
-                EntryId = int.Parse(newPostId, CultureInfo.InvariantCulture),
-                Title = trackback.Title,
-                SourceUrl = new Uri(trackback.Url),
-                Approved = trackback.Approved,
-                DateCreated = trackback.DateCreated,
-                DateModified = trackback.DateModified,
-                Author = UrlFormats.GetHostFromExternalUrl(trackback.Url) ?? string.Empty,
-                Body = string.Empty
-            };
-            // we use an actual name here, but BlogML doesn't support this, so let's try  
-            // to parse the url's host out of the url.
-            // so the duplicate Comment Filter doesn't break when computing the checksum
-
-            CommentService.Create(newPingTrack);
-        }
-
-        public void SetBlogMLExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties)
-        {
-            if(extendedProperties != null && extendedProperties.Count > 0)
-            {
-                Blog info = Blog;
-
-                foreach(var extProp in extendedProperties)
-                {
-                    if(BlogMLBlogExtendedProperties.CommentModeration.Equals(extProp.Key))
-                    {
-                        bool modEnabled;
-
-                        if(bool.TryParse(extProp.Value, out modEnabled))
-                        {
-                            info.ModerationEnabled = modEnabled;
-                        }
-                    }
-                    else if(BlogMLBlogExtendedProperties.EnableSendingTrackbacks.Equals(extProp.Key))
-                    {
-                        bool tracksEnabled;
-
-                        if(bool.TryParse(extProp.Value, out tracksEnabled))
-                        {
-                            /* TODO: The blog.TrackbasksEnabled determines if Subtext will ACCEPT and SEND trackbacks.
-                             * Perhaps we should separate the two out?
-                             * For now, we'll assume that if a BlogML blog allows sending, it will also
-                             * allow receiving track/pingbacks.
-                             */
-                            info.TrackbacksEnabled = tracksEnabled;
-                        }
-                    }
-                }
-
-                Repository.UpdateConfigData(info);
             }
         }
 
@@ -359,6 +105,54 @@ namespace Subtext.ImportExport
         public void LogError(string message, Exception exception)
         {
             Log.Error(message, exception);
+        }
+
+        public string CreateFilesFromAttachments(BlogMLPost post)
+        {
+            string postContent = post.Content.Text;
+            foreach(BlogMLAttachment bmlAttachment in post.Attachments)
+            {
+                string assetDirPath = Repository.GetAttachmentDirectoryPath();
+                string assetDirUrl = Repository.GetAttachmentDirectoryUrl();
+
+                if(!String.IsNullOrEmpty(assetDirPath) && !String.IsNullOrEmpty(assetDirUrl))
+                {
+                    if(!Directory.Exists(assetDirPath))
+                    {
+                        Directory.CreateDirectory(assetDirPath);
+                    }
+                    postContent = CreateFileFromAttachment(bmlAttachment, assetDirPath, assetDirUrl, postContent);
+                }
+            }
+            return postContent;
+        }
+
+        public static string CreateFileFromAttachment(BlogMLAttachment attachment, string attachmentDirectoryPath,
+                                                       string attachmentDirectoryUrl, string postContent)
+        {
+            string fileName = Path.GetFileName(attachment.Url);
+            string attachmentPath = HttpUtility.UrlDecode(Path.Combine(attachmentDirectoryPath, fileName));
+            string newAttachmentUrl = attachmentDirectoryUrl + fileName;
+
+            postContent = BlogMLWriterBase.SgmlUtil.CleanAttachmentUrls(
+                postContent,
+                attachment.Url,
+                newAttachmentUrl);
+
+            if(attachment.Embedded)
+            {
+                if(!File.Exists(attachmentPath))
+                {
+                    using(var fStream = new FileStream(attachmentPath, FileMode.CreateNew))
+                    {
+                        using(var writer = new BinaryWriter(fStream))
+                        {
+                            writer.Write(attachment.Data);
+                        }
+                    }
+                }
+            }
+            return postContent;
         }
     }
 }

@@ -15,6 +15,7 @@
 
 #endregion
 
+using System;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Caching;
@@ -43,17 +44,20 @@ namespace Subtext
             // Main Services
             Bind<ITextTransformation>().ToMethod(context =>
                 {
-                    var transform = new CompositeTextTransformation();
-                    transform.Add(context.Kernel.Get<XhtmlConverter>());
-                    transform.Add(context.Kernel.Get<EmoticonsTransformation>());
-                    //TODO: Maybe use a INinjectParameter to control this.
-                    transform.Add(context.Kernel.Get<KeywordExpander>());
+                    var transform = new CompositeTextTransformation
+                    {
+                        context.Kernel.Get<XhtmlConverter>(),
+                        context.Kernel.Get<EmoticonsTransformation>(),
+                        context.Kernel.Get<KeywordExpander>()
+                    };
                     return transform;
                 }).InRequestScope();
             Bind<ICommentService>().To<CommentService>().InRequestScope();
             Bind<ICommentFilter>().To<CommentFilter>().InRequestScope();
             Bind<IStatisticsService>().To<StatisticsService>().InRequestScope();
-            Bind<ICommentSpamService>().To<AkismetSpamService>().InRequestScope()
+            Bind<ICommentSpamService>().To<AkismetSpamService>()
+                .When(r => !String.IsNullOrEmpty(r.ParentContext.Kernel.Get<Blog>().FeedbackSpamServiceKey))
+                .InRequestScope()
                 .WithConstructorArgument("apiKey", c => c.Kernel.Get<Blog>().FeedbackSpamServiceKey)
                 .WithConstructorArgument("akismetClient", c => null);
 
@@ -63,17 +67,15 @@ namespace Subtext
 
         private void LoadCoreDependencies()
         {
-            Bind<IBlogMLConverter>().To<SubtextBlogMLConverter>().InRequestScope();
-            Bind<IBlogMLSource>().To<SubtextBlogMLSource>().InRequestScope();
+            BindBlogMLDependencies();
+
             Bind<IEntryPublisher>().To<EntryPublisher>().InRequestScope();
             Bind<FriendlyUrlSettings>().ToMethod(context => FriendlyUrlSettings.Settings).InRequestScope();
             Bind<ISubtextPageBuilder>().To<SubtextPageBuilder>().InSingletonScope();
             Bind<ISlugGenerator>().To<SlugGenerator>().InRequestScope();
             Bind<FriendlyUrlSettings>().To<FriendlyUrlSettings>().InRequestScope();
-            Bind<IPrincipal>().ToMethod(context => context.Kernel.Get<RequestContext>().HttpContext.User).InRequestScope
-                ();
-            Bind<Blog>().ToMethod(c => BlogRequest.Current.Blog).When(r => BlogRequest.Current.Blog != null).
-                InRequestScope();
+            Bind<IPrincipal>().ToMethod(context => context.Kernel.Get<RequestContext>().HttpContext.User).InRequestScope();
+            Bind<Blog>().ToMethod(c => BlogRequest.Current.Blog).When(r => BlogRequest.Current.Blog != null).InRequestScope();
             Bind<ObjectProvider>().ToMethod(c => new DatabaseObjectProvider()).InRequestScope();
             Bind<ICache>().To<SubtextCache>().InRequestScope();
             Bind<Cache>().ToMethod(c => HttpContext.Current.Cache).InRequestScope();
@@ -85,6 +87,16 @@ namespace Subtext
             Bind<HttpContext>().ToMethod(c => HttpContext.Current).InRequestScope();
             Bind<ISubtextContext>().To<SubtextContext>().InRequestScope();
             Bind<RequestContext>().ToMethod(c => Bootstrapper.RequestContext).InRequestScope();
+        }
+
+        private void BindBlogMLDependencies()
+        {
+            Bind<IBlogImportRepository>().To<BlogImportRepository>().InRequestScope();
+            Bind<IBlogImportService>().To<BlogImportService>().InRequestScope();
+            Bind<IBlogMLImportMapper>().To<BlogMLImportMapper>().InRequestScope();
+            Bind<IBlogMLExportMapper>().To<BlogMLExportMapper>().InRequestScope();
+            Bind<IBlogMLSource>().To<SubtextBlogMLSource>().InRequestScope();
+            
         }
     }
 }

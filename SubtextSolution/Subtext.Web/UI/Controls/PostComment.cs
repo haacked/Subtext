@@ -65,6 +65,10 @@ namespace Subtext.Web.UI.Controls
                 if(entry == null)
                 {
                     entry = Cacher.GetEntryFromRequest(true, SubtextContext);
+                    if(entry == null)
+                    {
+                        HttpHelper.SetFileNotFoundResponse();
+                    }
                 }
                 if(entryViewModel == null)
                 {

@@ -60,8 +60,7 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var stringWriter = new StringWriter();
-            var xmlWriter = new XmlTextWriter(stringWriter);
-            xmlWriter.Formatting = Formatting.Indented;
+            var xmlWriter = new XmlTextWriter(stringWriter) {Formatting = Formatting.Indented};
             var source = new Mock<IBlogMLSource>();
             var dateTime = DateTime.ParseExact("20090123", "yyyyMMdd", CultureInfo.InvariantCulture);
             var blog = new BlogMLBlog {Title = "Subtext Blog", RootUrl = "http://subtextproject.com/", SubTitle = "A test blog", DateCreated = dateTime};
@@ -85,8 +84,7 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var stringWriter = new StringWriter();
-            var xmlWriter = new XmlTextWriter(stringWriter);
-            xmlWriter.Formatting = Formatting.Indented;
+            var xmlWriter = new XmlTextWriter(stringWriter) {Formatting = Formatting.Indented};
             var source = new Mock<IBlogMLSource>();
             var dateTime = DateTime.ParseExact("20090123", "yyyyMMdd", CultureInfo.InvariantCulture);
             var blog = new BlogMLBlog { Title = "Subtext Blog", RootUrl = "http://subtextproject.com/", SubTitle = "A test blog", DateCreated = dateTime };
@@ -107,8 +105,7 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var stringWriter = new StringWriter();
-            var xmlWriter = new XmlTextWriter(stringWriter);
-            xmlWriter.Formatting = Formatting.Indented;
+            var xmlWriter = new XmlTextWriter(stringWriter) {Formatting = Formatting.Indented};
             var source = new Mock<IBlogMLSource>();
             var dateTime = DateTime.ParseExact("20090123", "yyyyMMdd", CultureInfo.InvariantCulture);
             var blog = new BlogMLBlog { Title = "Subtext Blog", RootUrl = "http://subtextproject.com/", SubTitle = "A test blog", DateCreated = dateTime };
@@ -130,8 +127,7 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var stringWriter = new StringWriter();
-            var xmlWriter = new XmlTextWriter(stringWriter);
-            xmlWriter.Formatting = Formatting.Indented;
+            var xmlWriter = new XmlTextWriter(stringWriter) {Formatting = Formatting.Indented};
             var source = new Mock<IBlogMLSource>();
             var dateTime = DateTime.ParseExact("20090123", "yyyyMMdd", CultureInfo.InvariantCulture);
             var blog = new BlogMLBlog { Title = "Subtext Blog", RootUrl = "http://subtextproject.com/", SubTitle = "A test blog", DateCreated = dateTime };
@@ -146,6 +142,8 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
+            Assert.Contains(output, "<posts>");
+            Assert.Contains(output, "</posts>");
             Assert.Contains(output, @"<title type=""text""><![CDATA[This is a blog post]]></title>");
             Assert.Contains(output, @"<content type=""text""><![CDATA[<p>Test</p>]]></content>");
         }
@@ -155,8 +153,7 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var stringWriter = new StringWriter();
-            var xmlWriter = new XmlTextWriter(stringWriter);
-            xmlWriter.Formatting = Formatting.Indented;
+            var xmlWriter = new XmlTextWriter(stringWriter) {Formatting = Formatting.Indented};
             var source = new Mock<IBlogMLSource>();
             var dateTime = DateTime.ParseExact("20090123", "yyyyMMdd", CultureInfo.InvariantCulture);
             var blog = new BlogMLBlog { Title = "Subtext Blog", RootUrl = "http://subtextproject.com/", SubTitle = "A test blog", DateCreated = dateTime };
@@ -173,7 +170,9 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
+            Assert.Contains(output, @"<categories>");
             Assert.Contains(output, @"<category ref=""221"" />");
+            Assert.Contains(output, @"</categories>");
         }
 
         [Test]
@@ -181,16 +180,14 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var stringWriter = new StringWriter();
-            var xmlWriter = new XmlTextWriter(stringWriter);
-            xmlWriter.Formatting = Formatting.Indented;
+            var xmlWriter = new XmlTextWriter(stringWriter) {Formatting = Formatting.Indented};
             var source = new Mock<IBlogMLSource>();
             var dateTime = DateTime.ParseExact("20090123", "yyyyMMdd", CultureInfo.InvariantCulture);
             var blog = new BlogMLBlog { Title = "Subtext Blog", RootUrl = "http://subtextproject.com/", SubTitle = "A test blog", DateCreated = dateTime };
             source.Setup(s => s.GetBlog()).Returns(blog);
             var post = new BlogMLPost { Title = "This is a blog post" };
             var posts = new List<BlogMLPost> { post };
-            var comment = new BlogMLComment();
-            comment.Title = "Test Comment Title";
+            var comment = new BlogMLComment { Title = "Test Comment Title" };
             comment.Content.Text = "<p>Comment Body</p>";
             post.Comments.Add(comment);
             source.Setup(s => s.GetBlogPosts(false /*embedAttachments*/)).Returns(posts);
@@ -210,8 +207,7 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var stringWriter = new StringWriter();
-            var xmlWriter = new XmlTextWriter(stringWriter);
-            xmlWriter.Formatting = Formatting.Indented;
+            var xmlWriter = new XmlTextWriter(stringWriter) {Formatting = Formatting.Indented};
             var source = new Mock<IBlogMLSource>();
             var dateTime = DateTime.ParseExact("20090123", "yyyyMMdd", CultureInfo.InvariantCulture);
             var blog = new BlogMLBlog { Title = "Subtext Blog", RootUrl = "http://subtextproject.com/", SubTitle = "A test blog", DateCreated = dateTime };
@@ -237,19 +233,20 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var stringWriter = new StringWriter();
-            var xmlWriter = new XmlTextWriter(stringWriter);
-            xmlWriter.Formatting = Formatting.Indented;
+            var xmlWriter = new XmlTextWriter(stringWriter) {Formatting = Formatting.Indented};
             var source = new Mock<IBlogMLSource>();
             var dateTime = DateTime.ParseExact("20090123", "yyyyMMdd", CultureInfo.InvariantCulture);
             var blog = new BlogMLBlog { Title = "Subtext Blog", RootUrl = "http://subtextproject.com/", SubTitle = "A test blog", DateCreated = dateTime };
             source.Setup(s => s.GetBlog()).Returns(blog);
             var post = new BlogMLPost { Title = "This is a blog post" };
-            var attachment = new BlogMLAttachment();
-            attachment.Data = new byte[] {1,2,3,4,5};
-            attachment.Path = @"c:\\path-to-attachment.jpg";
-            attachment.Url = "/foo/path-to-attachment.jpg";
-            attachment.Embedded = true;
-            attachment.MimeType = "img/jpeg";
+            var attachment = new BlogMLAttachment
+            {
+                Data = new byte[] {1, 2, 3, 4, 5},
+                Path = @"c:\\path-to-attachment.jpg",
+                Url = "/foo/path-to-attachment.jpg",
+                Embedded = true,
+                MimeType = "img/jpeg"
+            };
             post.Attachments.Add(attachment);
             var posts = new List<BlogMLPost> { post };
 
@@ -273,8 +270,7 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var stringWriter = new StringWriter();
-            var xmlWriter = new XmlTextWriter(stringWriter);
-            xmlWriter.Formatting = Formatting.Indented;
+            var xmlWriter = new XmlTextWriter(stringWriter) {Formatting = Formatting.Indented};
             var source = new Mock<IBlogMLSource>();
             var dateTime = DateTime.ParseExact("20090123", "yyyyMMdd", CultureInfo.InvariantCulture);
             var blog = new BlogMLBlog { Title = "Subtext Blog", RootUrl = "http://subtextproject.com/", SubTitle = "A test blog", DateCreated = dateTime };
@@ -306,8 +302,7 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var stringWriter = new StringWriter();
-            var xmlWriter = new XmlTextWriter(stringWriter);
-            xmlWriter.Formatting = Formatting.Indented;
+            var xmlWriter = new XmlTextWriter(stringWriter) {Formatting = Formatting.Indented};
             var source = new Mock<IBlogMLSource>();
             var dateTime = DateTime.ParseExact("20090123", "yyyyMMdd", CultureInfo.InvariantCulture);
             var blog = new BlogMLBlog { Title = "Subtext Blog", RootUrl = "http://subtextproject.com/", SubTitle = "A test blog", DateCreated = dateTime };

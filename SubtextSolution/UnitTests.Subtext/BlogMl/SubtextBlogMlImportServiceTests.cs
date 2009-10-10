@@ -1,139 +1,265 @@
-using System.Collections.Generic;
+using System;
 using System.IO;
-using System.Linq;
 using BlogML.Xml;
 using MbUnit.Framework;
 using Moq;
-using Subtext.Framework;
-using Subtext.Framework.Components;
-using Subtext.Framework.Services;
 using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogMl
 {
     [TestFixture]
-    public class SubtextBlogMlImportServiceTests
+    public class BlogMlImportServiceTests
     {
         [Test]
-        public void GetTitleFromEntry_WithPostHavingNoTitle_CreatesUsesPostNameIfAvailable()
+        public void Import_SetsExtendedPropertiesOnBlog()
         {
             // arrange
-            var post = new BlogMLPost {Title = null, PostName = "Hello World"};
-
-            // act
-            string title = SubtextBlogMlImportService.GetTitleFromPost(post);
-
-            // assert
-            Assert.AreEqual("Hello World", title);
-        }
-
-        [Test]
-        public void GetTitleFromEntry_WithPostHavingNoTitleAndNoPostName_UsesPostId()
-        {
-            // arrange
-            var post = new BlogMLPost {Title = null, PostName = null, ID = "87618298"};
-
-            // act
-            string title = SubtextBlogMlImportService.GetTitleFromPost(post);
-
-            // assert
-            Assert.AreEqual("Post #87618298", title);
-        }
-
-        [Test]
-        public void CreateBlogPost_WithNoContent_UsesId()
-        {
-            // arrange
-            var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog).Returns(new Blog {Id = 123});
-            var commentService = new Mock<ICommentService>();
-            var entryPublisher = new Mock<IEntryPublisher>();
-            Entry publishedEntry = null;
-            entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>())).Callback<Entry>(e => publishedEntry = e);
-            var provider = new SubtextBlogMlImportService(context.Object, commentService.Object,
-                                                     entryPublisher.Object);
             var blog = new BlogMLBlog();
-            blog.Posts.Add(new BlogMLPost
-            {Title = null, PostName = null, ID = "123", Content = new BlogMLContent {Text = ""}});
+            var repository = new Mock<IBlogImportRepository>();
+            bool extendedPropertiesSet = false;
+            repository.Setup(r => r.SetExtendedProperties(blog.ExtendedProperties)).Callback(() => extendedPropertiesSet = true);
+            var service = new BlogImportService(repository.Object);
 
             // act
-            provider.CreateBlogPost(blog, blog.Posts[0], null);
+            service.Import(blog);
 
             // assert
-            Assert.AreEqual("Post #123", publishedEntry.Title);
+            Assert.IsTrue(extendedPropertiesSet);
         }
 
         [Test]
-        public void
-            CreateEntryFromBlogMLBlogPost_WithNullPostNameButWithPostUrlContainingBlogSpotDotCom_UsesLastSegmentAsEntryName
-            ()
+        public void Import_WithBlogHavingCategories_CreatesCategories()
         {
             // arrange
-            var post = new BlogMLPost {PostUrl = "http://example.blogspot.com/2003/07/the-last-segment.html"};
             var blog = new BlogMLBlog();
+            var repository = new Mock<IBlogImportRepository>();
+            bool categoriesCreated = false;
+            repository.Setup(r => r.CreateCategories(blog)).Callback(() => categoriesCreated = true);
+            var service = new BlogImportService(repository.Object);
 
             // act
-            Entry entry = SubtextBlogMlImportService.CreateEntryFromBlogMLBlogPost(blog, post,
-                                                                              new Dictionary<string, string>());
+            service.Import(blog);
 
             // assert
-            Assert.AreEqual("the-last-segment", entry.EntryName);
+            Assert.IsTrue(categoriesCreated);
         }
 
         [Test]
-        public void
-            CreateEntryFromBlogMLBlogPost_WithNullTitleNameButWithPostUrlContainingBlogSpotDotCom_UsesLastSegmentAsTitle
-            ()
+        public void Import_WithBlogPostHavingComments_CreatesCommentUsingPostId()
         {
             // arrange
-            var post = new BlogMLPost {PostUrl = "http://example.blogspot.com/2003/07/the-last-segment.html"};
             var blog = new BlogMLBlog();
+            var post = new BlogMLPost();
+            var comment = new BlogMLComment();
+            post.Comments.Add(comment);
+            blog.Posts.Add(post);
+            var repository = new Mock<IBlogImportRepository>();
+            repository.Setup(r => r.CreateBlogPost(blog, post)).Returns("98053");
+            bool commentCreated = false;
+            repository.Setup(r => r.CreateComment(comment, "98053")).Callback(() => commentCreated = true);
+            var service = new BlogImportService(repository.Object);
 
             // act
-            Entry entry = SubtextBlogMlImportService.CreateEntryFromBlogMLBlogPost(blog, post,
-                                                                              new Dictionary<string, string>());
+            service.Import(blog);
 
             // assert
-            Assert.AreEqual("the last segment", entry.Title);
+            Assert.IsTrue(commentCreated);
         }
 
         [Test]
-        public void CreateEntryFromBlogMLBlogPost_WithPostHavingExcerpt_SetsEntryDescription()
+        public void Import_WithBlogPostHavingTrackback_CreatesTrackbackUsingPostId()
         {
             // arrange
-            var post = new BlogMLPost
-            {HasExcerpt = true, Excerpt = new BlogMLContent {Text = "This is a story about a 3 hour voyage"}};
             var blog = new BlogMLBlog();
+            var post = new BlogMLPost();
+            var trackback = new BlogMLTrackback();
+            post.Trackbacks.Add(trackback);
+            blog.Posts.Add(post);
+            var repository = new Mock<IBlogImportRepository>();
+            repository.Setup(r => r.CreateBlogPost(blog, post)).Returns("98053");
+            bool trackbackCreated = false;
+            repository.Setup(r => r.CreateTrackback(trackback, "98053")).Callback(() => trackbackCreated = true);
+            var service = new BlogImportService(repository.Object);
 
             // act
-            Entry entry = SubtextBlogMlImportService.CreateEntryFromBlogMLBlogPost(blog, post,
-                                                                              new Dictionary<string, string>());
+            service.Import(blog);
 
             // assert
-            Assert.AreEqual("This is a story about a 3 hour voyage", entry.Description);
+            Assert.IsTrue(trackbackCreated);
         }
 
         [Test]
-        public void ImportBlog_WithBlogNotAllowingDuplicateComments_TurnsOffCommentsTemporarily()
+        public void Import_WithCreateCommentThrowingException_DoesNotPropagateException()
         {
             // arrange
-            var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog).Returns(new Blog{Host = "localhost", DuplicateCommentsEnabled = false});
-            var duplicateCommentsEnabledValues = new List<bool>();
-            context.Setup(c => c.Repository.UpdateBlog(It.IsAny<Blog>())).Callback<Blog>(blog => duplicateCommentsEnabledValues.Add(blog.DuplicateCommentsEnabled));
-            var commentService = new Mock<ICommentService>();
-            var entryPublisher = new Mock<IEntryPublisher>();
-            var importService = new SubtextBlogMlImportService(context.Object, commentService.Object, entryPublisher.Object);
-            var reader = new Mock<BlogMLReader>();
-            reader.Setup(r => r.ReadBlog(importService, It.IsAny<Stream>()));
+            var blog = new BlogMLBlog();
+            var post = new BlogMLPost();
+            post.Comments.Add(new BlogMLComment());
+            blog.Posts.Add(post);
+            var repository = new Mock<IBlogImportRepository>();
+            repository.Setup(r => r.CreateComment(It.IsAny<BlogMLComment>(), It.IsAny<string>())).Throws(new InvalidOperationException());
+            var service = new BlogImportService(repository.Object);
 
-            // act
-            importService.ImportBlog(reader.Object, new MemoryStream());
-
-            //assert
-            Assert.IsTrue(duplicateCommentsEnabledValues.First());
-            Assert.IsFalse(duplicateCommentsEnabledValues.ElementAt(1));
+            // act, assert
+            service.Import(blog);
         }
 
+        [Test]
+        public void Import_WithCreateTrackbackThrowingException_DoesNotPropagateException()
+        {
+            // arrange
+            var blog = new BlogMLBlog();
+            var post = new BlogMLPost();
+            post.Trackbacks.Add(new BlogMLTrackback());
+            blog.Posts.Add(post);
+            var repository = new Mock<IBlogImportRepository>();
+            repository.Setup(r => r.CreateTrackback(It.IsAny<BlogMLTrackback>(), It.IsAny<string>())).Throws(new InvalidOperationException());
+            var service = new BlogImportService(repository.Object);
+
+            // act, assert
+            service.Import(blog);
+        }
+
+        [Test]
+        public void ImportBlog_WithStream_DeserializesBlog()
+        {
+            // arrange
+            var stream = @"<?xml version=""1.0"" encoding=""utf-8""?>
+                                <blog root-url=""http://localhost:1608/SUBWebV2/"" 
+                                    date-created=""2006-05-06T23:06:32"" 
+                                    xmlns=""http://www.blogml.com/2006/09/BlogML"" 
+                                    xmlns:xs=""http://www.w3.org/2001/XMLSchema"">
+                                  <title type=""text""><![CDATA[Blog Title]]></title>
+                                  <sub-title type=""text""><![CDATA[Blog Subtitle]]></sub-title>
+                                  <authors>
+                                    <author id=""2100"" 
+                                        date-created=""2006-08-10T08:44:35"" 
+                                        date-modified=""2006-09-04T13:46:38"" 
+                                        approved=""true"" 
+                                        email=""someone@blogml.com"">
+                                      <title type=""text""><![CDATA[The Author]]></title>
+                                    </author>
+                                  </authors>
+                                  <posts>
+                                    <post id=""b0e03eec-ab81-4dc4-a69b-374d57cfad5e"" 
+                                        date-created=""2006-01-07T03:31:32"" 
+                                        date-modified=""2006-01-07T03:31:32"" 
+                                        approved=""true"" 
+                                        post-url=""http://example.com/whatever"">
+                                      <title type=""text""><![CDATA[Post Title]]></title>
+                                      <content type=""text"">
+                                        <![CDATA[Content of the post]]>
+                                      </content>
+                                      <authors>
+                                        <author ref=""2100"" />
+                                      </authors>
+                                    </post>
+                                  </posts>
+                                </blog>".ToStream();
+            var repository = new Mock<IBlogImportRepository>();
+            BlogMLPost deserializedPost = null;
+            repository.Setup(r => r.CreateBlogPost(It.IsAny<BlogMLBlog>(), It.IsAny<BlogMLPost>())).Callback<BlogMLBlog, BlogMLPost>((blog, post) => deserializedPost = post);
+            var service = new BlogImportService(repository.Object);
+            
+            // act
+            service.ImportBlog(stream);
+
+            // assert
+            Assert.IsNotNull(deserializedPost);
+            Assert.AreEqual("Post Title", deserializedPost.Title);
+            Assert.AreEqual(1, deserializedPost.Authors.Count);
+        }
+
+        [Test]
+        public void CreateFileFromAttachment_WithEmbeddedAttachment_CreatesFile()
+        {
+            // arrange
+            var data = new byte[] {1, 2, 3};
+            var attachment = new BlogMLAttachment {Url = "http://old.example.com/images/my-mug.jpg", Embedded = true, Data = data};
+            string attachmentDirectoryPath = Path.Combine(Environment.CurrentDirectory, "images");
+            Directory.CreateDirectory(ImageDirectory);
+
+            // act
+            BlogImportService.CreateFileFromAttachment(attachment, 
+                attachmentDirectoryPath, 
+                "http://example.com/images/", 
+                "Some Content");
+
+            // assert
+            Assert.IsTrue(File.Exists(Path.Combine(ImageDirectory, "my-mug.jpg")));
+        }
+
+        [Test]
+        public void CreateFileFromAttachment_WithOutEmbeddedAttachment_RewritesPostContent()
+        {
+            // arrange
+            var attachment = new BlogMLAttachment { Url = "http://old.example.com/images/my-mug.jpg", Embedded = false};
+            string attachmentDirectoryPath = ImageDirectory;
+            Directory.CreateDirectory(attachmentDirectoryPath);
+            const string originalPostContent = @"<img src=""http://old.example.com/images/my-mug.jpg"" />";
+
+            // act
+            string postContent = BlogImportService.CreateFileFromAttachment(attachment, 
+                attachmentDirectoryPath, 
+                "http://example.com/images/", 
+                originalPostContent);
+
+            // assert
+            Assert.AreEqual(@"<img src=""http://example.com/images/my-mug.jpg"" />", postContent);
+        }
+
+        [Test]
+        public void Import_WithEmbeddedAttachments_CreatesFilesForAttachmentsAndRewritesBlogPost()
+        {
+            // arrange
+            var data = new byte[] { 1, 2, 3 };
+            var attachment = new BlogMLAttachment { Url = "http://old.example.com/images/my-mug.jpg", Embedded = true, Data = data };
+            var post = new BlogMLPost { Content = new BlogMLContent { Text = @"<img src=""http://old.example.com/images/my-mug.jpg"" />" } };
+            post.Attachments.Add(attachment);
+            var blog = new BlogMLBlog();
+            blog.Posts.Add(post);
+            var repository = new Mock<IBlogImportRepository>();
+            repository.Setup(r => r.GetAttachmentDirectoryPath()).Returns(ImageDirectory + "/wlw");
+            repository.Setup(r => r.GetAttachmentDirectoryUrl()).Returns("http://example.com/images/wlw/");
+            var service = new BlogImportService(repository.Object);
+            
+            // act
+            service.Import(blog);
+
+            // assert
+            Assert.IsTrue(File.Exists(Path.Combine(ImageDirectory, @"wlw\my-mug.jpg")));
+            Assert.AreEqual(@"<img src=""http://example.com/images/wlw/my-mug.jpg"" />", post.Content.Text);
+        }
+
+        private static string ImageDirectory
+        {
+            get
+            {
+                return Path.Combine(Environment.CurrentDirectory, "images");
+            }
+        }
+
+        [SetUp]
+        public void Setup()
+        {
+            //Make sure no files are left over from last time.
+            TearDown();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            if(Directory.Exists(ImageDirectory))
+            {
+                try
+                {
+                    Directory.Delete(ImageDirectory, true);
+                }
+                catch(Exception)
+                {
+                    Console.WriteLine("Could not delete " + ImageDirectory);
+                }
+            }
+        }
     }
 }
