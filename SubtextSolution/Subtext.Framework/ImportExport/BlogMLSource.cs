@@ -25,9 +25,9 @@ using Subtext.Framework.Components;
 
 namespace Subtext.ImportExport
 {
-    public class SubtextBlogMLSource : IBlogMLSource
+    public class BlogMLSource : IBlogMLSource
     {
-        public SubtextBlogMLSource(ISubtextContext context, IBlogMLExportMapper blogMLConverter)
+        public BlogMLSource(ISubtextContext context, IBlogMLExportMapper blogMLConverter)
         {
             SubtextContext = context;
             BlogMLConverter = blogMLConverter;

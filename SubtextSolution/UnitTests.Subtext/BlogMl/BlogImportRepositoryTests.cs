@@ -185,7 +185,7 @@ namespace UnitTests.Subtext.BlogMl
             var importRepository = new BlogImportRepository(context.Object, null, null, null);
 
             // act
-            var scope = importRepository.SetupBlogForImport() as BlogMLImportSetup;
+            var scope = importRepository.SetupBlogForImport() as BlogImportSetup;
 
             // assert
             Assert.IsNotNull(scope);

@@ -389,19 +389,19 @@
     <Compile Include="HostInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ImportExport\BlogImportService.cs" />
+    <Compile Include="ImportExport\BlogImportSetup.cs" />
+    <Compile Include="ImportExport\BlogMLExportMapper.cs" />
     <Compile Include="ImportExport\BlogMLImportMapper.cs" />
     <Compile Include="ImportExport\BlogImportRepository.cs" />
-    <Compile Include="ImportExport\BlogMLImportScope.cs" />
+    <Compile Include="ImportExport\BlogMLSource.cs" />
     <Compile Include="ImportExport\BlogMLWriter.cs" />
-    <Compile Include="ImportExport\IBlogMLConverter.cs" />
     <Compile Include="ImportExport\IBlogImportRepository.cs" />
-    <Compile Include="ImportExport\IBlogMlImportService.cs" />
+    <Compile Include="ImportExport\IBlogImportService.cs" />
+    <Compile Include="ImportExport\IBlogMLExportMapper.cs" />
+    <Compile Include="ImportExport\IBlogMLImportMapper.cs" />
     <Compile Include="ImportExport\IBlogMLSource.cs" />
-    <Compile Include="ImportExport\IBlogMLToSubtextConverter.cs" />
     <Compile Include="ImportExport\IBlogMLWriter.cs" />
-    <Compile Include="ImportExport\SubtextBlogMLConverter.cs" />
-    <Compile Include="ImportExport\SubtextBlogMlImportService.cs" />
-    <Compile Include="ImportExport\SubtextBlogMLSource.cs" />
     <Compile Include="Infrastructure\ActionResults\ExportActionResult.cs" />
     <Compile Include="Infrastructure\IServiceLocator.cs" />
     <Compile Include="Infrastructure\ITimeZone.cs" />

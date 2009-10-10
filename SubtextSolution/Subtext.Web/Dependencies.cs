@@ -95,7 +95,7 @@ namespace Subtext
             Bind<IBlogImportService>().To<BlogImportService>().InRequestScope();
             Bind<IBlogMLImportMapper>().To<BlogMLImportMapper>().InRequestScope();
             Bind<IBlogMLExportMapper>().To<BlogMLExportMapper>().InRequestScope();
-            Bind<IBlogMLSource>().To<SubtextBlogMLSource>().InRequestScope();
+            Bind<IBlogMLSource>().To<BlogMLSource>().InRequestScope();
             
         }
     }

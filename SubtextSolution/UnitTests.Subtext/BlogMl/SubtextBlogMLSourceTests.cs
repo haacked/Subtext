@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.BlogMl
             context.Setup(c => c.Blog).Returns(blog);
             var converter = new Mock<IBlogMLExportMapper>();
             converter.Setup(c => c.ConvertBlog(blog)).Returns(new BlogMLBlog {Title = "Converted"});
-            var source = new SubtextBlogMLSource(context.Object, converter.Object);
+            var source = new BlogMLSource(context.Object, converter.Object);
 
             // act
             var blogMLBlog = source.GetBlog();
@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.BlogMl
             var converter = new Mock<IBlogMLExportMapper>();
             converter.Setup(c => c.ConvertBlog(It.IsAny<Blog>())).Returns(new BlogMLBlog {Title = "Whatever"});
             converter.Setup(c => c.ConvertCategories(categories)).Returns(blogMLCategories);
-            var source = new SubtextBlogMLSource(context.Object, converter.Object);
+            var source = new BlogMLSource(context.Object, converter.Object);
 
             // act
             var blogMLBlog = source.GetBlog();
@@ -66,7 +66,7 @@ namespace UnitTests.Subtext.BlogMl
             context.Setup(c => c.Repository.GetEntriesForExport(It.IsAny<int>() /*pageIndex*/, 100 /*pageSize*/)).Returns(posts);
             var converter = new Mock<IBlogMLExportMapper>();
             converter.Setup(c => c.ConvertEntry(It.IsAny<EntryStatsView>(), false /*embedAttachments*/)).Returns(new BlogMLPost { Title = "Test Post Title" });
-            var source = new SubtextBlogMLSource(context.Object, converter.Object);
+            var source = new BlogMLSource(context.Object, converter.Object);
 
             // act
             var blogMLPosts = source.GetBlogPosts(false /*embedAttachments*/);
@@ -91,7 +91,7 @@ namespace UnitTests.Subtext.BlogMl
             context.Setup(c => c.Repository.GetCategories(CategoryType.PostCollection, false /*activeOnly*/)).Returns(categories);
             context.Setup(c => c.Repository.GetEntriesForExport(It.IsAny<int>() /*pageIndex*/, 100 /*pageSize*/)).Returns(posts);
             var converter = new BlogMLExportMapper(context.Object);
-            var source = new SubtextBlogMLSource(context.Object, converter);
+            var source = new BlogMLSource(context.Object, converter);
 
             // act
             var blogMLPosts = source.GetBlogPosts(false /*embedAttachments*/);

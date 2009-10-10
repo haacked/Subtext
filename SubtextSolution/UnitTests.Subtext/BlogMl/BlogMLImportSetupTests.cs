@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.BlogMl
             repository.Setup(r => r.UpdateBlog(blog)).Callback(() => updateCalled = true);
 
             // act
-            new BlogMLImportSetup(blog, repository.Object);
+            new BlogImportSetup(blog, repository.Object);
 
             // assert
             Assert.IsTrue(blog.DuplicateCommentsEnabled);
@@ -36,7 +36,7 @@ namespace UnitTests.Subtext.BlogMl
             repository.Setup(r => r.UpdateBlog(blog)).Throws(new InvalidOperationException());
 
             // act
-            new BlogMLImportSetup(blog, repository.Object);
+            new BlogImportSetup(blog, repository.Object);
 
             // assert
             Assert.IsTrue(blog.DuplicateCommentsEnabled);
@@ -49,7 +49,7 @@ namespace UnitTests.Subtext.BlogMl
             var blog = new Blog { DuplicateCommentsEnabled = true };
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.UpdateBlog(blog)).Throws(new InvalidOperationException());
-            var scope = new BlogMLImportSetup(blog, repository.Object);
+            var scope = new BlogImportSetup(blog, repository.Object);
 
             // act
             scope.Dispose();
@@ -66,7 +66,7 @@ namespace UnitTests.Subtext.BlogMl
             var blog = new Blog { DuplicateCommentsEnabled = false };
             var repository = new Mock<ObjectProvider>();
             bool updateCalled = false;
-            var scope = new BlogMLImportSetup(blog, repository.Object);
+            var scope = new BlogImportSetup(blog, repository.Object);
             repository.Setup(r => r.UpdateBlog(blog)).Callback(() => updateCalled = true);
 
             // act
