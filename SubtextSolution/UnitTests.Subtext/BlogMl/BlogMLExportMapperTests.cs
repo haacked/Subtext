@@ -77,6 +77,25 @@ namespace UnitTests.Subtext.BlogMl
         }
 
         [Test]
+        public void ConvertEntry_WithEntry_ContvertsBodyToBase64Encoding()
+        {
+            // arrange
+            var entry = new EntryStatsView { Body = "<style><![CDATA[Test]]></style>" };
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Host = "example.com" });
+            subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
+            subtextContext.Setup(c => c.UrlHelper.EntryUrl(It.IsAny<IEntryIdentity>())).Returns("/irrelevant");
+            var converter = new BlogMLExportMapper(subtextContext.Object);
+
+            // act
+            var post = converter.ConvertEntry(entry, false /*embedAttachments*/);
+
+            // assert
+            Assert.AreEqual("<style><![CDATA[Test]]></style>", post.Content.UncodedText);
+            Assert.AreEqual(true, post.Content.Base64);
+        }
+
+        [Test]
         public void ConvertEntry_WithInActiveEntry_SetsDateModifiedToDateModified()
         {
             // arrange

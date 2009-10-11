@@ -27,18 +27,16 @@ namespace Subtext.Framework.Services
 {
     public class XhtmlConverter : ITextTransformation
     {
-        static readonly Regex _newLineStripperRegex = new Regex(@">(\r\n)+<!\[CDATA\[", RegexOptions.Compiled);
+        static readonly Regex NewLineStripperRegex = new Regex(@">(\r\n)+<!\[CDATA\[", RegexOptions.Compiled);
         private readonly Converter<string, string> _innerTextConverter;
         private readonly SgmlReader _reader;
 
         [Inject]
-        public XhtmlConverter()
-            : this(null, new SgmlReader())
+        public XhtmlConverter() : this(null, new SgmlReader())
         {
         }
 
-        public XhtmlConverter(Converter<string, string> innerTextConverter)
-            : this(innerTextConverter, new SgmlReader())
+        public XhtmlConverter(Converter<string, string> innerTextConverter) : this(innerTextConverter, new SgmlReader())
         {
         }
 
@@ -48,8 +46,6 @@ namespace Subtext.Framework.Services
             _reader = sgmlReader;
         }
 
-        #region ITextTransformation Members
-
         public string Transform(string original)
         {
             if(string.IsNullOrEmpty(original))
@@ -58,8 +54,6 @@ namespace Subtext.Framework.Services
             }
             return ConvertHtmlToXHtml(original, _innerTextConverter);
         }
-
-        #endregion
 
         /// <summary>
         /// Converts the specified html into XHTML compliant text.
@@ -72,7 +66,7 @@ namespace Subtext.Framework.Services
             _reader.DocType = "html";
             _reader.WhitespaceHandling = WhitespaceHandling.All;
             // Hack to fix SF bug #1678030
-            html = RemoveNewLineBeforeCDATA(html);
+            html = RemoveNewLineBeforeCdata(html);
             _reader.InputStream = new StringReader("<html>" + html + "</html>");
             _reader.CaseFolding = CaseFolding.ToLower;
             var writer = new StringWriter();
@@ -135,8 +129,10 @@ namespace Subtext.Framework.Services
                                 insideAnchor = false;
                             }
 
-                            if(_reader.LocalName == "a" || _reader.LocalName == "script" ||
-                               _reader.LocalName == "iframe" || _reader.LocalName == "object")
+                            if(_reader.LocalName == "a" || 
+                                _reader.LocalName == "script" ||
+                               _reader.LocalName == "iframe" || 
+                               _reader.LocalName == "object")
                             {
                                 xmlWriter.WriteFullEndElement();
                             }
@@ -168,13 +164,13 @@ namespace Subtext.Framework.Services
         // Ugly hack to remove any new line that sits between a tag end
         // and the beginning of a CDATA section.
         // This to make sure the Xhtml is well formatted before processing it
-        private static string RemoveNewLineBeforeCDATA(string text)
+        private static string RemoveNewLineBeforeCdata(string text)
         {
             if(String.IsNullOrEmpty(text))
             {
                 return string.Empty;
             }
-            return _newLineStripperRegex.Replace(text, "><![CDATA[");
+            return NewLineStripperRegex.Replace(text, "><![CDATA[");
         }
     }
 }

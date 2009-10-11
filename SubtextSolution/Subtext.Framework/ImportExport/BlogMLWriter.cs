@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Xml;
 using BlogML;
 using BlogML.Xml;
@@ -106,17 +107,7 @@ namespace Subtext.ImportExport
             WriteStartPosts();
             foreach(var post in posts)
             {
-                WriteStartPost(post.ID,
-                               post.Title,
-                               post.DateCreated,
-                               post.DateModified,
-                               post.Approved,
-                               post.Content.Text,
-                               post.PostUrl,
-                               post.Views,
-                               post.PostType,
-                               post.PostName);
-
+                WriteStartBlogMLPost(post);
                 WritePostCategories(post.Categories);
                 WritePostComments(post.Comments);
                 WritePostTrackbacks(post.Trackbacks);
@@ -126,6 +117,39 @@ namespace Subtext.ImportExport
                 WriteEndElement(); // </post>
                 Writer.Flush();
             }
+            WriteEndElement();
+        }
+
+        protected void WriteStartBlogMLPost(BlogMLPost post)
+        {
+            WriteStartElement("post");
+            WriteNodeAttributes(post.ID, post.DateCreated, post.DateModified, post.Approved);
+            WriteAttributeString("post-url", post.PostUrl);
+            WriteAttributeStringRequired("type", "text");
+            WriteAttributeStringRequired("hasexcerpt", post.HasExcerpt.ToString().ToLowerInvariant());
+            WriteAttributeStringRequired("views", post.Views.ToString());
+            WriteElementContent("title", post.Title, "text");
+            WriteBlogMLContent("content", post.Content);
+            if(!String.IsNullOrEmpty(post.PostName))
+            {
+                WriteElementContent("post-name", post.PostName, "text");
+            }
+            if(post.HasExcerpt)
+            {
+                WriteBlogMLContent("excerpt", post.Excerpt);
+            }
+        }
+
+        protected void WriteBlogMLContent(string elementName, BlogMLContent content)
+        {
+            WriteElementContent(elementName, content.Text, content.Base64 ? "base64" : "text");
+        }
+
+        protected void WriteElementContent(string elementName, string content, string contentType)
+        {
+            WriteStartElement(elementName);
+            WriteAttributeString("type", contentType);
+            Writer.WriteCData(content);
             WriteEndElement();
         }
 

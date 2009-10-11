@@ -488,7 +488,6 @@ namespace Subtext.Framework.Text
         /// We will however, check for line breaks and replace 
         /// them with <br />
         /// </summary>
-        /// <param name="stringToTransform"></param>
         /// <returns></returns>
         public static string SafeFormat(string stringToTransform, HttpServerUtilityBase server)
         {

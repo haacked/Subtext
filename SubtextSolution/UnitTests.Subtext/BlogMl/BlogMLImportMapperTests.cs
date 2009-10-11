@@ -173,6 +173,34 @@ namespace UnitTests.Subtext.BlogMl
         }
 
         [Test]
+        public void ConvertBlogPost_WithPostHavingBase64EncodedContent_DecodesContent()
+        {
+            // arrange
+            var post = new BlogMLPost { Content = BlogMLContent.Create("This is a story about a 3 hour voyage", true) };
+            var mapper = new BlogMLImportMapper();
+
+            // act
+            Entry entry = mapper.ConvertBlogPost(post, new BlogMLBlog(), null);
+
+            // assert
+            Assert.AreEqual("This is a story about a 3 hour voyage", entry.Body);
+        }
+
+        [Test]
+        public void ConvertBlogPost_WithPostHavingBase64EncodedExcerpt_DecodesContent()
+        {
+            // arrange
+            var post = new BlogMLPost { HasExcerpt = true, Excerpt = BlogMLContent.Create("This is a story about a 3 hour voyage", true) };
+            var mapper = new BlogMLImportMapper();
+
+            // act
+            Entry entry = mapper.ConvertBlogPost(post, new BlogMLBlog(), null);
+
+            // assert
+            Assert.AreEqual("This is a story about a 3 hour voyage", entry.Description);
+        }
+
+        [Test]
         public void ConvertBlogPost_WithPostHavingExcerpt_SetsEntryDescription()
         {
             // arrange

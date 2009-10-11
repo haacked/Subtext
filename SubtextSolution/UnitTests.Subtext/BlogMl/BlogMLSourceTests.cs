@@ -11,7 +11,7 @@ using Subtext.ImportExport;
 namespace UnitTests.Subtext.BlogMl
 {
     [TestFixture]
-    public class SubtextBlogMLSourceTests
+    public class BlogMLSourceTests
     {
         [Test]
         public void GetBlog_WithBlogInSubtextContext_ConvertsBlogToBlogML()
