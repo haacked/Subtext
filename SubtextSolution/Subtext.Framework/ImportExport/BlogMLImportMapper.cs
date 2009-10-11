@@ -46,13 +46,13 @@ namespace Subtext.ImportExport
                 DateCreated = dateCreated,
                 DateModified = dateModified,
                 DateSyndicated = post.Approved ? dateModified : DateTime.MaxValue,
-                Body = post.Content.Text,
+                Body = post.Content.UncodedText,
                 IsActive = post.Approved,
                 DisplayOnHomePage = post.Approved,
                 IncludeInMainSyndication = post.Approved,
                 IsAggregated = post.Approved,
                 AllowComments = true,
-                Description = post.HasExcerpt ? post.Excerpt.Text : null
+                Description = post.HasExcerpt ? post.Excerpt.UncodedText: null
             };
 
             if(!string.IsNullOrEmpty(post.PostName))

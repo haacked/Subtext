@@ -67,6 +67,31 @@ namespace UnitTests.Subtext.BlogMl
         }
 
         [Test]
+        public void Import_WithBlogPostHavingBase64EncodedContentWithAttachments_ProperlyRewritesAttachments()
+        {
+            // arrange
+            var blog = new BlogMLBlog();
+            const string originalPostContent = @"<img src=""http://old.example.com/images/my-mug.jpg"" />";
+            var post = new BlogMLPost { Content = BlogMLContent.Create(originalPostContent, true /*base64*/) };
+            var attachment = new BlogMLAttachment { Url = "http://old.example.com/images/my-mug.jpg", Embedded = false};
+            post.Attachments.Add(attachment);
+            blog.Posts.Add(post);
+            var repository = new Mock<IBlogImportRepository>();
+            repository.Setup(r => r.GetAttachmentDirectoryUrl()).Returns("http://new.example.com/images/");
+            repository.Setup(r => r.GetAttachmentDirectoryPath()).Returns(@"c:\web\images");
+            BlogMLPost publishedPost = null;
+            repository.Setup(r => r.CreateBlogPost(blog, post)).Callback<BlogMLBlog, BlogMLPost>((b, p) => publishedPost = p);
+            var service = new BlogImportService(repository.Object);
+
+            // act
+            service.Import(blog);
+
+            // assert
+            Assert.IsTrue(publishedPost.Content.Base64);
+            Assert.AreEqual(@"<img src=""http://new.example.com/images/my-mug.jpg"" />", publishedPost.Content.UncodedText);
+        }
+
+        [Test]
         public void Import_WithBlogPostHavingTrackback_CreatesTrackbackUsingPostId()
         {
             // arrange
@@ -228,7 +253,7 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             Assert.IsTrue(File.Exists(Path.Combine(ImageDirectory, @"wlw\my-mug.jpg")));
-            Assert.AreEqual(@"<img src=""http://example.com/images/wlw/my-mug.jpg"" />", post.Content.Text);
+            Assert.AreEqual(@"<img src=""http://example.com/images/wlw/my-mug.jpg"" />", post.Content.UncodedText);
         }
 
         private static string ImageDirectory

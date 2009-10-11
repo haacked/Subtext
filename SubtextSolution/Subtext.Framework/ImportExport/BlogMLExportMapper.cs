@@ -83,7 +83,7 @@ namespace Subtext.ImportExport
                 PostUrl = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
                 PostType = (entry.PostType == PostType.Story) ? BlogPostTypes.Article : BlogPostTypes.Normal,
                 Approved = entry.IsActive,
-                Content = new BlogMLContent {Text = entry.Body},
+                Content = BlogMLContent.Create(entry.Body ?? string.Empty, true /*base64*/),
                 HasExcerpt = entry.HasDescription,
                 Excerpt = new BlogMLContent {Text = entry.Description},
                 DateCreated = Blog.TimeZone.ToUtc(entry.DateCreated),
@@ -208,7 +208,7 @@ namespace Subtext.ImportExport
             }
             if(feedbackItem.FeedbackType != FeedbackType.Comment)
             {
-                throw new ArgumentException(String.Format(Resources.ArgumentException_CommentTypeMismatch, feedbackItem.FeedbackType, FeedbackType.Comment), "comment");
+                throw new ArgumentException(String.Format(Resources.ArgumentException_CommentTypeMismatch, feedbackItem.FeedbackType, FeedbackType.Comment), "feedbackItem");
             }
 
             return new BlogMLComment

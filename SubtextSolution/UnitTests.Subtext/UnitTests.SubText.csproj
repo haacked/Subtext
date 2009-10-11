@@ -270,13 +270,13 @@
     <Compile Include="Akismet\AkismetSpamServiceTests.cs" />
     <Compile Include="AssemblySetUpAndCleanUp.cs" />
     <Compile Include="BlogEntryProvider\FileBrowserConnectorTests.cs" />
+    <Compile Include="BlogMl\BlogImportServiceTests.cs" />
+    <Compile Include="BlogMl\BlogMLExportMapperTests.cs" />
     <Compile Include="BlogMl\BlogMLImportMapperTests.cs" />
     <Compile Include="BlogMl\BlogMLImportSetupTests.cs" />
+    <Compile Include="BlogMl\BlogMLSourceTests.cs" />
     <Compile Include="BlogMl\BlogMLWriterTests.cs" />
     <Compile Include="BlogMl\BlogImportRepositoryTests.cs" />
-    <Compile Include="BlogMl\SubtextBlogMLConverterTests.cs" />
-    <Compile Include="BlogMl\SubtextBlogMlImportServiceTests.cs" />
-    <Compile Include="BlogMl\SubtextBlogMLSourceTests.cs" />
     <Compile Include="DatabaseHelper.cs">
       <SubType>Code</SubType>
     </Compile>

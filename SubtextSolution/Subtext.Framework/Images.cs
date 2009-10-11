@@ -67,9 +67,7 @@ namespace Subtext.Framework
             }
 
             // Indexed GIFs can cause issues.
-            using(
-                System.Drawing.Image originalImage = GraphicsHelper.FromFilePathAsUnindexedImage(image.OriginalFilePath)
-                )
+            using(System.Drawing.Image originalImage = GraphicsHelper.FromFilePathAsUnindexedImage(image.OriginalFilePath))
             {
                 var originalSize = new Size(originalImage.Width, originalImage.Height);
 

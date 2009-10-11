@@ -8,6 +8,7 @@ using BlogML.Xml;
 using MbUnit.Framework;
 using Moq;
 using Subtext.ImportExport;
+using System.Text;
 
 namespace UnitTests.Subtext.BlogMl
 {
@@ -146,6 +147,31 @@ namespace UnitTests.Subtext.BlogMl
             Assert.Contains(output, "</posts>");
             Assert.Contains(output, @"<title type=""text""><![CDATA[This is a blog post]]></title>");
             Assert.Contains(output, @"<content type=""text""><![CDATA[<p>Test</p>]]></content>");
+        }
+
+        [Test]
+        public void Write_WithBlogContainingBase64EncodedPosts_WritesPostsToWriterAsBase64Encoded()
+        {
+            // arrange
+            var stringWriter = new StringWriter();
+            var xmlWriter = new XmlTextWriter(stringWriter) { Formatting = Formatting.Indented };
+            var source = new Mock<IBlogMLSource>();
+            var dateTime = DateTime.ParseExact("20090123", "yyyyMMdd", CultureInfo.InvariantCulture);
+            var blog = new BlogMLBlog { Title = "Subtext Blog", RootUrl = "http://subtextproject.com/", SubTitle = "A test blog", DateCreated = dateTime };
+            source.Setup(s => s.GetBlog()).Returns(blog);
+            var post = new BlogMLPost { Content = BlogMLContent.Create("<p>This is a Test</p>", true /*base64*/) };
+            var posts = new List<BlogMLPost> { post };
+            blog.Posts.Add(post);
+            source.Setup(s => s.GetBlogPosts(false /*embedAttachments*/)).Returns(posts);
+            var writer = new BlogMLWriter(source.Object, false /*embedAttachments*/);
+
+            // act
+            ((IBlogMLWriter)writer).Write(xmlWriter);
+
+            // assert
+            string output = stringWriter.ToString();
+            Console.WriteLine(Convert.ToBase64String(Encoding.UTF8.GetBytes("<p>This is a Test</p>")));
+            Assert.Contains(output, @"<content type=""base64""><![CDATA[PHA+VGhpcyBpcyBhIFRlc3Q8L3A+]]></content>");
         }
 
         [Test]

@@ -27,10 +27,42 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
+        public void Transform_WithAngleBracketInAttributeValue_EncodesAttribute()
+        {
+            const string html = @"<a title="">"">b</a>";
+            const string expected = @"<a title=""&gt;"">b</a>";
+
+            //arrange
+            var converter = new XhtmlConverter();
+
+            //act
+            string result = converter.Transform(html);
+
+            //assert
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test, Ignore]
+        public void Transform_WithStyleTag_DoesNotWrapStyleInCdata()
+        {
+            const string html = "<style>.test {color: blue;}</style>";
+            const string expected = html;
+
+            //arrange
+            var converter = new XhtmlConverter();
+
+            //act
+            string result = converter.Transform(html);
+
+            //assert
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
         public void Transform_WithConverter_AppliesConverterWhileConvertingHtml()
         {
-            string html = "<p title=\"blah blah\"> blah blah </p>";
-            string expected = "<p title=\"blah blah\"> yadda yadda </p>";
+            const string html = "<p title=\"blah blah\"> blah blah </p>";
+            const string expected = "<p title=\"blah blah\"> yadda yadda </p>";
 
             //arrange
             var converter = new XhtmlConverter(input => input.Replace("blah", "yadda"));
@@ -46,7 +78,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void ConvertHtmlToXHtmlLeavesNestedMarkupAlone()
         {
             //arrange
-            string expected = "<p><span>This is some text</span> <span>this is more text</span></p>";
+            const string expected = "<p><span>This is some text</span> <span>this is more text</span></p>";
             var converter = new XhtmlConverter();
 
             //act
