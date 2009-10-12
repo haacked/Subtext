@@ -43,11 +43,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         const string VskeyBlogid = "VS_BLOGID";
         int _pageIndex;
 
-        #region Declared Controls
-
         protected Button btnAddNewBlog = new Button();
-
-        #endregion
 
         /// <summary>
         /// Gets or sets the blog id.
@@ -139,27 +135,6 @@ namespace Subtext.Web.HostAdmin.UserControls
                        & ValidateFieldLength(txtTitle, "Title", 100);
             }
         }
-
-        #region Web Form Designer generated code
-
-        override protected void OnInit(EventArgs e)
-        {
-            //
-            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
-            //
-            InitializeComponent();
-            base.OnInit(e);
-        }
-
-        /// <summary>
-        ///		Required method for Designer support - do not modify
-        ///		the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-        }
-
-        #endregion
 
         protected void Page_Load(object sender, EventArgs e)
         {

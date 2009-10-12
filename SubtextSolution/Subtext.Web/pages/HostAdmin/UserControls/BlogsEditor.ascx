@@ -241,7 +241,7 @@
 					<FooterTemplate>
 							<tr>
 								<td colspan="5">
-								<asp:LinkButton ID="lbAddAlias" CssClass="button"  Text="Add Alias" runat="server" CommandName="Add" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "BlogId") %>' OnClick="lbAddAlias_OnClick"></asp:LinkButton>
+								<asp:LinkButton ID="lbAddAlias" CssClass="button" Text="Add Alias" runat="server" CommandName="Add" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "BlogId") %>' OnClick="OnAddAliasOnClick"></asp:LinkButton>
 								</td>
 							</tr>
 						</table>
