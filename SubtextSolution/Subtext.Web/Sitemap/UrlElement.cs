@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Xml.Serialization;
 using Subtext.Web.Properties;
@@ -7,10 +24,8 @@ namespace Subtext.Web.SiteMap
     [XmlType(TypeName = "url")]
     public class UrlElement
     {
-        private ChangeFrequency changeFrequency;
-        private DateTime lastModified;
-        private Uri pageUrl;
-        private decimal priority;
+        private Uri _pageUrl;
+        private decimal _priority;
 
         /// <summary>
         /// We need this contructor if we want to serialize the class.
@@ -39,7 +54,7 @@ namespace Subtext.Web.SiteMap
         /// Also, please note that assigning a high priority to all of the URLs on your site will not help you. Since the priority is relative, it is only used to select between URLs on your site; the priority of your pages will not be compared to the priority of pages on other sites.</param>
         public UrlElement(Uri pageUrl, DateTime lastModified, ChangeFrequency changeFrequency, decimal priority)
         {
-            this.pageUrl = pageUrl;
+            _pageUrl = pageUrl;
             LastModified = lastModified;
             ChangeFrequency = changeFrequency;
             Priority = priority;
@@ -50,38 +65,29 @@ namespace Subtext.Web.SiteMap
         {
             get
             {
-                string encodedString;
-                encodedString = pageUrl.ToString();
+                string encodedString = _pageUrl.ToString();
                 return encodedString;
             }
-            set { pageUrl = new Uri(value); }
+            set { _pageUrl = new Uri(value); }
         }
 
         [XmlElement(ElementName = "lastmod", DataType = "date")]
-        public DateTime LastModified
-        {
-            get { return lastModified; }
-            set { lastModified = value; }
-        }
+        public DateTime LastModified { get; set; }
 
         [XmlElement(ElementName = "changefreq")]
-        public ChangeFrequency ChangeFrequency
-        {
-            get { return changeFrequency; }
-            set { changeFrequency = value; }
-        }
+        public ChangeFrequency ChangeFrequency { get; set; }
 
         [XmlElement(ElementName = "priority")]
         public decimal Priority
         {
-            get { return priority; }
+            get { return _priority; }
             set
             {
                 if(value < 0.0M || value > 1.0M)
                 {
                     throw new ArgumentOutOfRangeException(Resources.ArgumentOutOfRange_Priority);
                 }
-                priority = value;
+                _priority = value;
             }
         }
     }

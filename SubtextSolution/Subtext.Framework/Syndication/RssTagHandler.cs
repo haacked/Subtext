@@ -26,9 +26,9 @@ namespace Subtext.Framework.Syndication
     /// <summary>
     /// Class used to handle requests for an RSS feed.
     /// </summary>
-    public class RssTagHandler : BaseSyndicationHandler<Entry>
+    public class RssTagHandler : BaseSyndicationHandler
     {
-        BaseSyndicationWriter<Entry> writer;
+        BaseSyndicationWriter<Entry> _writer;
 
         public RssTagHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
@@ -42,14 +42,14 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                if(writer == null)
+                if(_writer == null)
                 {
                     // timheuer: changed this to GetEntriesByTag
-                    writer = new RssWriter(HttpContext.Response.Output,
-                                           Repository.GetEntriesByTag(Blog.ItemCount, _getTagName()),
+                    _writer = new RssWriter(HttpContext.Response.Output,
+                                           Repository.GetEntriesByTag(Blog.ItemCount, GetTagName()),
                                            PublishDateOfLastFeedItemReceived, UseDeltaEncoding, SubtextContext);
                 }
-                return writer;
+                return _writer;
             }
         }
 
@@ -69,27 +69,27 @@ namespace Subtext.Framework.Syndication
         protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
         {
             const string key = "RSS;IndividualMainFeed;BlogId:{0};LastViewed:{1};Tag:{2}";
-            return string.Format(key, Blog.Id, dateLastViewedFeedItemPublished, _getTagName());
+            return string.Format(key, Blog.Id, dateLastViewedFeedItemPublished, GetTagName());
         }
 
         // timheuer - overridden method to bypass the feedburner check
         protected override void ProcessFeed()
         {
-            if(base.IsLocalCacheOK())
+            if(base.IsLocalCacheOk())
             {
-                base.HttpContext.Response.StatusCode = 304;
+                HttpContext.Response.StatusCode = 304;
                 return;
             }
 
             // Checks our cache against last modified header.
-            if(!base.IsHttpCacheOK())
+            if(!base.IsHttpCacheOk())
             {
-                base.Feed = base.BuildFeed();
-                if(base.Feed != null)
+                Feed = base.BuildFeed();
+                if(Feed != null)
                 {
-                    if(base.UseDeltaEncoding && base.Feed.ClientHasAllFeedItems)
+                    if(UseDeltaEncoding && Feed.ClientHasAllFeedItems)
                     {
-                        base.HttpContext.Response.StatusCode = 304;
+                        HttpContext.Response.StatusCode = 304;
                         return;
                     }
                     Cache(Feed);
@@ -99,10 +99,10 @@ namespace Subtext.Framework.Syndication
             base.WriteFeed();
         }
 
-        // timheuer - this is a slight hack to get the tag name
-        private string _getTagName()
+        // TODO: Make this not a hack. timheuer - this is a slight hack to get the tag name
+        private string GetTagName()
         {
-            Uri url = base.HttpContext.Request.Url;
+            Uri url = HttpContext.Request.Url;
             string tagName = HttpUtility.UrlDecode(url.Segments[url.Segments.Length - 2].Replace("/", ""));
             return tagName;
         }

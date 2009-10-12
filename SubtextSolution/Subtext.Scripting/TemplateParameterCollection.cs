@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,9 +25,9 @@ namespace Subtext.Scripting
     /// <summary>
     /// A collection of <see cref="TemplateParameter"/> instances.
     /// </summary>
-    public class TemplateParameterCollection : IEnumerable<TemplateParameter>, ICollection<TemplateParameter>
+    public class TemplateParameterCollection : ICollection<TemplateParameter>
     {
-        readonly List<TemplateParameter> List = new List<TemplateParameter>();
+        readonly List<TemplateParameter> _list = new List<TemplateParameter>();
 
         /// <summary>
         /// Gets the <see cref="TemplateParameter"/> at the specified index.
@@ -18,7 +35,7 @@ namespace Subtext.Scripting
         /// <value></value>
         public TemplateParameter this[int index]
         {
-            get { return List[index]; }
+            get { return _list[index]; }
         }
 
         /// <summary>
@@ -29,7 +46,7 @@ namespace Subtext.Scripting
         {
             get
             {
-                foreach(TemplateParameter parameter in List)
+                foreach(TemplateParameter parameter in _list)
                 {
                     if(String.Equals(parameter.Name, name, StringComparison.OrdinalIgnoreCase))
                     {
@@ -49,15 +66,13 @@ namespace Subtext.Scripting
 
         public void Clear()
         {
-            List.Clear();
+            _list.Clear();
         }
 
         /// <summary>
         /// Gets a value indicating whether the collection contains the specified 
         /// <see cref="TemplateParameter">Script</see>.
         /// </summary>
-        /// <param name="value">The <see cref="TemplateParameter">Script</see> to search for in the collection.</param>
-        /// <returns><b>true</b> if the collection contains the specified object; otherwise, <b>false</b>.</returns>
         public bool Contains(TemplateParameter item)
         {
             if(item == null)
@@ -70,12 +85,12 @@ namespace Subtext.Scripting
 
         public void CopyTo(TemplateParameter[] array, int arrayIndex)
         {
-            List.CopyTo(array, arrayIndex);
+            _list.CopyTo(array, arrayIndex);
         }
 
         public int Count
         {
-            get { return List.Count; }
+            get { return _list.Count; }
         }
 
         public bool IsReadOnly
@@ -86,10 +101,9 @@ namespace Subtext.Scripting
         /// <summary>
         /// Removes the specified value.
         /// </summary>
-        /// <param name="value">Value.</param>
         public bool Remove(TemplateParameter item)
         {
-            return List.Remove(item);
+            return _list.Remove(item);
         }
 
         #endregion
@@ -98,12 +112,12 @@ namespace Subtext.Scripting
 
         IEnumerator<TemplateParameter> IEnumerable<TemplateParameter>.GetEnumerator()
         {
-            return List.GetEnumerator();
+            return _list.GetEnumerator();
         }
 
         public IEnumerator GetEnumerator()
         {
-            return List.GetEnumerator();
+            return _list.GetEnumerator();
         }
 
         #endregion
@@ -160,8 +174,8 @@ namespace Subtext.Scripting
             {
                 return this[value.Name];
             }
-            List.Add(value);
-            value.ValueChanged += value_ValueChanged;
+            _list.Add(value);
+            value.ValueChanged += OnValueChanged;
             return value;
         }
 
@@ -187,7 +201,7 @@ namespace Subtext.Scripting
         /// <returns>The index in the collection of the specified object, if found; otherwise, -1.</returns>
         public int IndexOf(TemplateParameter value)
         {
-            return List.IndexOf(value);
+            return _list.IndexOf(value);
         }
 
         /// <summary>
@@ -203,7 +217,7 @@ namespace Subtext.Scripting
             }
         }
 
-        private void value_ValueChanged(object sender, ParameterValueChangedEventArgs args)
+        private void OnValueChanged(object sender, ParameterValueChangedEventArgs args)
         {
             OnValueChanged(args);
         }

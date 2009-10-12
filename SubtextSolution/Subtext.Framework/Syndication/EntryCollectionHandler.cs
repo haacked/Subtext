@@ -23,15 +23,15 @@ namespace Subtext.Framework.Syndication
 {
     /// <summary>
     /// </summary>
-    public abstract class EntryCollectionHandler<T> : BaseSyndicationHandler<T>
+    public abstract class EntryCollectionHandler<T> : BaseSyndicationHandler
     {
-        public EntryCollectionHandler(ISubtextContext subtextContext) : base(subtextContext)
+        protected EntryCollectionHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
         }
 
         protected abstract ICollection<T> GetFeedEntries();
 
-        protected override bool IsLocalCacheOK()
+        protected override bool IsLocalCacheOk()
         {
             string dt = LastModifiedHeader;
 
@@ -74,7 +74,7 @@ namespace Subtext.Framework.Syndication
 
 
         //By default, we will assume the cached data objects will be used else where
-        protected override bool IsHttpCacheOK()
+        protected override bool IsHttpCacheOk()
         {
             return false;
         }

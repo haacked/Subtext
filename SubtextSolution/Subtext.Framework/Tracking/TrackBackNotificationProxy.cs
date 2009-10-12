@@ -98,19 +98,18 @@ namespace Subtext.Framework.Tracking
         {
             if(!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase | RegexOptions.Singleline))
             {
-                string sPattern = @"<rdf:\w+\s[^>]*?>(</rdf:rdf>)?";
-                var r = new Regex(sPattern, RegexOptions.IgnoreCase);
-                Match m;
-
-                for(m = r.Match(pageText); m.Success; m = m.NextMatch())
+                const string rdfPattern = @"<rdf:\w+\s[^>]*?>(</rdf:rdf>)?";
+                var regex = new Regex(rdfPattern, RegexOptions.IgnoreCase);
+                
+                for(Match match = regex.Match(pageText); match.Success; match = match.NextMatch())
                 {
-                    if(m.Groups.ToString().Length > 0)
+                    if(match.Groups.ToString().Length > 0)
                     {
-                        string text = m.Groups[0].ToString();
+                        string text = match.Groups[0].ToString();
                         if(text.IndexOf(url.ToString()) > 0)
                         {
-                            string tbPattern = "trackback:ping=\"([^\"]+)\"";
-                            var reg = new Regex(tbPattern, RegexOptions.IgnoreCase);
+                            const string trackbackPattern = "trackback:ping=\"([^\"]+)\"";
+                            var reg = new Regex(trackbackPattern, RegexOptions.IgnoreCase);
                             Match m2 = reg.Match(text);
                             if(m2.Success)
                             {

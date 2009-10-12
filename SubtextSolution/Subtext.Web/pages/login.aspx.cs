@@ -32,8 +32,8 @@ namespace Subtext.Web.Pages
     /// </summary>
     public partial class login : SubtextPage
     {
-        private readonly static ILog log = new Log();
-        private static readonly string loginFailedMessage = Resources.Login_Failed + "<br />";
+        private readonly static ILog Log = new Log();
+        private static readonly string LoginFailedMessage = Resources.Login_Failed + "<br />";
 
         protected override void OnLoad(EventArgs e)
         {
@@ -56,37 +56,27 @@ namespace Subtext.Web.Pages
             {
                 if(!AuthenticateHostAdmin())
                 {
-                    log.Warn("HostAdmin login failure for " + tbUserName.Text);
-                    Message.Text = loginFailedMessage;
+                    Log.Warn("HostAdmin login failure for " + tbUserName.Text);
+                    Message.Text = LoginFailedMessage;
                     return;
                 }
-                else
-                {
-                    ReturnToUrl("~/HostAdmin/Default.aspx");
-                    return;
-                }
+                ReturnToUrl("~/HostAdmin/Default.aspx");
+                return;
             }
-            else
+            if(SubtextContext.HttpContext.Authenticate(Blog, tbUserName.Text, tbPassword.Text, chkRememberMe.Checked))
             {
-                if(SubtextContext.HttpContext.Authenticate(Blog, tbUserName.Text, tbPassword.Text, chkRememberMe.Checked))
-                {
-                    ReturnToUrl(AdminUrl.Home());
-                    return;
-                }
-                else
-                {
-                    log.Warn("Admin login failure for " + tbUserName.Text);
-                    Message.Text = loginFailedMessage;
-                }
+                ReturnToUrl(AdminUrl.Home());
+                return;
             }
+            Log.Warn("Admin login failure for " + tbUserName.Text);
+            Message.Text = LoginFailedMessage;
         }
 
         protected void btnOpenIdLogin_LoggingIn(object sender, OpenIdEventArgs e)
         {
             if(btnOpenIdLogin.RememberMe)
             {
-                var openIdCookie = new HttpCookie("__OpenIdUrl__", btnOpenIdLogin.Text);
-                openIdCookie.Expires = DateTime.Now.AddDays(14);
+                var openIdCookie = new HttpCookie("__OpenIdUrl__", btnOpenIdLogin.Text) {Expires = DateTime.Now.AddDays(14)};
                 Response.Cookies.Add(openIdCookie);
             }
         }
@@ -107,18 +97,15 @@ namespace Subtext.Web.Pages
 
         private void ReturnToUrl(string defaultReturnUrl)
         {
-            if(Request.QueryString["ReturnURL"] != null && Request.QueryString["ReturnURL"].Length > 0)
+            if(!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
             {
-                log.Debug("redirecting to " + Request.QueryString["ReturnURL"]);
+                Log.Debug("redirecting to " + Request.QueryString["ReturnURL"]);
                 Response.Redirect(Request.QueryString["ReturnURL"], false);
                 return;
             }
-            else
-            {
-                log.Debug("redirecting to " + defaultReturnUrl);
-                Response.Redirect(defaultReturnUrl, false);
-                return;
-            }
+            Log.Debug("redirecting to " + defaultReturnUrl);
+            Response.Redirect(defaultReturnUrl, false);
+            return;
         }
 
         private bool AuthenticateHostAdmin()

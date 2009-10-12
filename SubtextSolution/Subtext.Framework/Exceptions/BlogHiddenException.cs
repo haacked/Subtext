@@ -87,15 +87,7 @@ namespace Subtext.Framework.Exceptions
             {
                 //TODO: We need to move the message out of the exception class.
 
-                string message = string.Empty;
-                if(_blogId == NullValue.NullInt32)
-                {
-                    message = "<p>Creating/Activating this blog ";
-                }
-                else
-                {
-                    message = "<p>Sorry, but by changing this blog to use that host combination ";
-                }
+                string message = _blogId == NullValue.NullInt32 ? "<p>Creating/Activating this blog " : "<p>Sorry, but by changing this blog to use that host combination ";
 
                 message += "would cause the blog entitled &#8220;" + _hiddenBlog.Title + "&#8221; to be hidden. "
                            + "by causing more than one blog to have the host &#8220;" + _hiddenBlog.Host +

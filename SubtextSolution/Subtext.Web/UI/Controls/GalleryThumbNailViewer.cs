@@ -61,12 +61,12 @@ namespace Subtext.Web.UI.Controls
                 if(image != null)
                 {
                     image.Blog = Blog;
-                    var ThumbNailImage = (HyperLink)e.Item.FindControl("ThumbNailImage");
-                    if(ThumbNailImage != null)
+                    var thumbNailImage = (HyperLink)e.Item.FindControl("ThumbNailImage");
+                    if(thumbNailImage != null)
                     {
-                        ThumbNailImage.ImageUrl = Url.GalleryImageUrl(image, image.ThumbNailFile);
-                        ThumbNailImage.NavigateUrl = Url.GalleryImagePageUrl(image);
-                        ThumbNailImage.ToolTip = image.Title;
+                        thumbNailImage.ImageUrl = Url.GalleryImageUrl(image, image.ThumbNailFile);
+                        thumbNailImage.NavigateUrl = Url.GalleryImagePageUrl(image);
+                        thumbNailImage.ToolTip = image.Title;
                     }
                 }
             }

@@ -41,9 +41,7 @@ namespace Subtext.Web.Admin.Articles
 
         private void BindLocalUI()
         {
-            var newPostLink = new HyperLink();
-            newPostLink.Text = Resources.Label_NewArticle;
-            newPostLink.NavigateUrl = "Edit.aspx";
+            var newPostLink = new HyperLink {Text = Resources.Label_NewArticle, NavigateUrl = "Edit.aspx"};
             AdminMasterPage.AddToActions(newPostLink);
 
             HyperLink lnkEditCategories = Utilities.CreateHyperLink(Resources.Label_EditCategories,
@@ -60,7 +58,7 @@ namespace Subtext.Web.Admin.Articles
             AdminMasterPage.AddToActions(lkbRebuildTags);
         }
 
-        private void OnRebuildTagsClick(object sender, EventArgs e)
+        private static void OnRebuildTagsClick(object sender, EventArgs e)
         {
             ObjectProvider.Instance().RebuildAllTags();
         }

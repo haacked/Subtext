@@ -55,7 +55,7 @@ namespace Subtext.Framework.Services
             string emailForUrl = email.ToLowerInvariant();
             if(EmailFormat == GravatarEmailFormat.Md5)
             {
-                emailForUrl = FormsAuthentication.HashPasswordForStoringInConfigFile(emailForUrl, "md5").ToLowerInvariant();
+                emailForUrl = (FormsAuthentication.HashPasswordForStoringInConfigFile(emailForUrl, "md5") ?? string.Empty).ToLowerInvariant();
             }
 
             emailForUrl = HttpUtility.UrlEncode(emailForUrl);

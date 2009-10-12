@@ -37,10 +37,7 @@ namespace Subtext.Web.Admin.Pages
                 {
                     return (CategoryType)ViewState["CategoryType"];
                 }
-                else
-                {
-                    return CategoryType.None;
-                }
+                return CategoryType.None;
             }
             set { ViewState["CategoryType"] = value; }
         }
@@ -146,9 +143,11 @@ namespace Subtext.Web.Admin.Pages
 
         private void ConfirmDelete(int categoryID, string categoryTitle)
         {
-            var command = new DeleteCategoryCommand(categoryID, categoryTitle);
-            command.ExecuteSuccessMessage = string.Format(CultureInfo.InvariantCulture, "Category \"{0}\" was deleted.",
-                                                          categoryTitle);
+            var command = new DeleteCategoryCommand(categoryID, categoryTitle)
+            {
+                ExecuteSuccessMessage = string.Format(CultureInfo.InvariantCulture, "Category \"{0}\" was deleted.",
+                                                      categoryTitle)
+            };
             Messages.ShowMessage(command.Execute());
             BindList();
         }
@@ -226,11 +225,13 @@ namespace Subtext.Web.Admin.Pages
         {
             if(Page.IsValid)
             {
-                var newCategory = new LinkCategory();
-                newCategory.CategoryType = CategoryType;
-                newCategory.Title = txbNewTitle.Text;
-                newCategory.IsActive = ckbNewIsActive.Checked;
-                newCategory.Description = txbNewDescription.Text;
+                var newCategory = new LinkCategory
+                {
+                    CategoryType = CategoryType,
+                    Title = txbNewTitle.Text,
+                    IsActive = ckbNewIsActive.Checked,
+                    Description = txbNewDescription.Text
+                };
                 PersistCategory(newCategory);
 
                 Response.Redirect(Request.RawUrl);

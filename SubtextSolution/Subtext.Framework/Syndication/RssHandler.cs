@@ -26,9 +26,9 @@ namespace Subtext.Framework.Syndication
     /// <summary>
     /// Class used to handle requests for an RSS feed.
     /// </summary>
-    public class RssHandler : BaseSyndicationHandler<Entry>
+    public class RssHandler : BaseSyndicationHandler
     {
-        BaseSyndicationWriter<Entry> writer;
+        BaseSyndicationWriter<Entry> _writer;
 
         public RssHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
@@ -42,13 +42,13 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                if(writer == null)
+                if(_writer == null)
                 {
-                    writer = new RssWriter(HttpContext.Response.Output,
+                    _writer = new RssWriter(HttpContext.Response.Output,
                                            Repository.GetMainSyndicationEntries(Blog.ItemCount),
                                            PublishDateOfLastFeedItemReceived, UseDeltaEncoding, SubtextContext);
                 }
-                return writer;
+                return _writer;
             }
         }
 

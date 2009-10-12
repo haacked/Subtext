@@ -19,16 +19,16 @@ namespace Subtext.Framework.Services
 {
     public class BrowserInfo
     {
-        bool mobile;
+        readonly bool _mobile;
 
         public BrowserInfo(bool mobile)
         {
-            this.mobile = mobile;
+            _mobile = mobile;
         }
 
         public bool Mobile
         {
-            get { return mobile; }
+            get { return _mobile; }
         }
     }
 }

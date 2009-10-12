@@ -26,7 +26,7 @@ namespace Subtext.Framework.Util
 {
     public static class FileHelper
     {
-        static readonly string[] _imageExtensions = {".jpg", ".jpeg", ".gif", ".png", ".bmp"};
+        static readonly string[] ImageExtensions = {".jpg", ".jpeg", ".gif", ".png", ".bmp"};
 
         public static void EnsureDirectory(string directoryPath)
         {
@@ -67,7 +67,7 @@ namespace Subtext.Framework.Util
 
         public static bool IsValidImageFilePath(string filePath)
         {
-            return IsValidFilePath(filePath, _imageExtensions);
+            return IsValidFilePath(filePath, ImageExtensions);
         }
 
         public static bool IsValidFilePath(string filePath)

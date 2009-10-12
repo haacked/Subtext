@@ -32,7 +32,7 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public class RssCommentHandler : EntryCollectionHandler<FeedbackItem>
     {
-        ICollection<FeedbackItem> comments;
+        ICollection<FeedbackItem> _comments;
         protected ICollection<FeedbackItem> Comments;
         protected Entry ParentEntry;
 
@@ -42,7 +42,7 @@ namespace Subtext.Framework.Syndication
 
         protected override BaseSyndicationWriter SyndicationWriter
         {
-            get { return new CommentRssWriter(HttpContext.Response.Output, comments, ParentEntry, SubtextContext); }
+            get { return new CommentRssWriter(HttpContext.Response.Output, _comments, ParentEntry, SubtextContext); }
         }
 
         /// <summary>
@@ -89,40 +89,27 @@ namespace Subtext.Framework.Syndication
         /// <returns></returns>
         protected override CachedFeed BuildFeed()
         {
-            CachedFeed feed;
+            _comments = GetFeedEntries() ?? new List<FeedbackItem>();
 
-            comments = GetFeedEntries();
-            if(comments == null)
-            {
-                comments = new List<FeedbackItem>();
-            }
-
-            feed = new CachedFeed();
-            CommentRssWriter crw = GetCommentWriter(comments, ParentEntry);
-            if(comments.Count > 0)
-            {
-                feed.LastModified = ConvertLastUpdatedDate(comments.Last().DateCreated);
-            }
-            else
-            {
-                feed.LastModified = ParentEntry.DateCreated;
-            }
+            var feed = new CachedFeed();
+            CommentRssWriter crw = GetCommentWriter(_comments, ParentEntry);
+            feed.LastModified = _comments.Count > 0 ? ConvertLastUpdatedDate(_comments.Last().DateCreated) : ParentEntry.DateCreated;
             feed.Xml = crw.Xml;
             return feed;
         }
 
-        protected override bool IsLocalCacheOK()
+        protected override bool IsLocalCacheOk()
         {
             string dt = LastModifiedHeader;
             if(dt != null)
             {
-                comments = GetFeedEntries();
+                _comments = GetFeedEntries();
 
-                if(comments != null && comments.Count > 0)
+                if(_comments != null && _comments.Count > 0)
                 {
                     return
                         DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture),
-                                         ConvertLastUpdatedDate(comments.Last().DateCreated)) == 0;
+                                         ConvertLastUpdatedDate(_comments.Last().DateCreated)) == 0;
                 }
             }
             return false;

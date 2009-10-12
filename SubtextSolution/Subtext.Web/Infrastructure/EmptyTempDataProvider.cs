@@ -22,19 +22,15 @@ namespace Subtext.Web.Infrastructure
 {
     public class EmptyTempDataProvider : ITempDataProvider
     {
-        static readonly Dictionary<string, object> tempData = new Dictionary<string, object>();
-
-        #region ITempDataProvider Members
+        static readonly Dictionary<string, object> TempData = new Dictionary<string, object>();
 
         public IDictionary<string, object> LoadTempData(ControllerContext controllerContext)
         {
-            return tempData;
+            return TempData;
         }
 
         public void SaveTempData(ControllerContext controllerContext, IDictionary<string, object> values)
         {
         }
-
-        #endregion
     }
 }

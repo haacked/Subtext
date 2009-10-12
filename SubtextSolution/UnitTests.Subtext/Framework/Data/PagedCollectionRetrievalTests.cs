@@ -380,12 +380,12 @@ namespace UnitTests.Subtext.Framework.Data
                 Rel = "Rel" + index,
                 Url = "http://localhost/"
             };
-            KeyWords.CreateKeyWord(keyword);
+            ObjectProvider.Instance().InsertKeyWord(keyword);
         }
 
         public IPagedCollection<KeyWord> GetPagedItems(int pageIndex, int pageSize)
         {
-            return KeyWords.GetPagedKeyWords(pageIndex, pageSize);
+            return ObjectProvider.Instance().GetPagedKeyWords(pageIndex, pageSize);
         }
 
         public int GetCount(IPagedCollection<KeyWord> collection)

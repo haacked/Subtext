@@ -35,9 +35,9 @@ namespace Subtext.Web.Admin.Feedback
 {
     public partial class Default : ConfirmationPage
     {
-        FeedbackStatusFlag feedbackStatusFilter;
-        int pageIndex = 0;
-        FeedbackState uiState;
+        FeedbackStatusFlag _feedbackStatusFilter;
+        int _pageIndex;
+        FeedbackState _uiState;
 
         public Default()
         {
@@ -51,8 +51,8 @@ namespace Subtext.Web.Admin.Feedback
 
         protected override void OnLoad(EventArgs e)
         {
-            feedbackStatusFilter = Master.FeedbackStatus;
-            uiState = FeedbackState.GetUiState(feedbackStatusFilter);
+            _feedbackStatusFilter = Master.FeedbackStatus;
+            _uiState = FeedbackState.GetUiState(_feedbackStatusFilter);
             filterTypeDropDown.SelectedValue = Master.FeedbackType.ToString();
 
             BindUserInterface();
@@ -70,15 +70,15 @@ namespace Subtext.Web.Admin.Feedback
 
         private void BindUserInterface()
         {
-            headerLiteral.InnerText = uiState.HeaderText;
-            btnApprove.Visible = uiState.Approvable;
-            btnApprove.Text = uiState.ApproveText;
-            btnDestroy.Visible = uiState.Destroyable;
-            btnDelete.Visible = uiState.Deletable;
-            btnDelete.ToolTip = uiState.DeleteToolTip;
-            btnConfirmSpam.Visible = uiState.Spammable;
-            btnEmpty.Visible = uiState.Emptyable;
-            btnEmpty.ToolTip = uiState.EmptyToolTip;
+            headerLiteral.InnerText = _uiState.HeaderText;
+            btnApprove.Visible = _uiState.Approvable;
+            btnApprove.Text = _uiState.ApproveText;
+            btnDestroy.Visible = _uiState.Destroyable;
+            btnDelete.Visible = _uiState.Deletable;
+            btnDelete.ToolTip = _uiState.DeleteToolTip;
+            btnConfirmSpam.Visible = _uiState.Spammable;
+            btnEmpty.Visible = _uiState.Emptyable;
+            btnEmpty.ToolTip = _uiState.EmptyToolTip;
         }
 
         private void BindList()
@@ -86,32 +86,32 @@ namespace Subtext.Web.Admin.Feedback
             noCommentsMessage.Visible = false;
             if(Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
             {
-                pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+                _pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
             }
 
-            resultsPager.UrlFormat = "Default.aspx?pg={0}&status=" + feedbackStatusFilter;
+            resultsPager.UrlFormat = "Default.aspx?pg={0}&status=" + _feedbackStatusFilter;
             resultsPager.PageSize = Preferences.ListingItemCount;
-            resultsPager.PageIndex = pageIndex;
+            resultsPager.PageIndex = _pageIndex;
 
-            FeedbackStatusFlag excludeFilter = ~feedbackStatusFilter;
+            FeedbackStatusFlag excludeFilter = ~_feedbackStatusFilter;
 
             //Approved is a special case.  If a feedback has the approved bit set, 
             //it is approved no matter what other bits are set.
-            if(feedbackStatusFilter == FeedbackStatusFlag.Approved)
+            if(_feedbackStatusFilter == FeedbackStatusFlag.Approved)
             {
                 excludeFilter = FeedbackStatusFlag.None;
             }
 
             //Likewise, deleted is a special case.  If a feedback has the deleted 
             //bit set, it is in the trash no matter what other bits are set.
-            if(feedbackStatusFilter == FeedbackStatusFlag.Deleted)
+            if(_feedbackStatusFilter == FeedbackStatusFlag.Deleted)
             {
                 excludeFilter = FeedbackStatusFlag.Approved;
             }
 
-            IPagedCollection<FeedbackItem> selectionList = Repository.GetPagedFeedback(pageIndex
+            IPagedCollection<FeedbackItem> selectionList = Repository.GetPagedFeedback(_pageIndex
                                                                                        , resultsPager.PageSize
-                                                                                       , feedbackStatusFilter
+                                                                                       , _feedbackStatusFilter
                                                                                        , excludeFilter
                                                                                        , Master.FeedbackType);
 
@@ -126,20 +126,13 @@ namespace Subtext.Web.Admin.Feedback
             else
             {
                 resultsPager.Visible = false;
-                noCommentsMessage.Text = uiState.NoCommentsHtml;
+                noCommentsMessage.Text = _uiState.NoCommentsHtml;
                 feedbackRepeater.Controls.Clear();
                 noCommentsMessage.Visible = true;
 
                 btnDelete.Visible = false;
                 btnApprove.Visible = false;
-                if(feedbackStatusFilter == FeedbackStatusFlag.Deleted)
-                {
-                    btnDestroy.Visible = true;
-                }
-                else
-                {
-                    btnDestroy.Visible = false;
-                }
+                btnDestroy.Visible = _feedbackStatusFilter == FeedbackStatusFlag.Deleted;
                 btnConfirmSpam.Visible = false;
                 btnEmpty.Visible = false;
             }
@@ -235,7 +228,7 @@ namespace Subtext.Web.Admin.Feedback
 
         protected void OnEmptyClick(object sender, EventArgs e)
         {
-            FeedbackItem.Destroy(feedbackStatusFilter);
+            FeedbackItem.Destroy(_feedbackStatusFilter);
             BindList();
         }
 

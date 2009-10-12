@@ -48,51 +48,45 @@ namespace Subtext.Framework.Tracking
     /// </summary>
     public class PingBackNotificatinProxy : XmlRpcClientProtocol
     {
-        private string errormessage = "No Error";
-
-        public PingBackNotificatinProxy()
-        {
-        }
-
         public string ErrorMessage
         {
-            get { return errormessage; }
+            get { return "NoError"; }
         }
 
-        public bool Ping(string pageText, Uri sourceURI, Uri targetURI)
+        public bool Ping(string pageText, Uri sourceUri, Uri targetUri)
         {
-            if(sourceURI == null)
+            if(sourceUri == null)
             {
                 throw new ArgumentNullException("sourceURI");
             }
 
-            if(targetURI == null)
+            if(targetUri == null)
             {
                 throw new ArgumentNullException("targetURI");
             }
 
-            string pingbackURL = GetPingBackURL(pageText, sourceURI);
-            if(pingbackURL != null)
+            string pingbackUrl = GetPingBackUrl(pageText, sourceUri);
+            if(pingbackUrl != null)
             {
-                Url = pingbackURL;
-                Notify(sourceURI.ToString(), targetURI.ToString());
+                Url = pingbackUrl;
+                Notify(sourceUri.ToString(), targetUri.ToString());
                 return true;
             }
             return false;
         }
 
-        private static string GetPingBackURL(string pageText, Uri postUrl)
+        private static string GetPingBackUrl(string pageText, Uri postUrl)
         {
             if(!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase | RegexOptions.Singleline))
             {
                 if(pageText != null)
                 {
-                    string pat = "<link rel=\"pingback\" href=\"([^\"]+)\" ?/?>";
-                    var reg = new Regex(pat, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                    Match m = reg.Match(pageText);
-                    if(m.Success)
+                    const string pattern = "<link rel=\"pingback\" href=\"([^\"]+)\" ?/?>";
+                    var regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                    Match match = regex.Match(pageText);
+                    if(match.Success)
                     {
-                        return m.Result("$1");
+                        return match.Result("$1");
                     }
                 }
             }

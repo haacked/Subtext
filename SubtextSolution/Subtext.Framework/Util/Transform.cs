@@ -40,8 +40,6 @@ namespace Subtext.Framework.Util
         /// Transforms emoticons into image references based on the 
         /// settings within the emoticons.txt file in the webroot.
         /// </summary>
-        /// <param name="formattedPost">The formatted post.</param>
-        /// <returns></returns>
         public static string EmoticonTransforms(ICache cache, string rootUrl, string formattedPost)
         {
             try

@@ -21,9 +21,9 @@ using System.IO;
 using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Infrastructure;
 using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Syndication
 {
@@ -32,34 +32,16 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public abstract class BaseAtomWriter : BaseSyndicationWriter<Entry>
     {
-        #region TimeHelpers
-
-        private static string W3UTC(DateTime dt, TimeZone tz)
-        {
-            TimeSpan timeZone = tz.GetUtcOffset(dt);
-            if(timeZone.TotalHours >= 0)
-            {
-                return dt.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture) + ":00+" + timeZone.TotalHours +
-                       ":" + ((timeZone.Minutes > 0) ? timeZone.Minutes.ToString(CultureInfo.InvariantCulture) : "00");
-            }
-            return dt.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture) + ":00" + timeZone.TotalHours +
-                   ":" + ((timeZone.Minutes > 0) ? timeZone.Minutes.ToString(CultureInfo.InvariantCulture) : "00");
-        }
-
-        private static string W3UTCZ(IFormattable dt)
+        private static string W3Utcz(IFormattable dt)
         {
             return dt.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
         }
 
-        #endregion
-
-        private bool isBuilt = false;
+        private bool _isBuilt;
 
         /// <summary>
         /// Bases the syndication writer.
         /// </summary>
-        /// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-        /// <param name="useDeltaEncoding">if set to <c>true</c> [use delta encoding].</param>
         protected BaseAtomWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding,
                                  ISubtextContext context)
             : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
@@ -68,7 +50,7 @@ namespace Subtext.Framework.Syndication
 
         protected override void Build()
         {
-            if(!isBuilt)
+            if(!_isBuilt)
             {
                 Build(DateLastViewedFeedItemPublished);
             }
@@ -80,14 +62,14 @@ namespace Subtext.Framework.Syndication
         /// <param name="dateLastViewedFeedItemPublished">Last id viewed.</param>
         protected override void Build(DateTime dateLastViewedFeedItemPublished)
         {
-            if(!isBuilt)
+            if(!_isBuilt)
             {
                 StartDocument();
                 SetNamespaces();
                 WriteChannel();
                 WriteEntries();
                 EndDocument();
-                isBuilt = true;
+                _isBuilt = true;
             }
         }
 
@@ -129,12 +111,12 @@ namespace Subtext.Framework.Syndication
             //(Duncanma 12/28/2005, changing again... Atom vs atom was causing feed validation errors
             WriteAttributeString("rel", "self");
             WriteAttributeString("type", "application/atom+xml");
-            string currentURL = link + "Atom.aspx";
+            string currentUrl = link + "Atom.aspx";
             if(HttpContext.Current.Request != null)
             {
-                currentURL = HttpContext.Current.Request.Url.ToString();
+                currentUrl = HttpContext.Current.Request.Url.ToString();
             }
-            WriteAttributeString("href", currentURL);
+            WriteAttributeString("href", currentUrl);
 
             // this.WriteAttributeString("rel","self");
             // this.WriteAttributeString("type","application/xml");
@@ -165,7 +147,7 @@ namespace Subtext.Framework.Syndication
             WriteEndElement();
 
             //(Duncanma 11/13/2005, changing modified to updated for 1.0 feed)
-            WriteElementString("updated", W3UTCZ(Blog.LastUpdated));
+            WriteElementString("updated", W3Utcz(Blog.LastUpdated));
         }
 
         private void WriteEntries()
@@ -211,9 +193,9 @@ namespace Subtext.Framework.Syndication
 
             //(Duncanma 11/13/2005, hiding created, change issued to
             //published and modified to updated for 1.0 feed)
-            //this.WriteElementString("created",W3UTCZ(entry.DateCreated));
-            WriteElementString("published", W3UTCZ(entry.DateCreated));
-            WriteElementString("updated", W3UTCZ(entry.DateModified));
+            //this.WriteElementString("created",W3Utcz(entry.DateCreated));
+            WriteElementString("published", W3Utcz(entry.DateCreated));
+            WriteElementString("updated", W3Utcz(entry.DateModified));
 
             if(entry.HasDescription)
             {

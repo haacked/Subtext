@@ -29,7 +29,7 @@ namespace Subtext.Web.Pages
         protected override void OnLoad(EventArgs e)
         {
             SecurityHelper.LogOut();
-            base.SubtextContext.HttpContext.Response.Redirect(Url.BlogUrl());
+            SubtextContext.HttpContext.Response.Redirect(Url.BlogUrl());
         }
     }
 }

@@ -29,13 +29,11 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public class CommentRssWriter : BaseRssWriter<FeedbackItem>
     {
-        protected Entry CommentEntry = null;
+        protected Entry CommentEntry;
 
         /// <summary>
         /// Creates a new <see cref="CommentRssWriter"/> instance.
         /// </summary>
-        /// <param name="commentEntries">Ec.</param>
-        /// <param name="entry">Ce.</param>
         public CommentRssWriter(TextWriter writer, ICollection<FeedbackItem> commentEntries, Entry entry,
                                 ISubtextContext context) : base(writer, NullValue.NullDateTime, false, context)
         {

@@ -33,13 +33,13 @@ namespace Subtext.Framework.Web
     /// </summary>
     public static class HttpHelper
     {
-        private const int defaultTimeout = 60000;
+        private const int DefaultTimeout = 60000;
 
-        private static readonly string userAgent = VersionInfo.UserAgent
+        private static readonly string UserAgent = VersionInfo.UserAgent
                                                    + " (" + Environment.OSVersion + "; .NET CLR " + Environment.Version +
                                                    ")";
 
-        private static string referer = @"http://SubtextProject.com/Services/default.htm";
+        private const string Referer = @"http://SubtextProject.com/Services/default.htm";
 
         /// <summary>
         /// Sets the file not found response.
@@ -92,9 +92,9 @@ namespace Subtext.Framework.Web
             var wreq = req as HttpWebRequest;
             if(null != wreq)
             {
-                wreq.UserAgent = userAgent;
-                wreq.Referer = referer;
-                wreq.Timeout = defaultTimeout;
+                wreq.UserAgent = UserAgent;
+                wreq.Referer = Referer;
+                wreq.Timeout = DefaultTimeout;
             }
             return wreq;
         }

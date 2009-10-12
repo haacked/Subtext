@@ -546,8 +546,6 @@ namespace Subtext.Framework.Text
         /// "hello \n there".chomp   #=> "hello \n there"
         /// "hello".chomp("llo")     #=> "he"
         /// </remarks>
-        /// <param name="text"></param>
-        /// <returns></returns>
         public static string Chomp(this string text, string separator, StringComparison comparisonType)
         {
             if(String.IsNullOrEmpty(text))

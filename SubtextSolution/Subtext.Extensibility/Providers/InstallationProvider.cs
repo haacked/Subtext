@@ -30,9 +30,9 @@ namespace Subtext.Extensibility.Providers
     public abstract class Installation : ProviderBase
     {
         private static readonly GenericProviderCollection<Installation> providers =
-            ProviderConfigurationHelper.LoadProviderCollection("Installation", out provider);
+            ProviderConfigurationHelper.LoadProviderCollection("Installation", out _provider);
 
-        private static Installation provider;
+        private static Installation _provider;
 
         /// <summary>
         /// Returns the currently configured InstallationProvider.
@@ -40,7 +40,7 @@ namespace Subtext.Extensibility.Providers
         /// <returns></returns>
         public static Installation Provider
         {
-            get { return provider; }
+            get { return _provider; }
         }
 
         /// <summary>

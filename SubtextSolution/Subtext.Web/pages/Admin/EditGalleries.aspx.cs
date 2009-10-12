@@ -26,7 +26,6 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Web;
-using Subtext.Framework.Web.HttpModules;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Properties;
 using Image=Subtext.Framework.Components.Image;
@@ -35,7 +34,7 @@ namespace Subtext.Web.Admin.Pages
 {
     public partial class EditGalleries : AdminPage
     {
-        protected bool _isListHidden;
+        protected bool IsListHidden;
         // jsbright added to support prompting for new file name
 
         protected EditGalleries()
@@ -190,10 +189,7 @@ namespace Subtext.Web.Admin.Pages
 
                 return Utilities.Truncate(image.Title, allowedChars);
             }
-            else
-            {
-                return String.Empty;
-            }
+            return String.Empty;
         }
 
         // REFACTOR: duplicate from category editor; generalize a la EntryEditor
@@ -309,8 +305,8 @@ namespace Subtext.Web.Admin.Pages
                                 else
                                 {
                                     // Attempt insertion as a new image
-                                    int imageID = Images.InsertImage(image, fileData);
-                                    if(imageID > 0)
+                                    int imageId = Images.InsertImage(image, fileData);
+                                    if(imageId > 0)
                                     {
                                         goodFiles.Add(theEntry.Name);
                                     }
@@ -444,12 +440,14 @@ namespace Subtext.Web.Admin.Pages
             BindGallery();
         }
 
-        private void DeleteGallery(int categoryID, string categoryTitle)
+        private void DeleteGallery(int categoryId, string categoryTitle)
         {
-            var command = new DeleteGalleryCommand(Url.ImageGalleryDirectoryUrl(Blog, categoryID), categoryID,
-                                                   categoryTitle);
-            command.ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Gallery '{0}' deleted",
-                                                          categoryTitle);
+            var command = new DeleteGalleryCommand(Url.ImageGalleryDirectoryUrl(Blog, categoryId), categoryId,
+                                                   categoryTitle)
+            {
+                ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Gallery '{0}' deleted",
+                                                      categoryTitle)
+            };
             Messages.ShowMessage(command.Execute());
             BindGallery();
         }
@@ -482,8 +480,8 @@ namespace Subtext.Web.Admin.Pages
             switch(e.CommandName.ToLower(CultureInfo.InvariantCulture))
             {
                 case "view":
-                    int galleryID = Convert.ToInt32(e.CommandArgument);
-                    BindGallery(galleryID);
+                    int galleryId = Convert.ToInt32(e.CommandArgument);
+                    BindGallery(galleryId);
                     break;
                 default:
                     break;

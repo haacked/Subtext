@@ -54,7 +54,6 @@ namespace Subtext.Web.UI
         /// Builds a <see cref="LinkCategory"/> using the specified url formats. 
         /// A LinkCategory is a common item to databind to a web control.
         /// </summary>
-        /// <param name="formats">Determines how the links are formatted.</param>
         /// <returns></returns>
         public static LinkCategory ArchiveMonth(UrlHelper urlHelper, Blog blog)
         {

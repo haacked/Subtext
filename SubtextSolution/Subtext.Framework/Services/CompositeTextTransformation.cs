@@ -22,20 +22,12 @@ namespace Subtext.Framework.Services
 {
     public class CompositeTextTransformation : Collection<ITextTransformation>, ITextTransformation
     {
-        public CompositeTextTransformation() : base()
-        {
-        }
-
-        #region ITextTransformation Members
-
         public string Transform(string original)
         {
             return this.Aggregate(original,
                                   (resultFromLastTransform, transformation) =>
                                   transformation.Transform(resultFromLastTransform));
         }
-
-        #endregion
 
         /// <summary>
         /// Removes the text transformation of the given type.

@@ -40,9 +40,6 @@ namespace Subtext.Framework.Exceptions
         /// <summary>
         /// Creates a new <see cref="BlogRequiresSubfolderException"/> instance.
         /// </summary>
-        /// <param name="blogsWithSameHostCount">The number of blogs with this 
-        /// host name (not counting the blog being modified).</param>
-        /// <param name="blogId">The blog that is being modified and is conflicting with a pre-existing blog.</param>
         public BlogRequiresSubfolderException(string hostName, int blogsWithSameHostCount, int blogId)
         {
             _host = hostName;
@@ -53,7 +50,6 @@ namespace Subtext.Framework.Exceptions
         /// <summary>
         /// Creates a new <see cref="BlogRequiresSubfolderException"/> instance.
         /// </summary>
-        /// <param name="blogsWithSameHostCount">The number of blogs with this host name.</param>
         public BlogRequiresSubfolderException(string hostName, int blogsWithSameHostCount)
             : this(hostName, blogsWithSameHostCount, NullValue.NullInt32)
         {

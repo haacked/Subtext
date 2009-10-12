@@ -45,16 +45,11 @@ namespace Subtext.Framework.Tracking
     /// <summary>
     /// Summary description for Notification.
     /// </summary>
-    public sealed class NotificationServices
+    public static class NotificationServices
     {
-        private NotificationServices()
-        {
-        }
-
         /// <summary>
         /// Posts trackbacks and pingbacks for the specified entry.
         /// </summary>
-        /// <param name="entry">The entry.</param>
         public static void Run(Entry entry, Blog blog, UrlHelper urlHelper)
         {
             if(!blog.TrackbacksEnabled)
@@ -69,25 +64,15 @@ namespace Subtext.Framework.Tracking
 
             if(entry != null)
             {
-                var notify = new Notifier();
-
-                notify.FullyQualifiedUrl = urlHelper.BlogUrl();
-                notify.BlogName = blog.Title;
-
-                notify.Title = entry.Title;
-
-                notify.PostUrl = urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(blog);
-
-                if(entry.HasDescription)
+                var notify = new Notifier
                 {
-                    notify.Description = entry.Description;
-                }
-                else
-                {
-                    notify.Description = entry.Title;
-                }
-
-                notify.Text = entry.Body;
+                    FullyQualifiedUrl = urlHelper.BlogUrl(),
+                    BlogName = blog.Title,
+                    Title = entry.Title,
+                    PostUrl = urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(blog),
+                    Description = entry.HasDescription ? entry.Description : entry.Title,
+                    Text = entry.Body
+                };
 
                 //This could take a while, do it on another thread
                 ManagedThreadPool.QueueUserWorkItem(notify.Notify);

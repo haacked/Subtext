@@ -30,9 +30,6 @@ namespace Subtext.Framework.Syndication
         /// <summary>
         /// Creates a new <see cref="CategoryWriter"/> instance.
         /// </summary>
-        /// <param name="ec">Ec.</param>
-        /// <param name="lc">Lc.</param>
-        /// <param name="url">URL.</param>
         public CategoryWriter(TextWriter writer, ICollection<Entry> ec, LinkCategory lc, Uri url,
                               ISubtextContext context) : base(writer, ec, NullValue.NullDateTime, false, context)
         {

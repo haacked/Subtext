@@ -24,7 +24,7 @@ namespace Subtext.Framework.Services
 {
     public class BrowserDetectionService : IHttpHandler
     {
-        private int BlogId
+        private static int BlogId
         {
             get
             {
@@ -35,13 +35,6 @@ namespace Subtext.Framework.Services
                 return 0;
             }
         }
-
-        private HttpContext HttpContext
-        {
-            get { return HttpContext.Current; }
-        }
-
-        #region IHttpHandler Members
 
         public bool IsReusable
         {
@@ -74,8 +67,6 @@ namespace Subtext.Framework.Services
             context.Response.Redirect(returnUrl);
         }
 
-        #endregion
-
         public BrowserInfo DetectBrowserCapabilities()
         {
             bool? isMobile = UserSpecifiedMobile();
@@ -87,7 +78,7 @@ namespace Subtext.Framework.Services
             return new BrowserInfo(isMobile.Value);
         }
 
-        bool? UserSpecifiedMobile()
+        static bool? UserSpecifiedMobile()
         {
             HttpCookie cookie = HttpContext.Current.Request.Cookies.Get("MobileDeviceInfo_" + BlogId);
             if(cookie == null)
@@ -99,8 +90,8 @@ namespace Subtext.Framework.Services
 
         public void SetMobile(bool isMobile)
         {
-            var cookie = new HttpCookie("MobileDeviceInfo_" + BlogId, isMobile.ToString(CultureInfo.InvariantCulture));
-            cookie.Value = isMobile.ToString(CultureInfo.InvariantCulture);
+            var cookie = new HttpCookie("MobileDeviceInfo_" + BlogId, isMobile.ToString(CultureInfo.InvariantCulture))
+            {Value = isMobile.ToString(CultureInfo.InvariantCulture)};
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
     }

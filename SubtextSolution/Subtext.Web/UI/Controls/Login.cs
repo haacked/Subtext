@@ -1,7 +1,3 @@
-using System;
-using System.Web.UI.WebControls;
-using Subtext.Framework.Security;
-
 #region Disclaimer/Info
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,6 +14,10 @@ using Subtext.Framework.Security;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endregion
+
+using System;
+using System.Web.UI.WebControls;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.UI.Controls
 {

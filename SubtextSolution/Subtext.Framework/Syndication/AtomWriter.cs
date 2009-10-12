@@ -30,8 +30,6 @@ namespace Subtext.Framework.Syndication
         /// <summary>
         /// Creates a new <see cref="AtomWriter"/> instance.
         /// </summary>
-        /// <param name="entries">Entries.</param>
-        /// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
         public AtomWriter(TextWriter writer, ICollection<Entry> entries, DateTime dateLastViewedFeedItemPublished,
                           bool useDeltaEncoding, ISubtextContext context)
             : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)

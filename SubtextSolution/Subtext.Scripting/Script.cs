@@ -60,8 +60,6 @@ namespace Subtext.Scripting
         /// <value>The original script text.</value>
         public string OriginalScriptText { get; private set; }
 
-        #region IScript Members
-
         /// <summary>
         /// Executes this script.
         /// </summary>
@@ -85,10 +83,6 @@ namespace Subtext.Scripting
                                   ScriptText), this, returnValue, e);
             }
         }
-
-        #endregion
-
-        #region ITemplateScript Members
 
         /// <summary>
         /// Gets the template parameters embedded in the script.
@@ -137,8 +131,6 @@ namespace Subtext.Scripting
             }
         }
 
-        #endregion
-
         /// <summary>
         /// Helper method which given a full SQL script, returns 
         /// a <see cref="ScriptCollection"/> of individual <see cref="TemplateParameter"/> 
@@ -165,7 +157,10 @@ namespace Subtext.Scripting
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_TemplateParametersNull);
             }
-            _scriptTokens.AggregateText(builder);
+            if(_scriptTokens != null)
+            {
+                _scriptTokens.AggregateText(builder);
+            }
             return builder.ToString();
         }
 
@@ -184,7 +179,6 @@ namespace Subtext.Scripting
             return Resources.ScriptHasNoTokens;
         }
 
-        #region Nested type: ScriptToken
 
         /// <summary>
         /// Implements a linked list representing the script.  This maps the structure 
@@ -204,7 +198,7 @@ namespace Subtext.Scripting
             /// Initializes a new instance of the <see cref="ScriptToken"/> class.
             /// </summary>
             /// <param name="text">The text.</param>
-            internal ScriptToken(string text)
+            private ScriptToken(string text)
             {
                 Text = text;
             }
@@ -213,19 +207,19 @@ namespace Subtext.Scripting
             /// Gets the text.
             /// </summary>
             /// <value>The text.</value>
-            public virtual string Text { get; private set; }
+            protected virtual string Text { get; set; }
 
             /// <summary>
             /// Gets or sets the next node.
             /// </summary>
             /// <value>The next.</value>
-            public ScriptToken Next { get; set; }
+            protected ScriptToken Next { get; private set; }
 
             /// <summary>
             /// Gets the last node.
             /// </summary>
             /// <value>The last.</value>
-            public ScriptToken Last
+            private ScriptToken Last
             {
                 get
                 {
@@ -287,8 +281,6 @@ namespace Subtext.Scripting
             }
         }
 
-        #endregion
-
         #region Nested type: TemplateParameterToken
 
         /// <summary>
@@ -308,7 +300,7 @@ namespace Subtext.Scripting
             /// Gets the text of this node.
             /// </summary>
             /// <value>The text.</value>
-            public override string Text
+            protected override string Text
             {
                 get { return _parameter.Value; }
             }

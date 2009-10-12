@@ -24,7 +24,7 @@
 	    <p class="ThumbnailTitle">
 		    <%# Image.Title %>
 		    <div><%# Image.Width.ToString() %>W x <%# Image.Height.ToString() %>H</div>
-		    <div><a href='<%# GetImageGalleryUrl() %>'><%# _galleryTitle %></a></div>
+		    <div><a href='<%# GetImageGalleryUrl() %>'><%# GalleryTitle %></a></div>
 	    </p>
 		<br class="clear" />
 	    <asp:Label runat="server" AssociatedControlID="txbTitle">Title</asp:Label>

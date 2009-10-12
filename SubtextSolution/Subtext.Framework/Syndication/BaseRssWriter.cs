@@ -26,10 +26,6 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public abstract class BaseRssWriter<T> : GenericRssWriter<T> where T : IIdentifiable
     {
-        /// <summary>
-        /// Creates a new <see cref="BaseRssWriter"/> instance.
-        /// </summary>
-        /// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
         protected BaseRssWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding,
                                 ISubtextContext context)
             : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)

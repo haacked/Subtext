@@ -31,9 +31,7 @@ namespace Subtext.Framework.Web.HttpModules
     /// </summary>
     public class AuthenticationModule : IHttpModule
     {
-        private readonly static ILog log = new Log();
-
-        #region IHttpModule Members
+        private readonly static ILog Log = new Log();
 
         public void Init(HttpApplication context)
         {
@@ -44,8 +42,6 @@ namespace Subtext.Framework.Web.HttpModules
         {
             //Do Nothing...
         }
-
-        #endregion
 
         public void AuthenticateRequest(HttpContextBase httpContext, BlogRequest blogRequest)
         {
@@ -58,7 +54,7 @@ namespace Subtext.Framework.Web.HttpModules
 
             if(null == authCookie)
             {
-                log.Debug("There is no authentication cookie.");
+                Log.Debug("There is no authentication cookie.");
                 return;
             }
 
@@ -69,21 +65,21 @@ namespace Subtext.Framework.Web.HttpModules
             }
             catch(Exception ex)
             {
-                log.Error("Could not decrypt the authentication cookie.", ex);
+                Log.Error("Could not decrypt the authentication cookie.", ex);
                 httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
                 return;
             }
 
             if(null == authTicket)
             {
-                log.Warn("Could not decrypt the authentication cookie. No exception was thrown.");
+                Log.Warn("Could not decrypt the authentication cookie. No exception was thrown.");
                 httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
                 return;
             }
 
             if(authTicket.Expired)
             {
-                log.Debug("Authentication ticket expired.");
+                Log.Debug("Authentication ticket expired.");
                 httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
                 return;
             }
@@ -103,7 +99,7 @@ namespace Subtext.Framework.Web.HttpModules
             var principal = new GenericPrincipal(id, roles);
             // Attach the new principal object to the current HttpContext object
             httpContext.User = principal;
-            log.Debug("Authentication succeeded. Current.User=" + id.Name + "; " + authTicket.UserData);
+            Log.Debug("Authentication succeeded. Current.User=" + id.Name + "; " + authTicket.UserData);
         }
 
         void OnAuthenticateRequest(object sender, EventArgs e)

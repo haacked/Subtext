@@ -36,8 +36,6 @@ namespace Subtext.Framework.Providers
             _urlHelper = urlHelper;
         }
 
-        protected string ConnectionString { get; private set; }
-
         /// <summary>
         /// Searches the specified blog for items that match the search term.
         /// </summary>

@@ -62,11 +62,8 @@ namespace Subtext.Framework.Exceptions
                     return "Oooh. A blog with the same host '" + _duplicateBlog.Host + "' and subfolder '" +
                            _duplicateBlog.Subfolder + "' already exists.";
                 }
-                else
-                {
-                    return "Sorry, but changing this blog to use that host '" + _duplicateBlog.Host +
-                           "' and subfolder '" + _duplicateBlog.Subfolder + "' would conflict with another blog.";
-                }
+                return "Sorry, but changing this blog to use that host '" + _duplicateBlog.Host +
+                       "' and subfolder '" + _duplicateBlog.Subfolder + "' would conflict with another blog.";
             }
         }
 

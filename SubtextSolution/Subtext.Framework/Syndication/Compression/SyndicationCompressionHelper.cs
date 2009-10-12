@@ -27,13 +27,12 @@ namespace Subtext.Framework.Syndication.Compression
 
         public static SyndicationCompressionFilter GetFilterForScheme(string schemes, Stream contextFilter)
         {
-            SyndicationCompressionSettings settings;
             SyndicationCompressionFilter filter = null;
             bool foundDeflate = false;
             bool foundGZip = false;
 
             schemes = schemes.ToLower(CultureInfo.InvariantCulture);
-            settings = SyndicationCompressionSettings.GetSettings();
+            SyndicationCompressionSettings settings = SyndicationCompressionSettings.GetSettings();
 
             if(schemes.IndexOf("deflate") >= 0)
             {

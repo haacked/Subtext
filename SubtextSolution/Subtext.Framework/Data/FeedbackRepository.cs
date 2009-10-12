@@ -4,7 +4,6 @@ using System.Data;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
-using Subtext.Framework.Properties;
 using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Data
@@ -22,7 +21,7 @@ namespace Subtext.Framework.Data
             {
                 if (reader.Read())
                 {
-                    return DataHelper.ReadFeedbackItem(reader);
+                    return reader.ReadFeedbackItem();
                 }
             }
             return null;
@@ -55,7 +54,7 @@ namespace Subtext.Framework.Data
             int? excludeStatus = (excludeStatusMask == FeedbackStatusFlag.None ? null : (int?)excludeStatusMask);
             using (IDataReader reader = _procedures.GetPageableFeedback(BlogId, pageIndex, pageSize, (int)status, excludeStatus, feedbackType))
             {
-                return reader.ReadPagedCollection(r => DataHelper.ReadFeedbackItem(reader));
+                return reader.ReadPagedCollection(r => reader.ReadFeedbackItem());
             }
         }
 
@@ -68,11 +67,11 @@ namespace Subtext.Framework.Data
         {
             using (IDataReader reader = _procedures.GetFeedbackCollection(parentEntry.Id))
             {
-                List<FeedbackItem> ec = new List<FeedbackItem>();
+                var ec = new List<FeedbackItem>();
                 while (reader.Read())
                 {
                     //Don't build links.
-                    FeedbackItem feedbackItem = DataHelper.ReadFeedbackItem(reader, parentEntry);
+                    FeedbackItem feedbackItem = reader.ReadFeedbackItem(parentEntry);
                     ec.Add(feedbackItem);
                 }
                 return ec;
@@ -92,7 +91,7 @@ namespace Subtext.Framework.Data
             {
                 if (reader.Read())
                 {
-                    return DataHelper.ReadFeedbackItem(reader);
+                    return reader.ReadFeedbackItem();
                 }
                 return null;
             }

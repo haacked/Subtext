@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
@@ -25,9 +42,9 @@ namespace Subtext.Web.UI.Controls
             foreach(EntrySummary entrySummary in entrySummaries)
             {
                 string title = entrySummary.Title;
-                string myURL = Url.EntryUrl(entrySummary);
+                string myUrl = Url.EntryUrl(entrySummary);
 
-                myLastItems.Add(new PositionItems(title, myURL));
+                myLastItems.Add(new PositionItems(title, myUrl));
             }
 
             Top10Entries.DataSource = myLastItems;
@@ -37,23 +54,14 @@ namespace Subtext.Web.UI.Controls
 
     public class PositionTopItems
     {
-        private string title;
-        private string URL;
-
-        public PositionTopItems(string title, string URL)
+        public PositionTopItems(string title, string url)
         {
-            this.title = title;
-            this.URL = URL;
+            Title = title;
+            this.url = url;
         }
 
-        public string Title
-        {
-            get { return title; }
-        }
+        public string Title { get; private set; }
 
-        public string url
-        {
-            get { return URL; }
-        }
+        public string url { get; private set; }
     }
 }

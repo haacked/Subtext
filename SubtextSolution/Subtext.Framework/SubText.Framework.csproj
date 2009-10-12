@@ -479,7 +479,6 @@
     <Compile Include="Services\EntryPublisher.cs" />
     <Compile Include="Services\GravatarEmailFormat.cs" />
     <Compile Include="Services\GravatarService.cs" />
-    <Compile Include="Services\GravatarSettings.cs" />
     <Compile Include="Services\ICommentService.cs" />
     <Compile Include="Services\IEntryPublisher.cs" />
     <Compile Include="Services\ISlugGenerator.cs" />
@@ -631,9 +630,6 @@
     </Compile>
     <Compile Include="UI\Skinning\StyleDefinition.cs" />
     <Compile Include="UI\Skinning\StyleSheetElementCollectionRenderer.cs" />
-    <Compile Include="Util\Keywords.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Util\SerializationHelper.cs">
       <SubType>Code</SubType>
     </Compile>

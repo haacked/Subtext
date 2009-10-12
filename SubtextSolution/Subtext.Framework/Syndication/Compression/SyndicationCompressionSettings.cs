@@ -25,8 +25,8 @@ namespace Subtext.Framework.Syndication.Compression
     public class SyndicationCompressionSettings
     {
         private static readonly SyndicationCompressionSettings DefaultSettings = new SyndicationCompressionSettings();
-        private CompressionLevels _level;
-        private Algorithms _type;
+        private readonly CompressionLevels _level;
+        private readonly Algorithms _type;
 
         #region -- Constructor(XmlNode) --
 

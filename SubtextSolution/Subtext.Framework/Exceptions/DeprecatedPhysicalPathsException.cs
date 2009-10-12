@@ -25,16 +25,16 @@ namespace Subtext.Framework.Exceptions
     [Serializable]
     public class DeprecatedPhysicalPathsException : Exception
     {
-        readonly string message;
+        readonly string _message;
 
         public DeprecatedPhysicalPathsException(ReadOnlyCollection<string> physicalPaths)
         {
             InvalidPhysicalPaths = physicalPaths;
-            message = "In order to complete the upgrade, please delete the following directories/files." +
+            _message = "In order to complete the upgrade, please delete the following directories/files." +
                       Environment.NewLine;
             foreach(string path in physicalPaths)
             {
-                message += " " + path + Environment.NewLine;
+                _message += " " + path + Environment.NewLine;
             }
         }
 
@@ -45,7 +45,7 @@ namespace Subtext.Framework.Exceptions
 
         public override string Message
         {
-            get { return message; }
+            get { return _message; }
         }
 
         public ReadOnlyCollection<string> InvalidPhysicalPaths { get; private set; }

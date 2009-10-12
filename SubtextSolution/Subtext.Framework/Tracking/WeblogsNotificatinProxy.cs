@@ -49,11 +49,11 @@ namespace Subtext.Framework.Tracking
     {
         static readonly Log Log = new Log();
 
-        private string errormessage = "No Error";
+        private string _errorMessage = "No Error";
 
         public string ErrorMessage
         {
-            get { return errormessage; }
+            get { return _errorMessage; }
         }
 
         public bool Ping(string name, string url)
@@ -71,11 +71,11 @@ namespace Subtext.Framework.Tracking
                     {
                         if(rpcstruct.ContainsKey("message"))
                         {
-                            errormessage = (string)rpcstruct["message"];
+                            _errorMessage = (string)rpcstruct["message"];
                         }
                         else
                         {
-                            errormessage = "Unknown Error";
+                            _errorMessage = "Unknown Error";
                         }
                     }
                 }
@@ -83,7 +83,7 @@ namespace Subtext.Framework.Tracking
             catch(Exception ex)
             {
                 Log.Warn("Error while Ping: " + ex.Message);
-                errormessage = "Error: " + ex.Message;
+                _errorMessage = "Error: " + ex.Message;
             }
             return result;
         }

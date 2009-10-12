@@ -87,7 +87,6 @@ namespace Subtext.Framework.Web.HttpModules
         /// <summary>
         /// Checks the installation status and redirects if necessary.
         /// </summary>
-        /// <param name="blogRequest">The current blog request.</param>
         public string GetInstallationRedirectUrl(BlogRequest blogRequest, HostInfo hostInfo)
         {
             // Bypass for static files.

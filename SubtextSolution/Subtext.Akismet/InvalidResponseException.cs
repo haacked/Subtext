@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Net;
 using System.Runtime.Serialization;
@@ -42,7 +59,6 @@ namespace Subtext.Akismet
         /// <summary>
         /// Initializes a new instance of the <see cref="InvalidResponseException"/> class.
         /// </summary>
-        /// <param name="message">The message.</param>
         public InvalidResponseException(string message, HttpStatusCode status) : base(message)
         {
             HttpStatus = status;

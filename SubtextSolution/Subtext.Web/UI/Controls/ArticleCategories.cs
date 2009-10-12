@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Collections.Generic;
 using Subtext.Framework;
@@ -12,10 +29,6 @@ namespace Subtext.Web.UI.Controls
     {
         protected CategoryList Categories;
 
-        private void Page_Load(object sender, EventArgs e)
-        {
-        }
-
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -24,33 +37,7 @@ namespace Subtext.Web.UI.Controls
 
         protected ICollection<LinkCategory> GetArchiveCategories(Blog blog)
         {
-            var lcc = new List<LinkCategory>();
-
-            lcc.Add(UIData.Links(CategoryType.StoryCollection, blog));
-
-            return lcc;
-        }
-
-        #region Web Form Designer generated code
-
-        override protected void OnInit(EventArgs e)
-        {
-            //
-            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
-            //
-            InitializeComponent();
-            base.OnInit(e);
-        }
-
-        /// <summary>
-        ///		Required method for Designer support - do not modify
-        ///		the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.Load += new System.EventHandler(this.Page_Load);
-        }
-
-        #endregion
+            return new List<LinkCategory> {UIData.Links(CategoryType.StoryCollection, blog)};
+        }  
     }
 }

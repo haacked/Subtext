@@ -36,9 +36,9 @@ namespace Subtext.Framework.Services
     {
         private const string DefaultWordSeparator = "-";
 
-        private static readonly FriendlyUrlSettings _defaultSettings = GetDefaultSettings();
-        static readonly Regex _trailingPeriodRegex = new Regex(@"\.+$", RegexOptions.Compiled);
-        static readonly Regex _wordCharRegex = new Regex(@"[^\w\d\.\- ]+", RegexOptions.Compiled);
+        private static readonly FriendlyUrlSettings DefaultSettings = GetDefaultSettings();
+        static readonly Regex TrailingPeriodRegex = new Regex(@"\.+$", RegexOptions.Compiled);
+        static readonly Regex WordCharRegex = new Regex(@"[^\w\d\.\- ]+", RegexOptions.Compiled);
 
         public SlugGenerator(FriendlyUrlSettings slugSettings)
             : this(slugSettings, null)
@@ -48,7 +48,7 @@ namespace Subtext.Framework.Services
         [Inject]
         public SlugGenerator(FriendlyUrlSettings slugSettings, ObjectProvider repository)
         {
-            SlugSettings = slugSettings ?? _defaultSettings;
+            SlugSettings = slugSettings ?? DefaultSettings;
             Repository = repository;
         }
 
@@ -66,7 +66,7 @@ namespace Subtext.Framework.Services
             }
             if(String.IsNullOrEmpty(entry.Title))
             {
-                throw new ArgumentException(Resources.Argument_EntryHasNoTitle, "title");
+                throw new ArgumentException(Resources.Argument_EntryHasNoTitle, "entry");
             }
 
             string separator = SlugSettings.SeparatingCharacter;
@@ -108,10 +108,12 @@ namespace Subtext.Framework.Services
 
         private static FriendlyUrlSettings GetDefaultSettings()
         {
-            var config = new NameValueCollection();
-            config.Add("textTransform", "LowerCase");
-            config.Add("separatingCharacter", DefaultWordSeparator);
-            config.Add("limitWordCount", "10");
+            var config = new NameValueCollection
+            {
+                {"textTransform", "LowerCase"},
+                {"separatingCharacter", DefaultWordSeparator},
+                {"limitWordCount", "10"}
+            };
             return new FriendlyUrlSettings(config);
         }
 
@@ -134,20 +136,7 @@ namespace Subtext.Framework.Services
 
         private static string RemoveNonWordCharacters(string text)
         {
-            return _wordCharRegex.Replace(text, string.Empty);
-        }
-
-        private static string ReplaceSpacesWithSeparator(string text, char wordSeparator)
-        {
-            if(wordSeparator == char.MinValue)
-            {
-                //Special case if we are just removing spaces.
-                return text.ToPascalCase();
-            }
-            else
-            {
-                return text.Replace(' ', wordSeparator);
-            }
+            return WordCharRegex.Replace(text, string.Empty);
         }
 
         private static string ReplaceUnicodeCharacters(string text)
@@ -168,7 +157,7 @@ namespace Subtext.Framework.Services
 
         private static string RemoveTrailingPeriods(string text)
         {
-            return _trailingPeriodRegex.Replace(text, string.Empty);
+            return TrailingPeriodRegex.Replace(text, string.Empty);
         }
     }
 }

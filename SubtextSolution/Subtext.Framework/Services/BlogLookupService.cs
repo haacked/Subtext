@@ -48,8 +48,6 @@ namespace Subtext.Framework.Services
             }
         }
 
-        #region IBlogLookupService Members
-
         public BlogLookupResult Lookup(BlogRequest blogRequest)
         {
             if(Host == null)
@@ -110,8 +108,6 @@ namespace Subtext.Framework.Services
             return null;
         }
 
-        #endregion
-
         private static bool OnlyBlogIsLocalHostNotCurrentHost(string host, Blog onlyBlog)
         {
             return (
@@ -124,14 +120,13 @@ namespace Subtext.Framework.Services
                       );
         }
 
-        private UriBuilder ReplaceHost(Uri originalUrl, string newHost)
+        private static UriBuilder ReplaceHost(Uri originalUrl, string newHost)
         {
-            var builder = new UriBuilder(originalUrl);
-            builder.Host = newHost;
+            var builder = new UriBuilder(originalUrl) {Host = newHost};
             return builder;
         }
 
-        private UriBuilder ReplaceSubfolder(UriBuilder originalUrl, BlogRequest blogRequest, string newSubfolder)
+        private static UriBuilder ReplaceSubfolder(UriBuilder originalUrl, BlogRequest blogRequest, string newSubfolder)
         {
             if(!String.Equals(blogRequest.Subfolder, newSubfolder, StringComparison.OrdinalIgnoreCase))
             {

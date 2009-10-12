@@ -26,9 +26,9 @@ namespace Subtext.Framework.Syndication
     /// <summary>
     /// Summary description for RssHandler.
     /// </summary>
-    public class AtomHandler : BaseSyndicationHandler<Entry>
+    public class AtomHandler : BaseSyndicationHandler
     {
-        BaseSyndicationWriter<Entry> writer;
+        BaseSyndicationWriter<Entry> _writer;
 
         public AtomHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
@@ -42,13 +42,13 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                if(writer == null)
+                if(_writer == null)
                 {
-                    writer = new AtomWriter(SubtextContext.RequestContext.HttpContext.Response.Output,
+                    _writer = new AtomWriter(SubtextContext.RequestContext.HttpContext.Response.Output,
                                             Repository.GetMainSyndicationEntries(Blog.ItemCount),
                                             PublishDateOfLastFeedItemReceived, UseDeltaEncoding, SubtextContext);
                 }
-                return writer;
+                return _writer;
             }
         }
 

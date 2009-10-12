@@ -38,7 +38,7 @@ namespace Subtext.Web.Admin.Pages
         private bool _isListHidden = false;
 
         protected CheckBoxList cklCategories;
-        private int resultsPageNumber = 0;
+        private int _resultsPageNumber = 0;
 
         public EditLinks()
         {
@@ -87,7 +87,7 @@ namespace Subtext.Web.Admin.Pages
             {
                 if(Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
                 {
-                    resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+                    _resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
                 }
 
                 if(Request.QueryString[Keys.QRYSTR_CATEGORYID] != null)
@@ -96,7 +96,7 @@ namespace Subtext.Web.Admin.Pages
                 }
 
                 resultsPager.PageSize = Preferences.ListingItemCount;
-                resultsPager.PageIndex = resultsPageNumber;
+                resultsPager.PageIndex = _resultsPageNumber;
 
                 if(filterCategoryID != null)
                 {
@@ -127,7 +127,7 @@ namespace Subtext.Web.Admin.Pages
         {
             Edit.Visible = false;
 
-            IPagedCollection<Link> selectionList = Repository.GetPagedLinks(filterCategoryID, resultsPageNumber,
+            IPagedCollection<Link> selectionList = Repository.GetPagedLinks(filterCategoryID, _resultsPageNumber,
                                                                             resultsPager.PageSize, true);
 
             if(selectionList.Count > 0)
@@ -194,16 +194,17 @@ namespace Subtext.Web.Admin.Pages
 
             try
             {
-                var link = new Link();
-
-                link.Title = txbTitle.Text;
-                link.Url = txbUrl.Text;
-                link.Rss = txbRss.Text;
-                link.IsActive = ckbIsActive.Checked;
-                link.CategoryId = Convert.ToInt32(ddlCategories.SelectedItem.Value);
-                link.NewWindow = chkNewWindow.Checked;
-                link.Id = Config.CurrentBlog.Id;
-                link.Relation = txtXfn.Text;
+                var link = new Link
+                {
+                    Title = txbTitle.Text,
+                    Url = txbUrl.Text,
+                    Rss = txbRss.Text,
+                    IsActive = ckbIsActive.Checked,
+                    CategoryId = Convert.ToInt32(ddlCategories.SelectedItem.Value),
+                    NewWindow = chkNewWindow.Checked,
+                    Id = Config.CurrentBlog.Id,
+                    Relation = txtXfn.Text
+                };
 
                 if(LinkID > 0)
                 {
@@ -265,8 +266,10 @@ namespace Subtext.Web.Admin.Pages
 
         private void ConfirmDelete(int linkID, string linkTitle)
         {
-            var command = new DeleteLinkCommand(linkID, linkTitle);
-            command.ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Link '{0}' deleted", linkTitle);
+            var command = new DeleteLinkCommand(linkID, linkTitle)
+            {
+                ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Link '{0}' deleted", linkTitle)
+            };
             Messages.ShowMessage(command.Execute());
             BindList();
         }

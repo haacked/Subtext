@@ -29,11 +29,11 @@ namespace Subtext.Framework.UI.Skinning
     /// </summary>
     public class StyleSheetElementCollectionRenderer
     {
-        readonly IDictionary<string, SkinTemplate> templates;
+        readonly IDictionary<string, SkinTemplate> _templates;
 
         public StyleSheetElementCollectionRenderer(SkinEngine skinEngine)
         {
-            templates = skinEngine.GetSkinTemplates(false /* mobile */);
+            _templates = skinEngine.GetSkinTemplates(false /* mobile */);
         }
 
         private static string RenderStyleAttribute(string attributeName, string attributeValue)
@@ -70,7 +70,7 @@ namespace Subtext.Framework.UI.Skinning
             }
 
             element += "<link";
-            if(style.Media != null && style.Media.Length > 0 &&
+            if(!string.IsNullOrEmpty(style.Media) &&
                !style.Media.Equals("all", StringComparison.OrdinalIgnoreCase))
             {
                 element += RenderStyleAttribute("media", style.Media);
@@ -117,14 +117,9 @@ namespace Subtext.Framework.UI.Skinning
             {
                 return HttpHelper.ExpandTildePath(style.Href);
             }
-            else if(style.Href.StartsWith("/") || style.Href.StartsWith("http://") || style.Href.StartsWith("https://"))
-            {
-                return style.Href;
-            }
-            else
-            {
-                return skinPath + style.Href;
-            }
+            return style.Href.StartsWith("/") || style.Href.StartsWith("http://") || style.Href.StartsWith("https://")
+                       ? style.Href
+                       : skinPath + style.Href;
         }
 
         /// <summary>
@@ -141,10 +136,7 @@ namespace Subtext.Framework.UI.Skinning
             {
                 return style.Href;
             }
-            else
-            {
-                return skinPath + "css.axd?name=" + skinName + "&" + cssRequestParam;
-            }
+            return skinPath + "css.axd?name=" + skinName + "&" + cssRequestParam;
         }
 
         private static string CreateStylePath(string skinTemplateFolder)
@@ -161,7 +153,7 @@ namespace Subtext.Framework.UI.Skinning
             var templateDefinedStyles = new StringBuilder();
             string finalStyleDefinition = string.Empty;
 
-            SkinTemplate skinTemplate = templates.ItemOrNull(skinName);
+            SkinTemplate skinTemplate = _templates.ItemOrNull(skinName);
 
             var addedStyle = new List<string>();
 
@@ -256,7 +248,7 @@ namespace Subtext.Framework.UI.Skinning
             bool normalCss = false;
             var styles = new List<StyleDefinition>();
 
-            SkinTemplate skinTemplate = templates.ItemOrNull(skinName);
+            SkinTemplate skinTemplate = _templates.ItemOrNull(skinName);
 
             if((string.IsNullOrEmpty(media)) && string.IsNullOrEmpty(title) && string.IsNullOrEmpty(conditional))
             {
@@ -356,10 +348,7 @@ namespace Subtext.Framework.UI.Skinning
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
     }
 }

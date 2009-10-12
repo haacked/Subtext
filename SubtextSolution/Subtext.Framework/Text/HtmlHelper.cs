@@ -38,15 +38,15 @@ namespace Subtext.Framework.Text
     /// </summary>
     public static class HtmlHelper
     {
-        static readonly Regex _anchorRegex = new Regex(@"<a(\s+\w+\s*=\s*(?:""[^""]*?""|'[^']*?')(?!\w))+\s*>.*?</a>",
+        static readonly Regex AnchorRegex = new Regex(@"<a(\s+\w+\s*=\s*(?:""[^""]*?""|'[^']*?')(?!\w))+\s*>.*?</a>",
                                                        RegexOptions.IgnoreCase | RegexOptions.Singleline |
                                                        RegexOptions.Compiled);
 
-        static readonly Regex _hrefRegex = new Regex(@"\s+href\s*=\s*(""(?<url>[^""]*?)""|'(?<url>[^']*?)')",
+        static readonly Regex HrefRegex = new Regex(@"\s+href\s*=\s*(""(?<url>[^""]*?)""|'(?<url>[^']*?)')",
                                                      RegexOptions.IgnoreCase | RegexOptions.Singleline |
                                                      RegexOptions.Compiled);
 
-        static readonly Regex _relRegex = new Regex(@"\s+rel\s*=\s*(""[^""]*?\btag\b.*?""|'[^']*?\btag\b.*?')",
+        static readonly Regex RelRegex = new Regex(@"\s+rel\s*=\s*(""[^""]*?\btag\b.*?""|'[^']*?\btag\b.*?')",
                                                     RegexOptions.IgnoreCase | RegexOptions.Singleline |
                                                     RegexOptions.Compiled);
 
@@ -153,19 +153,16 @@ namespace Subtext.Framework.Text
                 control.Attributes[name] = value;
                 return;
             }
-            else
+            string[] attributeValues = control.Attributes[name].Split(' ');
+            foreach(string attributeValue in attributeValues)
             {
-                string[] attributeValues = control.Attributes[name].Split(' ');
-                foreach(string attributeValue in attributeValues)
+                if(String.Equals(attributeValue, value, StringComparison.Ordinal))
                 {
-                    if(String.Equals(attributeValue, value, StringComparison.Ordinal))
-                    {
-                        //value's already in there.
-                        return;
-                    }
+                    //value's already in there.
+                    return;
                 }
-                control.Attributes[name] += " " + value;
             }
+            control.Attributes[name] += " " + value;
         }
 
         /// <summary>
@@ -183,7 +180,6 @@ namespace Subtext.Framework.Text
 
             var strippedHtml = new char[html.Length];
             bool inHtmlTag = false;
-            bool inHtmlAttribute = false;
             int cleanCount = 0;
 
             for(int i = 0; i < html.Length; i++)
@@ -204,65 +200,60 @@ namespace Subtext.Framework.Text
                 else
                 {
                     //in html tag
-                    if(!inHtmlAttribute)
+                    if(current == '>')
                     {
-                        if(current == '>')
+                        inHtmlTag = false;
+                    }
+                    if(current == '<')
+                    {
+                        if(!NextCharBeginsHtmlTag(html, i))
                         {
+                            strippedHtml[cleanCount++] = current;
                             inHtmlTag = false;
                         }
-                        if(current == '<')
+                        else
                         {
-                            if(!NextCharBeginsHtmlTag(html, i))
+                            continue;
+                        }
+                    }
+                    if(current == '=')
+                    {
+                        //Potentially in attribute value...
+                        i++;
+                        bool foundAttrStart = false;
+                        char attrStartDelimiter = char.MinValue;
+
+                        // We'll just "eat" the attribute here:
+                        while(i < html.Length)
+                        {
+                            char currentAttrChar = html[i];
+
+                            //Find start delimiter...
+                            if(!foundAttrStart)
                             {
-                                strippedHtml[cleanCount++] = current;
-                                inHtmlTag = false;
+                                if(IsAttributeValueStartCharacter(currentAttrChar))
+                                {
+                                    attrStartDelimiter = currentAttrChar;
+                                    foundAttrStart = true;
+                                    i++;
+                                    continue;
+                                }
                             }
                             else
                             {
-                                continue;
+                                //Find end delimiter...
+                                if(IsAttributeValueEndCharacter(currentAttrChar, attrStartDelimiter))
+                                {
+                                    //Special case. The '>' ended the attr value and the tag
+                                    //in the case of unquoted attr value
+                                    if(currentAttrChar == '>')
+                                    {
+                                        inHtmlTag = false;
+                                    }
+                                    break;
+                                }
                             }
-                        }
-                        if(current == '=')
-                        {
-                            //Potentially in attribute value...
                             i++;
-                            bool foundAttrStart = false;
-                            char attrStartDelimiter = char.MinValue;
-                            char currentAttrChar;
-
-                            // We'll just "eat" the attribute here:
-                            while(i < html.Length)
-                            {
-                                currentAttrChar = html[i];
-
-                                //Find start delimiter...
-                                if(!foundAttrStart)
-                                {
-                                    if(IsAttributeValueStartCharacter(currentAttrChar))
-                                    {
-                                        attrStartDelimiter = currentAttrChar;
-                                        foundAttrStart = true;
-                                        i++;
-                                        continue;
-                                    }
-                                }
-                                else
-                                {
-                                    //Find end delimiter...
-                                    if(IsAttributeValueEndCharacter(currentAttrChar, attrStartDelimiter))
-                                    {
-                                        inHtmlAttribute = false;
-                                        //Special case. The '>' ended the attr value and the tag
-                                        //in the case of unquoted attr value
-                                        if(currentAttrChar == '>')
-                                        {
-                                            inHtmlTag = false;
-                                        }
-                                        break;
-                                    }
-                                }
-                                i++;
-                            }
                         }
                     }
                     continue;
@@ -347,8 +338,7 @@ namespace Subtext.Framework.Text
 
             var xhtmlConverter = new XhtmlConverter(text =>
                 {
-                    string pattern =
-                        @"((https?|ftp)://|www\.)[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
+                    const string pattern = @"((https?|ftp)://|www\.)[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
                     MatchCollection matches =
                         Regex.Matches(text, pattern,
                                       RegexOptions.
@@ -379,10 +369,10 @@ namespace Subtext.Framework.Text
         {
             yield return url => url; // identity
             yield return url => url.RightAfter("://");
-            yield return url => ReplacePathSegmentsWithElipses(url);
+            yield return ReplacePathSegmentsWithElipses;
             yield return url => url.LeftBefore("#", StringComparison.Ordinal);
             yield return url => url.LeftBefore("?", StringComparison.Ordinal);
-            yield return url => ChopLastSegment(url);
+            yield return ChopLastSegment;
             yield return url => url.Chomp("/", StringComparison.Ordinal);
             yield return url =>
                 {
@@ -506,7 +496,7 @@ namespace Subtext.Framework.Text
         /// <param name="text">Text.</param>
         /// <param name="host">Host.</param>
         /// <returns></returns>
-        public static string StripRTB(string text, string host)
+        public static string StripRtb(string text, string host)
         {
             string s = Regex.Replace(text, "/localhost/S*Admin/", "", RegexOptions.IgnoreCase);
             return Regex.Replace(s, "<a href=\"/", "<a href=\"" + "http://" + host + "/", RegexOptions.IgnoreCase);
@@ -569,58 +559,55 @@ namespace Subtext.Framework.Text
                 //has no values, therefore just strip the text as normal.
                 return HtmlSafe(text);
             }
-            else
-            {
-                var regex = new HtmlTagRegex();
-                MatchCollection matches = regex.Matches(text);
+            var regex = new HtmlTagRegex();
+            MatchCollection matches = regex.Matches(text);
 
-                if(matches.Count == 0)
+            if(matches.Count == 0)
+            {
+                return HtmlSafe(text);
+            }
+
+            var sb = new StringBuilder();
+
+            int currentIndex = 0;
+            foreach(Match match in matches)
+            {
+                //Append text before the match.
+                if(currentIndex < match.Index)
                 {
-                    return HtmlSafe(text);
+                    sb.Append(HtmlSafe(text.Substring(currentIndex, match.Index - currentIndex)));
                 }
 
-                var sb = new StringBuilder();
+                string tagName = match.Groups["tagname"].Value.ToLower(CultureInfo.InvariantCulture);
 
-                int currentIndex = 0;
-                foreach(Match match in matches)
+                //check each match against the list of allowable tags.
+                if(allowedHtmlTags.Get(tagName) == null)
                 {
-                    //Append text before the match.
-                    if(currentIndex < match.Index)
+                    sb.Append(HtmlSafe(match.Value));
+                }
+                else
+                {
+                    bool isEndTag = match.Groups["endTag"].Value.Length > 0;
+                    if(isEndTag)
                     {
-                        sb.Append(HtmlSafe(text.Substring(currentIndex, match.Index - currentIndex)));
-                    }
-
-                    string tagName = match.Groups["tagname"].Value.ToLower(CultureInfo.InvariantCulture);
-
-                    //check each match against the list of allowable tags.
-                    if(allowedHtmlTags.Get(tagName) == null)
-                    {
-                        sb.Append(HtmlSafe(match.Value));
+                        sb.Append("</" + tagName + ">");
                     }
                     else
                     {
-                        bool isEndTag = match.Groups["endTag"].Value.Length > 0;
-                        if(isEndTag)
-                        {
-                            sb.Append("</" + tagName + ">");
-                        }
-                        else
-                        {
-                            sb.Append("<" + tagName);
-                            sb.Append(FilterAttributes(tagName, match, allowedHtmlTags) + ">");
-                        }
+                        sb.Append("<" + tagName);
+                        sb.Append(FilterAttributes(tagName, match, allowedHtmlTags) + ">");
                     }
-                    currentIndex = match.Index + match.Length;
                 }
-                //add the remaining text.
-                if(currentIndex < text.Length)
-                {
-                    sb.Append(HtmlSafe(text.Substring(currentIndex)));
-                }
-
-                var converter = new XhtmlConverter();
-                return converter.Transform(sb.ToString());
+                currentIndex = match.Index + match.Length;
             }
+            //add the remaining text.
+            if(currentIndex < text.Length)
+            {
+                sb.Append(HtmlSafe(text.Substring(currentIndex)));
+            }
+
+            var converter = new XhtmlConverter();
+            return converter.Transform(sb.ToString());
         }
 
         private static string HtmlSafe(string text)
@@ -647,9 +634,9 @@ namespace Subtext.Framework.Text
         {
             string allowedAttributesText = allowedHtml[tagName];
 
-            if(allowedAttributesText != null && allowedAttributesText.Length > 0)
+            if(!string.IsNullOrEmpty(allowedAttributesText))
             {
-                var attrSB = new StringBuilder();
+                var attributesStringBuilder = new StringBuilder();
 
                 //look to see which tag's attributes we are matching
                 char[] splitter = {','};
@@ -669,12 +656,12 @@ namespace Subtext.Framework.Text
                             string attrValue = attributes[attributeName];
 
                             // and now add the full attribute (key=value) to be returned
-                            attrSB.Append(" " + attributeName.ToLower(CultureInfo.InvariantCulture) + "=\"" + attrValue +
+                            attributesStringBuilder.Append(" " + attributeName.ToLower(CultureInfo.InvariantCulture) + "=\"" + attrValue +
                                           "\"");
                         }
                     }
                 }
-                return attrSB.ToString();
+                return attributesStringBuilder.ToString();
             }
             return string.Empty;
         }
@@ -725,7 +712,6 @@ namespace Subtext.Framework.Text
             for(int i = 0; i < nameCaptures.Count; i++)
             {
                 Capture currentNameCapture = nameCaptures[i];
-                Capture currentValueCapture;
                 string name = currentNameCapture.Value;
 
                 if(valueIndex == valueCaptures.Count)
@@ -734,7 +720,7 @@ namespace Subtext.Framework.Text
                     continue;
                 }
 
-                currentValueCapture = valueCaptures[valueIndex];
+                Capture currentValueCapture = valueCaptures[valueIndex];
 
                 //Peek ahead.
                 if(i < nameCaptures.Count - 1)
@@ -773,9 +759,9 @@ namespace Subtext.Framework.Text
         public static ICollection<string> GetLinks(string text)
         {
             var links = new List<string>();
-            string sPattern = @"(?:[hH][rR][eE][fF]\s*=)" +
-                              @"(?:[\s""']*)(?!#|[Mm]ailto|[lL]ocation.|[jJ]avascript|.*css|.*this\.)" +
-                              @"(.*?)(?:[\s>""'])";
+            const string sPattern = @"(?:[hH][rR][eE][fF]\s*=)" +
+                                    @"(?:[\s""']*)(?!#|[Mm]ailto|[lL]ocation.|[jJ]avascript|.*css|.*this\.)" +
+                                    @"(.*?)(?:[\s>""'])";
 
             var r = new Regex(sPattern, RegexOptions.IgnoreCase);
             for(Match m = r.Match(text); m.Success; m = m.NextMatch())
@@ -830,15 +816,15 @@ namespace Subtext.Framework.Text
 
             var loweredTags = new List<string>();
 
-            foreach(Match m in _anchorRegex.Matches(html))
+            foreach(Match m in AnchorRegex.Matches(html))
             {
                 string anchorHtml = m.Value;
-                if(!_relRegex.IsMatch(anchorHtml))
+                if(!RelRegex.IsMatch(anchorHtml))
                 {
                     continue;
                 }
 
-                Match urlMatch = _hrefRegex.Match(anchorHtml);
+                Match urlMatch = HrefRegex.Match(anchorHtml);
                 if(urlMatch.Success)
                 {
                     string urlStr = urlMatch.Groups["url"].Value;

@@ -30,11 +30,15 @@ namespace Subtext.Extensibility.Providers
     public abstract class BlogEntryEditorProvider : ProviderBase
     {
         private static readonly GenericProviderCollection<BlogEntryEditorProvider> providers =
-            ProviderConfigurationHelper.LoadProviderCollection("BlogEntryEditor", out provider);
+            ProviderConfigurationHelper.LoadProviderCollection("BlogEntryEditor", out _provider);
 
-        private static BlogEntryEditorProvider provider;
-        Unit height = Unit.Empty;
-        Unit width = Unit.Empty;
+        private static BlogEntryEditorProvider _provider;
+
+        protected BlogEntryEditorProvider()
+        {
+            Height = Unit.Empty;
+            Width = Unit.Empty;
+        }
 
         /// <summary>
         /// Returns all the configured Email Providers.
@@ -53,20 +57,12 @@ namespace Subtext.Extensibility.Providers
         /// <summary>
         /// Width of the editor
         /// </summary>
-        public Unit Width
-        {
-            get { return width; }
-            set { width = value; }
-        }
+        public Unit Width { get; set; }
 
         /// <summary>
         /// Height of the editor
         /// </summary>
-        public Unit Height
-        {
-            get { return height; }
-            set { height = value; }
-        }
+        public Unit Height { get; set; }
 
         /// <summary>
         /// The content of the area
@@ -89,7 +85,7 @@ namespace Subtext.Extensibility.Providers
         /// <returns></returns>
         public static BlogEntryEditorProvider Instance()
         {
-            return provider;
+            return _provider;
         }
 
         public override void Initialize(string name, NameValueCollection configValue)

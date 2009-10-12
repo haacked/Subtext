@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Subtext.Framework;
-using Subtext.Framework.Components;
-
 #region Disclaimer/Info
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,6 +14,11 @@ using Subtext.Framework.Components;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endregion
+
+using System;
+using System.Collections.Generic;
+using Subtext.Framework;
+using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -37,51 +37,30 @@ namespace Subtext.Web.UI.Controls
 
         protected ICollection<LinkCategory> GetArchiveCategories(Blog blog)
         {
-            var lcc = new List<LinkCategory>();
-            LinkCategory lc;
+            var linkCategories = new List<LinkCategory>();
 
             // we want to make sure that the LinkCategory is NOT null before we add it to the collection.
-            lc = UIData.Links(CategoryType.PostCollection, blog);
-            if(lc != null)
+            LinkCategory category = UIData.Links(CategoryType.PostCollection, blog);
+            if(category != null)
             {
-                lcc.Add(lc);
+                linkCategories.Add(category);
             }
-            lc = UIData.Links(CategoryType.StoryCollection, blog);
-            if(lc != null)
+            category = UIData.Links(CategoryType.StoryCollection, blog);
+            if(category != null)
             {
-                lcc.Add(lc);
+                linkCategories.Add(category);
             }
-            lc = UIData.ArchiveMonth(Url, blog);
-            if(lc != null)
+            category = UIData.ArchiveMonth(Url, blog);
+            if(category != null)
             {
-                lcc.Add(lc);
+                linkCategories.Add(category);
             }
-            lc = UIData.Links(CategoryType.ImageCollection, blog);
-            if(lc != null)
+            category = UIData.Links(CategoryType.ImageCollection, blog);
+            if(category != null)
             {
-                lcc.Add(lc);
+                linkCategories.Add(category);
             }
-            return lcc;
+            return linkCategories;
         }
-
-        #region Web Form Designer generated code
-
-        override protected void OnInit(EventArgs e)
-        {
-            //
-            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
-            //
-            InitializeComponent();
-            base.OnInit(e);
-        }
-
-        ///		Required method for Designer support - do not modify
-        ///		the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-        }
-
-        #endregion
     }
 }

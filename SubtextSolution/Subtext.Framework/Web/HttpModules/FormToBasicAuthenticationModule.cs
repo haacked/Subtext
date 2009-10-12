@@ -33,8 +33,6 @@ namespace Subtext.Framework.Web.HttpModules
     /// </summary>
     public class FormToBasicAuthenticationModule : IHttpModule
     {
-        #region IHttpModule Members
-
         public void Init(HttpApplication app)
         {
             app.AuthenticateRequest += OnAuthenticateRequest;
@@ -45,8 +43,6 @@ namespace Subtext.Framework.Web.HttpModules
         {
             // do nothing
         }
-
-        #endregion
 
         private void OnEndRequest(Object sender, EventArgs e)
         {

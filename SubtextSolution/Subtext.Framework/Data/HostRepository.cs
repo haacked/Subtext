@@ -37,7 +37,7 @@ namespace Subtext.Framework.Data
                 {
                     if (reader.Read())
                     {
-                        return reader.ReadObject<HostInfo>(hostInfo);
+                        return reader.ReadObject(hostInfo);
                     }
                 }
             }
@@ -107,12 +107,12 @@ namespace Subtext.Framework.Data
 
         public override ICollection<Blog> GetBlogsByGroup(string host, int? groupId)
         {
-            List<Blog> blogs = new List<Blog>();
+            var blogs = new List<Blog>();
             using (var reader = _procedures.Stats(host, groupId))
             {
                 while (reader.Read())
                 {
-                    blogs.Add(DataHelper.ReadBlog(reader));
+                    blogs.Add(reader.ReadBlog());
                 }
             }
             return blogs;

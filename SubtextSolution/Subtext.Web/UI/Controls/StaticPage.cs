@@ -54,9 +54,9 @@ namespace Subtext.Web.UI.Controls
                         title.Text = linkcat.Title;
                     }
 
-                    var LinkList = (Repeater)e.Item.FindControl("LinkList");
-                    LinkList.DataSource = linkcat.Links;
-                    LinkList.DataBind();
+                    var linkList = (Repeater)e.Item.FindControl("LinkList");
+                    linkList.DataSource = linkcat.Links;
+                    linkList.DataBind();
                 }
             }
         }
@@ -68,22 +68,22 @@ namespace Subtext.Web.UI.Controls
                 var link = (Link)e.Item.DataItem;
                 if(link != null)
                 {
-                    var Link = (HyperLink)e.Item.FindControl("Link");
-                    Link.NavigateUrl = link.Url;
-                    Link.Text = link.Title;
+                    var linkControl = (HyperLink)e.Item.FindControl("Link");
+                    linkControl.NavigateUrl = link.Url;
+                    linkControl.Text = link.Title;
                     if(link.NewWindow)
                     {
-                        Link.Target = "_blank";
+                        linkControl.Target = "_blank";
                     }
 
                     if(link.HasRss)
                     {
-                        var RssLink = (HyperLink)e.Item.FindControl("RssLink");
-                        if(RssLink != null)
+                        var rssLink = (HyperLink)e.Item.FindControl("RssLink");
+                        if(rssLink != null)
                         {
-                            RssLink.NavigateUrl = link.Rss;
-                            RssLink.Visible = true;
-                            RssLink.ToolTip = string.Format(Resources.LinkPage_Subscribe, link.Title);
+                            rssLink.NavigateUrl = link.Rss;
+                            rssLink.Visible = true;
+                            rssLink.ToolTip = string.Format(Resources.LinkPage_Subscribe, link.Title);
                         }
                     }
                 }

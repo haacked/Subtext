@@ -31,12 +31,12 @@ namespace Subtext.Framework.Syndication
     /// Abstract base class used to respond to requests for 
     /// syndicated feeds such as RSS and ATOM.
     /// </summary>
-    public abstract class BaseSyndicationHandler<T> : SubtextHttpHandler
+    public abstract class BaseSyndicationHandler : SubtextHttpHandler
     {
-        const int HTTP_IM_USED = 226;
-        const int HTTP_MOVED_PERMANENTLY = 301;
+        const int HttpImUsed = 226;
+        const int HttpMovedPermanently = 301;
 
-        public BaseSyndicationHandler(ISubtextContext subtextContext) : base(subtextContext)
+        protected BaseSyndicationHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
         }
 
@@ -84,7 +84,7 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                if(IfNonMatchHeader != null && IfNonMatchHeader.Length > 0)
+                if(!string.IsNullOrEmpty(IfNonMatchHeader))
                 {
                     try
                     {
@@ -133,10 +133,7 @@ namespace Subtext.Framework.Syndication
                 {
                     return header;
                 }
-                else
-                {
-                    return string.Empty;
-                }
+                return string.Empty;
             }
         }
 
@@ -144,7 +141,7 @@ namespace Subtext.Framework.Syndication
         /// Gets the accept IM header from the request.
         /// </summary>
         /// <value></value>
-        protected string AcceptIMHeader
+        protected string AcceptImHeader
         {
             get
             {
@@ -153,10 +150,7 @@ namespace Subtext.Framework.Syndication
                 {
                     return header;
                 }
-                else
-                {
-                    return string.Empty;
-                }
+                return string.Empty;
             }
         }
 
@@ -170,7 +164,7 @@ namespace Subtext.Framework.Syndication
         /// </value>
         protected bool AcceptDeltaEncoding
         {
-            get { return AcceptIMHeader.IndexOf("feed") >= 0; }
+            get { return AcceptImHeader.IndexOf("feed") >= 0; }
         }
 
         /// <summary>
@@ -184,7 +178,7 @@ namespace Subtext.Framework.Syndication
             get
             {
                 return AcceptEncoding.IndexOf("gzip") >= 0 ||
-                       AcceptIMHeader.IndexOf("gzip") >= 0;
+                       AcceptImHeader.IndexOf("gzip") >= 0;
             }
         }
 
@@ -199,16 +193,16 @@ namespace Subtext.Framework.Syndication
         /// it sends a 304 HTTP header indicating such.
         /// </summary>
         /// <returns></returns>
-        protected virtual bool IsLocalCacheOK()
+        protected virtual bool IsLocalCacheOk()
         {
             string dt = LastModifiedHeader;
             if(dt != null)
             {
                 try
                 {
-                    DateTime feedDT = DateTime.Parse(dt, CultureInfo.InvariantCulture);
+                    DateTime feedDt = DateTime.Parse(dt, CultureInfo.InvariantCulture);
                     DateTime lastUpdated = ConvertLastUpdatedDate(Blog.LastUpdated);
-                    TimeSpan ts = feedDT - lastUpdated;
+                    TimeSpan ts = feedDt - lastUpdated;
 
                     //We need to allow some margin of error.
                     return Math.Abs(ts.TotalMilliseconds) <= 500;
@@ -228,7 +222,7 @@ namespace Subtext.Framework.Syndication
         /// Returns whether or not the http cache is OK.
         /// </summary>
         /// <returns></returns>
-        protected virtual bool IsHttpCacheOK()
+        protected virtual bool IsHttpCacheOk()
         {
             if(HttpContext.Cache == null)
             {
@@ -255,8 +249,6 @@ namespace Subtext.Framework.Syndication
         /// <summary>
         /// Convert a date to the server time.
         /// </summary>
-        /// <param name="dt"></param>
-        /// <returns></returns>
         protected DateTime ConvertLastUpdatedDate(DateTime dateTime)
         {
             return Blog.TimeZone.ToServerDateTime(dateTime);
@@ -274,14 +266,14 @@ namespace Subtext.Framework.Syndication
             }
 
             // Checks Last Modified Header.
-            if(IsLocalCacheOK())
+            if(IsLocalCacheOk())
             {
                 Send304();
                 return;
             }
 
             // Checks our cache against last modified header.
-            if(!IsHttpCacheOK())
+            if(!IsHttpCacheOk())
             {
                 Feed = BuildFeed();
                 if(Feed != null)
@@ -309,8 +301,7 @@ namespace Subtext.Framework.Syndication
 
         protected virtual CachedFeed BuildFeed()
         {
-            var feed = new CachedFeed();
-            feed.LastModified = ConvertLastUpdatedDate(Blog.LastUpdated);
+            var feed = new CachedFeed {LastModified = ConvertLastUpdatedDate(Blog.LastUpdated)};
             BaseSyndicationWriter writer = SyndicationWriter;
             feed.Xml = writer.Xml;
             feed.ClientHasAllFeedItems = writer.ClientHasAllFeedItems;
@@ -362,7 +353,7 @@ namespace Subtext.Framework.Syndication
                 }
                 if(UseDeltaEncoding)
                 {
-                    HttpContext.Response.StatusCode = HTTP_IM_USED; //IM Used
+                    HttpContext.Response.StatusCode = HttpImUsed; //IM Used
                 }
                 else
                 {
@@ -376,7 +367,6 @@ namespace Subtext.Framework.Syndication
         /// <summary>
         /// Processs the request and sends the feed to the response.
         /// </summary>
-        /// <param name="context">Context.</param>
         public override void ProcessRequest()
         {
             if((RequiresAdminRole && !SecurityHelper.IsAdmin) || (RequiresHostAdminRole && !SecurityHelper.IsHostAdmin))
@@ -399,8 +389,8 @@ namespace Subtext.Framework.Syndication
                     // If they aren't FeedBurner and they aren't asking for a category or comment rss, redirect them!
                     if(!userAgent.StartsWith("FeedBurner") && IsMainfeed)
                     {
-                        HttpContext.Response.StatusCode = HTTP_MOVED_PERMANENTLY;
-                        HttpContext.Response.Status = HTTP_MOVED_PERMANENTLY + " Moved Permanently";
+                        HttpContext.Response.StatusCode = HttpMovedPermanently;
+                        HttpContext.Response.Status = HttpMovedPermanently + " Moved Permanently";
                         HttpContext.Response.RedirectLocation =
                             SubtextContext.UrlHelper.RssProxyUrl(SubtextContext.Blog).ToString();
                         return true;

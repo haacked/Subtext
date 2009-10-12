@@ -25,19 +25,15 @@ namespace Subtext.Web.Admin.Pages
 {
     public partial class Customize : AdminOptionsPage
     {
-        bool containsTags;
-        private int pageIndex = 0;
+        private int _pageIndex;
 
-        protected bool ContainsTags
-        {
-            get { return containsTags; }
-        }
+        protected bool ContainsTags { get; private set; }
 
         protected override void OnLoad(EventArgs e)
         {
             if(null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
             {
-                pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+                _pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
             }
 
             base.OnLoad(e);
@@ -46,9 +42,9 @@ namespace Subtext.Web.Admin.Pages
         protected override void BindLocalUI()
         {
             Blog blog = Config.CurrentBlog;
-            IPagedCollection<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, pageIndex, resultsPager.PageSize);
+            IPagedCollection<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, _pageIndex, resultsPager.PageSize);
 
-            containsTags = tags.Count > 0;
+            ContainsTags = tags.Count > 0;
 
             // we want to databind either way so we can alter the DOM via JavaScript and AJAX requests.
             MetatagRepeater.DataSource = tags;
@@ -56,7 +52,7 @@ namespace Subtext.Web.Admin.Pages
 
             resultsPager.ItemCount = tags.MaxItems;
             resultsPager.PageSize = Preferences.ListingItemCount;
-            resultsPager.PageIndex = pageIndex;
+            resultsPager.PageIndex = _pageIndex;
 
             base.BindLocalUI();
         }

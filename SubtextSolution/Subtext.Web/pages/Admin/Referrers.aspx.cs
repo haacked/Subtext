@@ -34,17 +34,17 @@ namespace Subtext.Web.Admin.Pages
 {
     public partial class Referrers : StatsPage
     {
-        private readonly static ILog log = new Log();
-        private int _entryID = NullValue.NullInt32;
+        private readonly static ILog Log = new Log();
+        private int _entryId = NullValue.NullInt32;
         private bool _isListHidden = false;
-        private int pageIndex = 0;
+        private int _pageIndex;
 
         public Referrers()
         {
             TabSectionId = "Stats";
         }
 
-        private int EntryID
+        private int EntryId
         {
             get { return (int)ViewState["EntryId"]; }
             set { ViewState["EntryId"] = value; }
@@ -56,16 +56,16 @@ namespace Subtext.Web.Admin.Pages
             {
                 if(null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
                 {
-                    pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+                    _pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
                 }
 
                 if(null != Request.QueryString["EntryId"])
                 {
-                    _entryID = Convert.ToInt32(Request.QueryString["EntryId"]);
+                    _entryId = Convert.ToInt32(Request.QueryString["EntryId"]);
                 }
 
                 resultsPager.PageSize = Preferences.ListingItemCount;
-                resultsPager.PageIndex = pageIndex;
+                resultsPager.PageIndex = _pageIndex;
 
                 BindList();
             }
@@ -73,13 +73,13 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void BindLocalUI()
         {
-            if(_entryID == NullValue.NullInt32)
+            if(_entryId == NullValue.NullInt32)
             {
                 //SetReferalDesc("Referrals");
             }
             else
             {
-                SetReferalDesc("Entry", _entryID.ToString(CultureInfo.InvariantCulture));
+                SetReferalDesc("Entry", _entryId.ToString(CultureInfo.InvariantCulture));
             }
             base.BindLocalUI();
         }
@@ -88,14 +88,14 @@ namespace Subtext.Web.Admin.Pages
         {
             IPagedCollection<Referrer> referrers;
 
-            if(_entryID == NullValue.NullInt32)
+            if(_entryId == NullValue.NullInt32)
             {
-                referrers = Repository.GetPagedReferrers(pageIndex, resultsPager.PageSize, NullValue.NullInt32);
+                referrers = Repository.GetPagedReferrers(_pageIndex, resultsPager.PageSize, NullValue.NullInt32);
             }
             else
             {
-                resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", "EntryId", _entryID);
-                referrers = Repository.GetPagedReferrers(pageIndex, resultsPager.PageSize, _entryID);
+                resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", "EntryId", _entryId);
+                referrers = Repository.GetPagedReferrers(_pageIndex, resultsPager.PageSize, _entryId);
             }
 
             if(referrers != null && referrers.Count > 0)
@@ -141,21 +141,12 @@ namespace Subtext.Web.Admin.Pages
                         return "<a href=\"../posts/" + referrer.EntryId + ".aspx\" target=\"_new\">" +
                                referrer.PostTitle + "</a>";
                     }
-                    else
-                    {
-                        return "<a href=\"../posts/" + referrer.EntryId + ".aspx\" target=\"_new\">" +
-                               referrer.PostTitle.Substring(0, 50) + "</a>";
-                    }
+                    return "<a href=\"../posts/" + referrer.EntryId + ".aspx\" target=\"_new\">" +
+                           referrer.PostTitle.Substring(0, 50) + "</a>";
                 }
-                else
-                {
-                    return "Unknown";
-                }
-            }
-            else
-            {
                 return "Unknown";
             }
+            return "Unknown";
         }
 
         public string GetReferrer(object dataItem)
@@ -164,17 +155,9 @@ namespace Subtext.Web.Admin.Pages
             {
                 var referrer = (Referrer)dataItem;
                 string urlEncodedReferrerUrl = Uri.EscapeUriString(referrer.ReferrerUrl);
-                string htmlEncodedReferrerUrl;
 
                 // Chop it here because otherwise we could end up with a badly HTML encoded string if the chop appears after the encoding
-                if(referrer.ReferrerUrl.Length > 50)
-                {
-                    htmlEncodedReferrerUrl = referrer.ReferrerUrl.Substring(0, 50);
-                }
-                else
-                {
-                    htmlEncodedReferrerUrl = referrer.ReferrerUrl;
-                }
+                string htmlEncodedReferrerUrl = referrer.ReferrerUrl.Length > 50 ? referrer.ReferrerUrl.Substring(0, 50) : referrer.ReferrerUrl;
 
                 return "<a href=\"" + urlEncodedReferrerUrl + "\" target=\"_new\">" +
                        HttpUtility.HtmlEncode(htmlEncodedReferrerUrl) + "</a>";
@@ -191,7 +174,7 @@ namespace Subtext.Web.Admin.Pages
             {
                 case "create":
                     object[] args = e.CommandArgument.ToString().Split('|');
-                    EntryID = Int32.Parse(args[0].ToString(), CultureInfo.InvariantCulture);
+                    EntryId = Int32.Parse(args[0].ToString(), CultureInfo.InvariantCulture);
                     txbUrl.Text = args[1].ToString();
                     Edit.Visible = true;
                     Results.Visible = false;
@@ -208,7 +191,7 @@ namespace Subtext.Web.Admin.Pages
         {
             try
             {
-                var entry = new Trackback(EntryID, txbTitle.Text, HtmlHelper.EnsureUrl(txbUrl.Text), string.Empty,
+                var entry = new Trackback(EntryId, txbTitle.Text, txbUrl.Text.EnsureUrl(), string.Empty,
                                           txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text,
                                           Config.CurrentBlog.TimeZone.Now);
                 var commentService = new CommentService(SubtextContext, null);
@@ -235,7 +218,7 @@ namespace Subtext.Web.Admin.Pages
             }
             catch(Exception ex)
             {
-                log.Error(ex.Message, ex);
+                Log.Error(ex.Message, ex);
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
                                                  Constants.RES_FAILUREEDIT, ex.Message));
             }

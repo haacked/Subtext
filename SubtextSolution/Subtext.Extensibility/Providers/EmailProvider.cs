@@ -28,9 +28,9 @@ namespace Subtext.Extensibility.Providers
         private const int DefaultSmtpPort = 25;
 
         private static readonly GenericProviderCollection<EmailProvider> providers =
-            ProviderConfigurationHelper.LoadProviderCollection("Email", out provider);
+            ProviderConfigurationHelper.LoadProviderCollection("Email", out _provider);
 
-        private static EmailProvider provider;
+        private static EmailProvider _provider;
         private string _name;
 
         private string _smtpServer = "localhost";
@@ -60,7 +60,7 @@ namespace Subtext.Extensibility.Providers
         {
             get
             {
-                if(_smtpServer == null || _smtpServer.Length == 0)
+                if(string.IsNullOrEmpty(_smtpServer))
                 {
                     _smtpServer = "localhost";
                 }
@@ -127,14 +127,7 @@ namespace Subtext.Extensibility.Providers
             if(configValue["port"] != null)
             {
                 int port;
-                if(int.TryParse(configValue["port"], out port))
-                {
-                    Port = port;
-                }
-                else
-                {
-                    Port = DefaultSmtpPort;
-                }
+                Port = int.TryParse(configValue["port"], out port) ? port : DefaultSmtpPort;
             }
 
             SslEnabled = GetBoolean(configValue, "sslEnabled", true /* defaultValue */);
@@ -149,7 +142,7 @@ namespace Subtext.Extensibility.Providers
         /// <returns></returns>
         public static EmailProvider Instance()
         {
-            return provider;
+            return _provider;
         }
 
         private static bool GetBoolean(NameValueCollection source, string name, bool defaultValue)

@@ -30,9 +30,6 @@ namespace Subtext.Framework.Syndication
         /// <summary>
         /// Creates a new <see cref="RssWriter"/> instance.
         /// </summary>
-        /// <param name="entries">Entries.</param>
-        /// <param name="dateLastViewedFeedItemPublished"></param>
-        /// <param name="useDeltaEncoding"></param>
         public RssWriter(TextWriter writer, ICollection<Entry> entries, DateTime dateLastViewedFeedItemPublished,
                          bool useDeltaEncoding, ISubtextContext context)
             : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
@@ -157,16 +154,10 @@ namespace Subtext.Framework.Syndication
         {
             if(item.Enclosure != null && item.Enclosure.AddToFeed)
             {
-                var enc = new EnclosureItem();
-                enc.Url = item.Enclosure.Url;
-                enc.MimeType = item.Enclosure.MimeType;
-                enc.Size = item.Enclosure.Size;
+                var enc = new EnclosureItem {Url = item.Enclosure.Url, MimeType = item.Enclosure.MimeType, Size = item.Enclosure.Size};
                 return enc;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
     }
 }
