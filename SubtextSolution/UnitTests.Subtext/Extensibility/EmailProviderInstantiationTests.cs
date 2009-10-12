@@ -13,39 +13,38 @@ namespace UnitTests.Subtext.Extensibility
     public class EmailProviderInstantiationTests
     {
         [Test]
-        public void CanInstantiateAndInitializeEmailProvider(EmailProvider provider)
+        public void Initialize_WithNullPort_UsesDefaultPort(EmailProvider provider)
         {
-            Assert.IsNotNull(provider, "Well the provider should not be null.");
+            // arrange
+            var configValue = new NameValueCollection();
+            configValue["port"] = null;
+            
+            // act
+            provider.Initialize("providerTest", configValue);
+
+            // assert
+            Assert.AreEqual(25, provider.Port);
+        }
+
+        [Test]
+        public void Initialize_WithValuesFromConfig_SetsConfigProperties(EmailProvider provider)
+        {
+            // arrange
             var configValue = new NameValueCollection();
             configValue["adminEmail"] = "admin@example.com";
             configValue["smtpServer"] = "smtp.example.com";
             configValue["password"] = "abracadabra";
-            ;
             configValue["username"] = "haacked";
+
+            // act
             provider.Initialize("providerTest", configValue);
 
+            // assert
             Assert.AreEqual("admin@example.com", provider.AdminEmail, "Did not initialize the admin email properly.");
             Assert.AreEqual("smtp.example.com", provider.SmtpServer, "Did not initialize the SMTP server properly.");
             Assert.AreEqual("abracadabra", provider.Password, "Did not initialize the password properly.");
             Assert.AreEqual("haacked", provider.UserName, "Did not initialize the username properly.");
         }
-
-        //
-        //Removed since this method doesn't exists any more (simo)
-        //
-        //[Test]
-        //[ExpectedException(typeof(ArgumentNullException))]
-        //public void GetSettingValueThrowsArgumentNullExceptionForNullSettingKey(EmailProvider provider)
-        //{
-        //    provider.GetSettingValue(null, new NameValueCollection());
-        //}
-
-        //[Test]
-        //[ExpectedException(typeof(ArgumentNullException))]
-        //public void GetSettingValueThrowsArgumentNullExceptionForNullConfigValues(EmailProvider provider)
-        //{
-        //    provider.GetSettingValue("Section", null);
-        //}
     }
 
     internal class EmailProviderFactory

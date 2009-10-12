@@ -21,7 +21,6 @@ using System.Web.UI.WebControls;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Util;
 using Subtext.Web.Admin.Commands;
 
 namespace Subtext.Web.Admin.Pages
@@ -33,7 +32,7 @@ namespace Subtext.Web.Admin.Pages
     {
         private const string VSKEY_KEYWORDID = "LinkID";
 
-        private const bool _isListHidden = false;
+        private bool _isListHidden = false;
         private int _resultsPageNumber;
 
         #region Accessors
