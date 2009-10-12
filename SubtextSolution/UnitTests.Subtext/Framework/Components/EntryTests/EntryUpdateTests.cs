@@ -84,7 +84,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [TearDown]
         public void TearDown()
         {
-            Config.ConfigurationProvider = null;
         }
     }
 }

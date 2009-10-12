@@ -39,25 +39,21 @@ namespace Subtext.Web.Admin.Pages
         // jsbright added to support prompting for new file name
 
         protected EditGalleries()
-            : base()
         {
             TabSectionId = "Galleries";
         }
 
-        private int CategoryID
+        private int CategoryId
         {
             get
             {
-                if(null != ViewState["CategoryID"])
+                if(null != ViewState["CategoryId"])
                 {
-                    return (int)ViewState["CategoryID"];
+                    return (int)ViewState["CategoryId"];
                 }
-                else
-                {
-                    return NullValue.NullInt32;
-                }
+                return NullValue.NullInt32;
             }
-            set { ViewState["CategoryID"] = value; }
+            set { ViewState["CategoryId"] = value; }
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -67,20 +63,18 @@ namespace Subtext.Web.Admin.Pages
                 Response.Redirect(AdminUrl.Home());
             }
 
-            UrlBasedBlogInfoProvider.MapImageDirectory(BlogRequest.Current);
-
             if(!IsPostBack)
             {
                 HideImages();
-                ShowResults(false);
+                ShowResults();
                 BindList();
                 ckbIsActiveImage.Checked = Preferences.AlwaysCreateIsActive;
                 ckbNewIsActive.Checked = Preferences.AlwaysCreateIsActive;
 
                 if(null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
                 {
-                    CategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
-                    BindGallery(CategoryID);
+                    CategoryId = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
+                    BindGallery(CategoryId);
                 }
             }
         }
@@ -97,23 +91,19 @@ namespace Subtext.Web.Admin.Pages
                 dgrSelectionList.DataKeyField = "Id";
                 dgrSelectionList.DataBind();
             }
-            else
-            {
-                // TODO: no existing items handling. add label and indicate no existing items. pop open edit.
-            }
         }
 
         private void BindGallery()
         {
             // HACK: reverse the call order with the overloaded version
-            BindGallery(CategoryID);
+            BindGallery(CategoryId);
         }
 
-        private void BindGallery(int galleryID)
+        private void BindGallery(int galleryId)
         {
-            CategoryID = galleryID;
-            LinkCategory selectedGallery = SubtextContext.Repository.GetLinkCategory(galleryID, false);
-            ICollection<Image> imageList = Images.GetImagesByCategoryID(galleryID, false);
+            CategoryId = galleryId;
+            LinkCategory selectedGallery = SubtextContext.Repository.GetLinkCategory(galleryId, false);
+            ICollection<Image> imageList = Images.GetImagesByCategoryId(galleryId, false);
 
             plhImageHeader.Controls.Clear();
             string galleryTitle = string.Format(CultureInfo.InvariantCulture, "{0} - {1} " + Resources.Label_Images,
@@ -135,7 +125,7 @@ namespace Subtext.Web.Admin.Pages
             AddImages.Collapsed = !Preferences.AlwaysExpandAdvanced;
         }
 
-        private void ShowResults(bool collapsible)
+        private void ShowResults()
         {
             Results.Visible = true;
         }
@@ -153,7 +143,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void HideImages()
         {
-            ShowResults(false);
+            ShowResults();
             ImagesDiv.Visible = false;
         }
 
@@ -175,18 +165,15 @@ namespace Subtext.Web.Admin.Pages
             {
                 return Url.GalleryImagePageUrl(image);
             }
-            else
-            {
-                return String.Empty;
-            }
+            return String.Empty;
         }
 
         protected string EvalImageTitle(object potentialImage)
         {
-            const int TARGET_HEIGHT = 138;
-            const int MAX_IMAGE_HEIGHT = 120;
-            const int CHAR_PER_LINE = 19;
-            const int LINE_HEIGHT_PIXELS = 16;
+            const int targetHeight = 138;
+            const int maxImageHeight = 120;
+            const int charPerLine = 19;
+            const int lineHeightPixels = 16;
 
             var image = potentialImage as Image;
             if(image != null)
@@ -198,8 +185,8 @@ namespace Subtext.Web.Admin.Pages
                 {
                     aspectRatio = 1;
                 }
-                var allowedChars = (int)((TARGET_HEIGHT - MAX_IMAGE_HEIGHT * aspectRatio)
-                                         / LINE_HEIGHT_PIXELS * CHAR_PER_LINE);
+                var allowedChars = (int)((targetHeight - maxImageHeight * aspectRatio)
+                                         / lineHeightPixels * charPerLine);
 
                 return Utilities.Truncate(image.Title, allowedChars);
             }
@@ -216,7 +203,7 @@ namespace Subtext.Web.Admin.Pages
             {
                 if(category.Id > 0)
                 {
-                    Links.UpdateLinkCategory(category);
+                    Repository.UpdateLinkCategory(category);
                     Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, Resources.Message_CategoryUpdated,
                                                        category.Title));
                 }
@@ -282,12 +269,12 @@ namespace Subtext.Web.Admin.Pages
                             var image = new Image
                             {
                                 Blog = Blog,
-                                CategoryID = CategoryID,
+                                CategoryID = CategoryId,
                                 Title = fileName,
                                 IsActive = ckbIsActiveImage.Checked,
                                 FileName = Path.GetFileName(fileName),
-                                Url = Url.ImageGalleryDirectoryUrl(Blog, CategoryID),
-                                LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryID)
+                                Url = Url.ImageGalleryDirectoryUrl(Blog, CategoryId),
+                                LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryId)
                             };
 
                             // Read the next file from the Zip stream
@@ -406,12 +393,12 @@ namespace Subtext.Web.Admin.Pages
                 var image = new Image
                 {
                     Blog = Blog,
-                    CategoryID = CategoryID,
+                    CategoryID = CategoryId,
                     Title = txbImageTitle.Text,
                     IsActive = ckbIsActiveImage.Checked,
                     FileName = Path.GetFileName(fileName),
-                    Url = Url.ImageGalleryDirectoryUrl(Blog, CategoryID),
-                    LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryID)
+                    Url = Url.ImageGalleryDirectoryUrl(Blog, CategoryId),
+                    LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryId)
                 };
 
                 try
@@ -432,8 +419,8 @@ namespace Subtext.Web.Admin.Pages
                         return;
                     }
 
-                    int imageID = Images.InsertImage(image, ImageFile.PostedFile.GetFileStream());
-                    if(imageID > 0)
+                    int imageId = Images.InsertImage(image, ImageFile.PostedFile.GetFileStream());
+                    if(imageId > 0)
                     {
                         Messages.ShowMessage(Resources.EditGalleries_ImageAdded);
                         txbImageTitle.Text = String.Empty;
@@ -467,12 +454,14 @@ namespace Subtext.Web.Admin.Pages
             BindGallery();
         }
 
-        private void DeleteImage(int imageID)
+        private void DeleteImage(int imageId)
         {
-            Image image = Repository.GetImage(imageID, false /* activeOnly */);
-            var command = new DeleteImageCommand(image, Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID));
-            command.ExecuteSuccessMessage = string.Format(CultureInfo.CurrentCulture, "Image '{0}' deleted",
-                                                          image.OriginalFile);
+            Image image = Repository.GetImage(imageId, false /* activeOnly */);
+            var command = new DeleteImageCommand(image, Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID))
+            {
+                ExecuteSuccessMessage = string.Format(CultureInfo.CurrentCulture, "Image '{0}' deleted",
+                                                      image.OriginalFile)
+            };
             Messages.ShowMessage(command.Execute());
             BindGallery();
         }
@@ -554,11 +543,13 @@ namespace Subtext.Web.Admin.Pages
 
         protected void lkbPost_Click(object sender, EventArgs e)
         {
-            var newCategory = new LinkCategory();
-            newCategory.CategoryType = CategoryType.ImageCollection;
-            newCategory.Title = txbNewTitle.Text;
-            newCategory.IsActive = ckbNewIsActive.Checked;
-            newCategory.Description = txbNewDescription.Text;
+            var newCategory = new LinkCategory
+            {
+                CategoryType = CategoryType.ImageCollection,
+                Title = txbNewTitle.Text,
+                IsActive = ckbNewIsActive.Checked,
+                Description = txbNewDescription.Text
+            };
             PersistCategory(newCategory);
 
             BindList();

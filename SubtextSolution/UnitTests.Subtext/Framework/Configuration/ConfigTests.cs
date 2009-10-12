@@ -88,13 +88,13 @@ namespace UnitTests.Subtext.Framework.Configuration
             Config.CreateBlog("title", "username", "password", hostName, string.Empty);
 
             Blog info = Config.GetBlog(hostName, string.Empty);
-            info.OpenIDServer = "http://server.example.com/";
-            info.OpenIDDelegate = "http://delegate.example.com/";
+            info.OpenIdServer = "http://server.example.com/";
+            info.OpenIdDelegate = "http://delegate.example.com/";
             ObjectProvider.Instance().UpdateConfigData(info);
             info = Config.GetBlog(hostName, string.Empty);
 
-            Assert.AreEqual("http://server.example.com/", info.OpenIDServer);
-            Assert.AreEqual("http://delegate.example.com/", info.OpenIDDelegate);
+            Assert.AreEqual("http://server.example.com/", info.OpenIdServer);
+            Assert.AreEqual("http://delegate.example.com/", info.OpenIdDelegate);
         }
 
         /// <summary>

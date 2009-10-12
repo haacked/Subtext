@@ -20,12 +20,12 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
 using Subtext.Framework.Infrastructure;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework
 {
@@ -448,7 +448,7 @@ namespace Subtext.Framework
             {
                 if(!String.IsNullOrEmpty(value))
                 {
-                    value = UrlFormats.StripSurroundingSlashes(value);
+                    value = HttpHelper.StripSurroundingSlashes(value);
                 }
 
                 _subfolder = value;
@@ -466,20 +466,20 @@ namespace Subtext.Framework
         }
 
         /// <summary>
-        /// Gets or sets the OpenIDUrl.
+        /// Gets or sets the OpenIdUrl.
         /// </summary>
         /// <value></value>
-        public string OpenIDUrl { get; set; }
+        public string OpenIdUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the OpenIDServer.
+        /// Gets or sets the OpenIdServer.
         /// </summary>
-        public string OpenIDServer { get; set; }
+        public string OpenIdServer { get; set; }
 
         /// <summary>
-        /// Gets or sets the OpenIDDelegate.
+        /// Gets or sets the OpenIdDelegate.
         /// </summary>
-        public string OpenIDDelegate { get; set; }
+        public string OpenIdDelegate { get; set; }
 
         /// <summary>
         /// Gets or sets the CardSpaceHash.

@@ -105,7 +105,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             handler.ProcessRequest();
 
             //assert
-            Assert.IsTrue(writer.ToString().Contains("EntryID is invalid or missing"));
+            Assert.IsTrue(writer.ToString().Contains("EntryId is invalid or missing"));
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             handler.ProcessRequest();
 
             //assert
-            Assert.IsTrue(writer.ToString().Contains("EntryID is invalid or missing"));
+            Assert.IsTrue(writer.ToString().Contains("EntryId is invalid or missing"));
         }
 
         /// <summary>

@@ -127,7 +127,7 @@ namespace Subtext.Web.Admin.Pages
             {
                 if(category.Id > 0)
                 {
-                    Links.UpdateLinkCategory(category);
+                    Repository.UpdateLinkCategory(category);
                     Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, "Category \"{0}\" was updated.",
                                                        category.Title));
                 }

@@ -52,6 +52,7 @@ using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
+using Subtext.Framework.Web;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Infrastructure;
 using System.Xml;
@@ -263,7 +264,7 @@ namespace UnitTests.Subtext
         {
             HttpContext.Current = null;
 
-            applicationPath = UrlFormats.StripSurroundingSlashes(applicationPath); // Subtext.Web
+            applicationPath = HttpHelper.StripSurroundingSlashes(applicationPath); // Subtext.Web
             subfolder = StripSlashes(subfolder); // MyBlog
 
             string appPhysicalDir = @"c:\projects\SubtextSystem\";
@@ -474,13 +475,13 @@ namespace UnitTests.Subtext
             var link = new Link();
             link.BlogId = Config.CurrentBlog.Id;
             link.IsActive = true;
-            link.CategoryID = categoryId;
+            link.CategoryId = categoryId;
             link.Title = title;
             link.Url = "http://noneofyourbusiness.com/";
             link.Relation = rel;
             if(entryId != null)
             {
-                link.PostID = (int)entryId;
+                link.PostId = (int)entryId;
             }
             link.Id = Links.CreateLink(link);
             return link;

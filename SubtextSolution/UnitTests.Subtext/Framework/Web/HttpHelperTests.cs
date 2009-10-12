@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework.Web
             var httpRequest = new Mock<HttpRequestBase>();
             httpRequest.Setup(r => r.Headers).Returns(headers);
 
-            DateTime expectedDate = DateTimeHelper.ParseUnknownFormatUTC(expected);
+            DateTime expectedDate = DateTimeHelper.ParseUnknownFormatUtc(expected);
             Console.WriteLine("{0}\t{1}\t{2}", received, expected, expectedDate.ToUniversalTime());
 
             DateTime result = HttpHelper.GetIfModifiedSinceDateUtc(httpRequest.Object);

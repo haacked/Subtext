@@ -40,18 +40,17 @@ namespace Subtext.Web.SystemMessages
             Response.StatusCode = 404;
             Response.Status = "404 Not Found";
 
-            string queryString;
             if(Request.QueryString.Count == 0)
             {
                 return;
             }
 
-            queryString = Request.QueryString[0];
+            string queryString = Request.QueryString[0];
 
-            if(queryString != null && queryString.Length > 0)
+            if(!string.IsNullOrEmpty(queryString))
             {
                 string urlText = queryString.RightAfter(";");
-                if(urlText != null && urlText.Length > 0)
+                if(!string.IsNullOrEmpty(urlText))
                 {
                     Uri uri = urlText.ParseUri();
                     if(uri == null)
@@ -60,7 +59,7 @@ namespace Subtext.Web.SystemMessages
                     }
 
                     string extension = Path.GetExtension(uri.AbsolutePath);
-                    if(extension == null || extension.Length == 0)
+                    if(string.IsNullOrEmpty(extension))
                     {
                         string uriAbsolutePath = uri.AbsolutePath;
                         if(!uriAbsolutePath.EndsWith("/"))

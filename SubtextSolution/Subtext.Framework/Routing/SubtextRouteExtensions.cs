@@ -148,8 +148,7 @@ namespace Subtext.Framework.Routing
         public static void MapHttpHandler<THttpHandler>(this SubtextRouteMapper routes, string name, string url,
                                                         object constraints) where THttpHandler : IHttpHandler
         {
-            var route = new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(routes.Kernel));
-            route.Constraints = new RouteValueDictionary(constraints);
+            var route = new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(routes.Kernel)) {Constraints = new RouteValueDictionary(constraints)};
             routes.Add(name, route);
         }
 

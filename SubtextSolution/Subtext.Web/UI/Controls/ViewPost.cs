@@ -83,7 +83,7 @@ namespace Subtext.Web.UI.Controls
                 Trace.Write("loading categories");
                 if(Categories != null)
                 {
-                    Categories.LinkCategories = Links.GetLinkCategoriesByPostID(entry.Id);
+                    Categories.LinkCategories = Links.GetLinkCategoriesByPostId(entry.Id);
                     Categories.DataBind();
                 }
 

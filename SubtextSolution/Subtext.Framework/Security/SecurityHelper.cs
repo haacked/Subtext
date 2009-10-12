@@ -144,7 +144,7 @@ namespace Subtext.Framework.Security
             }
 
             //If the current blog doesn't have a valid OpenID URI, must fail
-            if(!Uri.IsWellFormedUriString(currentBlog.OpenIDUrl, UriKind.Absolute))
+            if(!Uri.IsWellFormedUriString(currentBlog.OpenIdUrl, UriKind.Absolute))
             {
                 return false;
             }
@@ -155,7 +155,7 @@ namespace Subtext.Framework.Security
                 return false;
             }
 
-            var currentBlogClaimUri = new Uri(currentBlog.OpenIDUrl);
+            var currentBlogClaimUri = new Uri(currentBlog.OpenIdUrl);
             var claimedUri = new Uri(claimedIdentifier);
 
             if(claimedUri.Host != currentBlogClaimUri.Host ||

@@ -47,7 +47,7 @@ namespace Subtext.Framework
     /// </summary>
     public static class VersionInfo
     {
-        static readonly Uri _homePageUrl = new Uri("http://SubtextProject.com/");
+        public static readonly Uri HomePageUrl = new Uri("http://SubtextProject.com/");
         static Version _version;
 
         /// <summary>
@@ -64,15 +64,6 @@ namespace Subtext.Framework
                 }
                 return _version;
             }
-        }
-
-        /// <summary>
-        /// Gets the home page.
-        /// </summary>
-        /// <value></value>
-        public static Uri HomePageUrl
-        {
-            get { return _homePageUrl; }
         }
 
         /// <summary>

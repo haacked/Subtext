@@ -24,7 +24,7 @@ namespace Subtext.Framework.Configuration
 {
     public class MimeTypesMapper
     {
-        static readonly MimeTypesMapper _mappings =
+        public static readonly MimeTypesMapper Mappings =
             new MimeTypesMapper((NameValueCollection)ConfigurationManager.GetSection("EnclosureMimetypes"));
 
         public MimeTypesMapper(NameValueCollection config)
@@ -35,14 +35,6 @@ namespace Subtext.Framework.Configuration
             }
             List = config;
             Count = config.Keys.Count;
-        }
-
-        /// <summary>
-        /// Returns the MimeTypesMapper instance.
-        /// </summary>
-        public static MimeTypesMapper Mappings
-        {
-            get { return _mappings; }
         }
 
         public int Count { get; private set; }

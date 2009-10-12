@@ -39,19 +39,19 @@ namespace Subtext.Framework.Syndication.Admin
         {
             var strings = new List<string>();
             strings.Add(item.PostTitle);
-            strings.Add(new Uri(item.ReferrerURL).Host);
+            strings.Add(new Uri(item.ReferrerUrl).Host);
             return strings;
         }
 
         protected override string GetGuid(Referrer item)
         {
             return item.BlogId.ToString(CultureInfo.InvariantCulture) +
-                   item.EntryID.ToString(CultureInfo.InvariantCulture) + item.ReferrerURL;
+                   item.EntryId.ToString(CultureInfo.InvariantCulture) + item.ReferrerUrl;
         }
 
         protected override string GetTitleFromItem(Referrer item)
         {
-            return item.PostTitle + " - " + item.ReferrerURL.ShortenUrl(20);
+            return item.PostTitle + " - " + item.ReferrerUrl.ShortenUrl(20);
         }
 
         protected override string GetLinkFromItem(Referrer item)
@@ -61,7 +61,7 @@ namespace Subtext.Framework.Syndication.Admin
 
         protected override string GetBodyFromItem(Referrer item)
         {
-            return String.Format(CultureInfo.InvariantCulture, Resources.Message_ReferrersForm, item.ReferrerURL,
+            return String.Format(CultureInfo.InvariantCulture, Resources.Message_ReferrersForm, item.ReferrerUrl,
                                  item.Count);
         }
 

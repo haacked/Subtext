@@ -227,7 +227,7 @@ namespace Subtext.Web.UI.Controls
             var postCategories = (PostCategoryList)e.Item.FindControl("Categories");
             if(postCategories != null)
             {
-                postCategories.LinkCategories = Links.GetLinkCategoriesByPostID(entry.Id);
+                postCategories.LinkCategories = Links.GetLinkCategoriesByPostId(entry.Id);
                 postCategories.DataBind();
             }
         }

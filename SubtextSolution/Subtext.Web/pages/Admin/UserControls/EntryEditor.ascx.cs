@@ -230,11 +230,11 @@ namespace Subtext.Web.Admin.UserControls
                 foreach(Link postCategory in postCategories)
                 {
                     ListItem categoryItem =
-                        cklCategories.Items.FindByValue(postCategory.CategoryID.ToString(CultureInfo.InvariantCulture));
+                        cklCategories.Items.FindByValue(postCategory.CategoryId.ToString(CultureInfo.InvariantCulture));
                     if(categoryItem == null)
                     {
                         throw new InvalidOperationException(
-                            string.Format(Resources.EntryEditor_CouldNotFindCategoryInList, postCategory.CategoryID,
+                            string.Format(Resources.EntryEditor_CouldNotFindCategoryInList, postCategory.CategoryId,
                                           cklCategories.Items.Count));
                     }
                     categoryItem.Selected = true;

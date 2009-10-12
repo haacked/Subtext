@@ -24,8 +24,6 @@ namespace Subtext.Framework.Routing
 {
     public class HttpRouteHandler<THandler> : RouteHandlerBase where THandler : IHttpHandler
     {
-        public static IHttpHandler lastHandler;
-
         public HttpRouteHandler(IKernel kernel) : base(kernel)
         {
         }

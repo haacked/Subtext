@@ -10,9 +10,9 @@ namespace UnitTests.Subtext.Framework.Components
         public void CanSetAndGetSimpleProperties()
         {
             var referrer = new Referrer();
-            referrer.ReferrerURL = "localhost";
-            Assert.AreEqual("http://localhost", referrer.ReferrerURL);
-            UnitTestHelper.AssertSimpleProperties(referrer, "ReferrerURL");
+            referrer.ReferrerUrl = "localhost";
+            Assert.AreEqual("http://localhost", referrer.ReferrerUrl);
+            UnitTestHelper.AssertSimpleProperties(referrer, "ReferrerUrl");
         }
     }
 }

@@ -183,7 +183,6 @@ namespace UnitTests.Subtext.Framework.Syndication
         [TearDown]
         public void TearDown()
         {
-            Config.ConfigurationProvider = null;
         }
 
         #region ---- [Exception Cases] ------

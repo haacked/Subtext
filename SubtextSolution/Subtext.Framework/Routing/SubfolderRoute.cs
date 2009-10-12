@@ -23,7 +23,7 @@ namespace Subtext.Framework.Routing
 {
     class SubfolderRoute : Route
     {
-        Route _parent;
+        readonly Route _parent;
 
         public SubfolderRoute(Route parent) : base("{subfolder}/" + parent.Url, parent.RouteHandler)
         {

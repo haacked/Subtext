@@ -22,15 +22,13 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
-using log4net;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Format;
-using Subtext.Framework.Logging;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
+using Subtext.Framework.Web;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Scripting;
 
@@ -42,7 +40,7 @@ namespace Subtext.Framework.Configuration
     /// </summary>
     public static class Config
     {
-        private static readonly string[] _invalidSubfolders = {
+        private static readonly string[] InvalidSubfolders = {
                                                                   "Tags", "Admin", "bin", "ExternalDependencies",
                                                                   "HostAdmin", "Images", "Install", "Properties",
                                                                   "Providers",
@@ -53,7 +51,6 @@ namespace Subtext.Framework.Configuration
                                                                   "aggbug", "Sitemap"
                                                               };
 
-        static UrlBasedBlogInfoProvider _configProvider;
         static ConnectionString _connectionString;
 
         /// <summary>
@@ -153,23 +150,6 @@ namespace Subtext.Framework.Configuration
                 IPagedCollection<Blog> blogs = Blog.GetBlogs(1, 1, ConfigurationFlags.None);
                 return blogs.MaxItems;
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the configuration provider.
-        /// </summary>
-        /// <value></value>
-        public static UrlBasedBlogInfoProvider ConfigurationProvider
-        {
-            get
-            {
-                if(_configProvider == null)
-                {
-                    _configProvider = UrlBasedBlogInfoProvider.Instance;
-                }
-                return _configProvider;
-            }
-            set { _configProvider = value; }
         }
 
         /// <summary>
@@ -303,7 +283,7 @@ namespace Subtext.Framework.Configuration
                 }
             }
 
-            subfolder = UrlFormats.StripSurroundingSlashes(subfolder);
+            subfolder = HttpHelper.StripSurroundingSlashes(subfolder);
 
             if(string.IsNullOrEmpty(subfolder))
             {
@@ -355,7 +335,7 @@ namespace Subtext.Framework.Configuration
 
             string subfolderName = info.Subfolder == null
                                        ? string.Empty
-                                       : UrlFormats.StripSurroundingSlashes(info.Subfolder);
+                                       : HttpHelper.StripSurroundingSlashes(info.Subfolder);
 
             if(subfolderName.Length == 0)
             {
@@ -416,7 +396,7 @@ namespace Subtext.Framework.Configuration
                 }
             }
 
-            foreach(string invalidSubFolder in _invalidSubfolders)
+            foreach(string invalidSubFolder in InvalidSubfolders)
             {
                 if(String.Equals(invalidSubFolder, subfolder, StringComparison.OrdinalIgnoreCase))
                 {

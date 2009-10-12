@@ -25,24 +25,24 @@ namespace Subtext.Framework.Components
     [Serializable]
     public class Referrer
     {
-        private string _referrerURL;
+        private string _referrerUrl;
 
-        public string ReferrerURL
+        public string ReferrerUrl
         {
             get
             {
-                if(!_referrerURL.StartsWith("http://"))
+                if(!_referrerUrl.StartsWith("http://"))
                 {
-                    return "http://" + _referrerURL;
+                    return "http://" + _referrerUrl;
                 }
-                return _referrerURL;
+                return _referrerUrl;
             }
-            set { _referrerURL = value; }
+            set { _referrerUrl = value; }
         }
 
         public int Count { get; set; }
 
-        public int EntryID { get; set; }
+        public int EntryId { get; set; }
 
         public string PostTitle { get; set; }
 

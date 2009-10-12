@@ -52,7 +52,7 @@ namespace Subtext.Framework.Routing
                     {
                         IEnumerable<string> controls = requestContext.RouteData.GetControlNames();
                         //TODO: Temporary hack to append .ascx
-                        pageWithControls.SetControls(controls.Select(s => s += ".ascx"));
+                        pageWithControls.SetControls(controls.Select(s => s + ".ascx"));
                     }
                 }
             }

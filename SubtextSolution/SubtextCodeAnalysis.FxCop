@@ -3258,7 +3258,7 @@
             <Messages>
              <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-05-10 07:31:04Z">
               <Issue>
-               <Item>UrlFormats.StripSurroundingSlashes(String):String</Item>
+               <Item>HttpHelper.StripSurroundingSlashes(String):String</Item>
                <Item>2</Item>
                <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
                <Item>The target to strip slashes from is null.</Item>

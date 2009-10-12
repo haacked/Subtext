@@ -171,14 +171,14 @@ namespace Subtext.Web.UI.Pages
                 styles.Text = styleRenderer.RenderStyleElementCollection(CurrentSkin.SkinKey);
             }
 
-            if(openIDServer != null && !string.IsNullOrEmpty(Blog.OpenIDServer))
+            if(openIDServer != null && !string.IsNullOrEmpty(Blog.OpenIdServer))
             {
-                openIDServer.Text = string.Format(OpenIDServerLocation, Blog.OpenIDServer);
+                openIDServer.Text = string.Format(OpenIDServerLocation, Blog.OpenIdServer);
             }
 
-            if(openIDDelegate != null && !string.IsNullOrEmpty(Blog.OpenIDDelegate))
+            if(openIDDelegate != null && !string.IsNullOrEmpty(Blog.OpenIdDelegate))
             {
-                openIDDelegate.Text = string.Format(OpenIDDelegateLocation, Blog.OpenIDDelegate);
+                openIDDelegate.Text = string.Format(OpenIDDelegateLocation, Blog.OpenIdDelegate);
             }
 
             // Add the per-blog MetaTags to the page Head section.

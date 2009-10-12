@@ -60,14 +60,14 @@ namespace UnitTests.Subtext.Framework
             int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, "UnitTestImages",
                                                            CategoryType.ImageCollection);
 
-            Assert.AreEqual(0, Images.GetImagesByCategoryID(categoryId, true).Count);
+            Assert.AreEqual(0, Images.GetImagesByCategoryId(categoryId, true).Count);
 
             Image image = CreateImageInstance(Config.CurrentBlog, categoryId);
             image.IsActive = true;
 
             int imageId = Images.InsertImage(image, singlePixelBytes);
 
-            ImageCollection images = Images.GetImagesByCategoryID(categoryId, true);
+            ImageCollection images = Images.GetImagesByCategoryId(categoryId, true);
             Assert.AreEqual(1, images.Count, "Expected to get our one image.");
             Assert.AreEqual(imageId, images[0].ImageID);
         }

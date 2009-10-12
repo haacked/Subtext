@@ -123,7 +123,7 @@ namespace Subtext.Framework.Data
         public bool DeleteCategory(int categoryId, int blogId)
         {
             SqlParameter[] p = {
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                };
 
@@ -177,7 +177,7 @@ namespace Subtext.Framework.Data
         {
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@BlogId", blogId),
-                                   DataHelper.MakeInParam("@ImageID", imageId),
+                                   DataHelper.MakeInParam("@ImageId", imageId),
                                };
 
 
@@ -187,7 +187,7 @@ namespace Subtext.Framework.Data
         public bool DeleteImageCategory(int categoryId, int blogId)
         {
             SqlParameter[] p = {
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                };
 
@@ -220,7 +220,7 @@ namespace Subtext.Framework.Data
         public bool DeleteLinksByPostID(int postId, int blogId)
         {
             SqlParameter[] p = {
-                                   DataHelper.MakeInParam("@PostID", postId),
+                                   DataHelper.MakeInParam("@PostId", postId),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                };
 
@@ -311,7 +311,7 @@ namespace Subtext.Framework.Data
         {
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@CategoryName", categoryName),
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
                                    DataHelper.MakeInParam("@IsActive", isActive),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                    DataHelper.MakeInParam("@CategoryType", categoryType),
@@ -450,7 +450,7 @@ namespace Subtext.Framework.Data
         public IDataReader GetImageCategory(int categoryId, bool isActive, int blogId)
         {
             SqlParameter[] p = {
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
                                    DataHelper.MakeInParam("@IsActive", isActive),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                };
@@ -471,7 +471,7 @@ namespace Subtext.Framework.Data
         public IDataReader GetLinkCollectionByPostID(int? postId, int blogId)
         {
             SqlParameter[] p = {
-                                   DataHelper.MakeInParam("@PostID", postId),
+                                   DataHelper.MakeInParam("@PostId", postId),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                };
 
@@ -481,7 +481,7 @@ namespace Subtext.Framework.Data
         public IDataReader GetLinksByCategoryID(int categoryId, int blogId)
         {
             SqlParameter[] p = {
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                };
 
@@ -528,7 +528,7 @@ namespace Subtext.Framework.Data
         {
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@BlogId", blogId),
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
                                    DataHelper.MakeInParam("@PageIndex", pageIndex),
                                    DataHelper.MakeInParam("@PageSize", pageSize),
                                    DataHelper.MakeInParam("@PostType", postType),
@@ -579,7 +579,7 @@ namespace Subtext.Framework.Data
         {
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@BlogId", blogId),
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
                                    DataHelper.MakeInParam("@PageIndex", pageIndex),
                                    DataHelper.MakeInParam("@PageSize", pageSize),
                                    DataHelper.MakeInParam("@SortDesc", sortDesc),
@@ -604,7 +604,7 @@ namespace Subtext.Framework.Data
         {
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@BlogId", blogId),
-                                   DataHelper.MakeInParam("@EntryID", entryId),
+                                   DataHelper.MakeInParam("@EntryId", entryId),
                                    DataHelper.MakeInParam("@PageIndex", pageIndex),
                                    DataHelper.MakeInParam("@PageSize", pageSize),
                                };
@@ -636,7 +636,7 @@ namespace Subtext.Framework.Data
         {
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@ItemCount", itemCount),
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
                                    DataHelper.MakeInParam("@IsActive", isActive),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                    DataHelper.MakeInParam("@CurrentDateTime", currentDateTime),
@@ -705,7 +705,7 @@ namespace Subtext.Framework.Data
         {
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@BlogId", blogId),
-                                   DataHelper.MakeInParam("@EntryID", entryId),
+                                   DataHelper.MakeInParam("@EntryId", entryId),
                                    DataHelper.MakeInParam("@RowCount", rowCount),
                                };
 
@@ -728,7 +728,7 @@ namespace Subtext.Framework.Data
         public IDataReader GetSingleImage(int imageId, bool isActive, int blogId)
         {
             SqlParameter[] p = {
-                                   DataHelper.MakeInParam("@ImageID", imageId),
+                                   DataHelper.MakeInParam("@ImageId", imageId),
                                    DataHelper.MakeInParam("@IsActive", isActive),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                };
@@ -795,7 +795,7 @@ namespace Subtext.Framework.Data
 
         public int InsertCategory(string title, bool active, int blogId, int categoryType, string description)
         {
-            SqlParameter outParam0 = DataHelper.MakeOutParam("@CategoryID", SqlDbType.Int, 4);
+            SqlParameter outParam0 = DataHelper.MakeOutParam("@CategoryId", SqlDbType.Int, 4);
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@Title", title),
                                    DataHelper.MakeInParam("@Active", active),
@@ -900,10 +900,10 @@ namespace Subtext.Framework.Data
         public int InsertImage(string title, int categoryId, int width, int height, string file, bool active, int blogId,
                                string url)
         {
-            SqlParameter outParam0 = DataHelper.MakeOutParam("@ImageID", SqlDbType.Int, 4);
+            SqlParameter outParam0 = DataHelper.MakeOutParam("@ImageId", SqlDbType.Int, 4);
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@Title", title),
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
                                    DataHelper.MakeInParam("@Width", width),
                                    DataHelper.MakeInParam("@Height", height),
                                    DataHelper.MakeInParam("@File", file),
@@ -948,8 +948,8 @@ namespace Subtext.Framework.Data
                                    DataHelper.MakeInParam("@Rss", rss),
                                    DataHelper.MakeInParam("@Active", active),
                                    DataHelper.MakeInParam("@NewWindow", newWindow),
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
-                                   DataHelper.MakeInParam("@PostID", postId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
+                                   DataHelper.MakeInParam("@PostId", postId),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                    DataHelper.MakeInParam("@Rel", rel),
                                    outParam0,
@@ -963,7 +963,7 @@ namespace Subtext.Framework.Data
         {
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@CategoryList", categoryList),
-                                   DataHelper.MakeInParam("@PostID", postId),
+                                   DataHelper.MakeInParam("@PostId", postId),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                };
 
@@ -1021,7 +1021,7 @@ namespace Subtext.Framework.Data
         public bool InsertReferral(int entryId, int blogId, string url)
         {
             SqlParameter[] p = {
-                                   DataHelper.MakeInParam("@EntryID", entryId),
+                                   DataHelper.MakeInParam("@EntryId", entryId),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                    DataHelper.MakeInParam("@Url", url),
                                };
@@ -1035,7 +1035,7 @@ namespace Subtext.Framework.Data
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                    DataHelper.MakeInParam("@PageType", pageType),
-                                   DataHelper.MakeInParam("@PostID", postId),
+                                   DataHelper.MakeInParam("@PostId", postId),
                                    DataHelper.MakeInParam("@Day", day),
                                    DataHelper.MakeInParam("@Url", url),
                                };
@@ -1095,7 +1095,7 @@ namespace Subtext.Framework.Data
         public bool TrackEntry(int entryId, int blogId, string url, bool isWeb)
         {
             SqlParameter[] p = {
-                                   DataHelper.MakeInParam("@EntryID", entryId),
+                                   DataHelper.MakeInParam("@EntryId", entryId),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                    DataHelper.MakeInParam("@Url", url),
                                    DataHelper.MakeInParam("@IsWeb", isWeb),
@@ -1133,7 +1133,7 @@ namespace Subtext.Framework.Data
                                    int blogId)
         {
             SqlParameter[] p = {
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
                                    DataHelper.MakeInParam("@Title", title),
                                    DataHelper.MakeInParam("@Active", active),
                                    DataHelper.MakeInParam("@CategoryType", categoryType),
@@ -1186,10 +1186,10 @@ namespace Subtext.Framework.Data
                                    DataHelper.MakeInParam("@BlogGroupId", blogGroupId),
                                    DataHelper.MakeInParam("@MobileSkin", mobileSkin),
                                    DataHelper.MakeInParam("@MobileSkinCssFile", mobileSkinCssFile),
-                                   DataHelper.MakeInParam("@OpenIDUrl", openIDUrl),
+                                   DataHelper.MakeInParam("@OpenIdUrl", openIDUrl),
                                    DataHelper.MakeInParam("@CardSpaceHash", cardSpaceHash),
-                                   DataHelper.MakeInParam("@OpenIDServer", openIDServer),
-                                   DataHelper.MakeInParam("@OpenIDDelegate", openIDDelegate),
+                                   DataHelper.MakeInParam("@OpenIdServer", openIDServer),
+                                   DataHelper.MakeInParam("@OpenIdDelegate", openIDDelegate),
                                };
 
 
@@ -1324,14 +1324,14 @@ namespace Subtext.Framework.Data
         {
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@Title", title),
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
                                    DataHelper.MakeInParam("@Width", width),
                                    DataHelper.MakeInParam("@Height", height),
                                    DataHelper.MakeInParam("@File", file),
                                    DataHelper.MakeInParam("@Active", active),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                    DataHelper.MakeInParam("@Url", url),
-                                   DataHelper.MakeInParam("@ImageID", imageId),
+                                   DataHelper.MakeInParam("@ImageId", imageId),
                                };
 
 
@@ -1368,7 +1368,7 @@ namespace Subtext.Framework.Data
                                    DataHelper.MakeInParam("@Rss", rss),
                                    DataHelper.MakeInParam("@Active", active),
                                    DataHelper.MakeInParam("@NewWindow", newWindow),
-                                   DataHelper.MakeInParam("@CategoryID", categoryId),
+                                   DataHelper.MakeInParam("@CategoryId", categoryId),
                                    DataHelper.MakeInParam("@Rel", rel),
                                    DataHelper.MakeInParam("@BlogId", blogId),
                                };

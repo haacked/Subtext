@@ -113,7 +113,7 @@ namespace Subtext.Framework.Routing
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
-            object subfolderValue = null;
+            object subfolderValue;
             if(!values.TryGetValue("subfolder", out subfolderValue))
             {
                 requestContext.RouteData.Values.TryGetValue("subfolder", out subfolderValue);

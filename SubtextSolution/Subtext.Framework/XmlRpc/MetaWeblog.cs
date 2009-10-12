@@ -601,8 +601,8 @@ namespace Subtext.Framework.XmlRpc
                 int i = 0;
                 foreach(Link link in postCategories)
                 {
-                    var category = new MtCategory(link.CategoryID.ToString(CultureInfo.InvariantCulture),
-                                                   (string)catLookup[link.CategoryID]);
+                    var category = new MtCategory(link.CategoryId.ToString(CultureInfo.InvariantCulture),
+                                                   (string)catLookup[link.CategoryId]);
 
                     categories[i] = category;
                     i++;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using Subtext.Extensibility;
@@ -131,7 +131,7 @@ namespace Subtext.Framework.Data
                 sourceUrl,
                 (int)feedbackItem.FeedbackType,
                 (int)feedbackItem.Status,
-                feedbackItem.CreatedViaCommentAPI,
+                feedbackItem.CreatedViaCommentApi,
                 feedbackItem.Referrer,
                 ipAddress,
                 feedbackItem.UserAgent,

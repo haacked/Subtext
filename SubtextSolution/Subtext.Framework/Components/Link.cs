@@ -28,7 +28,7 @@ namespace Subtext.Framework.Components
     {
         public Link()
         {
-            PostID = NullValue.NullInt32;
+            PostId = NullValue.NullInt32;
         }
 
         public int BlogId { get; set; }
@@ -36,9 +36,9 @@ namespace Subtext.Framework.Components
         [XmlAttribute("LinkID")]
         public int Id { get; set; }
 
-        public int PostID { get; set; }
+        public int PostId { get; set; }
 
-        public int CategoryID { get; set; }
+        public int CategoryId { get; set; }
 
         public bool IsActive { get; set; }
 

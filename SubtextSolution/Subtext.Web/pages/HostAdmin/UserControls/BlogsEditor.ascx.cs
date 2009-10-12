@@ -24,9 +24,8 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Format;
-using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
+using Subtext.Framework.Web;
 using Subtext.Web.Admin;
 using Subtext.Web.Admin.WebUI.Controls;
 using Subtext.Web.Properties;
@@ -41,9 +40,8 @@ namespace Subtext.Web.HostAdmin.UserControls
     /// </summary>
     public partial class BlogsEditor : BaseUserControl
     {
-        const string VSKEY_ALIASID = "VSKEY_ALIAS";
-        const string VSKEY_BLOGID = "VS_BLOGID";
-        int pageIndex = 0;
+        const string VskeyBlogid = "VS_BLOGID";
+        int _pageIndex;
 
         #region Declared Controls
 
@@ -59,16 +57,13 @@ namespace Subtext.Web.HostAdmin.UserControls
         {
             get
             {
-                if(ViewState[VSKEY_BLOGID] != null)
+                if(ViewState["BlogId"] != null)
                 {
-                    return (int)ViewState[VSKEY_BLOGID];
+                    return (int)ViewState["BlogId"];
                 }
-                else
-                {
-                    return NullValue.NullInt32;
-                }
+                return NullValue.NullInt32;
             }
-            set { ViewState[VSKEY_BLOGID] = value; }
+            set { ViewState[VskeyBlogid] = value; }
         }
 
         /// <summary>
@@ -79,16 +74,13 @@ namespace Subtext.Web.HostAdmin.UserControls
         {
             get
             {
-                if(ViewState[VSKEY_ALIASID] != null)
+                if(ViewState["AliasId"] != null)
                 {
-                    return (int)ViewState[VSKEY_ALIASID];
+                    return (int)ViewState["AliasId"];
                 }
-                else
-                {
-                    return NullValue.NullInt32;
-                }
+                return NullValue.NullInt32;
             }
-            set { ViewState[VSKEY_ALIASID] = value; }
+            set { ViewState["AliasId"] = value; }
         }
 
         /// <summary>
@@ -171,7 +163,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            btnAddNewBlog.Click += btnAddNewBlog_Click;
+            btnAddNewBlog.Click += OnAddNewBlogClick;
 
             btnAddNewBlog.CssClass = "button";
             btnAddNewBlog.Text = Resources.BlogsEditor_NewBlogLabel;
@@ -180,13 +172,13 @@ namespace Subtext.Web.HostAdmin.UserControls
             //Paging...
             if(null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
             {
-                pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+                _pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
             }
 
             if(!IsPostBack)
             {
                 resultsPager.PageSize = Preferences.ListingItemCount;
-                resultsPager.PageIndex = pageIndex;
+                resultsPager.PageIndex = _pageIndex;
                 pnlResults.Collapsible = false;
                 chkShowInactive.Checked = false;
             }
@@ -210,13 +202,11 @@ namespace Subtext.Web.HostAdmin.UserControls
             pnlResults.Visible = true;
             pnlEdit.Visible = false;
 
-            IPagedCollection<Blog> blogs;
-
             ConfigurationFlags configFlags = chkShowInactive.Checked
                                                  ? ConfigurationFlags.None
                                                  : ConfigurationFlags.IsActive;
 
-            blogs = Blog.GetBlogs(pageIndex, resultsPager.PageSize, configFlags);
+            IPagedCollection<Blog> blogs = Blog.GetBlogs(_pageIndex, resultsPager.PageSize, configFlags);
 
             if(blogs.Count > 0)
             {
@@ -294,7 +284,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             txtHost.Attributes["onkeyup"] = onChangeScript;
             txtHost.Attributes["onblur"] = onBlurScript;
 
-            virtualDirectory.Value = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
+            virtualDirectory.Value = HttpHelper.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
         }
 
         // Contains the various help strings
@@ -310,7 +300,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             BindList();
         }
 
-        private void btnAddNewBlog_Click(object sender, EventArgs e)
+        private void OnAddNewBlogClick(object sender, EventArgs e)
         {
             BlogId = NullValue.NullInt32;
             txtTitle.Text = string.Empty;
@@ -391,7 +381,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             if(blog == null)
             {
-                throw new ArgumentNullException("BlogId");
+                throw new InvalidOperationException("BlogId not valid");
             }
 
             blog.Title = txtTitle.Text;
@@ -450,10 +440,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             {
                 return Resources.Label_Deactivate;
             }
-            else
-            {
-                return Resources.Label_Activate;
-            }
+            return Resources.Label_Activate;
         }
 
         void ToggleActive()
@@ -506,7 +493,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             rprBlogAliasList.Visible = !editing;
         }
 
-        protected void lbAddAlias_OnClick(object sender, EventArgs e)
+        protected void OnAddAliasOnClick(object sender, EventArgs e)
         {
             BindEdit();
             txtAliasApplication.Text = string.Empty;

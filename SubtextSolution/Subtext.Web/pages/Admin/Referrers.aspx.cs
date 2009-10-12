@@ -46,8 +46,8 @@ namespace Subtext.Web.Admin.Pages
 
         private int EntryID
         {
-            get { return (int)ViewState["EntryID"]; }
-            set { ViewState["EntryID"] = value; }
+            get { return (int)ViewState["EntryId"]; }
+            set { ViewState["EntryId"] = value; }
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -59,9 +59,9 @@ namespace Subtext.Web.Admin.Pages
                     pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
                 }
 
-                if(null != Request.QueryString["EntryID"])
+                if(null != Request.QueryString["EntryId"])
                 {
-                    _entryID = Convert.ToInt32(Request.QueryString["EntryID"]);
+                    _entryID = Convert.ToInt32(Request.QueryString["EntryId"]);
                 }
 
                 resultsPager.PageSize = Preferences.ListingItemCount;
@@ -94,7 +94,7 @@ namespace Subtext.Web.Admin.Pages
             }
             else
             {
-                resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", "EntryID", _entryID);
+                resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", "EntryId", _entryID);
                 referrers = Repository.GetPagedReferrers(pageIndex, resultsPager.PageSize, _entryID);
             }
 
@@ -138,12 +138,12 @@ namespace Subtext.Web.Admin.Pages
                 {
                     if(referrer.PostTitle.Trim().Length <= 50)
                     {
-                        return "<a href=\"../posts/" + referrer.EntryID + ".aspx\" target=\"_new\">" +
+                        return "<a href=\"../posts/" + referrer.EntryId + ".aspx\" target=\"_new\">" +
                                referrer.PostTitle + "</a>";
                     }
                     else
                     {
-                        return "<a href=\"../posts/" + referrer.EntryID + ".aspx\" target=\"_new\">" +
+                        return "<a href=\"../posts/" + referrer.EntryId + ".aspx\" target=\"_new\">" +
                                referrer.PostTitle.Substring(0, 50) + "</a>";
                     }
                 }
@@ -163,17 +163,17 @@ namespace Subtext.Web.Admin.Pages
             if(dataItem is Referrer)
             {
                 var referrer = (Referrer)dataItem;
-                string urlEncodedReferrerUrl = Uri.EscapeUriString(referrer.ReferrerURL);
+                string urlEncodedReferrerUrl = Uri.EscapeUriString(referrer.ReferrerUrl);
                 string htmlEncodedReferrerUrl;
 
                 // Chop it here because otherwise we could end up with a badly HTML encoded string if the chop appears after the encoding
-                if(referrer.ReferrerURL.Length > 50)
+                if(referrer.ReferrerUrl.Length > 50)
                 {
-                    htmlEncodedReferrerUrl = referrer.ReferrerURL.Substring(0, 50);
+                    htmlEncodedReferrerUrl = referrer.ReferrerUrl.Substring(0, 50);
                 }
                 else
                 {
-                    htmlEncodedReferrerUrl = referrer.ReferrerURL;
+                    htmlEncodedReferrerUrl = referrer.ReferrerUrl;
                 }
 
                 return "<a href=\"" + urlEncodedReferrerUrl + "\" target=\"_new\">" +

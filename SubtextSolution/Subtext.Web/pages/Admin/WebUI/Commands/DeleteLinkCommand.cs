@@ -21,13 +21,13 @@ using Subtext.Framework;
 namespace Subtext.Web.Admin.Commands
 {
     [Serializable]
-    public class DeleteLinkCommand : DeleteTitledTargetCommand
+    public sealed class DeleteLinkCommand : DeleteTitledTargetCommand
     {
-        public DeleteLinkCommand(int linkID, string linkTitle)
+        public DeleteLinkCommand(int linkId, string linkTitle)
         {
             AutoRedirect = true;
             _targetName = "Link";
-            _targetID = linkID;
+            _targetID = linkId;
             itemTitle = linkTitle;
         }
 

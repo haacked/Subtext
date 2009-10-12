@@ -30,7 +30,7 @@ namespace Subtext.Framework.Configuration
     public class BlogConfigurationSettings
     {
         private Tracking _tracking;
-        private NameValueCollection allowedHtmlTags;
+        private NameValueCollection _allowedHtmlTags;
 
         public BlogConfigurationSettings()
         {
@@ -50,7 +50,7 @@ namespace Subtext.Framework.Configuration
             set { _tracking = value; }
         }
 
-        public bool UseWWW { get; set; }
+        public bool UseWww { get; set; }
 
         public int QueuedThreads { get; set; }
 
@@ -126,11 +126,11 @@ namespace Subtext.Framework.Configuration
         {
             get
             {
-                if(allowedHtmlTags == null)
+                if(_allowedHtmlTags == null)
                 {
-                    allowedHtmlTags = ((NameValueCollection)(ConfigurationManager.GetSection("AllowableCommentHtml")));
+                    _allowedHtmlTags = ((NameValueCollection)(ConfigurationManager.GetSection("AllowableCommentHtml")));
                 }
-                return allowedHtmlTags;
+                return _allowedHtmlTags;
             }
         }
     }
