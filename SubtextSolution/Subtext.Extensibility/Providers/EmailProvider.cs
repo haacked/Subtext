@@ -32,8 +32,12 @@ namespace Subtext.Extensibility.Providers
 
         private static EmailProvider _provider;
         private string _name;
-
         private string _smtpServer = "localhost";
+
+        protected EmailProvider()
+        {
+            Port = DefaultSmtpPort;
+        }
 
         /// <summary>
         /// Returns all the configured Email Providers.
