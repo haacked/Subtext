@@ -74,7 +74,10 @@ namespace Subtext.Framework.Syndication
         /// <value></value>
         public string Xml
         {
-            get { return TextWriter.ToString(); }
+            get
+            {
+                return TextWriter.ToString();
+            }
         }
 
         /// <summary>
