@@ -20,6 +20,7 @@ using System.Globalization;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Infrastructure;
+using System.IO;
 
 namespace Subtext.Framework.Syndication
 {
@@ -44,9 +45,11 @@ namespace Subtext.Framework.Syndication
             {
                 if(_writer == null)
                 {
-                    _writer = new RssWriter(HttpContext.Response.Output,
+                    _writer = new RssWriter(new StringWriter(),
                                            Repository.GetMainSyndicationEntries(Blog.ItemCount),
-                                           PublishDateOfLastFeedItemReceived, UseDeltaEncoding, SubtextContext);
+                                           PublishDateOfLastFeedItemReceived, 
+                                           UseDeltaEncoding, 
+                                           SubtextContext);
                 }
                 return _writer;
             }
