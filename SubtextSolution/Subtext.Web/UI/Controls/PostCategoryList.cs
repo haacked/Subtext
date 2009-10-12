@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Web.UI.WebControls;
-using Subtext.Framework.Components;
-
 #region Disclaimer/Info
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,6 +15,11 @@ using Subtext.Framework.Components;
 
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Web.UI.WebControls;
+using Subtext.Framework.Components;
+
 namespace Subtext.Web.UI.Controls
 {
     /// <summary>
@@ -27,16 +27,11 @@ namespace Subtext.Web.UI.Controls
     /// </summary>
     public class PostCategoryList : BaseControl
     {
-        private bool _showEmpty;
         protected Repeater CatList;
 
         public ICollection<LinkCategory> LinkCategories { get; set; }
 
-        public bool ShowEmpty
-        {
-            get { return _showEmpty; }
-            set { _showEmpty = value; }
-        }
+        public bool ShowEmpty { get; set; }
 
         protected override void OnLoad(EventArgs e)
         {
@@ -58,7 +53,7 @@ namespace Subtext.Web.UI.Controls
         {
             if(CatList.Items.Count == 0)
             {
-                Visible = _showEmpty;
+                Visible = ShowEmpty;
             }
             base.OnPreRender(e);
         }
@@ -70,13 +65,13 @@ namespace Subtext.Web.UI.Controls
                 var linkcat = (LinkCategory)e.Item.DataItem;
                 if(linkcat != null)
                 {
-                    var Link = (HyperLink)e.Item.FindControl("Link");
-                    Link.NavigateUrl = Url.CategoryUrl(linkcat);
-                    if(Link.Attributes["title"] == null || Link.Attributes["title"].Length == 0)
+                    var linkControl = (HyperLink)e.Item.FindControl("Link");
+                    linkControl.NavigateUrl = Url.CategoryUrl(linkcat);
+                    if(string.IsNullOrEmpty(linkControl.Attributes["title"]))
                     {
-                        Link.Attributes["title"] = "";
+                        linkControl.Attributes["title"] = "";
                     }
-                    Link.Text = linkcat.Title;
+                    linkControl.Text = linkcat.Title;
                 }
             }
         }

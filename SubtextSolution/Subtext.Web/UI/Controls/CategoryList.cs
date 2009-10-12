@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Web.UI.WebControls;
-using Subtext.Framework.Components;
-
 #region Disclaimer/Info
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,6 +14,12 @@ using Subtext.Framework.Components;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endregion
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Web.UI.WebControls;
+using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -61,9 +61,9 @@ namespace Subtext.Web.UI.Controls
                         title.Text = linkcat.Title;
                     }
 
-                    var LinkList = (Repeater)e.Item.FindControl("LinkList");
-                    LinkList.DataSource = linkcat.Links;
-                    LinkList.DataBind();
+                    var linkList = (Repeater)e.Item.FindControl("LinkList");
+                    linkList.DataSource = linkcat.Links;
+                    linkList.DataBind();
                 }
             }
         }
@@ -75,45 +75,45 @@ namespace Subtext.Web.UI.Controls
                 var link = (Link)e.Item.DataItem;
                 if(link != null)
                 {
-                    var Link = (HyperLink)e.Item.FindControl("Link");
-                    Link.NavigateUrl = link.Url;
+                    var linkControl = (HyperLink)e.Item.FindControl("Link");
+                    linkControl.NavigateUrl = link.Url;
 
                     /*if (FriendlyUrlSettings.Settings.Enabled)
 						Link.NavigateUrl = string.Format("/category/{0}.aspx", FriendlyUrlSettings.TransformString(link.Title.Replace(" ", FriendlyUrlSettings.Settings.SeparatingCharacter), FriendlyUrlSettings.Settings.TextTransformation));*/
 
-                    if(Link.Attributes["title"] == null || Link.Attributes["title"].Length == 0)
+                    if(string.IsNullOrEmpty(linkControl.Attributes["title"]))
                     {
-                        Link.Attributes["title"] = "";
+                        linkControl.Attributes["title"] = "";
                     }
-                    Link.Text = link.Title;
+                    linkControl.Text = link.Title;
 
                     if(link.NewWindow)
                     {
-                        if(!String.IsNullOrEmpty(Link.Attributes["rel"]))
+                        if(!String.IsNullOrEmpty(linkControl.Attributes["rel"]))
                         {
-                            Link.Attributes["rel"] += " ";
+                            linkControl.Attributes["rel"] += " ";
                         }
-                        Link.Attributes["rel"] += "external ";
+                        linkControl.Attributes["rel"] += "external ";
                     }
 
-                    Link.Attributes["rel"] += link.Relation;
+                    linkControl.Attributes["rel"] += link.Relation;
 
-                    var RssLink = (HyperLink)e.Item.FindControl("RssLink");
-                    if(RssLink != null)
+                    var rssLink = (HyperLink)e.Item.FindControl("RssLink");
+                    if(rssLink != null)
                     {
                         if(link.HasRss)
                         {
-                            RssLink.NavigateUrl = link.Rss;
-                            RssLink.Visible = true;
-                            if(RssLink.ToolTip == null || RssLink.ToolTip.Length == 0)
+                            rssLink.NavigateUrl = link.Rss;
+                            rssLink.Visible = true;
+                            if(string.IsNullOrEmpty(rssLink.ToolTip))
                             {
-                                RssLink.ToolTip = string.Format(CultureInfo.InvariantCulture, "Subscribe to {0}",
+                                rssLink.ToolTip = string.Format(CultureInfo.InvariantCulture, "Subscribe to {0}",
                                                                 link.Title);
                             }
                         }
                         else
                         {
-                            RssLink.Visible = false;
+                            rssLink.Visible = false;
                         }
                     }
                 }

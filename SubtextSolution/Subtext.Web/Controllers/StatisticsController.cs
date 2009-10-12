@@ -11,7 +11,7 @@ namespace Subtext.Web.Controllers
 {
     public class StatisticsController : Controller
     {
-        static readonly byte[] _aggregatorOnePixelBlankGif =
+        static readonly byte[] AggregatorOnePixelBlankGif =
             Convert.FromBase64String("R0lGODlhAQABAIAAANvf7wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
 
         public StatisticsController(ISubtextContext context, IStatisticsService statisticsService)
@@ -43,7 +43,7 @@ namespace Subtext.Web.Controllers
                 StatisticsService.RecordAggregatorView(entryView);
             }
 
-            return new CacheableFileContentResult(_aggregatorOnePixelBlankGif, "image/gif", DateTime.Now,
+            return new CacheableFileContentResult(AggregatorOnePixelBlankGif, "image/gif", DateTime.Now,
                                                   HttpCacheability.Public);
         }
 

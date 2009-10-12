@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Collections.Specialized;
 using System.Net;
@@ -11,15 +28,13 @@ namespace Subtext.Akismet
         /// <summary>
         /// Initializes a new instance of the <see cref="Comment"/> class.
         /// </summary>
-        /// <param name="authorIPAddress">The author IP address.</param>
+        /// <param name="authorIpAddress">The author IP address.</param>
         /// <param name="authorUserAgent">The author user agent.</param>
-        public Comment(IPAddress authorIPAddress, string authorUserAgent)
+        public Comment(IPAddress authorIpAddress, string authorUserAgent)
         {
-            IPAddress = authorIPAddress;
+            IPAddress = authorIpAddress;
             UserAgent = authorUserAgent;
         }
-
-        #region IComment Members
 
         /// <summary>
         /// The name submitted with the comment.
@@ -80,7 +95,5 @@ namespace Subtext.Akismet
                 return _serverEnvironmentVariables;
             }
         }
-
-        #endregion
     }
 }

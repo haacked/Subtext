@@ -1,10 +1,3 @@
-using System;
-using System.Globalization;
-using Subtext.Framework.Data;
-using Subtext.Framework.Util;
-using Subtext.Framework.Web;
-using Subtext.Web.Properties;
-
 #region Disclaimer/Info
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,6 +14,13 @@ using Subtext.Web.Properties;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endregion
+
+using System;
+using System.Globalization;
+using Subtext.Framework.Data;
+using Subtext.Framework.Util;
+using Subtext.Framework.Web;
+using Subtext.Web.Properties;
 
 namespace Subtext.Web.UI.Controls
 {

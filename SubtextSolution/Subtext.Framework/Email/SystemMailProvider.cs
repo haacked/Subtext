@@ -32,16 +32,11 @@ namespace Subtext.Framework.Email
     /// </summary>
     public class SystemMailProvider : EmailProvider
     {
-        private readonly static ILog log = new Log();
+        private readonly static ILog Log = new Log();
 
         /// <summary>
         /// Sends an email.
         /// </summary>
-        /// <param name="toStr"></param>
-        /// <param name="fromStr"></param>
-        /// <param name="subject"></param>
-        /// <param name="message"></param>
-        /// <returns></returns>
         public override void Send(string to, string from, string subject, string message)
         {
             ManagedThreadPool.QueueUserWorkItem(callback => SendAsync(to, from, subject, message));
@@ -54,14 +49,9 @@ namespace Subtext.Framework.Email
                 var from = new MailAddress(fromStr);
                 var to = new MailAddress(toStr);
 
-                var em = new MailMessage(from, to);
-                em.BodyEncoding = Encoding.UTF8;
-                em.Subject = subject;
-                em.Body = message;
+                var em = new MailMessage(from, to) {BodyEncoding = Encoding.UTF8, Subject = subject, Body = message};
 
-                var client = new SmtpClient(SmtpServer);
-                client.Port = Port;
-                client.EnableSsl = SslEnabled;
+                var client = new SmtpClient(SmtpServer) {Port = Port, EnableSsl = SslEnabled};
 
                 if(UserName != null && Password != null)
                 {
@@ -73,7 +63,7 @@ namespace Subtext.Framework.Email
             }
             catch(Exception e)
             {
-                log.Error("Could not send email.", e);
+                Log.Error("Could not send email.", e);
                 //Swallow as this was on an async thread.
             }
         }

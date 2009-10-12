@@ -11,7 +11,6 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
-using Subtext.Framework.Infrastructure;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Infrastructure;

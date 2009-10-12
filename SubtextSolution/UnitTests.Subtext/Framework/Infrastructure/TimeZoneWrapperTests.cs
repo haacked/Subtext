@@ -1,8 +1,8 @@
 using System;
 using System.Globalization;
 using MbUnit.Framework;
-using Subtext.Framework.Infrastructure;
 using Subtext.Framework.Util;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Infrastructure
 {

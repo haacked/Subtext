@@ -203,14 +203,7 @@ namespace Subtext.Web.Admin.Pages
                 info.DuplicateCommentsEnabled = chkAllowDuplicates.Checked;
                 info.CaptchaEnabled = chkEnableCaptcha.Checked;
 
-                if(txtCommentDelayIntervalMinutes.Text.Length == 0)
-                {
-                    info.CommentDelayInMinutes = 0;
-                }
-                else
-                {
-                    info.CommentDelayInMinutes = int.Parse(txtCommentDelayIntervalMinutes.Text);
-                }
+                info.CommentDelayInMinutes = txtCommentDelayIntervalMinutes.Text.Length == 0 ? 0 : int.Parse(txtCommentDelayIntervalMinutes.Text);
 
                 if(txtDaysTillCommentsClosed.Text.Length > 0)
                 {
@@ -253,13 +246,13 @@ namespace Subtext.Web.Admin.Pages
             SaveSettings();
         }
 
-        int ValidateInteger(string fieldName, string value, int minAllowedValue, int maxAllowedValue)
+        static int ValidateInteger(string fieldName, string value, int minAllowedValue, int maxAllowedValue)
         {
             return ValidateIntegerRange(fieldName, value, minAllowedValue, maxAllowedValue,
                                         Resources.Message_ValueTooSmall, Resources.Message_ValueTooBig);
         }
 
-        int ValidateIntegerRange(string fieldName, string value, int minAllowedValue, int maxAllowedValue,
+        static int ValidateIntegerRange(string fieldName, string value, int minAllowedValue, int maxAllowedValue,
                                  string tooSmallFormatMessage, string tooBigFormatMessage)
         {
             try

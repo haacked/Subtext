@@ -32,7 +32,7 @@ namespace Subtext.Scripting
     /// </summary>
     public class SqlScriptRunner : IScript, ITemplateScript
     {
-        ScriptCollection scripts;
+        readonly ScriptCollection _scripts;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlScriptRunner"/> class.  
@@ -111,7 +111,7 @@ namespace Subtext.Scripting
         /// <param name="scripts">The scripts.</param>
         public SqlScriptRunner(ScriptCollection scripts)
         {
-            this.scripts = scripts;
+            _scripts = scripts;
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Subtext.Scripting
         /// <value>The script collection.</value>
         public ScriptCollection ScriptCollection
         {
-            get { return scripts; }
+            get { return _scripts; }
         }
 
         #region IScript Members
@@ -141,14 +141,13 @@ namespace Subtext.Scripting
             // the following reg exp will be used to determine if each script is an
             // INSERT, UPDATE, or DELETE operation. The reg exp is also only looking
             // for these actions on the SubtextData database. <- do we need this last part?
-            string regextStr =
-                @"(INSERT\sINTO\s[\s\w\d\)\(\,\.\]\[\>\<]+)|(UPDATE\s[\s\w\d\)\(\,\.\]\[\>\<]+SET\s)|(DELETE\s[\s\w\d\)\(\,\.\]\[\>\<]+FROM\s[\s\w\d\)\(\,\.\]\[\>\<]+WHERE\s)";
+            const string regextStr = @"(INSERT\sINTO\s[\s\w\d\)\(\,\.\]\[\>\<]+)|(UPDATE\s[\s\w\d\)\(\,\.\]\[\>\<]+SET\s)|(DELETE\s[\s\w\d\)\(\,\.\]\[\>\<]+FROM\s[\s\w\d\)\(\,\.\]\[\>\<]+WHERE\s)";
             var regex = new Regex(regextStr,
                                   RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase | RegexOptions.Compiled |
                                   RegexOptions.Multiline);
 
-            scripts.ApplyTemplatesToScripts();
-            foreach(Script script in scripts)
+            _scripts.ApplyTemplatesToScripts();
+            foreach(Script script in _scripts)
             {
                 int returnValue = script.Execute(transaction);
 
@@ -189,7 +188,7 @@ namespace Subtext.Scripting
         /// <returns></returns>
         public TemplateParameterCollection TemplateParameters
         {
-            get { return scripts.TemplateParameters; }
+            get { return _scripts.TemplateParameters; }
         }
 
         #endregion

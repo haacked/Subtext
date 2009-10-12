@@ -27,16 +27,11 @@ namespace Subtext.Framework.UI.Skinning
     [Serializable]
     public class SkinTemplate
     {
-        static SkinTemplate empty = new SkinTemplate();
+        public static readonly SkinTemplate Empty = new SkinTemplate();
 
         public SkinTemplate()
         {
             MobileSupport = MobileSupport.None;
-        }
-
-        public static SkinTemplate Empty
-        {
-            get { return empty; }
         }
 
         /// <summary>
@@ -124,7 +119,7 @@ namespace Subtext.Framework.UI.Skinning
             get
             {
                 return
-                    (TemplateFolder + (StyleSheet != null && StyleSheet.Length > 0 ? "-" + StyleSheet : string.Empty)).
+                    (TemplateFolder + (!string.IsNullOrEmpty(StyleSheet) ? "-" + StyleSheet : string.Empty)).
                         ToUpper(CultureInfo.InvariantCulture);
             }
         }

@@ -25,15 +25,15 @@ namespace Subtext.Framework.Exceptions
     [Serializable]
     public class InvalidSubfolderNameException : BaseBlogConfigurationException
     {
-        string subfolder;
+        readonly string _subfolder;
 
         /// <summary>
         /// Creates a new <see cref="InvalidSubfolderNameException"/> instance.
         /// </summary>
         /// <param name="subfolder">Subfolder.</param>
-        public InvalidSubfolderNameException(string subfolder) : base()
+        public InvalidSubfolderNameException(string subfolder)
         {
-            this.subfolder = subfolder;
+            _subfolder = subfolder;
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Subtext.Framework.Exceptions
         {
             get
             {
-                return "Sorry, but the subfolder name &#8220;" + subfolder +
+                return "Sorry, but the subfolder name &#8220;" + _subfolder +
                        "&#8221; you&#8217;ve chosen is not allowed.";
             }
         }

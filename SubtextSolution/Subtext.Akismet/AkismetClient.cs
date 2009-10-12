@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -15,17 +32,17 @@ namespace Subtext.Akismet
     [Serializable]
     public class AkismetClient
     {
-        const string checkUrlFormat = "http://{0}.rest.akismet.com/1.1/comment-check";
-        const string submitHamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-ham";
-        const string submitSpamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-spam";
-        static readonly Uri verifyUrl = new Uri("http://rest.akismet.com/1.1/verify-key");
-        static readonly string version = typeof(HttpClient).Assembly.GetName().Version.ToString();
-        string apiKey;
-        Uri checkUrl;
-        [NonSerialized] private HttpClient httpClient;
-        Uri submitHamUrl;
-        Uri submitSpamUrl;
-        string userAgent;
+        const string CheckUrlFormat = "http://{0}.rest.akismet.com/1.1/comment-check";
+        const string SubmitHamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-ham";
+        const string SubmitSpamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-spam";
+        static readonly Uri VerifyUrl = new Uri("http://rest.akismet.com/1.1/verify-key");
+        static readonly string Version = typeof(HttpClient).Assembly.GetName().Version.ToString();
+        string _apiKey;
+        Uri _checkUrl;
+        [NonSerialized] private readonly HttpClient _httpClient;
+        Uri _submitHamUrl;
+        Uri _submitSpamUrl;
+        string _userAgent;
 
         protected AkismetClient()
         {
@@ -69,9 +86,9 @@ namespace Subtext.Akismet
                 throw new ArgumentNullException("httpClient");
             }
 
-            this.apiKey = apiKey;
+            _apiKey = apiKey;
             BlogUrl = blogUrl;
-            this.httpClient = httpClient;
+            _httpClient = httpClient;
             Timeout = 5000; /* default */
             SetServiceUrls();
         }
@@ -82,10 +99,10 @@ namespace Subtext.Akismet
         /// <value>The API key.</value>
         public string ApiKey
         {
-            get { return apiKey ?? string.Empty; }
+            get { return _apiKey ?? string.Empty; }
             set
             {
-                apiKey = value ?? string.Empty;
+                _apiKey = value ?? string.Empty;
                 SetServiceUrls();
             }
         }
@@ -98,8 +115,8 @@ namespace Subtext.Akismet
         /// <value>The API key.</value>
         public string UserAgent
         {
-            get { return userAgent ?? BuildUserAgent("Subtext", version); }
-            set { userAgent = value; }
+            get { return _userAgent ?? BuildUserAgent("Subtext", Version); }
+            set { _userAgent = value; }
         }
 
         /// <summary>
@@ -123,9 +140,9 @@ namespace Subtext.Akismet
 
         void SetServiceUrls()
         {
-            submitHamUrl = new Uri(String.Format(CultureInfo.InvariantCulture, submitHamUrlFormat, apiKey));
-            submitSpamUrl = new Uri(String.Format(CultureInfo.InvariantCulture, submitSpamUrlFormat, apiKey));
-            checkUrl = new Uri(String.Format(CultureInfo.InvariantCulture, checkUrlFormat, apiKey));
+            _submitHamUrl = new Uri(String.Format(CultureInfo.InvariantCulture, SubmitHamUrlFormat, _apiKey));
+            _submitSpamUrl = new Uri(String.Format(CultureInfo.InvariantCulture, SubmitSpamUrlFormat, _apiKey));
+            _checkUrl = new Uri(String.Format(CultureInfo.InvariantCulture, CheckUrlFormat, _apiKey));
         }
 
         /// <summary>
@@ -150,7 +167,7 @@ namespace Subtext.Akismet
         {
             string parameters = "key=" + HttpUtility.UrlEncode(ApiKey) + "&blog=" +
                                 HttpUtility.UrlEncode(BlogUrl.ToString());
-            string result = httpClient.PostRequest(verifyUrl, UserAgent, Timeout, parameters, Proxy);
+            string result = _httpClient.PostRequest(VerifyUrl, UserAgent, Timeout, parameters, Proxy);
 
             if(String.IsNullOrEmpty(result))
             {
@@ -167,7 +184,7 @@ namespace Subtext.Akismet
         /// <returns></returns>
         public bool CheckCommentForSpam(IComment comment)
         {
-            string result = SubmitComment(comment, checkUrl);
+            string result = SubmitComment(comment, _checkUrl);
 
             if(String.IsNullOrEmpty(result))
             {
@@ -191,7 +208,7 @@ namespace Subtext.Akismet
         /// <returns></returns>
         public virtual void SubmitSpam(IComment comment)
         {
-            SubmitComment(comment, submitSpamUrl);
+            SubmitComment(comment, _submitSpamUrl);
         }
 
         /// <summary>
@@ -202,7 +219,7 @@ namespace Subtext.Akismet
         /// <returns></returns>
         public void SubmitHam(IComment comment)
         {
-            SubmitComment(comment, submitHamUrl);
+            SubmitComment(comment, _submitHamUrl);
         }
 
         [SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
@@ -210,7 +227,7 @@ namespace Subtext.Akismet
         {
             //Not too many concatenations.  Might not need a string builder.
             string parameters = "blog=" + HttpUtility.UrlEncode(BlogUrl.ToString())
-                                + "&user_ip=" + comment.IPAddress.ToString()
+                                + "&user_ip=" + comment.IPAddress
                                 + "&user_agent=" + HttpUtility.UrlEncode(comment.UserAgent);
 
             if(!String.IsNullOrEmpty(comment.Referrer))
@@ -256,7 +273,7 @@ namespace Subtext.Akismet
                 }
             }
 
-            return httpClient.PostRequest(url, UserAgent, Timeout, parameters).ToLowerInvariant();
+            return _httpClient.PostRequest(url, UserAgent, Timeout, parameters).ToLowerInvariant();
         }
     }
 }

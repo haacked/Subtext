@@ -187,8 +187,7 @@ namespace Subtext.Web.UI.Controls
         {
             if(Config.CurrentBlog.CaptchaEnabled)
             {
-                captcha = new CaptchaControl();
-                captcha.ID = "captcha";
+                captcha = new CaptchaControl {ID = "captcha"};
                 Control preExisting = ControlHelper.FindControlRecursively(this, "captcha");
                 if(preExisting == null)
                     // && !Config.CurrentBlog.FeedbackSpamServiceEnabled) Experimental code for improved UI. Will put back in later. - Phil Haack 10/09/2006
@@ -203,8 +202,10 @@ namespace Subtext.Web.UI.Controls
 
             if(Config.Settings.InvisibleCaptchaEnabled)
             {
-                invisibleCaptchaValidator = new InvisibleCaptcha();
-                invisibleCaptchaValidator.ErrorMessage = "Please enter the answer to the supplied question.";
+                invisibleCaptchaValidator = new InvisibleCaptcha
+                {
+                    ErrorMessage = "Please enter the answer to the supplied question."
+                };
 
                 Controls.AddAt(btnIndex, invisibleCaptchaValidator);
             }

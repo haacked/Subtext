@@ -17,7 +17,7 @@
 
 using System;
 
-namespace Subtext.Framework.Infrastructure
+namespace Subtext.Infrastructure
 {
     public interface ITimeZone
     {

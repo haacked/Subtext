@@ -7,7 +7,7 @@ namespace Subtext.Web.Admin.Feedback
 {
     public partial class EditPage : ConfirmationPage
     {
-        int feedbackId = NullValue.NullInt32;
+        int _feedbackId = NullValue.NullInt32;
 
         public EditPage()
         {
@@ -45,16 +45,16 @@ namespace Subtext.Web.Admin.Feedback
         {
             get
             {
-                if(feedbackId == NullValue.NullInt32)
+                if(_feedbackId == NullValue.NullInt32)
                 {
-                    string feedbackIDText = Request.QueryString["FeedbackID"] ?? " ";
+                    string feedbackIdText = Request.QueryString["FeedbackID"] ?? " ";
                     int id;
-                    if(int.TryParse(feedbackIDText, out id))
+                    if(int.TryParse(feedbackIdText, out id))
                     {
-                        feedbackId = id;
+                        _feedbackId = id;
                     }
                 }
-                return feedbackId;
+                return _feedbackId;
             }
         }
 
@@ -119,42 +119,26 @@ namespace Subtext.Web.Admin.Feedback
         private void UpdateFeedback()
         {
             Uri feedbackWebsite = null;
-            if(txbWebsite.Text.Length > 0)
-            {
-                valtxbWebsite.IsValid = Uri.TryCreate(txbWebsite.Text, UriKind.RelativeOrAbsolute, out feedbackWebsite);
-            }
-            else
-            {
-                valtxbWebsite.IsValid = true;
-            }
+            valtxbWebsite.IsValid = !(txbWebsite.Text.Length > 0) || Uri.TryCreate(txbWebsite.Text, UriKind.RelativeOrAbsolute, out feedbackWebsite);
 
             if(Page.IsValid)
             {
-                try
+                FeedbackItem updatedFeedback = FeedbackItem.Get(FeedbackId);
+                updatedFeedback.Title = txbTitle.Text;
+                updatedFeedback.Body = richTextEditor.Text;
+                if(feedbackWebsite != null)
                 {
-                    FeedbackItem updatedFeedback = FeedbackItem.Get(FeedbackId);
-                    updatedFeedback.Title = txbTitle.Text;
-                    updatedFeedback.Body = richTextEditor.Text;
-                    if(feedbackWebsite != null)
-                    {
-                        updatedFeedback.SourceUrl = feedbackWebsite;
-                    }
-                    FeedbackItem.Update(updatedFeedback);
-
-                    if(ReturnToOriginalPost)
-                    {
-                        if(updatedFeedback != null)
-                        {
-                            Response.Redirect(Url.FeedbackUrl(updatedFeedback));
-                            return;
-                        }
-                    }
-
-                    Messages.ShowMessage(Constants.RES_SUCCESSEDIT, false);
+                    updatedFeedback.SourceUrl = feedbackWebsite;
                 }
-                finally
+                FeedbackItem.Update(updatedFeedback);
+
+                if(ReturnToOriginalPost)
                 {
+                    Response.Redirect(Url.FeedbackUrl(updatedFeedback));
+                    return;
                 }
+
+                Messages.ShowMessage(Constants.RES_SUCCESSEDIT, false);
             }
         }
 

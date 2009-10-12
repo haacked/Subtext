@@ -1,19 +1,3 @@
-using System;
-using System.Configuration;
-using System.Globalization;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Subtext.Extensibility;
-using Subtext.Extensibility.Providers;
-using Subtext.Framework;
-using Subtext.Framework.Components;
-using Subtext.Framework.Email;
-using Subtext.Framework.Exceptions;
-using Subtext.Framework.Security;
-using Subtext.Framework.Services;
-using Subtext.Framework.Web;
-using Subtext.Web.Controls.Captcha;
-
 #region Disclaimer/Info
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,6 +14,22 @@ using Subtext.Web.Controls.Captcha;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endregion
+
+using System;
+using System.Configuration;
+using System.Globalization;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Subtext.Extensibility;
+using Subtext.Extensibility.Providers;
+using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Email;
+using Subtext.Framework.Exceptions;
+using Subtext.Framework.Security;
+using Subtext.Framework.Services;
+using Subtext.Framework.Web;
+using Subtext.Web.Controls.Captcha;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -74,7 +74,7 @@ namespace Subtext.Web.UI.Controls
         /// <param name="e"></param>
         override protected void OnInit(EventArgs e)
         {
-            btnSend.Click += btnSend_Click;
+            btnSend.Click += OnSendButtonClick;
 
             EnsureEmailRequired();
             //Captcha should not be given to admin.
@@ -105,15 +105,17 @@ namespace Subtext.Web.UI.Controls
                     return;
                 }
             }
-            var emailRequiredValidator = new RequiredFieldValidator();
-            emailRequiredValidator.ControlToValidate = tbEmail.ID;
-            emailRequiredValidator.ErrorMessage = "* Please enter your email address";
-            emailRequiredValidator.Display = ValidatorDisplay.Dynamic;
+            var emailRequiredValidator = new RequiredFieldValidator
+            {
+                ControlToValidate = tbEmail.ID,
+                ErrorMessage = "* Please enter your email address",
+                Display = ValidatorDisplay.Dynamic
+            };
             Controls.AddAt(Controls.IndexOf(tbEmail) + 1, emailRequiredValidator);
         }
 
 
-        private void btnSend_Click(object sender, EventArgs e)
+        private void OnSendButtonClick(object sender, EventArgs e)
         {
             if(Page.IsValid)
             {
@@ -164,13 +166,14 @@ namespace Subtext.Web.UI.Controls
 
         private void CreateCommentWithContactMessage()
         {
-            var contactMessage = new FeedbackItem(FeedbackType.None);
-
-            contactMessage.Author = tbName.Text;
-            contactMessage.Email = tbEmail.Text;
-            contactMessage.Body = tbMessage.Text;
-            contactMessage.Title = "CONTACT: " + tbSubject.Text;
-            contactMessage.IpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext);
+            var contactMessage = new FeedbackItem(FeedbackType.None)
+            {
+                Author = tbName.Text,
+                Email = tbEmail.Text,
+                Body = tbMessage.Text,
+                Title = "CONTACT: " + tbSubject.Text,
+                IpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext)
+            };
 
             try
             {

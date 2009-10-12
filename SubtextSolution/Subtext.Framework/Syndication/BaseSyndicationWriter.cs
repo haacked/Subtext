@@ -27,13 +27,11 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public abstract class BaseSyndicationWriter : XmlTextWriter
     {
-        private TextWriter _writer = null;
+        private readonly TextWriter _writer;
 
         /// <summary>
         /// Creates a new <see cref="BaseSyndicationWriter"/> instance.
         /// </summary>
-        /// <param name="sw">Sw.</param>
-        /// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
         protected BaseSyndicationWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished,
                                         bool useDeltaEncoding, ISubtextContext context) : base(writer)
         {

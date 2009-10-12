@@ -20,7 +20,7 @@ namespace Subtext.Framework.Data
             {
                 if (reader.Read())
                 {
-                    Blog info = DataHelper.ReadBlog(reader);
+                    Blog info = reader.ReadBlog();
                     return info;
                 }
             }
@@ -46,7 +46,7 @@ namespace Subtext.Framework.Data
                 Blog info = null;
                 while (reader.Read())
                 {
-                    info = DataHelper.ReadBlog(reader);
+                    info = reader.ReadBlog();
                     break;
                 }
                 return info;
@@ -72,7 +72,7 @@ namespace Subtext.Framework.Data
             using (IDataReader reader = _procedures.GetBlogByDomainAlias(host, subfolder, strict))
             {
                 if (reader.Read()) {
-                    return DataHelper.ReadBlog(reader);
+                    return reader.ReadBlog();
                 }
             }
             return null;
@@ -101,7 +101,7 @@ namespace Subtext.Framework.Data
         {
             using (IDataReader reader = _procedures.GetPagedBlogs(host, pageIndex, pageSize, flags))
             {
-                return reader.ReadPagedCollection(r => DataHelper.ReadBlog(r));
+                return reader.ReadPagedCollection(r => r.ReadBlog());
             }
         }
 
@@ -143,15 +143,15 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override int CreateBlog(string title, string userName, string password, string host, string subfolder, int blogGroupId)
         {
-            ConfigurationFlags flag = ConfigurationFlags.IsActive
-                                     | ConfigurationFlags.CommentsEnabled
-                                     | ConfigurationFlags.CompressSyndicatedFeed
-                                     | ConfigurationFlags.IsAggregated
-                                     | ConfigurationFlags.IsPasswordHashed
-                                     | ConfigurationFlags.AutoFriendlyUrlEnabled
-                                     | ConfigurationFlags.CommentNotificationEnabled
-                                     | ConfigurationFlags.RFC3229DeltaEncodingEnabled
-                                     | ConfigurationFlags.CaptchaEnabled;
+            const ConfigurationFlags flag = ConfigurationFlags.IsActive
+                                            | ConfigurationFlags.CommentsEnabled
+                                            | ConfigurationFlags.CompressSyndicatedFeed
+                                            | ConfigurationFlags.IsAggregated
+                                            | ConfigurationFlags.IsPasswordHashed
+                                            | ConfigurationFlags.AutoFriendlyUrlEnabled
+                                            | ConfigurationFlags.CommentNotificationEnabled
+                                            | ConfigurationFlags.RFC3229DeltaEncodingEnabled
+                                            | ConfigurationFlags.CaptchaEnabled;
 
             return _procedures.UTILITYAddBlog(title, userName, password, string.Empty, host, subfolder ?? string.Empty, (int)flag, blogGroupId);
         }
@@ -220,12 +220,8 @@ namespace Subtext.Framework.Data
 
         public override bool CreateBlogAlias(BlogAlias alias)
         {
-            int? aliasId = _procedures.CreateDomainAlias(alias.BlogId, alias.Host, alias.Subfolder, alias.IsActive);
-            if (aliasId == null)
-            {
-                return false;
-            }
-            alias.Id = aliasId.Value;
+            int aliasId = _procedures.CreateDomainAlias(alias.BlogId, alias.Host, alias.Subfolder, alias.IsActive);
+            alias.Id = aliasId;
             return true;
         }
 
@@ -280,7 +276,7 @@ namespace Subtext.Framework.Data
         {
             using (IDataReader reader = _procedures.ListBlogGroups(activeOnly))
             {
-                List<BlogGroup> groups = new List<BlogGroup>();
+                var groups = new List<BlogGroup>();
                 while (reader.Read())
                 {
                     groups.Add(reader.ReadObject<BlogGroup>());

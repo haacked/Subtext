@@ -24,7 +24,7 @@ namespace Subtext.Web.Admin.Pages
 {
     public partial class EditArticles : ConfirmationPage
     {
-        public EditArticles() : base()
+        public EditArticles()
         {
             TabSectionId = "Articles";
         }
@@ -40,8 +40,8 @@ namespace Subtext.Web.Admin.Pages
             // of wireup. There's a structural issue btw Page and Container.
             LinkButton lkbNewPost = Utilities.CreateLinkButton("New Article");
             lkbNewPost.CausesValidation = false;
-            lkbNewPost.Click += new EventHandler(lkbNewPost_Click);
-            base.AdminMasterPage.AddToActions(lkbNewPost);
+            lkbNewPost.Click += lkbNewPost_Click;
+            AdminMasterPage.AddToActions(lkbNewPost);
 
             // REFACTOR: Structural issue btw Page and Container.
             HyperLink lnkEditCategories = Utilities.CreateHyperLink(Resources.Label_EditCategories,
@@ -50,7 +50,7 @@ namespace Subtext.Web.Admin.Pages
                                                                                   Constants.URL_EDITCATEGORIES,
                                                                                   Keys.QRYSTR_CATEGORYTYPE,
                                                                                   categoryLinks.CategoryType));
-            base.AdminMasterPage.AddToActions(lnkEditCategories);
+            AdminMasterPage.AddToActions(lnkEditCategories);
         }
 
         private void lkbNewPost_Click(object sender, EventArgs e)

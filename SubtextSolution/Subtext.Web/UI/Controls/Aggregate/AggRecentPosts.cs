@@ -27,8 +27,8 @@ namespace Subtext.Web.UI.Controls
 {
     public class AggRecentPosts : AggregateUserControl
     {
-        readonly string fullUrl = HttpContext.Current.Request.Url.Scheme + "://{0}{1}{2}/";
-        private string appPath;
+        readonly string _fullUrl = HttpContext.Current.Request.Url.Scheme + "://{0}{1}{2}/";
+        private string _appPath;
         protected Repeater RecentPosts;
 
         /// <summary>
@@ -55,12 +55,12 @@ namespace Subtext.Web.UI.Controls
 
         protected string GetFullUrl(string host, string app)
         {
-            if(appPath == null)
+            if(_appPath == null)
             {
-                appPath = HttpContext.Current.Request.ApplicationPath;
-                if(!appPath.ToLower(CultureInfo.InvariantCulture).EndsWith("/"))
+                _appPath = HttpContext.Current.Request.ApplicationPath;
+                if(!_appPath.ToLower(CultureInfo.InvariantCulture).EndsWith("/"))
                 {
-                    appPath += "/";
+                    _appPath += "/";
                 }
             }
 
@@ -69,7 +69,7 @@ namespace Subtext.Web.UI.Controls
                 host += ":" + Request.Url.Port;
             }
 
-            return string.Format(fullUrl, host, appPath, app);
+            return string.Format(_fullUrl, host, _appPath, app);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Subtext.Framework.Web.Handlers
 {
     public class CssHandler : BaseHttpHandler
     {
-        private static readonly StyleSheetElementCollectionRenderer styleRenderer =
+        private static readonly StyleSheetElementCollectionRenderer StyleRenderer =
             new StyleSheetElementCollectionRenderer(new SkinEngine());
 
         protected new bool IsReusable
@@ -56,7 +56,7 @@ namespace Subtext.Framework.Web.Handlers
 
             var styles =
                 (List<StyleDefinition>)
-                styleRenderer.GetStylesToBeMerged(skinName, skinMedia, skinTitle, skinConditional);
+                StyleRenderer.GetStylesToBeMerged(skinName, skinMedia, skinTitle, skinConditional);
 
             //Append all styles into one file
 
@@ -98,7 +98,7 @@ namespace Subtext.Framework.Web.Handlers
         }
 
 
-        private static void SetHeaders(List<StyleDefinition> styles, HttpContext context)
+        private static void SetHeaders(IEnumerable<StyleDefinition> styles, HttpContext context)
         {
             foreach(StyleDefinition style in styles)
             {
@@ -128,10 +128,7 @@ namespace Subtext.Framework.Web.Handlers
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+            return true;
         }
     }
 }

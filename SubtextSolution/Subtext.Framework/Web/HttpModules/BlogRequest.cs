@@ -34,11 +34,6 @@ namespace Subtext.Framework.Web.HttpModules
         /// <summary>
         /// Initializes a new instance of the <see cref="BlogRequest"/> class.
         /// </summary>
-        /// <param name="host">The host.</param>
-        /// <param name="subfolder">The subfolder.</param>
-        /// <param name="url">The raw requested URL</param>
-        /// <param name="isLocal">True if this request is a local machine request.</param>
-        /// <param name="requestLocation">Defines which type of request this is.</param>
         public BlogRequest(string host, string subfolder, Uri url, bool isLocal, RequestLocation requestLocation,
                            string applicationPath)
         {

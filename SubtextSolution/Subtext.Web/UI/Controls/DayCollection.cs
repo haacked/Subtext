@@ -27,21 +27,17 @@ namespace Subtext.Web.UI.Controls
     /// </summary>
     public class DayCollection : BaseControl
     {
-        private ICollection<EntryDay> bpdc;
         protected Repeater DaysList;
 
-        public ICollection<EntryDay> Days
-        {
-            set { bpdc = value; }
-        }
+        public ICollection<EntryDay> Days { private get; set; }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            if(bpdc != null)
+            if(Days != null)
             {
-                DaysList.DataSource = bpdc;
+                DaysList.DataSource = Days;
                 DaysList.DataBind();
             }
             else

@@ -27,7 +27,7 @@ namespace Subtext.Web.UI.Controls
     /// </summary>
     public class CurrentEntryControl : BaseControl, IEntryControl
     {
-        bool dataBound;
+        bool _dataBound;
 
         #region IEntryControl Members
 
@@ -45,9 +45,9 @@ namespace Subtext.Web.UI.Controls
         /// </summary>
         public override void DataBind()
         {
-            if(Entry != null && !dataBound)
+            if(Entry != null && !_dataBound)
             {
-                dataBound = true;
+                _dataBound = true;
                 base.DataBind();
             }
         }

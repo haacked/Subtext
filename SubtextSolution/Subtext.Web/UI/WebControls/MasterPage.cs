@@ -21,7 +21,6 @@ using System.ComponentModel;
 using System.Web.UI;
 using System.Web.UI.Design;
 using System.Web.UI.HtmlControls;
-using Subtext.Framework.Logging;
 using Subtext.Framework.Properties;
 
 namespace Subtext.Web.UI.WebControls
@@ -41,11 +40,10 @@ namespace Subtext.Web.UI.WebControls
     [Designer(typeof(ContainerControlDesigner))]
     public class MasterPage : HtmlContainerControl
     {
-        private const string skinPath = "~/Skins/{0}/PageTemplate.ascx";
-        private readonly List<ContentRegion> contents = new List<ContentRegion>();
-        Log log = new Log();
-        private Control template;
-        private string templateFile;
+        private const string SkinPath = "~/Skins/{0}/PageTemplate.ascx";
+        private readonly List<ContentRegion> _contents = new List<ContentRegion>();
+        private Control _template;
+        private string _templateFile;
 
         /// <summary>
         /// Gets or sets the template file from the Skins directory.
@@ -57,13 +55,13 @@ namespace Subtext.Web.UI.WebControls
         {
             get
             {
-                if(templateFile == null)
+                if(_templateFile == null)
                 {
-                    templateFile = string.Format(skinPath, Globals.CurrentSkin.TemplateFolder);
+                    _templateFile = string.Format(SkinPath, Globals.CurrentSkin.TemplateFolder);
                 }
-                return templateFile;
+                return _templateFile;
             }
-            set { templateFile = value; }
+            set { _templateFile = value; }
         }
 
         protected override void AddParsedSubObject(object obj)
@@ -71,7 +69,7 @@ namespace Subtext.Web.UI.WebControls
             var contentRegion = obj as ContentRegion;
             if(contentRegion != null)
             {
-                contents.Add(contentRegion);
+                _contents.Add(contentRegion);
             }
         }
 
@@ -88,25 +86,25 @@ namespace Subtext.Web.UI.WebControls
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_TemplateFileIsNull);
             }
-            template = Page.LoadControl(TemplateFile);
-            template.ID = ID + "_Template";
+            _template = Page.LoadControl(TemplateFile);
+            _template.ID = ID + "_Template";
 
-            int count = template.Controls.Count;
+            int count = _template.Controls.Count;
             for(int index = 0; index < count; index++)
             {
-                Control control = template.Controls[0];
-                template.Controls.Remove(control);
+                Control control = _template.Controls[0];
+                _template.Controls.Remove(control);
                 if(control.Visible)
                 {
                     Controls.Add(control);
                 }
             }
-            Controls.AddAt(0, template);
+            Controls.AddAt(0, _template);
         }
 
         private void BuildContents()
         {
-            foreach(ContentRegion content in contents)
+            foreach(ContentRegion content in _contents)
             {
                 Control region = FindControl(content.ID);
                 if(region == null)

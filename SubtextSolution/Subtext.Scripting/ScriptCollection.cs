@@ -87,7 +87,7 @@ namespace Subtext.Scripting
                     {
                         _templateParameters.AddRange(script.TemplateParameters);
                     }
-                    _templateParameters.ValueChanged += _templateParameters_ValueChanged;
+                    _templateParameters.ValueChanged += TemplateParametersValueChanged;
                 }
 
                 return _templateParameters;
@@ -128,7 +128,7 @@ namespace Subtext.Scripting
             }
         }
 
-        private void _templateParameters_ValueChanged(object sender, ParameterValueChangedEventArgs args)
+        private void TemplateParametersValueChanged(object sender, ParameterValueChangedEventArgs args)
         {
             ApplyTemplatesToScripts();
         }

@@ -48,8 +48,7 @@ namespace Subtext.Web.UI.Controls
             }
             else
             {
-                var groups = new Collection<BlogGroup>();
-                groups.Add(new BlogGroup {Blogs = Blogs.ToList()});
+                var groups = new Collection<BlogGroup> {new BlogGroup {Blogs = Blogs.ToList()}};
                 BlogGroups = groups;
             }
             base.OnLoad(e);

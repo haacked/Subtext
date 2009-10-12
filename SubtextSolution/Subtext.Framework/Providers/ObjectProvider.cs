@@ -32,18 +32,10 @@ namespace Subtext.Framework.Providers
     /// </summary>
     public abstract class ObjectProvider : ProviderBase
     {
-        private static readonly GenericProviderCollection<ObjectProvider> providers =
+        public static readonly GenericProviderCollection<ObjectProvider> Providers =
             ProviderConfigurationHelper.LoadProviderCollection("ObjectProvider", out _provider);
 
         private static ObjectProvider _provider;
-
-        /// <summary>
-        /// Returns all the configured ObjectProvider.
-        /// </summary>
-        public static GenericProviderCollection<ObjectProvider> Providers
-        {
-            get { return providers; }
-        }
 
         /// <summary>
         /// Returns the currently configured ObjectProvider.

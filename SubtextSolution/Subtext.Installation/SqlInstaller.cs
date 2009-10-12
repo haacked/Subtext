@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,18 +29,18 @@ namespace Subtext.Installation
 {
     public class SqlInstaller
     {
-        private readonly string connectionString;
+        private readonly string _connectionString;
 
         public SqlInstaller(string connectionString)
         {
-            this.connectionString = connectionString;
+            _connectionString = connectionString;
         }
 
         public string DBUser { get; set; }
 
         public void Install(Version assemblyVersion)
         {
-            using(var connection = new SqlConnection(connectionString))
+            using(var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 using(SqlTransaction transaction = connection.BeginTransaction())
@@ -56,21 +73,14 @@ namespace Subtext.Installation
         /// <returns></returns>
         public void Upgrade()
         {
-            using(var connection = new SqlConnection(connectionString))
+            using(var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 using(SqlTransaction transaction = connection.BeginTransaction())
                 {
                     try
                     {
-                        Version installationVersion = GetCurrentInstallationVersion();
-                        if(installationVersion == null)
-                        {
-                            //This is the base version.  We need to hardcode this 
-                            //because Subtext 1.0 didn't write the assembly version 
-                            //into the database.
-                            installationVersion = new Version(1, 0, 0, 0);
-                        }
+                        Version installationVersion = GetCurrentInstallationVersion() ?? new Version(1, 0, 0, 0);
                         ReadOnlyCollection<string> scripts = ListInstallationScripts(installationVersion,
                                                                                      VersionInfo.FrameworkVersion);
                         foreach(string scriptName in scripts)
@@ -134,7 +144,7 @@ namespace Subtext.Installation
         /// <param name="transaction">The transaction to perform this action within.</param>
         public static void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
         {
-            string sql = "subtext_VersionAdd";
+            const string sql = "subtext_VersionAdd";
             SqlParameter[] p =
                 {
                     CreateParameter("@Major", SqlDbType.Int, 4, newVersion.Major),
@@ -146,8 +156,7 @@ namespace Subtext.Installation
 
         static SqlParameter CreateParameter(string name, SqlDbType dbType, int size, object value)
         {
-            var param = new SqlParameter(name, dbType, size);
-            param.Value = value;
+            var param = new SqlParameter(name, dbType, size) {Value = value};
             return param;
         }
 
@@ -159,11 +168,11 @@ namespace Subtext.Installation
         /// <returns></returns>
         public Version GetCurrentInstallationVersion()
         {
-            string sql = "subtext_VersionGetCurrent";
+            const string sql = "subtext_VersionGetCurrent";
 
             try
             {
-                using(IDataReader reader = SqlHelper.ExecuteReader(connectionString, CommandType.StoredProcedure, sql))
+                using(IDataReader reader = SqlHelper.ExecuteReader(_connectionString, CommandType.StoredProcedure, sql))
                 {
                     if(reader.Read())
                     {

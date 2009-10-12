@@ -27,8 +27,6 @@ namespace Subtext.Web.UI.Handlers
     /// </summary>
     public class BlogSecondaryCssHandler : IHttpHandler
     {
-        #region IHttpHandler Members
-
         /// <summary>
         /// Processes the request.
         /// </summary>
@@ -53,7 +51,5 @@ namespace Subtext.Web.UI.Handlers
         {
             get { return false; }
         }
-
-        #endregion
     }
 }

@@ -31,8 +31,6 @@ namespace Subtext.Framework.Web.Handlers
             get { return SubtextContext.Blog; }
         }
 
-        #region ISubtextHandler Members
-
         [Inject]
         public ISubtextContext SubtextContext { get; set; }
 
@@ -57,7 +55,5 @@ namespace Subtext.Framework.Web.Handlers
                 return _adminUrlHelper;
             }
         }
-
-        #endregion
     }
 }

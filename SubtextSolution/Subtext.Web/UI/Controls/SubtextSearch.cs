@@ -29,7 +29,6 @@ namespace Subtext.Web.UI.Controls
     public class SubtextSearch : BaseControl
     {
         protected Button btnSearch;
-
         protected Repeater SearchResults;
         protected TextBox txtSearch;
 
@@ -118,23 +117,20 @@ namespace Subtext.Web.UI.Controls
 
         public class PositionItems
         {
-            private string title;
-            private string URL;
-
-            public PositionItems(string title, string URL)
+            public PositionItems(string title, string url)
             {
-                this.title = title;
-                this.URL = URL;
+                Title = title;
+                this.url = url;
             }
 
             public string Title
             {
-                get { return title; }
+                get; private set;
             }
 
             public string url
             {
-                get { return URL; }
+                get; set;
             }
         }
 

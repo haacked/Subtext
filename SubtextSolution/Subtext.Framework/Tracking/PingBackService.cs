@@ -84,8 +84,8 @@ namespace Subtext.Framework.Tracking
                 throw new XmlRpcFaultException(33, Resources.XmlRcpFault_DidNotLinkToPermalink);
             }
 
-            Uri sourceUrl = HtmlHelper.ParseUri(sourceURI);
-            Uri targetUrl = HtmlHelper.ParseUri(targetURI);
+            Uri sourceUrl = sourceURI.ParseUri();
+            Uri targetUrl = targetURI.ParseUri();
 
             // does the sourceURI actually contain the permalink ?
             if(sourceUrl == null || targetUrl == null ||

@@ -19,6 +19,7 @@ using System;
 using System.Globalization;
 using System.Web;
 using System.Xml;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Email;
@@ -99,35 +100,34 @@ namespace Subtext.Framework.Tracking
 
         private static void SendTrackbackRss(ISubtextContext context, Entry entry, int postId)
         {
-            var w = new XmlTextWriter(context.RequestContext.HttpContext.Response.Output);
-            w.Formatting = Formatting.Indented;
+            var writer = new XmlTextWriter(context.RequestContext.HttpContext.Response.Output) {Formatting = Formatting.Indented};
 
             string url = context.UrlHelper.TrackbacksUrl(postId).ToFullyQualifiedUrl(context.Blog).ToString();
 
-            w.WriteStartDocument();
-            w.WriteStartElement("response");
-            w.WriteElementString("error", "0");
-            w.WriteStartElement("rss");
-            w.WriteAttributeString("version", "0.91");
-            w.WriteStartElement("channel");
-            w.WriteElementString("title", entry.Title);
-            w.WriteElementString("link", url);
-            w.WriteElementString("description", string.Empty);
-            w.WriteElementString("language", "en-us");
+            writer.WriteStartDocument();
+            writer.WriteStartElement("response");
+            writer.WriteElementString("error", "0");
+            writer.WriteStartElement("rss");
+            writer.WriteAttributeString("version", "0.91");
+            writer.WriteStartElement("channel");
+            writer.WriteElementString("title", entry.Title);
+            writer.WriteElementString("link", url);
+            writer.WriteElementString("description", string.Empty);
+            writer.WriteElementString("language", "en-us");
 
-            w.WriteEndElement(); // channel
-            w.WriteEndElement(); // rss 
-            w.WriteEndElement(); // response
-            w.WriteEndDocument();
+            writer.WriteEndElement(); // channel
+            writer.WriteEndElement(); // rss 
+            writer.WriteEndElement(); // response
+            writer.WriteEndDocument();
         }
 
-        private void CreateTrackbackAndSendResponse(ISubtextContext subtextContext, Entry entry, int entryId)
+        private void CreateTrackbackAndSendResponse(ISubtextContext subtextContext, IEntryIdentity entry, int entryId)
         {
             HttpContextBase context = subtextContext.RequestContext.HttpContext;
             string title = SafeParam(context, "title");
             string excerpt = SafeParam(context, "excerpt");
             string urlText = SafeParam(context, "url");
-            string blog_name = SafeParam(context, "blog_name");
+            string blogName = SafeParam(context, "blog_name");
 
             Uri url = urlText.ParseUri();
             if(url == null)
@@ -146,7 +146,7 @@ namespace Subtext.Framework.Tracking
                 return;
             }
 
-            var trackback = new Trackback(entryId, title, url, blog_name, excerpt, Blog.TimeZone.Now);
+            var trackback = new Trackback(entryId, title, url, blogName, excerpt, Blog.TimeZone.Now);
             ICommentSpamService feedbackService = null;
             Blog blog = subtextContext.Blog;
             if(blog.FeedbackSpamServiceEnabled)
@@ -198,10 +198,7 @@ namespace Subtext.Framework.Tracking
                 handler(this, args);
                 return args.Verified;
             }
-            else
-            {
-                return Verifier.SourceContainsTarget(sourceUrl, entryUrl);
-            }
+            return Verifier.SourceContainsTarget(sourceUrl, entryUrl);
         }
     }
 }

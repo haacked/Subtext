@@ -76,7 +76,6 @@ namespace Subtext.Web
         {
             int? groupId = GetGroupIdFromQueryString();
 
-            Blog aggregateBlog = HostInfo.Instance.AggregateBlog;
             ICollection<Entry> entries = ObjectProvider.Instance().GetRecentEntries(
                 HostInfo.Instance.AggregateBlog.Host, groupId, 25);
 
@@ -116,7 +115,6 @@ namespace Subtext.Web
             writer.WriteElementString("description", ConfigurationManager.AppSettings["AggregateDescription"]);
             writer.WriteElementString("generator", VersionInfo.VersionDisplayText);
 
-            int serverTimeZone = Config.Settings.ServerTimeZone;
             string baseUrl = "http://{0}" + appPath + "{1}/";
 
             bool useAggBugs = Config.Settings.Tracking.EnableAggBugs;

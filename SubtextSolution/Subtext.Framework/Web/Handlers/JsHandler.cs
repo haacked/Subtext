@@ -27,7 +27,7 @@ namespace Subtext.Framework.Web.Handlers
 {
     public class JsHandler : BaseHttpHandler
     {
-        private static readonly ScriptElementCollectionRenderer scriptRenderer =
+        private static readonly ScriptElementCollectionRenderer ScriptRenderer =
             new ScriptElementCollectionRenderer(new SkinEngine());
 
         public override bool IsReusable
@@ -51,7 +51,7 @@ namespace Subtext.Framework.Web.Handlers
 
             string skinName = context.Request.Params["name"];
 
-            var scripts = (List<string>)scriptRenderer.GetScriptsToBeMerged(skinName);
+            var scripts = (List<string>)ScriptRenderer.GetScriptsToBeMerged(skinName);
 
             //Append all styles into one file
 
@@ -83,7 +83,7 @@ namespace Subtext.Framework.Web.Handlers
         }
 
 
-        private static void SetHeaders(List<string> styles, HttpContext context)
+        private static void SetHeaders(IEnumerable<string> styles, HttpContext context)
         {
             foreach(string style in styles)
             {
@@ -111,10 +111,7 @@ namespace Subtext.Framework.Web.Handlers
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+            return true;
         }
     }
 }

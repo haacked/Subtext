@@ -26,8 +26,6 @@ namespace Subtext.Framework.Text
 
         public string LiteralText { get; private set; }
 
-        #region ITextExpression Members
-
         public string Eval(object o)
         {
             string literalText = LiteralText
@@ -35,7 +33,5 @@ namespace Subtext.Framework.Text
                 .Replace("}}", "}");
             return literalText;
         }
-
-        #endregion
     }
 }

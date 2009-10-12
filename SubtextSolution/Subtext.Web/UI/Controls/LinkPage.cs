@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -41,9 +58,9 @@ namespace Subtext.Web.UI.Controls
                         title.Text = linkcat.Title;
                     }
 
-                    var LinkList = (Repeater)e.Item.FindControl("LinkList");
-                    LinkList.DataSource = linkcat.Links;
-                    LinkList.DataBind();
+                    var linkList = (Repeater)e.Item.FindControl("LinkList");
+                    linkList.DataSource = linkcat.Links;
+                    linkList.DataBind();
                 }
             }
         }
@@ -55,29 +72,29 @@ namespace Subtext.Web.UI.Controls
                 var link = (Link)e.Item.DataItem;
                 if(link != null)
                 {
-                    var Link = (HyperLink)e.Item.FindControl("Link");
-                    Link.NavigateUrl = link.Url;
-                    Link.Text = link.Title;
-                    ControlHelper.SetTitleIfNone(Link, link.Title);
+                    var linkControl = (HyperLink)e.Item.FindControl("Link");
+                    linkControl.NavigateUrl = link.Url;
+                    linkControl.Text = link.Title;
+                    ControlHelper.SetTitleIfNone(linkControl, link.Title);
                     if(link.NewWindow)
                     {
-                        if(!String.IsNullOrEmpty(Link.Attributes["rel"]))
+                        if(!String.IsNullOrEmpty(linkControl.Attributes["rel"]))
                         {
-                            Link.Attributes["rel"] += " ";
+                            linkControl.Attributes["rel"] += " ";
                         }
-                        Link.Attributes["rel"] += "external ";
+                        linkControl.Attributes["rel"] += "external ";
                     }
-                    Link.Attributes["rel"] += link.Relation;
+                    linkControl.Attributes["rel"] += link.Relation;
                     if(link.HasRss)
                     {
-                        var RssLink = (HyperLink)e.Item.FindControl("RssLink");
-                        if(RssLink != null)
+                        var rssLink = (HyperLink)e.Item.FindControl("RssLink");
+                        if(rssLink != null)
                         {
-                            RssLink.NavigateUrl = link.Rss;
-                            RssLink.Visible = true;
-                            RssLink.ToolTip = string.Format(CultureInfo.InvariantCulture, Resources.LinkPage_Subscribe,
+                            rssLink.NavigateUrl = link.Rss;
+                            rssLink.Visible = true;
+                            rssLink.ToolTip = string.Format(CultureInfo.InvariantCulture, Resources.LinkPage_Subscribe,
                                                             link.Title);
-                            ControlHelper.SetTitleIfNone(RssLink, RssLink.ToolTip);
+                            ControlHelper.SetTitleIfNone(rssLink, rssLink.ToolTip);
                         }
                     }
                 }

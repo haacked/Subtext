@@ -23,10 +23,8 @@ namespace Subtext.Framework.Web.HttpModules
 {
     public class CompressionModule : IHttpModule
     {
-        private const string DEFLATE = "deflate";
-        private const string GZIP = "gzip";
-
-        #region IHttpModule Members
+        private const string Deflate = "deflate";
+        private const string Gzip = "gzip";
 
         /// <summary>
         /// Disposes of the resources (other than memory) used by the module 
@@ -46,30 +44,28 @@ namespace Subtext.Framework.Web.HttpModules
         /// </param>
         void IHttpModule.Init(HttpApplication context)
         {
-            context.PostReleaseRequestState += context_PostReleaseRequestState;
+            context.PostReleaseRequestState += ContextPostReleaseRequestState;
         }
-
-        #endregion
 
         /// <summary>
         /// Handles the BeginRequest event of the context control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        void context_PostReleaseRequestState(object sender, EventArgs e)
+        static void ContextPostReleaseRequestState(object sender, EventArgs e)
         {
             var app = (HttpApplication)sender;
             if(app.Request.Path.Contains("css.axd") || app.Request.Path.Contains("js.axd"))
             {
-                if(IsEncodingAccepted(GZIP))
+                if(IsEncodingAccepted(Gzip))
                 {
                     app.Response.Filter = new GZipStream(app.Response.Filter, CompressionMode.Compress);
-                    SetEncoding(GZIP);
+                    SetEncoding(Gzip);
                 }
-                else if(IsEncodingAccepted(DEFLATE))
+                else if(IsEncodingAccepted(Deflate))
                 {
                     app.Response.Filter = new DeflateStream(app.Response.Filter, CompressionMode.Compress);
-                    SetEncoding(DEFLATE);
+                    SetEncoding(Deflate);
                 }
             }
             else if(app.Request.Path.Contains("WebResource.axd"))

@@ -33,8 +33,8 @@ namespace Subtext.Web.Admin.Pages
     {
         private const string VSKEY_KEYWORDID = "LinkID";
 
-        private bool _isListHidden = false;
-        private int _resultsPageNumber = 0;
+        private const bool _isListHidden = false;
+        private int _resultsPageNumber;
 
         #region Accessors
 
@@ -90,7 +90,7 @@ namespace Subtext.Web.Admin.Pages
         {
             Edit.Visible = false;
 
-            IPagedCollection<KeyWord> selectionList = KeyWords.GetPagedKeyWords(_resultsPageNumber,
+            IPagedCollection<KeyWord> selectionList = Repository.GetPagedKeyWords(_resultsPageNumber,
                                                                                 resultsPager.PageSize);
 
             if(selectionList.Count > 0)
@@ -99,15 +99,11 @@ namespace Subtext.Web.Admin.Pages
                 rprSelectionList.DataSource = selectionList;
                 rprSelectionList.DataBind();
             }
-            else
-            {
-                // TODO: no existing items handling. add label and indicate no existing items. pop open edit.
-            }
         }
 
         private void BindLinkEdit()
         {
-            KeyWord kw = KeyWords.GetKeyWord(KeyWordID);
+            KeyWord kw = Repository.GetKeyWord(KeyWordID);
 
             Results.Visible = false;
             Edit.Visible = true;
@@ -136,25 +132,27 @@ namespace Subtext.Web.Admin.Pages
 
             try
             {
-                var kw = new KeyWord();
-                kw.Title = txbTitle.Text;
-                kw.Url = txbUrl.Text;
-                kw.Text = txbText.Text;
-                kw.OpenInNewWindow = chkNewWindow.Checked;
-                kw.ReplaceFirstTimeOnly = chkFirstOnly.Checked;
-                kw.CaseSensitive = chkCaseSensitive.Checked;
-                kw.Rel = txbRel.Text;
-                kw.Word = txbWord.Text;
+                var keyword = new KeyWord
+                {
+                    Title = txbTitle.Text,
+                    Url = txbUrl.Text,
+                    Text = txbText.Text,
+                    OpenInNewWindow = chkNewWindow.Checked,
+                    ReplaceFirstTimeOnly = chkFirstOnly.Checked,
+                    CaseSensitive = chkCaseSensitive.Checked,
+                    Rel = txbRel.Text,
+                    Word = txbWord.Text
+                };
 
                 if(KeyWordID > 0)
                 {
                     successMessage = Constants.RES_SUCCESSEDIT;
-                    kw.Id = KeyWordID;
-                    KeyWords.UpdateKeyWord(kw);
+                    keyword.Id = KeyWordID;
+                    Repository.UpdateKeyWord(keyword);
                 }
                 else
                 {
-                    KeyWordID = KeyWords.CreateKeyWord(kw);
+                    KeyWordID = Repository.InsertKeyWord(keyword);
                 }
 
                 if(KeyWordID > 0)
@@ -198,8 +196,10 @@ namespace Subtext.Web.Admin.Pages
 
         private void ConfirmDelete(int keywordId, string keyword)
         {
-            var command = new DeleteKeyWordCommand(keywordId, keyword);
-            command.ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Keyword '{0}' deleted", keyword);
+            var command = new DeleteKeyWordCommand(keywordId, keyword)
+            {
+                ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Keyword '{0}' deleted", keyword)
+            };
             Messages.ShowMessage(command.Execute());
             BindList();
         }
@@ -227,7 +227,7 @@ namespace Subtext.Web.Admin.Pages
                     break;
                 case "delete":
                     int id = Convert.ToInt32(e.CommandArgument);
-                    KeyWord kw = KeyWords.GetKeyWord(id);
+                    KeyWord kw = Repository.GetKeyWord(id);
                     ConfirmDelete(id, kw.Word);
                     break;
                 default:

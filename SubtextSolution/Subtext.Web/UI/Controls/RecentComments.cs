@@ -131,14 +131,7 @@ namespace Subtext.Web.UI.Controls
 
         protected void OnItemBound(object sender, RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType != ListItemType.Item)
-            {
-                AlternatingCssClass = " alt";
-            }
-            else
-            {
-                AlternatingCssClass = string.Empty;
-            }
+            AlternatingCssClass = e.Item.ItemType != ListItemType.Item ? " alt" : string.Empty;
         }
     }
 }

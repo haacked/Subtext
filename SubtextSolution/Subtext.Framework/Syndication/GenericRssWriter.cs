@@ -31,12 +31,8 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public abstract class GenericRssWriter<T> : BaseSyndicationWriter<T>
     {
-        private bool isBuilt = false;
+        private bool _isBuilt;
 
-        /// <summary>
-        /// Creates a new <see cref="BaseRssWriter"/> instance.
-        /// </summary>
-        /// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
         protected GenericRssWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding,
                                    ISubtextContext context)
             : base(writer, dateLastViewedFeedItemPublished, useDeltaEncoding, context)
@@ -57,7 +53,7 @@ namespace Subtext.Framework.Syndication
         /// <param name="dateLastViewedFeedItemPublished">Last id viewed.</param>
         protected override void Build(DateTime dateLastViewedFeedItemPublished)
         {
-            if(!isBuilt)
+            if(!_isBuilt)
             {
                 StartDocument();
                 SetNamespaces();
@@ -66,7 +62,7 @@ namespace Subtext.Framework.Syndication
                 WriteEntries();
                 EndChannel();
                 EndDocument();
-                isBuilt = true;
+                _isBuilt = true;
             }
         }
 
@@ -83,7 +79,7 @@ namespace Subtext.Framework.Syndication
             // Copyright notice
             WriteAttributeString("xmlns:copyright", "http://blogs.law.harvard.edu/tech/rss");
 
-            if(Blog.LicenseUrl != null && Blog.LicenseUrl.Length > 0)
+            if(!string.IsNullOrEmpty(Blog.LicenseUrl))
             {
                 // Used to specify a license. Does not have to be a creative commons license.
                 // see http://backend.userland.com/creativeCommonsRssModule
@@ -179,8 +175,7 @@ namespace Subtext.Framework.Syndication
             //TODO: Implement this element.
             WriteElementString("copyright", copyright);
 
-            if(authorEmail != null
-               && authorEmail.Length > 0
+            if(!string.IsNullOrEmpty(authorEmail)
                && authorEmail.IndexOf("@") > 0
                && authorEmail.IndexOf(".") > 0
                && (Blog.ShowEmailAddressInRss))
@@ -191,7 +186,7 @@ namespace Subtext.Framework.Syndication
             //TODO: <category>One or more categories</category>
             WriteElementString("generator", VersionInfo.VersionDisplayText);
 
-            if(cclicense != null && cclicense.Length > 0)
+            if(!string.IsNullOrEmpty(cclicense))
             {
                 WriteElementString("creativeCommons:license", cclicense);
             }
@@ -247,9 +242,6 @@ namespace Subtext.Framework.Syndication
         /// <summary>
         /// Writes the XML for a single entry.
         /// </summary>
-        /// <param name="item">Entry.</param>
-        /// <param name="settings">Settings.</param>
-        /// <param name="urlFormats">Uformat.</param>
         protected virtual void EntryXml(T item, BlogConfigurationSettings settings)
         {
             //core

@@ -30,8 +30,8 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public class CachedFeed
     {
-        private string etag;
-        private DateTime lastModified;
+        private string _etag;
+        private DateTime _lastModified;
 
         public CachedFeed()
         {
@@ -47,7 +47,7 @@ namespace Subtext.Framework.Syndication
             //TODO: Need to figure out what happens to the date when we set LastModified date. 
             // Returned data usually does not match 
             // what we sent!
-            get { return lastModified; }
+            get { return _lastModified; }
             set
             {
                 //Just incase the user changes timezones after a post
@@ -55,7 +55,7 @@ namespace Subtext.Framework.Syndication
                 {
                     value = DateTime.Now;
                 }
-                lastModified = value;
+                _lastModified = value;
             }
         }
 
@@ -86,15 +86,15 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                if(etag == null)
+                if(_etag == null)
                 {
                     // if we did not set the etag, just use the 
                     // LastModified Date
-                    etag = LastModified.ToString(CultureInfo.InvariantCulture);
+                    _etag = LastModified.ToString(CultureInfo.InvariantCulture);
                 }
-                return etag;
+                return _etag;
             }
-            set { etag = value; }
+            set { _etag = value; }
         }
 
         /// <summary>

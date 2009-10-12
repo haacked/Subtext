@@ -34,7 +34,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            int? groupId = base.GetGroupIdFromQueryString();
+            int? groupId = GetGroupIdFromQueryString();
             HostStats stats = Repository.GetTotalBlogStats(HostInfo.Instance.AggregateBlog.Host, groupId);
             if(stats != null)
             {

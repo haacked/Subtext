@@ -102,7 +102,7 @@ namespace Subtext.Framework.Threading
             {
                 // Failed to acquire lock.
 #if DEBUG
-                GC.SuppressFinalize(tl.leakDetector);
+                GC.SuppressFinalize(tl._leakDetector);
                 throw new LockTimeoutException(o);
 #else
 				throw new LockTimeoutException();
@@ -115,7 +115,7 @@ namespace Subtext.Framework.Threading
         {
             _target = o;
 #if DEBUG
-            leakDetector = new Sentinel();
+            _leakDetector = new Sentinel();
 #endif
         }
 
@@ -146,7 +146,7 @@ namespace Subtext.Framework.Threading
             // so in Debug builds, we put a finalizer in to detect
             // the error. If Dispose is called, we suppress the
             // finalizer.
-            GC.SuppressFinalize(leakDetector);
+            GC.SuppressFinalize(_leakDetector);
 #endif
             Thread.EndCriticalRegion();
         }
@@ -166,7 +166,7 @@ namespace Subtext.Framework.Threading
             }
         }
 
-        private readonly Sentinel leakDetector;
+        private readonly Sentinel _leakDetector;
 #endif
     }
 
@@ -181,7 +181,7 @@ namespace Subtext.Framework.Threading
 #if DEBUG
         readonly object _lockTarget;
         StackTrace _blockingStackTrace;
-        static readonly Hashtable _failedLockTargets = new Hashtable();
+        static readonly Hashtable FailedLockTargets = new Hashtable();
 
         /// <summary>
         /// Sets the stack trace for the given lock target 
@@ -190,16 +190,16 @@ namespace Subtext.Framework.Threading
         /// <param name="lockTarget">Lock target.</param>
         public static void ReportStackTraceIfError(object lockTarget)
         {
-            lock(_failedLockTargets)
+            lock(FailedLockTargets)
             {
-                if(_failedLockTargets.ContainsKey(lockTarget))
+                if(FailedLockTargets.ContainsKey(lockTarget))
                 {
-                    var waitHandle = _failedLockTargets[lockTarget] as ManualResetEvent;
+                    var waitHandle = FailedLockTargets[lockTarget] as ManualResetEvent;
                     if(waitHandle != null)
                     {
                         waitHandle.Set();
                     }
-                    _failedLockTargets[lockTarget] = new StackTrace();
+                    FailedLockTargets[lockTarget] = new StackTrace();
                     //Also. if you don't call GetBlockingStackTrace()
                     //the lockTarget doesn't get removed from the hash 
                     //table and so we'll always think there's an error
@@ -215,12 +215,12 @@ namespace Subtext.Framework.Threading
         /// <param name="lockTarget">Object we tried to lock.</param>
         public LockTimeoutException(object lockTarget) : base("Timeout waiting for lock")
         {
-            lock(_failedLockTargets)
+            lock(FailedLockTargets)
             {
                 // This is safer in case somebody forgot to remove 
                 // the lock target.
                 var waitHandle = new ManualResetEvent(false);
-                _failedLockTargets[lockTarget] = waitHandle;
+                FailedLockTargets[lockTarget] = waitHandle;
             }
             _lockTarget = lockTarget;
         }
@@ -238,18 +238,18 @@ namespace Subtext.Framework.Threading
             }
 
             ManualResetEvent waitHandle;
-            lock(_failedLockTargets)
+            lock(FailedLockTargets)
             {
-                waitHandle = _failedLockTargets[_lockTarget] as ManualResetEvent;
+                waitHandle = FailedLockTargets[_lockTarget] as ManualResetEvent;
             }
             if(timeout > 0 && waitHandle != null)
             {
                 waitHandle.WaitOne(timeout, false);
             }
-            lock(_failedLockTargets)
+            lock(FailedLockTargets)
             {
                 //Hopefully by now we have a stack trace.
-                _blockingStackTrace = _failedLockTargets[_lockTarget] as StackTrace;
+                _blockingStackTrace = FailedLockTargets[_lockTarget] as StackTrace;
             }
 
             return _blockingStackTrace;
@@ -319,7 +319,7 @@ namespace Subtext.Framework.Threading
     /// finally block.
     /// </summary>
     [Serializable]
-    public class UndisposedLockException : Exception, ISerializable
+    public class UndisposedLockException : Exception
     {
         /// <summary>
         /// Constructor.

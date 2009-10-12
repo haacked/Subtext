@@ -36,7 +36,5 @@ namespace Subtext.Framework.Services
         /// A blog was found using an alternate host. Try this one instead.
         /// </summary>
         public Uri AlternateUrl { get; private set; }
-
-        public int TotalBlogCount { get; private set; }
     }
 }

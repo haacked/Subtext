@@ -14,18 +14,18 @@ namespace Subtext.Web.Admin
 {
     public partial class Skins : AdminOptionsPage
     {
-        private ICollection<SkinTemplate> mobileSkins;
-        private ICollection<SkinTemplate> skins;
+        private ICollection<SkinTemplate> _mobileSkins;
+        private ICollection<SkinTemplate> _skins;
 
         protected ICollection<SkinTemplate> SkinTemplates
         {
             get
             {
-                if(skins == null)
+                if(_skins == null)
                 {
                     var skinEngine = new SkinEngine();
-                    skins = skinEngine.GetSkinTemplates(false /* mobile */).Values;
-                    foreach(SkinTemplate template in skins)
+                    _skins = skinEngine.GetSkinTemplates(false /* mobile */).Values;
+                    foreach(SkinTemplate template in _skins)
                     {
                         if(template.MobileSupport == MobileSupport.Supported)
                         {
@@ -33,7 +33,7 @@ namespace Subtext.Web.Admin
                         }
                     }
                 }
-                return skins;
+                return _skins;
             }
         }
 
@@ -41,14 +41,14 @@ namespace Subtext.Web.Admin
         {
             get
             {
-                if(mobileSkins == null)
+                if(_mobileSkins == null)
                 {
                     var skinEngine = new SkinEngine();
                     var skins = new List<SkinTemplate>(skinEngine.GetSkinTemplates(true /* mobile */).Values);
                     skins.Insert(0, SkinTemplate.Empty);
-                    mobileSkins = skins;
+                    _mobileSkins = skins;
                 }
-                return mobileSkins;
+                return _mobileSkins;
             }
         }
 
@@ -84,10 +84,7 @@ namespace Subtext.Web.Admin
             {
                 return "checked=\"checked\"";
             }
-            else
-            {
-                return "";
-            }
+            return "";
         }
 
         protected string EvalSelected(object o)
@@ -96,10 +93,7 @@ namespace Subtext.Web.Admin
             {
                 return " selected";
             }
-            else
-            {
-                return "";
-            }
+            return "";
         }
 
         private bool IsSelectedSkin(object o)

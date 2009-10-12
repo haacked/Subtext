@@ -125,9 +125,7 @@ namespace Subtext.Framework.Services
 
         private Comment ConvertToAkismetItem(FeedbackItem feedback)
         {
-            var comment = new Comment(feedback.IpAddress, feedback.UserAgent);
-            comment.Author = feedback.Author ?? string.Empty;
-            comment.AuthorEmail = feedback.Email;
+            var comment = new Comment(feedback.IpAddress, feedback.UserAgent) {Author = feedback.Author ?? string.Empty, AuthorEmail = feedback.Email};
             if(feedback.SourceUrl != null)
             {
                 comment.AuthorUrl = feedback.SourceUrl;

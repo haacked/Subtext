@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using log4net;
@@ -47,7 +48,7 @@ namespace Subtext.Framework.Data
         private readonly static ILog Log = new Log();
 #endif
 
-        static void LogSql(string sql, SqlParameter[] parameters)
+        static void LogSql(string sql, IEnumerable<SqlParameter> parameters)
         {
 #if DEBUG
             string query = sql;
@@ -78,10 +79,6 @@ namespace Subtext.Framework.Data
         /// Returns a Data Reader pointing to the entry specified by the entry name.
         /// Only returns entries for the current blog (Config.CurrentBlog).
         /// </summary>
-        /// <param name="entryName">Url friendly entry name.</param>
-        /// <param name="activeOnly"></param>
-        /// <param name="includeCategories"></param>
-        /// <returns></returns>
         public virtual IDataReader GetEntryReader(int blogId, string entryName, bool activeOnly, bool includeCategories)
         {
             int? blogIdentifier = (blogId == NullValue.NullInt32 ? null : (int?)blogId);
@@ -92,10 +89,6 @@ namespace Subtext.Framework.Data
         /// Returns a Data Reader pointing to the entry specified by the entry id. 
         /// Only returns entries for the current blog (Config.CurrentBlog).
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="activeOnly"></param>
-        /// <param name="includeCategories"></param>
-        /// <returns></returns>
         public virtual IDataReader GetEntryReader(int blogId, int id, bool activeOnly, bool includeCategories)
         {
             int? blogIdentifier = (blogId == NullValue.NullInt32 ? null : (int?)blogId);

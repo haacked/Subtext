@@ -77,12 +77,12 @@ namespace Subtext.Framework.Tracking
                 return false;
             }
 
-            string pat = @"<head.*?>.*<title.*?>(.*)</title.*?>.*</head.*?>";
-            var reg = new Regex(pat, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            Match m = reg.Match(page);
-            if(m.Success)
+            const string pattern = @"<head.*?>.*<title.*?>(.*)</title.*?>.*</head.*?>";
+            var regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            Match match = regex.Match(page);
+            if(match.Success)
             {
-                pageTitle = m.Result("$1");
+                pageTitle = match.Result("$1");
                 return true;
             }
             return false;

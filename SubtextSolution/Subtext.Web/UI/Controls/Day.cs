@@ -27,10 +27,8 @@ namespace Subtext.Web.UI.Controls
     /// </summary>
     public class Day : EntryList
     {
-        private EntryDay bpd;
         protected Literal DateTitle;
         protected Repeater DayList;
-        private Entry entry;
         protected HyperLink ImageLink;
 
         /// <summary>
@@ -46,29 +44,22 @@ namespace Subtext.Web.UI.Controls
         /// Sets the current day.
         /// </summary>
         /// <value>The current day.</value>
-        public EntryDay CurrentDay
-        {
-            get { return bpd; }
-            set { bpd = value; }
-        }
+        public EntryDay CurrentDay { get; set; }
 
-        protected Entry Entry
-        {
-            get { return entry; }
-        }
+        protected Entry Entry { get; private set; }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            if(bpd != null)
+            if(CurrentDay != null)
             {
                 DayList.ItemDataBound += DayList_ItemDataBound;
 
-                ImageLink.NavigateUrl = Url.DayUrl(bpd.BlogDay);
+                ImageLink.NavigateUrl = Url.DayUrl(CurrentDay.BlogDay);
                 ControlHelper.SetTitleIfNone(ImageLink, "Click to see entries for this day.");
-                DateTitle.Text = bpd.BlogDay.ToLongDateString();
-                DayList.DataSource = bpd;
+                DateTitle.Text = CurrentDay.BlogDay.ToLongDateString();
+                DayList.DataSource = CurrentDay;
                 DayList.DataBind();
             }
             else
@@ -79,7 +70,7 @@ namespace Subtext.Web.UI.Controls
 
         void DayList_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            entry = e.Item.DataItem as Entry;
+            Entry = e.Item.DataItem as Entry;
         }
     }
 }

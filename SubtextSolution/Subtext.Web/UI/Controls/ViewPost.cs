@@ -20,6 +20,7 @@ using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Ninject;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
@@ -37,8 +38,8 @@ namespace Subtext.Web.UI.Controls
     /// </summary>
     public partial class ViewPost : BaseControl
     {
-        const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
-        const string linkToEnclosure = "<a href=\"{0}\" title = \"{1}\">{2}</a>{3}";
+        const string LinkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
+        const string LinkToEnclosure = "<a href=\"{0}\" title = \"{1}\">{2}</a>{3}";
 
         /// <summary>
         /// Loads the entry specified by the URL.  If the user is an 
@@ -112,17 +113,17 @@ namespace Subtext.Web.UI.Controls
                         string entryUrl = Url.EntryUrl(entry);
                         if(entry.FeedBackCount == 0)
                         {
-                            commentCount.Text = string.Format(linkToComments, entryUrl, Resources.EntryList_AddComment,
+                            commentCount.Text = string.Format(LinkToComments, entryUrl, Resources.EntryList_AddComment,
                                                               string.Empty);
                         }
                         else if(entry.FeedBackCount == 1)
                         {
-                            commentCount.Text = string.Format(linkToComments, entryUrl, Resources.EntryList_OneComment,
+                            commentCount.Text = string.Format(LinkToComments, entryUrl, Resources.EntryList_OneComment,
                                                               string.Empty);
                         }
                         else if(entry.FeedBackCount > 1)
                         {
-                            commentCount.Text = string.Format(linkToComments, entryUrl, entry.FeedBackCount,
+                            commentCount.Text = string.Format(LinkToComments, entryUrl, entry.FeedBackCount,
                                                               Resources.EntryList_CommentsPlural);
                         }
                     }
@@ -160,7 +161,7 @@ namespace Subtext.Web.UI.Controls
             {
                 if(entry.Enclosure != null && entry.Enclosure.ShowWithPost)
                 {
-                    bool displaySize = false;
+                    bool displaySize;
                     Boolean.TryParse(Enclosure.Attributes["DisplaySize"], out displaySize);
 
                     string sizeStr = "";
@@ -168,7 +169,7 @@ namespace Subtext.Web.UI.Controls
                     {
                         sizeStr = " (" + entry.Enclosure.FormattedSize + ")";
                     }
-                    Enclosure.Text = string.Format(linkToEnclosure, entry.Enclosure.Url, entry.Enclosure.Title,
+                    Enclosure.Text = string.Format(LinkToEnclosure, entry.Enclosure.Url, entry.Enclosure.Title,
                                                    entry.Enclosure.Title, sizeStr);
                 }
             }
@@ -177,7 +178,7 @@ namespace Subtext.Web.UI.Controls
         // If the user is an admin AND the the skin 
         // contains an edit Hyperlink control, this 
         // will display the edit control.
-        private void DisplayEditLink(Entry entry)
+        private void DisplayEditLink(IIdentifiable entry)
         {
             if(editLink != null)
             {

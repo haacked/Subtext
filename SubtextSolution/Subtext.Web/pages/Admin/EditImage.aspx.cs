@@ -30,8 +30,8 @@ namespace Subtext.Web.Admin.Pages
 {
     public partial class EditImage : AdminPage
     {
-        protected const string VSKEY_IMAGEID = "ImageId";
-        protected string _galleryTitle;
+        protected const string VskeyImageid = "ImageId";
+        protected string GalleryTitle;
         protected Image _image;
         protected int _imageID;
 
@@ -44,14 +44,14 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if(ViewState[VSKEY_IMAGEID] == null || NullValue.NullInt32 == (int)ViewState[VSKEY_IMAGEID])
+                if(ViewState[VskeyImageid] == null || NullValue.NullInt32 == (int)ViewState[VskeyImageid])
                 {
                     if(null != Request.QueryString[Keys.QRYSTR_IMAGEID])
                     {
-                        ViewState[VSKEY_IMAGEID] = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_IMAGEID]);
+                        ViewState[VskeyImageid] = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_IMAGEID]);
                     }
                 }
-                return (int)ViewState[VSKEY_IMAGEID];
+                return (int)ViewState[VskeyImageid];
             }
         }
 
@@ -122,7 +122,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected void SetGalleryInfo(Image image)
         {
-            _galleryTitle = SubtextContext.Repository.GetLinkCategory(image.CategoryID, false).Title;
+            GalleryTitle = SubtextContext.Repository.GetLinkCategory(image.CategoryID, false).Title;
         }
 
         protected string EvalImageUrl(object imageObject)
@@ -206,7 +206,7 @@ namespace Subtext.Web.Admin.Pages
 
         override protected void OnInit(EventArgs e)
         {
-            ViewState[VSKEY_IMAGEID] = NullValue.NullInt32;
+            ViewState[VskeyImageid] = NullValue.NullInt32;
         }
 
         protected void lbkReplaceImage_Click(object sender, EventArgs e)

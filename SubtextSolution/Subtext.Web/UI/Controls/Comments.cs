@@ -40,9 +40,9 @@ namespace Subtext.Web.UI.Controls
     /// </summary>
     public class Comments : BaseControl, ICommentControl
     {
-        const string anchortag = "<a name=\"{0}\"></a>";
-        const string linktag = "<a title=\"permalink: {0}\" href=\"{1}\">#</a>";
-        static readonly ILog log = new Log();
+        const string Anchortag = "<a name=\"{0}\"></a>";
+        const string Linktag = "<a title=\"permalink: {0}\" href=\"{1}\">#</a>";
+        static readonly ILog Log = new Log();
 
         private FeedbackItem _comment;
         protected Repeater CommentList;
@@ -307,14 +307,14 @@ namespace Subtext.Web.UI.Controls
                 return string.Empty;
             }
 
-            return string.Format(linktag, title, link);
+            return string.Format(Linktag, title, link);
         }
 
         // GC: xhmtl format wreaking havoc in non-xhtml pages in non-IE, changed to non nullable format
 
         private static string Anchor(int id)
         {
-            return string.Format(anchortag, id);
+            return string.Format(Anchortag, id);
         }
 
         internal void BindFeedback(Entry entry, bool fromCache)
@@ -340,7 +340,7 @@ namespace Subtext.Web.UI.Controls
             }
             catch(Exception e)
             {
-                log.Error(e.Message, e);
+                Log.Error(e.Message, e);
                 Visible = false;
             }
         }

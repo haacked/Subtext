@@ -25,13 +25,9 @@ namespace Subtext.Framework.Services
         {
         }
 
-        #region ITextTransformation Members
-
         public string Transform(string original)
         {
             return original;
         }
-
-        #endregion
     }
 }

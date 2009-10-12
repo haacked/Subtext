@@ -21,6 +21,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Encosia;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -43,8 +44,8 @@ namespace Subtext.Web.UI.Controls
     /// </summary>
     public partial class PostComment : BaseControl, IEntryControl
     {
-        private Entry entry;
-        private EntryViewModel entryViewModel;
+        private Entry _entry;
+        private EntryViewModel _entryViewModel;
 
         bool IsCommentsRendered
         {
@@ -62,19 +63,19 @@ namespace Subtext.Web.UI.Controls
         {
             get
             {
-                if(entry == null)
+                if(_entry == null)
                 {
-                    entry = Cacher.GetEntryFromRequest(true, SubtextContext);
-                    if(entry == null)
+                    _entry = Cacher.GetEntryFromRequest(true, SubtextContext);
+                    if(_entry == null)
                     {
                         HttpHelper.SetFileNotFoundResponse();
                     }
                 }
-                if(entryViewModel == null)
+                if(_entryViewModel == null)
                 {
-                    entryViewModel = new EntryViewModel(entry, SubtextContext);
+                    _entryViewModel = new EntryViewModel(_entry, SubtextContext);
                 }
-                return entryViewModel;
+                return _entryViewModel;
             }
         }
 
@@ -119,8 +120,8 @@ namespace Subtext.Web.UI.Controls
                             coCommentPlaceHolder.Controls.Add(coComment);
                         }
                     }
-                    coComment.PostTitle = entry.Title;
-                    coComment.PostUrl = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString();
+                    coComment.PostTitle = _entry.Title;
+                    coComment.PostUrl = Url.EntryUrl(_entry).ToFullyQualifiedUrl(Blog).ToString();
                 }
             }
 
@@ -259,7 +260,7 @@ namespace Subtext.Web.UI.Controls
                 OnCommentApproved(feedbackItem);
                 return;
             }
-            else if(feedbackItem.NeedsModeratorApproval)
+            if(feedbackItem.NeedsModeratorApproval)
             {
                 Message.Text = Resources.PostComment_ThanksForComment + " It will be displayed soon.";
                 Message.CssClass = "error moderation";
@@ -272,10 +273,9 @@ namespace Subtext.Web.UI.Controls
             Controls.Add(Message);
         }
 
-        private FeedbackItem CreateFeedbackInstanceFromFormInput(Entry currentEntry)
+        private FeedbackItem CreateFeedbackInstanceFromFormInput(IIdentifiable currentEntry)
         {
-            var feedbackItem = new FeedbackItem(FeedbackType.Comment);
-            feedbackItem.Author = tbName.Text;
+            var feedbackItem = new FeedbackItem(FeedbackType.Comment) {Author = tbName.Text};
             if(tbEmail != null)
             {
                 feedbackItem.Email = tbEmail.Text;
@@ -306,19 +306,19 @@ namespace Subtext.Web.UI.Controls
                 tbName.Text = SecurityHelper.IsAdmin ? Blog.UserName : string.Empty;
             }
 
-            if(entry == null)
+            if(_entry == null)
             {
-                entry = Cacher.GetEntryFromRequest(true, SubtextContext);
+                _entry = Cacher.GetEntryFromRequest(true, SubtextContext);
             }
 
-            if(entryViewModel == null)
+            if(_entryViewModel == null)
             {
-                entryViewModel = new EntryViewModel(entry, SubtextContext);
+                _entryViewModel = new EntryViewModel(_entry, SubtextContext);
             }
 
             if(tbTitle != null)
             {
-                tbTitle.Text = "re: " + HttpUtility.HtmlDecode(entry.Title);
+                tbTitle.Text = "re: " + HttpUtility.HtmlDecode(_entry.Title);
             }
 
             if(tbUrl != null)
@@ -347,7 +347,7 @@ namespace Subtext.Web.UI.Controls
 
             if(IsCommentsRendered)
             {
-                if(entry.CommentingClosed)
+                if(_entry.CommentingClosed)
                 {
                     Controls.Clear();
                     Controls.Add(
@@ -356,7 +356,7 @@ namespace Subtext.Web.UI.Controls
                 }
                 else
                 {
-                    tbTitle.Text = "re: " + HttpUtility.HtmlDecode(entry.Title);
+                    tbTitle.Text = "re: " + HttpUtility.HtmlDecode(_entry.Title);
                 }
             }
             else
@@ -369,11 +369,9 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnPreRender(e);
 
-            var commentsPanel = new MonitoredUpdatePanel();
-            commentsPanel.UpdatePanelID = SubtextMasterPage.CommentsPanelId;
+            var commentsPanel = new MonitoredUpdatePanel {UpdatePanelID = SubtextMasterPage.CommentsPanelId};
 
-            var pbr = new PostBackRitalin();
-            pbr.WaitText = "Submitting...";
+            var pbr = new PostBackRitalin {WaitText = "Submitting..."};
             pbr.MonitoredUpdatePanels.Add(commentsPanel);
 
             Controls.Add(pbr);

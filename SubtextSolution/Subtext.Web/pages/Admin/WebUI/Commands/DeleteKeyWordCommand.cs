@@ -16,12 +16,12 @@
 #endregion
 
 using System;
-using Subtext.Framework.Util;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.Admin.Commands
 {
     [Serializable]
-    public class DeleteKeyWordCommand : DeleteTitledTargetCommand
+    public sealed class DeleteKeyWordCommand : DeleteTitledTargetCommand
     {
         public DeleteKeyWordCommand(int keyWordId, string word)
         {
@@ -35,7 +35,7 @@ namespace Subtext.Web.Admin.Commands
         {
             try
             {
-                KeyWords.DeleteKeyWord(_targetID);
+                ObjectProvider.Instance().DeleteKeyWord(_targetID);
                 return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
             }
             catch(Exception ex)

@@ -9,10 +9,10 @@ namespace Subtext.Web.Admin.Feedback
 {
     public partial class FeedbackMaster : AdminMasterPage
     {
-        FeedbackCounts counts;
-        FeedbackType feedbackType = (FeedbackType)(-1);
+        FeedbackCounts _counts;
+        FeedbackType _feedbackType = (FeedbackType)(-1);
         int page = NullValue.NullInt32;
-        FeedbackStatusFlag status = (FeedbackStatusFlag)(-1);
+        FeedbackStatusFlag _status = (FeedbackStatusFlag)(-1);
 
         public string CurrentQuery
         {
@@ -36,25 +36,25 @@ namespace Subtext.Web.Admin.Feedback
         {
             get
             {
-                if(feedbackType == (FeedbackType)(-1))
+                if(_feedbackType == (FeedbackType)(-1))
                 {
                     string typeText = Request.QueryString["type"] ?? Preferences.GetFeedbackItemFilter(FeedbackStatus);
                     try
                     {
-                        feedbackType = (FeedbackType)Enum.Parse(typeof(FeedbackType), typeText);
-                        if(feedbackType == FeedbackType.ContactPage && !Contact.SendContactMessageToFeedback)
+                        _feedbackType = (FeedbackType)Enum.Parse(typeof(FeedbackType), typeText);
+                        if(_feedbackType == FeedbackType.ContactPage && !Contact.SendContactMessageToFeedback)
                         {
-                            feedbackType = FeedbackType.None;
+                            _feedbackType = FeedbackType.None;
                         }
                     }
                     catch(ArgumentException)
                     {
                         //Grab it from the cookie.
-                        feedbackType = FeedbackType.None;
+                        _feedbackType = FeedbackType.None;
                     }
                 }
-                Preferences.SetFeedbackItemFilter(feedbackType.ToString(), FeedbackStatus);
-                return feedbackType;
+                Preferences.SetFeedbackItemFilter(_feedbackType.ToString(), FeedbackStatus);
+                return _feedbackType;
             }
         }
 
@@ -62,25 +62,25 @@ namespace Subtext.Web.Admin.Feedback
         {
             get
             {
-                if(status == (FeedbackStatusFlag)(-1))
+                if(_status == (FeedbackStatusFlag)(-1))
                 {
                     string filter = Request.QueryString["status"] ?? "Approved";
                     try
                     {
-                        status = (FeedbackStatusFlag)Enum.Parse(typeof(FeedbackStatusFlag), filter, true);
+                        _status = (FeedbackStatusFlag)Enum.Parse(typeof(FeedbackStatusFlag), filter, true);
                     }
                     catch(ArgumentException)
                     {
-                        status = FeedbackStatusFlag.Approved;
+                        _status = FeedbackStatusFlag.Approved;
                     }
                 }
-                return status;
+                return _status;
             }
         }
 
         protected FeedbackCounts Counts
         {
-            get { return counts; }
+            get { return _counts; }
         }
 
         public string ListUrl()
@@ -116,13 +116,13 @@ namespace Subtext.Web.Admin.Feedback
 
         public string GetCurrentQuery(int page, FeedbackStatusFlag status, FeedbackType type)
         {
-            string query = "page={0}&status={1}&type={2}";
+            const string query = "page={0}&status={1}&type={2}";
             return String.Format(query, page, status, type);
         }
 
         public void BindCounts()
         {
-            counts = FeedbackItem.GetFeedbackCounts();
+            _counts = FeedbackItem.GetFeedbackCounts();
         }
     }
 }

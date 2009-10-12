@@ -28,14 +28,9 @@ namespace Subtext.Web.UI.Controls
     /// </summary>
     public class PopularPosts : BaseControl
     {
-        private const int DefaultRecentPostCount = 5;
-        private EntryStatsView currentEntry;
         protected Repeater postList;
 
-        public EntryStatsView Entry
-        {
-            get { return currentEntry; }
-        }
+        public EntryStatsView Entry { get; private set; }
 
         public DateFilter FilterType { get; set; }
 
@@ -80,7 +75,7 @@ namespace Subtext.Web.UI.Controls
         {
             if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                currentEntry = (EntryStatsView)e.Item.DataItem;
+                Entry = (EntryStatsView)e.Item.DataItem;
             }
         }
     }

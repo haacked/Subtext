@@ -38,7 +38,7 @@ namespace Subtext.Web.UI.Controls
         // Number of entries in _monthEntries
         int _dateCount;
         // True if the url is for a month and not a day (see ChooseSelectedDateFromUrl).
-        protected bool _isUrlMonthMode;
+        protected bool IsUrlMonthMode;
         ICollection<Entry> _monthEntries;
 
         protected System.Web.UI.WebControls.Calendar entryCal;
@@ -61,8 +61,7 @@ namespace Subtext.Web.UI.Controls
                 entryCal.VisibleDate = selectedDate;
 
                 // setup prev/next months
-                DateTime tempDate;
-                tempDate = selectedDate.AddMonths(-1);
+                DateTime tempDate = selectedDate.AddMonths(-1);
                 entryCal.PrevMonthText = string.Format(CultureInfo.InvariantCulture,
                                                        "<a href=\"{0}\" title=\"{1}\">&laquo;</a>",
                                                        Url.MonthUrl(tempDate), Resources.Calendar_PreviousMonth);
@@ -87,11 +86,10 @@ namespace Subtext.Web.UI.Controls
         {
             string dateStr;
             DateTime parsedDate;
-            Regex match;
-            _isUrlMonthMode = false;
+            IsUrlMonthMode = false;
 
             // /YYYY/MM/DD.aspx ?
-            match = new Regex("(.*)(\\d{4})/(\\d{2})/(\\d{2}).aspx$");
+            var match = new Regex("(.*)(\\d{4})/(\\d{2})/(\\d{2}).aspx$");
             if(match.IsMatch(Request.RawUrl))
             {
                 dateStr = match.Replace(Request.RawUrl, "$3-$4-$2");
@@ -110,7 +108,7 @@ namespace Subtext.Web.UI.Controls
 
                 if(TryParseDateTime(dateStr, out parsedDate))
                 {
-                    _isUrlMonthMode = true;
+                    IsUrlMonthMode = true;
                     return parsedDate;
                 }
             }
@@ -164,7 +162,7 @@ namespace Subtext.Web.UI.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void entryCal_DayRender(object sender, DayRenderEventArgs e)
+        protected void OnDayRender(object sender, DayRenderEventArgs e)
         {
             if(_currentDateIndex >= _dateCount || _currentDateIndex < 0)
             {
@@ -202,7 +200,7 @@ namespace Subtext.Web.UI.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void entryCal_VisibleMonthChanged(object sender, MonthChangedEventArgs e)
+        protected void OnVisibleMonthChanged(object sender, MonthChangedEventArgs e)
         {
             //string url = CurrentBlog.UrlFormats.MonthUrl(e.NewDate);
 

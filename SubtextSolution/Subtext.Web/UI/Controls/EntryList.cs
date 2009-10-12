@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Web.UI.WebControls;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
@@ -35,17 +36,17 @@ namespace Subtext.Web.UI.Controls
     /// </summary>
     public class EntryList : BaseControl
     {
-        const string linkToEnclosure = "<a href=\"{0}\" title = \"{1}\" class=\"enclosure-link\">{2}</a>{3}";
+        const string LinkToEnclosure = "<a href=\"{0}\" title = \"{1}\" class=\"enclosure-link\">{2}</a>{3}";
 
-        static readonly string linkToComments = "<a href=\"{0}#feedback\" title=\"" +
+        static readonly string LinkToComments = "<a href=\"{0}#feedback\" title=\"" +
                                                 Resources.EntryList_ViewAndAddComments +
                                                 "\" class=\"comments\">{1}{2}</a>";
 
-        static readonly string postdescWithComments = "posted @ <a href=\"{0}\" title = \"" +
+        static readonly string PostdescWithComments = "posted @ <a href=\"{0}\" title = \"" +
                                                       Resources.EntryList_PermanentLink +
                                                       "\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\" class=\"comments\">Feedback ({3})</a>";
 
-        static readonly string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"" +
+        static readonly string PostdescWithNoComments = "posted @ <a href=\"{0}\" title = \"" +
                                                         Resources.EntryList_PermanentLink + "\">{1}</a>";
 
         public EntryList()
@@ -109,7 +110,7 @@ namespace Subtext.Web.UI.Controls
             {
                 if(entry.Enclosure != null && entry.Enclosure.ShowWithPost)
                 {
-                    bool displaySize = false;
+                    bool displaySize;
                     Boolean.TryParse(enclosure.Attributes["DisplaySize"], out displaySize);
 
                     string sizeStr = "";
@@ -117,7 +118,7 @@ namespace Subtext.Web.UI.Controls
                     {
                         sizeStr = " (" + entry.Enclosure.FormattedSize + ")";
                     }
-                    enclosure.Text = string.Format(linkToEnclosure, entry.Enclosure.Url, entry.Enclosure.Title,
+                    enclosure.Text = string.Format(LinkToEnclosure, entry.Enclosure.Url, entry.Enclosure.Title,
                                                    entry.Enclosure.Title, sizeStr);
                 }
             }
@@ -147,17 +148,17 @@ namespace Subtext.Web.UI.Controls
                     string entryUrl = Url.EntryUrl(entry);
                     if(entry.FeedBackCount == 0)
                     {
-                        commentCount.Text = string.Format(CultureInfo.InvariantCulture, linkToComments, entryUrl,
+                        commentCount.Text = string.Format(CultureInfo.InvariantCulture, LinkToComments, entryUrl,
                                                           Resources.EntryList_AddComment, string.Empty);
                     }
                     else if(entry.FeedBackCount == 1)
                     {
-                        commentCount.Text = string.Format(CultureInfo.InvariantCulture, linkToComments, entryUrl,
+                        commentCount.Text = string.Format(CultureInfo.InvariantCulture, LinkToComments, entryUrl,
                                                           Resources.EntryList_OneComment, string.Empty);
                     }
                     else if(entry.FeedBackCount > 1)
                     {
-                        commentCount.Text = string.Format(linkToComments, entryUrl, entry.FeedBackCount,
+                        commentCount.Text = string.Format(LinkToComments, entryUrl, entry.FeedBackCount,
                                                           Resources.EntryList_CommentsPlural);
                     }
                 }
@@ -206,23 +207,23 @@ namespace Subtext.Web.UI.Controls
 
         private void BindPostDescription(RepeaterItemEventArgs e, Entry entry)
         {
-            var PostDesc = (Literal)e.Item.FindControl("PostDesc");
-            if(PostDesc != null)
+            var postDesc = (Literal)e.Item.FindControl("PostDesc");
+            if(postDesc != null)
             {
                 string entryUrl = Url.EntryUrl(entry);
                 if(entry.AllowComments)
                 {
-                    PostDesc.Text = string.Format(postdescWithComments, entryUrl, entry.DateSyndicated.ToString("f"),
+                    postDesc.Text = string.Format(PostdescWithComments, entryUrl, entry.DateSyndicated.ToString("f"),
                                                   entryUrl, entry.FeedBackCount);
                 }
                 else
                 {
-                    PostDesc.Text = string.Format(postdescWithNoComments, entryUrl, entry.DateSyndicated.ToString("f"));
+                    postDesc.Text = string.Format(PostdescWithNoComments, entryUrl, entry.DateSyndicated.ToString("f"));
                 }
             }
         }
 
-        private static void BindPostCategories(RepeaterItemEventArgs e, Entry entry)
+        private static void BindPostCategories(RepeaterItemEventArgs e, IIdentifiable entry)
         {
             var postCategories = (PostCategoryList)e.Item.FindControl("Categories");
             if(postCategories != null)
@@ -258,17 +259,9 @@ namespace Subtext.Web.UI.Controls
                 }
                 else
                 {
-                    int wordlimit;
                     int actualnumberofwords = words.GetUpperBound(0) + 1;
                     //First 100 words or however many there actually are, whichever is less
-                    if(actualnumberofwords < definedwordlimit)
-                    {
-                        wordlimit = actualnumberofwords;
-                    }
-                    else
-                    {
-                        wordlimit = definedwordlimit; //TODO: Make this configurable
-                    }
+                    int wordlimit = actualnumberofwords < definedwordlimit ? actualnumberofwords : definedwordlimit;
                     for(int i = 0; i < wordlimit; i++)
                     {
                         returnstring.Append(words[i] + " ");
@@ -287,30 +280,15 @@ namespace Subtext.Web.UI.Controls
 
         private void BindPostText(RepeaterItemEventArgs e, Entry entry)
         {
-            var PostText = (Literal)e.Item.FindControl("PostText");
+            var postText = (Literal)e.Item.FindControl("PostText");
 
             if(DescriptionOnly) // like on the monthly archive page
             {
-                if(entry.HasDescription)
-                {
-                    PostText.Text = string.Format(CultureInfo.InvariantCulture, "<p>{0}</p>", entry.Description);
-                }
-                    //DF:  Description=Excerpt, if none, show first 100 words of post
-                else
-                {
-                    PostText.Text = ShowTruncatedBody(entry, 100);
-                }
+                postText.Text = entry.HasDescription ? string.Format(CultureInfo.InvariantCulture, "<p>{0}</p>", entry.Description) : ShowTruncatedBody(entry, 100);
             }
             else
             {
-                if(entry.HasDescription)
-                {
-                    PostText.Text = entry.Description;
-                }
-                else
-                {
-                    PostText.Text = entry.Body;
-                }
+                postText.Text = entry.HasDescription ? entry.Description : entry.Body;
             }
         }
 
@@ -362,8 +340,8 @@ namespace Subtext.Web.UI.Controls
                 LinkCategory lc;
                 if(Category.IsNumeric())
                 {
-                    int categoryID = Int32.Parse(Category);
-                    lc = Cacher.SingleCategory(categoryID, false, SubtextContext);
+                    int categoryId = Int32.Parse(Category);
+                    lc = Cacher.SingleCategory(categoryId, false, SubtextContext);
                 }
                 else
                 {

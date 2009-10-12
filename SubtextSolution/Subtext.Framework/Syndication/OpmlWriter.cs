@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -10,42 +27,47 @@ namespace Subtext.Framework.Syndication
     {
         public virtual void Write(IEnumerable<Blog> blogs, TextWriter writer, UrlHelper urlHelper)
         {
-            var settings = new XmlWriterSettings();
-            settings.Encoding = Encoding.UTF8;
-            settings.OmitXmlDeclaration = true;
-            settings.ConformanceLevel = ConformanceLevel.Document;
-            settings.Indent = true;
-            settings.IndentChars = ("\t");
+            var settings = new XmlWriterSettings
+            {
+                Encoding = Encoding.UTF8,
+                OmitXmlDeclaration = true,
+                ConformanceLevel = ConformanceLevel.Document,
+                Indent = true,
+                IndentChars = ("\t")
+            };
 
             using(XmlWriter xmlWriter = XmlWriter.Create(writer, settings))
             {
-                xmlWriter.WriteStartDocument();
-
-                //OPML ROOT
-                xmlWriter.WriteStartElement("opml");
-                xmlWriter.WriteAttributeString("version", "1.0");
-
-                //Body
-                xmlWriter.WriteStartElement("body");
-
-                foreach(Blog blog in blogs)
+                if(xmlWriter != null)
                 {
-                    xmlWriter.WriteStartElement("outline");
+                    xmlWriter.WriteStartDocument();
 
-                    string title = blog.Title;
-                    VirtualPath htmlPath = urlHelper.BlogUrl(blog);
-                    string htmlUrl = htmlPath.ToFullyQualifiedUrl(blog).ToString();
-                    string xmlUrl = urlHelper.RssUrl(blog).ToString();
+                    //OPML ROOT
+                    xmlWriter.WriteStartElement("opml");
+                    xmlWriter.WriteAttributeString("version", "1.0");
 
-                    xmlWriter.WriteAttributeString("title", title);
-                    xmlWriter.WriteAttributeString("htmlUrl", htmlUrl);
-                    xmlWriter.WriteAttributeString("xmlUrl", xmlUrl);
+                    //Body
+                    xmlWriter.WriteStartElement("body");
 
+                    foreach(Blog blog in blogs)
+                    {
+                        xmlWriter.WriteStartElement("outline");
+
+                        string title = blog.Title;
+                        VirtualPath htmlPath = urlHelper.BlogUrl(blog);
+                        string htmlUrl = htmlPath.ToFullyQualifiedUrl(blog).ToString();
+                        string xmlUrl = urlHelper.RssUrl(blog).ToString();
+
+                        xmlWriter.WriteAttributeString("title", title);
+                        xmlWriter.WriteAttributeString("htmlUrl", htmlUrl);
+                        xmlWriter.WriteAttributeString("xmlUrl", xmlUrl);
+
+                        xmlWriter.WriteEndElement();
+                    }
                     xmlWriter.WriteEndElement();
+                    xmlWriter.WriteEndElement();
+                    xmlWriter.Flush();
                 }
-                xmlWriter.WriteEndElement();
-                xmlWriter.WriteEndElement();
-                xmlWriter.Flush();
             }
         }
     }

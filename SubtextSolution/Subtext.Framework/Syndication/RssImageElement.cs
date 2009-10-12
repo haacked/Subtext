@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Globalization;
 using System.Xml;
@@ -10,12 +27,12 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public class RssImageElement
     {
-        string description;
-        int? height;
-        Uri link;
-        string title;
-        Uri url;
-        int? width;
+        readonly string _description;
+        int? _height;
+        readonly Uri _link;
+        readonly string _title;
+        readonly Uri _url;
+        int? _width;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RssImageElement"/> class.
@@ -38,12 +55,12 @@ namespace Subtext.Framework.Syndication
         /// <param name="description">The description.</param>
         public RssImageElement(Uri url, string title, Uri link, int? width, int? height, string description)
         {
-            this.url = url;
-            this.title = HtmlHelper.RemoveHtml(title);
-            this.link = link;
-            this.width = width;
-            this.height = height;
-            this.description = description;
+            _url = url;
+            _title = HtmlHelper.RemoveHtml(title);
+            _link = link;
+            _width = width;
+            _height = height;
+            _description = description;
         }
 
         /// <summary>
@@ -52,7 +69,7 @@ namespace Subtext.Framework.Syndication
         /// <value>The URL.</value>
         public Uri Url
         {
-            get { return url; }
+            get { return _url; }
         }
 
         /// <summary>
@@ -61,7 +78,7 @@ namespace Subtext.Framework.Syndication
         /// <value>The title.</value>
         public string Title
         {
-            get { return title; }
+            get { return _title; }
         }
 
         /// <summary>
@@ -71,7 +88,7 @@ namespace Subtext.Framework.Syndication
         /// <value>The link.</value>
         public Uri Link
         {
-            get { return link; }
+            get { return _link; }
         }
 
         /// <summary>
@@ -80,7 +97,7 @@ namespace Subtext.Framework.Syndication
         /// <value>The width.</value>
         public int? Width
         {
-            get { return width; }
+            get { return _width; }
         }
 
         /// <summary>
@@ -98,7 +115,7 @@ namespace Subtext.Framework.Syndication
         /// <value>The description.</value>
         public string Description
         {
-            get { return description; }
+            get { return _description; }
         }
 
         /// <summary>
@@ -108,23 +125,23 @@ namespace Subtext.Framework.Syndication
         public void WriteToXmlWriter(XmlWriter writer)
         {
             writer.WriteStartElement("image");
-            writer.WriteElementString("title", title);
-            writer.WriteElementString("url", url.ToString());
-            writer.WriteElementString("link", link.ToString());
+            writer.WriteElementString("title", _title);
+            writer.WriteElementString("url", _url.ToString());
+            writer.WriteElementString("link", _link.ToString());
 
-            if(width != null)
+            if(_width != null)
             {
-                writer.WriteElementString("width", width.Value.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("width", _width.Value.ToString(CultureInfo.InvariantCulture));
             }
 
-            if(height != null)
+            if(_height != null)
             {
-                writer.WriteElementString("height", height.Value.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("height", _height.Value.ToString(CultureInfo.InvariantCulture));
             }
 
-            if(description != null)
+            if(_description != null)
             {
-                writer.WriteElementString("description", description); //Used in the alt tag.
+                writer.WriteElementString("description", _description); //Used in the alt tag.
             }
             writer.WriteEndElement();
         }

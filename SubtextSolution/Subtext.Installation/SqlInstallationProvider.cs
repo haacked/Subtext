@@ -34,7 +34,7 @@ namespace Subtext.Installation
     public class SqlInstallationProvider : Extensibility.Providers.Installation
     {
         string _connectionString = string.Empty;
-        SqlInstaller installer;
+        SqlInstaller _installer;
 
         public SqlInstallationProvider()
         {
@@ -42,7 +42,7 @@ namespace Subtext.Installation
 
         public SqlInstallationProvider(string connectionString)
         {
-            installer = new SqlInstaller(connectionString);
+            _installer = new SqlInstaller(connectionString);
             _connectionString = connectionString;
         }
 
@@ -56,10 +56,10 @@ namespace Subtext.Installation
             _connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName",
                                                                                             configValue);
 
-            installer = new SqlInstaller(_connectionString);
+            _installer = new SqlInstaller(_connectionString);
             if(!String.IsNullOrEmpty(configValue["dbUser"]))
             {
-                installer.DBUser = configValue["dbUser"];
+                _installer.DBUser = configValue["dbUser"];
             }
             base.Initialize(name, configValue);
         }
@@ -79,11 +79,12 @@ namespace Subtext.Installation
         /// <returns></returns>
         public override Control GatherInstallationInformation()
         {
-            var builder = new ConnectionStringBuilder();
-            builder.AllowWebConfigOverride = true;
-            builder.Description =
-                "A SQL Connection String with the rights to create SQL Database objects such as Stored Procedures, Table, and Views.";
-            builder.Title = "Connection String";
+            var builder = new ConnectionStringBuilder
+            {
+                AllowWebConfigOverride = true,
+                Description = "A SQL Connection String with the rights to create SQL Database objects such as Stored Procedures, Table, and Views.",
+                Title = "Connection String"
+            };
 
             return builder;
         }
@@ -166,7 +167,7 @@ namespace Subtext.Installation
         /// <returns></returns>
         public override void Upgrade()
         {
-            installer.Upgrade();
+            _installer.Upgrade();
         }
 
         /// <summary>
@@ -176,7 +177,7 @@ namespace Subtext.Installation
         /// <returns></returns>
         public override void Install(Version assemblyVersion)
         {
-            installer.Install(assemblyVersion);
+            _installer.Install(assemblyVersion);
         }
 
         /// <summary>
@@ -187,7 +188,7 @@ namespace Subtext.Installation
         /// <returns></returns>
         public override Version GetCurrentInstallationVersion()
         {
-            string sql = "subtext_VersionGetCurrent";
+            const string sql = "subtext_VersionGetCurrent";
 
             try
             {
@@ -221,7 +222,7 @@ namespace Subtext.Installation
         /// </value>
         public bool NeedsUpgrade(Version installationVersion)
         {
-            return installer.NeedsUpgrade(installationVersion);
+            return _installer.NeedsUpgrade(installationVersion);
         }
 
         /// <summary>
@@ -268,34 +269,23 @@ namespace Subtext.Installation
         internal class InstallationScriptInfo
         {
             //Have the compiled regex as static to get the full benefit of compilation
-            private static Regex _ScriptParseRegex =
+            private static readonly Regex ScriptParseRegex =
                 new Regex(@"(?<ScriptName>Installation\.(?<version>\d+\.\d+\.\d+)\.sql)$",
                           RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-            string scriptName;
-            Version version;
-
             private InstallationScriptInfo(string scriptName, Version version)
             {
-                this.version = version;
-                this.scriptName = scriptName;
+                Version = version;
+                ScriptName = scriptName;
             }
 
-            public string ScriptName
-            {
-                get { return scriptName; }
-                set { scriptName = value; }
-            }
+            public string ScriptName { get; set; }
 
-            public Version Version
-            {
-                get { return version; }
-                set { version = value; }
-            }
+            public Version Version { get; set; }
 
             internal static InstallationScriptInfo Parse(string resourceName)
             {
-                Match match = _ScriptParseRegex.Match(resourceName);
+                Match match = ScriptParseRegex.Match(resourceName);
                 if(!match.Success)
                 {
                     return null;

@@ -36,7 +36,7 @@ namespace Subtext.Framework.Security
     /// </summary>
     public static class SecurityHelper
     {
-        private readonly static ILog log = new Log();
+        private readonly static ILog Log = new Log();
 
         /// <summary>
         /// Gets a value indicating whether the current 
@@ -108,10 +108,6 @@ namespace Subtext.Framework.Security
         /// Set the user's FormsAuthentication Ticket This method will handle passwords for 
         /// both hashed and non-hashed configurations
         /// </summary>
-        /// <param name="username">Supplied UserName</param>
-        /// <param name="password">Supplied Password</param>
-        /// <param name="persist">If valid, should we persist the login</param>
-        /// <returns>bool indicating successful login</returns>
         public static bool Authenticate(this HttpContextBase httpContext, Blog blog, string username, string password,
                                         bool persist)
         {
@@ -132,9 +128,6 @@ namespace Subtext.Framework.Security
         /// functionally equivalent URI's may not pass string comparaisons, e.g.
         /// such as http://example.myopenid.com/ and http://example.myopenid.com (trailing /)
         /// </summary>
-        /// <param name="claimedIdenftifier">OpenID claimed identifier URI</param>
-        /// <param name="persist">If valid, should we persist the login</param>
-        /// <returns>bool indicating successful login</returns>
         public static bool Authenticate(string claimedIdentifier, bool persist)
         {
             Blog currentBlog = Config.CurrentBlog;
@@ -165,7 +158,7 @@ namespace Subtext.Framework.Security
                 return false;
             }
 
-            log.Debug("SetAuthenticationTicket-Admins via OpenID for " + currentBlog.UserName);
+            Log.Debug("SetAuthenticationTicket-Admins via OpenID for " + currentBlog.UserName);
             HttpContextBase httpContext = new HttpContextWrapper(HttpContext.Current);
             httpContext.SetAuthenticationTicket(currentBlog, currentBlog.UserName, persist, "Admins");
             return true;
@@ -195,7 +188,7 @@ namespace Subtext.Framework.Security
                 return false;
             }
 
-            log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
+            Log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
             HttpContextBase httpContext = new HttpContextWrapper(HttpContext.Current);
             httpContext.SetAuthenticationTicket(Config.CurrentBlog, username, persist, true, "HostAdmins");
 
@@ -208,8 +201,7 @@ namespace Subtext.Framework.Security
         /// <returns>a correctly named cookie with Expires date set 30 years ago</returns>
         public static HttpCookie GetExpiredCookie(this HttpRequestBase request, Blog blog)
         {
-            var expiredCookie = new HttpCookie(request.GetFullCookieName(blog));
-            expiredCookie.Expires = DateTime.Now.AddYears(-30);
+            var expiredCookie = new HttpCookie(request.GetFullCookieName(blog)) {Expires = DateTime.Now.AddYears(-30)};
             return expiredCookie;
         }
 
@@ -246,11 +238,6 @@ namespace Subtext.Framework.Security
             return request.GetFullCookieName(blog, false);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="forceHostAdmin">true if the name shall be forced to comply with the HostAdmin cookie</param>
-        /// <returns></returns>
         public static string GetFullCookieName(this HttpRequestBase request, Blog blog, bool forceHostAdmin)
         {
             var name = new StringBuilder(FormsAuthentication.FormsCookieName);
@@ -274,7 +261,7 @@ namespace Subtext.Framework.Security
                 name.Append("null");
             }
 
-            log.Debug("GetFullCookieName selected cookie named " + name);
+            Log.Debug("GetFullCookieName selected cookie named " + name);
             return name.ToString();
         }
 
@@ -287,8 +274,6 @@ namespace Subtext.Framework.Security
         /// <summary>
         /// Used by methods in this class plus Install.Step02_ConfigureHost
         /// </summary>
-        /// <param name="username">Username for the ticket</param>
-        /// <param name="persist">Should this ticket be persisted</param>
         public static void SetAuthenticationTicket(this HttpContextBase httpContext, Blog blog, string username,
                                                    bool persist, bool forceHostAdmin, params string[] roles)
         {
@@ -321,17 +306,16 @@ namespace Subtext.Framework.Security
         public static void LogOut()
         {
             var request = new HttpRequestWrapper(HttpContext.Current.Request);
-            var authCookie = new HttpCookie(request.GetFullCookieName(Config.CurrentBlog));
-            authCookie.Expires = DateTime.Now.AddYears(-30); //setting an expired cookie forces client to remove it
+            var authCookie = new HttpCookie(request.GetFullCookieName(Config.CurrentBlog)) {Expires = DateTime.Now.AddYears(-30)};
             HttpContext.Current.Response.Cookies.Add(authCookie);
 
             #region Logging
 
-            if(log.IsDebugEnabled)
+            if(Log.IsDebugEnabled)
             {
                 string username = HttpContext.Current.User.Identity.Name;
-                log.Debug("Logging out " + username);
-                log.Debug("the code MUST call a redirect after this");
+                Log.Debug("Logging out " + username);
+                Log.Debug("the code MUST call a redirect after this");
             }
 
             #endregion
@@ -368,8 +352,6 @@ namespace Subtext.Framework.Security
         /// <remarks>
         /// Passwords are case sensitive now. Before they weren't.
         /// </remarks>
-        /// <param name="password">Supplied Password</param>
-        /// <returns>Encrypted (Hashed) value</returns>
         public static string HashPassword(string password, string salt)
         {
             string preHash = CombinePasswordAndSalt(password, salt);
@@ -401,20 +383,14 @@ namespace Subtext.Framework.Security
         /// <summary>
         /// Validates if the supplied credentials match the current blog
         /// </summary>
-        /// <param name="username">Supplied Username</param>
-        /// <param name="password">Supplied Password</param>
-        /// <returns>bool value indicating if the user is valid.</returns>
         public static bool IsValidUser(Blog blog, string username, string password)
         {
             if(String.Equals(username, blog.UserName, StringComparison.OrdinalIgnoreCase))
             {
                 return IsValidPassword(blog, password);
             }
-            else
-            {
-                log.DebugFormat("The supplied username '{0}' does not equal the configured username of '{1}'.", username,
-                                blog.UserName);
-            }
+            Log.DebugFormat("The supplied username '{0}' does not equal the configured username of '{1}'.", username,
+                            blog.UserName);
             return false;
         }
 
@@ -424,8 +400,6 @@ namespace Subtext.Framework.Security
         /// BlogConfigurationSettings to see if the password should be 
         /// Encrypted/Hashed
         /// </summary>
-        /// <param name="password">Supplied Password</param>
-        /// <returns>bool value indicating if the supplied password matches the current blog's password</returns>
         public static bool IsValidPassword(Blog blog, string password)
         {
             if(blog.IsPasswordHashed)
@@ -476,14 +450,7 @@ namespace Subtext.Framework.Security
         public static void UpdatePassword(string password)
         {
             Blog info = Config.CurrentBlog;
-            if(Config.CurrentBlog.IsPasswordHashed)
-            {
-                info.Password = HashPassword(password);
-            }
-            else
-            {
-                info.Password = password;
-            }
+            info.Password = Config.CurrentBlog.IsPasswordHashed ? HashPassword(password) : password;
             //Save new password.
             ObjectProvider.Instance().UpdateConfigData(info);
         }
@@ -491,14 +458,7 @@ namespace Subtext.Framework.Security
         public static void UpdateHostAdminPassword(string password)
         {
             HostInfo hostInfo = HostInfo.Instance;
-            if(Config.Settings.UseHashedPasswords)
-            {
-                hostInfo.Password = HashPassword(password, HostInfo.Instance.Salt);
-            }
-            else
-            {
-                hostInfo.Password = password;
-            }
+            hostInfo.Password = Config.Settings.UseHashedPasswords ? HashPassword(password, HostInfo.Instance.Salt) : password;
             HostInfo.UpdateHost(hostInfo);
         }
 

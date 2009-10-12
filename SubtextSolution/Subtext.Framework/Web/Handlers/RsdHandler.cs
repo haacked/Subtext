@@ -62,7 +62,6 @@ namespace Subtext.Framework.Web.Handlers
         /// , "attachment; filename=\"" + Filename + "\"");</code>
         /// </p>
         /// </remarks>
-        /// <param name="context">Context.</param>
         public override void ProcessRequest()
         {
             if(Blog == null)
@@ -72,10 +71,7 @@ namespace Subtext.Framework.Web.Handlers
             HttpResponseBase response = SubtextContext.HttpContext.Response;
             response.Charset = "utf-8";
             response.ContentType = "text/xml";
-            var settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.IndentChars = "  ";
-            settings.Encoding = Encoding.UTF8;
+            var settings = new XmlWriterSettings {Indent = true, IndentChars = "  ", Encoding = Encoding.UTF8};
             XmlWriter writer = XmlWriter.Create(response.OutputStream, settings);
             WriteRsd(writer, Blog, Url);
         }
@@ -83,8 +79,6 @@ namespace Subtext.Framework.Web.Handlers
         /// <summary>
         /// Writes the RSD for the specified blog into the XmlWriter.
         /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="blog"></param>
         public void WriteRsd(XmlWriter writer, Blog blog, UrlHelper urlHelper)
         {
             writer.WriteStartDocument();

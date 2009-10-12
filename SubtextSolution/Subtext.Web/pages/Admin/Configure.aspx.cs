@@ -22,19 +22,19 @@ using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Infrastructure;
 using Subtext.Framework.UI.Skinning;
 using Subtext.Framework.Util;
+using Subtext.Infrastructure;
 
 namespace Subtext.Web.Admin.Pages
 {
     public partial class Configure : AdminOptionsPage
     {
         // abstract out at a future point for i18n
-        private const string RES_FAILURE = "Configuration update failed.";
-        private const string RES_SUCCESS = "Your configuration was successfully updated.";
-        private IList<SkinTemplate> mobileSkins;
-        private ICollection<SkinTemplate> skins;
+        private const string FailureMessage = "Configuration update failed.";
+        private const string SuccessMessage = "Your configuration was successfully updated.";
+        private IList<SkinTemplate> _mobileSkins;
+        private ICollection<SkinTemplate> _skins;
 
         public CategoryType CategoryType
         {
@@ -46,12 +46,12 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if(skins == null)
+                if(_skins == null)
                 {
                     var engine = new SkinEngine();
                     IDictionary<string, SkinTemplate> templates = engine.GetSkinTemplates(false /* mobile */);
-                    skins = templates.Values;
-                    foreach(SkinTemplate template in skins)
+                    _skins = templates.Values;
+                    foreach(SkinTemplate template in _skins)
                     {
                         if(template.MobileSupport == MobileSupport.Supported)
                         {
@@ -59,7 +59,7 @@ namespace Subtext.Web.Admin.Pages
                         }
                     }
                 }
-                return skins;
+                return _skins;
             }
         }
 
@@ -67,14 +67,14 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if(mobileSkins == null)
+                if(_mobileSkins == null)
                 {
                     var engine = new SkinEngine();
                     IDictionary<string, SkinTemplate> templates = engine.GetSkinTemplates(true /* mobile */);
-                    mobileSkins = new List<SkinTemplate>(templates.Values);
-                    mobileSkins.Insert(0, SkinTemplate.Empty);
+                    _mobileSkins = new List<SkinTemplate>(templates.Values);
+                    _mobileSkins.Insert(0, SkinTemplate.Empty);
                 }
-                return mobileSkins;
+                return _mobileSkins;
             }
         }
 
@@ -208,11 +208,11 @@ namespace Subtext.Web.Admin.Pages
 
                 Repository.UpdateConfigData(info);
 
-                Messages.ShowMessage(RES_SUCCESS);
+                Messages.ShowMessage(SuccessMessage);
             }
             catch(Exception ex)
             {
-                Messages.ShowError(String.Format(Constants.RES_EXCEPTION, RES_FAILURE, ex.Message));
+                Messages.ShowError(String.Format(Constants.RES_EXCEPTION, FailureMessage, ex.Message));
             }
         }
 

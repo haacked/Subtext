@@ -29,14 +29,11 @@ namespace Subtext.Scripting
     [Serializable]
     public class ConnectionString
     {
-        private static readonly ConnectionString _emptyConnectionString = new ConnectionString();
+        private static readonly ConnectionString EmptyConnectionString = new ConnectionString();
 
         //readonly string _connectionFormatString = "{0}={1};{2}={3};User ID={4};Password={5};{6}";
         //readonly string _trustedConnectionFormatString = "{0}={1};{2}={3};{4}";
-        string _databaseFieldName = "Database";
         string _securityType;
-        string _securityTypeText;
-        string _serverFieldName = "Server";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConnectionString"/> class.
@@ -60,7 +57,7 @@ namespace Subtext.Scripting
         /// </summary>
         public static ConnectionString Empty
         {
-            get { return _emptyConnectionString; }
+            get { return EmptyConnectionString; }
         }
 
         /// <summary>
@@ -100,17 +97,8 @@ namespace Subtext.Scripting
                        || String.Equals(_securityType, "true", StringComparison.OrdinalIgnoreCase);
             }
 
-            set
-            {
-                if(value)
-                {
-                    _securityType = "true";
-                    _securityTypeText = "Trusted_Connection=true";
-                }
-                else
-                {
-                    _securityType = _securityTypeText = String.Empty;
-                }
+            set {
+                _securityType = value ? "true" : String.Empty;
             }
         }
 
@@ -146,7 +134,7 @@ namespace Subtext.Scripting
             //    return string.Format(CultureInfo.InvariantCulture, _connectionFormatString, _serverFieldName, Server, _databaseFieldName, Database, UserId, Password, _securityTypeText);
         }
 
-        private bool ParseServer(string connectionString)
+        private void ParseServer(string connectionString)
         {
             var regex = new Regex(@"(?<serverField>Data\s+Source|Server)\s*=\s*(?<server>.*?)(;|$|\s)",
                                   RegexOptions.IgnoreCase);
@@ -154,14 +142,10 @@ namespace Subtext.Scripting
             if(match.Success)
             {
                 Server = match.Groups["server"].Value;
-                _serverFieldName = match.Groups["serverField"].Value;
-                return true;
             }
-
-            return false;
         }
 
-        private bool ParseDatabase(string connectionString)
+        private void ParseDatabase(string connectionString)
         {
             var regex = new Regex(@"(?<databaseField>Database|Initial Catalog)\s*=\s*(?<database>.*?)(;|$|\s)",
                                   RegexOptions.IgnoreCase);
@@ -169,10 +153,9 @@ namespace Subtext.Scripting
             if(match.Success)
             {
                 Database = match.Groups["database"].Value;
-                _databaseFieldName = match.Groups["databaseField"].Value;
                 if(!String.IsNullOrEmpty(Database))
                 {
-                    return true;
+                    return;
                 }
             }
 
@@ -186,41 +169,33 @@ namespace Subtext.Scripting
                     Database = match.Groups["database"].Value;
                     if(!String.IsNullOrEmpty(Database))
                     {
-                        return true;
+                        return;
                     }
                 }
             }
-
-            return false;
         }
 
-        private bool ParseUserId(string connectionString)
+        private void ParseUserId(string connectionString)
         {
             var regex = new Regex(@"User\s+Id\s*=\s*(?<userId>.*?)(;|$|\s)", RegexOptions.IgnoreCase);
             Match match = regex.Match(connectionString);
             if(match.Success)
             {
                 UserId = match.Groups["userId"].Value;
-                return true;
             }
-
-            return false;
         }
 
-        private bool ParsePassword(string connectionString)
+        private void ParsePassword(string connectionString)
         {
             var regex = new Regex(@"Password\s*=\s*(?<password>.*?)(;|$|\s)", RegexOptions.IgnoreCase);
             Match match = regex.Match(connectionString);
             if(match.Success)
             {
                 Password = match.Groups["password"].Value;
-                return true;
             }
-
-            return false;
         }
 
-        private bool ParseSecurityType(string connectionString)
+        private void ParseSecurityType(string connectionString)
         {
             var regex =
                 new Regex(
@@ -230,11 +205,7 @@ namespace Subtext.Scripting
             if(match.Success)
             {
                 _securityType = match.Groups["securityType"].Value;
-                _securityTypeText = match.Groups["securityTypeField"].Value + "=" + _securityType + ";";
-                return true;
             }
-
-            return false;
         }
 
         /// <summary>

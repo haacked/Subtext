@@ -44,16 +44,16 @@ namespace Subtext.Web.UI.Pages
     public partial class SubtextMasterPage : SubtextPage, IPageWithControls
     {
         protected const string ControlLocation = "~/Skins/{0}/Controls/{1}";
-        protected const string OpenIDDelegateLocation = "<link rel=\"openid.delegate\" href=\"{0}\" />";
-        protected const string OpenIDServerLocation = "<link rel=\"openid.server\" href=\"{0}\" />";
+        protected const string OpenIdDelegateLocation = "<link rel=\"openid.delegate\" href=\"{0}\" />";
+        protected const string OpenIdServerLocation = "<link rel=\"openid.server\" href=\"{0}\" />";
         protected const string TemplateLocation = "~/Skins/{0}/{1}";
 
         public static readonly string CommentsPanelId = "commentsUpdatePanelWrapper";
 
-        private static readonly ScriptElementCollectionRenderer scriptRenderer =
+        private static readonly ScriptElementCollectionRenderer ScriptRenderer =
             new ScriptElementCollectionRenderer(new SkinEngine());
 
-        private static readonly StyleSheetElementCollectionRenderer styleRenderer =
+        private static readonly StyleSheetElementCollectionRenderer StyleRenderer =
             new StyleSheetElementCollectionRenderer(new SkinEngine());
 
         IEnumerable<string> _controls;
@@ -83,14 +83,10 @@ namespace Subtext.Web.UI.Pages
             }
         }
 
-        #region IPageWithControls Members
-
         public void SetControls(IEnumerable<string> controls)
         {
             _controls = controls;
         }
-
-        #endregion
 
         private void InitializeBlogPage()
         {
@@ -101,13 +97,11 @@ namespace Subtext.Web.UI.Pages
             IEnumerable<string> controls = _controls;
             if(controls != null)
             {
-                var apnlCommentsWrapper = new UpdatePanel();
-                apnlCommentsWrapper.Visible = true;
-                apnlCommentsWrapper.ID = CommentsPanelId;
+                var apnlCommentsWrapper = new UpdatePanel {Visible = true, ID = CommentsPanelId};
 
                 foreach(string controlId in controls)
                 {
-                    Control control = null;
+                    Control control;
                     try
                     {
                         control = LoadControl(string.Format(ControlLocation, skinFolder, controlId));
@@ -129,7 +123,7 @@ namespace Subtext.Web.UI.Pages
                     else if(controlId.Equals("PostComment.ascx"))
                     {
                         postCommentControl = (PostComment)control;
-                        postCommentControl.CommentApproved += postCommentControl_CommentPosted;
+                        postCommentControl.CommentApproved += OnCommentPosted;
                         apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
                         CenterBodyControl.Controls.Add(apnlCommentsWrapper);
                     }
@@ -163,48 +157,46 @@ namespace Subtext.Web.UI.Pages
             // if specified, add script elements
             if(scripts != null)
             {
-                scripts.Text = scriptRenderer.RenderScriptElementCollection(CurrentSkin.SkinKey);
+                scripts.Text = ScriptRenderer.RenderScriptElementCollection(CurrentSkin.SkinKey);
             }
 
             if(styles != null)
             {
-                styles.Text = styleRenderer.RenderStyleElementCollection(CurrentSkin.SkinKey);
+                styles.Text = StyleRenderer.RenderStyleElementCollection(CurrentSkin.SkinKey);
             }
 
             if(openIDServer != null && !string.IsNullOrEmpty(Blog.OpenIdServer))
             {
-                openIDServer.Text = string.Format(OpenIDServerLocation, Blog.OpenIdServer);
+                openIDServer.Text = string.Format(OpenIdServerLocation, Blog.OpenIdServer);
             }
 
             if(openIDDelegate != null && !string.IsNullOrEmpty(Blog.OpenIdDelegate))
             {
-                openIDDelegate.Text = string.Format(OpenIDDelegateLocation, Blog.OpenIdDelegate);
+                openIDDelegate.Text = string.Format(OpenIdDelegateLocation, Blog.OpenIdDelegate);
             }
 
             // Add the per-blog MetaTags to the page Head section.
             IPagedCollection<MetaTag> blogMetaTags = MetaTags.GetMetaTagsForBlog(Blog, 0, int.MaxValue);
             foreach(MetaTag tag in blogMetaTags)
             {
-                var mt = new HtmlMeta();
-                mt.Content = tag.Content;
+                var htmlMetaTag = new HtmlMeta {Content = tag.Content};
 
                 if(!string.IsNullOrEmpty(tag.Name))
                 {
-                    mt.Name = tag.Name;
+                    htmlMetaTag.Name = tag.Name;
                 }
                 else
                 {
-                    mt.HttpEquiv = tag.HttpEquiv;
+                    htmlMetaTag.HttpEquiv = tag.HttpEquiv;
                 }
 
-                var newLineLiteral = new Literal();
-                newLineLiteral.Text = Environment.NewLine;
+                var newLineLiteral = new Literal {Text = Environment.NewLine};
                 metaTagsPlaceHolder.Controls.Add(newLineLiteral);
-                metaTagsPlaceHolder.Controls.Add(mt);
+                metaTagsPlaceHolder.Controls.Add(htmlMetaTag);
             }
         }
 
-        void postCommentControl_CommentPosted(object sender, EventArgs e)
+        void OnCommentPosted(object sender, EventArgs e)
         {
             commentsControl.BindFeedback(false); //don't get it from cache.
         }

@@ -26,7 +26,7 @@ namespace Subtext.Framework.Syndication
     public class RssCategoryHandler : EntryCollectionHandler<Entry>
     {
         protected LinkCategory Category;
-        ICollection<Entry> posts;
+        ICollection<Entry> _posts;
 
         public RssCategoryHandler(ISubtextContext subtextContext)
             : base(subtextContext)
@@ -37,7 +37,7 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                return new CategoryWriter(HttpContext.Response.Output, posts, Category,
+                return new CategoryWriter(HttpContext.Response.Output, _posts, Category,
                                           Url.CategoryUrl(Category).ToFullyQualifiedUrl(Blog), SubtextContext);
             }
         }
@@ -57,12 +57,12 @@ namespace Subtext.Framework.Syndication
                 Category = Cacher.SingleCategory(SubtextContext);
             }
 
-            if(Category != null && posts == null)
+            if(Category != null && _posts == null)
             {
-                posts = Cacher.GetEntriesByCategory(10, Category.Id, SubtextContext);
+                _posts = Cacher.GetEntriesByCategory(10, Category.Id, SubtextContext);
             }
 
-            return posts;
+            return _posts;
         }
 
         /// <summary>
@@ -73,14 +73,14 @@ namespace Subtext.Framework.Syndication
         {
             CachedFeed feed = null;
 
-            posts = GetFeedEntries();
+            _posts = GetFeedEntries();
 
-            if(posts != null && posts.Count > 0)
+            if(_posts != null && _posts.Count > 0)
             {
                 feed = new CachedFeed();
-                var cw = new CategoryWriter(HttpContext.Response.Output, posts, Category,
+                var cw = new CategoryWriter(HttpContext.Response.Output, _posts, Category,
                                             Url.CategoryUrl(Category).ToFullyQualifiedUrl(Blog), SubtextContext);
-                feed.LastModified = ConvertLastUpdatedDate(posts.First().DateCreated);
+                feed.LastModified = ConvertLastUpdatedDate(_posts.First().DateCreated);
                 feed.Xml = cw.Xml;
             }
             return feed;

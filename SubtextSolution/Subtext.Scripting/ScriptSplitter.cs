@@ -1,3 +1,20 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,31 +27,31 @@ namespace Subtext.Scripting
 {
     public class ScriptSplitter : IEnumerable<string>
     {
-        private readonly TextReader reader;
-        private StringBuilder builder = new StringBuilder();
-        private char current;
-        private char lastChar;
-        private ScriptReader scriptReader = null;
+        private readonly TextReader _reader;
+        private StringBuilder _builder = new StringBuilder();
+        private char _current;
+        private char _lastChar;
+        private ScriptReader _scriptReader;
 
         public ScriptSplitter(string script)
         {
-            reader = new StringReader(script);
-            scriptReader = new SeparatorLineReader(this);
+            _reader = new StringReader(script);
+            _scriptReader = new SeparatorLineReader(this);
         }
 
         internal bool HasNext
         {
-            get { return reader.Peek() != -1; }
+            get { return _reader.Peek() != -1; }
         }
 
         internal char Current
         {
-            get { return current; }
+            get { return _current; }
         }
 
         internal char LastChar
         {
-            get { return lastChar; }
+            get { return _lastChar; }
         }
 
         #region IEnumerable<string> Members
@@ -45,7 +62,7 @@ namespace Subtext.Scripting
             {
                 if(Split())
                 {
-                    string script = builder.ToString().Trim();
+                    string script = _builder.ToString().Trim();
                     if(script.Length > 0)
                     {
                         yield return (script);
@@ -53,9 +70,9 @@ namespace Subtext.Scripting
                     Reset();
                 }
             }
-            if(builder.Length > 0)
+            if(_builder.Length > 0)
             {
-                string scriptRemains = builder.ToString().Trim();
+                string scriptRemains = _builder.ToString().Trim();
                 if(scriptRemains.Length > 0)
                 {
                     yield return (scriptRemains);
@@ -77,50 +94,50 @@ namespace Subtext.Scripting
                 return false;
             }
 
-            lastChar = current;
-            current = (char)reader.Read();
+            _lastChar = _current;
+            _current = (char)_reader.Read();
             return true;
         }
 
         internal int Peek()
         {
-            return reader.Peek();
+            return _reader.Peek();
         }
 
         private bool Split()
         {
-            return scriptReader.ReadNextSection();
+            return _scriptReader.ReadNextSection();
         }
 
         internal void SetParser(ScriptReader newReader)
         {
-            scriptReader = newReader;
+            _scriptReader = newReader;
         }
 
         internal void Append(string text)
         {
-            builder.Append(text);
+            _builder.Append(text);
         }
 
         internal void Append(char c)
         {
-            builder.Append(c);
+            _builder.Append(c);
         }
 
         void Reset()
         {
-            current = lastChar = char.MinValue;
-            builder = new StringBuilder();
+            _current = _lastChar = char.MinValue;
+            _builder = new StringBuilder();
         }
     }
 
     abstract class ScriptReader
     {
-        protected readonly ScriptSplitter splitter;
+        protected readonly ScriptSplitter Splitter;
 
-        public ScriptReader(ScriptSplitter splitter)
+        protected ScriptReader(ScriptSplitter splitter)
         {
-            this.splitter = splitter;
+            Splitter = splitter;
         }
 
         /// <summary>
@@ -151,17 +168,17 @@ namespace Subtext.Scripting
 
         protected virtual bool ReadDashDashComment()
         {
-            splitter.Append(Current);
-            while(splitter.Next())
+            Splitter.Append(Current);
+            while(Splitter.Next())
             {
-                splitter.Append(Current);
+                Splitter.Append(Current);
                 if(EndOfLine)
                 {
                     break;
                 }
             }
             //We should be EndOfLine or EndOfScript here.
-            splitter.SetParser(new SeparatorLineReader(splitter));
+            Splitter.SetParser(new SeparatorLineReader(Splitter));
             return false;
         }
 
@@ -169,22 +186,22 @@ namespace Subtext.Scripting
         {
             if(ReadSlashStarCommentWithResult())
             {
-                splitter.SetParser(new SeparatorLineReader(splitter));
+                Splitter.SetParser(new SeparatorLineReader(Splitter));
                 return;
             }
         }
 
         private bool ReadSlashStarCommentWithResult()
         {
-            splitter.Append(Current);
-            while(splitter.Next())
+            Splitter.Append(Current);
+            while(Splitter.Next())
             {
                 if(BeginSlashStarComment)
                 {
                     ReadSlashStarCommentWithResult();
                     continue;
                 }
-                splitter.Append(Current);
+                Splitter.Append(Current);
 
                 if(EndSlashStarComment)
                 {
@@ -196,10 +213,10 @@ namespace Subtext.Scripting
 
         protected virtual void ReadQuotedString()
         {
-            splitter.Append(Current);
-            while(splitter.Next())
+            Splitter.Append(Current);
+            while(Splitter.Next())
             {
-                splitter.Append(Current);
+                Splitter.Append(Current);
                 if(IsQuote)
                 {
                     return;
@@ -213,32 +230,32 @@ namespace Subtext.Scripting
 
         protected bool HasNext
         {
-            get { return splitter.HasNext; }
+            get { return Splitter.HasNext; }
         }
 
         protected bool WhiteSpace
         {
-            get { return char.IsWhiteSpace(splitter.Current); }
+            get { return char.IsWhiteSpace(Splitter.Current); }
         }
 
         protected bool EndOfLine
         {
-            get { return '\n' == splitter.Current; }
+            get { return '\n' == Splitter.Current; }
         }
 
         protected bool IsQuote
         {
-            get { return '\'' == splitter.Current; }
+            get { return '\'' == Splitter.Current; }
         }
 
         protected char Current
         {
-            get { return splitter.Current; }
+            get { return Splitter.Current; }
         }
 
         protected char LastChar
         {
-            get { return splitter.LastChar; }
+            get { return Splitter.LastChar; }
         }
 
         bool BeginDashDashComment
@@ -272,7 +289,7 @@ namespace Subtext.Scripting
             {
                 return char.MinValue;
             }
-            return (char)splitter.Peek();
+            return (char)Splitter.Peek();
         }
 
         #endregion
@@ -280,9 +297,9 @@ namespace Subtext.Scripting
 
     class SeparatorLineReader : ScriptReader
     {
-        private StringBuilder builder = new StringBuilder();
-        private bool foundGo;
-        private bool gFound;
+        private StringBuilder _builder = new StringBuilder();
+        private bool _foundGo;
+        private bool _gFound;
 
         public SeparatorLineReader(ScriptSplitter splitter)
             : base(splitter)
@@ -291,14 +308,14 @@ namespace Subtext.Scripting
 
         void Reset()
         {
-            foundGo = false;
-            gFound = false;
-            builder = new StringBuilder();
+            _foundGo = false;
+            _gFound = false;
+            _builder = new StringBuilder();
         }
 
         protected override bool ReadDashDashComment()
         {
-            if(!foundGo)
+            if(!_foundGo)
             {
                 base.ReadDashDashComment();
                 return false;
@@ -309,7 +326,7 @@ namespace Subtext.Scripting
 
         protected override void ReadSlashStarComment()
         {
-            if(foundGo)
+            if(_foundGo)
             {
                 throw new SqlParseException(Resources.SqlParseException_IncorrectSyntaxNearGo);
             }
@@ -320,23 +337,20 @@ namespace Subtext.Scripting
         {
             if(EndOfLine) //End of line or script
             {
-                if(!foundGo)
+                if(!_foundGo)
                 {
-                    builder.Append(Current);
-                    splitter.Append(builder.ToString());
-                    splitter.SetParser(new SeparatorLineReader(splitter));
+                    _builder.Append(Current);
+                    Splitter.Append(_builder.ToString());
+                    Splitter.SetParser(new SeparatorLineReader(Splitter));
                     return false;
                 }
-                else
-                {
-                    Reset();
-                    return true;
-                }
+                Reset();
+                return true;
             }
 
             if(WhiteSpace)
             {
-                builder.Append(Current);
+                _builder.Append(Current);
                 return false;
             }
 
@@ -348,9 +362,9 @@ namespace Subtext.Scripting
 
             if(CharEquals('o'))
             {
-                if(CharEquals('g', LastChar) && !foundGo)
+                if(CharEquals('g', LastChar) && !_foundGo)
                 {
-                    foundGo = true;
+                    _foundGo = true;
                 }
                 else
                 {
@@ -360,30 +374,30 @@ namespace Subtext.Scripting
 
             if(CharEquals('g', Current))
             {
-                if(gFound || (!Char.IsWhiteSpace(LastChar) && LastChar != char.MinValue))
+                if(_gFound || (!Char.IsWhiteSpace(LastChar) && LastChar != char.MinValue))
                 {
                     FoundNonEmptyCharacter(Current);
                     return false;
                 }
 
-                gFound = true;
+                _gFound = true;
             }
 
-            if(!HasNext && foundGo)
+            if(!HasNext && _foundGo)
             {
                 Reset();
                 return true;
             }
 
-            builder.Append(Current);
+            _builder.Append(Current);
             return false;
         }
 
         void FoundNonEmptyCharacter(char c)
         {
-            builder.Append(c);
-            splitter.Append(builder.ToString());
-            splitter.SetParser(new SqlScriptReader(splitter));
+            _builder.Append(c);
+            Splitter.Append(_builder.ToString());
+            Splitter.SetParser(new SqlScriptReader(Splitter));
         }
     }
 
@@ -398,12 +412,12 @@ namespace Subtext.Scripting
         {
             if(EndOfLine) //end of line
             {
-                splitter.Append(Current);
-                splitter.SetParser(new SeparatorLineReader(splitter));
+                Splitter.Append(Current);
+                Splitter.SetParser(new SeparatorLineReader(Splitter));
                 return false;
             }
 
-            splitter.Append(Current);
+            Splitter.Append(Current);
             return false;
         }
     }

@@ -25,8 +25,6 @@ namespace Subtext.Framework.Util
 {
     public class XmlSerializerSectionHandler : IConfigurationSectionHandler
     {
-        #region IConfigurationSectionHandler Members
-
         public object Create(object parent, object configContext, XmlNode section)
         {
             XPathNavigator nav = section.CreateNavigator();
@@ -35,7 +33,5 @@ namespace Subtext.Framework.Util
             var ser = new XmlSerializer(t);
             return ser.Deserialize(new XmlNodeReader(section));
         }
-
-        #endregion
     }
 }

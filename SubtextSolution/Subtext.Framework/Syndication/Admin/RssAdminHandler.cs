@@ -31,10 +31,10 @@ namespace Subtext.Framework.Syndication.Admin
 {
     public class RssAdminHandler : EntryCollectionHandler<object>
     {
-        int count;
-        string[] filters;
-        string rssType = "";
-        string title = "";
+        int _count;
+        string[] _filters;
+        string _rssType = "";
+        string _title = "";
 
         public RssAdminHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
@@ -53,9 +53,7 @@ namespace Subtext.Framework.Syndication.Admin
                 if(feed is ICollection<FeedbackItem>)
                 {
                     //TODO: Test the admin feeds
-                    var entry = new Entry(PostType.None);
-                    entry.Title = title;
-                    entry.Body = string.Empty;
+                    var entry = new Entry(PostType.None) {Title = _title, Body = string.Empty};
 
                     var feedback = (ICollection<FeedbackItem>)feed;
                     return new CommentRssWriter(HttpContext.Response.Output, feedback, entry, SubtextContext);
@@ -85,7 +83,7 @@ namespace Subtext.Framework.Syndication.Admin
             get { return false; }
         }
 
-        protected override bool IsLocalCacheOK()
+        protected override bool IsLocalCacheOk()
         {
             string dt = LastModifiedHeader;
 
@@ -113,46 +111,39 @@ namespace Subtext.Framework.Syndication.Admin
 
         protected void SetOptions()
         {
-            if(!Int32.TryParse(HttpContext.Request.QueryString["Count"], out count))
+            if(!Int32.TryParse(HttpContext.Request.QueryString["Count"], out _count))
             {
-                count = Config.Settings.ItemCount;
+                _count = Config.Settings.ItemCount;
             }
 
             //TODO: Use route data instead.
             if(Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ModeratedCommentRss", RegexOptions.IgnoreCase))
             {
-                title = "Comments requiring your approval.";
-                filters = new string[] {"NeedsModeration"};
-                rssType = "Comment";
+                _title = "Comments requiring your approval.";
+                _filters = new[] {"NeedsModeration"};
+                _rssType = "Comment";
                 return;
             }
 
             if(Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ReferrersRss", RegexOptions.IgnoreCase))
             {
-                title = "Referrals";
-                rssType = "Referral";
+                _title = "Referrals";
+                _rssType = "Referral";
                 return;
             }
 
             if(Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ErrorsRss", RegexOptions.IgnoreCase))
             {
-                title = "Errors";
-                rssType = "Log";
+                _title = "Errors";
+                _rssType = "Log";
                 return;
             }
 
-            title = HttpContext.Request["Title"];
-            rssType = HttpContext.Request.QueryString["Type"];
+            _title = HttpContext.Request["Title"];
+            _rssType = HttpContext.Request.QueryString["Type"];
 
             string qryFilters = HttpContext.Request.QueryString["Filter"];
-            if(String.IsNullOrEmpty(qryFilters))
-            {
-                filters = new string[] {};
-            }
-            else
-            {
-                filters = qryFilters.Split('+');
-            }
+            _filters = String.IsNullOrEmpty(qryFilters) ? new string[] {} : qryFilters.Split('+');
         }
 
         protected override void ProcessFeed()
@@ -168,19 +159,19 @@ namespace Subtext.Framework.Syndication.Admin
 
         protected IList GetFeedEntriesSimple()
         {
-            if(String.IsNullOrEmpty(rssType))
+            if(String.IsNullOrEmpty(_rssType))
             {
-                throw new ArgumentNullException("rssType");
+                throw new InvalidOperationException("rssType is empty or null");
             }
 
             ObjectProvider repository = ObjectProvider.Instance();
 
-            switch(rssType)
+            switch(_rssType)
             {
                 case "Comment":
                     FeedbackStatusFlag flags = FeedbackStatusFlag.None;
 
-                    foreach(string filter in filters)
+                    foreach(string filter in _filters)
                     {
                         if(Enum.IsDefined(typeof(FeedbackStatusFlag), filter))
                         {
@@ -188,17 +179,17 @@ namespace Subtext.Framework.Syndication.Admin
                         }
                     }
 
-                    ICollection<FeedbackItem> moderatedFeedback = repository.GetPagedFeedback(0, count, flags,
+                    ICollection<FeedbackItem> moderatedFeedback = repository.GetPagedFeedback(0, _count, flags,
                                                                                               FeedbackStatusFlag.None,
                                                                                               FeedbackType.None);
                     return (IList)moderatedFeedback;
 
                 case "Referral":
                     //TODO: Fix!
-                    ICollection<Referrer> referrers = repository.GetPagedReferrers(0, count, NullValue.NullInt32);
+                    ICollection<Referrer> referrers = repository.GetPagedReferrers(0, _count, NullValue.NullInt32);
                     return (IList)referrers;
                 case "Log":
-                    ICollection<LogEntry> entries = LoggingProvider.Instance().GetPagedLogEntries(0, count);
+                    ICollection<LogEntry> entries = LoggingProvider.Instance().GetPagedLogEntries(0, _count);
                     return (IList)entries;
             }
 
