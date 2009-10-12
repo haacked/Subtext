@@ -40,10 +40,9 @@ namespace Subtext.Web.HostAdmin.UserControls
     /// </summary>
     public partial class BlogsEditor : BaseUserControl
     {
-        const string VskeyBlogid = "VS_BLOGID";
         int _pageIndex;
 
-        protected Button btnAddNewBlog = new Button();
+        protected Button AddNewBlogButton = new Button();
 
         /// <summary>
         /// Gets or sets the blog id.
@@ -59,7 +58,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                 }
                 return NullValue.NullInt32;
             }
-            set { ViewState[VskeyBlogid] = value; }
+            set { ViewState["BlogId"] = value; }
         }
 
         /// <summary>
@@ -88,13 +87,13 @@ namespace Subtext.Web.HostAdmin.UserControls
         {
             get
             {
-                if(ViewState["VS_CurrentBlogCount"] != null)
+                if(ViewState["CurrentBlogCount"] != null)
                 {
-                    return (int)ViewState["VS_CurrentBlogCount"];
+                    return (int)ViewState["CurrentBlogCount"];
                 }
                 return NullValue.NullInt32;
             }
-            set { ViewState["VS_CurrentBlogCount"] = value; }
+            set { ViewState["CurrentBlogCount"] = value; }
         }
 
         bool CreatingBlog
@@ -138,11 +137,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            btnAddNewBlog.Click += OnAddNewBlogClick;
+            AddNewBlogButton.Click += OnAddNewBlogClick;
 
-            btnAddNewBlog.CssClass = "button";
-            btnAddNewBlog.Text = Resources.BlogsEditor_NewBlogLabel;
-            ((HostAdminTemplate)Page.Master).AddSidebarControl(btnAddNewBlog);
+            AddNewBlogButton.CssClass = "button";
+            AddNewBlogButton.Text = Resources.BlogsEditor_NewBlogLabel;
+            ((HostAdminTemplate)Page.Master).AddSidebarControl(AddNewBlogButton);
 
             //Paging...
             if(null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
@@ -219,10 +218,11 @@ namespace Subtext.Web.HostAdmin.UserControls
                 txtApplication.Text = blog.Subfolder;
                 txtHost.Text = blog.Host;
                 txtUsername.Text = blog.UserName;
+                txtPassword.Text = txtPasswordConfirm.Text = string.Empty;
                 txtTitle.Text = blog.Title;
                 IPagedCollection<BlogAlias> aliases = blog.GetBlogAliases(0, int.MaxValue);
-                rprBlogAliasList.DataSource = aliases;
-                rprBlogAliasList.DataBind();
+                blogAliasListRepeater.DataSource = aliases;
+                blogAliasListRepeater.DataBind();
                 ddlGroups.Items.FindByValue(blog.BlogGroupId.ToString()).Selected = true;
             }
             else
@@ -285,7 +285,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             BindEdit();
         }
 
-        protected void rprBlogsList_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void OnBlogItemCommand(object source, RepeaterCommandEventArgs e)
         {
             switch(e.CommandName.ToLower(CultureInfo.InvariantCulture))
             {
@@ -465,7 +465,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             txtApplication.Enabled = !editing;
             txtTitle.Enabled = !editing;
             txtUsername.Enabled = !editing;
-            rprBlogAliasList.Visible = !editing;
+            blogAliasListRepeater.Visible = !editing;
         }
 
         protected void OnAddAliasOnClick(object sender, EventArgs e)
@@ -484,7 +484,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             SetAliasEdit(false);
         }
 
-        protected void rprBlogAliasList_ItemCommand(object sender, EventArgs e)
+        protected void OnItemCommand(object sender, EventArgs e)
         {
             var args = (CommandEventArgs)e;
             BlogAlias alias = Config.GetBlogAlias(Convert.ToInt32(args.CommandArgument));

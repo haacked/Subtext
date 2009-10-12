@@ -106,7 +106,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void BindList()
         {
-            ICollection<LinkCategory> cats = Links.GetCategories(CategoryType, ActiveFilter.None);
+            ICollection<LinkCategory> cats = Repository.GetCategories(CategoryType, false /*activeOnly*/);
             dgrItems.DataSource = cats;
             dgrItems.DataKeyField = "Id";
             dgrItems.DataBind();

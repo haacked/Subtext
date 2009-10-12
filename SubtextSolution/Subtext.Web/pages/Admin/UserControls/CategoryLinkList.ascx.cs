@@ -28,8 +28,6 @@ namespace Subtext.Web.Admin.UserControls
 {
     public partial class CategoryLinkList : BaseUserControl
     {
-        private const string QRYSTR_CATEGORYFILTER = "catid";
-        private const string QRYSTR_CATEGORYTYPE = "catType";
         protected ICollection<LinkCategoryLink> categoryLinks = new List<LinkCategoryLink>();
 
         public CategoryLinkList()
@@ -59,7 +57,8 @@ namespace Subtext.Web.Admin.UserControls
 
         private void BindCategoriesRepeater()
         {
-            string baseUrl = "Default.aspx";
+            //NEED TO USE ROUTING
+            string baseUrl = null;
 
             if(CategoryType != CategoryType.None)
             {
@@ -76,18 +75,24 @@ namespace Subtext.Web.Admin.UserControls
                 else if(CategoryType == CategoryType.PostCollection)
                 {
                     categoryLinks.Add(new LinkCategoryLink("All Categories", AdminUrl.PostsList()));
+                    baseUrl = "posts/default.aspx";
                 }
                 else if(CategoryType == CategoryType.StoryCollection)
                 {
                     categoryLinks.Add(new LinkCategoryLink("All Categories", AdminUrl.ArticlesList()));
+                    baseUrl = "articles/default.aspx";
                 }
 
                 ICollection<LinkCategory> categories = Links.GetCategories(CategoryType, ActiveFilter.None);
                 foreach(LinkCategory current in categories)
                 {
-                    string url = string.Format(CultureInfo.InvariantCulture, "{4}?{0}={1}&{2}={3}",
-                                               QRYSTR_CATEGORYFILTER, current.Id, QRYSTR_CATEGORYTYPE, CategoryType,
-                                               baseUrl);
+                    string url = string.Format(CultureInfo.InvariantCulture, "{0}?{1}={2}&{3}={4}",
+                                               Url.AdminUrl(baseUrl), 
+                                               Keys.QRYSTR_CATEGORYID, 
+                                               current.Id, 
+                                               Keys.QRYSTR_CATEGORYTYPE, 
+                                               CategoryType
+                                               );
                     categoryLinks.Add(new LinkCategoryLink(current.Title, url));
                 }
             }
