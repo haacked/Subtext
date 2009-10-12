@@ -4,7 +4,7 @@
 <st:MessagePanel id="messagePanel" runat="server"></st:MessagePanel>
 <st:AdvancedPanel id="pnlResults" runat="server">
 	<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs" Runat="server" oncheckedchanged="chkShowInactive_CheckedChanged"></asp:CheckBox>
-	<asp:Repeater id="rprBlogsList" Runat="server" OnItemCommand="rprBlogsList_ItemCommand">
+	<asp:Repeater id="rprBlogsList" Runat="server" OnItemCommand="OnBlogItemCommand">
 		<HeaderTemplate>
 			<table class="listing" cellspacing="0" cellpadding="4" border="0">
 				<tr>
@@ -192,7 +192,7 @@
 				<asp:TextBox id="txtAliasHost" Runat="server" MaxLength="100"></asp:TextBox>
 			</td>			
 			<td rowspan="7" runat="Server" id="tdAliasList">
-				<asp:Repeater runat="server" ID="rprBlogAliasList" OnItemCommand="rprBlogAliasList_ItemCommand">
+				<asp:Repeater runat="server" ID="blogAliasListRepeater" OnItemCommand="OnItemCommand">
 					<HeaderTemplate>
 						<table class="listing" cellspacing="2" cellpadding="0" border="0">
 							<tr></tr>
@@ -210,7 +210,7 @@
 					</HeaderTemplate>
 					<ItemTemplate>
 						<tr>
-							<td><asp:ImageButton ID="btnEditAlias" runat="server" ImageUrl="~\Images\edit.gif" CommandName="EditAlias" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' /> </td>
+							<td><asp:ImageButton ID="editAliasButton" runat="server" ImageUrl="~\Images\edit.gif" CommandName="EditAlias" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' /> </td>
 							<td>
 								<%# DataBinder.Eval(Container.DataItem, "Host") %>
 							</td>
@@ -220,12 +220,12 @@
 							<td>
 								<%# DataBinder.Eval(Container.DataItem, "IsActive") %>
 							</td>
-							<td><asp:LinkButton ID="btnDeleteAlias" runat="server" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' CommandName="DeleteAlias" Text="Delete" /></td>
+							<td><asp:LinkButton ID="deleteAliasButton" runat="server" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' CommandName="DeleteAlias" Text="Delete" /></td>
 						</tr>
 					</ItemTemplate>
 					<AlternatingItemTemplate>
 						<tr class="alt">
-							<td><asp:ImageButton ID="btnEditAlias" runat="server" ImageUrl="~\Images\edit.gif" CommandName="EditAlias" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' /> </td>
+							<td><asp:ImageButton ID="editAliasButton" runat="server" ImageUrl="~\Images\edit.gif" CommandName="EditAlias" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' /> </td>
 							<td>
 								<%# DataBinder.Eval(Container.DataItem, "Host") %>
 							</td>
@@ -235,13 +235,13 @@
 							<td>
 								<%# DataBinder.Eval(Container.DataItem, "IsActive") %>
 							</td>
-							<td><asp:LinkButton ID="btnDeleteAlias" runat="server" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' CommandName="DeleteAlias" Text="Delete" /></td>
+							<td><asp:LinkButton ID="deleteAliasButton" runat="server" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' CommandName="DeleteAlias" Text="Delete" /></td>
 						</tr>						
 					</AlternatingItemTemplate>
 					<FooterTemplate>
 							<tr>
 								<td colspan="5">
-								<asp:LinkButton ID="lbAddAlias" CssClass="button" Text="Add Alias" runat="server" CommandName="Add" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "BlogId") %>' OnClick="OnAddAliasOnClick"></asp:LinkButton>
+								<asp:LinkButton ID="addAliasButton" CssClass="button" Text="Add Alias" runat="server" CommandName="Add" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "BlogId") %>' OnClick="OnAddAliasOnClick"></asp:LinkButton>
 								</td>
 							</tr>
 						</table>
@@ -272,12 +272,15 @@
 			</td>
 		</tr>
 		<tr valign="top">
-			<td><label for="txtUsername">
-				<st:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog.">
-				User Name:</st:HelpToolTip></label>
+			<td>
+			    <label for="txtUsername">
+				    <st:HelpToolTip id="helpUsername" runat="server" 
+				        HelpText="This will be the user who is the administrator of this blog.">
+				    User Name:</st:HelpToolTip>
+			    </label>
 			</td>
 			<td>
-				<asp:TextBox id="txtUsername" Runat="server" MaxLength="50"></asp:TextBox>
+				<asp:TextBox id="txtUsername" Runat="server" MaxLength="50" />
 			</td>
 			<td>
 				<asp:Button ID="btnAliasCancel" Text="Cancel" runat="server" CssClass="button" OnClick="btnAliasCancel_Click" Visible="False" />
@@ -289,14 +292,14 @@
 					<st:HelpToolTip id="helpPassword" runat="server" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password.">Password:</st:HelpToolTip></label>
 			</td>
 			<td>
-				<asp:TextBox id="txtPassword" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox>
+				<asp:TextBox id="txtPassword" Runat="server" MaxLength="50" TextMode="Password" />
 			</td>
 			<td></td>
 		</tr>
 		<tr id="passwordRowConfirm" runat="server" valign="top">
 			<td><label for="txtPasswordConfirm">Confirm Password:</label></td>
 			<td>
-				<asp:TextBox id="txtPasswordConfirm" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox>
+				<asp:TextBox id="txtPasswordConfirm" Runat="server" MaxLength="50" TextMode="Password" />
 			</td>
 		</tr>
 		<tr valign="top">
