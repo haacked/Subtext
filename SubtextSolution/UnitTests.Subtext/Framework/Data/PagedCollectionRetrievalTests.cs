@@ -210,7 +210,6 @@ namespace UnitTests.Subtext.Framework.Data
         [TearDown]
         public void TearDown()
         {
-            Config.ConfigurationProvider = null;
         }
     }
 

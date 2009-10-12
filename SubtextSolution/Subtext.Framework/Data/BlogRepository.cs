@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Data;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
@@ -212,10 +212,10 @@ namespace Subtext.Framework.Data
                 info.BlogGroupId,
                 info.MobileSkin.TemplateFolder.NullIfEmpty(),
                 info.MobileSkin.SkinStyleSheet.NullIfEmpty(),
-                info.OpenIDUrl,
+                info.OpenIdUrl,
                 info.CardSpaceHash,
-                info.OpenIDServer,
-                info.OpenIDDelegate);
+                info.OpenIdServer,
+                info.OpenIdDelegate);
         }
 
         public override bool CreateBlogAlias(BlogAlias alias)

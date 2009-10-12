@@ -201,7 +201,7 @@ namespace UnitTests.Subtext.Framework.Data
             var parentEntry = new Entry(PostType.BlogPost) {Id = 322};
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog).Returns(new Blog {Id = 1001});
-            context.Setup(c => c.Cache["ParentEntry:Comments:EntryID322:BlogId1001"]).Returns(new List<FeedbackItem> {feedback});
+            context.Setup(c => c.Cache["ParentEntry:Comments:EntryId322:BlogId1001"]).Returns(new List<FeedbackItem> {feedback});
             context.Setup(c => c.Repository.GetFeedbackForEntry(parentEntry)).Throws(new Exception("Repository should not have been accessed"));
 
             // act
@@ -219,7 +219,7 @@ namespace UnitTests.Subtext.Framework.Data
             var parentEntry = new Entry(PostType.BlogPost) {Id = 322};
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog).Returns(new Blog {Id = 1001});
-            context.Setup(c => c.Cache["ParentEntry:Comments:EntryID322:BlogId1001"]).Returns(null);
+            context.Setup(c => c.Cache["ParentEntry:Comments:EntryId322:BlogId1001"]).Returns(null);
             context.Setup(c => c.Repository.GetFeedbackForEntry(parentEntry)).Returns(new List<FeedbackItem> {feedback});
 
             // act
@@ -227,7 +227,7 @@ namespace UnitTests.Subtext.Framework.Data
 
             // assert
             Assert.AreEqual(feedback, cachedFeedback.First());
-            context.Verify(c => c.Cache["ParentEntry:Comments:EntryID322:BlogId1001"]);
+            context.Verify(c => c.Cache["ParentEntry:Comments:EntryId322:BlogId1001"]);
         }
 
         [Test]

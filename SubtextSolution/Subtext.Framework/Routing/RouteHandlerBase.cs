@@ -24,22 +24,18 @@ namespace Subtext.Framework.Routing
 {
     public abstract class RouteHandlerBase : IRouteHandler
     {
-        public RouteHandlerBase(IKernel kernel)
+        protected RouteHandlerBase(IKernel kernel)
         {
             Kernel = kernel;
         }
 
         public IKernel Kernel { get; private set; }
 
-        #region IRouteHandler Members
-
         IHttpHandler IRouteHandler.GetHttpHandler(RequestContext requestContext)
         {
             Bootstrapper.RequestContext = requestContext;
             return GetHandler(requestContext);
         }
-
-        #endregion
 
         protected abstract IHttpHandler GetHandler(RequestContext requestContext);
     }

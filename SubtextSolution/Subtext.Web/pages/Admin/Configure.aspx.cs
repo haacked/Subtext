@@ -170,8 +170,8 @@ namespace Subtext.Web.Admin.Pages
             }
 
             UpdateTime();
-            tbOpenIDServer.Text = info.OpenIDServer;
-            tbOpenIDDelegate.Text = info.OpenIDDelegate;
+            tbOpenIDServer.Text = info.OpenIdServer;
+            tbOpenIDDelegate.Text = info.OpenIdDelegate;
 
             base.BindLocalUI();
         }
@@ -203,8 +203,8 @@ namespace Subtext.Web.Admin.Pages
                 info.News = NormalizeString(txbNews.Text);
                 info.TrackingCode = NormalizeString(txbGenericTrackingCode.Text);
 
-                info.OpenIDServer = tbOpenIDServer.Text;
-                info.OpenIDDelegate = tbOpenIDDelegate.Text;
+                info.OpenIdServer = tbOpenIDServer.Text;
+                info.OpenIdDelegate = tbOpenIDDelegate.Text;
 
                 Repository.UpdateConfigData(info);
 
@@ -252,7 +252,7 @@ namespace Subtext.Web.Admin.Pages
             InitializeComponent();
             base.OnInit(e);
 
-            ViewState["CategoryID"] = NullValue.NullInt32;
+            ViewState["CategoryId"] = NullValue.NullInt32;
             ViewState["CategoryType"] = Constants.DEFAULT_CATEGORYTYPE;
         }
 

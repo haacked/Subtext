@@ -45,7 +45,7 @@
 						<%# DataBinder.Eval(Container.DataItem, "LastReferDate", "{0:M/d/yy h:mmt}") %>
 					</td>
 					<td>
-						<asp:linkbutton CausesValidation = "false" id="Linkbutton1" CommandName="Create" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID")+ "|" + DataBinder.Eval(Container.DataItem, "ReferrerURL")  %>' Text="Create" runat="server" />
+						<asp:linkbutton CausesValidation = "false" id="Linkbutton1" CommandName="Create" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryId")+ "|" + DataBinder.Eval(Container.DataItem, "ReferrerUrl")  %>' Text="Create" runat="server" />
 					</td>
 				</tr>
 			</ItemTemplate>
@@ -64,7 +64,7 @@
 						<%# DataBinder.Eval(Container.DataItem, "LastReferDate", "{0:M/d/yy h:mmt}") %>
 					</td>
 					<td>
-						<asp:linkbutton CausesValidation = "false" id="Linkbutton2" CommandName="Create" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID")+ "|" + DataBinder.Eval(Container.DataItem, "ReferrerURL")  %>' Text="Create" runat="server" />
+						<asp:linkbutton CausesValidation = "false" id="Linkbutton2" CommandName="Create" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryId")+ "|" + DataBinder.Eval(Container.DataItem, "ReferrerUrl")  %>' Text="Create" runat="server" />
 					</td>
 				</tr>
 			</AlternatingItemTemplate>

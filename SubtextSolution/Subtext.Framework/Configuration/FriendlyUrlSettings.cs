@@ -29,9 +29,9 @@ namespace Subtext.Configuration
     /// </summary>
     public sealed class FriendlyUrlSettings
     {
-        private readonly static ILog log = new Log();
+        private readonly static ILog Log = new Log();
 
-        static readonly FriendlyUrlSettings settings =
+        public static readonly FriendlyUrlSettings Settings =
             new FriendlyUrlSettings((NameValueCollection)ConfigurationManager.GetSection("FriendlyUrlSettings"));
 
         /// <summary>
@@ -54,11 +54,6 @@ namespace Subtext.Configuration
                 WordCountLimit = wordCountLimit;
             }
             Enabled = true;
-        }
-
-        public static FriendlyUrlSettings Settings
-        {
-            get { return settings; }
         }
 
         public bool Enabled { get; private set; }
@@ -88,7 +83,7 @@ namespace Subtext.Configuration
             }
             catch(FormatException)
             {
-                log.Warn(
+                Log.Warn(
                     "The 'textTransform' setting in the FriendlyUrlSettings section of Web.config has an incorrect value. It should be 'None', 'LowerCase', or 'UpperCase'");
                 return TextTransform.None;
             }

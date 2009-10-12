@@ -2,8 +2,6 @@ using System;
 using System.Globalization;
 using Subtext.Extensibility;
 using Subtext.Framework;
-using Subtext.Framework.Format;
-
 #region Disclaimer/Info
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +33,7 @@ namespace Subtext.Web.UI.Controls
             base.OnLoad(e);
             if(Context != null)
             {
-                DateTime dt = UrlFormats.DateFromUrl(Request.Path);
+                DateTime dt = DateTimeHelper.DateFromUrl(Request.Path);
                 MonthListings.DescriptionOnly = true;
                 MonthListings.EntryListItems = Repository.GetPostsByDayRange(dt, dt.AddMonths(1), PostType.BlogPost, true);
                 MonthListings.EntryListTitle = dt.ToString("y", CultureInfo.CurrentCulture);

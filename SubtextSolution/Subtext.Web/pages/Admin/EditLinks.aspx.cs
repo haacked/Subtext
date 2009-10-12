@@ -161,7 +161,7 @@ namespace Subtext.Web.Admin.Pages
             ckbIsActive.Checked = currentLink.IsActive;
 
             BindLinkCategories();
-            ddlCategories.Items.FindByValue(currentLink.CategoryID.ToString(CultureInfo.InvariantCulture)).Selected =
+            ddlCategories.Items.FindByValue(currentLink.CategoryId.ToString(CultureInfo.InvariantCulture)).Selected =
                 true;
 
             if(AdminMasterPage != null)
@@ -200,7 +200,7 @@ namespace Subtext.Web.Admin.Pages
                 link.Url = txbUrl.Text;
                 link.Rss = txbRss.Text;
                 link.IsActive = ckbIsActive.Checked;
-                link.CategoryID = Convert.ToInt32(ddlCategories.SelectedItem.Value);
+                link.CategoryId = Convert.ToInt32(ddlCategories.SelectedItem.Value);
                 link.NewWindow = chkNewWindow.Checked;
                 link.Id = Config.CurrentBlog.Id;
                 link.Relation = txtXfn.Text;
@@ -209,11 +209,11 @@ namespace Subtext.Web.Admin.Pages
                 {
                     successMessage = Constants.RES_SUCCESSEDIT;
                     link.Id = LinkID;
-                    Links.UpdateLink(link);
+                    Repository.UpdateLink(link);
                 }
                 else
                 {
-                    LinkID = Links.CreateLink(link);
+                    LinkID = Repository.CreateLink(link);
                 }
 
                 if(LinkID > 0)

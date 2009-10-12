@@ -84,7 +84,7 @@ namespace Subtext.Framework
         /// <remarks>
         /// <p>
         /// The first filter examines whether comments are coming in too quickly 
-        /// from the same SourceUrl.  Looks at the <see cref="Blog.CommentDelayInMinutes"/>.
+        /// from the same SourceUrl.  Looks at the Blog.CommentDelayInMinutes.
         /// </p>
         /// <p>
         /// The second filter checks for duplicate comments. It only looks at the body 

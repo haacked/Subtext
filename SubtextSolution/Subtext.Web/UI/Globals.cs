@@ -27,7 +27,7 @@ namespace Subtext.Web.UI
     /// </summary>
     public static class Globals
     {
-        private static readonly string BlogPageTitle = "BlogPageTitle";
+        private const string BlogPageTitle = "BlogPageTitle";
 
         /// <summary>
         /// Returns the current skin for the current context.
@@ -43,7 +43,7 @@ namespace Subtext.Web.UI
 
                 bool isMobile = capabilities.Mobile;
 
-                SkinConfig skin = null;
+                SkinConfig skin;
                 if(isMobile)
                 {
                     skin = blog.MobileSkin;
@@ -57,7 +57,7 @@ namespace Subtext.Web.UI
 
                 if(skin.TemplateFolder == null)
                 {
-                    skin = SkinConfig.GetDefaultSkin();
+                    skin = SkinConfig.DefaultSkin;
                 }
                 return skin;
             }
@@ -71,11 +71,7 @@ namespace Subtext.Web.UI
         /// <returns></returns>
         public static string CurrentTitle(HttpContext context)
         {
-            var title = (string)context.Items[BlogPageTitle];
-            if(title == null)
-            {
-                title = Config.CurrentBlog.Title;
-            }
+            var title = (string)context.Items[BlogPageTitle] ?? Config.CurrentBlog.Title;
             return title;
         }
 

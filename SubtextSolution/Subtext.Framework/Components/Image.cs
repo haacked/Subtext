@@ -29,7 +29,7 @@ namespace Subtext.Framework.Components
     [Serializable]
     public class Image
     {
-        private string localDirectoryPath;
+        private string _localDirectoryPath;
         public int BlogId { get; set; }
 
         public Blog Blog { get; set; }
@@ -65,12 +65,12 @@ namespace Subtext.Framework.Components
         {
             get
             {
-                if(localDirectoryPath == null)
+                if(_localDirectoryPath == null)
                 {
                     throw new InvalidOperationException(Resources.InvalidOperation_LocalDirectoryPathNotSet);
                 }
 
-                return localDirectoryPath;
+                return _localDirectoryPath;
             }
             set
             {
@@ -78,7 +78,7 @@ namespace Subtext.Framework.Components
                 {
                     value = Path.GetFullPath(value);
                 }
-                localDirectoryPath = value;
+                _localDirectoryPath = value;
             }
         }
 

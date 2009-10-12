@@ -4,12 +4,12 @@ namespace Subtext.Framework
 {
     public static class DictionaryExtensions
     {
-        public static V ItemOrNull<K, V>(this IDictionary<K, V> dictionary, K key)
+        public static TValue ItemOrNull<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            V value;
+            TValue value;
             if(!dictionary.TryGetValue(key, out value))
             {
-                return default(V);
+                return default(TValue);
             }
             return value;
         }

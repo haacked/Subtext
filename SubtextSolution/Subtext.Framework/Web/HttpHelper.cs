@@ -73,7 +73,7 @@ namespace Subtext.Framework.Web
                 string ifModified = request.Headers["If-Modified-Since"];
                 if(!string.IsNullOrEmpty(ifModified))
                 {
-                    return DateTimeHelper.ParseUnknownFormatUTC(ifModified);
+                    return DateTimeHelper.ParseUnknownFormatUtc(ifModified);
                 }
             }
             return NullValue.NullDateTime;
@@ -362,6 +362,57 @@ namespace Subtext.Framework.Web
                 }
             }
             return text;
+        }
+
+        /// <summary>
+        /// From Jason Block @ http://www.angrycoder.com/article.aspx?cid=5&y=2003&m=4&d=15
+        /// Basically, it's [Request.UrlReferrer] doing a lazy initialization of its internal 
+        /// _referrer field, which is a Uri-type class. That is, it's not created until it's 
+        /// needed. The point is that there are a couple of spots where the UriFormatException 
+        /// could leak through. One is in the call to GetKnownRequestHeader(). _wr is a field 
+        /// of type HttpWorkerRequest. 36 is the value of the HeaderReferer constant - since 
+        /// that's being blocked in this case, it may cause that exception to occur. However, 
+        /// HttpWorkerRequest is an abstract class, and it took a trip to the debugger to find 
+        /// out that _wr is set to a System.Web.Hosting.ISAPIWorkerRequestOutOfProc object. 
+        /// This descends from System.Web.Hosting.ISAPIWorkerRequest, and its implementation 
+        /// of GetKnownRequestHeader() didn't seem to be the source of the problem. 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static Uri GetUriReferrerSafe(this HttpRequestBase request)
+        {
+            try
+            {
+                return request.UrlReferrer;
+            }
+            catch(UriFormatException)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Strips the surrounding slashes from the specified string.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        /// <returns></returns>
+        public static string StripSurroundingSlashes(string target)
+        {
+            if(target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if(target.EndsWith("/"))
+            {
+                target = target.Remove(target.Length - 1, 1);
+            }
+            if(target.StartsWith("/"))
+            {
+                target = target.Remove(0, 1);
+            }
+
+            return target;
         }
     }
 }

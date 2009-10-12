@@ -36,8 +36,8 @@ namespace Subtext.Framework.Components
         public ServerTimeZoneInfo(TimeZoneInfo timeZone, TimeZoneInfo localTimeZone, DateTime now, DateTime utcNow)
         {
             ServerTimeZone = string.Format(CultureInfo.InvariantCulture, "{0} ({1})",
-                                           TimeZoneInfo.Local.StandardName,
-                                           TimeZoneInfo.Local.GetUtcOffset(now));
+                                           localTimeZone.StandardName,
+                                           localTimeZone.GetUtcOffset(now));
             ServerTime = now.ToString("yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture);
             ServerUtcTime = utcNow.ToString("yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture);
             CurrentTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone).ToString("yyyy/MM/dd hh:mm tt",

@@ -51,7 +51,7 @@ namespace UnitTests.Subtext.Framework
             int entryId = UnitTestHelper.Create(entry);
             ObjectProvider.Instance().SetEntryCategoryList(entryId, new[] { category1Id, category2Id });
 
-            ICollection<LinkCategory> categories = Links.GetLinkCategoriesByPostID(entryId);
+            ICollection<LinkCategory> categories = Links.GetLinkCategoriesByPostId(entryId);
             Assert.AreEqual(2, categories.Count, "Expected two of the three categories");
 
             Assert.AreEqual(category1Id, categories.First().Id);
@@ -102,14 +102,14 @@ namespace UnitTests.Subtext.Framework
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "test");
 
             //Make changes then update.
-            link.PostID = entry.Id;
+            link.PostId = entry.Id;
             link.Title = "Another title";
             link.NewWindow = true;
-            Links.UpdateLink(link);
+            ObjectProvider.Instance().UpdateLink(link);
             loaded = ObjectProvider.Instance().GetLink(linkId);
             Assert.AreEqual("Another title", loaded.Title);
             Assert.IsTrue(loaded.NewWindow);
-            Assert.AreEqual(entry.Id, loaded.PostID);
+            Assert.AreEqual(entry.Id, loaded.PostId);
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace UnitTests.Subtext.Framework
 
             Link loaded = ObjectProvider.Instance().GetLink(linkId);
             Assert.AreEqual("Title", loaded.Title);
-            Assert.AreEqual(NullValue.NullInt32, loaded.PostID);
+            Assert.AreEqual(NullValue.NullInt32, loaded.PostId);
             Assert.AreEqual(Config.CurrentBlog.Id, loaded.BlogId);
 
             Links.DeleteLink(linkId);
@@ -243,7 +243,7 @@ namespace UnitTests.Subtext.Framework
             LinkCategory originalCategory = linkCat;
             originalCategory.Description = "New Description";
             originalCategory.IsActive = false;
-            bool updated = Links.UpdateLinkCategory(originalCategory);
+            bool updated = ObjectProvider.Instance().UpdateLinkCategory(originalCategory);
 
             // Retrieve the categories and find the one we updated
             ICollection<LinkCategory> updatedCategories = Links.GetCategories(CategoryType.LinkCollection,
@@ -312,12 +312,12 @@ namespace UnitTests.Subtext.Framework
             link.BlogId = Config.CurrentBlog.Id;
             if(categoryId != null)
             {
-                link.CategoryID = (int)categoryId;
+                link.CategoryId = (int)categoryId;
             }
             link.Title = title;
             if(postId != null)
             {
-                link.PostID = (int)postId;
+                link.PostId = (int)postId;
             }
             int linkId = Links.CreateLink(link);
             Assert.AreEqual(linkId, link.Id);

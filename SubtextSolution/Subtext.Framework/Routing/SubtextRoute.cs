@@ -27,11 +27,6 @@ namespace Subtext.Framework.Routing
         SubfolderRoute _subfolderRoute;
 
         public SubtextRoute(string url, IRouteHandler routeHandler)
-            : this(url, routeHandler, false)
-        {
-        }
-
-        public SubtextRoute(string url, IRouteHandler routeHandler, bool ignoreSubfolder)
             : base(url, routeHandler)
         {
         }
@@ -53,7 +48,7 @@ namespace Subtext.Framework.Routing
 
         public virtual RouteData GetRouteData(HttpContextBase httpContext, BlogRequest blogRequest)
         {
-            RouteData routeData = null;
+            RouteData routeData;
             if(String.IsNullOrEmpty(blogRequest.Subfolder))
             {
                 routeData = base.GetRouteData(httpContext);
@@ -89,10 +84,7 @@ namespace Subtext.Framework.Routing
                 //values["subfolder"] = subfolderInRouteData;
                 return base.GetVirtualPath(requestContext, values);
             }
-            else
-            {
-                return RouteForSubfolder.GetVirtualPath(requestContext, values);
-            }
+            return RouteForSubfolder.GetVirtualPath(requestContext, values);
         }
     }
 }

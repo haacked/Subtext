@@ -41,7 +41,7 @@ namespace Subtext.Web.Admin.Commands
         {
             try
             {
-                ICollection<Image> imageList = Images.GetImagesByCategoryID(_targetID, false);
+                ICollection<Image> imageList = Images.GetImagesByCategoryId(_targetID, false);
 
                 // delete the folder
                 string galleryFolder = GalleryDirectoryPath;

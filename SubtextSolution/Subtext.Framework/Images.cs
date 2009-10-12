@@ -90,25 +90,25 @@ namespace Subtext.Framework
             }
         }
 
-        public static ImageCollection GetImagesByCategoryID(int catID, bool activeOnly)
+        public static ImageCollection GetImagesByCategoryId(int categoryId, bool activeOnly)
         {
-            return ObjectProvider.Instance().GetImagesByCategoryId(catID, activeOnly);
+            return ObjectProvider.Instance().GetImagesByCategoryId(categoryId, activeOnly);
         }
 
         /// <summary>
         /// Inserts the image.
         /// </summary>
         /// <param name="image">The image.</param>
-        /// <param name="Buffer">The buffer.</param>
+        /// <param name="buffer">The buffer.</param>
         /// <returns></returns>
-        public static int InsertImage(Image image, byte[] Buffer)
+        public static int InsertImage(Image image, byte[] buffer)
         {
             if(image == null)
             {
                 throw new ArgumentNullException("image");
             }
 
-            if(!File.Exists(image.OriginalFilePath) && SaveImage(Buffer, image.OriginalFilePath))
+            if(!File.Exists(image.OriginalFilePath) && SaveImage(buffer, image.OriginalFilePath))
             {
                 MakeAlbumImages(image);
                 return ObjectProvider.Instance().InsertImage(image);

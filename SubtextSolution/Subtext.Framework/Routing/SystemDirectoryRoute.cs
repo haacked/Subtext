@@ -11,10 +11,6 @@ namespace Subtext.Framework.Routing
             DirectoryName = directoryName;
         }
 
-        #region IDirectoryRoute Members
-
         public string DirectoryName { get; private set; }
-
-        #endregion
     }
 }

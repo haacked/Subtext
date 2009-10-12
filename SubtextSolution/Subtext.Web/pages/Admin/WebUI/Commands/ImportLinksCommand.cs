@@ -97,15 +97,17 @@ namespace Subtext.Web.Admin.Commands
                 ImportOpmlItem(childItem);
             }
 
-            var newLink = new Link();
-            newLink.Title = item.Title;
-            newLink.Url = item.HtmlUrl;
-            newLink.Rss = item.XmlUrl;
-            newLink.CategoryID = _categoryID;
+            var newLink = new Link
+            {
+                Title = item.Title,
+                Url = item.HtmlUrl,
+                Rss = item.XmlUrl,
+                CategoryId = _categoryID,
+                IsActive = true,
+                NewWindow = false
+            };
 
             // TODO: let user specify and pass as command props
-            newLink.IsActive = true;
-            newLink.NewWindow = false;
 
             // this isn't a valid collision test really
             if(!_allLinks.Contains(newLink))

@@ -83,9 +83,7 @@ namespace Subtext.Framework.Routing
         //TODO: Unit test
         public VirtualPath FeedbackEdit(int id)
         {
-            var routeValues = new RouteValueDictionary();
-            routeValues.Add("return-to-post", "true");
-            routeValues.Add("FeedbackID", id);
+            var routeValues = new RouteValueDictionary {{"return-to-post", "true"}, {"FeedbackID", id}};
             return Url.AdminUrl("feedback/edit.aspx", routeValues);
         }
 

@@ -1,4 +1,4 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
 // 
@@ -112,8 +112,8 @@ namespace Subtext.Framework.Data
                 link.Rss ?? string.Empty,
                 link.IsActive,
                 link.NewWindow,
-                link.CategoryID,
-                link.PostID.NullIfMinValue(),
+                link.CategoryId,
+                link.PostId.NullIfMinValue(),
                 BlogId,
                 link.Relation);
             link.Id = linkId;
@@ -128,7 +128,7 @@ namespace Subtext.Framework.Data
                 link.Rss ?? string.Empty,
                 link.IsActive,
                 link.NewWindow,
-                link.CategoryID,
+                link.CategoryId,
                 link.Relation,
                 BlogId);
         }

@@ -115,7 +115,7 @@ namespace Subtext.Framework.Components
         /// <value>
         /// 	<c>true</c> if [created via comment API]; otherwise, <c>false</c>.
         /// </value>
-        public bool CreatedViaCommentAPI { get; set; }
+        public bool CreatedViaCommentApi { get; set; }
 
         /// <summary>
         /// Gets or sets the title of the feedback.

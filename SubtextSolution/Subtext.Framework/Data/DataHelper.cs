@@ -262,7 +262,7 @@ namespace Subtext.Framework.Data
             feedbackItem.SourceUrl = ReadUri(reader, "Url");
             feedbackItem.FeedbackType = (FeedbackType)reader.ReadValue<int>("FeedbackType");
             feedbackItem.Status = (FeedbackStatusFlag)reader.ReadValue<int>("StatusFlag");
-            feedbackItem.CreatedViaCommentAPI = reader.ReadValue<bool>("CommentAPI");
+            feedbackItem.CreatedViaCommentApi = reader.ReadValue<bool>("CommentAPI");
             feedbackItem.Referrer = reader.ReadValue<string>("Referrer");
             feedbackItem.IpAddress = reader.ReadIpAddress("IpAddress");
             feedbackItem.UserAgent = reader.ReadValue<string>("UserAgent");
@@ -356,9 +356,9 @@ namespace Subtext.Framework.Data
                     TemplateFolder = reader.ReadValue<string>(prefix + "MobileSkin"),
                     SkinStyleSheet = reader.ReadValue<string>(prefix + "MobileSkinCssFile")
                 },
-                OpenIDUrl = reader.ReadValue<string>(prefix + "OpenIDUrl"),
-                OpenIDServer = reader.ReadValue<string>(prefix + "OpenIDServer"),
-                OpenIDDelegate = reader.ReadValue<string>(prefix + "OpenIDDelegate"),
+                OpenIdUrl = reader.ReadValue<string>(prefix + "OpenIdUrl"),
+                OpenIdServer = reader.ReadValue<string>(prefix + "OpenIdServer"),
+                OpenIdDelegate = reader.ReadValue<string>(prefix + "OpenIdDelegate"),
                 CardSpaceHash = reader.ReadValue<string>(prefix + "CardSpaceHash"),
                 LicenseUrl = reader.ReadValue<string>(prefix + "LicenseUrl"),
                 DaysTillCommentsClose = reader.ReadValue(prefix + "DaysTillCommentsClose", int.MaxValue),
@@ -518,7 +518,7 @@ namespace Subtext.Framework.Data
             if(includeLinks && reader.NextResult())
             {
                 var links = reader.ReadEnumerable(r => r.ReadObject<Link>());
-                categories.Accumulate(links, category => category.Id, link => link.CategoryID, (category, link) => category.Links.Add(link));
+                categories.Accumulate(links, category => category.Id, link => link.CategoryId, (category, link) => category.Links.Add(link));
             }
 
             return categories;
@@ -526,7 +526,7 @@ namespace Subtext.Framework.Data
 
         public static LinkCategory ReadLinkCategory(this IDataReader reader)
         {
-            var lc = new LinkCategory(reader.ReadValue<int>("CategoryID"), reader.ReadValue<string>("Title")) { IsActive = (bool)reader["Active"] };
+            var lc = new LinkCategory(reader.ReadValue<int>("CategoryId"), reader.ReadValue<string>("Title")) { IsActive = (bool)reader["Active"] };
             if(reader["CategoryType"] != DBNull.Value)
             {
                 lc.CategoryType = (CategoryType)((byte)reader["CategoryType"]);

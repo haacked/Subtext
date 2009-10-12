@@ -31,7 +31,7 @@ namespace Subtext.Web.Controllers
                 throw new ArgumentNullException("xml");
             }
             var comment = new FeedbackItem(FeedbackType.Comment);
-            comment.CreatedViaCommentAPI = true;
+            comment.CreatedViaCommentApi = true;
 
             string name = (xml.SelectSingleNode("//item/author") ?? Empty).InnerText;
             if(name.IndexOf("<") != -1)

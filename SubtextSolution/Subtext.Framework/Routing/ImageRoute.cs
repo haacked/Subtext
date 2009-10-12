@@ -31,11 +31,6 @@ namespace Subtext.Framework.Routing
             Defaults = new RouteValueDictionary(new {filename = string.Empty, id = string.Empty});
         }
 
-        public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
-        {
-            return base.GetVirtualPath(requestContext, values);
-        }
-
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
             return null;

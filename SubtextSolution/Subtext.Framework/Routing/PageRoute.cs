@@ -35,8 +35,7 @@ namespace Subtext.Framework.Routing
                          IKernel kernel)
             : base(url, new PageRouteHandler(virtualPath, pageBuilder, kernel))
         {
-            DataTokens = new RouteValueDictionary();
-            DataTokens.Add(ControlNamesKey, controls.AsEnumerable());
+            DataTokens = new RouteValueDictionary {{ControlNamesKey, controls.AsEnumerable()}};
         }
     }
 }

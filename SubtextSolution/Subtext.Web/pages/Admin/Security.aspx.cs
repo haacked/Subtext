@@ -34,14 +34,14 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void BindLocalUI()
         {
-            tbOpenIDURL.Text = Config.CurrentBlog.OpenIDUrl;
+            tbOpenIDURL.Text = Config.CurrentBlog.OpenIdUrl;
             base.BindLocalUI();
         }
 
         protected void btnSaveOptions_Click(object sender, EventArgs e)
         {
             Blog info = Config.CurrentBlog;
-            info.OpenIDUrl = tbOpenIDURL.Text;
+            info.OpenIdUrl = tbOpenIDURL.Text;
             Repository.UpdateConfigData(info);
         }
 

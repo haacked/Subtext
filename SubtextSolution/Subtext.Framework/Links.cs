@@ -31,7 +31,7 @@ namespace Subtext.Framework
             return ObjectProvider.Instance().GetCategories(catType, status == ActiveFilter.ActiveOnly);
         }
 
-        public static ICollection<LinkCategory> GetLinkCategoriesByPostID(int postId)
+        public static ICollection<LinkCategory> GetLinkCategoriesByPostId(int postId)
         {
             var links = new List<Link>(ObjectProvider.Instance().GetLinkCollectionByPostId(postId));
             ICollection<LinkCategory> postCategories =
@@ -41,7 +41,8 @@ namespace Subtext.Framework
 
             foreach(LinkCategory category in categories)
             {
-                if(!links.Exists(link => category.Id == link.CategoryID))
+                LinkCategory innerCategory = category;
+                if(!links.Exists(link => innerCategory.Id == link.CategoryId))
                 {
                     postCategories.Remove(category);
                 }
@@ -49,21 +50,9 @@ namespace Subtext.Framework
             return postCategories;
         }
 
-        #region Edit Links/Categories
-
-        public static bool UpdateLink(Link link)
-        {
-            return ObjectProvider.Instance().UpdateLink(link);
-        }
-
         public static int CreateLink(Link link)
         {
             return ObjectProvider.Instance().CreateLink(link);
-        }
-
-        public static bool UpdateLinkCategory(LinkCategory lc)
-        {
-            return ObjectProvider.Instance().UpdateLinkCategory(lc);
         }
 
         public static int CreateLinkCategory(LinkCategory lc)
@@ -72,17 +61,15 @@ namespace Subtext.Framework
             return lc.Id;
         }
 
-        public static bool DeleteLinkCategory(int CategoryID)
+        public static bool DeleteLinkCategory(int categoryId)
         {
-            return ObjectProvider.Instance().DeleteLinkCategory(CategoryID);
+            return ObjectProvider.Instance().DeleteLinkCategory(categoryId);
         }
 
-        public static bool DeleteLink(int LinkID)
+        public static bool DeleteLink(int linkId)
         {
-            return ObjectProvider.Instance().DeleteLink(LinkID);
+            return ObjectProvider.Instance().DeleteLink(linkId);
         }
-
-        #endregion
     }
 
     public enum ActiveFilter

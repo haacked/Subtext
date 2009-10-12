@@ -44,7 +44,7 @@ namespace Subtext.Framework.Data
         private const string EntryMonthKey = "EntryMonth:Date{0:yyyyMM}Blog{1}";
         private const string EntriesByTagKey = "ET:Count{0}Tag{1}BlogId{2}";
         private const string CategoryKey = "LC{0}BlogId{1}";
-        private const string ParentCommentEntryKey = "ParentEntry:Comments:EntryID{0}:BlogId{1}";
+        private const string ParentCommentEntryKey = "ParentEntry:Comments:EntryId{0}:BlogId{1}";
         private const string TagsKey = "TagsCount{0}BlogId{1}";
 
         public static T GetOrInsert<T>(this ICache cache, string key, Func<T> retrievalFunction, int duration)

@@ -51,7 +51,7 @@ namespace Subtext.Web.UI.Controls
                     case 1:
                     {
                         //since there is only one record, you are at an end
-                        //Check EntryID to see if it is greater or less than
+                        //Check EntryId to see if it is greater or less than
                         //the current ID
                         if(entries.First().DateSyndicated > entry.DateSyndicated)
                         {
@@ -73,7 +73,7 @@ namespace Subtext.Web.UI.Controls
                     {
                         //two records found. The first record will be NEXT
                         //the second record will be PREVIOUS
-                        //This is because the query is sorted by EntryID
+                        //This is because the query is sorted by EntryId
                         SetNav(NextLink, entries.First());
                         SetNav(PrevLink, entries.ElementAt(1));
                         break;

@@ -1,5 +1,24 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext-devs@lists.sourceforge.net 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System;
 using System.Globalization;
+using System.IO;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -14,7 +33,7 @@ namespace Subtext.Framework
         /// </summary>
         /// <param name="dateTime">The date time.</param>
         /// <returns></returns>
-        public static DateTime ParseUnknownFormatUTC(string dateTime)
+        public static DateTime ParseUnknownFormatUtc(string dateTime)
         {
             DateTime dt = NullValue.NullDateTime;
             try
@@ -39,6 +58,26 @@ namespace Subtext.Framework
                 }
             }
             return dt;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="DateTime"/> instance parsed from the url.
+        /// </summary>
+        /// <param name="url">URL.</param>
+        /// <returns></returns>
+        public static DateTime DateFromUrl(string url)
+        {
+            string date = Path.GetFileNameWithoutExtension(url);
+            var en = new CultureInfo("en-US");
+            switch(date.Length)
+            {
+                case 8:
+                    return DateTime.ParseExact(date, "MMddyyyy", en);
+                case 6:
+                    return DateTime.ParseExact(date, "MMyyyy", en);
+                default:
+                    throw new InvalidOperationException(Resources.InvalidOperation_InvalidDateFormat);
+            }
         }
     }
 }

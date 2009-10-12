@@ -25,7 +25,7 @@ namespace Subtext.Framework.Configuration
     [Serializable]
     public class SkinConfig
     {
-        static readonly SkinConfig _defaultSkin = CreateDefaultSkin();
+        public static readonly SkinConfig DefaultSkin = CreateDefaultSkin();
 
         /// <summary>
         /// This is the skin template folder. Note that multiple "Skins" can 
@@ -82,23 +82,12 @@ namespace Subtext.Framework.Configuration
         }
 
         /// <summary>
-        /// Gets the default skin.
-        /// </summary>
-        /// <returns></returns>
-        public static SkinConfig GetDefaultSkin()
-        {
-            return _defaultSkin;
-        }
-
-        /// <summary>
         /// Creates the default skin to be used if none is specified.
         /// </summary>
         /// <returns></returns>
         static SkinConfig CreateDefaultSkin()
         {
-            var defaultSkin = new SkinConfig();
-            defaultSkin.TemplateFolder = "RedBook";
-            defaultSkin.SkinStyleSheet = "Blue.css";
+            var defaultSkin = new SkinConfig {TemplateFolder = "RedBook", SkinStyleSheet = "Blue.css"};
             return defaultSkin;
         }
     }

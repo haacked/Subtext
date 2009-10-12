@@ -28,7 +28,7 @@ namespace Subtext.Framework.Components
 
         #region IIdentifiable Members
 
-        [XmlAttribute("CategoryID")]
+        [XmlAttribute("CategoryId")]
         public int Id { get; set; }
 
         #endregion

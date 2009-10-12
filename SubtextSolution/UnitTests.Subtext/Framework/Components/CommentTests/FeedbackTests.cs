@@ -431,7 +431,6 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         [TearDown]
         public void TearDown()
         {
-            Config.ConfigurationProvider = null;
         }
 
         #region ArgumentNullChecks

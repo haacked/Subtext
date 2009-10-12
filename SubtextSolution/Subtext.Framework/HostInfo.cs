@@ -143,15 +143,9 @@ namespace Subtext.Framework
                     {
                         return null;
                     }
-                    else
-                    {
-                        throw new HostDataDoesNotExistException();
-                    }
+                    throw new HostDataDoesNotExistException();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
         }
 
@@ -181,8 +175,7 @@ namespace Subtext.Framework
                 throw new InvalidOperationException(Resources.InvalidOperation_HostRecordAlreadyExists);
             }
 
-            var host = new HostInfo();
-            host.HostUserName = hostUserName;
+            var host = new HostInfo {HostUserName = hostUserName};
 
             SetHostPassword(host, hostPassword);
             _instance = host;
@@ -220,19 +213,21 @@ namespace Subtext.Framework
                 aggregateHost = match.Groups["host"].Value;
             }
 
-            var blog = new Blog();
-            blog.Title = ConfigurationManager.AppSettings["AggregateTitle"];
-            blog.Skin = SkinConfig.GetDefaultSkin();
+            var blog = new Blog
+            {
+                Title = ConfigurationManager.AppSettings["AggregateTitle"],
+                Skin = SkinConfig.DefaultSkin,
+                Host = aggregateHost,
+                Subfolder = string.Empty,
+                IsActive = true
+            };
             //TODO: blog.MobileSkin = ...
-            blog.Host = aggregateHost;
-            blog.Subfolder = string.Empty;
-            blog.IsActive = true;
 
             if(hostInfo != null)
             {
                 blog.UserName = hostInfo.HostUserName;
+                hostInfo.AggregateBlog = blog;
             }
-            hostInfo.AggregateBlog = blog;
         }
     }
 }

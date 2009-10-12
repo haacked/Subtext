@@ -30,7 +30,7 @@ namespace Subtext.Web.Admin.Pages
 {
     public partial class EditImage : AdminPage
     {
-        protected const string VSKEY_IMAGEID = "ImageID";
+        protected const string VSKEY_IMAGEID = "ImageId";
         protected string _galleryTitle;
         protected Image _image;
         protected int _imageID;

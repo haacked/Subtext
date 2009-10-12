@@ -20,8 +20,8 @@ using System.Data.SqlClient;
 using System.Web;
 using log4net;
 using Subtext.Framework.Components;
-using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Services
 {
@@ -38,8 +38,6 @@ namespace Subtext.Framework.Services
         public ISubtextContext SubtextContext { get; private set; }
 
         public Configuration.Tracking Settings { get; private set; }
-
-        #region IStatisticsService Members
 
         public void RecordAggregatorView(EntryView entryView)
         {
@@ -82,12 +80,10 @@ namespace Subtext.Framework.Services
             }
         }
 
-        #endregion
-
-        private string GetReferral(ISubtextContext context)
+        private static string GetReferral(ISubtextContext context)
         {
             HttpRequestBase request = context.HttpContext.Request;
-            Uri uri = UrlFormats.GetUriReferrerSafe(request);
+            Uri uri = request.GetUriReferrerSafe();
 
             if(uri == null)
             {
