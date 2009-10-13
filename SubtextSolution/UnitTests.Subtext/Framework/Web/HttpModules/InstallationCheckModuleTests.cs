@@ -36,7 +36,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, null);
 
             // assert
-            Assert.AreEqual("~/Install/", redirectUrl);
+            Assert.AreEqual("~/install/default.aspx", redirectUrl);
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, new HostInfo());
 
             // assert
-            Assert.AreEqual("~/Install/", redirectUrl);
+            Assert.AreEqual("~/install/default.aspx", redirectUrl);
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             string redirectUrl = module.GetInstallationRedirectUrl(blogRequest, new HostInfo());
 
             // assert
-            Assert.AreEqual("~/Install/", redirectUrl);
+            Assert.AreEqual("~/install/default.aspx", redirectUrl);
         }
 
         [Test]

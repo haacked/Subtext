@@ -24,6 +24,7 @@ using System.Web.Security;
 using Subtext.Framework.Security;
 using Subtext.Framework.Syndication.Compression;
 using Subtext.Framework.Web.Handlers;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Syndication
 {
@@ -34,7 +35,6 @@ namespace Subtext.Framework.Syndication
     public abstract class BaseSyndicationHandler : SubtextHttpHandler
     {
         const int HttpImUsed = 226;
-        const int HttpMovedPermanently = 301;
 
         protected BaseSyndicationHandler(ISubtextContext subtextContext) : base(subtextContext)
         {
@@ -42,8 +42,9 @@ namespace Subtext.Framework.Syndication
 
         protected CachedFeed Feed { get; set; }
 
+        // TODO: Why is the private setter not used?
         protected virtual bool RequiresAdminRole { get; private set; }
-
+        // TODO: Why is the private setter not used?
         protected virtual bool RequiresHostAdminRole { get; private set; }
 
         protected HttpContextBase HttpContext
@@ -389,10 +390,7 @@ namespace Subtext.Framework.Syndication
                     // If they aren't FeedBurner and they aren't asking for a category or comment rss, redirect them!
                     if(!userAgent.StartsWith("FeedBurner") && IsMainfeed)
                     {
-                        HttpContext.Response.StatusCode = HttpMovedPermanently;
-                        HttpContext.Response.Status = HttpMovedPermanently + " Moved Permanently";
-                        HttpContext.Response.RedirectLocation =
-                            SubtextContext.UrlHelper.RssProxyUrl(SubtextContext.Blog).ToString();
+                        HttpContext.Response.RedirectPermanent(SubtextContext.UrlHelper.RssProxyUrl(SubtextContext.Blog).ToString());
                         return true;
                     }
                 }

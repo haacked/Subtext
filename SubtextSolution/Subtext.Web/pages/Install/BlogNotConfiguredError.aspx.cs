@@ -42,12 +42,7 @@ namespace Subtext.Web
                 ltlMessage.Text =
                     "<p>"
                     + "Welcome!  The Subtext Blogging Engine has been properly installed, "
-                    + "but the blog you&#8217;ve requested cannot be found."
-                    + "</p>"
-                    + "<p>"
-                    + "Several blogs have been created on this system, but either the "
-                    + "blog you are requesting hasn&#8217;t yet been created, "
-                    + "or the requesting URL does not match an existing blog."
+                    + "<strong>but the blog you&#8217;ve requested cannot be found</strong>."
                     + "</p>"
                     + "<p>"
                     + "If you are the Host Admin, visit the <a href=\"" +

@@ -83,7 +83,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
 
             //assert
             Assert.IsNull(request.Blog);
-            httpResponse.Verify(r => r.Redirect("~/Install/BlogNotConfiguredError.aspx", true));
+            httpResponse.Verify(r => r.Redirect("~/install/BlogNotConfiguredError.aspx", true));
         }
 
         [Test]

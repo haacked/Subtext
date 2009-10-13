@@ -314,7 +314,7 @@ namespace Subtext.Web
             {
                 if(installManager.InstallationActionRequired(VersionInfo.FrameworkVersion, exception))
                 {
-                    response.Redirect("~/Install/", true);
+                    response.Redirect("~/install/default.aspx", true);
                     return true;
                 }
             }
