@@ -62,6 +62,14 @@ namespace Subtext.Framework.Web
             }
         }
 
+        public static void RedirectPermanent(this HttpResponseBase response, string url)
+        {
+            response.StatusCode = 301;
+            response.Status = "301 Moved Permanently";
+            response.RedirectLocation = url;
+            response.End();
+        }
+
         /// <summary>
         /// Gets if modified since date.
         /// </summary>

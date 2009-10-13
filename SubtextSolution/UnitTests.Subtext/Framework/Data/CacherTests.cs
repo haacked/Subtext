@@ -418,9 +418,7 @@ namespace UnitTests.Subtext.Framework.Data
         /// </summary>
         [Test]
         [RollBack]
-        public void
-            GetEntryFromRequest_WithEntryHavingEntryNameButIdInRouteDataMatchingEntryInRepository_RedirectsToUrlWithSlug
-            ()
+        public void GetEntryFromRequest_WithEntryHavingEntryNameButIdInRouteDataMatchingEntryInRepository_RedirectsToUrlWithSlug()
         {
             //arrange
             var repository = new Mock<ObjectProvider>();
@@ -430,12 +428,15 @@ namespace UnitTests.Subtext.Framework.Data
             var urlHelper = new Mock<UrlHelper>();
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/testing-slug.aspx");
             UnitTestHelper.SetupBlog();
+            var response = new Mock<HttpResponseBase>();
+            response.Setup(r => r.End());
+            response.SetupSet(r => r.StatusCode, 301);
+            response.SetupSet(r => r.Status, "301 Moved Permanently");
+            response.SetupSet(r => r.RedirectLocation, "http://localhost/archive/testing-slug.aspx");
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/testing-slug.aspx");
-            httpContext.Setup(c => c.Response.End());
-            httpContext.SetupSet(c => c.Response.StatusCode, 301);
-            httpContext.SetupSet(c => c.Response.Status, "301 Moved Permanently");
-            httpContext.Stub(c => c.Response.RedirectLocation);
+            httpContext.Setup(c => c.Response).Returns(response.Object);
+            
             var routeData = new RouteData();
             routeData.Values.Add("id", "123");
             var subtextContext = new Mock<ISubtextContext>();
@@ -443,16 +444,17 @@ namespace UnitTests.Subtext.Framework.Data
                 .SetupUrlHelper(urlHelper)
                 .SetupRepository(repository.Object)
                 .SetupBlog(new Blog {Host = "localhost"});
+            subtextContext.Setup(c => c.HttpContext).Returns(httpContext.Object);
 
             //act
             Entry cachedEntry = Cacher.GetEntryFromRequest(true /* allowRedirect */, subtextContext.Object);
 
             //assert
-            httpContext.VerifySet(c => c.Response.StatusCode, 301);
-            httpContext.VerifySet(c => c.Response.Status, "301 Moved Permanently");
+            response.VerifySet(r => r.StatusCode, 301);
+            response.VerifySet(r => r.Status, "301 Moved Permanently");
+            response.VerifySet(r => r.RedirectLocation, "http://localhost/archive/testing-slug.aspx");
             Assert.AreEqual(123, cachedEntry.Id);
             Assert.AreEqual("Testing 123", cachedEntry.Title);
-            Assert.AreEqual("http://localhost/archive/testing-slug.aspx", httpContext.Object.Response.RedirectLocation);
         }
 
         /// <summary>

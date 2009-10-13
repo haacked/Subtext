@@ -334,7 +334,7 @@ namespace UnitTests.Subtext.SubtextWeb
                                                                              response.Object);
 
             // assert
-            Assert.AreEqual("~/Install/", redirectLocation);
+            Assert.AreEqual("~/install/default.aspx", redirectLocation);
             Assert.IsTrue(handled);
         }
 

@@ -1,13 +1,11 @@
 <%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Edit Categories" Codebehind="EditCategories.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditCategories" %>
 
 <asp:Content ContentPlaceHolderID="actionsHeading" runat="server">
-    <h2>Categories</h2>
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="categoryListHeading" runat="server" />
 
 <asp:Content ContentPlaceHolderID="categoryListLinks" runat="server">
-    <st:CategoryLinks ID="categoryLinks" runat="server" CategoryType="PostCollection" />
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="pageContent" runat="server">

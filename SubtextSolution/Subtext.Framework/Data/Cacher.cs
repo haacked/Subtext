@@ -25,6 +25,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 using Subtext.Infrastructure;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Data
 {
@@ -164,12 +165,8 @@ namespace Subtext.Framework.Data
                 //Second condition avoids infinite redirect loop. Should never happen.
                 if(allowRedirectToEntryName && entry.HasEntryName && !entry.EntryName.IsNumeric())
                 {
-                    HttpResponseBase response = context.RequestContext.HttpContext.Response;
-                    response.StatusCode = 301;
-                    response.Status = "301 Moved Permanently";
-                    response.RedirectLocation =
-                        context.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(context.Blog).ToString();
-                    response.End();
+                    HttpResponseBase response = context.HttpContext.Response;
+                    response.RedirectPermanent(context.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(context.Blog).ToString());
                 }
                 return entry;
             }

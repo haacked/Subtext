@@ -89,18 +89,14 @@ namespace Subtext.Framework.Web.HttpModules
             {
                 if(blogRequest.RequestLocation != RequestLocation.LoginPage)
                 {
-                    httpContext.Response.Redirect("~/Install/BlogNotConfiguredError.aspx", true);
+                    httpContext.Response.Redirect("~/install/BlogNotConfiguredError.aspx", true);
                 }
                 return blogRequest;
             }
 
             if(result.Blog == null && result.AlternateUrl != null)
             {
-                HttpResponseBase httpResponse = httpContext.Response;
-                httpResponse.StatusCode = 301;
-                httpResponse.Status = "301 Moved Permanently";
-                httpResponse.RedirectLocation = result.AlternateUrl.ToString();
-                httpResponse.End();
+                httpContext.Response.RedirectPermanent(result.AlternateUrl.ToString());
                 return null;
             }
 

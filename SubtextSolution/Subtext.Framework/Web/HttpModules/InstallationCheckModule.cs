@@ -89,6 +89,8 @@ namespace Subtext.Framework.Web.HttpModules
         /// </summary>
         public string GetInstallationRedirectUrl(BlogRequest blogRequest, HostInfo hostInfo)
         {
+            const string installUrl = "~/install/default.aspx";
+
             // Bypass for static files.
             if(blogRequest.RawUrl.IsStaticFileRequest())
             {
@@ -97,7 +99,7 @@ namespace Subtext.Framework.Web.HttpModules
 
             if(hostInfo == null && blogRequest.RequestLocation != RequestLocation.Installation)
             {
-                return "~/Install/";
+                return installUrl;
             }
 
             // Want to redirect to install if installation is required, 
@@ -109,7 +111,7 @@ namespace Subtext.Framework.Web.HttpModules
                    && !blogRequest.IsHostAdminRequest
                    && blogRequest.RequestLocation != RequestLocation.Installation)
                 {
-                    return "~/Install/";
+                    return installUrl;
                 }
 
                 if(state == InstallationState.NeedsUpgrade)
