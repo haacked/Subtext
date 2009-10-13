@@ -1,0 +1,12 @@
+<MSDeploy.iisApp>
+
+	<!-- Copies content from path into the destination specified in parameters.xml and marks as an app in IIS 5.1, 6.0 and 7.x -->
+	<iisapp path="SubText.Web" />
+
+	<!-- Creates a SQL database if needed, login and sets permissions -->
+	<dbfullsql path="installSQL.sql" transacted="false" />
+
+	<!-- Set NTFS ACLs on the destination specified in parameters.xml -->
+	<setAcl path="SubText.Web/images" setAclAccess="Modify" />
+
+</MSDeploy.iisApp>
