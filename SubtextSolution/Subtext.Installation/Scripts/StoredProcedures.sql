@@ -2072,7 +2072,6 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]
 )
 AS
 
-
 WITH OrderedReferrals AS
 (
 SELECT	
@@ -2083,7 +2082,7 @@ SELECT
 	, [Count]
 	, LastReferDate = r.LastUpdated
 	, BlogId = @BlogId
-	, row_number() over(order by r.[LastUpdated] DESC, r.[EntryID] DESC, r.[UrlID] DESC) RowNumber
+	, row_number() over(order by [Count] DESC, r.[EntryID] DESC, r.[UrlID] DESC) RowNumber
 FROM [<dbUser,varchar,dbo>].[subtext_Referrals] r
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_URLs] u ON u.UrlID = r.UrlID
 	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c ON c.ID = r.EntryID
@@ -2095,7 +2094,6 @@ WHERE
 SELECT * 
 FROM OrderedReferrals 
 WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
-
 
 SELECT COUNT([UrlID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Referrals] 
