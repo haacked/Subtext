@@ -16,7 +16,7 @@
 #endregion
 
 using System;
-using Subtext.Extensibility.Providers;
+using Subtext.Framework.Infrastructure.Installation;
 
 namespace Subtext.Framework
 {

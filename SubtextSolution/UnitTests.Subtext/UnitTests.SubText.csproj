@@ -235,11 +235,6 @@
       <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.Installation\Subtext.Installation.csproj">
-      <Name>Subtext.Installation</Name>
-      <Project>{745B39B7-DE46-4070-8733-C53308721C58}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
     <ProjectReference Include="..\Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj">
       <Project>{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}</Project>
       <Name>Subtext.Providers.BlogEntryEditor.FCKeditor</Name>

@@ -18,7 +18,7 @@
 using System;
 using System.IO;
 using MbUnit.Framework;
-using Subtext.Installation;
+using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Scripting;
 using Subtext.Scripting.Exceptions;
 

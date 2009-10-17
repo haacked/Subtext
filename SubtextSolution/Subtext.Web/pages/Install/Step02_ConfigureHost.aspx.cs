@@ -19,6 +19,7 @@ using System;
 using System.Web;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Security;
 
 namespace Subtext.Web.Install
@@ -82,7 +83,7 @@ namespace Subtext.Web.Install
                     }
                     else
                     {
-                        var installManager = new InstallationManager(Extensibility.Providers.Installation.Provider);
+                        var installManager = new InstallationManager(InstallationProvider.Provider);
                         installManager.ResetInstallationStatusCache();
                         Response.Redirect("InstallationComplete.aspx");
                     }

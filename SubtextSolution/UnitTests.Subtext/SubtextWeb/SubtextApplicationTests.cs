@@ -12,6 +12,7 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Web;
+using Subtext.Framework.Infrastructure.Installation;
 
 namespace UnitTests.Subtext.SubtextWeb
 {
@@ -388,7 +389,7 @@ namespace UnitTests.Subtext.SubtextWeb
             response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Callback<string, bool>(
                 (s, endRequest) => redirectLocation = s);
             var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false);
-            var installManager = new InstallationManager(null);
+            var installManager = new InstallationManager(new Mock<InstallationProvider>().Object);
 
             // act
             bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager,
@@ -408,7 +409,7 @@ namespace UnitTests.Subtext.SubtextWeb
             response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(new Exception("Should not have redirected"));
             var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false,
                                               RequestLocation.SystemMessages, "/");
-            var installManager = new InstallationManager(null);
+            var installManager = new InstallationManager(new Mock<InstallationProvider>().Object);
 
             // act
             bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager,

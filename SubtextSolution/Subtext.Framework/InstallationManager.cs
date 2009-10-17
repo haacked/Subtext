@@ -17,8 +17,8 @@
 
 using System;
 using System.Web;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Infrastructure.Installation;
 
 namespace Subtext.Framework
 {
@@ -27,14 +27,12 @@ namespace Subtext.Framework
     /// </summary>
     public class InstallationManager : IInstallationManager
     {
-        public InstallationManager(Installation installationProvider)
+        public InstallationManager(InstallationProvider installationProvider)
         {
             InstallationProvider = installationProvider;
         }
 
-        protected Installation InstallationProvider { get; private set; }
-
-        #region IInstallationManager Members
+        protected InstallationProvider InstallationProvider { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is installation action required.
@@ -65,12 +63,12 @@ namespace Subtext.Framework
                 return true;
             }
 
-            if(Installation.Provider.IsInstallationException(unhandledException))
+            if(InstallationProvider.IsInstallationException(unhandledException))
             {
                 return true;
             }
 
-            InstallationState status = Installation.Provider.GetInstallationStatus(assemblyVersion);
+            InstallationState status = InstallationProvider.GetInstallationStatus(assemblyVersion);
             switch(status)
             {
                 case InstallationState.NeedsInstallation:
@@ -87,8 +85,6 @@ namespace Subtext.Framework
         {
             return InstallationProvider.GetInstallationStatus(currentAssemblyVersion);
         }
-
-        #endregion
 
         public bool InstallationActionRequired(InstallationState currentState)
         {

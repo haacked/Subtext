@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Principal;
 using Microsoft.SqlServer.Management.Smo;
 using Subtext.Framework;
-using Subtext.Installation;
+using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Scripting;
 
 namespace UnitTests.Subtext

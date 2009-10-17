@@ -16,8 +16,8 @@
 #endregion
 
 using System;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework;
+using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web
@@ -29,8 +29,7 @@ namespace Subtext.Web
     {
         protected override void OnLoad(EventArgs e)
         {
-            InstallationState state =
-                Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
+            InstallationState state = InstallationProvider.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
             if(state == InstallationState.NeedsUpgrade)
             {
                 plcUpgradeInProgressMessage.Visible = true;

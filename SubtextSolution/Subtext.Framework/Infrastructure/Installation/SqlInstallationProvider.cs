@@ -16,27 +16,25 @@
 #endregion
 
 using System;
-using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using Microsoft.ApplicationBlocks.Data;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework.Data;
 using Subtext.Web.Controls;
 
-namespace Subtext.Installation
+namespace Subtext.Framework.Infrastructure.Installation
 {
     /// <summary>
     /// Summary description for SqlInstallationProvider.
     /// </summary>
-    public class SqlInstallationProvider : Extensibility.Providers.Installation
+    public class SqlInstallationProvider : InstallationProvider
     {
-        string _connectionString = string.Empty;
-        SqlInstaller _installer;
+        readonly string _connectionString = string.Empty;
+        readonly SqlInstaller _installer;
 
-        public SqlInstallationProvider()
+        public SqlInstallationProvider() : this(Configuration.Config.ConnectionString)
         {
         }
 
@@ -44,24 +42,6 @@ namespace Subtext.Installation
         {
             _installer = new SqlInstaller(connectionString);
             _connectionString = connectionString;
-        }
-
-        /// <summary>
-        /// Initializes the specified provider.
-        /// </summary>
-        /// <param name="name">Friendly Name of the provider.</param>
-        /// <param name="configValue">Config value.</param>
-        public override void Initialize(string name, NameValueCollection configValue)
-        {
-            _connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName",
-                                                                                            configValue);
-
-            _installer = new SqlInstaller(_connectionString);
-            if(!String.IsNullOrEmpty(configValue["dbUser"]))
-            {
-                _installer.DBUser = configValue["dbUser"];
-            }
-            base.Initialize(name, configValue);
         }
 
         /// <summary>

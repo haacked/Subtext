@@ -17,7 +17,7 @@
 
 using System;
 using System.Web;
-using Subtext.Extensibility.Providers;
+using Subtext.Framework.Infrastructure.Installation;
 
 namespace Subtext.Framework.Web.HttpModules
 {
@@ -26,7 +26,7 @@ namespace Subtext.Framework.Web.HttpModules
     /// </summary>
     public class InstallationCheckModule : IHttpModule
     {
-        public InstallationCheckModule() : this(new InstallationManager(Installation.Provider))
+        public InstallationCheckModule() : this(new InstallationManager(InstallationProvider.Provider))
         {
         }
 
@@ -39,8 +39,6 @@ namespace Subtext.Framework.Web.HttpModules
         }
 
         public IInstallationManager InstallationManager { get; private set; }
-
-        #region IHttpModule Members
 
         /// <summary>
         /// Initializes a module and prepares it to handle
@@ -61,8 +59,6 @@ namespace Subtext.Framework.Web.HttpModules
         {
             //Do nothing.
         }
-
-        #endregion
 
         /// <summary>
         /// Checks the installation status and redirects if necessary.

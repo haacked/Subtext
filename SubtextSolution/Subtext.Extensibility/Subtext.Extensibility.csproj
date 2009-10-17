@@ -145,9 +145,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\GenericProviderCollection.cs" />
-    <Compile Include="Providers\InstallationProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Providers\ProviderConfigurationHelper.cs" />
     <Compile Include="Providers\ProviderSectionHandler.cs">
       <SubType>Code</SubType>

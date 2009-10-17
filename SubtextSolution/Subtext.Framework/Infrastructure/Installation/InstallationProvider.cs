@@ -16,41 +16,20 @@
 #endregion
 
 using System;
-using System.Configuration.Provider;
 using System.Data.SqlClient;
 using System.Web.UI;
 
-namespace Subtext.Extensibility.Providers
+namespace Subtext.Framework.Infrastructure.Installation
 {
     /// <summary>
     /// Provider for classes that implement installation procedures. 
     /// This allows new data providers to implement their own installation 
     /// code.
     /// </summary>
-    public abstract class Installation : ProviderBase
+    public abstract class InstallationProvider
     {
-        private static readonly GenericProviderCollection<Installation> providers =
-            ProviderConfigurationHelper.LoadProviderCollection("Installation", out _provider);
-
-        private static Installation _provider;
-
-        /// <summary>
-        /// Returns the currently configured InstallationProvider.
-        /// </summary>
-        /// <returns></returns>
-        public static Installation Provider
-        {
-            get { return _provider; }
-        }
-
-        /// <summary>
-        /// Returns all the configured InstallationProvider.
-        /// </summary>
-        public static GenericProviderCollection<Installation> Providers
-        {
-            get { return providers; }
-        }
-
+        public static InstallationProvider Provider = new SqlInstallationProvider();
+        
         /// <summary>
         /// <p>
         /// This method is called by the installation engine in order to ask the 
