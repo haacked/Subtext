@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Subtext.Scripting.Exceptions;
-using Subtext.Scripting.Properties;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Scripting
 {

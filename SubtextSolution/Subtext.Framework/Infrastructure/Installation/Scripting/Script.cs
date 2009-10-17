@@ -23,7 +23,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Scripting.Exceptions;
-using Subtext.Scripting.Properties;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Scripting
 {

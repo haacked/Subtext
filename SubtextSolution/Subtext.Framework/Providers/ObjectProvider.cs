@@ -21,9 +21,9 @@ using System.Collections.Generic;
 using System.Configuration.Provider;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Providers
 {
@@ -32,10 +32,7 @@ namespace Subtext.Framework.Providers
     /// </summary>
     public abstract class ObjectProvider : ProviderBase
     {
-        public static readonly GenericProviderCollection<ObjectProvider> Providers =
-            ProviderConfigurationHelper.LoadProviderCollection("ObjectProvider", out _provider);
-
-        private static ObjectProvider _provider;
+        private static readonly ObjectProvider Provider = new DatabaseObjectProvider();
 
         /// <summary>
         /// Returns the currently configured ObjectProvider.
@@ -43,7 +40,7 @@ namespace Subtext.Framework.Providers
         /// <returns></returns>
         public static ObjectProvider Instance()
         {
-            return _provider;
+            return Provider;
         }
 
         public abstract void ClearBlogContent(int blogId);

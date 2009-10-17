@@ -121,7 +121,7 @@ using System.Diagnostics.CodeAnalysis;
         Justification =
             "Ignoring this warning...we want this namespace, but don't have enough classes to go in it right now to satisfy the rule."
         )]
-
+[assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "Subtext.Scripting.Exceptions")]
 #endregion
 
 // We could use a CustomDictionary.xml file to handle the spelling and case

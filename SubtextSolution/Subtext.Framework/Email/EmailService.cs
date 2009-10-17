@@ -47,8 +47,6 @@ namespace Subtext.Framework.Email
 
         protected ISubtextContext Context { get; private set; }
 
-        #region IEmailService Members
-
         public void EmailCommentToBlogAuthor(FeedbackItem comment)
         {
             if(String.IsNullOrEmpty(Blog.Email)
@@ -97,7 +95,5 @@ namespace Subtext.Framework.Email
 
             EmailProvider.Send(Blog.Email, from, subject, message);
         }
-
-        #endregion
     }
 }
