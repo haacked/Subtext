@@ -367,4 +367,19 @@
   <data name="Import_ErrorWhileImportingComment" xml:space="preserve">
     <value>An exception occurred while importing a comment</value>
   </data>
+    <data name="InvalidOperation_TemplateParametersNull" xml:space="preserve">
+    <value>The Template parameters are null. This should is impossible.</value>
+  </data>
+  <data name="ScriptHasNoTokens" xml:space="preserve">
+    <value>Script has no tokens.</value>
+  </data>
+  <data name="SqlParseException_IncorrectSyntaxNearGo" xml:space="preserve">
+    <value>Incorrect syntax was encountered while parsing GO. Cannot have a slash star /* comment */ after a GO statement.</value>
+  </data>
+  <data name="SqlScriptExecutionError_ErrorInScript" xml:space="preserve">
+    <value>Error in executing the script: {0}</value>
+  </data>
+  <data name="SqlScriptExecutionError_ErrorOccurred" xml:space="preserve">
+    <value>An error occurred while executing the script.</value>
+  </data>
 </root>

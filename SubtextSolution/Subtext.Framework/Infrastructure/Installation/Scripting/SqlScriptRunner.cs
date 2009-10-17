@@ -22,7 +22,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Subtext.Scripting.Exceptions;
-using Subtext.Scripting.Properties;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Scripting
 {

@@ -182,11 +182,6 @@
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
-      <Name>Subtext.Scripting</Name>
-      <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
@@ -203,6 +198,9 @@
     </Compile>
     <Compile Include="Blog.cs" />
     <Compile Include="CollectionExtensions.cs" />
+    <Compile Include="Collections\CollectionBook.cs" />
+    <Compile Include="Collections\ICollectionBook.cs" />
+    <Compile Include="Collections\IPagedCollection.cs" />
     <Compile Include="CommentFilter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -231,6 +229,8 @@
     </Compile>
     <Compile Include="Components\FeedbackItem.cs" />
     <Compile Include="Components\HostStats.cs" />
+    <Compile Include="Components\IEntryIdentity.cs" />
+    <Compile Include="Components\IIdentifiable.cs" />
     <Compile Include="Components\Image.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -322,6 +322,7 @@
       <DependentUpon>DatabaseObjectProvider.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\Transformer.cs" />
+    <Compile Include="DateFilter.cs" />
     <Compile Include="DateTimeHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -400,9 +401,23 @@
     <Compile Include="ImportExport\IBlogMLSource.cs" />
     <Compile Include="ImportExport\IBlogMLWriter.cs" />
     <Compile Include="Infrastructure\ActionResults\ExportActionResult.cs" />
+    <Compile Include="Infrastructure\Installation\Scripting\ConnectionString.cs" />
+    <Compile Include="Infrastructure\Installation\Scripting\Exceptions\SqlParseException.cs" />
+    <Compile Include="Infrastructure\Installation\Scripting\Exceptions\SqlScriptExecutionException.cs" />
+    <Compile Include="Infrastructure\Installation\Scripting\IScript.cs" />
+    <Compile Include="Infrastructure\Installation\Scripting\ITemplateScript.cs" />
+    <Compile Include="Infrastructure\Installation\Scripting\ParameterValueChangedEventArgs.cs" />
+    <Compile Include="Infrastructure\Installation\Scripting\Script.cs" />
+    <Compile Include="Infrastructure\Installation\Scripting\ScriptCollection.cs" />
+    <Compile Include="Infrastructure\Installation\Scripting\ScriptSplitter.cs" />
+    <Compile Include="Infrastructure\Installation\Scripting\SqlScriptRunner.cs" />
+    <Compile Include="Infrastructure\Installation\Scripting\TemplateParameter.cs" />
+    <Compile Include="Infrastructure\Installation\Scripting\TemplateParameterCollection.cs" />
     <Compile Include="Infrastructure\IServiceLocator.cs" />
     <Compile Include="Infrastructure\ITimeZone.cs" />
     <Compile Include="Infrastructure\TimeZoneWrapper.cs" />
+    <Compile Include="PostConfig.cs" />
+    <Compile Include="PostType.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -499,6 +514,7 @@
     <Compile Include="Util\GraphicsHelper.cs" />
     <Compile Include="Util\MathHelper.cs" />
     <Compile Include="Util\RequestExtensions.cs" />
+    <Compile Include="Web\Handlers\BaseHttpHandler.cs" />
     <Compile Include="Web\Handlers\SubtextHttpHandler.cs" />
     <Compile Include="Web\SubtextPage.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -686,6 +702,7 @@
     <Compile Include="XmlRpc\Source.cs" />
     <Compile Include="XmlRpc\SubtextXmlRpcService.cs" />
     <EmbeddedResource Include="Email\Templates\CommentReceived.template" />
+    <Content Include="Infrastructure\Installation\Scripting\Subtext.Scripting.csproj" />
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
     <EmbeddedResource Include="Util\TimeZones.txt" />

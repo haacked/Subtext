@@ -135,21 +135,9 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Collections\CollectionBook.cs" />
     <Compile Include="CoverageExcludeAttribute.cs" />
-    <Compile Include="DateFilter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Interfaces\IEntryIdentity.cs" />
-    <Compile Include="Interfaces\IIdentifiable.cs" />
-    <Compile Include="Interfaces\ICollectionBook.cs" />
-    <Compile Include="Interfaces\IPagedCollection.cs" />
     <Compile Include="NamespaceDocumentation.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="PostConfig.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="PostType.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\BlogEntryEditorProvider.cs" />
@@ -169,7 +157,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Web\BaseHttpHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

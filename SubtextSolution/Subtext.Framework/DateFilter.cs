@@ -15,7 +15,7 @@
 
 #endregion
 
-namespace Subtext.Extensibility
+namespace Subtext.Framework
 {
     public enum DateFilter
     {

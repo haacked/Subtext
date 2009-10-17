@@ -2400,10 +2400,6 @@
       <Project>{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}</Project>
       <Name>Subtext.Providers.BlogEntryEditor.FCKeditor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
-      <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
-      <Name>Subtext.Scripting</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
       <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
       <Name>Subtext.Web.Controls</Name>
