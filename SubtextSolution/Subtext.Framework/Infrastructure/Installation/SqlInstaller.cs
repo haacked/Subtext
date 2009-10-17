@@ -22,10 +22,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 using Microsoft.ApplicationBlocks.Data;
-using Subtext.Framework;
 using Subtext.Framework.Data;
 
-namespace Subtext.Installation
+namespace Subtext.Framework.Infrastructure.Installation
 {
     public class SqlInstaller
     {

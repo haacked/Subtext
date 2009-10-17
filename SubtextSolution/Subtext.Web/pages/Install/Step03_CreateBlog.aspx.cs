@@ -19,6 +19,7 @@ using System;
 using log4net;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Logging;
 
 namespace Subtext.Web.Install
@@ -62,7 +63,7 @@ namespace Subtext.Web.Install
                 }
                 //We probably should have creating the blog authenticate the user 
                 //automatically so this redirect doesn't require a login.
-                var installManager = new InstallationManager(Extensibility.Providers.Installation.Provider);
+                var installManager = new InstallationManager(InstallationProvider.Provider);
                 installManager.ResetInstallationStatusCache();
                 Response.Redirect("~/Admin/Configure.aspx");
             }

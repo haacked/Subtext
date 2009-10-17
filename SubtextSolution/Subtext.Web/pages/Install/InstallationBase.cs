@@ -20,6 +20,7 @@ using System.Web;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.Install
@@ -61,8 +62,7 @@ namespace Subtext.Web.Install
         /// <param name="e">E.</param>
         protected override void OnLoad(EventArgs e)
         {
-            InstallationState status =
-                Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
+            InstallationState status = InstallationProvider.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
 
             switch(status)
             {

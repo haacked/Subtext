@@ -31,6 +31,7 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
@@ -192,7 +193,7 @@ namespace Subtext.Web
                 return;
             }
 
-            var installManager = new InstallationManager(Extensibility.Providers.Installation.Provider);
+            var installManager = new InstallationManager(InstallationProvider.Provider);
             BlogRequest blogRequest = BlogRequest.Current;
             if(HandleRequestLocationException(exception, blogRequest, installManager, new HttpResponseWrapper(Response)))
             {

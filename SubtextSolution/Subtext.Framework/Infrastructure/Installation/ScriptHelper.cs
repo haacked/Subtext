@@ -21,7 +21,7 @@ using System.Reflection;
 using System.Text;
 using Subtext.Scripting;
 
-namespace Subtext.Installation
+namespace Subtext.Framework.Infrastructure.Installation
 {
     /// <summary>
     /// Helper class used to execute SQL Scripts.

@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using MbUnit.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Installation;
+using Subtext.Framework.Infrastructure.Installation;
 using UnitTests.Subtext;
 
 [assembly: AssemblyCleanup(typeof(AssemblySetUpAndCleanUp))]

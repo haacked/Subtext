@@ -3,6 +3,7 @@ using MbUnit.Framework;
 using Moq;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
+using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Web.HttpModules

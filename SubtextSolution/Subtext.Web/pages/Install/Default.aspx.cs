@@ -19,6 +19,7 @@ using System;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Infrastructure.Installation;
 
 namespace Subtext.Web.Install
 {
@@ -33,16 +34,12 @@ namespace Subtext.Web.Install
     {
         protected override void OnLoad(EventArgs e)
         {
-            if(Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion) ==
-               InstallationState.Complete)
+            if(InstallationProvider.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion) == InstallationState.Complete)
             {
                 Response.Redirect("InstallationComplete.aspx");
             }
 
-            btnInstallClick.Attributes["onclick"] = "this.disabled=true;"
-                                                    +
-                                                    ClientScript.GetPostBackEventReference(btnInstallClick, null).
-                                                        ToString();
+            btnInstallClick.Attributes["onclick"] = "this.disabled=true;" + ClientScript.GetPostBackEventReference(btnInstallClick, null);
 
 
             litDatabaseName.Text = Config.ConnectionString.Database;
@@ -50,7 +47,7 @@ namespace Subtext.Web.Install
 
         protected virtual void OnInstallClick(object sender, EventArgs e)
         {
-            Extensibility.Providers.Installation.Provider.Install(VersionInfo.FrameworkVersion);
+            InstallationProvider.Provider.Install(VersionInfo.FrameworkVersion);
             Response.Redirect(NextStepUrl);
         }
     }

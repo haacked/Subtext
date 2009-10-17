@@ -21,6 +21,7 @@ using Moq;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Infrastructure.Installation;
 
 namespace UnitTests.Subtext.InstallationTests
 {
@@ -34,7 +35,7 @@ namespace UnitTests.Subtext.InstallationTests
         public void IsInstallationActionRequired_WithProviderReturningInstallRequired_ReturnsTrue()
         {
             //arrange
-            var installProvider = new Mock<Installation>();
+            var installProvider = new Mock<InstallationProvider>();
             installProvider.Setup(p => p.GetInstallationStatus(It.IsAny<Version>())).Returns(
                 InstallationState.NeedsInstallation);
             var manager = new InstallationManager(installProvider.Object);
@@ -50,7 +51,7 @@ namespace UnitTests.Subtext.InstallationTests
         public void IsInstallationActionRequired_WithProviderReturningComplete_ReturnsFalse()
         {
             //arrange
-            var installProvider = new Mock<Installation>();
+            var installProvider = new Mock<InstallationProvider>();
             installProvider.Setup(p => p.GetInstallationStatus(It.IsAny<Version>())).Returns(InstallationState.Complete);
             var installManager = new InstallationManager(installProvider.Object);
 
@@ -65,7 +66,7 @@ namespace UnitTests.Subtext.InstallationTests
         public void IsInstallationActionRequired_WithHostDataDoesNotExistException_ReturnsTrue()
         {
             //arrange
-            var installProvider = new Mock<Installation>();
+            var installProvider = new Mock<InstallationProvider>();
             var installManager = new InstallationManager(installProvider.Object);
 
             //act

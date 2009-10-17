@@ -119,16 +119,6 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
-      <Name>Subtext.Extensibility</Name>
-      <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
-      <Name>Subtext.Framework</Name>
-      <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
@@ -140,14 +130,6 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ConnectionStringBuilder.cs" />
-    <Compile Include="ScriptHelper.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SqlInstallationProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SqlInstaller.cs" />
     <EmbeddedResource Include="Scripts\ImportDotText095.sql" />
     <EmbeddedResource Include="Scripts\Installation.01.00.00.sql" />
     <EmbeddedResource Include="Scripts\Installation.01.05.00.sql" />
@@ -170,6 +152,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Installation.02.00.00.sql" />
     <EmbeddedResource Include="Scripts\Installation.02.02.00.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
+      <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
+      <Name>Subtext.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

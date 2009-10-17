@@ -387,6 +387,7 @@
     <Compile Include="HostInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IInstallationManager.cs" />
     <Compile Include="ImportExport\BlogImportService.cs" />
     <Compile Include="ImportExport\BlogImportSetup.cs" />
     <Compile Include="ImportExport\BlogMLExportMapper.cs" />
@@ -401,6 +402,9 @@
     <Compile Include="ImportExport\IBlogMLSource.cs" />
     <Compile Include="ImportExport\IBlogMLWriter.cs" />
     <Compile Include="Infrastructure\ActionResults\ExportActionResult.cs" />
+    <Compile Include="Infrastructure\Installation\ConnectionStringBuilder.cs" />
+    <Compile Include="Infrastructure\Installation\InstallationProvider.cs" />
+    <Compile Include="Infrastructure\Installation\ScriptHelper.cs" />
     <Compile Include="Infrastructure\Installation\Scripting\ConnectionString.cs" />
     <Compile Include="Infrastructure\Installation\Scripting\Exceptions\SqlParseException.cs" />
     <Compile Include="Infrastructure\Installation\Scripting\Exceptions\SqlScriptExecutionException.cs" />
@@ -413,9 +417,12 @@
     <Compile Include="Infrastructure\Installation\Scripting\SqlScriptRunner.cs" />
     <Compile Include="Infrastructure\Installation\Scripting\TemplateParameter.cs" />
     <Compile Include="Infrastructure\Installation\Scripting\TemplateParameterCollection.cs" />
+    <Compile Include="Infrastructure\Installation\SqlInstallationProvider.cs" />
+    <Compile Include="Infrastructure\Installation\SqlInstaller.cs" />
     <Compile Include="Infrastructure\IServiceLocator.cs" />
     <Compile Include="Infrastructure\ITimeZone.cs" />
     <Compile Include="Infrastructure\TimeZoneWrapper.cs" />
+    <Compile Include="InstallationManager.cs" />
     <Compile Include="PostConfig.cs" />
     <Compile Include="PostType.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -430,7 +437,6 @@
     <Compile Include="Services\CompositeTextTransformation.cs" />
     <Compile Include="Services\EmptyTextTransformation.cs" />
     <Compile Include="Services\ICommentFilter.cs" />
-    <Compile Include="IInstallationManager.cs" />
     <Compile Include="Images.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -439,9 +445,6 @@
     <Compile Include="Infrastructure\ComponentProvider.cs" />
     <Compile Include="Infrastructure\ICache.cs" />
     <Compile Include="Infrastructure\SubtextCache.cs" />
-    <Compile Include="InstallationManager.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ISubtextContext.cs" />
     <Compile Include="Links.cs">
       <SubType>Code</SubType>
@@ -710,6 +713,18 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>StoredProcedures.cs</LastGenOutput>
     </None>
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\ImportDotText095.sql" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.01.00.00.sql" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.01.05.00.sql" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.01.09.00.sql" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.01.09.02.sql" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.01.09.03.sql" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.01.09.04.sql" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.01.09.05.sql" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.01.09.06.sql" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.02.00.00.sql" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.02.02.00.sql" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\StoredProcedures.sql" />
     <None Include="Web References\com.community-credit.www\affiliateservices.disco" />
     <None Include="app.config" />
     <None Include="Data\CodeGen\_Settings.tt" />

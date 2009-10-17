@@ -18,8 +18,7 @@
 using System;
 using System.Collections.ObjectModel;
 using MbUnit.Framework;
-using Subtext.Extensibility.Providers;
-using Subtext.Installation;
+using Subtext.Framework.Infrastructure.Installation;
 
 namespace UnitTests.Subtext.InstallationTests
 {
@@ -37,14 +36,10 @@ namespace UnitTests.Subtext.InstallationTests
         [RollBack]
         public void InstallationInformationGatheringProcessGathersCorrectInfo()
         {
-            Installation provider = Installation.Provider;
+            InstallationProvider provider = InstallationProvider.Provider;
             Assert.IsNotNull(provider, "The provider instance should not be null.");
             var sqlProvider = provider as SqlInstallationProvider;
             Assert.IsNotNull(sqlProvider, "The sql provider instance should not be null.");
-            Assert.AreEqual("SqlInstallationProvider", provider.Name);
-
-
-            //Ok, no way to really check this just yet.
         }
 
         /// <summary>
@@ -53,7 +48,6 @@ namespace UnitTests.Subtext.InstallationTests
         [Test]
         public void ListInstallationScriptsReturnsCorrectScripts()
         {
-            var installer = new SqlInstaller("null");
             ReadOnlyCollection<string> scripts = SqlInstaller.ListInstallationScripts(null, new Version(1, 5, 0, 0));
             Assert.AreEqual(2, scripts.Count, "We expected to see two scripts.");
             Assert.AreEqual("Installation.01.00.00.sql", scripts[0], "Expected the initial 1.0 installation file.");

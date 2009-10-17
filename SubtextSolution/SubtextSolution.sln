@@ -31,8 +31,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Extensibility", "Su
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Web.Controls", "Subtext.Web.Controls\Subtext.Web.Controls.csproj", "{2278427B-8BAD-4CE9-B15A-FD1131753D64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Installation", "Subtext.Installation\Subtext.Installation.csproj", "{745B39B7-DE46-4070-8733-C53308721C58}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Providers.BlogEntryEditor.FCKeditor", "Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj", "{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Akismet", "Subtext.Akismet\Subtext.Akismet.csproj", "{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}"
@@ -126,21 +124,6 @@ Global
 		{2278427B-8BAD-4CE9-B15A-FD1131753D64}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2278427B-8BAD-4CE9-B15A-FD1131753D64}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2278427B-8BAD-4CE9-B15A-FD1131753D64}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Documentation|.NET.ActiveCfg = Documentation|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Documentation|Mixed Platforms.ActiveCfg = Documentation|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Documentation|Mixed Platforms.Build.0 = Documentation|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Release|.NET.ActiveCfg = Release|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Release|Any CPU.Build.0 = Release|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{745B39B7-DE46-4070-8733-C53308721C58}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Debug|Any CPU.Build.0 = Debug|Any CPU

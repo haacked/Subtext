@@ -16,8 +16,8 @@
 #endregion
 
 using System;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework;
+using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Scripting.Exceptions;
 using Subtext.Web.Properties;
 
@@ -34,8 +34,7 @@ namespace Subtext.Web.HostAdmin.Upgrade
     {
         protected override void OnLoad(EventArgs e)
         {
-            if(Extensibility.Providers.Installation.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion) ==
-               InstallationState.Complete)
+            if(InstallationProvider.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion) == InstallationState.Complete)
             {
                 Response.Redirect("~/HostAdmin/Upgrade/UpgradeComplete.aspx");
             }
@@ -50,14 +49,14 @@ namespace Subtext.Web.HostAdmin.Upgrade
             plcHolderUpgradeMessage.Visible = false;
             try
             {
-                Extensibility.Providers.Installation.Provider.Upgrade();
+                InstallationProvider.Provider.Upgrade();
                 Response.Redirect("~/HostAdmin/Upgrade/UpgradeComplete.aspx");
             }
             catch(SqlScriptExecutionException ex)
             {
                 plcHolderUpgradeMessage.Visible = true;
 
-                if(Extensibility.Providers.Installation.Provider.IsPermissionDeniedException(ex))
+                if(InstallationProvider.Provider.IsPermissionDeniedException(ex))
                 {
                     messageLiteral.Text = Resources.Upgrade_UserDoesNotHavePermission;
                     return;

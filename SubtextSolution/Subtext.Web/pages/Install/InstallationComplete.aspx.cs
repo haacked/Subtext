@@ -18,6 +18,7 @@
 using System;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Infrastructure.Installation;
 
 namespace Subtext.Web.Install
 {
@@ -28,7 +29,7 @@ namespace Subtext.Web.Install
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var installManager = new InstallationManager(Extensibility.Providers.Installation.Provider);
+            var installManager = new InstallationManager(InstallationProvider.Provider);
             installManager.ResetInstallationStatusCache();
 
             if(paraBlogLink != null)
