@@ -18,8 +18,12 @@
 using System;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
+using Subtext.Extensibility;
+using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Services;
 using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Infrastructure.Installation
@@ -42,6 +46,37 @@ namespace Subtext.Framework.Infrastructure.Installation
         {
             Installer.Install(assemblyVersion);
             ResetInstallationStatusCache();
+        }
+
+        public void CreateWelcomeContent(ISubtextContext context, IEntryPublisher entryPublisher, Blog blog)
+        {
+            var repository = context.Repository;
+            repository.CreateLinkCategory(new LinkCategory
+            {
+                Title = "Programming", 
+                Description = "Blog posts related to programming", 
+                BlogId = blog.Id, 
+                IsActive = true, 
+                CategoryType = CategoryType.PostCollection
+            });
+            repository.CreateLinkCategory(new LinkCategory
+            {
+                Title = "Personal", 
+                Description = "Personal musings, random thoughts.", 
+                BlogId = blog.Id, 
+                IsActive = true, 
+                CategoryType = CategoryType.PostCollection
+            }
+            );
+
+            var entry = new Entry(PostType.BlogPost)
+            {
+                BlogId = blog.Id,
+                Author = HostInfo.Instance.HostUserName,
+                Body = ScriptHelper.UnpackEmbeddedScriptAsString("WelcomePost.htm")
+            };
+            
+            entryPublisher.Publish(entry);
         }
 
         public void Upgrade(Version currentAssemblyVersion)

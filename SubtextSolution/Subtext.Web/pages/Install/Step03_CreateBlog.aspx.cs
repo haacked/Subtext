@@ -16,8 +16,10 @@
 #endregion
 
 using System;
+using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Services;
 
 namespace Subtext.Web.Install
 {
@@ -30,6 +32,13 @@ namespace Subtext.Web.Install
     /// </remarks>
     public partial class Step03_CreateBlog : InstallationBase
     {
+        [Inject]
+        public IEntryPublisher EntryPublisher
+        {
+            get; 
+            set;
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             btnQuickCreate.Attributes["onclick"] = "this.disabled=true;"
@@ -45,17 +54,19 @@ namespace Subtext.Web.Install
 
             //Since the password is stored as a hash, let's not hash it again.
             const bool passwordAlreadyHashed = true;
-
-            if(
-                Config.CreateBlog("TEMPORARY BLOG NAME", HostInfo.Instance.HostUserName, HostInfo.Instance.Password,
-                                  Request.Url.Host, string.Empty, passwordAlreadyHashed) > -1)
+            int blogId = Config.CreateBlog("TEMPORARY BLOG NAME", HostInfo.Instance.HostUserName, HostInfo.Instance.Password,
+                                           Request.Url.Host, string.Empty, passwordAlreadyHashed);
+            if(blogId > -1)
             {
+                var blog = Repository.GetBlogById(blogId);
                 if(!String.IsNullOrEmpty(Request.QueryString["email"]))
                 {
-                    Blog blog = Config.GetBlog(Request.Url.Host, string.Empty);
                     blog.Email = Request.QueryString["email"];
                     Repository.UpdateConfigData(blog);
                 }
+                InstallationManager.CreateWelcomeContent(Repository, EntryPublisher, Blog);
+                
+
                 //We probably should have creating the blog authenticate the user 
                 //automatically so this redirect doesn't require a login.
                 InstallationManager.ResetInstallationStatusCache();

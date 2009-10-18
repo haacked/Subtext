@@ -16,12 +16,15 @@
 #endregion
 
 using System;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Services;
 
 namespace Subtext.Framework.Infrastructure.Installation
 {
     public interface IInstallationManager
     {
         void Install(Version currentAssemblyVersion);
+        void CreateWelcomeContent(ISubtextContext context, IEntryPublisher entryPublisher, Blog blog);
         void Upgrade(Version currentAssemblyVersion);
         bool InstallationActionRequired(Version assemblyVersion, Exception unhandledException);
         void ResetInstallationStatusCache();
