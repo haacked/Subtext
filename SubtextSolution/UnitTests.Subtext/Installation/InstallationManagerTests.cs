@@ -21,6 +21,10 @@ using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Infrastructure.Installation;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Routing;
+using Subtext.Framework.Services;
+using Subtext.Framework.Components;
 
 namespace UnitTests.Subtext.InstallationTests
 {
@@ -140,6 +144,28 @@ namespace UnitTests.Subtext.InstallationTests
 
             // assert
             Assert.IsNull(cache["NeedsInstallation"]);
+        }
+
+        [Test]
+        public void CreateWelcomeContent_CreatesIntroBlogPostAndCategories()
+        {
+            // arrange
+            var installationManager = new InstallationManager(new Mock<IInstaller>().Object, null);
+            var repository = new Mock<ObjectProvider>();
+            var entryPublisher = new Mock<IEntryPublisher>();
+            Entry entry = null;
+            entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>())).Callback<Entry>(e => entry = e);
+            var urlHelper = new Mock<UrlHelper>();
+            var context = new Mock<ISubtextContext>();
+            context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
+            context.Setup(c => c.Repository).Returns(repository.Object);
+            var blog = new Blog {Id = 123};
+
+            // act
+            installationManager.CreateWelcomeContent(context.Object, entryPublisher.Object, blog);
+
+            // assert
+            Assert.AreEqual(entry.Title, "Welcome to Subtext!");
         }
 
         /// <summary>
