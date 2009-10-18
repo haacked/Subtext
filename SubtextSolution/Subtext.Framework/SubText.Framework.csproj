@@ -327,15 +327,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DictionaryExtensions.cs" />
-    <Compile Include="Email\EmailService.cs" />
-    <Compile Include="Email\EmbeddedTemplateEngine.cs" />
-    <Compile Include="Email\IEmailService.cs" />
-    <Compile Include="Email\ITemplateEngine.cs" />
-    <Compile Include="Email\ITextTemplate.cs" />
-    <Compile Include="Email\NamedFormatTextTemplate.cs" />
-    <Compile Include="Email\SystemMailProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Enclosures.cs" />
     <Compile Include="Entries.cs">
       <SubType>Code</SubType>
@@ -422,6 +413,7 @@
     <Compile Include="Infrastructure\Installation\SqlInstaller.cs" />
     <Compile Include="Infrastructure\IServiceLocator.cs" />
     <Compile Include="Infrastructure\ITimeZone.cs" />
+    <Compile Include="Infrastructure\ModelBinders\XmlModelBinder.cs" />
     <Compile Include="Infrastructure\Routing\AdminUrlHelper.cs" />
     <Compile Include="Infrastructure\Routing\AggregateEnabledConstraint.cs" />
     <Compile Include="Infrastructure\Routing\DirectoryRoute.cs" />
@@ -446,6 +438,9 @@
     <Compile Include="Infrastructure\Routing\UrlHelper.cs" />
     <Compile Include="Infrastructure\Routing\VirtualPath.cs" />
     <Compile Include="Infrastructure\Routing\XmlRpcRouteHandler.cs" />
+    <Compile Include="Infrastructure\Threading\ManagedThreadPool.cs" />
+    <Compile Include="Infrastructure\Threading\Semaphore.cs" />
+    <Compile Include="Infrastructure\Threading\TimedLock.cs" />
     <Compile Include="Infrastructure\TimeZoneWrapper.cs" />
     <Compile Include="PostConfig.cs" />
     <Compile Include="PostType.cs" />
@@ -455,6 +450,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\CompositeTextTransformation.cs" />
+    <Compile Include="Services\Email\EmailService.cs" />
+    <Compile Include="Services\Email\EmbeddedTemplateEngine.cs" />
+    <Compile Include="Services\Email\IEmailService.cs" />
+    <Compile Include="Services\Email\ITemplateEngine.cs" />
+    <Compile Include="Services\Email\ITextTemplate.cs" />
+    <Compile Include="Services\Email\NamedFormatTextTemplate.cs" />
+    <Compile Include="Services\Email\SystemMailProvider.cs" />
     <Compile Include="Services\EmptyTextTransformation.cs" />
     <Compile Include="Services\ICommentFilter.cs" />
     <Compile Include="Images.cs">
@@ -482,7 +484,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MetaTags.cs" />
-    <Compile Include="ModelBinders\XmlModelBinder.cs" />
     <Compile Include="NamespaceDocumentation.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -595,13 +596,6 @@
     <Compile Include="Text\StringHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Threading\ManagedThreadPool.cs" />
-    <Compile Include="Threading\Semaphore.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Threading\TimedLock.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Tracking\CommunityCreditNotification.cs" />
     <Compile Include="Tracking\CommunityCreditNotificationException.cs" />
     <Compile Include="Tracking\Notification.cs">
@@ -704,7 +698,6 @@
     <Compile Include="XmlRpc\Post.cs" />
     <Compile Include="XmlRpc\Source.cs" />
     <Compile Include="XmlRpc\SubtextXmlRpcService.cs" />
-    <EmbeddedResource Include="Email\Templates\CommentReceived.template" />
     <Content Include="Infrastructure\Installation\Scripting\Subtext.Scripting.csproj" />
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
@@ -725,6 +718,7 @@
     <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.02.00.00.sql" />
     <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.02.02.00.sql" />
     <EmbeddedResource Include="Infrastructure\Installation\Scripts\StoredProcedures.sql" />
+    <None Include="Services\Email\Templates\CommentReceived.template" />
     <None Include="Web References\com.community-credit.www\affiliateservices.disco" />
     <None Include="app.config" />
     <None Include="Data\CodeGen\_Settings.tt" />
