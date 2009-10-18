@@ -159,7 +159,7 @@ namespace UnitTests.Subtext.InstallationTests
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
             context.Setup(c => c.Repository).Returns(repository.Object);
-            var blog = new Blog {Id = 123};
+            var blog = new Blog {Id = 123, Author = "TestAuthor"};
 
             // act
             installationManager.CreateWelcomeContent(context.Object, entryPublisher.Object, blog);
