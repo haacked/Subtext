@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -32,6 +31,7 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;

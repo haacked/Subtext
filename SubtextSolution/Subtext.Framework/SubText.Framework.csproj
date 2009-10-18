@@ -387,7 +387,6 @@
     <Compile Include="HostInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IInstallationManager.cs" />
     <Compile Include="ImportExport\BlogImportService.cs" />
     <Compile Include="ImportExport\BlogImportSetup.cs" />
     <Compile Include="ImportExport\BlogMLExportMapper.cs" />
@@ -402,8 +401,9 @@
     <Compile Include="ImportExport\IBlogMLSource.cs" />
     <Compile Include="ImportExport\IBlogMLWriter.cs" />
     <Compile Include="Infrastructure\ActionResults\ExportActionResult.cs" />
-    <Compile Include="Infrastructure\Installation\ConnectionStringBuilder.cs" />
+    <Compile Include="Infrastructure\Installation\IInstallationManager.cs" />
     <Compile Include="Infrastructure\Installation\IInstaller.cs" />
+    <Compile Include="Infrastructure\Installation\InstallationManager.cs" />
     <Compile Include="Infrastructure\Installation\InstallationScriptInfo.cs" />
     <Compile Include="Infrastructure\Installation\InstallationState.cs" />
     <Compile Include="Infrastructure\Installation\ScriptHelper.cs" />
@@ -422,8 +422,31 @@
     <Compile Include="Infrastructure\Installation\SqlInstaller.cs" />
     <Compile Include="Infrastructure\IServiceLocator.cs" />
     <Compile Include="Infrastructure\ITimeZone.cs" />
+    <Compile Include="Infrastructure\Routing\AdminUrlHelper.cs" />
+    <Compile Include="Infrastructure\Routing\AggregateEnabledConstraint.cs" />
+    <Compile Include="Infrastructure\Routing\DirectoryRoute.cs" />
+    <Compile Include="Infrastructure\Routing\DirectoryRouteHandler.cs" />
+    <Compile Include="Infrastructure\Routing\HttpRouteHandler.cs" />
+    <Compile Include="Infrastructure\Routing\IDirectoryRoute.cs" />
+    <Compile Include="Infrastructure\Routing\IgnoreRoute.cs" />
+    <Compile Include="Infrastructure\Routing\ImageRoute.cs" />
+    <Compile Include="Infrastructure\Routing\IPageWithControls.cs" />
+    <Compile Include="Infrastructure\Routing\ISubtextHandler.cs" />
+    <Compile Include="Infrastructure\Routing\ISubtextPageBuilder.cs" />
+    <Compile Include="Infrastructure\Routing\PageRoute.cs" />
+    <Compile Include="Infrastructure\Routing\PageRouteHandler.cs" />
+    <Compile Include="Infrastructure\Routing\RootRoute.cs" />
+    <Compile Include="Infrastructure\Routing\RouteHandlerBase.cs" />
+    <Compile Include="Infrastructure\Routing\SubfolderRoute.cs" />
+    <Compile Include="Infrastructure\Routing\SubtextPageBuilder.cs" />
+    <Compile Include="Infrastructure\Routing\SubtextRoute.cs" />
+    <Compile Include="Infrastructure\Routing\SubtextRouteCollection.cs" />
+    <Compile Include="Infrastructure\Routing\SubtextRouteExtensions.cs" />
+    <Compile Include="Infrastructure\Routing\SystemDirectoryRoute.cs" />
+    <Compile Include="Infrastructure\Routing\UrlHelper.cs" />
+    <Compile Include="Infrastructure\Routing\VirtualPath.cs" />
+    <Compile Include="Infrastructure\Routing\XmlRpcRouteHandler.cs" />
     <Compile Include="Infrastructure\TimeZoneWrapper.cs" />
-    <Compile Include="InstallationManager.cs" />
     <Compile Include="PostConfig.cs" />
     <Compile Include="PostType.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -431,10 +454,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Routing\IDirectoryRoute.cs" />
-    <Compile Include="Routing\ImageRoute.cs" />
-    <Compile Include="Routing\SubtextRouteCollection.cs" />
-    <Compile Include="Routing\SystemDirectoryRoute.cs" />
     <Compile Include="Services\CompositeTextTransformation.cs" />
     <Compile Include="Services\EmptyTextTransformation.cs" />
     <Compile Include="Services\ICommentFilter.cs" />
@@ -482,18 +501,6 @@
     <Compile Include="Providers\SearchEngine.cs" />
     <Compile Include="Providers\SearchResult.cs" />
     <Compile Include="Resource\ResourceHelper.cs" />
-    <Compile Include="Routing\AdminUrlHelper.cs" />
-    <Compile Include="Routing\AggregateEnabledConstraint.cs" />
-    <Compile Include="Routing\DirectoryRoute.cs" />
-    <Compile Include="Routing\DirectoryRouteHandler.cs" />
-    <Compile Include="Routing\HttpRouteHandler.cs" />
-    <Compile Include="Routing\IgnoreRoute.cs" />
-    <Compile Include="Routing\IPageWithControls.cs" />
-    <Compile Include="Routing\ISubtextHandler.cs" />
-    <Compile Include="Routing\ISubtextPageBuilder.cs" />
-    <Compile Include="Routing\RootRoute.cs" />
-    <Compile Include="Routing\RouteHandlerBase.cs" />
-    <Compile Include="Routing\SubfolderRoute.cs" />
     <Compile Include="Services\CommentService.cs" />
     <Compile Include="Services\EntryPublisher.cs" />
     <Compile Include="Services\GravatarEmailFormat.cs" />
@@ -523,14 +530,6 @@
     <Compile Include="Web\SubtextPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Routing\SubtextPageBuilder.cs" />
-    <Compile Include="Routing\PageRoute.cs" />
-    <Compile Include="Routing\SubtextRoute.cs" />
-    <Compile Include="Routing\SubtextRouteExtensions.cs" />
-    <Compile Include="Routing\PageRouteHandler.cs" />
-    <Compile Include="Routing\UrlHelper.cs" />
-    <Compile Include="Routing\VirtualPath.cs" />
-    <Compile Include="Routing\XmlRpcRouteHandler.cs" />
     <Compile Include="Security\SecurityHelper.cs">
       <SubType>Code</SubType>
     </Compile>

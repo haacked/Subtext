@@ -16,9 +16,8 @@
 #endregion
 
 using System;
-using Subtext.Framework.Infrastructure.Installation;
 
-namespace Subtext.Framework
+namespace Subtext.Framework.Infrastructure.Installation
 {
     public interface IInstallationManager
     {
